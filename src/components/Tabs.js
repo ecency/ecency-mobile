@@ -1,10 +1,11 @@
 import {
   NavigationScreenProp,
   NavigationEventSubscription,
+  createStackNavigator
 } from 'react-navigation';
 
 import React from 'react';
-import { StyleSheet } from 'react-native';
+import { StyleSheet, ScrollView, SafeAreaView, Button, Text, Dimensions } from 'react-native';
 import { createBottomTabNavigator } from 'react-navigation';
 
 import Ionicons from 'react-native-vector-icons/Ionicons';
@@ -16,6 +17,8 @@ import FeedPage from '../screens/home/feed';
 import ProfilePage from '../screens/profile/profile';
 import WalletPage from '../screens/wallet/wallet';
 import NotificationPage from '../screens/notifications/notification';
+import HTMLView from 'react-native-htmlview';
+import HTML from 'react-native-render-html';
 
 const HomeScreen = ({ navigation }) => (
   <FeedPage navigation={navigation}></FeedPage>
@@ -97,6 +100,22 @@ NotificationScreen.navigationOptions = {
   ),
 };
 
+const MyProfileScreen = ({ navigation }) => (
+  <MyNavScreen
+    navigation={navigation}
+  />
+);
+
+
+const MyNavScreen = ({ navigation }) => (
+  <ScrollView>
+    <SafeAreaView forceInset={{ horizontal: 'always' }}>
+
+      <HTML html={navigation.state.params.content.body} imagesMaxWidth={Dimensions.get('window').width} />
+
+    </SafeAreaView>
+  </ScrollView>
+);
 
 
 const SimpleTabs = createBottomTabNavigator(
@@ -120,8 +139,7 @@ const SimpleTabs = createBottomTabNavigator(
     Notifications: {
       screen: NotificationScreen,
       path: 'settings',
-      
-    },
+    }
   },
   {
     tabBarOptions: {
@@ -129,17 +147,38 @@ const SimpleTabs = createBottomTabNavigator(
       inactiveTintColor: '#AFB1B3',
       lazy: false,
       style: {
-        backgroundColor: 'transparent',
+        backgroundColor: 'white',
         borderTopColor: '#dedede',
         borderWidth: 1
       },
       showLabel: false,
     }
-  }
+  },
 );
 
+SimpleTabs.navigationOptions = ({navigation})=> ({
+      header: null,
+      style: {
+      backgroundColor: 'white',
+    },
+});
+
+const StacksOverTabs = createStackNavigator({
+  Root: {
+    screen: SimpleTabs,
+  },
+  Post: {
+    screen: MyProfileScreen,
+    path: '/post',
+    navigationOptions: ({ navigation }) => ({
+      title: `post!`,
+    }),
+  },
+});
+
+
 class Tabs extends React.Component {
-  static router = SimpleTabs.router;
+  static router = StacksOverTabs.router;
   _s0;
   _s1;
   _s2;
@@ -161,7 +200,7 @@ class Tabs extends React.Component {
     console.log('TABS EVENT', a.type, a);
   };
   render() {
-    return <SimpleTabs navigation={this.props.navigation} />;
+    return <StacksOverTabs navigation={this.props.navigation} />;
   }
 }
 

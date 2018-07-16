@@ -4,7 +4,6 @@ import { createDrawerNavigator } from 'react-navigation';
 import MaterialIcons from 'react-native-vector-icons/MaterialIcons';
 
 import Tabs from '../components/Tabs';
-import StacksOverTabs from '../examples/StacksOverTabs';
 import ProfilePage from './profile/profile';
 
 const Drawer = createDrawerNavigator({

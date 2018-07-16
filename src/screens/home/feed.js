@@ -1,5 +1,5 @@
 import React, { Component } from 'react';
-import { StyleSheet, FlatList, View, Image, StatusBar, Dimensions } from 'react-native';
+import { StyleSheet, FlatList, View, Image, StatusBar, Dimensions, TouchableHighlight } from 'react-native';
 import { Font } from "expo";
 import { Container, Header, Title, Button, 
          Thumbnail, Left, Right, Body, Text,
@@ -14,6 +14,9 @@ import Placeholder from 'rn-placeholder';
 
 // COMPONENTS
 import { PostCard } from '../../components/PostCard';
+
+// SCREENS
+import PostPage from '../../screens/single-post/Post';
 
 class FeedPage extends React.Component {
   constructor(props) {
@@ -74,6 +77,7 @@ class FeedPage extends React.Component {
   }
 
   render() {
+    const { navigate } = this.props.navigation;
     return (
       <Container>
         <StatusBar translucent={true} backgroundColor={'transparent'}/>   
@@ -122,7 +126,9 @@ class FeedPage extends React.Component {
                     showsVerticalScrollIndicator={false}
                     renderItem={({item}) =>
                       <View style={styles.card}>
-                        <PostCard content={item}></PostCard>
+                        <TouchableHighlight onPress={() => { navigate('Post',{ content: item }) }}>
+                          <PostCard content={item}></PostCard>
+                        </TouchableHighlight>                      
                       </View>
                     }
                     keyExtractor={(post, index) => index.toString()}
@@ -207,7 +213,7 @@ const styles = StyleSheet.create({
   tabs: {
     backgroundColor: 'transparent',
     position: 'absolute',
-    top: Dimensions.get("window").width / 27,
+    top: Dimensions.get("window").width / 26,
   },
 });
 

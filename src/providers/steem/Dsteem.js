@@ -3,6 +3,28 @@ const client = new Client('https://api.steemit.com');
 
 import moment from 'moment';
 
+var markdownIt = require('markdown-it')({
+  html: true,
+  linkify: true,
+  typographer: true
+});
+
+import Remarkable from 'remarkable';
+var md = new Remarkable({
+  html:         true,        // Enable HTML tags in source
+  xhtmlOut:     false,        // Use '/' to close single tags (<br />)
+  breaks:       true,        // Convert '\n' in paragraphs into <br>
+  langPrefix:   'language-',  // CSS language prefix for fenced blocks
+  linkify:      true,        // Autoconvert URL-like text to links
+
+  // Enable some language-neutral replacement + quotes beautification
+  typographer:  true,
+
+  // Double + single quotes replacement pairs, when typographer enabled,
+  // and smartquotes on. Set doubles to '«»' for Russian, '„“' for German.
+  quotes: '“”‘’'
+});
+
 const noImage = '../../assets/imgs/noimage.png'
 
   /**
@@ -39,6 +61,9 @@ const noImage = '../../assets/imgs/noimage.png'
       post.vote_count = post.active_votes.length;
       post.author_reputation = reputation(post.author_reputation);
       post.avatar = `https://steemitimages.com/u/${post.author}/avatar/small`;
+      post.body = md.render(post.body);
+      post.body = markdownIt.render(post.body);
+      post.raw_body = post.body;
       post.active_votes.sort((a,b) => {
         return b.rshares - a.rshares
       });
