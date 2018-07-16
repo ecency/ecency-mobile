@@ -127,8 +127,11 @@ const SimpleTabs = createBottomTabNavigator(
     tabBarOptions: {
       activeTintColor: '#373c3f',
       inactiveTintColor: '#AFB1B3',
+      lazy: false,
       style: {
-        backgroundColor: 'white',
+        backgroundColor: 'transparent',
+        borderTopColor: '#dedede',
+        borderWidth: 1
       },
       showLabel: false,
     }
