@@ -1,12 +1,10 @@
 import {
-  NavigationScreenProp,
-  NavigationEventSubscription,
-  createStackNavigator
+  createStackNavigator,
+  createBottomTabNavigator
 } from 'react-navigation';
 
 import React from 'react';
-import { StyleSheet, ScrollView, SafeAreaView, Button, Text, Dimensions } from 'react-native';
-import { createBottomTabNavigator } from 'react-navigation';
+import { StyleSheet, Dimensions, Text } from 'react-native';
 
 import Ionicons from 'react-native-vector-icons/Ionicons';
 import Entypo from 'react-native-vector-icons/Entypo';
@@ -17,7 +15,8 @@ import FeedPage from '../screens/home/feed';
 import ProfilePage from '../screens/profile/profile';
 import WalletPage from '../screens/wallet/wallet';
 import NotificationPage from '../screens/notifications/notification';
-import HTMLView from 'react-native-htmlview';
+import SinglePostPage from '../screens/single-post/Post';
+import LoginPage from '../screens/login/Login';
 import HTML from 'react-native-render-html';
 
 const HomeScreen = ({ navigation }) => (
@@ -25,10 +24,6 @@ const HomeScreen = ({ navigation }) => (
 );
 
 HomeScreen.navigationOptions = {
-  tabBarTestIDProps: {
-    testID: 'TEST_ID_HOME',
-    accessibilityLabel: 'TEST_ID_HOME_ACLBL',
-  },
   tabBarLabel: 'Home',
   tabBarIcon: ({ tintColor, focused }) => (
     <MaterialCommunityIcons
@@ -100,25 +95,15 @@ NotificationScreen.navigationOptions = {
   ),
 };
 
-const MyProfileScreen = ({ navigation }) => (
-  <MyNavScreen
-    navigation={navigation}
-  />
+const SinglePostScreen = ({ navigation }) => (
+  <SinglePostPage navigation={navigation}></SinglePostPage>
 );
 
-
-const MyNavScreen = ({ navigation }) => (
-  <ScrollView>
-    <SafeAreaView forceInset={{ horizontal: 'always' }}>
-
-      <HTML html={navigation.state.params.content.body} imagesMaxWidth={Dimensions.get('window').width} />
-
-    </SafeAreaView>
-  </ScrollView>
+const LoginScreen = ({ navigation }) => (
+  <LoginPage navigation={navigation}></LoginPage>
 );
 
-
-const SimpleTabs = createBottomTabNavigator(
+const BottomTabs = createBottomTabNavigator(
   {
     Home: {
       screen: HomeScreen,
@@ -156,7 +141,7 @@ const SimpleTabs = createBottomTabNavigator(
   },
 );
 
-SimpleTabs.navigationOptions = ({navigation})=> ({
+BottomTabs.navigationOptions = ({navigation})=> ({
       header: null,
       style: {
       backgroundColor: 'white',
@@ -165,15 +150,19 @@ SimpleTabs.navigationOptions = ({navigation})=> ({
 
 const StacksOverTabs = createStackNavigator({
   Root: {
-    screen: SimpleTabs,
+    screen: BottomTabs,
   },
   Post: {
-    screen: MyProfileScreen,
+    screen: SinglePostScreen,
     path: '/post',
     navigationOptions: ({ navigation }) => ({
-      title: `post!`,
+      header: null
     }),
   },
+  Login: {
+    screen: LoginPage,
+    path: '/login',
+  }
 });
 
 

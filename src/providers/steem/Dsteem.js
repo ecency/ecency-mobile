@@ -61,7 +61,6 @@ const noImage = '../../assets/imgs/noimage.png'
       post.vote_count = post.active_votes.length;
       post.author_reputation = reputation(post.author_reputation);
       post.avatar = `https://steemitimages.com/u/${post.author}/avatar/small`;
-      post.body = md.render(post.body);
       post.body = markdownIt.render(post.body);
       post.raw_body = post.body;
       post.active_votes.sort((a,b) => {

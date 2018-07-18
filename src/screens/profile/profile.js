@@ -30,9 +30,10 @@ class ProfilePage extends React.Component {
             </Button>
           </Right>
         </Header>
-        <Text>tesrsf</Text>
+        <Text>Profile</Text>
       </Container>
     )
   }
 }
+
 export default ProfilePage;

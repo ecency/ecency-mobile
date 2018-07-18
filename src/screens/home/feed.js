@@ -1,5 +1,5 @@
 import React, { Component } from 'react';
-import { StyleSheet, FlatList, View, Image, StatusBar, Dimensions, TouchableHighlight } from 'react-native';
+import { StyleSheet, FlatList, View, AsyncStorage, StatusBar, Dimensions, TouchableHighlight } from 'react-native';
 import { Font } from "expo";
 import { Container, Header, Title, Button, 
          Thumbnail, Left, Right, Body, Text,
@@ -80,24 +80,28 @@ class FeedPage extends React.Component {
     const { navigate } = this.props.navigation;
     return (
       <Container>
-        <StatusBar translucent={true} backgroundColor={'transparent'}/>   
+        <StatusBar translucent={true} backgroundColor={'transparent'}/>
         <Header style={{ backgroundColor: 'white' }}>
-          <Left>
-            <Button style={{ position: 'relative' }}  transparent onPress={() => this.props.navigation.toggleDrawer()}>
-              <Thumbnail square small source={{uri: 'https://steemitimages.com/u/esteemapp/avatar/small'}} />
-            </Button>            
-          </Left>
+          <Right>
+            <Button transparent>
+              <Icon name='search' />
+            </Button>
+          </Right>
         </Header>
+        <Button style={{ position: 'absolute', zIndex: 2, top: 20, left: 10 }} transparent onPress={() => this.props.navigation.toggleDrawer()}>
+          <Thumbnail square small source={{uri: 'https://steemitimages.com/u/esteemapp/avatar/small'}} />
+        </Button>
         <Tabs style={styles.tabs}
           renderTabBar={() =>
             <ScrollableTab style={{
-              width: 300,
+              zIndex: 1,
+              width: 280,
               backgroundColor: 'white',
               marginLeft: 50,
               marginHorizontal: Dimensions.get("window").width / 11,
               paddingTop: Dimensions.get("window").width / 35
             }}
-              tabsContainerStyle={{ width: 300 }} />}>
+              tabsContainerStyle={{ width: 280 }} />}>
         
           <Tab heading="Feed" 
           tabStyle={{ backgroundColor: 'white'}} 

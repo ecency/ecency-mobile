@@ -1,2 +1,2 @@
-import App from './src/screens/Drawer'
+import App from './src/screens/side-menu/Drawer'
 export default App;
