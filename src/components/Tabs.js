@@ -25,6 +25,7 @@ const HomeScreen = ({ navigation }) => (
 
 HomeScreen.navigationOptions = {
   tabBarLabel: 'Home',
+  title: 'Home',
   tabBarIcon: ({ tintColor, focused }) => (
     <MaterialCommunityIcons
       name={focused ? 'home' : 'home'}

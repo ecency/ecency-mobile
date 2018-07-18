@@ -1,5 +1,5 @@
 import React from 'react';
-import { Dimensions } from 'react-native';
+import { Dimensions, StyleSheet } from 'react-native';
 import { Container, Content, Header, Left, Body, Right, Button, Icon, Title } from 'native-base';
 import HTMLView from 'react-native-htmlview';
 import HTML from 'react-native-render-html';
@@ -13,7 +13,7 @@ class SinglePostPage extends React.Component {
   render() {
     return (
       <Container>
-                <Header>
+        <Header>
           <Left>
             <Button transparent onPress={() => this.props.navigation.goBack()}>
               <Icon name='arrow-back' />
@@ -39,4 +39,16 @@ class SinglePostPage extends React.Component {
   }
 }
 
+const styles = StyleSheet.create({
+  container: {
+    flex: 1,
+    alignItems: 'center',
+    justifyContent: 'center'
+  },
+  text: {
+    fontSize: 32
+  }
+})
+
 export default SinglePostPage;
+

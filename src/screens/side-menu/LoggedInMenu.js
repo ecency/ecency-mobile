@@ -1,5 +1,5 @@
 import React, { Component } from "react";
-import { Image } from "react-native";
+import { Image, AsyncStorage } from "react-native";
 import {
   Content,
   Text,
@@ -9,9 +9,12 @@ import {
   Container,
   Left,
   Right,
+  View,
   Badge
 } from "native-base";
 import styles from "./style";
+
+import { getAccount } from '../../providers/steem/Dsteem'
 
 const drawerCover = require("../../assets/drawer-cover.png");
 const drawerImage = require("../../assets/esteem.jpg");
@@ -47,8 +50,25 @@ export class LoggedInSideBar extends Component {
     super(props);
     this.state = {
       shadowOffsetWidth: 1,
-      shadowRadius: 4
+      shadowRadius: 4,
+      user: []
     };
+  }
+
+  async componentDidMount() {
+    AsyncStorage.getItem('user').then((result) => {
+      let res = JSON.parse(result);
+      getAccount(res.username).then((result) => {
+        this.setState({
+          user: result[0]
+        })
+      }).catch((err) => {
+        
+      });
+
+    }).catch((err) => {
+      
+    });
   }
 
   render() {
@@ -60,7 +80,9 @@ export class LoggedInSideBar extends Component {
         >
           <Image source={drawerCover} style={styles.drawerCover} />
           <Image square style={styles.drawerImage} source={drawerImage} />
-
+          <View style={styles.info}>
+            <Text style={styles.userLabel}>{ this.state.user.name }</Text>
+          </View>
           <List
             dataArray={datas}
             renderRow={data =>
