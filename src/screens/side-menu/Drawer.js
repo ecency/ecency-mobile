@@ -1,5 +1,5 @@
 import React from 'react';
-import { AsyncStorage, StyleSheet, StatusBar, ActivityIndicator, View } from 'react-native';
+import { AsyncStorage, StyleSheet, StatusBar, ActivityIndicator, View, Dimensions } from 'react-native';
 import { createDrawerNavigator, createSwitchNavigator } from 'react-navigation';
 import MaterialIcons from 'react-native-vector-icons/MaterialIcons';
 
@@ -26,7 +26,8 @@ const LoggedInMenu = createDrawerNavigator({
   }
 },
 {
-  contentComponent: LoggedInSideBar
+  contentComponent: LoggedInSideBar,
+  drawerWidth: Dimensions.get('window').width / 1.2
 });
 
 const LoggedOutMenu = createDrawerNavigator({

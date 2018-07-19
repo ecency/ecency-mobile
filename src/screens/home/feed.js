@@ -39,7 +39,6 @@ class FeedPage extends React.Component {
   }
 
   componentDidMount() {
-    // AsyncStorage.clear();
     this.getTrending();
   }
 

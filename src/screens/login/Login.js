@@ -36,6 +36,7 @@ class LoginPage extends Component {
 
       }).catch((err) => {
         console.log(err);
+        alert(err)
         alert('Username is not valid!');
       });
       

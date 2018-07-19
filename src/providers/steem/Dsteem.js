@@ -67,7 +67,6 @@ const noImage = '../../assets/imgs/noimage.png'
         return b.rshares - a.rshares
       });
       post.top_likers = [post.active_votes[0].voter, post.active_votes[1].voter, post.active_votes[2].voter]
-      console.log(post);
     });
     return posts
   } 
