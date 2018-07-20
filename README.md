@@ -4,11 +4,11 @@
 $ git clone https://github.com/esteemapp/esteem-mobile.git
 $ cd esteem-mobile
 $ npm install
-$ npm start
+$ react-native start
 ````
 
 
 ````
-$ npm start run-ios
-$ npm start run-android
+$ react-native start run-ios
+$ react-native run-android
 ````
