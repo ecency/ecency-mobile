@@ -131,11 +131,10 @@ const BottomTabs = createBottomTabNavigator(
     tabBarOptions: {
       activeTintColor: '#373c3f',
       inactiveTintColor: '#AFB1B3',
-      lazy: false,
       style: {
         backgroundColor: 'white',
         borderTopColor: '#dedede',
-        borderWidth: 1
+        borderWidth: 0
       },
       showLabel: false,
     }

@@ -36,12 +36,13 @@ export default {
   },
   info: {
     position: 'absolute',
-    top: Platform.OS === "android" ? deviceHeight / 13 : deviceHeight / 5,
+    top: Platform.OS === "android" ? deviceHeight / 13 : deviceHeight / 5.8,
     left: Platform.OS === "android" ? deviceWidth / 10 : deviceWidth / 40,
 
   }, 
   userLabel: {
     fontWeight: 'bold',
-    color: 'white'
+    color: 'white',
+    marginBottom: 3
   }
 };

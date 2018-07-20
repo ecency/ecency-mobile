@@ -151,7 +151,8 @@ export class LoggedInSideBar extends Component {
       shadowOffsetWidth: 1,
       shadowRadius: 4,
       user: [],
-      loginType: ''
+      loginType: '',
+      json_metadata: {}
     };
   }
 
@@ -164,9 +165,11 @@ export class LoggedInSideBar extends Component {
         this.setState({ loginType: 'posting_key' });
       }
       getAccount(res.username).then((result) => {
+        let json_metadata = JSON.parse(result[0].json_metadata)
         this.setState({
           user: result[0],
-          avatar:`https://steemitimages.com/u/${result[0].name}/avatar/small`
+          avatar:`https://steemitimages.com/u/${result[0].name}/avatar/small`,
+          json_metadata: json_metadata.profile
         })
       }).catch((err) => {
         
@@ -187,7 +190,8 @@ export class LoggedInSideBar extends Component {
           <Image source={drawerCover} style={styles.drawerCover} />
           <Thumbnail square style={styles.drawerImage} source={{uri: this.state.avatar}} />
           <View style={styles.info}>
-            <Text style={styles.userLabel}>{ this.state.user.name }</Text>
+          <Text style={styles.userLabel}>{ this.state.json_metadata.name || '' }</Text>
+          <Text style={styles.userLabel}>{ this.state.user.name }</Text>
           </View>
           <List
             dataArray={ this.state.loginType === 'master_key' ? masterKeyMenuOptions : postingKeyMenuOptions }

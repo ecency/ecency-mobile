@@ -1,13 +1,12 @@
 import React, { Component } from 'react';
-import { StyleSheet, FlatList, View, AsyncStorage, StatusBar, Dimensions, TouchableHighlight } from 'react-native';
-import { Font } from "expo";
+import { StyleSheet, FlatList, View, AsyncStorage, StatusBar, Dimensions, TouchableHighlight, ActivityIndicator } from 'react-native';
 import { Container, Header, Title, Button, 
          Thumbnail, Left, Right, Body, Text,
          Tabs, Tab, Content, Icon, Card, 
          CardItem, Spinner, ScrollableTab } from "native-base";
 
 // STEEM        
-import { getPosts } from '../../providers/steem/Dsteem';
+import { getPosts, getAccount } from '../../providers/steem/Dsteem';
 
 // LIBRARIES
 import Placeholder from 'rn-placeholder';
@@ -25,26 +24,35 @@ class FeedPage extends React.Component {
     this.state = {
       isReady: false,
       posts: [],
+      user: [],
       start_author: '',
       start_permlink: '',
       refreshing: false,
+      loading: false,
     }
   }
 
-  async componentWillMount() {
-    await Font.loadAsync({
-      Roboto: require("native-base/Fonts/Roboto.ttf"),
-      Roboto_medium: require("native-base/Fonts/Roboto_medium.ttf")
+  async componentDidMount() {
+    await AsyncStorage.getItem('user').then((result) => {
+      let user = JSON.parse(result);
+      getAccount(user.username).then((result) => {
+        this.setState({
+          user: result[0]
+        })
+      }).catch((err) => {
+        
+      });
+    })
+    .catch((err) => {
+      
     });
-  }
-
-  componentDidMount() {
     this.getTrending();
+
   }
 
   getTrending = () => {
     getPosts('trending', { "tag": "", "limit": 10 }).then((result) => {
-      this.setState({ 
+      this.setState({
         isReady: true,
         posts: result,
         start_author: result[result.length - 1].author,
@@ -57,6 +65,7 @@ class FeedPage extends React.Component {
   }
 
   getMoreTrending = () => {
+    this.setState({ loading: true })
     getPosts('trending', { "tag": "", "limit": 10, "start_author": this.state.start_author, "start_permlink": this.state.start_permlink }).then((result) => {
       let posts = result;
       posts.shift();
@@ -76,6 +85,23 @@ class FeedPage extends React.Component {
     });
   }
 
+  renderFooter = () => {
+    if (!this.state.loading) return null;
+
+    return (
+      <View
+        style={{
+          alignContent: 'center',
+          alignItems: 'center',
+          marginTop: 10,
+          borderColor: "#CED0CE"
+        }}
+      >
+        <ActivityIndicator animating size="large" />
+      </View>
+    );
+  };
+
   render() {
     const { navigate } = this.props.navigation;
     return (
@@ -89,24 +115,23 @@ class FeedPage extends React.Component {
           </Right>
         </Header>
         <Button style={{ position: 'absolute', zIndex: 2, top: 20, left: 10 }} transparent onPress={() => this.props.navigation.toggleDrawer()}>
-          <Thumbnail square small source={{uri: 'https://steemitimages.com/u/esteemapp/avatar/small'}} />
+          <Thumbnail square small source={{uri: `https://steemitimages.com/u/${this.state.user.name}/avatar/small` }} style={{ width: 30, height: 30, borderRadius: 15 }}/>
         </Button>
         <Tabs style={styles.tabs}
           renderTabBar={() =>
             <ScrollableTab style={{
               zIndex: 1,
-              width: 280,
+              width: 220,
               backgroundColor: 'white',
-              marginLeft: 50,
-              marginHorizontal: Dimensions.get("window").width / 11,
-              paddingTop: Dimensions.get("window").width / 35
+              borderWidth: 0,
+              alignSelf: 'center',
             }}
-              tabsContainerStyle={{ width: 280 }} />}>
+              tabsContainerStyle={{ width: 220 }} />}>
         
           <Tab heading="Feed" 
           tabStyle={{ backgroundColor: 'white'}} 
           textStyle={{fontWeight: 'bold'}} 
-          activeTabStyle={{ backgroundColor: 'white'}} 
+          activeTabStyle={{ backgroundColor: 'white' }} 
           activeTextStyle={{fontWeight: 'bold'}}>
 
           </Tab>
@@ -124,7 +149,7 @@ class FeedPage extends React.Component {
           activeTextStyle={{fontWeight: 'bold'}}>
             <Container style={styles.container}>
               {this.state.isReady ?
-                <View>
+                <View style={{ marginBottom: 120 }}>
                   <FlatList
                     data={this.state.posts}
                     showsVerticalScrollIndicator={false}
@@ -140,6 +165,7 @@ class FeedPage extends React.Component {
                     refreshing={this.state.refreshing}
                     onRefresh={() => this.refreshTrendingPosts()}
                     onEndThreshold={0}
+                    ListFooterComponent={this.renderFooter}
                   />
                 </View>
                    : 
@@ -187,7 +213,7 @@ class FeedPage extends React.Component {
 
 const styles = StyleSheet.create({
   container: {
-    backgroundColor: '#F9F9F9'
+    backgroundColor: '#F9F9F9',
   },
   placeholder: {
     backgroundColor: 'white',
@@ -215,9 +241,9 @@ const styles = StyleSheet.create({
     paddingVertical: 0,
   },
   tabs: {
-    backgroundColor: 'transparent',
     position: 'absolute',
-    top: Dimensions.get("window").width / 26,
+    top: Dimensions.get("window").width / 30,
+    alignItems: 'center'
   },
 });
 

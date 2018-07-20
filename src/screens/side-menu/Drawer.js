@@ -42,7 +42,8 @@ const LoggedOutMenu = createDrawerNavigator({
   },
 },
 {
-  contentComponent: LoggedOutSideBar
+  contentComponent: LoggedOutSideBar,
+  drawerWidth: Dimensions.get('window').width / 1.2
 });
 
 class AuthLoadingScreen extends React.Component {

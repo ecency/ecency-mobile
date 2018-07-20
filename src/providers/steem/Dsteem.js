@@ -3,12 +3,6 @@ const client = new Client('https://api.steemit.com');
 
 import moment from 'moment';
 
-var markdownIt = require('markdown-it')({
-  html: true,
-  linkify: true,
-  typographer: true
-});
-
 import Remarkable from 'remarkable';
 var md = new Remarkable({
   html:         true,        // Enable HTML tags in source
@@ -25,7 +19,7 @@ var md = new Remarkable({
   quotes: '“”‘’'
 });
 
-const noImage = '../../assets/imgs/noimage.png'
+const noImage = '../../assets/noimage.png';
 
   /**
    * @method getAccount get account data
@@ -61,7 +55,7 @@ const noImage = '../../assets/imgs/noimage.png'
       post.vote_count = post.active_votes.length;
       post.author_reputation = reputation(post.author_reputation);
       post.avatar = `https://steemitimages.com/u/${post.author}/avatar/small`;
-      post.body = markdownIt.render(post.body);
+      post.body = md.render(post.body);
       post.raw_body = post.body;
       post.active_votes.sort((a,b) => {
         return b.rshares - a.rshares
