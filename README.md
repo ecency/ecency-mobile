@@ -7,8 +7,8 @@ $ npm install
 $ react-native start
 ````
 
-
+Run on Device/Emulator
 ````
-$ react-native start run-ios
+$ react-native run-ios
 $ react-native run-android
 ````
