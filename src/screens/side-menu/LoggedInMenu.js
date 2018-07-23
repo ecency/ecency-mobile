@@ -156,10 +156,10 @@ export class LoggedInSideBar extends Component {
     };
   }
 
-  async componentDidMount() {
+  componentDidMount() {
     AsyncStorage.getItem('user').then((result) => {
       let res = JSON.parse(result);
-      if (res.master_key) {
+      if (res.auth_type === 'master_key') {
         this.setState({ loginType: 'master_key' });
       } else {
         this.setState({ loginType: 'posting_key' });
@@ -177,6 +177,12 @@ export class LoggedInSideBar extends Component {
 
     }).catch((err) => {
       
+    });
+  }
+
+  Logout = () => {
+    AsyncStorage.clear().then(() => {
+      this.props.navigation.navigate('LoggedOut');
     });
   }
 
@@ -228,6 +234,14 @@ export class LoggedInSideBar extends Component {
                   </Right>}
               </ListItem>}
           />
+          <ListItem noBorder onPress={() => this.Logout() }>
+            <Left>
+              <Icon active name="log-out" style={{ color: "#777", fontSize: 26, width: 30 }}/>
+              <Text style={styles.text}>
+                Logout
+              </Text>
+            </Left>
+          </ListItem>
         </Content>
       </Container>
     );

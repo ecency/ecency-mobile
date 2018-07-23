@@ -1,7 +1,6 @@
 import React, { Component }  from 'react';
 import { StyleSheet, Image } from 'react-native';
 
-import Ionicons from 'react-native-vector-icons/Ionicons';
 import { Button, Card, CardItem,
          Left, Right, Thumbnail, View,
          Icon, Body, Text, Badge } from 'native-base';

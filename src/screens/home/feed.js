@@ -32,8 +32,8 @@ class FeedPage extends React.Component {
     }
   }
 
-  async componentDidMount() {
-    await AsyncStorage.getItem('user').then((result) => {
+  componentDidMount() {
+    AsyncStorage.getItem('user').then((result) => {
       let user = JSON.parse(result);
       getAccount(user.username).then((result) => {
         this.setState({
