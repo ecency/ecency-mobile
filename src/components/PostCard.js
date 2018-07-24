@@ -1,57 +1,94 @@
 import React, { Component }  from 'react';
-import { StyleSheet, Image } from 'react-native';
+import { StyleSheet, Image, TouchableOpacity } from 'react-native';
 
 import { Button, Card, CardItem,
          Left, Right, Thumbnail, View,
-         Icon, Body, Text, Badge } from 'native-base';
+         Icon, Body, Text, Container, Content } from 'native-base';
 
-export const PostCard = (props) => {
-  return (
+class PostCard extends React.Component {
+  constructor(props) {
+    super(props);
+
+    this.state = {
+      noimage: require('../assets/noimage.png')
+    }
+  }
+
+  render() {
+    return (
       <Card style={styles.post}>
-        <CardItem>
+        <CardItem style={styles.header}>
           <Left>
-            <Thumbnail source={{ uri: props.content.avatar }} style={styles.avatar}/>
+            <Thumbnail source={{ uri: this.props.content.avatar }} style={styles.avatar}/>
             <Body style={{ justifyContent: 'flex-start',flexDirection: 'row' }}>
-              <Badge style={{ backgroundColor: 'white', alignSelf: 'flex-start'  }}>
-                <Text style={{ color: '#222', fontWeight: 'bold', fontSize: 12 }}>{ props.content.author }</Text>
-              </Badge>
+              <View style={{ backgroundColor: 'white', alignSelf: 'flex-start', paddingVertical: 5 }}>
+                <Text style={{ color: '#222', fontWeight: '600', fontSize: 10 }}>{ this.props.content.author }</Text>
+              </View>
                 <View style={ styles.badge }>
-                  <Text style={styles.text}>{ props.content.author_reputation }</Text>
+                  <Text style={styles.text}>{ this.props.content.author_reputation }</Text>
                 </View>
                 <View style={ styles.category }>
-                  <Text style={styles.text}>{ props.content.category }</Text>
+                  <Text style={{ fontSize: 9, color: 'white', fontWeight: '600' }}>{ this.props.content.category }</Text>
                 </View>
-              <Text style={{ alignSelf: 'center' }} note> { props.content.created } </Text>
+              <Text style={{ alignSelf: 'center', fontSize: 9, fontWeight: '100', marginHorizontal: 3 }} note> { this.props.content.created } </Text>
             </Body>
           </Left>
+          <Right>
+            <Icon name='md-more'/>
+          </Right>
         </CardItem>
-        <Image source={{ uri: props.content.image }} style={styles.image}/>
+          <Image 
+            source={{ uri: this.props.content.image }}
+            style={styles.image}/>
         <CardItem>
           <Body>
             <Text style={styles.title}>
-              { props.content.title }
+              { this.props.content.title }
+            </Text>
+            <Text style={styles.summary}>
+              { this.props.content.body }
             </Text>
           </Body>
         </CardItem>
         <CardItem>
           <Left>
-            <Button transparent>
-              <Icon active name="thumbs-up" />
-              <Text>12 Likes</Text>
-            </Button>
+          <TouchableOpacity start style={{ margin: 0, flexDirection: 'row', paddingVertical: 0 }}>
+            <Icon style={{ alignSelf: 'flex-start', fontSize: 20, color: '#007ee5', margin:0, width: 18 }} active name="ios-arrow-dropup-outline" />
+          </TouchableOpacity>
+          <TouchableOpacity style={{ flexDirection: 'row', alignSelf: 'flex-start', paddingVertical: 2 }}>
+            <Text style={{ alignSelf: 'center', fontSize: 10, color: '#626262', marginLeft: 3 }}>${ this.props.content.pending_payout_value }</Text>
+            <Icon name='md-arrow-dropdown' style={{ fontSize: 15, marginHorizontal: 3, color: '#a0a0a0', alignSelf: 'center' }} />
+          </TouchableOpacity>
           </Left>
-          <Body>
-            <Button transparent>
-              <Icon active name="ios-arrow-dropup-outline" />
-              <Text>4 Comments</Text>
-            </Button>
-          </Body>
           <Right>
-            <Text>11h ago</Text>
+          <TouchableOpacity start style={{ padding: 0, margin: 0, flexDirection: 'row' }}>
+            <Icon style={{ alignSelf: 'flex-start', fontSize: 20, color: '#007ee5', margin:0, width: 20 }} active name="ios-chatbubbles-outline" />
+            <Text style={{ alignSelf: 'center', fontSize: 10, color: '#626262', marginLeft: 3 }}>{ this.props.content.children }</Text>
+          </TouchableOpacity>
           </Right>
         </CardItem>
+        { this.props.content.top_likers ? (
+          <CardItem style={{ backgroundColor: '#f8f8f8', borderWidth: 0, padding:0 }}>
+            <Thumbnail source={{ uri: `https://steemitimages.com/u/${this.props.content.top_likers[0]}/avatar/small` }} style={styles.topLikers}/>
+            <Thumbnail source={{ uri: `https://steemitimages.com/u/${this.props.content.top_likers[1]}/avatar/small` }} style={styles.likers_2}/>
+            <Thumbnail source={{ uri: `https://steemitimages.com/u/${this.props.content.top_likers[2]}/avatar/small` }} style={styles.likers_3}/>
+            <Text style={styles.footer}> 
+              @{ this.props.content.top_likers[0] }, 
+              @{ this.props.content.top_likers[1] }, 
+              @{ this.props.content.top_likers[2] } 
+              & { this.props.content.vote_count - this.props.content.top_likers.length } others like this
+            </Text>
+          </CardItem>
+        ) : (
+          <CardItem>
+            <Text>
+              { this.props.content.vote_count } likes
+            </Text>
+          </CardItem>
+        )}
       </Card>
-  )
+    )
+  }
 }
 const styles = StyleSheet.create({
   post: {
@@ -63,15 +100,28 @@ const styles = StyleSheet.create({
     marginBottom: 0,
     borderWidth: 0,
     borderColor: 'white',
-    borderRadius: 5,
+    borderRadius: 0,
   },
   avatar: {
-    width: 40,
-    height: 40,
-    borderRadius: 20
+    width: 30,
+    height: 30,
+    borderRadius: 15,
+    borderColor: 'lightgray',
+    borderWidth: 1
   },
   title: {
-    
+    fontSize: 12,
+    fontWeight: '500',
+    marginVertical: 5
+  },
+  summary: {
+    height: 45,
+    fontSize: 10,
+    fontWeight: '200',
+    overflow: 'hidden'
+  },
+  header: {
+    height: 50
   },
   image: {
     marginRight: 0,
@@ -79,30 +129,66 @@ const styles = StyleSheet.create({
     marginTop: 0,
     marginBottom: 0,
     width: '101%',
-    height: 200,
+    height: 160,
   },
   badge: {
     alignSelf: 'center',
     borderColor: 'lightgray',
     borderWidth: 1,
     borderRadius: 10,
-    width: 20, 
-    height: 20,
-    padding: 3, 
+    width: 15, 
+    height: 15,
+    padding: 2, 
     backgroundColor: 'lightgray',
-    marginRight: 5
+    marginHorizontal: 5
   },
   category: {
     alignSelf: 'center',
     borderRadius: 10,
-    padding: 5, 
+    height: 15,
     backgroundColor: '#007EE5',
-    marginRight: 5
+    paddingHorizontal: 5,
+    paddingVertical: 1.5
   },
   text: {
-    fontSize: 10, 
-    alignSelf: 'center', 
+    fontSize: 7, 
+    alignSelf: 'center',
     textAlignVertical: 'center',
-    color: 'white'
+    color: 'white',
+    fontWeight: 'bold'
+  }, 
+  topLikers: {
+    width: 14,
+    height: 14,
+    borderRadius: 7,
+    borderWidth: 0.5,
+    borderColor: 'lightgray',
+    marginVertical: -5,
+  },
+  likers_2: {
+    width: 14,
+    height: 14,
+    borderRadius: 7,
+    borderWidth: 0.5,
+    borderColor: 'lightgray',
+    marginVertical: -5,
+    marginLeft: -3
+  },
+  likers_3: {
+    width: 14,
+    height: 14,
+    borderRadius: 7,
+    borderWidth: 0.5,
+    borderColor: 'lightgray',
+    marginVertical: -5,
+    marginLeft: -3
+  },
+  footer: {
+    marginLeft: 5,
+    fontSize: 7,
+    fontWeight: '100',
+    color: '#777777'
   }
 });
+
+export default PostCard;

@@ -3,6 +3,8 @@ const client = new Client('https://api.steemit.com');
 
 import moment from 'moment';
 
+const noImage = require('../../assets/noimage.png');
+
 import Remarkable from 'remarkable';
 var md = new Remarkable({
   html:         true,        // Enable HTML tags in source
@@ -19,7 +21,6 @@ var md = new Remarkable({
   quotes: '“”‘’'
 });
 
-const noImage = '../../assets/noimage.png';
 
   /**
    * @method getAccount get account data
@@ -48,8 +49,9 @@ const noImage = '../../assets/noimage.png';
    */
   export const parsePosts = (posts) => {
     posts.map(post => {
+      console.log(post)
       post.json_metadata = JSON.parse(post.json_metadata);
-      post.image = (post.json_metadata.image) ? post.json_metadata.image[0] : noImage;
+      post.image = (post.json_metadata.image) ? post.json_metadata.image[0] : noImage.url;
       post.pending_payout_value = parseFloat(post.pending_payout_value).toFixed(2);
       post.created = moment.utc(post.created).local().fromNow();
       post.vote_count = post.active_votes.length;
@@ -60,9 +62,11 @@ const noImage = '../../assets/noimage.png';
       post.active_votes.sort((a,b) => {
         return b.rshares - a.rshares
       });
-      post.top_likers = [post.active_votes[0].voter, post.active_votes[1].voter, post.active_votes[2].voter]
+      if (post.active_votes.length > 2) {
+        post.top_likers = [post.active_votes[0].voter, post.active_votes[1].voter, post.active_votes[2].voter]
+      }
     });
-    return posts
+    return posts;
   } 
 
   /**

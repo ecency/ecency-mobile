@@ -1,9 +1,8 @@
-import React, { Component } from 'react';
+import React from 'react';
 import { StyleSheet, FlatList, View, AsyncStorage, StatusBar, Dimensions, TouchableHighlight, ActivityIndicator } from 'react-native';
-import { Container, Header, Title, Button, 
-         Thumbnail, Left, Right, Body, Text,
-         Tabs, Tab, Content, Icon, Card, 
-         CardItem, Spinner, ScrollableTab } from "native-base";
+import { Container, Header, Button, 
+         Thumbnail, Right, Text, Tabs,
+         Tab, Icon, ScrollableTab } from "native-base";
 
 // STEEM        
 import { getPosts, getAccount } from '../../providers/steem/Dsteem';
@@ -12,10 +11,11 @@ import { getPosts, getAccount } from '../../providers/steem/Dsteem';
 import Placeholder from 'rn-placeholder';
 
 // COMPONENTS
-import { PostCard } from '../../components/PostCard';
+import PostCard from '../../components/PostCard';
 
 // SCREENS
-import PostPage from '../../screens/single-post/Post';
+import HotPage from './hot';
+import TrendingPage from './trending';
 
 class FeedPage extends React.Component {
   constructor(props) {
@@ -29,29 +29,35 @@ class FeedPage extends React.Component {
       start_permlink: '',
       refreshing: false,
       loading: false,
+      isLoggedIn: false,
     }
   }
 
   componentDidMount() {
-    AsyncStorage.getItem('user').then((result) => {
-      let user = JSON.parse(result);
-      getAccount(user.username).then((result) => {
+    AsyncStorage.getItem('isLoggedIn').then((result) => {
+      let res = JSON.parse(result);
+      if (res) {
         this.setState({
-          user: result[0]
+          isLoggedIn: true
+        }, () => {
+          AsyncStorage.getItem('user').then((result) => {
+            let user = JSON.parse(result);
+            getAccount(user.username).then((result) => {
+              this.setState({
+                user: result[0]
+              }, () => {
+                this.getFeed();
+              })
+            })
+          });
         })
-      }).catch((err) => {
-        
-      });
+      }
     })
-    .catch((err) => {
-      
-    });
-    this.getTrending();
-
   }
 
-  getTrending = () => {
-    getPosts('trending', { "tag": "", "limit": 10 }).then((result) => {
+
+  getFeed = () => {
+    getPosts('feed', { "tag": this.state.user.name, "limit": 10 }).then((result) => {
       this.setState({
         isReady: true,
         posts: result,
@@ -64,9 +70,9 @@ class FeedPage extends React.Component {
     });
   }
 
-  getMoreTrending = () => {
+  getMore = () => {
     this.setState({ loading: true })
-    getPosts('trending', { "tag": "", "limit": 10, "start_author": this.state.start_author, "start_permlink": this.state.start_permlink }).then((result) => {
+    getPosts('feed', { "tag": this.state.user.name, "limit": 10, "start_author": this.state.start_author, "start_permlink": this.state.start_permlink }).then((result) => {
       let posts = result;
       posts.shift();
       this.setState({
@@ -77,11 +83,11 @@ class FeedPage extends React.Component {
     });
   }
 
-  refreshTrendingPosts = () => {
+  refreshPosts = () => {
     this.setState({ 
       refreshing: true
     }, () => {
-      this.getTrending();
+      this.getFeed();
     });
   }
 
@@ -133,79 +139,92 @@ class FeedPage extends React.Component {
           textStyle={{fontWeight: 'bold'}} 
           activeTabStyle={{ backgroundColor: 'white' }} 
           activeTextStyle={{fontWeight: 'bold'}}>
+          
+          { this.state.isLoggedIn ? (
+            <Container style={styles.container}>
+            {this.state.isReady ?
+              <View style={{ marginBottom: 120 }}>
+              <FlatList
+                data={this.state.posts}
+                showsVerticalScrollIndicator={false}
+                renderItem={({item}) =>
+                  <View style={styles.card}>
+                    <TouchableHighlight onPress={() => { navigate('Post',{ content: item }) }}>
+                      <PostCard content={item}></PostCard>
+                    </TouchableHighlight>                      
+                  </View>
+                }
+                keyExtractor={(post, index) => index.toString()}
+                onEndReached={this.getMore}
+                refreshing={this.state.refreshing}
+                onRefresh={() => this.refreshData()}
+                onEndThreshold={0}
+                ListFooterComponent={this.renderFooter}
+              />
+              </View>
+                : 
+              <View>
+                <View style={styles.placeholder} >
+                  <Placeholder.ImageContent
+                    size={60}
+                    animate="fade"
+                    lineNumber={4}
+                    lineSpacing={5}
+                    lastLineWidth="30%"
+                    onReady={this.state.isReady}
+                  ></Placeholder.ImageContent>
+                </View>
+                <View style={styles.placeholder} >
+                  <Placeholder.ImageContent
+                    size={60}
+                    animate="fade"
+                    lineNumber={4}
+                    lineSpacing={5}
+                    lastLineWidth="30%"
+                    onReady={this.state.isReady}
+                  ></Placeholder.ImageContent>
+                </View>
+                <View style={styles.placeholder} >
+                  <Placeholder.ImageContent
+                    size={60}
+                    animate="fade"
+                    lineNumber={4}
+                    lineSpacing={5}
+                    lastLineWidth="30%"
+                    onReady={this.state.isReady}
+                  ></Placeholder.ImageContent>
+                </View>  
+              </View>    
+            }
+          </Container>
+          ) : (
+            <View style={{ alignItems: 'center' }}>
+              <Button light
+                onPress={() => this.props.navigation.navigate('Login')}
+                style={{ alignSelf: 'center', marginTop: 100 }}>
+                <Text> 
+                Login to setup your custom Feed!
+                </Text>
+              </Button>
+            </View>
+          )}
 
           </Tab>
-          <Tab heading="Hot" 
-          tabStyle={{backgroundColor: 'white'}} 
-          textStyle={{fontWeight: 'bold'}} 
-          activeTabStyle={{backgroundColor: 'white'}} 
-          activeTextStyle={{fontWeight: 'bold'}}>
-            <Text>Hot</Text>
-          </Tab>
-          <Tab heading="Trending" 
-          tabStyle={{backgroundColor: 'white'}} 
-          textStyle={{fontWeight: 'bold'}} 
-          activeTabStyle={{backgroundColor: 'white'}} 
-          activeTextStyle={{fontWeight: 'bold'}}>
-            <Container style={styles.container}>
-              {this.state.isReady ?
-                <View style={{ marginBottom: 120 }}>
-                  <FlatList
-                    data={this.state.posts}
-                    showsVerticalScrollIndicator={false}
-                    renderItem={({item}) =>
-                      <View style={styles.card}>
-                        <TouchableHighlight onPress={() => { navigate('Post',{ content: item }) }}>
-                          <PostCard content={item}></PostCard>
-                        </TouchableHighlight>                      
-                      </View>
-                    }
-                    keyExtractor={(post, index) => index.toString()}
-                    onEndReached={this.getMoreTrending}
-                    refreshing={this.state.refreshing}
-                    onRefresh={() => this.refreshTrendingPosts()}
-                    onEndThreshold={0}
-                    ListFooterComponent={this.renderFooter}
-                  />
-                </View>
-                   : 
-                <View>
-                  <View style={styles.placeholder} >
-                    <Placeholder.ImageContent
-                      size={60}
-                      animate="fade"
-                      lineNumber={4}
-                      lineSpacing={5}
-                      lastLineWidth="30%"
-                      onReady={this.state.isReady}
-                    ></Placeholder.ImageContent>
-                  </View>
-                  <View style={styles.placeholder} >
-                    <Placeholder.ImageContent
-                      size={60}
-                      animate="fade"
-                      lineNumber={4}
-                      lineSpacing={5}
-                      lastLineWidth="30%"
-                      onReady={this.state.isReady}
-                    ></Placeholder.ImageContent>
-                  </View>
-                  <View style={styles.placeholder} >
-                    <Placeholder.ImageContent
-                      size={60}
-                      animate="fade"
-                      lineNumber={4}
-                      lineSpacing={5}
-                      lastLineWidth="30%"
-                      onReady={this.state.isReady}
-                    ></Placeholder.ImageContent>
-                  </View>  
-                </View>    
-              }
-              
-            </Container>
-          </Tab>
-        </Tabs>
+            <Tab heading="Hot" 
+            tabStyle={{backgroundColor: 'white'}} 
+            textStyle={{fontWeight: 'bold'}} 
+            activeTabStyle={{backgroundColor: 'white'}} 
+            activeTextStyle={{fontWeight: 'bold'}}>
+              <HotPage navigation={navigate}/>
+            </Tab>
+            <Tab heading="Trending" 
+            tabStyle={{backgroundColor: 'white'}} 
+            textStyle={{fontWeight: 'bold'}} 
+            activeTabStyle={{backgroundColor: 'white'}} 
+            activeTextStyle={{fontWeight: 'bold'}}>
+              <TrendingPage navigation={navigate}/>
+            </Tab>
+          </Tabs>
       </Container>
     )
   }
