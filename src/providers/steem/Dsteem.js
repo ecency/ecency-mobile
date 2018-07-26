@@ -2,6 +2,7 @@ import { Client } from 'dsteem';
 const client = new Client('https://api.steemit.com');
 
 import moment from 'moment';
+import { postSummary } from '../../utils/PostSummary';
 
 const noImage = require('../../assets/noimage.png');
 
@@ -58,6 +59,7 @@ var md = new Remarkable({
       post.author_reputation = reputation(post.author_reputation);
       post.avatar = `https://steemitimages.com/u/${post.author}/avatar/small`;
       post.body = md.render(post.body);
+      post.summary = postSummary(post.body, 200);
       post.raw_body = post.body;
       post.active_votes.sort((a,b) => {
         return b.rshares - a.rshares

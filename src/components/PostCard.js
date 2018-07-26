@@ -54,7 +54,7 @@ class PostCard extends React.Component {
               { this.props.content.title }
             </Text>
             <Text style={styles.summary}>
-              { this.props.content.body }
+              { this.props.content.summary }
             </Text>
           </Body>
         </CardItem>

@@ -1,5 +1,5 @@
 import React, { Component } from 'react';
-import { View, ActivityIndicator, Text, StyleSheet, Image } from 'react-native';
+import { View, ActivityIndicator, Text, StyleSheet, Image, StatusBar } from 'react-native';
 import { Item, Header, Input, Card, Button, Container, Icon, Left, Right, Body, Label, Thumbnail } from 'native-base';
 
 import { Login } from '../../providers/steem/Auth';
@@ -133,6 +133,7 @@ const styles = StyleSheet.create({
     margin: 0,
     padding: 0,
     backgroundColor: '#f1f1f1',
+    top: StatusBar.currentHeight
   },
   header: {
     flexDirection: 'row',
