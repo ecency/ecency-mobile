@@ -1,4 +1,5 @@
 import * as React from 'react';
+import {  StatusBar} from 'react-native';
 import { Container, Header, Left, Body, Right, Button, Icon, Title, Text } from 'native-base';
 
 class ProfilePage extends React.Component {
@@ -8,7 +9,7 @@ class ProfilePage extends React.Component {
 
   render() {
     return (
-      <Container>
+      <Container style={{ flex: 1, top: StatusBar.currentHeight }}>
         <Header>
           <Left>
             <Button transparent>

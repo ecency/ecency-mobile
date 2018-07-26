@@ -14,12 +14,20 @@ class PostCard extends React.Component {
     }
   }
 
+  componentDidMount() {
+
+  }
+
   render() {
     return (
       <Card style={styles.post}>
         <CardItem style={styles.header}>
           <Left>
-            <Thumbnail source={{ uri: this.props.content.avatar }} style={styles.avatar}/>
+            <TouchableOpacity onPress={() => this.props.navigate('Author', { author: this.props.content.author })}>
+              <Thumbnail 
+              style={styles.avatar}
+              source={{ uri: this.props.content.avatar }} />
+            </TouchableOpacity>
             <Body style={{ justifyContent: 'flex-start',flexDirection: 'row' }}>
               <View style={{ backgroundColor: 'white', alignSelf: 'flex-start', paddingVertical: 5 }}>
                 <Text style={{ color: '#222', fontWeight: '600', fontSize: 10 }}>{ this.props.content.author }</Text>
@@ -81,7 +89,7 @@ class PostCard extends React.Component {
           </CardItem>
         ) : (
           <CardItem>
-            <Text>
+            <Text style={styles.footer}>
               { this.props.content.vote_count } likes
             </Text>
           </CardItem>

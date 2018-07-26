@@ -1,5 +1,5 @@
 import React from 'react';
-import { Dimensions, StyleSheet } from 'react-native';
+import { Dimensions, StyleSheet, StatusBar } from 'react-native';
 import { Container, Content, Header, Left, Body, Right, Button, Icon, Title } from 'native-base';
 import HTMLView from 'react-native-htmlview';
 import HTML from 'react-native-render-html';
@@ -12,7 +12,7 @@ class SinglePostPage extends React.Component {
 
   render() {
     return (
-      <Container>
+      <Container style={{ top: StatusBar.currentHeight }}>
         <Header>
           <Left>
             <Button transparent onPress={() => this.props.navigation.goBack()}>

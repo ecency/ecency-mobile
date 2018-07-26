@@ -57,7 +57,7 @@ class FeedPage extends React.Component {
 
 
   getFeed = () => {
-    getPosts('feed', { "tag": this.state.user.name, "limit": 10 }).then((result) => {
+    getPosts('feed', { "tag": this.state.user.name, "limit": 5 }).then((result) => {
       this.setState({
         isReady: true,
         posts: result,
@@ -109,59 +109,27 @@ class FeedPage extends React.Component {
   };
 
   render() {
-    const { navigate } = this.props.navigation;
+    const navigate = this.props.navigation;
     return (
-      <Container>
-        <StatusBar translucent={true} backgroundColor={'transparent'}/>
-        <Header style={{ backgroundColor: 'white' }}>
-          <Right>
-            <Button transparent>
-              <Icon name='search' />
-            </Button>
-          </Right>
-        </Header>
-        <Button style={{ position: 'absolute', zIndex: 2, top: 20, left: 10 }} transparent onPress={() => this.props.navigation.toggleDrawer()}>
-          <Thumbnail square small source={{uri: `https://steemitimages.com/u/${this.state.user.name}/avatar/small` }} style={{ width: 30, height: 30, borderRadius: 15 }}/>
-        </Button>
-        <Tabs style={styles.tabs}
-          renderTabBar={() =>
-            <ScrollableTab style={{
-              zIndex: 1,
-              width: 220,
-              backgroundColor: 'white',
-              borderWidth: 0,
-              alignSelf: 'center',
-            }}
-              tabsContainerStyle={{ width: 220 }} />}>
-        
-          <Tab heading="Feed" 
-          tabStyle={{ backgroundColor: 'white'}} 
-          textStyle={{fontWeight: 'bold'}} 
-          activeTabStyle={{ backgroundColor: 'white' }} 
-          activeTextStyle={{fontWeight: 'bold'}}>
-          
-          { this.state.isLoggedIn ? (
-            <Container style={styles.container}>
-            {this.state.isReady ?
-              <View style={{ marginBottom: 120 }}>
+      <Container style={styles.container}>
+          {this.state.isReady ?
               <FlatList
                 data={this.state.posts}
                 showsVerticalScrollIndicator={false}
                 renderItem={({item}) =>
                   <View style={styles.card}>
                     <TouchableHighlight onPress={() => { navigate('Post',{ content: item }) }}>
-                      <PostCard content={item}></PostCard>
+                      <PostCard navigate={navigate} content={item}></PostCard>
                     </TouchableHighlight>                      
                   </View>
                 }
                 keyExtractor={(post, index) => index.toString()}
                 onEndReached={this.getMore}
                 refreshing={this.state.refreshing}
-                onRefresh={() => this.refreshData()}
+                onRefresh={() => this.refreshPosts()}
                 onEndThreshold={0}
                 ListFooterComponent={this.renderFooter}
               />
-              </View>
                 : 
               <View>
                 <View style={styles.placeholder} >
@@ -196,35 +164,6 @@ class FeedPage extends React.Component {
                 </View>  
               </View>    
             }
-          </Container>
-          ) : (
-            <View style={{ alignItems: 'center' }}>
-              <Button light
-                onPress={() => this.props.navigation.navigate('Login')}
-                style={{ alignSelf: 'center', marginTop: 100 }}>
-                <Text> 
-                Login to setup your custom Feed!
-                </Text>
-              </Button>
-            </View>
-          )}
-
-          </Tab>
-            <Tab heading="Hot" 
-            tabStyle={{backgroundColor: 'white'}} 
-            textStyle={{fontWeight: 'bold'}} 
-            activeTabStyle={{backgroundColor: 'white'}} 
-            activeTextStyle={{fontWeight: 'bold'}}>
-              <HotPage navigation={navigate}/>
-            </Tab>
-            <Tab heading="Trending" 
-            tabStyle={{backgroundColor: 'white'}} 
-            textStyle={{fontWeight: 'bold'}} 
-            activeTabStyle={{backgroundColor: 'white'}} 
-            activeTextStyle={{fontWeight: 'bold'}}>
-              <TrendingPage navigation={navigate}/>
-            </Tab>
-          </Tabs>
       </Container>
     )
   }
@@ -233,6 +172,8 @@ class FeedPage extends React.Component {
 const styles = StyleSheet.create({
   container: {
     backgroundColor: '#F9F9F9',
+    flex: 1,
+    top: StatusBar.currentHeight
   },
   placeholder: {
     backgroundColor: 'white',

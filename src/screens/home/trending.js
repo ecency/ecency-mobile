@@ -34,7 +34,7 @@ class TrendingPage extends React.Component {
   }
 
   getTrending = () => {
-    getPosts('trending', { "tag": "", "limit": 10 }).then((result) => {
+    getPosts('trending', { "tag": "", "limit": 5 }).then((result) => {
       this.setState({
         isReady: true,
         posts: result,
@@ -90,14 +90,13 @@ class TrendingPage extends React.Component {
     return (
       <Container style={styles.container}>
       {this.state.isReady ?
-        <View style={{ marginBottom: 120 }}>
           <FlatList
             data={this.state.posts}
             showsVerticalScrollIndicator={false}
             renderItem={({item}) =>
               <View style={styles.card}>
                 <TouchableHighlight onPress={() => { navigate('Post',{ content: item }) }}>
-                  <PostCard content={item}></PostCard>
+                  <PostCard navigate={navigate} content={item}></PostCard>
                 </TouchableHighlight>                      
               </View>
             }
@@ -108,7 +107,6 @@ class TrendingPage extends React.Component {
             onEndThreshold={0}
             ListFooterComponent={this.renderFooter}
           />
-        </View>
            : 
         <View>
           <View style={styles.placeholder} >
@@ -151,6 +149,8 @@ class TrendingPage extends React.Component {
 const styles = StyleSheet.create({
   container: {
     backgroundColor: '#F9F9F9',
+    flex: 1,
+    top: StatusBar.currentHeight
   },
   placeholder: {
     backgroundColor: 'white',

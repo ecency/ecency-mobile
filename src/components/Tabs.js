@@ -11,16 +11,16 @@ import Entypo from 'react-native-vector-icons/Entypo';
 import MaterialCommunityIcons from 'react-native-vector-icons/MaterialCommunityIcons';
 
 import EditorPage from '../screens/editor/editor';
-import FeedPage from '../screens/home/feed';
 import ProfilePage from '../screens/profile/profile';
+import HomePage from '../screens/home/home';
 import WalletPage from '../screens/wallet/wallet';
 import NotificationPage from '../screens/notifications/notification';
 import SinglePostPage from '../screens/single-post/Post';
 import LoginPage from '../screens/login/Login';
-import HTML from 'react-native-render-html';
+import AuthorPage from '../screens/author-profile/Author';
 
 const HomeScreen = ({ navigation }) => (
-  <FeedPage navigation={navigation}></FeedPage>
+  <HomePage navigation={navigation}></HomePage>
 );
 
 HomeScreen.navigationOptions = {
@@ -104,6 +104,10 @@ const LoginScreen = ({ navigation }) => (
   <LoginPage navigation={navigation}></LoginPage>
 );
 
+const AuthorScreen = ({ navigation }) => (
+  <AuthorPage navigation={navigation}></AuthorPage>
+);
+
 const BottomTabs = createBottomTabNavigator(
   {
     Home: {
@@ -160,9 +164,15 @@ const StacksOverTabs = createStackNavigator({
     }),
   },
   Login: {
-    screen: LoginPage,
+    screen: LoginScreen,
     path: '/login',
+  },
+  Author: {
+    screen: AuthorScreen,
+    path: '/author',
   }
+}, {
+  headerMode: 'none'
 });
 
 
