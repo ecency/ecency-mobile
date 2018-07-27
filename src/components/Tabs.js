@@ -158,7 +158,7 @@ const StacksOverTabs = createStackNavigator({
   },
   Post: {
     screen: SinglePostScreen,
-    path: '/post',
+    path: '/:category/:user/:permlink',
     navigationOptions: ({ navigation }) => ({
       header: null
     }),

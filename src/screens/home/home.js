@@ -121,7 +121,8 @@ const styles = StyleSheet.create({
   tabs: {
     position: 'absolute',
     top: Dimensions.get("window").width / 30,
-    alignItems: 'center'
+    alignItems: 'center',
+    flex: 1
   }
 });
 

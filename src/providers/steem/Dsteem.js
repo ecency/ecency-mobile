@@ -3,6 +3,7 @@ const client = new Client('https://api.steemit.com');
 
 import moment from 'moment';
 import { postSummary } from '../../utils/PostSummary';
+import { markDown2Html } from '../../utils/PostParser';
 
 const noImage = require('../../assets/noimage.png');
 
@@ -50,7 +51,6 @@ var md = new Remarkable({
    */
   export const parsePosts = (posts) => {
     posts.map(post => {
-      console.log(post)
       post.json_metadata = JSON.parse(post.json_metadata);
       post.image = (post.json_metadata.image) ? post.json_metadata.image[0] : noImage.url;
       post.pending_payout_value = parseFloat(post.pending_payout_value).toFixed(2);
@@ -58,7 +58,7 @@ var md = new Remarkable({
       post.vote_count = post.active_votes.length;
       post.author_reputation = reputation(post.author_reputation);
       post.avatar = `https://steemitimages.com/u/${post.author}/avatar/small`;
-      post.body = md.render(post.body);
+      post.body = markDown2Html(post.body)
       post.summary = postSummary(post.body, 200);
       post.raw_body = post.body;
       post.active_votes.sort((a,b) => {

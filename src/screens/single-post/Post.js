@@ -3,11 +3,39 @@ import { Dimensions, StyleSheet, StatusBar } from 'react-native';
 import { Container, Content, Header, Left, Body, Right, Button, Icon, Title } from 'native-base';
 import HTMLView from 'react-native-htmlview';
 import HTML from 'react-native-render-html';
+import { Client } from 'dsteem';
+const client = new Client('https://api.steemit.com');
+
+import { parsePost, protocolUrl2Obj } from '../../utils/PostParser';
 
 class SinglePostPage extends React.Component {
   constructor(props) {
     super(props);
 
+  }
+
+  onLinkPress(evt, href, attribs) {
+
+    let steemPost = href.match(/^https?:\/\/(.*)\/(.*)\/(@[\w\.\d-]+)\/(.*)/i)
+
+    if (attribs.class === "markdown-author-link") {
+      this.props.navigation.navigate('Author', { author: href })
+    } else if (steemPost.length > 3) {
+      steemPost[3] = steemPost[3].replace('@', '')
+      client.database.call('get_content', [steemPost[3], steemPost[4]]).then((result) => {
+        let content = parsePost(result);
+        this.props.navigation.push('Post',{ content: content })
+      }).catch((err) => {
+        alert(err)
+      });
+    }
+  }
+
+  alterNode(node) {
+    if (node.name == 'img' || node.name == 'a') {
+      console.log(node);
+      
+    }
   }
 
   render() {
@@ -32,7 +60,16 @@ class SinglePostPage extends React.Component {
           </Right>
         </Header>
         <Content>
-          <HTML html={this.props.navigation.state.params.content.body} imagesMaxWidth={Dimensions.get('window').width} />
+          <HTML 
+            html={this.props.navigation.state.params.content.body} 
+            staticContentMaxWidth={ Dimensions.get('window').width - 20 }
+            onLinkPress={ (evt, href, hrefatr) =>  this.onLinkPress(evt, href, hrefatr) }
+            containerStyle={{ padding: 10 }}
+            textSelectable={true}
+            tagsStyles={styles}
+            debug={true}
+            alterNode={ (node) => { this.alterNode(node) } }
+            imagesMaxWidth={ Dimensions.get('window').width - 20 } />
         </Content>
       </Container>
     )
@@ -44,9 +81,6 @@ const styles = StyleSheet.create({
     flex: 1,
     alignItems: 'center',
     justifyContent: 'center'
-  },
-  text: {
-    fontSize: 32
   }
 })
 

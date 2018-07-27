@@ -36,6 +36,7 @@ class LoginPage extends Component {
     
     return (
       <Container style={styles.container}>
+        <StatusBar translucent={true} backgroundColor={'transparent'}/>
         <Header style={{ backgroundColor: 'white', height: 80 }}>
           <Left>
             <Button transparent

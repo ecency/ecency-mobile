@@ -1,4 +1,5 @@
 import * as React from 'react';
+import { StatusBar } from 'react-native';
 import { Container, Header, Left, Body, Right, Button, Icon, Title, Content, Text } from 'native-base';
 import { getAccount } from '../../providers/steem/Dsteem';
 
@@ -23,7 +24,7 @@ class AuthorPage extends React.Component {
 
   render() {
     return (
-      <Container>
+      <Container style={{ top: StatusBar.currentHeight }}>
         <Header>
           <Left>
             <Button transparent
