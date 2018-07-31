@@ -1,7 +1,6 @@
 import Remarkable from 'remarkable';
-import React from 'react';
 import { postSummary } from './PostSummary';
-
+import { reputation } from './Reputation';
 import moment from 'moment';
 
 const md = new Remarkable({html: true, breaks: true, linkify: true});
@@ -66,7 +65,6 @@ export const markDown2Html = (input) => {
       post.avatar = `https://steemitimages.com/u/${post.author}/avatar/small`;
       post.body = markDown2Html(post.body)
       post.summary = postSummary(post.body, 200);
-      post.raw_body = post.body;
       post.active_votes.sort((a,b) => {
         return b.rshares - a.rshares
       });
@@ -75,21 +73,6 @@ export const markDown2Html = (input) => {
       }
     return post;
   } 
-
-  /**
-   * TODO move it to Utils
-   */
-  export const reputation = (reputation) => {
-    if (reputation == null) return reputation;
-    reputation = parseInt(reputation);
-    let log = Math.log10(reputation);
-    log = log - 9;
-    log = log * 9;
-    log = log + 25;
-    log = Math.floor(log);
-    return log;
-  }
-
 
   export const protocolUrl2Obj = (url) => {
     let urlPart = url.split('://')[1];
