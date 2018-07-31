@@ -65,7 +65,7 @@ class LoginPage extends Component {
             </View>
         </View>
 
-          <View style={{ padding: 30, backgroundColor: 'white' }}>
+          <View style={{ padding: 30, backgroundColor: 'white', flex:0.4 }}>
             <View>
               <Item rounded 
                 style={{ margin: 5, backgroundColor: '#f6f6f6', height: 40, marginVertical: 10, overflow: 'hidden', borderColor: 'white' }}>
@@ -85,9 +85,9 @@ class LoginPage extends Component {
                   style={{ backgroundColor: '#ececec', height: 40, width: 40, alignItems: 'center', paddingVertical: 7, paddingLeft: 13, color: '#a7adaf', fontWeight: 'bold' }}/> 
                 <Input secureTextEntry={true} placeholder='Password or WIF' onChangeText={(text) => this.setState({password: text})} value={this.state.password}/>
               </Item>
-              <View>
+            <View>
+          </View>
 
-              </View>
             </View>
             <View style={{ borderBottomColor: 'lightgray', borderBottomWidth: 0.7, marginVertical: 20 }}/>
             <View style={{ flexDirection: 'row', alignItems: 'center' }}>
@@ -134,17 +134,19 @@ const styles = StyleSheet.create({
     margin: 0,
     padding: 0,
     backgroundColor: '#f1f1f1',
-    top: StatusBar.currentHeight
+    top: StatusBar.currentHeight,
+    flexDirection: 'column'
   },
   header: {
     flexDirection: 'row',
     padding: 0,
     backgroundColor: 'white',
     marginVertical: 10,
-    height: 200
+    height: 200,
+    flex: 0.4
   },
   footer: {
-    flex: 1,
+    flex: 0.2,
     bottom: 0,
     marginTop: 10,
     height: 80,
