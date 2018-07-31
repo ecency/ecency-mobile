@@ -88,26 +88,28 @@ class HotPage extends React.Component {
   render() {
     const navigate = this.props.navigation;
     return (
-      <Container style={styles.container}>
-      {this.state.isReady ?
-          <FlatList
-            data={this.state.posts}
-            showsVerticalScrollIndicator={false}
-            renderItem={({item}) =>
-              <View style={styles.card}>
-                <TouchableHighlight onPress={() => { navigate('Post',{ content: item }) }}>
-                  <PostCard navigate={navigate} content={item}></PostCard>
-                </TouchableHighlight>                      
-              </View>
-            }
-            keyExtractor={(post, index) => index.toString()}
-            onEndReached={this.getMoreHot}
-            refreshing={this.state.refreshing}
-            onRefresh={() => this.refreshHotPosts()}
-            onEndThreshold={0}
-            ListFooterComponent={this.renderFooter}
-          />
-           : 
+      <View style={{ flex: 1 }}>
+      { this.state.isReady ? (
+        <FlatList
+        style={{ flex: 1 }}
+        data={this.state.posts}
+        showsVerticalScrollIndicator={false}
+        renderItem={({item}) =>
+          <View style={styles.card}>
+            <TouchableHighlight 
+              onPress={() => { navigate('Post',{ content: item }) }}>
+              <PostCard navigate={navigate} content={item}></PostCard>
+            </TouchableHighlight>                      
+          </View>
+        }
+        keyExtractor={(post, index) => index.toString()}
+        onEndReached={this.getMoreHot}
+        refreshing={this.state.refreshing}
+        onRefresh={() => this.refreshHotPosts()}
+        onEndThreshold={0}
+        ListFooterComponent={this.renderFooter}
+      />
+      ) : (
         <View>
           <View style={styles.placeholder} >
             <Placeholder.ImageContent
@@ -139,10 +141,9 @@ class HotPage extends React.Component {
               onReady={this.state.isReady}
             ></Placeholder.ImageContent>
           </View>  
-        </View>    
-      }
-      
-    </Container>
+        </View>   
+      ) }
+      </View>
     )
   }
 }
@@ -174,7 +175,7 @@ const styles = StyleSheet.create({
     marginBottom: 0,
     borderWidth: 1,
     borderColor: '#e2e5e8',
-    borderRadius: 0,
+    borderRadius: 5,
     paddingHorizontal: 0,
     paddingVertical: 0,
   },

@@ -87,8 +87,9 @@ class PostCard extends React.Component {
             <Text style={styles.footer}> 
               @{ this.props.content.top_likers[0] }, 
               @{ this.props.content.top_likers[1] }, 
-              @{ this.props.content.top_likers[2] } 
-              & { this.props.content.vote_count - this.props.content.top_likers.length } others like this
+              @{ this.props.content.top_likers[2] }
+              <Text style={styles.footer}> & </Text>
+              { this.props.content.vote_count - this.props.content.top_likers.length } others like this
             </Text>
           </CardItem>
         ) : (

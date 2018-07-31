@@ -12,6 +12,11 @@ import FeedPage from './feed';
 import HotPage from './hot';
 import TrendingPage from './trending';
 
+
+import ScrollableTabView, { DefaultTabBar, ScrollableTabBar } from 'react-native-scrollable-tab-view'
+import CustomTabBar from './CustomTabBar'
+
+
 class HomePage extends React.Component {
   constructor(props) {
     super(props)
@@ -48,66 +53,59 @@ class HomePage extends React.Component {
     return (
       <Container style={{ flex: 1, top: StatusBar.currentHeight }}>
         <StatusBar translucent={true} backgroundColor={'transparent'}/>
-        <Header style={{ backgroundColor: 'white' }}>
+        <Header noShadow style={{ backgroundColor: '#284b78', borderBottomWidth: 0, borderColor: '#284b78' }}>
           <Left>
-            <Button style={{ zIndex: 2 }} transparent onPress={() => this.props.navigation.toggleDrawer()}>
-              <Thumbnail square small source={{uri: `https://steemitimages.com/u/${this.state.user.name}/avatar/small` }} style={{ width: 30, height: 30, borderRadius: 15 }}/>
+            <Button 
+              transparent 
+              style={{ zIndex: 2 }}
+              onPress={() => this.props.navigation.toggleDrawer()}>
+              <Thumbnail square small source={{uri: `https://steemitimages.com/u/${this.state.user.name}/avatar/small` }} style={{ width: 30, height: 30, borderRadius: 15, borderWidth: 1, borderColor: 'white' }}/>
             </Button>
           </Left>
           <Right>
             <Button transparent>
-              <Icon name='search' />
+              <Icon style={{ color: 'white', fontWeight: 'bold' }} name='search' />
             </Button>
           </Right>
         </Header>
-        <Tabs style={styles.tabs}
-          renderTabBar={() =>
-            <ScrollableTab style={{
-              zIndex: 1,
-              width: 220,
-              backgroundColor: 'white',
-              borderWidth: 0,
-              alignSelf: 'center',
-            }}
-              tabsContainerStyle={{ width: 220 }} />}>
-        
-          <Tab heading="Feed" 
-          tabStyle={{ backgroundColor: 'transparent'}} 
-          textStyle={{fontWeight: 'bold'}} 
-          activeTabStyle={{ backgroundColor: 'transparent' }} 
-          activeTextStyle={{fontWeight: 'bold'}}>
-          
-          { this.state.isLoggedIn ? (
-            <Container style={styles.container}>
-              <FeedPage navigation={navigate}/>
-            </Container>
-          ) : (
+
+      <ScrollableTabView
+        style={{ alignSelf: 'center', backgroundColor: 'transparent' }}
+        renderTabBar={() => (
+          <CustomTabBar
+          style={{ alignSelf: 'center', height: 40, backgroundColor: '#284b78' }}
+          tabUnderlineDefaultWidth={30} // default containerWidth / (numberOfTabs * 4)
+          tabUnderlineScaleX={3} // default 3
+          activeColor={"#fff"}
+          inactiveColor={"#fff"}/>
+        )}>
+
+        <View tabLabel='Feed'
+          style={{ paddingHorizontal: 7, backgroundColor: '#f9f9f9', flex: 1, minWidth: Dimensions.get('window').width / 1  }}>
+          { this.state.isLoggedIn ? 
+            <FeedPage navigation={navigate}/>
+          : (
             <View style={{ alignItems: 'center' }}>
-              <Button light
-                onPress={() => this.props.navigation.navigate('Login')}
-                style={{ alignSelf: 'center', marginTop: 100 }}>
-                <Text> 
-                Login to setup your custom Feed!
-                </Text>
-              </Button>
-            </View>
-          )}
-          </Tab>
-            <Tab heading="Hot" 
-            tabStyle={{backgroundColor: 'transparent'}} 
-            textStyle={{fontWeight: 'bold'}} 
-            activeTabStyle={{backgroundColor: 'transparent'}} 
-            activeTextStyle={{fontWeight: 'bold'}}>
-              <HotPage navigation={navigate}/>
-            </Tab>
-            <Tab heading="Trending" 
-            tabStyle={{backgroundColor: 'transparent'}} 
-            textStyle={{fontWeight: 'bold'}} 
-            activeTabStyle={{backgroundColor: 'transparent'}} 
-            activeTextStyle={{fontWeight: 'bold'}}>
-              <TrendingPage navigation={navigate}/>
-            </Tab>
-          </Tabs>
+            <Button light
+              onPress={() => this.props.navigation.navigate('Login')}
+              style={{ alignSelf: 'center', marginTop: 100 }}>
+              <Text> 
+              Login to setup your custom Feed!
+              </Text>
+            </Button>
+          </View> )
+          }
+        </View>
+        <View tabLabel='Hot'
+          style={{ paddingHorizontal: 7, backgroundColor: '#f9f9f9', flex: 1, minWidth: Dimensions.get('window').width / 1  }}>
+          <HotPage navigation={navigate}/>
+        </View>
+        <View tabLabel='Trending'
+          style={{ paddingHorizontal: 7, backgroundColor: '#f9f9f9', flex: 1, minWidth: Dimensions.get('window').width / 1  }}>
+          <TrendingPage navigation={navigate}/>
+        </View>
+      </ScrollableTabView>
+
       </Container>
     )
   }
@@ -119,9 +117,6 @@ const styles = StyleSheet.create({
     flex: 1
   },
   tabs: {
-    position: 'absolute',
-    top: Dimensions.get("window").width / 30,
-    alignItems: 'center',
     flex: 1
   }
 });

@@ -1,6 +1,5 @@
 import React from 'react';
 import { StyleSheet, FlatList, View, AsyncStorage, StatusBar, Dimensions, TouchableHighlight, ActivityIndicator } from 'react-native';
-import { Container } from "native-base";
 
 // STEEM        
 import { getPosts, getAccount } from '../../providers/steem/Dsteem';
@@ -77,9 +76,9 @@ class TrendingPage extends React.Component {
           alignContent: 'center',
           alignItems: 'center',
           marginTop: 10,
+          marginBottom: 40,
           borderColor: "#CED0CE"
-        }}
-      >
+        }}>
         <ActivityIndicator animating size="large" />
       </View>
     );
@@ -88,26 +87,27 @@ class TrendingPage extends React.Component {
   render() {
     const navigate = this.props.navigation;
     return (
-      <Container style={styles.container}>
-      {this.state.isReady ?
-          <FlatList
-            data={this.state.posts}
-            showsVerticalScrollIndicator={false}
-            renderItem={({item}) =>
-              <View style={styles.card}>
-                <TouchableHighlight onPress={() => { navigate('Post',{ content: item }) }}>
-                  <PostCard navigate={navigate} content={item}></PostCard>
-                </TouchableHighlight>                      
-              </View>
-            }
-            keyExtractor={(post, index) => index.toString()}
-            onEndReached={this.getMore}
-            refreshing={this.state.refreshing}
-            onRefresh={() => this.refreshData()}
-            onEndThreshold={0}
-            ListFooterComponent={this.renderFooter}
-          />
-           : 
+      <View style={{ flex: 1 }}>
+      { this.state.isReady ? (
+        <FlatList
+        data={this.state.posts}
+        showsVerticalScrollIndicator={false}
+        renderItem={({item}) =>
+          <View style={styles.card}>
+            <TouchableHighlight 
+              onPress={() => { navigate('Post',{ content: item }) }}>
+              <PostCard navigate={navigate} content={item}></PostCard>
+            </TouchableHighlight>                      
+          </View>
+        }
+        keyExtractor={(post, index) => index.toString()}
+        onEndReached={this.getMore}
+        refreshing={this.state.refreshing}
+        onRefresh={() => this.refreshData()}
+        onEndThreshold={0}
+        ListFooterComponent={this.renderFooter}
+      />
+      ) : (
         <View>
           <View style={styles.placeholder} >
             <Placeholder.ImageContent
@@ -139,9 +139,9 @@ class TrendingPage extends React.Component {
               onReady={this.state.isReady}
             ></Placeholder.ImageContent>
           </View>  
-        </View>    
-      }
-    </Container>
+        </View>   
+      ) }
+      </View>
     )
   }
 }
@@ -172,7 +172,7 @@ const styles = StyleSheet.create({
     marginBottom: 0,
     borderWidth: 1,
     borderColor: '#e2e5e8',
-    borderRadius: 0,
+    borderRadius: 5,
     paddingHorizontal: 0,
     paddingVertical: 0,
   }
