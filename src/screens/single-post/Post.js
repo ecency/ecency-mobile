@@ -14,6 +14,10 @@ class SinglePostPage extends React.Component {
 
   }
 
+  componentDidMount() {
+    
+  }
+
   onLinkPress(evt, href, attribs) {
 
     let steemPost = href.match(/^https?:\/\/(.*)\/(.*)\/(@[\w\.\d-]+)\/(.*)/i)
@@ -33,8 +37,9 @@ class SinglePostPage extends React.Component {
 
   alterNode(node) {
     if (node.name == 'img' || node.name == 'a') {
-      console.log(node);
-      
+     // console.log(node);
+    } else if (node.name == 'iframe') {
+      node.attribs.height = 200
     }
   }
 
@@ -67,9 +72,10 @@ class SinglePostPage extends React.Component {
             containerStyle={{ padding: 10 }}
             textSelectable={true}
             tagsStyles={styles}
+            ignoredTags={['script']}
             debug={true}
             alterNode={ (node) => { this.alterNode(node) } }
-            imagesMaxWidth={ Dimensions.get('window').width - 20 } />
+            imagesMaxWidth={ Dimensions.get('window').width } />
         </Content>
       </Container>
     )
@@ -81,6 +87,18 @@ const styles = StyleSheet.create({
     flex: 1,
     alignItems: 'center',
     justifyContent: 'center'
+  },
+  iframe: {
+    maxWidth: Dimensions.get('window').width,
+    marginVertical: 10,
+    left: -10
+  },
+  p: {
+
+  },
+  img: {
+    left: -10,
+    marginVertical: 10
   }
 })
 

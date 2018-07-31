@@ -28,17 +28,17 @@ class PostCard extends React.Component {
               style={styles.avatar}
               source={{ uri: this.props.content.avatar }} />
             </TouchableOpacity>
-            <Body style={{ justifyContent: 'flex-start',flexDirection: 'row' }}>
-              <View style={{ backgroundColor: 'white', alignSelf: 'flex-start', paddingVertical: 5 }}>
-                <Text style={{ color: '#222', fontWeight: '600', fontSize: 10 }}>{ this.props.content.author }</Text>
+            <Body style={styles.body}>
+              <View style={styles.author}>
+                <Text style={styles.authorName}>{ this.props.content.author }</Text>
               </View>
                 <View style={ styles.badge }>
                   <Text style={styles.text}>{ this.props.content.author_reputation }</Text>
                 </View>
                 <View style={ styles.category }>
-                  <Text style={{ fontSize: 9, color: 'white', fontWeight: '600' }}>{ this.props.content.category }</Text>
+                  <Text style={styles.categoryText}>{ this.props.content.category }</Text>
                 </View>
-              <Text style={{ alignSelf: 'center', fontSize: 9, fontWeight: '100', marginHorizontal: 3 }} note> { this.props.content.created } </Text>
+              <Text style={styles.timeAgo} note> { this.props.content.created } </Text>
             </Body>
           </Left>
           <Right>
@@ -60,24 +60,24 @@ class PostCard extends React.Component {
         </CardItem>
         <CardItem>
           <Left>
-          <TouchableOpacity start style={{ margin: 0, flexDirection: 'row', paddingVertical: 0 }}>
-            <Icon style={{ alignSelf: 'flex-start', fontSize: 20, color: '#007ee5', margin:0, width: 18 }} active name="ios-arrow-dropup-outline" />
+          <TouchableOpacity start style={styles.upvoteButton}>
+            <Icon style={styles.upvoteIcon} active name="ios-arrow-dropup-outline" />
           </TouchableOpacity>
-          <TouchableOpacity style={{ flexDirection: 'row', alignSelf: 'flex-start', paddingVertical: 2 }}>
-            <Text style={{ alignSelf: 'center', fontSize: 10, color: '#626262', marginLeft: 3 }}>${ this.props.content.pending_payout_value }</Text>
-            <Icon name='md-arrow-dropdown' style={{ fontSize: 15, marginHorizontal: 3, color: '#a0a0a0', alignSelf: 'center' }} />
+          <TouchableOpacity style={styles.payoutButton}>
+            <Text style={styles.payout}>${ this.props.content.pending_payout_value }</Text>
+            <Icon name='md-arrow-dropdown' style={styles.payoutIcon} />
           </TouchableOpacity>
           </Left>
           <Right>
-          <TouchableOpacity start style={{ padding: 0, margin: 0, flexDirection: 'row' }}>
-            <Icon style={{ alignSelf: 'flex-start', fontSize: 20, color: '#007ee5', margin:0, width: 20 }} active name="ios-chatbubbles-outline" />
-            <Text style={{ alignSelf: 'center', fontSize: 10, color: '#626262', marginLeft: 3 }}>{ this.props.content.children }</Text>
+          <TouchableOpacity start style={styles.commentButton}>
+            <Icon style={styles.commentIcon} active name="ios-chatbubbles-outline" />
+            <Text style={styles.comment}>{ this.props.content.children }</Text>
           </TouchableOpacity>
           </Right>
         </CardItem>
         { this.props.content.top_likers ? (
-          <CardItem style={{ backgroundColor: '#f8f8f8', borderWidth: 0, padding:0 }}>
-            <Thumbnail source={{ uri: `https://steemitimages.com/u/${this.props.content.top_likers[0]}/avatar/small` }} style={styles.topLikers}/>
+          <CardItem style={styles.topLikers}>
+            <Thumbnail source={{ uri: `https://steemitimages.com/u/${this.props.content.top_likers[0]}/avatar/small` }} style={styles.likers_1}/>
             <Thumbnail source={{ uri: `https://steemitimages.com/u/${this.props.content.top_likers[1]}/avatar/small` }} style={styles.likers_2}/>
             <Thumbnail source={{ uri: `https://steemitimages.com/u/${this.props.content.top_likers[2]}/avatar/small` }} style={styles.likers_3}/>
             <Text style={styles.footer}> 
@@ -108,7 +108,7 @@ const styles = StyleSheet.create({
     marginBottom: 0,
     borderWidth: 0,
     borderColor: 'white',
-    borderRadius: 0,
+    borderRadius: 5,
   },
   avatar: {
     width: 30,
@@ -117,13 +117,75 @@ const styles = StyleSheet.create({
     borderColor: 'lightgray',
     borderWidth: 1
   },
+  author: {
+    backgroundColor: 'white',
+    alignSelf: 'flex-start',
+    paddingVertical: 5
+  },
+  timeAgo: {
+    alignSelf: 'center',
+    fontSize: 9, 
+    fontWeight: '100',
+    marginHorizontal: 3
+  },
+  authorName: {
+    color: '#222',
+    fontWeight: '600',
+    fontSize: 10
+  },
+  upvoteButton: {
+    margin: 0, 
+    flexDirection: 'row', 
+    paddingVertical: 0
+  },
+  upvoteIcon: {
+    alignSelf: 'flex-start', 
+    fontSize: 20, 
+    color: '#007ee5', 
+    margin:0, 
+    width: 18
+  },
+  payout: {
+    alignSelf: 'center',
+    fontSize: 10,
+    color: '#626262',
+    marginLeft: 3
+  },
+  payoutIcon: {
+    fontSize: 15,
+    marginHorizontal: 3,
+    color: '#a0a0a0',
+    alignSelf: 'center'
+  },
+  payoutButton: {
+    flexDirection: 'row',
+    alignSelf: 'flex-start',
+    paddingVertical: 2
+  },
+  commentButton: {
+    padding: 0, 
+    margin: 0, 
+    flexDirection: 'row'
+  },
+  comment: {
+    alignSelf: 'center',
+    fontSize: 10,
+    color: '#626262',
+    marginLeft: 3
+  },
+  commentIcon: {
+    alignSelf: 'flex-start',
+    fontSize: 20,
+    color: '#007ee5',
+    margin:0,
+    width: 20
+  },
   title: {
     fontSize: 12,
     fontWeight: '500',
     marginVertical: 5
   },
   summary: {
-    height: 45,
     fontSize: 10,
     fontWeight: '200',
     overflow: 'hidden'
@@ -131,12 +193,13 @@ const styles = StyleSheet.create({
   header: {
     height: 50
   },
+  body: {
+    justifyContent: 'flex-start',
+    flexDirection: 'row'
+  },
   image: {
-    marginRight: 0,
-    marginLeft: -2,
-    marginTop: 0,
-    marginBottom: 0,
-    width: '101%',
+    margin: 0,
+    width: '100%',
     height: 160,
   },
   badge: {
@@ -158,6 +221,11 @@ const styles = StyleSheet.create({
     paddingHorizontal: 5,
     paddingVertical: 1.5
   },
+  categoryText: {
+    fontSize: 9,
+    color: 'white',
+    fontWeight: '600'
+  },
   text: {
     fontSize: 7, 
     alignSelf: 'center',
@@ -166,6 +234,11 @@ const styles = StyleSheet.create({
     fontWeight: 'bold'
   }, 
   topLikers: {
+    backgroundColor: '#f8f8f8',
+    borderWidth: 0,
+    padding:0
+  },
+  likers_1: {
     width: 14,
     height: 14,
     borderRadius: 7,
