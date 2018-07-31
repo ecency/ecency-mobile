@@ -10,11 +10,14 @@ class PostCard extends React.Component {
     super(props);
 
     this.state = {
-      noimage: require('../assets/noimage.png')
     }
   }
 
   componentDidMount() {
+
+  }
+
+  onError() {
 
   }
 
@@ -47,6 +50,7 @@ class PostCard extends React.Component {
         </CardItem>
           <Image 
             source={{ uri: this.props.content.image }}
+            defaultSource={require('../assets/no_image.png')}
             style={styles.image}/>
         <CardItem>
           <Body>

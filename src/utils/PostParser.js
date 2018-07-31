@@ -52,55 +52,56 @@ export const markDown2Html = (input) => {
   return output;
 };
 
-  /**
-   * TODO move it to Utils
-   */
-  export const parsePost = (post) => {
-      post.json_metadata = JSON.parse(post.json_metadata);
-      post.image = (post.json_metadata.image) ? post.json_metadata.image[0] : noImage.url;
-      post.pending_payout_value = parseFloat(post.pending_payout_value).toFixed(2);
-      post.created = moment.utc(post.created).local().fromNow();
-      post.vote_count = post.active_votes.length;
-      post.author_reputation = reputation(post.author_reputation);
-      post.avatar = `https://steemitimages.com/u/${post.author}/avatar/small`;
-      post.body = markDown2Html(post.body)
-      post.summary = postSummary(post.body, 200);
-      post.active_votes.sort((a,b) => {
-        return b.rshares - a.rshares
-      });
-      if (post.active_votes.length > 2) {
-        post.top_likers = [post.active_votes[0].voter, post.active_votes[1].voter, post.active_votes[2].voter]
-      }
-    return post;
-  } 
 
-  export const protocolUrl2Obj = (url) => {
-    let urlPart = url.split('://')[1];
-  
-    // remove last char if /
-    if(urlPart.endsWith('/')){
-      urlPart = urlPart.substring(0, urlPart.length - 1);
+export const parsePosts = (posts) => {
+  posts.map(post => {
+    post.json_metadata = JSON.parse(post.json_metadata);
+    (post.json_metadata.image) ? post.image = post.json_metadata.image[0] : '';
+    post.pending_payout_value = parseFloat(post.pending_payout_value).toFixed(2);
+    post.created = moment.utc(post.created).local().fromNow();
+    post.vote_count = post.active_votes.length;
+    post.author_reputation = reputation(post.author_reputation);
+    post.avatar = `https://steemitimages.com/u/${post.author}/avatar/small`;
+    post.body = markDown2Html(post.body)
+    post.summary = postSummary(post.body, 100);
+    post.raw_body = post.body;
+    post.active_votes.sort((a,b) => {
+      return b.rshares - a.rshares
+    });
+    if (post.active_votes.length > 2) {
+      post.top_likers = [post.active_votes[0].voter, post.active_votes[1].voter, post.active_votes[2].voter]
     }
-  
-    const parts = urlPart.split('/');
-  
-    // filter
-    if (parts.length === 1 && filters.includes(parts[0])) {
-      return {type: 'filter', filter: parts[0]};
-    }
-  
-    // filter with tag
-    if (parts.length === 2 && filters.includes(parts[0])) {
-      return {type: 'filter-tag', filter: parts[0], tag: parts[1]};
-    }
-  
-    // account
-    if (parts.length === 1 && parts[0].startsWith('@')) {
-      return {type: 'account', account: parts[0].replace('@', '')};
-    }
-  
-    // post
-    if (parts.length === 3 && parts[1].startsWith('@')) {
-      return {type: 'post', cat: parts[0], author: parts[1].replace('@', ''), permlink: parts[2]};
-    }
-  };
+  });
+  return posts;
+}
+
+export const protocolUrl2Obj = (url) => {
+  let urlPart = url.split('://')[1];
+
+  // remove last char if /
+  if(urlPart.endsWith('/')){
+    urlPart = urlPart.substring(0, urlPart.length - 1);
+  }
+
+  const parts = urlPart.split('/');
+
+  // filter
+  if (parts.length === 1 && filters.includes(parts[0])) {
+    return {type: 'filter', filter: parts[0]};
+  }
+
+  // filter with tag
+  if (parts.length === 2 && filters.includes(parts[0])) {
+    return {type: 'filter-tag', filter: parts[0], tag: parts[1]};
+  }
+
+  // account
+  if (parts.length === 1 && parts[0].startsWith('@')) {
+    return {type: 'account', account: parts[0].replace('@', '')};
+  }
+
+  // post
+  if (parts.length === 3 && parts[1].startsWith('@')) {
+    return {type: 'post', cat: parts[0], author: parts[1].replace('@', ''), permlink: parts[2]};
+  }
+};
