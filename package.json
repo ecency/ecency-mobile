@@ -6,6 +6,8 @@
     "start": "node node_modules/react-native/local-cli/cli.js start",
     "android": "react-native run-android",
     "ios": "react-native run-ios",
+    "fmt": "prettier --config .prettierrc --write 'src/**/*.js*'",
+    "precommit": "lint-staged",
     "test": "jest"
   },
   "dependencies": {
@@ -26,7 +28,10 @@
   "devDependencies": {
     "babel-jest": "23.4.0",
     "babel-preset-react-native": "^5",
+    "husky": "^0.14.3",
     "jest": "23.4.1",
+    "lint-staged": "^7.2.0",
+    "prettier": "^1.14.0",
     "react-test-renderer": "16.4.1"
   },
   "jest": {
@@ -35,6 +40,12 @@
   "rnpm": {
     "assets": [
       "./src/assets/Fonts"
+    ]
+  },
+  "lint-staged": {
+    "src/**/*.js*": [
+      "prettier --write",
+      "git add"
     ]
   }
 }
