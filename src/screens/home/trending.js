@@ -17,7 +17,7 @@ import { getPosts, getAccount } from '../../providers/steem/Dsteem';
 import Placeholder from 'rn-placeholder';
 
 // COMPONENTS
-import PostCard from '../../components/PostCard';
+import PostCard from '../../components/post-card/PostCard';
 
 // SCREENS
 import PostPage from '../../screens/single-post/Post';
@@ -114,16 +114,7 @@ class TrendingPage extends React.Component {
                         showsVerticalScrollIndicator={false}
                         renderItem={({ item }) => (
                             <View style={styles.card}>
-                                <TouchableHighlight
-                                    onPress={() => {
-                                        navigate('Post', { content: item });
-                                    }}
-                                >
-                                    <PostCard
-                                        navigate={navigate}
-                                        content={item}
-                                    />
-                                </TouchableHighlight>
+                                <PostCard navigate={navigate} content={item} />
                             </View>
                         )}
                         keyExtractor={(post, index) => index.toString()}

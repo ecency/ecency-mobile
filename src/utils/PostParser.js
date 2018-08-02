@@ -88,6 +88,35 @@ export const parsePosts = posts => {
     return posts;
 };
 
+export const parsePost = post => {
+    post.json_metadata = JSON.parse(post.json_metadata);
+    post.json_metadata.image ? (post.image = post.json_metadata.image[0]) : '';
+    post.pending_payout_value = parseFloat(post.pending_payout_value).toFixed(
+        2
+    );
+    post.created = moment
+        .utc(post.created)
+        .local()
+        .fromNow();
+    post.vote_count = post.active_votes.length;
+    post.author_reputation = reputation(post.author_reputation);
+    post.avatar = `https://steemitimages.com/u/${post.author}/avatar/small`;
+    post.body = markDown2Html(post.body);
+    post.summary = postSummary(post.body, 100);
+    post.raw_body = post.body;
+    post.active_votes.sort((a, b) => {
+        return b.rshares - a.rshares;
+    });
+    if (post.active_votes.length > 2) {
+        post.top_likers = [
+            post.active_votes[0].voter,
+            post.active_votes[1].voter,
+            post.active_votes[2].voter,
+        ];
+    }
+    return post;
+};
+
 export const protocolUrl2Obj = url => {
     let urlPart = url.split('://')[1];
 

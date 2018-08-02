@@ -28,10 +28,7 @@ import FeedPage from './feed';
 import HotPage from './hot';
 import TrendingPage from './trending';
 
-import ScrollableTabView, {
-    DefaultTabBar,
-    ScrollableTabBar,
-} from 'react-native-scrollable-tab-view';
+import ScrollableTabView from 'react-native-scrollable-tab-view';
 import CustomTabBar from './CustomTabBar';
 
 class HomePage extends React.Component {

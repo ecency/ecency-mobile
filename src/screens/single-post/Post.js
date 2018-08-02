@@ -2,13 +2,17 @@ import React from 'react';
 import { Dimensions, StyleSheet, StatusBar } from 'react-native';
 import {
     Container,
+    CardItem,
+    Thumbnail,
     Content,
     Header,
+    View,
     Left,
     Body,
     Right,
     Button,
     Icon,
+    Text,
     Title,
 } from 'native-base';
 import HTMLView from 'react-native-htmlview';
@@ -79,6 +83,48 @@ class SinglePostPage extends React.Component {
                     </Right>
                 </Header>
                 <Content>
+                    <CardItem style={{ flexDirection: 'row' }}>
+                        <View style={{ flex: 0.2 }}>
+                            <Thumbnail
+                                style={{
+                                    borderWidth: 1,
+                                    borderColor: 'lightgray',
+                                }}
+                                source={{
+                                    uri: this.props.navigation.state.params
+                                        .content.avatar,
+                                }}
+                            />
+                        </View>
+                        <View style={{ flex: 0.4 }}>
+                            <Text>
+                                {
+                                    this.props.navigation.state.params.content
+                                        .author
+                                }
+                            </Text>
+                            <Text note>
+                                #
+                                {
+                                    this.props.navigation.state.params.content
+                                        .category
+                                }
+                            </Text>
+                        </View>
+                        <View style={{ flex: 0.4, alignItems: 'flex-end' }}>
+                            <Text note>
+                                {
+                                    this.props.navigation.state.params.content
+                                        .created
+                                }
+                            </Text>
+                        </View>
+                    </CardItem>
+                    <CardItem>
+                        <Text style={{ fontWeight: 'bold' }}>
+                            {this.props.navigation.state.params.content.title}
+                        </Text>
+                    </CardItem>
                     <HTML
                         html={this.props.navigation.state.params.content.body}
                         staticContentMaxWidth={

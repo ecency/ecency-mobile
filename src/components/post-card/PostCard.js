@@ -72,19 +72,27 @@ class PostCard extends React.Component {
                 </CardItem>
                 <Image
                     source={{ uri: this.props.content.image }}
-                    defaultSource={require('../assets/no_image.png')}
+                    defaultSource={require('../../assets/no_image.png')}
                     style={styles.image}
                 />
-                <CardItem>
-                    <Body>
-                        <Text style={styles.title}>
-                            {this.props.content.title}
-                        </Text>
-                        <Text style={styles.summary}>
-                            {this.props.content.summary}
-                        </Text>
-                    </Body>
-                </CardItem>
+                <TouchableOpacity
+                    onPress={() =>
+                        this.props.navigate('Post', {
+                            content: this.props.content,
+                        })
+                    }
+                >
+                    <CardItem>
+                        <Body>
+                            <Text style={styles.title}>
+                                {this.props.content.title}
+                            </Text>
+                            <Text style={styles.summary}>
+                                {this.props.content.summary}
+                            </Text>
+                        </Body>
+                    </CardItem>
+                </TouchableOpacity>
                 <CardItem>
                     <Left>
                         <TouchableOpacity start style={styles.upvoteButton}>

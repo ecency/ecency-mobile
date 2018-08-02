@@ -10,10 +10,10 @@ import {
 import { createDrawerNavigator, createSwitchNavigator } from 'react-navigation';
 import MaterialIcons from 'react-native-vector-icons/MaterialIcons';
 
-import Tabs from '../../components/Tabs';
-import { LoggedInSideBar } from './LoggedInMenu';
-import { LoggedOutSideBar } from './LoggedOutMenu';
-import LoginPage from '../login/Login';
+import Tabs from './Tabs';
+import { LoggedInSideBar } from '../screens/side-menu/LoggedInMenu';
+import { LoggedOutSideBar } from '../screens/side-menu/LoggedOutMenu';
+import LoginPage from '../screens/login/Login';
 
 const LoggedInMenu = createDrawerNavigator(
     {
