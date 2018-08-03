@@ -51,9 +51,11 @@ class SinglePostPage extends React.Component {
     }
 
     alterNode(node) {
-        if (node.name == 'img' || node.name == 'a') {
-            // console.log(node);
+        if (node.name == 'img') {
+            node.attribs.style = `max-width: ${Dimensions.get('window').width}`;
         } else if (node.name == 'iframe') {
+            node.attribs.style = `max-width: ${Dimensions.get('window').width}`;
+            node.attribs.style = `width: ${Dimensions.get('window').width}`;
             node.attribs.height = 200;
         }
     }

@@ -31,6 +31,23 @@ export const getAccount = user => {
 };
 
 /**
+ * @method getFollows get account data
+ * @param user username
+ */
+export const getFollows = user => {
+    return new Promise((resolve, reject) => {
+        client
+            .call('follow_api', 'get_follow_count', [user])
+            .then(result => {
+                resolve(result);
+            })
+            .catch(err => {
+                reject(err);
+            });
+    });
+};
+
+/**
  * @method getPosts get posts method
  * @param by get discussions by trending, created, active etc.
  * @param query tag, limit, start_author?, start_permalink?

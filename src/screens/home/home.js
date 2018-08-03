@@ -29,7 +29,7 @@ import HotPage from './hot';
 import TrendingPage from './trending';
 
 import ScrollableTabView from 'react-native-scrollable-tab-view';
-import CustomTabBar from './CustomTabBar';
+import CustomTabBar from './FeedTabs';
 
 class HomePage extends React.Component {
     constructor(props) {

@@ -14,8 +14,8 @@ export default {
     },
     drawerImage: {
         position: 'absolute',
-        left: Platform.OS === 'android' ? deviceWidth / 10 : deviceWidth / 30,
-        top: Platform.OS === 'android' ? deviceHeight / 13 : deviceHeight / 15,
+        left: Platform.OS === 'android' ? deviceWidth / 12 : deviceWidth / 30,
+        top: Platform.OS === 'android' ? deviceHeight / 15 : deviceHeight / 15,
         width: 60,
         height: 60,
         resizeMode: 'cover',
@@ -36,8 +36,8 @@ export default {
     },
     info: {
         position: 'absolute',
-        top: Platform.OS === 'android' ? deviceHeight / 13 : deviceHeight / 5.8,
-        left: Platform.OS === 'android' ? deviceWidth / 10 : deviceWidth / 40,
+        top: Platform.OS === 'android' ? deviceHeight / 6 : deviceHeight / 5.8,
+        left: Platform.OS === 'android' ? deviceWidth / 12 : deviceWidth / 40,
     },
     userLabel: {
         fontWeight: 'bold',

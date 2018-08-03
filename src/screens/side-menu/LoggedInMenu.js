@@ -15,9 +15,9 @@ import {
 } from 'native-base';
 import styles from './style';
 
+import FastImage from 'react-native-fast-image';
 import { getAccount } from '../../providers/steem/Dsteem';
 
-const drawerCover = require('../../assets/drawer-cover.png');
 const masterKeyMenuOptions = [
     {
         name: 'Home',
@@ -194,9 +194,14 @@ export class LoggedInSideBar extends Component {
                     bounces={false}
                     style={{ flex: 1, backgroundColor: '#fff', top: -1 }}
                 >
-                    <Image source={drawerCover} style={styles.drawerCover} />
+                    <FastImage
+                        source={{
+                            uri: this.state.json_metadata.cover_image,
+                            priority: FastImage.priority.high,
+                        }}
+                        style={styles.drawerCover}
+                    />
                     <Thumbnail
-                        square
                         style={styles.drawerImage}
                         source={{ uri: this.state.avatar }}
                     />

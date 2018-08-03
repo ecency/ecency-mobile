@@ -18,6 +18,7 @@ import NotificationPage from '../screens/notifications/notification';
 import SinglePostPage from '../screens/single-post/Post';
 import LoginPage from '../screens/login/Login';
 import AuthorPage from '../screens/author-profile/Author';
+import DiscoverPage from '../screens/discover/Discover';
 
 const HomeScreen = ({ navigation }) => <HomePage navigation={navigation} />;
 
@@ -98,6 +99,10 @@ const LoginScreen = ({ navigation }) => <LoginPage navigation={navigation} />;
 
 const AuthorScreen = ({ navigation }) => <AuthorPage navigation={navigation} />;
 
+const DiscoverScreen = ({ navigation }) => (
+    <DiscoverPage navigation={navigation} />
+);
+
 const BottomTabs = createBottomTabNavigator(
     {
         Home: {
@@ -161,6 +166,10 @@ const StacksOverTabs = createStackNavigator(
         Author: {
             screen: AuthorScreen,
             path: '/author',
+        },
+        Discover: {
+            screen: DiscoverScreen,
+            path: 'discover',
         },
     },
     {
