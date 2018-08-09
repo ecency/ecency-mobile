@@ -1,5 +1,5 @@
-import React, { Component } from 'react';
-import { Image, AsyncStorage } from 'react-native';
+import React from 'react';
+/* eslint-disable no-unused-vars */
 import {
     Content,
     Text,
@@ -13,10 +13,13 @@ import {
     Badge,
     Thumbnail,
 } from 'native-base';
+/* eslint-enable no-unused-vars */
 import styles from './style';
 
 import FastImage from 'react-native-fast-image';
 import { getAccount } from '../../providers/steem/Dsteem';
+import { removeUserData } from '../../realm/Realm';
+import RNRestart from 'react-native-restart';
 
 const masterKeyMenuOptions = [
     {
@@ -144,7 +147,7 @@ const postingKeyMenuOptions = [
     },
 ];
 
-export class LoggedInSideBar extends Component {
+export class LoggedInSideBar extends React.Component {
     constructor(props) {
         super(props);
         this.state = {
@@ -157,34 +160,30 @@ export class LoggedInSideBar extends Component {
     }
 
     componentDidMount() {
-        AsyncStorage.getItem('user')
+        getAccount(this.props.navigation.state.params.account)
             .then(result => {
-                let res = JSON.parse(result);
-                if (res.auth_type === 'master_key') {
-                    this.setState({ loginType: 'master_key' });
-                } else {
-                    this.setState({ loginType: 'posting_key' });
-                }
-                getAccount(res.username)
-                    .then(result => {
-                        let json_metadata = JSON.parse(result[0].json_metadata);
-                        this.setState({
-                            user: result[0],
-                            avatar: `https://steemitimages.com/u/${
-                                result[0].name
-                            }/avatar/small`,
-                            json_metadata: json_metadata.profile,
-                        });
-                    })
-                    .catch(err => {});
+                let json_metadata = JSON.parse(result[0].json_metadata);
+                this.setState({
+                    user: result[0],
+                    avatar: `https://steemitimages.com/u/${
+                        result[0].name
+                    }/avatar/small`,
+                    json_metadata: json_metadata.profile,
+                });
             })
-            .catch(err => {});
+            .catch(err => {
+                alert(err);
+            });
     }
 
     Logout = () => {
-        AsyncStorage.clear().then(() => {
-            this.props.navigation.navigate('LoggedOut');
-        });
+        removeUserData()
+            .then(() => {
+                RNRestart.Restart();
+            })
+            .catch(err => {
+                alert(err);
+            });
     };
 
     render() {

@@ -1,3 +1,4 @@
+/* eslint-disable no-unused-vars */
 import React, { Component } from 'react';
 import {
     StyleSheet,
@@ -9,6 +10,7 @@ import {
     Platform,
     Dimensions,
 } from 'react-native';
+/* eslint-enable no-unused-vars */
 
 export default class CustomTabBar extends Component {
     constructor(props) {

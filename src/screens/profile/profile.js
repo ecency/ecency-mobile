@@ -1,5 +1,6 @@
-import * as React from 'react';
-import { StatusBar, Image, Dimensions, AsyncStorage } from 'react-native';
+/* eslint-disable no-unused-vars */
+import React from 'react';
+import { StatusBar, Dimensions } from 'react-native';
 
 import moment from 'moment';
 import FastImage from 'react-native-fast-image';
@@ -7,13 +8,12 @@ import FastImage from 'react-native-fast-image';
 import ScrollableTabView from 'react-native-scrollable-tab-view';
 import CustomTabBar from '../home/FeedTabs';
 import DiscoverPage from '../discover/Discover';
-import { getAccount, getFollows } from '../../providers/steem/Dsteem';
+import { getUser, getFollows } from '../../providers/steem/Dsteem';
 
 import {
     Content,
     Card,
     CardItem,
-    Thumbnail,
     View,
     Header,
     Left,
@@ -24,6 +24,10 @@ import {
     Title,
     Text,
 } from 'native-base';
+
+import { getUserData, getAuthStatus } from '../../realm/Realm';
+import store from '../../redux/store/Store';
+/* eslint-enable no-unused-vars */
 
 class ProfilePage extends React.Component {
     constructor() {
@@ -36,54 +40,35 @@ class ProfilePage extends React.Component {
         };
     }
 
-    async componentWillMount() {
+    async componentDidMount() {
         let isLoggedIn;
-        await AsyncStorage.getItem('isLoggedIn').then(result => {
-            isLoggedIn = JSON.parse(result);
-            if (isLoggedIn == true) {
-                this.setState({
-                    isLoggedIn: true,
-                });
-            } else {
-            }
-        });
-    }
-
-    componentDidMount() {
         let user;
-        let info;
-        let json_metadata;
-        AsyncStorage.getItem('user')
-            .then(result => {
-                if (!result) {
-                    return false;
-                }
-                user = JSON.parse(result);
-            })
-            .then(() => {
-                getAccount(user.username).then(account => {
-                    json_metadata = JSON.parse(account[0].json_metadata);
-                    info = json_metadata.profile;
-                    this.setState({
-                        user: account[0],
-                        about: info,
-                    });
-                });
-            })
-            .then(() => {
-                getFollows(user.username)
-                    .then(result => {
-                        this.setState({
-                            follows: result,
-                        });
-                    })
-                    .catch(err => {
-                        alert(err);
-                    });
-            })
-            .catch(err => {
-                alert(err);
+        let userData;
+        let follows;
+        let about;
+
+        await getAuthStatus().then(res => {
+            isLoggedIn = res;
+        });
+
+        if (isLoggedIn == true) {
+            await getUserData().then(res => {
+                userData = Array.from(res);
             });
+
+            await getFollows(userData[0].username).then(res => {
+                follows = res;
+            });
+
+            user = await getUser(userData[0].username);
+            about = JSON.parse(user.json_metadata);
+            this.setState({
+                user: user,
+                isLoggedIn: isLoggedIn,
+                follows: follows,
+                about: about.profile,
+            });
+        }
     }
 
     render() {

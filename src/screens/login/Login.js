@@ -43,7 +43,9 @@ class LoginPage extends Component {
         Login(username, password)
             .then(result => {
                 if (result === true) {
-                    this.props.navigation.navigate('LoggedIn');
+                    this.props.navigation.navigate('LoggedIn', {
+                        account: this.state.username,
+                    });
                 }
             })
             .catch(err => {

@@ -1,19 +1,16 @@
+/* eslint-disable no-unused-vars */
+/* eslint-disable no-console */
 import React from 'react';
-import {
-    AsyncStorage,
-    StyleSheet,
-    StatusBar,
-    ActivityIndicator,
-    View,
-    Dimensions,
-} from 'react-native';
+import { Dimensions } from 'react-native';
 import { createDrawerNavigator, createSwitchNavigator } from 'react-navigation';
 import MaterialIcons from 'react-native-vector-icons/MaterialIcons';
 
 import Tabs from './Tabs';
+import LoginPage from '../screens/login/Login';
+
 import { LoggedInSideBar } from '../screens/side-menu/LoggedInMenu';
 import { LoggedOutSideBar } from '../screens/side-menu/LoggedOutMenu';
-import LoginPage from '../screens/login/Login';
+import { AuthLoadingScreen } from '../screens/side-menu/AuthLoading';
 
 const LoggedInMenu = createDrawerNavigator(
     {
@@ -46,7 +43,6 @@ const LoggedOutMenu = createDrawerNavigator(
         },
         Login: {
             screen: LoginPage,
-            navigationOptions: ({ navigation }) => ({}),
         },
     },
     {
@@ -55,34 +51,7 @@ const LoggedOutMenu = createDrawerNavigator(
     }
 );
 
-class AuthLoadingScreen extends React.Component {
-    constructor(props) {
-        super(props);
-        this.checkAuth();
-    }
-
-    // Fetch the login state from storage then navigate to our appropriate place
-    checkAuth = async () => {
-        const isLoggedIn = await AsyncStorage.getItem('isLoggedIn');
-
-        // This will switch to the App screen or Auth screen and this loading
-        // screen will be unmounted and thrown away.
-        this.props.navigation.navigate(
-            isLoggedIn === null ? 'LoggedOut' : 'LoggedIn'
-        );
-    };
-
-    // Render any loading content that you like here
-    render() {
-        return (
-            <View style={styles.container}>
-                <ActivityIndicator />
-                <StatusBar barStyle="default" />
-            </View>
-        );
-    }
-}
-export default createSwitchNavigator(
+const SwitchNavigator = createSwitchNavigator(
     {
         AuthLoading: AuthLoadingScreen,
         LoggedIn: LoggedInMenu,
@@ -93,13 +62,14 @@ export default createSwitchNavigator(
     }
 );
 
-const styles = StyleSheet.create({
-    container: {
-        flex: 1,
-        alignItems: 'center',
-        justifyContent: 'center',
-    },
-    text: {
-        fontSize: 32,
-    },
-});
+class Navigator extends React.Component {
+    constructor(props) {
+        super(props);
+    }
+
+    render() {
+        return <SwitchNavigator />;
+    }
+}
+
+export default Navigator;

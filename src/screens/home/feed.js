@@ -3,10 +3,8 @@ import {
     StyleSheet,
     FlatList,
     View,
-    AsyncStorage,
     StatusBar,
     Dimensions,
-    TouchableHighlight,
     ActivityIndicator,
 } from 'react-native';
 import {
@@ -23,7 +21,7 @@ import {
 } from 'native-base';
 
 // STEEM
-import { getPosts, getAccount } from '../../providers/steem/Dsteem';
+import { getPosts } from '../../providers/steem/Dsteem';
 
 // LIBRARIES
 import Placeholder from 'rn-placeholder';
@@ -31,9 +29,7 @@ import Placeholder from 'rn-placeholder';
 // COMPONENTS
 import PostCard from '../../components/post-card/PostCard';
 
-// SCREENS
-import HotPage from './hot';
-import TrendingPage from './trending';
+/* eslint-enable no-unused-vars */
 
 class FeedPage extends React.Component {
     constructor(props) {
@@ -42,45 +38,19 @@ class FeedPage extends React.Component {
         this.state = {
             isReady: false,
             posts: [],
-            user: [],
             start_author: '',
             start_permlink: '',
             refreshing: false,
             loading: false,
-            isLoggedIn: false,
         };
     }
 
-    componentDidMount() {
-        AsyncStorage.getItem('isLoggedIn').then(result => {
-            let res = JSON.parse(result);
-            if (res) {
-                this.setState(
-                    {
-                        isLoggedIn: true,
-                    },
-                    () => {
-                        AsyncStorage.getItem('user').then(result => {
-                            let user = JSON.parse(result);
-                            getAccount(user.username).then(result => {
-                                this.setState(
-                                    {
-                                        user: result[0],
-                                    },
-                                    () => {
-                                        this.getFeed();
-                                    }
-                                );
-                            });
-                        });
-                    }
-                );
-            }
-        });
+    componentWillMount() {
+        this.getFeed();
     }
 
     getFeed = () => {
-        getPosts('feed', { tag: this.state.user.name, limit: 5 })
+        getPosts('feed', { tag: this.props.user.name, limit: 5 })
             .then(result => {
                 this.setState({
                     isReady: true,
@@ -98,7 +68,7 @@ class FeedPage extends React.Component {
     getMore = () => {
         this.setState({ loading: true });
         getPosts('feed', {
-            tag: this.state.user.name,
+            tag: this.props.user.name,
             limit: 10,
             start_author: this.state.start_author,
             start_permlink: this.state.start_permlink,
@@ -142,7 +112,6 @@ class FeedPage extends React.Component {
     };
 
     render() {
-        const navigate = this.props.navigation;
         return (
             <View style={{ flex: 1 }}>
                 {this.state.isReady ? (
@@ -152,7 +121,10 @@ class FeedPage extends React.Component {
                         showsVerticalScrollIndicator={false}
                         renderItem={({ item }) => (
                             <View style={styles.card}>
-                                <PostCard navigate={navigate} content={item} />
+                                <PostCard
+                                    navigation={this.props.navigation}
+                                    content={item}
+                                />
                             </View>
                         )}
                         keyExtractor={(post, index) => index.toString()}

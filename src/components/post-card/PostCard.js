@@ -1,8 +1,8 @@
-import React, { Component } from 'react';
+/* eslint-disable no-unused-vars */
+import React from 'react';
 import { StyleSheet, Image, TouchableOpacity } from 'react-native';
 
 import {
-    Button,
     Card,
     CardItem,
     Left,
@@ -12,9 +12,8 @@ import {
     Icon,
     Body,
     Text,
-    Container,
-    Content,
 } from 'native-base';
+/* eslint-enable no-unused-vars */
 
 class PostCard extends React.Component {
     constructor(props) {
@@ -34,7 +33,7 @@ class PostCard extends React.Component {
                     <Left>
                         <TouchableOpacity
                             onPress={() =>
-                                this.props.navigate('Author', {
+                                this.props.navigation.push('Author', {
                                     author: this.props.content.author,
                                 })
                             }
@@ -77,7 +76,7 @@ class PostCard extends React.Component {
                 />
                 <TouchableOpacity
                     onPress={() =>
-                        this.props.navigate('Post', {
+                        this.props.navigation.push('Post', {
                             content: this.props.content,
                         })
                     }

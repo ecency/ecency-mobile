@@ -1,17 +1,9 @@
 import React from 'react';
-import {
-    StyleSheet,
-    FlatList,
-    View,
-    AsyncStorage,
-    StatusBar,
-    Dimensions,
-    TouchableHighlight,
-    ActivityIndicator,
-} from 'react-native';
+/* eslint-disable no-unused-vars */
+import { StyleSheet, FlatList, View, ActivityIndicator } from 'react-native';
 
 // STEEM
-import { getPosts, getAccount } from '../../providers/steem/Dsteem';
+import { getPosts } from '../../providers/steem/Dsteem';
 
 // LIBRARIES
 import Placeholder from 'rn-placeholder';
@@ -21,6 +13,7 @@ import PostCard from '../../components/post-card/PostCard';
 
 // SCREENS
 import PostPage from '../../screens/single-post/Post';
+/* eslint-enable no-unused-vars */
 
 class TrendingPage extends React.Component {
     constructor(props) {
@@ -105,7 +98,6 @@ class TrendingPage extends React.Component {
     };
 
     render() {
-        const navigate = this.props.navigation;
         return (
             <View style={{ flex: 1 }}>
                 {this.state.isReady ? (
@@ -114,7 +106,10 @@ class TrendingPage extends React.Component {
                         showsVerticalScrollIndicator={false}
                         renderItem={({ item }) => (
                             <View style={styles.card}>
-                                <PostCard navigate={navigate} content={item} />
+                                <PostCard
+                                    navigation={this.props.navigation}
+                                    content={item}
+                                />
                             </View>
                         )}
                         keyExtractor={(post, index) => index.toString()}

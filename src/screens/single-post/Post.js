@@ -67,7 +67,7 @@ class SinglePostPage extends React.Component {
                     <Left>
                         <Button
                             transparent
-                            onPress={() => this.props.navigation.goBack()}
+                            onPress={() => this.props.navigation.pop()}
                         >
                             <Icon name="arrow-back" />
                         </Button>
@@ -139,7 +139,7 @@ class SinglePostPage extends React.Component {
                         textSelectable={true}
                         tagsStyles={styles}
                         ignoredTags={['script']}
-                        debug={true}
+                        debug={false}
                         alterNode={node => {
                             this.alterNode(node);
                         }}

@@ -4,12 +4,15 @@ import {
 } from 'react-navigation';
 
 import React from 'react';
-import { StyleSheet, Dimensions, Text } from 'react-native';
+import { StyleSheet } from 'react-native';
 
+// ICONS
 import Ionicons from 'react-native-vector-icons/Ionicons';
 import Entypo from 'react-native-vector-icons/Entypo';
+import FontAwesome from 'react-native-vector-icons/FontAwesome';
 import MaterialCommunityIcons from 'react-native-vector-icons/MaterialCommunityIcons';
 
+// PAGES
 import EditorPage from '../screens/editor/editor';
 import ProfilePage from '../screens/profile/profile';
 import HomePage from '../screens/home/home';
@@ -86,7 +89,7 @@ NotificationScreen.navigationOptions = {
         <Ionicons
             name={focused ? 'ios-notifications' : 'ios-notifications'}
             size={26}
-            style={{ color: tintColor }}
+            style={{ color: tintColor, alignSelf: 'center' }}
         />
     ),
 };
@@ -127,6 +130,7 @@ const BottomTabs = createBottomTabNavigator(
         },
     },
     {
+        lazy: false,
         tabBarOptions: {
             activeTintColor: '#373c3f',
             inactiveTintColor: '#AFB1B3',
@@ -169,7 +173,7 @@ const StacksOverTabs = createStackNavigator(
         },
         Discover: {
             screen: DiscoverScreen,
-            path: 'discover',
+            path: '/discover',
         },
     },
     {
@@ -178,6 +182,9 @@ const StacksOverTabs = createStackNavigator(
 );
 
 class Tabs extends React.Component {
+    constructor(props) {
+        super(props);
+    }
     static router = StacksOverTabs.router;
     _s0;
     _s1;

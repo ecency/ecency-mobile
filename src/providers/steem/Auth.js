@@ -1,6 +1,8 @@
 import * as dsteem from 'dsteem';
 import { getAccount } from './Dsteem';
-import { AsyncStorage } from 'react-native';
+import { setUserData, setAuthStatus } from '../../realm/Realm';
+/*eslint-disable-next-line no-unused-vars*/
+import { encryptKey, decryptKey } from '../../utils/Crypto';
 
 export const Login = (username, password) => {
     let account;
@@ -8,8 +10,10 @@ export const Login = (username, password) => {
     let privateKeys;
     let isPassword;
     let isPostingKey;
+    let pinCode = 'pinCode';
 
     return new Promise((resolve, reject) => {
+        // Get user account data from STEEM Blockchain
         getAccount(username)
             .then(result => {
                 if (result.length < 1) {
@@ -56,7 +60,10 @@ export const Login = (username, password) => {
                 }
             })
             .then(() => {
+                // Validate Pasword/Key
                 try {
+                    // Validate Master Key
+                    /*eslint-disable no-mixed-spaces-and-tabs*/
                     isPassword =
                         dsteem.PrivateKey.fromLogin(
                             username,
@@ -67,52 +74,82 @@ export const Login = (username, password) => {
                             .toString() === publicKeys.posting.toString();
 
                     if (isPassword) {
-                        let authType = {
+                        /**
+                         * User data
+                         * TODO: Encryption
+                         */
+                        let userData = {
                             username: username,
-                            auth_type: 'master_key',
-                            posting_key: privateKeys.posting,
-                            active_key: privateKeys.active,
-                            memo_key: privateKeys.memo,
-                            owner_key: privateKeys.owner,
+                            authType: 'masterKey',
+                            masterKey: encryptKey(password, pinCode),
+                            postingKey: encryptKey(
+                                privateKeys.posting,
+                                pinCode
+                            ),
+                            activeKey: encryptKey(privateKeys.active, pinCode),
+                            memoKey: encryptKey(privateKeys.memo, pinCode),
+                        };
+                        let authData = {
+                            isLoggedIn: true,
                         };
 
-                        AsyncStorage.setItem('isLoggedIn', 'true', () => {
-                            AsyncStorage.setItem(
-                                'user',
-                                JSON.stringify(authType),
-                                () => {
-                                    resolve(isPassword);
-                                }
-                            );
-                        });
+                        // Set auth state to true
+                        setAuthStatus(authData)
+                            .then(() => {
+                                // Save user data to Realm DB
+                                setUserData(userData)
+                                    .then(() => {
+                                        resolve(isPassword);
+                                    })
+                                    .catch(err => {
+                                        reject(err);
+                                    });
+                            })
+                            .catch(err => {
+                                reject(err);
+                            });
                     } else {
+                        // Validate Posting Key
                         isPostingKey =
                             publicKeys.posting.toString() ===
                             dsteem.PrivateKey.fromString(password)
                                 .createPublic()
                                 .toString();
 
-                        let authType = {
+                        /**
+                         * User data
+                         * TODO: Encryption
+                         */
+                        let userData = {
                             username: username,
-                            auth_type: 'posting_key',
-                            posting_key: password,
+                            authType: 'postingKey',
+                            postingKey: privateKeys.posting,
+                            masterKey: '',
+                            activeKey: '',
+                            memoKey: '',
+                        };
+
+                        let authData = {
+                            isLoggedIn: true,
                         };
 
                         try {
                             if (isPostingKey) {
-                                AsyncStorage.setItem(
-                                    'isLoggedIn',
-                                    'true',
-                                    () => {
-                                        AsyncStorage.setItem(
-                                            'user',
-                                            JSON.stringify(authType),
-                                            () => {
+                                // Set auth state to true
+                                setAuthStatus(authData)
+                                    .then(() => {
+                                        // Save user data to Realm DB
+                                        setUserData(userData)
+                                            .then(() => {
                                                 resolve(isPostingKey);
-                                            }
-                                        );
-                                    }
-                                );
+                                            })
+                                            .catch(err => {
+                                                reject(err);
+                                            });
+                                    })
+                                    .catch(err => {
+                                        reject(err);
+                                    });
                             } else {
                                 reject(new Error('Wrong Key/Password'));
                             }
@@ -125,6 +162,8 @@ export const Login = (username, password) => {
                 }
             })
             .catch(err => {
+                // eslint-disable-next-line
+                console.log(err);
                 reject(new Error('Check your username'));
             });
     });

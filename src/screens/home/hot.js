@@ -1,17 +1,15 @@
+/* eslint-disable no-unused-vars */
 import React from 'react';
 import {
     StyleSheet,
     FlatList,
     View,
     StatusBar,
-    Dimensions,
-    TouchableHighlight,
     ActivityIndicator,
 } from 'react-native';
-import { Container } from 'native-base';
 
 // STEEM
-import { getPosts, getAccount } from '../../providers/steem/Dsteem';
+import { getPosts } from '../../providers/steem/Dsteem';
 
 // LIBRARIES
 import Placeholder from 'rn-placeholder';
@@ -21,6 +19,7 @@ import PostCard from '../../components/post-card/PostCard';
 
 // SCREENS
 import PostPage from '../../screens/single-post/Post';
+/* eslint-enable no-unused-vars */
 
 class HotPage extends React.Component {
     constructor(props) {
@@ -104,7 +103,6 @@ class HotPage extends React.Component {
     };
 
     render() {
-        const navigate = this.props.navigation;
         return (
             <View style={{ flex: 1 }}>
                 {this.state.isReady ? (
@@ -114,7 +112,10 @@ class HotPage extends React.Component {
                         showsVerticalScrollIndicator={false}
                         renderItem={({ item }) => (
                             <View style={styles.card}>
-                                <PostCard navigate={navigate} content={item} />
+                                <PostCard
+                                    navigation={this.props.navigation}
+                                    content={item}
+                                />
                             </View>
                         )}
                         keyExtractor={(post, index) => index.toString()}
@@ -189,7 +190,7 @@ const styles = StyleSheet.create({
         marginTop: 10,
         marginBottom: 0,
         borderWidth: 1,
-        borderColor: '#e2e5e8',
+        borderColor: '#e7eaec',
         borderRadius: 5,
         paddingHorizontal: 0,
         paddingVertical: 0,

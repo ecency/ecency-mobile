@@ -7,6 +7,7 @@ const md = new Remarkable({ html: true, breaks: true, linkify: true });
 
 export const replaceAuthorNames = input => {
     return input.replace(
+        /* eslint-disable-next-line */
         /(^|[^a-zA-Z0-9_!#$%&*@＠\/]|(^|[^a-zA-Z0-9_+~.-\/]))[@＠]([a-z][-\.a-z\d]+[a-z\d])/gi,
         (match, preceeding1, preceeding2, user) => {
             const userLower = user.toLowerCase();
@@ -44,11 +45,13 @@ export const markDown2Html = input => {
 
     output = md.render(output);
 
+    /* eslint-disable */
     const imgRegex = /(https?:\/\/.*\.(?:tiff?|jpe?g|gif|png|svg|ico))/gim;
     const postRegex = /^https?:\/\/(.*)\/(.*)\/(@[\w\.\d-]+)\/(.*)/i;
     const youTubeRegex = /(?:https?:\/\/)?(?:www\.)?(?:youtube\.com\/watch\?v=|youtu\.be\/)([^& \n<]+)(?:[^ \n<]+)?/g;
     const vimeoRegex = /(https?:\/\/)?(www\.)?(?:vimeo)\.com.*(?:videos|video|channels|)\/([\d]+)/i;
     const dTubeRegex = /(https?:\/\/d.tube.#!\/v\/)(\w+)\/(\w+)/g;
+    /* eslint-enable */
 
     // TODO: Implement Regex
 
@@ -128,12 +131,12 @@ export const protocolUrl2Obj = url => {
     const parts = urlPart.split('/');
 
     // filter
-    if (parts.length === 1 && filters.includes(parts[0])) {
-        return { type: 'filter', filter: parts[0] };
+    if (parts.length === 1) {
+        return { type: 'filter' };
     }
 
     // filter with tag
-    if (parts.length === 2 && filters.includes(parts[0])) {
+    if (parts.length === 2) {
         return { type: 'filter-tag', filter: parts[0], tag: parts[1] };
     }
 

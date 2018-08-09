@@ -1,27 +1,25 @@
+/* eslint-disable no-unused-vars */
+/* eslint-disable no-console */
 import React from 'react';
-import {
-    StyleSheet,
-    View,
-    AsyncStorage,
-    StatusBar,
-    Dimensions,
-} from 'react-native';
+import { StyleSheet, View, StatusBar, Dimensions } from 'react-native';
 import {
     Container,
     Header,
     Button,
     Left,
-    Thumbnail,
     Right,
     Text,
-    Tabs,
-    Tab,
     Icon,
-    ScrollableTab,
 } from 'native-base';
+import FastImage from 'react-native-fast-image';
+
+// REDUX
+import { connect } from 'react-redux';
+import { fetchAccount } from '../../redux/actions/userActions';
+import store from '../../redux/store/Store';
 
 // STEEM
-import { getAccount } from '../../providers/steem/Dsteem';
+import { getUserData, getAuthStatus } from '../../realm/Realm';
 
 // SCREENS
 import FeedPage from './feed';
@@ -30,45 +28,54 @@ import TrendingPage from './trending';
 
 import ScrollableTabView from 'react-native-scrollable-tab-view';
 import CustomTabBar from './FeedTabs';
+import Placeholder from 'rn-placeholder';
+
+/* eslint-enable no-unused-vars */
 
 class HomePage extends React.Component {
     constructor(props) {
         super(props);
 
         this.state = {
-            user: [],
+            user: {
+                name: 'null',
+            },
             isLoggedIn: false,
+            isLoading: true,
         };
     }
 
-    componentDidMount() {
-        AsyncStorage.getItem('isLoggedIn').then(result => {
-            let res = JSON.parse(result);
-            if (res) {
-                this.setState(
-                    {
-                        isLoggedIn: true,
-                    },
-                    () => {
-                        AsyncStorage.getItem('user').then(result => {
-                            let user = JSON.parse(result);
-                            getAccount(user.username).then(result => {
-                                this.setState(
-                                    {
-                                        user: result[0],
-                                    },
-                                    () => {}
-                                );
-                            });
-                        });
-                    }
-                );
-            }
+    async componentWillMount() {
+        let user;
+        let userData;
+        let isLoggedIn;
+
+        await getAuthStatus().then(res => {
+            isLoggedIn = res;
         });
+
+        if (isLoggedIn == true) {
+            await getUserData().then(res => {
+                user = Array.from(res);
+                this.props.fetchAccount(user[0].username);
+                store.subscribe(() => {
+                    userData = store.getState();
+                    console.log(userData.account.data);
+                    this.setState({
+                        user: userData.account.data,
+                        isLoggedIn: isLoggedIn,
+                        isLoading: false,
+                    });
+                });
+            });
+        } else {
+            await this.setState({
+                isLoading: false,
+            });
+        }
     }
 
     render() {
-        const { navigate } = this.props.navigation;
         return (
             <Container style={{ flex: 1, top: StatusBar.currentHeight }}>
                 <StatusBar translucent={true} backgroundColor={'transparent'} />
@@ -86,7 +93,7 @@ class HomePage extends React.Component {
                             style={{ zIndex: 2 }}
                             onPress={() => this.props.navigation.toggleDrawer()}
                         >
-                            <Thumbnail
+                            <FastImage
                                 square
                                 small
                                 source={{
@@ -142,26 +149,67 @@ class HomePage extends React.Component {
                             minWidth: Dimensions.get('window').width / 1,
                         }}
                     >
-                        {this.state.isLoggedIn ? (
-                            <FeedPage navigation={navigate} />
+                        {this.state.isLoading ? (
+                            <View>
+                                <View style={styles.placeholder}>
+                                    <Placeholder.ImageContent
+                                        size={60}
+                                        animate="fade"
+                                        lineNumber={4}
+                                        lineSpacing={5}
+                                        lastLineWidth="30%"
+                                        onReady={this.state.isReady}
+                                    />
+                                </View>
+                                <View style={styles.placeholder}>
+                                    <Placeholder.ImageContent
+                                        size={60}
+                                        animate="fade"
+                                        lineNumber={4}
+                                        lineSpacing={5}
+                                        lastLineWidth="30%"
+                                        onReady={this.state.isReady}
+                                    />
+                                </View>
+                                <View style={styles.placeholder}>
+                                    <Placeholder.ImageContent
+                                        size={60}
+                                        animate="fade"
+                                        lineNumber={4}
+                                        lineSpacing={5}
+                                        lastLineWidth="30%"
+                                        onReady={this.state.isReady}
+                                    />
+                                </View>
+                            </View>
                         ) : (
                             <View style={{ alignItems: 'center' }}>
-                                <Button
-                                    light
-                                    onPress={() =>
-                                        this.props.navigation.navigate('Login')
-                                    }
-                                    style={{
-                                        alignSelf: 'center',
-                                        marginTop: 100,
-                                    }}
-                                >
-                                    <Text>
-                                        Login to setup your custom Feed!
-                                    </Text>
-                                </Button>
+                                {this.state.isLoggedIn ? null : (
+                                    <Button
+                                        light
+                                        onPress={() =>
+                                            this.props.navigation.navigate(
+                                                'Login'
+                                            )
+                                        }
+                                        style={{
+                                            alignSelf: 'center',
+                                            marginTop: 100,
+                                        }}
+                                    >
+                                        <Text>
+                                            Login to setup your custom Feed!
+                                        </Text>
+                                    </Button>
+                                )}
                             </View>
                         )}
+                        {this.state.isLoggedIn ? (
+                            <FeedPage
+                                navigation={this.props.navigation}
+                                user={this.state.user}
+                            />
+                        ) : null}
                     </View>
                     <View
                         tabLabel="Hot"
@@ -172,7 +220,10 @@ class HomePage extends React.Component {
                             minWidth: Dimensions.get('window').width / 1,
                         }}
                     >
-                        <HotPage navigation={navigate} />
+                        <HotPage
+                            navigation={this.props.navigation}
+                            account={this.props.account}
+                        />
                     </View>
                     <View
                         tabLabel="Trending"
@@ -183,7 +234,7 @@ class HomePage extends React.Component {
                             minWidth: Dimensions.get('window').width / 1,
                         }}
                     >
-                        <TrendingPage navigation={navigate} />
+                        <TrendingPage navigation={this.props.navigation} />
                     </View>
                 </ScrollableTabView>
             </Container>
@@ -191,6 +242,7 @@ class HomePage extends React.Component {
     }
 }
 
+/* eslint-disable no-unused-vars */
 const styles = StyleSheet.create({
     container: {
         backgroundColor: '#F9F9F9',
@@ -199,6 +251,27 @@ const styles = StyleSheet.create({
     tabs: {
         flex: 1,
     },
+    placeholder: {
+        backgroundColor: 'white',
+        padding: 20,
+        borderStyle: 'solid',
+        borderWidth: 1,
+        borderTopWidth: 1,
+        borderColor: '#e2e5e8',
+        borderRadius: 0,
+        marginRight: 0,
+        marginLeft: 0,
+        marginTop: 10,
+    },
 });
 
-export default HomePage;
+function mapStateToProps(state) {
+    return {
+        account: state.account,
+    };
+}
+
+export default connect(
+    mapStateToProps,
+    { fetchAccount }
+)(HomePage);

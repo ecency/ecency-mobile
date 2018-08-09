@@ -11,6 +11,7 @@
     "test": "jest"
   },
   "dependencies": {
+    "crypto-js": "^3.1.9-1",
     "dsteem": "^0.9.0",
     "moment": "^2.22.2",
     "native-base": "^2.7.2",
@@ -20,24 +21,36 @@
     "react-native-fast-image": "^4.0.14",
     "react-native-htmlview": "^0.12.1",
     "react-native-render-html": "^3.10.0",
+    "react-native-restart": "0.0.6",
     "react-native-scrollable-tab-view": "^0.8.0",
     "react-native-vector-icons": "^4.6.0",
     "react-navigation": "^2.8.0",
     "react-redux": "^5.0.7",
+    "realm": "^2.14.0",
     "redux": "^4.0.0",
-    "redux-logger": "^3.0.6",
+    "redux-promise": "^0.6.0",
     "redux-thunk": "^2.3.0",
     "remarkable": "^1.7.1",
     "rn-placeholder": "^1.2.0"
   },
   "devDependencies": {
+    "babel-eslint": "^8.2.6",
     "babel-jest": "23.4.0",
     "babel-preset-react-native": "^5",
+    "eslint": "^5.3.0",
+    "eslint-config-standard": "^11.0.0",
+    "eslint-plugin-import": "^2.13.0",
+    "eslint-plugin-node": "^7.0.1",
+    "eslint-plugin-promise": "^3.8.0",
+    "eslint-plugin-react": "^7.10.0",
+    "eslint-plugin-standard": "^3.1.0",
     "husky": "^0.14.3",
     "jest": "23.4.1",
     "lint-staged": "^7.2.0",
     "prettier": "^1.14.0",
-    "react-test-renderer": "16.4.1"
+    "react-test-renderer": "16.4.1",
+    "redux-devtools-extension": "^2.13.5",
+    "redux-logger": "^3.0.6"
   },
   "jest": {
     "preset": "react-native"
