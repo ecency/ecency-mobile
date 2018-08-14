@@ -25,7 +25,7 @@
     "react-native-htmlview": "^0.12.1",
     "react-native-render-html": "^3.10.0",
     "react-native-restart": "0.0.6",
-    "react-native-scrollable-tab-view": "^0.8.0",
+    "react-native-scrollable-tab-view": "git+https://github.com/happypancake/react-native-scrollable-tab-view.git",
     "react-native-theming": "^1.0.16",
     "react-native-vector-icons": "^4.6.0",
     "react-navigation": "^2.8.0",
