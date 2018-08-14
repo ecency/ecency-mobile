@@ -21,6 +21,12 @@ import CustomTabBar from '../home/FeedTabs';
 import moment from 'moment';
 import FastImage from 'react-native-fast-image';
 
+import Theme, { createThemedComponent } from 'react-native-theming';
+import styles from '../../styles/author.styles';
+import themes from '../../styles/themes';
+
+const Bar = createThemedComponent(StatusBar, ['barStyle', 'backgroundColor']);
+
 class AuthorPage extends React.Component {
     constructor(props) {
         super(props);
@@ -33,6 +39,9 @@ class AuthorPage extends React.Component {
     }
 
     componentDidMount() {
+        /*for (var i = 0; i < themes.length; i++) {
+            themes[i].name == 'Light'?themes[0].apply():'';
+        }*/
         let info;
         let json_metadata;
         getAccount(this.props.navigation.state.params.author)
@@ -49,7 +58,7 @@ class AuthorPage extends React.Component {
 
     render() {
         return (
-            <Container style={{ top: StatusBar.currentHeight }}>
+            <Container style={styles.container}>
                 <Header>
                     <Left>
                         <Button
@@ -73,64 +82,24 @@ class AuthorPage extends React.Component {
                 </Header>
 
                 <Content>
-                    <View style={{ flex: 1 }}>
-                        <Header
-                            style={{
-                                backgroundColor: 'transparent',
-                                position: 'absolute',
-                                top: StatusBar.currentHeight,
-                            }}
-                        >
-                            <Left>
-                                <Button transparent>
-                                    <Icon name="menu" />
-                                </Button>
-                            </Left>
-                            <Body>
-                                <Title>{this.state.author.name}</Title>
-                            </Body>
-                            <Right>
-                                <Button transparent>
-                                    <Icon name="search" />
-                                </Button>
-                                <Button transparent>
-                                    <Icon name="heart" />
-                                </Button>
-                                <Button transparent>
-                                    <Icon name="more" />
-                                </Button>
-                            </Right>
-                        </Header>
-                        <Content
-                            style={{ flex: 1, backgroundColor: '#f9f9f9' }}
-                        >
+                    <View style={styles.view}>
+                        <Content style={styles.content}>
                             <FastImage
-                                style={{
-                                    width: Dimensions.get('window').width,
-                                    height: 160,
-                                }}
+                                style={styles.coverImage}
                                 source={{
                                     uri: this.state.about.cover_image,
                                     priority: FastImage.priority.high,
                                 }}
                             />
                             <FastImage
-                                style={{
-                                    width: 100,
-                                    height: 100,
-                                    borderRadius: 50,
-                                    top: -50,
-                                    borderWidth: 1,
-                                    borderColor: 'white',
-                                    alignSelf: 'center',
-                                }}
+                                style={styles.profileImage}
                                 source={{
                                     uri: this.state.about.profile_image,
                                     priority: FastImage.priority.high,
                                 }}
                             />
-                            <Body style={{ top: -40 }}>
-                                <Text style={{ fontWeight: 'bold' }}>
+                            <Body style={styles.accountNameBody}>
+                                <Text style={styles.accountNameText}>
                                     {this.state.author.name}
                                 </Text>
                                 <Text>{this.state.about.about}</Text>
