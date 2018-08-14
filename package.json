@@ -11,6 +11,9 @@
     "test": "jest"
   },
   "dependencies": {
+    "appcenter": "^1.7.1",
+    "appcenter-analytics": "^1.7.1",
+    "appcenter-crashes": "^1.7.1",
     "crypto-js": "^3.1.9-1",
     "dsteem": "^0.9.0",
     "moment": "^2.22.2",
@@ -21,7 +24,6 @@
     "react-native-fast-image": "^4.0.14",
     "react-native-htmlview": "^0.12.1",
     "react-native-render-html": "^3.10.0",
-    "react-native-restart": "0.0.6",
     "react-native-scrollable-tab-view": "^0.8.0",
     "react-native-theming": "^1.0.16",
     "react-native-vector-icons": "^4.6.0",
@@ -54,7 +56,12 @@
     "redux-logger": "^3.0.6"
   },
   "jest": {
-    "preset": "react-native"
+    "preset": "react-native",
+    "setupFiles": [
+      "<rootDir>/node_modules/appcenter/test/AppCenterMock.js",
+      "<rootDir>/node_modules/appcenter-analytics/test/AppCenterAnalyticsMock.js",
+      "<rootDir>/node_modules/appcenter-crashes/test/AppCenterCrashesMock.js"
+    ]
   },
   "rnpm": {
     "assets": [
