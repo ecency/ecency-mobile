@@ -1,7 +1,7 @@
 /* eslint-disable no-unused-vars */
 /* eslint-disable no-console */
-import React from 'react';
-import { StyleSheet, View, StatusBar, Dimensions } from 'react-native';
+import React from "react";
+import { StyleSheet, View, StatusBar, Dimensions } from "react-native";
 import {
     Container,
     Header,
@@ -10,25 +10,25 @@ import {
     Right,
     Text,
     Icon,
-} from 'native-base';
-import FastImage from 'react-native-fast-image';
+} from "native-base";
+import FastImage from "react-native-fast-image";
 
 // REDUX
-import { connect } from 'react-redux';
-import { fetchAccount } from '../../redux/actions/userActions';
-import store from '../../redux/store/Store';
+import { connect } from "react-redux";
+import { fetchAccount } from "../../redux/actions/userActions";
+import store from "../../redux/store/Store";
 
 // STEEM
-import { getUserData, getAuthStatus } from '../../realm/Realm';
+import { getUserData, getAuthStatus } from "../../realm/Realm";
 
 // SCREENS
-import FeedPage from './feed';
-import HotPage from './hot';
-import TrendingPage from './trending';
+import FeedPage from "./feed";
+import HotPage from "./hot";
+import TrendingPage from "./trending";
 
-import ScrollableTabView from 'react-native-scrollable-tab-view';
-import CustomTabBar from './FeedTabs';
-import Placeholder from 'rn-placeholder';
+import ScrollableTabView from "react-native-scrollable-tab-view";
+import CustomTabBar from "./FeedTabs";
+import Placeholder from "rn-placeholder";
 
 /* eslint-enable no-unused-vars */
 
@@ -38,7 +38,7 @@ class HomePage extends React.Component {
 
         this.state = {
             user: {
-                name: 'null',
+                name: "null",
             },
             isLoggedIn: false,
             isLoading: true,
@@ -78,13 +78,13 @@ class HomePage extends React.Component {
     render() {
         return (
             <Container style={{ flex: 1, top: StatusBar.currentHeight }}>
-                <StatusBar translucent={true} backgroundColor={'transparent'} />
+                <StatusBar translucent={true} backgroundColor={"transparent"} />
                 <Header
                     noShadow
                     style={{
-                        backgroundColor: '#284b78',
+                        backgroundColor: "#284b78",
                         borderBottomWidth: 0,
-                        borderColor: '#284b78',
+                        borderColor: "#284b78",
                     }}
                 >
                     <Left>
@@ -106,7 +106,7 @@ class HomePage extends React.Component {
                                     height: 30,
                                     borderRadius: 15,
                                     borderWidth: 1,
-                                    borderColor: 'white',
+                                    borderColor: "white",
                                 }}
                             />
                         </Button>
@@ -114,7 +114,7 @@ class HomePage extends React.Component {
                     <Right>
                         <Button transparent>
                             <Icon
-                                style={{ color: 'white', fontWeight: 'bold' }}
+                                style={{ color: "white", fontWeight: "bold" }}
                                 name="search"
                             />
                         </Button>
@@ -123,20 +123,20 @@ class HomePage extends React.Component {
 
                 <ScrollableTabView
                     style={{
-                        alignSelf: 'center',
-                        backgroundColor: 'transparent',
+                        alignSelf: "center",
+                        backgroundColor: "transparent",
                     }}
                     renderTabBar={() => (
                         <CustomTabBar
                             style={{
-                                alignSelf: 'center',
+                                alignSelf: "center",
                                 height: 40,
-                                backgroundColor: '#284b78',
+                                backgroundColor: "#284b78",
                             }}
                             tabUnderlineDefaultWidth={30} // default containerWidth / (numberOfTabs * 4)
                             tabUnderlineScaleX={3} // default 3
-                            activeColor={'#fff'}
-                            inactiveColor={'#fff'}
+                            activeColor={"#fff"}
+                            inactiveColor={"#fff"}
                         />
                     )}
                 >
@@ -144,9 +144,9 @@ class HomePage extends React.Component {
                         tabLabel="Feed"
                         style={{
                             paddingHorizontal: 7,
-                            backgroundColor: '#f9f9f9',
+                            backgroundColor: "#f9f9f9",
                             flex: 1,
-                            minWidth: Dimensions.get('window').width / 1,
+                            minWidth: Dimensions.get("window").width / 1,
                         }}
                     >
                         {this.state.isLoading ? (
@@ -183,17 +183,17 @@ class HomePage extends React.Component {
                                 </View>
                             </View>
                         ) : (
-                            <View style={{ alignItems: 'center' }}>
+                            <View style={{ alignItems: "center" }}>
                                 {this.state.isLoggedIn ? null : (
                                     <Button
                                         light
                                         onPress={() =>
                                             this.props.navigation.navigate(
-                                                'Login'
+                                                "Login"
                                             )
                                         }
                                         style={{
-                                            alignSelf: 'center',
+                                            alignSelf: "center",
                                             marginTop: 100,
                                         }}
                                     >
@@ -208,6 +208,7 @@ class HomePage extends React.Component {
                             <FeedPage
                                 navigation={this.props.navigation}
                                 user={this.state.user}
+                                isLoggedIn={this.state.isLoggedIn}
                             />
                         ) : null}
                     </View>
@@ -215,26 +216,31 @@ class HomePage extends React.Component {
                         tabLabel="Hot"
                         style={{
                             paddingHorizontal: 7,
-                            backgroundColor: '#f9f9f9',
+                            backgroundColor: "#f9f9f9",
                             flex: 1,
-                            minWidth: Dimensions.get('window').width / 1,
+                            minWidth: Dimensions.get("window").width / 1,
                         }}
                     >
                         <HotPage
                             navigation={this.props.navigation}
-                            account={this.props.account}
+                            user={this.state.user}
+                            isLoggedIn={this.state.isLoggedIn}
                         />
                     </View>
                     <View
                         tabLabel="Trending"
                         style={{
                             paddingHorizontal: 7,
-                            backgroundColor: '#f9f9f9',
+                            backgroundColor: "#f9f9f9",
                             flex: 1,
-                            minWidth: Dimensions.get('window').width / 1,
+                            minWidth: Dimensions.get("window").width / 1,
                         }}
                     >
-                        <TrendingPage navigation={this.props.navigation} />
+                        <TrendingPage
+                            navigation={this.props.navigation}
+                            user={this.state.user}
+                            isLoggedIn={this.state.isLoggedIn}
+                        />
                     </View>
                 </ScrollableTabView>
             </Container>
@@ -245,20 +251,20 @@ class HomePage extends React.Component {
 /* eslint-disable no-unused-vars */
 const styles = StyleSheet.create({
     container: {
-        backgroundColor: '#F9F9F9',
+        backgroundColor: "#F9F9F9",
         flex: 1,
     },
     tabs: {
         flex: 1,
     },
     placeholder: {
-        backgroundColor: 'white',
+        backgroundColor: "white",
         padding: 20,
-        borderStyle: 'solid',
+        borderStyle: "solid",
         borderWidth: 1,
         borderTopWidth: 1,
-        borderColor: '#e2e5e8',
-        borderRadius: 0,
+        borderColor: "#e2e5e8",
+        borderRadius: 5,
         marginRight: 0,
         marginLeft: 0,
         marginTop: 10,

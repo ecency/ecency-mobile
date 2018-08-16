@@ -1,8 +1,8 @@
-import * as dsteem from 'dsteem';
-import { getAccount } from './Dsteem';
-import { setUserData, setAuthStatus } from '../../realm/Realm';
+import * as dsteem from "dsteem";
+import { getAccount } from "./Dsteem";
+import { setUserData, setAuthStatus } from "../../realm/Realm";
 /*eslint-disable-next-line no-unused-vars*/
-import { encryptKey, decryptKey } from '../../utils/Crypto';
+import { encryptKey, decryptKey } from "../../utils/Crypto";
 
 export const Login = (username, password) => {
     let account;
@@ -10,24 +10,24 @@ export const Login = (username, password) => {
     let privateKeys;
     let isPassword;
     let isPostingKey;
-    let pinCode = 'pinCode';
+    let pinCode = "pinCode";
 
     return new Promise((resolve, reject) => {
         // Get user account data from STEEM Blockchain
         getAccount(username)
             .then(result => {
                 if (result.length < 1) {
-                    reject(new Error('Wrong @username'));
+                    reject(new Error("Wrong @username"));
                 }
 
                 account = result[0];
 
                 // Public keys of user
                 publicKeys = {
-                    active: account['active'].key_auths.map(x => x[0]),
-                    memo: account['memo_key'],
-                    owner: account['owner'].key_auths.map(x => x[0]),
-                    posting: account['posting'].key_auths.map(x => x[0]),
+                    active: account["active"].key_auths.map(x => x[0]),
+                    memo: account["memo_key"],
+                    owner: account["owner"].key_auths.map(x => x[0]),
+                    posting: account["posting"].key_auths.map(x => x[0]),
                 };
             })
             .then(() => {
@@ -37,26 +37,26 @@ export const Login = (username, password) => {
                         active: dsteem.PrivateKey.fromLogin(
                             username,
                             password,
-                            'active'
+                            "active"
                         ).toString(),
                         memo: dsteem.PrivateKey.fromLogin(
                             username,
                             password,
-                            'memo'
+                            "memo"
                         ).toString(),
                         owner: dsteem.PrivateKey.fromLogin(
                             username,
                             password,
-                            'owner'
+                            "owner"
                         ).toString(),
                         posting: dsteem.PrivateKey.fromLogin(
                             username,
                             password,
-                            'posting'
+                            "posting"
                         ).toString(),
                     };
                 } catch (error) {
-                    reject(new Error('Wrong Key/Password'));
+                    reject(new Error("Wrong Key/Password"));
                 }
             })
             .then(() => {
@@ -68,7 +68,7 @@ export const Login = (username, password) => {
                         dsteem.PrivateKey.fromLogin(
                             username,
                             password,
-                            'posting'
+                            "posting"
                         )
                             .createPublic()
                             .toString() === publicKeys.posting.toString();
@@ -80,7 +80,7 @@ export const Login = (username, password) => {
                          */
                         let userData = {
                             username: username,
-                            authType: 'masterKey',
+                            authType: "masterKey",
                             masterKey: encryptKey(password, pinCode),
                             postingKey: encryptKey(
                                 privateKeys.posting,
@@ -122,11 +122,11 @@ export const Login = (username, password) => {
                          */
                         let userData = {
                             username: username,
-                            authType: 'postingKey',
+                            authType: "postingKey",
                             postingKey: privateKeys.posting,
-                            masterKey: '',
-                            activeKey: '',
-                            memoKey: '',
+                            masterKey: "",
+                            activeKey: "",
+                            memoKey: "",
                         };
 
                         let authData = {
@@ -151,20 +151,20 @@ export const Login = (username, password) => {
                                         reject(err);
                                     });
                             } else {
-                                reject(new Error('Wrong Key/Password'));
+                                reject(new Error("Wrong Key/Password"));
                             }
                         } catch (error) {
-                            reject(new Error('Wrong Key/Password'));
+                            reject(new Error("Wrong Key/Password"));
                         }
                     }
                 } catch (error) {
-                    reject(new Error('Wrong Key/Password'));
+                    reject(new Error("Wrong Key/Password"));
                 }
             })
             .catch(err => {
                 // eslint-disable-next-line
                 console.log(err);
-                reject(new Error('Check your username'));
+                reject(new Error("Check your username"));
             });
     });
 };

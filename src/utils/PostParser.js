@@ -1,7 +1,7 @@
-import Remarkable from 'remarkable';
-import { postSummary } from './PostSummary';
-import { reputation } from './Reputation';
-import moment from 'moment';
+import Remarkable from "remarkable";
+import { postSummary } from "./PostSummary";
+import { reputation } from "./Reputation";
+import moment from "moment";
 
 const md = new Remarkable({ html: true, breaks: true, linkify: true });
 
@@ -11,7 +11,7 @@ export const replaceAuthorNames = input => {
         /(^|[^a-zA-Z0-9_!#$%&*@＠\/]|(^|[^a-zA-Z0-9_+~.-\/]))[@＠]([a-z][-\.a-z\d]+[a-z\d])/gi,
         (match, preceeding1, preceeding2, user) => {
             const userLower = user.toLowerCase();
-            const preceedings = (preceeding1 || '') + (preceeding2 || '');
+            const preceedings = (preceeding1 || "") + (preceeding2 || "");
 
             return `${preceedings}<a class="markdown-author-link" href="${userLower}" data-author="${userLower}">@${user}</a>`;
         }
@@ -21,8 +21,8 @@ export const replaceAuthorNames = input => {
 export const replaceTags = input => {
     return input.replace(/(^|\s|>)(#[-a-z\d]+)/gi, tag => {
         if (/#[\d]+$/.test(tag)) return tag; // do not allow only numbers (like #1)
-        const preceding = /^\s|>/.test(tag) ? tag[0] : ''; // space or closing tag (>)
-        tag = tag.replace('>', ''); // remove closing tag
+        const preceding = /^\s|>/.test(tag) ? tag[0] : ""; // space or closing tag (>)
+        tag = tag.replace(">", ""); // remove closing tag
         const tag2 = tag.trim().substring(1);
         const tagLower = tag2.toLowerCase();
         return (
@@ -34,7 +34,7 @@ export const replaceTags = input => {
 
 export const markDown2Html = input => {
     if (!input) {
-        return '';
+        return "";
     }
 
     // Start replacing user names
@@ -63,7 +63,7 @@ export const parsePosts = posts => {
         post.json_metadata = JSON.parse(post.json_metadata);
         post.json_metadata.image
             ? (post.image = post.json_metadata.image[0])
-            : '';
+            : "";
         post.pending_payout_value = parseFloat(
             post.pending_payout_value
         ).toFixed(2);
@@ -93,7 +93,7 @@ export const parsePosts = posts => {
 
 export const parsePost = post => {
     post.json_metadata = JSON.parse(post.json_metadata);
-    post.json_metadata.image ? (post.image = post.json_metadata.image[0]) : '';
+    post.json_metadata.image ? (post.image = post.json_metadata.image[0]) : "";
     post.pending_payout_value = parseFloat(post.pending_payout_value).toFixed(
         2
     );
@@ -121,37 +121,56 @@ export const parsePost = post => {
 };
 
 export const protocolUrl2Obj = url => {
-    let urlPart = url.split('://')[1];
+    let urlPart = url.split("://")[1];
 
     // remove last char if /
-    if (urlPart.endsWith('/')) {
+    if (urlPart.endsWith("/")) {
         urlPart = urlPart.substring(0, urlPart.length - 1);
     }
 
-    const parts = urlPart.split('/');
+    const parts = urlPart.split("/");
 
     // filter
     if (parts.length === 1) {
-        return { type: 'filter' };
+        return { type: "filter" };
     }
 
     // filter with tag
     if (parts.length === 2) {
-        return { type: 'filter-tag', filter: parts[0], tag: parts[1] };
+        return { type: "filter-tag", filter: parts[0], tag: parts[1] };
     }
 
     // account
-    if (parts.length === 1 && parts[0].startsWith('@')) {
-        return { type: 'account', account: parts[0].replace('@', '') };
+    if (parts.length === 1 && parts[0].startsWith("@")) {
+        return { type: "account", account: parts[0].replace("@", "") };
     }
 
     // post
-    if (parts.length === 3 && parts[1].startsWith('@')) {
+    if (parts.length === 3 && parts[1].startsWith("@")) {
         return {
-            type: 'post',
+            type: "post",
             cat: parts[0],
-            author: parts[1].replace('@', ''),
+            author: parts[1].replace("@", ""),
             permlink: parts[2],
         };
     }
+};
+
+export const parseComments = comments => {
+    comments.map(comment => {
+        comment.pending_payout_value = parseFloat(
+            comment.pending_payout_value
+        ).toFixed(2);
+        comment.created = moment
+            .utc(comment.created)
+            .local()
+            .fromNow();
+        comment.vote_count = comment.active_votes.length;
+        comment.author_reputation = reputation(comment.author_reputation);
+        comment.avatar = `https://steemitimages.com/u/${
+            comment.author
+        }/avatar/small`;
+        comment.body = markDown2Html(comment.body);
+    });
+    return comments;
 };
