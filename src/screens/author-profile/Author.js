@@ -104,22 +104,8 @@ class AuthorPage extends React.Component {
                                 </Text>
                                 <Text>{this.state.about.about}</Text>
                             </Body>
-                            <Card
-                                style={{
-                                    marginTop: 0,
-                                    marginLeft: 0,
-                                    marginRight: 0,
-                                    marginBottom: 0,
-                                }}
-                            >
-                                <CardItem
-                                    style={{
-                                        borderColor: 'lightgray',
-                                        borderTopWidth: 1,
-                                        borderBottomWidth: 1,
-                                        flexDirection: 'row',
-                                    }}
-                                >
+                            <Card style={styles.userDetailsCard}>
+                                <CardItem style={styles.userDetail}>
                                     <View style={{ flex: 0.3 }}>
                                         <Text>
                                             {this.state.author.post_count} Posts

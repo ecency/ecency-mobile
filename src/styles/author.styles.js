@@ -34,6 +34,18 @@ const styles = createStyle({
         top: -40,
     },
     accountNameText: {
-        fontWeight: '@FONT_WEIGHT_HEAVY',
+        fontWeight: '@fontWeight',
+    },
+    userDetailsCard: {
+        marginTop: 0,
+        marginLeft: 0,
+        marginRight: 0,
+        marginBottom: 0,
+    },
+    userDetail: {
+        borderColor: 'lightgray',
+        borderTopWidth: 1,
+        borderBottomWidth: 1,
+        flexDirection: 'row',
     },
 });
