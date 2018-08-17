@@ -25,6 +25,7 @@ const client = new Client("https://api.steemit.com");
 import { parsePost, protocolUrl2Obj } from "../../utils/PostParser";
 import { getComments } from "../../providers/steem/Dsteem";
 import Comment from "../../components/comment/Comment";
+import styles from "../../styles/post.styles";
 /* eslint-enable no-unused-vars */
 
 class SinglePostPage extends React.Component {
@@ -36,19 +37,21 @@ class SinglePostPage extends React.Component {
     }
 
     componentDidMount() {
-        getComments(
-            this.props.navigation.state.params.content.author,
-            this.props.navigation.state.params.content.permlink
-        )
-            .then(replies => {
-                console.log(replies);
-                this.setState({
-                    comments: replies,
+        if (this.props.navigation.state.params.content.children > 0) {
+            getComments(
+                this.props.navigation.state.params.content.author,
+                this.props.navigation.state.params.content.permlink
+            )
+                .then(replies => {
+                    console.log(replies);
+                    this.setState({
+                        comments: replies,
+                    });
+                })
+                .catch(error => {
+                    console.log(error);
                 });
-            })
-            .catch(error => {
-                console.log(error);
-            });
+        }
     }
 
     onLinkPress(evt, href, attribs) {
@@ -196,7 +199,7 @@ class SinglePostPage extends React.Component {
                             </Text>
                         </Right>
                     </View>
-                    <View style={{ flex: 1, backgroundColor: "white" }}>
+                    <View style={styles.comments}>
                         <FlatList
                             style={{ backgroundColor: "white" }}
                             removeClippedSubviews={false}
@@ -216,19 +219,5 @@ class SinglePostPage extends React.Component {
         );
     }
 }
-
-const styles = StyleSheet.create({
-    container: {
-        flex: 1,
-        alignItems: "center",
-        justifyContent: "center",
-    },
-    iframe: {
-        maxWidth: Dimensions.get("window").width,
-    },
-    img: {
-        maxWidth: Dimensions.get("window").width,
-    },
-});
 
 export default SinglePostPage;

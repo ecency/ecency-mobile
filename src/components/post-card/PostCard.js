@@ -5,6 +5,7 @@ import {
     Image,
     TouchableOpacity,
     Dimensions,
+    FlatList,
     ActivityIndicator,
 } from "react-native";
 import {
@@ -18,8 +19,11 @@ import {
     Body,
     Text,
 } from "native-base";
+import Modal from "react-native-modal";
 import { Popover, PopoverController } from "react-native-modal-popover";
 import Slider from "react-native-slider";
+
+// STEEM
 import { upvote, upvoteAmount } from "../../providers/steem/Dsteem";
 import { decryptKey } from "../../utils/Crypto";
 import { getUserData } from "../../realm/Realm";
@@ -36,8 +40,9 @@ class PostCard extends React.PureComponent {
         this.state = {
             value: 0.0,
             isVoting: false,
-            isVoted: false,
+            isVoted: this.props.content.isVoted,
             amount: "0.00",
+            isModalVisible: false,
         };
     }
 
@@ -105,6 +110,12 @@ class PostCard extends React.PureComponent {
                     });
                 });
         }
+    };
+
+    toggleModal = () => {
+        this.setState({
+            isModalVisible: !this.state.isModalVisible,
+        });
     };
 
     render() {
@@ -289,7 +300,10 @@ class PostCard extends React.PureComponent {
                                 </React.Fragment>
                             )}
                         </PopoverController>
-                        <TouchableOpacity style={styles.payoutButton}>
+                        <TouchableOpacity
+                            onPress={this.toggleModal}
+                            style={styles.payoutButton}
+                        >
                             <Text style={styles.payout}>
                                 ${this.props.content.pending_payout_value}
                             </Text>
@@ -297,6 +311,60 @@ class PostCard extends React.PureComponent {
                                 name="md-arrow-dropdown"
                                 style={styles.payoutIcon}
                             />
+                            <Modal isVisible={this.state.isModalVisible}>
+                                <View
+                                    style={{
+                                        flex: 0.8,
+                                        backgroundColor: "white",
+                                        borderRadius: 10,
+                                    }}
+                                >
+                                    <TouchableOpacity
+                                        onPress={this.toggleModal}
+                                    >
+                                        <Text>Tap to close!</Text>
+                                    </TouchableOpacity>
+                                    <FlatList
+                                        data={this.props.content.active_votes}
+                                        keyExtractor={item =>
+                                            item.voter.toString()
+                                        }
+                                        renderItem={({ item }) => (
+                                            <View
+                                                style={{
+                                                    flexDirection: "row",
+                                                    borderColor: "lightgray",
+                                                    borderWidth: 1,
+                                                    borderRadius: 10,
+                                                }}
+                                            >
+                                                <Thumbnail
+                                                    style={{
+                                                        width: 34,
+                                                        height: 34,
+                                                        borderRadius: 17,
+                                                        flex: 0.1,
+                                                    }}
+                                                    source={{
+                                                        uri: item.avatar,
+                                                    }}
+                                                />
+                                                <Text style={{ flex: 0.5 }}>
+                                                    {" "}
+                                                    {item.voter} (
+                                                    {item.reputation})
+                                                </Text>
+                                                <Text style={{ flex: 0.2 }}>
+                                                    {item.value}$
+                                                </Text>
+                                                <Text style={{ flex: 0.2 }}>
+                                                    {item.percent}%
+                                                </Text>
+                                            </View>
+                                        )}
+                                    />
+                                </View>
+                            </Modal>
                         </TouchableOpacity>
                     </Left>
                     <Right>

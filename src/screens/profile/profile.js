@@ -1,14 +1,14 @@
 /* eslint-disable no-unused-vars */
-import React from 'react';
-import { StatusBar, Dimensions } from 'react-native';
+import React from "react";
+import { StatusBar, Dimensions } from "react-native";
 
-import moment from 'moment';
-import FastImage from 'react-native-fast-image';
+import moment from "moment";
+import FastImage from "react-native-fast-image";
 
-import ScrollableTabView from 'react-native-scrollable-tab-view';
-import CustomTabBar from '../home/FeedTabs';
-import DiscoverPage from '../discover/Discover';
-import { getUser, getFollows } from '../../providers/steem/Dsteem';
+import ScrollableTabView from "react-native-scrollable-tab-view";
+import CustomTabBar from "../home/FeedTabs";
+import DiscoverPage from "../discover/Discover";
+import { getUser, getFollows } from "../../providers/steem/Dsteem";
 
 import {
     Content,
@@ -23,10 +23,11 @@ import {
     Icon,
     Title,
     Text,
-} from 'native-base';
+} from "native-base";
 
-import { getUserData, getAuthStatus } from '../../realm/Realm';
-import store from '../../redux/store/Store';
+import { getUserData, getAuthStatus } from "../../realm/Realm";
+import store from "../../redux/store/Store";
+import styles from "../../styles/profile.styles";
 /* eslint-enable no-unused-vars */
 
 class ProfilePage extends React.Component {
@@ -73,13 +74,13 @@ class ProfilePage extends React.Component {
 
     render() {
         return (
-            <View style={{ flex: 1, top: StatusBar.currentHeight }}>
+            <View style={styles.container}>
                 {this.state.isLoggedIn ? (
                     <View style={{ flex: 1 }}>
                         <Header
                             style={{
-                                backgroundColor: 'transparent',
-                                position: 'absolute',
+                                backgroundColor: "transparent",
+                                position: "absolute",
                                 top: StatusBar.currentHeight,
                             }}
                         >
@@ -103,56 +104,29 @@ class ProfilePage extends React.Component {
                                 </Button>
                             </Right>
                         </Header>
-                        <Content
-                            style={{ flex: 1, backgroundColor: '#f9f9f9' }}
-                        >
+                        <Content style={styles.content}>
                             <FastImage
-                                style={{
-                                    width: Dimensions.get('window').width,
-                                    height: 160,
-                                }}
+                                style={styles.cover}
                                 source={{
                                     uri: this.state.about.cover_image,
                                     priority: FastImage.priority.high,
                                 }}
                             />
                             <FastImage
-                                style={{
-                                    width: 100,
-                                    height: 100,
-                                    borderRadius: 50,
-                                    top: -50,
-                                    borderWidth: 1,
-                                    borderColor: 'white',
-                                    alignSelf: 'center',
-                                }}
+                                style={styles.avatar}
                                 source={{
                                     uri: this.state.about.profile_image,
                                     priority: FastImage.priority.high,
                                 }}
                             />
                             <Body style={{ top: -40 }}>
-                                <Text style={{ fontWeight: 'bold' }}>
+                                <Text style={{ fontWeight: "bold" }}>
                                     {this.state.user.name}
                                 </Text>
                                 <Text>{this.state.about.about}</Text>
                             </Body>
-                            <Card
-                                style={{
-                                    marginTop: 0,
-                                    marginLeft: 0,
-                                    marginRight: 0,
-                                    marginBottom: 0,
-                                }}
-                            >
-                                <CardItem
-                                    style={{
-                                        borderColor: 'lightgray',
-                                        borderTopWidth: 1,
-                                        borderBottomWidth: 1,
-                                        flexDirection: 'row',
-                                    }}
-                                >
+                            <Card style={{ margin: 0 }}>
+                                <CardItem style={styles.about}>
                                     <View style={{ flex: 0.3 }}>
                                         <Text>
                                             {this.state.user.post_count} Posts
@@ -160,35 +134,30 @@ class ProfilePage extends React.Component {
                                     </View>
                                     <View style={{ flex: 0.4 }}>
                                         <Text>
-                                            {this.state.follows.follower_count}{' '}
+                                            {this.state.follows.follower_count}{" "}
                                             Followers
                                         </Text>
                                     </View>
                                     <View style={{ flex: 0.4 }}>
                                         <Text>
-                                            {this.state.follows.following_count}{' '}
+                                            {this.state.follows.following_count}{" "}
                                             Following
                                         </Text>
                                     </View>
                                 </CardItem>
 
-                                <CardItem
-                                    style={{
-                                        flexDirection: 'row',
-                                        borderBottomWidth: 0,
-                                    }}
-                                >
+                                <CardItem style={styles.info}>
                                     <View style={{ flex: 0.5 }}>
                                         <Text
                                             style={{
                                                 marginLeft: 20,
-                                                alignSelf: 'flex-start',
+                                                alignSelf: "flex-start",
                                             }}
                                         >
                                             <Icon
                                                 style={{
                                                     fontSize: 20,
-                                                    alignSelf: 'flex-start',
+                                                    alignSelf: "flex-start",
                                                 }}
                                                 name="md-pin"
                                             />
@@ -214,67 +183,29 @@ class ProfilePage extends React.Component {
                             </Card>
                             <View>
                                 <ScrollableTabView
-                                    style={{
-                                        alignSelf: 'center',
-                                        backgroundColor: 'transparent',
-                                    }}
+                                    style={styles.tabs}
                                     renderTabBar={() => (
                                         <CustomTabBar
-                                            style={{
-                                                alignSelf: 'center',
-                                                height: 40,
-                                                backgroundColor: '#fff',
-                                            }}
+                                            style={styles.tabbar}
                                             tabUnderlineDefaultWidth={30} // default containerWidth / (numberOfTabs * 4)
                                             tabUnderlineScaleX={3} // default 3
-                                            activeColor={'#222'}
-                                            inactiveColor={'#222'}
+                                            activeColor={"#222"}
+                                            inactiveColor={"#222"}
                                         />
                                     )}
                                 >
-                                    <View
-                                        tabLabel="Blog"
-                                        style={{
-                                            paddingHorizontal: 7,
-                                            backgroundColor: '#f9f9f9',
-                                            flex: 1,
-                                            minWidth:
-                                                Dimensions.get('window').width /
-                                                1,
-                                        }}
-                                    />
+                                    <View tabLabel="Blog" />
                                     <View
                                         tabLabel="Comments"
-                                        style={{
-                                            paddingHorizontal: 7,
-                                            backgroundColor: '#f9f9f9',
-                                            flex: 1,
-                                            minWidth:
-                                                Dimensions.get('window').width /
-                                                1,
-                                        }}
+                                        style={styles.tabbarItem}
                                     />
                                     <View
                                         tabLabel="Replies"
-                                        style={{
-                                            paddingHorizontal: 7,
-                                            backgroundColor: '#f9f9f9',
-                                            flex: 1,
-                                            minWidth:
-                                                Dimensions.get('window').width /
-                                                1,
-                                        }}
+                                        style={styles.tabbarItem}
                                     />
                                     <View
                                         tabLabel="Wallet"
-                                        style={{
-                                            paddingHorizontal: 7,
-                                            backgroundColor: '#f9f9f9',
-                                            flex: 1,
-                                            minWidth:
-                                                Dimensions.get('window').width /
-                                                1,
-                                        }}
+                                        style={styles.tabbarItem}
                                     />
                                 </ScrollableTabView>
                             </View>
@@ -282,7 +213,7 @@ class ProfilePage extends React.Component {
                     </View>
                 ) : (
                     <View>
-                        <Header style={{}}>
+                        <Header>
                             <Left>
                                 <Button transparent>
                                     <Icon name="menu" />

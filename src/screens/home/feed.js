@@ -19,7 +19,7 @@ import {
     Icon,
     ScrollableTab,
 } from "native-base";
-
+import styles from "../../styles/feed.styles";
 // STEEM
 import { getPosts } from "../../providers/steem/Dsteem";
 
@@ -49,7 +49,11 @@ class FeedPage extends React.Component {
     }
 
     getFeed = () => {
-        getPosts("feed", { tag: this.props.user.name, limit: 10 })
+        getPosts(
+            "feed",
+            { tag: this.props.user.name, limit: 10 },
+            this.props.user.name
+        )
             .then(result => {
                 this.setState({
                     isReady: true,
@@ -66,12 +70,16 @@ class FeedPage extends React.Component {
 
     getMore = () => {
         this.setState({ loading: true });
-        getPosts("feed", {
-            tag: this.props.user.name,
-            limit: 10,
-            start_author: this.state.start_author,
-            start_permlink: this.state.start_permlink,
-        }).then(result => {
+        getPosts(
+            "feed",
+            {
+                tag: this.props.user.name,
+                limit: 10,
+                start_author: this.state.start_author,
+                start_permlink: this.state.start_permlink,
+            },
+            this.props.user.name
+        ).then(result => {
             let posts = result;
             posts.shift();
             this.setState({
@@ -97,15 +105,7 @@ class FeedPage extends React.Component {
         if (!this.state.loading) return null;
 
         return (
-            <View
-                style={{
-                    alignContent: "center",
-                    alignItems: "center",
-                    marginTop: 10,
-                    marginBottom: 40,
-                    borderColor: "#CED0CE",
-                }}
-            >
+            <View style={styles.flatlistFooter}>
                 <ActivityIndicator animating size="large" />
             </View>
         );
@@ -116,7 +116,6 @@ class FeedPage extends React.Component {
             <View style={{ flex: 1 }}>
                 {this.state.isReady ? (
                     <FlatList
-                        style={{ flex: 1 }}
                         data={this.state.posts}
                         showsVerticalScrollIndicator={false}
                         renderItem={({ item }) => (
@@ -173,30 +172,5 @@ class FeedPage extends React.Component {
         );
     }
 }
-
-const styles = StyleSheet.create({
-    container: {
-        backgroundColor: "#F9F9F9",
-        flex: 1,
-        top: StatusBar.currentHeight,
-    },
-    placeholder: {
-        backgroundColor: "white",
-        padding: 20,
-        borderStyle: "solid",
-        borderWidth: 1,
-        borderTopWidth: 1,
-        borderColor: "#e2e5e8",
-        borderRadius: 5,
-        marginRight: 0,
-        marginLeft: 0,
-        marginTop: 10,
-    },
-    tabs: {
-        position: "absolute",
-        top: Dimensions.get("window").width / 30,
-        alignItems: "center",
-    },
-});
 
 export default FeedPage;

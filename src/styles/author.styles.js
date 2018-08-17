@@ -1,5 +1,5 @@
-import { createStyle } from 'react-native-theming';
-import { StatusBar, Dimensions } from 'react-native';
+import { createStyle } from "react-native-theming";
+import { StatusBar, Dimensions } from "react-native";
 
 const styles = createStyle({
     container: {
@@ -10,15 +10,15 @@ const styles = createStyle({
     },
     content: {
         flex: 1,
-        backgroundColor: '@backgroundColor',
+        backgroundColor: "@backgroundColor",
     },
     header: {
-        backgroundColor: 'transparent',
-        position: 'absolute',
+        backgroundColor: "transparent",
+        position: "absolute",
         top: StatusBar.currentHeight,
     },
     coverImage: {
-        width: Dimensions.get('window').width,
+        width: Dimensions.get("window").width,
         height: 160,
     },
     profileImage: {
@@ -27,14 +27,14 @@ const styles = createStyle({
         borderRadius: 50,
         top: -50,
         borderWidth: 1,
-        borderColor: 'white',
-        alignSelf: 'center',
+        borderColor: "white",
+        alignSelf: "center",
     },
     accountNameBody: {
         top: -40,
     },
     accountNameText: {
-        fontWeight: '@fontWeight',
+        fontWeight: "@fontWeight",
     },
     userDetailsCard: {
         marginTop: 0,
@@ -43,9 +43,11 @@ const styles = createStyle({
         marginBottom: 0,
     },
     userDetail: {
-        borderColor: 'lightgray',
+        borderColor: "lightgray",
         borderTopWidth: 1,
         borderBottomWidth: 1,
-        flexDirection: 'row',
+        flexDirection: "row",
     },
 });
+
+export default styles;

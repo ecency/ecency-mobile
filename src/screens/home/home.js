@@ -29,7 +29,7 @@ import TrendingPage from "./trending";
 import ScrollableTabView from "react-native-scrollable-tab-view";
 import CustomTabBar from "./FeedTabs";
 import Placeholder from "rn-placeholder";
-
+import styles from "../../styles/home.styles";
 /* eslint-enable no-unused-vars */
 
 class HomePage extends React.Component {
@@ -79,14 +79,7 @@ class HomePage extends React.Component {
         return (
             <Container style={{ flex: 1, top: StatusBar.currentHeight }}>
                 <StatusBar translucent={true} backgroundColor={"transparent"} />
-                <Header
-                    noShadow
-                    style={{
-                        backgroundColor: "#284b78",
-                        borderBottomWidth: 0,
-                        borderColor: "#284b78",
-                    }}
-                >
+                <Header noShadow style={styles.header}>
                     <Left>
                         <Button
                             transparent
@@ -101,38 +94,22 @@ class HomePage extends React.Component {
                                         this.state.user.name
                                     }/avatar/small`,
                                 }}
-                                style={{
-                                    width: 30,
-                                    height: 30,
-                                    borderRadius: 15,
-                                    borderWidth: 1,
-                                    borderColor: "white",
-                                }}
+                                style={styles.avatar}
                             />
                         </Button>
                     </Left>
                     <Right>
                         <Button transparent>
-                            <Icon
-                                style={{ color: "white", fontWeight: "bold" }}
-                                name="search"
-                            />
+                            <Icon style={styles.searchButton} name="search" />
                         </Button>
                     </Right>
                 </Header>
 
                 <ScrollableTabView
-                    style={{
-                        alignSelf: "center",
-                        backgroundColor: "transparent",
-                    }}
+                    style={styles.tabView}
                     renderTabBar={() => (
                         <CustomTabBar
-                            style={{
-                                alignSelf: "center",
-                                height: 40,
-                                backgroundColor: "#284b78",
-                            }}
+                            style={styles.tabbar}
                             tabUnderlineDefaultWidth={30} // default containerWidth / (numberOfTabs * 4)
                             tabUnderlineScaleX={3} // default 3
                             activeColor={"#fff"}
@@ -140,15 +117,7 @@ class HomePage extends React.Component {
                         />
                     )}
                 >
-                    <View
-                        tabLabel="Feed"
-                        style={{
-                            paddingHorizontal: 7,
-                            backgroundColor: "#f9f9f9",
-                            flex: 1,
-                            minWidth: Dimensions.get("window").width / 1,
-                        }}
-                    >
+                    <View tabLabel="Feed" style={styles.tabbarItem}>
                         {this.state.isLoading ? (
                             <View>
                                 <View style={styles.placeholder}>
@@ -192,10 +161,7 @@ class HomePage extends React.Component {
                                                 "Login"
                                             )
                                         }
-                                        style={{
-                                            alignSelf: "center",
-                                            marginTop: 100,
-                                        }}
+                                        style={styles.loginButton}
                                     >
                                         <Text>
                                             Login to setup your custom Feed!
@@ -212,30 +178,14 @@ class HomePage extends React.Component {
                             />
                         ) : null}
                     </View>
-                    <View
-                        tabLabel="Hot"
-                        style={{
-                            paddingHorizontal: 7,
-                            backgroundColor: "#f9f9f9",
-                            flex: 1,
-                            minWidth: Dimensions.get("window").width / 1,
-                        }}
-                    >
+                    <View tabLabel="Hot" style={styles.tabbarItem}>
                         <HotPage
                             navigation={this.props.navigation}
                             user={this.state.user}
                             isLoggedIn={this.state.isLoggedIn}
                         />
                     </View>
-                    <View
-                        tabLabel="Trending"
-                        style={{
-                            paddingHorizontal: 7,
-                            backgroundColor: "#f9f9f9",
-                            flex: 1,
-                            minWidth: Dimensions.get("window").width / 1,
-                        }}
-                    >
+                    <View tabLabel="Trending" style={styles.tabbarItem}>
                         <TrendingPage
                             navigation={this.props.navigation}
                             user={this.state.user}
@@ -247,29 +197,6 @@ class HomePage extends React.Component {
         );
     }
 }
-
-/* eslint-disable no-unused-vars */
-const styles = StyleSheet.create({
-    container: {
-        backgroundColor: "#F9F9F9",
-        flex: 1,
-    },
-    tabs: {
-        flex: 1,
-    },
-    placeholder: {
-        backgroundColor: "white",
-        padding: 20,
-        borderStyle: "solid",
-        borderWidth: 1,
-        borderTopWidth: 1,
-        borderColor: "#e2e5e8",
-        borderRadius: 5,
-        marginRight: 0,
-        marginLeft: 0,
-        marginTop: 10,
-    },
-});
 
 function mapStateToProps(state) {
     return {

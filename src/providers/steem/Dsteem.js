@@ -57,10 +57,10 @@ export const getFollows = user => {
  * @param by get discussions by trending, created, active etc.
  * @param query tag, limit, start_author?, start_permalink?
  */
-export const getPosts = async (by, query) => {
+export const getPosts = async (by, query, user) => {
     try {
         let posts = await client.database.getDiscussions(by, query);
-        posts = await parsePosts(posts);
+        posts = await parsePosts(posts, user);
         return posts;
     } catch (error) {
         return error;

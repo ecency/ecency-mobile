@@ -58,8 +58,10 @@ export const markDown2Html = input => {
     return output;
 };
 
-export const parsePosts = posts => {
+export const parsePosts = (posts, user) => {
+    console.log("user");
     posts.map(post => {
+        console.log(user);
         post.json_metadata = JSON.parse(post.json_metadata);
         post.json_metadata.image
             ? (post.image = post.json_metadata.image[0])
@@ -80,6 +82,37 @@ export const parsePosts = posts => {
         post.active_votes.sort((a, b) => {
             return b.rshares - a.rshares;
         });
+
+        let totalPayout =
+            parseFloat(post.pending_payout_value) +
+            parseFloat(post.total_payout_value) +
+            parseFloat(post.curator_payout_value);
+
+        let voteRshares = post.active_votes.reduce(
+            (a, b) => a + parseFloat(b.rshares),
+            0
+        );
+        let ratio = totalPayout / voteRshares;
+        post.isVoted = false;
+
+        for (let i in post.active_votes) {
+            if (post.active_votes[i].voter == user) {
+                post.isVoted = true;
+                console.log("yup");
+            }
+            post.active_votes[i].value = (
+                post.active_votes[i].rshares * ratio
+            ).toFixed(2);
+            post.active_votes[i].reputation = reputation(
+                post.active_votes[i].reputation
+            );
+            post.active_votes[i].percent = post.active_votes[i].percent / 100;
+            post.active_votes[i].avatar =
+                "https://steemitimages.com/u/" +
+                post.active_votes[i].voter +
+                "/avatar/small";
+        }
+
         if (post.active_votes.length > 2) {
             post.top_likers = [
                 post.active_votes[0].voter,
@@ -88,6 +121,7 @@ export const parsePosts = posts => {
             ];
         }
     });
+    console.log(posts);
     return posts;
 };
 
@@ -110,6 +144,31 @@ export const parsePost = post => {
     post.active_votes.sort((a, b) => {
         return b.rshares - a.rshares;
     });
+    let totalPayout =
+        parseFloat(post.pending_payout_value) +
+        parseFloat(post.total_payout_value) +
+        parseFloat(post.curator_payout_value);
+
+    let voteRshares = post.active_votes.reduce(
+        (a, b) => a + parseFloat(b.rshares),
+        0
+    );
+    let ratio = totalPayout / voteRshares;
+
+    for (let i in post.active_votes) {
+        post.active_votes[i].value = (
+            post.active_votes[i].rshares * ratio
+        ).toFixed(2);
+        post.active_votes[i].reputation = reputation(
+            post.active_votes[i].reputation
+        );
+        post.active_votes[i].percent = post.active_votes[i].percent / 100;
+        post.active_votes[i].avatar =
+            "https://steemitimages.com/u/" +
+            post.active_votes[i].voter +
+            "/avatar/small";
+    }
+
     if (post.active_votes.length > 2) {
         post.top_likers = [
             post.active_votes[0].voter,

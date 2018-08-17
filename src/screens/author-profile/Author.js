@@ -1,5 +1,5 @@
-import * as React from 'react';
-import { StatusBar, Dimensions } from 'react-native';
+import React from "react";
+import { StatusBar, Dimensions } from "react-native";
 import {
     Container,
     Card,
@@ -14,25 +14,25 @@ import {
     Content,
     Text,
     View,
-} from 'native-base';
-import { getAccount } from '../../providers/steem/Dsteem';
-import ScrollableTabView from 'react-native-scrollable-tab-view';
-import CustomTabBar from '../home/FeedTabs';
-import moment from 'moment';
-import FastImage from 'react-native-fast-image';
+} from "native-base";
+import { getAccount } from "../../providers/steem/Dsteem";
+import ScrollableTabView from "react-native-scrollable-tab-view";
+import CustomTabBar from "../home/FeedTabs";
+import moment from "moment";
+import FastImage from "react-native-fast-image";
 
-import Theme, { createThemedComponent } from 'react-native-theming';
-import styles from '../../styles/author.styles';
-import themes from '../../styles/themes';
+import Theme, { createThemedComponent } from "react-native-theming";
+import styles from "../../styles/author.styles";
+import themes from "../../styles/themes";
 
-const Bar = createThemedComponent(StatusBar, ['barStyle', 'backgroundColor']);
+const Bar = createThemedComponent(StatusBar, ["barStyle", "backgroundColor"]);
 
 class AuthorPage extends React.Component {
     constructor(props) {
         super(props);
 
         this.state = {
-            author: 'author',
+            author: "author",
             about: {},
             follows: {},
         };
@@ -121,7 +121,7 @@ class AuthorPage extends React.Component {
 
                                 <CardItem
                                     style={{
-                                        flexDirection: 'row',
+                                        flexDirection: "row",
                                         borderBottomWidth: 0,
                                     }}
                                 >
@@ -129,13 +129,13 @@ class AuthorPage extends React.Component {
                                         <Text
                                             style={{
                                                 marginLeft: 20,
-                                                alignSelf: 'flex-start',
+                                                alignSelf: "flex-start",
                                             }}
                                         >
                                             <Icon
                                                 style={{
                                                     fontSize: 20,
-                                                    alignSelf: 'flex-start',
+                                                    alignSelf: "flex-start",
                                                     right: 10,
                                                 }}
                                                 name="md-pin"
@@ -162,20 +162,20 @@ class AuthorPage extends React.Component {
                             <View>
                                 <ScrollableTabView
                                     style={{
-                                        alignSelf: 'center',
-                                        backgroundColor: 'transparent',
+                                        alignSelf: "center",
+                                        backgroundColor: "transparent",
                                     }}
                                     renderTabBar={() => (
                                         <CustomTabBar
                                             style={{
-                                                alignSelf: 'center',
+                                                alignSelf: "center",
                                                 height: 40,
-                                                backgroundColor: '#fff',
+                                                backgroundColor: "#fff",
                                             }}
                                             tabUnderlineDefaultWidth={30} // default containerWidth / (numberOfTabs * 4)
                                             tabUnderlineScaleX={3} // default 3
-                                            activeColor={'#222'}
-                                            inactiveColor={'#222'}
+                                            activeColor={"#222"}
+                                            inactiveColor={"#222"}
                                         />
                                     )}
                                 >
@@ -183,10 +183,10 @@ class AuthorPage extends React.Component {
                                         tabLabel="Blog"
                                         style={{
                                             paddingHorizontal: 7,
-                                            backgroundColor: '#f9f9f9',
+                                            backgroundColor: "#f9f9f9",
                                             flex: 1,
                                             minWidth:
-                                                Dimensions.get('window').width /
+                                                Dimensions.get("window").width /
                                                 1,
                                         }}
                                     />
@@ -194,10 +194,10 @@ class AuthorPage extends React.Component {
                                         tabLabel="Comments"
                                         style={{
                                             paddingHorizontal: 7,
-                                            backgroundColor: '#f9f9f9',
+                                            backgroundColor: "#f9f9f9",
                                             flex: 1,
                                             minWidth:
-                                                Dimensions.get('window').width /
+                                                Dimensions.get("window").width /
                                                 1,
                                         }}
                                     />
@@ -205,10 +205,10 @@ class AuthorPage extends React.Component {
                                         tabLabel="Replies"
                                         style={{
                                             paddingHorizontal: 7,
-                                            backgroundColor: '#f9f9f9',
+                                            backgroundColor: "#f9f9f9",
                                             flex: 1,
                                             minWidth:
-                                                Dimensions.get('window').width /
+                                                Dimensions.get("window").width /
                                                 1,
                                         }}
                                     />
@@ -216,10 +216,10 @@ class AuthorPage extends React.Component {
                                         tabLabel="Wallet"
                                         style={{
                                             paddingHorizontal: 7,
-                                            backgroundColor: '#f9f9f9',
+                                            backgroundColor: "#f9f9f9",
                                             flex: 1,
                                             minWidth:
-                                                Dimensions.get('window').width /
+                                                Dimensions.get("window").width /
                                                 1,
                                         }}
                                     />
