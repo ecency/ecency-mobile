@@ -1,7 +1,11 @@
-import { Client } from 'dsteem';
-const client = new Client('https://api.steemit.com');
+/* eslint-disable no-console */
+import { Client, PrivateKey } from "dsteem";
+const client = new Client("https://api.steemit.com");
 
-import { parsePosts } from '../../utils/PostParser';
+import { parsePosts, parseComments } from "../../utils/PostParser";
+
+let rewardFund = null;
+let medianPrice = null;
 
 /**
  * @method getAccount get account data
@@ -38,7 +42,7 @@ export const getUser = async user => {
 export const getFollows = user => {
     return new Promise((resolve, reject) => {
         client
-            .call('follow_api', 'get_follow_count', [user])
+            .call("follow_api", "get_follow_count", [user])
             .then(result => {
                 resolve(result);
             })
@@ -71,7 +75,7 @@ export const getPosts = async (by, query) => {
 export const getPost = (user, permlink) => {
     return new Promise((resolve, reject) => {
         try {
-            let post = client.database.call('get_content', [user, permlink]);
+            let post = client.database.call("get_content", [user, permlink]);
             resolve(post);
         } catch (error) {
             reject(error);
@@ -85,16 +89,19 @@ export const getPost = (user, permlink) => {
  * @param permlink post permlink
  */
 export const getComments = (user, permlink) => {
+    let comments;
     return new Promise((resolve, reject) => {
-        try {
-            let comments = client.database.call('get_content_replies', [
-                user,
-                permlink,
-            ]);
-            resolve(comments);
-        } catch (error) {
-            reject(error);
-        }
+        client.database
+            .call("get_content_replies", [user, permlink])
+            .then(result => {
+                comments = parseComments(result);
+            })
+            .then(() => {
+                resolve(comments);
+            })
+            .catch(error => {
+                reject(error);
+            });
     });
 };
 
@@ -115,4 +122,49 @@ export const getPostWithComments = async (user, permlink) => {
     });
 
     return [post, comments];
+};
+
+/**
+ * @method upvote upvote a content
+ * @param vote vote object(author, permlink, voter, weight)
+ * @param postingKey private posting key
+ */
+export const upvote = (vote, postingKey) => {
+    let key = PrivateKey.fromString(postingKey);
+    return new Promise((resolve, reject) => {
+        client.broadcast
+            .vote(vote, key)
+            .then(result => {
+                console.log(result);
+                resolve(result);
+            })
+            .catch(err => {
+                console.log(err);
+                reject(err);
+            });
+    });
+};
+
+/**
+ * @method upvoteAmount estimate upvote amount
+ */
+export const upvoteAmount = async input => {
+    if (rewardFund == null || medianPrice == null) {
+        rewardFund = await client.database.call("get_reward_fund", ["post"]);
+
+        await client.database
+            .getCurrentMedianHistoryPrice()
+            .then(res => {
+                medianPrice = res;
+            })
+            .catch(err => {
+                console.log(err);
+            });
+    }
+
+    let estimated =
+        (input / parseFloat(rewardFund.recent_claims)) *
+        parseFloat(rewardFund.reward_balance) *
+        parseFloat(medianPrice.base);
+    return estimated;
 };

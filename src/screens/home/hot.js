@@ -1,24 +1,24 @@
 /* eslint-disable no-unused-vars */
-import React from 'react';
+import React from "react";
 import {
     StyleSheet,
     FlatList,
     View,
     StatusBar,
     ActivityIndicator,
-} from 'react-native';
+} from "react-native";
 
 // STEEM
-import { getPosts } from '../../providers/steem/Dsteem';
+import { getPosts } from "../../providers/steem/Dsteem";
 
 // LIBRARIES
-import Placeholder from 'rn-placeholder';
+import Placeholder from "rn-placeholder";
 
 // COMPONENTS
-import PostCard from '../../components/post-card/PostCard';
+import PostCard from "../../components/post-card/PostCard";
 
 // SCREENS
-import PostPage from '../../screens/single-post/Post';
+import PostPage from "../../screens/single-post/Post";
 /* eslint-enable no-unused-vars */
 
 class HotPage extends React.Component {
@@ -28,11 +28,11 @@ class HotPage extends React.Component {
         this.state = {
             isReady: false,
             posts: [],
-            user: [],
-            start_author: '',
-            start_permlink: '',
+            start_author: "",
+            start_permlink: "",
             refreshing: false,
             loading: false,
+            isLoggedIn: this.props.isLoggedIn,
         };
     }
 
@@ -41,7 +41,7 @@ class HotPage extends React.Component {
     }
 
     getHotPosts = () => {
-        getPosts('hot', { tag: '', limit: 5 })
+        getPosts("hot", { tag: "", limit: 10 })
             .then(result => {
                 this.setState({
                     isReady: true,
@@ -58,8 +58,8 @@ class HotPage extends React.Component {
 
     getMoreHot = () => {
         this.setState({ loading: true });
-        getPosts('hot', {
-            tag: '',
+        getPosts("hot", {
+            tag: "",
             limit: 10,
             start_author: this.state.start_author,
             start_permlink: this.state.start_permlink,
@@ -91,10 +91,11 @@ class HotPage extends React.Component {
         return (
             <View
                 style={{
-                    alignContent: 'center',
-                    alignItems: 'center',
+                    alignContent: "center",
+                    alignItems: "center",
                     marginTop: 10,
-                    borderColor: '#CED0CE',
+                    marginBottom: 40,
+                    borderColor: "#CED0CE",
                 }}
             >
                 <ActivityIndicator animating size="large" />
@@ -111,14 +112,14 @@ class HotPage extends React.Component {
                         data={this.state.posts}
                         showsVerticalScrollIndicator={false}
                         renderItem={({ item }) => (
-                            <View style={styles.card}>
-                                <PostCard
-                                    navigation={this.props.navigation}
-                                    content={item}
-                                />
-                            </View>
+                            <PostCard
+                                navigation={this.props.navigation}
+                                content={item}
+                                user={this.props.user}
+                                isLoggedIn={this.state.isLoggedIn}
+                            />
                         )}
-                        keyExtractor={(post, index) => index.toString()}
+                        keyExtractor={post => post.id.toString()}
                         onEndReached={this.getMoreHot}
                         refreshing={this.state.refreshing}
                         onRefresh={() => this.refreshHotPosts()}
@@ -166,34 +167,21 @@ class HotPage extends React.Component {
 
 const styles = StyleSheet.create({
     container: {
-        backgroundColor: '#F9F9F9',
+        backgroundColor: "#F9F9F9",
         flex: 1,
         top: StatusBar.currentHeight,
     },
     placeholder: {
-        backgroundColor: 'white',
+        backgroundColor: "white",
         padding: 20,
-        borderStyle: 'solid',
+        borderStyle: "solid",
         borderWidth: 1,
         borderTopWidth: 1,
-        borderColor: '#e2e5e8',
-        borderRadius: 0,
-        marginRight: 0,
-        marginLeft: 0,
-        marginTop: 10,
-    },
-    card: {
-        backgroundColor: 'white',
-        shadowColor: 'white',
-        marginRight: 0,
-        marginLeft: 0,
-        marginTop: 10,
-        marginBottom: 0,
-        borderWidth: 1,
-        borderColor: '#e7eaec',
+        borderColor: "#e2e5e8",
         borderRadius: 5,
-        paddingHorizontal: 0,
-        paddingVertical: 0,
+        marginRight: 0,
+        marginLeft: 0,
+        marginTop: 10,
     },
 });
 

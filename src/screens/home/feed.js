@@ -1,4 +1,4 @@
-import React from 'react';
+import React from "react";
 import {
     StyleSheet,
     FlatList,
@@ -6,7 +6,7 @@ import {
     StatusBar,
     Dimensions,
     ActivityIndicator,
-} from 'react-native';
+} from "react-native";
 import {
     Container,
     Header,
@@ -18,17 +18,16 @@ import {
     Tab,
     Icon,
     ScrollableTab,
-} from 'native-base';
+} from "native-base";
 
 // STEEM
-import { getPosts } from '../../providers/steem/Dsteem';
+import { getPosts } from "../../providers/steem/Dsteem";
 
 // LIBRARIES
-import Placeholder from 'rn-placeholder';
+import Placeholder from "rn-placeholder";
 
 // COMPONENTS
-import PostCard from '../../components/post-card/PostCard';
-
+import PostCard from "../../components/post-card/PostCard";
 /* eslint-enable no-unused-vars */
 
 class FeedPage extends React.Component {
@@ -38,8 +37,8 @@ class FeedPage extends React.Component {
         this.state = {
             isReady: false,
             posts: [],
-            start_author: '',
-            start_permlink: '',
+            start_author: "",
+            start_permlink: "",
             refreshing: false,
             loading: false,
         };
@@ -50,7 +49,7 @@ class FeedPage extends React.Component {
     }
 
     getFeed = () => {
-        getPosts('feed', { tag: this.props.user.name, limit: 5 })
+        getPosts("feed", { tag: this.props.user.name, limit: 10 })
             .then(result => {
                 this.setState({
                     isReady: true,
@@ -67,7 +66,7 @@ class FeedPage extends React.Component {
 
     getMore = () => {
         this.setState({ loading: true });
-        getPosts('feed', {
+        getPosts("feed", {
             tag: this.props.user.name,
             limit: 10,
             start_author: this.state.start_author,
@@ -100,10 +99,11 @@ class FeedPage extends React.Component {
         return (
             <View
                 style={{
-                    alignContent: 'center',
-                    alignItems: 'center',
+                    alignContent: "center",
+                    alignItems: "center",
                     marginTop: 10,
-                    borderColor: '#CED0CE',
+                    marginBottom: 40,
+                    borderColor: "#CED0CE",
                 }}
             >
                 <ActivityIndicator animating size="large" />
@@ -120,12 +120,13 @@ class FeedPage extends React.Component {
                         data={this.state.posts}
                         showsVerticalScrollIndicator={false}
                         renderItem={({ item }) => (
-                            <View style={styles.card}>
-                                <PostCard
-                                    navigation={this.props.navigation}
-                                    content={item}
-                                />
-                            </View>
+                            <PostCard
+                                style={{ shadowColor: "white" }}
+                                navigation={this.props.navigation}
+                                content={item}
+                                user={this.props.user}
+                                isLoggedIn={true}
+                            />
                         )}
                         keyExtractor={(post, index) => index.toString()}
                         onEndReached={this.getMore}
@@ -175,39 +176,26 @@ class FeedPage extends React.Component {
 
 const styles = StyleSheet.create({
     container: {
-        backgroundColor: '#F9F9F9',
+        backgroundColor: "#F9F9F9",
         flex: 1,
         top: StatusBar.currentHeight,
     },
     placeholder: {
-        backgroundColor: 'white',
+        backgroundColor: "white",
         padding: 20,
-        borderStyle: 'solid',
+        borderStyle: "solid",
         borderWidth: 1,
         borderTopWidth: 1,
-        borderColor: '#e2e5e8',
-        borderRadius: 0,
-        marginRight: 0,
-        marginLeft: 0,
-        marginTop: 10,
-    },
-    card: {
-        backgroundColor: 'white',
-        shadowColor: 'white',
-        marginRight: 0,
-        marginLeft: 0,
-        marginTop: 10,
-        marginBottom: 0,
-        borderWidth: 1,
-        borderColor: '#e2e5e8',
+        borderColor: "#e2e5e8",
         borderRadius: 5,
-        paddingHorizontal: 0,
-        paddingVertical: 0,
+        marginRight: 0,
+        marginLeft: 0,
+        marginTop: 10,
     },
     tabs: {
-        position: 'absolute',
-        top: Dimensions.get('window').width / 30,
-        alignItems: 'center',
+        position: "absolute",
+        top: Dimensions.get("window").width / 30,
+        alignItems: "center",
     },
 });
 
