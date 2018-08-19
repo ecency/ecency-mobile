@@ -11,12 +11,6 @@ const styles = createStyle({
         flex: 1,
         backgroundColor: "white",
     },
-    iframe: {
-        maxWidth: Dimensions.get("window").width,
-    },
-    img: {
-        maxWidth: Dimensions.get("window").width,
-    },
 });
 
 export default styles;

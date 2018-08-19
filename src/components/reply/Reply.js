@@ -26,7 +26,6 @@ import {
 import { Popover, PopoverController } from "react-native-modal-popover";
 import Slider from "react-native-slider";
 import Modal from "react-native-modal";
-import HTML from "react-native-render-html";
 
 import {
     upvote,

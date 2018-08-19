@@ -24,7 +24,7 @@ import {
     Text,
     Title,
 } from "native-base";
-import HTML from "react-native-render-html";
+import HTML from "react-native-html-renderer";
 import { Client } from "dsteem";
 const client = new Client("https://api.steemit.com");
 
@@ -91,10 +91,12 @@ class SinglePostPage extends React.Component {
 
     alterNode(node) {
         if (node.name == "img") {
-            node.attribs.style = `max-width: ${Dimensions.get("window").width}`;
+            node.attribs.style = `max-width: ${Dimensions.get("window").width +
+                10}px; left: -10px; width: 100% !important`;
         } else if (node.name == "iframe") {
-            node.attribs.style = `max-width: ${Dimensions.get("window").width}`;
-            node.attribs.style = `width: ${Dimensions.get("window").width}`;
+            node.attribs.style = `max-width: ${
+                Dimensions.get("window").width
+            }px; left: -10px`;
             node.attribs.height = 200;
         }
     }
@@ -307,26 +309,42 @@ class SinglePostPage extends React.Component {
                         </View>
                     </View>
                     <View style={styles.comments}>
-                        <FlatList
-                            style={{ backgroundColor: "white" }}
-                            removeClippedSubviews={false}
-                            data={this.state.comments}
-                            showsVerticalScrollIndicator={false}
-                            renderItem={({ item }) => (
-                                <Comment
-                                    comment={item}
-                                    navigation={this.props.navigation}
-                                    isLoggedIn={
-                                        this.props.navigation.state.params
-                                            .isLoggedIn
-                                    }
-                                    user={
-                                        this.props.navigation.state.params.user
-                                    }
-                                />
-                            )}
-                            keyExtractor={item => item.permlink.toString()}
-                        />
+                        {this.props.navigation.state.params.content.children >
+                        0 ? (
+                            <FlatList
+                                style={{ backgroundColor: "white" }}
+                                removeClippedSubviews={false}
+                                data={this.state.comments}
+                                showsVerticalScrollIndicator={false}
+                                renderItem={({ item }) => (
+                                    <Comment
+                                        comment={item}
+                                        navigation={this.props.navigation}
+                                        isLoggedIn={
+                                            this.props.navigation.state.params
+                                                .isLoggedIn
+                                        }
+                                        user={
+                                            this.props.navigation.state.params
+                                                .user
+                                        }
+                                    />
+                                )}
+                                keyExtractor={item => item.permlink.toString()}
+                            />
+                        ) : (
+                            <Card
+                                style={{
+                                    margin: 20,
+                                    padding: 10,
+                                    borderRadius: 10,
+                                }}
+                            >
+                                <Text style={{ alignSelf: "center" }}>
+                                    This post doesn't have any comment, yet!
+                                </Text>
+                            </Card>
+                        )}
                     </View>
                 </Content>
             </Container>
