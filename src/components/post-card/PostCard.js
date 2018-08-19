@@ -47,7 +47,9 @@ class PostCard extends React.PureComponent {
     }
 
     componentDidMount() {
-        this.calculateEstimatedAmount();
+        if (this.props.isLoggedIn == true) {
+            this.calculateEstimatedAmount();
+        }
     }
 
     calculateEstimatedAmount = async () => {
@@ -170,6 +172,8 @@ class PostCard extends React.PureComponent {
                     onPress={() =>
                         this.props.navigation.push("Post", {
                             content: this.props.content,
+                            isLoggedIn: this.props.isLoggedIn,
+                            user: this.props.user,
                         })
                     }
                 >

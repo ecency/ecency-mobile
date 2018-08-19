@@ -1,7 +1,13 @@
 /* eslint-disable no-console */
 /* eslint-disable no-unused-vars */
 import React from "react";
-import { Dimensions, StyleSheet, StatusBar, FlatList } from "react-native";
+import {
+    Dimensions,
+    ActivityIndicator,
+    StatusBar,
+    FlatList,
+    TextInput,
+} from "react-native";
 import {
     Container,
     CardItem,
@@ -23,7 +29,9 @@ import { Client } from "dsteem";
 const client = new Client("https://api.steemit.com");
 
 import { parsePost, protocolUrl2Obj } from "../../utils/PostParser";
-import { getComments } from "../../providers/steem/Dsteem";
+import { getComments, postComment } from "../../providers/steem/Dsteem";
+import { decryptKey } from "../../utils/Crypto";
+import { getUserData } from "../../realm/Realm";
 import Comment from "../../components/comment/Comment";
 import styles from "../../styles/post.styles";
 /* eslint-enable no-unused-vars */
@@ -33,10 +41,13 @@ class SinglePostPage extends React.Component {
         super(props);
         this.state = {
             comments: [],
+            comment: "",
+            isLoading: false,
         };
     }
 
     componentDidMount() {
+        console.log(this.props.navigation.state.params);
         if (this.props.navigation.state.params.content.children > 0) {
             getComments(
                 this.props.navigation.state.params.content.author,
@@ -87,6 +98,59 @@ class SinglePostPage extends React.Component {
             node.attribs.height = 200;
         }
     }
+
+    postComment = async () => {
+        this.setState({ isLoading: true });
+        let content = this.props.navigation.state.params.content;
+        let user = this.props.navigation.state.params.user;
+        let userData;
+        let postingKey;
+
+        let comment = {
+            parent_author: content.author,
+            parent_permlink: content.permlink,
+            author: user.name,
+            permlink: this.commentPermlink(content.author, content.permlink),
+            title: this.commentPermlink(content.author, content.permlink),
+            body: this.state.comment,
+            json_metadata: JSON.stringify({
+                app: "eSteem",
+                community: "eSteem",
+            }),
+        };
+
+        await getUserData().then(result => {
+            userData = Array.from(result);
+            postingKey = decryptKey(userData[0].postingKey, "pinCode");
+        });
+
+        postComment(comment, postingKey)
+            .then(result => {
+                console.log(result);
+                this.setState({
+                    isLoading: false,
+                    comment: "",
+                });
+            })
+            .catch(error => {
+                console.log(error);
+                this.setState({ isLoading: false });
+            });
+    };
+
+    /**
+     * Method to format permlink for a comment
+     * @param parent_author
+     * @param parent_permlink
+     */
+    commentPermlink = (parent_author, parent_permlink) => {
+        const timeStr = new Date()
+            .toISOString()
+            .replace(/[^a-zA-Z0-9]+/g, "")
+            .toLocaleLowerCase();
+        parent_permlink = parent_permlink.replace(/(-\d{8}t\d{9}z)/g, "");
+        return "re" + parent_author + "-" + parent_permlink + "-" + timeStr;
+    };
 
     render() {
         return (
@@ -199,6 +263,49 @@ class SinglePostPage extends React.Component {
                             </Text>
                         </Right>
                     </View>
+                    <View style={{ padding: 10 }}>
+                        <TextInput
+                            style={{
+                                borderWidth: 1,
+                                borderColor: "lightgray",
+                                borderRadius: 5,
+                                padding: 10,
+                                minHeight: 100,
+                            }}
+                            multiline={true}
+                            numberOfLines={4}
+                            placeholder={"What do you think about this story?"}
+                            onChangeText={comment => this.setState({ comment })}
+                            value={this.state.comment}
+                        />
+                        <View style={{ flexDirection: "row-reverse" }}>
+                            <Button
+                                onPress={this.postComment}
+                                style={{
+                                    alignSelf: "flex-end",
+                                    marginTop: 10,
+                                    borderRadius: 20,
+                                }}
+                            >
+                                {this.state.isLoading ? (
+                                    <ActivityIndicator
+                                        style={{ marginHorizontal: 50 }}
+                                    />
+                                ) : (
+                                    <Text>Post a Comment</Text>
+                                )}
+                            </Button>
+                            <Button
+                                style={{
+                                    alignSelf: "flex-end",
+                                    marginRight: 10,
+                                    borderRadius: 50,
+                                }}
+                            >
+                                <Icon name={"images"} />
+                            </Button>
+                        </View>
+                    </View>
                     <View style={styles.comments}>
                         <FlatList
                             style={{ backgroundColor: "white" }}
@@ -209,6 +316,13 @@ class SinglePostPage extends React.Component {
                                 <Comment
                                     comment={item}
                                     navigation={this.props.navigation}
+                                    isLoggedIn={
+                                        this.props.navigation.state.params
+                                            .isLoggedIn
+                                    }
+                                    user={
+                                        this.props.navigation.state.params.user
+                                    }
                                 />
                             )}
                             keyExtractor={item => item.permlink.toString()}

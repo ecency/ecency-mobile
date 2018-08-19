@@ -59,9 +59,7 @@ export const markDown2Html = input => {
 };
 
 export const parsePosts = (posts, user) => {
-    console.log("user");
     posts.map(post => {
-        console.log(user);
         post.json_metadata = JSON.parse(post.json_metadata);
         post.json_metadata.image
             ? (post.image = post.json_metadata.image[0])
@@ -98,7 +96,6 @@ export const parsePosts = (posts, user) => {
         for (let i in post.active_votes) {
             if (post.active_votes[i].voter == user) {
                 post.isVoted = true;
-                console.log("yup");
             }
             post.active_votes[i].value = (
                 post.active_votes[i].rshares * ratio
@@ -216,6 +213,7 @@ export const protocolUrl2Obj = url => {
 };
 
 export const parseComments = comments => {
+    console.log(comments);
     comments.map(comment => {
         comment.pending_payout_value = parseFloat(
             comment.pending_payout_value

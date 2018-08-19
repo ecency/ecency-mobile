@@ -168,3 +168,22 @@ export const upvoteAmount = async input => {
         parseFloat(medianPrice.base);
     return estimated;
 };
+
+/**
+ * @method postComment post a comment/reply
+ * @param comment comment object { author, permlink, ... }
+ * @param PrivateKey Private posting key
+ */
+export const postComment = (comment, postingKey) => {
+    let key = PrivateKey.fromString(postingKey);
+    return new Promise((resolve, reject) => {
+        try {
+            client.broadcast.comment(comment, key).then(result => {
+                resolve(result);
+            });
+        } catch (error) {
+            console.log(error);
+            reject(error);
+        }
+    });
+};
