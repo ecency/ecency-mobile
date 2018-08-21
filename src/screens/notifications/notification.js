@@ -1,4 +1,5 @@
-import * as React from 'react';
+import React from "react";
+import { StatusBar } from "react-native";
 import {
     Container,
     Header,
@@ -8,16 +9,16 @@ import {
     Button,
     Icon,
     Title,
-} from 'native-base';
+} from "native-base";
 
 class NotificationPage extends React.Component {
     static navigationOptions = {
-        title: 'Notifications',
+        title: "Notifications",
     };
 
     render() {
         return (
-            <Container>
+            <Container style={{ top: StatusBar.currentHeight }}>
                 <Header>
                     <Left>
                         <Button transparent>

@@ -330,7 +330,7 @@ class SinglePostPage extends React.Component {
                                         }
                                     />
                                 )}
-                                keyExtractor={item => item.permlink.toString()}
+                                keyExtractor={item => item.id.toString()}
                             />
                         ) : (
                             <Card

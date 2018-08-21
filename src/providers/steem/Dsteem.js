@@ -29,10 +29,41 @@ export const getAccount = user => {
 export const getUser = async user => {
     try {
         let account = await client.database.getAccounts([user]);
+        // get global properties to calculate Steem Power
+        let global_properties = await client.database.getDynamicGlobalProperties();
+
+        // calculate Steem Power (own, received, delegated)
+        account[0].steem_power = vestToSteem(
+            account[0].vesting_shares,
+            global_properties.total_vesting_shares,
+            global_properties.total_vesting_fund_steem
+        ).toFixed(0);
+        account[0].received_steem_power = vestToSteem(
+            account[0].received_vesting_shares,
+            global_properties.total_vesting_shares,
+            global_properties.total_vesting_fund_steem
+        ).toFixed(0);
+        account[0].delegated_steem_power = vestToSteem(
+            account[0].delegated_vesting_shares,
+            global_properties.total_vesting_shares,
+            global_properties.total_vesting_fund_steem
+        ).toFixed(0);
+
         return account[0];
     } catch (error) {
         return error;
     }
+};
+
+export const vestToSteem = (
+    vestingShares,
+    totalVestingShares,
+    totalVestingFundSteem
+) => {
+    return (
+        parseFloat(totalVestingFundSteem) *
+        (parseFloat(vestingShares) / parseFloat(totalVestingShares))
+    );
 };
 
 /**
@@ -60,8 +91,21 @@ export const getFollows = user => {
 export const getPosts = async (by, query, user) => {
     try {
         let posts = await client.database.getDiscussions(by, query);
+        console.log("comments");
+        console.log(posts);
         posts = await parsePosts(posts, user);
         return posts;
+    } catch (error) {
+        return error;
+    }
+};
+
+export const getUserComments = async query => {
+    try {
+        let comments = await client.database.getDiscussions("comments", query);
+        comments = parseComments(comments);
+        console.log(comments);
+        return comments;
     } catch (error) {
         return error;
     }
@@ -185,5 +229,21 @@ export const postComment = (comment, postingKey) => {
             console.log(error);
             reject(error);
         }
+    });
+};
+
+export const transferToken = (data, activeKey) => {
+    let key = PrivateKey.fromString(activeKey);
+    return new Promise((resolve, reject) => {
+        client.broadcast
+            .transfer(data, key)
+            .then(result => {
+                console.log(result);
+                resolve(result);
+            })
+            .catch(err => {
+                console.log(err);
+                reject(err);
+            });
     });
 };

@@ -1,6 +1,11 @@
 /* eslint-disable no-unused-vars */
 import React from "react";
-import { StatusBar, Dimensions } from "react-native";
+import {
+    StatusBar,
+    Dimensions,
+    FlatList,
+    ActivityIndicator,
+} from "react-native";
 
 import moment from "moment";
 import FastImage from "react-native-fast-image";
@@ -8,7 +13,8 @@ import FastImage from "react-native-fast-image";
 import ScrollableTabView from "react-native-scrollable-tab-view";
 import CustomTabBar from "../home/FeedTabs";
 import DiscoverPage from "../discover/Discover";
-import { getUser, getFollows } from "../../providers/steem/Dsteem";
+import PostCard from "../../components/post-card/PostCard";
+import Comment from "../../components/comment/Comment";
 
 import {
     Content,
@@ -23,18 +29,33 @@ import {
     Icon,
     Title,
     Text,
+    Container,
 } from "native-base";
 
 import { getUserData, getAuthStatus } from "../../realm/Realm";
+import {
+    getUser,
+    getFollows,
+    getPosts,
+    getUserComments,
+    getUserReplies,
+} from "../../providers/steem/Dsteem";
 import store from "../../redux/store/Store";
 import styles from "../../styles/profile.styles";
+import HotPage from "../home/hot";
 /* eslint-enable no-unused-vars */
 
 class ProfilePage extends React.Component {
     constructor() {
         super();
+        this.getBlog = this.getBlog.bind(this);
+        this.getMore = this.getMore.bind(this);
+        this.getComments = this.getComments.bind(this);
         this.state = {
             user: [],
+            posts: [],
+            commments: [],
+            replies: [],
             about: {},
             follows: {},
             isLoggedIn: false,
@@ -63,48 +84,94 @@ class ProfilePage extends React.Component {
 
             user = await getUser(userData[0].username);
             about = JSON.parse(user.json_metadata);
-            this.setState({
-                user: user,
-                isLoggedIn: isLoggedIn,
-                follows: follows,
-                about: about.profile,
-            });
+            this.setState(
+                {
+                    user: user,
+                    isLoggedIn: isLoggedIn,
+                    follows: follows,
+                    about: about.profile,
+                },
+                () => {
+                    this.getBlog(userData[0].username);
+                    this.getComments(userData[0].username);
+                }
+            );
         }
     }
+
+    renderFooter = () => {
+        if (!this.state.loading == false) return null;
+
+        return (
+            <View style={{ marginVertical: 20 }}>
+                <ActivityIndicator animating size="large" />
+            </View>
+        );
+    };
+
+    getBlog = user => {
+        this.setState({ loading: true });
+        getPosts("blog", { tag: user, limit: 10 }, user)
+            .then(result => {
+                this.setState({
+                    isReady: true,
+                    posts: result,
+                    start_author: result[result.length - 1].author,
+                    start_permlink: result[result.length - 1].permlink,
+                    refreshing: false,
+                    loading: false,
+                });
+            })
+            .catch(err => {
+                alert(err);
+            });
+    };
+
+    getMore = async () => {
+        console.log("get more");
+        await getPosts(
+            "blog",
+            {
+                tag: this.state.user.name,
+                limit: 10,
+                start_author: this.state.start_author,
+                start_permlink: this.state.start_permlink,
+            },
+            this.state.user.name
+        ).then(result => {
+            console.log(result);
+            let posts = result;
+            posts.shift();
+            this.setState({
+                posts: [...this.state.posts, ...posts],
+                start_author: result[result.length - 1].author,
+                start_permlink: result[result.length - 1].permlink,
+                loading: false,
+            });
+        });
+    };
+
+    getComments = async user => {
+        await getUserComments({ start_author: user, limit: 10 })
+            .then(result => {
+                this.setState({
+                    isReady: true,
+                    commments: result,
+                    refreshing: false,
+                    loading: false,
+                });
+            })
+            .catch(err => {
+                console.log(err);
+            });
+    };
 
     render() {
         return (
             <View style={styles.container}>
                 {this.state.isLoggedIn ? (
                     <View style={{ flex: 1 }}>
-                        <Header
-                            style={{
-                                backgroundColor: "transparent",
-                                position: "absolute",
-                                top: StatusBar.currentHeight,
-                            }}
-                        >
-                            <Left>
-                                <Button transparent>
-                                    <Icon name="menu" />
-                                </Button>
-                            </Left>
-                            <Body>
-                                <Title>{this.state.user.name}</Title>
-                            </Body>
-                            <Right>
-                                <Button transparent>
-                                    <Icon name="search" />
-                                </Button>
-                                <Button transparent>
-                                    <Icon name="heart" />
-                                </Button>
-                                <Button transparent>
-                                    <Icon name="more" />
-                                </Button>
-                            </Right>
-                        </Header>
-                        <Content style={styles.content}>
+                        <View style={styles.content}>
                             <FastImage
                                 style={styles.cover}
                                 source={{
@@ -181,35 +248,112 @@ class ProfilePage extends React.Component {
                                     </View>
                                 </CardItem>
                             </Card>
-                            <View>
-                                <ScrollableTabView
-                                    style={styles.tabs}
-                                    renderTabBar={() => (
-                                        <CustomTabBar
-                                            style={styles.tabbar}
-                                            tabUnderlineDefaultWidth={30} // default containerWidth / (numberOfTabs * 4)
-                                            tabUnderlineScaleX={3} // default 3
-                                            activeColor={"#222"}
-                                            inactiveColor={"#222"}
+                        </View>
+                        <ScrollableTabView
+                            style={styles.tabs}
+                            style={{ flex: 1 }}
+                            renderTabBar={() => (
+                                <CustomTabBar
+                                    style={styles.tabbar}
+                                    tabUnderlineDefaultWidth={30} // default containerWidth / (numberOfTabs * 4)
+                                    tabUnderlineScaleX={3} // default 3
+                                    activeColor={"#222"}
+                                    inactiveColor={"#222"}
+                                />
+                            )}
+                        >
+                            <View tabLabel="Blog" style={styles.tabbarItem}>
+                                <FlatList
+                                    data={this.state.posts}
+                                    showsVerticalScrollIndicator={false}
+                                    renderItem={({ item }) => (
+                                        <PostCard
+                                            style={{ shadowColor: "white" }}
+                                            navigation={this.props.navigation}
+                                            content={item}
+                                            user={this.state.user}
+                                            isLoggedIn={true}
                                         />
                                     )}
-                                >
-                                    <View tabLabel="Blog" />
-                                    <View
-                                        tabLabel="Comments"
-                                        style={styles.tabbarItem}
-                                    />
-                                    <View
-                                        tabLabel="Replies"
-                                        style={styles.tabbarItem}
-                                    />
-                                    <View
-                                        tabLabel="Wallet"
-                                        style={styles.tabbarItem}
-                                    />
-                                </ScrollableTabView>
+                                    keyExtractor={(post, index) =>
+                                        index.toString()
+                                    }
+                                    onEndReached={info => {
+                                        if (this.state.loading == false) {
+                                            console.log(info);
+                                            this.getMore();
+                                        }
+                                    }}
+                                    onEndThreshold={0}
+                                    bounces={false}
+                                    ListFooterComponent={this.renderFooter}
+                                />
                             </View>
-                        </Content>
+
+                            <View tabLabel="Comments" style={styles.tabbarItem}>
+                                <FlatList
+                                    data={this.state.commments}
+                                    showsVerticalScrollIndicator={false}
+                                    renderItem={({ item }) => (
+                                        <Comment
+                                            comment={item}
+                                            navigation={this.props.navigation}
+                                            isLoggedIn={true}
+                                            user={this.state.user}
+                                        />
+                                    )}
+                                    keyExtractor={(post, index) =>
+                                        index.toString()
+                                    }
+                                    onEndThreshold={0}
+                                    bounces={false}
+                                    ListFooterComponent={this.renderFooter}
+                                />
+                            </View>
+                            <View
+                                tabLabel="Replies"
+                                style={styles.tabbarItem}
+                            />
+                            <View tabLabel="Wallet" style={styles.tabbarItem}>
+                                <Card>
+                                    <Text>
+                                        STEEM Balance: {this.state.user.balance}
+                                    </Text>
+                                </Card>
+                                <Card>
+                                    <Text>
+                                        SBD Balance:{" "}
+                                        {this.state.user.sbd_balance}
+                                    </Text>
+                                </Card>
+                                <Card>
+                                    <Text>
+                                        STEEM Power:{" "}
+                                        {this.state.user.steem_power} SP
+                                    </Text>
+                                    <Text>
+                                        Received STEEM Power:{" "}
+                                        {this.state.user.received_steem_power}{" "}
+                                        SP
+                                    </Text>
+                                    <Text>
+                                        Delegated Power Power:{" "}
+                                        {this.state.user.delegated_steem_power}{" "}
+                                        SP
+                                    </Text>
+                                </Card>
+                                <Card>
+                                    <Text>
+                                        Saving STEEM Balance:{" "}
+                                        {this.state.user.savings_balance}
+                                    </Text>
+                                    <Text>
+                                        Saving STEEM Balance:{" "}
+                                        {this.state.user.savings_sbd_balance}
+                                    </Text>
+                                </Card>
+                            </View>
+                        </ScrollableTabView>
                     </View>
                 ) : (
                     <View>

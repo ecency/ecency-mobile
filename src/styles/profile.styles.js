@@ -7,7 +7,6 @@ const styles = createStyle({
         top: StatusBar.currentHeight,
     },
     content: {
-        flex: 1,
         backgroundColor: "#f9f9f9",
     },
     cover: {
