@@ -3,25 +3,17 @@ import { StatusBar, Dimensions } from "react-native";
 
 const styles = createStyle({
     container: {
-        top: StatusBar.currentHeight,
-    },
-    view: {
         flex: 1,
+        top: StatusBar.currentHeight,
     },
     content: {
-        flex: 1,
-        backgroundColor: "@backgroundColor",
+        backgroundColor: "#f9f9f9",
     },
-    header: {
-        backgroundColor: "transparent",
-        position: "absolute",
-        top: StatusBar.currentHeight,
-    },
-    coverImage: {
+    cover: {
         width: Dimensions.get("window").width,
         height: 160,
     },
-    profileImage: {
+    avatar: {
         width: 100,
         height: 100,
         borderRadius: 50,
@@ -30,23 +22,30 @@ const styles = createStyle({
         borderColor: "white",
         alignSelf: "center",
     },
-    accountNameBody: {
-        top: -40,
-    },
-    accountNameText: {
-        fontWeight: "@fontWeight",
-    },
-    userDetailsCard: {
-        marginTop: 0,
-        marginLeft: 0,
-        marginRight: 0,
-        marginBottom: 0,
-    },
-    userDetail: {
+    about: {
         borderColor: "lightgray",
         borderTopWidth: 1,
         borderBottomWidth: 1,
         flexDirection: "row",
+    },
+    info: {
+        flexDirection: "row",
+        borderBottomWidth: 0,
+    },
+    tabs: {
+        alignSelf: "center",
+        backgroundColor: "transparent",
+    },
+    tabbar: {
+        alignSelf: "center",
+        height: 40,
+        backgroundColor: "#fff",
+    },
+    tabbarItem: {
+        flex: 1,
+        paddingHorizontal: 7,
+        backgroundColor: "#f9f9f9",
+        minWidth: Dimensions.get("window").width / 1,
     },
 });
 

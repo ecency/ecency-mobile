@@ -84,6 +84,59 @@ export const getFollows = user => {
 };
 
 /**
+ * @method getFollowers
+ * @param user username
+ * TODO: Pagination
+ */
+export const getFollowers = user => {
+    return new Promise((resolve, reject) => {
+        client
+            .call("follow_api", "get_followers", [user, "", "blog", 50])
+            .then(result => {
+                resolve(result);
+            })
+            .catch(err => {
+                reject(err);
+            });
+    });
+};
+
+/**
+ * @method getFollowing
+ * @param user username
+ * TODO: Pagination
+ */
+export const getFollowing = user => {
+    return new Promise((resolve, reject) => {
+        client
+            .call("follow_api", "get_following", [user, "", "blog", 50])
+            .then(result => {
+                resolve(result);
+            })
+            .catch(err => {
+                reject(err);
+            });
+    });
+};
+
+export const isFolllowing = (author, user) => {
+    return new Promise((resolve, reject) => {
+        client
+            .call("follow_api", "get_followers", [author, user, "blog", 10])
+            .then(result => {
+                if (result[0].follower === user) {
+                    resolve(true);
+                } else {
+                    resolve(false);
+                }
+            })
+            .catch(err => {
+                reject(err);
+            });
+    });
+};
+
+/**
  * @method getPosts get posts method
  * @param by get discussions by trending, created, active etc.
  * @param query tag, limit, start_author?, start_permalink?
@@ -237,6 +290,76 @@ export const transferToken = (data, activeKey) => {
     return new Promise((resolve, reject) => {
         client.broadcast
             .transfer(data, key)
+            .then(result => {
+                console.log(result);
+                resolve(result);
+            })
+            .catch(err => {
+                console.log(err);
+                reject(err);
+            });
+    });
+};
+
+export const followUser = (data, postingKey) => {
+    let key;
+    try {
+        key = PrivateKey.fromString(postingKey);
+    } catch (error) {
+        console.log(error);
+    }
+    let json = {
+        id: "follow",
+        json: JSON.stringify([
+            "follow",
+            {
+                follower: `${data.follower}`,
+                following: `${data.following}`,
+                what: ["blog"],
+            },
+        ]),
+        required_auths: [],
+        required_posting_auths: [`${data.follower}`],
+    };
+
+    return new Promise((resolve, reject) => {
+        client.broadcast
+            .json(json, key)
+            .then(result => {
+                console.log(result);
+                resolve(result);
+            })
+            .catch(err => {
+                console.log(err);
+                reject(err);
+            });
+    });
+};
+
+export const unfollowUser = (data, postingKey) => {
+    let key;
+    try {
+        key = PrivateKey.fromString(postingKey);
+    } catch (error) {
+        console.log(error);
+    }
+    let json = {
+        id: "follow",
+        json: JSON.stringify([
+            "follow",
+            {
+                follower: `${data.follower}`,
+                following: `${data.following}`,
+                what: [""],
+            },
+        ]),
+        required_auths: [],
+        required_posting_auths: [`${data.follower}`],
+    };
+
+    return new Promise((resolve, reject) => {
+        client.broadcast
+            .json(json, key)
             .then(result => {
                 console.log(result);
                 resolve(result);

@@ -118,7 +118,6 @@ export const parsePosts = (posts, user) => {
             ];
         }
     });
-    console.log(posts);
     return posts;
 };
 
@@ -213,7 +212,6 @@ export const protocolUrl2Obj = url => {
 };
 
 export const parseComments = comments => {
-    console.log(comments);
     comments.map(comment => {
         comment.pending_payout_value = parseFloat(
             comment.pending_payout_value
