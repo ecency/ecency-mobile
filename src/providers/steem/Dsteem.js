@@ -370,3 +370,95 @@ export const unfollowUser = (data, postingKey) => {
             });
     });
 };
+
+export const delegate = (data, activeKey) => {
+    let key;
+    try {
+        key = PrivateKey.fromString(activeKey);
+    } catch (error) {
+        console.log(error);
+    }
+
+    return new Promise((resolve, reject) => {
+        client.broadcast
+            .delegateVestingShares(data, key)
+            .then(result => {
+                resolve(result);
+            })
+            .catch(err => {
+                console.log(err);
+                reject(err);
+            });
+    });
+};
+
+export const globalProps = async () => {
+    try {
+        let global_properties = await client.database.getDynamicGlobalProperties();
+        return global_properties;
+    } catch (error) {
+        console.log(error);
+        return error;
+    }
+};
+
+export const transferToVesting = (data, activeKey) => {
+    let key;
+    try {
+        key = PrivateKey.fromString(activeKey);
+        console.log(key);
+    } catch (error) {
+        console.log(error);
+    }
+
+    const op = [
+        "transfer_to_vesting",
+        {
+            from: data.from,
+            to: data.to,
+            amount: data.amount,
+        },
+    ];
+
+    return new Promise((resolve, reject) => {
+        client.broadcast
+            .sendOperations([op], key)
+            .then(result => {
+                resolve(result);
+            })
+            .catch(error => {
+                console.log(error);
+                reject(error);
+            });
+    });
+};
+
+export const withdrawVesting = (data, activeKey) => {
+    let key;
+    try {
+        key = PrivateKey.fromString(activeKey);
+        console.log(key);
+    } catch (error) {
+        console.log(error);
+    }
+
+    const op = [
+        "withdraw_vesting",
+        {
+            account: data.account,
+            vesting_shares: data.vesting_shares,
+        },
+    ];
+
+    return new Promise((resolve, reject) => {
+        client.broadcast
+            .sendOperations([op], key)
+            .then(result => {
+                resolve(result);
+            })
+            .catch(error => {
+                console.log(error);
+                reject(error);
+            });
+    });
+};

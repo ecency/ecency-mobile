@@ -1,5 +1,6 @@
 import React from "react";
-import { StatusBar, Text, Picker } from "react-native";
+import { StatusBar, Text, Picker, View } from "react-native";
+import Slider from "react-native-slider";
 import {
     Container,
     Header,
@@ -15,7 +16,14 @@ import {
     Form,
 } from "native-base";
 import { getUserData, getAuthStatus } from "../../realm/Realm";
-import { getUser, transferToken } from "../../providers/steem/Dsteem";
+import {
+    getUser,
+    transferToken,
+    delegate,
+    globalProps,
+    transferToVesting,
+    withdrawVesting,
+} from "../../providers/steem/Dsteem";
 import { decryptKey } from "../../utils/Crypto";
 
 class WalletPage extends React.Component {
@@ -28,12 +36,20 @@ class WalletPage extends React.Component {
             asset: "STEEM",
             memo: "",
             user: {},
+            avail: "",
+            globalProps: "",
+            vestSteem: "",
+            percent: 0.05,
+            value: 0.0,
         };
     }
-    async componentWillMount() {
+    async componentDidMount() {
         let isLoggedIn;
         let user;
         let userData;
+        let avail;
+        let vestSteem;
+        let globalProperties;
 
         await getAuthStatus().then(res => {
             isLoggedIn = res;
@@ -46,8 +62,37 @@ class WalletPage extends React.Component {
 
             user = await getUser(userData[0].username);
 
-            this.setState({
+            await this.setState({
                 user: user,
+            });
+
+            globalProperties = await globalProps();
+            avail =
+                parseFloat(this.state.user.vesting_shares) -
+                (parseFloat(this.state.user.to_withdraw) -
+                    parseFloat(this.state.user.withdrawn)) /
+                    1e6 -
+                parseFloat(this.state.user.delegated_vesting_shares);
+            vestSteem = parseFloat(
+                parseFloat(globalProperties.total_vesting_fund_steem) *
+                    (parseFloat(avail) /
+                        parseFloat(globalProperties.total_vesting_shares)),
+                6
+            );
+
+            console.log(avail);
+            console.log(vestSteem);
+            console.log(globalProperties);
+
+            console.log(
+                (parseFloat(globalProperties.total_vesting_fund_steem) /
+                    parseFloat(globalProperties.total_vesting_shares)) *
+                    parseFloat(avail * this.state.value)
+            );
+            await this.setState({
+                avail: avail,
+                vestSteem: vestSteem,
+                globalProps: globalProperties,
             });
         }
     }
@@ -73,6 +118,110 @@ class WalletPage extends React.Component {
             .then(() => {
                 activeKey = decryptKey(activeKey, "pinCode");
                 transferToken(transferData, activeKey);
+            })
+            .catch(error => {
+                console.log(error);
+            });
+    };
+
+    delegateSP = async () => {
+        let userData;
+        let activeKey;
+
+        vestSteem = parseFloat(
+            parseFloat(this.state.globalProps.total_vesting_fund_steem) *
+                (parseFloat(this.state.avail * this.state.value) /
+                    parseFloat(this.state.globalProps.total_vesting_shares)),
+            6
+        );
+        let toWithdraw =
+            (vestSteem * 1e6) /
+            (parseFloat(this.state.globalProps.total_vesting_fund_steem) /
+                (parseFloat(this.state.globalProps.total_vesting_shares) /
+                    1e6));
+        console.log(toWithdraw);
+        data = {
+            delegator: this.state.user.name,
+            delegatee: "demo",
+            vesting_shares: `${toWithdraw.toFixed(6)} VESTS`,
+        };
+        await getUserData().then(res => {
+            userData = Array.from(res);
+        });
+
+        activeKey = decryptKey(userData[0].activeKey, "pinCode");
+
+        delegate(data, activeKey)
+            .then(res => {
+                console.log(res);
+            })
+            .catch(err => {
+                console.log(err);
+            });
+    };
+
+    powerUpSteem = async () => {
+        let userData;
+        let activeKey;
+
+        await getUserData().then(res => {
+            userData = Array.from(res);
+        });
+
+        activeKey = decryptKey(userData[0].activeKey, "pinCode");
+
+        let data = {
+            from: this.state.user.name,
+            to: "hsynterkr",
+            amount: "001.000 STEEM",
+        };
+
+        transferToVesting(data, activeKey)
+            .then(res => {
+                console.log(res);
+            })
+            .catch(error => {
+                console.log(error);
+            });
+    };
+
+    powerDownSteem = async () => {
+        let userData;
+        let activeKey;
+        let avail;
+
+        await getUserData().then(res => {
+            userData = Array.from(res);
+        });
+
+        activeKey = decryptKey(userData[0].activeKey, "pinCode");
+
+        avail =
+            parseFloat(this.state.user.vesting_shares) -
+            (parseFloat(this.state.user.to_withdraw) -
+                parseFloat(this.state.user.withdrawn)) /
+                1e6 -
+            parseFloat(this.state.user.delegated_vesting_shares);
+        let vestSteem = parseFloat(
+            parseFloat(this.state.globalProps.total_vesting_fund_steem) *
+                (parseFloat(avail * this.state.value) /
+                    parseFloat(this.state.globalProps.total_vesting_shares)),
+            6
+        );
+        let toWithdraw =
+            (vestSteem * 1e6) /
+            (parseFloat(this.state.globalProps.total_vesting_fund_steem) /
+                (parseFloat(this.state.globalProps.total_vesting_shares) /
+                    1e6));
+
+        let data = {
+            account: this.state.user.name,
+            vesting_shares: `${toWithdraw.toFixed(6)} VESTS`,
+        };
+
+        withdrawVesting(data, activeKey)
+            .then(result => {
+                console.log(result);
             })
             .catch(error => {
                 console.log(error);
@@ -126,6 +275,12 @@ class WalletPage extends React.Component {
 
                     <Card>
                         <Input
+                            style={{
+                                borderColor: "lightgray",
+                                borderWidth: 1,
+                                borderRadius: 20,
+                                margin: 10,
+                            }}
                             autoCapitalize="none"
                             placeholder="Recipient"
                             onChangeText={user =>
@@ -134,6 +289,12 @@ class WalletPage extends React.Component {
                             value={this.state.receiver}
                         />
                         <Input
+                            style={{
+                                borderColor: "lightgray",
+                                borderWidth: 1,
+                                borderRadius: 20,
+                                margin: 10,
+                            }}
                             placeholder="amount"
                             onChangeText={amount =>
                                 this.setState({ amount: amount })
@@ -141,25 +302,218 @@ class WalletPage extends React.Component {
                             value={this.state.amount}
                         />
                         <Input
+                            style={{
+                                borderColor: "lightgray",
+                                borderWidth: 1,
+                                borderRadius: 20,
+                                margin: 10,
+                            }}
                             placeholder="memo"
                             onChangeText={memo => this.setState({ memo: memo })}
                             value={this.state.memo}
                         />
-                        <Picker
-                            note
-                            mode="dropdown"
-                            style={{ width: 120 }}
-                            selectedValue={this.state.asset}
-                            onValueChange={(itemValue, itemIndex) =>
-                                this.setState({ asset: itemValue })
-                            }
+                        <View style={{ flexDirection: "row" }}>
+                            <Picker
+                                note
+                                mode="dropdown"
+                                style={{ width: 120, flex: 0.5 }}
+                                selectedValue={this.state.asset}
+                                onValueChange={(itemValue, itemIndex) =>
+                                    this.setState({ asset: itemValue })
+                                }
+                            >
+                                <Picker.Item label="STEEM" value="STEEM" />
+                                <Picker.Item label="SBD" value="SBD" />
+                            </Picker>
+                            <Button
+                                onPress={this.sendSteem}
+                                style={{ margin: 10 }}
+                            >
+                                <Text style={{ color: "white" }}>Send</Text>
+                            </Button>
+                        </View>
+
+                        <View
+                            style={{
+                                margin: 5,
+                                padding: 5,
+                                borderWidth: 1,
+                                borderColor: "gray",
+                                borderRadius: 10,
+                            }}
                         >
-                            <Picker.Item label="STEEM" value="STEEM" />
-                            <Picker.Item label="SBD" value="SBD" />
-                        </Picker>
-                        <Button onPress={this.sendSteem} style={{ margin: 10 }}>
-                            <Text style={{ color: "white" }}>Send</Text>
-                        </Button>
+                            <Slider
+                                style={{ flex: 0.75 }}
+                                minimumTrackTintColor="#13a9d6"
+                                trackStyle={{ height: 2, borderRadius: 1 }}
+                                thumbStyle={{
+                                    width: 30,
+                                    height: 30,
+                                    borderRadius: 15,
+                                    backgroundColor: "white",
+                                    shadowColor: "black",
+                                    shadowOffset: { width: 0, height: 2 },
+                                    shadowRadius: 2,
+                                    shadowOpacity: 0.35,
+                                }}
+                                thumbTintColor="#007ee5"
+                                value={this.state.value}
+                                onValueChange={value => {
+                                    this.setState({
+                                        value: value,
+                                        percent: Math.floor(
+                                            value.toFixed(2) * 100
+                                        ),
+                                    });
+                                }}
+                            />
+                            <Text>
+                                Total:{" "}
+                                {(parseInt(this.state.vestSteem) *
+                                    this.state.percent) /
+                                    100}{" "}
+                                SP
+                            </Text>
+                            <Text>{Math.floor(this.state.value * 100)}%</Text>
+                            <Button
+                                onPress={this.delegateSP}
+                                style={{ margin: 10, alignSelf: "flex-end" }}
+                            >
+                                <Text style={{ color: "white" }}>Delegate</Text>
+                            </Button>
+                        </View>
+
+                        <View
+                            style={{
+                                margin: 5,
+                                padding: 5,
+                                borderWidth: 1,
+                                borderColor: "gray",
+                                borderRadius: 10,
+                            }}
+                        >
+                            <Button
+                                onPress={this.powerUpSteem}
+                                style={{ margin: 10, alignSelf: "flex-start" }}
+                            >
+                                <Text style={{ color: "white" }}>Power Up</Text>
+                            </Button>
+                        </View>
+
+                        <View
+                            style={{
+                                margin: 5,
+                                padding: 5,
+                                borderWidth: 1,
+                                borderColor: "gray",
+                                borderRadius: 10,
+                            }}
+                        >
+                            <Slider
+                                style={{ flex: 0.75 }}
+                                minimumTrackTintColor="#13a9d6"
+                                trackStyle={{ height: 2, borderRadius: 1 }}
+                                thumbStyle={{
+                                    width: 30,
+                                    height: 30,
+                                    borderRadius: 15,
+                                    backgroundColor: "white",
+                                    shadowColor: "black",
+                                    shadowOffset: { width: 0, height: 2 },
+                                    shadowRadius: 2,
+                                    shadowOpacity: 0.35,
+                                }}
+                                thumbTintColor="#007ee5"
+                                value={this.state.value}
+                                onValueChange={value => {
+                                    this.setState(
+                                        {
+                                            value: value,
+                                            percent: Math.floor(
+                                                value.toFixed(2) * 100
+                                            ),
+                                        },
+                                        () => {
+                                            let avail =
+                                                parseFloat(
+                                                    this.state.user
+                                                        .vesting_shares
+                                                ) -
+                                                (parseFloat(
+                                                    this.state.user.to_withdraw
+                                                ) -
+                                                    parseFloat(
+                                                        this.state.user
+                                                            .withdrawn
+                                                    )) /
+                                                    1e6 -
+                                                parseFloat(
+                                                    this.state.user
+                                                        .delegated_vesting_shares
+                                                );
+                                            let vestSteem = parseFloat(
+                                                parseFloat(
+                                                    this.state.globalProps
+                                                        .total_vesting_fund_steem
+                                                ) *
+                                                    (parseFloat(
+                                                        avail * this.state.value
+                                                    ) /
+                                                        parseFloat(
+                                                            this.state
+                                                                .globalProps
+                                                                .total_vesting_shares
+                                                        )),
+                                                6
+                                            );
+                                            console.log(vestSteem);
+                                            console.log(
+                                                (vestSteem * 1e6) /
+                                                    (parseFloat(
+                                                        this.state.globalProps
+                                                            .total_vesting_fund_steem
+                                                    ) /
+                                                        (parseFloat(
+                                                            this.state
+                                                                .globalProps
+                                                                .total_vesting_shares
+                                                        ) /
+                                                            1e6))
+                                            );
+                                        }
+                                    );
+                                }}
+                            />
+                            <Text>
+                                Total Steem Power:{" "}
+                                {(parseInt(this.state.vestSteem) *
+                                    this.state.percent) /
+                                    100}{" "}
+                                SP
+                            </Text>
+                            <Text>
+                                Estimated Weekly:{" "}
+                                {Math.floor(
+                                    ((
+                                        (parseInt(this.state.vestSteem) *
+                                            this.state.percent) /
+                                        100
+                                    ).toFixed(0) /
+                                        13) *
+                                        100
+                                ) / 100}{" "}
+                                SP
+                            </Text>
+                            <Text>{Math.floor(this.state.value * 100)}%</Text>
+                            <Button
+                                onPress={this.powerDownSteem}
+                                style={{ margin: 10, alignSelf: "flex-end" }}
+                            >
+                                <Text style={{ color: "white" }}>
+                                    Power Down
+                                </Text>
+                            </Button>
+                        </View>
                     </Card>
                 </Content>
             </Container>
