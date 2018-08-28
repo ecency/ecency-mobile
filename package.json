@@ -29,6 +29,7 @@
     "react-native-restart": "0.0.6",
     "react-native-scrollable-tab-view": "git+https://github.com/happypancake/react-native-scrollable-tab-view.git",
     "react-native-slider": "^0.11.0",
+    "react-native-tags": "git+https://github.com/esteemapp/react-native-tags.git",
     "react-native-theming": "^1.0.16",
     "react-native-vector-icons": "^4.6.0",
     "react-navigation": "^2.8.0",

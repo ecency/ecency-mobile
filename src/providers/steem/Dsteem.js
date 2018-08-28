@@ -1,6 +1,7 @@
 /* eslint-disable no-console */
 import { Client, PrivateKey } from "dsteem";
 const client = new Client("https://api.steemit.com");
+//const client = new Client("https://testnet.steem.vc", { chainId: "79276aea5d4877d9a25892eaa01b0adf019d3e5cb12a97478df3298ccdd01673", addressPrefix: "STX" });
 
 import { parsePosts, parseComments } from "../../utils/PostParser";
 
@@ -453,6 +454,59 @@ export const withdrawVesting = (data, activeKey) => {
     return new Promise((resolve, reject) => {
         client.broadcast
             .sendOperations([op], key)
+            .then(result => {
+                resolve(result);
+            })
+            .catch(error => {
+                console.log(error);
+                reject(error);
+            });
+    });
+};
+
+export const postContent = (data, postingKey) => {
+    let key;
+
+    try {
+        key = PrivateKey.fromString(postingKey);
+    } catch (error) {
+        console.log(error);
+    }
+
+    let post = {
+        author: data.author,
+        body: data.body,
+        parent_author: "",
+        parent_permlink: data.tags[0],
+        permlink: data.permlink,
+        title: data.title,
+        json_metadata: JSON.stringify({
+            app: "esteem/2.0.0-mobile",
+            community: "esteem.app",
+            tags: data.tags,
+        }),
+    };
+
+    let op = {
+        author: data.author,
+        permlink: data.permlink,
+        max_accepted_payout: "1000000.000 SBD",
+        percent_steem_dollars: 10000,
+        allow_votes: true,
+        allow_curation_rewards: true,
+        extensions: [
+            [
+                0,
+                {
+                    beneficiaries: [{ account: "esteemapp", weight: 1000 }],
+                },
+            ],
+        ],
+    };
+
+    return new Promise((resolve, reject) => {
+        client.broadcast
+            .commentWithOptions(post, op, key)
             .then(result => {
                 resolve(result);
             })

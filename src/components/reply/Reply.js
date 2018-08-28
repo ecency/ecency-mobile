@@ -65,8 +65,8 @@ class Reply extends React.Component {
             title: this.commentPermlink(content.author, content.permlink),
             body: this.state.comment,
             json_metadata: JSON.stringify({
-                app: "eSteem",
-                community: "eSteem",
+                app: "esteem/2.0.0-mobile",
+                community: "esteem.app",
             }),
         };
 
