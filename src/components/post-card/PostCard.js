@@ -19,6 +19,8 @@ import {
     Body,
     Text,
 } from "native-base";
+import { Navigation } from "react-native-navigation";
+
 import Modal from "react-native-modal";
 import { Popover, PopoverController } from "react-native-modal-popover";
 import Slider from "react-native-slider";
@@ -127,8 +129,18 @@ class PostCard extends React.PureComponent {
                     <Left>
                         <TouchableOpacity
                             onPress={() =>
-                                this.props.navigation.push("Author", {
-                                    author: this.props.content.author,
+                                Navigation.push("tab1Stack", {
+                                    component: {
+                                        name: "navigation.eSteem.Author",
+                                        passProps: {
+                                            author: this.props.content.author,
+                                            isLoggedIn: this.props.isLoggedIn,
+                                            user: this.props.user,
+                                        },
+                                        options: {
+                                            topBar: {},
+                                        },
+                                    },
                                 })
                             }
                         >
@@ -170,10 +182,18 @@ class PostCard extends React.PureComponent {
                 />
                 <TouchableOpacity
                     onPress={() =>
-                        this.props.navigation.push("Post", {
-                            content: this.props.content,
-                            isLoggedIn: this.props.isLoggedIn,
-                            user: this.props.user,
+                        Navigation.push("tab1Stack", {
+                            component: {
+                                name: "navigation.eSteem.Post",
+                                passProps: {
+                                    content: this.props.content,
+                                    isLoggedIn: this.props.isLoggedIn,
+                                    user: this.props.user,
+                                },
+                                options: {
+                                    topBar: {},
+                                },
+                            },
                         })
                     }
                 >

@@ -1,4 +1,4 @@
-import React, { Component } from 'react';
+import React, { Component } from "react";
 import {
     View,
     ActivityIndicator,
@@ -6,7 +6,7 @@ import {
     StyleSheet,
     Image,
     StatusBar,
-} from 'react-native';
+} from "react-native";
 import {
     Item,
     Header,
@@ -20,16 +20,18 @@ import {
     Body,
     Label,
     Thumbnail,
-} from 'native-base';
+} from "native-base";
 
-import { Login } from '../../providers/steem/Auth';
+import { Login } from "../../providers/steem/Auth";
+import { start } from "../../app";
+import RNRestart from "react-native-restart";
 
 class LoginPage extends Component {
     constructor(props) {
         super(props);
         this.state = {
-            username: '',
-            password: '',
+            username: "",
+            password: "",
             isLoading: false,
         };
     }
@@ -43,9 +45,7 @@ class LoginPage extends Component {
         Login(username, password)
             .then(result => {
                 if (result === true) {
-                    this.props.navigation.navigate('LoggedIn', {
-                        account: this.state.username,
-                    });
+                    RNRestart.Restart();
                 }
             })
             .catch(err => {
@@ -57,8 +57,7 @@ class LoginPage extends Component {
     render() {
         return (
             <Container style={styles.container}>
-                <StatusBar translucent={true} backgroundColor={'transparent'} />
-                <Header style={{ backgroundColor: 'white', height: 80 }}>
+                <Header style={{ backgroundColor: "white", height: 80 }}>
                     <Left>
                         <Button
                             transparent
@@ -71,7 +70,7 @@ class LoginPage extends Component {
                                     borderRadius: 16,
                                     margin: 10,
                                 }}
-                                source={require('../../assets/esteem.jpg')}
+                                source={require("../../assets/esteem.jpg")}
                             />
                         </Button>
                     </Left>
@@ -79,9 +78,9 @@ class LoginPage extends Component {
                     <Right>
                         <Text
                             style={{
-                                color: '#a7adaf',
+                                color: "#a7adaf",
                                 marginHorizontal: 20,
-                                fontWeight: 'bold',
+                                fontWeight: "bold",
                             }}
                         >
                             Sign Up
@@ -92,31 +91,31 @@ class LoginPage extends Component {
                     <View
                         style={{
                             flex: 0.5,
-                            alignItems: 'center',
+                            alignItems: "center",
                             paddingLeft: 10,
                         }}
                     >
                         <Text
                             style={{
                                 fontSize: 40,
-                                fontWeight: '600',
-                                color: '#626262',
+                                fontWeight: "600",
+                                color: "#626262",
                                 marginTop: 35,
                             }}
                         >
                             Sign in
                         </Text>
-                        <Text style={{ color: '#a7adaf', marginTop: 20 }}>
-                            with your username {'\n'} and password {'\n'} to get
-                            all the {'\n'}{' '}
+                        <Text style={{ color: "#a7adaf", marginTop: 20 }}>
+                            with your username {"\n"} and password {"\n"} to get
+                            all the {"\n"}{" "}
                             <Text
-                                style={{ fontWeight: 'bold', color: '#a7adaf' }}
+                                style={{ fontWeight: "bold", color: "#a7adaf" }}
                             >
                                 benefits of eSteem
-                            </Text>{' '}
+                            </Text>{" "}
                         </Text>
                     </View>
-                    <View style={{ flex: 0.5, overflow: 'hidden', padding: 0 }}>
+                    <View style={{ flex: 0.5, overflow: "hidden", padding: 0 }}>
                         <Image
                             style={{
                                 width: 220,
@@ -124,36 +123,36 @@ class LoginPage extends Component {
                                 marginTop: 10,
                                 marginLeft: 20,
                             }}
-                            source={require('../../assets/love_mascot.png')}
+                            source={require("../../assets/love_mascot.png")}
                         />
                     </View>
                 </View>
 
                 <View
-                    style={{ padding: 30, backgroundColor: 'white', flex: 0.4 }}
+                    style={{ padding: 30, backgroundColor: "white", flex: 0.4 }}
                 >
                     <View>
                         <Item
                             rounded
                             style={{
                                 margin: 5,
-                                backgroundColor: '#f6f6f6',
+                                backgroundColor: "#f6f6f6",
                                 height: 40,
                                 marginVertical: 10,
-                                overflow: 'hidden',
-                                borderColor: 'white',
+                                overflow: "hidden",
+                                borderColor: "white",
                             }}
                         >
                             <Icon
                                 name="at"
                                 style={{
-                                    backgroundColor: '#ececec',
+                                    backgroundColor: "#ececec",
                                     height: 40,
                                     width: 40,
-                                    alignItems: 'center',
+                                    alignItems: "center",
                                     padding: 8,
-                                    color: '#a7adaf',
-                                    fontWeight: 'bold',
+                                    color: "#a7adaf",
+                                    fontWeight: "bold",
                                 }}
                             />
                             <Input
@@ -170,24 +169,24 @@ class LoginPage extends Component {
                             rounded
                             style={{
                                 margin: 5,
-                                backgroundColor: '#f6f6f6',
+                                backgroundColor: "#f6f6f6",
                                 height: 40,
                                 marginVertical: 10,
-                                overflow: 'hidden',
-                                borderColor: 'white',
+                                overflow: "hidden",
+                                borderColor: "white",
                             }}
                         >
                             <Icon
                                 name="md-lock"
                                 style={{
-                                    backgroundColor: '#ececec',
+                                    backgroundColor: "#ececec",
                                     height: 40,
                                     width: 40,
-                                    alignItems: 'center',
+                                    alignItems: "center",
                                     paddingVertical: 7,
                                     paddingLeft: 13,
-                                    color: '#a7adaf',
-                                    fontWeight: 'bold',
+                                    color: "#a7adaf",
+                                    fontWeight: "bold",
                                 }}
                             />
                             <Input
@@ -203,25 +202,25 @@ class LoginPage extends Component {
                     </View>
                     <View
                         style={{
-                            borderBottomColor: 'lightgray',
+                            borderBottomColor: "lightgray",
                             borderBottomWidth: 0.7,
                             marginVertical: 20,
                         }}
                     />
                     <View
-                        style={{ flexDirection: 'row', alignItems: 'center' }}
+                        style={{ flexDirection: "row", alignItems: "center" }}
                     >
                         <Icon
                             name="information-circle"
                             style={{
                                 flex: 0.15,
-                                color: '#a7adaf',
+                                color: "#a7adaf",
                                 fontSize: 25,
                                 paddingLeft: 10,
                             }}
                         />
-                        <Text style={{ flex: 0.85, color: '#a7adaf' }}>
-                            Don't worry! {'\n'}
+                        <Text style={{ flex: 0.85, color: "#a7adaf" }}>
+                            Don't worry! {"\n"}
                             Your password is kept locally on your device and
                             removed upon logout!
                         </Text>
@@ -229,13 +228,13 @@ class LoginPage extends Component {
                 </View>
 
                 <View style={styles.footer}>
-                    <View style={{ flex: 0.6, alignItems: 'flex-end' }}>
+                    <View style={{ flex: 0.6, alignItems: "flex-end" }}>
                         <Text
                             onPress={() => {
                                 this.props.navigation.goBack();
                             }}
                             style={{
-                                color: '#a7adaf',
+                                color: "#a7adaf",
                                 fontSize: 18,
                                 margin: 25,
                             }}
@@ -243,13 +242,13 @@ class LoginPage extends Component {
                             Skip this screen
                         </Text>
                     </View>
-                    <View style={{ flex: 0.4, alignItems: 'center' }}>
+                    <View style={{ flex: 0.4, alignItems: "center" }}>
                         {this.state.isLoading ? (
                             <Button
                                 style={{
                                     borderRadius: 25,
                                     padding: 5,
-                                    backgroundColor: '#007EE5',
+                                    backgroundColor: "#007EE5",
                                     width: 130,
                                     height: 35,
                                     marginTop: 20,
@@ -265,7 +264,7 @@ class LoginPage extends Component {
                                 style={{
                                     borderRadius: 25,
                                     padding: 5,
-                                    backgroundColor: '#007EE5',
+                                    backgroundColor: "#007EE5",
                                     width: 130,
                                     height: 35,
                                     marginTop: 20,
@@ -276,8 +275,8 @@ class LoginPage extends Component {
                             >
                                 <Text
                                     style={{
-                                        color: 'white',
-                                        fontWeight: 'bold',
+                                        color: "white",
+                                        fontWeight: "bold",
                                         marginHorizontal: 40,
                                     }}
                                 >
@@ -295,14 +294,13 @@ const styles = StyleSheet.create({
     container: {
         margin: 0,
         padding: 0,
-        backgroundColor: '#f1f1f1',
-        top: StatusBar.currentHeight,
-        flexDirection: 'column',
+        backgroundColor: "#f1f1f1",
+        flexDirection: "column",
     },
     header: {
-        flexDirection: 'row',
+        flexDirection: "row",
         padding: 0,
-        backgroundColor: 'white',
+        backgroundColor: "white",
         marginVertical: 10,
         height: 200,
         flex: 0.4,
@@ -312,8 +310,8 @@ const styles = StyleSheet.create({
         bottom: 0,
         marginTop: 10,
         height: 80,
-        backgroundColor: 'white',
-        flexDirection: 'row',
+        backgroundColor: "white",
+        flexDirection: "row",
     },
 });
 export default LoginPage;

@@ -34,6 +34,9 @@ class FeedPage extends React.Component {
     constructor(props) {
         super(props);
 
+        this.getFeed = this.getFeed.bind(this);
+        this.getMore = this.getMore.bind(this);
+        this.refreshPosts = this.refreshPosts.bind(this);
         this.state = {
             isReady: false,
             posts: [],
@@ -120,8 +123,7 @@ class FeedPage extends React.Component {
                         showsVerticalScrollIndicator={false}
                         renderItem={({ item }) => (
                             <PostCard
-                                style={{ shadowColor: "white" }}
-                                navigation={this.props.navigation}
+                                componentId={this.props.componentId}
                                 content={item}
                                 user={this.props.user}
                                 isLoggedIn={true}
@@ -129,9 +131,11 @@ class FeedPage extends React.Component {
                         )}
                         keyExtractor={(post, index) => index.toString()}
                         onEndReached={this.getMore}
+                        removeClippedSubviews={true}
                         refreshing={this.state.refreshing}
-                        onRefresh={() => this.refreshPosts()}
+                        onRefresh={() => this.refreshData()}
                         onEndThreshold={0}
+                        initialNumToRender={10}
                         ListFooterComponent={this.renderFooter}
                     />
                 ) : (

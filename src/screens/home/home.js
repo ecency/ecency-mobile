@@ -1,17 +1,13 @@
-/* eslint-disable no-unused-vars */
-/* eslint-disable no-console */
 import React from "react";
-import { StyleSheet, View, StatusBar, Dimensions } from "react-native";
-import {
-    Container,
-    Header,
-    Button,
-    Left,
-    Right,
-    Text,
-    Icon,
-} from "native-base";
+import { Text, View, Dimensions } from "react-native";
+import { Navigation } from "react-native-navigation";
+
+import ScrollableTabView from "react-native-scrollable-tab-view";
+import CustomTabBar from "./CustomTab";
+
 import FastImage from "react-native-fast-image";
+
+import Placeholder from "rn-placeholder";
 
 // REDUX
 import { connect } from "react-redux";
@@ -20,22 +16,17 @@ import store from "../../redux/store/Store";
 
 // STEEM
 import { getUserData, getAuthStatus } from "../../realm/Realm";
+import { getUser } from "../../providers/steem/Dsteem";
 
 // SCREENS
-import FeedPage from "./feed";
-import HotPage from "./hot";
-import TrendingPage from "./trending";
+import HotPage from "./Hot";
+import FeedPage from "./Feed";
+import TrendingPage from "./Trending";
 
-import ScrollableTabView from "react-native-scrollable-tab-view";
-import CustomTabBar from "./FeedTabs";
-import Placeholder from "rn-placeholder";
-import styles from "../../styles/home.styles";
-/* eslint-enable no-unused-vars */
-
-class HomePage extends React.Component {
+export default class Home extends React.PureComponent {
     constructor(props) {
         super(props);
-
+        Navigation.events().bindComponent(this); // <== Will be automatically unregistered when unmounted
         this.state = {
             user: {
                 name: "null",
@@ -45,7 +36,19 @@ class HomePage extends React.Component {
         };
     }
 
-    async componentWillMount() {
+    navigationButtonPressed({ buttonId }) {
+        if (buttonId === "menu") {
+            Navigation.mergeOptions(this.props.componentId, {
+                sideMenu: {
+                    ["right"]: {
+                        visible: true,
+                    },
+                },
+            });
+        }
+    }
+
+    async componentDidMount() {
         let user;
         let userData;
         let isLoggedIn;
@@ -57,16 +60,13 @@ class HomePage extends React.Component {
         if (isLoggedIn == true) {
             await getUserData().then(res => {
                 user = Array.from(res);
-                this.props.fetchAccount(user[0].username);
-                store.subscribe(() => {
-                    userData = store.getState();
-                    console.log(userData.account.data);
-                    this.setState({
-                        user: userData.account.data,
-                        isLoggedIn: isLoggedIn,
-                        isLoading: false,
-                    });
-                });
+            });
+            userData = await getUser(user[0].username);
+
+            this.setState({
+                user: userData,
+                isLoggedIn: isLoggedIn,
+                isLoading: false,
             });
         } else {
             await this.setState({
@@ -77,34 +77,7 @@ class HomePage extends React.Component {
 
     render() {
         return (
-            <Container style={{ flex: 1, top: StatusBar.currentHeight }}>
-                <StatusBar translucent={true} backgroundColor={"transparent"} />
-                <Header noShadow style={styles.header}>
-                    <Left>
-                        <Button
-                            transparent
-                            style={{ zIndex: 2 }}
-                            onPress={() => this.props.navigation.toggleDrawer()}
-                        >
-                            <FastImage
-                                square
-                                small
-                                source={{
-                                    uri: `https://steemitimages.com/u/${
-                                        this.state.user.name
-                                    }/avatar/small`,
-                                }}
-                                style={styles.avatar}
-                            />
-                        </Button>
-                    </Left>
-                    <Right>
-                        <Button transparent>
-                            <Icon style={styles.searchButton} name="search" />
-                        </Button>
-                    </Right>
-                </Header>
-
+            <View style={styles.root} key={"overlay"}>
                 <ScrollableTabView
                     style={styles.tabView}
                     renderTabBar={() => (
@@ -112,99 +85,105 @@ class HomePage extends React.Component {
                             style={styles.tabbar}
                             tabUnderlineDefaultWidth={30} // default containerWidth / (numberOfTabs * 4)
                             tabUnderlineScaleX={3} // default 3
-                            activeColor={"#fff"}
-                            inactiveColor={"#fff"}
+                            activeColor={"#222"}
+                            inactiveColor={"#222"}
                         />
                     )}
                 >
                     <View tabLabel="Feed" style={styles.tabbarItem}>
-                        {this.state.isLoading ? (
-                            <View>
-                                <View style={styles.placeholder}>
-                                    <Placeholder.ImageContent
-                                        size={60}
-                                        animate="fade"
-                                        lineNumber={4}
-                                        lineSpacing={5}
-                                        lastLineWidth="30%"
-                                        onReady={this.state.isReady}
-                                    />
-                                </View>
-                                <View style={styles.placeholder}>
-                                    <Placeholder.ImageContent
-                                        size={60}
-                                        animate="fade"
-                                        lineNumber={4}
-                                        lineSpacing={5}
-                                        lastLineWidth="30%"
-                                        onReady={this.state.isReady}
-                                    />
-                                </View>
-                                <View style={styles.placeholder}>
-                                    <Placeholder.ImageContent
-                                        size={60}
-                                        animate="fade"
-                                        lineNumber={4}
-                                        lineSpacing={5}
-                                        lastLineWidth="30%"
-                                        onReady={this.state.isReady}
-                                    />
-                                </View>
-                            </View>
-                        ) : (
-                            <View style={{ alignItems: "center" }}>
-                                {this.state.isLoggedIn ? null : (
-                                    <Button
-                                        light
-                                        onPress={() =>
-                                            this.props.navigation.navigate(
-                                                "Login"
-                                            )
-                                        }
-                                        style={styles.loginButton}
-                                    >
-                                        <Text>
-                                            Login to setup your custom Feed!
-                                        </Text>
-                                    </Button>
-                                )}
-                            </View>
-                        )}
                         {this.state.isLoggedIn ? (
                             <FeedPage
-                                navigation={this.props.navigation}
                                 user={this.state.user}
                                 isLoggedIn={this.state.isLoggedIn}
+                                componentId={this.props.componentId}
                             />
-                        ) : null}
+                        ) : (
+                            <Text>Login to see your Feed</Text>
+                        )}
                     </View>
                     <View tabLabel="Hot" style={styles.tabbarItem}>
                         <HotPage
-                            navigation={this.props.navigation}
                             user={this.state.user}
                             isLoggedIn={this.state.isLoggedIn}
+                            componentId={this.props.componentId}
                         />
                     </View>
                     <View tabLabel="Trending" style={styles.tabbarItem}>
                         <TrendingPage
-                            navigation={this.props.navigation}
                             user={this.state.user}
                             isLoggedIn={this.state.isLoggedIn}
+                            componentId={this.props.componentId}
                         />
                     </View>
                 </ScrollableTabView>
-            </Container>
+                <View style={styles.buttonContainer} />
+            </View>
         );
     }
 }
 
-function mapStateToProps(state) {
-    return {
-        account: state.account,
-    };
-}
-
-export default connect(
-    mapStateToProps,
-    { fetchAccount }
-)(HomePage);
+const styles = {
+    root: {
+        justifyContent: "center",
+        alignItems: "center",
+        flex: 1,
+    },
+    buttonContainer: {
+        width: "50%",
+        alignItems: "center",
+    },
+    tabView: {
+        alignSelf: "center",
+        backgroundColor: "transparent",
+    },
+    tabbar: {
+        alignSelf: "center",
+        height: 40,
+        backgroundColor: "white",
+    },
+    tabbarItem: {
+        flex: 1,
+        paddingHorizontal: 7,
+        backgroundColor: "#f9f9f9",
+        minWidth: Dimensions.get("window").width / 1,
+    },
+    container: {
+        backgroundColor: "#F9F9F9",
+        flex: 1,
+    },
+    tabs: {
+        flex: 1,
+    },
+    placeholder: {
+        backgroundColor: "white",
+        padding: 20,
+        borderStyle: "solid",
+        borderWidth: 1,
+        borderTopWidth: 1,
+        borderColor: "#e2e5e8",
+        borderRadius: 5,
+        marginRight: 0,
+        marginLeft: 0,
+        marginTop: 10,
+    },
+    header: {
+        backgroundColor: "#284b78",
+        borderBottomWidth: 0,
+        borderColor: "#284b78",
+    },
+    avatar: {
+        width: 30,
+        height: 30,
+        borderRadius: 15,
+        borderWidth: 1,
+        borderColor: "white",
+    },
+    searchButton: {
+        color: "white",
+        fontWeight: "bold",
+    },
+    loginButton: {
+        alignSelf: "center",
+        marginTop: 100,
+    },
+};

@@ -11,7 +11,7 @@ import moment from "moment";
 import FastImage from "react-native-fast-image";
 
 import ScrollableTabView from "react-native-scrollable-tab-view";
-import CustomTabBar from "../home/FeedTabs";
+import CustomTabBar from "../home/CustomTab";
 import DiscoverPage from "../discover/Discover";
 import PostCard from "../../components/post-card/PostCard";
 import Comment from "../../components/comment/Comment";
@@ -42,7 +42,6 @@ import {
 } from "../../providers/steem/Dsteem";
 import store from "../../redux/store/Store";
 import styles from "../../styles/profile.styles";
-import HotPage from "../home/hot";
 /* eslint-enable no-unused-vars */
 
 class ProfilePage extends React.Component {
@@ -269,7 +268,6 @@ class ProfilePage extends React.Component {
                                     renderItem={({ item }) => (
                                         <PostCard
                                             style={{ shadowColor: "white" }}
-                                            navigation={this.props.navigation}
                                             content={item}
                                             user={this.state.user}
                                             isLoggedIn={true}
@@ -297,7 +295,6 @@ class ProfilePage extends React.Component {
                                     renderItem={({ item }) => (
                                         <Comment
                                             comment={item}
-                                            navigation={this.props.navigation}
                                             isLoggedIn={true}
                                             user={this.state.user}
                                         />
@@ -356,24 +353,7 @@ class ProfilePage extends React.Component {
                         </ScrollableTabView>
                     </View>
                 ) : (
-                    <View>
-                        <Header>
-                            <Left>
-                                <Button transparent>
-                                    <Icon name="menu" />
-                                </Button>
-                            </Left>
-                            <Body>
-                                <Title />
-                            </Body>
-                            <Right>
-                                <Button transparent>
-                                    <Icon name="more" />
-                                </Button>
-                            </Right>
-                        </Header>
-                        <DiscoverPage />
-                    </View>
+                    <DiscoverPage />
                 )}
             </View>
         );

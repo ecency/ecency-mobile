@@ -1,6 +1,6 @@
 /* eslint-disable no-unused-vars */
-import React, { Component } from 'react';
-import { Image } from 'react-native';
+import React, { Component } from "react";
+import { Image } from "react-native";
 import {
     Content,
     Text,
@@ -11,27 +11,22 @@ import {
     Left,
     Right,
     Badge,
-} from 'native-base';
-import styles from './style';
+} from "native-base";
+import styles from "./style";
+import { Navigation } from "react-native-navigation";
 
-const drawerCover = require('../../assets/drawer-cover.png');
-const drawerImage = require('../../assets/esteem.jpg');
+const drawerCover = require("../../assets/drawer-cover.png");
+const drawerImage = require("../../assets/esteem.jpg");
 const datas = [
     {
-        name: 'Home',
-        route: 'Home',
-        icon: 'home',
-        bg: '#C5F442',
-    },
-    {
-        name: 'Login',
-        route: 'Login',
-        icon: 'log-in',
-        bg: '#C5F442',
+        name: "Login",
+        route: "Login",
+        icon: "log-in",
+        bg: "#C5F442",
     },
 ];
 
-export class LoggedOutSideBar extends Component {
+export default class LoggedOutSideBar extends Component {
     constructor(props) {
         super(props);
         this.state = {
@@ -40,12 +35,22 @@ export class LoggedOutSideBar extends Component {
         };
     }
 
+    hideSideMenu() {
+        Navigation.mergeOptions("Component14", {
+            sideMenu: {
+                ["right"]: {
+                    visible: false,
+                },
+            },
+        });
+    }
+
     render() {
         return (
             <Container>
                 <Content
                     bounces={false}
-                    style={{ flex: 1, backgroundColor: '#fff', top: -1 }}
+                    style={{ flex: 1, backgroundColor: "#fff" }}
                 >
                     <Image source={drawerCover} style={styles.drawerCover} />
                     <Image
@@ -60,16 +65,29 @@ export class LoggedOutSideBar extends Component {
                             <ListItem
                                 button
                                 noBorder
-                                onPress={() =>
-                                    this.props.navigation.navigate(data.route)
-                                }
+                                onPress={() => {
+                                    Navigation.push("tab1Stack", {
+                                        component: {
+                                            name: `navigation.eSteem.${
+                                                data.route
+                                            }`,
+                                            passProps: {},
+                                            options: {
+                                                topBar: {
+                                                    title: {},
+                                                },
+                                            },
+                                        },
+                                    });
+                                    this.hideSideMenu();
+                                }}
                             >
                                 <Left>
                                     <Icon
                                         active
                                         name={data.icon}
                                         style={{
-                                            color: '#777',
+                                            color: "#777",
                                             fontSize: 26,
                                             width: 30,
                                         }}

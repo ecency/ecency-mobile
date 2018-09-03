@@ -1,5 +1,5 @@
 /* eslint-disable no-unused-vars */
-import React, { Component } from 'react';
+import React, { Component } from "react";
 import {
     StyleSheet,
     Text,
@@ -9,7 +9,7 @@ import {
     TouchableOpacity,
     Platform,
     Dimensions,
-} from 'react-native';
+} from "react-native";
 /* eslint-enable no-unused-vars */
 
 export default class CustomTabBar extends Component {
@@ -17,8 +17,8 @@ export default class CustomTabBar extends Component {
         super(props);
 
         this.state = {
-            activeDefaultColor: '#08086b',
-            inactiveDefaultColor: '#666666',
+            activeDefaultColor: "#08086b",
+            inactiveDefaultColor: "#666666",
         };
     }
 
@@ -28,9 +28,9 @@ export default class CustomTabBar extends Component {
             ? this.props.activeColor
             : this.props.inactiveColor;
 
-        const fontWeight = isTabActive ? 'bold' : 'normal';
+        const fontWeight = isTabActive ? "bold" : "normal";
 
-        const Button = Platform.OS == 'ios' ? ButtonIos : ButtonAndroid;
+        const Button = Platform.OS == "ios" ? ButtonIos : ButtonAndroid;
 
         return (
             <Button
@@ -51,7 +51,7 @@ export default class CustomTabBar extends Component {
     }
 
     _renderUnderline() {
-        const containerWidth = Dimensions.get('window').width / 1;
+        const containerWidth = Dimensions.get("window").width / 1;
         const numberOfTabs = this.props.tabs.length;
         const underlineWidth = this.props.tabUnderlineDefaultWidth
             ? this.props.tabUnderlineDefaultWidth
@@ -61,7 +61,7 @@ export default class CustomTabBar extends Component {
             : 3;
         const deLen = (containerWidth / numberOfTabs - underlineWidth) / 2;
         const tabUnderlineStyle = {
-            position: 'absolute',
+            position: "absolute",
             width: underlineWidth,
             height: 2,
             borderRadius: 2,
@@ -148,17 +148,17 @@ const ButtonIos = props => (
 const styles = StyleSheet.create({
     tab: {
         flex: 1,
-        alignItems: 'center',
-        justifyContent: 'center',
+        alignItems: "center",
+        justifyContent: "center",
     },
     tabs: {
         height: 50,
-        flexDirection: 'row',
-        justifyContent: 'space-around',
+        flexDirection: "row",
+        justifyContent: "space-around",
         borderWidth: 1,
         borderTopWidth: 0,
         borderLeftWidth: 0,
         borderRightWidth: 0,
-        borderColor: '#f4f4f4',
+        borderColor: "#f4f4f4",
     },
 });

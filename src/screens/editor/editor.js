@@ -107,19 +107,7 @@ class EditorPage extends React.Component {
 
     render() {
         return (
-            <Container style={{ flex: 1, marginTop: StatusBar.currentHeight }}>
-                <StatusBar translucent={true} backgroundColor={"transparent"} />
-                <Header>
-                    <Left>
-                        <Button transparent>
-                            <Icon name="menu" />
-                        </Button>
-                    </Left>
-                    <Body>
-                        <Title>Editor</Title>
-                    </Body>
-                    <Right />
-                </Header>
+            <Container style={{ flex: 1 }}>
                 <View style={{ flex: 1, flexDirection: "column" }}>
                     <TextInput
                         placeholder="Title"

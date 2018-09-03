@@ -230,18 +230,7 @@ class WalletPage extends React.Component {
 
     render() {
         return (
-            <Container style={{ top: StatusBar.currentHeight }}>
-                <Header>
-                    <Left>
-                        <Button transparent>
-                            <Icon name="menu" />
-                        </Button>
-                    </Left>
-                    <Body>
-                        <Title>Wallet</Title>
-                    </Body>
-                    <Right />
-                </Header>
+            <Container>
                 <Content>
                     <Card>
                         <Text>STEEM Balance: {this.state.user.balance}</Text>

@@ -1,12 +1,26 @@
 /* eslint-disable no-console */
-import { Client, PrivateKey } from "dsteem";
-const client = new Client("https://api.steemit.com");
+
+// TestNet
 //const client = new Client("https://testnet.steem.vc", { chainId: "79276aea5d4877d9a25892eaa01b0adf019d3e5cb12a97478df3298ccdd01673", addressPrefix: "STX" });
 
+import { Client, PrivateKey } from "dsteem";
+import { AsyncStorage } from "react-native";
 import { parsePosts, parseComments } from "../../utils/PostParser";
 
 let rewardFund = null;
 let medianPrice = null;
+let client;
+
+getClient = async () => {
+    let server = await AsyncStorage.getItem("server");
+
+    if (server === null || server === undefined || server === "") {
+        client = new Client("https://api.steemit.com");
+    } else {
+        client = new Client(`${server}`);
+    }
+};
+getClient();
 
 /**
  * @method getAccount get account data

@@ -12,13 +12,16 @@ import Placeholder from "rn-placeholder";
 import PostCard from "../../components/post-card/PostCard";
 
 // SCREENS
-import PostPage from "../../screens/single-post/Post";
+import PostPage from "../single-post/Post";
 /* eslint-enable no-unused-vars */
 
 class TrendingPage extends React.Component {
     constructor(props) {
         super(props);
 
+        this.getTrending = this.getTrending.bind(this);
+        this.getMore = this.getMore.bind(this);
+        this.refreshData = this.refreshData.bind(this);
         this.state = {
             isReady: false,
             posts: [],
@@ -103,7 +106,7 @@ class TrendingPage extends React.Component {
                         showsVerticalScrollIndicator={false}
                         renderItem={({ item }) => (
                             <PostCard
-                                navigation={this.props.navigation}
+                                componentId={this.props.componentId}
                                 content={item}
                                 user={this.props.user}
                                 isLoggedIn={this.state.isLoggedIn}
@@ -111,9 +114,11 @@ class TrendingPage extends React.Component {
                         )}
                         keyExtractor={(post, index) => index.toString()}
                         onEndReached={this.getMore}
+                        removeClippedSubviews={true}
                         refreshing={this.state.refreshing}
                         onRefresh={() => this.refreshData()}
                         onEndThreshold={0}
+                        initialNumToRender={10}
                         ListFooterComponent={this.renderFooter}
                     />
                 ) : (

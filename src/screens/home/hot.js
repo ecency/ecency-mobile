@@ -4,9 +4,12 @@ import {
     StyleSheet,
     FlatList,
     View,
-    StatusBar,
+    Text,
+    TouchableOpacity,
     ActivityIndicator,
 } from "react-native";
+import { Navigation } from "react-native-navigation";
+
 import styles from "../../styles/hot.styles";
 
 // STEEM
@@ -26,6 +29,9 @@ class HotPage extends React.Component {
     constructor(props) {
         super(props);
 
+        this.getHotPosts = this.getHotPosts.bind(this);
+        this.getMoreHot = this.getMoreHot.bind(this);
+        this.refreshHotPosts = this.refreshHotPosts.bind(this);
         this.state = {
             isReady: false,
             posts: [],
@@ -38,6 +44,7 @@ class HotPage extends React.Component {
     }
 
     componentDidMount() {
+        console.log(this.props);
         this.getHotPosts();
     }
 
@@ -105,22 +112,23 @@ class HotPage extends React.Component {
             <View style={{ flex: 1 }}>
                 {this.state.isReady ? (
                     <FlatList
-                        style={{ flex: 1 }}
                         data={this.state.posts}
                         showsVerticalScrollIndicator={false}
                         renderItem={({ item }) => (
                             <PostCard
-                                navigation={this.props.navigation}
+                                componentId={this.props.componentId}
                                 content={item}
                                 user={this.props.user}
                                 isLoggedIn={this.state.isLoggedIn}
                             />
                         )}
-                        keyExtractor={post => post.id.toString()}
-                        onEndReached={this.getMoreHot}
+                        keyExtractor={(post, index) => index.toString()}
+                        onEndReached={this.getMore}
+                        removeClippedSubviews={true}
                         refreshing={this.state.refreshing}
-                        onRefresh={() => this.refreshHotPosts()}
+                        onRefresh={() => this.refreshData()}
                         onEndThreshold={0}
+                        initialNumToRender={10}
                         ListFooterComponent={this.renderFooter}
                     />
                 ) : (

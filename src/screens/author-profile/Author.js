@@ -4,6 +4,7 @@ import {
     Dimensions,
     FlatList,
     ActivityIndicator,
+    BackHandler,
 } from "react-native";
 import {
     Container,
@@ -21,12 +22,13 @@ import {
     View,
 } from "native-base";
 import ScrollableTabView from "react-native-scrollable-tab-view";
-import CustomTabBar from "../home/FeedTabs";
+import CustomTabBar from "../home/CustomTab";
 import PostCard from "../../components/post-card/PostCard";
 import Comment from "../../components/comment/Comment";
 import moment from "moment";
 import FastImage from "react-native-fast-image";
 import FeatherIcons from "react-native-vector-icons/Feather";
+import { Navigation } from "react-native-navigation";
 
 import Theme, { createThemedComponent } from "react-native-theming";
 import styles from "../../styles/author.styles";
@@ -47,8 +49,33 @@ import { decryptKey } from "../../utils/Crypto";
 const Bar = createThemedComponent(StatusBar, ["barStyle", "backgroundColor"]);
 
 class AuthorPage extends React.Component {
+    static get options() {
+        return {
+            _statusBar: {
+                visible: true,
+                drawBehind: false,
+            },
+            topBar: {
+                animate: true,
+                hideOnScroll: false,
+                drawBehind: false,
+                leftButtons: {
+                    id: "back",
+                    icon: require("../../assets/back.png"),
+                },
+            },
+            layout: {
+                backgroundColor: "#f5fcff",
+            },
+            bottomTabs: {
+                visible: false,
+                drawBehind: true,
+            },
+        };
+    }
     constructor(props) {
         super(props);
+        Navigation.events().bindComponent(this);
         this.getBlog = this.getBlog.bind(this);
         this.getMore = this.getMore.bind(this);
         this.getComments = this.getComments.bind(this);
@@ -74,6 +101,10 @@ class AuthorPage extends React.Component {
     }
 
     async componentDidMount() {
+        BackHandler.addEventListener("hardwareBackPress", () => {
+            Navigation.pop(this.props.componentId);
+            return true;
+        });
         /*for (var i = 0; i < themes.length; i++) {
             themes[i].name == 'Light'?themes[0].apply():'';
         }*/
@@ -106,25 +137,22 @@ class AuthorPage extends React.Component {
                         });
                     });
 
-                    isFolllowing(
-                        this.props.navigation.state.params.author,
-                        user.username
-                    ).then(result => {
-                        this.setState({
-                            isFolllowing: result,
-                            follow_loader: false,
-                        });
-                    });
+                    isFolllowing(this.props.author, user.username).then(
+                        result => {
+                            this.setState({
+                                isFolllowing: result,
+                                follow_loader: false,
+                            });
+                        }
+                    );
                 });
         }
 
-        await getFollows(this.props.navigation.state.params.author).then(
-            res => {
-                follows = res;
-            }
-        );
+        await getFollows(this.props.author).then(res => {
+            follows = res;
+        });
 
-        author = await getUser(this.props.navigation.state.params.author);
+        author = await getUser(this.props.author);
 
         this.getBlog(this.state.user.name, author.name);
         this.getComments(author.name);
@@ -287,65 +315,20 @@ class AuthorPage extends React.Component {
         );
     };
 
+    navigationButtonPressed({ buttonId }) {
+        // will be called when "buttonOne" is clicked
+        if (buttonId === "back") {
+            Navigation.pop(this.props.componentId);
+        }
+    }
+
+    componentWillUnmount() {
+        BackHandler.removeEventListener("hardwareBackPress");
+    }
+
     render() {
         return (
             <Container style={styles.container}>
-                <Header>
-                    <Left>
-                        <Button
-                            transparent
-                            onPress={() => this.props.navigation.goBack()}
-                        >
-                            <Icon name="arrow-back" />
-                        </Button>
-                    </Left>
-                    <Body>
-                        <Title> {this.state.author.name} </Title>
-                    </Body>
-                    <Right>
-                        <Button transparent>
-                            <Icon name="heart" />
-                        </Button>
-                        {this.state.isFolllowing == true ? (
-                            <Button
-                                onPress={() => {
-                                    this.unfollow();
-                                }}
-                                transparent
-                            >
-                                {this.state.follow_loader ? (
-                                    <ActivityIndicator />
-                                ) : (
-                                    <FeatherIcons
-                                        style={{
-                                            fontSize: 20,
-                                        }}
-                                        name="user-check"
-                                    />
-                                )}
-                            </Button>
-                        ) : (
-                            <Button
-                                onPress={() => {
-                                    this.follow();
-                                }}
-                                transparent
-                            >
-                                {this.state.follow_loader ? (
-                                    <ActivityIndicator />
-                                ) : (
-                                    <FeatherIcons
-                                        style={{
-                                            fontSize: 20,
-                                        }}
-                                        name="user-plus"
-                                    />
-                                )}
-                            </Button>
-                        )}
-                    </Right>
-                </Header>
-
                 <View style={{ flex: 1 }}>
                     <View style={styles.content}>
                         <FastImage
@@ -367,6 +350,43 @@ class AuthorPage extends React.Component {
                                 {this.state.author.name}
                             </Text>
                             <Text>{this.state.about.about}</Text>
+                            {this.state.isFolllowing == true ? (
+                                <Button
+                                    onPress={() => {
+                                        this.unfollow();
+                                    }}
+                                    transparent
+                                >
+                                    {this.state.follow_loader ? (
+                                        <ActivityIndicator />
+                                    ) : (
+                                        <FeatherIcons
+                                            style={{
+                                                fontSize: 20,
+                                            }}
+                                            name="user-check"
+                                        />
+                                    )}
+                                </Button>
+                            ) : (
+                                <Button
+                                    onPress={() => {
+                                        this.follow();
+                                    }}
+                                    transparent
+                                >
+                                    {this.state.follow_loader ? (
+                                        <ActivityIndicator />
+                                    ) : (
+                                        <FeatherIcons
+                                            style={{
+                                                fontSize: 20,
+                                            }}
+                                            name="user-plus"
+                                        />
+                                    )}
+                                </Button>
+                            )}
                         </Body>
                         <Card style={{ margin: 0 }}>
                             <CardItem style={styles.about}>
