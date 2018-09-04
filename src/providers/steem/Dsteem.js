@@ -5,7 +5,7 @@
 
 import { Client, PrivateKey } from "dsteem";
 import { AsyncStorage } from "react-native";
-import { parsePosts, parseComments } from "../../utils/PostParser";
+import { parsePosts, parseComments } from "../../utils/postParser";
 
 let rewardFund = null;
 let medianPrice = null;

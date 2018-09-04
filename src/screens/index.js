@@ -1,19 +1,19 @@
 import { Navigation } from "react-native-navigation";
 
-import SideMenu from "./SideMenuScreen";
-import Home from "./home/Home";
-import Hot from "./home/Hot";
-import Feed from "./home/Feed";
-import Post from "./single-post/Post";
+import SideMenu from "./sideMenuScreen";
+import Home from "./home/home";
+import Hot from "./home/hot";
+import Feed from "./home/feed";
+import Post from "./single-post/post";
 import Profile from "./profile/profile";
-import Author from "./author-profile/Author";
-import Login from "./login/Login";
+import Author from "./author-profile/author";
+import Login from "./login/login";
 import Wallet from "./wallet/wallet";
 import Editor from "./editor/editor";
-import Discover from "./discover/Discover";
-import Settings from "./settings/Settings";
+import Discover from "./discover/discover";
+import Settings from "./settings/settings";
 import Notifications from "./notifications/notification";
-import PostCard from "../components/post-card/PostCard";
+import PostCard from "../components/post-card/postCard";
 
 function registerScreens() {
     Navigation.registerComponent("navigation.eSteem.Home", () => Home);

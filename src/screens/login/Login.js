@@ -22,7 +22,7 @@ import {
     Thumbnail,
 } from "native-base";
 
-import { Login } from "../../providers/steem/Auth";
+import { Login } from "../../providers/steem/auth";
 import { start } from "../../app";
 import RNRestart from "react-native-restart";
 

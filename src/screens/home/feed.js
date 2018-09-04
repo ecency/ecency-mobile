@@ -21,13 +21,13 @@ import {
 } from "native-base";
 import styles from "../../styles/feed.styles";
 // STEEM
-import { getPosts } from "../../providers/steem/Dsteem";
+import { getPosts } from "../../providers/steem/dsteem";
 
 // LIBRARIES
 import Placeholder from "rn-placeholder";
 
 // COMPONENTS
-import PostCard from "../../components/post-card/PostCard";
+import PostCard from "../../components/post-card/postCard";
 /* eslint-enable no-unused-vars */
 
 class FeedPage extends React.Component {

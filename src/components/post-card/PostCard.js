@@ -26,9 +26,9 @@ import { Popover, PopoverController } from "react-native-modal-popover";
 import Slider from "react-native-slider";
 
 // STEEM
-import { upvote, upvoteAmount } from "../../providers/steem/Dsteem";
-import { decryptKey } from "../../utils/Crypto";
-import { getUserData } from "../../realm/Realm";
+import { upvote, upvoteAmount } from "../../providers/steem/dsteem";
+import { decryptKey } from "../../utils/crypto";
+import { getUserData } from "../../realm/realm";
 /* eslint-enable no-unused-vars */
 
 class PostCard extends React.PureComponent {

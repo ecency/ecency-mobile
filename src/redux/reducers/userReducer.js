@@ -3,7 +3,7 @@ import {
     FETCH_USER_SUCCESS,
     FETCH_USER_FAIL,
     LOGOUT,
-} from '../constants/Constants';
+} from "../constants/constants";
 
 const initialState = {
     isFetching: null,

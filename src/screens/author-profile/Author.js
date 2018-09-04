@@ -21,13 +21,13 @@ import {
     Text,
     View,
 } from "native-base";
-import ScrollableTabView from "react-native-scrollable-tab-view";
-import CustomTabBar from "../home/CustomTab";
-import PostCard from "../../components/post-card/PostCard";
-import Comment from "../../components/comment/Comment";
+import ScrollableTabView from "@esteemapp/react-native-scrollable-tab-view";
+import CustomTabBar from "../home/customTab";
+import PostCard from "../../components/post-card/postCard";
+import Comment from "../../components/comment/comment";
 import moment from "moment";
 import FastImage from "react-native-fast-image";
-import FeatherIcons from "react-native-vector-icons/Feather";
+//import Icon from "react-native-vector-icons/FontAwesome";
 import { Navigation } from "react-native-navigation";
 
 import Theme, { createThemedComponent } from "react-native-theming";
@@ -42,9 +42,9 @@ import {
     getUser,
     getFollowers,
     isFolllowing,
-} from "../../providers/steem/Dsteem";
-import { getAuthStatus, getUserData } from "../../realm/Realm";
-import { decryptKey } from "../../utils/Crypto";
+} from "../../providers/steem/dsteem";
+import { getAuthStatus, getUserData } from "../../realm/realm";
+import { decryptKey } from "../../utils/crypto";
 
 const Bar = createThemedComponent(StatusBar, ["barStyle", "backgroundColor"]);
 
@@ -360,7 +360,7 @@ class AuthorPage extends React.Component {
                                     {this.state.follow_loader ? (
                                         <ActivityIndicator />
                                     ) : (
-                                        <FeatherIcons
+                                        <Icon
                                             style={{
                                                 fontSize: 20,
                                             }}
@@ -378,7 +378,7 @@ class AuthorPage extends React.Component {
                                     {this.state.follow_loader ? (
                                         <ActivityIndicator />
                                     ) : (
-                                        <FeatherIcons
+                                        <Icon
                                             style={{
                                                 fontSize: 20,
                                             }}

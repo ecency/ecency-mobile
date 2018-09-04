@@ -13,16 +13,16 @@ import { Navigation } from "react-native-navigation";
 import styles from "../../styles/hot.styles";
 
 // STEEM
-import { getPosts } from "../../providers/steem/Dsteem";
+import { getPosts } from "../../providers/steem/dsteem";
 
 // LIBRARIES
 import Placeholder from "rn-placeholder";
 
 // COMPONENTS
-import PostCard from "../../components/post-card/PostCard";
+import PostCard from "../../components/post-card/postCard";
 
 // SCREENS
-import PostPage from "../../screens/single-post/Post";
+import PostPage from "../../screens/single-post/post";
 /* eslint-enable no-unused-vars */
 
 class HotPage extends React.Component {

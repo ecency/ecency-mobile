@@ -10,11 +10,11 @@ import {
 import moment from "moment";
 import FastImage from "react-native-fast-image";
 
-import ScrollableTabView from "react-native-scrollable-tab-view";
-import CustomTabBar from "../home/CustomTab";
-import DiscoverPage from "../discover/Discover";
-import PostCard from "../../components/post-card/PostCard";
-import Comment from "../../components/comment/Comment";
+import ScrollableTabView from "@esteemapp/react-native-scrollable-tab-view";
+import CustomTabBar from "../home/customTab";
+import DiscoverPage from "../discover/discover";
+import PostCard from "../../components/post-card/postCard";
+import Comment from "../../components/comment/comment";
 
 import {
     Content,
@@ -32,15 +32,15 @@ import {
     Container,
 } from "native-base";
 
-import { getUserData, getAuthStatus } from "../../realm/Realm";
+import { getUserData, getAuthStatus } from "../../realm/realm";
 import {
     getUser,
     getFollows,
     getPosts,
     getUserComments,
     getUserReplies,
-} from "../../providers/steem/Dsteem";
-import store from "../../redux/store/Store";
+} from "../../providers/steem/dsteem";
+import store from "../../redux/store/store";
 import styles from "../../styles/profile.styles";
 /* eslint-enable no-unused-vars */
 

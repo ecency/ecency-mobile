@@ -1,8 +1,8 @@
 import * as dsteem from "dsteem";
-import { getAccount } from "./Dsteem";
-import { setUserData, setAuthStatus } from "../../realm/Realm";
+import { getAccount } from "./dsteem";
+import { setUserData, setAuthStatus } from "../../realm/realm";
 /*eslint-disable-next-line no-unused-vars*/
-import { encryptKey, decryptKey } from "../../utils/Crypto";
+import { encryptKey, decryptKey } from "../../utils/crypto";
 
 export const Login = (username, password) => {
     let account;

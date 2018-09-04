@@ -1,6 +1,6 @@
 import Remarkable from "remarkable";
-import { postSummary } from "./PostSummary";
-import { reputation } from "./Reputation";
+import { postSummary } from "./postSummary";
+import { reputation } from "./reputation";
 import moment from "moment";
 
 const md = new Remarkable({ html: true, breaks: true, linkify: true });

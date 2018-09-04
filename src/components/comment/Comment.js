@@ -25,11 +25,11 @@ import Slider from "react-native-slider";
 import Modal from "react-native-modal";
 import HTML from "react-native-html-renderer";
 
-import { upvote, upvoteAmount } from "../../providers/steem/Dsteem";
-import { decryptKey } from "../../utils/Crypto";
-import { getUserData } from "../../realm/Realm";
-import { parsePost } from "../../utils/PostParser";
-import { getComments, getPost } from "../../providers/steem/Dsteem";
+import { upvote, upvoteAmount } from "../../providers/steem/dsteem";
+import { decryptKey } from "../../utils/crypto";
+import { getUserData } from "../../realm/realm";
+import { parsePost } from "../../utils/postParser";
+import { getComments, getPost } from "../../providers/steem/dsteem";
 /* eslint-enable no-unused-vars */
 
 class Comment extends React.PureComponent {

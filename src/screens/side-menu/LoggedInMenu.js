@@ -17,8 +17,8 @@ import {
 import styles from "./style";
 
 import FastImage from "react-native-fast-image";
-import { getAccount } from "../../providers/steem/Dsteem";
-import { removeUserData } from "../../realm/Realm";
+import { getAccount } from "../../providers/steem/dsteem";
+import { removeUserData } from "../../realm/realm";
 import RNRestart from "react-native-restart";
 import { Navigation } from "react-native-navigation";
 

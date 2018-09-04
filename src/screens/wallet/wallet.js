@@ -15,7 +15,7 @@ import {
     Input,
     Form,
 } from "native-base";
-import { getUserData, getAuthStatus } from "../../realm/Realm";
+import { getUserData, getAuthStatus } from "../../realm/realm";
 import {
     getUser,
     transferToken,
@@ -23,8 +23,8 @@ import {
     globalProps,
     transferToVesting,
     withdrawVesting,
-} from "../../providers/steem/Dsteem";
-import { decryptKey } from "../../utils/Crypto";
+} from "../../providers/steem/dsteem";
+import { decryptKey } from "../../utils/crypto";
 
 class WalletPage extends React.Component {
     constructor(props) {

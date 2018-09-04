@@ -18,10 +18,10 @@ import {
     TouchableOpacity,
     Text,
 } from "react-native";
-import Tags from "react-native-tags";
-import { postContent } from "../../providers/steem/Dsteem";
-import { getUserData, getAuthStatus } from "../../realm/Realm";
-import { decryptKey } from "../../utils/Crypto";
+import Tags from "@esteemapp/react-native-tags";
+import { postContent } from "../../providers/steem/dsteem";
+import { getUserData, getAuthStatus } from "../../realm/realm";
+import { decryptKey } from "../../utils/crypto";
 
 class EditorPage extends React.Component {
     constructor(props) {

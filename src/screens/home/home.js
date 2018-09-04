@@ -2,8 +2,8 @@ import React from "react";
 import { Text, View, Dimensions } from "react-native";
 import { Navigation } from "react-native-navigation";
 
-import ScrollableTabView from "react-native-scrollable-tab-view";
-import CustomTabBar from "./CustomTab";
+import ScrollableTabView from "@esteemapp/react-native-scrollable-tab-view";
+import CustomTabBar from "./customTab";
 
 import FastImage from "react-native-fast-image";
 
@@ -12,16 +12,16 @@ import Placeholder from "rn-placeholder";
 // REDUX
 import { connect } from "react-redux";
 import { fetchAccount } from "../../redux/actions/userActions";
-import store from "../../redux/store/Store";
+import store from "../../redux/store/store";
 
 // STEEM
-import { getUserData, getAuthStatus } from "../../realm/Realm";
-import { getUser } from "../../providers/steem/Dsteem";
+import { getUserData, getAuthStatus } from "../../realm/realm";
+import { getUser } from "../../providers/steem/dsteem";
 
 // SCREENS
-import HotPage from "./Hot";
-import FeedPage from "./Feed";
-import TrendingPage from "./Trending";
+import HotPage from "./hot";
+import FeedPage from "./feed";
+import TrendingPage from "./trending";
 
 export default class Home extends React.PureComponent {
     constructor(props) {

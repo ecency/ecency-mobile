@@ -3,16 +3,16 @@ import React from "react";
 import { StyleSheet, FlatList, View, ActivityIndicator } from "react-native";
 import styles from "../../styles/trending.styles";
 // STEEM
-import { getPosts } from "../../providers/steem/Dsteem";
+import { getPosts } from "../../providers/steem/dsteem";
 
 // LIBRARIES
 import Placeholder from "rn-placeholder";
 
 // COMPONENTS
-import PostCard from "../../components/post-card/PostCard";
+import PostCard from "../../components/post-card/postCard";
 
 // SCREENS
-import PostPage from "../single-post/Post";
+import PostPage from "../single-post/post";
 /* eslint-enable no-unused-vars */
 
 class TrendingPage extends React.Component {
