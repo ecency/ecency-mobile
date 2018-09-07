@@ -45,6 +45,30 @@ import styles from "../../styles/profile.styles";
 /* eslint-enable no-unused-vars */
 
 class ProfilePage extends React.Component {
+    static get options() {
+        return {
+            _statusBar: {
+                visible: true,
+                drawBehind: false,
+            },
+            topBar: {
+                animate: true,
+                hideOnScroll: false,
+                drawBehind: false,
+                leftButtons: {
+                    id: "back",
+                },
+            },
+            layout: {
+                backgroundColor: "#f5fcff",
+            },
+            bottomTabs: {
+                visible: false,
+                drawBehind: true,
+            },
+        };
+    }
+
     constructor() {
         super();
         this.getBlog = this.getBlog.bind(this);

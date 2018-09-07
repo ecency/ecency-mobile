@@ -126,7 +126,7 @@ class HotPage extends React.Component {
                         onEndReached={this.getMore}
                         removeClippedSubviews={true}
                         refreshing={this.state.refreshing}
-                        onRefresh={() => this.refreshData()}
+                        onRefresh={() => this.refreshHotPosts()}
                         onEndThreshold={0}
                         initialNumToRender={10}
                         ListFooterComponent={this.renderFooter}

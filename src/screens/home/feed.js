@@ -133,7 +133,7 @@ class FeedPage extends React.Component {
                         onEndReached={this.getMore}
                         removeClippedSubviews={true}
                         refreshing={this.state.refreshing}
-                        onRefresh={() => this.refreshData()}
+                        onRefresh={() => this.refreshPosts()}
                         onEndThreshold={0}
                         initialNumToRender={10}
                         ListFooterComponent={this.renderFooter}

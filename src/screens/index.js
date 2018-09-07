@@ -14,6 +14,7 @@ import Discover from "./discover/discover";
 import Settings from "./settings/settings";
 import Notifications from "./notifications/notification";
 import PostCard from "../components/post-card/postCard";
+import Search from "../components/search/Search";
 
 function registerScreens() {
     Navigation.registerComponent("navigation.eSteem.Home", () => Home);
@@ -36,6 +37,7 @@ function registerScreens() {
     Navigation.registerComponent("navigation.eSteem.Profile", () => Profile);
     Navigation.registerComponent("navigation.eSteem.Author", () => Author);
     Navigation.registerComponent("navigation.eSteem.PostCard", () => PostCard);
+    Navigation.registerComponent("navigation.eSteem.Search", () => Search);
 }
 
 module.exports = {

@@ -58,7 +58,7 @@ export default class CustomTabBar extends Component {
             : containerWidth / (numberOfTabs * 2);
         const scale = this.props.tabUnderlineScaleX
             ? this.props.tabUnderlineScaleX
-            : 3;
+            : 2;
         const deLen = (containerWidth / numberOfTabs - underlineWidth) / 2;
         const tabUnderlineStyle = {
             position: "absolute",
@@ -66,7 +66,7 @@ export default class CustomTabBar extends Component {
             height: 2,
             borderRadius: 2,
             backgroundColor: this.props.activeColor,
-            bottom: 3,
+            bottom: 0,
             left: deLen,
         };
 

@@ -18,8 +18,8 @@ export function start() {
                 noBorder: true,
                 rightButtons: [
                     {
-                        id: "menu",
-                        icon: require("./assets/menu.png"),
+                        id: "search",
+                        icon: require("./assets/search.png"),
                     },
                 ],
             },

@@ -530,3 +530,15 @@ export const postContent = (data, postingKey) => {
             });
     });
 };
+
+export const lookupAccounts = async username => {
+    try {
+        let users = await client.database.call("lookup_accounts", [
+            username,
+            20,
+        ]);
+        return users;
+    } catch (error) {
+        throw error;
+    }
+};

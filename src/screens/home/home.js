@@ -1,9 +1,11 @@
 import React from "react";
-import { Text, View, Dimensions } from "react-native";
+import { Text, View, Dimensions, TouchableOpacity } from "react-native";
 import { Navigation } from "react-native-navigation";
 
 import ScrollableTabView from "@esteemapp/react-native-scrollable-tab-view";
 import CustomTabBar from "./customTab";
+import Ionicons from "react-native-vector-icons/Ionicons";
+import ActionSheet from "react-native-actionsheet";
 
 import FastImage from "react-native-fast-image";
 
@@ -24,6 +26,26 @@ import FeedPage from "./feed";
 import TrendingPage from "./trending";
 
 export default class Home extends React.PureComponent {
+    static get options() {
+        return {
+            _statusBar: {
+                visible: true,
+                drawBehind: false,
+            },
+            topBar: {
+                animate: true,
+                hideOnScroll: true,
+                drawBehind: false,
+            },
+            layout: {
+                backgroundColor: "#f5fcff",
+            },
+            bottomTabs: {
+                visible: true,
+                drawBehind: true,
+            },
+        };
+    }
     constructor(props) {
         super(props);
         Navigation.events().bindComponent(this); // <== Will be automatically unregistered when unmounted
@@ -33,20 +55,29 @@ export default class Home extends React.PureComponent {
             },
             isLoggedIn: false,
             isLoading: true,
+            category: "HOT",
+            options: ["HOT", "TRENDING", "CLOSE"],
         };
     }
 
     navigationButtonPressed({ buttonId }) {
-        if (buttonId === "menu") {
-            Navigation.mergeOptions(this.props.componentId, {
-                sideMenu: {
-                    ["right"]: {
-                        visible: true,
+        if (buttonId === "search") {
+            Navigation.showOverlay({
+                component: {
+                    name: "navigation.eSteem.Search",
+                },
+                options: {
+                    overlay: {
+                        interceptTouchOutside: true,
                     },
                 },
             });
         }
     }
+
+    showActionSheet = () => {
+        this.ActionSheet.show();
+    };
 
     async componentDidMount() {
         let user;
@@ -83,10 +114,11 @@ export default class Home extends React.PureComponent {
                     renderTabBar={() => (
                         <CustomTabBar
                             style={styles.tabbar}
-                            tabUnderlineDefaultWidth={30} // default containerWidth / (numberOfTabs * 4)
-                            tabUnderlineScaleX={3} // default 3
-                            activeColor={"#222"}
+                            tabUnderlineDefaultWidth={80} // default containerWidth / (numberOfTabs * 4)
+                            tabUnderlineScaleX={2} // default 3
+                            activeColor={"#357ce6"}
                             inactiveColor={"#222"}
+                            tabBarPosition="overlayTop"
                         />
                     )}
                 >
