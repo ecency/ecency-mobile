@@ -1,4 +1,4 @@
-import CryptoJS from 'crypto-js';
+import CryptoJS from "crypto-js";
 
 export const encryptKey = (key, pinCode) => {
     return CryptoJS.AES.encrypt(key, pinCode).toString();

@@ -1,25 +1,25 @@
-import Realm from 'realm';
+import Realm from "realm";
 
 // CONSTANTS
-const USER_SCHEMA = 'user';
-const AUTH_SCHEMA = 'auth';
+const USER_SCHEMA = "user";
+const AUTH_SCHEMA = "auth";
 
 const userSchema = {
     name: USER_SCHEMA,
     properties: {
-        username: { type: 'string' },
-        authType: { type: 'string' },
-        postingKey: { type: 'string' },
-        activeKey: { type: 'string' },
-        memoKey: { type: 'string' },
-        masterKey: { type: 'string' },
+        username: { type: "string" },
+        authType: { type: "string" },
+        postingKey: { type: "string" },
+        activeKey: { type: "string" },
+        memoKey: { type: "string" },
+        masterKey: { type: "string" },
     },
 };
 
 const authSchema = {
     name: AUTH_SCHEMA,
     properties: {
-        isLoggedIn: { type: 'bool', default: false },
+        isLoggedIn: { type: "bool", default: false },
     },
 };
 
@@ -69,8 +69,8 @@ export const getAuthStatus = () => {
     return new Promise((resolve, reject) => {
         try {
             let auth = realm.objects(AUTH_SCHEMA);
-            if (auth['0']) {
-                resolve(auth['0'].isLoggedIn);
+            if (auth["0"]) {
+                resolve(auth["0"].isLoggedIn);
             } else {
                 resolve(false);
             }
