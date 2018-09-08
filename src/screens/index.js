@@ -14,7 +14,7 @@ import Discover from "./discover/discover";
 import Settings from "./settings/settings";
 import Notifications from "./notifications/notification";
 import PostCard from "../components/post-card/postCard";
-import Search from "../components/search/Search";
+import Search from "../components/search/search";
 
 function registerScreens() {
     Navigation.registerComponent("navigation.eSteem.Home", () => Home);

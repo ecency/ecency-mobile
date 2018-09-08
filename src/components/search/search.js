@@ -10,7 +10,7 @@ import {
 } from "react-native";
 import Ionicons from "react-native-vector-icons/Ionicons";
 import { Navigation } from "react-native-navigation";
-import { lookupAccounts } from "../../providers/steem/Dsteem";
+import { lookupAccounts } from "../../providers/steem/dsteem";
 
 export default class Search extends Component {
     constructor() {
