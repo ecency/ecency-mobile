@@ -1,3 +1,14 @@
-import { start } from "./app";
+import { Navigation } from "react-native-navigation";
+import { registerScreens } from "./screens";
 
-start();
+registerScreens();
+
+Navigation.events().registerAppLaunchedListener(() => {
+    Navigation.setRoot({
+        root: {
+            component: {
+                name: "navigation.eSteem.Splash",
+            },
+        },
+    });
+});

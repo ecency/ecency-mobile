@@ -1,5 +1,6 @@
 import { Navigation } from "react-native-navigation";
 
+import Splash from "./splash/splashContainer";
 import SideMenu from "./sideMenuScreen";
 import Home from "./home/home";
 import Hot from "./home/hot";
@@ -17,6 +18,7 @@ import PostCard from "../components/post-card/postCard";
 import Search from "../components/search/search";
 
 function registerScreens() {
+    Navigation.registerComponent("navigation.eSteem.Splash", () => Splash);
     Navigation.registerComponent("navigation.eSteem.Home", () => Home);
     Navigation.registerComponent("navigation.eSteem.Hot", () => Hot);
     Navigation.registerComponent("navigation.eSteem.Feed", () => Feed);

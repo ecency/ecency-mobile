@@ -23,7 +23,6 @@ import {
 } from "native-base";
 
 import { Login } from "../../providers/steem/auth";
-import { start } from "../../app";
 import RNRestart from "react-native-restart";
 
 class LoginPage extends Component {
