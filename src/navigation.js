@@ -316,6 +316,7 @@ export const goToNoAuthScreens = () =>
                 id: "LoginScreen",
                 children: [
                     {
+                        // TODO before commit navigation.eSteem.Login
                         component: {
                             name: "navigation.eSteem.Login",
                         },

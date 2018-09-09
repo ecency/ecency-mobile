@@ -1,5 +1,6 @@
 import { Navigation } from "react-native-navigation";
 
+// SCREENS
 import Splash from "./splash/splashContainer";
 import SideMenu from "./sideMenuScreen";
 import Home from "./home/home";
@@ -14,6 +15,9 @@ import Editor from "./editor/editor";
 import Discover from "./discover/discover";
 import Settings from "./settings/settings";
 import Notifications from "./notifications/notification";
+import PinCode from "./pinCode/pinCodeContainer";
+
+// COMPONENTS
 import PostCard from "../components/post-card/postCard";
 import Search from "../components/search/search";
 
@@ -40,6 +44,7 @@ function registerScreens() {
     Navigation.registerComponent("navigation.eSteem.Author", () => Author);
     Navigation.registerComponent("navigation.eSteem.PostCard", () => PostCard);
     Navigation.registerComponent("navigation.eSteem.Search", () => Search);
+    Navigation.registerComponent("navigation.eSteem.PinCode", () => PinCode);
 }
 
 module.exports = {

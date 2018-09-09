@@ -43,6 +43,7 @@ class LoginPage extends Component {
 
         Login(username, password)
             .then(result => {
+                console.log("============", result);
                 if (result === true) {
                     RNRestart.Restart();
                 }
