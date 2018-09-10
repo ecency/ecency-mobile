@@ -1,9 +1,11 @@
 import React from "react";
 import { AsyncStorage } from "react-native";
 
-import PinCodeScreen from "./pinCodeScreen";
+import { setUserDataWithPinCode } from "../../providers/steem/auth";
 
 import { default as INITIAL } from "../../constants/initial";
+
+import PinCodeScreen from "./pinCodeScreen";
 
 class PinCodeContainer extends React.Component {
     constructor(props) {
@@ -20,12 +22,23 @@ class PinCodeContainer extends React.Component {
         });
     };
 
+    // TODO: if check for decide to set to pin or verify to pin page
+
     // componentDidMount() {
     // 	this._getDataFromStorage();
     // }
 
+    _setUserData = pinCode => {
+        setUserDataWithPinCode(pinCode).then(() => {});
+    };
+
+    _setPinCode = pinCode => {
+        // TODO: If check for confirm
+        this._setUserData(pinCode);
+    };
+
     render() {
-        return <PinCodeScreen />;
+        return <PinCodeScreen setPinCode={this._setPinCode} />;
     }
 }
 

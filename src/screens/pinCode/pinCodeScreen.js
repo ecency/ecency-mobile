@@ -13,6 +13,14 @@ class PinCodeScreen extends React.Component {
             showPassword: false,
         };
     }
+
+    _handleOnChangeInput = text => {
+        const { setPinCode } = this.props;
+        if (text.length === 4) {
+            setPinCode(text);
+        }
+    };
+
     render() {
         return (
             <Container style={styles.container}>
@@ -24,6 +32,7 @@ class PinCodeScreen extends React.Component {
                             secureTextEntry={!this.state.showPassword}
                             keyboardType="numeric"
                             maxLength={4}
+                            onChangeText={e => this._handleOnChangeInput(e)}
                         />
                         <TouchableOpacity
                             onPress={() =>

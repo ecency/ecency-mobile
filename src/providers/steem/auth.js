@@ -168,3 +168,8 @@ export const Login = (username, password) => {
             });
     });
 };
+
+export const setUserDataWithPinCode = pinCode =>
+    new Promise((resolve, reject) => {
+        resolve();
+    });
