@@ -5,7 +5,7 @@ import {
     Text,
     StyleSheet,
     Image,
-    StatusBar,
+    AsyncStorage,
 } from "react-native";
 import {
     Item,
@@ -21,9 +21,12 @@ import {
     Label,
     Thumbnail,
 } from "native-base";
+import { Navigation } from "react-native-navigation";
 
 import { Login } from "../../providers/steem/auth";
 import RNRestart from "react-native-restart";
+
+import { default as INITIAL } from "../../constants/initial";
 
 class LoginPage extends Component {
     constructor(props) {
@@ -36,16 +39,48 @@ class LoginPage extends Component {
     }
 
     doLogin = () => {
+        const { componentId } = this.props;
+
         this.setState({ isLoading: true });
 
         let password = this.state.password;
         let username = this.state.username;
 
+        console.log("componentId", componentId);
+
         Login(username, password)
             .then(result => {
-                console.log("============", result);
                 if (result === true) {
-                    RNRestart.Restart();
+                    AsyncStorage.setItem(
+                        INITIAL.IS_EXIST_USER,
+                        JSON.stringify(false)
+                    );
+                    AsyncStorage.getItem(
+                        INITIAL.IS_EXIST_USER,
+                        (err, value) => {
+                            if (value === "true") {
+                                Navigation.setStackRoot(componentId, {
+                                    component: {
+                                        name: "navigation.eSteem.Splash",
+                                    },
+                                });
+                            } else {
+                                Navigation.setStackRoot(componentId, {
+                                    component: {
+                                        name: "navigation.eSteem.PinCode",
+                                        passProps: {
+                                            test: "test",
+                                        },
+                                        options: {
+                                            topBar: {
+                                                visible: false,
+                                            },
+                                        },
+                                    },
+                                });
+                            }
+                        }
+                    );
                 }
             })
             .catch(err => {

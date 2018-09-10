@@ -1,7 +1,8 @@
 import React from "react";
-import { Text, View } from "react-native";
 
 import { goToAuthScreens, goToNoAuthScreens } from "../../navigation";
+
+import { getAuthStatus } from "../../realm/realm";
 
 import SplashScreen from "./splashScreen";
 
@@ -10,8 +11,14 @@ class SplashContainer extends React.Component {
         super(props);
     }
 
-    componentDidMount() {
-        goToNoAuthScreens();
+    async componentDidMount() {
+        await getAuthStatus().then(res => {
+            if (res) {
+                goToNoAuthScreens();
+            } else {
+                goToAuthScreens();
+            }
+        });
     }
 
     render() {
