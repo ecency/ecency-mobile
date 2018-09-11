@@ -173,3 +173,8 @@ export const setUserDataWithPinCode = pinCode =>
     new Promise((resolve, reject) => {
         resolve();
     });
+
+export const verifyPinCode = pinCode =>
+    new Promise((resolve, reject) => {
+        resolve();
+    });

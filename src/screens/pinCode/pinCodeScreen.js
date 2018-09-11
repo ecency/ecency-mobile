@@ -55,6 +55,10 @@ class PinCodeScreen extends React.Component {
                             Oh, I forgot it…
                         </Text>
                     </TouchableOpacity>
+
+                    <Text style={styles.forgotButtonText}>
+                        {this.props.informationText}
+                    </Text>
                 </Content>
             </Container>
         );
