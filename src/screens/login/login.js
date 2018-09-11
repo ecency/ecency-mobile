@@ -9,7 +9,8 @@ import {
     Linking,
     BackHandler,
     Dimensions,
-    TextInput
+    TextInput,
+    WebView
 } from "react-native";
 import Ionicons from "react-native-vector-icons/Ionicons";
 
@@ -75,12 +76,15 @@ class LoginPage extends Component {
             Navigation.pop(this.props.componentId);
             return true;
         });
+        Linking.getInitialURL().then((url) => {
+            console.log(url);
+        });
     }
 
     componentWillUnmount() {
         BackHandler.removeEventListener("hardwareBackPress");
     }
-
+    
     doLogin = () => {
         this.setState({ isLoading: true });
 
@@ -110,6 +114,26 @@ class LoginPage extends Component {
             Linking.openURL("https://signup.steemit.com/?ref=esteem")
             .catch(err => console.error('An error occurred', err));
         }
+    }
+
+    loginwithSc2 = () => {
+        Navigation.showModal({
+            stack: {
+                children: [{
+                    component: {
+                        name: "navigation.eSteem.SteemConnect",
+                        passProps: {},
+                        options: {
+                            topBar: {
+                                title: {
+                                    text: "Login via SC2"
+                                }
+                            }
+                        }
+                    }
+                }]
+            }
+        });
     }
 
     render() {
@@ -315,7 +339,37 @@ class LoginPage extends Component {
                         
                     </View>
                     <View tabLabel="SteemConnect" style={styles.tabbarItem}>
-                        
+                    <TouchableOpacity
+                                onPress={this.loginwithSc2}
+                                style={{
+                                    flex: 0.4,
+                                    width: 100,
+                                    height: 50,
+                                    borderRadius: 30,
+                                    backgroundColor: '#357ce6',
+                                    flexDirection: 'row',
+                                }}>
+                                    <View style={{ flex: 1, flexDirection: 'row' }}>
+                                        <Ionicons 
+                                            color='white'
+                                            name='md-person'
+                                            style={{ 
+                                                alignSelf: 'center',
+                                                fontSize: 25,
+                                                flex: 0.4,
+                                                left: 15
+                                            }}/>
+                                        <Text style={{ 
+                                            color: 'white',
+                                            fontWeight: '600',
+                                            alignSelf: 'center',
+                                            fontSize: 16,
+                                            flex: 0.6,
+                                            }}>
+                                            LOGIN
+                                        </Text>
+                                    </View>
+                            </TouchableOpacity>
                     </View>
                 </ScrollableTabView>
             </View>

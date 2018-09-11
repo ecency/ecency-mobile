@@ -42,7 +42,8 @@
     "redux-promise": "^0.6.0",
     "redux-thunk": "^2.3.0",
     "remarkable": "^1.7.1",
-    "rn-placeholder": "^1.2.0"
+    "rn-placeholder": "^1.2.0",
+    "sc2-sdk": "^1.0.2"
   },
   "devDependencies": {
     "babel-eslint": "^8.2.6",
