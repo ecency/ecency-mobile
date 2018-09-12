@@ -3,7 +3,7 @@
 import * as dsteem from "dsteem";
 import { getAccount } from "./dsteem";
 import { setUserData, setAuthStatus } from "../../realm/realm";
-import * as sc2 from "sc2-sdk";
+import { encryptKey } from "../../utils/crypto";
 import steemConnect from "./steemConnectAPI";
 /*eslint-enable no-unused-vars*/
 
@@ -79,7 +79,6 @@ export const Login = (username, password) => {
 					if (isPassword) {
 						/**
                          * User data
-                         * TODO: Encryption
                          */
 						let userData = {
 							username: username,
@@ -91,6 +90,7 @@ export const Login = (username, password) => {
 							),
 							activeKey: encryptKey(privateKeys.active, pinCode),
 							memoKey: encryptKey(privateKeys.memo, pinCode),
+							accessToken: ""
 						};
 						let authData = {
 							isLoggedIn: true,
@@ -130,6 +130,7 @@ export const Login = (username, password) => {
 							masterKey: "",
 							activeKey: "",
 							memoKey: "",
+							accessToken: ""
 						};
 
 						let authData = {
@@ -172,10 +173,40 @@ export const Login = (username, password) => {
 	});
 };
 
-export const loginWithSC2 = async (access_token) => {
+export const loginWithSC2 = async (access_token, pinCode) => {
+	let account;
+
 	await steemConnect.setAccessToken(access_token);
-	steemConnect.me((error, result) => {
-		console.log(error, result);
-		return result;
+	account = await steemConnect.me();
+
+	console.log(account._id);
+	console.log(account.name);
+
+	return new Promise((resolve, reject) => {
+
+		let userData = {
+			username: account.name,
+			authType: "steemConnect",
+			accessToken: encryptKey(access_token, pinCode), 
+			postingKey: "",
+			masterKey: "",
+			activeKey: "",
+			memoKey: ""
+		}; 
+        
+		let authData = {
+			isLoggedIn: true
+		};
+        
+		setAuthStatus(authData).then(() => {
+			setUserData(userData).then(() => {
+				resolve(true);
+			}).catch(error => {
+				reject(error);
+			});
+		}).catch(error => {
+			reject(error);
+		});
+
 	});
 };
