@@ -318,7 +318,7 @@ export const goToNoAuthScreens = () =>
                     {
                         // TODO before commit navigation.eSteem.Login
                         component: {
-                            name: "navigation.eSteem.PinCode",
+                            name: "navigation.eSteem.Login",
                         },
                     },
                 ],

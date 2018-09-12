@@ -53,7 +53,7 @@ class PinCodeContainer extends React.Component {
 
         if (isExistUser) {
             // If the user is exist, we are just checking to pin and navigating to home screen
-            verifyPinCode(pinCode).then(() => {});
+            verifyPinCode(pinCode, "").then(() => {});
             // TODO navigate to home
         } else {
             // If the user is logging in for the first time, the user should set to pin
@@ -64,7 +64,7 @@ class PinCodeContainer extends React.Component {
                 });
             } else {
                 if (pinCode === pin) {
-                    setUserDataWithPinCode(pinCode).then(() => {});
+                    setUserDataWithPinCode(pinCode, "").then(() => {});
                     // TODO navigate to home
                 } else {
                     this.setState({
