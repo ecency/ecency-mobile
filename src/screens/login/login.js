@@ -22,6 +22,7 @@ import {
     Thumbnail,
 } from "native-base";
 import { Navigation } from "react-native-navigation";
+import { connect } from "react-redux";
 
 import { Login } from "../../providers/steem/auth";
 import RNRestart from "react-native-restart";
@@ -36,6 +37,10 @@ class LoginPage extends Component {
             password: "",
             isLoading: false,
         };
+    }
+
+    componentDidMount() {
+        console.log("=================test", this.props.account);
     }
 
     doLogin = () => {
@@ -349,4 +354,9 @@ const styles = StyleSheet.create({
         flexDirection: "row",
     },
 });
-export default LoginPage;
+
+const mapStateToProps = state => ({
+    account: state.accounts,
+});
+
+export default connect(mapStateToProps)(LoginPage);

@@ -28,6 +28,8 @@ export const Login = (username, password) => {
                     posting: account["posting"].key_auths.map(x => x[0]),
                 };
 
+                console.log("=========account==========", account);
+
                 // Set private keys of user
                 privateKeys = getPrivateKeys(username, password);
 
