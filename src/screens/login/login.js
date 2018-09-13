@@ -25,7 +25,6 @@ import { Navigation } from "react-native-navigation";
 import { connect } from "react-redux";
 
 import { Login } from "../../providers/steem/auth";
-import RNRestart from "react-native-restart";
 
 import { default as INITIAL } from "../../constants/initial";
 
@@ -60,6 +59,7 @@ class LoginPage extends Component {
                         INITIAL.IS_EXIST_USER,
                         JSON.stringify(false)
                     );
+                    this.props.dispatch();
                     AsyncStorage.getItem(
                         INITIAL.IS_EXIST_USER,
                         (err, value) => {
