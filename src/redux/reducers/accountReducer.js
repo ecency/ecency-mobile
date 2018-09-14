@@ -33,7 +33,7 @@ export default function(state = initialState, action) {
             return {
                 ...state,
                 isFetching: false,
-                data: state.data.push(action.payload),
+                data: [...state.data, action.payload],
                 hasError: false,
                 errorMessage: null,
             };

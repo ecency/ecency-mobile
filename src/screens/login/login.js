@@ -26,6 +26,8 @@ import { connect } from "react-redux";
 
 import { Login } from "../../providers/steem/auth";
 
+import { fetchAccountFromSteem } from "../../redux/actions/accountAction";
+
 import { default as INITIAL } from "../../constants/initial";
 
 class LoginPage extends Component {
@@ -36,10 +38,6 @@ class LoginPage extends Component {
             password: "",
             isLoading: false,
         };
-    }
-
-    componentDidMount() {
-        console.log("=================test", this.props.account);
     }
 
     doLogin = () => {
@@ -59,7 +57,10 @@ class LoginPage extends Component {
                         INITIAL.IS_EXIST_USER,
                         JSON.stringify(false)
                     );
-                    this.props.dispatch();
+
+                    this.props.dispatch(
+                        fetchAccountFromSteem(username, password)
+                    );
                     AsyncStorage.getItem(
                         INITIAL.IS_EXIST_USER,
                         (err, value) => {

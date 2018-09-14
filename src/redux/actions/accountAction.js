@@ -7,37 +7,32 @@ import {
     FETCHING_ACCOUNT,
 } from "../constants/constants";
 
-export function fetchAccountFromSteem(user) {
-    return dispatch => {
-        dispatch({ type: FETCHING_ACCOUNT });
+export const fetchAccountFromSteem = (username, password) => dispatch => {
+    dispatch({ type: FETCHING_ACCOUNT });
 
-        return getAccount(user)
-            .then(res => {
-                return dispatch({ type: ADD_NEW_ACCOUNT, payload: res[0] });
-            })
-            .catch(err => {
-                return dispatch({ type: FETCH_ACCOUNT_FAIL, payload: err });
+    return getAccount(username)
+        .then(res => {
+            return dispatch({
+                type: ADD_NEW_ACCOUNT,
+                payload: { ...res[0], password },
             });
-    };
-}
+        })
+        .catch(err => {
+            return dispatch({ type: FETCH_ACCOUNT_FAIL, payload: err });
+        });
+};
 
-export function addNewAccount(data) {
-    return {
-        type: ADD_NEW_ACCOUNT,
-        payload: data,
-    };
-}
+export const addNewAccount = data => ({
+    type: ADD_NEW_ACCOUNT,
+    payload: data,
+});
 
-export function updateAccountData(data) {
-    return {
-        type: UPDATE_ACCOUNT_DATA,
-        payload: data,
-    };
-}
+export const updateAccountData = data => ({
+    type: UPDATE_ACCOUNT_DATA,
+    payload: data,
+});
 
-export function removeAccountData(data) {
-    return {
-        type: REMOVE_ACCOUNT_DATA,
-        payload: data,
-    };
-}
+export const removeAccountData = data => ({
+    type: REMOVE_ACCOUNT_DATA,
+    payload: data,
+});
