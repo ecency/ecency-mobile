@@ -62,7 +62,7 @@ export const Login = (username, password) => {
                             // Save user data to Realm DB
                             setUserData(userData)
                                 .then(() => {
-                                    resolve(loginFlag);
+                                    resolve({ ...account, password });
                                 })
                                 .catch(err => {
                                     reject(err);
@@ -98,6 +98,7 @@ export const setUserDataWithPinCode = (pinCode, password) =>
                 memoKey: encryptKey(privateKeys.memo.toString(), pinCode),
             };
 
+            //TODO update user data
             setUserData(updatedUserData)
                 .then(() => {
                     resolve();
@@ -113,8 +114,12 @@ export const verifyPinCode = (pinCode, password) =>
     new Promise((resolve, reject) => {
         getUserData().then(result => {
             const userData = Array.from(result)[0];
-            const masterKey = decryptKey(userData.masterKey, pinCode);
 
+            console.log("====userData====", Array.from(result));
+            console.log("====userData.masterKey====", userData.masterKey);
+            console.log("====pinCode====", pinCode, password);
+            const masterKey = decryptKey(userData.masterKey, pinCode);
+            console.log("====masterKey====", masterKey);
             if (masterKey === password) {
                 resolve();
             } else {

@@ -8,7 +8,10 @@ import {
 
 const initialState = {
     isFetching: null,
-    data: [],
+    data: {
+        accounts: [],
+        currentAccountId: null,
+    },
     hasError: false,
     errorMessage: null,
 };
@@ -33,7 +36,10 @@ export default function(state = initialState, action) {
             return {
                 ...state,
                 isFetching: false,
-                data: [...state.data, action.payload],
+                data: {
+                    accounts: [...state.data.accounts, action.payload],
+                    currentAccountId: action.payload.id,
+                },
                 hasError: false,
                 errorMessage: null,
             };

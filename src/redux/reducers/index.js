@@ -3,5 +3,5 @@ import userReducer from "./userReducer";
 import accountReducer from "./accountReducer";
 
 export default combineReducers({
-    accounts: accountReducer,
+    account: accountReducer,
 });

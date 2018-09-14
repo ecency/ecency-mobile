@@ -26,7 +26,7 @@ import { connect } from "react-redux";
 
 import { Login } from "../../providers/steem/auth";
 
-import { fetchAccountFromSteem } from "../../redux/actions/accountAction";
+import { addNewAccount } from "../../redux/actions/accountAction";
 
 import { default as INITIAL } from "../../constants/initial";
 
@@ -52,41 +52,18 @@ class LoginPage extends Component {
 
         Login(username, password)
             .then(result => {
-                if (result === true) {
-                    AsyncStorage.setItem(
-                        INITIAL.IS_EXIST_USER,
-                        JSON.stringify(false)
-                    );
-
-                    this.props.dispatch(
-                        fetchAccountFromSteem(username, password)
-                    );
-                    AsyncStorage.getItem(
-                        INITIAL.IS_EXIST_USER,
-                        (err, value) => {
-                            if (value === "true") {
-                                Navigation.setStackRoot(componentId, {
-                                    component: {
-                                        name: "navigation.eSteem.Splash",
-                                    },
-                                });
-                            } else {
-                                Navigation.setStackRoot(componentId, {
-                                    component: {
-                                        name: "navigation.eSteem.PinCode",
-                                        passProps: {
-                                            test: "test",
-                                        },
-                                        options: {
-                                            topBar: {
-                                                visible: false,
-                                            },
-                                        },
-                                    },
-                                });
-                            }
-                        }
-                    );
+                if (result) {
+                    this.props.dispatch(addNewAccount(result));
+                    Navigation.setStackRoot(componentId, {
+                        component: {
+                            name: "navigation.eSteem.PinCode",
+                            options: {
+                                topBar: {
+                                    visible: false,
+                                },
+                            },
+                        },
+                    });
                 }
             })
             .catch(err => {

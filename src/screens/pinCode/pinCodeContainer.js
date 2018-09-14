@@ -1,5 +1,7 @@
 import React from "react";
 import { AsyncStorage } from "react-native";
+import { connect } from "react-redux";
+import { Navigation } from "react-native-navigation";
 
 import {
     setUserDataWithPinCode,
@@ -24,6 +26,7 @@ class PinCodeContainer extends React.Component {
     componentDidMount() {
         this._getDataFromStorage().then(() => {
             const { isExistUser } = this.state;
+            console.log("============isExistUser===========", isExistUser);
             if (isExistUser) {
                 this.setState({
                     informationText: "verify screen",
@@ -34,11 +37,17 @@ class PinCodeContainer extends React.Component {
                 });
             }
         });
+
+        console.log(
+            "==============password==========",
+            this.props.currentAccount.password
+        );
     }
 
     _getDataFromStorage = () =>
         new Promise(resolve => {
             AsyncStorage.getItem(INITIAL.IS_EXIST_USER, (err, result) => {
+                console.log("============IS_EXIST_USER===========", result);
                 this.setState(
                     {
                         isExistUser: JSON.parse(result),
@@ -49,12 +58,25 @@ class PinCodeContainer extends React.Component {
         });
 
     _setPinCode = pin => {
+        const {
+            currentAccount: { password },
+            componentId,
+        } = this.props;
         const { isExistUser, pinCode } = this.state;
-
+        console.log(password);
         if (isExistUser) {
             // If the user is exist, we are just checking to pin and navigating to home screen
-            verifyPinCode(pinCode, "").then(() => {});
-            // TODO navigate to home
+            verifyPinCode(pin, password)
+                .then(() => {
+                    Navigation.setStackRoot(componentId, {
+                        component: {
+                            name: "navigation.eSteem.Home",
+                        },
+                    });
+                })
+                .catch(err => {
+                    alert(err);
+                });
         } else {
             // If the user is logging in for the first time, the user should set to pin
             if (!pinCode) {
@@ -64,8 +86,19 @@ class PinCodeContainer extends React.Component {
                 });
             } else {
                 if (pinCode === pin) {
-                    setUserDataWithPinCode(pinCode, "").then(() => {});
-                    // TODO navigate to home
+                    setUserDataWithPinCode(pinCode, password).then(() => {
+                        AsyncStorage.setItem(
+                            INITIAL.IS_EXIST_USER,
+                            JSON.stringify(true),
+                            () => {
+                                Navigation.setStackRoot(componentId, {
+                                    component: {
+                                        name: "navigation.eSteem.Home",
+                                    },
+                                });
+                            }
+                        );
+                    });
                 } else {
                     this.setState({
                         informationText: "wrongggg!!!",
@@ -92,4 +125,10 @@ class PinCodeContainer extends React.Component {
     }
 }
 
-export default PinCodeContainer;
+const mapStateToProps = state => ({
+    currentAccount: state.account.data.accounts.find(
+        item => item.id === state.account.data.currentAccountId
+    ),
+});
+
+export default connect(mapStateToProps)(PinCodeContainer);
