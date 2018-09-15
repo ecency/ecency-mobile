@@ -1,6 +1,12 @@
 import * as dsteem from "dsteem";
 import { getAccount } from "./dsteem";
-import { setUserData, setAuthStatus, getUserData } from "../../realm/realm";
+import {
+    setUserData,
+    setAuthStatus,
+    getUserData,
+    updateUserData,
+    removeUserData,
+} from "../../realm/realm";
 /*eslint-disable-next-line no-unused-vars*/
 import { encryptKey, decryptKey } from "../../utils/crypto";
 
@@ -28,8 +34,6 @@ export const Login = (username, password) => {
                     posting: account["posting"].key_auths.map(x => x[0]),
                 };
 
-                console.log("=========account==========", account);
-
                 // Set private keys of user
                 privateKeys = getPrivateKeys(username, password);
 
@@ -45,6 +49,7 @@ export const Login = (username, password) => {
 
                 if (loginFlag) {
                     let userData = {
+                        id: account.id,
                         username: username,
                         authType: "masterKey",
                         masterKey: "",
@@ -87,6 +92,7 @@ export const setUserDataWithPinCode = (pinCode, password) =>
     new Promise((resolve, reject) => {
         getUserData().then(result => {
             const userData = Array.from(result)[0];
+
             const privateKeys = getPrivateKeys(userData.username, password);
 
             const updatedUserData = {
@@ -98,8 +104,7 @@ export const setUserDataWithPinCode = (pinCode, password) =>
                 memoKey: encryptKey(privateKeys.memo.toString(), pinCode),
             };
 
-            //TODO update user data
-            setUserData(updatedUserData)
+            updateUserData(updatedUserData)
                 .then(() => {
                     resolve();
                 })
@@ -114,12 +119,8 @@ export const verifyPinCode = (pinCode, password) =>
     new Promise((resolve, reject) => {
         getUserData().then(result => {
             const userData = Array.from(result)[0];
-
-            console.log("====userData====", Array.from(result));
-            console.log("====userData.masterKey====", userData.masterKey);
-            console.log("====pinCode====", pinCode, password);
             const masterKey = decryptKey(userData.masterKey, pinCode);
-            console.log("====masterKey====", masterKey);
+            removeUserData();
             if (masterKey === password) {
                 resolve();
             } else {

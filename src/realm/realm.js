@@ -39,10 +39,41 @@ export const getUserData = () => {
 export const setUserData = userData => {
     return new Promise((resolve, reject) => {
         try {
-            realm.write(() => {
-                realm.create(userSchema.name, userData);
-                resolve(userData);
-            });
+            const account = realm
+                .objects(USER_SCHEMA)
+                .filtered(`username = "${userData.username}"`);
+            if (Array.from(account).length === 0) {
+                realm.write(() => {
+                    realm.create(userSchema.name, userData);
+                    resolve(userData);
+                });
+            } else {
+                resolve();
+            }
+        } catch (error) {
+            reject(error);
+        }
+    });
+};
+
+export const updateUserData = userData => {
+    return new Promise((resolve, reject) => {
+        try {
+            const account = realm
+                .objects(USER_SCHEMA)
+                .filtered(`username = "${userData.username}"`);
+
+            if (Array.from(account).length > 0) {
+                realm.write(() => {
+                    account[0].masterKey = userData.masterKey;
+                    account[0].activeKey = userData.activeKey;
+                    account[0].memoKey = userData.memoKey;
+                    account[0].postingKey = userData.postingKey;
+                    resolve(userData);
+                });
+            } else {
+                resolve();
+            }
         } catch (error) {
             reject(error);
         }
@@ -51,7 +82,7 @@ export const setUserData = userData => {
 
 export const removeUserData = () => {
     return new Promise((resolve, reject) => {
-        setAuthStatus({ isLoggedIn: true }).then(() => {
+        setAuthStatus({ isLoggedIn: false }).then(() => {
             try {
                 realm.write(() => {
                     realm.deleteAll();

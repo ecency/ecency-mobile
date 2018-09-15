@@ -26,7 +26,6 @@ class PinCodeContainer extends React.Component {
     componentDidMount() {
         this._getDataFromStorage().then(() => {
             const { isExistUser } = this.state;
-            console.log("============isExistUser===========", isExistUser);
             if (isExistUser) {
                 this.setState({
                     informationText: "verify screen",
@@ -37,17 +36,11 @@ class PinCodeContainer extends React.Component {
                 });
             }
         });
-
-        console.log(
-            "==============password==========",
-            this.props.currentAccount.password
-        );
     }
 
     _getDataFromStorage = () =>
         new Promise(resolve => {
             AsyncStorage.getItem(INITIAL.IS_EXIST_USER, (err, result) => {
-                console.log("============IS_EXIST_USER===========", result);
                 this.setState(
                     {
                         isExistUser: JSON.parse(result),
