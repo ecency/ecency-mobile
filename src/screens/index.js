@@ -21,6 +21,7 @@ import Notifications from "./notifications/notification";
 import PinCode from "./pinCode/pinCodeContainer";
 
 // COMPONENTS
+import SteemConnect from "./steem-connect/steemConnect";
 import PostCard from "../components/post-card/postCard";
 import Search from "../components/search/search";
 
@@ -124,6 +125,12 @@ function registerScreens() {
     Navigation.registerComponentWithRedux(
         "navigation.eSteem.PinCode",
         () => PinCode,
+        Provider,
+        store
+    );
+    Navigation.registerComponentWithRedux(
+        "navigation.eSteem.SteemConnect",
+        () => SteemConnect,
         Provider,
         store
     );

@@ -16,7 +16,7 @@ import styles from "./style";
 import { Navigation } from "react-native-navigation";
 
 const drawerCover = require("../../assets/drawer-cover.png");
-const drawerImage = require("../../assets/esteem.jpg");
+const drawerImage = require("../../assets/esteem.png");
 const datas = [
     {
         name: "Login",

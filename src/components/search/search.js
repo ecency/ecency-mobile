@@ -11,6 +11,7 @@ import {
 import Ionicons from "react-native-vector-icons/Ionicons";
 import { Navigation } from "react-native-navigation";
 import { lookupAccounts } from "../../providers/steem/dsteem";
+import { SEARCH_API_TOKEN } from "../../../config";
 
 export default class Search extends Component {
     constructor() {
@@ -30,12 +31,15 @@ export default class Search extends Component {
     };
 
     handleSearch = async text => {
-        if (text.length < 3) return null;
+        if (text.length < 3) return;
         let users;
         let posts;
         let scroll_id;
 
-        await this.setState({ loading: true });
+        await this.setState({
+            loading: true,
+            text: text,
+        });
 
         users = await lookupAccounts(text);
 
@@ -47,7 +51,7 @@ export default class Search extends Component {
             headers: {
                 // TODO: Create a config file for authorization
 
-                Authorization: "KEY",
+                Authorization: SEARCH_API_TOKEN,
                 "Content-Type": "application/json",
             },
             body: JSON.stringify(data),
@@ -73,9 +77,10 @@ export default class Search extends Component {
         return (
             <View
                 style={{
-                    backgroundColor: "rgba(0, 0, 0, 0.7)",
+                    backgroundColor: "rgba(0, 0, 0, 0.8)",
                     height: Dimensions.get("window").height,
                     paddingTop: 25,
+                    flex: 1,
                 }}
             >
                 <View

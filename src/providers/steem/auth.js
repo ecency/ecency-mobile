@@ -1,3 +1,5 @@
+/*eslint-disable no-unused-vars*/
+/*eslint-disable no-console*/
 import * as dsteem from "dsteem";
 import { getAccount } from "./dsteem";
 import {
@@ -9,6 +11,7 @@ import {
 } from "../../realm/realm";
 /*eslint-disable-next-line no-unused-vars*/
 import { encryptKey, decryptKey } from "../../utils/crypto";
+import steemConnect from "./steemConnectAPI";
 
 export const Login = (username, password) => {
     let publicKeys;
@@ -136,4 +139,43 @@ const getPrivateKeys = (username, password) => {
         owner: dsteem.PrivateKey.fromLogin(username, password, "owner"),
         posting: dsteem.PrivateKey.fromLogin(username, password, "posting"),
     };
+};
+export const loginWithSC2 = async (access_token, pinCode) => {
+    let account;
+
+    await steemConnect.setAccessToken(access_token);
+    account = await steemConnect.me();
+
+    console.log(account._id);
+    console.log(account.name);
+
+    return new Promise((resolve, reject) => {
+        let userData = {
+            username: account.name,
+            authType: "steemConnect",
+            accessToken: encryptKey(access_token, pinCode),
+            postingKey: "",
+            masterKey: "",
+            activeKey: "",
+            memoKey: "",
+        };
+
+        let authData = {
+            isLoggedIn: true,
+        };
+
+        setAuthStatus(authData)
+            .then(() => {
+                setUserData(userData)
+                    .then(() => {
+                        resolve(true);
+                    })
+                    .catch(error => {
+                        reject(error);
+                    });
+            })
+            .catch(error => {
+                reject(error);
+            });
+    });
 };

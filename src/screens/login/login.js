@@ -20,24 +20,88 @@ import {
     Body,
     Label,
     Thumbnail,
+    TouchableOpacity,
+    Linking,
+    BackHandler,
+    Dimensions,
+    TextInput,
+    WebView,
 } from "native-base";
 import { Navigation } from "react-native-navigation";
 import { connect } from "react-redux";
+import Ionicons from "react-native-vector-icons/Ionicons";
+import RNRestart from "react-native-restart";
+import FastImage from "react-native-fast-image";
 
+import Tabs from "../home/customTab";
+import ScrollableTabView from "@esteemapp/react-native-scrollable-tab-view";
 import { Login } from "../../providers/steem/auth";
 
 import { addNewAccount } from "../../redux/actions/accountAction";
 
 import { default as INITIAL } from "../../constants/initial";
+import { lookupAccounts } from "../../providers/steem/dsteem";
+import { goToAuthScreens } from "../../navigation";
 
 class LoginPage extends Component {
+    static get options() {
+        return {
+            _statusBar: {
+                visible: true,
+                drawBehind: false,
+            },
+            topBar: {
+                animate: true,
+                hideOnScroll: false,
+                drawBehind: false,
+                noBorder: true,
+                visible: true,
+                elevation: 0,
+                leftButtons: {},
+                rightButtons: [
+                    {
+                        id: "signup",
+                        text: "Sign Up",
+                        color: "#a7adaf",
+                        marginRight: 50,
+                    },
+                ],
+            },
+            layout: {
+                backgroundColor: "#f5fcff",
+            },
+            bottomTabs: {
+                visible: false,
+                drawBehind: true,
+            },
+        };
+    }
     constructor(props) {
         super(props);
+        Navigation.events().bindComponent(this);
+        this.handleUsername = this.handleUsername.bind(this);
         this.state = {
             username: "",
             password: "",
             isLoading: false,
+            isUsernameValid: true,
+            usernameBorderColor: "#c1c5c7",
+            passwordBorderColor: "#c1c5c7",
         };
+    }
+
+    componentDidMount() {
+        BackHandler.addEventListener("hardwareBackPress", () => {
+            Navigation.pop(this.props.componentId);
+            return true;
+        });
+        Linking.getInitialURL().then(url => {
+            console.log(url);
+        });
+    }
+
+    componentWillUnmount() {
+        BackHandler.removeEventListener("hardwareBackPress");
     }
 
     doLogin = () => {
@@ -72,239 +136,440 @@ class LoginPage extends Component {
             });
     };
 
+    handleUsername = async username => {
+        await this.setState({ username });
+        let validUsers = await lookupAccounts(username);
+        await this.setState({ isUsernameValid: validUsers.includes(username) });
+    };
+
+    navigationButtonPressed({ buttonId }) {
+        if (buttonId === "signup") {
+            Linking.openURL("https://signup.steemit.com/?ref=esteem").catch(
+                err => console.error("An error occurred", err)
+            );
+        }
+    }
+
+    loginwithSc2 = () => {
+        Navigation.showModal({
+            stack: {
+                children: [
+                    {
+                        component: {
+                            name: "navigation.eSteem.SteemConnect",
+                            passProps: {},
+                            options: {
+                                topBar: {
+                                    title: {
+                                        text: "Login via SC2",
+                                    },
+                                },
+                            },
+                        },
+                    },
+                ],
+            },
+        });
+    };
+
     render() {
         return (
-            <Container style={styles.container}>
-                <Header style={{ backgroundColor: "white", height: 80 }}>
-                    <Left>
-                        <Button
-                            transparent
-                            onPress={() => this.props.navigation.toggleDrawer()}
-                        >
-                            <Thumbnail
-                                style={{
-                                    width: 32,
-                                    height: 32,
-                                    borderRadius: 16,
-                                    margin: 10,
-                                }}
-                                source={require("../../assets/esteem.jpg")}
-                            />
-                        </Button>
-                    </Left>
-                    <Body />
-                    <Right>
-                        <Text
-                            style={{
-                                color: "#a7adaf",
-                                marginHorizontal: 20,
-                                fontWeight: "bold",
-                            }}
-                        >
-                            Sign Up
-                        </Text>
-                    </Right>
-                </Header>
-                <View style={styles.header}>
-                    <View
-                        style={{
-                            flex: 0.5,
-                            alignItems: "center",
-                            paddingLeft: 10,
-                        }}
-                    >
-                        <Text
-                            style={{
-                                fontSize: 40,
-                                fontWeight: "600",
-                                color: "#626262",
-                                marginTop: 35,
-                            }}
-                        >
-                            Sign in
-                        </Text>
-                        <Text style={{ color: "#a7adaf", marginTop: 20 }}>
-                            with your username {"\n"} and password {"\n"} to get
-                            all the {"\n"}{" "}
-                            <Text
-                                style={{ fontWeight: "bold", color: "#a7adaf" }}
-                            >
-                                benefits of eSteem
-                            </Text>{" "}
-                        </Text>
-                    </View>
-                    <View style={{ flex: 0.5, overflow: "hidden", padding: 0 }}>
-                        <Image
-                            style={{
-                                width: 220,
-                                height: 304,
-                                marginTop: 10,
-                                marginLeft: 20,
-                            }}
-                            source={require("../../assets/love_mascot.png")}
+            <View style={{ flex: 1 }}>
+                <ScrollableTabView
+                    style={styles.tabView}
+                    renderTabBar={() => (
+                        <Tabs
+                            style={styles.tabbar}
+                            tabUnderlineDefaultWidth={100} // default containerWidth / (numberOfTabs * 4)
+                            tabUnderlineScaleX={2} // default 3
+                            activeColor={"#357ce6"}
+                            inactiveColor={"#222"}
                         />
-                    </View>
-                </View>
-
-                <View
-                    style={{ padding: 30, backgroundColor: "white", flex: 0.4 }}
+                    )}
                 >
-                    <View>
-                        <Item
-                            rounded
+                    <View tabLabel="Sign in" style={styles.tabbarItem}>
+                        <View
                             style={{
-                                margin: 5,
-                                backgroundColor: "#f6f6f6",
-                                height: 40,
-                                marginVertical: 10,
-                                overflow: "hidden",
-                                borderColor: "white",
+                                backgroundColor: "#f5f5f5",
+                                height: 60,
+                                borderBottomWidth: 2,
+                                borderBottomColor: this.state.isUsernameValid
+                                    ? this.state.usernameBorderColor
+                                    : "red",
+                                borderTopLeftRadius: 8,
+                                borderTopRightRadius: 8,
+                                marginHorizontal: 30,
+                                marginVertical: 20,
+                                flexDirection: "row",
                             }}
                         >
-                            <Icon
-                                name="at"
-                                style={{
-                                    backgroundColor: "#ececec",
-                                    height: 40,
-                                    width: 40,
-                                    alignItems: "center",
-                                    padding: 8,
-                                    color: "#a7adaf",
-                                    fontWeight: "bold",
-                                }}
-                            />
-                            <Input
+                            {this.state.username.length > 2 ? (
+                                <View style={{ flex: 0.15 }}>
+                                    <FastImage
+                                        style={{
+                                            width: 24,
+                                            height: 24,
+                                            borderRadius: 12,
+                                            top: 15,
+                                            marginLeft: 12,
+                                        }}
+                                        source={{
+                                            uri: `https://steemitimages.com/u/${
+                                                this.state.username
+                                            }/avatar/small`,
+                                            priority: FastImage.priority.high,
+                                        }}
+                                        resizeMode={FastImage.resizeMode.cover}
+                                    />
+                                </View>
+                            ) : (
+                                <Ionicons
+                                    name="md-at"
+                                    style={{
+                                        flex: 0.15,
+                                        fontSize: 25,
+                                        top: 18,
+                                        left: 12,
+                                        color: "#c1c5c7",
+                                    }}
+                                />
+                            )}
+                            <TextInput
+                                onFocus={() =>
+                                    this.setState({
+                                        usernameBorderColor: "#357ce6",
+                                    })
+                                }
+                                onSubmitEditing={() =>
+                                    this.setState({
+                                        usernameBorderColor: "#c1c5c7",
+                                    })
+                                }
                                 autoCapitalize="none"
                                 placeholder="username"
-                                onChangeText={text =>
-                                    this.setState({ username: text })
-                                }
+                                editable={true}
+                                textContentType="username"
+                                onChangeText={text => {
+                                    this.handleUsername(text);
+                                }}
                                 value={this.state.username}
-                            />
-                        </Item>
-
-                        <Item
-                            rounded
-                            style={{
-                                margin: 5,
-                                backgroundColor: "#f6f6f6",
-                                height: 40,
-                                marginVertical: 10,
-                                overflow: "hidden",
-                                borderColor: "white",
-                            }}
-                        >
-                            <Icon
-                                name="md-lock"
                                 style={{
-                                    backgroundColor: "#ececec",
-                                    height: 40,
-                                    width: 40,
-                                    alignItems: "center",
-                                    paddingVertical: 7,
-                                    paddingLeft: 13,
-                                    color: "#a7adaf",
-                                    fontWeight: "bold",
+                                    height: 60,
+                                    flex: 0.7,
                                 }}
                             />
-                            <Input
+
+                            {this.state.username.length > 0 ? (
+                                <Ionicons
+                                    onPress={() =>
+                                        this.setState({ username: "" })
+                                    }
+                                    name="md-close-circle"
+                                    style={{
+                                        flex: 0.15,
+                                        fontSize: 25,
+                                        top: 18,
+                                        left: 8,
+                                        color: "#c1c5c7",
+                                    }}
+                                />
+                            ) : null}
+                        </View>
+
+                        <View
+                            style={{
+                                backgroundColor: "#f5f5f5",
+                                height: 60,
+                                borderBottomWidth: 2,
+                                borderBottomColor: this.state
+                                    .passwordBorderColor,
+                                borderTopLeftRadius: 8,
+                                borderTopRightRadius: 8,
+                                marginHorizontal: 30,
+                                marginVertical: 20,
+                                flexDirection: "row",
+                            }}
+                        >
+                            <Ionicons
+                                name="md-lock"
+                                style={{
+                                    flex: 0.15,
+                                    fontSize: 25,
+                                    top: 18,
+                                    left: 14,
+                                    color: "#c1c5c7",
+                                }}
+                            />
+                            <TextInput
+                                onFocus={() =>
+                                    this.setState({
+                                        passwordBorderColor: "#357ce6",
+                                    })
+                                }
+                                onSubmitEditing={() =>
+                                    this.setState({
+                                        passwordBorderColor: "#c1c5c7",
+                                    })
+                                }
                                 secureTextEntry={true}
                                 placeholder="Password or WIF"
+                                textContentType="password"
                                 onChangeText={text =>
                                     this.setState({ password: text })
                                 }
                                 value={this.state.password}
+                                style={{
+                                    height: 60,
+                                    flex: 0.7,
+                                    width: "100%",
+                                }}
                             />
-                        </Item>
-                        <View />
-                    </View>
-                    <View
-                        style={{
-                            borderBottomColor: "lightgray",
-                            borderBottomWidth: 0.7,
-                            marginVertical: 20,
-                        }}
-                    />
-                    <View
-                        style={{ flexDirection: "row", alignItems: "center" }}
-                    >
-                        <Icon
-                            name="information-circle"
+
+                            {this.state.password.length > 0 ? (
+                                <Ionicons
+                                    onPress={() =>
+                                        this.setState({ password: "" })
+                                    }
+                                    name="md-close-circle"
+                                    style={{
+                                        flex: 0.15,
+                                        fontSize: 25,
+                                        top: 18,
+                                        left: 8,
+                                        color: "#c1c5c7",
+                                    }}
+                                />
+                            ) : null}
+                        </View>
+
+                        <View
                             style={{
-                                flex: 0.15,
-                                color: "#a7adaf",
-                                fontSize: 25,
+                                flexDirection: "row",
+                                marginHorizontal: 30,
                                 paddingLeft: 10,
                             }}
-                        />
-                        <Text style={{ flex: 0.85, color: "#a7adaf" }}>
-                            Don't worry! {"\n"}
-                            Your password is kept locally on your device and
-                            removed upon logout!
-                        </Text>
-                    </View>
-                </View>
-
-                <View style={styles.footer}>
-                    <View style={{ flex: 0.6, alignItems: "flex-end" }}>
-                        <Text
-                            onPress={() => {
-                                this.props.navigation.goBack();
-                            }}
-                            style={{
-                                color: "#a7adaf",
-                                fontSize: 18,
-                                margin: 25,
-                            }}
                         >
-                            Skip this screen
-                        </Text>
-                    </View>
-                    <View style={{ flex: 0.4, alignItems: "center" }}>
-                        {this.state.isLoading ? (
-                            <Button
+                            <Ionicons
+                                color="#c1c5c7"
                                 style={{
-                                    borderRadius: 25,
-                                    padding: 5,
-                                    backgroundColor: "#007EE5",
-                                    width: 130,
-                                    height: 35,
-                                    marginTop: 20,
+                                    flex: 0.125,
+                                    fontSize: 25,
+                                    alignSelf: "center",
                                 }}
-                            >
-                                <ActivityIndicator
-                                    color="white"
-                                    style={{ marginHorizontal: 50 }}
-                                />
-                            </Button>
-                        ) : (
-                            <Button
-                                style={{
-                                    borderRadius: 25,
-                                    padding: 5,
-                                    backgroundColor: "#007EE5",
-                                    width: 130,
-                                    height: 35,
-                                    marginTop: 20,
-                                }}
-                                onPress={() => {
-                                    this.doLogin();
-                                }}
-                            >
-                                <Text
+                                name="ios-information-circle-outline"
+                            />
+                            <Text style={{ flex: 0.875, color: "#788187" }}>
+                                User credentials are kept locally on the device.
+                                Credentials are removed upon logout!
+                            </Text>
+                        </View>
+
+                        <View style={{ flexDirection: "row", margin: 30 }}>
+                            <View style={{ flex: 0.6 }}>
+                                <TouchableOpacity
+                                    onPress={goToAuthScreens}
                                     style={{
-                                        color: "white",
-                                        fontWeight: "bold",
-                                        marginHorizontal: 40,
+                                        alignContent: "center",
+                                        padding: "9%",
                                     }}
                                 >
-                                    Login
-                                </Text>
-                            </Button>
-                        )}
+                                    <Text
+                                        style={{
+                                            color: "#788187",
+                                            alignSelf: "center",
+                                            fontWeight: "bold",
+                                        }}
+                                    >
+                                        Cancel
+                                    </Text>
+                                </TouchableOpacity>
+                            </View>
+                            <TouchableOpacity
+                                onPress={this.doLogin}
+                                style={{
+                                    flex: 0.4,
+                                    width: 100,
+                                    height: 50,
+                                    borderRadius: 30,
+                                    backgroundColor: "#357ce6",
+                                    flexDirection: "row",
+                                }}
+                            >
+                                {!this.state.isLoading ? (
+                                    <View
+                                        style={{
+                                            flex: 1,
+                                            flexDirection: "row",
+                                        }}
+                                    >
+                                        <Ionicons
+                                            color="white"
+                                            name="md-person"
+                                            style={{
+                                                alignSelf: "center",
+                                                fontSize: 25,
+                                                flex: 0.4,
+                                                left: 15,
+                                            }}
+                                        />
+                                        <Text
+                                            style={{
+                                                color: "white",
+                                                fontWeight: "600",
+                                                alignSelf: "center",
+                                                fontSize: 16,
+                                                flex: 0.6,
+                                            }}
+                                        >
+                                            LOGIN
+                                        </Text>
+                                    </View>
+                                ) : (
+                                    <ActivityIndicator
+                                        color="white"
+                                        style={{ alignSelf: "center", flex: 1 }}
+                                    />
+                                )}
+                            </TouchableOpacity>
+                        </View>
                     </View>
-                </View>
-            </Container>
+                    <View
+                        tabLabel="SteemConnect"
+                        style={styles.steemConnectTab}
+                    >
+                        <View
+                            style={{
+                                flex: 1,
+                                flexDirection: "row",
+                                maxHeight: 200,
+                                overflow: "hidden",
+                                backgroundColor: "#ffffff",
+                            }}
+                        >
+                            <View style={{ flex: 0.4 }}>
+                                <View
+                                    style={{
+                                        alignSelf: "center",
+                                        height: 100,
+                                        top: 70,
+                                        left: 20,
+                                    }}
+                                >
+                                    <Text
+                                        style={{
+                                            textAlign: "center",
+                                            textAlignVertical: "center",
+                                            fontSize: 20,
+                                            fontWeight: "bold",
+                                            color: "#788187",
+                                            bottom: 10,
+                                        }}
+                                    >
+                                        Sign in
+                                    </Text>
+                                    <Text
+                                        style={{
+                                            textAlign: "center",
+                                            textAlignVertical: "center",
+                                            color: "#788187",
+                                            fontSize: 14,
+                                            fontWeight: "400",
+                                        }}
+                                    >
+                                        To get all the benefits using eSteem
+                                    </Text>
+                                </View>
+                            </View>
+                            <View style={{ flex: 0.6 }}>
+                                <Image
+                                    style={{
+                                        width: 217,
+                                        height: 300,
+                                        left: 55,
+                                        top: 10,
+                                    }}
+                                    source={require("../../assets/love_mascot.png")}
+                                />
+                            </View>
+                        </View>
+
+                        <View
+                            style={{
+                                flex: 1,
+                                backgroundColor: "#ffffff",
+                                marginTop: 10,
+                            }}
+                        >
+                            <View
+                                style={{
+                                    flexDirection: "row",
+                                    marginHorizontal: 30,
+                                    paddingLeft: 10,
+                                    marginTop: 20,
+                                }}
+                            >
+                                <Ionicons
+                                    color="#c1c5c7"
+                                    style={{
+                                        flex: 0.125,
+                                        fontSize: 25,
+                                        alignSelf: "center",
+                                    }}
+                                    name="ios-information-circle-outline"
+                                />
+                                <Text style={{ flex: 0.875, color: "#788187" }}>
+                                    If you don't want to keep your password
+                                    encrypted and saved on your device, you can
+                                    use Steemconnect.
+                                </Text>
+                            </View>
+                        </View>
+                        <View
+                            style={{
+                                alignItems: "flex-end",
+                                backgroundColor: "#ffffff",
+                            }}
+                        >
+                            <TouchableOpacity
+                                onPress={this.loginwithSc2}
+                                style={{
+                                    width: 200,
+                                    height: 50,
+                                    borderRadius: 30,
+                                    backgroundColor: "#357ce6",
+                                    flexDirection: "row",
+                                    margin: 20,
+                                }}
+                            >
+                                <View style={{ flex: 1, flexDirection: "row" }}>
+                                    <Ionicons
+                                        color="white"
+                                        name="md-person"
+                                        style={{
+                                            alignSelf: "center",
+                                            fontSize: 25,
+                                            marginHorizontal: 20,
+                                        }}
+                                    />
+                                    <Text
+                                        style={{
+                                            color: "white",
+                                            fontWeight: "400",
+                                            alignSelf: "center",
+                                            fontSize: 16,
+                                        }}
+                                    >
+                                        steem
+                                        <Text style={{ fontWeight: "800" }}>
+                                            connect
+                                        </Text>
+                                    </Text>
+                                </View>
+                            </TouchableOpacity>
+                        </View>
+                    </View>
+                </ScrollableTabView>
+            </View>
         );
     }
 }
@@ -319,7 +584,7 @@ const styles = StyleSheet.create({
         flexDirection: "row",
         padding: 0,
         backgroundColor: "white",
-        marginVertical: 10,
+        marginBottom: 10,
         height: 200,
         flex: 0.4,
     },
@@ -330,6 +595,25 @@ const styles = StyleSheet.create({
         height: 80,
         backgroundColor: "white",
         flexDirection: "row",
+    },
+    tabView: {
+        alignSelf: "center",
+        backgroundColor: "transparent",
+    },
+    tabbar: {
+        alignSelf: "center",
+        height: 40,
+        backgroundColor: "white",
+    },
+    tabbarItem: {
+        flex: 1,
+        backgroundColor: "#ffffff",
+        minWidth: Dimensions.get("window").width / 1,
+    },
+    steemConnectTab: {
+        flex: 1,
+        backgroundColor: "#e9e9e9",
+        minWidth: Dimensions.get("window").width / 1,
     },
 });
 

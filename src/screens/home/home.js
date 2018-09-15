@@ -35,6 +35,8 @@ export default class Home extends React.PureComponent {
                 animate: true,
                 hideOnScroll: true,
                 drawBehind: false,
+                noBorder: true,
+                elevation: 0,
             },
             layout: {
                 backgroundColor: "#f5fcff",

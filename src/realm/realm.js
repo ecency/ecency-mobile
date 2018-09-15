@@ -13,6 +13,7 @@ const userSchema = {
         activeKey: { type: "string" },
         memoKey: { type: "string" },
         masterKey: { type: "string" },
+        accessToken: { type: "string" },
     },
 };
 
