@@ -1,5 +1,9 @@
 import steemConnect from "./steemConnectAPI";
 
+/**
+ * @method to upvote/unvote a content
+ * @param {*} vote 
+ */
 export const vote = (vote) => {
 	return new Promise((resolve, reject) => {
 		steemConnect.vote(vote.voter, vote.author, vote.permlink, vote.weight).then(result => {
@@ -11,6 +15,10 @@ export const vote = (vote) => {
 	});
 };
 
+/**
+ * @method to submit a comment/reply
+ * @param {*} comment 
+ */
 export const comment = (comment) => {
 	return new Promise((resolve, reject) => {
 		steemConnect.comment(comment.parentAuthor, comment.parentPermlink, comment.author, comment.permlink, comment.title, comment.body, comment.jsonMetadata).then(result => {
@@ -95,6 +103,83 @@ export const follow = (data) => {
 export const unFollow = (data) => {
 	return new Promise((resolve, reject) => {
 		steemConnect.unfollow(data.unfollower, data.unfollowing).then(result => {
+			resolve(result);
+		}).catch(error => {
+			reject(error);
+		});
+	}); 
+};
+
+/**
+ * @method to claim rewards
+ * @param {*} data 
+ */
+export const claimRewards = (data) => {
+	return new Promise((resolve, reject) => {
+		steemConnect.claimRewardBalance(data.account, data.rewardSteem, data.rewardSBD, data.VESTS).then(result => {
+			resolve(result);
+		}).catch(error => {
+			reject(error);
+		});
+	}); 
+};
+
+/**
+ * @method to mute/block an user 
+ * @param {*} data 
+ */
+export const muteUser = (data) => {
+	return new Promise((resolve, reject) => {
+		steemConnect.ignore(data.follower, data.following).then(result => {
+			resolve(result);
+		}).catch(error => {
+			reject(error);
+		});
+	}); 
+};
+
+export const reblogPost = (data) => {
+	return new Promise((resolve, reject) => {
+		steemConnect.reblog(data.account, data.author, data.permlink).then(result => {
+			resolve(result);
+		}).catch(error => {
+			reject(error);
+		});
+	}); 
+};
+
+export const removeAccessToken = (data) => {
+	return new Promise((resolve, reject) => {
+		try {
+			steemConnect.removeAccessToken();
+			resolve();
+		} catch (error) {
+			reject(error);
+		}
+	}); 
+};
+
+/**
+ * @method to revoke access token (SteemConnect logout function)
+ */
+export const revokeToken = () => {
+	return new Promise((resolve, reject) => {
+		try {
+			steemConnect.revokeToken();
+			resolve();
+		} catch (error) {
+			reject(error);
+		}
+	}); 
+};
+
+/**
+ * @method to update user profile data
+ * @param {*} data 
+ */
+export const updateUserMetadata = (data) => {
+	return new Promise((resolve, reject) => {
+		steemConnect.updateUserMetadata(data).then(result => {
 			resolve(result);
 		}).catch(error => {
 			reject(error);
