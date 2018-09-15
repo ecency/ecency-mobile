@@ -338,16 +338,48 @@ class LoginPage extends Component {
                         </View>
                         
                     </View>
-                    <View tabLabel="SteemConnect" style={styles.tabbarItem}>
+                    <View tabLabel="SteemConnect" style={styles.steemConnectTab}>
+                    <View 
+                        style={{ flex: 1, flexDirection: 'row', maxHeight: 200, overflow: 'hidden', backgroundColor: '#ffffff' }}>
+                        <View style={{ flex: 0.4 }}>
+                            <View style={{ alignSelf: 'center', height: 100, top: 70, left: 20 }}>
+                                <Text style={{ textAlign: 'center', textAlignVertical: 'center', fontSize: 20, fontWeight: 'bold', color: '#788187', bottom: 10 }}>
+                                    Sign in
+                                </Text>
+                                <Text style={{ textAlign: 'center', textAlignVertical: 'center', color: '#788187', fontSize: 14, fontWeight: '400' }}>
+                                    To get all
+                                    the benefits
+                                    using eSteem
+                                </Text>
+                            </View>
+                        </View>
+                        <View style={{ flex: 0.6 }}>
+                            <Image style={{ width: 217, height: 300, left: 55, top: 10 }} source={require('../../assets/love_mascot.png')} />
+                        </View>
+                    </View>
+                            
+                    <View style={{ flex: 1, backgroundColor: '#ffffff', marginTop: 10 }}>
+                        <View style={{ flexDirection: 'row', marginHorizontal: 30, paddingLeft: 10, marginTop: 20 }}>
+                            <Ionicons
+                                color='#c1c5c7' 
+                                style={{ flex: 0.125, fontSize: 25, alignSelf: 'center' }}
+                                name='ios-information-circle-outline'/>
+                            <Text
+                                style={{ flex: 0.875, color: '#788187' }}>
+                                If you don't want to keep your password encrypted and saved on your device, you can use Steemconnect.
+                            </Text>
+                        </View>
+                    </View>
+                    <View style={{ alignItems: 'flex-end', backgroundColor: '#ffffff' }}>
                     <TouchableOpacity
                                 onPress={this.loginwithSc2}
                                 style={{
-                                    flex: 0.4,
-                                    width: 100,
+                                    width: 200,
                                     height: 50,
                                     borderRadius: 30,
                                     backgroundColor: '#357ce6',
                                     flexDirection: 'row',
+                                    margin: 20
                                 }}>
                                     <View style={{ flex: 1, flexDirection: 'row' }}>
                                         <Ionicons 
@@ -356,20 +388,22 @@ class LoginPage extends Component {
                                             style={{ 
                                                 alignSelf: 'center',
                                                 fontSize: 25,
-                                                flex: 0.4,
-                                                left: 15
+                                                marginHorizontal: 20
                                             }}/>
                                         <Text style={{ 
                                             color: 'white',
-                                            fontWeight: '600',
+                                            fontWeight: '400',
                                             alignSelf: 'center',
                                             fontSize: 16,
-                                            flex: 0.6,
                                             }}>
-                                            LOGIN
+                                            steem
+                                            <Text style={{ fontWeight: '800' }}>
+                                                connect
+                                            </Text>
                                         </Text>
                                     </View>
                             </TouchableOpacity>
+                    </View>
                     </View>
                 </ScrollableTabView>
             </View>
@@ -410,8 +444,12 @@ const styles = StyleSheet.create({
     },
     tabbarItem: {
         flex: 1,
-        paddingHorizontal: 7,
         backgroundColor: "#ffffff",
+        minWidth: Dimensions.get("window").width / 1,
+    },
+    steemConnectTab: {
+        flex: 1,
+        backgroundColor: "#e9e9e9",
         minWidth: Dimensions.get("window").width / 1,
     },
 });
