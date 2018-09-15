@@ -14,6 +14,7 @@ import Editor from "./editor/editor";
 import Discover from "./discover/discover";
 import Settings from "./settings/settings";
 import Notifications from "./notifications/notification";
+import SteemConnect from "./steem-connect/steemConnect";
 import PostCard from "../components/post-card/postCard";
 import Search from "../components/search/search";
 
@@ -40,6 +41,7 @@ function registerScreens() {
     Navigation.registerComponent("navigation.eSteem.Author", () => Author);
     Navigation.registerComponent("navigation.eSteem.PostCard", () => PostCard);
     Navigation.registerComponent("navigation.eSteem.Search", () => Search);
+    Navigation.registerComponent("navigation.eSteem.SteemConnect", () => SteemConnect);
 }
 
 module.exports = {

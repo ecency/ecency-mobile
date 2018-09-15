@@ -323,7 +323,9 @@ export const goToNoAuthScreens = () =>
                 ],
                 options: {
                     topBar: {
-                        visible: false,
+                        visible: true,
+                        noBorder: true,
+                        elevation: 0
                     },
                 },
             },

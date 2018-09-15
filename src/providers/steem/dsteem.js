@@ -9,7 +9,7 @@ import { parsePosts, parseComments } from "../../utils/postParser";
 
 let rewardFund = null;
 let medianPrice = null;
-let client;
+let client = new Client("https://api.steemit.com");
 
 getClient = async () => {
     let server = await AsyncStorage.getItem("server");
