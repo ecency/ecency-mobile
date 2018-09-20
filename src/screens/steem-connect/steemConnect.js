@@ -13,14 +13,21 @@ export default class SteemConnect extends Component {
 	}
     
 	onNavigationStateChange(event) {
-		let access_token = event.url.match(/\?(?:access_token)\=([\S\s]*?)\&/)[1];
+		let access_token;
+		try {
+			access_token = event.url.match(/\?(?:access_token)\=([\S\s]*?)\&/)[1];
+		} catch (error) {
+			console.log(error);
+		}
 		if(access_token) {
 			loginWithSC2(access_token, "pinCode").then(result => {
 				if(result === true) {
 					// TODO: Handle pinCode and navigate to home page
-					
+					Navigation.dismissModal(this.props.componentId);
+					RNRestart.Restart();
 				} else {
 					Navigation.dismissModal(this.props.componentId);
+					// TODO: Error alert (Toast Message)
 				}
 			});
 		}
