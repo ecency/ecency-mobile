@@ -5,27 +5,12 @@ import {
     Text,
     StyleSheet,
     Image,
-    AsyncStorage,
     Dimensions,
-} from "react-native";
-import {
-    Item,
-    Header,
-    Input,
-    Card,
-    Button,
-    Container,
-    Icon,
-    Left,
-    Right,
-    Body,
-    Label,
-    Thumbnail,
     TouchableOpacity,
-    Linking,
-    BackHandler,
     TextInput,
-} from "native-base";
+    BackHandler,
+    Linking,
+} from "react-native";
 
 import { Navigation } from "react-native-navigation";
 import { connect } from "react-redux";
