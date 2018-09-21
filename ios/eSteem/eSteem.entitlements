@@ -10,6 +10,7 @@
 		<string>applinks:busy.org</string>
 		<string>applinks:esteem.app</string>
 		<string>webcredentials:esteem.app</string>
+		<string>applinks:steem</string>
 	</array>
 </dict>
 </plist>
