@@ -5,7 +5,6 @@ import { goToAuthScreens, goToNoAuthScreens } from "../../navigation";
 import { getAuthStatus } from "../../realm/realm";
 
 import SplashScreen from "./splashScreen";
-import { getAuthStatus } from "../../realm/realm";
 
 class SplashContainer extends React.Component {
     constructor(props) {

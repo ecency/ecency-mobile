@@ -25,7 +25,6 @@ import {
     Linking,
     BackHandler,
     TextInput,
-    WebView,
 } from "native-base";
 
 import { Navigation } from "react-native-navigation";
