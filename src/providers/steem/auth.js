@@ -179,8 +179,7 @@ export const loginWithSC2 = async (access_token, pinCode) => {
 	await steemConnect.setAccessToken(access_token);
 	account = await steemConnect.me();
 
-	console.log(account._id);
-	console.log(account.name);
+	//console.log(account.name);
 
 	return new Promise((resolve, reject) => {
 
