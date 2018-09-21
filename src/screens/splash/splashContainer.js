@@ -11,14 +11,19 @@ class SplashContainer extends React.Component {
         super(props);
     }
 
-    async componentDidMount() {
-        await getAuthStatus().then(res => {
-            if (res) {
-                goToNoAuthScreens();
-            } else {
+    componentDidMount() {
+        getAuthStatus()
+            .then(result => {
+                if (result === true) {
+                    goToAuthScreens();
+                } else {
+                    goToNoAuthScreens();
+                }
+            })
+            .catch(error => {
+                console.log(error);
                 goToAuthScreens();
-            }
-        });
+            });
     }
 
     render() {

@@ -4,6 +4,7 @@ import { loginWithSC2 } from "../../providers/steem/auth";
 import { steemConnectOptions } from "./config";
 import RNRestart from "react-native-restart";
 import { Navigation } from "react-native-navigation";
+import { goToAuthScreens } from "../../navigation";
 
 export default class SteemConnect extends Component {
     constructor(props) {
@@ -12,17 +13,31 @@ export default class SteemConnect extends Component {
     }
 
     onNavigationStateChange(event) {
-        let access_token = event.url.match(
-            /\?(?:access_token)\=([\S\s]*?)\&/
-        )[1];
-        if (access_token) {
-            loginWithSC2(access_token, "pinCode").then(result => {
-                if (result === true) {
-                    // TODO: Handle pinCode and navigate to home page
-                } else {
-                    Navigation.dismissModal(this.props.componentId);
-                }
-            });
+        let access_token;
+        console.log(event.url);
+        if (event.url.indexOf("?access_token=") > -1) {
+            this.webview.stopLoading();
+            try {
+                access_token = event.url.match(
+                    /\?(?:access_token)\=([\S\s]*?)\&/
+                )[1];
+            } catch (error) {
+                console.log(error);
+            }
+
+            loginWithSC2(access_token, "pinCode")
+                .then(result => {
+                    if (result === true) {
+                        // TODO: Handle pinCode and navigate to home page
+                        goToAuthScreens();
+                    } else {
+                        // TODO: Error alert (Toast Message)
+                        console.log("loginWithSC2 error");
+                    }
+                })
+                .catch(error => {
+                    console.log(error);
+                });
         }
     }
 
@@ -30,15 +45,18 @@ export default class SteemConnect extends Component {
         return (
             <View style={{ flex: 1 }}>
                 <WebView
-                    onNavigationStateChange={state =>
-                        this.onNavigationStateChange(state)
-                    }
                     source={{
                         uri: `${steemConnectOptions.base_url}?client_id=${
                             steemConnectOptions.client_id
-                        }&redirect_uri=${steemConnectOptions.redirect_uri}&${
-                            steemConnectOptions.scope
-                        }`,
+                        }&redirect_uri=${encodeURIComponent(
+                            steemConnectOptions.redirect_uri
+                        )}&${encodeURIComponent(steemConnectOptions.scope)}`,
+                    }}
+                    onNavigationStateChange={this.onNavigationStateChange.bind(
+                        this
+                    )}
+                    ref={ref => {
+                        this.webview = ref;
                     }}
                 />
             </View>
