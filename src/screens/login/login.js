@@ -23,10 +23,11 @@ import {
     TouchableOpacity,
     Linking,
     BackHandler,
-    Dimensions,
     TextInput,
     WebView,
+    Dimensions,
 } from "native-base";
+
 import { Navigation } from "react-native-navigation";
 import { connect } from "react-redux";
 import Ionicons from "react-native-vector-icons/Ionicons";
