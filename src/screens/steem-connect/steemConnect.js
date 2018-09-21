@@ -26,10 +26,8 @@ export default class SteemConnect extends Component {
 			loginWithSC2(access_token, "pinCode").then(result => {
 				if(result === true) {
 					// TODO: Handle pinCode and navigate to home page
-					Navigation.dismissModal(this.props.componentId);
 					goToAuthScreens();
 				} else {
-					Navigation.dismissModal(this.props.componentId);
 					// TODO: Error alert (Toast Message)
 				}
 			}).catch(error => {
