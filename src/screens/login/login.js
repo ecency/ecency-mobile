@@ -152,23 +152,17 @@ class LoginPage extends Component {
     }
 
     loginwithSc2 = () => {
-        Navigation.showModal({
-            stack: {
-                children: [
-                    {
-                        component: {
-                            name: "navigation.eSteem.SteemConnect",
-                            passProps: {},
-                            options: {
-                                topBar: {
-                                    title: {
-                                        text: "Login via SC2",
-                                    },
-                                },
-                            },
+        Navigation.push(this.props.componentId, {
+            component: {
+                name: "navigation.eSteem.SteemConnect",
+                passProps: {},
+                options: {
+                    topBar: {
+                        title: {
+                            text: "Login via SC2",
                         },
                     },
-                ],
+                },
             },
         });
     };

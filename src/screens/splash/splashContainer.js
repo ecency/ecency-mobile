@@ -5,6 +5,7 @@ import { goToAuthScreens, goToNoAuthScreens } from "../../navigation";
 import { getAuthStatus } from "../../realm/realm";
 
 import SplashScreen from "./splashScreen";
+import { getAuthStatus } from "../../realm/realm";
 
 class SplashContainer extends React.Component {
     constructor(props) {
@@ -12,13 +13,18 @@ class SplashContainer extends React.Component {
     }
 
     async componentDidMount() {
-        await getAuthStatus().then(res => {
-            if (res) {
-                goToNoAuthScreens();
-            } else {
+        await getAuthStatus()
+            .then(result => {
+                if (result === true) {
+                    goToAuthScreens();
+                } else {
+                    goToNoAuthScreens();
+                }
+            })
+            .catch(error => {
+                console.log(error);
                 goToAuthScreens();
-            }
-        });
+            });
     }
 
     render() {
