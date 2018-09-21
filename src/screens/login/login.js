@@ -6,6 +6,7 @@ import {
     StyleSheet,
     Image,
     AsyncStorage,
+    Dimensions,
 } from "react-native";
 import {
     Item,
@@ -25,7 +26,6 @@ import {
     BackHandler,
     TextInput,
     WebView,
-    Dimensions,
 } from "native-base";
 
 import { Navigation } from "react-native-navigation";
