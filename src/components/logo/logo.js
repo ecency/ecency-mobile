@@ -1,7 +1,7 @@
 import React from "react";
 import { View, Image } from "react-native";
 
-import LOGO from "../../assets/esteem.jpg";
+import LOGO from "../../assets/esteem@2x.png";
 import styles from "../../styles/logo.styles";
 
 const Logo = props => (
