@@ -15,7 +15,6 @@ import {
 import { Navigation } from "react-native-navigation";
 import { connect } from "react-redux";
 import Ionicons from "react-native-vector-icons/Ionicons";
-import RNRestart from "react-native-restart";
 import FastImage from "react-native-fast-image";
 
 import Tabs from "../home/customTab";

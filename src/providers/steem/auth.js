@@ -59,6 +59,7 @@ export const Login = (username, password) => {
                         postingKey: "",
                         activeKey: "",
                         memoKey: "",
+                        accessToken: "",
                     };
                     let authData = {
                         isLoggedIn: true,
