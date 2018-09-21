@@ -11,8 +11,8 @@ class SplashContainer extends React.Component {
         super(props);
     }
 
-    componentDidMount() {
-        getAuthStatus()
+    async componentDidMount() {
+        await getAuthStatus()
             .then(result => {
                 if (result === true) {
                     goToAuthScreens();

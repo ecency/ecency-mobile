@@ -14,7 +14,6 @@ export default class SteemConnect extends Component {
 
     onNavigationStateChange(event) {
         let access_token;
-        console.log(event.url);
         if (event.url.indexOf("?access_token=") > -1) {
             this.webview.stopLoading();
             try {
