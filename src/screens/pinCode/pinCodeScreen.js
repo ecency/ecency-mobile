@@ -11,6 +11,7 @@ class PinCodeScreen extends React.Component {
         super(props);
         this.state = {
             showPassword: false,
+            pin: "",
         };
     }
 
@@ -18,6 +19,9 @@ class PinCodeScreen extends React.Component {
         const { setPinCode } = this.props;
         if (text.length === 4) {
             setPinCode(text);
+            this.setState({ pin: "" });
+        } else {
+            this.setState({ pin: text });
         }
     };
 
@@ -33,6 +37,7 @@ class PinCodeScreen extends React.Component {
                             keyboardType="numeric"
                             maxLength={4}
                             onChangeText={e => this._handleOnChangeInput(e)}
+                            value={this.state.pin}
                         />
                         <TouchableOpacity
                             onPress={() =>
