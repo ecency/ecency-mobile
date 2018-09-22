@@ -175,7 +175,9 @@ export default class LoggedInSideBar extends React.Component {
                     />
                     <View style={styles.info}>
                         <Text style={styles.userLabel}>
-                            {this.state.json_metadata.name || ""}
+                            {(this.state.json_metadata &&
+                                this.state.json_metadata.name) ||
+                                ""}
                         </Text>
                         <Text style={styles.username}>
                             @{this.state.user.name}
