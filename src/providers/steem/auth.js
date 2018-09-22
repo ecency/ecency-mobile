@@ -124,7 +124,6 @@ export const verifyPinCode = (pinCode, password) =>
         getUserData().then(result => {
             const userData = Array.from(result)[0];
             const masterKey = decryptKey(userData.masterKey, pinCode);
-            removeUserData();
             if (masterKey === password) {
                 resolve();
             } else {

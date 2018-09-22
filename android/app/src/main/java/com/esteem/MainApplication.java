@@ -3,6 +3,13 @@ package com.esteem;
 import android.app.Application;
 
 import com.facebook.react.ReactApplication;
+import io.realm.react.RealmReactPackage;
+import com.oblador.vectoricons.VectorIconsPackage;
+import com.avishayil.rnrestart.ReactNativeRestartPackage;
+import com.dylanvann.fastimage.FastImageViewPackage;
+import com.microsoft.appcenter.reactnative.crashes.AppCenterReactNativeCrashesPackage;
+import com.microsoft.appcenter.reactnative.analytics.AppCenterReactNativeAnalyticsPackage;
+import com.microsoft.appcenter.reactnative.appcenter.AppCenterReactNativePackage;
 import com.avishayil.rnrestart.ReactNativeRestartPackage;
 import io.realm.react.RealmReactPackage;
 import com.dylanvann.fastimage.FastImageViewPackage;

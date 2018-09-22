@@ -42,7 +42,7 @@ export const setUserData = userData => {
         try {
             const account = realm
                 .objects(USER_SCHEMA)
-                .filtered(`username = "${userData.username}"`);
+                .filtered("username = $0", userData.username);
             if (Array.from(account).length === 0) {
                 realm.write(() => {
                     realm.create(userSchema.name, userData);
@@ -62,7 +62,7 @@ export const updateUserData = userData => {
         try {
             const account = realm
                 .objects(USER_SCHEMA)
-                .filtered(`username = "${userData.username}"`);
+                .filtered("username = $0", userData.username);
 
             if (Array.from(account).length > 0) {
                 realm.write(() => {
