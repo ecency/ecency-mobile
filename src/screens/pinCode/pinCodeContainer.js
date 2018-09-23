@@ -52,14 +52,19 @@ class PinCodeContainer extends React.Component {
 
     _setPinCode = pin => {
         const {
-            currentAccount: { password },
+            currentAccount: { password, name },
             componentId,
         } = this.props;
         const { isExistUser, pinCode } = this.state;
-        console.log(password);
+        console.log(password, name);
         if (isExistUser) {
             // If the user is exist, we are just checking to pin and navigating to home screen
-            verifyPinCode(pin, password)
+            const pinData = {
+                pinCode: pin,
+                password,
+                username: name,
+            };
+            verifyPinCode(pinData)
                 .then(() => {
                     Navigation.setStackRoot(componentId, {
                         component: {
@@ -79,7 +84,12 @@ class PinCodeContainer extends React.Component {
                 });
             } else {
                 if (pinCode === pin) {
-                    setUserDataWithPinCode(pinCode, password).then(() => {
+                    const pinData = {
+                        pinCode: pin,
+                        password,
+                        username: name,
+                    };
+                    setUserDataWithPinCode(pinData).then(() => {
                         AsyncStorage.setItem(
                             INITIAL.IS_EXIST_USER,
                             JSON.stringify(true),

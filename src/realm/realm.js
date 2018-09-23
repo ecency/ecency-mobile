@@ -26,6 +26,7 @@ const authSchema = {
 
 let realm = new Realm({ schema: [userSchema, authSchema] });
 
+// TODO: This is getting ALL user data, we should change this method with getUserDataWithUsername
 export const getUserData = () => {
     return new Promise((resolve, reject) => {
         try {
@@ -37,19 +38,29 @@ export const getUserData = () => {
     });
 };
 
+export const getUserDataWithUsername = username => {
+    try {
+        const user = Array.from(
+            realm.objects(USER_SCHEMA).filtered("username = $0", username)
+        );
+        return user;
+    } catch (error) {
+        return error;
+    }
+};
+
 export const setUserData = userData => {
     return new Promise((resolve, reject) => {
         try {
-            const account = realm
-                .objects(USER_SCHEMA)
-                .filtered("username = $0", userData.username);
-            if (Array.from(account).length === 0) {
+            const account = getUserDataWithUsername(userData.username);
+
+            if (account.length === 0) {
                 realm.write(() => {
                     realm.create(userSchema.name, userData);
                     resolve(userData);
                 });
             } else {
-                resolve();
+                resolve(userData);
             }
         } catch (error) {
             reject(error);
@@ -73,7 +84,7 @@ export const updateUserData = userData => {
                     resolve(userData);
                 });
             } else {
-                resolve();
+                reject("User not found");
             }
         } catch (error) {
             reject(error);
@@ -81,12 +92,14 @@ export const updateUserData = userData => {
     });
 };
 
+// TODO: This method deleting ALL users. This should delete just a user.
 export const removeUserData = () => {
     return new Promise((resolve, reject) => {
         setAuthStatus({ isLoggedIn: false }).then(() => {
             try {
+                const accounts = realm.objects(USER_SCHEMA);
                 realm.write(() => {
-                    realm.deleteAll();
+                    realm.delete(accounts);
                 });
                 resolve();
             } catch (error) {
@@ -115,12 +128,13 @@ export const getAuthStatus = () => {
 export const setAuthStatus = authStatus => {
     return new Promise((resolve, reject) => {
         try {
+            const auth = realm.objects(AUTH_SCHEMA);
             realm.write(() => {
-                realm.create(authSchema.name, authStatus);
+                realm.delete(auth);
+                realm.create(AUTH_SCHEMA, authStatus);
                 resolve(authStatus);
             });
         } catch (error) {
-            alert(error);
             reject(error);
         }
     });

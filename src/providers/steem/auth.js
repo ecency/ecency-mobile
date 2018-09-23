@@ -1,15 +1,11 @@
-/*eslint-disable no-unused-vars*/
-/*eslint-disable no-console*/
 import * as dsteem from "dsteem";
 import { getAccount } from "./dsteem";
 import {
     setUserData,
     setAuthStatus,
-    getUserData,
+    getUserDataWithUsername,
     updateUserData,
-    removeUserData,
 } from "../../realm/realm";
-/*eslint-disable-next-line no-unused-vars*/
 import { encryptKey, decryptKey } from "../../utils/crypto";
 import steemConnect from "./steemConnectAPI";
 
@@ -24,7 +20,11 @@ export const Login = (username, password) => {
         getAccount(username)
             .then(result => {
                 if (result.length < 1) {
-                    reject(new Error("Wrong @username"));
+                    reject(
+                        new Error(
+                            "Invalid credentails, please check and try again"
+                        )
+                    );
                 }
 
                 const account = result[0];
@@ -40,6 +40,7 @@ export const Login = (username, password) => {
                 // Set private keys of user
                 privateKeys = getPrivateKeys(username, password);
 
+                // Check all keys
                 Object.keys(publicKeys).map(pubKey => {
                     if (
                         publicKeys[pubKey] ===
@@ -52,7 +53,6 @@ export const Login = (username, password) => {
 
                 if (loginFlag) {
                     let userData = {
-                        id: account.id,
                         username: username,
                         authType: "masterKey",
                         masterKey: "",
@@ -61,75 +61,94 @@ export const Login = (username, password) => {
                         memoKey: "",
                         accessToken: "",
                     };
-                    let authData = {
-                        isLoggedIn: true,
-                    };
 
-                    // Set auth state to true
-                    setAuthStatus(authData)
+                    // Save user data to Realm DB
+                    setUserData(userData)
                         .then(() => {
-                            // Save user data to Realm DB
-                            setUserData(userData)
-                                .then(() => {
-                                    resolve({ ...account, password });
-                                })
-                                .catch(err => {
-                                    reject(err);
-                                });
+                            resolve({ ...account, password });
                         })
-                        .catch(err => {
-                            reject(err);
+                        .catch(() => {
+                            reject(
+                                new Error(
+                                    "Invalid credentails, please check and try again"
+                                )
+                            );
                         });
                 } else {
-                    reject();
+                    reject(
+                        new Error(
+                            "Invalid credentails, please check and try again"
+                        )
+                    );
                 }
             })
-            .catch(err => {
-                // eslint-disable-next-line
-                console.log(err);
-                reject(new Error("Check your username"));
+            .catch(() => {
+                reject(
+                    new Error("Invalid credentails, please check and try again")
+                );
             });
     });
 };
 
-export const setUserDataWithPinCode = (pinCode, password) =>
+export const setUserDataWithPinCode = data =>
     new Promise((resolve, reject) => {
-        getUserData().then(result => {
-            const userData = Array.from(result)[0];
+        const result = getUserDataWithUsername(data.username);
+        const userData = result[0];
 
-            const privateKeys = getPrivateKeys(userData.username, password);
+        const privateKeys = getPrivateKeys(userData.username, data.password);
 
-            const updatedUserData = {
-                username: userData.username,
-                authType: "masterKey",
-                masterKey: encryptKey(password, pinCode),
-                postingKey: encryptKey(privateKeys.posting.toString(), pinCode),
-                activeKey: encryptKey(privateKeys.active.toString(), pinCode),
-                memoKey: encryptKey(privateKeys.memo.toString(), pinCode),
-            };
+        const updatedUserData = {
+            username: userData.username,
+            authType: "masterKey",
+            masterKey: encryptKey(data.password, data.pinCode),
+            postingKey: encryptKey(
+                privateKeys.posting.toString(),
+                data.pinCode
+            ),
+            activeKey: encryptKey(privateKeys.active.toString(), data.pinCode),
+            memoKey: encryptKey(privateKeys.memo.toString(), data.pinCode),
+        };
 
-            updateUserData(updatedUserData)
-                .then(() => {
-                    resolve();
-                })
-                .catch(err => {
-                    reject(err);
-                });
-        });
+        updateUserData(updatedUserData)
+            .then(() => {
+                let authData = {
+                    isLoggedIn: true,
+                };
+
+                setAuthStatus(authData)
+                    .then(() => {
+                        resolve();
+                    })
+                    .catch(error => {
+                        reject(error);
+                    });
+            })
+            .catch(err => {
+                reject(err);
+            });
         resolve();
     });
 
-export const verifyPinCode = (pinCode, password) =>
+export const verifyPinCode = data =>
     new Promise((resolve, reject) => {
-        getUserData().then(result => {
-            const userData = Array.from(result)[0];
-            const masterKey = decryptKey(userData.masterKey, pinCode);
-            if (masterKey === password) {
-                resolve();
-            } else {
-                reject();
-            }
-        });
+        const result = getUserDataWithUsername(data.username);
+        const userData = result[0];
+        const masterKey = decryptKey(userData.masterKey, data.pinCode);
+        if (masterKey === data.password) {
+            let authData = {
+                isLoggedIn: true,
+            };
+
+            setAuthStatus(authData)
+                .then(() => {
+                    resolve();
+                })
+                .catch(error => {
+                    reject(error);
+                });
+        } else {
+            reject();
+        }
     });
 
 const getPrivateKeys = (username, password) => {
@@ -145,8 +164,6 @@ export const loginWithSC2 = async (access_token, pinCode) => {
 
     await steemConnect.setAccessToken(access_token);
     account = await steemConnect.me();
-
-    //console.log(account.name);
 
     return new Promise((resolve, reject) => {
         let userData = {
