@@ -316,6 +316,7 @@ export const goToNoAuthScreens = () =>
                 id: "LoginScreen",
                 children: [
                     {
+                        // TODO before commit navigation.eSteem.Login
                         component: {
                             name: "navigation.eSteem.Login",
                         },
@@ -325,7 +326,7 @@ export const goToNoAuthScreens = () =>
                     topBar: {
                         visible: true,
                         noBorder: true,
-                        elevation: 0
+                        elevation: 0,
                     },
                 },
             },

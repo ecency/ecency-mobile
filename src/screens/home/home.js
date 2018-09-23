@@ -5,7 +5,6 @@ import { Navigation } from "react-native-navigation";
 import ScrollableTabView from "@esteemapp/react-native-scrollable-tab-view";
 import CustomTabBar from "./customTab";
 import Ionicons from "react-native-vector-icons/Ionicons";
-import ActionSheet from "react-native-actionsheet";
 
 import FastImage from "react-native-fast-image";
 

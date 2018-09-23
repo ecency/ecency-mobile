@@ -151,6 +151,10 @@ configurations.all {
 }
 
 dependencies {
+    compile project(':realm')
+    compile project(':react-native-vector-icons')
+    compile project(':react-native-restart')
+    compile project(':react-native-fast-image')
 
     implementation fileTree(dir: "libs", include: ["*.jar"])
     implementation "com.android.support:appcompat-v7:${rootProject.ext.supportLibVersion}"

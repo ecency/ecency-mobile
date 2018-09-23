@@ -5,7 +5,6 @@
 	};
 	objectVersion = 46;
 	objects = {
-
 /* Begin PBXBuildFile section */
 		00C302E51ABCBA2D00DB3ED1 /* libRCTActionSheet.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 00C302AC1ABCB8CE00DB3ED1 /* libRCTActionSheet.a */; };
 		00C302E71ABCBA2D00DB3ED1 /* libRCTGeolocation.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 00C302BA1ABCB90400DB3ED1 /* libRCTGeolocation.a */; };
@@ -67,6 +66,9 @@
 		E762FF552C174A42B991ABAE /* Ionicons.ttf in Resources */ = {isa = PBXBuildFile; fileRef = C0CF6E47FA9F44D682C671BE /* Ionicons.ttf */; };
 		E7EF154EF5D74121962A2E7E /* Feather.ttf in Resources */ = {isa = PBXBuildFile; fileRef = C3DD219CD9F4431FBEDF6C59 /* Feather.ttf */; };
 		F054579B36C14231BA3639C8 /* Entypo.ttf in Resources */ = {isa = PBXBuildFile; fileRef = 7BC6EC7A93F744AB943E829D /* Entypo.ttf */; };
+		1F6F33156A174EFDBFC344C2 /* Roboto_medium.ttf in Resources */ = {isa = PBXBuildFile; fileRef = 655908CA9FC044849A642083 /* Roboto_medium.ttf */; };
+		EB6BCA1437604A6A9EC8E464 /* Roboto.ttf in Resources */ = {isa = PBXBuildFile; fileRef = 67207F49076E41C1984118F5 /* Roboto.ttf */; };
+		E52D08E8AC2340B7BA836C12 /* rubicon-icon-font.ttf in Resources */ = {isa = PBXBuildFile; fileRef = B9684536B2B04CDBB34B7E3D /* rubicon-icon-font.ttf */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -446,6 +448,9 @@
 		D9437FC267C44E78A7004491 /* libz.tbd */ = {isa = PBXFileReference; explicitFileType = undefined; fileEncoding = 9; includeInIndex = 0; lastKnownFileType = "sourcecode.text-based-dylib-definition"; name = libz.tbd; path = usr/lib/libz.tbd; sourceTree = SDKROOT; };
 		F45F38C089DF40B583B2368E /* MaterialCommunityIcons.ttf */ = {isa = PBXFileReference; explicitFileType = undefined; fileEncoding = 9; includeInIndex = 0; lastKnownFileType = unknown; name = MaterialCommunityIcons.ttf; path = "../node_modules/react-native-vector-icons/Fonts/MaterialCommunityIcons.ttf"; sourceTree = "<group>"; };
 		FB5B2D82F2D14076AA5BA1D7 /* FontAwesome.ttf */ = {isa = PBXFileReference; explicitFileType = undefined; fileEncoding = 9; includeInIndex = 0; lastKnownFileType = unknown; name = FontAwesome.ttf; path = "../node_modules/react-native-vector-icons/Fonts/FontAwesome.ttf"; sourceTree = "<group>"; };
+		655908CA9FC044849A642083 /* Roboto_medium.ttf */ = {isa = PBXFileReference; name = "Roboto_medium.ttf"; path = "../node_modules/native-base/Fonts/Roboto_medium.ttf"; sourceTree = "<group>"; fileEncoding = undefined; lastKnownFileType = unknown; explicitFileType = undefined; includeInIndex = 0; };
+		67207F49076E41C1984118F5 /* Roboto.ttf */ = {isa = PBXFileReference; name = "Roboto.ttf"; path = "../node_modules/native-base/Fonts/Roboto.ttf"; sourceTree = "<group>"; fileEncoding = undefined; lastKnownFileType = unknown; explicitFileType = undefined; includeInIndex = 0; };
+		B9684536B2B04CDBB34B7E3D /* rubicon-icon-font.ttf */ = {isa = PBXFileReference; name = "rubicon-icon-font.ttf"; path = "../node_modules/native-base/Fonts/rubicon-icon-font.ttf"; sourceTree = "<group>"; fileEncoding = undefined; lastKnownFileType = unknown; explicitFileType = undefined; includeInIndex = 0; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -629,6 +634,9 @@
 				7FDC9EF22FB9401FAC3D71E8 /* Octicons.ttf */,
 				6AA9E32D1ACE4B6DB384247C /* SimpleLineIcons.ttf */,
 				884F50B54BDE4D2A895C341D /* Zocial.ttf */,
+				655908CA9FC044849A642083 /* Roboto_medium.ttf */,
+				67207F49076E41C1984118F5 /* Roboto.ttf */,
+				B9684536B2B04CDBB34B7E3D /* rubicon-icon-font.ttf */,
 			);
 			name = Resources;
 			sourceTree = "<group>";
@@ -1341,6 +1349,9 @@
 				4CA33523954847178CDA608E /* Octicons.ttf in Resources */,
 				359BEA9C9DCF4B329D288661 /* SimpleLineIcons.ttf in Resources */,
 				C9907CA046044A45A8CE4B4A /* Zocial.ttf in Resources */,
+				1F6F33156A174EFDBFC344C2 /* Roboto_medium.ttf in Resources */,
+				EB6BCA1437604A6A9EC8E464 /* Roboto.ttf in Resources */,
+				E52D08E8AC2340B7BA836C12 /* rubicon-icon-font.ttf in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -1471,7 +1482,9 @@
 				INFOPLIST_FILE = eSteemTests/Info.plist;
 				IPHONEOS_DEPLOYMENT_TARGET = 9.0;
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks @loader_path/Frameworks";
-				LIBRARY_SEARCH_PATHS = "$(inherited)";
+				LIBRARY_SEARCH_PATHS = (
+					"$(inherited)",
+				);
 				OTHER_LDFLAGS = (
 					"-ObjC",
 					"-lc++",
@@ -1494,7 +1507,9 @@
 				INFOPLIST_FILE = eSteemTests/Info.plist;
 				IPHONEOS_DEPLOYMENT_TARGET = 9.0;
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks @loader_path/Frameworks";
-				LIBRARY_SEARCH_PATHS = "$(inherited)";
+				LIBRARY_SEARCH_PATHS = (
+					"$(inherited)",
+				);
 				OTHER_LDFLAGS = (
 					"-ObjC",
 					"-lc++",
@@ -1574,7 +1589,9 @@
 				);
 				INFOPLIST_FILE = "eSteem-tvOS/Info.plist";
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks";
-				LIBRARY_SEARCH_PATHS = "$(inherited)";
+				LIBRARY_SEARCH_PATHS = (
+					"$(inherited)",
+				);
 				OTHER_LDFLAGS = (
 					"-ObjC",
 					"-lc++",
@@ -1606,7 +1623,9 @@
 				);
 				INFOPLIST_FILE = "eSteem-tvOS/Info.plist";
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks";
-				LIBRARY_SEARCH_PATHS = "$(inherited)";
+				LIBRARY_SEARCH_PATHS = (
+					"$(inherited)",
+				);
 				OTHER_LDFLAGS = (
 					"-ObjC",
 					"-lc++",
@@ -1637,7 +1656,9 @@
 				);
 				INFOPLIST_FILE = "eSteem-tvOSTests/Info.plist";
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks @loader_path/Frameworks";
-				LIBRARY_SEARCH_PATHS = "$(inherited)";
+				LIBRARY_SEARCH_PATHS = (
+					"$(inherited)",
+				);
 				OTHER_LDFLAGS = (
 					"-ObjC",
 					"-lc++",
@@ -1668,7 +1689,9 @@
 				);
 				INFOPLIST_FILE = "eSteem-tvOSTests/Info.plist";
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks @loader_path/Frameworks";
-				LIBRARY_SEARCH_PATHS = "$(inherited)";
+				LIBRARY_SEARCH_PATHS = (
+					"$(inherited)",
+				);
 				OTHER_LDFLAGS = (
 					"-ObjC",
 					"-lc++",

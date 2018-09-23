@@ -18,7 +18,7 @@ import styles from "./style";
 
 import FastImage from "react-native-fast-image";
 import { getAccount } from "../../providers/steem/dsteem";
-import { removeUserData } from "../../realm/realm";
+import { setAuthStatus } from "../../realm/realm";
 import RNRestart from "react-native-restart";
 import { Navigation } from "react-native-navigation";
 
@@ -152,7 +152,10 @@ export default class LoggedInSideBar extends React.Component {
     }
 
     Logout = () => {
-        removeUserData()
+        let authData = {
+            isLoggedIn: false,
+        };
+        setAuthStatus(authData)
             .then(() => {
                 RNRestart.Restart();
             })
@@ -175,7 +178,9 @@ export default class LoggedInSideBar extends React.Component {
                     />
                     <View style={styles.info}>
                         <Text style={styles.userLabel}>
-                            {this.state.json_metadata.name || ""}
+                            {(this.state.json_metadata &&
+                                this.state.json_metadata.name) ||
+                                ""}
                         </Text>
                         <Text style={styles.username}>
                             @{this.state.user.name}

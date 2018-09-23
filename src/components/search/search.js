@@ -38,7 +38,7 @@ export default class Search extends Component {
 
         await this.setState({
             loading: true,
-            text: text 
+            text: text,
         });
 
         users = await lookupAccounts(text);
@@ -80,7 +80,7 @@ export default class Search extends Component {
                     backgroundColor: "rgba(0, 0, 0, 0.8)",
                     height: Dimensions.get("window").height,
                     paddingTop: 25,
-                    flex: 1
+                    flex: 1,
                 }}
             >
                 <View

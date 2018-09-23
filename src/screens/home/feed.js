@@ -58,6 +58,7 @@ class FeedPage extends React.Component {
             this.props.user.name
         )
             .then(result => {
+                // TODO: We should put null check for result
                 this.setState({
                     isReady: true,
                     posts: result,

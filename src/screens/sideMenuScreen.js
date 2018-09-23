@@ -1,12 +1,10 @@
 import React, { Component } from "react";
-import { View, Text } from "react-native";
+import { View } from "react-native";
 
-import { Navigation } from "react-native-navigation";
 import LoggedInMenu from "./side-menu/loggedInMenu";
 import LoggedOutMenu from "./side-menu/loggedOutMenu";
 
 import { getAuthStatus, getUserData } from "../realm/realm";
-import { getUser } from "../providers/steem/dsteem";
 
 class SideMenuScreen extends Component {
     constructor() {
@@ -20,7 +18,6 @@ class SideMenuScreen extends Component {
 
     async componentDidMount() {
         let user;
-        let userData;
         let isLoggedIn;
 
         await getAuthStatus().then(res => {
