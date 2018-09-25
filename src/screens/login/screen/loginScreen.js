@@ -14,7 +14,7 @@ import { Navigation } from "react-native-navigation";
 import Ionicons from "react-native-vector-icons/Ionicons";
 import FastImage from "react-native-fast-image";
 
-import Tabs from "../../home/customTab";
+import { TabBar } from "../../../components/tabBar";
 import ScrollableTabView from "@esteemapp/react-native-scrollable-tab-view";
 import { Login } from "../../../providers/steem/auth";
 
@@ -155,7 +155,7 @@ class LoginScreen extends Component {
                 <ScrollableTabView
                     style={styles.tabView}
                     renderTabBar={() => (
-                        <Tabs
+                        <TabBar
                             style={styles.tabbar}
                             tabUnderlineDefaultWidth={100} // default containerWidth / (numberOfTabs * 4)
                             tabUnderlineScaleX={2} // default 3

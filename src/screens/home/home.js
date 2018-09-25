@@ -3,7 +3,8 @@ import { Text, View, Dimensions, TouchableOpacity } from "react-native";
 import { Navigation } from "react-native-navigation";
 
 import ScrollableTabView from "@esteemapp/react-native-scrollable-tab-view";
-import CustomTabBar from "./customTab";
+import TabBar from "../../components/tabBar";
+
 import Ionicons from "react-native-vector-icons/Ionicons";
 
 import FastImage from "react-native-fast-image";
@@ -113,7 +114,7 @@ export default class Home extends React.PureComponent {
                 <ScrollableTabView
                     style={styles.tabView}
                     renderTabBar={() => (
-                        <CustomTabBar
+                        <TabBar
                             style={styles.tabbar}
                             tabUnderlineDefaultWidth={80} // default containerWidth / (numberOfTabs * 4)
                             tabUnderlineScaleX={2} // default 3

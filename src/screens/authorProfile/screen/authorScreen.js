@@ -17,7 +17,7 @@ import { Navigation } from "react-native-navigation";
 import FastImage from "react-native-fast-image";
 
 // Internal Components
-import CustomTabBar from "../../home/customTab";
+import { TabBar } from "../../../components/tabBar";
 import PostCard from "../../../components/post-card/postCard";
 import Comment from "../../../components/comment/comment";
 
@@ -443,7 +443,7 @@ class AuthorScreen extends Component {
                         style={styles.tabs}
                         style={{ flex: 1 }}
                         renderTabBar={() => (
-                            <CustomTabBar
+                            <TabBar
                                 style={styles.tabbar}
                                 tabUnderlineDefaultWidth={30} // default containerWidth / (numberOfTabs * 4)
                                 tabUnderlineScaleX={3} // default 3

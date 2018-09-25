@@ -11,7 +11,7 @@ import moment from "moment";
 import FastImage from "react-native-fast-image";
 
 import ScrollableTabView from "@esteemapp/react-native-scrollable-tab-view";
-import CustomTabBar from "../home/customTab";
+import { TabBar } from "../../../components/tabBar";
 import DiscoverPage from "../discover/discover";
 import PostCard from "../../components/post-card/postCard";
 import Comment from "../../components/comment/comment";
@@ -276,7 +276,7 @@ class ProfilePage extends React.Component {
                             style={styles.tabs}
                             style={{ flex: 1 }}
                             renderTabBar={() => (
-                                <CustomTabBar
+                                <TabBar
                                     style={styles.tabbar}
                                     tabUnderlineDefaultWidth={30} // default containerWidth / (numberOfTabs * 4)
                                     tabUnderlineScaleX={3} // default 3
