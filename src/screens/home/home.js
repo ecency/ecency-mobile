@@ -179,7 +179,7 @@ const styles = {
         flex: 1,
         paddingHorizontal: 7,
         backgroundColor: "#f9f9f9",
-        minWidth: Dimensions.get("window").width / 1,
+        minWidth: Dimensions.get("window").width,
     },
     container: {
         backgroundColor: "#F9F9F9",
