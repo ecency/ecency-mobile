@@ -53,6 +53,7 @@ If you would like to have someone in particular review your work, leave your pat
 #### Who to assign your patch for review
 
 -   [@feruzm](https://github.com/feruzm)
+-   [@talhasch](https://github.com/talhasch)
 -   [@mistikk](https://github.com/mistikk)
 -   [@ue](https://github.com/ue)
 
