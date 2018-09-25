@@ -5,6 +5,7 @@ import { Container, Content, Icon, Item, Input } from "native-base";
 import { Logo, FormInput } from "../../components";
 
 import styles from "../../styles/pinCode.styles";
+import globalStyles from "../../globalStyles";
 
 class PinCodeScreen extends React.Component {
     constructor(props) {
@@ -27,7 +28,7 @@ class PinCodeScreen extends React.Component {
 
     render() {
         return (
-            <Container style={styles.container}>
+            <Container style={globalStyles.container}>
                 <Content>
                     <Logo style={styles.logo} />
                     <Text style={styles.title}>Enter Pin Code</Text>

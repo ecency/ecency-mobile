@@ -1,8 +1,10 @@
 import React from "react";
-import { StatusBar } from "react-native";
 import { Container, Text } from "native-base";
 
-class NotificationPage extends React.Component {
+// Styles
+//import styles from "./notificationStyles";
+
+class NotificationScreen extends React.Component {
     static navigationOptions = {
         title: "Notifications",
     };
@@ -15,4 +17,4 @@ class NotificationPage extends React.Component {
         );
     }
 }
-export default NotificationPage;
+export default NotificationScreen;

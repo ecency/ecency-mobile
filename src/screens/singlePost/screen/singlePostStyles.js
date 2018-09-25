@@ -1,7 +1,6 @@
-import { Dimensions } from "react-native";
-import { createStyle } from "react-native-theming";
+import EStyleSheet from "react-native-extended-stylesheet";
 
-const styles = createStyle({
+export default EStyleSheet.create({
     container: {
         flex: 1,
         alignItems: "center",
@@ -12,5 +11,3 @@ const styles = createStyle({
         backgroundColor: "white",
     },
 });
-
-export default styles;

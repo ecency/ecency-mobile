@@ -22,7 +22,6 @@ import Placeholder from "rn-placeholder";
 import PostCard from "../../components/post-card/postCard";
 
 // SCREENS
-import PostPage from "../../screens/single-post/post";
 /* eslint-enable no-unused-vars */
 
 class HotPage extends React.Component {
