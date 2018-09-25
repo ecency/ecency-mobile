@@ -12,7 +12,7 @@ import Feed from "./home/feed";
 import { SinglePost } from "./singlePost";
 import { Profile } from "./profile";
 import { Author } from "./authorProfile";
-import Login from "./login/login";
+import { Login } from "./login";
 import Wallet from "./wallet/wallet";
 import Editor from "./editor/editor";
 import Discover from "./discover/discover";

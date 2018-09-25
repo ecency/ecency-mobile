@@ -3,9 +3,7 @@ import {
     View,
     ActivityIndicator,
     Text,
-    StyleSheet,
     Image,
-    Dimensions,
     TouchableOpacity,
     TextInput,
     BackHandler,
@@ -13,21 +11,22 @@ import {
 } from "react-native";
 
 import { Navigation } from "react-native-navigation";
-import { connect } from "react-redux";
 import Ionicons from "react-native-vector-icons/Ionicons";
 import FastImage from "react-native-fast-image";
 
-import Tabs from "../home/customTab";
+import Tabs from "../../home/customTab";
 import ScrollableTabView from "@esteemapp/react-native-scrollable-tab-view";
-import { Login } from "../../providers/steem/auth";
+import { Login } from "../../../providers/steem/auth";
 
-import { addNewAccount } from "../../redux/actions/accountAction";
+import { addNewAccount } from "../../../redux/actions/accountAction";
 
-import { default as INITIAL } from "../../constants/initial";
-import { lookupAccounts } from "../../providers/steem/dsteem";
-import { goToAuthScreens } from "../../navigation";
+import { lookupAccounts } from "../../../providers/steem/dsteem";
+import { goToAuthScreens } from "../../../navigation";
 
-class LoginPage extends Component {
+// Styles
+import styles from "./loginStyles";
+
+class LoginScreen extends Component {
     static get options() {
         return {
             _statusBar: {
@@ -466,7 +465,7 @@ class LoginPage extends Component {
                                         left: 55,
                                         top: 10,
                                     }}
-                                    source={require("../../assets/love_mascot.png")}
+                                    source={require("../../../assets/love_mascot.png")}
                                 />
                             </View>
                         </View>
@@ -551,52 +550,5 @@ class LoginPage extends Component {
         );
     }
 }
-const styles = StyleSheet.create({
-    container: {
-        margin: 0,
-        padding: 0,
-        backgroundColor: "#f1f1f1",
-        flexDirection: "column",
-    },
-    header: {
-        flexDirection: "row",
-        padding: 0,
-        backgroundColor: "white",
-        marginBottom: 10,
-        height: 200,
-        flex: 0.4,
-    },
-    footer: {
-        flex: 0.2,
-        bottom: 0,
-        marginTop: 10,
-        height: 80,
-        backgroundColor: "white",
-        flexDirection: "row",
-    },
-    tabView: {
-        alignSelf: "center",
-        backgroundColor: "transparent",
-    },
-    tabbar: {
-        alignSelf: "center",
-        height: 40,
-        backgroundColor: "white",
-    },
-    tabbarItem: {
-        flex: 1,
-        backgroundColor: "#ffffff",
-        minWidth: Dimensions.get("window").width / 1,
-    },
-    steemConnectTab: {
-        flex: 1,
-        backgroundColor: "#e9e9e9",
-        minWidth: Dimensions.get("window").width / 1,
-    },
-});
 
-const mapStateToProps = state => ({
-    account: state.accounts,
-});
-
-export default connect(mapStateToProps)(LoginPage);
+export default LoginScreen;
