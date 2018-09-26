@@ -17,7 +17,7 @@ import FastImage from "react-native-fast-image";
 
 import { TabBar } from "../../../components/tabBar";
 import { LoginHeader } from "../../../components/loginHeader";
-import { LineBreak } from "../../../components/basicUIElements";
+import { FormInput } from "../../../components/formInput";
 import ScrollableTabView from "@esteemapp/react-native-scrollable-tab-view";
 import { Login } from "../../../providers/steem/auth";
 
@@ -98,8 +98,6 @@ class LoginScreen extends Component {
     let password = this.state.password;
     let username = this.state.username;
 
-    console.log("componentId", componentId);
-
     Login(username, password)
       .then(result => {
         if (result) {
@@ -124,8 +122,11 @@ class LoginScreen extends Component {
 
   handleUsername = async username => {
     await this.setState({ username });
-    let validUsers = await lookupAccounts(username);
+    const validUsers = await lookupAccounts(username);
     await this.setState({ isUsernameValid: validUsers.includes(username) });
+  };
+  _handleOnPasswordChange = value => {
+    this.setState({ password: value });
   };
 
   navigationButtonPressed({ buttonId }) {
@@ -173,153 +174,27 @@ class LoginScreen extends Component {
           )}
         >
           <View tabLabel="Sign in" style={styles.tabbarItem}>
-            <View
-              style={{
-                backgroundColor: "#f5f5f5",
-                height: 60,
-                borderBottomWidth: 2,
-                borderBottomColor: this.state.isUsernameValid
-                  ? this.state.usernameBorderColor
-                  : "red",
-                borderTopLeftRadius: 8,
-                borderTopRightRadius: 8,
-                marginHorizontal: 30,
-                marginVertical: 20,
-                flexDirection: "row",
-              }}
-            >
-              {this.state.username.length > 2 ? (
-                <View style={{ flex: 0.15 }}>
-                  <FastImage
-                    style={{
-                      width: 24,
-                      height: 24,
-                      borderRadius: 12,
-                      top: 15,
-                      marginLeft: 12,
-                    }}
-                    source={{
-                      uri: `https://steemitimages.com/u/${
-                        this.state.username
-                      }/avatar/small`,
-                      priority: FastImage.priority.high,
-                    }}
-                    resizeMode={FastImage.resizeMode.cover}
-                  />
-                </View>
-              ) : (
-                <Ionicons
-                  name="md-at"
-                  style={{
-                    flex: 0.15,
-                    fontSize: 25,
-                    top: 18,
-                    left: 12,
-                    color: "#c1c5c7",
-                  }}
-                />
-              )}
-              <TextInput
-                onFocus={() =>
-                  this.setState({
-                    usernameBorderColor: "#357ce6",
-                  })
-                }
-                onSubmitEditing={() =>
-                  this.setState({
-                    usernameBorderColor: "#c1c5c7",
-                  })
-                }
-                autoCapitalize="none"
-                placeholder="username"
-                editable={true}
-                textContentType="username"
-                onChangeText={text => {
-                  this.handleUsername(text);
-                }}
-                value={this.state.username}
-                style={{
-                  height: 60,
-                  flex: 0.7,
-                }}
-              />
-
-              {this.state.username.length > 0 ? (
-                <Ionicons
-                  onPress={() => this.setState({ username: "" })}
-                  name="md-close-circle"
-                  style={{
-                    flex: 0.15,
-                    fontSize: 25,
-                    top: 18,
-                    left: 8,
-                    color: "#c1c5c7",
-                  }}
-                />
-              ) : null}
-            </View>
-
-            <View
-              style={{
-                backgroundColor: "#f5f5f5",
-                height: 60,
-                borderBottomWidth: 2,
-                borderBottomColor: this.state.passwordBorderColor,
-                borderTopLeftRadius: 8,
-                borderTopRightRadius: 8,
-                marginHorizontal: 30,
-                marginVertical: 20,
-                flexDirection: "row",
-              }}
-            >
-              <Ionicons
-                name="md-lock"
-                style={{
-                  flex: 0.15,
-                  fontSize: 25,
-                  top: 18,
-                  left: 14,
-                  color: "#c1c5c7",
-                }}
-              />
-              <TextInput
-                onFocus={() =>
-                  this.setState({
-                    passwordBorderColor: "#357ce6",
-                  })
-                }
-                onSubmitEditing={() =>
-                  this.setState({
-                    passwordBorderColor: "#c1c5c7",
-                  })
-                }
-                secureTextEntry={true}
-                placeholder="Password or WIF"
-                textContentType="password"
-                onChangeText={text => this.setState({ password: text })}
-                value={this.state.password}
-                style={{
-                  height: 60,
-                  flex: 0.7,
-                  width: "100%",
-                }}
-              />
-
-              {this.state.password.length > 0 ? (
-                <Ionicons
-                  onPress={() => this.setState({ password: "" })}
-                  name="md-close-circle"
-                  style={{
-                    flex: 0.15,
-                    fontSize: 25,
-                    top: 18,
-                    left: 8,
-                    color: "#c1c5c7",
-                  }}
-                />
-              ) : null}
-            </View>
-
+            <FormInput
+              rightIconName="md-at"
+              leftIconName="md-close-circle"
+              isValid={this.state.isUsernameValid}
+              onChange={value => this.handleUsername(value)}
+              placeholder="Username"
+              isEditable
+              type="username"
+              isFirstImage
+              value={this.state.username}
+            />
+            <FormInput
+              rightIconName="md-lock"
+              leftIconName="md-close-circle"
+              isValid={this.state.isUsernameValid}
+              onChange={value => this._handleOnPasswordChange(value)}
+              placeholder="Password or WIF"
+              isEditable
+              secureTextEntry
+              type="password"
+            />
             <View
               style={{
                 flexDirection: "row",
