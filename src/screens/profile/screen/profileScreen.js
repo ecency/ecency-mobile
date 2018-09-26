@@ -1,50 +1,31 @@
 /* eslint-disable no-unused-vars */
 import React from "react";
-import {
-    StatusBar,
-    Dimensions,
-    FlatList,
-    ActivityIndicator,
-} from "react-native";
+import { FlatList, ActivityIndicator } from "react-native";
 
 import moment from "moment";
 import FastImage from "react-native-fast-image";
 
 import ScrollableTabView from "@esteemapp/react-native-scrollable-tab-view";
 import { TabBar } from "../../../components/tabBar";
-import DiscoverPage from "../discover/discover";
-import PostCard from "../../components/post-card/postCard";
-import Comment from "../../components/comment/comment";
+import DiscoverPage from "../../discover/discover";
+import PostCard from "../../../components/post-card/postCard";
+import Comment from "../../../components/comment/comment";
 
-import {
-    Content,
-    Card,
-    CardItem,
-    View,
-    Header,
-    Left,
-    Body,
-    Right,
-    Button,
-    Icon,
-    Title,
-    Text,
-    Container,
-} from "native-base";
+import { Card, CardItem, View, Body, Icon, Text } from "native-base";
 
-import { getUserData, getAuthStatus } from "../../realm/realm";
+import { getUserData, getAuthStatus } from "../../../realm/realm";
 import {
     getUser,
     getFollows,
     getPosts,
     getUserComments,
-    getUserReplies,
-} from "../../providers/steem/dsteem";
-import store from "../../redux/store/store";
-import styles from "../../styles/profile.styles";
+} from "../../../providers/steem/dsteem";
+
+// Styles
+import styles from "./profileStyles";
 /* eslint-enable no-unused-vars */
 
-class ProfilePage extends React.Component {
+class ProfileScreen extends React.Component {
     static get options() {
         return {
             _statusBar: {
@@ -86,17 +67,16 @@ class ProfilePage extends React.Component {
     }
 
     async componentDidMount() {
-        let isLoggedIn;
-        let user;
-        let userData;
-        let follows;
-        let about;
-
         await getAuthStatus().then(res => {
-            isLoggedIn = res;
+            const isLoggedIn = res;
         });
 
-        if (isLoggedIn == true) {
+        if (isLoggedIn === true) {
+            let user;
+            let userData;
+            let follows;
+            let about;
+
             await getUserData().then(res => {
                 userData = Array.from(res);
             });
@@ -107,6 +87,7 @@ class ProfilePage extends React.Component {
 
             user = await getUser(userData[0].username);
             about = JSON.parse(user.json_metadata);
+            // BUG: json_metadata: "{}" is coming emty object!!
             this.setState(
                 {
                     user: user,
@@ -190,6 +171,7 @@ class ProfilePage extends React.Component {
     };
 
     render() {
+        //TODO: Refactor ME !
         return (
             <View style={styles.container}>
                 {this.state.isLoggedIn ? (
@@ -384,4 +366,4 @@ class ProfilePage extends React.Component {
     }
 }
 
-export default ProfilePage;
+export default ProfileScreen;

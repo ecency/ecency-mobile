@@ -1,38 +1,35 @@
-import React from "react";
-import {
-    StatusBar,
-    Dimensions,
-    FlatList,
-    ActivityIndicator,
-    BackHandler,
-} from "react-native";
+import React, { Component } from "react";
+import { FlatList, ActivityIndicator, BackHandler } from "react-native";
+
+// External Components
 import {
     Container,
     Card,
     CardItem,
-    Header,
-    Left,
     Body,
-    Right,
     Button,
     Icon,
-    Title,
-    Content,
     Text,
     View,
 } from "native-base";
 import ScrollableTabView from "@esteemapp/react-native-scrollable-tab-view";
-import CustomTabBar from "../home/customTab";
-import PostCard from "../../components/post-card/postCard";
-import Comment from "../../components/comment/comment";
-import moment from "moment";
-import FastImage from "react-native-fast-image";
-//import Icon from "react-native-vector-icons/FontAwesome";
 import { Navigation } from "react-native-navigation";
+import FastImage from "react-native-fast-image";
 
-import Theme, { createThemedComponent } from "react-native-theming";
-import styles from "../../styles/author.styles";
-import themes from "../../styles/themes";
+// Internal Components
+import { TabBar } from "../../../components/tabBar";
+import PostCard from "../../../components/post-card/postCard";
+import Comment from "../../../components/comment/comment";
+
+// TODO: Make utils for all using moment.
+import moment from "moment";
+
+//import Icon from "react-native-vector-icons/FontAwesome";
+
+// Styles
+import styles from "./authorStyles";
+
+//import themes from "../../styles/themes";
 import {
     followUser,
     unfollowUser,
@@ -40,15 +37,12 @@ import {
     getPosts,
     getUserComments,
     getUser,
-    getFollowers,
     isFolllowing,
-} from "../../providers/steem/dsteem";
-import { getAuthStatus, getUserData } from "../../realm/realm";
-import { decryptKey } from "../../utils/crypto";
+} from "../../../providers/steem/dsteem";
+import { getAuthStatus, getUserData } from "../../../realm/realm";
+import { decryptKey } from "../../../utils/crypto";
 
-const Bar = createThemedComponent(StatusBar, ["barStyle", "backgroundColor"]);
-
-class AuthorPage extends React.Component {
+class AuthorScreen extends Component {
     static get options() {
         return {
             _statusBar: {
@@ -61,7 +55,7 @@ class AuthorPage extends React.Component {
                 drawBehind: false,
                 leftButtons: {
                     id: "back",
-                    icon: require("../../assets/back.png"),
+                    icon: require("../../../assets/back.png"),
                 },
             },
             layout: {
@@ -106,8 +100,8 @@ class AuthorPage extends React.Component {
             return true;
         });
         /*for (var i = 0; i < themes.length; i++) {
-            themes[i].name == 'Light'?themes[0].apply():'';
-        }*/
+        themes[i].name == 'Light'?themes[0].apply():'';
+    }*/
         let info;
         let json_metadata;
         let isLoggedIn;
@@ -449,7 +443,7 @@ class AuthorPage extends React.Component {
                         style={styles.tabs}
                         style={{ flex: 1 }}
                         renderTabBar={() => (
-                            <CustomTabBar
+                            <TabBar
                                 style={styles.tabbar}
                                 tabUnderlineDefaultWidth={30} // default containerWidth / (numberOfTabs * 4)
                                 tabUnderlineScaleX={3} // default 3
@@ -546,4 +540,4 @@ class AuthorPage extends React.Component {
     }
 }
 
-export default AuthorPage;
+export default AuthorScreen;

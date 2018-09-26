@@ -1,7 +1,6 @@
-import { createStyle } from "react-native-theming";
-import { Dimensions } from "react-native";
+import EStyleSheet from "react-native-extended-stylesheet";
 
-const styles = createStyle({
+export default EStyleSheet.create({
     container: {
         backgroundColor: "#F9F9F9",
         flex: 1,
@@ -20,7 +19,7 @@ const styles = createStyle({
     },
     tabs: {
         position: "absolute",
-        top: Dimensions.get("window").width / 30,
+        top: "$deviceWidth / 30",
         alignItems: "center",
     },
     flatlistFooter: {
@@ -31,5 +30,3 @@ const styles = createStyle({
         borderColor: "#CED0CE",
     },
 });
-
-export default styles;

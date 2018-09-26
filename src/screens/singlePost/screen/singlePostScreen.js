@@ -15,11 +15,11 @@ import {
 import { Card, Button, Icon, Text, Title } from "native-base";
 import HTML from "react-native-html-renderer";
 
-import styles from "../../styles/post.styles";
+import styles from "./singlePostStyles";
 import { Navigation } from "react-native-navigation";
 /* eslint-enable no-unused-vars */
 
-class SinglePostPage extends React.Component {
+class SinglePostScreen extends React.Component {
     static get options() {
         return {
             _statusBar: {
@@ -182,4 +182,4 @@ class SinglePostPage extends React.Component {
     }
 }
 
-export default SinglePostPage;
+export default SinglePostScreen;

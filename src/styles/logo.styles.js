@@ -1,18 +1,14 @@
-import { createStyle } from "react-native-theming";
-import { Dimensions } from "react-native";
+import EStyleSheet from "react-native-extended-stylesheet";
 
-const deviceWidth = Dimensions.get("window").width;
-const deviceHeight = Dimensions.get("window").height;
-
-export default createStyle({
+export default EStyleSheet.create({
     container: {
         flex: 1,
         alignItems: "center",
         justifyContent: "center",
     },
     logo: {
-        width: deviceWidth / 3,
-        height: deviceHeight / 6,
+        width: "$deviceWidth / 3",
+        height: "$deviceHeight / 6",
         backgroundColor: "transparent",
     },
 });

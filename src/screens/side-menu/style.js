@@ -1,22 +1,25 @@
-const React = require("react-native");
-const { Platform, Dimensions } = React;
+import { Platform } from "react-native";
+import EStyleSheet from "react-native-extended-stylesheet";
 
-const deviceHeight = Dimensions.get("window").height;
-const deviceWidth = Dimensions.get("window").width;
-
-export default {
+export default EStyleSheet.create({
     drawerCover: {
         alignSelf: "stretch",
         backgroundColor: "#296CC0",
-        height: deviceHeight / 5,
+        height: "$deviceHeight / 5",
         width: null,
         position: "relative",
         marginBottom: 10,
     },
     drawerImage: {
         position: "absolute",
-        left: Platform.OS === "android" ? deviceWidth / 20 : deviceWidth / 30,
-        top: Platform.OS === "android" ? deviceHeight / 20 : deviceHeight / 20,
+        left:
+            Platform.OS === "android"
+                ? "$deviceWidth / 20"
+                : "$deviceWidth / 30",
+        top:
+            Platform.OS === "android"
+                ? "$deviceHeight / 20"
+                : "$deviceHeight / 20",
         width: 70,
         height: 70,
         resizeMode: "cover",
@@ -38,8 +41,12 @@ export default {
     },
     info: {
         position: "absolute",
-        top: Platform.OS === "android" ? deviceHeight / 11 : deviceHeight / 11,
-        left: Platform.OS === "android" ? deviceWidth / 4 : deviceWidth / 4,
+        top:
+            Platform.OS === "android"
+                ? "$deviceHeight / 11"
+                : "$deviceHeight / 11",
+        left:
+            Platform.OS === "android" ? "$deviceWidth / 4" : "$deviceWidth / 4",
     },
     userLabel: {
         fontWeight: "bold",
@@ -53,4 +60,4 @@ export default {
         fontSize: 12,
         marginBottom: 3,
     },
-};
+});

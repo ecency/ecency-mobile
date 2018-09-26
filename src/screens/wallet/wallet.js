@@ -1,20 +1,7 @@
-import React from "react";
-import { StatusBar, Text, Picker, View } from "react-native";
+import React, { Component } from "react";
+import { Text, Picker, View } from "react-native";
 import Slider from "react-native-slider";
-import {
-    Container,
-    Header,
-    Left,
-    Body,
-    Right,
-    Button,
-    Icon,
-    Title,
-    Content,
-    Card,
-    Input,
-    Form,
-} from "native-base";
+import { Container, Button, Content, Card, Input } from "native-base";
 import { getUserData, getAuthStatus } from "../../realm/realm";
 import {
     getUser,
@@ -26,7 +13,7 @@ import {
 } from "../../providers/steem/dsteem";
 import { decryptKey } from "../../utils/crypto";
 
-class WalletPage extends React.Component {
+class WalletPage extends Component {
     constructor(props) {
         super(props);
 

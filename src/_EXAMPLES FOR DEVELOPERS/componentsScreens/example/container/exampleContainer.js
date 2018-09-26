@@ -10,7 +10,7 @@ import { connect } from "react-redux";
 // Utilities
 
 // Component
-import { ExampleView } from "../";
+import { ExampleView } from "../..";
 
 /*
 *            Props Name        Description                                     Value

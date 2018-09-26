@@ -12,7 +12,6 @@ import Placeholder from "rn-placeholder";
 import PostCard from "../../components/post-card/postCard";
 
 // SCREENS
-import PostPage from "../single-post/post";
 /* eslint-enable no-unused-vars */
 
 class TrendingPage extends React.Component {

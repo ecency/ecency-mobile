@@ -1,7 +1,7 @@
-import { createStyle } from "react-native-theming";
-import { StatusBar, Dimensions } from "react-native";
+import EStyleSheet from "react-native-extended-stylesheet";
+import { StatusBar } from "react-native";
 
-const styles = createStyle({
+export default EStyleSheet.create({
     container: {
         flex: 1,
         top: StatusBar.currentHeight,
@@ -10,7 +10,7 @@ const styles = createStyle({
         backgroundColor: "#f9f9f9",
     },
     cover: {
-        width: Dimensions.get("window").width,
+        width: "$deviceWidth",
         height: 160,
     },
     avatar: {
@@ -45,8 +45,6 @@ const styles = createStyle({
         flex: 1,
         paddingHorizontal: 7,
         backgroundColor: "#f9f9f9",
-        minWidth: Dimensions.get("window").width / 1,
+        minWidth: "$deviceWidth",
     },
 });
-
-export default styles;
