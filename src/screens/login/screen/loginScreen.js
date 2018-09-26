@@ -8,6 +8,7 @@ import {
   TextInput,
   BackHandler,
   Linking,
+  StatusBar,
 } from "react-native";
 
 import { Navigation } from "react-native-navigation";
@@ -154,6 +155,7 @@ class LoginScreen extends Component {
   render() {
     return (
       <View style={{ flex: 1 }}>
+        <StatusBar hidden translucent />
         <LoginHeader
           title="Sign in"
           description="To get all the benefits using eSteem"

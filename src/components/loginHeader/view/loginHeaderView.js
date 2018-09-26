@@ -3,7 +3,7 @@ import { View, Text, Image } from "react-native";
 // Constants
 
 // Components
-
+import { GreetingHeaderButton } from "../../buttons";
 // Styles
 // eslint-disable-next-line
 import styles from "./loginHeaderStyles";
@@ -28,16 +28,27 @@ class LoginHeaderView extends Component {
     const { description, title } = this.props;
 
     return (
-      <View style={styles.wrapper}>
-        <View style={styles.titleText}>
-          <Text style={styles.title}>{title}</Text>
-          <Text style={styles.description}>{description}</Text>
-        </View>
-        <View style={{ flex: 0.7 }}>
+      <View styles={styles.container}>
+        <View style={styles.headerRow}>
           <Image
-            style={styles.mascot}
-            source={require("../../../assets/love_mascot.png")}
+            style={styles.logo}
+            source={require("../../../assets/esteem.png")}
           />
+          <View style={styles.headerButton}>
+            <GreetingHeaderButton text="Sign up" />
+          </View>
+        </View>
+        <View style={styles.body}>
+          <View style={styles.titleText}>
+            <Text style={styles.title}>{title}</Text>
+            <Text style={styles.description}>{description}</Text>
+          </View>
+          <View style={{ flex: 0.7 }}>
+            <Image
+              style={styles.mascot}
+              source={require("../../../assets/love_mascot.png")}
+            />
+          </View>
         </View>
       </View>
     );

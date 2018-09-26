@@ -1,12 +1,16 @@
 import EStyleSheet from "react-native-extended-stylesheet";
 
 export default EStyleSheet.create({
-  wrapper: {
+  container: {
     flex: 1,
+    flexDirection: "column",
+    height: "$deviceHeight / 3",
+  },
+  body: {
     flexDirection: "row",
     maxHeight: "$deviceHeight / 3",
     overflow: "hidden",
-    backgroundColor: "#ffffff",
+    backgroundColor: "$white",
   },
   description: {
     textAlignVertical: "center",
@@ -31,7 +35,24 @@ export default EStyleSheet.create({
     flex: 0.4,
     alignSelf: "center",
     height: 100,
-    marginTop: 20,
-    left: 20,
+    marginTop: 50,
+    marginLeft: 32,
+  },
+  headerRow: {
+    width: "$deviceWidth",
+    flexDirection: "row",
+    height: 55,
+    justifyContent: "space-between",
+  },
+  logo: {
+    width: 32,
+    height: 32,
+    marginLeft: 32,
+    alignSelf: "center",
+  },
+  headerButton: {
+    margin: 10,
+    marginRight: 19,
+    alignSelf: "center",
   },
 });
