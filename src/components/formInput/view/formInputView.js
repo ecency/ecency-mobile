@@ -13,11 +13,13 @@ import styles from "./formInputStyles";
 class FormInputView extends Component {
   /* Props
     * ------------------------------------------------
-    *   @prop { string }    placeholder            - Title for header string.
-    *   @prop { string }    type      - Description for header string.
-    *   @prop { string }    isFirstImage      - Description for header string.
-    *   @prop { string }    isEditable      - Description for header string.
-    *   @prop { string }    isValid      - Description for header string.
+    *   @prop { string }     placeholder       - Place holder text.
+    *   @prop { string }     type              - Input type.
+    *   @prop { boolean }    isFirstImage      - Render image from steem.
+    *   @prop { boolean }    isEditable        - Can permission edit.
+    *   @prop { boolean }    isValid           - This delegate input valit or not.
+    *   @prop { boolean }    secureTextEntry   - For hiding password value.
+    *
     *
     * 
     */

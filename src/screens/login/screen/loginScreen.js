@@ -18,6 +18,7 @@ import FastImage from "react-native-fast-image";
 import { TabBar } from "../../../components/tabBar";
 import { LoginHeader } from "../../../components/loginHeader";
 import { FormInput } from "../../../components/formInput";
+import { InformationArea } from "../../../components/informationArea";
 import ScrollableTabView from "@esteemapp/react-native-scrollable-tab-view";
 import { Login } from "../../../providers/steem/auth";
 
@@ -71,8 +72,6 @@ class LoginScreen extends Component {
       password: "",
       isLoading: false,
       isUsernameValid: true,
-      usernameBorderColor: "#c1c5c7",
-      passwordBorderColor: "#c1c5c7",
     };
   }
 
@@ -90,18 +89,16 @@ class LoginScreen extends Component {
     BackHandler.removeEventListener("hardwareBackPress");
   }
 
-  doLogin = () => {
-    const { componentId } = this.props;
+  _handleOnPressLogin = () => {
+    const { componentId, dispatch } = this.props;
+    const { password, username } = this.state;
 
     this.setState({ isLoading: true });
-
-    let password = this.state.password;
-    let username = this.state.username;
 
     Login(username, password)
       .then(result => {
         if (result) {
-          this.props.dispatch(addNewAccount(result));
+          dispatch(addNewAccount(result));
           Navigation.setStackRoot(componentId, {
             component: {
               name: "navigation.eSteem.PinCode",
@@ -125,6 +122,7 @@ class LoginScreen extends Component {
     const validUsers = await lookupAccounts(username);
     await this.setState({ isUsernameValid: validUsers.includes(username) });
   };
+
   _handleOnPasswordChange = value => {
     this.setState({ password: value });
   };
@@ -195,28 +193,12 @@ class LoginScreen extends Component {
               secureTextEntry
               type="password"
             />
-            <View
-              style={{
-                flexDirection: "row",
-                marginHorizontal: 30,
-                paddingLeft: 10,
-              }}
-            >
-              <Ionicons
-                color="#c1c5c7"
-                style={{
-                  flex: 0.125,
-                  fontSize: 25,
-                  alignSelf: "center",
-                }}
-                name="ios-information-circle-outline"
-              />
-              <Text style={{ flex: 0.875, color: "#788187" }}>
-                User credentials are kept locally on the device. Credentials are
-                removed upon logout!
-              </Text>
-            </View>
 
+            <InformationArea
+              description="User credentials are kept locally on the device. Credentials are
+                removed upon logout!"
+              iconName="ios-information-circle-outline"
+            />
             <View style={{ flexDirection: "row", margin: 30 }}>
               <View style={{ flex: 0.6 }}>
                 <TouchableOpacity
@@ -238,7 +220,7 @@ class LoginScreen extends Component {
                 </TouchableOpacity>
               </View>
               <TouchableOpacity
-                onPress={this.doLogin}
+                onPress={this._handleOnPressLogin}
                 style={{
                   flex: 0.4,
                   width: 100,
@@ -287,36 +269,10 @@ class LoginScreen extends Component {
             </View>
           </View>
           <View tabLabel="SteemConnect" style={styles.steemConnectTab}>
-            <View
-              style={{
-                flex: 1,
-                backgroundColor: "#ffffff",
-                marginTop: 10,
-              }}
-            >
-              <View
-                style={{
-                  flexDirection: "row",
-                  marginHorizontal: 30,
-                  paddingLeft: 10,
-                  marginTop: 20,
-                }}
-              >
-                <Ionicons
-                  color="#c1c5c7"
-                  style={{
-                    flex: 0.125,
-                    fontSize: 25,
-                    alignSelf: "center",
-                  }}
-                  name="ios-information-circle-outline"
-                />
-                <Text style={{ flex: 0.875, color: "#788187" }}>
-                  If you don't want to keep your password encrypted and saved on
-                  your device, you can use Steemconnect.
-                </Text>
-              </View>
-            </View>
+            <InformationArea
+              description="If you don't want to keep your password encrypted and saved on your device, you can use Steemconnect."
+              iconName="ios-information-circle-outline"
+            />
             <View
               style={{
                 alignItems: "flex-end",
