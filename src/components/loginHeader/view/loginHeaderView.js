@@ -4,6 +4,7 @@ import { View, Text, Image } from "react-native";
 
 // Components
 import { GreetingHeaderButton } from "../../buttons";
+import { LineBreak } from "../../basicUIElements";
 // Styles
 // eslint-disable-next-line
 import styles from "./loginHeaderStyles";
@@ -50,6 +51,7 @@ class LoginHeaderView extends Component {
             />
           </View>
         </View>
+        <LineBreak />
       </View>
     );
   }

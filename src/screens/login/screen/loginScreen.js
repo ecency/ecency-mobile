@@ -160,7 +160,6 @@ class LoginScreen extends Component {
           title="Sign in"
           description="To get all the benefits using eSteem"
         />
-        <LineBreak />
         <ScrollableTabView
           style={styles.tabView}
           renderTabBar={() => (
