@@ -56,7 +56,6 @@ class PinCodeContainer extends React.Component {
             componentId,
         } = this.props;
         const { isExistUser, pinCode } = this.state;
-        console.log(password, name);
         if (isExistUser) {
             // If the user is exist, we are just checking to pin and navigating to home screen
             const pinData = {

@@ -1,8 +1,8 @@
 import React from "react";
-import { Text, TouchableOpacity } from "react-native";
+import { Text, TouchableOpacity, Animated } from "react-native";
 import { Container, Content, Icon, Item, Input } from "native-base";
 
-import { Logo, FormInput } from "../../components";
+import { Logo } from "../../components";
 
 import styles from "../../styles/pinCode.styles";
 import globalStyles from "../../globalStyles";
@@ -27,20 +27,71 @@ class PinCodeScreen extends React.Component {
     };
 
     render() {
+        const test = new Animated.Value(0);
+        const tilt = test.interpolate({
+            inputRange: [0, 0.3, 0.6, 0.9],
+            outputRange: [0, -50, 50, 0],
+        });
+        const pass = [0, 1];
         return (
             <Container style={globalStyles.container}>
                 <Content>
                     <Logo style={styles.logo} />
                     <Text style={styles.title}>Enter Pin Code</Text>
+                    <Animated.View
+                        style={{
+                            transform: [{ translateX: tilt }],
+                            flexDirection: "row",
+                            alignSelf: "center",
+                        }}
+                    >
+                        {[...Array(4)].map((val, index) => {
+                            if (pass[index] === undefined) {
+                                return (
+                                    <Animated.View
+                                        key={"passwordItem-" + index}
+                                        style={{
+                                            alignItems: "center",
+                                            justifyContent: "center",
+                                            height: 20,
+                                            margin: 5,
+                                            width: 20,
+                                            borderRadius: 20 / 2,
+                                            borderWidth: 1,
+                                            borderColor: "#357ce6",
+                                            backgroundColor: "#fff",
+                                        }}
+                                    />
+                                );
+                            } else {
+                                return (
+                                    <Animated.View
+                                        key={"passwordItem-" + index}
+                                        style={{
+                                            alignItems: "center",
+                                            justifyContent: "center",
+                                            height: 20,
+                                            margin: 5,
+                                            width: 20,
+                                            borderRadius: 20 / 2,
+                                            borderWidth: 1,
+                                            borderColor: "#357ce6",
+                                            backgroundColor: "#357ce6",
+                                        }}
+                                    />
+                                );
+                            }
+                        })}
+                    </Animated.View>
                     <Item style={styles.input}>
-                        <Input
+                        {/* <Input
                             secureTextEntry={!this.state.showPassword}
                             keyboardType="numeric"
                             maxLength={4}
                             onChangeText={e => this._handleOnChangeInput(e)}
                             value={this.state.pin}
-                        />
-                        <TouchableOpacity
+                        /> */}
+                        {/* <TouchableOpacity
                             onPress={() =>
                                 this.setState({
                                     showPassword: !this.state.showPassword,
@@ -54,7 +105,7 @@ class PinCodeScreen extends React.Component {
                                 type="EvilIcons"
                                 backgroundColor={"#fff"}
                             />
-                        </TouchableOpacity>
+                        </TouchableOpacity> */}
                     </Item>
                     <TouchableOpacity>
                         <Text style={styles.forgotButtonText}>
