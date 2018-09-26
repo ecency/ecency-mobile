@@ -144,9 +144,14 @@ export const verifyPinCode = data =>
                     resolve();
                 })
                 .catch(error => {
-                    reject(error);
+                    reject(
+                        new Error(
+                            "Invalid pin code, please check and try again"
+                        )
+                    );
                 });
         } else {
+            reject(new Error("Invalid pin code, please check and try again"));
             reject();
         }
     });
