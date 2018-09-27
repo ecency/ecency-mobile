@@ -14,7 +14,7 @@ import { addNewAccount } from "../../../redux/actions/accountAction";
 import { goToAuthScreens } from "../../../navigation";
 import { lookupAccounts } from "../../../providers/steem/dsteem";
 import STEEM_CONNECT_LOGO from "../../../assets/steem_connect.png";
-
+import { KeyboardAwareScrollView } from "react-native-keyboard-aware-scroll-view";
 // Styles
 import styles from "./loginStyles";
 
@@ -60,6 +60,7 @@ class LoginScreen extends Component {
       password: "",
       isLoading: false,
       isUsernameValid: true,
+      keyboardIsOpen: false,
     };
   }
 
@@ -138,83 +139,88 @@ class LoginScreen extends Component {
   };
 
   render() {
-    const { isLoading, username, isUsernameValid } = this.state;
+    const { isLoading, username, isUsernameValid, keyboardIsOpen } = this.state;
     return (
       <View style={{ flex: 1 }}>
         <StatusBar hidden translucent />
         <LoginHeader
-          isKeyboardOpen={false}
+          isKeyboardOpen={keyboardIsOpen}
           title="Sign in"
           description="To get all the benefits using eSteem"
           onPress={() => this._handleSignUp()}
         />
-        <ScrollableTabView
-          locked={isLoading}
-          style={styles.tabView}
-          renderTabBar={() => (
-            <TabBar
-              style={styles.tabbar}
-              tabUnderlineDefaultWidth={100} // default containerWidth / (numberOfTabs * 4)
-              tabUnderlineScaleX={2} // default 3
-              activeColor={"#357ce6"}
-              inactiveColor={"#222"}
-            />
-          )}
+        <KeyboardAwareScrollView
+          onKeyboardWillShow={() => this.setState({ keyboardIsOpen: true })}
+          onKeyboardWillHide={() => this.setState({ keyboardIsOpen: false })}
         >
-          <View tabLabel="Sign in" style={styles.tabbarItem}>
-            <FormInput
-              rightIconName="md-at"
-              leftIconName="md-close-circle"
-              isValid={isUsernameValid}
-              onChange={value => this.handleUsername(value)}
-              placeholder="Username"
-              isEditable
-              type="username"
-              isFirstImage
-              value={username}
-            />
-            <FormInput
-              rightIconName="md-lock"
-              leftIconName="md-close-circle"
-              isValid={isUsernameValid}
-              onChange={value => this._handleOnPasswordChange(value)}
-              placeholder="Password or WIF"
-              isEditable
-              secureTextEntry
-              type="password"
-            />
-            <InformationArea
-              description="User credentials are kept locally on the device. Credentials are
+          <ScrollableTabView
+            locked={isLoading}
+            style={styles.tabView}
+            renderTabBar={() => (
+              <TabBar
+                style={styles.tabbar}
+                tabUnderlineDefaultWidth={100} // default containerWidth / (numberOfTabs * 4)
+                tabUnderlineScaleX={2} // default 3
+                activeColor={"#357ce6"}
+                inactiveColor={"#222"}
+              />
+            )}
+          >
+            <View tabLabel="Sign in" style={styles.tabbarItem}>
+              <FormInput
+                rightIconName="md-at"
+                leftIconName="md-close-circle"
+                isValid={isUsernameValid}
+                onChange={value => this.handleUsername(value)}
+                placeholder="Username"
+                isEditable
+                type="username"
+                isFirstImage
+                value={username}
+              />
+              <FormInput
+                rightIconName="md-lock"
+                leftIconName="md-close-circle"
+                isValid={isUsernameValid}
+                onChange={value => this._handleOnPasswordChange(value)}
+                placeholder="Password or WIF"
+                isEditable
+                secureTextEntry
+                type="password"
+              />
+              <InformationArea
+                description="User credentials are kept locally on the device. Credentials are
                 removed upon logout!"
-              iconName="ios-information-circle-outline"
-            />
-            {/* It will remove */}
-            <GreetingHeaderButton onPress={goToAuthScreens} text="cancel" />
-            <MainButton
-              wrapperStyle={styles.mainButtonWrapper}
-              onPress={this._handleOnPressLogin}
-              iconName="md-person"
-              iconColor="white"
-              text="LOGIN"
-              isLoading={isLoading}
-            />
-          </View>
-          <View tabLabel="SteemConnect" style={styles.steemConnectTab}>
-            <InformationArea
-              description="If you don't want to keep your password encrypted and saved on your device, you can use Steemconnect."
-              iconName="ios-information-circle-outline"
-            />
+                iconName="ios-information-circle-outline"
+              />
+              {/* It will remove */}
+              <GreetingHeaderButton onPress={goToAuthScreens} text="cancel" />
+              <MainButton
+                wrapperStyle={styles.mainButtonWrapper}
+                onPress={this._handleOnPressLogin}
+                iconName="md-person"
+                iconColor="white"
+                text="LOGIN"
+                isLoading={isLoading}
+              />
+            </View>
+            <View tabLabel="SteemConnect" style={styles.steemConnectTab}>
+              <InformationArea
+                description="If you don't want to keep your password encrypted and saved on your device, you can use Steemconnect."
+                iconName="ios-information-circle-outline"
+              />
 
-            <MainButton
-              wrapperStyle={styles.mainButtonWrapper}
-              onPress={this._loginwithSc2}
-              iconName="md-person"
-              source={STEEM_CONNECT_LOGO}
-              text="steem"
-              secondText="connect"
-            />
-          </View>
-        </ScrollableTabView>
+              <MainButton
+                wrapperStyle={styles.mainButtonWrapper}
+                onPress={this._loginwithSc2}
+                iconName="md-person"
+                source={STEEM_CONNECT_LOGO}
+                text="steem"
+                secondText="connect"
+              />
+            </View>
+          </ScrollableTabView>
+        </KeyboardAwareScrollView>
       </View>
     );
   }
