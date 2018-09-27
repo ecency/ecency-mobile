@@ -1,32 +1,18 @@
 import React, { Component } from "react";
-import {
-  View,
-  ActivityIndicator,
-  Text,
-  Image,
-  TouchableOpacity,
-  TextInput,
-  BackHandler,
-  Linking,
-  StatusBar,
-} from "react-native";
+import { View, BackHandler, Linking, StatusBar } from "react-native";
 
-import { Navigation } from "react-native-navigation";
-import Ionicons from "react-native-vector-icons/Ionicons";
-import FastImage from "react-native-fast-image";
-
-import { TabBar } from "../../../components/tabBar";
-import { LoginHeader } from "../../../components/loginHeader";
-import { FormInput } from "../../../components/formInput";
-import { InformationArea } from "../../../components/informationArea";
-import { MainButton } from "../../../components/mainButton";
 import ScrollableTabView from "@esteemapp/react-native-scrollable-tab-view";
+import { FormInput } from "../../../components/formInput";
+import { GreetingHeaderButton } from "../../../components/buttons";
+import { InformationArea } from "../../../components/informationArea";
 import { Login } from "../../../providers/steem/auth";
-
+import { LoginHeader } from "../../../components/loginHeader";
+import { MainButton } from "../../../components/mainButton";
+import { Navigation } from "react-native-navigation";
+import { TabBar } from "../../../components/tabBar";
 import { addNewAccount } from "../../../redux/actions/accountAction";
-
-import { lookupAccounts } from "../../../providers/steem/dsteem";
 import { goToAuthScreens } from "../../../navigation";
+import { lookupAccounts } from "../../../providers/steem/dsteem";
 
 // Styles
 import styles from "./loginStyles";
@@ -128,15 +114,13 @@ class LoginScreen extends Component {
     this.setState({ password: value });
   };
 
-  navigationButtonPressed({ buttonId }) {
-    if (buttonId === "signup") {
-      Linking.openURL("https://signup.steemit.com/?ref=esteem").catch(err =>
-        console.error("An error occurred", err)
-      );
-    }
-  }
+  _handleSignUp = () => {
+    Linking.openURL("https://signup.steemit.com/?ref=esteem").catch(err =>
+      console.error("An error occurred", err)
+    );
+  };
 
-  loginwithSc2 = () => {
+  _loginwithSc2 = () => {
     Navigation.push(this.props.componentId, {
       component: {
         name: "navigation.eSteem.SteemConnect",
@@ -153,14 +137,17 @@ class LoginScreen extends Component {
   };
 
   render() {
+    const { isLoading, username, isUsernameValid } = this.state;
     return (
       <View style={{ flex: 1 }}>
         <StatusBar hidden translucent />
         <LoginHeader
           title="Sign in"
           description="To get all the benefits using eSteem"
+          onPress={() => this._handleSignUp()}
         />
         <ScrollableTabView
+          locked={isLoading}
           style={styles.tabView}
           renderTabBar={() => (
             <TabBar
@@ -176,58 +163,38 @@ class LoginScreen extends Component {
             <FormInput
               rightIconName="md-at"
               leftIconName="md-close-circle"
-              isValid={this.state.isUsernameValid}
+              isValid={isUsernameValid}
               onChange={value => this.handleUsername(value)}
               placeholder="Username"
               isEditable
               type="username"
               isFirstImage
-              value={this.state.username}
+              value={username}
             />
             <FormInput
               rightIconName="md-lock"
               leftIconName="md-close-circle"
-              isValid={this.state.isUsernameValid}
+              isValid={isUsernameValid}
               onChange={value => this._handleOnPasswordChange(value)}
               placeholder="Password or WIF"
               isEditable
               secureTextEntry
               type="password"
             />
-
             <InformationArea
               description="User credentials are kept locally on the device. Credentials are
                 removed upon logout!"
               iconName="ios-information-circle-outline"
             />
-            <View style={{ flexDirection: "row" }}>
-              <View style={{ flex: 0.6 }}>
-                <TouchableOpacity
-                  onPress={goToAuthScreens}
-                  style={{
-                    alignContent: "center",
-                    padding: "9%",
-                  }}
-                >
-                  <Text
-                    style={{
-                      color: "#788187",
-                      alignSelf: "center",
-                      fontWeight: "bold",
-                    }}
-                  >
-                    Cancel
-                  </Text>
-                </TouchableOpacity>
-              </View>
-            </View>
+            {/* It will remove */}
+            <GreetingHeaderButton onPress={goToAuthScreens} text="cancel" />
             <MainButton
               wrapperStyle={styles.mainButtonWrapper}
               onPress={this._handleOnPressLogin}
               iconName="md-person"
               iconColor="white"
               text="LOGIN"
-              isLoading={this.state.isLoading}
+              isLoading={isLoading}
             />
           </View>
           <View tabLabel="SteemConnect" style={styles.steemConnectTab}>
@@ -237,7 +204,7 @@ class LoginScreen extends Component {
             />
             <MainButton
               wrapperStyle={styles.mainButtonWrapper}
-              onPress={this.loginwithSc2}
+              onPress={this._loginwithSc2}
               iconName="md-person"
               iconColor="white"
               text="steem"

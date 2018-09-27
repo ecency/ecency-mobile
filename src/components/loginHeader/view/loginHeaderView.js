@@ -26,7 +26,7 @@ class LoginHeaderView extends Component {
   // Component Functions
 
   render() {
-    const { description, title } = this.props;
+    const { description, title, onPress } = this.props;
 
     return (
       <View styles={styles.container}>
@@ -36,7 +36,7 @@ class LoginHeaderView extends Component {
             source={require("../../../assets/esteem.png")}
           />
           <View style={styles.headerButton}>
-            <GreetingHeaderButton text="Sign up" />
+            <GreetingHeaderButton onPress={onPress} text="Sign up" />
           </View>
         </View>
         <View style={styles.body}>

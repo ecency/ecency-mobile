@@ -3,10 +3,8 @@ import EStyleSheet from "react-native-extended-stylesheet";
 export default EStyleSheet.create({
   wrapper: {},
   touchable: {
-    //maxWidth: 200,
-    //width: 150,
     maxWidth: 200,
-    minWidth: 100,
+    minWidth: 56,
     height: 56,
     borderRadius: 30,
     backgroundColor: "#357ce6",
@@ -34,6 +32,11 @@ export default EStyleSheet.create({
   secondText: {
     fontWeight: "bold",
   },
-  activityIndicator: { alignSelf: "center", flex: 1 },
-  body: { flexDirection: "row" },
+  activityIndicator: {
+    minWidth: 56,
+    height: 56,
+  },
+  body: {
+    flexDirection: "row",
+  },
 });
