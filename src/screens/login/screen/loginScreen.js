@@ -19,6 +19,7 @@ import { TabBar } from "../../../components/tabBar";
 import { LoginHeader } from "../../../components/loginHeader";
 import { FormInput } from "../../../components/formInput";
 import { InformationArea } from "../../../components/informationArea";
+import { MainButton } from "../../../components/mainButton";
 import ScrollableTabView from "@esteemapp/react-native-scrollable-tab-view";
 import { Login } from "../../../providers/steem/auth";
 
@@ -199,7 +200,7 @@ class LoginScreen extends Component {
                 removed upon logout!"
               iconName="ios-information-circle-outline"
             />
-            <View style={{ flexDirection: "row", margin: 30 }}>
+            <View style={{ flexDirection: "row" }}>
               <View style={{ flex: 0.6 }}>
                 <TouchableOpacity
                   onPress={goToAuthScreens}
@@ -219,101 +220,29 @@ class LoginScreen extends Component {
                   </Text>
                 </TouchableOpacity>
               </View>
-              <TouchableOpacity
-                onPress={this._handleOnPressLogin}
-                style={{
-                  flex: 0.4,
-                  width: 100,
-                  height: 50,
-                  borderRadius: 30,
-                  backgroundColor: "#357ce6",
-                  flexDirection: "row",
-                }}
-              >
-                {!this.state.isLoading ? (
-                  <View
-                    style={{
-                      flex: 1,
-                      flexDirection: "row",
-                    }}
-                  >
-                    <Ionicons
-                      color="white"
-                      name="md-person"
-                      style={{
-                        alignSelf: "center",
-                        fontSize: 25,
-                        flex: 0.4,
-                        left: 15,
-                      }}
-                    />
-                    <Text
-                      style={{
-                        color: "white",
-                        fontWeight: "600",
-                        alignSelf: "center",
-                        fontSize: 16,
-                        flex: 0.6,
-                      }}
-                    >
-                      LOGIN
-                    </Text>
-                  </View>
-                ) : (
-                  <ActivityIndicator
-                    color="white"
-                    style={{ alignSelf: "center", flex: 1 }}
-                  />
-                )}
-              </TouchableOpacity>
             </View>
+            <MainButton
+              wrapperStyle={styles.mainButtonWrapper}
+              onPress={this._handleOnPressLogin}
+              iconName="md-person"
+              iconColor="white"
+              text="LOGIN"
+              isLoading={this.state.isLoading}
+            />
           </View>
           <View tabLabel="SteemConnect" style={styles.steemConnectTab}>
             <InformationArea
               description="If you don't want to keep your password encrypted and saved on your device, you can use Steemconnect."
               iconName="ios-information-circle-outline"
             />
-            <View
-              style={{
-                alignItems: "flex-end",
-                backgroundColor: "#ffffff",
-              }}
-            >
-              <TouchableOpacity
-                onPress={this.loginwithSc2}
-                style={{
-                  width: 200,
-                  height: 50,
-                  borderRadius: 30,
-                  backgroundColor: "#357ce6",
-                  flexDirection: "row",
-                  margin: 20,
-                }}
-              >
-                <View style={{ flex: 1, flexDirection: "row" }}>
-                  <Ionicons
-                    color="white"
-                    name="md-person"
-                    style={{
-                      alignSelf: "center",
-                      fontSize: 25,
-                      marginHorizontal: 20,
-                    }}
-                  />
-                  <Text
-                    style={{
-                      color: "white",
-                      fontWeight: "400",
-                      alignSelf: "center",
-                      fontSize: 16,
-                    }}
-                  >
-                    steem
-                    <Text style={{ fontWeight: "800" }}>connect</Text>
-                  </Text>
-                </View>
-              </TouchableOpacity>
-            </View>
+            <MainButton
+              wrapperStyle={styles.mainButtonWrapper}
+              onPress={this.loginwithSc2}
+              iconName="md-person"
+              iconColor="white"
+              text="steem"
+              secondText="connect"
+            />
           </View>
         </ScrollableTabView>
       </View>

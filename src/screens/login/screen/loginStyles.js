@@ -40,5 +40,13 @@ export default EStyleSheet.create({
   steemConnectTab: {
     backgroundColor: "#fff",
     minWidth: "$deviceWidth",
+    flex: 1,
+  },
+  mainButtonWrapper: {
+    position: "absolute",
+    flex: 0.1,
+    right: 24,
+    bottom: 24,
+    flexDirection: "row",
   },
 });
