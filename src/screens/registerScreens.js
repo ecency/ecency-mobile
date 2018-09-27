@@ -22,116 +22,116 @@ import PinCode from "./pinCode/pinCodeContainer";
 
 // COMPONENTS
 import SteemConnect from "./steem-connect/steemConnect";
-import PostCard from "../components/post-card/postCard";
+import { PostCard } from "../components/postCard";
 import Search from "../components/search/search";
 
 export const registerScreens = () => {
-    Navigation.registerComponentWithRedux(
-        "navigation.eSteem.Splash",
-        () => Splash,
-        Provider,
-        store
-    );
-    Navigation.registerComponentWithRedux(
-        "navigation.eSteem.Home",
-        () => Home,
-        Provider,
-        store
-    );
-    Navigation.registerComponentWithRedux(
-        "navigation.eSteem.Hot",
-        () => Hot,
-        Provider,
-        store
-    );
-    Navigation.registerComponentWithRedux(
-        "navigation.eSteem.Feed",
-        () => Feed,
-        Provider,
-        store
-    );
-    Navigation.registerComponentWithRedux(
-        "navigation.eSteem.Post",
-        () => SinglePost,
-        Provider,
-        store
-    );
-    Navigation.registerComponentWithRedux(
-        "navigation.eSteem.Login",
-        () => Login,
-        Provider,
-        store
-    );
-    Navigation.registerComponentWithRedux(
-        "navigation.eSteem.Wallet",
-        () => Wallet,
-        Provider,
-        store
-    );
-    Navigation.registerComponentWithRedux(
-        "navigation.eSteem.Editor",
-        () => Editor,
-        Provider,
-        store
-    );
-    Navigation.registerComponentWithRedux(
-        "navigation.eSteem.Discover",
-        () => Discover,
-        Provider,
-        store
-    );
-    Navigation.registerComponentWithRedux(
-        "navigation.eSteem.Settings",
-        () => Settings,
-        Provider,
-        store
-    );
-    Navigation.registerComponentWithRedux(
-        "navigation.eSteem.Notifications",
-        () => Notification,
-        Provider,
-        store
-    );
-    Navigation.registerComponentWithRedux(
-        "navigation.eSteem.SideMenuScreen",
-        () => SideMenu,
-        Provider,
-        store
-    );
-    Navigation.registerComponentWithRedux(
-        "navigation.eSteem.Profile",
-        () => Profile,
-        Provider,
-        store
-    );
-    Navigation.registerComponentWithRedux(
-        "navigation.eSteem.Author",
-        () => Author,
-        Provider,
-        store
-    );
-    Navigation.registerComponentWithRedux(
-        "navigation.eSteem.PostCard",
-        () => PostCard,
-        Provider,
-        store
-    );
-    Navigation.registerComponentWithRedux(
-        "navigation.eSteem.Search",
-        () => Search,
-        Provider,
-        store
-    );
-    Navigation.registerComponentWithRedux(
-        "navigation.eSteem.PinCode",
-        () => PinCode,
-        Provider,
-        store
-    );
-    Navigation.registerComponentWithRedux(
-        "navigation.eSteem.SteemConnect",
-        () => SteemConnect,
-        Provider,
-        store
-    );
+  Navigation.registerComponentWithRedux(
+    "navigation.eSteem.Splash",
+    () => Splash,
+    Provider,
+    store
+  );
+  Navigation.registerComponentWithRedux(
+    "navigation.eSteem.Home",
+    () => Home,
+    Provider,
+    store
+  );
+  Navigation.registerComponentWithRedux(
+    "navigation.eSteem.Hot",
+    () => Hot,
+    Provider,
+    store
+  );
+  Navigation.registerComponentWithRedux(
+    "navigation.eSteem.Feed",
+    () => Feed,
+    Provider,
+    store
+  );
+  Navigation.registerComponentWithRedux(
+    "navigation.eSteem.Post",
+    () => SinglePost,
+    Provider,
+    store
+  );
+  Navigation.registerComponentWithRedux(
+    "navigation.eSteem.Login",
+    () => Login,
+    Provider,
+    store
+  );
+  Navigation.registerComponentWithRedux(
+    "navigation.eSteem.Wallet",
+    () => Wallet,
+    Provider,
+    store
+  );
+  Navigation.registerComponentWithRedux(
+    "navigation.eSteem.Editor",
+    () => Editor,
+    Provider,
+    store
+  );
+  Navigation.registerComponentWithRedux(
+    "navigation.eSteem.Discover",
+    () => Discover,
+    Provider,
+    store
+  );
+  Navigation.registerComponentWithRedux(
+    "navigation.eSteem.Settings",
+    () => Settings,
+    Provider,
+    store
+  );
+  Navigation.registerComponentWithRedux(
+    "navigation.eSteem.Notifications",
+    () => Notification,
+    Provider,
+    store
+  );
+  Navigation.registerComponentWithRedux(
+    "navigation.eSteem.SideMenuScreen",
+    () => SideMenu,
+    Provider,
+    store
+  );
+  Navigation.registerComponentWithRedux(
+    "navigation.eSteem.Profile",
+    () => Profile,
+    Provider,
+    store
+  );
+  Navigation.registerComponentWithRedux(
+    "navigation.eSteem.Author",
+    () => Author,
+    Provider,
+    store
+  );
+  Navigation.registerComponentWithRedux(
+    "navigation.eSteem.PostCard",
+    () => PostCard,
+    Provider,
+    store
+  );
+  Navigation.registerComponentWithRedux(
+    "navigation.eSteem.Search",
+    () => Search,
+    Provider,
+    store
+  );
+  Navigation.registerComponentWithRedux(
+    "navigation.eSteem.PinCode",
+    () => PinCode,
+    Provider,
+    store
+  );
+  Navigation.registerComponentWithRedux(
+    "navigation.eSteem.SteemConnect",
+    () => SteemConnect,
+    Provider,
+    store
+  );
 };
