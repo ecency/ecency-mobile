@@ -39,4 +39,10 @@ export default EStyleSheet.create({
   body: {
     flexDirection: "row",
   },
+  image: {
+    marginLeft: 20,
+    alignSelf: "center",
+    width: 20,
+    height: 20,
+  },
 });

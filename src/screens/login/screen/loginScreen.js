@@ -13,6 +13,7 @@ import { TabBar } from "../../../components/tabBar";
 import { addNewAccount } from "../../../redux/actions/accountAction";
 import { goToAuthScreens } from "../../../navigation";
 import { lookupAccounts } from "../../../providers/steem/dsteem";
+import STEEM_CONNECT_LOGO from "../../../assets/steem_connect.png";
 
 // Styles
 import styles from "./loginStyles";
@@ -142,6 +143,7 @@ class LoginScreen extends Component {
       <View style={{ flex: 1 }}>
         <StatusBar hidden translucent />
         <LoginHeader
+          isKeyboardOpen={false}
           title="Sign in"
           description="To get all the benefits using eSteem"
           onPress={() => this._handleSignUp()}
@@ -202,11 +204,12 @@ class LoginScreen extends Component {
               description="If you don't want to keep your password encrypted and saved on your device, you can use Steemconnect."
               iconName="ios-information-circle-outline"
             />
+
             <MainButton
               wrapperStyle={styles.mainButtonWrapper}
               onPress={this._loginwithSc2}
               iconName="md-person"
-              iconColor="white"
+              source={STEEM_CONNECT_LOGO}
               text="steem"
               secondText="connect"
             />

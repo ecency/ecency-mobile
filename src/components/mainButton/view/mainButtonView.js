@@ -1,5 +1,11 @@
 import React, { Component, Fragment } from "react";
-import { View, Text, TouchableOpacity, ActivityIndicator } from "react-native";
+import {
+  ActivityIndicator,
+  Image,
+  Text,
+  TouchableOpacity,
+  View,
+} from "react-native";
 import Ionicons from "react-native-vector-icons/Ionicons";
 
 // Constants
@@ -31,13 +37,20 @@ class MainButton extends Component {
 
   // Component Functions
   _handleOnPress = () => {
-    const { onPress, isDisable } = this.props;
+    const { onPress, isDisable, source } = this.props;
 
     onPress && !isDisable && onPress();
   };
 
   _getBody = () => {
-    const { isLoading, text, secondText, iconColor, iconName } = this.props;
+    const {
+      isLoading,
+      text,
+      secondText,
+      iconColor,
+      iconName,
+      source,
+    } = this.props;
 
     if (isLoading) {
       return (
@@ -46,7 +59,11 @@ class MainButton extends Component {
     } else if (text) {
       return (
         <Fragment>
-          <Ionicons color={iconColor} name={iconName} style={styles.icon} />
+          {source ? (
+            <Image source={source} style={styles.image} resizeMode="contain" />
+          ) : (
+            <Ionicons color={iconColor} name={iconName} style={styles.icon} />
+          )}
           <Text style={styles.text}>
             {text}
             {secondText && <Text style={styles.secondText}>{secondText}</Text>}
