@@ -1,7 +1,9 @@
 import React, { Component } from "react";
 import { View, BackHandler, Linking, StatusBar } from "react-native";
-
+import { KeyboardAwareScrollView } from "react-native-keyboard-aware-scroll-view";
 import ScrollableTabView from "@esteemapp/react-native-scrollable-tab-view";
+
+// Internal Components
 import { FormInput } from "../../../components/formInput";
 import { GreetingHeaderButton } from "../../../components/buttons";
 import { InformationArea } from "../../../components/informationArea";
@@ -14,43 +16,11 @@ import { addNewAccount } from "../../../redux/actions/accountAction";
 import { goToAuthScreens } from "../../../navigation";
 import { lookupAccounts } from "../../../providers/steem/dsteem";
 import STEEM_CONNECT_LOGO from "../../../assets/steem_connect.png";
-import { KeyboardAwareScrollView } from "react-native-keyboard-aware-scroll-view";
+
 // Styles
 import styles from "./loginStyles";
 
 class LoginScreen extends Component {
-  static get options() {
-    return {
-      _statusBar: {
-        visible: true,
-        drawBehind: false,
-      },
-      topBar: {
-        animate: true,
-        hideOnScroll: false,
-        drawBehind: false,
-        noBorder: true,
-        visible: true,
-        elevation: 0,
-        leftButtons: {},
-        rightButtons: [
-          {
-            id: "signup",
-            text: "Sign Up",
-            color: "#a7adaf",
-            marginRight: 50,
-          },
-        ],
-      },
-      layout: {
-        backgroundColor: "#f5fcff",
-      },
-      bottomTabs: {
-        visible: false,
-        drawBehind: true,
-      },
-    };
-  }
   constructor(props) {
     super(props);
     Navigation.events().bindComponent(this);
