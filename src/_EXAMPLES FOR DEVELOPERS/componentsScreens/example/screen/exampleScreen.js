@@ -9,29 +9,29 @@ import {} from "react-native";
 // eslint-disable-next-line
 import styles from "./_styles";
 
-/*
-*            Props Name        Description                                     Value
-*@props -->  props name here   description here                                Value Type Here
-*
-*/
-
 class ExampleView extends Component {
-    constructor(props) {
-        super(props);
-        this.state = {};
-    }
+  /* Props
+    * ------------------------------------------------ TODO: Fill fallowlines
+    *   @prop { type }    name            - Description.
+    *   @prop { type }    name            - Description.
+    * 
+    */
+  constructor(props) {
+    super(props);
+    this.state = {};
+  }
 
-    // Component Life Cycles
+  // Component Life Cycles
 
-    // Component Functions
+  // Component Functions
 
-    render() {
-        // eslint-disable-next-line
-        const {} = this.props;
+  render() {
+    // eslint-disable-next-line
+    const {} = this.props;
 
-        // eslint-disable-next-line
-        return <ElementName />;
-    }
+    // eslint-disable-next-line
+    return <ElementName />;
+  }
 }
 
 export default ExampleView;
