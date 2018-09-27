@@ -44,7 +44,6 @@ export default EStyleSheet.create({
   },
   mainButtonWrapper: {
     position: "absolute",
-    flex: 0.1,
     right: 24,
     bottom: 24,
     flexDirection: "row",
