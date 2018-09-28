@@ -1,5 +1,5 @@
 import React, { Component } from "react";
-import { View, Text, FlatList } from "react-native";
+import { View, ScrollView, Text, FlatList, Image } from "react-native";
 import { LineBreak } from "../../basicUIElements";
 
 // Constants
@@ -20,62 +20,46 @@ class NotificationView extends Component {
   constructor(props) {
     super(props);
     this.state = {
-      users: [
+      notification: [
         {
-          name: "Proxima Midnight",
-          email: "proxima@appdividend.com",
+          name: "esteemapp",
+          title: "25% likes your post:",
+          avatar: "https://steemitimages.com/u/feruz/avatar/small",
+          description: "My own Top 5 eSteem Surfer Features",
+          image: "https://steemitimages.com/u/feruz/avatar/small",
+          date: "yesterday",
         },
         {
-          name: "Ebony Maw",
-          email: "ebony@appdividend.com",
+          name: "esteemapp",
+          title: "25% likes your post:",
+          avatar: "https://steemitimages.com/u/feruz/avatar/small",
+          description: "My own Top 5 eSteem Surfer Features",
+          image: "https://steemitimages.com/u/feruz/avatar/small",
+          date: "yesterday",
         },
         {
-          name: "Black Dwarf",
-          email: "dwarf@appdividend.com",
+          name: "esteemapp",
+          title: "25% likes your post:",
+          avatar: "https://steemitimages.com/u/feruz/avatar/small",
+          description: "My own Top 5 eSteem Surfer Features",
+          image: "https://steemitimages.com/u/feruz/avatar/small",
+          date: "yesterday",
         },
         {
-          name: "Mad Titan",
-          email: "thanos@appdividend.com",
+          name: "esteemapp",
+          title: "25% likes your post:",
+          avatar: "https://steemitimages.com/u/feruz/avatar/small",
+          description: "My own Top 5 eSteem Surfer Features",
+          image: "https://steemitimages.com/u/feruz/avatar/small",
+          date: "yesterday",
         },
         {
-          name: "Supergiant",
-          email: "supergiant@appdividend.com",
-        },
-        {
-          name: "Loki",
-          email: "loki@appdividend.com",
-        },
-        {
-          name: "corvus",
-          email: "corvus@appdividend.com",
-        },
-        {
-          name: "Proxima Midnight",
-          email: "proxima1@appdividend.com",
-        },
-        {
-          name: "Ebony Maw",
-          email: "ebony1@appdividend.com",
-        },
-        {
-          name: "Black Dwarf",
-          email: "dwarf1@appdividend.com",
-        },
-        {
-          name: "Mad Titan",
-          email: "thanos1@appdividend.com",
-        },
-        {
-          name: "Supergiant",
-          email: "supergiant1@appdividend.com",
-        },
-        {
-          name: "Loki",
-          email: "loki1@appdividend.com",
-        },
-        {
-          name: "corvus",
-          email: "corvus1@appdividend.com",
+          name: "esteemapp",
+          title: "25% likes your post:",
+          avatar: "https://steemitimages.com/u/feruz/avatar/small",
+          description: "My own Top 5 eSteem Surfer Features",
+          image: "https://steemitimages.com/u/feruz/avatar/small",
+          date: "yesterday",
         },
       ],
     };
@@ -85,31 +69,45 @@ class NotificationView extends Component {
 
   // Component Functions
 
+  _getRenderItem = item => {
+    return (
+      <View style={styles.flatview}>
+        <Image
+          source={{
+            uri: item.avatar,
+          }}
+          defaultSource={require("../../../assets/no_image.png")}
+        />
+        <Text style={styles.name}>{item.name}</Text>
+        <Text style={styles.name}>{item.title}</Text>
+        <Text style={styles.name}>{item.description}</Text>
+        <Text style={styles.email}>{item.email}</Text>
+        <Image
+          source={{ uri: item.image }}
+          defaultSource={require("../../../assets/no_image.png")}
+        />
+      </View>
+    );
+  };
+
   render() {
-    // eslint-disable-next-line
-    // const {} = this.props;
-    // eslint-disable-next-line
-    console.log(this.state.users);
-    console.log("asdasd");
+    const { notification } = this.state;
+
     return (
       <View>
         <LineBreak color="#f6f6f6" height={35}>
           <Text>ugur</Text>
         </LineBreak>
-        <View style={styles.container}>
-          <Text style={styles.h2text}>Black Order</Text>
+        <ScrollView>
+          <View>
+            <Text>Notification Header</Text>
+          </View>
           <FlatList
-            data={this.state.users}
-            showsVerticalScrollIndicator={false}
-            renderItem={({ item }) => (
-              <View style={styles.flatview}>
-                <Text style={styles.name}>{item.name}</Text>
-                <Text style={styles.email}>{item.email}</Text>
-              </View>
-            )}
+            data={this.state.notification}
+            renderItem={({ item }) => this._getRenderItem(item)}
             keyExtractor={item => item.email}
           />
-        </View>
+        </ScrollView>
       </View>
     );
   }

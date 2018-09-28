@@ -10,7 +10,8 @@ export default EStyleSheet.create({
   },
   h2text: {
     marginTop: 10,
-    fontFamily: "Helvetica",
+
+    color: "black",
     fontSize: 36,
     fontWeight: "bold",
   },
@@ -26,5 +27,9 @@ export default EStyleSheet.create({
   },
   email: {
     color: "red",
+  },
+  flatListWrapper: {
+    flex: 1,
+    flexDirection: "column",
   },
 });
