@@ -45,6 +45,31 @@ export default EStyleSheet.create({
   description: {
     color: "#3c4449",
     fontSize: 12,
-    fontWeight: "600",
+    fontWeight: "500",
+  },
+  scrollView: {
+    height: "$deviceHeight / 1.25",
+  },
+  isNewNotification: {
+    backgroundColor: "#eaf2fc",
+    borderTopWidth: 0.3,
+    borderBottomWidth: 0.3,
+    borderColor: "#e7e7e7",
+  },
+  hasNoAvatar: {
+    backgroundColor: "#d8d8d8",
+  },
+  lineBreakItem: {
+    flex: 1,
+    flexDirection: "row",
+  },
+  lineBreakItemText: {
+    fontSize: 9,
+    color: "#788187",
+    marginLeft: 25,
+  },
+  arrowIcon: {
+    color: "#c1c5c7",
+    fontSize: 18,
   },
 });
