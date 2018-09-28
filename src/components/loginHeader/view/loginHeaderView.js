@@ -26,7 +26,7 @@ class LoginHeaderView extends Component {
   // Component Functions
 
   render() {
-    const { description, title } = this.props;
+    const { description, title, onPress, isKeyboardOpen } = this.props;
 
     return (
       <View styles={styles.container}>
@@ -36,21 +36,23 @@ class LoginHeaderView extends Component {
             source={require("../../../assets/esteem.png")}
           />
           <View style={styles.headerButton}>
-            <GreetingHeaderButton text="Sign up" />
+            <GreetingHeaderButton onPress={onPress} text="Sign up" />
           </View>
         </View>
-        <View style={styles.body}>
-          <View style={styles.titleText}>
-            <Text style={styles.title}>{title}</Text>
-            <Text style={styles.description}>{description}</Text>
+        {!isKeyboardOpen && (
+          <View style={styles.body}>
+            <View style={styles.titleText}>
+              <Text style={styles.title}>{title}</Text>
+              <Text style={styles.description}>{description}</Text>
+            </View>
+            <View style={{ flex: 0.7 }}>
+              <Image
+                style={styles.mascot}
+                source={require("../../../assets/love_mascot.png")}
+              />
+            </View>
           </View>
-          <View style={{ flex: 0.7 }}>
-            <Image
-              style={styles.mascot}
-              source={require("../../../assets/love_mascot.png")}
-            />
-          </View>
-        </View>
+        )}
         <LineBreak />
       </View>
     );

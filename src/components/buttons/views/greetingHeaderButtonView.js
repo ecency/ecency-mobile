@@ -1,5 +1,5 @@
 import React, { Fragment } from "react";
-import { TouchableWithoutFeedback, Text } from "react-native";
+import { TouchableWithoutFeedback, Text, View } from "react-native";
 
 import styles from "./greetingHeaderButtonStyles";
 
@@ -9,7 +9,9 @@ const GreetingHeaderButtonView = ({ text, onPress, style }) => (
       style={[styles.button, style]}
       onPress={() => onPress && onPress()}
     >
-      <Text style={styles.buttonText}>{text}</Text>
+      <View>
+        <Text style={styles.buttonText}>{text}</Text>
+      </View>
     </TouchableWithoutFeedback>
   </Fragment>
 );

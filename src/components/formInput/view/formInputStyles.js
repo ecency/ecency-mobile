@@ -5,7 +5,7 @@ export default EStyleSheet.create({
     borderTopLeftRadius: 8,
     borderTopRightRadius: 8,
     marginHorizontal: 30,
-    marginVertical: 20,
+    marginVertical: 10,
     flexDirection: "row",
     backgroundColor: "#f5f5f5",
     height: 60,
