@@ -2,34 +2,49 @@ import EStyleSheet from "react-native-extended-stylesheet";
 
 export default EStyleSheet.create({
   container: {
+    backgroundColor: "#fff",
+  },
+  notificationWrapper: {
     flex: 1,
-    marginTop: 50,
-    justifyContent: "center",
+    flexDirection: "row",
+    width: "$deviceWidth",
+    justifyContent: "space-between",
     alignItems: "center",
-    backgroundColor: "#F5FCFF",
+    height: 64,
   },
-  h2text: {
-    marginTop: 10,
-
-    color: "black",
-    fontSize: 36,
-    fontWeight: "bold",
+  avatar: {
+    width: 32,
+    height: 32,
+    borderRadius: 32 / 2,
+    marginLeft: 24,
   },
-  flatview: {
-    justifyContent: "center",
-    paddingTop: 30,
-    borderRadius: 2,
+  image: {
+    width: 32,
+    height: 32,
+    borderRadius: 32 / 4,
+    marginRight: 24,
+  },
+  body: {
+    flexDirection: "column",
+    flexGrow: 1,
+    fontSize: 12,
+    marginRight: 28,
+    marginLeft: 16,
+    alignSelf: "center",
+    width: "$deviceWidth / 1.76",
+  },
+  titleWrapper: {
+    flexDirection: "row",
   },
   name: {
-    fontFamily: "Verdana",
-    fontSize: 18,
-    color: "red",
+    fontWeight: "bold",
   },
-  email: {
-    color: "red",
+  title: {
+    color: "#788187",
   },
-  flatListWrapper: {
-    flex: 1,
-    flexDirection: "column",
+  description: {
+    color: "#3c4449",
+    fontSize: 12,
+    fontWeight: "600",
   },
 });

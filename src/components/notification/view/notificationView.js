@@ -25,7 +25,7 @@ class NotificationView extends Component {
           name: "esteemapp",
           title: "25% likes your post:",
           avatar: "https://steemitimages.com/u/feruz/avatar/small",
-          description: "My own Top 5 eSteem Surfer Features",
+          description: "My own Top 5 eSteem Surfer Featuressasasaasasas",
           image: "https://steemitimages.com/u/feruz/avatar/small",
           date: "yesterday",
         },
@@ -49,7 +49,7 @@ class NotificationView extends Component {
           name: "esteemapp",
           title: "25% likes your post:",
           avatar: "https://steemitimages.com/u/feruz/avatar/small",
-          description: "My own Top 5 eSteem Surfer Features",
+          description: "My own Top 5 eSteem Surfer Featuresasassasasaasas",
           image: "https://steemitimages.com/u/feruz/avatar/small",
           date: "yesterday",
         },
@@ -71,18 +71,25 @@ class NotificationView extends Component {
 
   _getRenderItem = item => {
     return (
-      <View style={styles.flatview}>
+      <View style={styles.notificationWrapper}>
         <Image
+          style={styles.avatar}
           source={{
             uri: item.avatar,
           }}
           defaultSource={require("../../../assets/no_image.png")}
         />
-        <Text style={styles.name}>{item.name}</Text>
-        <Text style={styles.name}>{item.title}</Text>
-        <Text style={styles.name}>{item.description}</Text>
-        <Text style={styles.email}>{item.email}</Text>
+        <View style={styles.body}>
+          <View style={styles.titleWrapper}>
+            <Text style={styles.name}>{item.name} </Text>
+            <Text style={styles.title}>{item.title}</Text>
+          </View>
+          <Text numberOfLines={1} style={styles.description}>
+            {item.description}
+          </Text>
+        </View>
         <Image
+          style={styles.image}
           source={{ uri: item.image }}
           defaultSource={require("../../../assets/no_image.png")}
         />
@@ -94,7 +101,7 @@ class NotificationView extends Component {
     const { notification } = this.state;
 
     return (
-      <View>
+      <View style={styles.container}>
         <LineBreak color="#f6f6f6" height={35}>
           <Text>ugur</Text>
         </LineBreak>
@@ -103,7 +110,7 @@ class NotificationView extends Component {
             <Text>Notification Header</Text>
           </View>
           <FlatList
-            data={this.state.notification}
+            data={notification}
             renderItem={({ item }) => this._getRenderItem(item)}
             keyExtractor={item => item.email}
           />
