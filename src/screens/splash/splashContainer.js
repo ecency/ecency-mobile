@@ -7,28 +7,27 @@ import { getAuthStatus } from "../../realm/realm";
 import SplashScreen from "./splashScreen";
 
 class SplashContainer extends React.Component {
-    constructor(props) {
-        super(props);
-    }
+  constructor(props) {
+    super(props);
+  }
 
-    async componentDidMount() {
-        await getAuthStatus()
-            .then(result => {
-                if (result === true) {
-                    goToAuthScreens();
-                } else {
-                    goToNoAuthScreens();
-                }
-            })
-            .catch(error => {
-                console.log(error);
-                goToAuthScreens();
-            });
-    }
+  async componentDidMount() {
+    await getAuthStatus()
+      .then(result => {
+        if (result === true) {
+          goToAuthScreens();
+        } else {
+          goToNoAuthScreens();
+        }
+      })
+      .catch(() => {
+        goToAuthScreens();
+      });
+  }
 
-    render() {
-        return <SplashScreen />;
-    }
+  render() {
+    return <SplashScreen />;
+  }
 }
 
 export default SplashContainer;

@@ -35,87 +35,61 @@ class PinCodeScreen extends React.Component {
     const pass = [0, 1];
     return (
       <Container style={globalStyles.container}>
-        <Content>
-          <Logo style={styles.logo} />
-          <Text style={styles.title}>Enter Pin Code</Text>
-          <Animated.View
-            style={{
-              transform: [{ translateX: tilt }],
-              flexDirection: "row",
-              alignSelf: "center",
-            }}
-          >
-            {[...Array(4)].map((val, index) => {
-              if (pass[index] === undefined) {
-                return (
-                  <Animated.View
-                    key={"passwordItem-" + index}
-                    style={{
-                      alignItems: "center",
-                      justifyContent: "center",
-                      height: 20,
-                      margin: 5,
-                      width: 20,
-                      borderRadius: 20 / 2,
-                      borderWidth: 1,
-                      borderColor: "#357ce6",
-                      backgroundColor: "#fff",
-                    }}
-                  />
-                );
-              } else {
-                return (
-                  <Animated.View
-                    key={"passwordItem-" + index}
-                    style={{
-                      alignItems: "center",
-                      justifyContent: "center",
-                      height: 20,
-                      margin: 5,
-                      width: 20,
-                      borderRadius: 20 / 2,
-                      borderWidth: 1,
-                      borderColor: "#357ce6",
-                      backgroundColor: "#357ce6",
-                    }}
-                  />
-                );
-              }
-            })}
-          </Animated.View>
-          <NumericKeyboard />
-          <Item style={styles.input}>
-            {/* <Input
-                            secureTextEntry={!this.state.showPassword}
-                            keyboardType="numeric"
-                            maxLength={4}
-                            onChangeText={e => this._handleOnChangeInput(e)}
-                            value={this.state.pin}
-                        /> */}
-            {/* <TouchableOpacity
-                            onPress={() =>
-                                this.setState({
-                                    showPassword: !this.state.showPassword,
-                                })
-                            }
-                        >
-                            <Icon
-                                style={styles.icon}
-                                active
-                                name="lock"
-                                type="EvilIcons"
-                                backgroundColor={"#fff"}
-                            />
-                        </TouchableOpacity> */}
-          </Item>
-          <TouchableOpacity>
-            <Text style={styles.forgotButtonText}>Oh, I forgot it…</Text>
-          </TouchableOpacity>
+        <Logo style={styles.logo} />
+        <Text style={styles.title}>Enter Pin Code</Text>
+        <Animated.View
+          style={{
+            transform: [{ translateX: tilt }],
+            flexDirection: "row",
+            alignSelf: "center",
+          }}
+        >
+          {[...Array(4)].map((val, index) => {
+            if (pass[index] === undefined) {
+              return (
+                <Animated.View
+                  key={"passwordItem-" + index}
+                  style={{
+                    alignItems: "center",
+                    justifyContent: "center",
+                    height: 20,
+                    margin: 5,
+                    width: 20,
+                    borderRadius: 20 / 2,
+                    borderWidth: 1,
+                    borderColor: "#357ce6",
+                    backgroundColor: "#fff",
+                  }}
+                />
+              );
+            } else {
+              return (
+                <Animated.View
+                  key={"passwordItem-" + index}
+                  style={{
+                    alignItems: "center",
+                    justifyContent: "center",
+                    height: 20,
+                    margin: 5,
+                    width: 20,
+                    borderRadius: 20 / 2,
+                    borderWidth: 1,
+                    borderColor: "#357ce6",
+                    backgroundColor: "#357ce6",
+                  }}
+                />
+              );
+            }
+          })}
+        </Animated.View>
+        <NumericKeyboard />
+        <TouchableOpacity>
+          <Text style={styles.forgotButtonText}>Oh, I forgot it…</Text>
+        </TouchableOpacity>
 
-          <Text style={styles.forgotButtonText}>
-            {this.props.informationText}
-          </Text>
-        </Content>
+        <Text style={styles.forgotButtonText}>
+          {this.props.informationText}
+        </Text>
       </Container>
     );
   }
