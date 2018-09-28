@@ -1,151 +1,143 @@
 import React, { Component } from "react";
 import {
-    Text,
-    View,
-    Animated,
-    TouchableNativeFeedback,
-    TouchableOpacity,
-    Platform,
-    Dimensions,
+  Text,
+  View,
+  Animated,
+  TouchableNativeFeedback,
+  TouchableOpacity,
+  Platform,
+  Dimensions,
 } from "react-native";
 
 // Styles
 import styles from "./tabBarStyles";
 
 export default class TabBar extends Component {
-    /* Props
+  /* Props
     * ------------------------------------------------ TODO: Fill fallowlines
     *   @prop { type }    name            - Description.
     *   @prop { type }    name            - Description.
     * 
     */
 
-    constructor(props) {
-        super(props);
+  constructor(props) {
+    super(props);
 
-        this.state = {};
-    }
+    this.state = {};
+  }
 
-    _renderTab = (name, page, isTabActive, onPressHandler) => {
-        const { activeColor, inactiveColor } = this.props;
-        const textColor = isTabActive ? activeColor : inactiveColor;
-        const fontWeight = isTabActive ? "bold" : "normal";
-        const Button = Platform.OS == "ios" ? ButtonIos : ButtonAndroid;
-        // TODO: make generic component!!
+  _renderTab = (name, page, isTabActive, onPressHandler) => {
+    const { activeColor, inactiveColor } = this.props;
+    const textColor = isTabActive ? activeColor : inactiveColor;
+    const fontWeight = isTabActive ? "bold" : "normal";
+    const Button = Platform.OS == "ios" ? ButtonIos : ButtonAndroid;
+    // TODO: make generic component!!
 
-        return (
-            <Button
-                style={styles.tabButton}
-                key={name}
-                accessible={true}
-                accessibilityLabel={name}
-                accessibilityTraits="button"
-                onPress={() => onPressHandler(page)}
-            >
-                <View style={styles.tab}>
-                    <Text style={[{ color: textColor, fontWeight }]}>
-                        {name}
-                    </Text>
-                </View>
-            </Button>
-        );
+    return (
+      <Button
+        style={styles.tabButton}
+        key={name}
+        accessible={true}
+        accessibilityLabel={name}
+        accessibilityTraits="button"
+        onPress={() => onPressHandler(page)}
+      >
+        <View style={styles.tab}>
+          <Text style={[{ color: textColor, fontWeight }]}>{name}</Text>
+        </View>
+      </Button>
+    );
+  };
+
+  _renderUnderline = () => {
+    const {
+      activeColor,
+      tabs,
+      tabUnderlineDefaultWidth,
+      tabUnderlineScaleX,
+      scrollValue,
+      underlineStyle,
+    } = this.props;
+
+    const containerWidth = Dimensions.get("window").width;
+    const numberOfTabs = tabs.length;
+    const underlineWidth =
+      tabUnderlineDefaultWidth || containerWidth / (numberOfTabs * 2);
+    const scale = tabUnderlineScaleX || 2;
+    const deLen = (containerWidth / numberOfTabs - underlineWidth) / 2;
+    const tabUnderlineStyle = {
+      position: "absolute",
+      width: underlineWidth,
+      height: 2,
+      borderRadius: 2,
+      backgroundColor: activeColor,
+      bottom: 0,
+      left: deLen,
     };
 
-    _renderUnderline = () => {
-        const {
-            activeColor,
-            tabs,
-            tabUnderlineDefaultWidth,
-            tabUnderlineScaleX,
-            scrollValue,
-            underlineStyle,
-        } = this.props;
+    const translateX = scrollValue.interpolate({
+      inputRange: [0, 1],
+      outputRange: [0, containerWidth / numberOfTabs],
+    });
 
-        const containerWidth = Dimensions.get("window").width;
-        const numberOfTabs = tabs.length;
-        const underlineWidth =
-            tabUnderlineDefaultWidth || containerWidth / (numberOfTabs * 2);
-        const scale = tabUnderlineScaleX || 2;
-        const deLen = (containerWidth / numberOfTabs - underlineWidth) / 2;
-        const tabUnderlineStyle = {
-            position: "absolute",
-            width: underlineWidth,
-            height: 2,
-            borderRadius: 2,
-            backgroundColor: activeColor,
-            bottom: 0,
-            left: deLen,
-        };
+    const scaleValue = defaultScale => {
+      const number = 4;
+      const arr = new Array(number * 2);
 
-        const translateX = scrollValue.interpolate({
-            inputRange: [0, 1],
-            outputRange: [0, containerWidth / numberOfTabs],
-        });
-
-        const scaleValue = defaultScale => {
-            const number = 4;
-            const arr = new Array(number * 2);
-
-            return arr.fill(0).reduce(
-                function(pre, cur, idx) {
-                    idx == 0
-                        ? pre.inputRange.push(cur)
-                        : pre.inputRange.push(pre.inputRange[idx - 1] + 0.5);
-                    idx % 2
-                        ? pre.outputRange.push(defaultScale)
-                        : pre.outputRange.push(1);
-                    return pre;
-                },
-                { inputRange: [], outputRange: [] }
-            );
-        };
-
-        const scaleX = scrollValue.interpolate(scaleValue(scale));
-
-        return (
-            <Animated.View
-                style={[
-                    tabUnderlineStyle,
-                    {
-                        transform: [{ translateX }, { scaleX }],
-                    },
-                    underlineStyle,
-                ]}
-            />
-        );
+      return arr.fill(0).reduce(
+        function(pre, cur, idx) {
+          idx == 0
+            ? pre.inputRange.push(cur)
+            : pre.inputRange.push(pre.inputRange[idx - 1] + 0.5);
+          idx % 2
+            ? pre.outputRange.push(defaultScale)
+            : pre.outputRange.push(1);
+          return pre;
+        },
+        { inputRange: [], outputRange: [] }
+      );
     };
 
-    render() {
-        const { activeTab, backgroundColor, goToPage, style } = this.props;
+    const scaleX = scrollValue.interpolate(scaleValue(scale));
 
-        return (
-            <View
-                style={[
-                    styles.tabs,
-                    { backgroundColor: backgroundColor },
-                    style,
-                ]}
-            >
-                {this.props.tabs.map((name, page) => {
-                    const isTabActive = activeTab === page;
-                    return this._renderTab(name, page, isTabActive, goToPage);
-                })}
-                {this._renderUnderline()}
-            </View>
-        );
-    }
+    return (
+      <Animated.View
+        style={[
+          tabUnderlineStyle,
+          {
+            transform: [{ translateX }, { scaleX }],
+          },
+          underlineStyle,
+        ]}
+      />
+    );
+  };
+
+  render() {
+    const { activeTab, backgroundColor, goToPage, style } = this.props;
+
+    return (
+      <View style={[styles.tabs, { backgroundColor: backgroundColor }, style]}>
+        {this.props.tabs.map((name, page) => {
+          const isTabActive = activeTab === page;
+          return this._renderTab(name, page, isTabActive, goToPage);
+        })}
+        {this._renderUnderline()}
+      </View>
+    );
+  }
 }
 
 const ButtonAndroid = props => (
-    <TouchableNativeFeedback
-        delayPressIn={0}
-        background={TouchableNativeFeedback.SelectableBackground()}
-        {...props}
-    >
-        {props.children}
-    </TouchableNativeFeedback>
+  <TouchableNativeFeedback
+    delayPressIn={0}
+    background={TouchableNativeFeedback.SelectableBackground()}
+    {...props}
+  >
+    {props.children}
+  </TouchableNativeFeedback>
 );
 
 const ButtonIos = props => (
-    <TouchableOpacity {...props}>{props.children}</TouchableOpacity>
+  <TouchableOpacity {...props}>{props.children}</TouchableOpacity>
 );

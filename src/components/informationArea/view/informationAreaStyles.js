@@ -5,7 +5,7 @@ export default EStyleSheet.create({
     flexDirection: "row",
     paddingLeft: 50,
     paddingRight: 32,
-    marginTop: 10,
+    marginTop: 20,
   },
   infoIcon: {
     flex: 0.125,
