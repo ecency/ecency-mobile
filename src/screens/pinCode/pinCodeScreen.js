@@ -1,6 +1,6 @@
 import React from "react";
-import { Text, TouchableOpacity, Animated } from "react-native";
-import { Container, Content, Icon, Item, Input } from "native-base";
+import { Text, TouchableOpacity, Animated, View } from "react-native";
+import { Container } from "native-base";
 
 import { Logo, NumericKeyboard } from "../../components";
 
@@ -34,62 +34,69 @@ class PinCodeScreen extends React.Component {
     });
     const pass = [0, 1];
     return (
-      <Container style={globalStyles.container}>
-        <Logo style={styles.logo} />
-        <Text style={styles.title}>Enter Pin Code</Text>
-        <Animated.View
-          style={{
-            transform: [{ translateX: tilt }],
-            flexDirection: "row",
-            alignSelf: "center",
-          }}
-        >
-          {[...Array(4)].map((val, index) => {
-            if (pass[index] === undefined) {
-              return (
-                <Animated.View
-                  key={"passwordItem-" + index}
-                  style={{
-                    alignItems: "center",
-                    justifyContent: "center",
-                    height: 20,
-                    margin: 5,
-                    width: 20,
-                    borderRadius: 20 / 2,
-                    borderWidth: 1,
-                    borderColor: "#357ce6",
-                    backgroundColor: "#fff",
-                  }}
-                />
-              );
-            } else {
-              return (
-                <Animated.View
-                  key={"passwordItem-" + index}
-                  style={{
-                    alignItems: "center",
-                    justifyContent: "center",
-                    height: 20,
-                    margin: 5,
-                    width: 20,
-                    borderRadius: 20 / 2,
-                    borderWidth: 1,
-                    borderColor: "#357ce6",
-                    backgroundColor: "#357ce6",
-                  }}
-                />
-              );
-            }
-          })}
-        </Animated.View>
-        <NumericKeyboard />
-        <TouchableOpacity>
+      <Container style={styles.container}>
+        <View style={styles.logoView}>
+          <Logo />
+        </View>
+        <View style={styles.titleView}>
+          <Text style={styles.title}>@mistikk</Text>
+        </View>
+        <View style={styles.informationView}>
+          <Text>Enter pin to unlock</Text>
+        </View>
+        <View style={styles.animatedView}>
+          <Animated.View
+            style={{
+              transform: [{ translateX: tilt }],
+              flexDirection: "row",
+              alignSelf: "center",
+            }}
+          >
+            {[...Array(4)].map((val, index) => {
+              if (pass[index] === undefined) {
+                return (
+                  <Animated.View
+                    key={"passwordItem-" + index}
+                    style={{
+                      alignItems: "center",
+                      justifyContent: "center",
+                      height: 20,
+                      margin: 5,
+                      width: 20,
+                      borderRadius: 20 / 2,
+                      borderWidth: 1,
+                      borderColor: "#357ce6",
+                      backgroundColor: "#fff",
+                    }}
+                  />
+                );
+              } else {
+                return (
+                  <Animated.View
+                    key={"passwordItem-" + index}
+                    style={{
+                      alignItems: "center",
+                      justifyContent: "center",
+                      height: 20,
+                      margin: 5,
+                      width: 20,
+                      borderRadius: 20 / 2,
+                      borderWidth: 1,
+                      borderColor: "#357ce6",
+                      backgroundColor: "#357ce6",
+                    }}
+                  />
+                );
+              }
+            })}
+          </Animated.View>
+        </View>
+        <View style={styles.numericKeyboardView}>
+          <NumericKeyboard />
+        </View>
+        <TouchableOpacity style={styles.forgotButtonView}>
           <Text style={styles.forgotButtonText}>Oh, I forgot it…</Text>
         </TouchableOpacity>
-
-        <Text style={styles.forgotButtonText}>
-          {this.props.informationText}
-        </Text>
       </Container>
     );
   }

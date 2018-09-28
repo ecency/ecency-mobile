@@ -8,13 +8,13 @@ import styles from "../../styles/logo.styles";
 import globalStyles from "../../globalStyles";
 
 const Logo = props => (
-    <View style={globalStyles.container}>
-        <Image
-            source={props.source ? props.source : LOGO}
-            style={[styles.logo, props.style]}
-            resizeMode="contain"
-        />
-    </View>
+  <View style={globalStyles.container}>
+    <Image
+      source={props.source ? props.source : LOGO}
+      style={[styles.logo, props.style]}
+      resizeMode="contain"
+    />
+  </View>
 );
 
 export default Logo;

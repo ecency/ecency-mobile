@@ -6,17 +6,12 @@ export default EStyleSheet.create({
     flexDirection: "column",
     alignItems: "center",
     justifyContent: "space-between",
-    marginTop: 20,
-    width: "$deviceWidth / 1.5",
+    width: "$deviceWidth / 1.8",
   },
   buttonGroup: {
     width: "100%",
     flex: 1,
     flexDirection: "row",
-    marginBottom: 15,
     justifyContent: "space-between",
-  },
-  button: {
-    marginBottom: 15,
   },
 });

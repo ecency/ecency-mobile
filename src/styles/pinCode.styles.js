@@ -1,16 +1,40 @@
 import EStyleSheet from "react-native-extended-stylesheet";
 
 export default EStyleSheet.create({
-  title: {
+  container: {
     flex: 1,
+  },
+  logoView: {
+    flex: 2,
+  },
+  titleView: {
+    flex: 1,
+    justifyContent: "center",
+    alignItems: "center",
+  },
+  title: {
     color: "#357ce6",
     fontSize: 20,
     fontWeight: "bold",
+  },
+  informationView: {
+    flex: 1,
+    alignItems: "center",
+  },
+  animatedView: {
+    flex: 1,
+    alignItems: "center",
+  },
+  numericKeyboardView: {
+    flex: 6,
+    justifyContent: "center",
+    alignItems: "center",
     alignSelf: "center",
   },
-  logo: {
-    marginTop: "$deviceHeight / 8",
-    flex: 1,
+  forgotButtonView: {
+    flex: 2,
+    justifyContent: "center",
+    alignItems: "center",
   },
   forgotButtonText: {
     color: "#788187",
@@ -18,15 +42,5 @@ export default EStyleSheet.create({
     marginTop: 25,
     alignSelf: "center",
     marginBottom: 25,
-  },
-  input: {
-    backgroundColor: "#f5f5f5",
-    borderColor: "#fff",
-    borderRadius: 5,
-    paddingLeft: 15,
-    minWidth: "$deviceWidth / 2",
-  },
-  icon: {
-    color: "#357ce6",
   },
 });
