@@ -2,23 +2,19 @@ import React, { Component } from "react";
 import { View, ScrollView, Text, FlatList, Image } from "react-native";
 import { LineBreak } from "../../basicUIElements";
 import { ContainerHeader } from "../../containerHeader";
-import Ionicons from "react-native-vector-icons/Ionicons";
-
 // Constants
 
 // Components
+import { DropdownButton } from "../../../components/dropdownButton";
 
 // Styles
-// eslint-disable-next-line
 import styles from "./notificationStyles";
 
-/*
-*            Props Name        Description                                     Value
-*@props -->  props name here   description here                                Value Type Here
-*
-*/
-
 class NotificationView extends Component {
+  /* Props
+    * ------------------------------------------------
+    *   @prop { type }    name                - Description....
+    */
   constructor(props) {
     super(props);
     this.state = {
@@ -72,6 +68,10 @@ class NotificationView extends Component {
 
   // Component Functions
 
+  _handleOnDropdownSelect = index => {
+    console.log("selected index is:" + index);
+  };
+
   _getRenderItem = item => {
     return (
       <View
@@ -112,13 +112,18 @@ class NotificationView extends Component {
     return (
       <View style={styles.container}>
         <LineBreak color="#f6f6f6" height={35}>
-          <View styles={styles.lineBreakItem}>
-            <Text style={styles.lineBreakItemText}>
-              {/* TODO: I guess these will be dropdown there for it should be a component  */}
-              ALL NOTIFICATION
-              {/* <Ionicons style={styles.arrowIcon} name="md-arrow-dropdown" /> */}
-            </Text>
-          </View>
+          <DropdownButton
+            iconName="md-arrow-dropdown"
+            options={[
+              "ALL NOTIFICATION",
+              "LATEST NOTF",
+              "ESTEEMAPP",
+              "UGUR ERDAL",
+              "ONLY YESTERDAY",
+            ]}
+            defaultText="ALL NOTIFICATION"
+            onSelect={this._handleOnDropdownSelect}
+          />
         </LineBreak>
         <ScrollView style={styles.scrollView}>
           <ContainerHeader title="Recent" />
@@ -127,6 +132,7 @@ class NotificationView extends Component {
             renderItem={({ item }) => this._getRenderItem(item)}
             keyExtractor={item => item.email}
           />
+          {/* Will remove fallow lines */}
           <ContainerHeader title="Yesterday" />
           <FlatList
             data={notification}

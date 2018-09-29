@@ -59,17 +59,4 @@ export default EStyleSheet.create({
   hasNoAvatar: {
     backgroundColor: "#d8d8d8",
   },
-  lineBreakItem: {
-    flex: 1,
-    flexDirection: "row",
-  },
-  lineBreakItemText: {
-    fontSize: 9,
-    color: "#788187",
-    marginLeft: 25,
-  },
-  arrowIcon: {
-    color: "#c1c5c7",
-    fontSize: 18,
-  },
 });

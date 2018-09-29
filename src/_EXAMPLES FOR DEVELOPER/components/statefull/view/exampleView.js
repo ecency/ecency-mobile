@@ -11,11 +11,10 @@ import styles from "./_styles";
 
 class ExampleView extends Component {
   /* Props
-    * ------------------------------------------------ TODO: Fill fallowlines
-    *   @prop { type }    name            - Description.
-    *   @prop { type }    name            - Description.
-    * 
+    * ------------------------------------------------
+    *   @prop { type }    name                - Description....
     */
+
   constructor(props) {
     super(props);
     this.state = {};
