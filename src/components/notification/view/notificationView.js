@@ -6,7 +6,7 @@ import { ContainerHeader } from "../../containerHeader";
 
 // Components
 import { DropdownButton } from "../../../components/dropdownButton";
-
+import { FilterBar } from "../../../components/filterBar";
 // Styles
 import styles from "./notificationStyles";
 
@@ -111,20 +111,19 @@ class NotificationView extends Component {
 
     return (
       <View style={styles.container}>
-        <LineBreak color="#f6f6f6" height={35}>
-          <DropdownButton
-            iconName="md-arrow-dropdown"
-            options={[
-              "ALL NOTIFICATION",
-              "LATEST NOTF",
-              "ESTEEMAPP",
-              "UGUR ERDAL",
-              "ONLY YESTERDAY",
-            ]}
-            defaultText="ALL NOTIFICATION"
-            onSelect={this._handleOnDropdownSelect}
-          />
-        </LineBreak>
+        <FilterBar
+          dropdownIconName="md-arrow-dropdown"
+          options={[
+            "ALL NOTIFICATION",
+            "LATEST NOTF",
+            "ESTEEMAPP",
+            "UGUR ERDAL",
+            "ONLY YESTERDAY",
+          ]}
+          defaultText="ALL NOTIFICATION"
+          onDropdownSelect={this._handleOnDropdownSelect}
+          rightIconName="md-apps"
+        />
         <ScrollView style={styles.scrollView}>
           <ContainerHeader title="Recent" />
           <FlatList

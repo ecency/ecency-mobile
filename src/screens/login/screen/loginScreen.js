@@ -71,7 +71,7 @@ class LoginScreen extends Component {
         }
       })
       .catch(err => {
-        alert(err);
+        // alert(err);
         this.setState({ isLoading: false });
       });
   };
