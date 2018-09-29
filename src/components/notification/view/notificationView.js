@@ -1,11 +1,9 @@
 import React, { Component } from "react";
 import { View, ScrollView, Text, FlatList, Image } from "react-native";
-import { LineBreak } from "../../basicUIElements";
 import { ContainerHeader } from "../../containerHeader";
 // Constants
 
 // Components
-import { DropdownButton } from "../../../components/dropdownButton";
 import { FilterBar } from "../../../components/filterBar";
 // Styles
 import styles from "./notificationStyles";

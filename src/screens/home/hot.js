@@ -12,6 +12,7 @@ import Placeholder from "rn-placeholder";
 
 // COMPONENTS
 import { PostCard } from "../../components/postCard";
+import { FilterBar } from "../../components/filterBar";
 
 // SCREENS
 /* eslint-enable no-unused-vars */
@@ -101,6 +102,20 @@ class HotPage extends React.Component {
   render() {
     return (
       <View style={{ flex: 1 }}>
+        {this.state.isReady && (
+          <FilterBar
+            dropdownIconName="md-arrow-dropdown"
+            options={[
+              "ALL NOTIFICATION",
+              "LATEST NOTF",
+              "ESTEEMAPP",
+              "UGUR ERDAL",
+              "ONLY YESTERDAY",
+            ]}
+            defaultText="NEW POST"
+            rightIconName="md-apps"
+          />
+        )}
         {this.state.isReady ? (
           <FlatList
             data={this.state.posts}
