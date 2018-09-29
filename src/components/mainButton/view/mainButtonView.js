@@ -18,28 +18,41 @@ import styles from "./mainButtonStyles";
 class MainButton extends Component {
   /* Props
     * ------------------------------------------------
-    *   @prop { string }     isLoading       - TODO:
-    *   @prop { string }     text              - TODO:
-    *   @prop { boolean }    secondText      - TODO:
-    *   @prop { boolean }    iconColor        - TODO:
+    *   @prop { string }     isLoading          - TODO:
+    *   @prop { string }     text               - TODO:
+    *   @prop { boolean }    secondText         - TODO:
+    *   @prop { boolean }    iconColor          - TODO:
     *   @prop { boolean }    iconName           - TODO:
-    *   @prop { boolean }    isDisable   - TODO:
+    *   @prop { boolean }    isDisable          - TODO:
     *
     * 
     */
   constructor(props) {
     super(props);
 
-    this.state = {};
+    this.state = {
+      isDisable: !props.isLoading && props.isDisable,
+    };
   }
 
   // Component Life Cycles
+  componentWillReceiveProps(nextProps) {
+    const { isLoading, isDisable } = this.props;
+    if (
+      nextProps.isLoading !== isLoading ||
+      nextProps.isDisable !== isDisable
+    ) {
+      this.setState({
+        isDisable: !nextProps.isLoading && nextProps.isDisable,
+      });
+    }
+  }
 
   // Component Functions
   _handleOnPress = () => {
-    const { onPress, isDisable, source } = this.props;
+    const { onPress } = this.props;
 
-    onPress && !isDisable && onPress();
+    onPress && onPress();
   };
 
   _getBody = () => {
@@ -75,13 +88,15 @@ class MainButton extends Component {
   };
 
   render() {
-    const { wrapperStyle, isDisable } = this.props;
+    const { wrapperStyle } = this.props;
+    const { isDisable } = this.state;
 
     return (
       <View style={wrapperStyle}>
         <TouchableOpacity
+          disabled={isDisable}
           onPress={() => this._handleOnPress()}
-          style={styles.touchable}
+          style={[styles.touchable, isDisable && styles.disableTouchable]}
         >
           <View style={styles.body}>{this._getBody()}</View>
         </TouchableOpacity>

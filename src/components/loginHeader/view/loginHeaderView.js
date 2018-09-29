@@ -3,7 +3,7 @@ import { View, Text, Image } from "react-native";
 // Constants
 
 // Components
-import { GreetingHeaderButton } from "../../buttons";
+import { TextButton } from "../../buttons";
 import { LineBreak } from "../../basicUIElements";
 // Styles
 // eslint-disable-next-line
@@ -36,7 +36,7 @@ class LoginHeaderView extends Component {
             source={require("../../../assets/esteem.png")}
           />
           <View style={styles.headerButton}>
-            <GreetingHeaderButton onPress={onPress} text="Sign up" />
+            <TextButton onPress={onPress} text="Sign up" />
           </View>
         </View>
         {!isKeyboardOpen && (

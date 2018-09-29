@@ -5,7 +5,7 @@ import ScrollableTabView from "@esteemapp/react-native-scrollable-tab-view";
 
 // Internal Components
 import { FormInput } from "../../../components/formInput";
-import { GreetingHeaderButton } from "../../../components/buttons";
+import { TextButton } from "../../../components/buttons";
 import { InformationArea } from "../../../components/informationArea";
 import { Login } from "../../../providers/steem/auth";
 import { LoginHeader } from "../../../components/loginHeader";
@@ -29,7 +29,7 @@ class LoginScreen extends Component {
       username: "",
       password: "",
       isLoading: false,
-      isUsernameValid: true,
+      isUsernameValid: false,
       keyboardIsOpen: false,
     };
   }
@@ -109,7 +109,14 @@ class LoginScreen extends Component {
   };
 
   render() {
-    const { isLoading, username, isUsernameValid, keyboardIsOpen } = this.state;
+    const {
+      isLoading,
+      username,
+      isUsernameValid,
+      keyboardIsOpen,
+      password,
+    } = this.state;
+
     return (
       <View style={{ flex: 1 }}>
         <StatusBar hidden translucent />
@@ -163,14 +170,18 @@ class LoginScreen extends Component {
                 removed upon logout!"
                 iconName="ios-information-circle-outline"
               />
-              {/* It will remove */}
-              <GreetingHeaderButton onPress={goToAuthScreens} text="cancel" />
+              <View style={styles.footerButtons}>
+                <TextButton onPress={goToAuthScreens} text="cancel" />
+              </View>
               <MainButton
                 wrapperStyle={styles.mainButtonWrapper}
                 onPress={this._handleOnPressLogin}
                 iconName="md-person"
                 iconColor="white"
                 text="LOGIN"
+                isDisable={
+                  !isUsernameValid || password.length < 2 || username.length < 2
+                }
                 isLoading={isLoading}
               />
             </View>
@@ -179,7 +190,6 @@ class LoginScreen extends Component {
                 description="If you don't want to keep your password encrypted and saved on your device, you can use Steemconnect."
                 iconName="ios-information-circle-outline"
               />
-
               <MainButton
                 wrapperStyle={styles.mainButtonWrapper}
                 onPress={this._loginwithSc2}
