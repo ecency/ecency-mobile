@@ -6,6 +6,7 @@ import Search from "./search/search";
 import { FormInput } from "./formInput";
 import { CircularButton, GreetingHeaderButton } from "./buttons";
 import { NumericKeyboard } from "./numericKeyboard";
+import { PinAnimatedInput } from "./pinAnimatedInput";
 
 export {
   Logo,
@@ -17,4 +18,5 @@ export {
   CircularButton,
   GreetingHeaderButton,
   NumericKeyboard,
+  PinAnimatedInput,
 };

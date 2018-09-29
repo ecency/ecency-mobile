@@ -19,31 +19,31 @@ import { ExampleView } from "../..";
 */
 
 class ExampleContainer extends Component {
-    constructor(props) {
-        super(props);
-        this.state = {};
-    }
+  constructor(props) {
+    super(props);
+    this.state = {};
+  }
 
-    // Component Life Cycle Functions
+  // Component Life Cycle Functions
 
-    // Component Functions
+  // Component Functions
 
-    render() {
-        const {} = this.props;
+  render() {
+    const {} = this.props;
 
-        return <ExampleView />;
-    }
+    return <ExampleView />;
+  }
 }
 
 const mapStateToProps = state => ({
-    user: state.user.user,
+  user: state.user.user,
 });
 
 const mapDispatchToProps = (dispatch, ownProps) => ({
-    // onClick: () => dispatch(setVisibilityFilter(ownProps.filter))
+  // onClick: () => dispatch(setVisibilityFilter(ownProps.filter))
 });
 
 export default connect(
-    mapStateToProps,
-    mapDispatchToProps
+  mapStateToProps,
+  mapDispatchToProps
 )(ExampleContainer);

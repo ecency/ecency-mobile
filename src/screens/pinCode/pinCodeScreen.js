@@ -2,7 +2,7 @@ import React from "react";
 import { Text, TouchableOpacity, Animated, View } from "react-native";
 import { Container } from "native-base";
 
-import { Logo, NumericKeyboard } from "../../components";
+import { Logo, NumericKeyboard, PinAnimatedInput } from "../../components";
 
 import styles from "../../styles/pinCode.styles";
 import globalStyles from "../../globalStyles";
@@ -16,23 +16,29 @@ class PinCodeScreen extends React.Component {
     };
   }
 
-  _handleOnChangeInput = text => {
+  // Component Life Cycles
+
+  // Component Functions
+
+  _handleKeyboardOnPress = value => {
     const { setPinCode } = this.props;
-    if (text.length === 4) {
-      setPinCode(text);
-      this.setState({ pin: "" });
-    } else {
-      this.setState({ pin: text });
+    const { pin } = this.state;
+    const newPin = `${pin}${value}`;
+
+    if (pin.length < 3) {
+      this.setState({ pin: newPin });
+    } else if (pin.length === 3) {
+      this.setState({ pin: newPin });
+      // setPinCode(`${pin}${value}`);
+    } else if (pin.length > 3) {
+      this.setState({ pin: `${value}` });
     }
   };
 
   render() {
-    const test = new Animated.Value(0);
-    const tilt = test.interpolate({
-      inputRange: [0, 0.3, 0.6, 0.9],
-      outputRange: [0, -50, 50, 0],
-    });
-    const pass = [0, 1];
+    const { informationText, showForgotButton } = this.props;
+    const { pin } = this.state;
+
     return (
       <Container style={styles.container}>
         <View style={styles.logoView}>
@@ -42,61 +48,21 @@ class PinCodeScreen extends React.Component {
           <Text style={styles.title}>@mistikk</Text>
         </View>
         <View style={styles.informationView}>
-          <Text>Enter pin to unlock</Text>
+          <Text>{informationText}</Text>
         </View>
         <View style={styles.animatedView}>
-          <Animated.View
-            style={{
-              transform: [{ translateX: tilt }],
-              flexDirection: "row",
-              alignSelf: "center",
-            }}
-          >
-            {[...Array(4)].map((val, index) => {
-              if (pass[index] === undefined) {
-                return (
-                  <Animated.View
-                    key={"passwordItem-" + index}
-                    style={{
-                      alignItems: "center",
-                      justifyContent: "center",
-                      height: 20,
-                      margin: 5,
-                      width: 20,
-                      borderRadius: 20 / 2,
-                      borderWidth: 1,
-                      borderColor: "#357ce6",
-                      backgroundColor: "#fff",
-                    }}
-                  />
-                );
-              } else {
-                return (
-                  <Animated.View
-                    key={"passwordItem-" + index}
-                    style={{
-                      alignItems: "center",
-                      justifyContent: "center",
-                      height: 20,
-                      margin: 5,
-                      width: 20,
-                      borderRadius: 20 / 2,
-                      borderWidth: 1,
-                      borderColor: "#357ce6",
-                      backgroundColor: "#357ce6",
-                    }}
-                  />
-                );
-              }
-            })}
-          </Animated.View>
+          <PinAnimatedInput pin={pin} />
         </View>
         <View style={styles.numericKeyboardView}>
-          <NumericKeyboard />
+          <NumericKeyboard onPress={this._handleKeyboardOnPress} />
         </View>
-        <TouchableOpacity style={styles.forgotButtonView}>
-          <Text style={styles.forgotButtonText}>Oh, I forgot it…</Text>
-        </TouchableOpacity>
+        {showForgotButton ? (
+          <TouchableOpacity style={styles.forgotButtonView}>
+            <Text style={styles.forgotButtonText}>Oh, I forgot it…</Text>
+          </TouchableOpacity>
+        ) : (
+          <View style={styles.forgotButtonView} />
+        )}
       </Container>
     );
   }
