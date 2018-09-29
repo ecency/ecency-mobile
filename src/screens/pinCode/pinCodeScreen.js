@@ -36,7 +36,7 @@ class PinCodeScreen extends React.Component {
   };
 
   render() {
-    const { informationText, showForgotButton } = this.props;
+    const { informationText, showForgotButton, username } = this.props;
     const { pin } = this.state;
 
     return (
@@ -45,7 +45,7 @@ class PinCodeScreen extends React.Component {
           <Logo />
         </View>
         <View style={styles.titleView}>
-          <Text style={styles.title}>@mistikk</Text>
+          <Text style={styles.title}>{`@${username}`}</Text>
         </View>
         <View style={styles.informationView}>
           <Text>{informationText}</Text>

@@ -117,12 +117,14 @@ class PinCodeContainer extends React.Component {
   };
 
   render() {
+    const { currentAccount } = this.props;
     const { informationText, isExistUser } = this.state;
     return (
       <PinCodeScreen
         informationText={informationText}
         setPinCode={this._setPinCode}
         showForgotButton={isExistUser}
+        username={currentAccount ? currentAccount.name : "unknow"}
       />
     );
   }
