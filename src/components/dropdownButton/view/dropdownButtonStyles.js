@@ -6,6 +6,7 @@ export default EStyleSheet.create({
     justifyContent: "center",
     alignItems: "center",
     alignSelf: "flex-start",
+    height: 35,
   },
   dropdownWrapper: {},
   dropdownText: {

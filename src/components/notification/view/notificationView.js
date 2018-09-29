@@ -122,7 +122,7 @@ class NotificationView extends Component {
           ]}
           defaultText="ALL NOTIFICATION"
           onDropdownSelect={this._handleOnDropdownSelect}
-          rightIconName="md-apps"
+          rightIconName="ios-checkmark"
         />
         <ScrollView style={styles.scrollView}>
           <ContainerHeader title="Recent" />

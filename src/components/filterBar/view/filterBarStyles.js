@@ -9,11 +9,12 @@ export default EStyleSheet.create({
     justifyContent: "space-between",
   },
   rightIconWrapper: {
-    alignSelf: "flex-end",
     marginRight: 32,
   },
   rightIcon: {
     color: "#c1c5c7",
-    fontSize: 20,
+    fontSize: 32,
+    textAlign: "center",
+    width: 32,
   },
 });
