@@ -73,6 +73,7 @@ class NotificationView extends Component {
   _getRenderItem = item => {
     return (
       <View
+        key={Math.random()}
         style={[
           styles.notificationWrapper,
           item.isNew && styles.isNewNotification,

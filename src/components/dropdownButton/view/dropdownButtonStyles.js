@@ -25,6 +25,9 @@ export default EStyleSheet.create({
     marginLeft: -2,
     minWidth: "$deviceWidth / 2",
     borderColor: "#e7e7e7",
+    borderRadius: 5,
+    shadowOpacity: 0.8,
+    shadowColor: "#e7e7e7",
   },
   iconWrapper: {
     justifyContent: "center",
@@ -48,5 +51,33 @@ export default EStyleSheet.create({
     alignSelf: "center",
     color: "#788187",
     fontWeight: "normal",
+  },
+  rowWrapper: {
+    height: 35,
+    justifyContent: "center",
+    borderTopRightRadius: 20,
+    borderBottomRightRadius: 20,
+    width: "$deviceWidth / 2.5",
+    padding: 5,
+  },
+  dropdownRow: {
+    marginLeft: 30,
+    justifyContent: "center",
+  },
+  highlightedRow: {
+    borderRadius: 20,
+    height: 35,
+    backgroundColor: "#387BE5",
+    marginLeft: 5,
+    width: "$deviceWidth / 3.2",
+  },
+  highlightedRowText: {
+    textAlign: "center",
+    color: "#fff",
+    fontWeight: "bold",
+  },
+  rowText: {
+    fontSize: 10,
+    color: "#788187",
   },
 });

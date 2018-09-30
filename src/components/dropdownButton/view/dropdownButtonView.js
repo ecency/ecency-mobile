@@ -1,5 +1,5 @@
 import React from "react";
-import { View, Text } from "react-native";
+import { View, Text, TouchableHighlight } from "react-native";
 import { Dimensions } from "react-native";
 
 // Constants
@@ -21,47 +21,26 @@ import styles from "./dropdownButtonStyles";
   * 
   */
 
-// const _dropdown_2_renderRow = (rowData, rowID, highlighted) => {
-//   let icon = highlighted
-//     ? require("./images/heart.png")
-//     : require("./images/flower.png");
-//   let evenRow = rowID % 2;
-//   return (
-//     <TouchableHighlight underlayColor="cornflowerblue">
-//       <View
-//         style={[
-//           styles.dropdown_2_row,
-//           { backgroundColor: evenRow ? "lemonchiffon" : "white" },
-//         ]}
-//       >
-//         <Image style={styles.dropdown_2_image} mode="stretch" source={icon} />
-//         <Text
-//           style={[
-//             styles.dropdown_2_row_text,
-//             highlighted && { color: "mediumaquamarine" },
-//           ]}
-//         >
-//           {`${rowData.name} (${rowData.age})`}
-//         </Text>
-//       </View>
-//     </TouchableHighlight>
-//   );
-// };
+const renderDropdownRow = (rowData, rowID, highlighted) => {
+  return (
+    <TouchableHighlight style={styles.rowWrapper} underlayColor="#E9F2FC">
+      <View style={[styles.dropdownRow, highlighted && styles.highlightedRow]}>
+        <Text
+          style={[styles.rowText, highlighted && styles.highlightedRowText]}
+        >
+          {rowData}
+        </Text>
+      </View>
+    </TouchableHighlight>
+  );
+};
 
 // const _dropdown_2_renderButtonText = rowData => {
 //   const { name, age } = rowData;
 //   return `${name} - ${age}`;
 // };
 
-// const _dropdown_2_renderSeparator = (
-//   sectionID,
-//   rowID,
-//   adjacentRowHighlighted
-// ) => {
-//   if (rowID == DEMO_OPTIONS_1.length - 1) return;
-//   let key = `spr_${rowID}`;
-//   return <View style={styles.dropdown_2_separator} key={key} />;
-// };
+const renderDropdownSeperator = () => null;
 
 const DropdownButtonView = ({
   defaultText,
@@ -86,10 +65,10 @@ const DropdownButtonView = ({
         defaultIndex={defaultIndex}
         defaultValue={defaultText}
         // renderButtonText={rowData => _dropdown_2_renderButtonText(rowData)}
-        // renderSeparator={(sectionID, rowID, adjacentRowHighlighted) =>
-        //   _dropdown_2_renderSeparator(sectionID, rowID, adjacentRowHighlighted)
-        // }
-        // renderRow={() => _dropdown_2_renderRow()}
+        renderSeparator={() => renderDropdownSeperator()}
+        renderRow={(rowData, rowID, highlighted) =>
+          renderDropdownRow(rowData, rowID, highlighted)
+        }
       />
     </View>
     <View style={styles.iconWrapper}>
