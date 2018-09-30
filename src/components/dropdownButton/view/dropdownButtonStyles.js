@@ -23,7 +23,7 @@ export default EStyleSheet.create({
   dropdown: {
     marginTop: 5,
     marginLeft: -2,
-    minWidth: "$deviceWidth / 3",
+    minWidth: "$deviceWidth / 2",
     borderColor: "#e7e7e7",
   },
   iconWrapper: {
@@ -36,7 +36,10 @@ export default EStyleSheet.create({
     padding: 5,
     borderColor: "#e7e7e7",
   },
-  dropdownTextHighlight: {},
+  dropdownTextHighlight: {
+    backgroundColor: "#387be5",
+    width: "$deviceWidth / 3",
+  },
   button: {
     marginLeft: 25,
   },

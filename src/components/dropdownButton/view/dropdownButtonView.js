@@ -14,12 +14,54 @@ import styles from "./dropdownButtonStyles";
 
 /* Props
   * ------------------------------------------------
-  *   @prop { string }      defaultText                - Description....
+  *   @prop { string }      defaultText         - Description....
   *   @prop { string }      iconName            - Description....
   *   @prop { array }       options             - Description....
   *   @prop { function }    onSelect            - Description....
   * 
   */
+
+// const _dropdown_2_renderRow = (rowData, rowID, highlighted) => {
+//   let icon = highlighted
+//     ? require("./images/heart.png")
+//     : require("./images/flower.png");
+//   let evenRow = rowID % 2;
+//   return (
+//     <TouchableHighlight underlayColor="cornflowerblue">
+//       <View
+//         style={[
+//           styles.dropdown_2_row,
+//           { backgroundColor: evenRow ? "lemonchiffon" : "white" },
+//         ]}
+//       >
+//         <Image style={styles.dropdown_2_image} mode="stretch" source={icon} />
+//         <Text
+//           style={[
+//             styles.dropdown_2_row_text,
+//             highlighted && { color: "mediumaquamarine" },
+//           ]}
+//         >
+//           {`${rowData.name} (${rowData.age})`}
+//         </Text>
+//       </View>
+//     </TouchableHighlight>
+//   );
+// };
+
+// const _dropdown_2_renderButtonText = rowData => {
+//   const { name, age } = rowData;
+//   return `${name} - ${age}`;
+// };
+
+// const _dropdown_2_renderSeparator = (
+//   sectionID,
+//   rowID,
+//   adjacentRowHighlighted
+// ) => {
+//   if (rowID == DEMO_OPTIONS_1.length - 1) return;
+//   let key = `spr_${rowID}`;
+//   return <View style={styles.dropdown_2_separator} key={key} />;
+// };
 
 const DropdownButtonView = ({
   defaultText,
@@ -35,7 +77,7 @@ const DropdownButtonView = ({
         textStyle={styles.buttonText}
         dropdownStyle={[
           styles.dropdown,
-          { height: DEVICE_HEIGHT / (19 / options.length + 1) },
+          // { height: DEVICE_HEIGHT / (19 / options.length + 1) },
         ]}
         dropdownTextStyle={styles.dropdownText}
         dropdownTextHighlightStyle={styles.dropdownTextHighlight}
@@ -43,6 +85,11 @@ const DropdownButtonView = ({
         onSelect={e => onSelect && onSelect(e)}
         defaultIndex={defaultIndex}
         defaultValue={defaultText}
+        // renderButtonText={rowData => _dropdown_2_renderButtonText(rowData)}
+        // renderSeparator={(sectionID, rowID, adjacentRowHighlighted) =>
+        //   _dropdown_2_renderSeparator(sectionID, rowID, adjacentRowHighlighted)
+        // }
+        // renderRow={() => _dropdown_2_renderRow()}
       />
     </View>
     <View style={styles.iconWrapper}>
