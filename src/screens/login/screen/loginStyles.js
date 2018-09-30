@@ -50,4 +50,14 @@ export default EStyleSheet.create({
     bottom: 24,
     flexDirection: "row",
   },
+  footerButtons: {
+    flex: 1,
+    flexDirection: "row",
+    justifyContent: "center",
+    alignItems: "center",
+    alignSelf: "flex-end",
+    position: "absolute",
+    bottom: 45,
+    left: "$deviceWidth / 2.3",
+  },
 });

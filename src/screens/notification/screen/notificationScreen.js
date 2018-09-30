@@ -1,5 +1,5 @@
 import React, { Fragment } from "react";
-import { Text, View } from "react-native";
+import { Text, View, SafeAreaView } from "react-native";
 import ScrollableTabView from "@esteemapp/react-native-scrollable-tab-view";
 import { TabBar } from "../../../components/tabBar";
 import { Notification } from "../../../components/notification";
@@ -9,7 +9,7 @@ import styles from "./notificationStyles";
 class NotificationScreen extends React.Component {
   render() {
     return (
-      <Fragment>
+      <SafeAreaView style={{ flex: 1, backgroundColor: "#fff" }}>
         <ScrollableTabView
           style={styles.tabView}
           renderTabBar={() => (
@@ -29,7 +29,7 @@ class NotificationScreen extends React.Component {
             <Text>Leaderboard</Text>
           </View>
         </ScrollableTabView>
-      </Fragment>
+      </SafeAreaView>
     );
   }
 }
