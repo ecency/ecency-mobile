@@ -2,7 +2,7 @@
 import React from "react";
 import { FlatList, ActivityIndicator } from "react-native";
 
-import moment from "moment";
+import { getTimeFromNow } from "../../../utils/time";
 import FastImage from "react-native-fast-image";
 
 import ScrollableTabView from "@esteemapp/react-native-scrollable-tab-view";
@@ -72,7 +72,7 @@ class ProfileScreen extends React.Component {
       const isLoggedIn = res;
     });
 
-    if (isLoggedIn === true) {
+    if (isLoggedIn) {
       let user;
       let userData;
       let follows;
@@ -105,7 +105,7 @@ class ProfileScreen extends React.Component {
   }
 
   renderFooter = () => {
-    if (!this.state.loading == false) return null;
+    if (this.state.loading) return null;
 
     return (
       <View style={{ marginVertical: 20 }}>
@@ -238,10 +238,7 @@ class ProfileScreen extends React.Component {
                         }}
                         name="md-calendar"
                       />
-                      {moment
-                        .utc(this.state.user.created)
-                        .local()
-                        .fromNow()}
+                      {getTimeFromNow(this.state.user.created)}
                     </Text>
                   </View>
                 </CardItem>
@@ -274,7 +271,7 @@ class ProfileScreen extends React.Component {
                   )}
                   keyExtractor={(post, index) => index.toString()}
                   onEndReached={info => {
-                    if (this.state.loading == false) {
+                    if (!this.state.loading) {
                       console.log(info);
                       this.getMore();
                     }

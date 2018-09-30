@@ -22,15 +22,11 @@ import { PostCard } from "../../../components/postCard";
 
 import Comment from "../../../components/comment/comment";
 
-// TODO: Make utils for all using moment.
-import moment from "moment";
-
-//import Icon from "react-native-vector-icons/FontAwesome";
+import { getTimeFromNow } from "../../../utils/time";
 
 // Styles
 import styles from "./authorStyles";
 
-//import themes from "../../styles/themes";
 import {
   followUser,
   unfollowUser,
@@ -114,7 +110,7 @@ class AuthorScreen extends Component {
       isLoggedIn = res;
     });
 
-    if (isLoggedIn == true) {
+    if (isLoggedIn) {
       getUserData()
         .then(res => {
           user = Array.from(res);
@@ -184,7 +180,7 @@ class AuthorScreen extends Component {
   };
 
   getMore = () => {
-    if (this.state.loading == true) {
+    if (this.state.loading) {
       return false;
     } else {
       getPosts(
@@ -299,7 +295,7 @@ class AuthorScreen extends Component {
   };
 
   renderFooter = () => {
-    if (!this.state.loading == false) return null;
+    if (this.state.loading) return null;
 
     return (
       <View style={{ marginVertical: 20 }}>
@@ -343,7 +339,7 @@ class AuthorScreen extends Component {
                 {this.state.author.name}
               </Text>
               <Text>{this.state.about.about}</Text>
-              {this.state.isFolllowing == true ? (
+              {this.state.isFolllowing ? (
                 <Button
                   onPress={() => {
                     this.unfollow();
@@ -421,10 +417,7 @@ class AuthorScreen extends Component {
                       }}
                       name="md-calendar"
                     />
-                    {moment
-                      .utc(this.state.author.created)
-                      .local()
-                      .fromNow()}
+                    {getTimeFromNow(this.state.author.created)}
                   </Text>
                 </View>
               </CardItem>
@@ -458,7 +451,7 @@ class AuthorScreen extends Component {
                 )}
                 keyExtractor={(post, index) => index.toString()}
                 onEndReached={info => {
-                  if (this.state.loading == false) {
+                  if (!this.state.loading) {
                     console.log(info);
                     this.getMore();
                   }
