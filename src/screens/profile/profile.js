@@ -2,7 +2,7 @@
 import React from "react";
 import { FlatList, ActivityIndicator } from "react-native";
 
-import moment from "moment";
+import { getTimeFromNow } from "../../utils/time";
 import FastImage from "react-native-fast-image";
 
 import ScrollableTabView from "@esteemapp/react-native-scrollable-tab-view";
@@ -11,7 +11,7 @@ import DiscoverPage from "../discover/discover";
 import { PostCard } from "../../components/postCard";
 import Comment from "../../components/comment/comment";
 
-import { Card, CardItem, View, Body, Title, Container } from "native-base";
+import { Card, CardItem, View, Body } from "native-base";
 
 import { getUserData, getAuthStatus } from "../../realm/realm";
 import {
@@ -19,7 +19,6 @@ import {
   getFollows,
   getPosts,
   getUserComments,
-  getUserReplies,
 } from "../../providers/steem/dsteem";
 import styles from "../../styles/profile.styles";
 /* eslint-enable no-unused-vars */
@@ -76,7 +75,7 @@ class ProfilePage extends React.Component {
       isLoggedIn = res;
     });
 
-    if (isLoggedIn == true) {
+    if (isLoggedIn) {
       await getUserData().then(res => {
         userData = Array.from(res);
       });
@@ -103,7 +102,7 @@ class ProfilePage extends React.Component {
   }
 
   renderFooter = () => {
-    if (!this.state.loading == false) return null;
+    if (this.state.loading) return null;
 
     return (
       <View style={{ marginVertical: 20 }}>
@@ -235,10 +234,7 @@ class ProfilePage extends React.Component {
                         }}
                         name="md-calendar"
                       />
-                      {moment
-                        .utc(this.state.user.created)
-                        .local()
-                        .fromNow()}
+                      {getTimeFromNow(this.state.user.created)}
                     </Text>
                   </View>
                 </CardItem>
@@ -271,7 +267,7 @@ class ProfilePage extends React.Component {
                   )}
                   keyExtractor={(post, index) => index.toString()}
                   onEndReached={info => {
-                    if (this.state.loading == false) {
+                    if (!this.state.loading) {
                       console.log(info);
                       this.getMore();
                     }
