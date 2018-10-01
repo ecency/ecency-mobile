@@ -117,7 +117,7 @@ class NotificationView extends Component {
             "VOTES",
             "REPLIES",
             "MENTIONS",
-            "FALLOWS",
+            "FOLLOWS",
             "REBLOGS",
           ]}
           defaultText="ALL NOTIFICATION"
@@ -131,7 +131,7 @@ class NotificationView extends Component {
             renderItem={({ item }) => this._getRenderItem(item)}
             keyExtractor={item => item.email}
           />
-          {/* Will remove fallow lines */}
+          {/* Will remove follow lines */}
           <ContainerHeader title="Yesterday" />
           <FlatList
             data={notification}
