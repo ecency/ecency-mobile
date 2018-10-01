@@ -28,6 +28,7 @@
     "react-native-keyboard-aware-scroll-view": "^0.7.2",
     "react-native-markdown-editor": "^1.0.1",
     "react-native-modal": "^6.5.0",
+    "react-native-modal-dropdown": "^0.6.2",
     "react-native-modal-popover": "0.0.10",
     "react-native-navigation": "^2.0.2519",
     "react-native-restart": "0.0.6",

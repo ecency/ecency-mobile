@@ -88,7 +88,7 @@ class FormInputView extends Component {
         <TextInput
           onFocus={() =>
             this.setState({
-              inputBorderColor: "#357ce6",
+              inputBorderColor: "$primaryBlue",
             })
           }
           onSubmitEditing={() =>

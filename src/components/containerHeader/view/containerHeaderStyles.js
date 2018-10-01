@@ -13,7 +13,7 @@ export default EStyleSheet.create({
   title: {
     alignSelf: "flex-start",
     fontSize: 14,
-    color: "#788187",
+    color: "$primaryGray",
     fontWeight: "bold",
     marginLeft: 26,
   },

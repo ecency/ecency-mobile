@@ -1,12 +1,5 @@
 import React from "react";
-import {
-  StyleSheet,
-  FlatList,
-  View,
-  StatusBar,
-  Dimensions,
-  ActivityIndicator,
-} from "react-native";
+import { FlatList, View, ActivityIndicator } from "react-native";
 import {
   Container,
   Header,
@@ -28,6 +21,7 @@ import Placeholder from "rn-placeholder";
 
 // COMPONENTS
 import { PostCard } from "../../components/postCard";
+import { FilterBar } from "../../components/filterBar";
 
 /* eslint-enable no-unused-vars */
 
@@ -119,6 +113,20 @@ class FeedPage extends React.Component {
   render() {
     return (
       <View style={{ flex: 1 }}>
+        {this.state.isReady && (
+          <FilterBar
+            dropdownIconName="md-arrow-dropdown"
+            options={[
+              "ALL NOTIFICATION",
+              "LATEST NOTF",
+              "ESTEEMAPP",
+              "UGUR ERDAL",
+              "ONLY YESTERDAY",
+            ]}
+            defaultText="NEW POST"
+            rightIconName="md-apps"
+          />
+        )}
         {this.state.isReady ? (
           <FlatList
             data={this.state.posts}
