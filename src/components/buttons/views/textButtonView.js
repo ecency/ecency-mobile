@@ -1,9 +1,9 @@
 import React, { Fragment } from "react";
 import { TouchableWithoutFeedback, Text, View } from "react-native";
 
-import styles from "./greetingHeaderButtonStyles";
+import styles from "./textButtonStyles";
 
-const GreetingHeaderButtonView = ({ text, onPress, style }) => (
+const TextButtonView = ({ text, onPress, style }) => (
   <Fragment>
     <TouchableWithoutFeedback
       style={[styles.button, style]}
@@ -16,4 +16,4 @@ const GreetingHeaderButtonView = ({ text, onPress, style }) => (
   </Fragment>
 );
 
-export default GreetingHeaderButtonView;
+export default TextButtonView;

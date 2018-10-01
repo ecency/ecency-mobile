@@ -40,7 +40,7 @@ export default EStyleSheet.create({
     fontWeight: "bold",
   },
   title: {
-    color: "#788187",
+    color: "$primaryGray",
   },
   description: {
     color: "#3c4449",
@@ -48,7 +48,7 @@ export default EStyleSheet.create({
     fontWeight: "500",
   },
   scrollView: {
-    height: "$deviceHeight / 1.25",
+    height: "$deviceHeight / 1.35",
   },
   isNewNotification: {
     backgroundColor: "#eaf2fc",

@@ -13,7 +13,7 @@ export default EStyleSheet.create({
     marginTop: "$deviceHeight / 8",
   },
   forgotButtonText: {
-    color: "#788187",
+    color: "$primaryGray",
     fontSize: 14,
     marginTop: 25,
     alignSelf: "center",

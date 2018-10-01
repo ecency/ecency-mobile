@@ -15,6 +15,6 @@ export default EStyleSheet.create({
   infoText: {
     flex: 0.875,
     fontSize: 12,
-    color: "#788187",
+    color: "$primaryGray",
   },
 });

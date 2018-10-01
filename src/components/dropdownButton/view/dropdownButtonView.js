@@ -12,7 +12,7 @@ import Ionicons from "react-native-vector-icons/Ionicons";
 // Styles
 import styles from "./dropdownButtonStyles";
 
-/* Props
+/* Props TODO: Fill all description
   * ------------------------------------------------
   *   @prop { string }      defaultText         - Description....
   *   @prop { string }      iconName            - Description....
@@ -35,13 +35,6 @@ const renderDropdownRow = (rowData, rowID, highlighted) => {
   );
 };
 
-// const _dropdown_2_renderButtonText = rowData => {
-//   const { name, age } = rowData;
-//   return `${name} - ${age}`;
-// };
-
-const renderDropdownSeperator = () => null;
-
 const DropdownButtonView = ({
   defaultText,
   iconName,
@@ -50,24 +43,21 @@ const DropdownButtonView = ({
   defaultIndex,
 }) => (
   <View style={styles.container}>
-    <View style={styles.dropdownWrapper}>
-      <ModalDropdown
-        style={styles.button}
-        textStyle={styles.buttonText}
-        dropdownStyle={[styles.dropdown, { height: 35 * (options.length + 1) }]}
-        dropdownTextStyle={styles.dropdownText}
-        dropdownTextHighlightStyle={styles.dropdownTextHighlight}
-        options={options}
-        onSelect={e => onSelect && onSelect(e)}
-        defaultIndex={defaultIndex}
-        defaultValue={defaultText}
-        // renderButtonText={rowData => _dropdown_2_renderButtonText(rowData)}
-        renderSeparator={() => renderDropdownSeperator()}
-        renderRow={(rowData, rowID, highlighted) =>
-          renderDropdownRow(rowData, rowID, highlighted)
-        }
-      />
-    </View>
+    <ModalDropdown
+      style={styles.button}
+      textStyle={styles.buttonText}
+      dropdownStyle={[styles.dropdown, { height: 35 * (options.length + 1) }]}
+      dropdownTextStyle={styles.dropdownText}
+      dropdownTextHighlightStyle={styles.dropdownTextHighlight}
+      options={options}
+      onSelect={e => onSelect && onSelect(e)}
+      defaultIndex={defaultIndex}
+      defaultValue={defaultText}
+      renderSeparator={() => null}
+      renderRow={(rowData, rowID, highlighted) =>
+        renderDropdownRow(rowData, rowID, highlighted)
+      }
+    />
     <View style={styles.iconWrapper}>
       <Ionicons
         style={styles.dropdownIcon}

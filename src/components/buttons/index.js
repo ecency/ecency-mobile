@@ -1,3 +1,3 @@
-import GreetingHeaderButton from "./views/greetingHeaderButtonView";
+import TextButton from "./views/textButtonView";
 
-export { GreetingHeaderButton };
+export { TextButton };

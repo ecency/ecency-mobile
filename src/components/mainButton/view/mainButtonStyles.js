@@ -45,4 +45,7 @@ export default EStyleSheet.create({
     width: 20,
     height: 20,
   },
+  disableTouchable: {
+    backgroundColor: "#c1c5c7",
+  },
 });

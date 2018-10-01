@@ -90,7 +90,7 @@ export default class Home extends React.PureComponent {
       isLoggedIn = res;
     });
 
-    if (isLoggedIn == true) {
+    if (isLoggedIn) {
       await getUserData().then(res => {
         user = Array.from(res);
       });
@@ -118,7 +118,7 @@ export default class Home extends React.PureComponent {
               style={styles.tabbar}
               tabUnderlineDefaultWidth={80} // default containerWidth / (numberOfTabs * 4)
               tabUnderlineScaleX={2} // default 3
-              activeColor={"$primaryBlue"}
+              activeColor={"#357ce6"}
               inactiveColor={"#222"}
               tabBarPosition="overlayTop"
             />

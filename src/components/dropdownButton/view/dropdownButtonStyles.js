@@ -8,10 +8,9 @@ export default EStyleSheet.create({
     alignSelf: "flex-start",
     height: 35,
   },
-  dropdownWrapper: {},
   dropdownText: {
     fontSize: 9,
-    color: "#788187",
+    color: "$primaryGray",
     marginLeft: 25,
   },
   dropdownIcon: {
@@ -37,7 +36,7 @@ export default EStyleSheet.create({
   },
   dropdownText: {
     fontSize: 9,
-    color: "#788187",
+    color: "$primaryGray",
     padding: 5,
     borderColor: "#e7e7e7",
   },
@@ -51,7 +50,7 @@ export default EStyleSheet.create({
   buttonText: {
     fontSize: 9,
     alignSelf: "center",
-    color: "#788187",
+    color: "$primaryGray",
     fontWeight: "normal",
   },
   rowWrapper: {
@@ -70,16 +69,17 @@ export default EStyleSheet.create({
     borderRadius: 20,
     height: 35,
     backgroundColor: "$primaryBlue",
-    marginLeft: 5,
-    width: "$deviceWidth / 3.2",
+    alignSelf: "flex-start",
+    paddingLeft: 11,
+    paddingRight: 11,
+    marginLeft: 20,
   },
   highlightedRowText: {
-    textAlign: "center",
-    color: "#fff",
+    color: "$white",
     fontWeight: "bold",
   },
   rowText: {
-    fontSize: 10,
-    color: "#788187",
+    fontSize: 9,
+    color: "$primaryGray",
   },
 });

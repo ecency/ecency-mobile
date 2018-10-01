@@ -29,27 +29,34 @@ class FormInputView extends Component {
     this.state = {
       value: "",
       inputBorderColor: "#c1c5c7",
+      isValid: true,
     };
   }
 
   // Component Life Cycles
+  componentWillReceiveProps(nextProps) {
+    const { isValid } = this.props;
+
+    if (nextProps.isValid !== isValid) {
+      this.setState({ isValid: nextProps.isValid });
+    }
+  }
 
   // Component Functions
   _handleOnChange = value => {
     const { onChange } = this.props;
 
-    value && this.setState({ value });
-    onChange && value && onChange(value);
+    this.setState({ value });
+    onChange && onChange(value);
   };
 
   render() {
-    const { inputBorderColor, value } = this.state;
+    const { inputBorderColor, isValid, value } = this.state;
     const {
       placeholder,
       type,
       isFirstImage,
       isEditable,
-      isValid,
       leftIconName,
       rightIconName,
       secureTextEntry,
