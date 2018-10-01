@@ -113,11 +113,12 @@ class NotificationView extends Component {
         <FilterBar
           dropdownIconName="md-arrow-dropdown"
           options={[
-            "ALL NOTIFICATION",
-            "LATEST NOTF",
-            "ESTEEMAPP",
-            "UGUR ERDAL",
-            "ONLY YESTERDAY",
+            "ALL ACTIVITIES",
+            "VOTES",
+            "REPLIES",
+            "MENTIONS",
+            "FALLOWS",
+            "REBLOGS",
           ]}
           defaultText="ALL NOTIFICATION"
           onDropdownSelect={this._handleOnDropdownSelect}
