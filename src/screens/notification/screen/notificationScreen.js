@@ -17,7 +17,7 @@ class NotificationScreen extends React.Component {
               style={styles.tabbar}
               tabUnderlineDefaultWidth={100}
               tabUnderlineScaleX={2}
-              activeColor={"#357ce6"}
+              activeColor={"$primaryBlue"}
               inactiveColor={"#222"}
             />
           )}

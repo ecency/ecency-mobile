@@ -23,6 +23,8 @@ export default EStyleSheet.create({
   dropdown: {
     marginTop: 5,
     marginLeft: -2,
+    paddingTop: 10,
+    paddingBottom: 10,
     minWidth: "$deviceWidth / 2",
     borderColor: "#e7e7e7",
     borderRadius: 5,
@@ -67,7 +69,7 @@ export default EStyleSheet.create({
   highlightedRow: {
     borderRadius: 20,
     height: 35,
-    backgroundColor: "#387BE5",
+    backgroundColor: "$primaryBlue",
     marginLeft: 5,
     width: "$deviceWidth / 3.2",
   },

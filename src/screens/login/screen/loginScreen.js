@@ -131,7 +131,7 @@ class LoginScreen extends Component {
                 style={styles.tabbar}
                 tabUnderlineDefaultWidth={100} // default containerWidth / (numberOfTabs * 4)
                 tabUnderlineScaleX={2} // default 3
-                activeColor={"#357ce6"}
+                activeColor={"$primaryBlue"}
                 inactiveColor={"#222"}
               />
             )}
