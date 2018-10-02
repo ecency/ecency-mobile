@@ -34,7 +34,13 @@ class PinCodeScreen extends React.Component {
       this.setState({ pin: newPin });
     } else if (pin.length === 3) {
       this.setState({ pin: newPin });
-      // setPinCode(`${pin}${value}`);
+      setPinCode(`${pin}${value}`)
+        .then(() => {
+          this.setState({ pin: "" });
+        })
+        .catch(() => {
+          this.setState({ pin: "" });
+        });
     } else if (pin.length > 3) {
       this.setState({ pin: `${value}` });
     }

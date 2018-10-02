@@ -50,71 +50,77 @@ class PinCodeContainer extends React.Component {
       });
     });
 
-  _setPinCode = pin => {
-    const {
-      currentAccount: { password, name },
-      componentId,
-    } = this.props;
-    const { isExistUser, pinCode } = this.state;
-    if (isExistUser) {
-      // If the user is exist, we are just checking to pin and navigating to home screen
-      const pinData = {
-        pinCode: pin,
-        password,
-        username: name,
-      };
-      verifyPinCode(pinData)
-        .then(() => {
-          Navigation.setStackRoot(componentId, {
-            component: {
-              name: "navigation.eSteem.Home",
-            },
-          });
-        })
-        .catch(err => {
-          alert(err);
-        });
-    } else {
-      // If the user is logging in for the first time, the user should set to pin
-      if (!pinCode) {
-        this.setState({
-          informationText: "Write again",
+  _setPinCode = pin =>
+    new Promise((resolve, reject) => {
+      const {
+        currentAccount: { password, name },
+        componentId,
+      } = this.props;
+      const { isExistUser, pinCode } = this.state;
+      if (isExistUser) {
+        // If the user is exist, we are just checking to pin and navigating to home screen
+        const pinData = {
           pinCode: pin,
-        });
-      } else {
-        if (pinCode === pin) {
-          const pinData = {
-            pinCode: pin,
-            password,
-            username: name,
-          };
-          setUserDataWithPinCode(pinData).then(() => {
-            AsyncStorage.setItem(
-              INITIAL.IS_EXIST_USER,
-              JSON.stringify(true),
-              () => {
-                Navigation.setStackRoot(componentId, {
-                  component: {
-                    name: "navigation.eSteem.Home",
-                  },
-                });
-              }
-            );
-          });
-        } else {
-          this.setState({
-            informationText: "wrongggg!!!",
-          });
-          setTimeout(() => {
-            this.setState({
-              informationText: "setup screen",
-              pinCode: null,
+          password,
+          username: name,
+        };
+        verifyPinCode(pinData)
+          .then(() => {
+            Navigation.setStackRoot(componentId, {
+              component: {
+                name: "navigation.eSteem.Home",
+              },
             });
-          }, 1000);
+            resolve();
+          })
+          .catch(err => {
+            alert(err);
+            reject(err);
+          });
+      } else {
+        // If the user is logging in for the first time, the user should set to pin
+        if (!pinCode) {
+          this.setState({
+            informationText: "Write again",
+            pinCode: pin,
+          });
+          resolve();
+        } else {
+          if (pinCode === pin) {
+            const pinData = {
+              pinCode: pin,
+              password,
+              username: name,
+            };
+            setUserDataWithPinCode(pinData).then(() => {
+              AsyncStorage.setItem(
+                INITIAL.IS_EXIST_USER,
+                JSON.stringify(true),
+                () => {
+                  Navigation.setStackRoot(componentId, {
+                    component: {
+                      name: "navigation.eSteem.Home",
+                    },
+                  });
+                  resolve();
+                }
+              );
+            });
+          } else {
+            this.setState({
+              informationText: "wrongggg!!!",
+            });
+            setTimeout(() => {
+              this.setState({
+                informationText: "setup screen",
+                pinCode: null,
+              });
+              resolve();
+            }, 1000);
+          }
         }
       }
-    }
-  };
+    });
 
   render() {
     const { currentAccount } = this.props;
