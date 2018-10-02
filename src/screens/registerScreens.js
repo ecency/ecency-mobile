@@ -18,7 +18,7 @@ import Editor from "./editor/editor";
 import Discover from "./discover/discover";
 import Settings from "./settings/settings";
 import { Notification } from "./notification";
-import PinCode from "./pinCode/pinCodeContainer";
+import PinCode from "./pinCode";
 
 // COMPONENTS
 import SteemConnect from "./steem-connect/steemConnect";

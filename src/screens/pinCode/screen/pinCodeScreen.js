@@ -2,10 +2,9 @@ import React from "react";
 import { Text, TouchableOpacity, Animated, View } from "react-native";
 import { Container } from "native-base";
 
-import { Logo, NumericKeyboard, PinAnimatedInput } from "../../components";
+import { Logo, NumericKeyboard, PinAnimatedInput } from "../../../components";
 
-import styles from "../../styles/pinCode.styles";
-import globalStyles from "../../globalStyles";
+import styles from "./pinCodeStyles";
 
 class PinCodeScreen extends React.Component {
   constructor(props) {

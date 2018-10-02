@@ -6,11 +6,11 @@ import { Navigation } from "react-native-navigation";
 import {
   setUserDataWithPinCode,
   verifyPinCode,
-} from "../../providers/steem/auth";
+} from "../../../providers/steem/auth";
 
-import { default as INITIAL } from "../../constants/initial";
+import { default as INITIAL } from "../../../constants/initial";
 
-import PinCodeScreen from "./pinCodeScreen";
+import PinCodeScreen from "../pinCodeScreen";
 
 class PinCodeContainer extends React.Component {
   constructor(props) {
