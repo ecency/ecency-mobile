@@ -1,19 +1,19 @@
 /* eslint-disable no-unused-vars */
 import React from "react";
 import { FlatList, ActivityIndicator } from "react-native";
+import { Card, CardItem, View, Body, Icon, Text } from "native-base";
 
 import { getTimeFromNow } from "../../../utils/time";
 import FastImage from "react-native-fast-image";
-
+// Components
 import ScrollableTabView from "@esteemapp/react-native-scrollable-tab-view";
 import { TabBar } from "../../../components/tabBar";
 import DiscoverPage from "../../discover/discover";
 import { PostCard } from "../../../components/postCard";
-
+import { ProfileSummary } from "../../../components/profileSummary";
 import Comment from "../../../components/comment/comment";
 
-import { Card, CardItem, View, Body, Icon, Text } from "native-base";
-
+// Utilitites
 import { getUserData, getAuthStatus } from "../../../realm/realm";
 import {
   getUser,
@@ -177,10 +177,17 @@ class ProfileScreen extends React.Component {
     //TODO: Refactor ME !
     return (
       <View style={styles.container}>
-        <CollapsibleCard title="Customized Card 1" expanded={true}>
-          <Text>Hello, this is first line.</Text>
-          <Text>Hello, this is second line.</Text>
-          <Text>Hello, this is third line.</Text>
+        <CollapsibleCard
+          title="eSteem CMO / product lead / illustator"
+          expanded={true}
+        >
+          <ProfileSummary
+            percent={92.28}
+            hours={9}
+            location="Saint Petersburg, Russia"
+            link="dunsky.ru"
+            date="24 July, 2017"
+          />
         </CollapsibleCard>
         {/* {this.state.isLoggedIn ? (
           <View style={{ flex: 1 }}>

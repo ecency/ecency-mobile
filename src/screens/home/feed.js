@@ -22,9 +22,7 @@ import Placeholder from "rn-placeholder";
 // COMPONENTS
 import { PostCard } from "../../components/postCard";
 import { FilterBar } from "../../components/filterBar";
-import { ProfileSummary } from "../../components/profileSummary";
 
-import { CollapsibleCard } from "../../components/collapsibleCard";
 /* eslint-enable no-unused-vars */
 
 class FeedPage extends React.Component {
@@ -115,19 +113,7 @@ class FeedPage extends React.Component {
   render() {
     return (
       <View style={{ flex: 1 }}>
-        <CollapsibleCard
-          title="eSteem CMO / product lead / illustator"
-          expanded={true}
-        >
-          <ProfileSummary
-            percent={92.28}
-            hours={9}
-            location="Saint Petersburg, Russia"
-            link="dunsky.ru"
-            date="24 July, 2017"
-          />
-        </CollapsibleCard>
-        {/* {this.state.isReady && (
+        {this.state.isReady && (
           <FilterBar
             dropdownIconName="md-arrow-dropdown"
             options={[
@@ -195,7 +181,7 @@ class FeedPage extends React.Component {
               />
             </View>
           </View>
-        )} */}
+        )}
       </View>
     );
   }
