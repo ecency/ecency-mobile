@@ -23,6 +23,7 @@ import Placeholder from "rn-placeholder";
 import { PostCard } from "../../components/postCard";
 import { FilterBar } from "../../components/filterBar";
 
+import { CollapsibleCard } from "../../components/collapsibleCard";
 /* eslint-enable no-unused-vars */
 
 class FeedPage extends React.Component {
@@ -113,7 +114,18 @@ class FeedPage extends React.Component {
   render() {
     return (
       <View style={{ flex: 1 }}>
-        {this.state.isReady && (
+        <CollapsibleCard title="Customized Card 1" expanded={true}>
+          <Text>Hello, this is first line.</Text>
+          <Text>Hello, this is second line.</Text>
+          <Text>Hello, this is third line.</Text>
+          <Text>Hello, this is first line.</Text>
+          <Text>Hello, this is second line.</Text>
+          <Text>Hello, this is third line.</Text>
+          <Text>Hello, this is first line.</Text>
+          <Text>Hello, this is second line.</Text>
+          <Text>Hello, this is third line.</Text>
+        </CollapsibleCard>
+        {/* {this.state.isReady && (
           <FilterBar
             dropdownIconName="md-arrow-dropdown"
             options={[
@@ -181,7 +193,7 @@ class FeedPage extends React.Component {
               />
             </View>
           </View>
-        )}
+        )} */}
       </View>
     );
   }

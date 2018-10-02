@@ -125,14 +125,14 @@ class NotificationView extends Component {
           rightIconName="ios-checkmark"
         />
         <ScrollView style={styles.scrollView}>
-          <ContainerHeader title="Recent" />
+          <ContainerHeader hasSeperator isBoldTitle title="Recent" />
           <FlatList
             data={notification}
             renderItem={({ item }) => this._getRenderItem(item)}
             keyExtractor={item => item.email}
           />
           {/* Will remove follow lines */}
-          <ContainerHeader title="Yesterday" />
+          <ContainerHeader hasSeperator isBoldTitle title="Yesterday" />
           <FlatList
             data={notification}
             renderItem={({ item }) => this._getRenderItem(item)}

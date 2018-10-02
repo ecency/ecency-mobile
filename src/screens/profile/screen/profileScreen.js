@@ -24,7 +24,8 @@ import {
 
 // Styles
 import styles from "./profileStyles";
-/* eslint-enable no-unused-vars */
+
+import { CollapsibleCard } from "../../../components/collapsibleCard";
 
 class ProfileScreen extends React.Component {
   static get options() {
@@ -68,8 +69,9 @@ class ProfileScreen extends React.Component {
   }
 
   async componentDidMount() {
+    let isLoggedIn;
     await getAuthStatus().then(res => {
-      const isLoggedIn = res;
+      isLoggedIn = res;
     });
 
     if (isLoggedIn) {
@@ -87,14 +89,14 @@ class ProfileScreen extends React.Component {
       });
 
       user = await getUser(userData[0].username);
-      about = JSON.parse(user.json_metadata);
-      // BUG: json_metadata: "{}" is coming emty object!!
+      // json_metadata: "{}" can be ceme as emty object if the account new!
+      about = user.json_metadata && JSON.parse(user.json_metadata);
       this.setState(
         {
           user: user,
           isLoggedIn: isLoggedIn,
           follows: follows,
-          about: about.profile,
+          about: about && about.profile,
         },
         () => {
           this.getBlog(userData[0].username);
@@ -175,20 +177,25 @@ class ProfileScreen extends React.Component {
     //TODO: Refactor ME !
     return (
       <View style={styles.container}>
-        {this.state.isLoggedIn ? (
+        <CollapsibleCard title="Customized Card 1" expanded={true}>
+          <Text>Hello, this is first line.</Text>
+          <Text>Hello, this is second line.</Text>
+          <Text>Hello, this is third line.</Text>
+        </CollapsibleCard>
+        {/* {this.state.isLoggedIn ? (
           <View style={{ flex: 1 }}>
             <View style={styles.content}>
               <FastImage
                 style={styles.cover}
                 source={{
-                  uri: this.state.about.cover_image,
+                  uri: this.state.about && this.state.about.cover_image,
                   priority: FastImage.priority.high,
                 }}
               />
               <FastImage
                 style={styles.avatar}
                 source={{
-                  uri: this.state.about.profile_image,
+                  uri: this.state.about && this.state.about.profile_image,
                   priority: FastImage.priority.high,
                 }}
               />
@@ -196,7 +203,7 @@ class ProfileScreen extends React.Component {
                 <Text style={{ fontWeight: "bold" }}>
                   {this.state.user.name}
                 </Text>
-                <Text>{this.state.about.about}</Text>
+                <Text>{this.state.about && this.state.about.about}</Text>
               </Body>
               <Card style={{ margin: 0 }}>
                 <CardItem style={styles.about}>
@@ -226,7 +233,7 @@ class ProfileScreen extends React.Component {
                         }}
                         name="md-pin"
                       />
-                      {this.state.about.location}
+                      {this.state.about && this.state.about.location}
                     </Text>
                   </View>
                   <View style={{ flex: 0.5 }}>
@@ -331,7 +338,7 @@ class ProfileScreen extends React.Component {
           </View>
         ) : (
           <DiscoverPage />
-        )}
+        )} */}
       </View>
     );
   }
