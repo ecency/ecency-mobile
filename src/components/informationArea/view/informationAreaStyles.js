@@ -5,7 +5,7 @@ export default EStyleSheet.create({
     flexDirection: "row",
     paddingLeft: 50,
     paddingRight: 32,
-    marginTop: 10,
+    marginTop: 20,
   },
   infoIcon: {
     flex: 0.125,
@@ -15,6 +15,6 @@ export default EStyleSheet.create({
   infoText: {
     flex: 0.875,
     fontSize: 12,
-    color: "#788187",
+    color: "$primaryGray",
   },
 });

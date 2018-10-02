@@ -1,5 +1,5 @@
-import GreetingHeaderButton from "./views/greetingHeaderButtonView";
 import CircularButton from "./views/circularButtonView";
 import IconButton from "./views/iconButtomView";
+import TextButton from "./views/textButtonView";
 
-export { GreetingHeaderButton, CircularButton, IconButton };
+export { CircularButton, IconButton, TextButton };

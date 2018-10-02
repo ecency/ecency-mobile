@@ -36,9 +36,28 @@ export default EStyleSheet.create({
     flex: 1,
     backgroundColor: "#ffffff",
     minWidth: "$deviceWidth",
+    height: "$deviceHeight / 1.95",
   },
   steemConnectTab: {
     backgroundColor: "#fff",
     minWidth: "$deviceWidth",
+    flex: 1,
+    height: "$deviceHeight / 1.95",
+  },
+  mainButtonWrapper: {
+    position: "absolute",
+    right: 24,
+    bottom: 24,
+    flexDirection: "row",
+  },
+  footerButtons: {
+    flex: 1,
+    flexDirection: "row",
+    justifyContent: "center",
+    alignItems: "center",
+    alignSelf: "flex-end",
+    position: "absolute",
+    bottom: 45,
+    left: "$deviceWidth / 2.3",
   },
 });

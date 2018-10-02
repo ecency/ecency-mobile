@@ -22,7 +22,7 @@ import PinCode from "./pinCode";
 
 // COMPONENTS
 import SteemConnect from "./steem-connect/steemConnect";
-import PostCard from "../components/post-card/postCard";
+import { PostCard } from "../components/postCard";
 import Search from "../components/search/search";
 
 export const registerScreens = () => {

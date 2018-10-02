@@ -90,7 +90,7 @@ export default class Home extends React.PureComponent {
       isLoggedIn = res;
     });
 
-    if (isLoggedIn == true) {
+    if (isLoggedIn) {
       await getUserData().then(res => {
         user = Array.from(res);
       });

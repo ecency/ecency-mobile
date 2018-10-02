@@ -14,7 +14,7 @@ class SplashContainer extends React.Component {
   async componentDidMount() {
     await getAuthStatus()
       .then(result => {
-        if (result === true) {
+        if (result) {
           goToAuthScreens();
         } else {
           goToNoAuthScreens();
