@@ -4,7 +4,7 @@ import PostCard from "./post-card/postCard";
 import Reply from "./reply/reply";
 import Search from "./search/search";
 import { FormInput } from "./formInput";
-import { CircularButton, GreetingHeaderButton } from "./buttons";
+import { CircularButton, GreetingHeaderButton, IconButton } from "./buttons";
 import { NumericKeyboard } from "./numericKeyboard";
 import { PinAnimatedInput } from "./pinAnimatedInput";
 
@@ -17,6 +17,7 @@ export {
   FormInput,
   CircularButton,
   GreetingHeaderButton,
+  IconButton,
   NumericKeyboard,
   PinAnimatedInput,
 };

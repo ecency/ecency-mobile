@@ -14,4 +14,15 @@ export default EStyleSheet.create({
     flexDirection: "row",
     justifyContent: "space-between",
   },
+  lastButtonGroup: {
+    width: "63%",
+    flex: 1,
+    flexDirection: "row",
+    justifyContent: "space-between",
+    alignSelf: "flex-end",
+  },
+  iconButton: {
+    fontSize: 20,
+    color: "$primaryBlue",
+  },
 });

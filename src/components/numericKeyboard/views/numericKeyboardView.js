@@ -1,7 +1,7 @@
 import React, { Fragment, Component } from "react";
 import { View } from "react-native";
 
-import { CircularButton } from "../../";
+import { CircularButton, IconButton } from "../../";
 
 import styles from "./numericKeyboardStyles";
 
@@ -89,12 +89,21 @@ class NumericKeyboard extends Component {
             onPress={value => onPress && onPress(value)}
           />
         </View>
-        <CircularButton
-          style={styles.button}
-          text={0}
-          value={0}
-          onPress={value => onPress && onPress(value)}
-        />
+        <View style={styles.lastButtonGroup}>
+          <CircularButton
+            style={styles.button}
+            text={0}
+            value={0}
+            onPress={value => onPress && onPress(value)}
+          />
+
+          <IconButton
+            handleOnPress={() => onPress && onPress("clear")}
+            isCircle
+            style={styles.iconButton}
+            name="close"
+          />
+        </View>
       </View>
     );
   }

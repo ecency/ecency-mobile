@@ -23,6 +23,11 @@ class PinCodeScreen extends React.Component {
   _handleKeyboardOnPress = value => {
     const { setPinCode } = this.props;
     const { pin } = this.state;
+
+    if (value === "clear") {
+      this.setState({ pin: "" });
+      return;
+    }
     const newPin = `${pin}${value}`;
 
     if (pin.length < 3) {
