@@ -22,6 +22,7 @@ import Placeholder from "rn-placeholder";
 // COMPONENTS
 import { PostCard } from "../../components/postCard";
 import { FilterBar } from "../../components/filterBar";
+import { ProfileSummary } from "../../components/profileSummary";
 
 import { CollapsibleCard } from "../../components/collapsibleCard";
 /* eslint-enable no-unused-vars */
@@ -114,16 +115,17 @@ class FeedPage extends React.Component {
   render() {
     return (
       <View style={{ flex: 1 }}>
-        <CollapsibleCard title="Customized Card 1" expanded={true}>
-          <Text>Hello, this is first line.</Text>
-          <Text>Hello, this is second line.</Text>
-          <Text>Hello, this is third line.</Text>
-          <Text>Hello, this is first line.</Text>
-          <Text>Hello, this is second line.</Text>
-          <Text>Hello, this is third line.</Text>
-          <Text>Hello, this is first line.</Text>
-          <Text>Hello, this is second line.</Text>
-          <Text>Hello, this is third line.</Text>
+        <CollapsibleCard
+          title="eSteem CMO / product lead / illustator"
+          expanded={true}
+        >
+          <ProfileSummary
+            percent={92.28}
+            hours={9}
+            location="Saint Petersburg, Russia"
+            link="dunsky.ru"
+            date="24 July, 2017"
+          />
         </CollapsibleCard>
         {/* {this.state.isReady && (
           <FilterBar

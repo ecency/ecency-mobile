@@ -16,6 +16,7 @@ export default EStyleSheet.create({
     alignSelf: "center",
     color: "$primaryGray",
     fontSize: 14,
+    fontWeight: "600",
     marginLeft: 32,
   },
   icon: {

@@ -12,9 +12,9 @@ import styles from "./collapsibleCardStyles";
 class CollapsibleCardView extends Component {
   /* Props
     * ------------------------------------------------
-    *   @prop { type }    expanded                - Description....
-    *   @prop { type }    children                - Description....
-    *   @prop { type }    title                   - Description....
+    *   @prop { type }    expanded                - For is collapsible open or close declaration prop.
+    *   @prop { type }    children                - Render include children
+    *   @prop { type }    title                   - Collapsible title.
     *
     */
   anime = {
@@ -77,7 +77,7 @@ class CollapsibleCardView extends Component {
             color="#788187"
             fontSize={12}
             title={title}
-            iconName={expanded ? "md-arrow-dropup" : "md-arrow-dropdown"}
+            iconName={expanded ? "md-arrow-dropdown" : "md-arrow-dropup"}
           />
         </TouchableHighlight>
 
@@ -85,7 +85,7 @@ class CollapsibleCardView extends Component {
           style={[styles.content, { height: this.anime.height }]}
           onLayout={e => this._initContentHeight(e)}
         >
-          {children}
+          <View style={styles.contentBody}>{children}</View>
         </Animated.View>
       </View>
     );

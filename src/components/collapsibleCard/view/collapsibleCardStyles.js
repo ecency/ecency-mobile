@@ -18,4 +18,7 @@ export default EStyleSheet.create({
   content: {
     backgroundColor: "$white",
   },
+  contentBody: {
+    paddingHorizontal: 12,
+  },
 });
