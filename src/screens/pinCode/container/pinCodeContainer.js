@@ -10,7 +10,7 @@ import {
 
 import { default as INITIAL } from "../../../constants/initial";
 
-import PinCodeScreen from "../pinCodeScreen";
+import { PinCodeScreen } from "../";
 
 class PinCodeContainer extends React.Component {
   constructor(props) {
