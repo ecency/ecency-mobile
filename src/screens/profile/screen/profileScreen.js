@@ -109,8 +109,8 @@ class ProfileScreen extends React.Component {
     }
   }
 
-  renderFooter = () => {
-    if (this.state.loading) return null;
+  _renderFooter = () => {
+    if (this.state.isLoading) return null;
 
     return (
       <View style={{ marginVertical: 20 }}>
@@ -120,7 +120,7 @@ class ProfileScreen extends React.Component {
   };
 
   getBlog = user => {
-    this.setState({ loading: true });
+    this.setState({ isLoading: true });
     getPosts("blog", { tag: user, limit: 10 }, user)
       .then(result => {
         this.setState({
@@ -129,7 +129,7 @@ class ProfileScreen extends React.Component {
           start_author: result[result.length - 1].author,
           start_permlink: result[result.length - 1].permlink,
           refreshing: false,
-          loading: false,
+          isLoading: false,
         });
       })
       .catch(err => {
@@ -156,7 +156,7 @@ class ProfileScreen extends React.Component {
         posts: [...this.state.posts, ...posts],
         start_author: result[result.length - 1].author,
         start_permlink: result[result.length - 1].permlink,
-        loading: false,
+        isLoading: false,
       });
     });
   };
@@ -168,7 +168,7 @@ class ProfileScreen extends React.Component {
           isReady: true,
           commments: result,
           refreshing: false,
-          loading: false,
+          isLoading: false,
         });
       })
       .catch(err => {
@@ -177,21 +177,29 @@ class ProfileScreen extends React.Component {
   };
 
   render() {
-    //TODO: Refactor ME !
-    const ugur = this.state;
-    const erdal = this.props;
+    const {
+      user,
+      follows,
+      about,
+      posts,
+      commments,
+      isLoggedIn,
+      isLoading,
+    } = this.state;
+
     console.log("@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@");
     console.log(this.state);
     console.log(this.props);
-    const { user, follows, about } = this.state;
 
-    const creatyed = user.created;
+    const votingPower = user.voting_power && user.voting_power / 100;
+    const fullIn = Math.ceil((100 - votingPower) * 0.833333);
+
     return (
       <View style={styles.container}>
         <CollapsibleCard title={about.about} expanded={true}>
           <ProfileSummary
-            percent={user.voting_power && user.voting_power / 100}
-            hours={9}
+            percent={votingPower}
+            hours={fullIn}
             location={about.location}
             link={about.website}
             date={getFormatedCreatedDate(user.created)}
@@ -228,191 +236,63 @@ class ProfileScreen extends React.Component {
               onDropdownSelect={this._handleOnDropdownSelect}
               rightIconName="md-apps"
             />
-            {/* <FlatList
-              data={this.state.posts}
+            <FlatList
+              data={posts}
               showsVerticalScrollIndicator={false}
               renderItem={({ item }) => (
                 <PostCard
-                  style={{ shadowColor: "white" }}
+                  style={{
+                    shadowColor: "#f6f6f6",
+                  }}
                   content={item}
-                  user={this.state.user}
+                  user={user}
                   isLoggedIn={true}
                 />
               )}
               keyExtractor={(post, index) => index.toString()}
               onEndReached={info => {
-                if (!this.state.loading) {
+                if (!isLoading) {
                   this.getMore();
                 }
               }}
               onEndThreshold={0}
               bounces={false}
-              ListFooterComponent={this.renderFooter}
-            /> */}
+              ListFooterComponent={() => this._renderFooter()}
+            />
           </View>
           <View tabLabel="Comments" style={styles.commentsTabBar}>
-            <Text>Leaderboard</Text>
-          </View>
-          <View tabLabel="$9042" style={styles.tabBarTitle} />
-        </ScrollableTabView>
-
-        {/* {this.state.isLoggedIn ? (
-          <View style={{ flex: 1 }}>
-            <View style={styles.content}>
-              <FastImage
-                style={styles.cover}
-                source={{
-                  uri: this.state.about && this.state.about.cover_image,
-                  priority: FastImage.priority.high,
-                }}
-              />
-              <FastImage
-                style={styles.avatar}
-                source={{
-                  uri: this.state.about && this.state.about.profile_image,
-                  priority: FastImage.priority.high,
-                }}
-              />
-              <Body style={{ top: -40 }}>
-                <Text style={{ fontWeight: "bold" }}>
-                  {this.state.user.name}
-                </Text>
-                <Text>{this.state.about && this.state.about.about}</Text>
-              </Body>
-              <Card style={{ margin: 0 }}>
-                <CardItem style={styles.about}>
-                  <View style={{ flex: 0.3 }}>
-                    <Text>{this.state.user.post_count} Posts</Text>
-                  </View>
-                  <View style={{ flex: 0.4 }}>
-                    <Text>{this.state.follows.follower_count} Followers</Text>
-                  </View>
-                  <View style={{ flex: 0.4 }}>
-                    <Text>{this.state.follows.following_count} Following</Text>
-                  </View>
-                </CardItem>
-
-                <CardItem style={styles.info}>
-                  <View style={{ flex: 0.5 }}>
-                    <Text
-                      style={{
-                        marginLeft: 20,
-                        alignSelf: "flex-start",
-                      }}
-                    >
-                      <Icon
-                        style={{
-                          fontSize: 20,
-                          alignSelf: "flex-start",
-                        }}
-                        name="md-pin"
-                      />
-                      {this.state.about && this.state.about.location}
-                    </Text>
-                  </View>
-                  <View style={{ flex: 0.5 }}>
-                    <Text>
-                      <Icon
-                        style={{
-                          fontSize: 20,
-                          marginRight: 10,
-                        }}
-                        name="md-calendar"
-                      />
-                      {getTimeFromNow(this.state.user.created)}
-                    </Text>
-                  </View>
-                </CardItem>
-              </Card>
-            </View>
-            <ScrollableTabView
-              style={styles.tabs}
-              style={{ flex: 1 }}
-              renderTabBar={() => (
-                <TabBar
-                  style={styles.tabbar}
-                  tabUnderlineDefaultWidth={30} // default containerWidth / (numberOfTabs * 4)
-                  tabUnderlineScaleX={3} // default 3
-                  activeColor={"#222"}
-                  inactiveColor={"#222"}
-                />
+            <FlatList
+              data={commments}
+              showsVerticalScrollIndicator={false}
+              renderItem={({ item }) => (
+                <Comment comment={item} isLoggedIn={true} user={user} />
               )}
-            >
-              <View tabLabel="Blog" style={styles.tabbarItem}>
-                <FlatList
-                  data={this.state.posts}
-                  showsVerticalScrollIndicator={false}
-                  renderItem={({ item }) => (
-                    <PostCard
-                      style={{ shadowColor: "white" }}
-                      content={item}
-                      user={this.state.user}
-                      isLoggedIn={true}
-                    />
-                  )}
-                  keyExtractor={(post, index) => index.toString()}
-                  onEndReached={info => {
-                    if (!this.state.loading) {
-                      console.log(info);
-                      this.getMore();
-                    }
-                  }}
-                  onEndThreshold={0}
-                  bounces={false}
-                  ListFooterComponent={this.renderFooter}
-                />
-              </View>
-
-              <View tabLabel="Comments" style={styles.tabbarItem}>
-                <FlatList
-                  data={this.state.commments}
-                  showsVerticalScrollIndicator={false}
-                  renderItem={({ item }) => (
-                    <Comment
-                      comment={item}
-                      isLoggedIn={true}
-                      user={this.state.user}
-                    />
-                  )}
-                  keyExtractor={(post, index) => index.toString()}
-                  onEndThreshold={0}
-                  bounces={false}
-                  ListFooterComponent={this.renderFooter}
-                />
-              </View>
-              <View tabLabel="Replies" style={styles.tabbarItem} />
-              <View tabLabel="Wallet" style={styles.tabbarItem}>
-                <Card>
-                  <Text>STEEM Balance: {this.state.user.balance}</Text>
-                </Card>
-                <Card>
-                  <Text>SBD Balance: {this.state.user.sbd_balance}</Text>
-                </Card>
-                <Card>
-                  <Text>STEEM Power: {this.state.user.steem_power} SP</Text>
-                  <Text>
-                    Received STEEM Power: {this.state.user.received_steem_power}{" "}
-                    SP
-                  </Text>
-                  <Text>
-                    Delegated Power Power:{" "}
-                    {this.state.user.delegated_steem_power} SP
-                  </Text>
-                </Card>
-                <Card>
-                  <Text>
-                    Saving STEEM Balance: {this.state.user.savings_balance}
-                  </Text>
-                  <Text>
-                    Saving STEEM Balance: {this.state.user.savings_sbd_balance}
-                  </Text>
-                </Card>
-              </View>
-            </ScrollableTabView>
+              keyExtractor={(post, index) => index.toString()}
+              onEndThreshold={0}
+              bounces={false}
+              ListFooterComponent={() => this._renderFooter()}
+            />
           </View>
-        ) : (
-          <DiscoverPage />
-        )} */}
+          <View tabLabel={"$" + user.balance}>
+            <Card>
+              <Text>STEEM Balance: {user.balance}</Text>
+            </Card>
+            <Card>
+              <Text>SBD Balance: {user.sbd_balance}</Text>
+            </Card>
+            <Card>
+              <Text>STEEM Power: {user.steem_power} SP</Text>
+              <Text>Received STEEM Power: {user.received_steem_power} SP</Text>
+              <Text>
+                Delegated Power Power: {user.delegated_steem_power} SP
+              </Text>
+            </Card>
+            <Card>
+              <Text>Saving STEEM Balance: {user.savings_balance}</Text>
+              <Text>Saving STEEM Balance: {user.savings_sbd_balance}</Text>
+            </Card>
+          </View>
+        </ScrollableTabView>
       </View>
     );
   }

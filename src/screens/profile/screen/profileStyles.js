@@ -59,14 +59,7 @@ export default EStyleSheet.create({
     alignSelf: "center",
     backgroundColor: "transparent",
   },
-  postTabBar: {
-    backgroundColor: "#fff",
-    minWidth: "$deviceWidth",
-  },
-  commentsTabBar: {
-    flex: 1,
-    backgroundColor: "#ffffff",
-    minWidth: "$deviceWidth",
-  },
+  postTabBar: {},
+  commentsTabBar: {},
   tabBarTitle: {},
 });
