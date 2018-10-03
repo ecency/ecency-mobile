@@ -48,4 +48,25 @@ export default EStyleSheet.create({
     backgroundColor: "#f9f9f9",
     minWidth: "$deviceWidth",
   },
+
+  tabbar: {
+    alignSelf: "center",
+    height: 55,
+    backgroundColor: "white",
+    borderBottomColor: "#f1f1f1",
+  },
+  tabView: {
+    alignSelf: "center",
+    backgroundColor: "transparent",
+  },
+  postTabBar: {
+    backgroundColor: "#fff",
+    minWidth: "$deviceWidth",
+  },
+  commentsTabBar: {
+    flex: 1,
+    backgroundColor: "#ffffff",
+    minWidth: "$deviceWidth",
+  },
+  tabBarTitle: {},
 });

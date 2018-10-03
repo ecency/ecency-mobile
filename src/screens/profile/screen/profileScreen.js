@@ -12,6 +12,8 @@ import DiscoverPage from "../../discover/discover";
 import { PostCard } from "../../../components/postCard";
 import { ProfileSummary } from "../../../components/profileSummary";
 import Comment from "../../../components/comment/comment";
+import { FilterBar } from "../../../components/filterBar";
+import { DropdownButton } from "../../../components/dropdownButton";
 
 // Utilitites
 import { getUserData, getAuthStatus } from "../../../realm/realm";
@@ -175,6 +177,12 @@ class ProfileScreen extends React.Component {
 
   render() {
     //TODO: Refactor ME !
+    const ugur = this.state;
+    const erdal = this.props;
+    console.log("@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@");
+    console.log(this.state);
+    console.log(this.props);
+    const { user, follows } = this.state;
     return (
       <View style={styles.container}>
         <CollapsibleCard
@@ -187,8 +195,66 @@ class ProfileScreen extends React.Component {
             location="Saint Petersburg, Russia"
             link="dunsky.ru"
             date="24 July, 2017"
+            followerCount={follows.follower_count}
+            followingCount={follows && follows.following_count}
           />
         </CollapsibleCard>
+
+        <ScrollableTabView
+          style={styles.tabView}
+          renderTabBar={() => (
+            <TabBar
+              style={styles.tabbar}
+              tabUnderlineDefaultWidth={80}
+              tabUnderlineScaleX={2}
+              activeColor={"#357ce6"}
+              inactiveColor={"#788187"}
+            />
+          )}
+        >
+          <View tabLabel="Post" style={styles.postTabBar}>
+            <FilterBar
+              dropdownIconName="md-arrow-dropdown"
+              options={[
+                "NEW POSTS",
+                "VOTES",
+                "REPLIES",
+                "MENTIONS",
+                "FOLLOWS",
+                "REBLOGS",
+              ]}
+              defaultText="ALL NOTIFICATION"
+              onDropdownSelect={this._handleOnDropdownSelect}
+              rightIconName="md-apps"
+            />
+            <FlatList
+              data={this.state.posts}
+              showsVerticalScrollIndicator={false}
+              renderItem={({ item }) => (
+                <PostCard
+                  style={{ shadowColor: "white" }}
+                  content={item}
+                  user={this.state.user}
+                  isLoggedIn={true}
+                />
+              )}
+              keyExtractor={(post, index) => index.toString()}
+              onEndReached={info => {
+                if (!this.state.loading) {
+                  this.getMore();
+                }
+              }}
+              onEndThreshold={0}
+              bounces={false}
+              ListFooterComponent={this.renderFooter}
+            />
+          </View>
+          <View tabLabel="Comments" style={styles.commentsTabBar}>
+            <Text>Leaderboard</Text>
+          </View>
+          <View tabLabel="$9042" style={styles.tabBarTitle} />
+        </ScrollableTabView>
+
         {/* {this.state.isLoggedIn ? (
           <View style={{ flex: 1 }}>
             <View style={styles.content}>

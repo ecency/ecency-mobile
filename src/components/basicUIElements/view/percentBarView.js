@@ -1,7 +1,6 @@
 import React from "react";
 import { View, Dimensions } from "react-native";
 import styles from "./percentBarStyles";
-// const _deviceWidth = Dimensions.get("window").width,
 
 const PercentBar = ({ percent, margin, children }) => (
   <View>

@@ -55,4 +55,8 @@ export default EStyleSheet.create({
     color: "$primaryGray",
     fontSize: 9,
   },
+  // TODO: look at here
+  dropdownIconStyle: {
+    marginBottom: 7,
+  },
 });

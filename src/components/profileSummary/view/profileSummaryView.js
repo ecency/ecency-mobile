@@ -1,5 +1,6 @@
 import React, { Component } from "react";
 import { View, Image, Text } from "react-native";
+import { DropdownButton } from "../../../components/dropdownButton";
 
 // Constants
 import TEMP_IMAGE from "../../../assets/drawer-cover.png";
@@ -26,7 +27,15 @@ class ProfileSummaryView extends Component {
   // Component Life Cycles
 
   // Component Functions
+  _getFollowerCount = () => {
+    const { followerCount } = this.props;
+    return 32;
+  };
 
+  _getFollowingCount = () => {
+    const { followingCoung } = this.props;
+    return 32;
+  };
   render() {
     const { percent, hours, location, link, date } = this.props;
 
@@ -54,7 +63,7 @@ class ProfileSummaryView extends Component {
             </View>
             <View style={styles.followCountWrapper}>
               <Text style={styles.followCount}>31K</Text>
-              <Text style={styles.followText}>followers</Text>
+              <Text style={styles.followText}>following</Text>
             </View>
           </View>
           <View style={styles.rightIcons}>
@@ -72,11 +81,12 @@ class ProfileSummaryView extends Component {
               style={styles.insetIconStyle}
               color="#c1c5c7"
             />
-            <IconButton
-              backgroundColor="transparent"
-              name="md-more"
-              size={16}
-              color="#c1c5c7"
+            <DropdownButton
+              style={styles.insetIconStyle}
+              options={["option1", "option2", "option3", "option4"]}
+              iconName="md-more"
+              isHasChildIcon
+              childIconWrapperStyle={styles.dropdownIconStyle}
             />
           </View>
         </View>
