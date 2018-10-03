@@ -177,7 +177,6 @@ const styles = {
   },
   tabbarItem: {
     flex: 1,
-    paddingHorizontal: 7,
     backgroundColor: "#f9f9f9",
     minWidth: Dimensions.get("window").width,
   },

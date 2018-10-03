@@ -1,5 +1,6 @@
 import React, { Component } from "react";
 import { View, Text } from "react-native";
+import Ionicons from "react-native-vector-icons/Ionicons";
 
 // Constants
 
@@ -24,11 +25,28 @@ class ContainerHeaderView extends Component {
   // Component Functions
 
   render() {
-    const { title } = this.props;
+    const {
+      title,
+      isBoldTitle,
+      color,
+      hasSeperator,
+      fontSize,
+      iconName,
+    } = this.props;
 
     return (
-      <View style={styles.wrapper}>
-        <Text style={styles.title}>{title}</Text>
+      <View style={[styles.wrapper, hasSeperator && styles.hasTopBorder]}>
+        <Text
+          style={[
+            styles.title,
+            isBoldTitle && { fontWeight: "bold" },
+            color && { color: color },
+            fontSize && { fontSize: fontSize },
+          ]}
+        >
+          {title}
+        </Text>
+        {iconName && <Ionicons style={styles.icon} name={iconName} />}
       </View>
     );
   }
