@@ -8,3 +8,9 @@ export const getTimeFromNow = value => {
     .local()
     .fromNow();
 };
+
+export const getFormatedCreatedDate = value => {
+  if (!value) return null;
+
+  return moment(value).format("DD MMM, YYYY");
+};

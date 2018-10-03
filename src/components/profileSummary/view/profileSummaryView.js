@@ -37,7 +37,16 @@ class ProfileSummaryView extends Component {
     return 32;
   };
   render() {
-    const { percent, hours, location, link, date } = this.props;
+    const {
+      percent,
+      hours,
+      location,
+      link,
+      date,
+      followingCount,
+      followerCount,
+      coverImage,
+    } = this.props;
 
     return (
       <View>
@@ -47,7 +56,11 @@ class ProfileSummaryView extends Component {
           <TextWithIcon text={date} iconName="md-calendar" />
         </View>
         <View />
-        <Image style={styles.longImage} source={TEMP_IMAGE} />
+        <Image
+          style={styles.longImage}
+          source={{ uri: coverImage }}
+          defaultSource={TEMP_IMAGE}
+        />
         <PercentBar percent={percent} margin={24}>
           <View style={styles.percentTitleWrapper}>
             <Text style={styles.percentTitle}>
@@ -58,11 +71,11 @@ class ProfileSummaryView extends Component {
         <View style={styles.footer}>
           <View style={styles.leftIcons}>
             <View style={styles.followCountWrapper}>
-              <Text style={styles.followCount}>31K</Text>
+              <Text style={styles.followCount}>{followerCount}</Text>
               <Text style={styles.followText}>followers</Text>
             </View>
             <View style={styles.followCountWrapper}>
-              <Text style={styles.followCount}>31K</Text>
+              <Text style={styles.followCount}>{followingCount}</Text>
               <Text style={styles.followText}>following</Text>
             </View>
           </View>

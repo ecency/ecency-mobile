@@ -23,6 +23,7 @@ import {
   getPosts,
   getUserComments,
 } from "../../../providers/steem/dsteem";
+import { getFormatedCreatedDate } from "../../../utils/time";
 
 // Styles
 import styles from "./profileStyles";
@@ -182,21 +183,21 @@ class ProfileScreen extends React.Component {
     console.log("@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@");
     console.log(this.state);
     console.log(this.props);
-    const { user, follows } = this.state;
+    const { user, follows, about } = this.state;
+
+    const creatyed = user.created;
     return (
       <View style={styles.container}>
-        <CollapsibleCard
-          title="eSteem CMO / product lead / illustator"
-          expanded={true}
-        >
+        <CollapsibleCard title={about.about} expanded={true}>
           <ProfileSummary
-            percent={92.28}
+            percent={user.voting_power && user.voting_power / 100}
             hours={9}
-            location="Saint Petersburg, Russia"
-            link="dunsky.ru"
-            date="24 July, 2017"
+            location={about.location}
+            link={about.website}
+            date={getFormatedCreatedDate(user.created)}
             followerCount={follows.follower_count}
-            followingCount={follows && follows.following_count}
+            followingCount={follows.following_count}
+            coverImage={about.cover_image}
           />
         </CollapsibleCard>
 
@@ -227,7 +228,7 @@ class ProfileScreen extends React.Component {
               onDropdownSelect={this._handleOnDropdownSelect}
               rightIconName="md-apps"
             />
-            <FlatList
+            {/* <FlatList
               data={this.state.posts}
               showsVerticalScrollIndicator={false}
               renderItem={({ item }) => (
@@ -247,7 +248,7 @@ class ProfileScreen extends React.Component {
               onEndThreshold={0}
               bounces={false}
               ListFooterComponent={this.renderFooter}
-            />
+            /> */}
           </View>
           <View tabLabel="Comments" style={styles.commentsTabBar}>
             <Text>Leaderboard</Text>
