@@ -55,11 +55,8 @@ class ProfileScreen extends React.Component {
     };
   }
 
-  constructor() {
-    super();
-    this.getBlog = this.getBlog.bind(this);
-    this.getMore = this.getMore.bind(this);
-    this.getComments = this.getComments.bind(this);
+  constructor(props) {
+    super(props);
     this.state = {
       user: [],
       posts: [],
@@ -102,8 +99,8 @@ class ProfileScreen extends React.Component {
           about: about && about.profile,
         },
         () => {
-          this.getBlog(userData[0].username);
-          this.getComments(userData[0].username);
+          this._getBlog(userData[0].username);
+          this._getComments(userData[0].username);
         }
       );
     }
@@ -119,7 +116,7 @@ class ProfileScreen extends React.Component {
     );
   };
 
-  getBlog = user => {
+  _getBlog = user => {
     this.setState({ isLoading: true });
     getPosts("blog", { tag: user, limit: 10 }, user)
       .then(result => {
@@ -137,7 +134,7 @@ class ProfileScreen extends React.Component {
       });
   };
 
-  getMore = async () => {
+  _getMore = async () => {
     console.log("get more");
     await getPosts(
       "blog",
@@ -161,7 +158,7 @@ class ProfileScreen extends React.Component {
     });
   };
 
-  getComments = async user => {
+  _getComments = async user => {
     await getUserComments({ start_author: user, limit: 10 })
       .then(result => {
         this.setState({
@@ -252,7 +249,7 @@ class ProfileScreen extends React.Component {
               keyExtractor={(post, index) => index.toString()}
               onEndReached={info => {
                 if (!isLoading) {
-                  this.getMore();
+                  this._getMore();
                 }
               }}
               onEndThreshold={0}
