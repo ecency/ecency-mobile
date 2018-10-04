@@ -22,11 +22,7 @@ export const Login = (username, password) => {
     getAccount(username)
       .then((result) => {
         if (result.length < 1) {
-          reject(
-            new Error(
-              'Invalid credentails, please check and try again',
-            ),
-          );
+          reject(new Error('Invalid credentails, please check and try again'));
         }
 
         const account = result[0];
@@ -44,10 +40,7 @@ export const Login = (username, password) => {
 
         // Check all keys
         Object.keys(publicKeys).map((pubKey) => {
-          if (
-            publicKeys[pubKey]
-                        === privateKeys[pubKey].createPublic().toString()
-          ) {
+          if (publicKeys[pubKey] === privateKeys[pubKey].createPublic().toString()) {
             loginFlag = true;
             resultKeys[pubKey] = publicKeys[pubKey];
           }
@@ -70,24 +63,14 @@ export const Login = (username, password) => {
               resolve({ ...account, password });
             })
             .catch(() => {
-              reject(
-                new Error(
-                  'Invalid credentails, please check and try again',
-                ),
-              );
+              reject(new Error('Invalid credentails, please check and try again'));
             });
         } else {
-          reject(
-            new Error(
-              'Invalid credentails, please check and try again',
-            ),
-          );
+          reject(new Error('Invalid credentails, please check and try again'));
         }
       })
       .catch(() => {
-        reject(
-          new Error('Invalid credentails, please check and try again'),
-        );
+        reject(new Error('Invalid credentails, please check and try again'));
       });
   });
 };
@@ -102,10 +85,7 @@ export const setUserDataWithPinCode = data => new Promise((resolve, reject) => {
     username: userData.username,
     authType: 'masterKey',
     masterKey: encryptKey(data.password, data.pinCode),
-    postingKey: encryptKey(
-      privateKeys.posting.toString(),
-      data.pinCode,
-    ),
+    postingKey: encryptKey(privateKeys.posting.toString(), data.pinCode),
     activeKey: encryptKey(privateKeys.active.toString(), data.pinCode),
     memoKey: encryptKey(privateKeys.memo.toString(), data.pinCode),
   };
@@ -144,9 +124,10 @@ export const verifyPinCode = data => new Promise((resolve, reject) => {
         resolve();
       })
       .catch((error) => {
-        reject(error);
+        reject(new Error('Invalid pin code, please check and try again'));
       });
   } else {
+    reject(new Error('Invalid pin code, please check and try again'));
     reject();
   }
 });
