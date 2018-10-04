@@ -20,8 +20,7 @@ class SplashContainer extends React.Component {
           goToNoAuthScreens();
         }
       })
-      .catch(error => {
-        console.log(error);
+      .catch(() => {
         goToAuthScreens();
       });
   }

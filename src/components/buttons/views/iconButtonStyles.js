@@ -1,14 +1,14 @@
 import EStyleSheet from "react-native-extended-stylesheet";
 
 export default EStyleSheet.create({
-  container: {
-    flex: 1,
+  circleButton: {
     alignItems: "center",
+    backgroundColor: "$white",
+    height: 60,
+    width: 60,
+    borderRadius: 60 / 2,
     justifyContent: "center",
-  },
-  logo: {
-    width: "100%",
-    height: "100%",
-    backgroundColor: "transparent",
+    borderColor: "$primaryBlue",
+    borderWidth: 1,
   },
 });

@@ -1,5 +1,5 @@
 import React from "react";
-import { FlatList, View, ActivityIndicator } from "react-native";
+import { FlatList, View, ActivityIndicator, AppState } from "react-native";
 import {
   Container,
   Header,
@@ -39,8 +39,27 @@ class FeedPage extends React.Component {
       start_permlink: "",
       refreshing: false,
       loading: false,
+      appState: AppState.currentState,
     };
   }
+
+  componentDidMount() {
+    AppState.addEventListener("change", this._handleAppStateChange);
+  }
+
+  componentWillUnmount() {
+    AppState.removeEventListener("change", this._handleAppStateChange);
+  }
+
+  _handleAppStateChange = nextAppState => {
+    if (
+      this.state.appState.match(/inactive|background/) &&
+      nextAppState === "active"
+    ) {
+      alert("App has come to the foreground!");
+    }
+    this.setState({ appState: nextAppState });
+  };
 
   componentWillMount() {
     this.getFeed();
