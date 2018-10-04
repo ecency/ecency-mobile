@@ -8,13 +8,11 @@ import FastImage from "react-native-fast-image";
 // Components
 import ScrollableTabView from "@esteemapp/react-native-scrollable-tab-view";
 import { TabBar } from "../../../components/tabBar";
-import DiscoverPage from "../../discover/discover";
 import { PostCard } from "../../../components/postCard";
 import { ProfileSummary } from "../../../components/profileSummary";
 import Comment from "../../../components/comment/comment";
 import { FilterBar } from "../../../components/filterBar";
-import { DropdownButton } from "../../../components/dropdownButton";
-
+import { NoPost } from "../../../components/basicUIElements";
 // Utilitites
 import { getUserData, getAuthStatus } from "../../../realm/realm";
 import {
@@ -176,36 +174,45 @@ class ProfileScreen extends React.Component {
       });
   };
 
+  _getPostRenderItem = () => {};
+
   render() {
     const {
       user,
       follows,
-      about,
       posts,
       commments,
       isLoggedIn,
       isLoading,
+      about,
     } = this.state;
+    let _about, cover_image, location, website;
+    const votingPower = user && user.voting_power && user.voting_power / 100;
+    const fullInHour = Math.ceil((100 - votingPower) * 0.833333);
 
-    console.log("@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@");
+    if (about) {
+      location = about.location;
+      _about = about.about;
+      website = about.website;
+      cover_image = about.cover_image;
+    }
     console.log(this.state);
-    console.log(this.props);
-
-    const votingPower = user.voting_power && user.voting_power / 100;
-    const fullIn = Math.ceil((100 - votingPower) * 0.833333);
-
     return (
       <View style={styles.container}>
-        <CollapsibleCard title={about.about} expanded={true}>
+        <CollapsibleCard
+          title={_about}
+          defaultTitle="Profile details"
+          expanded={true}
+        >
           <ProfileSummary
             percent={votingPower}
-            hours={fullIn}
-            location={about.location}
-            link={about.website}
-            date={getFormatedCreatedDate(user.created)}
+            hours={fullInHour}
+            location={location}
+            link={website}
+            date={getFormatedCreatedDate(user && user.created)}
             followerCount={follows.follower_count}
             followingCount={follows.following_count}
-            coverImage={about.cover_image}
+            coverImage={cover_image}
           />
         </CollapsibleCard>
 
@@ -236,40 +243,48 @@ class ProfileScreen extends React.Component {
               onDropdownSelect={this._handleOnDropdownSelect}
               rightIconName="md-apps"
             />
-            <FlatList
-              data={posts}
-              showsVerticalScrollIndicator={false}
-              renderItem={({ item }) => (
-                <PostCard
-                  style={{
-                    shadowColor: "#f6f6f6",
-                  }}
-                  content={item}
-                  user={user}
-                  isLoggedIn={true}
-                />
-              )}
-              keyExtractor={(post, index) => index.toString()}
-              onEndReached={info => {
-                if (!isLoading) {
-                  this._getMore();
-                }
-              }}
-              onEndThreshold={0}
-              bounces={false}
-            />
+            {posts && posts.length > 0 ? (
+              <FlatList
+                data={posts}
+                showsVerticalScrollIndicator={false}
+                renderItem={({ item }) => (
+                  <PostCard
+                    style={{
+                      shadowColor: "#f6f6f6",
+                    }}
+                    content={item}
+                    user={user}
+                    isLoggedIn={true}
+                  />
+                )}
+                keyExtractor={(post, index) => index.toString()}
+                onEndReached={info => {
+                  if (!isLoading) {
+                    this._getMore();
+                  }
+                }}
+                onEndThreshold={0}
+                bounces={false}
+              />
+            ) : (
+              <NoPost name={user.name} text="haven't posted anything yet" />
+            )}
           </View>
           <View tabLabel="Comments" style={styles.commentsTabBar}>
-            <FlatList
-              data={commments}
-              showsVerticalScrollIndicator={false}
-              renderItem={({ item }) => (
-                <Comment comment={item} isLoggedIn={true} user={user} />
-              )}
-              keyExtractor={(post, index) => index.toString()}
-              onEndThreshold={0}
-              bounces={false}
-            />
+            {commments && commments.length > 0 ? (
+              <FlatList
+                data={commments}
+                showsVerticalScrollIndicator={false}
+                renderItem={({ item }) => (
+                  <Comment comment={item} isLoggedIn={true} user={user} />
+                )}
+                keyExtractor={(post, index) => index.toString()}
+                onEndThreshold={0}
+                bounces={false}
+              />
+            ) : (
+              <NoPost name={user.name} text="haven't commented anything yet" />
+            )}
           </View>
           <View tabLabel={"$" + user.balance}>
             <Card>

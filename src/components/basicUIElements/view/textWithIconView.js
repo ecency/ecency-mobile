@@ -11,13 +11,13 @@ const TextWithIcon = ({ iconName, text, isClickable, onPress }) => (
         onPress={() => onPress && onPress()}
       >
         <View style={styles.wrapper}>
-          <Ionicons style={styles.icon} name={iconName} />
+          {text && <Ionicons style={styles.icon} name={iconName} />}
           <Text style={styles.text}>{text}</Text>
         </View>
       </TouchableHighlight>
     ) : (
       <View style={styles.wrapper}>
-        <Ionicons style={styles.icon} name={iconName} />
+        {text && <Ionicons style={styles.icon} name={iconName} />}
         <Text style={styles.text}>{text}</Text>
       </View>
     )}

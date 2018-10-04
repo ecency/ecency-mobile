@@ -63,7 +63,7 @@ class CollapsibleCardView extends Component {
   };
 
   render() {
-    const { title, children, isLoading } = this.props;
+    const { title, children, defaultTitle } = this.props;
     const { expanded } = this.state;
 
     return (
@@ -77,6 +77,7 @@ class CollapsibleCardView extends Component {
             color="#788187"
             fontSize={12}
             title={title}
+            defaultTitle={defaultTitle}
             iconName={expanded ? "md-arrow-dropdown" : "md-arrow-dropup"}
           />
         </TouchableHighlight>

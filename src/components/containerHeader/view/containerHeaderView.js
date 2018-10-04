@@ -26,12 +26,13 @@ class ContainerHeaderView extends Component {
 
   render() {
     const {
-      title,
-      isBoldTitle,
       color,
-      hasSeperator,
+      defaultTitle,
       fontSize,
+      hasSeperator,
       iconName,
+      isBoldTitle,
+      title,
     } = this.props;
 
     return (
@@ -44,7 +45,7 @@ class ContainerHeaderView extends Component {
             fontSize && { fontSize: fontSize },
           ]}
         >
-          {title}
+          {title ? title : defaultTitle}
         </Text>
         {iconName && <Ionicons style={styles.icon} name={iconName} />}
       </View>

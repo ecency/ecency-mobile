@@ -3,7 +3,7 @@ import { View, Image, Text } from "react-native";
 import { DropdownButton } from "../../../components/dropdownButton";
 
 // Constants
-import TEMP_IMAGE from "../../../assets/drawer-cover.png";
+import DEFAULT_IMAGE from "../../../assets/default_cover_image.png";
 
 // Components
 import { TextWithIcon } from "../../basicUIElements";
@@ -59,7 +59,7 @@ class ProfileSummaryView extends Component {
         <Image
           style={styles.longImage}
           source={{ uri: coverImage }}
-          defaultSource={TEMP_IMAGE}
+          defaultSource={DEFAULT_IMAGE}
         />
         <PercentBar percent={percent} margin={24}>
           <View style={styles.percentTitleWrapper}>
