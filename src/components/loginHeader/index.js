@@ -1,3 +1,3 @@
-import LoginHeader from "./view/loginHeaderView";
+import LoginHeader from './view/loginHeaderView';
 
 export { LoginHeader };

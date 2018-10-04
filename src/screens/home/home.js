@@ -1,29 +1,30 @@
-import React from "react";
-import { Text, View, Dimensions, TouchableOpacity } from "react-native";
-import { Navigation } from "react-native-navigation";
+import React from 'react';
+import {
+  Text, View, Dimensions, TouchableOpacity,
+} from 'react-native';
 
-import ScrollableTabView from "@esteemapp/react-native-scrollable-tab-view";
-import TabBar from "../../components/tabBar";
+import ScrollableTabView from '@esteemapp/react-native-scrollable-tab-view';
 
-import Ionicons from "react-native-vector-icons/Ionicons";
+import Ionicons from 'react-native-vector-icons/Ionicons';
 
-import FastImage from "react-native-fast-image";
+import FastImage from 'react-native-fast-image';
 
-import Placeholder from "rn-placeholder";
+import Placeholder from 'rn-placeholder';
 
 // REDUX
-import { connect } from "react-redux";
-import { fetchAccount } from "../../redux/actions/userActions";
-import store from "../../redux/store/store";
+import { connect } from 'react-redux';
+import TabBar from '../../components/tabBar';
+import { fetchAccount } from '../../redux/actions/userActions';
+import store from '../../redux/store/store';
 
 // STEEM
-import { getUserData, getAuthStatus } from "../../realm/realm";
-import { getUser } from "../../providers/steem/dsteem";
+import { getUserData, getAuthStatus } from '../../realm/realm';
+import { getUser } from '../../providers/steem/dsteem';
 
 // SCREENS
-import HotPage from "./hot";
-import FeedPage from "./feed";
-import TrendingPage from "./trending";
+import HotPage from './hot';
+import FeedPage from './feed';
+import TrendingPage from './trending';
 
 export default class Home extends React.PureComponent {
   static get options() {
@@ -40,7 +41,7 @@ export default class Home extends React.PureComponent {
         elevation: 0,
       },
       layout: {
-        backgroundColor: "#f5fcff",
+        backgroundColor: '#f5fcff',
       },
       bottomTabs: {
         visible: true,
@@ -48,32 +49,33 @@ export default class Home extends React.PureComponent {
       },
     };
   }
+
   constructor(props) {
     super(props);
-    Navigation.events().bindComponent(this); // <== Will be automatically unregistered when unmounted
+    // Navigation.events().bindComponent(this); // <== Will be automatically unregistered when unmounted
     this.state = {
       user: {
-        name: "null",
+        name: 'null',
       },
       isLoggedIn: false,
       isLoading: true,
-      category: "HOT",
-      options: ["HOT", "TRENDING", "CLOSE"],
+      category: 'HOT',
+      options: ['HOT', 'TRENDING', 'CLOSE'],
     };
   }
 
   navigationButtonPressed({ buttonId }) {
-    if (buttonId === "search") {
-      Navigation.showOverlay({
-        component: {
-          name: "navigation.eSteem.Search",
-        },
-        options: {
-          overlay: {
-            interceptTouchOutside: true,
-          },
-        },
-      });
+    if (buttonId === 'search') {
+      // Navigation.showOverlay({
+      //   component: {
+      //     name: 'navigation.eSteem.Search',
+      //   },
+      //   options: {
+      //     overlay: {
+      //       interceptTouchOutside: true,
+      //     },
+      //   },
+      // });
     }
   }
 
@@ -86,19 +88,19 @@ export default class Home extends React.PureComponent {
     let userData;
     let isLoggedIn;
 
-    await getAuthStatus().then(res => {
+    await getAuthStatus().then((res) => {
       isLoggedIn = res;
     });
 
     if (isLoggedIn) {
-      await getUserData().then(res => {
+      await getUserData().then((res) => {
         user = Array.from(res);
       });
       userData = await getUser(user[0].username);
 
       this.setState({
         user: userData,
-        isLoggedIn: isLoggedIn,
+        isLoggedIn,
         isLoading: false,
       });
     } else {
@@ -110,7 +112,7 @@ export default class Home extends React.PureComponent {
 
   render() {
     return (
-      <View style={styles.root} key={"overlay"}>
+      <View style={styles.root} key="overlay">
         <ScrollableTabView
           style={styles.tabView}
           renderTabBar={() => (
@@ -118,8 +120,8 @@ export default class Home extends React.PureComponent {
               style={styles.tabbar}
               tabUnderlineDefaultWidth={80} // default containerWidth / (numberOfTabs * 4)
               tabUnderlineScaleX={2} // default 3
-              activeColor={"#357ce6"}
-              inactiveColor={"#222"}
+              activeColor="#357ce6"
+              inactiveColor="#222"
               tabBarPosition="overlayTop"
             />
           )}
@@ -158,66 +160,66 @@ export default class Home extends React.PureComponent {
 
 const styles = {
   root: {
-    justifyContent: "center",
-    alignItems: "center",
+    justifyContent: 'center',
+    alignItems: 'center',
     flex: 1,
   },
   buttonContainer: {
-    width: "50%",
-    alignItems: "center",
+    width: '50%',
+    alignItems: 'center',
   },
   tabView: {
-    alignSelf: "center",
-    backgroundColor: "transparent",
+    alignSelf: 'center',
+    backgroundColor: 'transparent',
   },
   tabbar: {
-    alignSelf: "center",
+    alignSelf: 'center',
     height: 40,
-    backgroundColor: "white",
+    backgroundColor: 'white',
   },
   tabbarItem: {
     flex: 1,
     paddingHorizontal: 7,
-    backgroundColor: "#f9f9f9",
-    minWidth: Dimensions.get("window").width,
+    backgroundColor: '#f9f9f9',
+    minWidth: Dimensions.get('window').width,
   },
   container: {
-    backgroundColor: "#F9F9F9",
+    backgroundColor: '#F9F9F9',
     flex: 1,
   },
   tabs: {
     flex: 1,
   },
   placeholder: {
-    backgroundColor: "white",
+    backgroundColor: 'white',
     padding: 20,
-    borderStyle: "solid",
+    borderStyle: 'solid',
     borderWidth: 1,
     borderTopWidth: 1,
-    borderColor: "#e2e5e8",
+    borderColor: '#e2e5e8',
     borderRadius: 5,
     marginRight: 0,
     marginLeft: 0,
     marginTop: 10,
   },
   header: {
-    backgroundColor: "#284b78",
+    backgroundColor: '#284b78',
     borderBottomWidth: 0,
-    borderColor: "#284b78",
+    borderColor: '#284b78',
   },
   avatar: {
     width: 30,
     height: 30,
     borderRadius: 15,
     borderWidth: 1,
-    borderColor: "white",
+    borderColor: 'white',
   },
   searchButton: {
-    color: "white",
-    fontWeight: "bold",
+    color: 'white',
+    fontWeight: 'bold',
   },
   loginButton: {
-    alignSelf: "center",
+    alignSelf: 'center',
     marginTop: 100,
   },
 };

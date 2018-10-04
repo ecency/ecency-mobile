@@ -1,24 +1,26 @@
-import React, { Component } from "react";
-import { View, BackHandler, Linking, StatusBar } from "react-native";
-import { KeyboardAwareScrollView } from "react-native-keyboard-aware-scroll-view";
-import ScrollableTabView from "@esteemapp/react-native-scrollable-tab-view";
+import React, { Component } from 'react';
+import {
+  View, BackHandler, Linking, StatusBar,
+} from 'react-native';
+import { KeyboardAwareScrollView } from 'react-native-keyboard-aware-scroll-view';
+import ScrollableTabView from '@esteemapp/react-native-scrollable-tab-view';
 
 // Internal Components
-import { FormInput } from "../../../components/formInput";
-import { TextButton } from "../../../components/buttons";
-import { InformationArea } from "../../../components/informationArea";
-import { Login } from "../../../providers/steem/auth";
-import { LoginHeader } from "../../../components/loginHeader";
-import { MainButton } from "../../../components/mainButton";
-import { Navigation } from "react-native-navigation";
-import { TabBar } from "../../../components/tabBar";
-import { addNewAccount } from "../../../redux/actions/accountAction";
-import { goToAuthScreens } from "../../../navigation";
-import { lookupAccounts } from "../../../providers/steem/dsteem";
-import STEEM_CONNECT_LOGO from "../../../assets/steem_connect.png";
+import { Navigation } from 'react-native-navigation';
+import { FormInput } from '../../../components/formInput';
+import { TextButton } from '../../../components/buttons';
+import { InformationArea } from '../../../components/informationArea';
+import { Login } from '../../../providers/steem/auth';
+import { LoginHeader } from '../../../components/loginHeader';
+import { MainButton } from '../../../components/mainButton';
+import { TabBar } from '../../../components/tabBar';
+import { addNewAccount } from '../../../redux/actions/accountAction';
+import { goToAuthScreens } from '../../../navigation';
+import { lookupAccounts } from '../../../providers/steem/dsteem';
+import STEEM_CONNECT_LOGO from '../../../assets/steem_connect.png';
 
 // Styles
-import styles from "./loginStyles";
+import styles from './loginStyles';
 
 class LoginScreen extends Component {
   constructor(props) {
@@ -26,8 +28,8 @@ class LoginScreen extends Component {
     Navigation.events().bindComponent(this);
     this.handleUsername = this.handleUsername.bind(this);
     this.state = {
-      username: "",
-      password: "",
+      username: '',
+      password: '',
       isLoading: false,
       isUsernameValid: false,
       keyboardIsOpen: false,
@@ -35,17 +37,17 @@ class LoginScreen extends Component {
   }
 
   componentDidMount() {
-    BackHandler.addEventListener("hardwareBackPress", () => {
+    BackHandler.addEventListener('hardwareBackPress', () => {
       Navigation.pop(this.props.componentId);
       return true;
     });
-    Linking.getInitialURL().then(url => {
+    Linking.getInitialURL().then((url) => {
       console.log(url);
     });
   }
 
   componentWillUnmount() {
-    BackHandler.removeEventListener("hardwareBackPress");
+    BackHandler.removeEventListener('hardwareBackPress');
   }
 
   _handleOnPressLogin = () => {
@@ -55,12 +57,12 @@ class LoginScreen extends Component {
     this.setState({ isLoading: true });
 
     Login(username, password)
-      .then(result => {
+      .then((result) => {
         if (result) {
           dispatch(addNewAccount(result));
           Navigation.setStackRoot(componentId, {
             component: {
-              name: "navigation.eSteem.PinCode",
+              name: 'navigation.eSteem.PinCode',
               options: {
                 topBar: {
                   visible: false,
@@ -70,37 +72,35 @@ class LoginScreen extends Component {
           });
         }
       })
-      .catch(err => {
+      .catch((err) => {
         // alert(err);
         this.setState({ isLoading: false });
       });
   };
 
-  handleUsername = async username => {
+  handleUsername = async (username) => {
     await this.setState({ username });
     const validUsers = await lookupAccounts(username);
     await this.setState({ isUsernameValid: validUsers.includes(username) });
   };
 
-  _handleOnPasswordChange = value => {
+  _handleOnPasswordChange = (value) => {
     this.setState({ password: value });
   };
 
   _handleSignUp = () => {
-    Linking.openURL("https://signup.steemit.com/?ref=esteem").catch(err =>
-      console.error("An error occurred", err)
-    );
+    Linking.openURL('https://signup.steemit.com/?ref=esteem').catch(err => console.error('An error occurred', err));
   };
 
   _loginwithSc2 = () => {
     Navigation.push(this.props.componentId, {
       component: {
-        name: "navigation.eSteem.SteemConnect",
+        name: 'navigation.eSteem.SteemConnect',
         passProps: {},
         options: {
           topBar: {
             title: {
-              text: "Login via SC2",
+              text: 'Login via SC2',
             },
           },
         },
@@ -138,8 +138,8 @@ class LoginScreen extends Component {
                 style={styles.tabbar}
                 tabUnderlineDefaultWidth={100} // default containerWidth / (numberOfTabs * 4)
                 tabUnderlineScaleX={2} // default 3
-                activeColor={"#357ce6"}
-                inactiveColor={"#222"}
+                activeColor="#357ce6"
+                inactiveColor="#222"
               />
             )}
           >

@@ -1,12 +1,14 @@
-import React, { Component } from "react";
-import { View, ScrollView, Text, FlatList, Image } from "react-native";
-import { ContainerHeader } from "../../containerHeader";
+import React, { Component } from 'react';
+import {
+  View, ScrollView, Text, FlatList, Image,
+} from 'react-native';
+import { ContainerHeader } from '../../containerHeader';
 // Constants
 
 // Components
-import { FilterBar } from "../../../components/filterBar";
+import { FilterBar } from '../../filterBar';
 // Styles
-import styles from "./notificationStyles";
+import styles from './notificationStyles';
 
 class NotificationView extends Component {
   /* Props
@@ -19,44 +21,44 @@ class NotificationView extends Component {
       // NOTE: DOMI DATA! them gonna remove!
       notification: [
         {
-          name: "esteemapp",
-          title: "25% likes your post:",
-          avatar: "https://steemitimages.com/u/feruz/avatar/small",
-          description: "My own Top 5 eSteem Surfer Featuressasasaasasas",
-          image: "https://steemitimages.com/u/feruz/avatar/small",
-          date: "yesterday",
+          name: 'esteemapp',
+          title: '25% likes your post:',
+          avatar: 'https://steemitimages.com/u/feruz/avatar/small',
+          description: 'My own Top 5 eSteem Surfer Featuressasasaasasas',
+          image: 'https://steemitimages.com/u/feruz/avatar/small',
+          date: 'yesterday',
           isNew: true,
         },
         {
-          name: "esteemapp",
-          title: "25% likes your post:",
-          avatar: "https://steemitimages.com/u/feruz/avatar/small",
-          description: "My own Top 5 eSteem Surfer Features",
-          image: "https://steemitimages.com/u/feruz/avatar/small",
-          date: "yesterday",
+          name: 'esteemapp',
+          title: '25% likes your post:',
+          avatar: 'https://steemitimages.com/u/feruz/avatar/small',
+          description: 'My own Top 5 eSteem Surfer Features',
+          image: 'https://steemitimages.com/u/feruz/avatar/small',
+          date: 'yesterday',
           isNew: true,
         },
         {
-          name: "esteemapp",
-          title: "25% likes your post:",
-          description: "My own Top 5 eSteem Surfer Features",
-          image: "https://steemitimages.com/u/feruz/avatar/small",
-          date: "yesterday",
+          name: 'esteemapp',
+          title: '25% likes your post:',
+          description: 'My own Top 5 eSteem Surfer Features',
+          image: 'https://steemitimages.com/u/feruz/avatar/small',
+          date: 'yesterday',
         },
         {
-          name: "esteemapp",
-          title: "25% likes your post:",
-          avatar: "https://steemitimages.com/u/feruz/avatar/small",
-          description: "My own Top 5 eSteem Surfer Featuresasassasasaasas",
-          date: "yesterday",
+          name: 'esteemapp',
+          title: '25% likes your post:',
+          avatar: 'https://steemitimages.com/u/feruz/avatar/small',
+          description: 'My own Top 5 eSteem Surfer Featuresasassasasaasas',
+          date: 'yesterday',
         },
         {
-          name: "esteemapp",
-          title: "25% likes your post:",
-          avatar: "https://steemitimages.com/u/feruz/avatar/small",
-          description: "My own Top 5 eSteem Surfer Features",
-          image: "https://steemitimages.com/u/feruz/avatar/small",
-          date: "yesterday",
+          name: 'esteemapp',
+          title: '25% likes your post:',
+          avatar: 'https://steemitimages.com/u/feruz/avatar/small',
+          description: 'My own Top 5 eSteem Surfer Features',
+          image: 'https://steemitimages.com/u/feruz/avatar/small',
+          date: 'yesterday',
         },
       ],
     };
@@ -66,44 +68,45 @@ class NotificationView extends Component {
 
   // Component Functions
 
-  _handleOnDropdownSelect = index => {
-    console.log("selected index is:" + index);
+  _handleOnDropdownSelect = (index) => {
+    console.log(`selected index is:${index}`);
   };
 
-  _getRenderItem = item => {
-    return (
-      <View
-        key={Math.random()}
-        style={[
-          styles.notificationWrapper,
-          item.isNew && styles.isNewNotification,
-        ]}
-      >
-        <Image
-          style={[styles.avatar, !item.avatar && styles.hasNoAvatar]}
-          source={{
-            uri: item.avatar,
-          }}
-        />
-        <View style={styles.body}>
-          <View style={styles.titleWrapper}>
-            <Text style={styles.name}>{item.name} </Text>
-            <Text style={styles.title}>{item.title}</Text>
-          </View>
-          <Text numberOfLines={1} style={styles.description}>
-            {item.description}
+  _getRenderItem = item => (
+    <View
+      key={Math.random()}
+      style={[
+        styles.notificationWrapper,
+        item.isNew && styles.isNewNotification,
+      ]}
+    >
+      <Image
+        style={[styles.avatar, !item.avatar && styles.hasNoAvatar]}
+        source={{
+          uri: item.avatar,
+        }}
+      />
+      <View style={styles.body}>
+        <View style={styles.titleWrapper}>
+          <Text style={styles.name}>
+            {item.name}
+            {' '}
           </Text>
+          <Text style={styles.title}>{item.title}</Text>
         </View>
-        {item.image && (
-          <Image
-            style={styles.image}
-            source={{ uri: item.image }}
-            defaultSource={require("../../../assets/no_image.png")}
-          />
-        )}
+        <Text numberOfLines={1} style={styles.description}>
+          {item.description}
+        </Text>
       </View>
-    );
-  };
+      {item.image && (
+      <Image
+        style={styles.image}
+        source={{ uri: item.image }}
+        defaultSource={require('../../../assets/no_image.png')}
+      />
+      )}
+    </View>
+  );
 
   render() {
     const { notification } = this.state;
@@ -113,12 +116,12 @@ class NotificationView extends Component {
         <FilterBar
           dropdownIconName="md-arrow-dropdown"
           options={[
-            "ALL ACTIVITIES",
-            "VOTES",
-            "REPLIES",
-            "MENTIONS",
-            "FOLLOWS",
-            "REBLOGS",
+            'ALL ACTIVITIES',
+            'VOTES',
+            'REPLIES',
+            'MENTIONS',
+            'FOLLOWS',
+            'REBLOGS',
           ]}
           defaultText="ALL NOTIFICATION"
           onDropdownSelect={this._handleOnDropdownSelect}

@@ -1,8 +1,15 @@
-import Logo from "./logo/logo";
-import Comment from "./comment/comment";
-import PostCard from "./postCard";
-import Reply from "./reply/reply";
-import Search from "./search/search";
-import { FormInput } from "./formInput";
+import Logo from './logo/logo';
+import Comment from './comment/comment';
+// import PostCard from "./postCard";
+import Reply from './reply/reply';
+import Search from './search/search';
+import { FormInput } from './formInput';
 
-export { Logo, Comment, PostCard, Reply, Search, FormInput };
+export {
+  // PostCard,
+  Logo,
+  Comment,
+  Reply,
+  Search,
+  FormInput,
+};

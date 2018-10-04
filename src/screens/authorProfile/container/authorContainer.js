@@ -1,8 +1,8 @@
-import React, { Component } from "react";
+import React, { Component } from 'react';
 // Constants
 
 // Components
-import { AuthorScreen } from "../";
+import { AuthorScreen } from '..';
 /*
 *            Props Name        Description                                     Value
 *@props -->  props name here   description here                                Value Type Here
@@ -10,18 +10,18 @@ import { AuthorScreen } from "../";
 */
 
 class AuthorContainer extends Component {
-    constructor(props) {
-        super(props);
-        this.state = {};
-    }
+  constructor(props) {
+    super(props);
+    this.state = {};
+  }
 
-    // Component Life Cycles
+  // Component Life Cycles
 
-    // Component Functions
+  // Component Functions
 
-    render() {
-        return <AuthorScreen {...this.props} />;
-    }
+  render() {
+    return <AuthorScreen {...this.props} />;
+  }
 }
 
 export default AuthorContainer;

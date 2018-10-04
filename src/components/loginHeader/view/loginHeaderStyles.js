@@ -1,28 +1,28 @@
-import EStyleSheet from "react-native-extended-stylesheet";
+import EStyleSheet from 'react-native-extended-stylesheet';
 
 export default EStyleSheet.create({
   container: {
     flex: 1,
-    flexDirection: "column",
-    height: "$deviceHeight / 3",
+    flexDirection: 'column',
+    height: '$deviceHeight / 3',
   },
   body: {
-    flexDirection: "row",
-    maxHeight: "$deviceHeight / 3",
-    overflow: "hidden",
-    backgroundColor: "$white",
+    flexDirection: 'row',
+    maxHeight: '$deviceHeight / 3',
+    overflow: 'hidden',
+    backgroundColor: '$white',
   },
   description: {
-    textAlignVertical: "center",
-    color: "$primaryGray",
+    textAlignVertical: 'center',
+    color: '$primaryGray',
     fontSize: 14,
-    fontWeight: "400",
+    fontWeight: '400',
   },
   title: {
-    textAlignVertical: "center",
+    textAlignVertical: 'center',
     fontSize: 20,
-    fontWeight: "bold",
-    color: "$primaryGray",
+    fontWeight: 'bold',
+    color: '$primaryGray',
     marginBottom: 16,
   },
   mascot: {
@@ -33,26 +33,26 @@ export default EStyleSheet.create({
   },
   titleText: {
     flex: 0.4,
-    alignSelf: "center",
+    alignSelf: 'center',
     height: 100,
     marginTop: 50,
     marginLeft: 32,
   },
   headerRow: {
-    width: "$deviceWidth",
-    flexDirection: "row",
+    width: '$deviceWidth',
+    flexDirection: 'row',
     height: 55,
-    justifyContent: "space-between",
+    justifyContent: 'space-between',
   },
   logo: {
     width: 32,
     height: 32,
     marginLeft: 32,
-    alignSelf: "center",
+    alignSelf: 'center',
   },
   headerButton: {
     margin: 10,
     marginRight: 19,
-    alignSelf: "center",
+    alignSelf: 'center',
   },
 });

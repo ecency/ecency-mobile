@@ -1,29 +1,31 @@
 /* eslint-disable no-unused-vars */
-import React from "react";
-import { FlatList, ActivityIndicator } from "react-native";
+import React from 'react';
+import { FlatList, ActivityIndicator } from 'react-native';
 
-import { getTimeFromNow } from "../../../utils/time";
-import FastImage from "react-native-fast-image";
+import FastImage from 'react-native-fast-image';
+import ScrollableTabView from '@esteemapp/react-native-scrollable-tab-view';
+import {
+  Card, CardItem, View, Body, Icon, Text,
+} from 'native-base';
+import { getTimeFromNow } from '../../../utils/time';
 
-import ScrollableTabView from "@esteemapp/react-native-scrollable-tab-view";
-import { TabBar } from "../../../components/tabBar";
-import DiscoverPage from "../../discover/discover";
-import { PostCard } from "../../../components/postCard";
+import { TabBar } from '../../../components/tabBar';
+import DiscoverPage from '../../discover/discover';
+import { PostCard } from '../../../components/postCard';
 
-import Comment from "../../../components/comment/comment";
+import Comment from '../../../components/comment/comment';
 
-import { Card, CardItem, View, Body, Icon, Text } from "native-base";
 
-import { getUserData, getAuthStatus } from "../../../realm/realm";
+import { getUserData, getAuthStatus } from '../../../realm/realm';
 import {
   getUser,
   getFollows,
   getPosts,
   getUserComments,
-} from "../../../providers/steem/dsteem";
+} from '../../../providers/steem/dsteem';
 
 // Styles
-import styles from "./profileStyles";
+import styles from './profileStyles';
 /* eslint-enable no-unused-vars */
 
 class ProfileScreen extends React.Component {
@@ -38,11 +40,11 @@ class ProfileScreen extends React.Component {
         hideOnScroll: false,
         drawBehind: false,
         leftButtons: {
-          id: "back",
+          id: 'back',
         },
       },
       layout: {
-        backgroundColor: "#f5fcff",
+        backgroundColor: '#f5fcff',
       },
       bottomTabs: {
         visible: false,
@@ -68,7 +70,7 @@ class ProfileScreen extends React.Component {
   }
 
   async componentDidMount() {
-    await getAuthStatus().then(res => {
+    await getAuthStatus().then((res) => {
       const isLoggedIn = res;
     });
 
@@ -78,11 +80,11 @@ class ProfileScreen extends React.Component {
       let follows;
       let about;
 
-      await getUserData().then(res => {
+      await getUserData().then((res) => {
         userData = Array.from(res);
       });
 
-      await getFollows(userData[0].username).then(res => {
+      await getFollows(userData[0].username).then((res) => {
         follows = res;
       });
 
@@ -91,15 +93,15 @@ class ProfileScreen extends React.Component {
       // BUG: json_metadata: "{}" is coming emty object!!
       this.setState(
         {
-          user: user,
-          isLoggedIn: isLoggedIn,
-          follows: follows,
+          user,
+          isLoggedIn,
+          follows,
           about: about.profile,
         },
         () => {
           this.getBlog(userData[0].username);
           this.getComments(userData[0].username);
-        }
+        },
       );
     }
   }
@@ -114,10 +116,10 @@ class ProfileScreen extends React.Component {
     );
   };
 
-  getBlog = user => {
+  getBlog = (user) => {
     this.setState({ loading: true });
-    getPosts("blog", { tag: user, limit: 10 }, user)
-      .then(result => {
+    getPosts('blog', { tag: user, limit: 10 }, user)
+      .then((result) => {
         this.setState({
           isReady: true,
           posts: result,
@@ -127,25 +129,25 @@ class ProfileScreen extends React.Component {
           loading: false,
         });
       })
-      .catch(err => {
+      .catch((err) => {
         alert(err);
       });
   };
 
   getMore = async () => {
-    console.log("get more");
+    console.log('get more');
     await getPosts(
-      "blog",
+      'blog',
       {
         tag: this.state.user.name,
         limit: 10,
         start_author: this.state.start_author,
         start_permlink: this.state.start_permlink,
       },
-      this.state.user.name
-    ).then(result => {
+      this.state.user.name,
+    ).then((result) => {
       console.log(result);
-      let posts = result;
+      const posts = result;
       posts.shift();
       this.setState({
         posts: [...this.state.posts, ...posts],
@@ -156,9 +158,9 @@ class ProfileScreen extends React.Component {
     });
   };
 
-  getComments = async user => {
+  getComments = async (user) => {
     await getUserComments({ start_author: user, limit: 10 })
-      .then(result => {
+      .then((result) => {
         this.setState({
           isReady: true,
           commments: result,
@@ -166,13 +168,13 @@ class ProfileScreen extends React.Component {
           loading: false,
         });
       })
-      .catch(err => {
+      .catch((err) => {
         console.log(err);
       });
   };
 
   render() {
-    //TODO: Refactor ME !
+    // TODO: Refactor ME !
     return (
       <View style={styles.container}>
         {this.state.isLoggedIn ? (
@@ -193,7 +195,7 @@ class ProfileScreen extends React.Component {
                 }}
               />
               <Body style={{ top: -40 }}>
-                <Text style={{ fontWeight: "bold" }}>
+                <Text style={{ fontWeight: 'bold' }}>
                   {this.state.user.name}
                 </Text>
                 <Text>{this.state.about.about}</Text>
@@ -201,13 +203,25 @@ class ProfileScreen extends React.Component {
               <Card style={{ margin: 0 }}>
                 <CardItem style={styles.about}>
                   <View style={{ flex: 0.3 }}>
-                    <Text>{this.state.user.post_count} Posts</Text>
+                    <Text>
+                      {this.state.user.post_count}
+                      {' '}
+Posts
+                    </Text>
                   </View>
                   <View style={{ flex: 0.4 }}>
-                    <Text>{this.state.follows.follower_count} Followers</Text>
+                    <Text>
+                      {this.state.follows.follower_count}
+                      {' '}
+Followers
+                    </Text>
                   </View>
                   <View style={{ flex: 0.4 }}>
-                    <Text>{this.state.follows.following_count} Following</Text>
+                    <Text>
+                      {this.state.follows.following_count}
+                      {' '}
+Following
+                    </Text>
                   </View>
                 </CardItem>
 
@@ -216,13 +230,13 @@ class ProfileScreen extends React.Component {
                     <Text
                       style={{
                         marginLeft: 20,
-                        alignSelf: "flex-start",
+                        alignSelf: 'flex-start',
                       }}
                     >
                       <Icon
                         style={{
                           fontSize: 20,
-                          alignSelf: "flex-start",
+                          alignSelf: 'flex-start',
                         }}
                         name="md-pin"
                       />
@@ -252,8 +266,8 @@ class ProfileScreen extends React.Component {
                   style={styles.tabbar}
                   tabUnderlineDefaultWidth={30} // default containerWidth / (numberOfTabs * 4)
                   tabUnderlineScaleX={3} // default 3
-                  activeColor={"#222"}
-                  inactiveColor={"#222"}
+                  activeColor="#222"
+                  inactiveColor="#222"
                 />
               )}
             >
@@ -263,14 +277,14 @@ class ProfileScreen extends React.Component {
                   showsVerticalScrollIndicator={false}
                   renderItem={({ item }) => (
                     <PostCard
-                      style={{ shadowColor: "white" }}
+                      style={{ shadowColor: 'white' }}
                       content={item}
                       user={this.state.user}
-                      isLoggedIn={true}
+                      isLoggedIn
                     />
                   )}
                   keyExtractor={(post, index) => index.toString()}
-                  onEndReached={info => {
+                  onEndReached={(info) => {
                     if (!this.state.loading) {
                       console.log(info);
                       this.getMore();
@@ -289,7 +303,7 @@ class ProfileScreen extends React.Component {
                   renderItem={({ item }) => (
                     <Comment
                       comment={item}
-                      isLoggedIn={true}
+                      isLoggedIn
                       user={this.state.user}
                     />
                   )}
@@ -302,28 +316,49 @@ class ProfileScreen extends React.Component {
               <View tabLabel="Replies" style={styles.tabbarItem} />
               <View tabLabel="Wallet" style={styles.tabbarItem}>
                 <Card>
-                  <Text>STEEM Balance: {this.state.user.balance}</Text>
-                </Card>
-                <Card>
-                  <Text>SBD Balance: {this.state.user.sbd_balance}</Text>
-                </Card>
-                <Card>
-                  <Text>STEEM Power: {this.state.user.steem_power} SP</Text>
                   <Text>
-                    Received STEEM Power: {this.state.user.received_steem_power}{" "}
+STEEM Balance:
+                    {this.state.user.balance}
+                  </Text>
+                </Card>
+                <Card>
+                  <Text>
+SBD Balance:
+                    {this.state.user.sbd_balance}
+                  </Text>
+                </Card>
+                <Card>
+                  <Text>
+STEEM Power:
+                    {this.state.user.steem_power}
+                    {' '}
+SP
+                  </Text>
+                  <Text>
+                    Received STEEM Power:
+                    {' '}
+                    {this.state.user.received_steem_power}
+                    {' '}
                     SP
                   </Text>
                   <Text>
-                    Delegated Power Power:{" "}
-                    {this.state.user.delegated_steem_power} SP
+                    Delegated Power Power:
+                    {' '}
+                    {this.state.user.delegated_steem_power}
+                    {' '}
+SP
                   </Text>
                 </Card>
                 <Card>
                   <Text>
-                    Saving STEEM Balance: {this.state.user.savings_balance}
+                    Saving STEEM Balance:
+                    {' '}
+                    {this.state.user.savings_balance}
                   </Text>
                   <Text>
-                    Saving STEEM Balance: {this.state.user.savings_sbd_balance}
+                    Saving STEEM Balance:
+                    {' '}
+                    {this.state.user.savings_sbd_balance}
                   </Text>
                 </Card>
               </View>

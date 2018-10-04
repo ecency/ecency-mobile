@@ -1,3 +1,3 @@
-import LineBreak from "./view/lineBreakView";
+import LineBreak from './view/lineBreakView';
 
 export { LineBreak };

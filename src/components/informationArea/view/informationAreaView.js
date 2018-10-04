@@ -1,20 +1,20 @@
-import React, { Component } from "react";
-import { View, Text } from "react-native";
-import Ionicons from "react-native-vector-icons/Ionicons";
+import React, { Component } from 'react';
+import { View, Text } from 'react-native';
+import Ionicons from 'react-native-vector-icons/Ionicons';
 
 // Constants
 
 // Components
 
 // Styles
-import styles from "./informationAreaStyles";
+import styles from './informationAreaStyles';
 
 class FormInputView extends Component {
   /* Props
     * ------------------------------------------------
     *   @prop { string }     description       - Description texts.
     *   @prop { string }     iconName          - For icon render name.
-    * 
+    *
     */
   constructor(props) {
     super(props);

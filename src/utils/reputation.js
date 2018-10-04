@@ -1,9 +1,9 @@
-export const getReputation = reputation => {
+export const getReputation = (reputation) => {
   if (reputation === null) return reputation;
 
   let _reputation = String(parseInt(reputation));
 
-  const neg = _reputation.charAt(0) === "-";
+  const neg = _reputation.charAt(0) === '-';
   _reputation = neg ? _reputation.substring(1) : _reputation;
 
   const str = _reputation;

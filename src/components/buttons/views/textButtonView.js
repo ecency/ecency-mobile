@@ -1,7 +1,7 @@
-import React, { Fragment } from "react";
-import { TouchableWithoutFeedback, Text, View } from "react-native";
+import React, { Fragment } from 'react';
+import { TouchableWithoutFeedback, Text, View } from 'react-native';
 
-import styles from "./textButtonStyles";
+import styles from './textButtonStyles';
 
 const TextButtonView = ({ text, onPress, style }) => (
   <Fragment>

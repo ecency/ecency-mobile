@@ -1,32 +1,32 @@
-import EStyleSheet from "react-native-extended-stylesheet";
+import EStyleSheet from 'react-native-extended-stylesheet';
 
 export default EStyleSheet.create({
   title: {
-    color: "$primaryBlue",
+    color: '$primaryBlue',
     fontSize: 20,
-    fontWeight: "bold",
+    fontWeight: 'bold',
     marginTop: 25,
-    alignSelf: "center",
+    alignSelf: 'center',
     marginBottom: 25,
   },
   logo: {
-    marginTop: "$deviceHeight / 8",
+    marginTop: '$deviceHeight / 8',
   },
   forgotButtonText: {
-    color: "$primaryGray",
+    color: '$primaryGray',
     fontSize: 14,
     marginTop: 25,
-    alignSelf: "center",
+    alignSelf: 'center',
     marginBottom: 25,
   },
   input: {
-    backgroundColor: "#f5f5f5",
-    borderColor: "#fff",
+    backgroundColor: '#f5f5f5',
+    borderColor: '#fff',
     borderRadius: 5,
     paddingLeft: 15,
-    minWidth: "$deviceWidth / 2",
+    minWidth: '$deviceWidth / 2',
   },
   icon: {
-    color: "$primaryBlue",
+    color: '$primaryBlue',
   },
 });

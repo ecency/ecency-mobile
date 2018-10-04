@@ -1,6 +1,6 @@
-import moment from "moment";
+import moment from 'moment';
 
-export const getTimeFromNow = value => {
+export const getTimeFromNow = (value) => {
   if (!value) return null;
 
   return moment

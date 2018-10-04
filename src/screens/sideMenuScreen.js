@@ -1,10 +1,10 @@
-import React, { Component } from "react";
-import { View } from "react-native";
+import React, { Component } from 'react';
+import { View } from 'react-native';
 
-import LoggedInMenu from "./side-menu/loggedInMenu";
-import LoggedOutMenu from "./side-menu/loggedOutMenu";
+import LoggedInMenu from './side-menu/loggedInMenu';
+import LoggedOutMenu from './side-menu/loggedOutMenu';
 
-import { getAuthStatus, getUserData } from "../realm/realm";
+import { getAuthStatus, getUserData } from '../realm/realm';
 
 class SideMenuScreen extends Component {
   constructor() {
@@ -12,7 +12,7 @@ class SideMenuScreen extends Component {
 
     this.state = {
       isLoggedIn: false,
-      username: "",
+      username: '',
     };
   }
 
@@ -20,18 +20,18 @@ class SideMenuScreen extends Component {
     let user;
     let isLoggedIn;
 
-    await getAuthStatus().then(res => {
+    await getAuthStatus().then((res) => {
       isLoggedIn = res;
     });
 
     if (isLoggedIn) {
-      await getUserData().then(res => {
+      await getUserData().then((res) => {
         user = Array.from(res);
       });
 
       this.setState({
         username: user[0].username,
-        isLoggedIn: isLoggedIn,
+        isLoggedIn,
         isLoading: false,
       });
     } else {
@@ -58,6 +58,6 @@ module.exports = SideMenuScreen;
 const styles = {
   root: {
     flexGrow: 1,
-    backgroundColor: "#f5fcff",
+    backgroundColor: '#f5fcff',
   },
 };

@@ -1,4 +1,4 @@
-import React from "react";
+import React from 'react';
 /* eslint-disable no-unused-vars */
 import {
   Content,
@@ -12,102 +12,102 @@ import {
   View,
   Badge,
   Thumbnail,
-} from "native-base";
+} from 'native-base';
 /* eslint-enable no-unused-vars */
-import styles from "./style";
+import RNRestart from 'react-native-restart';
+import { Navigation } from 'react-native-navigation';
+import styles from './style';
 
-import { getAccount } from "../../providers/steem/dsteem";
-import { setAuthStatus } from "../../realm/realm";
-import RNRestart from "react-native-restart";
-import { Navigation } from "react-native-navigation";
+import { getAccount } from '../../providers/steem/dsteem';
+import { setAuthStatus } from '../../realm/realm';
 
 const masterKeyMenuOptions = [
   {
-    name: "Profile",
-    route: "Profile",
-    icon: "contact",
-    bg: "#C5F442",
+    name: 'Profile',
+    route: 'Profile',
+    icon: 'contact',
+    bg: '#C5F442',
   },
   {
-    name: "Bookmarks",
-    route: "bookmarks",
-    icon: "bookmarks",
-    bg: "#DA4437",
+    name: 'Bookmarks',
+    route: 'bookmarks',
+    icon: 'bookmarks',
+    bg: '#DA4437',
   },
   {
-    name: "Favorites",
-    route: "favorites",
-    icon: "heart",
-    bg: "#DA4437",
+    name: 'Favorites',
+    route: 'favorites',
+    icon: 'heart',
+    bg: '#DA4437',
   },
   {
-    name: "Drafts",
-    route: "drafts",
-    icon: "create",
-    bg: "#DA4437",
+    name: 'Drafts',
+    route: 'drafts',
+    icon: 'create',
+    bg: '#DA4437',
   },
   {
-    name: "Schedules",
-    route: "schedules",
-    icon: "time",
-    bg: "#DA4437",
+    name: 'Schedules',
+    route: 'schedules',
+    icon: 'time',
+    bg: '#DA4437',
   },
   {
-    name: "Gallery",
-    route: "galery",
-    icon: "images",
-    bg: "#DA4437",
+    name: 'Gallery',
+    route: 'galery',
+    icon: 'images',
+    bg: '#DA4437',
   },
   {
-    name: "Settings",
-    route: "Settings",
-    icon: "settings",
-    bg: "#DA4437",
+    name: 'Settings',
+    route: 'Settings',
+    icon: 'settings',
+    bg: '#DA4437',
   },
 ];
 
 const postingKeyMenuOptions = [
   {
-    name: "Profile",
-    route: "Profile",
-    icon: "contact",
-    bg: "#C5F442",
+    name: 'Profile',
+    route: 'Profile',
+    icon: 'contact',
+    bg: '#C5F442',
   },
   {
-    name: "Bookmarks",
-    route: "bookmarks",
-    icon: "bookmarks",
-    bg: "#DA4437",
+    name: 'Bookmarks',
+    route: 'bookmarks',
+    icon: 'bookmarks',
+    bg: '#DA4437',
   },
   {
-    name: "Favorites",
-    route: "favorites",
-    icon: "heart",
-    bg: "#DA4437",
+    name: 'Favorites',
+    route: 'favorites',
+    icon: 'heart',
+    bg: '#DA4437',
   },
   {
-    name: "Drafts",
-    route: "drafts",
-    icon: "create",
-    bg: "#DA4437",
+    name: 'Drafts',
+    route: 'drafts',
+    icon: 'create',
+    bg: '#DA4437',
   },
   {
-    name: "Schedules",
-    route: "schedules",
-    icon: "time",
-    bg: "#DA4437",
+    name: 'Schedules',
+    route: 'schedules',
+    icon: 'time',
+    bg: '#DA4437',
   },
   {
-    name: "Gallery",
-    route: "galery",
-    icon: "images",
-    bg: "#DA4437",
+    name: 'Gallery',
+    route: 'galery',
+    icon: 'images',
+    bg: '#DA4437',
   },
   {
-    name: "Settings",
-    route: "Settings",
-    icon: "settings",
-    bg: "#DA4437",
+    name: 'Settings',
+    route: 'Settings',
+    icon: 'settings',
+    bg: '#DA4437',
   },
 ];
 
@@ -118,30 +118,30 @@ export default class LoggedInSideBar extends React.Component {
       shadowOffsetWidth: 1,
       shadowRadius: 4,
       user: [],
-      loginType: "",
+      loginType: '',
       json_metadata: {},
     };
   }
 
   componentDidMount() {
     getAccount(this.props.user)
-      .then(result => {
-        let json_metadata = JSON.parse(result[0].json_metadata);
+      .then((result) => {
+        const json_metadata = JSON.parse(result[0].json_metadata);
         this.setState({
           user: result[0],
           avatar: `https://steemitimages.com/u/${result[0].name}/avatar/small`,
           json_metadata: json_metadata.profile,
         });
       })
-      .catch(err => {
+      .catch((err) => {
         alert(err);
       });
   }
 
   hideSideMenu() {
-    Navigation.mergeOptions("Component14", {
+    Navigation.mergeOptions('Component14', {
       sideMenu: {
-        ["right"]: {
+        right: {
           visible: false,
         },
       },
@@ -149,14 +149,14 @@ export default class LoggedInSideBar extends React.Component {
   }
 
   Logout = () => {
-    let authData = {
+    const authData = {
       isLoggedIn: false,
     };
     setAuthStatus(authData)
       .then(() => {
         RNRestart.Restart();
       })
-      .catch(err => {
+      .catch((err) => {
         alert(err);
       });
   };
@@ -166,7 +166,7 @@ export default class LoggedInSideBar extends React.Component {
       <Container>
         <Content
           bounces={false}
-          style={{ flex: 1, backgroundColor: "#fff", top: -1 }}
+          style={{ flex: 1, backgroundColor: '#fff', top: -1 }}
         >
           <View style={styles.drawerCover} />
           <Thumbnail
@@ -175,15 +175,18 @@ export default class LoggedInSideBar extends React.Component {
           />
           <View style={styles.info}>
             <Text style={styles.userLabel}>
-              {(this.state.json_metadata && this.state.json_metadata.name) ||
-                ""}
+              {(this.state.json_metadata && this.state.json_metadata.name)
+                || ''}
             </Text>
-            <Text style={styles.username}>@{this.state.user.name}</Text>
+            <Text style={styles.username}>
+@
+              {this.state.user.name}
+            </Text>
           </View>
           <List
             style={{ paddingLeft: 25 }}
             dataArray={
-              this.state.loginType === "master_key"
+              this.state.loginType === 'master_key'
                 ? masterKeyMenuOptions
                 : postingKeyMenuOptions
             }
@@ -192,7 +195,7 @@ export default class LoggedInSideBar extends React.Component {
                 button
                 noBorder
                 onPress={() => {
-                  Navigation.push("tab1Stack", {
+                  Navigation.push('tab1Stack', {
                     component: {
                       name: `navigation.eSteem.${data.route}`,
                       passProps: {},
@@ -211,7 +214,7 @@ export default class LoggedInSideBar extends React.Component {
                     active
                     name={data.icon}
                     style={{
-                      color: "#777",
+                      color: '#777',
                       fontSize: 26,
                       width: 30,
                     }}
@@ -228,9 +231,11 @@ export default class LoggedInSideBar extends React.Component {
                         backgroundColor: data.bg,
                       }}
                     >
-                      <Text style={styles.badgeText}>{`${
-                        data.types
-                      } Types`}</Text>
+                      <Text style={styles.badgeText}>
+                        {`${
+                          data.types
+                        } Types`}
+                      </Text>
                     </Badge>
                   </Right>
                 )}
@@ -247,7 +252,7 @@ export default class LoggedInSideBar extends React.Component {
                 active
                 name="log-out"
                 style={{
-                  color: "#777",
+                  color: '#777',
                   fontSize: 26,
                   width: 30,
                 }}

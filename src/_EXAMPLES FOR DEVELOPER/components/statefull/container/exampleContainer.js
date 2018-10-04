@@ -1,5 +1,5 @@
-import React, { Component } from "react";
-import { connect } from "react-redux";
+import React, { Component } from 'react';
+import { connect } from 'react-redux';
 
 // Services and Actions
 
@@ -10,7 +10,7 @@ import { connect } from "react-redux";
 // Utilities
 
 // Component
-import { ExampleView } from "../";
+import { ExampleView } from '..';
 
 /*
 *            Props Name        Description                                     Value

@@ -1,18 +1,18 @@
 /* eslint-disable no-unused-vars */
-import React from "react";
-import { FlatList, View, ActivityIndicator } from "react-native";
+import React from 'react';
+import { FlatList, View, ActivityIndicator } from 'react-native';
 
-import styles from "../../styles/hot.styles";
+import Placeholder from 'rn-placeholder';
+import styles from '../../styles/hot.styles';
 
 // STEEM
-import { getPosts } from "../../providers/steem/dsteem";
+import { getPosts } from '../../providers/steem/dsteem';
 
 // LIBRARIES
-import Placeholder from "rn-placeholder";
 
 // COMPONENTS
-import { PostCard } from "../../components/postCard";
-import { FilterBar } from "../../components/filterBar";
+import { PostCard } from '../../components/postCard';
+import { FilterBar } from '../../components/filterBar';
 
 // SCREENS
 /* eslint-enable no-unused-vars */
@@ -27,8 +27,8 @@ class HotPage extends React.Component {
     this.state = {
       isReady: false,
       posts: [],
-      start_author: "",
-      start_permlink: "",
+      start_author: '',
+      start_permlink: '',
       refreshing: false,
       loading: false,
       isLoggedIn: this.props.isLoggedIn,
@@ -41,8 +41,8 @@ class HotPage extends React.Component {
   }
 
   getHotPosts = () => {
-    getPosts("hot", { tag: "", limit: 10 }, this.props.user.name)
-      .then(result => {
+    getPosts('hot', { tag: '', limit: 10 }, this.props.user.name)
+      .then((result) => {
         this.setState({
           isReady: true,
           posts: result,
@@ -51,7 +51,7 @@ class HotPage extends React.Component {
           refreshing: false,
         });
       })
-      .catch(err => {
+      .catch((err) => {
         alert(err);
       });
   };
@@ -59,16 +59,16 @@ class HotPage extends React.Component {
   getMoreHot = () => {
     this.setState({ loading: true });
     getPosts(
-      "hot",
+      'hot',
       {
-        tag: "",
+        tag: '',
         limit: 10,
         start_author: this.state.start_author,
         start_permlink: this.state.start_permlink,
       },
-      this.props.user.name
-    ).then(result => {
-      let posts = result;
+      this.props.user.name,
+    ).then((result) => {
+      const posts = result;
       posts.shift();
       this.setState({
         posts: [...this.state.posts, ...posts],
@@ -85,7 +85,7 @@ class HotPage extends React.Component {
       },
       () => {
         this.getHotPosts();
-      }
+      },
     );
   };
 
@@ -106,11 +106,11 @@ class HotPage extends React.Component {
           <FilterBar
             dropdownIconName="md-arrow-dropdown"
             options={[
-              "ALL NOTIFICATION",
-              "LATEST NOTF",
-              "ESTEEMAPP",
-              "UGUR ERDAL",
-              "ONLY YESTERDAY",
+              'ALL NOTIFICATION',
+              'LATEST NOTF',
+              'ESTEEMAPP',
+              'UGUR ERDAL',
+              'ONLY YESTERDAY',
             ]}
             defaultText="NEW POST"
             rightIconName="md-apps"
@@ -130,7 +130,7 @@ class HotPage extends React.Component {
             )}
             keyExtractor={(post, index) => index.toString()}
             onEndReached={this.getMore}
-            removeClippedSubviews={true}
+            removeClippedSubviews
             refreshing={this.state.refreshing}
             onRefresh={() => this.refreshHotPosts()}
             onEndThreshold={0}

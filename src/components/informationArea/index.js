@@ -1,3 +1,3 @@
-import InformationArea from "./view/informationAreaView";
+import InformationArea from './view/informationAreaView';
 
 export { InformationArea };

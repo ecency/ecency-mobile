@@ -1,3 +1,3 @@
-import MainButton from "./view/mainButtonView";
+import MainButton from './view/mainButtonView';
 
 export { MainButton };

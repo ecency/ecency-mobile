@@ -1,15 +1,17 @@
 /* eslint-disable no-unused-vars */
-import React from "react";
-import { StyleSheet, FlatList, View, ActivityIndicator } from "react-native";
-import styles from "../../styles/trending.styles";
+import React from 'react';
+import {
+  StyleSheet, FlatList, View, ActivityIndicator,
+} from 'react-native';
+import Placeholder from 'rn-placeholder';
+import styles from '../../styles/trending.styles';
 // STEEM
-import { getPosts } from "../../providers/steem/dsteem";
+import { getPosts } from '../../providers/steem/dsteem';
 
 // LIBRARIES
-import Placeholder from "rn-placeholder";
 
 // COMPONENTS
-import { PostCard } from "../../components/postCard";
+import { PostCard } from '../../components/postCard';
 
 // SCREENS
 /* eslint-enable no-unused-vars */
@@ -25,8 +27,8 @@ class TrendingPage extends React.Component {
       isReady: false,
       posts: [],
       user: [],
-      start_author: "",
-      start_permlink: "",
+      start_author: '',
+      start_permlink: '',
       refreshing: false,
       loading: false,
       isLoggedIn: this.props.isLoggedIn,
@@ -38,8 +40,8 @@ class TrendingPage extends React.Component {
   }
 
   getTrending = () => {
-    getPosts("trending", { tag: "", limit: 10 }, this.props.user.name)
-      .then(result => {
+    getPosts('trending', { tag: '', limit: 10 }, this.props.user.name)
+      .then((result) => {
         this.setState({
           isReady: true,
           posts: result,
@@ -48,7 +50,7 @@ class TrendingPage extends React.Component {
           refreshing: false,
         });
       })
-      .catch(err => {
+      .catch((err) => {
         alert(err);
       });
   };
@@ -56,16 +58,16 @@ class TrendingPage extends React.Component {
   getMore = () => {
     this.setState({ loading: true });
     getPosts(
-      "trending",
+      'trending',
       {
-        tag: "",
+        tag: '',
         limit: 10,
         start_author: this.state.start_author,
         start_permlink: this.state.start_permlink,
       },
-      this.props.user.name
-    ).then(result => {
-      let posts = result;
+      this.props.user.name,
+    ).then((result) => {
+      const posts = result;
       posts.shift();
       this.setState({
         posts: [...this.state.posts, ...posts],
@@ -82,7 +84,7 @@ class TrendingPage extends React.Component {
       },
       () => {
         this.getTrending();
-      }
+      },
     );
   };
 
@@ -113,7 +115,7 @@ class TrendingPage extends React.Component {
             )}
             keyExtractor={(post, index) => index.toString()}
             onEndReached={this.getMore}
-            removeClippedSubviews={true}
+            removeClippedSubviews
             refreshing={this.state.refreshing}
             onRefresh={() => this.refreshData()}
             onEndThreshold={0}

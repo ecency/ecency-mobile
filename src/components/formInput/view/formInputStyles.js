@@ -1,4 +1,4 @@
-import EStyleSheet from "react-native-extended-stylesheet";
+import EStyleSheet from 'react-native-extended-stylesheet';
 
 export default EStyleSheet.create({
   wrapper: {
@@ -6,8 +6,8 @@ export default EStyleSheet.create({
     borderTopRightRadius: 8,
     marginHorizontal: 30,
     marginVertical: 10,
-    flexDirection: "row",
-    backgroundColor: "#f5f5f5",
+    flexDirection: 'row',
+    backgroundColor: '#f5f5f5',
     height: 60,
     borderBottomWidth: 2,
   },
@@ -27,6 +27,6 @@ export default EStyleSheet.create({
     fontSize: 25,
     top: 18,
     left: 8,
-    color: "#c1c5c7",
+    color: '#c1c5c7',
   },
 });

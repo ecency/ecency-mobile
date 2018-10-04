@@ -1,9 +1,9 @@
-import React from "react";
-import { View } from "react-native";
-import styles from "./lineBreakStyles";
+import React from 'react';
+import { View } from 'react-native';
+import styles from './lineBreakStyles';
 
 const LineBreak = ({ color, children, height }) => (
-  <View style={[styles.lineBreak, { height: height, color: color }]}>
+  <View style={[styles.lineBreak, { height, color }]}>
     {children}
   </View>
 );

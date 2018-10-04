@@ -1,3 +1,3 @@
-import TextButton from "./views/textButtonView";
+import TextButton from './views/textButtonView';
 
 export { TextButton };

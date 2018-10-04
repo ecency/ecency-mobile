@@ -1,5 +1,5 @@
-import React, { Component } from "react";
-import { connect } from "react-redux";
+import React, { Component } from 'react';
+import { connect } from 'react-redux';
 
 // Services and Actions
 
@@ -10,7 +10,7 @@ import { connect } from "react-redux";
 // Utilities
 
 // Component
-import { LoginScreen } from "../";
+import { LoginScreen } from '..';
 
 /*
 *            Props Name        Description                                     Value
@@ -19,22 +19,22 @@ import { LoginScreen } from "../";
 */
 
 class LoginContainer extends Component {
-    constructor(props) {
-        super(props);
-        this.state = {};
-    }
+  constructor(props) {
+    super(props);
+    this.state = {};
+  }
 
-    // Component Life Cycle Functions
+  // Component Life Cycle Functions
 
-    // Component Functions
+  // Component Functions
 
-    render() {
-        return <LoginScreen {...this.props} />;
-    }
+  render() {
+    return <LoginScreen {...this.props} />;
+  }
 }
 
 const mapStateToProps = state => ({
-    account: state.accounts,
+  account: state.accounts,
 });
 
 export default connect(mapStateToProps)(LoginContainer);

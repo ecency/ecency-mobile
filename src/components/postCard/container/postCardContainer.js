@@ -1,4 +1,4 @@
-import React, { Component } from "react";
+import React, { Component } from 'react';
 
 // Services and Actions
 
@@ -9,7 +9,7 @@ import React, { Component } from "react";
 // Utilities
 
 // Component
-import { PostCardView } from "../";
+import { PostCardView } from '..';
 
 /*
 *            Props Name        Description                                     Value
