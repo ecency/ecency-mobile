@@ -65,6 +65,7 @@ class ProfileScreen extends React.Component {
       about: {},
       follows: {},
       isLoggedIn: false,
+      isLoading: true,
     };
   }
 
@@ -151,8 +152,10 @@ class ProfileScreen extends React.Component {
       posts.shift();
       this.setState({
         posts: [...this.state.posts, ...posts],
-        start_author: result[result.length - 1].author,
-        start_permlink: result[result.length - 1].permlink,
+        start_author:
+          result[result.length - 1] && result[result.length - 1].author,
+        start_permlink:
+          result[result.length - 1] && result[result.length - 1].permlink,
         isLoading: false,
       });
     });
@@ -254,7 +257,6 @@ class ProfileScreen extends React.Component {
               }}
               onEndThreshold={0}
               bounces={false}
-              ListFooterComponent={() => this._renderFooter()}
             />
           </View>
           <View tabLabel="Comments" style={styles.commentsTabBar}>
@@ -267,7 +269,6 @@ class ProfileScreen extends React.Component {
               keyExtractor={(post, index) => index.toString()}
               onEndThreshold={0}
               bounces={false}
-              ListFooterComponent={() => this._renderFooter()}
             />
           </View>
           <View tabLabel={"$" + user.balance}>

@@ -63,7 +63,7 @@ class CollapsibleCardView extends Component {
   };
 
   render() {
-    const { title, children } = this.props;
+    const { title, children, isLoading } = this.props;
     const { expanded } = this.state;
 
     return (
