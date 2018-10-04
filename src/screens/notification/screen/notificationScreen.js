@@ -1,15 +1,15 @@
-import React, { Fragment } from "react";
-import { Text, View, SafeAreaView } from "react-native";
-import ScrollableTabView from "@esteemapp/react-native-scrollable-tab-view";
-import { TabBar } from "../../../components/tabBar";
-import { Notification } from "../../../components/notification";
+import React, { Fragment } from 'react';
+import { Text, View, SafeAreaView } from 'react-native';
+import ScrollableTabView from '@esteemapp/react-native-scrollable-tab-view';
+import { TabBar } from '../../../components/tabBar';
+import { Notification } from '../../../components/notification';
 // Styles
-import styles from "./notificationStyles";
+import styles from './notificationStyles';
 
 class NotificationScreen extends React.Component {
   render() {
     return (
-      <SafeAreaView style={{ flex: 1, backgroundColor: "#fff" }}>
+      <SafeAreaView style={{ flex: 1, backgroundColor: '#fff' }}>
         <ScrollableTabView
           style={styles.tabView}
           renderTabBar={() => (
@@ -17,8 +17,8 @@ class NotificationScreen extends React.Component {
               style={styles.tabbar}
               tabUnderlineDefaultWidth={100}
               tabUnderlineScaleX={2}
-              activeColor={"#357ce6"}
-              inactiveColor={"#222"}
+              activeColor="#357ce6"
+              inactiveColor="#222"
             />
           )}
         >

@@ -7,53 +7,47 @@ import io.realm.react.RealmReactPackage;
 import com.oblador.vectoricons.VectorIconsPackage;
 import com.avishayil.rnrestart.ReactNativeRestartPackage;
 import com.dylanvann.fastimage.FastImageViewPackage;
-import com.avishayil.rnrestart.ReactNativeRestartPackage;
-import io.realm.react.RealmReactPackage;
-import com.dylanvann.fastimage.FastImageViewPackage;
-import com.oblador.vectoricons.VectorIconsPackage;
 import com.facebook.react.ReactNativeHost;
 import com.facebook.react.ReactPackage;
 import com.facebook.react.shell.MainReactPackage;
 import com.facebook.soloader.SoLoader;
 
-import com.reactnativenavigation.NavigationApplication;
-import com.reactnativenavigation.react.NavigationReactNativeHost;
-import com.reactnativenavigation.react.ReactGateway;
-
 import java.util.Arrays;
 import java.util.List;
 
-public class MainApplication extends NavigationApplication {
-    
+public class MainApplication extends Application implements ReactApplication {
+
+  private final ReactNativeHost mReactNativeHost = new ReactNativeHost(this) {
     @Override
-    protected ReactGateway createReactGateway() {
-        ReactNativeHost host = new NavigationReactNativeHost(this, isDebug(), createAdditionalReactPackages()) {
-            @Override
-            protected String getJSMainModuleName() {
-                return "index";
-            }
-        };
-        return new ReactGateway(this, isDebug(), host);
+    public boolean getUseDeveloperSupport() {
+      return BuildConfig.DEBUG;
     }
 
     @Override
-    public boolean isDebug() {
-        return BuildConfig.DEBUG;
-    }
-
     protected List<ReactPackage> getPackages() {
-        // Add additional packages you require here
-        // No need to add RnnPackage and MainReactPackage
-        return Arrays.<ReactPackage>asList(
-            new ReactNativeRestartPackage(),
+      return Arrays.<ReactPackage>asList(
+          new MainReactPackage(),
             new RealmReactPackage(),
-            new FastImageViewPackage(),
-            new VectorIconsPackage()
-        );
+            new VectorIconsPackage(),
+            new ReactNativeRestartPackage(),
+            new FastImageViewPackage()
+      );
     }
-  
+
     @Override
-    public List<ReactPackage> createAdditionalReactPackages() {
-        return getPackages();
+    protected String getJSMainModuleName() {
+      return "index";
     }
+  };
+
+  @Override
+  public ReactNativeHost getReactNativeHost() {
+    return mReactNativeHost;
+  }
+
+  @Override
+  public void onCreate() {
+    super.onCreate();
+    SoLoader.init(this, /* native exopackage */ false);
+  }
 }

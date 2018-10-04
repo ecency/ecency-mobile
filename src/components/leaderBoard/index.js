@@ -1,4 +1,4 @@
-import LeaderBoard from "./view/leaderBoardView";
+import LeaderBoard from './view/leaderBoardView';
 
 export { LeaderBoard };
 export default LeaderBoard;

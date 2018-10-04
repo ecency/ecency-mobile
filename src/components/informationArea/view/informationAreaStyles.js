@@ -1,8 +1,8 @@
-import EStyleSheet from "react-native-extended-stylesheet";
+import EStyleSheet from 'react-native-extended-stylesheet';
 
 export default EStyleSheet.create({
   container: {
-    flexDirection: "row",
+    flexDirection: 'row',
     paddingLeft: 50,
     paddingRight: 32,
     marginTop: 20,
@@ -10,11 +10,11 @@ export default EStyleSheet.create({
   infoIcon: {
     flex: 0.125,
     fontSize: 20,
-    alignSelf: "center",
+    alignSelf: 'center',
   },
   infoText: {
     flex: 0.875,
     fontSize: 12,
-    color: "$primaryGray",
+    color: '$primaryGray',
   },
 });

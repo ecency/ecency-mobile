@@ -1,4 +1,4 @@
-import React, { Component } from "react";
+import React, { Component } from 'react';
 import {
   Text,
   View,
@@ -7,17 +7,17 @@ import {
   TouchableOpacity,
   Platform,
   Dimensions,
-} from "react-native";
+} from 'react-native';
 
 // Styles
-import styles from "./tabBarStyles";
+import styles from './tabBarStyles';
 
 export default class TabBar extends Component {
   /* Props
     * ------------------------------------------------ TODO: Fill fallowlines
     *   @prop { type }    name            - Description.
     *   @prop { type }    name            - Description.
-    * 
+    *
     */
 
   constructor(props) {
@@ -29,15 +29,15 @@ export default class TabBar extends Component {
   _renderTab = (name, page, isTabActive, onPressHandler) => {
     const { activeColor, inactiveColor } = this.props;
     const textColor = isTabActive ? activeColor : inactiveColor;
-    const fontWeight = isTabActive ? "bold" : "normal";
-    const Button = Platform.OS == "ios" ? ButtonIos : ButtonAndroid;
+    const fontWeight = isTabActive ? 'bold' : 'normal';
+    const Button = Platform.OS == 'ios' ? ButtonIos : ButtonAndroid;
     // TODO: make generic component!!
 
     return (
       <Button
         style={styles.tabButton}
         key={name}
-        accessible={true}
+        accessible
         accessibilityLabel={name}
         accessibilityTraits="button"
         onPress={() => onPressHandler(page)}
@@ -59,14 +59,13 @@ export default class TabBar extends Component {
       underlineStyle,
     } = this.props;
 
-    const containerWidth = Dimensions.get("window").width;
+    const containerWidth = Dimensions.get('window').width;
     const numberOfTabs = tabs.length;
-    const underlineWidth =
-      tabUnderlineDefaultWidth || containerWidth / (numberOfTabs * 2);
+    const underlineWidth = tabUnderlineDefaultWidth || containerWidth / (numberOfTabs * 2);
     const scale = tabUnderlineScaleX || 2;
     const deLen = (containerWidth / numberOfTabs - underlineWidth) / 2;
     const tabUnderlineStyle = {
-      position: "absolute",
+      position: 'absolute',
       width: underlineWidth,
       height: 2,
       borderRadius: 2,
@@ -80,12 +79,12 @@ export default class TabBar extends Component {
       outputRange: [0, containerWidth / numberOfTabs],
     });
 
-    const scaleValue = defaultScale => {
+    const scaleValue = (defaultScale) => {
       const number = 4;
       const arr = new Array(number * 2);
 
       return arr.fill(0).reduce(
-        function(pre, cur, idx) {
+        (pre, cur, idx) => {
           idx == 0
             ? pre.inputRange.push(cur)
             : pre.inputRange.push(pre.inputRange[idx - 1] + 0.5);
@@ -94,7 +93,7 @@ export default class TabBar extends Component {
             : pre.outputRange.push(1);
           return pre;
         },
-        { inputRange: [], outputRange: [] }
+        { inputRange: [], outputRange: [] },
       );
     };
 
@@ -114,10 +113,12 @@ export default class TabBar extends Component {
   };
 
   render() {
-    const { activeTab, backgroundColor, goToPage, style } = this.props;
+    const {
+      activeTab, backgroundColor, goToPage, style,
+    } = this.props;
 
     return (
-      <View style={[styles.tabs, { backgroundColor: backgroundColor }, style]}>
+      <View style={[styles.tabs, { backgroundColor }, style]}>
         {this.props.tabs.map((name, page) => {
           const isTabActive = activeTab === page;
           return this._renderTab(name, page, isTabActive, goToPage);

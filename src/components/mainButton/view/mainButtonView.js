@@ -1,19 +1,19 @@
-import React, { Component, Fragment } from "react";
+import React, { Component, Fragment } from 'react';
 import {
   ActivityIndicator,
   Image,
   Text,
   TouchableOpacity,
   View,
-} from "react-native";
-import Ionicons from "react-native-vector-icons/Ionicons";
+} from 'react-native';
+import Ionicons from 'react-native-vector-icons/Ionicons';
 
 // Constants
 
 // Components
 
 // Styles
-import styles from "./mainButtonStyles";
+import styles from './mainButtonStyles';
 
 class MainButton extends Component {
   /* Props
@@ -25,7 +25,7 @@ class MainButton extends Component {
     *   @prop { boolean }    iconName           - TODO:
     *   @prop { boolean }    isDisable          - TODO:
     *
-    * 
+    *
     */
   constructor(props) {
     super(props);
@@ -39,8 +39,8 @@ class MainButton extends Component {
   componentWillReceiveProps(nextProps) {
     const { isLoading, isDisable } = this.props;
     if (
-      nextProps.isLoading !== isLoading ||
-      nextProps.isDisable !== isDisable
+      nextProps.isLoading !== isLoading
+      || nextProps.isDisable !== isDisable
     ) {
       this.setState({
         isDisable: !nextProps.isLoading && nextProps.isDisable,
@@ -69,7 +69,7 @@ class MainButton extends Component {
       return (
         <ActivityIndicator color="white" style={styles.activityIndicator} />
       );
-    } else if (text) {
+    } if (text) {
       return (
         <Fragment>
           {source ? (

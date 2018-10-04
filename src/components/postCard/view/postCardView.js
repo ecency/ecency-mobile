@@ -1,40 +1,28 @@
-import React, { Component } from "react";
+import React, { Component } from 'react';
 import {
-  Image,
-  TouchableOpacity,
-  FlatList,
-  ActivityIndicator,
-} from "react-native";
+  Image, TouchableOpacity, FlatList, ActivityIndicator,
+} from 'react-native';
 import {
-  Card,
-  CardItem,
-  Left,
-  Right,
-  Thumbnail,
-  View,
-  Icon,
-  Body,
-  Text,
-} from "native-base";
-import { Navigation } from "react-native-navigation";
-import Modal from "react-native-modal";
-import { Popover, PopoverController } from "react-native-modal-popover";
-import Slider from "react-native-slider";
+  Card, CardItem, Left, Right, Thumbnail, View, Icon, Body, Text,
+} from 'native-base';
+import Modal from 'react-native-modal';
+import { Popover, PopoverController } from 'react-native-modal-popover';
+import Slider from 'react-native-slider';
 
 // STEEM
-import { upvote, upvoteAmount } from "../../../providers/steem/dsteem";
-import { decryptKey } from "../../../utils/crypto";
-import { getUserData } from "../../../realm/realm";
+import { upvote, upvoteAmount } from '../../../providers/steem/dsteem';
+import { decryptKey } from '../../../utils/crypto';
+import { getUserData } from '../../../realm/realm';
 
 // Styles
-import styles from "./postCardStyles";
+import styles from './postCardStyles';
 
 class PostCard extends Component {
   /* Props
     * ------------------------------------------------
     *   @prop { string }     description       - Description texts.
     *   @prop { string }     iconName          - For icon render name.
-    * 
+    *
     */
   constructor(props) {
     super(props);
@@ -45,7 +33,7 @@ class PostCard extends Component {
       value: 0.0,
       isVoting: false,
       isVoted: props.content && props.content.isVoted,
-      amount: "0.00",
+      amount: '0.00',
       isModalVisible: false,
     };
   }
@@ -62,10 +50,9 @@ class PostCard extends Component {
     const { user } = this.props;
     const { value } = this.state;
     // Calculate total vesting shares
-    const total_vests =
-      parseFloat(user.vesting_shares) +
-      parseFloat(user.received_vesting_shares) -
-      parseFloat(user.delegated_vesting_shares);
+    const total_vests = parseFloat(user.vesting_shares)
+      + parseFloat(user.received_vesting_shares)
+      - parseFloat(user.delegated_vesting_shares);
 
     const final_vest = total_vests * 1e6;
 
@@ -92,9 +79,9 @@ class PostCard extends Component {
         isVoting: true,
       });
 
-      await getUserData().then(result => {
+      await getUserData().then((result) => {
         userData = Array.from(result);
-        postingKey = decryptKey(userData[0].postingKey, "pinCode");
+        postingKey = decryptKey(userData[0].postingKey, 'pinCode');
       });
       upvote(
         {
@@ -103,16 +90,16 @@ class PostCard extends Component {
           permlink: content && content.permlink,
           weight: (value * 100).toFixed(0) * 100,
         },
-        postingKey
+        postingKey,
       )
-        .then(res => {
+        .then((res) => {
           console.log(res);
           this.setState({
             isVoted: true,
             isVoting: false,
           });
         })
-        .catch(err => {
+        .catch((err) => {
           console.log(err);
           this.setState({
             isVoted: false,
@@ -132,34 +119,17 @@ class PostCard extends Component {
 
   render() {
     const { content, isLoggedIn, user } = this.props;
-    const { isVoted, isVoting, isModalVisible, value } = this.state;
+    const {
+      isVoted, isVoting, isModalVisible, value,
+    } = this.state;
 
     // TODO: Should seperate bunch of component REFACTOR ME!
     return (
       <Card style={styles.post}>
         <CardItem style={styles.header}>
           <Left>
-            <TouchableOpacity
-              onPress={() =>
-                Navigation.push("tab1Stack", {
-                  component: {
-                    name: "navigation.eSteem.Author",
-                    passProps: {
-                      author: content && content.author,
-                      isLoggedIn: isLoggedIn,
-                      user: user,
-                    },
-                    options: {
-                      topBar: {},
-                    },
-                  },
-                })
-              }
-            >
-              <Thumbnail
-                style={styles.avatar}
-                source={{ uri: content && content.avatar }}
-              />
+            <TouchableOpacity>
+              <Thumbnail style={styles.avatar} source={{ uri: content && content.avatar }} />
             </TouchableOpacity>
             <Body style={styles.body}>
               <View style={styles.author}>
@@ -172,8 +142,9 @@ class PostCard extends Component {
                 <Text style={styles.categoryText}>{content.category}</Text>
               </View>
               <Text style={styles.timeAgo} note>
-                {" "}
-                {content.created}{" "}
+                {' '}
+                {content.created}
+                {' '}
               </Text>
             </Body>
           </Left>
@@ -183,26 +154,10 @@ class PostCard extends Component {
         </CardItem>
         <Image
           source={{ uri: content && content.image }}
-          defaultSource={require("../../../assets/no_image.png")}
+          defaultSource={require('../../../assets/no_image.png')}
           style={styles.image}
         />
-        <TouchableOpacity
-          onPress={() =>
-            Navigation.push("tab1Stack", {
-              component: {
-                name: "navigation.eSteem.Post",
-                passProps: {
-                  content: content,
-                  isLoggedIn: isLoggedIn,
-                  user: user,
-                },
-                options: {
-                  topBar: {},
-                },
-              },
-            })
-          }
-        >
+        <TouchableOpacity>
           <CardItem>
             <Body>
               <Text style={styles.title}>{content.title}</Text>
@@ -234,7 +189,7 @@ class PostCard extends Component {
                         {isVoted ? (
                           <Icon
                             style={{
-                              color: "#007ee5",
+                              color: '#007ee5',
                             }}
                             style={styles.upvoteIcon}
                             active
@@ -243,7 +198,7 @@ class PostCard extends Component {
                         ) : (
                           <Icon
                             style={{
-                              color: "#007ee5",
+                              color: '#007ee5',
                             }}
                             style={styles.upvoteIcon}
                             active
@@ -260,14 +215,17 @@ class PostCard extends Component {
                     visible={popoverVisible}
                     onClose={closePopover}
                     fromRect={popoverAnchorRect}
-                    placement={"top"}
-                    supportedOrientations={["portrait", "landscape"]}
+                    placement="top"
+                    supportedOrientations={['portrait', 'landscape']}
                   >
-                    <Text>${this.state.amount}</Text>
+                    <Text>
+$
+                      {this.state.amount}
+                    </Text>
                     <View
                       style={{
                         flex: 1,
-                        flexDirection: "row",
+                        flexDirection: 'row',
                       }}
                     >
                       <TouchableOpacity
@@ -277,14 +235,10 @@ class PostCard extends Component {
                         }}
                         style={{
                           flex: 0.1,
-                          alignSelf: "center",
+                          alignSelf: 'center',
                         }}
                       >
-                        <Icon
-                          style={{ color: "#007ee5" }}
-                          active
-                          name="ios-arrow-dropup-outline"
-                        />
+                        <Icon style={{ color: '#007ee5' }} active name="ios-arrow-dropup-outline" />
                       </TouchableOpacity>
                       <Slider
                         style={{ flex: 0.75 }}
@@ -293,7 +247,7 @@ class PostCard extends Component {
                         thumbStyle={styles.thumb}
                         thumbTintColor="#007ee5"
                         value={value}
-                        onValueChange={value => {
+                        onValueChange={(value) => {
                           this.setState({ value }, () => {
                             this.calculateEstimatedAmount();
                           });
@@ -302,28 +256,29 @@ class PostCard extends Component {
                       <Text
                         style={{
                           flex: 0.15,
-                          alignSelf: "center",
+                          alignSelf: 'center',
                           marginLeft: 10,
                         }}
                       >
-                        {(value * 100).toFixed(0)}%
+                        {(value * 100).toFixed(0)}
+%
                       </Text>
                     </View>
                   </Popover>
                 </React.Fragment>
               )}
             </PopoverController>
-            <TouchableOpacity
-              onPress={this.toggleModal}
-              style={styles.payoutButton}
-            >
-              <Text style={styles.payout}>${content.pending_payout_value}</Text>
+            <TouchableOpacity onPress={this.toggleModal} style={styles.payoutButton}>
+              <Text style={styles.payout}>
+$
+                {content.pending_payout_value}
+              </Text>
               <Icon name="md-arrow-dropdown" style={styles.payoutIcon} />
               <Modal isVisible={isModalVisible}>
                 <View
                   style={{
                     flex: 0.8,
-                    backgroundColor: "white",
+                    backgroundColor: 'white',
                     borderRadius: 10,
                   }}
                 >
@@ -336,8 +291,8 @@ class PostCard extends Component {
                     renderItem={({ item }) => (
                       <View
                         style={{
-                          flexDirection: "row",
-                          borderColor: "lightgray",
+                          flexDirection: 'row',
+                          borderColor: 'lightgray',
                           borderWidth: 1,
                           borderRadius: 10,
                         }}
@@ -354,11 +309,21 @@ class PostCard extends Component {
                           }}
                         />
                         <Text style={{ flex: 0.5 }}>
-                          {" "}
-                          {item.voter} ({item.reputation})
+                          {' '}
+                          {item.voter}
+                          {' '}
+(
+                          {item.reputation}
+)
                         </Text>
-                        <Text style={{ flex: 0.2 }}>{item.value}$</Text>
-                        <Text style={{ flex: 0.2 }}>{item.percent}%</Text>
+                        <Text style={{ flex: 0.2 }}>
+                          {item.value}
+$
+                        </Text>
+                        <Text style={{ flex: 0.2 }}>
+                          {item.percent}
+%
+                        </Text>
                       </View>
                     )}
                   />
@@ -368,11 +333,7 @@ class PostCard extends Component {
           </Left>
           <Right>
             <TouchableOpacity start style={styles.commentButton}>
-              <Icon
-                style={styles.commentIcon}
-                active
-                name="ios-chatbubbles-outline"
-              />
+              <Icon style={styles.commentIcon} active name="ios-chatbubbles-outline" />
               <Text style={styles.comment}>{content.children}</Text>
             </TouchableOpacity>
           </Right>
@@ -381,38 +342,42 @@ class PostCard extends Component {
           <CardItem style={styles.topLikers}>
             <Thumbnail
               source={{
-                uri: `https://steemitimages.com/u/${
-                  content.top_likers[0]
-                }/avatar/small`,
+                uri: `https://steemitimages.com/u/${content.top_likers[0]}/avatar/small`,
               }}
               style={styles.likers_1}
             />
             <Thumbnail
               source={{
-                uri: `https://steemitimages.com/u/${
-                  content.top_likers[1]
-                }/avatar/small`,
+                uri: `https://steemitimages.com/u/${content.top_likers[1]}/avatar/small`,
               }}
               style={styles.likers_2}
             />
             <Thumbnail
               source={{
-                uri: `https://steemitimages.com/u/${
-                  content.top_likers[2]
-                }/avatar/small`,
+                uri: `https://steemitimages.com/u/${content.top_likers[2]}/avatar/small`,
               }}
               style={styles.likers_3}
             />
             <Text style={styles.footer}>
-              @{content.top_likers[0]}, @{content.top_likers[1]}, @
+              @
+              {content.top_likers[0]}
+, @
+              {content.top_likers[1]}
+, @
               {content.top_likers[2]}
               <Text style={styles.footer}> & </Text>
-              {content.vote_count - content.top_likers.length} others like this
+              {content.vote_count - content.top_likers.length}
+              {' '}
+others like this
             </Text>
           </CardItem>
         ) : (
           <CardItem>
-            <Text style={styles.footer}>{content.vote_count} likes</Text>
+            <Text style={styles.footer}>
+              {content.vote_count}
+              {' '}
+likes
+            </Text>
           </CardItem>
         )}
       </Card>

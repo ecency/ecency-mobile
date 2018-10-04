@@ -1,16 +1,17 @@
-import React, { Component } from "react";
+import React, { Component } from 'react';
 
 // Components
-import { SinglePostScreen } from "../";
+import { SinglePostScreen } from '..';
 
 class SinglePostContainer extends Component {
-    constructor(props) {
-        super(props);
-        this.state = {};
-    }
-    render() {
-        return <SinglePostScreen {...this.props} />;
-    }
+  constructor(props) {
+    super(props);
+    this.state = {};
+  }
+
+  render() {
+    return <SinglePostScreen {...this.props} />;
+  }
 }
 
 export default SinglePostContainer;

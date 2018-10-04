@@ -1,7 +1,8 @@
-import { combineReducers } from "redux";
-import userReducer from "./userReducer";
-import accountReducer from "./accountReducer";
+import { combineReducers } from 'redux';
+import accountReducer from './accountReducer';
+import nav from './nav';
 
 export default combineReducers({
-    account: accountReducer,
+  account: accountReducer,
+  nav,
 });

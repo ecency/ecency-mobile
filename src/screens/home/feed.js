@@ -1,27 +1,17 @@
-import React from "react";
-import { FlatList, View, ActivityIndicator, AppState } from "react-native";
+import React from 'react';
 import {
-  Container,
-  Header,
-  Button,
-  Thumbnail,
-  Right,
-  Text,
-  Tabs,
-  Tab,
-  Icon,
-  ScrollableTab,
-} from "native-base";
-import styles from "../../styles/feed.styles";
+  FlatList, View, ActivityIndicator, AppState,
+} from 'react-native';
+import Placeholder from 'rn-placeholder';
+import styles from '../../styles/feed.styles';
 // STEEM
-import { getPosts } from "../../providers/steem/dsteem";
+import { getPosts } from '../../providers/steem/dsteem';
 
 // LIBRARIES
-import Placeholder from "rn-placeholder";
 
 // COMPONENTS
-import { PostCard } from "../../components/postCard";
-import { FilterBar } from "../../components/filterBar";
+import { PostCard } from '../../components/postCard';
+import { FilterBar } from '../../components/filterBar';
 
 /* eslint-enable no-unused-vars */
 
@@ -35,8 +25,8 @@ class FeedPage extends React.Component {
     this.state = {
       isReady: false,
       posts: [],
-      start_author: "",
-      start_permlink: "",
+      start_author: '',
+      start_permlink: '',
       refreshing: false,
       loading: false,
       appState: AppState.currentState,
@@ -44,19 +34,16 @@ class FeedPage extends React.Component {
   }
 
   componentDidMount() {
-    AppState.addEventListener("change", this._handleAppStateChange);
+    AppState.addEventListener('change', this._handleAppStateChange);
   }
 
   componentWillUnmount() {
-    AppState.removeEventListener("change", this._handleAppStateChange);
+    AppState.removeEventListener('change', this._handleAppStateChange);
   }
 
-  _handleAppStateChange = nextAppState => {
-    if (
-      this.state.appState.match(/inactive|background/) &&
-      nextAppState === "active"
-    ) {
-      alert("App has come to the foreground!");
+  _handleAppStateChange = (nextAppState) => {
+    if (this.state.appState.match(/inactive|background/) && nextAppState === 'active') {
+      alert('App has come to the foreground!');
     }
     this.setState({ appState: nextAppState });
   };
@@ -66,12 +53,8 @@ class FeedPage extends React.Component {
   }
 
   getFeed = () => {
-    getPosts(
-      "feed",
-      { tag: this.props.user.name, limit: 10 },
-      this.props.user.name
-    )
-      .then(result => {
+    getPosts('feed', { tag: this.props.user.name, limit: 10 }, this.props.user.name)
+      .then((result) => {
         // TODO: We should put null check for result
         this.setState({
           isReady: true,
@@ -81,7 +64,7 @@ class FeedPage extends React.Component {
           refreshing: false,
         });
       })
-      .catch(err => {
+      .catch((err) => {
         alert(err);
       });
   };
@@ -89,16 +72,16 @@ class FeedPage extends React.Component {
   getMore = () => {
     this.setState({ loading: true });
     getPosts(
-      "feed",
+      'feed',
       {
         tag: this.props.user.name,
         limit: 10,
         start_author: this.state.start_author,
         start_permlink: this.state.start_permlink,
       },
-      this.props.user.name
-    ).then(result => {
-      let posts = result;
+      this.props.user.name,
+    ).then((result) => {
+      const posts = result;
       posts.shift();
       this.setState({
         posts: [...this.state.posts, ...posts],
@@ -115,7 +98,7 @@ class FeedPage extends React.Component {
       },
       () => {
         this.getFeed();
-      }
+      },
     );
   };
 
@@ -136,11 +119,11 @@ class FeedPage extends React.Component {
           <FilterBar
             dropdownIconName="md-arrow-dropdown"
             options={[
-              "ALL NOTIFICATION",
-              "LATEST NOTF",
-              "ESTEEMAPP",
-              "UGUR ERDAL",
-              "ONLY YESTERDAY",
+              'ALL NOTIFICATION',
+              'LATEST NOTF',
+              'ESTEEMAPP',
+              'UGUR ERDAL',
+              'ONLY YESTERDAY',
             ]}
             defaultText="NEW POST"
             rightIconName="md-apps"
@@ -155,12 +138,12 @@ class FeedPage extends React.Component {
                 componentId={this.props.componentId}
                 content={item}
                 user={this.props.user}
-                isLoggedIn={true}
+                isLoggedIn
               />
             )}
             keyExtractor={(post, index) => index.toString()}
             onEndReached={this.getMore}
-            removeClippedSubviews={true}
+            removeClippedSubviews
             refreshing={this.state.refreshing}
             onRefresh={() => this.refreshPosts()}
             onEndThreshold={0}

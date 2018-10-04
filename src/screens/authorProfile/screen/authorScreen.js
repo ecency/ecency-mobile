@@ -1,5 +1,5 @@
-import React, { Component } from "react";
-import { FlatList, ActivityIndicator, BackHandler } from "react-native";
+import React, { Component } from 'react';
+import { FlatList, ActivityIndicator, BackHandler } from 'react-native';
 
 // External Components
 import {
@@ -11,21 +11,21 @@ import {
   Icon,
   Text,
   View,
-} from "native-base";
-import ScrollableTabView from "@esteemapp/react-native-scrollable-tab-view";
-import { Navigation } from "react-native-navigation";
-import FastImage from "react-native-fast-image";
+} from 'native-base';
+import ScrollableTabView from '@esteemapp/react-native-scrollable-tab-view';
+import { Navigation } from 'react-native-navigation';
+import FastImage from 'react-native-fast-image';
 
 // Internal Components
-import { TabBar } from "../../../components/tabBar";
-import { PostCard } from "../../../components/postCard";
+import { TabBar } from '../../../components/tabBar';
+import { PostCard } from '../../../components/postCard';
 
-import Comment from "../../../components/comment/comment";
+import Comment from '../../../components/comment/comment';
 
-import { getTimeFromNow } from "../../../utils/time";
+import { getTimeFromNow } from '../../../utils/time';
 
 // Styles
-import styles from "./authorStyles";
+import styles from './authorStyles';
 
 import {
   followUser,
@@ -35,9 +35,9 @@ import {
   getUserComments,
   getUser,
   isFolllowing,
-} from "../../../providers/steem/dsteem";
-import { getAuthStatus, getUserData } from "../../../realm/realm";
-import { decryptKey } from "../../../utils/crypto";
+} from '../../../providers/steem/dsteem';
+import { getAuthStatus, getUserData } from '../../../realm/realm';
+import { decryptKey } from '../../../utils/crypto';
 
 class AuthorScreen extends Component {
   static get options() {
@@ -51,12 +51,12 @@ class AuthorScreen extends Component {
         hideOnScroll: false,
         drawBehind: false,
         leftButtons: {
-          id: "back",
-          icon: require("../../../assets/back.png"),
+          id: 'back',
+          icon: require('../../../assets/back.png'),
         },
       },
       layout: {
-        backgroundColor: "#f5fcff",
+        backgroundColor: '#f5fcff',
       },
       bottomTabs: {
         visible: false,
@@ -64,6 +64,7 @@ class AuthorScreen extends Component {
       },
     };
   }
+
   constructor(props) {
     super(props);
     Navigation.events().bindComponent(this);
@@ -74,7 +75,7 @@ class AuthorScreen extends Component {
     this.unfollow = this.unfollow.bind(this);
     this.state = {
       user: {
-        name: "null",
+        name: 'null',
       },
       posts: [],
       commments: [],
@@ -83,22 +84,22 @@ class AuthorScreen extends Component {
       follows: {},
       loading: false,
       isLoggedIn: false,
-      author: "author",
-      start_author: "",
-      start_permlink: "",
+      author: 'author',
+      start_author: '',
+      start_permlink: '',
       isFolllowing: false,
       follow_loader: true,
     };
   }
 
   async componentDidMount() {
-    BackHandler.addEventListener("hardwareBackPress", () => {
+    BackHandler.addEventListener('hardwareBackPress', () => {
       Navigation.pop(this.props.componentId);
       return true;
     });
-    /*for (var i = 0; i < themes.length; i++) {
+    /* for (var i = 0; i < themes.length; i++) {
         themes[i].name == 'Light'?themes[0].apply():'';
-    }*/
+    } */
     let info;
     let json_metadata;
     let isLoggedIn;
@@ -106,29 +107,29 @@ class AuthorScreen extends Component {
     let author;
     let user;
 
-    await getAuthStatus().then(res => {
+    await getAuthStatus().then((res) => {
       isLoggedIn = res;
     });
 
     if (isLoggedIn) {
       getUserData()
-        .then(res => {
+        .then((res) => {
           user = Array.from(res);
           user = user[0];
         })
         .then(() => {
           this.setState({
-            user: user,
+            user,
           });
         })
         .then(() => {
-          getUser(user.username).then(result => {
+          getUser(user.username).then((result) => {
             this.setState({
               user: result,
             });
           });
 
-          isFolllowing(this.props.author, user.username).then(result => {
+          isFolllowing(this.props.author, user.username).then((result) => {
             this.setState({
               isFolllowing: result,
               follow_loader: false,
@@ -137,7 +138,7 @@ class AuthorScreen extends Component {
         });
     }
 
-    await getFollows(this.props.author).then(res => {
+    await getFollows(this.props.author).then((res) => {
       follows = res;
     });
 
@@ -151,20 +152,20 @@ class AuthorScreen extends Component {
     this.setState(
       {
         about: info,
-        author: author,
-        isLoggedIn: isLoggedIn,
-        follows: follows,
+        author,
+        isLoggedIn,
+        follows,
       },
       () => {
         console.log(this.state.about);
-      }
+      },
     );
   }
 
   getBlog = (user, author) => {
     this.setState({ loading: true });
-    getPosts("blog", { tag: author, limit: 10 }, user)
-      .then(result => {
+    getPosts('blog', { tag: author, limit: 10 }, user)
+      .then((result) => {
         this.setState({
           loading: false,
           isReady: true,
@@ -174,7 +175,7 @@ class AuthorScreen extends Component {
           refreshing: false,
         });
       })
-      .catch(err => {
+      .catch((err) => {
         console.log(err);
       });
   };
@@ -182,33 +183,32 @@ class AuthorScreen extends Component {
   getMore = () => {
     if (this.state.loading) {
       return false;
-    } else {
-      getPosts(
-        "blog",
-        {
-          tag: this.state.user.name,
-          limit: 10,
-          start_author: this.state.start_author,
-          start_permlink: this.state.start_permlink,
-        },
-        this.state.user.name
-      ).then(result => {
-        console.log(result);
-        let posts = result;
-        posts.shift();
-        this.setState({
-          posts: [...this.state.posts, ...posts],
-          start_author: result[result.length - 1].author,
-          start_permlink: result[result.length - 1].permlink,
-          loading: false,
-        });
-      });
     }
+    getPosts(
+      'blog',
+      {
+        tag: this.state.user.name,
+        limit: 10,
+        start_author: this.state.start_author,
+        start_permlink: this.state.start_permlink,
+      },
+      this.state.user.name,
+    ).then((result) => {
+      console.log(result);
+      const posts = result;
+      posts.shift();
+      this.setState({
+        posts: [...this.state.posts, ...posts],
+        start_author: result[result.length - 1].author,
+        start_permlink: result[result.length - 1].permlink,
+        loading: false,
+      });
+    });
   };
 
-  getComments = async user => {
+  getComments = async (user) => {
     await getUserComments({ start_author: user, limit: 10 })
-      .then(result => {
+      .then((result) => {
         this.setState({
           isReady: true,
           commments: result,
@@ -216,7 +216,7 @@ class AuthorScreen extends Component {
           loading: false,
         });
       })
-      .catch(err => {
+      .catch((err) => {
         console.log(err);
       });
   };
@@ -229,28 +229,28 @@ class AuthorScreen extends Component {
       follow_loader: true,
     });
 
-    await getUserData().then(result => {
+    await getUserData().then((result) => {
       userData = Array.from(result);
     });
 
     console.log(userData);
-    privateKey = decryptKey(userData[0].postingKey, "pinCode");
+    privateKey = decryptKey(userData[0].postingKey, 'pinCode');
 
     followUser(
       {
         follower: userData[0].username,
         following: this.state.author.name,
       },
-      privateKey
+      privateKey,
     )
-      .then(result => {
+      .then((result) => {
         console.log(result);
         this.setState({
           follow_loader: false,
           isFolllowing: true,
         });
       })
-      .catch(err => {
+      .catch((err) => {
         console.log(err);
         this.setState({
           follow_loader: false,
@@ -267,27 +267,27 @@ class AuthorScreen extends Component {
       follow_loader: true,
     });
 
-    await getUserData().then(result => {
+    await getUserData().then((result) => {
       userData = Array.from(result);
     });
 
     console.log(userData);
-    privateKey = decryptKey(userData[0].postingKey, "pinCode");
+    privateKey = decryptKey(userData[0].postingKey, 'pinCode');
 
     unfollowUser(
       {
         follower: userData[0].username,
         following: this.state.author.name,
       },
-      privateKey
+      privateKey,
     )
-      .then(result => {
+      .then((result) => {
         this.setState({
           follow_loader: false,
           isFolllowing: false,
         });
       })
-      .catch(err => {
+      .catch((err) => {
         this.setState({
           follow_loader: false,
         });
@@ -306,13 +306,13 @@ class AuthorScreen extends Component {
 
   navigationButtonPressed({ buttonId }) {
     // will be called when "buttonOne" is clicked
-    if (buttonId === "back") {
+    if (buttonId === 'back') {
       Navigation.pop(this.props.componentId);
     }
   }
 
   componentWillUnmount() {
-    BackHandler.removeEventListener("hardwareBackPress");
+    BackHandler.removeEventListener('hardwareBackPress');
   }
 
   render() {
@@ -335,7 +335,7 @@ class AuthorScreen extends Component {
               }}
             />
             <Body style={{ top: -40 }}>
-              <Text style={{ fontWeight: "bold" }}>
+              <Text style={{ fontWeight: 'bold' }}>
                 {this.state.author.name}
               </Text>
               <Text>{this.state.about.about}</Text>
@@ -380,13 +380,25 @@ class AuthorScreen extends Component {
             <Card style={{ margin: 0 }}>
               <CardItem style={styles.about}>
                 <View style={{ flex: 0.3 }}>
-                  <Text>{this.state.author.post_count} Posts</Text>
+                  <Text>
+                    {this.state.author.post_count}
+                    {' '}
+Posts
+                  </Text>
                 </View>
                 <View style={{ flex: 0.4 }}>
-                  <Text>{this.state.follows.follower_count} Followers</Text>
+                  <Text>
+                    {this.state.follows.follower_count}
+                    {' '}
+Followers
+                  </Text>
                 </View>
                 <View style={{ flex: 0.4 }}>
-                  <Text>{this.state.follows.following_count} Following</Text>
+                  <Text>
+                    {this.state.follows.following_count}
+                    {' '}
+Following
+                  </Text>
                 </View>
               </CardItem>
 
@@ -395,13 +407,13 @@ class AuthorScreen extends Component {
                   <Text
                     style={{
                       marginLeft: 20,
-                      alignSelf: "flex-start",
+                      alignSelf: 'flex-start',
                     }}
                   >
                     <Icon
                       style={{
                         fontSize: 20,
-                        alignSelf: "flex-start",
+                        alignSelf: 'flex-start',
                       }}
                       name="md-pin"
                     />
@@ -431,8 +443,8 @@ class AuthorScreen extends Component {
                 style={styles.tabbar}
                 tabUnderlineDefaultWidth={30} // default containerWidth / (numberOfTabs * 4)
                 tabUnderlineScaleX={3} // default 3
-                activeColor={"#222"}
-                inactiveColor={"#222"}
+                activeColor="#222"
+                inactiveColor="#222"
               />
             )}
           >
@@ -442,15 +454,15 @@ class AuthorScreen extends Component {
                 showsVerticalScrollIndicator={false}
                 renderItem={({ item }) => (
                   <PostCard
-                    style={{ shadowColor: "white" }}
+                    style={{ shadowColor: 'white' }}
                     navigation={this.props.navigation}
                     content={item}
                     user={this.state.user}
-                    isLoggedIn={true}
+                    isLoggedIn
                   />
                 )}
                 keyExtractor={(post, index) => index.toString()}
-                onEndReached={info => {
+                onEndReached={(info) => {
                   if (!this.state.loading) {
                     console.log(info);
                     this.getMore();
@@ -470,7 +482,7 @@ class AuthorScreen extends Component {
                   <Comment
                     comment={item}
                     navigation={this.props.navigation}
-                    isLoggedIn={true}
+                    isLoggedIn
                     user={this.state.user}
                   />
                 )}
@@ -483,28 +495,49 @@ class AuthorScreen extends Component {
             <View tabLabel="Replies" style={styles.tabbarItem} />
             <View tabLabel="Wallet" style={styles.tabbarItem}>
               <Card>
-                <Text>STEEM Balance: {this.state.author.balance}</Text>
-              </Card>
-              <Card>
-                <Text>SBD Balance: {this.state.author.sbd_balance}</Text>
-              </Card>
-              <Card>
-                <Text>STEEM Power: {this.state.author.steem_power} SP</Text>
                 <Text>
-                  Received STEEM Power: {this.state.author.received_steem_power}{" "}
+STEEM Balance:
+                  {this.state.author.balance}
+                </Text>
+              </Card>
+              <Card>
+                <Text>
+SBD Balance:
+                  {this.state.author.sbd_balance}
+                </Text>
+              </Card>
+              <Card>
+                <Text>
+STEEM Power:
+                  {this.state.author.steem_power}
+                  {' '}
+SP
+                </Text>
+                <Text>
+                  Received STEEM Power:
+                  {' '}
+                  {this.state.author.received_steem_power}
+                  {' '}
                   SP
                 </Text>
                 <Text>
-                  Delegated Power Power:{" "}
-                  {this.state.author.delegated_steem_power} SP
+                  Delegated Power Power:
+                  {' '}
+                  {this.state.author.delegated_steem_power}
+                  {' '}
+SP
                 </Text>
               </Card>
               <Card>
                 <Text>
-                  Saving STEEM Balance: {this.state.author.savings_balance}
+                  Saving STEEM Balance:
+                  {' '}
+                  {this.state.author.savings_balance}
                 </Text>
                 <Text>
-                  Saving STEEM Balance: {this.state.author.savings_sbd_balance}
+                  Saving STEEM Balance:
+                  {' '}
+                  {this.state.author.savings_sbd_balance}
                 </Text>
               </Card>
             </View>

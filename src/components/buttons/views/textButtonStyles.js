@@ -1,15 +1,15 @@
-import EStyleSheet from "react-native-extended-stylesheet";
+import EStyleSheet from 'react-native-extended-stylesheet';
 
 export default EStyleSheet.create({
   button: {
     flex: 1,
-    flexDirection: "row",
+    flexDirection: 'row',
     width: 54,
-    backgroundColor: "transparent",
+    backgroundColor: 'transparent',
     height: 19,
   },
   buttonText: {
-    color: "#c1c5c7",
+    color: '#c1c5c7',
     fontSize: 16,
   },
 });

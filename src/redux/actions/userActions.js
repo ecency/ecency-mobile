@@ -1,27 +1,23 @@
-import { getAccount } from "../../providers/steem/dsteem";
+import { getAccount } from '../../providers/steem/dsteem';
 import {
-    FETCH_USER,
-    FETCH_USER_SUCCESS,
-    FETCH_USER_FAIL,
-    LOGOUT,
-} from "../constants/constants";
+  FETCH_USER,
+  FETCH_USER_SUCCESS,
+  FETCH_USER_FAIL,
+  LOGOUT,
+} from '../constants/constants';
 
 export function fetchAccount(user) {
-    return dispatch => {
-        dispatch({ type: FETCH_USER });
+  return (dispatch) => {
+    dispatch({ type: FETCH_USER });
 
-        return getAccount(user)
-            .then(res => {
-                return dispatch({ type: FETCH_USER_SUCCESS, payload: res[0] });
-            })
-            .catch(err => {
-                return dispatch({ type: FETCH_USER_FAIL, payload: err });
-            });
-    };
+    return getAccount(user)
+      .then(res => dispatch({ type: FETCH_USER_SUCCESS, payload: res[0] }))
+      .catch(err => dispatch({ type: FETCH_USER_FAIL, payload: err }));
+  };
 }
 
 export function logout() {
-    return {
-        type: LOGOUT,
-    };
+  return {
+    type: LOGOUT,
+  };
 }

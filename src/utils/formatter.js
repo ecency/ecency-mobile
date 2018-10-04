@@ -8,15 +8,15 @@
 
 export const getPostSummary = (postBody, length) => {
   if (!postBody) {
-    return "";
+    return '';
   }
 
   postBody = postBody
-    .replace(/(<([^>]+)>)/gi, "") // Remove html tags
-    .replace(/\r?\n|\r/g, " ") // Remove new lines
-    .replace(/(?:https?|ftp):\/\/[\n\S]+/g, "") // Remove urls
+    .replace(/(<([^>]+)>)/gi, '') // Remove html tags
+    .replace(/\r?\n|\r/g, ' ') // Remove new lines
+    .replace(/(?:https?|ftp):\/\/[\n\S]+/g, '') // Remove urls
     .trim()
-    .replace(/ +(?= )/g, ""); // Remove all multiple spaces
+    .replace(/ +(?= )/g, ''); // Remove all multiple spaces
 
   if (length) {
     // Truncate

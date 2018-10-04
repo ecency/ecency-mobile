@@ -1,20 +1,20 @@
-import EStyleSheet from "react-native-extended-stylesheet";
+import EStyleSheet from 'react-native-extended-stylesheet';
 
 export default EStyleSheet.create({
   wrapper: {
-    width: "$deviceWidth",
+    width: '$deviceWidth',
     height: 50,
-    backgroundColor: "$white",
-    borderTopColor: "#cfcfcf",
-    justifyContent: "center",
-    borderTopColor: "#e7e7e7",
+    backgroundColor: '$white',
+    borderTopColor: '#cfcfcf',
+    justifyContent: 'center',
+    borderTopColor: '#e7e7e7',
     borderTopWidth: 1,
   },
   title: {
-    alignSelf: "flex-start",
+    alignSelf: 'flex-start',
     fontSize: 14,
-    color: "$primaryGray",
-    fontWeight: "bold",
+    color: '$primaryGray',
+    fontWeight: 'bold',
     marginLeft: 26,
   },
 });

@@ -1,5 +1,5 @@
-import AuthorScreen from "./screen/authorScreen";
-import Author from "./container/authorContainer";
+import AuthorScreen from './screen/authorScreen';
+import AuthorContainer from './container/authorContainer';
 
-export { AuthorScreen, Author };
-export default Author;
+export { AuthorScreen, AuthorContainer };
+export default AuthorContainer;

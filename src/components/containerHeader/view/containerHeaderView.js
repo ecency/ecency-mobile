@@ -1,18 +1,18 @@
-import React, { Component } from "react";
-import { View, Text } from "react-native";
+import React, { Component } from 'react';
+import { View, Text } from 'react-native';
 
 // Constants
 
 // Components
 
 // Styles
-import styles from "./containerHeaderStyles";
+import styles from './containerHeaderStyles';
 
 class ContainerHeaderView extends Component {
   /* Props
-    * ------------------------------------------------ 
+    * ------------------------------------------------
     *   @prop { type }    title            - Renderable title for header.
-    * 
+    *
     */
   constructor(props) {
     super(props);

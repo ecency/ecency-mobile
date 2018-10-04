@@ -1,10 +1,10 @@
-import React, { Component } from "react";
-import { View, Text, Image } from "react-native";
+import React, { Component } from 'react';
+import { View, Text, Image } from 'react-native';
 // Constants
 
 // Components
-import { TextButton } from "../../buttons";
-import { LineBreak } from "../../basicUIElements";
+import { TextButton } from '../../buttons';
+import { LineBreak } from '../../basicUIElements';
 // Styles
 // eslint-disable-next-line
 import styles from "./loginHeaderStyles";
@@ -14,7 +14,7 @@ class LoginHeaderView extends Component {
     * ------------------------------------------------
     *   @prop { string }    title            - Title for header string.
     *   @prop { string }    description      - Description for header string.
-    * 
+    *
     */
   constructor(props) {
     super(props);
@@ -26,14 +26,16 @@ class LoginHeaderView extends Component {
   // Component Functions
 
   render() {
-    const { description, title, onPress, isKeyboardOpen } = this.props;
+    const {
+      description, title, onPress, isKeyboardOpen,
+    } = this.props;
 
     return (
       <View styles={styles.container}>
         <View style={styles.headerRow}>
           <Image
             style={styles.logo}
-            source={require("../../../assets/esteem.png")}
+            source={require('../../../assets/esteem.png')}
           />
           <View style={styles.headerButton}>
             <TextButton onPress={onPress} text="Sign up" />
@@ -48,7 +50,7 @@ class LoginHeaderView extends Component {
             <View style={{ flex: 0.7 }}>
               <Image
                 style={styles.mascot}
-                source={require("../../../assets/love_mascot.png")}
+                source={require('../../../assets/love_mascot.png')}
               />
             </View>
           </View>

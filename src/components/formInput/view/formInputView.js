@@ -1,14 +1,16 @@
-import React, { Component } from "react";
-import { View, Text, Image, TextInput } from "react-native";
-import Ionicons from "react-native-vector-icons/Ionicons";
-import FastImage from "react-native-fast-image";
+import React, { Component } from 'react';
+import {
+  View, Text, Image, TextInput,
+} from 'react-native';
+import Ionicons from 'react-native-vector-icons/Ionicons';
+import FastImage from 'react-native-fast-image';
 
 // Constants
 
 // Components
 
 // Styles
-import styles from "./formInputStyles";
+import styles from './formInputStyles';
 
 class FormInputView extends Component {
   /* Props
@@ -21,14 +23,14 @@ class FormInputView extends Component {
     *   @prop { boolean }    secureTextEntry   - For hiding password value.
     *
     *
-    * 
+    *
     */
   constructor(props) {
     super(props);
 
     this.state = {
-      value: "",
-      inputBorderColor: "#c1c5c7",
+      value: '',
+      inputBorderColor: '#c1c5c7',
       isValid: true,
     };
   }
@@ -43,7 +45,7 @@ class FormInputView extends Component {
   }
 
   // Component Functions
-  _handleOnChange = value => {
+  _handleOnChange = (value) => {
     const { onChange } = this.props;
 
     this.setState({ value });
@@ -67,7 +69,7 @@ class FormInputView extends Component {
         style={[
           styles.wrapper,
           {
-            borderBottomColor: isValid ? inputBorderColor : "red",
+            borderBottomColor: isValid ? inputBorderColor : 'red',
           },
         ]}
       >
@@ -86,22 +88,20 @@ class FormInputView extends Component {
           <Ionicons name={rightIconName} style={styles.icon} />
         )}
         <TextInput
-          onFocus={() =>
-            this.setState({
-              inputBorderColor: "$primaryBlue",
-            })
+          onFocus={() => this.setState({
+            inputBorderColor: '$primaryBlue',
+          })
           }
-          onSubmitEditing={() =>
-            this.setState({
-              inputBorderColor: "#c1c5c7",
-            })
+          onSubmitEditing={() => this.setState({
+            inputBorderColor: '#c1c5c7',
+          })
           }
           autoCapitalize="none"
           secureTextEntry={secureTextEntry}
           placeholder={placeholder}
           editable={isEditable || true}
           textContentType={type}
-          onChangeText={value => {
+          onChangeText={(value) => {
             this._handleOnChange(value);
           }}
           value={value}
@@ -109,7 +109,7 @@ class FormInputView extends Component {
         />
         {value && value.length > 0 ? (
           <Ionicons
-            onPress={() => this.setState({ value: "" })}
+            onPress={() => this.setState({ value: '' })}
             name={leftIconName}
             style={styles.icon}
           />

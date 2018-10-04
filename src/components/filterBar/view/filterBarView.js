@@ -1,15 +1,15 @@
-import React from "react";
-import { View, TouchableOpacity, Text } from "react-native";
-import Ionicons from "react-native-vector-icons/Ionicons";
+import React from 'react';
+import { View, TouchableOpacity, Text } from 'react-native';
+import Ionicons from 'react-native-vector-icons/Ionicons';
 
 // External Components
-import { DropdownButton } from "../../../components/dropdownButton";
+import { DropdownButton } from '../../dropdownButton';
 
 // Components
-import { LineBreak } from "../../basicUIElements";
+import { LineBreak } from '../../basicUIElements';
 
 // Styles
-import styles from "./filterBarStyles";
+import styles from './filterBarStyles';
 
 /* Props
 * ------------------------------------------------

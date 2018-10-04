@@ -1,27 +1,29 @@
 {
-  "name": "eSteem",
+  "name": "esteem",
   "version": "0.0.1",
   "private": true,
   "scripts": {
-    "start": "node node_modules/react-native/local-cli/cli.js start",
-    "android": "react-native run-android",
-    "ios": "react-native run-ios",
-    "fmt": "prettier --config .prettierrc --write 'src/**/*.js*'",
-    "precommit": "lint-staged",
-    "test": "jest"
+    "start": "react-native-scripts start",
+    "eject": "react-native-scripts eject",
+    "android": "react-native-scripts android",
+    "ios": "react-native-scripts ios",
+    "test": "node node_modules/jest/bin/jest.js --watch",
+    "lint": "eslint src/",
+    "lint:fix": "eslint src/ --fix",
+    "format": "prettier --print-width=100 --single-quote --trailing-comma all --write \"{src,__tests__}/**/*.js\"",
+    "lint-staged": "lint-staged",
+    "clear": "watchman watch-del-all && rm -rf $TMPDIR/react-native-packager-cache-* && rm -rf $TMPDIR/metro-bundler-cache-* && rm -rf node_modules/ && yarn cache clean && yarn install && yarn start -- --reset-cache"
   },
   "dependencies": {
+    "@babel/runtime": "^7.1.2",
     "@esteemapp/react-native-scrollable-tab-view": "^0.8.2",
     "@esteemapp/react-native-tags": "^1.3.1",
-    "appcenter": "^1.7.1",
-    "appcenter-analytics": "^1.7.1",
-    "appcenter-crashes": "^1.7.1",
     "crypto-js": "^3.1.9-1",
-    "dsteem": "^0.10.0",
+    "dsteem": "^0.10.1",
     "moment": "^2.22.2",
-    "native-base": "^2.8.0",
-    "react": "16.4.1",
-    "react-native": "0.56.0",
+    "native-base": "^2.8.1",
+    "react": "16.5.0",
+    "react-native": "0.57.1",
     "react-native-extended-stylesheet": "^0.10.0",
     "react-native-fast-image": "^4.0.14",
     "react-native-html-renderer": "^1.0.0",
@@ -30,55 +32,45 @@
     "react-native-modal": "^6.5.0",
     "react-native-modal-dropdown": "^0.6.2",
     "react-native-modal-popover": "0.0.10",
-    "react-native-navigation": "^2.0.2519",
     "react-native-restart": "0.0.6",
     "react-native-slider": "^0.11.0",
     "react-native-vector-icons": "^4.6.0",
+    "react-navigation": "^2.17.0",
+    "react-navigation-redux-helpers": "^2.0.6",
     "react-redux": "^5.0.7",
-    "realm": "^2.15.3",
+    "realm": "^2.17.0",
     "redux": "^4.0.0",
     "redux-promise": "^0.6.0",
     "redux-thunk": "^2.3.0",
     "remarkable": "^1.7.1",
     "rn-placeholder": "^1.2.0",
-    "sc2-sdk": "^1.0.2"
+    "sc2-sdk": "^1.1.0"
   },
   "devDependencies": {
-    "babel-eslint": "^8.2.6",
-    "babel-jest": "23.4.2",
-    "babel-preset-react-native": "^5",
-    "eslint": "^5.3.0",
-    "eslint-config-standard": "^11.0.0",
-    "eslint-plugin-import": "^2.13.0",
-    "eslint-plugin-node": "^7.0.1",
-    "eslint-plugin-promise": "^3.8.0",
-    "eslint-plugin-react": "^7.10.0",
-    "eslint-plugin-standard": "^3.1.0",
-    "husky": "^0.14.3",
-    "jest": "23.5.0",
-    "lint-staged": "^7.2.0",
-    "prettier": "^1.14.0",
-    "react-test-renderer": "16.4.1",
+    "babel-eslint": "^10.0.1",
+    "babel-jest": "23.6.0",
+    "eslint": "^5.6.1",
+    "eslint-config-airbnb": "^17.1.0",
+    "eslint-plugin-import": "^2.14.0",
+    "eslint-plugin-jsx-a11y": "^6.1.1",
+    "eslint-plugin-react": "^7.11.1",
+    "jest": "23.6.0",
+    "metro-react-native-babel-preset": "0.47.0",
+    "prettier": "^1.14.3",
+    "prettier-eslint": "^8.8.2",
+    "react-test-renderer": "16.5.0",
+    "redux-logger": "^3.0.6",
     "redux-devtools-extension": "^2.13.5",
-    "redux-logger": "^3.0.6"
-  },
-  "jest": {
-    "preset": "react-native",
-    "setupFiles": [
-      "<rootDir>/node_modules/appcenter/test/AppCenterMock.js",
-      "<rootDir>/node_modules/appcenter-analytics/test/AppCenterAnalyticsMock.js",
-      "<rootDir>/node_modules/appcenter-crashes/test/AppCenterCrashesMock.js"
-    ]
-  },
-  "rnpm": {
-    "assets": [
-      "./src/assets/Fonts"
-    ]
+    "lint-staged": "^7.2.0"
   },
   "lint-staged": {
-    "src/**/*.js*": [
-      "prettier --write",
+    "*.js": [
+      "yarn run lint:fix",
       "git add"
     ]
+  },
+  "pre-commit": "lint-staged",
+  "jest": {
+    "preset": "react-native"
   }
 }

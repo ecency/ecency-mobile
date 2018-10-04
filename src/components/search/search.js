@@ -1,4 +1,4 @@
-import React, { Component } from "react";
+import React, { Component } from 'react';
 import {
   Text,
   View,
@@ -7,19 +7,19 @@ import {
   FlatList,
   Image,
   ActivityIndicator,
-} from "react-native";
-import Ionicons from "react-native-vector-icons/Ionicons";
-import { Navigation } from "react-native-navigation";
-import { lookupAccounts } from "../../providers/steem/dsteem";
-import { SEARCH_API_TOKEN } from "../../../config";
+} from 'react-native';
+import Ionicons from 'react-native-vector-icons/Ionicons';
+import { Navigation } from 'react-native-navigation';
+import { lookupAccounts } from '../../providers/steem/dsteem';
+import { SEARCH_API_TOKEN } from '../../../config';
 
 export default class Search extends Component {
   constructor() {
     super();
     this.handleSearch = this.handleSearch.bind(this);
     this.state = {
-      text: "",
-      scroll_id: "",
+      text: '',
+      scroll_id: '',
       posts: [],
       users: [],
       loading: false,
@@ -30,7 +30,7 @@ export default class Search extends Component {
     Navigation.dismissOverlay(this.props.componentId);
   };
 
-  handleSearch = async text => {
+  handleSearch = async (text) => {
     if (text.length < 3) return;
     let users;
     let posts;
@@ -38,38 +38,38 @@ export default class Search extends Component {
 
     await this.setState({
       loading: true,
-      text: text,
+      text,
     });
 
     users = await lookupAccounts(text);
 
-    await this.setState({ users: users });
+    await this.setState({ users });
 
-    let data = { q: text };
-    await fetch("https://api.search.esteem.app/search", {
-      method: "POST",
+    const data = { q: text };
+    await fetch('https://api.search.esteem.app/search', {
+      method: 'POST',
       headers: {
         // TODO: Create a config file for authorization
 
         Authorization: SEARCH_API_TOKEN,
-        "Content-Type": "application/json",
+        'Content-Type': 'application/json',
       },
       body: JSON.stringify(data),
     })
       .then(result => result.json())
-      .then(result => {
+      .then((result) => {
         posts = result.results;
         scroll_id = result.scroll_id;
       })
-      .catch(error => {
+      .catch((error) => {
         console.log(error);
       });
 
     await this.setState({ loading: false });
 
     await this.setState({
-      posts: posts,
-      scroll_id: scroll_id,
+      posts,
+      scroll_id,
     });
   };
 
@@ -77,17 +77,17 @@ export default class Search extends Component {
     return (
       <View
         style={{
-          backgroundColor: "rgba(0, 0, 0, 0.8)",
-          height: Dimensions.get("window").height,
+          backgroundColor: 'rgba(0, 0, 0, 0.8)',
+          height: Dimensions.get('window').height,
           paddingTop: 25,
           flex: 1,
         }}
       >
         <View
           style={{
-            flexDirection: "row",
+            flexDirection: 'row',
             borderRadius: 8,
-            backgroundColor: "#f5f5f5",
+            backgroundColor: '#f5f5f5',
             paddingLeft: 10,
             marginHorizontal: 10,
           }}
@@ -98,7 +98,7 @@ export default class Search extends Component {
               flex: 0.1,
               fontSize: 18,
               top: 10,
-              color: "$primaryGray",
+              color: '$primaryGray',
             }}
           />
 
@@ -116,7 +116,7 @@ export default class Search extends Component {
               flex: 0.1,
               fontSize: 15,
               top: 12.5,
-              color: "#c1c5c7",
+              color: '#c1c5c7',
             }}
           />
         </View>
@@ -131,16 +131,16 @@ export default class Search extends Component {
           <FlatList
             data={this.state.users}
             showsVerticalScrollIndicator={false}
-            horizontal={true}
+            horizontal
             renderItem={({ item }) => (
-              <View style={{ margin: 10, flexDirection: "column" }}>
+              <View style={{ margin: 10, flexDirection: 'column' }}>
                 <Image
                   style={{
                     width: 50,
                     height: 50,
                     borderRadius: 25,
                     borderWidth: 1,
-                    borderColor: "gray",
+                    borderColor: 'gray',
                   }}
                   source={{
                     uri: `https://steemitimages.com/u/${item}/avatar/small`,
@@ -148,18 +148,19 @@ export default class Search extends Component {
                 />
                 <Text
                   style={{
-                    color: "#fff",
-                    fontWeight: "500",
+                    color: '#fff',
+                    fontWeight: '500',
                     fontSize: 10,
-                    overflow: "scroll",
+                    overflow: 'scroll',
                   }}
                 >
-                  @{item}
+                  @
+                  {item}
                 </Text>
               </View>
             )}
             keyExtractor={(post, index) => index.toString()}
-            removeClippedSubviews={true}
+            removeClippedSubviews
             onEndThreshold={0}
           />
 
@@ -170,7 +171,7 @@ export default class Search extends Component {
               //  TODO: Create a component to list search results
               <View
                 style={{
-                  backgroundColor: "white",
+                  backgroundColor: 'white',
                   borderRadius: 5,
                   marginHorizontal: 10,
                   marginVertical: 5,
@@ -178,7 +179,7 @@ export default class Search extends Component {
               >
                 <View
                   style={{
-                    flexDirection: "row",
+                    flexDirection: 'row',
                   }}
                 >
                   <Image
@@ -192,17 +193,21 @@ export default class Search extends Component {
                       height: 40,
                       borderRadius: 20,
                       borderWidth: 1,
-                      borderColor: "gray",
+                      borderColor: 'gray',
                     }}
                   />
                   <Text>
-                    {item.author} ({item.author_rep})
+                    {item.author}
+                    {' '}
+(
+                    {item.author_rep}
+)
                   </Text>
                 </View>
               </View>
             )}
             keyExtractor={(post, index) => index.toString()}
-            removeClippedSubviews={true}
+            removeClippedSubviews
             onEndThreshold={0}
             initialNumToRender={20}
           />
