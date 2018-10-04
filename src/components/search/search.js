@@ -9,7 +9,7 @@ import {
   ActivityIndicator,
 } from 'react-native';
 import Ionicons from 'react-native-vector-icons/Ionicons';
-import { Navigation } from 'react-native-navigation';
+// import { Navigation } from 'react-native-navigation';
 import { lookupAccounts } from '../../providers/steem/dsteem';
 import { SEARCH_API_TOKEN } from '../../../config';
 
@@ -27,7 +27,7 @@ export default class Search extends Component {
   }
 
   closeSearch = () => {
-    Navigation.dismissOverlay(this.props.componentId);
+    // Navigation.dismissOverlay(this.props.componentId);
   };
 
   handleSearch = async (text) => {
@@ -184,9 +184,7 @@ export default class Search extends Component {
                 >
                   <Image
                     source={{
-                      uri: `https://steemitimages.com/u/${
-                        item.author
-                      }/avatar/small`,
+                      uri: `https://steemitimages.com/u/${item.author}/avatar/small`,
                     }}
                     style={{
                       width: 40,

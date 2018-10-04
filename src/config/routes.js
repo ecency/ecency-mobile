@@ -1,6 +1,7 @@
 import { createStackNavigator } from 'react-navigation';
+import { BaseNavigator } from '../navigation';
 
-import { Home, Splash } from '../screens';
+import { Splash } from '../screens';
 
 export default createStackNavigator({
   SplashScreen: {
@@ -10,9 +11,10 @@ export default createStackNavigator({
     },
   },
   HomeScreen: {
-    screen: Home,
+    screen: BaseNavigator,
     navigationOptions: {
       header: () => null,
+      gesturesEnabled: false,
     },
   },
 });

@@ -39,7 +39,7 @@ TODO
 
 1.  When you address an issue or a feature, make sure that there doesn't already exist a Trello card or a ISSUES ticket for this work item.
 
--   [Issues](https://github.com/esteemapp/esteem-mobile/issues)
+- [Issues](https://github.com/esteemapp/esteem-mobile/issues)
 
 2.  If the item already exists and is in progress, please remove the card or the issue you were assigned and leave a note that it is a duplicate.
     3.If the item is not being worked on, please make sure that you put the card or issue as "In Progress" and assign it to yourself so other developers know that you are working on it.
@@ -52,10 +52,10 @@ If you would like to have someone in particular review your work, leave your pat
 
 #### Who to assign your patch for review
 
--   [@feruzm](https://github.com/feruzm)
--   [@talhasch](https://github.com/talhasch)
--   [@mistikk](https://github.com/mistikk)
--   [@ue](https://github.com/ue)
+- [@feruzm](https://github.com/feruzm)
+- [@talhasch](https://github.com/talhasch)
+- [@mistikk](https://github.com/mistikk)
+- [@ue](https://github.com/ue)
 
 ### Patch Review Template
 
@@ -74,9 +74,9 @@ If you resolved a issue or something You have to whern you commit your pr commit
 
 #### Creating branch
 
--   For example if you want create branch for an issue should contain issue number (ex. #55)
--   Whats your interest put bugfix/your*branch_name or feature/your_branch_name*#issue_number
--   If you some changes for only config req config/your_branch_name
+- For example if you want create branch for an issue should contain issue number (ex. #55)
+- Whats your interest put bugfix/your*branch_name or feature/your_branch_name*#issue_number
+- If you some changes for only config req config/your_branch_name
 
 #### Commit messages
 
@@ -84,4 +84,4 @@ What ever you want number of commit. Before create push squash your all commit. 
 
 #### Pushing
 
--   Make sure push your main branch (master)
+- Make sure push your main branch (master)
