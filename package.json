@@ -44,7 +44,7 @@
     "redux-thunk": "^2.3.0",
     "remarkable": "^1.7.1",
     "rn-placeholder": "^1.2.0",
-    "sc2-sdk": "^1.1.0"
+    "sc2-sdk": "^1.0.2"
   },
   "devDependencies": {
     "babel-eslint": "^10.0.1",

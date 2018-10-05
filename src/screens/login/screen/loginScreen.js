@@ -6,7 +6,7 @@ import { KeyboardAwareScrollView } from 'react-native-keyboard-aware-scroll-view
 import ScrollableTabView from '@esteemapp/react-native-scrollable-tab-view';
 
 // Internal Components
-import { Navigation } from 'react-native-navigation';
+// import { Navigation } from 'react-native-navigation';
 import { FormInput } from '../../../components/formInput';
 import { TextButton } from '../../../components/buttons';
 import { InformationArea } from '../../../components/informationArea';
@@ -15,7 +15,7 @@ import { LoginHeader } from '../../../components/loginHeader';
 import { MainButton } from '../../../components/mainButton';
 import { TabBar } from '../../../components/tabBar';
 import { addNewAccount } from '../../../redux/actions/accountAction';
-import { goToAuthScreens } from '../../../navigation';
+// import { goToAuthScreens } from '../../../navigation';
 import { lookupAccounts } from '../../../providers/steem/dsteem';
 import STEEM_CONNECT_LOGO from '../../../assets/steem_connect.png';
 
@@ -25,7 +25,7 @@ import styles from './loginStyles';
 class LoginScreen extends Component {
   constructor(props) {
     super(props);
-    Navigation.events().bindComponent(this);
+    // Navigation.events().bindComponent(this);
     this.handleUsername = this.handleUsername.bind(this);
     this.state = {
       username: '',
@@ -38,7 +38,7 @@ class LoginScreen extends Component {
 
   componentDidMount() {
     BackHandler.addEventListener('hardwareBackPress', () => {
-      Navigation.pop(this.props.componentId);
+      // Navigation.pop(this.props.componentId);
       return true;
     });
     Linking.getInitialURL().then((url) => {
@@ -60,16 +60,16 @@ class LoginScreen extends Component {
       .then((result) => {
         if (result) {
           dispatch(addNewAccount(result));
-          Navigation.setStackRoot(componentId, {
-            component: {
-              name: 'navigation.eSteem.PinCode',
-              options: {
-                topBar: {
-                  visible: false,
-                },
-              },
-            },
-          });
+          // Navigation.setStackRoot(componentId, {
+          //   component: {
+          //     name: 'navigation.eSteem.PinCode',
+          //     options: {
+          //       topBar: {
+          //         visible: false,
+          //       },
+          //     },
+          //   },
+          // });
         }
       })
       .catch((err) => {
@@ -93,19 +93,19 @@ class LoginScreen extends Component {
   };
 
   _loginwithSc2 = () => {
-    Navigation.push(this.props.componentId, {
-      component: {
-        name: 'navigation.eSteem.SteemConnect',
-        passProps: {},
-        options: {
-          topBar: {
-            title: {
-              text: 'Login via SC2',
-            },
-          },
-        },
-      },
-    });
+    // Navigation.push(this.props.componentId, {
+    //   component: {
+    //     name: 'navigation.eSteem.SteemConnect',
+    //     passProps: {},
+    //     options: {
+    //       topBar: {
+    //         title: {
+    //           text: 'Login via SC2',
+    //         },
+    //       },
+    //     },
+    //   },
+    // });
   };
 
   render() {
@@ -171,7 +171,7 @@ class LoginScreen extends Component {
                 iconName="ios-information-circle-outline"
               />
               <View style={styles.footerButtons}>
-                <TextButton onPress={goToAuthScreens} text="cancel" />
+                {/* <TextButton onPress={goToAuthScreens} text="cancel" /> */}
               </View>
               <MainButton
                 wrapperStyle={styles.mainButtonWrapper}
