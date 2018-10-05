@@ -7,7 +7,7 @@ import { FormInput } from './formInput';
 import { CircularButton, TextButton, IconButton } from './buttons';
 import { NumericKeyboard } from './numericKeyboard';
 import { PinAnimatedInput } from './pinAnimatedInput';
-import SideMenu from './sideMenu';
+import { SideMenu } from './sideMenu';
 
 export {
   Logo,

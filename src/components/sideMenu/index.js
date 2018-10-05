@@ -1,5 +1,5 @@
-import SideMenuContainer from './container/sideMenuContainer';
-import AuthSideMenuView from './view/authSideMenuView';
+import SideMenu from './container/sideMenuContainer';
+import SideMenuView from './view/sideMenuView';
 
-export { SideMenuContainer, AuthSideMenuView };
-export default SideMenuContainer;
+export { SideMenu, SideMenuView };
+export default SideMenu;

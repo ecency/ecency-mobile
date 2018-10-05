@@ -1,8 +1,8 @@
 import React, { Component } from 'react';
-import { connect } from 'react-redux';
+// import { connect } from 'react-redux';
 
 // Component
-import { AuthSideMenuView } from '..';
+import { SideMenuView } from '..';
 
 /*
 *            Props Name        Description                                     Value
@@ -21,9 +21,9 @@ class SideMenuContainer extends Component {
   // Component Functions
 
   render() {
-    const {} = this.props;
+    // const {} = this.props;
 
-    return <AuthSideMenuView />;
+    return <SideMenuView isLoggedIn userAvatar={null} />;
   }
 }
 

@@ -6,7 +6,7 @@ import Home from './home/home';
 // import Feed from './home/feed';
 // import { SinglePost } from './singlePost';
 // import { Profile } from './profile';
-// import { Login } from './login';
+// import { LoginScreen } from './login';
 // import Wallet from './wallet/wallet';
 // import Editor from './editor/editor';
 // import Discover from './discover/discover';
@@ -19,6 +19,7 @@ export {
   Splash,
   // SideMenu,
   Home,
+  // LoginScreen,
   // Hot,
   // Feed,
   // SinglePost,
