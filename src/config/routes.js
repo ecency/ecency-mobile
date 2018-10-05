@@ -1,20 +1,29 @@
-import { createStackNavigator } from 'react-navigation';
+import { DrawerNavigator } from 'react-navigation';
 import { BaseNavigator } from '../navigation';
 
-import { Splash } from '../screens';
+// Screens
+import { Splash, Login } from '../screens';
 
-export default createStackNavigator({
-  SplashScreen: {
-    screen: Splash,
-    navigationOptions: {
-      header: () => null,
+// Components
+import { SideMenu } from '../components';
+
+export default DrawerNavigator(
+  {
+    LoginScreen: {
+      screen: Login,
+      navigationOptions: {
+        header: () => null,
+      },
+    },
+    HomeScreen: {
+      screen: BaseNavigator,
+      navigationOptions: {
+        header: () => null,
+        gesturesEnabled: false,
+      },
     },
   },
-  HomeScreen: {
-    screen: BaseNavigator,
-    navigationOptions: {
-      header: () => null,
-      gesturesEnabled: false,
-    },
+  {
+    contentComponent: SideMenu,
   },
-});
+);
