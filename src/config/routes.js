@@ -2,7 +2,7 @@ import { DrawerNavigator } from 'react-navigation';
 import { BaseNavigator } from '../navigation';
 
 // Screens
-import { Splash, Login } from '../screens';
+import { Splash } from '../screens';
 
 // Components
 import { SideMenu } from '../components';
