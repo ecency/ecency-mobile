@@ -5,6 +5,7 @@ import { Provider } from 'react-redux';
 import EStyleSheet from 'react-native-extended-stylesheet';
 import store from './redux/store/store';
 import { ReduxNavigation } from './config/reduxNavigation';
+import { BaseNavigator } from './navigation';
 
 // STYLE
 

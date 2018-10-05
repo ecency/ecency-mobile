@@ -13,7 +13,7 @@ import {
   View,
 } from 'native-base';
 import ScrollableTabView from '@esteemapp/react-native-scrollable-tab-view';
-import { Navigation } from 'react-native-navigation';
+//import { Navigation } from 'react-native-navigation';
 import FastImage from 'react-native-fast-image';
 
 // Internal Components
@@ -67,7 +67,7 @@ class AuthorScreen extends Component {
 
   constructor(props) {
     super(props);
-    Navigation.events().bindComponent(this);
+    //Navigation.events().bindComponent(this);
     this.getBlog = this.getBlog.bind(this);
     this.getMore = this.getMore.bind(this);
     this.getComments = this.getComments.bind(this);
@@ -94,7 +94,7 @@ class AuthorScreen extends Component {
 
   async componentDidMount() {
     BackHandler.addEventListener('hardwareBackPress', () => {
-      Navigation.pop(this.props.componentId);
+//      Navigation.pop(this.props.componentId);
       return true;
     });
     /* for (var i = 0; i < themes.length; i++) {
@@ -307,7 +307,7 @@ class AuthorScreen extends Component {
   navigationButtonPressed({ buttonId }) {
     // will be called when "buttonOne" is clicked
     if (buttonId === 'back') {
-      Navigation.pop(this.props.componentId);
+      //Navigation.pop(this.props.componentId);
     }
   }
 

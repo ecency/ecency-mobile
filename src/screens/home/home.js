@@ -27,28 +27,31 @@ import FeedPage from './feed';
 import TrendingPage from './trending';
 
 export default class Home extends React.PureComponent {
-  static get options() {
-    return {
-      _statusBar: {
-        visible: true,
-        drawBehind: false,
-      },
-      topBar: {
-        animate: true,
-        hideOnScroll: true,
-        drawBehind: false,
-        noBorder: true,
-        elevation: 0,
-      },
-      layout: {
-        backgroundColor: '#f5fcff',
-      },
-      bottomTabs: {
-        visible: true,
-        drawBehind: true,
-      },
-    };
-  }
+  static navigationOptions = {
+    title: 'Home',
+  };
+  // static get options() {
+  //   return {
+  //     _statusBar: {
+  //       visible: true,
+  //       drawBehind: false,
+  //     },
+  //     topBar: {
+  //       animate: true,
+  //       hideOnScroll: true,
+  //       drawBehind: false,
+  //       noBorder: true,
+  //       elevation: 0,
+  //     },
+  //     layout: {
+  //       backgroundColor: '#f5fcff',
+  //     },
+  //     bottomTabs: {
+  //       visible: true,
+  //       drawBehind: true,
+  //     },
+  //   };
+  // }
 
   constructor(props) {
     super(props);
