@@ -9,8 +9,8 @@ import { SideMenu } from '../components';
 
 export default DrawerNavigator(
   {
-    LoginScreen: {
-      screen: Login,
+    SplashScreen: {
+      screen: Splash,
       navigationOptions: {
         header: () => null,
       },
