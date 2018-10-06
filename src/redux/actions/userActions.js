@@ -4,7 +4,15 @@ import {
   FETCH_USER_SUCCESS,
   FETCH_USER_FAIL,
   LOGOUT,
+  IS_LOGGED_IN,
 } from '../constants/constants';
+
+export function isLoggedIn(payload) {
+  return {
+    payload,
+    type: IS_LOGGED_IN,
+  };
+}
 
 export function fetchAccount(user) {
   return (dispatch) => {

@@ -1,6 +1,6 @@
 import React, { Component } from 'react';
 
-import { getUserData } from '../../../realm/realm';
+import { getUserData, getAuthStatus } from '../../../realm/realm';
 
 import SplashScreen from '../screen/splashScreen';
 
@@ -9,10 +9,16 @@ class SplashContainer extends Component {
     const { navigation } = this.props;
     // getUserData().then((res) => {
     //   if (res) {
-    //     alert(res);
+    //     alert(...res);
     //   }
     // });
-    navigation.navigate('Main');
+    getAuthStatus().then((res) => {
+      if (res) {
+        navigation.navigate('Main');
+      } else {
+        navigation.navigate('Login');
+      }
+    });
   }
 
   render() {

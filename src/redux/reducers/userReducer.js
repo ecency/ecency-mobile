@@ -3,6 +3,7 @@ import {
   FETCH_USER_SUCCESS,
   FETCH_USER_FAIL,
   LOGOUT,
+  IS_LOGGED_IN,
 } from '../constants/constants';
 
 const initialState = {
@@ -36,6 +37,11 @@ export default function (state = initialState, action) {
         data: action.payload,
         hasError: true,
         errorMessage: action.err,
+      });
+
+    case IS_LOGGED_IN:
+      return Object.assign({}, state, {
+        isLoggedIn: action.payload,
       });
 
     case LOGOUT:
