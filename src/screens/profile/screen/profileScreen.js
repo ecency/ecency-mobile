@@ -1,63 +1,34 @@
 /* eslint-disable no-unused-vars */
-import React from 'react';
-import { FlatList, ActivityIndicator } from 'react-native';
+import React, { Component } from 'react';
+import {
+  FlatList, ActivityIndicator, View, Text,
+} from 'react-native';
 
 import FastImage from 'react-native-fast-image';
+// Components
 import ScrollableTabView from '@esteemapp/react-native-scrollable-tab-view';
-import {
-  Card, CardItem, View, Body, Icon, Text,
-} from 'native-base';
-import { getTimeFromNow } from '../../../utils/time';
-
-import { TabBar } from '../../../components/tabBar';
-import DiscoverPage from '../../discover/discover';
-import { PostCard } from '../../../components/postCard';
-
 import Comment from '../../../components/comment/comment';
+import { CollapsibleCard } from '../../../components/collapsibleCard';
+import { FilterBar } from '../../../components/filterBar';
+import { NoPost } from '../../../components/basicUIElements';
+import { PostCard } from '../../../components/postCard';
+import { ProfileSummary } from '../../../components/profileSummary';
+import { TabBar } from '../../../components/tabBar';
+import { Wallet } from '../../../components/wallet';
 
-
-import { getUserData, getAuthStatus } from '../../../realm/realm';
+// Utilitites
 import {
-  getUser,
-  getFollows,
-  getPosts,
-  getUserComments,
+  getUser, getFollows, getPosts, getUserComments,
 } from '../../../providers/steem/dsteem';
+import { getUserData, getAuthStatus } from '../../../realm/realm';
+import { getFormatedCreatedDate } from '../../../utils/time';
 
 // Styles
 import styles from './profileStyles';
-/* eslint-enable no-unused-vars */
 
-class ProfileScreen extends React.Component {
-  static get options() {
-    return {
-      _statusBar: {
-        visible: true,
-        drawBehind: false,
-      },
-      topBar: {
-        animate: true,
-        hideOnScroll: false,
-        drawBehind: false,
-        leftButtons: {
-          id: 'back',
-        },
-      },
-      layout: {
-        backgroundColor: '#f5fcff',
-      },
-      bottomTabs: {
-        visible: false,
-        drawBehind: true,
-      },
-    };
-  }
-
-  constructor() {
-    super();
-    this.getBlog = this.getBlog.bind(this);
-    this.getMore = this.getMore.bind(this);
-    this.getComments = this.getComments.bind(this);
+class ProfileScreen extends Component {
+  constructor(props) {
+    super(props);
     this.state = {
       user: [],
       posts: [],
@@ -66,12 +37,14 @@ class ProfileScreen extends React.Component {
       about: {},
       follows: {},
       isLoggedIn: false,
+      isLoading: true,
     };
   }
 
   async componentDidMount() {
+    let isLoggedIn;
     await getAuthStatus().then((res) => {
-      const isLoggedIn = res;
+      isLoggedIn = res;
     });
 
     if (isLoggedIn) {
@@ -89,25 +62,25 @@ class ProfileScreen extends React.Component {
       });
 
       user = await getUser(userData[0].username);
-      about = JSON.parse(user.json_metadata);
-      // BUG: json_metadata: "{}" is coming emty object!!
+      // json_metadata: "{}" can be ceme as emty object if the account new!
+      about = user.json_metadata && JSON.parse(user.json_metadata);
       this.setState(
         {
           user,
           isLoggedIn,
           follows,
-          about: about.profile,
+          about: about && about.profile,
         },
         () => {
-          this.getBlog(userData[0].username);
-          this.getComments(userData[0].username);
+          this._getBlog(userData[0].username);
+          this._getComments(userData[0].username);
         },
       );
     }
   }
 
-  renderFooter = () => {
-    if (this.state.loading) return null;
+  _renderFooter = () => {
+    if (this.state.isLoading) return null;
 
     return (
       <View style={{ marginVertical: 20 }}>
@@ -116,8 +89,8 @@ class ProfileScreen extends React.Component {
     );
   };
 
-  getBlog = (user) => {
-    this.setState({ loading: true });
+  _getBlog = (user) => {
+    this.setState({ isLoading: true });
     getPosts('blog', { tag: user, limit: 10 }, user)
       .then((result) => {
         this.setState({
@@ -126,7 +99,7 @@ class ProfileScreen extends React.Component {
           start_author: result[result.length - 1].author,
           start_permlink: result[result.length - 1].permlink,
           refreshing: false,
-          loading: false,
+          isLoading: false,
         });
       })
       .catch((err) => {
@@ -134,7 +107,7 @@ class ProfileScreen extends React.Component {
       });
   };
 
-  getMore = async () => {
+  _getMore = async () => {
     console.log('get more');
     await getPosts(
       'blog',
@@ -151,21 +124,21 @@ class ProfileScreen extends React.Component {
       posts.shift();
       this.setState({
         posts: [...this.state.posts, ...posts],
-        start_author: result[result.length - 1].author,
-        start_permlink: result[result.length - 1].permlink,
-        loading: false,
+        start_author: result[result.length - 1] && result[result.length - 1].author,
+        start_permlink: result[result.length - 1] && result[result.length - 1].permlink,
+        isLoading: false,
       });
     });
   };
 
-  getComments = async (user) => {
+  _getComments = async (user) => {
     await getUserComments({ start_author: user, limit: 10 })
       .then((result) => {
         this.setState({
           isReady: true,
           commments: result,
           refreshing: false,
-          loading: false,
+          isLoading: false,
         });
       })
       .catch((err) => {
@@ -173,200 +146,117 @@ class ProfileScreen extends React.Component {
       });
   };
 
+  _getPostRenderItem = () => {};
+
   render() {
-    // TODO: Refactor ME !
+    const {
+      user, follows, posts, commments, isLoggedIn, isLoading, about,
+    } = this.state;
+    let _about;
+    let coverImage;
+    let location;
+    let website;
+    const votingPower = user && user.voting_power && user.voting_power / 100;
+    const fullInHour = Math.ceil((100 - votingPower) * 0.833333);
+
+    if (about) {
+      _about = about.about;
+      coverImage = about.cover_image;
+      location = about.location;
+      website = about.website;
+    }
     return (
       <View style={styles.container}>
-        {this.state.isLoggedIn ? (
-          <View style={{ flex: 1 }}>
-            <View style={styles.content}>
-              <FastImage
-                style={styles.cover}
-                source={{
-                  uri: this.state.about.cover_image,
-                  priority: FastImage.priority.high,
-                }}
-              />
-              <FastImage
-                style={styles.avatar}
-                source={{
-                  uri: this.state.about.profile_image,
-                  priority: FastImage.priority.high,
-                }}
-              />
-              <Body style={{ top: -40 }}>
-                <Text style={{ fontWeight: 'bold' }}>
-                  {this.state.user.name}
-                </Text>
-                <Text>{this.state.about.about}</Text>
-              </Body>
-              <Card style={{ margin: 0 }}>
-                <CardItem style={styles.about}>
-                  <View style={{ flex: 0.3 }}>
-                    <Text>
-                      {this.state.user.post_count}
-                      {' '}
-Posts
-                    </Text>
-                  </View>
-                  <View style={{ flex: 0.4 }}>
-                    <Text>
-                      {this.state.follows.follower_count}
-                      {' '}
-Followers
-                    </Text>
-                  </View>
-                  <View style={{ flex: 0.4 }}>
-                    <Text>
-                      {this.state.follows.following_count}
-                      {' '}
-Following
-                    </Text>
-                  </View>
-                </CardItem>
+        <CollapsibleCard
+          title={_about}
+          defaultTitle="Profile details"
+          expanded={isLoggedIn}
+          locked={!isLoggedIn}
+        >
+          <ProfileSummary
+            percent={votingPower}
+            hours={fullInHour}
+            location={location}
+            link={website}
+            date={getFormatedCreatedDate(user && user.created)}
+            followerCount={follows.follower_count}
+            followingCount={follows.following_count}
+            coverImage={coverImage}
+          />
+        </CollapsibleCard>
 
-                <CardItem style={styles.info}>
-                  <View style={{ flex: 0.5 }}>
-                    <Text
-                      style={{
-                        marginLeft: 20,
-                        alignSelf: 'flex-start',
-                      }}
-                    >
-                      <Icon
-                        style={{
-                          fontSize: 20,
-                          alignSelf: 'flex-start',
-                        }}
-                        name="md-pin"
-                      />
-                      {this.state.about.location}
-                    </Text>
-                  </View>
-                  <View style={{ flex: 0.5 }}>
-                    <Text>
-                      <Icon
-                        style={{
-                          fontSize: 20,
-                          marginRight: 10,
-                        }}
-                        name="md-calendar"
-                      />
-                      {getTimeFromNow(this.state.user.created)}
-                    </Text>
-                  </View>
-                </CardItem>
-              </Card>
-            </View>
-            <ScrollableTabView
-              style={styles.tabs}
-              style={{ flex: 1 }}
-              renderTabBar={() => (
-                <TabBar
-                  style={styles.tabbar}
-                  tabUnderlineDefaultWidth={30} // default containerWidth / (numberOfTabs * 4)
-                  tabUnderlineScaleX={3} // default 3
-                  activeColor="#222"
-                  inactiveColor="#222"
-                />
-              )}
-            >
-              <View tabLabel="Blog" style={styles.tabbarItem}>
-                <FlatList
-                  data={this.state.posts}
-                  showsVerticalScrollIndicator={false}
-                  renderItem={({ item }) => (
-                    <PostCard
-                      style={{ shadowColor: 'white' }}
-                      content={item}
-                      user={this.state.user}
-                      isLoggedIn
-                    />
-                  )}
-                  keyExtractor={(post, index) => index.toString()}
-                  onEndReached={(info) => {
-                    if (!this.state.loading) {
-                      console.log(info);
-                      this.getMore();
-                    }
-                  }}
-                  onEndThreshold={0}
-                  bounces={false}
-                  ListFooterComponent={this.renderFooter}
-                />
-              </View>
-
-              <View tabLabel="Comments" style={styles.tabbarItem}>
-                <FlatList
-                  data={this.state.commments}
-                  showsVerticalScrollIndicator={false}
-                  renderItem={({ item }) => (
-                    <Comment
-                      comment={item}
-                      isLoggedIn
-                      user={this.state.user}
-                    />
-                  )}
-                  keyExtractor={(post, index) => index.toString()}
-                  onEndThreshold={0}
-                  bounces={false}
-                  ListFooterComponent={this.renderFooter}
-                />
-              </View>
-              <View tabLabel="Replies" style={styles.tabbarItem} />
-              <View tabLabel="Wallet" style={styles.tabbarItem}>
-                <Card>
-                  <Text>
-STEEM Balance:
-                    {this.state.user.balance}
-                  </Text>
-                </Card>
-                <Card>
-                  <Text>
-SBD Balance:
-                    {this.state.user.sbd_balance}
-                  </Text>
-                </Card>
-                <Card>
-                  <Text>
-STEEM Power:
-                    {this.state.user.steem_power}
-                    {' '}
-SP
-                  </Text>
-                  <Text>
-                    Received STEEM Power:
-                    {' '}
-                    {this.state.user.received_steem_power}
-                    {' '}
-                    SP
-                  </Text>
-                  <Text>
-                    Delegated Power Power:
-                    {' '}
-                    {this.state.user.delegated_steem_power}
-                    {' '}
-SP
-                  </Text>
-                </Card>
-                <Card>
-                  <Text>
-                    Saving STEEM Balance:
-                    {' '}
-                    {this.state.user.savings_balance}
-                  </Text>
-                  <Text>
-                    Saving STEEM Balance:
-                    {' '}
-                    {this.state.user.savings_sbd_balance}
-                  </Text>
-                </Card>
-              </View>
-            </ScrollableTabView>
+        <ScrollableTabView
+          style={styles.tabView}
+          renderTabBar={() => (
+            <TabBar
+              style={styles.tabbar}
+              tabUnderlineDefaultWidth={80}
+              tabUnderlineScaleX={2}
+              activeColor="#357ce6"
+              inactiveColor="#788187"
+            />
+          )}
+        >
+          <View tabLabel="Post" style={styles.postTabBar}>
+            <FilterBar
+              isHide={!isLoggedIn}
+              dropdownIconName="md-arrow-dropdown"
+              options={['NEW POSTS', 'VOTES', 'REPLIES', 'MENTIONS', 'FOLLOWS', 'REBLOGS']}
+              defaultText="ALL NOTIFICATION"
+              onDropdownSelect={this._handleOnDropdownSelect}
+              rightIconName="md-apps"
+            />
+            {posts && posts.length > 0 ? (
+              <FlatList
+                data={posts}
+                showsVerticalScrollIndicator={false}
+                renderItem={({ item }) => (
+                  <PostCard
+                    style={{
+                      shadowColor: '#f6f6f6',
+                    }}
+                    content={item}
+                    user={user}
+                    isLoggedIn
+                  />
+                )}
+                keyExtractor={(post, index) => index.toString()}
+                onEndReached={(info) => {
+                  !isLoading && this._getMore();
+                }}
+                onEndThreshold={0}
+                bounces={false}
+              />
+            ) : (
+              <NoPost
+                name={user.name}
+                text={"haven't posted anything yet"}
+                defaultText="Login to see!"
+              />
+            )}
           </View>
-        ) : (
-          <DiscoverPage />
-        )}
+          <View tabLabel="Comments" style={styles.commentsTabBar}>
+            {commments && commments.length > 0 ? (
+              <FlatList
+                data={commments}
+                showsVerticalScrollIndicator={false}
+                renderItem={({ item }) => <Comment comment={item} isLoggedIn user={user} />}
+                keyExtractor={(post, index) => index.toString()}
+                onEndThreshold={0}
+                bounces={false}
+              />
+            ) : (
+              <NoPost
+                name={user.name}
+                text="haven't commented anything yet"
+                defaultText="Login to see!"
+              />
+            )}
+          </View>
+          <View tabLabel={user.balance ? `$${user.balance}` : 'Wallet'}>
+            <Wallet />
+          </View>
+        </ScrollableTabView>
       </View>
     );
   }

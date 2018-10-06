@@ -1,10 +1,6 @@
 import React, { Component, Fragment } from 'react';
 import {
-  ActivityIndicator,
-  Image,
-  Text,
-  TouchableOpacity,
-  View,
+  ActivityIndicator, Image, Text, TouchableOpacity, View,
 } from 'react-native';
 import Ionicons from 'react-native-vector-icons/Ionicons';
 
@@ -38,10 +34,7 @@ class MainButton extends Component {
   // Component Life Cycles
   componentWillReceiveProps(nextProps) {
     const { isLoading, isDisable } = this.props;
-    if (
-      nextProps.isLoading !== isLoading
-      || nextProps.isDisable !== isDisable
-    ) {
+    if (nextProps.isLoading !== isLoading || nextProps.isDisable !== isDisable) {
       this.setState({
         isDisable: !nextProps.isLoading && nextProps.isDisable,
       });
@@ -57,19 +50,13 @@ class MainButton extends Component {
 
   _getBody = () => {
     const {
-      isLoading,
-      text,
-      secondText,
-      iconColor,
-      iconName,
-      source,
+      isLoading, text, secondText, iconColor, iconName, source,
     } = this.props;
 
     if (isLoading) {
-      return (
-        <ActivityIndicator color="white" style={styles.activityIndicator} />
-      );
-    } if (text) {
+      return <ActivityIndicator color="white" style={styles.activityIndicator} />;
+    }
+    if (text) {
       return (
         <Fragment>
           {source ? (
@@ -88,7 +75,9 @@ class MainButton extends Component {
   };
 
   render() {
-    const { wrapperStyle } = this.props;
+    const {
+      wrapperStyle, children, height, style,
+    } = this.props;
     const { isDisable } = this.state;
 
     return (
@@ -96,9 +85,14 @@ class MainButton extends Component {
         <TouchableOpacity
           disabled={isDisable}
           onPress={() => this._handleOnPress()}
-          style={[styles.touchable, isDisable && styles.disableTouchable]}
+          style={[
+            styles.touchable,
+            isDisable && styles.disableTouchable,
+            height && { height },
+            style && style,
+          ]}
         >
-          <View style={styles.body}>{this._getBody()}</View>
+          <View style={styles.body}>{children || this._getBody()}</View>
         </TouchableOpacity>
       </View>
     );

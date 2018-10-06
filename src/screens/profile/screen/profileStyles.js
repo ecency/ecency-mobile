@@ -5,6 +5,7 @@ export default EStyleSheet.create({
   container: {
     flex: 1,
     top: StatusBar.currentHeight,
+    backgroundColor: '#f6f6f6',
   },
   content: {
     backgroundColor: '#f9f9f9',
@@ -47,4 +48,18 @@ export default EStyleSheet.create({
     backgroundColor: '#f9f9f9',
     minWidth: '$deviceWidth',
   },
+
+  tabbar: {
+    alignSelf: 'center',
+    height: 55,
+    backgroundColor: 'white',
+    borderBottomColor: '#f1f1f1',
+  },
+  tabView: {
+    alignSelf: 'center',
+    backgroundColor: 'transparent',
+  },
+  postTabBar: {},
+  commentsTabBar: {},
+  tabBarTitle: {},
 });

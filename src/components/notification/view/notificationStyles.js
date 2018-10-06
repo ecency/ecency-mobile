@@ -51,7 +51,7 @@ export default EStyleSheet.create({
     height: '$deviceHeight / 1.35',
   },
   isNewNotification: {
-    backgroundColor: '#eaf2fc',
+    backgroundColor: '$primaryLightBlue',
     borderTopWidth: 0.3,
     borderBottomWidth: 0.3,
     borderColor: '#e7e7e7',

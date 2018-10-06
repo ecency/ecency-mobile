@@ -24,11 +24,7 @@ const DEVICE_HEIGHT = Dimensions.get('window').height;
 const renderDropdownRow = (rowData, rowID, highlighted) => (
   <TouchableHighlight style={styles.rowWrapper} underlayColor="#E9F2FC">
     <View style={[styles.dropdownRow, highlighted && styles.highlightedRow]}>
-      <Text
-        style={[styles.rowText, highlighted && styles.highlightedRowText]}
-      >
-        {rowData}
-      </Text>
+      <Text style={[styles.rowText, highlighted && styles.highlightedRowText]}>{rowData}</Text>
     </View>
   </TouchableHighlight>
 );
@@ -39,10 +35,14 @@ const DropdownButtonView = ({
   options,
   onSelect,
   defaultIndex,
+  children,
+  style,
+  isHasChildIcon,
+  childIconWrapperStyle,
 }) => (
   <View style={styles.container}>
     <ModalDropdown
-      style={styles.button}
+      style={[!style ? styles.button : style]}
       textStyle={styles.buttonText}
       dropdownStyle={[styles.dropdown, { height: 35 * (options.length + 1) }]}
       dropdownTextStyle={styles.dropdownText}
@@ -52,15 +52,20 @@ const DropdownButtonView = ({
       defaultIndex={defaultIndex}
       defaultValue={defaultText}
       renderSeparator={() => null}
-      renderRow={(rowData, rowID, highlighted) => renderDropdownRow(rowData, rowID, highlighted)
-      }
-    />
-    <View style={styles.iconWrapper}>
-      <Ionicons
-        style={styles.dropdownIcon}
-        name={!iconName ? 'md-arrow-dropdown' : iconName}
-      />
-    </View>
+      renderRow={(rowData, rowID, highlighted) => renderDropdownRow(rowData, rowID, highlighted)}
+    >
+      {isHasChildIcon && (
+        <View style={[styles.iconWrapper, childIconWrapperStyle && childIconWrapperStyle]}>
+          <Ionicons style={styles.dropdownIcon} name={!iconName ? 'md-arrow-dropdown' : iconName} />
+        </View>
+      )}
+    </ModalDropdown>
+    {!children
+      && !isHasChildIcon && (
+        <View style={styles.iconWrapper}>
+          <Ionicons style={styles.dropdownIcon} name={!iconName ? 'md-arrow-dropdown' : iconName} />
+        </View>
+    )}
   </View>
 );
 

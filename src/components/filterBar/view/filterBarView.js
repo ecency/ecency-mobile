@@ -23,24 +23,27 @@ const FilterBarView = ({
   dropdownIconName,
   onDropdownSelect,
   onRightIconPress,
+  isHide,
 }) => (
   <View style={styles.container}>
-    <LineBreak color="#f6f6f6" height={35}>
-      <View style={styles.filterBarWrapper}>
-        <DropdownButton
-          iconName={dropdownIconName}
-          options={options}
-          defaultText={defaultText}
-          onSelect={onDropdownSelect}
-        />
-        <TouchableOpacity
-          onPress={onRightIconPress && onRightIconPress()}
-          style={styles.rightIconWrapper}
-        >
-          <Ionicons style={styles.rightIcon} name={rightIconName} />
-        </TouchableOpacity>
-      </View>
-    </LineBreak>
+    {!isHide && (
+      <LineBreak color="#f6f6f6" height={35}>
+        <View style={styles.filterBarWrapper}>
+          <DropdownButton
+            iconName={dropdownIconName}
+            options={options}
+            defaultText={defaultText}
+            onSelect={onDropdownSelect}
+          />
+          <TouchableOpacity
+            onPress={onRightIconPress && onRightIconPress()}
+            style={styles.rightIconWrapper}
+          >
+            <Ionicons style={styles.rightIcon} name={rightIconName} />
+          </TouchableOpacity>
+        </View>
+      </LineBreak>
+    )}
   </View>
 );
 
