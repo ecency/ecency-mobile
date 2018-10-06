@@ -25,13 +25,9 @@ class SideMenuView extends Component {
   // Component Life Cycles
 
   // Component Functions
-  _navigateToRoute = (route) => {
-    const { navigation } = this.props;
-    navigation.navigate(route);
-  };
 
   render() {
-    const { isLoggedIn, userAvatar } = this.props;
+    const { isLoggedIn, userAvatar, navigateToRoute } = this.props;
     return (
       <View style={styles.container}>
         <View style={styles.headerView}>
@@ -51,7 +47,7 @@ class SideMenuView extends Component {
               <ListItem
                 noBorder
                 style={styles.listItem}
-                onPress={() => this._navigateToRoute(item.route)}
+                onPress={() => navigateToRoute(item.route)}
               >
                 <Icon style={styles.listItemIcon} name={item.icon} />
                 <Text style={styles.listItemText}>{item.name}</Text>

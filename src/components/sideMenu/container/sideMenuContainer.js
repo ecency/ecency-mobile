@@ -1,6 +1,7 @@
 import React, { Component } from 'react';
 // import { connect } from 'react-redux';
 
+import { getAuthStatus } from '../../../realm/realm';
 // Component
 import { SideMenuView } from '..';
 
@@ -13,17 +14,36 @@ import { SideMenuView } from '..';
 class SideMenuContainer extends Component {
   constructor(props) {
     super(props);
-    this.state = {};
+    this.state = {
+      isLoggedIn: false,
+    };
   }
 
   // Component Life Cycle Functions
 
+  componentWillMount() {
+    getAuthStatus().then((res) => {
+      this.setState({ isLoggedIn: res });
+    });
+  }
+
   // Component Functions
 
-  render() {
-    // const {} = this.props;
+  _navigateToRoute = (route) => {
+    const { navigation } = this.props;
+    navigation.navigate(route);
+  };
 
-    return <SideMenuView isLoggedIn userAvatar={null} />;
+  render() {
+    const { isLoggedIn } = this.state;
+
+    return (
+      <SideMenuView
+        navigateToRoute={this._navigateToRoute}
+        isLoggedIn={isLoggedIn}
+        userAvatar={null}
+      />
+    );
   }
 }
 

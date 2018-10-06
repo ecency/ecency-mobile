@@ -1,25 +1,18 @@
-import { DrawerNavigator } from 'react-navigation';
+import { DrawerNavigator, StackNavigator, SwitchNavigator } from 'react-navigation';
 import { BaseNavigator } from '../navigation';
 
 // Screens
-import { Splash } from '../screens';
+import { Splash, Login } from '../screens';
 
 // Components
 import { SideMenu } from '../components';
 
-export default DrawerNavigator(
+const mainNavigation = DrawerNavigator(
   {
-    SplashScreen: {
-      screen: Splash,
-      navigationOptions: {
-        header: () => null,
-      },
-    },
     HomeScreen: {
       screen: BaseNavigator,
       navigationOptions: {
         header: () => null,
-        gesturesEnabled: false,
       },
     },
   },
@@ -27,3 +20,9 @@ export default DrawerNavigator(
     contentComponent: SideMenu,
   },
 );
+
+export default SwitchNavigator({
+  Splash: { screen: Splash },
+  Login: { screen: Login },
+  Main: mainNavigation,
+});
