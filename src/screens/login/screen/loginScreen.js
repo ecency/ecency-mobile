@@ -5,8 +5,11 @@ import {
 import { KeyboardAwareScrollView } from 'react-native-keyboard-aware-scroll-view';
 import ScrollableTabView from '@esteemapp/react-native-scrollable-tab-view';
 
+// Actions
+import { addNewAccount } from '../../../redux/actions/accountAction';
+import { isLoggedIn } from '../../../redux/actions/userActions';
+
 // Internal Components
-// import { Navigation } from 'react-native-navigation';
 import { FormInput } from '../../../components/formInput';
 import { TextButton } from '../../../components/buttons';
 import { InformationArea } from '../../../components/informationArea';
@@ -14,8 +17,6 @@ import { Login } from '../../../providers/steem/auth';
 import { LoginHeader } from '../../../components/loginHeader';
 import { MainButton } from '../../../components/mainButton';
 import { TabBar } from '../../../components/tabBar';
-import { addNewAccount } from '../../../redux/actions/accountAction';
-// import { goToAuthScreens } from '../../../navigation';
 import { lookupAccounts } from '../../../providers/steem/dsteem';
 import STEEM_CONNECT_LOGO from '../../../assets/steem_connect.png';
 
@@ -26,21 +27,17 @@ class LoginScreen extends Component {
   constructor(props) {
     super(props);
     // Navigation.events().bindComponent(this);
-    this.handleUsername = this.handleUsername.bind(this);
     this.state = {
       username: '',
       password: '',
       isLoading: false,
-      isUsernameValid: false,
+      isUsernameValid: true,
       keyboardIsOpen: false,
     };
   }
 
   componentDidMount() {
-    BackHandler.addEventListener('hardwareBackPress', () => {
-      // Navigation.pop(this.props.componentId);
-      return true;
-    });
+    BackHandler.addEventListener('hardwareBackPress', () => true);
     Linking.getInitialURL().then((url) => {
       console.log(url);
     });
@@ -51,7 +48,7 @@ class LoginScreen extends Component {
   }
 
   _handleOnPressLogin = () => {
-    const { componentId, dispatch } = this.props;
+    const { dispatch, navigation } = this.props;
     const { password, username } = this.state;
 
     this.setState({ isLoading: true });
@@ -60,28 +57,24 @@ class LoginScreen extends Component {
       .then((result) => {
         if (result) {
           dispatch(addNewAccount(result));
-          // Navigation.setStackRoot(componentId, {
-          //   component: {
-          //     name: 'navigation.eSteem.PinCode',
-          //     options: {
-          //       topBar: {
-          //         visible: false,
-          //       },
-          //     },
-          //   },
-          // });
+          dispatch(isLoggedIn(true));
+
+          // It should go PinCode! (it will)
+          navigation.navigate('Main');
         }
       })
       .catch((err) => {
-        // alert(err);
+        dispatch(isLoggedIn(false));
         this.setState({ isLoading: false });
       });
   };
 
-  handleUsername = async (username) => {
+  _handleUsernameChange = async (username) => {
     await this.setState({ username });
     const validUsers = await lookupAccounts(username);
-    await this.setState({ isUsernameValid: validUsers.includes(username) });
+    const isValid = validUsers.includes(username);
+
+    this.setState({ isUsernameValid: isValid });
   };
 
   _handleOnPasswordChange = (value) => {
@@ -109,12 +102,9 @@ class LoginScreen extends Component {
   };
 
   render() {
+    const { navigation } = this.props;
     const {
-      isLoading,
-      username,
-      isUsernameValid,
-      keyboardIsOpen,
-      password,
+      isLoading, username, isUsernameValid, keyboardIsOpen, password,
     } = this.state;
 
     return (
@@ -148,7 +138,7 @@ class LoginScreen extends Component {
                 rightIconName="md-at"
                 leftIconName="md-close-circle"
                 isValid={isUsernameValid}
-                onChange={value => this.handleUsername(value)}
+                onChange={value => this._handleUsernameChange(value)}
                 placeholder="Username"
                 isEditable
                 type="username"
@@ -171,7 +161,7 @@ class LoginScreen extends Component {
                 iconName="ios-information-circle-outline"
               />
               <View style={styles.footerButtons}>
-                {/* <TextButton onPress={goToAuthScreens} text="cancel" /> */}
+                <TextButton onPress={() => navigation.navigate('Main')} text="cancel" />
               </View>
               <MainButton
                 wrapperStyle={styles.mainButtonWrapper}
@@ -179,9 +169,7 @@ class LoginScreen extends Component {
                 iconName="md-person"
                 iconColor="white"
                 text="LOGIN"
-                isDisable={
-                  !isUsernameValid || password.length < 2 || username.length < 2
-                }
+                isDisable={!isUsernameValid || password.length < 2 || username.length < 2}
                 isLoading={isLoading}
               />
             </View>
@@ -192,7 +180,7 @@ class LoginScreen extends Component {
               />
               <MainButton
                 wrapperStyle={styles.mainButtonWrapper}
-                onPress={this._loginwithSc2}
+                onPress={() => this._loginwithSc2()}
                 iconName="md-person"
                 source={STEEM_CONNECT_LOGO}
                 text="steem"

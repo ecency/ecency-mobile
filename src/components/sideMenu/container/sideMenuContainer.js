@@ -1,15 +1,15 @@
 import React, { Component } from 'react';
-// import { connect } from 'react-redux';
+import { connect } from 'react-redux';
 
 import { getAuthStatus } from '../../../realm/realm';
 // Component
 import { SideMenuView } from '..';
 
 /*
-*            Props Name        Description                                     Value
-*@props -->  props name here   description here                                Value Type Here
-*
-*/
+  *               Props Name                              Description
+  *@props -->     props name here                         description here
+  *
+  */
 
 class SideMenuContainer extends Component {
   constructor(props) {
@@ -48,7 +48,7 @@ class SideMenuContainer extends Component {
 }
 
 const mapStateToProps = state => ({
-  user: state.user.user,
+  isLoggedIn: state,
 });
 
-export default SideMenuContainer;
+export default connect(mapStateToProps)(SideMenuContainer);
