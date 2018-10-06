@@ -7,11 +7,11 @@ import SplashScreen from '../screen/splashScreen';
 class SplashContainer extends Component {
   componentWillMount() {
     const { navigation } = this.props;
-    // getUserData().then((res) => {
-    //   if (res) {
-    //     alert(res);
-    //   }
-    // });
+    getUserData().then((res) => {
+      if (res == false) {
+        // alert(`res${res}`);
+      }
+    });
     navigation.navigate('Main');
   }
 
