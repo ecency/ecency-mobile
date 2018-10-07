@@ -11,10 +11,21 @@ const WalletLineItem = ({
   rightTextColor,
   isBoldText,
   isThin,
+  isCircleIcon,
+  circleIconColor,
 }) => (
   <View style={styles.container}>
     <View style={styles.iconTextWrapper}>
-      {iconName && <Ionicons style={styles.icon} name={iconName} />}
+      {iconName && (
+        <View
+          style={[
+            isCircleIcon && styles.circleIcon,
+            circleIconColor && { backgroundColor: circleIconColor },
+          ]}
+        >
+          <Ionicons style={styles.icon} name={iconName} />
+        </View>
+      )}
       <Text
         style={[
           styles.text,

@@ -16,7 +16,7 @@ export default EStyleSheet.create({
   icon: {
     color: '$primaryGray',
     fontSize: 18,
-    marginRight: 8,
+    textAlign: 'center',
   },
   rightTextWrapper: {
     flexDirection: 'row',
@@ -27,6 +27,7 @@ export default EStyleSheet.create({
     fontFamily: '$primaryFont',
     color: '$primaryBlack',
     fontSize: 16,
+    marginLeft: 8,
   },
   rightText: {
     fontFamily: '$primaryFont',
@@ -41,5 +42,13 @@ export default EStyleSheet.create({
   },
   onlyRightText: {
     color: '$primaryGray',
+  },
+  circleIcon: {
+    backgroundColor: 'black',
+    borderRadius: 20,
+    width: 32,
+    height: 32,
+    justifyContent: 'center',
+    alignSelf: 'center',
   },
 });

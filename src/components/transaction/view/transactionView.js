@@ -5,7 +5,8 @@ import { View } from 'react-native';
 
 // Components
 import { FilterBar } from '../../filterBar';
-
+import { GrayWrapper, WalletLineItem } from '../../basicUIElements';
+import { Card } from '../../basicUIElements';
 // Styles
 // eslint-disable-next-line
 import styles from './transactionStyles';
@@ -41,6 +42,27 @@ class TransactionView extends Component {
           rightIconName="ios-lock"
           iconSize={16}
         />
+        <Card>
+          <WalletLineItem
+            text="Steem"
+            textColor="#3c4449"
+            iconName="ios-information-circle-outline"
+            rightText="27.178 STEEM"
+            isBoldText
+          />
+          <GrayWrapper>
+            <WalletLineItem
+              text="Steem"
+              isCircleIcon
+              circleIconColor="white"
+              textColor="#3c4449"
+              iconName="ios-information-circle-outline"
+              rightText="18,891.867 STEEM"
+              tightTextColor="red"
+              isBoldText
+            />
+          </GrayWrapper>
+        </Card>
       </View>
     );
   }

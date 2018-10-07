@@ -7,6 +7,6 @@ export default EStyleSheet.create({
     shadowOpacity: 0.8,
     shadowColor: '#e7e7e7',
     paddingHorizontal: 8,
-    marginVertical: 8,
+    paddingVertical: 8,
   },
 });
