@@ -5,7 +5,6 @@ import { Provider } from 'react-redux';
 import EStyleSheet from 'react-native-extended-stylesheet';
 import store from './redux/store/store';
 import { ReduxNavigation } from './config/reduxNavigation';
-import { BaseNavigator } from './navigation';
 
 // STYLE
 
@@ -18,6 +17,7 @@ EStyleSheet.build({
   $primaryGray: '#788187',
   $primaryLightGray: '#f6f6f6',
   $primaryRed: '#e63535',
+  $primaryBlack: '#3c4449',
 
   // General Colors
   $borderColor: '#ffff',

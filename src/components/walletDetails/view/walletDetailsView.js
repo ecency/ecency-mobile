@@ -1,5 +1,5 @@
 import React, { Component } from 'react';
-import { View, Text } from 'react-native';
+import { View } from 'react-native';
 
 // Constants
 
@@ -39,17 +39,20 @@ class WalletDetailsView extends Component {
             text="Steem"
             textColor="#3c4449"
             iconName="ios-information-circle-outline"
-            rightText="27.178 STEEM"
+            rightText="18,891.867 STEEM"
             tightTextColor="red"
             isBoldText
           />
 
-          <WalletLineItem rightText="27.178 STEEM" tightTextColor="red" />
+          <WalletLineItem rightText="- 15,088.108 SP" />
+          <WalletLineItem rightText="+ 504,787.529 SP" />
+          <WalletLineItem rightText="= 508,591.288 SP" rightTextColor="#357ce6" />
         </GrayWrapper>
 
         <WalletLineItem
           text="Net power down is in 6 days"
           textColor="#788187"
+          isThin
           iconName="ios-information-circle-outline"
         />
       </View>

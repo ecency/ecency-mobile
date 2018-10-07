@@ -2,36 +2,44 @@ import EStyleSheet from 'react-native-extended-stylesheet';
 
 export default EStyleSheet.create({
   container: {
-    marginTop: 15,
-    marginBottom: 15,
-  },
-  wrapper: {
-    paddingHorizontal: 16,
+    marginVertical: 15,
     flexDirection: 'row',
     justifyContent: 'space-between',
+    paddingHorizontal: 16,
+  },
+  iconTextWrapper: {
+    flexDirection: 'row',
+    justifyContent: 'space-between',
+    alignSelf: 'center',
+    alignItems: 'center',
   },
   icon: {
     color: '$primaryGray',
-    width: 16,
-    fontSize: 16,
-    height: 16,
+    fontSize: 18,
+    marginRight: 8,
   },
-  iconTextWrapper: {
-    // justifyContent: 'flex-start',
+  rightTextWrapper: {
     flexDirection: 'row',
     justifyContent: 'center',
+    alignSelf: 'center',
   },
   text: {
-    flexDirection: 'row',
-
-    color: '#3c4449',
+    fontFamily: '$primaryFont',
+    color: '$primaryBlack',
     fontSize: 16,
-    // justifyContent: 'flex-start',
   },
   rightText: {
-    color: '#357ce6',
+    fontFamily: '$primaryFont',
+    color: '$primaryBlue',
     fontSize: 14,
     fontWeight: '600',
-    justifyContent: 'flex-end',
+  },
+  thinText: {
+    fontSize: 14,
+    fontWeight: '100',
+    color: '$primaryGray',
+  },
+  onlyRightText: {
+    color: '$primaryGray',
   },
 });

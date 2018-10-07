@@ -13,6 +13,7 @@ export default EStyleSheet.create({
     borderTopWidth: 1,
   },
   title: {
+    fontFamily: '$primaryFont',
     alignSelf: 'center',
     color: '$primaryGray',
     fontSize: 14,

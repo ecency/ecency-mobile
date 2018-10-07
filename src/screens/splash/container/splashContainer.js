@@ -16,7 +16,7 @@ class SplashContainer extends Component {
       if (res) {
         navigation.navigate('Main');
       } else {
-        navigation.navigate('Login');
+        navigation.navigate('Main');
       }
     });
   }

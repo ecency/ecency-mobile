@@ -1,5 +1,5 @@
 import React from 'react';
-import { View, TouchableOpacity, Text } from 'react-native';
+import { View, TouchableOpacity } from 'react-native';
 import Ionicons from 'react-native-vector-icons/Ionicons';
 
 // External Components
@@ -24,6 +24,7 @@ const FilterBarView = ({
   onDropdownSelect,
   onRightIconPress,
   isHide,
+  iconSize,
 }) => (
   <View style={styles.container}>
     {!isHide && (
@@ -39,7 +40,7 @@ const FilterBarView = ({
             onPress={onRightIconPress && onRightIconPress()}
             style={styles.rightIconWrapper}
           >
-            <Ionicons style={styles.rightIcon} name={rightIconName} />
+            <Ionicons style={styles.rightIcon} size={iconSize || 32} name={rightIconName} />
           </TouchableOpacity>
         </View>
       </LineBreak>

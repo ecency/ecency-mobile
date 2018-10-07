@@ -10,11 +10,10 @@ export default EStyleSheet.create({
   },
   rightIconWrapper: {
     marginRight: 32,
+    alignSelf: 'center',
   },
   rightIcon: {
     color: '#c1c5c7',
-    fontSize: 32,
     textAlign: 'center',
-    width: 32,
   },
 });

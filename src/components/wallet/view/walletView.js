@@ -1,5 +1,5 @@
 import React, { Component } from 'react';
-import { View, Text } from 'react-native';
+import { View, Text, ScrollView } from 'react-native';
 import Ionicons from 'react-native-vector-icons/Ionicons';
 
 // Constants
@@ -8,6 +8,8 @@ import Ionicons from 'react-native-vector-icons/Ionicons';
 import { MainButton } from '../../mainButton';
 import { CollapsibleCard } from '../../collapsibleCard';
 import { WalletDetails } from '../../walletDetails';
+import { Transaction } from '../../transaction';
+
 
 // Styles
 import styles from './walletStyles';
@@ -32,26 +34,30 @@ class WalletView extends Component {
 
     return (
       <View style={styles.container}>
-        <CollapsibleCard
-          titleColor="#788187"
-          isBoldTitle
-          fontSize={16}
-          defaultTitle="Unclaimed rewards"
-          expanded
-        >
-          <MainButton style={styles.mainButton} height={50} onPress={this._handleOnPressLogin}>
-            <View style={styles.mainButtonWrapper}>
-              <Text style={styles.mainButtonText}>18.323 STEEM 1.916 SBD 150.167 SP</Text>
-              <View style={styles.mainIconWrapper}>
-                <Ionicons name="md-add" color="#357ce6" size={23} />
+        <ScrollView style={styles.scrollView}>
+          <CollapsibleCard
+            titleColor="#788187"
+            isBoldTitle
+            fontSize={16}
+            defaultTitle="Unclaimed rewards"
+            expanded
+          >
+            <MainButton style={styles.mainButton} height={50} onPress={this._handleOnPressLogin}>
+              <View style={styles.mainButtonWrapper}>
+                <Text style={styles.mainButtonText}>18.323 STEEM 1.916 SBD 150.167 SP</Text>
+                <View style={styles.mainIconWrapper}>
+                  <Ionicons name="md-add" color="#357ce6" size={23} />
+                </View>
               </View>
-            </View>
-          </MainButton>
-        </CollapsibleCard>
+            </MainButton>
+          </CollapsibleCard>
 
-        <CollapsibleCard titleColor="#788187" title="Wallet Details" expanded>
-          <WalletDetails />
-        </CollapsibleCard>
+          <CollapsibleCard titleColor="#788187" title="Wallet Details" expanded>
+            <WalletDetails />
+          </CollapsibleCard>
+
+          <Transaction />
+        </ScrollView>
       </View>
     );
   }

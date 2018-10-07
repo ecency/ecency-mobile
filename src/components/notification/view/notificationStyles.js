@@ -43,7 +43,7 @@ export default EStyleSheet.create({
     color: '$primaryGray',
   },
   description: {
-    color: '#3c4449',
+    color: '$primaryBlack',
     fontSize: 12,
     fontWeight: '500',
   },

@@ -36,19 +36,15 @@ class CollapsibleCardView extends Component {
   // Component Life Cycles
 
   // Component Functions
-  _initContentHeight = (evt) => {
+  _initContentHeight = (event) => {
     if (this.anime.contentHeight > 0) return;
-    this.anime.contentHeight = evt.nativeEvent.layout.height;
+    this.anime.contentHeight = event.nativeEvent.layout.height;
     this.anime.height.setValue(this.anime.expanded ? this._getMaxValue() : this._getMinValue());
   };
 
-  _getMaxValue() {
-    return this.anime.contentHeight;
-  }
+  _getMaxValue = () => this.anime.contentHeight;
 
-  _getMinValue() {
-    return 0;
-  }
+  _getMinValue = () => 0;
 
   _toggleOnPress = () => {
     Animated.timing(this.anime.height, {
