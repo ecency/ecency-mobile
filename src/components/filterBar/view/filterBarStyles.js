@@ -13,7 +13,7 @@ export default EStyleSheet.create({
     alignSelf: 'center',
   },
   rightIcon: {
-    color: '#c1c5c7',
+    color:"$iconColor",
     textAlign: 'center',
   },
 });

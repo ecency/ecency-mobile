@@ -30,7 +30,7 @@ class FormInputView extends Component {
 
     this.state = {
       value: '',
-      inputBorderColor: '#c1c5c7',
+      inputBorderColor:"$iconColor",
       isValid: true,
     };
   }
@@ -93,7 +93,7 @@ class FormInputView extends Component {
           })
           }
           onSubmitEditing={() => this.setState({
-            inputBorderColor: '#c1c5c7',
+            inputBorderColor:"$iconColor",
           })
           }
           autoCapitalize="none"

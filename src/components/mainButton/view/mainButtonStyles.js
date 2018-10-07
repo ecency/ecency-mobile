@@ -47,6 +47,6 @@ export default EStyleSheet.create({
     height: 20,
   },
   disableTouchable: {
-    backgroundColor: '#c1c5c7',
+    backgroundColor:"$iconColor",
   },
 });

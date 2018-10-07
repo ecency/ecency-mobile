@@ -13,7 +13,7 @@ export default EStyleSheet.create({
     marginTop: 16,
   },
   text: {
-    color: "$primaryGray",
+    color: "$primaryDarkGray",
     fontSize: 14,
     marginTop: 12,
     fontWeight: "bold",

@@ -40,7 +40,7 @@ export default EStyleSheet.create({
     fontWeight: 'bold',
   },
   title: {
-    color: '$primaryGray',
+    color: '$primaryDarkGray',
   },
   description: {
     color: '$primaryBlack',

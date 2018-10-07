@@ -46,13 +46,13 @@ export default EStyleSheet.create({
   },
   followCount: {
     fontWeight: "bold",
-    color: "$primaryGray",
+    color: "$primaryDarkGray",
     fontSize: 14,
     textAlign: "center",
   },
   followText: {
     textAlign: "center",
-    color: "$primaryGray",
+    color: "$primaryDarkGray",
     fontSize: 9,
   },
   // TODO: look at here

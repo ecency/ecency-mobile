@@ -7,7 +7,7 @@ export default EStyleSheet.create({
     marginHorizontal: 30,
     marginVertical: 10,
     flexDirection: 'row',
-    backgroundColor: '#f5f5f5',
+    backgroundColor: '$primaryGray',
     height: 60,
     borderBottomWidth: 2,
   },
@@ -27,6 +27,6 @@ export default EStyleSheet.create({
     fontSize: 25,
     top: 18,
     left: 8,
-    color: '#c1c5c7',
+    color:"$iconColor",
   },
 });

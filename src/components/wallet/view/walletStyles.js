@@ -29,7 +29,7 @@ export default EStyleSheet.create({
     height: 24,
   },
   scrollView: {
-    height: '$deviceHeight',
+    height: '$deviceHeight / 1.36',
   },
 
   // Second collabsible component

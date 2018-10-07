@@ -10,12 +10,12 @@ export default EStyleSheet.create({
   },
   dropdownText: {
     fontSize: 9,
-    color: '$primaryGray',
+    color: '$primaryDarkGray',
     marginLeft: 25,
   },
   dropdownIcon: {
     fontSize: 18,
-    color: '#c1c5c7',
+    color:"$iconColor",
     marginLeft: 7,
     marginTop: 1,
   },
@@ -36,7 +36,7 @@ export default EStyleSheet.create({
   },
   dropdownText: {
     fontSize: 9,
-    color: '$primaryGray',
+    color: '$primaryDarkGray',
     padding: 5,
     borderColor: '#e7e7e7',
   },
@@ -50,7 +50,7 @@ export default EStyleSheet.create({
   buttonText: {
     fontSize: 9,
     alignSelf: 'center',
-    color: '$primaryGray',
+    color: '$primaryDarkGray',
     fontWeight: 'normal',
   },
   rowWrapper: {
@@ -80,6 +80,6 @@ export default EStyleSheet.create({
   },
   rowText: {
     fontSize: 9,
-    color: '$primaryGray',
+    color: '$primaryDarkGray',
   },
 });

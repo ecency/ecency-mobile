@@ -87,7 +87,7 @@ export default class Search extends Component {
           style={{
             flexDirection: 'row',
             borderRadius: 8,
-            backgroundColor: '#f5f5f5',
+            backgroundColor: '$primaryGray',
             paddingLeft: 10,
             marginHorizontal: 10,
           }}
@@ -98,7 +98,7 @@ export default class Search extends Component {
               flex: 0.1,
               fontSize: 18,
               top: 10,
-              color: '$primaryGray',
+              color: '$primaryDarkGray',
             }}
           />
 
@@ -116,7 +116,7 @@ export default class Search extends Component {
               flex: 0.1,
               fontSize: 15,
               top: 12.5,
-              color: '#c1c5c7',
+              color:"$iconColor",
             }}
           />
         </View>

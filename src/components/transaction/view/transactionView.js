@@ -45,23 +45,38 @@ class TransactionView extends Component {
         <Card>
           <WalletLineItem
             text="Steem"
+            isCircleIcon
+            isThin
             textColor="#3c4449"
-            iconName="ios-information-circle-outline"
+            iconName="md-star"
             rightText="27.178 STEEM"
-            isBoldText
           />
           <GrayWrapper>
             <WalletLineItem
-              text="Steem"
+              text="Comment Benefactor Reward"
+              description="32 minutes ago"
               isCircleIcon
+              isThin
               circleIconColor="white"
               textColor="#3c4449"
-              iconName="ios-information-circle-outline"
+              iconName="ios-chatboxes"
               rightText="18,891.867 STEEM"
               tightTextColor="red"
-              isBoldText
             />
           </GrayWrapper>
+          <WalletLineItem
+            text="Steem"
+            isCircleIcon
+            isThin
+            textColor="#3c4449"
+            iconName="md-star"
+            rightText="27.178 STEEM"
+          />
+          <WalletLineItem
+            text="@barbara-orenya / recycled-items-embellishments-recyclage-pour-decoration-poetique-eng-fr-901b24da0394fest"
+            isThin
+            textColor="#3c4449"
+          />
         </Card>
       </View>
     );

@@ -13,12 +13,14 @@ const WalletLineItem = ({
   isThin,
   isCircleIcon,
   circleIconColor,
+  description,
 }) => (
   <View style={styles.container}>
     <View style={styles.iconTextWrapper}>
       {iconName && (
         <View
           style={[
+            styles.iconWrapper,
             isCircleIcon && styles.circleIcon,
             circleIconColor && { backgroundColor: circleIconColor },
           ]}
@@ -26,16 +28,21 @@ const WalletLineItem = ({
           <Ionicons style={styles.icon} name={iconName} />
         </View>
       )}
-      <Text
-        style={[
-          styles.text,
-          textColor && { color: textColor },
-          isBoldText && { fontWeight: 'bold' },
-          isThin && styles.thinText,
-        ]}
-      >
-        {text}
-      </Text>
+      <View>
+        <Text
+          style={[
+            styles.text,
+            !iconName && styles.onlyText,
+            rightText && styles.longText,
+            textColor && { color: textColor },
+            isBoldText && { fontWeight: 'bold' },
+            isThin && styles.thinText,
+          ]}
+        >
+          {text}
+        </Text>
+        {description && <Text style={styles.description}>{description}</Text>}
+      </View>
     </View>
     <View style={styles.rightTextWrapper}>
       <Text

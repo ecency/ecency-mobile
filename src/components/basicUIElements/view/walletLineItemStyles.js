@@ -13,10 +13,16 @@ export default EStyleSheet.create({
     alignSelf: 'center',
     alignItems: 'center',
   },
+  iconWrapper: {
+    alignSelf: 'center',
+    alignItems: 'center',
+    justifyContent: 'center',
+  },
   icon: {
-    color: '$primaryGray',
+    color: '$primaryDarkGray',
     fontSize: 18,
     textAlign: 'center',
+    marginTop: 1,
   },
   rightTextWrapper: {
     flexDirection: 'row',
@@ -29,6 +35,18 @@ export default EStyleSheet.create({
     fontSize: 16,
     marginLeft: 8,
   },
+  longText: {
+    maxWidth: '$deviceWidth / 2.5',
+  },
+  description: {
+    fontSize: 12,
+    marginLeft: 8,
+    fontFamily: '$primaryFont',
+    color: '$iconColor',
+  },
+  onlyText: {
+    marginLeft: 40,
+  },
   rightText: {
     fontFamily: '$primaryFont',
     color: '$primaryBlue',
@@ -38,13 +56,13 @@ export default EStyleSheet.create({
   thinText: {
     fontSize: 14,
     fontWeight: '100',
-    color: '$primaryGray',
+    color: '$primaryDarkGray',
   },
   onlyRightText: {
-    color: '$primaryGray',
+    color: '$primaryDarkGray',
   },
   circleIcon: {
-    backgroundColor: 'black',
+    backgroundColor: '$primaryGray',
     borderRadius: 20,
     width: 32,
     height: 32,

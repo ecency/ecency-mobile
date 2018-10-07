@@ -15,14 +15,14 @@ export default EStyleSheet.create({
   title: {
     fontFamily: '$primaryFont',
     alignSelf: 'center',
-    color: '$primaryGray',
+    color: '$primaryDarkGray',
     fontSize: 14,
     fontWeight: '600',
     marginLeft: 32,
   },
   icon: {
     alignSelf: 'center',
-    color: '#c1c5c7',
+    color:"$iconColor",
     fontSize: 18,
     marginRight: 32,
   },
