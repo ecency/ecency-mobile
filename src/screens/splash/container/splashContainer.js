@@ -2,6 +2,9 @@ import React, { Component } from 'react';
 
 import { getUserData, getAuthStatus } from '../../../realm/realm';
 
+// Constants
+import { default as ROUTES } from '../../../constants/routeNames';
+
 import SplashScreen from '../screen/splashScreen';
 
 class SplashContainer extends Component {
@@ -14,9 +17,9 @@ class SplashContainer extends Component {
     // });
     getAuthStatus().then((res) => {
       if (res) {
-        navigation.navigate('Main');
+        navigation.navigate(ROUTES.DRAWER.MAIN);
       } else {
-        navigation.navigate('Main');
+        navigation.navigate(ROUTES.SCREENS.LOGIN);
       }
     });
   }

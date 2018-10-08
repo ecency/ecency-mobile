@@ -1,5 +1,5 @@
-import PinCodeScreen from "./screen/pinCodeScreen";
-import PinCode from "./container/pinCodeContainer";
+import PinCodeScreen from './screen/pinCodeScreen';
+import PinCodeContainer from './container/pinCodeContainer';
 
-export { PinCodeScreen, PinCode };
-export default PinCode;
+export { PinCodeScreen, PinCodeContainer };
+export default PinCodeContainer;

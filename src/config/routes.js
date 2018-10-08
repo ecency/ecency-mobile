@@ -1,15 +1,16 @@
-import { DrawerNavigator, StackNavigator, SwitchNavigator } from 'react-navigation';
+import { DrawerNavigator, SwitchNavigator } from 'react-navigation';
 import { BaseNavigator } from '../navigation';
+import { default as ROUTES } from '../constants/routeNames';
 
 // Screens
-import { Splash, Login } from '../screens';
+import { Splash, Login, PinCode } from '../screens';
 
 // Components
 import { SideMenu } from '../components';
 
 const mainNavigation = DrawerNavigator(
   {
-    HomeScreen: {
+    [ROUTES.SCREENS.HOME]: {
       screen: BaseNavigator,
       navigationOptions: {
         header: () => null,
@@ -22,7 +23,8 @@ const mainNavigation = DrawerNavigator(
 );
 
 export default SwitchNavigator({
-  Splash: { screen: Splash },
-  Login: { screen: Login },
-  Main: mainNavigation,
+  [ROUTES.SCREENS.SPLASH]: { screen: Splash },
+  [ROUTES.SCREENS.LOGIN]: { screen: Login },
+  [ROUTES.SCREENS.PINCODE]: { screen: PinCode },
+  [ROUTES.DRAWER.MAIN]: mainNavigation,
 });
