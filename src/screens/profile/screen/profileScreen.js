@@ -170,8 +170,8 @@ class ProfileScreen extends Component {
         <CollapsibleCard
           title={_about}
           defaultTitle="Profile details"
-          expanded={isLoggedIn}
-          locked={!isLoggedIn}
+          expanded={true}
+          // locked={!isLoggedIn}
         >
           <ProfileSummary
             percent={votingPower}

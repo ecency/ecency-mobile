@@ -5,11 +5,8 @@ import { View } from 'react-native';
 
 // Components
 import { FilterBar } from '../../filterBar';
-import { GrayWrapper, WalletLineItem } from '../../basicUIElements';
-import { Card } from '../../basicUIElements';
-// Styles
-// eslint-disable-next-line
-import styles from './transactionStyles';
+import { GrayWrapper, WalletLineItem, Card } from '../../basicUIElements';
+import { CollapsibleCard } from '../../collapsibleCard';
 
 class TransactionView extends Component {
   /* Props
@@ -28,10 +25,6 @@ class TransactionView extends Component {
   _handleOnDropdownSelect = () => {};
 
   render() {
-    // eslint-disable-next-line
-    // const {} = this.props;
-
-    // eslint-disable-next-line
     return (
       <View>
         <FilterBar
@@ -72,11 +65,31 @@ class TransactionView extends Component {
             iconName="md-star"
             rightText="27.178 STEEM"
           />
-          <WalletLineItem
-            text="@barbara-orenya / recycled-items-embellishments-recyclage-pour-decoration-poetique-eng-fr-901b24da0394fest"
-            isThin
-            textColor="#3c4449"
-          />
+          <CollapsibleCard
+            titleColor="#788187"
+            title="Wallet Details"
+            expanded={false}
+            noBorder
+            fitContent
+            titleComponent={(
+              <WalletLineItem
+                text="Steem"
+                isCircleIcon
+                isThin
+                textColor="#3c4449"
+                iconName="md-star"
+                rightText="27.178 STEEM"
+                description="1 hour ago"
+              />
+)}
+          >
+            <WalletLineItem
+              fitContent
+              text="@barbara-orenya / recycled-items-embellishments-recyclage-pour-decoration-poetique-eng-fr-901b24da0394fest"
+              isThin
+              textColor="#3c4449"
+            />
+          </CollapsibleCard>
         </Card>
       </View>
     );

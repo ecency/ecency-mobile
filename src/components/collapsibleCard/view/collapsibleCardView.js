@@ -60,31 +60,42 @@ class CollapsibleCardView extends Component {
 
   render() {
     const {
-      title, children, defaultTitle, fontSize, titleColor, isBoldTitle, locked,
+      title,
+      children,
+      defaultTitle,
+      fontSize,
+      titleColor,
+      isBoldTitle,
+      locked,
+      titleComponent,
+      noBorder,
+      fitContent,
     } = this.props;
     const { expanded } = this.state;
 
     return (
-      <View style={styles.container}>
+      <View style={[styles.container, !noBorder && styles.containerWithBorder]}>
         <TouchableHighlight
           underlayColor="transparent"
           onPress={() => !locked && this._toggleOnPress()}
         >
-          <ContainerHeader
-            color={titleColor || '#788187'}
-            fontSize={fontSize || 12}
-            title={title}
-            defaultTitle={defaultTitle}
-            isBoldTitle={isBoldTitle}
-            iconName={expanded ? 'md-arrow-dropdown' : 'md-arrow-dropup'}
-          />
+          {titleComponent || (
+            <ContainerHeader
+              color={titleColor || '#788187'}
+              fontSize={fontSize || 12}
+              title={title}
+              defaultTitle={defaultTitle}
+              isBoldTitle={isBoldTitle}
+              iconName={expanded ? 'md-arrow-dropdown' : 'md-arrow-dropup'}
+            />
+          )}
         </TouchableHighlight>
 
         <Animated.View
           style={[styles.content, { height: this.anime.height }]}
           onLayout={e => this._initContentHeight(e)}
         >
-          <View style={styles.contentBody}>{children}</View>
+          <View style={[!fitContent && styles.contentBody]}>{children}</View>
         </Animated.View>
       </View>
     );

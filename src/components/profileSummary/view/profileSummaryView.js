@@ -1,17 +1,17 @@
-import React, { Component } from "react";
-import { View, Image, Text } from "react-native";
-import { DropdownButton } from "../../../components/dropdownButton";
+import React, { Component } from 'react';
+import { View, Image, Text } from 'react-native';
+import { DropdownButton } from '../../dropdownButton';
 
 // Constants
-import DEFAULT_IMAGE from "../../../assets/default_cover_image.png";
+import DEFAULT_IMAGE from '../../../assets/default_cover_image.png';
 
 // Components
-import { TextWithIcon } from "../../basicUIElements";
-import { PercentBar } from "../../basicUIElements";
-import { IconButton } from "../../iconButton";
+import { TextWithIcon } from '../../basicUIElements';
+import { PercentBar } from '../../basicUIElements';
+import { IconButton } from '../../iconButton';
 // Styles
 // eslint-disable-next-line
-import styles from "./profileSummaryStyles";
+import styles from './profileSummaryStyles';
 
 class ProfileSummaryView extends Component {
   /* Props
@@ -36,6 +36,7 @@ class ProfileSummaryView extends Component {
     const { followingCoung } = this.props;
     return 32;
   };
+
   render() {
     const {
       percent,
@@ -64,7 +65,23 @@ class ProfileSummaryView extends Component {
         <PercentBar percent={percent} margin={24}>
           <View style={styles.percentTitleWrapper}>
             <Text style={styles.percentTitle}>
-              Voting power: {percent}% - Full in {hours} hours
+              Voting power:
+              {' '}
+              {percent}
+% - Full in
+              {' '}
+              {hours}
+              {' '}
+hours
+            </Text>
+          </View>
+        </PercentBar>
+
+        <PercentBar percent={percent} margin={24}>
+          <View style={styles.percentTitleWrapper}>
+            <Text style={styles.percentTitle}>
+              RCs 20% - Full in
+              {hours}
             </Text>
           </View>
         </PercentBar>
@@ -96,7 +113,7 @@ class ProfileSummaryView extends Component {
             />
             <DropdownButton
               style={styles.insetIconStyle}
-              options={["option1", "option2", "option3", "option4"]}
+              options={['option1', 'option2', 'option3', 'option4']}
               iconName="md-more"
               isHasChildIcon
               childIconWrapperStyle={styles.dropdownIconStyle}

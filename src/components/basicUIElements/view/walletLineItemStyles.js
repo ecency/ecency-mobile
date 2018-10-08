@@ -7,6 +7,9 @@ export default EStyleSheet.create({
     justifyContent: 'space-between',
     paddingHorizontal: 16,
   },
+  fitContent: {
+    marginVertical: 0,
+  },
   iconTextWrapper: {
     flexDirection: 'row',
     justifyContent: 'space-between',

@@ -14,8 +14,9 @@ const WalletLineItem = ({
   isCircleIcon,
   circleIconColor,
   description,
+  fitContent,
 }) => (
-  <View style={styles.container}>
+  <View style={[styles.container, fitContent && styles.fitContent]}>
     <View style={styles.iconTextWrapper}>
       {iconName && (
         <View

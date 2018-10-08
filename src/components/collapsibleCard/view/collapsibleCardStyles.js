@@ -7,6 +7,8 @@ export default EStyleSheet.create({
     marginTop: 8,
     marginBottom: 8,
     overflow: 'hidden',
+  },
+  containerWithBorder: {
     shadowOpacity: 0.8,
     borderWidth: 0.8,
     shadowColor: '#e7e7e7',
