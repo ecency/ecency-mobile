@@ -28,7 +28,7 @@ EStyleSheet.build({
   $warningColor: '#fff',
   $successColor: '#fff',
   $disableButton: '#fff',
-  $shadowColor: '#fff',
+  $shadowColor: '#b0b0b0',
   $disableGray: '#fff',
 
   // Devices Sizes

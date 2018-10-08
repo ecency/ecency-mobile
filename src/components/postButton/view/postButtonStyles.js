@@ -15,10 +15,13 @@ export default EStyleSheet.create({
     position: 'absolute',
     alignItems: 'center',
   },
-  postButtonIcon: {
+  postButton: {
     bottom: 25,
     backgroundColor: '#357ce6',
     alignItems: 'center',
     justifyContent: 'center',
+    shadowColor: '$shadowColor',
+    shadowOffset: { height: 0 },
+    shadowOpacity: 1,
   },
 });
