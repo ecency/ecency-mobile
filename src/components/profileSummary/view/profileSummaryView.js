@@ -48,6 +48,8 @@ class ProfileSummaryView extends Component {
       followerCount,
       coverImage,
     } = this.props;
+    const votingPowerText = `Voting power:${{ percent }}% • Full in ${{ hours }}hours`;
+    const rcsPowerText = 'RCs: 20% • Full in 36 hours';
 
     return (
       <View>
@@ -62,29 +64,18 @@ class ProfileSummaryView extends Component {
           source={{ uri: coverImage }}
           defaultSource={DEFAULT_IMAGE}
         />
-        <PercentBar percent={percent} margin={24}>
-          <View style={styles.percentTitleWrapper}>
-            <Text style={styles.percentTitle}>
-              Voting power:
-              {' '}
-              {percent}
-% - Full in
-              {' '}
-              {hours}
-              {' '}
-hours
-            </Text>
-          </View>
-        </PercentBar>
 
-        <PercentBar percent={percent} margin={24}>
-          <View style={styles.percentTitleWrapper}>
-            <Text style={styles.percentTitle}>
-              RCs 20% - Full in
-              {hours}
-            </Text>
-          </View>
-        </PercentBar>
+        <PercentBar percent={percent} margin={24} isTop text={votingPowerText} />
+        <PercentBar
+          percent={percent}
+          margin={24}
+          barColor="#eafcef"
+          barPercentColor="#11c28b"
+          textColor="#11c28b"
+          isTop={false}
+          text={rcsPowerText}
+        />
+
         <View style={styles.footer}>
           <View style={styles.leftIcons}>
             <View style={styles.followCountWrapper}>

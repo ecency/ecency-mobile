@@ -1,16 +1,24 @@
-import EStyleSheet from "react-native-extended-stylesheet";
+import EStyleSheet from 'react-native-extended-stylesheet';
 
 export default EStyleSheet.create({
   container: {
-    backgroundColor: "$primaryLightBlue",
+    backgroundColor: '$primaryLightBlue',
     height: 2,
-    marginTop: 10,
-    marginBottom: 10,
+    marginVertical: 4,
     borderRadius: 50,
   },
   powerBar: {
-    backgroundColor: "$primaryBlue",
+    backgroundColor: '$primaryBlue',
     height: 2,
     borderRadius: 50,
+  },
+  percentTitleWrapper: {
+    flexDirection: 'row',
+    justifyContent: 'center',
+  },
+  percentTitle: {
+    color: '$primaryBlue',
+    fontSize: 11,
+    marginVertical: 10,
   },
 });
