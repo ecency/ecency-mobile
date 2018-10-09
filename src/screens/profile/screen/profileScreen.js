@@ -263,7 +263,7 @@ class ProfileScreen extends Component {
             )}
           </View>
           <View tabLabel={user.balance ? `$${user.balance}` : 'Wallet'}>
-            <Wallet />
+            <Wallet user={user}/>
           </View>
         </ScrollableTabView>
       </View>
