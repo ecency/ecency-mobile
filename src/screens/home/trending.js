@@ -1,5 +1,5 @@
 /* eslint-disable no-unused-vars */
-import React from 'react';
+import React, { Component } from 'react';
 import {
   StyleSheet, FlatList, View, ActivityIndicator,
 } from 'react-native';
@@ -16,7 +16,7 @@ import { PostCard } from '../../components/postCard';
 // SCREENS
 /* eslint-enable no-unused-vars */
 
-class TrendingPage extends React.Component {
+class TrendingPage extends Component {
   constructor(props) {
     super(props);
 

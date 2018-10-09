@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { Component } from 'react';
 import { AsyncStorage } from 'react-native';
 import { connect } from 'react-redux';
 
@@ -10,7 +10,7 @@ import { default as ROUTES } from '../../../constants/routeNames';
 
 import { PinCodeScreen } from '..';
 
-class PinCodeContainer extends React.Component {
+class PinCodeContainer extends Component {
   constructor(props) {
     super(props);
     this.state = {

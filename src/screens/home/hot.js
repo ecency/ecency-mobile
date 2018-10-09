@@ -1,5 +1,5 @@
 /* eslint-disable no-unused-vars */
-import React from 'react';
+import React, { Component } from 'react';
 import { FlatList, View, ActivityIndicator } from 'react-native';
 
 import Placeholder from 'rn-placeholder';
@@ -17,7 +17,7 @@ import { FilterBar } from '../../components/filterBar';
 // SCREENS
 /* eslint-enable no-unused-vars */
 
-class HotPage extends React.Component {
+class HotPage extends Component {
   constructor(props) {
     super(props);
 

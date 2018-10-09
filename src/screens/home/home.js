@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { PureComponent } from 'react';
 import {
   Text, View, Dimensions, TouchableOpacity,
 } from 'react-native';
@@ -26,7 +26,7 @@ import HotPage from './hot';
 import FeedPage from './feed';
 import TrendingPage from './trending';
 
-export default class Home extends React.PureComponent {
+export default class Home extends PureComponent {
   static navigationOptions = {
     title: 'Home',
   };
@@ -182,8 +182,8 @@ const styles = {
   },
   tabbarItem: {
     flex: 1,
-    backgroundColor: "#f9f9f9",
-    minWidth: Dimensions.get("window").width,
+    backgroundColor: '#f9f9f9',
+    minWidth: Dimensions.get('window').width,
   },
   container: {
     backgroundColor: '#F9F9F9',
