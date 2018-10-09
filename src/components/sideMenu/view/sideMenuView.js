@@ -9,7 +9,9 @@ import { default as MENU } from '../../../constants/sideMenuItems';
 // Styles
 import styles from './sideMenuStyles';
 
-class ExampleView extends Component {
+const DEFAULT_IMAGE = require('../../../assets/esteem.png');
+
+class SideMenuView extends Component {
   /* Props
     * ------------------------------------------------
     *   @prop { type }    name                - Description....
@@ -23,20 +25,14 @@ class ExampleView extends Component {
   // Component Life Cycles
 
   // Component Functions
-  _navigateToRoute = (route) => {
-    const { navigation } = this.props;
-    navigation.navigate(route);
-  };
 
   render() {
+    const { isLoggedIn, userAvatar, navigateToRoute } = this.props;
     return (
       <View style={styles.container}>
         <View style={styles.headerView}>
           <View style={styles.headerContentView}>
-            <Thumbnail
-              style={styles.userAvatar}
-              source={{ uri: 'https://facebook.github.io/react-native/docs/assets/favicon.png' }}
-            />
+            <Thumbnail style={styles.userAvatar} source={userAvatar || DEFAULT_IMAGE} />
             <View style={styles.userInfoView}>
               <Text style={styles.username}>Mustafa</Text>
               <Text style={styles.usernick}>@mistikk</Text>
@@ -46,12 +42,12 @@ class ExampleView extends Component {
         <View style={styles.contentView}>
           <List
             itemDivider={false}
-            dataArray={MENU.AUTH_MENU_ITEMS}
+            dataArray={isLoggedIn ? MENU.AUTH_MENU_ITEMS : MENU.NO_AUTH_MENU_ITEMS}
             renderRow={item => (
               <ListItem
                 noBorder
                 style={styles.listItem}
-                onPress={() => this._navigateToRoute(item.route)}
+                onPress={() => navigateToRoute(item.route)}
               >
                 <Icon style={styles.listItemIcon} name={item.icon} />
                 <Text style={styles.listItemText}>{item.name}</Text>
@@ -64,4 +60,4 @@ class ExampleView extends Component {
   }
 }
 
-export default ExampleView;
+export default SideMenuView;

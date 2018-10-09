@@ -1,34 +1,54 @@
 import React, { Component } from 'react';
 import { connect } from 'react-redux';
 
+import { getAuthStatus } from '../../../realm/realm';
 // Component
-import { AuthSideMenuView } from '..';
+import { SideMenuView } from '..';
 
 /*
-*            Props Name        Description                                     Value
-*@props -->  props name here   description here                                Value Type Here
-*
-*/
+  *               Props Name                              Description
+  *@props -->     props name here                         description here
+  *
+  */
 
 class SideMenuContainer extends Component {
   constructor(props) {
     super(props);
-    this.state = {};
+    this.state = {
+      isLoggedIn: false,
+    };
   }
 
   // Component Life Cycle Functions
 
+  componentWillMount() {
+    getAuthStatus().then((res) => {
+      this.setState({ isLoggedIn: res });
+    });
+  }
+
   // Component Functions
 
-  render() {
-    const {} = this.props;
+  _navigateToRoute = (route) => {
+    const { navigation } = this.props;
+    navigation.navigate(route);
+  };
 
-    return <AuthSideMenuView />;
+  render() {
+    const { isLoggedIn } = this.state;
+
+    return (
+      <SideMenuView
+        navigateToRoute={this._navigateToRoute}
+        isLoggedIn={isLoggedIn}
+        userAvatar={null}
+      />
+    );
   }
 }
 
 const mapStateToProps = state => ({
-  user: state.user.user,
+  isLoggedIn: state,
 });
 
-export default SideMenuContainer;
+export default connect(mapStateToProps)(SideMenuContainer);

@@ -5,7 +5,6 @@ import { Provider } from 'react-redux';
 import EStyleSheet from 'react-native-extended-stylesheet';
 import store from './redux/store/store';
 import { ReduxNavigation } from './config/reduxNavigation';
-import { BaseNavigator } from './navigation';
 
 // STYLE
 
@@ -14,9 +13,12 @@ EStyleSheet.build({
   $white: '#FFFFFF',
   $black: '#000000',
   $primaryBlue: '#357ce6',
-  $primaryGray: '#788187',
+  $primaryLightBlue: '#eaf2fc',
+  $primaryGray: '#f5f5f5',
+  $primaryDarkGray: '#788187',
   $primaryLightGray: '#f6f6f6',
   $primaryRed: '#e63535',
+  $primaryBlack: '#3c4449',
 
   // General Colors
   $borderColor: '#ffff',
@@ -26,7 +28,7 @@ EStyleSheet.build({
   $warningColor: '#fff',
   $successColor: '#fff',
   $disableButton: '#fff',
-  $shadowColor: '#fff',
+  $shadowColor: '#b0b0b0',
   $disableGray: '#fff',
 
   // Devices Sizes

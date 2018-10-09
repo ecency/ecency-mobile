@@ -121,7 +121,7 @@ class PostButtonView extends Component {
         <TouchableOpacity onPress={this.toggleView} activeOpacity={1}>
           <Animated.View
             style={[
-              styles.postButtonIcon,
+              styles.postButton,
               {
                 transform: [{ rotate: rotation }],
                 width: SIZE,

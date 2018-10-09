@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { Component } from 'react';
 import {
   FlatList, View, ActivityIndicator, AppState,
 } from 'react-native';
@@ -15,7 +15,7 @@ import { FilterBar } from '../../components/filterBar';
 
 /* eslint-enable no-unused-vars */
 
-class FeedPage extends React.Component {
+class FeedPage extends Component {
   constructor(props) {
     super(props);
 

@@ -43,12 +43,26 @@ export default EStyleSheet.create({
     paddingLeft: '$deviceWidth / 10',
   },
   listItemIcon: {
-    color: '$primaryGray',
+    color: '$primaryDarkGray',
     fontSize: 20,
   },
   listItemText: {
-    color: '$primaryGray',
+    color: '$primaryDarkGray',
     marginLeft: 15,
     fontWeight: '500',
+  },
+  linearGradient: {
+    flex: 1,
+    paddingLeft: 15,
+    paddingRight: 15,
+    borderRadius: 5,
+  },
+  buttonText: {
+    fontSize: 18,
+    fontFamily: 'Gill Sans',
+    textAlign: 'center',
+    margin: 10,
+    color: '#ffffff',
+    backgroundColor: 'transparent',
   },
 });

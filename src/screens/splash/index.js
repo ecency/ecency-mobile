@@ -1,3 +1,3 @@
-import SplashContainer from './container/splashContainer';
+import Splash from './container/splashContainer';
 
-export default SplashContainer;
+export default Splash;

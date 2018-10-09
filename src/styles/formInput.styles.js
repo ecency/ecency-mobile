@@ -7,7 +7,7 @@ export default EStyleSheet.create({
     justifyContent: 'center',
   },
   input: {
-    backgroundColor: '#f5f5f5',
+    backgroundColor: '$primaryGray',
     borderRadius: 5,
     padding: 15,
     minWidth: '$deviceWidth / 2',

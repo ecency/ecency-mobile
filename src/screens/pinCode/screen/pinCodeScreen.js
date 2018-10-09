@@ -1,17 +1,19 @@
-import React from "react";
-import { Text, TouchableOpacity, Animated, View } from "react-native";
-import { Container } from "native-base";
+import React, { Component } from 'react';
+import {
+  Text, TouchableOpacity, Animated, View,
+} from 'react-native';
+import { Container } from 'native-base';
 
-import { Logo, NumericKeyboard, PinAnimatedInput } from "../../../components";
+import { Logo, NumericKeyboard, PinAnimatedInput } from '../../../components';
 
-import styles from "./pinCodeStyles";
+import styles from './pinCodeStyles';
 
-class PinCodeScreen extends React.Component {
+class PinCodeScreen extends Component {
   constructor(props) {
     super(props);
     this.state = {
       showPassword: false,
-      pin: "",
+      pin: '',
     };
   }
 
@@ -19,12 +21,12 @@ class PinCodeScreen extends React.Component {
 
   // Component Functions
 
-  _handleKeyboardOnPress = value => {
+  _handleKeyboardOnPress = (value) => {
     const { setPinCode } = this.props;
     const { pin } = this.state;
 
-    if (value === "clear") {
-      this.setState({ pin: "" });
+    if (value === 'clear') {
+      this.setState({ pin: '' });
       return;
     }
     const newPin = `${pin}${value}`;
@@ -35,10 +37,10 @@ class PinCodeScreen extends React.Component {
       this.setState({ pin: newPin });
       setPinCode(`${pin}${value}`)
         .then(() => {
-          this.setState({ pin: "" });
+          this.setState({ pin: '' });
         })
         .catch(() => {
-          this.setState({ pin: "" });
+          this.setState({ pin: '' });
         });
     } else if (pin.length > 3) {
       this.setState({ pin: `${value}` });
