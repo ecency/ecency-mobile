@@ -39,8 +39,9 @@ export default EStyleSheet.create({
   },
   tabbar: {
     alignSelf: 'center',
-    height: 40,
-    backgroundColor: '#fff',
+    height: 55,
+    backgroundColor: 'white',
+    borderBottomColor: '#f1f1f1',
   },
   tabbarItem: {
     flex: 1,
@@ -48,18 +49,15 @@ export default EStyleSheet.create({
     backgroundColor: '#f9f9f9',
     minWidth: '$deviceWidth',
   },
-
-  tabbar: {
-    alignSelf: 'center',
-    height: 55,
-    backgroundColor: 'white',
-    borderBottomColor: '#f1f1f1',
-  },
   tabView: {
     alignSelf: 'center',
     backgroundColor: 'transparent',
   },
-  postTabBar: {},
-  commentsTabBar: {},
+  postTabBar: {
+    backgroundColor: 'white',
+  },
+  commentsTabBar: {
+    backgroundColor: 'white',
+  },
   tabBarTitle: {},
 });
