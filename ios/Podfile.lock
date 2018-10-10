@@ -1,0 +1,30 @@
+PODS:
+  - BVLinearGradient (2.4.2):
+    - React
+  - React (0.57.1):
+    - React/Core (= 0.57.1)
+  - React/Core (0.57.1):
+    - yoga (= 0.57.1.React)
+  - yoga (0.57.1.React)
+
+DEPENDENCIES:
+  - BVLinearGradient (from `../node_modules/react-native-linear-gradient`)
+  - React (from `../node_modules/react-native`)
+  - yoga (from `../node_modules/react-native/ReactCommon/yoga`)
+
+EXTERNAL SOURCES:
+  BVLinearGradient:
+    :path: "../node_modules/react-native-linear-gradient"
+  React:
+    :path: "../node_modules/react-native"
+  yoga:
+    :path: "../node_modules/react-native/ReactCommon/yoga"
+
+SPEC CHECKSUMS:
+  BVLinearGradient: 6d8909e3fc6b089defa4b89d967441fa6827a2ee
+  React: 1fe0eb13d90b625d94c3b117c274dcfd2e760e11
+  yoga: b1ce48b6cf950b98deae82838f5173ea7cf89e85
+
+PODFILE CHECKSUM: 6cf5a54161c04ed31b903db21b69d6068f842043
+
+COCOAPODS: 1.5.3
