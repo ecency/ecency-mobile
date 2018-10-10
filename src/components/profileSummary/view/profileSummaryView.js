@@ -1,5 +1,7 @@
-import React, { Component } from 'react';
-import { View, Image, Text } from 'react-native';
+import React, { Component, Fragment } from 'react';
+import {
+  View, Image, Text, TouchableOpacity,
+} from 'react-native';
 import { DropdownButton } from '../../dropdownButton';
 
 // Constants
@@ -21,7 +23,9 @@ class ProfileSummaryView extends Component {
 
   constructor(props) {
     super(props);
-    this.state = {};
+    this.state = {
+      isShowPercentText: false,
+    };
   }
 
   // Component Life Cycles
@@ -29,6 +33,7 @@ class ProfileSummaryView extends Component {
   // Component Functions
 
   render() {
+    const { isShowPercentText } = this.state;
     const {
       percentRC,
       percentVP,
@@ -45,7 +50,7 @@ class ProfileSummaryView extends Component {
     const rcsPowerText = `RCs: ${percentRC}% • Full in ${hoursRC} hours`;
 
     return (
-      <View>
+      <Fragment>
         <View style={styles.textWithIconWrapper}>
           <TextWithIcon text={location} iconName="md-navigate" />
           <TextWithIcon isClickable text={link} iconName="md-globe" />
@@ -57,17 +62,25 @@ class ProfileSummaryView extends Component {
           source={{ uri: coverImage }}
           defaultSource={DEFAULT_IMAGE}
         />
-
-        <PercentBar percent={percentVP} margin={24} isTop text={votingPowerText} />
-        <PercentBar
-          percent={percentRC}
-          margin={24}
-          barColor="#eafcef"
-          barPercentColor="#11c28b"
-          textColor="#11c28b"
-          isTop={false}
-          text={rcsPowerText}
-        />
+        <TouchableOpacity onPress={() => this.setState({ isShowPercentText: !isShowPercentText })}>
+          <PercentBar
+            isShowText={isShowPercentText}
+            percent={percentVP}
+            margin={24}
+            isTop
+            text={votingPowerText}
+          />
+          <PercentBar
+            isShowText={isShowPercentText}
+            percent={percentRC}
+            margin={24}
+            barColor="#eafcef"
+            barPercentColor="#11c28b"
+            textColor="#11c28b"
+            isTop={false}
+            text={rcsPowerText}
+          />
+        </TouchableOpacity>
 
         <View style={styles.footer}>
           <View style={styles.leftIcons}>
@@ -104,7 +117,7 @@ class ProfileSummaryView extends Component {
             />
           </View>
         </View>
-      </View>
+      </Fragment>
     );
   }
 }

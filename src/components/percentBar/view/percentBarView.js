@@ -24,9 +24,7 @@ class PercentBarView extends Component {
 
   constructor(props) {
     super(props);
-    this.state = {
-      isVisibleText: true,
-    };
+    this.state = {};
   }
 
   // Component Life Cycles
@@ -42,13 +40,13 @@ class PercentBarView extends Component {
   };
 
   _getText = (textColor, text, isTop, isRender) => {
-    const { isVisibleText } = this.state;
+    const { isShowText } = this.props;
 
     if (isTop === isRender && text) {
       return (
         <View style={styles.percentTitleWrapper}>
           <Text style={[styles.percentTitle, textColor && { color: textColor }]}>
-            {isVisibleText && text}
+            {isShowText && text}
           </Text>
         </View>
       );
@@ -59,13 +57,10 @@ class PercentBarView extends Component {
     const {
       percent, margin, text, barColor, barPercentColor, textColor, isTop,
     } = this.props;
-    const { isVisibleText } = this.state;
 
     return (
       <View>
-        <TouchableOpacity onPress={() => this.setState({ isVisibleText: !isVisibleText })}>
-          {this._getText(textColor, text, isTop, true)}
-        </TouchableOpacity>
+        {this._getText(textColor, text, isTop, true)}
         <View style={[styles.container, barColor && { backgroundColor: barColor }]}>
           <View
             style={[
@@ -75,9 +70,7 @@ class PercentBarView extends Component {
             ]}
           />
         </View>
-        <TouchableOpacity onPress={() => this.setState({ isVisibleText: !isVisibleText })}>
-          {this._getText(textColor, text, isTop, false)}
-        </TouchableOpacity>
+        {this._getText(textColor, text, isTop, false)}
       </View>
     );
   }

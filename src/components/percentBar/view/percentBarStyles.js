@@ -19,7 +19,7 @@ export default EStyleSheet.create({
   percentTitle: {
     color: '$primaryBlue',
     fontSize: 11,
-    marginVertical: 5,
+    marginVertical: 1,
     height: 15,
   },
 });
