@@ -137,6 +137,9 @@ android {
 }
 
 dependencies {
+    compile project(':react-native-restart')
+    compile project(':react-native-linear-gradient')
+    compile project(':react-native-fast-image')
     compile project(':react-native-vector-icons')
     compile project(':realm')
     implementation fileTree(dir: "libs", include: ["*.jar"])
