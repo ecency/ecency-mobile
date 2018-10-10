@@ -1,5 +1,5 @@
 import React, { Component } from 'react';
-// import { connect } from 'react-redux';
+import { withNavigation } from 'react-navigation';
 
 // Services and Actions
 
@@ -13,10 +13,10 @@ import React, { Component } from 'react';
 import { HeaderView } from '..';
 
 /*
-*            Props Name        Description                                     Value
-*@props -->  props name here   description here                                Value Type Here
-*
-*/
+  *            Props Name        Description                                     Value
+  *@props -->  props name here   description here                                Value Type Here
+  *
+  */
 
 class HeaderContainer extends Component {
   constructor(props) {
@@ -29,15 +29,8 @@ class HeaderContainer extends Component {
   // Component Functions
 
   render() {
-    // eslint-disable-next-line
-    //const {} = this.props;
-
     return <HeaderView {...this.props} />;
   }
 }
 
-// const mapStateToProps = state => ({
-//   user: state.user.user,
-// });
-
-export default HeaderContainer;
+export default withNavigation(HeaderContainer);
