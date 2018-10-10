@@ -1,6 +1,6 @@
 import React, { Component } from 'react';
 import {
-  View, Dimensions, Text, TouchableOpacity, TouchableWithoutFeedback,
+  View, Dimensions, Text, TouchableOpacity,
 } from 'react-native';
 
 // Constants
@@ -8,13 +8,18 @@ import {
 // Components
 
 // Styles
-// eslint-disable-next-line
 import styles from './percentBarStyles';
 
 class PercentBarView extends Component {
   /* Props
     * ------------------------------------------------
-    *   @prop { type }    name                - Description....
+    *   @prop { string }    barColor                - Bar color proferties
+    *   @prop { string }    barPercentColor         - Bar background color properties
+    *   @prop { number }    margin                  - If you use with margin right and left you should declare that if it neccessary
+    *   @prop { number }    percent                 - Percent for bar (ex: %32 just send 32)
+    *   @prop { string }    text                    - Text string
+    *   @prop { string }    textColor               - Text color
+    *
     */
 
   constructor(props) {

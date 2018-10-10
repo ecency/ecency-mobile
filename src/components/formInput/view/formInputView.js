@@ -99,9 +99,7 @@ class FormInputView extends Component {
           placeholder={placeholder}
           editable={isEditable || true}
           textContentType={type}
-          onChangeText={(val) => {
-            this._handleOnChange(val);
-          }}
+          onChangeText={val => this._handleOnChange(val)}
           value={value}
           style={styles.textInput}
         />
