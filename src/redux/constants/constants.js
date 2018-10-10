@@ -3,6 +3,7 @@ export const FETCH_USER_SUCCESS = 'FETCH_USER_SUCCESS';
 export const FETCH_USER_FAIL = 'FETCH_USER_FAIL';
 export const SET_USER_DATA = 'SET_USER_DATA';
 
+export const LOGIN = 'LOGIN';
 export const LOGOUT = 'LOGOUT';
 export const LOGOUT_SUCCESS = 'LOGOUT_SUCCESS';
 export const LOGOUT_FAIL = 'LOGOUT_FAIL';

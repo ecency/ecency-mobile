@@ -18,6 +18,11 @@ export const fetchAccountFromSteem = (username, password) => (dispatch) => {
     .catch(err => dispatch({ type: FETCH_ACCOUNT_FAIL, payload: err }));
 };
 
+export const addPassiveAccount = data => ({
+  type: ADD_NEW_ACCOUNT,
+  payload: { isActive: false, ...data },
+});
+
 export const addNewAccount = data => ({
   type: ADD_NEW_ACCOUNT,
   payload: data,

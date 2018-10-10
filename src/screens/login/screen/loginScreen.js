@@ -4,8 +4,8 @@ import { KeyboardAwareScrollView } from 'react-native-keyboard-aware-scroll-view
 import ScrollableTabView from '@esteemapp/react-native-scrollable-tab-view';
 
 // Actions
-import { addNewAccount } from '../../../redux/actions/accountAction';
-import { isLoggedIn } from '../../../redux/actions/userActions';
+import { addPassiveAccount } from '../../../redux/actions/accountAction';
+import { login as loginAction, logout as logoutAction } from '../../../redux/actions/applicationActions';
 
 // Internal Components
 import { FormInput } from '../../../components/formInput';
@@ -46,13 +46,13 @@ class LoginScreen extends Component {
     Login(username, password)
       .then((result) => {
         if (result) {
-          dispatch(addNewAccount(result));
-          dispatch(isLoggedIn(true));
+          dispatch(addPassiveAccount(result));
+          dispatch(loginAction());
           navigation.navigate(ROUTES.SCREENS.PINCODE);
         }
       })
       .catch(() => {
-        dispatch(isLoggedIn(false));
+        dispatch(logoutAction());
         this.setState({ isLoading: false });
       });
   };
