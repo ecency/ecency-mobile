@@ -2,38 +2,35 @@ import React, { Component } from 'react';
 import {
   FlatList, View, ActivityIndicator, AppState,
 } from 'react-native';
-import Placeholder from 'rn-placeholder';
-import styles from '../../styles/feed.styles';
-// STEEM
-import { getPosts } from '../../providers/steem/dsteem';
 
-// LIBRARIES
+import Placeholder from 'rn-placeholder';
+
+// STEEM
+import { getPosts } from '../../../providers/steem/dsteem';
 
 // COMPONENTS
-import { PostCard } from '../../components/postCard';
-import { FilterBar } from '../../components/filterBar';
+import { PostCard } from '../../postCard';
+import { FilterBar } from '../../filterBar';
 
-/* eslint-enable no-unused-vars */
+// Styles
+import styles from './feedStyles';
 
-class FeedPage extends Component {
+class FeedView extends Component {
   constructor(props) {
     super(props);
-
-    this.getFeed = this.getFeed.bind(this);
-    this.getMore = this.getMore.bind(this);
-    this.refreshPosts = this.refreshPosts.bind(this);
     this.state = {
       isReady: false,
       posts: [],
-      start_author: '',
-      start_permlink: '',
+      startAuthor: '',
+      startPermlink: '',
       refreshing: false,
-      loading: false,
+      isLoading: false,
       appState: AppState.currentState,
     };
   }
 
   componentDidMount() {
+    this._loadPosts();
     AppState.addEventListener('change', this._handleAppStateChange);
   }
 
@@ -48,45 +45,48 @@ class FeedPage extends Component {
     this.setState({ appState: nextAppState });
   };
 
-  componentWillMount() {
-    this.getFeed();
-  }
+  _loadPosts = () => {
+    const { user } = this.props;
 
-  getFeed = () => {
-    getPosts('feed', { tag: this.props.user.name, limit: 10 }, this.props.user.name)
+    getPosts('feed', { tag: user.name, limit: 10 }, user.name)
       .then((result) => {
-        // TODO: We should put null check for result
-        this.setState({
-          isReady: true,
-          posts: result,
-          start_author: result[result.length - 1].author,
-          start_permlink: result[result.length - 1].permlink,
-          refreshing: false,
-        });
+        if (result) {
+          this.setState({
+            isReady: true,
+            posts: result,
+            startAuthor: result[result.length - 1].author,
+            startPermlink: result[result.length - 1].permlink,
+            refreshing: false,
+          });
+        }
       })
       .catch((err) => {
         alert(err);
       });
   };
 
-  getMore = () => {
-    this.setState({ loading: true });
+  _loadMore = () => {
+    const { posts, startAuthor, startPermlink } = this.state;
+    const { user } = this.props;
+
+    this.setState({ isLoading: true });
+
     getPosts(
       'feed',
       {
-        tag: this.props.user.name,
+        tag: user.name,
         limit: 10,
-        start_author: this.state.start_author,
-        start_permlink: this.state.start_permlink,
+        start_author: startAuthor,
+        start_permlink: startPermlink,
       },
-      this.props.user.name,
+      user.name,
     ).then((result) => {
-      const posts = result;
-      posts.shift();
+      const _posts = result;
+      _posts.shift();
       this.setState({
-        posts: [...this.state.posts, ...posts],
-        start_author: result[result.length - 1].author,
-        start_permlink: result[result.length - 1].permlink,
+        posts: [...posts, ..._posts],
+        startAuthor: result[result.length - 1].author,
+        startPermlink: result[result.length - 1].permlink,
       });
     });
   };
@@ -97,25 +97,31 @@ class FeedPage extends Component {
         refreshing: true,
       },
       () => {
-        this.getFeed();
+        this._loadPosts();
       },
     );
   };
 
   renderFooter = () => {
-    if (!this.state.loading) return null;
+    const { isLoading } = this.state;
 
-    return (
-      <View style={styles.flatlistFooter}>
-        <ActivityIndicator animating size="large" />
-      </View>
-    );
+    if (isLoading) {
+      return (
+        <View style={styles.flatlistFooter}>
+          <ActivityIndicator animating size="large" />
+        </View>
+      );
+    }
+    return null;
   };
 
   render() {
+    const { isReady, refreshing, posts } = this.state;
+    const { componentId, user } = this.props;
+
     return (
       <View style={{ flex: 1 }}>
-        {this.state.isReady && (
+        {isReady && (
           <FilterBar
             dropdownIconName="md-arrow-dropdown"
             options={[
@@ -129,22 +135,17 @@ class FeedPage extends Component {
             rightIconName="md-apps"
           />
         )}
-        {this.state.isReady ? (
+        {isReady ? (
           <FlatList
-            data={this.state.posts}
+            data={posts}
             showsVerticalScrollIndicator={false}
             renderItem={({ item }) => (
-              <PostCard
-                componentId={this.props.componentId}
-                content={item}
-                user={this.props.user}
-                isLoggedIn
-              />
+              <PostCard componentId={componentId} content={item} user={user} isLoggedIn />
             )}
             keyExtractor={(post, index) => index.toString()}
-            onEndReached={this.getMore}
+            onEndReached={this._loadMore}
             removeClippedSubviews
-            refreshing={this.state.refreshing}
+            refreshing={refreshing}
             onRefresh={() => this.refreshPosts()}
             onEndThreshold={0}
             initialNumToRender={10}
@@ -159,7 +160,7 @@ class FeedPage extends Component {
                 lineNumber={4}
                 lineSpacing={5}
                 lastLineWidth="30%"
-                onReady={this.state.isReady}
+                onReady={isReady}
               />
             </View>
             <View style={styles.placeholder}>
@@ -169,7 +170,7 @@ class FeedPage extends Component {
                 lineNumber={4}
                 lineSpacing={5}
                 lastLineWidth="30%"
-                onReady={this.state.isReady}
+                onReady={isReady}
               />
             </View>
             <View style={styles.placeholder}>
@@ -179,7 +180,7 @@ class FeedPage extends Component {
                 lineNumber={4}
                 lineSpacing={5}
                 lastLineWidth="30%"
-                onReady={this.state.isReady}
+                onReady={isReady}
               />
             </View>
           </View>
@@ -189,4 +190,4 @@ class FeedPage extends Component {
   }
 }
 
-export default FeedPage;
+export default FeedView;

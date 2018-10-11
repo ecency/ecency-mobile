@@ -1,58 +1,18 @@
 import React, { PureComponent } from 'react';
-import {
-  Text, View, Dimensions, TouchableOpacity,
-} from 'react-native';
-
+import { Text, View, Dimensions } from 'react-native';
 import ScrollableTabView from '@esteemapp/react-native-scrollable-tab-view';
 
-import Ionicons from 'react-native-vector-icons/Ionicons';
-
-import FastImage from 'react-native-fast-image';
-
-import Placeholder from 'rn-placeholder';
-
-// REDUX
-import { connect } from 'react-redux';
-import TabBar from '../../components/tabBar';
-import { fetchAccount } from '../../redux/actions/userActions';
-import store from '../../redux/store/store';
-
 // STEEM
-import { getUserData, getAuthStatus } from '../../realm/realm';
-import { getUser } from '../../providers/steem/dsteem';
+import { getUserData, getAuthStatus } from '../../../realm/realm';
+import { getUser } from '../../../providers/steem/dsteem';
 
-// SCREENS
-import HotPage from './hot';
-import FeedPage from './feed';
-import TrendingPage from './trending';
+// Components
+import { TabBar } from '../../../components/tabBar';
+import HotPage from '../hot';
+import TrendingPage from '../trending';
+import { Feed } from '../../../components/feed';
 
-export default class Home extends PureComponent {
-  static navigationOptions = {
-    title: 'Home',
-  };
-  // static get options() {
-  //   return {
-  //     _statusBar: {
-  //       visible: true,
-  //       drawBehind: false,
-  //     },
-  //     topBar: {
-  //       animate: true,
-  //       hideOnScroll: true,
-  //       drawBehind: false,
-  //       noBorder: true,
-  //       elevation: 0,
-  //     },
-  //     layout: {
-  //       backgroundColor: '#f5fcff',
-  //     },
-  //     bottomTabs: {
-  //       visible: true,
-  //       drawBehind: true,
-  //     },
-  //   };
-  // }
-
+export default class HomeScreen extends PureComponent {
   constructor(props) {
     super(props);
     // Navigation.events().bindComponent(this); // <== Will be automatically unregistered when unmounted
@@ -131,7 +91,7 @@ export default class Home extends PureComponent {
         >
           <View tabLabel="Feed" style={styles.tabbarItem}>
             {this.state.isLoggedIn ? (
-              <FeedPage
+              <Feed
                 user={this.state.user}
                 isLoggedIn={this.state.isLoggedIn}
                 componentId={this.props.componentId}
@@ -147,7 +107,7 @@ export default class Home extends PureComponent {
               componentId={this.props.componentId}
             />
           </View>
-          <View tabLabel="Trending" style={styles.tabbarItem}>
+          <View tabLabel="Popular" style={styles.tabbarItem}>
             <TrendingPage
               user={this.state.user}
               isLoggedIn={this.state.isLoggedIn}

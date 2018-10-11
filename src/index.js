@@ -21,7 +21,7 @@ EStyleSheet.build({
   $primaryBlack: '#3c4449',
 
   // General Colors
-  $borderColor: '#ffff',
+  $borderColor: '#CED0CE',
   $bubblesBlue: '#5CCDFF',
   $iconColor: '#c1c5c7',
   $dangerColor: '#fff',

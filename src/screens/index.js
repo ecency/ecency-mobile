@@ -1,7 +1,10 @@
-import Splash from './splash';
-import Login from './login';
 import PinCode from './pinCode';
-import Home from './home/home';
+import Splash from './splash';
+import { Home } from './home';
+import { Login } from './login';
+import { Profile } from './profile';
+import { Notification } from './notification';
+
 // import Author from './authorProfile';
 // import SideMenu from './sideMenuScreen';
 // import Hot from './home/hot';
@@ -15,10 +18,12 @@ import Home from './home/home';
 // import { Notification } from './notification';
 
 export {
-  Splash,
+  Home,
   Login,
   PinCode,
-  Home,
+  Splash,
+  Profile,
+  Notification,
   // Author,
   // SideMenu,
   // Hot,

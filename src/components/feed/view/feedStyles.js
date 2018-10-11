@@ -2,13 +2,9 @@ import EStyleSheet from 'react-native-extended-stylesheet';
 import { StatusBar } from 'react-native';
 
 export default EStyleSheet.create({
-  container: {
-    backgroundColor: '#F9F9F9',
-    flex: 1,
-    top: StatusBar.currentHeight,
-  },
+  container: {},
   placeholder: {
-    backgroundColor: 'white',
+    backgroundColor: '$white',
     padding: 20,
     borderStyle: 'solid',
     borderWidth: 1,
@@ -29,6 +25,6 @@ export default EStyleSheet.create({
     alignItems: 'center',
     marginTop: 10,
     marginBottom: 40,
-    borderColor: '#CED0CE',
+    borderColor: '$borderColor',
   },
 });
