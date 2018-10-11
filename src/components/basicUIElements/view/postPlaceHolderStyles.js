@@ -2,11 +2,7 @@ import EStyleSheet from 'react-native-extended-stylesheet';
 
 export default EStyleSheet.create({
   container: {
-    backgroundColor: '#F9F9F9',
-    flex: 1,
-  },
-  placeholder: {
-    backgroundColor: 'white',
+    backgroundColor: '$white',
     padding: 20,
     borderStyle: 'solid',
     borderWidth: 1,
@@ -17,16 +13,11 @@ export default EStyleSheet.create({
     marginLeft: 0,
     marginTop: 10,
   },
-  tabs: {
-    position: 'absolute',
-    top: '$deviceWidth / 30',
-    alignItems: 'center',
+  textWrapper: {
+    flexDirection: 'row',
+    marginBottom: 10,
   },
-  flatlistFooter: {
-    alignContent: 'center',
-    alignItems: 'center',
+  paragraphWrapper: {
     marginTop: 10,
-    marginBottom: 40,
-    borderColor: '#CED0CE',
   },
 });

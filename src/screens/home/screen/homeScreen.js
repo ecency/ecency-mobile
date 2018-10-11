@@ -1,5 +1,5 @@
 import React, { PureComponent } from 'react';
-import { Text, View, Dimensions } from 'react-native';
+import { Text, View } from 'react-native';
 import ScrollableTabView from '@esteemapp/react-native-scrollable-tab-view';
 
 // STEEM
@@ -8,9 +8,10 @@ import { getUser } from '../../../providers/steem/dsteem';
 
 // Components
 import { TabBar } from '../../../components/tabBar';
-import HotPage from '../hot';
-import TrendingPage from '../trending';
-import { Feed } from '../../../components/feed';
+import { Posts } from '../../../components/posts';
+
+// Styles
+import styles from './homeStyles';
 
 export default class HomeScreen extends PureComponent {
   constructor(props) {
@@ -74,6 +75,8 @@ export default class HomeScreen extends PureComponent {
   }
 
   render() {
+    const { user, isLoggedIn } = this.state;
+    const { componentId } = this.props;
     return (
       <View style={styles.root} key="overlay">
         <ScrollableTabView
@@ -90,28 +93,28 @@ export default class HomeScreen extends PureComponent {
           )}
         >
           <View tabLabel="Feed" style={styles.tabbarItem}>
-            {this.state.isLoggedIn ? (
-              <Feed
-                user={this.state.user}
-                isLoggedIn={this.state.isLoggedIn}
-                componentId={this.props.componentId}
+            {isLoggedIn ? (
+              <Posts
+                isLoginMust
+                getFor="feed"
+                tag={user.name}
+                user={user}
+                isLoggedIn={isLoggedIn}
+                componentId={componentId}
               />
             ) : (
               <Text>Login to see your Feed</Text>
             )}
           </View>
           <View tabLabel="Hot" style={styles.tabbarItem}>
-            <HotPage
-              user={this.state.user}
-              isLoggedIn={this.state.isLoggedIn}
-              componentId={this.props.componentId}
-            />
+            <Posts getFor="hot" user={user} isLoggedIn={isLoggedIn} componentId={componentId} />
           </View>
           <View tabLabel="Popular" style={styles.tabbarItem}>
-            <TrendingPage
-              user={this.state.user}
-              isLoggedIn={this.state.isLoggedIn}
-              componentId={this.props.componentId}
+            <Posts
+              getFor="trending"
+              user={user}
+              isLoggedIn={isLoggedIn}
+              componentId={componentId}
             />
           </View>
         </ScrollableTabView>
@@ -120,68 +123,3 @@ export default class HomeScreen extends PureComponent {
     );
   }
 }
-
-const styles = {
-  root: {
-    justifyContent: 'center',
-    alignItems: 'center',
-    flex: 1,
-  },
-  buttonContainer: {
-    width: '50%',
-    alignItems: 'center',
-  },
-  tabView: {
-    alignSelf: 'center',
-    backgroundColor: 'transparent',
-  },
-  tabbar: {
-    alignSelf: 'center',
-    height: 40,
-    backgroundColor: 'white',
-  },
-  tabbarItem: {
-    flex: 1,
-    backgroundColor: '#f9f9f9',
-    minWidth: Dimensions.get('window').width,
-  },
-  container: {
-    backgroundColor: '#F9F9F9',
-    flex: 1,
-  },
-  tabs: {
-    flex: 1,
-  },
-  placeholder: {
-    backgroundColor: 'white',
-    padding: 20,
-    borderStyle: 'solid',
-    borderWidth: 1,
-    borderTopWidth: 1,
-    borderColor: '#e2e5e8',
-    borderRadius: 5,
-    marginRight: 0,
-    marginLeft: 0,
-    marginTop: 10,
-  },
-  header: {
-    backgroundColor: '#284b78',
-    borderBottomWidth: 0,
-    borderColor: '#284b78',
-  },
-  avatar: {
-    width: 30,
-    height: 30,
-    borderRadius: 15,
-    borderWidth: 1,
-    borderColor: 'white',
-  },
-  searchButton: {
-    color: 'white',
-    fontWeight: 'bold',
-  },
-  loginButton: {
-    alignSelf: 'center',
-    marginTop: 100,
-  },
-};

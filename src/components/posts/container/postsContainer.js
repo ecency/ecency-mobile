@@ -9,7 +9,7 @@ import React, { Component } from 'react';
 // Utilities
 
 // Component
-import { FeedView } from '..';
+import { PostsView } from '..';
 
 /*
   *            Props Name        Description                                     Value
@@ -17,7 +17,7 @@ import { FeedView } from '..';
   *
   */
 
-class FeedContainer extends Component {
+class PostsContainer extends Component {
   constructor(props) {
     super(props);
     this.state = {};
@@ -28,8 +28,8 @@ class FeedContainer extends Component {
   // Component Functions
 
   render() {
-    return <FeedView {...this.props} />;
+    return <PostsView {...this.props} />;
   }
 }
 
-export default FeedContainer;
+export default PostsContainer;

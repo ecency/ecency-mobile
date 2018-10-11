@@ -1,9 +1,9 @@
-import React, { Component } from 'react';
+import React, { Component, Fragment } from 'react';
 import {
   FlatList, View, ActivityIndicator, AppState,
 } from 'react-native';
 
-import Placeholder from 'rn-placeholder';
+// import Placeholder from 'rn-placeholder';
 
 // STEEM
 import { getPosts } from '../../../providers/steem/dsteem';
@@ -11,9 +11,9 @@ import { getPosts } from '../../../providers/steem/dsteem';
 // COMPONENTS
 import { PostCard } from '../../postCard';
 import { FilterBar } from '../../filterBar';
-
+import { PostPlaceHolder } from '../../basicUIElements';
 // Styles
-import styles from './feedStyles';
+import styles from './postsStyles';
 
 class FeedView extends Component {
   constructor(props) {
@@ -46,9 +46,9 @@ class FeedView extends Component {
   };
 
   _loadPosts = () => {
-    const { user } = this.props;
+    const { user, getFor, tag } = this.props;
 
-    getPosts('feed', { tag: user.name, limit: 10 }, user.name)
+    getPosts(getFor, { tag, limit: 10 }, user.name)
       .then((result) => {
         if (result) {
           this.setState({
@@ -67,14 +67,14 @@ class FeedView extends Component {
 
   _loadMore = () => {
     const { posts, startAuthor, startPermlink } = this.state;
-    const { user } = this.props;
+    const { user, getFor, tag } = this.props;
 
     this.setState({ isLoading: true });
 
     getPosts(
-      'feed',
+      getFor,
       {
-        tag: user.name,
+        tag,
         limit: 10,
         start_author: startAuthor,
         start_permlink: startPermlink,
@@ -91,7 +91,7 @@ class FeedView extends Component {
     });
   };
 
-  refreshPosts = () => {
+  _handleOnRefreshPosts = () => {
     this.setState(
       {
         refreshing: true,
@@ -115,13 +115,13 @@ class FeedView extends Component {
     return null;
   };
 
-  render() {
+  _getRenderItem = () => {
     const { isReady, refreshing, posts } = this.state;
     const { componentId, user } = this.props;
 
-    return (
-      <View style={{ flex: 1 }}>
-        {isReady && (
+    if (isReady) {
+      return (
+        <Fragment>
           <FilterBar
             dropdownIconName="md-arrow-dropdown"
             options={[
@@ -134,8 +134,6 @@ class FeedView extends Component {
             defaultText="NEW POST"
             rightIconName="md-apps"
           />
-        )}
-        {isReady ? (
           <FlatList
             data={posts}
             showsVerticalScrollIndicator={false}
@@ -146,47 +144,25 @@ class FeedView extends Component {
             onEndReached={this._loadMore}
             removeClippedSubviews
             refreshing={refreshing}
-            onRefresh={() => this.refreshPosts()}
+            onRefresh={() => this._handleOnRefreshPosts()}
             onEndThreshold={0}
             initialNumToRender={10}
             ListFooterComponent={this.renderFooter}
           />
-        ) : (
-          <View>
-            <View style={styles.placeholder}>
-              <Placeholder.ImageContent
-                size={60}
-                animate="fade"
-                lineNumber={4}
-                lineSpacing={5}
-                lastLineWidth="30%"
-                onReady={isReady}
-              />
-            </View>
-            <View style={styles.placeholder}>
-              <Placeholder.ImageContent
-                size={60}
-                animate="fade"
-                lineNumber={4}
-                lineSpacing={5}
-                lastLineWidth="30%"
-                onReady={isReady}
-              />
-            </View>
-            <View style={styles.placeholder}>
-              <Placeholder.ImageContent
-                size={60}
-                animate="fade"
-                lineNumber={4}
-                lineSpacing={5}
-                lastLineWidth="30%"
-                onReady={isReady}
-              />
-            </View>
-          </View>
-        )}
-      </View>
+        </Fragment>
+      );
+    }
+
+    return (
+      <Fragment>
+        <PostPlaceHolder />
+        <PostPlaceHolder />
+      </Fragment>
     );
+  };
+
+  render() {
+    return <View>{this._getRenderItem()}</View>;
   }
 }
 
