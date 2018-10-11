@@ -1,7 +1,5 @@
 import React, { Component } from 'react';
-import {
-  View, Text, Image, TextInput,
-} from 'react-native';
+import { View, TextInput } from 'react-native';
 import Ionicons from 'react-native-vector-icons/Ionicons';
 import FastImage from 'react-native-fast-image';
 
@@ -30,7 +28,7 @@ class FormInputView extends Component {
 
     this.state = {
       value: '',
-      inputBorderColor:"$iconColor",
+      inputBorderColor: '#c1c5c7',
       isValid: true,
     };
   }
@@ -93,7 +91,7 @@ class FormInputView extends Component {
           })
           }
           onSubmitEditing={() => this.setState({
-            inputBorderColor:"$iconColor",
+            inputBorderColor: '$iconColor',
           })
           }
           autoCapitalize="none"
@@ -101,9 +99,7 @@ class FormInputView extends Component {
           placeholder={placeholder}
           editable={isEditable || true}
           textContentType={type}
-          onChangeText={(value) => {
-            this._handleOnChange(value);
-          }}
+          onChangeText={val => this._handleOnChange(val)}
           value={value}
           style={styles.textInput}
         />

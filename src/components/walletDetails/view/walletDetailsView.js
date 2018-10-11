@@ -25,13 +25,14 @@ class WalletDetailsView extends Component {
   // Component Functions
 
   render() {
+    const { balance } = this.props;
     return (
       <View>
         <WalletLineItem
           text="Steem"
           textColor="#3c4449"
           iconName="ios-information-circle-outline"
-          rightText="27.178 STEEM"
+          rightText={balance}
           isBoldText
         />
         <GrayWrapper>

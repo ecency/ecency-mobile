@@ -10,7 +10,6 @@ import { CollapsibleCard } from '../../collapsibleCard';
 import { WalletDetails } from '../../walletDetails';
 import { Transaction } from '../../transaction';
 
-
 // Styles
 import styles from './walletStyles';
 
@@ -30,7 +29,7 @@ class WalletView extends Component {
   // Component Functions
 
   render() {
-    // const {} = this.props;
+    const { user } = this.props;
 
     return (
       <View style={styles.container}>
@@ -53,7 +52,7 @@ class WalletView extends Component {
           </CollapsibleCard>
 
           <CollapsibleCard titleColor="#788187" title="Wallet Details" expanded>
-            <WalletDetails />
+            <WalletDetails balance={user.balance} />
           </CollapsibleCard>
 
           <Transaction />

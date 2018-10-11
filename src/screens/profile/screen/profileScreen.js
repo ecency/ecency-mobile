@@ -1,8 +1,6 @@
 /* eslint-disable no-unused-vars */
 import React, { Component } from 'react';
-import {
-  FlatList, ActivityIndicator, View, Text,
-} from 'react-native';
+import { FlatList, ActivityIndicator, View } from 'react-native';
 
 import FastImage from 'react-native-fast-image';
 // Components
@@ -156,8 +154,17 @@ class ProfileScreen extends Component {
     let coverImage;
     let location;
     let website;
-    const votingPower = user && user.voting_power && user.voting_power / 100;
-    const fullInHour = Math.ceil((100 - votingPower) * 0.833333);
+    let votingPower;
+    let resourceCredits;
+    let fullInHourVP;
+    let fullInHourRC;
+
+    if (user) {
+      votingPower = user.voting_power && user.voting_power / 100;
+      resourceCredits = user.resource_credits && user.resource_credits / 100;
+      fullInHourVP = Math.ceil((100 - votingPower) * 0.833333);
+      fullInHourRC = Math.ceil((100 - resourceCredits) * 0.833333);
+    }
 
     if (about) {
       _about = about.about;
@@ -170,12 +177,14 @@ class ProfileScreen extends Component {
         <CollapsibleCard
           title={_about}
           defaultTitle="Profile details"
-          expanded={true}
-          // locked={!isLoggedIn}
+          expanded={!isLoggedIn}
+          locked={!isLoggedIn}
         >
           <ProfileSummary
-            percent={votingPower}
-            hours={fullInHour}
+            percentVP={votingPower}
+            percentRC={resourceCredits}
+            hoursVP={fullInHourVP}
+            hoursRC={fullInHourRC}
             location={location}
             link={website}
             date={getFormatedCreatedDate(user && user.created)}
@@ -254,7 +263,7 @@ class ProfileScreen extends Component {
             )}
           </View>
           <View tabLabel={user.balance ? `$${user.balance}` : 'Wallet'}>
-            <Wallet />
+            <Wallet user={user}/>
           </View>
         </ScrollableTabView>
       </View>
