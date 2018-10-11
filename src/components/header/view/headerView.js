@@ -1,6 +1,6 @@
 import React, { Component } from 'react';
 import {
-  View, StatusBar, Text, SafeAreaView,
+  View, StatusBar, Text, SafeAreaView, TouchableOpacity,
 } from 'react-native';
 import FastImage from 'react-native-fast-image';
 // Constants
@@ -29,14 +29,16 @@ class HeaderView extends Component {
   // Component Functions
 
   render() {
-    const { hideStatusBar, avatar } = this.props;
-    // TODO: this can redesign for usage area.
+    const { avatar, handleOpenDrawer, hideStatusBar } = this.props;
+
     return (
       <SafeAreaView style={styles.container}>
         <StatusBar hidden={hideStatusBar} translucent />
-        <View style={styles.avatarWrapper}>
-          <FastImage style={styles.avatar} source={avatar} defaultSource={DEFAULT_IMAGE} />
-        </View>
+        <TouchableOpacity onPress={() => handleOpenDrawer()}>
+          <View style={styles.avatarWrapper}>
+            <FastImage style={styles.avatar} source={avatar} defaultSource={DEFAULT_IMAGE} />
+          </View>
+        </TouchableOpacity>
         <View style={styles.titleWrapper}>
           <Text style={styles.title}> eSteem Project </Text>
           <Text style={styles.subTitle}> @u-e (63)</Text>

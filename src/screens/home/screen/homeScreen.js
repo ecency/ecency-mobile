@@ -1,4 +1,4 @@
-import React, { PureComponent } from 'react';
+import React, { PureComponent, Fragment } from 'react';
 import { Text, View } from 'react-native';
 import ScrollableTabView from '@esteemapp/react-native-scrollable-tab-view';
 
@@ -9,14 +9,13 @@ import { getUser } from '../../../providers/steem/dsteem';
 // Components
 import { TabBar } from '../../../components/tabBar';
 import { Posts } from '../../../components/posts';
-
+import { Header } from '../../../components/header';
 // Styles
 import styles from './homeStyles';
 
 export default class HomeScreen extends PureComponent {
   constructor(props) {
     super(props);
-    // Navigation.events().bindComponent(this); // <== Will be automatically unregistered when unmounted
     this.state = {
       user: {
         name: 'null',
@@ -78,48 +77,51 @@ export default class HomeScreen extends PureComponent {
     const { user, isLoggedIn } = this.state;
     const { componentId } = this.props;
     return (
-      <View style={styles.root} key="overlay">
-        <ScrollableTabView
-          style={styles.tabView}
-          renderTabBar={() => (
-            <TabBar
-              style={styles.tabbar}
-              tabUnderlineDefaultWidth={80} // default containerWidth / (numberOfTabs * 4)
-              tabUnderlineScaleX={2} // default 3
-              activeColor="#357ce6"
-              inactiveColor="#222"
-              tabBarPosition="overlayTop"
-            />
-          )}
-        >
-          <View tabLabel="Feed" style={styles.tabbarItem}>
-            {isLoggedIn ? (
+      <Fragment>
+        <Header />
+        <View style={styles.root} key="overlay">
+          <ScrollableTabView
+            style={styles.tabView}
+            renderTabBar={() => (
+              <TabBar
+                style={styles.tabbar}
+                tabUnderlineDefaultWidth={80} // default containerWidth / (numberOfTabs * 4)
+                tabUnderlineScaleX={2} // default 3
+                activeColor="#357ce6"
+                inactiveColor="#222"
+                tabBarPosition="overlayTop"
+              />
+            )}
+          >
+            <View tabLabel="Feed" style={styles.tabbarItem}>
+              {isLoggedIn ? (
+                <Posts
+                  isLoginMust
+                  getFor="feed"
+                  tag={user.name}
+                  user={user}
+                  isLoggedIn={isLoggedIn}
+                  componentId={componentId}
+                />
+              ) : (
+                <Text>Login to see your Feed</Text>
+              )}
+            </View>
+            <View tabLabel="Hot" style={styles.tabbarItem}>
+              <Posts getFor="hot" user={user} isLoggedIn={isLoggedIn} componentId={componentId} />
+            </View>
+            <View tabLabel="Popular" style={styles.tabbarItem}>
               <Posts
-                isLoginMust
-                getFor="feed"
-                tag={user.name}
+                getFor="trending"
                 user={user}
                 isLoggedIn={isLoggedIn}
                 componentId={componentId}
               />
-            ) : (
-              <Text>Login to see your Feed</Text>
-            )}
-          </View>
-          <View tabLabel="Hot" style={styles.tabbarItem}>
-            <Posts getFor="hot" user={user} isLoggedIn={isLoggedIn} componentId={componentId} />
-          </View>
-          <View tabLabel="Popular" style={styles.tabbarItem}>
-            <Posts
-              getFor="trending"
-              user={user}
-              isLoggedIn={isLoggedIn}
-              componentId={componentId}
-            />
-          </View>
-        </ScrollableTabView>
-        <View style={styles.buttonContainer} />
-      </View>
+            </View>
+          </ScrollableTabView>
+          <View style={styles.buttonContainer} />
+        </View>
+      </Fragment>
     );
   }
 }

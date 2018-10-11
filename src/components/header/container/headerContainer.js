@@ -28,8 +28,14 @@ class HeaderContainer extends Component {
 
   // Component Functions
 
+  _handleOpenDrawer = () => {
+    const { navigation } = this.props;
+
+    navigation.openDrawer();
+  };
+
   render() {
-    return <HeaderView {...this.props} />;
+    return <HeaderView handleOpenDrawer={this._handleOpenDrawer} {...this.props} />;
   }
 }
 
