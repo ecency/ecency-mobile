@@ -4,7 +4,7 @@ export default EStyleSheet.create({
   container: {
     backgroundColor: '$primaryLightBlue',
     height: 2,
-    marginVertical: 4,
+    marginVertical: 2,
     borderRadius: 50,
   },
   powerBar: {
@@ -19,6 +19,7 @@ export default EStyleSheet.create({
   percentTitle: {
     color: '$primaryBlue',
     fontSize: 11,
-    marginVertical: 10,
+    marginVertical: 1,
+    height: 15,
   },
 });

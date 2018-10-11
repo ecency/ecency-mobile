@@ -23,7 +23,7 @@ export default EStyleSheet.create({
     alignSelf: 'center',
   },
   about: {
-    borderColor: 'lightgray',
+    borderColor: '$primaryLightGray',
     borderTopWidth: 1,
     borderBottomWidth: 1,
     flexDirection: 'row',

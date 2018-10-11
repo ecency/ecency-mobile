@@ -8,14 +8,14 @@ import { default as ROUTES } from '../../../constants/routeNames';
 import SplashScreen from '../screen/splashScreen';
 
 class SplashContainer extends Component {
-  componentWillMount() {
+  async componentWillMount() {
     const { navigation } = this.props;
     // getUserData().then((res) => {
     //   if (res) {
     //     alert(...res);
     //   }
     // });
-    getAuthStatus().then((res) => {
+    await getAuthStatus().then((res) => {
       if (res) {
         navigation.navigate(ROUTES.DRAWER.MAIN);
       } else {

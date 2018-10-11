@@ -1,5 +1,7 @@
-import React, { Component } from 'react';
-import { View, Image, Text } from 'react-native';
+import React, { Component, Fragment } from 'react';
+import {
+  View, Image, Text, TouchableOpacity,
+} from 'react-native';
 import { DropdownButton } from '../../dropdownButton';
 
 // Constants
@@ -7,7 +9,7 @@ import DEFAULT_IMAGE from '../../../assets/default_cover_image.png';
 
 // Components
 import { TextWithIcon } from '../../basicUIElements';
-import { PercentBar } from '../../basicUIElements';
+import { PercentBar } from '../../percentBar';
 import { IconButton } from '../../iconButton';
 // Styles
 // eslint-disable-next-line
@@ -21,26 +23,22 @@ class ProfileSummaryView extends Component {
 
   constructor(props) {
     super(props);
-    this.state = {};
+    this.state = {
+      isShowPercentText: false,
+    };
   }
 
   // Component Life Cycles
 
   // Component Functions
-  _getFollowerCount = () => {
-    const { followerCount } = this.props;
-    return 32;
-  };
-
-  _getFollowingCount = () => {
-    const { followingCoung } = this.props;
-    return 32;
-  };
 
   render() {
+    const { isShowPercentText } = this.state;
     const {
-      percent,
-      hours,
+      percentRC,
+      percentVP,
+      hoursVP,
+      hoursRC,
       location,
       link,
       date,
@@ -48,11 +46,11 @@ class ProfileSummaryView extends Component {
       followerCount,
       coverImage,
     } = this.props;
-    const votingPowerText = `Voting power:${{ percent }}% • Full in ${{ hours }}hours`;
-    const rcsPowerText = 'RCs: 20% • Full in 36 hours';
+    const votingPowerText = `Voting power: ${percentVP}% • Full in ${hoursVP} hours`;
+    const rcsPowerText = `RCs: ${percentRC}% • Full in ${hoursRC} hours`;
 
     return (
-      <View>
+      <Fragment>
         <View style={styles.textWithIconWrapper}>
           <TextWithIcon text={location} iconName="md-navigate" />
           <TextWithIcon isClickable text={link} iconName="md-globe" />
@@ -64,17 +62,25 @@ class ProfileSummaryView extends Component {
           source={{ uri: coverImage }}
           defaultSource={DEFAULT_IMAGE}
         />
-
-        <PercentBar percent={percent} margin={24} isTop text={votingPowerText} />
-        <PercentBar
-          percent={percent}
-          margin={24}
-          barColor="#eafcef"
-          barPercentColor="#11c28b"
-          textColor="#11c28b"
-          isTop={false}
-          text={rcsPowerText}
-        />
+        <TouchableOpacity onPress={() => this.setState({ isShowPercentText: !isShowPercentText })}>
+          <PercentBar
+            isShowText={isShowPercentText}
+            percent={percentVP}
+            margin={24}
+            isTop
+            text={votingPowerText}
+          />
+          <PercentBar
+            isShowText={isShowPercentText}
+            percent={percentRC}
+            margin={24}
+            barColor="#eafcef"
+            barPercentColor="#11c28b"
+            textColor="#11c28b"
+            isTop={false}
+            text={rcsPowerText}
+          />
+        </TouchableOpacity>
 
         <View style={styles.footer}>
           <View style={styles.leftIcons}>
@@ -111,7 +117,7 @@ class ProfileSummaryView extends Component {
             />
           </View>
         </View>
-      </View>
+      </Fragment>
     );
   }
 }
