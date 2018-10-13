@@ -106,7 +106,7 @@ class EditorPage extends React.Component {
 
     render() {
       return (
-        <Container style={{ flex: 1 }}>
+        <Container >
           <View style={{ flex: 1, flexDirection: 'column' }}>
             <TextInput
               placeholder="Title"

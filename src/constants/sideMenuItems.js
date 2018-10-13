@@ -39,7 +39,7 @@ const authMenuItems = [
 const noAuthMenuItems = [
   {
     name: 'Login',
-    route: 'Login',
+    route: 'LoginScreen',
     icon: 'user-o',
   },
 ];
