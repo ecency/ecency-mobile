@@ -1,6 +1,29 @@
 import EStyleSheet from 'react-native-extended-stylesheet';
 
 export default EStyleSheet.create({
+  root: {
+    justifyContent: 'center',
+    alignItems: 'center',
+    flex: 1,
+  },
+  buttonContainer: {
+    width: '50%',
+    alignItems: 'center',
+  },
+  tabView: {
+    alignSelf: 'center',
+    backgroundColor: 'transparent',
+  },
+  tabbar: {
+    alignSelf: 'center',
+    height: 40,
+    backgroundColor: 'white',
+  },
+  tabbarItem: {
+    flex: 1,
+    backgroundColor: '#f9f9f9',
+    minWidth: '$deviceWidth',
+  },
   container: {
     backgroundColor: '#F9F9F9',
     flex: 1,
@@ -35,21 +58,6 @@ export default EStyleSheet.create({
   searchButton: {
     color: 'white',
     fontWeight: 'bold',
-  },
-  tabView: {
-    alignSelf: 'center',
-    backgroundColor: 'transparent',
-  },
-  tabbar: {
-    alignSelf: 'center',
-    height: 40,
-    backgroundColor: '#284b78',
-  },
-  tabbarItem: {
-    flex: 1,
-    paddingHorizontal: 7,
-    backgroundColor: '#f9f9f9',
-    minWidth: '$deviceWidth',
   },
   loginButton: {
     alignSelf: 'center',
