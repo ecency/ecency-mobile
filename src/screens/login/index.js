@@ -1,5 +1,5 @@
 import LoginScreen from './screen/loginScreen';
-import LoginContainer from './container/loginContainer';
+import Login from './container/loginContainer';
 
-export { LoginScreen, LoginContainer };
-export default LoginContainer;
+export { LoginScreen, Login };
+export default Login;
