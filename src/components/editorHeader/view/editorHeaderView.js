@@ -1,5 +1,5 @@
 import React, { Component } from 'react';
-import { View } from 'react-native';
+import { View, SafeAreaView } from 'react-native';
 import { TextButton } from '../..';
 import { IconButton } from '../../iconButton';
 // Constants
@@ -28,27 +28,33 @@ class EditorHeaderView extends Component {
     const { handleOnPressBackButton } = this.props;
 
     return (
-      <View style={styles.container}>
-        <IconButton
-          style={styles.backIconButton}
-          iconStyle={styles.backIcon}
-          name="md-arrow-back"
-          onPress={() => handleOnPressBackButton()}
-        />
-        <IconButton
-          style={styles.iconButton}
-          iconStyle={styles.rightIcon}
-          size={20}
-          name="ios-timer"
-        />
-        <IconButton
-          style={styles.iconButton}
-          size={25}
-          iconStyle={styles.rightIcon}
-          name="ios-eye"
-        />
-        <TextButton textStyle={styles.textButton} style={styles.textButtonWrapper} text="Publish" />
-      </View>
+      <SafeAreaView>
+        <View style={styles.container}>
+          <IconButton
+            style={styles.backIconButton}
+            iconStyle={styles.backIcon}
+            name="md-arrow-back"
+            onPress={() => handleOnPressBackButton()}
+          />
+          <IconButton
+            style={styles.iconButton}
+            iconStyle={styles.rightIcon}
+            size={20}
+            name="ios-timer"
+          />
+          <IconButton
+            style={styles.iconButton}
+            size={25}
+            iconStyle={styles.rightIcon}
+            name="ios-eye"
+          />
+          <TextButton
+            textStyle={styles.textButton}
+            style={styles.textButtonWrapper}
+            text="Publish"
+          />
+        </View>
+      </SafeAreaView>
     );
   }
 }

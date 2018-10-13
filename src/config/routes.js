@@ -13,7 +13,7 @@ import { SideMenu } from '../components';
 const mainNavigation = DrawerNavigator(
   {
     [ROUTES.SCREENS.HOME]: {
-      screen: BaseNavigator,
+      screen: Editor,
       navigationOptions: {
         header: () => null,
       },

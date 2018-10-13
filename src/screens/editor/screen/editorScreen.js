@@ -1,9 +1,14 @@
-import React, { Component } from 'react';
+import React, { Component, Fragment } from 'react';
 import { View } from 'react-native';
-import { EditorHeader } from '../../../components/editorHeader';
+
 // Constants
 
 // Components
+import { EditorHeader } from '../../../components/editorHeader';
+import { TitleArea, TagArea } from '../../../components/editorElements';
+
+// Styles
+import globalStyles from '../../../globalStyles';
 
 export class EditorScreen extends Component {
   /* Props
@@ -23,9 +28,13 @@ export class EditorScreen extends Component {
   render() {
     // eslint-disable-next-line
     return (
-      <View>
+      <Fragment>
         <EditorHeader />
-      </View>
+        <View style={globalStyles.containerHorizontal16}>
+          <TitleArea />
+          <TagArea />
+        </View>
+      </Fragment>
     );
   }
 }
