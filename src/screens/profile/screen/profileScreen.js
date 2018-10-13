@@ -1,5 +1,5 @@
 /* eslint-disable no-unused-vars */
-import React, { Component } from 'react';
+import React, { Component, Fragment } from 'react';
 import { FlatList, ActivityIndicator, View } from 'react-native';
 
 import FastImage from 'react-native-fast-image';
@@ -13,6 +13,7 @@ import { PostCard } from '../../../components/postCard';
 import { ProfileSummary } from '../../../components/profileSummary';
 import { TabBar } from '../../../components/tabBar';
 import { Wallet } from '../../../components/wallet';
+import { Header } from '../../../components/header';
 
 // Utilitites
 import {
@@ -173,100 +174,103 @@ class ProfileScreen extends Component {
       website = about.website;
     }
     return (
-      <View style={styles.container}>
-        <CollapsibleCard
-          title={_about}
-          defaultTitle="Profile details"
-          expanded={!isLoggedIn}
-          locked={!isLoggedIn}
-        >
-          <ProfileSummary
-            percentVP={votingPower}
-            percentRC={resourceCredits}
-            hoursVP={fullInHourVP}
-            hoursRC={fullInHourRC}
-            location={location}
-            link={website}
-            date={getFormatedCreatedDate(user && user.created)}
-            followerCount={follows.follower_count}
-            followingCount={follows.following_count}
-            coverImage={coverImage}
-          />
-        </CollapsibleCard>
+      <Fragment>
+        <Header />
+        <View style={styles.container}>
+          <CollapsibleCard
+            title={_about}
+            defaultTitle="Profile details"
+            expanded={!isLoggedIn}
+            locked={!isLoggedIn}
+          >
+            <ProfileSummary
+              percentVP={votingPower}
+              percentRC={resourceCredits}
+              hoursVP={fullInHourVP}
+              hoursRC={fullInHourRC}
+              location={location}
+              link={website}
+              date={getFormatedCreatedDate(user && user.created)}
+              followerCount={follows.follower_count}
+              followingCount={follows.following_count}
+              coverImage={coverImage}
+            />
+          </CollapsibleCard>
 
-        <ScrollableTabView
-          style={styles.tabView}
-          renderTabBar={() => (
-            <TabBar
-              style={styles.tabbar}
-              tabUnderlineDefaultWidth={80}
-              tabUnderlineScaleX={2}
-              activeColor="#357ce6"
-              inactiveColor="#788187"
-            />
-          )}
-        >
-          <View tabLabel="Post" style={styles.postTabBar}>
-            <FilterBar
-              isHide={!isLoggedIn}
-              dropdownIconName="md-arrow-dropdown"
-              options={['NEW POSTS', 'VOTES', 'REPLIES', 'MENTIONS', 'FOLLOWS', 'REBLOGS']}
-              defaultText="ALL NOTIFICATION"
-              onDropdownSelect={this._handleOnDropdownSelect}
-              rightIconName="md-apps"
-            />
-            {posts && posts.length > 0 ? (
-              <FlatList
-                data={posts}
-                showsVerticalScrollIndicator={false}
-                renderItem={({ item }) => (
-                  <PostCard
-                    style={{
-                      shadowColor: '#f6f6f6',
-                    }}
-                    content={item}
-                    user={user}
-                    isLoggedIn
-                  />
-                )}
-                keyExtractor={(post, index) => index.toString()}
-                onEndReached={(info) => {
-                  !isLoading && this._getMore();
-                }}
-                onEndThreshold={0}
-                bounces={false}
-              />
-            ) : (
-              <NoPost
-                name={user.name}
-                text={"haven't posted anything yet"}
-                defaultText="Login to see!"
+          <ScrollableTabView
+            style={styles.tabView}
+            renderTabBar={() => (
+              <TabBar
+                style={styles.tabbar}
+                tabUnderlineDefaultWidth={80}
+                tabUnderlineScaleX={2}
+                activeColor="#357ce6"
+                inactiveColor="#788187"
               />
             )}
-          </View>
-          <View tabLabel="Comments" style={styles.commentsTabBar}>
-            {commments && commments.length > 0 ? (
-              <FlatList
-                data={commments}
-                showsVerticalScrollIndicator={false}
-                renderItem={({ item }) => <Comment comment={item} isLoggedIn user={user} />}
-                keyExtractor={(post, index) => index.toString()}
-                onEndThreshold={0}
-                bounces={false}
+          >
+            <View tabLabel="Post" style={styles.postTabBar}>
+              <FilterBar
+                isHide={!isLoggedIn}
+                dropdownIconName="md-arrow-dropdown"
+                options={['NEW POSTS', 'VOTES', 'REPLIES', 'MENTIONS', 'FOLLOWS', 'REBLOGS']}
+                defaultText="ALL NOTIFICATION"
+                onDropdownSelect={this._handleOnDropdownSelect}
+                rightIconName="md-apps"
               />
-            ) : (
-              <NoPost
-                name={user.name}
-                text="haven't commented anything yet"
-                defaultText="Login to see!"
-              />
-            )}
-          </View>
-          <View tabLabel={user.balance ? `$${user.balance}` : 'Wallet'}>
-            <Wallet user={user}/>
-          </View>
-        </ScrollableTabView>
-      </View>
+              {posts && posts.length > 0 ? (
+                <FlatList
+                  data={posts}
+                  showsVerticalScrollIndicator={false}
+                  renderItem={({ item }) => (
+                    <PostCard
+                      style={{
+                        shadowColor: '#f6f6f6',
+                      }}
+                      content={item}
+                      user={user}
+                      isLoggedIn
+                    />
+                  )}
+                  keyExtractor={(post, index) => index.toString()}
+                  onEndReached={(info) => {
+                    !isLoading && this._getMore();
+                  }}
+                  onEndThreshold={0}
+                  bounces={false}
+                />
+              ) : (
+                <NoPost
+                  name={user.name}
+                  text={"haven't posted anything yet"}
+                  defaultText="Login to see!"
+                />
+              )}
+            </View>
+            <View tabLabel="Comments" style={styles.commentsTabBar}>
+              {commments && commments.length > 0 ? (
+                <FlatList
+                  data={commments}
+                  showsVerticalScrollIndicator={false}
+                  renderItem={({ item }) => <Comment comment={item} isLoggedIn user={user} />}
+                  keyExtractor={(post, index) => index.toString()}
+                  onEndThreshold={0}
+                  bounces={false}
+                />
+              ) : (
+                <NoPost
+                  name={user.name}
+                  text="haven't commented anything yet"
+                  defaultText="Login to see!"
+                />
+              )}
+            </View>
+            <View tabLabel={user.balance ? `$${user.balance}` : 'Wallet'}>
+              <Wallet user={user} />
+            </View>
+          </ScrollableTabView>
+        </View>
+      </Fragment>
     );
   }
 }
