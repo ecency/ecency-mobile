@@ -1,5 +1,5 @@
 import React, { Component } from 'react';
-import { View, Linking, StatusBar } from 'react-native';
+import { View, Linking, StatusBar, Platform } from 'react-native';
 import { KeyboardAwareScrollView } from 'react-native-keyboard-aware-scroll-view';
 import ScrollableTabView from '@esteemapp/react-native-scrollable-tab-view';
 
@@ -107,6 +107,9 @@ class LoginScreen extends Component {
         <KeyboardAwareScrollView
           onKeyboardWillShow={() => this.setState({ keyboardIsOpen: true })}
           onKeyboardWillHide={() => this.setState({ keyboardIsOpen: false })}
+          enableOnAndroid
+          enableAutoAutomaticScroll={(Platform.OS === 'ios')}
+          contentContainerStyle={{ flexGrow: 1 }}
         >
           <ScrollableTabView
             locked={isLoading}

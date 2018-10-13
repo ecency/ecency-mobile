@@ -1,3 +1,5 @@
+import { default as ROUTES } from './routeNames';
+
 const authMenuItems = [
   {
     name: 'Profile',
@@ -39,7 +41,7 @@ const authMenuItems = [
 const noAuthMenuItems = [
   {
     name: 'Login',
-    route: 'Login',
+    route: ROUTES.SCREENS.LOGIN,
     icon: 'user-o',
   },
 ];
