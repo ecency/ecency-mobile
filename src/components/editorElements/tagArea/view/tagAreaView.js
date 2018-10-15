@@ -1,9 +1,9 @@
 import React, { Component, Fragment } from 'react';
-import { TextInput, View } from 'react-native';
+import { View } from 'react-native';
 // Constants
 
 // Components
-
+import { Chip } from '../../../basicUIElements';
 // Styles
 import styles from './tagAreaStyles';
 
@@ -16,54 +16,68 @@ export default class TagAreaView extends Component {
   constructor(props) {
     super(props);
     this.state = {
-      text: '',
-      isFirstTag: false,
+      currentText: '',
+      chips: [{}],
     };
   }
 
   // Component Life Cycles
 
   // Component Functions
-  _handleOnChange = (text) => {
-    this.setState({ text });
+  _handleOnChange = (text, i) => {
+    this.setState({ currentText: text });
     console.log(text);
 
     if (text.indexOf(' ') > 0) {
-      this.setState({ isFirstTag: true });
-    } else if (!text) {
-      this.setState({ isFirstTag: false });
+      this._handleTagAdded();
+    }
+
+    if (!text) {
+      alert(i);
+    }
+  };
+
+  _handleOnBlur = () => {
+    this._handleTagAdded();
+  };
+
+  _handleTagAdded = () => {
+    const { currentText, chips } = this.state;
+
+    // if (currentText && chips.length === 1) {
+    //   this.setState({ chips: [currentText] });
+    // } else
+    if (currentText) {
+      this.setState({
+        chips: [...chips, currentText.trim()],
+      });
     }
   };
 
   render() {
-    const { onChange, value } = this.props;
-    const { isFirstTag, text } = this.state;
+    const { onChange, value, chipsData } = this.props;
+    const { currentText, chips } = this.state;
 
     return (
       <Fragment>
         <View style={styles.tagWrapper}>
-          <TextInput
-            style={[styles.textInput, isFirstTag && styles.firstTag]}
-            placeholderTextColor="#fff"
-            editable
-            maxLength={250}
-            placeholder="tags"
-            multiline={false}
-            onChangeText={text => this._handleOnChange(text)}
-            value={value}
-            autoCapitalize="none"
-          />
-          <TextInput
-            style={styles.textInput}
-            placeholderTextColor="#fff"
-            editable
-            maxLength={250}
-            placeholder="tags"
-            multiline={false}
-            onChangeText={text => this._handleOnChange(text)}
-            value={value}
-            autoCapitalize="none"
-          />
+          {chips.map((chip, i) => (
+            <Chip
+              key={i}
+              isPin={i === 0 && chips[1]}
+              placeholderTextColor="#fff"
+              editable={!chipsData}
+              maxLength={50}
+              placeholder="tags"
+              multiline={false}
+              handleOnChange={text => this._handleOnChange(text, i)}
+              handleOnBlur={() => this._handleOnBlur()}
+              value={chips[i - 1]}
+              blurOnSubmit
+              autoCapitalize="none"
+              returnKeyType="next"
+            />
+          ))}
         </View>
       </Fragment>
     );
