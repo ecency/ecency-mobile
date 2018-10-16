@@ -36,6 +36,7 @@
     "react-native-restart": "0.0.6",
     "react-native-slider": "^0.11.0",
     "react-native-vector-icons": "^4.6.0",
+    "react-native-zss-rich-text-editor": "^1.1.0",
     "react-navigation": "^2.17.0",
     "react-navigation-redux-helpers": "^2.0.6",
     "react-redux": "^5.0.7",

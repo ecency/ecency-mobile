@@ -5,6 +5,9 @@ export default EStyleSheet.create({
     flex: 1,
     paddingHorizontal: 16,
   },
+  defaultContainer: {
+    flex: 1,
+  },
   title: {},
   text: {
     fontFamily: '$primaryFont',

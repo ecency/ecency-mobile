@@ -5,7 +5,7 @@ import { View } from 'react-native';
 
 // Components
 import { EditorHeader } from '../../../components/editorHeader';
-import { TitleArea, TagArea } from '../../../components/editorElements';
+import { TitleArea, TagArea, EditorBar } from '../../../components/editorElements';
 
 // Styles
 import globalStyles from '../../../globalStyles';
@@ -28,13 +28,14 @@ export class EditorScreen extends Component {
   render() {
     // eslint-disable-next-line
     return (
-      <Fragment>
+      <View style={globalStyles.defaultContainer}>
         <EditorHeader />
         <View style={globalStyles.containerHorizontal16}>
           <TitleArea />
           <TagArea />
         </View>
-      </Fragment>
+        <EditorBar />
+      </View>
     );
   }
 }

@@ -27,9 +27,9 @@ export default class TagAreaView extends Component {
   _handleOnChange = (text, i) => {
     this.setState({ currentText: text.trim() });
 
-    if (text.indexOf(' ') > 0 && text) {
-      this._handleTagAdded();
-    }
+    // if (text.indexOf(' ') > 0 && text) {
+    //   this._handleTagAdded();
+    // }
 
     if (!text && i !== 0) {
       this._handleTagRemove(i);
