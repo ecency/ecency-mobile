@@ -1,7 +1,7 @@
 import React, { Component } from 'react';
 import { View, Text, KeyboardAvoidingView } from 'react-native';
 // Components
-import { RichTextEditor, RichTextToolbar } from 'react-native-zss-rich-text-editor';
+//import { RichTextEditor, RichTextToolbar } from 'react-native-zss-rich-text-editor';
 // Styles
 import styles from './editorBarStyles';
 
@@ -21,7 +21,7 @@ class EditorBarView extends Component {
     return (
       <KeyboardAvoidingView behavior="padding">
         <View style={styles.container}>
-          <RichTextToolbar getEditor={() => this.richtext} />
+          {/* <RichTextToolbar getEditor={() => this.richtext} /> */}
         </View>
       </KeyboardAvoidingView>
     );
