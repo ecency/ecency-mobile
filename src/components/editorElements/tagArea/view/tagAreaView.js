@@ -25,15 +25,14 @@ export default class TagAreaView extends Component {
 
   // Component Functions
   _handleOnChange = (text, i) => {
-    this.setState({ currentText: text });
-    console.log(text);
+    this.setState({ currentText: text.trim() });
 
-    if (text.indexOf(' ') > 0) {
+    if (text.indexOf(' ') > 0 && text) {
       this._handleTagAdded();
     }
 
-    if (!text) {
-      alert(i);
+    if (!text && i !== 0) {
+      this._handleTagRemove(i);
     }
   };
 
@@ -44,19 +43,24 @@ export default class TagAreaView extends Component {
   _handleTagAdded = () => {
     const { currentText, chips } = this.state;
 
-    // if (currentText && chips.length === 1) {
-    //   this.setState({ chips: [currentText] });
-    // } else
-    if (currentText) {
+    if (currentText && chips.length < 5) {
       this.setState({
         chips: [...chips, currentText.trim()],
       });
     }
   };
 
+  _handleTagRemove = (i) => {
+    const { chips } = this.state;
+
+    this.setState({
+      chips: chips.filter((_, _i) => _i !== i),
+    });
+  };
+
   render() {
-    const { onChange, value, chipsData } = this.props;
-    const { currentText, chips } = this.state;
+    const { chipsData } = this.props;
+    const { chips } = this.state;
 
     return (
       <Fragment>
@@ -64,15 +68,18 @@ export default class TagAreaView extends Component {
           {chips.map((chip, i) => (
             <Chip
               key={i}
+              refs={(input) => {
+                this.inputs[i] = input;
+              }}
               isPin={i === 0 && chips[1]}
               placeholderTextColor="#fff"
               editable={!chipsData}
               maxLength={50}
               placeholder="tags"
+              autoFocus={chips.length - 1 === i}
               multiline={false}
               handleOnChange={text => this._handleOnChange(text, i)}
               handleOnBlur={() => this._handleOnBlur()}
-              value={chips[i - 1]}
               blurOnSubmit
               autoCapitalize="none"
               returnKeyType="next"
