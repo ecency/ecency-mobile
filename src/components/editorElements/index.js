@@ -1,5 +1,5 @@
 import TitleArea from './titleArea/view/titleAreaView';
 import TagArea from './tagArea/view/tagAreaView';
-import EditorBar from './editorBar/view/editorBarView';
+import TextArea from './textArea/view/textAreaView';
 
-export { TitleArea, TagArea, EditorBar };
+export { TitleArea, TagArea, TextArea };

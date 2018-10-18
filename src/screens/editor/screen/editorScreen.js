@@ -1,12 +1,11 @@
-import React, { Component, Fragment } from 'react';
+import React, { Component } from 'react';
 import { View } from 'react-native';
 
 // Constants
 
 // Components
 import { EditorHeader } from '../../../components/editorHeader';
-import { TitleArea, TagArea, EditorBar } from '../../../components/editorElements';
-
+import { TitleArea, TagArea, TextArea } from '../../../components/editorElements';
 // Styles
 import globalStyles from '../../../globalStyles';
 
@@ -18,23 +17,34 @@ export class EditorScreen extends Component {
 
   constructor(props) {
     super(props);
-    this.state = {};
+    this.state = {
+      isPreviewActive: false,
+    };
   }
 
   // Component Life Cycles
 
   // Component Functions
+  _handleOnPressPreviewButton = () => {
+    const { isPreviewActive } = this.state;
+
+    this.setState({ isPreviewActive: !isPreviewActive });
+  };
 
   render() {
-    // eslint-disable-next-line
+    const { isPreviewActive } = this.state;
+
     return (
       <View style={globalStyles.defaultContainer}>
-        <EditorHeader />
+        <EditorHeader
+          isPreviewActive={isPreviewActive}
+          handleOnPressPreviewButton={this._handleOnPressPreviewButton}
+        />
         <View style={globalStyles.containerHorizontal16}>
           <TitleArea />
           <TagArea />
+          <TextArea isPreviewActive={isPreviewActive} />
         </View>
-        <EditorBar />
       </View>
     );
   }

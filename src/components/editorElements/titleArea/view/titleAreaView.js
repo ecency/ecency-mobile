@@ -34,6 +34,7 @@ export default class TitleAreaView extends Component {
           maxLength={250}
           placeholder="Title"
           multiline
+          autoFocus
           numberOfLines={4}
           onChangeText={text => onChange && onChange(text)}
           value={value}

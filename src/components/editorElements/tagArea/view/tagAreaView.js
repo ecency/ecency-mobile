@@ -76,7 +76,7 @@ export default class TagAreaView extends Component {
               editable={!chipsData}
               maxLength={50}
               placeholder="tags"
-              autoFocus={chips.length - 1 === i}
+              autoFocus={i !== 0 && chips.length - 1 === i}
               multiline={false}
               handleOnChange={text => this._handleOnChange(text, i)}
               handleOnBlur={() => this._handleOnBlur()}

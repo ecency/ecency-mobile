@@ -10,7 +10,7 @@ import { EditorHeaderView } from '..';
 class EditorHeaderContainer extends Component {
   /* Props
     * ------------------------------------------------
-    *   @prop { type }    name                - Description....
+    *   @prop { funtion }    handleOnPressPreviewButton                - Preview button active handler....
     */
 
   constructor(props) {

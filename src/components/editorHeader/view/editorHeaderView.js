@@ -25,7 +25,7 @@ class EditorHeaderView extends Component {
   // Component Functions
 
   render() {
-    const { handleOnPressBackButton } = this.props;
+    const { handleOnPressBackButton, handleOnPressPreviewButton, isPreviewActive } = this.props;
 
     return (
       <SafeAreaView>
@@ -45,8 +45,9 @@ class EditorHeaderView extends Component {
           <IconButton
             style={styles.iconButton}
             size={25}
+            onPress={() => handleOnPressPreviewButton()}
             iconStyle={styles.rightIcon}
-            name="ios-eye"
+            name={isPreviewActive ? 'ios-eye' : 'ios-eye-off'}
           />
           <TextButton
             textStyle={styles.textButton}

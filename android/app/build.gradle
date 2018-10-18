@@ -137,6 +137,7 @@ android {
 }
 
 dependencies {
+    compile project(':react-native-webview-bridge')
     compile project(':react-native-restart')
     compile project(':react-native-linear-gradient')
     compile project(':react-native-fast-image')
