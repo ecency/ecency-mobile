@@ -1,10 +1,10 @@
 import React, { Component } from 'react';
 import { View, WebView } from 'react-native';
-import RNRestart from 'react-native-restart';
-import { Navigation } from 'react-native-navigation';
 import { loginWithSC2 } from '../../providers/steem/auth';
 import { steemConnectOptions } from './config';
-import { goToAuthScreens } from '../../navigation';
+
+// Constants
+import { default as ROUTES } from '../../constants/routeNames';
 
 export default class SteemConnect extends Component {
   constructor(props) {
@@ -13,20 +13,22 @@ export default class SteemConnect extends Component {
   }
 
   onNavigationStateChange(event) {
-    let access_token;
+    let accessToken;
+    const { navigation } = this.props;
+
     if (event.url.indexOf('?access_token=') > -1) {
       this.webview.stopLoading();
       try {
-        access_token = event.url.match(/\?(?:access_token)\=([\S\s]*?)\&/)[1];
+        accessToken = event.url.match(/\?(?:access_token)\=([\S\s]*?)\&/)[1];
       } catch (error) {
         console.log(error);
       }
-
-      loginWithSC2(access_token, 'pinCode')
+      console.log(accessToken);
+      loginWithSC2(accessToken, 'pinCode')
         .then((result) => {
+          console.log(result);
           if (result) {
-            // TODO: Handle pinCode and navigate to home page
-            goToAuthScreens();
+            navigation.navigate(ROUTES.SCREENS.PINCODE);
           } else {
             // TODO: Error alert (Toast Message)
             console.log('loginWithSC2 error');

@@ -4,6 +4,7 @@ import { Home } from './home';
 import { Login } from './login';
 import { Profile } from './profile';
 import { Notification } from './notification';
+import SteemConnect from './steem-connect/steemConnect';
 
 // import Author from './authorProfile';
 // import SideMenu from './sideMenuScreen';
@@ -24,6 +25,7 @@ export {
   Splash,
   Profile,
   Notification,
+  SteemConnect,
   // Author,
   // SideMenu,
   // Hot,

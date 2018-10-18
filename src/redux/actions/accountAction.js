@@ -37,3 +37,8 @@ export const removeAccountData = data => ({
   type: REMOVE_ACCOUNT_DATA,
   payload: data,
 });
+
+export const failedAccount = data => ({
+  type: FETCH_ACCOUNT_FAIL,
+  payload: data,
+});

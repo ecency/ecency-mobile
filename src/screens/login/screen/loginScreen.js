@@ -1,15 +1,14 @@
 import React, { Component } from 'react';
 import {
-  View, Linking, StatusBar, Platform,
+  View, Linking, StatusBar, Platform, Alert,
 } from 'react-native';
 import { KeyboardAwareScrollView } from 'react-native-keyboard-aware-scroll-view';
 import ScrollableTabView from '@esteemapp/react-native-scrollable-tab-view';
 
 // Actions
-import { addPassiveAccount } from '../../../redux/actions/accountAction';
+import { addPassiveAccount, failedAccount } from '../../../redux/actions/accountAction';
 import {
   login as loginAction,
-  logout as logoutAction,
 } from '../../../redux/actions/applicationActions';
 
 // Internal Components
@@ -56,8 +55,10 @@ class LoginScreen extends Component {
           navigation.navigate(ROUTES.SCREENS.PINCODE);
         }
       })
-      .catch(() => {
-        dispatch(logoutAction());
+      .catch((err) => {
+        // TODO: Change with global error handling
+        Alert.alert('Error', err.message);
+        dispatch(failedAccount(err.message));
         this.setState({ isLoading: false });
       });
   };
@@ -79,19 +80,8 @@ class LoginScreen extends Component {
   };
 
   _loginwithSc2 = () => {
-    // Navigation.push(this.props.componentId, {
-    //   component: {
-    //     name: 'navigation.eSteem.SteemConnect',
-    //     passProps: {},
-    //     options: {
-    //       topBar: {
-    //         title: {
-    //           text: 'Login via SC2',
-    //         },
-    //       },
-    //     },
-    //   },
-    // });
+    const { navigation } = this.props;
+    navigation.navigate(ROUTES.SCREENS.STEEM_CONNECT);
   };
 
   render() {

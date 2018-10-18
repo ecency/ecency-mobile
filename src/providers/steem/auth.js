@@ -13,7 +13,10 @@ export const Login = (username, password) => {
   let publicKeys;
   let privateKeys;
   const resultKeys = {
-    active: null, memo: null, owner: null, posting: null,
+    active: null,
+    memo: null,
+    owner: null,
+    posting: null,
   };
   let loginFlag = false;
 
@@ -76,19 +79,32 @@ export const Login = (username, password) => {
 };
 
 export const setUserDataWithPinCode = data => new Promise((resolve, reject) => {
+  let updatedUserData;
   const result = getUserDataWithUsername(data.username);
   const userData = result[0];
 
   const privateKeys = getPrivateKeys(userData.username, data.password);
 
-  const updatedUserData = {
-    username: userData.username,
-    authType: 'masterKey',
-    masterKey: encryptKey(data.password, data.pinCode),
-    postingKey: encryptKey(privateKeys.posting.toString(), data.pinCode),
-    activeKey: encryptKey(privateKeys.active.toString(), data.pinCode),
-    memoKey: encryptKey(privateKeys.memo.toString(), data.pinCode),
-  };
+  if (userData.authType === 'masterKey') {
+    updatedUserData = {
+      username: userData.username,
+      authType: 'masterKey',
+      masterKey: encryptKey(data.password, data.pinCode),
+      postingKey: encryptKey(privateKeys.posting.toString(), data.pinCode),
+      activeKey: encryptKey(privateKeys.active.toString(), data.pinCode),
+      memoKey: encryptKey(privateKeys.memo.toString(), data.pinCode),
+    };
+  } else if (userData.authType === 'steemConnect') {
+    updatedUserData = {
+      username: userData.name,
+      authType: 'steemConnect',
+      accessToken: encryptKey(data.accessToken, data.pinCode),
+      postingKey: '',
+      masterKey: '',
+      activeKey: '',
+      memoKey: '',
+    };
+  }
 
   updateUserData(updatedUserData)
     .then(() => {
@@ -123,7 +139,7 @@ export const verifyPinCode = data => new Promise((resolve, reject) => {
       .then(() => {
         resolve();
       })
-      .catch((error) => {
+      .catch(() => {
         reject(new Error('Invalid pin code, please check and try again'));
       });
   } else {
@@ -138,17 +154,15 @@ const getPrivateKeys = (username, password) => ({
   owner: dsteem.PrivateKey.fromLogin(username, password, 'owner'),
   posting: dsteem.PrivateKey.fromLogin(username, password, 'posting'),
 });
-export const loginWithSC2 = async (access_token, pinCode) => {
-  let account;
 
-  await steemConnect.setAccessToken(access_token);
-  account = await steemConnect.me();
+export const loginWithSC2 = async (accessToken) => {
+  await steemConnect.setAccessToken(accessToken);
+  const account = await steemConnect.me();
 
   return new Promise((resolve, reject) => {
     const userData = {
       username: account.name,
       authType: 'steemConnect',
-      accessToken: encryptKey(access_token, pinCode),
       postingKey: '',
       masterKey: '',
       activeKey: '',
@@ -163,7 +177,7 @@ export const loginWithSC2 = async (access_token, pinCode) => {
       .then(() => {
         setUserData(userData)
           .then(() => {
-            resolve(true);
+            resolve({ ...account, accessToken });
           })
           .catch((error) => {
             reject(error);

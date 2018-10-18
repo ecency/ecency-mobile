@@ -3,7 +3,9 @@ import { BaseNavigator } from '../navigation';
 import { default as ROUTES } from '../constants/routeNames';
 
 // Screens
-import { Splash, Login, PinCode } from '../screens';
+import {
+  Splash, Login, PinCode, SteemConnect,
+} from '../screens';
 
 // Components
 import { SideMenu } from '../components';
@@ -26,5 +28,6 @@ export default SwitchNavigator({
   [ROUTES.SCREENS.SPLASH]: { screen: Splash },
   [ROUTES.SCREENS.LOGIN]: { screen: Login },
   [ROUTES.SCREENS.PINCODE]: { screen: PinCode },
+  [ROUTES.SCREENS.STEEM_CONNECT]: { screen: SteemConnect },
   [ROUTES.DRAWER.MAIN]: mainNavigation,
 });
