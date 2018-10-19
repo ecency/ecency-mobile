@@ -1,29 +1,23 @@
-import React from 'react';
+import React, { Component } from 'react';
 import {
-  View, TextInput, Platform, KeyboardAvoidingView, ScrollView,
+  View,
+  TextInput,
+  KeyboardAvoidingView,
+  ScrollView,
+  TouchableOpacity,
+  Text,
+  FlatList,
 } from 'react-native';
 import { MarkdownView } from 'react-native-markdown-view';
 
-import { renderFormatButtons } from './renderButtons';
+// Components
+import Formats from './formats/formats';
+
+// Styles
 import styles from './markdownEditorStyles';
+import previewStyles from './markdownPreviewStyles';
 
-const markdownStyles = {
-  heading1: {
-    fontSize: 24,
-    color: 'purple',
-  },
-  link: {
-    color: 'pink',
-  },
-  mailTo: {
-    color: 'orange',
-  },
-  text: {
-    color: '#555555',
-  },
-};
-
-export default class MarkdownEditorView extends React.Component {
+export default class MarkdownEditorView extends Component {
   constructor(props) {
     super(props);
     this.state = {
@@ -32,13 +26,11 @@ export default class MarkdownEditorView extends React.Component {
     };
   }
 
-  textInput: TextInput;
-
   componentDidMount() {
     this.textInput.focus();
   }
 
-  changeText = (input: string) => {
+  changeText = (input) => {
     const { onMarkdownChange } = this.props;
 
     this.setState({ text: input });
@@ -48,13 +40,13 @@ export default class MarkdownEditorView extends React.Component {
     }
   };
 
-  onSelectionChange = (event) => {
+  _handleOnSelectionChange = (event) => {
     this.setState({
       selection: event.nativeEvent.selection,
     });
   };
 
-  getState = () => {
+  _getState = () => {
     this.setState({
       selection: {
         start: 1,
@@ -64,13 +56,13 @@ export default class MarkdownEditorView extends React.Component {
     return this.state;
   };
 
-  renderPreview = () => {
+  _renderPreview = () => {
     const { text } = this.state;
 
     return (
       <View style={styles.textWrapper}>
         <ScrollView removeClippedSubviews>
-          <MarkdownView styles={markdownStyles}>
+          <MarkdownView styles={previewStyles}>
             {text === '' ? 'There is nothing to preview here' : text}
           </MarkdownView>
         </ScrollView>
@@ -78,49 +70,55 @@ export default class MarkdownEditorView extends React.Component {
     );
   };
 
+  _renderMarkupButton = ({ item, getState, setState }) => (
+    <TouchableOpacity onPress={() => item.onPress({ getState, setState, item })}>
+      <Text style={item.style}>{item.title}</Text>
+    </TouchableOpacity>
+  );
+
+  _renderEditorButtons = ({ getState, setState }) => (
+    <View style={styles.editorButtons}>
+      <FlatList
+        data={Formats}
+        keyboardShouldPersistTaps="always"
+        renderItem={({ item }) => this._renderMarkupButton({ item, getState, setState })}
+        horizontal
+      />
+    </View>
+  );
+
   render() {
-    const {
-      Formats, markdownButton, placeHolder, isPreviewActive,
-    } = this.props;
+    const { placeHolder, isPreviewActive } = this.props;
     const { text, selection } = this.state;
+
     return (
-      <View style={styles.wrapper}>
+      <KeyboardAvoidingView style={styles.container} behavior="padding">
         {!isPreviewActive ? (
-          <View 
+          <TextInput
             style={styles.textWrapper}
-          
-          >
-            <TextInput
-              style={styles.textWrapper}
-              multiline
-              underlineColorAndroid="transparent"
-              onChangeText={this.changeText}
-              onSelectionChange={this.onSelectionChange}
-              value={text}
-              placeholder={placeHolder}
-              ref={textInput => (this.textInput = textInput)}
-              selection={selection}
-              selectionColor="#357ce6"
-            />
-          </View>
+            multiline
+            underlineColorAndroid="transparent"
+            onChangeText={this.changeText}
+            onSelectionChange={this._handleOnSelectionChange}
+            value={text}
+            placeholder={placeHolder}
+            placeholderTextColor="#c1c5c7"
+            ref={textInput => (this.textInput = textInput)}
+            selection={selection}
+            selectionColor="#357ce6"
+          />
         ) : (
-          this.renderPreview()
+          this._renderPreview()
         )}
-        <KeyboardAvoidingView behavior="padding">
-          {!isPreviewActive
-            && renderFormatButtons(
-              {
-                getState: this.getState,
-                setState: (state, callback) => {
-                  this.textInput.focus();
-                  this.setState(state, callback);
-                },
-              },
-              Formats,
-              markdownButton,
-            )}
-        </KeyboardAvoidingView>
-      </View>
+        {!isPreviewActive
+          && this._renderEditorButtons({
+            getState: this._getState,
+            setState: (state, callback) => {
+              this.textInput.focus();
+              this.setState(state, callback);
+            },
+          })}
+      </KeyboardAvoidingView>
     );
   }
 }

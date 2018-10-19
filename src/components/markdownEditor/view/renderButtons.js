@@ -1,6 +1,6 @@
 import React from 'react';
 import {
-  FlatList, TouchableOpacity, Text, View, KeyboardAvoidingView,
+  FlatList, TouchableOpacity, Text, View,
 } from 'react-native';
 
 import Formats from './formats/formats';
@@ -16,18 +16,16 @@ const defaultMarkdownButton = ({ item, getState, setState }) => (
   </TouchableOpacity>
 );
 
-export const renderFormatButtons = ({ getState, setState }, formats, markdownButton) => (
-  <KeyboardAvoidingView behavior="padding">
-    <View style={styles.container}>
-      <FlatList
-        data={formats || Formats}
-        keyboardShouldPersistTaps="always"
-        renderItem={({ item, index }) => (markdownButton
-          ? markdownButton({ item, getState, setState })
-          : defaultMarkdownButton({ item, getState, setState }))
-        }
-        horizontal
-      />
-    </View>
-  </KeyboardAvoidingView>
+export const renderEditorButtons = ({ getState, setState }, formats, markdownButton) => (
+  <View style={styles.container}>
+    <FlatList
+      data={formats || Formats}
+      keyboardShouldPersistTaps="always"
+      renderItem={({ item, index }) => (markdownButton
+        ? markdownButton({ item, getState, setState })
+        : defaultMarkdownButton({ item, getState, setState }))
+      }
+      horizontal
+    />
+  </View>
 );

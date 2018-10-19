@@ -2,7 +2,6 @@ import EStyleSheet from 'react-native-extended-stylesheet';
 
 export default EStyleSheet.create({
   containerHorizontal16: {
-    flex: 1,
     paddingHorizontal: 16,
   },
   defaultContainer: {

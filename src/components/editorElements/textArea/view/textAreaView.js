@@ -1,12 +1,8 @@
 import React, { Component } from 'react';
-import { View, Text } from 'react-native';
 // Constants
 
 // Components
 import { MarkdownEditor } from '../../../markdownEditor';
-
-// Styles
-import styles from './textAreaStyles';
 
 export default class TextAreaView extends Component {
   /* Props
@@ -22,18 +18,8 @@ export default class TextAreaView extends Component {
   // Component Life Cycles
 
   // Component Functions
-  defaultMarkdownButton = ({ item, getState, setState }) => <Text>ugur</Text>;
 
   render() {
-    return (
-      <View style={styles.container}>
-        <MarkdownEditor
-          placeholderString="ugur"
-          // markdownButton={e => this.defaultMarkdownButton(e)}
-          placeholder="sss"
-          {...this.props}
-        />
-      </View>
-    );
+    return <MarkdownEditor {...this.props} />;
   }
 }

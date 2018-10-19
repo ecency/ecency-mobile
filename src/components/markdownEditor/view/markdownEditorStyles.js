@@ -1,33 +1,30 @@
 import EStyleSheet from 'react-native-extended-stylesheet';
 
 export default EStyleSheet.create({
-  textWrapper: {
-    flex: 1,
-    flexDirection: 'column',
-    fontSize: 16,
-  },
-  inlinePadding: {
-    padding: 8,
-  },
-  wrapper: {
+  container: {
     flex: 1,
     flexDirection: 'column',
     alignItems: 'stretch',
     backgroundColor: '$white',
   },
-  // markdownStyles: {
-  //   heading1: {
-  //     fontSize: 24,
-  //     color: 'purple',
-  //   },
-  //   link: {
-  //     color: 'pink',
-  //   },
-  //   mailTo: {
-  //     color: 'orange',
-  //   },
-  //   text: {
-  //     color: '#555555',
-  //   },
-  // },
+  textWrapper: {
+    flex: 1,
+    flexDirection: 'column',
+    fontSize: 12,
+    marginVertical: 16,
+    paddingHorizontal: 16,
+  },
+  inlinePadding: {
+    padding: 8,
+  },
+  editorButtons: {
+    flexDirection: 'row',
+    backgroundColor: '$white',
+    alignItems: 'center',
+    height: 48,
+    shadowOpacity: 0.2,
+    shadowOffset: {
+      height: 1.5,
+    },
+  },
 });

@@ -43,8 +43,8 @@ export class EditorScreen extends Component {
         <View style={globalStyles.containerHorizontal16}>
           <TitleArea />
           <TagArea />
-          <TextArea isPreviewActive={isPreviewActive} />
         </View>
+        <TextArea placeHolder="What would you like to write about today?" isPreviewActive={isPreviewActive} />
       </View>
     );
   }
