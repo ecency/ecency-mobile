@@ -1,42 +1,55 @@
 import React, { Component } from 'react';
 import { View, WebView } from 'react-native';
+import { connect } from 'react-redux';
+
 import { loginWithSC2 } from '../../providers/steem/auth';
 import { steemConnectOptions } from './config';
+
+// Actions
+import { addPassiveAccount } from '../../redux/actions/accountAction';
+import { login as loginAction } from '../../redux/actions/applicationActions';
 
 // Constants
 import { default as ROUTES } from '../../constants/routeNames';
 
-export default class SteemConnect extends Component {
+class SteemConnect extends Component {
   constructor(props) {
     super(props);
-    this.state = {};
+    this.state = {
+      isLoading: false,
+    };
   }
 
   onNavigationStateChange(event) {
     let accessToken;
-    const { navigation } = this.props;
+    const { navigation, dispatch } = this.props;
+    const { isLoading } = this.state;
 
     if (event.url.indexOf('?access_token=') > -1) {
-      this.webview.stopLoading();
+      // this.webview.stopLoading();
       try {
         accessToken = event.url.match(/\?(?:access_token)\=([\S\s]*?)\&/)[1];
       } catch (error) {
         console.log(error);
       }
-      console.log(accessToken);
-      loginWithSC2(accessToken, 'pinCode')
-        .then((result) => {
-          console.log(result);
-          if (result) {
-            navigation.navigate(ROUTES.SCREENS.PINCODE);
-          } else {
-            // TODO: Error alert (Toast Message)
-            console.log('loginWithSC2 error');
-          }
-        })
-        .catch((error) => {
-          console.log(error);
-        });
+      if (!isLoading) {
+        this.setState({ isLoading: true });
+        loginWithSC2(accessToken, 'pinCode')
+          .then((result) => {
+            console.log(result);
+            if (result) {
+              dispatch(addPassiveAccount(result));
+              dispatch(loginAction());
+              navigation.navigate(ROUTES.SCREENS.PINCODE);
+            } else {
+              // TODO: Error alert (Toast Message)
+              console.log('loginWithSC2 error');
+            }
+          })
+          .catch((error) => {
+            console.log(error);
+          });
+      }
     }
   }
 
@@ -60,3 +73,5 @@ export default class SteemConnect extends Component {
     );
   }
 }
+
+export default connect()(SteemConnect);
