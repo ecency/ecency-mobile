@@ -21,6 +21,7 @@ const authSchema = {
   name: AUTH_SCHEMA,
   properties: {
     isLoggedIn: { type: 'bool', default: false },
+    pinCode: { tyep: 'string' },
   },
 };
 
@@ -38,9 +39,7 @@ export const getUserData = () => new Promise((resolve, reject) => {
 
 export const getUserDataWithUsername = (username) => {
   try {
-    const user = Array.from(
-      realm.objects(USER_SCHEMA).filtered('username = $0', username),
-    );
+    const user = Array.from(realm.objects(USER_SCHEMA).filtered('username = $0', username));
     return user;
   } catch (error) {
     return error;
@@ -66,9 +65,7 @@ export const setUserData = userData => new Promise((resolve, reject) => {
 
 export const updateUserData = userData => new Promise((resolve, reject) => {
   try {
-    const account = realm
-      .objects(USER_SCHEMA)
-      .filtered('username = $0', userData.username);
+    const account = realm.objects(USER_SCHEMA).filtered('username = $0', userData.username);
 
     if (Array.from(account).length > 0) {
       realm.write(() => {
@@ -122,6 +119,19 @@ export const setAuthStatus = authStatus => new Promise((resolve, reject) => {
       realm.delete(auth);
       realm.create(AUTH_SCHEMA, authStatus);
       resolve(authStatus);
+    });
+  } catch (error) {
+    reject(error);
+  }
+});
+
+export const setPinCode = pinCode => new Promise((resolve, reject) => {
+  try {
+    const auth = realm.objects(AUTH_SCHEMA);
+
+    realm.write(() => {
+      auth[0].pinCode = pinCode;
+      resolve(auth[0]);
     });
   } catch (error) {
     reject(error);
