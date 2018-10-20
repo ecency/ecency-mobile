@@ -81,7 +81,7 @@ export default class MarkdownEditorView extends Component {
       <View style={styles.leftButtonsWrapper}>
         <FlatList
           data={Formats}
-          // keyboardShouldPersistTaps="always"
+          keyboardShouldPersistTaps="always"
           renderItem={({ item }) => this._renderMarkupButton({ item, getState, setState })}
           horizontal
         />

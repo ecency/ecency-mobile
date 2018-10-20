@@ -51,7 +51,7 @@ export class EditorScreen extends Component {
       <View style={globalStyles.defaultContainer}>
         <EditorHeader
           isPreviewActive={isPreviewActive}
-          quickTitle={wordsCount && `${wordsCount} words`}
+          quickTitle={wordsCount > 0 && `${wordsCount} words`}
           handleOnPressPreviewButton={this._handleOnPressPreviewButton}
         />
         <View style={globalStyles.containerHorizontal16}>
