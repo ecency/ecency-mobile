@@ -21,10 +21,36 @@ export default EStyleSheet.create({
     flexDirection: 'row',
     backgroundColor: '$white',
     alignItems: 'center',
-    height: 48,
+    justifyContent: 'space-between',
+    height: 50,
     shadowOpacity: 0.2,
     shadowOffset: {
       height: 1.5,
     },
+  },
+  leftButtonsWrapper: {
+    marginLeft: 16,
+    flexDirection: 'row',
+    alignItems: 'center',
+    maxWidth: '$deviceWidth / 1.85',
+  },
+  rightButtonsWrapper: {
+    marginRight: 16,
+    flexDirection: 'row',
+    alignItems: 'center',
+  },
+  editorButton: {
+    color: '$primaryDarkGray',
+    paddingRight: 22,
+    height: 24,
+  },
+  dropdownStyle: {
+    marginRight: 8,
+  },
+  rightIcons: {
+    paddingRight: 21,
+  },
+  dropdownIconStyle: {
+    color: '$primaryDarkGray',
   },
 });

@@ -41,10 +41,10 @@ export class EditorScreen extends Component {
           handleOnPressPreviewButton={this._handleOnPressPreviewButton}
         />
         <View style={globalStyles.containerHorizontal16}>
-          <TitleArea />
-          <TagArea />
+          <TitleArea isPreviewActive={isPreviewActive} />
+          <TagArea isPreviewActive={isPreviewActive} />
         </View>
-        <TextArea placeHolder="What would you like to write about today?" isPreviewActive={isPreviewActive} />
+        <TextArea isPreviewActive={isPreviewActive} />
       </View>
     );
   }

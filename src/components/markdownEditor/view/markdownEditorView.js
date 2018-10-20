@@ -1,16 +1,14 @@
 import React, { Component } from 'react';
 import {
-  View,
-  TextInput,
-  KeyboardAvoidingView,
-  ScrollView,
-  FlatList,
+  View, TextInput, KeyboardAvoidingView, ScrollView, FlatList,
 } from 'react-native';
 import { MarkdownView } from 'react-native-markdown-view';
 
 // Components
 import Formats from './formats/formats';
 import { IconButton } from '../../iconButton';
+import { DropdownButton } from '../../dropdownButton';
+
 // Styles
 import styles from './markdownEditorStyles';
 import previewStyles from './markdownPreviewStyles';
@@ -60,52 +58,73 @@ export default class MarkdownEditorView extends Component {
     return (
       <View style={styles.textWrapper}>
         <ScrollView removeClippedSubviews>
-          <MarkdownView styles={previewStyles}>
-            {text === '' ? 'There is nothing to preview here' : text}
-          </MarkdownView>
+          <MarkdownView styles={previewStyles}>{text === '' ? '...' : text}</MarkdownView>
         </ScrollView>
       </View>
     );
   };
 
   _renderMarkupButton = ({ item, getState, setState }) => (
-    <IconButton
-      iconType={item.iconType}
-      name={item.icon}
-      onPress={() => item.onPress({ getState, setState, item })}
-    />
-  );
-
-  _renderEditorButtons = ({ getState, setState }) => (
-    <View style={styles.editorButtons}>
-      <FlatList
-        data={Formats}
-        keyboardShouldPersistTaps="always"
-        renderItem={({ item }) => this._renderMarkupButton({ item, getState, setState })}
-        horizontal
+    <View style={styles.buttonWrapper}>
+      <IconButton
+        size={20}
+        style={styles.editorButton}
+        iconType={item.iconType}
+        name={item.icon}
+        onPress={() => item.onPress({ getState, setState, item })}
       />
     </View>
   );
 
+  _renderEditorButtons = ({ getState, setState }) => (
+    <View style={styles.editorButtons}>
+      <View style={styles.leftButtonsWrapper}>
+        <FlatList
+          data={Formats}
+          keyboardShouldPersistTaps="always"
+          renderItem={({ item }) => this._renderMarkupButton({ item, getState, setState })}
+          horizontal
+        />
+      </View>
+      <View style={styles.rightButtonsWrapper}>
+        <IconButton
+          size={20}
+          style={styles.rightIcons}
+          iconType="Feather"
+          name="link-2"
+          onPress={() => Formats[9].onPress({ getState, setState })}
+        />
+        <IconButton style={styles.rightIcons} size={20} iconType="Feather" name="image" />
+        <DropdownButton
+          style={styles.dropdownStyle}
+          options={['option1', 'option2', 'option3', 'option4']}
+          iconName="md-more"
+          iconStyle={styles.dropdownStyle}
+          isHasChildIcon
+        />
+      </View>
+    </View>
+  );
+
   render() {
-    const { placeHolder, isPreviewActive } = this.props;
+    const { isPreviewActive } = this.props;
     const { text, selection } = this.state;
 
     return (
       <KeyboardAvoidingView style={styles.container} behavior="padding">
         {!isPreviewActive ? (
           <TextInput
-            style={styles.textWrapper}
             multiline
-            underlineColorAndroid="transparent"
             onChangeText={this.changeText}
             onSelectionChange={this._handleOnSelectionChange}
-            value={text}
-            placeholder={placeHolder}
+            placeHolder="What would you like to write about today?"
             placeholderTextColor="#c1c5c7"
             ref={textInput => (this.textInput = textInput)}
             selection={selection}
             selectionColor="#357ce6"
+            style={styles.textWrapper}
+            underlineColorAndroid="transparent"
+            value={text}
           />
         ) : (
           this._renderPreview()
