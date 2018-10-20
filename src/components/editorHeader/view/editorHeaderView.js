@@ -1,5 +1,5 @@
 import React, { Component } from 'react';
-import { View, SafeAreaView } from 'react-native';
+import { View, SafeAreaView, Text } from 'react-native';
 import { TextButton } from '../..';
 import { IconButton } from '../../iconButton';
 // Constants
@@ -25,17 +25,22 @@ class EditorHeaderView extends Component {
   // Component Functions
 
   render() {
-    const { handleOnPressBackButton, handleOnPressPreviewButton, isPreviewActive } = this.props;
+    const {
+      handleOnPressBackButton,
+      handleOnPressPreviewButton,
+      isPreviewActive,
+      quickTitle,
+    } = this.props;
 
     return (
       <SafeAreaView>
         <View style={styles.container}>
           <IconButton
-            style={styles.backIconButton}
             iconStyle={styles.backIcon}
             name="md-arrow-back"
             onPress={() => handleOnPressBackButton()}
           />
+          <Text style={styles.quickTitle}>{quickTitle}</Text>
           <IconButton
             style={styles.iconButton}
             iconStyle={styles.rightIcon}

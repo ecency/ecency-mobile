@@ -27,12 +27,12 @@ export default class MarkdownEditorView extends Component {
   }
 
   changeText = (input) => {
-    const { onMarkdownChange } = this.props;
+    const { handleOnTextChange } = this.props;
 
     this.setState({ text: input });
 
-    if (onMarkdownChange) {
-      onMarkdownChange(input);
+    if (handleOnTextChange) {
+      handleOnTextChange(input);
     }
   };
 

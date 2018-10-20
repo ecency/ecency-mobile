@@ -13,8 +13,12 @@ export default EStyleSheet.create({
     fontSize: 24,
     color: '$iconColor',
   },
-  backIconButton: {
+  quickTitle: {
     flexGrow: 1,
+    fontSize: 10,
+    color: '$iconColor',
+    marginLeft: 24,
+    alignSelf: 'center',
   },
   rightIcon: {
     color: '$iconColor',
