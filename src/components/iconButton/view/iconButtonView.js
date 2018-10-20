@@ -1,6 +1,6 @@
 import React, { Fragment } from 'react';
 import { TouchableHighlight } from 'react-native';
-import Ionicons from 'react-native-vector-icons/Ionicons';
+import { Icon } from '../../icon';
 
 import styles from './iconButtonStyles';
 
@@ -10,7 +10,14 @@ import styles from './iconButtonStyles';
 */
 
 const IconButton = ({
-  name, color, size, onPress, backgroundColor, style, iconStyle,
+  name,
+  color,
+  size,
+  onPress,
+  backgroundColor,
+  style,
+  iconStyle,
+  iconType,
 }) => (
   <Fragment>
     <TouchableHighlight
@@ -18,7 +25,7 @@ const IconButton = ({
       onPress={() => onPress && onPress()}
       underlayColor={backgroundColor || 'white'}
     >
-      <Ionicons
+      <Icon
         style={[
           color && { color },
           backgroundColor && { backgroundColor },
@@ -27,6 +34,7 @@ const IconButton = ({
         ]}
         name={name}
         size={size}
+        iconType={iconType}
       />
     </TouchableHighlight>
   </Fragment>

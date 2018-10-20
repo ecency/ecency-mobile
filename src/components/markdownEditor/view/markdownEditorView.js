@@ -4,15 +4,13 @@ import {
   TextInput,
   KeyboardAvoidingView,
   ScrollView,
-  TouchableOpacity,
-  Text,
   FlatList,
 } from 'react-native';
 import { MarkdownView } from 'react-native-markdown-view';
 
 // Components
 import Formats from './formats/formats';
-
+import { IconButton } from '../../iconButton';
 // Styles
 import styles from './markdownEditorStyles';
 import previewStyles from './markdownPreviewStyles';
@@ -71,9 +69,11 @@ export default class MarkdownEditorView extends Component {
   };
 
   _renderMarkupButton = ({ item, getState, setState }) => (
-    <TouchableOpacity onPress={() => item.onPress({ getState, setState, item })}>
-      <Text style={item.style}>{item.title}</Text>
-    </TouchableOpacity>
+    <IconButton
+      iconType={item.iconType}
+      name={item.icon}
+      onPress={() => item.onPress({ getState, setState, item })}
+    />
   );
 
   _renderEditorButtons = ({ getState, setState }) => (

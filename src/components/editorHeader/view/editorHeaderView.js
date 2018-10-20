@@ -47,7 +47,7 @@ class EditorHeaderView extends Component {
             size={25}
             onPress={() => handleOnPressPreviewButton()}
             iconStyle={styles.rightIcon}
-            name={isPreviewActive ? 'ios-eye' : 'ios-eye-off'}
+            name={!isPreviewActive ? 'ios-eye' : 'ios-eye-off'}
           />
           <TextButton
             textStyle={styles.textButton}
