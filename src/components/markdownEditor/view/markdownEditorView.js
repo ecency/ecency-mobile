@@ -81,7 +81,7 @@ export default class MarkdownEditorView extends Component {
       <View style={styles.leftButtonsWrapper}>
         <FlatList
           data={Formats}
-          keyboardShouldPersistTaps="always"
+          // keyboardShouldPersistTaps="always"
           renderItem={({ item }) => this._renderMarkupButton({ item, getState, setState })}
           horizontal
         />
@@ -99,7 +99,7 @@ export default class MarkdownEditorView extends Component {
           style={styles.dropdownStyle}
           options={['option1', 'option2', 'option3', 'option4']}
           iconName="md-more"
-          iconStyle={styles.dropdownStyle}
+          iconStyle={styles.dropdownIconStyle}
           isHasChildIcon
         />
       </View>
