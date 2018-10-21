@@ -5,6 +5,8 @@ import {
   setAuthStatus,
   getUserDataWithUsername,
   updateUserData,
+  setPinCode,
+  getPinCode,
 } from '../../realm/realm';
 import { encryptKey, decryptKey } from '../../utils/crypto';
 import steemConnect from './steemConnectAPI';
@@ -114,7 +116,14 @@ export const setUserDataWithPinCode = data => new Promise((resolve, reject) => {
 
       setAuthStatus(authData)
         .then(() => {
-          resolve();
+          const encriptedPinCode = encryptKey(data.pinCode, 'pin-code');
+          setPinCode(encriptedPinCode)
+            .then(() => {
+              resolve();
+            })
+            .catch((error) => {
+              reject(error);
+            });
         })
         .catch((error) => {
           reject(error);
@@ -129,22 +138,40 @@ export const setUserDataWithPinCode = data => new Promise((resolve, reject) => {
 export const verifyPinCode = data => new Promise((resolve, reject) => {
   const result = getUserDataWithUsername(data.username);
   const userData = result[0];
-  const masterKey = decryptKey(userData.masterKey, data.pinCode);
-  if (masterKey === data.password) {
+  let loginFlag = false;
+  if (userData.masterKey || userData.accessToken) {
+    const masterKey = decryptKey(userData.masterKey, data.pinCode);
+    const accessToken = decryptKey(userData.accessToken, data.pinCode);
+    if (masterKey === data.password || accessToken === data.accessToken) {
+      loginFlag = true;
+    }
+  } else if (data.accessToken) {
+    getPinCode()
+      .then((encriptedPinCode) => {
+        const pinCode = decryptKey(encriptedPinCode, 'pin-code');
+        if (pinCode === data.pinCode) {
+          loginFlag = true;
+        }
+      })
+      .catch(() => {
+        reject(new Error('Unknown error, please contact to eSteem.'));
+      });
+  }
+
+  if (loginFlag) {
     const authData = {
       isLoggedIn: true,
     };
-
     setAuthStatus(authData)
       .then(() => {
         resolve();
       })
-      .catch(() => {
-        reject(new Error('Invalid pin code, please check and try again'));
+      .catch((error) => {
+        // TODO: create function for throw error
+        reject(new Error('Unknown error, please contact to eSteem.'));
       });
   } else {
     reject(new Error('Invalid pin code, please check and try again'));
-    reject();
   }
 });
 

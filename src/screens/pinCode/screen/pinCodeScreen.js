@@ -1,7 +1,5 @@
 import React, { Component } from 'react';
-import {
-  Text, TouchableOpacity, Animated, View,
-} from 'react-native';
+import { Text, TouchableOpacity, View } from 'react-native';
 import { Container } from 'native-base';
 
 import { Logo, NumericKeyboard, PinAnimatedInput } from '../../../components';
@@ -12,7 +10,6 @@ class PinCodeScreen extends Component {
   constructor(props) {
     super(props);
     this.state = {
-      showPassword: false,
       pin: '',
     };
   }
@@ -37,6 +34,7 @@ class PinCodeScreen extends Component {
       this.setState({ pin: newPin });
       setPinCode(`${pin}${value}`)
         .then(() => {
+          // TODO: fix unmounted component error
           this.setState({ pin: '' });
         })
         .catch(() => {

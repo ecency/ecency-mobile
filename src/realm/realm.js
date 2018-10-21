@@ -21,7 +21,7 @@ const authSchema = {
   name: AUTH_SCHEMA,
   properties: {
     isLoggedIn: { type: 'bool', default: false },
-    pinCode: { tyep: 'string' },
+    pinCode: { type: 'string' },
   },
 };
 
@@ -116,9 +116,8 @@ export const setAuthStatus = authStatus => new Promise((resolve, reject) => {
   try {
     const auth = realm.objects(AUTH_SCHEMA);
     realm.write(() => {
-      realm.delete(auth);
-      realm.create(AUTH_SCHEMA, authStatus);
-      resolve(authStatus);
+      auth[0].isLoggedIn = authStatus.isLoggedIn;
+      resolve(auth[0]);
     });
   } catch (error) {
     reject(error);
@@ -133,6 +132,17 @@ export const setPinCode = pinCode => new Promise((resolve, reject) => {
       auth[0].pinCode = pinCode;
       resolve(auth[0]);
     });
+  } catch (error) {
+    reject(error);
+  }
+});
+
+export const getPinCode = () => new Promise((resolve, reject) => {
+  try {
+    const auth = realm.objects(AUTH_SCHEMA);
+    if (auth[0]) {
+      resolve(auth[0].pinCode);
+    }
   } catch (error) {
     reject(error);
   }

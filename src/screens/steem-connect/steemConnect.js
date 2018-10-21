@@ -40,7 +40,7 @@ class SteemConnect extends Component {
             if (result) {
               dispatch(addPassiveAccount(result));
               dispatch(loginAction());
-              navigation.navigate(ROUTES.SCREENS.PINCODE);
+              navigation.navigate(ROUTES.SCREENS.PINCODE, { accessToken });
             } else {
               // TODO: Error alert (Toast Message)
               console.log('loginWithSC2 error');
