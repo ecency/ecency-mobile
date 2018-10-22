@@ -29,6 +29,7 @@ class SteemConnect extends Component {
       // this.webview.stopLoading();
       try {
         accessToken = event.url.match(/\?(?:access_token)\=([\S\s]*?)\&/)[1];
+        console.log('accesstoken',accessToken);
       } catch (error) {
         console.log(error);
       }

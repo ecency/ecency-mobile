@@ -25,7 +25,9 @@ const authSchema = {
   },
 };
 
-const realm = new Realm({ schema: [userSchema, authSchema] });
+const realm = new Realm({ path: 'test.realm', schema: [userSchema, authSchema] });
+
+console.log('=========path=========', realm.path, Realm.defaultPath);
 
 // TODO: This is getting ALL user data, we should change this method with getUserDataWithUsername
 export const getUserData = () => new Promise((resolve, reject) => {
@@ -115,9 +117,20 @@ export const getAuthStatus = () => new Promise((resolve, reject) => {
 export const setAuthStatus = authStatus => new Promise((resolve, reject) => {
   try {
     const auth = realm.objects(AUTH_SCHEMA);
+    const test = Array.from(auth);
+    const test1 = Array.from(auth).length;
+    console.log('========1=======',test,test1);
     realm.write(() => {
-      auth[0].isLoggedIn = authStatus.isLoggedIn;
-      resolve(auth[0]);
+      if (Array.from(auth).length > 0) {
+        auth[0].isLoggedIn = authStatus.isLoggedIn;
+    console.log('========1=======');
+
+        resolve(auth[0]);
+      } else {
+        realm.create(AUTH_SCHEMA, { ...authStatus, pinCode: '' });
+        console.log('========2=======');
+        resolve(authStatus);
+      }
     });
   } catch (error) {
     reject(error);

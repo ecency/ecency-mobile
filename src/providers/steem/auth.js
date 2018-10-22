@@ -122,14 +122,17 @@ export const setUserDataWithPinCode = data => new Promise((resolve, reject) => {
               resolve();
             })
             .catch((error) => {
+              console.log('======1',error);
               reject(error);
             });
         })
         .catch((error) => {
+          console.log('======2',error);
           reject(error);
         });
     })
     .catch((err) => {
+      console.log('======3',err);
       reject(err);
     });
   resolve();
@@ -139,16 +142,23 @@ export const verifyPinCode = data => new Promise((resolve, reject) => {
   const result = getUserDataWithUsername(data.username);
   const userData = result[0];
   let loginFlag = false;
+  console.log('userData',userData);
+  console.log('data',data);
   if (userData.masterKey || userData.accessToken) {
     const masterKey = decryptKey(userData.masterKey, data.pinCode);
     const accessToken = decryptKey(userData.accessToken, data.pinCode);
+    console.log('masterKey',masterKey);
+    console.log('accessToken',accessToken);
     if (masterKey === data.password || accessToken === data.accessToken) {
       loginFlag = true;
     }
   } else if (data.accessToken) {
+    console.log('data.accessToken',data.accessToken);
     getPinCode()
       .then((encriptedPinCode) => {
+        console.log('encriptedPinCode',encriptedPinCode);
         const pinCode = decryptKey(encriptedPinCode, 'pin-code');
+        console.log('pinCode',pinCode);
         if (pinCode === data.pinCode) {
           loginFlag = true;
         }
