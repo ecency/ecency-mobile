@@ -25,6 +25,10 @@ class EditorHeaderView extends Component {
 
   // Component Functions
 
+  _handleOnPress = () => {
+    this.props.handleOnSubmit();
+  };
+
   render() {
     const {
       handleOnPressBackButton,
@@ -32,6 +36,7 @@ class EditorHeaderView extends Component {
       isPreviewActive,
       quickTitle,
       isFormValid,
+      handleSubmit,
     } = this.props;
 
     return (
@@ -61,6 +66,7 @@ class EditorHeaderView extends Component {
               styles.textButton,
               isFormValid ? styles.textButtonEnable : styles.textButtonDisable,
             ]}
+            onPress={this._handleOnPress}
             style={styles.textButtonWrapper}
             text="Publish"
           />

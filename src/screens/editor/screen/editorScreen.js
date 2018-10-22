@@ -48,7 +48,14 @@ export class EditorScreen extends Component {
     }
   };
 
-  _handleOnSubmit = () => {};
+  _handleOnSubmit = () => {
+    const { handleOnSubmit } = this.props;
+    const { formFields, tags } = this.state;
+
+    if (handleOnSubmit) {
+      handleOnSubmit({ formFields, tags });
+    }
+  };
 
   _handleIsFormValid = () => {
     const { formFields } = this.state;
@@ -79,10 +86,7 @@ export class EditorScreen extends Component {
   };
 
   _handleOnTagAdded = (tags) => {
-    this.setState({
-      tags,
-    });
-    console.log(tags);
+    this.setState({ tags });
   };
 
   render() {
@@ -95,6 +99,7 @@ export class EditorScreen extends Component {
           quickTitle={wordsCount > 0 && `${wordsCount} words`}
           handleOnPressPreviewButton={this._handleOnPressPreviewButton}
           isFormValid={isFormValid}
+          handleOnSubmit={this._handleOnSubmit}
         />
         <PostForm
           handleFormUpdate={this._handleFormUpdate}

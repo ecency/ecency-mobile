@@ -1,15 +1,17 @@
 import React, { Component } from 'react';
 
 // Services and Actions
+import { postContent } from '../../../providers/steem/dsteem';
+import { getUserData } from '../../../realm/realm';
 
 // Middleware
 
 // Constants
 
 // Utilities
-// import { postContent } from '../../providers/steem/dsteem';
-// import { getUserData, getAuthStatus } from '../../realm/realm';
-// import { decryptKey } from '../../utils/crypto';
+import { generatePermlink } from '../../../utils/editor';
+import { decryptKey } from '../../../utils/crypto';
+
 // Component
 import { EditorScreen } from '../screen/editorScreen';
 
@@ -29,51 +31,38 @@ class ExampleContainer extends Component {
 
   // Component Functions
 
-  // generatePermlink = () => {
-  //   let title;
+  _submitPost = async () => {
+    let userData;
+    let postingKey;
 
-  //   title = this.state.title
-  //     .replace(/[^\w\s]/gi, '')
-  //     .replace(/\s\s+/g, '-')
-  //     .replace(/\s/g, '-')
-  //     .toLowerCase();
-  //   title = `${title}-id-${Math.random()
-  //     .toString(36)
-  //     .substr(2, 16)}`;
+    await getUserData().then((res) => {
+      userData = Array.from(res);
+      postingKey = decryptKey(userData[0].postingKey, '1234');
+    });
 
-  //   return title;
-  // };
+    const post = {
+      body: this.state.body,
+      title: this.state.title,
+      author: userData[0].username,
+      permlink: generatePermlink(),
+      tags: this.state.tags,
+    };
 
-  // submitPost = async () => {
-  //   let userData;
-  //   let postingKey;
+    postContent(post, postingKey)
+      .then((result) => {
+        console.log(result);
+      })
+      .catch((error) => {
+        console.log(error);
+      });
+  };
 
-  //   await getUserData().then((res) => {
-  //     userData = Array.from(res);
-  //     postingKey = decryptKey(userData[0].postingKey, 'pinCode');
-  //   });
-
-  //   post = {
-  //     body: this.state.body,
-  //     title: this.state.title,
-  //     author: userData[0].username,
-  //     permlink: this.generatePermlink(),
-  //     tags: this.state.tags,
-  //   };
-
-  //   console.log(post);
-
-  //   postContent(post, postingKey)
-  //     .then((result) => {
-  //       console.log(result);
-  //     })
-  //     .catch((error) => {
-  //       console.log(error);
-  //     });
-  // };
+  _handleSubmit = (form) => {
+    alert(form);
+  };
 
   render() {
-    return <EditorScreen />;
+    return <EditorScreen handleOnSubmit={this._handleSubmit} />;
   }
 }
 
