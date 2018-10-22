@@ -26,6 +26,7 @@ export class EditorScreen extends Component {
       wordsCount: null,
       formFields: {},
       isFormValid: false,
+      tags: [],
     };
   }
 
@@ -77,6 +78,13 @@ export class EditorScreen extends Component {
     this._handleIsFormValid();
   };
 
+  _handleOnTagAdded = (tags) => {
+    this.setState({
+      tags,
+    });
+    console.log(tags);
+  };
+
   render() {
     const { isPreviewActive, wordsCount, isFormValid } = this.state;
 
@@ -95,7 +103,7 @@ export class EditorScreen extends Component {
           isFormValid={isFormValid}
         >
           <TitleArea componentID="title-area" />
-          <TagArea componentID="tag-area" />
+          <TagArea componentID="tag-area" handleTagChanged={this._handleOnTagAdded} />
           <TextArea handleOnTextChange={this._setWordsCount} componentID="text-area" />
         </PostForm>
       </View>

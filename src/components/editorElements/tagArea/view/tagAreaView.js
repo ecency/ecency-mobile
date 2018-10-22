@@ -18,7 +18,8 @@ export default class TagAreaView extends Component {
     super(props);
     this.state = {
       currentText: '',
-      chips: [{}],
+      chips: [' '],
+      chipsCount: props.chipsCount || 5,
     };
   }
 
@@ -26,47 +27,48 @@ export default class TagAreaView extends Component {
 
   // Component Functions
   _handleOnChange = (text, i) => {
-    const { onChange } = this.props;
-    const { chips } = this.state;
-
     this.setState({ currentText: text.trim() });
 
-    // if (text.indexOf(' ') > 0 && text) {
-    //   this._handleTagAdded();
-    // }
+    if (text.indexOf(' ') > 0 && text) {
+      this._handleTagAdded();
+    }
 
     if (!text && i !== 0) {
       this._handleTagRemove(i);
     }
-
-    // if (onChange) {
-    //   this.props.onChange(chips);
-    // }
   };
 
-  _handleOnBlur = () => {
-    this._handleTagAdded();
+  _handleOnBlur = (i) => {
+    this._handleTagAdded(i);
   };
 
-  _handleTagAdded = () => {
-    const { currentText, chips } = this.state;
+  _handleTagAdded = (i) => {
+    const { currentText, chips, chipsCount } = this.state;
+    const { handleTagChanged } = this.props;
 
-    if (currentText && chips.length < 5) {
+    if (currentText && currentText.trim() && chips && chips.length < chipsCount) {
       this.setState({
         chips: [...chips, currentText.trim()],
+        currentText: '',
       });
+    }
 
-      this.props.onChange(chips);
+    if (handleTagChanged && chips.length < chipsCount + 1) {
+      handleTagChanged([...chips, currentText.trim()]);
     }
   };
 
   _handleTagRemove = (i) => {
     const { chips } = this.state;
+    const { handleTagChanged } = this.props;
 
     this.setState({
       chips: chips.filter((_, _i) => _i !== i),
     });
-    this.props.onChange(chips);
+
+    if (handleTagChanged) {
+      handleTagChanged(chips.filter((_, _i) => _i !== i));
+    }
   };
 
   render() {
@@ -90,7 +92,7 @@ export default class TagAreaView extends Component {
               autoFocus={i !== 0 && chips.length - 1 === i}
               multiline={false}
               handleOnChange={text => this._handleOnChange(text, i)}
-              handleOnBlur={() => this._handleOnBlur()}
+              handleOnBlur={() => this._handleOnBlur(i)}
               blurOnSubmit
               autoCapitalize="none"
               {...this.props}
