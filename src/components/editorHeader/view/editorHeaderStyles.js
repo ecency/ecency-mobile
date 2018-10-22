@@ -29,8 +29,14 @@ export default EStyleSheet.create({
     alignSelf: 'center',
   },
   textButton: {
-    color: '$iconColor',
     fontSize: 16,
+  },
+  textButtonDisable: {
+    color: '$iconColor',
+  },
+  textButtonEnable: {
+    color: '$primaryBlue',
+    fontWeight: 'bold',
   },
   textButtonWrapper: {
     justifyContent: 'center',

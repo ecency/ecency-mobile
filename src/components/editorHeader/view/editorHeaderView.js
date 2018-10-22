@@ -12,7 +12,8 @@ import styles from './editorHeaderStyles';
 class EditorHeaderView extends Component {
   /* Props
     * ------------------------------------------------
-    *   @prop { type }    name                - Description....
+    *   @prop { boolean }    isFormValid                - Righst button propertie
+    *   @prop { string }     quickTitle                 - Left side behind back button text
     */
 
   constructor(props) {
@@ -30,6 +31,7 @@ class EditorHeaderView extends Component {
       handleOnPressPreviewButton,
       isPreviewActive,
       quickTitle,
+      isFormValid,
     } = this.props;
 
     return (
@@ -55,7 +57,10 @@ class EditorHeaderView extends Component {
             name={isPreviewActive ? 'ios-eye' : 'ios-eye-off'}
           />
           <TextButton
-            textStyle={styles.textButton}
+            textStyle={[
+              styles.textButton,
+              isFormValid ? styles.textButtonEnable : styles.textButtonDisable,
+            ]}
             style={styles.textButtonWrapper}
             text="Publish"
           />

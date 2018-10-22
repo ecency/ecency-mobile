@@ -1,4 +1,4 @@
-import React, { Component, Fragment } from 'react';
+import React, { Component } from 'react';
 import { View } from 'react-native';
 // Constants
 
@@ -6,6 +6,7 @@ import { View } from 'react-native';
 import { Chip } from '../../../basicUIElements';
 // Styles
 import styles from './tagAreaStyles';
+import globalStyles from '../../../../globalStyles';
 
 export default class TagAreaView extends Component {
   /* Props
@@ -63,7 +64,7 @@ export default class TagAreaView extends Component {
     const { chips } = this.state;
 
     return (
-      <Fragment>
+      <View style={globalStyles.containerHorizontal16}>
         <View style={styles.tagWrapper}>
           {chips.map((chip, i) => (
             <Chip
@@ -82,11 +83,11 @@ export default class TagAreaView extends Component {
               handleOnBlur={() => this._handleOnBlur()}
               blurOnSubmit
               autoCapitalize="none"
-              returnKeyType="next"
+              {...this.props}
             />
           ))}
         </View>
-      </Fragment>
+      </View>
     );
   }
 }

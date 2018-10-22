@@ -9,6 +9,7 @@ import { getWordsCount } from '../../../utils/editor';
 // Components
 import { EditorHeader } from '../../../components/editorHeader';
 import { TitleArea, TagArea, TextArea } from '../../../components/editorElements';
+import { PostForm } from '../../../components/postForm';
 // Styles
 import globalStyles from '../../../globalStyles';
 
@@ -44,6 +45,8 @@ export class EditorScreen extends Component {
     }
   };
 
+  _handleOnSubmit = () => {};
+
   render() {
     const { isPreviewActive, wordsCount } = this.state;
 
@@ -53,12 +56,20 @@ export class EditorScreen extends Component {
           isPreviewActive={isPreviewActive}
           quickTitle={wordsCount > 0 && `${wordsCount} words`}
           handleOnPressPreviewButton={this._handleOnPressPreviewButton}
+          isFormValid
         />
-        <View style={globalStyles.containerHorizontal16}>
+        <PostForm
+          handleOnSubmit={this._handleOnSubmit}
+          isPreviewActive={isPreviewActive}
+          isFormValid
+        >
           <TitleArea isPreviewActive={isPreviewActive} />
           <TagArea isPreviewActive={isPreviewActive} />
-        </View>
-        <TextArea handleOnTextChange={this._handleOnTextChange} isPreviewActive={isPreviewActive} />
+          <TextArea
+            handleOnTextChange={this._handleOnTextChange}
+            isPreviewActive={isPreviewActive}
+          />
+        </PostForm>
       </View>
     );
   }

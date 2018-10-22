@@ -1,11 +1,12 @@
-import React, { Component, Fragment } from 'react';
-import { TextInput } from 'react-native';
+import React, { Component } from 'react';
+import { TextInput, View } from 'react-native';
 // Constants
 
 // Components
 
 // Styles
 import styles from './titleAreaStyles';
+import globalStyles from '../../../../globalStyles';
 
 export default class TitleAreaView extends Component {
   /* Props
@@ -26,7 +27,7 @@ export default class TitleAreaView extends Component {
     const { onChange, value } = this.props;
 
     return (
-      <Fragment>
+      <View style={globalStyles.containerHorizontal16}>
         <TextInput
           style={styles.textInput}
           placeholderTextColor="c1c5c7"
@@ -38,8 +39,9 @@ export default class TitleAreaView extends Component {
           numberOfLines={4}
           onChangeText={text => onChange && onChange(text)}
           value={value}
+          {...this.props}
         />
-      </Fragment>
+      </View>
     );
   }
 }
