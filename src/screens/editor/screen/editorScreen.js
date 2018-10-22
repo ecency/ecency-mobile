@@ -63,12 +63,9 @@ export class EditorScreen extends Component {
           isPreviewActive={isPreviewActive}
           isFormValid
         >
-          <TitleArea isPreviewActive={isPreviewActive} />
-          <TagArea isPreviewActive={isPreviewActive} />
-          <TextArea
-            handleOnTextChange={this._handleOnTextChange}
-            isPreviewActive={isPreviewActive}
-          />
+          <TitleArea />
+          <TagArea />
+          <TextArea handleOnTextChange={this._handleOnTextChange} />
         </PostForm>
       </View>
     );

@@ -24,14 +24,14 @@ export default class TitleAreaView extends Component {
   // Component Functions
 
   render() {
-    const { onChange, value } = this.props;
+    const { onChange, value, isPreviewActive } = this.props;
 
     return (
       <View style={globalStyles.containerHorizontal16}>
         <TextInput
           style={styles.textInput}
           placeholderTextColor="c1c5c7"
-          editable
+          editable={!isPreviewActive}
           maxLength={250}
           placeholder="Title"
           multiline

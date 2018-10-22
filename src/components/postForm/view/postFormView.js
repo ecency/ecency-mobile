@@ -13,7 +13,7 @@ class PostFormView extends Component {
   };
 
   render() {
-    const { children, isFormValid } = this.props;
+    const { children, isFormValid, isPreviewActive } = this.props;
 
     return (
       <Fragment>
@@ -22,6 +22,7 @@ class PostFormView extends Component {
             return React.cloneElement(child, {
               onSubmitEditing: item => this._handleOnSubmitEditing(child.props.returnKeyType, item),
               returnKeyType: isFormValid ? 'done' : 'next',
+              isPreviewActive,
             });
           }
         })}

@@ -60,7 +60,7 @@ export default class TagAreaView extends Component {
   };
 
   render() {
-    const { chipsData } = this.props;
+    const { chipsData, isPreviewActive } = this.props;
     const { chips } = this.state;
 
     return (
@@ -74,7 +74,7 @@ export default class TagAreaView extends Component {
               }}
               isPin={i === 0 && chips[1]}
               placeholderTextColor="#fff"
-              editable={!chipsData}
+              editable={!isPreviewActive}
               maxLength={50}
               placeholder="tags"
               autoFocus={i !== 0 && chips.length - 1 === i}
