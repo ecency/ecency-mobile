@@ -27,13 +27,21 @@ export default class MarkdownEditorView extends Component {
   }
 
   changeText = (input) => {
-    const { handleOnTextChange } = this.props;
+    const {
+      onChange, handleOnTextChange, handleIsValid, componentID,
+    } = this.props;
 
     this.setState({ text: input });
 
-    if (handleOnTextChange) {
-      handleOnTextChange(input);
+    if (onChange) {
+      onChange(input);
     }
+
+    if (handleIsValid) {
+      handleIsValid(componentID, !!(input && input.length));
+    }
+
+    handleOnTextChange && handleOnTextChange(input);
   };
 
   _handleOnSelectionChange = (event) => {
@@ -115,9 +123,9 @@ export default class MarkdownEditorView extends Component {
         {!isPreviewActive ? (
           <TextInput
             multiline
-            onChangeText={this.changeText}
+            onChangeText={text => this.changeText(text)}
             onSelectionChange={this._handleOnSelectionChange}
-            placeHolder="What would you like to write about today?"
+            placeholder="What would you like to write about today?"
             placeholderTextColor="#c1c5c7"
             ref={textInput => (this.textInput = textInput)}
             selection={selection}

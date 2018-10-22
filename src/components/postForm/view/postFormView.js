@@ -1,6 +1,11 @@
 import React, { Component, Fragment } from 'react';
 
 class PostFormView extends Component {
+  constructor(props) {
+    super(props);
+    this.state = {};
+  }
+
   _handleOnSubmitEditing = (returnKeyType = null, inputElement = null) => {
     const { handleOnSubmit, isFormValid } = this.props;
 
@@ -12,6 +17,12 @@ class PostFormView extends Component {
     }
   };
 
+  _handleOnChange = (componentID, value, isValid = null) => {
+    const { handleFormUpdate } = this.props;
+
+    handleFormUpdate(componentID, value, !!isValid || !!value);
+  };
+
   render() {
     const { children, isFormValid, isPreviewActive } = this.props;
 
@@ -21,6 +32,7 @@ class PostFormView extends Component {
           if (child) {
             return React.cloneElement(child, {
               onSubmitEditing: item => this._handleOnSubmitEditing(child.props.returnKeyType, item),
+              onChange: value => this._handleOnChange(child.props.componentID, value),
               returnKeyType: isFormValid ? 'done' : 'next',
               isPreviewActive,
             });

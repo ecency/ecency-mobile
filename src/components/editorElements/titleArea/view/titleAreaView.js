@@ -22,22 +22,32 @@ export default class TitleAreaView extends Component {
   // Component Life Cycles
 
   // Component Functions
+  _handleOnChange = (text) => {
+    const { onChange, handleIsValid, componentID } = this.props;
+    if (onChange) {
+      onChange(text);
+    }
+
+    if (handleIsValid) {
+      handleIsValid(componentID, !!(text && text.length));
+    }
+  };
 
   render() {
-    const { onChange, value, isPreviewActive } = this.props;
+    const { value, isPreviewActive } = this.props;
 
     return (
       <View style={globalStyles.containerHorizontal16}>
         <TextInput
           style={styles.textInput}
-          placeholderTextColor="c1c5c7"
+          placeholderTextColor="#c1c5c7"
           editable={!isPreviewActive}
           maxLength={250}
           placeholder="Title"
           multiline
           autoFocus
           numberOfLines={4}
-          onChangeText={text => onChange && onChange(text)}
+          onChangeText={text => this._handleOnChange(text)}
           value={value}
           {...this.props}
         />

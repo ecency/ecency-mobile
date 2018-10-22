@@ -24,6 +24,8 @@ export class EditorScreen extends Component {
     this.state = {
       isPreviewActive: false,
       wordsCount: null,
+      formFields: {},
+      isFormValid: false,
     };
   }
 
@@ -36,8 +38,8 @@ export class EditorScreen extends Component {
     this.setState({ isPreviewActive: !isPreviewActive });
   };
 
-  _handleOnTextChange = (text) => {
-    const _wordsCount = getWordsCount(text);
+  _setWordsCount = (content) => {
+    const _wordsCount = getWordsCount(content);
     const { wordsCount } = this.state;
 
     if (_wordsCount !== wordsCount) {
@@ -47,8 +49,36 @@ export class EditorScreen extends Component {
 
   _handleOnSubmit = () => {};
 
+  _handleIsFormValid = () => {
+    const { formFields } = this.state;
+
+    this.setState({
+      isFormValid:
+        formFields['title-area']
+        && formFields['text-area']
+        && formFields['tag-area']
+        && formFields['title-area'].isValid
+        && formFields['text-area'].isValid
+        && formFields['tag-area'].isValid,
+    });
+  };
+
+  _handleFormUpdate = (componentID, content, isValid) => {
+    const { formFields } = this.state;
+    const newFormFields = formFields;
+
+    newFormFields[componentID] = {
+      content,
+      isValid,
+    };
+
+    this.setState({ formFields: newFormFields });
+
+    this._handleIsFormValid();
+  };
+
   render() {
-    const { isPreviewActive, wordsCount } = this.state;
+    const { isPreviewActive, wordsCount, isFormValid } = this.state;
 
     return (
       <View style={globalStyles.defaultContainer}>
@@ -56,16 +86,17 @@ export class EditorScreen extends Component {
           isPreviewActive={isPreviewActive}
           quickTitle={wordsCount > 0 && `${wordsCount} words`}
           handleOnPressPreviewButton={this._handleOnPressPreviewButton}
-          isFormValid
+          isFormValid={isFormValid}
         />
         <PostForm
+          handleFormUpdate={this._handleFormUpdate}
           handleOnSubmit={this._handleOnSubmit}
           isPreviewActive={isPreviewActive}
-          isFormValid
+          isFormValid={isFormValid}
         >
-          <TitleArea />
-          <TagArea />
-          <TextArea handleOnTextChange={this._handleOnTextChange} />
+          <TitleArea componentID="title-area" />
+          <TagArea componentID="tag-area" />
+          <TextArea handleOnTextChange={this._setWordsCount} componentID="text-area" />
         </PostForm>
       </View>
     );

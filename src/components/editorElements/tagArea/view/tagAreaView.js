@@ -26,6 +26,9 @@ export default class TagAreaView extends Component {
 
   // Component Functions
   _handleOnChange = (text, i) => {
+    const { onChange } = this.props;
+    const { chips } = this.state;
+
     this.setState({ currentText: text.trim() });
 
     // if (text.indexOf(' ') > 0 && text) {
@@ -35,6 +38,10 @@ export default class TagAreaView extends Component {
     if (!text && i !== 0) {
       this._handleTagRemove(i);
     }
+
+    // if (onChange) {
+    //   this.props.onChange(chips);
+    // }
   };
 
   _handleOnBlur = () => {
@@ -48,6 +55,8 @@ export default class TagAreaView extends Component {
       this.setState({
         chips: [...chips, currentText.trim()],
       });
+
+      this.props.onChange(chips);
     }
   };
 
@@ -57,6 +66,7 @@ export default class TagAreaView extends Component {
     this.setState({
       chips: chips.filter((_, _i) => _i !== i),
     });
+    this.props.onChange(chips);
   };
 
   render() {

@@ -36,7 +36,6 @@ export default EStyleSheet.create({
   },
   textButtonEnable: {
     color: '$primaryBlue',
-    fontWeight: 'bold',
   },
   textButtonWrapper: {
     justifyContent: 'center',
