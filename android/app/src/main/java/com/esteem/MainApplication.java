@@ -3,7 +3,6 @@ package com.esteem;
 import android.app.Application;
 
 import com.facebook.react.ReactApplication;
-import com.github.alinz.reactnativewebviewbridge.WebViewBridgePackage;
 import com.avishayil.rnrestart.ReactNativeRestartPackage;
 import com.BV.LinearGradient.LinearGradientPackage;
 import com.dylanvann.fastimage.FastImageViewPackage;
@@ -29,7 +28,6 @@ public class MainApplication extends Application implements ReactApplication {
     protected List<ReactPackage> getPackages() {
       return Arrays.<ReactPackage>asList(
           new MainReactPackage(),
-            new WebViewBridgePackage(),
             new ReactNativeRestartPackage(),
             new LinearGradientPackage(),
             new FastImageViewPackage(),
