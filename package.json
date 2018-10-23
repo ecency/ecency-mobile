@@ -1,10 +1,10 @@
 {
-  "name": "esteem",
+  "name": "eSteem",
   "version": "0.0.1",
   "private": true,
   "rnpm": {
     "assets": [
-      "./fonts"
+      "./assets/fonts"
     ]
   },
   "scripts": {
