@@ -58,16 +58,16 @@ export class EditorScreen extends Component {
   };
 
   _handleIsFormValid = () => {
-    const { formFields } = this.state;
+    const { formFields, tags } = this.state;
 
     this.setState({
       isFormValid:
         formFields['title-area']
         && formFields['text-area']
-        && formFields['tag-area']
         && formFields['title-area'].isValid
         && formFields['text-area'].isValid
-        && formFields['tag-area'].isValid,
+        && tags
+        && tags.length > 0,
     });
   };
 
@@ -86,7 +86,7 @@ export class EditorScreen extends Component {
   };
 
   _handleOnTagAdded = (tags) => {
-    this.setState({ tags });
+    this.setState({ tags: tags.filter(tag => tag && tag !== ' ') });
   };
 
   render() {

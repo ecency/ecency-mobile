@@ -26,7 +26,11 @@ class EditorHeaderView extends Component {
   // Component Functions
 
   _handleOnPress = () => {
-    this.props.handleOnSubmit();
+    const { handleOnSubmit } = this.props;
+
+    if (handleOnSubmit) {
+      handleOnSubmit();
+    }
   };
 
   render() {
@@ -36,7 +40,6 @@ class EditorHeaderView extends Component {
       isPreviewActive,
       quickTitle,
       isFormValid,
-      handleSubmit,
     } = this.props;
 
     return (

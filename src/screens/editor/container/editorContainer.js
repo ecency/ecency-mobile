@@ -31,34 +31,40 @@ class ExampleContainer extends Component {
 
   // Component Functions
 
-  _submitPost = async () => {
+  _submitPost = async (form) => {
     let userData;
     let postingKey;
+    const title = form.formFields['title-area'].content;
+    const permlink = generatePermlink(title);
 
     await getUserData().then((res) => {
-      userData = Array.from(res);
-      postingKey = decryptKey(userData[0].postingKey, '1234');
+      userData = res && Array.from(res)[0];
+      postingKey = decryptKey(userData.postingKey, '1234');
     });
 
-    const post = {
-      body: this.state.body,
-      title: this.state.title,
-      author: userData[0].username,
-      permlink: generatePermlink(),
-      tags: this.state.tags,
-    };
+    if (userData) {
+      const post = {
+        body: form.formFields['text-area'].content,
+        title,
+        author: userData.username,
+        permlink: permlink && permlink,
+        tags: form.tags,
+        // parent_author: 'u-e',
+        // parent_permlink: ' ',
+      };
 
-    postContent(post, postingKey)
-      .then((result) => {
-        console.log(result);
-      })
-      .catch((error) => {
-        console.log(error);
-      });
+      postContent(post, postingKey)
+        .then((result) => {
+          alert(`Success${result}`);
+        })
+        .catch((error) => {
+          alert(error);
+        });
+    }
   };
 
   _handleSubmit = (form) => {
-    alert(form);
+    this._submitPost(form);
   };
 
   render() {
