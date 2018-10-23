@@ -119,7 +119,7 @@ export const setAuthStatus = authStatus => new Promise((resolve, reject) => {
     const auth = realm.objects(AUTH_SCHEMA);
     const test = Array.from(auth);
     const test1 = Array.from(auth).length;
-    console.log('========1=======',test,test1);
+    console.log('========1=======',test,test1, authStatus);
     realm.write(() => {
       if (Array.from(auth).length > 0) {
         auth[0].isLoggedIn = authStatus.isLoggedIn;

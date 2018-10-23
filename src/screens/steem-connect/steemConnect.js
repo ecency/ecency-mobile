@@ -35,6 +35,7 @@ class SteemConnect extends Component {
       }
       if (!isLoading) {
         this.setState({ isLoading: true });
+        console.log('===========1111=========');
         loginWithSC2(accessToken, 'pinCode')
           .then((result) => {
             console.log(result);

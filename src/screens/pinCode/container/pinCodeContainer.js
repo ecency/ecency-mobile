@@ -51,7 +51,6 @@ class PinCodeContainer extends Component {
     const {
       currentAccount: { password, name },
       navigation,
-      accessToken,
     } = this.props;
     const { isExistUser, pinCode } = this.state;
     if (isExistUser) {
@@ -60,7 +59,7 @@ class PinCodeContainer extends Component {
         pinCode: pin,
         password,
         username: name,
-        accessToken,
+        accessToken: navigation.getParam('accessToken', ''),
       };
       verifyPinCode(pinData)
         .then(() => {

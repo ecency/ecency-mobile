@@ -138,7 +138,7 @@ export const setUserDataWithPinCode = data => new Promise((resolve, reject) => {
   resolve();
 });
 
-export const verifyPinCode = data => new Promise((resolve, reject) => {
+export const verifyPinCode = async data => {
   const result = getUserDataWithUsername(data.username);
   const userData = result[0];
   let loginFlag = false;
@@ -149,41 +149,43 @@ export const verifyPinCode = data => new Promise((resolve, reject) => {
     const accessToken = decryptKey(userData.accessToken, data.pinCode);
     console.log('masterKey',masterKey);
     console.log('accessToken',accessToken);
-    if (masterKey === data.password || accessToken === data.accessToken) {
+    if (masterKey === data.password || (data.accessToken && accessToken === data.accessToken)) {
       loginFlag = true;
     }
   } else if (data.accessToken) {
     console.log('data.accessToken',data.accessToken);
-    getPinCode()
-      .then((encriptedPinCode) => {
-        console.log('encriptedPinCode',encriptedPinCode);
-        const pinCode = decryptKey(encriptedPinCode, 'pin-code');
-        console.log('pinCode',pinCode);
-        if (pinCode === data.pinCode) {
-          loginFlag = true;
-        }
-      })
-      .catch(() => {
-        reject(new Error('Unknown error, please contact to eSteem.'));
-      });
+    const encriptedPinCode = await getPinCode();
+    console.log('encriptedPinCode',encriptedPinCode);
+    const pinCode = decryptKey(encriptedPinCode, 'pin-code');
+    console.log('pinCode', pinCode, data.pinCode, pinCode == data.pinCode);
+    if (pinCode == data.pinCode) {
+      loginFlag = true;
+      console.log('loginFlag',loginFlag);
+    }
   }
-
-  if (loginFlag) {
-    const authData = {
-      isLoggedIn: true,
-    };
-    setAuthStatus(authData)
-      .then(() => {
-        resolve();
-      })
-      .catch((error) => {
-        // TODO: create function for throw error
-        reject(new Error('Unknown error, please contact to eSteem.'));
-      });
-  } else {
-    reject(new Error('Invalid pin code, please check and try again'));
-  }
-});
+  return new Promise((resolve, reject) => {
+    console.log('1');
+    if (loginFlag) {
+      const authData = {
+        isLoggedIn: true,
+      };
+      console.log('2');
+      setAuthStatus(authData)
+        .then(() => {
+          console.log('3');
+          resolve();
+        })
+        .catch((error) => {
+          // TODO: create function for throw error
+          reject(new Error('Unknown error, please contact to eSteem.'));
+        });
+    } else {
+      console.log('4');
+      reject(new Error('Invalid pin code, please check and try again'));
+    }
+  });
+  
+}
 
 const getPrivateKeys = (username, password) => ({
   active: dsteem.PrivateKey.fromLogin(username, password, 'active'),
@@ -193,17 +195,20 @@ const getPrivateKeys = (username, password) => ({
 });
 
 export const loginWithSC2 = async (accessToken) => {
+  console.log('===========accessToken=========', accessToken);
   await steemConnect.setAccessToken(accessToken);
   const account = await steemConnect.me();
+  console.log('===========account=========', account);
 
   return new Promise((resolve, reject) => {
     const userData = {
       username: account.name,
       authType: 'steemConnect',
-      postingKey: '',
       masterKey: '',
+      postingKey: '',
       activeKey: '',
       memoKey: '',
+      accessToken: '',
     };
 
     const authData = {
