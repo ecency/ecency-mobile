@@ -7,6 +7,7 @@ import { getUserData } from '../../../realm/realm';
 // Middleware
 
 // Constants
+import { default as ROUTES } from '../../../constants/routeNames';
 
 // Utilities
 import { generatePermlink } from '../../../utils/editor';
@@ -32,6 +33,7 @@ class ExampleContainer extends Component {
   // Component Functions
 
   _submitPost = async (form) => {
+    const { navigation } = this.props;
     let userData;
     let postingKey;
     const title = form.formFields['title-area'].content;
@@ -49,16 +51,15 @@ class ExampleContainer extends Component {
         author: userData.username,
         permlink: permlink && permlink,
         tags: form.tags,
-        // parent_author: 'u-e',
-        // parent_permlink: ' ',
       };
 
       postContent(post, postingKey)
         .then((result) => {
-          alert(`Success${result}`);
+          alert('Your post succesfully shared');
+          navigation.navigate(ROUTES.SCREENS.HOME);
         })
         .catch((error) => {
-          alert(error);
+          alert(`Opps! there is a problem${error}`);
         });
     }
   };
