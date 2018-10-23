@@ -1,14 +1,14 @@
-import React, { Component } from "react";
-import { Animated } from "react-native";
+import React, { Component } from 'react';
+import { Animated } from 'react-native';
 
 // Styles
-import styles from "./pinAnimatedInputStyles";
+import styles from './pinAnimatedInputStyles';
 
 class PinAnimatedInput extends Component {
   /* Props
     *
     *   @prop { string }    pin            - Description.
-    * 
+    *
     */
   constructor(props) {
     super(props);
@@ -35,18 +35,17 @@ class PinAnimatedInput extends Component {
           if (pin.length > index) {
             return (
               <Animated.View
-                key={"passwordItem-" + index}
+                key={`passwordItem-${index}`}
                 style={[styles.input, styles.activeInput]}
               />
             );
-          } else {
-            return (
-              <Animated.View
-                key={"passwordItem-" + index}
-                style={styles.input}
-              />
-            );
           }
+          return (
+            <Animated.View
+              key={`passwordItem-${index}`}
+              style={styles.input}
+            />
+          );
         })}
       </Animated.View>
     );

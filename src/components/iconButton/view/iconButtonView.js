@@ -1,15 +1,17 @@
-import React from "react";
-import { View, TouchableHighlight } from "react-native";
-import Ionicons from "react-native-vector-icons/Ionicons";
+import React from 'react';
+import { View, TouchableHighlight } from 'react-native';
+import Ionicons from 'react-native-vector-icons/Ionicons';
 
-import styles from "./iconButtonStyles";
+import styles from './iconButtonStyles';
 
 /* Props
 * ------------------------------------------------
 *   @prop { type }    name                - Description....
 */
 
-const IconButton = ({ name, color, size, onPress, backgroundColor, style }) => (
+const IconButton = ({
+  name, color, size, onPress, backgroundColor, style,
+}) => (
   <View>
     <TouchableHighlight
       style={[styles.iconButton, style && style]}
@@ -19,8 +21,8 @@ const IconButton = ({ name, color, size, onPress, backgroundColor, style }) => (
       <Ionicons
         style={[
           styles.icon,
-          color && { color: color },
-          backgroundColor && { backgroundColor: backgroundColor },
+          color && { color },
+          backgroundColor && { backgroundColor },
         ]}
         name={name}
         size={size}

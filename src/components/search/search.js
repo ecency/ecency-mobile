@@ -116,7 +116,7 @@ export default class Search extends Component {
               flex: 0.1,
               fontSize: 15,
               top: 12.5,
-              color:"$iconColor",
+              color: '$iconColor',
             }}
           />
         </View>

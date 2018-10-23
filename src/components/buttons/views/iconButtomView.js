@@ -1,9 +1,9 @@
-import React, { Component } from "react";
-import { TouchableOpacity, Platform } from "react-native";
-import Ionicons from "react-native-vector-icons/Ionicons";
+import React, { Component } from 'react';
+import { TouchableOpacity, Platform } from 'react-native';
+import Ionicons from 'react-native-vector-icons/Ionicons';
 
 // Styles
-import styles from "./iconButtonStyles";
+import styles from './iconButtonStyles';
 
 /*
 *            Props Name        Description                                     Value
@@ -37,7 +37,7 @@ class IconButtonView extends Component {
     const { name, androidName } = this.props;
 
     if (name) {
-      const isIos = Platform.OS === "ios";
+      const isIos = Platform.OS === 'ios';
       let iconName;
 
       if (isIos) {

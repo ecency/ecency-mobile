@@ -1,7 +1,7 @@
-import React from "react";
-import { TouchableOpacity, Text } from "react-native";
+import React from 'react';
+import { TouchableOpacity, Text } from 'react-native';
 
-import styles from "./circularButtonStyles";
+import styles from './circularButtonStyles';
 
 /* Props
     *
@@ -10,7 +10,9 @@ import styles from "./circularButtonStyles";
     *   @prop { array }     style            - It is addionatly syle for button.
     *   @prop { any }       value            - When button clicked, this value will push with on press func.
     */
-const CircularButtonView = ({ text, onPress, style, value }) => (
+const CircularButtonView = ({
+  text, onPress, style, value,
+}) => (
   <TouchableOpacity
     style={[styles.button, style]}
     onPress={() => onPress && onPress(value)}

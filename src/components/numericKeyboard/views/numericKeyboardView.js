@@ -1,15 +1,15 @@
-import React, { Fragment, Component } from "react";
-import { View } from "react-native";
+import React, { Fragment, Component } from 'react';
+import { View } from 'react-native';
 
-import { CircularButton, IconButton } from "../../";
+import { CircularButton, IconButton } from '../..';
 
-import styles from "./numericKeyboardStyles";
+import styles from './numericKeyboardStyles';
 
 class NumericKeyboard extends Component {
   /* Props
     *
     *   @prop { func }    onPress            - Function will trigger when any button clicked.
-    * 
+    *
     */
   constructor(props) {
     super(props);
@@ -20,7 +20,7 @@ class NumericKeyboard extends Component {
 
   // Component Functions
 
-  _handleOnPress = value => {
+  _handleOnPress = (value) => {
     alert(value);
   };
 
@@ -98,7 +98,7 @@ class NumericKeyboard extends Component {
           />
 
           <IconButton
-            handleOnPress={() => onPress && onPress("clear")}
+            handleOnPress={() => onPress && onPress('clear')}
             isCircle
             style={styles.iconButton}
             name="close"

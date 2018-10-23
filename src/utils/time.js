@@ -9,8 +9,8 @@ export const getTimeFromNow = (value) => {
     .fromNow();
 };
 
-export const getFormatedCreatedDate = value => {
+export const getFormatedCreatedDate = (value) => {
   if (!value) return null;
 
-  return moment(value).format("DD MMM, YYYY");
+  return moment(value).format('DD MMM, YYYY');
 };

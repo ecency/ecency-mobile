@@ -15,7 +15,7 @@ export default EStyleSheet.create({
   },
   dropdownIcon: {
     fontSize: 18,
-    color:"$iconColor",
+    color: '$iconColor',
     marginLeft: 7,
     marginTop: 1,
   },

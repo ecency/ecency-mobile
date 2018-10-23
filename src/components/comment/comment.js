@@ -212,124 +212,124 @@ class Comment extends React.PureComponent {
                       popoverAnchorRect,
                     }) => (
                       <React.Fragment>
-                          <TouchableOpacity
-                              start
-                              ref={setPopoverAnchor}
-                              onPress={openPopover}
-                              style={styles.upvoteButton}
-                            >
-                              {this.state.isVoting ? (
-                                  <ActivityIndicator />
-                                ) : (
-                                    <View>
-                                        {this.state.isVoted ? (
-                                            <Icon
-                                                style={{
-                                                    color:
+                        <TouchableOpacity
+                          start
+                          ref={setPopoverAnchor}
+                          onPress={openPopover}
+                          style={styles.upvoteButton}
+                        >
+                          {this.state.isVoting ? (
+                            <ActivityIndicator />
+                          ) : (
+                            <View>
+                              {this.state.isVoted ? (
+                                <Icon
+                                  style={{
+                                    color:
                                                                         '#007ee5',
-                                                  }}
-                                                style={
+                                  }}
+                                  style={
                                                                     styles.upvoteIcon
                                                                 }
-                                                active
-                                                name="ios-arrow-dropup-circle"
-                                              />
-                                          ) : (
-                                              <Icon
-                                                  style={{
-                                                    color:
+                                  active
+                                  name="ios-arrow-dropup-circle"
+                                />
+                              ) : (
+                                <Icon
+                                  style={{
+                                    color:
                                                                         '#007ee5',
-                                                  }}
-                                                  style={
+                                  }}
+                                  style={
                                                                     styles.upvoteIcon
                                                                 }
-                                                  active
-                                                  name="ios-arrow-dropup-outline"
-                                                />
-                                          )}
-                                      </View>
-                                )}
-                            </TouchableOpacity>
-                          <Popover
-                              contentStyle={styles.popover}
-                              arrowStyle={styles.arrow}
-                              backgroundStyle={
+                                  active
+                                  name="ios-arrow-dropup-outline"
+                                />
+                              )}
+                            </View>
+                          )}
+                        </TouchableOpacity>
+                        <Popover
+                          contentStyle={styles.popover}
+                          arrowStyle={styles.arrow}
+                          backgroundStyle={
                                                     styles.background
                                                 }
-                              visible={popoverVisible}
-                              onClose={closePopover}
-                              fromRect={popoverAnchorRect}
-                              placement="top"
-                              supportedOrientations={[
-                                  'portrait',
-                                  'landscape',
-                                ]}
-                            >
-                              <Text>
+                          visible={popoverVisible}
+                          onClose={closePopover}
+                          fromRect={popoverAnchorRect}
+                          placement="top"
+                          supportedOrientations={[
+                            'portrait',
+                            'landscape',
+                          ]}
+                        >
+                          <Text>
                                                     $
-                                  {this.state.amount}
-                                </Text>
-                              <View
-                                  style={{
-                                      flex: 1,
-                                      flexDirection: 'row',
-                                    }}
-                                >
-                                  <TouchableOpacity
-                                      onPress={() => {
-                                          closePopover();
-                                          this.upvoteContent();
-                                        }}
-                                      style={{
-                                          flex: 0.1,
-                                          alignSelf: 'center',
-                                        }}
-                                    >
-                                      <Icon
-                                          style={{
-                                              color:
+                            {this.state.amount}
+                          </Text>
+                          <View
+                            style={{
+                              flex: 1,
+                              flexDirection: 'row',
+                            }}
+                          >
+                            <TouchableOpacity
+                              onPress={() => {
+                                closePopover();
+                                this.upvoteContent();
+                              }}
+                              style={{
+                                flex: 0.1,
+                                alignSelf: 'center',
+                              }}
+                            >
+                              <Icon
+                                style={{
+                                  color:
                                                                     '#007ee5',
-                                            }}
-                                          active
-                                          name="ios-arrow-dropup-outline"
-                                        />
-                                    </TouchableOpacity>
-                                  <Slider
-                                      style={{ flex: 1 }}
-                                      minimumTrackTintColor="#13a9d6"
-                                      trackStyle={
+                                }}
+                                active
+                                name="ios-arrow-dropup-outline"
+                              />
+                            </TouchableOpacity>
+                            <Slider
+                              style={{ flex: 1 }}
+                              minimumTrackTintColor="#13a9d6"
+                              trackStyle={
                                                             styles.track
                                                         }
-                                      thumbStyle={
+                              thumbStyle={
                                                             styles.thumb
                                                         }
-                                      thumbTintColor="#007ee5"
-                                      value={this.state.value}
-                                      onValueChange={(value) => {
-                                          this.setState(
-                                            { value },
-                                            () => {
-                                              this.calculateEstimatedAmount();
-                                            },
-                                          );
-                                        }}
-                                    />
-                                  <Text
-                                      style={{
-                                          flex: 0.15,
-                                          alignSelf: 'center',
-                                          marginLeft: 10,
-                                        }}
-                                    >
-                                      {(
-                                          this.state.value
+                              thumbTintColor="#007ee5"
+                              value={this.state.value}
+                              onValueChange={(value) => {
+                                this.setState(
+                                  { value },
+                                  () => {
+                                    this.calculateEstimatedAmount();
+                                  },
+                                );
+                              }}
+                            />
+                            <Text
+                              style={{
+                                flex: 0.15,
+                                alignSelf: 'center',
+                                marginLeft: 10,
+                              }}
+                            >
+                              {(
+                                this.state.value
                                                             * 100
-                                        ).toFixed(0)}
+                              ).toFixed(0)}
                                                         %
-                                    </Text>
-                                </View>
-                            </Popover>
-                        </React.Fragment>
+                            </Text>
+                          </View>
+                        </Popover>
+                      </React.Fragment>
                     )}
                   </PopoverController>
                   <TouchableOpacity
@@ -352,77 +352,77 @@ class Comment extends React.PureComponent {
                     >
                       <View
                         style={{
-                            flex: 0.8,
-                            backgroundColor: 'white',
-                            borderRadius: 10,
-                          }}
+                          flex: 0.8,
+                          backgroundColor: 'white',
+                          borderRadius: 10,
+                        }}
                       >
                         <TouchableOpacity
-                            onPress={this.toggleModal}
-                          >
-                            <Text>Tap to close!</Text>
-                          </TouchableOpacity>
+                          onPress={this.toggleModal}
+                        >
+                          <Text>Tap to close!</Text>
+                        </TouchableOpacity>
                         <FlatList
-                            data={
+                          data={
                                                     this.props.comment
                                                       .active_votes
                                                 }
-                            keyExtractor={item => item.voter.toString()
+                          keyExtractor={item => item.voter.toString()
                                                 }
-                            renderItem={({ item }) => (
-                                <View
-                                    style={{
-                                        flexDirection:
+                          renderItem={({ item }) => (
+                            <View
+                              style={{
+                                flexDirection:
                                                                 'row',
-                                        borderColor:
+                                borderColor:
                                                                 '$primaryLightGray',
-                                        borderWidth: 1,
-                                        borderRadius: 10,
-                                      }}
-                                  >
-                                    <Thumbnail
-                                        style={{
-                                            width: 34,
-                                            height: 34,
-                                            borderRadius: 17,
-                                            flex: 0.1,
-                                          }}
-                                        source={{
-                                            uri:
+                                borderWidth: 1,
+                                borderRadius: 10,
+                              }}
+                            >
+                              <Thumbnail
+                                style={{
+                                  width: 34,
+                                  height: 34,
+                                  borderRadius: 17,
+                                  flex: 0.1,
+                                }}
+                                source={{
+                                  uri:
                                                                     item.avatar,
-                                          }}
-                                      />
-                                    <Text
-                                        style={{
-                                            flex: 0.5,
-                                          }}
-                                      >
-                                        {' '}
-                                        {item.voter}
-                                        {' '}
+                                }}
+                              />
+                              <Text
+                                style={{
+                                  flex: 0.5,
+                                }}
+                              >
+                                {' '}
+                                {item.voter}
+                                {' '}
 (
-                                        {item.reputation}
+                                {item.reputation}
 )
-                                      </Text>
-                                    <Text
-                                        style={{
-                                            flex: 0.2,
-                                          }}
-                                      >
-                                        {item.value}
+                              </Text>
+                              <Text
+                                style={{
+                                  flex: 0.2,
+                                }}
+                              >
+                                {item.value}
 $
-                                      </Text>
-                                    <Text
-                                        style={{
-                                            flex: 0.2,
-                                          }}
-                                      >
-                                        {item.percent}
+                              </Text>
+                              <Text
+                                style={{
+                                  flex: 0.2,
+                                }}
+                              >
+                                {item.percent}
 %
-                                      </Text>
-                                  </View>
-                              )}
-                          />
+                              </Text>
+                            </View>
+                          )}
+                        />
                       </View>
                     </Modal>
                   </TouchableOpacity>

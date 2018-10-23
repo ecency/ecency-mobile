@@ -27,6 +27,6 @@ export default EStyleSheet.create({
     fontSize: 25,
     top: 18,
     left: 8,
-    color:"$iconColor",
+    color: '$iconColor',
   },
 });
