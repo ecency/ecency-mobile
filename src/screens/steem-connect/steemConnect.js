@@ -29,27 +29,23 @@ class SteemConnect extends Component {
       // this.webview.stopLoading();
       try {
         accessToken = event.url.match(/\?(?:access_token)\=([\S\s]*?)\&/)[1];
-        console.log('accesstoken',accessToken);
       } catch (error) {
-        console.log(error);
+        // TODO: return
       }
       if (!isLoading) {
         this.setState({ isLoading: true });
-        console.log('===========1111=========');
         loginWithSC2(accessToken, 'pinCode')
           .then((result) => {
-            console.log(result);
             if (result) {
               dispatch(addPassiveAccount(result));
               dispatch(loginAction());
               navigation.navigate(ROUTES.SCREENS.PINCODE, { accessToken });
             } else {
               // TODO: Error alert (Toast Message)
-              console.log('loginWithSC2 error');
             }
           })
           .catch((error) => {
-            console.log(error);
+            // TODO: return
           });
       }
     }

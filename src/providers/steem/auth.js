@@ -122,17 +122,14 @@ export const setUserDataWithPinCode = data => new Promise((resolve, reject) => {
               resolve();
             })
             .catch((error) => {
-              console.log('======1',error);
               reject(error);
             });
         })
         .catch((error) => {
-          console.log('======2',error);
           reject(error);
         });
     })
     .catch((err) => {
-      console.log('======3',err);
       reject(err);
     });
   resolve();
@@ -142,37 +139,26 @@ export const verifyPinCode = async data => {
   const result = getUserDataWithUsername(data.username);
   const userData = result[0];
   let loginFlag = false;
-  console.log('userData',userData);
-  console.log('data',data);
   if (userData.masterKey || userData.accessToken) {
     const masterKey = decryptKey(userData.masterKey, data.pinCode);
     const accessToken = decryptKey(userData.accessToken, data.pinCode);
-    console.log('masterKey',masterKey);
-    console.log('accessToken',accessToken);
     if (masterKey === data.password || (data.accessToken && accessToken === data.accessToken)) {
       loginFlag = true;
     }
   } else if (data.accessToken) {
-    console.log('data.accessToken',data.accessToken);
     const encriptedPinCode = await getPinCode();
-    console.log('encriptedPinCode',encriptedPinCode);
     const pinCode = decryptKey(encriptedPinCode, 'pin-code');
-    console.log('pinCode', pinCode, data.pinCode, pinCode == data.pinCode);
     if (pinCode == data.pinCode) {
       loginFlag = true;
-      console.log('loginFlag',loginFlag);
     }
   }
   return new Promise((resolve, reject) => {
-    console.log('1');
     if (loginFlag) {
       const authData = {
         isLoggedIn: true,
       };
-      console.log('2');
       setAuthStatus(authData)
         .then(() => {
-          console.log('3');
           resolve();
         })
         .catch((error) => {
@@ -180,7 +166,6 @@ export const verifyPinCode = async data => {
           reject(new Error('Unknown error, please contact to eSteem.'));
         });
     } else {
-      console.log('4');
       reject(new Error('Invalid pin code, please check and try again'));
     }
   });
@@ -195,10 +180,8 @@ const getPrivateKeys = (username, password) => ({
 });
 
 export const loginWithSC2 = async (accessToken) => {
-  console.log('===========accessToken=========', accessToken);
   await steemConnect.setAccessToken(accessToken);
   const account = await steemConnect.me();
-  console.log('===========account=========', account);
 
   return new Promise((resolve, reject) => {
     const userData = {
