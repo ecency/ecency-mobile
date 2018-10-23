@@ -12,7 +12,7 @@
     "lint:fix": "eslint src/ --fix",
     "format": "prettier --print-width=100 --single-quote --trailing-comma all --write \"{src,__tests__}/**/*.js\"",
     "lint-staged": "lint-staged",
-    "clear": "watchman watch-del-all && rm -rf $TMPDIR/react-native-packager-cache-* && rm -rf $TMPDIR/metro-bundler-cache-* && rm -rf node_modules/ && yarn cache clean && yarn install && yarn start -- --reset-cache"
+    "clear": "watchman watch-del-all && rm -rf $TMPDIR/react-native-packager-cache-* && rm -rf $TMPDIR/metro-bundler-cache-* && rm -rf node_modules/ && npm install && npm start -- --reset-cache"
   },
   "dependencies": {
     "@babel/runtime": "^7.1.2",
@@ -66,7 +66,7 @@
   },
   "lint-staged": {
     "*.js": [
-      "yarn run lint:fix",
+      "npm run lint:fix",
       "git add"
     ]
   },
