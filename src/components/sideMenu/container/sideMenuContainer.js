@@ -7,7 +7,7 @@ import { SideMenuView } from '..';
 
 /*
   *               Props Name                              Description
-  *@props -->     props name here                         description here
+  *@props -->     props name navigation                   coming from react-navigation
   *
   */
 
