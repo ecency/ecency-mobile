@@ -5,10 +5,9 @@ import { ProfileScreen } from '..';
 
 // Utilitites
 import {
-  getUser, getFollows, getPosts, getUserComments,
+  getFollows, getPosts, getUser, getUserComments,
 } from '../../../providers/steem/dsteem';
-import { getUserData, getAuthStatus, getUserDataWithUsername } from '../../../realm/realm';
-import { getFormatedCreatedDate } from '../../../utils/time';
+import { getUserData, getAuthStatus } from '../../../realm/realm';
 
 class ProfileContainer extends Component {
   constructor(props) {
@@ -43,12 +42,12 @@ class ProfileContainer extends Component {
     });
 
     if (selectedUser) {
-      const _userData = getUserDataWithUsername(selectedUser.username);
+      const _userData = await getUser(selectedUser.username);
       console.log(selectedUser);
 
       console.log('holllyy');
       console.log(_userData);
-      userData = _userData && _userData[0];
+      userData = _userData;
     } else if (isLoggedIn) {
       await getUserData().then((res) => {
         userData = Array.from(res)[0];
@@ -64,7 +63,7 @@ class ProfileContainer extends Component {
         follows = res;
       });
 
-      user = await getUser(userData.username);
+      user = await getUser(userData.username || selectedUser.username);
 
       about = user.json_metadata && JSON.parse(user.json_metadata);
 

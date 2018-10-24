@@ -38,9 +38,7 @@ export const getUserData = () => new Promise((resolve, reject) => {
 
 export const getUserDataWithUsername = (username) => {
   try {
-    const user = Array.from(
-      realm.objects(USER_SCHEMA).filtered('username = $0', username),
-    );
+    const user = Array.from(realm.objects(USER_SCHEMA).filtered('username = $0', username));
     return user;
   } catch (error) {
     return error;
@@ -66,9 +64,7 @@ export const setUserData = userData => new Promise((resolve, reject) => {
 
 export const updateUserData = userData => new Promise((resolve, reject) => {
   try {
-    const account = realm
-      .objects(USER_SCHEMA)
-      .filtered('username = $0', userData.username);
+    const account = realm.objects(USER_SCHEMA).filtered('username = $0', userData.username);
 
     if (Array.from(account).length > 0) {
       realm.write(() => {
