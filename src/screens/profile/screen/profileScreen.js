@@ -40,44 +40,6 @@ class ProfileScreen extends Component {
     };
   }
 
-  async componentDidMount() {
-    let isLoggedIn;
-    await getAuthStatus().then((res) => {
-      isLoggedIn = res;
-    });
-
-    if (isLoggedIn) {
-      let user;
-      let userData;
-      let follows;
-      let about;
-
-      await getUserData().then((res) => {
-        userData = Array.from(res);
-      });
-
-      await getFollows(userData[0].username).then((res) => {
-        follows = res;
-      });
-
-      user = await getUser(userData[0].username);
-
-      about = user.json_metadata && JSON.parse(user.json_metadata);
-      this.setState(
-        {
-          user,
-          isLoggedIn,
-          follows,
-          about: about && about.profile,
-        },
-        () => {
-          this._getBlog(userData[0].username);
-          this._getComments(userData[0].username);
-        },
-      );
-    }
-  }
-
   _renderFooter = () => {
     if (this.state.isLoading) return null;
 
@@ -88,69 +50,13 @@ class ProfileScreen extends Component {
     );
   };
 
-  _getBlog = (user) => {
-    this.setState({ isLoading: true });
-    getPosts('blog', { tag: user, limit: 10 }, user)
-      .then((result) => {
-        this.setState({
-          isReady: true,
-          posts: result,
-          start_author: result[result.length - 1].author,
-          start_permlink: result[result.length - 1].permlink,
-          refreshing: false,
-          isLoading: false,
-        });
-      })
-      .catch((err) => {
-        alert(err);
-      });
-  };
-
-  _getMore = async () => {
-    console.log('get more');
-    await getPosts(
-      'blog',
-      {
-        tag: this.state.user.name,
-        limit: 10,
-        start_author: this.state.start_author,
-        start_permlink: this.state.start_permlink,
-      },
-      this.state.user.name,
-    ).then((result) => {
-      console.log(result);
-      const posts = result;
-      posts.shift();
-      this.setState({
-        posts: [...this.state.posts, ...posts],
-        start_author: result[result.length - 1] && result[result.length - 1].author,
-        start_permlink: result[result.length - 1] && result[result.length - 1].permlink,
-        isLoading: false,
-      });
-    });
-  };
-
-  _getComments = async (user) => {
-    await getUserComments({ start_author: user, limit: 10 })
-      .then((result) => {
-        this.setState({
-          isReady: true,
-          commments: result,
-          refreshing: false,
-          isLoading: false,
-        });
-      })
-      .catch((err) => {
-        console.log(err);
-      });
-  };
-
   _getPostRenderItem = () => {};
 
   render() {
+    const { getMorePost } = this.props;
     const {
       user, follows, posts, commments, isLoggedIn, isLoading, about,
-    } = this.state;
+    } = this.props;
     let _about;
     let coverImage;
     let location;
@@ -234,7 +140,7 @@ class ProfileScreen extends Component {
                   )}
                   keyExtractor={(post, index) => index.toString()}
                   onEndReached={(info) => {
-                    !isLoading && this._getMore();
+                    !isLoading && getMorePost();
                   }}
                   onEndThreshold={0}
                   bounces={false}
