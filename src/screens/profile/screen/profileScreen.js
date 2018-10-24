@@ -61,7 +61,7 @@ class ProfileScreen extends Component {
       });
 
       user = await getUser(userData[0].username);
-      // json_metadata: "{}" can be ceme as emty object if the account new!
+
       about = user.json_metadata && JSON.parse(user.json_metadata);
       this.setState(
         {

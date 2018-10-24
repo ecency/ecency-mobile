@@ -9,6 +9,13 @@ class ProfileContainer extends Component {
     this.state = {};
   }
 
+  //  const result = getUserDataWithUsername(data.username);
+
+  componentWillMount() {
+    // alert(this.props.navigation.getParam());
+    console.log(this.props.navigation.state.params);
+  }
+
   render() {
     return <ProfileScreen {...this.props} />;
   }
