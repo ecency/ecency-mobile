@@ -1,10 +1,11 @@
 import EStyleSheet from 'react-native-extended-stylesheet';
 
 export default EStyleSheet.create({
-  container: {
+  containerHorizontal16: {
+    paddingHorizontal: 16,
+  },
+  defaultContainer: {
     flex: 1,
-    alignItems: 'center',
-    justifyContent: 'center',
   },
   title: {},
   text: {

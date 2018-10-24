@@ -20,7 +20,8 @@ class ProfileContainer extends Component {
       about: {},
       follows: {},
       isLoggedIn: false,
-      isLoading: true,
+      isLoading: false,
+      isReverseHeader: false,
     };
   }
 
@@ -34,24 +35,23 @@ class ProfileContainer extends Component {
     // TODO: use from redux store.
     let isLoggedIn;
     let userData;
+    let username;
 
-    const selectedUser = navigation.state.params;
+    const selectedUser = navigation.state && navigation.state.params;
 
     await getAuthStatus().then((res) => {
       isLoggedIn = res;
     });
 
     if (selectedUser) {
-      const _userData = await getUser(selectedUser.username);
-      console.log(selectedUser);
-
-      console.log('holllyy');
-      console.log(_userData);
-      userData = _userData;
+      username = selectedUser.username;
+      this.setState({ isReverseHeader: true });
     } else if (isLoggedIn) {
       await getUserData().then((res) => {
         userData = Array.from(res)[0];
       });
+
+      username = userData.username;
     }
 
     if (isLoggedIn) {
@@ -59,11 +59,11 @@ class ProfileContainer extends Component {
       let follows;
       let about;
 
-      await getFollows(userData.username).then((res) => {
+      await getFollows(username).then((res) => {
         follows = res;
       });
 
-      user = await getUser(userData.username || selectedUser.username);
+      user = await getUser(username);
 
       about = user.json_metadata && JSON.parse(user.json_metadata);
 
@@ -75,8 +75,8 @@ class ProfileContainer extends Component {
           about: about && about.profile,
         },
         () => {
-          this._getBlog(userData.username);
-          this._getComments(userData.username);
+          this._getBlog(username);
+          this._getComments(username);
         },
       );
     }
@@ -143,12 +143,20 @@ class ProfileContainer extends Component {
 
   render() {
     const {
-      about, commments, follows, isLoading, isLoggedIn, posts, user,
+      about,
+      commments,
+      follows,
+      isReverseHeader,
+      isLoading,
+      isLoggedIn,
+      posts,
+      user,
     } = this.state;
 
     return (
       <ProfileScreen
         about={about}
+        isReverseHeader={isReverseHeader}
         commments={commments}
         follows={follows}
         getMorePost={this._getMore}

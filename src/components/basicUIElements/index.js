@@ -5,7 +5,15 @@ import NoPost from './view/noPostView';
 import PostPlaceHolder from './view/postPlaceHolderView';
 import TextWithIcon from './view/textWithIconView';
 import WalletLineItem from './view/walletLineItemView';
+import Chip from './view/chipView';
 
 export {
-  Card, GrayWrapper, LineBreak, NoPost, PostPlaceHolder, TextWithIcon, WalletLineItem,
+  Card,
+  GrayWrapper,
+  Chip,
+  LineBreak,
+  NoPost,
+  PostPlaceHolder,
+  TextWithIcon,
+  WalletLineItem,
 };

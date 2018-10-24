@@ -8,14 +8,14 @@ export default EStyleSheet.create({
     alignSelf: 'flex-start',
     height: 35,
   },
-  dropdownText: {
-    fontSize: 9,
-    color: '$primaryDarkGray',
-    marginLeft: 25,
-  },
+  // dropdownText: {
+  //   fontSize: 9,
+  //   color: '$primaryDarkGray',
+  //   marginLeft: 25,
+  // },
   dropdownIcon: {
     fontSize: 18,
-    color:"$iconColor",
+    color: '$iconColor',
     marginLeft: 7,
     marginTop: 1,
   },

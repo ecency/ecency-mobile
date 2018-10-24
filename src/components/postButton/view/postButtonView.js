@@ -81,15 +81,7 @@ class PostButtonView extends Component {
       outputRange: ['0deg', '45deg'],
     });
 
-    // const bluring = this.mode.interpolate({
-    //   inputRange: [0, 1],
-    //   outputRange: [10, 5],
-    // });
-
-    // const blurin2 = this.mode.interpolate({
-    //   inputRange: [0, 1],
-    //   outputRange: [0, -20],
-    // });
+    const { handleSubButtonPress } = this.props;
 
     return (
       <View style={styles.postButtonWrapper}>
@@ -108,6 +100,7 @@ class PostButtonView extends Component {
             top: secondY,
           }}
           icon="pencil"
+          onPress={() => handleSubButtonPress('EditorScreen')}
         />
         <SubPostButton
           size={SIZE}
