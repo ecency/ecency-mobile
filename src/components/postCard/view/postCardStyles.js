@@ -103,8 +103,11 @@ export default EStyleSheet.create({
   },
   image: {
     margin: 0,
-    width: '100%',
-    height: 160,
+    alignItems: 'center',
+    alignSelf: 'center',
+    height: 200,
+    width: '$deviceWidth - 16',
+    borderRadius: 8,
   },
   badge: {
     alignSelf: 'center',

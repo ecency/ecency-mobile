@@ -1,7 +1,5 @@
 import React, { Component } from 'react';
-import {
-  View, BackHandler, Linking, StatusBar,
-} from 'react-native';
+import { View, Linking, StatusBar } from 'react-native';
 import { KeyboardAwareScrollView } from 'react-native-keyboard-aware-scroll-view';
 import ScrollableTabView from '@esteemapp/react-native-scrollable-tab-view';
 
@@ -11,14 +9,17 @@ import { isLoggedIn } from '../../../redux/actions/userActions';
 
 // Internal Components
 import { FormInput } from '../../../components/formInput';
-import { TextButton } from '../../../components/buttons';
 import { InformationArea } from '../../../components/informationArea';
 import { Login } from '../../../providers/steem/auth';
 import { LoginHeader } from '../../../components/loginHeader';
 import { MainButton } from '../../../components/mainButton';
 import { TabBar } from '../../../components/tabBar';
+import { TextButton } from '../../../components/buttons';
 import { lookupAccounts } from '../../../providers/steem/dsteem';
 import STEEM_CONNECT_LOGO from '../../../assets/steem_connect.png';
+
+// Constants
+import { default as ROUTES } from '../../../constants/routeNames';
 
 // Styles
 import styles from './loginStyles';
@@ -36,17 +37,6 @@ class LoginScreen extends Component {
     };
   }
 
-  componentDidMount() {
-    BackHandler.addEventListener('hardwareBackPress', () => true);
-    Linking.getInitialURL().then((url) => {
-      console.log(url);
-    });
-  }
-
-  componentWillUnmount() {
-    BackHandler.removeEventListener('hardwareBackPress');
-  }
-
   _handleOnPressLogin = () => {
     const { dispatch, navigation } = this.props;
     const { password, username } = this.state;
@@ -58,12 +48,10 @@ class LoginScreen extends Component {
         if (result) {
           dispatch(addNewAccount(result));
           dispatch(isLoggedIn(true));
-
-          // It should go PinCode! (it will)
-          navigation.navigate('Main');
+          navigation.navigate(ROUTES.SCREENS.PINCODE);
         }
       })
-      .catch((err) => {
+      .catch(() => {
         dispatch(isLoggedIn(false));
         this.setState({ isLoading: false });
       });
@@ -157,11 +145,11 @@ class LoginScreen extends Component {
               />
               <InformationArea
                 description="User credentials are kept locally on the device. Credentials are
-                removed upon logout!"
+                  removed upon logout!"
                 iconName="ios-information-circle-outline"
               />
               <View style={styles.footerButtons}>
-                <TextButton onPress={() => navigation.navigate('Main')} text="cancel" />
+                <TextButton onPress={() => navigation.navigate(ROUTES.DRAWER.MAIN)} text="cancel" />
               </View>
               <MainButton
                 wrapperStyle={styles.mainButtonWrapper}

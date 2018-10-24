@@ -1,25 +1,33 @@
-// import Author from './authorProfile';
+import PinCode from './pinCode';
 import Splash from './splash';
+import { Editor } from './editor';
+import { Home } from './home';
+import { Login } from './login';
+import { Notification } from './notification';
+import { Profile } from './profile';
+
+// import Author from './authorProfile';
 // import SideMenu from './sideMenuScreen';
-import Home from './home/home';
 // import Hot from './home/hot';
 // import Feed from './home/feed';
 // import { SinglePost } from './singlePost';
 // import { Profile } from './profile';
-import Login from './login';
 // import Wallet from './wallet/wallet';
 // import Editor from './editor/editor';
 // import Discover from './discover/discover';
 // import Settings from './settings/settings';
 // import { Notification } from './notification';
-// import PinCode from './pinCode/pinCodeContainer';
 
 export {
-  // Author,
-  Splash,
-  // SideMenu,
+  Editor,
   Home,
   Login,
+  Notification,
+  PinCode,
+  Profile,
+  Splash,
+  // Author,
+  // SideMenu,
   // Hot,
   // Feed,
   // SinglePost,
@@ -29,5 +37,4 @@ export {
   // Editor,
   // Discover,
   // Notification,
-  // PinCode,
 };

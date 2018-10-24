@@ -14,7 +14,7 @@ export default EStyleSheet.create({
   },
   description: {
     textAlignVertical: 'center',
-    color: '$primaryGray',
+    color: '$primaryDarkGray',
     fontSize: 14,
     fontWeight: '400',
   },
@@ -22,7 +22,7 @@ export default EStyleSheet.create({
     textAlignVertical: 'center',
     fontSize: 20,
     fontWeight: 'bold',
-    color: '$primaryGray',
+    color: '$primaryDarkGray',
     marginBottom: 16,
   },
   mascot: {

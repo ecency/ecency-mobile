@@ -9,7 +9,7 @@ export default EStyleSheet.create({
     height: 19,
   },
   buttonText: {
-    color: '#c1c5c7',
+    color: '$iconColor',
     fontSize: 16,
   },
 });

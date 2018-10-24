@@ -375,7 +375,7 @@ class Comment extends React.PureComponent {
                                         flexDirection:
                                                                 'row',
                                         borderColor:
-                                                                'lightgray',
+                                                                '$primaryLightGray',
                                         borderWidth: 1,
                                         borderRadius: 10,
                                       }}

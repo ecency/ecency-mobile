@@ -43,11 +43,11 @@ export default EStyleSheet.create({
     paddingLeft: '$deviceWidth / 10',
   },
   listItemIcon: {
-    color: '$primaryGray',
+    color: '$primaryDarkGray',
     fontSize: 20,
   },
   listItemText: {
-    color: '$primaryGray',
+    color: '$primaryDarkGray',
     marginLeft: 15,
     fontWeight: '500',
   },

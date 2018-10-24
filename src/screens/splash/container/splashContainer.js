@@ -2,19 +2,29 @@ import React, { Component } from 'react';
 
 import { getUserData, getAuthStatus } from '../../../realm/realm';
 
+// Constants
+import { default as ROUTES } from '../../../constants/routeNames';
+
 import SplashScreen from '../screen/splashScreen';
 
 class SplashContainer extends Component {
-  componentWillMount() {
+  componentDidMount = () => {
+    this._getUserData();
+  };
+
+  _getUserData = () => {
     const { navigation } = this.props;
+    
     getAuthStatus().then((res) => {
-      if (res) {
-        navigation.navigate('Main');
-      } else {
-        navigation.navigate('Login');
-      }
+      getUserData().then((response) => {
+        if (response) {
+          navigation.navigate(ROUTES.DRAWER.MAIN);
+        } else {
+          navigation.navigate(ROUTES.SCREENS.LOGIN);
+        }
+      });
     });
-  }
+  };
 
   render() {
     return <SplashScreen />;

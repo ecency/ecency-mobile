@@ -1,8 +1,8 @@
-import React from 'react';
+import React, { Component } from 'react';
 import { Text } from 'react-native';
 import { Container } from 'native-base';
 
-class SplashScreen extends React.Component {
+class SplashScreen extends Component {
   constructor(props) {
     super(props);
   }

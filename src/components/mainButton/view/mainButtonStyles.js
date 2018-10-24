@@ -3,8 +3,7 @@ import EStyleSheet from 'react-native-extended-stylesheet';
 export default EStyleSheet.create({
   wrapper: {},
   touchable: {
-    maxWidth: 200,
-    minWidth: 56,
+    maxWidth: '$deviceWidth',
     height: 56,
     borderRadius: 30,
     backgroundColor: '$primaryBlue',
@@ -38,6 +37,8 @@ export default EStyleSheet.create({
   },
   body: {
     flexDirection: 'row',
+    justifyContent: 'center',
+    alignItems: 'center',
   },
   image: {
     marginLeft: 20,
@@ -46,6 +47,6 @@ export default EStyleSheet.create({
     height: 20,
   },
   disableTouchable: {
-    backgroundColor: '#c1c5c7',
+    backgroundColor:"$iconColor",
   },
 });

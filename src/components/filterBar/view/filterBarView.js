@@ -1,5 +1,5 @@
 import React from 'react';
-import { View, TouchableOpacity, Text } from 'react-native';
+import { View, TouchableOpacity } from 'react-native';
 import Ionicons from 'react-native-vector-icons/Ionicons';
 
 // External Components
@@ -23,24 +23,28 @@ const FilterBarView = ({
   dropdownIconName,
   onDropdownSelect,
   onRightIconPress,
+  isHide,
+  iconSize,
 }) => (
   <View style={styles.container}>
-    <LineBreak color="#f6f6f6" height={35}>
-      <View style={styles.filterBarWrapper}>
-        <DropdownButton
-          iconName={dropdownIconName}
-          options={options}
-          defaultText={defaultText}
-          onSelect={onDropdownSelect}
-        />
-        <TouchableOpacity
-          onPress={onRightIconPress && onRightIconPress()}
-          style={styles.rightIconWrapper}
-        >
-          <Ionicons style={styles.rightIcon} name={rightIconName} />
-        </TouchableOpacity>
-      </View>
-    </LineBreak>
+    {!isHide && (
+      <LineBreak color="#f6f6f6" height={35}>
+        <View style={styles.filterBarWrapper}>
+          <DropdownButton
+            iconName={dropdownIconName}
+            options={options}
+            defaultText={defaultText}
+            onSelect={onDropdownSelect}
+          />
+          <TouchableOpacity
+            onPress={onRightIconPress && onRightIconPress()}
+            style={styles.rightIconWrapper}
+          >
+            <Ionicons style={styles.rightIcon} size={iconSize || 32} name={rightIconName} />
+          </TouchableOpacity>
+        </View>
+      </LineBreak>
+    )}
   </View>
 );
 

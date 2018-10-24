@@ -35,8 +35,6 @@ local.properties
 node_modules/
 npm-debug.log
 yarn-error.log
-config.js
-!src/screens/steem-connect/config.js
 
 # BUCK
 buck-out/
@@ -56,4 +54,7 @@ buck-out/
 
 # Bundle artifact
 *.jsbundle
-keystore
+
+config.js	
+!src/screens/steem-connect/config.js
+keystore/
