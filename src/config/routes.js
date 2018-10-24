@@ -25,9 +25,9 @@ const mainNavigation = DrawerNavigator(
 );
 
 export default SwitchNavigator({
+  [ROUTES.SCREENS.PINCODE]: { screen: PinCode },
   [ROUTES.DRAWER.MAIN]: mainNavigation,
   [ROUTES.SCREENS.EDITOR]: { screen: Editor },
   [ROUTES.SCREENS.LOGIN]: { screen: Login },
-  [ROUTES.SCREENS.PINCODE]: { screen: PinCode },
   [ROUTES.SCREENS.SPLASH]: { screen: Splash },
 });

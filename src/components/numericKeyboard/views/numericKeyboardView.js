@@ -94,12 +94,12 @@ class NumericKeyboard extends Component {
             value={0}
             onPress={value => onPress && onPress(value)}
           />
-
           <IconButton
             handleOnPress={() => onPress && onPress('clear')}
             isCircle
+            buttonStyle={styles.buttonWithoutBorder}
             style={styles.iconButton}
-            name="close"
+            name="arrow-round-back"
           />
         </View>
       </View>
