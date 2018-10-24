@@ -7,7 +7,7 @@ import ScrollableTabView from '@esteemapp/react-native-scrollable-tab-view';
 import Comment from '../../../components/comment/comment';
 import { CollapsibleCard } from '../../../components/collapsibleCard';
 import { FilterBar } from '../../../components/filterBar';
-import { NoPost, PostPlaceHolder } from '../../../components/basicUIElements';
+import { NoPost, ProfileSummaryPlaceHolder } from '../../../components/basicUIElements';
 import { PostCard } from '../../../components/postCard';
 import { ProfileSummary } from '../../../components/profileSummary';
 import { TabBar } from '../../../components/tabBar';
@@ -79,7 +79,7 @@ class ProfileScreen extends Component {
         <Header name={name} avatar={avatar} isReverse={isReverseHeader} userName={user.name} />
         <View style={styles.container}>
           {!isReady ? (
-            <PostPlaceHolder />
+            <ProfileSummaryPlaceHolder />
           ) : (
             <CollapsibleCard
               title={_about}

@@ -1,5 +1,5 @@
 import React from 'react';
-import { View, Fragment } from 'react-native';
+import { View } from 'react-native';
 import Placeholder from 'rn-placeholder';
 
 import styles from './postPlaceHolderStyles';
