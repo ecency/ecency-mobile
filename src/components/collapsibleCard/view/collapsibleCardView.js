@@ -33,8 +33,6 @@ class CollapsibleCardView extends Component {
     };
   }
 
-  // Component Life Cycles
-
   // Component Functions
   _initContentHeight = (event) => {
     if (this.anime.contentHeight > 0) return;

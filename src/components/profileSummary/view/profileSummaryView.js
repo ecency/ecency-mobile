@@ -1,6 +1,6 @@
 import React, { Component, Fragment } from 'react';
 import {
-  View, Image, Text, TouchableOpacity,
+  View, Image, Text, TouchableOpacity, Dimensions,
 } from 'react-native';
 import { DropdownButton } from '../../dropdownButton';
 
@@ -14,6 +14,8 @@ import { IconButton } from '../../iconButton';
 // Styles
 // eslint-disable-next-line
 import styles from './profileSummaryStyles';
+
+const DEVICE_WIDTH = Dimensions.get('window').width;
 
 class ProfileSummaryView extends Component {
   /* Props
@@ -49,9 +51,20 @@ class ProfileSummaryView extends Component {
     const votingPowerText = `Voting power: ${percentVP}% • Full in ${hoursVP} hours`;
     const rcsPowerText = `RCs: ${percentRC}% • Full in ${hoursRC} hours`;
 
+    /* eslint-disable */
+    const rowLength = location
+      ? location.length
+      : null + link
+        ? link.length
+        : null + date
+          ? date.length
+          : null;
+
+    const isColumn = rowLength && DEVICE_WIDTH / rowLength <= 15;
+
     return (
       <Fragment>
-        <View style={styles.textWithIconWrapper}>
+        <View style={[isColumn ? styles.textWithIconWrapperColumn : styles.textWithIconWrapper]}>
           <TextWithIcon text={location} iconName="md-navigate" />
           <TextWithIcon isClickable text={link} iconName="md-globe" />
           <TextWithIcon text={date} iconName="md-calendar" />

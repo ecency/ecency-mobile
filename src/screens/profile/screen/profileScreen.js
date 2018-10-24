@@ -7,7 +7,7 @@ import ScrollableTabView from '@esteemapp/react-native-scrollable-tab-view';
 import Comment from '../../../components/comment/comment';
 import { CollapsibleCard } from '../../../components/collapsibleCard';
 import { FilterBar } from '../../../components/filterBar';
-import { NoPost } from '../../../components/basicUIElements';
+import { NoPost, PostPlaceHolder } from '../../../components/basicUIElements';
 import { PostCard } from '../../../components/postCard';
 import { ProfileSummary } from '../../../components/profileSummary';
 import { TabBar } from '../../../components/tabBar';
@@ -26,17 +26,11 @@ class ProfileScreen extends Component {
     this.state = {};
   }
 
-  _renderFooter = () => {
-    // const { isLoading } = this.props;
-
-    // if (!isLoading) return null;
-
-    return (
-      <View style={{ marginVertical: 20 }}>
-        <ActivityIndicator animating size="large" />
-      </View>
-    );
-  };
+  _renderFooter = () => (
+    <View style={{ marginVertical: 20 }}>
+      <ActivityIndicator animating size="large" />
+    </View>
+  );
 
   _getPostRenderItem = () => {};
 
@@ -51,6 +45,7 @@ class ProfileScreen extends Component {
       isReverseHeader,
       posts,
       user,
+      isReady,
     } = this.props;
     let _about;
     let avatar;
@@ -83,25 +78,29 @@ class ProfileScreen extends Component {
       <Fragment>
         <Header name={name} avatar={avatar} isReverse={isReverseHeader} userName={user.name} />
         <View style={styles.container}>
-          <CollapsibleCard
-            title={_about}
-            defaultTitle="Profile details"
-            expanded={!isLoggedIn}
-            locked={!isLoggedIn}
-          >
-            <ProfileSummary
-              percentVP={votingPower}
-              percentRC={resourceCredits}
-              hoursVP={fullInHourVP}
-              hoursRC={fullInHourRC}
-              location={location}
-              link={website}
-              date={getFormatedCreatedDate(user && user.created)}
-              followerCount={follows.follower_count}
-              followingCount={follows.following_count}
-              coverImage={coverImage}
-            />
-          </CollapsibleCard>
+          {!isReady ? (
+            <PostPlaceHolder />
+          ) : (
+            <CollapsibleCard
+              title={_about}
+              defaultTitle="Profile details"
+              expanded={isLoggedIn}
+              locked={!isLoggedIn}
+            >
+              <ProfileSummary
+                percentVP={votingPower}
+                percentRC={resourceCredits}
+                hoursVP={fullInHourVP}
+                hoursRC={fullInHourRC}
+                location={location}
+                link={website}
+                date={getFormatedCreatedDate(user && user.created)}
+                followerCount={follows.follower_count}
+                followingCount={follows.following_count}
+                coverImage={coverImage}
+              />
+            </CollapsibleCard>
+          )}
 
           <ScrollableTabView
             style={styles.tabView}

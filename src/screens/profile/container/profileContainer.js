@@ -22,6 +22,7 @@ class ProfileContainer extends Component {
       isLoggedIn: false,
       isLoading: false,
       isReverseHeader: false,
+      isReady: false,
     };
   }
 
@@ -151,10 +152,12 @@ class ProfileContainer extends Component {
       isLoggedIn,
       posts,
       user,
+      isReady,
     } = this.state;
 
     return (
       <ProfileScreen
+        isReady={isReady}
         about={about}
         isReverseHeader={isReverseHeader}
         commments={commments}
