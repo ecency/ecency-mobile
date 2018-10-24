@@ -1,4 +1,5 @@
-import PostButton from './view/postButtonView';
+import PostButtonView from './view/postButtonView';
+import PostButton from './container/postButtonContainer';
 
-export { PostButton };
+export { PostButtonView, PostButton };
 export default PostButton;
