@@ -29,7 +29,7 @@ class SideMenuContainer extends Component {
 
   // Component Functions
 
-  _navigateToRoute = (route) => {
+  _navigateToRoute = (route = null) => {
     const { navigation } = this.props;
     navigation.navigate(route);
   };

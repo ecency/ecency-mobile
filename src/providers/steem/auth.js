@@ -26,7 +26,9 @@ export const Login = (username, password) => {
     // Get user account data from STEEM Blockchain
     getAccount(username)
       .then((result) => {
-        if (result.length < 1) {
+        if (isLoggedInUser(username)) {
+          reject(new Error('You are already logged in, please try to add another account'));
+        } else if (result.length < 1) {
           reject(new Error('Invalid credentails, please check and try again'));
         }
 
@@ -79,6 +81,46 @@ export const Login = (username, password) => {
       });
   });
 };
+
+export const loginWithSC2 = async (accessToken) => {
+  await steemConnect.setAccessToken(accessToken);
+  const account = await steemConnect.me();
+
+  return new Promise((resolve, reject) => {
+    const userData = {
+      username: account.account.name,
+      authType: 'steemConnect',
+      masterKey: '',
+      postingKey: '',
+      activeKey: '',
+      memoKey: '',
+      accessToken: '',
+    };
+
+    const authData = {
+      isLoggedIn: true,
+    };
+
+    if (isLoggedInUser(account.account.name)) {
+      reject(new Error('You are already logged in, please try to add another account'));
+    }
+
+    setAuthStatus(authData)
+      .then(() => {
+        setUserData(userData)
+          .then(() => {
+            resolve({ ...account.account, accessToken });
+          })
+          .catch((error) => {
+            reject(error);
+          });
+      })
+      .catch((error) => {
+        reject(error);
+      });
+  });
+};
+
 
 export const setUserDataWithPinCode = data => new Promise((resolve, reject) => {
   let updatedUserData;
@@ -135,7 +177,7 @@ export const setUserDataWithPinCode = data => new Promise((resolve, reject) => {
   resolve();
 });
 
-export const verifyPinCode = async data => {
+export const verifyPinCode = async (data) => {
   const result = getUserDataWithUsername(data.username);
   const userData = result[0];
   let loginFlag = false;
@@ -169,8 +211,7 @@ export const verifyPinCode = async data => {
       reject(new Error('Invalid pin code, please check and try again'));
     }
   });
-  
-}
+};
 
 const getPrivateKeys = (username, password) => ({
   active: dsteem.PrivateKey.fromLogin(username, password, 'active'),
@@ -179,37 +220,10 @@ const getPrivateKeys = (username, password) => ({
   posting: dsteem.PrivateKey.fromLogin(username, password, 'posting'),
 });
 
-export const loginWithSC2 = async (accessToken) => {
-  await steemConnect.setAccessToken(accessToken);
-  const account = await steemConnect.me();
-
-  return new Promise((resolve, reject) => {
-    const userData = {
-      username: account.name,
-      authType: 'steemConnect',
-      masterKey: '',
-      postingKey: '',
-      activeKey: '',
-      memoKey: '',
-      accessToken: '',
-    };
-
-    const authData = {
-      isLoggedIn: true,
-    };
-
-    setAuthStatus(authData)
-      .then(() => {
-        setUserData(userData)
-          .then(() => {
-            resolve({ ...account, accessToken });
-          })
-          .catch((error) => {
-            reject(error);
-          });
-      })
-      .catch((error) => {
-        reject(error);
-      });
-  });
+const isLoggedInUser = (username) => {
+  const result = getUserDataWithUsername(username);
+  if (result.length > 0) {
+    return true;
+  }
+  return false;
 };

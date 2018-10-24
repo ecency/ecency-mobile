@@ -1,10 +1,11 @@
 import PinCode from './pinCode';
 import Splash from './splash';
+import { Editor } from './editor';
 import { Home } from './home';
 import { Login } from './login';
-import { Profile } from './profile';
 import { Notification } from './notification';
 import SteemConnect from './steem-connect/steemConnect';
+import { Profile } from './profile';
 
 // import Author from './authorProfile';
 // import SideMenu from './sideMenuScreen';
@@ -19,13 +20,14 @@ import SteemConnect from './steem-connect/steemConnect';
 // import { Notification } from './notification';
 
 export {
+  Editor,
   Home,
   Login,
-  PinCode,
-  Splash,
-  Profile,
   Notification,
+  PinCode,
+  Profile,
   SteemConnect,
+  Splash,
   // Author,
   // SideMenu,
   // Hot,

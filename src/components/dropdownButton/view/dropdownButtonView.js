@@ -30,15 +30,16 @@ const renderDropdownRow = (rowData, rowID, highlighted) => (
 );
 
 const DropdownButtonView = ({
-  defaultText,
-  iconName,
-  options,
-  onSelect,
-  defaultIndex,
-  children,
-  style,
-  isHasChildIcon,
   childIconWrapperStyle,
+  children,
+  defaultIndex,
+  defaultText,
+  iconStyle,
+  iconName,
+  isHasChildIcon,
+  onSelect,
+  options,
+  style,
 }) => (
   <View style={styles.container}>
     <ModalDropdown
@@ -56,7 +57,10 @@ const DropdownButtonView = ({
     >
       {isHasChildIcon && (
         <View style={[styles.iconWrapper, childIconWrapperStyle && childIconWrapperStyle]}>
-          <Ionicons style={styles.dropdownIcon} name={!iconName ? 'md-arrow-dropdown' : iconName} />
+          <Ionicons
+            style={[styles.dropdownIcon, iconStyle]}
+            name={!iconName ? 'md-arrow-dropdown' : iconName}
+          />
         </View>
       )}
     </ModalDropdown>
