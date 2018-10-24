@@ -69,7 +69,7 @@ class EditorHeaderView extends Component {
               styles.textButton,
               isFormValid ? styles.textButtonEnable : styles.textButtonDisable,
             ]}
-            onPress={this._handleOnPress}
+            onPress={isFormValid && this._handleOnPress}
             style={styles.textButtonWrapper}
             text="Publish"
           />
