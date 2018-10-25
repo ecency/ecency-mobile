@@ -42,7 +42,6 @@ class ProfileScreen extends Component {
       isLoading,
       isLoggedIn,
       isReverseHeader,
-      posts,
       user,
       isReady,
     } = this.props;
@@ -115,29 +114,22 @@ class ProfileScreen extends Component {
             )}
           >
             <View tabLabel="Post" style={styles.postTabBar}>
-              {user ? (
-                <Posts
-                  filterOptions={[
-                    'NEW POSTS',
-                    'VOTES',
-                    'REPLIES',
-                    'MENTIONS',
-                    'FOLLOWS',
-                    'REBLOGS',
-                  ]}
-                  isLoginMust
-                  getFor="blog"
-                  tag={user.name}
-                  user={user}
-                  isLoggedIn={isLoggedIn}
-                />
-              ) : (
-                <NoPost
-                  name={user.name}
-                  text={"haven't posted anything yet"}
-                  defaultText="Login to see!"
-                />
-              )}
+              {/* {user ? ( */}
+              <Posts
+                filterOptions={['NEW POSTS', 'VOTES', 'REPLIES', 'MENTIONS', 'FOLLOWS', 'REBLOGS']}
+                isLoginMust
+                getFor="blog"
+                tag={user && user.name}
+                user={user && user}
+                isLoggedIn={isLoggedIn}
+              />
+              {/* // ) : (
+              //   <NoPost
+              //     name={user.name}
+              //     text={"haven't posted anything yet"}
+              //     defaultText="Login to see!"
+              //   />
+              // )} */}
             </View>
             <View tabLabel="Comments" style={styles.commentsTabBar}>
               {commments && commments.length > 0 ? (
@@ -151,13 +143,13 @@ class ProfileScreen extends Component {
                 />
               ) : (
                 <NoPost
-                  name={user.name}
+                  name={user && user.name}
                   text="haven't commented anything yet"
                   defaultText="Login to see!"
                 />
               )}
             </View>
-            <View tabLabel={user.balance ? `$${user.balance}` : 'Wallet'}>
+            <View tabLabel={user && user.balance ? `$${user && user.balance}` : 'Wallet'}>
               <Wallet user={user} />
             </View>
           </ScrollableTabView>

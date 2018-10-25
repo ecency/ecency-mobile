@@ -12,6 +12,8 @@ import { getPosts } from '../../../providers/steem/dsteem';
 import { PostCard } from '../../postCard';
 import { FilterBar } from '../../filterBar';
 import { PostPlaceHolder } from '../../basicUIElements';
+import { NoPost } from '../../basicUIElements';
+
 // Styles
 import styles from './postsStyles';
 
@@ -20,6 +22,7 @@ class PostsView extends Component {
     super(props);
     this.state = {
       isReady: false,
+      user: props.user || null,
       posts: [],
       startAuthor: '',
       startPermlink: '',
@@ -46,28 +49,33 @@ class PostsView extends Component {
   };
 
   _loadPosts = () => {
-    const { user, getFor, tag } = this.props;
+    const { getFor, tag } = this.props;
+    const { user } = this.state;
 
-    getPosts(getFor, { tag, limit: 10 }, user)
-      .then((result) => {
-        if (result) {
-          this.setState({
-            isReady: true,
-            posts: result,
-            startAuthor: result[result.length - 1].author,
-            startPermlink: result[result.length - 1].permlink,
-            refreshing: false,
-          });
-        }
-      })
-      .catch((err) => {
-        alert(err);
-      });
+    if (user) {
+      getPosts(getFor, { tag, limit: 10 }, user)
+        .then((result) => {
+          if (result) {
+            this.setState({
+              isReady: true,
+              posts: result,
+              startAuthor: result[result.length - 1].author,
+              startPermlink: result[result.length - 1].permlink,
+              refreshing: false,
+            });
+          }
+        })
+        .catch((err) => {
+          alert(err);
+        });
+    }
   };
 
   _loadMore = () => {
-    const { posts, startAuthor, startPermlink } = this.state;
-    const { user, getFor, tag } = this.props;
+    const {
+      posts, startAuthor, startPermlink, user,
+    } = this.state;
+    const { getFor, tag } = this.props;
 
     this.setState({ isLoading: true });
 
@@ -116,12 +124,12 @@ class PostsView extends Component {
   };
 
   _getRenderItem = () => {
-    const { isReady, refreshing, posts } = this.state;
     const {
-      componentId, user, handleOnUserPress, filterOptions,
-    } = this.props;
+      isReady, refreshing, posts, user,
+    } = this.state;
+    const { componentId, handleOnUserPress, filterOptions } = this.props;
 
-    if (isReady) {
+    if (isReady && user) {
       return (
         <Fragment>
           {filterOptions && (
@@ -152,6 +160,18 @@ class PostsView extends Component {
             onEndThreshold={0}
             initialNumToRender={10}
             ListFooterComponent={this._renderFooter}
+          />
+        </Fragment>
+      );
+    }
+
+    if (!posts && posts.length < 1) {
+      return (
+        <Fragment>
+          <NoPost
+            name={user.name}
+            text={"haven't posted anything yet"}
+            defaultText="Login to see!"
           />
         </Fragment>
       );

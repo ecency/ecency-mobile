@@ -13,7 +13,7 @@ class ProfileContainer extends Component {
   constructor(props) {
     super(props);
     this.state = {
-      user: null,
+      user: [],
       posts: [],
       commments: [],
       replies: [],
@@ -73,26 +73,28 @@ class ProfileContainer extends Component {
     const {
       posts, user, start_author, start_permlink,
     } = this.state;
-    await getPosts(
-      'blog',
-      {
-        tag: user.name,
-        limit: 10,
-        start_author,
-        start_permlink,
-      },
-      user.name,
-    ).then((result) => {
-      const _posts = result;
+    if (user) {
+      await getPosts(
+        'blog',
+        {
+          tag: user.name,
+          limit: 10,
+          start_author,
+          start_permlink,
+        },
+        user.name,
+      ).then((result) => {
+        const _posts = result;
 
-      _posts && _posts.shift();
-      this.setState({
-        posts: [...posts, ..._posts],
-        start_author: result[result.length - 1] && result[result.length - 1].author,
-        start_permlink: result[result.length - 1] && result[result.length - 1].permlink,
-        isLoading: false,
+        _posts && _posts.shift();
+        this.setState({
+          posts: [...posts, ..._posts],
+          start_author: result[result.length - 1] && result[result.length - 1].author,
+          start_permlink: result[result.length - 1] && result[result.length - 1].permlink,
+          isLoading: false,
+        });
       });
-    });
+    }
   };
 
   _getComments = async (user) => {
@@ -169,28 +171,25 @@ class ProfileContainer extends Component {
       isReverseHeader,
       isLoading,
       isLoggedIn,
-      posts,
       user,
       isReady,
     } = this.state;
 
     return (
       <Fragment>
-        {user ? (
-          <ProfileScreen
-            isReady={isReady}
-            about={about}
-            isReverseHeader={isReverseHeader}
-            commments={commments}
-            follows={follows}
-            getMorePost={this._getMore}
-            isLoading={isLoading}
-            isLoggedIn={isLoggedIn}
-            // posts={posts}
-            user={user}
-            {...this.props}
-          />
-        ) : null}
+        <ProfileScreen
+          isReady={isReady}
+          about={about}
+          isReverseHeader={isReverseHeader}
+          commments={commments}
+          follows={follows}
+          getMorePost={this._getMore}
+          isLoading={isLoading}
+          isLoggedIn={isLoggedIn}
+          // posts={posts}
+          user={user}
+          {...this.props}
+        />
       </Fragment>
     );
   }
