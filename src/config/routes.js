@@ -4,7 +4,7 @@ import { default as ROUTES } from '../constants/routeNames';
 
 // Screens
 import {
-  Editor, Login, PinCode, Splash,
+  Login, PinCode, Profile, Splash,
 } from '../screens';
 
 // Components
@@ -26,8 +26,8 @@ const mainNavigation = DrawerNavigator(
 
 export default SwitchNavigator({
   [ROUTES.DRAWER.MAIN]: mainNavigation,
-  [ROUTES.SCREENS.EDITOR]: { screen: Editor },
   [ROUTES.SCREENS.LOGIN]: { screen: Login },
   [ROUTES.SCREENS.PINCODE]: { screen: PinCode },
+  [ROUTES.SCREENS.PROFILE]: { screen: Profile },
   [ROUTES.SCREENS.SPLASH]: { screen: Splash },
 });
