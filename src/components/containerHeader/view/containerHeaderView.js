@@ -38,6 +38,8 @@ class ContainerHeaderView extends Component {
     return (
       <View style={[styles.wrapper, hasSeperator && styles.hasTopBorder]}>
         <Text
+          numberOfLines={2}
+          ellipsizeMode="tail"
           style={[
             styles.title,
             isBoldTitle && { fontWeight: 'bold' },

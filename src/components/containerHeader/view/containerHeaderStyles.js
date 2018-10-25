@@ -19,10 +19,12 @@ export default EStyleSheet.create({
     fontSize: 14,
     fontWeight: '600',
     marginLeft: 32,
+    width: '$deviceWidth - 64',
+    textAlign: 'center',
   },
   icon: {
     alignSelf: 'center',
-    color:"$iconColor",
+    color: '$iconColor',
     fontSize: 18,
     marginRight: 32,
   },

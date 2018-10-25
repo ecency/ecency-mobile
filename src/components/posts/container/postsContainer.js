@@ -1,10 +1,12 @@
 import React, { Component } from 'react';
+import { withNavigation } from 'react-navigation';
 
 // Services and Actions
 
 // Middleware
 
 // Constants
+import { default as ROUTES } from '../../../constants/routeNames';
 
 // Utilities
 
@@ -27,9 +29,16 @@ class PostsContainer extends Component {
 
   // Component Functions
 
+  _handleOnUserPress = (username) => {
+    const { navigation } = this.props;
+    navigation.navigate(ROUTES.SCREENS.PROFILE, {
+      username,
+    });
+  };
+
   render() {
-    return <PostsView {...this.props} />;
+    return <PostsView handleOnUserPress={this._handleOnUserPress} {...this.props} />;
   }
 }
 
-export default PostsContainer;
+export default withNavigation(PostsContainer);

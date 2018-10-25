@@ -2,15 +2,14 @@ import React from 'react';
 import { View } from 'react-native';
 import Placeholder from 'rn-placeholder';
 
-import styles from './postPlaceHolderStyles';
+import styles from './profileSummaryPlaceHolderStyles';
 
-const PostPlaceHolder = () => (
+const ProfileSummaryPlaceHolder = () => (
   <View style={styles.container}>
     <View style={styles.textWrapper}>
-      <Placeholder.Media size={25} hasRadius animate="fade" />
-      <Placeholder.Line width="30%" lastLineWidth="30%" animate="fade" />
+      <Placeholder.Paragraph lineNumber={1} />
     </View>
-    <Placeholder.Box animate="fade" height={200} width="100%" radius={5} />
+    <Placeholder.Box animate="fade" height={75} width="100%" radius={5} />
     <View style={styles.paragraphWrapper}>
       <Placeholder.Paragraph
         lineNumber={3}
@@ -25,4 +24,4 @@ const PostPlaceHolder = () => (
   </View>
 );
 
-export default PostPlaceHolder;
+export default ProfileSummaryPlaceHolder;

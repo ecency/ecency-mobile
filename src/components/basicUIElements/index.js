@@ -6,6 +6,7 @@ import PostPlaceHolder from './view/postPlaceHolderView';
 import TextWithIcon from './view/textWithIconView';
 import WalletLineItem from './view/walletLineItemView';
 import Chip from './view/chipView';
+import ProfileSummaryPlaceHolder from './view/profileSummaryPlaceHolder';
 
 export {
   Card,
@@ -16,4 +17,5 @@ export {
   PostPlaceHolder,
   TextWithIcon,
   WalletLineItem,
+  ProfileSummaryPlaceHolder,
 };

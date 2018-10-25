@@ -102,7 +102,7 @@ class FeedView extends Component {
     );
   };
 
-  renderFooter = () => {
+  _renderFooter = () => {
     const { isLoading } = this.state;
 
     if (isLoading) {
@@ -117,7 +117,7 @@ class FeedView extends Component {
 
   _getRenderItem = () => {
     const { isReady, refreshing, posts } = this.state;
-    const { componentId, user } = this.props;
+    const { componentId, user, handleOnUserPress } = this.props;
 
     if (isReady) {
       return (
@@ -138,7 +138,13 @@ class FeedView extends Component {
             data={posts}
             showsVerticalScrollIndicator={false}
             renderItem={({ item }) => (
-              <PostCard componentId={componentId} content={item} user={user} isLoggedIn />
+              <PostCard
+                componentId={componentId}
+                content={item}
+                user={user}
+                isLoggedIn
+                handleOnUserPress={handleOnUserPress}
+              />
             )}
             keyExtractor={(post, index) => index.toString()}
             onEndReached={this._loadMore}
@@ -147,7 +153,7 @@ class FeedView extends Component {
             onRefresh={() => this._handleOnRefreshPosts()}
             onEndThreshold={0}
             initialNumToRender={10}
-            ListFooterComponent={this.renderFooter}
+            ListFooterComponent={this._renderFooter}
           />
         </Fragment>
       );
