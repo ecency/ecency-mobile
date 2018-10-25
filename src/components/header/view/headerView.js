@@ -5,6 +5,10 @@ import {
 import FastImage from 'react-native-fast-image';
 // Constants
 
+// Utils
+
+import { getReputation } from '../../../utils/user';
+
 // Components
 import { IconButton } from '../../iconButton';
 
@@ -38,6 +42,7 @@ class HeaderView extends Component {
       userName,
       isReverse,
       name,
+      reputation,
     } = this.props;
 
     return (
@@ -59,12 +64,13 @@ class HeaderView extends Component {
         </TouchableOpacity>
         <View style={styles.titleWrapper}>
           {name && <Text style={styles.title}>{name}</Text>}
-          {userName && (
-            <Text style={styles.subTitle}>
-              @
-              {userName}
-              (63)
-            </Text>
+          {userName
+            && reputation && (
+              <Text style={styles.subTitle}>
+                @
+                {userName}
+                {`(${getReputation(reputation)})`}
+              </Text>
           )}
         </View>
         {isReverse && (
