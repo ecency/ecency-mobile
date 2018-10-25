@@ -44,6 +44,7 @@ class ProfileScreen extends Component {
       isReverseHeader,
       user,
       isReady,
+      username,
     } = this.props;
     let _about;
     let avatar;
@@ -74,7 +75,12 @@ class ProfileScreen extends Component {
     }
     return (
       <Fragment>
-        <Header name={name} avatar={avatar} isReverse={isReverseHeader} userName={user.name} />
+        <Header
+          name={name}
+          avatar={avatar}
+          isReverse={isReverseHeader}
+          userName={user && user.name}
+        />
         <View style={styles.container}>
           {!isReady ? (
             <ProfileSummaryPlaceHolder />
@@ -114,22 +120,23 @@ class ProfileScreen extends Component {
             )}
           >
             <View tabLabel="Post" style={styles.postTabBar}>
-              {/* {user ? ( */}
-              <Posts
-                filterOptions={['NEW POSTS', 'VOTES', 'REPLIES', 'MENTIONS', 'FOLLOWS', 'REBLOGS']}
-                isLoginMust
-                getFor="blog"
-                tag={user && user.name}
-                user={user && user}
-                isLoggedIn={isLoggedIn}
-              />
-              {/* // ) : (
-              //   <NoPost
-              //     name={user.name}
-              //     text={"haven't posted anything yet"}
-              //     defaultText="Login to see!"
-              //   />
-              // )} */}
+              {user && (
+                <Posts
+                  filterOptions={[
+                    'NEW POSTS',
+                    'VOTES',
+                    'REPLIES',
+                    'MENTIONS',
+                    'FOLLOWS',
+                    'REBLOGS',
+                  ]}
+                  isLoginMust
+                  getFor="blog"
+                  tag={username}
+                  user={user && user}
+                  isLoggedIn={isLoggedIn}
+                />
+              )}
             </View>
             <View tabLabel="Comments" style={styles.commentsTabBar}>
               {commments && commments.length > 0 ? (
@@ -143,7 +150,7 @@ class ProfileScreen extends Component {
                 />
               ) : (
                 <NoPost
-                  name={user && user.name}
+                  name={username}
                   text="haven't commented anything yet"
                   defaultText="Login to see!"
                 />

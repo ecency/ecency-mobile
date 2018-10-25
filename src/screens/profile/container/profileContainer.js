@@ -13,7 +13,7 @@ class ProfileContainer extends Component {
   constructor(props) {
     super(props);
     this.state = {
-      user: [],
+      user: null,
       posts: [],
       commments: [],
       replies: [],
@@ -25,11 +25,7 @@ class ProfileContainer extends Component {
       isReady: false,
     };
   }
-
-  // componentWillMount() {
-  //   console.log(this.props.navigation.state.params);
-  // }
-
+  
   async componentDidMount() {
     const { navigation } = this.props;
     const selectedUser = navigation.state && navigation.state.params;
@@ -44,7 +40,6 @@ class ProfileContainer extends Component {
       && nextProps.navigation.state.params.username !== navigation.state.params.username;
 
     if (isParamsChange) {
-      alert('degisti');
       const selectedUser = nextProps.navigation.state && nextProps.navigation.state.params;
 
       this._loadProfile(selectedUser);
@@ -113,14 +108,10 @@ class ProfileContainer extends Component {
   };
 
   async _loadProfile(selectedUser = null) {
-    // const { navigation } = this.props;
-
     // TODO: use from redux store.
     let isLoggedIn;
     let userData;
     let username;
-
-    // const selectedUser = navigation.state && navigation.state.params;
 
     await getAuthStatus().then((res) => {
       isLoggedIn = res;
@@ -154,6 +145,7 @@ class ProfileContainer extends Component {
         user,
         isLoggedIn,
         follows,
+        username,
         about: about && about.profile,
       },
       () => {
@@ -173,6 +165,7 @@ class ProfileContainer extends Component {
       isLoggedIn,
       user,
       isReady,
+      username,
     } = this.state;
 
     return (
@@ -187,6 +180,7 @@ class ProfileContainer extends Component {
           isLoading={isLoading}
           isLoggedIn={isLoggedIn}
           // posts={posts}
+          username={username}
           user={user}
           {...this.props}
         />

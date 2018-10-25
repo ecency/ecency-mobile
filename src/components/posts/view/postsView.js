@@ -25,6 +25,7 @@ class PostsView extends Component {
       user: props.user || null,
       posts: [],
       startAuthor: '',
+      tag: props.tag || null,
       startPermlink: '',
       refreshing: false,
       isLoading: false,
@@ -33,8 +34,18 @@ class PostsView extends Component {
   }
 
   componentDidMount() {
-    this._loadPosts();
+    this._loadPosts(this.state.user);
     AppState.addEventListener('change', this._handleAppStateChange);
+  }
+
+  componentWillReceiveProps(nextProps) {
+    const { user } = this.props;
+
+    if (user !== nextProps.user) {
+      this.setState({ user: nextProps.user });
+      // this._loadPosts();
+      this._loadPosts(nextProps.user);
+    }
   }
 
   componentWillUnmount() {
@@ -48,9 +59,8 @@ class PostsView extends Component {
     this.setState({ appState: nextAppState });
   };
 
-  _loadPosts = () => {
+  _loadPosts = (user) => {
     const { getFor, tag } = this.props;
-    const { user } = this.state;
 
     if (user) {
       getPosts(getFor, { tag, limit: 10 }, user)
@@ -100,12 +110,14 @@ class PostsView extends Component {
   };
 
   _handleOnRefreshPosts = () => {
+    const { user } = this.state;
+
     this.setState(
       {
         refreshing: true,
       },
       () => {
-        this._loadPosts();
+        this._loadPosts(user);
       },
     );
   };
@@ -129,7 +141,7 @@ class PostsView extends Component {
     } = this.state;
     const { componentId, handleOnUserPress, filterOptions } = this.props;
 
-    if (isReady && user) {
+    if (user && posts && posts.length > 0) {
       return (
         <Fragment>
           {filterOptions && (
@@ -165,7 +177,7 @@ class PostsView extends Component {
       );
     }
 
-    if (!posts && posts.length < 1) {
+    if (isReady && !posts && posts.length < 1) {
       return (
         <Fragment>
           <NoPost
