@@ -25,7 +25,7 @@ const authSchema = {
   },
 };
 
-const realm = new Realm({ path: 'test.realm', schema: [userSchema, authSchema] });
+const realm = new Realm({ path: 'esteem.realm', schema: [userSchema, authSchema] });
 
 // TODO: This is getting ALL user data, we should change this method with getUserDataWithUsername
 export const getUserData = () => new Promise((resolve, reject) => {
