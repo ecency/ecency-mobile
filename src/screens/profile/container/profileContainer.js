@@ -1,4 +1,4 @@
-import React, { Component } from 'react';
+import React, { Component, Fragment } from 'react';
 
 // Components
 import { ProfileScreen } from '..';
@@ -13,7 +13,7 @@ class ProfileContainer extends Component {
   constructor(props) {
     super(props);
     this.state = {
-      user: [],
+      user: null,
       posts: [],
       commments: [],
       replies: [],
@@ -32,54 +32,22 @@ class ProfileContainer extends Component {
 
   async componentDidMount() {
     const { navigation } = this.props;
-
-    // TODO: use from redux store.
-    let isLoggedIn;
-    let userData;
-    let username;
-
     const selectedUser = navigation.state && navigation.state.params;
 
-    await getAuthStatus().then((res) => {
-      isLoggedIn = res;
-    });
+    this._loadProfile(selectedUser);
+  }
 
-    if (selectedUser) {
-      username = selectedUser.username;
-      this.setState({ isReverseHeader: true });
-    } else if (isLoggedIn) {
-      await getUserData().then((res) => {
-        userData = Array.from(res)[0];
-      });
+  componentWillReceiveProps(nextProps) {
+    const { navigation } = this.props;
+    const isParamsChange = nextProps.navigation.state
+      && navigation.state
+      && nextProps.navigation.state.params.username !== navigation.state.params.username;
 
-      username = userData.username;
-    }
+    if (isParamsChange) {
+      alert('degisti');
+      const selectedUser = nextProps.navigation.state && nextProps.navigation.state.params;
 
-    if (isLoggedIn) {
-      let user;
-      let follows;
-      let about;
-
-      await getFollows(username).then((res) => {
-        follows = res;
-      });
-
-      user = await getUser(username);
-
-      about = user.json_metadata && JSON.parse(user.json_metadata);
-
-      this.setState(
-        {
-          user,
-          isLoggedIn,
-          follows,
-          about: about && about.profile,
-        },
-        () => {
-          this._getBlog(username);
-          this._getComments(username);
-        },
-      );
+      this._loadProfile(selectedUser);
     }
   }
 
@@ -117,7 +85,7 @@ class ProfileContainer extends Component {
     ).then((result) => {
       const _posts = result;
 
-      _posts.shift();
+      _posts && _posts.shift();
       this.setState({
         posts: [...posts, ..._posts],
         start_author: result[result.length - 1] && result[result.length - 1].author,
@@ -142,6 +110,57 @@ class ProfileContainer extends Component {
       });
   };
 
+  async _loadProfile(selectedUser = null) {
+    // const { navigation } = this.props;
+
+    // TODO: use from redux store.
+    let isLoggedIn;
+    let userData;
+    let username;
+
+    // const selectedUser = navigation.state && navigation.state.params;
+
+    await getAuthStatus().then((res) => {
+      isLoggedIn = res;
+    });
+
+    if (selectedUser) {
+      username = selectedUser.username;
+      this.setState({ isReverseHeader: true });
+    } else if (isLoggedIn) {
+      await getUserData().then((res) => {
+        userData = Array.from(res)[0];
+      });
+
+      username = userData.username;
+    }
+
+    let user;
+    let follows;
+    let about;
+
+    await getFollows(username).then((res) => {
+      follows = res;
+    });
+
+    user = await getUser(username);
+
+    about = user.json_metadata && JSON.parse(user.json_metadata);
+
+    this.setState(
+      {
+        user,
+        isLoggedIn,
+        follows,
+        about: about && about.profile,
+      },
+      () => {
+        this._getBlog(username);
+        this._getComments(username);
+      },
+    );
+  }
+
   render() {
     const {
       about,
@@ -156,19 +175,23 @@ class ProfileContainer extends Component {
     } = this.state;
 
     return (
-      <ProfileScreen
-        isReady={isReady}
-        about={about}
-        isReverseHeader={isReverseHeader}
-        commments={commments}
-        follows={follows}
-        getMorePost={this._getMore}
-        isLoading={isLoading}
-        isLoggedIn={isLoggedIn}
-        posts={posts}
-        user={user}
-        {...this.props}
-      />
+      <Fragment>
+        {user ? (
+          <ProfileScreen
+            isReady={isReady}
+            about={about}
+            isReverseHeader={isReverseHeader}
+            commments={commments}
+            follows={follows}
+            getMorePost={this._getMore}
+            isLoading={isLoading}
+            isLoggedIn={isLoggedIn}
+            // posts={posts}
+            user={user}
+            {...this.props}
+          />
+        ) : null}
+      </Fragment>
     );
   }
 }

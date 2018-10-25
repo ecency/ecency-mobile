@@ -96,6 +96,14 @@ export default class HomeScreen extends PureComponent {
             <View tabLabel="Feed" style={styles.tabbarItem}>
               {isLoggedIn ? (
                 <Posts
+                  filterOptions={[
+                    'NEW POSTS',
+                    'VOTES',
+                    'REPLIES',
+                    'MENTIONS',
+                    'FOLLOWS',
+                    'REBLOGS',
+                  ]}
                   isLoginMust
                   getFor="feed"
                   tag={user.name}
@@ -108,10 +116,17 @@ export default class HomeScreen extends PureComponent {
               )}
             </View>
             <View tabLabel="Hot" style={styles.tabbarItem}>
-              <Posts getFor="hot" user={user} isLoggedIn={isLoggedIn} componentId={componentId} />
+              <Posts
+                filterOptions={['NEW POSTS', 'VOTES', 'REPLIES', 'MENTIONS', 'FOLLOWS', 'REBLOGS']}
+                getFor="hot"
+                user={user}
+                isLoggedIn={isLoggedIn}
+                componentId={componentId}
+              />
             </View>
             <View tabLabel="Popular" style={styles.tabbarItem}>
               <Posts
+                filterOptions={['NEW POSTS', 'VOTES', 'REPLIES', 'MENTIONS', 'FOLLOWS', 'REBLOGS']}
                 getFor="trending"
                 user={user}
                 isLoggedIn={isLoggedIn}

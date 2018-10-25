@@ -33,6 +33,7 @@ class ContainerHeaderView extends Component {
       iconName,
       isBoldTitle,
       title,
+      isCenter,
     } = this.props;
 
     return (
@@ -42,6 +43,7 @@ class ContainerHeaderView extends Component {
           ellipsizeMode="tail"
           style={[
             styles.title,
+            isCenter && styles.centerTitle,
             isBoldTitle && { fontWeight: 'bold' },
             color && { color },
             fontSize && { fontSize },

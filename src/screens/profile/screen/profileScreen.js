@@ -6,13 +6,12 @@ import { FlatList, ActivityIndicator, View } from 'react-native';
 import ScrollableTabView from '@esteemapp/react-native-scrollable-tab-view';
 import Comment from '../../../components/comment/comment';
 import { CollapsibleCard } from '../../../components/collapsibleCard';
-import { FilterBar } from '../../../components/filterBar';
 import { NoPost, ProfileSummaryPlaceHolder } from '../../../components/basicUIElements';
-import { PostCard } from '../../../components/postCard';
 import { ProfileSummary } from '../../../components/profileSummary';
 import { TabBar } from '../../../components/tabBar';
 import { Wallet } from '../../../components/wallet';
 import { Header } from '../../../components/header';
+import { Posts } from '../../../components/posts';
 
 // Utilitites
 import { getFormatedCreatedDate } from '../../../utils/time';
@@ -83,6 +82,7 @@ class ProfileScreen extends Component {
           ) : (
             <CollapsibleCard
               title={_about}
+              isTitleCenter
               defaultTitle="Profile details"
               expanded={isLoggedIn}
               locked={!isLoggedIn}
@@ -115,35 +115,21 @@ class ProfileScreen extends Component {
             )}
           >
             <View tabLabel="Post" style={styles.postTabBar}>
-              <FilterBar
-                isHide={!isLoggedIn}
-                dropdownIconName="md-arrow-dropdown"
-                options={['NEW POSTS', 'VOTES', 'REPLIES', 'MENTIONS', 'FOLLOWS', 'REBLOGS']}
-                defaultText="ALL NOTIFICATION"
-                onDropdownSelect={this._handleOnDropdownSelect}
-                rightIconName="md-apps"
-              />
-              {posts && posts.length > 0 ? (
-                <FlatList
-                  data={posts}
-                  showsVerticalScrollIndicator={false}
-                  renderItem={({ item }) => (
-                    <PostCard
-                      style={{
-                        shadowColor: '#f6f6f6',
-                      }}
-                      content={item}
-                      user={user}
-                      isLoggedIn
-                    />
-                  )}
-                  keyExtractor={(post, index) => index.toString()}
-                  onEndReached={(info) => {
-                    !isLoading && getMorePost();
-                  }}
-                  onEndThreshold={0}
-                  bounces={false}
-                  ListFooterComponent={this._renderFooter}
+              {user ? (
+                <Posts
+                  filterOptions={[
+                    'NEW POSTS',
+                    'VOTES',
+                    'REPLIES',
+                    'MENTIONS',
+                    'FOLLOWS',
+                    'REBLOGS',
+                  ]}
+                  isLoginMust
+                  getFor="blog"
+                  tag={user.name}
+                  user={user}
+                  isLoggedIn={isLoggedIn}
                 />
               ) : (
                 <NoPost

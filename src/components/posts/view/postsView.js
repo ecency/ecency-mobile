@@ -15,7 +15,7 @@ import { PostPlaceHolder } from '../../basicUIElements';
 // Styles
 import styles from './postsStyles';
 
-class FeedView extends Component {
+class PostsView extends Component {
   constructor(props) {
     super(props);
     this.state = {
@@ -48,7 +48,7 @@ class FeedView extends Component {
   _loadPosts = () => {
     const { user, getFor, tag } = this.props;
 
-    getPosts(getFor, { tag, limit: 10 }, user.name)
+    getPosts(getFor, { tag, limit: 10 }, user)
       .then((result) => {
         if (result) {
           this.setState({
@@ -85,8 +85,8 @@ class FeedView extends Component {
       _posts.shift();
       this.setState({
         posts: [...posts, ..._posts],
-        startAuthor: result[result.length - 1].author,
-        startPermlink: result[result.length - 1].permlink,
+        startAuthor: result && result[result.length - 1] && result[result.length - 1].author,
+        startPermlink: result && result[result.length - 1] && result[result.length - 1].permlink,
       });
     });
   };
@@ -117,23 +117,21 @@ class FeedView extends Component {
 
   _getRenderItem = () => {
     const { isReady, refreshing, posts } = this.state;
-    const { componentId, user, handleOnUserPress } = this.props;
+    const {
+      componentId, user, handleOnUserPress, filterOptions,
+    } = this.props;
 
     if (isReady) {
       return (
         <Fragment>
-          <FilterBar
-            dropdownIconName="md-arrow-dropdown"
-            options={[
-              'ALL NOTIFICATION',
-              'LATEST NOTF',
-              'ESTEEMAPP',
-              'UGUR ERDAL',
-              'ONLY YESTERDAY',
-            ]}
-            defaultText="NEW POST"
-            rightIconName="md-apps"
-          />
+          {filterOptions && (
+            <FilterBar
+              dropdownIconName="md-arrow-dropdown"
+              options={filterOptions}
+              defaultText="NEW POST"
+              rightIconName="md-apps"
+            />
+          )}
           <FlatList
             data={posts}
             showsVerticalScrollIndicator={false}
@@ -172,4 +170,4 @@ class FeedView extends Component {
   }
 }
 
-export default FeedView;
+export default PostsView;
