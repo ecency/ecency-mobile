@@ -59,11 +59,12 @@ class PinCodeContainer extends Component {
         pinCode: pin,
         password,
         username: name,
+        accessToken: navigation.getParam('accessToken', ''),
       };
       verifyPinCode(pinData)
         .then(() => {
+          // TODO: make global route
           navigation.navigate(ROUTES.DRAWER.MAIN);
-          resolve();
         })
         .catch((err) => {
           alert(err);

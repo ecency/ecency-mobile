@@ -1,11 +1,15 @@
 import React, { Component } from 'react';
-import { View, Linking, StatusBar } from 'react-native';
+import {
+  View, Linking, StatusBar, Platform, Alert,
+} from 'react-native';
 import { KeyboardAwareScrollView } from 'react-native-keyboard-aware-scroll-view';
 import ScrollableTabView from '@esteemapp/react-native-scrollable-tab-view';
 
 // Actions
-import { addNewAccount } from '../../../redux/actions/accountAction';
-import { isLoggedIn } from '../../../redux/actions/userActions';
+import { addPassiveAccount, failedAccount } from '../../../redux/actions/accountAction';
+import {
+  login as loginAction,
+} from '../../../redux/actions/applicationActions';
 
 // Internal Components
 import { FormInput } from '../../../components/formInput';
@@ -46,13 +50,15 @@ class LoginScreen extends Component {
     Login(username, password)
       .then((result) => {
         if (result) {
-          dispatch(addNewAccount(result));
-          dispatch(isLoggedIn(true));
+          dispatch(addPassiveAccount(result));
+          dispatch(loginAction());
           navigation.navigate(ROUTES.SCREENS.PINCODE);
         }
       })
-      .catch(() => {
-        dispatch(isLoggedIn(false));
+      .catch((err) => {
+        // TODO: Change with global error handling
+        Alert.alert('Error', err.message);
+        dispatch(failedAccount(err.message));
         this.setState({ isLoading: false });
       });
   };
@@ -74,19 +80,8 @@ class LoginScreen extends Component {
   };
 
   _loginwithSc2 = () => {
-    // Navigation.push(this.props.componentId, {
-    //   component: {
-    //     name: 'navigation.eSteem.SteemConnect',
-    //     passProps: {},
-    //     options: {
-    //       topBar: {
-    //         title: {
-    //           text: 'Login via SC2',
-    //         },
-    //       },
-    //     },
-    //   },
-    // });
+    const { navigation } = this.props;
+    navigation.navigate(ROUTES.SCREENS.STEEM_CONNECT);
   };
 
   render() {
@@ -104,24 +99,26 @@ class LoginScreen extends Component {
           description="To get all the benefits using eSteem"
           onPress={() => this._handleSignUp()}
         />
-        <KeyboardAwareScrollView
-          onKeyboardWillShow={() => this.setState({ keyboardIsOpen: true })}
-          onKeyboardWillHide={() => this.setState({ keyboardIsOpen: false })}
+        <ScrollableTabView
+          locked={isLoading}
+          style={styles.tabView}
+          renderTabBar={() => (
+            <TabBar
+              style={styles.tabbar}
+              tabUnderlineDefaultWidth={100} // default containerWidth / (numberOfTabs * 4)
+              tabUnderlineScaleX={2} // default 3
+              activeColor="#357ce6"
+              inactiveColor="#222"
+            />
+          )}
         >
-          <ScrollableTabView
-            locked={isLoading}
-            style={styles.tabView}
-            renderTabBar={() => (
-              <TabBar
-                style={styles.tabbar}
-                tabUnderlineDefaultWidth={100} // default containerWidth / (numberOfTabs * 4)
-                tabUnderlineScaleX={2} // default 3
-                activeColor="#357ce6"
-                inactiveColor="#222"
-              />
-            )}
-          >
-            <View tabLabel="Sign in" style={styles.tabbarItem}>
+          <View tabLabel="Sign in" style={styles.tabbarItem}>
+            <KeyboardAwareScrollView
+              onKeyboardWillShow={() => this.setState({ keyboardIsOpen: true })}
+              onKeyboardWillHide={() => this.setState({ keyboardIsOpen: false })}
+              enableAutoAutomaticScroll={Platform.OS === 'ios'}
+              contentContainerStyle={{ flexGrow: 1 }}
+            >
               <FormInput
                 rightIconName="md-at"
                 leftIconName="md-close-circle"
@@ -148,35 +145,36 @@ class LoginScreen extends Component {
                   removed upon logout!"
                 iconName="ios-information-circle-outline"
               />
-              <View style={styles.footerButtons}>
-                <TextButton onPress={() => navigation.navigate(ROUTES.DRAWER.MAIN)} text="cancel" />
-              </View>
-              <MainButton
-                wrapperStyle={styles.mainButtonWrapper}
-                onPress={this._handleOnPressLogin}
-                iconName="md-person"
-                iconColor="white"
-                text="LOGIN"
-                isDisable={!isUsernameValid || password.length < 2 || username.length < 2}
-                isLoading={isLoading}
-              />
+            </KeyboardAwareScrollView>
+
+            <View style={styles.footerButtons}>
+              <TextButton onPress={() => navigation.navigate(ROUTES.DRAWER.MAIN)} text="cancel" />
             </View>
-            <View tabLabel="SteemConnect" style={styles.steemConnectTab}>
-              <InformationArea
-                description="If you don't want to keep your password encrypted and saved on your device, you can use Steemconnect."
-                iconName="ios-information-circle-outline"
-              />
-              <MainButton
-                wrapperStyle={styles.mainButtonWrapper}
-                onPress={() => this._loginwithSc2()}
-                iconName="md-person"
-                source={STEEM_CONNECT_LOGO}
-                text="steem"
-                secondText="connect"
-              />
-            </View>
-          </ScrollableTabView>
-        </KeyboardAwareScrollView>
+            <MainButton
+              wrapperStyle={styles.mainButtonWrapper}
+              onPress={this._handleOnPressLogin}
+              iconName="md-person"
+              iconColor="white"
+              text="LOGIN"
+              isDisable={!isUsernameValid || password.length < 2 || username.length < 2}
+              isLoading={isLoading}
+            />
+          </View>
+          <View tabLabel="SteemConnect" style={styles.steemConnectTab}>
+            <InformationArea
+              description="If you don't want to keep your password encrypted and saved on your device, you can use Steemconnect."
+              iconName="ios-information-circle-outline"
+            />
+            <MainButton
+              wrapperStyle={styles.mainButtonWrapper}
+              onPress={() => this._loginwithSc2()}
+              iconName="md-person"
+              source={STEEM_CONNECT_LOGO}
+              text="steem"
+              secondText="connect"
+            />
+          </View>
+        </ScrollableTabView>
       </View>
     );
   }
