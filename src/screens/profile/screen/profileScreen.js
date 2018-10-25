@@ -6,12 +6,12 @@ import { FlatList, ActivityIndicator, View } from 'react-native';
 import ScrollableTabView from '@esteemapp/react-native-scrollable-tab-view';
 import Comment from '../../../components/comment/comment';
 import { CollapsibleCard } from '../../../components/collapsibleCard';
+import { Header } from '../../../components/header';
 import { NoPost, ProfileSummaryPlaceHolder } from '../../../components/basicUIElements';
+import { Posts } from '../../../components/posts';
 import { ProfileSummary } from '../../../components/profileSummary';
 import { TabBar } from '../../../components/tabBar';
 import { Wallet } from '../../../components/wallet';
-import { Header } from '../../../components/header';
-import { Posts } from '../../../components/posts';
 
 // Utilitites
 import { getFormatedCreatedDate } from '../../../utils/time';
@@ -25,16 +25,7 @@ class ProfileScreen extends Component {
     this.state = {};
   }
 
-  _renderFooter = () => (
-    <View style={{ marginVertical: 20 }}>
-      <ActivityIndicator animating size="large" />
-    </View>
-  );
-
-  _getPostRenderItem = () => {};
-
   render() {
-    const { getMorePost } = this.props;
     const {
       about,
       commments,

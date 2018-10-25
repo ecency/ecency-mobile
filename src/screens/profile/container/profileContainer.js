@@ -25,7 +25,7 @@ class ProfileContainer extends Component {
       isReady: false,
     };
   }
-  
+
   async componentDidMount() {
     const { navigation } = this.props;
     const selectedUser = navigation.state && navigation.state.params;
@@ -45,52 +45,6 @@ class ProfileContainer extends Component {
       this._loadProfile(selectedUser);
     }
   }
-
-  _getBlog = (user) => {
-    this.setState({ isLoading: true });
-    getPosts('blog', { tag: user, limit: 10 }, user)
-      .then((result) => {
-        this.setState({
-          isReady: true,
-          posts: result,
-          start_author: result[result.length - 1].author,
-          start_permlink: result[result.length - 1].permlink,
-          refreshing: false,
-          isLoading: false,
-        });
-      })
-      .catch((err) => {
-        alert(err);
-      });
-  };
-
-  _getMore = async () => {
-    const {
-      posts, user, start_author, start_permlink,
-    } = this.state;
-    if (user) {
-      await getPosts(
-        'blog',
-        {
-          tag: user.name,
-          limit: 10,
-          start_author,
-          start_permlink,
-        },
-        user.name,
-      ).then((result) => {
-        const _posts = result;
-
-        _posts && _posts.shift();
-        this.setState({
-          posts: [...posts, ..._posts],
-          start_author: result[result.length - 1] && result[result.length - 1].author,
-          start_permlink: result[result.length - 1] && result[result.length - 1].permlink,
-          isLoading: false,
-        });
-      });
-    }
-  };
 
   _getComments = async (user) => {
     await getUserComments({ start_author: user, limit: 10 })
@@ -149,7 +103,6 @@ class ProfileContainer extends Component {
         about: about && about.profile,
       },
       () => {
-        this._getBlog(username);
         this._getComments(username);
       },
     );
@@ -176,10 +129,8 @@ class ProfileContainer extends Component {
           isReverseHeader={isReverseHeader}
           commments={commments}
           follows={follows}
-          getMorePost={this._getMore}
           isLoading={isLoading}
           isLoggedIn={isLoggedIn}
-          // posts={posts}
           username={username}
           user={user}
           {...this.props}
