@@ -59,10 +59,10 @@ export default EStyleSheet.create({
   },
   buttonText: {
     fontSize: 18,
-    fontFamily: 'Gill Sans',
+    fontFamily: '$primaryFontFamily',
     textAlign: 'center',
     margin: 10,
-    color: '#ffffff',
+    color: '$white',
     backgroundColor: 'transparent',
   },
 });
