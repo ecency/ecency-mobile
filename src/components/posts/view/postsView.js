@@ -12,14 +12,17 @@ import { getPosts } from '../../../providers/steem/dsteem';
 import { PostCard } from '../../postCard';
 import { FilterBar } from '../../filterBar';
 import { PostPlaceHolder } from '../../basicUIElements';
+import { NoPost } from '../../basicUIElements';
+
 // Styles
 import styles from './postsStyles';
 
-class FeedView extends Component {
+class PostsView extends Component {
   constructor(props) {
     super(props);
     this.state = {
       isReady: false,
+      user: props.user || null,
       posts: [],
       startAuthor: '',
       startPermlink: '',
@@ -30,8 +33,18 @@ class FeedView extends Component {
   }
 
   componentDidMount() {
-    this._loadPosts();
+    this._loadPosts(this.state.user);
     AppState.addEventListener('change', this._handleAppStateChange);
+  }
+
+  componentWillReceiveProps(nextProps) {
+    const { user } = this.props;
+
+    if (user !== nextProps.user) {
+      this.setState({ user: nextProps.user });
+
+      this._loadPosts(nextProps.user, nextProps.tag);
+    }
   }
 
   componentWillUnmount() {
@@ -45,29 +58,34 @@ class FeedView extends Component {
     this.setState({ appState: nextAppState });
   };
 
-  _loadPosts = () => {
-    const { user, getFor, tag } = this.props;
+  _loadPosts = (user, _tag = null) => {
+    const { getFor, tag } = this.props;
+    const options = { tag: _tag || tag, limit: 10 };
 
-    getPosts(getFor, { tag, limit: 10 }, user.name)
-      .then((result) => {
-        if (result) {
-          this.setState({
-            isReady: true,
-            posts: result,
-            startAuthor: result[result.length - 1].author,
-            startPermlink: result[result.length - 1].permlink,
-            refreshing: false,
-          });
-        }
-      })
-      .catch((err) => {
-        alert(err);
-      });
+    if (user) {
+      getPosts(getFor, options, user)
+        .then((result) => {
+          if (result) {
+            this.setState({
+              isReady: true,
+              posts: result,
+              startAuthor: result[result.length - 1].author,
+              startPermlink: result[result.length - 1].permlink,
+              refreshing: false,
+            });
+          }
+        })
+        .catch((err) => {
+          alert(err);
+        });
+    }
   };
 
   _loadMore = () => {
-    const { posts, startAuthor, startPermlink } = this.state;
-    const { user, getFor, tag } = this.props;
+    const {
+      posts, startAuthor, startPermlink, user,
+    } = this.state;
+    const { getFor, tag } = this.props;
 
     this.setState({ isLoading: true });
 
@@ -85,19 +103,21 @@ class FeedView extends Component {
       _posts.shift();
       this.setState({
         posts: [...posts, ..._posts],
-        startAuthor: result[result.length - 1].author,
-        startPermlink: result[result.length - 1].permlink,
+        startAuthor: result && result[result.length - 1] && result[result.length - 1].author,
+        startPermlink: result && result[result.length - 1] && result[result.length - 1].permlink,
       });
     });
   };
 
   _handleOnRefreshPosts = () => {
+    const { user } = this.state;
+
     this.setState(
       {
         refreshing: true,
       },
       () => {
-        this._loadPosts();
+        this._loadPosts(user);
       },
     );
   };
@@ -116,24 +136,22 @@ class FeedView extends Component {
   };
 
   _getRenderItem = () => {
-    const { isReady, refreshing, posts } = this.state;
-    const { componentId, user, handleOnUserPress } = this.props;
+    const {
+      isReady, refreshing, posts, user,
+    } = this.state;
+    const { componentId, handleOnUserPress, filterOptions } = this.props;
 
-    if (isReady) {
+    if (user && posts && posts.length > 0) {
       return (
         <Fragment>
-          <FilterBar
-            dropdownIconName="md-arrow-dropdown"
-            options={[
-              'ALL NOTIFICATION',
-              'LATEST NOTF',
-              'ESTEEMAPP',
-              'UGUR ERDAL',
-              'ONLY YESTERDAY',
-            ]}
-            defaultText="NEW POST"
-            rightIconName="md-apps"
-          />
+          {filterOptions && (
+            <FilterBar
+              dropdownIconName="md-arrow-dropdown"
+              options={filterOptions}
+              defaultText="NEW POST"
+              rightIconName="md-apps"
+            />
+          )}
           <FlatList
             data={posts}
             showsVerticalScrollIndicator={false}
@@ -159,6 +177,18 @@ class FeedView extends Component {
       );
     }
 
+    if (isReady && !posts && posts.length < 1) {
+      return (
+        <Fragment>
+          <NoPost
+            name={user.name}
+            text={"haven't posted anything yet"}
+            defaultText="Login to see!"
+          />
+        </Fragment>
+      );
+    }
+
     return (
       <Fragment>
         <PostPlaceHolder />
@@ -172,4 +202,4 @@ class FeedView extends Component {
   }
 }
 
-export default FeedView;
+export default PostsView;

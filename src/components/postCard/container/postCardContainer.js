@@ -1,14 +1,5 @@
 import React, { Component } from 'react';
 
-// Services and Actions
-
-// Middleware
-
-// Constants
-
-// Utilities
-
-// Component
 import { PostCardView } from '..';
 
 /*
@@ -22,10 +13,6 @@ class PostCardContainer extends Component {
     super(props);
     this.state = {};
   }
-
-  // Component Life Cycle Functions
-
-  // Component Functions
 
   render() {
     return <PostCardView {...this.props} />;

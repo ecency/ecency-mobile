@@ -68,6 +68,7 @@ class CollapsibleCardView extends Component {
       titleComponent,
       noBorder,
       fitContent,
+      isTitleCenter,
     } = this.props;
     const { expanded } = this.state;
 
@@ -79,6 +80,7 @@ class CollapsibleCardView extends Component {
         >
           {titleComponent || (
             <ContainerHeader
+              isCenter={isTitleCenter}
               color={titleColor || '#788187'}
               fontSize={fontSize || 12}
               title={title}

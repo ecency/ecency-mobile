@@ -1,4 +1,4 @@
-import React, { Component } from 'react';
+import React, { Component, Fragment } from 'react';
 
 // Components
 import { ProfileScreen } from '..';
@@ -13,7 +13,7 @@ class ProfileContainer extends Component {
   constructor(props) {
     super(props);
     this.state = {
-      user: [],
+      user: null,
       posts: [],
       commments: [],
       replies: [],
@@ -26,106 +26,25 @@ class ProfileContainer extends Component {
     };
   }
 
-  // componentWillMount() {
-  //   console.log(this.props.navigation.state.params);
-  // }
-
   async componentDidMount() {
     const { navigation } = this.props;
-
-    // TODO: use from redux store.
-    let isLoggedIn;
-    let userData;
-    let username;
-
     const selectedUser = navigation.state && navigation.state.params;
 
-    await getAuthStatus().then((res) => {
-      isLoggedIn = res;
-    });
-
-    if (selectedUser) {
-      username = selectedUser.username;
-      this.setState({ isReverseHeader: true });
-    } else if (isLoggedIn) {
-      await getUserData().then((res) => {
-        userData = Array.from(res)[0];
-      });
-
-      username = userData.username;
-    }
-
-    if (isLoggedIn) {
-      let user;
-      let follows;
-      let about;
-
-      await getFollows(username).then((res) => {
-        follows = res;
-      });
-
-      user = await getUser(username);
-
-      about = user.json_metadata && JSON.parse(user.json_metadata);
-
-      this.setState(
-        {
-          user,
-          isLoggedIn,
-          follows,
-          about: about && about.profile,
-        },
-        () => {
-          this._getBlog(username);
-          this._getComments(username);
-        },
-      );
-    }
+    this._loadProfile(selectedUser);
   }
 
-  _getBlog = (user) => {
-    this.setState({ isLoading: true });
-    getPosts('blog', { tag: user, limit: 10 }, user)
-      .then((result) => {
-        this.setState({
-          isReady: true,
-          posts: result,
-          start_author: result[result.length - 1].author,
-          start_permlink: result[result.length - 1].permlink,
-          refreshing: false,
-          isLoading: false,
-        });
-      })
-      .catch((err) => {
-        alert(err);
-      });
-  };
+  componentWillReceiveProps(nextProps) {
+    const { navigation } = this.props;
+    const isParamsChange = nextProps.navigation.state
+      && navigation.state
+      && nextProps.navigation.state.params.username !== navigation.state.params.username;
 
-  _getMore = async () => {
-    const {
-      posts, user, start_author, start_permlink,
-    } = this.state;
-    await getPosts(
-      'blog',
-      {
-        tag: user.name,
-        limit: 10,
-        start_author,
-        start_permlink,
-      },
-      user.name,
-    ).then((result) => {
-      const _posts = result;
+    if (isParamsChange) {
+      const selectedUser = nextProps.navigation.state && nextProps.navigation.state.params;
 
-      _posts.shift();
-      this.setState({
-        posts: [...posts, ..._posts],
-        start_author: result[result.length - 1] && result[result.length - 1].author,
-        start_permlink: result[result.length - 1] && result[result.length - 1].permlink,
-        isLoading: false,
-      });
-    });
-  };
+      this._loadProfile(selectedUser);
+    }
+  }
 
   _getComments = async (user) => {
     await getUserComments({ start_author: user, limit: 10 })
@@ -142,6 +61,53 @@ class ProfileContainer extends Component {
       });
   };
 
+  async _loadProfile(selectedUser = null) {
+    // TODO: use from redux store.
+    let isLoggedIn;
+    let userData;
+    let username;
+
+    await getAuthStatus().then((res) => {
+      isLoggedIn = res;
+    });
+
+    if (selectedUser) {
+      username = selectedUser.username;
+      this.setState({ isReverseHeader: true });
+    } else if (isLoggedIn) {
+      await getUserData().then((res) => {
+        userData = Array.from(res)[0];
+      });
+
+      username = userData.username;
+    }
+
+    let user;
+    let follows;
+    let about;
+
+    await getFollows(username).then((res) => {
+      follows = res;
+    });
+
+    user = await getUser(username);
+
+    about = user.json_metadata && JSON.parse(user.json_metadata);
+
+    this.setState(
+      {
+        user,
+        isLoggedIn,
+        follows,
+        username,
+        about: about && about.profile,
+      },
+      () => {
+        this._getComments(username);
+      },
+    );
+  }
+
   render() {
     const {
       about,
@@ -150,25 +116,26 @@ class ProfileContainer extends Component {
       isReverseHeader,
       isLoading,
       isLoggedIn,
-      posts,
       user,
       isReady,
+      username,
     } = this.state;
 
     return (
-      <ProfileScreen
-        isReady={isReady}
-        about={about}
-        isReverseHeader={isReverseHeader}
-        commments={commments}
-        follows={follows}
-        getMorePost={this._getMore}
-        isLoading={isLoading}
-        isLoggedIn={isLoggedIn}
-        posts={posts}
-        user={user}
-        {...this.props}
-      />
+      <Fragment>
+        <ProfileScreen
+          isReady={isReady}
+          about={about}
+          isReverseHeader={isReverseHeader}
+          commments={commments}
+          follows={follows}
+          isLoading={isLoading}
+          isLoggedIn={isLoggedIn}
+          username={username}
+          user={user}
+          {...this.props}
+        />
+      </Fragment>
     );
   }
 }

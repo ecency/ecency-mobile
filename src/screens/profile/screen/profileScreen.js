@@ -6,13 +6,12 @@ import { FlatList, ActivityIndicator, View } from 'react-native';
 import ScrollableTabView from '@esteemapp/react-native-scrollable-tab-view';
 import Comment from '../../../components/comment/comment';
 import { CollapsibleCard } from '../../../components/collapsibleCard';
-import { FilterBar } from '../../../components/filterBar';
+import { Header } from '../../../components/header';
 import { NoPost, ProfileSummaryPlaceHolder } from '../../../components/basicUIElements';
-import { PostCard } from '../../../components/postCard';
+import { Posts } from '../../../components/posts';
 import { ProfileSummary } from '../../../components/profileSummary';
 import { TabBar } from '../../../components/tabBar';
 import { Wallet } from '../../../components/wallet';
-import { Header } from '../../../components/header';
 
 // Utilitites
 import { getFormatedCreatedDate } from '../../../utils/time';
@@ -26,16 +25,7 @@ class ProfileScreen extends Component {
     this.state = {};
   }
 
-  _renderFooter = () => (
-    <View style={{ marginVertical: 20 }}>
-      <ActivityIndicator animating size="large" />
-    </View>
-  );
-
-  _getPostRenderItem = () => {};
-
   render() {
-    const { getMorePost } = this.props;
     const {
       about,
       commments,
@@ -43,9 +33,9 @@ class ProfileScreen extends Component {
       isLoading,
       isLoggedIn,
       isReverseHeader,
-      posts,
       user,
       isReady,
+      username,
     } = this.props;
     let _about;
     let avatar;
@@ -76,13 +66,20 @@ class ProfileScreen extends Component {
     }
     return (
       <Fragment>
-        <Header name={name} avatar={avatar} isReverse={isReverseHeader} userName={user.name} />
+        <Header
+          name={name}
+          avatar={avatar}
+          isReverse={isReverseHeader}
+          userName={user && user.name}
+          reputation={user && user.reputation}
+        />
         <View style={styles.container}>
           {!isReady ? (
             <ProfileSummaryPlaceHolder />
           ) : (
             <CollapsibleCard
               title={_about}
+              isTitleCenter
               defaultTitle="Profile details"
               expanded={isLoggedIn}
               locked={!isLoggedIn}
@@ -115,41 +112,21 @@ class ProfileScreen extends Component {
             )}
           >
             <View tabLabel="Post" style={styles.postTabBar}>
-              <FilterBar
-                isHide={!isLoggedIn}
-                dropdownIconName="md-arrow-dropdown"
-                options={['NEW POSTS', 'VOTES', 'REPLIES', 'MENTIONS', 'FOLLOWS', 'REBLOGS']}
-                defaultText="ALL NOTIFICATION"
-                onDropdownSelect={this._handleOnDropdownSelect}
-                rightIconName="md-apps"
-              />
-              {posts && posts.length > 0 ? (
-                <FlatList
-                  data={posts}
-                  showsVerticalScrollIndicator={false}
-                  renderItem={({ item }) => (
-                    <PostCard
-                      style={{
-                        shadowColor: '#f6f6f6',
-                      }}
-                      content={item}
-                      user={user}
-                      isLoggedIn
-                    />
-                  )}
-                  keyExtractor={(post, index) => index.toString()}
-                  onEndReached={(info) => {
-                    !isLoading && getMorePost();
-                  }}
-                  onEndThreshold={0}
-                  bounces={false}
-                  ListFooterComponent={this._renderFooter}
-                />
-              ) : (
-                <NoPost
-                  name={user.name}
-                  text={"haven't posted anything yet"}
-                  defaultText="Login to see!"
+              {user && (
+                <Posts
+                  filterOptions={[
+                    'NEW POSTS',
+                    'VOTES',
+                    'REPLIES',
+                    'MENTIONS',
+                    'FOLLOWS',
+                    'REBLOGS',
+                  ]}
+                  isLoginMust
+                  getFor="blog"
+                  tag={username}
+                  user={user && user}
+                  isLoggedIn={isLoggedIn}
                 />
               )}
             </View>
@@ -165,13 +142,13 @@ class ProfileScreen extends Component {
                 />
               ) : (
                 <NoPost
-                  name={user.name}
+                  name={username}
                   text="haven't commented anything yet"
                   defaultText="Login to see!"
                 />
               )}
             </View>
-            <View tabLabel={user.balance ? `$${user.balance}` : 'Wallet'}>
+            <View tabLabel={user && user.balance ? `$${user && user.balance}` : 'Wallet'}>
               <Wallet user={user} />
             </View>
           </ScrollableTabView>

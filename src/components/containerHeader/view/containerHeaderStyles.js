@@ -20,6 +20,8 @@ export default EStyleSheet.create({
     fontWeight: '600',
     marginLeft: 32,
     width: '$deviceWidth - 64',
+  },
+  centerTitle: {
     textAlign: 'center',
   },
   icon: {
