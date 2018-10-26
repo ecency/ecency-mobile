@@ -25,7 +25,6 @@ class PostsView extends Component {
       user: props.user || null,
       posts: [],
       startAuthor: '',
-      tag: props.tag || null,
       startPermlink: '',
       refreshing: false,
       isLoading: false,
@@ -43,8 +42,8 @@ class PostsView extends Component {
 
     if (user !== nextProps.user) {
       this.setState({ user: nextProps.user });
-      // this._loadPosts();
-      this._loadPosts(nextProps.user);
+
+      this._loadPosts(nextProps.user, nextProps.tag);
     }
   }
 
@@ -59,11 +58,12 @@ class PostsView extends Component {
     this.setState({ appState: nextAppState });
   };
 
-  _loadPosts = (user) => {
+  _loadPosts = (user, _tag = null) => {
     const { getFor, tag } = this.props;
+    const options = { tag: _tag || tag, limit: 10 };
 
     if (user) {
-      getPosts(getFor, { tag, limit: 10 }, user)
+      getPosts(getFor, options, user)
         .then((result) => {
           if (result) {
             this.setState({

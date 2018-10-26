@@ -31,8 +31,13 @@ class PostsContainer extends Component {
 
   _handleOnUserPress = (username) => {
     const { navigation } = this.props;
-    navigation.navigate(ROUTES.SCREENS.PROFILE, {
-      username,
+
+    navigation.navigate({
+      routeName: ROUTES.SCREENS.PROFILE,
+      params: {
+        username,
+      },
+      key: username + Math.random() * 100,
     });
   };
 
