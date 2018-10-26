@@ -26,7 +26,6 @@ class PostCard extends Component {
     */
   constructor(props) {
     super(props);
-    this.upvoteContent = this.upvoteContent.bind(this);
     this.calculateEstimatedAmount = this.calculateEstimatedAmount.bind(this);
 
     this.state = {
@@ -42,7 +41,7 @@ class PostCard extends Component {
   componentDidMount() {
     const { isLoggedIn } = this.props;
 
-    isLoggedIn && this.calculateEstimatedAmount();
+    true && this.calculateEstimatedAmount();
   }
 
   // Component Functions
@@ -68,20 +67,21 @@ class PostCard extends Component {
   };
 
   upvoteContent = async () => {
-    const { isLoggedIn, user, content } = this.prop;
+    alert("ugur");
+    const { isLoggedIn, user, content } = this.props;
     const { value } = this.state;
 
     let postingKey;
     let userData;
 
-    if (isLoggedIn) {
+    if (true) {
       await this.setState({
         isVoting: true,
       });
 
       await getUserData().then((result) => {
         userData = Array.from(result);
-        postingKey = decryptKey(userData[0].postingKey, 'pinCode');
+        postingKey = decryptKey(userData[0].postingKey, '1234');
       });
       upvote(
         {

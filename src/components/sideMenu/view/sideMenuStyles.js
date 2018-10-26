@@ -59,7 +59,7 @@ export default EStyleSheet.create({
   },
   buttonText: {
     fontSize: 18,
-    fontFamily: '$primaryFontFamily',
+    fontFamily: '$primaryFont',
     textAlign: 'center',
     margin: 10,
     color: '$white',
