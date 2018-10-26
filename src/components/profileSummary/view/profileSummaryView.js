@@ -61,7 +61,7 @@ class ProfileSummaryView extends Component {
           : null;
 
     const isColumn = rowLength && DEVICE_WIDTH / rowLength <= 15;
-
+    
     return (
       <Fragment>
         <View style={[isColumn ? styles.textWithIconWrapperColumn : styles.textWithIconWrapper]}>
