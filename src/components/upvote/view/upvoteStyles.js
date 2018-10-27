@@ -13,10 +13,10 @@ export default EStyleSheet.create({
   popover: {
     flexDirection: 'row',
     width: '$deviceWidth - 20',
+    height: 48,
     borderRadius: '$deviceWidth - 20 / 2',
     paddingHorizontal: 16,
     backgroundColor: '$white',
-    height: 48,
   },
   track: {
     height: 2,

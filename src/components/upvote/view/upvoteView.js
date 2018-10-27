@@ -1,5 +1,7 @@
 import React, { Component, Fragment } from 'react';
-import { View, TouchableOpacity, ActivityIndicator, Text } from 'react-native';
+import {
+  View, TouchableOpacity, ActivityIndicator, Text,
+} from 'react-native';
 import { Popover, PopoverController } from 'react-native-modal-popover';
 import Slider from 'react-native-slider';
 // Constants
@@ -24,9 +26,9 @@ class UpvoteView extends Component {
   constructor(props) {
     super(props);
     this.state = {
-      value: 0.00,
+      value: 0.0,
       isVoting: false,
-      isVoted: props.content && props.content.isVoted,
+      isVoted: props.content ? props.content.isVoted : false,
       amount: '0.00',
       isModalVisible: false,
     };
@@ -42,8 +44,8 @@ class UpvoteView extends Component {
     if (user) {
       const { value } = this.state;
       const totalVests = parseFloat(user.vesting_shares)
-      + parseFloat(user.received_vesting_shares)
-      - parseFloat(user.delegated_vesting_shares);
+        + parseFloat(user.received_vesting_shares)
+        - parseFloat(user.delegated_vesting_shares);
 
       const finalVest = totalVests * 1e6;
 
@@ -59,47 +61,48 @@ class UpvoteView extends Component {
     }
   };
 
-  _upvoteContent = () => {
-    alert('ugur');
-    // const { isLoggedIn, user, content } = this.props;
-    // const { value } = this.state;
+  _upvoteContent = async () => {
+    const { user, content } = this.props;
+    const { value } = this.state;
 
-    // let postingKey;
-    // let userData;
+    let postingKey;
+    let userData;
 
-    // if (true) {
-    //   await this.setState({
-    //     isVoting: true,
-    //   });
+    this.setState({
+      isVoting: true,
+    });
 
-    //   await getUserData().then((result) => {
-    //     userData = Array.from(result);
-    //     postingKey = decryptKey(userData[0].postingKey, '1234');
-    //   });
-    //   upvote(
-    //     {
-    //       voter: user && user.name,
-    //       author: content && content.author,
-    //       permlink: content && content.permlink,
-    //       weight: (value * 100).toFixed(0) * 100,
-    //     },
-    //     postingKey,
-    //   )
-    //     .then((res) => {
-    //       console.log(res);
-    //       this.setState({
-    //         isVoted: true,
-    //         isVoting: false,
-    //       });
-    //     })
-    //     .catch((err) => {
-    //       console.log(err);
-    //       this.setState({
-    //         isVoted: false,
-    //         isVoting: false,
-    //       });
-    //     });
-    // }
+    await getUserData().then((result) => {
+      userData = Array.from(result);
+      postingKey = decryptKey(userData[0].postingKey, '1234');
+    });
+
+    upvote(
+      {
+        voter: user && user.name,
+        author: content && content.author,
+        permlink: content && content.permlink,
+        weight: value ? (value * 100).toFixed(0) * 100 : 0,
+      },
+      postingKey,
+    )
+      .then((res) => {
+        this.setState({
+          isVoted: true,
+          isVoting: false,
+        });
+
+        alert('success');
+      })
+      .catch((err) => {
+        console.log(err);
+        alert(err);
+
+        this.setState({
+          isVoted: false,
+          isVoting: false,
+        });
+      });
   };
 
   render() {
@@ -108,8 +111,8 @@ class UpvoteView extends Component {
       isVoting, isModalVisible, amount, value, isVoted,
     } = this.state;
 
-    const _percent = (value * 100).toFixed(0) + "%";
-    const _amount = "$" + amount;
+    const _percent = `${(value * 100).toFixed(0)}%`;
+    const _amount = `$${amount}`;
     return (
       <PopoverController>
         {({
@@ -121,6 +124,7 @@ class UpvoteView extends Component {
               ref={setPopoverAnchor}
               onPress={openPopover}
               style={styles.upvoteButton}
+              disabled={!isLoggedIn}
             >
               {isVoting ? (
                 <ActivityIndicator />
@@ -167,7 +171,7 @@ class UpvoteView extends Component {
                     });
                   }}
                 />
-                <Text style={styles.percent}> {_percent} </Text>
+                <Text style={styles.percent}>{_percent}</Text>
               </View>
             </Popover>
           </Fragment>

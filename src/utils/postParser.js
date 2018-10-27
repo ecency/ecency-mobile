@@ -22,10 +22,7 @@ export const replaceTags = input => input.replace(/(^|\s|>)(#[-a-z\d]+)/gi, (tag
   tag = tag.replace('>', ''); // remove closing tag
   const tag2 = tag.trim().substring(1);
   const tagLower = tag2.toLowerCase();
-  return (
-    `${preceding
-    }<a class="markdown-tag-link" href="${tagLower}" data-tag="${tagLower}">${tag.trim()}</a>`
-  );
+  return `${preceding}<a class="markdown-tag-link" href="${tagLower}" data-tag="${tagLower}">${tag.trim()}</a>`;
 });
 
 export const markDown2Html = (input) => {
@@ -50,9 +47,7 @@ export const parsePosts = (posts, user) => {
   posts.map((post) => {
     post.json_metadata = JSON.parse(post.json_metadata);
     post.json_metadata.image ? (post.image = post.json_metadata.image[0]) : '';
-    post.pending_payout_value = parseFloat(post.pending_payout_value).toFixed(
-      2,
-    );
+    post.pending_payout_value = parseFloat(post.pending_payout_value).toFixed(2);
     post.created = getTimeFromNow(post.created);
     post.vote_count = post.active_votes.length;
     post.author_reputation = getReputation(post.author_reputation);
@@ -66,23 +61,14 @@ export const parsePosts = (posts, user) => {
       + parseFloat(post.total_payout_value)
       + parseFloat(post.curator_payout_value);
 
-    const voteRshares = post.active_votes.reduce(
-      (a, b) => a + parseFloat(b.rshares),
-      0,
-    );
+    const voteRshares = post.active_votes.reduce((a, b) => a + parseFloat(b.rshares), 0);
     const ratio = totalPayout / voteRshares;
     post.isVoted = false;
 
     for (const i in post.active_votes) {
-      if (post.active_votes[i].voter == user) {
-        post.isVoted = true;
-      }
-      post.active_votes[i].value = (
-        post.active_votes[i].rshares * ratio
-      ).toFixed(2);
-      post.active_votes[i].reputation = getReputation(
-        post.active_votes[i].reputation,
-      );
+      post.isVoted = post.active_votes[i].voter === user.name;
+      post.active_votes[i].value = (post.active_votes[i].rshares * ratio).toFixed(2);
+      post.active_votes[i].reputation = getReputation(post.active_votes[i].reputation);
       post.active_votes[i].percent = post.active_votes[i].percent / 100;
       post.active_votes[i].avatar = `https://steemitimages.com/u/${
         post.active_votes[i].voter
@@ -116,19 +102,12 @@ export const parsePost = (post) => {
     + parseFloat(post.total_payout_value)
     + parseFloat(post.curator_payout_value);
 
-  const voteRshares = post.active_votes.reduce(
-    (a, b) => a + parseFloat(b.rshares),
-    0,
-  );
+  const voteRshares = post.active_votes.reduce((a, b) => a + parseFloat(b.rshares), 0);
   const ratio = totalPayout / voteRshares;
 
   for (const i in post.active_votes) {
-    post.active_votes[i].value = (post.active_votes[i].rshares * ratio).toFixed(
-      2,
-    );
-    post.active_votes[i].reputation = getReputation(
-      post.active_votes[i].reputation,
-    );
+    post.active_votes[i].value = (post.active_votes[i].rshares * ratio).toFixed(2);
+    post.active_votes[i].reputation = getReputation(post.active_votes[i].reputation);
     post.active_votes[i].percent = post.active_votes[i].percent / 100;
     post.active_votes[i].avatar = `https://steemitimages.com/u/${
       post.active_votes[i].voter
@@ -183,15 +162,11 @@ export const protocolUrl2Obj = (url) => {
 
 export const parseComments = (comments) => {
   comments.map((comment) => {
-    comment.pending_payout_value = parseFloat(
-      comment.pending_payout_value,
-    ).toFixed(2);
+    comment.pending_payout_value = parseFloat(comment.pending_payout_value).toFixed(2);
     comment.created = getTimeFromNow(comment.created);
     comment.vote_count = comment.active_votes.length;
     comment.author_reputation = getReputation(comment.author_reputation);
-    comment.avatar = `https://steemitimages.com/u/${
-      comment.author
-    }/avatar/small`;
+    comment.avatar = `https://steemitimages.com/u/${comment.author}/avatar/small`;
     comment.body = markDown2Html(comment.body);
   });
   return comments;
