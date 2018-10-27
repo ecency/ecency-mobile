@@ -1,5 +1,5 @@
-import ExampleView from './view/exampleView';
-import ExampleContainer from './container/exampleContainer';
+import UpvoteView from './view/upvoteView';
+import Upvote from './container/upvoteContainer';
 
-export { ExampleView, ExampleContainer };
-export default ExampleContainer;
+export { UpvoteView, Upvote };
+export default Upvote;

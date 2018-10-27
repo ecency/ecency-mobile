@@ -13,7 +13,7 @@ import Slider from 'react-native-slider';
 import { upvote, upvoteAmount } from '../../../providers/steem/dsteem';
 import { decryptKey } from '../../../utils/crypto';
 import { getUserData } from '../../../realm/realm';
-
+import { Upvote } from '../../upvote';
 // Styles
 import styles from './postCardStyles';
 
@@ -67,7 +67,7 @@ class PostCard extends Component {
   };
 
   upvoteContent = async () => {
-    alert("ugur");
+    alert('ugur');
     const { isLoggedIn, user, content } = this.props;
     const { value } = this.state;
 
@@ -138,9 +138,7 @@ class PostCard extends Component {
       <Card style={styles.post}>
         <CardItem style={styles.header}>
           <Left>
-            <TouchableOpacity
-              onPress={() => this._handleOnUserPress()}
-            >
+            <TouchableOpacity onPress={() => this._handleOnUserPress()}>
               <Thumbnail style={styles.avatar} source={{ uri: content && content.avatar }} />
             </TouchableOpacity>
             <Body style={styles.body}>
@@ -179,7 +177,8 @@ class PostCard extends Component {
         </TouchableOpacity>
         <CardItem>
           <Left>
-            <PopoverController>
+            <Upvote content={content} user={user} />
+            {/* <PopoverController>
               {({
                 openPopover,
                 closePopover,
@@ -279,7 +278,7 @@ $
                   </Popover>
                 </React.Fragment>
               )}
-            </PopoverController>
+            </PopoverController> */}
             <TouchableOpacity onPress={this.toggleModal} style={styles.payoutButton}>
               <Text style={styles.payout}>
 $
