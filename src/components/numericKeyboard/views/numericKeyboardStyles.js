@@ -22,7 +22,7 @@ export default EStyleSheet.create({
     alignSelf: 'flex-end',
   },
   iconButton: {
-    fontSize: 20,
+    fontSize: 25,
     color: '$primaryBlue',
   },
   buttonWithoutBorder: {

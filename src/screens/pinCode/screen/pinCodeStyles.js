@@ -8,6 +8,9 @@ export default EStyleSheet.create({
   logoView: {
     flex: 2,
   },
+  logo: {
+    width: '$deviceWidth / 7',
+  },
   titleView: {
     flex: 1,
     justifyContent: 'center',
@@ -38,7 +41,7 @@ export default EStyleSheet.create({
     alignItems: 'center',
   },
   forgotButtonText: {
-    color: '#788187',
+    color: '$primaryDarkGray',
     fontSize: 14,
     marginTop: 25,
     alignSelf: 'center',
