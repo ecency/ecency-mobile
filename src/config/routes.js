@@ -4,7 +4,7 @@ import { default as ROUTES } from '../constants/routeNames';
 
 // Screens
 import {
-  Splash, Login, PinCode, SteemConnect, Editor, Profile,
+  Splash, Login, PinCode, SteemConnect, Editor, Profile, RootComponent,
 } from '../screens';
 
 // Components
@@ -13,7 +13,7 @@ import { SideMenu } from '../components';
 const mainNavigation = DrawerNavigator(
   {
     [ROUTES.SCREENS.HOME]: {
-      screen: BaseNavigator,
+      screen: RootComponent()(BaseNavigator),
       navigationOptions: {
         header: () => null,
       },
@@ -25,12 +25,11 @@ const mainNavigation = DrawerNavigator(
 );
 
 export default SwitchNavigator({
-  [ROUTES.SCREENS.PINCODE]: { screen: PinCode },
-  [ROUTES.DRAWER.MAIN]: mainNavigation,
-  [ROUTES.SCREENS.EDITOR]: { screen: Editor },
-  [ROUTES.SCREENS.LOGIN]: { screen: Login },
-  [ROUTES.SCREENS.PINCODE]: { screen: PinCode },
-  [ROUTES.SCREENS.PROFILE]: { screen: Profile },
-  [ROUTES.SCREENS.SPLASH]: { screen: Splash },
-  [ROUTES.SCREENS.STEEM_CONNECT]: { screen: SteemConnect },
+  [ROUTES.DRAWER.MAIN]: RootComponent()(mainNavigation),
+  [ROUTES.SCREENS.EDITOR]: { screen: RootComponent()(Editor) },
+  [ROUTES.SCREENS.LOGIN]: { screen: RootComponent()(Login) },
+  [ROUTES.SCREENS.PINCODE]: { screen: RootComponent()(PinCode) },
+  [ROUTES.SCREENS.PROFILE]: { screen: RootComponent()(Profile) },
+  [ROUTES.SCREENS.SPLASH]: { screen: RootComponent()(Splash) },
+  [ROUTES.SCREENS.STEEM_CONNECT]: { screen: RootComponent()(SteemConnect) },
 });
