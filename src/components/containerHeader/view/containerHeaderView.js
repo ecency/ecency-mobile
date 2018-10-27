@@ -33,13 +33,17 @@ class ContainerHeaderView extends Component {
       iconName,
       isBoldTitle,
       title,
+      isCenter,
     } = this.props;
 
     return (
       <View style={[styles.wrapper, hasSeperator && styles.hasTopBorder]}>
         <Text
+          numberOfLines={2}
+          ellipsizeMode="tail"
           style={[
             styles.title,
+            isCenter && styles.centerTitle,
             isBoldTitle && { fontWeight: 'bold' },
             color && { color },
             fontSize && { fontSize },

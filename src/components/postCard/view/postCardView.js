@@ -117,8 +117,18 @@ class PostCard extends Component {
     });
   };
 
+  _handleOnUserPress = () => {
+    const { handleOnUserPress, content, user } = this.props;
+
+    if (handleOnUserPress && content && content.author !== user.name) {
+      handleOnUserPress(content.author);
+    }
+  };
+
   render() {
-    const { content, isLoggedIn, user } = this.props;
+    const {
+      content, isLoggedIn, user, handleOnUserPress,
+    } = this.props;
     const {
       isVoted, isVoting, isModalVisible, value,
     } = this.state;
@@ -128,7 +138,9 @@ class PostCard extends Component {
       <Card style={styles.post}>
         <CardItem style={styles.header}>
           <Left>
-            <TouchableOpacity>
+            <TouchableOpacity
+              onPress={() => this._handleOnUserPress()}
+            >
               <Thumbnail style={styles.avatar} source={{ uri: content && content.avatar }} />
             </TouchableOpacity>
             <Body style={styles.body}>

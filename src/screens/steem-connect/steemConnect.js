@@ -1,40 +1,53 @@
 import React, { Component } from 'react';
 import { View, WebView } from 'react-native';
-import RNRestart from 'react-native-restart';
-import { Navigation } from 'react-native-navigation';
+import { connect } from 'react-redux';
+
 import { loginWithSC2 } from '../../providers/steem/auth';
 import { steemConnectOptions } from './config';
-import { goToAuthScreens } from '../../navigation';
 
-export default class SteemConnect extends Component {
+// Actions
+import { addPassiveAccount } from '../../redux/actions/accountAction';
+import { login as loginAction } from '../../redux/actions/applicationActions';
+
+// Constants
+import { default as ROUTES } from '../../constants/routeNames';
+
+class SteemConnect extends Component {
   constructor(props) {
     super(props);
-    this.state = {};
+    this.state = {
+      isLoading: false,
+    };
   }
 
   onNavigationStateChange(event) {
-    let access_token;
+    let accessToken;
+    const { navigation, dispatch } = this.props;
+    const { isLoading } = this.state;
+
     if (event.url.indexOf('?access_token=') > -1) {
       this.webview.stopLoading();
       try {
-        access_token = event.url.match(/\?(?:access_token)\=([\S\s]*?)\&/)[1];
+        accessToken = event.url.match(/\?(?:access_token)\=([\S\s]*?)\&/)[1];
       } catch (error) {
-        console.log(error);
+        // TODO: return
       }
-
-      loginWithSC2(access_token, 'pinCode')
-        .then((result) => {
-          if (result) {
-            // TODO: Handle pinCode and navigate to home page
-            goToAuthScreens();
-          } else {
-            // TODO: Error alert (Toast Message)
-            console.log('loginWithSC2 error');
-          }
-        })
-        .catch((error) => {
-          console.log(error);
-        });
+      if (!isLoading) {
+        this.setState({ isLoading: true });
+        loginWithSC2(accessToken, 'pinCode')
+          .then((result) => {
+            if (result) {
+              dispatch(addPassiveAccount(result));
+              dispatch(loginAction());
+              navigation.navigate(ROUTES.SCREENS.PINCODE, { accessToken });
+            } else {
+              // TODO: Error alert (Toast Message)
+            }
+          })
+          .catch((error) => {
+            // TODO: return
+          });
+      }
     }
   }
 
@@ -58,3 +71,5 @@ export default class SteemConnect extends Component {
     );
   }
 }
+
+export default connect()(SteemConnect);

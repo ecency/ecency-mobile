@@ -5,7 +5,12 @@ import {
 import FastImage from 'react-native-fast-image';
 // Constants
 
+// Utils
+
+import { getReputation } from '../../../utils/user';
+
 // Components
+import { IconButton } from '../../iconButton';
 
 // Styles
 import styles from './headerStyles';
@@ -29,20 +34,55 @@ class HeaderView extends Component {
   // Component Functions
 
   render() {
-    const { avatar, handleOpenDrawer, hideStatusBar } = this.props;
+    const {
+      avatar,
+      handleOpenDrawer,
+      handleOnPressBackButton,
+      hideStatusBar,
+      userName,
+      isReverse,
+      name,
+      reputation,
+    } = this.props;
 
     return (
-      <SafeAreaView style={styles.container}>
+      <SafeAreaView style={[styles.container, isReverse && styles.containerReverse]}>
         <StatusBar hidden={hideStatusBar} translucent />
-        <TouchableOpacity onPress={() => handleOpenDrawer()}>
-          <View style={styles.avatarWrapper}>
-            <FastImage style={styles.avatar} source={avatar} defaultSource={DEFAULT_IMAGE} />
+        <TouchableOpacity onPress={() => !isReverse && handleOpenDrawer()}>
+          <View
+            style={[
+              styles.avatarWrapper,
+              isReverse ? styles.avatarWrapperReverse : styles.avatarDefault,
+            ]}
+          >
+            <FastImage
+              style={styles.avatar}
+              source={{ uri: avatar }}
+              defaultSource={DEFAULT_IMAGE}
+            />
           </View>
         </TouchableOpacity>
         <View style={styles.titleWrapper}>
-          <Text style={styles.title}> eSteem Project </Text>
-          <Text style={styles.subTitle}> @u-e (63)</Text>
+          {name && <Text style={styles.title}>{name}</Text>}
+          {userName
+            && reputation && (
+              <Text style={styles.subTitle}>
+                @
+                {userName}
+                {`(${getReputation(reputation)})`}
+              </Text>
+          )}
         </View>
+        {isReverse && (
+          <View style={styles.backButtonWrapper}>
+            <IconButton
+              style={styles.backButton}
+              iconStyle={styles.backIcon}
+              name="md-arrow-back"
+              onPress={() => handleOnPressBackButton()}
+            />
+          </View>
+        )}
       </SafeAreaView>
     );
   }

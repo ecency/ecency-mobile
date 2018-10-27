@@ -4,6 +4,7 @@ import { Editor } from './editor';
 import { Home } from './home';
 import { Login } from './login';
 import { Notification } from './notification';
+import SteemConnect from './steem-connect/steemConnect';
 import { Profile } from './profile';
 
 // import Author from './authorProfile';
@@ -25,6 +26,7 @@ export {
   Notification,
   PinCode,
   Profile,
+  SteemConnect,
   Splash,
   // Author,
   // SideMenu,

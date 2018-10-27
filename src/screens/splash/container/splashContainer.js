@@ -14,7 +14,7 @@ class SplashContainer extends Component {
 
   _getUserData = () => {
     const { navigation } = this.props;
-
+    
     getAuthStatus().then((res) => {
       getUserData().then((response) => {
         if (response) {

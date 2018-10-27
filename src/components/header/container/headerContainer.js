@@ -34,8 +34,20 @@ class HeaderContainer extends Component {
     navigation.openDrawer();
   };
 
+  _handleOnPressBackButton = () => {
+    const { navigation } = this.props;
+
+    navigation.navigate('HomeScreen');
+  };
+
   render() {
-    return <HeaderView handleOpenDrawer={this._handleOpenDrawer} {...this.props} />;
+    return (
+      <HeaderView
+        handleOnPressBackButton={this._handleOnPressBackButton}
+        handleOpenDrawer={this._handleOpenDrawer}
+        {...this.props}
+      />
+    );
   }
 }
 

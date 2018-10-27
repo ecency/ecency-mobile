@@ -9,19 +9,29 @@ export default EStyleSheet.create({
     maxHeight: 74,
     backgroundColor: '$white',
   },
-
+  containerReverse: {
+    justifyContent: 'space-between',
+    flexDirection: 'row-reverse',
+  },
+  avatarWrapperReverse: {
+    borderTopLeftRadius: 68 / 2,
+    borderBottomLeftRadius: 68 / 2,
+  },
   avatarWrapper: {
     backgroundColor: '#357ce6',
     height: 50,
     width: 68,
+    justifyContent: 'center',
+  },
+  avatarDefault: {
     borderTopRightRadius: 68 / 2,
     borderBottomRightRadius: 68 / 2,
-    justifyContent: 'center',
   },
   titleWrapper: {
     flexDirection: 'column',
     justifyContent: 'center',
     marginLeft: 8,
+    marginRight: 8,
   },
   title: {
     fontSize: 14,
@@ -38,5 +48,18 @@ export default EStyleSheet.create({
     borderRadius: 32 / 2,
     alignSelf: 'flex-end',
     marginRight: 12,
+  },
+  backIcon: {
+    fontSize: 24,
+    color: '$iconColor',
+    justifyContent: 'center',
+  },
+  backButton: {
+    marginLeft: 24,
+  },
+  backButtonWrapper: {
+    flexGrow: 1,
+    flexDirection: 'column',
+    justifyContent: 'center',
   },
 });

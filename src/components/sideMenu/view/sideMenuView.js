@@ -28,7 +28,7 @@ class SideMenuView extends Component {
 
   render() {
     const { isLoggedIn, userAvatar, navigateToRoute } = this.props;
-
+    // TODO: Change dummy data
     return (
       <View style={styles.container}>
         <View style={styles.headerView}>
