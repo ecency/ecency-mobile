@@ -18,7 +18,8 @@ class SplashContainer extends Component {
     getAuthStatus().then((res) => {
       getUserData().then((response) => {
         if (response) {
-          navigation.navigate(ROUTES.DRAWER.MAIN);
+          navigation.navigate(ROUTES.SCREENS.PINCODE);
+          // navigation.navigate(ROUTES.DRAWER.MAIN);
         } else {
           navigation.navigate(ROUTES.SCREENS.LOGIN);
         }

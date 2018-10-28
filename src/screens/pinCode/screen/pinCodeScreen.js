@@ -52,7 +52,7 @@ class PinCodeScreen extends Component {
     return (
       <Container style={styles.container}>
         <View style={styles.logoView}>
-          <Logo />
+          <Logo style={styles.logo} />
         </View>
         <View style={styles.titleView}>
           <Text style={styles.title}>{`@${username}`}</Text>

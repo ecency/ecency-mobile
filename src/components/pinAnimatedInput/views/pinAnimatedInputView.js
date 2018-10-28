@@ -1,14 +1,14 @@
-import React, { Component } from "react";
-import { Animated } from "react-native";
+import React, { Component } from 'react';
+import { Animated } from 'react-native';
 
 // Styles
-import styles from "./pinAnimatedInputStyles";
+import styles from './pinAnimatedInputStyles';
 
 class PinAnimatedInput extends Component {
   /* Props
     *
     *   @prop { string }    pin            - Description.
-    * 
+    *
     */
   constructor(props) {
     super(props);
@@ -32,21 +32,26 @@ class PinAnimatedInput extends Component {
         ]}
       >
         {[...Array(4)].map((val, index) => {
-          if (pin.length > index) {
+          if (pin.length - 1 === index) {
             return (
-              <Animated.View
-                key={"passwordItem-" + index}
-                style={[styles.input, styles.activeInput]}
-              />
+              <Animated.View key={`passwordItem-${index}`} style={styles.input}>
+                <Animated.View
+                  key={`passwordItem-${index}`}
+                  style={[styles.input, styles.activeInput]}
+                />
+              </Animated.View>
             );
-          } else {
+          } if (pin.length > index) {
             return (
-              <Animated.View
-                key={"passwordItem-" + index}
-                style={styles.input}
-              />
+              <Animated.View key={`passwordItem-${index}`} style={styles.input}>
+                <Animated.View
+                  key={`passwordItem-${index}`}
+                  style={[styles.input, styles.inputWithBackground]}
+                />
+              </Animated.View>
             );
           }
+          return <Animated.View key={`passwordItem-${index}`} style={styles.input} />;
         })}
       </Animated.View>
     );
