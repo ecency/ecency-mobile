@@ -9,7 +9,6 @@ import { closePinCodeModal } from '../../../redux/actions/applicationActions';
 
 // Constants
 import { default as INITIAL } from '../../../constants/initial';
-import { default as ROUTES } from '../../../constants/routeNames';
 
 import { PinCodeScreen } from '..';
 
@@ -53,8 +52,11 @@ class PinCodeContainer extends Component {
   _setPinCode = pin => new Promise((resolve, reject) => {
     const {
       currentAccount: { password, name },
-      navigation,
       dispatch,
+      accessToken,
+      setWrappedComponentState,
+      navigateTo,
+      navigation,
     } = this.props;
     const { isExistUser, pinCode } = this.state;
     if (isExistUser) {
@@ -63,13 +65,16 @@ class PinCodeContainer extends Component {
         pinCode: pin,
         password,
         username: name,
-        accessToken: navigation.getParam('accessToken', ''),
+        accessToken,
       };
       verifyPinCode(pinData)
-        .then(() => {
+        .then((res) => {
           // TODO: make global route
-          // navigation.navigate(ROUTES.DRAWER.MAIN);
+          setWrappedComponentState(res);
           dispatch(closePinCodeModal());
+          if (navigateTo) {
+            navigation.navigate(navigateTo);
+          }
         })
         .catch((err) => {
           alert(err);

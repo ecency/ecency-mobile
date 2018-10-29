@@ -43,7 +43,7 @@ class LoginScreen extends Component {
   }
 
   _handleOnPressLogin = () => {
-    const { dispatch, navigation } = this.props;
+    const { dispatch, setPinCodeState } = this.props;
     const { password, username } = this.state;
 
     this.setState({ isLoading: true });
@@ -53,8 +53,8 @@ class LoginScreen extends Component {
         if (result) {
           dispatch(addPassiveAccount(result));
           dispatch(loginAction());
-          navigation.navigate(ROUTES.DRAWER.MAIN);
           dispatch(openPinCodeModal());
+          setPinCodeState({ navigateTo: ROUTES.DRAWER.MAIN });
         }
       })
       .catch((err) => {

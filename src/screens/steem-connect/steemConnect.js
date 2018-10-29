@@ -7,7 +7,7 @@ import { steemConnectOptions } from './config';
 
 // Actions
 import { addPassiveAccount } from '../../redux/actions/accountAction';
-import { login as loginAction } from '../../redux/actions/applicationActions';
+import { login as loginAction, openPinCodeModal } from '../../redux/actions/applicationActions';
 
 // Constants
 import { default as ROUTES } from '../../constants/routeNames';
@@ -22,7 +22,7 @@ class SteemConnect extends Component {
 
   onNavigationStateChange(event) {
     let accessToken;
-    const { navigation, dispatch } = this.props;
+    const { dispatch, setPinCodeState } = this.props;
     const { isLoading } = this.state;
 
     if (event.url.indexOf('?access_token=') > -1) {
@@ -39,7 +39,8 @@ class SteemConnect extends Component {
             if (result) {
               dispatch(addPassiveAccount(result));
               dispatch(loginAction());
-              navigation.navigate(ROUTES.SCREENS.PINCODE, { accessToken });
+              dispatch(openPinCodeModal());
+              setPinCodeState({ accessToken, navigateTo: ROUTES.DRAWER.MAIN });
             } else {
               // TODO: Error alert (Toast Message)
             }

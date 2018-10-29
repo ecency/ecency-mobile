@@ -7,16 +7,23 @@ const RootContainer = () => (WrappedComponent) => {
   class RootComponent extends Component {
     constructor(props) {
       super(props);
-      this.state = {};
+      this.state = {
+        pinCodeStates: null,
+        wrappedComponentStates: null,
+      };
     }
 
-    componentWillMount() {
-      console.log('============111111============', this.props);
-    }
+    _setPinCodeState = (data) => {
+      this.setState({ pinCodeStates: { ...data } });
+    };
+
+    _setWrappedComponentState = (data) => {
+      this.setState({ wrappedComponentStates: { ...data } });
+    };
 
     render() {
-      const { isPinCodeReqiure } = this.props;
-
+      const { isPinCodeReqiure, navigation } = this.props;
+      const { pinCodeStates, wrappedComponentStates } = this.state;
       return (
         <Fragment>
           <Modal
@@ -25,9 +32,17 @@ const RootContainer = () => (WrappedComponent) => {
             swipeToClose={false}
             backButtonClose={false}
           >
-            <PinCode />
+            <PinCode
+              {...pinCodeStates}
+              setWrappedComponentState={this._setWrappedComponentState}
+              navigation={navigation}
+            />
           </Modal>
-          <WrappedComponent {...this.props} />
+          <WrappedComponent
+            {...this.props}
+            {...wrappedComponentStates}
+            setPinCodeState={this._setPinCodeState}
+          />
         </Fragment>
       );
     }
