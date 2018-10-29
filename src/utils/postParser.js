@@ -46,7 +46,7 @@ export const markDown2Html = (input) => {
 export const parsePosts = (posts, user) => {
   posts.map((post) => {
     post.json_metadata = JSON.parse(post.json_metadata);
-    post.json_metadata.image ? (post.image = post.json_metadata.image[0]) : '';
+    post.json_metadata.image ? (post.image = post.json_metadata.image[0]) : null;
     post.pending_payout_value = parseFloat(post.pending_payout_value).toFixed(2);
     post.created = getTimeFromNow(post.created);
     post.vote_count = post.active_votes.length;
@@ -63,16 +63,19 @@ export const parsePosts = (posts, user) => {
 
     const voteRshares = post.active_votes.reduce((a, b) => a + parseFloat(b.rshares), 0);
     const ratio = totalPayout / voteRshares;
-    post.isVoted = false;
+    post.is_voted = false;
 
-    for (const i in post.active_votes) {
-      post.isVoted = post.active_votes[i].voter === user.name;
-      post.active_votes[i].value = (post.active_votes[i].rshares * ratio).toFixed(2);
-      post.active_votes[i].reputation = getReputation(post.active_votes[i].reputation);
-      post.active_votes[i].percent = post.active_votes[i].percent / 100;
-      post.active_votes[i].avatar = `https://steemitimages.com/u/${
-        post.active_votes[i].voter
-      }/avatar/small`;
+    if (post && post.active_votes) {
+      for (const i in post.active_votes) {
+        post.is_voted = post.active_votes[i].voter === user.name && post.active_votes[i].percent > 0;
+        post.vote_perecent = post.active_votes[i].voter === user.name ? post.active_votes[i].percent  : null;
+        post.active_votes[i].value = (post.active_votes[i].rshares * ratio).toFixed(2);
+        post.active_votes[i].reputation = getReputation(post.active_votes[i].reputation);
+        post.active_votes[i].percent = post.active_votes[i].percent / 100;
+        post.active_votes[i].avatar = `https://steemitimages.com/u/${
+          post.active_votes[i].voter
+        }/avatar/small`;
+      }
     }
 
     if (post.active_votes.length > 2) {
@@ -108,7 +111,6 @@ export const parsePost = (post) => {
   for (const i in post.active_votes) {
     post.active_votes[i].value = (post.active_votes[i].rshares * ratio).toFixed(2);
     post.active_votes[i].reputation = getReputation(post.active_votes[i].reputation);
-    post.active_votes[i].percent = post.active_votes[i].percent / 100;
     post.active_votes[i].avatar = `https://steemitimages.com/u/${
       post.active_votes[i].voter
     }/avatar/small`;

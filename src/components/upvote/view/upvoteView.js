@@ -28,7 +28,7 @@ class UpvoteView extends Component {
     this.state = {
       value: 0.0,
       isVoting: false,
-      isVoted: props.content ? props.content.isVoted : false,
+      isVoted: props.content ? props.content.is_voted : false,
       amount: '0.00',
       isModalVisible: false,
     };
@@ -88,16 +88,13 @@ class UpvoteView extends Component {
     )
       .then((res) => {
         this.setState({
-          isVoted: true,
+          isVoted: !!value,
           isVoting: false,
         });
-
-        alert('success');
+        alert(!!value ? "Upvoted" : "Downvoted");
       })
       .catch((err) => {
-        console.log(err);
         alert(err);
-
         this.setState({
           isVoted: false,
           isVoting: false,
@@ -106,7 +103,7 @@ class UpvoteView extends Component {
   };
 
   render() {
-    const { content, user, isLoggedIn } = this.props;
+    const { isLoggedIn } = this.props;
     const {
       isVoting, isModalVisible, amount, value, isVoted,
     } = this.state;
@@ -155,7 +152,16 @@ class UpvoteView extends Component {
                   }}
                   style={styles.upvoteButton}
                 >
-                  <Icon size={20} style={styles.upvoteIcon} name="ios-arrow-dropup-outline" />
+                {isVoting ? (
+                  <ActivityIndicator />
+                ) : (
+                  <Icon
+                    size={20} 
+                    style={[styles.upvoteIcon, { color: '#007ee5' }]}
+                    active={!isLoggedIn}
+                    name={isVoted ? 'ios-arrow-dropup-circle' : 'ios-arrow-dropup-outline'}
+                  />
+                )}
                 </TouchableOpacity>
                 <Text style={styles.amount}>{_amount}</Text>
                 <Slider
