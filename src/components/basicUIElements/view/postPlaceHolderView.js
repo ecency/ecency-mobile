@@ -17,13 +17,11 @@ const PostPlaceHolder = () => (
         animate="fade"
       />
     </View>
-    <View style={styles.paragraphWrapper}>
-      <Placeholder.Media size={25} hasRadius animate="fade" />
-    </View>
+    <View style={styles.paragraphWrapper} />
     <Placeholder.Box animate="fade" height={200} width="100%" radius={5} />
     <View style={styles.paragraphWrapper}>
       <Placeholder.Paragraph
-        lineNumber={10}
+        lineNumber={18}
         textSize={16}
         lineSpacing={5}
         width="100%"

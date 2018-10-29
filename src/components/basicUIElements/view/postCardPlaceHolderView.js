@@ -10,7 +10,7 @@ const PostCardPlaceHolder = () => (
       <Placeholder.Media size={25} hasRadius animate="fade" />
       <Placeholder.Line width="30%" lastLineWidth="30%" animate="fade" />
     </View>
-    <Placeholder.Box animate="fade" height={300} width="100%" radius={5} />
+    <Placeholder.Box animate="fade" height={200} width="100%" radius={5} />
     <View style={styles.paragraphWrapper}>
       <Placeholder.Paragraph
         lineNumber={3}

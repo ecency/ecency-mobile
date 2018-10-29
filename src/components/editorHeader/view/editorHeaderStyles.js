@@ -20,7 +20,6 @@ export default EStyleSheet.create({
     alignItems: 'center',
   },
   quickTitle: {
-    flexGrow: 1,
     fontSize: 10,
     color: '$iconColor',
     marginLeft: 24,
