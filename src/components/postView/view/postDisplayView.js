@@ -1,10 +1,11 @@
-import React, { Component } from 'react';
-import { View, Text } from 'react-native';
+import React, { Component, Fragment } from 'react';
+import { View, Text, ScrollView } from 'react-native';
 
 // Constants
 
 // Components
-import { PostHeaderDescription } from '../../postElements';
+import { PostHeaderDescription, PostBody } from '../../postElements';
+import { PostPlaceHolder } from '../../basicUIElements';
 // Styles
 import styles from './postDisplayStyles';
 
@@ -23,24 +24,35 @@ class PostDisplayView extends Component {
 
   // Component Functions
 
-  render() {
-    // eslint-disable-next-line
-    const { content } = this.props;
+  _handleScroll = (e) => {
+    console.log(e);
+  };
 
-    // eslint-disable-next-line
+  render() {
+    const { post } = this.props;
+
     return (
       <View style={styles.container}>
-        <View style={styles.header}>
-          <Text style={styles.title}>Character Remakes Series</Text>
-          <PostHeaderDescription
-            date={8 || content.created}
-            name={'dunsky' || content.author}
-            reputation={67 || content.author_reputation}
-            tag={'esteem' || content.category}
-            avatar={'' || (content && content.avatar)}
-            size={16}
-          />
-        </View>
+        <ScrollView onScroll={this._handleScroll}>
+          <View style={styles.header}>
+            {!post ? (
+              <PostPlaceHolder />
+            ) : (
+              <Fragment>
+                <Text style={styles.title}>{post && post.title}</Text>
+                <PostHeaderDescription
+                  date={post && post.created}
+                  name={post && post.author}
+                  reputation={post && post.author_reputation}
+                  tag={post && post.category}
+                  avatar={post && post.avatar}
+                  size={16}
+                />
+              </Fragment>
+            )}
+          </View>
+          <PostBody body={post && post.body} />
+        </ScrollView>
       </View>
     );
   }

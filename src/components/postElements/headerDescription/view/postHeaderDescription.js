@@ -1,5 +1,7 @@
 import React, { Component } from 'react';
-import { View, Text, TouchableOpacity } from 'react-native';
+import {
+  View, Text, TouchableOpacity, Image,
+} from 'react-native';
 import FastImage from 'react-native-fast-image';
 
 // Components
@@ -27,6 +29,7 @@ class PostHeaderDescription extends Component {
     } = this.props;
 
     const _reputationText = `(${reputation})`;
+    const _avatar = avatar && { uri: avatar };
 
     return (
       <View style={styles.container}>
@@ -36,7 +39,7 @@ class PostHeaderDescription extends Component {
         >
           <FastImage
             style={[styles.avatar, { width: size, height: size, borderRadius: size / 2 }]}
-            source={{ uri: avatar }}
+            source={_avatar}
             defaultSource={DEFAULT_IMAGE}
           />
           <Text style={styles.name}>{name}</Text>

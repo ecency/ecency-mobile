@@ -10,7 +10,7 @@ import React, { Component } from 'react';
 // Utilities
 
 // Component
-import { PostDisplayView } from '..';
+import { UpvoteView } from '..';
 
 /*
   *            Props Name        Description                                     Value
@@ -18,7 +18,7 @@ import { PostDisplayView } from '..';
   *
   */
 
-class PostDisplayContainer extends Component {
+class UpvoteContainer extends Component {
   constructor(props) {
     super(props);
     this.state = {};
@@ -29,10 +29,12 @@ class PostDisplayContainer extends Component {
   // Component Functions
 
   render() {
-    const { post } = this.props;
-
-    return <PostDisplayView post={post} />;
+    return <UpvoteView {...this.props} />;
   }
 }
 
-export default PostDisplayContainer;
+// const mapStateToProps = state => ({
+//   user: state.user.user,
+// });
+
+export default UpvoteContainer;

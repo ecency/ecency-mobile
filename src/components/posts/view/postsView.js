@@ -11,7 +11,7 @@ import { getPosts } from '../../../providers/steem/dsteem';
 // COMPONENTS
 import { PostCard } from '../../postCard';
 import { FilterBar } from '../../filterBar';
-import { PostPlaceHolder } from '../../basicUIElements';
+import { PostCardPlaceHolder } from '../../basicUIElements';
 import { NoPost } from '../../basicUIElements';
 
 // Styles
@@ -139,7 +139,9 @@ class PostsView extends Component {
     const {
       isReady, refreshing, posts, user,
     } = this.state;
-    const { componentId, handleOnUserPress, filterOptions } = this.props;
+    const {
+      componentId, handleOnUserPress, filterOptions, handleOnContentPress,
+    } = this.props;
 
     if (user && posts && posts.length > 0) {
       return (
@@ -162,6 +164,7 @@ class PostsView extends Component {
                 user={user}
                 isLoggedIn
                 handleOnUserPress={handleOnUserPress}
+                handleOnContentPress={handleOnContentPress}
               />
             )}
             keyExtractor={(post, index) => index.toString()}
@@ -191,8 +194,8 @@ class PostsView extends Component {
 
     return (
       <Fragment>
-        <PostPlaceHolder />
-        <PostPlaceHolder />
+        <PostCardPlaceHolder />
+        <PostCardPlaceHolder />
       </Fragment>
     );
   };

@@ -4,9 +4,7 @@ import React, { Component, Fragment } from 'react';
 import { ProfileScreen } from '..';
 
 // Utilitites
-import {
-  getFollows, getPosts, getUser, getUserComments,
-} from '../../../providers/steem/dsteem';
+import { getFollows, getUser, getUserComments } from '../../../providers/steem/dsteem';
 import { getUserData, getAuthStatus } from '../../../realm/realm';
 
 class ProfileContainer extends Component {
@@ -14,7 +12,6 @@ class ProfileContainer extends Component {
     super(props);
     this.state = {
       user: null,
-      posts: [],
       commments: [],
       replies: [],
       about: {},

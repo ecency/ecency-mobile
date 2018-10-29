@@ -38,7 +38,7 @@
     "react-native-markdown-view": "^1.1.4",
     "react-native-modal": "^6.5.0",
     "react-native-modal-dropdown": "^0.6.2",
-    "react-native-modal-popover": "0.0.10",
+    "react-native-modal-popover": "0.0.12",
     "react-native-restart": "0.0.6",
     "react-native-slider": "^0.11.0",
     "react-native-vector-icons": "^4.6.0",

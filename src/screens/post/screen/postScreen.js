@@ -1,5 +1,4 @@
 import React, { Component, Fragment } from 'react';
-import { View } from 'react-native';
 
 // Constants
 
@@ -26,12 +25,12 @@ class PostScreen extends Component {
   // Component Functions
 
   render() {
-    // const {} = this.props;
+    const { post } = this.props;
 
     return (
       <Fragment>
         <EditorHeader isHasDropdown title="Post" />
-        <PostDisplay />
+        <PostDisplay post={post} />
       </Fragment>
     );
   }

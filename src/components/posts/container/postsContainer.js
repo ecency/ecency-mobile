@@ -41,8 +41,29 @@ class PostsContainer extends Component {
     });
   };
 
+  _handleOnContentPress = (author, permlink) => {
+    const { navigation } = this.props;
+
+    if (author && permlink) {
+      navigation.navigate({
+        routeName: ROUTES.SCREENS.POST,
+        params: {
+          author,
+          permlink,
+        },
+        key: permlink,
+      });
+    }
+  };
+
   render() {
-    return <PostsView handleOnUserPress={this._handleOnUserPress} {...this.props} />;
+    return (
+      <PostsView
+        handleOnUserPress={this._handleOnUserPress}
+        handleOnContentPress={this._handleOnContentPress}
+        {...this.props}
+      />
+    );
   }
 }
 
