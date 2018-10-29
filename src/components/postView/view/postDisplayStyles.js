@@ -22,7 +22,6 @@ export default EStyleSheet.create({
   },
   tagsWrapper: {
     flexDirection: 'row',
-
     marginTop: 19,
     marginBottom: 12,
   },

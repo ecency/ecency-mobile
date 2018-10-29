@@ -7,7 +7,7 @@ export default EStyleSheet.create({
     fontFamily: '$primaryFont',
   },
   container: {
-    paddingHorizontal: 16,
+    paddingHorizontal: 0,
     marginTop: 12,
   },
   a: {

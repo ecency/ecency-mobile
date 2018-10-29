@@ -26,7 +26,7 @@ class PostDisplayView extends Component {
   // Component Functions
 
   render() {
-    const { post } = this.props;
+    const { post, handleOnUserPress } = this.props;
 
     return (
       <View style={styles.container}>
@@ -45,7 +45,8 @@ class PostDisplayView extends Component {
                   avatar={post && post.avatar}
                   size={16}
                 />
-                {post && post.body && <PostBody body={post.body} />}
+                {post
+                  && post.body && <PostBody handleOnUserPress={handleOnUserPress} body={post.body} />}
                 <View style={styles.tagsWrapper}>
                   <Tags tags={post.json_metadata && post.json_metadata.tags} />
                 </View>

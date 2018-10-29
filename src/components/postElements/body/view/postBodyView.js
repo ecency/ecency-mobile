@@ -1,5 +1,5 @@
 import React, { Component } from 'react';
-import { View, Dimensions } from 'react-native';
+import { View, Dimensions, Linking } from 'react-native';
 import HTML from 'react-native-html-renderer';
 // Styles
 import styles from './postBodyStyles';
@@ -29,6 +29,22 @@ class PostBody extends Component {
   //   // }
   // }
 
+  _handleOnLinkPress = (evt, href, hrefatr) => {
+    const { handleOnUserPress } = this.props;
+
+    if (hrefatr.class === 'markdown-author-link') {
+      handleOnUserPress(href);
+    } else {
+      Linking.canOpenURL(href).then((supported) => {
+        if (supported) {
+          Linking.openURL(href);
+        } else {
+          alert(`Field to open: ${href}`);
+        }
+      });
+    }
+  };
+
   render() {
     const { body } = this.props;
 
@@ -36,7 +52,7 @@ class PostBody extends Component {
       <View>
         <HTML
           html={body}
-          onLinkPress={(evt, href, hrefatr) => this.onLinkPress(evt, href, hrefatr)}
+          onLinkPress={(evt, href, hrefatr) => this._handleOnLinkPress(evt, href, hrefatr)}
           containerStyle={styles.container}
           textSelectable
           tagsStyles={styles}
