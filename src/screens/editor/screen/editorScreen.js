@@ -99,6 +99,7 @@ export class EditorScreen extends Component {
           quickTitle={wordsCount > 0 && `${wordsCount} words`}
           handleOnPressPreviewButton={this._handleOnPressPreviewButton}
           isFormValid={isFormValid}
+          isHasIcons
           handleOnSubmit={this._handleOnSubmit}
         />
         <PostForm

@@ -1,10 +1,11 @@
-import React, { Component } from 'react';
+import React, { Component, Fragment } from 'react';
 import { View, SafeAreaView, Text } from 'react-native';
 import { TextButton } from '../..';
 import { IconButton } from '../../iconButton';
 // Constants
 
 // Components
+import { DropdownButton } from '../../dropdownButton';
 
 // Styles
 import styles from './editorHeaderStyles';
@@ -33,6 +34,8 @@ class EditorHeaderView extends Component {
     }
   };
 
+  _handleOnDropdownSelect = () => {};
+
   render() {
     const {
       handleOnPressBackButton,
@@ -40,39 +43,63 @@ class EditorHeaderView extends Component {
       isPreviewActive,
       quickTitle,
       isFormValid,
+      title,
+      isHasIcons,
+      isHasDropdown,
     } = this.props;
 
     return (
       <SafeAreaView>
         <View style={styles.container}>
-          <IconButton
-            iconStyle={styles.backIcon}
-            name="md-arrow-back"
-            onPress={() => handleOnPressBackButton()}
-          />
-          <Text style={styles.quickTitle}>{quickTitle}</Text>
-          <IconButton
-            style={styles.iconButton}
-            iconStyle={styles.rightIcon}
-            size={20}
-            name="ios-timer"
-          />
-          <IconButton
-            style={styles.iconButton}
-            size={25}
-            onPress={() => handleOnPressPreviewButton()}
-            iconStyle={styles.rightIcon}
-            name={isPreviewActive ? 'ios-eye' : 'ios-eye-off'}
-          />
-          <TextButton
-            textStyle={[
-              styles.textButton,
-              isFormValid ? styles.textButtonEnable : styles.textButtonDisable,
-            ]}
-            onPress={isFormValid && this._handleOnPress}
-            style={styles.textButtonWrapper}
-            text="Publish"
-          />
+          <View style={styles.backWrapper}>
+            <IconButton
+              iconStyle={styles.backIcon}
+              name="md-arrow-back"
+              onPress={() => handleOnPressBackButton()}
+            />
+
+            <Text style={[title && styles.title, quickTitle && styles.quickTitle]}>
+              {quickTitle || title}
+            </Text>
+
+            {isHasDropdown && (
+              <View>
+                <DropdownButton
+                  isHasChildIcon
+                  iconName="md-more"
+                  options={['ALL ACTIVITIES', 'VOTES', 'REPLIES', 'MENTIONS', 'FOLLOWS', 'REBLOGS']}
+                  onSelect={this._handleOnDropdownSelect}
+                />
+              </View>
+            )}
+          </View>
+
+          {isHasIcons && (
+            <Fragment>
+              <IconButton
+                style={styles.iconButton}
+                iconStyle={styles.rightIcon}
+                size={20}
+                name="ios-timer"
+              />
+              <IconButton
+                style={styles.iconButton}
+                size={25}
+                onPress={() => handleOnPressPreviewButton()}
+                iconStyle={styles.rightIcon}
+                name={isPreviewActive ? 'ios-eye' : 'ios-eye-off'}
+              />
+              <TextButton
+                textStyle={[
+                  styles.textButton,
+                  isFormValid ? styles.textButtonEnable : styles.textButtonDisable,
+                ]}
+                onPress={isFormValid && this._handleOnPress}
+                style={styles.textButtonWrapper}
+                text="Publish"
+              />
+            </Fragment>
+          )}
         </View>
       </SafeAreaView>
     );

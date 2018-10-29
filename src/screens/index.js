@@ -1,10 +1,11 @@
 import PinCode from './pinCode';
 import Splash from './splash';
+import SteemConnect from './steem-connect/steemConnect';
 import { Editor } from './editor';
 import { Home } from './home';
 import { Login } from './login';
 import { Notification } from './notification';
-import SteemConnect from './steem-connect/steemConnect';
+import { Post } from './post';
 import { Profile } from './profile';
 
 // import Author from './authorProfile';
@@ -28,6 +29,7 @@ export {
   Profile,
   SteemConnect,
   Splash,
+  Post,
   // Author,
   // SideMenu,
   // Hot,

@@ -8,6 +8,7 @@ import {
 import Modal from 'react-native-modal';
 import { Popover, PopoverController } from 'react-native-modal-popover';
 import Slider from 'react-native-slider';
+import { PostHeaderDescription } from '../../postElements';
 
 // STEEM
 import { upvote, upvoteAmount } from '../../../providers/steem/dsteem';
@@ -138,7 +139,7 @@ class PostCard extends Component {
       <Card style={styles.post}>
         <CardItem style={styles.header}>
           <Left>
-            <TouchableOpacity
+            {/* <TouchableOpacity
               onPress={() => this._handleOnUserPress()}
             >
               <Thumbnail style={styles.avatar} source={{ uri: content && content.avatar }} />
@@ -162,7 +163,16 @@ class PostCard extends Component {
                 {content.created}
                 {' '}
               </Text>
-            </Body>
+            </Body> */}
+            <PostHeaderDescription
+              date={content.created}
+              profileOnPress={this._handleOnUserPress}
+              name={content.author}
+              reputation={content.author_reputation}
+              tag={content.category}
+              avatar={content && content.avatar}
+              size={32}
+            />
           </Left>
           <Right>
             <Icon name="md-more" />

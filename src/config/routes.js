@@ -4,7 +4,7 @@ import { default as ROUTES } from '../constants/routeNames';
 
 // Screens
 import {
-  Splash, Login, PinCode, SteemConnect, Editor, Profile,
+  Splash, Login, PinCode, SteemConnect, Editor, Profile, Post,
 } from '../screens';
 
 // Components
@@ -29,9 +29,14 @@ const stackNavigatior = createStackNavigator(
         header: () => null,
       },
     },
-
     [ROUTES.SCREENS.PROFILE]: {
       screen: Profile,
+      navigationOptions: {
+        header: () => null,
+      },
+    },
+    [ROUTES.SCREENS.POST]: {
+      screen: Post,
       navigationOptions: {
         header: () => null,
       },
