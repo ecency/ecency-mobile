@@ -177,8 +177,9 @@ export default EStyleSheet.create({
     shadowColor: 'white',
     paddingLeft: 5,
     borderRadius: 5,
-    fontSize: 7,
+    fontSize: 10,
     fontWeight: '100',
+    fontFamily: '$primaryFont',
     color: '#777777',
   },
   popover: {

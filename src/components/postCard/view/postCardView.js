@@ -1,19 +1,14 @@
 import React, { Component } from 'react';
 import {
-  Image, TouchableOpacity, FlatList, ActivityIndicator,
+  Image, TouchableOpacity, FlatList,
 } from 'react-native';
 import {
   Card, CardItem, Left, Right, Thumbnail, View, Icon, Body, Text,
 } from 'native-base';
 import Modal from 'react-native-modal';
-import { Popover, PopoverController } from 'react-native-modal-popover';
-import Slider from 'react-native-slider';
 
 // STEEM
-import { upvote, upvoteAmount } from '../../../providers/steem/dsteem';
-import { decryptKey } from '../../../utils/crypto';
-import { getUserData } from '../../../realm/realm';
-
+import { Upvote } from '../../upvote';
 // Styles
 import styles from './postCardStyles';
 
@@ -26,88 +21,15 @@ class PostCard extends Component {
     */
   constructor(props) {
     super(props);
-    this.upvoteContent = this.upvoteContent.bind(this);
-    this.calculateEstimatedAmount = this.calculateEstimatedAmount.bind(this);
 
     this.state = {
-      value: 0.0,
-      isVoting: false,
-      isVoted: props.content && props.content.isVoted,
-      amount: '0.00',
       isModalVisible: false,
     };
   }
 
   // Component Lifecycle Functions
-  componentDidMount() {
-    const { isLoggedIn } = this.props;
-
-    isLoggedIn && this.calculateEstimatedAmount();
-  }
 
   // Component Functions
-  calculateEstimatedAmount = async () => {
-    const { user } = this.props;
-    const { value } = this.state;
-    // Calculate total vesting shares
-    const total_vests = parseFloat(user.vesting_shares)
-      + parseFloat(user.received_vesting_shares)
-      - parseFloat(user.delegated_vesting_shares);
-
-    const final_vest = total_vests * 1e6;
-
-    const power = (user.voting_power * (value * 10000)) / 10000 / 50;
-
-    const rshares = (power * final_vest) / 10000;
-
-    const estimated = await upvoteAmount(rshares);
-
-    this.setState({
-      amount: estimated.toFixed(3),
-    });
-  };
-
-  upvoteContent = async () => {
-    const { isLoggedIn, user, content } = this.prop;
-    const { value } = this.state;
-
-    let postingKey;
-    let userData;
-
-    if (isLoggedIn) {
-      await this.setState({
-        isVoting: true,
-      });
-
-      await getUserData().then((result) => {
-        userData = Array.from(result);
-        postingKey = decryptKey(userData[0].postingKey, 'pinCode');
-      });
-      upvote(
-        {
-          voter: user && user.name,
-          author: content && content.author,
-          permlink: content && content.permlink,
-          weight: (value * 100).toFixed(0) * 100,
-        },
-        postingKey,
-      )
-        .then((res) => {
-          console.log(res);
-          this.setState({
-            isVoted: true,
-            isVoting: false,
-          });
-        })
-        .catch((err) => {
-          console.log(err);
-          this.setState({
-            isVoted: false,
-            isVoting: false,
-          });
-        });
-    }
-  };
 
   toggleModal = () => {
     const { isModalVisible } = this.state;
@@ -127,20 +49,16 @@ class PostCard extends Component {
 
   render() {
     const {
-      content, isLoggedIn, user, handleOnUserPress,
+      content, isLoggedIn, user,
     } = this.props;
-    const {
-      isVoted, isVoting, isModalVisible, value,
-    } = this.state;
+    const { isModalVisible } = this.state;
 
     // TODO: Should seperate bunch of component REFACTOR ME!
     return (
       <Card style={styles.post}>
         <CardItem style={styles.header}>
           <Left>
-            <TouchableOpacity
-              onPress={() => this._handleOnUserPress()}
-            >
+            <TouchableOpacity onPress={() => this._handleOnUserPress()}>
               <Thumbnail style={styles.avatar} source={{ uri: content && content.avatar }} />
             </TouchableOpacity>
             <Body style={styles.body}>
@@ -158,9 +76,7 @@ class PostCard extends Component {
                 <Text style={styles.categoryText}>{content.category}</Text>
               </View>
               <Text style={styles.timeAgo} note>
-                {' '}
                 {content.created}
-                {' '}
               </Text>
             </Body>
           </Left>
@@ -183,107 +99,7 @@ class PostCard extends Component {
         </TouchableOpacity>
         <CardItem>
           <Left>
-            <PopoverController>
-              {({
-                openPopover,
-                closePopover,
-                popoverVisible,
-                setPopoverAnchor,
-                popoverAnchorRect,
-              }) => (
-                <React.Fragment>
-                  <TouchableOpacity
-                    start
-                    ref={setPopoverAnchor}
-                    onPress={openPopover}
-                    style={styles.upvoteButton}
-                  >
-                    {isVoting ? (
-                      <ActivityIndicator />
-                    ) : (
-                      <View>
-                        {isVoted ? (
-                          <Icon
-                            style={{
-                              color: '#007ee5',
-                            }}
-                            style={styles.upvoteIcon}
-                            active
-                            name="ios-arrow-dropup-circle"
-                          />
-                        ) : (
-                          <Icon
-                            style={{
-                              color: '#007ee5',
-                            }}
-                            style={styles.upvoteIcon}
-                            active
-                            name="ios-arrow-dropup-outline"
-                          />
-                        )}
-                      </View>
-                    )}
-                  </TouchableOpacity>
-                  <Popover
-                    contentStyle={styles.popover}
-                    arrowStyle={styles.arrow}
-                    backgroundStyle={styles.background}
-                    visible={popoverVisible}
-                    onClose={closePopover}
-                    fromRect={popoverAnchorRect}
-                    placement="top"
-                    supportedOrientations={['portrait', 'landscape']}
-                  >
-                    <Text>
-$
-                      {this.state.amount}
-                    </Text>
-                    <View
-                      style={{
-                        flex: 1,
-                        flexDirection: 'row',
-                      }}
-                    >
-                      <TouchableOpacity
-                        onPress={() => {
-                          closePopover();
-                          this.upvoteContent();
-                        }}
-                        style={{
-                          flex: 0.1,
-                          alignSelf: 'center',
-                        }}
-                      >
-                        <Icon style={{ color: '#007ee5' }} active name="ios-arrow-dropup-outline" />
-                      </TouchableOpacity>
-                      <Slider
-                        style={{ flex: 0.75 }}
-                        minimumTrackTintColor="#13a9d6"
-                        trackStyle={styles.track}
-                        thumbStyle={styles.thumb}
-                        thumbTintColor="#007ee5"
-                        value={value}
-                        onValueChange={(value) => {
-                          this.setState({ value }, () => {
-                            this.calculateEstimatedAmount();
-                          });
-                        }}
-                      />
-                      <Text
-                        style={{
-                          flex: 0.15,
-                          alignSelf: 'center',
-                          marginLeft: 10,
-                        }}
-                      >
-                        {(value * 100).toFixed(0)}
-%
-                      </Text>
-                    </View>
-                  </Popover>
-                </React.Fragment>
-              )}
-            </PopoverController>
+            <Upvote content={content} user={user} isLoggedIn={!!user} />
             <TouchableOpacity onPress={this.toggleModal} style={styles.payoutButton}>
               <Text style={styles.payout}>
 $
@@ -302,7 +118,7 @@ $
                     <Text>Tap to close!</Text>
                   </TouchableOpacity>
                   <FlatList
-                    data={this.props.content.active_votes}
+                    data={content.active_votes}
                     keyExtractor={item => item.voter.toString()}
                     renderItem={({ item }) => (
                       <View
@@ -325,9 +141,7 @@ $
                           }}
                         />
                         <Text style={{ flex: 0.5 }}>
-                          {' '}
                           {item.voter}
-                          {' '}
 (
                           {item.reputation}
 )

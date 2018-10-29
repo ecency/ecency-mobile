@@ -5,6 +5,10 @@ export default EStyleSheet.create({
     justifyContent: 'center',
     flexDirection: 'row',
   },
+  textWithIconWrapperColumn: {
+    justifyContent: 'center',
+    flexDirection: 'column',
+  },
   longImage: {
     borderRadius: 5,
     height: 60,
