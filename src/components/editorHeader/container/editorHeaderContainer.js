@@ -2,7 +2,7 @@ import React, { Component } from 'react';
 import { withNavigation } from 'react-navigation';
 
 // Constants
-import { default as ROUTES } from '../../../constants/routeNames';
+// import { default as ROUTES } from '../../../constants/routeNames';
 
 // Components
 import { EditorHeaderView } from '..';
@@ -24,7 +24,7 @@ class EditorHeaderContainer extends Component {
   _handleOnPressBackButton = () => {
     const { navigation } = this.props;
 
-    navigation.navigate(ROUTES.SCREENS.HOME);
+    navigation.goBack();
   };
 
   render() {

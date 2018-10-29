@@ -17,4 +17,13 @@ export default EStyleSheet.create({
   description: {
     flexDirection: 'row',
   },
+  scroll: {
+    height: '$deviceHeight / 1.135',
+  },
+  tagsWrapper: {
+    flexDirection: 'row',
+
+    marginTop: 19,
+    marginBottom: 12,
+  },
 });

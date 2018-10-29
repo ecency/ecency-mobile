@@ -1,11 +1,11 @@
 import React, { Component } from 'react';
 import { View, Dimensions } from 'react-native';
 import HTML from 'react-native-html-renderer';
-// Components
-
 // Styles
 import styles from './postBodyStyles';
+// Components
 
+const WIDTH = Dimensions.get('window').width;
 // Constants
 
 class PostBody extends Component {
@@ -17,15 +17,17 @@ class PostBody extends Component {
   // Component Life Cycles
 
   // Component Functions
-  alterNode(node) {
-    if (node.name == 'img') {
-      node.attribs.style = `max-width: ${Dimensions.get('window').width
-        + 10}px; left: -10px; width: 100% !important`;
-    } else if (node.name == 'iframe') {
-      node.attribs.style = `max-width: ${Dimensions.get('window').width}px; left: -10px`;
-      node.attribs.height = 200;
-    }
-  }
+  // alterNode(node) {
+  //   // if (node.name === 'img') {
+  //   //   node.attribs.style = `max-width: ${WIDTH + 16}px; left: -16px; width: 100% !important`;
+  //   // } else if (node.name == 'iframe') {
+  //   //   node.attribs.style = `max-width: ${WIDTH}px; left: -20px`;
+  //   //   node.attribs.height = 216;
+  //   // }
+  //   // if (node.name === 'a') {
+  //   //   node.attribs.style = 'text-decoration: underline';
+  //   // }
+  // }
 
   render() {
     const { body } = this.props;
@@ -35,15 +37,14 @@ class PostBody extends Component {
         <HTML
           html={body}
           onLinkPress={(evt, href, hrefatr) => this.onLinkPress(evt, href, hrefatr)}
-          containerStyle={{ padding: 10 }}
+          containerStyle={styles.container}
           textSelectable
           tagsStyles={styles}
           ignoredTags={['script']}
           debug={false}
-          alterNode={(node) => {
-            this.alterNode(node);
-          }}
-          imagesMaxWidth={Dimensions.get('window').width}
+          imagesInitialDimensions={{ width: WIDTH, height: 216 }}
+          baseFontStyle={styles.text}
+          imagesMaxWidth={WIDTH}
         />
       </View>
     );

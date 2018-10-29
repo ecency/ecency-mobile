@@ -1,23 +1,25 @@
-import Card from './view/cardView';
+// import Card from './view/cardView';
+import Chip from './view/chipView';
 import GrayWrapper from './view/grayWrapperView';
 import LineBreak from './view/lineBreakView';
 import NoPost from './view/noPostView';
 import PostCardPlaceHolder from './view/postCardPlaceHolderView';
+import PostPlaceHolder from './view/postPlaceHolderView';
+import ProfileSummaryPlaceHolder from './view/profileSummaryPlaceHolder';
+import Tag from './view/tagView';
 import TextWithIcon from './view/textWithIconView';
 import WalletLineItem from './view/walletLineItemView';
-import Chip from './view/chipView';
-import ProfileSummaryPlaceHolder from './view/profileSummaryPlaceHolder';
-import PostPlaceHolder from './view/postPlaceHolderView';
 
 export {
-  Card,
-  GrayWrapper,
+  // Card,
   Chip,
+  GrayWrapper,
   LineBreak,
   NoPost,
   PostCardPlaceHolder,
+  PostPlaceHolder,
+  ProfileSummaryPlaceHolder,
+  Tag,
   TextWithIcon,
   WalletLineItem,
-  ProfileSummaryPlaceHolder,
-  PostPlaceHolder,
 };

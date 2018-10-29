@@ -1,4 +1,8 @@
-import { DrawerNavigator, SwitchNavigator, createStackNavigator } from 'react-navigation';
+import {
+  createDrawerNavigator,
+  createSwitchNavigator,
+  createStackNavigator,
+} from 'react-navigation';
 import { BaseNavigator } from '../navigation';
 import { default as ROUTES } from '../constants/routeNames';
 
@@ -10,7 +14,7 @@ import {
 // Components
 import { SideMenu } from '../components';
 
-const mainNavigation = DrawerNavigator(
+const mainNavigation = createDrawerNavigator(
   {
     [ROUTES.SCREENS.HOME]: {
       screen: BaseNavigator,
@@ -55,7 +59,7 @@ const stackNavigatior = createStackNavigator(
   },
 );
 
-export default SwitchNavigator({
+export default createSwitchNavigator({
   stackNavigatior,
   [ROUTES.SCREENS.LOGIN]: { screen: Login },
   [ROUTES.SCREENS.PINCODE]: { screen: PinCode },

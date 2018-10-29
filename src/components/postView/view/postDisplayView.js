@@ -4,8 +4,9 @@ import { View, Text, ScrollView } from 'react-native';
 // Constants
 
 // Components
-import { PostHeaderDescription, PostBody } from '../../postElements';
+import { PostHeaderDescription, PostBody, Tags } from '../../postElements';
 import { PostPlaceHolder } from '../../basicUIElements';
+
 // Styles
 import styles from './postDisplayStyles';
 
@@ -24,16 +25,12 @@ class PostDisplayView extends Component {
 
   // Component Functions
 
-  _handleScroll = (e) => {
-    console.log(e);
-  };
-
   render() {
     const { post } = this.props;
 
     return (
       <View style={styles.container}>
-        <ScrollView onScroll={this._handleScroll}>
+        <ScrollView style={styles.scroll}>
           <View style={styles.header}>
             {!post ? (
               <PostPlaceHolder />
@@ -48,10 +45,13 @@ class PostDisplayView extends Component {
                   avatar={post && post.avatar}
                   size={16}
                 />
+                {post && post.body && <PostBody body={post.body} />}
+                <View style={styles.tagsWrapper}>
+                  <Tags tags={post.json_metadata && post.json_metadata.tags} />
+                </View>
               </Fragment>
             )}
           </View>
-          <PostBody body={post && post.body} />
         </ScrollView>
       </View>
     );

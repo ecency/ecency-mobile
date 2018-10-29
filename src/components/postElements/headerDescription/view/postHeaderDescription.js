@@ -1,11 +1,9 @@
 import React, { Component } from 'react';
-import {
-  View, Text, TouchableOpacity, Image,
-} from 'react-native';
+import { View, Text, TouchableOpacity } from 'react-native';
 import FastImage from 'react-native-fast-image';
 
 // Components
-import { Chip } from '../../../basicUIElements';
+import { Tag } from '../../../basicUIElements';
 
 // Styles
 import styles from './postHeaderDescriptionStyles';
@@ -46,7 +44,7 @@ class PostHeaderDescription extends Component {
         </TouchableOpacity>
         <Text style={styles.reputation}>{_reputationText}</Text>
         <TouchableOpacity onPress={() => tagOnPress && tagOnPress()}>
-          <Chip isPin editable={false} multiline={false} value={tag} />
+          <Tag isPin value={tag} />
         </TouchableOpacity>
         <Text style={styles.date}>{date}</Text>
       </View>
