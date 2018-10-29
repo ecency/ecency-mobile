@@ -37,7 +37,7 @@ class HeaderContainer extends Component {
   _handleOnPressBackButton = () => {
     const { navigation } = this.props;
 
-    navigation.navigate('HomeScreen');
+    navigation.goBack();
   };
 
   render() {
