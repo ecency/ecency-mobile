@@ -4,11 +4,12 @@ import {
 } from 'react-native';
 import { KeyboardAwareScrollView } from 'react-native-keyboard-aware-scroll-view';
 import ScrollableTabView from '@esteemapp/react-native-scrollable-tab-view';
+import { connect } from 'react-redux';
 
 // Actions
 import { addPassiveAccount, failedAccount } from '../../../redux/actions/accountAction';
 import {
-  login as loginAction,
+  login as loginAction, openPinCodeModal,
 } from '../../../redux/actions/applicationActions';
 
 // Internal Components
@@ -52,7 +53,8 @@ class LoginScreen extends Component {
         if (result) {
           dispatch(addPassiveAccount(result));
           dispatch(loginAction());
-          navigation.navigate(ROUTES.SCREENS.PINCODE);
+          navigation.navigate(ROUTES.DRAWER.MAIN);
+          dispatch(openPinCodeModal());
         }
       })
       .catch((err) => {
@@ -180,4 +182,4 @@ class LoginScreen extends Component {
   }
 }
 
-export default LoginScreen;
+export default connect()(LoginScreen);

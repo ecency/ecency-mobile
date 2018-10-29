@@ -17,11 +17,6 @@ const RootContainer = () => (WrappedComponent) => {
     render() {
       const { isPinCodeReqiure } = this.props;
 
-      const cloneProps = Object.assign({}, this.props);
-      delete cloneProps.dispatch;
-      delete cloneProps.isPinCodeReqiure;
-      delete cloneProps.navigation;
-
       return (
         <Fragment>
           <Modal
@@ -32,13 +27,13 @@ const RootContainer = () => (WrappedComponent) => {
           >
             <PinCode />
           </Modal>
-          <WrappedComponent {...cloneProps} />
+          <WrappedComponent {...this.props} />
         </Fragment>
       );
     }
   }
   const mapStateToProps = state => ({
-    isPinCodeReqiure: state.ui.isPinCodeReqiure,
+    isPinCodeReqiure: state.application.isPinCodeReqiure,
   });
 
   return connect(mapStateToProps)(RootComponent);

@@ -4,6 +4,9 @@ import { connect } from 'react-redux';
 
 import { setUserDataWithPinCode, verifyPinCode } from '../../../providers/steem/auth';
 
+// Actions
+import { closePinCodeModal } from '../../../redux/actions/applicationActions';
+
 // Constants
 import { default as INITIAL } from '../../../constants/initial';
 import { default as ROUTES } from '../../../constants/routeNames';
@@ -51,6 +54,7 @@ class PinCodeContainer extends Component {
     const {
       currentAccount: { password, name },
       navigation,
+      dispatch,
     } = this.props;
     const { isExistUser, pinCode } = this.state;
     if (isExistUser) {
@@ -64,7 +68,8 @@ class PinCodeContainer extends Component {
       verifyPinCode(pinData)
         .then(() => {
           // TODO: make global route
-          navigation.navigate(ROUTES.DRAWER.MAIN);
+          // navigation.navigate(ROUTES.DRAWER.MAIN);
+          dispatch(closePinCodeModal());
         })
         .catch((err) => {
           alert(err);
@@ -85,7 +90,8 @@ class PinCodeContainer extends Component {
       };
       setUserDataWithPinCode(pinData).then(() => {
         AsyncStorage.setItem(INITIAL.IS_EXIST_USER, JSON.stringify(true), () => {
-          navigation.navigate(ROUTES.DRAWER.MAIN);
+          // navigation.navigate(ROUTES.DRAWER.MAIN);
+          dispatch(closePinCodeModal());
           resolve();
         });
       });

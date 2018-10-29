@@ -13,7 +13,7 @@ import { SideMenu } from '../components';
 const mainNavigation = DrawerNavigator(
   {
     [ROUTES.SCREENS.HOME]: {
-      screen: RootComponent()(BaseNavigator),
+      screen: BaseNavigator,
       navigationOptions: {
         header: () => null,
       },
@@ -26,8 +26,8 @@ const mainNavigation = DrawerNavigator(
 
 export default SwitchNavigator({
   [ROUTES.DRAWER.MAIN]: mainNavigation,
-  [ROUTES.SCREENS.EDITOR]: { screen: RootComponent()(Editor) },
   [ROUTES.SCREENS.LOGIN]: { screen: RootComponent()(Login) },
+  [ROUTES.SCREENS.EDITOR]: { screen: RootComponent()(Editor) },
   [ROUTES.SCREENS.PINCODE]: { screen: RootComponent()(PinCode) },
   [ROUTES.SCREENS.PROFILE]: { screen: RootComponent()(Profile) },
   [ROUTES.SCREENS.SPLASH]: { screen: RootComponent()(Splash) },

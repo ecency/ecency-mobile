@@ -1,20 +1,22 @@
 import React from 'react';
 import { createBottomTabNavigator } from 'react-navigation';
 import Icon from 'react-native-vector-icons/FontAwesome';
-import { Home, Notification, Profile } from '../screens';
+import {
+  Home, Notification, Profile, RootComponent,
+} from '../screens';
 
 import { PostButton } from '../components/postButton';
 
 const BaseNavigator = createBottomTabNavigator(
   {
     Home: {
-      screen: Home,
+      screen: RootComponent()(Home),
       navigationOptions: () => ({
         tabBarIcon: ({ tintColor }) => <Icon name="list" color={tintColor} size={18} />,
       }),
     },
     Notification: {
-      screen: Notification,
+      screen: RootComponent()(Notification),
       navigationOptions: () => ({
         tabBarIcon: ({ tintColor }) => <Icon name="bell-o" color={tintColor} size={18} />,
       }),
@@ -26,13 +28,13 @@ const BaseNavigator = createBottomTabNavigator(
       }),
     },
     AuthorProfile: {
-      screen: Profile,
+      screen: RootComponent()(Profile),
       navigationOptions: () => ({
         tabBarIcon: ({ tintColor }) => <Icon name="envelope-o" color={tintColor} size={18} />,
       }),
     },
     Profile: {
-      screen: Profile,
+      screen: RootComponent()(Profile),
       navigationOptions: () => ({
         tabBarIcon: ({ tintColor }) => <Icon name="credit-card" color={tintColor} size={18} />,
       }),
