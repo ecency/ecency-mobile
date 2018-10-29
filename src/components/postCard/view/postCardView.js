@@ -145,7 +145,11 @@ class PostCard extends Component {
             </TouchableOpacity>
             <Body style={styles.body}>
               <View style={styles.author}>
-                <Text style={styles.authorName}>{content.author}</Text>
+                <TouchableOpacity
+                  onPress={() => this._handleOnUserPress()}
+                >
+                  <Text style={styles.authorName}>{content.author}</Text>
+                </TouchableOpacity>
               </View>
               <View style={styles.badge}>
                 <Text style={styles.text}>{content.author_reputation}</Text>
