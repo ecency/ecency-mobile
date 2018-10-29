@@ -1,5 +1,5 @@
 import React, { Component } from 'react';
-import ModalBox from 'react-native-modalbox';
+import { Modal as ModalBox } from 'react-native';
 
 import styles from './modalStyles';
 
@@ -32,7 +32,7 @@ export default class Modal extends Component {
 
   render() {
     const {
-      isFullScreen, isOpen, swipeToClose, children, isRadius,
+      isFullScreen, isOpen, children, isRadius,
     } = this.props;
     return (
       <ModalBox
@@ -40,11 +40,10 @@ export default class Modal extends Component {
           isRadius && styles.borderTopRadius,
           isFullScreen ? styles.fullModal : styles.centerModal,
         ]}
-        position="center"
-        isOpen={isOpen}
-        swipeToClose={swipeToClose}
-        onClosed={() => this._handleOnClose(this)}
-        onOpened={() => this._handleOnOpen(this)}
+        animationType="fade"
+        visible={isOpen}
+        onRequestClose={() => this._handleOnClose(this)}
+        onShow={() => this._handleOnOpen(this)}
         {...this.props}
       >
         {children}
