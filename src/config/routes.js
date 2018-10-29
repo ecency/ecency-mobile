@@ -25,7 +25,7 @@ const mainNavigation = DrawerNavigator(
 );
 
 export default SwitchNavigator({
-  [ROUTES.DRAWER.MAIN]: RootComponent()(mainNavigation),
+  [ROUTES.DRAWER.MAIN]: mainNavigation,
   [ROUTES.SCREENS.EDITOR]: { screen: RootComponent()(Editor) },
   [ROUTES.SCREENS.LOGIN]: { screen: RootComponent()(Login) },
   [ROUTES.SCREENS.PINCODE]: { screen: RootComponent()(PinCode) },

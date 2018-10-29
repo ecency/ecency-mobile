@@ -1,7 +1,7 @@
 import { LOGIN, LOGOUT } from '../constants/constants';
 
 const initialState = {
-  isPinCodeReqiure: true,
+  isPinCodeReqiure: false,
 };
 
 export default function (state = initialState, action) {
