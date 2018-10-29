@@ -1,5 +1,4 @@
 import React, { Component, Fragment } from 'react';
-import { Text } from 'react-native';
 import { connect } from 'react-redux';
 import { Modal } from '../../../components';
 import { PinCode } from '../..';
