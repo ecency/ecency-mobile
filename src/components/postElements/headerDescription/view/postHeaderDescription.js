@@ -1,5 +1,7 @@
 import React, { Component } from 'react';
 import { View, Text, TouchableOpacity } from 'react-native';
+import { withNavigation } from 'react-navigation';
+
 import FastImage from 'react-native-fast-image';
 
 // Components
@@ -7,6 +9,8 @@ import { Tag } from '../../../basicUIElements';
 
 // Styles
 import styles from './postHeaderDescriptionStyles';
+
+import { default as ROUTES } from '../../../../constants/routeNames';
 
 // Constants
 const DEFAULT_IMAGE = require('../../../../assets/esteem.png');
@@ -20,6 +24,17 @@ class PostHeaderDescription extends Component {
   // Component Life Cycles
 
   // Component Functions
+  _handleOnUserPress = (username) => {
+    const { navigation } = this.props;
+
+    navigation.navigate({
+      routeName: ROUTES.SCREENS.PROFILE,
+      params: {
+        username,
+      },
+      key: username + Math.random() * 100,
+    });
+  };
 
   render() {
     const {
@@ -33,7 +48,7 @@ class PostHeaderDescription extends Component {
       <View style={styles.container}>
         <TouchableOpacity
           style={styles.avatarNameWrapper}
-          onPress={() => profileOnPress && profileOnPress(name)}
+          onPress={() => (profileOnPress ? profileOnPress(name) : this._handleOnUserPress(name))}
         >
           <FastImage
             style={[styles.avatar, { width: size, height: size, borderRadius: size / 2 }]}
@@ -43,13 +58,15 @@ class PostHeaderDescription extends Component {
           <Text style={styles.name}>{name}</Text>
         </TouchableOpacity>
         <Text style={styles.reputation}>{_reputationText}</Text>
-        <TouchableOpacity onPress={() => tagOnPress && tagOnPress()}>
-          <Tag isPin value={tag} />
-        </TouchableOpacity>
+        {tag && (
+          <TouchableOpacity onPress={() => tagOnPress && tagOnPress()}>
+            <Tag isPin value={tag} />
+          </TouchableOpacity>
+        )}
         <Text style={styles.date}>{date}</Text>
       </View>
     );
   }
 }
 
-export default PostHeaderDescription;
+export default withNavigation(PostHeaderDescription);

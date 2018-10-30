@@ -10,7 +10,7 @@ import { PostHeaderDescription, PostBody, Tags } from '../../postElements';
 import { PostPlaceHolder, StickyBar, TextWithIcon } from '../../basicUIElements';
 import { Upvote } from '../../upvote';
 import { IconButton } from '../../iconButton';
-
+import { Comments } from "../../comments";
 // Styles
 import styles from './postDisplayStyles';
 
@@ -51,7 +51,6 @@ class PostDisplayView extends Component {
   _getTabBar = (isFixedFooter = false) => {
     const { post, currentUser } = this.props;
 
-    console.log(post);
     return (
       <StickyBar isFixedFooter={isFixedFooter}>
         <View style={styles.stickyWrapper}>
@@ -67,7 +66,7 @@ class PostDisplayView extends Component {
             isClickable
             iconStyle={styles.barIcons}
             textMarginLeft={20}
-            text="64"
+            text={post && post.children}
             iconName="comments"
             iconType="FontAwesome"
           />
@@ -112,7 +111,6 @@ class PostDisplayView extends Component {
               <View onLayout={event => this._handleOnPostLayout(event)}>
                 <Text style={styles.title}>{post.title}</Text>
                 <PostHeaderDescription
-                  handleOnUserPress={handleOnUserPress}
                   date={post.created}
                   name={post.author}
                   reputation={post.author_reputation}
@@ -137,6 +135,9 @@ class PostDisplayView extends Component {
           </View>
           {isPostEnd && this._getTabBar()}
           {/* Comments Here! */}
+          {post &&
+            <Comments author={post.author} permlink={post.permlink}/>
+          }
         </ScrollView>
         {!isPostEnd && this._getTabBar(true)}
       </View>
