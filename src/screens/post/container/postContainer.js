@@ -10,7 +10,6 @@ import { getPost, getUser } from '../../../providers/steem/dsteem';
 // Constants
 
 // Utilities
-import { parsePost } from '../../../utils/postParser';
 // Component
 import { PostScreen } from '..';
 
@@ -42,10 +41,12 @@ class PostContainer extends Component {
   // Component Functions
 
   _loadPost = (author, permlink) => {
+    const { currentUser } = this.state;
+    // TODO: get from redux for cureentUser
     getPost(author, permlink)
       .then((result) => {
         if (result) {
-          this.setState({ post: parsePost(result) });
+          this.setState({ post: result });
         }
       })
       .catch((err) => {

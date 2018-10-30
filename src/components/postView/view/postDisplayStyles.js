@@ -38,12 +38,30 @@ export default EStyleSheet.create({
   stickyWrapper: {
     flexDirection: 'row',
     paddingHorizontal: 16,
+    width: '$deviceWidth',
+    marginBottom: 5,
+    alignItems: 'center',
+    alignSelf: 'center',
+    justifyContent: 'center',
   },
   barIcons: {
     color: '$primaryDarkGray',
     fontSize: 20,
     marginRight: 8,
     marginLeft: 25,
-    alignSelf: 'center',
+    opacity: 0.7,
+  },
+  barIconRight: {
+    color: '$primaryDarkGray',
+    fontSize: 16,
+    opacity: 0.7,
+  },
+  barIconButton: {
+    marginLeft: 16,
+  },
+  stickyRightWrapper: {
+    flexGrow: 1,
+    flexDirection: 'row',
+    justifyContent: 'flex-end',
   },
 });

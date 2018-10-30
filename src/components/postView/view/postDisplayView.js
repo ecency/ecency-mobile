@@ -1,4 +1,4 @@
-import React, { Component, Fragment } from 'react';
+import React, { Component } from 'react';
 import {
   View, Text, ScrollView, Dimensions,
 } from 'react-native';
@@ -71,6 +71,26 @@ class PostDisplayView extends Component {
             iconName="comments"
             iconType="FontAwesome"
           />
+          <View style={styles.stickyRightWrapper}>
+            {post
+              && currentUser
+              && currentUser.name === post.author && (
+                <IconButton
+                  iconStyle={styles.barIconRight}
+                  style={styles.barIconButton}
+                  name="pencil"
+                  iconType="SimpleLineIcons"
+                  onPress={() => handleOnEditPress()}
+                />
+            )}
+            <IconButton
+              iconStyle={styles.barIconRight}
+              style={styles.barIconButton}
+              name="reply"
+              onPress={() => handleOnReplyPress()}
+              iconType="FontAwesome"
+            />
+          </View>
         </View>
       </StickyBar>
     );

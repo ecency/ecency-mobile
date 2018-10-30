@@ -78,7 +78,7 @@ export default class HomeScreen extends PureComponent {
     const { componentId } = this.props;
     return (
       <Fragment>
-        <Header userName={user.name} reputation={user && user.reputation} />
+        <Header userName={user && user.name} reputation={user && user.reputation} />
         <View style={styles.root} key="overlay">
           <ScrollableTabView
             style={styles.tabView}

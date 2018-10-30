@@ -1,6 +1,5 @@
 import React from 'react';
 import { View, TouchableHighlight, Text } from 'react-native';
-import Ionicons from 'react-native-vector-icons/Ionicons';
 import { Icon } from '../../icon';
 import styles from './textWithIconStyles';
 

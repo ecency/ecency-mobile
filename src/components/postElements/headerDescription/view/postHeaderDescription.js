@@ -23,7 +23,7 @@ class PostHeaderDescription extends Component {
 
   render() {
     const {
-      date, avatar, name, reputation, size, tag, handleOnUserPress, tagOnPress,
+      date, avatar, name, reputation, size, tag, profileOnPress, tagOnPress,
     } = this.props;
 
     const _reputationText = `(${reputation})`;
@@ -33,7 +33,7 @@ class PostHeaderDescription extends Component {
       <View style={styles.container}>
         <TouchableOpacity
           style={styles.avatarNameWrapper}
-          onPress={() => handleOnUserPress && handleOnUserPress(name)}
+          onPress={() => profileOnPress && profileOnPress(name)}
         >
           <FastImage
             style={[styles.avatar, { width: size, height: size, borderRadius: size / 2 }]}

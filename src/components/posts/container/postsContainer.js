@@ -31,6 +31,7 @@ class PostsContainer extends Component {
 
   _handleOnUserPress = (username) => {
     const { navigation } = this.props;
+    alert('vok');
 
     navigation.navigate({
       routeName: ROUTES.SCREENS.PROFILE,
