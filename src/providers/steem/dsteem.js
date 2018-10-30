@@ -68,14 +68,7 @@ export const getUser = async (user) => {
   }
 };
 
-export const vestToSteem = (
-  vestingShares,
-  totalVestingShares,
-  totalVestingFundSteem,
-) => (
-  parseFloat(totalVestingFundSteem)
-    * (parseFloat(vestingShares) / parseFloat(totalVestingShares))
-);
+export const vestToSteem = (vestingShares, totalVestingShares, totalVestingFundSteem) => parseFloat(totalVestingFundSteem) * (parseFloat(vestingShares) / parseFloat(totalVestingShares));
 
 /**
  * @method getFollows get account data
@@ -222,6 +215,8 @@ export const getPostWithComments = async (user, permlink) => {
   return [post, comments];
 };
 
+// export const getAccountRC = username => client.call('rc_api', 'find_rc_accounts', { accounts: [username] });
+
 /**
  * @method upvote upvote a content
  * @param vote vote object(author, permlink, voter, weight)
@@ -233,11 +228,9 @@ export const upvote = (vote, postingKey) => {
     client.broadcast
       .vote(vote, key)
       .then((result) => {
-        console.log(result);
         resolve(result);
       })
       .catch((err) => {
-        console.log(err);
         reject(err);
       });
   });

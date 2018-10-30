@@ -1,4 +1,4 @@
-import { DrawerNavigator, SwitchNavigator } from 'react-navigation';
+import { DrawerNavigator, SwitchNavigator, createStackNavigator } from 'react-navigation';
 import { BaseNavigator } from '../navigation';
 import { default as ROUTES } from '../constants/routeNames';
 
@@ -14,13 +14,39 @@ const mainNavigation = DrawerNavigator(
   {
     [ROUTES.SCREENS.HOME]: {
       screen: BaseNavigator,
+    },
+  },
+  {
+    contentComponent: SideMenu,
+  },
+);
+
+const stackNavigatior = createStackNavigator(
+  {
+    [ROUTES.DRAWER.MAIN]: {
+      screen: mainNavigation,
+      navigationOptions: {
+        header: () => null,
+      },
+    },
+
+    [ROUTES.SCREENS.PROFILE]: {
+      screen: Profile,
+      navigationOptions: {
+        header: () => null,
+      },
+    },
+    [ROUTES.SCREENS.EDITOR]: {
+      screen: Editor,
       navigationOptions: {
         header: () => null,
       },
     },
   },
   {
-    contentComponent: SideMenu,
+    cardStyle: {
+      backgroundColor: 'white',
+    },
   },
 );
 
