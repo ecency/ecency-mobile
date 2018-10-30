@@ -31,13 +31,13 @@ const stackNavigatior = createStackNavigator(
     },
 
     [ROUTES.SCREENS.PROFILE]: {
-      screen: Profile,
+      screen: RootComponent()(Profile),
       navigationOptions: {
         header: () => null,
       },
     },
     [ROUTES.SCREENS.EDITOR]: {
-      screen: Editor,
+      screen: RootComponent()(Editor),
       navigationOptions: {
         header: () => null,
       },
@@ -51,11 +51,9 @@ const stackNavigatior = createStackNavigator(
 );
 
 export default SwitchNavigator({
-  [ROUTES.DRAWER.MAIN]: mainNavigation,
+  stackNavigatior,
   [ROUTES.SCREENS.LOGIN]: { screen: RootComponent()(Login) },
-  [ROUTES.SCREENS.EDITOR]: { screen: RootComponent()(Editor) },
   [ROUTES.SCREENS.PINCODE]: { screen: RootComponent()(PinCode) },
-  [ROUTES.SCREENS.PROFILE]: { screen: RootComponent()(Profile) },
   [ROUTES.SCREENS.SPLASH]: { screen: RootComponent()(Splash) },
   [ROUTES.SCREENS.STEEM_CONNECT]: { screen: RootComponent()(SteemConnect) },
 });
