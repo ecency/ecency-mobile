@@ -45,8 +45,6 @@ class HeaderView extends Component {
       reputation,
     } = this.props;
 
-    console.log('error', name, userName, reputation, getReputation(reputation));
-
     return (
       <SafeAreaView style={[styles.container, isReverse && styles.containerReverse]}>
         <StatusBar hidden={hideStatusBar} translucent />
