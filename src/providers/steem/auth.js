@@ -199,9 +199,16 @@ export const verifyPinCode = async (data) => {
       const authData = {
         isLoggedIn: true,
       };
+      const response = {
+        accessToken: decryptKey(userData.accessToken, data.pinCode),
+        postingKey: decryptKey(userData.postingKey, data.pinCode),
+        masterKey: decryptKey(userData.masterKey, data.pinCode),
+        activeKey: decryptKey(userData.activeKey, data.pinCode),
+        memoKey: decryptKey(userData.memoKey, data.pinCode),
+      };
       setAuthStatus(authData)
         .then(() => {
-          resolve();
+          resolve(response);
         })
         .catch((error) => {
           // TODO: create function for throw error

@@ -4,7 +4,7 @@ import { default as ROUTES } from '../constants/routeNames';
 
 // Screens
 import {
-  Splash, Login, PinCode, SteemConnect, Editor, Profile,
+  Splash, Login, PinCode, SteemConnect, Editor, Profile, RootComponent,
 } from '../screens';
 
 // Components
@@ -51,9 +51,11 @@ const stackNavigatior = createStackNavigator(
 );
 
 export default SwitchNavigator({
-  stackNavigatior,
-  [ROUTES.SCREENS.LOGIN]: { screen: Login },
-  [ROUTES.SCREENS.PINCODE]: { screen: PinCode },
-  [ROUTES.SCREENS.SPLASH]: { screen: Splash },
-  [ROUTES.SCREENS.STEEM_CONNECT]: { screen: SteemConnect },
+  [ROUTES.DRAWER.MAIN]: mainNavigation,
+  [ROUTES.SCREENS.LOGIN]: { screen: RootComponent()(Login) },
+  [ROUTES.SCREENS.EDITOR]: { screen: RootComponent()(Editor) },
+  [ROUTES.SCREENS.PINCODE]: { screen: RootComponent()(PinCode) },
+  [ROUTES.SCREENS.PROFILE]: { screen: RootComponent()(Profile) },
+  [ROUTES.SCREENS.SPLASH]: { screen: RootComponent()(Splash) },
+  [ROUTES.SCREENS.STEEM_CONNECT]: { screen: RootComponent()(SteemConnect) },
 });

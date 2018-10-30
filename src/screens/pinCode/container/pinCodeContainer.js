@@ -4,9 +4,11 @@ import { connect } from 'react-redux';
 
 import { setUserDataWithPinCode, verifyPinCode } from '../../../providers/steem/auth';
 
+// Actions
+import { closePinCodeModal } from '../../../redux/actions/applicationActions';
+
 // Constants
 import { default as INITIAL } from '../../../constants/initial';
-import { default as ROUTES } from '../../../constants/routeNames';
 
 import { PinCodeScreen } from '..';
 
@@ -49,7 +51,11 @@ class PinCodeContainer extends Component {
 
   _setPinCode = pin => new Promise((resolve, reject) => {
     const {
-      currentAccount: { password, name },
+      currentAccount,
+      dispatch,
+      accessToken,
+      setWrappedComponentState,
+      navigateTo,
       navigation,
     } = this.props;
     const { isExistUser, pinCode } = this.state;
@@ -57,14 +63,17 @@ class PinCodeContainer extends Component {
       // If the user is exist, we are just checking to pin and navigating to home screen
       const pinData = {
         pinCode: pin,
-        password,
-        username: name,
-        accessToken: navigation.getParam('accessToken', ''),
+        password: currentAccount ? currentAccount.password : '',
+        username: currentAccount ? currentAccount.name : '',
+        accessToken,
       };
       verifyPinCode(pinData)
-        .then(() => {
-          // TODO: make global route
-          navigation.navigate(ROUTES.DRAWER.MAIN);
+        .then((res) => {
+          setWrappedComponentState(res);
+          dispatch(closePinCodeModal());
+          if (navigateTo) {
+            navigation.navigate(navigateTo);
+          }
         })
         .catch((err) => {
           alert(err);
@@ -80,12 +89,15 @@ class PinCodeContainer extends Component {
     } else if (pinCode === pin) {
       const pinData = {
         pinCode: pin,
-        password,
-        username: name,
+        password: currentAccount.password,
+        username: currentAccount.name,
       };
       setUserDataWithPinCode(pinData).then(() => {
         AsyncStorage.setItem(INITIAL.IS_EXIST_USER, JSON.stringify(true), () => {
-          navigation.navigate(ROUTES.DRAWER.MAIN);
+          dispatch(closePinCodeModal());
+          if (navigateTo) {
+            navigation.navigate(navigateTo);
+          }
           resolve();
         });
       });

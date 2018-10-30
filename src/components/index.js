@@ -8,6 +8,7 @@ import { CircularButton, TextButton, IconButton } from './buttons';
 import { NumericKeyboard } from './numericKeyboard';
 import { PinAnimatedInput } from './pinAnimatedInput';
 import { SideMenu } from './sideMenu';
+import Modal from './modal';
 
 export {
   Logo,
@@ -22,4 +23,5 @@ export {
   NumericKeyboard,
   PinAnimatedInput,
   SideMenu,
+  Modal,
 };

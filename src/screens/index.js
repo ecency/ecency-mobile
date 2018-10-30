@@ -6,6 +6,7 @@ import { Login } from './login';
 import { Notification } from './notification';
 import SteemConnect from './steem-connect/steemConnect';
 import { Profile } from './profile';
+import RootComponent from './root';
 
 // import Author from './authorProfile';
 // import SideMenu from './sideMenuScreen';
@@ -28,6 +29,7 @@ export {
   Profile,
   SteemConnect,
   Splash,
+  RootComponent,
   // Author,
   // SideMenu,
   // Hot,
