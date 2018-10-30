@@ -1,6 +1,6 @@
 import React, { Component, Fragment } from 'react';
 import {
-  FlatList, View, ActivityIndicator, AppState,
+  FlatList, View, ActivityIndicator,
 } from 'react-native';
 
 // import Placeholder from 'rn-placeholder';
@@ -28,13 +28,11 @@ class PostsView extends Component {
       startPermlink: '',
       refreshing: false,
       isLoading: false,
-      appState: AppState.currentState,
     };
   }
 
   componentDidMount() {
     this._loadPosts(this.state.user);
-    AppState.addEventListener('change', this._handleAppStateChange);
   }
 
   componentWillReceiveProps(nextProps) {
@@ -47,16 +45,6 @@ class PostsView extends Component {
     }
   }
 
-  componentWillUnmount() {
-    AppState.removeEventListener('change', this._handleAppStateChange);
-  }
-
-  _handleAppStateChange = (nextAppState) => {
-    if (this.state.appState.match(/inactive|background/) && nextAppState === 'active') {
-      alert('App has come to the foreground!');
-    }
-    this.setState({ appState: nextAppState });
-  };
 
   _loadPosts = (user, _tag = null) => {
     const { getFor, tag } = this.props;

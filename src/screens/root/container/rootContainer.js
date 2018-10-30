@@ -1,5 +1,11 @@
 import React, { Component, Fragment } from 'react';
+import { AppState } from 'react-native';
 import { connect } from 'react-redux';
+
+// Actions
+import { openPinCodeModal } from '../../../redux/actions/applicationActions';
+
+// Components
 import { Modal } from '../../../components';
 import { PinCode } from '../..';
 
@@ -10,8 +16,27 @@ const RootContainer = () => (WrappedComponent) => {
       this.state = {
         pinCodeStates: null,
         wrappedComponentStates: null,
+        appState: AppState.currentState,
       };
     }
+
+    componentDidMount() {
+      AppState.addEventListener('change', this._handleAppStateChange);
+    }
+
+    componentWillUnmount() {
+      AppState.removeEventListener('change', this._handleAppStateChange);
+    }
+
+    _handleAppStateChange = (nextAppState) => {
+      const { appState } = this.state;
+      const { dispatch } = this.props;
+
+      if (appState.match(/inactive|background/) && nextAppState === 'active') {
+        dispatch(openPinCodeModal());
+      }
+      this.setState({ appState: nextAppState });
+    };
 
     _setPinCodeState = (data) => {
       this.setState({ pinCodeStates: { ...data } });

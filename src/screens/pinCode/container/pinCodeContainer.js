@@ -51,7 +51,7 @@ class PinCodeContainer extends Component {
 
   _setPinCode = pin => new Promise((resolve, reject) => {
     const {
-      currentAccount: { password, name },
+      currentAccount,
       dispatch,
       accessToken,
       setWrappedComponentState,
@@ -63,8 +63,8 @@ class PinCodeContainer extends Component {
       // If the user is exist, we are just checking to pin and navigating to home screen
       const pinData = {
         pinCode: pin,
-        password,
-        username: name,
+        password: currentAccount ? currentAccount.password : '',
+        username: currentAccount ? currentAccount.name : '',
         accessToken,
       };
       verifyPinCode(pinData)
@@ -89,8 +89,8 @@ class PinCodeContainer extends Component {
     } else if (pinCode === pin) {
       const pinData = {
         pinCode: pin,
-        password,
-        username: name,
+        password: currentAccount.password,
+        username: currentAccount.name,
       };
       setUserDataWithPinCode(pinData).then(() => {
         AsyncStorage.setItem(INITIAL.IS_EXIST_USER, JSON.stringify(true), () => {
