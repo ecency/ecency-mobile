@@ -1,22 +1,23 @@
 import React from 'react';
 import { View, TouchableHighlight, Text } from 'react-native';
 import Ionicons from 'react-native-vector-icons/Ionicons';
+import { Icon } from '../../icon';
 import styles from './textWithIconStyles';
 
 const TextWithIcon = ({
-  iconName, text, isClickable, onPress,
+  iconName, text, isClickable, onPress, iconStyle, iconType,
 }) => (
   <View style={styles.container}>
     {isClickable || onPress ? (
       <TouchableHighlight underlayColor="transparent" onPress={() => onPress && onPress()}>
         <View style={styles.wrapper}>
-          {text && <Ionicons style={styles.icon} name={iconName} />}
-          <Text style={styles.text}>{text}</Text>
+          <Icon style={[styles.icon, iconStyle]} name={iconName} iconType={iconType} />
+          <Text style={[styles.text]}>{text}</Text>
         </View>
       </TouchableHighlight>
     ) : (
       <View style={styles.wrapper}>
-        {text && <Ionicons style={styles.icon} name={iconName} />}
+        {text && <Icon style={[styles.icon, iconStyle]} name={iconName} iconType={iconType} />}
         <Text style={styles.text}>{text}</Text>
       </View>
     )}

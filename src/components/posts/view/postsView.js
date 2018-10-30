@@ -29,9 +29,10 @@ class PostsView extends Component {
   }
 
   componentDidMount() {
-    const { user } = this.state;
+    const { user, isLoggedIn, isLoginMust } = this.state;
+    const isCanLoad = isLoginMust ? isLoggedIn : true;
 
-    this._loadPosts(user);
+    isCanLoad && this._loadPosts(user);
   }
 
   componentWillReceiveProps(nextProps) {
@@ -55,8 +56,8 @@ class PostsView extends Component {
             this.setState({
               isReady: true,
               posts: result,
-              startAuthor: result[result.length - 1].author,
-              startPermlink: result[result.length - 1].permlink,
+              startAuthor: result[result.length - 1] && result[result.length - 1].author,
+              startPermlink: result[result.length - 1] && result[result.length - 1].permlink,
               refreshing: false,
             });
           }
@@ -126,7 +127,12 @@ class PostsView extends Component {
       isReady, refreshing, posts, user,
     } = this.state;
     const {
-      componentId, handleOnUserPress, filterOptions, handleOnContentPress,
+      componentId,
+      handleOnUserPress,
+      filterOptions,
+      isLoginMust,
+      handleOnContentPress,
+      isLoggedIn,
     } = this.props;
 
     if (user && posts && posts.length > 0) {
@@ -148,7 +154,7 @@ class PostsView extends Component {
                 componentId={componentId}
                 content={item}
                 user={user}
-                isLoggedIn
+                isLoggedIn={isLoggedIn}
                 handleOnUserPress={handleOnUserPress}
                 handleOnContentPress={handleOnContentPress}
               />
@@ -177,6 +183,10 @@ class PostsView extends Component {
         </Fragment>
       );
     }
+
+    // if (isLoginMust && !isLoggedIn) {
+    //   return <NoPost defaultText="Login to see!" />;
+    // }
 
     return (
       <Fragment>

@@ -2,7 +2,8 @@ import React, { Component } from 'react';
 // import { connect } from 'react-redux';
 
 // Services and Actions
-import { getPost } from '../../../providers/steem/dsteem';
+import { getUserData, getAuthStatus } from '../../../realm/realm';
+import { getPost, getUser } from '../../../providers/steem/dsteem';
 
 // Middleware
 
@@ -25,6 +26,7 @@ class PostContainer extends Component {
     this.state = {
       post: null,
       error: null,
+      currentUser: null,
     };
   }
 
@@ -34,6 +36,7 @@ class PostContainer extends Component {
     const { author, permlink } = navigation.state && navigation.state.params;
 
     this._loadPost(author, permlink);
+    this._getUser();
   }
 
   // Component Functions
@@ -50,10 +53,34 @@ class PostContainer extends Component {
       });
   };
 
-  render() {
-    const { post, error } = this.state;
+  async _getUser() {
+    let _currentUser;
+    let userData;
+    let isLoggedIn;
 
-    return <PostScreen key={Math.random * 100} post={post} error={error} />;
+    await getAuthStatus().then((res) => {
+      isLoggedIn = res;
+    });
+
+    if (isLoggedIn) {
+      await getUserData().then((res) => {
+        _currentUser = Array.from(res);
+      });
+
+      userData = _currentUser && (await getUser(_currentUser[0].username));
+
+      await this.setState({
+        currentUser: userData,
+      });
+    }
+  }
+
+  render() {
+    const { post, error, currentUser } = this.state;
+
+    return (
+      <PostScreen currentUser={currentUser} key={Math.random * 100} post={post} error={error} />
+    );
   }
 }
 

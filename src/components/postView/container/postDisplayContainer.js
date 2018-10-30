@@ -42,9 +42,15 @@ class PostDisplayContainer extends Component {
   };
 
   render() {
-    const { post } = this.props;
+    const { post, currentUser } = this.props;
 
-    return <PostDisplayView handleOnUserPress={this._handleOnUserPress} post={post} />;
+    return (
+      <PostDisplayView
+        currentUser={currentUser}
+        handleOnUserPress={this._handleOnUserPress}
+        post={post}
+      />
+    );
   }
 }
 

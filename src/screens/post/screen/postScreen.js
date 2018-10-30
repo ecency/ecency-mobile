@@ -25,12 +25,12 @@ class PostScreen extends Component {
   // Component Functions
 
   render() {
-    const { post } = this.props;
+    const { post, currentUser } = this.props;
 
     return (
       <Fragment>
         <EditorHeader isHasDropdown title="Post" />
-        <PostDisplay post={post} />
+        <PostDisplay post={post} currentUser={currentUser} />
       </Fragment>
     );
   }

@@ -17,17 +17,6 @@ export default EStyleSheet.create({
   inlinePadding: {
     padding: 8,
   },
-  editorButtons: {
-    flexDirection: 'row',
-    backgroundColor: '$white',
-    alignItems: 'center',
-    justifyContent: 'space-between',
-    height: 50,
-    shadowOpacity: 0.2,
-    shadowOffset: {
-      height: 1.5,
-    },
-  },
   leftButtonsWrapper: {
     marginLeft: 16,
     flexDirection: 'row',

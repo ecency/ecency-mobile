@@ -94,26 +94,15 @@ export default class HomeScreen extends PureComponent {
             )}
           >
             <View tabLabel="Feed" style={styles.tabbarItem}>
-              {isLoggedIn ? (
-                <Posts
-                  filterOptions={[
-                    'NEW POSTS',
-                    'VOTES',
-                    'REPLIES',
-                    'MENTIONS',
-                    'FOLLOWS',
-                    'REBLOGS',
-                  ]}
-                  isLoginMust
-                  getFor="feed"
-                  tag={user.name}
-                  user={user}
-                  isLoggedIn={isLoggedIn}
-                  componentId={componentId}
-                />
-              ) : (
-                <Text>Login to see your Feed</Text>
-              )}
+              <Posts
+                filterOptions={['NEW POSTS', 'VOTES', 'REPLIES', 'MENTIONS', 'FOLLOWS', 'REBLOGS']}
+                isLoginMust
+                getFor="feed"
+                tag={user.name}
+                user={user}
+                isLoggedIn={isLoggedIn}
+                componentId={componentId}
+              />
             </View>
             <View tabLabel="Hot" style={styles.tabbarItem}>
               <Posts

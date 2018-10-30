@@ -9,9 +9,11 @@ import ProfileSummaryPlaceHolder from './view/profileSummaryPlaceHolder';
 import Tag from './view/tagView';
 import TextWithIcon from './view/textWithIconView';
 import WalletLineItem from './view/walletLineItemView';
+import StickyBar from './view/stickyBarView';
 
 export {
   // Card,
+  StickyBar,
   Chip,
   GrayWrapper,
   LineBreak,

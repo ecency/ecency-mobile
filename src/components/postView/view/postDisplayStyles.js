@@ -35,4 +35,15 @@ export default EStyleSheet.create({
     color: '$primaryBlack',
     fontWeight: 'bold',
   },
+  stickyWrapper: {
+    flexDirection: 'row',
+    paddingHorizontal: 16,
+  },
+  barIcons: {
+    color: '$primaryDarkGray',
+    fontSize: 20,
+    marginRight: 8,
+    marginLeft: 25,
+    alignSelf: 'center',
+  },
 });
