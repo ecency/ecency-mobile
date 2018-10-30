@@ -1,7 +1,5 @@
 import React, { Component, Fragment } from 'react';
-import {
-  FlatList, View, ActivityIndicator, AppState,
-} from 'react-native';
+import { FlatList, View, ActivityIndicator } from 'react-native';
 
 // import Placeholder from 'rn-placeholder';
 
@@ -11,8 +9,7 @@ import { getPosts } from '../../../providers/steem/dsteem';
 // COMPONENTS
 import { PostCard } from '../../postCard';
 import { FilterBar } from '../../filterBar';
-import { PostCardPlaceHolder } from '../../basicUIElements';
-import { NoPost } from '../../basicUIElements';
+import { PostCardPlaceHolder, NoPost } from '../../basicUIElements';
 
 // Styles
 import styles from './postsStyles';
@@ -28,13 +25,13 @@ class PostsView extends Component {
       startPermlink: '',
       refreshing: false,
       isLoading: false,
-      appState: AppState.currentState,
     };
   }
 
   componentDidMount() {
-    this._loadPosts(this.state.user);
-    AppState.addEventListener('change', this._handleAppStateChange);
+    const { user } = this.state;
+
+    this._loadPosts(user);
   }
 
   componentWillReceiveProps(nextProps) {
@@ -46,17 +43,6 @@ class PostsView extends Component {
       this._loadPosts(nextProps.user, nextProps.tag);
     }
   }
-
-  componentWillUnmount() {
-    AppState.removeEventListener('change', this._handleAppStateChange);
-  }
-
-  _handleAppStateChange = (nextAppState) => {
-    if (this.state.appState.match(/inactive|background/) && nextAppState === 'active') {
-      alert('App has come to the foreground!');
-    }
-    this.setState({ appState: nextAppState });
-  };
 
   _loadPosts = (user, _tag = null) => {
     const { getFor, tag } = this.props;

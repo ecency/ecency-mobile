@@ -20,9 +20,19 @@ export default EStyleSheet.create({
   scroll: {
     height: '$deviceHeight / 1.135',
   },
-  tagsWrapper: {
-    flexDirection: 'row',
+  footer: {
+    flexDirection: 'column',
     marginTop: 19,
     marginBottom: 12,
+  },
+  footerText: {
+    fontSize: 10,
+    fontFamily: '$primaryFont',
+    color: '$primaryDarkGray',
+    marginVertical: 12,
+  },
+  footerName: {
+    color: '$primaryBlack',
+    fontWeight: 'bold',
   },
 });

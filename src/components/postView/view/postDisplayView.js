@@ -36,19 +36,27 @@ class PostDisplayView extends Component {
               <PostPlaceHolder />
             ) : (
               <Fragment>
-                <Text style={styles.title}>{post && post.title}</Text>
+                <Text style={styles.title}>{post.title}</Text>
                 <PostHeaderDescription
-                  date={post && post.created}
-                  name={post && post.author}
-                  reputation={post && post.author_reputation}
-                  tag={post && post.category}
-                  avatar={post && post.avatar}
+                  handleOnUserPress={handleOnUserPress}
+                  date={post.created}
+                  name={post.author}
+                  reputation={post.author_reputation}
+                  tag={post.category}
+                  avatar={post.avatar}
                   size={16}
                 />
                 {post
                   && post.body && <PostBody handleOnUserPress={handleOnUserPress} body={post.body} />}
-                <View style={styles.tagsWrapper}>
+                <View style={styles.footer}>
                   <Tags tags={post.json_metadata && post.json_metadata.tags} />
+                  <Text style={styles.footerText}>
+                    Posted by
+                    {' '}
+                    <Text style={styles.footerName}>{post.author}</Text>
+                    {' '}
+                    {post.created}
+                  </Text>
                 </View>
               </Fragment>
             )}

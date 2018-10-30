@@ -41,14 +41,14 @@ export default EStyleSheet.create({
   },
   editorButton: {
     color: '$primaryDarkGray',
-    paddingRight: 22,
+    marginRight: 15,
     height: 24,
   },
   dropdownStyle: {
     marginRight: 8,
   },
   rightIcons: {
-    paddingRight: 21,
+    marginRight: 20,
   },
   dropdownIconStyle: {
     color: '$primaryDarkGray',
