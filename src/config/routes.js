@@ -1,4 +1,4 @@
-import { DrawerNavigator, SwitchNavigator } from 'react-navigation';
+import { DrawerNavigator, SwitchNavigator, createStackNavigator } from 'react-navigation';
 import { BaseNavigator } from '../navigation';
 import { default as ROUTES } from '../constants/routeNames';
 
@@ -14,9 +14,6 @@ const mainNavigation = DrawerNavigator(
   {
     [ROUTES.SCREENS.HOME]: {
       screen: BaseNavigator,
-      navigationOptions: {
-        header: () => null,
-      },
     },
   },
   {
@@ -24,12 +21,39 @@ const mainNavigation = DrawerNavigator(
   },
 );
 
+const stackNavigatior = createStackNavigator(
+  {
+    [ROUTES.DRAWER.MAIN]: {
+      screen: mainNavigation,
+      navigationOptions: {
+        header: () => null,
+      },
+    },
+
+    [ROUTES.SCREENS.PROFILE]: {
+      screen: RootComponent()(Profile),
+      navigationOptions: {
+        header: () => null,
+      },
+    },
+    [ROUTES.SCREENS.EDITOR]: {
+      screen: RootComponent()(Editor),
+      navigationOptions: {
+        header: () => null,
+      },
+    },
+  },
+  {
+    cardStyle: {
+      backgroundColor: 'white',
+    },
+  },
+);
+
 export default SwitchNavigator({
-  [ROUTES.DRAWER.MAIN]: mainNavigation,
+  stackNavigatior,
   [ROUTES.SCREENS.LOGIN]: { screen: RootComponent()(Login) },
-  [ROUTES.SCREENS.EDITOR]: { screen: RootComponent()(Editor) },
   [ROUTES.SCREENS.PINCODE]: { screen: RootComponent()(PinCode) },
-  [ROUTES.SCREENS.PROFILE]: { screen: RootComponent()(Profile) },
   [ROUTES.SCREENS.SPLASH]: { screen: Splash },
   [ROUTES.SCREENS.STEEM_CONNECT]: { screen: RootComponent()(SteemConnect) },
 });
