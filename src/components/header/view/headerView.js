@@ -45,6 +45,8 @@ class HeaderView extends Component {
       reputation,
     } = this.props;
 
+    console.log('error', name, userName, reputation, getReputation(reputation));
+
     return (
       <SafeAreaView style={[styles.container, isReverse && styles.containerReverse]}>
         <StatusBar hidden={hideStatusBar} translucent />
@@ -64,12 +66,10 @@ class HeaderView extends Component {
         </TouchableOpacity>
         <View style={styles.titleWrapper}>
           {name && <Text style={styles.title}>{name}</Text>}
-          {userName
-            && reputation && (
+          {userName !== undefined
+            && reputation !== undefined && (
               <Text style={styles.subTitle}>
                 @
-                {userName}
-                {`(${getReputation(reputation)})`}
               </Text>
           )}
         </View>

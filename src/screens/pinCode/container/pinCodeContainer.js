@@ -69,7 +69,6 @@ class PinCodeContainer extends Component {
       };
       verifyPinCode(pinData)
         .then((res) => {
-          // TODO: make global route
           setWrappedComponentState(res);
           dispatch(closePinCodeModal());
           if (navigateTo) {
@@ -95,8 +94,10 @@ class PinCodeContainer extends Component {
       };
       setUserDataWithPinCode(pinData).then(() => {
         AsyncStorage.setItem(INITIAL.IS_EXIST_USER, JSON.stringify(true), () => {
-          // navigation.navigate(ROUTES.DRAWER.MAIN);
           dispatch(closePinCodeModal());
+          if (navigateTo) {
+            navigation.navigate(navigateTo);
+          }
           resolve();
         });
       });
