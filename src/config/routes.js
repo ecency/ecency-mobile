@@ -30,6 +30,6 @@ export default SwitchNavigator({
   [ROUTES.SCREENS.EDITOR]: { screen: RootComponent()(Editor) },
   [ROUTES.SCREENS.PINCODE]: { screen: RootComponent()(PinCode) },
   [ROUTES.SCREENS.PROFILE]: { screen: RootComponent()(Profile) },
-  [ROUTES.SCREENS.SPLASH]: { screen: RootComponent()(Splash) },
+  [ROUTES.SCREENS.SPLASH]: { screen: Splash },
   [ROUTES.SCREENS.STEEM_CONNECT]: { screen: RootComponent()(SteemConnect) },
 });

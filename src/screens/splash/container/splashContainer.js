@@ -14,15 +14,18 @@ class SplashContainer extends Component {
 
   _getUserData = () => {
     const { navigation } = this.props;
-    
+
     getAuthStatus().then((res) => {
+      console.log('=========res=========', res);
+
       getUserData().then((response) => {
-        if (response) {
-          navigation.navigate(ROUTES.SCREENS.PINCODE);
-          // navigation.navigate(ROUTES.DRAWER.MAIN);
-        } else {
-          navigation.navigate(ROUTES.SCREENS.LOGIN);
-        }
+        console.log('=========response=========', response);
+        // if (response) {
+        //   navigation.navigate(ROUTES.SCREENS.PINCODE);
+        //   // navigation.navigate(ROUTES.DRAWER.MAIN);
+        // } else {
+        //   navigation.navigate(ROUTES.SCREENS.LOGIN);
+        // }
       });
     });
   };

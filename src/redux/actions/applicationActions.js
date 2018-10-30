@@ -1,5 +1,9 @@
 import {
-  LOGIN, LOGOUT, OPEN_PIN_CODE_MODAL, CLOSE_PIN_CODE_MODAL,
+  LOGIN,
+  LOGOUT,
+  OPEN_PIN_CODE_MODAL,
+  CLOSE_PIN_CODE_MODAL,
+  ACTIVE_APPLICATION,
 } from '../constants/constants';
 
 export const login = () => ({
@@ -16,4 +20,8 @@ export const openPinCodeModal = () => ({
 
 export const closePinCodeModal = () => ({
   type: CLOSE_PIN_CODE_MODAL,
+});
+
+export const activeApplication = () => ({
+  type: ACTIVE_APPLICATION,
 });
