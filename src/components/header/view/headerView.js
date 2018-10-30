@@ -70,6 +70,8 @@ class HeaderView extends Component {
             && reputation !== undefined && (
               <Text style={styles.subTitle}>
                 @
+                {userName}
+                {`(${getReputation(reputation)})`}
               </Text>
           )}
         </View>
