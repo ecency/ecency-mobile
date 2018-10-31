@@ -1,5 +1,5 @@
-import React, { Component } from 'react';
-import { View } from 'react-native';
+import React, { Component, Fragment } from 'react';
+import { View, FlatList, Text } from 'react-native';
 
 // Constants
 
@@ -28,6 +28,8 @@ class CommentsView extends Component {
   // Component Functions
   _handleOnDropdownSelect = () => {};
 
+  _keyExtractor = (item, index) => item.permlink;
+
   render() {
     const {
       comments,
@@ -41,15 +43,63 @@ class CommentsView extends Component {
     // commentNumber === 8 && alert('sekkiz:');
     return (
       <View>
-        {comments
+        {!!comments && (
+          <FlatList
+            data={comments}
+            keyExtractor={this._keyExtractor}
+            renderItem={({ item, index }) => (
+              <View key={index}>
+                <PostHeaderDescription
+                  key={item.permlink}
+                  date={item.created}
+                  name={item.author}
+                  reputation={item.author_reputation}
+                  avatar={item.avatar}
+                  size={avatarSize || 24}
+                />
+                <View
+                  style={{
+                    marginLeft: marginLeft || 35,
+                    flexDirection: 'column',
+                    marginTop: -10,
+                  }}
+                >
+                  <PostBody isComment handleOnUserPress={handleOnUserPress} body={item.body} />
+                  <View style={{ flexDirection: 'row' }}>
+                    <Upvote isShowpayoutValue content={item} user={currentUser} isLoggedIn />
+                    <IconButton
+                      iconStyle={{ color: '#c1c5c7' }}
+                      style={{ marginLeft: 20 }}
+                      name="reply"
+                      onPress={() => handleOnReplyPress && handleOnReplyPress()}
+                      iconType="FontAwesome"
+                    />
+                  </View>
+                </View>
+                <View style={{ marginLeft: marginLeft || 32 }}>
+                  {commentNumber !== 8 && (
+                    <Comments
+                      commentNumber={commentNumber ? commentNumber * 2 : 1}
+                      marginLeft={20}
+                      avatarSize={avatarSize || 16}
+                      author={item.author}
+                      permlink={item.permlink}
+                    />
+                  )}
+                </View>
+              </View>
+            )}
+          />
+        )}
+        {/* {comments
           && comments.map((comment, i) => (
             <View key={i}>
               <PostHeaderDescription
-                key={comment.permlink}
-                date={comment.created}
-                name={comment.author}
-                reputation={comment.author_reputation}
-                avatar={comment.avatar}
+                key={item.permlink}
+                date={item.created}
+                name={item.author}
+                reputation={item.author_reputation}
+                avatar={item.avatar}
                 size={avatarSize || 24}
               />
               <View
@@ -59,7 +109,7 @@ class CommentsView extends Component {
                   marginTop: -15,
                 }}
               >
-                <PostBody isComment handleOnUserPress={handleOnUserPress} body={comment.body} />
+                <PostBody isComment handleOnUserPress={handleOnUserPress} body={item.body} />
                 <View style={{ flexDirection: 'row' }}>
                   <Upvote isShowpayoutValue content={comment} user={currentUser} isLoggedIn />
                   <IconButton
@@ -77,13 +127,13 @@ class CommentsView extends Component {
                     commentNumber={commentNumber ? commentNumber * 2 : 1}
                     marginLeft={20}
                     avatarSize={avatarSize || 16}
-                    author={comment.author}
-                    permlink={comment.permlink}
+                    author={item.author}
+                    permlink={item.permlink}
                   />
                 )}
               </View>
             </View>
-          ))}
+          ))} */}
       </View>
     );
   }

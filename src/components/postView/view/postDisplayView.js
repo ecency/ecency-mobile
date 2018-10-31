@@ -131,11 +131,11 @@ class PostDisplayView extends Component {
                     {' '}
                     {post.created}
                   </Text>
+                  {isPostEnd && this._getTabBar()}
                 </View>
               </View>
             )}
           </View>
-          {isPostEnd && this._getTabBar()}
           {post && (
             <CommentsDisplay
               currentUser={currentUser}
