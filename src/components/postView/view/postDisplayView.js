@@ -1,4 +1,4 @@
-import React, { Component } from 'react';
+import React, { Component, Fragment } from 'react';
 import {
   View, Text, ScrollView, Dimensions,
 } from 'react-native';
@@ -10,7 +10,9 @@ import { PostHeaderDescription, PostBody, Tags } from '../../postElements';
 import { PostPlaceHolder, StickyBar, TextWithIcon } from '../../basicUIElements';
 import { Upvote } from '../../upvote';
 import { IconButton } from '../../iconButton';
-import { Comments } from "../../comments";
+import { Comments } from '../../comments';
+import { FilterBar } from '../../filterBar';
+
 // Styles
 import styles from './postDisplayStyles';
 
@@ -96,7 +98,7 @@ class PostDisplayView extends Component {
   };
 
   render() {
-    const { post, handleOnUserPress } = this.props;
+    const { post, handleOnUserPress, currentUser } = this.props;
     const { postHeight, scrollHeight } = this.state;
 
     const isPostEnd = scrollHeight > postHeight;
@@ -135,9 +137,19 @@ class PostDisplayView extends Component {
           </View>
           {isPostEnd && this._getTabBar()}
           {/* Comments Here! */}
-          {post &&
-            <Comments author={post.author} permlink={post.permlink}/>
-          }
+          {post && (
+            <Fragment>
+              <FilterBar
+                dropdownIconName="md-arrow-dropdown"
+                options={['NEW COMMENTS', 'VOTES', 'REPLIES', 'MENTIONS', 'FOLLOWS', 'REBLOGS']}
+                defaultText="NEW COMMENTS"
+                onDropdownSelect={this._handleOnDropdownSelect}
+              />
+              <View style={{ paddingHorizontal: 16 }}>
+                <Comments currentUser={currentUser} author={post.author} permlink={post.permlink} />
+              </View>
+            </Fragment>
+          )}
         </ScrollView>
         {!isPostEnd && this._getTabBar(true)}
       </View>
