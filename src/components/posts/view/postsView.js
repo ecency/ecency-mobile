@@ -1,7 +1,5 @@
 import React, { Component, Fragment } from 'react';
-import {
-  FlatList, View, ActivityIndicator,
-} from 'react-native';
+import { FlatList, View, ActivityIndicator } from 'react-native';
 
 // import Placeholder from 'rn-placeholder';
 
@@ -11,8 +9,7 @@ import { getPosts } from '../../../providers/steem/dsteem';
 // COMPONENTS
 import { PostCard } from '../../postCard';
 import { FilterBar } from '../../filterBar';
-import { PostPlaceHolder } from '../../basicUIElements';
-import { NoPost } from '../../basicUIElements';
+import { PostCardPlaceHolder, NoPost } from '../../basicUIElements';
 
 // Styles
 import styles from './postsStyles';
@@ -32,7 +29,10 @@ class PostsView extends Component {
   }
 
   componentDidMount() {
-    this._loadPosts(this.state.user);
+    const { user, isLoggedIn, isLoginMust } = this.state;
+    const isCanLoad = isLoginMust ? isLoggedIn : true;
+
+    isCanLoad && this._loadPosts(user);
   }
 
   componentWillReceiveProps(nextProps) {
@@ -45,7 +45,6 @@ class PostsView extends Component {
     }
   }
 
-
   _loadPosts = (user, _tag = null) => {
     const { getFor, tag } = this.props;
     const options = { tag: _tag || tag, limit: 10 };
@@ -57,8 +56,8 @@ class PostsView extends Component {
             this.setState({
               isReady: true,
               posts: result,
-              startAuthor: result[result.length - 1].author,
-              startPermlink: result[result.length - 1].permlink,
+              startAuthor: result[result.length - 1] && result[result.length - 1].author,
+              startPermlink: result[result.length - 1] && result[result.length - 1].permlink,
               refreshing: false,
             });
           }
@@ -127,7 +126,14 @@ class PostsView extends Component {
     const {
       isReady, refreshing, posts, user,
     } = this.state;
-    const { componentId, handleOnUserPress, filterOptions } = this.props;
+    const {
+      componentId,
+      handleOnUserPress,
+      filterOptions,
+      isLoginMust,
+      handleOnContentPress,
+      isLoggedIn,
+    } = this.props;
 
     if (user && posts && posts.length > 0) {
       return (
@@ -148,8 +154,9 @@ class PostsView extends Component {
                 componentId={componentId}
                 content={item}
                 user={user}
-                isLoggedIn
+                isLoggedIn={isLoggedIn}
                 handleOnUserPress={handleOnUserPress}
+                handleOnContentPress={handleOnContentPress}
               />
             )}
             keyExtractor={(post, index) => index.toString()}
@@ -177,10 +184,14 @@ class PostsView extends Component {
       );
     }
 
+    // if (isLoginMust && !isLoggedIn) {
+    //   return <NoPost defaultText="Login to see!" />;
+    // }
+
     return (
       <Fragment>
-        <PostPlaceHolder />
-        <PostPlaceHolder />
+        <PostCardPlaceHolder />
+        <PostCardPlaceHolder />
       </Fragment>
     );
   };

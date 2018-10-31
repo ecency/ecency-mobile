@@ -8,13 +8,18 @@ export default EStyleSheet.create({
     padding: 16,
     width: '$deviceWidth',
     backgroundColor: '$white',
+    alignItems: 'center',
   },
   backIcon: {
     fontSize: 24,
     color: '$iconColor',
   },
+  backWrapper: {
+    flexGrow: 2,
+    flexDirection: 'row',
+    alignItems: 'center',
+  },
   quickTitle: {
-    flexGrow: 1,
     fontSize: 10,
     color: '$iconColor',
     marginLeft: 24,
@@ -39,5 +44,13 @@ export default EStyleSheet.create({
   },
   textButtonWrapper: {
     justifyContent: 'center',
+  },
+  title: {
+    color: '$iconColor',
+    alignSelf: 'center',
+    fontSize: 16,
+    marginLeft: 16,
+    flexGrow: 1,
+    fontWeight: '500',
   },
 });

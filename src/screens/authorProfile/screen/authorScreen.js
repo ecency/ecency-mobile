@@ -13,15 +13,11 @@ import {
   View,
 } from 'native-base';
 import ScrollableTabView from '@esteemapp/react-native-scrollable-tab-view';
-//import { Navigation } from 'react-native-navigation';
 import FastImage from 'react-native-fast-image';
 
 // Internal Components
 import { TabBar } from '../../../components/tabBar';
 import { PostCard } from '../../../components/postCard';
-
-import Comment from '../../../components/comment/comment';
-
 import { getTimeFromNow } from '../../../utils/time';
 
 // Styles

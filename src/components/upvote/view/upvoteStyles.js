@@ -57,4 +57,10 @@ export default EStyleSheet.create({
   overlay: {
     backgroundColor: '#403c4449',
   },
+  payoutValue: {
+    alignSelf: 'center',
+    fontSize: 10,
+    color: '$primaryDarkGray',
+    marginLeft: 8,
+  },
 });

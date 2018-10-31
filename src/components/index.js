@@ -1,5 +1,5 @@
 import Logo from './logo/logo';
-import Comment from './comment/comment';
+// import Comment from './comment/comment';
 // import PostCard from "./postCard";
 import Reply from './reply/reply';
 // import Search from './search/search';
@@ -12,7 +12,7 @@ import Modal from './modal';
 
 export {
   Logo,
-  Comment,
+  // Comment,
   // PostCard,
   Reply,
   // Search,

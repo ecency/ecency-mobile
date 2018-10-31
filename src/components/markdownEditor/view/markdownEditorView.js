@@ -8,6 +8,7 @@ import { MarkdownView } from 'react-native-markdown-view';
 import Formats from './formats/formats';
 import { IconButton } from '../../iconButton';
 import { DropdownButton } from '../../dropdownButton';
+import { StickyBar } from '../../basicUIElements';
 
 // Styles
 import styles from './markdownEditorStyles';
@@ -85,7 +86,7 @@ export default class MarkdownEditorView extends Component {
   );
 
   _renderEditorButtons = ({ getState, setState }) => (
-    <View style={styles.editorButtons}>
+    <StickyBar>
       <View style={styles.leftButtonsWrapper}>
         <FlatList
           data={Formats}
@@ -111,7 +112,7 @@ export default class MarkdownEditorView extends Component {
           isHasChildIcon
         />
       </View>
-    </View>
+    </StickyBar>
   );
 
   render() {
