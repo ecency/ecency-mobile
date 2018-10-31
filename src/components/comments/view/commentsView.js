@@ -50,7 +50,7 @@ class CommentsView extends Component {
                 name={comment.author}
                 reputation={comment.author_reputation}
                 avatar={comment.avatar}
-                size={avatarSize || 32}
+                size={avatarSize || 24}
               />
               <View
                 style={{
