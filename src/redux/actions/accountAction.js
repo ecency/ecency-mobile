@@ -11,7 +11,7 @@ export const fetchAccountFromSteem = (username, password) => (dispatch) => {
 
   return getAccount(username)
     .then(res => dispatch({
-      type: updateCurrentAccount,
+      type: UPDATE_CURRENT_ACCOUNT,
       payload: { ...res[0], password },
     }))
     .catch(err => dispatch({ type: FETCH_ACCOUNT_FAIL, payload: err }));
