@@ -98,7 +98,7 @@ class PostDisplayView extends Component {
   };
 
   render() {
-    const { post, handleOnUserPress, currentUser } = this.props;
+    const { post, currentUser } = this.props;
     const { postHeight, scrollHeight } = this.state;
 
     const isPostEnd = scrollHeight > postHeight;
@@ -121,7 +121,7 @@ class PostDisplayView extends Component {
                   size={16}
                 />
                 {post
-                  && post.body && <PostBody handleOnUserPress={handleOnUserPress} body={post.body} />}
+                  && post.body && <PostBody body={post.body} />}
                 <View style={styles.footer}>
                   <Tags tags={post.json_metadata && post.json_metadata.tags} />
                   <Text style={styles.footerText}>
@@ -145,7 +145,7 @@ class PostDisplayView extends Component {
                 defaultText="NEW COMMENTS"
                 onDropdownSelect={this._handleOnDropdownSelect}
               />
-              <View style={{ paddingHorizontal: 16 }}>
+              <View style={{ padding: 16,}}>
                 <Comments currentUser={currentUser} author={post.author} permlink={post.permlink} />
               </View>
             </Fragment>

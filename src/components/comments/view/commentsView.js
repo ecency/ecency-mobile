@@ -38,7 +38,7 @@ class CommentsView extends Component {
       currentUser,
       commentNumber,
     } = this.props;
-
+    // commentNumber === 8 && alert('sekkiz:');
     return (
       <View>
         {/* <FilterBar
@@ -49,7 +49,7 @@ class CommentsView extends Component {
         /> */}
         {comments
           && comments.map((comment, i) => (
-            <View>
+            <View key={i}>
               <PostHeaderDescription
                 key={comment.permlink}
                 date={comment.created}
@@ -58,16 +58,14 @@ class CommentsView extends Component {
                 avatar={comment.avatar}
                 size={avatarSize || 32}
               />
-              {/* <Text style={styles.text} >
-              </Text> */}
               <View
                 style={{
                   marginLeft: marginLeft || 35,
                   flexDirection: 'column',
-                  marginTop: !commentNumber ? -35 : -25,
+                  marginTop: -15,
                 }}
               >
-                <PostBody handleOnUserPress={handleOnUserPress} body={comment.body} />
+                <PostBody isComment handleOnUserPress={handleOnUserPress} body={comment.body} />
                 <View style={{ flexDirection: 'row' }}>
                   <Upvote isShowpayoutValue content={comment} user={currentUser} isLoggedIn />
                   <IconButton
@@ -79,14 +77,16 @@ class CommentsView extends Component {
                   />
                 </View>
               </View>
-              <View style={{ marginLeft: marginLeft || 32, marginTop: 10 }}>
-                <Comments
-                  commentNumber={commentNumber ? commentNumber * 2 : 1}
-                  marginLeft={20}
-                  avatarSize={avatarSize || 16}
-                  author={comment.author}
-                  permlink={comment.permlink}
-                />
+              <View style={{ marginLeft: marginLeft || 32 }}>
+                {commentNumber !== 8 && (
+                  <Comments
+                    commentNumber={commentNumber ? commentNumber * 2 : 1}
+                    marginLeft={20}
+                    avatarSize={avatarSize || 16}
+                    author={comment.author}
+                    permlink={comment.permlink}
+                  />
+                )}
               </View>
             </View>
           ))}

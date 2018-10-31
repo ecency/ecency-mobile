@@ -1,5 +1,4 @@
 import React, { Component } from 'react';
-import { withNavigation } from 'react-navigation';
 // import { connect } from 'react-redux';
 
 // Services and Actions
@@ -7,7 +6,6 @@ import { withNavigation } from 'react-navigation';
 // Middleware
 
 // Constants
-import { default as ROUTES } from '../../../constants/routeNames';
 
 // Utilities
 
@@ -29,29 +27,12 @@ class PostDisplayContainer extends Component {
   // Component Life Cycle Functions
 
   // Component Functions
-  _handleOnUserPress = (username) => {
-    const { navigation } = this.props;
-
-    navigation.navigate({
-      routeName: ROUTES.SCREENS.PROFILE,
-      params: {
-        username,
-      },
-      key: username + Math.random() * 100,
-    });
-  };
 
   render() {
     const { post, currentUser } = this.props;
 
-    return (
-      <PostDisplayView
-        currentUser={currentUser}
-        handleOnUserPress={this._handleOnUserPress}
-        post={post}
-      />
-    );
+    return <PostDisplayView currentUser={currentUser} post={post} />;
   }
 }
 
-export default withNavigation(PostDisplayContainer);
+export default PostDisplayContainer;

@@ -1,12 +1,15 @@
 import React, { Component } from 'react';
 import { View, Dimensions, Linking } from 'react-native';
+import { withNavigation } from 'react-navigation';
 import HTML from 'react-native-html-renderer';
 // Styles
 import styles from './postBodyStyles';
+
+// Constants
+import { default as ROUTES } from '../../../../constants/routeNames';
 // Components
 
 const WIDTH = Dimensions.get('window').width;
-// Constants
 
 class PostBody extends Component {
   constructor(props) {
@@ -33,7 +36,7 @@ class PostBody extends Component {
     const { handleOnUserPress } = this.props;
 
     if (hrefatr.class === 'markdown-author-link') {
-      handleOnUserPress(href);
+      !handleOnUserPress ? this._handleOnUserPress(href) : handleOnUserPress(href);
     } else {
       Linking.canOpenURL(href).then((supported) => {
         if (supported) {
@@ -45,26 +48,39 @@ class PostBody extends Component {
     }
   };
 
+  _handleOnUserPress = (username) => {
+    const { navigation } = this.props;
+
+    navigation.navigate({
+      routeName: ROUTES.SCREENS.PROFILE,
+      params: {
+        username,
+      },
+      key: username + Math.random() * 100,
+    });
+  };
+
   render() {
-    const { body } = this.props;
+    const { body, isComment } = this.props;
+    const _initialDimensions = !isComment ? { width: WIDTH, height: 216 } : {};
 
     return (
       <View>
         <HTML
           html={body}
           onLinkPress={(evt, href, hrefatr) => this._handleOnLinkPress(evt, href, hrefatr)}
-          containerStyle={styles.container}
+          containerStyle={!isComment ? styles.container : {}}
           textSelectable
-          tagsStyles={styles}
+          tagsStyles={!isComment ? styles : {}}
           ignoredTags={['script']}
           debug={false}
-          imagesInitialDimensions={{ width: WIDTH, height: 216 }}
+          imagesInitialDimensions={_initialDimensions}
           baseFontStyle={styles.text}
-          imagesMaxWidth={WIDTH}
+          imagesMaxWidth={!isComment ? WIDTH : null}
         />
       </View>
     );
   }
 }
 
-export default PostBody;
+export default withNavigation(PostBody);

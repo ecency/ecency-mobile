@@ -8,7 +8,7 @@ export default EStyleSheet.create({
   },
   container: {
     paddingHorizontal: 0,
-    marginTop: 12,
+    // marginTop: 12,
   },
   a: {
     color: '$primaryBlue',
