@@ -6,6 +6,8 @@ import {
 import Icon from 'react-native-vector-icons/FontAwesome';
 import LinearGradient from 'react-native-linear-gradient';
 
+import { getUserData } from '../../../realm/realm';
+
 // Components
 import { IconButton } from '../..';
 
@@ -25,15 +27,40 @@ class SideMenuView extends Component {
 
   constructor(props) {
     super(props);
-    this.state = {};
+    this.state = {
+      menuItems: [],
+      accounts: [],
+      addIconName: 'ios-add-circle-outline',
+    };
   }
 
   // Component Life Cycles
 
+  componentWillMount() {
+    const { isLoggedIn } = this.props;
+    const accounts = [];
+
+    getUserData().then((res) => {
+      res.forEach((element) => {
+        accounts.push({ name: element.username, image: 'test' });
+      });
+      this.setState({
+        menuItems: isLoggedIn ? MENU.AUTH_MENU_ITEMS : MENU.NO_AUTH_MENU_ITEMS,
+        accounts,
+      });
+    });
+  }
+
+  _handleOnPressAddAccountIcon = () => {
+    const { accounts } = this.state;
+    this.setState({ menuItems: accounts, addIconName:'md-arrow-dropup' });
+  };
+
   // Component Functions
 
   render() {
-    const { isLoggedIn, userAvatar, navigateToRoute } = this.props;
+    const { userAvatar, navigateToRoute } = this.props;
+    const { menuItems, addIconName } = this.state;
     // TODO: Change dummy data
     return (
       <Container style={styles.container}>
@@ -51,14 +78,20 @@ class SideMenuView extends Component {
             </View>
             <View style={styles.addAccountIconView}>
               {/* TODO: delete android name */}
-              <IconButton name="add-circle-outline" androidName="ios-add-circle-outline" color="white" size={15} handleOnPress={() => console.log('test')} />
+              <IconButton
+                name="add-circle-outline"
+                androidName={addIconName}
+                color="white"
+                size={15}
+                handleOnPress={() => this._handleOnPressAddAccountIcon()}
+              />
             </View>
           </View>
         </LinearGradient>
         <View style={styles.contentView}>
           <List
             itemDivider={false}
-            dataArray={isLoggedIn ? MENU.AUTH_MENU_ITEMS : MENU.NO_AUTH_MENU_ITEMS}
+            dataArray={menuItems}
             renderRow={item => (
               <ListItem
                 noBorder
