@@ -23,7 +23,7 @@ export default EStyleSheet.create({
   footer: {
     flexDirection: 'column',
     marginTop: 19,
-    marginBottom: 12,
+    marginBottom: 50,
   },
   footerText: {
     fontSize: 10,

@@ -6,7 +6,6 @@ import { View } from 'react-native';
 // Components
 import { FilterBar } from '../../filterBar';
 import { Comments } from '../../comments';
-import { NoPost } from '../../basicUIElements';
 
 // Styles
 // import styles from './commentsDisplayStyles';
@@ -36,7 +35,7 @@ class CommentsDisplayView extends Component {
 
     return (
       <Fragment>
-        {commentCount > 0 ? (
+        {commentCount > 0 && (
           <Fragment>
             <FilterBar
               dropdownIconName="md-arrow-dropdown"
@@ -48,8 +47,6 @@ class CommentsDisplayView extends Component {
               <Comments currentUser={currentUser} author={author} permlink={permlink} />
             </View>
           </Fragment>
-        ) : (
-          <NoPost defaultText="No comment anything yet!" />
         )}
       </Fragment>
     );

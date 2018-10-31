@@ -1,5 +1,5 @@
 import React, { Component } from 'react';
-import { View } from 'react-native';
+import { View, FlatList } from 'react-native';
 
 // Components
 import { Tag } from '../../../basicUIElements';
@@ -23,9 +23,13 @@ class TagsView extends Component {
 
     return (
       <View style={styles.container}>
-        {tags.map((chip, i) => (
-          <Tag key={i} value={chip} isPin={i === 0} onPress={handleOnTagPress} />
-        ))}
+        <FlatList
+          data={tags}
+          horizontal
+          renderItem={({ item, index }) => (
+            <Tag key={index} value={item} isPin={index === 0} onPress={handleOnTagPress} />
+          )}
+        />
       </View>
     );
   }
