@@ -9,6 +9,9 @@ import { openPinCodeModal } from '../../../redux/actions/applicationActions';
 import { Modal } from '../../../components';
 import { PinCode } from '../..';
 
+// Constants
+import { default as ROUTES } from '../../../constants/routeNames';
+
 const RootContainer = () => (WrappedComponent) => {
   class RootComponent extends Component {
     constructor(props) {
@@ -18,6 +21,13 @@ const RootContainer = () => (WrappedComponent) => {
         wrappedComponentStates: null,
         appState: AppState.currentState,
       };
+    }
+
+    componentWillMount() {
+      const { isActiveApp, navigation } = this.props;
+      if (!isActiveApp) {
+        navigation.navigate(ROUTES.SCREENS.SPLASH);
+      }
     }
 
     componentDidMount() {
@@ -74,6 +84,7 @@ const RootContainer = () => (WrappedComponent) => {
   }
   const mapStateToProps = state => ({
     isPinCodeReqiure: state.application.isPinCodeReqiure,
+    isActiveApp: state.application.isActive,
   });
 
   return connect(mapStateToProps)(RootComponent);

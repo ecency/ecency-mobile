@@ -6,7 +6,7 @@ import { loginWithSC2 } from '../../providers/steem/auth';
 import { steemConnectOptions } from './config';
 
 // Actions
-import { addPassiveAccount } from '../../redux/actions/accountAction';
+import { addOtherAccount, updateCurrentAccount } from '../../redux/actions/accountAction';
 import { login as loginAction, openPinCodeModal } from '../../redux/actions/applicationActions';
 
 // Constants
@@ -37,7 +37,8 @@ class SteemConnect extends Component {
         loginWithSC2(accessToken, 'pinCode')
           .then((result) => {
             if (result) {
-              dispatch(addPassiveAccount(result));
+              dispatch(updateCurrentAccount({ ...result }));
+              dispatch(addOtherAccount({ username: result.name }));
               dispatch(loginAction());
               dispatch(openPinCodeModal());
               setPinCodeState({ accessToken, navigateTo: ROUTES.DRAWER.MAIN });

@@ -1,17 +1,14 @@
 import {
-  ADD_NEW_ACCOUNT,
-  UPDATE_ACCOUNT_DATA,
-  REMOVE_ACCOUNT_DATA,
   FETCH_ACCOUNT_FAIL,
   FETCHING_ACCOUNT,
+  ADD_OTHER_ACCOUNT,
+  UPDATE_CURRENT_ACCOUNT,
 } from '../constants/constants';
 
 const initialState = {
   isFetching: null,
-  data: {
-    accounts: [],
-    currentAccountId: null,
-  },
+  otherAccounts: [],
+  currentAccount: {},
   hasError: false,
   errorMessage: null,
 };
@@ -32,34 +29,24 @@ export default function (state = initialState, action) {
         hasError: true,
         errorMessage: action.payload,
       };
-    case ADD_NEW_ACCOUNT:
+
+    case ADD_OTHER_ACCOUNT:
       return {
         ...state,
+        otherAccounts: [...state.otherAccounts, action.payload],
         isFetching: false,
-        data: {
-          accounts: [...state.data.accounts, action.payload],
-          currentAccountId: action.payload.id,
-        },
         hasError: false,
         errorMessage: null,
       };
 
-    case UPDATE_ACCOUNT_DATA:
-      return Object.assign({}, state, {
+    case UPDATE_CURRENT_ACCOUNT:
+      return {
+        ...state,
+        currentAccount: action.payload,
         isFetching: false,
-        data: action.payload,
         hasError: false,
         errorMessage: null,
-      });
-
-    case REMOVE_ACCOUNT_DATA:
-      return Object.assign({}, state, {
-        isFetching: false,
-        data: action.payload,
-        hasError: false,
-        errorMessage: null,
-      });
-
+      };
     default:
       return state;
   }

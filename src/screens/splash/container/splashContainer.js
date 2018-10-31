@@ -1,6 +1,12 @@
 import React, { Component } from 'react';
+import { connect } from 'react-redux';
 
 import { getUserData, getAuthStatus } from '../../../realm/realm';
+import { getAccount } from '../../../providers/steem/dsteem';
+
+// Actions
+import { addOtherAccount, updateCurrentAccount } from '../../../redux/actions/accountAction';
+import { activeApplication, login, openPinCodeModal } from '../../../redux/actions/applicationActions';
 
 // Constants
 import { default as ROUTES } from '../../../constants/routeNames';
@@ -13,17 +19,28 @@ class SplashContainer extends Component {
   };
 
   _getUserData = () => {
-    const { navigation } = this.props;
-    
+    const { navigation, dispatch } = this.props;
+
     getAuthStatus().then((res) => {
-      getUserData().then((response) => {
-        if (response) {
-          navigation.navigate(ROUTES.SCREENS.PINCODE);
-          // navigation.navigate(ROUTES.DRAWER.MAIN);
-        } else {
-          navigation.navigate(ROUTES.SCREENS.LOGIN);
-        }
-      });
+      if (res) {
+        getUserData().then((response) => {
+          if (response.length > 0) {
+            response.forEach((accountData) => {
+              dispatch(addOtherAccount({ username: accountData.username }));
+            });
+            getAccount(response[response.length - 1].username).then((accountData) => {
+              dispatch(updateCurrentAccount(...accountData));
+              dispatch(activeApplication());
+              dispatch(login());
+              dispatch(openPinCodeModal());
+              navigation.navigate(ROUTES.DRAWER.MAIN);
+            });
+          }
+        });
+      } else {
+        dispatch(activeApplication());
+        navigation.navigate(ROUTES.DRAWER.MAIN);
+      }
     });
   };
 
@@ -32,4 +49,4 @@ class SplashContainer extends Component {
   }
 }
 
-export default SplashContainer;
+export default connect()(SplashContainer);

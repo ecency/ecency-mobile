@@ -130,9 +130,7 @@ class PinCodeContainer extends Component {
 }
 
 const mapStateToProps = state => ({
-  currentAccount: state.account.data.accounts.find(
-    item => item.id === state.account.data.currentAccountId,
-  ),
+  currentAccount: state.account.currentAccount,
 });
 
 export default connect(mapStateToProps)(PinCodeContainer);

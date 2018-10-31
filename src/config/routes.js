@@ -54,6 +54,6 @@ export default SwitchNavigator({
   stackNavigatior,
   [ROUTES.SCREENS.LOGIN]: { screen: RootComponent()(Login) },
   [ROUTES.SCREENS.PINCODE]: { screen: RootComponent()(PinCode) },
-  [ROUTES.SCREENS.SPLASH]: { screen: RootComponent()(Splash) },
+  [ROUTES.SCREENS.SPLASH]: { screen: Splash },
   [ROUTES.SCREENS.STEEM_CONNECT]: { screen: RootComponent()(SteemConnect) },
 });

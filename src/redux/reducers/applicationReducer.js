@@ -1,11 +1,16 @@
 import {
-  LOGIN, LOGOUT, OPEN_PIN_CODE_MODAL, CLOSE_PIN_CODE_MODAL,
+  LOGIN,
+  LOGOUT,
+  OPEN_PIN_CODE_MODAL,
+  CLOSE_PIN_CODE_MODAL,
+  ACTIVE_APPLICATION,
 } from '../constants/constants';
 
 const initialState = {
   isLoggedIn: false, // Has any logged in user.
   loading: false, // It is lock to all screen and shows loading animation.
   isPinCodeReqiure: false,
+  isActive: false,
 };
 
 export default function (state = initialState, action) {
@@ -29,6 +34,11 @@ export default function (state = initialState, action) {
       return {
         ...state,
         isPinCodeReqiure: false,
+      };
+    case ACTIVE_APPLICATION:
+      return {
+        ...state,
+        isActive: true,
       };
     default:
       return state;
