@@ -107,7 +107,7 @@ export const parsePost = (post) => {
 
   const voteRshares = post.active_votes.reduce((a, b) => a + parseFloat(b.rshares), 0);
   const ratio = totalPayout / voteRshares;
-  post.is_voted = true;
+  //post.is_voted = false;
 
   for (const i in post.active_votes) {
    // post.is_voted = post.active_votes[i].voter === "u-e" && post.active_votes[i].percent > 0;

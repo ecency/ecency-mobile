@@ -64,8 +64,8 @@ class HeaderView extends Component {
         </TouchableOpacity>
         <View style={styles.titleWrapper}>
           {name && <Text style={styles.title}>{name}</Text>}
-          {userName
-            && reputation && (
+          {userName !== undefined
+            && reputation !== undefined && (
               <Text style={styles.subTitle}>
                 @
                 {userName}

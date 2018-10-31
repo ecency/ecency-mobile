@@ -1,4 +1,4 @@
-import React, { Component, Fragment } from 'react';
+import React, { Component } from 'react';
 import {
   View, Text, ScrollView, Dimensions,
 } from 'react-native';
@@ -10,8 +10,7 @@ import { PostHeaderDescription, PostBody, Tags } from '../../postElements';
 import { PostPlaceHolder, StickyBar, TextWithIcon } from '../../basicUIElements';
 import { Upvote } from '../../upvote';
 import { IconButton } from '../../iconButton';
-import { Comments } from '../../comments';
-import { FilterBar } from '../../filterBar';
+import { CommentsDisplay } from '../../commentsDisplay';
 
 // Styles
 import styles from './postDisplayStyles';
@@ -51,7 +50,9 @@ class PostDisplayView extends Component {
   };
 
   _getTabBar = (isFixedFooter = false) => {
-    const { post, currentUser } = this.props;
+    const {
+      post, currentUser, handleOnReplyPress, handleOnEditPress,
+    } = this.props;
 
     return (
       <StickyBar isFixedFooter={isFixedFooter}>
@@ -81,14 +82,14 @@ class PostDisplayView extends Component {
                   style={styles.barIconButton}
                   name="pencil"
                   iconType="SimpleLineIcons"
-                  onPress={() => handleOnEditPress()}
+                  onPress={() => handleOnEditPress && handleOnEditPress()}
                 />
             )}
             <IconButton
               iconStyle={styles.barIconRight}
               style={styles.barIconButton}
               name="reply"
-              onPress={() => handleOnReplyPress()}
+              onPress={() => handleOnReplyPress && handleOnReplyPress()}
               iconType="FontAwesome"
             />
           </View>
@@ -120,8 +121,7 @@ class PostDisplayView extends Component {
                   avatar={post.avatar}
                   size={16}
                 />
-                {post
-                  && post.body && <PostBody body={post.body} />}
+                {post && post.body && <PostBody body={post.body} />}
                 <View style={styles.footer}>
                   <Tags tags={post.json_metadata && post.json_metadata.tags} />
                   <Text style={styles.footerText}>
@@ -136,19 +136,13 @@ class PostDisplayView extends Component {
             )}
           </View>
           {isPostEnd && this._getTabBar()}
-          {/* Comments Here! */}
           {post && (
-            <Fragment>
-              <FilterBar
-                dropdownIconName="md-arrow-dropdown"
-                options={['NEW COMMENTS', 'VOTES', 'REPLIES', 'MENTIONS', 'FOLLOWS', 'REBLOGS']}
-                defaultText="NEW COMMENTS"
-                onDropdownSelect={this._handleOnDropdownSelect}
-              />
-              <View style={{ padding: 16,}}>
-                <Comments currentUser={currentUser} author={post.author} permlink={post.permlink} />
-              </View>
-            </Fragment>
+            <CommentsDisplay
+              currentUser={currentUser}
+              author={post.author}
+              permlink={post.permlink}
+              commentCount={post.children}
+            />
           )}
         </ScrollView>
         {!isPostEnd && this._getTabBar(true)}

@@ -4,14 +4,13 @@ import { View } from 'react-native';
 // Constants
 
 // Components
-import { FilterBar } from '../../filterBar';
 import { Comments } from '..';
 import { PostBody, PostHeaderDescription } from '../../postElements';
 import { Upvote } from '../../upvote';
 import { IconButton } from '../../iconButton';
 
 // Styles
-import styles from './commentStyles';
+// import styles from './commentStyles';
 
 class CommentsView extends Component {
   /* Props
@@ -42,12 +41,6 @@ class CommentsView extends Component {
     // commentNumber === 8 && alert('sekkiz:');
     return (
       <View>
-        {/* <FilterBar
-          dropdownIconName="md-arrow-dropdown"
-          options={['NEW COMMENTS', 'VOTES', 'REPLIES', 'MENTIONS', 'FOLLOWS', 'REBLOGS']}
-          defaultText="NEW COMMENTS"
-          onDropdownSelect={this._handleOnDropdownSelect}
-        /> */}
         {comments
           && comments.map((comment, i) => (
             <View key={i}>
