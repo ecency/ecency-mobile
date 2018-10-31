@@ -143,10 +143,10 @@ export const setUserDataWithPinCode = data => new Promise((resolve, reject) => {
       username: userData.name,
       authType: 'steemConnect',
       accessToken: encryptKey(data.accessToken, data.pinCode),
-      postingKey: '',
       masterKey: '',
-      activeKey: '',
-      memoKey: '',
+      postingKey: encryptKey(privateKeys.posting.toString(), data.pinCode),
+      activeKey: encryptKey(privateKeys.active.toString(), data.pinCode),
+      memoKey: encryptKey(privateKeys.memo.toString(), data.pinCode),
     };
   }
 

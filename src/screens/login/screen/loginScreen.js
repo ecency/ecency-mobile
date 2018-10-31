@@ -7,7 +7,9 @@ import ScrollableTabView from '@esteemapp/react-native-scrollable-tab-view';
 import { connect } from 'react-redux';
 
 // Actions
-import { addPassiveAccount, failedAccount } from '../../../redux/actions/accountAction';
+import {
+  failedAccount, addOtherAccount, updateCurrentAccount,
+} from '../../../redux/actions/accountAction';
 import {
   login as loginAction, openPinCodeModal,
 } from '../../../redux/actions/applicationActions';
@@ -51,7 +53,8 @@ class LoginScreen extends Component {
     Login(username, password)
       .then((result) => {
         if (result) {
-          dispatch(addPassiveAccount(result));
+          dispatch(updateCurrentAccount({ ...result }));
+          dispatch(addOtherAccount({ username: result.name }));
           dispatch(loginAction());
           dispatch(openPinCodeModal());
           setPinCodeState({ navigateTo: ROUTES.DRAWER.MAIN });
