@@ -4,10 +4,14 @@ import {
   REMOVE_ACCOUNT_DATA,
   FETCH_ACCOUNT_FAIL,
   FETCHING_ACCOUNT,
+  ADD_OTHER_ACCOUNT,
+  UPDATE_CURRENT_ACCOUNT,
 } from '../constants/constants';
 
 const initialState = {
   isFetching: null,
+  otherAccounts: [],
+  currentAccount: {},
   data: {
     accounts: [],
     currentAccountId: null,
@@ -60,6 +64,23 @@ export default function (state = initialState, action) {
         errorMessage: null,
       });
 
+    case ADD_OTHER_ACCOUNT:
+      return {
+        ...state,
+        otherAccounts: [...state.otherAccounts, action.payload],
+        isFetching: false,
+        hasError: false,
+        errorMessage: null,
+      };
+
+    case UPDATE_CURRENT_ACCOUNT:
+      return {
+        ...state,
+        currentAccount: action.payload,
+        isFetching: false,
+        hasError: false,
+        errorMessage: null,
+      };
     default:
       return state;
   }

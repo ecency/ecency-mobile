@@ -24,8 +24,8 @@ const RootContainer = () => (WrappedComponent) => {
     }
 
     componentWillMount() {
-      const { isActive, navigation } = this.props;
-      if (!isActive) {
+      const { isActiveApp, navigation } = this.props;
+      if (!isActiveApp) {
         navigation.navigate(ROUTES.SCREENS.SPLASH);
       }
     }

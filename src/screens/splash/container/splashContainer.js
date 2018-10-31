@@ -1,7 +1,12 @@
 import React, { Component } from 'react';
+import { connect } from 'react-redux';
 
 import { getUserData, getAuthStatus } from '../../../realm/realm';
 import { getAccount } from '../../../providers/steem/dsteem';
+
+// Actions
+import { addOtherAccount, updateCurrentAccount } from '../../../redux/actions/accountAction';
+import { activeApplication, login } from '../../../redux/actions/applicationActions';
 
 // Constants
 import { default as ROUTES } from '../../../constants/routeNames';
@@ -14,27 +19,22 @@ class SplashContainer extends Component {
   };
 
   _getUserData = () => {
-    const { navigation } = this.props;
+    const { navigation, dispatch } = this.props;
 
     getAuthStatus().then((res) => {
-      console.log('=========res=========', res);
       if (res) {
         getUserData().then((response) => {
-          console.log('=========response=========', response);
-
           if (response.length > 0) {
-            // TODO: Set other users
+            response.forEach((accountData) => {
+              dispatch(addOtherAccount(accountData));
+            });
             getAccount(response[response.length - 1].username).then((accountData) => {
-              console.log('=========accountData=========', accountData);
+              dispatch(updateCurrentAccount(...accountData));
+              dispatch(activeApplication());
+              dispatch(login());
+              navigation.navigate(ROUTES.DRAWER.MAIN);
             });
           }
-
-          // if (response) {
-          //   navigation.navigate(ROUTES.SCREENS.PINCODE);
-          //   // navigation.navigate(ROUTES.DRAWER.MAIN);
-          // } else {
-          //   navigation.navigate(ROUTES.SCREENS.LOGIN);
-          // }
         });
       } else {
         navigation.navigate(ROUTES.DRAWER.MAIN);
@@ -47,4 +47,4 @@ class SplashContainer extends Component {
   }
 }
 
-export default SplashContainer;
+export default connect()(SplashContainer);
