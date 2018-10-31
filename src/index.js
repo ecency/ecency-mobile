@@ -13,6 +13,7 @@ EStyleSheet.build({
   $white: '#FFFFFF',
   $black: '#000000',
   $primaryBlue: '#357ce6',
+  $primaryDarkBlue: '#1a509a',
   $primaryLightBlue: '#eaf2fc',
   $primaryGray: '#f5f5f5',
   $primaryDarkGray: '#788187',
