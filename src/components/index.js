@@ -1,5 +1,5 @@
 import Logo from './logo/logo';
-import Comment from './comment/comment';
+// import Comment from './comment/comment';
 // import PostCard from "./postCard";
 import Reply from './reply/reply';
 // import Search from './search/search';
@@ -11,7 +11,7 @@ import { SideMenu } from './sideMenu';
 
 export {
   Logo,
-  Comment,
+  // Comment,
   // PostCard,
   Reply,
   // Search,

@@ -37,6 +37,7 @@ class CommentsView extends Component {
       handleOnUserPress,
       currentUser,
       commentNumber,
+      handleOnReplyPress,
     } = this.props;
     // commentNumber === 8 && alert('sekkiz:');
     return (
@@ -72,7 +73,7 @@ class CommentsView extends Component {
                     iconStyle={{ color: '#c1c5c7' }}
                     style={{ marginLeft: 20 }}
                     name="reply"
-                    onPress={() => handleOnReplyPress()}
+                    onPress={() => handleOnReplyPress && handleOnReplyPress()}
                     iconType="FontAwesome"
                   />
                 </View>

@@ -43,10 +43,22 @@ class CommentsContainer extends Component {
   }
   // Component Functions
 
+  _handleOnReplyPress = () => {
+    alert(
+      'Reply functions not working yet. Thank you for your understanding. Your friends at eSteem :)',
+    );
+  };
+
   render() {
     const { comments } = this.state;
 
-    return <CommentsView comments={comments} {...this.props} />;
+    return (
+      <CommentsView
+        handleOnReplyPress={this._handleOnReplyPress}
+        comments={comments}
+        {...this.props}
+      />
+    );
   }
 }
 

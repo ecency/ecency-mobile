@@ -1,10 +1,10 @@
 /* eslint-disable no-unused-vars */
 import React, { Component, Fragment } from 'react';
-import { FlatList, ActivityIndicator, View } from 'react-native';
+import { View, ScrollView } from 'react-native';
 
 // Components
 import ScrollableTabView from '@esteemapp/react-native-scrollable-tab-view';
-import Comment from '../../../components/comment/comment';
+import { Comments } from '../../../components/comments';
 import { CollapsibleCard } from '../../../components/collapsibleCard';
 import { Header } from '../../../components/header';
 import { NoPost, ProfileSummaryPlaceHolder } from '../../../components/basicUIElements';
@@ -28,7 +28,7 @@ class ProfileScreen extends Component {
   render() {
     const {
       about,
-      commments,
+      comments,
       follows,
       isLoading,
       isLoggedIn,
@@ -131,15 +131,10 @@ class ProfileScreen extends Component {
               )}
             </View>
             <View tabLabel="Comments" style={styles.commentsTabBar}>
-              {commments && commments.length > 0 ? (
-                <FlatList
-                  data={commments}
-                  showsVerticalScrollIndicator={false}
-                  renderItem={({ item }) => <Comment comment={item} isLoggedIn user={user} />}
-                  keyExtractor={(post, index) => index.toString()}
-                  onEndThreshold={0}
-                  bounces={false}
-                />
+              {comments && comments.length > 0 ? (
+                <ScrollView>
+                  <Comments comments={comments} />
+                </ScrollView>
               ) : (
                 <NoPost
                   name={username}

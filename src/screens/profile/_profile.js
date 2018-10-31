@@ -13,7 +13,7 @@ import ScrollableTabView from "@esteemapp/react-native-scrollable-tab-view";
 import { TabBar } from "../../components/tabBar";
 import DiscoverPage from "../discover/discover";
 import { PostCard } from "../../components/postCard";
-import Comment from "../../components/comment/comment";
+//import Comment from "../../components/comment/comment";
 
 
 import { getUserData, getAuthStatus } from '../../realm/realm';

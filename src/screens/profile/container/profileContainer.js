@@ -4,7 +4,15 @@ import React, { Component, Fragment } from 'react';
 import { ProfileScreen } from '..';
 
 // Utilitites
-import { getFollows, getUser, getUserComments } from '../../../providers/steem/dsteem';
+import {
+  followUser,
+  unfollowUser,
+  getFollows,
+  getPosts,
+  getUserComments,
+  getUser,
+  isFolllowing,
+} from '../../../providers/steem/dsteem';
 import { getUserData, getAuthStatus } from '../../../realm/realm';
 
 class ProfileContainer extends Component {
@@ -12,7 +20,8 @@ class ProfileContainer extends Component {
     super(props);
     this.state = {
       user: null,
-      commments: [],
+      currentUser: null,
+      comments: [],
       replies: [],
       about: {},
       follows: {},
@@ -48,7 +57,7 @@ class ProfileContainer extends Component {
       .then((result) => {
         this.setState({
           isReady: true,
-          commments: result,
+          comments: result,
           refreshing: false,
           isLoading: false,
         });
@@ -57,6 +66,79 @@ class ProfileContainer extends Component {
         console.log(err);
       });
   };
+
+  // _unfollow = async () => {
+  //   let userData;
+  //   let privateKey;
+
+  //   await this.setState({
+  //     follow_loader: true,
+  //   });
+
+  //   await getUserData().then((result) => {
+  //     userData = Array.from(result);
+  //   });
+
+  //   console.log(userData);
+  //   privateKey = decryptKey(userData[0].postingKey, '1234');
+
+  //   unfollowUser(
+  //     {
+  //       follower: userData[0].username,
+  //       following: this.state.author.name,
+  //     },
+  //     privateKey,
+  //   )
+  //     .then((result) => {
+  //       this.setState({
+  //         follow_loader: false,
+  //         isFolllowing: false,
+  //       });
+  //     })
+  //     .catch((err) => {
+  //       this.setState({
+  //         follow_loader: false,
+  //       });
+  //     });
+  // };
+
+  // _follow = async () => {
+  //   let userData;
+  //   let privateKey;
+
+  //   await this.setState({
+  //     follow_loader: true,
+  //   });
+
+  //   await getUserData().then((result) => {
+  //     userData = Array.from(result);
+  //   });
+
+  //   console.log(userData);
+  //   privateKey = decryptKey(userData[0].postingKey, '1234');
+
+  //   followUser(
+  //     {
+  //       follower: userData[0].username,
+  //       following: this.state.author.name,
+  //     },
+  //     privateKey,
+  //   )
+  //     .then((result) => {
+  //       console.log(result);
+  //       this.setState({
+  //         follow_loader: false,
+  //         isFolllowing: true,
+  //       });
+  //     })
+  //     .catch((err) => {
+  //       console.log(err);
+  //       this.setState({
+  //         follow_loader: false,
+  //         isFolllowing: false,
+  //       });
+  //     });
+  // };
 
   async _loadProfile(selectedUser = null) {
     // TODO: use from redux store.
@@ -108,7 +190,7 @@ class ProfileContainer extends Component {
   render() {
     const {
       about,
-      commments,
+      comments,
       follows,
       isReverseHeader,
       isLoading,
@@ -124,7 +206,7 @@ class ProfileContainer extends Component {
           isReady={isReady}
           about={about}
           isReverseHeader={isReverseHeader}
-          commments={commments}
+          comments={comments}
           follows={follows}
           isLoading={isLoading}
           isLoggedIn={isLoggedIn}
