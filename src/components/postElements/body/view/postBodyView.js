@@ -62,21 +62,21 @@ class PostBody extends Component {
 
   render() {
     const { body, isComment } = this.props;
-    const _initialDimensions = !isComment ? { width: WIDTH, height: 216 } : {};
+    const _initialDimensions = isComment ? {} : { width: WIDTH, height: 216 };
 
     return (
       <View>
         <HTML
           html={body}
           onLinkPress={(evt, href, hrefatr) => this._handleOnLinkPress(evt, href, hrefatr)}
-          containerStyle={!isComment ? styles.container : {}}
+          containerStyle={isComment ? {} : styles.container}
           textSelectable
-          tagsStyles={!isComment ? styles : {}}
+          tagsStyles={isComment ? {} : styles}
           ignoredTags={['script']}
           debug={false}
           imagesInitialDimensions={_initialDimensions}
           baseFontStyle={styles.text}
-          imagesMaxWidth={!isComment ? WIDTH : null}
+          imagesMaxWidth={isComment ? null : WIDTH}
         />
       </View>
     );
