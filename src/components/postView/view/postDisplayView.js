@@ -122,7 +122,7 @@ class PostDisplayView extends Component {
                   size={16}
                 />
                 {post && post.body && <PostBody body={post.body} />}
-                <View style={styles.footer}>
+                <View style={[styles.footer, !isPostEnd && styles.marginFooter]}>
                   <Tags tags={post.json_metadata && post.json_metadata.tags} />
                   <Text style={styles.footerText}>
                     Posted by

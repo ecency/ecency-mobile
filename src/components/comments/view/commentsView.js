@@ -59,7 +59,7 @@ class CommentsView extends Component {
                 />
                 <View
                   style={{
-                    marginLeft: marginLeft || 35,
+                    marginLeft: marginLeft || 29,
                     flexDirection: 'column',
                     marginTop: -10,
                   }}
@@ -76,7 +76,7 @@ class CommentsView extends Component {
                     />
                   </View>
                 </View>
-                <View style={{ marginLeft: marginLeft || 32 }}>
+                <View style={{ marginLeft: marginLeft || 29 }}>
                   {commentNumber !== 8 && (
                     <Comments
                       commentNumber={commentNumber ? commentNumber * 2 : 1}
@@ -91,49 +91,6 @@ class CommentsView extends Component {
             )}
           />
         )}
-        {/* {comments
-          && comments.map((comment, i) => (
-            <View key={i}>
-              <PostHeaderDescription
-                key={item.permlink}
-                date={item.created}
-                name={item.author}
-                reputation={item.author_reputation}
-                avatar={item.avatar}
-                size={avatarSize || 24}
-              />
-              <View
-                style={{
-                  marginLeft: marginLeft || 35,
-                  flexDirection: 'column',
-                  marginTop: -15,
-                }}
-              >
-                <PostBody isComment handleOnUserPress={handleOnUserPress} body={item.body} />
-                <View style={{ flexDirection: 'row' }}>
-                  <Upvote isShowpayoutValue content={comment} user={currentUser} isLoggedIn />
-                  <IconButton
-                    iconStyle={{ color: '#c1c5c7' }}
-                    style={{ marginLeft: 20 }}
-                    name="reply"
-                    onPress={() => handleOnReplyPress && handleOnReplyPress()}
-                    iconType="FontAwesome"
-                  />
-                </View>
-              </View>
-              <View style={{ marginLeft: marginLeft || 32 }}>
-                {commentNumber !== 8 && (
-                  <Comments
-                    commentNumber={commentNumber ? commentNumber * 2 : 1}
-                    marginLeft={20}
-                    avatarSize={avatarSize || 16}
-                    author={item.author}
-                    permlink={item.permlink}
-                  />
-                )}
-              </View>
-            </View>
-          ))} */}
       </View>
     );
   }
