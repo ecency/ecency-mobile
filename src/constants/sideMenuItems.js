@@ -36,11 +36,6 @@ const authMenuItems = [
     route: 'Settings',
     icon: 'gear',
   },
-  {
-    name: 'LoginTest',
-    route: ROUTES.SCREENS.LOGIN,
-    icon: 'user-o',
-  },
 ];
 
 const noAuthMenuItems = [
