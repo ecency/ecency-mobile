@@ -6,8 +6,6 @@ import {
 import Icon from 'react-native-vector-icons/FontAwesome';
 import LinearGradient from 'react-native-linear-gradient';
 
-import { getUserData } from '../../../realm/realm';
-
 // Components
 import { IconButton } from '../..';
 
@@ -29,8 +27,7 @@ class SideMenuView extends Component {
     super(props);
     this.state = {
       menuItems: [],
-      accounts: [],
-      addIconName: 'ios-add-circle-outline',
+      isAddAccountIconActive: false,
     };
   }
 
@@ -38,29 +35,30 @@ class SideMenuView extends Component {
 
   componentWillMount() {
     const { isLoggedIn } = this.props;
-    const accounts = [];
 
-    getUserData().then((res) => {
-      res.forEach((element) => {
-        accounts.push({ name: element.username, image: 'test' });
-      });
-      this.setState({
-        menuItems: isLoggedIn ? MENU.AUTH_MENU_ITEMS : MENU.NO_AUTH_MENU_ITEMS,
-        accounts,
-      });
+    this.setState({
+      menuItems: isLoggedIn ? MENU.AUTH_MENU_ITEMS : MENU.NO_AUTH_MENU_ITEMS,
     });
   }
 
   _handleOnPressAddAccountIcon = () => {
-    const { accounts } = this.state;
-    this.setState({ menuItems: accounts, addIconName:'md-arrow-dropup' });
+    const { isAddAccountIconActive } = this.state;
+    const { isLoggedIn, accounts } = this.props;
+    if (!isAddAccountIconActive) {
+      this.setState({ menuItems: accounts, isAddAccountIconActive: !isAddAccountIconActive });
+    } else {
+      this.setState({
+        menuItems: isLoggedIn ? MENU.AUTH_MENU_ITEMS : MENU.NO_AUTH_MENU_ITEMS,
+        isAddAccountIconActive: !isAddAccountIconActive,
+      });
+    }
   };
 
   // Component Functions
 
   render() {
-    const { userAvatar, navigateToRoute } = this.props;
-    const { menuItems, addIconName } = this.state;
+    const { userAvatar, navigateToRoute, currentAccount } = this.props;
+    const { menuItems, isAddAccountIconActive } = this.state;
     // TODO: Change dummy data
     return (
       <Container style={styles.container}>
@@ -79,8 +77,8 @@ class SideMenuView extends Component {
             <View style={styles.addAccountIconView}>
               {/* TODO: delete android name */}
               <IconButton
-                name="add-circle-outline"
-                androidName={addIconName}
+                name={isAddAccountIconActive ? 'arrow-dropup' : 'add-circle-outline'}
+                androidName={isAddAccountIconActive ? 'md-arrow-dropup' : 'ios-add-circle-outline'}
                 color="white"
                 size={15}
                 handleOnPress={() => this._handleOnPressAddAccountIcon()}
