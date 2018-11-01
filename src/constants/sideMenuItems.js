@@ -45,9 +45,14 @@ const authMenuItems = [
 
 const noAuthMenuItems = [
   {
-    name: 'Login',
+    name: 'Add Account',
     route: ROUTES.SCREENS.LOGIN,
-    icon: 'user-o',
+    icon: 'add-circle-outline',
+  },
+  {
+    name: 'Settings',
+    route: 'Settings',
+    icon: 'gear',
   },
 ];
 

@@ -1,9 +1,16 @@
 import React, { Component } from 'react';
 import { connect } from 'react-redux';
 
+// Actions
 import { getUserData } from '../../../realm/realm';
+
+// Constanst
+import { default as ROUTES } from '../../../constants/routeNames';
+
 // Component
 import { SideMenuView } from '..';
+
+const DEFAULT_IMAGE = require('../../../assets/esteem.png');
 
 /*
   *               Props Name                              Description
@@ -23,10 +30,23 @@ class SideMenuContainer extends Component {
 
   componentWillMount() {
     const accounts = [];
+    const { currentAccount } = this.props;
 
     getUserData().then((userData) => {
       userData.forEach((element) => {
-        accounts.push({ name: element.username, image: 'test' });
+        let image = DEFAULT_IMAGE;
+        if (Object.keys(currentAccount).length !== 0) {
+          const jsonMetadata = JSON.parse(currentAccount.json_metadata);
+          if (Object.keys(jsonMetadata).length !== 0) {
+            image = jsonMetadata.profile.cover_image;
+          }
+        }
+        accounts.push({ name: `@${element.username}`, image });
+      });
+      accounts.push({
+        name: 'Add Account',
+        route: ROUTES.SCREENS.LOGIN,
+        icon: 'plus-square-o',
       });
       this.setState({ accounts });
     });
@@ -36,7 +56,9 @@ class SideMenuContainer extends Component {
 
   _navigateToRoute = (route = null) => {
     const { navigation } = this.props;
-    navigation.navigate(route);
+    if (route) {
+      navigation.navigate(route);
+    }
   };
 
   render() {
