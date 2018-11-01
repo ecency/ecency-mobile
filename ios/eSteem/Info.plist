@@ -72,6 +72,10 @@
 		<string>RobotoMono-Regular.ttf</string>
 		<string>Sansation_Bold.ttf</string>
 		<string>Sansation_Regular.ttf</string>
+		<string>AntDesign.ttf</string>
+		<string>FontAwesome5_Brands.ttf</string>
+		<string>FontAwesome5_Regular.ttf</string>
+		<string>FontAwesome5_Solid.ttf</string>
 	</array>
 </dict>
 </plist>
