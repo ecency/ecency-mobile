@@ -1,5 +1,5 @@
-import React, { Component, Fragment } from 'react';
-import { View, FlatList, Text } from 'react-native';
+import React, { Component } from 'react';
+import { View, FlatList } from 'react-native';
 
 // Constants
 

@@ -51,7 +51,11 @@ class PostDisplayView extends Component {
 
   _getTabBar = (isFixedFooter = false) => {
     const {
-      post, currentUser, handleOnReplyPress, handleOnEditPress,
+      post,
+      currentUser,
+      handleOnReplyPress,
+      handleOnEditPress,
+      handleVotersPress,
     } = this.props;
 
     return (
@@ -63,6 +67,7 @@ class PostDisplayView extends Component {
             iconStyle={styles.barIcons}
             textMarginLeft={20}
             text={post && post.vote_count}
+            onPress={() => handleVotersPress && handleVotersPress(post.active_votes)}
             iconName="ios-people"
           />
           <TextWithIcon

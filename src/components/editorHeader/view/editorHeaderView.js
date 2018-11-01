@@ -45,7 +45,11 @@ class EditorHeaderView extends Component {
       isFormValid,
       title,
       isHasIcons,
+      rightIconName,
       isHasDropdown,
+      handleRightIconPress,
+      isModalHeader,
+      handleOnPressClose,
     } = this.props;
 
     return (
@@ -53,9 +57,10 @@ class EditorHeaderView extends Component {
         <View style={styles.container}>
           <View style={styles.backWrapper}>
             <IconButton
-              iconStyle={styles.backIcon}
-              name="md-arrow-back"
-              onPress={() => handleOnPressBackButton()}
+              iconStyle={[styles.backIcon, isModalHeader && styles.closeIcon]}
+              iconType={isModalHeader && 'FontAwesome'}
+              name={isModalHeader ? 'close' : 'md-arrow-back'}
+              onPress={() => (isModalHeader ? handleOnPressClose() : handleOnPressBackButton())}
             />
 
             <Text style={[title && styles.title, quickTitle && styles.quickTitle]}>
@@ -71,6 +76,16 @@ class EditorHeaderView extends Component {
                   onSelect={this._handleOnDropdownSelect}
                 />
               </View>
+            )}
+
+            {rightIconName && (
+              <IconButton
+                style={styles.rightIcon}
+                size={25}
+                onPress={() => handleRightIconPress()}
+                iconStyle={styles.rightIcon}
+                name={rightIconName}
+              />
             )}
           </View>
 

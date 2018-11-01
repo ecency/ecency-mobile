@@ -1,5 +1,4 @@
 import React, { Component } from 'react';
-// import { connect } from 'react-redux';
 import { withNavigation } from 'react-navigation';
 
 // Services and Actions
@@ -12,7 +11,7 @@ import { default as ROUTES } from '../../../constants/routeNames';
 // Utilities
 
 // Component
-import { PostDisplayView } from '..';
+import { VotersDisplayView } from '..';
 
 /*
   *            Props Name        Description                                     Value
@@ -20,7 +19,7 @@ import { PostDisplayView } from '..';
   *
   */
 
-class PostDisplayContainer extends Component {
+class VotersDisplayContainer extends Component {
   constructor(props) {
     super(props);
     this.state = {};
@@ -29,28 +28,21 @@ class PostDisplayContainer extends Component {
   // Component Life Cycle Functions
 
   // Component Functions
-  _handleVotersPress = (activeVotes) => {
+  _handleOnUserPress = (username) => {
     const { navigation } = this.props;
 
     navigation.navigate({
-      routeName: ROUTES.SCREENS.VOTERS,
+      routeName: ROUTES.SCREENS.PROFILE,
       params: {
-        activeVotes,
+        username,
       },
+      key: username,
     });
   };
 
   render() {
-    const { post, currentUser } = this.props;
-
-    return (
-      <PostDisplayView
-        handleVotersPress={this._handleVotersPress}
-        currentUser={currentUser}
-        post={post}
-      />
-    );
+    return <VotersDisplayView handleOnUserPress={this._handleOnUserPress} {...this.props} />;
   }
 }
 
-export default withNavigation(PostDisplayContainer);
+export default withNavigation(VotersDisplayContainer);

@@ -56,8 +56,8 @@ class PostHeaderDescription extends Component {
             defaultSource={DEFAULT_IMAGE}
           />
           <Text style={styles.name}>{name}</Text>
+          <Text style={styles.reputation}>{_reputationText}</Text>
         </TouchableOpacity>
-        <Text style={styles.reputation}>{_reputationText}</Text>
         {tag && (
           <TouchableOpacity onPress={() => tagOnPress && tagOnPress()}>
             <Tag isPin value={tag} />
