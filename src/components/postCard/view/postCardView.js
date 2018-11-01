@@ -1,11 +1,12 @@
 import React, { Component } from 'react';
 import {
-  Image, TouchableOpacity, FlatList,
+  Image, TouchableOpacity, FlatList, View, Text,
 } from 'react-native';
 import {
-  Card, CardItem, Left, Right, Thumbnail, View, Icon, Body, Text,
+  Card, CardItem, Left, Right, Thumbnail, Icon, Body,
 } from 'native-base';
 import Modal from 'react-native-modal';
+import { PostHeaderDescription } from '../../postElements';
 
 // STEEM
 import { Upvote } from '../../upvote';
@@ -43,14 +44,18 @@ class PostCard extends Component {
     const { handleOnUserPress, content, user } = this.props;
 
     if (handleOnUserPress && content && content.author !== user.name) {
-      handleOnUserPress(content.author);
+      handleOnUserPress(content.author, content.author);
     }
   };
 
+  _handleOnContentPress = () => {
+    const { handleOnContentPress, content } = this.props;
+
+    handleOnContentPress(content.author, content.permlink);
+  };
+
   render() {
-    const {
-      content, isLoggedIn, user,
-    } = this.props;
+    const { content, isLoggedIn, user } = this.props;
     const { isModalVisible } = this.state;
 
     // TODO: Should seperate bunch of component REFACTOR ME!
@@ -58,38 +63,26 @@ class PostCard extends Component {
       <Card style={styles.post}>
         <CardItem style={styles.header}>
           <Left>
-            <TouchableOpacity onPress={() => this._handleOnUserPress()}>
-              <Thumbnail style={styles.avatar} source={{ uri: content && content.avatar }} />
-            </TouchableOpacity>
-            <Body style={styles.body}>
-              <View style={styles.author}>
-                <TouchableOpacity
-                  onPress={() => this._handleOnUserPress()}
-                >
-                  <Text style={styles.authorName}>{content.author}</Text>
-                </TouchableOpacity>
-              </View>
-              <View style={styles.badge}>
-                <Text style={styles.text}>{content.author_reputation}</Text>
-              </View>
-              <View style={styles.category}>
-                <Text style={styles.categoryText}>{content.category}</Text>
-              </View>
-              <Text style={styles.timeAgo} note>
-                {content.created}
-              </Text>
-            </Body>
+            <PostHeaderDescription
+              date={content.created}
+              profileOnPress={this._handleOnUserPress}
+              name={content.author}
+              reputation={content.author_reputation}
+              tag={content.category}
+              avatar={content && content.avatar}
+              size={32}
+            />
           </Left>
           <Right>
             <Icon name="md-more" />
           </Right>
         </CardItem>
-        <Image
-          source={{ uri: content && content.image }}
-          defaultSource={require('../../../assets/no_image.png')}
-          style={styles.image}
-        />
-        <TouchableOpacity>
+        <TouchableOpacity onPress={() => this._handleOnContentPress()}>
+          <Image
+            source={{ uri: content && content.image }}
+            defaultSource={require('../../../assets/no_image.png')}
+            style={styles.image}
+          />
           <CardItem>
             <Body>
               <Text style={styles.title}>{content.title}</Text>

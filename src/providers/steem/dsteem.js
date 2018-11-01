@@ -5,7 +5,7 @@
 
 import { Client, PrivateKey } from 'dsteem';
 import { AsyncStorage } from 'react-native';
-import { parsePosts, parseComments } from '../../utils/postParser';
+import { parsePosts, parsePost, parseComments } from '../../utils/postParser';
 
 let rewardFund = null;
 let medianPrice = null;
@@ -140,8 +140,7 @@ export const isFolllowing = (author, user) => new Promise((resolve, reject) => {
 export const getPosts = async (by, query, user) => {
   try {
     let posts = await client.database.getDiscussions(by, query);
-    console.log('comments');
-    console.log(posts);
+
     posts = await parsePosts(posts, user);
     return posts;
   } catch (error) {
@@ -165,14 +164,16 @@ export const getUserComments = async (query) => {
  * @param user post author
  * @param permlink post permlink
  */
-export const getPost = (user, permlink) => new Promise((resolve, reject) => {
+export const getPost = async (user, permlink) => {
   try {
-    const post = client.database.call('get_content', [user, permlink]);
-    resolve(post);
+    let posts = await client.database.call('get_content', [user, permlink]);
+
+    posts = await parsePost(posts, user);
+    return posts;
   } catch (error) {
-    reject(error);
+    return error;
   }
-});
+};
 
 /**
  * @method getUser get user data

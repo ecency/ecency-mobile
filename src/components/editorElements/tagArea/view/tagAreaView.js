@@ -72,7 +72,7 @@ export default class TagAreaView extends Component {
   };
 
   render() {
-    const { chipsData, isPreviewActive } = this.props;
+    const { isPreviewActive } = this.props;
     const { chips } = this.state;
 
     return (

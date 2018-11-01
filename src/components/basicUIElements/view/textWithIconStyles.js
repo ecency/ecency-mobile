@@ -10,12 +10,13 @@ export default EStyleSheet.create({
     alignSelf: 'flex-start',
   },
   icon: {
-    color: '#c1c5c7',
+    color: '$iconColor',
     fontSize: 12,
     marginRight: 3,
   },
   text: {
-    color: '#788187',
+    color: '$primaryDarkGray',
+    alignSelf: 'center',
     fontSize: 11,
   },
 });

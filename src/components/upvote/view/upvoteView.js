@@ -103,7 +103,7 @@ class UpvoteView extends Component {
   };
 
   render() {
-    const { isLoggedIn } = this.props;
+    const { isLoggedIn, isShowpayoutValue, content } = this.props;
     const {
       isVoting, isModalVisible, amount, value, isVoted,
     } = this.state;
@@ -126,11 +126,14 @@ class UpvoteView extends Component {
               {isVoting ? (
                 <ActivityIndicator />
               ) : (
-                <Icon
-                  style={[styles.upvoteIcon, { color: '#007ee5' }]}
-                  active={!isLoggedIn}
-                  name={isVoted ? 'ios-arrow-dropup-circle' : 'ios-arrow-dropup-outline'}
-                />
+                <Fragment>
+                  <Icon
+                    style={[styles.upvoteIcon, { color: '#007ee5' }]}
+                    active={!isLoggedIn}
+                    name={isVoted ? 'ios-arrow-dropup-circle' : 'ios-arrow-dropup-outline'}
+                  />
+                  {isShowpayoutValue && <Text style={styles.payoutValue}>$ {content && content.pending_payout_value}</Text> }
+                </Fragment>
               )}
             </TouchableOpacity>
 
