@@ -52,7 +52,7 @@ export default class HomeScreen extends PureComponent {
     let isLoggedIn;
 
     await getAuthStatus().then((res) => {
-      isLoggedIn = res;
+      isLoggedIn = res.isLoggedIn;
     });
 
     if (isLoggedIn) {

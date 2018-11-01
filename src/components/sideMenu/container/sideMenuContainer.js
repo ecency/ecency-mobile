@@ -30,18 +30,13 @@ class SideMenuContainer extends Component {
 
   componentWillMount() {
     const accounts = [];
-    const { currentAccount } = this.props;
 
     getUserData().then((userData) => {
       userData.forEach((element) => {
-        let image = DEFAULT_IMAGE;
-        if (Object.keys(currentAccount).length !== 0) {
-          const jsonMetadata = JSON.parse(currentAccount.json_metadata);
-          if (Object.keys(jsonMetadata).length !== 0) {
-            image = jsonMetadata.profile.cover_image;
-          }
-        }
-        accounts.push({ name: `@${element.username}`, image });
+        accounts.push({
+          name: `@${element.username}`,
+          image: element.avatar ? { uri: element.avatar } : DEFAULT_IMAGE,
+        });
       });
       accounts.push({
         name: 'Add Account',

@@ -75,7 +75,7 @@ class ProfilePage extends React.Component {
     let about;
 
     await getAuthStatus().then((res) => {
-      isLoggedIn = res;
+      isLoggedIn = res.isLoggedIn;
     });
 
     if (isLoggedIn) {

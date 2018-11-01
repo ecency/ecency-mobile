@@ -8,6 +8,7 @@ const userSchema = {
   name: USER_SCHEMA,
   properties: {
     username: { type: 'string' },
+    avatar: { type: 'string' },
     authType: { type: 'string' },
     postingKey: { type: 'string' },
     activeKey: { type: 'string' },
@@ -22,6 +23,7 @@ const authSchema = {
   properties: {
     isLoggedIn: { type: 'bool', default: false },
     pinCode: { type: 'string' },
+    currentUsername: { type: 'string' },
   },
 };
 
@@ -104,7 +106,7 @@ export const getAuthStatus = () => new Promise((resolve, reject) => {
   try {
     const auth = realm.objects(AUTH_SCHEMA);
     if (auth['0']) {
-      resolve(auth['0'].isLoggedIn);
+      resolve(auth['0']);
     } else {
       resolve(false);
     }

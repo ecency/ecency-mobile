@@ -21,6 +21,7 @@ export const Login = (username, password) => {
     posting: null,
   };
   let loginFlag = false;
+  let avatar = '';
 
   return new Promise((resolve, reject) => {
     // Get user account data from STEEM Blockchain
@@ -53,9 +54,14 @@ export const Login = (username, password) => {
           }
         });
 
+        const jsonMetadata = JSON.parse(account.json_metadata);
+        if (Object.keys(jsonMetadata).length !== 0) {
+          avatar = jsonMetadata.profile.cover_image;
+        }
         if (loginFlag) {
           const userData = {
             username,
+            avatar,
             authType: 'masterKey',
             masterKey: '',
             postingKey: '',
@@ -85,10 +91,18 @@ export const Login = (username, password) => {
 export const loginWithSC2 = async (accessToken) => {
   await steemConnect.setAccessToken(accessToken);
   const account = await steemConnect.me();
+  let avatar = '';
 
   return new Promise((resolve, reject) => {
+
+    const jsonMetadata = JSON.parse(account.json_metadata);
+    if (Object.keys(jsonMetadata).length !== 0) {
+      avatar = jsonMetadata.profile.cover_image;
+    }
+
     const userData = {
       username: account.account.name,
+      avatar,
       authType: 'steemConnect',
       masterKey: '',
       postingKey: '',
@@ -99,6 +113,7 @@ export const loginWithSC2 = async (accessToken) => {
 
     const authData = {
       isLoggedIn: true,
+      currentUsername: account.account.name,
     };
 
     if (isLoggedInUser(account.account.name)) {
@@ -154,6 +169,7 @@ export const setUserDataWithPinCode = data => new Promise((resolve, reject) => {
     .then(() => {
       const authData = {
         isLoggedIn: true,
+        currentUsername: userData.username,
       };
 
       setAuthStatus(authData)
@@ -227,6 +243,7 @@ export const verifyPinCode = async (data) => {
     if (loginFlag) {
       const authData = {
         isLoggedIn: true,
+        currentUsername: data.username,
       };
       const response = {
         accessToken: decryptKey(userData.accessToken, data.pinCode),

@@ -42,7 +42,7 @@ const noAuthMenuItems = [
   {
     name: 'Add Account',
     route: ROUTES.SCREENS.LOGIN,
-    icon: 'add-circle-outline',
+    icon: 'plus-square-o',
   },
   {
     name: 'Settings',

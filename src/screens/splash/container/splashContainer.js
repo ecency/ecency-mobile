@@ -6,7 +6,11 @@ import { getAccount } from '../../../providers/steem/dsteem';
 
 // Actions
 import { addOtherAccount, updateCurrentAccount } from '../../../redux/actions/accountAction';
-import { activeApplication, login, openPinCodeModal } from '../../../redux/actions/applicationActions';
+import {
+  activeApplication,
+  login,
+  openPinCodeModal,
+} from '../../../redux/actions/applicationActions';
 
 // Constants
 import { default as ROUTES } from '../../../constants/routeNames';
@@ -22,13 +26,15 @@ class SplashContainer extends Component {
     const { navigation, dispatch } = this.props;
 
     getAuthStatus().then((res) => {
-      if (res) {
+      if (res.isLoggedIn) {
         getUserData().then((response) => {
           if (response.length > 0) {
             response.forEach((accountData) => {
-              dispatch(addOtherAccount({ username: accountData.username }));
+              dispatch(
+                addOtherAccount({ username: accountData.username, avatar: accountData.avatar }),
+              );
             });
-            getAccount(response[response.length - 1].username).then((accountData) => {
+            getAccount(res.currentUsername).then((accountData) => {
               dispatch(updateCurrentAccount(...accountData));
               dispatch(activeApplication());
               dispatch(login());
