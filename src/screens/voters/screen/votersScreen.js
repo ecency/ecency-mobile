@@ -22,6 +22,7 @@ class VotersScreen extends Component {
     super(props);
     this.state = {
       data: props.votes,
+      filterResult: null,
     };
   }
 
@@ -42,11 +43,12 @@ class VotersScreen extends Component {
 
       return itemName.indexOf(_text) > -1;
     });
-    this.setState({ data: newData });
+
+    this.setState({ filterResult: newData });
   };
 
   render() {
-    const { data } = this.state;
+    const { data, filterResult } = this.state;
     const headerTitle = `Voters Info (${data && data.length})`;
 
     return (
@@ -55,7 +57,7 @@ class VotersScreen extends Component {
           title={headerTitle}
           rightIconName="ios-search"
           isHasSearch
-          handleRightIconPress={this._handleSearch}
+          handleOnSearch={this._handleSearch}
         />
         <FilterBar
           dropdownIconName="md-arrow-dropdown"
@@ -63,7 +65,7 @@ class VotersScreen extends Component {
           defaultText="REWARDS"
           onDropdownSelect={this._handleOnDropdownSelect}
         />
-        <VotersDisplay votes={data} />
+        <VotersDisplay votes={filterResult || data} />
       </View>
     );
   }

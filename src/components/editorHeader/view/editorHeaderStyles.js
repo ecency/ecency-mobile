@@ -60,4 +60,13 @@ export default EStyleSheet.create({
     flexGrow: 1,
     fontWeight: '500',
   },
+  textInput: {
+    color: '$iconColor',
+    alignSelf: 'center',
+    fontSize: 16,
+    marginLeft: 16,
+    flexGrow: 1,
+    fontWeight: '500',
+    width: '$deviceWidth / 1.4',
+  },
 });
