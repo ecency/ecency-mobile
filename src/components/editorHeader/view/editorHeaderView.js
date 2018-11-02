@@ -113,6 +113,7 @@ class EditorHeaderView extends Component {
               <TextInput
                 onChangeText={value => this._handleOnSearch(value)}
                 autoFocus
+                placeholder="Search"
                 style={styles.textInput}
               />
             )}
