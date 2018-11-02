@@ -1,11 +1,9 @@
-import { StatusBar, Platform } from 'react-native';
 import EStyleSheet from 'react-native-extended-stylesheet';
 
 export default EStyleSheet.create({
   container: {
     flex: 1,
     flexDirection: 'column',
-    marginTop: Platform.OS === 'android' && StatusBar.currentHeight,
   },
   headerView: {
     flex: 1,
