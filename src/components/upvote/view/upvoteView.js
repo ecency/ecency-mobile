@@ -91,7 +91,7 @@ class UpvoteView extends Component {
           isVoted: !!value,
           isVoting: false,
         });
-        alert(!!value ? "Upvoted" : "Downvoted");
+        alert(value ? 'Upvoted' : 'Downvoted');
       })
       .catch((err) => {
         alert(err);
@@ -130,9 +130,16 @@ class UpvoteView extends Component {
                   <Icon
                     style={[styles.upvoteIcon, { color: '#007ee5' }]}
                     active={!isLoggedIn}
-                    name={isVoted ? 'ios-arrow-dropup-circle' : 'ios-arrow-dropup-outline'}
+                    iconType="AntDesign"
+                    name={isVoted ? 'upcircle' : 'upcircleo'}
                   />
-                  {isShowpayoutValue && <Text style={styles.payoutValue}>$ {content && content.pending_payout_value}</Text> }
+                  {isShowpayoutValue && (
+                  <Text style={styles.payoutValue}>
+                      $
+                    {' '}
+                    {content && content.pending_payout_value}
+                  </Text>
+                  )}
                 </Fragment>
               )}
             </TouchableOpacity>
@@ -155,16 +162,17 @@ class UpvoteView extends Component {
                   }}
                   style={styles.upvoteButton}
                 >
-                {isVoting ? (
-                  <ActivityIndicator />
-                ) : (
-                  <Icon
-                    size={20} 
-                    style={[styles.upvoteIcon, { color: '#007ee5' }]}
-                    active={!isLoggedIn}
-                    name={isVoted ? 'ios-arrow-dropup-circle' : 'ios-arrow-dropup-outline'}
-                  />
-                )}
+                  {isVoting ? (
+                    <ActivityIndicator />
+                  ) : (
+                    <Icon
+                      size={20}
+                      style={[styles.upvoteIcon, { color: '#007ee5' }]}
+                      active={!isLoggedIn}
+                      iconType="AntDesign"
+                      name={isVoted ? 'upcircle' : 'upcircleo'}
+                    />
+                  )}
                 </TouchableOpacity>
                 <Text style={styles.amount}>{_amount}</Text>
                 <Slider
