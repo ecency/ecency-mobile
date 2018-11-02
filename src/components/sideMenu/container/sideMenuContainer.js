@@ -3,6 +3,9 @@ import { connect } from 'react-redux';
 
 // Actions
 import { getUserData } from '../../../realm/realm';
+import { switchAccount } from '../../../providers/steem/auth';
+import { updateCurrentAccount } from '../../../redux/actions/accountAction';
+import { openPinCodeModal } from '../../../redux/actions/applicationActions';
 
 // Constanst
 import { default as ROUTES } from '../../../constants/routeNames';
@@ -56,6 +59,16 @@ class SideMenuContainer extends Component {
     }
   };
 
+  _switchAccount = (username = null) => {
+    const { dispatch } = this.props;
+
+    username = username.slice(1);
+    switchAccount(username).then((accountData) => {
+      dispatch(updateCurrentAccount(accountData));
+      dispatch(openPinCodeModal());
+    });
+  };
+
   render() {
     const { currentAccount, isLoggedIn } = this.props;
     const { accounts } = this.state;
@@ -67,14 +80,15 @@ class SideMenuContainer extends Component {
         userAvatar={null}
         accounts={accounts}
         currentAccount={currentAccount}
+        switchAccount={this._switchAccount}
       />
     );
   }
 }
 
 const mapStateToProps = state => ({
-  isLoggedIn: state.application.isLoggedIn,
-  currentAccount: state.account.currentAccount,
+  isLoggedIn: state.application.isLoggedIn || false,
+  currentAccount: state.account.currentAccount || {},
 });
 
 export default connect(mapStateToProps)(SideMenuContainer);

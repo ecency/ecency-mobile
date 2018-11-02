@@ -7,6 +7,7 @@ import {
   updateUserData,
   setPinCode,
   getPinCode,
+  updateCurrentUsername,
 } from '../../realm/realm';
 import { encryptKey, decryptKey } from '../../utils/crypto';
 import steemConnect from './steemConnectAPI';
@@ -94,7 +95,6 @@ export const loginWithSC2 = async (accessToken) => {
   let avatar = '';
 
   return new Promise((resolve, reject) => {
-
     const jsonMetadata = JSON.parse(account.json_metadata);
     if (Object.keys(jsonMetadata).length !== 0) {
       avatar = jsonMetadata.profile.cover_image;
@@ -265,6 +265,20 @@ export const verifyPinCode = async (data) => {
     }
   });
 };
+
+export const switchAccount = username => new Promise((resolve, reject) => {
+  getAccount(username)
+    .then((result) => {
+      const account = result[0];
+      updateCurrentUsername(username).then(() => {
+        resolve(account);
+      }).catch(() => {
+        reject(new Error('Unknown error, please contact to eSteem.'));
+      });
+    }).catch(() => {
+      reject(new Error('Unknown error, please contact to eSteem.'));
+    });
+});
 
 const getPrivateKeys = (username, password) => ({
   active: dsteem.PrivateKey.fromLogin(username, password, 'active'),

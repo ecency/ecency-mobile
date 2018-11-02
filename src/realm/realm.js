@@ -118,8 +118,6 @@ export const getAuthStatus = () => new Promise((resolve, reject) => {
 export const setAuthStatus = authStatus => new Promise((resolve, reject) => {
   try {
     const auth = realm.objects(AUTH_SCHEMA);
-    const test = Array.from(auth);
-    const test1 = Array.from(auth).length;
     realm.write(() => {
       if (Array.from(auth).length > 0) {
         auth[0].isLoggedIn = authStatus.isLoggedIn;
@@ -127,6 +125,28 @@ export const setAuthStatus = authStatus => new Promise((resolve, reject) => {
       } else {
         realm.create(AUTH_SCHEMA, { ...authStatus, pinCode: '' });
         resolve(authStatus);
+      }
+    });
+  } catch (error) {
+    reject(error);
+  }
+});
+
+export const updateCurrentUsername = username => new Promise((resolve, reject) => {
+  try {
+    const auth = realm.objects(AUTH_SCHEMA);
+    realm.write(() => {
+      if (Array.from(auth).length > 0) {
+        auth[0].currentUsername = username;
+        resolve(auth[0]);
+      } else {
+        const authData = {
+          isLoggedIn: false,
+          pinCode: '',
+          currentUsername: username,
+        };
+        realm.create(AUTH_SCHEMA, { ...authData });
+        resolve(authData);
       }
     });
   } catch (error) {

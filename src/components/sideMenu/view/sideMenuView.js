@@ -58,10 +58,7 @@ class SideMenuView extends Component {
     const { currentAccount } = this.props;
     if (Object.keys(currentAccount).length === 0) return '';
     const jsonMetadata = JSON.parse(currentAccount.json_metadata);
-    if (
-      Object.keys(jsonMetadata).length !== 0
-      && jsonMetadata.constructor === Object
-    ) {
+    if (Object.keys(jsonMetadata).length !== 0) {
       return jsonMetadata.profile.name;
     }
     return currentAccount.name;
@@ -71,10 +68,7 @@ class SideMenuView extends Component {
     const { currentAccount } = this.props;
     if (Object.keys(currentAccount).length === 0) return DEFAULT_IMAGE;
     const jsonMetadata = JSON.parse(currentAccount.json_metadata);
-    if (
-      Object.keys(jsonMetadata).length !== 0
-      && currentAccount.json_metadata.constructor === Object
-    ) {
+    if (Object.keys(jsonMetadata).length !== 0) {
       return { uri: jsonMetadata.profile.cover_image };
     }
     return DEFAULT_IMAGE;
@@ -83,7 +77,9 @@ class SideMenuView extends Component {
   // Component Functions
 
   render() {
-    const { navigateToRoute, currentAccount, isLoggedIn } = this.props;
+    const {
+      navigateToRoute, currentAccount, isLoggedIn, switchAccount,
+    } = this.props;
     const { menuItems, isAddAccountIconActive } = this.state;
     // TODO: Change dummy data
     return (
@@ -94,28 +90,28 @@ class SideMenuView extends Component {
           colors={['#357ce6', '#2d5aa0']}
           style={styles.headerView}
         >
-          {isLoggedIn
-          && (
-          <View style={styles.headerContentView}>
-            <Thumbnail style={styles.userAvatar} source={this._getUserAvatar()} />
-            <View style={styles.userInfoView}>
-              <Text style={styles.username}>{this._getNameOfUser()}</Text>
-              <Text style={styles.usernick}>{`@${currentAccount.name}`}</Text>
+          {isLoggedIn && (
+            <View style={styles.headerContentView}>
+              <Thumbnail style={styles.userAvatar} source={this._getUserAvatar()} />
+              <View style={styles.userInfoView}>
+                <Text style={styles.username}>{this._getNameOfUser()}</Text>
+                <Text style={styles.usernick}>{`@${currentAccount.name}`}</Text>
+              </View>
+              <View style={styles.addAccountIconView}>
+                {/* TODO: delete android name */}
+                <IconButton
+                  name={isAddAccountIconActive ? 'arrow-dropup' : 'add-circle-outline'}
+                  androidName={
+                    isAddAccountIconActive ? 'md-arrow-dropup' : 'ios-add-circle-outline'
+                  }
+                  color="white"
+                  size={15}
+                  handleOnPress={() => this._handleOnPressAddAccountIcon()}
+                  style={styles.addAccountIcon}
+                />
+              </View>
             </View>
-            <View style={styles.addAccountIconView}>
-              {/* TODO: delete android name */}
-              <IconButton
-                name={isAddAccountIconActive ? 'arrow-dropup' : 'add-circle-outline'}
-                androidName={isAddAccountIconActive ? 'md-arrow-dropup' : 'ios-add-circle-outline'}
-                color="white"
-                size={15}
-                handleOnPress={() => this._handleOnPressAddAccountIcon()}
-                style={styles.addAccountIcon}
-              />
-            </View>
-          </View>
-          )
-          }
+          )}
         </LinearGradient>
         <View style={styles.contentView}>
           <List
@@ -125,10 +121,18 @@ class SideMenuView extends Component {
               <ListItem
                 noBorder
                 style={styles.listItem}
-                onPress={() => navigateToRoute(item.route)}
+                onPress={() => {
+                  if (item.route) {
+                    navigateToRoute(item.route);
+                  } else {
+                    switchAccount(item.name);
+                  }
+                }}
               >
                 {item.icon && <Icon style={styles.listItemIcon} name={item.icon} />}
-                {item.image && <Thumbnail small style={styles.otherUserAvatar} source={item.image} />}
+                {item.image && (
+                  <Thumbnail small style={styles.otherUserAvatar} source={item.image} />
+                )}
                 <Text style={styles.listItemText}>{item.name}</Text>
               </ListItem>
             )}
