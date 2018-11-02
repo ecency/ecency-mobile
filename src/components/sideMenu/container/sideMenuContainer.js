@@ -1,7 +1,7 @@
 import React, { Component } from 'react';
 import { connect } from 'react-redux';
 
-import { getAuthStatus } from '../../../realm/realm';
+import { getUserData } from '../../../realm/realm';
 // Component
 import { SideMenuView } from '..';
 
@@ -15,15 +15,20 @@ class SideMenuContainer extends Component {
   constructor(props) {
     super(props);
     this.state = {
-      isLoggedIn: false,
+      accounts: [],
     };
   }
 
   // Component Life Cycle Functions
 
   componentWillMount() {
-    getAuthStatus().then((res) => {
-      this.setState({ isLoggedIn: res });
+    const accounts = [];
+
+    getUserData().then((userData) => {
+      userData.forEach((element) => {
+        accounts.push({ name: element.username, image: 'test' });
+      });
+      this.setState({ accounts });
     });
   }
 
@@ -35,20 +40,24 @@ class SideMenuContainer extends Component {
   };
 
   render() {
-    const { isLoggedIn } = this.state;
+    const { currentAccount, isLoggedIn } = this.props;
+    const { accounts } = this.state;
 
     return (
       <SideMenuView
         navigateToRoute={this._navigateToRoute}
         isLoggedIn={isLoggedIn}
         userAvatar={null}
+        accounts={accounts}
+        currentAccount={currentAccount}
       />
     );
   }
 }
 
 const mapStateToProps = state => ({
-  isLoggedIn: state,
+  isLoggedIn: state.application.isLoggedIn,
+  currentAccount: state.account.currentAccount,
 });
 
 export default connect(mapStateToProps)(SideMenuContainer);

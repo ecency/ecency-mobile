@@ -73,6 +73,7 @@ export const updateUserData = userData => new Promise((resolve, reject) => {
         account[0].activeKey = userData.activeKey;
         account[0].memoKey = userData.memoKey;
         account[0].postingKey = userData.postingKey;
+        account[0].accessToken = userData.accessToken || '';
         resolve(userData);
       });
     } else {

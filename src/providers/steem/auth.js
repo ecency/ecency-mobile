@@ -140,7 +140,7 @@ export const setUserDataWithPinCode = data => new Promise((resolve, reject) => {
     };
   } else if (userData.authType === 'steemConnect') {
     updatedUserData = {
-      username: userData.name,
+      username: userData.username,
       authType: 'steemConnect',
       accessToken: encryptKey(data.accessToken, data.pinCode),
       masterKey: '',
@@ -161,7 +161,7 @@ export const setUserDataWithPinCode = data => new Promise((resolve, reject) => {
           const encriptedPinCode = encryptKey(data.pinCode, 'pin-code');
           setPinCode(encriptedPinCode)
             .then(() => {
-              resolve();
+              resolve(true);
             })
             .catch((error) => {
               reject(error);
@@ -174,26 +174,55 @@ export const setUserDataWithPinCode = data => new Promise((resolve, reject) => {
     .catch((err) => {
       reject(err);
     });
-  resolve();
 });
 
 export const verifyPinCode = async (data) => {
   const result = getUserDataWithUsername(data.username);
   const userData = result[0];
+  let account = null;
   let loginFlag = false;
-  if (userData.masterKey || userData.accessToken) {
-    const masterKey = decryptKey(userData.masterKey, data.pinCode);
-    const accessToken = decryptKey(userData.accessToken, data.pinCode);
-    if (masterKey === data.password || (data.accessToken && accessToken === data.accessToken)) {
-      loginFlag = true;
-    }
-  } else if (data.accessToken) {
-    const encriptedPinCode = await getPinCode();
-    const pinCode = decryptKey(encriptedPinCode, 'pin-code');
-    if (pinCode == data.pinCode) {
-      loginFlag = true;
+  if (result.length > 0) {
+    if (userData.masterKey || userData.accessToken) {
+      if (userData.authType === 'steemConnect') {
+        const accessToken = decryptKey(userData.accessToken, data.pinCode);
+        await steemConnect.setAccessToken(accessToken);
+        account = await steemConnect.me();
+        if (account) {
+          loginFlag = true;
+        }
+      } else if (userData.authType === 'masterKey') {
+        const password = decryptKey(userData.masterKey, data.pinCode);
+        account = await getAccount(data.username);
+
+        // Public keys of user
+        const publicKeys = {
+          active: account[0].active.key_auths.map(x => x[0]),
+          memo: account[0].memo_key,
+          owner: account[0].owner.key_auths.map(x => x[0]),
+          posting: account[0].posting.key_auths.map(x => x[0]),
+        };
+          // Set private keys of user
+        const privateKeys = getPrivateKeys(data.username, password);
+
+        // Check all keys
+        Object.keys(publicKeys).map((pubKey) => {
+          if (publicKeys[pubKey] === privateKeys[pubKey].createPublic().toString()) {
+            loginFlag = true;
+          }
+        });
+      }
+    } else {
+      const encriptedPinCode = await getPinCode();
+      const pinCode = decryptKey(encriptedPinCode, 'pin-code');
+      if (pinCode == data.pinCode) {
+        const res = await setUserDataWithPinCode(data);
+        if (res) {
+          loginFlag = true;
+        }
+      }
     }
   }
+
   return new Promise((resolve, reject) => {
     if (loginFlag) {
       const authData = {
@@ -210,7 +239,7 @@ export const verifyPinCode = async (data) => {
         .then(() => {
           resolve(response);
         })
-        .catch((error) => {
+        .catch(() => {
           // TODO: create function for throw error
           reject(new Error('Unknown error, please contact to eSteem.'));
         });
