@@ -9,6 +9,7 @@ import { NumericKeyboard } from './numericKeyboard';
 import { PinAnimatedInput } from './pinAnimatedInput';
 import { SideMenu } from './sideMenu';
 import Modal from './modal';
+import Icon from './icon';
 
 export {
   Logo,
@@ -24,4 +25,5 @@ export {
   PinAnimatedInput,
   SideMenu,
   Modal,
+  Icon,
 };

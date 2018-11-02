@@ -7,6 +7,7 @@ import {
   updateUserData,
   setPinCode,
   getPinCode,
+  updateCurrentUsername,
 } from '../../realm/realm';
 import { encryptKey, decryptKey } from '../../utils/crypto';
 import steemConnect from './steemConnectAPI';
@@ -21,6 +22,7 @@ export const Login = (username, password) => {
     posting: null,
   };
   let loginFlag = false;
+  let avatar = '';
 
   return new Promise((resolve, reject) => {
     // Get user account data from STEEM Blockchain
@@ -53,9 +55,14 @@ export const Login = (username, password) => {
           }
         });
 
+        const jsonMetadata = JSON.parse(account.json_metadata);
+        if (Object.keys(jsonMetadata).length !== 0) {
+          avatar = jsonMetadata.profile.cover_image;
+        }
         if (loginFlag) {
           const userData = {
             username,
+            avatar,
             authType: 'masterKey',
             masterKey: '',
             postingKey: '',
@@ -85,10 +92,17 @@ export const Login = (username, password) => {
 export const loginWithSC2 = async (accessToken) => {
   await steemConnect.setAccessToken(accessToken);
   const account = await steemConnect.me();
+  let avatar = '';
 
   return new Promise((resolve, reject) => {
+    const jsonMetadata = JSON.parse(account.json_metadata);
+    if (Object.keys(jsonMetadata).length !== 0) {
+      avatar = jsonMetadata.profile.cover_image;
+    }
+
     const userData = {
       username: account.account.name,
+      avatar,
       authType: 'steemConnect',
       masterKey: '',
       postingKey: '',
@@ -99,6 +113,7 @@ export const loginWithSC2 = async (accessToken) => {
 
     const authData = {
       isLoggedIn: true,
+      currentUsername: account.account.name,
     };
 
     if (isLoggedInUser(account.account.name)) {
@@ -154,6 +169,7 @@ export const setUserDataWithPinCode = data => new Promise((resolve, reject) => {
     .then(() => {
       const authData = {
         isLoggedIn: true,
+        currentUsername: userData.username,
       };
 
       setAuthStatus(authData)
@@ -227,6 +243,7 @@ export const verifyPinCode = async (data) => {
     if (loginFlag) {
       const authData = {
         isLoggedIn: true,
+        currentUsername: data.username,
       };
       const response = {
         accessToken: decryptKey(userData.accessToken, data.pinCode),
@@ -248,6 +265,20 @@ export const verifyPinCode = async (data) => {
     }
   });
 };
+
+export const switchAccount = username => new Promise((resolve, reject) => {
+  getAccount(username)
+    .then((result) => {
+      const account = result[0];
+      updateCurrentUsername(username).then(() => {
+        resolve(account);
+      }).catch(() => {
+        reject(new Error('Unknown error, please contact to eSteem.'));
+      });
+    }).catch(() => {
+      reject(new Error('Unknown error, please contact to eSteem.'));
+    });
+});
 
 const getPrivateKeys = (username, password) => ({
   active: dsteem.PrivateKey.fromLogin(username, password, 'active'),

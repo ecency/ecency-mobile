@@ -1,9 +1,19 @@
 import React, { Component } from 'react';
 import { connect } from 'react-redux';
 
+// Actions
 import { getUserData } from '../../../realm/realm';
+import { switchAccount } from '../../../providers/steem/auth';
+import { updateCurrentAccount } from '../../../redux/actions/accountAction';
+import { openPinCodeModal } from '../../../redux/actions/applicationActions';
+
+// Constanst
+import { default as ROUTES } from '../../../constants/routeNames';
+
 // Component
 import { SideMenuView } from '..';
+
+const DEFAULT_IMAGE = require('../../../assets/esteem.png');
 
 /*
   *               Props Name                              Description
@@ -26,7 +36,15 @@ class SideMenuContainer extends Component {
 
     getUserData().then((userData) => {
       userData.forEach((element) => {
-        accounts.push({ name: element.username, image: 'test' });
+        accounts.push({
+          name: `@${element.username}`,
+          image: element.avatar ? { uri: element.avatar } : DEFAULT_IMAGE,
+        });
+      });
+      accounts.push({
+        name: 'Add Account',
+        route: ROUTES.SCREENS.LOGIN,
+        icon: 'plus-square-o',
       });
       this.setState({ accounts });
     });
@@ -36,7 +54,19 @@ class SideMenuContainer extends Component {
 
   _navigateToRoute = (route = null) => {
     const { navigation } = this.props;
-    navigation.navigate(route);
+    if (route) {
+      navigation.navigate(route);
+    }
+  };
+
+  _switchAccount = (username = null) => {
+    const { dispatch } = this.props;
+
+    username = username.slice(1);
+    switchAccount(username).then((accountData) => {
+      dispatch(updateCurrentAccount(accountData));
+      dispatch(openPinCodeModal());
+    });
   };
 
   render() {
@@ -50,14 +80,15 @@ class SideMenuContainer extends Component {
         userAvatar={null}
         accounts={accounts}
         currentAccount={currentAccount}
+        switchAccount={this._switchAccount}
       />
     );
   }
 }
 
 const mapStateToProps = state => ({
-  isLoggedIn: state.application.isLoggedIn,
-  currentAccount: state.account.currentAccount,
+  isLoggedIn: state.application.isLoggedIn || false,
+  currentAccount: state.account.currentAccount || {},
 });
 
 export default connect(mapStateToProps)(SideMenuContainer);

@@ -42,7 +42,7 @@ class WalletPage extends Component {
     let globalProperties;
 
     await getAuthStatus().then((res) => {
-      isLoggedIn = res;
+      isLoggedIn = res.isLoggedIn;
     });
 
     if (isLoggedIn) {
