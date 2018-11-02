@@ -54,7 +54,6 @@ class ProfileScreen extends Component {
       fullInHourVP = Math.ceil((100 - votingPower) * 0.833333);
       fullInHourRC = Math.ceil((100 - resourceCredits) * 0.833333);
     }
-    console.log(user);
 
     if (about) {
       _about = about.about;
@@ -66,7 +65,10 @@ class ProfileScreen extends Component {
     }
     return (
       <Fragment>
-        <Header isReverse={isReverseHeader} />
+        <Header
+          user={user}
+          isReverse={isReverseHeader}
+        />
         <View style={styles.container}>
           {!isReady ? (
             <ProfileSummaryPlaceHolder />
