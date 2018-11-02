@@ -66,13 +66,7 @@ class ProfileScreen extends Component {
     }
     return (
       <Fragment>
-        <Header
-          name={name}
-          avatar={avatar}
-          isReverse={isReverseHeader}
-          userName={user && user.name}
-          reputation={user && user.reputation}
-        />
+        <Header isReverse={isReverseHeader} />
         <View style={styles.container}>
           {!isReady ? (
             <ProfileSummaryPlaceHolder />

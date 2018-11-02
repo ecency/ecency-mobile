@@ -1,5 +1,6 @@
 import React, { Component } from 'react';
 import { withNavigation } from 'react-navigation';
+import { connect } from 'react-redux';
 
 // Services and Actions
 
@@ -41,14 +42,22 @@ class HeaderContainer extends Component {
   };
 
   render() {
+    const { isLoggedIn, currentAccount } = this.props;
     return (
       <HeaderView
         handleOnPressBackButton={this._handleOnPressBackButton}
         handleOpenDrawer={this._handleOpenDrawer}
+        isLoggedIn={isLoggedIn}
+        currentAccount={currentAccount}
         {...this.props}
       />
     );
   }
 }
 
-export default withNavigation(HeaderContainer);
+const mapStateToProps = state => ({
+  isLoggedIn: state.application.isLoggedIn || false,
+  currentAccount: state.account.currentAccount || {},
+});
+
+export default connect(mapStateToProps)(withNavigation(HeaderContainer));

@@ -57,7 +57,7 @@ export const Login = (username, password) => {
 
         const jsonMetadata = JSON.parse(account.json_metadata);
         if (Object.keys(jsonMetadata).length !== 0) {
-          avatar = jsonMetadata.profile.cover_image;
+          avatar = jsonMetadata.profile.profile_image;
         }
         if (loginFlag) {
           const userData = {
@@ -97,7 +97,7 @@ export const loginWithSC2 = async (accessToken) => {
   return new Promise((resolve, reject) => {
     const jsonMetadata = JSON.parse(account.json_metadata);
     if (Object.keys(jsonMetadata).length !== 0) {
-      avatar = jsonMetadata.profile.cover_image;
+      avatar = jsonMetadata.profile.profile_image;
     }
 
     const userData = {

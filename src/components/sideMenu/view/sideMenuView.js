@@ -68,7 +68,7 @@ class SideMenuView extends Component {
     if (Object.keys(currentAccount).length === 0) return DEFAULT_IMAGE;
     const jsonMetadata = JSON.parse(currentAccount.json_metadata);
     if (Object.keys(jsonMetadata).length !== 0) {
-      return { uri: jsonMetadata.profile.cover_image };
+      return { uri: jsonMetadata.profile.profile_image };
     }
     return DEFAULT_IMAGE;
   };

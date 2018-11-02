@@ -3,10 +3,8 @@ import {
   View, StatusBar, Text, SafeAreaView, TouchableOpacity,
 } from 'react-native';
 import FastImage from 'react-native-fast-image';
-// Constants
 
 // Utils
-
 import { getReputation } from '../../../utils/user';
 
 // Components
@@ -33,46 +31,70 @@ class HeaderView extends Component {
 
   // Component Functions
 
+  _getNameOfUser = () => {
+    const { currentAccount } = this.props;
+    if (Object.keys(currentAccount).length === 0) return '';
+    const jsonMetadata = JSON.parse(currentAccount.json_metadata);
+    if (Object.keys(jsonMetadata).length !== 0) {
+      return jsonMetadata.profile.name;
+    }
+    return currentAccount.name;
+  };
+
+  _getUserAvatar = () => {
+    const { currentAccount } = this.props;
+    if (Object.keys(currentAccount).length === 0) return DEFAULT_IMAGE;
+    const jsonMetadata = JSON.parse(currentAccount.json_metadata);
+    if (Object.keys(jsonMetadata).length !== 0) {
+      return { uri: jsonMetadata.profile.profile_image };
+    }
+    return DEFAULT_IMAGE;
+  };
+
   render() {
     const {
-      avatar,
       handleOpenDrawer,
       handleOnPressBackButton,
       hideStatusBar,
-      userName,
       isReverse,
-      name,
-      reputation,
+      currentAccount,
+      isLoggedIn,
     } = this.props;
 
     return (
       <SafeAreaView style={[styles.container, isReverse && styles.containerReverse]}>
         <StatusBar hidden={hideStatusBar} translucent />
-        <TouchableOpacity onPress={() => !isReverse && handleOpenDrawer()}>
+        <TouchableOpacity
+          style={styles.avatarWrapper}
+          onPress={() => !isReverse && handleOpenDrawer()}
+        >
           <View
             style={[
-              styles.avatarWrapper,
-              isReverse ? styles.avatarWrapperReverse : styles.avatarDefault,
+              styles.avatarButtonWrapper,
+              isReverse ? styles.avatarButtonWrapperReverse : styles.avatarDefault,
             ]}
           >
             <FastImage
               style={styles.avatar}
-              source={{ uri: avatar }}
+              source={this._getUserAvatar()}
               defaultSource={DEFAULT_IMAGE}
             />
           </View>
         </TouchableOpacity>
-        <View style={styles.titleWrapper}>
-          {name && <Text style={styles.title}>{name}</Text>}
-          {userName !== undefined
-            && reputation !== undefined && (
-              <Text style={styles.subTitle}>
-                @
-                {userName}
-                {`(${getReputation(reputation)})`}
-              </Text>
-          )}
-        </View>
+        {isLoggedIn ? (
+          <View style={styles.titleWrapper}>
+            <Text style={styles.title}>{this._getNameOfUser()}</Text>
+            <Text style={styles.subTitle}>
+              @
+              {currentAccount.name}
+              {`(${getReputation(currentAccount.reputation)})`}
+            </Text>
+          </View>
+        ) : (
+          <View style={styles.titleWrapper}>
+            <Text style={styles.noAuthTitle}>Log in to customize your feed</Text>
+          </View>
+        )}
         {isReverse && (
           <View style={styles.backButtonWrapper}>
             <IconButton
