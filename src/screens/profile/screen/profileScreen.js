@@ -15,6 +15,7 @@ import { Wallet } from '../../../components/wallet';
 
 // Utilitites
 import { getFormatedCreatedDate } from '../../../utils/time';
+import { getRcPower, getVotingPower } from '../../../utils/manaBar';
 
 // Styles
 import styles from './profileStyles';
@@ -49,8 +50,8 @@ class ProfileScreen extends Component {
     let fullInHourRC;
 
     if (user) {
-      votingPower = user.voting_power && user.voting_power / 100;
-      resourceCredits = user.resource_credits && user.resource_credits / 100;
+      votingPower = getVotingPower(user).toFixed(1);
+      resourceCredits = getRcPower(user).toFixed(1);
       fullInHourVP = Math.ceil((100 - votingPower) * 0.833333);
       fullInHourRC = Math.ceil((100 - resourceCredits) * 0.833333);
     }
@@ -86,8 +87,8 @@ class ProfileScreen extends Component {
               <ProfileSummary
                 percentVP={votingPower}
                 percentRC={resourceCredits}
-                hoursVP={fullInHourVP}
-                hoursRC={fullInHourRC}
+                hoursVP={fullInHourVP || null}
+                hoursRC={fullInHourRC || null}
                 location={location}
                 link={website}
                 date={getFormatedCreatedDate(user && user.created)}

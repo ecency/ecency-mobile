@@ -29,7 +29,6 @@ getClient();
 export const getAccount = user => new Promise((resolve, reject) => {
   try {
     const account = client.database.getAccounts([user]);
-
     resolve(account);
   } catch (error) {
     reject(error);
@@ -45,8 +44,10 @@ export const getUser = async (user) => {
     const account = await client.database.getAccounts([user]);
     // get global properties to calculate Steem Power
     const global_properties = await client.database.getDynamicGlobalProperties();
+    const rc_power = await client.call('rc_api', 'find_rc_accounts', { accounts: [user] });
 
-    // calculate Steem Power (own, received, delegated)
+
+    account[0].rc_manabar = rc_power.rc_accounts[0].rc_manabar;
     account[0].steem_power = vestToSteem(
       account[0].vesting_shares,
       global_properties.total_vesting_shares,

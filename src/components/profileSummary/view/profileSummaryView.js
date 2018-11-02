@@ -48,8 +48,10 @@ class ProfileSummaryView extends Component {
       followerCount,
       coverImage,
     } = this.props;
-    const votingPowerText = `Voting power: ${percentVP}% • Full in ${hoursVP} hours`;
-    const rcsPowerText = `RCs: ${percentRC}% • Full in ${hoursRC} hours`;
+    const votingPowerHoursText = hoursVP && `• Full in ${hoursVP} hours`;
+    const votingPowerText = `Voting power: ${percentVP}% ${votingPowerHoursText || ''}`;
+    const rcPowerHoursText = hoursRC && `• Full in ${hoursRC} hours`;
+    const rcPowerText = `RCs: ${percentRC}% ${rcPowerHoursText || ''}`;
 
     /* eslint-disable */
     const rowLength = location
@@ -61,7 +63,7 @@ class ProfileSummaryView extends Component {
           : null;
 
     const isColumn = rowLength && DEVICE_WIDTH / rowLength <= 15;
-    
+
     return (
       <Fragment>
         <View style={[isColumn ? styles.textWithIconWrapperColumn : styles.textWithIconWrapper]}>
@@ -91,7 +93,7 @@ class ProfileSummaryView extends Component {
             barPercentColor="#11c28b"
             textColor="#11c28b"
             isTop={false}
-            text={rcsPowerText}
+            text={rcPowerText}
           />
         </TouchableOpacity>
 
