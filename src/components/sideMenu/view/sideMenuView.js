@@ -3,11 +3,10 @@ import { View, Text } from 'react-native';
 import {
   Thumbnail, List, ListItem, Container,
 } from 'native-base';
-import Icon from 'react-native-vector-icons/FontAwesome';
 import LinearGradient from 'react-native-linear-gradient';
 
 // Components
-import { IconButton } from '../..';
+import { Icon, IconButton } from '../..';
 
 // Constants
 import { default as MENU } from '../../../constants/sideMenuItems';
@@ -129,7 +128,7 @@ class SideMenuView extends Component {
                   }
                 }}
               >
-                {item.icon && <Icon style={styles.listItemIcon} name={item.icon} />}
+                {item.icon && <Icon iconType="FontAwesome" style={styles.listItemIcon} name={item.icon} />}
                 {item.image && (
                   <Thumbnail small style={styles.otherUserAvatar} source={item.image} />
                 )}
