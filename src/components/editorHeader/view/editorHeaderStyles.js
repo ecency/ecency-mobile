@@ -14,6 +14,10 @@ export default EStyleSheet.create({
     fontSize: 24,
     color: '$iconColor',
   },
+  closeIcon: {
+    fontSize: 28,
+    color: '$iconColor',
+  },
   backWrapper: {
     flexGrow: 2,
     flexDirection: 'row',
@@ -27,6 +31,9 @@ export default EStyleSheet.create({
   },
   rightIcon: {
     color: '$iconColor',
+    justifyContent: 'center',
+    alignSelf: 'center',
+    marginRight: 10,
   },
   iconButton: {
     marginRight: 24,
@@ -52,5 +59,14 @@ export default EStyleSheet.create({
     marginLeft: 16,
     flexGrow: 1,
     fontWeight: '500',
+  },
+  textInput: {
+    color: '$iconColor',
+    alignSelf: 'center',
+    fontSize: 16,
+    marginLeft: 16,
+    flexGrow: 1,
+    fontWeight: '500',
+    width: '$deviceWidth / 1.4',
   },
 });

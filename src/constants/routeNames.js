@@ -9,6 +9,7 @@ export default {
     PINCODE: `PinCode${SCREEN_SUFFIX}`,
     POST: `Post${SCREEN_SUFFIX}`,
     PROFILE: `Profile${SCREEN_SUFFIX}`,
+    VOTERS: `Voters${SCREEN_SUFFIX}`,
     SPLASH: `Splash${SCREEN_SUFFIX}`,
     STEEM_CONNECT: `SteemConnect${SCREEN_SUFFIX}`,
   },

@@ -68,13 +68,15 @@ export const parsePosts = (posts, user) => {
     if (post && post.active_votes) {
       for (const i in post.active_votes) {
         post.is_voted = post.active_votes[i].voter === user.name && post.active_votes[i].percent > 0;
-        post.vote_perecent = post.active_votes[i].voter === user.name ? post.active_votes[i].percent  : null;
+        post.vote_perecent = post.active_votes[i].voter === user.name ? post.active_votes[i].percent : null;
         post.active_votes[i].value = (post.active_votes[i].rshares * ratio).toFixed(2);
         post.active_votes[i].reputation = getReputation(post.active_votes[i].reputation);
         post.active_votes[i].percent = post.active_votes[i].percent / 100;
         post.active_votes[i].avatar = `https://steemitimages.com/u/${
           post.active_votes[i].voter
         }/avatar/small`;
+        post.active_votes[i].created = getTimeFromNow(post.active_votes[i].time);
+        post.active_votes[i].is_down_vote = Math.sign(post.active_votes[i].percent) < 0;
       }
     }
 
@@ -107,10 +109,10 @@ export const parsePost = (post) => {
 
   const voteRshares = post.active_votes.reduce((a, b) => a + parseFloat(b.rshares), 0);
   const ratio = totalPayout / voteRshares;
-  //post.is_voted = false;
+  // post.is_voted = false;
 
   for (const i in post.active_votes) {
-   // post.is_voted = post.active_votes[i].voter === "u-e" && post.active_votes[i].percent > 0;
+    // post.is_voted = post.active_votes[i].voter === "u-e" && post.active_votes[i].percent > 0;
     post.active_votes[i].value = (post.active_votes[i].rshares * ratio).toFixed(2);
     post.active_votes[i].reputation = getReputation(post.active_votes[i].reputation);
     post.active_votes[i].avatar = `https://steemitimages.com/u/${

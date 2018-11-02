@@ -7,13 +7,13 @@ export default EStyleSheet.create({
     alignItems: 'center',
   },
   title: {
-    fontFamily: 'Sansation_Bold',
+    // fontFamily: 'Sansation_Bold',
     color: '$primaryDarkBlue',
     fontSize: 30,
     paddingBottom: 0,
   },
   subTitle: {
-    fontFamily: 'Sansation_Regular',
+    // fontFamily: 'Sansation_Regular',
     color: '#00519c',
     fontSize: 24,
   },

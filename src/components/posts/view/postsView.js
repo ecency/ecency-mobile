@@ -128,10 +128,8 @@ class PostsView extends Component {
     } = this.state;
     const {
       componentId,
-      handleOnUserPress,
       filterOptions,
       isLoginMust,
-      handleOnContentPress,
       isLoggedIn,
     } = this.props;
 
@@ -155,8 +153,6 @@ class PostsView extends Component {
                 content={item}
                 user={user}
                 isLoggedIn={isLoggedIn}
-                handleOnUserPress={handleOnUserPress}
-                handleOnContentPress={handleOnContentPress}
               />
             )}
             keyExtractor={(post, index) => index.toString()}

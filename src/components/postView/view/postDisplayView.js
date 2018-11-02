@@ -51,7 +51,11 @@ class PostDisplayView extends Component {
 
   _getTabBar = (isFixedFooter = false) => {
     const {
-      post, currentUser, handleOnReplyPress, handleOnEditPress,
+      post,
+      currentUser,
+      handleOnReplyPress,
+      handleOnEditPress,
+      handleVotersPress,
     } = this.props;
 
     return (
@@ -63,6 +67,7 @@ class PostDisplayView extends Component {
             iconStyle={styles.barIcons}
             textMarginLeft={20}
             text={post && post.vote_count}
+            onPress={() => handleVotersPress && handleVotersPress(post.active_votes)}
             iconName="ios-people"
           />
           <TextWithIcon
@@ -122,7 +127,7 @@ class PostDisplayView extends Component {
                   size={16}
                 />
                 {post && post.body && <PostBody body={post.body} />}
-                <View style={styles.footer}>
+                <View style={[styles.footer, !isPostEnd && styles.marginFooter]}>
                   <Tags tags={post.json_metadata && post.json_metadata.tags} />
                   <Text style={styles.footerText}>
                     Posted by

@@ -6,7 +6,11 @@ import { getAccount } from '../../../providers/steem/dsteem';
 
 // Actions
 import { addOtherAccount, updateCurrentAccount } from '../../../redux/actions/accountAction';
-import { activeApplication, login, openPinCodeModal } from '../../../redux/actions/applicationActions';
+import {
+  activeApplication,
+  login,
+  openPinCodeModal,
+} from '../../../redux/actions/applicationActions';
 
 // Constants
 import { default as ROUTES } from '../../../constants/routeNames';
@@ -32,14 +36,16 @@ class SplashContainer extends Component {
               dispatch(updateCurrentAccount(...accountData));
               dispatch(activeApplication());
               dispatch(login());
-              dispatch(openPinCodeModal());
+              if (__DEV__ === false) {
+                dispatch(openPinCodeModal());
+              }
               navigation.navigate(ROUTES.DRAWER.MAIN);
             });
           }
         });
       } else {
         dispatch(activeApplication());
-        navigation.navigate(ROUTES.DRAWER.MAIN);
+        navigation.navigate(ROUTES.SCREENS.LOGIN);
       }
     });
   };

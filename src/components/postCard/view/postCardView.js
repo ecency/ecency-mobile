@@ -1,11 +1,10 @@
 import React, { Component } from 'react';
 import {
-  Image, TouchableOpacity, FlatList, View, Text,
+  Image, TouchableOpacity, Text,
 } from 'react-native';
 import {
   Card, CardItem, Left, Right, Thumbnail, Icon, Body,
 } from 'native-base';
-import Modal from 'react-native-modal';
 import { PostHeaderDescription } from '../../postElements';
 
 // STEEM
@@ -23,22 +22,12 @@ class PostCard extends Component {
   constructor(props) {
     super(props);
 
-    this.state = {
-      isModalVisible: false,
-    };
+    this.state = {};
   }
 
   // Component Lifecycle Functions
 
   // Component Functions
-
-  toggleModal = () => {
-    const { isModalVisible } = this.state;
-
-    this.setState({
-      isModalVisible: !isModalVisible,
-    });
-  };
 
   _handleOnUserPress = () => {
     const { handleOnUserPress, content, user } = this.props;
@@ -54,9 +43,14 @@ class PostCard extends Component {
     handleOnContentPress(content.author, content.permlink);
   };
 
+  _handleOnVotersPress = () => {
+    const { handleOnVotersPress, content } = this.props;
+
+    handleOnVotersPress(content.active_votes);
+  };
+
   render() {
     const { content, isLoggedIn, user } = this.props;
-    const { isModalVisible } = this.state;
 
     // TODO: Should seperate bunch of component REFACTOR ME!
     return (
@@ -93,65 +87,15 @@ class PostCard extends Component {
         <CardItem>
           <Left>
             <Upvote content={content} user={user} isLoggedIn={!!user} />
-            <TouchableOpacity onPress={this.toggleModal} style={styles.payoutButton}>
+            <TouchableOpacity
+              onPress={() => this._handleOnVotersPress()}
+              style={styles.payoutButton}
+            >
               <Text style={styles.payout}>
 $
                 {content.pending_payout_value}
               </Text>
               <Icon name="md-arrow-dropdown" style={styles.payoutIcon} />
-              <Modal isVisible={isModalVisible}>
-                <View
-                  style={{
-                    flex: 0.8,
-                    backgroundColor: 'white',
-                    borderRadius: 10,
-                  }}
-                >
-                  <TouchableOpacity onPress={this.toggleModal}>
-                    <Text>Tap to close!</Text>
-                  </TouchableOpacity>
-                  <FlatList
-                    data={content.active_votes}
-                    keyExtractor={item => item.voter.toString()}
-                    renderItem={({ item }) => (
-                      <View
-                        style={{
-                          flexDirection: 'row',
-                          borderColor: 'lightgray',
-                          borderWidth: 1,
-                          borderRadius: 10,
-                        }}
-                      >
-                        <Thumbnail
-                          style={{
-                            width: 34,
-                            height: 34,
-                            borderRadius: 17,
-                            flex: 0.1,
-                          }}
-                          source={{
-                            uri: item.avatar,
-                          }}
-                        />
-                        <Text style={{ flex: 0.5 }}>
-                          {item.voter}
-(
-                          {item.reputation}
-)
-                        </Text>
-                        <Text style={{ flex: 0.2 }}>
-                          {item.value}
-$
-                        </Text>
-                        <Text style={{ flex: 0.2 }}>
-                          {item.percent}
-%
-                        </Text>
-                      </View>
-                    )}
-                  />
-                </View>
-              </Modal>
             </TouchableOpacity>
           </Left>
           <Right>
@@ -162,38 +106,43 @@ $
           </Right>
         </CardItem>
         {content.top_likers ? (
-          <CardItem style={styles.topLikers}>
-            <Thumbnail
-              source={{
-                uri: `https://steemitimages.com/u/${content.top_likers[0]}/avatar/small`,
-              }}
-              style={styles.likers_1}
-            />
-            <Thumbnail
-              source={{
-                uri: `https://steemitimages.com/u/${content.top_likers[1]}/avatar/small`,
-              }}
-              style={styles.likers_2}
-            />
-            <Thumbnail
-              source={{
-                uri: `https://steemitimages.com/u/${content.top_likers[2]}/avatar/small`,
-              }}
-              style={styles.likers_3}
-            />
-            <Text style={styles.footer}>
-              @
-              {content.top_likers[0]}
-, @
-              {content.top_likers[1]}
-, @
-              {content.top_likers[2]}
-              <Text style={styles.footer}> & </Text>
-              {content.vote_count - content.top_likers.length}
-              {' '}
-others like this
-            </Text>
-          </CardItem>
+          <TouchableOpacity
+            onPress={() => this._handleOnVotersPress()}
+          >
+            <CardItem style={styles.topLikers}>
+              <Thumbnail
+                source={{
+                  uri: `https://steemitimages.com/u/${content.top_likers[0]}/avatar/small`,
+                }}
+                style={styles.likers_1}
+              />
+              <Thumbnail
+                source={{
+                  uri: `https://steemitimages.com/u/${content.top_likers[1]}/avatar/small`,
+                }}
+                style={styles.likers_2}
+              />
+              <Thumbnail
+                source={{
+                  uri: `https://steemitimages.com/u/${content.top_likers[2]}/avatar/small`,
+                }}
+                style={styles.likers_3}
+              />
+              <Text style={styles.footer}>
+                @
+                {content.top_likers[0]}
+  , @
+                {content.top_likers[1]}
+  , @
+                {content.top_likers[2]}
+                <Text style={styles.footer}> & </Text>
+                {content.vote_count - content.top_likers.length}
+                {' '}
+  others like this
+              </Text>
+            </CardItem>
+          </TouchableOpacity>
+
         ) : (
           <CardItem>
             <Text style={styles.footer}>
