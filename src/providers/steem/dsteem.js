@@ -29,10 +29,7 @@ getClient();
 export const getAccount = user => new Promise((resolve, reject) => {
   try {
     const account = client.database.getAccounts([user]);
-    // const about = account[0].json_metadata && JSON.parse(account[0].json_metadata);
-    // console.log(account[0]);
-    console.log('dsteem');
-    // account[0].about = about;
+
     resolve(account);
   } catch (error) {
     reject(error);

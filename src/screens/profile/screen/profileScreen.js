@@ -54,7 +54,6 @@ class ProfileScreen extends Component {
       fullInHourVP = Math.ceil((100 - votingPower) * 0.833333);
       fullInHourRC = Math.ceil((100 - resourceCredits) * 0.833333);
     }
-    console.log(user);
 
     if (about) {
       _about = about.about;

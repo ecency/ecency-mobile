@@ -1,4 +1,5 @@
 import React, { Component, Fragment } from 'react';
+import { connect } from 'react-redux';
 
 // Components
 import { ProfileScreen } from '..';
@@ -141,45 +142,30 @@ class ProfileContainer extends Component {
   // };
 
   async _loadProfile(selectedUser = null) {
-    // TODO: use from redux store.
-    let isLoggedIn;
-    let userData;
+    const { currentAccount, isLoggedIn } = this.props;
     let username;
-
-    await getAuthStatus().then((res) => {
-      isLoggedIn = res;
-    });
 
     if (selectedUser) {
       username = selectedUser.username;
       this.setState({ isReverseHeader: true });
     } else if (isLoggedIn) {
-      await getUserData().then((res) => {
-        userData = Array.from(res)[0];
-      });
-
-      username = userData.username;
+      username = currentAccount.name;
     }
 
     let user;
     let follows;
-    let about;
 
     await getFollows(username).then((res) => {
       follows = res;
     });
 
-    user = await getUser(username);
-
-    about = user.json_metadata && JSON.parse(user.json_metadata);
+    user = selectedUser ? await getUser(username) : currentAccount;
 
     this.setState(
       {
         user,
-        isLoggedIn,
         follows,
         username,
-        about: about && about.profile,
       },
       () => {
         this._getComments(username);
@@ -189,7 +175,6 @@ class ProfileContainer extends Component {
 
   render() {
     const {
-      about,
       comments,
       follows,
       isReverseHeader,
@@ -204,7 +189,7 @@ class ProfileContainer extends Component {
       <Fragment>
         <ProfileScreen
           isReady={isReady}
-          about={about}
+          about={user && user.about && user.about.profile}
           isReverseHeader={isReverseHeader}
           comments={comments}
           follows={follows}
@@ -219,4 +204,9 @@ class ProfileContainer extends Component {
   }
 }
 
-export default ProfileContainer;
+const mapStateToProps = state => ({
+  isLoggedIn: state.application.isLoggedIn,
+  currentAccount: state.account.currentAccount,
+});
+
+export default connect(mapStateToProps)(ProfileContainer);
