@@ -16,6 +16,7 @@ import { Wallet } from '../../../components/wallet';
 // Utilitites
 import { getFormatedCreatedDate } from '../../../utils/time';
 import { getRcPower, getVotingPower } from '../../../utils/manaBar';
+import parseToken from '../../../utils/parseToken';
 
 // Styles
 import styles from './profileStyles';
@@ -143,7 +144,9 @@ class ProfileScreen extends Component {
                 />
               )}
             </View>
-            <View tabLabel={user && user.balance ? `$${user && user.balance}` : 'Wallet'}>
+            <View
+              tabLabel={user && user.balance ? `$${user && parseToken(user.balance)}` : 'Wallet'}
+            >
               <Wallet user={user} />
             </View>
           </ScrollableTabView>

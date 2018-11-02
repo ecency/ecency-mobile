@@ -10,9 +10,10 @@ import Tag from './view/tagView';
 import TextWithIcon from './view/textWithIconView';
 import WalletLineItem from './view/walletLineItemView';
 import StickyBar from './view/stickyBarView';
+import Card from './view/cardView';
 
 export {
-  // Card,
+  Card,
   StickyBar,
   Chip,
   GrayWrapper,
