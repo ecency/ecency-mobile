@@ -18,11 +18,14 @@ export default EStyleSheet.create({
     flexDirection: 'row',
   },
   scroll: {
-    height: '$deviceHeight / 1.135',
+    height: '$deviceHeight / 1.113',
   },
   footer: {
     flexDirection: 'column',
     marginTop: 19,
+    marginBottom: 10,
+  },
+  marginFooter: {
     marginBottom: 50,
   },
   footerText: {
@@ -39,7 +42,6 @@ export default EStyleSheet.create({
     flexDirection: 'row',
     paddingHorizontal: 16,
     width: '$deviceWidth',
-    marginBottom: 5,
     alignItems: 'center',
     alignSelf: 'center',
     justifyContent: 'center',

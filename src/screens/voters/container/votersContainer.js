@@ -1,7 +1,15 @@
 import React, { Component } from 'react';
 
+// Services and Actions
+
+// Middleware
+
+// Constants
+
+// Utilities
+
 // Component
-import { PostsView } from '..';
+import { VotersScreen } from '..';
 
 /*
   *            Props Name        Description                                     Value
@@ -9,7 +17,7 @@ import { PostsView } from '..';
   *
   */
 
-class PostsContainer extends Component {
+class VotersContainer extends Component {
   constructor(props) {
     super(props);
     this.state = {};
@@ -20,8 +28,11 @@ class PostsContainer extends Component {
   // Component Functions
 
   render() {
-    return <PostsView {...this.props} />;
+    const { navigation } = this.props;
+    const activeVotes = navigation.state && navigation.state.params && navigation.state.params.activeVotes;
+
+    return <VotersScreen votes={activeVotes} {...this.props} />;
   }
 }
 
-export default PostsContainer;
+export default VotersContainer;

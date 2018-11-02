@@ -42,7 +42,7 @@ const RootContainer = () => (WrappedComponent) => {
       const { appState } = this.state;
       const { dispatch } = this.props;
 
-      if (appState.match(/inactive|background/) && nextAppState === 'active') {
+      if (appState.match(/inactive|background/) && nextAppState === 'active' && __DEV__ === false) {
         dispatch(openPinCodeModal());
       }
       this.setState({ appState: nextAppState });

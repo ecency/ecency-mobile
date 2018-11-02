@@ -1,5 +1,7 @@
 import React, { Component, Fragment } from 'react';
-import { View, SafeAreaView, Text } from 'react-native';
+import {
+  View, SafeAreaView, Text, TextInput,
+} from 'react-native';
 import { TextButton } from '../..';
 import { IconButton } from '../../iconButton';
 // Constants
@@ -19,7 +21,9 @@ class EditorHeaderView extends Component {
 
   constructor(props) {
     super(props);
-    this.state = {};
+    this.state = {
+      isInputVisible: false,
+    };
   }
 
   // Component Life Cycles
@@ -36,6 +40,20 @@ class EditorHeaderView extends Component {
 
   _handleOnDropdownSelect = () => {};
 
+  _handleSearchButtonPress = () => {
+    const { isInputVisible } = this.state;
+
+    this.setState({ isInputVisible: !isInputVisible });
+  };
+
+  _handleOnSearch = (value) => {
+    const { handleOnSearch } = this.props;
+
+    handleOnSearch(value);
+  };
+
+  _handleOnInputChange = () => {};
+
   render() {
     const {
       handleOnPressBackButton,
@@ -45,22 +63,29 @@ class EditorHeaderView extends Component {
       isFormValid,
       title,
       isHasIcons,
+      rightIconName,
       isHasDropdown,
+      handleRightIconPress,
+      isModalHeader,
+      handleOnPressClose,
+      isHasSearch,
     } = this.props;
-
+    const { isInputVisible } = this.state;
     return (
       <SafeAreaView>
         <View style={styles.container}>
           <View style={styles.backWrapper}>
             <IconButton
-              iconStyle={styles.backIcon}
-              name="md-arrow-back"
-              onPress={() => handleOnPressBackButton()}
+              iconStyle={[styles.backIcon, isModalHeader && styles.closeIcon]}
+              iconType={isModalHeader && 'FontAwesome'}
+              name={isModalHeader ? 'close' : 'md-arrow-back'}
+              onPress={() => (isModalHeader ? handleOnPressClose() : handleOnPressBackButton())}
             />
-
-            <Text style={[title && styles.title, quickTitle && styles.quickTitle]}>
-              {quickTitle || title}
-            </Text>
+            {!isInputVisible && (
+              <Text style={[title && styles.title, quickTitle && styles.quickTitle]}>
+                {quickTitle || title}
+              </Text>
+            )}
 
             {isHasDropdown && (
               <View>
@@ -71,6 +96,36 @@ class EditorHeaderView extends Component {
                   onSelect={this._handleOnDropdownSelect}
                 />
               </View>
+            )}
+
+            {rightIconName
+              && !isHasSearch && (
+                <IconButton
+                  style={styles.rightIcon}
+                  size={25}
+                  onPress={() => handleRightIconPress()}
+                  iconStyle={styles.rightIcon}
+                  name={rightIconName}
+                />
+            )}
+
+            {isInputVisible && (
+              <TextInput
+                onChangeText={value => this._handleOnSearch(value)}
+                autoFocus
+                placeholder="Search"
+                style={styles.textInput}
+              />
+            )}
+
+            {isHasSearch && (
+              <IconButton
+                style={styles.rightIcon}
+                size={25}
+                onPress={() => this._handleSearchButtonPress()}
+                iconStyle={styles.rightIcon}
+                name={rightIconName}
+              />
             )}
           </View>
 

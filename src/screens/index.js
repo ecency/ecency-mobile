@@ -1,4 +1,5 @@
 import PinCode from './pinCode';
+import RootComponent from './root';
 import Splash from './splash';
 import SteemConnect from './steem-connect/steemConnect';
 import { Editor } from './editor';
@@ -7,7 +8,7 @@ import { Login } from './login';
 import { Notification } from './notification';
 import { Post } from './post';
 import { Profile } from './profile';
-import RootComponent from './root';
+import { Voters } from './voters';
 
 // import Author from './authorProfile';
 // import SideMenu from './sideMenuScreen';
@@ -27,11 +28,12 @@ export {
   Login,
   Notification,
   PinCode,
-  Profile,
-  SteemConnect,
-  Splash,
   Post,
+  Profile,
   RootComponent,
+  Splash,
+  SteemConnect,
+  Voters,
   // Author,
   // SideMenu,
   // Hot,
