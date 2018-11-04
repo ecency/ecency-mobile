@@ -1,6 +1,6 @@
 import React, { Component, Fragment } from 'react';
 import {
-  View, Image, Text, TouchableOpacity, Dimensions,
+  View, Image, Text, TouchableOpacity, Dimensions, ActivityIndicator,
 } from 'react-native';
 import { DropdownButton } from '../../dropdownButton';
 
@@ -11,8 +11,8 @@ import DEFAULT_IMAGE from '../../../assets/default_cover_image.png';
 import { TextWithIcon } from '../../basicUIElements';
 import { PercentBar } from '../../percentBar';
 import { IconButton } from '../../iconButton';
+
 // Styles
-// eslint-disable-next-line
 import styles from './profileSummaryStyles';
 
 const DEVICE_WIDTH = Dimensions.get('window').width;
@@ -47,6 +47,10 @@ class ProfileSummaryView extends Component {
       followingCount,
       followerCount,
       coverImage,
+      isFollowing,
+      isFavorite,
+      isFollowLoading,
+      handleFollowUnfollowUser,
     } = this.props;
     const votingPowerHoursText = hoursVP && `• Full in ${hoursVP} hours`;
     const votingPowerText = `Voting power: ${percentVP}% ${votingPowerHoursText || ''}`;
@@ -63,6 +67,7 @@ class ProfileSummaryView extends Component {
           : null;
 
     const isColumn = rowLength && DEVICE_WIDTH / rowLength <= 15;
+    const followButtonIcon = !isFollowing ? 'user-follow' : 'user-unfollow';
 
     return (
       <Fragment>
@@ -111,18 +116,24 @@ class ProfileSummaryView extends Component {
           <View style={styles.rightIcons}>
             <IconButton
               backgroundColor="transparent"
-              name="ios-heart"
+              name="heart"
+              iconType="SimpleLineIcons"
               size={16}
-              style={styles.insetIconStyle}
-              color="#c1c5c7"
+              style={[styles.insetIconStyle]}
             />
-            <IconButton
-              backgroundColor="transparent"
-              name="md-person-add"
-              size={16}
-              style={styles.insetIconStyle}
-              color="#c1c5c7"
-            />
+            {isFollowLoading ? (
+              <ActivityIndicator style={styles.insetIconStyle} />
+            ) : (
+              <IconButton
+                backgroundColor="transparent"
+                name={followButtonIcon}
+                iconType="SimpleLineIcons"
+                onPress={() => handleFollowUnfollowUser(isFollowing ? false : true)}
+                size={16}
+                style={styles.insetIconStyle}
+                color="#c1c5c7"
+              />
+            )}
             <DropdownButton
               style={styles.insetIconStyle}
               options={['option1', 'option2', 'option3', 'option4']}

@@ -33,6 +33,9 @@ class SplashContainer extends Component {
               dispatch(addOtherAccount({ username: accountData.username }));
             });
             getUser(response[response.length - 1].username).then((accountData) => {
+              const realmObject = response[response.length - 1];
+              accountData.realm_object = realmObject;
+
               dispatch(updateCurrentAccount(accountData));
               dispatch(activeApplication());
               dispatch(login());

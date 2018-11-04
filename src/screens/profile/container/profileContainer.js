@@ -9,27 +9,28 @@ import {
   followUser,
   unfollowUser,
   getFollows,
-  getPosts,
   getUserComments,
   getUser,
   isFolllowing,
+  getFollowing,
 } from '../../../providers/steem/dsteem';
-import { getUserData, getAuthStatus } from '../../../realm/realm';
+import { getUserData } from '../../../realm/realm';
+import { decryptKey } from '../../../utils/crypto';
 
 class ProfileContainer extends Component {
   constructor(props) {
     super(props);
     this.state = {
       user: null,
-      currentUser: null,
       comments: [],
       replies: [],
-      about: {},
       follows: {},
       isLoggedIn: false,
       isLoading: false,
       isReverseHeader: false,
       isReady: false,
+      isFollowing: false,
+      isFollowLoading: false,
     };
   }
 
@@ -37,7 +38,7 @@ class ProfileContainer extends Component {
     const { navigation } = this.props;
     const selectedUser = navigation.state && navigation.state.params;
 
-    this._loadProfile(selectedUser);
+    this._loadProfile(selectedUser && selectedUser.username);
   }
 
   componentWillReceiveProps(nextProps) {
@@ -49,7 +50,7 @@ class ProfileContainer extends Component {
     if (isParamsChange) {
       const selectedUser = nextProps.navigation.state && nextProps.navigation.state.params;
 
-      this._loadProfile(selectedUser);
+      this._loadProfile(selectedUser && selectedUser.username);
     }
   }
 
@@ -68,135 +69,138 @@ class ProfileContainer extends Component {
       });
   };
 
-  // _unfollow = async () => {
-  //   let userData;
-  //   let privateKey;
+  _handleFollowUnfollowUser = (isFollowAction) => {
+    const { username, isFollowing } = this.state;
+    const { currentAccount } = this.props;
 
-  //   await this.setState({
-  //     follow_loader: true,
-  //   });
+    const privateKey = decryptKey(currentAccount.realm_object.postingKey, '1234');
 
-  //   await getUserData().then((result) => {
-  //     userData = Array.from(result);
-  //   });
+    this.setState({
+      isFollowLoading: true,
+    });
 
-  //   console.log(userData);
-  //   privateKey = decryptKey(userData[0].postingKey, '1234');
+    if (isFollowAction && !isFollowing) {
+      this._followUser(currentAccount.name, username, privateKey);
+    } else {
+      this._unfollowUser(currentAccount.name, username, privateKey);
+    }
+  };
 
-  //   unfollowUser(
-  //     {
-  //       follower: userData[0].username,
-  //       following: this.state.author.name,
-  //     },
-  //     privateKey,
-  //   )
-  //     .then((result) => {
-  //       this.setState({
-  //         follow_loader: false,
-  //         isFolllowing: false,
-  //       });
-  //     })
-  //     .catch((err) => {
-  //       this.setState({
-  //         follow_loader: false,
-  //       });
-  //     });
-  // };
+  _unfollowUser = (follower, following, privateKey) => {
+    unfollowUser(
+      {
+        follower,
+        following,
+      },
+      privateKey,
+    )
+      .then((result) => {
+        this._followActionDone();
+      })
+      .catch((err) => {
+        this._followActionDone(err);
+      });
+  };
 
-  // _follow = async () => {
-  //   let userData;
-  //   let privateKey;
+  _followUser = (follower, following, privateKey) => {
+    followUser(
+      {
+        follower,
+        following,
+      },
+      privateKey,
+    )
+      .then((result) => {
+        this._followActionDone();
+      })
+      .catch((err) => {
+        this._followActionDone(err);
+      });
+  };
 
-  //   await this.setState({
-  //     follow_loader: true,
-  //   });
+  _followActionDone = (error = null) => {
+    this.setState({
+      isFollowLoading: false,
+    });
 
-  //   await getUserData().then((result) => {
-  //     userData = Array.from(result);
-  //   });
+    if (error) {
+      this.setState({
+        error,
+      });
+    } else {
+      this._loadProfile();
+    }
+  };
 
-  //   console.log(userData);
-  //   privateKey = decryptKey(userData[0].postingKey, '1234');
-
-  //   followUser(
-  //     {
-  //       follower: userData[0].username,
-  //       following: this.state.author.name,
-  //     },
-  //     privateKey,
-  //   )
-  //     .then((result) => {
-  //       console.log(result);
-  //       this.setState({
-  //         follow_loader: false,
-  //         isFolllowing: true,
-  //       });
-  //     })
-  //     .catch((err) => {
-  //       console.log(err);
-  //       this.setState({
-  //         follow_loader: false,
-  //         isFolllowing: false,
-  //       });
-  //     });
-  // };
-
-  async _loadProfile(selectedUser = null) {
-    const { currentAccount, isLoggedIn } = this.props;
+  _loadProfile = async (selectedUser = null) => {
     let username;
+    const { currentAccount, isLoggedIn } = this.props;
+    const { username: _username } = this.state;
+    const _selectedUser = selectedUser || _username;
+    const _isFollowing = await isFolllowing(
+      _selectedUser.username || _username,
+      currentAccount.name,
+    );
 
-    if (selectedUser) {
-      username = selectedUser.username;
+    if (_selectedUser) {
+      username = selectedUser ? selectedUser : _selectedUser;
       this.setState({ isReverseHeader: true });
     } else if (isLoggedIn) {
       username = currentAccount.name;
     }
 
-    let user;
     let follows;
 
     await getFollows(username).then((res) => {
       follows = res;
     });
 
-    user = selectedUser ? await getUser(username) : currentAccount;
+    const user = _selectedUser ? await getUser(username) : currentAccount;
 
     this.setState(
       {
         user,
         follows,
         username,
+        isFollowing: _isFollowing,
       },
       () => {
         this._getComments(username);
       },
     );
-  }
+  };
 
   render() {
     const {
       comments,
+      error,
       follows,
-      isReverseHeader,
+      isFollowLoading,
+      isFollowing,
       isLoading,
       isLoggedIn,
-      user,
       isReady,
+      isReverseHeader,
+      user,
       username,
     } = this.state;
 
     return (
       <Fragment>
         <ProfileScreen
-          isReady={isReady}
           about={user && user.about && user.about.profile}
-          isReverseHeader={isReverseHeader}
           comments={comments}
+          error={error}
           follows={follows}
+          handleFollowUnfollowUser={this._handleFollowUnfollowUser}
+          isFollowLoading={isFollowLoading}
+          isFollowing={isFollowing}
           isLoading={isLoading}
           isLoggedIn={isLoggedIn}
-          username={username}
+          isReady={isReady}
+          isReverseHeader={isReverseHeader}
           user={user}
+          username={username}
           {...this.props}
         />
       </Fragment>

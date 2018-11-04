@@ -32,12 +32,15 @@ class ProfileScreen extends Component {
       about,
       comments,
       follows,
+      handleFollowUnfollowUser,
       isLoading,
       isLoggedIn,
       isReverseHeader,
       user,
       isReady,
       username,
+      isFollowing,
+      isFollowLoading,
     } = this.props;
     let _about;
     let avatar;
@@ -86,7 +89,10 @@ class ProfileScreen extends Component {
               locked={!isLoggedIn}
             >
               <ProfileSummary
+                isFollowing={isFollowing}
                 percentVP={votingPower}
+                isFollowLoading={isFollowLoading}
+                handleFollowUnfollowUser={handleFollowUnfollowUser}
                 percentRC={resourceCredits}
                 hoursVP={fullInHourVP || null}
                 hoursRC={fullInHourRC || null}
