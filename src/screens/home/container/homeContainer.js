@@ -1,4 +1,5 @@
 import React, { Component } from 'react';
+import { connect } from 'react-redux';
 
 // Services and Actions
 
@@ -32,4 +33,9 @@ class HomeContainer extends Component {
   }
 }
 
-export default HomeContainer;
+const mapStateToProps = state => ({
+  isLoggedIn: state.application.isLoggedIn,
+  currentAccount: state.account.currentAccount,
+});
+
+export default connect(mapStateToProps)(HomeContainer);

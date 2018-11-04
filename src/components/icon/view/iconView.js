@@ -6,6 +6,7 @@ import MaterialCommunityIcons from 'react-native-vector-icons/MaterialCommunityI
 import SimpleLineIcons from 'react-native-vector-icons/SimpleLineIcons';
 import FontAwesome from 'react-native-vector-icons/FontAwesome';
 import Feather from 'react-native-vector-icons/Feather';
+import AntDesign from 'react-native-vector-icons/AntDesign';
 
 class IconView extends Component {
   constructor(props) {
@@ -41,6 +42,8 @@ class IconView extends Component {
         return <FontAwesome {...this.props} />;
       case 'SimpleLineIcons':
         return <SimpleLineIcons {...this.props}>{children}</SimpleLineIcons>;
+      case 'AntDesign':
+        return <AntDesign {...this.props}>{children}</AntDesign>;
       case 'MaterialCommunityIcons':
         return (
           <MaterialCommunityIcons name={name} {...this.props}>

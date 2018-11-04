@@ -15,6 +15,8 @@ import { Wallet } from '../../../components/wallet';
 
 // Utilitites
 import { getFormatedCreatedDate } from '../../../utils/time';
+import { getRcPower, getVotingPower } from '../../../utils/manaBar';
+import parseToken from '../../../utils/parseToken';
 
 // Styles
 import styles from './profileStyles';
@@ -30,12 +32,15 @@ class ProfileScreen extends Component {
       about,
       comments,
       follows,
+      handleFollowUnfollowUser,
       isLoading,
       isLoggedIn,
       isReverseHeader,
       user,
       isReady,
       username,
+      isFollowing,
+      isFollowLoading,
     } = this.props;
     let _about;
     let avatar;
@@ -49,8 +54,8 @@ class ProfileScreen extends Component {
     let fullInHourRC;
 
     if (user) {
-      votingPower = user.voting_power && user.voting_power / 100;
-      resourceCredits = user.resource_credits && user.resource_credits / 100;
+      votingPower = getVotingPower(user).toFixed(1);
+      resourceCredits = getRcPower(user).toFixed(1);
       fullInHourVP = Math.ceil((100 - votingPower) * 0.833333);
       fullInHourRC = Math.ceil((100 - resourceCredits) * 0.833333);
     }
@@ -81,10 +86,13 @@ class ProfileScreen extends Component {
               locked={!isLoggedIn}
             >
               <ProfileSummary
+                isFollowing={isFollowing}
                 percentVP={votingPower}
+                isFollowLoading={isFollowLoading}
+                handleFollowUnfollowUser={handleFollowUnfollowUser}
                 percentRC={resourceCredits}
-                hoursVP={fullInHourVP}
-                hoursRC={fullInHourRC}
+                hoursVP={fullInHourVP || null}
+                hoursRC={fullInHourRC || null}
                 location={location}
                 link={website}
                 date={getFormatedCreatedDate(user && user.created)}
@@ -139,7 +147,9 @@ class ProfileScreen extends Component {
                 />
               )}
             </View>
-            <View tabLabel={user && user.balance ? `$${user && user.balance}` : 'Wallet'}>
+            <View
+              tabLabel={user && user.balance ? `$${user && parseToken(user.balance)}` : 'Wallet'}
+            >
               <Wallet user={user} />
             </View>
           </ScrollableTabView>
