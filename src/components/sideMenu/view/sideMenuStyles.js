@@ -28,7 +28,7 @@ export default EStyleSheet.create({
     marginLeft: -15,
   },
   userInfoView: {
-    alignSelf: 'flex-end',
+    alignSelf: 'center',
     marginLeft: 15,
   },
   username: {

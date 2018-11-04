@@ -3,12 +3,8 @@ import {
   View, StatusBar, Text, SafeAreaView, TouchableOpacity,
 } from 'react-native';
 import FastImage from 'react-native-fast-image';
-import LinearGradient from 'react-native-linear-gradient';
-
-// Constants
 
 // Utils
-
 import { getReputation } from '../../../utils/user';
 
 // Components
@@ -35,51 +31,70 @@ class HeaderView extends Component {
 
   // Component Functions
 
+  _getNameOfUser = () => {
+    const { currentAccount } = this.props;
+    if (Object.keys(currentAccount).length === 0) return '';
+    const jsonMetadata = JSON.parse(currentAccount.json_metadata);
+    if (Object.keys(jsonMetadata).length !== 0) {
+      return jsonMetadata.profile.name;
+    }
+    return currentAccount.name;
+  };
+
+  _getUserAvatar = () => {
+    const { currentAccount } = this.props;
+    if (Object.keys(currentAccount).length === 0) return DEFAULT_IMAGE;
+    const jsonMetadata = JSON.parse(currentAccount.json_metadata);
+    if (Object.keys(jsonMetadata).length !== 0) {
+      return { uri: jsonMetadata.profile.profile_image };
+    }
+    return DEFAULT_IMAGE;
+  };
+
   render() {
     const {
-      avatar,
       handleOpenDrawer,
       handleOnPressBackButton,
       hideStatusBar,
-      userName,
       isReverse,
-      name,
-      reputation,
+      currentAccount,
+      isLoggedIn,
     } = this.props;
 
     return (
       <SafeAreaView style={[styles.container, isReverse && styles.containerReverse]}>
         <StatusBar hidden={hideStatusBar} translucent />
-        <LinearGradient
-          start={{ x: 0, y: 0 }}
-          end={{ x: 1, y: 0 }}
-          colors={isReverse ? ['#357ce6', '#2d5aa0'] : ['#2d5aa0', '#357ce6']}
-          style={[
-            styles.avatarWrapper,
-            isReverse ? styles.avatarWrapperReverse : styles.avatarDefault,
-          ]}
+        <TouchableOpacity
+          style={styles.avatarWrapper}
+          onPress={() => !isReverse && handleOpenDrawer()}
         >
-          <TouchableOpacity onPress={() => !isReverse && handleOpenDrawer()}>
-            <View>
-              <FastImage
-                style={styles.avatar}
-                source={{ uri: avatar }}
-                defaultSource={DEFAULT_IMAGE}
-              />
-            </View>
-          </TouchableOpacity>
-        </LinearGradient>
-        <View style={styles.titleWrapper}>
-          {name && <Text style={styles.title}>{name}</Text>}
-          {userName !== undefined
-            && reputation !== undefined && (
-              <Text style={styles.subTitle}>
-                @
-                {userName}
-                {`(${getReputation(reputation)})`}
-              </Text>
-          )}
-        </View>
+          <View
+            style={[
+              styles.avatarButtonWrapper,
+              isReverse ? styles.avatarButtonWrapperReverse : styles.avatarDefault,
+            ]}
+          >
+            <FastImage
+              style={styles.avatar}
+              source={this._getUserAvatar()}
+              defaultSource={DEFAULT_IMAGE}
+            />
+          </View>
+        </TouchableOpacity>
+        {isLoggedIn ? (
+          <View style={styles.titleWrapper}>
+            <Text style={styles.title}>{this._getNameOfUser()}</Text>
+            <Text style={styles.subTitle}>
+              @
+              {currentAccount.name}
+              {`(${getReputation(currentAccount.reputation)})`}
+            </Text>
+          </View>
+        ) : (
+          <View style={styles.titleWrapper}>
+            <Text style={styles.noAuthTitle}>Log in to customize your feed</Text>
+          </View>
+        )}
         {isReverse && (
           <View style={styles.backButtonWrapper}>
             <IconButton

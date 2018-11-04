@@ -42,13 +42,7 @@ export default class HomeScreen extends PureComponent {
 
     return (
       <Fragment>
-        <Header
-          userName={currentAccount && currentAccount.name}
-          reputation={currentAccount && currentAccount.reputation}
-          avatar={
-            currentAccount && currentAccount.about && currentAccount.about.profile.profile_image
-          }
-        />
+        <Header />
         <View style={styles.root} key="overlay">
           <ScrollableTabView
             style={styles.tabView}

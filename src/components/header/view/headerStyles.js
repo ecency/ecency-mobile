@@ -13,11 +13,14 @@ export default EStyleSheet.create({
     justifyContent: 'space-between',
     flexDirection: 'row-reverse',
   },
-  avatarWrapperReverse: {
+  avatarWrapper: {
+    justifyContent: 'center',
+  },
+  avatarButtonWrapperReverse: {
     borderTopLeftRadius: 68 / 2,
     borderBottomLeftRadius: 68 / 2,
   },
-  avatarWrapper: {
+  avatarButtonWrapper: {
     backgroundColor: '#357ce6',
     height: 50,
     width: 68,
@@ -37,6 +40,10 @@ export default EStyleSheet.create({
     fontSize: 14,
     fontWeight: 'bold',
     color: '$primaryDarkGray',
+  },
+  noAuthTitle: {
+    fontSize: 14,
+    color: '$iconColor',
   },
   subTitle: {
     color: '$primaryDarkGray',

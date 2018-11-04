@@ -71,11 +71,8 @@ class ProfileScreen extends Component {
     return (
       <Fragment>
         <Header
-          name={name}
-          avatar={avatar}
+          user={user}
           isReverse={isReverseHeader}
-          userName={user && user.name}
-          reputation={user && user.reputation}
         />
         <View style={styles.container}>
           {!isReady ? (

@@ -50,7 +50,7 @@ class SplashContainer extends Component {
         });
       } else {
         dispatch(activeApplication());
-        navigation.navigate(ROUTES.SCREENS.LOGIN);
+        navigation.navigate(ROUTES.DRAWER.MAIN);
       }
     });
   };
