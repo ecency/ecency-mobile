@@ -32,7 +32,7 @@ class IconView extends Component {
   };
 
   _getIcon = () => {
-    const { iconType } = this.props;
+    const { iconType, children } = this.props;
     const name = this._getIconName();
 
     switch (iconType) {
@@ -41,13 +41,13 @@ class IconView extends Component {
       case 'FontAwesome':
         return <FontAwesome {...this.props} />;
       case 'SimpleLineIcons':
-        return <SimpleLineIcons {...this.props}>{this.props.children}</SimpleLineIcons>;
+        return <SimpleLineIcons {...this.props}>{children}</SimpleLineIcons>;
       case 'AntDesign':
-        return <AntDesign {...this.props}>{this.props.children}</AntDesign>;
+        return <AntDesign {...this.props}>{children}</AntDesign>;
       case 'MaterialCommunityIcons':
         return (
           <MaterialCommunityIcons name={name} {...this.props}>
-            {this.props.children}
+            {children}
           </MaterialCommunityIcons>
         );
       default:

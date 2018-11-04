@@ -1,10 +1,8 @@
 import React, { PureComponent, Fragment } from 'react';
-import { Text, View } from 'react-native';
+import { View } from 'react-native';
 import ScrollableTabView from '@esteemapp/react-native-scrollable-tab-view';
 
 // STEEM
-import { getUserData, getAuthStatus } from '../../../realm/realm';
-import { getUser } from '../../../providers/steem/dsteem';
 
 // Components
 import { TabBar } from '../../../components/tabBar';

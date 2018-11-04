@@ -104,7 +104,7 @@ class AuthorScreen extends Component {
     let user;
 
     await getAuthStatus().then((res) => {
-      isLoggedIn = res;
+      isLoggedIn = res.isLoggedIn;
     });
 
     if (isLoggedIn) {

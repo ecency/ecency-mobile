@@ -24,6 +24,9 @@ export default EStyleSheet.create({
   userAvatar: {
     marginLeft: '$deviceWidth / 10',
   },
+  otherUserAvatar: {
+    marginLeft: -15,
+  },
   userInfoView: {
     alignSelf: 'flex-end',
     marginLeft: 15,
@@ -70,5 +73,8 @@ export default EStyleSheet.create({
     justifyContent: 'center',
     flex: 1,
     flexDirection: 'row',
+  },
+  addAccountIcon: {
+    padding: 10,
   },
 });

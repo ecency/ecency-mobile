@@ -2,7 +2,7 @@ import { getUserData, getAuthStatus } from '../realm/realm';
 
 export const getUserIsLoggedIn = () => {
   getAuthStatus()
-    .then(res => res)
+    .then(res => res.isLoggedIn)
     .catch(() => null);
 };
 

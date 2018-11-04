@@ -26,11 +26,13 @@ class SplashContainer extends Component {
     const { navigation, dispatch } = this.props;
 
     getAuthStatus().then((res) => {
-      if (res) {
+      if (res.isLoggedIn) {
         getUserData().then((response) => {
           if (response.length > 0) {
             response.forEach((accountData) => {
-              dispatch(addOtherAccount({ username: accountData.username }));
+              dispatch(
+                addOtherAccount({ username: accountData.username, avatar: accountData.avatar }),
+              );
             });
             getUser(response[response.length - 1].username).then((accountData) => {
               const realmObject = response[response.length - 1];

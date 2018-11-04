@@ -60,7 +60,7 @@ class PostContainer extends Component {
     let isLoggedIn;
 
     await getAuthStatus().then((res) => {
-      isLoggedIn = res;
+      isLoggedIn = res.isLoggedIn;
     });
 
     if (isLoggedIn) {
