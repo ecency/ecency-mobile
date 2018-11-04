@@ -26,6 +26,7 @@ class WalletDetailsView extends Component {
 
   render() {
     const { balance } = this.props;
+
     return (
       <View>
         <WalletLineItem

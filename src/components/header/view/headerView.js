@@ -3,6 +3,8 @@ import {
   View, StatusBar, Text, SafeAreaView, TouchableOpacity,
 } from 'react-native';
 import FastImage from 'react-native-fast-image';
+import LinearGradient from 'react-native-linear-gradient';
+
 // Constants
 
 // Utils
@@ -48,20 +50,25 @@ class HeaderView extends Component {
     return (
       <SafeAreaView style={[styles.container, isReverse && styles.containerReverse]}>
         <StatusBar hidden={hideStatusBar} translucent />
-        <TouchableOpacity onPress={() => !isReverse && handleOpenDrawer()}>
-          <View
-            style={[
-              styles.avatarWrapper,
-              isReverse ? styles.avatarWrapperReverse : styles.avatarDefault,
-            ]}
-          >
-            <FastImage
-              style={styles.avatar}
-              source={{ uri: avatar }}
-              defaultSource={DEFAULT_IMAGE}
-            />
-          </View>
-        </TouchableOpacity>
+        <LinearGradient
+          start={{ x: 0, y: 0 }}
+          end={{ x: 1, y: 0 }}
+          colors={isReverse ? ['#357ce6', '#2d5aa0'] : ['#2d5aa0', '#357ce6']}
+          style={[
+            styles.avatarWrapper,
+            isReverse ? styles.avatarWrapperReverse : styles.avatarDefault,
+          ]}
+        >
+          <TouchableOpacity onPress={() => !isReverse && handleOpenDrawer()}>
+            <View>
+              <FastImage
+                style={styles.avatar}
+                source={{ uri: avatar }}
+                defaultSource={DEFAULT_IMAGE}
+              />
+            </View>
+          </TouchableOpacity>
+        </LinearGradient>
         <View style={styles.titleWrapper}>
           {name && <Text style={styles.title}>{name}</Text>}
           {userName !== undefined

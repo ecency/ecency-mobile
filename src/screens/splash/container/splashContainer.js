@@ -2,7 +2,7 @@ import React, { Component } from 'react';
 import { connect } from 'react-redux';
 
 import { getUserData, getAuthStatus } from '../../../realm/realm';
-import { getAccount } from '../../../providers/steem/dsteem';
+import { getUser } from '../../../providers/steem/dsteem';
 
 // Actions
 import { addOtherAccount, updateCurrentAccount } from '../../../redux/actions/accountAction';
@@ -34,8 +34,11 @@ class SplashContainer extends Component {
                 addOtherAccount({ username: accountData.username, avatar: accountData.avatar }),
               );
             });
-            getAccount(res.currentUsername).then((accountData) => {
-              dispatch(updateCurrentAccount(...accountData));
+            getUser(response[response.length - 1].username).then((accountData) => {
+              const realmObject = response[response.length - 1];
+              accountData.realm_object = realmObject;
+
+              dispatch(updateCurrentAccount(accountData));
               dispatch(activeApplication());
               dispatch(login());
               if (__DEV__ === false) {

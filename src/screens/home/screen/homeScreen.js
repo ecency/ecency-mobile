@@ -1,10 +1,8 @@
 import React, { PureComponent, Fragment } from 'react';
-import { Text, View } from 'react-native';
+import { View } from 'react-native';
 import ScrollableTabView from '@esteemapp/react-native-scrollable-tab-view';
 
 // STEEM
-import { getUserData, getAuthStatus } from '../../../realm/realm';
-import { getUser } from '../../../providers/steem/dsteem';
 
 // Components
 import { TabBar } from '../../../components/tabBar';
@@ -16,15 +14,7 @@ import styles from './homeStyles';
 export default class HomeScreen extends PureComponent {
   constructor(props) {
     super(props);
-    this.state = {
-      user: {
-        name: 'null',
-      },
-      isLoggedIn: false,
-      isLoading: true,
-      category: 'HOT',
-      options: ['HOT', 'TRENDING', 'CLOSE'],
-    };
+    this.state = {};
   }
 
   navigationButtonPressed({ buttonId }) {
@@ -46,78 +36,60 @@ export default class HomeScreen extends PureComponent {
     this.ActionSheet.show();
   };
 
-  async componentDidMount() {
-    let user;
-    let userData;
-    let isLoggedIn;
-
-    await getAuthStatus().then((res) => {
-      isLoggedIn = res.isLoggedIn;
-    });
-
-    if (isLoggedIn) {
-      await getUserData().then((res) => {
-        user = Array.from(res);
-      });
-      userData = await getUser(user[0].username);
-
-      this.setState({
-        user: userData,
-        isLoggedIn,
-        isLoading: false,
-      });
-    } else {
-      await this.setState({
-        isLoading: false,
-      });
-    }
-  }
-
   render() {
-    const { user, isLoggedIn } = this.state;
-    const { componentId } = this.props;
+    const { componentId, isLoggedIn, currentAccount } = this.props;
+    const _filterOptions = ['NEW POSTS', 'VOTES', 'REPLIES', 'MENTIONS', 'FOLLOWS', 'REBLOGS'];
+
     return (
       <Fragment>
-        <Header userName={user && user.name} reputation={user && user.reputation} />
+        <Header
+          userName={currentAccount && currentAccount.name}
+          reputation={currentAccount && currentAccount.reputation}
+          avatar={
+            currentAccount && currentAccount.about && currentAccount.about.profile.profile_image
+          }
+        />
         <View style={styles.root} key="overlay">
           <ScrollableTabView
             style={styles.tabView}
             renderTabBar={() => (
               <TabBar
                 style={styles.tabbar}
-                tabUnderlineDefaultWidth={80} // default containerWidth / (numberOfTabs * 4)
-                tabUnderlineScaleX={2} // default 3
+                tabUnderlineDefaultWidth={80}
+                tabUnderlineScaleX={2}
                 activeColor="#357ce6"
                 inactiveColor="#222"
                 tabBarPosition="overlayTop"
               />
             )}
           >
-            <View tabLabel="Feed" style={styles.tabbarItem}>
-              <Posts
-                filterOptions={['NEW POSTS', 'VOTES', 'REPLIES', 'MENTIONS', 'FOLLOWS', 'REBLOGS']}
-                isLoginMust
-                getFor="feed"
-                tag={user.name}
-                user={user}
-                isLoggedIn={isLoggedIn}
-                componentId={componentId}
-              />
-            </View>
+            {isLoggedIn && (
+              <View tabLabel="Feed" style={styles.tabbarItem}>
+                <Posts
+                  filterOptions={_filterOptions}
+                  isLoginMust
+                  getFor="feed"
+                  tag={currentAccount.name}
+                  user={currentAccount}
+                  isLoggedIn={isLoggedIn}
+                  componentId={componentId}
+                />
+              </View>
+            )}
             <View tabLabel="Hot" style={styles.tabbarItem}>
               <Posts
-                filterOptions={['NEW POSTS', 'VOTES', 'REPLIES', 'MENTIONS', 'FOLLOWS', 'REBLOGS']}
+                filterOptions={_filterOptions}
                 getFor="hot"
-                user={user}
+                user={currentAccount}
                 isLoggedIn={isLoggedIn}
                 componentId={componentId}
               />
             </View>
             <View tabLabel="Popular" style={styles.tabbarItem}>
               <Posts
-                filterOptions={['NEW POSTS', 'VOTES', 'REPLIES', 'MENTIONS', 'FOLLOWS', 'REBLOGS']}
+                filterOptions={_filterOptions}
                 getFor="trending"
-                user={user}
+                user={currentAccount}
                 isLoggedIn={isLoggedIn}
                 componentId={componentId}
               />

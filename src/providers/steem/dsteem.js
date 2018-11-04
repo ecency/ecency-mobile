@@ -44,8 +44,9 @@ export const getUser = async (user) => {
     const account = await client.database.getAccounts([user]);
     // get global properties to calculate Steem Power
     const global_properties = await client.database.getDynamicGlobalProperties();
+    const rc_power = await client.call('rc_api', 'find_rc_accounts', { accounts: [user] });
 
-    // calculate Steem Power (own, received, delegated)
+    account[0].rc_manabar = rc_power.rc_accounts[0].rc_manabar;
     account[0].steem_power = vestToSteem(
       account[0].vesting_shares,
       global_properties.total_vesting_shares,
@@ -62,6 +63,7 @@ export const getUser = async (user) => {
       global_properties.total_vesting_fund_steem,
     ).toFixed(0);
 
+    account[0].about = account[0].json_metadata && JSON.parse(account[0].json_metadata);
     return account[0];
   } catch (error) {
     return error;
@@ -106,22 +108,13 @@ export const getFollowers = user => new Promise((resolve, reject) => {
  * @param user username
  * TODO: Pagination
  */
-export const getFollowing = user => new Promise((resolve, reject) => {
-  client
-    .call('follow_api', 'get_following', [user, '', 'blog', 50])
-    .then((result) => {
-      resolve(result);
-    })
-    .catch((err) => {
-      reject(err);
-    });
-});
+export const getFollowing = (follower, startFollowing, followType = 'blog', limit = 100) => client.database.call('get_following', [follower, startFollowing, followType, limit]);
 
-export const isFolllowing = (author, user) => new Promise((resolve, reject) => {
-  client
-    .call('follow_api', 'get_followers', [author, user, 'blog', 10])
+export const isFolllowing = (user, author) => new Promise((resolve, reject) => {
+  client.database
+    .call('get_following', [author, user, 'blog', 1])
     .then((result) => {
-      if (result[0].follower === user) {
+      if (result[0] && result[0].follower === author && result[0].following === user) {
         resolve(true);
       } else {
         resolve(false);
