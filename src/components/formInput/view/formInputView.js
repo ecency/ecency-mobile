@@ -50,6 +50,13 @@ class FormInputView extends Component {
     onChange && onChange(value);
   };
 
+  _handleOnFocus = () => {
+    const { inputBorderColor } = this.state;
+    if (inputBorderColor !== '#357ce6') {
+      this.setState({ inputBorderColor: '#357ce6' });
+    }
+  };
+
   render() {
     const { inputBorderColor, isValid, value } = this.state;
     const {
@@ -86,14 +93,7 @@ class FormInputView extends Component {
           <Ionicons name={rightIconName} style={styles.icon} />
         )}
         <TextInput
-          onFocus={() => this.setState({
-            inputBorderColor: '$primaryBlue',
-          })
-          }
-          onSubmitEditing={() => this.setState({
-            inputBorderColor: '$iconColor',
-          })
-          }
+          onFocus={() => this._handleOnFocus()}
           autoCapitalize="none"
           secureTextEntry={secureTextEntry}
           placeholder={placeholder}
