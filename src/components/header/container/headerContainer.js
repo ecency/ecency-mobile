@@ -57,7 +57,7 @@ class HeaderContainer extends Component {
 
 const mapStateToProps = state => ({
   isLoggedIn: state.application.isLoggedIn || false,
-  currentUser: state.account.currentAccount || {},
+  currentUser: state.account.currentAccount,
 });
 
 export default connect(mapStateToProps)(withNavigation(HeaderContainer));

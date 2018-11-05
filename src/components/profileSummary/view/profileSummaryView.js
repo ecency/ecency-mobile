@@ -47,6 +47,7 @@ class ProfileSummaryView extends Component {
       followingCount,
       followerCount,
       coverImage,
+      isLoggedIn,
       isFollowing,
       isFavorite,
       isFollowLoading,
@@ -113,35 +114,37 @@ class ProfileSummaryView extends Component {
               <Text style={styles.followText}>following</Text>
             </View>
           </View>
-          <View style={styles.rightIcons}>
-            <IconButton
-              backgroundColor="transparent"
-              name="heart"
-              iconType="SimpleLineIcons"
-              size={16}
-              style={[styles.insetIconStyle]}
-            />
-            {isFollowLoading ? (
-              <ActivityIndicator style={styles.insetIconStyle} />
-            ) : (
+          {isLoggedIn && (
+            <View style={styles.rightIcons}>
               <IconButton
                 backgroundColor="transparent"
-                name={followButtonIcon}
+                name="heart"
                 iconType="SimpleLineIcons"
-                onPress={() => handleFollowUnfollowUser(isFollowing ? false : true)}
                 size={16}
-                style={styles.insetIconStyle}
-                color="#c1c5c7"
+                style={[styles.insetIconStyle]}
               />
-            )}
-            <DropdownButton
-              style={styles.insetIconStyle}
-              options={['option1', 'option2', 'option3', 'option4']}
-              iconName="md-more"
-              isHasChildIcon
-              childIconWrapperStyle={styles.dropdownIconStyle}
-            />
-          </View>
+              {isFollowLoading ? (
+                <ActivityIndicator style={styles.insetIconStyle} />
+              ) : (
+                <IconButton
+                  backgroundColor="transparent"
+                  name={followButtonIcon}
+                  iconType="SimpleLineIcons"
+                  onPress={() => handleFollowUnfollowUser(isFollowing ? false : true)}
+                  size={16}
+                  style={styles.insetIconStyle}
+                  color="#c1c5c7"
+                />
+              )}
+              <DropdownButton
+                style={styles.insetIconStyle}
+                options={['option1', 'option2', 'option3', 'option4']}
+                iconName="md-more"
+                isHasChildIcon
+                childIconWrapperStyle={styles.dropdownIconStyle}
+              />
+            </View>
+          )}
         </View>
       </Fragment>
     );

@@ -12,9 +12,7 @@ import {
   getUserComments,
   getUser,
   isFolllowing,
-  getFollowing,
 } from '../../../providers/steem/dsteem';
-import { getUserData } from '../../../realm/realm';
 import { decryptKey } from '../../../utils/crypto';
 
 class ProfileContainer extends Component {

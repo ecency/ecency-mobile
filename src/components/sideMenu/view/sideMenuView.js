@@ -53,26 +53,6 @@ class SideMenuView extends Component {
     }
   };
 
-  _getNameOfUser = () => {
-    const { currentAccount } = this.props;
-    if (Object.keys(currentAccount).length === 0) return '';
-    const jsonMetadata = JSON.parse(currentAccount.json_metadata);
-    if (Object.keys(jsonMetadata).length !== 0) {
-      return jsonMetadata.profile.name;
-    }
-    return currentAccount.name;
-  };
-
-  _getUserAvatar = () => {
-    const { currentAccount } = this.props;
-    if (Object.keys(currentAccount).length === 0) return DEFAULT_IMAGE;
-    const jsonMetadata = JSON.parse(currentAccount.json_metadata);
-    if (Object.keys(jsonMetadata).length !== 0) {
-      return { uri: jsonMetadata.profile.profile_image };
-    }
-    return DEFAULT_IMAGE;
-  };
-
   // Component Functions
 
   render() {
@@ -80,7 +60,9 @@ class SideMenuView extends Component {
       navigateToRoute, currentAccount, isLoggedIn, switchAccount,
     } = this.props;
     const { menuItems, isAddAccountIconActive } = this.state;
-    // TODO: Change dummy data
+    const avatar = currentAccount && currentAccount.about && currentAccount.about.profile.profile_image;
+    const name = currentAccount && currentAccount.about && currentAccount.about.profile.name;
+
     return (
       <Container style={styles.container}>
         <LinearGradient
@@ -91,9 +73,9 @@ class SideMenuView extends Component {
         >
           {isLoggedIn && (
             <View style={styles.headerContentView}>
-              <Thumbnail style={styles.userAvatar} source={this._getUserAvatar()} />
+              <Thumbnail style={styles.userAvatar} source={{ uri: avatar }} />
               <View style={styles.userInfoView}>
-                <Text style={styles.username}>{this._getNameOfUser()}</Text>
+                <Text style={styles.username}>{name}</Text>
                 <Text style={styles.usernick}>{`@${currentAccount.name}`}</Text>
               </View>
               <View style={styles.addAccountIconView}>
