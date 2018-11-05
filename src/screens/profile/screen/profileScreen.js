@@ -70,10 +70,7 @@ class ProfileScreen extends Component {
     }
     return (
       <Fragment>
-        <Header
-          user={user}
-          isReverse={isReverseHeader}
-        />
+        <Header user={user} isReverse={isReverseHeader} />
         <View style={styles.container}>
           {!isReady ? (
             <ProfileSummaryPlaceHolder />
@@ -82,13 +79,15 @@ class ProfileScreen extends Component {
               title={_about}
               isTitleCenter
               defaultTitle="Profile details"
-              expanded={isLoggedIn}
-              locked={!isLoggedIn}
+              expanded={true}
+              // expanded={isLoggedIn}
+              // locked={!isLoggedIn}
             >
               <ProfileSummary
                 isFollowing={isFollowing}
                 percentVP={votingPower}
                 isFollowLoading={isFollowLoading}
+                isLoggedIn={isLoggedIn}
                 handleFollowUnfollowUser={handleFollowUnfollowUser}
                 percentRC={resourceCredits}
                 hoursVP={fullInHourVP || null}
