@@ -6,7 +6,6 @@ import {
   TextInput,
   FlatList,
   Image,
-  ActivityIndicator,
 } from 'react-native';
 import Ionicons from 'react-native-vector-icons/Ionicons';
 // import { Navigation } from 'react-native-navigation';
@@ -74,6 +73,8 @@ export default class Search extends Component {
   };
 
   render() {
+    const { users, text, posts } = this.state;
+
     return (
       <View
         style={{
@@ -105,8 +106,8 @@ export default class Search extends Component {
           <TextInput
             style={{ flex: 0.9, height: 40 }}
             autoCapitalize="none"
-            onChangeText={text => this.handleSearch(text)}
-            value={this.state.text}
+            onChangeText={inputText => this.handleSearch(inputText)}
+            value={text}
           />
 
           <Ionicons
@@ -116,7 +117,7 @@ export default class Search extends Component {
               flex: 0.1,
               fontSize: 15,
               top: 12.5,
-              color:"$iconColor",
+              color: '$iconColor',
             }}
           />
         </View>
@@ -129,7 +130,7 @@ export default class Search extends Component {
           }}
         >
           <FlatList
-            data={this.state.users}
+            data={users}
             showsVerticalScrollIndicator={false}
             horizontal
             renderItem={({ item }) => (
@@ -154,8 +155,7 @@ export default class Search extends Component {
                     overflow: 'scroll',
                   }}
                 >
-                  @
-                  {item}
+                  {`@${item}`}
                 </Text>
               </View>
             )}
@@ -165,7 +165,7 @@ export default class Search extends Component {
           />
 
           <FlatList
-            data={this.state.posts}
+            data={posts}
             showsVerticalScrollIndicator={false}
             renderItem={({ item }) => (
               //  TODO: Create a component to list search results
@@ -195,11 +195,7 @@ export default class Search extends Component {
                     }}
                   />
                   <Text>
-                    {item.author}
-                    {' '}
-(
-                    {item.author_rep}
-)
+                    {`${item.author} ${item.author_rep}`}
                   </Text>
                 </View>
               </View>
