@@ -40,6 +40,9 @@ class SideMenuView extends Component {
     });
   }
 
+
+  // Component Functions
+
   _handleOnPressAddAccountIcon = () => {
     const { isAddAccountIconActive } = this.state;
     const { isLoggedIn, accounts } = this.props;
@@ -53,15 +56,31 @@ class SideMenuView extends Component {
     }
   };
 
-  // Component Functions
+  _getNameOfUser = () => {
+    const { currentAccount } = this.props;
+    if (Object.keys(currentAccount).length === 0) return currentAccount.name;
+    if (Object.keys(currentAccount.about).length === 0) return currentAccount.name;
+    if (Object.keys(currentAccount.about.profile).length !== 0) {
+      return currentAccount.about.profile.name;
+    }
+    return currentAccount.name;
+  };
+
+  _getUserAvatar = () => {
+    const { currentAccount } = this.props;
+    if (Object.keys(currentAccount).length === 0) return DEFAULT_IMAGE;
+    if (Object.keys(currentAccount.about).length === 0) return DEFAULT_IMAGE;
+    if (Object.keys(currentAccount.about.profile).length !== 0) {
+      return { uri: currentAccount.about.profile.profile_image };
+    }
+    return DEFAULT_IMAGE;
+  };
 
   render() {
     const {
       navigateToRoute, currentAccount, isLoggedIn, switchAccount,
     } = this.props;
     const { menuItems, isAddAccountIconActive } = this.state;
-    const avatar = currentAccount && currentAccount.about && currentAccount.about.profile.profile_image;
-    const name = currentAccount && currentAccount.about && currentAccount.about.profile.name;
 
     return (
       <Container style={styles.container}>
@@ -73,9 +92,9 @@ class SideMenuView extends Component {
         >
           {isLoggedIn && (
             <View style={styles.headerContentView}>
-              <Thumbnail style={styles.userAvatar} source={{ uri: avatar }} />
+              <Thumbnail style={styles.userAvatar} source={this._getUserAvatar()} />
               <View style={styles.userInfoView}>
-                <Text style={styles.username}>{name}</Text>
+                <Text style={styles.username}>{this._getNameOfUser()}</Text>
                 <Text style={styles.usernick}>{`@${currentAccount.name}`}</Text>
               </View>
               <View style={styles.addAccountIconView}>
