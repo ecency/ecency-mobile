@@ -1,7 +1,5 @@
 import React, { Component } from 'react';
-import {
-  Image, TouchableOpacity, Text,
-} from 'react-native';
+import { Image, TouchableOpacity, Text } from 'react-native';
 import {
   Card, CardItem, Left, Right, Thumbnail, Icon, Body,
 } from 'native-base';
@@ -86,7 +84,7 @@ class PostCard extends Component {
         </TouchableOpacity>
         <CardItem>
           <Left>
-            <Upvote content={content} user={user} isLoggedIn={!!user} />
+            <Upvote content={content} user={user} isLoggedIn={isLoggedIn} />
             <TouchableOpacity
               onPress={() => this._handleOnVotersPress()}
               style={styles.payoutButton}
@@ -106,9 +104,7 @@ $
           </Right>
         </CardItem>
         {content.top_likers ? (
-          <TouchableOpacity
-            onPress={() => this._handleOnVotersPress()}
-          >
+          <TouchableOpacity onPress={() => this._handleOnVotersPress()}>
             <CardItem style={styles.topLikers}>
               <Thumbnail
                 source={{
@@ -131,18 +127,17 @@ $
               <Text style={styles.footer}>
                 @
                 {content.top_likers[0]}
-  , @
+, @
                 {content.top_likers[1]}
-  , @
+, @
                 {content.top_likers[2]}
                 <Text style={styles.footer}> & </Text>
                 {content.vote_count - content.top_likers.length}
                 {' '}
-  others like this
+others like this
               </Text>
             </CardItem>
           </TouchableOpacity>
-
         ) : (
           <CardItem>
             <Text style={styles.footer}>

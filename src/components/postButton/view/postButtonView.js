@@ -7,6 +7,9 @@ import Icon from 'react-native-vector-icons/FontAwesome';
 // Components
 import SubPostButton from './subPostButtonView';
 
+// Constant
+import { default as ROUTES } from '../../../constants/routeNames';
+
 // Styles
 import styles from './postButtonStyles';
 
@@ -81,7 +84,7 @@ class PostButtonView extends Component {
       outputRange: ['0deg', '45deg'],
     });
 
-    const { handleSubButtonPress } = this.props;
+    const { handleSubButtonPress, isLoggedIn } = this.props;
 
     return (
       <View style={styles.postButtonWrapper}>
@@ -92,6 +95,8 @@ class PostButtonView extends Component {
             top: firstY,
           }}
           icon="camera"
+          onPress={() => handleSubButtonPress(isLoggedIn ? ROUTES.SCREENS.EDITOR : ROUTES.SCREENS.LOGIN)
+          }
         />
         <SubPostButton
           size={SIZE}
@@ -100,7 +105,8 @@ class PostButtonView extends Component {
             top: secondY,
           }}
           icon="pencil"
-          onPress={() => handleSubButtonPress('EditorScreen')}
+          onPress={() => handleSubButtonPress(isLoggedIn ? ROUTES.SCREENS.EDITOR : ROUTES.SCREENS.LOGIN)
+          }
         />
         <SubPostButton
           size={SIZE}
@@ -109,8 +115,9 @@ class PostButtonView extends Component {
             top: thirdY,
           }}
           icon="video-camera"
+          onPress={() => handleSubButtonPress(isLoggedIn ? ROUTES.SCREENS.EDITOR : ROUTES.SCREENS.LOGIN)
+          }
         />
-
         <TouchableOpacity onPress={this.toggleView} activeOpacity={1}>
           <Animated.View
             style={[

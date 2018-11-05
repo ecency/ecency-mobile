@@ -91,6 +91,7 @@ export class EditorScreen extends Component {
 
   render() {
     const { isPreviewActive, wordsCount, isFormValid } = this.state;
+    const { isLoggedIn } = this.props;
 
     return (
       <View style={globalStyles.defaultContainer}>

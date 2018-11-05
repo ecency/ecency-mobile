@@ -1,4 +1,5 @@
 import React, { Component } from 'react';
+import { connect } from 'react-redux';
 
 // Services and Actions
 import { postContent } from '../../../providers/steem/dsteem';
@@ -69,8 +70,14 @@ class ExampleContainer extends Component {
   };
 
   render() {
-    return <EditorScreen handleOnSubmit={this._handleSubmit} />;
+    const { isLoggedIn } = this.props;
+
+    return <EditorScreen isLoggedIn={isLoggedIn} handleOnSubmit={this._handleSubmit} />;
   }
 }
 
-export default ExampleContainer;
+const mapStateToProps = state => ({
+  isLoggedIn: state.application.isLoggedIn,
+});
+
+export default connect(mapStateToProps)(ExampleContainer);
