@@ -31,6 +31,26 @@ class HeaderView extends Component {
 
   // Component Functions
 
+  _getNameOfUser = () => {
+    const { currentAccount } = this.props;
+    if (Object.keys(currentAccount).length === 0) return currentAccount.name;
+    if (Object.keys(currentAccount.about).length === 0) return currentAccount.name;
+    if (Object.keys(currentAccount.about.profile).length !== 0) {
+      return currentAccount.about.profile.name;
+    }
+    return currentAccount.name;
+  };
+
+  _getUserAvatar = () => {
+    const { currentAccount } = this.props;
+    if (Object.keys(currentAccount).length === 0) return DEFAULT_IMAGE;
+    if (Object.keys(currentAccount.about).length === 0) return DEFAULT_IMAGE;
+    if (Object.keys(currentAccount.about.profile).length !== 0) {
+      return { uri: currentAccount.about.profile.profile_image };
+    }
+    return DEFAULT_IMAGE;
+  };
+
   render() {
     const {
       handleOpenDrawer,
@@ -38,10 +58,7 @@ class HeaderView extends Component {
       hideStatusBar,
       isReverse,
       currentAccount,
-      isLoggedIn,
     } = this.props;
-    const avatar = currentAccount && currentAccount.about && currentAccount.about.profile.profile_image;
-    const name = currentAccount && currentAccount.about && currentAccount.about.profile.name;
 
     return (
       <SafeAreaView style={[styles.container, isReverse && styles.containerReverse]}>
@@ -56,12 +73,16 @@ class HeaderView extends Component {
               isReverse ? styles.avatarButtonWrapperReverse : styles.avatarDefault,
             ]}
           >
-            <FastImage style={styles.avatar} source={{ uri: avatar }} defaultSource={DEFAULT_IMAGE} />
+            <FastImage
+              style={styles.avatar}
+              source={this._getUserAvatar()}
+              defaultSource={DEFAULT_IMAGE}
+            />
           </View>
         </TouchableOpacity>
         {currentAccount && currentAccount.name ? (
           <View style={styles.titleWrapper}>
-           { name && <Text style={styles.title}>{name}</Text> }
+            <Text style={styles.title}>{this._getNameOfUser()}</Text>
             <Text style={styles.subTitle}>
               @
               {currentAccount.name}
