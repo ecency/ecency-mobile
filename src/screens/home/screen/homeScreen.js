@@ -38,7 +38,17 @@ export default class HomeScreen extends PureComponent {
 
   render() {
     const { componentId, isLoggedIn, currentAccount } = this.props;
-    const _filterOptions = ['NEW POSTS', 'VOTES', 'REPLIES', 'MENTIONS', 'FOLLOWS', 'REBLOGS'];
+    const _filterOptions = [
+      'FEED',
+      'TRENDING',
+      'HOT',
+      'NEW',
+      'ACTIVE',
+      'PROMETED',
+      'VOTES',
+      'COMMENTS',
+      'PAYOUT',
+    ];
 
     return (
       <Fragment>
@@ -57,23 +67,12 @@ export default class HomeScreen extends PureComponent {
               />
             )}
           >
-            {isLoggedIn && (
-              <View tabLabel="Feed" style={styles.tabbarItem}>
-                <Posts
-                  filterOptions={_filterOptions}
-                  isLoginMust
-                  getFor="feed"
-                  tag={currentAccount.name}
-                  user={currentAccount}
-                  isLoggedIn={isLoggedIn}
-                  componentId={componentId}
-                />
-              </View>
-            )}
-            <View tabLabel="Hot" style={styles.tabbarItem}>
+            <View tabLabel="Feed" style={styles.tabbarItem}>
               <Posts
                 filterOptions={_filterOptions}
-                getFor="hot"
+                isLoginMust
+                getFor="feed"
+                tag={isLoggedIn ? currentAccount.name : 'esteemapp'}
                 user={currentAccount}
                 isLoggedIn={isLoggedIn}
                 componentId={componentId}

@@ -13,7 +13,7 @@ import { IconButton } from '../../iconButton';
 // Styles
 import styles from './headerStyles';
 
-const DEFAULT_IMAGE = require('../../../assets/esteem.png');
+const DEFAULT_IMAGE = require('../../../assets/avatar_default.png');
 
 class HeaderView extends Component {
   /* Props
