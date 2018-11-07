@@ -9,6 +9,7 @@ import { getReputation } from '../../../utils/user';
 
 // Components
 import { IconButton } from '../../iconButton';
+import { Search } from '../..';
 
 // Styles
 import styles from './headerStyles';
@@ -104,6 +105,7 @@ class HeaderView extends Component {
             />
           </View>
         )}
+        <Search />
       </SafeAreaView>
     );
   }
