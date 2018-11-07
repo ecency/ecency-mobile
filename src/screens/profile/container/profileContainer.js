@@ -15,6 +15,9 @@ import {
 } from '../../../providers/steem/dsteem';
 import { decryptKey } from '../../../utils/crypto';
 
+// Constants
+import { default as ROUTES } from '../../../constants/routeNames';
+
 class ProfileContainer extends Component {
   constructor(props) {
     super(props);
@@ -32,9 +35,14 @@ class ProfileContainer extends Component {
     };
   }
 
-  async componentDidMount() {
-    const { navigation } = this.props;
+  componentDidMount() {
+    const { navigation, isLoggedIn } = this.props;
     const selectedUser = navigation.state && navigation.state.params;
+
+    if (!isLoggedIn && !selectedUser) {
+      navigation.navigate(ROUTES.SCREENS.LOGIN);
+      return;
+    }
 
     this._loadProfile(selectedUser && selectedUser.username);
   }
@@ -43,6 +51,7 @@ class ProfileContainer extends Component {
     const { navigation } = this.props;
     const isParamsChange = nextProps.navigation.state
       && navigation.state
+      && nextProps.navigation.state.params
       && nextProps.navigation.state.params.username !== navigation.state.params.username;
 
     if (isParamsChange) {
@@ -135,13 +144,14 @@ class ProfileContainer extends Component {
     const { currentAccount, isLoggedIn } = this.props;
     const { username: _username } = this.state;
     const _selectedUser = selectedUser || _username;
+
     const _isFollowing = await isFolllowing(
       _selectedUser.username || _username,
       currentAccount.name,
     );
 
     if (_selectedUser) {
-      username = selectedUser ? selectedUser : _selectedUser;
+      username = selectedUser || _selectedUser;
       this.setState({ isReverseHeader: true });
     } else if (isLoggedIn) {
       username = currentAccount.name;
@@ -149,9 +159,11 @@ class ProfileContainer extends Component {
 
     let follows;
 
-    await getFollows(username).then((res) => {
-      follows = res;
-    });
+    if (username) {
+      await getFollows(username).then((res) => {
+        follows = res;
+      });
+    }
 
     const user = _selectedUser ? await getUser(username) : currentAccount;
 

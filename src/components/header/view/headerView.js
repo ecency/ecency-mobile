@@ -3,6 +3,7 @@ import {
   View, StatusBar, Text, SafeAreaView, TouchableOpacity,
 } from 'react-native';
 import FastImage from 'react-native-fast-image';
+import LinearGradient from 'react-native-linear-gradient';
 
 // Utils
 import { getReputation } from '../../../utils/user';
@@ -67,18 +68,23 @@ class HeaderView extends Component {
           style={styles.avatarWrapper}
           onPress={() => !isReverse && handleOpenDrawer()}
         >
-          <View
+          <LinearGradient
+            start={{ x: 0, y: 0 }}
+            end={{ x: 1, y: 0 }}
+            colors={['#2d5aa0', '#357ce6']}
             style={[
               styles.avatarButtonWrapper,
               isReverse ? styles.avatarButtonWrapperReverse : styles.avatarDefault,
             ]}
           >
-            <FastImage
-              style={styles.avatar}
-              source={this._getUserAvatar()}
-              defaultSource={DEFAULT_IMAGE}
-            />
-          </View>
+            <View>
+              <FastImage
+                style={styles.avatar}
+                source={this._getUserAvatar()}
+                defaultSource={DEFAULT_IMAGE}
+              />
+            </View>
+          </LinearGradient>
         </TouchableOpacity>
         {currentAccount && currentAccount.name ? (
           <View style={styles.titleWrapper}>
