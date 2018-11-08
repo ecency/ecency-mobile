@@ -1,4 +1,4 @@
-import { getAccount } from '../../providers/steem/dsteem';
+import { getUser } from '../../providers/steem/dsteem';
 import {
   FETCH_ACCOUNT_FAIL,
   FETCHING_ACCOUNT,
@@ -9,10 +9,10 @@ import {
 export const fetchAccountFromSteem = (username, password) => (dispatch) => {
   dispatch({ type: FETCHING_ACCOUNT });
 
-  return getAccount(username)
+  return getUser(username)
     .then(res => dispatch({
       type: UPDATE_CURRENT_ACCOUNT,
-      payload: { ...res[0], password },
+      payload: { ...res, password },
     }))
     .catch(err => dispatch({ type: FETCH_ACCOUNT_FAIL, payload: err }));
 };
