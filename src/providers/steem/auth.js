@@ -1,5 +1,5 @@
 import * as dsteem from 'dsteem';
-import { getAccount } from './dsteem';
+import { getUser } from './dsteem';
 import {
   setUserData,
   setAuthStatus,
@@ -26,15 +26,11 @@ export const Login = (username, password) => {
 
   return new Promise((resolve, reject) => {
     // Get user account data from STEEM Blockchain
-    getAccount(username)
-      .then((result) => {
+    getUser(username)
+      .then((account) => {
         if (isLoggedInUser(username)) {
           reject(new Error('You are already logged in, please try to add another account'));
-        } else if (result.length < 1) {
-          reject(new Error('Invalid credentails, please check and try again'));
         }
-
-        const account = result[0];
 
         // Public keys of user
         publicKeys = {
@@ -208,14 +204,14 @@ export const verifyPinCode = async (data) => {
         }
       } else if (userData.authType === 'masterKey') {
         const password = decryptKey(userData.masterKey, data.pinCode);
-        account = await getAccount(data.username);
+        account = await getUser(data.username);
 
         // Public keys of user
         const publicKeys = {
-          active: account[0].active.key_auths.map(x => x[0]),
-          memo: account[0].memo_key,
-          owner: account[0].owner.key_auths.map(x => x[0]),
-          posting: account[0].posting.key_auths.map(x => x[0]),
+          active: account.active.key_auths.map(x => x[0]),
+          memo: account.memo_key,
+          owner: account.owner.key_auths.map(x => x[0]),
+          posting: account.posting.key_auths.map(x => x[0]),
         };
           // Set private keys of user
         const privateKeys = getPrivateKeys(data.username, password);
@@ -267,9 +263,8 @@ export const verifyPinCode = async (data) => {
 };
 
 export const switchAccount = username => new Promise((resolve, reject) => {
-  getAccount(username)
-    .then((result) => {
-      const account = result[0];
+  getUser(username)
+    .then((account) => {
       updateCurrentUsername(username).then(() => {
         resolve(account);
       }).catch(() => {

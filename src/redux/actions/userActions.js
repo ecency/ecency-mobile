@@ -1,4 +1,4 @@
-import { getAccount } from '../../providers/steem/dsteem';
+import { getUser } from '../../providers/steem/dsteem';
 import {
   FETCH_USER,
   FETCH_USER_SUCCESS,
@@ -18,8 +18,8 @@ export function fetchAccount(user) {
   return (dispatch) => {
     dispatch({ type: FETCH_USER });
 
-    return getAccount(user)
-      .then(res => dispatch({ type: FETCH_USER_SUCCESS, payload: res[0] }))
+    return getUser(user)
+      .then(res => dispatch({ type: FETCH_USER_SUCCESS, payload: res }))
       .catch(err => dispatch({ type: FETCH_USER_FAIL, payload: err }));
   };
 }
