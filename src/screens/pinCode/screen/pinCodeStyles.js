@@ -7,6 +7,8 @@ export default EStyleSheet.create({
   },
   logoView: {
     flex: 2,
+    justifyContent: 'center',
+    alignItems: 'center',
   },
   logo: {
     width: '$deviceWidth / 7',
