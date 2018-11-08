@@ -50,6 +50,7 @@ class ProfileSummaryView extends Component {
       isLoggedIn,
       isFollowing,
       isFavorite,
+      isOwnProfile,
       isFollowLoading,
       handleFollowUnfollowUser,
     } = this.props;
@@ -116,25 +117,30 @@ class ProfileSummaryView extends Component {
           </View>
           {isLoggedIn && (
             <View style={styles.rightIcons}>
-              <IconButton
-                backgroundColor="transparent"
-                name="heart"
-                iconType="SimpleLineIcons"
-                size={16}
-                style={[styles.insetIconStyle]}
-              />
-              {isFollowLoading ? (
-                <ActivityIndicator style={styles.insetIconStyle} />
-              ) : (
-                <IconButton
-                  backgroundColor="transparent"
-                  name={followButtonIcon}
-                  iconType="SimpleLineIcons"
-                  onPress={() => handleFollowUnfollowUser(isFollowing ? false : true)}
-                  size={16}
-                  style={styles.insetIconStyle}
-                  color="#c1c5c7"
-                />
+              {!isOwnProfile && (
+                <Fragment>
+                  <IconButton
+                    backgroundColor="transparent"
+                    name="heart"
+                    iconType="SimpleLineIcons"
+                    size={16}
+                    style={[styles.insetIconStyle]}
+                    color="#c1c5c7"
+                  />
+                  {isFollowLoading ? (
+                    <ActivityIndicator style={styles.insetIconStyle} />
+                  ) : (
+                    <IconButton
+                      backgroundColor="transparent"
+                      name={followButtonIcon}
+                      iconType="SimpleLineIcons"
+                      onPress={() => handleFollowUnfollowUser(isFollowing ? false : true)}
+                      size={16}
+                      style={styles.insetIconStyle}
+                      color="#c1c5c7"
+                    />
+                  )}
+                </Fragment>
               )}
               <DropdownButton
                 style={styles.insetIconStyle}

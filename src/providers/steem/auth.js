@@ -136,7 +136,6 @@ export const loginWithSC2 = async (accessToken) => {
   });
 };
 
-
 export const setUserDataWithPinCode = data => new Promise((resolve, reject) => {
   let updatedUserData;
   const result = getUserDataWithUsername(data.username);
@@ -192,6 +191,8 @@ export const setUserDataWithPinCode = data => new Promise((resolve, reject) => {
     });
 });
 
+export const getDigitPinCode = async () => decryptKey(await getPinCode(), 'pin-code');
+
 export const verifyPinCode = async (data) => {
   const result = getUserDataWithUsername(data.username);
   const userData = result[0];
@@ -217,7 +218,7 @@ export const verifyPinCode = async (data) => {
           owner: account[0].owner.key_auths.map(x => x[0]),
           posting: account[0].posting.key_auths.map(x => x[0]),
         };
-          // Set private keys of user
+        // Set private keys of user
         const privateKeys = getPrivateKeys(data.username, password);
 
         // Check all keys
@@ -230,7 +231,7 @@ export const verifyPinCode = async (data) => {
     } else {
       const encriptedPinCode = await getPinCode();
       const pinCode = decryptKey(encriptedPinCode, 'pin-code');
-      if (pinCode == data.pinCode) {
+      if (pinCode === data.pinCode) {
         const res = await setUserDataWithPinCode(data);
         if (res) {
           loginFlag = true;
@@ -270,12 +271,15 @@ export const switchAccount = username => new Promise((resolve, reject) => {
   getAccount(username)
     .then((result) => {
       const account = result[0];
-      updateCurrentUsername(username).then(() => {
-        resolve(account);
-      }).catch(() => {
-        reject(new Error('Unknown error, please contact to eSteem.'));
-      });
-    }).catch(() => {
+      updateCurrentUsername(username)
+        .then(() => {
+          resolve(account);
+        })
+        .catch(() => {
+          reject(new Error('Unknown error, please contact to eSteem.'));
+        });
+    })
+    .catch(() => {
       reject(new Error('Unknown error, please contact to eSteem.'));
     });
 });
