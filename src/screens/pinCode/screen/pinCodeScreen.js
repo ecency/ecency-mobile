@@ -1,8 +1,8 @@
 import React, { Component } from 'react';
 import { Text, TouchableOpacity, View } from 'react-native';
-import { Container } from 'native-base';
+import { Container, Thumbnail } from 'native-base';
 
-import { Logo, NumericKeyboard, PinAnimatedInput } from '../../../components';
+import { NumericKeyboard, PinAnimatedInput } from '../../../components';
 
 import styles from './pinCodeStyles';
 
@@ -46,13 +46,15 @@ class PinCodeScreen extends Component {
   };
 
   render() {
-    const { informationText, showForgotButton, username } = this.props;
+    const {
+      informationText, showForgotButton, username, avatar,
+    } = this.props;
     const { pin } = this.state;
 
     return (
       <Container style={styles.container}>
         <View style={styles.logoView}>
-          <Logo style={styles.logo} />
+          <Thumbnail source={avatar} />
         </View>
         <View style={styles.titleView}>
           <Text style={styles.title}>{`@${username}`}</Text>
