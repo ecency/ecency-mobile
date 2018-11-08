@@ -11,9 +11,11 @@ import {
   getFollows,
   getUserComments,
   getUser,
-  isFolllowing,
+  getIsFollowing,
+  getIsMuted,
 } from '../../../providers/steem/dsteem';
 import { decryptKey } from '../../../utils/crypto';
+import { getDigitPinCode } from '../../../providers/steem/auth';
 
 // Constants
 import { default as ROUTES } from '../../../constants/routeNames';
@@ -31,12 +33,13 @@ class ProfileContainer extends Component {
       isReverseHeader: false,
       isReady: false,
       isFollowing: false,
+      isMuted: false,
       isFollowLoading: false,
     };
   }
 
   componentDidMount() {
-    const { navigation, isLoggedIn } = this.props;
+    const { navigation, isLoggedIn, currentAccount } = this.props;
     const selectedUser = navigation.state && navigation.state.params;
 
     if (!isLoggedIn && !selectedUser) {
@@ -44,7 +47,9 @@ class ProfileContainer extends Component {
       return;
     }
 
-    this._loadProfile(selectedUser && selectedUser.username);
+    this._loadProfile(selectedUser ? selectedUser.username : currentAccount.name);
+
+    this.setState({ isReverseHeader: !!selectedUser });
   }
 
   componentWillReceiveProps(nextProps) {
@@ -76,11 +81,12 @@ class ProfileContainer extends Component {
       });
   };
 
-  _handleFollowUnfollowUser = (isFollowAction) => {
+  _handleFollowUnfollowUser = async (isFollowAction) => {
     const { username, isFollowing } = this.state;
     const { currentAccount } = this.props;
+    const digitPinCode = await getDigitPinCode();
 
-    const privateKey = decryptKey(currentAccount.realm_object.postingKey, '1234');
+    const privateKey = decryptKey(currentAccount.realm_object.postingKey, digitPinCode);
 
     this.setState({
       isFollowLoading: true,
@@ -126,6 +132,8 @@ class ProfileContainer extends Component {
   };
 
   _followActionDone = (error = null) => {
+    const { username } = this.state;
+
     this.setState({
       isFollowLoading: false,
     });
@@ -135,47 +143,47 @@ class ProfileContainer extends Component {
         error,
       });
     } else {
-      this._loadProfile();
+      this._fetchProfile(username);
+    }
+  };
+
+  _fetchProfile = async (username = null) => {
+    if (username) {
+      const { isLoggedIn, currentAccount } = this.props;
+      let _isFollowing;
+      let _isMuted;
+      let _follows;
+
+      if (isLoggedIn) {
+        _isFollowing = await getIsFollowing(username, currentAccount.name);
+
+        _isMuted = _isFollowing ? false : await getIsMuted(username, currentAccount.name);
+      }
+
+      await getFollows(username).then((res) => {
+        _follows = res;
+      });
+
+      this.setState({
+        follows: _follows,
+        isFollowing: _isFollowing,
+        isMuted: _isMuted,
+      });
     }
   };
 
   _loadProfile = async (selectedUser = null) => {
-    let username;
-    const { currentAccount, isLoggedIn } = this.props;
-    const { username: _username } = this.state;
-    const _selectedUser = selectedUser || _username;
+    const user = await getUser(selectedUser);
 
-    const _isFollowing = await isFolllowing(
-      _selectedUser.username || _username,
-      currentAccount.name,
-    );
-
-    if (_selectedUser) {
-      username = selectedUser || _selectedUser;
-      this.setState({ isReverseHeader: true });
-    } else if (isLoggedIn) {
-      username = currentAccount.name;
-    }
-
-    let follows;
-
-    if (username) {
-      await getFollows(username).then((res) => {
-        follows = res;
-      });
-    }
-
-    const user = _selectedUser ? await getUser(username) : currentAccount;
+    this._fetchProfile(selectedUser);
 
     this.setState(
       {
         user,
-        follows,
-        username,
-        isFollowing: _isFollowing,
+        username: selectedUser,
       },
       () => {
-        this._getComments(username);
+        this._getComments(selectedUser);
       },
     );
   };
@@ -187,6 +195,7 @@ class ProfileContainer extends Component {
       follows,
       isFollowLoading,
       isFollowing,
+      isMuted,
       isLoading,
       isLoggedIn,
       isReady,
@@ -208,6 +217,7 @@ class ProfileContainer extends Component {
           isLoading={isLoading}
           isLoggedIn={isLoggedIn}
           isReady={isReady}
+          isMuted={isMuted}
           isReverseHeader={isReverseHeader}
           user={user}
           username={username}
