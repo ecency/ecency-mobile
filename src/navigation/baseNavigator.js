@@ -2,7 +2,7 @@ import React from 'react';
 import { createBottomTabNavigator } from 'react-navigation';
 import Icon from 'react-native-vector-icons/FontAwesome';
 import {
-  Home, Notification, Profile, RootComponent,
+  Home, Notification, Profile, RootComponent, Messages,
 } from '../screens';
 
 import { PostButton } from '../components/postButton';
@@ -27,8 +27,8 @@ const BaseNavigator = createBottomTabNavigator(
         tabBarIcon: <PostButton />,
       }),
     },
-    AuthorProfile: {
-      screen: RootComponent()(Profile),
+    Messages: {
+      screen: RootComponent()(Messages),
       navigationOptions: () => ({
         tabBarIcon: ({ tintColor }) => <Icon name="envelope-o" color={tintColor} size={18} />,
       }),

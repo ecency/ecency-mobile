@@ -13,7 +13,7 @@ import { default as ROUTES } from '../../../constants/routeNames';
 // Styles
 import styles from './postButtonStyles';
 
-const SIZE = 70;
+const SIZE = 75;
 const durationIn = 300;
 const durationOut = 200;
 
