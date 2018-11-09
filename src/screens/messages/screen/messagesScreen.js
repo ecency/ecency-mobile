@@ -30,7 +30,7 @@ class MessagesScreen extends Component {
       <Fragment>
         <Header />
         <NoPost
-          style={{ marginTop: 118 }}
+          style={styles.container}
           imageStyle={styles.image}
           source={MESSAGES_IMAGE}
           defaultText="Messages feature is coming soon!"

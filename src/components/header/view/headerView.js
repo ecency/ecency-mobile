@@ -60,6 +60,8 @@ class HeaderView extends Component {
       isReverse,
       currentAccount,
     } = this.props;
+    const _name = this._getNameOfUser();
+    const _reputation = getReputation(currentAccount.reputation);
 
     return (
       <SafeAreaView style={[styles.container, isReverse && styles.containerReverse]}>
@@ -88,11 +90,11 @@ class HeaderView extends Component {
         </TouchableOpacity>
         {currentAccount && currentAccount.name ? (
           <View style={styles.titleWrapper}>
-            <Text style={styles.title}>{this._getNameOfUser()}</Text>
+            {_name && <Text style={styles.title}>{_name}</Text>}
             <Text style={styles.subTitle}>
               @
               {currentAccount.name}
-              {`(${getReputation(currentAccount.reputation)})`}
+              {`(${_reputation})`}
             </Text>
           </View>
         ) : (

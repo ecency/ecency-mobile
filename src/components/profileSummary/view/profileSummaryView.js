@@ -128,7 +128,7 @@ class ProfileSummaryView extends Component {
                     color="#c1c5c7"
                   />
                   {isFollowLoading ? (
-                    <ActivityIndicator style={styles.insetIconStyle} />
+                    <ActivityIndicator style={[styles.insetIconStyle, {width: 30}]} />
                   ) : (
                     <IconButton
                       backgroundColor="transparent"
