@@ -2,11 +2,9 @@ import EStyleSheet from 'react-native-extended-stylesheet';
 
 export default EStyleSheet.create({
   container: {
-    // flexDirection: 'center',
-    //  width: 50,
     justifyContent: 'center',
-    alignContent: 'center',
     alignItems: 'center',
+    flex: 1,
   },
   image: {
     width: 193,
