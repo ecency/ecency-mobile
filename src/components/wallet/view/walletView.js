@@ -44,9 +44,15 @@ class WalletView extends Component {
             <MainButton style={styles.mainButton} height={50} onPress={this._handleOnPressLogin}>
               <View style={styles.mainButtonWrapper}>
                 <Text style={styles.mainButtonText}>
-                  {walletData.rewardSteemBalance ? `${walletData.rewardSteemBalance} STEEM` : ''}
-                  {walletData.rewardSbdBalance ? ` ${walletData.rewardSbdBalance} SDB` : ''}
-                  {walletData.rewardVestingSteem ? ` ${walletData.rewardVestingSteem} SP` : ''}
+                  {walletData.rewardSteemBalance
+                    ? `${Math.round(walletData.rewardSteemBalance * 1000) / 1000} STEEM`
+                    : ''}
+                  {walletData.rewardSbdBalance
+                    ? ` ${Math.round(walletData.rewardSbdBalance * 1000) / 1000} SDB`
+                    : ''}
+                  {walletData.rewardVestingSteem
+                    ? ` ${Math.round(walletData.rewardVestingSteem * 1000) / 1000} SP`
+                    : ''}
                 </Text>
                 <View style={styles.mainIconWrapper}>
                   <Ionicons name="md-add" color="#357ce6" size={23} />
@@ -58,6 +64,8 @@ class WalletView extends Component {
           <CollapsibleCard titleColor="#788187" title="Wallet Details" expanded>
             <WalletDetails walletData={walletData} />
           </CollapsibleCard>
+
+          <Transaction />
         </ScrollView>
       </View>
     );

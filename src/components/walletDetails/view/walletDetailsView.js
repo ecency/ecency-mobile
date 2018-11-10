@@ -37,7 +37,7 @@ class WalletDetailsView extends Component {
           text="Steem"
           textColor="#3c4449"
           iconName="ios-information-circle-outline"
-          rightText={`${walletData.estimatedValue} STEEM`}
+          rightText={`${Math.round(walletData.estimatedValue * 1000) / 1000} STEEM`}
           isBoldText
         />
         <GrayWrapper>
@@ -45,33 +45,33 @@ class WalletDetailsView extends Component {
             text="Steem Power"
             textColor="#3c4449"
             iconName="ios-information-circle-outline"
-            rightText={`${vestsToSp(walletData.vestingShares, walletData.steemPerMVests)} SP`}
+            rightText={`${Math.round(vestsToSp(walletData.vestingShares, walletData.steemPerMVests) * 1000) / 1000} SP`}
             tightTextColor="red"
             isBoldText
           />
 
           {walletData.vestingSharesDelegated > 0 && (
             <WalletLineItem
-              rightText={`- ${vestsToSp(
+              rightText={`- ${Math.round(vestsToSp(
                 walletData.vestingSharesDelegated,
                 walletData.steemPerMVests,
-              )} SP`}
+              ) * 1000) / 1000} SP`}
             />
           )}
           {walletData.vestingSharesReceived > 0 && (
             <WalletLineItem
-              rightText={`+ ${vestsToSp(
+              rightText={`+ ${Math.round(vestsToSp(
                 walletData.vestingSharesReceived,
                 walletData.steemPerMVests,
-              )} SP`}
+              ) * 1000) / 1000} SP`}
             />
           )}
           {(walletData.vestingSharesDelegated > 0 || walletData.vestingSharesReceived > 0) && (
             <WalletLineItem
-              rightText={`= ${vestsToSp(
+              rightText={`= ${Math.round(vestsToSp(
                 walletData.vestingSharesTotal,
                 walletData.steemPerMVests,
-              )} SP`}
+              ) * 1000) / 1000} SP`}
               rightTextColor="#357ce6"
             />
           )}
@@ -81,7 +81,7 @@ class WalletDetailsView extends Component {
           text="Steem Dollars"
           textColor="#3c4449"
           iconName="ios-information-circle-outline"
-          rightText={`$${walletData.sbdBalance}`}
+          rightText={`$${Math.round(walletData.sbdBalance * 1000) / 1000}`}
           isBoldText
         />
         <GrayWrapper>
@@ -89,10 +89,10 @@ class WalletDetailsView extends Component {
             text="Savings"
             textColor="#3c4449"
             iconName="ios-information-circle-outline"
-            rightText={`${walletData.savingBalance} STEEM`}
+            rightText={`${Math.round(walletData.savingBalance * 1000) / 1000} STEEM`}
             isBoldText
           />
-          <WalletLineItem rightText={`$${walletData.savingBalanceSbd}`} />
+          <WalletLineItem rightText={`$${Math.round(walletData.savingBalanceSbd * 1000) / 1000}`} />
         </GrayWrapper>
       </View>
     );

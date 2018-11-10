@@ -148,7 +148,7 @@ class ProfileScreen extends Component {
               )}
             </View>
             <View
-              tabLabel={user && user.balance ? `$${user && parseToken(user.balance)}` : 'Wallet'}
+              tabLabel="Wallet"
             >
               <Wallet user={user} />
             </View>
