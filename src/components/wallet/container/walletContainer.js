@@ -57,12 +57,8 @@ class WalletContainer extends Component {
 
     const global = await globalProps();
     const feedHistory = await getFeedHistory();
-    console.log('global :', global);
-    console.log('feedHistory :', feedHistory);
 
     walletData.steemPerMVests = (parseToken(global.total_vesting_fund_steem) / parseToken(global.total_vesting_shares)) * 1e6;
-
-    console.log('steemPerMVests :', walletData.steemPerMVests);
 
     walletData.estimatedValue = vestsToSp(walletData.vestingShares, walletData.steemPerMVests)
         * parseToken(feedHistory.current_median_history.base)
@@ -71,8 +67,6 @@ class WalletContainer extends Component {
 
     walletData.showPowerDown = user.next_vesting_withdrawal !== '1969-12-31T23:59:59';
     walletData.nextVestingWithdrawal = parseDate(user.next_vesting_withdrawal);
-
-    console.log('walletData :', walletData);
 
     this.setState({ walletData });
   }
