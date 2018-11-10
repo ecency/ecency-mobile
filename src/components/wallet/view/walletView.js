@@ -15,9 +15,9 @@ import styles from './walletStyles';
 
 class WalletView extends Component {
   /* Props
-    * ------------------------------------------------
-    *   @prop { type }    name                - Description....
-    */
+   * ------------------------------------------------
+   *   @prop { type }    name                - Description....
+   */
 
   constructor(props) {
     super(props);
@@ -29,7 +29,7 @@ class WalletView extends Component {
   // Component Functions
 
   render() {
-    const { user } = this.props;
+    const { user, walletData } = this.props;
 
     return (
       <View style={styles.container}>
@@ -43,7 +43,11 @@ class WalletView extends Component {
           >
             <MainButton style={styles.mainButton} height={50} onPress={this._handleOnPressLogin}>
               <View style={styles.mainButtonWrapper}>
-                <Text style={styles.mainButtonText}>18.323 STEEM 1.916 SBD 150.167 SP</Text>
+                <Text style={styles.mainButtonText}>
+                  {walletData.rewardSteemBalance ? `${walletData.rewardSteemBalance} STEEM` : ''}
+                  {walletData.rewardSbdBalance ? ` ${walletData.rewardSbdBalance} SDB` : ''}
+                  {walletData.rewardVestingSteem ? ` ${walletData.rewardVestingSteem} SP` : ''}
+                </Text>
                 <View style={styles.mainIconWrapper}>
                   <Ionicons name="md-add" color="#357ce6" size={23} />
                 </View>
@@ -52,10 +56,8 @@ class WalletView extends Component {
           </CollapsibleCard>
 
           <CollapsibleCard titleColor="#788187" title="Wallet Details" expanded>
-            <WalletDetails balance={user.balance} />
+            <WalletDetails walletData={walletData} />
           </CollapsibleCard>
-
-          <Transaction />
         </ScrollView>
       </View>
     );
