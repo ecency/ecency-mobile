@@ -15,9 +15,9 @@ import styles from './walletStyles';
 
 class WalletView extends Component {
   /* Props
-    * ------------------------------------------------
-    *   @prop { type }    name                - Description....
-    */
+   * ------------------------------------------------
+   *   @prop { type }    name                - Description....
+   */
 
   constructor(props) {
     super(props);
@@ -29,7 +29,7 @@ class WalletView extends Component {
   // Component Functions
 
   render() {
-    const { user } = this.props;
+    const { user, walletData } = this.props;
 
     return (
       <View style={styles.container}>
@@ -41,18 +41,36 @@ class WalletView extends Component {
             defaultTitle="Unclaimed rewards"
             expanded
           >
-            <MainButton style={styles.mainButton} height={50} onPress={this._handleOnPressLogin}>
-              <View style={styles.mainButtonWrapper}>
-                <Text style={styles.mainButtonText}>18.323 STEEM 1.916 SBD 150.167 SP</Text>
-                <View style={styles.mainIconWrapper}>
-                  <Ionicons name="md-add" color="#357ce6" size={23} />
-                </View>
-              </View>
-            </MainButton>
+            {walletData.rewardSteemBalance > 0
+              && walletData.rewardSbdBalance > 0
+              && walletData.rewardVestingSteem > 0 && (
+                <MainButton
+                  style={styles.mainButton}
+                  height={50}
+                  onPress={this._handleOnPressLogin}
+                >
+                  <View style={styles.mainButtonWrapper}>
+                    <Text style={styles.mainButtonText}>
+                      {walletData.rewardSteemBalance
+                        ? `${Math.round(walletData.rewardSteemBalance * 1000) / 1000} STEEM`
+                        : ''}
+                      {walletData.rewardSbdBalance
+                        ? ` ${Math.round(walletData.rewardSbdBalance * 1000) / 1000} SDB`
+                        : ''}
+                      {walletData.rewardVestingSteem
+                        ? ` ${Math.round(walletData.rewardVestingSteem * 1000) / 1000} SP`
+                        : ''}
+                    </Text>
+                    <View style={styles.mainIconWrapper}>
+                      <Ionicons name="md-add" color="#357ce6" size={23} />
+                    </View>
+                  </View>
+                </MainButton>
+            )}
           </CollapsibleCard>
 
           <CollapsibleCard titleColor="#788187" title="Wallet Details" expanded>
-            <WalletDetails balance={user.balance} />
+            <WalletDetails walletData={walletData} />
           </CollapsibleCard>
 
           <Transaction />

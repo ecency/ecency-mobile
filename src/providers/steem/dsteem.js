@@ -436,8 +436,18 @@ export const delegate = (data, activeKey) => {
 
 export const globalProps = async () => {
   try {
-    const global_properties = await client.database.getDynamicGlobalProperties();
-    return global_properties;
+    const globalProperties = await client.database.getDynamicGlobalProperties();
+    return globalProperties;
+  } catch (error) {
+    console.log(error);
+    return error;
+  }
+};
+
+export const getFeedHistory = async () => {
+  try {
+    const feedHistory = await client.database.call('get_feed_history');
+    return feedHistory;
   } catch (error) {
     console.log(error);
     return error;
