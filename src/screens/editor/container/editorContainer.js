@@ -4,6 +4,7 @@ import { connect } from 'react-redux';
 // Services and Actions
 import { postContent } from '../../../providers/steem/dsteem';
 import { getUserData } from '../../../realm/realm';
+import { getDigitPinCode } from '../../../providers/steem/auth';
 
 // Middleware
 
@@ -40,9 +41,12 @@ class ExampleContainer extends Component {
     const title = form.formFields['title-area'].content;
     const permlink = generatePermlink(title);
 
+    const digitPinCode = await getDigitPinCode();
+
     await getUserData().then((res) => {
       userData = res && Array.from(res)[0];
-      postingKey = decryptKey(userData.postingKey, '1234');
+
+      postingKey = decryptKey(userData.postingKey, digitPinCode);
     });
 
     if (userData) {

@@ -5,7 +5,9 @@
 
 import { Client, PrivateKey } from 'dsteem';
 import { AsyncStorage } from 'react-native';
+import sc2 from 'steemconnect';
 import { parsePosts, parsePost, parseComments } from '../../utils/postParser';
+import { decryptKey } from '../../utils/crypto';
 
 let rewardFund = null;
 let medianPrice = null;
@@ -110,7 +112,7 @@ export const getFollowers = user => new Promise((resolve, reject) => {
  */
 export const getFollowing = (follower, startFollowing, followType = 'blog', limit = 100) => client.database.call('get_following', [follower, startFollowing, followType, limit]);
 
-export const isFolllowing = (user, author) => new Promise((resolve, reject) => {
+export const getIsFollowing = (user, author) => new Promise((resolve, reject) => {
   client.database
     .call('get_following', [author, user, 'blog', 1])
     .then((result) => {
@@ -124,6 +126,59 @@ export const isFolllowing = (user, author) => new Promise((resolve, reject) => {
       reject(err);
     });
 });
+
+export const getIsMuted = async (username, targetUsername) => {
+  let resp;
+
+  try {
+    resp = await getFollowing(username, targetUsername, 'ignore', 1);
+  } catch (err) {
+    return false;
+  }
+
+  if (resp && resp.length > 0) {
+    if (resp[0].follower === username && resp[0].following === targetUsername) {
+      return true;
+    }
+  }
+
+  return false;
+};
+
+export const ignore = (account, pin, following) => {
+  if (account.type === 's') {
+    const key = decryptKey(account.keys.posting, pin);
+    const privateKey = PrivateKey.fromString(key);
+    const follower = account.username;
+
+    const json = {
+      id: 'follow',
+      json: JSON.stringify([
+        'follow',
+        {
+          follower,
+          following,
+          what: ['ignore'],
+        },
+      ]),
+      required_auths: [],
+      required_posting_auths: [follower],
+    };
+
+    return client.broadcast.json(json, privateKey);
+  }
+
+  if (account.type === 'sc') {
+    const token = decryptKey(account.accessToken, pin);
+    const api = sc2.Initialize({
+      accessToken: token,
+    });
+
+    const follower = account.username;
+
+    return api.ignore(follower, following);
+  }
+};
 
 /**
  * @method getPosts get posts method

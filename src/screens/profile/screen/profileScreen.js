@@ -79,12 +79,13 @@ class ProfileScreen extends Component {
               title={_about}
               isTitleCenter
               defaultTitle="Profile details"
-              expanded={true}
+              expanded
               // expanded={isLoggedIn}
               // locked={!isLoggedIn}
             >
               <ProfileSummary
                 isFollowing={isFollowing}
+                isOwnProfile={!isReverseHeader}
                 percentVP={votingPower}
                 isFollowLoading={isFollowLoading}
                 isLoggedIn={isLoggedIn}
