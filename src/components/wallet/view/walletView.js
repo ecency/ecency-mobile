@@ -29,46 +29,41 @@ class WalletView extends Component {
   // Component Functions
 
   render() {
-    const { user, walletData } = this.props;
+    const { walletData } = this.props;
 
     return (
       <View style={styles.container}>
         <ScrollView style={styles.scrollView}>
-          <CollapsibleCard
-            titleColor="#788187"
-            isBoldTitle
-            fontSize={16}
-            defaultTitle="Unclaimed rewards"
-            expanded
-          >
-            {walletData.rewardSteemBalance > 0
-              && walletData.rewardSbdBalance > 0
-              && walletData.rewardVestingSteem > 0 && (
-                <MainButton
-                  style={styles.mainButton}
-                  height={50}
-                  onPress={this._handleOnPressLogin}
-                >
-                  <View style={styles.mainButtonWrapper}>
-                    <Text style={styles.mainButtonText}>
-                      {walletData.rewardSteemBalance
-                        ? `${Math.round(walletData.rewardSteemBalance * 1000) / 1000} STEEM`
-                        : ''}
-                      {walletData.rewardSbdBalance
-                        ? ` ${Math.round(walletData.rewardSbdBalance * 1000) / 1000} SDB`
-                        : ''}
-                      {walletData.rewardVestingSteem
-                        ? ` ${Math.round(walletData.rewardVestingSteem * 1000) / 1000} SP`
-                        : ''}
-                    </Text>
-                    <View style={styles.mainIconWrapper}>
-                      <Ionicons name="md-add" color="#357ce6" size={23} />
-                    </View>
+          {(walletData.rewardSteemBalance > 0
+            || walletData.rewardSbdBalance > 0
+            || walletData.rewardVestingSteem > 0) && (
+            <CollapsibleCard
+              titleColor="#788187"
+              isBoldTitle
+              defaultTitle="Unclaimed rewards"
+              expanded
+              style={{ marginBottom: 0 }}
+            >
+              <MainButton style={styles.mainButton} height={50} onPress={this._handleOnPressLogin}>
+                <View style={styles.mainButtonWrapper}>
+                  <Text style={styles.mainButtonText}>
+                    {walletData.rewardSteemBalance
+                      ? `${Math.round(walletData.rewardSteemBalance * 1000) / 1000} STEEM`
+                      : ''}
+                    {walletData.rewardSbdBalance
+                      ? ` ${Math.round(walletData.rewardSbdBalance * 1000) / 1000} SDB`
+                      : ''}
+                    {walletData.rewardVestingSteem
+                      ? ` ${Math.round(walletData.rewardVestingSteem * 1000) / 1000} SP`
+                      : ''}
+                  </Text>
+                  <View style={styles.mainIconWrapper}>
+                    <Ionicons name="md-add" color="#357ce6" size={23} />
                   </View>
-                </MainButton>
-            )}
-          </CollapsibleCard>
-
+                </View>
+              </MainButton>
+            </CollapsibleCard>
+          )}
           <CollapsibleCard titleColor="#788187" title="Wallet Details" expanded>
             <WalletDetails walletData={walletData} />
           </CollapsibleCard>
