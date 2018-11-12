@@ -1,6 +1,6 @@
 import React, { Component, Fragment } from 'react';
 import {
-  View, SafeAreaView, Text, TextInput,
+  View, SafeAreaView, Text, TextInput, ActivityIndicator,
 } from 'react-native';
 import { TextButton } from '../..';
 import { IconButton } from '../../iconButton';
@@ -69,6 +69,7 @@ class EditorHeaderView extends Component {
       isModalHeader,
       handleOnPressClose,
       isHasSearch,
+      isPostSending,
     } = this.props;
     const { isInputVisible } = this.state;
     return (
@@ -144,15 +145,19 @@ class EditorHeaderView extends Component {
                 iconStyle={styles.rightIcon}
                 name={isPreviewActive ? 'ios-eye' : 'ios-eye-off'}
               />
-              <TextButton
-                textStyle={[
-                  styles.textButton,
-                  isFormValid ? styles.textButtonEnable : styles.textButtonDisable,
-                ]}
-                onPress={isFormValid && this._handleOnPress}
-                style={styles.textButtonWrapper}
-                text="Publish"
-              />
+              {!isPostSending ? (
+                <TextButton
+                  textStyle={[
+                    styles.textButton,
+                    isFormValid ? styles.textButtonEnable : styles.textButtonDisable,
+                  ]}
+                  onPress={isFormValid && this._handleOnPress}
+                  style={styles.textButtonWrapper}
+                  text="Publish"
+                />
+              ) : (
+                <ActivityIndicator style={styles.textButtonWrapper} />
+              )}
             </Fragment>
           )}
         </View>

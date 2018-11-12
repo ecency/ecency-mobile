@@ -2,7 +2,6 @@ import React, { Component } from 'react';
 import { View, Dimensions, Linking } from 'react-native';
 import { withNavigation } from 'react-navigation';
 import HTML from 'react-native-html-renderer';
-import { MarkdownView } from 'react-native-markdown-view';
 
 // Styles
 import styles from './postBodyStyles';

@@ -91,11 +91,12 @@ export class EditorScreen extends Component {
 
   render() {
     const { isPreviewActive, wordsCount, isFormValid } = this.state;
-    const { isLoggedIn } = this.props;
+    const { isLoggedIn, isPostSending } = this.props;
 
     return (
       <View style={globalStyles.defaultContainer}>
         <EditorHeader
+          isPostSending={isPostSending}
           isPreviewActive={isPreviewActive}
           quickTitle={wordsCount > 0 && `${wordsCount} words`}
           handleOnPressPreviewButton={this._handleOnPressPreviewButton}

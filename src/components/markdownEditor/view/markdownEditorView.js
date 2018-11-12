@@ -2,7 +2,7 @@ import React, { Component } from 'react';
 import {
   View, TextInput, KeyboardAvoidingView, ScrollView, FlatList,
 } from 'react-native';
-import { MarkdownView } from 'react-native-markdown-view';
+import Markdown from 'react-native-markdown-renderer';
 
 // Components
 import Formats from './formats/formats';
@@ -12,7 +12,7 @@ import { StickyBar } from '../../basicUIElements';
 
 // Styles
 import styles from './markdownEditorStyles';
-import previewStyles from './markdownPreviewStyles';
+import customMarkdownStyle from './markdownPreviewStyles';
 
 export default class MarkdownEditorView extends Component {
   constructor(props) {
@@ -64,10 +64,11 @@ export default class MarkdownEditorView extends Component {
   _renderPreview = () => {
     const { text } = this.state;
 
+    alert(text);
     return (
       <View style={styles.textWrapper}>
         <ScrollView removeClippedSubviews>
-          <MarkdownView styles={previewStyles}>{text === '' ? '...' : text}</MarkdownView>
+          <Markdown style={customMarkdownStyle}>{text === '' ? '...' : text}</Markdown>
         </ScrollView>
       </View>
     );
@@ -91,7 +92,8 @@ export default class MarkdownEditorView extends Component {
         <FlatList
           data={Formats}
           keyboardShouldPersistTaps="always"
-          renderItem={({ item }) => this._renderMarkupButton({ item, getState, setState })}
+          renderItem={({ item, index }) => index !== 9 && this._renderMarkupButton({ item, getState, setState })
+          }
           horizontal
         />
       </View>

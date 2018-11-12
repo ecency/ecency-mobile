@@ -27,7 +27,9 @@ import { EditorScreen } from '../screen/editorScreen';
 class ExampleContainer extends Component {
   constructor(props) {
     super(props);
-    this.state = {};
+    this.state = {
+      isPostSending: false,
+    };
   }
 
   // Component Life Cycle Functions
@@ -40,6 +42,7 @@ class ExampleContainer extends Component {
     let postingKey;
     const title = form.formFields['title-area'].content;
     const permlink = generatePermlink(title);
+    this.setState({ isPostSending: true });
 
     const digitPinCode = await getDigitPinCode();
 
@@ -65,6 +68,7 @@ class ExampleContainer extends Component {
         })
         .catch((error) => {
           alert(`Opps! there is a problem${error}`);
+          this.setState({ isPostSending: false });
         });
     }
   };
@@ -75,8 +79,15 @@ class ExampleContainer extends Component {
 
   render() {
     const { isLoggedIn } = this.props;
+    const { isPostSending } = this.state;
 
-    return <EditorScreen isLoggedIn={isLoggedIn} handleOnSubmit={this._handleSubmit} />;
+    return (
+      <EditorScreen
+        isPostSending={isPostSending}
+        isLoggedIn={isLoggedIn}
+        handleOnSubmit={this._handleSubmit}
+      />
+    );
   }
 }
 
