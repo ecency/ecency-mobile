@@ -25,7 +25,7 @@ class WalletContainer extends Component {
   constructor(props) {
     super(props);
     this.state = {
-      walletData: {},
+      walletData: null,
     };
   }
 
@@ -66,7 +66,8 @@ class WalletContainer extends Component {
       + walletData.sbdBalance;
 
     walletData.showPowerDown = user.next_vesting_withdrawal !== '1969-12-31T23:59:59';
-    walletData.nextVestingWithdrawal = parseDate(user.next_vesting_withdrawal);
+    const timeDiff = Math.abs(parseDate(user.next_vesting_withdrawal) - new Date());
+    walletData.nextVestingWithdrawal = Math.ceil(timeDiff / (1000 * 3600 * 24));
 
     this.setState({ walletData });
   }
