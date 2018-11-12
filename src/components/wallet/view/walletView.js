@@ -83,7 +83,7 @@ class WalletView extends Component {
           {walletData === null ? (
             <WalletDetailsPlaceHolder />
           ) : (
-            <Transaction transactions={walletData.transactions} />
+            <Transaction walletData={walletData} />
           )}
         </ScrollView>
       </View>
