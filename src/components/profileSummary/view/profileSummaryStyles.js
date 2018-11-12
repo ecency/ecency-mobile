@@ -28,6 +28,7 @@ export default EStyleSheet.create({
   leftIcons: {
     flexDirection: 'row',
     justifyContent: 'flex-start',
+    height: 20,
   },
   rightIcons: {
     flexDirection: 'row',
@@ -35,6 +36,10 @@ export default EStyleSheet.create({
   },
   insetIconStyle: {
     marginRight: 12,
+  },
+  activityIndicator: {
+    marginRight: 12,
+    width: 30,
   },
   followCountWrapper: {
     flexDirection: 'column',

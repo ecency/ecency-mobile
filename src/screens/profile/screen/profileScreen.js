@@ -39,8 +39,10 @@ class ProfileScreen extends Component {
       user,
       isReady,
       username,
+      isMuted,
       isFollowing,
-      isFollowLoading,
+      handleMuteUnmuteUser,
+      isProfileLoading,
     } = this.props;
     let _about;
     let avatar;
@@ -85,11 +87,13 @@ class ProfileScreen extends Component {
             >
               <ProfileSummary
                 isFollowing={isFollowing}
+                isMuted={isMuted}
                 isOwnProfile={!isReverseHeader}
                 percentVP={votingPower}
-                isFollowLoading={isFollowLoading}
+                isProfileLoading={isProfileLoading}
                 isLoggedIn={isLoggedIn}
                 handleFollowUnfollowUser={handleFollowUnfollowUser}
+                handleMuteUnmuteUser={handleMuteUnmuteUser}
                 percentRC={resourceCredits}
                 hoursVP={fullInHourVP || null}
                 hoursRC={fullInHourRC || null}
@@ -137,7 +141,7 @@ class ProfileScreen extends Component {
             <View tabLabel="Comments" style={styles.commentsTabBar}>
               {comments && comments.length > 0 ? (
                 <ScrollView>
-                  <Comments comments={comments} />
+                  <Comments isProfilePreview comments={comments} />
                 </ScrollView>
               ) : (
                 <NoPost
@@ -147,9 +151,7 @@ class ProfileScreen extends Component {
                 />
               )}
             </View>
-            <View
-              tabLabel="Wallet"
-            >
+            <View tabLabel="Wallet">
               <Wallet user={user} />
             </View>
           </ScrollableTabView>

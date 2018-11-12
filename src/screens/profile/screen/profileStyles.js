@@ -58,6 +58,8 @@ export default EStyleSheet.create({
   },
   commentsTabBar: {
     backgroundColor: '$white',
+    paddingHorizontal: 16,
+    paddingVertical: 5,
   },
   tabBarTitle: {},
 });

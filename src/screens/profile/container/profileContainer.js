@@ -8,6 +8,7 @@ import { ProfileScreen } from '..';
 import {
   followUser,
   unfollowUser,
+  ignoreUser,
   getFollows,
   getUserComments,
   getUser,
@@ -34,7 +35,7 @@ class ProfileContainer extends Component {
       isReady: false,
       isFollowing: false,
       isMuted: false,
-      isFollowLoading: false,
+      isProfileLoading: false,
     };
   }
 
@@ -89,13 +90,31 @@ class ProfileContainer extends Component {
     const privateKey = decryptKey(currentAccount.realm_object.postingKey, digitPinCode);
 
     this.setState({
-      isFollowLoading: true,
+      isProfileLoading: true,
     });
 
     if (isFollowAction && !isFollowing) {
       this._followUser(currentAccount.name, username, privateKey);
     } else {
       this._unfollowUser(currentAccount.name, username, privateKey);
+    }
+  };
+
+  _handleMuteUnmuteUser = async (isMuteAction) => {
+    const { username, isMuted } = this.state;
+    const { currentAccount } = this.props;
+    const digitPinCode = await getDigitPinCode();
+
+    const privateKey = decryptKey(currentAccount.realm_object.postingKey, digitPinCode);
+
+    this.setState({
+      isProfileLoading: true,
+    });
+
+    if (isMuteAction && !isMuted) {
+      this._muteUser(currentAccount.name, username, privateKey);
+    } else {
+      this._muteUser(currentAccount.name, username, privateKey);
     }
   };
 
@@ -107,11 +126,11 @@ class ProfileContainer extends Component {
       },
       privateKey,
     )
-      .then((result) => {
-        this._followActionDone();
+      .then(() => {
+        this._profileActionDone();
       })
       .catch((err) => {
-        this._followActionDone(err);
+        this._profileActionDone(err);
       });
   };
 
@@ -123,25 +142,42 @@ class ProfileContainer extends Component {
       },
       privateKey,
     )
-      .then((result) => {
-        this._followActionDone();
+      .then(() => {
+        this._profileActionDone();
       })
       .catch((err) => {
-        this._followActionDone(err);
+        this._profileActionDone(err);
       });
   };
 
-  _followActionDone = (error = null) => {
+  _muteUser = async (follower, following, privateKey) => {
+    ignoreUser(
+      {
+        follower,
+        following,
+      },
+      privateKey,
+    )
+      .then(() => {
+        this._profileActionDone();
+      })
+      .catch((err) => {
+        this._profileActionDone(err);
+      });
+  };
+
+  _profileActionDone = (error = null) => {
     const { username } = this.state;
 
     this.setState({
-      isFollowLoading: false,
+      isProfileLoading: false,
     });
 
     if (error) {
       this.setState({
         error,
       });
+      alert(error);
     } else {
       this._fetchProfile(username);
     }
@@ -193,7 +229,7 @@ class ProfileContainer extends Component {
       comments,
       error,
       follows,
-      isFollowLoading,
+      isProfileLoading,
       isFollowing,
       isMuted,
       isLoading,
@@ -212,7 +248,8 @@ class ProfileContainer extends Component {
           error={error}
           follows={follows}
           handleFollowUnfollowUser={this._handleFollowUnfollowUser}
-          isFollowLoading={isFollowLoading}
+          handleMuteUnmuteUser={this._handleMuteUnmuteUser}
+          isProfileLoading={isProfileLoading}
           isFollowing={isFollowing}
           isLoading={isLoading}
           isLoggedIn={isLoggedIn}
