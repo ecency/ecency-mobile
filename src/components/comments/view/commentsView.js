@@ -39,6 +39,7 @@ class CommentsView extends Component {
       currentUser,
       commentNumber,
       handleOnReplyPress,
+      isProfilePreview,
     } = this.props;
     // commentNumber === 8 && alert('sekkiz:');
     return (
@@ -76,17 +77,19 @@ class CommentsView extends Component {
                     />
                   </View>
                 </View>
-                <View style={{ marginLeft: marginLeft || 29 }}>
-                  {commentNumber !== 8 && (
-                    <Comments
-                      commentNumber={commentNumber ? commentNumber * 2 : 1}
-                      marginLeft={20}
-                      avatarSize={avatarSize || 16}
-                      author={item.author}
-                      permlink={item.permlink}
-                    />
-                  )}
-                </View>
+                {!isProfilePreview && (
+                  <View style={{ marginLeft: marginLeft || 29 }}>
+                    {commentNumber !== 8 && (
+                      <Comments
+                        commentNumber={commentNumber ? commentNumber * 2 : 1}
+                        marginLeft={20}
+                        avatarSize={avatarSize || 16}
+                        author={item.author}
+                        permlink={item.permlink}
+                      />
+                    )}
+                  </View>
+                )}
               </View>
             )}
           />

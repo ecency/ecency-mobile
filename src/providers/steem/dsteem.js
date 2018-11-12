@@ -145,39 +145,39 @@ export const getIsMuted = async (username, targetUsername) => {
   return false;
 };
 
-export const ignore = (account, pin, following) => {
-  if (account.type === 's') {
-    const key = decryptKey(account.keys.posting, pin);
-    const privateKey = PrivateKey.fromString(key);
-    const follower = account.username;
-
-    const json = {
-      id: 'follow',
-      json: JSON.stringify([
-        'follow',
-        {
-          follower,
-          following,
-          what: ['ignore'],
-        },
-      ]),
-      required_auths: [],
-      required_posting_auths: [follower],
-    };
-
-    return client.broadcast.json(json, privateKey);
+export const ignoreUser = (data, postingKey) => {
+  let key;
+  try {
+    key = PrivateKey.fromString(postingKey);
+  } catch (error) {
+    console.log(error);
   }
+  const json = {
+    id: 'follow',
+    json: JSON.stringify([
+      'follow',
+      {
+        follower: `${data.follower}`,
+        following: `${data.following}`,
+        what: ['ignore'],
+      },
+    ]),
+    required_auths: [],
+    required_posting_auths: [`${data.follower}`],
+  };
 
-  if (account.type === 'sc') {
-    const token = decryptKey(account.accessToken, pin);
-    const api = sc2.Initialize({
-      accessToken: token,
-    });
-
-    const follower = account.username;
-
-    return api.ignore(follower, following);
-  }
+  return new Promise((resolve, reject) => {
+    client.broadcast
+      .json(json, key)
+      .then((result) => {
+        console.log(result);
+        resolve(result);
+      })
+      .catch((err) => {
+        console.log(err);
+        reject(err);
+      });
+  });
 };
 
 /**
