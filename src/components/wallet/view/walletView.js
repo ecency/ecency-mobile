@@ -80,8 +80,11 @@ class WalletView extends Component {
               <WalletDetails walletData={walletData} />
             </CollapsibleCard>
           )}
-
-          <Transaction />
+          {walletData === null ? (
+            <WalletDetailsPlaceHolder />
+          ) : (
+            <Transaction transactions={walletData.transactions} />
+          )}
         </ScrollView>
       </View>
     );
