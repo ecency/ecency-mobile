@@ -2,6 +2,7 @@ import React, { Component } from 'react';
 import { View } from 'react-native';
 
 // Constants
+import { strings } from '../../../config/locales/i18n';
 
 // Utilities
 import parseToken from '../../../utils/parseToken';
@@ -32,6 +33,7 @@ class TransactionView extends Component {
     const { walletData } = this.props;
     const result = {};
 
+    // eslint-disable-next-line
     result.opName = transaction[1].op[0];
     const opData = transaction[1].op[1];
     const { timestamp } = transaction[1];
@@ -137,7 +139,7 @@ class TransactionView extends Component {
               if (index % 2 === 0) {
                 return (
                   <WalletLineItem
-                    text={transactionData.opName}
+                    text={strings(`wallet.${transactionData.opName}`)}
                     isCircleIcon
                     isThin
                     circleIconColor="white"
@@ -151,7 +153,7 @@ class TransactionView extends Component {
               return (
                 <GrayWrapper>
                   <WalletLineItem
-                    text={transactionData.opName}
+                    text={strings(`wallet.${transactionData.opName}`)}
                     isCircleIcon
                     isThin
                     circleIconColor="white"

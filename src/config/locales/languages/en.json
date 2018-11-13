@@ -1,0 +1,12 @@
+{
+  "wallet": {
+    "curation_reward": "Curation Reward",
+    "author_reward": "Author Reward",
+    "comment_benefactor_reward": "Comment Benefactor Reward",
+    "claim_reward_balance": "Claim Reward Balance",
+    "transfer": "Transfer",
+    "transfer_to_vesting": "Transfer To Vesting",
+    "withdraw_vesting": "withdraw_vesting",
+    "fill_order": "Fill Order"
+  }
+}
