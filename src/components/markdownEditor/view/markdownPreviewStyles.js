@@ -1,9 +1,6 @@
-import { StyleSheet } from 'react-native';
+import EStyleSheet from 'react-native-extended-stylesheet';
 
-/**
- *
- */
-const customMarkdownStyle = StyleSheet.create({
+export default EStyleSheet.create({
   view: {},
   codeBlock: {
     fontFamily: 'Courier',
@@ -24,11 +21,10 @@ const customMarkdownStyle = StyleSheet.create({
   a: {
     textDecorationLine: 'underline',
     color: 'red',
+    backgroundColor: 'black',
   },
   u: {
     borderColor: '#000000',
     borderBottomWidth: 1,
   },
 });
-
-export default customMarkdownStyle;

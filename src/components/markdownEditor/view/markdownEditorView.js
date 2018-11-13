@@ -12,7 +12,7 @@ import { StickyBar } from '../../basicUIElements';
 
 // Styles
 import styles from './markdownEditorStyles';
-import customMarkdownStyle from './markdownPreviewStyles';
+import markdownStyle from './markdownPreviewStyles';
 
 export default class MarkdownEditorView extends Component {
   constructor(props) {
@@ -64,11 +64,10 @@ export default class MarkdownEditorView extends Component {
   _renderPreview = () => {
     const { text } = this.state;
 
-    alert(text);
     return (
       <View style={styles.textWrapper}>
         <ScrollView removeClippedSubviews>
-          <Markdown style={customMarkdownStyle}>{text === '' ? '...' : text}</Markdown>
+          <Markdown style={markdownStyle}>{text === '' ? '...' : text}</Markdown>
         </ScrollView>
       </View>
     );
