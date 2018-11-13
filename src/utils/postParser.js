@@ -1,47 +1,50 @@
-import Remarkable from 'remarkable';
+//import Remarkable from 'remarkable';
+
+// Utils
 import { getPostSummary } from './formatter';
 import { getReputation } from './reputation';
 import { getTimeFromNow } from './time';
+import markdown2Html from './markdown2Html';
 
-const md = new Remarkable({ html: true, breaks: true, linkify: true });
+//const md = new Remarkable({ html: true, breaks: true, linkify: true });
 
-export const replaceAuthorNames = input => input.replace(
-  /* eslint-disable-next-line */
-    /(^|[^a-zA-Z0-9_!#$%&*@＠\/]|(^|[^a-zA-Z0-9_+~.-\/]))[@＠]([a-z][-\.a-z\d]+[a-z\d])/gi,
-  (match, preceeding1, preceeding2, user) => {
-    const userLower = user.toLowerCase();
-    const preceedings = (preceeding1 || '') + (preceeding2 || '');
+// export const replaceAuthorNames = input => input.replace(
+//   /* eslint-disable-next-line */
+//     /(^|[^a-zA-Z0-9_!#$%&*@＠\/]|(^|[^a-zA-Z0-9_+~.-\/]))[@＠]([a-z][-\.a-z\d]+[a-z\d])/gi,
+//   (match, preceeding1, preceeding2, user) => {
+//     const userLower = user.toLowerCase();
+//     const preceedings = (preceeding1 || '') + (preceeding2 || '');
 
-    return `${preceedings}<a class="markdown-author-link" href="${userLower}" data-author="${userLower}">@${user}</a>`;
-  },
-);
+//     return `${preceedings}<a class="markdown-author-link" href="${userLower}" data-author="${userLower}">@${user}</a>`;
+//   },
+// );
 
-export const replaceTags = input => input.replace(/(^|\s|>)(#[-a-z\d]+)/gi, (tag) => {
-  if (/#[\d]+$/.test(tag)) return tag; // do not allow only numbers (like #1)
-  const preceding = /^\s|>/.test(tag) ? tag[0] : ''; // space or closing tag (>)
-  tag = tag.replace('>', ''); // remove closing tag
-  const tag2 = tag.trim().substring(1);
-  const tagLower = tag2.toLowerCase();
-  return `${preceding}<a class="markdown-tag-link" href="${tagLower}" data-tag="${tagLower}">${tag.trim()}</a>`;
-});
+// export const replaceTags = input => input.replace(/(^|\s|>)(#[-a-z\d]+)/gi, (tag) => {
+//   if (/#[\d]+$/.test(tag)) return tag; // do not allow only numbers (like #1)
+//   const preceding = /^\s|>/.test(tag) ? tag[0] : ''; // space or closing tag (>)
+//   tag = tag.replace('>', ''); // remove closing tag
+//   const tag2 = tag.trim().substring(1);
+//   const tagLower = tag2.toLowerCase();
+//   return `${preceding}<a class="markdown-tag-link" href="${tagLower}" data-tag="${tagLower}">${tag.trim()}</a>`;
+// });
 
-export const markDown2Html = (input) => {
-  if (!input) {
-    return '';
-  }
+// export const markDown2Html = (input) => {
+//   if (!input) {
+//     return '';
+//   }
 
-  // Start replacing user names
-  let output = replaceAuthorNames(input);
+//   // Start replacing user names
+//   let output = replaceAuthorNames(input);
 
-  // Replace tags
-  output = replaceTags(output);
+//   // Replace tags
+//   output = replaceTags(output);
 
-  output = md.render(output);
+//   output = md.render(output);
 
-  // TODO: Implement Regex  --> Look at utls/formatter.js
+//   // TODO: Implement Regex  --> Look at utls/formatter.js
 
-  return output;
-};
+//   return output;
+// };
 
 export const parsePosts = (posts, user) => {
   posts.map((post) => {
@@ -52,7 +55,7 @@ export const parsePosts = (posts, user) => {
     post.vote_count = post.active_votes.length;
     post.author_reputation = getReputation(post.author_reputation);
     post.avatar = `https://steemitimages.com/u/${post.author}/avatar/small`;
-    post.body = markDown2Html(post.body);
+    post.body = markdown2Html(post.body);
     post.summary = getPostSummary(post.body, 100);
     post.raw_body = post.body;
     post.active_votes.sort((a, b) => b.rshares - a.rshares);
@@ -99,7 +102,7 @@ export const parsePost = (post) => {
   post.vote_count = post.active_votes.length;
   post.author_reputation = getReputation(post.author_reputation);
   post.avatar = `https://steemitimages.com/u/${post.author}/avatar/small`;
-  post.body = markDown2Html(post.body);
+  post.body = markdown2Html(post.body);
   post.summary = getPostSummary(post.body, 100);
   post.raw_body = post.body;
   post.active_votes.sort((a, b) => b.rshares - a.rshares);
