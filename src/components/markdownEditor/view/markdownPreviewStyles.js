@@ -5,6 +5,8 @@ export default EStyleSheet.create({
   codeBlock: {
     fontFamily: 'Courier',
     fontWeight: '500',
+    marginLeft: 20,
+    color: '#788187',
   },
   del: {
     backgroundColor: '#000000',
@@ -13,15 +15,21 @@ export default EStyleSheet.create({
     fontStyle: 'italic',
   },
 
-  text: { fontSize: 10, color: '#a1c982' },
+  text: {
+    fontSize: 10,
+    color: '#3c4449',
+  },
+  heading: {
+    fontSize: 32,
+    color: 'purple',
+  },
   strikethrough: {
     textDecorationLine: 'line-through',
     color: '#FF0000',
   },
-  a: {
+  link: {
     textDecorationLine: 'underline',
-    color: 'red',
-    backgroundColor: 'black',
+    color: '#a1c982',
   },
   u: {
     borderColor: '#000000',
