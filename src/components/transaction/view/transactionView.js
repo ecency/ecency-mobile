@@ -113,7 +113,6 @@ class TransactionView extends Component {
       default:
         break;
     }
-    console.log('result :', result);
     return result;
   };
 

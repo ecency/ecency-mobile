@@ -95,7 +95,6 @@ class PinCodeContainer extends Component {
         username: currentAccount.name,
         accessToken,
       };
-      console.log('pinData setUserDataWithPinCode0000000000', currentAccount);
       setUserDataWithPinCode(pinData).then(() => {
         AsyncStorage.setItem(INITIAL.IS_EXIST_USER, JSON.stringify(true), () => {
           dispatch(closePinCodeModal());

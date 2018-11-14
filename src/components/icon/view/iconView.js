@@ -35,7 +35,6 @@ class IconView extends Component {
   _getIcon = () => {
     const { iconType, children } = this.props;
     const name = this._getIconName();
-    console.log('this.props :', this.props);
 
     switch (iconType) {
       case 'Feather':
