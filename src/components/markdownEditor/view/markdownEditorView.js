@@ -1,8 +1,8 @@
 import React, { Component } from 'react';
 import {
-  View, TextInput, KeyboardAvoidingView, ScrollView, FlatList,
+  View, TextInput, KeyboardAvoidingView, ScrollView, FlatList, Text,
 } from 'react-native';
-import Markdown from 'react-native-markdown-renderer';
+import Markdown, { getUniqueID } from 'react-native-markdown-renderer';
 
 // Components
 import Formats from './formats/formats';
@@ -63,11 +63,25 @@ export default class MarkdownEditorView extends Component {
 
   _renderPreview = () => {
     const { text } = this.state;
+    const rules = {
+      heading1: (node, children, parent, styles) => (
+        <Text key={getUniqueID()} style={styles.heading1}>
+          {children}
+        </Text>
+      ),
+      heading2: (node, children, parent, styles) => (
+        <Text key={getUniqueID()} style={styles.heading2}>
+          {children}
+        </Text>
+      ),
+    };
 
     return (
       <View style={styles.textWrapper}>
         <ScrollView removeClippedSubviews>
-          <Markdown style={markdownStyle}>{text === '' ? '...' : text}</Markdown>
+          <Markdown rules={rules} style={markdownStyle}>
+            {text === '' ? '...' : text}
+          </Markdown>
         </ScrollView>
       </View>
     );
