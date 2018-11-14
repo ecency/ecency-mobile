@@ -38,6 +38,19 @@ export const getAccount = user => new Promise((resolve, reject) => {
 });
 
 /**
+ * @method getAccount get account data
+ * @param user username
+ */
+export const getState = async (path) => {
+  try {
+    const state = await client.database.getState(path);
+    return state;
+  } catch (error) {
+    return error;
+  }
+};
+
+/**
  * @method getUser get account data
  * @param user username
  */

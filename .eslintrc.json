@@ -22,6 +22,7 @@
     "import/prefer-default-export": "off",
     "react/prop-types": 0,
     "import/no-named-default": "off",
-    "no-param-reassign": "off"
+    "no-param-reassign": "off",
+    "no-case-declarations": "off"
   }
 }

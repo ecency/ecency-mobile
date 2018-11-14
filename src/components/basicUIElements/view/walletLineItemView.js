@@ -1,12 +1,15 @@
 import React from 'react';
 import { View, Text } from 'react-native';
-import Ionicons from 'react-native-vector-icons/Ionicons';
+
+import IconComp from '../../icon';
+
 import styles from './walletLineItemStyles';
 
 const WalletLineItem = ({
   text,
   textColor,
   iconName,
+  iconType,
   rightText,
   rightTextColor,
   isBoldText,
@@ -26,7 +29,7 @@ const WalletLineItem = ({
             circleIconColor && { backgroundColor: circleIconColor },
           ]}
         >
-          <Ionicons style={styles.icon} name={iconName} />
+          <IconComp style={styles.icon} name={iconName} iconType={iconType} />
         </View>
       )}
       <View>
