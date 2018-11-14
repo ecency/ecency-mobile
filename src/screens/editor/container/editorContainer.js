@@ -3,7 +3,7 @@ import { connect } from 'react-redux';
 
 // Services and Actions
 import { postContent } from '../../../providers/steem/dsteem';
-import { getUserData } from '../../../realm/realm';
+import { getUserData, setDraftPost, getDraftPost } from '../../../realm/realm';
 import { getDigitPinCode } from '../../../providers/steem/auth';
 
 // Middleware
@@ -29,15 +29,59 @@ class ExampleContainer extends Component {
     super(props);
     this.state = {
       isPostSending: false,
+      isDraftSaving: false,
+      isDraftSaved: false,
+      draftPost: null,
     };
   }
 
   // Component Life Cycle Functions
 
   // Component Functions
+  async componentDidMount() {
+    const { currentAccount } = this.props;
+    const username = currentAccount && currentAccount.name ? currentAccount.name : '';
 
-  _handleOnPressSaveButton = () => {
-    alert('pressed me ! ');
+    await getDraftPost(username)
+      .then((result) => {
+        console.log(result);
+        this.setState({
+          draftPost: { text: result.text, title: result.title, tags: result.tags.split(',') },
+        });
+        console.log({ text: result.text, title: result.title, tags: result.tags.split(',') });
+      })
+      .catch((error) => {
+        console.log(error);
+      });
+  }
+
+  _handleOnSaveButtonPress = (form) => {
+    const { isDraftSaved } = this.state;
+    if (!isDraftSaved) {
+      const { currentAccount } = this.props;
+      const title = form.formFields['title-area'] ? form.formFields['title-area'].content : '';
+      const text = form.formFields['text-area'] ? form.formFields['text-area'].content : '';
+      const tags = form.tags ? form.tags.toString() : '';
+      const username = currentAccount && currentAccount.name ? currentAccount.name : '';
+      const formProperties = {
+        title,
+        tags,
+        text,
+      };
+
+      this.setState({ isDraftSaving: true });
+
+      setDraftPost(formProperties, username)
+        .then(() => {
+          this.setState({
+            isDraftSaving: false,
+            isDraftSaved: true,
+          });
+        })
+        .catch((error) => {
+          alert(error);
+        });
+    }
   };
 
   _submitPost = async (form) => {
@@ -81,14 +125,25 @@ class ExampleContainer extends Component {
     this._submitPost(form);
   };
 
+  _handleFormChanged = () => {
+    const { isDraftSaved } = this.state;
+    isDraftSaved && this.setState({ isDraftSaved: false });
+  };
+
   render() {
     const { isLoggedIn } = this.props;
-    const { isPostSending } = this.state;
+    const {
+      isPostSending, isDraftSaving, isDraftSaved, draftPost,
+    } = this.state;
 
     return (
       <EditorScreen
-        handleOnPressSaveButton={this._handleOnPressSaveButton}
+        handleOnSaveButtonPress={this._handleOnSaveButtonPress}
         isPostSending={isPostSending}
+        handleFormChanged={this._handleFormChanged}
+        isDraftSaving={isDraftSaving}
+        isDraftSaved={isDraftSaved}
+        draftPost={draftPost}
         isLoggedIn={isLoggedIn}
         handleOnSubmit={this._handleSubmit}
       />
@@ -98,6 +153,7 @@ class ExampleContainer extends Component {
 
 const mapStateToProps = state => ({
   isLoggedIn: state.application.isLoggedIn,
+  currentAccount: state.account.currentAccount,
 });
 
 export default connect(mapStateToProps)(ExampleContainer);

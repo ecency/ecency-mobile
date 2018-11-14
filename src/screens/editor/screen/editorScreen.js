@@ -48,6 +48,13 @@ export class EditorScreen extends Component {
     }
   };
 
+  _handleOnSaveButtonPress = () => {
+    const { handleOnSaveButtonPress } = this.props;
+    const { formFields, tags } = this.state;
+
+    handleOnSaveButtonPress({ formFields, tags });
+  };
+
   _handleOnSubmit = () => {
     const { handleOnSubmit } = this.props;
     const { formFields, tags } = this.state;
@@ -72,6 +79,7 @@ export class EditorScreen extends Component {
   };
 
   _handleFormUpdate = (componentID, content, isValid) => {
+    const { handleFormChanged } = this.props;
     const { formFields } = this.state;
     const newFormFields = formFields;
 
@@ -79,6 +87,8 @@ export class EditorScreen extends Component {
       content,
       isValid,
     };
+
+    handleFormChanged();
 
     this.setState({ formFields: newFormFields });
 
@@ -90,14 +100,23 @@ export class EditorScreen extends Component {
   };
 
   render() {
-    const { isPreviewActive, wordsCount, isFormValid } = this.state;
-    const { isLoggedIn, isPostSending, handleOnPressSaveButton } = this.props;
+    const {
+      isPreviewActive, wordsCount, isFormValid, formFields,
+    } = this.state;
+    const {
+      isLoggedIn, isPostSending, isDraftSaving, isDraftSaved, draftPost,
+    } = this.props;
+    const title = (formFields['title-area'] && formFields['title-area'].content)
+      || (draftPost && draftPost.title);
+    const text = (formFields['text-area'] && formFields['text-area'].content) || (draftPost && draftPost.text);
 
     return (
       <View style={globalStyles.defaultContainer}>
         <EditorHeader
-          handleOnPressSaveButton={handleOnPressSaveButton}
+          handleOnSaveButtonPress={this._handleOnSaveButtonPress}
           isPostSending={isPostSending}
+          isDraftSaving={isDraftSaving}
+          isDraftSaved={isDraftSaved}
           isPreviewActive={isPreviewActive}
           quickTitle={wordsCount > 0 && `${wordsCount} words`}
           handleOnPressPreviewButton={this._handleOnPressPreviewButton}
@@ -112,9 +131,13 @@ export class EditorScreen extends Component {
           isPreviewActive={isPreviewActive}
           isFormValid={isFormValid}
         >
-          <TitleArea componentID="title-area" />
-          <TagArea componentID="tag-area" handleTagChanged={this._handleOnTagAdded} />
-          <TextArea handleOnTextChange={this._setWordsCount} componentID="text-area" />
+          <TitleArea value={title} componentID="title-area" />
+          <TagArea
+            draftChips={draftPost && draftPost.tags}
+            componentID="tag-area"
+            handleTagChanged={this._handleOnTagAdded}
+          />
+          <TextArea value={text} handleOnTextChange={this._setWordsCount} componentID="text-area" />
         </PostForm>
       </View>
     );

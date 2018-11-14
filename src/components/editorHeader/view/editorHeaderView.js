@@ -70,7 +70,10 @@ class EditorHeaderView extends Component {
       handleOnPressClose,
       isHasSearch,
       isPostSending,
-      handleOnPressSaveButton,
+      handleOnSaveButtonPress,
+      isDraftSaving,
+      isDraftSaved,
+      isLoggedIn,
     } = this.props;
     const { isInputVisible } = this.state;
     return (
@@ -84,13 +87,20 @@ class EditorHeaderView extends Component {
               onPress={() => (isModalHeader ? handleOnPressClose() : handleOnPressBackButton())}
             />
             {isHasIcons && (
-              <IconButton
-                iconStyle={styles.saveIcon}
-                iconType="FontAwesome"
-                name="save"
-                onPress={() => handleOnPressSaveButton && handleOnPressSaveButton()}
-              />
+              <View>
+                {!isDraftSaving ? (
+                  <IconButton
+                    iconStyle={[styles.saveIcon, isDraftSaved && styles.savedIcon]}
+                    iconType="FontAwesome"
+                    name="save"
+                    onPress={() => handleOnSaveButtonPress && handleOnSaveButtonPress()}
+                  />
+                ) : (
+                  <ActivityIndicator style={styles.textButtonWrapper} />
+                )}
+              </View>
             )}
+
             {!isInputVisible && (
               <Text style={[title && styles.title, quickTitle && styles.quickTitle]}>
                 {quickTitle || title}
@@ -158,7 +168,7 @@ class EditorHeaderView extends Component {
                 <TextButton
                   textStyle={[
                     styles.textButton,
-                    isFormValid ? styles.textButtonEnable : styles.textButtonDisable,
+                    isFormValid && isLoggedIn ? styles.textButtonEnable : styles.textButtonDisable,
                   ]}
                   onPress={isFormValid && this._handleOnPress}
                   style={styles.textButtonWrapper}

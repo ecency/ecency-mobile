@@ -18,6 +18,9 @@ export default EStyleSheet.create({
     color: '$iconColor',
     marginLeft: 10,
   },
+  savedIcon: {
+    color: '#a1c982',
+  },
   closeIcon: {
     fontSize: 28,
     color: '$iconColor',
