@@ -1,7 +1,8 @@
 import axios from 'axios';
+import Config from 'react-native-config';
 
 const api = axios.create({
-  baseURL: 'https://us-central1-bubi-7c3f6.cloudfunctions.net/api/',
+  baseURL: Config.BACKEND_URL,
   headers: {
     'Content-Type': 'application/json',
   },
