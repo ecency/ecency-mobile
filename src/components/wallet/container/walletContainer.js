@@ -33,7 +33,6 @@ class WalletContainer extends Component {
 
   async componentWillMount() {
     const { user } = this.props;
-    console.log('user :', user);
 
     const walletData = {};
 
@@ -72,7 +71,9 @@ class WalletContainer extends Component {
     const state = await getState(`/@${user.name}/transfers`);
     const { accounts } = state;
     const { transfer_history: transferHistory } = accounts[user.name];
-    walletData.transactions = transferHistory.slice(Math.max(transferHistory.length - 20, 0));
+    walletData.transactions = transferHistory
+      .slice(Math.max(transferHistory.length - 20, 0))
+      .reverse();
 
     this.setState({ walletData });
   }

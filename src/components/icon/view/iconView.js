@@ -7,6 +7,7 @@ import SimpleLineIcons from 'react-native-vector-icons/SimpleLineIcons';
 import FontAwesome from 'react-native-vector-icons/FontAwesome';
 import Feather from 'react-native-vector-icons/Feather';
 import AntDesign from 'react-native-vector-icons/AntDesign';
+import MaterialIcons from 'react-native-vector-icons/MaterialIcons';
 
 class IconView extends Component {
   constructor(props) {
@@ -34,6 +35,7 @@ class IconView extends Component {
   _getIcon = () => {
     const { iconType, children } = this.props;
     const name = this._getIconName();
+    console.log('this.props :', this.props);
 
     switch (iconType) {
       case 'Feather':
@@ -44,6 +46,8 @@ class IconView extends Component {
         return <SimpleLineIcons {...this.props}>{children}</SimpleLineIcons>;
       case 'AntDesign':
         return <AntDesign {...this.props}>{children}</AntDesign>;
+      case 'MaterialIcons':
+        return <MaterialIcons {...this.props}>{children}</MaterialIcons>;
       case 'MaterialCommunityIcons':
         return (
           <MaterialCommunityIcons name={name} {...this.props}>
@@ -51,7 +55,7 @@ class IconView extends Component {
           </MaterialCommunityIcons>
         );
       default:
-        return <Ionicons {...this.props} />;
+        return <Ionicons name {...this.props} />;
     }
   };
 

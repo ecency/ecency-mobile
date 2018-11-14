@@ -1,8 +1,6 @@
 import React, { Component } from 'react';
 import { View } from 'react-native';
-
-// Constants
-import { strings } from '../../../config/locales/i18n';
+import { injectIntl } from 'react-intl';
 
 // Utilities
 import parseToken from '../../../utils/parseToken';
@@ -30,7 +28,7 @@ class TransactionView extends Component {
   _handleOnDropdownSelect = () => {};
 
   _getTransactionData = (transaction) => {
-    const { walletData } = this.props;
+    const { walletData, intl: { formatNumber } } = this.props;
     const result = {};
 
     // eslint-disable-next-line
@@ -39,14 +37,14 @@ class TransactionView extends Component {
     const { timestamp } = transaction[1];
 
     result.transDate = parseDate(timestamp);
-    result.icon = 'local_activity';
+    result.icon = 'local-activity';
 
     switch (result.opName) {
       case 'curation_reward':
         const { reward } = opData;
         const { comment_author: commentAuthor, comment_permlink: commentPermlink } = opData;
 
-        result.value = `${vestsToSp(parseToken(reward), walletData.steemPerMVests)} SP`;
+        result.value = `${formatNumber(vestsToSp(parseToken(reward), walletData.steemPerMVests), { minimumFractionDigits: 3 })} SP`;
         result.details = `@${commentAuthor}/${commentPermlink}`;
         break;
       case 'author_reward':
@@ -59,13 +57,13 @@ class TransactionView extends Component {
 
         const { author, permlink } = opData;
 
-        sbdPayout = parseToken(sbdPayout);
-        steemPayout = parseToken(steemPayout);
-        vestingPayout = parseToken(vestingPayout);
+        sbdPayout = formatNumber(parseToken(sbdPayout), { minimumFractionDigits: 3 });
+        steemPayout = formatNumber(parseToken(steemPayout), { minimumFractionDigits: 3 });
+        vestingPayout = formatNumber(vestsToSp(parseToken(vestingPayout), walletData.steemPerMVests), { minimumFractionDigits: 3 });
 
         result.value = `${sbdPayout > 0 ? `${sbdPayout} SBD` : ''} ${
           steemPayout > 0 ? `${steemPayout} steemPayout` : ''
-        } ${vestingPayout > 0 ? `${vestsToSp(vestingPayout, walletData.steemPerMVests)} SP` : ''}`;
+        } ${vestingPayout > 0 ? `${vestingPayout} SP` : ''}`;
 
         result.details = `@${author}/${permlink}`;
         if (result.opName === 'comment_benefactor_reward') {
@@ -79,13 +77,13 @@ class TransactionView extends Component {
           reward_vests: rewardVests,
         } = opData;
 
-        rewardSdb = parseToken(rewardSdb);
-        rewardSteem = parseToken(rewardSteem);
-        rewardVests = parseToken(rewardVests);
+        rewardSdb = formatNumber(parseToken(rewardSdb), { minimumFractionDigits: 3 });
+        rewardSteem = formatNumber(parseToken(rewardSteem), { minimumFractionDigits: 3 });
+        rewardVests = formatNumber(vestsToSp(parseToken(rewardVests), walletData.steemPerMVests), { minimumFractionDigits: 3 });
 
         result.value = `${rewardSdb > 0 ? `${rewardSdb} SBD` : ''} ${
           rewardSteem > 0 ? `${rewardSteem} STEEM` : ''
-        } ${rewardVests > 0 ? `${vestsToSp(rewardVests, walletData.steemPerMVests)} SP` : ''}`;
+        } ${rewardVests > 0 ? `${rewardVests} SP` : ''}`;
         break;
       case 'transfer':
       case 'transfer_to_vesting':
@@ -94,7 +92,7 @@ class TransactionView extends Component {
         } = opData;
 
         result.value = `${amount}`;
-        result.icon = 'compare_arrows';
+        result.icon = 'compare-arrows';
         // details = <span>{memo} <br/><br/> <strong>@{from}</strong> -&gt; <strong>@{to}</strong></span>;
         break;
       case 'withdraw_vesting':
@@ -102,7 +100,7 @@ class TransactionView extends Component {
         let { vesting_shares: opVestingShares } = opData;
 
         opVestingShares = parseToken(opVestingShares);
-        result.value = `${vestsToSp(opVestingShares, walletData.steemPerMVests)} SP`;
+        result.value = `${formatNumber(vestsToSp(opVestingShares, walletData.steemPerMVests), { minimumFractionDigits: 3 })} SP`;
         result.icon = 'money';
         // details = <span><strong>@{acc}</strong></span>;
         break;
@@ -115,13 +113,13 @@ class TransactionView extends Component {
       default:
         break;
     }
+    console.log('result :', result);
     return result;
   };
 
   render() {
-    const { walletData: { transactions } } = this.props;
+    const { walletData: { transactions }, intl } = this.props;
 
-    console.log('transactions :', transactions);
     return (
       <View>
         <FilterBar
@@ -139,12 +137,16 @@ class TransactionView extends Component {
               if (index % 2 === 0) {
                 return (
                   <WalletLineItem
-                    text={strings(`wallet.${transactionData.opName}`)}
+                    text={intl.formatMessage({
+                      id: `wallet.${transactionData.opName}`,
+                    })}
+                    description={intl.formatRelative(transactionData.transDate)}
                     isCircleIcon
                     isThin
                     circleIconColor="white"
                     textColor="#3c4449"
-                    iconName="ios-chatboxes"
+                    iconName={transactionData.icon}
+                    iconType="MaterialIcons"
                     rightText={transactionData.value}
                     tightTextColor="red"
                   />
@@ -153,12 +155,16 @@ class TransactionView extends Component {
               return (
                 <GrayWrapper>
                   <WalletLineItem
-                    text={strings(`wallet.${transactionData.opName}`)}
+                    text={intl.formatMessage({
+                      id: `wallet.${transactionData.opName}`,
+                    })}
+                    description={intl.formatRelative(transactionData.transDate)}
                     isCircleIcon
                     isThin
                     circleIconColor="white"
                     textColor="#3c4449"
-                    iconName="ios-chatboxes"
+                    iconName={transactionData.icon}
+                    iconType="MaterialIcons"
                     rightText={transactionData.value}
                     tightTextColor="red"
                   />
@@ -171,4 +177,4 @@ class TransactionView extends Component {
   }
 }
 
-export default TransactionView;
+export default injectIntl(TransactionView);
