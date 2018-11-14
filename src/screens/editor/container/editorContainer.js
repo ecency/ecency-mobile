@@ -36,6 +36,10 @@ class ExampleContainer extends Component {
 
   // Component Functions
 
+  _handleOnPressSaveButton = () => {
+    alert('pressed me ! ');
+  };
+
   _submitPost = async (form) => {
     const { navigation } = this.props;
     let userData;
@@ -83,6 +87,7 @@ class ExampleContainer extends Component {
 
     return (
       <EditorScreen
+        handleOnPressSaveButton={this._handleOnPressSaveButton}
         isPostSending={isPostSending}
         isLoggedIn={isLoggedIn}
         handleOnSubmit={this._handleSubmit}

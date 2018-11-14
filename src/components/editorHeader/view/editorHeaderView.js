@@ -70,6 +70,7 @@ class EditorHeaderView extends Component {
       handleOnPressClose,
       isHasSearch,
       isPostSending,
+      handleOnPressSaveButton,
     } = this.props;
     const { isInputVisible } = this.state;
     return (
@@ -82,6 +83,14 @@ class EditorHeaderView extends Component {
               name={isModalHeader ? 'close' : 'md-arrow-back'}
               onPress={() => (isModalHeader ? handleOnPressClose() : handleOnPressBackButton())}
             />
+            {isHasIcons && (
+              <IconButton
+                iconStyle={styles.saveIcon}
+                iconType="FontAwesome"
+                name="save"
+                onPress={() => handleOnPressSaveButton && handleOnPressSaveButton()}
+              />
+            )}
             {!isInputVisible && (
               <Text style={[title && styles.title, quickTitle && styles.quickTitle]}>
                 {quickTitle || title}
