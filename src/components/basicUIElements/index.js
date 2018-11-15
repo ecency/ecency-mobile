@@ -6,6 +6,8 @@ import NoPost from './view/noPostView';
 import PostCardPlaceHolder from './view/postCardPlaceHolderView';
 import PostPlaceHolder from './view/postPlaceHolderView';
 import ProfileSummaryPlaceHolder from './view/profileSummaryPlaceHolder';
+import WalletDetailsPlaceHolder from './view/walletDetailsPlaceHolder';
+import WalletUnclaimedPlaceHolder from './view/walletUnclaimedPlaceHolder';
 import Tag from './view/tagView';
 import TextWithIcon from './view/textWithIconView';
 import WalletLineItem from './view/walletLineItemView';
@@ -22,6 +24,8 @@ export {
   PostCardPlaceHolder,
   PostPlaceHolder,
   ProfileSummaryPlaceHolder,
+  WalletDetailsPlaceHolder,
+  WalletUnclaimedPlaceHolder,
   Tag,
   TextWithIcon,
   WalletLineItem,

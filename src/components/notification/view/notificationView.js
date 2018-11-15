@@ -22,44 +22,35 @@ class NotificationView extends Component {
       notification: [
         {
           name: 'esteemapp',
-          title: '25% likes your post:',
+          title: 'eSteem Mobile!',
           avatar: 'https://steemitimages.com/u/feruz/avatar/small',
-          description: 'My own Top 5 eSteem Surfer Featuressasasaasasas',
+          description: 'eSteem app with new ui!',
           image: 'https://steemitimages.com/u/feruz/avatar/small',
-          date: 'yesterday',
+          // date: 'today',
           isNew: true,
         },
-        {
-          name: 'esteemapp',
-          title: '25% likes your post:',
-          avatar: 'https://steemitimages.com/u/feruz/avatar/small',
-          description: 'My own Top 5 eSteem Surfer Features',
-          image: 'https://steemitimages.com/u/feruz/avatar/small',
-          date: 'yesterday',
-          isNew: true,
-        },
-        {
-          name: 'esteemapp',
-          title: '25% likes your post:',
-          description: 'My own Top 5 eSteem Surfer Features',
-          image: 'https://steemitimages.com/u/feruz/avatar/small',
-          date: 'yesterday',
-        },
-        {
-          name: 'esteemapp',
-          title: '25% likes your post:',
-          avatar: 'https://steemitimages.com/u/feruz/avatar/small',
-          description: 'My own Top 5 eSteem Surfer Featuresasassasasaasas',
-          date: 'yesterday',
-        },
-        {
-          name: 'esteemapp',
-          title: '25% likes your post:',
-          avatar: 'https://steemitimages.com/u/feruz/avatar/small',
-          description: 'My own Top 5 eSteem Surfer Features',
-          image: 'https://steemitimages.com/u/feruz/avatar/small',
-          date: 'yesterday',
-        },
+        // {
+        //   name: 'esteemapp',
+        //   title: '25% likes your post:',
+        //   description: 'My own Top 5 eSteem Surfer Features',
+        //   image: 'https://steemitimages.com/u/feruz/avatar/small',
+        //   date: 'yesterday',
+        // },
+        // {
+        //   name: 'esteemapp',
+        //   title: '25% likes your post:',
+        //   avatar: 'https://steemitimages.com/u/feruz/avatar/small',
+        //   description: 'My own Top 5 eSteem Surfer Featuresasassasasaasas',
+        //   date: 'yesterday',
+        // },
+        // {
+        //   name: 'esteemapp',
+        //   title: '25% likes your post:',
+        //   avatar: 'https://steemitimages.com/u/feruz/avatar/small',
+        //   description: 'My own Top 5 eSteem Surfer Features',
+        //   image: 'https://steemitimages.com/u/feruz/avatar/small',
+        //   date: 'yesterday',
+        // },
       ],
     };
   }
@@ -75,10 +66,7 @@ class NotificationView extends Component {
   _getRenderItem = item => (
     <View
       key={Math.random()}
-      style={[
-        styles.notificationWrapper,
-        item.isNew && styles.isNewNotification,
-      ]}
+      style={[styles.notificationWrapper, item.isNew && styles.isNewNotification]}
     >
       <Image
         style={[styles.avatar, !item.avatar && styles.hasNoAvatar]}
@@ -99,11 +87,11 @@ class NotificationView extends Component {
         </Text>
       </View>
       {item.image && (
-      <Image
-        style={styles.image}
-        source={{ uri: item.image }}
-        defaultSource={require('../../../assets/no_image.png')}
-      />
+        <Image
+          style={styles.image}
+          source={{ uri: item.image }}
+          defaultSource={require('../../../assets/no_image.png')}
+        />
       )}
     </View>
   );
@@ -115,14 +103,7 @@ class NotificationView extends Component {
       <View style={styles.container}>
         <FilterBar
           dropdownIconName="md-arrow-dropdown"
-          options={[
-            'ALL ACTIVITIES',
-            'VOTES',
-            'REPLIES',
-            'MENTIONS',
-            'FOLLOWS',
-            'REBLOGS',
-          ]}
+          options={['ALL ACTIVITIES', 'VOTES', 'REPLIES', 'MENTIONS', 'FOLLOWS', 'REBLOGS']}
           defaultText="ALL NOTIFICATION"
           onDropdownSelect={this._handleOnDropdownSelect}
           rightIconName="ios-checkmark"
@@ -135,12 +116,12 @@ class NotificationView extends Component {
             keyExtractor={item => item.email}
           />
           {/* Will remove follow lines */}
-          <ContainerHeader hasSeperator isBoldTitle title="Yesterday" />
+          {/* <ContainerHeader hasSeperator isBoldTitle title="Yesterday" />
           <FlatList
             data={notification}
             renderItem={({ item }) => this._getRenderItem(item)}
             keyExtractor={item => item.email}
-          />
+          /> */}
         </ScrollView>
       </View>
     );

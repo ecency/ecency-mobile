@@ -1,8 +1,10 @@
 import React, { Component } from 'react';
+import { connect } from 'react-redux';
 
 // Services and Actions
 import { postContent } from '../../../providers/steem/dsteem';
 import { getUserData } from '../../../realm/realm';
+import { getDigitPinCode } from '../../../providers/steem/auth';
 
 // Middleware
 
@@ -39,9 +41,12 @@ class ExampleContainer extends Component {
     const title = form.formFields['title-area'].content;
     const permlink = generatePermlink(title);
 
+    const digitPinCode = await getDigitPinCode();
+
     await getUserData().then((res) => {
       userData = res && Array.from(res)[0];
-      postingKey = decryptKey(userData.postingKey, '1234');
+
+      postingKey = decryptKey(userData.postingKey, digitPinCode);
     });
 
     if (userData) {
@@ -69,8 +74,14 @@ class ExampleContainer extends Component {
   };
 
   render() {
-    return <EditorScreen handleOnSubmit={this._handleSubmit} />;
+    const { isLoggedIn } = this.props;
+
+    return <EditorScreen isLoggedIn={isLoggedIn} handleOnSubmit={this._handleSubmit} />;
   }
 }
 
-export default ExampleContainer;
+const mapStateToProps = state => ({
+  isLoggedIn: state.application.isLoggedIn,
+});
+
+export default connect(mapStateToProps)(ExampleContainer);

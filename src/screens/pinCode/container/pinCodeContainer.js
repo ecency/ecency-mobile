@@ -12,6 +12,8 @@ import { default as INITIAL } from '../../../constants/initial';
 
 import { PinCodeScreen } from '..';
 
+const DEFAULT_IMAGE = require('../../../assets/esteem.png');
+
 class PinCodeContainer extends Component {
   constructor(props) {
     super(props);
@@ -93,7 +95,6 @@ class PinCodeContainer extends Component {
         username: currentAccount.name,
         accessToken,
       };
-      console.log('pinData setUserDataWithPinCode0000000000', currentAccount);
       setUserDataWithPinCode(pinData).then(() => {
         AsyncStorage.setItem(INITIAL.IS_EXIST_USER, JSON.stringify(true), () => {
           dispatch(closePinCodeModal());
@@ -117,6 +118,16 @@ class PinCodeContainer extends Component {
     }
   });
 
+  _getUserAvatar = () => {
+    const { currentAccount } = this.props;
+    if (Object.keys(currentAccount).length === 0) return DEFAULT_IMAGE;
+    if (Object.keys(currentAccount.about).length === 0) return DEFAULT_IMAGE;
+    if (Object.keys(currentAccount.about.profile).length !== 0) {
+      return { uri: currentAccount.about.profile.profile_image };
+    }
+    return DEFAULT_IMAGE;
+  };
+
   render() {
     const { currentAccount } = this.props;
     const { informationText, isExistUser } = this.state;
@@ -126,6 +137,7 @@ class PinCodeContainer extends Component {
         setPinCode={this._setPinCode}
         showForgotButton={isExistUser}
         username={currentAccount ? currentAccount.name : 'unknow'}
+        avatar={this._getUserAvatar()}
       />
     );
   }

@@ -1,5 +1,5 @@
 import React, { Component, Fragment } from 'react';
-import { AppState } from 'react-native';
+import { AppState, AsyncStorage } from 'react-native';
 import { connect } from 'react-redux';
 
 // Actions
@@ -11,6 +11,7 @@ import { PinCode } from '../..';
 
 // Constants
 import { default as ROUTES } from '../../../constants/routeNames';
+import { default as INITIAL } from '../../../constants/initial';
 
 const RootContainer = () => (WrappedComponent) => {
   class RootComponent extends Component {
@@ -42,9 +43,17 @@ const RootContainer = () => (WrappedComponent) => {
       const { appState } = this.state;
       const { dispatch } = this.props;
 
-      if (appState.match(/inactive|background/) && nextAppState === 'active' && __DEV__ === false) {
-        dispatch(openPinCodeModal());
-      }
+      AsyncStorage.getItem(INITIAL.IS_EXIST_USER, (err, result) => {
+        if (
+          JSON.parse(result)
+          && appState.match(/inactive|background/)
+          && nextAppState === 'active'
+          && __DEV__ === false
+        ) {
+          dispatch(openPinCodeModal());
+        }
+      });
+
       this.setState({ appState: nextAppState });
     };
 

@@ -9,6 +9,7 @@ import { Notification } from './notification';
 import { Post } from './post';
 import { Profile } from './profile';
 import { Voters } from './voters';
+import { Messages } from './messages';
 
 // import Author from './authorProfile';
 // import SideMenu from './sideMenuScreen';
@@ -34,6 +35,7 @@ export {
   Splash,
   SteemConnect,
   Voters,
+  Messages,
   // Author,
   // SideMenu,
   // Hot,

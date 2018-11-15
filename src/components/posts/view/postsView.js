@@ -84,7 +84,7 @@ class PostsView extends Component {
         start_author: startAuthor,
         start_permlink: startPermlink,
       },
-      user.name,
+      (user && user.name) || 'esteemapp',
     ).then((result) => {
       const _posts = result;
       _posts.shift();
@@ -127,10 +127,7 @@ class PostsView extends Component {
       isReady, refreshing, posts, user,
     } = this.state;
     const {
-      componentId,
-      filterOptions,
-      isLoginMust,
-      isLoggedIn,
+      componentId, filterOptions, isLoginMust, isLoggedIn,
     } = this.props;
 
     if (user && posts && posts.length > 0) {
@@ -140,7 +137,7 @@ class PostsView extends Component {
             <FilterBar
               dropdownIconName="md-arrow-dropdown"
               options={filterOptions}
-              defaultText="NEW POST"
+              defaultText={filterOptions[0]}
               rightIconName="md-apps"
             />
           )}

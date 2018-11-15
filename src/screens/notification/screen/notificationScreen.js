@@ -6,6 +6,11 @@ import { Notification } from '../../../components/notification';
 import { Header } from '../../../components/header';
 // Styles
 import styles from './notificationStyles';
+// Components
+import { NoPost } from '../../../components/basicUIElements';
+
+// Styles
+import MESSAGES_IMAGE from '../../../assets/keep_calm.png';
 
 class NotificationScreen extends PureComponent {
   constructor(props) {
@@ -33,7 +38,15 @@ class NotificationScreen extends PureComponent {
             <Notification />
           </View>
           <View tabLabel="Leaderboard" style={styles.leaderboardTab}>
-            <Text>Leaderboard</Text>
+            <NoPost
+              style={{ marginTop: 118 }}
+              imageStyle={{
+                width: 193,
+                height: 189,
+              }}
+              source={MESSAGES_IMAGE}
+              defaultText="Leaderboard feature is coming soon!"
+            />
           </View>
         </ScrollableTabView>
       </Fragment>

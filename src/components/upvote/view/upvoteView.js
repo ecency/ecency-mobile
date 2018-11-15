@@ -13,6 +13,7 @@ import { Icon } from '../../icon';
 import { upvote, upvoteAmount } from '../../../providers/steem/dsteem';
 import { decryptKey } from '../../../utils/crypto';
 import { getUserData } from '../../../realm/realm';
+import { getDigitPinCode } from '../../../providers/steem/auth';
 
 // Styles
 import styles from './upvoteStyles';
@@ -72,9 +73,12 @@ class UpvoteView extends Component {
       isVoting: true,
     });
 
+    const digitPinCode = await getDigitPinCode();
+
     await getUserData().then((result) => {
       userData = Array.from(result);
-      postingKey = decryptKey(userData[0].postingKey, '1234');
+
+      postingKey = decryptKey(userData[0].postingKey, digitPinCode);
     });
 
     upvote(
@@ -91,7 +95,6 @@ class UpvoteView extends Component {
           isVoted: !!value,
           isVoting: false,
         });
-        alert(value ? 'Upvoted' : 'Downvoted');
       })
       .catch((err) => {
         alert(err);

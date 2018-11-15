@@ -8,12 +8,18 @@ import { ProfileScreen } from '..';
 import {
   followUser,
   unfollowUser,
+  ignoreUser,
   getFollows,
   getUserComments,
   getUser,
-  isFolllowing,
+  getIsFollowing,
+  getIsMuted,
 } from '../../../providers/steem/dsteem';
 import { decryptKey } from '../../../utils/crypto';
+import { getDigitPinCode } from '../../../providers/steem/auth';
+
+// Constants
+import { default as ROUTES } from '../../../constants/routeNames';
 
 class ProfileContainer extends Component {
   constructor(props) {
@@ -28,21 +34,30 @@ class ProfileContainer extends Component {
       isReverseHeader: false,
       isReady: false,
       isFollowing: false,
-      isFollowLoading: false,
+      isMuted: false,
+      isProfileLoading: false,
     };
   }
 
-  async componentDidMount() {
-    const { navigation } = this.props;
+  componentDidMount() {
+    const { navigation, isLoggedIn, currentAccount } = this.props;
     const selectedUser = navigation.state && navigation.state.params;
 
-    this._loadProfile(selectedUser && selectedUser.username);
+    if (!isLoggedIn && !selectedUser) {
+      navigation.navigate(ROUTES.SCREENS.LOGIN);
+      return;
+    }
+
+    this._loadProfile(selectedUser ? selectedUser.username : currentAccount.name);
+
+    this.setState({ isReverseHeader: !!selectedUser });
   }
 
   componentWillReceiveProps(nextProps) {
     const { navigation } = this.props;
     const isParamsChange = nextProps.navigation.state
       && navigation.state
+      && nextProps.navigation.state.params
       && nextProps.navigation.state.params.username !== navigation.state.params.username;
 
     if (isParamsChange) {
@@ -67,20 +82,39 @@ class ProfileContainer extends Component {
       });
   };
 
-  _handleFollowUnfollowUser = (isFollowAction) => {
+  _handleFollowUnfollowUser = async (isFollowAction) => {
     const { username, isFollowing } = this.state;
     const { currentAccount } = this.props;
+    const digitPinCode = await getDigitPinCode();
 
-    const privateKey = decryptKey(currentAccount.realm_object.postingKey, '1234');
+    const privateKey = decryptKey(currentAccount.realm_object.postingKey, digitPinCode);
 
     this.setState({
-      isFollowLoading: true,
+      isProfileLoading: true,
     });
 
     if (isFollowAction && !isFollowing) {
       this._followUser(currentAccount.name, username, privateKey);
     } else {
       this._unfollowUser(currentAccount.name, username, privateKey);
+    }
+  };
+
+  _handleMuteUnmuteUser = async (isMuteAction) => {
+    const { username, isMuted } = this.state;
+    const { currentAccount } = this.props;
+    const digitPinCode = await getDigitPinCode();
+
+    const privateKey = decryptKey(currentAccount.realm_object.postingKey, digitPinCode);
+
+    this.setState({
+      isProfileLoading: true,
+    });
+
+    if (isMuteAction && !isMuted) {
+      this._muteUser(currentAccount.name, username, privateKey);
+    } else {
+      this._muteUser(currentAccount.name, username, privateKey);
     }
   };
 
@@ -92,11 +126,11 @@ class ProfileContainer extends Component {
       },
       privateKey,
     )
-      .then((result) => {
-        this._followActionDone();
+      .then(() => {
+        this._profileActionDone();
       })
       .catch((err) => {
-        this._followActionDone(err);
+        this._profileActionDone(err);
       });
   };
 
@@ -108,62 +142,84 @@ class ProfileContainer extends Component {
       },
       privateKey,
     )
-      .then((result) => {
-        this._followActionDone();
+      .then(() => {
+        this._profileActionDone();
       })
       .catch((err) => {
-        this._followActionDone(err);
+        this._profileActionDone(err);
       });
   };
 
-  _followActionDone = (error = null) => {
+  _muteUser = async (follower, following, privateKey) => {
+    ignoreUser(
+      {
+        follower,
+        following,
+      },
+      privateKey,
+    )
+      .then(() => {
+        this._profileActionDone();
+      })
+      .catch((err) => {
+        this._profileActionDone(err);
+      });
+  };
+
+  _profileActionDone = (error = null) => {
+    const { username } = this.state;
+
     this.setState({
-      isFollowLoading: false,
+      isProfileLoading: false,
     });
 
     if (error) {
       this.setState({
         error,
       });
+      alert(error);
     } else {
-      this._loadProfile();
+      this._fetchProfile(username);
+    }
+  };
+
+  _fetchProfile = async (username = null) => {
+    if (username) {
+      const { isLoggedIn, currentAccount } = this.props;
+      let _isFollowing;
+      let _isMuted;
+      let _follows;
+
+      if (isLoggedIn) {
+        _isFollowing = await getIsFollowing(username, currentAccount.name);
+
+        _isMuted = _isFollowing ? false : await getIsMuted(username, currentAccount.name);
+      }
+
+      await getFollows(username).then((res) => {
+        _follows = res;
+      });
+
+      this.setState({
+        follows: _follows,
+        isFollowing: _isFollowing,
+        isMuted: _isMuted,
+      });
     }
   };
 
   _loadProfile = async (selectedUser = null) => {
-    let username;
-    const { currentAccount, isLoggedIn } = this.props;
-    const { username: _username } = this.state;
-    const _selectedUser = selectedUser || _username;
-    const _isFollowing = await isFolllowing(
-      _selectedUser.username || _username,
-      currentAccount.name,
-    );
+    const user = await getUser(selectedUser);
 
-    if (_selectedUser) {
-      username = selectedUser ? selectedUser : _selectedUser;
-      this.setState({ isReverseHeader: true });
-    } else if (isLoggedIn) {
-      username = currentAccount.name;
-    }
-
-    let follows;
-
-    await getFollows(username).then((res) => {
-      follows = res;
-    });
-
-    const user = _selectedUser ? await getUser(username) : currentAccount;
+    this._fetchProfile(selectedUser);
 
     this.setState(
       {
         user,
-        follows,
-        username,
-        isFollowing: _isFollowing,
+        username: selectedUser,
       },
       () => {
-        this._getComments(username);
+        this._getComments(selectedUser);
       },
     );
   };
@@ -173,8 +229,9 @@ class ProfileContainer extends Component {
       comments,
       error,
       follows,
-      isFollowLoading,
+      isProfileLoading,
       isFollowing,
+      isMuted,
       isLoading,
       isLoggedIn,
       isReady,
@@ -191,11 +248,13 @@ class ProfileContainer extends Component {
           error={error}
           follows={follows}
           handleFollowUnfollowUser={this._handleFollowUnfollowUser}
-          isFollowLoading={isFollowLoading}
+          handleMuteUnmuteUser={this._handleMuteUnmuteUser}
+          isProfileLoading={isProfileLoading}
           isFollowing={isFollowing}
           isLoading={isLoading}
           isLoggedIn={isLoggedIn}
           isReady={isReady}
+          isMuted={isMuted}
           isReverseHeader={isReverseHeader}
           user={user}
           username={username}

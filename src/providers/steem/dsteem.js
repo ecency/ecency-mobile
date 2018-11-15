@@ -5,7 +5,9 @@
 
 import { Client, PrivateKey } from 'dsteem';
 import { AsyncStorage } from 'react-native';
+import sc2 from 'steemconnect';
 import { parsePosts, parsePost, parseComments } from '../../utils/postParser';
+import { decryptKey } from '../../utils/crypto';
 
 let rewardFund = null;
 let medianPrice = null;
@@ -34,6 +36,19 @@ export const getAccount = user => new Promise((resolve, reject) => {
     reject(error);
   }
 });
+
+/**
+ * @method getAccount get account data
+ * @param user username
+ */
+export const getState = async (path) => {
+  try {
+    const state = await client.database.getState(path);
+    return state;
+  } catch (error) {
+    return error;
+  }
+};
 
 /**
  * @method getUser get account data
@@ -110,7 +125,7 @@ export const getFollowers = user => new Promise((resolve, reject) => {
  */
 export const getFollowing = (follower, startFollowing, followType = 'blog', limit = 100) => client.database.call('get_following', [follower, startFollowing, followType, limit]);
 
-export const isFolllowing = (user, author) => new Promise((resolve, reject) => {
+export const getIsFollowing = (user, author) => new Promise((resolve, reject) => {
   client.database
     .call('get_following', [author, user, 'blog', 1])
     .then((result) => {
@@ -124,6 +139,59 @@ export const isFolllowing = (user, author) => new Promise((resolve, reject) => {
       reject(err);
     });
 });
+
+export const getIsMuted = async (username, targetUsername) => {
+  let resp;
+
+  try {
+    resp = await getFollowing(username, targetUsername, 'ignore', 1);
+  } catch (err) {
+    return false;
+  }
+
+  if (resp && resp.length > 0) {
+    if (resp[0].follower === username && resp[0].following === targetUsername) {
+      return true;
+    }
+  }
+
+  return false;
+};
+
+export const ignoreUser = (data, postingKey) => {
+  let key;
+  try {
+    key = PrivateKey.fromString(postingKey);
+  } catch (error) {
+    console.log(error);
+  }
+  const json = {
+    id: 'follow',
+    json: JSON.stringify([
+      'follow',
+      {
+        follower: `${data.follower}`,
+        following: `${data.following}`,
+        what: ['ignore'],
+      },
+    ]),
+    required_auths: [],
+    required_posting_auths: [`${data.follower}`],
+  };
+
+  return new Promise((resolve, reject) => {
+    client.broadcast
+      .json(json, key)
+      .then((result) => {
+        console.log(result);
+        resolve(result);
+      })
+      .catch((err) => {
+        console.log(err);
+        reject(err);
+      });
+  });
+};
 
 /**
  * @method getPosts get posts method
@@ -381,8 +449,18 @@ export const delegate = (data, activeKey) => {
 
 export const globalProps = async () => {
   try {
-    const global_properties = await client.database.getDynamicGlobalProperties();
-    return global_properties;
+    const globalProperties = await client.database.getDynamicGlobalProperties();
+    return globalProperties;
+  } catch (error) {
+    console.log(error);
+    return error;
+  }
+};
+
+export const getFeedHistory = async () => {
+  try {
+    const feedHistory = await client.database.call('get_feed_history');
+    return feedHistory;
   } catch (error) {
     console.log(error);
     return error;

@@ -5,15 +5,19 @@ import { View } from 'react-native';
 
 // Components
 import { GrayWrapper, WalletLineItem } from '../../basicUIElements';
+
+// Utilities
+import { vestsToSp } from '../../../utils/conversions';
+
 // Styles
 // eslint-disable-next-line
 import styles from './walletDetailsStyles';
 
 class WalletDetailsView extends Component {
   /* Props
-    * ------------------------------------------------
-    *   @prop { type }    name                - Description....
-    */
+   * ------------------------------------------------
+   *   @prop { type }    name                - Description....
+   */
 
   constructor(props) {
     super(props);
@@ -25,38 +29,77 @@ class WalletDetailsView extends Component {
   // Component Functions
 
   render() {
-    const { balance } = this.props;
+    const { walletData } = this.props;
 
     return (
-      <View>
+      <View style={styles.container}>
         <WalletLineItem
           text="Steem"
           textColor="#3c4449"
           iconName="ios-information-circle-outline"
-          rightText={balance}
+          rightText={`${Math.round(walletData.estimatedValue * 1000) / 1000} STEEM`}
           isBoldText
         />
         <GrayWrapper>
           <WalletLineItem
-            text="Steem"
+            text="Steem Power"
             textColor="#3c4449"
             iconName="ios-information-circle-outline"
-            rightText="18,891.867 STEEM"
+            rightText={`${Math.round(
+              vestsToSp(walletData.vestingShares, walletData.steemPerMVests) * 1000,
+            ) / 1000} SP`}
             tightTextColor="red"
             isBoldText
           />
 
-          <WalletLineItem rightText="- 15,088.108 SP" />
-          <WalletLineItem rightText="+ 504,787.529 SP" />
-          <WalletLineItem rightText="= 508,591.288 SP" rightTextColor="#357ce6" />
+          {walletData.vestingSharesDelegated > 0 && (
+            <WalletLineItem
+              rightText={`- ${Math.round(
+                vestsToSp(walletData.vestingSharesDelegated, walletData.steemPerMVests) * 1000,
+              ) / 1000} SP`}
+            />
+          )}
+          {walletData.vestingSharesReceived > 0 && (
+            <WalletLineItem
+              rightText={`+ ${Math.round(
+                vestsToSp(walletData.vestingSharesReceived, walletData.steemPerMVests) * 1000,
+              ) / 1000} SP`}
+            />
+          )}
+          {(walletData.vestingSharesDelegated > 0 || walletData.vestingSharesReceived > 0) && (
+            <WalletLineItem
+              rightText={`= ${Math.round(
+                vestsToSp(walletData.vestingSharesTotal, walletData.steemPerMVests) * 1000,
+              ) / 1000} SP`}
+              rightTextColor="#357ce6"
+            />
+          )}
         </GrayWrapper>
 
         <WalletLineItem
-          text="Net power down is in 6 days"
-          textColor="#788187"
-          isThin
+          text="Steem Dollars"
+          textColor="#3c4449"
           iconName="ios-information-circle-outline"
+          rightText={`$${Math.round(walletData.sbdBalance * 1000) / 1000}`}
+          isBoldText
         />
+        <GrayWrapper>
+          <WalletLineItem
+            text="Savings"
+            textColor="#3c4449"
+            iconName="ios-information-circle-outline"
+            rightText={`${Math.round(walletData.savingBalance * 1000) / 1000} STEEM`}
+            isBoldText
+          />
+          <WalletLineItem rightText={`$${Math.round(walletData.savingBalanceSbd * 1000) / 1000}`} />
+        </GrayWrapper>
+        {walletData.showPowerDown && (
+          <WalletLineItem
+            text={`Next power down is in ${walletData.nextVestingWithdrawal} days`}
+            textColor="#788187"
+            iconName="ios-information-circle-outline"
+          />
+        )}
       </View>
     );
   }

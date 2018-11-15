@@ -7,10 +7,13 @@ import Icon from 'react-native-vector-icons/FontAwesome';
 // Components
 import SubPostButton from './subPostButtonView';
 
+// Constant
+import { default as ROUTES } from '../../../constants/routeNames';
+
 // Styles
 import styles from './postButtonStyles';
 
-const SIZE = 60;
+const SIZE = 75;
 const durationIn = 300;
 const durationOut = 200;
 
@@ -53,27 +56,27 @@ class PostButtonView extends Component {
   render() {
     const firstX = this.icon1.interpolate({
       inputRange: [0, 1],
-      outputRange: [20, -20],
+      outputRange: [20, -25],
     });
     const firstY = this.icon1.interpolate({
       inputRange: [0, 1],
-      outputRange: [0, -50],
+      outputRange: [0, -60],
     });
     const secondX = this.icon2.interpolate({
       inputRange: [0, 1],
-      outputRange: [20, 30],
+      outputRange: [20, 35],
     });
     const secondY = this.icon2.interpolate({
       inputRange: [0, 1],
-      outputRange: [0, -80],
+      outputRange: [0, -85],
     });
     const thirdX = this.icon3.interpolate({
       inputRange: [0, 1],
-      outputRange: [20, 80],
+      outputRange: [20, 95],
     });
     const thirdY = this.icon3.interpolate({
       inputRange: [0, 1],
-      outputRange: [0, -50],
+      outputRange: [0, -60],
     });
 
     const rotation = this.mode.interpolate({
@@ -81,7 +84,7 @@ class PostButtonView extends Component {
       outputRange: ['0deg', '45deg'],
     });
 
-    const { handleSubButtonPress } = this.props;
+    const { handleSubButtonPress, isLoggedIn } = this.props;
 
     return (
       <View style={styles.postButtonWrapper}>
@@ -92,6 +95,8 @@ class PostButtonView extends Component {
             top: firstY,
           }}
           icon="camera"
+          onPress={() => handleSubButtonPress(isLoggedIn ? ROUTES.SCREENS.EDITOR : ROUTES.SCREENS.LOGIN)
+          }
         />
         <SubPostButton
           size={SIZE}
@@ -100,7 +105,8 @@ class PostButtonView extends Component {
             top: secondY,
           }}
           icon="pencil"
-          onPress={() => handleSubButtonPress('EditorScreen')}
+          onPress={() => handleSubButtonPress(isLoggedIn ? ROUTES.SCREENS.EDITOR : ROUTES.SCREENS.LOGIN)
+          }
         />
         <SubPostButton
           size={SIZE}
@@ -109,8 +115,9 @@ class PostButtonView extends Component {
             top: thirdY,
           }}
           icon="video-camera"
+          onPress={() => handleSubButtonPress(isLoggedIn ? ROUTES.SCREENS.EDITOR : ROUTES.SCREENS.LOGIN)
+          }
         />
-
         <TouchableOpacity onPress={this.toggleView} activeOpacity={1}>
           <Animated.View
             style={[

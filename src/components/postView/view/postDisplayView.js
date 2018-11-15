@@ -27,6 +27,7 @@ class PostDisplayView extends Component {
     this.state = {
       postHeight: 0,
       scrollHeight: 0,
+      isLoadedComments: false,
     };
   }
 
@@ -105,9 +106,12 @@ class PostDisplayView extends Component {
 
   render() {
     const { post, currentUser } = this.props;
-    const { postHeight, scrollHeight } = this.state;
+    const { postHeight, scrollHeight, isLoadedComments } = this.state;
 
     const isPostEnd = scrollHeight > postHeight;
+    const isGetComment = scrollHeight + 300 > postHeight;
+
+    isGetComment && !isLoadedComments && this.setState({ isLoadedComments: true });
 
     return (
       <View style={styles.container}>
@@ -141,13 +145,14 @@ class PostDisplayView extends Component {
               </View>
             )}
           </View>
-          {post && (
-            <CommentsDisplay
-              currentUser={currentUser}
-              author={post.author}
-              permlink={post.permlink}
-              commentCount={post.children}
-            />
+          {post
+            && (isGetComment || isLoadedComments) && (
+              <CommentsDisplay
+                currentUser={currentUser}
+                author={post.author}
+                permlink={post.permlink}
+                commentCount={post.children}
+              />
           )}
         </ScrollView>
         {!isPostEnd && this._getTabBar(true)}

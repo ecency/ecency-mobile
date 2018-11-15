@@ -39,7 +39,7 @@ export default EStyleSheet.create({
   },
   tabbar: {
     alignSelf: 'center',
-    height: 55,
+    height: 50,
     backgroundColor: '$white',
     borderBottomColor: '#f1f1f1',
   },
@@ -58,6 +58,8 @@ export default EStyleSheet.create({
   },
   commentsTabBar: {
     backgroundColor: '$white',
+    paddingHorizontal: 16,
+    paddingVertical: 5,
   },
   tabBarTitle: {},
 });

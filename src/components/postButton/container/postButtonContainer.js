@@ -1,4 +1,5 @@
 import React, { Component } from 'react';
+import { connect } from 'react-redux';
 import { withNavigation } from 'react-navigation';
 
 // Components
@@ -25,4 +26,8 @@ class PostButtonContainer extends Component {
   }
 }
 
-export default withNavigation(PostButtonContainer);
+const mapStateToProps = state => ({
+  isLoggedIn: state.application.isLoggedIn,
+});
+
+export default connect(mapStateToProps)(withNavigation(PostButtonContainer));
