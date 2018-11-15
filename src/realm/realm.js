@@ -100,8 +100,7 @@ export const updateUserData = userData => new Promise((resolve, reject) => {
 export const setDraftPost = (fields, username) => new Promise((resolve, reject) => {
   try {
     const draft = realm.objects(DRAFT_SCHEMA).filtered('username = $0', username);
-    console.log(fields);
-    console.log("ustebak");
+
     realm.write(() => {
       if (Array.from(draft).length > 0) {
         draft[0].title = fields.title;

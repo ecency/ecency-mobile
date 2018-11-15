@@ -103,7 +103,7 @@ export default class TagAreaView extends Component {
               handleOnChange={text => this._handleOnChange(text, i)}
               handleOnBlur={() => this._handleOnBlur(i)}
               blurOnSubmit
-              value={chip && chip}
+              value={draftChips.length > 0 ? chip && chip : null}
               autoCapitalize="none"
               {...this.props}
             />
