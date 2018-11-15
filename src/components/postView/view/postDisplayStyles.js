@@ -18,7 +18,7 @@ export default EStyleSheet.create({
     flexDirection: 'row',
   },
   scroll: {
-    height: '$deviceHeight - 69',
+    height: '$deviceHeight / 1.135',
   },
   footer: {
     flexDirection: 'column',
