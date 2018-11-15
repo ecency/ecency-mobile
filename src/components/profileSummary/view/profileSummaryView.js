@@ -2,7 +2,6 @@ import React, { Component, Fragment } from 'react';
 import {
   View, Image, Text, TouchableOpacity, Dimensions, ActivityIndicator,
 } from 'react-native';
-import { DropdownButton } from '../../dropdownButton';
 
 // Constants
 import DEFAULT_IMAGE from '../../../assets/default_cover_image.png';
@@ -50,9 +49,11 @@ class ProfileSummaryView extends Component {
       isLoggedIn,
       isFollowing,
       isFavorite,
+      isMuted,
       isOwnProfile,
-      isFollowLoading,
+      isProfileLoading,
       handleFollowUnfollowUser,
+      handleMuteUnmuteUser,
     } = this.props;
     const votingPowerHoursText = hoursVP && `• Full in ${hoursVP} hours`;
     const votingPowerText = `Voting power: ${percentVP}% ${votingPowerHoursText || ''}`;
@@ -70,6 +71,7 @@ class ProfileSummaryView extends Component {
 
     const isColumn = rowLength && DEVICE_WIDTH / rowLength <= 15;
     const followButtonIcon = !isFollowing ? 'user-follow' : 'user-unfollow';
+    const ignoreButtonIcon = !isMuted ? 'ban' : 'minus';
 
     return (
       <Fragment>
@@ -106,14 +108,16 @@ class ProfileSummaryView extends Component {
 
         <View style={styles.footer}>
           <View style={styles.leftIcons}>
-            <View style={styles.followCountWrapper}>
-              <Text style={styles.followCount}>{followerCount}</Text>
-              <Text style={styles.followText}>followers</Text>
-            </View>
-            <View style={styles.followCountWrapper}>
-              <Text style={styles.followCount}>{followingCount}</Text>
-              <Text style={styles.followText}>following</Text>
-            </View>
+            <Fragment>
+              <View style={styles.followCountWrapper}>
+                <Text style={styles.followCount}>{followerCount}</Text>
+                <Text style={styles.followText}>followers</Text>
+              </View>
+              <View style={styles.followCountWrapper}>
+                <Text style={styles.followCount}>{followingCount}</Text>
+                <Text style={styles.followText}>following</Text>
+              </View>
+            </Fragment>
           </View>
           {isLoggedIn && (
             <View style={styles.rightIcons}>
@@ -127,8 +131,8 @@ class ProfileSummaryView extends Component {
                     style={[styles.insetIconStyle]}
                     color="#c1c5c7"
                   />
-                  {isFollowLoading ? (
-                    <ActivityIndicator style={[styles.insetIconStyle, {width: 30}]} />
+                  {isProfileLoading ? (
+                    <ActivityIndicator style={styles.activityIndicator} />
                   ) : (
                     <IconButton
                       backgroundColor="transparent"
@@ -140,15 +144,21 @@ class ProfileSummaryView extends Component {
                       color="#c1c5c7"
                     />
                   )}
+                  {isProfileLoading ? (
+                    <ActivityIndicator style={styles.activityIndicator} />
+                  ) : (
+                    <IconButton
+                      backgroundColor="transparent"
+                      name={ignoreButtonIcon}
+                      iconType="SimpleLineIcons"
+                      onPress={() => handleMuteUnmuteUser(isMuted ? false : true)}
+                      size={16}
+                      style={styles.insetIconStyle}
+                      color="#c1c5c7"
+                    />
+                  )}
                 </Fragment>
               )}
-              <DropdownButton
-                style={styles.insetIconStyle}
-                options={['option1', 'option2', 'option3', 'option4']}
-                iconName="md-more"
-                isHasChildIcon
-                childIconWrapperStyle={styles.dropdownIconStyle}
-              />
             </View>
           )}
         </View>

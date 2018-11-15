@@ -1,7 +1,7 @@
 import React, { Component } from 'react';
 
 // Services and Actions
-import { globalProps, getFeedHistory } from '../../../providers/steem/dsteem';
+import { globalProps, getFeedHistory, getState } from '../../../providers/steem/dsteem';
 
 // Middleware
 
@@ -25,7 +25,7 @@ class WalletContainer extends Component {
   constructor(props) {
     super(props);
     this.state = {
-      walletData: {},
+      walletData: null,
     };
   }
 
@@ -33,7 +33,6 @@ class WalletContainer extends Component {
 
   async componentWillMount() {
     const { user } = this.props;
-    console.log('user :', user);
 
     const walletData = {};
 
@@ -66,7 +65,15 @@ class WalletContainer extends Component {
       + walletData.sbdBalance;
 
     walletData.showPowerDown = user.next_vesting_withdrawal !== '1969-12-31T23:59:59';
-    walletData.nextVestingWithdrawal = parseDate(user.next_vesting_withdrawal);
+    const timeDiff = Math.abs(parseDate(user.next_vesting_withdrawal) - new Date());
+    walletData.nextVestingWithdrawal = Math.ceil(timeDiff / (1000 * 3600 * 24));
+
+    const state = await getState(`/@${user.name}/transfers`);
+    const { accounts } = state;
+    const { transfer_history: transferHistory } = accounts[user.name];
+    walletData.transactions = transferHistory
+      .slice(Math.max(transferHistory.length - 20, 0))
+      .reverse();
 
     this.setState({ walletData });
   }

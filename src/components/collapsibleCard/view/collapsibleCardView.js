@@ -69,11 +69,12 @@ class CollapsibleCardView extends Component {
       noBorder,
       fitContent,
       isTitleCenter,
+      style,
     } = this.props;
     const { expanded } = this.state;
 
     return (
-      <View style={[styles.container, !noBorder && styles.containerWithBorder]}>
+      <View style={[styles.container, !noBorder && styles.containerWithBorder, style]}>
         <TouchableHighlight
           underlayColor="transparent"
           onPress={() => !locked && this._toggleOnPress()}

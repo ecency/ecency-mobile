@@ -1,7 +1,9 @@
 import EStyleSheet from 'react-native-extended-stylesheet';
 
 export default EStyleSheet.create({
-  container: {},
+  container: {
+    paddingBottom: 20,
+  },
 
   // First collabsible component
   mainButton: {
@@ -28,9 +30,4 @@ export default EStyleSheet.create({
     width: 24,
     height: 24,
   },
-  scrollView: {
-    height: '$deviceHeight / 1.36',
-  },
-
-  // Second collabsible component
 });

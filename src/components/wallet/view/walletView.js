@@ -9,6 +9,7 @@ import { MainButton } from '../../mainButton';
 import { CollapsibleCard } from '../../collapsibleCard';
 import { WalletDetails } from '../../walletDetails';
 import { Transaction } from '../../transaction';
+import { WalletDetailsPlaceHolder, WalletUnclaimedPlaceHolder } from '../../basicUIElements';
 
 // Styles
 import styles from './walletStyles';
@@ -29,21 +30,24 @@ class WalletView extends Component {
   // Component Functions
 
   render() {
-    const { user, walletData } = this.props;
+    const { walletData } = this.props;
 
     return (
       <View style={styles.container}>
         <ScrollView style={styles.scrollView}>
-          <CollapsibleCard
-            titleColor="#788187"
-            isBoldTitle
-            fontSize={16}
-            defaultTitle="Unclaimed rewards"
-            expanded
-          >
-            {walletData.rewardSteemBalance > 0
-              && walletData.rewardSbdBalance > 0
-              && walletData.rewardVestingSteem > 0 && (
+          {walletData === null ? (
+            <WalletUnclaimedPlaceHolder />
+          ) : (
+            (walletData.rewardSteemBalance > 0
+              || walletData.rewardSbdBalance > 0
+              || walletData.rewardVestingSteem > 0) && (
+              <CollapsibleCard
+                titleColor="#788187"
+                isBoldTitle
+                defaultTitle="Unclaimed rewards"
+                expanded
+                style={{ marginBottom: 0 }}
+              >
                 <MainButton
                   style={styles.mainButton}
                   height={50}
@@ -66,14 +70,21 @@ class WalletView extends Component {
                     </View>
                   </View>
                 </MainButton>
-            )}
-          </CollapsibleCard>
-
-          <CollapsibleCard titleColor="#788187" title="Wallet Details" expanded>
-            <WalletDetails walletData={walletData} />
-          </CollapsibleCard>
-
-          <Transaction />
+              </CollapsibleCard>
+            )
+          )}
+          {walletData === null ? (
+            <WalletDetailsPlaceHolder />
+          ) : (
+            <CollapsibleCard titleColor="#788187" title="Wallet Details" expanded>
+              <WalletDetails walletData={walletData} />
+            </CollapsibleCard>
+          )}
+          {walletData === null ? (
+            <WalletDetailsPlaceHolder />
+          ) : (
+            <Transaction walletData={walletData} />
+          )}
         </ScrollView>
       </View>
     );

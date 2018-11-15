@@ -133,7 +133,6 @@ class ProfilePage extends React.Component {
   };
 
   getMore = async () => {
-    console.log('get more');
     await getPosts(
       'blog',
       {
