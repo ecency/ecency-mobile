@@ -34,18 +34,22 @@ class SplashContainer extends Component {
                 addOtherAccount({ username: accountData.username, avatar: accountData.avatar }),
               );
             });
-            getUser(response[response.length - 1].username).then((accountData) => {
-              const realmObject = response[response.length - 1];
-              accountData.realm_object = realmObject;
+            getUser(response[response.length - 1].username)
+              .then((accountData) => {
+                const realmObject = response[response.length - 1];
+                accountData.realm_object = realmObject;
 
-              dispatch(updateCurrentAccount(accountData));
-              dispatch(activeApplication());
-              dispatch(login());
-              if (__DEV__ === false) {
-                dispatch(openPinCodeModal());
-              }
-              navigation.navigate(ROUTES.DRAWER.MAIN);
-            });
+                dispatch(updateCurrentAccount(accountData));
+                dispatch(activeApplication());
+                dispatch(login());
+                if (__DEV__ === false) {
+                  dispatch(openPinCodeModal());
+                }
+                navigation.navigate(ROUTES.DRAWER.MAIN);
+              })
+              .catch((err) => {
+                alert(err);
+              });
           }
         });
       } else {

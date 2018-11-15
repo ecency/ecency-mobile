@@ -43,3 +43,29 @@ export const updateDraft = data => new Promise((resolve, reject) => {
       reject(error);
     });
 });
+
+export const getActivities = data => new Promise((resolve, reject) => {
+  api
+    .get(`/activities/${data.user}`, {
+      params: {
+        since: data.since,
+      },
+    })
+    .then((res) => {
+      resolve(res.data);
+    })
+    .catch((error) => {
+      reject(error);
+    });
+});
+
+export const getUnreadActivityCount = data => new Promise((resolve, reject) => {
+  api
+    .get(`/activities/${data.user}/unread-count`)
+    .then((res) => {
+      resolve(res.data.count);
+    })
+    .catch((error) => {
+      reject(error);
+    });
+});
