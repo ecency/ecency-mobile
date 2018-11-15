@@ -1,16 +1,14 @@
 import React, { Component, Fragment } from 'react';
 import { FlatList, View, ActivityIndicator } from 'react-native';
 
-// import Placeholder from 'rn-placeholder';
-
 // STEEM
 import { getPosts } from '../../../providers/steem/dsteem';
 
 // COMPONENTS
 import { PostCard } from '../../postCard';
 import { FilterBar } from '../../filterBar';
-import { PostCardPlaceHolder, NoPost } from '../../basicUIElements';
-
+import { PostCardPlaceHolder } from '../../basicUIElements';
+import filters from '../../../constants/filters.json';
 // Styles
 import styles from './postsStyles';
 
@@ -18,13 +16,13 @@ class PostsView extends Component {
   constructor(props) {
     super(props);
     this.state = {
-      isReady: false,
       user: props.user || null,
       posts: [],
       startAuthor: '',
       startPermlink: '',
       refreshing: false,
       isLoading: false,
+      isPostsLoading: false,
     };
   }
 
@@ -45,20 +43,21 @@ class PostsView extends Component {
     }
   }
 
-  _loadPosts = (user, _tag = null) => {
+  _loadPosts = (user, _tag = null, _getFor = null) => {
     const { getFor, tag } = this.props;
-    const options = { tag: _tag || tag, limit: 10 };
+    let options;
+    _getFor ? (options = { limit: 3 }) : (options = { tag: _tag || tag, limit: 3 });
 
     if (user) {
-      getPosts(getFor, options, user)
+      getPosts(_getFor || getFor, options, user)
         .then((result) => {
           if (result) {
             this.setState({
-              isReady: true,
               posts: result,
               startAuthor: result[result.length - 1] && result[result.length - 1].author,
               startPermlink: result[result.length - 1] && result[result.length - 1].permlink,
               refreshing: false,
+              isPostsLoading: false,
             });
           }
         })
@@ -122,25 +121,32 @@ class PostsView extends Component {
     return null;
   };
 
-  _getRenderItem = () => {
+  _handleOnDropdownSelect = (index) => {
+    const { user } = this.state;
+    this.setState({ isPostsLoading: true });
+    this._loadPosts(user, null, filters[index]);
+  };
+
+  render() {
     const {
-      isReady, refreshing, posts, user,
+      refreshing, posts, user, isPostsLoading,
     } = this.state;
     const {
-      componentId, filterOptions, isLoginMust, isLoggedIn,
+      componentId, filterOptions, isLoggedIn,
     } = this.props;
 
-    if (user && posts && posts.length > 0) {
-      return (
-        <Fragment>
-          {filterOptions && (
-            <FilterBar
-              dropdownIconName="md-arrow-dropdown"
-              options={filterOptions}
-              defaultText={filterOptions[0]}
-              rightIconName="md-apps"
-            />
-          )}
+    return (
+      <Fragment>
+        {filterOptions && (
+          <FilterBar
+            dropdownIconName="md-arrow-dropdown"
+            options={filterOptions}
+            defaultText={filterOptions[0]}
+            rightIconName="md-apps"
+            onDropdownSelect={this._handleOnDropdownSelect}
+          />
+        )}
+        {user && posts && posts.length > 0 && !isPostsLoading ? (
           <FlatList
             data={posts}
             showsVerticalScrollIndicator={false}
@@ -161,36 +167,14 @@ class PostsView extends Component {
             initialNumToRender={10}
             ListFooterComponent={this._renderFooter}
           />
-        </Fragment>
-      );
-    }
-
-    if (isReady && !posts && posts.length < 1) {
-      return (
-        <Fragment>
-          <NoPost
-            name={user.name}
-            text={"haven't posted anything yet"}
-            defaultText="Login to see!"
-          />
-        </Fragment>
-      );
-    }
-
-    // if (isLoginMust && !isLoggedIn) {
-    //   return <NoPost defaultText="Login to see!" />;
-    // }
-
-    return (
-      <Fragment>
-        <PostCardPlaceHolder />
-        <PostCardPlaceHolder />
+        ) : (
+          <Fragment>
+            <PostCardPlaceHolder />
+            <PostCardPlaceHolder />
+          </Fragment>
+        )}
       </Fragment>
     );
-  };
-
-  render() {
-    return <View>{this._getRenderItem()}</View>;
   }
 }
 

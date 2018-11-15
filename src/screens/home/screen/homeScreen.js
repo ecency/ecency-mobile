@@ -70,7 +70,6 @@ export default class HomeScreen extends PureComponent {
             <View tabLabel="Feed" style={styles.tabbarItem}>
               <Posts
                 filterOptions={_filterOptions}
-                isLoginMust
                 getFor="feed"
                 tag={isLoggedIn ? currentAccount.name : 'esteemapp'}
                 user={currentAccount}
