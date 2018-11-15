@@ -58,12 +58,14 @@ class VotersDisplayView extends Component {
 
     return (
       <View style={styles.container}>
-        {votes && (
+        {votes.length > 0 ? (
           <FlatList
             data={votes}
             keyExtractor={item => item.voter.toString()}
             renderItem={({ item, index }) => this._renderItem(item, index)}
           />
+        ) : (
+          <Text style={styles.text}>No user found.</Text>
         )}
       </View>
     );
