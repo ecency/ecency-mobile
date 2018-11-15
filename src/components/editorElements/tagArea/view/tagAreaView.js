@@ -24,15 +24,23 @@ export default class TagAreaView extends Component {
   }
 
   // Component Life Cycles
+  componentWillReceiveProps(nextProps) {
+    const { draftChips } = this.props;
+
+    if (nextProps.draftChips && nextProps.draftChips !== draftChips) {
+      const _chips = [...nextProps.draftChips, ''];
+      this.setState({
+        chips: _chips,
+      });
+    }
+  }
 
   // Component Functions
   _handleOnChange = (text, i) => {
     this.setState({ currentText: text.trim() });
-
     if (text.indexOf(' ') > 0 && text) {
       this._handleTagAdded();
     }
-
     if (!text && i !== 0) {
       this._handleTagRemove(i);
     }
@@ -42,19 +50,20 @@ export default class TagAreaView extends Component {
     this._handleTagAdded(i);
   };
 
-  _handleTagAdded = (i) => {
+  _handleTagAdded = (i = null, text = null) => {
     const { currentText, chips, chipsCount } = this.state;
     const { handleTagChanged } = this.props;
+    const _currentText = (currentText && currentText.trim()) || text;
 
-    if (currentText && currentText.trim() && chips && chips.length < chipsCount) {
+    if (_currentText && chips && chips.length < chipsCount) {
       this.setState({
-        chips: [...chips, currentText.trim()],
+        chips: [...chips, _currentText],
         currentText: '',
       });
     }
 
     if (handleTagChanged && chips.length < chipsCount + 1) {
-      handleTagChanged([...chips, currentText.trim()]);
+      handleTagChanged([...chips, _currentText]);
     }
   };
 
@@ -72,7 +81,7 @@ export default class TagAreaView extends Component {
   };
 
   render() {
-    const { isPreviewActive } = this.props;
+    const { isPreviewActive, draftChips } = this.props;
     const { chips } = this.state;
 
     return (
@@ -94,6 +103,7 @@ export default class TagAreaView extends Component {
               handleOnChange={text => this._handleOnChange(text, i)}
               handleOnBlur={() => this._handleOnBlur(i)}
               blurOnSubmit
+              value={draftChips.length > 0 ? chip && chip : null}
               autoCapitalize="none"
               {...this.props}
             />

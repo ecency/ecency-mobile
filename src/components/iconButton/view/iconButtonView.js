@@ -21,7 +21,7 @@ const IconButton = ({
 }) => (
   <Fragment>
     <TouchableHighlight
-      style={[styles.iconButton, style && style]}
+      style={[styles.iconButton, style]}
       onPress={() => onPress && onPress()}
       underlayColor={backgroundColor || 'white'}
     >
