@@ -1,12 +1,13 @@
 import React, { Component } from 'react';
-import {
-  View, ScrollView, Text, FlatList, Image,
-} from 'react-native';
-import { ContainerHeader } from '../../containerHeader';
+import { View, ScrollView, FlatList } from 'react-native';
+
 // Constants
 
 // Components
+import { ContainerHeader } from '../../containerHeader';
 import { FilterBar } from '../../filterBar';
+import NotificationLine from '../../notificationLine';
+
 // Styles
 import styles from './notificationStyles';
 
@@ -63,41 +64,8 @@ class NotificationView extends Component {
     console.log(`selected index is:${index}`);
   };
 
-  _getRenderItem = item => (
-    <View
-      key={Math.random()}
-      style={[styles.notificationWrapper, item.isNew && styles.isNewNotification]}
-    >
-      <Image
-        style={[styles.avatar, !item.avatar && styles.hasNoAvatar]}
-        source={{
-          uri: item.avatar,
-        }}
-      />
-      <View style={styles.body}>
-        <View style={styles.titleWrapper}>
-          <Text style={styles.name}>
-            {item.name}
-            {' '}
-          </Text>
-          <Text style={styles.title}>{item.title}</Text>
-        </View>
-        <Text numberOfLines={1} style={styles.description}>
-          {item.description}
-        </Text>
-      </View>
-      {item.image && (
-        <Image
-          style={styles.image}
-          source={{ uri: item.image }}
-          defaultSource={require('../../../assets/no_image.png')}
-        />
-      )}
-    </View>
-  );
-
   render() {
-    const { notification } = this.state;
+    const { notifications } = this.props;
 
     return (
       <View style={styles.container}>
@@ -111,8 +79,8 @@ class NotificationView extends Component {
         <ScrollView style={styles.scrollView}>
           <ContainerHeader hasSeperator isBoldTitle title="Recent" />
           <FlatList
-            data={notification}
-            renderItem={({ item }) => this._getRenderItem(item)}
+            data={notifications}
+            renderItem={({ item }) => <NotificationLine notification={item} />}
             keyExtractor={item => item.email}
           />
           {/* Will remove follow lines */}
