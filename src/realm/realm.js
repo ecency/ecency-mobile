@@ -24,7 +24,7 @@ const draftSchema = {
   properties: {
     title: { type: 'string' },
     tags: { type: 'string' },
-    text: { type: 'string' },
+    body: { type: 'string' },
     username: { type: 'string' },
   },
 };
@@ -97,21 +97,23 @@ export const updateUserData = userData => new Promise((resolve, reject) => {
   }
 });
 
-export const setDraftPost = (form, username) => new Promise((resolve, reject) => {
+export const setDraftPost = (fields, username) => new Promise((resolve, reject) => {
   try {
     const draft = realm.objects(DRAFT_SCHEMA).filtered('username = $0', username);
+    console.log(fields);
+    console.log("ustebak");
     realm.write(() => {
       if (Array.from(draft).length > 0) {
-        draft[0].title = form.title;
-        draft[0].tags = form.tags;
-        draft[0].text = form.text;
+        draft[0].title = fields.title;
+        draft[0].tags = fields.tags;
+        draft[0].body = fields.body;
         resolve(true);
       } else {
         realm.create(DRAFT_SCHEMA, {
           username,
-          title: form.title,
-          tags: form.tags,
-          text: form.text,
+          title: fields.title,
+          tags: fields.tags,
+          body: fields.body,
         });
         resolve(true);
       }

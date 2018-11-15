@@ -24,13 +24,29 @@ export class EditorScreen extends Component {
     this.state = {
       isPreviewActive: false,
       wordsCount: null,
-      formFields: {},
       isFormValid: false,
-      tags: [],
+      isChanged: false,
+      fields: {
+        title: (props.draftPost && props.draftPost.title) || '',
+        body: (props.draftPost && props.draftPost.body) || '',
+        tags: (props.draftPost && props.draftPost.tags) || [],
+        isValid: false,
+      },
     };
   }
 
   // Component Life Cycles
+  componentWillReceiveProps = (nextProps) => {
+    const { draftPost } = this.props;
+
+    if (nextProps.draftPost && draftPost !== nextProps.draftPost) {
+      this.setState({
+        fields: {
+          ...nextProps.draftPost,
+        },
+      });
+    }
+  };
 
   // Component Functions
   _handleOnPressPreviewButton = () => {
@@ -50,65 +66,67 @@ export class EditorScreen extends Component {
 
   _handleOnSaveButtonPress = () => {
     const { handleOnSaveButtonPress } = this.props;
-    const { formFields, tags } = this.state;
+    const { fields } = this.state;
 
-    handleOnSaveButtonPress({ formFields, tags });
+    handleOnSaveButtonPress(fields);
   };
 
   _handleOnSubmit = () => {
     const { handleOnSubmit } = this.props;
-    const { formFields, tags } = this.state;
+    const { fields } = this.state;
 
     if (handleOnSubmit) {
-      handleOnSubmit({ formFields, tags });
+      handleOnSubmit({ fields });
     }
   };
 
   _handleIsFormValid = () => {
-    const { formFields, tags } = this.state;
+    const { fields } = this.state;
 
     this.setState({
       isFormValid:
-        formFields['title-area']
-        && formFields['text-area']
-        && formFields['title-area'].isValid
-        && formFields['text-area'].isValid
-        && tags
-        && tags.length > 0,
+        fields.title
+        && fields.title.length > 0
+        && fields.body
+        && fields.body.length > 0
+        && fields.tags.length > 0,
     });
   };
 
-  _handleFormUpdate = (componentID, content, isValid) => {
+  _handleFormUpdate = (componentID, content) => {
     const { handleFormChanged } = this.props;
-    const { formFields } = this.state;
-    const newFormFields = formFields;
+    const fields = { ...this.state.fields };
 
-    newFormFields[componentID] = {
-      content,
-      isValid,
-    };
+    if (componentID === 'body') {
+      fields.body = content;
+    } else if (componentID === 'title') {
+      fields.title = content;
+    }
+
+    this.setState({ fields });
 
     handleFormChanged();
 
-    this.setState({ formFields: newFormFields });
-
     this._handleIsFormValid();
+
+    this.setState({ isChanged: true });
   };
 
   _handleOnTagAdded = (tags) => {
-    this.setState({ tags: tags.filter(tag => tag && tag !== ' ') });
+    const _tags = tags.filter(tag => tag && tag !== ' ');
+    const fields = { ...this.state.fields };
+
+    fields.tags = _tags;
+    this.setState({ fields });
   };
 
   render() {
     const {
-      isPreviewActive, wordsCount, isFormValid, formFields,
+      isPreviewActive, wordsCount, isFormValid, fields, isChanged,
     } = this.state;
     const {
       isLoggedIn, isPostSending, isDraftSaving, isDraftSaved, draftPost,
     } = this.props;
-    const title = (formFields['title-area'] && formFields['title-area'].content)
-      || (draftPost && draftPost.title);
-    const text = (formFields['text-area'] && formFields['text-area'].content) || (draftPost && draftPost.text);
 
     return (
       <View style={globalStyles.defaultContainer}>
@@ -131,13 +149,17 @@ export class EditorScreen extends Component {
           isPreviewActive={isPreviewActive}
           isFormValid={isFormValid}
         >
-          <TitleArea value={title} componentID="title-area" />
+          <TitleArea value={fields.title} componentID="title" />
           <TagArea
-            draftChips={draftPost && draftPost.tags}
+            draftChips={fields.tags}
             componentID="tag-area"
             handleTagChanged={this._handleOnTagAdded}
           />
-          <TextArea value={text} handleOnTextChange={this._setWordsCount} componentID="text-area" />
+          <TextArea
+            draftBody={fields && fields.body}
+            handleOnTextChange={this._setWordsCount}
+            componentID="body"
+          />
         </PostForm>
       </View>
     );

@@ -18,7 +18,7 @@ export default class TagAreaView extends Component {
     super(props);
     this.state = {
       currentText: '',
-      chips: [' ', props.draftChips],
+      chips: [' '],
       chipsCount: props.chipsCount || 5,
     };
   }
@@ -27,21 +27,20 @@ export default class TagAreaView extends Component {
   componentWillReceiveProps(nextProps) {
     const { draftChips } = this.props;
 
-    // if (nextProps.draftChips && nextProps.draftChips !== draftChips) {
-    //   nextProps.draftChips.forEach((chip, i) => {
-    //     this._handleTagAdded(i, chip);
-    //   });
-    // }
+    if (nextProps.draftChips && nextProps.draftChips !== draftChips) {
+      const _chips = [...nextProps.draftChips, ''];
+      this.setState({
+        chips: _chips,
+      });
+    }
   }
 
   // Component Functions
   _handleOnChange = (text, i) => {
     this.setState({ currentText: text.trim() });
-
     if (text.indexOf(' ') > 0 && text) {
       this._handleTagAdded();
     }
-
     if (!text && i !== 0) {
       this._handleTagRemove(i);
     }
@@ -84,7 +83,7 @@ export default class TagAreaView extends Component {
   render() {
     const { isPreviewActive, draftChips } = this.props;
     const { chips } = this.state;
-    console.log(draftChips);
+
     return (
       <View style={globalStyles.containerHorizontal16}>
         <View style={styles.tagWrapper}>

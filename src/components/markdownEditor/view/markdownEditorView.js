@@ -27,6 +27,16 @@ export default class MarkdownEditorView extends Component {
     this.textInput.focus();
   }
 
+  componentWillReceiveProps(nextProps) {
+    const { draftBody } = this.props;
+
+    if (nextProps.draftBody && draftBody !== nextProps.draftBody) {
+      this.setState({
+        text: nextProps.draftBody,
+      });
+    }
+  }
+
   changeText = (input) => {
     const {
       onChange, handleOnTextChange, handleIsValid, componentID,

@@ -3,7 +3,7 @@ import { connect } from 'react-redux';
 
 // Services and Actions
 import { postContent } from '../../../providers/steem/dsteem';
-import { getUserData, setDraftPost, getDraftPost } from '../../../realm/realm';
+import { setDraftPost, getDraftPost } from '../../../realm/realm';
 import { getDigitPinCode } from '../../../providers/steem/auth';
 
 // Middleware
@@ -38,40 +38,34 @@ class ExampleContainer extends Component {
   // Component Life Cycle Functions
 
   // Component Functions
-  async componentDidMount() {
+  componentWillMount() {
     const { currentAccount } = this.props;
     const username = currentAccount && currentAccount.name ? currentAccount.name : '';
 
-    await getDraftPost(username)
+    getDraftPost(username)
       .then((result) => {
-        console.log(result);
         this.setState({
-          draftPost: { text: result.text, title: result.title, tags: result.tags.split(',') },
+          draftPost: { body: result.body, title: result.title, tags: result.tags.split(',') },
         });
-        console.log({ text: result.text, title: result.title, tags: result.tags.split(',') });
       })
       .catch((error) => {
         console.log(error);
       });
   }
 
-  _handleOnSaveButtonPress = (form) => {
+  _handleOnSaveButtonPress = (fields) => {
     const { isDraftSaved } = this.state;
     if (!isDraftSaved) {
       const { currentAccount } = this.props;
-      const title = form.formFields['title-area'] ? form.formFields['title-area'].content : '';
-      const text = form.formFields['text-area'] ? form.formFields['text-area'].content : '';
-      const tags = form.tags ? form.tags.toString() : '';
       const username = currentAccount && currentAccount.name ? currentAccount.name : '';
-      const formProperties = {
-        title,
-        tags,
-        text,
-      };
 
       this.setState({ isDraftSaving: true });
+      const draftField = {
+        ...fields,
+        tags: fields.tags.toString(),
+      };
 
-      setDraftPost(formProperties, username)
+      setDraftPost(draftField, username)
         .then(() => {
           this.setState({
             isDraftSaving: false,
@@ -84,29 +78,20 @@ class ExampleContainer extends Component {
     }
   };
 
-  _submitPost = async (form) => {
-    const { navigation } = this.props;
-    let userData;
-    let postingKey;
-    const title = form.formFields['title-area'].content;
-    const permlink = generatePermlink(title);
+  _submitPost = async (fields) => {
     this.setState({ isPostSending: true });
 
+    const { navigation, currentAccount } = this.props;
+    const permlink = generatePermlink(fields.title);
     const digitPinCode = await getDigitPinCode();
 
-    await getUserData().then((res) => {
-      userData = res && Array.from(res)[0];
+    const postingKey = decryptKey(currentAccount.realm_object.postingKey, digitPinCode);
 
-      postingKey = decryptKey(userData.postingKey, digitPinCode);
-    });
-
-    if (userData) {
+    if (currentAccount) {
       const post = {
-        body: form.formFields['text-area'].content,
-        title,
-        author: userData.username,
-        permlink: permlink && permlink,
-        tags: form.tags,
+        ...fields,
+        permlink,
+        author: currentAccount.name,
       };
 
       postContent(post, postingKey)
