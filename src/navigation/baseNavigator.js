@@ -6,6 +6,7 @@ import {
 } from '../screens';
 
 import { PostButton } from '../components/postButton';
+import NotificationButton from '../components/notificationButton';
 
 const BaseNavigator = createBottomTabNavigator(
   {
@@ -18,7 +19,7 @@ const BaseNavigator = createBottomTabNavigator(
     Notification: {
       screen: RootComponent()(Notification),
       navigationOptions: () => ({
-        tabBarIcon: ({ tintColor }) => <Icon name="bell-o" color={tintColor} size={18} />,
+        tabBarIcon: ({ tintColor }) => <NotificationButton color={tintColor} />,
       }),
     },
     PostButton: {

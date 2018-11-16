@@ -43,3 +43,53 @@ export const updateDraft = data => new Promise((resolve, reject) => {
       reject(error);
     });
 });
+
+export const getActivities = data => new Promise((resolve, reject) => {
+  let url = null;
+  switch (data.type) {
+    case 'activities':
+      url = `/activities/${data.user}`;
+      break;
+    case 'votes':
+      url = `/rvotes/${data.user}`;
+      break;
+    case 'replies':
+      url = `/replies/${data.user}`;
+      break;
+    case 'mentions':
+      url = `/mentions/${data.user}`;
+      break;
+    case 'follows':
+      url = `/follows/${data.user}`;
+      break;
+    case 'reblogs':
+      url = `/reblogs/${data.user}`;
+      break;
+    default:
+      url = `/activities/${data.user}`;
+      break;
+  }
+  api
+    .get(url, {
+      params: {
+        since: data.since,
+      },
+    })
+    .then((res) => {
+      resolve(res.data);
+    })
+    .catch((error) => {
+      reject(error);
+    });
+});
+
+export const getUnreadActivityCount = data => new Promise((resolve, reject) => {
+  api
+    .get(`/activities/${data.user}/unread-count`)
+    .then((res) => {
+      resolve(res.data.count);
+    })
+    .catch((error) => {
+      reject(error);
+    });
+});
