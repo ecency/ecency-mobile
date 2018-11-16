@@ -15,16 +15,26 @@ class NotificationContainer extends Component {
   }
 
   componentWillMount() {
-    getActivities({ user: 'mistikk' }).then((res) => {
+    this._getAvtivities();
+  }
+
+  _getAvtivities = (type = null) => {
+    getActivities({ user: 'mistikk', type }).then((res) => {
       console.log('res :', res);
       this.setState({ notifications: res });
     });
-  }
+  };
 
   render() {
     const { notifications } = this.state;
 
-    return <NotificationScreen notifications={notifications} {...this.props} />;
+    return (
+      <NotificationScreen
+        getActivities={this._getAvtivities}
+        notifications={notifications}
+        {...this.props}
+      />
+    );
   }
 }
 

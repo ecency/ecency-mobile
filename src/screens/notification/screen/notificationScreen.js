@@ -19,7 +19,7 @@ class NotificationScreen extends PureComponent {
   }
 
   render() {
-    const { notifications } = this.props;
+    const { notifications, getActivities } = this.props;
     console.log('notifications :', notifications);
     return (
       <Fragment>
@@ -37,7 +37,7 @@ class NotificationScreen extends PureComponent {
           )}
         >
           <View tabLabel="Notification" style={styles.notificationTab}>
-            <Notification notifications={notifications} />
+            <Notification getActivities={getActivities} notifications={notifications} />
           </View>
           <View tabLabel="Leaderboard" style={styles.leaderboardTab}>
             <NoPost

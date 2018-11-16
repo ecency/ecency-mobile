@@ -30,28 +30,14 @@ class NotificationView extends Component {
           // date: 'today',
           isNew: true,
         },
-        // {
-        //   name: 'esteemapp',
-        //   title: '25% likes your post:',
-        //   description: 'My own Top 5 eSteem Surfer Features',
-        //   image: 'https://steemitimages.com/u/feruz/avatar/small',
-        //   date: 'yesterday',
-        // },
-        // {
-        //   name: 'esteemapp',
-        //   title: '25% likes your post:',
-        //   avatar: 'https://steemitimages.com/u/feruz/avatar/small',
-        //   description: 'My own Top 5 eSteem Surfer Featuresasassasasaasas',
-        //   date: 'yesterday',
-        // },
-        // {
-        //   name: 'esteemapp',
-        //   title: '25% likes your post:',
-        //   avatar: 'https://steemitimages.com/u/feruz/avatar/small',
-        //   description: 'My own Top 5 eSteem Surfer Features',
-        //   image: 'https://steemitimages.com/u/feruz/avatar/small',
-        //   date: 'yesterday',
-        // },
+      ],
+      filters: [
+        { key: 'activities', value: 'ALL ACTIVITIES' },
+        { key: 'votes', value: 'VOTES' },
+        { key: 'replies', value: 'REPLIES' },
+        { key: 'mentions', value: 'MENTIONS' },
+        { key: 'follows', value: 'FOLLOWS' },
+        { key: 'reblogs', value: 'REBLOGS' },
       ],
     };
   }
@@ -61,18 +47,22 @@ class NotificationView extends Component {
   // Component Functions
 
   _handleOnDropdownSelect = (index) => {
-    console.log(`selected index is:${index}`);
+    const { getActivities } = this.props;
+    const { filters } = this.state;
+
+    getActivities(filters[index].key);
   };
 
   render() {
     const { notifications } = this.props;
+    const { filters } = this.state;
 
     return (
       <View style={styles.container}>
         <FilterBar
           dropdownIconName="md-arrow-dropdown"
-          options={['ALL ACTIVITIES', 'VOTES', 'REPLIES', 'MENTIONS', 'FOLLOWS', 'REBLOGS']}
-          defaultText="ALL NOTIFICATION"
+          options={filters.map(item => item.value)}
+          defaultText="ALL ACTIVITIES"
           onDropdownSelect={this._handleOnDropdownSelect}
           rightIconName="ios-checkmark"
         />
@@ -81,7 +71,7 @@ class NotificationView extends Component {
           <FlatList
             data={notifications}
             renderItem={({ item }) => <NotificationLine notification={item} />}
-            keyExtractor={item => item.email}
+            keyExtractor={item => item.id}
           />
           {/* Will remove follow lines */}
           {/* <ContainerHeader hasSeperator isBoldTitle title="Yesterday" />

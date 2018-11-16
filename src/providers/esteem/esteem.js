@@ -223,8 +223,32 @@ export const updateDraft = data => new Promise((resolve, reject) => {
 
 export const getActivities = data => new Promise((resolve, reject) => {
   resolve(testData);
+  let url = null;
+  switch (data.type) {
+    case 'activities':
+      url = `/activities/${data.user}`;
+      break;
+    case 'votes':
+      url = `/rvotes/${data.user}`;
+      break;
+    case 'replies':
+      url = `/replies/${data.user}`;
+      break;
+    case 'mentions':
+      url = `/mentions/${data.user}`;
+      break;
+    case 'follows':
+      url = `/follows/${data.user}`;
+      break;
+    case 'reblogs':
+      url = `/reblogs/${data.user}`;
+      break;
+    default:
+      url = `/activities/${data.user}`;
+      break;
+  }
   api
-    .get(`/activities/${data.user}`, {
+    .get(url, {
       params: {
         since: data.since,
       },
