@@ -1,4 +1,4 @@
-import React, { Component } from 'react';
+import React, { PureComponent } from 'react';
 import {
   View, FlatList, Text, TouchableOpacity,
 } from 'react-native';
@@ -13,25 +13,18 @@ import FastImage from 'react-native-fast-image';
 import styles from './votersDisplayStyles';
 // const DEFAULT_IMAGE = require('../../../../assets/esteem.png');
 
-class VotersDisplayView extends Component {
+class VotersDisplayView extends PureComponent {
   /* Props
     * ------------------------------------------------
     *   @prop { type }    name                - Description....
     */
-
-  constructor(props) {
-    super(props);
-    this.state = {};
-  }
-
-  // Component Life Cycles
 
   // Component Functions
   _renderItem = (item, index) => {
     const { handleOnUserPress } = this.props;
     const reputation = `(${item.reputation})`;
     const value = `$ ${item.value}`;
-    const percent = `${item.value}%`;
+    const percent = `${item.percent}%`;
 
     return (
       <View style={[styles.voteItemWrapper, index % 2 !== 0 && styles.voteItemWrapperGray]}>
@@ -55,13 +48,15 @@ class VotersDisplayView extends Component {
 
   render() {
     const { votes } = this.props;
+    console.log(votes);
 
     return (
       <View style={styles.container}>
         {votes.length > 0 ? (
           <FlatList
             data={votes}
-            keyExtractor={item => item.voter.toString()}
+            keyExtractor={item => item.voter}
+            removeClippedSubviews={false}
             renderItem={({ item, index }) => this._renderItem(item, index)}
           />
         ) : (
