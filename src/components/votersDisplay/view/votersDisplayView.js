@@ -1,17 +1,13 @@
 import React, { PureComponent } from 'react';
-import {
-  View, FlatList, Text, TouchableOpacity,
-} from 'react-native';
+import { View, FlatList, Text } from 'react-native';
 
 // Constants
 
 // Components
-import FastImage from 'react-native-fast-image';
-
+import { UserListItem } from '../../basicUIElements';
 // Styles
 // eslint-disable-next-line
 import styles from './votersDisplayStyles';
-// const DEFAULT_IMAGE = require('../../../../assets/esteem.png');
 
 class VotersDisplayView extends PureComponent {
   /* Props
@@ -27,28 +23,23 @@ class VotersDisplayView extends PureComponent {
     const percent = `${item.percent}%`;
 
     return (
-      <View style={[styles.voteItemWrapper, index % 2 !== 0 && styles.voteItemWrapperGray]}>
-        <TouchableOpacity onPress={() => handleOnUserPress(item.voter)}>
-          <FastImage style={[styles.avatar]} source={{ uri: item.avatar }} />
-        </TouchableOpacity>
-        <View style={styles.userDescription}>
-          <Text style={styles.name}>
-            {item.voter}
-            <Text style={styles.reputation}>{reputation}</Text>
-          </Text>
-          <Text style={styles.date}>{item.created}</Text>
-        </View>
-        <View style={styles.rightWrapper}>
-          <Text style={[styles.value, item.is_down_vote && styles.valueGray]}>{value}</Text>
-          <Text style={styles.text}>{percent}</Text>
-        </View>
-      </View>
+      <UserListItem
+        handleOnUserPress={handleOnUserPress}
+        avatar={item.avatar}
+        index={index}
+        username={item.voter}
+        reputation={reputation}
+        description={item.created}
+        isHasRightItem
+        isRightColor={item.is_down_vote}
+        rightText={value}
+        subRightText={percent}
+      />
     );
   };
 
   render() {
     const { votes } = this.props;
-    console.log(votes);
 
     return (
       <View style={styles.container}>

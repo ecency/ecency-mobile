@@ -54,6 +54,7 @@ class ProfileSummaryView extends Component {
       isProfileLoading,
       handleFollowUnfollowUser,
       handleMuteUnmuteUser,
+      handleOnFollowsPress,
     } = this.props;
     const votingPowerHoursText = hoursVP && `• Full in ${hoursVP} hours`;
     const votingPowerText = `Voting power: ${percentVP}% ${votingPowerHoursText || ''}`;
@@ -105,18 +106,21 @@ class ProfileSummaryView extends Component {
             text={rcPowerText}
           />
         </TouchableOpacity>
-
         <View style={styles.footer}>
           <View style={styles.leftIcons}>
             <Fragment>
-              <View style={styles.followCountWrapper}>
-                <Text style={styles.followCount}>{followerCount}</Text>
-                <Text style={styles.followText}>followers</Text>
-              </View>
-              <View style={styles.followCountWrapper}>
-                <Text style={styles.followCount}>{followingCount}</Text>
-                <Text style={styles.followText}>following</Text>
-              </View>
+              <TouchableOpacity onPress={() => handleOnFollowsPress(false)}>
+                <View style={styles.followCountWrapper}>
+                  <Text style={styles.followCount}>{followerCount}</Text>
+                  <Text style={styles.followText}>followers</Text>
+                </View>
+              </TouchableOpacity>
+              <TouchableOpacity onPress={() => handleOnFollowsPress(true)}>
+                <View style={styles.followCountWrapper}>
+                  <Text style={styles.followCount}>{followingCount}</Text>
+                  <Text style={styles.followText}>following</Text>
+                </View>
+              </TouchableOpacity>
             </Fragment>
           </View>
           {isLoggedIn && (

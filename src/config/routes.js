@@ -17,6 +17,7 @@ import {
   Splash,
   SteemConnect,
   Voters,
+  Follows,
 } from '../screens';
 
 // Components
@@ -61,6 +62,12 @@ const stackNavigatior = createStackNavigator(
     },
     [ROUTES.SCREENS.VOTERS]: {
       screen: RootComponent()(Voters),
+      navigationOptions: {
+        header: () => null,
+      },
+    },
+    [ROUTES.SCREENS.FOLLOWS]: {
+      screen: RootComponent()(Follows),
       navigationOptions: {
         header: () => null,
       },

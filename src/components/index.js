@@ -10,11 +10,13 @@ import { PinAnimatedInput } from './pinAnimatedInput';
 import { SideMenu } from './sideMenu';
 import Modal from './modal';
 import Icon from './icon';
+import UserListItem from './basicUIElements/view/userListItem';
 
 export {
   Logo,
   // Comment,
   // PostCard,
+  UserListItem,
   Reply,
   // Search,
   FormInput,
