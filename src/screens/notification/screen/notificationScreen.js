@@ -20,7 +20,6 @@ class NotificationScreen extends PureComponent {
 
   render() {
     const { notifications, getActivities } = this.props;
-    console.log('notifications :', notifications);
     return (
       <Fragment>
         <Header />

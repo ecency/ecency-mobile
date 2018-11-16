@@ -1,4 +1,5 @@
 import React, { Component } from 'react';
+import { connect } from 'react-redux';
 
 // Actions and Services
 import { getActivities } from '../../../providers/esteem/esteem';
@@ -19,8 +20,9 @@ class NotificationContainer extends Component {
   }
 
   _getAvtivities = (type = null) => {
-    getActivities({ user: 'mistikk', type }).then((res) => {
-      console.log('res :', res);
+    const { username } = this.props;
+
+    getActivities({ user: username, type }).then((res) => {
       this.setState({ notifications: res });
     });
   };
@@ -38,4 +40,8 @@ class NotificationContainer extends Component {
   }
 }
 
-export default NotificationContainer;
+const mapStateToProps = state => ({
+  username: state.account.currentAccount.name,
+});
+
+export default connect(mapStateToProps)(NotificationContainer);
