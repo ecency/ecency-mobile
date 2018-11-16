@@ -34,7 +34,7 @@ class NotificationLineView extends Component {
     return (
       <View
         key={Math.random()}
-        style={[styles.notificationWrapper, notification.isNew && styles.isNewNotification]}
+        style={[styles.notificationWrapper, !notification.read && styles.isNewNotification]}
       >
         <Image
           style={[styles.avatar, !notification.avatar && styles.hasNoAvatar]}

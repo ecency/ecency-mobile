@@ -2,6 +2,20 @@ import api from '../../config/api';
 
 const testData = [
   {
+    id: 'm-32372048',
+    type: 'mention',
+    source: 'lizanomadsoul',
+    author: 'lizanomadsoul',
+    account: 'mistikk',
+    permlink: 'steemfest-part-two-conference-day-disco-night-boat-trip-and-city-walk-poker-clean-planet-saltmine-and-closing-drinks',
+    post: true,
+    read: 0,
+    timestamp: '2018-11-15T17:42:30+00:00',
+    ts: 1542300150,
+    gk: 'Yesterday',
+    gkf: true,
+  },
+  {
     id: 'm-32364653',
     type: 'mention',
     source: 'future24',
@@ -12,8 +26,8 @@ const testData = [
     read: 0,
     timestamp: '2018-11-15T12:33:57+00:00',
     ts: 1542281637,
-    gk: '2 hours',
-    gkf: true,
+    gk: 'Yesterday',
+    gkf: false,
   },
   {
     id: 'm-32364257',
@@ -26,7 +40,7 @@ const testData = [
     read: 0,
     timestamp: '2018-11-15T12:17:57+00:00',
     ts: 1542280677,
-    gk: '2 hours',
+    gk: 'Yesterday',
     gkf: false,
   },
   {

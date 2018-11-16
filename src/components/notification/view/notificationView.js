@@ -1,4 +1,4 @@
-import React, { Component } from 'react';
+import React, { Component, Fragment } from 'react';
 import { View, ScrollView, FlatList } from 'react-native';
 
 // Constants
@@ -7,6 +7,11 @@ import { View, ScrollView, FlatList } from 'react-native';
 import { ContainerHeader } from '../../containerHeader';
 import { FilterBar } from '../../filterBar';
 import NotificationLine from '../../notificationLine';
+
+// Utils
+import {
+  isToday, isYesterday, isThisWeek, isThisMonth,
+} from '../../../utils/time';
 
 // Styles
 import styles from './notificationStyles';
@@ -19,18 +24,6 @@ class NotificationView extends Component {
   constructor(props) {
     super(props);
     this.state = {
-      // NOTE: DOMI DATA! them gonna remove!
-      notification: [
-        {
-          name: 'esteemapp',
-          title: 'eSteem Mobile!',
-          avatar: 'https://steemitimages.com/u/feruz/avatar/small',
-          description: 'eSteem app with new ui!',
-          image: 'https://steemitimages.com/u/feruz/avatar/small',
-          // date: 'today',
-          isNew: true,
-        },
-      ],
       filters: [
         { key: 'activities', value: 'ALL ACTIVITIES' },
         { key: 'votes', value: 'VOTES' },
@@ -56,6 +49,25 @@ class NotificationView extends Component {
   render() {
     const { notifications } = this.props;
     const { filters } = this.state;
+    const today = [];
+    const yesterday = [];
+    const thisWeek = [];
+    const thisMonth = [];
+    const olderThenMonth = [];
+
+    notifications.map((item) => {
+      if (isToday(item.timestamp)) {
+        today.push(item);
+      } else if (isYesterday(item.timestamp)) {
+        yesterday.push(item);
+      } else if (isThisWeek(item.timestamp)) {
+        thisWeek.push(item);
+      } else if (isThisMonth(item.timestamp)) {
+        thisMonth.push(item);
+      } else {
+        olderThenMonth.push(item);
+      }
+    });
 
     return (
       <View style={styles.container}>
@@ -67,19 +79,66 @@ class NotificationView extends Component {
           rightIconName="ios-checkmark"
         />
         <ScrollView style={styles.scrollView}>
-          <ContainerHeader hasSeperator isBoldTitle title="Recent" />
-          <FlatList
-            data={notifications}
-            renderItem={({ item }) => <NotificationLine notification={item} />}
-            keyExtractor={item => item.id}
-          />
-          {/* Will remove follow lines */}
-          {/* <ContainerHeader hasSeperator isBoldTitle title="Yesterday" />
-          <FlatList
-            data={notification}
-            renderItem={({ item }) => this._getRenderItem(item)}
-            keyExtractor={item => item.email}
-          /> */}
+          {
+            today.length > 0 && (
+              <Fragment>
+                <ContainerHeader hasSeperator isBoldTitle title="Recent" />
+                <FlatList
+                  data={today}
+                  renderItem={({ item }) => <NotificationLine notification={item} />}
+                  keyExtractor={item => item.id}
+                />
+              </Fragment>
+            )
+          }
+          {
+            yesterday.length > 0 && (
+              <Fragment>
+                <ContainerHeader hasSeperator isBoldTitle title="Yesterday" />
+                <FlatList
+                  data={yesterday}
+                  renderItem={({ item }) => <NotificationLine notification={item} />}
+                  keyExtractor={item => item.id}
+                />
+              </Fragment>
+            )
+          }
+          {
+            thisWeek.length > 0 && (
+              <Fragment>
+                <ContainerHeader hasSeperator isBoldTitle title="This Week" />
+                <FlatList
+                  data={thisWeek}
+                  renderItem={({ item }) => <NotificationLine notification={item} />}
+                  keyExtractor={item => item.id}
+                />
+              </Fragment>
+            )
+          }
+          {
+            thisMonth.length > 0 && (
+              <Fragment>
+                <ContainerHeader hasSeperator isBoldTitle title="This Month" />
+                <FlatList
+                  data={thisMonth}
+                  renderItem={({ item }) => <NotificationLine notification={item} />}
+                  keyExtractor={item => item.id}
+                />
+              </Fragment>
+            )
+          }
+          {
+            olderThenMonth.length > 0 && (
+              <Fragment>
+                <ContainerHeader hasSeperator isBoldTitle title="Older Then A Month" />
+                <FlatList
+                  data={olderThenMonth}
+                  renderItem={({ item }) => <NotificationLine notification={item} />}
+                  keyExtractor={item => item.id}
+                />
+              </Fragment>
+            )
+          }
         </ScrollView>
       </View>
     );
