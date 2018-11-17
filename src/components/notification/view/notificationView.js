@@ -1,8 +1,6 @@
 import React, { Component, Fragment } from 'react';
 import { View, ScrollView, FlatList } from 'react-native';
 
-// Constants
-
 // Components
 import { ContainerHeader } from '../../containerHeader';
 import { FilterBar } from '../../filterBar';
@@ -47,7 +45,7 @@ class NotificationView extends Component {
   };
 
   render() {
-    const { notifications } = this.props;
+    const { notifications, navigateToNotificationRoute } = this.props;
     const { filters } = this.state;
     const today = [];
     const yesterday = [];
@@ -85,7 +83,12 @@ class NotificationView extends Component {
                 <ContainerHeader hasSeperator isBoldTitle title="Recent" />
                 <FlatList
                   data={today}
-                  renderItem={({ item }) => <NotificationLine notification={item} />}
+                  renderItem={({ item }) => (
+                    <NotificationLine
+                      handleOnPressNotification={navigateToNotificationRoute}
+                      notification={item}
+                    />
+                  )}
                   keyExtractor={item => item.id}
                 />
               </Fragment>
@@ -97,7 +100,12 @@ class NotificationView extends Component {
                 <ContainerHeader hasSeperator isBoldTitle title="Yesterday" />
                 <FlatList
                   data={yesterday}
-                  renderItem={({ item }) => <NotificationLine notification={item} />}
+                  renderItem={({ item }) => (
+                    <NotificationLine
+                      handleOnPressNotification={navigateToNotificationRoute}
+                      notification={item}
+                    />
+                  )}
                   keyExtractor={item => item.id}
                 />
               </Fragment>
@@ -109,7 +117,12 @@ class NotificationView extends Component {
                 <ContainerHeader hasSeperator isBoldTitle title="This Week" />
                 <FlatList
                   data={thisWeek}
-                  renderItem={({ item }) => <NotificationLine notification={item} />}
+                  renderItem={({ item }) => (
+                    <NotificationLine
+                      handleOnPressNotification={navigateToNotificationRoute}
+                      notification={item}
+                    />
+                  )}
                   keyExtractor={item => item.id}
                 />
               </Fragment>
@@ -121,7 +134,12 @@ class NotificationView extends Component {
                 <ContainerHeader hasSeperator isBoldTitle title="This Month" />
                 <FlatList
                   data={thisMonth}
-                  renderItem={({ item }) => <NotificationLine notification={item} />}
+                  renderItem={({ item }) => (
+                    <NotificationLine
+                      handleOnPressNotification={navigateToNotificationRoute}
+                      notification={item}
+                    />
+                  )}
                   keyExtractor={item => item.id}
                 />
               </Fragment>
@@ -133,7 +151,12 @@ class NotificationView extends Component {
                 <ContainerHeader hasSeperator isBoldTitle title="Older Then A Month" />
                 <FlatList
                   data={olderThenMonth}
-                  renderItem={({ item }) => <NotificationLine notification={item} />}
+                  renderItem={({ item }) => (
+                    <NotificationLine
+                      handleOnPressNotification={navigateToNotificationRoute}
+                      notification={item}
+                    />
+                  )}
                   keyExtractor={item => item.id}
                 />
               </Fragment>

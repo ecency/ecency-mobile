@@ -19,7 +19,7 @@ class NotificationScreen extends PureComponent {
   }
 
   render() {
-    const { notifications, getActivities } = this.props;
+    const { notifications, getActivities, navigateToNotificationRoute } = this.props;
     return (
       <Fragment>
         <Header />
@@ -36,7 +36,11 @@ class NotificationScreen extends PureComponent {
           )}
         >
           <View tabLabel="Notification" style={styles.notificationTab}>
-            <Notification getActivities={getActivities} notifications={notifications} />
+            <Notification
+              getActivities={getActivities}
+              notifications={notifications}
+              navigateToNotificationRoute={navigateToNotificationRoute}
+            />
           </View>
           <View tabLabel="Leaderboard" style={styles.leaderboardTab}>
             <NoPost
