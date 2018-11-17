@@ -11,12 +11,12 @@
   },
   "notification": {
     "vote": "voted to your post",
-    "unvote": "unvoted to your post",
+    "unvote": "unvoted your post",
     "reply": "replied to your post",
-    "mention": "mentioned to you",
-    "follow": "followed to you",
-    "unfollow": "unfollowed to you",
-    "ignore": "ignored to you",
-    "reblog": "reblog to your post"
+    "mention": "mentioned you",
+    "follow": "followed you",
+    "unfollow": "unfollowed you",
+    "ignore": "ignored you",
+    "reblog": "reblogged your post"
   }
 }
