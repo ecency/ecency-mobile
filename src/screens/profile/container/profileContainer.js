@@ -15,6 +15,7 @@ import {
   getIsFollowing,
   getIsMuted,
   getFollowers,
+  getFollowing,
 } from '../../../providers/steem/dsteem';
 import { decryptKey } from '../../../utils/crypto';
 import { getDigitPinCode } from '../../../providers/steem/auth';
@@ -225,16 +226,23 @@ class ProfileContainer extends Component {
     );
   };
 
-  _handleFollowsPress = async (usernme, isFollowingPress = false) => {
+  _handleFollowsPress = async (isFollowingPress) => {
     const { navigation } = this.props;
-    const { username } = this.state;
-    const followers = await getFollowers(username);
+    const { username, follows } = this.state;
+    let count;
+
+    if (!isFollowingPress) {
+      count = follows.follower_count;
+    } else {
+      count = follows.following_count;
+    }
 
     navigation.navigate({
       routeName: ROUTES.SCREENS.FOLLOWS,
       params: {
-        users: followers,
-        isFollowing: isFollowingPress,
+        isFollowingPress,
+        count,
+        username,
       },
     });
   };

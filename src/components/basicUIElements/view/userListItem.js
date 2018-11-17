@@ -22,9 +22,9 @@ const UserListItem = ({
     <View style={styles.userDescription}>
       <Text style={styles.name}>
         {username}
-        <Text style={styles.reputation}>{reputation}</Text>
+        {reputation && <Text style={styles.reputation}>{reputation}</Text>}
       </Text>
-      <Text style={styles.date}>{description}</Text>
+      {description && <Text style={styles.date}>{description}</Text>}
     </View>
     {isHasRightItem && (
       <View style={styles.rightWrapper}>

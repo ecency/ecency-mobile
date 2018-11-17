@@ -107,16 +107,16 @@ export const getFollows = user => new Promise((resolve, reject) => {
  * @param user username
  * TODO: Pagination
  */
-export const getFollowers = user => new Promise((resolve, reject) => {
-  client
-    .call('follow_api', 'get_followers', [user, '', 'blog', 50])
-    .then((result) => {
-      resolve(result);
-    })
-    .catch((err) => {
-      reject(err);
-    });
-});
+// export const getFollowers = (user, limit = 100) => new Promise((resolve, reject) => {
+//   client
+//     .call('follow_api', 'get_followers', [user, '', 'blog', limit])
+//     .then((result) => {
+//       resolve(result);
+//     })
+//     .catch((err) => {
+//       reject(err);
+//     });
+// });
 
 /**
  * @method getFollowing
@@ -124,6 +124,7 @@ export const getFollowers = user => new Promise((resolve, reject) => {
  * TODO: Pagination
  */
 export const getFollowing = (follower, startFollowing, followType = 'blog', limit = 100) => client.database.call('get_following', [follower, startFollowing, followType, limit]);
+export const getFollowers = (follower, startFollowing, followType = 'blog', limit = 100) => client.database.call('get_followers', [follower, startFollowing, followType, limit]);
 
 export const getIsFollowing = (user, author) => new Promise((resolve, reject) => {
   client.database
@@ -133,6 +134,21 @@ export const getIsFollowing = (user, author) => new Promise((resolve, reject) =>
         resolve(true);
       } else {
         resolve(false);
+      }
+    })
+    .catch((err) => {
+      reject(err);
+    });
+});
+
+export const getFollowSearch = (user, targetUser) => new Promise((resolve, reject) => {
+  client.database
+    .call('get_following', [targetUser, user, 'blog', 1])
+    .then((result) => {
+      if (result[0] && result[0].follower === targetUser && result[0].following === user) {
+        resolve(result[0].follower);
+      } else {
+        resolve(null);
       }
     })
     .catch((err) => {

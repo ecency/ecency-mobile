@@ -79,7 +79,7 @@ class PostsView extends Component {
       getFor,
       {
         tag,
-        limit: 10,
+        limit: 3,
         start_author: startAuthor,
         start_permlink: startPermlink,
       },
