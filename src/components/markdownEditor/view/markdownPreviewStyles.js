@@ -1,16 +1,42 @@
-export const markdownPreviewStyles = {
-  heading1: {
-    fontSize: 24,
-    color: 'red',
-    backgroundColor: 'red',
+import EStyleSheet from 'react-native-extended-stylesheet';
+
+export default EStyleSheet.create({
+  view: {},
+  codeBlock: {
+    fontFamily: 'Courier',
+    fontWeight: '500',
+    marginLeft: 20,
+    color: '$primaryDarkGray',
   },
-  link: {
-    color: 'pink',
+  del: {
+    backgroundColor: '#000000',
   },
-  mailTo: {
-    color: 'orange',
+  em: {
+    fontStyle: 'italic',
+  },
+  strong: {
+    fontWeight: 'bold',
   },
   text: {
-    color: '#555555',
+    color: '#3c4449',
   },
-};
+  heading1: {
+    fontSize: 32,
+    color: '$primaryBlack',
+  },
+  heading2: {
+    fontSize: 24,
+    color: '$primaryBlack',
+  },
+  strikethrough: {
+    textDecorationLine: 'line-through',
+  },
+  link: {
+    textDecorationLine: 'underline',
+    color: '#a1c982',
+  },
+  u: {
+    borderColor: '#000000',
+    borderBottomWidth: 1,
+  },
+});

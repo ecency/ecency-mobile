@@ -7,7 +7,7 @@ export default EStyleSheet.create({
   },
   upvoteIcon: {
     alignSelf: 'flex-start',
-    fontSize: 22,
+    fontSize: 20,
     color: '$primaryBlue',
   },
   popover: {

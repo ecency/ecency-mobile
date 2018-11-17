@@ -3,6 +3,7 @@ import Realm from 'realm';
 // CONSTANTS
 const USER_SCHEMA = 'user';
 const AUTH_SCHEMA = 'auth';
+const DRAFT_SCHEMA = 'draft';
 
 const userSchema = {
   name: USER_SCHEMA,
@@ -18,6 +19,16 @@ const userSchema = {
   },
 };
 
+const draftSchema = {
+  name: DRAFT_SCHEMA,
+  properties: {
+    title: { type: 'string' },
+    tags: { type: 'string' },
+    body: { type: 'string' },
+    username: { type: 'string' },
+  },
+};
+
 const authSchema = {
   name: AUTH_SCHEMA,
   properties: {
@@ -27,7 +38,7 @@ const authSchema = {
   },
 };
 
-const realm = new Realm({ path: 'esteem.realm', schema: [userSchema, authSchema] });
+const realm = new Realm({ path: 'esteem.realm', schema: [userSchema, authSchema, draftSchema] });
 
 // TODO: This is getting ALL user data, we should change this method with getUserDataWithUsername
 export const getUserData = () => new Promise((resolve, reject) => {
@@ -81,6 +92,40 @@ export const updateUserData = userData => new Promise((resolve, reject) => {
     } else {
       reject('User not found');
     }
+  } catch (error) {
+    reject(error);
+  }
+});
+
+export const setDraftPost = (fields, username) => new Promise((resolve, reject) => {
+  try {
+    const draft = realm.objects(DRAFT_SCHEMA).filtered('username = $0', username);
+
+    realm.write(() => {
+      if (Array.from(draft).length > 0) {
+        draft[0].title = fields.title;
+        draft[0].tags = fields.tags;
+        draft[0].body = fields.body;
+        resolve(true);
+      } else {
+        realm.create(DRAFT_SCHEMA, {
+          username,
+          title: fields.title,
+          tags: fields.tags,
+          body: fields.body,
+        });
+        resolve(true);
+      }
+    });
+  } catch (error) {
+    reject(error);
+  }
+});
+
+export const getDraftPost = username => new Promise((resolve, reject) => {
+  try {
+    const draft = Array.from(realm.objects(DRAFT_SCHEMA).filtered('username = $0', username));
+    resolve(draft[0]);
   } catch (error) {
     reject(error);
   }
