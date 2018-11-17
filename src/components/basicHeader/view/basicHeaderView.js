@@ -10,9 +10,9 @@ import { IconButton } from '../../iconButton';
 import { DropdownButton } from '../../dropdownButton';
 
 // Styles
-import styles from './editorHeaderStyles';
+import styles from './basicHeaderStyles';
 
-class EditorHeaderView extends Component {
+class BasicHeaderView extends Component {
   /* Props
     * ------------------------------------------------
     *   @prop { boolean }    isFormValid                - Righst button propertie
@@ -186,4 +186,4 @@ class EditorHeaderView extends Component {
   }
 }
 
-export default EditorHeaderView;
+export default BasicHeaderView;

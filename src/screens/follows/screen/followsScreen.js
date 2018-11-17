@@ -5,7 +5,7 @@ import {
 // Constants
 
 // Components
-import { EditorHeader } from '../../../components/editorHeader';
+import { BasicHeader } from '../../../components/basicHeader';
 import { UserListItem } from '../../../components/basicUIElements';
 
 // Utils
@@ -64,7 +64,7 @@ class FollowsScreen extends Component {
 
     return (
       <View style={{ flex: 1, padding: 8 }}>
-        <EditorHeader
+        <BasicHeader
           title={headerTitle}
           rightIconName="ios-search"
           isHasSearch
