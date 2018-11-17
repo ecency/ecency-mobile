@@ -5,9 +5,10 @@
 
 import { Client, PrivateKey } from 'dsteem';
 import { AsyncStorage } from 'react-native';
-import sc2 from 'steemconnect';
+
+import { getUnreadActivityCount } from "../esteem/esteem";
+
 import { parsePosts, parsePost, parseComments } from '../../utils/postParser';
-import { decryptKey } from '../../utils/crypto';
 
 let rewardFund = null;
 let medianPrice = null;
@@ -58,30 +59,32 @@ export const getUser = async (user) => {
   try {
     const account = await client.database.getAccounts([user]);
     // get global properties to calculate Steem Power
-    const global_properties = await client.database.getDynamicGlobalProperties();
-    const rc_power = await client.call('rc_api', 'find_rc_accounts', { accounts: [user] });
+    const globalProperties = await client.database.getDynamicGlobalProperties();
+    const rcPower = await client.call('rc_api', 'find_rc_accounts', { accounts: [user] });
+    const unreadActivityCount = await getUnreadActivityCount({ user });
 
-    account[0].rc_manabar = rc_power.rc_accounts[0].rc_manabar;
+    account[0].unread_activity_count = unreadActivityCount;
+    account[0].rc_manabar = rcPower.rc_accounts[0].rc_manabar;
     account[0].steem_power = vestToSteem(
       account[0].vesting_shares,
-      global_properties.total_vesting_shares,
-      global_properties.total_vesting_fund_steem,
+      globalProperties.total_vesting_shares,
+      globalProperties.total_vesting_fund_steem,
     ).toFixed(0);
     account[0].received_steem_power = vestToSteem(
       account[0].received_vesting_shares,
-      global_properties.total_vesting_shares,
-      global_properties.total_vesting_fund_steem,
+      globalProperties.total_vesting_shares,
+      globalProperties.total_vesting_fund_steem,
     ).toFixed(0);
     account[0].delegated_steem_power = vestToSteem(
       account[0].delegated_vesting_shares,
-      global_properties.total_vesting_shares,
-      global_properties.total_vesting_fund_steem,
+      globalProperties.total_vesting_shares,
+      globalProperties.total_vesting_fund_steem,
     ).toFixed(0);
 
     account[0].about = account[0].json_metadata && JSON.parse(account[0].json_metadata);
     return account[0];
   } catch (error) {
-    return error;
+    return Promise.reject(error);
   }
 };
 

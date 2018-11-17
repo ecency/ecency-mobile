@@ -1,12 +1,18 @@
-import React, { Component } from 'react';
-import {
-  View, ScrollView, Text, FlatList, Image,
-} from 'react-native';
-import { ContainerHeader } from '../../containerHeader';
+import React, { Component, Fragment } from 'react';
+import { View, ScrollView, FlatList } from 'react-native';
+
 // Constants
 
 // Components
+import { ContainerHeader } from '../../containerHeader';
 import { FilterBar } from '../../filterBar';
+import NotificationLine from '../../notificationLine';
+
+// Utils
+import {
+  isToday, isYesterday, isThisWeek, isThisMonth,
+} from '../../../utils/time';
+
 // Styles
 import styles from './notificationStyles';
 
@@ -18,39 +24,13 @@ class NotificationView extends Component {
   constructor(props) {
     super(props);
     this.state = {
-      // NOTE: DOMI DATA! them gonna remove!
-      notification: [
-        {
-          name: 'esteemapp',
-          title: 'eSteem Mobile!',
-          avatar: 'https://steemitimages.com/u/feruz/avatar/small',
-          description: 'eSteem app with new ui!',
-          image: 'https://steemitimages.com/u/feruz/avatar/small',
-          // date: 'today',
-          isNew: true,
-        },
-        // {
-        //   name: 'esteemapp',
-        //   title: '25% likes your post:',
-        //   description: 'My own Top 5 eSteem Surfer Features',
-        //   image: 'https://steemitimages.com/u/feruz/avatar/small',
-        //   date: 'yesterday',
-        // },
-        // {
-        //   name: 'esteemapp',
-        //   title: '25% likes your post:',
-        //   avatar: 'https://steemitimages.com/u/feruz/avatar/small',
-        //   description: 'My own Top 5 eSteem Surfer Featuresasassasasaasas',
-        //   date: 'yesterday',
-        // },
-        // {
-        //   name: 'esteemapp',
-        //   title: '25% likes your post:',
-        //   avatar: 'https://steemitimages.com/u/feruz/avatar/small',
-        //   description: 'My own Top 5 eSteem Surfer Features',
-        //   image: 'https://steemitimages.com/u/feruz/avatar/small',
-        //   date: 'yesterday',
-        // },
+      filters: [
+        { key: 'activities', value: 'ALL ACTIVITIES' },
+        { key: 'votes', value: 'VOTES' },
+        { key: 'replies', value: 'REPLIES' },
+        { key: 'mentions', value: 'MENTIONS' },
+        { key: 'follows', value: 'FOLLOWS' },
+        { key: 'reblogs', value: 'REBLOGS' },
       ],
     };
   }
@@ -60,68 +40,105 @@ class NotificationView extends Component {
   // Component Functions
 
   _handleOnDropdownSelect = (index) => {
-    console.log(`selected index is:${index}`);
+    const { getActivities } = this.props;
+    const { filters } = this.state;
+
+    getActivities(filters[index].key);
   };
 
-  _getRenderItem = item => (
-    <View
-      key={Math.random()}
-      style={[styles.notificationWrapper, item.isNew && styles.isNewNotification]}
-    >
-      <Image
-        style={[styles.avatar, !item.avatar && styles.hasNoAvatar]}
-        source={{
-          uri: item.avatar,
-        }}
-      />
-      <View style={styles.body}>
-        <View style={styles.titleWrapper}>
-          <Text style={styles.name}>
-            {item.name}
-            {' '}
-          </Text>
-          <Text style={styles.title}>{item.title}</Text>
-        </View>
-        <Text numberOfLines={1} style={styles.description}>
-          {item.description}
-        </Text>
-      </View>
-      {item.image && (
-        <Image
-          style={styles.image}
-          source={{ uri: item.image }}
-          defaultSource={require('../../../assets/no_image.png')}
-        />
-      )}
-    </View>
-  );
-
   render() {
-    const { notification } = this.state;
+    const { notifications } = this.props;
+    const { filters } = this.state;
+    const today = [];
+    const yesterday = [];
+    const thisWeek = [];
+    const thisMonth = [];
+    const olderThenMonth = [];
+
+    notifications.map((item) => {
+      if (isToday(item.timestamp)) {
+        today.push(item);
+      } else if (isYesterday(item.timestamp)) {
+        yesterday.push(item);
+      } else if (isThisWeek(item.timestamp)) {
+        thisWeek.push(item);
+      } else if (isThisMonth(item.timestamp)) {
+        thisMonth.push(item);
+      } else {
+        olderThenMonth.push(item);
+      }
+    });
 
     return (
       <View style={styles.container}>
         <FilterBar
           dropdownIconName="md-arrow-dropdown"
-          options={['ALL ACTIVITIES', 'VOTES', 'REPLIES', 'MENTIONS', 'FOLLOWS', 'REBLOGS']}
-          defaultText="ALL NOTIFICATION"
+          options={filters.map(item => item.value)}
+          defaultText="ALL ACTIVITIES"
           onDropdownSelect={this._handleOnDropdownSelect}
           rightIconName="ios-checkmark"
         />
         <ScrollView style={styles.scrollView}>
-          <ContainerHeader hasSeperator isBoldTitle title="Recent" />
-          <FlatList
-            data={notification}
-            renderItem={({ item }) => this._getRenderItem(item)}
-            keyExtractor={item => item.email}
-          />
-          {/* Will remove follow lines */}
-          {/* <ContainerHeader hasSeperator isBoldTitle title="Yesterday" />
-          <FlatList
-            data={notification}
-            renderItem={({ item }) => this._getRenderItem(item)}
-            keyExtractor={item => item.email}
-          /> */}
+          {
+            today.length > 0 && (
+              <Fragment>
+                <ContainerHeader hasSeperator isBoldTitle title="Recent" />
+                <FlatList
+                  data={today}
+                  renderItem={({ item }) => <NotificationLine notification={item} />}
+                  keyExtractor={item => item.id}
+                />
+              </Fragment>
+            )
+          }
+          {
+            yesterday.length > 0 && (
+              <Fragment>
+                <ContainerHeader hasSeperator isBoldTitle title="Yesterday" />
+                <FlatList
+                  data={yesterday}
+                  renderItem={({ item }) => <NotificationLine notification={item} />}
+                  keyExtractor={item => item.id}
+                />
+              </Fragment>
+            )
+          }
+          {
+            thisWeek.length > 0 && (
+              <Fragment>
+                <ContainerHeader hasSeperator isBoldTitle title="This Week" />
+                <FlatList
+                  data={thisWeek}
+                  renderItem={({ item }) => <NotificationLine notification={item} />}
+                  keyExtractor={item => item.id}
+                />
+              </Fragment>
+            )
+          }
+          {
+            thisMonth.length > 0 && (
+              <Fragment>
+                <ContainerHeader hasSeperator isBoldTitle title="This Month" />
+                <FlatList
+                  data={thisMonth}
+                  renderItem={({ item }) => <NotificationLine notification={item} />}
+                  keyExtractor={item => item.id}
+                />
+              </Fragment>
+            )
+          }
+          {
+            olderThenMonth.length > 0 && (
+              <Fragment>
+                <ContainerHeader hasSeperator isBoldTitle title="Older Then A Month" />
+                <FlatList
+                  data={olderThenMonth}
+                  renderItem={({ item }) => <NotificationLine notification={item} />}
+                  keyExtractor={item => item.id}
+                />
+              </Fragment>
+            )
+          }
         </ScrollView>
       </View>
     );
