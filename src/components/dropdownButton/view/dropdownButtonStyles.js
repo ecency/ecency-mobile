@@ -33,6 +33,9 @@ export default EStyleSheet.create({
   iconWrapper: {
     justifyContent: 'center',
     alignItems: 'center',
+    flexDirection: 'row',
+    width: 40,
+    height: 40,
   },
   dropdownText: {
     fontSize: 9,

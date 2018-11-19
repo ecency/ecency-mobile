@@ -4,6 +4,8 @@ import { View, Text } from 'react-native';
 // Constants
 
 // Components
+import { DropdownButton } from '../../dropdownButton';
+import { TextButton } from '../../buttons';
 
 // Styles
 import styles from './settingsItemStyles';
@@ -22,16 +24,57 @@ class SettingsItemView extends Component {
   // Component Life Cycles
 
   // Component Functions
+  _renderItem = () => {
+    const {
+      type, options, selectedOptionIndex, handleOnChange, text,
+    } = this.props;
+
+    switch (type) {
+      case 'dropdown':
+        return (
+          <DropdownButton
+            defaultText={options[selectedOptionIndex]}
+            dropdownButtonStyle={styles.dropdownButtonStyle}
+            style={styles.dropdown}
+            dropdownStyle={styles.dropdownStyle}
+            textStyle={styles.dropdownText}
+            options={options}
+            onSelect={e => handleOnChange(e, type)}
+          />
+        );
+
+      case 'toggle':
+        return (
+          <DropdownButton
+            defaultText={options[selectedOptionIndex]}
+            dropdownButtonStyle={styles.dropdownButtonStyle}
+            style={styles.dropdown}
+            dropdownStyle={styles.dropdownStyle}
+            textStyle={styles.dropdownText}
+            options={options}
+            onSelect={e => handleOnChange(e, type)}
+          />
+        );
+
+      default:
+        return (
+          <TextButton
+            onPress={() => handleOnChange(type)}
+            textStyle={styles.textStyle}
+            style={styles.textButton}
+            text={text}
+          />
+        );
+    }
+  };
 
   render() {
-    // eslint-disable-next-line
-    const { title, children } = this.props;
+    const { title } = this.props;
 
-    // eslint-disable-next-line
     return (
       <View style={styles.wrapper}>
         <Text style={styles.text}>{title}</Text>
-        {children}
+        {this._renderItem()}
       </View>
     );
   }

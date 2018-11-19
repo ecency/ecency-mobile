@@ -1,6 +1,5 @@
 import React from 'react';
 import { View, Text, TouchableHighlight } from 'react-native';
-import { Dimensions } from 'react-native';
 
 // External components
 import ModalDropdown from 'react-native-modal-dropdown';
@@ -8,9 +7,6 @@ import Ionicons from 'react-native-vector-icons/Ionicons';
 
 // Styles
 import styles from './dropdownButtonStyles';
-
-// Constants
-const DEVICE_HEIGHT = Dimensions.get('window').height;
 
 /* Props TODO: Fill all description
   * ------------------------------------------------
@@ -38,15 +34,19 @@ const DropdownButtonView = ({
   iconName,
   isHasChildIcon,
   onSelect,
+  dropdownStyle,
+  dropdownTextStyle,
+  dropdownButtonStyle,
+  textStyle,
   options,
   style,
 }) => (
-  <View style={styles.container}>
+  <View style={[styles.container, dropdownButtonStyle]}>
     <ModalDropdown
       style={[!style ? styles.button : style]}
-      textStyle={styles.buttonText}
-      dropdownStyle={[styles.dropdown, { height: 35 * (options.length + 1) }]}
-      dropdownTextStyle={styles.dropdownText}
+      textStyle={[textStyle || styles.buttonText]}
+      dropdownStyle={[styles.dropdown, dropdownStyle, { height: 35 * (options.length + 1) }]}
+      dropdownTextStyle={[dropdownTextStyle || styles.dropdownText]}
       dropdownTextHighlightStyle={styles.dropdownTextHighlight}
       options={options}
       onSelect={e => onSelect && onSelect(e)}

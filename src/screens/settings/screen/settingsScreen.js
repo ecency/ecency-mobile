@@ -1,11 +1,12 @@
 import React, { Component, Fragment } from 'react';
-import { ScrollView, Text } from 'react-native';
+import { ScrollView } from 'react-native';
 
 // Constants
 
 // Components
 import { BasicHeader } from '../../../components/basicHeader';
 import { SettingsItem } from '../../../components/settingsItem';
+
 // Styles
 import globalStyles from '../../../globalStyles';
 
@@ -23,6 +24,9 @@ class SettingsScreen extends Component {
   // Component Life Cycles
 
   // Component Functions
+  _handleOnChange = (action, type) => {
+    console.log(action + type);
+  };
 
   render() {
     return (
@@ -30,9 +34,20 @@ class SettingsScreen extends Component {
         <BasicHeader title="Settings" />
 
         <ScrollView style={globalStyles.settingsContainer}>
-          <SettingsItem title="Currency">
-            <Text>ugur</Text>
-          </SettingsItem>
+          <SettingsItem
+            title="Language"
+            type="dropdown"
+            options={['Turkish', 'German', 'Turkish']}
+            selectedOptionIndex={0}
+            handleOnChange={this._handleOnChange}
+          />
+          <SettingsItem
+            title="Currency"
+            type="dropdown"
+            options={['TRY', 'USD', 'GYB']}
+            selectedOptionIndex={0}
+          />
+          <SettingsItem title="Pincode" text="Reset" />
         </ScrollView>
       </Fragment>
     );
