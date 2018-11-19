@@ -138,6 +138,9 @@ android {
 }
 
 dependencies {
+    compile project(':appcenter-crashes')
+    compile project(':appcenter-analytics')
+    compile project(':appcenter')
     compile project(':react-native-config')
     compile project(':react-native-vector-icons')
     compile project(':react-native-fast-image')

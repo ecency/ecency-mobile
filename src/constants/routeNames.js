@@ -12,6 +12,7 @@ export default {
     VOTERS: `Voters${SCREEN_SUFFIX}`,
     SPLASH: `Splash${SCREEN_SUFFIX}`,
     STEEM_CONNECT: `SteemConnect${SCREEN_SUFFIX}`,
+    FOLLOWS: `Follows${SCREEN_SUFFIX}`,
   },
   DRAWER: {
     MAIN: `Main${DRAWER_SUFFIX}`,

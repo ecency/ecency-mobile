@@ -3,7 +3,7 @@ import { connect } from 'react-redux';
 
 // Services and Actions
 import { postContent } from '../../../providers/steem/dsteem';
-import { getUserData } from '../../../realm/realm';
+import { setDraftPost, getDraftPost } from '../../../realm/realm';
 import { getDigitPinCode } from '../../../providers/steem/auth';
 
 // Middleware
@@ -27,35 +27,71 @@ import { EditorScreen } from '../screen/editorScreen';
 class ExampleContainer extends Component {
   constructor(props) {
     super(props);
-    this.state = {};
+    this.state = {
+      isPostSending: false,
+      isDraftSaving: false,
+      isDraftSaved: false,
+      draftPost: null,
+    };
   }
 
   // Component Life Cycle Functions
 
   // Component Functions
+  componentWillMount() {
+    const { currentAccount } = this.props;
+    const username = currentAccount && currentAccount.name ? currentAccount.name : '';
 
-  _submitPost = async (form) => {
-    const { navigation } = this.props;
-    let userData;
-    let postingKey;
-    const title = form.formFields['title-area'].content;
-    const permlink = generatePermlink(title);
+    getDraftPost(username)
+      .then((result) => {
+        this.setState({
+          draftPost: { body: result.body, title: result.title, tags: result.tags.split(',') },
+        });
+      })
+      .catch((error) => {
+        console.log(error);
+      });
+  }
 
+  _handleOnSaveButtonPress = (fields) => {
+    const { isDraftSaved } = this.state;
+    if (!isDraftSaved) {
+      const { currentAccount } = this.props;
+      const username = currentAccount && currentAccount.name ? currentAccount.name : '';
+
+      this.setState({ isDraftSaving: true });
+      const draftField = {
+        ...fields,
+        tags: fields.tags.toString(),
+      };
+
+      setDraftPost(draftField, username)
+        .then(() => {
+          this.setState({
+            isDraftSaving: false,
+            isDraftSaved: true,
+          });
+        })
+        .catch((error) => {
+          alert(error);
+        });
+    }
+  };
+
+  _submitPost = async (fields) => {
+    this.setState({ isPostSending: true });
+
+    const { navigation, currentAccount } = this.props;
+    const permlink = generatePermlink(fields.title);
     const digitPinCode = await getDigitPinCode();
 
-    await getUserData().then((res) => {
-      userData = res && Array.from(res)[0];
+    const postingKey = decryptKey(currentAccount.realm_object.postingKey, digitPinCode);
 
-      postingKey = decryptKey(userData.postingKey, digitPinCode);
-    });
-
-    if (userData) {
+    if (currentAccount) {
       const post = {
-        body: form.formFields['text-area'].content,
-        title,
-        author: userData.username,
-        permlink: permlink && permlink,
-        tags: form.tags,
+        ...fields,
+        permlink,
+        author: currentAccount.name,
       };
 
       postContent(post, postingKey)
@@ -65,6 +101,7 @@ class ExampleContainer extends Component {
         })
         .catch((error) => {
           alert(`Opps! there is a problem${error}`);
+          this.setState({ isPostSending: false });
         });
     }
   };
@@ -73,15 +110,35 @@ class ExampleContainer extends Component {
     this._submitPost(form);
   };
 
+  _handleFormChanged = () => {
+    const { isDraftSaved } = this.state;
+    isDraftSaved && this.setState({ isDraftSaved: false });
+  };
+
   render() {
     const { isLoggedIn } = this.props;
+    const {
+      isPostSending, isDraftSaving, isDraftSaved, draftPost,
+    } = this.state;
 
-    return <EditorScreen isLoggedIn={isLoggedIn} handleOnSubmit={this._handleSubmit} />;
+    return (
+      <EditorScreen
+        handleOnSaveButtonPress={this._handleOnSaveButtonPress}
+        isPostSending={isPostSending}
+        handleFormChanged={this._handleFormChanged}
+        isDraftSaving={isDraftSaving}
+        isDraftSaved={isDraftSaved}
+        draftPost={draftPost}
+        isLoggedIn={isLoggedIn}
+        handleOnSubmit={this._handleSubmit}
+      />
+    );
   }
 }
 
 const mapStateToProps = state => ({
   isLoggedIn: state.application.isLoggedIn,
+  currentAccount: state.account.currentAccount,
 });
 
 export default connect(mapStateToProps)(ExampleContainer);

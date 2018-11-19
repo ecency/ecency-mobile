@@ -8,5 +8,15 @@
     "transfer_to_vesting": "Transfer To Vesting",
     "withdraw_vesting": "withdraw_vesting",
     "fill_order": "Fill Order"
+  },
+  "notification": {
+    "vote": "voted to your post",
+    "unvote": "unvoted your post",
+    "reply": "replied to your post",
+    "mention": "mentioned you",
+    "follow": "followed you",
+    "unfollow": "unfollowed you",
+    "ignore": "ignored you",
+    "reblog": "reblogged your post"
   }
 }

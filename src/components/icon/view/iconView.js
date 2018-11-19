@@ -1,5 +1,5 @@
 import React, { Component } from 'react';
-import { Platform } from 'react-native';
+import { Platform, View, Text } from 'react-native';
 
 import Ionicons from 'react-native-vector-icons/Ionicons';
 import MaterialCommunityIcons from 'react-native-vector-icons/MaterialCommunityIcons';
@@ -8,6 +8,8 @@ import FontAwesome from 'react-native-vector-icons/FontAwesome';
 import Feather from 'react-native-vector-icons/Feather';
 import AntDesign from 'react-native-vector-icons/AntDesign';
 import MaterialIcons from 'react-native-vector-icons/MaterialIcons';
+
+import styles from './iconStyles';
 
 class IconView extends Component {
   constructor(props) {
@@ -59,6 +61,15 @@ class IconView extends Component {
   };
 
   render() {
+    const { notification } = this.props;
+    if (notification) {
+      return (
+        <View>
+          {this._getIcon()}
+          <Text style={styles.notification}>{notification}</Text>
+        </View>
+      );
+    }
     return this._getIcon();
   }
 }

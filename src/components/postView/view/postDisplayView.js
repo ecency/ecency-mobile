@@ -114,7 +114,7 @@ class PostDisplayView extends Component {
     isGetComment && !isLoadedComments && this.setState({ isLoadedComments: true });
 
     return (
-      <View style={styles.container}>
+      <View>
         <ScrollView style={styles.scroll} onScroll={event => this._handleOnScroll(event)}>
           <View style={styles.header}>
             {!post ? (

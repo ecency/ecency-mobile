@@ -84,7 +84,7 @@ class PostButtonView extends Component {
       outputRange: ['0deg', '45deg'],
     });
 
-    const { handleSubButtonPress, isLoggedIn } = this.props;
+    const { handleSubButtonPress } = this.props;
 
     return (
       <View style={styles.postButtonWrapper}>
@@ -95,7 +95,7 @@ class PostButtonView extends Component {
             top: firstY,
           }}
           icon="camera"
-          onPress={() => handleSubButtonPress(isLoggedIn ? ROUTES.SCREENS.EDITOR : ROUTES.SCREENS.LOGIN)
+          onPress={() => handleSubButtonPress(ROUTES.SCREENS.EDITOR)
           }
         />
         <SubPostButton
@@ -105,7 +105,7 @@ class PostButtonView extends Component {
             top: secondY,
           }}
           icon="pencil"
-          onPress={() => handleSubButtonPress(isLoggedIn ? ROUTES.SCREENS.EDITOR : ROUTES.SCREENS.LOGIN)
+          onPress={() => handleSubButtonPress(ROUTES.SCREENS.EDITOR)
           }
         />
         <SubPostButton
@@ -115,7 +115,7 @@ class PostButtonView extends Component {
             top: thirdY,
           }}
           icon="video-camera"
-          onPress={() => handleSubButtonPress(isLoggedIn ? ROUTES.SCREENS.EDITOR : ROUTES.SCREENS.LOGIN)
+          onPress={() => handleSubButtonPress(ROUTES.SCREENS.EDITOR)
           }
         />
         <TouchableOpacity onPress={this.toggleView} activeOpacity={1}>
