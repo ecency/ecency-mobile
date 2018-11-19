@@ -29,9 +29,9 @@
             <BuildableReference
                BuildableIdentifier = "primary"
                BlueprintIdentifier = "2D02E47A1E0B4A5D006451C7"
-               BuildableName = "esteem-tvOS.app"
-               BlueprintName = "esteem-tvOS"
-               ReferencedContainer = "container:esteem.xcodeproj">
+               BuildableName = "eSteem-tvOS.app"
+               BlueprintName = "eSteem-tvOS"
+               ReferencedContainer = "container:eSteem.xcodeproj">
             </BuildableReference>
          </BuildActionEntry>
          <BuildActionEntry
@@ -43,9 +43,9 @@
             <BuildableReference
                BuildableIdentifier = "primary"
                BlueprintIdentifier = "2D02E48F1E0B4A5D006451C7"
-               BuildableName = "esteem-tvOSTests.xctest"
-               BlueprintName = "esteem-tvOSTests"
-               ReferencedContainer = "container:esteem.xcodeproj">
+               BuildableName = "eSteem-tvOSTests.xctest"
+               BlueprintName = "eSteem-tvOSTests"
+               ReferencedContainer = "container:eSteem.xcodeproj">
             </BuildableReference>
          </BuildActionEntry>
       </BuildActionEntries>
@@ -61,9 +61,9 @@
             <BuildableReference
                BuildableIdentifier = "primary"
                BlueprintIdentifier = "2D02E48F1E0B4A5D006451C7"
-               BuildableName = "esteem-tvOSTests.xctest"
-               BlueprintName = "esteem-tvOSTests"
-               ReferencedContainer = "container:esteem.xcodeproj">
+               BuildableName = "eSteem-tvOSTests.xctest"
+               BlueprintName = "eSteem-tvOSTests"
+               ReferencedContainer = "container:eSteem.xcodeproj">
             </BuildableReference>
          </TestableReference>
       </Testables>
@@ -71,9 +71,9 @@
          <BuildableReference
             BuildableIdentifier = "primary"
             BlueprintIdentifier = "2D02E47A1E0B4A5D006451C7"
-            BuildableName = "esteem-tvOS.app"
-            BlueprintName = "esteem-tvOS"
-            ReferencedContainer = "container:esteem.xcodeproj">
+            BuildableName = "eSteem-tvOS.app"
+            BlueprintName = "eSteem-tvOS"
+            ReferencedContainer = "container:eSteem.xcodeproj">
          </BuildableReference>
       </MacroExpansion>
       <AdditionalOptions>
@@ -94,9 +94,9 @@
          <BuildableReference
             BuildableIdentifier = "primary"
             BlueprintIdentifier = "2D02E47A1E0B4A5D006451C7"
-            BuildableName = "esteem-tvOS.app"
-            BlueprintName = "esteem-tvOS"
-            ReferencedContainer = "container:esteem.xcodeproj">
+            BuildableName = "eSteem-tvOS.app"
+            BlueprintName = "eSteem-tvOS"
+            ReferencedContainer = "container:eSteem.xcodeproj">
          </BuildableReference>
       </BuildableProductRunnable>
       <AdditionalOptions>
@@ -113,9 +113,9 @@
          <BuildableReference
             BuildableIdentifier = "primary"
             BlueprintIdentifier = "2D02E47A1E0B4A5D006451C7"
-            BuildableName = "esteem-tvOS.app"
-            BlueprintName = "esteem-tvOS"
-            ReferencedContainer = "container:esteem.xcodeproj">
+            BuildableName = "eSteem-tvOS.app"
+            BlueprintName = "eSteem-tvOS"
+            ReferencedContainer = "container:eSteem.xcodeproj">
          </BuildableReference>
       </BuildableProductRunnable>
    </ProfileAction>
