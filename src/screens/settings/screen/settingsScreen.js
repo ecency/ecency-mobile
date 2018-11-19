@@ -44,9 +44,11 @@ class SettingsScreen extends Component {
           <SettingsItem
             title="Currency"
             type="dropdown"
-            options={['TRY', 'USD', 'GYB']}
+            options={['USD', 'TRY', 'CYH']}
             selectedOptionIndex={0}
+            handleOnChange={this._handleOnChange}
           />
+          <SettingsItem title="Push Notification" type="toggle" isOn />
           <SettingsItem title="Pincode" text="Reset" />
         </ScrollView>
       </Fragment>

@@ -6,7 +6,7 @@ import { View, Text } from 'react-native';
 // Components
 import { DropdownButton } from '../../dropdownButton';
 import { TextButton } from '../../buttons';
-
+import { ToggleSwitch } from '../../toggleSwitch';
 // Styles
 import styles from './settingsItemStyles';
 
@@ -26,7 +26,7 @@ class SettingsItemView extends Component {
   // Component Functions
   _renderItem = () => {
     const {
-      type, options, selectedOptionIndex, handleOnChange, text,
+      type, options, selectedOptionIndex, handleOnChange, text, isOn,
     } = this.props;
 
     switch (type) {
@@ -45,14 +45,10 @@ class SettingsItemView extends Component {
 
       case 'toggle':
         return (
-          <DropdownButton
-            defaultText={options[selectedOptionIndex]}
-            dropdownButtonStyle={styles.dropdownButtonStyle}
-            style={styles.dropdown}
-            dropdownStyle={styles.dropdownStyle}
-            textStyle={styles.dropdownText}
-            options={options}
-            onSelect={e => handleOnChange(e, type)}
+          <ToggleSwitch
+            size="large"
+            isOn={isOn}
+            onToggle={handleOnChange}
           />
         );
 
