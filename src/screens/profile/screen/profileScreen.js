@@ -43,6 +43,7 @@ class ProfileScreen extends Component {
       isFollowing,
       handleMuteUnmuteUser,
       isProfileLoading,
+      handleOnFollowsPress,
     } = this.props;
     let _about;
     let avatar;
@@ -86,6 +87,7 @@ class ProfileScreen extends Component {
               // locked={!isLoggedIn}
             >
               <ProfileSummary
+                handleOnFollowsPress={handleOnFollowsPress}
                 isFollowing={isFollowing}
                 isMuted={isMuted}
                 isOwnProfile={!isReverseHeader}

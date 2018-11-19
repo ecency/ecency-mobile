@@ -10,6 +10,7 @@ import { Post } from './post';
 import { Profile } from './profile';
 import { Voters } from './voters';
 import { Messages } from './messages';
+import { Follows } from './follows';
 
 // import Author from './authorProfile';
 // import SideMenu from './sideMenuScreen';
@@ -27,6 +28,7 @@ export {
   Editor,
   Home,
   Login,
+  Follows,
   Notification,
   PinCode,
   Post,

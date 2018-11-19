@@ -1,8 +1,8 @@
 import React, { Component } from 'react';
 import {
-  View, TextInput, KeyboardAvoidingView, ScrollView, FlatList,
+  View, TextInput, KeyboardAvoidingView, ScrollView, FlatList, Text,
 } from 'react-native';
-import { MarkdownView } from 'react-native-markdown-view';
+import Markdown, { getUniqueID } from 'react-native-markdown-renderer';
 
 // Components
 import Formats from './formats/formats';
@@ -12,7 +12,7 @@ import { StickyBar } from '../../basicUIElements';
 
 // Styles
 import styles from './markdownEditorStyles';
-import previewStyles from './markdownPreviewStyles';
+import markdownStyle from './markdownPreviewStyles';
 
 export default class MarkdownEditorView extends Component {
   constructor(props) {
@@ -25,6 +25,16 @@ export default class MarkdownEditorView extends Component {
 
   componentDidMount() {
     this.textInput.focus();
+  }
+
+  componentWillReceiveProps(nextProps) {
+    const { draftBody } = this.props;
+
+    if (nextProps.draftBody && draftBody !== nextProps.draftBody) {
+      this.setState({
+        text: nextProps.draftBody,
+      });
+    }
   }
 
   changeText = (input) => {
@@ -63,11 +73,25 @@ export default class MarkdownEditorView extends Component {
 
   _renderPreview = () => {
     const { text } = this.state;
+    const rules = {
+      heading1: (node, children, parent, styles) => (
+        <Text key={getUniqueID()} style={styles.heading1}>
+          {children}
+        </Text>
+      ),
+      heading2: (node, children, parent, styles) => (
+        <Text key={getUniqueID()} style={styles.heading2}>
+          {children}
+        </Text>
+      ),
+    };
 
     return (
       <View style={styles.textWrapper}>
         <ScrollView removeClippedSubviews>
-          <MarkdownView styles={previewStyles}>{text === '' ? '...' : text}</MarkdownView>
+          <Markdown rules={rules} style={markdownStyle}>
+            {text === '' ? '...' : text}
+          </Markdown>
         </ScrollView>
       </View>
     );
@@ -91,7 +115,8 @@ export default class MarkdownEditorView extends Component {
         <FlatList
           data={Formats}
           keyboardShouldPersistTaps="always"
-          renderItem={({ item }) => this._renderMarkupButton({ item, getState, setState })}
+          renderItem={({ item, index }) => index !== 9 && this._renderMarkupButton({ item, getState, setState })
+          }
           horizontal
         />
       </View>

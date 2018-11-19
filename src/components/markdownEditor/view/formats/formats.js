@@ -74,6 +74,13 @@ export default [
     wrapper: '```',
     onPress: applyWrapFormatNewLines,
   },
+  {
+    key: 'link',
+    title: 'WEB',
+    icon: 'link-2',
+    iconType: 'Feather',
+    onPress: applyWebLinkFormat,
+  },
   // {
   //   key: 'H2',
   //   title: 'H2',

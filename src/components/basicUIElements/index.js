@@ -13,12 +13,14 @@ import TextWithIcon from './view/textWithIconView';
 import WalletLineItem from './view/walletLineItemView';
 import StickyBar from './view/stickyBarView';
 import Card from './view/cardView';
+import UserListItem from './view/userListItem';
 
 export {
   Card,
   StickyBar,
   Chip,
   GrayWrapper,
+  UserListItem,
   LineBreak,
   NoPost,
   PostCardPlaceHolder,

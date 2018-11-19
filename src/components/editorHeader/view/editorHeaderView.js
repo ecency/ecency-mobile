@@ -1,6 +1,6 @@
 import React, { Component, Fragment } from 'react';
 import {
-  View, SafeAreaView, Text, TextInput,
+  View, SafeAreaView, Text, TextInput, ActivityIndicator,
 } from 'react-native';
 import { TextButton } from '../..';
 import { IconButton } from '../../iconButton';
@@ -69,6 +69,11 @@ class EditorHeaderView extends Component {
       isModalHeader,
       handleOnPressClose,
       isHasSearch,
+      isPostSending,
+      handleOnSaveButtonPress,
+      isDraftSaving,
+      isDraftSaved,
+      isLoggedIn,
     } = this.props;
     const { isInputVisible } = this.state;
     return (
@@ -81,6 +86,21 @@ class EditorHeaderView extends Component {
               name={isModalHeader ? 'close' : 'md-arrow-back'}
               onPress={() => (isModalHeader ? handleOnPressClose() : handleOnPressBackButton())}
             />
+            {isHasIcons && (
+              <View>
+                {!isDraftSaving ? (
+                  <IconButton
+                    iconStyle={[styles.saveIcon, isDraftSaved && styles.savedIcon]}
+                    iconType="FontAwesome"
+                    name="save"
+                    onPress={() => handleOnSaveButtonPress && handleOnSaveButtonPress()}
+                  />
+                ) : (
+                  <ActivityIndicator style={styles.textButtonWrapper} />
+                )}
+              </View>
+            )}
+
             {!isInputVisible && (
               <Text style={[title && styles.title, quickTitle && styles.quickTitle]}>
                 {quickTitle || title}
@@ -114,6 +134,7 @@ class EditorHeaderView extends Component {
                 onChangeText={value => this._handleOnSearch(value)}
                 autoFocus
                 placeholder="Search"
+                autoCapitalize="none"
                 style={styles.textInput}
               />
             )}
@@ -144,15 +165,19 @@ class EditorHeaderView extends Component {
                 iconStyle={styles.rightIcon}
                 name={isPreviewActive ? 'ios-eye' : 'ios-eye-off'}
               />
-              <TextButton
-                textStyle={[
-                  styles.textButton,
-                  isFormValid ? styles.textButtonEnable : styles.textButtonDisable,
-                ]}
-                onPress={isFormValid && this._handleOnPress}
-                style={styles.textButtonWrapper}
-                text="Publish"
-              />
+              {!isPostSending ? (
+                <TextButton
+                  textStyle={[
+                    styles.textButton,
+                    isFormValid && isLoggedIn ? styles.textButtonEnable : styles.textButtonDisable,
+                  ]}
+                  onPress={isFormValid && this._handleOnPress}
+                  style={styles.textButtonWrapper}
+                  text="Publish"
+                />
+              ) : (
+                <ActivityIndicator style={styles.textButtonWrapper} />
+              )}
             </Fragment>
           )}
         </View>
