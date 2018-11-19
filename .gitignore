@@ -59,3 +59,4 @@ config.js
 !src/screens/steem-connect/config.js
 keystore/
 .env
+package-lock.json
