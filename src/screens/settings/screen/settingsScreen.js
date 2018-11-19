@@ -1,9 +1,13 @@
-import React, { Component } from 'react';
-import { View } from 'react-native';
+import React, { Component, Fragment } from 'react';
+import { ScrollView, Text } from 'react-native';
 
 // Constants
 
 // Components
+import { BasicHeader } from '../../../components/basicHeader';
+import { SettingsItem } from '../../../components/settingsItem';
+// Styles
+import globalStyles from '../../../globalStyles';
 
 class SettingsScreen extends Component {
   /* Props
@@ -21,11 +25,17 @@ class SettingsScreen extends Component {
   // Component Functions
 
   render() {
-    // eslint-disable-next-line
-    //const {} = this.props;
+    return (
+      <Fragment>
+        <BasicHeader title="Settings" />
 
-    // eslint-disable-next-line
-    return <View />;
+        <ScrollView style={globalStyles.settingsContainer}>
+          <SettingsItem title="Currency">
+            <Text>ugur</Text>
+          </SettingsItem>
+        </ScrollView>
+      </Fragment>
+    );
   }
 }
 

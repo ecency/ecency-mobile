@@ -45,4 +45,8 @@ export default EStyleSheet.create({
     letterSpacing: '$primaryLatterSpacing',
     fontSize: 12,
   },
+  settingsContainer: {
+    marginLeft: 48,
+    marginRight: 32,
+  },
 });
