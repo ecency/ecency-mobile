@@ -33,9 +33,12 @@ export default EStyleSheet.create({
   iconWrapper: {
     justifyContent: 'center',
     alignItems: 'center',
+    flexDirection: 'row',
+    width: 40,
+    height: 40,
   },
   dropdownText: {
-    fontSize: 9,
+    fontSize: 10,
     color: '$primaryDarkGray',
     padding: 5,
     borderColor: '#e7e7e7',
@@ -79,7 +82,7 @@ export default EStyleSheet.create({
     fontWeight: 'bold',
   },
   rowText: {
-    fontSize: 9,
+    fontSize: 10,
     color: '$primaryDarkGray',
   },
 });
