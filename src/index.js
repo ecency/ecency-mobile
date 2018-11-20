@@ -54,6 +54,23 @@ const locale = (navigator.languages && navigator.languages[0])
   || navigator.userLanguage
   || 'en-US';
 
+if (Platform.OS === 'android') {
+  if (typeof Symbol === 'undefined') {
+    if (Array.prototype['@@iterator'] === undefined) {
+      Array.prototype['@@iterator'] = function() {
+        let i = 0;
+        return {
+          next: () => ({
+            done: i >= this.length,
+            value: this[i++],
+          }),
+        };
+      };
+    }
+  }
+}
+
+
 export default () => (
 
   <Provider store={store}>
