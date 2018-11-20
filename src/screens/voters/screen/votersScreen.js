@@ -3,7 +3,7 @@ import { View } from 'react-native';
 // Constants
 
 // Components
-import { EditorHeader } from '../../../components/editorHeader';
+import { BasicHeader } from '../../../components/basicHeader';
 import { FilterBar } from '../../../components/filterBar';
 import { VotersDisplay } from '../../../components/votersDisplay';
 
@@ -69,7 +69,7 @@ class VotersScreen extends Component {
 
     return (
       <View>
-        <EditorHeader
+        <BasicHeader
           title={headerTitle}
           rightIconName="ios-search"
           isHasSearch
