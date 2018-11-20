@@ -48,7 +48,12 @@ class SettingsScreen extends Component {
             selectedOptionIndex={0}
             handleOnChange={this._handleOnChange}
           />
-          <SettingsItem title="Push Notification" type="toggle" isOn />
+          <SettingsItem
+            title="Push Notification"
+            type="toggle"
+            isOn
+            handleOnChange={this._handleOnChange}
+          />
           <SettingsItem title="Pincode" text="Reset" />
         </ScrollView>
       </Fragment>

@@ -38,7 +38,7 @@ export default EStyleSheet.create({
     height: 40,
   },
   dropdownText: {
-    fontSize: 9,
+    fontSize: 10,
     color: '$primaryDarkGray',
     padding: 5,
     borderColor: '#e7e7e7',
@@ -82,7 +82,7 @@ export default EStyleSheet.create({
     fontWeight: 'bold',
   },
   rowText: {
-    fontSize: 9,
+    fontSize: 10,
     color: '$primaryDarkGray',
   },
 });

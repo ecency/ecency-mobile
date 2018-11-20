@@ -19,8 +19,14 @@ export default EStyleSheet.create({
     paddingHorizontal: 14,
     color: '$primaryDarkGray',
   },
+  rowTextStyle: {
+    fontSize: 14,
+    color: '$primaryDarkGray',
+    padding: 5,
+  },
   dropdownStyle: {
-    width: 172,
+    marginRight: -35,
+    marginTop: 15,
   },
   dropdownButtonStyle: {
     backgroundColor: '$primaryGray',

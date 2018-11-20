@@ -17,10 +17,12 @@ import styles from './dropdownButtonStyles';
   *
   */
 
-const renderDropdownRow = (rowData, rowID, highlighted) => (
+const renderDropdownRow = (rowData, rowID, highlighted, rowTextStyle) => (
   <TouchableHighlight style={styles.rowWrapper} underlayColor="#E9F2FC">
     <View style={[styles.dropdownRow, highlighted && styles.highlightedRow]}>
-      <Text style={[styles.rowText, highlighted && styles.highlightedRowText]}>{rowData}</Text>
+      <Text style={[rowTextStyle || styles.rowText, highlighted && styles.highlightedRowText]}>
+        {rowData}
+      </Text>
     </View>
   </TouchableHighlight>
 );
@@ -38,6 +40,7 @@ const DropdownButtonView = ({
   dropdownTextStyle,
   dropdownButtonStyle,
   textStyle,
+  rowTextStyle,
   options,
   style,
 }) => (
@@ -45,7 +48,7 @@ const DropdownButtonView = ({
     <ModalDropdown
       style={[!style ? styles.button : style]}
       textStyle={[textStyle || styles.buttonText]}
-      dropdownStyle={[styles.dropdown, dropdownStyle, { height: 35 * (options.length + 1) }]}
+      dropdownStyle={[dropdownStyle || styles.dropdown, { height: 35 * (options.length + 1) }]}
       dropdownTextStyle={[dropdownTextStyle || styles.dropdownText]}
       dropdownTextHighlightStyle={styles.dropdownTextHighlight}
       options={options}
@@ -53,7 +56,8 @@ const DropdownButtonView = ({
       defaultIndex={defaultIndex}
       defaultValue={defaultText}
       renderSeparator={() => null}
-      renderRow={(rowData, rowID, highlighted) => renderDropdownRow(rowData, rowID, highlighted)}
+      renderRow={(rowData, rowID, highlighted) => renderDropdownRow(rowData, rowID, highlighted, rowTextStyle)
+      }
     >
       {isHasChildIcon && (
         <View style={[styles.iconWrapper, childIconWrapperStyle && childIconWrapperStyle]}>
