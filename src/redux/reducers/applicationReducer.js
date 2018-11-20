@@ -17,7 +17,7 @@ const initialState = {
   isPinCodeReqiure: false,
   isActive: false,
   isNotificationOpen: true,
-  language: 'en',
+  language: 'en-US',
   currency: 'usd',
   api: 'api.steemit.com',
   isDarkTheme: false,

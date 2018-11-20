@@ -77,6 +77,7 @@ class SettingsContainer extends Component {
 
   _handleOnChange = (action, type, actionType = null) => {
     const { dispatch } = this.props;
+    this.props.navigation.setParams({ cardStyle: {backgroundColor: "red" } });
 
     switch (type) {
       case 'dropdown':
