@@ -1,9 +1,13 @@
 import {
+  ACTIVE_APPLICATION,
+  CLOSE_PIN_CODE_MODAL,
   LOGIN,
   LOGOUT,
   OPEN_PIN_CODE_MODAL,
-  CLOSE_PIN_CODE_MODAL,
-  ACTIVE_APPLICATION,
+  SET_API,
+  SET_CURRENCY,
+  SET_LANGUAGE,
+  IS_NOTIFICATION_OPEN,
 } from '../constants/constants';
 
 const initialState = {
@@ -11,6 +15,7 @@ const initialState = {
   loading: false, // It is lock to all screen and shows loading animation.
   isPinCodeReqiure: false,
   isActive: false,
+  isNotificationOpen: true,
 };
 
 export default function (state = initialState, action) {
@@ -40,6 +45,22 @@ export default function (state = initialState, action) {
         ...state,
         isActive: true,
       };
+    case SET_API:
+      return Object.assign({}, state, {
+        api: action.payload,
+      });
+    case SET_CURRENCY:
+      return Object.assign({}, state, {
+        currency: action.payload,
+      });
+    case SET_LANGUAGE:
+      return Object.assign({}, state, {
+        language: action.payload,
+      });
+    case IS_NOTIFICATION_OPEN:
+      return Object.assign({}, state, {
+        isNotificationOpen: action.payload,
+      });
     default:
       return state;
   }

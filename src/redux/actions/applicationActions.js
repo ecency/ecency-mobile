@@ -1,9 +1,13 @@
 import {
+  ACTIVE_APPLICATION,
+  CLOSE_PIN_CODE_MODAL,
   LOGIN,
   LOGOUT,
   OPEN_PIN_CODE_MODAL,
-  CLOSE_PIN_CODE_MODAL,
-  ACTIVE_APPLICATION,
+  SET_API,
+  SET_CURRENCY,
+  SET_LANGUAGE,
+  IS_NOTIFICATION_OPEN,
 } from '../constants/constants';
 
 export const login = () => ({
@@ -24,4 +28,25 @@ export const closePinCodeModal = () => ({
 
 export const activeApplication = () => ({
   type: ACTIVE_APPLICATION,
+});
+
+// Settings actions
+export const setLanguage = payload => ({
+  payload,
+  type: SET_LANGUAGE,
+});
+
+export const setCurrency = payload => ({
+  payload,
+  type: SET_CURRENCY,
+});
+
+export const setApi = payload => ({
+  payload,
+  type: SET_API,
+});
+
+export const isNotificationOpen = payload => ({
+  payload,
+  type: IS_NOTIFICATION_OPEN,
 });

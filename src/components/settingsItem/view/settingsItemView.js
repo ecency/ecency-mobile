@@ -26,7 +26,7 @@ class SettingsItemView extends Component {
   // Component Functions
   _renderItem = () => {
     const {
-      type, options, selectedOptionIndex, handleOnChange, text, isOn,
+      type, options, selectedOptionIndex, handleOnChange, text, isOn, actionType
     } = this.props;
 
     switch (type) {
@@ -45,7 +45,7 @@ class SettingsItemView extends Component {
         );
 
       case 'toggle':
-        return <ToggleSwitch size="large" isOn={isOn} onToggle={e => handleOnChange(e, type)} />;
+        return <ToggleSwitch size="large" isOn={isOn} onToggle={e => handleOnChange(e, type, actionType)} />;
 
       default:
         return (

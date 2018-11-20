@@ -8,7 +8,7 @@ import { getPosts } from '../../../providers/steem/dsteem';
 import { PostCard } from '../../postCard';
 import { FilterBar } from '../../filterBar';
 import { PostCardPlaceHolder } from '../../basicUIElements';
-import filters from '../../../constants/filters.json';
+import filters from '../../../constants/options/filters.json';
 // Styles
 import styles from './postsStyles';
 

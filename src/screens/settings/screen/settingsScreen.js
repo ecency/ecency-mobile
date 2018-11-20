@@ -2,6 +2,9 @@ import React, { Component, Fragment } from 'react';
 import { ScrollView } from 'react-native';
 
 // Constants
+import LANGUAGE from '../../../constants/options/language';
+import CURRENCY from '../../../constants/options/currency';
+import API from '../../../constants/options/api';
 
 // Components
 import { BasicHeader } from '../../../components/basicHeader';
@@ -24,11 +27,11 @@ class SettingsScreen extends Component {
   // Component Life Cycles
 
   // Component Functions
-  _handleOnChange = (action, type) => {
-    console.log(action + type);
-  };
+
 
   render() {
+    const { handleOnChange } = this.props;
+
     return (
       <Fragment>
         <BasicHeader title="Settings" />
@@ -37,22 +40,32 @@ class SettingsScreen extends Component {
           <SettingsItem
             title="Language"
             type="dropdown"
-            options={['Turkish', 'German', 'Turkish']}
+            actionType="language"
+            options={LANGUAGE}
             selectedOptionIndex={0}
-            handleOnChange={this._handleOnChange}
+            handleOnChange={handleOnChange}
           />
           <SettingsItem
             title="Currency"
             type="dropdown"
-            options={['USD', 'TRY', 'CYH']}
+            actionType="currency"
+            options={CURRENCY}
             selectedOptionIndex={0}
-            handleOnChange={this._handleOnChange}
+            handleOnChange={handleOnChange}
+          />
+          <SettingsItem
+            title="Server"
+            type="dropdown"
+            actionType='api'
+            options={API}
+            selectedOptionIndex={0}
+            handleOnChange={handleOnChange}
           />
           <SettingsItem
             title="Push Notification"
             type="toggle"
             isOn
-            handleOnChange={this._handleOnChange}
+            handleOnChange={handleOnChange}
           />
           <SettingsItem title="Pincode" text="Reset" />
         </ScrollView>

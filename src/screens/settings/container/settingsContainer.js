@@ -5,6 +5,9 @@ import React, { Component } from 'react';
 // Middleware
 
 // Constants
+import { VALUE as CURRENCY_VALUE } from '../../../constants/options/currency';
+import { VALUE as LANGUAGE_VALUE } from '../../../constants/options/language';
+import { VALUE as API_VALUE } from '../../../constants/options/api';
 
 // Utilities
 
@@ -26,9 +29,42 @@ class SettingsContainer extends Component {
   // Component Life Cycle Functions
 
   // Component Functions
+  _handleDropdownSelected = (actionType) => {
+    
+    switch (actionType) {
+      case 'currency':
+        console.log(action + type + CURRENCY_VALUE[action]);
+
+      case 'language':
+        console.log(action + type + LANGUAGE_VALUE[action]);
+
+      case 'api':
+        console.log(action + type + API_VALUE[action]);
+
+      default:
+        break;
+    }
+  }
+  _handleOnChange = (action, type, actionType = null) => {
+
+    switch (type) {
+      case 'dropdown':
+        this._handleDropdownSelected(actionType);
+
+      case 'toggle':
+        console.log(action + type);
+
+      case 'button':
+        console.log(action + type);
+    
+      default:
+        break;
+    }
+
+  };
 
   render() {
-    return <SettingsScreen {...this.props} />;
+    return <SettingsScreen handleOnChange={this._handleOnChange} {...this.props} />;
   }
 }
 
