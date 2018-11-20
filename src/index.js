@@ -1,6 +1,7 @@
 import React from 'react';
 import { Dimensions } from 'react-native';
 import { Provider } from 'react-redux';
+import 'intl';
 import { IntlProvider, addLocaleData } from 'react-intl';
 import en from 'react-intl/locale-data/en';
 import tr from 'react-intl/locale-data/tr';
@@ -10,8 +11,6 @@ import store from './redux/store/store';
 import { ReduxNavigation } from './config/reduxNavigation';
 import { flattenMessages } from './utils/flattenMessages';
 import messages from './config/locales';
-
-addLocaleData([...en, ...tr]);
 
 // STYLE
 
@@ -48,12 +47,19 @@ EStyleSheet.build({
   $primaryLatterSpacing: 0,
 });
 
-const locale = 'en-US';
+addLocaleData([...en, ...tr]);
+
+const locale = (navigator.languages && navigator.languages[0])
+  || navigator.language
+  || navigator.userLanguage
+  || 'en-US';
 
 export default () => (
+
   <Provider store={store}>
     <IntlProvider locale={locale} messages={flattenMessages(messages[locale])}>
       <ReduxNavigation />
     </IntlProvider>
   </Provider>
 );
+
