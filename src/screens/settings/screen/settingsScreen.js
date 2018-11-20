@@ -2,9 +2,9 @@ import React, { Component, Fragment } from 'react';
 import { ScrollView } from 'react-native';
 
 // Constants
-import LANGUAGE from '../../../constants/options/language';
-import CURRENCY from '../../../constants/options/currency';
-import API from '../../../constants/options/api';
+import LANGUAGE, { VALUE as LANGUAGE_VALUE } from '../../../constants/options/language';
+import CURRENCY, { VALUE as CURRENCY_VALUE } from '../../../constants/options/currency';
+import API, { VALUE as API_VALUE } from '../../../constants/options/api';
 
 // Components
 import { BasicHeader } from '../../../components/basicHeader';
@@ -30,7 +30,7 @@ class SettingsScreen extends Component {
 
 
   render() {
-    const { handleOnChange } = this.props;
+    const { handleOnChange, selectedLanguage, selectedApi, selectedCurrency, isNotificationOpen, isDarkTheme } = this.props;
 
     return (
       <Fragment>
@@ -42,7 +42,7 @@ class SettingsScreen extends Component {
             type="dropdown"
             actionType="language"
             options={LANGUAGE}
-            selectedOptionIndex={0}
+            selectedOptionIndex={LANGUAGE_VALUE.indexOf(selectedLanguage)}
             handleOnChange={handleOnChange}
           />
           <SettingsItem
@@ -50,7 +50,7 @@ class SettingsScreen extends Component {
             type="dropdown"
             actionType="currency"
             options={CURRENCY}
-            selectedOptionIndex={0}
+            selectedOptionIndex={CURRENCY_VALUE.indexOf(selectedCurrency)}
             handleOnChange={handleOnChange}
           />
           <SettingsItem
@@ -58,13 +58,21 @@ class SettingsScreen extends Component {
             type="dropdown"
             actionType='api'
             options={API}
-            selectedOptionIndex={0}
+            selectedOptionIndex={API_VALUE.indexOf(selectedApi)}
+            handleOnChange={handleOnChange}
+          />
+          <SettingsItem
+            title="Dark Theme"
+            type="toggle"
+            actionType='theme'
+            isOn={isDarkTheme}
             handleOnChange={handleOnChange}
           />
           <SettingsItem
             title="Push Notification"
             type="toggle"
-            isOn
+            actionType='notification'
+            isOn={isNotificationOpen}
             handleOnChange={handleOnChange}
           />
           <SettingsItem title="Pincode" text="Reset" />

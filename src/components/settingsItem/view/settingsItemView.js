@@ -36,6 +36,7 @@ class SettingsItemView extends Component {
             key={actionType}
             defaultText={options[selectedOptionIndex]}
             dropdownButtonStyle={styles.dropdownButtonStyle}
+            selectedOptionIndex={selectedOptionIndex}
             rowTextStyle={styles.rowTextStyle}
             style={styles.dropdown}
             dropdownStyle={styles.dropdownStyle}
@@ -46,7 +47,7 @@ class SettingsItemView extends Component {
         );
 
       case 'toggle':
-        return <ToggleSwitch size="large" isOn={isOn} onToggle={e => handleOnChange(e, type)} />;
+        return <ToggleSwitch size="large" isOn={isOn} onToggle={e => handleOnChange(e, type, actionType)} />;
 
       default:
         return (

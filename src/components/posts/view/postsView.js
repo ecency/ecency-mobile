@@ -141,6 +141,7 @@ class PostsView extends Component {
           <FilterBar
             dropdownIconName="md-arrow-dropdown"
             options={filterOptions}
+            selectedOptionIndex={0}
             defaultText={filterOptions[0]}
             rightIconName="md-apps"
             onDropdownSelect={this._handleOnDropdownSelect}

@@ -22,3 +22,5 @@ export const SET_LANGUAGE = 'SET_LANGUAGE';
 export const SET_API = 'SET_API';
 export const SET_CURRENCY = 'SET_CURRENCY';
 export const IS_NOTIFICATION_OPEN = 'IS_NOTIFICATION_OPEN';
+export const IS_DARK_THEME = 'IS_DARK_THEME';
+

@@ -8,6 +8,7 @@ import {
   SET_CURRENCY,
   SET_LANGUAGE,
   IS_NOTIFICATION_OPEN,
+  IS_DARK_THEME,
 } from '../constants/constants';
 
 const initialState = {
@@ -16,6 +17,10 @@ const initialState = {
   isPinCodeReqiure: false,
   isActive: false,
   isNotificationOpen: true,
+  language: 'en',
+  currency: 'usd',
+  api: 'api.steemit.com',
+  isDarkTheme: false,
 };
 
 export default function (state = initialState, action) {
@@ -60,6 +65,10 @@ export default function (state = initialState, action) {
     case IS_NOTIFICATION_OPEN:
       return Object.assign({}, state, {
         isNotificationOpen: action.payload,
+      });
+    case IS_DARK_THEME:
+      return Object.assign({}, state, {
+        isDarkTheme: action.payload,
       });
     default:
       return state;

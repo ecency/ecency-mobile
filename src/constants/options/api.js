@@ -3,6 +3,7 @@ export default [
   'api.esteem.com',
 ];
 
-// export const VALUE = [
-
-// ];
+export const VALUE = [
+  'api.steemit.com',
+  'api.esteem.com',
+];

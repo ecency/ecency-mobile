@@ -8,6 +8,7 @@ import {
   SET_CURRENCY,
   SET_LANGUAGE,
   IS_NOTIFICATION_OPEN,
+  IS_DARK_THEME,
 } from '../constants/constants';
 
 export const login = () => ({
@@ -49,4 +50,9 @@ export const setApi = payload => ({
 export const isNotificationOpen = payload => ({
   payload,
   type: IS_NOTIFICATION_OPEN,
+});
+
+export const isDarkTheme = payload => ({
+  payload,
+  type: IS_DARK_THEME,
 });

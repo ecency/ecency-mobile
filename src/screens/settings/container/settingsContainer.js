@@ -1,7 +1,14 @@
 import React, { Component } from 'react';
+import { connect } from 'react-redux';
 
 // Services and Actions
-
+import {
+  setLanguage,
+  isNotificationOpen,
+  setCurrency,
+  setApi,
+  isDarkTheme,
+} from '../../../redux/actions/applicationActions';
 // Middleware
 
 // Constants
@@ -30,32 +37,54 @@ class SettingsContainer extends Component {
 
   // Component Functions
   _handleDropdownSelected = (action, actionType) => {
+    const { dispatch } = this.props;
 
     switch (actionType) {
       case 'currency':
-        console.log(CURRENCY_VALUE[action]);
+        dispatch( setCurrency(CURRENCY_VALUE[action]) );
+
         break;
 
       case 'language':
-        console.log(LANGUAGE_VALUE[action]);
+        dispatch( setLanguage(LANGUAGE_VALUE[action]) );
         break;
 
       case 'api':
-        console.log(API_VALUE[action]);
+        dispatch( setApi(API_VALUE[action]) );
         break;
 
       default:
         break;
     }
   }
+
+  _handleToggleChanged = (action, actionType) => {
+    const { dispatch } = this.props;
+
+    switch (actionType) {
+      case 'notification':
+        dispatch( isNotificationOpen(action) );
+        break;
+
+      case 'theme':
+        dispatch( isDarkTheme(action) );
+        break;
+
+      default:
+        break;
+    }
+  }
+
   _handleOnChange = (action, type, actionType = null) => {
+    const { dispatch } = this.props;
+
     switch (type) {
       case 'dropdown':
         this._handleDropdownSelected(action, actionType);
         break;
 
       case 'toggle':
-        console.log(action + type);
+        this._handleToggleChanged(action, actionType);
         break;
 
       case 'button':
@@ -73,4 +102,11 @@ class SettingsContainer extends Component {
   }
 }
 
-export default SettingsContainer;
+const mapStateToProps = state => ({
+  selectedLanguage: state.application.language,
+  selectedApi: state.application.api,
+  selectedCurrency: state.application.currency,
+  isNotificationOpen: state.application.isNotificationOpen,
+  isDarkTheme: state.application.isDarkTheme,
+});
+export default connect(mapStateToProps)(SettingsContainer);
