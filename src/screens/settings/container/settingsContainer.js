@@ -7,7 +7,7 @@ import React, { Component } from 'react';
 // Constants
 import { VALUE as CURRENCY_VALUE } from '../../../constants/options/currency';
 import { VALUE as LANGUAGE_VALUE } from '../../../constants/options/language';
-import { VALUE as API_VALUE } from '../../../constants/options/api';
+import API_VALUE from '../../../constants/options/api';
 
 // Utilities
 
@@ -29,33 +29,38 @@ class SettingsContainer extends Component {
   // Component Life Cycle Functions
 
   // Component Functions
-  _handleDropdownSelected = (actionType) => {
-    
+  _handleDropdownSelected = (action, actionType) => {
+
     switch (actionType) {
       case 'currency':
-        console.log(action + type + CURRENCY_VALUE[action]);
+        console.log(CURRENCY_VALUE[action]);
+        break;
 
       case 'language':
-        console.log(action + type + LANGUAGE_VALUE[action]);
+        console.log(LANGUAGE_VALUE[action]);
+        break;
 
       case 'api':
-        console.log(action + type + API_VALUE[action]);
+        console.log(API_VALUE[action]);
+        break;
 
       default:
         break;
     }
   }
   _handleOnChange = (action, type, actionType = null) => {
-
     switch (type) {
       case 'dropdown':
-        this._handleDropdownSelected(actionType);
+        this._handleDropdownSelected(action, actionType);
+        break;
 
       case 'toggle':
         console.log(action + type);
+        break;
 
       case 'button':
         console.log(action + type);
+        break;
     
       default:
         break;
