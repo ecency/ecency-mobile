@@ -1,5 +1,5 @@
 import React from 'react';
-import { Dimensions } from 'react-native';
+import { Dimensions, Platform } from 'react-native';
 import { Provider } from 'react-redux';
 import 'intl';
 import { IntlProvider, addLocaleData } from 'react-intl';
@@ -11,6 +11,16 @@ import store from './redux/store/store';
 import { ReduxNavigation } from './config/reduxNavigation';
 import { flattenMessages } from './utils/flattenMessages';
 import messages from './config/locales';
+
+// symbol polyfills
+global.Symbol = require('core-js/es6/symbol');
+require('core-js/fn/symbol/iterator');
+
+// collection fn polyfills
+require('core-js/fn/map');
+require('core-js/fn/set');
+require('core-js/fn/array/find');
+
 
 // STYLE
 
@@ -53,22 +63,6 @@ const locale = (navigator.languages && navigator.languages[0])
   || navigator.language
   || navigator.userLanguage
   || 'en-US';
-
-if (Platform.OS === 'android') {
-  if (typeof Symbol === 'undefined') {
-    if (Array.prototype['@@iterator'] === undefined) {
-      Array.prototype['@@iterator'] = function() {
-        let i = 0;
-        return {
-          next: () => ({
-            done: i >= this.length,
-            value: this[i++],
-          }),
-        };
-      };
-    }
-  }
-}
 
 
 export default () => (
