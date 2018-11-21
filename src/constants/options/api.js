@@ -1,9 +1,15 @@
 export default [
   'api.steemit.com',
-  'api.esteem.com',
+  'rpc.esteem.app',
+  'rpc.steemviz.com',
+  'rpc.buildteam.io',
+  'api.steem.house'
 ];
 
 export const VALUE = [
   'api.steemit.com',
-  'api.esteem.com',
+  'rpc.esteem.app',
+  'rpc.steemviz.com',
+  'rpc.buildteam.io',
+  'api.steem.house'
 ];
