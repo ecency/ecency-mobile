@@ -1,7 +1,11 @@
 import React, { Component, Fragment } from 'react';
 import { ScrollView } from 'react-native';
+import { injectIntl } from 'react-intl';
 
 // Constants
+import LANGUAGE, { VALUE as LANGUAGE_VALUE } from '../../../constants/options/language';
+import CURRENCY, { VALUE as CURRENCY_VALUE } from '../../../constants/options/currency';
+import API, { VALUE as API_VALUE } from '../../../constants/options/api';
 
 // Components
 import { BasicHeader } from '../../../components/basicHeader';
@@ -15,7 +19,6 @@ class SettingsScreen extends Component {
     * ------------------------------------------------
     *   @prop { type }    name                - Description....
     */
-
   constructor(props) {
     super(props);
     this.state = {};
@@ -24,41 +27,86 @@ class SettingsScreen extends Component {
   // Component Life Cycles
 
   // Component Functions
-  _handleOnChange = (action, type) => {
-    console.log(action + type);
-  };
 
   render() {
+    const {
+      handleOnChange,
+      selectedLanguage,
+      selectedApi,
+      selectedCurrency,
+      isNotificationOpen,
+      isDarkTheme,
+      intl,
+    } = this.props;
+
     return (
       <Fragment>
-        <BasicHeader title="Settings" />
+        <BasicHeader
+          title={intl.formatMessage({
+            id: 'settings.settings',
+          })}
+        />
 
         <ScrollView style={globalStyles.settingsContainer}>
           <SettingsItem
-            title="Language"
+            title={intl.formatMessage({
+              id: 'settings.currency',
+            })}
             type="dropdown"
-            options={['Turkish', 'German', 'Turkish']}
-            selectedOptionIndex={0}
-            handleOnChange={this._handleOnChange}
+            actionType="currency"
+            options={CURRENCY}
+            selectedOptionIndex={CURRENCY_VALUE.indexOf(selectedCurrency)}
+            handleOnChange={handleOnChange}
           />
           <SettingsItem
-            title="Currency"
+            title={intl.formatMessage({
+              id: 'settings.language',
+            })}
             type="dropdown"
-            options={['USD', 'TRY', 'CYH']}
-            selectedOptionIndex={0}
-            handleOnChange={this._handleOnChange}
+            actionType="language"
+            options={LANGUAGE}
+            selectedOptionIndex={LANGUAGE_VALUE.indexOf(selectedLanguage)}
+            handleOnChange={handleOnChange}
           />
           <SettingsItem
-            title="Push Notification"
+            title={intl.formatMessage({
+              id: 'settings.server',
+            })}
+            type="dropdown"
+            actionType="api"
+            options={API}
+            selectedOptionIndex={API_VALUE.indexOf(selectedApi)}
+            handleOnChange={handleOnChange}
+          />
+          <SettingsItem
+            title={intl.formatMessage({
+              id: 'settings.dark_theme',
+            })}
             type="toggle"
-            isOn
-            handleOnChange={this._handleOnChange}
+            actionType="theme"
+            isOn={isDarkTheme}
+            handleOnChange={handleOnChange}
           />
-          <SettingsItem title="Pincode" text="Reset" />
+          <SettingsItem
+            title={intl.formatMessage({
+              id: 'settings.push_notification',
+            })}
+            type="toggle"
+            actionType="notification"
+            isOn={isNotificationOpen}
+            handleOnChange={handleOnChange}
+          />
+          <SettingsItem
+            title={intl.formatMessage({
+              id: 'settings.pincode',
+            })}
+            text={intl.formatMessage({
+              id: 'settings.reset',
+            })}
+          />
         </ScrollView>
       </Fragment>
     );
   }
 }
-
-export default SettingsScreen;
+export default injectIntl(SettingsScreen);

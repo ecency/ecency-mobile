@@ -26,26 +26,28 @@ class SettingsItemView extends Component {
   // Component Functions
   _renderItem = () => {
     const {
-      type, options, selectedOptionIndex, handleOnChange, text, isOn,
+      type, options, selectedOptionIndex, handleOnChange, text, isOn, actionType
     } = this.props;
 
     switch (type) {
       case 'dropdown':
         return (
           <DropdownButton
+            key={actionType}
             defaultText={options[selectedOptionIndex]}
             dropdownButtonStyle={styles.dropdownButtonStyle}
+            selectedOptionIndex={selectedOptionIndex}
             rowTextStyle={styles.rowTextStyle}
             style={styles.dropdown}
             dropdownStyle={styles.dropdownStyle}
             textStyle={styles.dropdownText}
             options={options}
-            onSelect={e => handleOnChange(e, type)}
+            onSelect={e => handleOnChange(e, type, actionType)}
           />
         );
 
       case 'toggle':
-        return <ToggleSwitch size="large" isOn={isOn} onToggle={e => handleOnChange(e, type)} />;
+        return <ToggleSwitch size="large" isOn={isOn} onToggle={e => handleOnChange(e, type, actionType)} />;
 
       default:
         return (
