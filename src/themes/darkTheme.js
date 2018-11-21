@@ -2,16 +2,18 @@ import { Dimensions } from 'react-native';
 
 export default {
   // Primary Colors
-  $white: 'black',
-  $black: 'black',
-  $primaryBlue: 'red',
-  $primaryDarkBlue: 'black',
-  $primaryLightBlue: 'black',
-  $primaryGray: 'red',
-  $primaryDarkGray: 'red',
-  $primaryLightGray: 'red',
-  $primaryRed: 'red',
-  $primaryBlack: 'red',
+  $theme: 'darkTheme',
+  $mainBackgroundColor: '#1e2835',
+  $white: '#1e2835',
+  $black: '#000000',
+  $primaryBlue: '#357ce6',
+  $primaryDarkBlue: '#1a509a',
+  $primaryLightBlue: '#eaf2fc',
+  $primaryGray: '#ffff',
+  $primaryDarkGray: '#ffff',
+  $primaryLightGray: '#f6f6f6',
+  $primaryRed: '#e63535',
+  $primaryBlack: '#3c4449',
 
   // General Colors
   $borderColor: '#c5c5c5',

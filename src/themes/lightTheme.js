@@ -2,6 +2,8 @@ import { Dimensions } from 'react-native';
 
 export default {
   // Primary Colors
+  $theme: 'lightTheme',
+  $mainBackgroundColor: '#FFFFFF',
   $white: '#FFFFFF',
   $black: '#000000',
   $primaryBlue: '#357ce6',
