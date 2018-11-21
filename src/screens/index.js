@@ -2,6 +2,7 @@ import PinCode from './pinCode';
 import RootComponent from './root';
 import Splash from './splash';
 import SteemConnect from './steem-connect/steemConnect';
+import { Application } from './application';
 import { Editor } from './editor';
 import { Follows } from './follows';
 import { Home } from './home';
@@ -14,6 +15,7 @@ import { Settings } from './settings';
 import { Voters } from './voters';
 
 export {
+  Application,
   Editor,
   Follows,
   Home,
