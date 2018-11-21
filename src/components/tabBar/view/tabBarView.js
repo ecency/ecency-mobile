@@ -1,4 +1,5 @@
 import React, { Component } from 'react';
+import { connect } from 'react-redux';
 import {
   Text,
   View,
@@ -12,7 +13,7 @@ import {
 // Styles
 import styles from './tabBarStyles';
 
-export default class TabBar extends Component {
+class TabBar extends Component {
   /* Props
     * ------------------------------------------------ TODO: Fill fallowlines
     *   @prop { type }    name            - Description.
@@ -23,14 +24,17 @@ export default class TabBar extends Component {
   constructor(props) {
     super(props);
 
-    this.state = {};
+    this.state = {
+      activeColor: !props.isDarkTheme ? '#357ce6' : '#357ce6',
+      inactiveColor: !props.isDarkTheme ? '#788187' : '#eaf2fc',
+    };
   }
 
   _renderTab = (name, page, isTabActive, onPressHandler) => {
-    const { activeColor, inactiveColor } = this.props;
+    const { activeColor, inactiveColor } = this.state;
     const textColor = isTabActive ? activeColor : inactiveColor;
     const fontWeight = isTabActive ? 'bold' : 'normal';
-    const Button = Platform.OS == 'ios' ? ButtonIos : ButtonAndroid;
+    const Button = Platform.OS === 'ios' ? ButtonIos : ButtonAndroid;
     // TODO: make generic component!!
 
     return (
@@ -51,13 +55,13 @@ export default class TabBar extends Component {
 
   _renderUnderline = () => {
     const {
-      activeColor,
       tabs,
       tabUnderlineDefaultWidth,
       tabUnderlineScaleX,
       scrollValue,
       underlineStyle,
     } = this.props;
+    const { activeColor } = this.state;
 
     const containerWidth = Dimensions.get('window').width;
     const numberOfTabs = tabs.length;
@@ -85,12 +89,8 @@ export default class TabBar extends Component {
 
       return arr.fill(0).reduce(
         (pre, cur, idx) => {
-          idx == 0
-            ? pre.inputRange.push(cur)
-            : pre.inputRange.push(pre.inputRange[idx - 1] + 0.5);
-          idx % 2
-            ? pre.outputRange.push(defaultScale)
-            : pre.outputRange.push(1);
+          idx == 0 ? pre.inputRange.push(cur) : pre.inputRange.push(pre.inputRange[idx - 1] + 0.5);
+          idx % 2 ? pre.outputRange.push(defaultScale) : pre.outputRange.push(1);
           return pre;
         },
         { inputRange: [], outputRange: [] },
@@ -139,6 +139,10 @@ const ButtonAndroid = props => (
   </TouchableNativeFeedback>
 );
 
-const ButtonIos = props => (
-  <TouchableOpacity {...props}>{props.children}</TouchableOpacity>
-);
+const ButtonIos = props => <TouchableOpacity {...props}>{props.children}</TouchableOpacity>;
+
+const mapStateToProps = state => ({
+  isDarkTheme: state.application.isDarkTheme,
+});
+
+export default connect(mapStateToProps)(TabBar);

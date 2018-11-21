@@ -78,7 +78,7 @@ export default EStyleSheet.create({
     marginLeft: 20,
   },
   highlightedRowText: {
-    color: '$white',
+    color: '$primaryBackgroundColor',
     fontWeight: 'bold',
   },
   rowText: {

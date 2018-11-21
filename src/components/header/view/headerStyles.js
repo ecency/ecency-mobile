@@ -7,7 +7,7 @@ export default EStyleSheet.create({
     width: '$deviceWidth',
     minHeight: 40,
     maxHeight: 74,
-    backgroundColor: '$white',
+    backgroundColor: '$primaryBackgroundColor',
   },
   containerReverse: {
     justifyContent: 'space-between',

@@ -5,6 +5,7 @@ export default EStyleSheet.create({
     justifyContent: 'center',
     alignItems: 'center',
     flex: 1,
+    backgroundColor: '$primaryBackgroundColor',
   },
   buttonContainer: {
     width: '50%',
@@ -17,7 +18,7 @@ export default EStyleSheet.create({
   tabbar: {
     alignSelf: 'center',
     height: 40,
-    backgroundColor: 'white',
+    backgroundColor: '$primaryBackgroundColor',
   },
   tabbarItem: {
     flex: 1,
@@ -53,10 +54,10 @@ export default EStyleSheet.create({
     height: 30,
     borderRadius: 15,
     borderWidth: 1,
-    borderColor: 'white',
+    borderColor: '$white',
   },
   searchButton: {
-    color: 'white',
+    color: '$white',
     fontWeight: 'bold',
   },
   loginButton: {

@@ -3,6 +3,7 @@ import EStyleSheet from 'react-native-extended-stylesheet';
 export default EStyleSheet.create({
   container: {
     justifyContent: 'center',
+    backgroundColor: '$primaryLightBackground',
   },
   filterBarWrapper: {
     flexDirection: 'row',
@@ -13,7 +14,7 @@ export default EStyleSheet.create({
     alignSelf: 'center',
   },
   rightIcon: {
-    color:"$iconColor",
+    color: '$iconColor',
     textAlign: 'center',
   },
 });

@@ -3,7 +3,7 @@ import EStyleSheet from 'react-native-extended-stylesheet';
 export default EStyleSheet.create({
   container: {
     flexDirection: 'column',
-    backgroundColor: '$white',
+    backgroundColor: '$primaryBackgroundColor',
     marginTop: 8,
     marginBottom: 8,
     overflow: 'hidden',
@@ -12,10 +12,10 @@ export default EStyleSheet.create({
     shadowOpacity: 0.8,
     borderWidth: 0.8,
     shadowColor: '#e7e7e7',
-    borderColor: '#e7e7e7',
+    borderColor: '$primaryGrayBackground',
   },
   content: {
-    backgroundColor: '$white',
+    backgroundColor: '$primaryBackgroundColor',
   },
   contentBody: {
     paddingHorizontal: 12,

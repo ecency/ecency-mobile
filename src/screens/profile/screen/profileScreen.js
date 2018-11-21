@@ -112,13 +112,7 @@ class ProfileScreen extends Component {
           <ScrollableTabView
             style={styles.tabView}
             renderTabBar={() => (
-              <TabBar
-                style={styles.tabbar}
-                tabUnderlineDefaultWidth={80}
-                tabUnderlineScaleX={2}
-                activeColor="#357ce6"
-                inactiveColor="#788187"
-              />
+              <TabBar style={styles.tabbar} tabUnderlineDefaultWidth={80} tabUnderlineScaleX={2} />
             )}
           >
             <View tabLabel="Post" style={styles.postTabBar}>

@@ -2,15 +2,14 @@ import EStyleSheet from 'react-native-extended-stylesheet';
 
 export default EStyleSheet.create({
   post: {
-    shadowColor: 'white',
+    shadowColor: '$white',
     padding: 0,
     marginRight: 0,
     marginLeft: 0,
     marginTop: 10,
     marginBottom: 0,
-    borderWidth: 1,
-    borderColor: '#e5e5e5',
     borderRadius: 5,
+    backgroundColor: '$primaryBackgroundColor',
   },
   avatar: {
     width: 30,
@@ -20,7 +19,7 @@ export default EStyleSheet.create({
     borderWidth: 1,
   },
   author: {
-    backgroundColor: 'white',
+    backgroundColor: '$white',
     alignSelf: 'flex-start',
     paddingVertical: 5,
   },
@@ -93,13 +92,15 @@ export default EStyleSheet.create({
     overflow: 'hidden',
   },
   header: {
-    shadowColor: 'white',
+    shadowColor: '$white',
     height: 50,
     borderRadius: 5,
+    backgroundColor: '$primaryBackgroundColor',
   },
   body: {
     justifyContent: 'flex-start',
     flexDirection: 'row',
+    backgroundColor: '$primaryBackgroundColor',
   },
   image: {
     margin: 0,
@@ -130,18 +131,18 @@ export default EStyleSheet.create({
   },
   categoryText: {
     fontSize: 9,
-    color: 'white',
+    color: '$white',
     fontWeight: '600',
   },
   text: {
     fontSize: 7,
     alignSelf: 'center',
     textAlignVertical: 'center',
-    color: 'white',
+    color: '$white',
     fontWeight: 'bold',
   },
   topLikers: {
-    shadowColor: 'white',
+    shadowColor: '$white',
     backgroundColor: '#f8f8f8',
     borderWidth: 0,
     padding: 0,
@@ -174,7 +175,7 @@ export default EStyleSheet.create({
     marginLeft: -3,
   },
   footer: {
-    shadowColor: 'white',
+    shadowColor: '$white',
     paddingLeft: 5,
     borderRadius: 5,
     fontSize: 10,
@@ -195,7 +196,7 @@ export default EStyleSheet.create({
     width: 30,
     height: 30,
     borderRadius: 30 / 2,
-    backgroundColor: 'white',
+    backgroundColor: '$primaryBackgroundColor',
     shadowColor: 'black',
     shadowOffset: { width: 0, height: 2 },
     shadowRadius: 2,

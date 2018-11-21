@@ -1,5 +1,5 @@
-import React, { Component, Fragment } from 'react';
-import { ScrollView } from 'react-native';
+import React, { Component } from 'react';
+import { ScrollView, View } from 'react-native';
 import { injectIntl } from 'react-intl';
 
 // Constants
@@ -40,7 +40,7 @@ class SettingsScreen extends Component {
     } = this.props;
 
     return (
-      <Fragment>
+      <View style={globalStyles.container}>
         <BasicHeader
           title={intl.formatMessage({
             id: 'settings.settings',
@@ -105,7 +105,7 @@ class SettingsScreen extends Component {
             })}
           />
         </ScrollView>
-      </Fragment>
+      </View>
     );
   }
 }

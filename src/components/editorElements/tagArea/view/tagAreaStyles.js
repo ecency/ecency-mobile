@@ -2,7 +2,7 @@ import EStyleSheet from 'react-native-extended-stylesheet';
 
 export default EStyleSheet.create({
   textInput: {
-    color: '$white',
+    color: '$primaryBackgroundColor',
     fontSize: 10,
     backgroundColor: '#c1c5c7',
     borderRadius: 50,

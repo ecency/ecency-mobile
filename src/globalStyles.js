@@ -45,6 +45,10 @@ export default EStyleSheet.create({
     letterSpacing: '$primaryLatterSpacing',
     fontSize: 12,
   },
+  container: {
+    backgroundColor: '$primaryBackgroundColor',
+    height: '$deviceHeight',
+  },
   settingsContainer: {
     marginLeft: 48,
     marginRight: 32,

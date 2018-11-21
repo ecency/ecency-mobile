@@ -10,7 +10,7 @@ export default EStyleSheet.create({
   header: {
     flexDirection: 'row',
     padding: 0,
-    backgroundColor: 'white',
+    backgroundColor: '$primaryBackgroundColor',
     marginBottom: 10,
     height: 200,
     flex: 0.4,
@@ -20,7 +20,7 @@ export default EStyleSheet.create({
     bottom: 0,
     marginTop: 10,
     height: 80,
-    backgroundColor: 'white',
+    backgroundColor: '$primaryBackgroundColor',
     flexDirection: 'row',
   },
   tabView: {
@@ -30,16 +30,16 @@ export default EStyleSheet.create({
   tabbar: {
     alignSelf: 'center',
     height: 40,
-    backgroundColor: 'white',
+    backgroundColor: '$primaryBackgroundColor',
   },
   tabbarItem: {
     flex: 1,
-    backgroundColor: '#ffffff',
+    backgroundColor: '$primaryBackgroundColor',
     minWidth: '$deviceWidth',
     height: '$deviceHeight / 1.95',
   },
   steemConnectTab: {
-    backgroundColor: '#fff',
+    backgroundColor: '$primaryBackgroundColor',
     minWidth: '$deviceWidth',
     flex: 1,
     height: '$deviceHeight / 1.95',

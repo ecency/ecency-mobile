@@ -3,7 +3,7 @@ import EStyleSheet from 'react-native-extended-stylesheet';
 export default EStyleSheet.create({
   container: {},
   placeholder: {
-    backgroundColor: '$white',
+    backgroundColor: '$primaryBackgroundColor',
     padding: 20,
     borderStyle: 'solid',
     borderWidth: 1,

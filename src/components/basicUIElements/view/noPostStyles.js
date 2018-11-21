@@ -5,7 +5,7 @@ export default EStyleSheet.create({
     flexDirection: 'column',
     alignItems: 'center',
     height: '$deviceHeight',
-    backgroundColor: '$white',
+    backgroundColor: '$primaryBackgroundColor',
   },
   image: {
     width: '$deviceWidth - 40',
