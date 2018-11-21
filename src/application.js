@@ -30,10 +30,6 @@ class Application extends Component {
     EStyleSheet.build(isDarkTheme ? darkTheme : lightTheme);
   }
 
-  // shouldComponentUpdate(nextProps, nextState, nextContext) {
-  //   return this.props.isDarkTheme !== nextProps.isDarkTheme;
-  // }
-
   componentWillReceiveProps(nextProps) {
     const { isDarkTheme } = this.props;
 
@@ -46,10 +42,6 @@ class Application extends Component {
 
   render() {
     const { children, shouldRender, selectedLanguage } = this.props;
-    // if (!shouldRender) {
-    //   return null;
-    // }
-    // const locale = 'en-US';
 
     return (
       <IntlProvider

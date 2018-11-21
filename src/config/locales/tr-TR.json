@@ -28,5 +28,8 @@
     "push_notification": "Bildirim",
     "pincode": "Pinkod",
     "reset": "Sifirla"
+  },
+  "voters": {
+    "voters_info": "Oy Verenler"
   }
 }

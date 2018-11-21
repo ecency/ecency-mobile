@@ -28,5 +28,8 @@
     "push_notification": "Push Notification",
     "pincode": "Pincode",
     "reset": "Reset"
+  },
+  "voters": {
+    "voters_info": "Voters Info"
   }
 }
