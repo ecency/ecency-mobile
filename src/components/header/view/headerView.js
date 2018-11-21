@@ -99,10 +99,10 @@ class HeaderView extends Component {
             </Text>
           </View>
         ) : (
-            <View style={styles.titleWrapper}>
-              <Text style={styles.noAuthTitle}>Log in to customize your feed</Text>
-            </View>
-          )}
+          <View style={styles.titleWrapper}>
+            <Text style={styles.noAuthTitle}>Log in to customize your feed</Text>
+          </View>
+        )}
         {isReverse && (
           <View style={styles.backButtonWrapper}>
             <IconButton

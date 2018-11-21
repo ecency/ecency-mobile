@@ -68,6 +68,7 @@ const RootContainer = () => (WrappedComponent) => {
     render() {
       const { isPinCodeReqiure, navigation } = this.props;
       const { pinCodeStates, wrappedComponentStates } = this.state;
+      console.log('==========test=========');
       return (
         <Fragment>
           <Modal
@@ -82,12 +83,13 @@ const RootContainer = () => (WrappedComponent) => {
               navigation={navigation}
             />
           </Modal>
-          <Search></Search>
+
           <WrappedComponent
             {...this.props}
             {...wrappedComponentStates}
             setPinCodeState={this._setPinCodeState}
           />
+          <Search />
         </Fragment>
       );
     }
