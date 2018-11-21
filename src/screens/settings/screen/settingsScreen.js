@@ -53,9 +53,9 @@ class SettingsScreen extends Component {
               id: 'settings.currency',
             })}
             type="dropdown"
-            actionType="language"
-            options={LANGUAGE}
-            selectedOptionIndex={LANGUAGE_VALUE.indexOf(selectedLanguage)}
+            actionType="currency"
+            options={CURRENCY}
+            selectedOptionIndex={CURRENCY_VALUE.indexOf(selectedCurrency)}
             handleOnChange={handleOnChange}
           />
           <SettingsItem
@@ -63,9 +63,9 @@ class SettingsScreen extends Component {
               id: 'settings.language',
             })}
             type="dropdown"
-            actionType="currency"
-            options={CURRENCY}
-            selectedOptionIndex={CURRENCY_VALUE.indexOf(selectedCurrency)}
+            actionType="language"
+            options={LANGUAGE}
+            selectedOptionIndex={LANGUAGE_VALUE.indexOf(selectedLanguage)}
             handleOnChange={handleOnChange}
           />
           <SettingsItem
@@ -88,7 +88,6 @@ class SettingsScreen extends Component {
             handleOnChange={handleOnChange}
           />
           <SettingsItem
-            title="Push Notification"
             title={intl.formatMessage({
               id: 'settings.push_notification',
             })}

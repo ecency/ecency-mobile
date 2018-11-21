@@ -6,8 +6,8 @@ import { flattenMessages } from '../../../utils/flattenMessages';
 import messages from '../../../config/locales';
 
 class ApplicationScreen extends Component {
-  constructor() {
-    super();
+  constructor(props) {
+    super(props);
     this.state = {};
   }
 
