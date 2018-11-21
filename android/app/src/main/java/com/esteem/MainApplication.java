@@ -3,12 +3,6 @@ package com.esteem;
 import android.app.Application;
 
 import com.facebook.react.ReactApplication;
-import com.lugg.ReactNativeConfig.ReactNativeConfigPackage;
-import com.oblador.vectoricons.VectorIconsPackage;
-import com.dylanvann.fastimage.FastImageViewPackage;
-import io.realm.react.RealmReactPackage;
-import com.avishayil.rnrestart.ReactNativeRestartPackage;
-import com.BV.LinearGradient.LinearGradientPackage;
 import com.facebook.react.ReactNativeHost;
 import com.facebook.react.ReactPackage;
 import com.facebook.react.shell.MainReactPackage;
@@ -28,13 +22,7 @@ public class MainApplication extends Application implements ReactApplication {
     @Override
     protected List<ReactPackage> getPackages() {
       return Arrays.<ReactPackage>asList(
-          new MainReactPackage(),
-            new ReactNativeConfigPackage(),
-            new VectorIconsPackage(),
-            new FastImageViewPackage(),
-            new RealmReactPackage(),
-            new ReactNativeRestartPackage(),
-            new LinearGradientPackage()
+          new MainReactPackage()
       );
     }
 

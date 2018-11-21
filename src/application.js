@@ -12,10 +12,14 @@ import darkTheme from './themes/darkTheme';
 import lightTheme from './themes/lightTheme';
 
 addLocaleData([...en, ...tr]);
+// symbol polyfills
+global.Symbol = require('core-js/es6/symbol');
+require('core-js/fn/symbol/iterator');
 
-// EStyleSheet.build(lightTheme);
-
-// initially use light theme
+// collection fn polyfills
+require('core-js/fn/map');
+require('core-js/fn/set');
+require('core-js/fn/array/find');
 
 class Application extends Component {
   constructor() {
@@ -43,11 +47,13 @@ class Application extends Component {
   render() {
     const { children, shouldRender, selectedLanguage } = this.props;
 
+    const locale = (navigator.languages && navigator.languages[0])
+      || navigator.language
+      || navigator.userLanguage
+      || selectedLanguage;
+
     return (
-      <IntlProvider
-        locale={selectedLanguage}
-        messages={flattenMessages(messages[selectedLanguage])}
-      >
+      <IntlProvider locale={locale} messages={flattenMessages(messages[locale])}>
         <ReduxNavigation />
       </IntlProvider>
     );

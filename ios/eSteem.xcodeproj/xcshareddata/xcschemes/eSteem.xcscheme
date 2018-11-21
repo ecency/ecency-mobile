@@ -29,9 +29,9 @@
             <BuildableReference
                BuildableIdentifier = "primary"
                BlueprintIdentifier = "13B07F861A680F5B00A75B9A"
-               BuildableName = "esteem.app"
-               BlueprintName = "esteem"
-               ReferencedContainer = "container:esteem.xcodeproj">
+               BuildableName = "eSteem.app"
+               BlueprintName = "eSteem"
+               ReferencedContainer = "container:eSteem.xcodeproj">
             </BuildableReference>
          </BuildActionEntry>
          <BuildActionEntry
@@ -43,9 +43,9 @@
             <BuildableReference
                BuildableIdentifier = "primary"
                BlueprintIdentifier = "00E356ED1AD99517003FC87E"
-               BuildableName = "esteemTests.xctest"
-               BlueprintName = "esteemTests"
-               ReferencedContainer = "container:esteem.xcodeproj">
+               BuildableName = "eSteemTests.xctest"
+               BlueprintName = "eSteemTests"
+               ReferencedContainer = "container:eSteem.xcodeproj">
             </BuildableReference>
          </BuildActionEntry>
       </BuildActionEntries>
@@ -61,9 +61,9 @@
             <BuildableReference
                BuildableIdentifier = "primary"
                BlueprintIdentifier = "00E356ED1AD99517003FC87E"
-               BuildableName = "esteemTests.xctest"
-               BlueprintName = "esteemTests"
-               ReferencedContainer = "container:esteem.xcodeproj">
+               BuildableName = "eSteemTests.xctest"
+               BlueprintName = "eSteemTests"
+               ReferencedContainer = "container:eSteem.xcodeproj">
             </BuildableReference>
          </TestableReference>
       </Testables>
@@ -71,9 +71,9 @@
          <BuildableReference
             BuildableIdentifier = "primary"
             BlueprintIdentifier = "13B07F861A680F5B00A75B9A"
-            BuildableName = "esteem.app"
-            BlueprintName = "esteem"
-            ReferencedContainer = "container:esteem.xcodeproj">
+            BuildableName = "eSteem.app"
+            BlueprintName = "eSteem"
+            ReferencedContainer = "container:eSteem.xcodeproj">
          </BuildableReference>
       </MacroExpansion>
       <AdditionalOptions>
@@ -94,9 +94,9 @@
          <BuildableReference
             BuildableIdentifier = "primary"
             BlueprintIdentifier = "13B07F861A680F5B00A75B9A"
-            BuildableName = "esteem.app"
-            BlueprintName = "esteem"
-            ReferencedContainer = "container:esteem.xcodeproj">
+            BuildableName = "eSteem.app"
+            BlueprintName = "eSteem"
+            ReferencedContainer = "container:eSteem.xcodeproj">
          </BuildableReference>
       </BuildableProductRunnable>
       <AdditionalOptions>
@@ -113,9 +113,9 @@
          <BuildableReference
             BuildableIdentifier = "primary"
             BlueprintIdentifier = "13B07F861A680F5B00A75B9A"
-            BuildableName = "esteem.app"
-            BlueprintName = "esteem"
-            ReferencedContainer = "container:esteem.xcodeproj">
+            BuildableName = "eSteem.app"
+            BlueprintName = "eSteem"
+            ReferencedContainer = "container:eSteem.xcodeproj">
          </BuildableReference>
       </BuildableProductRunnable>
    </ProfileAction>
