@@ -1,17 +1,17 @@
-package com.esteem;
+package app.esteem.mobile;
 
 import android.app.Application;
 
 import com.facebook.react.ReactApplication;
+import io.realm.react.RealmReactPackage;
+import com.oblador.vectoricons.VectorIconsPackage;
+import com.avishayil.rnrestart.ReactNativeRestartPackage;
+import com.BV.LinearGradient.LinearGradientPackage;
+import com.dylanvann.fastimage.FastImageViewPackage;
+import com.lugg.ReactNativeConfig.ReactNativeConfigPackage;
 import com.microsoft.appcenter.reactnative.crashes.AppCenterReactNativeCrashesPackage;
 import com.microsoft.appcenter.reactnative.analytics.AppCenterReactNativeAnalyticsPackage;
 import com.microsoft.appcenter.reactnative.appcenter.AppCenterReactNativePackage;
-import com.lugg.ReactNativeConfig.ReactNativeConfigPackage;
-import com.oblador.vectoricons.VectorIconsPackage;
-import com.dylanvann.fastimage.FastImageViewPackage;
-import io.realm.react.RealmReactPackage;
-import com.avishayil.rnrestart.ReactNativeRestartPackage;
-import com.BV.LinearGradient.LinearGradientPackage;
 import com.facebook.react.ReactNativeHost;
 import com.facebook.react.ReactPackage;
 import com.facebook.react.shell.MainReactPackage;
@@ -32,15 +32,15 @@ public class MainApplication extends Application implements ReactApplication {
     protected List<ReactPackage> getPackages() {
       return Arrays.<ReactPackage>asList(
           new MainReactPackage(),
+            new RealmReactPackage(),
+            new VectorIconsPackage(),
+            new ReactNativeRestartPackage(),
+            new LinearGradientPackage(),
+            new FastImageViewPackage(),
+            new ReactNativeConfigPackage(),
             new AppCenterReactNativeCrashesPackage(MainApplication.this, getResources().getString(R.string.appCenterCrashes_whenToSendCrashes)),
             new AppCenterReactNativeAnalyticsPackage(MainApplication.this, getResources().getString(R.string.appCenterAnalytics_whenToEnableAnalytics)),
-            new AppCenterReactNativePackage(MainApplication.this),
-            new ReactNativeConfigPackage(),
-            new VectorIconsPackage(),
-            new FastImageViewPackage(),
-            new RealmReactPackage(),
-            new ReactNativeRestartPackage(),
-            new LinearGradientPackage()
+            new AppCenterReactNativePackage(MainApplication.this)
       );
     }
 

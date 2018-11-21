@@ -6,7 +6,7 @@ import { connect } from 'react-redux';
 import { openPinCodeModal } from '../../../redux/actions/applicationActions';
 
 // Components
-import { Modal } from '../../../components';
+import { Modal, Search } from '../../../components';
 import { PinCode } from '../..';
 
 // Constants
@@ -82,6 +82,7 @@ const RootContainer = () => (WrappedComponent) => {
               navigation={navigation}
             />
           </Modal>
+          <Search></Search>
           <WrappedComponent
             {...this.props}
             {...wrappedComponentStates}

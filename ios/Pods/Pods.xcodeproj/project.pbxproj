@@ -7,92 +7,92 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
-		5412A4B77FA52274971BA7F34427B2B8 /* Pods-esteem-dummy.m in Sources */ = {isa = PBXBuildFile; fileRef = 69296175EDF82EAD6F960844734658FD /* Pods-esteem-dummy.m */; };
-		81F6A7B1CC6242CBDF6B67857B60B097 /* Pods-esteemTests-dummy.m in Sources */ = {isa = PBXBuildFile; fileRef = 3C576D2F585590AFCF1D438C5BE707B3 /* Pods-esteemTests-dummy.m */; };
-		E963D7D9D6AF1F434C726A2DDB79A737 /* Pods-esteem-tvOSTests-dummy.m in Sources */ = {isa = PBXBuildFile; fileRef = 206BF2822A0B0FCFD35628681E33244E /* Pods-esteem-tvOSTests-dummy.m */; };
-		F6063A6B01075E0AEADF130436DFAB62 /* Pods-esteem-tvOS-dummy.m in Sources */ = {isa = PBXBuildFile; fileRef = 7A30C7FF67F878144E64804A439E41BA /* Pods-esteem-tvOS-dummy.m */; };
+		6C3317EF48D3D82CD2140F6AC5F22949 /* Pods-eSteem-tvOSTests-dummy.m in Sources */ = {isa = PBXBuildFile; fileRef = 4EEA414169EFC175474784C92A46BD71 /* Pods-eSteem-tvOSTests-dummy.m */; };
+		98228C7FF2CD1991278A78CE4F58C8C3 /* Pods-eSteem-tvOS-dummy.m in Sources */ = {isa = PBXBuildFile; fileRef = E58FF683C0ED927828E067F0EC271B8D /* Pods-eSteem-tvOS-dummy.m */; };
+		A22C4A2475B2949B4A488DCF70A55DB3 /* Pods-eSteem-dummy.m in Sources */ = {isa = PBXBuildFile; fileRef = 47715BC063F1FFE728923989E1F01E7A /* Pods-eSteem-dummy.m */; };
+		A22F7249AD5CC8B2C3CF6CC6079E14EC /* Pods-eSteemTests-dummy.m in Sources */ = {isa = PBXBuildFile; fileRef = 9D3D6EC77E12D73F78D7C817A87B320E /* Pods-eSteemTests-dummy.m */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
-		053DF35B375D32169CD871659EE16A6B /* PBXContainerItemProxy */ = {
+		1D92A6DC562530D45A2343C8485C4AB6 /* PBXContainerItemProxy */ = {
 			isa = PBXContainerItemProxy;
 			containerPortal = D41D8CD98F00B204E9800998ECF8427E /* Project object */;
 			proxyType = 1;
-			remoteGlobalIDString = 48062E27601D6CE5A388ED8F72D83808;
-			remoteInfo = "Pods-esteem-tvOS";
+			remoteGlobalIDString = 4407E9DE75693546FDC67E9B2B0469EE;
+			remoteInfo = "Pods-eSteem-tvOS";
 		};
-		ACB16CADD6FC61C56D929A575336BA0C /* PBXContainerItemProxy */ = {
+		1ED6DF81891CB515B0F435343C40BDE0 /* PBXContainerItemProxy */ = {
 			isa = PBXContainerItemProxy;
 			containerPortal = D41D8CD98F00B204E9800998ECF8427E /* Project object */;
 			proxyType = 1;
-			remoteGlobalIDString = 0680D60A3BABB89B8A62DD35C7836F14;
-			remoteInfo = "Pods-esteem";
+			remoteGlobalIDString = B742365A0083F81D82368963F00AA025;
+			remoteInfo = "Pods-eSteem";
 		};
 /* End PBXContainerItemProxy section */
 
 /* Begin PBXFileReference section */
-		06981195BDFC2152E5DB2D2E57739E8D /* Pods-esteem-tvOSTests-acknowledgements.markdown */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text; path = "Pods-esteem-tvOSTests-acknowledgements.markdown"; sourceTree = "<group>"; };
-		0F01825A0F13C257E87E28C17DDC11B6 /* Pods-esteemTests-acknowledgements.markdown */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text; path = "Pods-esteemTests-acknowledgements.markdown"; sourceTree = "<group>"; };
-		16F4B203ABF8442254D2BEEC1CA7FEA6 /* Pods-esteem-tvOSTests-frameworks.sh */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.script.sh; path = "Pods-esteem-tvOSTests-frameworks.sh"; sourceTree = "<group>"; };
-		176469ACC1E2AD6DAF8E48A8A500A393 /* Pods-esteem-tvOS.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; path = "Pods-esteem-tvOS.debug.xcconfig"; sourceTree = "<group>"; };
-		1E628079F68C27731EBC10C59B642F66 /* Pods-esteemTests.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; path = "Pods-esteemTests.debug.xcconfig"; sourceTree = "<group>"; };
+		066435CC9B86BA7811363CBB0836D61B /* Pods-eSteem-tvOS-resources.sh */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.script.sh; path = "Pods-eSteem-tvOS-resources.sh"; sourceTree = "<group>"; };
+		0963737890AB2006BBA956A1C7F2783F /* Pods-eSteem-resources.sh */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.script.sh; path = "Pods-eSteem-resources.sh"; sourceTree = "<group>"; };
+		11B7830C038A9A6E935E236EC1A39573 /* Pods-eSteem-tvOS-frameworks.sh */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.script.sh; path = "Pods-eSteem-tvOS-frameworks.sh"; sourceTree = "<group>"; };
 		1FF8CBE3D70C3B5EE02BF7F1402952A2 /* AppCenterCrashes.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = AppCenterCrashes.framework; path = "AppCenter-SDK-Apple/iOS/AppCenterCrashes.framework"; sourceTree = "<group>"; };
-		206BF2822A0B0FCFD35628681E33244E /* Pods-esteem-tvOSTests-dummy.m */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.c.objc; path = "Pods-esteem-tvOSTests-dummy.m"; sourceTree = "<group>"; };
-		221F9035C9893677BE700E86D8F40782 /* libPods-esteem.a */ = {isa = PBXFileReference; explicitFileType = archive.ar; includeInIndex = 0; name = "libPods-esteem.a"; path = "libPods-esteem.a"; sourceTree = BUILT_PRODUCTS_DIR; };
+		20E56B7A83B58484E34D301DB9B586B7 /* Pods-eSteem-tvOS-acknowledgements.plist */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.plist.xml; path = "Pods-eSteem-tvOS-acknowledgements.plist"; sourceTree = "<group>"; };
+		20F0D27DF3C49C6784F251D8DD42317A /* Pods-eSteem-tvOSTests-acknowledgements.plist */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.plist.xml; path = "Pods-eSteem-tvOSTests-acknowledgements.plist"; sourceTree = "<group>"; };
+		271D9F2BC937D3A280C638F3BCD2B103 /* Pods-eSteem-tvOS.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; path = "Pods-eSteem-tvOS.release.xcconfig"; sourceTree = "<group>"; };
+		2B762D9B8D834CA3DF718DC232B50B05 /* Pods-eSteem-tvOSTests.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; path = "Pods-eSteem-tvOSTests.release.xcconfig"; sourceTree = "<group>"; };
 		2E280B58529AEBA76B5F11C0705D0856 /* AppCenterReactNativeShared.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = AppCenterReactNativeShared.framework; path = AppCenterReactNativeShared/AppCenterReactNativeShared.framework; sourceTree = "<group>"; };
-		355AD30AD79BC7A27FD47C8446F5EA3C /* Pods-esteemTests-resources.sh */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.script.sh; path = "Pods-esteemTests-resources.sh"; sourceTree = "<group>"; };
-		3C576D2F585590AFCF1D438C5BE707B3 /* Pods-esteemTests-dummy.m */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.c.objc; path = "Pods-esteemTests-dummy.m"; sourceTree = "<group>"; };
-		40B9192470E9665955334A952711595D /* Pods-esteem.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; path = "Pods-esteem.release.xcconfig"; sourceTree = "<group>"; };
-		455E5B5FBECE88E2EEA4B3BB4F804372 /* Pods-esteem-resources.sh */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.script.sh; path = "Pods-esteem-resources.sh"; sourceTree = "<group>"; };
-		4DA08D214249D8682F60A7096F619511 /* Pods-esteem-frameworks.sh */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.script.sh; path = "Pods-esteem-frameworks.sh"; sourceTree = "<group>"; };
-		5854DE5A96D64F64F4C47B62CC2DA02B /* Pods-esteem-tvOS-frameworks.sh */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.script.sh; path = "Pods-esteem-tvOS-frameworks.sh"; sourceTree = "<group>"; };
-		5E5C5D1C88716A28A485D3BCE279F7A0 /* Pods-esteem-acknowledgements.plist */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.plist.xml; path = "Pods-esteem-acknowledgements.plist"; sourceTree = "<group>"; };
-		69296175EDF82EAD6F960844734658FD /* Pods-esteem-dummy.m */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.c.objc; path = "Pods-esteem-dummy.m"; sourceTree = "<group>"; };
+		33704C973A6F6EE73B2297037F24DF74 /* Pods-eSteem-tvOSTests.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; path = "Pods-eSteem-tvOSTests.debug.xcconfig"; sourceTree = "<group>"; };
+		33AEC85CA9A8ADEA1C2C69E6AAB3F68B /* Pods-eSteemTests.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; path = "Pods-eSteemTests.debug.xcconfig"; sourceTree = "<group>"; };
+		473DB89D1567D36212E2E4982203CD29 /* Pods-eSteem-acknowledgements.plist */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.plist.xml; path = "Pods-eSteem-acknowledgements.plist"; sourceTree = "<group>"; };
+		47715BC063F1FFE728923989E1F01E7A /* Pods-eSteem-dummy.m */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.c.objc; path = "Pods-eSteem-dummy.m"; sourceTree = "<group>"; };
+		4B3AFE15844C9561DD3BBC6C094FA01D /* Pods-eSteemTests-acknowledgements.plist */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.plist.xml; path = "Pods-eSteemTests-acknowledgements.plist"; sourceTree = "<group>"; };
+		4C524684ABB6311D1D56DD6AC1A8EA32 /* Pods-eSteem.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; path = "Pods-eSteem.release.xcconfig"; sourceTree = "<group>"; };
+		4EEA414169EFC175474784C92A46BD71 /* Pods-eSteem-tvOSTests-dummy.m */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.c.objc; path = "Pods-eSteem-tvOSTests-dummy.m"; sourceTree = "<group>"; };
+		5E18DFD1D43A7EC02C8D28361B2C98ED /* Pods-eSteemTests-frameworks.sh */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.script.sh; path = "Pods-eSteemTests-frameworks.sh"; sourceTree = "<group>"; };
+		5E93372C41A53BB92652564AEF41DDD1 /* Pods-eSteem-tvOS.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; path = "Pods-eSteem-tvOS.debug.xcconfig"; sourceTree = "<group>"; };
+		630B27BE938D946CBFE983016BA970BC /* libPods-eSteemTests.a */ = {isa = PBXFileReference; explicitFileType = archive.ar; includeInIndex = 0; name = "libPods-eSteemTests.a"; path = "libPods-eSteemTests.a"; sourceTree = BUILT_PRODUCTS_DIR; };
+		6504EE350E4401AC258042025533DEDE /* Pods-eSteem-acknowledgements.markdown */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text; path = "Pods-eSteem-acknowledgements.markdown"; sourceTree = "<group>"; };
 		697057EB6F6A315777E7EA941A2AAF3B /* AppCenterAnalytics.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = AppCenterAnalytics.framework; path = "AppCenter-SDK-Apple/iOS/AppCenterAnalytics.framework"; sourceTree = "<group>"; };
-		6BF3399D82ED5E99CB7AB3B481C8B18F /* Pods-esteemTests.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; path = "Pods-esteemTests.release.xcconfig"; sourceTree = "<group>"; };
-		7004AC5A65328F37F5BC070AE2795B54 /* Pods-esteem-acknowledgements.markdown */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text; path = "Pods-esteem-acknowledgements.markdown"; sourceTree = "<group>"; };
-		7709FB9024B0735D9B5BD97C60BB8EBC /* libPods-esteemTests.a */ = {isa = PBXFileReference; explicitFileType = archive.ar; includeInIndex = 0; name = "libPods-esteemTests.a"; path = "libPods-esteemTests.a"; sourceTree = BUILT_PRODUCTS_DIR; };
-		7A30C7FF67F878144E64804A439E41BA /* Pods-esteem-tvOS-dummy.m */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.c.objc; path = "Pods-esteem-tvOS-dummy.m"; sourceTree = "<group>"; };
-		7D05BA52B383CE72C01740A3FF672ECF /* Pods-esteem.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; path = "Pods-esteem.debug.xcconfig"; sourceTree = "<group>"; };
-		7DA14BADE1CB3324BF09F16AE1CF6313 /* libPods-esteem-tvOS.a */ = {isa = PBXFileReference; explicitFileType = archive.ar; includeInIndex = 0; name = "libPods-esteem-tvOS.a"; path = "libPods-esteem-tvOS.a"; sourceTree = BUILT_PRODUCTS_DIR; };
-		89B2279DAEEF422B96C00ED5BFD99F5A /* Pods-esteem-tvOS.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; path = "Pods-esteem-tvOS.release.xcconfig"; sourceTree = "<group>"; };
-		8B5D2146B8E73FC2D3B829F7F46BA292 /* libPods-esteem-tvOSTests.a */ = {isa = PBXFileReference; explicitFileType = archive.ar; includeInIndex = 0; name = "libPods-esteem-tvOSTests.a"; path = "libPods-esteem-tvOSTests.a"; sourceTree = BUILT_PRODUCTS_DIR; };
+		6AA3C309B512B511AA7F5BF3C138F411 /* Pods-eSteemTests.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; path = "Pods-eSteemTests.release.xcconfig"; sourceTree = "<group>"; };
 		93A4A3777CF96A4AAC1D13BA6DCCEA73 /* Podfile */ = {isa = PBXFileReference; explicitFileType = text.script.ruby; includeInIndex = 1; lastKnownFileType = text; name = Podfile; path = ../Podfile; sourceTree = SOURCE_ROOT; xcLanguageSpecificationIdentifier = xcode.lang.ruby; };
-		A2CDE57180CA6A278E24BCB92F52C7D4 /* Pods-esteem-tvOS-resources.sh */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.script.sh; path = "Pods-esteem-tvOS-resources.sh"; sourceTree = "<group>"; };
-		B890CF0EE7AE403B3614C6B0945A5C04 /* Pods-esteem-tvOS-acknowledgements.markdown */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text; path = "Pods-esteem-tvOS-acknowledgements.markdown"; sourceTree = "<group>"; };
-		CDE9FA5B289A8103616DA7447D6E99C3 /* Pods-esteemTests-frameworks.sh */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.script.sh; path = "Pods-esteemTests-frameworks.sh"; sourceTree = "<group>"; };
-		D3A7F084AC2EEB0A464072D4C85885CC /* Pods-esteem-tvOSTests.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; path = "Pods-esteem-tvOSTests.release.xcconfig"; sourceTree = "<group>"; };
+		9577BBCF7B09BB8E32787163CF706A56 /* Pods-eSteem.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; path = "Pods-eSteem.debug.xcconfig"; sourceTree = "<group>"; };
+		9D34C37092A78B64E0008619B9740A5E /* libPods-eSteem-tvOS.a */ = {isa = PBXFileReference; explicitFileType = archive.ar; includeInIndex = 0; name = "libPods-eSteem-tvOS.a"; path = "libPods-eSteem-tvOS.a"; sourceTree = BUILT_PRODUCTS_DIR; };
+		9D3D6EC77E12D73F78D7C817A87B320E /* Pods-eSteemTests-dummy.m */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.c.objc; path = "Pods-eSteemTests-dummy.m"; sourceTree = "<group>"; };
+		A5E5047109EBB60B9F32913A0ED02812 /* Pods-eSteemTests-resources.sh */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.script.sh; path = "Pods-eSteemTests-resources.sh"; sourceTree = "<group>"; };
+		BBAE3EA3FECDEF11A77B5147DAB9D176 /* Pods-eSteem-tvOS-acknowledgements.markdown */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text; path = "Pods-eSteem-tvOS-acknowledgements.markdown"; sourceTree = "<group>"; };
+		BFB2316DD0FC4BDEFA3756FF1EF4FA58 /* libPods-eSteem.a */ = {isa = PBXFileReference; explicitFileType = archive.ar; includeInIndex = 0; name = "libPods-eSteem.a"; path = "libPods-eSteem.a"; sourceTree = BUILT_PRODUCTS_DIR; };
+		CBF341FE1A70313E622B8061697BB1E9 /* Pods-eSteem-frameworks.sh */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.script.sh; path = "Pods-eSteem-frameworks.sh"; sourceTree = "<group>"; };
+		DC414E64E6C8CB14CC6A7EF05EAE4A9C /* libPods-eSteem-tvOSTests.a */ = {isa = PBXFileReference; explicitFileType = archive.ar; includeInIndex = 0; name = "libPods-eSteem-tvOSTests.a"; path = "libPods-eSteem-tvOSTests.a"; sourceTree = BUILT_PRODUCTS_DIR; };
 		DC65AFFB7964130E42157D207BE3A6DE /* AppCenter.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = AppCenter.framework; path = "AppCenter-SDK-Apple/iOS/AppCenter.framework"; sourceTree = "<group>"; };
-		E021968C103F8434CA5F517549398488 /* Pods-esteem-tvOSTests.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; path = "Pods-esteem-tvOSTests.debug.xcconfig"; sourceTree = "<group>"; };
-		E0C6629A4BC47CE40F8544FF8EF3F8A1 /* Pods-esteem-tvOSTests-resources.sh */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.script.sh; path = "Pods-esteem-tvOSTests-resources.sh"; sourceTree = "<group>"; };
-		E49C13028A83FA111489949D64EBA6BA /* Pods-esteem-tvOSTests-acknowledgements.plist */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.plist.xml; path = "Pods-esteem-tvOSTests-acknowledgements.plist"; sourceTree = "<group>"; };
-		E8E6261BE2626C65693E3BA1FFEC7C9E /* Pods-esteem-tvOS-acknowledgements.plist */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.plist.xml; path = "Pods-esteem-tvOS-acknowledgements.plist"; sourceTree = "<group>"; };
-		F0F21CF000E37CE1B36D6E7223C67FDB /* Pods-esteemTests-acknowledgements.plist */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.plist.xml; path = "Pods-esteemTests-acknowledgements.plist"; sourceTree = "<group>"; };
+		E58FF683C0ED927828E067F0EC271B8D /* Pods-eSteem-tvOS-dummy.m */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.c.objc; path = "Pods-eSteem-tvOS-dummy.m"; sourceTree = "<group>"; };
+		EFAA225EAB2EBFAB65095DA9C69B1640 /* Pods-eSteem-tvOSTests-acknowledgements.markdown */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text; path = "Pods-eSteem-tvOSTests-acknowledgements.markdown"; sourceTree = "<group>"; };
+		F13685FB2C9CA2317E6C766AEDC27ED4 /* Pods-eSteem-tvOSTests-frameworks.sh */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.script.sh; path = "Pods-eSteem-tvOSTests-frameworks.sh"; sourceTree = "<group>"; };
+		F275668584026EAA8C9A33E85F8EBD1C /* Pods-eSteemTests-acknowledgements.markdown */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text; path = "Pods-eSteemTests-acknowledgements.markdown"; sourceTree = "<group>"; };
+		F3337C85C2075F521482A94F7E7A05CC /* Pods-eSteem-tvOSTests-resources.sh */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.script.sh; path = "Pods-eSteem-tvOSTests-resources.sh"; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
-		1AE6B3D7D59A59CB9D631FCDA8122702 /* Frameworks */ = {
+		32BEAB30EA8E111B4842AAD0447CBAE9 /* Frameworks */ = {
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
-		6093644DD337B125DC820500ED894B91 /* Frameworks */ = {
+		8C03CA1144BD16422CE7D339167B823C /* Frameworks */ = {
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
-		DAEEE96192083FE80E51927F97CBF14E /* Frameworks */ = {
+		96FAF858A23485B27753BF4AAA130B00 /* Frameworks */ = {
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
-		E4868BE3637A7F469F14D104E5BD4EE3 /* Frameworks */ = {
+		E8CB458B72A08FDDDC608946EBBF47DB /* Frameworks */ = {
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
@@ -102,6 +102,17 @@
 /* End PBXFrameworksBuildPhase section */
 
 /* Begin PBXGroup section */
+		0004306DFE2E6F4283232316FFB9CB19 /* Targets Support Files */ = {
+			isa = PBXGroup;
+			children = (
+				5593C7D34FFE238589C515EB9384125B /* Pods-eSteem */,
+				AAE2A1B151087A5FC4D9BDE15F3A013C /* Pods-eSteem-tvOS */,
+				35FE366AC72A2DD0CA44D1F40F8AB8A0 /* Pods-eSteem-tvOSTests */,
+				E9989AD66B2E14BB4007ABBF598E0661 /* Pods-eSteemTests */,
+			);
+			name = "Targets Support Files";
+			sourceTree = "<group>";
+		};
 		0C0416FA3744ECAB6C76E95960896084 /* Frameworks */ = {
 			isa = PBXGroup;
 			children = (
@@ -115,21 +126,6 @@
 			children = (
 			);
 			name = Frameworks;
-			sourceTree = "<group>";
-		};
-		0F9B4B8C7666F51DAC4238F5D010864B /* Pods-esteem-tvOS */ = {
-			isa = PBXGroup;
-			children = (
-				B890CF0EE7AE403B3614C6B0945A5C04 /* Pods-esteem-tvOS-acknowledgements.markdown */,
-				E8E6261BE2626C65693E3BA1FFEC7C9E /* Pods-esteem-tvOS-acknowledgements.plist */,
-				7A30C7FF67F878144E64804A439E41BA /* Pods-esteem-tvOS-dummy.m */,
-				5854DE5A96D64F64F4C47B62CC2DA02B /* Pods-esteem-tvOS-frameworks.sh */,
-				A2CDE57180CA6A278E24BCB92F52C7D4 /* Pods-esteem-tvOS-resources.sh */,
-				176469ACC1E2AD6DAF8E48A8A500A393 /* Pods-esteem-tvOS.debug.xcconfig */,
-				89B2279DAEEF422B96C00ED5BFD99F5A /* Pods-esteem-tvOS.release.xcconfig */,
-			);
-			name = "Pods-esteem-tvOS";
-			path = "Target Support Files/Pods-esteem-tvOS";
 			sourceTree = "<group>";
 		};
 		2299AF501E253B95F2AE1FAD00A3B182 /* Crashes */ = {
@@ -156,19 +152,30 @@
 			name = Core;
 			sourceTree = "<group>";
 		};
-		3F38D094A6D47206D60991F4B9783BE3 /* Pods-esteem-tvOSTests */ = {
+		2ECDC45073564DB8AA03B044DC81224A /* Products */ = {
 			isa = PBXGroup;
 			children = (
-				06981195BDFC2152E5DB2D2E57739E8D /* Pods-esteem-tvOSTests-acknowledgements.markdown */,
-				E49C13028A83FA111489949D64EBA6BA /* Pods-esteem-tvOSTests-acknowledgements.plist */,
-				206BF2822A0B0FCFD35628681E33244E /* Pods-esteem-tvOSTests-dummy.m */,
-				16F4B203ABF8442254D2BEEC1CA7FEA6 /* Pods-esteem-tvOSTests-frameworks.sh */,
-				E0C6629A4BC47CE40F8544FF8EF3F8A1 /* Pods-esteem-tvOSTests-resources.sh */,
-				E021968C103F8434CA5F517549398488 /* Pods-esteem-tvOSTests.debug.xcconfig */,
-				D3A7F084AC2EEB0A464072D4C85885CC /* Pods-esteem-tvOSTests.release.xcconfig */,
+				BFB2316DD0FC4BDEFA3756FF1EF4FA58 /* libPods-eSteem.a */,
+				9D34C37092A78B64E0008619B9740A5E /* libPods-eSteem-tvOS.a */,
+				DC414E64E6C8CB14CC6A7EF05EAE4A9C /* libPods-eSteem-tvOSTests.a */,
+				630B27BE938D946CBFE983016BA970BC /* libPods-eSteemTests.a */,
 			);
-			name = "Pods-esteem-tvOSTests";
-			path = "Target Support Files/Pods-esteem-tvOSTests";
+			name = Products;
+			sourceTree = "<group>";
+		};
+		35FE366AC72A2DD0CA44D1F40F8AB8A0 /* Pods-eSteem-tvOSTests */ = {
+			isa = PBXGroup;
+			children = (
+				EFAA225EAB2EBFAB65095DA9C69B1640 /* Pods-eSteem-tvOSTests-acknowledgements.markdown */,
+				20F0D27DF3C49C6784F251D8DD42317A /* Pods-eSteem-tvOSTests-acknowledgements.plist */,
+				4EEA414169EFC175474784C92A46BD71 /* Pods-eSteem-tvOSTests-dummy.m */,
+				F13685FB2C9CA2317E6C766AEDC27ED4 /* Pods-eSteem-tvOSTests-frameworks.sh */,
+				F3337C85C2075F521482A94F7E7A05CC /* Pods-eSteem-tvOSTests-resources.sh */,
+				33704C973A6F6EE73B2297037F24DF74 /* Pods-eSteem-tvOSTests.debug.xcconfig */,
+				2B762D9B8D834CA3DF718DC232B50B05 /* Pods-eSteem-tvOSTests.release.xcconfig */,
+			);
+			name = "Pods-eSteem-tvOSTests";
+			path = "Target Support Files/Pods-eSteem-tvOSTests";
 			sourceTree = "<group>";
 		};
 		4789B2888C9F3A64D9BB98A64504484B /* Frameworks */ = {
@@ -179,45 +186,19 @@
 			name = Frameworks;
 			sourceTree = "<group>";
 		};
-		51A45DF4751E0A989F0B3BB1CBDB9AE1 /* Pods-esteemTests */ = {
+		5593C7D34FFE238589C515EB9384125B /* Pods-eSteem */ = {
 			isa = PBXGroup;
 			children = (
-				0F01825A0F13C257E87E28C17DDC11B6 /* Pods-esteemTests-acknowledgements.markdown */,
-				F0F21CF000E37CE1B36D6E7223C67FDB /* Pods-esteemTests-acknowledgements.plist */,
-				3C576D2F585590AFCF1D438C5BE707B3 /* Pods-esteemTests-dummy.m */,
-				CDE9FA5B289A8103616DA7447D6E99C3 /* Pods-esteemTests-frameworks.sh */,
-				355AD30AD79BC7A27FD47C8446F5EA3C /* Pods-esteemTests-resources.sh */,
-				1E628079F68C27731EBC10C59B642F66 /* Pods-esteemTests.debug.xcconfig */,
-				6BF3399D82ED5E99CB7AB3B481C8B18F /* Pods-esteemTests.release.xcconfig */,
+				6504EE350E4401AC258042025533DEDE /* Pods-eSteem-acknowledgements.markdown */,
+				473DB89D1567D36212E2E4982203CD29 /* Pods-eSteem-acknowledgements.plist */,
+				47715BC063F1FFE728923989E1F01E7A /* Pods-eSteem-dummy.m */,
+				CBF341FE1A70313E622B8061697BB1E9 /* Pods-eSteem-frameworks.sh */,
+				0963737890AB2006BBA956A1C7F2783F /* Pods-eSteem-resources.sh */,
+				9577BBCF7B09BB8E32787163CF706A56 /* Pods-eSteem.debug.xcconfig */,
+				4C524684ABB6311D1D56DD6AC1A8EA32 /* Pods-eSteem.release.xcconfig */,
 			);
-			name = "Pods-esteemTests";
-			path = "Target Support Files/Pods-esteemTests";
-			sourceTree = "<group>";
-		};
-		6AC3CD1C18A8A0EF9D76B4C65E0B4A74 /* Pods-esteem */ = {
-			isa = PBXGroup;
-			children = (
-				7004AC5A65328F37F5BC070AE2795B54 /* Pods-esteem-acknowledgements.markdown */,
-				5E5C5D1C88716A28A485D3BCE279F7A0 /* Pods-esteem-acknowledgements.plist */,
-				69296175EDF82EAD6F960844734658FD /* Pods-esteem-dummy.m */,
-				4DA08D214249D8682F60A7096F619511 /* Pods-esteem-frameworks.sh */,
-				455E5B5FBECE88E2EEA4B3BB4F804372 /* Pods-esteem-resources.sh */,
-				7D05BA52B383CE72C01740A3FF672ECF /* Pods-esteem.debug.xcconfig */,
-				40B9192470E9665955334A952711595D /* Pods-esteem.release.xcconfig */,
-			);
-			name = "Pods-esteem";
-			path = "Target Support Files/Pods-esteem";
-			sourceTree = "<group>";
-		};
-		70790BE9DBFB72E1BA377416E2DFD352 /* Targets Support Files */ = {
-			isa = PBXGroup;
-			children = (
-				6AC3CD1C18A8A0EF9D76B4C65E0B4A74 /* Pods-esteem */,
-				0F9B4B8C7666F51DAC4238F5D010864B /* Pods-esteem-tvOS */,
-				3F38D094A6D47206D60991F4B9783BE3 /* Pods-esteem-tvOSTests */,
-				51A45DF4751E0A989F0B3BB1CBDB9AE1 /* Pods-esteemTests */,
-			);
-			name = "Targets Support Files";
+			name = "Pods-eSteem";
+			path = "Target Support Files/Pods-eSteem";
 			sourceTree = "<group>";
 		};
 		7DB346D0F39D3F0E887471402A8071AB = {
@@ -226,8 +207,8 @@
 				93A4A3777CF96A4AAC1D13BA6DCCEA73 /* Podfile */,
 				0F8D2E47FE03D3B91B51069F7C273AF4 /* Frameworks */,
 				B1C0FD4C526B54B6F7B5EA76C32A7B4C /* Pods */,
-				960F5D08CA24E3B99AB0365374000442 /* Products */,
-				70790BE9DBFB72E1BA377416E2DFD352 /* Targets Support Files */,
+				2ECDC45073564DB8AA03B044DC81224A /* Products */,
+				0004306DFE2E6F4283232316FFB9CB19 /* Targets Support Files */,
 			);
 			sourceTree = "<group>";
 		};
@@ -239,15 +220,19 @@
 			name = Frameworks;
 			sourceTree = "<group>";
 		};
-		960F5D08CA24E3B99AB0365374000442 /* Products */ = {
+		AAE2A1B151087A5FC4D9BDE15F3A013C /* Pods-eSteem-tvOS */ = {
 			isa = PBXGroup;
 			children = (
-				221F9035C9893677BE700E86D8F40782 /* libPods-esteem.a */,
-				7DA14BADE1CB3324BF09F16AE1CF6313 /* libPods-esteem-tvOS.a */,
-				8B5D2146B8E73FC2D3B829F7F46BA292 /* libPods-esteem-tvOSTests.a */,
-				7709FB9024B0735D9B5BD97C60BB8EBC /* libPods-esteemTests.a */,
+				BBAE3EA3FECDEF11A77B5147DAB9D176 /* Pods-eSteem-tvOS-acknowledgements.markdown */,
+				20E56B7A83B58484E34D301DB9B586B7 /* Pods-eSteem-tvOS-acknowledgements.plist */,
+				E58FF683C0ED927828E067F0EC271B8D /* Pods-eSteem-tvOS-dummy.m */,
+				11B7830C038A9A6E935E236EC1A39573 /* Pods-eSteem-tvOS-frameworks.sh */,
+				066435CC9B86BA7811363CBB0836D61B /* Pods-eSteem-tvOS-resources.sh */,
+				5E93372C41A53BB92652564AEF41DDD1 /* Pods-eSteem-tvOS.debug.xcconfig */,
+				271D9F2BC937D3A280C638F3BCD2B103 /* Pods-eSteem-tvOS.release.xcconfig */,
 			);
-			name = Products;
+			name = "Pods-eSteem-tvOS";
+			path = "Target Support Files/Pods-eSteem-tvOS";
 			sourceTree = "<group>";
 		};
 		B1C0FD4C526B54B6F7B5EA76C32A7B4C /* Pods */ = {
@@ -270,6 +255,21 @@
 			path = AppCenter;
 			sourceTree = "<group>";
 		};
+		E9989AD66B2E14BB4007ABBF598E0661 /* Pods-eSteemTests */ = {
+			isa = PBXGroup;
+			children = (
+				F275668584026EAA8C9A33E85F8EBD1C /* Pods-eSteemTests-acknowledgements.markdown */,
+				4B3AFE15844C9561DD3BBC6C094FA01D /* Pods-eSteemTests-acknowledgements.plist */,
+				9D3D6EC77E12D73F78D7C817A87B320E /* Pods-eSteemTests-dummy.m */,
+				5E18DFD1D43A7EC02C8D28361B2C98ED /* Pods-eSteemTests-frameworks.sh */,
+				A5E5047109EBB60B9F32913A0ED02812 /* Pods-eSteemTests-resources.sh */,
+				33AEC85CA9A8ADEA1C2C69E6AAB3F68B /* Pods-eSteemTests.debug.xcconfig */,
+				6AA3C309B512B511AA7F5BF3C138F411 /* Pods-eSteemTests.release.xcconfig */,
+			);
+			name = "Pods-eSteemTests";
+			path = "Target Support Files/Pods-eSteemTests";
+			sourceTree = "<group>";
+		};
 		F84ACEF4E4D3666C3A595115D01D3868 /* Frameworks */ = {
 			isa = PBXGroup;
 			children = (
@@ -290,70 +290,70 @@
 /* End PBXGroup section */
 
 /* Begin PBXNativeTarget section */
-		0680D60A3BABB89B8A62DD35C7836F14 /* Pods-esteem */ = {
+		3955FB18B6DD72048648BB619BFDF3E6 /* Pods-eSteem-tvOSTests */ = {
 			isa = PBXNativeTarget;
-			buildConfigurationList = 9AFFAD9605508055B1E326DD9A8AE7A5 /* Build configuration list for PBXNativeTarget "Pods-esteem" */;
+			buildConfigurationList = 6B85ABE9BFEB740F86E4D452865F252B /* Build configuration list for PBXNativeTarget "Pods-eSteem-tvOSTests" */;
 			buildPhases = (
-				CE26E72EBD96129D9FBCB51452133BDD /* Sources */,
-				6093644DD337B125DC820500ED894B91 /* Frameworks */,
+				1DA443F40242651D5D3868A8DCFD8EAF /* Sources */,
+				32BEAB30EA8E111B4842AAD0447CBAE9 /* Frameworks */,
 			);
 			buildRules = (
 			);
 			dependencies = (
+				90EC72120398638F702003FAF00F9C61 /* PBXTargetDependency */,
 			);
-			name = "Pods-esteem";
-			productName = "Pods-esteem";
-			productReference = 221F9035C9893677BE700E86D8F40782 /* libPods-esteem.a */;
+			name = "Pods-eSteem-tvOSTests";
+			productName = "Pods-eSteem-tvOSTests";
+			productReference = DC414E64E6C8CB14CC6A7EF05EAE4A9C /* libPods-eSteem-tvOSTests.a */;
 			productType = "com.apple.product-type.library.static";
 		};
-		2DB3AC7B5477C7493D01822DF5AD7A80 /* Pods-esteemTests */ = {
+		4407E9DE75693546FDC67E9B2B0469EE /* Pods-eSteem-tvOS */ = {
 			isa = PBXNativeTarget;
-			buildConfigurationList = 72C3DC6B3EA1492A83F474C1C94595ED /* Build configuration list for PBXNativeTarget "Pods-esteemTests" */;
+			buildConfigurationList = 50BA65972CE2D9406ED019F6F6A86F14 /* Build configuration list for PBXNativeTarget "Pods-eSteem-tvOS" */;
 			buildPhases = (
-				BDC2797ACDD1AE90BB88C19671CBC43B /* Sources */,
-				1AE6B3D7D59A59CB9D631FCDA8122702 /* Frameworks */,
+				AF5150792DC77F028FAF746B0D9811F2 /* Sources */,
+				96FAF858A23485B27753BF4AAA130B00 /* Frameworks */,
 			);
 			buildRules = (
 			);
 			dependencies = (
-				3602CC10BA2A942296A568AAF85F5094 /* PBXTargetDependency */,
 			);
-			name = "Pods-esteemTests";
-			productName = "Pods-esteemTests";
-			productReference = 7709FB9024B0735D9B5BD97C60BB8EBC /* libPods-esteemTests.a */;
+			name = "Pods-eSteem-tvOS";
+			productName = "Pods-eSteem-tvOS";
+			productReference = 9D34C37092A78B64E0008619B9740A5E /* libPods-eSteem-tvOS.a */;
 			productType = "com.apple.product-type.library.static";
 		};
-		48062E27601D6CE5A388ED8F72D83808 /* Pods-esteem-tvOS */ = {
+		B742365A0083F81D82368963F00AA025 /* Pods-eSteem */ = {
 			isa = PBXNativeTarget;
-			buildConfigurationList = 101F739A6A6D6F541E56F067BF1A7650 /* Build configuration list for PBXNativeTarget "Pods-esteem-tvOS" */;
+			buildConfigurationList = 84D3409B71A4AC173A47EF0E21287BE8 /* Build configuration list for PBXNativeTarget "Pods-eSteem" */;
 			buildPhases = (
-				32F470E280DDB7229EC6B010B4ED0F82 /* Sources */,
-				DAEEE96192083FE80E51927F97CBF14E /* Frameworks */,
+				BD9A1E8287AA367322429BF49C9A8B0E /* Sources */,
+				E8CB458B72A08FDDDC608946EBBF47DB /* Frameworks */,
 			);
 			buildRules = (
 			);
 			dependencies = (
 			);
-			name = "Pods-esteem-tvOS";
-			productName = "Pods-esteem-tvOS";
-			productReference = 7DA14BADE1CB3324BF09F16AE1CF6313 /* libPods-esteem-tvOS.a */;
+			name = "Pods-eSteem";
+			productName = "Pods-eSteem";
+			productReference = BFB2316DD0FC4BDEFA3756FF1EF4FA58 /* libPods-eSteem.a */;
 			productType = "com.apple.product-type.library.static";
 		};
-		EF2AF3740BC4A78053AC0F6C867CC7DF /* Pods-esteem-tvOSTests */ = {
+		CCF6D1E35B7D0DA73FBB9A15F7773724 /* Pods-eSteemTests */ = {
 			isa = PBXNativeTarget;
-			buildConfigurationList = 0BEF53AC116913C70E5068B3822B59A7 /* Build configuration list for PBXNativeTarget "Pods-esteem-tvOSTests" */;
+			buildConfigurationList = AEDF1E7E7EB78A19EDB6AC2A6AD34E5D /* Build configuration list for PBXNativeTarget "Pods-eSteemTests" */;
 			buildPhases = (
-				B272B2714D5E4BE73DAFF87A19F1C498 /* Sources */,
-				E4868BE3637A7F469F14D104E5BD4EE3 /* Frameworks */,
+				F8666B8672CF13EC793E106A9AC70A95 /* Sources */,
+				8C03CA1144BD16422CE7D339167B823C /* Frameworks */,
 			);
 			buildRules = (
 			);
 			dependencies = (
-				BE7FDEA74A5937652F9DA1B8EA0BF8FA /* PBXTargetDependency */,
+				62AA556EE915E9BC202575A2B3CF96E0 /* PBXTargetDependency */,
 			);
-			name = "Pods-esteem-tvOSTests";
-			productName = "Pods-esteem-tvOSTests";
-			productReference = 8B5D2146B8E73FC2D3B829F7F46BA292 /* libPods-esteem-tvOSTests.a */;
+			name = "Pods-eSteemTests";
+			productName = "Pods-eSteemTests";
+			productReference = 630B27BE938D946CBFE983016BA970BC /* libPods-eSteemTests.a */;
 			productType = "com.apple.product-type.library.static";
 		};
 /* End PBXNativeTarget section */
@@ -373,93 +373,72 @@
 				en,
 			);
 			mainGroup = 7DB346D0F39D3F0E887471402A8071AB;
-			productRefGroup = 960F5D08CA24E3B99AB0365374000442 /* Products */;
+			productRefGroup = 2ECDC45073564DB8AA03B044DC81224A /* Products */;
 			projectDirPath = "";
 			projectRoot = "";
 			targets = (
-				0680D60A3BABB89B8A62DD35C7836F14 /* Pods-esteem */,
-				48062E27601D6CE5A388ED8F72D83808 /* Pods-esteem-tvOS */,
-				EF2AF3740BC4A78053AC0F6C867CC7DF /* Pods-esteem-tvOSTests */,
-				2DB3AC7B5477C7493D01822DF5AD7A80 /* Pods-esteemTests */,
+				B742365A0083F81D82368963F00AA025 /* Pods-eSteem */,
+				4407E9DE75693546FDC67E9B2B0469EE /* Pods-eSteem-tvOS */,
+				3955FB18B6DD72048648BB619BFDF3E6 /* Pods-eSteem-tvOSTests */,
+				CCF6D1E35B7D0DA73FBB9A15F7773724 /* Pods-eSteemTests */,
 			);
 		};
 /* End PBXProject section */
 
 /* Begin PBXSourcesBuildPhase section */
-		32F470E280DDB7229EC6B010B4ED0F82 /* Sources */ = {
+		1DA443F40242651D5D3868A8DCFD8EAF /* Sources */ = {
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				F6063A6B01075E0AEADF130436DFAB62 /* Pods-esteem-tvOS-dummy.m in Sources */,
+				6C3317EF48D3D82CD2140F6AC5F22949 /* Pods-eSteem-tvOSTests-dummy.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
-		B272B2714D5E4BE73DAFF87A19F1C498 /* Sources */ = {
+		AF5150792DC77F028FAF746B0D9811F2 /* Sources */ = {
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				E963D7D9D6AF1F434C726A2DDB79A737 /* Pods-esteem-tvOSTests-dummy.m in Sources */,
+				98228C7FF2CD1991278A78CE4F58C8C3 /* Pods-eSteem-tvOS-dummy.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
-		BDC2797ACDD1AE90BB88C19671CBC43B /* Sources */ = {
+		BD9A1E8287AA367322429BF49C9A8B0E /* Sources */ = {
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				81F6A7B1CC6242CBDF6B67857B60B097 /* Pods-esteemTests-dummy.m in Sources */,
+				A22C4A2475B2949B4A488DCF70A55DB3 /* Pods-eSteem-dummy.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
-		CE26E72EBD96129D9FBCB51452133BDD /* Sources */ = {
+		F8666B8672CF13EC793E106A9AC70A95 /* Sources */ = {
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				5412A4B77FA52274971BA7F34427B2B8 /* Pods-esteem-dummy.m in Sources */,
+				A22F7249AD5CC8B2C3CF6CC6079E14EC /* Pods-eSteemTests-dummy.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
 /* End PBXSourcesBuildPhase section */
 
 /* Begin PBXTargetDependency section */
-		3602CC10BA2A942296A568AAF85F5094 /* PBXTargetDependency */ = {
+		62AA556EE915E9BC202575A2B3CF96E0 /* PBXTargetDependency */ = {
 			isa = PBXTargetDependency;
-			name = "Pods-esteem";
-			target = 0680D60A3BABB89B8A62DD35C7836F14 /* Pods-esteem */;
-			targetProxy = ACB16CADD6FC61C56D929A575336BA0C /* PBXContainerItemProxy */;
+			name = "Pods-eSteem";
+			target = B742365A0083F81D82368963F00AA025 /* Pods-eSteem */;
+			targetProxy = 1ED6DF81891CB515B0F435343C40BDE0 /* PBXContainerItemProxy */;
 		};
-		BE7FDEA74A5937652F9DA1B8EA0BF8FA /* PBXTargetDependency */ = {
+		90EC72120398638F702003FAF00F9C61 /* PBXTargetDependency */ = {
 			isa = PBXTargetDependency;
-			name = "Pods-esteem-tvOS";
-			target = 48062E27601D6CE5A388ED8F72D83808 /* Pods-esteem-tvOS */;
-			targetProxy = 053DF35B375D32169CD871659EE16A6B /* PBXContainerItemProxy */;
+			name = "Pods-eSteem-tvOS";
+			target = 4407E9DE75693546FDC67E9B2B0469EE /* Pods-eSteem-tvOS */;
+			targetProxy = 1D92A6DC562530D45A2343C8485C4AB6 /* PBXContainerItemProxy */;
 		};
 /* End PBXTargetDependency section */
 
 /* Begin XCBuildConfiguration section */
-		0BAA6194CE805B4FD0A367A45DB2F18F /* Release */ = {
+		0E2B1380ED81E342BC2444FA86AA7342 /* Release */ = {
 			isa = XCBuildConfiguration;
-			baseConfigurationReference = 89B2279DAEEF422B96C00ED5BFD99F5A /* Pods-esteem-tvOS.release.xcconfig */;
-			buildSettings = {
-				ALWAYS_EMBED_SWIFT_STANDARD_LIBRARIES = NO;
-				"CODE_SIGN_IDENTITY[sdk=appletvos*]" = "";
-				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "";
-				"CODE_SIGN_IDENTITY[sdk=watchos*]" = "";
-				MACH_O_TYPE = staticlib;
-				OTHER_LDFLAGS = "";
-				OTHER_LIBTOOLFLAGS = "";
-				PODS_ROOT = "$(SRCROOT)";
-				PRODUCT_BUNDLE_IDENTIFIER = "org.cocoapods.${PRODUCT_NAME:rfc1034identifier}";
-				SDKROOT = appletvos;
-				SKIP_INSTALL = YES;
-				TARGETED_DEVICE_FAMILY = 3;
-				TVOS_DEPLOYMENT_TARGET = 9.2;
-				VALIDATE_PRODUCT = YES;
-			};
-			name = Release;
-		};
-		154385C2368394DB3C787B4988F0ED7B /* Release */ = {
-			isa = XCBuildConfiguration;
-			baseConfigurationReference = 6BF3399D82ED5E99CB7AB3B481C8B18F /* Pods-esteemTests.release.xcconfig */;
+			baseConfigurationReference = 6AA3C309B512B511AA7F5BF3C138F411 /* Pods-eSteemTests.release.xcconfig */;
 			buildSettings = {
 				ALWAYS_EMBED_SWIFT_STANDARD_LIBRARIES = NO;
 				CODE_SIGN_IDENTITY = "iPhone Developer";
@@ -543,31 +522,9 @@
 			};
 			name = Debug;
 		};
-		378F38A01BC291BFE0E30E890991416B /* Release */ = {
+		70D6CE3D9D03E18644F4BA81EDE82F86 /* Debug */ = {
 			isa = XCBuildConfiguration;
-			baseConfigurationReference = 40B9192470E9665955334A952711595D /* Pods-esteem.release.xcconfig */;
-			buildSettings = {
-				ALWAYS_EMBED_SWIFT_STANDARD_LIBRARIES = NO;
-				CODE_SIGN_IDENTITY = "iPhone Developer";
-				"CODE_SIGN_IDENTITY[sdk=appletvos*]" = "";
-				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "";
-				"CODE_SIGN_IDENTITY[sdk=watchos*]" = "";
-				IPHONEOS_DEPLOYMENT_TARGET = 9.0;
-				MACH_O_TYPE = staticlib;
-				OTHER_LDFLAGS = "";
-				OTHER_LIBTOOLFLAGS = "";
-				PODS_ROOT = "$(SRCROOT)";
-				PRODUCT_BUNDLE_IDENTIFIER = "org.cocoapods.${PRODUCT_NAME:rfc1034identifier}";
-				SDKROOT = iphoneos;
-				SKIP_INSTALL = YES;
-				TARGETED_DEVICE_FAMILY = "1,2";
-				VALIDATE_PRODUCT = YES;
-			};
-			name = Release;
-		};
-		39DE9D60D87F55CB85F93FD82A10B58E /* Debug */ = {
-			isa = XCBuildConfiguration;
-			baseConfigurationReference = 7D05BA52B383CE72C01740A3FF672ECF /* Pods-esteem.debug.xcconfig */;
+			baseConfigurationReference = 33AEC85CA9A8ADEA1C2C69E6AAB3F68B /* Pods-eSteemTests.debug.xcconfig */;
 			buildSettings = {
 				ALWAYS_EMBED_SWIFT_STANDARD_LIBRARIES = NO;
 				CODE_SIGN_IDENTITY = "iPhone Developer";
@@ -585,27 +542,6 @@
 				TARGETED_DEVICE_FAMILY = "1,2";
 			};
 			name = Debug;
-		};
-		489775098A630E554E464308ED347C6A /* Release */ = {
-			isa = XCBuildConfiguration;
-			baseConfigurationReference = D3A7F084AC2EEB0A464072D4C85885CC /* Pods-esteem-tvOSTests.release.xcconfig */;
-			buildSettings = {
-				ALWAYS_EMBED_SWIFT_STANDARD_LIBRARIES = NO;
-				"CODE_SIGN_IDENTITY[sdk=appletvos*]" = "";
-				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "";
-				"CODE_SIGN_IDENTITY[sdk=watchos*]" = "";
-				MACH_O_TYPE = staticlib;
-				OTHER_LDFLAGS = "";
-				OTHER_LIBTOOLFLAGS = "";
-				PODS_ROOT = "$(SRCROOT)";
-				PRODUCT_BUNDLE_IDENTIFIER = "org.cocoapods.${PRODUCT_NAME:rfc1034identifier}";
-				SDKROOT = appletvos;
-				SKIP_INSTALL = YES;
-				TARGETED_DEVICE_FAMILY = 3;
-				TVOS_DEPLOYMENT_TARGET = 9.2;
-				VALIDATE_PRODUCT = YES;
-			};
-			name = Release;
 		};
 		78CCF2F8575642B0F9526268F670DF6D /* Release */ = {
 			isa = XCBuildConfiguration;
@@ -666,9 +602,49 @@
 			};
 			name = Release;
 		};
-		CA21C733AE04E71911E4413C802390A5 /* Debug */ = {
+		790D876733097AD215B4E2956BCEEC3D /* Debug */ = {
 			isa = XCBuildConfiguration;
-			baseConfigurationReference = 1E628079F68C27731EBC10C59B642F66 /* Pods-esteemTests.debug.xcconfig */;
+			baseConfigurationReference = 33704C973A6F6EE73B2297037F24DF74 /* Pods-eSteem-tvOSTests.debug.xcconfig */;
+			buildSettings = {
+				ALWAYS_EMBED_SWIFT_STANDARD_LIBRARIES = NO;
+				"CODE_SIGN_IDENTITY[sdk=appletvos*]" = "";
+				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "";
+				"CODE_SIGN_IDENTITY[sdk=watchos*]" = "";
+				MACH_O_TYPE = staticlib;
+				OTHER_LDFLAGS = "";
+				OTHER_LIBTOOLFLAGS = "";
+				PODS_ROOT = "$(SRCROOT)";
+				PRODUCT_BUNDLE_IDENTIFIER = "org.cocoapods.${PRODUCT_NAME:rfc1034identifier}";
+				SDKROOT = appletvos;
+				SKIP_INSTALL = YES;
+				TARGETED_DEVICE_FAMILY = 3;
+				TVOS_DEPLOYMENT_TARGET = 9.2;
+			};
+			name = Debug;
+		};
+		7D01E375A0D81D11114A4D49B43C7049 /* Debug */ = {
+			isa = XCBuildConfiguration;
+			baseConfigurationReference = 5E93372C41A53BB92652564AEF41DDD1 /* Pods-eSteem-tvOS.debug.xcconfig */;
+			buildSettings = {
+				ALWAYS_EMBED_SWIFT_STANDARD_LIBRARIES = NO;
+				"CODE_SIGN_IDENTITY[sdk=appletvos*]" = "";
+				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "";
+				"CODE_SIGN_IDENTITY[sdk=watchos*]" = "";
+				MACH_O_TYPE = staticlib;
+				OTHER_LDFLAGS = "";
+				OTHER_LIBTOOLFLAGS = "";
+				PODS_ROOT = "$(SRCROOT)";
+				PRODUCT_BUNDLE_IDENTIFIER = "org.cocoapods.${PRODUCT_NAME:rfc1034identifier}";
+				SDKROOT = appletvos;
+				SKIP_INSTALL = YES;
+				TARGETED_DEVICE_FAMILY = 3;
+				TVOS_DEPLOYMENT_TARGET = 9.2;
+			};
+			name = Debug;
+		};
+		93357CE1D836EC9AFDA10F7B4C587AB0 /* Debug */ = {
+			isa = XCBuildConfiguration;
+			baseConfigurationReference = 9577BBCF7B09BB8E32787163CF706A56 /* Pods-eSteem.debug.xcconfig */;
 			buildSettings = {
 				ALWAYS_EMBED_SWIFT_STANDARD_LIBRARIES = NO;
 				CODE_SIGN_IDENTITY = "iPhone Developer";
@@ -687,29 +663,31 @@
 			};
 			name = Debug;
 		};
-		CD73012BB45BF655208D88F1E084C7DE /* Debug */ = {
+		A54FB0D4EA830F983298DD101717E23C /* Release */ = {
 			isa = XCBuildConfiguration;
-			baseConfigurationReference = 176469ACC1E2AD6DAF8E48A8A500A393 /* Pods-esteem-tvOS.debug.xcconfig */;
+			baseConfigurationReference = 4C524684ABB6311D1D56DD6AC1A8EA32 /* Pods-eSteem.release.xcconfig */;
 			buildSettings = {
 				ALWAYS_EMBED_SWIFT_STANDARD_LIBRARIES = NO;
+				CODE_SIGN_IDENTITY = "iPhone Developer";
 				"CODE_SIGN_IDENTITY[sdk=appletvos*]" = "";
 				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "";
 				"CODE_SIGN_IDENTITY[sdk=watchos*]" = "";
+				IPHONEOS_DEPLOYMENT_TARGET = 9.0;
 				MACH_O_TYPE = staticlib;
 				OTHER_LDFLAGS = "";
 				OTHER_LIBTOOLFLAGS = "";
 				PODS_ROOT = "$(SRCROOT)";
 				PRODUCT_BUNDLE_IDENTIFIER = "org.cocoapods.${PRODUCT_NAME:rfc1034identifier}";
-				SDKROOT = appletvos;
+				SDKROOT = iphoneos;
 				SKIP_INSTALL = YES;
-				TARGETED_DEVICE_FAMILY = 3;
-				TVOS_DEPLOYMENT_TARGET = 9.2;
+				TARGETED_DEVICE_FAMILY = "1,2";
+				VALIDATE_PRODUCT = YES;
 			};
-			name = Debug;
+			name = Release;
 		};
-		EBBA2754C896C10E5490D4D23B1E966C /* Debug */ = {
+		DDF5B6F34E90F28EA9CC65C221EF3BBD /* Release */ = {
 			isa = XCBuildConfiguration;
-			baseConfigurationReference = E021968C103F8434CA5F517549398488 /* Pods-esteem-tvOSTests.debug.xcconfig */;
+			baseConfigurationReference = 271D9F2BC937D3A280C638F3BCD2B103 /* Pods-eSteem-tvOS.release.xcconfig */;
 			buildSettings = {
 				ALWAYS_EMBED_SWIFT_STANDARD_LIBRARIES = NO;
 				"CODE_SIGN_IDENTITY[sdk=appletvos*]" = "";
@@ -724,30 +702,34 @@
 				SKIP_INSTALL = YES;
 				TARGETED_DEVICE_FAMILY = 3;
 				TVOS_DEPLOYMENT_TARGET = 9.2;
+				VALIDATE_PRODUCT = YES;
 			};
-			name = Debug;
+			name = Release;
+		};
+		EB500F2845CEC989F8B2225CC0A736B1 /* Release */ = {
+			isa = XCBuildConfiguration;
+			baseConfigurationReference = 2B762D9B8D834CA3DF718DC232B50B05 /* Pods-eSteem-tvOSTests.release.xcconfig */;
+			buildSettings = {
+				ALWAYS_EMBED_SWIFT_STANDARD_LIBRARIES = NO;
+				"CODE_SIGN_IDENTITY[sdk=appletvos*]" = "";
+				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "";
+				"CODE_SIGN_IDENTITY[sdk=watchos*]" = "";
+				MACH_O_TYPE = staticlib;
+				OTHER_LDFLAGS = "";
+				OTHER_LIBTOOLFLAGS = "";
+				PODS_ROOT = "$(SRCROOT)";
+				PRODUCT_BUNDLE_IDENTIFIER = "org.cocoapods.${PRODUCT_NAME:rfc1034identifier}";
+				SDKROOT = appletvos;
+				SKIP_INSTALL = YES;
+				TARGETED_DEVICE_FAMILY = 3;
+				TVOS_DEPLOYMENT_TARGET = 9.2;
+				VALIDATE_PRODUCT = YES;
+			};
+			name = Release;
 		};
 /* End XCBuildConfiguration section */
 
 /* Begin XCConfigurationList section */
-		0BEF53AC116913C70E5068B3822B59A7 /* Build configuration list for PBXNativeTarget "Pods-esteem-tvOSTests" */ = {
-			isa = XCConfigurationList;
-			buildConfigurations = (
-				EBBA2754C896C10E5490D4D23B1E966C /* Debug */,
-				489775098A630E554E464308ED347C6A /* Release */,
-			);
-			defaultConfigurationIsVisible = 0;
-			defaultConfigurationName = Release;
-		};
-		101F739A6A6D6F541E56F067BF1A7650 /* Build configuration list for PBXNativeTarget "Pods-esteem-tvOS" */ = {
-			isa = XCConfigurationList;
-			buildConfigurations = (
-				CD73012BB45BF655208D88F1E084C7DE /* Debug */,
-				0BAA6194CE805B4FD0A367A45DB2F18F /* Release */,
-			);
-			defaultConfigurationIsVisible = 0;
-			defaultConfigurationName = Release;
-		};
 		2D8E8EC45A3A1A1D94AE762CB5028504 /* Build configuration list for PBXProject "Pods" */ = {
 			isa = XCConfigurationList;
 			buildConfigurations = (
@@ -757,20 +739,38 @@
 			defaultConfigurationIsVisible = 0;
 			defaultConfigurationName = Release;
 		};
-		72C3DC6B3EA1492A83F474C1C94595ED /* Build configuration list for PBXNativeTarget "Pods-esteemTests" */ = {
+		50BA65972CE2D9406ED019F6F6A86F14 /* Build configuration list for PBXNativeTarget "Pods-eSteem-tvOS" */ = {
 			isa = XCConfigurationList;
 			buildConfigurations = (
-				CA21C733AE04E71911E4413C802390A5 /* Debug */,
-				154385C2368394DB3C787B4988F0ED7B /* Release */,
+				7D01E375A0D81D11114A4D49B43C7049 /* Debug */,
+				DDF5B6F34E90F28EA9CC65C221EF3BBD /* Release */,
 			);
 			defaultConfigurationIsVisible = 0;
 			defaultConfigurationName = Release;
 		};
-		9AFFAD9605508055B1E326DD9A8AE7A5 /* Build configuration list for PBXNativeTarget "Pods-esteem" */ = {
+		6B85ABE9BFEB740F86E4D452865F252B /* Build configuration list for PBXNativeTarget "Pods-eSteem-tvOSTests" */ = {
 			isa = XCConfigurationList;
 			buildConfigurations = (
-				39DE9D60D87F55CB85F93FD82A10B58E /* Debug */,
-				378F38A01BC291BFE0E30E890991416B /* Release */,
+				790D876733097AD215B4E2956BCEEC3D /* Debug */,
+				EB500F2845CEC989F8B2225CC0A736B1 /* Release */,
+			);
+			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
+		};
+		84D3409B71A4AC173A47EF0E21287BE8 /* Build configuration list for PBXNativeTarget "Pods-eSteem" */ = {
+			isa = XCConfigurationList;
+			buildConfigurations = (
+				93357CE1D836EC9AFDA10F7B4C587AB0 /* Debug */,
+				A54FB0D4EA830F983298DD101717E23C /* Release */,
+			);
+			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
+		};
+		AEDF1E7E7EB78A19EDB6AC2A6AD34E5D /* Build configuration list for PBXNativeTarget "Pods-eSteemTests" */ = {
+			isa = XCConfigurationList;
+			buildConfigurations = (
+				70D6CE3D9D03E18644F4BA81EDE82F86 /* Debug */,
+				0E2B1380ED81E342BC2444FA86AA7342 /* Release */,
 			);
 			defaultConfigurationIsVisible = 0;
 			defaultConfigurationName = Release;

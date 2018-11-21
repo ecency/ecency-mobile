@@ -5,9 +5,9 @@ import { withNavigation } from 'react-navigation';
 // import { default as ROUTES } from '../../../constants/routeNames';
 
 // Components
-import { EditorHeaderView } from '..';
+import { BasicHeaderView } from '..';
 
-class EditorHeaderContainer extends Component {
+class BasicHeaderContainer extends Component {
   /* Props
     * ------------------------------------------------
     *   @prop { funtion }    handleOnPressPreviewButton                - Preview button active handler....
@@ -29,9 +29,9 @@ class EditorHeaderContainer extends Component {
 
   render() {
     return (
-      <EditorHeaderView handleOnPressBackButton={this._handleOnPressBackButton} {...this.props} />
+      <BasicHeaderView handleOnPressBackButton={this._handleOnPressBackButton} {...this.props} />
     );
   }
 }
 
-export default withNavigation(EditorHeaderContainer);
+export default withNavigation(BasicHeaderContainer);

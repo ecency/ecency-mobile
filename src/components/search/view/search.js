@@ -7,10 +7,14 @@ import {
   FlatList,
   Image,
 } from 'react-native';
-import Ionicons from 'react-native-vector-icons/Ionicons';
-// import { Navigation } from 'react-native-navigation';
+
+// Services and Actions
 import { lookupAccounts } from '../../providers/steem/dsteem';
 import search from '../../config/search';
+
+// Components
+import Ionicons from 'react-native-vector-icons/Ionicons';
+import Icon from '../icon';
 
 export default class Search extends Component {
   constructor() {
@@ -84,6 +88,12 @@ export default class Search extends Component {
 
   render() {
     const { users, text, posts } = this.state;
+
+    return (
+      <View>
+        <Icon name="ios-search"></Icon>
+      </View>
+    )
 
     return (
       <View

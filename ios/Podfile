@@ -1,32 +1,32 @@
 # Uncomment the next line to define a global platform for your project
 # platform :ios, '9.0'
 
-target 'esteem' do
+target 'eSteem' do
   pod 'AppCenter/Crashes', '~> 1.10.0'
   pod 'AppCenter/Analytics', '~> 1.10.0'
   pod 'AppCenterReactNativeShared', '~> 1.9.0'
   # Uncomment the next line if you're using Swift or would like to use dynamic frameworks
   # use_frameworks!
 
-  # Pods for esteem
+  # Pods for eSteem
 
   
 
   platform :ios, '9.0'
-  target 'esteemTests' do
+  target 'eSteemTests' do
     inherit! :search_paths
     # Pods for testing
   end
 
 end
 
-target 'esteem-tvOS' do
+target 'eSteem-tvOS' do
   # Uncomment the next line if you're using Swift or would like to use dynamic frameworks
   # use_frameworks!
 
-  # Pods for esteem-tvOS
+  # Pods for eSteem-tvOS
 
-  target 'esteem-tvOSTests' do
+  target 'eSteem-tvOSTests' do
     inherit! :search_paths
     # Pods for testing
   end

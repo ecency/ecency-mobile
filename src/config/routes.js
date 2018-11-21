@@ -9,15 +9,16 @@ import { default as ROUTES } from '../constants/routeNames';
 // Screens
 import {
   Editor,
+  Follows,
   Login,
   PinCode,
   Post,
   Profile,
   RootComponent,
+  Settings,
   Splash,
   SteemConnect,
   Voters,
-  Follows,
 } from '../screens';
 
 // Components
@@ -68,6 +69,12 @@ const stackNavigatior = createStackNavigator(
     },
     [ROUTES.SCREENS.FOLLOWS]: {
       screen: RootComponent()(Follows),
+      navigationOptions: {
+        header: () => null,
+      },
+    },
+    [ROUTES.SCREENS.SETTINGS]: {
+      screen: RootComponent()(Settings),
       navigationOptions: {
         header: () => null,
       },

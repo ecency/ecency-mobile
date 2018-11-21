@@ -2,7 +2,7 @@ import Logo from './logo/logo';
 // import Comment from './comment/comment';
 // import PostCard from "./postCard";
 import Reply from './reply/reply';
-import Search from './search/search';
+import Search from './search/';
 import { FormInput } from './formInput';
 import { CircularButton, TextButton, IconButton } from './buttons';
 import { NumericKeyboard } from './numericKeyboard';
