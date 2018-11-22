@@ -18,5 +18,18 @@
     "unfollow": "unfollowed to you",
     "ignore": "ignored to you",
     "reblog": "reblog to your post"
+  },
+  "settings": {
+    "settings": "Ayarlar",
+    "currency": "Para Birimi",
+    "language": "Dil",
+    "server": "Sunucu",
+    "dark_theme": "Koyu Tema",
+    "push_notification": "Bildirim",
+    "pincode": "Pinkod",
+    "reset": "Sifirla"
+  },
+  "voters": {
+    "voters_info": "Oy Verenler"
   }
 }

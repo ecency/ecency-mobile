@@ -41,6 +41,7 @@ const DropdownButtonView = ({
   dropdownButtonStyle,
   textStyle,
   rowTextStyle,
+  selectedOptionIndex,
   options,
   style,
 }) => (
@@ -53,11 +54,10 @@ const DropdownButtonView = ({
       dropdownTextHighlightStyle={styles.dropdownTextHighlight}
       options={options}
       onSelect={e => onSelect && onSelect(e)}
-      defaultIndex={defaultIndex}
+      defaultIndex={selectedOptionIndex}
       defaultValue={defaultText}
       renderSeparator={() => null}
-      renderRow={(rowData, rowID, highlighted) => renderDropdownRow(rowData, rowID, highlighted, rowTextStyle)
-      }
+      renderRow={(rowData, rowID, highlighted) => renderDropdownRow(rowData, rowID, highlighted, rowTextStyle)}
     >
       {isHasChildIcon && (
         <View style={[styles.iconWrapper, childIconWrapperStyle && childIconWrapperStyle]}>

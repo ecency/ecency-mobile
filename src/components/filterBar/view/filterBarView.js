@@ -23,6 +23,7 @@ const FilterBarView = ({
   dropdownIconName,
   onDropdownSelect,
   onRightIconPress,
+  selectedOptionIndex,
   isHide,
   iconSize,
 }) => (
@@ -35,6 +36,7 @@ const FilterBarView = ({
             options={options}
             defaultText={defaultText}
             onSelect={onDropdownSelect}
+            selectedOptionIndex={selectedOptionIndex}
           />
           <TouchableOpacity
             onPress={onRightIconPress && onRightIconPress()}
