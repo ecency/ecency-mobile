@@ -14,10 +14,9 @@ export default EStyleSheet.create({
     borderTopWidth: 0,
     borderLeftWidth: 0,
     borderRightWidth: 0,
-    borderColor: '#f4f4f4',
+    borderColor: '$white',
   },
   tabButton: {
     flex: 1,
   },
-  tabButtonText: {},
 });

@@ -1,6 +1,6 @@
 import React, { Component, Fragment } from 'react';
 import {
-  View, Text, TextInput, ActivityIndicator,
+  View, Text, TextInput, ActivityIndicator, 
 } from 'react-native';
 import { TextButton } from '../..';
 import { IconButton } from '../../iconButton';

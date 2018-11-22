@@ -18,7 +18,7 @@ export default EStyleSheet.create({
     flexDirection: 'row',
   },
   voteItemWrapperGray: {
-    backgroundColor: '$primaryGray',
+    backgroundColor: '$primaryLightBackground',
   },
   name: {
     color: '$primaryDarkGray',
@@ -54,5 +54,8 @@ export default EStyleSheet.create({
     borderWidth: 1,
     borderColor: '$borderColor',
     borderRadius: 32 / 2,
+  },
+  date: {
+    color: '$primaryDarkGray',
   },
 });

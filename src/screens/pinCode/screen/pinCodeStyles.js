@@ -4,6 +4,7 @@ export default EStyleSheet.create({
   container: {
     flex: 1,
     paddingTop: '$deviceHeight / 15',
+    backgroundColor: '$primaryBackgroundColor',
   },
   logoView: {
     flex: 2,

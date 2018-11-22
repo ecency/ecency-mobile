@@ -1,9 +1,11 @@
 import React, { Component } from 'react';
-import { Image, TouchableOpacity, Text } from 'react-native';
 import {
-  Card, CardItem, Left, Right, Thumbnail, Icon, Body,
-} from 'native-base';
+  Image, TouchableOpacity, Text, View,
+} from 'react-native';
+import FastImage from 'react-native-fast-image';
 import { PostHeaderDescription } from '../../postElements';
+import { DropdownButton } from '../../dropdownButton';
+import { Icon } from '../../icon';
 
 // STEEM
 import { Upvote } from '../../upvote';
@@ -47,107 +49,84 @@ class PostCard extends Component {
     handleOnVotersPress(content.active_votes);
   };
 
+  _handleOnDropdownSelect = () => {
+    // alert('This feature implementing...');
+  };
+
   render() {
     const { content, isLoggedIn, user } = this.props;
+    const likersText = `@${content.top_likers[0]}, @${content.top_likers[1]}, @${
+      content.top_likers[2]
+    }`;
+    const otherLikers = ` & ${content.vote_count - content.top_likers.length} others like this`;
+    const likesCount = `${content.vote_count} likes`;
 
-    // TODO: Should seperate bunch of component REFACTOR ME!
     return (
-      <Card style={styles.post}>
-        <CardItem style={styles.header}>
-          <Left>
-            <PostHeaderDescription
-              date={content.created}
-              profileOnPress={this._handleOnUserPress}
-              name={content.author}
-              reputation={content.author_reputation}
-              tag={content.category}
-              avatar={content && content.avatar}
-              size={32}
-            />
-          </Left>
-          <Right>
-            <Icon name="md-more" />
-          </Right>
-        </CardItem>
-        <TouchableOpacity onPress={() => this._handleOnContentPress()}>
-          <Image
-            source={{ uri: content && content.image }}
-            defaultSource={require('../../../assets/no_image.png')}
-            style={styles.image}
+      <View style={styles.post}>
+        <View style={styles.bodyFooter}>
+          <PostHeaderDescription
+            date={content.created}
+            profileOnPress={this._handleOnUserPress}
+            name={content.author}
+            reputation={content.author_reputation}
+            tag={content.category}
+            avatar={content && content.avatar}
+            size={32}
           />
-          <CardItem>
-            <Body>
+          <DropdownButton
+            isHasChildIcon
+            iconName="md-more"
+            // options={['BOOKMARK', 'REBLOG', 'REPLY']}
+            options={['This', 'feature', 'implementing']}
+            onSelect={this._handleOnDropdownSelect}
+          />
+        </View>
+        <View style={styles.postBodyWrapper}>
+          <TouchableOpacity
+            style={[{ flexDirection: 'column' }]}
+            onPress={() => this._handleOnContentPress()}
+          >
+            <Image
+              source={{ uri: content && content.image }}
+              defaultSource={require('../../../assets/no_image.png')}
+              style={styles.image}
+            />
+            <View style={[styles.postDescripton]}>
               <Text style={styles.title}>{content.title}</Text>
               <Text style={styles.summary}>{content.summary}</Text>
-            </Body>
-          </CardItem>
-        </TouchableOpacity>
-        <CardItem>
-          <Left>
-            <Upvote content={content} user={user} isLoggedIn={isLoggedIn} />
-            <TouchableOpacity
-              onPress={() => this._handleOnVotersPress()}
-              style={styles.payoutButton}
-            >
-              <Text style={styles.payout}>
-$
-                {content.pending_payout_value}
-              </Text>
-              <Icon name="md-arrow-dropdown" style={styles.payoutIcon} />
-            </TouchableOpacity>
-          </Left>
-          <Right>
-            <TouchableOpacity start style={styles.commentButton}>
-              <Icon style={styles.commentIcon} active name="ios-chatbubbles-outline" />
-              <Text style={styles.comment}>{content.children}</Text>
-            </TouchableOpacity>
-          </Right>
-        </CardItem>
-        {content.top_likers ? (
-          <TouchableOpacity onPress={() => this._handleOnVotersPress()}>
-            <CardItem style={styles.topLikers}>
-              <Thumbnail
-                source={{
-                  uri: `https://steemitimages.com/u/${content.top_likers[0]}/avatar/small`,
-                }}
-                style={styles.likers_1}
-              />
-              <Thumbnail
-                source={{
-                  uri: `https://steemitimages.com/u/${content.top_likers[1]}/avatar/small`,
-                }}
-                style={styles.likers_2}
-              />
-              <Thumbnail
-                source={{
-                  uri: `https://steemitimages.com/u/${content.top_likers[2]}/avatar/small`,
-                }}
-                style={styles.likers_3}
-              />
+            </View>
+          </TouchableOpacity>
+        </View>
+        <View style={styles.bodyFooter}>
+          <Upvote isShowpayoutValue content={content} user={user} isLoggedIn={isLoggedIn} />
+          <TouchableOpacity style={styles.commentButton}>
+            <Icon style={[styles.commentIcon]} name="ios-chatbubbles-outline" />
+            <Text style={styles.comment}>{content.children}</Text>
+          </TouchableOpacity>
+        </View>
+        {content && content.top_likers ? (
+          <TouchableOpacity style={styles.likersWrapper} onPress={() => this._handleOnVotersPress()}>
+            <View style={styles.topLikers}>
+              {content.top_likers.map((liker, i) => (
+                <FastImage
+                  source={{
+                    uri: `https://steemitimages.com/u/${liker}/avatar/small`,
+                  }}
+                  style={[styles.liker, i !== 0 && { marginLeft: -3 }]}
+                />
+              ))}
               <Text style={styles.footer}>
-                @
-                {content.top_likers[0]}
-, @
-                {content.top_likers[1]}
-, @
-                {content.top_likers[2]}
-                <Text style={styles.footer}> & </Text>
-                {content.vote_count - content.top_likers.length}
-                {' '}
-others like this
+                {likersText}
+                {otherLikers}
               </Text>
-            </CardItem>
+            </View>
           </TouchableOpacity>
         ) : (
-          <CardItem>
-            <Text style={styles.footer}>
-              {content.vote_count}
-              {' '}
-likes
-            </Text>
-          </CardItem>
+          <View>
+            <Text style={styles.footer}>{likesCount}</Text>
+          </View>
         )}
-      </Card>
+      </View>
     );
   }
 }

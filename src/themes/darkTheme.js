@@ -12,10 +12,10 @@ export default {
   $primaryDarkBlue: '#1a509a',
   $primaryLightBlue: '#eaf2fc',
   $primaryGray: '#f5f5f5',
-  $primaryDarkGray: '#788187',
+  $primaryDarkGray: '#c1c5c7',
   $primaryLightGray: '#f6f6f6',
   $primaryRed: '#e63535',
-  $primaryBlack: '#3c4449',
+  $primaryBlack: '#c1c5c7',
 
   // General Colors
   $borderColor: '#c5c5c5',
