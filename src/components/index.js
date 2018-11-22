@@ -2,7 +2,7 @@ import Logo from './logo/logo';
 // import Comment from './comment/comment';
 // import PostCard from "./postCard";
 import Reply from './reply/reply';
-import Search from './search/';
+import Search from './search';
 import { FormInput } from './formInput';
 import { CircularButton, TextButton, IconButton } from './buttons';
 import { NumericKeyboard } from './numericKeyboard';
@@ -11,6 +11,7 @@ import { SideMenu } from './sideMenu';
 import Modal from './modal';
 import Icon from './icon';
 import UserListItem from './basicUIElements/view/userListItem';
+import InputWithIcon from './inputWithIcon';
 
 export {
   Logo,
@@ -28,4 +29,5 @@ export {
   SideMenu,
   Modal,
   Icon,
+  InputWithIcon,
 };

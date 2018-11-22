@@ -14,6 +14,7 @@ export default {
     SPLASH: `Splash${SCREEN_SUFFIX}`,
     STEEM_CONNECT: `SteemConnect${SCREEN_SUFFIX}`,
     VOTERS: `Voters${SCREEN_SUFFIX}`,
+    SEARCH_MODAL: `Search${SCREEN_SUFFIX}`,
   },
   DRAWER: {
     MAIN: `Main${DRAWER_SUFFIX}`,

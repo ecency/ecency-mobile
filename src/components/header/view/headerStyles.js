@@ -64,9 +64,18 @@ export default EStyleSheet.create({
   backButton: {
     marginLeft: 24,
   },
+  searchButton: {
+    marginRight: 24,
+  },
   backButtonWrapper: {
     flexGrow: 1,
     flexDirection: 'column',
+    justifyContent: 'center',
+  },
+  searchButtonWrapper: {
+    flexGrow: 1,
+    flexDirection: 'column',
+    alignItems: 'flex-end',
     justifyContent: 'center',
   },
 });

@@ -22,7 +22,7 @@ import {
 } from '../screens';
 
 // Components
-import { SideMenu } from '../components';
+import { SideMenu, Search } from '../components';
 
 const mainNavigation = createDrawerNavigator(
   {
@@ -79,19 +79,44 @@ const stackNavigatior = createStackNavigator(
         header: () => null,
       },
     },
+    [ROUTES.SCREENS.SEARCH_MODAL]: {
+      screen: Search,
+      navigationOptions: {
+        mode: 'modal',
+        header: () => null,
+      },
+    },
   },
   {
     cardStyle: {
-      backgroundColor: 'white',
-      //1e2835
+      backgroundColor: 'transparent',
+      opacity: 1,
     },
+    transitionConfig: () => ({
+      containerStyle: {
+        backgroundColor: 'transparent',
+      },
+    }),
   },
 );
 
-export default createSwitchNavigator({
-  stackNavigatior,
-  [ROUTES.SCREENS.LOGIN]: { screen: RootComponent()(Login) },
-  [ROUTES.SCREENS.PINCODE]: { screen: RootComponent()(PinCode) },
-  [ROUTES.SCREENS.SPLASH]: { screen: Splash },
-  [ROUTES.SCREENS.STEEM_CONNECT]: { screen: RootComponent()(SteemConnect) },
-});
+export default createSwitchNavigator(
+  {
+    stackNavigatior,
+    [ROUTES.SCREENS.LOGIN]: { screen: RootComponent()(Login) },
+    [ROUTES.SCREENS.PINCODE]: { screen: RootComponent()(PinCode) },
+    [ROUTES.SCREENS.SPLASH]: { screen: Splash },
+    [ROUTES.SCREENS.STEEM_CONNECT]: { screen: RootComponent()(SteemConnect) },
+  },
+  {
+    cardStyle: {
+      backgroundColor: 'transparent',
+      opacity: 1,
+    },
+    transitionConfig: () => ({
+      containerStyle: {
+        backgroundColor: 'transparent',
+      },
+    }),
+  },
+);

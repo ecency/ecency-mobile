@@ -57,6 +57,7 @@ class HeaderView extends Component {
     const {
       handleOpenDrawer,
       handleOnPressBackButton,
+      handleOnPressSearchButton,
       hideStatusBar,
       isReverse,
       currentAccount,
@@ -101,6 +102,17 @@ class HeaderView extends Component {
         ) : (
           <View style={styles.titleWrapper}>
             <Text style={styles.noAuthTitle}>Log in to customize your feed</Text>
+          </View>
+        )}
+
+        {!isReverse && (
+          <View style={styles.searchButtonWrapper}>
+            <IconButton
+              style={styles.searchButton}
+              iconStyle={styles.backIcon}
+              name="md-search"
+              onPress={() => handleOnPressSearchButton()}
+            />
           </View>
         )}
         {isReverse && (

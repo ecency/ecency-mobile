@@ -1,10 +1,10 @@
 import React, { Component } from 'react';
-import { View, TextInput, Text } from 'react-native';
+import { View, Text } from 'react-native';
 
 // Constants
 
 // Components
-import { Icon, FormInput } from '../..';
+import { Icon, InputWithIcon } from '../..';
 
 // Styles
 // eslint-disable-next-line
@@ -30,7 +30,7 @@ class SearchView extends Component {
     return (
       <View style={styles.container}>
         <Icon color="#fff" name="ios-search" />
-        <FormInput
+        <InputWithIcon
           rightIconName="md-at"
           leftIconName="md-close-circle"
           // isValid={isUsernameValid}

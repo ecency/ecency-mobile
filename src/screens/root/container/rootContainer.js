@@ -89,7 +89,6 @@ const RootContainer = () => (WrappedComponent) => {
             {...wrappedComponentStates}
             setPinCodeState={this._setPinCodeState}
           />
-          <Search />
         </Fragment>
       );
     }

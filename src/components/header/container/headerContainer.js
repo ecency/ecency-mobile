@@ -7,6 +7,7 @@ import { connect } from 'react-redux';
 // Middleware
 
 // Constants
+import { default as ROUTES } from '../../../constants/routeNames';
 
 // Utilities
 
@@ -41,11 +42,18 @@ class HeaderContainer extends Component {
     navigation.goBack();
   };
 
+  _handleOnPressSearchButton = () => {
+    const { navigation } = this.props;
+
+    navigation.navigate(ROUTES.SCREENS.SEARCH_MODAL);
+  };
+
   render() {
     const { isLoggedIn, currentUser, user } = this.props;
     return (
       <HeaderView
         handleOnPressBackButton={this._handleOnPressBackButton}
+        handleOnPressSearchButton={this._handleOnPressSearchButton}
         handleOpenDrawer={this._handleOpenDrawer}
         isLoggedIn={isLoggedIn}
         currentAccount={user || currentUser}
