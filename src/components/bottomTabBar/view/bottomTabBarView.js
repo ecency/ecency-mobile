@@ -47,7 +47,7 @@ class BottomTabBarView extends Component {
               justifyContent: 'center',
             }}
           >
-            <TouchableWithoutFeedback onPress={() => jumpTo(route.key)}>
+            <TouchableWithoutFeedback  onPress={() => jumpTo(route.key)}>
               {renderIcon({
                 route,
                 focused: index === idx,
