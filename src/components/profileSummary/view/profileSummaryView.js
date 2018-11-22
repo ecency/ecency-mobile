@@ -4,7 +4,8 @@ import {
 } from 'react-native';
 
 // Constants
-import DEFAULT_IMAGE from '../../../assets/default_cover_image.png';
+import LIGHT_COVER_IMAGE from '../../../assets/default_cover_image.png';
+import DARK_COVER_IMAGE from '../../../assets/dark_cover_image.png';
 
 // Components
 import { TextWithIcon } from '../../basicUIElements';
@@ -55,6 +56,7 @@ class ProfileSummaryView extends Component {
       handleFollowUnfollowUser,
       handleMuteUnmuteUser,
       handleOnFollowsPress,
+      isDarkTheme,
     } = this.props;
     const votingPowerHoursText = hoursVP && `• Full in ${hoursVP} hours`;
     const votingPowerText = `Voting power: ${percentVP}% ${votingPowerHoursText || ''}`;
@@ -85,7 +87,7 @@ class ProfileSummaryView extends Component {
         <Image
           style={styles.longImage}
           source={{ uri: coverImage }}
-          defaultSource={DEFAULT_IMAGE}
+          defaultSource={isDarkTheme ? DARK_COVER_IMAGE : LIGHT_COVER_IMAGE}
         />
         <TouchableOpacity onPress={() => this.setState({ isShowPercentText: !isShowPercentText })}>
           <PercentBar

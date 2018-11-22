@@ -100,12 +100,15 @@ class PostCard extends Component {
         <View style={styles.bodyFooter}>
           <Upvote isShowpayoutValue content={content} user={user} isLoggedIn={isLoggedIn} />
           <TouchableOpacity style={styles.commentButton}>
-            <Icon style={[styles.commentIcon]} name="ios-chatbubbles-outline" />
+            <Icon style={[styles.commentIcon]} iconType="MaterialIcons" name="chat" />
             <Text style={styles.comment}>{content.children}</Text>
           </TouchableOpacity>
         </View>
         {content && content.top_likers ? (
-          <TouchableOpacity style={styles.likersWrapper} onPress={() => this._handleOnVotersPress()}>
+          <TouchableOpacity
+            style={styles.likersWrapper}
+            onPress={() => this._handleOnVotersPress()}
+          >
             <View style={styles.topLikers}>
               {content.top_likers.map((liker, i) => (
                 <FastImage

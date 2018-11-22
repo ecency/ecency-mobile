@@ -8,6 +8,7 @@ export default EStyleSheet.create({
     justifyContent: 'space-between',
     alignItems: 'center',
     height: 64,
+    backgroundColor: '$primaryBackgroundColor',
   },
   avatar: {
     width: 32,

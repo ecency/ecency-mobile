@@ -9,7 +9,7 @@ export default EStyleSheet.create({
     justifyContent: 'space-between',
   },
   hasTopBorder: {
-    borderTopColor: '#cfcfcf',
+    borderTopColor: '$borderTopColor',
     borderTopWidth: 1,
   },
   title: {

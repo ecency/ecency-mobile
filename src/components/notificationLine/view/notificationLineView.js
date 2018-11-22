@@ -54,9 +54,11 @@ class NotificationLineView extends Component {
               })}
             </Text>
           </View>
-          <Text numberOfLines={1} style={styles.description}>
-            {notification.description}
-          </Text>
+          {notification.description && (
+            <Text numberOfLines={1} style={styles.description}>
+              {notification.description}
+            </Text>
+          )}
         </View>
         {notification.image && (
           <Image

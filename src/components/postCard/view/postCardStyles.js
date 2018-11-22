@@ -65,13 +65,13 @@ export default EStyleSheet.create({
   comment: {
     alignSelf: 'center',
     fontSize: 10,
-    color: '#626262',
     marginLeft: 3,
+    color: '$primaryDarkGray',
   },
   commentIcon: {
     alignSelf: 'flex-start',
     fontSize: 20,
-    color: '#007ee5',
+    color: '$primaryDarkGray',
     margin: 0,
     width: 20,
   },

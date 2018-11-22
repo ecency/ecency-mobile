@@ -21,6 +21,7 @@ export default {
   $borderColor: '#c5c5c5',
   $bubblesBlue: '#5CCDFF',
   $iconColor: '#c1c5c7',
+  $borderTopColor: '#cfcfcf',
   $dangerColor: '#fff',
   $warningColor: '#fff',
   $successColor: '#fff',

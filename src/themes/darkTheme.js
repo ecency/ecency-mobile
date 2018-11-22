@@ -10,7 +10,7 @@ export default {
   $black: '#000000',
   $primaryBlue: '#357ce6',
   $primaryDarkBlue: '#1a509a',
-  $primaryLightBlue: '#eaf2fc',
+  $primaryLightBlue: '#2e3d51',
   $primaryGray: '#f5f5f5',
   $primaryDarkGray: '#c1c5c7',
   $primaryLightGray: '#f6f6f6',
@@ -20,6 +20,7 @@ export default {
   // General Colors
   $borderColor: '#c5c5c5',
   $bubblesBlue: '#5CCDFF',
+  $borderTopColor: '#757575',
   $iconColor: '#c1c5c7',
   $dangerColor: '#fff',
   $warningColor: '#fff',

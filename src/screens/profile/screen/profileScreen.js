@@ -44,6 +44,7 @@ class ProfileScreen extends Component {
       handleMuteUnmuteUser,
       isProfileLoading,
       handleOnFollowsPress,
+      isDarkTheme,
     } = this.props;
     let _about;
     let avatar;
@@ -87,24 +88,25 @@ class ProfileScreen extends Component {
               // locked={!isLoggedIn}
             >
               <ProfileSummary
-                handleOnFollowsPress={handleOnFollowsPress}
-                isFollowing={isFollowing}
-                isMuted={isMuted}
-                isOwnProfile={!isReverseHeader}
-                percentVP={votingPower}
-                isProfileLoading={isProfileLoading}
-                isLoggedIn={isLoggedIn}
-                handleFollowUnfollowUser={handleFollowUnfollowUser}
-                handleMuteUnmuteUser={handleMuteUnmuteUser}
-                percentRC={resourceCredits}
-                hoursVP={fullInHourVP || null}
-                hoursRC={fullInHourRC || null}
-                location={location}
-                link={website}
+                coverImage={coverImage}
                 date={getFormatedCreatedDate(user && user.created)}
                 followerCount={follows.follower_count}
                 followingCount={follows.following_count}
-                coverImage={coverImage}
+                handleFollowUnfollowUser={handleFollowUnfollowUser}
+                handleMuteUnmuteUser={handleMuteUnmuteUser}
+                handleOnFollowsPress={handleOnFollowsPress}
+                hoursRC={fullInHourRC || null}
+                hoursVP={fullInHourVP || null}
+                isDarkTheme={isDarkTheme}
+                isFollowing={isFollowing}
+                isLoggedIn={isLoggedIn}
+                isMuted={isMuted}
+                isOwnProfile={!isReverseHeader}
+                isProfileLoading={isProfileLoading}
+                link={website}
+                location={location}
+                percentRC={resourceCredits}
+                percentVP={votingPower}
               />
             </CollapsibleCard>
           )}

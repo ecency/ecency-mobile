@@ -16,6 +16,7 @@ export default EStyleSheet.create({
     padding: 16,
     borderRadius: 8,
     flexDirection: 'row',
+    backgroundColor: '$primaryBackgroundColor',
   },
   voteItemWrapperGray: {
     backgroundColor: '$primaryLightBackground',
