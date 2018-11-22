@@ -3,11 +3,11 @@ import EStyleSheet from 'react-native-extended-stylesheet';
 export default EStyleSheet.create({
   notification: {
     backgroundColor: '$primaryRed',
-    color: '$white',
+    color: '$primaryBackgroundColor',
     textAlign: 'center',
     borderRadius: 25,
     borderWidth: 1,
-    borderColor: '$white',
+    borderColor: '$primaryBackgroundColor',
     alignSelf: 'center',
     paddingHorizontal: 4,
     fontSize: 10,

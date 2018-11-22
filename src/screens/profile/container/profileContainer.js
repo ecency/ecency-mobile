@@ -262,6 +262,7 @@ class ProfileContainer extends Component {
       user,
       username,
     } = this.state;
+    const { isDarkTheme } = this.props;
 
     return (
       <Fragment>
@@ -282,7 +283,7 @@ class ProfileContainer extends Component {
           isReverseHeader={isReverseHeader}
           user={user}
           username={username}
-          {...this.props}
+          isDarkTheme={isDarkTheme}
         />
       </Fragment>
     );
@@ -292,6 +293,7 @@ class ProfileContainer extends Component {
 const mapStateToProps = state => ({
   isLoggedIn: state.application.isLoggedIn,
   currentAccount: state.account.currentAccount,
+  isDarkTheme: state.application.isDarkTheme,
 });
 
 export default connect(mapStateToProps)(ProfileContainer);

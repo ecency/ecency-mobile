@@ -19,6 +19,7 @@ export default EStyleSheet.create({
   },
   scroll: {
     height: '$deviceHeight / 1.135',
+    backgroundColor: '$primaryBackgroundColor',
   },
   footer: {
     flexDirection: 'column',

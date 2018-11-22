@@ -63,14 +63,14 @@ class FollowsScreen extends Component {
     const headerTitle = `${title} (${count})`;
 
     return (
-      <View style={{ flex: 1, padding: 8 }}>
+      <View style={styles.container}>
         <BasicHeader
           title={headerTitle}
           rightIconName="ios-search"
           isHasSearch
           handleOnSearch={handleSearch}
         />
-        {true || (filterResult && data && filterResult.length > 0) || data.length > 0 ? (
+        {(filterResult && data && filterResult.length > 0) || data.length > 0 ? (
           <FlatList
             data={filterResult || data}
             keyExtractor={item => item.voter}

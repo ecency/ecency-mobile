@@ -4,12 +4,12 @@ export default EStyleSheet.create({
   wrapper: {
     width: '$deviceWidth',
     height: 50,
-    backgroundColor: '$white',
+    backgroundColor: '$primaryBackgroundColor',
     flexDirection: 'row',
     justifyContent: 'space-between',
   },
   hasTopBorder: {
-    borderTopColor: '#cfcfcf',
+    borderTopColor: '$borderTopColor',
     borderTopWidth: 1,
   },
   title: {

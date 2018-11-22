@@ -10,7 +10,7 @@ export default EStyleSheet.create({
     flexDirection: 'row',
     maxHeight: '$deviceHeight / 3',
     overflow: 'hidden',
-    backgroundColor: '$white',
+    backgroundColor: '$primaryBackgroundColor',
   },
   description: {
     textAlignVertical: 'center',
@@ -43,6 +43,7 @@ export default EStyleSheet.create({
     flexDirection: 'row',
     height: 55,
     justifyContent: 'space-between',
+    backgroundColor: '$primaryBackgroundColor',
   },
   logo: {
     width: 32,

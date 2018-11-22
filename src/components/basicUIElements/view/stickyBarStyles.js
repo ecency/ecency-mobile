@@ -3,7 +3,7 @@ import EStyleSheet from 'react-native-extended-stylesheet';
 export default EStyleSheet.create({
   container: {
     flexDirection: 'row',
-    backgroundColor: '$white',
+    backgroundColor: '$primaryBackgroundColor',
     alignItems: 'center',
     alignSelf: 'center',
     justifyContent: 'space-between',
