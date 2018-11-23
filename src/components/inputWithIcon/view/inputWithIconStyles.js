@@ -7,11 +7,11 @@ export default EStyleSheet.create({
     marginVertical: 20,
     flexDirection: 'row',
     backgroundColor: '$primaryGray',
-    height: 45,
+    height: 55,
     justifyContent: 'space-between',
   },
   textInput: {
-    height: 45,
+    height: 55,
     flex: 8,
   },
   icon: {

@@ -3,6 +3,7 @@ import { connect } from 'react-redux';
 
 // Services and Actions
 import { search } from '../../../providers/esteem/esteem';
+import { lookupAccounts } from '../../../providers/steem/dsteem';
 
 // Middleware
 
@@ -22,7 +23,9 @@ import { SearchView } from '..';
 class SearchContainer extends Component {
   constructor(props) {
     super(props);
-    this.state = {};
+    this.state = {
+      searchResults: [],
+    };
   }
 
   // Component Life Cycle Functions
@@ -34,18 +37,26 @@ class SearchContainer extends Component {
   };
 
   _handleOnChangeSearchInput = (text) => {
-    console.log('text :', text);
-    search(text).then((res) => {
-      console.log('res :', res);
-    });
+    if (text && text !== '@') {
+      if (text[0] === '@') {
+        lookupAccounts(text.substr(1)).then((res) => {
+          const users = res.map(item => ({ author: item }));
+          this.setState({ searchResults: users });
+        });
+      } else {
+        search({ q: text }).then((res) => {
+          this.setState({ searchResults: res.results });
+        });
+      }
+    }
   };
 
   render() {
-    // eslint-disable-next-line
-    const {} = this.props;
+    const { searchResults } = this.state;
 
     return (
       <SearchView
+        searchResults={searchResults}
         handleCloseButton={this._handleCloseButton}
         handleOnChangeSearchInput={this._handleOnChangeSearchInput}
       />
