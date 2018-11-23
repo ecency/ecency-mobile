@@ -11,14 +11,14 @@ class NotificationButtonContainer extends Component {
   }
 
   render() {
-    const { color, unreadActivityCount } = this.props;
+    const { color, unreadActivityCount, size } = this.props;
     return (
       <Icon
         iconType="FontAwesome"
         notification={unreadActivityCount}
         name="bell-o"
         color={color}
-        size={18}
+        size={size}
       />
     );
   }

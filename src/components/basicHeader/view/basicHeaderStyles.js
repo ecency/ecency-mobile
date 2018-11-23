@@ -6,7 +6,7 @@ export default EStyleSheet.create({
     justifyContent: 'space-between',
     padding: 16,
     width: '$deviceWidth',
-    backgroundColor: '$white',
+    backgroundColor: '$primaryBackgroundColor',
     alignItems: 'center',
   },
   backIcon: {

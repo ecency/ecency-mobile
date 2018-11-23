@@ -4,6 +4,7 @@ export default EStyleSheet.create({
   container: {
     flex: 1,
     flexDirection: 'column',
+    backgroundColor: '$primaryBackgroundColor',
   },
   headerView: {
     flex: 1,

@@ -9,6 +9,7 @@ import { VotersDisplay } from '../../../components/votersDisplay';
 
 // Utils
 import { isBefore } from '../../../utils/time';
+import globalStyles from '../../../globalStyles';
 
 class VotersScreen extends Component {
   /* Props
@@ -68,7 +69,7 @@ class VotersScreen extends Component {
     const headerTitle = `Voters Info (${data && data.length})`;
 
     return (
-      <View>
+      <View style={globalStyles.container}>
         <BasicHeader
           title={headerTitle}
           rightIconName="ios-search"

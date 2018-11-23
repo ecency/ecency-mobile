@@ -4,20 +4,19 @@ export default EStyleSheet.create({
   tabbar: {
     alignSelf: 'center',
     height: 55,
-    backgroundColor: 'white',
-    borderBottomColor: '#f1f1f1',
+    backgroundColor: '$primaryBackgroundColor',
   },
   tabView: {
     alignSelf: 'center',
     backgroundColor: 'transparent',
   },
   notificationTab: {
-    backgroundColor: '#fff',
+    backgroundColor: '$primaryBackgroundColor',
     minWidth: '$deviceWidth',
   },
   leaderboardTab: {
     flex: 1,
-    backgroundColor: '#ffffff',
+    backgroundColor: '$primaryBackgroundColor',
     minWidth: '$deviceWidth',
   },
 });

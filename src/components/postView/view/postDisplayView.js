@@ -1,4 +1,4 @@
-import React, { Component } from 'react';
+import React, { Component, Fragment } from 'react';
 import {
   View, Text, ScrollView, Dimensions,
 } from 'react-native';
@@ -114,7 +114,7 @@ class PostDisplayView extends Component {
     isGetComment && !isLoadedComments && this.setState({ isLoadedComments: true });
 
     return (
-      <View>
+      <Fragment>
         <ScrollView style={styles.scroll} onScroll={event => this._handleOnScroll(event)}>
           <View style={styles.header}>
             {!post ? (
@@ -156,7 +156,7 @@ class PostDisplayView extends Component {
           )}
         </ScrollView>
         {!isPostEnd && this._getTabBar(true)}
-      </View>
+      </Fragment>
     );
   }
 }

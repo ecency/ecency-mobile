@@ -2,7 +2,7 @@ import EStyleSheet from 'react-native-extended-stylesheet';
 
 export default EStyleSheet.create({
   text: {
-    color: '$white',
+    color: '$primaryBackgroundColor',
     fontSize: 10,
   },
   isPin: {

@@ -25,10 +25,11 @@ export default EStyleSheet.create({
     paddingTop: 10,
     paddingBottom: 10,
     minWidth: '$deviceWidth / 2',
-    borderColor: '#e7e7e7',
+    borderColor: '$primaryGrayBackground',
     borderRadius: 5,
-    shadowOpacity: 0.8,
-    shadowColor: '#e7e7e7',
+    shadowOpacity: 0.3,
+    shadowColor: '$shadowColor',
+    backgroundColor: '$primaryBackgroundColor',
   },
   iconWrapper: {
     justifyContent: 'center',
@@ -78,7 +79,7 @@ export default EStyleSheet.create({
     marginLeft: 20,
   },
   highlightedRowText: {
-    color: '$white',
+    color: '$primaryBackgroundColor',
     fontWeight: 'bold',
   },
   rowText: {
