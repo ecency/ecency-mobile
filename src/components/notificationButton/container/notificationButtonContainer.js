@@ -15,10 +15,11 @@ class NotificationButtonContainer extends Component {
     return (
       <Icon
         iconType="FontAwesome"
-        notification={unreadActivityCount}
+        badgeCount={unreadActivityCount}
         name="bell-o"
         color={color}
         size={size}
+        style={{ padding: 20 }}
       />
     );
   }

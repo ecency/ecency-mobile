@@ -4,7 +4,10 @@ export default EStyleSheet.create({
   wrapper: {
     flexDirection: 'row',
     height: 56,
-    width: '100%',
+    width: '$deviceWidth',
     backgroundColor: '$primaryBackgroundColor',
+    borderWidth: 0.1,
+    shadowOpacity: 0.1,
+    shadowOffset: { height: 0 },
   },
 });

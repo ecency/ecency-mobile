@@ -1,4 +1,4 @@
-import React, { Component } from 'react';
+import React, { Component, Fragment } from 'react';
 import { Platform, View, Text } from 'react-native';
 
 import Ionicons from 'react-native-vector-icons/Ionicons';
@@ -60,17 +60,21 @@ class IconView extends Component {
     }
   };
 
+  _getIconWithBadge = badgeCount => (
+    <Fragment>
+      <View style={styles.badgeWrapper}>
+        <Text style={styles.badge}>{badgeCount}</Text>
+      </View>
+      {this._getIcon()}
+    </Fragment>
+  );
+
   render() {
-    const { notification } = this.props;
-    if (notification) {
-      return (
-        <View>
-          {this._getIcon()}
-          <Text style={styles.notification}>{notification}</Text>
-        </View>
-      );
-    }
-    return this._getIcon();
+    const { badgeCount } = this.props;
+
+    if (!badgeCount) return this._getIcon();
+
+    return this._getIconWithBadge(badgeCount);
   }
 }
 
