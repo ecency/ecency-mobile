@@ -1,5 +1,6 @@
 import React, { Component } from 'react';
 import { connect } from 'react-redux';
+import 'intl';
 import { addLocaleData } from 'react-intl';
 import en from 'react-intl/locale-data/en';
 import tr from 'react-intl/locale-data/tr';
