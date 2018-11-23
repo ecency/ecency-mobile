@@ -176,4 +176,7 @@ export default EStyleSheet.create({
     margin: 16,
     justifyContent: 'space-between',
   },
+  leftFooterWrapper: {
+    flexDirection: 'row',
+  },
 });

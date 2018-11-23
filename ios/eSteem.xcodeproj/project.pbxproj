@@ -199,6 +199,13 @@
 			remoteGlobalIDString = EB2648DF1C7BE17A00B8F155;
 			remoteInfo = ReactNativeConfig;
 		};
+		0CA1AD3C21A818CF001EAFBD /* PBXContainerItemProxy */ = {
+			isa = PBXContainerItemProxy;
+			containerPortal = C1AC2A99CB0143E580183824 /* RNViewOverflow.xcodeproj */;
+			proxyType = 2;
+			remoteGlobalIDString = 134814201AA4EA6300B7C361;
+			remoteInfo = RNViewOverflow;
+		};
 		139105C01AF99BAD00B5F7CC /* PBXContainerItemProxy */ = {
 			isa = PBXContainerItemProxy;
 			containerPortal = 139105B61AF99BAD00B5F7CC /* RCTSettings.xcodeproj */;
@@ -747,6 +754,14 @@
 			name = Products;
 			sourceTree = "<group>";
 		};
+		0CE2BA1E21A7301B0052071F /* Products */ = {
+			isa = PBXGroup;
+			children = (
+				0CE2BA2221A7301B0052071F /* libRNViewOverflow.a */,
+			);
+			name = Products;
+			sourceTree = "<group>";
+		};
 		139105B71AF99BAD00B5F7CC /* Products */ = {
 			isa = PBXGroup;
 			children = (
@@ -1166,7 +1181,8 @@
 					ProjectRef = D480651D3E18476D9F220D2A /* RNVectorIcons.xcodeproj */;
 				},
 				{
-					ProductGroup = 47241C6021A85340001094B9 /* Products */;
+
+					ProductGroup = 0CE2BA1E21A7301B0052071F /* Products */;
 					ProjectRef = C1AC2A99CB0143E580183824 /* RNViewOverflow.xcodeproj */;
 				},
 			);
@@ -1291,6 +1307,13 @@
 			fileType = archive.ar;
 			path = libReactNativeConfig.a;
 			remoteRef = 0C09B6DB21A3393A00536C9D /* PBXContainerItemProxy */;
+			sourceTree = BUILT_PRODUCTS_DIR;
+		};
+		0CE2BA2221A7301B0052071F /* libRNViewOverflow.a */ = {
+			isa = PBXReferenceProxy;
+			fileType = archive.ar;
+			path = libRNViewOverflow.a;
+			remoteRef = 0CE2BA2121A7301B0052071F /* PBXContainerItemProxy */;
 			sourceTree = BUILT_PRODUCTS_DIR;
 		};
 		139105C11AF99BAD00B5F7CC /* libRCTSettings.a */ = {
