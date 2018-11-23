@@ -2,11 +2,10 @@ import React, { Component } from 'react';
 import {
   Image, TouchableOpacity, Text, View,
 } from 'react-native';
-import FastImage from 'react-native-fast-image';
+//import FastImage from 'react-native-fast-image';
 import { PostHeaderDescription } from '../../postElements';
 import { DropdownButton } from '../../dropdownButton';
 import { Icon } from '../../icon';
-import { IconButton } from '../../iconButton';
 import { LineBreak } from '../../basicUIElements'
 
 // STEEM
