@@ -35,9 +35,9 @@ const settingsSchema = {
   properties: {
     language: { type: 'string', default: null },
     isDarkTheme: { type: 'bool', default: false },
-    currency: { type: 'string' },
-    notification: { type: 'string', default: true },
-    server: { type: 'string' },
+    currency: { type: 'string', default: null },
+    notification: { type: 'string', default: null },
+    server: { type: 'string', default: null },
   },
 };
 
@@ -54,6 +54,20 @@ const realm = new Realm({
   path: 'esteem.realm',
   schema: [userSchema, authSchema, draftSchema, settingsSchema],
 });
+
+const settings = realm.objects(SETTINGS_SCHEMA);
+
+if (Array.from(settings).length <= 0) {
+  realm.write(() => {
+    realm.create(SETTINGS_SCHEMA, {
+      language: '',
+      isDarkTheme: false,
+      currency: '',
+      notification: true,
+      server: '',
+    });
+  });
+}
 
 // TODO: This is getting ALL user data, we should change this method with getUserDataWithUsername
 export const getUserData = () => new Promise((resolve, reject) => {
@@ -243,10 +257,24 @@ export const getPinCode = () => new Promise((resolve, reject) => {
 export const setTheme = isDarkTheme => new Promise((resolve, reject) => {
   try {
     const settings = realm.objects(SETTINGS_SCHEMA);
-    console.log('realma tema kayit ediiyor ');
     realm.write(() => {
-      settings[0].isDarkTheme = isDarkTheme;
-      resolve(settings[0]);
+      if (Array.from(settings).length > 0) {
+        settings[0].language = settings[0].language;
+        settings[0].isDarkTheme = isDarkTheme;
+        settings[0].currency = settings[0].currency;
+        settings[0].notification = settings[0].notification;
+        settings[0].server = settings[0].server;
+        resolve(true);
+      } else {
+        realm.create(SETTINGS_SCHEMA, {
+          language: '',
+          isDarkTheme,
+          currency: '',
+          notification: '',
+          server: '',
+        });
+        resolve(true);
+      }
     });
   } catch (error) {
     reject(error);
@@ -269,10 +297,9 @@ export const getTheme = () => new Promise((resolve, reject) => {
 export const setLanguage = selectedLanguage => new Promise((resolve, reject) => {
   try {
     const settings = realm.objects(SETTINGS_SCHEMA);
-    console.log('realma tema kayit ediiyor ');
     realm.write(() => {
       settings[0].language = selectedLanguage;
-      resolve(settings[0]);
+      resolve(true);
     });
   } catch (error) {
     reject(error);
@@ -291,7 +318,6 @@ export const getLanguage = () => new Promise((resolve, reject) => {
     reject(error);
   }
 });
-
 
 export const getSettings = () => new Promise((resolve, reject) => {
   try {

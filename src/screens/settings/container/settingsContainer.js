@@ -2,7 +2,7 @@ import React, { Component } from 'react';
 import { connect } from 'react-redux';
 
 // Realm
-import { setTheme } from '../../../realm/realm';
+import { setTheme, setLanguage as setLanguage2DB } from '../../../realm/realm';
 
 // Services and Actions
 import {
@@ -50,6 +50,7 @@ class SettingsContainer extends Component {
 
       case 'language':
         dispatch(setLanguage(LANGUAGE_VALUE[action]));
+        // setLanguage2DB(LANGUAGE_VALUE[action]);
         break;
 
       case 'api':
