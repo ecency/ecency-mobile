@@ -137,6 +137,7 @@ android {
 }
 
 dependencies {
+    compile project(':react-native-view-overflow')
     compile project(':realm')
     compile project(':react-native-vector-icons')
     compile project(':react-native-restart')
