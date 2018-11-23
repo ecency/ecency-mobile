@@ -256,7 +256,6 @@ export const getPinCode = () => new Promise((resolve, reject) => {
 
 export const setTheme = isDarkTheme => new Promise((resolve, reject) => {
   try {
-    const settings = realm.objects(SETTINGS_SCHEMA);
     realm.write(() => {
       if (Array.from(settings).length > 0) {
         settings[0].language = settings[0].language;
@@ -283,7 +282,6 @@ export const setTheme = isDarkTheme => new Promise((resolve, reject) => {
 
 export const getTheme = () => new Promise((resolve, reject) => {
   try {
-    const settings = realm.objects(SETTINGS_SCHEMA);
     if (settings[0]) {
       resolve(settings[0].isDarkTheme);
     } else {
@@ -296,7 +294,6 @@ export const getTheme = () => new Promise((resolve, reject) => {
 
 export const setLanguage = selectedLanguage => new Promise((resolve, reject) => {
   try {
-    const settings = realm.objects(SETTINGS_SCHEMA);
     realm.write(() => {
       settings[0].language = selectedLanguage;
       resolve(true);
@@ -306,9 +303,41 @@ export const setLanguage = selectedLanguage => new Promise((resolve, reject) => 
   }
 });
 
+export const setServer = selectedServer => new Promise((resolve, reject) => {
+  try {
+    realm.write(() => {
+      settings[0].server = selectedServer;
+      resolve(true);
+    });
+  } catch (error) {
+    reject(error);
+  }
+});
+
+export const setNotificationIsOpen = notificationIsOpen => new Promise((resolve, reject) => {
+  try {
+    realm.write(() => {
+      settings[0].notification = notificationIsOpen;
+      resolve(true);
+    });
+  } catch (error) {
+    reject(error);
+  }
+});
+
+export const setCurrency = selectedCurrency => new Promise((resolve, reject) => {
+  try {
+    realm.write(() => {
+      settings[0].curreny = selectedCurrency;
+      resolve(true);
+    });
+  } catch (error) {
+    reject(error);
+  }
+});
+
 export const getLanguage = () => new Promise((resolve, reject) => {
   try {
-    const settings = realm.objects(SETTINGS_SCHEMA);
     if (settings[0]) {
       resolve(settings[0].language);
     } else {
@@ -321,7 +350,6 @@ export const getLanguage = () => new Promise((resolve, reject) => {
 
 export const getSettings = () => new Promise((resolve, reject) => {
   try {
-    const settings = realm.objects(SETTINGS_SCHEMA);
     if (settings[0]) {
       resolve(settings[0]);
     } else {

@@ -2,7 +2,13 @@ import React, { Component } from 'react';
 import { connect } from 'react-redux';
 
 // Realm
-import { setTheme, setLanguage as setLanguage2DB } from '../../../realm/realm';
+import {
+  setTheme,
+  setLanguage as setLanguage2DB,
+  setCurrency as setCurrency2DB,
+  setServer,
+  setNotificationIsOpen,
+} from '../../../realm/realm';
 
 // Services and Actions
 import {
@@ -45,16 +51,17 @@ class SettingsContainer extends Component {
     switch (actionType) {
       case 'currency':
         dispatch(setCurrency(CURRENCY_VALUE[action]));
-
+        setCurrency2DB(CURRENCY_VALUE[action]);
         break;
 
       case 'language':
         dispatch(setLanguage(LANGUAGE_VALUE[action]));
-        // setLanguage2DB(LANGUAGE_VALUE[action]);
+        setLanguage2DB(LANGUAGE_VALUE[action]);
         break;
 
       case 'api':
         dispatch(setApi(API_VALUE[action]));
+        setServer(API_VALUE[action]);
         break;
 
       default:
@@ -68,11 +75,12 @@ class SettingsContainer extends Component {
     switch (actionType) {
       case 'notification':
         dispatch(isNotificationOpen(action));
+        setNotificationIsOpen(action);
         break;
 
       case 'theme':
         dispatch(isDarkTheme(action));
-        setTheme(true);
+        setTheme(action);
         break;
 
       default:
@@ -100,10 +108,6 @@ class SettingsContainer extends Component {
         break;
     }
   };
-
-  // _handleThemeChange = () => {
-  //   const { dispatch } = this.props;
-  // };
 
   render() {
     return <SettingsScreen handleOnChange={this._handleOnChange} {...this.props} />;

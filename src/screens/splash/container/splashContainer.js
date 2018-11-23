@@ -75,6 +75,8 @@ class SplashContainer extends Component {
         response.isDarkTheme && dispatch(isDarkTheme(response.isDarkTheme));
         response.language && dispatch(setLanguage(response.language));
         response.currency && dispatch(setCurrency(response.currency));
+        response.notification && dispatch(isNotificationOpen(response.currency));
+        response.server && dispatch(setApi(response.currency));
       }
     });
   };
