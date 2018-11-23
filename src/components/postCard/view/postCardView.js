@@ -6,6 +6,8 @@ import FastImage from 'react-native-fast-image';
 import { PostHeaderDescription } from '../../postElements';
 import { DropdownButton } from '../../dropdownButton';
 import { Icon } from '../../icon';
+import { IconButton } from '../../iconButton';
+import { LineBreak } from '../../basicUIElements'
 
 // STEEM
 import { Upvote } from '../../upvote';
@@ -98,13 +100,20 @@ class PostCard extends Component {
           </TouchableOpacity>
         </View>
         <View style={styles.bodyFooter}>
-          <Upvote isShowpayoutValue content={content} user={user} isLoggedIn={isLoggedIn} />
+          <View style={styles.leftFooterWrapper}>
+            <Upvote isShowpayoutValue content={content} user={user} isLoggedIn={isLoggedIn} />
+            <TouchableOpacity style={styles.commentButton}>
+              <Icon style={[styles.commentIcon, { marginLeft: 25}]} iconType="MaterialIcons" name="people" />
+              <Text style={styles.comment}>{content.vote_count}</Text>
+            </TouchableOpacity>
+          </View>
           <TouchableOpacity style={styles.commentButton}>
             <Icon style={[styles.commentIcon]} iconType="MaterialIcons" name="chat" />
             <Text style={styles.comment}>{content.children}</Text>
           </TouchableOpacity>
         </View>
-        {content && content.top_likers ? (
+        <LineBreak height={8} />
+        {/* {content && content.top_likers ? (
           <TouchableOpacity
             style={styles.likersWrapper}
             onPress={() => this._handleOnVotersPress()}
@@ -128,7 +137,7 @@ class PostCard extends Component {
           <View>
             <Text style={styles.footer}>{likesCount}</Text>
           </View>
-        )}
+        )} */}
       </View>
     );
   }
