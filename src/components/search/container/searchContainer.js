@@ -2,6 +2,7 @@ import React, { Component } from 'react';
 import { connect } from 'react-redux';
 
 // Services and Actions
+import { search } from '../../../providers/esteem/esteem';
 
 // Middleware
 
@@ -34,6 +35,9 @@ class SearchContainer extends Component {
 
   _handleOnChangeSearchInput = (text) => {
     console.log('text :', text);
+    search(text).then((res) => {
+      console.log('res :', res);
+    });
   };
 
   render() {

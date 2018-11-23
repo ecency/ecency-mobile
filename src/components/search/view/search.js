@@ -90,12 +90,6 @@ export default class Search extends Component {
     const { users, text, posts } = this.state;
 
     return (
-      <View>
-        <Icon name="ios-search"></Icon>
-      </View>
-    )
-
-    return (
       <View
         style={{
           backgroundColor: 'rgba(0, 0, 0, 0.8)',
