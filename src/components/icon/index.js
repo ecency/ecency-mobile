@@ -1,4 +1,5 @@
+import IconContainer from './container/iconContainer';
 import Icon from './view/iconView';
 
-export { Icon };
+export { Icon, IconContainer };
 export default Icon;

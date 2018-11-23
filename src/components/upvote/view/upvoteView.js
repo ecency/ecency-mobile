@@ -131,7 +131,7 @@ class UpvoteView extends Component {
               ) : (
                 <Fragment>
                   <Icon
-                    style={[styles.upvoteIcon, { color: '#007ee5' }]}
+                    style={[styles.upvoteIcon]}
                     active={!isLoggedIn}
                     iconType="AntDesign"
                     name={isVoted ? 'upcircle' : 'upcircleo'}
