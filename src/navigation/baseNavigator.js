@@ -1,12 +1,12 @@
 import React from 'react';
 import { createBottomTabNavigator } from 'react-navigation';
-// import Icon from 'react-native-vector-icons/FontAwesome';
 import { Icon } from '../components/icon';
+import { IconContainer } from '../components/icon';
+
 import {
   Home, Notification, Profile, RootComponent, Messages,
 } from '../screens';
 import { PostButton } from '../components/postButton';
-import NotificationButton from '../components/notificationButton';
 import { BottomTabBar } from '../components/bottomTabBar';
 // import style from './baseNavigatorStyles';
 
@@ -29,7 +29,17 @@ const BaseNavigator = createBottomTabNavigator(
     Notification: {
       screen: RootComponent()(Notification),
       navigationOptions: () => ({
-        tabBarIcon: ({ tintColor }) => <NotificationButton size={20} color={tintColor} />,
+        tabBarIcon: ({ tintColor }) => (
+          <IconContainer
+            isBadge
+            badgeType="notification"
+            iconType="FontAwesome"
+            name="bell-o"
+            color={tintColor}
+            size={20}
+            style={{ padding: 20 }}
+          />
+        ),
       }),
     },
     PostButton: {

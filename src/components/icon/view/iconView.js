@@ -1,4 +1,5 @@
 import React, { Component, Fragment } from 'react';
+
 import { Platform, View, Text } from 'react-native';
 
 import Ionicons from 'react-native-vector-icons/Ionicons';
