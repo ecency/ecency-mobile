@@ -1,10 +1,10 @@
 import React, { Component } from 'react';
-import { View, Text } from 'react-native';
+import { View } from 'react-native';
 
 // Constants
 
 // Components
-import { Icon, InputWithIcon } from '../..';
+import { InputWithIcon } from '../..';
 
 // Styles
 // eslint-disable-next-line
@@ -26,22 +26,19 @@ class SearchView extends Component {
   // Component Functions
 
   render() {
-    console.log('111111111');
+    const { handleCloseButton, handleOnChangeSearchInput } = this.props;
     return (
       <View style={styles.container}>
-        <Icon color="#fff" name="ios-search" />
         <InputWithIcon
-          rightIconName="md-at"
-          leftIconName="md-close-circle"
-          // isValid={isUsernameValid}
-          // onChange={value => this._handleUsernameChange(value)}
-          placeholder="Username"
+          rightIconName="md-close-circle"
+          leftIconName="md-search"
+          handleOnPressRightIcon={handleCloseButton}
+          onChange={value => handleOnChangeSearchInput(value)}
+          placeholder="Search..."
           isEditable
           type="username"
           isFirstImage
-          // value={username}
         />
-        <Text style={{ color: 'white' }}>sadsadahfasjfhkajsdjkhaskfasjkfjasfjlajsfkas</Text>
       </View>
     );
   }

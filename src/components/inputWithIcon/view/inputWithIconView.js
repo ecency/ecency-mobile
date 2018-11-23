@@ -42,13 +42,19 @@ class InputWithIconView extends Component {
       secureTextEntry,
       isEditable,
       type,
+      handleOnPressRightIcon,
+      handleOnPressLeftIcon,
     } = this.props;
 
     const { value } = this.state;
 
     return (
       <View style={styles.wrapper}>
-        <Icon name={leftIconName} style={[styles.icon, styles.left]} />
+        <Icon
+          name={leftIconName}
+          style={[styles.icon, styles.left]}
+          onPress={() => handleOnPressLeftIcon && handleOnPressLeftIcon()}
+        />
         <TextInput
           autoCapitalize="none"
           secureTextEntry={secureTextEntry}
@@ -60,7 +66,7 @@ class InputWithIconView extends Component {
           style={styles.textInput}
         />
         <Icon
-          onPress={() => this.setState({ value: '' })}
+          onPress={() => handleOnPressRightIcon && handleOnPressRightIcon()}
           name={rightIconName}
           style={[styles.icon, styles.right]}
         />

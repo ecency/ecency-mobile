@@ -1,3 +1,5 @@
 import SearchView from './view/searchView';
+import SearchContainer from './container/searchContainer';
 
-export default SearchView;
+export { SearchContainer, SearchView };
+export default SearchContainer;

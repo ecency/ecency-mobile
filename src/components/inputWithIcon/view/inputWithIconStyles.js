@@ -4,15 +4,14 @@ export default EStyleSheet.create({
   wrapper: {
     borderRadius: 8,
     marginHorizontal: 20,
-    marginVertical: 10,
+    marginVertical: 20,
     flexDirection: 'row',
     backgroundColor: '$primaryGray',
-    height: 60,
-    borderBottomWidth: 2,
+    height: 45,
     justifyContent: 'space-between',
   },
   textInput: {
-    height: 60,
+    height: 45,
     flex: 8,
   },
   icon: {
