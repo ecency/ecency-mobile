@@ -2,11 +2,11 @@ import React, { Component } from 'react';
 import {
   Image, TouchableOpacity, Text, View,
 } from 'react-native';
-//import FastImage from 'react-native-fast-image';
+// import FastImage from 'react-native-fast-image';
 import { PostHeaderDescription } from '../../postElements';
 import { DropdownButton } from '../../dropdownButton';
 import { Icon } from '../../icon';
-import { LineBreak } from '../../basicUIElements'
+import { LineBreak } from '../../basicUIElements';
 
 // STEEM
 import { Upvote } from '../../upvote';
@@ -56,11 +56,11 @@ class PostCard extends Component {
 
   render() {
     const { content, isLoggedIn, user } = this.props;
-    const likersText = `@${content.top_likers[0]}, @${content.top_likers[1]}, @${
-      content.top_likers[2]
-    }`;
-    const otherLikers = ` & ${content.vote_count - content.top_likers.length} others like this`;
-    const likesCount = `${content.vote_count} likes`;
+    // const likersText = `@${content.top_likers[0]}, @${content.top_likers[1]}, @${
+    //   content.top_likers[2]
+    // }`;
+    // const otherLikers = ` & ${content.vote_count - content.top_likers.length} others like this`;
+    // const likesCount = `${content.vote_count} likes`;
 
     return (
       <View style={styles.post}>
@@ -101,8 +101,12 @@ class PostCard extends Component {
         <View style={styles.bodyFooter}>
           <View style={styles.leftFooterWrapper}>
             <Upvote isShowpayoutValue content={content} user={user} isLoggedIn={isLoggedIn} />
-            <TouchableOpacity style={styles.commentButton}>
-              <Icon style={[styles.commentIcon, { marginLeft: 25}]} iconType="MaterialIcons" name="people" />
+            <TouchableOpacity style={styles.commentButton} onPress={() => this._handleOnVotersPress()}>
+              <Icon
+                style={[styles.commentIcon, { marginLeft: 25 }]}
+                iconType="MaterialIcons"
+                name="people"
+              />
               <Text style={styles.comment}>{content.vote_count}</Text>
             </TouchableOpacity>
           </View>
