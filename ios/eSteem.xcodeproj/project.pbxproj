@@ -747,10 +747,10 @@
 			name = Products;
 			sourceTree = "<group>";
 		};
-		0CA1AD3921A818CE001EAFBD /* Products */ = {
+		0CE2BA1E21A7301B0052071F /* Products */ = {
 			isa = PBXGroup;
 			children = (
-				0CA1AD3D21A818CF001EAFBD /* libRNViewOverflow.a */,
+				0CE2BA2221A7301B0052071F /* libRNViewOverflow.a */,
 			);
 			name = Products;
 			sourceTree = "<group>";
@@ -1166,7 +1166,7 @@
 					ProjectRef = D480651D3E18476D9F220D2A /* RNVectorIcons.xcodeproj */;
 				},
 				{
-					ProductGroup = 0CA1AD3921A818CE001EAFBD /* Products */;
+					ProductGroup = 0CE2BA1E21A7301B0052071F /* Products */;
 					ProjectRef = C1AC2A99CB0143E580183824 /* RNViewOverflow.xcodeproj */;
 				},
 			);
@@ -1293,11 +1293,12 @@
 			remoteRef = 0C09B6DB21A3393A00536C9D /* PBXContainerItemProxy */;
 			sourceTree = BUILT_PRODUCTS_DIR;
 		};
-		0CA1AD3D21A818CF001EAFBD /* libRNViewOverflow.a */ = {
+		0CE2BA2221A7301B0052071F /* libRNViewOverflow.a */ = {
 			isa = PBXReferenceProxy;
 			fileType = archive.ar;
 			path = libRNViewOverflow.a;
-			remoteRef = 0CA1AD3C21A818CF001EAFBD /* PBXContainerItemProxy */;
+			remoteRef = 0CE2BA2121A7301B0052071F /* PBXContainerItemProxy */;
+
 			sourceTree = BUILT_PRODUCTS_DIR;
 		};
 		139105C11AF99BAD00B5F7CC /* libRCTSettings.a */ = {
