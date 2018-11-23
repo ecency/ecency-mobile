@@ -36,7 +36,7 @@ const settingsSchema = {
     language: { type: 'string', default: null },
     isDarkTheme: { type: 'bool', default: false },
     currency: { type: 'string', default: null },
-    notification: { type: 'string', default: null },
+    notification: { type: 'bool', default: true },
     server: { type: 'string', default: null },
   },
 };
