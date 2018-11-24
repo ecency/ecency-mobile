@@ -8,6 +8,7 @@ import { lookupAccounts } from '../../../providers/steem/dsteem';
 // Middleware
 
 // Constants
+import { default as ROUTES } from '../../../constants/routeNames';
 
 // Utilities
 
@@ -45,10 +46,32 @@ class SearchContainer extends Component {
         });
       } else {
         search({ q: text }).then((res) => {
-          // TODO: title and image_url null check
+          res.results = res.results.filter(item => item.title !== '');
           this.setState({ searchResults: { type: 'content', data: res.results } });
         });
       }
+    }
+  };
+
+  _handleOnPressListItem = (type, item) => {
+    const { navigation } = this.props;
+    if (type === 'user') {
+      navigation.navigate({
+        routeName: ROUTES.SCREENS.PROFILE,
+        params: {
+          username: item.author,
+        },
+        key: item.author,
+      });
+    } else if (type === 'content') {
+      navigation.navigate({
+        routeName: ROUTES.SCREENS.POST,
+        params: {
+          author: item.author,
+          permlink: item.permlink,
+        },
+        key: item.permlink,
+      });
     }
   };
 
@@ -60,6 +83,7 @@ class SearchContainer extends Component {
         searchResults={searchResults}
         handleCloseButton={this._handleCloseButton}
         handleOnChangeSearchInput={this._handleOnChangeSearchInput}
+        handleOnPressListItem={this._handleOnPressListItem}
       />
     );
   }

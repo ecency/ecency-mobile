@@ -1,6 +1,6 @@
 import React, { Component } from 'react';
 import {
-  View, FlatList, Image, Text,
+  View, FlatList, Image, Text, TouchableHighlight,
 } from 'react-native';
 
 // Constants
@@ -28,7 +28,12 @@ class SearchView extends Component {
   // Component Functions
 
   render() {
-    const { handleCloseButton, handleOnChangeSearchInput, searchResults } = this.props;
+    const {
+      handleCloseButton,
+      handleOnChangeSearchInput,
+      handleOnPressListItem,
+      searchResults,
+    } = this.props;
     return (
       <View style={styles.container}>
         <InputWithIcon
@@ -46,20 +51,22 @@ class SearchView extends Component {
           showsVerticalScrollIndicator={false}
           renderItem={({ item }) => (
             //  TODO: Create a component to list search results
-            <View style={styles.searhItems}>
-              <Image
-                source={{
-                  uri:
-                    searchResults.type === 'user'
-                      ? `https://steemitimages.com/u/${item.author}/avatar/small`
-                      : item.img_url,
-                }}
-                style={styles.searchItemImage}
-              />
-              <Text style={styles.searchItemText}>
-                {searchResults.type === 'user' ? item.author : item.title}
-              </Text>
-            </View>
+            <TouchableHighlight onPress={() => handleOnPressListItem(searchResults.type, item)}>
+              <View style={styles.searhItems}>
+                <Image
+                  source={{
+                    uri:
+                      searchResults.type === 'user'
+                        ? `https://steemitimages.com/u/${item.author}/avatar/small`
+                        : item.img_url || `https://steemitimages.com/u/${item.author}/avatar/small`,
+                  }}
+                  style={styles.searchItemImage}
+                />
+                <Text style={styles.searchItemText}>
+                  {searchResults.type === 'user' ? item.author : item.title}
+                </Text>
+              </View>
+            </TouchableHighlight>
           )}
           keyExtractor={(post, index) => index.toString()}
           removeClippedSubviews
