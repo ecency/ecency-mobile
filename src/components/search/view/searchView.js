@@ -42,35 +42,23 @@ class SearchView extends Component {
           isFirstImage
         />
         <FlatList
-          data={searchResults}
+          data={searchResults.data}
           showsVerticalScrollIndicator={false}
           renderItem={({ item }) => (
             //  TODO: Create a component to list search results
-            <View
-              style={{
-                marginHorizontal: 10,
-                marginVertical: 10,
-              }}
-            >
-              <View
-                style={{
-                  flexDirection: 'row',
+            <View style={styles.searhItems}>
+              <Image
+                source={{
+                  uri:
+                    searchResults.type === 'user'
+                      ? `https://steemitimages.com/u/${item.author}/avatar/small`
+                      : item.img_url,
                 }}
-              >
-                <Image
-                  source={{
-                    uri: `https://steemitimages.com/u/${item.author}/avatar/small`,
-                  }}
-                  style={{
-                    width: 40,
-                    height: 40,
-                    borderRadius: 20,
-                    borderWidth: 1,
-                    borderColor: 'gray',
-                  }}
-                />
-                <Text style={{ color: 'white' }}>{`${item.author}`}</Text>
-              </View>
+                style={styles.searchItemImage}
+              />
+              <Text style={styles.searchItemText}>
+                {searchResults.type === 'user' ? item.author : item.title}
+              </Text>
             </View>
           )}
           keyExtractor={(post, index) => index.toString()}

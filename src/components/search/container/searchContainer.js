@@ -24,7 +24,7 @@ class SearchContainer extends Component {
   constructor(props) {
     super(props);
     this.state = {
-      searchResults: [],
+      searchResults: {},
     };
   }
 
@@ -41,11 +41,12 @@ class SearchContainer extends Component {
       if (text[0] === '@') {
         lookupAccounts(text.substr(1)).then((res) => {
           const users = res.map(item => ({ author: item }));
-          this.setState({ searchResults: users });
+          this.setState({ searchResults: { type: 'user', data: users } });
         });
       } else {
         search({ q: text }).then((res) => {
-          this.setState({ searchResults: res.results });
+          // TODO: title and image_url null check
+          this.setState({ searchResults: { type: 'content', data: res.results } });
         });
       }
     }

@@ -13,4 +13,21 @@ export default EStyleSheet.create({
     backgroundColor: '$white',
     borderRadius: 5,
   },
+  searhItems: {
+    marginHorizontal: 30,
+    marginVertical: 10,
+    flexDirection: 'row',
+    alignItems: 'center',
+  },
+  searchItemImage: {
+    width: 40,
+    height: 40,
+    borderRadius: 20,
+    borderWidth: 1,
+    borderColor: '$primaryGray',
+  },
+  searchItemText: {
+    color: '$white',
+    marginLeft: 10,
+  },
 });
