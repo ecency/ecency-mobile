@@ -1,6 +1,6 @@
 import React from 'react';
 import { View, TouchableHighlight, Text } from 'react-native';
-import { Icon } from '../../icon';
+import { Icon } from '../../../icon';
 import styles from './textWithIconStyles';
 
 const TextWithIcon = ({

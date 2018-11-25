@@ -8,11 +8,11 @@ import { connect } from 'react-redux';
 
 // Actions
 import {
-  failedAccount, addOtherAccount, updateCurrentAccount,
+  failedAccount,
+  addOtherAccount,
+  updateCurrentAccount,
 } from '../../../redux/actions/accountAction';
-import {
-  login as loginAction, openPinCodeModal,
-} from '../../../redux/actions/applicationActions';
+import { login as loginAction, openPinCodeModal } from '../../../redux/actions/applicationActions';
 
 // Internal Components
 import { FormInput } from '../../../components/formInput';
@@ -96,7 +96,7 @@ class LoginScreen extends Component {
     } = this.state;
 
     return (
-      <View style={{ flex: 1 }}>
+      <View style={styles.container}>
         <StatusBar hidden translucent />
         <LoginHeader
           isKeyboardOpen={keyboardIsOpen}
@@ -165,7 +165,7 @@ class LoginScreen extends Component {
               isLoading={isLoading}
             />
           </View>
-          <View tabLabel="SteemConnect" style={styles.steemConnectTab}>
+          <View tabLabel="SteemConnect" style={styles.tabbarItem}>
             <InformationArea
               description="If you don't want to keep your password encrypted and saved on your device, you can use Steemconnect."
               iconName="ios-information-circle-outline"

@@ -11,6 +11,7 @@ export default EStyleSheet.create({
     maxHeight: '$deviceHeight / 3',
     overflow: 'hidden',
     backgroundColor: '$primaryBackgroundColor',
+    height: '$deviceHeight / 2.9',
   },
   description: {
     textAlignVertical: 'center',
@@ -26,17 +27,18 @@ export default EStyleSheet.create({
     marginBottom: 16,
   },
   mascot: {
+    position: 'absolute',
     width: 217,
     height: 300,
     marginLeft: 50,
     marginTop: 40,
+    right: -20,
   },
   titleText: {
-    flex: 0.4,
     alignSelf: 'center',
-    height: 100,
     marginTop: 50,
     marginLeft: 32,
+    width: '$deviceWidth / 3',
   },
   headerRow: {
     width: '$deviceWidth',

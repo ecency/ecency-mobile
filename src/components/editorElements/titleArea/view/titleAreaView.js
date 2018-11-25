@@ -1,8 +1,9 @@
 import React, { Component } from 'react';
-import { TextInput, View } from 'react-native';
+import { View } from 'react-native';
 // Constants
 
 // Components
+import { TextInput } from '../../../textInput';
 
 // Styles
 import styles from './titleAreaStyles';

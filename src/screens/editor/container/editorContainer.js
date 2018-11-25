@@ -116,21 +116,22 @@ class ExampleContainer extends Component {
   };
 
   render() {
-    const { isLoggedIn } = this.props;
+    const { isLoggedIn, isDarkTheme } = this.props;
     const {
       isPostSending, isDraftSaving, isDraftSaved, draftPost,
     } = this.state;
 
     return (
       <EditorScreen
-        handleOnSaveButtonPress={this._handleOnSaveButtonPress}
-        isPostSending={isPostSending}
-        handleFormChanged={this._handleFormChanged}
-        isDraftSaving={isDraftSaving}
-        isDraftSaved={isDraftSaved}
         draftPost={draftPost}
-        isLoggedIn={isLoggedIn}
+        handleFormChanged={this._handleFormChanged}
+        handleOnSaveButtonPress={this._handleOnSaveButtonPress}
         handleOnSubmit={this._handleSubmit}
+        isDarkTheme={isDarkTheme}
+        isDraftSaved={isDraftSaved}
+        isDraftSaving={isDraftSaving}
+        isLoggedIn={isLoggedIn}
+        isPostSending={isPostSending}
       />
     );
   }
@@ -138,6 +139,7 @@ class ExampleContainer extends Component {
 
 const mapStateToProps = state => ({
   isLoggedIn: state.application.isLoggedIn,
+
   currentAccount: state.account.currentAccount,
 });
 

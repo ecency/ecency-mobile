@@ -25,9 +25,9 @@ class ApplicationContainer extends Component {
   }
 
   componentWillReceiveProps(nextProps) {
-    const { isDarkTheme } = this.props;
+    const { isDarkTheme, selectedLanguage } = this.props;
 
-    if (isDarkTheme !== nextProps.isDarkTheme) {
+    if (isDarkTheme !== nextProps.isDarkTheme || selectedLanguage !== nextProps.selectedLanguage) {
       this.setState({ isRenderRequire: false }, () => this.setState({ isRenderRequire: true }));
     }
   }

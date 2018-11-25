@@ -1,7 +1,7 @@
 import React from 'react';
 import { View, Text } from 'react-native';
 
-import IconComp from '../../icon';
+import IconComp from '../../../icon';
 
 import styles from './walletLineItemStyles';
 

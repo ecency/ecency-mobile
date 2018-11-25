@@ -10,7 +10,7 @@ import { PinAnimatedInput } from './pinAnimatedInput';
 import { SideMenu } from './sideMenu';
 import Modal from './modal';
 import Icon from './icon';
-import UserListItem from './basicUIElements/view/userListItem';
+import UserListItem from './basicUIElements/view/userListItem/userListItem';
 
 export {
   Logo,
