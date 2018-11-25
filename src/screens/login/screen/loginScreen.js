@@ -4,7 +4,7 @@ import {
 } from 'react-native';
 import { KeyboardAwareScrollView } from 'react-native-keyboard-aware-scroll-view';
 import ScrollableTabView from '@esteemapp/react-native-scrollable-tab-view';
-import { connect } from 'react-redux';
+import { injectIntl } from 'react-intl';
 
 // Actions
 import {
@@ -153,17 +153,16 @@ class LoginScreen extends Component {
             </KeyboardAwareScrollView>
 
             <View style={styles.footerButtons}>
-              <TextButton onPress={() => navigation.navigate(ROUTES.DRAWER.MAIN)} text="cancel" />
+              <TextButton style={styles.cancelButton} onPress={() => navigation.navigate(ROUTES.DRAWER.MAIN)} text="cancel" />
+              <MainButton
+                onPress={this._handleOnPressLogin}
+                iconName="md-person"
+                iconColor="white"
+                text="LOGIN"
+                isDisable={!isUsernameValid || password.length < 2 || username.length < 2}
+                isLoading={isLoading}
+              />
             </View>
-            <MainButton
-              wrapperStyle={styles.mainButtonWrapper}
-              onPress={this._handleOnPressLogin}
-              iconName="md-person"
-              iconColor="white"
-              text="LOGIN"
-              isDisable={!isUsernameValid || password.length < 2 || username.length < 2}
-              isLoading={isLoading}
-            />
           </View>
           <View tabLabel="SteemConnect" style={styles.tabbarItem}>
             <InformationArea
@@ -185,4 +184,4 @@ class LoginScreen extends Component {
   }
 }
 
-export default connect()(LoginScreen);
+export default injectIntl(LoginScreen);

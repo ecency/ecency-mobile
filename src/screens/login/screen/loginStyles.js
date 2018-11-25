@@ -27,13 +27,15 @@ export default EStyleSheet.create({
     flexDirection: 'row',
   },
   footerButtons: {
-    flex: 1,
     flexDirection: 'row',
     justifyContent: 'center',
     alignItems: 'center',
     alignSelf: 'flex-end',
-    position: 'absolute',
-    bottom: 45,
-    left: '$deviceWidth / 2.3',
+    marginRight: 10,
+    bottom: 24,
+    right: 24,
+  },
+  cancelButton: {
+    marginRight: 10,
   },
 });
