@@ -26,7 +26,7 @@ class LoginHeaderView extends Component {
 
   render() {
     const {
-      description, title, onPress, isKeyboardOpen,
+      description, isKeyboardOpen, onPress, rightButtonText, title,
     } = this.props;
 
     return (
@@ -34,7 +34,7 @@ class LoginHeaderView extends Component {
         <View style={styles.headerRow}>
           <Image style={styles.logo} source={require('../../../assets/esteem_transparent.png')} />
           <View style={styles.headerButton}>
-            <TextButton onPress={onPress} text="Sign up" />
+            <TextButton onPress={onPress} text={rightButtonText} />
           </View>
         </View>
         {!isKeyboardOpen && (

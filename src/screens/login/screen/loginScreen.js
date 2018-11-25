@@ -107,6 +107,9 @@ class LoginScreen extends Component {
             id: 'login.signin_title',
           })}
           onPress={() => this._handleSignUp()}
+          rightButtonText={intl.formatMessage({
+            id: 'login.signup',
+          })}
         />
         <ScrollableTabView
           locked={isLoading}
@@ -121,7 +124,12 @@ class LoginScreen extends Component {
             />
           )}
         >
-          <View tabLabel="Sign in" style={styles.tabbarItem}>
+          <View
+            tabLabel={intl.formatMessage({
+              id: 'login.signin',
+            })}
+            style={styles.tabbarItem}
+          >
             <KeyboardAwareScrollView
               onKeyboardWillShow={() => this.setState({ keyboardIsOpen: true })}
               onKeyboardWillHide={() => this.setState({ keyboardIsOpen: false })}
