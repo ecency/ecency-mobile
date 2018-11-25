@@ -4,7 +4,7 @@ export default EStyleSheet.create({
   container: {
     flex: 1,
     flexDirection: 'column',
-    backgroundColor: 'rgba(0,0,0,0.5)',
+    backgroundColor: 'rgba(0,0,0,0.8)',
   },
   inputWrapper: {
     backgroundColor: '$primaryLightBackground',
@@ -12,7 +12,7 @@ export default EStyleSheet.create({
     height: 44,
     margin: 16,
     borderRadius: 8,
-    marginTop: 30,
+    marginTop: 20,
     padding: 5,
     justifyContent: 'center',
   },
@@ -43,6 +43,22 @@ export default EStyleSheet.create({
   body: {
     marginTop: 16,
     marginRight: 24,
-    marginLeft: 64,
+  },
+  searhItems: {
+    marginHorizontal: 30,
+    marginVertical: 10,
+    flexDirection: 'row',
+    alignItems: 'center',
+  },
+  searchItemImage: {
+    width: 40,
+    height: 40,
+    borderRadius: 20,
+    borderWidth: 1,
+    borderColor: '$primaryGray',
+  },
+  searchItemText: {
+    color: '$white',
+    marginLeft: 10,
   },
 });
