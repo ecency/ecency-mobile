@@ -40,6 +40,7 @@ class SearchModalView extends Component {
                 style={styles.input}
                 // onChangeText={text => this.setState({ text })}
                 placeholder="Search..."
+                placeholderTextColor="#c1c5c7"
               />
               <IconButton
                 iconStyle={styles.closeIcon}

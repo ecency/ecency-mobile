@@ -12,6 +12,7 @@ export default EStyleSheet.create({
     height: 44,
     margin: 16,
     borderRadius: 8,
+    marginTop: 30,
     padding: 5,
     justifyContent: 'center',
   },
@@ -21,7 +22,7 @@ export default EStyleSheet.create({
     marginLeft: 16,
   },
   input: {
-    color: '$iconColor',
+    color: '$primaryDarkGray',
     fontSize: 14,
     flexGrow: 1,
     paddingHorizontal: 10,
