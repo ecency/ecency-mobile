@@ -26,7 +26,7 @@ export default EStyleSheet.create({
     width: 16,
     height: 16,
     borderRadius: 16 / 2,
-    backgroundColor: '$primaryBackgroundColor',
+    backgroundColor: '$primaryLightBackground',
     shadowColor: 'black',
     shadowOffset: { width: 0, height: 2 },
     shadowRadius: 2,
