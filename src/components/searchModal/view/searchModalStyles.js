@@ -3,6 +3,7 @@ import EStyleSheet from 'react-native-extended-stylesheet';
 export default EStyleSheet.create({
   container: {
     flex: 1,
+    flexDirection: 'column',
     backgroundColor: 'rgba(0,0,0,0.5)',
   },
   inputWrapper: {
@@ -37,5 +38,10 @@ export default EStyleSheet.create({
   closeIcon: {
     color: '$white',
     fontSize: 16,
+  },
+  body: {
+    marginTop: 16,
+    marginRight: 24,
+    marginLeft: 64,
   },
 });

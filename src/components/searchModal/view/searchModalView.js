@@ -49,6 +49,9 @@ class SearchModalView extends Component {
                 onPress={() => handleOnClose()}
               />
             </View>
+            <View style={styles.body}>
+              <Text style={{ color: 'white' }}> @result Test</Text>
+            </View>
           </View>
         </Modal>
       </Fragment>
