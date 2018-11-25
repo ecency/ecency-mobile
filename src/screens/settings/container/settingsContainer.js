@@ -1,6 +1,15 @@
 import React, { Component } from 'react';
 import { connect } from 'react-redux';
 
+// Realm
+import {
+  setTheme,
+  setLanguage as setLanguage2DB,
+  setCurrency as setCurrency2DB,
+  setServer,
+  setNotificationIsOpen,
+} from '../../../realm/realm';
+
 // Services and Actions
 import {
   setLanguage,
@@ -41,43 +50,46 @@ class SettingsContainer extends Component {
 
     switch (actionType) {
       case 'currency':
-        dispatch( setCurrency(CURRENCY_VALUE[action]) );
-
+        dispatch(setCurrency(CURRENCY_VALUE[action]));
+        setCurrency2DB(CURRENCY_VALUE[action]);
         break;
 
       case 'language':
-        dispatch( setLanguage(LANGUAGE_VALUE[action]) );
+        dispatch(setLanguage(LANGUAGE_VALUE[action]));
+        setLanguage2DB(LANGUAGE_VALUE[action]);
         break;
 
       case 'api':
-        dispatch( setApi(API_VALUE[action]) );
+        dispatch(setApi(API_VALUE[action]));
+        setServer(API_VALUE[action]);
         break;
 
       default:
         break;
     }
-  }
+  };
 
   _handleToggleChanged = (action, actionType) => {
     const { dispatch } = this.props;
 
     switch (actionType) {
       case 'notification':
-        dispatch( isNotificationOpen(action) );
+        dispatch(isNotificationOpen(action));
+        setNotificationIsOpen(action);
         break;
 
       case 'theme':
-        dispatch( isDarkTheme(action) );
+        dispatch(isDarkTheme(action));
+        setTheme(action);
         break;
 
       default:
         break;
     }
-  }
+  };
 
   _handleOnChange = (action, type, actionType = null) => {
-    const { dispatch } = this.props;
-    this.props.navigation.setParams({ cardStyle: {backgroundColor: "red" } });
+    const { dispatch, navigation } = this.props;
 
     switch (type) {
       case 'dropdown':
@@ -91,11 +103,10 @@ class SettingsContainer extends Component {
       case 'button':
         console.log(action + type);
         break;
-    
+
       default:
         break;
     }
-
   };
 
   render() {

@@ -826,6 +826,14 @@
 			name = Frameworks;
 			sourceTree = "<group>";
 		};
+		47241C6021A85340001094B9 /* Products */ = {
+			isa = PBXGroup;
+			children = (
+				47241C6421A85341001094B9 /* libRNViewOverflow.a */,
+			);
+			name = Products;
+			sourceTree = "<group>";
+		};
 		5E91572E1DD0AC6500FF2AA8 /* Products */ = {
 			isa = PBXGroup;
 			children = (
@@ -1166,6 +1174,7 @@
 					ProjectRef = D480651D3E18476D9F220D2A /* RNVectorIcons.xcodeproj */;
 				},
 				{
+
 					ProductGroup = 0CE2BA1E21A7301B0052071F /* Products */;
 					ProjectRef = C1AC2A99CB0143E580183824 /* RNViewOverflow.xcodeproj */;
 				},

@@ -13,6 +13,7 @@ export default EStyleSheet.create({
     fontSize: 12,
     marginVertical: 16,
     paddingHorizontal: 16,
+    color: '$primaryBlack',
   },
   inlinePadding: {
     padding: 8,

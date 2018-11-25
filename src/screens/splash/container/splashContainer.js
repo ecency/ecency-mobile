@@ -1,7 +1,7 @@
 import React, { Component } from 'react';
 import { connect } from 'react-redux';
 
-import { getUserData, getAuthStatus } from '../../../realm/realm';
+import { getUserData, getAuthStatus, getSettings } from '../../../realm/realm';
 import { getUser } from '../../../providers/steem/dsteem';
 
 // Actions
@@ -10,6 +10,11 @@ import {
   activeApplication,
   login,
   openPinCodeModal,
+  setLanguage,
+  isNotificationOpen,
+  setCurrency,
+  setApi,
+  isDarkTheme,
 } from '../../../redux/actions/applicationActions';
 
 // Constants
@@ -20,6 +25,7 @@ import SplashScreen from '../screen/splashScreen';
 class SplashContainer extends Component {
   componentDidMount = () => {
     this._getUserData();
+    this._getSettings();
   };
 
   _getUserData = () => {
@@ -55,6 +61,22 @@ class SplashContainer extends Component {
       } else {
         dispatch(activeApplication());
         navigation.navigate(ROUTES.DRAWER.MAIN);
+      }
+    });
+  };
+
+  _getSettings = () => {
+    const { dispatch } = this.props;
+
+    getSettings().then((response) => {
+      console.log(response.isDarkTheme);
+
+      if (response) {
+        response.isDarkTheme && dispatch(isDarkTheme(response.isDarkTheme));
+        response.language && dispatch(setLanguage(response.language));
+        response.currency && dispatch(setCurrency(response.currency));
+        response.notification && dispatch(isNotificationOpen(response.currency));
+        response.server && dispatch(setApi(response.currency));
       }
     });
   };
