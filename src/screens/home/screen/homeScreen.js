@@ -34,6 +34,7 @@ export default class HomeScreen extends PureComponent {
     return (
       <Fragment>
         <Header />
+
         <View style={styles.container} key="overlay">
           <ScrollableTabView
             style={styles.tabView}
