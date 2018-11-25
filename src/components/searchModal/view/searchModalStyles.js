@@ -21,7 +21,7 @@ export default EStyleSheet.create({
     marginLeft: 16,
   },
   input: {
-    color: '$primaryDarkGray',
+    color: '$iconColor',
     fontSize: 14,
     flexGrow: 1,
     paddingHorizontal: 10,

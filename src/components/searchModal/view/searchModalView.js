@@ -38,8 +38,8 @@ class SearchModalView extends Component {
               <Icon style={styles.icon} iconType="FontAwesome" name="search" size={20} />
               <TextInput
                 style={styles.input}
-                onChangeText={text => this.setState({ text })}
-                value={this.state.text}
+                // onChangeText={text => this.setState({ text })}
+                placeholder="Search..."
               />
               <IconButton
                 iconStyle={styles.closeIcon}
