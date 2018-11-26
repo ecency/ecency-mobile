@@ -13,7 +13,7 @@ import { default as ROUTES } from '../../../constants/routeNames';
 // Styles
 import styles from './postButtonStyles';
 
-const SIZE = 75;
+const SIZE = 60;
 const durationIn = 300;
 const durationOut = 200;
 
@@ -68,27 +68,27 @@ class PostButtonView extends Component {
   render() {
     const firstX = this.icon1.interpolate({
       inputRange: [0, 1],
-      outputRange: [20, -25],
+      outputRange: [25, -25],
     });
     const firstY = this.icon1.interpolate({
       inputRange: [0, 1],
-      outputRange: [0, -60],
+      outputRange: [-10, -70],
     });
     const secondX = this.icon2.interpolate({
       inputRange: [0, 1],
-      outputRange: [20, 35],
+      outputRange: [25, 30],
     });
     const secondY = this.icon2.interpolate({
       inputRange: [0, 1],
-      outputRange: [0, -85],
+      outputRange: [-10, -95],
     });
     const thirdX = this.icon3.interpolate({
       inputRange: [0, 1],
-      outputRange: [20, 95],
+      outputRange: [25, 90],
     });
     const thirdY = this.icon3.interpolate({
       inputRange: [0, 1],
-      outputRange: [0, -60],
+      outputRange: [-10, -70],
     });
 
     const rotation = this.mode.interpolate({
