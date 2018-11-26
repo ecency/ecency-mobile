@@ -1,6 +1,6 @@
 import React, { Component } from 'react';
 import {
-  Animated, Easing, TouchableOpacity, View,
+  Animated, Easing, TouchableOpacity, View, Fade,
 } from 'react-native';
 import Icon from 'react-native-vector-icons/FontAwesome';
 
@@ -13,7 +13,7 @@ import { default as ROUTES } from '../../../constants/routeNames';
 // Styles
 import styles from './postButtonStyles';
 
-const SIZE = 75;
+const SIZE = 60;
 const durationIn = 300;
 const durationOut = 200;
 
@@ -30,7 +30,7 @@ class PostButtonView extends Component {
     if (this.mode._value) {
       Animated.parallel(
         [this.mode, this.icon1, this.icon2, this.icon3].map(item => Animated.timing(item, {
-          toValue: 0,
+          toValue: 100,
           duration: durationIn,
           easing: Easing.cubic,
         })),

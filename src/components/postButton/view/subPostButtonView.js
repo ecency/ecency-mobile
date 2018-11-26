@@ -30,9 +30,9 @@ const SubPostButton = ({
       style={[
         styles.subButton,
         {
-          width: size / 2,
-          height: size / 2,
-          borderRadius: size / 4,
+          width: size / 1.5,
+          height: size / 1.5,
+          borderRadius: size / 3,
         },
       ]}
     >
