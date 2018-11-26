@@ -51,7 +51,7 @@ class PostsView extends Component {
     _getFor ? (options = { limit: 3 }) : (options = { tag: _tag || tag, limit: 3 });
 
     if (user) {
-      getPostsSummary(_getFor || getFor, options, user, isShowImages)
+      getPostsSummary(_getFor || getFor, options, user && user.name, isShowImages)
         .then((result) => {
           if (result) {
             this.setState({

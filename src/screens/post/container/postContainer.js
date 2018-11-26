@@ -43,7 +43,7 @@ class PostContainer extends Component {
   _loadPost = (author, permlink) => {
     const { currentUser } = this.state;
     // TODO: get from redux for cureentUser
-    getPost(author, permlink)
+    getPost(author, permlink, currentUser && currentUser.name)
       .then((result) => {
         if (result) {
           this.setState({ post: result });
