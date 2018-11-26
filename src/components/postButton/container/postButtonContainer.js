@@ -27,7 +27,7 @@ class PostButtonContainer extends Component {
 }
 
 const mapStateToProps = state => ({
-  isLoggedIn: state.application.isLoggedIn,
+  routes: state.nav.routes,
 });
 
 export default connect(mapStateToProps)(withNavigation(PostButtonContainer));

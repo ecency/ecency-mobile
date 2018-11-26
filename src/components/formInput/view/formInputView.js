@@ -1,12 +1,12 @@
 import React, { Component } from 'react';
-import { View, TextInput } from 'react-native';
+import { View } from 'react-native';
 import Ionicons from 'react-native-vector-icons/Ionicons';
 import FastImage from 'react-native-fast-image';
 
 // Constants
 
 // Components
-
+import { TextInput } from '../../textInput';
 // Styles
 import styles from './formInputStyles';
 

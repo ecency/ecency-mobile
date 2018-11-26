@@ -4,15 +4,15 @@ import {
 } from 'react-native';
 import { KeyboardAwareScrollView } from 'react-native-keyboard-aware-scroll-view';
 import ScrollableTabView from '@esteemapp/react-native-scrollable-tab-view';
-import { connect } from 'react-redux';
+import { injectIntl } from 'react-intl';
 
 // Actions
 import {
-  failedAccount, addOtherAccount, updateCurrentAccount,
+  failedAccount,
+  addOtherAccount,
+  updateCurrentAccount,
 } from '../../../redux/actions/accountAction';
-import {
-  login as loginAction, openPinCodeModal,
-} from '../../../redux/actions/applicationActions';
+import { login as loginAction, openPinCodeModal } from '../../../redux/actions/applicationActions';
 
 // Internal Components
 import { FormInput } from '../../../components/formInput';
@@ -90,19 +90,26 @@ class LoginScreen extends Component {
   };
 
   render() {
-    const { navigation } = this.props;
+    const { navigation, intl } = this.props;
     const {
       isLoading, username, isUsernameValid, keyboardIsOpen, password,
     } = this.state;
 
     return (
-      <View style={{ flex: 1 }}>
+      <View style={styles.container}>
         <StatusBar hidden translucent />
         <LoginHeader
           isKeyboardOpen={keyboardIsOpen}
-          title="Sign in"
-          description="To get all the benefits using eSteem"
+          title={intl.formatMessage({
+            id: 'login.signin',
+          })}
+          description={intl.formatMessage({
+            id: 'login.signin_title',
+          })}
           onPress={() => this._handleSignUp()}
+          rightButtonText={intl.formatMessage({
+            id: 'login.signup',
+          })}
         />
         <ScrollableTabView
           locked={isLoading}
@@ -117,7 +124,12 @@ class LoginScreen extends Component {
             />
           )}
         >
-          <View tabLabel="Sign in" style={styles.tabbarItem}>
+          <View
+            tabLabel={intl.formatMessage({
+              id: 'login.signin',
+            })}
+            style={styles.tabbarItem}
+          >
             <KeyboardAwareScrollView
               onKeyboardWillShow={() => this.setState({ keyboardIsOpen: true })}
               onKeyboardWillHide={() => this.setState({ keyboardIsOpen: false })}
@@ -129,7 +141,9 @@ class LoginScreen extends Component {
                 leftIconName="md-close-circle"
                 isValid={isUsernameValid}
                 onChange={value => this._handleUsernameChange(value)}
-                placeholder="Username"
+                placeholder={intl.formatMessage({
+                  id: 'login.username',
+                })}
                 isEditable
                 type="username"
                 isFirstImage
@@ -140,34 +154,46 @@ class LoginScreen extends Component {
                 leftIconName="md-close-circle"
                 isValid={isUsernameValid}
                 onChange={value => this._handleOnPasswordChange(value)}
-                placeholder="Password or WIF"
+                placeholder={intl.formatMessage({
+                  id: 'login.password',
+                })}
                 isEditable
                 secureTextEntry
                 type="password"
               />
               <InformationArea
-                description="User credentials are kept locally on the device. Credentials are
-                  removed upon logout!"
+                description={intl.formatMessage({
+                  id: 'login.description',
+                })}
                 iconName="ios-information-circle-outline"
               />
             </KeyboardAwareScrollView>
 
             <View style={styles.footerButtons}>
-              <TextButton onPress={() => navigation.navigate(ROUTES.DRAWER.MAIN)} text="cancel" />
+              <TextButton
+                style={styles.cancelButton}
+                onPress={() => navigation.navigate(ROUTES.DRAWER.MAIN)}
+                text={intl.formatMessage({
+                  id: 'login.cancel',
+                })}
+              />
+              <MainButton
+                onPress={this._handleOnPressLogin}
+                iconName="md-person"
+                iconColor="white"
+                text={intl.formatMessage({
+                  id: 'login.login',
+                })}
+                isDisable={!isUsernameValid || password.length < 2 || username.length < 2}
+                isLoading={isLoading}
+              />
             </View>
-            <MainButton
-              wrapperStyle={styles.mainButtonWrapper}
-              onPress={this._handleOnPressLogin}
-              iconName="md-person"
-              iconColor="white"
-              text="LOGIN"
-              isDisable={!isUsernameValid || password.length < 2 || username.length < 2}
-              isLoading={isLoading}
-            />
           </View>
-          <View tabLabel="SteemConnect" style={styles.steemConnectTab}>
+          <View tabLabel="SteemConnect" style={styles.tabbarItem}>
             <InformationArea
-              description="If you don't want to keep your password encrypted and saved on your device, you can use Steemconnect."
+              description={intl.formatMessage({
+                id: 'login.steemconnect_description',
+              })}
               iconName="ios-information-circle-outline"
             />
             <MainButton
@@ -185,4 +211,4 @@ class LoginScreen extends Component {
   }
 }
 
-export default connect()(LoginScreen);
+export default injectIntl(LoginScreen);

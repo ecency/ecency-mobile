@@ -22,6 +22,6 @@ export default EStyleSheet.create({
     justifyContent: 'center',
     shadowColor: '$shadowColor',
     shadowOffset: { height: 0 },
-    shadowOpacity: 1,
+    shadowOpacity: 0.5,
   },
 });

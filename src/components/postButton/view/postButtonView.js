@@ -26,6 +26,18 @@ class PostButtonView extends Component {
 
   icon3 = new Animated.Value(0);
 
+  componentWillReceiveProps(nextProps) {
+    // For closing sub buttons
+    if (this.mode._value) {
+      const { routes } = this.props;
+      const nextRouteName = nextProps.routes[0].routes[nextProps.routes[0].routes.length - 1].routeName;
+      const routeName = routes[0].routes[routes[0].routes.length - 1].routeName;
+      if (routeName !== nextRouteName && nextRouteName !== ROUTES.DRAWER.MAIN) {
+        this.toggleView();
+      }
+    }
+  }
+
   toggleView = () => {
     if (this.mode._value) {
       Animated.parallel(
@@ -95,8 +107,7 @@ class PostButtonView extends Component {
             top: firstY,
           }}
           icon="camera"
-          onPress={() => handleSubButtonPress(ROUTES.SCREENS.EDITOR)
-          }
+          onPress={() => handleSubButtonPress(ROUTES.SCREENS.EDITOR)}
         />
         <SubPostButton
           size={SIZE}
@@ -105,8 +116,7 @@ class PostButtonView extends Component {
             top: secondY,
           }}
           icon="pencil"
-          onPress={() => handleSubButtonPress(ROUTES.SCREENS.EDITOR)
-          }
+          onPress={() => handleSubButtonPress(ROUTES.SCREENS.EDITOR)}
         />
         <SubPostButton
           size={SIZE}
@@ -115,8 +125,7 @@ class PostButtonView extends Component {
             top: thirdY,
           }}
           icon="video-camera"
-          onPress={() => handleSubButtonPress(ROUTES.SCREENS.EDITOR)
-          }
+          onPress={() => handleSubButtonPress(ROUTES.SCREENS.EDITOR)}
         />
         <TouchableOpacity onPress={this.toggleView} activeOpacity={1}>
           <Animated.View

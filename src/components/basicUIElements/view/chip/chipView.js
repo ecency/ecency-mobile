@@ -1,5 +1,6 @@
 import React, { Fragment } from 'react';
-import { TextInput } from 'react-native';
+import { TextInput } from '../../../textInput';
+
 import styles from './chipStyle';
 
 const Chip = props => (

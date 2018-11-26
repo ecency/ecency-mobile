@@ -1,6 +1,6 @@
 import React, { Component } from 'react';
 import {
-  View, TextInput, KeyboardAvoidingView, ScrollView, FlatList, Text,
+  View, KeyboardAvoidingView, ScrollView, FlatList, Text,
 } from 'react-native';
 import Markdown, { getUniqueID } from 'react-native-markdown-renderer';
 
@@ -9,7 +9,7 @@ import Formats from './formats/formats';
 import { IconButton } from '../../iconButton';
 import { DropdownButton } from '../../dropdownButton';
 import { StickyBar } from '../../basicUIElements';
-
+import { TextInput } from '../../textInput';
 // Styles
 import styles from './markdownEditorStyles';
 import markdownStyle from './markdownPreviewStyles';
@@ -21,10 +21,6 @@ export default class MarkdownEditorView extends Component {
       text: '',
       selection: { start: 0, end: 0 },
     };
-  }
-
-  componentDidMount() {
-    this.textInput.focus();
   }
 
   componentWillReceiveProps(nextProps) {
@@ -153,7 +149,6 @@ export default class MarkdownEditorView extends Component {
             onSelectionChange={this._handleOnSelectionChange}
             placeholder="What would you like to write about today?"
             placeholderTextColor="#c1c5c7"
-            ref={textInput => (this.textInput = textInput)}
             selection={selection}
             selectionColor="#357ce6"
             style={styles.textWrapper}
@@ -168,7 +163,6 @@ export default class MarkdownEditorView extends Component {
           && this._renderEditorButtons({
             getState: this._getState,
             setState: (state, callback) => {
-              this.textInput.focus();
               this.setState(state, callback);
             },
           })}

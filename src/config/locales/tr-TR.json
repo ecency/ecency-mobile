@@ -31,5 +31,16 @@
   },
   "voters": {
     "voters_info": "Oy Verenler"
+  },
+  "login": {
+    "signin": "Giriş",
+    "signup": "Kayıt",
+    "signin_title": "eSteem'in ayrıçalıklı dünyasına hoşgeldiniz.",
+    "username": "Kullanıcı Adı",
+    "password": "Şifre yada WIF",
+    "description": "Kullanıçı bilgileri telefonunuz üzeründe şifreli olarak tutulur ve çıkış yaptıgınızda tüm bilgiler silinir.",
+    "cancel": "geç",
+    "login": "GİRİŞ",
+    "steemconnect_description": "Eğer kullanıçı bilgilerini şifreli olarak tutulmasını istemiyorsanız Steemconnect ilede giriş yapabilirsiniz."
   }
 }

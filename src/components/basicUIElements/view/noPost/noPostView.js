@@ -1,6 +1,6 @@
 import React from 'react';
 import { View, Text, Image } from 'react-native';
-import NO_POST from '../../../assets/no_post.png';
+import NO_POST from '../../../../assets/no_post.png';
 import styles from './noPostStyles';
 
 const NoPost = ({

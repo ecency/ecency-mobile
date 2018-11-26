@@ -6,8 +6,7 @@ import { View, Text, Image } from 'react-native';
 import { TextButton } from '../../buttons';
 import { LineBreak } from '../../basicUIElements';
 // Styles
-// eslint-disable-next-line
-import styles from "./loginHeaderStyles";
+import styles from './loginHeaderStyles';
 
 class LoginHeaderView extends Component {
   /* Props
@@ -27,18 +26,15 @@ class LoginHeaderView extends Component {
 
   render() {
     const {
-      description, title, onPress, isKeyboardOpen,
+      description, isKeyboardOpen, onPress, rightButtonText, title,
     } = this.props;
 
     return (
       <View styles={styles.container}>
         <View style={styles.headerRow}>
-          <Image
-            style={styles.logo}
-            source={require('../../../assets/esteem.png')}
-          />
+          <Image style={styles.logo} source={require('../../../assets/esteem_transparent.png')} />
           <View style={styles.headerButton}>
-            <TextButton onPress={onPress} text="Sign up" />
+            <TextButton onPress={onPress} text={rightButtonText} />
           </View>
         </View>
         {!isKeyboardOpen && (
@@ -47,12 +43,7 @@ class LoginHeaderView extends Component {
               <Text style={styles.title}>{title}</Text>
               <Text style={styles.description}>{description}</Text>
             </View>
-            <View style={{ flex: 0.7 }}>
-              <Image
-                style={styles.mascot}
-                source={require('../../../assets/love_mascot.png')}
-              />
-            </View>
+            <Image style={styles.mascot} source={require('../../../assets/love_mascot.png')} />
           </View>
         )}
         <LineBreak />

@@ -125,7 +125,7 @@ export class EditorScreen extends Component {
       isPreviewActive, wordsCount, isFormValid, fields, isChanged,
     } = this.state;
     const {
-      isLoggedIn, isPostSending, isDraftSaving, isDraftSaved, draftPost,
+      isLoggedIn, isPostSending, isDraftSaving, isDraftSaved, draftPost
     } = this.props;
 
     return (
