@@ -1,4 +1,5 @@
 import api from '../../config/api';
+import searchApi from '../../config/search';
 
 export const getDrafts = data => new Promise((resolve, reject) => {
   api
@@ -88,6 +89,17 @@ export const getUnreadActivityCount = data => new Promise((resolve, reject) => {
     .get(`/activities/${data.user}/unread-count`)
     .then((res) => {
       resolve(res.data.count);
+    })
+    .catch((error) => {
+      reject(error);
+    });
+});
+
+export const search = data => new Promise((resolve, reject) => {
+  searchApi
+    .post('/search', data)
+    .then((res) => {
+      resolve(res.data);
     })
     .catch((error) => {
       reject(error);

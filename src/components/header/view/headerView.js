@@ -4,6 +4,7 @@ import {
 } from 'react-native';
 import FastImage from 'react-native-fast-image';
 import LinearGradient from 'react-native-linear-gradient';
+import { SearchModal } from '../../searchModal';
 
 // Utils
 import { getReputation } from '../../../utils/user';
@@ -25,7 +26,9 @@ class HeaderView extends Component {
 
   constructor(props) {
     super(props);
-    this.state = {};
+    this.state = {
+      isSearchModalOpen: false,
+    };
   }
 
   // Component Life Cycles
@@ -52,6 +55,10 @@ class HeaderView extends Component {
     return DEFAULT_IMAGE;
   };
 
+  _handleOnCloseSearch = () => {
+    this.setState({ isSearchModalOpen: false });
+  }
+
   render() {
     const {
       handleOpenDrawer,
@@ -60,12 +67,14 @@ class HeaderView extends Component {
       isReverse,
       currentAccount,
     } = this.props;
+    const { isSearchModalOpen } = this.state;
     const _name = this._getNameOfUser();
     const _reputation = getReputation(currentAccount.reputation);
 
     return (
       <SafeAreaView style={[styles.container, isReverse && styles.containerReverse]}>
         <StatusBar hidden={hideStatusBar} translucent />
+        <SearchModal isOpen={isSearchModalOpen} handleOnClose={this._handleOnCloseSearch} />
         <TouchableOpacity
           style={styles.avatarWrapper}
           onPress={() => !isReverse && handleOpenDrawer()}
@@ -109,6 +118,24 @@ class HeaderView extends Component {
               iconStyle={styles.backIcon}
               name="md-arrow-back"
               onPress={() => handleOnPressBackButton()}
+            />
+          </View>
+        )}
+
+        {!isReverse && (
+          <View
+            style={{
+              alignItems: 'flex-end',
+              justifyContent: 'center',
+              flex: 1,
+              marginRight: 16,
+            }}
+          >
+            <IconButton
+              style={styles.searchButton}
+              iconStyle={styles.backIcon}
+              name="md-search"
+              onPress={() => this.setState({ isSearchModalOpen: true })}
             />
           </View>
         )}
