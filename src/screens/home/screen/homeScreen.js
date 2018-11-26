@@ -14,13 +14,10 @@ import styles from './homeStyles';
 export default class HomeScreen extends PureComponent {
   constructor(props) {
     super(props);
-    this.state = {
-      scrollToTop: false,
-    };
+    this.state = {};
   }
 
   render() {
-    const { scrollToTop } = this.state;
     const { componentId, isLoggedIn, currentAccount } = this.props;
     const _filterOptions = [
       'FEED',
@@ -47,8 +44,6 @@ export default class HomeScreen extends PureComponent {
                 tabUnderlineDefaultWidth={80}
                 tabUnderlineScaleX={2}
                 tabBarPosition="overlayTop"
-                handleOnPressTab={() => this.setState({ scrollToTop: true }, () => this.setState({ scrollToTop: false }))
-                }
               />
             )}
           >
@@ -60,7 +55,6 @@ export default class HomeScreen extends PureComponent {
                 user={currentAccount}
                 isLoggedIn={isLoggedIn}
                 componentId={componentId}
-                scrollToTop={scrollToTop}
               />
             </View>
             <View tabLabel="Popular" style={styles.tabbarItem}>
@@ -70,7 +64,6 @@ export default class HomeScreen extends PureComponent {
                 user={currentAccount}
                 isLoggedIn={isLoggedIn}
                 componentId={componentId}
-                scrollToTop={scrollToTop}
               />
             </View>
           </ScrollableTabView>

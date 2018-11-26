@@ -112,20 +112,14 @@ class TabBar extends Component {
     );
   };
 
-  _goToPage = () => {
-    const { goToPage, handleOnPressTab } = this.props;
-    goToPage();
-    handleOnPressTab && handleOnPressTab();
-  };
-
   render() {
-    const { activeTab, backgroundColor, style } = this.props;
+    const { activeTab, backgroundColor, style, goToPage } = this.props;
 
     return (
       <View style={[styles.tabs, { backgroundColor }, style]}>
         {this.props.tabs.map((name, page) => {
           const isTabActive = activeTab === page;
-          return this._renderTab(name, page, isTabActive, this._goToPage);
+          return this._renderTab(name, page, isTabActive, goToPage);
         })}
         {this._renderUnderline()}
       </View>

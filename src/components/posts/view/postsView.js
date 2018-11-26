@@ -141,12 +141,7 @@ class PostsView extends Component {
     const {
       refreshing, posts, user, isPostsLoading, isShowImages,
     } = this.state;
-    const { componentId, filterOptions, isLoggedIn, scrollToTop } = this.props;
-
-    if (scrollToTop) {
-      this.messageList && this.messageList.scrollToOffset({ x: 0, y: 0, animated: true });
-    }
-
+    const { componentId, filterOptions, isLoggedIn } = this.props;
 
     return (
       <Fragment>
@@ -165,9 +160,6 @@ class PostsView extends Component {
           <FlatList
             data={posts}
             showsVerticalScrollIndicator={false}
-            ref={(flatList) => {
-              this.messageList = flatList;
-            }}
             renderItem={({ item }) => (
               <PostCard
                 componentId={componentId}
