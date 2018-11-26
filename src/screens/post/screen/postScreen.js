@@ -3,7 +3,7 @@ import React, { Component, Fragment } from 'react';
 // Constants
 
 // Components
-import { EditorHeader } from '../../../components/editorHeader';
+import { BasicHeader } from '../../../components/basicHeader';
 import { PostDisplay } from '../../../components/postView';
 // Styles
 // eslint-disable-next-line
@@ -29,7 +29,7 @@ class PostScreen extends Component {
 
     return (
       <Fragment>
-        <EditorHeader isHasDropdown title="Post" />
+        <BasicHeader isHasDropdown title="Post" />
         <PostDisplay post={post} currentUser={currentUser} />
       </Fragment>
     );

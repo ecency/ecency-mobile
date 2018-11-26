@@ -69,6 +69,11 @@ class NotificationLineView extends Component {
               defaultSource={require('../../../assets/no_image.png')}
             />
           )}
+          {notification.description && (
+            <Text numberOfLines={1} style={styles.description}>
+              {notification.description}
+            </Text>
+          )}
         </View>
       </TouchableHighlight>
     );

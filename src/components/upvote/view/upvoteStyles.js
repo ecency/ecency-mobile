@@ -16,7 +16,7 @@ export default EStyleSheet.create({
     height: 48,
     borderRadius: '$deviceWidth - 20 / 2',
     paddingHorizontal: 16,
-    backgroundColor: '$white',
+    backgroundColor: '$primaryBackgroundColor',
   },
   track: {
     height: 2,
@@ -26,7 +26,7 @@ export default EStyleSheet.create({
     width: 16,
     height: 16,
     borderRadius: 16 / 2,
-    backgroundColor: '$white',
+    backgroundColor: '$primaryLightBackground',
     shadowColor: 'black',
     shadowOffset: { width: 0, height: 2 },
     shadowRadius: 2,

@@ -9,11 +9,13 @@ import { default as ROUTES } from '../constants/routeNames';
 // Screens
 import {
   Editor,
+  Follows,
   Login,
   PinCode,
   Post,
   Profile,
   RootComponent,
+  Settings,
   Splash,
   SteemConnect,
   Voters,
@@ -65,10 +67,23 @@ const stackNavigatior = createStackNavigator(
         header: () => null,
       },
     },
+    [ROUTES.SCREENS.FOLLOWS]: {
+      screen: RootComponent()(Follows),
+      navigationOptions: {
+        header: () => null,
+      },
+    },
+    [ROUTES.SCREENS.SETTINGS]: {
+      screen: RootComponent()(Settings),
+      navigationOptions: {
+        header: () => null,
+      },
+    },
   },
   {
     cardStyle: {
       backgroundColor: 'white',
+      //1e2835
     },
   },
 );

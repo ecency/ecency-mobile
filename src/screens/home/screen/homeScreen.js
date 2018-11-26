@@ -17,25 +17,6 @@ export default class HomeScreen extends PureComponent {
     this.state = {};
   }
 
-  navigationButtonPressed({ buttonId }) {
-    if (buttonId === 'search') {
-      // Navigation.showOverlay({
-      //   component: {
-      //     name: 'navigation.eSteem.Search',
-      //   },
-      //   options: {
-      //     overlay: {
-      //       interceptTouchOutside: true,
-      //     },
-      //   },
-      // });
-    }
-  }
-
-  showActionSheet = () => {
-    this.ActionSheet.show();
-  };
-
   render() {
     const { componentId, isLoggedIn, currentAccount } = this.props;
     const _filterOptions = [
@@ -44,7 +25,7 @@ export default class HomeScreen extends PureComponent {
       'HOT',
       'NEW',
       'ACTIVE',
-      'PROMETED',
+      'PROMOTED',
       'VOTES',
       'COMMENTS',
       'PAYOUT',
@@ -53,7 +34,8 @@ export default class HomeScreen extends PureComponent {
     return (
       <Fragment>
         <Header />
-        <View style={styles.root} key="overlay">
+
+        <View style={styles.container} key="overlay">
           <ScrollableTabView
             style={styles.tabView}
             renderTabBar={() => (
@@ -61,8 +43,6 @@ export default class HomeScreen extends PureComponent {
                 style={styles.tabbar}
                 tabUnderlineDefaultWidth={80}
                 tabUnderlineScaleX={2}
-                activeColor="#357ce6"
-                inactiveColor="#222"
                 tabBarPosition="overlayTop"
               />
             )}
@@ -87,7 +67,6 @@ export default class HomeScreen extends PureComponent {
               />
             </View>
           </ScrollableTabView>
-          <View style={styles.buttonContainer} />
         </View>
       </Fragment>
     );

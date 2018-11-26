@@ -3,6 +3,7 @@ import EStyleSheet from 'react-native-extended-stylesheet';
 export default EStyleSheet.create({
   containerHorizontal16: {
     paddingHorizontal: 16,
+    backgroundColor: '$primaryBackgroundColor',
   },
   defaultContainer: {
     flex: 1,
@@ -44,5 +45,13 @@ export default EStyleSheet.create({
     fontFamily: '$primaryFont',
     letterSpacing: '$primaryLatterSpacing',
     fontSize: 12,
+  },
+  container: {
+    backgroundColor: '$primaryBackgroundColor',
+    height: '$deviceHeight',
+  },
+  settingsContainer: {
+    marginLeft: 48,
+    marginRight: 32,
   },
 });

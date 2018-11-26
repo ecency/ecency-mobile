@@ -18,5 +18,18 @@
     "unfollow": "unfollowed you",
     "ignore": "ignored you",
     "reblog": "reblogged your post"
+  },
+  "settings": {
+    "settings": "Settings",
+    "currency": "Currency",
+    "language": "Language",
+    "server": "Server",
+    "dark_theme": "Dark Theme",
+    "push_notification": "Push Notification",
+    "pincode": "Pincode",
+    "reset": "Reset"
+  },
+  "voters": {
+    "voters_info": "Voters Info"
   }
 }

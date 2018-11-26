@@ -1,5 +1,5 @@
 import React, { Fragment, PureComponent } from 'react';
-import { Text, View } from 'react-native';
+import { View } from 'react-native';
 import ScrollableTabView from '@esteemapp/react-native-scrollable-tab-view';
 import { TabBar } from '../../../components/tabBar';
 import { Notification } from '../../../components/notification';
@@ -11,6 +11,7 @@ import { NoPost } from '../../../components/basicUIElements';
 
 // Styles
 import MESSAGES_IMAGE from '../../../assets/keep_calm.png';
+import globalStyles from '../../../globalStyles';
 
 class NotificationScreen extends PureComponent {
   constructor(props) {
@@ -21,18 +22,12 @@ class NotificationScreen extends PureComponent {
   render() {
     const { notifications, getActivities, navigateToNotificationRoute } = this.props;
     return (
-      <Fragment>
+      <View style={globalStyles.container}>
         <Header />
         <ScrollableTabView
           style={styles.tabView}
           renderTabBar={() => (
-            <TabBar
-              style={styles.tabbar}
-              tabUnderlineDefaultWidth={100}
-              tabUnderlineScaleX={2}
-              activeColor="#357ce6"
-              inactiveColor="#222"
-            />
+            <TabBar style={styles.tabbar} tabUnderlineDefaultWidth={100} tabUnderlineScaleX={2} />
           )}
         >
           <View tabLabel="Notification" style={styles.notificationTab}>
@@ -54,7 +49,7 @@ class NotificationScreen extends PureComponent {
             />
           </View>
         </ScrollableTabView>
-      </Fragment>
+      </View>
     );
   }
 }

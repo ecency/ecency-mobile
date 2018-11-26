@@ -33,7 +33,7 @@ const authMenuItems = [
   },
   {
     name: 'Settings',
-    route: 'Settings',
+    route: ROUTES.SCREENS.SETTINGS,
     icon: 'gear',
   },
 ];
@@ -46,7 +46,7 @@ const noAuthMenuItems = [
   },
   {
     name: 'Settings',
-    route: 'Settings',
+    route: ROUTES.SCREENS.SETTINGS,
     icon: 'gear',
   },
 ];

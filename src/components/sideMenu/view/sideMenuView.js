@@ -1,5 +1,5 @@
 import React, { Component } from 'react';
-import { View, Text } from 'react-native';
+import { View, Text, ImageBackground } from 'react-native';
 import {
   Thumbnail, List, ListItem, Container,
 } from 'native-base';
@@ -14,7 +14,9 @@ import { default as MENU } from '../../../constants/sideMenuItems';
 // Styles
 import styles from './sideMenuStyles';
 
+// Images
 const DEFAULT_IMAGE = require('../../../assets/esteem.png');
+const SIDE_MENU_BACKGROUND = require('../../../assets/side_menu_background.png');
 
 class SideMenuView extends Component {
   /* Props
@@ -39,7 +41,6 @@ class SideMenuView extends Component {
       menuItems: isLoggedIn ? MENU.AUTH_MENU_ITEMS : MENU.NO_AUTH_MENU_ITEMS,
     });
   }
-
 
   // Component Functions
 
@@ -90,28 +91,30 @@ class SideMenuView extends Component {
           colors={['#357ce6', '#2d5aa0']}
           style={styles.headerView}
         >
-          {isLoggedIn && (
-            <View style={styles.headerContentView}>
-              <Thumbnail style={styles.userAvatar} source={this._getUserAvatar()} />
-              <View style={styles.userInfoView}>
-                <Text style={styles.username}>{this._getNameOfUser()}</Text>
-                <Text style={styles.usernick}>{`@${currentAccount.name}`}</Text>
+          <ImageBackground source={SIDE_MENU_BACKGROUND} style={{ width: '100%', height: '100%', flexDirection: 'row', }}>
+            {isLoggedIn && (
+              <View style={styles.headerContentView}>
+                <Thumbnail style={styles.userAvatar} source={this._getUserAvatar()} />
+                <View style={styles.userInfoView}>
+                  <Text style={styles.username}>{this._getNameOfUser()}</Text>
+                  <Text style={styles.usernick}>{`@${currentAccount.name}`}</Text>
+                </View>
+                <View style={styles.addAccountIconView}>
+                  {/* TODO: delete android name */}
+                  <IconButton
+                    name={isAddAccountIconActive ? 'arrow-dropup' : 'add-circle-outline'}
+                    androidName={
+                      isAddAccountIconActive ? 'md-arrow-dropup' : 'ios-add-circle-outline'
+                    }
+                    color="white"
+                    size={15}
+                    handleOnPress={() => this._handleOnPressAddAccountIcon()}
+                    style={styles.addAccountIcon}
+                  />
+                </View>
               </View>
-              <View style={styles.addAccountIconView}>
-                {/* TODO: delete android name */}
-                <IconButton
-                  name={isAddAccountIconActive ? 'arrow-dropup' : 'add-circle-outline'}
-                  androidName={
-                    isAddAccountIconActive ? 'md-arrow-dropup' : 'ios-add-circle-outline'
-                  }
-                  color="white"
-                  size={15}
-                  handleOnPress={() => this._handleOnPressAddAccountIcon()}
-                  style={styles.addAccountIcon}
-                />
-              </View>
-            </View>
-          )}
+            )}
+          </ImageBackground>
         </LinearGradient>
         <View style={styles.contentView}>
           <List
@@ -129,7 +132,9 @@ class SideMenuView extends Component {
                   }
                 }}
               >
-                {item.icon && <Icon iconType="FontAwesome" style={styles.listItemIcon} name={item.icon} />}
+                {item.icon && (
+                  <Icon iconType="FontAwesome" style={styles.listItemIcon} name={item.icon} />
+                )}
                 {item.image && (
                   <Thumbnail small style={styles.otherUserAvatar} source={item.image} />
                 )}

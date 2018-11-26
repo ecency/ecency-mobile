@@ -5,7 +5,7 @@ export default EStyleSheet.create({
     flex: 1,
     flexDirection: 'column',
     alignItems: 'stretch',
-    backgroundColor: '$white',
+    backgroundColor: '$primaryBackgroundColor',
   },
   textWrapper: {
     flex: 1,
@@ -13,6 +13,7 @@ export default EStyleSheet.create({
     fontSize: 12,
     marginVertical: 16,
     paddingHorizontal: 16,
+    color: '$primaryBlack',
   },
   inlinePadding: {
     padding: 8,

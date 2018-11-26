@@ -23,6 +23,6 @@ export default EStyleSheet.create({
     borderRadius: 20 / 2,
     borderWidth: 1,
     borderColor: '$primaryBlue',
-    backgroundColor: '$white',
+    backgroundColor: '$primaryBackgroundColor',
   },
 });

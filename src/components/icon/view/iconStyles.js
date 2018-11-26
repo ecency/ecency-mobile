@@ -1,18 +1,24 @@
 import EStyleSheet from 'react-native-extended-stylesheet';
 
 export default EStyleSheet.create({
-  notification: {
-    backgroundColor: '$primaryRed',
-    color: '$white',
-    textAlign: 'center',
-    borderRadius: 25,
-    borderWidth: 1,
-    borderColor: '$white',
-    alignSelf: 'center',
-    paddingHorizontal: 4,
+  badge: {
+    color: '$primaryLightGray',
+    alignItems: 'center',
     fontSize: 10,
+  },
+  badgeWrapper: {
     position: 'absolute',
-    right: -5,
-    top: -7,
+    right: 20,
+    top: 13,
+    backgroundColor: '$primaryRed',
+    borderRadius: 20,
+    borderColor: '$white',
+    borderWidth: 2,
+    justifyContent: 'center',
+    alignItems: 'center',
+    zIndex: 99,
+    padding: 2,
+    height: 20,
+    // width: 20,
   },
 });

@@ -12,7 +12,7 @@ export default EStyleSheet.create({
     paddingHorizontal: 24,
   },
   mainButtonText: {
-    color: '$white',
+    color: '$primaryBackgroundColor',
     fontSize: 14,
     fontWeight: 'bold',
     alignSelf: 'center',
@@ -21,7 +21,7 @@ export default EStyleSheet.create({
     flexDirection: 'row',
   },
   mainIconWrapper: {
-    backgroundColor: '$white',
+    backgroundColor: '$primaryBackgroundColor',
     justifyContent: 'center',
     alignSelf: 'center',
     alignItems: 'center',

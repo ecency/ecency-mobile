@@ -4,7 +4,8 @@ export default EStyleSheet.create({
   container: {
     padding: 8,
     flexDirection: 'row',
-    height: '$deviceHeight - 110',
+    height: '$deviceHeight - 100',
+    backgroundColor: '$primaryBackgroundColor',
   },
   userDescription: {
     flexDirection: 'column',

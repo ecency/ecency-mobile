@@ -7,7 +7,7 @@ import { getWordsCount } from '../../../utils/editor';
 // Constants
 
 // Components
-import { EditorHeader } from '../../../components/editorHeader';
+import { BasicHeader } from '../../../components/basicHeader';
 import { TitleArea, TagArea, TextArea } from '../../../components/editorElements';
 import { PostForm } from '../../../components/postForm';
 // Styles
@@ -130,7 +130,7 @@ export class EditorScreen extends Component {
 
     return (
       <View style={globalStyles.defaultContainer}>
-        <EditorHeader
+        <BasicHeader
           handleOnSaveButtonPress={this._handleOnSaveButtonPress}
           isPostSending={isPostSending}
           isDraftSaving={isDraftSaving}

@@ -4,7 +4,8 @@ import {
 } from 'react-native';
 
 // Constants
-import DEFAULT_IMAGE from '../../../assets/default_cover_image.png';
+import LIGHT_COVER_IMAGE from '../../../assets/default_cover_image.png';
+import DARK_COVER_IMAGE from '../../../assets/dark_cover_image.png';
 
 // Components
 import { TextWithIcon } from '../../basicUIElements';
@@ -54,6 +55,8 @@ class ProfileSummaryView extends Component {
       isProfileLoading,
       handleFollowUnfollowUser,
       handleMuteUnmuteUser,
+      handleOnFollowsPress,
+      isDarkTheme,
     } = this.props;
     const votingPowerHoursText = hoursVP && `• Full in ${hoursVP} hours`;
     const votingPowerText = `Voting power: ${percentVP}% ${votingPowerHoursText || ''}`;
@@ -84,7 +87,7 @@ class ProfileSummaryView extends Component {
         <Image
           style={styles.longImage}
           source={{ uri: coverImage }}
-          defaultSource={DEFAULT_IMAGE}
+          defaultSource={isDarkTheme ? DARK_COVER_IMAGE : LIGHT_COVER_IMAGE}
         />
         <TouchableOpacity onPress={() => this.setState({ isShowPercentText: !isShowPercentText })}>
           <PercentBar
@@ -105,18 +108,21 @@ class ProfileSummaryView extends Component {
             text={rcPowerText}
           />
         </TouchableOpacity>
-
         <View style={styles.footer}>
           <View style={styles.leftIcons}>
             <Fragment>
-              <View style={styles.followCountWrapper}>
-                <Text style={styles.followCount}>{followerCount}</Text>
-                <Text style={styles.followText}>followers</Text>
-              </View>
-              <View style={styles.followCountWrapper}>
-                <Text style={styles.followCount}>{followingCount}</Text>
-                <Text style={styles.followText}>following</Text>
-              </View>
+              <TouchableOpacity onPress={() => handleOnFollowsPress(false)}>
+                <View style={styles.followCountWrapper}>
+                  <Text style={styles.followCount}>{followerCount}</Text>
+                  <Text style={styles.followText}>followers</Text>
+                </View>
+              </TouchableOpacity>
+              <TouchableOpacity onPress={() => handleOnFollowsPress(true)}>
+                <View style={styles.followCountWrapper}>
+                  <Text style={styles.followCount}>{followingCount}</Text>
+                  <Text style={styles.followText}>following</Text>
+                </View>
+              </TouchableOpacity>
             </Fragment>
           </View>
           {isLoggedIn && (

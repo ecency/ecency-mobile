@@ -4,6 +4,7 @@ import Realm from 'realm';
 const USER_SCHEMA = 'user';
 const AUTH_SCHEMA = 'auth';
 const DRAFT_SCHEMA = 'draft';
+const SETTINGS_SCHEMA = 'settings';
 
 const userSchema = {
   name: USER_SCHEMA,
@@ -29,6 +30,17 @@ const draftSchema = {
   },
 };
 
+const settingsSchema = {
+  name: SETTINGS_SCHEMA,
+  properties: {
+    language: { type: 'string', default: null },
+    isDarkTheme: { type: 'bool', default: false },
+    currency: { type: 'string', default: null },
+    notification: { type: 'bool', default: true },
+    server: { type: 'string', default: null },
+  },
+};
+
 const authSchema = {
   name: AUTH_SCHEMA,
   properties: {
@@ -38,7 +50,24 @@ const authSchema = {
   },
 };
 
-const realm = new Realm({ path: 'esteem.realm', schema: [userSchema, authSchema, draftSchema] });
+const realm = new Realm({
+  path: 'esteem.realm',
+  schema: [userSchema, authSchema, draftSchema, settingsSchema],
+});
+
+const settings = realm.objects(SETTINGS_SCHEMA);
+
+if (Array.from(settings).length <= 0) {
+  realm.write(() => {
+    realm.create(SETTINGS_SCHEMA, {
+      language: '',
+      isDarkTheme: false,
+      currency: '',
+      notification: true,
+      server: '',
+    });
+  });
+}
 
 // TODO: This is getting ALL user data, we should change this method with getUserDataWithUsername
 export const getUserData = () => new Promise((resolve, reject) => {
@@ -217,6 +246,114 @@ export const getPinCode = () => new Promise((resolve, reject) => {
     const auth = realm.objects(AUTH_SCHEMA);
     if (auth[0]) {
       resolve(auth[0].pinCode);
+    }
+  } catch (error) {
+    reject(error);
+  }
+});
+
+// SETTINGS
+
+export const setTheme = isDarkTheme => new Promise((resolve, reject) => {
+  try {
+    realm.write(() => {
+      if (Array.from(settings).length > 0) {
+        settings[0].language = settings[0].language;
+        settings[0].isDarkTheme = isDarkTheme;
+        settings[0].currency = settings[0].currency;
+        settings[0].notification = settings[0].notification;
+        settings[0].server = settings[0].server;
+        resolve(true);
+      } else {
+        realm.create(SETTINGS_SCHEMA, {
+          language: '',
+          isDarkTheme,
+          currency: '',
+          notification: '',
+          server: '',
+        });
+        resolve(true);
+      }
+    });
+  } catch (error) {
+    reject(error);
+  }
+});
+
+export const getTheme = () => new Promise((resolve, reject) => {
+  try {
+    if (settings[0]) {
+      resolve(settings[0].isDarkTheme);
+    } else {
+      resolve(false);
+    }
+  } catch (error) {
+    reject(error);
+  }
+});
+
+export const setLanguage = selectedLanguage => new Promise((resolve, reject) => {
+  try {
+    realm.write(() => {
+      settings[0].language = selectedLanguage;
+      resolve(true);
+    });
+  } catch (error) {
+    reject(error);
+  }
+});
+
+export const setServer = selectedServer => new Promise((resolve, reject) => {
+  try {
+    realm.write(() => {
+      settings[0].server = selectedServer;
+      resolve(true);
+    });
+  } catch (error) {
+    reject(error);
+  }
+});
+
+export const setNotificationIsOpen = notificationIsOpen => new Promise((resolve, reject) => {
+  try {
+    realm.write(() => {
+      settings[0].notification = notificationIsOpen;
+      resolve(true);
+    });
+  } catch (error) {
+    reject(error);
+  }
+});
+
+export const setCurrency = selectedCurrency => new Promise((resolve, reject) => {
+  try {
+    realm.write(() => {
+      settings[0].curreny = selectedCurrency;
+      resolve(true);
+    });
+  } catch (error) {
+    reject(error);
+  }
+});
+
+export const getLanguage = () => new Promise((resolve, reject) => {
+  try {
+    if (settings[0]) {
+      resolve(settings[0].language);
+    } else {
+      resolve(false);
+    }
+  } catch (error) {
+    reject(error);
+  }
+});
+
+export const getSettings = () => new Promise((resolve, reject) => {
+  try {
+    if (settings[0]) {
+      resolve(settings[0]);
+    } else {
+      resolve(false);
     }
   } catch (error) {
     reject(error);

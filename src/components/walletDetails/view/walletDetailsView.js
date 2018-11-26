@@ -48,7 +48,6 @@ class WalletDetailsView extends Component {
             rightText={`${Math.round(
               vestsToSp(walletData.vestingShares, walletData.steemPerMVests) * 1000,
             ) / 1000} SP`}
-            tightTextColor="red"
             isBoldText
           />
 

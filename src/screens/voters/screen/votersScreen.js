@@ -1,16 +1,15 @@
 import React, { Component } from 'react';
 import { View } from 'react-native';
-
 // Constants
 
 // Components
-import { EditorHeader } from '../../../components/editorHeader';
+import { BasicHeader } from '../../../components/basicHeader';
 import { FilterBar } from '../../../components/filterBar';
 import { VotersDisplay } from '../../../components/votersDisplay';
 
-// Styles
-// eslint-disable-next-line
-//import styles from './_styles';
+// Utils
+import { isBefore } from '../../../utils/time';
+import globalStyles from '../../../globalStyles';
 
 class VotersScreen extends Component {
   /* Props
@@ -29,7 +28,26 @@ class VotersScreen extends Component {
   // Component Life Cycles
 
   // Component Functions
-  _handleOnDropdownSelect = () => {};
+  _handleOnDropdownSelect = (index) => {
+    const { data } = this.state;
+    const _data = data;
+
+    switch (index) {
+      case '0':
+        _data.sort((a, b) => Number(b.value) - Number(a.value));
+        break;
+      case '1':
+        _data.sort((a, b) => b.percent - a.percent);
+        break;
+      case '2':
+        _data.sort((a, b) => (isBefore(a.time, b.time) ? 1 : -1));
+        break;
+      default:
+        break;
+    }
+
+    this.setState({ filterResult: _data });
+  };
 
   _handleRightIconPress = () => {};
 
@@ -38,7 +56,6 @@ class VotersScreen extends Component {
 
     const newData = data.filter((item) => {
       const itemName = item.voter.toUpperCase();
-      // ${item.name.first.toUpperCase()} ${item.name.last.toUpperCase()}`;
       const _text = text.toUpperCase();
 
       return itemName.indexOf(_text) > -1;
@@ -52,8 +69,8 @@ class VotersScreen extends Component {
     const headerTitle = `Voters Info (${data && data.length})`;
 
     return (
-      <View>
-        <EditorHeader
+      <View style={globalStyles.container}>
+        <BasicHeader
           title={headerTitle}
           rightIconName="ios-search"
           isHasSearch
@@ -65,7 +82,7 @@ class VotersScreen extends Component {
           defaultText="REWARDS"
           onDropdownSelect={this._handleOnDropdownSelect}
         />
-        <VotersDisplay votes={filterResult || data} />
+        <VotersDisplay key={Math.random()} votes={filterResult || data} />
       </View>
     );
   }

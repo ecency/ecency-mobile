@@ -11,7 +11,7 @@ import {
 import Ionicons from 'react-native-vector-icons/Ionicons';
 // import { Navigation } from 'react-native-navigation';
 import { lookupAccounts } from '../../providers/steem/dsteem';
-import { SEARCH_API_TOKEN } from '../../../config';
+import search from '../../config/search';
 
 export default class Search extends Component {
   constructor() {
@@ -46,7 +46,17 @@ export default class Search extends Component {
     await this.setState({ users });
 
     const data = { q: text };
-    await fetch('https://api.search.esteem.app/search', {
+    search
+      .post('/', JSON.stringify(data))
+      .then(result => result.json())
+      .then((result) => {
+        posts = result.results;
+        scroll_id = result.scroll_id;
+      })
+      .catch((error) => {
+        console.log(error);
+      });
+    /*await fetch('https://api.search.esteem.app/search', {
       method: 'POST',
       headers: {
         // TODO: Create a config file for authorization
@@ -63,7 +73,7 @@ export default class Search extends Component {
       })
       .catch((error) => {
         console.log(error);
-      });
+      });*/
 
     await this.setState({ loading: false });
 

@@ -23,18 +23,20 @@ const FilterBarView = ({
   dropdownIconName,
   onDropdownSelect,
   onRightIconPress,
+  selectedOptionIndex,
   isHide,
   iconSize,
 }) => (
   <View style={styles.container}>
     {!isHide && (
-      <LineBreak color="#f6f6f6" height={35}>
+      <LineBreak height={35}>
         <View style={styles.filterBarWrapper}>
           <DropdownButton
             iconName={dropdownIconName}
             options={options}
             defaultText={defaultText}
             onSelect={onDropdownSelect}
+            selectedOptionIndex={selectedOptionIndex}
           />
           <TouchableOpacity
             onPress={onRightIconPress && onRightIconPress()}

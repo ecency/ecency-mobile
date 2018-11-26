@@ -5,10 +5,10 @@ export default EStyleSheet.create({
   container: {
     flex: 1,
     top: StatusBar.currentHeight,
-    backgroundColor: '$primaryGray',
+    backgroundColor: '$primaryGrayBackground',
   },
   content: {
-    backgroundColor: '$primaryGray',
+    backgroundColor: '$primaryGrayBackground',
   },
   cover: {
     width: '$deviceWidth',
@@ -40,7 +40,7 @@ export default EStyleSheet.create({
   tabbar: {
     alignSelf: 'center',
     height: 50,
-    backgroundColor: '$white',
+    backgroundColor: '$primaryBackgroundColor',
     borderBottomColor: '#f1f1f1',
   },
   tabbarItem: {
@@ -54,10 +54,10 @@ export default EStyleSheet.create({
     backgroundColor: 'transparent',
   },
   postTabBar: {
-    backgroundColor: '$white',
+    backgroundColor: '$primaryBackgroundColor',
   },
   commentsTabBar: {
-    backgroundColor: '$white',
+    backgroundColor: '$primaryBackgroundColor',
     paddingHorizontal: 16,
     paddingVertical: 5,
   },

@@ -99,7 +99,7 @@ android {
     buildToolsVersion rootProject.ext.buildToolsVersion
 
     defaultConfig {
-        applicationId "com.esteem"
+        applicationId "app.esteem.mobile"
         minSdkVersion rootProject.ext.minSdkVersion
         targetSdkVersion rootProject.ext.targetSdkVersion
         versionCode 1
@@ -138,12 +138,16 @@ android {
 }
 
 dependencies {
-    compile project(':react-native-config')
-    compile project(':react-native-vector-icons')
-    compile project(':react-native-fast-image')
+    compile project(':react-native-view-overflow')
     compile project(':realm')
+    compile project(':react-native-vector-icons')
     compile project(':react-native-restart')
     compile project(':react-native-linear-gradient')
+    compile project(':react-native-fast-image')
+    compile project(':react-native-config')
+    compile project(':appcenter-crashes')
+    compile project(':appcenter-analytics')
+    compile project(':appcenter')
     implementation fileTree(dir: "libs", include: ["*.jar"])
     implementation "com.android.support:appcompat-v7:${rootProject.ext.supportLibVersion}"
     implementation "com.facebook.react:react-native:+"  // From node_modules

@@ -2,49 +2,32 @@ import PinCode from './pinCode';
 import RootComponent from './root';
 import Splash from './splash';
 import SteemConnect from './steem-connect/steemConnect';
+import { Application } from './application';
 import { Editor } from './editor';
+import { Follows } from './follows';
 import { Home } from './home';
 import { Login } from './login';
+import { Messages } from './messages';
 import { Notification } from './notification';
 import { Post } from './post';
 import { Profile } from './profile';
+import { Settings } from './settings';
 import { Voters } from './voters';
-import { Messages } from './messages';
-
-// import Author from './authorProfile';
-// import SideMenu from './sideMenuScreen';
-// import Hot from './home/hot';
-// import Feed from './home/feed';
-// import { SinglePost } from './singlePost';
-// import { Profile } from './profile';
-// import Wallet from './wallet/wallet';
-// import Editor from './editor/editor';
-// import Discover from './discover/discover';
-// import Settings from './settings/settings';
-// import { Notification } from './notification';
 
 export {
+  Application,
   Editor,
+  Follows,
   Home,
   Login,
+  Messages,
   Notification,
   PinCode,
   Post,
   Profile,
   RootComponent,
+  Settings,
   Splash,
   SteemConnect,
   Voters,
-  Messages,
-  // Author,
-  // SideMenu,
-  // Hot,
-  // Feed,
-  // SinglePost,
-  // Profile,
-  // Login,
-  // Wallet,
-  // Editor,
-  // Discover,
-  // Notification,
 };
