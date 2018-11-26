@@ -32,7 +32,7 @@ export default class Modal extends Component {
 
   render() {
     const {
-      isFullScreen, isOpen, children, isRadius,
+      isFullScreen, isOpen, children, isRadius, isTransparent,
     } = this.props;
     return (
       <ModalBox
@@ -40,6 +40,7 @@ export default class Modal extends Component {
           isRadius && styles.borderTopRadius,
           isFullScreen ? styles.fullModal : styles.centerModal,
         ]}
+        transparent={isTransparent}
         animationType="fade"
         visible={isOpen}
         onRequestClose={() => this._handleOnClose(this)}
