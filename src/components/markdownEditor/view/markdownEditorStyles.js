@@ -43,4 +43,7 @@ export default EStyleSheet.create({
   dropdownIconStyle: {
     color: '$primaryDarkGray',
   },
+  icon: {
+    color: '$iconColor',
+  },
 });

@@ -42,5 +42,19 @@
     "cancel": "cancel",
     "login": "LOGIN",
     "steemconnect_description": "If you don't want to keep your password encrypted and saved on your device, you can use Steemconnect."
+  },
+  "home": {
+    "feed": "Feed",
+    "popular": "Popular"
+  },
+  "side_menu": {
+    "profile": "Profile",
+    "bookmarks": "Bookmarks",
+    "favorites": "Favorites",
+    "drafts": "Drafts",
+    "schedules": "Schedules",
+    "gallery": "Gallery",
+    "settings": "Settings",
+    "add_account": "Add Account"
   }
 }

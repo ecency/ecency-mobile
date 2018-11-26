@@ -2,6 +2,7 @@ import React, { Component, Fragment } from 'react';
 import {
   View, Text, TextInput, FlatList, TouchableHighlight, Image,
 } from 'react-native';
+import FastImage from 'react-native-fast-image';
 
 // Constants
 
@@ -68,7 +69,7 @@ class SearchModalView extends Component {
                     onPress={() => handleOnPressListItem(searchResults.type, item)}
                   >
                     <View style={styles.searhItems}>
-                      <Image
+                      <FastImage
                         source={{
                           uri:
                             searchResults.type === 'user'

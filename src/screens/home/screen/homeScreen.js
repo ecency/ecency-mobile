@@ -1,6 +1,7 @@
 import React, { PureComponent, Fragment } from 'react';
 import { View } from 'react-native';
 import ScrollableTabView from '@esteemapp/react-native-scrollable-tab-view';
+import { injectIntl } from 'react-intl';
 
 // STEEM
 
@@ -11,14 +12,16 @@ import { Header } from '../../../components/header';
 // Styles
 import styles from './homeStyles';
 
-export default class HomeScreen extends PureComponent {
+class HomeScreen extends PureComponent {
   constructor(props) {
     super(props);
     this.state = {};
   }
 
   render() {
-    const { componentId, isLoggedIn, currentAccount } = this.props;
+    const {
+      componentId, isLoggedIn, currentAccount, intl,
+    } = this.props;
     const _filterOptions = [
       'FEED',
       'TRENDING',
@@ -47,7 +50,12 @@ export default class HomeScreen extends PureComponent {
               />
             )}
           >
-            <View tabLabel="Feed" style={styles.tabbarItem}>
+            <View
+              tabLabel={intl.formatMessage({
+                id: 'home.feed',
+              })}
+              style={styles.tabbarItem}
+            >
               <Posts
                 filterOptions={_filterOptions}
                 getFor="feed"
@@ -57,7 +65,12 @@ export default class HomeScreen extends PureComponent {
                 componentId={componentId}
               />
             </View>
-            <View tabLabel="Popular" style={styles.tabbarItem}>
+            <View
+              tabLabel={intl.formatMessage({
+                id: 'home.popular',
+              })}
+              style={styles.tabbarItem}
+            >
               <Posts
                 filterOptions={_filterOptions}
                 getFor="trending"
@@ -72,3 +85,5 @@ export default class HomeScreen extends PureComponent {
     );
   }
 }
+
+export default injectIntl(HomeScreen);
