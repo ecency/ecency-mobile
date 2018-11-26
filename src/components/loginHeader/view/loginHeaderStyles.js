@@ -5,6 +5,7 @@ export default EStyleSheet.create({
     flex: 1,
     flexDirection: 'column',
     height: '$deviceHeight / 4',
+    backgroundColor: '$primaryBackgroundColor',
   },
   body: {
     flexDirection: 'row',
