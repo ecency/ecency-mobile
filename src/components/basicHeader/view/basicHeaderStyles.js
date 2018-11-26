@@ -9,6 +9,9 @@ export default EStyleSheet.create({
     backgroundColor: '$primaryBackgroundColor',
     alignItems: 'center',
   },
+  safeArea: {
+    backgroundColor: '$primaryBackgroundColor',
+  },
   backIcon: {
     fontSize: 24,
     color: '$iconColor',

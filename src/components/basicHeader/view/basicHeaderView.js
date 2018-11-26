@@ -1,6 +1,6 @@
 import React, { Component, Fragment } from 'react';
 import {
-  View, Text, TextInput, ActivityIndicator, 
+  View, Text, TextInput, ActivityIndicator, SafeAreaView,
 } from 'react-native';
 import { TextButton } from '../..';
 import { IconButton } from '../../iconButton';
@@ -77,109 +77,111 @@ class BasicHeaderView extends Component {
     } = this.props;
     const { isInputVisible } = this.state;
     return (
-      <View style={styles.container}>
-        <View style={styles.backWrapper}>
-          <IconButton
-            iconStyle={[styles.backIcon, isModalHeader && styles.closeIcon]}
-            iconType={isModalHeader && 'FontAwesome'}
-            name={isModalHeader ? 'close' : 'md-arrow-back'}
-            onPress={() => (isModalHeader ? handleOnPressClose() : handleOnPressBackButton())}
-          />
-          {isHasIcons && (
-            <View>
-              {!isDraftSaving ? (
+      <SafeAreaView style={styles.safeArea}>
+        <View style={styles.container}>
+          <View style={styles.backWrapper}>
+            <IconButton
+              iconStyle={[styles.backIcon, isModalHeader && styles.closeIcon]}
+              iconType={isModalHeader && 'FontAwesome'}
+              name={isModalHeader ? 'close' : 'md-arrow-back'}
+              onPress={() => (isModalHeader ? handleOnPressClose() : handleOnPressBackButton())}
+            />
+            {isHasIcons && (
+              <View>
+                {!isDraftSaving ? (
+                  <IconButton
+                    iconStyle={[styles.saveIcon, isDraftSaved && styles.savedIcon]}
+                    iconType="FontAwesome"
+                    name="save"
+                    onPress={() => handleOnSaveButtonPress && handleOnSaveButtonPress()}
+                  />
+                ) : (
+                  <ActivityIndicator style={styles.textButtonWrapper} />
+                )}
+              </View>
+            )}
+
+            {!isInputVisible && (
+              <Text style={[title && styles.title, quickTitle && styles.quickTitle]}>
+                {quickTitle || title}
+              </Text>
+            )}
+
+            {isHasDropdown && (
+              <View>
+                <DropdownButton
+                  isHasChildIcon
+                  iconName="md-more"
+                  options={['ALL ACTIVITIES', 'VOTES', 'REPLIES', 'MENTIONS', 'FOLLOWS', 'REBLOGS']}
+                  onSelect={this._handleOnDropdownSelect}
+                />
+              </View>
+            )}
+
+            {rightIconName
+              && !isHasSearch && (
                 <IconButton
-                  iconStyle={[styles.saveIcon, isDraftSaved && styles.savedIcon]}
-                  iconType="FontAwesome"
-                  name="save"
-                  onPress={() => handleOnSaveButtonPress && handleOnSaveButtonPress()}
+                  style={styles.rightIcon}
+                  size={25}
+                  onPress={() => handleRightIconPress()}
+                  iconStyle={styles.rightIcon}
+                  name={rightIconName}
+                />
+            )}
+
+            {isInputVisible && (
+              <TextInput
+                onChangeText={value => this._handleOnSearch(value)}
+                autoFocus
+                placeholder="Search"
+                autoCapitalize="none"
+                style={styles.textInput}
+              />
+            )}
+
+            {isHasSearch && (
+              <IconButton
+                style={styles.rightIcon}
+                size={25}
+                onPress={() => this._handleSearchButtonPress()}
+                iconStyle={styles.rightIcon}
+                name={rightIconName}
+              />
+            )}
+          </View>
+
+          {isHasIcons && (
+            <Fragment>
+              <IconButton
+                style={styles.iconButton}
+                iconStyle={styles.rightIcon}
+                size={20}
+                name="ios-timer"
+              />
+              <IconButton
+                style={styles.iconButton}
+                size={25}
+                onPress={() => handleOnPressPreviewButton()}
+                iconStyle={styles.rightIcon}
+                name={isPreviewActive ? 'ios-eye' : 'ios-eye-off'}
+              />
+              {!isPostSending ? (
+                <TextButton
+                  textStyle={[
+                    styles.textButton,
+                    isFormValid && isLoggedIn ? styles.textButtonEnable : styles.textButtonDisable,
+                  ]}
+                  onPress={isFormValid && this._handleOnPress}
+                  style={styles.textButtonWrapper}
+                  text="Publish"
                 />
               ) : (
                 <ActivityIndicator style={styles.textButtonWrapper} />
               )}
-            </View>
-          )}
-
-          {!isInputVisible && (
-            <Text style={[title && styles.title, quickTitle && styles.quickTitle]}>
-              {quickTitle || title}
-            </Text>
-          )}
-
-          {isHasDropdown && (
-            <View>
-              <DropdownButton
-                isHasChildIcon
-                iconName="md-more"
-                options={['ALL ACTIVITIES', 'VOTES', 'REPLIES', 'MENTIONS', 'FOLLOWS', 'REBLOGS']}
-                onSelect={this._handleOnDropdownSelect}
-              />
-            </View>
-          )}
-
-          {rightIconName
-            && !isHasSearch && (
-              <IconButton
-                style={styles.rightIcon}
-                size={25}
-                onPress={() => handleRightIconPress()}
-                iconStyle={styles.rightIcon}
-                name={rightIconName}
-              />
-          )}
-
-          {isInputVisible && (
-            <TextInput
-              onChangeText={value => this._handleOnSearch(value)}
-              autoFocus
-              placeholder="Search"
-              autoCapitalize="none"
-              style={styles.textInput}
-            />
-          )}
-
-          {isHasSearch && (
-            <IconButton
-              style={styles.rightIcon}
-              size={25}
-              onPress={() => this._handleSearchButtonPress()}
-              iconStyle={styles.rightIcon}
-              name={rightIconName}
-            />
+            </Fragment>
           )}
         </View>
-
-        {isHasIcons && (
-          <Fragment>
-            <IconButton
-              style={styles.iconButton}
-              iconStyle={styles.rightIcon}
-              size={20}
-              name="ios-timer"
-            />
-            <IconButton
-              style={styles.iconButton}
-              size={25}
-              onPress={() => handleOnPressPreviewButton()}
-              iconStyle={styles.rightIcon}
-              name={isPreviewActive ? 'ios-eye' : 'ios-eye-off'}
-            />
-            {!isPostSending ? (
-              <TextButton
-                textStyle={[
-                  styles.textButton,
-                  isFormValid && isLoggedIn ? styles.textButtonEnable : styles.textButtonDisable,
-                ]}
-                onPress={isFormValid && this._handleOnPress}
-                style={styles.textButtonWrapper}
-                text="Publish"
-              />
-            ) : (
-              <ActivityIndicator style={styles.textButtonWrapper} />
-            )}
-          </Fragment>
-        )}
-      </View>
+      </SafeAreaView>
     );
   }
 }

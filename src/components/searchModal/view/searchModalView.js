@@ -49,6 +49,7 @@ class SearchModalView extends Component {
                 onChangeText={text => handleOnChangeSearchInput(text)}
                 placeholder="Search..."
                 placeholderTextColor="#c1c5c7"
+                autoCapitalize="none"
               />
               <IconButton
                 iconStyle={styles.closeIcon}
