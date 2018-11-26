@@ -64,7 +64,7 @@ class PostButtonView extends Component {
     });
     const secondX = this.icon2.interpolate({
       inputRange: [0, 1],
-      outputRange: [25, 35],
+      outputRange: [25, 30],
     });
     const secondY = this.icon2.interpolate({
       inputRange: [0, 1],
@@ -72,7 +72,7 @@ class PostButtonView extends Component {
     });
     const thirdX = this.icon3.interpolate({
       inputRange: [0, 1],
-      outputRange: [25, 95],
+      outputRange: [25, 90],
     });
     const thirdY = this.icon3.interpolate({
       inputRange: [0, 1],
@@ -95,8 +95,7 @@ class PostButtonView extends Component {
             top: firstY,
           }}
           icon="camera"
-          onPress={() => handleSubButtonPress(ROUTES.SCREENS.EDITOR)
-          }
+          onPress={() => handleSubButtonPress(ROUTES.SCREENS.EDITOR)}
         />
         <SubPostButton
           size={SIZE}
@@ -105,8 +104,7 @@ class PostButtonView extends Component {
             top: secondY,
           }}
           icon="pencil"
-          onPress={() => handleSubButtonPress(ROUTES.SCREENS.EDITOR)
-          }
+          onPress={() => handleSubButtonPress(ROUTES.SCREENS.EDITOR)}
         />
         <SubPostButton
           size={SIZE}
@@ -115,8 +113,7 @@ class PostButtonView extends Component {
             top: thirdY,
           }}
           icon="video-camera"
-          onPress={() => handleSubButtonPress(ROUTES.SCREENS.EDITOR)
-          }
+          onPress={() => handleSubButtonPress(ROUTES.SCREENS.EDITOR)}
         />
         <TouchableOpacity onPress={this.toggleView} activeOpacity={1}>
           <Animated.View
