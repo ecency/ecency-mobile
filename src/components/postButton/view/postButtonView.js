@@ -27,12 +27,14 @@ class PostButtonView extends Component {
   icon3 = new Animated.Value(0);
 
   componentWillReceiveProps(nextProps) {
-    const { routes } = this.props;
-    const nextRouteName = nextProps.routes[0].routes[nextProps.routes[0].routes.length - 1].routeName;
-    const routeName = routes[0].routes[routes[0].routes.length - 1].routeName;
     // For closing sub buttons
-    if (routeName !== nextRouteName && nextRouteName !== 'MainDrawer') {
-      this.toggleView();
+    if (this.mode._value) {
+      const { routes } = this.props;
+      const nextRouteName = nextProps.routes[0].routes[nextProps.routes[0].routes.length - 1].routeName;
+      const routeName = routes[0].routes[routes[0].routes.length - 1].routeName;
+      if (routeName !== nextRouteName && nextRouteName !== ROUTES.DRAWER.MAIN) {
+        this.toggleView();
+      }
     }
   }
 
