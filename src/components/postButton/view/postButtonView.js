@@ -1,6 +1,6 @@
 import React, { Component } from 'react';
 import {
-  Animated, Easing, TouchableOpacity, View, Fade,
+  Animated, Easing, TouchableOpacity, View,
 } from 'react-native';
 import Icon from 'react-native-vector-icons/FontAwesome';
 
