@@ -91,7 +91,47 @@ export const parsePosts = (posts, user) => {
   return posts;
 };
 
-export const parsePost = (post) => {
+export const parsePostsSummary = (posts, currentUser) => {
+  posts.map((post) => {
+    post.json_metadata = JSON.parse(post.json_metadata);
+    post.json_metadata.image ? (post.image = post.json_metadata.image[0]) : null;
+    post.pending_payout_value = parseFloat(post.pending_payout_value).toFixed(2);
+    post.created = getTimeFromNow(post.created);
+    post.vote_count = post.active_votes.length;
+    post.author_reputation = getReputation(post.author_reputation);
+    post.avatar = `https://steemitimages.com/u/${post.author}/avatar/small`;
+    post.body = markDown2Html(post.body);
+    post.summary = getPostSummary(post.body, 100);
+    post.raw_body = post.body;
+    post.is_voted = false;
+
+    const totalPayout = parseFloat(post.pending_payout_value)
+      + parseFloat(post.total_payout_value)
+      + parseFloat(post.curator_payout_value);
+
+    const voteRshares = post.active_votes.reduce((a, b) => a + parseFloat(b.rshares), 0);
+    const ratio = totalPayout / voteRshares;
+    if (post && post.active_votes) {
+      for (const i in post.active_votes) {
+        if (post.active_votes[i].voter === currentUser && post.active_votes[i].percent > 0) {
+          post.is_voted = true;
+        }
+        post.vote_perecent = post.active_votes[i].voter === currentUser ? post.active_votes[i].percent : null;
+        post.active_votes[i].value = (post.active_votes[i].rshares * ratio).toFixed(2);
+        post.active_votes[i].reputation = getReputation(post.active_votes[i].reputation);
+        post.active_votes[i].percent = post.active_votes[i].percent / 100;
+        post.active_votes[i].avatar = `https://steemitimages.com/u/${
+          post.active_votes[i].voter
+        }/avatar/small`;
+        post.active_votes[i].created = getTimeFromNow(post.active_votes[i].time);
+        post.active_votes[i].is_down_vote = Math.sign(post.active_votes[i].percent) < 0;
+      }
+    }
+  });
+  return posts;
+};
+
+export const parsePost = (post, currentUser) => {
   post.json_metadata = JSON.parse(post.json_metadata);
   post.json_metadata.image ? (post.image = post.json_metadata.image[0]) : '';
   post.pending_payout_value = parseFloat(post.pending_payout_value).toFixed(2);
@@ -109,10 +149,12 @@ export const parsePost = (post) => {
 
   const voteRshares = post.active_votes.reduce((a, b) => a + parseFloat(b.rshares), 0);
   const ratio = totalPayout / voteRshares;
-  // post.is_voted = false;
+  post.is_voted = false;
 
   for (const i in post.active_votes) {
-    // post.is_voted = post.active_votes[i].voter === "u-e" && post.active_votes[i].percent > 0;
+    if (post.active_votes[i].voter === currentUser && post.active_votes[i].percent > 0) {
+      post.is_voted = true;
+    }
     post.active_votes[i].value = (post.active_votes[i].rshares * ratio).toFixed(2);
     post.active_votes[i].reputation = getReputation(post.active_votes[i].reputation);
     post.active_votes[i].avatar = `https://steemitimages.com/u/${

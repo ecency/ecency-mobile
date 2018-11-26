@@ -39,7 +39,7 @@ const FilterBarView = ({
             selectedOptionIndex={selectedOptionIndex}
           />
           <TouchableOpacity
-            onPress={onRightIconPress && onRightIconPress()}
+            onPress={() => onRightIconPress && onRightIconPress()}
             style={styles.rightIconWrapper}
           >
             <Ionicons style={styles.rightIcon} size={iconSize || 32} name={rightIconName} />

@@ -98,6 +98,7 @@ export default class MarkdownEditorView extends Component {
       <IconButton
         size={20}
         style={styles.editorButton}
+        iconStyle={styles.icon}
         iconType={item.iconType}
         name={item.icon}
         onPress={() => item.onPress({ getState, setState, item })}
@@ -120,6 +121,7 @@ export default class MarkdownEditorView extends Component {
         <IconButton
           size={20}
           style={styles.rightIcons}
+          iconStyle={styles.icon}
           iconType="FontAwesome"
           name="link"
           onPress={() => Formats[9].onPress({ getState, setState })}

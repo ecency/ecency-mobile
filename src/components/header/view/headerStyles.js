@@ -5,8 +5,8 @@ export default EStyleSheet.create({
     flex: 1,
     flexDirection: 'row',
     width: '$deviceWidth',
-    minHeight: 40,
-    maxHeight: 74,
+    // minHeight: 50,
+    maxHeight: 85,
     backgroundColor: '$primaryBackgroundColor',
   },
   containerReverse: {

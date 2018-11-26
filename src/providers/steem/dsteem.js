@@ -6,9 +6,11 @@
 import { Client, PrivateKey } from 'dsteem';
 import { AsyncStorage } from 'react-native';
 
-import { getUnreadActivityCount } from "../esteem/esteem";
+import { getUnreadActivityCount } from '../esteem/esteem';
 
-import { parsePosts, parsePost, parseComments } from '../../utils/postParser';
+import {
+  parsePosts, parsePost, parseComments, parsePostsSummary,
+} from '../../utils/postParser';
 
 let rewardFund = null;
 let medianPrice = null;
@@ -228,6 +230,17 @@ export const getPosts = async (by, query, user) => {
   }
 };
 
+export const getPostsSummary = async (by, query, currentUser) => {
+  try {
+    let posts = await client.database.getDiscussions(by, query);
+
+    posts = await parsePostsSummary(posts, currentUser);
+    return posts;
+  } catch (error) {
+    return error;
+  }
+};
+
 export const getUserComments = async (query) => {
   try {
     let comments = await client.database.getDiscussions('comments', query);
@@ -244,11 +257,11 @@ export const getUserComments = async (query) => {
  * @param user post author
  * @param permlink post permlink
  */
-export const getPost = async (user, permlink) => {
+export const getPost = async (user, permlink, currentUser) => {
   try {
     let posts = await client.database.call('get_content', [user, permlink]);
 
-    posts = await parsePost(posts, user);
+    posts = await parsePost(posts, user, currentUser);
     return posts;
   } catch (error) {
     return error;

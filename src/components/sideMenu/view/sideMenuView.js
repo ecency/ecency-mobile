@@ -1,5 +1,6 @@
 import React, { Component } from 'react';
 import { View, Text, ImageBackground } from 'react-native';
+import { injectIntl } from 'react-intl';
 import {
   Thumbnail, List, ListItem, Container,
 } from 'native-base';
@@ -79,7 +80,7 @@ class SideMenuView extends Component {
 
   render() {
     const {
-      navigateToRoute, currentAccount, isLoggedIn, switchAccount,
+      navigateToRoute, currentAccount, isLoggedIn, switchAccount, intl,
     } = this.props;
     const { menuItems, isAddAccountIconActive } = this.state;
 
@@ -91,7 +92,10 @@ class SideMenuView extends Component {
           colors={['#357ce6', '#2d5aa0']}
           style={styles.headerView}
         >
-          <ImageBackground source={SIDE_MENU_BACKGROUND} style={{ width: '100%', height: '100%', flexDirection: 'row', }}>
+          <ImageBackground
+            source={SIDE_MENU_BACKGROUND}
+            style={{ width: '100%', height: '100%', flexDirection: 'row' }}
+          >
             {isLoggedIn && (
               <View style={styles.headerContentView}>
                 <Thumbnail style={styles.userAvatar} source={this._getUserAvatar()} />
@@ -138,7 +142,9 @@ class SideMenuView extends Component {
                 {item.image && (
                   <Thumbnail small style={styles.otherUserAvatar} source={item.image} />
                 )}
-                <Text style={styles.listItemText}>{item.name}</Text>
+                <Text style={styles.listItemText}>
+                  {intl.formatMessage({ id: `side_menu.${item.id}` })}
+                </Text>
               </ListItem>
             )}
           />
@@ -148,4 +154,4 @@ class SideMenuView extends Component {
   }
 }
 
-export default SideMenuView;
+export default injectIntl(SideMenuView);

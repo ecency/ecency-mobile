@@ -35,12 +35,26 @@
   "login": {
     "signin": "Giriş",
     "signup": "Kayıt",
-    "signin_title": "eSteem'in ayrıçalıklı dünyasına hoşgeldiniz.",
+    "signin_title": "eSteem'in ayrıcalıklı dünyasına hoşgeldiniz.",
     "username": "Kullanıcı Adı",
     "password": "Şifre yada WIF",
     "description": "Kullanıçı bilgileri telefonunuz üzeründe şifreli olarak tutulur ve çıkış yaptıgınızda tüm bilgiler silinir.",
     "cancel": "geç",
     "login": "GİRİŞ",
     "steemconnect_description": "Eğer kullanıçı bilgilerini şifreli olarak tutulmasını istemiyorsanız Steemconnect ilede giriş yapabilirsiniz."
+  },
+  "home": {
+    "feed": "Akış",
+    "popular": "Popüler"
+  },
+  "side_menu": {
+    "profile": "Profil",
+    "bookmarks": "Yerimleri",
+    "favorites": "Favoriler",
+    "drafts": "Taslaklar",
+    "schedules": "Yapılacaklar",
+    "gallery": "Galeri",
+    "settings": "Ayarlar",
+    "add_account": "Hesap Ekle"
   }
 }

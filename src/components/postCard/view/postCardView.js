@@ -55,7 +55,9 @@ class PostCard extends Component {
   };
 
   render() {
-    const { content, isLoggedIn, user } = this.props;
+    const {
+      content, isLoggedIn, user, isShowImages,
+    } = this.props;
     // const likersText = `@${content.top_likers[0]}, @${content.top_likers[1]}, @${
     //   content.top_likers[2]
     // }`;
@@ -73,6 +75,7 @@ class PostCard extends Component {
             tag={content.category}
             avatar={content && content.avatar}
             size={32}
+            isShowImages={isShowImages}
           />
           <DropdownButton
             isHasChildIcon
@@ -87,11 +90,13 @@ class PostCard extends Component {
             style={[{ flexDirection: 'column' }]}
             onPress={() => this._handleOnContentPress()}
           >
-            <Image
-              source={{ uri: content && content.image }}
-              defaultSource={require('../../../assets/no_image.png')}
-              style={styles.image}
-            />
+            {isShowImages && (
+              <Image
+                source={{ uri: content && content.image }}
+                defaultSource={require('../../../assets/no_image.png')}
+                style={styles.image}
+              />
+            )}
             <View style={[styles.postDescripton]}>
               <Text style={styles.title}>{content.title}</Text>
               <Text style={styles.summary}>{content.summary}</Text>
@@ -101,7 +106,10 @@ class PostCard extends Component {
         <View style={styles.bodyFooter}>
           <View style={styles.leftFooterWrapper}>
             <Upvote isShowpayoutValue content={content} user={user} isLoggedIn={isLoggedIn} />
-            <TouchableOpacity style={styles.commentButton} onPress={() => this._handleOnVotersPress()}>
+            <TouchableOpacity
+              style={styles.commentButton}
+              onPress={() => this._handleOnVotersPress()}
+            >
               <Icon
                 style={[styles.commentIcon, { marginLeft: 25 }]}
                 iconType="MaterialIcons"

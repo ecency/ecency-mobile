@@ -2,7 +2,7 @@ import React, { Component, Fragment } from 'react';
 import { FlatList, View, ActivityIndicator } from 'react-native';
 
 // STEEM
-import { getPosts } from '../../../providers/steem/dsteem';
+import { getPostsSummary } from '../../../providers/steem/dsteem';
 
 // COMPONENTS
 import { PostCard } from '../../postCard';
@@ -23,6 +23,7 @@ class PostsView extends Component {
       refreshing: false,
       isLoading: false,
       isPostsLoading: false,
+      isShowImages: true,
     };
   }
 
@@ -45,11 +46,12 @@ class PostsView extends Component {
 
   _loadPosts = (user, _tag = null, _getFor = null) => {
     const { getFor, tag } = this.props;
+    const { isShowImages } = this.state;
     let options;
     _getFor ? (options = { limit: 3 }) : (options = { tag: _tag || tag, limit: 3 });
 
     if (user) {
-      getPosts(_getFor || getFor, options, user)
+      getPostsSummary(_getFor || getFor, options, user && user.name, isShowImages)
         .then((result) => {
           if (result) {
             this.setState({
@@ -68,14 +70,15 @@ class PostsView extends Component {
   };
 
   _loadMore = () => {
+    // TODO: merge above function with this func (after alpha).
     const {
-      posts, startAuthor, startPermlink, user,
+      posts, startAuthor, startPermlink, user, isShowImages,
     } = this.state;
     const { getFor, tag } = this.props;
 
     this.setState({ isLoading: true });
 
-    getPosts(
+    getPostsSummary(
       getFor,
       {
         tag,
@@ -84,6 +87,7 @@ class PostsView extends Component {
         start_permlink: startPermlink,
       },
       (user && user.name) || 'esteemapp',
+      isShowImages,
     ).then((result) => {
       const _posts = result;
       _posts.shift();
@@ -127,13 +131,17 @@ class PostsView extends Component {
     this._loadPosts(user, null, filters[index]);
   };
 
+  _onRightIconPress = () => {
+    const { isShowImages } = this.state;
+
+    this.setState({ isShowImages: !isShowImages });
+  };
+
   render() {
     const {
-      refreshing, posts, user, isPostsLoading,
+      refreshing, posts, user, isPostsLoading, isShowImages,
     } = this.state;
-    const {
-      componentId, filterOptions, isLoggedIn,
-    } = this.props;
+    const { componentId, filterOptions, isLoggedIn } = this.props;
 
     return (
       <Fragment>
@@ -145,6 +153,7 @@ class PostsView extends Component {
             defaultText={filterOptions[0]}
             rightIconName="md-apps"
             onDropdownSelect={this._handleOnDropdownSelect}
+            onRightIconPress={this._onRightIconPress}
           />
         )}
         {user && posts && posts.length > 0 && !isPostsLoading ? (
@@ -157,6 +166,7 @@ class PostsView extends Component {
                 content={item}
                 user={user}
                 isLoggedIn={isLoggedIn}
+                isShowImages={isShowImages}
               />
             )}
             keyExtractor={(post, index) => index.toString()}
