@@ -91,6 +91,28 @@ export const parsePosts = (posts, user) => {
   return posts;
 };
 
+export const parsePostsSummary = (posts, user) => {
+  posts.map((post) => {
+    post.json_metadata = JSON.parse(post.json_metadata);
+    post.json_metadata.image ? (post.image = post.json_metadata.image[0]) : null;
+    post.pending_payout_value = parseFloat(post.pending_payout_value).toFixed(2);
+    post.created = getTimeFromNow(post.created);
+    post.vote_count = post.active_votes.length;
+    post.author_reputation = getReputation(post.author_reputation);
+    post.avatar = `https://steemitimages.com/u/${post.author}/avatar/small`;
+    post.summary = getPostSummary(post.body, 100);
+    post.raw_body = post.body;
+    post.is_voted = false;
+
+    if (post && post.active_votes) {
+      for (const i in post.active_votes) {
+        post.is_voted = post.active_votes[i].voter === user.name && post.active_votes[i].percent > 0;
+      }
+    }
+  });
+  return posts;
+};
+
 export const parsePost = (post) => {
   post.json_metadata = JSON.parse(post.json_metadata);
   post.json_metadata.image ? (post.image = post.json_metadata.image[0]) : '';
