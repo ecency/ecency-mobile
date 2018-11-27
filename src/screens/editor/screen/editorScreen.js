@@ -1,5 +1,6 @@
 import React, { Component } from 'react';
 import { View } from 'react-native';
+import { injectIntl } from 'react-intl';
 
 // Utils
 import { getWordsCount } from '../../../utils/editor';
@@ -13,7 +14,7 @@ import { PostForm } from '../../../components/postForm';
 // Styles
 import globalStyles from '../../../globalStyles';
 
-export class EditorScreen extends Component {
+class EditorScreen extends Component {
   /* Props
     * ------------------------------------------------
     *   @prop { type }    name                - Description....
@@ -125,7 +126,7 @@ export class EditorScreen extends Component {
       isPreviewActive, wordsCount, isFormValid, fields, isChanged,
     } = this.state;
     const {
-      isLoggedIn, isPostSending, isDraftSaving, isDraftSaved, draftPost
+      isLoggedIn, isPostSending, isDraftSaving, isDraftSaved, draftPost, intl
     } = this.props;
 
     return (
@@ -149,19 +150,23 @@ export class EditorScreen extends Component {
           isPreviewActive={isPreviewActive}
           isFormValid={isFormValid}
         >
-          <TitleArea value={fields.title} componentID="title" />
+          <TitleArea value={fields.title} componentID="title" intl={intl} />
           <TagArea
             draftChips={fields.tags}
             componentID="tag-area"
             handleTagChanged={this._handleOnTagAdded}
+            intl={intl}
           />
           <TextArea
             draftBody={fields && fields.body}
             handleOnTextChange={this._setWordsCount}
             componentID="body"
+            intl={intl}
           />
         </PostForm>
       </View>
     );
   }
 }
+
+export default injectIntl(EditorScreen);

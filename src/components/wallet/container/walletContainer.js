@@ -36,6 +36,7 @@ class WalletContainer extends Component {
 
     const walletData = {};
 
+    // TODO: move them to utils these so big for a lifecycle function
     walletData.rewardSteemBalance = parseToken(user.reward_steem_balance);
     walletData.rewardSbdBalance = parseToken(user.reward_sbd_balance);
     walletData.rewardVestingSteem = parseToken(user.reward_vesting_steem);
@@ -81,7 +82,6 @@ class WalletContainer extends Component {
   // Component Functions
 
   render() {
-    // eslint-disable-next-line
     const { walletData } = this.state;
 
     return <WalletView {...this.props} walletData={walletData} />;

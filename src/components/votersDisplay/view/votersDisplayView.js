@@ -39,7 +39,7 @@ class VotersDisplayView extends PureComponent {
   };
 
   render() {
-    const { votes } = this.props;
+    const { votes, intl } = this.props;
 
     return (
       <View style={styles.container}>
@@ -51,7 +51,11 @@ class VotersDisplayView extends PureComponent {
             renderItem={({ item, index }) => this._renderItem(item, index)}
           />
         ) : (
-          <Text style={styles.text}>No user found.</Text>
+          <Text style={styles.text}>
+            {intl.formatMessage({
+              id: 'voters.no_user',
+            })}
+          </Text>
         )}
       </View>
     );

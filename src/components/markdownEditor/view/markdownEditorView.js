@@ -139,7 +139,7 @@ export default class MarkdownEditorView extends Component {
   );
 
   render() {
-    const { isPreviewActive } = this.props;
+    const { isPreviewActive, intl } = this.props;
     const { text, selection } = this.state;
 
     return (
@@ -149,7 +149,9 @@ export default class MarkdownEditorView extends Component {
             multiline
             onChangeText={text => this.changeText(text)}
             onSelectionChange={this._handleOnSelectionChange}
-            placeholder="What would you like to write about today?"
+            placeholder={intl.formatMessage({
+              id: 'editor.description',
+            })}
             placeholderTextColor="#c1c5c7"
             selection={selection}
             selectionColor="#357ce6"

@@ -35,7 +35,7 @@ export default class TitleAreaView extends Component {
   };
 
   render() {
-    const { value, isPreviewActive } = this.props;
+    const { value, isPreviewActive, intl } = this.props;
 
     return (
       <View style={globalStyles.containerHorizontal16}>
@@ -44,7 +44,9 @@ export default class TitleAreaView extends Component {
           placeholderTextColor="#c1c5c7"
           editable={!isPreviewActive}
           maxLength={250}
-          placeholder="Title"
+          placeholder={intl.formatMessage({
+            id: 'editor.title',
+          })}
           multiline
           autoFocus
           numberOfLines={4}

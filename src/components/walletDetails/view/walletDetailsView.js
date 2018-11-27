@@ -29,8 +29,7 @@ class WalletDetailsView extends Component {
   // Component Functions
 
   render() {
-    const { walletData } = this.props;
-
+    const { walletData, intl } = this.props;
     return (
       <View style={styles.container}>
         <WalletLineItem
@@ -42,7 +41,9 @@ class WalletDetailsView extends Component {
         />
         <GrayWrapper>
           <WalletLineItem
-            text="Steem Power"
+            text={intl.formatMessage({
+              id: 'profile.steem_power',
+            })}
             textColor="#3c4449"
             iconName="ios-information-circle-outline"
             rightText={`${Math.round(
@@ -76,7 +77,9 @@ class WalletDetailsView extends Component {
         </GrayWrapper>
 
         <WalletLineItem
-          text="Steem Dollars"
+          text={intl.formatMessage({
+            id: 'profile.steem_dollars',
+          })}
           textColor="#3c4449"
           iconName="ios-information-circle-outline"
           rightText={`$${Math.round(walletData.sbdBalance * 1000) / 1000}`}
@@ -84,7 +87,9 @@ class WalletDetailsView extends Component {
         />
         <GrayWrapper>
           <WalletLineItem
-            text="Savings"
+            text={intl.formatMessage({
+              id: 'profile.savings',
+            })}
             textColor="#3c4449"
             iconName="ios-information-circle-outline"
             rightText={`${Math.round(walletData.savingBalance * 1000) / 1000} STEEM`}

@@ -1,5 +1,7 @@
 import React, { Component } from 'react';
 import { View } from 'react-native';
+import { injectIntl } from 'react-intl';
+
 // Constants
 
 // Components
@@ -66,12 +68,15 @@ class VotersScreen extends Component {
 
   render() {
     const { data, filterResult } = this.state;
-    const headerTitle = `Voters Info (${data && data.length})`;
+    const { intl } = this.props;
+    const headerTitle = intl.formatMessage({
+      id: 'voters.voters_info',
+    });
 
     return (
       <View style={globalStyles.container}>
         <BasicHeader
-          title={headerTitle}
+          title={`${headerTitle} (${data && data.length})`}
           rightIconName="ios-search"
           isHasSearch
           handleOnSearch={this._handleSearch}
@@ -82,10 +87,10 @@ class VotersScreen extends Component {
           defaultText="REWARDS"
           onDropdownSelect={this._handleOnDropdownSelect}
         />
-        <VotersDisplay key={Math.random()} votes={filterResult || data} />
+        <VotersDisplay intl={intl} key={Math.random()} votes={filterResult || data} />
       </View>
     );
   }
 }
 
-export default VotersScreen;
+export default injectIntl(VotersScreen);

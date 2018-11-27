@@ -43,7 +43,12 @@
     "havent_commented": "henüz yorum yapmadı",
     "full_in": "Full in",
     "hours": "saat",
-    "voting_power": "Oylama güçü"
+    "voting_power": "Oylama güçü",
+    "steem_power": "Steem Güçü",
+    "next_power_text": "İleriki güç",
+    "days": "days içinde düşecek",
+    "steem_dollars": "Steem Dolar",
+    "savings": "Biriktir"
   },
   "settings": {
     "settings": "Ayarlar",
@@ -56,7 +61,8 @@
     "reset": "Sifirla"
   },
   "voters": {
-    "voters_info": "Oy Verenler"
+    "voters_info": "Oy Verenler",
+    "no_user": "Kullanıcı bulunamadı."
   },
   "login": {
     "signin": "Giriş",
@@ -86,5 +92,21 @@
   "header": {
     "title": "Giriş yap ve akışını özelleştir.",
     "search": "Ara..."
+  },
+  "basic_header": {
+    "publish": "Yayınla",
+    "search": "Ara"
+  },
+  "editor": {
+    "title": "Başlık",
+    "tags": "etiketler",
+    "description": "Bu gün ne hakkında yazmak istersin?",
+    "publish": "Yayınla"
+  },
+  "pincode": {
+    "enter_text": "Açmak için pin kodunu giriniz",
+    "set_new": "Yeni pin kodu",
+    "write_again": "Tekrar giriniz",
+    "forgot_text": "Of! unuttum..."
   }
 }

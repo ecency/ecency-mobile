@@ -47,7 +47,7 @@ class PinCodeScreen extends Component {
 
   render() {
     const {
-      informationText, showForgotButton, username, avatar,
+      informationText, showForgotButton, username, avatar, intl,
     } = this.props;
     const { pin } = this.state;
 
@@ -70,7 +70,11 @@ class PinCodeScreen extends Component {
         </View>
         {showForgotButton ? (
           <TouchableOpacity style={styles.forgotButtonView}>
-            <Text style={styles.forgotButtonText}>Oh, I forgot it…</Text>
+            <Text style={styles.forgotButtonText}>
+              {intl.formatMessage({
+                id: 'pincode.forgot_text',
+              })}
+            </Text>
           </TouchableOpacity>
         ) : (
           <View style={styles.forgotButtonView} />

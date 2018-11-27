@@ -173,7 +173,7 @@ class ProfileScreen extends Component {
                 id: 'profile.wallet',
               })}
             >
-              <Wallet user={user} />
+              <Wallet user={user} intl={intl} />
             </View>
           </ScrollableTabView>
         </View>
