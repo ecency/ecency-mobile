@@ -64,7 +64,6 @@ export const getUser = async (user) => {
     const globalProperties = await client.database.getDynamicGlobalProperties();
     const rcPower = await client.call('rc_api', 'find_rc_accounts', { accounts: [user] });
     const unreadActivityCount = await getUnreadActivityCount({ user });
-    console.log('unreadActivityCount',unreadActivityCount);
 
     account[0].unread_activity_count = unreadActivityCount;
     account[0].rc_manabar = rcPower.rc_accounts[0].rc_manabar;
@@ -83,8 +82,6 @@ export const getUser = async (user) => {
       globalProperties.total_vesting_shares,
       globalProperties.total_vesting_fund_steem,
     );
-
-    console.log('account[0]',account[0]);
 
     account[0].about = account[0].json_metadata && JSON.parse(account[0].json_metadata);
     return account[0];

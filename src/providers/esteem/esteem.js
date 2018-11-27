@@ -88,11 +88,9 @@ export const getUnreadActivityCount = data => new Promise((resolve, reject) => {
   api
     .get(`/activities/${data.user}/unread-count`)
     .then((res) => {
-      console.log(res);
       resolve(res.data?res.data.count:0);
     })
     .catch((error) => {
-      console.log(error);
       reject(error);
     });
 });
