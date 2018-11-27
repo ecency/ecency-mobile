@@ -1,6 +1,6 @@
 import React, { Component, Fragment } from 'react';
 import {
-  View, Text, TextInput, FlatList, TouchableHighlight, Image,
+  View, Text, TextInput, FlatList, TouchableHighlight,
 } from 'react-native';
 import FastImage from 'react-native-fast-image';
 
@@ -32,11 +32,12 @@ class SearchModalView extends Component {
 
   render() {
     const {
-      isOpen,
-      handleOnClose,
-      searchResults,
-      handleOnPressListItem,
       handleOnChangeSearchInput,
+      handleOnClose,
+      handleOnPressListItem,
+      isOpen,
+      placeholder,
+      searchResults,
     } = this.props;
 
     return (
@@ -48,7 +49,7 @@ class SearchModalView extends Component {
               <TextInput
                 style={styles.input}
                 onChangeText={text => handleOnChangeSearchInput(text)}
-                placeholder="Search..."
+                placeholder={placeholder}
                 placeholderTextColor="#c1c5c7"
                 autoCapitalize="none"
               />

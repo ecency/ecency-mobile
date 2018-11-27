@@ -1,5 +1,6 @@
 import React, { Component, Fragment } from 'react';
 import { View, ScrollView, FlatList } from 'react-native';
+import { injectIntl } from 'react-intl';
 
 // Constants
 
@@ -47,7 +48,7 @@ class NotificationView extends Component {
   };
 
   render() {
-    const { notifications } = this.props;
+    const { notifications, intl } = this.props;
     const { filters } = this.state;
     const today = [];
     const yesterday = [];
@@ -79,70 +80,90 @@ class NotificationView extends Component {
           rightIconName="ios-checkmark"
         />
         <ScrollView style={styles.scrollView}>
-          {
-            today.length > 0 && (
-              <Fragment>
-                <ContainerHeader hasSeperator isBoldTitle title="Recent" />
-                <FlatList
-                  data={today}
-                  renderItem={({ item }) => <NotificationLine notification={item} />}
-                  keyExtractor={item => item.id}
-                />
-              </Fragment>
-            )
-          }
-          {
-            yesterday.length > 0 && (
-              <Fragment>
-                <ContainerHeader hasSeperator isBoldTitle title="Yesterday" />
-                <FlatList
-                  data={yesterday}
-                  renderItem={({ item }) => <NotificationLine notification={item} />}
-                  keyExtractor={item => item.id}
-                />
-              </Fragment>
-            )
-          }
-          {
-            thisWeek.length > 0 && (
-              <Fragment>
-                <ContainerHeader hasSeperator isBoldTitle title="This Week" />
-                <FlatList
-                  data={thisWeek}
-                  renderItem={({ item }) => <NotificationLine notification={item} />}
-                  keyExtractor={item => item.id}
-                />
-              </Fragment>
-            )
-          }
-          {
-            thisMonth.length > 0 && (
-              <Fragment>
-                <ContainerHeader hasSeperator isBoldTitle title="This Month" />
-                <FlatList
-                  data={thisMonth}
-                  renderItem={({ item }) => <NotificationLine notification={item} />}
-                  keyExtractor={item => item.id}
-                />
-              </Fragment>
-            )
-          }
-          {
-            olderThenMonth.length > 0 && (
-              <Fragment>
-                <ContainerHeader hasSeperator isBoldTitle title="Older Then A Month" />
-                <FlatList
-                  data={olderThenMonth}
-                  renderItem={({ item }) => <NotificationLine notification={item} />}
-                  keyExtractor={item => item.id}
-                />
-              </Fragment>
-            )
-          }
+          {today.length > 0 && (
+            <Fragment>
+              <ContainerHeader
+                hasSeperator
+                isBoldTitle
+                title={intl.formatMessage({
+                  id: 'notification.recent',
+                })}
+              />
+              <FlatList
+                data={today}
+                renderItem={({ item }) => <NotificationLine notification={item} />}
+                keyExtractor={item => item.id}
+              />
+            </Fragment>
+          )}
+          {yesterday.length > 0 && (
+            <Fragment>
+              <ContainerHeader
+                hasSeperator
+                isBoldTitle
+                title={intl.formatMessage({
+                  id: 'notification.yesterday',
+                })}
+              />
+              <FlatList
+                data={yesterday}
+                renderItem={({ item }) => <NotificationLine notification={item} />}
+                keyExtractor={item => item.id}
+              />
+            </Fragment>
+          )}
+          {thisWeek.length > 0 && (
+            <Fragment>
+              <ContainerHeader
+                hasSeperator
+                isBoldTitle
+                title={intl.formatMessage({
+                  id: 'notification.this_week',
+                })}
+              />
+              <FlatList
+                data={thisWeek}
+                renderItem={({ item }) => <NotificationLine notification={item} />}
+                keyExtractor={item => item.id}
+              />
+            </Fragment>
+          )}
+          {thisMonth.length > 0 && (
+            <Fragment>
+              <ContainerHeader
+                hasSeperator
+                isBoldTitle
+                title={intl.formatMessage({
+                  id: 'notification.this_month',
+                })}
+              />
+              <FlatList
+                data={thisMonth}
+                renderItem={({ item }) => <NotificationLine notification={item} />}
+                keyExtractor={item => item.id}
+              />
+            </Fragment>
+          )}
+          {olderThenMonth.length > 0 && (
+            <Fragment>
+              <ContainerHeader
+                hasSeperator
+                isBoldTitle
+                title={intl.formatMessage({
+                  id: 'notification.older_then',
+                })}
+              />
+              <FlatList
+                data={olderThenMonth}
+                renderItem={({ item }) => <NotificationLine notification={item} />}
+                keyExtractor={item => item.id}
+              />
+            </Fragment>
+          )}
         </ScrollView>
       </View>
     );
   }
 }
 
-export default NotificationView;
+export default injectIntl(NotificationView);

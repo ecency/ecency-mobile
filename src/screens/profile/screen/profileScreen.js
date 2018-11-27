@@ -1,6 +1,7 @@
 /* eslint-disable no-unused-vars */
 import React, { Component, Fragment } from 'react';
 import { View, ScrollView } from 'react-native';
+import { injectIntl } from 'react-intl';
 
 // Components
 import ScrollableTabView from '@esteemapp/react-native-scrollable-tab-view';
@@ -33,18 +34,19 @@ class ProfileScreen extends Component {
       comments,
       follows,
       handleFollowUnfollowUser,
+      handleMuteUnmuteUser,
+      handleOnFollowsPress,
+      intl,
+      isDarkTheme,
+      isFollowing,
       isLoading,
       isLoggedIn,
+      isMuted,
+      isProfileLoading,
+      isReady,
       isReverseHeader,
       user,
-      isReady,
       username,
-      isMuted,
-      isFollowing,
-      handleMuteUnmuteUser,
-      isProfileLoading,
-      handleOnFollowsPress,
-      isDarkTheme,
     } = this.props;
     let _about;
     let avatar;
@@ -82,12 +84,15 @@ class ProfileScreen extends Component {
             <CollapsibleCard
               title={_about}
               isTitleCenter
-              defaultTitle="Profile details"
+              defaultTitle={intl.formatMessage({
+                id: 'profile.details',
+              })}
               expanded
               // expanded={isLoggedIn}
               // locked={!isLoggedIn}
             >
               <ProfileSummary
+                intl={intl}
                 coverImage={coverImage}
                 date={getFormatedCreatedDate(user && user.created)}
                 followerCount={follows.follower_count}
@@ -117,7 +122,12 @@ class ProfileScreen extends Component {
               <TabBar style={styles.tabbar} tabUnderlineDefaultWidth={80} tabUnderlineScaleX={2} />
             )}
           >
-            <View tabLabel="Post" style={styles.postTabBar}>
+            <View
+              tabLabel={intl.formatMessage({
+                id: 'profile.post',
+              })}
+              style={styles.postTabBar}
+            >
               {user && (
                 <Posts
                   filterOptions={[
@@ -136,7 +146,12 @@ class ProfileScreen extends Component {
                 />
               )}
             </View>
-            <View tabLabel="Comments" style={styles.commentsTabBar}>
+            <View
+              tabLabel={intl.formatMessage({
+                id: 'profile.comments',
+              })}
+              style={styles.commentsTabBar}
+            >
               {comments && comments.length > 0 ? (
                 <ScrollView>
                   <Comments isProfilePreview comments={comments} />
@@ -144,12 +159,20 @@ class ProfileScreen extends Component {
               ) : (
                 <NoPost
                   name={username}
-                  text="haven't commented anything yet"
-                  defaultText="Login to see!"
+                  text={intl.formatMessage({
+                    id: 'profile.havent_commented',
+                  })}
+                  defaultText={intl.formatMessage({
+                    id: 'profile.login_to_see',
+                  })}
                 />
               )}
             </View>
-            <View tabLabel="Wallet">
+            <View
+              tabLabel={intl.formatMessage({
+                id: 'profile.wallet',
+              })}
+            >
               <Wallet user={user} />
             </View>
           </ScrollableTabView>
@@ -159,4 +182,4 @@ class ProfileScreen extends Component {
   }
 }
 
-export default ProfileScreen;
+export default injectIntl(ProfileScreen);

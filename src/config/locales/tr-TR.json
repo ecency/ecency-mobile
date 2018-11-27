@@ -10,14 +10,40 @@
     "fill_order": "Fill Order"
   },
   "notification": {
-    "vote": "voted to your post",
-    "unvote": "unvoted to your post",
-    "reply": "replied to your post",
-    "mention": "mentioned to you",
-    "follow": "followed to you",
-    "unfollow": "unfollowed to you",
-    "ignore": "ignored to you",
-    "reblog": "reblog to your post"
+    "vote": "gönderini oyladı",
+    "unvote": "gonderini yukarı yönde oyladı",
+    "reply": "gönderine cevap verdi",
+    "mention": "seni etiketledi",
+    "follow": "seni takip etti",
+    "unfollow": "seni takipetmeyi bıraktı",
+    "ignore": "seni engelledi",
+    "reblog": "senin postunu paylaştı",
+    "comingsoon": "Liderler tablosu yakında burada!",
+    "notification": "Bildirim",
+    "leaderboard": "Liderler Tablosu",
+    "recent": "Geçen",
+    "yesterday": "Dün",
+    "this_week": "Bu Hafta",
+    "this_month": "Bu Ay",
+    "older_then": "Bir Aydan Daha Önce"
+  },
+  "messages": {
+    "comingsoon": "Mesajlar yakinda burada!"
+  },
+  "profile": {
+    "following": "Takip edilen",
+    "follower": "Takipçi",
+    "post": "Gönderi",
+    "details": "Profil Detayları",
+    "comments": "Yorumlar",
+    "wallet": "Cüzdan",
+    "wallet_details": "Cüzdan Detayları",
+    "unclaimed_rewards": "Sahipsiz Ödül",
+    "login_to_see": "Giriş yap ve gör!",
+    "havent_commented": "henüz yorum yapmadı",
+    "full_in": "Full in",
+    "hours": "saat",
+    "voting_power": "Oylama güçü"
   },
   "settings": {
     "settings": "Ayarlar",
@@ -56,5 +82,9 @@
     "gallery": "Galeri",
     "settings": "Ayarlar",
     "add_account": "Hesap Ekle"
+  },
+  "header": {
+    "title": "Giriş yap ve akışını özelleştir.",
+    "search": "Ara..."
   }
 }

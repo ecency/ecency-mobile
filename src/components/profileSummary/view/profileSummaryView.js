@@ -37,26 +37,27 @@ class ProfileSummaryView extends Component {
   render() {
     const { isShowPercentText } = this.state;
     const {
-      percentRC,
-      percentVP,
-      hoursVP,
-      hoursRC,
-      location,
-      link,
-      date,
-      followingCount,
-      followerCount,
       coverImage,
-      isLoggedIn,
-      isFollowing,
-      isFavorite,
-      isMuted,
-      isOwnProfile,
-      isProfileLoading,
+      date,
+      followerCount,
+      followingCount,
       handleFollowUnfollowUser,
       handleMuteUnmuteUser,
       handleOnFollowsPress,
+      hoursRC,
+      hoursVP,
+      intl,
       isDarkTheme,
+      isFavorite,
+      isFollowing,
+      isLoggedIn,
+      isMuted,
+      isOwnProfile,
+      isProfileLoading,
+      link,
+      location,
+      percentRC,
+      percentVP,
     } = this.props;
     const votingPowerHoursText = hoursVP && `• Full in ${hoursVP} hours`;
     const votingPowerText = `Voting power: ${percentVP}% ${votingPowerHoursText || ''}`;
@@ -114,13 +115,19 @@ class ProfileSummaryView extends Component {
               <TouchableOpacity onPress={() => handleOnFollowsPress(false)}>
                 <View style={styles.followCountWrapper}>
                   <Text style={styles.followCount}>{followerCount}</Text>
-                  <Text style={styles.followText}>followers</Text>
+                  <Text style={styles.followText}> {intl.formatMessage({
+                    id: 'profile.follower',
+                  })}</Text>
                 </View>
               </TouchableOpacity>
               <TouchableOpacity onPress={() => handleOnFollowsPress(true)}>
                 <View style={styles.followCountWrapper}>
                   <Text style={styles.followCount}>{followingCount}</Text>
-                  <Text style={styles.followText}>following</Text>
+                  <Text style={styles.followText}>
+                    {intl.formatMessage({
+                      id: 'profile.following',
+                    })}
+                  </Text>
                 </View>
               </TouchableOpacity>
             </Fragment>

@@ -1,4 +1,5 @@
 import React, { Component, Fragment } from 'react';
+import { injectIntl } from 'react-intl';
 
 // Constants
 
@@ -26,6 +27,8 @@ class MessagesScreen extends Component {
   // Component Functions
 
   render() {
+    const { intl } = this.props;
+
     return (
       <Fragment>
         <Header />
@@ -33,11 +36,13 @@ class MessagesScreen extends Component {
           style={styles.container}
           imageStyle={styles.image}
           source={MESSAGES_IMAGE}
-          defaultText="Messages feature is coming soon!"
+          defaultText={intl.formatMessage({
+            id: 'messages.comingsoon',
+          })}
         />
       </Fragment>
     );
   }
 }
 
-export default MessagesScreen;
+export default injectIntl(MessagesScreen);
