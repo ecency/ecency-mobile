@@ -25,7 +25,7 @@
     "yesterday": "Yesterday",
     "this_week": "This Week",
     "this_month": "This Month",
-    "older_then": "Older Then A Month"
+    "older_then": "Older Than A Month"
   },
   "messages": {
     "comingsoon": "Messages feature is coming soon!"
@@ -40,7 +40,7 @@
     "wallet_details": "Wallet Details",
     "unclaimed_rewards": "Unclaimed Rewards",
     "full_in": "Full in",
-    "hours": "saat",
+    "hours": "hours",
     "voting_power": "Voting power",
     "login_to_see": "Login to see!",
     "havent_commented": "haven't commented anything yet",
@@ -90,7 +90,7 @@
     "add_account": "Add Account"
   },
   "header": {
-    "title": "Log in to customize your feed",
+    "title": "Login to customize your feed",
     "search": "Search..."
   },
   "basic_header": {
