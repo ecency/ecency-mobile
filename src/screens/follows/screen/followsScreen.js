@@ -2,6 +2,8 @@ import React, { Component } from 'react';
 import {
   View, Text, FlatList, ActivityIndicator,
 } from 'react-native';
+import { injectIntl } from 'react-intl';
+
 // Constants
 
 // Components
@@ -57,9 +59,12 @@ class FollowsScreen extends Component {
 
   render() {
     const {
-      loadMore, data, isFollowers, count, filterResult, handleSearch,
+      loadMore, data, isFollowers, count, filterResult, handleSearch, intl,
     } = this.props;
-    const title = !isFollowers ? 'Followers' : 'Following';
+    const title = intl.formatMessage({
+      id: !isFollowers ? 'profile.follower' : 'profile.following',
+    });
+
     const headerTitle = `${title} (${count})`;
 
     return (
@@ -80,11 +85,15 @@ class FollowsScreen extends Component {
             ListFooterComponent={this._renderFooter}
           />
         ) : (
-          <Text style={styles.text}>No user found.</Text>
+          <Text style={styles.text}>
+            {intl.formatMessage({
+              id: 'voters.no_user',
+            })}
+          </Text>
         )}
       </View>
     );
   }
 }
 
-export default FollowsScreen;
+export default injectIntl(FollowsScreen);

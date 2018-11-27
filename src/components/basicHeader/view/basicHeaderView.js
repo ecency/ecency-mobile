@@ -2,13 +2,14 @@ import React, { Component, Fragment } from 'react';
 import {
   View, Text, TextInput, ActivityIndicator, SafeAreaView,
 } from 'react-native';
-import { TextButton } from '../..';
-import { IconButton } from '../../iconButton';
-// Constants
+import { injectIntl } from 'react-intl';
 
 // Components
+import { TextButton } from '../..';
+import { IconButton } from '../../iconButton';
 import { DropdownButton } from '../../dropdownButton';
 
+// Constants
 // Styles
 import styles from './basicHeaderStyles';
 
@@ -74,6 +75,7 @@ class BasicHeaderView extends Component {
       isDraftSaving,
       isDraftSaved,
       isLoggedIn,
+      intl,
     } = this.props;
     const { isInputVisible } = this.state;
     return (
@@ -133,7 +135,9 @@ class BasicHeaderView extends Component {
               <TextInput
                 onChangeText={value => this._handleOnSearch(value)}
                 autoFocus
-                placeholder="Search"
+                placeholder={intl.formatMessage({
+                  id: 'basic_header.search',
+                })}
                 autoCapitalize="none"
                 style={styles.textInput}
               />
@@ -173,7 +177,9 @@ class BasicHeaderView extends Component {
                   ]}
                   onPress={isFormValid && this._handleOnPress}
                   style={styles.textButtonWrapper}
-                  text="Publish"
+                  text={intl.formatMessage({
+                    id: 'basic_header.publish',
+                  })}
                 />
               ) : (
                 <ActivityIndicator style={styles.textButtonWrapper} />
@@ -186,4 +192,4 @@ class BasicHeaderView extends Component {
   }
 }
 
-export default BasicHeaderView;
+export default injectIntl(BasicHeaderView);

@@ -16,7 +16,7 @@ import { generatePermlink } from '../../../utils/editor';
 import { decryptKey } from '../../../utils/crypto';
 
 // Component
-import { EditorScreen } from '../screen/editorScreen';
+import EditorScreen from '../screen/editorScreen';
 
 /*
   *            Props Name        Description                                     Value

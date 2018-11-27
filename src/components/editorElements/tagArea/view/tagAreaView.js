@@ -81,7 +81,7 @@ export default class TagAreaView extends Component {
   };
 
   render() {
-    const { isPreviewActive, draftChips } = this.props;
+    const { isPreviewActive, draftChips, intl } = this.props;
     const { chips } = this.state;
 
     return (
@@ -97,7 +97,9 @@ export default class TagAreaView extends Component {
               placeholderTextColor="#fff"
               editable={!isPreviewActive}
               maxLength={50}
-              placeholder="tags"
+              placeholder={intl.formatMessage({
+                id: 'editor.tags',
+              })}
               autoFocus={i !== 0 && chips.length - 1 === i}
               multiline={false}
               handleOnChange={text => this._handleOnChange(text, i)}

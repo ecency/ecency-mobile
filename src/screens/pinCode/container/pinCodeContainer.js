@@ -1,6 +1,7 @@
 import React, { Component } from 'react';
 import { AsyncStorage } from 'react-native';
 import { connect } from 'react-redux';
+import { injectIntl } from 'react-intl';
 
 import { setUserDataWithPinCode, verifyPinCode } from '../../../providers/steem/auth';
 
@@ -25,16 +26,22 @@ class PinCodeContainer extends Component {
   }
 
   // TODO: if check for decide to set to pin or verify to pin page
+  // TODO: these text should move to view!
   componentDidMount() {
     this._getDataFromStorage().then(() => {
+      const { intl } = this.props;
       const { isExistUser } = this.state;
       if (isExistUser) {
         this.setState({
-          informationText: 'Enter pin to unlock',
+          informationText: intl.formatMessage({
+            id: 'pincode.enter_text',
+          }),
         });
       } else {
         this.setState({
-          informationText: 'Set new pin',
+          informationText: intl.formatMessage({
+            id: 'pincode.set_new',
+          }),
         });
       }
     });
@@ -59,6 +66,7 @@ class PinCodeContainer extends Component {
       setWrappedComponentState,
       navigateTo,
       navigation,
+      intl,
     } = this.props;
     const { isExistUser, pinCode } = this.state;
     if (isExistUser) {
@@ -84,7 +92,9 @@ class PinCodeContainer extends Component {
     } else if (!pinCode) {
       // If the user is logging in for the first time, the user should set to pin
       this.setState({
-        informationText: 'Write again',
+        informationText: intl.formatMessage({
+          id: 'pincode.write_again',
+        }),
         pinCode: pin,
       });
       resolve();
@@ -129,7 +139,7 @@ class PinCodeContainer extends Component {
   };
 
   render() {
-    const { currentAccount } = this.props;
+    const { currentAccount, intl } = this.props;
     const { informationText, isExistUser } = this.state;
     return (
       <PinCodeScreen
@@ -138,6 +148,7 @@ class PinCodeContainer extends Component {
         showForgotButton={isExistUser}
         username={currentAccount ? currentAccount.name : 'unknow'}
         avatar={this._getUserAvatar()}
+        intl={intl}
       />
     );
   }
@@ -147,4 +158,4 @@ const mapStateToProps = state => ({
   currentAccount: state.account.currentAccount,
 });
 
-export default connect(mapStateToProps)(PinCodeContainer);
+export default injectIntl(connect(mapStateToProps)(PinCodeContainer));

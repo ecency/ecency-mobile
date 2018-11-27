@@ -43,7 +43,12 @@
     "hours": "saat",
     "voting_power": "Voting power",
     "login_to_see": "Login to see!",
-    "havent_commented": "haven't commented anything yet"
+    "havent_commented": "haven't commented anything yet",
+    "steem_power": "Steem Power",
+    "next_power_text": "Next power down is in",
+    "days": "days",
+    "steem_dollars": "Steem Dollars",
+    "savings": "Savings"
   },
   "settings": {
     "settings": "Settings",
@@ -56,7 +61,8 @@
     "reset": "Reset"
   },
   "voters": {
-    "voters_info": "Voters Info"
+    "voters_info": "Voters Info",
+    "no_user": "No user found."
   },
   "login": {
     "signin": "Sign in",
@@ -86,5 +92,21 @@
   "header": {
     "title": "Log in to customize your feed",
     "search": "Search..."
+  },
+  "basic_header": {
+    "publish": "Publish",
+    "search": "Search"
+  },
+  "editor": {
+    "title": "Title",
+    "tags": "tags",
+    "description": "What would you like to write about today?",
+    "publish": "Publish"
+  },
+  "pincode": {
+    "enter_text": "Enter pin to unlock",
+    "set_new": "Set new pin",
+    "write_again": "Write again",
+    "forgot_text": "Oh, I forgot it..."
   }
 }

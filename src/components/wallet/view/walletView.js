@@ -30,7 +30,7 @@ class WalletView extends Component {
   // Component Functions
 
   render() {
-    const { walletData } = this.props;
+    const { walletData, intl } = this.props;
 
     return (
       <View style={styles.container}>
@@ -44,7 +44,9 @@ class WalletView extends Component {
               <CollapsibleCard
                 titleColor="#788187"
                 isBoldTitle
-                defaultTitle="Unclaimed rewards"
+                defaultTitle={intl.formatMessage({
+                  id: 'profile.unclaimed_rewards',
+                })}
                 expanded
                 style={{ marginBottom: 0 }}
               >
@@ -76,14 +78,20 @@ class WalletView extends Component {
           {walletData === null ? (
             <WalletDetailsPlaceHolder />
           ) : (
-            <CollapsibleCard titleColor="#788187" title="Wallet Details" expanded>
-              <WalletDetails walletData={walletData} />
+            <CollapsibleCard
+              titleColor="#788187"
+              title={intl.formatMessage({
+                id: 'profile.wallet_details',
+              })}
+              expanded
+            >
+              <WalletDetails intl={intl} walletData={walletData} />
             </CollapsibleCard>
           )}
           {walletData === null ? (
             <WalletDetailsPlaceHolder />
           ) : (
-            <Transaction walletData={walletData} />
+            <Transaction intl={intl} walletData={walletData} />
           )}
         </ScrollView>
       </View>
