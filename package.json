@@ -40,6 +40,7 @@
     "react-native-extended-stylesheet": "^0.10.0",
     "react-native-fast-image": "^4.0.14",
     "react-native-html-renderer": "^1.0.0",
+    "react-native-image-crop-picker": "^0.21.3",
     "react-native-keyboard-aware-scroll-view": "^0.7.2",
     "react-native-linear-gradient": "^2.4.2",
     "react-native-markdown-renderer": "^3.2.8",

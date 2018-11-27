@@ -3,7 +3,7 @@ import {
   View, KeyboardAvoidingView, ScrollView, FlatList, Text,
 } from 'react-native';
 import Markdown, { getUniqueID } from 'react-native-markdown-renderer';
-
+import ImagePicker from 'react-native-image-crop-picker';
 // Components
 import Formats from './formats/formats';
 import { IconButton } from '../../iconButton';
@@ -141,7 +141,13 @@ export default class MarkdownEditorView extends Component {
   render() {
     const { isPreviewActive, intl } = this.props;
     const { text, selection } = this.state;
-
+    ImagePicker.openPicker({
+      width: 300,
+      height: 400,
+      cropping: true
+    }).then(image => {
+      console.log(image);
+    });
     return (
       <KeyboardAvoidingView style={styles.container} behavior="padding">
         {!isPreviewActive ? (

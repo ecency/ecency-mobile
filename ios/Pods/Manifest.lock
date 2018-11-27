@@ -6,21 +6,40 @@ PODS:
     - AppCenter/Core
   - AppCenterReactNativeShared (1.9.0):
     - AppCenter/Core (= 1.10.0)
+  - QBImagePickerController (3.4.0)
+  - React/Core (0.11.0)
+  - RNImageCropPicker (0.21.3):
+    - QBImagePickerController
+    - React/Core
+    - RSKImageCropper
+  - RSKImageCropper (2.2.1)
 
 DEPENDENCIES:
   - AppCenter/Analytics (~> 1.10.0)
   - AppCenter/Crashes (~> 1.10.0)
   - AppCenterReactNativeShared (~> 1.9.0)
+  - RNImageCropPicker (from `../node_modules/react-native-image-crop-picker`)
 
 SPEC REPOS:
   https://github.com/cocoapods/specs.git:
     - AppCenter
     - AppCenterReactNativeShared
+    - QBImagePickerController
+    - React
+    - RSKImageCropper
+
+EXTERNAL SOURCES:
+  RNImageCropPicker:
+    :path: "../node_modules/react-native-image-crop-picker"
 
 SPEC CHECKSUMS:
   AppCenter: 2d196f6547d274ab86836f9082cfdbd3d397e7b6
   AppCenterReactNativeShared: a4bf64d2fae919fc0b235fe47a02ef9ddd3a0011
+  QBImagePickerController: d54cf93db6decf26baf6ed3472f336ef35cae022
+  React: ab1a2e21deb34965c38328d5ec40cc7d12c6050a
+  RNImageCropPicker: 32ca4b9fef4e1b7b85ba69494242122948117e06
+  RSKImageCropper: 98296ad26b41753f796b6898d015509598f13d97
 
-PODFILE CHECKSUM: 017e02943b883d1613223e6024db5cd98f732547
+PODFILE CHECKSUM: 12483fede818a15db7c95bcd92aa14aaf055d115
 
 COCOAPODS: 1.5.3

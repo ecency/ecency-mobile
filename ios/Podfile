@@ -13,6 +13,8 @@ target 'eSteem' do
   
 
   platform :ios, '9.0'
+  pod 'RNImageCropPicker', :path =>  '../node_modules/react-native-image-crop-picker'
+
   target 'eSteemTests' do
     inherit! :search_paths
     # Pods for testing
