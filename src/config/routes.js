@@ -16,7 +16,6 @@ import {
   Profile,
   RootComponent,
   Settings,
-  Splash,
   SteemConnect,
   Voters,
 } from '../screens';
@@ -81,10 +80,9 @@ const stackNavigatior = createStackNavigator(
     },
   },
   {
-    cardStyle: {
-      backgroundColor: 'white',
-      // 1e2835
-    },
+    // cardStyle: {
+    //   backgroundColor: 'white',
+    // },
   },
 );
 
@@ -92,6 +90,5 @@ export default createSwitchNavigator({
   stackNavigatior,
   [ROUTES.SCREENS.LOGIN]: { screen: RootComponent()(Login) },
   [ROUTES.SCREENS.PINCODE]: { screen: RootComponent()(PinCode) },
-  [ROUTES.SCREENS.SPLASH]: { screen: Splash },
   [ROUTES.SCREENS.STEEM_CONNECT]: { screen: RootComponent()(SteemConnect) },
 });

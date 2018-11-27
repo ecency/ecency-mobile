@@ -1,9 +1,27 @@
 import React, { Component } from 'react';
 import { connect } from 'react-redux';
-import 'intl';
 import { addLocaleData } from 'react-intl';
+// Constants
 import en from 'react-intl/locale-data/en';
 import tr from 'react-intl/locale-data/tr';
+
+import { getUserData, getAuthStatus, getSettings } from '../../../realm/realm';
+import { getUser } from '../../../providers/steem/dsteem';
+
+// Actions
+import { addOtherAccount, updateCurrentAccount } from '../../../redux/actions/accountAction';
+import {
+  activeApplication,
+  login,
+  openPinCodeModal,
+  setLanguage,
+  isNotificationOpen,
+  setCurrency,
+  setApi,
+  isDarkTheme,
+} from '../../../redux/actions/applicationActions';
+
+// Container
 import { ApplicationScreen } from '..';
 
 addLocaleData([...en, ...tr]);
@@ -24,6 +42,11 @@ class ApplicationContainer extends Component {
     };
   }
 
+  componentDidMount = () => {
+    this._getUserData();
+    this._getSettings();
+  };
+
   componentWillReceiveProps(nextProps) {
     const { isDarkTheme, selectedLanguage } = this.props;
 
@@ -31,6 +54,54 @@ class ApplicationContainer extends Component {
       this.setState({ isRenderRequire: false }, () => this.setState({ isRenderRequire: true }));
     }
   }
+
+  _getUserData = () => {
+    const { dispatch } = this.props;
+    getAuthStatus().then((res) => {
+      if (res.isLoggedIn) {
+        getUserData().then((response) => {
+          if (response.length > 0) {
+            response.forEach((accountData) => {
+              dispatch(
+                addOtherAccount({ username: accountData.username, avatar: accountData.avatar }),
+              );
+            });
+            getUser(response[response.length - 1].username)
+              .then((accountData) => {
+                const realmObject = response[response.length - 1];
+                accountData.realm_object = realmObject;
+
+                dispatch(updateCurrentAccount(accountData));
+                dispatch(activeApplication());
+                dispatch(login());
+                if (__DEV__ === false) {
+                  dispatch(openPinCodeModal());
+                }
+              })
+              .catch((err) => {
+                alert(err);
+              });
+          }
+        });
+      } else {
+        dispatch(activeApplication());
+      }
+    });
+  };
+
+  _getSettings = () => {
+    const { dispatch } = this.props;
+
+    getSettings().then((response) => {
+      if (response) {
+        response.isDarkTheme && dispatch(isDarkTheme(response.isDarkTheme));
+        response.language && dispatch(setLanguage(response.language));
+        response.currency && dispatch(setCurrency(response.currency));
+        response.notification && dispatch(isNotificationOpen(response.currency));
+        response.server && dispatch(setApi(response.currency));
+      }
+    });
+  };
 
   render() {
     const { selectedLanguage } = this.props;
