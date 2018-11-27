@@ -1,12 +1,14 @@
-import React, { Fragment, PureComponent } from 'react';
+import React, { PureComponent } from 'react';
 import { View } from 'react-native';
 import ScrollableTabView from '@esteemapp/react-native-scrollable-tab-view';
-import { TabBar } from '../../../components/tabBar';
-import { Notification } from '../../../components/notification';
-import { Header } from '../../../components/header';
+import { injectIntl } from 'react-intl';
+
 // Styles
 import styles from './notificationStyles';
 // Components
+import { TabBar } from '../../../components/tabBar';
+import { Notification } from '../../../components/notification';
+import { Header } from '../../../components/header';
 import { NoPost } from '../../../components/basicUIElements';
 
 // Styles
@@ -20,7 +22,7 @@ class NotificationScreen extends PureComponent {
   }
 
   render() {
-    const { notifications, getActivities } = this.props;
+    const { notifications, getActivities, intl } = this.props;
     return (
       <View style={globalStyles.container}>
         <Header />
@@ -30,10 +32,20 @@ class NotificationScreen extends PureComponent {
             <TabBar style={styles.tabbar} tabUnderlineDefaultWidth={100} tabUnderlineScaleX={2} />
           )}
         >
-          <View tabLabel="Notification" style={styles.notificationTab}>
+          <View
+            tabLabel={intl.formatMessage({
+              id: 'notification.notification',
+            })}
+            style={styles.notificationTab}
+          >
             <Notification getActivities={getActivities} notifications={notifications} />
           </View>
-          <View tabLabel="Leaderboard" style={styles.leaderboardTab}>
+          <View
+            tabLabel={intl.formatMessage({
+              id: 'notification.leaderboard',
+            })}
+            style={styles.leaderboardTab}
+          >
             <NoPost
               style={{ marginTop: 118 }}
               imageStyle={{
@@ -41,7 +53,9 @@ class NotificationScreen extends PureComponent {
                 height: 189,
               }}
               source={MESSAGES_IMAGE}
-              defaultText="Leaderboard feature is coming soon!"
+              defaultText={intl.formatMessage({
+                id: 'notification.comingsoon',
+              })}
             />
           </View>
         </ScrollableTabView>
@@ -49,4 +63,4 @@ class NotificationScreen extends PureComponent {
     );
   }
 }
-export default NotificationScreen;
+export default injectIntl(NotificationScreen);

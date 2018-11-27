@@ -83,7 +83,7 @@ const stackNavigatior = createStackNavigator(
   {
     cardStyle: {
       backgroundColor: 'white',
-      //1e2835
+      // 1e2835
     },
   },
 );

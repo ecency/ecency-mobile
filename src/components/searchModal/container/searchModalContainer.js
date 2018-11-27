@@ -79,7 +79,7 @@ class SearchModalContainer extends Component {
 
   render() {
     const { searchResults } = this.state;
-    const { handleOnClose, isOpen } = this.props;
+    const { handleOnClose, isOpen, placeholder } = this.props;
     return (
       <SearchModalView
         searchResults={searchResults}
@@ -88,6 +88,7 @@ class SearchModalContainer extends Component {
         handleOnPressListItem={this._handleOnPressListItem}
         isOpen={isOpen}
         handleOnClose={handleOnClose}
+        placeholder={placeholder}
       />
     );
   }

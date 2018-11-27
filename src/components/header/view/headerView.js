@@ -4,12 +4,13 @@ import {
 } from 'react-native';
 import FastImage from 'react-native-fast-image';
 import LinearGradient from 'react-native-linear-gradient';
-import { SearchModal } from '../../searchModal';
+import { injectIntl } from 'react-intl';
 
 // Utils
 import { getReputation } from '../../../utils/user';
 
 // Components
+import { SearchModal } from '../../searchModal';
 import { IconButton } from '../../iconButton';
 
 // Styles
@@ -57,7 +58,7 @@ class HeaderView extends Component {
 
   _handleOnCloseSearch = () => {
     this.setState({ isSearchModalOpen: false });
-  }
+  };
 
   render() {
     const {
@@ -66,6 +67,7 @@ class HeaderView extends Component {
       hideStatusBar,
       isReverse,
       currentAccount,
+      intl,
     } = this.props;
     const { isSearchModalOpen } = this.state;
     const _name = this._getNameOfUser();
@@ -74,7 +76,13 @@ class HeaderView extends Component {
     return (
       <SafeAreaView style={[styles.container, isReverse && styles.containerReverse]}>
         <StatusBar hidden={hideStatusBar} translucent />
-        <SearchModal isOpen={isSearchModalOpen} handleOnClose={this._handleOnCloseSearch} />
+        <SearchModal
+          placeholder={intl.formatMessage({
+            id: 'header.search',
+          })}
+          isOpen={isSearchModalOpen}
+          handleOnClose={this._handleOnCloseSearch}
+        />
         <TouchableOpacity
           style={styles.avatarWrapper}
           onPress={() => !isReverse && handleOpenDrawer()}
@@ -108,7 +116,11 @@ class HeaderView extends Component {
           </View>
         ) : (
           <View style={styles.titleWrapper}>
-            <Text style={styles.noAuthTitle}>Log in to customize your feed</Text>
+            <Text style={styles.noAuthTitle}>
+              {intl.formatMessage({
+                id: 'header.title',
+              })}
+            </Text>
           </View>
         )}
         {isReverse && (
@@ -144,4 +156,4 @@ class HeaderView extends Component {
   }
 }
 
-export default HeaderView;
+export default injectIntl(HeaderView);

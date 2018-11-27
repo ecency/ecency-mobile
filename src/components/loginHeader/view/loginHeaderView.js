@@ -32,7 +32,10 @@ class LoginHeaderView extends Component {
     return (
       <View styles={styles.container}>
         <View style={styles.headerRow}>
-          <Image style={styles.logo} source={require('../../../assets/esteem_transparent.png')} />
+          <Image
+            style={styles.logo}
+            source={require('../../../assets/esteem_logo_transparent.png')}
+          />
           <View style={styles.headerButton}>
             <TextButton onPress={onPress} text={rightButtonText} />
           </View>

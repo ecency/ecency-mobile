@@ -17,7 +17,33 @@
     "follow": "followed you",
     "unfollow": "unfollowed you",
     "ignore": "ignored you",
-    "reblog": "reblogged your post"
+    "reblog": "reblogged your post",
+    "comingsoon": "Leaderboard feature is coming soon!",
+    "notification": "Notification",
+    "leaderboard": "Leaderboard",
+    "recent": "Recent",
+    "yesterday": "Yesterday",
+    "this_week": "This Week",
+    "this_month": "This Month",
+    "older_then": "Older Then A Month"
+  },
+  "messages": {
+    "comingsoon": "Messages feature is coming soon!"
+  },
+  "profile": {
+    "following": "Following",
+    "follower": "Follower",
+    "post": "Post",
+    "details": "Profile Details",
+    "comments": "Comments",
+    "wallet": "Wallet",
+    "wallet_details": "Wallet Details",
+    "unclaimed_rewards": "Unclaimed Rewards",
+    "full_in": "Full in",
+    "hours": "saat",
+    "voting_power": "Voting power",
+    "login_to_see": "Login to see!",
+    "havent_commented": "haven't commented anything yet"
   },
   "settings": {
     "settings": "Settings",
@@ -56,5 +82,9 @@
     "gallery": "Gallery",
     "settings": "Settings",
     "add_account": "Add Account"
+  },
+  "header": {
+    "title": "Log in to customize your feed",
+    "search": "Search..."
   }
 }
