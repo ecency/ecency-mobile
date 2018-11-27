@@ -64,24 +64,27 @@ export const getUser = async (user) => {
     const globalProperties = await client.database.getDynamicGlobalProperties();
     const rcPower = await client.call('rc_api', 'find_rc_accounts', { accounts: [user] });
     const unreadActivityCount = await getUnreadActivityCount({ user });
+    console.log('unreadActivityCount',unreadActivityCount);
 
     account[0].unread_activity_count = unreadActivityCount;
     account[0].rc_manabar = rcPower.rc_accounts[0].rc_manabar;
-    account[0].steem_power = vestToSteem(
+    account[0].steem_power = await vestToSteem(
       account[0].vesting_shares,
       globalProperties.total_vesting_shares,
       globalProperties.total_vesting_fund_steem,
-    ).toFixed(0);
-    account[0].received_steem_power = vestToSteem(
+    );
+    account[0].received_steem_power = await vestToSteem(
       account[0].received_vesting_shares,
       globalProperties.total_vesting_shares,
       globalProperties.total_vesting_fund_steem,
-    ).toFixed(0);
-    account[0].delegated_steem_power = vestToSteem(
+    );
+    account[0].delegated_steem_power = await vestToSteem(
       account[0].delegated_vesting_shares,
       globalProperties.total_vesting_shares,
       globalProperties.total_vesting_fund_steem,
-    ).toFixed(0);
+    );
+
+    console.log('account[0]',account[0]);
 
     account[0].about = account[0].json_metadata && JSON.parse(account[0].json_metadata);
     return account[0];
@@ -90,7 +93,10 @@ export const getUser = async (user) => {
   }
 };
 
-export const vestToSteem = (vestingShares, totalVestingShares, totalVestingFundSteem) => parseFloat(totalVestingFundSteem) * (parseFloat(vestingShares) / parseFloat(totalVestingShares));
+//TODO: Move to utils folder
+export const vestToSteem = async (vestingShares, totalVestingShares, totalVestingFundSteem) => {
+  return (parseFloat(totalVestingFundSteem) * (parseFloat(vestingShares) / parseFloat(totalVestingShares))).toFixed(0);
+}
 
 /**
  * @method getFollows get account data
