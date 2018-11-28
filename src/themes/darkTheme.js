@@ -28,7 +28,7 @@ export default {
   $disableButton: '#fff',
   $shadowColor: '#b0b0b0',
   $disableGray: '#fff',
-
+  $editorButtonColor: '#fff',
   // Devices Sizes
   $deviceHeight: Dimensions.get('window').height,
   $deviceWidth: Dimensions.get('window').width,

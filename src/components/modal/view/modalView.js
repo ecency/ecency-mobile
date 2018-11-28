@@ -1,6 +1,8 @@
 import React, { Component } from 'react';
-import { Modal as ModalBox } from 'react-native';
-
+import {
+  Modal as ModalBox, View, Text, SafeAreaView,
+} from 'react-native';
+import { IconButton } from '../../iconButton';
 import styles from './modalStyles';
 
 /*
@@ -32,7 +34,14 @@ export default class Modal extends Component {
 
   render() {
     const {
-      isFullScreen, isOpen, children, isRadius, isTransparent,
+      isFullScreen,
+      isOpen,
+      children,
+      isRadius,
+      isTransparent,
+      title,
+      animationType,
+      isCloseButton,
     } = this.props;
     return (
       <ModalBox
@@ -47,6 +56,22 @@ export default class Modal extends Component {
         onShow={() => this._handleOnOpen(this)}
         {...this.props}
       >
+        {title && (
+          <SafeAreaView style={styles.safeArea}>
+            <View style={styles.modalHeader}>
+              <Text style={styles.headerTitle}>{title}</Text>
+              {isCloseButton && (
+                <IconButton
+                  style={styles.closeButton}
+                  iconType="FontAwesome"
+                  iconStyle={styles.closeIcon}
+                  name="close"
+                  onPress={() => this._handleOnClose()}
+                />
+              )}
+            </View>
+          </SafeAreaView>
+        )}
         {children}
       </ModalBox>
     );

@@ -3,7 +3,6 @@ import {
   View, KeyboardAvoidingView, ScrollView, FlatList, Text,
 } from 'react-native';
 import Markdown, { getUniqueID } from 'react-native-markdown-renderer';
-import ImagePicker from 'react-native-image-crop-picker';
 // Components
 import Formats from './formats/formats';
 import { IconButton } from '../../iconButton';
@@ -106,48 +105,52 @@ export default class MarkdownEditorView extends Component {
     </View>
   );
 
-  _renderEditorButtons = ({ getState, setState }) => (
-    <StickyBar>
-      <View style={styles.leftButtonsWrapper}>
-        <FlatList
-          data={Formats}
-          keyboardShouldPersistTaps="always"
-          renderItem={({ item, index }) => index !== 9 && this._renderMarkupButton({ item, getState, setState })
-          }
-          horizontal
-        />
-      </View>
-      <View style={styles.rightButtonsWrapper}>
-        <IconButton
-          size={20}
-          style={styles.rightIcons}
-          iconStyle={styles.icon}
-          iconType="FontAwesome"
-          name="link"
-          onPress={() => Formats[9].onPress({ getState, setState })}
-        />
-        <IconButton style={styles.rightIcons} size={20} iconType="Feather" name="image" />
-        <DropdownButton
-          style={styles.dropdownStyle}
-          options={['option1', 'option2', 'option3', 'option4']}
-          iconName="md-more"
-          iconStyle={styles.dropdownIconStyle}
-          isHasChildIcon
-        />
-      </View>
-    </StickyBar>
-  );
+  _renderEditorButtons = ({ getState, setState }) => {
+    const { handleOpenImagePicker } = this.props;
+    return (
+      <StickyBar>
+        <View style={styles.leftButtonsWrapper}>
+          <FlatList
+            data={Formats}
+            keyboardShouldPersistTaps="always"
+            renderItem={({ item, index }) => index !== 9 && this._renderMarkupButton({ item, getState, setState })
+            }
+            horizontal
+          />
+        </View>
+        <View style={styles.rightButtonsWrapper}>
+          <IconButton
+            size={20}
+            style={styles.rightIcons}
+            iconStyle={styles.icon}
+            iconType="FontAwesome"
+            name="link"
+            onPress={() => Formats[9].onPress({ getState, setState })}
+          />
+          <IconButton
+            onPress={() => handleOpenImagePicker()}
+            style={styles.rightIcons}
+            size={20}
+            iconStyle={styles.icon}
+            iconType="FontAwesome"
+            name="image"
+          />
+          <DropdownButton
+            style={styles.dropdownStyle}
+            options={['option1', 'option2', 'option3', 'option4']}
+            iconName="md-more"
+            iconStyle={styles.dropdownIconStyle}
+            isHasChildIcon
+          />
+        </View>
+      </StickyBar>
+    );
+  };
 
   render() {
     const { isPreviewActive, intl } = this.props;
     const { text, selection } = this.state;
-    ImagePicker.openPicker({
-      width: 300,
-      height: 400,
-      cropping: true
-    }).then(image => {
-      console.log(image);
-    });
+
     return (
       <KeyboardAvoidingView style={styles.container} behavior="padding">
         {!isPreviewActive ? (

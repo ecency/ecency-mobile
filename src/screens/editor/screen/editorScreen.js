@@ -26,7 +26,6 @@ class EditorScreen extends Component {
       isPreviewActive: false,
       wordsCount: null,
       isFormValid: false,
-      isChanged: false,
       fields: {
         title: (props.draftPost && props.draftPost.title) || '',
         body: (props.draftPost && props.draftPost.body) || '',
@@ -109,8 +108,6 @@ class EditorScreen extends Component {
     handleFormChanged();
 
     this._handleIsFormValid();
-
-    this.setState({ isChanged: true });
   };
 
   _handleOnTagAdded = (tags) => {
@@ -123,10 +120,16 @@ class EditorScreen extends Component {
 
   render() {
     const {
-      isPreviewActive, wordsCount, isFormValid, fields, isChanged,
+      isPreviewActive, wordsCount, isFormValid, fields,
     } = this.state;
     const {
-      isLoggedIn, isPostSending, isDraftSaving, isDraftSaved, draftPost, intl
+      isLoggedIn,
+      isPostSending,
+      isDraftSaving,
+      isDraftSaved,
+      intl,
+      handleOnImagePicker,
+      autoFocusText,
     } = this.props;
 
     return (
@@ -150,8 +153,14 @@ class EditorScreen extends Component {
           isPreviewActive={isPreviewActive}
           isFormValid={isFormValid}
         >
-          <TitleArea value={fields.title} componentID="title" intl={intl} />
+          <TitleArea
+            autoFocus={autoFocusText}
+            value={fields.title}
+            componentID="title"
+            intl={intl}
+          />
           <TagArea
+            autoFocus={autoFocusText}
             draftChips={fields.tags}
             componentID="tag-area"
             handleTagChanged={this._handleOnTagAdded}
@@ -162,6 +171,7 @@ class EditorScreen extends Component {
             handleOnTextChange={this._setWordsCount}
             componentID="body"
             intl={intl}
+            handleOpenImagePicker={handleOnImagePicker}
           />
         </PostForm>
       </View>
