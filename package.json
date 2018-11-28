@@ -26,6 +26,7 @@
     "appcenter": "1.9.0",
     "appcenter-analytics": "1.9.0",
     "appcenter-crashes": "1.9.0",
+    "appcenter-push": "1.10.0",
     "axios": "^0.18.0",
     "crypto-js": "^3.1.9-1",
     "dsteem": "^0.10.1",
