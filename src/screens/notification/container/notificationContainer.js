@@ -2,7 +2,8 @@ import React, { Component } from 'react';
 import { connect } from 'react-redux';
 
 // Actions and Services
-import { getActivities } from '../../../providers/esteem/esteem';
+import { getActivities, markActivityAsRead } from '../../../providers/esteem/esteem';
+import { updateUnreadActivityCount } from '../../../redux/actions/accountAction';
 
 // Constants
 import ROUTES from '../../../constants/routeNames';
@@ -31,7 +32,11 @@ class NotificationContainer extends Component {
   };
 
   _navigateToNotificationRoute = (data) => {
-    const { navigation } = this.props;
+    const { navigation, username, dispatch } = this.props;
+
+    markActivityAsRead(username, data.id).then((result) => {
+      dispatch(updateUnreadActivityCount(result.unread));
+    });
 
     if (data.permlink) {
       navigation.navigate({
@@ -52,7 +57,6 @@ class NotificationContainer extends Component {
       });
     }
   };
-
 
   render() {
     const { notifications } = this.state;
