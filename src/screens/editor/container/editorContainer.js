@@ -3,6 +3,7 @@ import { connect } from 'react-redux';
 import ImagePicker from 'react-native-image-crop-picker';
 
 // Services and Actions
+import { uploadImage } from '../../../providers/esteem/esteem';
 import { postContent } from '../../../providers/steem/dsteem';
 import { setDraftPost, getDraftPost } from '../../../realm/realm';
 import { getDigitPinCode } from '../../../providers/steem/auth';
@@ -82,6 +83,8 @@ class ExampleContainer extends Component {
       height: 400,
       cropping: true,
       // multiple: true,
+      writeTempFile: true,
+      includeBase64: true,
     })
       .then((image) => {
         this._handleMediaOnSelected(image);
@@ -104,10 +107,14 @@ class ExampleContainer extends Component {
         this._handleMediaOnSelectFailure(e);
       });
   };
+
   // TODO: keyboard opening bug fixed
   _handleMediaOnSelected = (media) => {
     this.setState({ isCameraOrPickerOpen: false });
     console.log(media);
+    uploadImage(media.data).then((res) => {
+      console.log(res);
+    });
   };
 
   _handleMediaOnSelectFailure = (error) => {
