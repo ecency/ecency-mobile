@@ -1,5 +1,6 @@
 import api from '../../config/api';
 import searchApi from '../../config/search';
+import imageApi from '../../config/imageApi';
 
 export const getDrafts = data => new Promise((resolve, reject) => {
   api
@@ -139,19 +140,31 @@ export const removeSchedule = (id, user) => api.delete(`/api/schedules/${user}/$
 
 export const moveSchedule = (id, user) => api.put(`/api/schedules/${user}/${id}`);
 
+// Old image service
 // Images
 
-export const getImages = user => api.get(`api/images/${user}`).then(resp => resp.data);
+// export const getImages = user => api.get(`api/images/${user}`).then(resp => resp.data);
 
-export const uploadImage = (file) => {
-  const fData = new FormData();
-  fData.append('postimage', file);
+// export const uploadImage = (file) => {
+//   const fData = new FormData();
+//   fData.append('postimage', file);
 
-  return api.post('https://img.esteem.ws/backend.php', fData, {
-    headers: {
-      'Content-Type': 'multipart/form-data',
-    },
-  });
-};
+//   return api.post('https://img.esteem.ws/backend.php', fData, {
+//     headers: {
+//       'Content-Type': 'multipart/form-data',
+//     },
+//   });
+// };
 
-export const addMyImage = (user, url) => api.post('/api/image', { username: user, image_url: url });
+export const uploadImage = (username, signature) => new Promise((resolve, reject) => {
+  imageApi
+    .post(`'/'${username}'/'${signature}`)
+    .then((res) => {
+      resolve(res.data);
+    })
+    .catch((error) => {
+      reject(error);
+    });
+});
+
+// export const addMyImage = (user, url) => api.post('/api/image', { username: user, image_url: url });
