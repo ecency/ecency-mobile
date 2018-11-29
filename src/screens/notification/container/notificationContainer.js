@@ -21,12 +21,30 @@ class NotificationContainer extends Component {
 
   componentWillMount() {
     this._getAvtivities();
+    console.log('rwaraSdbaDBasnbbNSnvb :');
+  }
+
+  componentDidMount() {
+    console.log('componentDidMount');
+    console.log('this.props :', this.props);
+    this.props.navigation.addListener('didBlur', (playload) => {
+      console.log('playload', playload);
+    });
+  }
+
+  componentWillReceiveProps(nextProps) {
+    console.log('componentWillReceiveProps', nextProps);
+  }
+
+  componentWillUpdate() {
+    console.log('componentWillUpdate');
   }
 
   _getAvtivities = (type = null) => {
     const { username } = this.props;
 
     getActivities({ user: username, type }).then((res) => {
+      console.log('res :', res);
       this.setState({ notifications: res });
     });
   };

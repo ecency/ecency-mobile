@@ -1,6 +1,8 @@
 import React, { Component } from 'react';
 import { connect } from 'react-redux';
 import { addLocaleData } from 'react-intl';
+import Config from 'react-native-config';
+
 // Constants
 import en from 'react-intl/locale-data/en';
 import tr from 'react-intl/locale-data/tr';
@@ -9,7 +11,11 @@ import { getUserData, getAuthStatus, getSettings } from '../../../realm/realm';
 import { getUser } from '../../../providers/steem/dsteem';
 
 // Actions
-import { addOtherAccount, updateCurrentAccount } from '../../../redux/actions/accountAction';
+import {
+  addOtherAccount,
+  updateCurrentAccount,
+  updateUnreadActivityCount,
+} from '../../../redux/actions/accountAction';
 import {
   activeApplication,
   login,
@@ -77,6 +83,7 @@ class ApplicationContainer extends Component {
                 if (__DEV__ === false) {
                   dispatch(openPinCodeModal());
                 }
+                this._connectNotificationServer(accountData.name);
               })
               .catch((err) => {
                 alert(err);
@@ -103,6 +110,17 @@ class ApplicationContainer extends Component {
     });
   };
 
+  _connectNotificationServer = (username) => {
+    const { dispatch, unreadActivityCount } = this.props;
+    const ws = new WebSocket(`${Config.ACTIVITY_WEBSOCKET_URL}?user=${username}`);
+
+    ws.onmessage = (e) => {
+      // a message was received
+      console.log('e.data :', e.data);
+      dispatch(updateUnreadActivityCount(unreadActivityCount + 1));
+    };
+  };
+
   render() {
     const { selectedLanguage } = this.props;
     const { isRenderRequire } = this.state;
@@ -122,6 +140,7 @@ class ApplicationContainer extends Component {
 const mapStateToProps = state => ({
   isDarkTheme: state.application.isDarkTheme,
   selectedLanguage: state.application.language,
+  unreadActivityCount: state.account.currentAccount.unread_activity_count,
 });
 
 export default connect(mapStateToProps)(ApplicationContainer);
