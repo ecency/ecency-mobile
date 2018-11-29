@@ -156,15 +156,32 @@ export const moveSchedule = (id, user) => api.put(`/api/schedules/${user}/${id}`
 //   });
 // };
 
-export const uploadImage = (username, signature) => new Promise((resolve, reject) => {
+export const uploadImage = (username, signature, data) => new Promise((resolve, reject) => {
   imageApi
-    .post(`'/'${username}'/'${signature}`)
+    .post(`${username}/${signature}`, data.image_file)
     .then((res) => {
       resolve(res.data);
+      console.log(res);
     })
     .catch((error) => {
       reject(error);
+      console.log(error);
+      console.log(data.image_file);
+      console.log(signature);
+      console.log(username);
     });
 });
+
+// export const uploadImage = (username, signature, data) => {
+//   const fData = new FormData();
+//   fData.append('postimage', data);
+
+//   return imageApi.post(`https://img.esteem.app/${username}/${signature}`, data, {
+//     headers: {
+//       'Content-Type': 'multipart/form-data',
+//     },
+//   });
+
+// };
 
 // export const addMyImage = (user, url) => api.post('/api/image', { username: user, image_url: url });

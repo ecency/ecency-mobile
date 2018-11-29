@@ -1,8 +1,10 @@
 import React, { Component } from 'react';
 import { connect } from 'react-redux';
 import ImagePicker from 'react-native-image-crop-picker';
-
+import CryptoJS from 'crypto-js';
 // Services and Actions
+import * as dsteem from 'dsteem';
+import { Buffer } from 'buffer';
 import { uploadImage } from '../../../providers/esteem/esteem';
 import { postContent } from '../../../providers/steem/dsteem';
 import { setDraftPost, getDraftPost } from '../../../realm/realm';
@@ -109,13 +111,49 @@ class ExampleContainer extends Component {
   };
 
   // TODO: keyboard opening bug fixed
-  _handleMediaOnSelected = (media) => {
+  _handleMediaOnSelected = async (media) => {
     this.setState({ isCameraOrPickerOpen: false });
-    console.log(media);
 
-    // const signature = generateSignature(data, privatePostingKey);
+    const { currentAccount } = this.props;
+    const digitPinCode = await getDigitPinCode();
+    const privateKey = decryptKey(currentAccount.realm_object.postingKey, digitPinCode);
 
-    uploadImage(media.data).then((res) => {
+    // const prefix = new Buffer('ImageSigningChallenge');
+    // const data = new Buffer(media.data, 'base64');
+    // const commaIdx = media.data.indexOf(',');
+    // const dataBs64 = media.data.substring(commaIdx + 1);
+    // const sdata = new Buffer(dataBs64, 'base64');
+
+    // const hash = CryptoJS.SHA256(prefix, sdata);
+    // const buffer = Buffer.from(hash.toString(CryptoJS.enc.Hex), 'hex');
+    // const array = new Uint8Array(buffer);
+
+    // const key = dsteem.PrivateKey.fromString(privateKey);
+    // const sign = key.sign(new Buffer(array)).toString();
+
+    const data = new Buffer(media.data, 'base64');
+
+    const payload = {
+      username: currentAccount.name,
+      image_file: {
+        filename: media.filename,
+        buffer: data,
+        content_type: 'image/jpeg',
+      },
+    };
+    
+    // const formData = new FormData();
+    // formData.append('file', media);
+    // formData.append('filename', media.filename);
+    // formData.append('filebase64', media.data);
+
+    const sign = generateSignature(media, privateKey);
+
+    this._uploadImage(currentAccount.name, sign, payload);
+  };
+
+  _uploadImage = (username, sign, formData) => {
+    uploadImage(username, sign, formData).then((res) => {
       console.log(res);
     });
   };
