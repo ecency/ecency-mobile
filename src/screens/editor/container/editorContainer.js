@@ -16,7 +16,7 @@ import { default as ROUTES } from '../../../constants/routeNames';
 // Utilities
 import { generatePermlink } from '../../../utils/editor';
 import { decryptKey } from '../../../utils/crypto';
-
+import { generateSignature } from '../../../utils/image';
 // Component
 import EditorScreen from '../screen/editorScreen';
 
@@ -112,6 +112,9 @@ class ExampleContainer extends Component {
   _handleMediaOnSelected = (media) => {
     this.setState({ isCameraOrPickerOpen: false });
     console.log(media);
+
+    // const signature = generateSignature(data, privatePostingKey);
+
     uploadImage(media.data).then((res) => {
       console.log(res);
     });
