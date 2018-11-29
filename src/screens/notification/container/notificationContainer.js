@@ -19,32 +19,16 @@ class NotificationContainer extends Component {
     };
   }
 
-  componentWillMount() {
-    this._getAvtivities();
-    console.log('rwaraSdbaDBasnbbNSnvb :');
-  }
-
-  componentDidMount() {
-    console.log('componentDidMount');
-    console.log('this.props :', this.props);
-    this.props.navigation.addListener('didBlur', (playload) => {
-      console.log('playload', playload);
-    });
-  }
-
   componentWillReceiveProps(nextProps) {
-    console.log('componentWillReceiveProps', nextProps);
-  }
-
-  componentWillUpdate() {
-    console.log('componentWillUpdate');
+    if (nextProps.activeBottomTab === ROUTES.TABBAR.NOTIFICATION) {
+      this._getAvtivities();
+    }
   }
 
   _getAvtivities = (type = null) => {
     const { username } = this.props;
 
     getActivities({ user: username, type }).then((res) => {
-      console.log('res :', res);
       this.setState({ notifications: res });
     });
   };
@@ -92,6 +76,7 @@ class NotificationContainer extends Component {
 
 const mapStateToProps = state => ({
   username: state.account.currentAccount.name,
+  activeBottomTab: state.ui.activeBottomTab,
 });
 
 export default connect(mapStateToProps)(NotificationContainer);

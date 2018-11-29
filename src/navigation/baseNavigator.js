@@ -1,18 +1,20 @@
 import React from 'react';
 import { createBottomTabNavigator } from 'react-navigation';
-import { Icon } from '../components/icon';
-import { IconContainer } from '../components/icon';
 
+// Constants
+import ROUTES from '../constants/routeNames';
+
+// Components
+import { Icon, IconContainer } from '../components/icon';
 import {
   Home, Notification, Profile, RootComponent, Messages,
 } from '../screens';
 import { PostButton } from '../components/postButton';
 import { BottomTabBar } from '../components/bottomTabBar';
-// import style from './baseNavigatorStyles';
 
 const BaseNavigator = createBottomTabNavigator(
   {
-    Home: {
+    [ROUTES.TABBAR.HOME]: {
       screen: RootComponent()(Home),
       navigationOptions: () => ({
         tabBarIcon: ({ tintColor }) => (
@@ -26,7 +28,7 @@ const BaseNavigator = createBottomTabNavigator(
         ),
       }),
     },
-    Notification: {
+    [ROUTES.TABBAR.NOTIFICATION]: {
       screen: RootComponent()(Notification),
       navigationOptions: () => ({
         tabBarIcon: ({ tintColor }) => (
@@ -42,13 +44,13 @@ const BaseNavigator = createBottomTabNavigator(
         ),
       }),
     },
-    PostButton: {
+    [ROUTES.TABBAR.POSTBUTTON]: {
       screen: () => null,
       navigationOptions: () => ({
         tabBarIcon: <PostButton />,
       }),
     },
-    Messages: {
+    [ROUTES.TABBAR.MESSAGES]: {
       screen: RootComponent()(Messages),
       navigationOptions: () => ({
         tabBarIcon: ({ tintColor }) => (
@@ -62,7 +64,7 @@ const BaseNavigator = createBottomTabNavigator(
         ),
       }),
     },
-    Profile: {
+    [ROUTES.TABBAR.PROFILE]: {
       screen: RootComponent()(Profile),
       navigationOptions: () => ({
         tabBarIcon: ({ tintColor }) => (
@@ -88,15 +90,5 @@ const BaseNavigator = createBottomTabNavigator(
     },
   },
 );
-
-const defaultGetStateForAction = BaseNavigator.router.getStateForAction;
-
-// BaseNavigator.router.getStateForAction = (action, state) => {
-//     if (action.type === NavigationActions.NAVIGATE && action.routeName === 'Adding') {
-//         return null;
-//     }
-//
-//     return defaultGetStateForAction(action, state);
-// };
 
 export { BaseNavigator };
