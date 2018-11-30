@@ -10,8 +10,8 @@ import { Modal } from '../../../components';
 import { PinCode } from '../..';
 
 // Constants
-import { default as ROUTES } from '../../../constants/routeNames';
-import { default as INITIAL } from '../../../constants/initial';
+import ROUTES from '../../../constants/routeNames';
+import INITIAL from '../../../constants/initial';
 
 const RootContainer = () => (WrappedComponent) => {
   class RootComponent extends Component {

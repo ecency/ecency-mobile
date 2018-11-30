@@ -1,14 +1,20 @@
 import React, { Component } from 'react';
+import { AsyncStorage, Platform } from 'react-native';
 import { connect } from 'react-redux';
 import { addLocaleData } from 'react-intl';
 import Config from 'react-native-config';
+import AppCenter from 'appcenter';
+import Push from 'appcenter-push';
 
 // Constants
 import en from 'react-intl/locale-data/en';
 import tr from 'react-intl/locale-data/tr';
+import INITIAL from '../../../constants/initial';
 
+// Services
 import { getUserData, getAuthStatus, getSettings } from '../../../realm/realm';
 import { getUser } from '../../../providers/steem/dsteem';
+import { setPushToken } from '../../../providers/esteem/esteem';
 
 // Actions
 import {
@@ -31,6 +37,7 @@ import {
 import { ApplicationScreen } from '..';
 
 addLocaleData([...en, ...tr]);
+/* eslint-disable */
 // symbol polyfills
 global.Symbol = require('core-js/es6/symbol');
 require('core-js/fn/symbol/iterator');
@@ -39,6 +46,7 @@ require('core-js/fn/symbol/iterator');
 require('core-js/fn/map');
 require('core-js/fn/set');
 require('core-js/fn/array/find');
+/* eslint-enable */
 
 class ApplicationContainer extends Component {
   constructor() {
@@ -84,6 +92,7 @@ class ApplicationContainer extends Component {
                   dispatch(openPinCodeModal());
                 }
                 this._connectNotificationServer(accountData.name);
+                this._setPushToken(accountData.name);
               })
               .catch((err) => {
                 alert(err);
@@ -121,6 +130,30 @@ class ApplicationContainer extends Component {
     };
   };
 
+  _setPushToken = async (username) => {
+    const { notificationSettings } = this.props;
+    console.log('sa :', AppCenter);
+    console.log('Push :', Push);
+    const token = await AppCenter.getInstallId();
+    alert(token);
+    console.log('token :', token);
+    AsyncStorage.multiGet([INITIAL.PUSH_TOKEN_SAVED, INITIAL.IS_EXIST_USER], (err, result) => {
+      if (!JSON.parse(result[0][1]) && JSON.parse(result[1][1])) {
+        const data = {
+          username,
+          token: '',
+          system: Platform.OS,
+          allows_notify: notificationSettings,
+        };
+        console.log('1232142154432, :');
+        console.log('Platform :', Platform);
+        // setPushToken(data).then((res) => {
+        //   console.log('setPushToken res :', res);
+        // });
+      }
+    });
+  };
+
   render() {
     const { selectedLanguage } = this.props;
     const { isRenderRequire } = this.state;
@@ -141,6 +174,7 @@ const mapStateToProps = state => ({
   isDarkTheme: state.application.isDarkTheme,
   selectedLanguage: state.application.language,
   unreadActivityCount: state.account.currentAccount.unread_activity_count,
+  notificationSettings: state.application.isNotificationOpen,
 });
 
 export default connect(mapStateToProps)(ApplicationContainer);
