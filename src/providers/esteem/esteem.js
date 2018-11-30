@@ -108,7 +108,7 @@ export const markActivityAsRead = (user, id = null) => new Promise((resolve, rej
 
 export const setPushToken = data => new Promise((resolve, reject) => {
   api
-    .post('/rgstrmbldvc', data)
+    .post('/rgstrmbldvc/', data)
     .then((res) => {
       resolve(res.data);
     })

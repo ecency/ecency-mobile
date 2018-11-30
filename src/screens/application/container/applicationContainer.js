@@ -109,11 +109,12 @@ class ApplicationContainer extends Component {
     const { dispatch } = this.props;
 
     getSettings().then((response) => {
+      console.log('response :', response);
       if (response) {
         response.isDarkTheme && dispatch(isDarkTheme(response.isDarkTheme));
         response.language && dispatch(setLanguage(response.language));
         response.currency && dispatch(setCurrency(response.currency));
-        response.notification && dispatch(isNotificationOpen(response.currency));
+        response.notification && dispatch(isNotificationOpen(response.notification));
         response.server && dispatch(setApi(response.currency));
       }
     });
@@ -132,24 +133,19 @@ class ApplicationContainer extends Component {
 
   _setPushToken = async (username) => {
     const { notificationSettings } = this.props;
-    console.log('sa :', AppCenter);
-    console.log('Push :', Push);
     const token = await AppCenter.getInstallId();
-    alert(token);
-    console.log('token :', token);
     AsyncStorage.multiGet([INITIAL.PUSH_TOKEN_SAVED, INITIAL.IS_EXIST_USER], (err, result) => {
       if (!JSON.parse(result[0][1]) && JSON.parse(result[1][1])) {
         const data = {
           username,
-          token: '',
+          token,
           system: Platform.OS,
           allows_notify: notificationSettings,
         };
-        console.log('1232142154432, :');
-        console.log('Platform :', Platform);
-        // setPushToken(data).then((res) => {
-        //   console.log('setPushToken res :', res);
-        // });
+        setPushToken(data)
+          .then(() => {
+            AsyncStorage.setItem(INITIAL.PUSH_TOKEN_SAVED, JSON.stringify(true));
+          });
       }
     });
   };
