@@ -4,7 +4,6 @@ import { connect } from 'react-redux';
 import { addLocaleData } from 'react-intl';
 import Config from 'react-native-config';
 import AppCenter from 'appcenter';
-import Push from 'appcenter-push';
 
 // Constants
 import en from 'react-intl/locale-data/en';
