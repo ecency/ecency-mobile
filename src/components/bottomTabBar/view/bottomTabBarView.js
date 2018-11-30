@@ -1,7 +1,10 @@
 import React, { Component } from 'react';
 import { TouchableWithoutFeedback } from 'react-native';
-
+import { connect } from 'react-redux';
 import ViewOverflow from 'react-native-view-overflow';
+
+// Services and Actions
+import { updateActiveBottomTab } from '../../../redux/actions/uiAction';
 
 // Constants
 
@@ -22,6 +25,16 @@ class BottomTabBarView extends Component {
   }
 
   // Component Life Cycles
+  componentWillUpdate(nextProps) {
+    const {
+      navigation: {
+        state: { index, routes },
+      },
+      dispatch,
+    } = nextProps;
+
+    dispatch(updateActiveBottomTab(routes[index].routeName));
+  }
 
   // Component Functions
 
@@ -61,4 +74,4 @@ class BottomTabBarView extends Component {
   }
 }
 
-export default BottomTabBarView;
+export default connect()(BottomTabBarView);

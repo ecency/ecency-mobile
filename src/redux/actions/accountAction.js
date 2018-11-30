@@ -4,6 +4,7 @@ import {
   FETCHING_ACCOUNT,
   ADD_OTHER_ACCOUNT,
   UPDATE_CURRENT_ACCOUNT,
+  UPDATE_UNREAD_ACTIVITY_COUNT,
 } from '../constants/constants';
 
 export const fetchAccountFromSteem = (username, password) => (dispatch) => {
@@ -29,5 +30,10 @@ export const addOtherAccount = data => ({
 
 export const failedAccount = data => ({
   type: FETCH_ACCOUNT_FAIL,
+  payload: data,
+});
+
+export const updateUnreadActivityCount = data => ({
+  type: UPDATE_UNREAD_ACTIVITY_COUNT,
   payload: data,
 });
