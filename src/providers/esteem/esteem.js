@@ -1,3 +1,4 @@
+import axios from 'axios';
 import api from '../../config/api';
 import searchApi from '../../config/search';
 import imageApi from '../../config/imageApi';
@@ -156,21 +157,46 @@ export const moveSchedule = (id, user) => api.put(`/api/schedules/${user}/${id}`
 //   });
 // };
 
-export const uploadImage = (username, signature, data) => new Promise((resolve, reject) => {
-  imageApi
-    .post(`${username}/${signature}`, data.image_file)
-    .then((res) => {
-      resolve(res.data);
-      console.log(res);
-    })
-    .catch((error) => {
-      reject(error);
-      console.log(error);
-      console.log(data.image_file);
-      console.log(signature);
-      console.log(username);
-    });
-});
+// export const uploadImage = data => new Promise((resolve, reject) => {
+//   imageApi
+//     .post(data)
+//     .then((res) => {
+//       resolve(res.data);
+//       console.log(res);
+//     })
+//     .catch((error) => {
+//       reject(error);
+//       console.log(error);
+//     });
+// });
+
+export const uploadImage = (file) => {
+  const fData = new FormData();
+  fData.append('postimage', file);
+
+  return axios.post('https://img.esteem.ws/backend.php', fData, {
+    headers: {
+      'Content-Type': 'multipart/form-data',
+    },
+  });
+};
+
+// New image service
+// export const uploadImage = (username, signature, data) => new Promise((resolve, reject) => {
+//   imageApi
+//     .post(`${username}/${signature}`, data)
+//     .then((res) => {
+//       resolve(res.data);
+//       console.log(res);
+//     })
+//     .catch((error) => {
+//       reject(error);
+//       console.log(error);
+//       console.log(data.image_file);
+//       console.log(signature);
+//       console.log(username);
+//     });
+// });
 
 // export const uploadImage = (username, signature, data) => {
 //   const fData = new FormData();

@@ -28,7 +28,7 @@ import EditorScreen from '../screen/editorScreen';
   *
   */
 
-class ExampleContainer extends Component {
+class EditorContainer extends Component {
   constructor(props) {
     super(props);
     this.state = {
@@ -130,31 +130,51 @@ class ExampleContainer extends Component {
 
     // const key = dsteem.PrivateKey.fromString(privateKey);
     // const sign = key.sign(new Buffer(array)).toString();
-
+    // const commaIdx = dataUrl.indexOf(',');
+    //     dataBs64 = dataUrl.substring(commaIdx + 1);
+    //data = new Buffer(dataBs64, 'base64');
     const data = new Buffer(media.data, 'base64');
 
-    const payload = {
-      username: currentAccount.name,
-      image_file: {
-        filename: media.filename,
-        buffer: data,
-        content_type: 'image/jpeg',
-      },
-    };
-    
+    // const payload = {
+    //   username: currentAccount.name,
+    //   image_file: {
+    //     filename: media.filename,
+    //     buffer: data,
+    //     content_type: 'image/jpeg',
+    //   },
+    // };
     // const formData = new FormData();
+    // formData.append('filename', media.filename);
+    // formData.append('filebase64', data);
+    // formData.append('postimage', media);
+
     // formData.append('file', media);
     // formData.append('filename', media.filename);
     // formData.append('filebase64', media.data);
-
+    const file = {
+      uri: media.path,
+      type: 'image/jpeg',
+      name: media.filename,
+      size: media.size,
+      //data:`data:${image.mime};base64,`+ image.data
+      base64: media.data,
+  }
     const sign = generateSignature(media, privateKey);
+    //const file = { uri: media.path, type: 'image/jpeg', name: media.filename } 
 
-    this._uploadImage(currentAccount.name, sign, payload);
+    this._uploadImage(file);
   };
 
-  _uploadImage = (username, sign, formData) => {
-    uploadImage(username, sign, formData).then((res) => {
+  _uploadImage = (formData) => {
+    alert(formData);
+    uploadImage(formData).then((res) => {
       console.log(res);
+      alert(res + "then");
+      const { url } = res;
+      alert(url);
+      alert(res);
+    }).catch((error) => {
+      alert(error);
     });
   };
 
@@ -267,4 +287,4 @@ const mapStateToProps = state => ({
   currentAccount: state.account.currentAccount,
 });
 
-export default connect(mapStateToProps)(ExampleContainer);
+export default connect(mapStateToProps)(EditorContainer);
