@@ -9,6 +9,7 @@ import { IconButton } from '../../iconButton';
 import { DropdownButton } from '../../dropdownButton';
 import { StickyBar } from '../../basicUIElements';
 import { TextInput } from '../../textInput';
+import applyImageLink from './formats/applyWebLinkFormat';
 // Styles
 import styles from './markdownEditorStyles';
 import markdownStyle from './markdownPreviewStyles';
@@ -22,17 +23,30 @@ export default class MarkdownEditorView extends Component {
     };
   }
 
+  // Lifecycle functions
   componentWillReceiveProps(nextProps) {
-    const { draftBody } = this.props;
+    const { draftBody, uploadedImage } = this.props;
 
     if (nextProps.draftBody && draftBody !== nextProps.draftBody) {
       this.setState({
         text: nextProps.draftBody,
       });
     }
+
+    if (nextProps.uploadedImage && nextProps.uploadedImage !== uploadedImage) {
+      applyImageLink({
+        getState: this._getState,
+        setState: (state, callback) => {
+          this.setState(state, callback);
+        },
+        item: { url: nextProps.uploadedImage.url, text: nextProps.uploadedImage.hash },
+        isImage: !!nextProps.uploadedImage,
+      });
+    }
   }
 
-  changeText = (input) => {
+  // Component functions
+  _changeText = (input) => {
     const {
       onChange, handleOnTextChange, handleIsValid, componentID,
     } = this.props;
@@ -47,7 +61,9 @@ export default class MarkdownEditorView extends Component {
       handleIsValid(componentID, !!(input && input.length));
     }
 
-    handleOnTextChange && handleOnTextChange(input);
+    if (handleOnTextChange) {
+      handleOnTextChange(input);
+    }
   };
 
   _handleOnSelectionChange = (event) => {
@@ -107,6 +123,7 @@ export default class MarkdownEditorView extends Component {
 
   _renderEditorButtons = ({ getState, setState }) => {
     const { handleOpenImagePicker } = this.props;
+
     return (
       <StickyBar>
         <View style={styles.leftButtonsWrapper}>
@@ -156,7 +173,7 @@ export default class MarkdownEditorView extends Component {
         {!isPreviewActive ? (
           <TextInput
             multiline
-            onChangeText={text => this.changeText(text)}
+            onChangeText={e => this._changeText(e)}
             onSelectionChange={this._handleOnSelectionChange}
             placeholder={intl.formatMessage({
               id: 'editor.description',

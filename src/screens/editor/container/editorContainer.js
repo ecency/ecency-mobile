@@ -37,7 +37,7 @@ class EditorContainer extends Component {
       draftPost: null,
       isCameraOrPickerOpen: false,
       autoFocusText: false,
-      uploadedImageUrl: null,
+      uploadedImage: null,
     };
   }
 
@@ -84,8 +84,8 @@ class EditorContainer extends Component {
       width: 1500,
       height: 800,
       cropping: true,
-      writeTempFile: true,
-      includeBase64: true,
+      // writeTempFile: true,
+      // includeBase64: true,
       // multiple: true,
     })
       .then((image) => {
@@ -111,7 +111,7 @@ class EditorContainer extends Component {
       });
   };
 
-  _handleMediaOnSelected = async (media) => {
+  _handleMediaOnSelected = (media) => {
     this.setState({ isCameraOrPickerOpen: false }, () => {
       this._uploadImage(media);
     });
@@ -129,15 +129,16 @@ class EditorContainer extends Component {
       type: media.mime,
       name: media.filename,
       size: media.size,
-      data: `data:${media.mime};base64,${media.data}`,
-      base64: media.data,
       source: media.sourceURL,
+      // data: `data:${media.mime};base64,${media.data}`,
+      // base64: media.data,
     };
 
     uploadImage(file)
       .then((res) => {
-        alert(`${res.data.url}`);
-        this.setState({ uploadedImageUrl: res.data.url });
+        if (res.data) {
+          this.setState({ uploadedImage: res.data });
+        }
       })
       .catch((error) => {
         alert(error);
@@ -145,9 +146,9 @@ class EditorContainer extends Component {
   };
 
   _handleMediaOnSelectFailure = (error) => {
-    const { navigation } = this.props;
+    // const { navigation } = this.props;
     this.setState({ isCameraOrPickerOpen: false });
-    navigation.navigate(ROUTES.SCREENS.HOME);
+    // navigation.navigate(ROUTES.SCREENS.HOME);
   };
 
   // Media select functions <- END ->
@@ -226,7 +227,7 @@ class EditorContainer extends Component {
       isOpenCamera,
       isCameraOrPickerOpen,
       autoFocusText,
-      uploadedImageUrl,
+      uploadedImage,
       isPostSending,
     } = this.state;
 
@@ -245,7 +246,7 @@ class EditorContainer extends Component {
         isDraftSaving={isDraftSaving}
         isLoggedIn={isLoggedIn}
         isOpenCamera={isOpenCamera}
-        uploadedImageUrl={uploadedImageUrl}
+        uploadedImage={uploadedImage}
       />
     );
   }

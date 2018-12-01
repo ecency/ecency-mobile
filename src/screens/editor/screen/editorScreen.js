@@ -16,16 +16,16 @@ import globalStyles from '../../../globalStyles';
 
 class EditorScreen extends Component {
   /* Props
-    * ------------------------------------------------
-    *   @prop { type }    name                - Description....
-    */
+   * ------------------------------------------------
+   *   @prop { type }    name                - Description....
+   */
 
   constructor(props) {
     super(props);
     this.state = {
+      isFormValid: false,
       isPreviewActive: false,
       wordsCount: null,
-      isFormValid: false,
       fields: {
         title: (props.draftPost && props.draftPost.title) || '',
         body: (props.draftPost && props.draftPost.body) || '',
@@ -123,55 +123,57 @@ class EditorScreen extends Component {
       isPreviewActive, wordsCount, isFormValid, fields,
     } = this.state;
     const {
+      autoFocusText,
+      handleOnImagePicker,
+      intl,
+      isDraftSaved,
+      isDraftSaving,
       isLoggedIn,
       isPostSending,
-      isDraftSaving,
-      isDraftSaved,
-      intl,
-      handleOnImagePicker,
-      autoFocusText,
+      uploadedImage,
     } = this.props;
 
     return (
       <View style={globalStyles.defaultContainer}>
         <BasicHeader
-          handleOnSaveButtonPress={this._handleOnSaveButtonPress}
-          isPostSending={isPostSending}
-          isDraftSaving={isDraftSaving}
-          isDraftSaved={isDraftSaved}
-          isPreviewActive={isPreviewActive}
-          quickTitle={wordsCount > 0 && `${wordsCount} words`}
           handleOnPressPreviewButton={this._handleOnPressPreviewButton}
+          handleOnSaveButtonPress={this._handleOnSaveButtonPress}
+          handleOnSubmit={this._handleOnSubmit}
+          isDraftSaved={isDraftSaved}
+          isDraftSaving={isDraftSaving}
           isFormValid={isFormValid}
           isHasIcons
           isLoggedIn={isLoggedIn}
-          handleOnSubmit={this._handleOnSubmit}
+          isPostSending={isPostSending}
+          isPreviewActive={isPreviewActive}
+          quickTitle={wordsCount > 0 && `${wordsCount} words`}
         />
         <PostForm
           handleFormUpdate={this._handleFormUpdate}
           handleOnSubmit={this._handleOnSubmit}
-          isPreviewActive={isPreviewActive}
           isFormValid={isFormValid}
+          isPreviewActive={isPreviewActive}
         >
           <TitleArea
             autoFocus={autoFocusText}
-            value={fields.title}
             componentID="title"
             intl={intl}
+            value={fields.title}
           />
           <TagArea
             autoFocus={autoFocusText}
-            draftChips={fields.tags}
             componentID="tag-area"
+            draftChips={fields.tags}
             handleTagChanged={this._handleOnTagAdded}
             intl={intl}
           />
           <TextArea
+            componentID="body"
             draftBody={fields && fields.body}
             handleOnTextChange={this._setWordsCount}
-            componentID="body"
-            intl={intl}
             handleOpenImagePicker={handleOnImagePicker}
+            intl={intl}
+            uploadedImage={uploadedImage}
           />
         </PostForm>
       </View>
