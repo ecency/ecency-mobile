@@ -1,10 +1,9 @@
 import React, { Component } from 'react';
 import { connect } from 'react-redux';
 import ImagePicker from 'react-native-image-crop-picker';
-import CryptoJS from 'crypto-js';
+
 // Services and Actions
-import * as dsteem from 'dsteem';
-import { Buffer } from 'buffer';
+// import { Buffer } from 'buffer';
 import { uploadImage } from '../../../providers/esteem/esteem';
 import { postContent } from '../../../providers/steem/dsteem';
 import { setDraftPost, getDraftPost } from '../../../realm/realm';
@@ -18,15 +17,15 @@ import { default as ROUTES } from '../../../constants/routeNames';
 // Utilities
 import { generatePermlink } from '../../../utils/editor';
 import { decryptKey } from '../../../utils/crypto';
-import { generateSignature } from '../../../utils/image';
+// import { generateSignature } from '../../../utils/image';
 // Component
 import EditorScreen from '../screen/editorScreen';
 
 /*
-  *            Props Name        Description                                     Value
-  *@props -->  props name here   description here                                Value Type Here
-  *
-  */
+ *            Props Name        Description                                     Value
+ *@props -->  props name here   description here                                Value Type Here
+ *
+ */
 
 class EditorContainer extends Component {
   constructor(props) {
@@ -38,6 +37,7 @@ class EditorContainer extends Component {
       draftPost: null,
       isCameraOrPickerOpen: false,
       autoFocusText: false,
+      uploadedImageUrl: null,
     };
   }
 
@@ -63,7 +63,7 @@ class EditorContainer extends Component {
         });
       })
       .catch((error) => {
-        console.log(error);
+        // alert(error);
       });
   }
 
@@ -81,12 +81,12 @@ class EditorContainer extends Component {
 
   _handleOpenImagePicker = () => {
     ImagePicker.openPicker({
-      width: 300,
-      height: 400,
+      width: 1500,
+      height: 800,
       cropping: true,
-      // multiple: true,
       writeTempFile: true,
       includeBase64: true,
+      // multiple: true,
     })
       .then((image) => {
         this._handleMediaOnSelected(image);
@@ -101,6 +101,7 @@ class EditorContainer extends Component {
       width: 300,
       height: 400,
       cropping: true,
+      //  includeBase64: true,
     })
       .then((image) => {
         this._handleMediaOnSelected(image);
@@ -110,72 +111,37 @@ class EditorContainer extends Component {
       });
   };
 
-  // TODO: keyboard opening bug fixed
   _handleMediaOnSelected = async (media) => {
-    this.setState({ isCameraOrPickerOpen: false });
-
-    const { currentAccount } = this.props;
-    const digitPinCode = await getDigitPinCode();
-    const privateKey = decryptKey(currentAccount.realm_object.postingKey, digitPinCode);
-
-    // const prefix = new Buffer('ImageSigningChallenge');
+    this.setState({ isCameraOrPickerOpen: false }, () => {
+      this._uploadImage(media);
+    });
+    // For new image api
+    // const { currentAccount } = this.props;
+    // const digitPinCode = await getDigitPinCode();
+    // const privateKey = decryptKey(currentAccount.realm_object.postingKey, digitPinCode);
+    // const sign = generateSignature(media, privateKey);
     // const data = new Buffer(media.data, 'base64');
-    // const commaIdx = media.data.indexOf(',');
-    // const dataBs64 = media.data.substring(commaIdx + 1);
-    // const sdata = new Buffer(dataBs64, 'base64');
-
-    // const hash = CryptoJS.SHA256(prefix, sdata);
-    // const buffer = Buffer.from(hash.toString(CryptoJS.enc.Hex), 'hex');
-    // const array = new Uint8Array(buffer);
-
-    // const key = dsteem.PrivateKey.fromString(privateKey);
-    // const sign = key.sign(new Buffer(array)).toString();
-    // const commaIdx = dataUrl.indexOf(',');
-    //     dataBs64 = dataUrl.substring(commaIdx + 1);
-    //data = new Buffer(dataBs64, 'base64');
-    const data = new Buffer(media.data, 'base64');
-
-    // const payload = {
-    //   username: currentAccount.name,
-    //   image_file: {
-    //     filename: media.filename,
-    //     buffer: data,
-    //     content_type: 'image/jpeg',
-    //   },
-    // };
-    // const formData = new FormData();
-    // formData.append('filename', media.filename);
-    // formData.append('filebase64', data);
-    // formData.append('postimage', media);
-
-    // formData.append('file', media);
-    // formData.append('filename', media.filename);
-    // formData.append('filebase64', media.data);
-    const file = {
-      uri: media.path,
-      type: 'image/jpeg',
-      name: media.filename,
-      size: media.size,
-      //data:`data:${image.mime};base64,`+ image.data
-      base64: media.data,
-  }
-    const sign = generateSignature(media, privateKey);
-    //const file = { uri: media.path, type: 'image/jpeg', name: media.filename } 
-
-    this._uploadImage(file);
   };
 
-  _uploadImage = (formData) => {
-    alert(formData);
-    uploadImage(formData).then((res) => {
-      console.log(res);
-      alert(res + "then");
-      const { url } = res;
-      alert(url);
-      alert(res);
-    }).catch((error) => {
-      alert(error);
-    });
+  _uploadImage = (media) => {
+    const file = {
+      uri: media.path,
+      type: media.mime,
+      name: media.filename,
+      size: media.size,
+      data: `data:${media.mime};base64,${media.data}`,
+      base64: media.data,
+      source: media.sourceURL,
+    };
+
+    uploadImage(file)
+      .then((res) => {
+        alert(`${res.data.url}`);
+        this.setState({ uploadedImageUrl: res.data.url });
+      })
+      .catch((error) => {
+        alert(error);
+      });
   };
 
   _handleMediaOnSelectFailure = (error) => {
@@ -260,22 +226,24 @@ class EditorContainer extends Component {
       isOpenCamera,
       isCameraOrPickerOpen,
       autoFocusText,
+      uploadedImageUrl,
     } = this.state;
 
     return (
       <EditorScreen
+        autoFocusText={autoFocusText}
         draftPost={draftPost}
         handleFormChanged={this._handleFormChanged}
+        handleOnImagePicker={this._handleOpenImagePicker}
         handleOnSaveButtonPress={this._handleOnSaveButtonPress}
         handleOnSubmit={this._handleSubmit}
-        handleOnImagePicker={this._handleOpenImagePicker}
+        isCameraOrPickerOpen={isCameraOrPickerOpen}
         isDarkTheme={isDarkTheme}
         isDraftSaved={isDraftSaved}
         isDraftSaving={isDraftSaving}
         isLoggedIn={isLoggedIn}
         isOpenCamera={isOpenCamera}
-        isCameraOrPickerOpen={isCameraOrPickerOpen}
-        autoFocusText={autoFocusText}
+        uploadedImageUrl={uploadedImageUrl}
       />
     );
   }

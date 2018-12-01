@@ -1,4 +1,3 @@
-import axios from 'axios';
 import api from '../../config/api';
 import searchApi from '../../config/search';
 import imageApi from '../../config/imageApi';
@@ -144,70 +143,28 @@ export const moveSchedule = (id, user) => api.put(`/api/schedules/${user}/${id}`
 // Old image service
 // Images
 
-// export const getImages = user => api.get(`api/images/${user}`).then(resp => resp.data);
+export const getImages = user => api.get(`api/images/${user}`).then(resp => resp.data);
 
-// export const uploadImage = (file) => {
-//   const fData = new FormData();
-//   fData.append('postimage', file);
-
-//   return api.post('https://img.esteem.ws/backend.php', fData, {
-//     headers: {
-//       'Content-Type': 'multipart/form-data',
-//     },
-//   });
-// };
-
-// export const uploadImage = data => new Promise((resolve, reject) => {
-//   imageApi
-//     .post(data)
-//     .then((res) => {
-//       resolve(res.data);
-//       console.log(res);
-//     })
-//     .catch((error) => {
-//       reject(error);
-//       console.log(error);
-//     });
-// });
+export const addMyImage = (user, url) => api.post('/api/image', { username: user, image_url: url });
 
 export const uploadImage = (file) => {
   const fData = new FormData();
   fData.append('postimage', file);
 
-  return axios.post('https://img.esteem.ws/backend.php', fData, {
-    headers: {
-      'Content-Type': 'multipart/form-data',
-    },
-  });
+  return imageApi.post('', fData);
 };
 
 // New image service
+
 // export const uploadImage = (username, signature, data) => new Promise((resolve, reject) => {
+//   const fData = new FormData();
+//   fData.append('postimage', data);
 //   imageApi
 //     .post(`${username}/${signature}`, data)
 //     .then((res) => {
 //       resolve(res.data);
-//       console.log(res);
 //     })
 //     .catch((error) => {
 //       reject(error);
-//       console.log(error);
-//       console.log(data.image_file);
-//       console.log(signature);
-//       console.log(username);
 //     });
 // });
-
-// export const uploadImage = (username, signature, data) => {
-//   const fData = new FormData();
-//   fData.append('postimage', data);
-
-//   return imageApi.post(`https://img.esteem.app/${username}/${signature}`, data, {
-//     headers: {
-//       'Content-Type': 'multipart/form-data',
-//     },
-//   });
-
-// };
-
-// export const addMyImage = (user, url) => api.post('/api/image', { username: user, image_url: url });
