@@ -38,6 +38,7 @@ class EditorContainer extends Component {
       isCameraOrPickerOpen: false,
       autoFocusText: false,
       uploadedImage: null,
+      isUploading: false,
     };
   }
 
@@ -81,8 +82,8 @@ class EditorContainer extends Component {
 
   _handleOpenImagePicker = () => {
     ImagePicker.openPicker({
-      width: 1500,
-      height: 800,
+      width: 300,
+      height: 400,
       cropping: true,
       // writeTempFile: true,
       // includeBase64: true,
@@ -112,7 +113,7 @@ class EditorContainer extends Component {
   };
 
   _handleMediaOnSelected = (media) => {
-    this.setState({ isCameraOrPickerOpen: false }, () => {
+    this.setState({ isCameraOrPickerOpen: false, isUploading: true }, () => {
       this._uploadImage(media);
     });
     // For new image api
@@ -137,11 +138,12 @@ class EditorContainer extends Component {
     uploadImage(file)
       .then((res) => {
         if (res.data) {
-          this.setState({ uploadedImage: res.data });
+          this.setState({ uploadedImage: res.data, isUploading: false });
         }
       })
       .catch((error) => {
         alert(error);
+        this.setState({ isUploading: false });
       });
   };
 
@@ -229,6 +231,7 @@ class EditorContainer extends Component {
       autoFocusText,
       uploadedImage,
       isPostSending,
+      isUploading,
     } = this.state;
 
     return (
@@ -247,6 +250,7 @@ class EditorContainer extends Component {
         isLoggedIn={isLoggedIn}
         isOpenCamera={isOpenCamera}
         uploadedImage={uploadedImage}
+        isUploading={isUploading}
       />
     );
   }

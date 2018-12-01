@@ -1,5 +1,5 @@
 import React, { Component } from 'react';
-import { View } from 'react-native';
+import { View, ActivityIndicator, Text } from 'react-native';
 import { injectIntl } from 'react-intl';
 
 // Utils
@@ -131,6 +131,7 @@ class EditorScreen extends Component {
       isLoggedIn,
       isPostSending,
       uploadedImage,
+      isUploading,
     } = this.props;
 
     return (
@@ -144,7 +145,7 @@ class EditorScreen extends Component {
           isFormValid={isFormValid}
           isHasIcons
           isLoggedIn={isLoggedIn}
-          isPostSending={isPostSending}
+          isLoading={isPostSending || isUploading}
           isPreviewActive={isPreviewActive}
           quickTitle={wordsCount > 0 && `${wordsCount} words`}
         />
