@@ -239,7 +239,7 @@ class EditorContainer extends Component {
         autoFocusText={autoFocusText}
         draftPost={draftPost}
         handleFormChanged={this._handleFormChanged}
-        handleOnImagePicker={this._handleOpenImagePicker}
+        handleOnImagePicker={this._handleRoutingAction}
         handleOnSaveButtonPress={this._handleOnSaveButtonPress}
         handleOnSubmit={this._handleSubmit}
         isCameraOrPickerOpen={isCameraOrPickerOpen}

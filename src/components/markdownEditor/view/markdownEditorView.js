@@ -1,6 +1,6 @@
 import React, { Component } from 'react';
 import {
-  View, KeyboardAvoidingView, ScrollView, FlatList, Text,
+  View, KeyboardAvoidingView, ScrollView, FlatList, Text, ActionSheetIOS
 } from 'react-native';
 import Markdown, { getUniqueID } from 'react-native-markdown-renderer';
 // Components
@@ -121,9 +121,21 @@ export default class MarkdownEditorView extends Component {
     </View>
   );
 
-  _renderEditorButtons = ({ getState, setState }) => {
+  _handleOnImageButtonPress = () => {
     const { handleOpenImagePicker } = this.props;
 
+    ActionSheetIOS.showActionSheetWithOptions(
+      {
+        options: ['Cancel', 'Take Photo', 'Select From Gallery'],
+        cancelButtonIndex: 0,
+      },
+      (buttonIndex) => {
+        handleOpenImagePicker(buttonIndex === 1 ? 'camera' : buttonIndex === 2 && 'image');
+      },
+    );
+  }
+
+  _renderEditorButtons = ({ getState, setState }) => {
     return (
       <StickyBar>
         <View style={styles.leftButtonsWrapper}>
@@ -145,7 +157,7 @@ export default class MarkdownEditorView extends Component {
             onPress={() => Formats[9].onPress({ getState, setState })}
           />
           <IconButton
-            onPress={() => handleOpenImagePicker()}
+            onPress={() => this._handleOnImageButtonPress()}
             style={styles.rightIcons}
             size={20}
             iconStyle={styles.icon}
