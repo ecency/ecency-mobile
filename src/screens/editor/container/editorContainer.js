@@ -227,6 +227,7 @@ class EditorContainer extends Component {
       isCameraOrPickerOpen,
       autoFocusText,
       uploadedImageUrl,
+      isPostSending,
     } = this.state;
 
     return (
@@ -240,6 +241,7 @@ class EditorContainer extends Component {
         isCameraOrPickerOpen={isCameraOrPickerOpen}
         isDarkTheme={isDarkTheme}
         isDraftSaved={isDraftSaved}
+        isPostSending={isPostSending}
         isDraftSaving={isDraftSaving}
         isLoggedIn={isLoggedIn}
         isOpenCamera={isOpenCamera}
