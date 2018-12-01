@@ -3,6 +3,7 @@ import {
   FETCHING_ACCOUNT,
   ADD_OTHER_ACCOUNT,
   UPDATE_CURRENT_ACCOUNT,
+  UPDATE_UNREAD_ACTIVITY_COUNT,
 } from '../constants/constants';
 
 const initialState = {
@@ -43,6 +44,17 @@ export default function (state = initialState, action) {
       return {
         ...state,
         currentAccount: action.payload,
+        isFetching: false,
+        hasError: false,
+        errorMessage: null,
+      };
+    case UPDATE_UNREAD_ACTIVITY_COUNT:
+      return {
+        ...state,
+        currentAccount: {
+          ...state.currentAccount,
+          unread_activity_count: action.payload,
+        },
         isFetching: false,
         hasError: false,
         errorMessage: null,

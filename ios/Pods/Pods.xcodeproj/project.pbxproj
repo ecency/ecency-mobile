@@ -946,6 +946,7 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				E7A0A8889B2803D2E97FF2B36467BD84 /* Foundation.framework in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -968,13 +969,15 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				3CB6E30425284D68778700447850D098 /* Foundation.framework in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
-		96FAF858A23485B27753BF4AAA130B00 /* Frameworks */ = {
+		9FD34474E5A7DB0DEF3D6C9BEEA9D038 /* Frameworks */ = {
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				EF454285519A798DF071C84666F5867B /* Foundation.framework in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -1006,6 +1009,7 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				C1F9836E82F3544BE080A1907D239BAF /* Foundation.framework in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -1135,7 +1139,7 @@
 			children = (
 				30BC53FCF43BD6490A155CAD5EFBF3FE /* Frameworks */,
 			);
-			name = Core;
+			name = Frameworks;
 			sourceTree = "<group>";
 		};
 		2EAE014096780675C67F590777E49B0D /* Frameworks */ = {
@@ -1822,19 +1826,12 @@
 			path = SafeAreaView;
 			sourceTree = "<group>";
 		};
-		E9989AD66B2E14BB4007ABBF598E0661 /* Pods-eSteemTests */ = {
+		D6FFA9EF6598188A2EB042646962F9A5 /* Frameworks */ = {
 			isa = PBXGroup;
 			children = (
-				F275668584026EAA8C9A33E85F8EBD1C /* Pods-eSteemTests-acknowledgements.markdown */,
-				4B3AFE15844C9561DD3BBC6C094FA01D /* Pods-eSteemTests-acknowledgements.plist */,
-				9D3D6EC77E12D73F78D7C817A87B320E /* Pods-eSteemTests-dummy.m */,
-				5E18DFD1D43A7EC02C8D28361B2C98ED /* Pods-eSteemTests-frameworks.sh */,
-				A5E5047109EBB60B9F32913A0ED02812 /* Pods-eSteemTests-resources.sh */,
-				33AEC85CA9A8ADEA1C2C69E6AAB3F68B /* Pods-eSteemTests.debug.xcconfig */,
-				6AA3C309B512B511AA7F5BF3C138F411 /* Pods-eSteemTests.release.xcconfig */,
+				EA05D3205DA241E5F02C826809EDC0E0 /* AppCenterPush.framework */,
 			);
-			name = "Pods-eSteemTests";
-			path = "Target Support Files/Pods-eSteemTests";
+			name = Frameworks;
 			sourceTree = "<group>";
 		};
 		F68F935D21381521D19882E27B48257B /* Products */ = {
@@ -2126,10 +2123,10 @@
 		};
 		4407E9DE75693546FDC67E9B2B0469EE /* Pods-eSteem-tvOS */ = {
 			isa = PBXNativeTarget;
-			buildConfigurationList = 50BA65972CE2D9406ED019F6F6A86F14 /* Build configuration list for PBXNativeTarget "Pods-eSteem-tvOS" */;
+			buildConfigurationList = 00DB4FD651130C24840A0D27F79AC8EA /* Build configuration list for PBXNativeTarget "Pods-eSteem-tvOS" */;
 			buildPhases = (
-				AF5150792DC77F028FAF746B0D9811F2 /* Sources */,
-				96FAF858A23485B27753BF4AAA130B00 /* Frameworks */,
+				25F6F76D9C17134A556BCB7A04B896D8 /* Sources */,
+				4001E14BDAB5657152CF8AD9964FFDF5 /* Frameworks */,
 			);
 			buildRules = (
 			);
@@ -2252,21 +2249,36 @@
 			productReference = D8A594D4E24F4FC1FC35B7C8FD9ACF2B /* libyoga.a */;
 			productType = "com.apple.product-type.library.static";
 		};
-		CCF6D1E35B7D0DA73FBB9A15F7773724 /* Pods-eSteemTests */ = {
+		973A4E19058BA07E071FAB108226376D /* Pods-eSteemTests */ = {
 			isa = PBXNativeTarget;
-			buildConfigurationList = AEDF1E7E7EB78A19EDB6AC2A6AD34E5D /* Build configuration list for PBXNativeTarget "Pods-eSteemTests" */;
+			buildConfigurationList = B47818FEE20B970722235210612BC3EB /* Build configuration list for PBXNativeTarget "Pods-eSteemTests" */;
 			buildPhases = (
-				F8666B8672CF13EC793E106A9AC70A95 /* Sources */,
-				8C03CA1144BD16422CE7D339167B823C /* Frameworks */,
+				6E9836D2CDE56A36E66050898DD335A7 /* Sources */,
+				A0D0B72EE7B5832F9FF0C05E14391102 /* Frameworks */,
 			);
 			buildRules = (
 			);
 			dependencies = (
-				62AA556EE915E9BC202575A2B3CF96E0 /* PBXTargetDependency */,
 			);
 			name = "Pods-eSteemTests";
 			productName = "Pods-eSteemTests";
 			productReference = 842897CD0F6EAA526E666D0E08A66DAD /* libPods-eSteemTests.a */;
+			productType = "com.apple.product-type.library.static";
+		};
+		F434BC267AA5BD47D8A5371E4E9CC60B /* Pods-eSteem-tvOSTests */ = {
+			isa = PBXNativeTarget;
+			buildConfigurationList = 2D4B9937506EC6789B6F875D54AC8DF8 /* Build configuration list for PBXNativeTarget "Pods-eSteem-tvOSTests" */;
+			buildPhases = (
+				91BD8B1FCB1A9D56DA243D97B1E825E2 /* Sources */,
+				34529B90ED7E839C6A88685FEAA7FE12 /* Frameworks */,
+			);
+			buildRules = (
+			);
+			dependencies = (
+			);
+			name = "Pods-eSteem-tvOSTests";
+			productName = "Pods-eSteem-tvOSTests";
+			productReference = DC414E64E6C8CB14CC6A7EF05EAE4A9C /* libPods-eSteem-tvOSTests.a */;
 			productType = "com.apple.product-type.library.static";
 		};
 /* End PBXNativeTarget section */
@@ -2547,11 +2559,11 @@
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
-		AF5150792DC77F028FAF746B0D9811F2 /* Sources */ = {
+		471907418446485000EA0E113D1C2B26 /* Sources */ = {
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				98228C7FF2CD1991278A78CE4F58C8C3 /* Pods-eSteem-tvOS-dummy.m in Sources */,
+				4453830AAE48810098B039D9D2064041 /* Pods-eSteem-dummy.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -2563,11 +2575,11 @@
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
-		F8666B8672CF13EC793E106A9AC70A95 /* Sources */ = {
+		91BD8B1FCB1A9D56DA243D97B1E825E2 /* Sources */ = {
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				A22F7249AD5CC8B2C3CF6CC6079E14EC /* Pods-eSteemTests-dummy.m in Sources */,
+				078384DD663E20AB08C6FBA3C7F4B705 /* Pods-eSteem-tvOSTests-dummy.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -2655,11 +2667,10 @@
 /* End PBXTargetDependency section */
 
 /* Begin XCBuildConfiguration section */
-		0E2B1380ED81E342BC2444FA86AA7342 /* Release */ = {
+		105523B039FDFF8E0F714C3F4C247B3D /* Debug */ = {
 			isa = XCBuildConfiguration;
-			baseConfigurationReference = 6AA3C309B512B511AA7F5BF3C138F411 /* Pods-eSteemTests.release.xcconfig */;
+			baseConfigurationReference = 33AEC85CA9A8ADEA1C2C69E6AAB3F68B /* Pods-eSteemTests.debug.xcconfig */;
 			buildSettings = {
-				ALWAYS_EMBED_SWIFT_STANDARD_LIBRARIES = NO;
 				CODE_SIGN_IDENTITY = "iPhone Developer";
 				"CODE_SIGN_IDENTITY[sdk=appletvos*]" = "";
 				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "";
@@ -2673,11 +2684,10 @@
 				SDKROOT = iphoneos;
 				SKIP_INSTALL = YES;
 				TARGETED_DEVICE_FAMILY = "1,2";
-				VALIDATE_PRODUCT = YES;
 			};
-			name = Release;
+			name = Debug;
 		};
-		1EA8CDCA49D5A280A3417B7878BFF5DD /* Debug */ = {
+		12EC319154A00D25BF67EC67C62DDCD5 /* Release */ = {
 			isa = XCBuildConfiguration;
 			buildSettings = {
 				ALWAYS_SEARCH_USER_PATHS = NO;
@@ -2709,19 +2719,15 @@
 				CLANG_WARN_UNGUARDED_AVAILABILITY = YES_AGGRESSIVE;
 				CLANG_WARN_UNREACHABLE_CODE = YES;
 				CLANG_WARN__DUPLICATE_METHOD_MATCH = YES;
-				CODE_SIGNING_ALLOWED = NO;
 				CODE_SIGNING_REQUIRED = NO;
 				COPY_PHASE_STRIP = NO;
-				DEBUG_INFORMATION_FORMAT = dwarf;
+				DEBUG_INFORMATION_FORMAT = "dwarf-with-dsym";
+				ENABLE_NS_ASSERTIONS = NO;
 				ENABLE_STRICT_OBJC_MSGSEND = YES;
-				ENABLE_TESTABILITY = YES;
 				GCC_C_LANGUAGE_STANDARD = gnu11;
-				GCC_DYNAMIC_NO_PIC = NO;
 				GCC_NO_COMMON_BLOCKS = YES;
-				GCC_OPTIMIZATION_LEVEL = 0;
 				GCC_PREPROCESSOR_DEFINITIONS = (
-					"POD_CONFIGURATION_DEBUG=1",
-					"DEBUG=1",
+					"POD_CONFIGURATION_RELEASE=1",
 					"$(inherited)",
 				);
 				GCC_WARN_64_TO_32_BIT_CONVERSION = YES;
@@ -2731,15 +2737,14 @@
 				GCC_WARN_UNUSED_FUNCTION = YES;
 				GCC_WARN_UNUSED_VARIABLE = YES;
 				IPHONEOS_DEPLOYMENT_TARGET = 9.0;
-				MTL_ENABLE_DEBUG_INFO = YES;
-				ONLY_ACTIVE_ARCH = YES;
+				MTL_ENABLE_DEBUG_INFO = NO;
 				PRODUCT_NAME = "$(TARGET_NAME)";
+				PROVISIONING_PROFILE_SPECIFIER = NO_SIGNING/;
 				STRIP_INSTALLED_PRODUCT = NO;
-				SWIFT_ACTIVE_COMPILATION_CONDITIONS = DEBUG;
 				SYMROOT = "${SRCROOT}/../build";
 				TVOS_DEPLOYMENT_TARGET = 9.2;
 			};
-			name = Debug;
+			name = Release;
 		};
 		211D690B5F939614215BFB832C2A385A /* Debug */ = {
 			isa = XCBuildConfiguration;
@@ -2852,9 +2857,28 @@
 		};
 		70D6CE3D9D03E18644F4BA81EDE82F86 /* Debug */ = {
 			isa = XCBuildConfiguration;
-			baseConfigurationReference = 33AEC85CA9A8ADEA1C2C69E6AAB3F68B /* Pods-eSteemTests.debug.xcconfig */;
+			baseConfigurationReference = 271D9F2BC937D3A280C638F3BCD2B103 /* Pods-eSteem-tvOS.release.xcconfig */;
 			buildSettings = {
-				ALWAYS_EMBED_SWIFT_STANDARD_LIBRARIES = NO;
+				"CODE_SIGN_IDENTITY[sdk=appletvos*]" = "";
+				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "";
+				"CODE_SIGN_IDENTITY[sdk=watchos*]" = "";
+				MACH_O_TYPE = staticlib;
+				OTHER_LDFLAGS = "";
+				OTHER_LIBTOOLFLAGS = "";
+				PODS_ROOT = "$(SRCROOT)";
+				PRODUCT_BUNDLE_IDENTIFIER = "org.cocoapods.${PRODUCT_NAME:rfc1034identifier}";
+				SDKROOT = appletvos;
+				SKIP_INSTALL = YES;
+				TARGETED_DEVICE_FAMILY = 3;
+				TVOS_DEPLOYMENT_TARGET = 9.2;
+				VALIDATE_PRODUCT = YES;
+			};
+			name = Release;
+		};
+		2A5543A643E60509A3980A6FFBAFA849 /* Release */ = {
+			isa = XCBuildConfiguration;
+			baseConfigurationReference = 6AA3C309B512B511AA7F5BF3C138F411 /* Pods-eSteemTests.release.xcconfig */;
+			buildSettings = {
 				CODE_SIGN_IDENTITY = "iPhone Developer";
 				"CODE_SIGN_IDENTITY[sdk=appletvos*]" = "";
 				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "";
@@ -2868,8 +2892,9 @@
 				SDKROOT = iphoneos;
 				SKIP_INSTALL = YES;
 				TARGETED_DEVICE_FAMILY = "1,2";
+				VALIDATE_PRODUCT = YES;
 			};
-			name = Debug;
+			name = Release;
 		};
 		78CB29F713D905E6D053F468E976AF15 /* Release */ = {
 			isa = XCBuildConfiguration;
@@ -2927,16 +2952,18 @@
 				CLANG_WARN_UNGUARDED_AVAILABILITY = YES_AGGRESSIVE;
 				CLANG_WARN_UNREACHABLE_CODE = YES;
 				CLANG_WARN__DUPLICATE_METHOD_MATCH = YES;
-				CODE_SIGNING_ALLOWED = NO;
 				CODE_SIGNING_REQUIRED = NO;
 				COPY_PHASE_STRIP = NO;
-				DEBUG_INFORMATION_FORMAT = "dwarf-with-dsym";
-				ENABLE_NS_ASSERTIONS = NO;
+				DEBUG_INFORMATION_FORMAT = dwarf;
 				ENABLE_STRICT_OBJC_MSGSEND = YES;
+				ENABLE_TESTABILITY = YES;
 				GCC_C_LANGUAGE_STANDARD = gnu11;
+				GCC_DYNAMIC_NO_PIC = NO;
 				GCC_NO_COMMON_BLOCKS = YES;
+				GCC_OPTIMIZATION_LEVEL = 0;
 				GCC_PREPROCESSOR_DEFINITIONS = (
-					"POD_CONFIGURATION_RELEASE=1",
+					"POD_CONFIGURATION_DEBUG=1",
+					"DEBUG=1",
 					"$(inherited)",
 				);
 				GCC_WARN_64_TO_32_BIT_CONVERSION = YES;
@@ -2946,39 +2973,21 @@
 				GCC_WARN_UNUSED_FUNCTION = YES;
 				GCC_WARN_UNUSED_VARIABLE = YES;
 				IPHONEOS_DEPLOYMENT_TARGET = 9.0;
-				MTL_ENABLE_DEBUG_INFO = NO;
+				MTL_ENABLE_DEBUG_INFO = YES;
+				ONLY_ACTIVE_ARCH = YES;
 				PRODUCT_NAME = "$(TARGET_NAME)";
+				PROVISIONING_PROFILE_SPECIFIER = NO_SIGNING/;
 				STRIP_INSTALLED_PRODUCT = NO;
+				SWIFT_ACTIVE_COMPILATION_CONDITIONS = DEBUG;
 				SYMROOT = "${SRCROOT}/../build";
-				TVOS_DEPLOYMENT_TARGET = 9.2;
-			};
-			name = Release;
-		};
-		790D876733097AD215B4E2956BCEEC3D /* Debug */ = {
-			isa = XCBuildConfiguration;
-			baseConfigurationReference = 33704C973A6F6EE73B2297037F24DF74 /* Pods-eSteem-tvOSTests.debug.xcconfig */;
-			buildSettings = {
-				ALWAYS_EMBED_SWIFT_STANDARD_LIBRARIES = NO;
-				"CODE_SIGN_IDENTITY[sdk=appletvos*]" = "";
-				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "";
-				"CODE_SIGN_IDENTITY[sdk=watchos*]" = "";
-				MACH_O_TYPE = staticlib;
-				OTHER_LDFLAGS = "";
-				OTHER_LIBTOOLFLAGS = "";
-				PODS_ROOT = "$(SRCROOT)";
-				PRODUCT_BUNDLE_IDENTIFIER = "org.cocoapods.${PRODUCT_NAME:rfc1034identifier}";
-				SDKROOT = appletvos;
-				SKIP_INSTALL = YES;
-				TARGETED_DEVICE_FAMILY = 3;
 				TVOS_DEPLOYMENT_TARGET = 9.2;
 			};
 			name = Debug;
 		};
-		7D01E375A0D81D11114A4D49B43C7049 /* Debug */ = {
+		542B204318A6331E0F479213AF2E9C32 /* Debug */ = {
 			isa = XCBuildConfiguration;
 			baseConfigurationReference = 5E93372C41A53BB92652564AEF41DDD1 /* Pods-eSteem-tvOS.debug.xcconfig */;
 			buildSettings = {
-				ALWAYS_EMBED_SWIFT_STANDARD_LIBRARIES = NO;
 				"CODE_SIGN_IDENTITY[sdk=appletvos*]" = "";
 				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "";
 				"CODE_SIGN_IDENTITY[sdk=watchos*]" = "";
@@ -3030,8 +3039,9 @@
 				SKIP_INSTALL = YES;
 				SWIFT_ACTIVE_COMPILATION_CONDITIONS = "$(inherited) ";
 				TARGETED_DEVICE_FAMILY = "1,2";
+				VALIDATE_PRODUCT = YES;
 			};
-			name = Debug;
+			name = Release;
 		};
 		BDDE65B48CC97E963103A4EDDF9FFF6B /* Release */ = {
 			isa = XCBuildConfiguration;
@@ -3055,28 +3065,27 @@
 				TARGETED_DEVICE_FAMILY = "1,2";
 				VALIDATE_PRODUCT = YES;
 			};
-			name = Release;
+			name = Debug;
 		};
-		DDF5B6F34E90F28EA9CC65C221EF3BBD /* Release */ = {
+		A6A4C2EC56CC2AA68C0A65DACF43FA76 /* Debug */ = {
 			isa = XCBuildConfiguration;
-			baseConfigurationReference = 271D9F2BC937D3A280C638F3BCD2B103 /* Pods-eSteem-tvOS.release.xcconfig */;
+			baseConfigurationReference = 9577BBCF7B09BB8E32787163CF706A56 /* Pods-eSteem.debug.xcconfig */;
 			buildSettings = {
-				ALWAYS_EMBED_SWIFT_STANDARD_LIBRARIES = NO;
+				CODE_SIGN_IDENTITY = "iPhone Developer";
 				"CODE_SIGN_IDENTITY[sdk=appletvos*]" = "";
 				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "";
 				"CODE_SIGN_IDENTITY[sdk=watchos*]" = "";
+				IPHONEOS_DEPLOYMENT_TARGET = 9.0;
 				MACH_O_TYPE = staticlib;
 				OTHER_LDFLAGS = "";
 				OTHER_LIBTOOLFLAGS = "";
 				PODS_ROOT = "$(SRCROOT)";
 				PRODUCT_BUNDLE_IDENTIFIER = "org.cocoapods.${PRODUCT_NAME:rfc1034identifier}";
-				SDKROOT = appletvos;
+				SDKROOT = iphoneos;
 				SKIP_INSTALL = YES;
-				TARGETED_DEVICE_FAMILY = 3;
-				TVOS_DEPLOYMENT_TARGET = 9.2;
-				VALIDATE_PRODUCT = YES;
+				TARGETED_DEVICE_FAMILY = "1,2";
 			};
-			name = Release;
+			name = Debug;
 		};
 		E2D2826C2F72BC6FB583D0392122B37F /* Debug */ = {
 			isa = XCBuildConfiguration;
@@ -3126,7 +3135,6 @@
 			isa = XCBuildConfiguration;
 			baseConfigurationReference = 2B762D9B8D834CA3DF718DC232B50B05 /* Pods-eSteem-tvOSTests.release.xcconfig */;
 			buildSettings = {
-				ALWAYS_EMBED_SWIFT_STANDARD_LIBRARIES = NO;
 				"CODE_SIGN_IDENTITY[sdk=appletvos*]" = "";
 				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "";
 				"CODE_SIGN_IDENTITY[sdk=watchos*]" = "";
@@ -3228,8 +3236,8 @@
 		2D8E8EC45A3A1A1D94AE762CB5028504 /* Build configuration list for PBXProject "Pods" */ = {
 			isa = XCConfigurationList;
 			buildConfigurations = (
-				1EA8CDCA49D5A280A3417B7878BFF5DD /* Debug */,
-				78CCF2F8575642B0F9526268F670DF6D /* Release */,
+				542B204318A6331E0F479213AF2E9C32 /* Debug */,
+				1AC05173F6CA3580E8342E67920E2197 /* Release */,
 			);
 			defaultConfigurationIsVisible = 0;
 			defaultConfigurationName = Release;
@@ -3246,17 +3254,17 @@
 		50BA65972CE2D9406ED019F6F6A86F14 /* Build configuration list for PBXNativeTarget "Pods-eSteem-tvOS" */ = {
 			isa = XCConfigurationList;
 			buildConfigurations = (
-				7D01E375A0D81D11114A4D49B43C7049 /* Debug */,
-				DDF5B6F34E90F28EA9CC65C221EF3BBD /* Release */,
+				6CA56EB95B6F06BF88DCD593AB790C27 /* Debug */,
+				F671EB5DC04821AF93A5FE6758CD0218 /* Release */,
 			);
 			defaultConfigurationIsVisible = 0;
 			defaultConfigurationName = Release;
 		};
-		6B85ABE9BFEB740F86E4D452865F252B /* Build configuration list for PBXNativeTarget "Pods-eSteem-tvOSTests" */ = {
+		2D8E8EC45A3A1A1D94AE762CB5028504 /* Build configuration list for PBXProject "Pods" */ = {
 			isa = XCConfigurationList;
 			buildConfigurations = (
-				790D876733097AD215B4E2956BCEEC3D /* Debug */,
-				EB500F2845CEC989F8B2225CC0A736B1 /* Release */,
+				2F6935D43DD3F8696513BE5A5BD5E7AF /* Debug */,
+				12EC319154A00D25BF67EC67C62DDCD5 /* Release */,
 			);
 			defaultConfigurationIsVisible = 0;
 			defaultConfigurationName = Release;
@@ -3297,11 +3305,11 @@
 			defaultConfigurationIsVisible = 0;
 			defaultConfigurationName = Release;
 		};
-		AEDF1E7E7EB78A19EDB6AC2A6AD34E5D /* Build configuration list for PBXNativeTarget "Pods-eSteemTests" */ = {
+		B47818FEE20B970722235210612BC3EB /* Build configuration list for PBXNativeTarget "Pods-eSteemTests" */ = {
 			isa = XCConfigurationList;
 			buildConfigurations = (
-				70D6CE3D9D03E18644F4BA81EDE82F86 /* Debug */,
-				0E2B1380ED81E342BC2444FA86AA7342 /* Release */,
+				105523B039FDFF8E0F714C3F4C247B3D /* Debug */,
+				2A5543A643E60509A3980A6FFBAFA849 /* Release */,
 			);
 			defaultConfigurationIsVisible = 0;
 			defaultConfigurationName = Release;

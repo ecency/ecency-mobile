@@ -138,6 +138,7 @@ android {
 }
 
 dependencies {
+    compile project(':appcenter-push')
     compile project(':react-native-view-overflow')
     compile project(':realm')
     compile project(':react-native-vector-icons')

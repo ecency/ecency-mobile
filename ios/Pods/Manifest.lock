@@ -4,6 +4,8 @@ PODS:
   - AppCenter/Core (1.10.0)
   - AppCenter/Crashes (1.10.0):
     - AppCenter/Core
+  - AppCenter/Push (1.10.0):
+    - AppCenter/Core
   - AppCenterReactNativeShared (1.9.0):
     - AppCenter/Core (= 1.10.0)
   - QBImagePickerController (3.4.0)
@@ -55,4 +57,4 @@ SPEC CHECKSUMS:
 
 PODFILE CHECKSUM: 4b41ecbe50798de85d0e23265ebd7ab611bac126
 
-COCOAPODS: 1.5.3
+COCOAPODS: 1.4.0

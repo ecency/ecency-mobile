@@ -89,7 +89,18 @@ export const getUnreadActivityCount = data => new Promise((resolve, reject) => {
   api
     .get(`/activities/${data.user}/unread-count`)
     .then((res) => {
-      resolve(res.data.count);
+      resolve(res.data ? res.data.count : 0);
+    })
+    .catch((error) => {
+      reject(error);
+    });
+});
+
+export const markActivityAsRead = (user, id = null) => new Promise((resolve, reject) => {
+  api
+    .put(`/activities/${user}`, { id })
+    .then((res) => {
+      resolve(res.data);
     })
     .catch((error) => {
       reject(error);

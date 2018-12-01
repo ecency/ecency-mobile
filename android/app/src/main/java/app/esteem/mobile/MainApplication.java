@@ -3,6 +3,7 @@ package app.esteem.mobile;
 import android.app.Application;
 
 import com.facebook.react.ReactApplication;
+import com.microsoft.appcenter.reactnative.push.AppCenterReactNativePushPackage;
 import com.entria.views.RNViewOverflowPackage;
 import io.realm.react.RealmReactPackage;
 import com.oblador.vectoricons.VectorIconsPackage;
@@ -33,6 +34,7 @@ public class MainApplication extends Application implements ReactApplication {
     protected List<ReactPackage> getPackages() {
       return Arrays.<ReactPackage>asList(
           new MainReactPackage(),
+            new AppCenterReactNativePushPackage(MainApplication.this),
             new RNViewOverflowPackage(),
             new RealmReactPackage(),
             new VectorIconsPackage(),
