@@ -1,5 +1,8 @@
-import TitleArea from './titleArea/view/titleAreaView';
+import SummaryArea from './summaryArea/view/summaryAreaView';
 import TagArea from './tagArea/view/tagAreaView';
 import TextArea from './textArea/view/textAreaView';
+import TitleArea from './titleArea/view/titleAreaView';
 
-export { TitleArea, TagArea, TextArea };
+export {
+  SummaryArea, TagArea, TextArea, TitleArea,
+};

@@ -1,5 +1,5 @@
 import React, { Component } from 'react';
-// import { connect } from 'react-redux';
+import { connect } from 'react-redux';
 
 // Services and Actions
 
@@ -13,10 +13,10 @@ import React, { Component } from 'react';
 import { UpvoteView } from '..';
 
 /*
-  *            Props Name        Description                                     Value
-  *@props -->  props name here   description here                                Value Type Here
-  *
-  */
+ *            Props Name        Description                                     Value
+ *@props -->  props name here   description here                                Value Type Here
+ *
+ */
 
 class UpvoteContainer extends Component {
   constructor(props) {
@@ -33,8 +33,11 @@ class UpvoteContainer extends Component {
   }
 }
 
-// const mapStateToProps = state => ({
-//   user: state.user.user,
-// });
+const mapStateToProps = state => ({
+  isLoggedIn: state.application.isLoggedIn,
 
-export default UpvoteContainer;
+  // TODO: Remove users as coming props. pass follow current account
+  currentAccount: state.account.currentAccount,
+});
+
+export default connect(mapStateToProps)(UpvoteContainer);

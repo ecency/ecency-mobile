@@ -11,9 +11,9 @@ import globalStyles from '../../../../globalStyles';
 
 export default class TitleAreaView extends Component {
   /* Props
-    * ------------------------------------------------
-    *   @prop { type }    name                - Description....
-    */
+   * ------------------------------------------------
+   *   @prop { type }    name                - Description....
+   */
 
   constructor(props) {
     super(props);
@@ -53,8 +53,9 @@ export default class TitleAreaView extends Component {
           autoFocus={autoFocus}
           numberOfLines={4}
           onChangeText={text => this._handleOnChange(text)}
-          value={value}
-          {...this.props}
+          // TODO: Fix it
+          // value={value && value}
+          // {...this.props}
         />
       </View>
     );

@@ -14,9 +14,9 @@ import { IconButton } from '../../iconButton';
 
 class CommentsView extends Component {
   /* Props
-    * ------------------------------------------------
-    *   @prop { type }    name                - Description....
-    */
+   * ------------------------------------------------
+   *   @prop { type }    name                - Description....
+   */
 
   constructor(props) {
     super(props);
@@ -67,12 +67,12 @@ class CommentsView extends Component {
                 >
                   <PostBody isComment handleOnUserPress={handleOnUserPress} body={item.body} />
                   <View style={{ flexDirection: 'row' }}>
-                    <Upvote isShowpayoutValue content={item} user={currentUser} isLoggedIn />
+                    <Upvote isShowPayoutValue content={item} user={currentUser} />
                     <IconButton
                       iconStyle={{ color: '#c1c5c7' }}
                       style={{ marginLeft: 20 }}
                       name="reply"
-                      onPress={() => handleOnReplyPress && handleOnReplyPress()}
+                      onPress={() => handleOnReplyPress && handleOnReplyPress(item)}
                       iconType="FontAwesome"
                     />
                   </View>
