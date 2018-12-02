@@ -431,49 +431,27 @@
 			remoteGlobalIDString = 58B5119B1A9E6C1200147676;
 			remoteInfo = RCTText;
 		};
-<<<<<<< HEAD
-		94D7D41C21B4402E00476275 /* PBXContainerItemProxy */ = {
-=======
 		94D7D3C421B3E7F100476275 /* PBXContainerItemProxy */ = {
->>>>>>> 20e502e1e12d87fcdc9b92ef21ee2d5990a04a01
 			isa = PBXContainerItemProxy;
 			containerPortal = 1E5BA5C385A94A9996A8961A /* AppCenterReactNativePush.xcodeproj */;
 			proxyType = 2;
 			remoteGlobalIDString = BA189FAA1EEE74F100CAD13F;
 			remoteInfo = AppCenterReactNativePush;
 		};
-<<<<<<< HEAD
-		94D7D42421B4402E00476275 /* PBXContainerItemProxy */ = {
-=======
 		94D7D3CC21B3E7F100476275 /* PBXContainerItemProxy */ = {
->>>>>>> 20e502e1e12d87fcdc9b92ef21ee2d5990a04a01
 			isa = PBXContainerItemProxy;
 			containerPortal = 5E91572D1DD0AC6500FF2AA8 /* RCTAnimation.xcodeproj */;
 			proxyType = 2;
 			remoteGlobalIDString = 134814201AA4EA6300B7C361;
 			remoteInfo = RCTAnimation;
 		};
-<<<<<<< HEAD
-		94D7D42621B4402E00476275 /* PBXContainerItemProxy */ = {
-=======
 		94D7D3CE21B3E7F100476275 /* PBXContainerItemProxy */ = {
->>>>>>> 20e502e1e12d87fcdc9b92ef21ee2d5990a04a01
 			isa = PBXContainerItemProxy;
 			containerPortal = 5E91572D1DD0AC6500FF2AA8 /* RCTAnimation.xcodeproj */;
 			proxyType = 2;
 			remoteGlobalIDString = 2D2A28201D9B03D100D4039D;
 			remoteInfo = "RCTAnimation-tvOS";
 		};
-<<<<<<< HEAD
-		94D7D44D21B4402E00476275 /* PBXContainerItemProxy */ = {
-			isa = PBXContainerItemProxy;
-			containerPortal = CBD7CAB1BCA34C42A5C2F414 /* ReactNativeConfig.xcodeproj */;
-			proxyType = 2;
-			remoteGlobalIDString = 3DF7F6AC203AA09B00D0EAB7;
-			remoteInfo = "ReactNativeConfig-tvOS";
-		};
-=======
->>>>>>> 20e502e1e12d87fcdc9b92ef21ee2d5990a04a01
 		ADBDB9261DFEBF0700ED6528 /* PBXContainerItemProxy */ = {
 			isa = PBXContainerItemProxy;
 			containerPortal = ADBDB91F1DFEBF0600ED6528 /* RCTBlob.xcodeproj */;
@@ -882,13 +860,8 @@
 		5E91572E1DD0AC6500FF2AA8 /* Products */ = {
 			isa = PBXGroup;
 			children = (
-<<<<<<< HEAD
-				94D7D42521B4402E00476275 /* libRCTAnimation.a */,
-				94D7D42721B4402E00476275 /* libRCTAnimation.a */,
-=======
 				94D7D3CD21B3E7F100476275 /* libRCTAnimation.a */,
 				94D7D3CF21B3E7F100476275 /* libRCTAnimation.a */,
->>>>>>> 20e502e1e12d87fcdc9b92ef21ee2d5990a04a01
 			);
 			name = Products;
 			sourceTree = "<group>";
@@ -1013,17 +986,10 @@
 			name = Resources;
 			sourceTree = "<group>";
 		};
-<<<<<<< HEAD
-		94D7D40D21B4402B00476275 /* Products */ = {
-			isa = PBXGroup;
-			children = (
-				94D7D41D21B4402E00476275 /* libAppCenterReactNativePush.a */,
-=======
 		94D7D3B521B3E7EE00476275 /* Products */ = {
 			isa = PBXGroup;
 			children = (
 				94D7D3C521B3E7F100476275 /* libAppCenterReactNativePush.a */,
->>>>>>> 20e502e1e12d87fcdc9b92ef21ee2d5990a04a01
 			);
 			name = Products;
 			sourceTree = "<group>";
@@ -1048,10 +1014,6 @@
 				00E356EA1AD99517003FC87E /* Sources */,
 				00E356EB1AD99517003FC87E /* Frameworks */,
 				00E356EC1AD99517003FC87E /* Resources */,
-<<<<<<< HEAD
-				0B24CB1EABFA7AB3D0CDDEDA /* [CP] Copy Pods Resources */,
-=======
->>>>>>> 20e502e1e12d87fcdc9b92ef21ee2d5990a04a01
 			);
 			buildRules = (
 			);
@@ -1110,10 +1072,6 @@
 				2D02E48C1E0B4A5D006451C7 /* Sources */,
 				2D02E48D1E0B4A5D006451C7 /* Frameworks */,
 				2D02E48E1E0B4A5D006451C7 /* Resources */,
-<<<<<<< HEAD
-				23FFCD4F7198876FCA459CF7 /* [CP] Embed Pods Frameworks */,
-=======
->>>>>>> 20e502e1e12d87fcdc9b92ef21ee2d5990a04a01
 			);
 			buildRules = (
 			);
@@ -1183,11 +1141,7 @@
 					ProjectRef = 5781B02C94A842A6A5F5D701 /* AppCenterReactNativeCrashes.xcodeproj */;
 				},
 				{
-<<<<<<< HEAD
-					ProductGroup = 94D7D40D21B4402B00476275 /* Products */;
-=======
 					ProductGroup = 94D7D3B521B3E7EE00476275 /* Products */;
->>>>>>> 20e502e1e12d87fcdc9b92ef21ee2d5990a04a01
 					ProjectRef = 1E5BA5C385A94A9996A8961A /* AppCenterReactNativePush.xcodeproj */;
 				},
 				{
@@ -1614,34 +1568,6 @@
 			remoteRef = 832341B41AAA6A8300B99B32 /* PBXContainerItemProxy */;
 			sourceTree = BUILT_PRODUCTS_DIR;
 		};
-<<<<<<< HEAD
-		94D7D41D21B4402E00476275 /* libAppCenterReactNativePush.a */ = {
-			isa = PBXReferenceProxy;
-			fileType = archive.ar;
-			path = libAppCenterReactNativePush.a;
-			remoteRef = 94D7D41C21B4402E00476275 /* PBXContainerItemProxy */;
-			sourceTree = BUILT_PRODUCTS_DIR;
-		};
-		94D7D42521B4402E00476275 /* libRCTAnimation.a */ = {
-			isa = PBXReferenceProxy;
-			fileType = archive.ar;
-			path = libRCTAnimation.a;
-			remoteRef = 94D7D42421B4402E00476275 /* PBXContainerItemProxy */;
-			sourceTree = BUILT_PRODUCTS_DIR;
-		};
-		94D7D42721B4402E00476275 /* libRCTAnimation.a */ = {
-			isa = PBXReferenceProxy;
-			fileType = archive.ar;
-			path = libRCTAnimation.a;
-			remoteRef = 94D7D42621B4402E00476275 /* PBXContainerItemProxy */;
-			sourceTree = BUILT_PRODUCTS_DIR;
-		};
-		94D7D44E21B4402E00476275 /* libReactNativeConfig-tvOS.a */ = {
-			isa = PBXReferenceProxy;
-			fileType = archive.ar;
-			path = "libReactNativeConfig-tvOS.a";
-			remoteRef = 94D7D44D21B4402E00476275 /* PBXContainerItemProxy */;
-=======
 		94D7D3C521B3E7F100476275 /* libAppCenterReactNativePush.a */ = {
 			isa = PBXReferenceProxy;
 			fileType = archive.ar;
@@ -1661,7 +1587,6 @@
 			fileType = archive.ar;
 			path = libRCTAnimation.a;
 			remoteRef = 94D7D3CE21B3E7F100476275 /* PBXContainerItemProxy */;
->>>>>>> 20e502e1e12d87fcdc9b92ef21ee2d5990a04a01
 			sourceTree = BUILT_PRODUCTS_DIR;
 		};
 		ADBDB9271DFEBF0700ED6528 /* libRCTBlob.a */ = {
