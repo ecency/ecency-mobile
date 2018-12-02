@@ -216,7 +216,7 @@ export const parseComments = (comments) => {
     comment.author_reputation = getReputation(comment.author_reputation);
     comment.avatar = `https://steemitimages.com/u/${comment.author}/avatar/small`;
     comment.body = markDown2Html(comment.body);
-    comment.summary = getPostSummary(comment.body, 100);
+    comment.summary = getPostSummary(comment.body, 100, true);
   });
   return comments;
 };
