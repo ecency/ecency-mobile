@@ -23,10 +23,9 @@ class EditorScreen extends Component {
   constructor(props) {
     super(props);
     this.state = {
+      isFormValid: false,
       isPreviewActive: false,
       wordsCount: null,
-      isFormValid: false,
-      isChanged: false,
       fields: {
         title: (props.draftPost && props.draftPost.title) || '',
         body: (props.draftPost && props.draftPost.body) || '',
@@ -109,8 +108,6 @@ class EditorScreen extends Component {
     handleFormChanged();
 
     this._handleIsFormValid();
-
-    this.setState({ isChanged: true });
   };
 
   _handleOnTagAdded = (tags) => {
@@ -123,39 +120,47 @@ class EditorScreen extends Component {
 
   render() {
     const {
-      fields, isChanged, isFormValid, isPreviewActive, wordsCount,
+      draftPost,
+      fields,
+      isChanged,
+      isPreviewActive,
+      wordsCount,
+      isFormValid,
     } = this.state;
     const {
-      draftPost,
+      autoFocusText,
+      handleOnImagePicker,
       intl,
       isDraftSaved,
       isDraftSaving,
       isLoggedIn,
       isPostSending,
       isReply,
+      uploadedImage,
+      isUploading,
     } = this.props;
 
     return (
       <View style={globalStyles.defaultContainer}>
         <BasicHeader
-          handleOnSaveButtonPress={this._handleOnSaveButtonPress}
-          isPostSending={isPostSending}
-          isDraftSaving={isDraftSaving}
-          isDraftSaved={isDraftSaved}
-          isPreviewActive={isPreviewActive}
-          quickTitle={wordsCount > 0 && `${wordsCount} words`}
           handleOnPressPreviewButton={this._handleOnPressPreviewButton}
+          handleOnSaveButtonPress={this._handleOnSaveButtonPress}
+          handleOnSubmit={this._handleOnSubmit}
+          isDraftSaved={isDraftSaved}
+          isDraftSaving={isDraftSaving}
           isFormValid={isFormValid}
           isHasIcons
           isLoggedIn={isLoggedIn}
-          handleOnSubmit={this._handleOnSubmit}
           isReply={isReply}
+          isLoading={isPostSending || isUploading}
+          isPreviewActive={isPreviewActive}
+          quickTitle={wordsCount > 0 && `${wordsCount} words`}
         />
         <PostForm
           handleFormUpdate={this._handleFormUpdate}
           handleOnSubmit={this._handleOnSubmit}
-          isPreviewActive={isPreviewActive}
           isFormValid={isFormValid}
+          isPreviewActive={isPreviewActive}
         >
           {!isReply && (
             <Fragment>
@@ -169,10 +174,13 @@ class EditorScreen extends Component {
             </Fragment>
           )}
           <TextArea
+            componentID="body"
             draftBody={fields && fields.body}
             handleOnTextChange={this._setWordsCount}
-            componentID="body"
+            handleOpenImagePicker={handleOnImagePicker}
             intl={intl}
+            uploadedImage={uploadedImage}
+            isReply={isReply}
           />
         </PostForm>
       </View>

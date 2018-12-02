@@ -15,10 +15,10 @@ import { default as ROUTES } from '../../../constants/routeNames';
 import { PostDisplayView } from '..';
 
 /*
-  *            Props Name        Description                                     Value
-  *@props -->  props name here   description here                                Value Type Here
-  *
-  */
+ *            Props Name        Description                                     Value
+ *@props -->  props name here   description here                                Value Type Here
+ *
+ */
 
 class PostDisplayContainer extends Component {
   constructor(props) {
@@ -29,7 +29,7 @@ class PostDisplayContainer extends Component {
   // Component Life Cycle Functions
 
   // Component Functions
-  _handleVotersPress = (activeVotes) => {
+  _handleOnVotersPress = (activeVotes) => {
     const { navigation } = this.props;
 
     navigation.navigate({
@@ -40,12 +40,25 @@ class PostDisplayContainer extends Component {
     });
   };
 
+  _handleOnReplyPress = () => {
+    const { post, navigation } = this.props;
+
+    navigation.navigate({
+      routeName: ROUTES.SCREENS.EDITOR,
+      params: {
+        isReply: true,
+        post,
+      },
+    });
+  };
+
   render() {
     const { post, currentUser } = this.props;
 
     return (
       <PostDisplayView
-        handleVotersPress={this._handleVotersPress}
+        handleOnVotersPress={this._handleOnVotersPress}
+        handleOnReplyPress={this._handleOnReplyPress}
         currentUser={currentUser}
         post={post}
       />

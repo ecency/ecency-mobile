@@ -15,10 +15,17 @@ class PostButtonContainer extends Component {
 
   // Component Functions
 
-  _handleSubButtonPress = (route) => {
+  _handleSubButtonPress = (route, action) => {
     const { navigation } = this.props;
 
-    navigation.navigate(route);
+    navigation.navigate({
+      routeName: route,
+      params: {
+        action,
+      },
+    });
+
+    // navigation.navigate(route);
   };
 
   render() {

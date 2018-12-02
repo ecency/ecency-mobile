@@ -22,7 +22,7 @@ export default EStyleSheet.create({
     marginLeft: 16,
     flexDirection: 'row',
     alignItems: 'center',
-    maxWidth: '$deviceWidth / 1.85',
+    maxWidth: '$deviceWidth / 2',
   },
   rightButtonsWrapper: {
     marginRight: 16,
@@ -44,6 +44,6 @@ export default EStyleSheet.create({
     color: '$primaryDarkGray',
   },
   icon: {
-    color: '$iconColor',
+    color: '$editorButtonColor',
   },
 });

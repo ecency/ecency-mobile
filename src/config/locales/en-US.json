@@ -97,13 +97,14 @@
     "publish": "Publish",
     "search": "Search",
     "reply": "Reply"
-
   },
   "editor": {
     "title": "Title",
     "tags": "tags",
-    "description": "What would you like to write about today?",
-    "publish": "Publish"
+    "default_placeholder": "What would you like to write about today?",
+    "reply_placeholder": "What would you like to write about the post?",
+    "publish": "Publish",
+    "reply": "Reply"
   },
   "pincode": {
     "enter_text": "Enter pin to unlock",

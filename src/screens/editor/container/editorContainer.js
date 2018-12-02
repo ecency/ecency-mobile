@@ -1,7 +1,10 @@
 import React, { Component } from 'react';
 import { connect } from 'react-redux';
+import ImagePicker from 'react-native-image-crop-picker';
 
 // Services and Actions
+// import { Buffer } from 'buffer';
+import { uploadImage } from '../../../providers/esteem/esteem';
 import { postContent } from '../../../providers/steem/dsteem';
 import { setDraftPost, getDraftPost } from '../../../realm/realm';
 import { getDigitPinCode } from '../../../providers/steem/auth';
@@ -16,48 +19,167 @@ import {
   generatePermlink,
   generateReplyPermlink,
   makeJsonMetadataReply,
-  makeOptions
+  makeOptions,
 } from '../../../utils/editor';
 import { decryptKey } from '../../../utils/crypto';
-
+// import { generateSignature } from '../../../utils/image';
 // Component
 import EditorScreen from '../screen/editorScreen';
 
 /*
-  *            Props Name        Description                                     Value
-  *@props -->  props name here   description here                                Value Type Here
-  *
-  */
+ *            Props Name        Description                                     Value
+ *@props -->  props name here   description here                                Value Type Here
+ *
+ */
 
-class ExampleContainer extends Component {
+class EditorContainer extends Component {
   constructor(props) {
     super(props);
     this.state = {
-      isPostSending: false,
-      isDraftSaving: false,
-      isDraftSaved: false,
+      autoFocusText: false,
       draftPost: null,
+      isCameraOrPickerOpen: false,
+      isDraftSaved: false,
+      isDraftSaving: false,
+      isPostSending: false,
+      isReply: false,
+      isUploading: false,
+      post: null,
+      uploadedImage: null,
     };
   }
 
   // Component Life Cycle Functions
 
   componentWillMount() {
-    const { currentAccount } = this.props;
+    const { currentAccount, navigation } = this.props;
     const username = currentAccount && currentAccount.name ? currentAccount.name : '';
-    
-    getDraftPost(username)
-    .then((result) => {
-      this.setState({
-        draftPost: { body: result.body, title: result.title, tags: result.tags.split(',') },
-      });
-    })
-    .catch((error) => {
-      console.log(error);
-    });
+    let isReply;
+    let post;
+
+    if (navigation.state && navigation.state.params) {
+      const navigationParams = navigation.state.params;
+
+      if (navigationParams.isReply) {
+        isReply = navigationParams.isReply;
+        post = navigationParams.post;
+        this.setState({ isReply, post });
+      }
+
+      if (navigationParams.action) {
+        this._handleRoutingAction(navigationParams.action);
+      }
+    } else {
+      this.setState({ autoFocusText: true });
+    }
+
+    // Routing action state ex if coming for video or image or only text
+    // if (routingAction && routingAction.action) {
+    //   this._handleRoutingAction(routingAction.action);
+    // } else {
+    //   this.setState({ autoFocusText: true });
+    // }
+
+    if (!isReply) {
+      getDraftPost(username)
+        .then((result) => {
+          this.setState({
+            draftPost: { body: result.body, title: result.title, tags: result.tags.split(',') },
+          });
+        })
+        .catch((error) => {
+          // alert(error);
+        });
+    }
   }
-  
-  // Component Functions
+
+  _handleRoutingAction = (routingAction) => {
+    this.setState({ isCameraOrPickerOpen: true });
+
+    if (routingAction === 'camera') {
+      this._handleOpenCamera();
+    } else if (routingAction === 'image') {
+      this._handleOpenImagePicker();
+    }
+  };
+
+  // Media select functions <- START ->
+
+  _handleOpenImagePicker = () => {
+    ImagePicker.openPicker({
+      width: 300,
+      height: 400,
+      cropping: true,
+      // writeTempFile: true,
+      // includeBase64: true,
+      // multiple: true,
+    })
+      .then((image) => {
+        this._handleMediaOnSelected(image);
+      })
+      .catch((e) => {
+        this._handleMediaOnSelectFailure(e);
+      });
+  };
+
+  _handleOpenCamera = () => {
+    ImagePicker.openCamera({
+      width: 300,
+      height: 400,
+      cropping: true,
+      //  includeBase64: true,
+    })
+      .then((image) => {
+        this._handleMediaOnSelected(image);
+      })
+      .catch((e) => {
+        this._handleMediaOnSelectFailure(e);
+      });
+  };
+
+  _handleMediaOnSelected = (media) => {
+    this.setState({ isCameraOrPickerOpen: false, isUploading: true }, () => {
+      this._uploadImage(media);
+    });
+    // For new image api
+    // const { currentAccount } = this.props;
+    // const digitPinCode = await getDigitPinCode();
+    // const privateKey = decryptKey(currentAccount.realm_object.postingKey, digitPinCode);
+    // const sign = generateSignature(media, privateKey);
+    // const data = new Buffer(media.data, 'base64');
+  };
+
+  _uploadImage = (media) => {
+    const file = {
+      uri: media.path,
+      type: media.mime,
+      name: media.filename,
+      size: media.size,
+      source: media.sourceURL,
+      // data: `data:${media.mime};base64,${media.data}`,
+      // base64: media.data,
+    };
+
+    uploadImage(file)
+      .then((res) => {
+        if (res.data) {
+          this.setState({ uploadedImage: res.data, isUploading: false });
+        }
+      })
+      .catch((error) => {
+        alert(error);
+        this.setState({ isUploading: false });
+      });
+  };
+
+  _handleMediaOnSelectFailure = (error) => {
+    // const { navigation } = this.props;
+    this.setState({ isCameraOrPickerOpen: false });
+    // navigation.navigate(ROUTES.SCREENS.HOME);
+  };
+
+  // Media select functions <- END ->
+
   _handleOnSaveButtonPress = (fields) => {
     const { isDraftSaved } = this.state;
     if (!isDraftSaved) {
@@ -117,27 +239,45 @@ class ExampleContainer extends Component {
 
   _handleFormChanged = () => {
     const { isDraftSaved } = this.state;
-    isDraftSaved && this.setState({ isDraftSaved: false });
+
+    if (isDraftSaved) {
+      this.setState({ isDraftSaved: false });
+    }
   };
 
   render() {
     const { isLoggedIn, isDarkTheme } = this.props;
     const {
-      isPostSending, isDraftSaving, isDraftSaved, draftPost, isReply
+      autoFocusText,
+      draftPost,
+      isCameraOrPickerOpen,
+      isDraftSaved,
+      isDraftSaving,
+      isOpenCamera,
+      isPostSending,
+      isReply,
+      isUploading,
+      uploadedImage,
     } = this.state;
 
     return (
       <EditorScreen
+        autoFocusText={autoFocusText}
         draftPost={draftPost}
         handleFormChanged={this._handleFormChanged}
+        handleOnImagePicker={this._handleRoutingAction}
         handleOnSaveButtonPress={this._handleOnSaveButtonPress}
         handleOnSubmit={this._handleSubmit}
+        isCameraOrPickerOpen={isCameraOrPickerOpen}
         isDarkTheme={isDarkTheme}
         isDraftSaved={isDraftSaved}
         isDraftSaving={isDraftSaving}
         isLoggedIn={isLoggedIn}
+        isOpenCamera={isOpenCamera}
         isPostSending={isPostSending}
         isReply={isReply}
+        isUploading={isUploading}
+        uploadedImage={uploadedImage}
       />
     );
   }
@@ -149,4 +289,4 @@ const mapStateToProps = state => ({
   currentAccount: state.account.currentAccount,
 });
 
-export default connect(mapStateToProps)(ExampleContainer);
+export default connect(mapStateToProps)(EditorContainer);

@@ -68,14 +68,14 @@ class PostCard extends Component {
       <View style={styles.post}>
         <View style={styles.bodyFooter}>
           <PostHeaderDescription
-            date={content.created}
-            profileOnPress={this._handleOnUserPress}
-            name={content.author}
-            reputation={content.author_reputation}
-            tag={content.category}
             avatar={content && content.avatar}
-            size={32}
+            date={content.created}
             isShowImages={isShowImages}
+            name={content.author}
+            profileOnPress={this._handleOnUserPress}
+            reputation={content.author_reputation}
+            size={32}
+            tag={content.category}
           />
           <DropdownButton
             isHasChildIcon

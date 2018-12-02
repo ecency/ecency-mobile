@@ -35,7 +35,9 @@ export default class TitleAreaView extends Component {
   };
 
   render() {
-    const { value, isPreviewActive, intl } = this.props;
+    const {
+      intl, isPreviewActive, value, autoFocus,
+    } = this.props;
 
     return (
       <View style={globalStyles.containerHorizontal16}>
@@ -48,7 +50,7 @@ export default class TitleAreaView extends Component {
             id: 'editor.title',
           })}
           multiline
-          autoFocus
+          autoFocus={autoFocus}
           numberOfLines={4}
           onChangeText={text => this._handleOnChange(text)}
           value={value}

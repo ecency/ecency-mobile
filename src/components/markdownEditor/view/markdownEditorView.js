@@ -5,11 +5,13 @@ import {
 import Markdown, { getUniqueID } from 'react-native-markdown-renderer';
 
 // Components
-import Formats from './formats/formats';
-import { IconButton } from '../../iconButton';
 import { DropdownButton } from '../../dropdownButton';
+import { IconButton } from '../../iconButton';
 import { StickyBar } from '../../basicUIElements';
 import { TextInput } from '../../textInput';
+import applyImageLink from './formats/applyWebLinkFormat';
+import Formats from './formats/formats';
+
 // Styles
 import styles from './markdownEditorStyles';
 import markdownStyle from './markdownPreviewStyles';
@@ -23,17 +25,30 @@ export default class MarkdownEditorView extends Component {
     };
   }
 
+  // Lifecycle functions
   componentWillReceiveProps(nextProps) {
-    const { draftBody } = this.props;
+    const { draftBody, uploadedImage } = this.props;
 
     if (nextProps.draftBody && draftBody !== nextProps.draftBody) {
       this.setState({
         text: nextProps.draftBody,
       });
     }
+
+    if (nextProps.uploadedImage && nextProps.uploadedImage !== uploadedImage) {
+      applyImageLink({
+        getState: this._getState,
+        setState: (state, callback) => {
+          this.setState(state, callback);
+        },
+        item: { url: nextProps.uploadedImage.url, text: nextProps.uploadedImage.hash },
+        isImage: !!nextProps.uploadedImage,
+      });
+    }
   }
 
-  changeText = (input) => {
+  // Component functions
+  _changeText = (input) => {
     const {
       onChange, handleOnTextChange, handleIsValid, componentID,
     } = this.props;
@@ -48,7 +63,9 @@ export default class MarkdownEditorView extends Component {
       handleIsValid(componentID, !!(input && input.length));
     }
 
-    handleOnTextChange && handleOnTextChange(input);
+    if (handleOnTextChange) {
+      handleOnTextChange(input);
+    }
   };
 
   _handleOnSelectionChange = (event) => {
@@ -106,40 +123,63 @@ export default class MarkdownEditorView extends Component {
     </View>
   );
 
-  _renderEditorButtons = ({ getState, setState }) => (
-    <StickyBar>
-      <View style={styles.leftButtonsWrapper}>
-        <FlatList
-          data={Formats}
-          keyboardShouldPersistTaps="always"
-          renderItem={({ item, index }) => index !== 9 && this._renderMarkupButton({ item, getState, setState })
-          }
-          horizontal
-        />
-      </View>
-      <View style={styles.rightButtonsWrapper}>
-        <IconButton
-          size={20}
-          style={styles.rightIcons}
-          iconStyle={styles.icon}
-          iconType="FontAwesome"
-          name="link"
-          onPress={() => Formats[9].onPress({ getState, setState })}
-        />
-        <IconButton style={styles.rightIcons} size={20} iconType="Feather" name="image" />
-        <DropdownButton
-          style={styles.dropdownStyle}
-          options={['option1', 'option2', 'option3', 'option4']}
-          iconName="md-more"
-          iconStyle={styles.dropdownIconStyle}
-          isHasChildIcon
-        />
-      </View>
-    </StickyBar>
-  );
+  _handleOnImageButtonPress = () => {
+    const { handleOpenImagePicker } = this.props;
+
+    ActionSheetIOS.showActionSheetWithOptions(
+      {
+        options: ['Cancel', 'Take Photo', 'Select From Gallery'],
+        cancelButtonIndex: 0,
+      },
+      (buttonIndex) => {
+        handleOpenImagePicker(buttonIndex === 1 ? 'camera' : buttonIndex === 2 && 'image');
+      },
+    );
+  }
+
+  _renderEditorButtons = ({ getState, setState }) => {
+    return (
+      <StickyBar>
+        <View style={styles.leftButtonsWrapper}>
+          <FlatList
+            data={Formats}
+            keyboardShouldPersistTaps="always"
+            renderItem={({ item, index }) => index !== 9 && this._renderMarkupButton({ item, getState, setState })
+            }
+            horizontal
+          />
+        </View>
+        <View style={styles.rightButtonsWrapper}>
+          <IconButton
+            size={20}
+            style={styles.rightIcons}
+            iconStyle={styles.icon}
+            iconType="FontAwesome"
+            name="link"
+            onPress={() => Formats[9].onPress({ getState, setState })}
+          />
+          <IconButton
+            onPress={() => this._handleOnImageButtonPress()}
+            style={styles.rightIcons}
+            size={20}
+            iconStyle={styles.icon}
+            iconType="FontAwesome"
+            name="image"
+          />
+          <DropdownButton
+            style={styles.dropdownStyle}
+            options={['option1', 'option2', 'option3', 'option4']}
+            iconName="md-more"
+            iconStyle={styles.dropdownIconStyle}
+            isHasChildIcon
+          />
+        </View>
+      </StickyBar>
+    );
+  };
 
   render() {
-    const { isPreviewActive, intl } = this.props;
+    const { intl, isPreviewActive, isReply } = this.props;
     const { text, selection } = this.state;
 
     return (
@@ -147,10 +187,10 @@ export default class MarkdownEditorView extends Component {
         {!isPreviewActive ? (
           <TextInput
             multiline
-            onChangeText={text => this.changeText(text)}
+            onChangeText={e => this._changeText(e)}
             onSelectionChange={this._handleOnSelectionChange}
             placeholder={intl.formatMessage({
-              id: 'editor.description',
+              id: isReply ? 'editor.reply_placeholder' : 'editor.default_placeholder',
             })}
             placeholderTextColor="#c1c5c7"
             selection={selection}
