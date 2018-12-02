@@ -9,19 +9,19 @@ PODS:
   - AppCenterReactNativeShared (1.10.0):
     - AppCenter/Core (= 1.11.0)
   - QBImagePickerController (3.4.0)
-  - React/Core (0.57.5):
-    - yoga (= 0.57.5.React)
-  - React/RCTImage (0.57.5):
+  - React/Core (0.57.7):
+    - yoga (= 0.57.7.React)
+  - React/RCTImage (0.57.7):
     - React/Core
     - React/RCTNetwork
-  - React/RCTNetwork (0.57.5):
+  - React/RCTNetwork (0.57.7):
     - React/Core
   - RNImageCropPicker (0.21.3):
     - QBImagePickerController
     - React/Core
     - RSKImageCropper
   - RSKImageCropper (2.2.1)
-  - yoga (0.57.5.React)
+  - yoga (0.57.7.React)
 
 DEPENDENCIES:
   - AppCenter/Analytics (~> 1.11.0)
@@ -51,4 +51,4 @@ SPEC CHECKSUMS:
 
 PODFILE CHECKSUM: ec86702456a70648c23972c332c8648d93335b88
 
-COCOAPODS: 1.4.0
+COCOAPODS: 1.5.3
