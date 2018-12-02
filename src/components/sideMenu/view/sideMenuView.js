@@ -5,6 +5,7 @@ import {
   Thumbnail, List, ListItem, Container,
 } from 'native-base';
 import LinearGradient from 'react-native-linear-gradient';
+import FastImage from 'react-native-fast-image';
 
 // Components
 import { Icon, IconButton } from '../..';
@@ -63,6 +64,7 @@ class SideMenuView extends Component {
       navigateToRoute, currentAccount, isLoggedIn, switchAccount, intl,
     } = this.props;
     const { menuItems, isAddAccountIconActive } = this.state;
+    const _avatar = currentAccount.profile_image ? { uri: currentAccount.profile_image } : DEFAULT_IMAGE;
 
     return (
       <Container style={styles.container}>
@@ -78,12 +80,13 @@ class SideMenuView extends Component {
           >
             {isLoggedIn && (
               <View style={styles.headerContentView}>
-                <Thumbnail
+                <FastImage
                   style={styles.userAvatar}
-                  source={{ uri: currentAccount.about.profile.profile_image }}
+                  source={_avatar}
+                  defaultSource={DEFAULT_IMAGE}
                 />
                 <View style={styles.userInfoView}>
-                  <Text style={styles.username}>{currentAccount.about.profile.name}</Text>
+                  {currentAccount.display_name && <Text style={styles.username}>{currentAccount.display_name}</Text>}
                   <Text style={styles.usernick}>{`@${currentAccount.name}`}</Text>
                 </View>
                 <View style={styles.addAccountIconView}>
