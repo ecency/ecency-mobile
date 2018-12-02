@@ -1,5 +1,5 @@
-import React, { Component } from 'react';
-import { View, ActivityIndicator, Text } from 'react-native';
+import React, { Component, Fragment } from 'react';
+import { View, Text } from 'react-native';
 import { injectIntl } from 'react-intl';
 
 // Utils
@@ -9,8 +9,11 @@ import { getWordsCount } from '../../../utils/editor';
 
 // Components
 import { BasicHeader } from '../../../components/basicHeader';
-import { TitleArea, TagArea, TextArea } from '../../../components/editorElements';
+import {
+  TitleArea, TagArea, TextArea, SummaryArea,
+} from '../../../components/editorElements';
 import { PostForm } from '../../../components/postForm';
+
 // Styles
 import globalStyles from '../../../globalStyles';
 
@@ -82,15 +85,21 @@ class EditorScreen extends Component {
 
   _handleIsFormValid = () => {
     const { fields } = this.state;
+    const { isReply } = this.props;
+    let _isFormValid;
 
-    this.setState({
-      isFormValid:
-        fields.title
+    if (isReply) {
+      _isFormValid = fields && fields.body && fields.body.length > 0;
+    } else {
+      _isFormValid = fields
+        && fields.title
         && fields.title.length > 0
         && fields.body
         && fields.body.length > 0
-        && fields.tags.length > 0,
-    });
+        && fields.tags.length > 0;
+    }
+
+    this.setState({ isFormValid: _isFormValid });
   };
 
   _handleFormUpdate = (componentID, content) => {
@@ -120,7 +129,7 @@ class EditorScreen extends Component {
 
   render() {
     const {
-      isPreviewActive, wordsCount, isFormValid, fields,
+      draftPost, fields, isChanged, isPreviewActive, wordsCount, isFormValid,
     } = this.state;
     const {
       autoFocusText,
@@ -130,8 +139,10 @@ class EditorScreen extends Component {
       isDraftSaving,
       isLoggedIn,
       isPostSending,
-      uploadedImage,
+      isReply,
       isUploading,
+      post,
+      uploadedImage,
     } = this.props;
 
     return (
@@ -145,6 +156,7 @@ class EditorScreen extends Component {
           isFormValid={isFormValid}
           isHasIcons
           isLoggedIn={isLoggedIn}
+          isReply={isReply}
           isLoading={isPostSending || isUploading}
           isPreviewActive={isPreviewActive}
           quickTitle={wordsCount > 0 && `${wordsCount} words`}
@@ -155,19 +167,16 @@ class EditorScreen extends Component {
           isFormValid={isFormValid}
           isPreviewActive={isPreviewActive}
         >
-          <TitleArea
-            autoFocus={autoFocusText}
-            componentID="title"
-            intl={intl}
-            value={fields.title}
-          />
-          <TagArea
-            autoFocus={autoFocusText}
-            componentID="tag-area"
-            draftChips={fields.tags}
-            handleTagChanged={this._handleOnTagAdded}
-            intl={intl}
-          />
+          {isReply && <SummaryArea summary={post.summary} />}
+          {!isReply && <TitleArea value={fields.title} componentID="title" intl={intl} />}
+          {!isReply && (
+            <TagArea
+              draftChips={fields.tags}
+              componentID="tag-area"
+              handleTagChanged={this._handleOnTagAdded}
+              intl={intl}
+            />
+          )}
           <TextArea
             componentID="body"
             draftBody={fields && fields.body}
@@ -175,6 +184,7 @@ class EditorScreen extends Component {
             handleOpenImagePicker={handleOnImagePicker}
             intl={intl}
             uploadedImage={uploadedImage}
+            isReply={isReply}
           />
         </PostForm>
       </View>

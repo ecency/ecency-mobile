@@ -6,7 +6,7 @@
 // const vimeoRegex = /(https?:\/\/)?(www\.)?(?:vimeo)\.com.*(?:videos|video|channels|)\/([\d]+)/i;
 // const dTubeRegex = /(https?:\/\/d.tube.#!\/v\/)(\w+)\/(\w+)/g;
 
-export const getPostSummary = (postBody, length) => {
+export const getPostSummary = (postBody, length, isQuote) => {
   if (!postBody) {
     return '';
   }
@@ -22,6 +22,5 @@ export const getPostSummary = (postBody, length) => {
     // Truncate
     postBody = postBody.substring(0, length);
   }
-
-  return postBody;
+  return isQuote ? `"${postBody}..."` : `${postBody}...`;
 };

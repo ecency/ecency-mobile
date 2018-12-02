@@ -431,27 +431,40 @@
 			remoteGlobalIDString = 58B5119B1A9E6C1200147676;
 			remoteInfo = RCTText;
 		};
+<<<<<<< HEAD
 		94D7D41C21B4402E00476275 /* PBXContainerItemProxy */ = {
+=======
+		94D7D3C421B3E7F100476275 /* PBXContainerItemProxy */ = {
+>>>>>>> 20e502e1e12d87fcdc9b92ef21ee2d5990a04a01
 			isa = PBXContainerItemProxy;
 			containerPortal = 1E5BA5C385A94A9996A8961A /* AppCenterReactNativePush.xcodeproj */;
 			proxyType = 2;
 			remoteGlobalIDString = BA189FAA1EEE74F100CAD13F;
 			remoteInfo = AppCenterReactNativePush;
 		};
+<<<<<<< HEAD
 		94D7D42421B4402E00476275 /* PBXContainerItemProxy */ = {
+=======
+		94D7D3CC21B3E7F100476275 /* PBXContainerItemProxy */ = {
+>>>>>>> 20e502e1e12d87fcdc9b92ef21ee2d5990a04a01
 			isa = PBXContainerItemProxy;
 			containerPortal = 5E91572D1DD0AC6500FF2AA8 /* RCTAnimation.xcodeproj */;
 			proxyType = 2;
 			remoteGlobalIDString = 134814201AA4EA6300B7C361;
 			remoteInfo = RCTAnimation;
 		};
+<<<<<<< HEAD
 		94D7D42621B4402E00476275 /* PBXContainerItemProxy */ = {
+=======
+		94D7D3CE21B3E7F100476275 /* PBXContainerItemProxy */ = {
+>>>>>>> 20e502e1e12d87fcdc9b92ef21ee2d5990a04a01
 			isa = PBXContainerItemProxy;
 			containerPortal = 5E91572D1DD0AC6500FF2AA8 /* RCTAnimation.xcodeproj */;
 			proxyType = 2;
 			remoteGlobalIDString = 2D2A28201D9B03D100D4039D;
 			remoteInfo = "RCTAnimation-tvOS";
 		};
+<<<<<<< HEAD
 		94D7D44D21B4402E00476275 /* PBXContainerItemProxy */ = {
 			isa = PBXContainerItemProxy;
 			containerPortal = CBD7CAB1BCA34C42A5C2F414 /* ReactNativeConfig.xcodeproj */;
@@ -459,6 +472,8 @@
 			remoteGlobalIDString = 3DF7F6AC203AA09B00D0EAB7;
 			remoteInfo = "ReactNativeConfig-tvOS";
 		};
+=======
+>>>>>>> 20e502e1e12d87fcdc9b92ef21ee2d5990a04a01
 		ADBDB9261DFEBF0700ED6528 /* PBXContainerItemProxy */ = {
 			isa = PBXContainerItemProxy;
 			containerPortal = ADBDB91F1DFEBF0600ED6528 /* RCTBlob.xcodeproj */;
@@ -480,6 +495,7 @@
 		00E356F21AD99517003FC87E /* eSteemTests.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = eSteemTests.m; sourceTree = "<group>"; };
 		044930AF6BF7488DA7F02A8F /* RobotoMono-Regular.ttf */ = {isa = PBXFileReference; explicitFileType = undefined; fileEncoding = 9; includeInIndex = 0; lastKnownFileType = unknown; name = "RobotoMono-Regular.ttf"; path = "../src/assets/Fonts/RobotoMono-Regular.ttf"; sourceTree = "<group>"; };
 		08EFE8017CAE493492474D23 /* AppCenterReactNativeAnalytics.xcodeproj */ = {isa = PBXFileReference; explicitFileType = undefined; fileEncoding = 9; includeInIndex = 0; lastKnownFileType = "wrapper.pb-project"; name = AppCenterReactNativeAnalytics.xcodeproj; path = "../node_modules/appcenter-analytics/ios/AppCenterReactNativeAnalytics.xcodeproj"; sourceTree = "<group>"; };
+		0C51B07921B45A3500E7A2D1 /* eSteem.entitlements */ = {isa = PBXFileReference; lastKnownFileType = text.plist.entitlements; name = eSteem.entitlements; path = eSteem/eSteem.entitlements; sourceTree = "<group>"; };
 		11DD9F9D560A49FAB7A23E9D /* BVLinearGradient.xcodeproj */ = {isa = PBXFileReference; explicitFileType = undefined; fileEncoding = 9; includeInIndex = 0; lastKnownFileType = "wrapper.pb-project"; name = BVLinearGradient.xcodeproj; path = "../node_modules/react-native-linear-gradient/BVLinearGradient.xcodeproj"; sourceTree = "<group>"; };
 		139105B61AF99BAD00B5F7CC /* RCTSettings.xcodeproj */ = {isa = PBXFileReference; lastKnownFileType = "wrapper.pb-project"; name = RCTSettings.xcodeproj; path = "../node_modules/react-native/Libraries/Settings/RCTSettings.xcodeproj"; sourceTree = "<group>"; };
 		139FDEE61B06529A00C62182 /* RCTWebSocket.xcodeproj */ = {isa = PBXFileReference; lastKnownFileType = "wrapper.pb-project"; name = RCTWebSocket.xcodeproj; path = "../node_modules/react-native/Libraries/WebSocket/RCTWebSocket.xcodeproj"; sourceTree = "<group>"; };
@@ -814,6 +830,7 @@
 		13B07FAE1A68108700A75B9A /* eSteem */ = {
 			isa = PBXGroup;
 			children = (
+				0C51B07921B45A3500E7A2D1 /* eSteem.entitlements */,
 				008F07F21AC5B25A0029DE68 /* main.jsbundle */,
 				13B07FAF1A68108700A75B9A /* AppDelegate.h */,
 				13B07FB01A68108700A75B9A /* AppDelegate.m */,
@@ -865,8 +882,13 @@
 		5E91572E1DD0AC6500FF2AA8 /* Products */ = {
 			isa = PBXGroup;
 			children = (
+<<<<<<< HEAD
 				94D7D42521B4402E00476275 /* libRCTAnimation.a */,
 				94D7D42721B4402E00476275 /* libRCTAnimation.a */,
+=======
+				94D7D3CD21B3E7F100476275 /* libRCTAnimation.a */,
+				94D7D3CF21B3E7F100476275 /* libRCTAnimation.a */,
+>>>>>>> 20e502e1e12d87fcdc9b92ef21ee2d5990a04a01
 			);
 			name = Products;
 			sourceTree = "<group>";
@@ -991,10 +1013,17 @@
 			name = Resources;
 			sourceTree = "<group>";
 		};
+<<<<<<< HEAD
 		94D7D40D21B4402B00476275 /* Products */ = {
 			isa = PBXGroup;
 			children = (
 				94D7D41D21B4402E00476275 /* libAppCenterReactNativePush.a */,
+=======
+		94D7D3B521B3E7EE00476275 /* Products */ = {
+			isa = PBXGroup;
+			children = (
+				94D7D3C521B3E7F100476275 /* libAppCenterReactNativePush.a */,
+>>>>>>> 20e502e1e12d87fcdc9b92ef21ee2d5990a04a01
 			);
 			name = Products;
 			sourceTree = "<group>";
@@ -1019,7 +1048,10 @@
 				00E356EA1AD99517003FC87E /* Sources */,
 				00E356EB1AD99517003FC87E /* Frameworks */,
 				00E356EC1AD99517003FC87E /* Resources */,
+<<<<<<< HEAD
 				0B24CB1EABFA7AB3D0CDDEDA /* [CP] Copy Pods Resources */,
+=======
+>>>>>>> 20e502e1e12d87fcdc9b92ef21ee2d5990a04a01
 			);
 			buildRules = (
 			);
@@ -1078,7 +1110,10 @@
 				2D02E48C1E0B4A5D006451C7 /* Sources */,
 				2D02E48D1E0B4A5D006451C7 /* Frameworks */,
 				2D02E48E1E0B4A5D006451C7 /* Resources */,
+<<<<<<< HEAD
 				23FFCD4F7198876FCA459CF7 /* [CP] Embed Pods Frameworks */,
+=======
+>>>>>>> 20e502e1e12d87fcdc9b92ef21ee2d5990a04a01
 			);
 			buildRules = (
 			);
@@ -1106,6 +1141,11 @@
 					13B07F861A680F5B00A75B9A = {
 						DevelopmentTeam = V4RRE3CHH2;
 						ProvisioningStyle = Manual;
+						SystemCapabilities = {
+							com.apple.Push = {
+								enabled = 1;
+							};
+						};
 					};
 					2D02E47A1E0B4A5D006451C7 = {
 						CreatedOnToolsVersion = 8.2.1;
@@ -1143,7 +1183,11 @@
 					ProjectRef = 5781B02C94A842A6A5F5D701 /* AppCenterReactNativeCrashes.xcodeproj */;
 				},
 				{
+<<<<<<< HEAD
 					ProductGroup = 94D7D40D21B4402B00476275 /* Products */;
+=======
+					ProductGroup = 94D7D3B521B3E7EE00476275 /* Products */;
+>>>>>>> 20e502e1e12d87fcdc9b92ef21ee2d5990a04a01
 					ProjectRef = 1E5BA5C385A94A9996A8961A /* AppCenterReactNativePush.xcodeproj */;
 				},
 				{
@@ -1570,6 +1614,7 @@
 			remoteRef = 832341B41AAA6A8300B99B32 /* PBXContainerItemProxy */;
 			sourceTree = BUILT_PRODUCTS_DIR;
 		};
+<<<<<<< HEAD
 		94D7D41D21B4402E00476275 /* libAppCenterReactNativePush.a */ = {
 			isa = PBXReferenceProxy;
 			fileType = archive.ar;
@@ -1596,6 +1641,27 @@
 			fileType = archive.ar;
 			path = "libReactNativeConfig-tvOS.a";
 			remoteRef = 94D7D44D21B4402E00476275 /* PBXContainerItemProxy */;
+=======
+		94D7D3C521B3E7F100476275 /* libAppCenterReactNativePush.a */ = {
+			isa = PBXReferenceProxy;
+			fileType = archive.ar;
+			path = libAppCenterReactNativePush.a;
+			remoteRef = 94D7D3C421B3E7F100476275 /* PBXContainerItemProxy */;
+			sourceTree = BUILT_PRODUCTS_DIR;
+		};
+		94D7D3CD21B3E7F100476275 /* libRCTAnimation.a */ = {
+			isa = PBXReferenceProxy;
+			fileType = archive.ar;
+			path = libRCTAnimation.a;
+			remoteRef = 94D7D3CC21B3E7F100476275 /* PBXContainerItemProxy */;
+			sourceTree = BUILT_PRODUCTS_DIR;
+		};
+		94D7D3CF21B3E7F100476275 /* libRCTAnimation.a */ = {
+			isa = PBXReferenceProxy;
+			fileType = archive.ar;
+			path = libRCTAnimation.a;
+			remoteRef = 94D7D3CE21B3E7F100476275 /* PBXContainerItemProxy */;
+>>>>>>> 20e502e1e12d87fcdc9b92ef21ee2d5990a04a01
 			sourceTree = BUILT_PRODUCTS_DIR;
 		};
 		ADBDB9271DFEBF0700ED6528 /* libRCTBlob.a */ = {
@@ -1678,21 +1744,6 @@
 			shellPath = /bin/sh;
 			shellScript = "export NODE_BINARY=node\n../node_modules/react-native/scripts/react-native-xcode.sh";
 		};
-		0B24CB1EABFA7AB3D0CDDEDA /* [CP] Copy Pods Resources */ = {
-			isa = PBXShellScriptBuildPhase;
-			buildActionMask = 2147483647;
-			files = (
-			);
-			inputPaths = (
-			);
-			name = "[CP] Copy Pods Resources";
-			outputPaths = (
-			);
-			runOnlyForDeploymentPostprocessing = 0;
-			shellPath = /bin/sh;
-			shellScript = "\"${SRCROOT}/Pods/Target Support Files/Pods-eSteemTests/Pods-eSteemTests-resources.sh\"\n";
-			showEnvVarsInLog = 0;
-		};
 		113EEBCD594A2DC02B68990D /* [CP] Check Pods Manifest.lock */ = {
 			isa = PBXShellScriptBuildPhase;
 			buildActionMask = 2147483647;
@@ -1727,21 +1778,6 @@
 			runOnlyForDeploymentPostprocessing = 0;
 			shellPath = /bin/sh;
 			shellScript = "diff \"${PODS_PODFILE_DIR_PATH}/Podfile.lock\" \"${PODS_ROOT}/Manifest.lock\" > /dev/null\nif [ $? != 0 ] ; then\n    # print error to STDERR\n    echo \"error: The sandbox is not in sync with the Podfile.lock. Run 'pod install' or update your CocoaPods installation.\" >&2\n    exit 1\nfi\n# This output is used by Xcode 'outputs' to avoid re-running this script phase.\necho \"SUCCESS\" > \"${SCRIPT_OUTPUT_FILE_0}\"\n";
-			showEnvVarsInLog = 0;
-		};
-		23FFCD4F7198876FCA459CF7 /* [CP] Embed Pods Frameworks */ = {
-			isa = PBXShellScriptBuildPhase;
-			buildActionMask = 2147483647;
-			files = (
-			);
-			inputPaths = (
-			);
-			name = "[CP] Embed Pods Frameworks";
-			outputPaths = (
-			);
-			runOnlyForDeploymentPostprocessing = 0;
-			shellPath = /bin/sh;
-			shellScript = "\"${SRCROOT}/Pods/Target Support Files/Pods-eSteem-tvOSTests/Pods-eSteem-tvOSTests-frameworks.sh\"\n";
 			showEnvVarsInLog = 0;
 		};
 		2D02E4CB1E0B4B27006451C7 /* Bundle React Native Code And Images */ = {
@@ -1984,6 +2020,7 @@
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				ASSETCATALOG_COMPILER_LAUNCHIMAGE_NAME = LaunchImage;
+				CODE_SIGN_ENTITLEMENTS = eSteem/eSteem.entitlements;
 				CODE_SIGN_STYLE = Manual;
 				CURRENT_PROJECT_VERSION = 1;
 				DEAD_CODE_STRIPPING = NO;
@@ -2023,6 +2060,7 @@
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				ASSETCATALOG_COMPILER_LAUNCHIMAGE_NAME = LaunchImage;
+				CODE_SIGN_ENTITLEMENTS = eSteem/eSteem.entitlements;
 				CODE_SIGN_IDENTITY = "iPhone Distribution";
 				CODE_SIGN_STYLE = Manual;
 				CURRENT_PROJECT_VERSION = 1;

@@ -106,7 +106,7 @@ class UpvoteView extends Component {
   };
 
   render() {
-    const { isLoggedIn, isShowpayoutValue, content } = this.props;
+    const { isLoggedIn, isShowPayoutValue, content } = this.props;
     const {
       isVoting, isModalVisible, amount, value, isVoted,
     } = this.state;
@@ -136,7 +136,7 @@ class UpvoteView extends Component {
                     iconType="AntDesign"
                     name={isVoted ? 'upcircle' : 'upcircleo'}
                   />
-                  {isShowpayoutValue && (
+                  {isShowPayoutValue && (
                   <Text style={styles.payoutValue}>
                       $
                     {' '}

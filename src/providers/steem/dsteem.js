@@ -2,6 +2,10 @@ import { Client, PrivateKey } from 'dsteem';
 import { AsyncStorage } from 'react-native';
 
 import { getUnreadActivityCount } from '../esteem/esteem';
+import sc2 from './steemConnectAPI';
+
+// Utils
+import { decryptKey } from '../../utils/crypto';
 
 import {
   parsePosts, parsePost, parseComments, parsePostsSummary,
@@ -91,10 +95,11 @@ export const getUser = async (user) => {
   }
 };
 
-//TODO: Move to utils folder
-export const vestToSteem = async (vestingShares, totalVestingShares, totalVestingFundSteem) => {
-  return (parseFloat(totalVestingFundSteem) * (parseFloat(vestingShares) / parseFloat(totalVestingShares))).toFixed(0);
-}
+// TODO: Move to utils folder
+export const vestToSteem = async (vestingShares, totalVestingShares, totalVestingFundSteem) => (
+  parseFloat(totalVestingFundSteem)
+    * (parseFloat(vestingShares) / parseFloat(totalVestingShares))
+).toFixed(0);
 
 /**
  * @method getFollows get account data
@@ -353,24 +358,6 @@ export const upvoteAmount = async (input) => {
   return estimated;
 };
 
-/**
- * @method postComment post a comment/reply
- * @param comment comment object { author, permlink, ... }
- * @param PrivateKey Private posting key
- */
-export const postComment = (comment, postingKey) => {
-  const key = PrivateKey.fromString(postingKey);
-  return new Promise((resolve, reject) => {
-    try {
-      client.broadcast.comment(comment, key).then((result) => {
-        resolve(result);
-      });
-    } catch (error) {
-      reject(error);
-    }
-  });
-};
-
 export const transferToken = (data, activeKey) => {
   const key = PrivateKey.fromString(activeKey);
   return new Promise((resolve, reject) => {
@@ -599,4 +586,71 @@ export const lookupAccounts = async (username) => {
   } catch (error) {
     throw error;
   }
+};
+
+/**
+ * @method postComment post a comment/reply
+ * @param comment comment object { author, permlink, ... }
+ */
+export const postComment = (
+  account,
+  digitPinCode,
+  parentAuthor,
+  parentPermlink,
+  permlink,
+  title,
+  body,
+  jsonMetadata,
+  options = null,
+  voteWeight = null,
+) => {
+  const { name: author } = account;
+
+  const opArray = [
+    [
+      'comment',
+      {
+        parent_author: parentAuthor,
+        parent_permlink: parentPermlink,
+        author,
+        permlink,
+        title,
+        body,
+        json_metadata: JSON.stringify(jsonMetadata),
+      },
+    ],
+  ];
+
+  if (options) {
+    const e = ['comment_options', options];
+    opArray.push(e);
+  }
+
+  if (voteWeight) {
+    const e = [
+      'vote',
+      {
+        voter: author,
+        author,
+        permlink,
+        weight: voteWeight,
+      },
+    ];
+    opArray.push(e);
+  }
+
+  const key = decryptKey(account.realm_object.postingKey, digitPinCode);
+  const privateKey = PrivateKey.fromString(key);
+
+  return new Promise((resolve, reject) => {
+    client.broadcast
+      .sendOperations(opArray, privateKey)
+      .then((result) => {
+        resolve(result);
+      })
+      .catch((error) => {
+        console.log(error);
+        reject(error);
+      });
+  });
 };

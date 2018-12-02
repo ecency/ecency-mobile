@@ -46,11 +46,17 @@ class PostHeaderDescription extends Component {
       tag,
       profileOnPress,
       tagOnPress,
-      isShowImages,
+      isHideImage,
     } = this.props;
 
     const _reputationText = `(${reputation})`;
-    const _avatar = isShowImages ? avatar && { uri: avatar } : null;
+    let _avatar;
+
+    if (isHideImage) {
+      _avatar = null;
+    } else {
+      _avatar = avatar && { uri: avatar };
+    }
 
     return (
       <View style={styles.container}>

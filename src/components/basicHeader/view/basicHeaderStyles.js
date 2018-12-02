@@ -43,7 +43,6 @@ export default EStyleSheet.create({
     color: '$iconColor',
     justifyContent: 'center',
     alignSelf: 'center',
-    marginRight: 10,
   },
   iconButton: {
     marginRight: 24,

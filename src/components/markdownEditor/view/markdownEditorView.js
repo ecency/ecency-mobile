@@ -3,13 +3,15 @@ import {
   View, KeyboardAvoidingView, ScrollView, FlatList, Text, ActionSheetIOS
 } from 'react-native';
 import Markdown, { getUniqueID } from 'react-native-markdown-renderer';
+
 // Components
-import Formats from './formats/formats';
-import { IconButton } from '../../iconButton';
 import { DropdownButton } from '../../dropdownButton';
+import { IconButton } from '../../iconButton';
 import { StickyBar } from '../../basicUIElements';
 import { TextInput } from '../../textInput';
 import applyImageLink from './formats/applyWebLinkFormat';
+import Formats from './formats/formats';
+
 // Styles
 import styles from './markdownEditorStyles';
 import markdownStyle from './markdownPreviewStyles';
@@ -177,7 +179,7 @@ export default class MarkdownEditorView extends Component {
   };
 
   render() {
-    const { isPreviewActive, intl } = this.props;
+    const { intl, isPreviewActive, isReply } = this.props;
     const { text, selection } = this.state;
 
     return (
@@ -188,7 +190,7 @@ export default class MarkdownEditorView extends Component {
             onChangeText={e => this._changeText(e)}
             onSelectionChange={this._handleOnSelectionChange}
             placeholder={intl.formatMessage({
-              id: 'editor.description',
+              id: isReply ? 'editor.reply_placeholder' : 'editor.default_placeholder',
             })}
             placeholderTextColor="#c1c5c7"
             selection={selection}

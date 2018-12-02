@@ -15,10 +15,10 @@ import styles from './basicHeaderStyles';
 
 class BasicHeaderView extends Component {
   /* Props
-    * ------------------------------------------------
-    *   @prop { boolean }    isFormValid                - Righst button propertie
-    *   @prop { string }     quickTitle                 - Left side behind back button text
-    */
+   * ------------------------------------------------
+   *   @prop { boolean }    isFormValid                - Righst button propertie
+   *   @prop { string }     quickTitle                 - Left side behind back button text
+   */
 
   constructor(props) {
     super(props);
@@ -58,24 +58,26 @@ class BasicHeaderView extends Component {
   render() {
     const {
       handleOnPressBackButton,
-      handleOnPressPreviewButton,
-      isPreviewActive,
-      quickTitle,
-      isFormValid,
-      title,
-      isHasIcons,
-      rightIconName,
-      isHasDropdown,
-      handleRightIconPress,
-      isModalHeader,
       handleOnPressClose,
+      handleOnPressPreviewButton,
+      handleOnSaveButtonPress,
+      handleRightIconPress,
+      intl,
+      isDraftSaved,
+      isDraftSaving,
+      isFormValid,
+      isHasDropdown,
+      isHasIcons,
       isHasSearch,
       isLoading,
-      handleOnSaveButtonPress,
-      isDraftSaving,
-      isDraftSaved,
       isLoggedIn,
-      intl,
+      isModalHeader,
+      isPostSending,
+      isPreviewActive,
+      isReply,
+      quickTitle,
+      rightIconName,
+      title,
     } = this.props;
     const { isInputVisible } = this.state;
     return (
@@ -120,15 +122,14 @@ class BasicHeaderView extends Component {
               </View>
             )}
 
-            {rightIconName
-              && !isHasSearch && (
-                <IconButton
-                  style={styles.rightIcon}
-                  size={25}
-                  onPress={() => handleRightIconPress()}
-                  iconStyle={styles.rightIcon}
-                  name={rightIconName}
-                />
+            {rightIconName && !isHasSearch && (
+              <IconButton
+                style={styles.rightIcon}
+                size={25}
+                onPress={() => handleRightIconPress()}
+                iconStyle={styles.rightIcon}
+                name={rightIconName}
+              />
             )}
 
             {isInputVisible && (
@@ -178,7 +179,7 @@ class BasicHeaderView extends Component {
                   onPress={isFormValid && this._handleOnPress}
                   style={styles.textButtonWrapper}
                   text={intl.formatMessage({
-                    id: 'basic_header.publish',
+                    id: isReply ? 'basic_header.reply' : 'basic_header.publish',
                   })}
                 />
               ) : (
