@@ -15,4 +15,30 @@ export default EStyleSheet.create({
     borderTopLeftRadius: 10,
     borderTopRightRadius: 10,
   },
+  modalHeader: {
+    backgroundColor: '$primaryBackgroundColor',
+    flexDirection: 'row',
+    height: 40,
+    justifyContent: 'center',
+  },
+  headerTitle: {
+    color: '$iconColor',
+    alignSelf: 'center',
+    fontSize: 24,
+    marginLeft: 16,
+    flexGrow: 1,
+    fontWeight: '500',
+  },
+  closeButton: {
+    marginRight: 24,
+    justifyContent: 'center',
+    alignSelf: 'center',
+  },
+  closeIcon: {
+    fontSize: 24,
+    color: '$iconColor',
+  },
+  safeArea: {
+    backgroundColor: '$primaryBackgroundColor',
+  },
 });

@@ -70,7 +70,7 @@ class BasicHeaderView extends Component {
       isModalHeader,
       handleOnPressClose,
       isHasSearch,
-      isPostSending,
+      isLoading,
       handleOnSaveButtonPress,
       isDraftSaving,
       isDraftSaved,
@@ -169,7 +169,7 @@ class BasicHeaderView extends Component {
                 iconStyle={styles.rightIcon}
                 name={isPreviewActive ? 'ios-eye' : 'ios-eye-off'}
               />
-              {!isPostSending ? (
+              {!isLoading ? (
                 <TextButton
                   textStyle={[
                     styles.textButton,
