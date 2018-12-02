@@ -3,6 +3,7 @@ package app.esteem.mobile;
 import android.app.Application;
 
 import com.facebook.react.ReactApplication;
+import com.reactnative.ivpusic.imagepicker.PickerPackage;
 import com.microsoft.appcenter.reactnative.push.AppCenterReactNativePushPackage;
 import com.entria.views.RNViewOverflowPackage;
 import io.realm.react.RealmReactPackage;
@@ -34,6 +35,7 @@ public class MainApplication extends Application implements ReactApplication {
     protected List<ReactPackage> getPackages() {
       return Arrays.<ReactPackage>asList(
           new MainReactPackage(),
+            new PickerPackage(),
             new AppCenterReactNativePushPackage(MainApplication.this),
             new RNViewOverflowPackage(),
             new RealmReactPackage(),
