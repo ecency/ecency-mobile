@@ -1,8 +1,3 @@
-/* eslint-disable no-console */
-
-// TestNet
-// const client = new Client("https://testnet.steem.vc", { chainId: "79276aea5d4877d9a25892eaa01b0adf019d3e5cb12a97478df3298ccdd01673", addressPrefix: "STX" });
-
 import { Client, PrivateKey } from 'dsteem';
 import { AsyncStorage } from 'react-native';
 
@@ -11,6 +6,8 @@ import { getUnreadActivityCount } from '../esteem/esteem';
 import {
   parsePosts, parsePost, parseComments, parsePostsSummary,
 } from '../../utils/postParser';
+
+import { getName, getAvatar } from '../../utils/user';
 
 let rewardFund = null;
 let medianPrice = null;
@@ -25,6 +22,7 @@ getClient = async () => {
     client = new Client(`${server}`);
   }
 };
+
 getClient();
 
 /**
@@ -84,6 +82,9 @@ export const getUser = async (user) => {
     );
 
     account[0].about = account[0].json_metadata && JSON.parse(account[0].json_metadata);
+    account[0].about.profile.profile_image = getAvatar(account[0]);
+    account[0].about.profile.name = getName(account[0]);
+
     return account[0];
   } catch (error) {
     return Promise.reject(error);
@@ -186,9 +187,8 @@ export const ignoreUser = (data, postingKey) => {
   let key;
   try {
     key = PrivateKey.fromString(postingKey);
-  } catch (error) {
-    console.log(error);
-  }
+  } catch (error) {}
+
   const json = {
     id: 'follow',
     json: JSON.stringify([
@@ -207,11 +207,9 @@ export const ignoreUser = (data, postingKey) => {
     client.broadcast
       .json(json, key)
       .then((result) => {
-        console.log(result);
         resolve(result);
       })
       .catch((err) => {
-        console.log(err);
         reject(err);
       });
   });
@@ -248,7 +246,6 @@ export const getUserComments = async (query) => {
   try {
     let comments = await client.database.getDiscussions('comments', query);
     comments = parseComments(comments);
-    console.log(comments);
     return comments;
   } catch (error) {
     return error;
@@ -346,7 +343,7 @@ export const upvoteAmount = async (input) => {
         medianPrice = res;
       })
       .catch((err) => {
-        console.log(err);
+        // reject(err);
       });
   }
 
@@ -369,7 +366,6 @@ export const postComment = (comment, postingKey) => {
         resolve(result);
       });
     } catch (error) {
-      console.log(error);
       reject(error);
     }
   });
@@ -381,11 +377,9 @@ export const transferToken = (data, activeKey) => {
     client.broadcast
       .transfer(data, key)
       .then((result) => {
-        console.log(result);
         resolve(result);
       })
       .catch((err) => {
-        console.log(err);
         reject(err);
       });
   });
@@ -396,7 +390,6 @@ export const followUser = (data, postingKey) => {
   try {
     key = PrivateKey.fromString(postingKey);
   } catch (error) {
-    console.log(error);
   }
   const json = {
     id: 'follow',
@@ -416,11 +409,9 @@ export const followUser = (data, postingKey) => {
     client.broadcast
       .json(json, key)
       .then((result) => {
-        console.log(result);
         resolve(result);
       })
       .catch((err) => {
-        console.log(err);
         reject(err);
       });
   });
@@ -431,7 +422,6 @@ export const unfollowUser = (data, postingKey) => {
   try {
     key = PrivateKey.fromString(postingKey);
   } catch (error) {
-    console.log(error);
   }
   const json = {
     id: 'follow',
@@ -451,11 +441,9 @@ export const unfollowUser = (data, postingKey) => {
     client.broadcast
       .json(json, key)
       .then((result) => {
-        console.log(result);
         resolve(result);
       })
       .catch((err) => {
-        console.log(err);
         reject(err);
       });
   });
@@ -466,7 +454,6 @@ export const delegate = (data, activeKey) => {
   try {
     key = PrivateKey.fromString(activeKey);
   } catch (error) {
-    console.log(error);
   }
 
   return new Promise((resolve, reject) => {
@@ -476,7 +463,6 @@ export const delegate = (data, activeKey) => {
         resolve(result);
       })
       .catch((err) => {
-        console.log(err);
         reject(err);
       });
   });
@@ -487,7 +473,6 @@ export const globalProps = async () => {
     const globalProperties = await client.database.getDynamicGlobalProperties();
     return globalProperties;
   } catch (error) {
-    console.log(error);
     return error;
   }
 };
@@ -497,7 +482,6 @@ export const getFeedHistory = async () => {
     const feedHistory = await client.database.call('get_feed_history');
     return feedHistory;
   } catch (error) {
-    console.log(error);
     return error;
   }
 };
@@ -506,9 +490,7 @@ export const transferToVesting = (data, activeKey) => {
   let key;
   try {
     key = PrivateKey.fromString(activeKey);
-    console.log(key);
   } catch (error) {
-    console.log(error);
   }
 
   const op = [
@@ -527,7 +509,6 @@ export const transferToVesting = (data, activeKey) => {
         resolve(result);
       })
       .catch((error) => {
-        console.log(error);
         reject(error);
       });
   });
@@ -537,9 +518,7 @@ export const withdrawVesting = (data, activeKey) => {
   let key;
   try {
     key = PrivateKey.fromString(activeKey);
-    console.log(key);
   } catch (error) {
-    console.log(error);
   }
 
   const op = [
@@ -557,7 +536,6 @@ export const withdrawVesting = (data, activeKey) => {
         resolve(result);
       })
       .catch((error) => {
-        console.log(error);
         reject(error);
       });
   });
@@ -569,7 +547,6 @@ export const postContent = (data, postingKey) => {
   try {
     key = PrivateKey.fromString(postingKey);
   } catch (error) {
-    console.log(error);
   }
 
   const post = {
@@ -610,7 +587,6 @@ export const postContent = (data, postingKey) => {
         resolve(result);
       })
       .catch((error) => {
-        console.log(error);
         reject(error);
       });
   });

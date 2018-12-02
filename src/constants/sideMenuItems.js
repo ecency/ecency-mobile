@@ -43,6 +43,12 @@ const authMenuItems = [
     icon: 'gear',
     id: 'settings',
   },
+  {
+    name: 'Add Account',
+    route: ROUTES.SCREENS.LOGIN,
+    icon: 'plus-square-o',
+    id: 'add_account',
+  },
 ];
 
 const noAuthMenuItems = [

@@ -22,3 +22,21 @@ export const getReputation = (input) => {
 
   return Math.floor(reputationLevel);
 };
+
+export const getName = (account) => {
+  if (Object.keys(account).length === 0) return account.name;
+  if (Object.keys(account.about).length === 0) return account.name;
+  if (Object.keys(account.about.profile).length !== 0) {
+    return account.about.profile.name;
+  }
+  return account.name;
+};
+
+export const getAvatar = (account) => {
+  if (Object.keys(account).length === 0) return null;
+  if (Object.keys(account.about).length === 0) return null;
+  if (Object.keys(account.about.profile).length !== 0) {
+    return account.about.profile.profile_image;
+  }
+  return null;
+};

@@ -16,14 +16,14 @@ import { default as MENU } from '../../../constants/sideMenuItems';
 import styles from './sideMenuStyles';
 
 // Images
-const DEFAULT_IMAGE = require('../../../assets/esteem.png');
+const DEFAULT_IMAGE = require('../../../assets/avatar_default.png');
 const SIDE_MENU_BACKGROUND = require('../../../assets/side_menu_background.png');
 
 class SideMenuView extends Component {
   /* Props
-    * ------------------------------------------------
-    *   @prop { type }    name                - Description....
-    */
+   * ------------------------------------------------
+   *   @prop { type }    name                - Description....
+   */
 
   constructor(props) {
     super(props);
@@ -58,26 +58,6 @@ class SideMenuView extends Component {
     }
   };
 
-  _getNameOfUser = () => {
-    const { currentAccount } = this.props;
-    if (Object.keys(currentAccount).length === 0) return currentAccount.name;
-    if (Object.keys(currentAccount.about).length === 0) return currentAccount.name;
-    if (Object.keys(currentAccount.about.profile).length !== 0) {
-      return currentAccount.about.profile.name;
-    }
-    return currentAccount.name;
-  };
-
-  _getUserAvatar = () => {
-    const { currentAccount } = this.props;
-    if (Object.keys(currentAccount).length === 0) return DEFAULT_IMAGE;
-    if (Object.keys(currentAccount.about).length === 0) return DEFAULT_IMAGE;
-    if (Object.keys(currentAccount.about.profile).length !== 0) {
-      return { uri: currentAccount.about.profile.profile_image };
-    }
-    return DEFAULT_IMAGE;
-  };
-
   render() {
     const {
       navigateToRoute, currentAccount, isLoggedIn, switchAccount, intl,
@@ -98,9 +78,12 @@ class SideMenuView extends Component {
           >
             {isLoggedIn && (
               <View style={styles.headerContentView}>
-                <Thumbnail style={styles.userAvatar} source={this._getUserAvatar()} />
+                <Thumbnail
+                  style={styles.userAvatar}
+                  source={{ uri: currentAccount.about.profile.profile_image }}
+                />
                 <View style={styles.userInfoView}>
-                  <Text style={styles.username}>{this._getNameOfUser()}</Text>
+                  <Text style={styles.username}>{currentAccount.about.profile.name}</Text>
                   <Text style={styles.usernick}>{`@${currentAccount.name}`}</Text>
                 </View>
                 <View style={styles.addAccountIconView}>

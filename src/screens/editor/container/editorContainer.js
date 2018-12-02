@@ -1,5 +1,6 @@
 import React, { Component } from 'react';
 import { connect } from 'react-redux';
+import { Alert } from 'react-native';
 import ImagePicker from 'react-native-image-crop-picker';
 
 // Services and Actions
@@ -198,18 +199,19 @@ class EditorContainer extends Component {
 
       postContent(post, postingKey)
         .then((result) => {
-          alert('Your post succesfully shared');
+          Alert.alert('Success', 'Your reply has been submitted!');
           navigation.navigate(ROUTES.SCREENS.HOME);
         })
         .catch((error) => {
-          alert(`Opps! there is a problem${error}`);
+          Alert.alert('Failed!', 'Your reply failed to submit!');
+
           this.setState({ isPostSending: false });
         });
     }
   };
 
   _handleSubmit = (form) => {
-    this._submitPost(form);
+    this._submitPost(form.fields);
   };
 
   _handleFormChanged = () => {

@@ -87,7 +87,7 @@ class SideMenuContainer extends Component {
 }
 
 const mapStateToProps = state => ({
-  isLoggedIn: state.application.isLoggedIn || false,
+  isLoggedIn: state.application.isLoggedIn,
   currentAccount: state.account.currentAccount || {},
 });
 
