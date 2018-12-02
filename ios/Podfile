@@ -10,10 +10,15 @@ target 'eSteem' do
   # use_frameworks!
 
   # Pods for eSteem
-
+  pod 'React', :path => '../node_modules/react-native', :subspecs => [
+    'RCTImage' # <- Add this line
+  ]
+  pod 'yoga', :path => '../node_modules/react-native/ReactCommon/yoga'
   
 
   platform :ios, '9.0'
+  pod 'RNImageCropPicker', :path =>  '../node_modules/react-native-image-crop-picker'
+
   target 'eSteemTests' do
     inherit! :search_paths
     # Pods for testing

@@ -14,6 +14,14 @@ export default [
     // style: { fontWeight: 'bold' },
   },
   {
+    key: 'I',
+    title: 'I',
+    icon: 'italic',
+    iconType: 'FontAwesome',
+    wrapper: '*',
+    onPress: applyWrapFormat,
+  },
+  {
     key: 'H1',
     title: 'H1',
     icon: 'format-size',
@@ -34,14 +42,6 @@ export default [
     title: 'C',
     icon: 'ios-code',
     wrapper: '`',
-    onPress: applyWrapFormat,
-  },
-  {
-    key: 'I',
-    title: 'I',
-    icon: 'italic',
-    iconType: 'FontAwesome',
-    wrapper: '*',
     onPress: applyWrapFormat,
   },
   {

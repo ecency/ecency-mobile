@@ -1,5 +1,6 @@
 import api from '../../config/api';
 import searchApi from '../../config/search';
+import imageApi from '../../config/imageApi';
 
 export const getDrafts = data => new Promise((resolve, reject) => {
   api
@@ -129,3 +130,65 @@ export const search = data => new Promise((resolve, reject) => {
       reject(error);
     });
 });
+
+// Schedule
+export const schedule = (
+  user,
+  title,
+  permlink,
+  json,
+  tags,
+  body,
+  operationType,
+  upvote,
+  scheduleDate,
+) => api
+  .post('/api/schedules', {
+    username: user,
+    category: tags[0],
+    title,
+    permlink,
+    json: JSON.stringify(json),
+    tags,
+    body,
+    post_type: operationType,
+    upvote_this: upvote,
+    schedule: scheduleDate,
+    chain: 'steem',
+  })
+  .then(resp => resp.data);
+
+export const getSchedules = user => api.get(`/api/schedules/${user}`).then(resp => resp.data);
+
+export const removeSchedule = (id, user) => api.delete(`/api/schedules/${user}/${id}`);
+
+export const moveSchedule = (id, user) => api.put(`/api/schedules/${user}/${id}`);
+
+// Old image service
+// Images
+
+export const getImages = user => api.get(`api/images/${user}`).then(resp => resp.data);
+
+export const addMyImage = (user, url) => api.post('/api/image', { username: user, image_url: url });
+
+export const uploadImage = (file) => {
+  const fData = new FormData();
+  fData.append('postimage', file);
+
+  return imageApi.post('', fData);
+};
+
+// New image service
+
+// export const uploadImage = (username, signature, data) => new Promise((resolve, reject) => {
+//   const fData = new FormData();
+//   fData.append('postimage', data);
+//   imageApi
+//     .post(`${username}/${signature}`, data)
+//     .then((res) => {
+//       resolve(res.data);
+//     })
+//     .catch((error) => {
+//       reject(error);
+//     });
+// });

@@ -1,5 +1,5 @@
 import React, { Component } from 'react';
-import { View } from 'react-native';
+import { View, ActivityIndicator, Text } from 'react-native';
 import { injectIntl } from 'react-intl';
 
 // Utils
@@ -16,17 +16,16 @@ import globalStyles from '../../../globalStyles';
 
 class EditorScreen extends Component {
   /* Props
-    * ------------------------------------------------
-    *   @prop { type }    name                - Description....
-    */
+   * ------------------------------------------------
+   *   @prop { type }    name                - Description....
+   */
 
   constructor(props) {
     super(props);
     this.state = {
+      isFormValid: false,
       isPreviewActive: false,
       wordsCount: null,
-      isFormValid: false,
-      isChanged: false,
       fields: {
         title: (props.draftPost && props.draftPost.title) || '',
         body: (props.draftPost && props.draftPost.body) || '',
@@ -109,8 +108,6 @@ class EditorScreen extends Component {
     handleFormChanged();
 
     this._handleIsFormValid();
-
-    this.setState({ isChanged: true });
   };
 
   _handleOnTagAdded = (tags) => {
@@ -123,45 +120,61 @@ class EditorScreen extends Component {
 
   render() {
     const {
-      isPreviewActive, wordsCount, isFormValid, fields, isChanged,
+      isPreviewActive, wordsCount, isFormValid, fields,
     } = this.state;
     const {
-      isLoggedIn, isPostSending, isDraftSaving, isDraftSaved, draftPost, intl
+      autoFocusText,
+      handleOnImagePicker,
+      intl,
+      isDraftSaved,
+      isDraftSaving,
+      isLoggedIn,
+      isPostSending,
+      uploadedImage,
+      isUploading,
     } = this.props;
 
     return (
       <View style={globalStyles.defaultContainer}>
         <BasicHeader
-          handleOnSaveButtonPress={this._handleOnSaveButtonPress}
-          isPostSending={isPostSending}
-          isDraftSaving={isDraftSaving}
-          isDraftSaved={isDraftSaved}
-          isPreviewActive={isPreviewActive}
-          quickTitle={wordsCount > 0 && `${wordsCount} words`}
           handleOnPressPreviewButton={this._handleOnPressPreviewButton}
+          handleOnSaveButtonPress={this._handleOnSaveButtonPress}
+          handleOnSubmit={this._handleOnSubmit}
+          isDraftSaved={isDraftSaved}
+          isDraftSaving={isDraftSaving}
           isFormValid={isFormValid}
           isHasIcons
           isLoggedIn={isLoggedIn}
-          handleOnSubmit={this._handleOnSubmit}
+          isLoading={isPostSending || isUploading}
+          isPreviewActive={isPreviewActive}
+          quickTitle={wordsCount > 0 && `${wordsCount} words`}
         />
         <PostForm
           handleFormUpdate={this._handleFormUpdate}
           handleOnSubmit={this._handleOnSubmit}
-          isPreviewActive={isPreviewActive}
           isFormValid={isFormValid}
+          isPreviewActive={isPreviewActive}
         >
-          <TitleArea value={fields.title} componentID="title" intl={intl} />
+          <TitleArea
+            autoFocus={autoFocusText}
+            componentID="title"
+            intl={intl}
+            value={fields.title}
+          />
           <TagArea
-            draftChips={fields.tags}
+            autoFocus={autoFocusText}
             componentID="tag-area"
+            draftChips={fields.tags}
             handleTagChanged={this._handleOnTagAdded}
             intl={intl}
           />
           <TextArea
+            componentID="body"
             draftBody={fields && fields.body}
             handleOnTextChange={this._setWordsCount}
-            componentID="body"
+            handleOpenImagePicker={handleOnImagePicker}
             intl={intl}
+            uploadedImage={uploadedImage}
           />
         </PostForm>
       </View>
