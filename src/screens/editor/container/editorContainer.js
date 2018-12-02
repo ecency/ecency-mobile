@@ -12,7 +12,12 @@ import { getDigitPinCode } from '../../../providers/steem/auth';
 import { default as ROUTES } from '../../../constants/routeNames';
 
 // Utilities
-import { generatePermlink } from '../../../utils/editor';
+import {
+  generatePermlink,
+  generateReplyPermlink,
+  makeJsonMetadataReply,
+  makeOptions
+} from '../../../utils/editor';
 import { decryptKey } from '../../../utils/crypto';
 
 // Component
@@ -37,22 +42,22 @@ class ExampleContainer extends Component {
 
   // Component Life Cycle Functions
 
-  // Component Functions
   componentWillMount() {
     const { currentAccount } = this.props;
     const username = currentAccount && currentAccount.name ? currentAccount.name : '';
-
+    
     getDraftPost(username)
-      .then((result) => {
-        this.setState({
-          draftPost: { body: result.body, title: result.title, tags: result.tags.split(',') },
-        });
-      })
-      .catch((error) => {
-        console.log(error);
+    .then((result) => {
+      this.setState({
+        draftPost: { body: result.body, title: result.title, tags: result.tags.split(',') },
       });
+    })
+    .catch((error) => {
+      console.log(error);
+    });
   }
-
+  
+  // Component Functions
   _handleOnSaveButtonPress = (fields) => {
     const { isDraftSaved } = this.state;
     if (!isDraftSaved) {
@@ -118,7 +123,7 @@ class ExampleContainer extends Component {
   render() {
     const { isLoggedIn, isDarkTheme } = this.props;
     const {
-      isPostSending, isDraftSaving, isDraftSaved, draftPost,
+      isPostSending, isDraftSaving, isDraftSaved, draftPost, isReply
     } = this.state;
 
     return (
@@ -132,6 +137,7 @@ class ExampleContainer extends Component {
         isDraftSaving={isDraftSaving}
         isLoggedIn={isLoggedIn}
         isPostSending={isPostSending}
+        isReply={isReply}
       />
     );
   }

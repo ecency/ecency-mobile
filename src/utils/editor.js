@@ -13,3 +13,60 @@ export const generatePermlink = (text) => {
   }
   return null;
 };
+
+
+export const generateReplyPermlink = toAuthor => {
+  const t = new Date(Date.now());
+
+  const timeFormat = `${t.getFullYear().toString()}${(
+    t.getMonth() + 1
+  ).toString()}${t
+    .getDate()
+    .toString()}t${t
+    .getHours()
+    .toString()}${t
+    .getMinutes()
+    .toString()}${t.getSeconds().toString()}${t.getMilliseconds().toString()}z`;
+
+  return `re-${toAuthor.replace(/\./g, '')}-${timeFormat}`;
+};
+
+
+export const makeOptions = (author, permlink, operationType) => {
+  const a = {
+    allow_curation_rewards: true,
+    allow_votes: true,
+    author,
+    permlink,
+    max_accepted_payout: '1000000.000 SBD',
+    percent_steem_dollars: 10000,
+    extensions: [
+      [0, { beneficiaries: [{ account: 'esteemapp', weight: 1000 }] }]
+    ]
+  };
+
+  switch (operationType) {
+    case 'sp':
+      a.max_accepted_payout = '1000000.000 SBD';
+      a.percent_steem_dollars = 0;
+      break;
+    case 'dp':
+      a.max_accepted_payout = '0.000 SBD';
+      a.percent_steem_dollars = 10000;
+      break;
+    default:
+      a.max_accepted_payout = '1000000.000 SBD';
+      a.percent_steem_dollars = 10000;
+      break;
+  }
+
+  return a;
+};
+
+
+export const makeJsonMetadataReply = (tags) => ({
+  tags,
+  app: `eSteem Mobile 2`,
+  format: 'markdown+html',
+  community: 'esteem.app'
+});

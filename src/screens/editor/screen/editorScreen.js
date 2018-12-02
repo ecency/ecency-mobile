@@ -1,4 +1,4 @@
-import React, { Component } from 'react';
+import React, { Component, Fragment } from 'react';
 import { View } from 'react-native';
 import { injectIntl } from 'react-intl';
 
@@ -16,9 +16,9 @@ import globalStyles from '../../../globalStyles';
 
 class EditorScreen extends Component {
   /* Props
-    * ------------------------------------------------
-    *   @prop { type }    name                - Description....
-    */
+   * ------------------------------------------------
+   *   @prop { type }    name                - Description....
+   */
 
   constructor(props) {
     super(props);
@@ -123,10 +123,16 @@ class EditorScreen extends Component {
 
   render() {
     const {
-      isPreviewActive, wordsCount, isFormValid, fields, isChanged,
+      fields, isChanged, isFormValid, isPreviewActive, wordsCount,
     } = this.state;
     const {
-      isLoggedIn, isPostSending, isDraftSaving, isDraftSaved, draftPost, intl
+      draftPost,
+      intl,
+      isDraftSaved,
+      isDraftSaving,
+      isLoggedIn,
+      isPostSending,
+      isReply,
     } = this.props;
 
     return (
@@ -143,6 +149,7 @@ class EditorScreen extends Component {
           isHasIcons
           isLoggedIn={isLoggedIn}
           handleOnSubmit={this._handleOnSubmit}
+          isReply={isReply}
         />
         <PostForm
           handleFormUpdate={this._handleFormUpdate}
@@ -150,13 +157,17 @@ class EditorScreen extends Component {
           isPreviewActive={isPreviewActive}
           isFormValid={isFormValid}
         >
-          <TitleArea value={fields.title} componentID="title" intl={intl} />
-          <TagArea
-            draftChips={fields.tags}
-            componentID="tag-area"
-            handleTagChanged={this._handleOnTagAdded}
-            intl={intl}
-          />
+          {!isReply && (
+            <Fragment>
+              <TitleArea value={fields.title} componentID="title" intl={intl} />
+              <TagArea
+                draftChips={fields.tags}
+                componentID="tag-area"
+                handleTagChanged={this._handleOnTagAdded}
+                intl={intl}
+              />
+            </Fragment>
+          )}
           <TextArea
             draftBody={fields && fields.body}
             handleOnTextChange={this._setWordsCount}

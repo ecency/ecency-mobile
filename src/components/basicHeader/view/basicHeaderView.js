@@ -58,24 +58,25 @@ class BasicHeaderView extends Component {
   render() {
     const {
       handleOnPressBackButton,
-      handleOnPressPreviewButton,
-      isPreviewActive,
-      quickTitle,
-      isFormValid,
-      title,
-      isHasIcons,
-      rightIconName,
-      isHasDropdown,
-      handleRightIconPress,
-      isModalHeader,
       handleOnPressClose,
-      isHasSearch,
-      isPostSending,
+      handleOnPressPreviewButton,
       handleOnSaveButtonPress,
-      isDraftSaving,
-      isDraftSaved,
-      isLoggedIn,
+      handleRightIconPress,
       intl,
+      isDraftSaved,
+      isDraftSaving,
+      isFormValid,
+      isHasDropdown,
+      isHasIcons,
+      isHasSearch,
+      isLoggedIn,
+      isModalHeader,
+      isPostSending,
+      isPreviewActive,
+      isReply,
+      quickTitle,
+      rightIconName,
+      title,
     } = this.props;
     const { isInputVisible } = this.state;
     return (
@@ -178,7 +179,7 @@ class BasicHeaderView extends Component {
                   onPress={isFormValid && this._handleOnPress}
                   style={styles.textButtonWrapper}
                   text={intl.formatMessage({
-                    id: 'basic_header.publish',
+                    id: isReply ? 'basic_header.reply' : 'basic_header.publish'
                   })}
                 />
               ) : (

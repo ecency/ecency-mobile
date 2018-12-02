@@ -95,7 +95,9 @@
   },
   "basic_header": {
     "publish": "Publish",
-    "search": "Search"
+    "search": "Search",
+    "reply": "Reply"
+
   },
   "editor": {
     "title": "Title",

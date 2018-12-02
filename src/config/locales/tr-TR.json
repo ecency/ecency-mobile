@@ -95,7 +95,8 @@
   },
   "basic_header": {
     "publish": "Yayınla",
-    "search": "Ara"
+    "search": "Ara",
+    "reply": "Cevapla"
   },
   "editor": {
     "title": "Başlık",
