@@ -5,7 +5,7 @@ import ImagePicker from 'react-native-image-crop-picker';
 // Services and Actions
 // import { Buffer } from 'buffer';
 import { uploadImage } from '../../../providers/esteem/esteem';
-import { postContent } from '../../../providers/steem/dsteem';
+import { postContent, postComment } from '../../../providers/steem/dsteem';
 import { setDraftPost, getDraftPost } from '../../../realm/realm';
 import { getDigitPinCode } from '../../../providers/steem/auth';
 
@@ -72,13 +72,6 @@ class EditorContainer extends Component {
     } else {
       this.setState({ autoFocusText: true });
     }
-
-    // Routing action state ex if coming for video or image or only text
-    // if (routingAction && routingAction.action) {
-    //   this._handleRoutingAction(routingAction.action);
-    // } else {
-    //   this.setState({ autoFocusText: true });
-    // }
 
     if (!isReply) {
       getDraftPost(username)
@@ -206,15 +199,16 @@ class EditorContainer extends Component {
   };
 
   _submitPost = async (fields) => {
-    this.setState({ isPostSending: true });
-
     const { navigation, currentAccount } = this.props;
-    const permlink = generatePermlink(fields.title);
-    const digitPinCode = await getDigitPinCode();
-
-    const postingKey = decryptKey(currentAccount.realm_object.postingKey, digitPinCode);
 
     if (currentAccount) {
+      this.setState({ isPostSending: true });
+
+      const permlink = generatePermlink(fields.title);
+      const digitPinCode = await getDigitPinCode();
+
+      const postingKey = decryptKey(currentAccount.realm_object.postingKey, digitPinCode);
+
       const post = {
         ...fields,
         permlink,
@@ -233,8 +227,53 @@ class EditorContainer extends Component {
     }
   };
 
+  _submitReply = async (fields) => {
+    const { navigation, currentAccount } = this.props;
+
+    if (currentAccount) {
+      this.setState({ isPostSending: true });
+
+      const { post } = this.state;
+
+      const jsonMeta = makeJsonMetadataReply(post.json_metadata.tags || ['esteem']);
+      const permlink = generateReplyPermlink(post.author);
+      const digitPinCode = await getDigitPinCode();
+      const author = currentAccount.name;
+      const options = makeOptions(author, permlink);
+      const parentAuthor = post.author;
+      const parentPermlink = post.permlink;
+
+      await postComment(
+        currentAccount,
+        digitPinCode,
+        parentAuthor,
+        parentPermlink,
+        permlink,
+        '',
+        fields.body,
+        jsonMeta,
+        options,
+        0,
+      )
+        .then((result) => {
+          alert('Your post succesfully shared');
+          navigation.goBack();
+        })
+        .catch((error) => {
+          alert(`Opps! there is a problem${error}`);
+          this.setState({ isPostSending: false });
+        });
+    }
+  };
+
   _handleSubmit = (form) => {
-    this._submitPost(form);
+    const { isReply } = this.state;
+
+    if (isReply) {
+      this._submitReply(form.fields);
+    } else {
+      this._submitPost(form);
+    }
   };
 
   _handleFormChanged = () => {

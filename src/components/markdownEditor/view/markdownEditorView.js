@@ -1,6 +1,6 @@
 import React, { Component } from 'react';
 import {
-  View, KeyboardAvoidingView, ScrollView, FlatList, Text,
+  View, KeyboardAvoidingView, ScrollView, FlatList, Text, ActionSheetIOS
 } from 'react-native';
 import Markdown, { getUniqueID } from 'react-native-markdown-renderer';
 

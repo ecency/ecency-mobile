@@ -85,15 +85,21 @@ class EditorScreen extends Component {
 
   _handleIsFormValid = () => {
     const { fields } = this.state;
+    const { isReply } = this.props;
+    let _isFormValid;
 
-    this.setState({
-      isFormValid:
-        fields.title
+    if (isReply) {
+      _isFormValid = fields && fields.body && fields.body.length > 0;
+    } else {
+      _isFormValid = fields
+        && fields.title
         && fields.title.length > 0
         && fields.body
         && fields.body.length > 0
-        && fields.tags.length > 0,
-    });
+        && fields.tags.length > 0;
+    }
+
+    this.setState({ isFormValid: _isFormValid });
   };
 
   _handleFormUpdate = (componentID, content) => {
@@ -161,18 +167,15 @@ class EditorScreen extends Component {
           isFormValid={isFormValid}
           isPreviewActive={isPreviewActive}
         >
-          {isReply ? (
-            <SummaryArea summary={post.summary} />
-          ) : (
-            <Fragment>
-              <TitleArea value={fields.title} componentID="title" intl={intl} />
-              <TagArea
-                draftChips={fields.tags}
-                componentID="tag-area"
-                handleTagChanged={this._handleOnTagAdded}
-                intl={intl}
-              />
-            </Fragment>
+          {isReply && <SummaryArea summary={post.summary} />}
+          {!isReply && <TitleArea value={fields.title} componentID="title" intl={intl} />}
+          {!isReply && (
+            <TagArea
+              draftChips={fields.tags}
+              componentID="tag-area"
+              handleTagChanged={this._handleOnTagAdded}
+              intl={intl}
+            />
           )}
           <TextArea
             componentID="body"

@@ -14,8 +14,7 @@ export const generatePermlink = (text) => {
   return null;
 };
 
-
-export const generateReplyPermlink = toAuthor => {
+export const generateReplyPermlink = (toAuthor) => {
   const t = new Date(Date.now());
 
   const timeFormat = `${t.getFullYear().toString()}${(
@@ -31,7 +30,6 @@ export const generateReplyPermlink = toAuthor => {
   return `re-${toAuthor.replace(/\./g, '')}-${timeFormat}`;
 };
 
-
 export const makeOptions = (author, permlink, operationType) => {
   const a = {
     allow_curation_rewards: true,
@@ -40,9 +38,7 @@ export const makeOptions = (author, permlink, operationType) => {
     permlink,
     max_accepted_payout: '1000000.000 SBD',
     percent_steem_dollars: 10000,
-    extensions: [
-      [0, { beneficiaries: [{ account: 'esteemapp', weight: 1000 }] }]
-    ]
+    extensions: [[0, { beneficiaries: [{ account: 'esteemapp', weight: 1000 }] }]],
   };
 
   switch (operationType) {
@@ -63,10 +59,9 @@ export const makeOptions = (author, permlink, operationType) => {
   return a;
 };
 
-
-export const makeJsonMetadataReply = (tags) => ({
+export const makeJsonMetadataReply = tags => ({
   tags,
-  app: `eSteem Mobile 2`,
+  app: 'esteem/2.0.0-mobile',
   format: 'markdown+html',
-  community: 'esteem.app'
+  community: 'esteem.app',
 });

@@ -105,7 +105,7 @@ class PostCard extends Component {
         </View>
         <View style={styles.bodyFooter}>
           <View style={styles.leftFooterWrapper}>
-            <Upvote isShowpayoutValue content={content} user={user} isLoggedIn={isLoggedIn} />
+            <Upvote isShowPayoutValue content={content} user={user} />
             <TouchableOpacity
               style={styles.commentButton}
               onPress={() => this._handleOnVotersPress()}

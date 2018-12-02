@@ -62,7 +62,7 @@ class PostDisplayView extends Component {
     return (
       <StickyBar isFixedFooter={isFixedFooter}>
         <View style={styles.stickyWrapper}>
-          <Upvote isShowpayoutValue content={post} user={currentUser} isLoggedIn={!!currentUser} />
+          <Upvote isShowPayoutValue content={post} user={currentUser} />
           <TextWithIcon
             isClickable
             iconStyle={styles.barIcons}
