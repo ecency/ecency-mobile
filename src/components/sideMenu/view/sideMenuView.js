@@ -29,34 +29,40 @@ class SideMenuView extends Component {
   constructor(props) {
     super(props);
     this.state = {
-      menuItems: [],
+      menuItems: props.isLoggedIn ? MENU.AUTH_MENU_ITEMS : MENU.NO_AUTH_MENU_ITEMS,
       isAddAccountIconActive: false,
     };
   }
 
   // Component Life Cycles
 
-  componentWillMount() {
+  componentWillReceiveProps(nextProps) {
     const { isLoggedIn } = this.props;
 
-    this.setState({
-      menuItems: isLoggedIn ? MENU.AUTH_MENU_ITEMS : MENU.NO_AUTH_MENU_ITEMS,
-    });
+    if (isLoggedIn !== nextProps.isLoggedIn) {
+      this._setMenuItems(nextProps.isLoggedIn);
+    }
   }
 
   // Component Functions
 
   _handleOnPressAddAccountIcon = () => {
-    const { isAddAccountIconActive } = this.state;
     const { isLoggedIn, accounts } = this.props;
+    const { isAddAccountIconActive } = this.state;
+
     if (!isAddAccountIconActive) {
-      this.setState({ menuItems: accounts, isAddAccountIconActive: !isAddAccountIconActive });
+      this.setState({ menuItems: accounts });
     } else {
-      this.setState({
-        menuItems: isLoggedIn ? MENU.AUTH_MENU_ITEMS : MENU.NO_AUTH_MENU_ITEMS,
-        isAddAccountIconActive: !isAddAccountIconActive,
-      });
+      this._setMenuItems(isLoggedIn);
     }
+
+    this.setState({ isAddAccountIconActive: !isAddAccountIconActive });
+  };
+
+  _setMenuItems = (isLoggedIn) => {
+    this.setState({
+      menuItems: isLoggedIn ? MENU.AUTH_MENU_ITEMS : MENU.NO_AUTH_MENU_ITEMS,
+    });
   };
 
   render() {
@@ -64,7 +70,9 @@ class SideMenuView extends Component {
       navigateToRoute, currentAccount, isLoggedIn, switchAccount, intl,
     } = this.props;
     const { menuItems, isAddAccountIconActive } = this.state;
-    const _avatar = currentAccount.profile_image ? { uri: currentAccount.profile_image } : DEFAULT_IMAGE;
+    const _avatar = currentAccount.profile_image
+      ? { uri: currentAccount.profile_image }
+      : DEFAULT_IMAGE;
 
     return (
       <Container style={styles.container}>
@@ -86,7 +94,9 @@ class SideMenuView extends Component {
                   defaultSource={DEFAULT_IMAGE}
                 />
                 <View style={styles.userInfoView}>
-                  {currentAccount.display_name && <Text style={styles.username}>{currentAccount.display_name}</Text>}
+                  {currentAccount.display_name && (
+                    <Text style={styles.username}>{currentAccount.display_name}</Text>
+                  )}
                   <Text style={styles.usernick}>{`@${currentAccount.name}`}</Text>
                 </View>
                 <View style={styles.addAccountIconView}>
@@ -110,7 +120,7 @@ class SideMenuView extends Component {
           <List
             itemDivider={false}
             dataArray={menuItems}
-            renderRow={item => (
+            renderRow={(item, i) => (
               <ListItem
                 noBorder
                 style={styles.listItem}
@@ -129,7 +139,13 @@ class SideMenuView extends Component {
                   <Thumbnail small style={styles.otherUserAvatar} source={item.image} />
                 )}
                 <Text style={styles.listItemText}>
-                  {intl.formatMessage({ id: `side_menu.${item.id}` })}
+                  {isAddAccountIconActive
+                    ? menuItems[menuItems.length - 1].id === item.id
+                      ? intl.formatMessage({ id: `side_menu.${item.id}` })
+                      : item.name
+                    : 
+                      intl.formatMessage({ id: `side_menu.${item.id}` })
+                    }
                 </Text>
               </ListItem>
             )}

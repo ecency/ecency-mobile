@@ -20,10 +20,10 @@ const DEFAULT_IMAGE = require('../../../assets/avatar_default.png');
 
 class HeaderView extends Component {
   /* Props
-    * ------------------------------------------------
-    *   @prop { boolean }    hideStatusBar                - Can declare status bar is hide or not.
-    *
-    */
+   * ------------------------------------------------
+   *   @prop { boolean }    hideStatusBar                - Can declare status bar is hide or not.
+   *
+   */
 
   constructor(props) {
     super(props);
@@ -51,7 +51,9 @@ class HeaderView extends Component {
     } = this.props;
     const { isSearchModalOpen } = this.state;
     const _reputation = getReputation(currentAccount.reputation);
-    const _avatar = currentAccount.profile_image ? { uri: currentAccount.profile_image } : DEFAULT_IMAGE;
+    const _avatar = currentAccount.profile_image
+      ? { uri: currentAccount.profile_image }
+      : DEFAULT_IMAGE;
 
     return (
       <SafeAreaView style={[styles.container, isReverse && styles.containerReverse]}>
@@ -77,17 +79,15 @@ class HeaderView extends Component {
             ]}
           >
             <View>
-              <FastImage
-                style={styles.avatar}
-                source={_avatar}
-                defaultSource={DEFAULT_IMAGE}
-              />
+              <FastImage style={styles.avatar} source={_avatar} defaultSource={DEFAULT_IMAGE} />
             </View>
           </LinearGradient>
         </TouchableOpacity>
         {currentAccount && currentAccount.name ? (
           <View style={styles.titleWrapper}>
-            {currentAccount.display_name && <Text style={styles.title}>{currentAccount.display_name}</Text>}
+            {currentAccount.display_name && (
+              <Text style={styles.title}>{currentAccount.display_name}</Text>
+            )}
             <Text style={styles.subTitle}>
               @
               {currentAccount.name}
