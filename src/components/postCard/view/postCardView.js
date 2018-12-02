@@ -15,11 +15,11 @@ import styles from './postCardStyles';
 
 class PostCard extends Component {
   /* Props
-    * ------------------------------------------------
-    *   @prop { string }     description       - Description texts.
-    *   @prop { string }     iconName          - For icon render name.
-    *
-    */
+   * ------------------------------------------------
+   *   @prop { string }     description       - Description texts.
+   *   @prop { string }     iconName          - For icon render name.
+   *
+   */
   constructor(props) {
     super(props);
 
@@ -56,7 +56,7 @@ class PostCard extends Component {
 
   render() {
     const {
-      content, isLoggedIn, user, isShowImages,
+      content, isLoggedIn, user, isHideImage,
     } = this.props;
     // const likersText = `@${content.top_likers[0]}, @${content.top_likers[1]}, @${
     //   content.top_likers[2]
@@ -68,14 +68,14 @@ class PostCard extends Component {
       <View style={styles.post}>
         <View style={styles.bodyFooter}>
           <PostHeaderDescription
-            date={content.created}
-            profileOnPress={this._handleOnUserPress}
-            name={content.author}
-            reputation={content.author_reputation}
-            tag={content.category}
             avatar={content && content.avatar}
+            date={content.created}
+            isHideImage={isHideImage}
+            name={content.author}
+            profileOnPress={this._handleOnUserPress}
+            reputation={content.author_reputation}
             size={32}
-            isShowImages={isShowImages}
+            tag={content.category}
           />
           <DropdownButton
             isHasChildIcon
@@ -90,7 +90,7 @@ class PostCard extends Component {
             style={[{ flexDirection: 'column' }]}
             onPress={() => this._handleOnContentPress()}
           >
-            {isShowImages && (
+            {!isHideImage && (
               <Image
                 source={{ uri: content && content.image }}
                 defaultSource={require('../../../assets/no_image.png')}
@@ -105,7 +105,7 @@ class PostCard extends Component {
         </View>
         <View style={styles.bodyFooter}>
           <View style={styles.leftFooterWrapper}>
-            <Upvote isShowpayoutValue content={content} user={user} isLoggedIn={isLoggedIn} />
+            <Upvote isShowPayoutValue content={content} user={user} />
             <TouchableOpacity
               style={styles.commentButton}
               onPress={() => this._handleOnVotersPress()}

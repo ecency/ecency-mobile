@@ -1,4 +1,6 @@
 import React, { Component } from 'react';
+import { withNavigation } from 'react-navigation';
+
 import { getComments } from '../../../providers/steem/dsteem';
 
 // Services and Actions
@@ -6,6 +8,7 @@ import { getComments } from '../../../providers/steem/dsteem';
 // Middleware
 
 // Constants
+import { default as ROUTES } from '../../../constants/routeNames';
 
 // Utilities
 
@@ -13,10 +16,10 @@ import { getComments } from '../../../providers/steem/dsteem';
 import { CommentsView } from '..';
 
 /*
-  *            Props Name        Description                                     Value
-  *@props -->  props name here   description here                                Value Type Here
-  *
-  */
+ *            Props Name        Description                                     Value
+ *@props -->  props name here   description here                                Value Type Here
+ *
+ */
 
 class CommentsContainer extends Component {
   constructor(props) {
@@ -35,18 +38,23 @@ class CommentsContainer extends Component {
         this.setState({
           comments,
         });
-        console.log(comments);
       })
       .catch((error) => {
-        alert(error);
+        // alert(error);
       });
   }
   // Component Functions
 
-  _handleOnReplyPress = () => {
-    alert(
-      'Reply functions not working yet. Thank you for your understanding. Your friends at eSteem :)',
-    );
+  _handleOnReplyPress = (item) => {
+    const { navigation } = this.props;
+
+    navigation.navigate({
+      routeName: ROUTES.SCREENS.EDITOR,
+      params: {
+        isReply: true,
+        post: item,
+      },
+    });
   };
 
   render() {
@@ -62,4 +70,4 @@ class CommentsContainer extends Component {
   }
 }
 
-export default CommentsContainer;
+export default withNavigation(CommentsContainer);

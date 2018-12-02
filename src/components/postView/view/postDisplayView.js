@@ -56,19 +56,19 @@ class PostDisplayView extends Component {
       currentUser,
       handleOnReplyPress,
       handleOnEditPress,
-      handleVotersPress,
+      handleOnVotersPress,
     } = this.props;
 
     return (
       <StickyBar isFixedFooter={isFixedFooter}>
         <View style={styles.stickyWrapper}>
-          <Upvote isShowpayoutValue content={post} user={currentUser} isLoggedIn={!!currentUser} />
+          <Upvote isShowPayoutValue content={post} user={currentUser} />
           <TextWithIcon
             isClickable
             iconStyle={styles.barIcons}
             textMarginLeft={20}
             text={post && post.vote_count}
-            onPress={() => handleVotersPress && handleVotersPress(post.active_votes)}
+            onPress={() => handleOnVotersPress && handleOnVotersPress(post.active_votes)}
             iconName="ios-people"
           />
           <TextWithIcon

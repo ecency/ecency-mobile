@@ -40,7 +40,7 @@
 	<key>NSCameraUsageDescription</key>
 	<string>Camera Usage Access</string>
 	<key>NSLocationWhenInUseUsageDescription</key>
-	<string></string>
+	<string/>
 	<key>NSMicrophoneUsageDescription</key>
 	<string>Microphone Usage Access</string>
 	<key>NSPhotoLibraryAddUsageDescription</key>

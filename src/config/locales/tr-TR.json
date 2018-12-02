@@ -95,13 +95,16 @@
   },
   "basic_header": {
     "publish": "Yayınla",
-    "search": "Ara"
+    "search": "Ara",
+    "reply": "Cevapla"
   },
   "editor": {
     "title": "Başlık",
     "tags": "etiketler",
-    "description": "Bu gün ne hakkında yazmak istersin?",
-    "publish": "Yayınla"
+    "default_placeholder": "Bu gün ne hakkında yazmak istersin?",
+    "reply_placeholder": "Yukarıdaki yazi hakkinda nasil bir cevap yazmak istersin?",
+    "publish": "Yayınla",
+    "reply": "Cevapla"
   },
   "pincode": {
     "enter_text": "Açmak için pin kodunu giriniz",
