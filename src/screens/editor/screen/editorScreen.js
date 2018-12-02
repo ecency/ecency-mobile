@@ -1,5 +1,5 @@
 import React, { Component, Fragment } from 'react';
-import { View } from 'react-native';
+import { View, Text } from 'react-native';
 import { injectIntl } from 'react-intl';
 
 // Utils
@@ -9,8 +9,11 @@ import { getWordsCount } from '../../../utils/editor';
 
 // Components
 import { BasicHeader } from '../../../components/basicHeader';
-import { TitleArea, TagArea, TextArea } from '../../../components/editorElements';
+import {
+  TitleArea, TagArea, TextArea, SummaryArea,
+} from '../../../components/editorElements';
 import { PostForm } from '../../../components/postForm';
+
 // Styles
 import globalStyles from '../../../globalStyles';
 
@@ -120,12 +123,7 @@ class EditorScreen extends Component {
 
   render() {
     const {
-      draftPost,
-      fields,
-      isChanged,
-      isPreviewActive,
-      wordsCount,
-      isFormValid,
+      draftPost, fields, isChanged, isPreviewActive, wordsCount, isFormValid,
     } = this.state;
     const {
       autoFocusText,
@@ -136,8 +134,9 @@ class EditorScreen extends Component {
       isLoggedIn,
       isPostSending,
       isReply,
-      uploadedImage,
       isUploading,
+      post,
+      uploadedImage,
     } = this.props;
 
     return (
@@ -162,7 +161,9 @@ class EditorScreen extends Component {
           isFormValid={isFormValid}
           isPreviewActive={isPreviewActive}
         >
-          {!isReply && (
+          {isReply ? (
+            <SummaryArea summary={post.summary} />
+          ) : (
             <Fragment>
               <TitleArea value={fields.title} componentID="title" intl={intl} />
               <TagArea

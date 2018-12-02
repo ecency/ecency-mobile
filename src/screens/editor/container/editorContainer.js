@@ -257,6 +257,7 @@ class EditorContainer extends Component {
       isPostSending,
       isReply,
       isUploading,
+      post,
       uploadedImage,
     } = this.state;
 
@@ -277,6 +278,7 @@ class EditorContainer extends Component {
         isPostSending={isPostSending}
         isReply={isReply}
         isUploading={isUploading}
+        post={post}
         uploadedImage={uploadedImage}
       />
     );

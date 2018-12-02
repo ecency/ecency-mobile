@@ -102,7 +102,7 @@
     "title": "Title",
     "tags": "tags",
     "default_placeholder": "What would you like to write about today?",
-    "reply_placeholder": "What would you like to write about the post?",
+    "reply_placeholder": "What would you like to write about above post?",
     "publish": "Publish",
     "reply": "Reply"
   },

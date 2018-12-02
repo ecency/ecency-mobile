@@ -15,11 +15,11 @@ import styles from './postCardStyles';
 
 class PostCard extends Component {
   /* Props
-    * ------------------------------------------------
-    *   @prop { string }     description       - Description texts.
-    *   @prop { string }     iconName          - For icon render name.
-    *
-    */
+   * ------------------------------------------------
+   *   @prop { string }     description       - Description texts.
+   *   @prop { string }     iconName          - For icon render name.
+   *
+   */
   constructor(props) {
     super(props);
 
@@ -56,7 +56,7 @@ class PostCard extends Component {
 
   render() {
     const {
-      content, isLoggedIn, user, isShowImages,
+      content, isLoggedIn, user, isHideImage,
     } = this.props;
     // const likersText = `@${content.top_likers[0]}, @${content.top_likers[1]}, @${
     //   content.top_likers[2]
@@ -70,7 +70,7 @@ class PostCard extends Component {
           <PostHeaderDescription
             avatar={content && content.avatar}
             date={content.created}
-            isShowImages={isShowImages}
+            isHideImage={isHideImage}
             name={content.author}
             profileOnPress={this._handleOnUserPress}
             reputation={content.author_reputation}
@@ -90,7 +90,7 @@ class PostCard extends Component {
             style={[{ flexDirection: 'column' }]}
             onPress={() => this._handleOnContentPress()}
           >
-            {isShowImages && (
+            {!isHideImage && (
               <Image
                 source={{ uri: content && content.image }}
                 defaultSource={require('../../../assets/no_image.png')}

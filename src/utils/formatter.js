@@ -23,5 +23,5 @@ export const getPostSummary = (postBody, length) => {
     postBody = postBody.substring(0, length);
   }
 
-  return postBody;
+  return `${postBody}...`;
 };

@@ -23,7 +23,7 @@ class PostsView extends Component {
       refreshing: false,
       isLoading: false,
       isPostsLoading: false,
-      isShowImages: true,
+      isHideImage: false,
     };
   }
 
@@ -46,12 +46,12 @@ class PostsView extends Component {
 
   _loadPosts = (user, _tag = null, _getFor = null) => {
     const { getFor, tag } = this.props;
-    const { isShowImages } = this.state;
+    const { isHideImage } = this.state;
     let options;
     _getFor ? (options = { limit: 3 }) : (options = { tag: _tag || tag, limit: 3 });
 
     if (user) {
-      getPostsSummary(_getFor || getFor, options, user && user.name, isShowImages)
+      getPostsSummary(_getFor || getFor, options, user && user.name, isHideImage)
         .then((result) => {
           if (result) {
             this.setState({
@@ -72,7 +72,7 @@ class PostsView extends Component {
   _loadMore = () => {
     // TODO: merge above function with this func (after alpha).
     const {
-      posts, startAuthor, startPermlink, user, isShowImages,
+      posts, startAuthor, startPermlink, user, isHideImage,
     } = this.state;
     const { getFor, tag } = this.props;
 
@@ -87,7 +87,7 @@ class PostsView extends Component {
         start_permlink: startPermlink,
       },
       (user && user.name) || 'esteemapp',
-      isShowImages,
+      isHideImage,
     ).then((result) => {
       const _posts = result;
       _posts.shift();
@@ -132,14 +132,14 @@ class PostsView extends Component {
   };
 
   _onRightIconPress = () => {
-    const { isShowImages } = this.state;
+    const { isHideImage } = this.state;
 
-    this.setState({ isShowImages: !isShowImages });
+    this.setState({ isHideImage: !isHideImage });
   };
 
   render() {
     const {
-      refreshing, posts, user, isPostsLoading, isShowImages,
+      refreshing, posts, user, isPostsLoading, isHideImage,
     } = this.state;
     const { componentId, filterOptions, isLoggedIn } = this.props;
 
@@ -166,7 +166,7 @@ class PostsView extends Component {
                 content={item}
                 user={user}
                 isLoggedIn={isLoggedIn}
-                isShowImages={isShowImages}
+                isHideImage={isHideImage}
               />
             )}
             keyExtractor={(post, index) => index.toString()}

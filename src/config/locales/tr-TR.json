@@ -102,7 +102,7 @@
     "title": "Başlık",
     "tags": "etiketler",
     "default_placeholder": "Bu gün ne hakkında yazmak istersin?",
-    "reply_placeholder": "Nasıl bir cevap yazmak istersin?",
+    "reply_placeholder": "Yukarıdaki yazi hakkinda nasil bir cevap yazmak istersin?",
     "publish": "Yayınla",
     "reply": "Cevapla"
   },
