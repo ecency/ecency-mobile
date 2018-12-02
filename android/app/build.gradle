@@ -138,6 +138,7 @@ android {
 }
 
 dependencies {
+    compile project(':react-native-image-crop-picker')
     compile project(':appcenter-push')
     compile project(':react-native-view-overflow')
     compile project(':realm')
