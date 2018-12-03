@@ -176,7 +176,16 @@ export default EStyleSheet.create({
     margin: 16,
     justifyContent: 'space-between',
   },
+  bodyHeader: {
+    backgroundColor: '$primaryBackgroundColor',
+    flexDirection: 'row',
+    margin: 16,
+  },
   leftFooterWrapper: {
     flexDirection: 'row',
+  },
+  dropdownWrapper: {
+    position: 'absolute',
+    right: -10,
   },
 });

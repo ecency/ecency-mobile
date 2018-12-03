@@ -6,6 +6,7 @@ import sc2 from './steemConnectAPI';
 
 // Utils
 import { decryptKey } from '../../utils/crypto';
+import { getDigitPinCode } from './../steem/auth';
 
 import {
   parsePosts, parsePost, parseComments, parsePostsSummary,
@@ -382,8 +383,7 @@ export const followUser = (data, postingKey) => {
   let key;
   try {
     key = PrivateKey.fromString(postingKey);
-  } catch (error) {
-  }
+  } catch (error) {}
   const json = {
     id: 'follow',
     json: JSON.stringify([
@@ -414,8 +414,7 @@ export const unfollowUser = (data, postingKey) => {
   let key;
   try {
     key = PrivateKey.fromString(postingKey);
-  } catch (error) {
-  }
+  } catch (error) {}
   const json = {
     id: 'follow',
     json: JSON.stringify([
@@ -446,8 +445,7 @@ export const delegate = (data, activeKey) => {
   let key;
   try {
     key = PrivateKey.fromString(activeKey);
-  } catch (error) {
-  }
+  } catch (error) {}
 
   return new Promise((resolve, reject) => {
     client.broadcast
@@ -483,8 +481,7 @@ export const transferToVesting = (data, activeKey) => {
   let key;
   try {
     key = PrivateKey.fromString(activeKey);
-  } catch (error) {
-  }
+  } catch (error) {}
 
   const op = [
     'transfer_to_vesting',
@@ -511,8 +508,7 @@ export const withdrawVesting = (data, activeKey) => {
   let key;
   try {
     key = PrivateKey.fromString(activeKey);
-  } catch (error) {
-  }
+  } catch (error) {}
 
   const op = [
     'withdraw_vesting',
@@ -539,8 +535,7 @@ export const postContent = (data, postingKey) => {
 
   try {
     key = PrivateKey.fromString(postingKey);
-  } catch (error) {
-  }
+  } catch (error) {}
 
   const post = {
     author: data.author,
@@ -658,4 +653,27 @@ export const postComment = (
         reject(error);
       });
   });
+};
+
+export const reblog = async (account, author, permlink) => {
+  const pin = await getDigitPinCode();
+  const key = decryptKey(account.realm_object.postingKey, pin);
+  const privateKey = PrivateKey.fromString(key);
+  const follower = account.name;
+
+  const json = {
+    id: 'follow',
+    json: JSON.stringify([
+      'reblog',
+      {
+        account: follower,
+        author,
+        permlink,
+      },
+    ]),
+    required_auths: [],
+    required_posting_auths: [follower],
+  };
+
+  return client.broadcast.json(json, privateKey);
 };

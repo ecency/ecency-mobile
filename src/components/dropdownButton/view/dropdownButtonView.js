@@ -17,10 +17,15 @@ import styles from './dropdownButtonStyles';
  *
  */
 
-const renderDropdownRow = (rowData, rowID, highlighted, rowTextStyle) => (
+const renderDropdownRow = (rowData, rowID, highlighted, rowTextStyle, noHighlight) => (
   <TouchableHighlight style={styles.rowWrapper} underlayColor="#E9F2FC">
-    <View style={[styles.dropdownRow, highlighted && styles.highlightedRow]}>
-      <Text style={[rowTextStyle || styles.rowText, highlighted && styles.highlightedRowText]}>
+    <View style={[styles.dropdownRow, !noHighlight && highlighted && styles.highlightedRow]}>
+      <Text
+        style={[
+          rowTextStyle || styles.rowText,
+          !noHighlight && highlighted && styles.highlightedRowText,
+        ]}
+      >
         {rowData}
       </Text>
     </View>
@@ -44,6 +49,7 @@ const DropdownButtonView = ({
   selectedOptionIndex,
   options,
   style,
+  noHighlight,
 }) => (
   <View style={[styles.container, dropdownButtonStyle]}>
     <ModalDropdown
@@ -57,7 +63,7 @@ const DropdownButtonView = ({
       defaultIndex={selectedOptionIndex}
       defaultValue={defaultText}
       renderSeparator={() => null}
-      renderRow={(rowData, rowID, highlighted) => renderDropdownRow(rowData, rowID, highlighted, rowTextStyle)
+      renderRow={(rowData, rowID, highlighted) => renderDropdownRow(rowData, rowID, highlighted, rowTextStyle, noHighlight)
       }
     >
       {isHasChildIcon && (
