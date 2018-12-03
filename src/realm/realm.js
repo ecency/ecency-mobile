@@ -372,7 +372,7 @@ export const getPushTokenSaved = () => new Promise((resolve, reject) => {
   try {
     const application = realm.objects(APPLICATION_SCHEMA);
     if (!application[0]) {
-      setPushTokenSaved(JSON.stringify(false));
+      setPushTokenSaved(false);
       resolve(false);
     }
     if (application[0].isPushTokenSaved) {
