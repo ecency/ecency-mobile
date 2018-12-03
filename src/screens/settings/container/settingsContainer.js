@@ -1,5 +1,7 @@
 import React, { Component } from 'react';
+import { AsyncStorage, Platform } from 'react-native';
 import { connect } from 'react-redux';
+import AppCenter from 'appcenter';
 
 // Realm
 import {
@@ -18,12 +20,15 @@ import {
   setApi,
   isDarkTheme,
 } from '../../../redux/actions/applicationActions';
+import { setPushToken } from '../../../providers/esteem/esteem';
+
 // Middleware
 
 // Constants
 import { VALUE as CURRENCY_VALUE } from '../../../constants/options/currency';
 import { VALUE as LANGUAGE_VALUE } from '../../../constants/options/language';
 import API_VALUE from '../../../constants/options/api';
+import INITIAL from '../../../constants/initial';
 
 // Utilities
 
@@ -89,8 +94,6 @@ class SettingsContainer extends Component {
   };
 
   _handleOnChange = (action, type, actionType = null) => {
-    const { dispatch, navigation } = this.props;
-
     switch (type) {
       case 'dropdown':
         this._handleDropdownSelected(action, actionType);
@@ -109,6 +112,24 @@ class SettingsContainer extends Component {
     }
   };
 
+  _setPushToken = async () => {
+    const { notificationSettings, isLoggedIn, username } = this.props;
+    if (isLoggedIn) {
+      const token = await AppCenter.getInstallId();
+      AsyncStorage.getItem(INITIAL.IS_EXIST_USER, (err, result) => {
+        if (JSON.parse(result)) {
+          const data = {
+            username,
+            token,
+            system: Platform.OS,
+            allows_notify: notificationSettings,
+          };
+          setPushToken(data);
+        }
+      });
+    }
+  };
+
   render() {
     return <SettingsScreen handleOnChange={this._handleOnChange} {...this.props} />;
   }
@@ -120,5 +141,8 @@ const mapStateToProps = state => ({
   selectedCurrency: state.application.currency,
   isNotificationOpen: state.application.isNotificationOpen,
   isDarkTheme: state.application.isDarkTheme,
+  notificationSettings: state.application.isNotificationOpen,
+  isLoggedIn: state.application.isLoggedIn,
+  username: state.account.currentAccount && state.account.currentAccount.name,
 });
 export default connect(mapStateToProps)(SettingsContainer);

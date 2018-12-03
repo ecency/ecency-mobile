@@ -24,28 +24,21 @@ PODS:
   - yoga (0.57.7.React)
 
 DEPENDENCIES:
-  - AppCenter/Analytics
-  - AppCenter/Crashes
-  - AppCenter/Push
-  - AppCenterReactNativeShared
+  - AppCenter/Analytics (~> 1.11.0)
+  - AppCenter/Crashes (~> 1.11.0)
+  - AppCenter/Push (~> 1.11.0)
+  - AppCenterReactNativeShared (~> 1.10.0)
   - React/RCTImage (from `../node_modules/react-native`)
   - RNImageCropPicker (from `../node_modules/react-native-image-crop-picker`)
   - yoga (from `../node_modules/react-native/ReactCommon/yoga`)
 
-SPEC REPOS:
-  https://github.com/cocoapods/specs.git:
-    - AppCenter
-    - AppCenterReactNativeShared
-    - QBImagePickerController
-    - RSKImageCropper
-
 EXTERNAL SOURCES:
   React:
-    :path: "../node_modules/react-native"
+    :path: ../node_modules/react-native
   RNImageCropPicker:
-    :path: "../node_modules/react-native-image-crop-picker"
+    :path: ../node_modules/react-native-image-crop-picker
   yoga:
-    :path: "../node_modules/react-native/ReactCommon/yoga"
+    :path: ../node_modules/react-native/ReactCommon/yoga
 
 SPEC CHECKSUMS:
   AppCenter: 3bccf8d733e337d0db574dd4cb0e33ab9637b7f2
@@ -56,6 +49,6 @@ SPEC CHECKSUMS:
   RSKImageCropper: 98296ad26b41753f796b6898d015509598f13d97
   yoga: b1ce48b6cf950b98deae82838f5173ea7cf89e85
 
-PODFILE CHECKSUM: 5da63220b873970ec42a57faf59896ecb522cb08
+PODFILE CHECKSUM: ec86702456a70648c23972c332c8648d93335b88
 
 COCOAPODS: 1.5.3

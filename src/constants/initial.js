@@ -1,3 +1,4 @@
 export default {
   IS_EXIST_USER: 'IS_EXIST_USER',
+  PUSH_TOKEN_SAVED: 'PUSH_TOKEN_SAVED',
 };
