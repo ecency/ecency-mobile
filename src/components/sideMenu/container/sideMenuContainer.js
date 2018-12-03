@@ -13,13 +13,13 @@ import { default as ROUTES } from '../../../constants/routeNames';
 // Component
 import { SideMenuView } from '..';
 
-const DEFAULT_IMAGE = require('../../../assets/esteem.png');
+const DEFAULT_IMAGE = require('../../../assets/avatar_default.png');
 
 /*
-  *               Props Name                              Description
-  *@props -->     props name navigation                   coming from react-navigation
-  *
-  */
+ *               Props Name                              Description
+ *@props -->     props name navigation                   coming from react-navigation
+ *
+ */
 
 class SideMenuContainer extends Component {
   constructor(props) {
@@ -45,6 +45,7 @@ class SideMenuContainer extends Component {
         name: 'Add Account',
         route: ROUTES.SCREENS.LOGIN,
         icon: 'plus-square-o',
+        id: 'add_account',
       });
       this.setState({ accounts });
     });
@@ -87,7 +88,7 @@ class SideMenuContainer extends Component {
 }
 
 const mapStateToProps = state => ({
-  isLoggedIn: state.application.isLoggedIn || false,
+  isLoggedIn: state.application.isLoggedIn,
   currentAccount: state.account.currentAccount || {},
 });
 

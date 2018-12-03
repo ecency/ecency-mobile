@@ -63,6 +63,7 @@ class ApplicationContainer extends Component {
 
   _getUserData = () => {
     const { dispatch } = this.props;
+
     getAuthStatus().then((res) => {
       if (res.isLoggedIn) {
         getUserData().then((response) => {
@@ -77,9 +78,9 @@ class ApplicationContainer extends Component {
                 const realmObject = response[response.length - 1];
                 accountData.realm_object = realmObject;
 
+                dispatch(login());
                 dispatch(updateCurrentAccount(accountData));
                 dispatch(activeApplication());
-                dispatch(login());
                 if (__DEV__ === false) {
                   dispatch(openPinCodeModal());
                 }

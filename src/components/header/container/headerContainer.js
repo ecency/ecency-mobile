@@ -14,10 +14,10 @@ import { connect } from 'react-redux';
 import { HeaderView } from '..';
 
 /*
-  *            Props Name        Description                                     Value
-  *@props -->  props name here   description here                                Value Type Here
-  *
-  */
+ *            Props Name        Description                                     Value
+ *@props -->  props name here   description here                                Value Type Here
+ *
+ */
 
 class HeaderContainer extends Component {
   constructor(props) {
@@ -56,7 +56,7 @@ class HeaderContainer extends Component {
 }
 
 const mapStateToProps = state => ({
-  isLoggedIn: state.application.isLoggedIn || false,
+  isLoggedIn: state.application.isLoggedIn,
   currentUser: state.account.currentAccount,
 });
 

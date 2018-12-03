@@ -772,6 +772,7 @@
 			isa = PBXGroup;
 			children = (
 				0C09B6DC21A3393A00536C9D /* libReactNativeConfig.a */,
+				94D7D44E21B4402E00476275 /* libReactNativeConfig-tvOS.a */,
 			);
 			name = Products;
 			sourceTree = "<group>";

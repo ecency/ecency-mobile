@@ -20,10 +20,10 @@ const DEFAULT_IMAGE = require('../../../assets/avatar_default.png');
 
 class HeaderView extends Component {
   /* Props
-    * ------------------------------------------------
-    *   @prop { boolean }    hideStatusBar                - Can declare status bar is hide or not.
-    *
-    */
+   * ------------------------------------------------
+   *   @prop { boolean }    hideStatusBar                - Can declare status bar is hide or not.
+   *
+   */
 
   constructor(props) {
     super(props);
@@ -35,26 +35,6 @@ class HeaderView extends Component {
   // Component Life Cycles
 
   // Component Functions
-
-  _getNameOfUser = () => {
-    const { currentAccount } = this.props;
-    if (Object.keys(currentAccount).length === 0) return currentAccount.name;
-    if (Object.keys(currentAccount.about).length === 0) return currentAccount.name;
-    if (Object.keys(currentAccount.about.profile).length !== 0) {
-      return currentAccount.about.profile.name;
-    }
-    return currentAccount.name;
-  };
-
-  _getUserAvatar = () => {
-    const { currentAccount } = this.props;
-    if (Object.keys(currentAccount).length === 0) return DEFAULT_IMAGE;
-    if (Object.keys(currentAccount.about).length === 0) return DEFAULT_IMAGE;
-    if (Object.keys(currentAccount.about.profile).length !== 0) {
-      return { uri: currentAccount.about.profile.profile_image };
-    }
-    return DEFAULT_IMAGE;
-  };
 
   _handleOnCloseSearch = () => {
     this.setState({ isSearchModalOpen: false });
@@ -70,8 +50,10 @@ class HeaderView extends Component {
       intl,
     } = this.props;
     const { isSearchModalOpen } = this.state;
-    const _name = this._getNameOfUser();
     const _reputation = getReputation(currentAccount.reputation);
+    const _avatar = currentAccount.profile_image
+      ? { uri: currentAccount.profile_image }
+      : DEFAULT_IMAGE;
 
     return (
       <SafeAreaView style={[styles.container, isReverse && styles.containerReverse]}>
@@ -97,17 +79,15 @@ class HeaderView extends Component {
             ]}
           >
             <View>
-              <FastImage
-                style={styles.avatar}
-                source={this._getUserAvatar()}
-                defaultSource={DEFAULT_IMAGE}
-              />
+              <FastImage style={styles.avatar} source={_avatar} defaultSource={DEFAULT_IMAGE} />
             </View>
           </LinearGradient>
         </TouchableOpacity>
         {currentAccount && currentAccount.name ? (
           <View style={styles.titleWrapper}>
-            {_name && <Text style={styles.title}>{_name}</Text>}
+            {currentAccount.display_name && (
+              <Text style={styles.title}>{currentAccount.display_name}</Text>
+            )}
             <Text style={styles.subTitle}>
               @
               {currentAccount.name}

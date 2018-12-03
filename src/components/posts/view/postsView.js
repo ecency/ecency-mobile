@@ -1,5 +1,6 @@
 import React, { Component, Fragment } from 'react';
 import { FlatList, View, ActivityIndicator } from 'react-native';
+import { injectIntl } from 'react-intl';
 
 // STEEM
 import { getPostsSummary } from '../../../providers/steem/dsteem';
@@ -7,7 +8,8 @@ import { getPostsSummary } from '../../../providers/steem/dsteem';
 // COMPONENTS
 import { PostCard } from '../../postCard';
 import { FilterBar } from '../../filterBar';
-import { PostCardPlaceHolder } from '../../basicUIElements';
+import { PostCardPlaceHolder, NoPost } from '../../basicUIElements';
+
 import filters from '../../../constants/options/filters.json';
 // Styles
 import styles from './postsStyles';
@@ -141,7 +143,9 @@ class PostsView extends Component {
     const {
       refreshing, posts, user, isPostsLoading, isHideImage,
     } = this.state;
-    const { componentId, filterOptions, isLoggedIn } = this.props;
+    const {
+      componentId, filterOptions, isLoggedIn, intl,
+    } = this.props;
 
     return (
       <Fragment>
@@ -180,6 +184,20 @@ class PostsView extends Component {
           />
         ) : (
           <Fragment>
+            {/* TODO: fix here */}
+            {/* {
+              (posts.length <= 0 && (
+                <NoPost
+                  name={user.name}
+                  text={intl.formatMessage({
+                    id: 'profile.havent_posted',
+                  })}
+                  defaultText={intl.formatMessage({
+                    id: 'profile.login_to_see',
+                  })}
+                />
+              ))
+              } */}
             <PostCardPlaceHolder />
             <PostCardPlaceHolder />
           </Fragment>
@@ -189,4 +207,4 @@ class PostsView extends Component {
   }
 }
 
-export default PostsView;
+export default injectIntl(PostsView);

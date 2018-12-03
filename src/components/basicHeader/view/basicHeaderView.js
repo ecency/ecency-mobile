@@ -183,7 +183,7 @@ class BasicHeaderView extends Component {
                   })}
                 />
               ) : (
-                <ActivityIndicator style={styles.textButtonWrapper} />
+                <ActivityIndicator style={[styles.textButtonWrapper]} />
               )}
             </Fragment>
           )}
