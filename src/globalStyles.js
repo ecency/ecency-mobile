@@ -51,7 +51,7 @@ export default EStyleSheet.create({
     height: '$deviceHeight',
   },
   settingsContainer: {
-    marginLeft: 48,
+    marginLeft: 42,
     marginRight: 32,
   },
 });
