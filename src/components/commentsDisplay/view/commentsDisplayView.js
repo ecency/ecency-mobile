@@ -12,9 +12,9 @@ import { Comments } from '../../comments';
 
 class CommentsDisplayView extends Component {
   /* Props
-    * ------------------------------------------------
-    *   @prop { type }    name                - Description....
-    */
+   * ------------------------------------------------
+   *   @prop { type }    name                - Description....
+   */
 
   constructor(props) {
     super(props);
@@ -25,7 +25,7 @@ class CommentsDisplayView extends Component {
 
   // Component Functions
   _handleOnDropdownSelect = () => {
-    alert('This feature not read. Thanks for understanding.');
+    // alert('This feature not read. Thanks for understanding.');
   };
 
   render() {
@@ -39,7 +39,7 @@ class CommentsDisplayView extends Component {
           <Fragment>
             <FilterBar
               dropdownIconName="md-arrow-dropdown"
-              options={['NEW COMMENTS', 'VOTES', 'REPLIES', 'MENTIONS', 'FOLLOWS', 'REBLOGS']}
+              options={['NEW COMMENTS']}
               defaultText="NEW COMMENTS"
               onDropdownSelect={this._handleOnDropdownSelect}
             />
