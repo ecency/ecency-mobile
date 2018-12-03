@@ -21,6 +21,7 @@ import {
   isDarkTheme,
 } from '../../../redux/actions/applicationActions';
 import { setPushToken } from '../../../providers/esteem/esteem';
+import { getNodes } from '../../../providers/esteem/esteem';
 
 // Middleware
 
@@ -36,10 +37,10 @@ import INITIAL from '../../../constants/initial';
 import { SettingsScreen } from '..';
 
 /*
-  *            Props Name        Description                                     Value
-  *@props -->  props name here   description here                                Value Type Here
-  *
-  */
+ *            Props Name        Description                                     Value
+ *@props -->  props name here   description here                                Value Type Here
+ *
+ */
 
 class SettingsContainer extends Component {
   constructor(props) {
@@ -48,6 +49,15 @@ class SettingsContainer extends Component {
   }
 
   // Component Life Cycle Functions
+  componentDidMount() {
+    const { intl } = this.props;
+
+    getNodes()
+      .then((resp) => {
+        this.setState({ serverList: resp });
+      })
+      .catch(() => {});
+  }
 
   // Component Functions
   _handleDropdownSelected = (action, actionType) => {
