@@ -5,15 +5,13 @@ import React, { Component, Fragment } from 'react';
 // Components
 import { BasicHeader } from '../../../components/basicHeader';
 import { PostDisplay } from '../../../components/postView';
-// Styles
-// eslint-disable-next-line
-//import styles from './_styles';
+import { PostDropdown } from '../../../components/postDropdown';
 
 class PostScreen extends Component {
   /* Props
-    * ------------------------------------------------
-    *   @prop { type }    name                - Description....
-    */
+   * ------------------------------------------------
+   *   @prop { type }    name                - Description....
+   */
 
   constructor(props) {
     super(props);
@@ -29,7 +27,12 @@ class PostScreen extends Component {
 
     return (
       <Fragment>
-        <BasicHeader isHasDropdown title="Post" />
+        <BasicHeader
+          isHasDropdown
+          title="Post"
+          content={post}
+          dropdownComponent={<PostDropdown content={post} />}
+        />
         <PostDisplay post={post} currentUser={currentUser} />
       </Fragment>
     );

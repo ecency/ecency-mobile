@@ -47,6 +47,7 @@ class PostHeaderDescription extends Component {
       profileOnPress,
       tagOnPress,
       isHideImage,
+      dropdownComponent,
     } = this.props;
 
     const _reputationText = `(${reputation})`;
