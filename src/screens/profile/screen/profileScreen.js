@@ -1,4 +1,3 @@
-/* eslint-disable no-unused-vars */
 import React, { Component, Fragment } from 'react';
 import { View, ScrollView } from 'react-native';
 import { injectIntl } from 'react-intl';
@@ -17,7 +16,6 @@ import { Wallet } from '../../../components/wallet';
 // Utilitites
 import { getFormatedCreatedDate } from '../../../utils/time';
 import { getRcPower, getVotingPower } from '../../../utils/manaBar';
-import parseToken from '../../../utils/parseToken';
 
 // Styles
 import styles from './profileStyles';
@@ -92,7 +90,6 @@ class ProfileScreen extends Component {
               // locked={!isLoggedIn}
             >
               <ProfileSummary
-                intl={intl}
                 coverImage={coverImage}
                 date={getFormatedCreatedDate(user && user.created)}
                 followerCount={follows.follower_count}
@@ -102,6 +99,7 @@ class ProfileScreen extends Component {
                 handleOnFollowsPress={handleOnFollowsPress}
                 hoursRC={fullInHourRC || null}
                 hoursVP={fullInHourVP || null}
+                intl={intl}
                 isDarkTheme={isDarkTheme}
                 isFollowing={isFollowing}
                 isLoggedIn={isLoggedIn}

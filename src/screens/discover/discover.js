@@ -1,7 +1,7 @@
 // TODO: Add top users from Surfer
 
 import React from 'react';
-import { View, Text } from 'native-base';
+import { View, Text } from 'react-native';
 
 class DiscoverPage extends React.Component {
   constructor(props) {

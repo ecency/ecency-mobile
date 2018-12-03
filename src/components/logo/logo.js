@@ -4,7 +4,7 @@ import { View, Image } from 'react-native';
 import LOGO from '../../assets/esteem.png';
 
 // Styles
-import styles from '../../styles/logo.styles';
+import styles from './logoStyles';
 import globalStyles from '../../globalStyles';
 
 const Logo = props => (

@@ -12,9 +12,9 @@ import styles from './settingsItemStyles';
 
 class SettingsItemView extends Component {
   /* Props
-    * ------------------------------------------------
-    *   @prop { type }    name                - Description....
-    */
+   * ------------------------------------------------
+   *   @prop { type }    name                - Description....
+   */
 
   constructor(props) {
     super(props);
@@ -26,7 +26,13 @@ class SettingsItemView extends Component {
   // Component Functions
   _renderItem = () => {
     const {
-      type, options, selectedOptionIndex, handleOnChange, text, isOn, actionType
+      type,
+      options,
+      selectedOptionIndex,
+      handleOnChange,
+      text,
+      isOn,
+      actionType,
     } = this.props;
 
     switch (type) {
@@ -47,7 +53,13 @@ class SettingsItemView extends Component {
         );
 
       case 'toggle':
-        return <ToggleSwitch size="large" isOn={isOn} onToggle={e => handleOnChange(e, type, actionType)} />;
+        return (
+          <ToggleSwitch
+            size="large"
+            isOn={isOn}
+            onToggle={e => handleOnChange(e, type, actionType)}
+          />
+        );
 
       default:
         return (

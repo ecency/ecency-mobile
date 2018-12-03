@@ -67,7 +67,7 @@ class CommentsView extends Component {
                 >
                   <PostBody isComment handleOnUserPress={handleOnUserPress} body={item.body} />
                   <View style={{ flexDirection: 'row' }}>
-                    <Upvote isShowPayoutValue content={item} user={currentUser} />
+                    <Upvote isShowPayoutValue content={item} />
                     <IconButton
                       iconStyle={{ color: '#c1c5c7' }}
                       style={{ marginLeft: 20 }}
