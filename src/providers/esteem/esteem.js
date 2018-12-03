@@ -107,6 +107,19 @@ export const markActivityAsRead = (user, id = null) => new Promise((resolve, rej
     });
 });
 
+export const setPushToken = data => new Promise((resolve, reject) => {
+  api
+    .post('/rgstrmbldvc/', data)
+    .then((res) => {
+      resolve(res.data);
+    })
+    .catch((error) => {
+      reject(error);
+    });
+});
+
+// SEARCH API
+
 export const search = data => new Promise((resolve, reject) => {
   searchApi
     .post('/search', data)

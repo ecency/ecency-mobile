@@ -5,6 +5,7 @@ const USER_SCHEMA = 'user';
 const AUTH_SCHEMA = 'auth';
 const DRAFT_SCHEMA = 'draft';
 const SETTINGS_SCHEMA = 'settings';
+const APPLICATION_SCHEMA = 'application';
 
 const userSchema = {
   name: USER_SCHEMA,
@@ -41,6 +42,13 @@ const settingsSchema = {
   },
 };
 
+const applicationSchema = {
+  name: APPLICATION_SCHEMA,
+  properties: {
+    isPushTokenSaved: { type: 'bool', default: false },
+  },
+};
+
 const authSchema = {
   name: AUTH_SCHEMA,
   properties: {
@@ -52,7 +60,7 @@ const authSchema = {
 
 const realm = new Realm({
   path: 'esteem.realm',
-  schema: [userSchema, authSchema, draftSchema, settingsSchema],
+  schema: [userSchema, authSchema, draftSchema, settingsSchema, applicationSchema],
 });
 
 const settings = realm.objects(SETTINGS_SCHEMA);
@@ -355,6 +363,43 @@ export const getSettings = () => new Promise((resolve, reject) => {
     } else {
       resolve(false);
     }
+  } catch (error) {
+    reject(error);
+  }
+});
+
+export const getPushTokenSaved = () => new Promise((resolve, reject) => {
+  try {
+    const application = realm.objects(APPLICATION_SCHEMA);
+    if (!application[0]) {
+      setPushTokenSaved(JSON.stringify(false));
+      resolve(false);
+    }
+    if (application[0].isPushTokenSaved) {
+      resolve((application[0].isPushTokenSaved));
+    } else {
+      resolve(false);
+    }
+  } catch (error) {
+    reject(error);
+  }
+});
+
+export const setPushTokenSaved = pushTokenSaved => new Promise((resolve, reject) => {
+  try {
+    const application = realm.objects(APPLICATION_SCHEMA);
+    realm.write(() => {
+      if (Array.from(application).length > 0) {
+        application[0].isPushTokenSaved = pushTokenSaved;
+        resolve(application[0]);
+      } else {
+        const applicationData = {
+          pushTokenSaved: false,
+        };
+        realm.create(APPLICATION_SCHEMA, { ...applicationData });
+        resolve(applicationData);
+      }
+    });
   } catch (error) {
     reject(error);
   }

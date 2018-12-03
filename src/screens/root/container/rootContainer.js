@@ -1,6 +1,7 @@
 import React, { Component, Fragment } from 'react';
 import { AppState, AsyncStorage } from 'react-native';
 import { connect } from 'react-redux';
+import Push from 'appcenter-push';
 
 // Actions
 import { openPinCodeModal } from '../../../redux/actions/applicationActions';
@@ -10,8 +11,8 @@ import { Modal } from '../../../components';
 import { PinCode } from '../..';
 
 // Constants
-import { default as ROUTES } from '../../../constants/routeNames';
-import { default as INITIAL } from '../../../constants/initial';
+import ROUTES from '../../../constants/routeNames';
+import INITIAL from '../../../constants/initial';
 
 const RootContainer = () => (WrappedComponent) => {
   class RootComponent extends Component {
@@ -33,6 +34,7 @@ const RootContainer = () => (WrappedComponent) => {
 
     componentDidMount() {
       AppState.addEventListener('change', this._handleAppStateChange);
+      this._createPushListener();
     }
 
     componentWillUnmount() {
@@ -63,6 +65,25 @@ const RootContainer = () => (WrappedComponent) => {
 
     _setWrappedComponentState = (data) => {
       this.setState({ wrappedComponentStates: { ...data } });
+    };
+
+    _createPushListener = () => {
+      const { navigation } = this.props;
+      Push.setListener({
+        onPushNotificationReceived(pushNotification) {
+          if (AppState.currentState === 'background') {
+            if (pushNotification.customProperties.routeName) {
+              navigation.navigate({
+                routeName: pushNotification.customProperties.routeName,
+              });
+            } else {
+              navigation.navigate({
+                routeName: ROUTES.TABBAR.NOTIFICATION,
+              });
+            }
+          }
+        },
+      });
     };
 
     render() {

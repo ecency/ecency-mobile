@@ -2,14 +2,6 @@
 <!DOCTYPE plist PUBLIC "-//Apple//DTD PLIST 1.0//EN" "http://www.apple.com/DTDs/PropertyList-1.0.dtd">
 <plist version="1.0">
 <dict>
-	<key>NSMicrophoneUsageDescription</key>
-	<string>Microphone Usage Access</string>
-	<key>NSCameraUsageDescription</key>
-	<string>Camera Usage Access</string>
-	<key>NSPhotoLibraryUsageDescription</key>
-	<string>Photo Usage Access</string>
-	<key>NSPhotoLibraryAddUsageDescription</key>
-	<string>Photo Library Access</string>
 	<key>CFBundleDevelopmentRegion</key>
 	<string>en</string>
 	<key>CFBundleDisplayName</key>
@@ -45,8 +37,16 @@
 			</dict>
 		</dict>
 	</dict>
+	<key>NSCameraUsageDescription</key>
+	<string>Camera Usage Access</string>
 	<key>NSLocationWhenInUseUsageDescription</key>
 	<string/>
+	<key>NSMicrophoneUsageDescription</key>
+	<string>Microphone Usage Access</string>
+	<key>NSPhotoLibraryAddUsageDescription</key>
+	<string>Photo Library Access</string>
+	<key>NSPhotoLibraryUsageDescription</key>
+	<string>Photo Usage Access</string>
 	<key>UIAppFonts</key>
 	<array>
 		<string>Entypo.ttf</string>
@@ -70,6 +70,10 @@
 		<string>FontAwesome5_Brands.ttf</string>
 		<string>FontAwesome5_Regular.ttf</string>
 		<string>FontAwesome5_Solid.ttf</string>
+	</array>
+	<key>UIBackgroundModes</key>
+	<array>
+		<string>remote-notification</string>
 	</array>
 	<key>UILaunchStoryboardName</key>
 	<string>LaunchScreen</string>

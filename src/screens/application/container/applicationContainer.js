@@ -1,14 +1,25 @@
 import React, { Component } from 'react';
+import { AsyncStorage, Platform } from 'react-native';
 import { connect } from 'react-redux';
 import { addLocaleData } from 'react-intl';
 import Config from 'react-native-config';
+import AppCenter from 'appcenter';
 
 // Constants
 import en from 'react-intl/locale-data/en';
 import tr from 'react-intl/locale-data/tr';
+import INITIAL from '../../../constants/initial';
 
-import { getUserData, getAuthStatus, getSettings } from '../../../realm/realm';
+// Services
+import {
+  getUserData,
+  getAuthStatus,
+  getSettings,
+  getPushTokenSaved,
+  setPushTokenSaved,
+} from '../../../realm/realm';
 import { getUser } from '../../../providers/steem/dsteem';
+import { setPushToken } from '../../../providers/esteem/esteem';
 
 // Actions
 import {
@@ -31,6 +42,7 @@ import {
 import { ApplicationScreen } from '..';
 
 addLocaleData([...en, ...tr]);
+/* eslint-disable */
 // symbol polyfills
 global.Symbol = require('core-js/es6/symbol');
 require('core-js/fn/symbol/iterator');
@@ -39,6 +51,7 @@ require('core-js/fn/symbol/iterator');
 require('core-js/fn/map');
 require('core-js/fn/set');
 require('core-js/fn/array/find');
+/* eslint-enable */
 
 class ApplicationContainer extends Component {
   constructor() {
@@ -85,6 +98,7 @@ class ApplicationContainer extends Component {
                   dispatch(openPinCodeModal());
                 }
                 this._connectNotificationServer(accountData.name);
+                this._setPushToken(accountData.name);
               })
               .catch((err) => {
                 alert(err);
@@ -101,6 +115,7 @@ class ApplicationContainer extends Component {
     const { dispatch } = this.props;
 
     getSettings().then((response) => {
+      console.log('response :', response);
       if (response) {
         response.isDarkTheme && dispatch(isDarkTheme(response.isDarkTheme));
         response.language && dispatch(setLanguage(response.language));
@@ -120,6 +135,29 @@ class ApplicationContainer extends Component {
       console.log('e.data :', e.data);
       dispatch(updateUnreadActivityCount(unreadActivityCount + 1));
     };
+  };
+
+  _setPushToken = async (username) => {
+    const { notificationSettings } = this.props;
+    const token = await AppCenter.getInstallId();
+
+    AsyncStorage.getItem(INITIAL.IS_EXIST_USER, (err, result) => {
+      if (JSON.parse(result)) {
+        getPushTokenSaved().then((isPushTokenSaved) => {
+          if (!isPushTokenSaved) {
+            const data = {
+              username,
+              token,
+              system: Platform.OS,
+              allows_notify: notificationSettings,
+            };
+            setPushToken(data).then(() => {
+              setPushTokenSaved(JSON.stringify(true));
+            });
+          }
+        });
+      }
+    });
   };
 
   render() {
@@ -142,6 +180,7 @@ const mapStateToProps = state => ({
   isDarkTheme: state.application.isDarkTheme,
   selectedLanguage: state.application.language,
   unreadActivityCount: state.account.currentAccount.unread_activity_count,
+  notificationSettings: state.application.isNotificationOpen,
 });
 
 export default connect(mapStateToProps)(ApplicationContainer);
