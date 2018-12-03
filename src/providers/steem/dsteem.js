@@ -655,7 +655,6 @@ export const postComment = (
         resolve(result);
       })
       .catch((error) => {
-        console.log(error);
         reject(error);
       });
   });

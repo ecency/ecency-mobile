@@ -36,10 +36,10 @@ import INITIAL from '../../../constants/initial';
 import { SettingsScreen } from '..';
 
 /*
-  *            Props Name        Description                                     Value
-  *@props -->  props name here   description here                                Value Type Here
-  *
-  */
+ *            Props Name        Description                                     Value
+ *@props -->  props name here   description here                                Value Type Here
+ *
+ */
 
 class SettingsContainer extends Component {
   constructor(props) {
@@ -104,7 +104,6 @@ class SettingsContainer extends Component {
         break;
 
       case 'button':
-        console.log(action + type);
         break;
 
       default:

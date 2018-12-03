@@ -115,7 +115,6 @@ class ApplicationContainer extends Component {
     const { dispatch } = this.props;
 
     getSettings().then((response) => {
-      console.log('response :', response);
       if (response) {
         response.isDarkTheme && dispatch(isDarkTheme(response.isDarkTheme));
         response.language && dispatch(setLanguage(response.language));
@@ -132,7 +131,6 @@ class ApplicationContainer extends Component {
 
     ws.onmessage = (e) => {
       // a message was received
-      console.log('e.data :', e.data);
       dispatch(updateUnreadActivityCount(unreadActivityCount + 1));
     };
   };

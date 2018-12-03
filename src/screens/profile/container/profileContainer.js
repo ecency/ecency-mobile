@@ -76,9 +76,7 @@ class ProfileContainer extends Component {
           isLoading: false,
         });
       })
-      .catch((err) => {
-        console.log(err);
-      });
+      .catch((err) => {});
   };
 
   _handleFollowUnfollowUser = async (isFollowAction) => {
