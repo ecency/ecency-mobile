@@ -55,7 +55,7 @@ const DropdownButtonView = ({
     <ModalDropdown
       style={[!style ? styles.button : style]}
       textStyle={[textStyle || styles.buttonText]}
-      dropdownStyle={[dropdownStyle || styles.dropdown, { height: 35 * (options.length + 1) }]}
+      dropdownStyle={[styles.dropdown, dropdownStyle, { height: 35 * (options.length + 1) }]}
       dropdownTextStyle={[dropdownTextStyle || styles.dropdownText]}
       dropdownTextHighlightStyle={styles.dropdownTextHighlight}
       options={options}

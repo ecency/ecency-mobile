@@ -114,7 +114,6 @@ class SettingsContainer extends Component {
         break;
 
       case 'button':
-        console.log(action + type);
         break;
 
       default:

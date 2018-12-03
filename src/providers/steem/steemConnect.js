@@ -8,7 +8,6 @@ export const vote = vote => new Promise((resolve, reject) => {
   steemConnect
     .vote(vote.voter, vote.author, vote.permlink, vote.weight)
     .then((result) => {
-      console.log(result);
       resolve(result);
     })
     .catch((error) => {
@@ -32,7 +31,6 @@ export const comment = comment => new Promise((resolve, reject) => {
       comment.jsonMetadata,
     )
     .then((result) => {
-      console.log(result);
       resolve(result);
     })
     .catch((error) => {
@@ -67,7 +65,6 @@ export const post = (post) => {
     steemConnect
       .broadcast(operations)
       .then((result) => {
-        console.log(result);
         resolve(result);
       })
       .catch((error) => {

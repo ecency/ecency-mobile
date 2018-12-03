@@ -50,4 +50,9 @@ export default EStyleSheet.create({
     alignSelf: 'center',
     marginBottom: 25,
   },
+  avatar: {
+    width: 64,
+    height: 64,
+    borderRadius: 64 / 2,
+  },
 });
