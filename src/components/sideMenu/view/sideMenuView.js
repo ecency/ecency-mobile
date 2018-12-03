@@ -1,9 +1,8 @@
 import React, { Component } from 'react';
-import { View, Text, ImageBackground } from 'react-native';
-import { injectIntl } from 'react-intl';
 import {
-  Thumbnail, List, ListItem, Container,
-} from 'native-base';
+  View, Text, ImageBackground, FlatList, TouchableHighlight,
+} from 'react-native';
+import { injectIntl } from 'react-intl';
 import LinearGradient from 'react-native-linear-gradient';
 import FastImage from 'react-native-fast-image';
 
@@ -75,7 +74,7 @@ class SideMenuView extends Component {
       : DEFAULT_IMAGE;
 
     return (
-      <Container style={styles.container}>
+      <View style={styles.container}>
         <LinearGradient
           start={{ x: 0, y: 0 }}
           end={{ x: 1, y: 0 }}
@@ -117,39 +116,47 @@ class SideMenuView extends Component {
           </ImageBackground>
         </LinearGradient>
         <View style={styles.contentView}>
-          <List
-            itemDivider={false}
-            dataArray={menuItems}
-            renderRow={(item, i) => (
-              <ListItem
-                noBorder
+          <FlatList
+            data={menuItems}
+            renderItem={item => (
+              <TouchableHighlight
                 style={styles.listItem}
                 onPress={() => {
-                  if (item.route) {
-                    navigateToRoute(item.route);
+                  if (item.item.route) {
+                    navigateToRoute(item.item.route);
                   } else {
-                    switchAccount(item.name);
+                    switchAccount(item.item.name);
                   }
                 }}
               >
-                {item.icon && (
-                  <Icon iconType="FontAwesome" style={styles.listItemIcon} name={item.icon} />
-                )}
-                {item.image && (
-                  <Thumbnail small style={styles.otherUserAvatar} source={item.image} />
-                )}
-                <Text style={styles.listItemText}>
-                  {isAddAccountIconActive
-                    ? menuItems[menuItems.length - 1].id === item.id
-                      ? intl.formatMessage({ id: `side_menu.${item.id}` })
-                      : item.name
-                    : intl.formatMessage({ id: `side_menu.${item.id}` })}
-                </Text>
-              </ListItem>
+                <View style={styles.itemWrapper}>
+                  {item.item.icon && (
+                    <Icon
+                      iconType="FontAwesome"
+                      style={styles.listItemIcon}
+                      name={item.item.icon}
+                    />
+                  )}
+                  {item.item.image && (
+                    <FastImage
+                      style={styles.otherUserAvatar}
+                      source={item.item.image}
+                      defaultSource={DEFAULT_IMAGE}
+                    />
+                  )}
+                  <Text style={styles.listItemText}>
+                    {isAddAccountIconActive
+                      ? menuItems[menuItems.length - 1].id === item.item.id
+                        ? intl.formatMessage({ id: `side_menu.${item.item.id}` })
+                        : item.item.name
+                      : intl.formatMessage({ id: `side_menu.${item.item.id}` })}
+                  </Text>
+                </View>
+              </TouchableHighlight>
             )}
           />
         </View>
-      </Container>
+      </View>
     );
   }
 }

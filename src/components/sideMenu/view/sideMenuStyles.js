@@ -27,6 +27,12 @@ export default EStyleSheet.create({
   },
   otherUserAvatar: {
     marginLeft: -15,
+    width: 32,
+    height: 32,
+    borderRadius: 32 / 2,
+    borderWidth: 0.1,
+    alignSelf: 'center',
+    borderColor: '$borderColor',
   },
   userInfoView: {
     alignSelf: 'center',
@@ -52,14 +58,10 @@ export default EStyleSheet.create({
   },
   listItemText: {
     color: '$primaryDarkGray',
-    marginLeft: 15,
+    marginLeft: 12,
+    alignSelf: 'center',
     fontWeight: '500',
-  },
-  linearGradient: {
-    flex: 1,
-    paddingLeft: 15,
-    paddingRight: 15,
-    borderRadius: 5,
+    fontSize: 14,
   },
   buttonText: {
     fontSize: 18,
@@ -77,5 +79,10 @@ export default EStyleSheet.create({
   },
   addAccountIcon: {
     padding: 10,
+  },
+  itemWrapper: {
+    flexDirection: 'row',
+    marginVertical: 20,
+    marginLeft: 48,
   },
 });
