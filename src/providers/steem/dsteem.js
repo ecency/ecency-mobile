@@ -2,7 +2,6 @@ import { Client, PrivateKey } from 'dsteem';
 import { AsyncStorage } from 'react-native';
 
 import { getUnreadActivityCount } from '../esteem/esteem';
-import sc2 from './steemConnectAPI';
 
 // Utils
 import { decryptKey } from '../../utils/crypto';

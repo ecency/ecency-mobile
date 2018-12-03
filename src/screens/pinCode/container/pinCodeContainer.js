@@ -1,19 +1,14 @@
 import React, { Component } from 'react';
-import { AsyncStorage } from 'react-native';
 import { connect } from 'react-redux';
 import { injectIntl } from 'react-intl';
 
 import { setUserDataWithPinCode, verifyPinCode } from '../../../providers/steem/auth';
 
-// Actions
+// Actions & Services
 import { closePinCodeModal } from '../../../redux/actions/applicationActions';
-
-// Constants
-import { default as INITIAL } from '../../../constants/initial';
+import { getExistUser, setExistUser } from '../../../realm/realm';
 
 import { PinCodeScreen } from '..';
-
-const DEFAULT_IMAGE = require('../../../assets/esteem.png');
 
 class PinCodeContainer extends Component {
   constructor(props) {
@@ -48,10 +43,10 @@ class PinCodeContainer extends Component {
   }
 
   _getDataFromStorage = () => new Promise((resolve) => {
-    AsyncStorage.getItem(INITIAL.IS_EXIST_USER, (err, result) => {
+    getExistUser().then((isExistUser) => {
       this.setState(
         {
-          isExistUser: JSON.parse(result),
+          isExistUser,
         },
         resolve,
       );
@@ -106,7 +101,7 @@ class PinCodeContainer extends Component {
         accessToken,
       };
       setUserDataWithPinCode(pinData).then(() => {
-        AsyncStorage.setItem(INITIAL.IS_EXIST_USER, JSON.stringify(true), () => {
+        setExistUser(true).then(() => {
           dispatch(closePinCodeModal());
           if (navigateTo) {
             navigation.navigate(navigateTo);

@@ -46,6 +46,7 @@ const applicationSchema = {
   name: APPLICATION_SCHEMA,
   properties: {
     isPushTokenSaved: { type: 'bool', default: false },
+    isExistUser: { type: 'bool', default: false },
   },
 };
 
@@ -395,6 +396,43 @@ export const setPushTokenSaved = pushTokenSaved => new Promise((resolve, reject)
       } else {
         const applicationData = {
           pushTokenSaved: false,
+        };
+        realm.create(APPLICATION_SCHEMA, { ...applicationData });
+        resolve(applicationData);
+      }
+    });
+  } catch (error) {
+    reject(error);
+  }
+});
+
+export const getExistUser = () => new Promise((resolve, reject) => {
+  try {
+    const application = realm.objects(APPLICATION_SCHEMA);
+    if (!application[0]) {
+      setExistUser(false);
+      resolve(false);
+    }
+    if (application[0].isExistUser) {
+      resolve((application[0].isExistUser));
+    } else {
+      resolve(false);
+    }
+  } catch (error) {
+    reject(error);
+  }
+});
+
+export const setExistUser = existUser => new Promise((resolve, reject) => {
+  try {
+    const application = realm.objects(APPLICATION_SCHEMA);
+    realm.write(() => {
+      if (Array.from(application).length > 0) {
+        application[0].isExistUser = existUser;
+        resolve(application[0]);
+      } else {
+        const applicationData = {
+          existUser: false,
         };
         realm.create(APPLICATION_SCHEMA, { ...applicationData });
         resolve(applicationData);
