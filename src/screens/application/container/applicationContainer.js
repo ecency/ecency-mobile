@@ -11,7 +11,13 @@ import tr from 'react-intl/locale-data/tr';
 import INITIAL from '../../../constants/initial';
 
 // Services
-import { getUserData, getAuthStatus, getSettings } from '../../../realm/realm';
+import {
+  getUserData,
+  getAuthStatus,
+  getSettings,
+  getPushTokenSaved,
+  setPushTokenSaved,
+} from '../../../realm/realm';
 import { getUser } from '../../../providers/steem/dsteem';
 import { setPushToken } from '../../../providers/esteem/esteem';
 
@@ -133,18 +139,22 @@ class ApplicationContainer extends Component {
   _setPushToken = async (username) => {
     const { notificationSettings } = this.props;
     const token = await AppCenter.getInstallId();
-    AsyncStorage.multiGet([INITIAL.PUSH_TOKEN_SAVED, INITIAL.IS_EXIST_USER], (err, result) => {
-      if (!JSON.parse(result[0][1]) && JSON.parse(result[1][1])) {
-        const data = {
-          username,
-          token,
-          system: Platform.OS,
-          allows_notify: notificationSettings,
-        };
-        setPushToken(data)
-          .then(() => {
-            AsyncStorage.setItem(INITIAL.PUSH_TOKEN_SAVED, JSON.stringify(true));
-          });
+
+    AsyncStorage.getItem(INITIAL.IS_EXIST_USER, (err, result) => {
+      if (JSON.parse(result)) {
+        getPushTokenSaved().then((isPushTokenSaved) => {
+          if (!isPushTokenSaved) {
+            const data = {
+              username,
+              token,
+              system: Platform.OS,
+              allows_notify: notificationSettings,
+            };
+            setPushToken(data).then(() => {
+              setPushTokenSaved(JSON.stringify(true));
+            });
+          }
+        });
       }
     });
   };
