@@ -5,7 +5,7 @@ export default EStyleSheet.create({
   container: {
     flex: 1,
     top: StatusBar.currentHeight,
-    backgroundColor: '$primaryGrayBackground',
+    backgroundColor: '$primaryLightBackground',
   },
   content: {
     backgroundColor: '$primaryGrayBackground',

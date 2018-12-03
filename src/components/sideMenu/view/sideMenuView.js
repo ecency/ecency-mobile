@@ -143,9 +143,7 @@ class SideMenuView extends Component {
                     ? menuItems[menuItems.length - 1].id === item.id
                       ? intl.formatMessage({ id: `side_menu.${item.id}` })
                       : item.name
-                    : 
-                      intl.formatMessage({ id: `side_menu.${item.id}` })
-                    }
+                    : intl.formatMessage({ id: `side_menu.${item.id}` })}
                 </Text>
               </ListItem>
             )}
