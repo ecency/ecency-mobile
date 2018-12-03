@@ -18,9 +18,9 @@ import styles from './postDisplayStyles';
 const HEIGHT = Dimensions.get('window').width;
 class PostDisplayView extends Component {
   /* Props
-    * ------------------------------------------------
-    *   @prop { type }    name                - Description....
-    */
+   * ------------------------------------------------
+   *   @prop { type }    name                - Description....
+   */
 
   constructor(props) {
     super(props);
@@ -62,7 +62,7 @@ class PostDisplayView extends Component {
     return (
       <StickyBar isFixedFooter={isFixedFooter}>
         <View style={styles.stickyWrapper}>
-          <Upvote isShowPayoutValue content={post} user={currentUser} />
+          <Upvote isShowPayoutValue content={post} />
           <TextWithIcon
             isClickable
             iconStyle={styles.barIcons}
@@ -80,16 +80,14 @@ class PostDisplayView extends Component {
             iconType="FontAwesome"
           />
           <View style={styles.stickyRightWrapper}>
-            {post
-              && currentUser
-              && currentUser.name === post.author && (
-                <IconButton
-                  iconStyle={styles.barIconRight}
-                  style={styles.barIconButton}
-                  name="pencil"
-                  iconType="SimpleLineIcons"
-                  onPress={() => handleOnEditPress && handleOnEditPress()}
-                />
+            {post && currentUser && currentUser.name === post.author && (
+              <IconButton
+                iconStyle={styles.barIconRight}
+                style={styles.barIconButton}
+                name="pencil"
+                iconType="SimpleLineIcons"
+                onPress={() => handleOnEditPress && handleOnEditPress()}
+              />
             )}
             <IconButton
               iconStyle={styles.barIconRight}
@@ -145,14 +143,13 @@ class PostDisplayView extends Component {
               </View>
             )}
           </View>
-          {post
-            && (isGetComment || isLoadedComments) && (
-              <CommentsDisplay
-                currentUser={currentUser}
-                author={post.author}
-                permlink={post.permlink}
-                commentCount={post.children}
-              />
+          {post && (isGetComment || isLoadedComments) && (
+            <CommentsDisplay
+              currentUser={currentUser}
+              author={post.author}
+              permlink={post.permlink}
+              commentCount={post.children}
+            />
           )}
         </ScrollView>
         {!isPostEnd && this._getTabBar(true)}

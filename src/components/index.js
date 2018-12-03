@@ -1,5 +1,4 @@
 import Logo from './logo/logo';
-import Reply from './reply/reply';
 import { FormInput } from './formInput';
 import { CircularButton, TextButton, IconButton } from './buttons';
 import { NumericKeyboard } from './numericKeyboard';
@@ -12,7 +11,6 @@ import UserListItem from './basicUIElements/view/userListItem/userListItem';
 export {
   Logo,
   UserListItem,
-  Reply,
   FormInput,
   CircularButton,
   TextButton,

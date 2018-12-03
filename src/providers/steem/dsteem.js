@@ -67,6 +67,7 @@ export const getUser = async (user) => {
     const rcPower = await client.call('rc_api', 'find_rc_accounts', { accounts: [user] });
     const unreadActivityCount = await getUnreadActivityCount({ user });
 
+    account[0].username = account[0].name;
     account[0].unread_activity_count = unreadActivityCount;
     account[0].rc_manabar = rcPower.rc_accounts[0].rc_manabar;
     account[0].steem_power = await vestToSteem(
@@ -322,7 +323,12 @@ export const getPostWithComments = async (user, permlink) => {
  * @param postingKey private posting key
  */
 export const upvote = (vote, postingKey) => {
-  const key = PrivateKey.fromString(postingKey);
+  let key;
+
+  try {
+    key = PrivateKey.fromString(postingKey);
+  } catch (error) {}
+
   return new Promise((resolve, reject) => {
     client.broadcast
       .vote(vote, key)
@@ -352,9 +358,9 @@ export const upvoteAmount = async (input) => {
       });
   }
 
-  const estimated = (input / parseFloat(rewardFund.recent_claims))
+    const estimated = (input / parseFloat(rewardFund.recent_claims))
     * parseFloat(rewardFund.reward_balance)
-    * parseFloat(medianPrice.base);
+    * (parseFloat(medianPrice.base) / parseFloat(medianPrice.quote));
   return estimated;
 };
 

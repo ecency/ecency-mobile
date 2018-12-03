@@ -199,7 +199,7 @@ export default class MarkdownEditorView extends Component {
           })}
         <ActionSheet
           ref={o => (this.ActionSheet = o)}
-          options={['Open Gallery', 'Take a photo', 'Cancel']}
+          options={['Open Gallery', 'Capture a photo', 'Cancel']}
           cancelButtonIndex={2}
           onPress={(index) => {
             handleOpenImagePicker(index === 0 ? 'image' : index === 1 && 'camera');

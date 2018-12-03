@@ -36,7 +36,6 @@ class UpvoteContainer extends Component {
 const mapStateToProps = state => ({
   isLoggedIn: state.application.isLoggedIn,
 
-  // TODO: Remove users as coming props. pass follow current account
   currentAccount: state.account.currentAccount,
 });
 
