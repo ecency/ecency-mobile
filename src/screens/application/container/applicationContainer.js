@@ -152,7 +152,7 @@ class ApplicationContainer extends Component {
               allows_notify: notificationSettings,
             };
             setPushToken(data).then(() => {
-              setPushTokenSaved(JSON.stringify(true));
+              setPushTokenSaved(true);
             });
           }
         });
