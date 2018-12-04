@@ -21,17 +21,6 @@ class PostBody extends Component {
   // Component Life Cycles
 
   // Component Functions
-  // alterNode(node) {
-  //   // if (node.name === 'img') {
-  //   //   node.attribs.style = `max-width: ${WIDTH + 16}px; left: -16px; width: 100% !important`;
-  //   // } else if (node.name == 'iframe') {
-  //   //   node.attribs.style = `max-width: ${WIDTH}px; left: -20px`;
-  //   //   node.attribs.height = 216;
-  //   // }
-  //   // if (node.name === 'a') {
-  //   //   node.attribs.style = 'text-decoration: underline';
-  //   // }
-  // }
 
   _handleOnLinkPress = (evt, href, hrefatr) => {
     const { handleOnUserPress } = this.props;
@@ -57,27 +46,44 @@ class PostBody extends Component {
       params: {
         username,
       },
-      key: username + Math.random() * 100,
+      key: username,
     });
+  };
+
+  _alterNode = (node, isComment) => {
+    if (isComment) {
+      if (node.name === 'img') {
+        node.attribs.style = `max-width: ${WIDTH + 16}px; maxHeight: 120px;`;
+        console.log(node);
+      } else if (node.name == 'iframe') {
+        node.attribs.style = `max-width: ${WIDTH}px; left: -20px`;
+        node.attribs.height = 216;
+      }
+    } else if (node.name === 'a') {
+      node.attribs.style = 'text-decoration: underline';
+    }
   };
 
   render() {
     const { body, isComment } = this.props;
-    const _initialDimensions = isComment ? {} : { width: WIDTH, height: 216 };
+    const _initialDimensions = isComment
+      ? { width: WIDTH - 20, height: 50 }
+      : { width: WIDTH, height: 216 };
 
     return (
       <View>
         <HTML
           html={body}
           onLinkPress={(evt, href, hrefatr) => this._handleOnLinkPress(evt, href, hrefatr)}
-          containerStyle={isComment ? {} : styles.container}
+          containerStyle={isComment ? styles.commentContainer : styles.container}
           textSelectable
-          tagsStyles={isComment ? {} : styles}
+          tagsStyles={isComment ? { img: { height: 120 } } : styles}
           ignoredTags={['script']}
           debug={false}
           imagesInitialDimensions={_initialDimensions}
           baseFontStyle={styles.text}
-          imagesMaxWidth={isComment ? null : WIDTH}
+          imagesMaxWidth={isComment ? WIDTH - 20 : WIDTH}
+          alterNode={e => this._alterNode(e, isComment)}
         />
       </View>
     );

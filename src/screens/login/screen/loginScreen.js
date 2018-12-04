@@ -81,7 +81,7 @@ class LoginScreen extends Component {
   };
 
   _handleSignUp = () => {
-    Linking.openURL('https://signup.steemit.com/?ref=esteem').catch(err => console.error('An error occurred', err));
+    Linking.openURL('https://signup.steemit.com/?ref=esteem').catch(err => alert('An error occurred', err));
   };
 
   _loginwithSc2 = () => {

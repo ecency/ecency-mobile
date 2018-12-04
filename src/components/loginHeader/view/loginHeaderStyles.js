@@ -7,6 +7,9 @@ export default EStyleSheet.create({
     height: '$deviceHeight / 4',
     backgroundColor: '$primaryBackgroundColor',
   },
+  safeArea: {
+    backgroundColor: '$primaryBackgroundColor',
+  },
   body: {
     flexDirection: 'row',
     maxHeight: '$deviceHeight / 4',
@@ -29,8 +32,9 @@ export default EStyleSheet.create({
   },
   mascot: {
     position: 'absolute',
-    width: '$deviceWidth / 2',
-    height: '$deviceHeight / 2.5',
+    width: 160,
+
+    height: 227,
     marginTop: 10,
     right: -20,
   },
