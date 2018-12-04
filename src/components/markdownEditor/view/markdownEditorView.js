@@ -1,8 +1,9 @@
 import React, { Component } from 'react';
 import {
-  View, KeyboardAvoidingView, ScrollView, FlatList, Text, ActionSheetIOS
+  View, KeyboardAvoidingView, ScrollView, FlatList, Text,
 } from 'react-native';
 import Markdown, { getUniqueID } from 'react-native-markdown-renderer';
+import ActionSheet from 'react-native-actionsheet';
 
 // Components
 import { DropdownButton } from '../../dropdownButton';
@@ -123,63 +124,49 @@ export default class MarkdownEditorView extends Component {
     </View>
   );
 
-  _handleOnImageButtonPress = () => {
-    const { handleOpenImagePicker } = this.props;
-
-    ActionSheetIOS.showActionSheetWithOptions(
-      {
-        options: ['Cancel', 'Take Photo', 'Select From Gallery'],
-        cancelButtonIndex: 0,
-      },
-      (buttonIndex) => {
-        handleOpenImagePicker(buttonIndex === 1 ? 'camera' : buttonIndex === 2 && 'image');
-      },
-    );
-  }
-
-  _renderEditorButtons = ({ getState, setState }) => {
-    return (
-      <StickyBar>
-        <View style={styles.leftButtonsWrapper}>
-          <FlatList
-            data={Formats}
-            keyboardShouldPersistTaps="always"
-            renderItem={({ item, index }) => index !== 9 && this._renderMarkupButton({ item, getState, setState })
-            }
-            horizontal
-          />
-        </View>
-        <View style={styles.rightButtonsWrapper}>
-          <IconButton
-            size={20}
-            style={styles.rightIcons}
-            iconStyle={styles.icon}
-            iconType="FontAwesome"
-            name="link"
-            onPress={() => Formats[9].onPress({ getState, setState })}
-          />
-          <IconButton
-            onPress={() => this._handleOnImageButtonPress()}
-            style={styles.rightIcons}
-            size={20}
-            iconStyle={styles.icon}
-            iconType="FontAwesome"
-            name="image"
-          />
-          <DropdownButton
-            style={styles.dropdownStyle}
-            options={['option1', 'option2', 'option3', 'option4']}
-            iconName="md-more"
-            iconStyle={styles.dropdownIconStyle}
-            isHasChildIcon
-          />
-        </View>
-      </StickyBar>
-    );
-  };
+  _renderEditorButtons = ({ getState, setState }) => (
+    <StickyBar>
+      <View style={styles.leftButtonsWrapper}>
+        <FlatList
+          data={Formats}
+          keyboardShouldPersistTaps="always"
+          renderItem={({ item, index }) => index !== 9 && this._renderMarkupButton({ item, getState, setState })
+          }
+          horizontal
+        />
+      </View>
+      <View style={styles.rightButtonsWrapper}>
+        <IconButton
+          size={20}
+          style={styles.rightIcons}
+          iconStyle={styles.icon}
+          iconType="FontAwesome"
+          name="link"
+          onPress={() => Formats[9].onPress({ getState, setState })}
+        />
+        <IconButton
+          onPress={() => this.ActionSheet.show()}
+          style={styles.rightIcons}
+          size={20}
+          iconStyle={styles.icon}
+          iconType="FontAwesome"
+          name="image"
+        />
+        <DropdownButton
+          style={styles.dropdownStyle}
+          options={['option1', 'option2', 'option3', 'option4']}
+          iconName="md-more"
+          iconStyle={styles.dropdownIconStyle}
+          isHasChildIcon
+        />
+      </View>
+    </StickyBar>
+  );
 
   render() {
-    const { intl, isPreviewActive, isReply } = this.props;
+    const {
+      intl, isPreviewActive, isReply, handleOpenImagePicker,
+    } = this.props;
     const { text, selection } = this.state;
 
     return (
@@ -210,6 +197,14 @@ export default class MarkdownEditorView extends Component {
               this.setState(state, callback);
             },
           })}
+        <ActionSheet
+          ref={o => (this.ActionSheet = o)}
+          options={['Open Gallery', 'Capture a photo', 'Cancel']}
+          cancelButtonIndex={2}
+          onPress={(index) => {
+            handleOpenImagePicker(index === 0 ? 'image' : index === 1 && 'camera');
+          }}
+        />
       </KeyboardAvoidingView>
     );
   }

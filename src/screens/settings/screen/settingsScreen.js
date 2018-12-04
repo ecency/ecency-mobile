@@ -16,9 +16,9 @@ import globalStyles from '../../../globalStyles';
 
 class SettingsScreen extends Component {
   /* Props
-    * ------------------------------------------------
-    *   @prop { type }    name                - Description....
-    */
+   * ------------------------------------------------
+   *   @prop { type }    name                - Description....
+   */
   constructor(props) {
     super(props);
     this.state = {};
@@ -36,6 +36,7 @@ class SettingsScreen extends Component {
       selectedCurrency,
       isNotificationOpen,
       isDarkTheme,
+      serverList,
       intl,
     } = this.props;
 
@@ -74,8 +75,9 @@ class SettingsScreen extends Component {
             })}
             type="dropdown"
             actionType="api"
-            options={API}
-            selectedOptionIndex={API_VALUE.indexOf(selectedApi)}
+            options={serverList}
+            selectedOptionIndex={serverList.indexOf(selectedApi)}
+            defaultText={selectedApi}
             handleOnChange={handleOnChange}
           />
           <SettingsItem

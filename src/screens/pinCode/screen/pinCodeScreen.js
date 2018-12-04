@@ -1,10 +1,12 @@
 import React, { Component } from 'react';
 import { Text, TouchableOpacity, View } from 'react-native';
-import { Container, Thumbnail } from 'native-base';
+import FastImage from 'react-native-fast-image';
 
 import { NumericKeyboard, PinAnimatedInput } from '../../../components';
 
 import styles from './pinCodeStyles';
+
+const DEFAULT_IMAGE = require('../../../assets/avatar_default.png');
 
 class PinCodeScreen extends Component {
   constructor(props) {
@@ -52,9 +54,9 @@ class PinCodeScreen extends Component {
     const { pin } = this.state;
 
     return (
-      <Container style={styles.container}>
+      <View style={styles.container}>
         <View style={styles.logoView}>
-          <Thumbnail source={avatar} />
+          <FastImage style={styles.avatar} source={{ uri: avatar }} defaultSource={DEFAULT_IMAGE} />
         </View>
         <View style={styles.titleView}>
           <Text style={styles.title}>{`@${username}`}</Text>
@@ -79,7 +81,7 @@ class PinCodeScreen extends Component {
         ) : (
           <View style={styles.forgotButtonView} />
         )}
-      </Container>
+      </View>
     );
   }
 }

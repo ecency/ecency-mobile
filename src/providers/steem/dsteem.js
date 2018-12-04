@@ -1,32 +1,34 @@
 import { Client, PrivateKey } from 'dsteem';
-import { AsyncStorage } from 'react-native';
-
+import sc2 from './steemConnectAPI';
+import { getServer } from '../../realm/realm';
 import { getUnreadActivityCount } from '../esteem/esteem';
 
 // Utils
 import { decryptKey } from '../../utils/crypto';
-
+import { getDigitPinCode } from '../steem/auth';
 import {
   parsePosts, parsePost, parseComments, parsePostsSummary,
 } from '../../utils/postParser';
-
 import { getName, getAvatar } from '../../utils/user';
 
+const DEFAULT_SERVER = 'https://rpc.esteem.app';
 let rewardFund = null;
 let medianPrice = null;
-let client = new Client('https://api.steemit.com');
+let client = new Client(DEFAULT_SERVER);
 
-getClient = async () => {
-  const server = await AsyncStorage.getItem('server');
+const _getClient = async () => {
+  let selectedServer = DEFAULT_SERVER;
 
-  if (server === null || server === undefined || server === '') {
-    client = new Client('https://api.steemit.com');
-  } else {
-    client = new Client(`${server}`);
-  }
+  await getServer().then((response) => {
+    if (response) {
+      selectedServer = response;
+    }
+  });
+
+  client = new Client(selectedServer);
 };
 
-getClient();
+_getClient();
 
 /**
  * @method getAccount get account data
@@ -66,6 +68,7 @@ export const getUser = async (user) => {
     const rcPower = await client.call('rc_api', 'find_rc_accounts', { accounts: [user] });
     const unreadActivityCount = await getUnreadActivityCount({ user });
 
+    account[0].username = account[0].name;
     account[0].unread_activity_count = unreadActivityCount;
     account[0].rc_manabar = rcPower.rc_accounts[0].rc_manabar;
     account[0].steem_power = await vestToSteem(
@@ -321,7 +324,12 @@ export const getPostWithComments = async (user, permlink) => {
  * @param postingKey private posting key
  */
 export const upvote = (vote, postingKey) => {
-  const key = PrivateKey.fromString(postingKey);
+  let key;
+
+  try {
+    key = PrivateKey.fromString(postingKey);
+  } catch (error) {}
+
   return new Promise((resolve, reject) => {
     client.broadcast
       .vote(vote, key)
@@ -351,9 +359,9 @@ export const upvoteAmount = async (input) => {
       });
   }
 
-  const estimated = (input / parseFloat(rewardFund.recent_claims))
+    const estimated = (input / parseFloat(rewardFund.recent_claims))
     * parseFloat(rewardFund.reward_balance)
-    * parseFloat(medianPrice.base);
+    * (parseFloat(medianPrice.base) / parseFloat(medianPrice.quote));
   return estimated;
 };
 
@@ -375,8 +383,7 @@ export const followUser = (data, postingKey) => {
   let key;
   try {
     key = PrivateKey.fromString(postingKey);
-  } catch (error) {
-  }
+  } catch (error) {}
   const json = {
     id: 'follow',
     json: JSON.stringify([
@@ -407,8 +414,7 @@ export const unfollowUser = (data, postingKey) => {
   let key;
   try {
     key = PrivateKey.fromString(postingKey);
-  } catch (error) {
-  }
+  } catch (error) {}
   const json = {
     id: 'follow',
     json: JSON.stringify([
@@ -439,8 +445,7 @@ export const delegate = (data, activeKey) => {
   let key;
   try {
     key = PrivateKey.fromString(activeKey);
-  } catch (error) {
-  }
+  } catch (error) {}
 
   return new Promise((resolve, reject) => {
     client.broadcast
@@ -476,8 +481,7 @@ export const transferToVesting = (data, activeKey) => {
   let key;
   try {
     key = PrivateKey.fromString(activeKey);
-  } catch (error) {
-  }
+  } catch (error) {}
 
   const op = [
     'transfer_to_vesting',
@@ -504,8 +508,7 @@ export const withdrawVesting = (data, activeKey) => {
   let key;
   try {
     key = PrivateKey.fromString(activeKey);
-  } catch (error) {
-  }
+  } catch (error) {}
 
   const op = [
     'withdraw_vesting',
@@ -532,8 +535,7 @@ export const postContent = (data, postingKey) => {
 
   try {
     key = PrivateKey.fromString(postingKey);
-  } catch (error) {
-  }
+  } catch (error) {}
 
   const post = {
     author: data.author,
@@ -648,8 +650,30 @@ export const postComment = (
         resolve(result);
       })
       .catch((error) => {
-        console.log(error);
         reject(error);
       });
   });
+};
+
+export const reblog = async (account, author, permlink) => {
+  const pin = await getDigitPinCode();
+  const key = decryptKey(account.realm_object.postingKey, pin);
+  const privateKey = PrivateKey.fromString(key);
+  const follower = account.name;
+
+  const json = {
+    id: 'follow',
+    json: JSON.stringify([
+      'reblog',
+      {
+        account: follower,
+        author,
+        permlink,
+      },
+    ]),
+    required_auths: [],
+    required_posting_auths: [follower],
+  };
+
+  return client.broadcast.json(json, privateKey);
 };

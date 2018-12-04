@@ -115,13 +115,12 @@ class ApplicationContainer extends Component {
     const { dispatch } = this.props;
 
     getSettings().then((response) => {
-      console.log('response :', response);
       if (response) {
         response.isDarkTheme && dispatch(isDarkTheme(response.isDarkTheme));
         response.language && dispatch(setLanguage(response.language));
         response.currency && dispatch(setCurrency(response.currency));
         response.notification && dispatch(isNotificationOpen(response.notification));
-        response.server && dispatch(setApi(response.currency));
+        response.server && dispatch(setApi(response.server));
       }
     });
   };
@@ -132,7 +131,6 @@ class ApplicationContainer extends Component {
 
     ws.onmessage = (e) => {
       // a message was received
-      console.log('e.data :', e.data);
       dispatch(updateUnreadActivityCount(unreadActivityCount + 1));
     };
   };

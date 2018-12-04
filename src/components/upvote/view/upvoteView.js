@@ -12,7 +12,6 @@ import { Icon } from '../../icon';
 // STEEM
 import { upvote, upvoteAmount } from '../../../providers/steem/dsteem';
 import { decryptKey } from '../../../utils/crypto';
-import { getUserData } from '../../../realm/realm';
 import { getDigitPinCode } from '../../../providers/steem/auth';
 
 // Styles
@@ -27,7 +26,7 @@ class UpvoteView extends Component {
   constructor(props) {
     super(props);
     this.state = {
-      value: 0.0,
+      sliderValue: 0.0,
       isVoting: false,
       isVoted: props.content ? props.content.is_voted : false,
       amount: '0.00',
@@ -40,59 +39,51 @@ class UpvoteView extends Component {
   // Component Functions
 
   _calculateEstimatedAmount = async () => {
-    const { user } = this.props;
+    const { currentAccount } = this.props;
     // Calculate total vesting shares
-    if (user) {
-      const { value } = this.state;
-      const totalVests = parseFloat(user.vesting_shares)
-        + parseFloat(user.received_vesting_shares)
-        - parseFloat(user.delegated_vesting_shares);
+    if (currentAccount) {
+      const { sliderValue } = this.state;
+      const totalVests = parseFloat(currentAccount.vesting_shares)
+        + parseFloat(currentAccount.received_vesting_shares)
+        - parseFloat(currentAccount.delegated_vesting_shares);
 
       const finalVest = totalVests * 1e6;
 
-      const power = (user.voting_power * (value * 10000)) / 10000 / 50;
+      const power = (currentAccount.voting_power * (sliderValue * 10000)) / 10000 / 50;
 
       const rshares = (power * finalVest) / 10000;
 
       const estimated = await upvoteAmount(rshares);
 
       this.setState({
-        amount: estimated.toFixed(3),
+        amount: estimated.toFixed(5),
       });
     }
   };
 
   _upvoteContent = async () => {
-    const { user, content } = this.props;
-    const { value } = this.state;
-
-    let postingKey;
-    let userData;
+    const { currentAccount, content } = this.props;
+    const { sliderValue } = this.state;
 
     this.setState({
       isVoting: true,
     });
 
     const digitPinCode = await getDigitPinCode();
-
-    await getUserData().then((result) => {
-      userData = Array.from(result);
-
-      postingKey = decryptKey(userData[0].postingKey, digitPinCode);
-    });
+    const postingKey = decryptKey(currentAccount.realm_object.postingKey, digitPinCode);
 
     upvote(
       {
-        voter: user && user.name,
+        voter: currentAccount && currentAccount.username,
         author: content && content.author,
         permlink: content && content.permlink,
-        weight: value ? (value * 100).toFixed(0) * 100 : 0,
+        weight: sliderValue ? (sliderValue * 100).toFixed(0) * 100 : 0,
       },
       postingKey,
     )
       .then((res) => {
         this.setState({
-          isVoted: !!value,
+          isVoted: !!sliderValue,
           isVoting: false,
         });
       })
@@ -108,10 +99,10 @@ class UpvoteView extends Component {
   render() {
     const { isLoggedIn, isShowPayoutValue, content } = this.props;
     const {
-      isVoting, isModalVisible, amount, value, isVoted,
+      isVoting, isModalVisible, amount, sliderValue, isVoted,
     } = this.state;
 
-    const _percent = `${(value * 100).toFixed(0)}%`;
+    const _percent = `${(sliderValue * 100).toFixed(0)}%`;
     const _amount = `$${amount}`;
     return (
       <PopoverController>
@@ -134,7 +125,7 @@ class UpvoteView extends Component {
                     style={[styles.upvoteIcon]}
                     active={!isLoggedIn}
                     iconType="AntDesign"
-                    name={isVoted ? 'upcircle' : 'upcircleo'}
+                    name={isVoted && isLoggedIn ? 'upcircle' : 'upcircleo'}
                   />
                   {isShowPayoutValue && (
                   <Text style={styles.payoutValue}>
@@ -184,9 +175,9 @@ class UpvoteView extends Component {
                   trackStyle={styles.track}
                   thumbStyle={styles.thumb}
                   thumbTintColor="#007ee5"
-                  value={value}
+                  value={sliderValue}
                   onValueChange={(value) => {
-                    this.setState({ value }, () => {
+                    this.setState({ sliderValue: value }, () => {
                       this._calculateEstimatedAmount();
                     });
                   }}

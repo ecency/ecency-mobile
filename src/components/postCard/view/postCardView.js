@@ -5,6 +5,7 @@ import {
 // import FastImage from 'react-native-fast-image';
 import { PostHeaderDescription } from '../../postElements';
 import { DropdownButton } from '../../dropdownButton';
+import { PostDropdown } from '../../postDropdown';
 import { Icon } from '../../icon';
 import { LineBreak } from '../../basicUIElements';
 
@@ -66,7 +67,7 @@ class PostCard extends Component {
 
     return (
       <View style={styles.post}>
-        <View style={styles.bodyFooter}>
+        <View style={styles.bodyHeader}>
           <PostHeaderDescription
             avatar={content && content.avatar}
             date={content.created}
@@ -77,13 +78,9 @@ class PostCard extends Component {
             size={32}
             tag={content.category}
           />
-          <DropdownButton
-            isHasChildIcon
-            iconName="md-more"
-            // options={['BOOKMARK', 'REBLOG', 'REPLY']}
-            options={['This', 'feature', 'implementing']}
-            onSelect={this._handleOnDropdownSelect}
-          />
+          <View style={styles.dropdownWrapper}>
+            <PostDropdown content={content} />
+          </View>
         </View>
         <View style={styles.postBodyWrapper}>
           <TouchableOpacity
@@ -105,7 +102,7 @@ class PostCard extends Component {
         </View>
         <View style={styles.bodyFooter}>
           <View style={styles.leftFooterWrapper}>
-            <Upvote isShowPayoutValue content={content} user={user} />
+            <Upvote isShowPayoutValue content={content} />
             <TouchableOpacity
               style={styles.commentButton}
               onPress={() => this._handleOnVotersPress()}

@@ -27,17 +27,15 @@ class ProfileContainer extends Component {
   constructor(props) {
     super(props);
     this.state = {
-      user: null,
       comments: [],
-      replies: [],
       follows: {},
-      isLoggedIn: false,
-      isLoading: false,
-      isReverseHeader: false,
-      isReady: false,
       isFollowing: false,
+      isLoading: false,
       isMuted: false,
       isProfileLoading: false,
+      isReady: false,
+      isReverseHeader: false,
+      user: null,
     };
   }
 
@@ -75,13 +73,10 @@ class ProfileContainer extends Component {
         this.setState({
           isReady: true,
           comments: result,
-          refreshing: false,
           isLoading: false,
         });
       })
-      .catch((err) => {
-        console.log(err);
-      });
+      .catch((err) => {});
   };
 
   _handleFollowUnfollowUser = async (isFollowAction) => {
@@ -256,13 +251,12 @@ class ProfileContainer extends Component {
       isFollowing,
       isMuted,
       isLoading,
-      isLoggedIn,
       isReady,
       isReverseHeader,
       user,
       username,
     } = this.state;
-    const { isDarkTheme } = this.props;
+    const { isDarkTheme, isLoggedIn } = this.props;
 
     return (
       <Fragment>
@@ -271,19 +265,19 @@ class ProfileContainer extends Component {
           comments={comments}
           error={error}
           follows={follows}
-          handleOnFollowsPress={this._handleFollowsPress}
           handleFollowUnfollowUser={this._handleFollowUnfollowUser}
           handleMuteUnmuteUser={this._handleMuteUnmuteUser}
-          isProfileLoading={isProfileLoading}
+          handleOnFollowsPress={this._handleFollowsPress}
+          isDarkTheme={isDarkTheme}
           isFollowing={isFollowing}
           isLoading={isLoading}
           isLoggedIn={isLoggedIn}
-          isReady={isReady}
           isMuted={isMuted}
+          isProfileLoading={isProfileLoading}
+          isReady={isReady}
           isReverseHeader={isReverseHeader}
           user={user}
           username={username}
-          isDarkTheme={isDarkTheme}
         />
       </Fragment>
     );

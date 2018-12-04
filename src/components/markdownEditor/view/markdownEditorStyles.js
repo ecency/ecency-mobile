@@ -14,6 +14,7 @@ export default EStyleSheet.create({
     marginVertical: 16,
     paddingHorizontal: 16,
     color: '$primaryBlack',
+    fontFamily: '$editorFont',
   },
   inlinePadding: {
     padding: 8,

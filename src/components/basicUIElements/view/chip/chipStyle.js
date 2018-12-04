@@ -10,6 +10,7 @@ export default EStyleSheet.create({
     padding: 5,
     paddingHorizontal: 10,
     marginRight: 8,
+    fontFamily: '$editorFont',
   },
   isPin: {
     backgroundColor: '$primaryBlue',

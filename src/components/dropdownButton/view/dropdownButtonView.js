@@ -9,18 +9,23 @@ import Ionicons from 'react-native-vector-icons/Ionicons';
 import styles from './dropdownButtonStyles';
 
 /* Props TODO: Fill all description
-  * ------------------------------------------------
-  *   @prop { string }      defaultText         - Description....
-  *   @prop { string }      iconName            - Description....
-  *   @prop { array }       options             - Description....
-  *   @prop { function }    onSelect            - Description....
-  *
-  */
+ * ------------------------------------------------
+ *   @prop { string }      defaultText         - Description....
+ *   @prop { string }      iconName            - Description....
+ *   @prop { array }       options             - Description....
+ *   @prop { function }    onSelect            - Description....
+ *
+ */
 
-const renderDropdownRow = (rowData, rowID, highlighted, rowTextStyle) => (
+const renderDropdownRow = (rowData, rowID, highlighted, rowTextStyle, noHighlight) => (
   <TouchableHighlight style={styles.rowWrapper} underlayColor="#E9F2FC">
-    <View style={[styles.dropdownRow, highlighted && styles.highlightedRow]}>
-      <Text style={[rowTextStyle || styles.rowText, highlighted && styles.highlightedRowText]}>
+    <View style={[styles.dropdownRow, !noHighlight && highlighted && styles.highlightedRow]}>
+      <Text
+        style={[
+          rowTextStyle || styles.rowText,
+          !noHighlight && highlighted && styles.highlightedRowText,
+        ]}
+      >
         {rowData}
       </Text>
     </View>
@@ -44,12 +49,13 @@ const DropdownButtonView = ({
   selectedOptionIndex,
   options,
   style,
+  noHighlight,
 }) => (
   <View style={[styles.container, dropdownButtonStyle]}>
     <ModalDropdown
       style={[!style ? styles.button : style]}
       textStyle={[textStyle || styles.buttonText]}
-      dropdownStyle={[dropdownStyle || styles.dropdown, { height: 35 * (options.length + 1) }]}
+      dropdownStyle={[styles.dropdown, dropdownStyle, { height: 35 * (options.length + 1) }]}
       dropdownTextStyle={[dropdownTextStyle || styles.dropdownText]}
       dropdownTextHighlightStyle={styles.dropdownTextHighlight}
       options={options}
@@ -57,7 +63,8 @@ const DropdownButtonView = ({
       defaultIndex={selectedOptionIndex}
       defaultValue={defaultText}
       renderSeparator={() => null}
-      renderRow={(rowData, rowID, highlighted) => renderDropdownRow(rowData, rowID, highlighted, rowTextStyle)}
+      renderRow={(rowData, rowID, highlighted) => renderDropdownRow(rowData, rowID, highlighted, rowTextStyle, noHighlight)
+      }
     >
       {isHasChildIcon && (
         <View style={[styles.iconWrapper, childIconWrapperStyle && childIconWrapperStyle]}>
@@ -68,11 +75,10 @@ const DropdownButtonView = ({
         </View>
       )}
     </ModalDropdown>
-    {!children
-      && !isHasChildIcon && (
-        <View style={styles.iconWrapper}>
-          <Ionicons style={styles.dropdownIcon} name={!iconName ? 'md-arrow-dropdown' : iconName} />
-        </View>
+    {!children && !isHasChildIcon && (
+      <View style={styles.iconWrapper}>
+        <Ionicons style={styles.dropdownIcon} name={!iconName ? 'md-arrow-dropdown' : iconName} />
+      </View>
     )}
   </View>
 );

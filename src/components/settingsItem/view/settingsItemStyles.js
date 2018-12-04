@@ -20,19 +20,21 @@ export default EStyleSheet.create({
     color: '$primaryDarkGray',
   },
   rowTextStyle: {
-    fontSize: 14,
+    fontSize: 12,
     color: '$primaryDarkGray',
     padding: 5,
   },
   dropdownStyle: {
-    marginRight: -35,
     marginTop: 15,
+    minWidth: 172,
+    width: 172,
   },
   dropdownButtonStyle: {
     backgroundColor: '$primaryGray',
     height: 44,
     width: 172,
     borderRadius: 8,
+    marginHorizontal: 2,
   },
   dropdown: {
     flexGrow: 1,

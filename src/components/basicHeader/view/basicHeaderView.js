@@ -57,6 +57,7 @@ class BasicHeaderView extends Component {
 
   render() {
     const {
+      dropdownComponent,
       handleOnPressBackButton,
       handleOnPressClose,
       handleOnPressPreviewButton,
@@ -113,12 +114,23 @@ class BasicHeaderView extends Component {
 
             {isHasDropdown && (
               <View>
-                <DropdownButton
-                  isHasChildIcon
-                  iconName="md-more"
-                  options={['ALL ACTIVITIES', 'VOTES', 'REPLIES', 'MENTIONS', 'FOLLOWS', 'REBLOGS']}
-                  onSelect={this._handleOnDropdownSelect}
-                />
+                {dropdownComponent ? (
+                  <Fragment>{dropdownComponent}</Fragment>
+                ) : (
+                  <DropdownButton
+                    isHasChildIcon
+                    iconName="md-more"
+                    options={[
+                      'ALL ACTIVITIES',
+                      'VOTES',
+                      'REPLIES',
+                      'MENTIONS',
+                      'FOLLOWS',
+                      'REBLOGS',
+                    ]}
+                    onSelect={this._handleOnDropdownSelect}
+                  />
+                )}
               </View>
             )}
 
