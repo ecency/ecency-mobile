@@ -45,13 +45,13 @@ import { SettingsScreen } from '..';
 class SettingsContainer extends Component {
   constructor(props) {
     super(props);
-    this.state = {};
+    this.state = {
+      serverList: [],
+    };
   }
 
   // Component Life Cycle Functions
   componentDidMount() {
-    const { intl } = this.props;
-
     getNodes()
       .then((resp) => {
         this.setState({ serverList: resp });
@@ -140,7 +140,8 @@ class SettingsContainer extends Component {
   };
 
   render() {
-    return <SettingsScreen handleOnChange={this._handleOnChange} {...this.props} />;
+    const { serverList } = this.state;
+    return <SettingsScreen serverList={serverList} handleOnChange={this._handleOnChange} {...this.props} />;
   }
 }
 
