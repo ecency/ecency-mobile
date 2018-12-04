@@ -5,5 +5,6 @@ export default EStyleSheet.create({
     color: '$primaryBlack',
     fontWeight: 'bold',
     fontSize: 24,
+    fontFamily: '$editorFont',
   },
 });
