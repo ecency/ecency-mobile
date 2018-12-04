@@ -22,8 +22,4 @@ export default EStyleSheet.create({
     paddingHorizontal: 0,
     marginTop: 20,
   },
-  commentImg: {
-    left: -16,
-    height: 50,
-  },
 });

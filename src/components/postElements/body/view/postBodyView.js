@@ -53,9 +53,9 @@ class PostBody extends Component {
   _alterNode = (node, isComment) => {
     if (isComment) {
       if (node.name === 'img') {
-        node.attribs.style = `max-width: ${WIDTH + 16}px; maxHeight: 120px;`;
+        node.attribs.style = `max-width: ${WIDTH - 50}px; height: 100px; width: ${WIDTH - 50}`;
         console.log(node);
-      } else if (node.name == 'iframe') {
+      } else if (node.name === 'iframe') {
         node.attribs.style = `max-width: ${WIDTH}px; left: -20px`;
         node.attribs.height = 216;
       }
@@ -67,7 +67,7 @@ class PostBody extends Component {
   render() {
     const { body, isComment } = this.props;
     const _initialDimensions = isComment
-      ? { width: WIDTH - 20, height: 50 }
+      ? { width: WIDTH - 50, height: 80 }
       : { width: WIDTH, height: 216 };
 
     return (
@@ -82,7 +82,7 @@ class PostBody extends Component {
           debug={false}
           imagesInitialDimensions={_initialDimensions}
           baseFontStyle={styles.text}
-          imagesMaxWidth={isComment ? WIDTH - 20 : WIDTH}
+          imagesMaxWidth={isComment ? WIDTH - 50 : WIDTH}
           alterNode={e => this._alterNode(e, isComment)}
         />
       </View>
