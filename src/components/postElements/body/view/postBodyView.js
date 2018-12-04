@@ -54,7 +54,6 @@ class PostBody extends Component {
     if (isComment) {
       if (node.name === 'img') {
         node.attribs.style = `max-width: ${WIDTH - 50}px; height: 100px; width: ${WIDTH - 50}`;
-        console.log(node);
       } else if (node.name === 'iframe') {
         node.attribs.style = `max-width: ${WIDTH}px; left: -20px`;
         node.attribs.height = 216;
