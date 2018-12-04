@@ -54,10 +54,9 @@ class HeaderView extends Component {
     const _avatar = currentAccount.profile_image
       ? { uri: currentAccount.profile_image }
       : DEFAULT_IMAGE;
-
     return (
       <SafeAreaView style={[styles.container, isReverse && styles.containerReverse]}>
-        <StatusBar hidden={hideStatusBar} translucent />
+        {/* <StatusBar style={ { height: 20}} hidden={hideStatusBar} translucent /> */}
         <SearchModal
           placeholder={intl.formatMessage({
             id: 'header.search',
@@ -78,9 +77,7 @@ class HeaderView extends Component {
               isReverse ? styles.avatarButtonWrapperReverse : styles.avatarDefault,
             ]}
           >
-            <View>
-              <FastImage style={styles.avatar} source={_avatar} defaultSource={DEFAULT_IMAGE} />
-            </View>
+            <FastImage style={styles.avatar} source={_avatar} defaultSource={DEFAULT_IMAGE} />
           </LinearGradient>
         </TouchableOpacity>
         {currentAccount && currentAccount.name ? (
