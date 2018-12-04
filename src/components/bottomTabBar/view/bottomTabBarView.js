@@ -1,5 +1,5 @@
 import React, { Component } from 'react';
-import { TouchableWithoutFeedback } from 'react-native';
+import { TouchableWithoutFeedback, SafeAreaView } from 'react-native';
 import { connect } from 'react-redux';
 import ViewOverflow from 'react-native-view-overflow';
 
@@ -15,9 +15,9 @@ import styles from './bottomTabBarStyles';
 
 class BottomTabBarView extends Component {
   /* Props
-    * ------------------------------------------------
-    *   @prop { type }    name                - Description....
-    */
+   * ------------------------------------------------
+   *   @prop { type }    name                - Description....
+   */
 
   constructor(props) {
     super(props);
@@ -50,26 +50,28 @@ class BottomTabBarView extends Component {
     } = this.props;
 
     return (
-      <ViewOverflow style={styles.wrapper}>
-        {routes.map((route, idx) => (
-          <ViewOverflow
-            key={route.key}
-            style={{
-              flex: 1,
-              alignItems: 'center',
-              justifyContent: 'center',
-            }}
-          >
-            <TouchableWithoutFeedback onPress={() => jumpTo(route.key)}>
-              {renderIcon({
-                route,
-                focused: index === idx,
-                tintColor: index === idx ? activeTintColor : inactiveTintColor,
-              })}
-            </TouchableWithoutFeedback>
-          </ViewOverflow>
-        ))}
-      </ViewOverflow>
+      <SafeAreaView style={styles.safeArea}>
+        <ViewOverflow style={styles.wrapper}>
+          {routes.map((route, idx) => (
+            <ViewOverflow
+              key={route.key}
+              style={{
+                flex: 1,
+                alignItems: 'center',
+                justifyContent: 'center',
+              }}
+            >
+              <TouchableWithoutFeedback onPress={() => jumpTo(route.key)}>
+                {renderIcon({
+                  route,
+                  focused: index === idx,
+                  tintColor: index === idx ? activeTintColor : inactiveTintColor,
+                })}
+              </TouchableWithoutFeedback>
+            </ViewOverflow>
+          ))}
+        </ViewOverflow>
+      </SafeAreaView>
     );
   }
 }

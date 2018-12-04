@@ -1,6 +1,6 @@
 import React, { Component, Fragment } from 'react';
 import {
-  View, Text, TextInput, FlatList, TouchableHighlight,
+  View, Text, TextInput, FlatList, TouchableHighlight, SafeAreaView,
 } from 'react-native';
 import FastImage from 'react-native-fast-image';
 
@@ -17,9 +17,9 @@ import styles from './searchModalStyles';
 
 class SearchModalView extends Component {
   /* Props
-    * ------------------------------------------------
-    *   @prop { type }    name                - Description....
-    */
+   * ------------------------------------------------
+   *   @prop { type }    name                - Description....
+   */
 
   constructor(props) {
     super(props);
@@ -41,9 +41,9 @@ class SearchModalView extends Component {
     } = this.props;
 
     return (
-      <Fragment>
-        <Modal isOpen={isOpen} isFullScreen swipeToClose backButtonClose isTransparent>
-          <View style={styles.container}>
+      <Modal isOpen={isOpen} isFullScreen swipeToClose backButtonClose isTransparent>
+        <View style={styles.container}>
+          <SafeAreaView style={styles.safeArea}>
             <View style={styles.inputWrapper}>
               <Icon style={styles.icon} iconType="FontAwesome" name="search" size={20} />
               <TextInput
@@ -61,40 +61,39 @@ class SearchModalView extends Component {
                 onPress={() => handleOnClose()}
               />
             </View>
-            <View style={styles.body}>
-              <FlatList
-                data={searchResults.data}
-                showsVerticalScrollIndicator={false}
-                renderItem={({ item }) => (
-                  <TouchableHighlight
-                    onPress={() => handleOnPressListItem(searchResults.type, item)}
-                  >
-                    <View style={styles.searhItems}>
-                      <FastImage
-                        source={{
-                          uri:
-                            searchResults.type === 'user'
-                              ? `https://steemitimages.com/u/${item.author}/avatar/small`
-                              : item.img_url
-                                || `https://steemitimages.com/u/${item.author}/avatar/small`,
-                        }}
-                        style={styles.searchItemImage}
-                      />
-                      <Text style={styles.searchItemText}>
-                        {searchResults.type === 'user' ? item.author : item.title}
-                      </Text>
-                    </View>
-                  </TouchableHighlight>
-                )}
-                keyExtractor={(post, index) => index.toString()}
-                removeClippedSubviews
-                onEndThreshold={0}
-                initialNumToRender={20}
-              />
-            </View>
+          </SafeAreaView>
+
+          <View style={styles.body}>
+            <FlatList
+              data={searchResults.data}
+              showsVerticalScrollIndicator={false}
+              renderItem={({ item }) => (
+                <TouchableHighlight onPress={() => handleOnPressListItem(searchResults.type, item)}>
+                  <View style={styles.searhItems}>
+                    <FastImage
+                      source={{
+                        uri:
+                          searchResults.type === 'user'
+                            ? `https://steemitimages.com/u/${item.author}/avatar/small`
+                            : item.img_url
+                              || `https://steemitimages.com/u/${item.author}/avatar/small`,
+                      }}
+                      style={styles.searchItemImage}
+                    />
+                    <Text style={styles.searchItemText}>
+                      {searchResults.type === 'user' ? item.author : item.title}
+                    </Text>
+                  </View>
+                </TouchableHighlight>
+              )}
+              keyExtractor={(post, index) => index.toString()}
+              removeClippedSubviews
+              onEndThreshold={0}
+              initialNumToRender={20}
+            />
           </View>
-        </Modal>
-      </Fragment>
+        </View>
+      </Modal>
     );
   }
 }
