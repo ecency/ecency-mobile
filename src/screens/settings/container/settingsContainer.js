@@ -1,5 +1,5 @@
 import React, { Component } from 'react';
-import { AsyncStorage, Platform } from 'react-native';
+import { Platform } from 'react-native';
 import { connect } from 'react-redux';
 import AppCenter from 'appcenter';
 
@@ -10,6 +10,7 @@ import {
   setCurrency as setCurrency2DB,
   setServer,
   setNotificationIsOpen,
+  getExistUser,
 } from '../../../realm/realm';
 
 // Services and Actions
@@ -29,7 +30,6 @@ import { getNodes } from '../../../providers/esteem/esteem';
 import { VALUE as CURRENCY_VALUE } from '../../../constants/options/currency';
 import { VALUE as LANGUAGE_VALUE } from '../../../constants/options/language';
 import API_VALUE from '../../../constants/options/api';
-import INITIAL from '../../../constants/initial';
 
 // Utilities
 
@@ -126,8 +126,9 @@ class SettingsContainer extends Component {
     const { notificationSettings, isLoggedIn, username } = this.props;
     if (isLoggedIn) {
       const token = await AppCenter.getInstallId();
-      AsyncStorage.getItem(INITIAL.IS_EXIST_USER, (err, result) => {
-        if (JSON.parse(result)) {
+
+      getExistUser().then((isExistUser) => {
+        if (isExistUser) {
           const data = {
             username,
             token,

@@ -1,5 +1,5 @@
 import React, { Component } from 'react';
-import { AsyncStorage, Platform } from 'react-native';
+import { Platform } from 'react-native';
 import { connect } from 'react-redux';
 import { addLocaleData } from 'react-intl';
 import Config from 'react-native-config';
@@ -8,7 +8,6 @@ import AppCenter from 'appcenter';
 // Constants
 import en from 'react-intl/locale-data/en';
 import tr from 'react-intl/locale-data/tr';
-import INITIAL from '../../../constants/initial';
 
 // Services
 import {
@@ -17,6 +16,7 @@ import {
   getSettings,
   getPushTokenSaved,
   setPushTokenSaved,
+  getExistUser,
 } from '../../../realm/realm';
 import { getUser } from '../../../providers/steem/dsteem';
 import { setPushToken } from '../../../providers/esteem/esteem';
@@ -139,8 +139,8 @@ class ApplicationContainer extends Component {
     const { notificationSettings } = this.props;
     const token = await AppCenter.getInstallId();
 
-    AsyncStorage.getItem(INITIAL.IS_EXIST_USER, (err, result) => {
-      if (JSON.parse(result)) {
+    getExistUser().then((isExistUser) => {
+      if (isExistUser) {
         getPushTokenSaved().then((isPushTokenSaved) => {
           if (!isPushTokenSaved) {
             const data = {
