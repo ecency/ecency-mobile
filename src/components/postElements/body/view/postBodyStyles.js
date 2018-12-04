@@ -8,7 +8,7 @@ export default EStyleSheet.create({
   },
   container: {
     paddingHorizontal: 0,
-    marginTop: 12,
+    marginTop: 10,
   },
   a: {
     color: '$primaryBlue',
@@ -16,5 +16,10 @@ export default EStyleSheet.create({
   },
   img: {
     left: -16,
+    // height: 50,
+  },
+  commentContainer: {
+    paddingHorizontal: 0,
+    marginTop: 20,
   },
 });

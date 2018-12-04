@@ -12,9 +12,12 @@ export default EStyleSheet.create({
     height: 44,
     margin: 16,
     borderRadius: 8,
-    marginTop: 20,
+    marginTop: 5,
     padding: 5,
     justifyContent: 'center',
+  },
+  safeArea: {
+    marginTop: 20,
   },
   icon: {
     alignSelf: 'center',

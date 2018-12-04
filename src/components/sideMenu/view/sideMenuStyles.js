@@ -24,6 +24,9 @@ export default EStyleSheet.create({
   },
   userAvatar: {
     marginLeft: '$deviceWidth / 10',
+    width: 64,
+    height: 64,
+    borderRadius: 64 / 2,
   },
   otherUserAvatar: {
     marginLeft: -15,

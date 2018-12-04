@@ -6,8 +6,10 @@ export default EStyleSheet.create({
     height: 56,
     width: '$deviceWidth',
     backgroundColor: '$primaryBackgroundColor',
-    borderWidth: 0.1,
+    borderTopWidth: 0.1,
     shadowOpacity: 0.1,
-    shadowOffset: { height: 0 },
+  },
+  safeArea: {
+    backgroundColor: '$primaryBackgroundColor',
   },
 });

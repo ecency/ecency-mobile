@@ -124,8 +124,8 @@ class UpvoteView extends Component {
                   <Icon
                     style={[styles.upvoteIcon]}
                     active={!isLoggedIn}
-                    iconType="AntDesign"
-                    name={isVoted && isLoggedIn ? 'upcircle' : 'upcircleo'}
+                    iconType={isVoted && isLoggedIn && 'AntDesign'}
+                    name={isVoted && isLoggedIn ? 'upcircle' : 'ios-arrow-dropup'}
                   />
                   {isShowPayoutValue && (
                   <Text style={styles.payoutValue}>

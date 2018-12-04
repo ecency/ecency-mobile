@@ -1,5 +1,7 @@
 import React, { Component } from 'react';
-import { View, Text, Image } from 'react-native';
+import {
+  View, Text, Image, SafeAreaView,
+} from 'react-native';
 // Constants
 
 // Components
@@ -10,11 +12,11 @@ import styles from './loginHeaderStyles';
 
 class LoginHeaderView extends Component {
   /* Props
-    * ------------------------------------------------
-    *   @prop { string }    title            - Title for header string.
-    *   @prop { string }    description      - Description for header string.
-    *
-    */
+   * ------------------------------------------------
+   *   @prop { string }    title            - Title for header string.
+   *   @prop { string }    description      - Description for header string.
+   *
+   */
   constructor(props) {
     super(props);
     this.state = {};
@@ -30,27 +32,29 @@ class LoginHeaderView extends Component {
     } = this.props;
 
     return (
-      <View styles={styles.container}>
-        <View style={styles.headerRow}>
-          <Image
-            style={styles.logo}
-            source={require('../../../assets/esteem_logo_transparent.png')}
-          />
-          <View style={styles.headerButton}>
-            <TextButton onPress={onPress} text={rightButtonText} />
-          </View>
-        </View>
-        {!isKeyboardOpen && (
-          <View style={styles.body}>
-            <View style={styles.titleText}>
-              <Text style={styles.title}>{title}</Text>
-              <Text style={styles.description}>{description}</Text>
+      <SafeAreaView style={styles.safeArea}>
+        <View styles={styles.container}>
+          <View style={styles.headerRow}>
+            <Image
+              style={styles.logo}
+              source={require('../../../assets/esteem_logo_transparent.png')}
+            />
+            <View style={styles.headerButton}>
+              <TextButton onPress={onPress} text={rightButtonText} />
             </View>
-            <Image style={styles.mascot} source={require('../../../assets/love_mascot.png')} />
           </View>
-        )}
-        <LineBreak />
-      </View>
+          {!isKeyboardOpen && (
+            <View style={styles.body}>
+              <View style={styles.titleText}>
+                <Text style={styles.title}>{title}</Text>
+                <Text style={styles.description}>{description}</Text>
+              </View>
+              <Image style={styles.mascot} source={require('../../../assets/love_mascot.png')} />
+            </View>
+          )}
+          <LineBreak />
+        </View>
+      </SafeAreaView>
     );
   }
 }

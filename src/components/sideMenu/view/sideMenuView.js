@@ -1,6 +1,6 @@
 import React, { Component } from 'react';
 import {
-  View, Text, ImageBackground, FlatList, TouchableHighlight,
+  View, Text, ImageBackground, FlatList, TouchableHighlight, Image,
 } from 'react-native';
 import { injectIntl } from 'react-intl';
 import LinearGradient from 'react-native-linear-gradient';
@@ -72,7 +72,9 @@ class SideMenuView extends Component {
     const _avatar = currentAccount.profile_image
       ? { uri: currentAccount.profile_image }
       : DEFAULT_IMAGE;
-
+    
+      console.log(_avatar);
+      console.log(menuItems);
     return (
       <View style={styles.container}>
         <LinearGradient
@@ -87,11 +89,7 @@ class SideMenuView extends Component {
           >
             {isLoggedIn && (
               <View style={styles.headerContentView}>
-                <FastImage
-                  style={styles.userAvatar}
-                  source={_avatar}
-                  defaultSource={DEFAULT_IMAGE}
-                />
+                <Image style={styles.userAvatar} source={_avatar} defaultSource={DEFAULT_IMAGE} />
                 <View style={styles.userInfoView}>
                   {currentAccount.display_name && (
                     <Text style={styles.username}>{currentAccount.display_name}</Text>
@@ -138,7 +136,7 @@ class SideMenuView extends Component {
                     />
                   )}
                   {item.item.image && (
-                    <FastImage
+                    <Image
                       style={styles.otherUserAvatar}
                       source={item.item.image}
                       defaultSource={DEFAULT_IMAGE}
