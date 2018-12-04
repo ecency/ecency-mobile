@@ -1,6 +1,7 @@
 import api from '../../config/api';
 import searchApi from '../../config/search';
 import imageApi from '../../config/imageApi';
+import serverList from '../../config/serverListApi';
 
 export const getDrafts = data => new Promise((resolve, reject) => {
   api
@@ -192,3 +193,5 @@ export const uploadImage = (file) => {
 //       reject(error);
 //     });
 // });
+
+export const getNodes = () => serverList.get().then(resp => resp.data.nodes);

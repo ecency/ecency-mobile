@@ -21,6 +21,7 @@ import {
   isDarkTheme,
 } from '../../../redux/actions/applicationActions';
 import { setPushToken } from '../../../providers/esteem/esteem';
+import { getNodes } from '../../../providers/esteem/esteem';
 
 // Middleware
 
@@ -44,14 +45,24 @@ import { SettingsScreen } from '..';
 class SettingsContainer extends Component {
   constructor(props) {
     super(props);
-    this.state = {};
+    this.state = {
+      serverList: [],
+    };
   }
 
   // Component Life Cycle Functions
+  componentDidMount() {
+    getNodes()
+      .then((resp) => {
+        this.setState({ serverList: resp });
+      })
+      .catch(() => {});
+  }
 
   // Component Functions
   _handleDropdownSelected = (action, actionType) => {
     const { dispatch } = this.props;
+    const { serverList } = this.state;
 
     switch (actionType) {
       case 'currency':
@@ -65,8 +76,8 @@ class SettingsContainer extends Component {
         break;
 
       case 'api':
-        dispatch(setApi(API_VALUE[action]));
-        setServer(API_VALUE[action]);
+        dispatch(setApi(serverList[action]));
+        setServer(serverList[action]);
         break;
 
       default:
@@ -130,7 +141,14 @@ class SettingsContainer extends Component {
   };
 
   render() {
-    return <SettingsScreen handleOnChange={this._handleOnChange} {...this.props} />;
+    const { serverList } = this.state;
+    return (
+      <SettingsScreen
+        serverList={serverList}
+        handleOnChange={this._handleOnChange}
+        {...this.props}
+      />
+    );
   }
 }
 

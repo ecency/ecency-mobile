@@ -35,5 +35,6 @@ export default {
 
   // Fonts Properties
   $primaryFont: 'Roboto',
+  $editorFont: 'RobotoMono-Regular',
   $primaryLatterSpacing: 0,
 };
