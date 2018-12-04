@@ -33,6 +33,7 @@ class SettingsItemView extends Component {
       text,
       isOn,
       actionType,
+      defaultText,
     } = this.props;
 
     switch (type) {
@@ -40,7 +41,7 @@ class SettingsItemView extends Component {
         return (
           <DropdownButton
             key={actionType}
-            defaultText={options[selectedOptionIndex]}
+            defaultText={defaultText || options[selectedOptionIndex]}
             dropdownButtonStyle={styles.dropdownButtonStyle}
             selectedOptionIndex={selectedOptionIndex}
             rowTextStyle={styles.rowTextStyle}

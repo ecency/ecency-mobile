@@ -76,7 +76,8 @@ class SettingsScreen extends Component {
             type="dropdown"
             actionType="api"
             options={serverList}
-            selectedOptionIndex={selectedApi.indexOf(selectedApi)}
+            selectedOptionIndex={serverList.indexOf(selectedApi)}
+            defaultText={selectedApi}
             handleOnChange={handleOnChange}
           />
           <SettingsItem

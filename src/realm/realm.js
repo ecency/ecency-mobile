@@ -265,23 +265,8 @@ export const getPinCode = () => new Promise((resolve, reject) => {
 export const setTheme = isDarkTheme => new Promise((resolve, reject) => {
   try {
     realm.write(() => {
-      if (Array.from(settings).length > 0) {
-        settings[0].language = settings[0].language;
-        settings[0].isDarkTheme = isDarkTheme;
-        settings[0].currency = settings[0].currency;
-        settings[0].notification = settings[0].notification;
-        settings[0].server = settings[0].server;
-        resolve(true);
-      } else {
-        realm.create(SETTINGS_SCHEMA, {
-          language: '',
-          isDarkTheme,
-          currency: '',
-          notification: '',
-          server: '',
-        });
-        resolve(true);
-      }
+      settings[0].isDarkTheme = isDarkTheme;
+      resolve(true);
     });
   } catch (error) {
     reject(error);
@@ -348,6 +333,18 @@ export const getLanguage = () => new Promise((resolve, reject) => {
   try {
     if (settings[0]) {
       resolve(settings[0].language);
+    } else {
+      resolve(false);
+    }
+  } catch (error) {
+    reject(error);
+  }
+});
+
+export const getServer = () => new Promise((resolve, reject) => {
+  try {
+    if (settings[0]) {
+      resolve(settings[0].server);
     } else {
       resolve(false);
     }

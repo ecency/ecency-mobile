@@ -62,6 +62,7 @@ class SettingsContainer extends Component {
   // Component Functions
   _handleDropdownSelected = (action, actionType) => {
     const { dispatch } = this.props;
+    const { serverList } = this.state;
 
     switch (actionType) {
       case 'currency':
@@ -75,8 +76,8 @@ class SettingsContainer extends Component {
         break;
 
       case 'api':
-        dispatch(setApi(API_VALUE[action]));
-        setServer(API_VALUE[action]);
+        dispatch(setApi(serverList[action]));
+        setServer(serverList[action]);
         break;
 
       default:
@@ -141,7 +142,13 @@ class SettingsContainer extends Component {
 
   render() {
     const { serverList } = this.state;
-    return <SettingsScreen serverList={serverList} handleOnChange={this._handleOnChange} {...this.props} />;
+    return (
+      <SettingsScreen
+        serverList={serverList}
+        handleOnChange={this._handleOnChange}
+        {...this.props}
+      />
+    );
   }
 }
 

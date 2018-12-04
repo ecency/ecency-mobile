@@ -1,34 +1,34 @@
 import { Client, PrivateKey } from 'dsteem';
-import { AsyncStorage } from 'react-native';
-
-import { getUnreadActivityCount } from '../esteem/esteem';
 import sc2 from './steemConnectAPI';
+import { getServer } from '../../realm/realm';
+import { getUnreadActivityCount } from '../esteem/esteem';
 
 // Utils
 import { decryptKey } from '../../utils/crypto';
-import { getDigitPinCode } from './../steem/auth';
-
+import { getDigitPinCode } from '../steem/auth';
 import {
   parsePosts, parsePost, parseComments, parsePostsSummary,
 } from '../../utils/postParser';
-
 import { getName, getAvatar } from '../../utils/user';
 
+const DEFAULT_SERVER = 'https://api.steemit.com';
 let rewardFund = null;
 let medianPrice = null;
-let client = new Client('https://api.steemit.com');
+let client = new Client(DEFAULT_SERVER);
 
-getClient = async () => {
-  const server = await AsyncStorage.getItem('server');
+const _getClient = async () => {
+  let selectedServer = DEFAULT_SERVER;
 
-  if (server === null || server === undefined || server === '') {
-    client = new Client('https://api.steemit.com');
-  } else {
-    client = new Client(`${server}`);
-  }
+  await getServer().then((response) => {
+    if (response) {
+      selectedServer = response;
+    }
+  });
+
+  client = new Client(selectedServer);
 };
 
-getClient();
+_getClient();
 
 /**
  * @method getAccount get account data
