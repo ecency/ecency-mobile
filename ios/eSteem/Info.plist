@@ -44,9 +44,9 @@
 	<key>NSMicrophoneUsageDescription</key>
 	<string>Microphone Usage Access</string>
 	<key>NSPhotoLibraryAddUsageDescription</key>
-	<string>Photo Library Access</string>
+	<string>Photo Library Access for allowing user to download and upload photos</string>
 	<key>NSPhotoLibraryUsageDescription</key>
-	<string>Photo Usage Access</string>
+	<string>Photo Usage Access for allowing user to upload photos</string>
 	<key>UIAppFonts</key>
 	<array>
 		<string>Entypo.ttf</string>
