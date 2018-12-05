@@ -69,6 +69,7 @@
 		<string>FontAwesome5_Brands.ttf</string>
 		<string>FontAwesome5_Regular.ttf</string>
 		<string>FontAwesome5_Solid.ttf</string>
+		<string>Roboto-medium.ttf</string>
 	</array>
 	<key>UIBackgroundModes</key>
 	<array>

@@ -3,6 +3,17 @@
 <plist version="1.0">
 <dict>
 	<key>SchemeUserState</key>
-	<dict/>
+	<dict>
+		<key>eSteem-tvOS.xcscheme</key>
+		<dict>
+			<key>orderHint</key>
+			<integer>71</integer>
+		</dict>
+		<key>eSteem.xcscheme</key>
+		<dict>
+			<key>orderHint</key>
+			<integer>70</integer>
+		</dict>
+	</dict>
 </dict>
 </plist>

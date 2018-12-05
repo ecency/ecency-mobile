@@ -78,6 +78,7 @@
 		FA64A93BC95743E58F77F404 /* FontAwesome5_Solid.ttf in Resources */ = {isa = PBXBuildFile; fileRef = 2DEB48DE97FD4A7585118CB4 /* FontAwesome5_Solid.ttf */; };
 		C872C215BA9C4FFF97A12F81 /* Roboto.ttf in Resources */ = {isa = PBXBuildFile; fileRef = 9A6F7F46844C4CAF9A9ABBDD /* Roboto.ttf */; };
 		CF34742E37F4471D813F00E4 /* rubicon-icon-font.ttf in Resources */ = {isa = PBXBuildFile; fileRef = 434B140115EF4DE49D4CD6BA /* rubicon-icon-font.ttf */; };
+		5FA7E43947714B96866CAE94 /* Roboto-medium.ttf in Resources */ = {isa = PBXBuildFile; fileRef = F3D23ACB36194C40BFB26B7A /* Roboto-medium.ttf */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -549,6 +550,7 @@
 		F9AC0BCB8EA228F4C2157FBA /* Pods-eSteemTests.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-eSteemTests.debug.xcconfig"; path = "Pods/Target Support Files/Pods-eSteemTests/Pods-eSteemTests.debug.xcconfig"; sourceTree = "<group>"; };
 		9A6F7F46844C4CAF9A9ABBDD /* Roboto.ttf */ = {isa = PBXFileReference; name = "Roboto.ttf"; path = "../src/assets/Fonts/Roboto.ttf"; sourceTree = "<group>"; fileEncoding = undefined; lastKnownFileType = unknown; explicitFileType = undefined; includeInIndex = 0; };
 		434B140115EF4DE49D4CD6BA /* rubicon-icon-font.ttf */ = {isa = PBXFileReference; name = "rubicon-icon-font.ttf"; path = "../src/assets/Fonts/rubicon-icon-font.ttf"; sourceTree = "<group>"; fileEncoding = undefined; lastKnownFileType = unknown; explicitFileType = undefined; includeInIndex = 0; };
+		F3D23ACB36194C40BFB26B7A /* Roboto-medium.ttf */ = {isa = PBXFileReference; name = "Roboto-medium.ttf"; path = "../src/assets/Fonts/Roboto-medium.ttf"; sourceTree = "<group>"; fileEncoding = undefined; lastKnownFileType = unknown; explicitFileType = undefined; includeInIndex = 0; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -991,6 +993,7 @@
 				2DEB48DE97FD4A7585118CB4 /* FontAwesome5_Solid.ttf */,
 				9A6F7F46844C4CAF9A9ABBDD /* Roboto.ttf */,
 				434B140115EF4DE49D4CD6BA /* rubicon-icon-font.ttf */,
+				F3D23ACB36194C40BFB26B7A /* Roboto-medium.ttf */,
 			);
 			name = Resources;
 			sourceTree = "<group>";
@@ -1639,6 +1642,7 @@
 				FA64A93BC95743E58F77F404 /* FontAwesome5_Solid.ttf in Resources */,
 				C872C215BA9C4FFF97A12F81 /* Roboto.ttf in Resources */,
 				CF34742E37F4471D813F00E4 /* rubicon-icon-font.ttf in Resources */,
+				5FA7E43947714B96866CAE94 /* Roboto-medium.ttf in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
