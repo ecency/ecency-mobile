@@ -42,14 +42,17 @@ class HeaderContainer extends Component {
   };
 
   render() {
-    const { isLoggedIn, currentUser, user } = this.props;
+    const {
+      isLoggedIn, currentUser, user, isReserve, isLoginDone,
+    } = this.props;
     return (
       <HeaderView
         handleOnPressBackButton={this._handleOnPressBackButton}
         handleOpenDrawer={this._handleOpenDrawer}
         isLoggedIn={isLoggedIn}
         currentAccount={user || currentUser}
-        {...this.props}
+        isReserve={isReserve}
+        isLoginDone={isLoginDone}
       />
     );
   }
@@ -57,6 +60,8 @@ class HeaderContainer extends Component {
 
 const mapStateToProps = state => ({
   isLoggedIn: state.application.isLoggedIn,
+  isLoginDone: state.application.isLoginDone,
+
   currentUser: state.account.currentAccount,
 });
 

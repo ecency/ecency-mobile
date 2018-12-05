@@ -19,7 +19,9 @@ class HomeScreen extends PureComponent {
   }
 
   render() {
-    const { isLoggedIn, currentAccount, intl } = this.props;
+    const {
+      currentAccount, intl, isLoggedIn, isLoginDone,
+    } = this.props;
     const _filterOptions = [
       'FEED',
       'TRENDING',
@@ -33,7 +35,7 @@ class HomeScreen extends PureComponent {
     ];
     let tag;
 
-    if (!isLoggedIn || (!currentAccount && !currentAccount.name)) {
+    if (isLoginDone && !isLoggedIn) {
       tag = 'esteemapp';
     }
 

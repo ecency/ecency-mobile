@@ -9,6 +9,7 @@ import {
   SET_LANGUAGE,
   IS_NOTIFICATION_OPEN,
   IS_DARK_THEME,
+  IS_LOGIN_DONE,
 } from '../constants/constants';
 
 export const login = () => ({
@@ -17,6 +18,10 @@ export const login = () => ({
 
 export const logout = () => ({
   type: LOGOUT,
+});
+
+export const isLoginDone = () => ({
+  type: IS_LOGIN_DONE,
 });
 
 export const openPinCodeModal = () => ({

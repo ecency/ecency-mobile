@@ -48,6 +48,7 @@ class HeaderView extends Component {
       isReverse,
       currentAccount,
       intl,
+      isLoginDone,
     } = this.props;
     const { isSearchModalOpen } = this.state;
     const _reputation = getReputation(currentAccount.reputation);
@@ -93,11 +94,13 @@ class HeaderView extends Component {
           </View>
         ) : (
           <View style={styles.titleWrapper}>
-            <Text style={styles.noAuthTitle}>
-              {intl.formatMessage({
-                id: 'header.title',
-              })}
-            </Text>
+            {isLoginDone && (
+              <Text style={styles.noAuthTitle}>
+                {intl.formatMessage({
+                  id: 'header.title',
+                })}
+              </Text>
+            )}
           </View>
         )}
         {isReverse && (

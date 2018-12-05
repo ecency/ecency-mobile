@@ -29,13 +29,14 @@ import {
 } from '../../../redux/actions/accountAction';
 import {
   activeApplication,
+  isDarkTheme,
+  isLoginDone,
+  isNotificationOpen,
   login,
   openPinCodeModal,
-  setLanguage,
-  isNotificationOpen,
-  setCurrency,
   setApi,
-  isDarkTheme,
+  setCurrency,
+  setLanguage,
 } from '../../../redux/actions/applicationActions';
 
 // Container
@@ -51,8 +52,8 @@ class ApplicationContainer extends Component {
     };
   }
 
-  componentDidMount = () => {
-    this._getUserData();
+  componentDidMount = async () => {
+    await this._getUserData();
     this._getSettings();
   };
 
@@ -64,45 +65,49 @@ class ApplicationContainer extends Component {
     }
   }
 
-  _getUserData = () => {
+  _getUserData = async () => {
     const { dispatch } = this.props;
+    let realmData;
 
-    getAuthStatus().then((res) => {
+    await getAuthStatus().then((res) => {
       if (res.isLoggedIn) {
         getUserData().then((response) => {
           if (response.length > 0) {
-            // Initial login
+            realmData = response;
 
             response.forEach((accountData) => {
               dispatch(
                 addOtherAccount({ username: accountData.username, avatar: accountData.avatar }),
               );
             });
-            getUser(response[response.length - 1].username)
-              .then((accountData) => {
-                dispatch(login());
-
-                const realmObject = response[response.length - 1];
-                accountData.local = realmObject;
-
-                dispatch(updateCurrentAccount(accountData));
-                dispatch(activeApplication());
-                // If in dev mode pin code does not show
-                if (__DEV__ === false) {
-                  dispatch(openPinCodeModal());
-                }
-                this._connectNotificationServer(accountData.name);
-                this._setPushToken(accountData.name);
-              })
-              .catch((err) => {
-                alert(err);
-              });
           }
         });
-      } else {
-        dispatch(activeApplication());
       }
     });
+
+    if (realmData) {
+      await getUser(realmData[realmData.length - 1].username)
+        .then((accountData) => {
+          dispatch(login());
+
+          const realmObject = realmData[realmData.length - 1];
+          accountData.local = realmObject;
+
+          dispatch(updateCurrentAccount(accountData));
+          // If in dev mode pin code does not show
+          if (__DEV__ === false) {
+            dispatch(openPinCodeModal());
+          }
+          this._connectNotificationServer(accountData.name);
+          this._setPushToken(accountData.name);
+        })
+        .catch((err) => {
+          alert(err);
+        });
+    }
+
+    dispatch(activeApplication());
+    dispatch(isLoginDone());
   };
 
   _getSettings = () => {

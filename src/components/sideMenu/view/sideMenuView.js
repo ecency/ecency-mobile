@@ -72,9 +72,7 @@ class SideMenuView extends Component {
     const _avatar = currentAccount.profile_image
       ? { uri: currentAccount.profile_image }
       : DEFAULT_IMAGE;
-    
-      console.log(_avatar);
-      console.log(menuItems);
+
     return (
       <View style={styles.container}>
         <LinearGradient
