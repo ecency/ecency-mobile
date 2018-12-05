@@ -21,7 +21,6 @@ class NotificationContainer extends Component {
 
   componentWillReceiveProps(nextProps) {
     if (nextProps.activeBottomTab === ROUTES.TABBAR.NOTIFICATION) {
-      console.log('nextProps :', nextProps);
       if (nextProps.username) {
         this._getAvtivities();
       }
