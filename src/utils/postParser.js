@@ -131,7 +131,7 @@ export const parsePostsSummary = (posts, currentUser) => {
   return posts;
 };
 
-export const parsePost = (post, currentUser) => {
+export const parsePost = (post, currentUserName) => {
   post.json_metadata = JSON.parse(post.json_metadata);
   post.json_metadata.image ? (post.image = post.json_metadata.image[0]) : '';
   post.pending_payout_value = parseFloat(post.pending_payout_value).toFixed(2);
@@ -152,7 +152,7 @@ export const parsePost = (post, currentUser) => {
   post.is_voted = false;
 
   for (const i in post.active_votes) {
-    if (post.active_votes[i].voter === currentUser && post.active_votes[i].percent > 0) {
+    if (post.active_votes[i].voter === currentUserName && post.active_votes[i].percent > 0) {
       post.is_voted = true;
     }
     post.active_votes[i].value = (post.active_votes[i].rshares * ratio).toFixed(2);
@@ -162,15 +162,10 @@ export const parsePost = (post, currentUser) => {
     }/avatar/small`;
   }
 
-  if (post.active_votes.length > 2) {
-    post.top_likers = [
-      post.active_votes[0].voter,
-      post.active_votes[1].voter,
-      post.active_votes[2].voter,
-    ];
-  }
   return post;
 };
+
+const groomVotes = (activeVotes, currentUserName) => {};
 
 export const protocolUrl2Obj = (url) => {
   let urlPart = url.split('://')[1];

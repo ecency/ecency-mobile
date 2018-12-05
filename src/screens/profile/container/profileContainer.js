@@ -84,7 +84,7 @@ class ProfileContainer extends Component {
     const { currentAccount } = this.props;
     const digitPinCode = await getDigitPinCode();
 
-    const privateKey = decryptKey(currentAccount.realm_object.postingKey, digitPinCode);
+    const privateKey = decryptKey(currentAccount.local.postingKey, digitPinCode);
 
     this.setState({
       isProfileLoading: true,
@@ -102,7 +102,7 @@ class ProfileContainer extends Component {
     const { currentAccount } = this.props;
     const digitPinCode = await getDigitPinCode();
 
-    const privateKey = decryptKey(currentAccount.realm_object.postingKey, digitPinCode);
+    const privateKey = decryptKey(currentAccount.local.postingKey, digitPinCode);
 
     this.setState({
       isProfileLoading: true,

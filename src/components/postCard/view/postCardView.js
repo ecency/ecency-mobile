@@ -4,7 +4,6 @@ import {
 } from 'react-native';
 // import FastImage from 'react-native-fast-image';
 import { PostHeaderDescription } from '../../postElements';
-import { DropdownButton } from '../../dropdownButton';
 import { PostDropdown } from '../../postDropdown';
 import { Icon } from '../../icon';
 import { LineBreak } from '../../basicUIElements';

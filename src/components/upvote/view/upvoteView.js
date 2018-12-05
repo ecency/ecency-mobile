@@ -1,6 +1,6 @@
 import React, { Component, Fragment } from 'react';
 import {
-  View, TouchableOpacity, ActivityIndicator, Text,
+  View, TouchableOpacity, ActivityIndicator, Text, Alert,
 } from 'react-native';
 import { Popover, PopoverController } from 'react-native-modal-popover';
 import Slider from 'react-native-slider';
@@ -28,16 +28,22 @@ class UpvoteView extends Component {
     this.state = {
       sliderValue: 0.0,
       isVoting: false,
-      isVoted: props.content ? props.content.is_voted : false,
-      amount: '0.00',
-      isModalVisible: false,
+      isVoted: false,
+      amount: '0.00000',
     };
   }
 
   // Component Life Cycles
 
-  // Component Functions
+  componentWillReceiveProps(nextProps) {
+    const { isVoted } = this.props;
 
+    if (isVoted !== nextProps.isVoted) {
+      this.setState({ isVoted: nextProps.isVoted });
+    }
+  }
+
+  // Component Functions
   _calculateEstimatedAmount = async () => {
     const { currentAccount } = this.props;
     // Calculate total vesting shares
@@ -62,7 +68,7 @@ class UpvoteView extends Component {
   };
 
   _upvoteContent = async () => {
-    const { currentAccount, content } = this.props;
+    const { currentAccount, author, permlink } = this.props;
     const { sliderValue } = this.state;
 
     this.setState({
@@ -70,25 +76,26 @@ class UpvoteView extends Component {
     });
 
     const digitPinCode = await getDigitPinCode();
-    const postingKey = decryptKey(currentAccount.realm_object.postingKey, digitPinCode);
+    const postingKey = decryptKey(currentAccount.local.postingKey, digitPinCode);
+    const _weight = sliderValue ? (sliderValue * 100).toFixed(0) * 100 : 0;
 
     upvote(
       {
         voter: currentAccount && currentAccount.username,
-        author: content && content.author,
-        permlink: content && content.permlink,
-        weight: sliderValue ? (sliderValue * 100).toFixed(0) * 100 : 0,
+        author,
+        permlink,
+        weight: _weight,
       },
       postingKey,
     )
-      .then((res) => {
+      .then(() => {
         this.setState({
           isVoted: !!sliderValue,
           isVoting: false,
         });
       })
       .catch((err) => {
-        alert(err);
+        Alert.alert('Failed!', err);
         this.setState({
           isVoted: false,
           isVoting: false,
@@ -97,10 +104,17 @@ class UpvoteView extends Component {
   };
 
   render() {
-    const { isLoggedIn, isShowPayoutValue, content } = this.props;
+    const { isLoggedIn, isShowPayoutValue, pendingPayoutValue } = this.props;
     const {
-      isVoting, isModalVisible, amount, sliderValue, isVoted,
+      isVoting, amount, sliderValue, isVoted,
     } = this.state;
+    let iconName = 'ios-arrow-dropup';
+    let iconType;
+
+    if (isVoted) {
+      iconName = 'upcircle';
+      iconType = 'AntDesign';
+    }
 
     const _percent = `${(sliderValue * 100).toFixed(0)}%`;
     const _amount = `$${amount}`;
@@ -124,14 +138,14 @@ class UpvoteView extends Component {
                   <Icon
                     style={[styles.upvoteIcon]}
                     active={!isLoggedIn}
-                    iconType={isVoted && isLoggedIn && 'AntDesign'}
-                    name={isVoted && isLoggedIn ? 'upcircle' : 'ios-arrow-dropup'}
+                    iconType={iconType}
+                    name={iconName}
                   />
                   {isShowPayoutValue && (
                   <Text style={styles.payoutValue}>
                       $
                     {' '}
-                    {content && content.pending_payout_value}
+                    {pendingPayoutValue}
                   </Text>
                   )}
                 </Fragment>

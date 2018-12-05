@@ -27,6 +27,7 @@ export default EStyleSheet.create({
   informationView: {
     flex: 1,
     alignItems: 'center',
+    color: '$primaryBlack',
   },
   animatedView: {
     flex: 1,

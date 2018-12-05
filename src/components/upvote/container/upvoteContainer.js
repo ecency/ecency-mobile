@@ -1,14 +1,6 @@
 import React, { Component } from 'react';
 import { connect } from 'react-redux';
 
-// Services and Actions
-
-// Middleware
-
-// Constants
-
-// Utilities
-
 // Component
 import { UpvoteView } from '..';
 
@@ -29,7 +21,32 @@ class UpvoteContainer extends Component {
   // Component Functions
 
   render() {
-    return <UpvoteView {...this.props} />;
+    const {
+      content, currentAccount, isLoggedIn, isShowPayoutValue,
+    } = this.props;
+    let author;
+    let isVoted;
+    let pendingPayoutValue;
+    let permlink;
+
+    if (content) {
+      author = content.author;
+      isVoted = content.is_voted;
+      pendingPayoutValue = content.pending_payout_value;
+      permlink = content.permlink;
+    }
+
+    return (
+      <UpvoteView
+        author={author}
+        currentAccount={currentAccount}
+        isLoggedIn={isLoggedIn}
+        isShowPayoutValue={isShowPayoutValue}
+        isVoted={isVoted}
+        pendingPayoutValue={pendingPayoutValue}
+        permlink={permlink}
+      />
+    );
   }
 }
 
