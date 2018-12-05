@@ -9,6 +9,7 @@ import { connect } from 'react-redux';
 // Constants
 
 // Utilities
+import { getReputation } from '../../../utils/user';
 
 // Component
 import { HeaderView } from '..';
@@ -43,16 +44,36 @@ class HeaderContainer extends Component {
 
   render() {
     const {
-      isLoggedIn, currentUser, user, isReserve, isLoginDone,
+      isLoggedIn, currentAccount, selectedUser, isReverse, isLoginDone,
     } = this.props;
+    let avatar;
+    let displayName;
+    let userName;
+    let reputation;
+
+    if (!isReverse) {
+      avatar = currentAccount.profile_image && { uri: currentAccount.profile_image };
+      displayName = currentAccount.display_name;
+      userName = currentAccount.name;
+      reputation = getReputation(currentAccount.reputation);
+    } else {
+      avatar = selectedUser.profile_image && { uri: selectedUser.profile_image };
+      displayName = selectedUser.display_name;
+      userName = selectedUser.name;
+      reputation = getReputation(selectedUser.reputation);
+    }
+
     return (
       <HeaderView
         handleOnPressBackButton={this._handleOnPressBackButton}
         handleOpenDrawer={this._handleOpenDrawer}
         isLoggedIn={isLoggedIn}
-        currentAccount={user || currentUser}
-        isReserve={isReserve}
+        isReverse={isReverse}
         isLoginDone={isLoginDone}
+        avatar={avatar}
+        displayName={displayName}
+        userName={userName}
+        reputation={reputation}
       />
     );
   }
@@ -62,7 +83,7 @@ const mapStateToProps = state => ({
   isLoggedIn: state.application.isLoggedIn,
   isLoginDone: state.application.isLoginDone,
 
-  currentUser: state.account.currentAccount,
+  currentAccount: state.account.currentAccount,
 });
 
 export default connect(mapStateToProps)(withNavigation(HeaderContainer));

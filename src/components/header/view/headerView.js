@@ -1,13 +1,9 @@
 import React, { Component } from 'react';
 import {
-  View, StatusBar, Text, SafeAreaView, TouchableOpacity,
+  View, StatusBar, Text, SafeAreaView, TouchableOpacity, Image,
 } from 'react-native';
-import FastImage from 'react-native-fast-image';
 import LinearGradient from 'react-native-linear-gradient';
 import { injectIntl } from 'react-intl';
-
-// Utils
-import { getReputation } from '../../../utils/user';
 
 // Components
 import { SearchModal } from '../../searchModal';
@@ -46,15 +42,15 @@ class HeaderView extends Component {
       handleOnPressBackButton,
       hideStatusBar,
       isReverse,
-      currentAccount,
       intl,
       isLoginDone,
+      reputation,
+      displayName,
+      userName,
+      avatar,
     } = this.props;
     const { isSearchModalOpen } = this.state;
-    const _reputation = getReputation(currentAccount.reputation);
-    const _avatar = currentAccount.profile_image
-      ? { uri: currentAccount.profile_image }
-      : DEFAULT_IMAGE;
+
     return (
       <SafeAreaView style={[styles.container, isReverse && styles.containerReverse]}>
         {/* <StatusBar style={ { height: 20}} hidden={hideStatusBar} translucent /> */}
@@ -78,18 +74,16 @@ class HeaderView extends Component {
               isReverse ? styles.avatarButtonWrapperReverse : styles.avatarDefault,
             ]}
           >
-            <FastImage style={styles.avatar} source={_avatar} defaultSource={DEFAULT_IMAGE} />
+            <Image style={styles.avatar} source={avatar} defaultSource={DEFAULT_IMAGE} />
           </LinearGradient>
         </TouchableOpacity>
-        {currentAccount && currentAccount.name ? (
+        {displayName || userName ? (
           <View style={styles.titleWrapper}>
-            {currentAccount.display_name && (
-              <Text style={styles.title}>{currentAccount.display_name}</Text>
-            )}
+            {displayName && <Text style={styles.title}>{displayName}</Text>}
             <Text style={styles.subTitle}>
               @
-              {currentAccount.name}
-              {`(${_reputation})`}
+              {userName}
+              {`(${reputation})`}
             </Text>
           </View>
         ) : (
