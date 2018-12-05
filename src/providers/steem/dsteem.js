@@ -11,7 +11,7 @@ import {
 } from '../../utils/postParser';
 import { getName, getAvatar } from '../../utils/user';
 
-const DEFAULT_SERVER = 'https://rpc.esteem.app';
+const DEFAULT_SERVER = 'https://api.steemit.com';
 let rewardFund = null;
 let medianPrice = null;
 let client = new Client(DEFAULT_SERVER);
