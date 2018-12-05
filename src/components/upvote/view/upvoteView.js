@@ -177,8 +177,8 @@ class UpvoteView extends Component {
                       size={20}
                       style={[styles.upvoteIcon, { color: '#007ee5' }]}
                       active={!isLoggedIn}
-                      iconType="AntDesign"
-                      name={isVoted ? 'upcircle' : 'upcircleo'}
+                      iconType={iconType}
+                      name={iconName}
                     />
                   )}
                 </TouchableOpacity>
