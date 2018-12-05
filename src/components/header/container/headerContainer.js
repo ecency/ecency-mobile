@@ -14,6 +14,8 @@ import { getReputation } from '../../../utils/user';
 // Component
 import { HeaderView } from '..';
 
+const DEFAULT_IMAGE = require('../../../assets/avatar_default.png');
+
 /*
  *            Props Name        Description                                     Value
  *@props -->  props name here   description here                                Value Type Here
@@ -51,16 +53,16 @@ class HeaderContainer extends Component {
     let userName;
     let reputation;
 
-    if (!isReverse) {
-      avatar = currentAccount.profile_image && { uri: currentAccount.profile_image };
-      displayName = currentAccount.display_name;
-      userName = currentAccount.name;
-      reputation = getReputation(currentAccount.reputation);
-    } else {
-      avatar = selectedUser.profile_image && { uri: selectedUser.profile_image };
+    if (isReverse && selectedUser) {
+      avatar = selectedUser.avatar ? { uri: selectedUser.avatar } : DEFAULT_IMAGE;
       displayName = selectedUser.display_name;
       userName = selectedUser.name;
       reputation = getReputation(selectedUser.reputation);
+    } else if (!isReverse) {
+      avatar = currentAccount.avatar ? { uri: currentAccount.avatar } : DEFAULT_IMAGE;
+      displayName = currentAccount.display_name;
+      userName = currentAccount.name;
+      reputation = getReputation(currentAccount.reputation);
     }
 
     return (

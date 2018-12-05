@@ -38,16 +38,17 @@ class HeaderView extends Component {
 
   render() {
     const {
-      handleOpenDrawer,
-      handleOnPressBackButton,
-      hideStatusBar,
-      isReverse,
-      intl,
-      isLoginDone,
-      reputation,
-      displayName,
-      userName,
       avatar,
+      displayName,
+      handleOnPressBackButton,
+      handleOpenDrawer,
+      hideStatusBar,
+      intl,
+      isLoggedIn,
+      isLoginDone,
+      isReverse,
+      reputation,
+      userName,
     } = this.props;
     const { isSearchModalOpen } = this.state;
 
@@ -88,7 +89,7 @@ class HeaderView extends Component {
           </View>
         ) : (
           <View style={styles.titleWrapper}>
-            {isLoginDone && (
+            {isLoginDone && !isLoggedIn && (
               <Text style={styles.noAuthTitle}>
                 {intl.formatMessage({
                   id: 'header.title',

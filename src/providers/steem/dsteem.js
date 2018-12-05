@@ -88,7 +88,7 @@ export const getUser = async (user) => {
     );
 
     account[0].about = account[0].json_metadata && JSON.parse(account[0].json_metadata);
-    account[0].profile_image = getAvatar(account[0].about);
+    account[0].avatar = getAvatar(account[0].about);
     account[0].display_name = getName(account[0].about);
 
     return account[0];
