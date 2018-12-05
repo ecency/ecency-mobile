@@ -6,11 +6,15 @@
 	<dict>
 		<key>DoubleConversion.xcscheme</key>
 		<dict>
+			<key>isShown</key>
+			<false/>
 			<key>orderHint</key>
 			<integer>70</integer>
 		</dict>
 		<key>Folly.xcscheme</key>
 		<dict>
+			<key>isShown</key>
+			<false/>
 			<key>orderHint</key>
 			<integer>75</integer>
 		</dict>
@@ -79,6 +83,8 @@
 		</dict>
 		<key>glog.xcscheme</key>
 		<dict>
+			<key>isShown</key>
+			<false/>
 			<key>orderHint</key>
 			<integer>76</integer>
 		</dict>
@@ -91,6 +97,22 @@
 		</dict>
 	</dict>
 	<key>SuppressBuildableAutocreation</key>
-	<dict/>
+	<dict>
+		<key>0304CF265B497DC80D989D97E17FB01C</key>
+		<dict>
+			<key>primary</key>
+			<true/>
+		</dict>
+		<key>5A93B49B207CB78C2D38F43189D782C3</key>
+		<dict>
+			<key>primary</key>
+			<true/>
+		</dict>
+		<key>5D82A31E8C89DCFDF86799BAFD9F3118</key>
+		<dict>
+			<key>primary</key>
+			<true/>
+		</dict>
+	</dict>
 </dict>
 </plist>
