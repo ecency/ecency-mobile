@@ -23,7 +23,7 @@ class PostScreen extends Component {
   // Component Functions
 
   render() {
-    const { post, currentUser } = this.props;
+    const { post, currentAccount } = this.props;
 
     return (
       <Fragment>
@@ -33,7 +33,7 @@ class PostScreen extends Component {
           content={post}
           dropdownComponent={<PostDropdown content={post} />}
         />
-        <PostDisplay post={post} currentUser={currentUser} />
+        <PostDisplay post={post} currentAccount={currentAccount} />
       </Fragment>
     );
   }

@@ -138,7 +138,7 @@ class EditorContainer extends Component {
     // For new image api
     // const { currentAccount } = this.props;
     // const digitPinCode = await getDigitPinCode();
-    // const privateKey = decryptKey(currentAccount.realm_object.postingKey, digitPinCode);
+    // const privateKey = decryptKey(currentAccount.local.postingKey, digitPinCode);
     // const sign = generateSignature(media, privateKey);
     // const data = new Buffer(media.data, 'base64');
   };
@@ -208,7 +208,7 @@ class EditorContainer extends Component {
       const permlink = generatePermlink(fields.title);
       const digitPinCode = await getDigitPinCode();
 
-      const postingKey = decryptKey(currentAccount.realm_object.postingKey, digitPinCode);
+      const postingKey = decryptKey(currentAccount.local.postingKey, digitPinCode);
 
       const post = {
         ...fields,

@@ -263,13 +263,13 @@ export const getUserComments = async (query) => {
  * @method getUser get user data
  * @param user post author
  * @param permlink post permlink
+ * @param currentUserName active accounts username
  */
-export const getPost = async (user, permlink, currentUser) => {
+export const getPost = async (author, permlink, currentUserName) => {
   try {
-    let posts = await client.database.call('get_content', [user, permlink]);
+    const post = await client.database.call('get_content', [author, permlink]);
 
-    posts = await parsePost(posts, user, currentUser);
-    return posts;
+    return await parsePost(post, currentUserName);
   } catch (error) {
     return error;
   }
@@ -640,7 +640,7 @@ export const postComment = (
     opArray.push(e);
   }
 
-  const key = decryptKey(account.realm_object.postingKey, digitPinCode);
+  const key = decryptKey(account.local.postingKey, digitPinCode);
   const privateKey = PrivateKey.fromString(key);
 
   return new Promise((resolve, reject) => {
@@ -657,7 +657,7 @@ export const postComment = (
 
 export const reblog = async (account, author, permlink) => {
   const pin = await getDigitPinCode();
-  const key = decryptKey(account.realm_object.postingKey, pin);
+  const key = decryptKey(account.local.postingKey, pin);
   const privateKey = PrivateKey.fromString(key);
   const follower = account.name;
 

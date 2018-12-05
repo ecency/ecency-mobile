@@ -29,9 +29,7 @@ class CommentsDisplayView extends Component {
   };
 
   render() {
-    const {
-      currentUser, author, permlink, commentCount,
-    } = this.props;
+    const { author, permlink, commentCount } = this.props;
 
     return (
       <Fragment>
@@ -44,7 +42,7 @@ class CommentsDisplayView extends Component {
               onDropdownSelect={this._handleOnDropdownSelect}
             />
             <View style={{ padding: 16 }}>
-              <Comments currentUser={currentUser} author={author} permlink={permlink} />
+              <Comments author={author} permlink={permlink} />
             </View>
           </Fragment>
         )}

@@ -57,9 +57,9 @@ class ApplicationContainer extends Component {
   };
 
   componentWillReceiveProps(nextProps) {
-    const { isDarkTheme, selectedLanguage } = this.props;
+    const { isDarkTheme: _isDarkTheme, selectedLanguage } = this.props;
 
-    if (isDarkTheme !== nextProps.isDarkTheme || selectedLanguage !== nextProps.selectedLanguage) {
+    if (_isDarkTheme !== nextProps.isDarkTheme || selectedLanguage !== nextProps.selectedLanguage) {
       this.setState({ isRenderRequire: false }, () => this.setState({ isRenderRequire: true }));
     }
   }
@@ -71,6 +71,8 @@ class ApplicationContainer extends Component {
       if (res.isLoggedIn) {
         getUserData().then((response) => {
           if (response.length > 0) {
+            // Initial login
+
             response.forEach((accountData) => {
               dispatch(
                 addOtherAccount({ username: accountData.username, avatar: accountData.avatar }),
@@ -78,12 +80,14 @@ class ApplicationContainer extends Component {
             });
             getUser(response[response.length - 1].username)
               .then((accountData) => {
-                const realmObject = response[response.length - 1];
-                accountData.realm_object = realmObject;
-
                 dispatch(login());
+
+                const realmObject = response[response.length - 1];
+                accountData.local = realmObject;
+
                 dispatch(updateCurrentAccount(accountData));
                 dispatch(activeApplication());
+                // If in dev mode pin code does not show
                 if (__DEV__ === false) {
                   dispatch(openPinCodeModal());
                 }
