@@ -4,6 +4,16 @@
 <dict>
 	<key>SchemeUserState</key>
 	<dict>
+		<key>DoubleConversion.xcscheme</key>
+		<dict>
+			<key>orderHint</key>
+			<integer>70</integer>
+		</dict>
+		<key>Folly.xcscheme</key>
+		<dict>
+			<key>orderHint</key>
+			<integer>75</integer>
+		</dict>
 		<key>Pods-eSteem-tvOS.xcscheme</key>
 		<dict>
 			<key>isShown</key>
@@ -66,6 +76,11 @@
 			<false/>
 			<key>orderHint</key>
 			<integer>66</integer>
+		</dict>
+		<key>glog.xcscheme</key>
+		<dict>
+			<key>orderHint</key>
+			<integer>76</integer>
 		</dict>
 		<key>yoga.xcscheme</key>
 		<dict>

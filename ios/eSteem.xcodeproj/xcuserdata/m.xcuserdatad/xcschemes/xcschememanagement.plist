@@ -3,16 +3,18 @@
 <plist version="1.0">
 <dict>
 	<key>SchemeUserState</key>
+	<dict/>
+	<key>SuppressBuildableAutocreation</key>
 	<dict>
-		<key>eSteem-tvOS.xcscheme</key>
+		<key>2D02E47A1E0B4A5D006451C7</key>
 		<dict>
-			<key>orderHint</key>
-			<integer>71</integer>
+			<key>primary</key>
+			<true/>
 		</dict>
-		<key>eSteem.xcscheme</key>
+		<key>2D02E48F1E0B4A5D006451C7</key>
 		<dict>
-			<key>orderHint</key>
-			<integer>70</integer>
+			<key>primary</key>
+			<true/>
 		</dict>
 	</dict>
 </dict>
