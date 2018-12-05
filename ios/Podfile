@@ -12,6 +12,7 @@ target 'eSteem' do
   # Pods for eSteem
   pod 'React', :path => '../node_modules/react-native', :subspecs => [
     'RCTImage' # <- Add this line
+    'BatchedBridge'
   ]
   pod 'yoga', :path => '../node_modules/react-native/ReactCommon/yoga'
   
