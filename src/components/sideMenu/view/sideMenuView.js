@@ -85,14 +85,14 @@ class SideMenuView extends Component {
             {isLoggedIn && (
               <View style={styles.headerContentWrapper}>
                 <Image style={styles.userAvatar} source={_avatar} defaultSource={DEFAULT_IMAGE} />
-                <View style={styles.userInfoView}>
+                <View style={styles.userInfoWrapper}>
                   {currentAccount.display_name && (
                     <Text style={styles.username}>{currentAccount.display_name}</Text>
                   )}
                   <Text style={styles.usernick}>{`@${currentAccount.name}`}</Text>
                 </View>
-                <View style={styles.addAccountWrapper}>
-                  {/* TODO: delete android name */}
+
+                <View style={styles.userInfoWrapper}>
                   <IconButton
                     name={isAddAccountIconActive ? 'arrow-dropup' : 'add-circle-outline'}
                     androidName={
