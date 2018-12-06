@@ -13,9 +13,9 @@ export default EStyleSheet.create({
     justifyContent: 'center',
     alignItems: 'center',
   },
-  headerContentView: {
+  headerContentWrapper: {
     alignItems: 'center',
-    flex: 1,
+    height: 50,
     flexDirection: 'row',
   },
   contentView: {
@@ -38,7 +38,7 @@ export default EStyleSheet.create({
     borderColor: '$borderColor',
   },
   userInfoView: {
-    alignSelf: 'center',
+    alignSelf: 'flex-end',
     marginLeft: 15,
   },
   username: {
@@ -74,18 +74,18 @@ export default EStyleSheet.create({
     color: '$white',
     backgroundColor: 'transparent',
   },
-  addAccountIconView: {
+  addAccountWrapper: {
     alignSelf: 'flex-end',
     justifyContent: 'center',
     flex: 1,
     flexDirection: 'row',
   },
   addAccountIcon: {
-    padding: 10,
+    // padding: 10,
   },
   itemWrapper: {
     flexDirection: 'row',
-    marginVertical: 20,
-    marginLeft: 48,
+    marginVertical: 10,
+    marginLeft: '$deviceWidth / 20',
   },
 });
