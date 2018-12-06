@@ -37,6 +37,7 @@ import {
   setApi,
   setCurrency,
   setLanguage,
+  setUpvotePercent,
 } from '../../../redux/actions/applicationActions';
 
 // Container
@@ -111,15 +112,17 @@ class ApplicationContainer extends Component {
   };
 
   _getSettings = () => {
-    const { dispatch } = this.props;
+    const { dispatch, isLoggedIn } = this.props;
 
     getSettings().then((response) => {
       if (response) {
+        console.log(response);
         response.isDarkTheme && dispatch(isDarkTheme(response.isDarkTheme));
         response.language && dispatch(setLanguage(response.language));
         response.currency && dispatch(setCurrency(response.currency));
         response.notification && dispatch(isNotificationOpen(response.notification));
         response.server && dispatch(setApi(response.server));
+        response.upvotePercent && dispatch(setUpvotePercent(Number(response.upvotePercent)));
       }
     });
   };
@@ -177,6 +180,7 @@ const mapStateToProps = state => ({
   isDarkTheme: state.application.isDarkTheme,
   selectedLanguage: state.application.language,
   unreadActivityCount: state.account.currentAccount.unread_activity_count,
+  isLoggedIn: state.application.isLoggedIn,
   notificationSettings: state.application.isNotificationOpen,
 });
 

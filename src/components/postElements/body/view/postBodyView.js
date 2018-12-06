@@ -1,7 +1,10 @@
-import React, { Component } from 'react';
-import { View, Dimensions, Linking } from 'react-native';
+import React, { Component, Fragment } from 'react';
+import {
+  View, Dimensions, Linking, Text,
+} from 'react-native';
 import { withNavigation } from 'react-navigation';
 import HTML from 'react-native-html-renderer';
+import Markdown, { getUniqueID } from 'react-native-markdown-renderer';
 
 // Styles
 import styles from './postBodyStyles';
@@ -70,7 +73,7 @@ class PostBody extends Component {
       : { width: WIDTH, height: 216 };
 
     return (
-      <View>
+      <Fragment>
         <HTML
           html={body}
           onLinkPress={(evt, href, hrefatr) => this._handleOnLinkPress(evt, href, hrefatr)}
@@ -84,7 +87,7 @@ class PostBody extends Component {
           imagesMaxWidth={isComment ? WIDTH - 50 : WIDTH}
           alterNode={e => this._alterNode(e, isComment)}
         />
-      </View>
+      </Fragment>
     );
   }
 }

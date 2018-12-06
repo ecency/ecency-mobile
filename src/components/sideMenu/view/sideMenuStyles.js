@@ -11,12 +11,14 @@ export default EStyleSheet.create({
     flexDirection: 'row',
     backgroundColor: '$primaryBlue',
     justifyContent: 'center',
+    height: 128,
     alignItems: 'center',
   },
-  headerContentView: {
+  headerContentWrapper: {
     alignItems: 'center',
-    flex: 1,
+    height: 70,
     flexDirection: 'row',
+    alignSelf: 'center',
   },
   contentView: {
     flex: 4,
@@ -37,14 +39,15 @@ export default EStyleSheet.create({
     alignSelf: 'center',
     borderColor: '$borderColor',
   },
-  userInfoView: {
-    alignSelf: 'center',
+  userInfoWrapper: {
+    alignSelf: 'flex-end',
     marginLeft: 15,
   },
   username: {
     color: '$white',
     fontWeight: 'bold',
     fontSize: 14,
+    marginBottom: 8,
   },
   usernick: {
     color: 'rgba(255, 255, 255, 0.7)',
@@ -74,18 +77,15 @@ export default EStyleSheet.create({
     color: '$white',
     backgroundColor: 'transparent',
   },
-  addAccountIconView: {
+  addAccountWrapper: {
     alignSelf: 'flex-end',
     justifyContent: 'center',
     flex: 1,
     flexDirection: 'row',
   },
-  addAccountIcon: {
-    padding: 10,
-  },
   itemWrapper: {
     flexDirection: 'row',
-    marginVertical: 20,
-    marginLeft: 48,
+    marginVertical: 10,
+    marginLeft: '$deviceWidth / 20',
   },
 });

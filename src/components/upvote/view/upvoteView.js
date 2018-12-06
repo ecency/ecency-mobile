@@ -19,14 +19,14 @@ import styles from './upvoteStyles';
 
 class UpvoteView extends Component {
   /* Props
-    * ------------------------------------------------
-    *   @prop { type }    name                - Description....
-    */
+   * ------------------------------------------------
+   *   @prop { type }    name                - Description....
+   */
 
   constructor(props) {
     super(props);
     this.state = {
-      sliderValue: 0.0,
+      sliderValue: props.upvotePercent || 1,
       isVoting: false,
       isVoted: props.isVoted,
       amount: '0.00000',
@@ -36,11 +36,15 @@ class UpvoteView extends Component {
   // Component Life Cycles
 
   componentWillReceiveProps(nextProps) {
-    const { isVoted } = this.props;
+    const { isVoted, upvotePercent } = this.props;
     const { isVoted: localIsVoted } = this.state;
 
     if (isVoted !== nextProps.isVoted && localIsVoted !== nextProps.isVoted) {
       this.setState({ isVoted: nextProps.isVoted });
+    }
+
+    if (upvotePercent !== nextProps.upvotePercent) {
+      this.setState({ sliderValue: nextProps.upvotePercent });
     }
   }
 
@@ -69,12 +73,19 @@ class UpvoteView extends Component {
   };
 
   _upvoteContent = async () => {
-    const { currentAccount, author, permlink } = this.props;
+    const {
+      author, currentAccount, handleSetUpvotePercent, permlink,
+    } = this.props;
     const { sliderValue } = this.state;
 
-    this.setState({
-      isVoting: true,
-    });
+    this.setState(
+      {
+        isVoting: true,
+      },
+      () => {
+        handleSetUpvotePercent(sliderValue);
+      },
+    );
 
     const digitPinCode = await getDigitPinCode();
     const postingKey = decryptKey(currentAccount.local.postingKey, digitPinCode);
@@ -144,8 +155,7 @@ class UpvoteView extends Component {
                   />
                   {isShowPayoutValue && (
                   <Text style={styles.payoutValue}>
-                      $
-                    {' '}
+$
                     {pendingPayoutValue}
                   </Text>
                   )}

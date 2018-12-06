@@ -1,15 +1,16 @@
 import {
   ACTIVE_APPLICATION,
   CLOSE_PIN_CODE_MODAL,
+  IS_DARK_THEME,
+  IS_LOGIN_DONE,
+  IS_NOTIFICATION_OPEN,
   LOGIN,
   LOGOUT,
   OPEN_PIN_CODE_MODAL,
   SET_API,
   SET_CURRENCY,
   SET_LANGUAGE,
-  IS_NOTIFICATION_OPEN,
-  IS_DARK_THEME,
-  IS_LOGIN_DONE,
+  SET_UPVOTE_PERCENT,
 } from '../constants/constants';
 
 export const login = () => ({
@@ -50,6 +51,11 @@ export const setCurrency = payload => ({
 export const setApi = payload => ({
   payload,
   type: SET_API,
+});
+
+export const setUpvotePercent = payload => ({
+  payload,
+  type: SET_UPVOTE_PERCENT,
 });
 
 export const isNotificationOpen = payload => ({

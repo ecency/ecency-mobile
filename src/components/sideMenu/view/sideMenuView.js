@@ -1,6 +1,6 @@
 import React, { Component } from 'react';
 import {
-  View, Text, ImageBackground, FlatList, TouchableHighlight, Image,
+  View, Text, ImageBackground, FlatList, TouchableOpacity, Image,
 } from 'react-native';
 import { injectIntl } from 'react-intl';
 import LinearGradient from 'react-native-linear-gradient';
@@ -83,16 +83,16 @@ class SideMenuView extends Component {
             style={{ width: '100%', height: '100%', flexDirection: 'row' }}
           >
             {isLoggedIn && (
-              <View style={styles.headerContentView}>
+              <View style={styles.headerContentWrapper}>
                 <Image style={styles.userAvatar} source={_avatar} defaultSource={DEFAULT_IMAGE} />
-                <View style={styles.userInfoView}>
+                <View style={styles.userInfoWrapper}>
                   {currentAccount.display_name && (
                     <Text style={styles.username}>{currentAccount.display_name}</Text>
                   )}
                   <Text style={styles.usernick}>{`@${currentAccount.name}`}</Text>
                 </View>
-                <View style={styles.addAccountIconView}>
-                  {/* TODO: delete android name */}
+
+                <View style={styles.userInfoWrapper}>
                   <IconButton
                     name={isAddAccountIconActive ? 'arrow-dropup' : 'add-circle-outline'}
                     androidName={
@@ -112,7 +112,7 @@ class SideMenuView extends Component {
           <FlatList
             data={menuItems}
             renderItem={item => (
-              <TouchableHighlight
+              <TouchableOpacity
                 style={styles.listItem}
                 onPress={() => {
                   if (item.item.route) {
@@ -145,7 +145,7 @@ class SideMenuView extends Component {
                       : intl.formatMessage({ id: `side_menu.${item.item.id}` })}
                   </Text>
                 </View>
-              </TouchableHighlight>
+              </TouchableOpacity>
             )}
           />
         </View>
