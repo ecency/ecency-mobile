@@ -1,15 +1,9 @@
 import React, { Component } from 'react';
-// import { connect } from 'react-redux';
+import { connect } from 'react-redux';
 
 // Services and Actions
-import { getUserData, getAuthStatus } from '../../../realm/realm';
-import { getPost, getUser } from '../../../providers/steem/dsteem';
+import { getPost } from '../../../providers/steem/dsteem';
 
-// Middleware
-
-// Constants
-
-// Utilities
 // Component
 import { PostScreen } from '..';
 
@@ -25,25 +19,23 @@ class PostContainer extends Component {
     this.state = {
       post: null,
       error: null,
-      currentUser: null,
     };
   }
 
   // Component Life Cycle Functions
-  componentDidMount() {
+  async componentDidMount() {
     const { navigation } = this.props;
     const { author, permlink } = navigation.state && navigation.state.params;
 
-    this._loadPost(author, permlink);
-    this._getUser();
+    await this._loadPost(author, permlink);
   }
 
   // Component Functions
 
-  _loadPost = (author, permlink) => {
-    const { currentUser } = this.state;
-    // TODO: get from redux for cureentUser
-    getPost(author, permlink, currentUser && currentUser.name)
+  _loadPost = async (author, permlink) => {
+    const { currentAccount } = this.props;
+
+    await getPost(author, permlink, currentAccount && currentAccount.name)
       .then((result) => {
         if (result) {
           this.setState({ post: result });
@@ -54,33 +46,16 @@ class PostContainer extends Component {
       });
   };
 
-  async _getUser() {
-    let _currentUser;
-    let userData;
-    let isLoggedIn;
-
-    await getAuthStatus().then((res) => {
-      isLoggedIn = res.isLoggedIn;
-    });
-
-    if (isLoggedIn) {
-      await getUserData().then((res) => {
-        _currentUser = Array.from(res);
-      });
-
-      userData = _currentUser && (await getUser(_currentUser[0].username));
-
-      await this.setState({
-        currentUser: userData,
-      });
-    }
-  }
-
   render() {
-    const { post, error, currentUser } = this.state;
+    const { currentAccount } = this.props;
+    const { post, error } = this.state;
 
-    return <PostScreen currentUser={currentUser} post={post} error={error} />;
+    return <PostScreen currentAccount={currentAccount} post={post} error={error} />;
   }
 }
 
-export default PostContainer;
+const mapStateToProps = state => ({
+  currentAccount: state.account.currentAccount,
+});
+
+export default connect(mapStateToProps)(PostContainer);

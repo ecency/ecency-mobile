@@ -30,16 +30,15 @@ class ProfileContainer extends Component {
       comments: [],
       follows: {},
       isFollowing: false,
-      isLoading: false,
       isMuted: false,
       isProfileLoading: false,
       isReady: false,
-      isReverseHeader: false,
+      isReverseHeader: !!(props.navigation.state && props.navigation.state.params),
       user: null,
     };
   }
 
-  componentDidMount() {
+  componentDidMount = () => {
     const { navigation, isLoggedIn, currentAccount } = this.props;
     const selectedUser = navigation.state && navigation.state.params;
 
@@ -48,10 +47,13 @@ class ProfileContainer extends Component {
       return;
     }
 
-    this._loadProfile(selectedUser ? selectedUser.username : currentAccount.name);
-
-    this.setState({ isReverseHeader: !!selectedUser });
-  }
+    if (selectedUser) {
+      this._loadProfile(selectedUser.username);
+      this.setState({ isReverseHeader: true });
+    } else {
+      this._loadProfile(currentAccount.name);
+    }
+  };
 
   componentWillReceiveProps(nextProps) {
     const { navigation } = this.props;
@@ -73,7 +75,6 @@ class ProfileContainer extends Component {
         this.setState({
           isReady: true,
           comments: result,
-          isLoading: false,
         });
       })
       .catch((err) => {});
@@ -84,7 +85,7 @@ class ProfileContainer extends Component {
     const { currentAccount } = this.props;
     const digitPinCode = await getDigitPinCode();
 
-    const privateKey = decryptKey(currentAccount.realm_object.postingKey, digitPinCode);
+    const privateKey = decryptKey(currentAccount.local.postingKey, digitPinCode);
 
     this.setState({
       isProfileLoading: true,
@@ -102,7 +103,7 @@ class ProfileContainer extends Component {
     const { currentAccount } = this.props;
     const digitPinCode = await getDigitPinCode();
 
-    const privateKey = decryptKey(currentAccount.realm_object.postingKey, digitPinCode);
+    const privateKey = decryptKey(currentAccount.local.postingKey, digitPinCode);
 
     this.setState({
       isProfileLoading: true,
@@ -250,7 +251,6 @@ class ProfileContainer extends Component {
       isProfileLoading,
       isFollowing,
       isMuted,
-      isLoading,
       isReady,
       isReverseHeader,
       user,
@@ -270,7 +270,6 @@ class ProfileContainer extends Component {
           handleOnFollowsPress={this._handleFollowsPress}
           isDarkTheme={isDarkTheme}
           isFollowing={isFollowing}
-          isLoading={isLoading}
           isLoggedIn={isLoggedIn}
           isMuted={isMuted}
           isProfileLoading={isProfileLoading}

@@ -37,7 +37,6 @@ class ProfileScreen extends Component {
       intl,
       isDarkTheme,
       isFollowing,
-      isLoading,
       isLoggedIn,
       isMuted,
       isProfileLoading,
@@ -47,9 +46,7 @@ class ProfileScreen extends Component {
       username,
     } = this.props;
     let _about;
-    let avatar;
     let coverImage;
-    let name;
     let location;
     let website;
     let votingPower;
@@ -67,14 +64,12 @@ class ProfileScreen extends Component {
     if (about) {
       _about = about.about;
       coverImage = about.cover_image;
-      avatar = about.profile_image;
       location = about.location;
       website = about.website;
-      name = about.name;
     }
     return (
       <Fragment>
-        <Header user={user} isReverse={isReverseHeader} />
+        <Header selectedUser={user} isReverse={isReverseHeader} />
         <View style={styles.container}>
           {!isReady ? (
             <ProfileSummaryPlaceHolder />
@@ -136,11 +131,8 @@ class ProfileScreen extends Component {
                     'FOLLOWS',
                     'REBLOGS',
                   ]}
-                  isLoginMust
                   getFor="blog"
                   tag={username}
-                  user={user && user}
-                  isLoggedIn={isLoggedIn}
                 />
               )}
             </View>

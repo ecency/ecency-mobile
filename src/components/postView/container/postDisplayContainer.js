@@ -53,13 +53,13 @@ class PostDisplayContainer extends Component {
   };
 
   render() {
-    const { post, currentUser } = this.props;
+    const { post, currentAccount } = this.props;
 
     return (
       <PostDisplayView
         handleOnVotersPress={this._handleOnVotersPress}
         handleOnReplyPress={this._handleOnReplyPress}
-        currentUser={currentUser}
+        currentAccount={currentAccount}
         post={post}
       />
     );

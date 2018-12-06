@@ -60,3 +60,5 @@ config.js
 keystore/
 .env
 package-lock.json
+my-release-key.keystore
+gradle.properties

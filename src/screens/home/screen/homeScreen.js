@@ -1,5 +1,5 @@
 import React, { PureComponent, Fragment } from 'react';
-import { View, Alert } from 'react-native';
+import { View } from 'react-native';
 import ScrollableTabView from '@esteemapp/react-native-scrollable-tab-view';
 import { injectIntl } from 'react-intl';
 
@@ -20,7 +20,7 @@ class HomeScreen extends PureComponent {
 
   render() {
     const {
-      componentId, isLoggedIn, currentAccount, intl,
+      currentAccount, intl, isLoggedIn, isLoginDone,
     } = this.props;
     const _filterOptions = [
       'FEED',
@@ -33,12 +33,17 @@ class HomeScreen extends PureComponent {
       'COMMENTS',
       'PAYOUT',
     ];
+    let tag;
+
+    if (isLoginDone && !isLoggedIn) {
+      tag = 'esteemapp';
+    }
 
     return (
       <Fragment>
         <Header />
 
-        <View style={styles.container} key="overlay">
+        <View style={styles.container}>
           <ScrollableTabView
             style={styles.tabView}
             renderTabBar={() => (
@@ -59,10 +64,7 @@ class HomeScreen extends PureComponent {
               <Posts
                 filterOptions={_filterOptions}
                 getFor="feed"
-                tag={isLoggedIn ? currentAccount.name : 'esteemapp'}
-                user={currentAccount}
-                isLoggedIn={isLoggedIn}
-                componentId={componentId}
+                tag={tag || currentAccount.username}
               />
             </View>
             <View
@@ -71,13 +73,7 @@ class HomeScreen extends PureComponent {
               })}
               style={styles.tabbarItem}
             >
-              <Posts
-                filterOptions={_filterOptions}
-                getFor="trending"
-                user={currentAccount}
-                isLoggedIn={isLoggedIn}
-                componentId={componentId}
-              />
+              <Posts filterOptions={_filterOptions} getFor="trending" />
             </View>
           </ScrollableTabView>
         </View>

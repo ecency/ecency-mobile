@@ -7,6 +7,7 @@ export const LOGIN = 'LOGIN';
 export const LOGOUT = 'LOGOUT';
 export const LOGOUT_SUCCESS = 'LOGOUT_SUCCESS';
 export const LOGOUT_FAIL = 'LOGOUT_FAIL';
+export const IS_LOGIN_DONE = 'IS_LOGIN_DONE';
 
 export const ADD_OTHER_ACCOUNT = 'ADD_OTHER_ACCOUNT';
 export const UPDATE_CURRENT_ACCOUNT = 'UPDATE_CURRENT_ACCOUNT';
