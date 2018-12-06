@@ -10,19 +10,21 @@ import {
   IS_NOTIFICATION_OPEN,
   IS_DARK_THEME,
   IS_LOGIN_DONE,
+  SET_UPVOTE_PERCENT,
 } from '../constants/constants';
 
 const initialState = {
-  isLoggedIn: false, // Has any logged in user.
-  loading: false, // It is lock to all screen and shows loading animation.
-  isPinCodeReqiure: false,
-  isActive: false,
-  isNotificationOpen: true,
-  language: 'en-US',
-  currency: 'usd',
   api: 'api.steemit.com',
+  currency: 'usd',
+  isActive: false,
   isDarkTheme: false,
+  isLoggedIn: false, // Has any logged in user.
   isLoginDone: false,
+  isNotificationOpen: true,
+  isPinCodeReqiure: false,
+  language: 'en-US',
+  loading: false, // It is lock to all screen and shows loading animation.
+  upvotePercent: 0,
 };
 
 export default function (state = initialState, action) {
@@ -76,6 +78,10 @@ export default function (state = initialState, action) {
     case IS_DARK_THEME:
       return Object.assign({}, state, {
         isDarkTheme: action.payload,
+      });
+    case SET_UPVOTE_PERCENT:
+      return Object.assign({}, state, {
+        upvotePercent: action.payload,
       });
     default:
       return state;

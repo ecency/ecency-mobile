@@ -39,6 +39,7 @@ const settingsSchema = {
     currency: { type: 'string', default: null },
     notification: { type: 'bool', default: true },
     server: { type: 'string', default: null },
+    upvotePercent: { type: 'string', default: null },
   },
 };
 
@@ -74,6 +75,7 @@ if (Array.from(settings).length <= 0) {
       currency: '',
       notification: true,
       server: '',
+      upvotePercent: '0',
     });
   });
 }
@@ -269,6 +271,29 @@ export const setTheme = isDarkTheme => new Promise((resolve, reject) => {
       settings[0].isDarkTheme = isDarkTheme;
       resolve(true);
     });
+  } catch (error) {
+    reject(error);
+  }
+});
+
+export const setUpvotePercent = percent => new Promise((resolve, reject) => {
+  try {
+    realm.write(() => {
+      settings[0].upvotePercent = percent;
+      resolve(true);
+    });
+  } catch (error) {
+    reject(error);
+  }
+});
+
+export const getUpvotePercent = () => new Promise((resolve, reject) => {
+  try {
+    if (settings[0]) {
+      resolve(settings[0].upvotePercent);
+    } else {
+      resolve(false);
+    }
   } catch (error) {
     reject(error);
   }

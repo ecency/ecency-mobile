@@ -33,9 +33,9 @@ class PostContainer extends Component {
   // Component Functions
 
   _loadPost = async (author, permlink) => {
-    const { currentAccount } = this.props;
+    const { currentAccount, isLoggedIn } = this.props;
 
-    await getPost(author, permlink, currentAccount && currentAccount.name)
+    await getPost(author, permlink, isLoggedIn && currentAccount.username)
       .then((result) => {
         if (result) {
           this.setState({ post: result });
@@ -56,6 +56,7 @@ class PostContainer extends Component {
 
 const mapStateToProps = state => ({
   currentAccount: state.account.currentAccount,
+  isLoggedIn: state.application.isLoggedIn,
 });
 
 export default connect(mapStateToProps)(PostContainer);

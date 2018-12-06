@@ -1,6 +1,12 @@
 import React, { Component } from 'react';
 import { connect } from 'react-redux';
 
+// Realm
+import { setUpvotePercent } from '../../../realm/realm';
+
+// Services and Actions
+import { setUpvotePercent as upvoteAction } from '../../../redux/actions/applicationActions';
+
 // Component
 import { UpvoteView } from '..';
 
@@ -20,9 +26,18 @@ class UpvoteContainer extends Component {
 
   // Component Functions
 
+  _setUpvotePercent = (value) => {
+    const { dispatch } = this.props;
+
+    if (value) {
+      setUpvotePercent(String(value));
+      dispatch(upvoteAction(value));
+    }
+  };
+
   render() {
     const {
-      content, currentAccount, isLoggedIn, isShowPayoutValue,
+      content, currentAccount, isLoggedIn, isShowPayoutValue, upvotePercent,
     } = this.props;
     let author;
     let isVoted;
@@ -45,6 +60,8 @@ class UpvoteContainer extends Component {
         isVoted={isVoted}
         pendingPayoutValue={pendingPayoutValue}
         permlink={permlink}
+        upvotePercent={upvotePercent}
+        handleSetUpvotePercent={this._setUpvotePercent}
       />
     );
   }
@@ -52,6 +69,7 @@ class UpvoteContainer extends Component {
 
 const mapStateToProps = state => ({
   isLoggedIn: state.application.isLoggedIn,
+  upvotePercent: state.application.upvotePercent,
 
   currentAccount: state.account.currentAccount,
 });
