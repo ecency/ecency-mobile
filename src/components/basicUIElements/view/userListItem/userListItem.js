@@ -22,7 +22,12 @@ const UserListItem = ({
     <View style={styles.userDescription}>
       <Text style={styles.name}>
         {username}
-        {reputation && <Text style={styles.reputation}>{reputation}</Text>}
+        {reputation && (
+        <Text style={styles.reputation}>
+          {' '}
+          {reputation}
+        </Text>
+        )}
       </Text>
       {description && <Text style={styles.date}>{description}</Text>}
     </View>
