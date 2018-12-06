@@ -24,6 +24,8 @@ import { TabBar } from '../../../components/tabBar';
 import { TextButton } from '../../../components/buttons';
 import { lookupAccounts } from '../../../providers/steem/dsteem';
 import STEEM_CONNECT_LOGO from '../../../assets/steem_connect.png';
+import { Modal } from '../../../components';
+import SteemConnect from '../../steem-connect/steemConnect';
 
 // Constants
 import { default as ROUTES } from '../../../constants/routeNames';
@@ -41,6 +43,7 @@ class LoginScreen extends Component {
       isLoading: false,
       isUsernameValid: true,
       keyboardIsOpen: false,
+      isModalOpen: false,
     };
   }
 
@@ -84,17 +87,19 @@ class LoginScreen extends Component {
     Linking.openURL('https://signup.steemit.com/?ref=esteem').catch(err => alert('An error occurred', err));
   };
 
-  _loginwithSc2 = () => {
-    const { navigation } = this.props;
-    navigation.navigate(ROUTES.SCREENS.STEEM_CONNECT);
-  };
+
+  _handleOnModalToggle = () => {
+    const { isModalOpen } = this.state;
+    console.log('isModalOpen :', isModalOpen);
+    this.setState({ isModalOpen: !isModalOpen });
+  }
 
   render() {
-    const { navigation, intl } = this.props;
+    const { navigation, intl, setPinCodeState } = this.props;
     const {
-      isLoading, username, isUsernameValid, keyboardIsOpen, password,
+      isLoading, username, isUsernameValid, keyboardIsOpen, password, isModalOpen,
     } = this.state;
-
+    
     return (
       <View style={styles.container}>
         <StatusBar hidden translucent />
@@ -198,7 +203,7 @@ class LoginScreen extends Component {
             />
             <MainButton
               wrapperStyle={styles.mainButtonWrapper}
-              onPress={() => this._loginwithSc2()}
+              onPress={() => this._handleOnModalToggle()}
               iconName="md-person"
               source={STEEM_CONNECT_LOGO}
               text="steem"
@@ -206,6 +211,15 @@ class LoginScreen extends Component {
             />
           </View>
         </ScrollableTabView>
+        <Modal
+          isOpen={isModalOpen}
+          isFullScreen
+          isCloseButton
+          handleOnModalClose={this._handleOnModalToggle}
+          title="Steemconnect Login"
+        >
+          <SteemConnect handleOnModalClose={this._handleOnModalToggle} setPinCodeState={setPinCodeState} />
+        </Modal>
       </View>
     );
   }

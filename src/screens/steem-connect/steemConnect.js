@@ -1,5 +1,5 @@
 import React, { Component } from 'react';
-import { View, WebView } from 'react-native';
+import { View, WebView, Alert } from 'react-native';
 import { connect } from 'react-redux';
 
 import { loginWithSC2 } from '../../providers/steem/auth';
@@ -22,9 +22,8 @@ class SteemConnect extends Component {
 
   onNavigationStateChange(event) {
     let accessToken;
-    const { dispatch, setPinCodeState } = this.props;
+    const { dispatch, setPinCodeState, handleOnModalClose } = this.props;
     const { isLoading } = this.state;
-
     if (event.url.indexOf('?access_token=') > -1) {
       this.webview.stopLoading();
       try {
@@ -34,6 +33,7 @@ class SteemConnect extends Component {
       }
       if (!isLoading) {
         this.setState({ isLoading: true });
+        handleOnModalClose();
         loginWithSC2(accessToken, 'pinCode')
           .then((result) => {
             if (result) {
@@ -47,6 +47,7 @@ class SteemConnect extends Component {
             }
           })
           .catch((error) => {
+            Alert.alert(error.toString());
             // TODO: return
           });
       }
@@ -62,7 +63,7 @@ class SteemConnect extends Component {
               steemConnectOptions.client_id
             }&redirect_uri=${encodeURIComponent(
               steemConnectOptions.redirect_uri,
-            )}&${encodeURIComponent(steemConnectOptions.scope)}`,
+            )}&scope=${encodeURIComponent(steemConnectOptions.scope)}`,
           }}
           onNavigationStateChange={this.onNavigationStateChange.bind(this)}
           ref={(ref) => {
