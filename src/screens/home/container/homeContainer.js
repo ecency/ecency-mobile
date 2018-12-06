@@ -1,22 +1,14 @@
 import React, { Component } from 'react';
 import { connect } from 'react-redux';
 
-// Services and Actions
-
-// Middleware
-
-// Constants
-
-// Utilities
-
 // Component
 import { HomeScreen } from '..';
 
 /*
-  *            Props Name        Description                                     Value
-  *@props -->  props name here   description here                                Value Type Here
-  *
-  */
+ *            Props Name        Description                                     Value
+ *@props -->  props name here   description here                                Value Type Here
+ *
+ */
 
 class HomeContainer extends Component {
   constructor(props) {
@@ -29,12 +21,22 @@ class HomeContainer extends Component {
   // Component Functions
 
   render() {
-    return <HomeScreen {...this.props} />;
+    const { isLoggedIn, isLoginDone, currentAccount } = this.props;
+
+    return (
+      <HomeScreen
+        isLoggedIn={isLoggedIn}
+        isLoginDone={isLoginDone}
+        currentAccount={currentAccount}
+      />
+    );
   }
 }
 
 const mapStateToProps = state => ({
   isLoggedIn: state.application.isLoggedIn,
+  isLoginDone: state.application.isLoginDone,
+
   currentAccount: state.account.currentAccount,
 });
 

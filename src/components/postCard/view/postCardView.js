@@ -4,7 +4,6 @@ import {
 } from 'react-native';
 // import FastImage from 'react-native-fast-image';
 import { PostHeaderDescription } from '../../postElements';
-import { DropdownButton } from '../../dropdownButton';
 import { PostDropdown } from '../../postDropdown';
 import { Icon } from '../../icon';
 import { LineBreak } from '../../basicUIElements';
@@ -32,10 +31,10 @@ class PostCard extends Component {
   // Component Functions
 
   _handleOnUserPress = () => {
-    const { handleOnUserPress, content, user } = this.props;
+    const { handleOnUserPress, content } = this.props;
 
-    if (handleOnUserPress && content && content.author !== user.name) {
-      handleOnUserPress(content.author, content.author);
+    if (handleOnUserPress && content) {
+      handleOnUserPress(content.author);
     }
   };
 
@@ -57,7 +56,7 @@ class PostCard extends Component {
 
   render() {
     const {
-      content, isLoggedIn, user, isHideImage,
+      content, isHideImage,
     } = this.props;
     // const likersText = `@${content.top_likers[0]}, @${content.top_likers[1]}, @${
     //   content.top_likers[2]
@@ -121,31 +120,6 @@ class PostCard extends Component {
           </TouchableOpacity>
         </View>
         <LineBreak height={8} />
-        {/* {content && content.top_likers ? (
-          <TouchableOpacity
-            style={styles.likersWrapper}
-            onPress={() => this._handleOnVotersPress()}
-          >
-            <View style={styles.topLikers}>
-              {content.top_likers.map((liker, i) => (
-                <FastImage
-                  source={{
-                    uri: `https://steemitimages.com/u/${liker}/avatar/small`,
-                  }}
-                  style={[styles.liker, i !== 0 && { marginLeft: -3 }]}
-                />
-              ))}
-              <Text style={styles.footer}>
-                {likersText}
-                {otherLikers}
-              </Text>
-            </View>
-          </TouchableOpacity>
-        ) : (
-          <View>
-            <Text style={styles.footer}>{likesCount}</Text>
-          </View>
-        )} */}
       </View>
     );
   }

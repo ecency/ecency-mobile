@@ -88,7 +88,7 @@ export const getUser = async (user) => {
     );
 
     account[0].about = account[0].json_metadata && JSON.parse(account[0].json_metadata);
-    account[0].profile_image = getAvatar(account[0].about);
+    account[0].avatar = getAvatar(account[0].about);
     account[0].display_name = getName(account[0].about);
 
     return account[0];
@@ -238,11 +238,11 @@ export const getPosts = async (by, query, user) => {
   }
 };
 
-export const getPostsSummary = async (by, query, currentUser) => {
+export const getPostsSummary = async (by, query, currentUserName) => {
   try {
     let posts = await client.database.getDiscussions(by, query);
 
-    posts = await parsePostsSummary(posts, currentUser);
+    posts = await parsePostsSummary(posts, currentUserName);
     return posts;
   } catch (error) {
     return error;
@@ -263,13 +263,13 @@ export const getUserComments = async (query) => {
  * @method getUser get user data
  * @param user post author
  * @param permlink post permlink
+ * @param currentUserName active accounts username
  */
-export const getPost = async (user, permlink, currentUser) => {
+export const getPost = async (author, permlink, currentUserName) => {
   try {
-    let posts = await client.database.call('get_content', [user, permlink]);
+    const post = await client.database.call('get_content', [author, permlink]);
 
-    posts = await parsePost(posts, user, currentUser);
-    return posts;
+    return await parsePost(post, currentUserName);
   } catch (error) {
     return error;
   }
@@ -640,7 +640,7 @@ export const postComment = (
     opArray.push(e);
   }
 
-  const key = decryptKey(account.realm_object.postingKey, digitPinCode);
+  const key = decryptKey(account.local.postingKey, digitPinCode);
   const privateKey = PrivateKey.fromString(key);
 
   return new Promise((resolve, reject) => {
@@ -657,7 +657,7 @@ export const postComment = (
 
 export const reblog = async (account, author, permlink) => {
   const pin = await getDigitPinCode();
-  const key = decryptKey(account.realm_object.postingKey, pin);
+  const key = decryptKey(account.local.postingKey, pin);
   const privateKey = PrivateKey.fromString(key);
   const follower = account.name;
 

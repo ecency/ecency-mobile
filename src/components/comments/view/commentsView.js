@@ -36,7 +36,6 @@ class CommentsView extends Component {
       avatarSize,
       marginLeft,
       handleOnUserPress,
-      currentUser,
       commentNumber,
       handleOnReplyPress,
       isProfilePreview,

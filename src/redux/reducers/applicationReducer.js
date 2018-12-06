@@ -9,6 +9,7 @@ import {
   SET_LANGUAGE,
   IS_NOTIFICATION_OPEN,
   IS_DARK_THEME,
+  IS_LOGIN_DONE,
 } from '../constants/constants';
 
 const initialState = {
@@ -21,6 +22,7 @@ const initialState = {
   currency: 'usd',
   api: 'api.steemit.com',
   isDarkTheme: false,
+  isLoginDone: false,
 };
 
 export default function (state = initialState, action) {
@@ -29,6 +31,11 @@ export default function (state = initialState, action) {
       return {
         ...state,
         isLoggedIn: true,
+      };
+    case IS_LOGIN_DONE:
+      return {
+        ...state,
+        isLoginDone: true,
       };
     case LOGOUT:
       return {
