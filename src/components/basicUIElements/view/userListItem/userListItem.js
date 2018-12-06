@@ -5,7 +5,6 @@ import styles from './userListItemStyles';
 
 const UserListItem = ({
   avatar,
-  reputation,
   rightText,
   description,
   username,
@@ -20,15 +19,7 @@ const UserListItem = ({
       <FastImage style={[styles.avatar]} source={{ uri: avatar }} />
     </TouchableOpacity>
     <View style={styles.userDescription}>
-      <Text style={styles.name}>
-        {username}
-        {reputation && (
-        <Text style={styles.reputation}>
-          {' '}
-          {reputation}
-        </Text>
-        )}
-      </Text>
+      <Text style={styles.name}>{username}</Text>
       {description && <Text style={styles.date}>{description}</Text>}
     </View>
     {isHasRightItem && (
