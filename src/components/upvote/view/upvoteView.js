@@ -28,7 +28,7 @@ class UpvoteView extends Component {
     this.state = {
       sliderValue: 0.0,
       isVoting: false,
-      isVoted: false,
+      isVoted: props.isVoted,
       amount: '0.00000',
     };
   }
@@ -37,8 +37,9 @@ class UpvoteView extends Component {
 
   componentWillReceiveProps(nextProps) {
     const { isVoted } = this.props;
+    const { isVoted: localIsVoted } = this.state;
 
-    if (isVoted !== nextProps.isVoted) {
+    if (isVoted !== nextProps.isVoted && localIsVoted !== nextProps.isVoted) {
       this.setState({ isVoted: nextProps.isVoted });
     }
   }

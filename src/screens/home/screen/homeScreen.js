@@ -64,9 +64,7 @@ class HomeScreen extends PureComponent {
               <Posts
                 filterOptions={_filterOptions}
                 getFor="feed"
-                tag={tag || currentAccount.name}
-                user={currentAccount}
-                isLoggedIn={isLoggedIn}
+                tag={tag || currentAccount.username}
               />
             </View>
             <View
@@ -75,12 +73,7 @@ class HomeScreen extends PureComponent {
               })}
               style={styles.tabbarItem}
             >
-              <Posts
-                filterOptions={_filterOptions}
-                getFor="trending"
-                user={currentAccount}
-                isLoggedIn={isLoggedIn}
-              />
+              <Posts filterOptions={_filterOptions} getFor="trending" />
             </View>
           </ScrollableTabView>
         </View>

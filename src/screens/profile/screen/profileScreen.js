@@ -131,11 +131,8 @@ class ProfileScreen extends Component {
                     'FOLLOWS',
                     'REBLOGS',
                   ]}
-                  isLoginMust
                   getFor="blog"
                   tag={username}
-                  user={user && user}
-                  isLoggedIn={isLoggedIn}
                 />
               )}
             </View>

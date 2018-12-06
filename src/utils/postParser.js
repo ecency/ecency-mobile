@@ -91,7 +91,7 @@ export const parsePosts = (posts, user) => {
   return posts;
 };
 
-export const parsePostsSummary = (posts, currentUser) => {
+export const parsePostsSummary = (posts, currentUserName) => {
   posts.map((post) => {
     post.json_metadata = JSON.parse(post.json_metadata);
     post.json_metadata.image ? (post.image = post.json_metadata.image[0]) : null;
@@ -103,7 +103,8 @@ export const parsePostsSummary = (posts, currentUser) => {
     post.body = markDown2Html(post.body);
     post.summary = getPostSummary(post.body, 100);
     post.raw_body = post.body;
-    post.is_voted = false;
+    post.is_voted = isVoted(post.active_votes, currentUserName);
+
 
     const totalPayout = parseFloat(post.pending_payout_value)
       + parseFloat(post.total_payout_value)
@@ -113,10 +114,7 @@ export const parsePostsSummary = (posts, currentUser) => {
     const ratio = totalPayout / voteRshares;
     if (post && post.active_votes) {
       for (const i in post.active_votes) {
-        if (post.active_votes[i].voter === currentUser && post.active_votes[i].percent > 0) {
-          post.is_voted = true;
-        }
-        post.vote_perecent = post.active_votes[i].voter === currentUser ? post.active_votes[i].percent : null;
+        post.vote_perecent = post.active_votes[i].voter === currentUserName ? post.active_votes[i].percent : null;
         post.active_votes[i].value = (post.active_votes[i].rshares * ratio).toFixed(2);
         post.active_votes[i].reputation = getReputation(post.active_votes[i].reputation);
         post.active_votes[i].percent = post.active_votes[i].percent / 100;
@@ -149,12 +147,9 @@ export const parsePost = (post, currentUserName) => {
 
   const voteRshares = post.active_votes.reduce((a, b) => a + parseFloat(b.rshares), 0);
   const ratio = totalPayout / voteRshares;
-  post.is_voted = false;
+  post.is_voted = isVoted(post.active_votes, currentUserName);
 
   for (const i in post.active_votes) {
-    if (post.active_votes[i].voter === currentUserName && post.active_votes[i].percent > 0) {
-      post.is_voted = true;
-    }
     post.active_votes[i].value = (post.active_votes[i].rshares * ratio).toFixed(2);
     post.active_votes[i].reputation = getReputation(post.active_votes[i].reputation);
     post.active_votes[i].avatar = `https://steemitimages.com/u/${
@@ -165,7 +160,7 @@ export const parsePost = (post, currentUserName) => {
   return post;
 };
 
-const groomVotes = (activeVotes, currentUserName) => {};
+const isVoted = (activeVotes, currentUserName) => activeVotes.some(v => v.voter === currentUserName && v.percent > 0);
 
 export const protocolUrl2Obj = (url) => {
   let urlPart = url.split('://')[1];

@@ -238,11 +238,11 @@ export const getPosts = async (by, query, user) => {
   }
 };
 
-export const getPostsSummary = async (by, query, currentUser) => {
+export const getPostsSummary = async (by, query, currentUserName) => {
   try {
     let posts = await client.database.getDiscussions(by, query);
 
-    posts = await parsePostsSummary(posts, currentUser);
+    posts = await parsePostsSummary(posts, currentUserName);
     return posts;
   } catch (error) {
     return error;
