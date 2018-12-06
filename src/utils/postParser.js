@@ -1,47 +1,8 @@
-import Remarkable from 'remarkable';
+// Utils
+import { markDown2Html } from './markdownToHtml';
 import { getPostSummary } from './formatter';
 import { getReputation } from './reputation';
 import { getTimeFromNow } from './time';
-
-const md = new Remarkable({ html: true, breaks: true, linkify: true });
-
-export const replaceAuthorNames = input => input.replace(
-  /* eslint-disable-next-line */
-    /(^|[^a-zA-Z0-9_!#$%&*@＠\/]|(^|[^a-zA-Z0-9_+~.-\/]))[@＠]([a-z][-\.a-z\d]+[a-z\d])/gi,
-  (match, preceeding1, preceeding2, user) => {
-    const userLower = user.toLowerCase();
-    const preceedings = (preceeding1 || '') + (preceeding2 || '');
-
-    return `${preceedings}<a class="markdown-author-link" href="${userLower}" data-author="${userLower}">@${user}</a>`;
-  },
-);
-
-export const replaceTags = input => input.replace(/(^|\s|>)(#[-a-z\d]+)/gi, (tag) => {
-  if (/#[\d]+$/.test(tag)) return tag; // do not allow only numbers (like #1)
-  const preceding = /^\s|>/.test(tag) ? tag[0] : ''; // space or closing tag (>)
-  tag = tag.replace('>', ''); // remove closing tag
-  const tag2 = tag.trim().substring(1);
-  const tagLower = tag2.toLowerCase();
-  return `${preceding}<a class="markdown-tag-link" href="${tagLower}" data-tag="${tagLower}">${tag.trim()}</a>`;
-});
-
-export const markDown2Html = (input) => {
-  if (!input) {
-    return '';
-  }
-
-  // Start replacing user names
-  let output = replaceAuthorNames(input);
-
-  // Replace tags
-  output = replaceTags(output);
-
-  output = md.render(output);
-
-  // TODO: Implement Regex  --> Look at utls/formatter.js
-
-  return output;
-};
 
 export const parsePosts = (posts, user) => {
   posts.map((post) => {

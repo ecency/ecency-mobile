@@ -14,10 +14,10 @@ import { getPost, getUser } from '../../../providers/steem/dsteem';
 import { PostScreen } from '..';
 
 /*
-  *            Props Name        Description                                     Value
-  *@props -->  content           which is include all post data                  Object
-  *
-  */
+ *            Props Name        Description                                     Value
+ *@props -->  content           which is include all post data                  Object
+ *
+ */
 
 class PostContainer extends Component {
   constructor(props) {
@@ -79,9 +79,7 @@ class PostContainer extends Component {
   render() {
     const { post, error, currentUser } = this.state;
 
-    return (
-      <PostScreen currentUser={currentUser} key={Math.random * 100} post={post} error={error} />
-    );
+    return <PostScreen currentUser={currentUser} post={post} error={error} />;
   }
 }
 
