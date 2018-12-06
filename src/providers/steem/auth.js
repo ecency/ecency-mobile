@@ -91,11 +91,15 @@ export const loginWithSC2 = async (accessToken) => {
   let avatar = '';
 
   return new Promise((resolve, reject) => {
-    const jsonMetadata = JSON.parse(account.account.json_metadata);
-    if (Object.keys(jsonMetadata).length !== 0) {
-      avatar = jsonMetadata.profile.profile_image;
-    }
 
+    try {
+      const jsonMetadata = JSON.parse(account.account.json_metadata);
+      if (Object.keys(jsonMetadata).length !== 0) {
+        avatar = jsonMetadata.profile.profile_image;
+      }
+    } catch (error) {
+      reject(new Error('Invalid credentails, please check and try again'));
+    }
     const userData = {
       username: account.account.name,
       avatar,
