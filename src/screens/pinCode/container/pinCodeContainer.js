@@ -132,7 +132,7 @@ class PinCodeContainer extends Component {
         setPinCode={this._setPinCode}
         showForgotButton={isExistUser}
         username={currentAccount ? currentAccount.name : 'unknow'}
-        avatar={currentAccount.profile_image}
+        avatar={currentAccount.avatar}
         intl={intl}
       />
     );

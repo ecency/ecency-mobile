@@ -53,7 +53,7 @@ class PostDisplayView extends Component {
   _getTabBar = (isFixedFooter = false) => {
     const {
       post,
-      currentUser,
+      currentAccount,
       handleOnReplyPress,
       handleOnEditPress,
       handleOnVotersPress,
@@ -80,7 +80,7 @@ class PostDisplayView extends Component {
             iconType="FontAwesome"
           />
           <View style={styles.stickyRightWrapper}>
-            {post && currentUser && currentUser.name === post.author && (
+            {post && currentAccount && currentAccount.name === post.author && (
               <IconButton
                 iconStyle={styles.barIconRight}
                 style={styles.barIconButton}
@@ -103,7 +103,7 @@ class PostDisplayView extends Component {
   };
 
   render() {
-    const { post, currentUser } = this.props;
+    const { post } = this.props;
     const { postHeight, scrollHeight, isLoadedComments } = this.state;
 
     const isPostEnd = scrollHeight > postHeight;
@@ -145,7 +145,6 @@ class PostDisplayView extends Component {
           </View>
           {post && (isGetComment || isLoadedComments) && (
             <CommentsDisplay
-              currentUser={currentUser}
               author={post.author}
               permlink={post.permlink}
               commentCount={post.children}

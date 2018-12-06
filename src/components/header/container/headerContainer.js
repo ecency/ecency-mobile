@@ -9,9 +9,12 @@ import { connect } from 'react-redux';
 // Constants
 
 // Utilities
+import { getReputation } from '../../../utils/user';
 
 // Component
 import { HeaderView } from '..';
+
+const DEFAULT_IMAGE = require('../../../assets/avatar_default.png');
 
 /*
  *            Props Name        Description                                     Value
@@ -42,14 +45,37 @@ class HeaderContainer extends Component {
   };
 
   render() {
-    const { isLoggedIn, currentUser, user } = this.props;
+    const {
+      isLoggedIn, currentAccount, selectedUser, isReverse, isLoginDone,
+    } = this.props;
+    let avatar;
+    let displayName;
+    let userName;
+    let reputation;
+
+    if (isReverse && selectedUser) {
+      avatar = selectedUser.avatar ? { uri: selectedUser.avatar } : DEFAULT_IMAGE;
+      displayName = selectedUser.display_name;
+      userName = selectedUser.name;
+      reputation = getReputation(selectedUser.reputation);
+    } else if (!isReverse) {
+      avatar = currentAccount.avatar ? { uri: currentAccount.avatar } : DEFAULT_IMAGE;
+      displayName = currentAccount.display_name;
+      userName = currentAccount.name;
+      reputation = getReputation(currentAccount.reputation);
+    }
+
     return (
       <HeaderView
         handleOnPressBackButton={this._handleOnPressBackButton}
         handleOpenDrawer={this._handleOpenDrawer}
         isLoggedIn={isLoggedIn}
-        currentAccount={user || currentUser}
-        {...this.props}
+        isReverse={isReverse}
+        isLoginDone={isLoginDone}
+        avatar={avatar}
+        displayName={displayName}
+        userName={userName}
+        reputation={reputation}
       />
     );
   }
@@ -57,7 +83,9 @@ class HeaderContainer extends Component {
 
 const mapStateToProps = state => ({
   isLoggedIn: state.application.isLoggedIn,
-  currentUser: state.account.currentAccount,
+  isLoginDone: state.application.isLoginDone,
+
+  currentAccount: state.account.currentAccount,
 });
 
 export default connect(mapStateToProps)(withNavigation(HeaderContainer));

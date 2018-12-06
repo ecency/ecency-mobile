@@ -152,13 +152,14 @@ export default class MarkdownEditorView extends Component {
           iconType="FontAwesome"
           name="image"
         />
-        <DropdownButton
+        {/* TODO: After alpha */}
+        {/* <DropdownButton
           style={styles.dropdownStyle}
           options={['option1', 'option2', 'option3', 'option4']}
           iconName="md-more"
           iconStyle={styles.dropdownIconStyle}
           isHasChildIcon
-        />
+        /> */}
       </View>
     </StickyBar>
   );

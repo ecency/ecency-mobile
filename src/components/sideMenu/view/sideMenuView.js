@@ -4,7 +4,6 @@ import {
 } from 'react-native';
 import { injectIntl } from 'react-intl';
 import LinearGradient from 'react-native-linear-gradient';
-import FastImage from 'react-native-fast-image';
 
 // Components
 import { Icon, IconButton } from '../..';
@@ -69,12 +68,8 @@ class SideMenuView extends Component {
       navigateToRoute, currentAccount, isLoggedIn, switchAccount, intl,
     } = this.props;
     const { menuItems, isAddAccountIconActive } = this.state;
-    const _avatar = currentAccount.profile_image
-      ? { uri: currentAccount.profile_image }
-      : DEFAULT_IMAGE;
-    
-      console.log(_avatar);
-      console.log(menuItems);
+    const _avatar = currentAccount.avatar ? { uri: currentAccount.avatar } : DEFAULT_IMAGE;
+
     return (
       <View style={styles.container}>
         <LinearGradient
