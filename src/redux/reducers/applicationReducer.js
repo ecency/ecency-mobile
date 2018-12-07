@@ -24,7 +24,7 @@ const initialState = {
   isPinCodeReqiure: false,
   language: 'en-US',
   loading: false, // It is lock to all screen and shows loading animation.
-  upvotePercent: 0,
+  upvotePercent: 1,
 };
 
 export default function (state = initialState, action) {

@@ -26,7 +26,7 @@ class UpvoteView extends Component {
   constructor(props) {
     super(props);
     this.state = {
-      sliderValue: props.upvotePercent || 0.0,
+      sliderValue: props.upvotePercent || 1,
       isVoting: false,
       isVoted: props.isVoted,
       amount: '0.00000',

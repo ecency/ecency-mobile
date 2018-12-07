@@ -75,7 +75,7 @@ if (Array.from(settings).length <= 0) {
       currency: '',
       notification: true,
       server: '',
-      upvotePercent: '0',
+      upvotePercent: '1',
     });
   });
 }
