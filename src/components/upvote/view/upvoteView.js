@@ -34,6 +34,9 @@ class UpvoteView extends Component {
   }
 
   // Component Life Cycles
+  componentDidMount() {
+    this._calculateEstimatedAmount();
+  }
 
   componentWillReceiveProps(nextProps) {
     const { isVoted, upvotePercent } = this.props;
@@ -74,7 +77,7 @@ class UpvoteView extends Component {
 
   _upvoteContent = async () => {
     const {
-      author, currentAccount, handleSetUpvotePercent, permlink,
+      author, currentAccount, fetchPost, handleSetUpvotePercent, permlink,
     } = this.props;
     const { sliderValue } = this.state;
 
@@ -101,10 +104,17 @@ class UpvoteView extends Component {
       postingKey,
     )
       .then(() => {
-        this.setState({
-          isVoted: !!sliderValue,
-          isVoting: false,
-        });
+        this.setState(
+          {
+            isVoted: !!sliderValue,
+            isVoting: false,
+          },
+          () => {
+            if (fetchPost) {
+              fetchPost();
+            }
+          },
+        );
       })
       .catch((err) => {
         Alert.alert('Failed!', err);
@@ -143,24 +153,21 @@ class UpvoteView extends Component {
               style={styles.upvoteButton}
               disabled={!isLoggedIn}
             >
-              {isVoting ? (
-                <ActivityIndicator />
-              ) : (
-                <Fragment>
+              <Fragment>
+                {isVoting ? (
+                  <ActivityIndicator />
+                ) : (
                   <Icon
                     style={[styles.upvoteIcon]}
                     active={!isLoggedIn}
                     iconType={iconType}
                     name={iconName}
                   />
-                  {isShowPayoutValue && (
-                  <Text style={styles.payoutValue}>
-$
-                    {pendingPayoutValue}
-                  </Text>
-                  )}
-                </Fragment>
-              )}
+                )}
+                {isShowPayoutValue && (
+                <Text style={styles.payoutValue}>{`$${pendingPayoutValue}`}</Text>
+                )}
+              </Fragment>
             </TouchableOpacity>
 
             <Popover
@@ -176,7 +183,7 @@ $
               <View style={styles.popoverWrapper}>
                 <TouchableOpacity
                   onPress={() => {
-                    // closePopover();
+                    closePopover();
                     this._upvoteContent();
                   }}
                   style={styles.upvoteButton}

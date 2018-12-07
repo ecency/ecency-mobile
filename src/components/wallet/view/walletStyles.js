@@ -4,18 +4,25 @@ export default EStyleSheet.create({
   container: {
     paddingBottom: 20,
   },
-
   // First collabsible component
   mainButton: {
     marginBottom: 12,
     alignSelf: 'center',
     paddingHorizontal: 24,
   },
-  mainButtonText: {
+  // TODO: merge them / ugur
+  unclaimedText: {
     color: '$primaryBackgroundColor',
     fontSize: 14,
     fontWeight: 'bold',
     alignSelf: 'center',
+  },
+  unclaimedTextPreview: {
+    color: '$primaryBlue',
+    fontSize: 14,
+    fontWeight: 'bold',
+    marginBottom: 10,
+    paddingHorizontal: 18,
   },
   mainButtonWrapper: {
     flexDirection: 'row',

@@ -1,20 +1,27 @@
 import React, { Component } from 'react';
 import { withNavigation } from 'react-navigation';
+import { connect } from 'react-redux';
+
+// Dsteem
+import { getPost } from '../../../providers/steem/dsteem';
 
 import { PostCardView } from '..';
 
 // Constants
 import { default as ROUTES } from '../../../constants/routeNames';
 /*
-*            Props Name        Description                                     Value
-*@props -->  props name here   description here                                Value Type Here
-*
-*/
+ *            Props Name        Description                                     Value
+ *@props -->  props name here   description here                                Value Type Here
+ *
+ */
 
 class PostCardContainer extends Component {
   constructor(props) {
     super(props);
-    this.state = {};
+    this.state = {
+      _content: null,
+      error: null,
+    };
   }
 
   _handleOnUserPress = (username) => {
@@ -55,16 +62,39 @@ class PostCardContainer extends Component {
     });
   };
 
+  _fetchPost = async () => {
+    const { currentAccount, content } = this.props;
+
+    await getPost(content.author, content.permlink, currentAccount.username)
+      .then((result) => {
+        if (result) {
+          this.setState({ _content: result });
+        }
+      })
+      .catch((err) => {
+        this.setState({ error: err });
+      });
+  };
+
   render() {
+    const { content, isHideImage } = this.props;
+    const { _content } = this.state;
+
     return (
       <PostCardView
         handleOnUserPress={this._handleOnUserPress}
         handleOnContentPress={this._handleOnContentPress}
         handleOnVotersPress={this._handleOnVotersPress}
-        {...this.props}
+        fetchPost={this._fetchPost}
+        content={_content || content}
+        isHideImage={isHideImage}
       />
     );
   }
 }
 
-export default withNavigation(PostCardContainer);
+const mapStateToProps = state => ({
+  currentAccount: state.account.currentAccount,
+});
+
+export default withNavigation(connect(mapStateToProps)(PostCardContainer));

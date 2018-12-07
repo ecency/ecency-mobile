@@ -7,6 +7,7 @@ import LinearGradient from 'react-native-linear-gradient';
 
 // Components
 import { Icon, IconButton } from '../..';
+import { UserAvatar } from '../../userAvatar';
 
 // Constants
 import { default as MENU } from '../../../constants/sideMenuItems';
@@ -15,7 +16,6 @@ import { default as MENU } from '../../../constants/sideMenuItems';
 import styles from './sideMenuStyles';
 
 // Images
-const DEFAULT_IMAGE = require('../../../assets/avatar_default.png');
 const SIDE_MENU_BACKGROUND = require('../../../assets/side_menu_background.png');
 
 class SideMenuView extends Component {
@@ -68,7 +68,6 @@ class SideMenuView extends Component {
       navigateToRoute, currentAccount, isLoggedIn, switchAccount, intl,
     } = this.props;
     const { menuItems, isAddAccountIconActive } = this.state;
-    const _avatar = currentAccount.avatar ? { uri: currentAccount.avatar } : DEFAULT_IMAGE;
 
     return (
       <View style={styles.container}>
@@ -84,7 +83,11 @@ class SideMenuView extends Component {
           >
             {isLoggedIn && (
               <View style={styles.headerContentWrapper}>
-                <Image style={styles.userAvatar} source={_avatar} defaultSource={DEFAULT_IMAGE} />
+                <UserAvatar
+                  username={currentAccount.username}
+                  size="xl"
+                  style={styles.userAvatar}
+                />
                 <View style={styles.userInfoWrapper}>
                   {currentAccount.display_name && (
                     <Text style={styles.username}>{currentAccount.display_name}</Text>
@@ -130,11 +133,10 @@ class SideMenuView extends Component {
                       name={item.item.icon}
                     />
                   )}
-                  {item.item.image && (
-                    <Image
+                  {item.item.username && (
+                    <UserAvatar
+                      username={item.item.username}
                       style={styles.otherUserAvatar}
-                      source={item.item.image}
-                      defaultSource={DEFAULT_IMAGE}
                     />
                   )}
                   <Text style={styles.listItemText}>

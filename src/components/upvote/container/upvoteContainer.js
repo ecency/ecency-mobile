@@ -37,7 +37,12 @@ class UpvoteContainer extends Component {
 
   render() {
     const {
-      content, currentAccount, isLoggedIn, isShowPayoutValue, upvotePercent,
+      content,
+      currentAccount,
+      fetchPost,
+      isLoggedIn,
+      isShowPayoutValue,
+      upvotePercent,
     } = this.props;
     let author;
     let isVoted;
@@ -55,13 +60,14 @@ class UpvoteContainer extends Component {
       <UpvoteView
         author={author}
         currentAccount={currentAccount}
+        fetchPost={fetchPost}
+        handleSetUpvotePercent={this._setUpvotePercent}
         isLoggedIn={isLoggedIn}
         isShowPayoutValue={isShowPayoutValue}
         isVoted={isVoted}
         pendingPayoutValue={pendingPayoutValue}
         permlink={permlink}
         upvotePercent={upvotePercent}
-        handleSetUpvotePercent={this._setUpvotePercent}
       />
     );
   }

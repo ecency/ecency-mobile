@@ -1,4 +1,5 @@
 import React, { Component } from 'react';
+import { connect } from 'react-redux';
 
 // Services and Actions
 import { globalProps, getFeedHistory, getState } from '../../../providers/steem/dsteem';
@@ -83,9 +84,21 @@ class WalletContainer extends Component {
 
   render() {
     const { walletData } = this.state;
+    const { currentAccount, user } = this.props;
 
-    return <WalletView {...this.props} walletData={walletData} />;
+    return (
+      <WalletView
+        currentAccountUsername={currentAccount.username}
+        selectedUsername={user.username}
+        {...this.props}
+        walletData={walletData}
+      />
+    );
   }
 }
 
-export default WalletContainer;
+const mapStateToProps = state => ({
+  currentAccount: state.account.currentAccount,
+});
+
+export default connect(mapStateToProps)(WalletContainer);

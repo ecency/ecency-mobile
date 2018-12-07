@@ -1,6 +1,6 @@
 import React, { Component } from 'react';
 import {
-  View, StatusBar, Text, SafeAreaView, TouchableOpacity, Image,
+  View, Text, SafeAreaView, TouchableOpacity,
 } from 'react-native';
 import LinearGradient from 'react-native-linear-gradient';
 import { injectIntl } from 'react-intl';
@@ -8,11 +8,9 @@ import { injectIntl } from 'react-intl';
 // Components
 import { SearchModal } from '../../searchModal';
 import { IconButton } from '../../iconButton';
-
+import { UserAvatar } from '../../userAvatar';
 // Styles
 import styles from './headerStyles';
-
-const DEFAULT_IMAGE = require('../../../assets/avatar_default.png');
 
 class HeaderView extends Component {
   /* Props
@@ -38,23 +36,20 @@ class HeaderView extends Component {
 
   render() {
     const {
-      avatar,
       displayName,
       handleOnPressBackButton,
       handleOpenDrawer,
-      hideStatusBar,
       intl,
       isLoggedIn,
       isLoginDone,
       isReverse,
       reputation,
-      userName,
+      username,
     } = this.props;
     const { isSearchModalOpen } = this.state;
 
     return (
       <SafeAreaView style={[styles.container, isReverse && styles.containerReverse]}>
-        {/* <StatusBar style={ { height: 20}} hidden={hideStatusBar} translucent /> */}
         <SearchModal
           placeholder={intl.formatMessage({
             id: 'header.search',
@@ -75,15 +70,14 @@ class HeaderView extends Component {
               isReverse ? styles.avatarButtonWrapperReverse : styles.avatarDefault,
             ]}
           >
-            <Image style={styles.avatar} source={avatar} defaultSource={DEFAULT_IMAGE} />
+            <UserAvatar style={styles.avatar} username={username} />
           </LinearGradient>
         </TouchableOpacity>
-        {displayName || userName ? (
+        {displayName || username ? (
           <View style={styles.titleWrapper}>
             {displayName && <Text style={styles.title}>{displayName}</Text>}
             <Text style={styles.subTitle}>
-              @
-              {userName}
+              {`@${username}`}
               {`(${reputation})`}
             </Text>
           </View>

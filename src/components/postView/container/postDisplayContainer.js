@@ -1,8 +1,9 @@
 import React, { Component } from 'react';
-// import { connect } from 'react-redux';
 import { withNavigation } from 'react-navigation';
+import { connect } from 'react-redux';
 
 // Services and Actions
+import { getPost } from '../../../providers/steem/dsteem';
 
 // Middleware
 
@@ -23,7 +24,9 @@ import { PostDisplayView } from '..';
 class PostDisplayContainer extends Component {
   constructor(props) {
     super(props);
-    this.state = {};
+    this.state = {
+      _post: null,
+    };
   }
 
   // Component Life Cycle Functions
@@ -52,18 +55,34 @@ class PostDisplayContainer extends Component {
     });
   };
 
+  _fetchPost = async () => {
+    const { currentAccount, post } = this.props;
+
+    await getPost(post.author, post.permlink, currentAccount.username).then((result) => {
+      if (result) {
+        this.setState({ _post: result });
+      }
+    });
+  };
+
   render() {
     const { post, currentAccount } = this.props;
+    const { _post } = this.state;
 
     return (
       <PostDisplayView
         handleOnVotersPress={this._handleOnVotersPress}
         handleOnReplyPress={this._handleOnReplyPress}
         currentAccount={currentAccount}
-        post={post}
+        fetchPost={this._fetchPost}
+        post={_post || post}
       />
     );
   }
 }
 
-export default withNavigation(PostDisplayContainer);
+const mapStateToProps = state => ({
+  currentAccount: state.account.currentAccount,
+});
+
+export default withNavigation(connect(mapStateToProps)(PostDisplayContainer));

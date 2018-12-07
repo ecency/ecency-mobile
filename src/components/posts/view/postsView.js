@@ -127,7 +127,7 @@ class PostsView extends Component {
     const {
       refreshing, posts, isPostsLoading, isHideImage,
     } = this.state;
-    const { componentId, filterOptions, intl } = this.props;
+    const { filterOptions, intl } = this.props;
 
     return (
       <Fragment>
@@ -147,7 +147,7 @@ class PostsView extends Component {
             data={posts}
             showsVerticalScrollIndicator={false}
             renderItem={({ item }) => (
-              <PostCard componentId={componentId} content={item} isHideImage={isHideImage} />
+              <PostCard content={item} isHideImage={isHideImage} />
             )}
             keyExtractor={(post, index) => index.toString()}
             onEndReached={this._loadMore}
