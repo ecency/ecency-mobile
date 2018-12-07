@@ -27,7 +27,7 @@ class ApplicationScreen extends Component {
 
     return (
       <Fragment>
-        <StatusBar backgroundColor="blue" barStyle={barStyle} />
+        <StatusBar barStyle={barStyle} />
         <IntlProvider locale={locale} messages={flattenMessages(messages[locale])}>
           <ReduxNavigation />
         </IntlProvider>

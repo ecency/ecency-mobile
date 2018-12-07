@@ -11,14 +11,13 @@ import styles from './votersDisplayStyles';
 
 class VotersDisplayView extends PureComponent {
   /* Props
-    * ------------------------------------------------
-    *   @prop { type }    name                - Description....
-    */
+   * ------------------------------------------------
+   *   @prop { type }    name                - Description....
+   */
 
   // Component Functions
   _renderItem = (item, index) => {
     const { handleOnUserPress } = this.props;
-    const reputation = `(${item.reputation})`;
     const value = `$ ${item.value}`;
     const percent = `${item.percent}%`;
 
@@ -28,7 +27,6 @@ class VotersDisplayView extends PureComponent {
         avatar={item.avatar}
         index={index}
         username={item.voter}
-        reputation={reputation}
         description={item.created}
         isHasRightItem
         isRightColor={item.is_down_vote}

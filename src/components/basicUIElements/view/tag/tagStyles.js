@@ -8,11 +8,14 @@ export default EStyleSheet.create({
   isPin: {
     backgroundColor: '$primaryBlue',
   },
+  isPostCardTag: {
+    backgroundColor: '$iconColor',
+  },
   textWrapper: {
     paddingHorizontal: 10,
     justifyContent: 'center',
     marginRight: 8,
-    height: 15,
+    height: 20,
     backgroundColor: '$iconColor',
     borderRadius: 50,
   },

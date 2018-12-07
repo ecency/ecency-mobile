@@ -52,6 +52,7 @@ class SearchModalView extends Component {
                 placeholder={placeholder}
                 placeholderTextColor="#c1c5c7"
                 autoCapitalize="none"
+                autoFocus
               />
               <IconButton
                 iconStyle={styles.closeIcon}

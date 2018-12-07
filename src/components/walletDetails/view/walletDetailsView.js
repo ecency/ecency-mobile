@@ -99,7 +99,7 @@ class WalletDetailsView extends Component {
         </GrayWrapper>
         {walletData.showPowerDown && (
           <WalletLineItem
-            text={`Next power down is in ${walletData.nextVestingWithdrawal} days`}
+            text={`Next power down is in ${walletData.nextVestingWithdrawal} day`}
             textColor="#788187"
             iconName="ios-information-circle-outline"
           />
