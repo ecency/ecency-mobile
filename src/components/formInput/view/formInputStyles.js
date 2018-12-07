@@ -19,7 +19,6 @@ export default EStyleSheet.create({
     marginLeft: 12,
   },
   textInput: {
-    height: 60,
     flex: 0.7,
   },
   icon: {
@@ -27,6 +26,6 @@ export default EStyleSheet.create({
     fontSize: 25,
     top: 18,
     left: 8,
-    color:"$iconColor",
+    color: '$iconColor',
   },
 });

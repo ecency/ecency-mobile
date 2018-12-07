@@ -7,6 +7,7 @@ import LinearGradient from 'react-native-linear-gradient';
 
 // Components
 import { Icon, IconButton } from '../..';
+import { UserAvatar } from '../../userAvatar';
 
 // Constants
 import { default as MENU } from '../../../constants/sideMenuItems';
@@ -68,7 +69,6 @@ class SideMenuView extends Component {
       navigateToRoute, currentAccount, isLoggedIn, switchAccount, intl,
     } = this.props;
     const { menuItems, isAddAccountIconActive } = this.state;
-    const _avatar = currentAccount.avatar ? { uri: currentAccount.avatar } : DEFAULT_IMAGE;
 
     return (
       <View style={styles.container}>
@@ -84,7 +84,11 @@ class SideMenuView extends Component {
           >
             {isLoggedIn && (
               <View style={styles.headerContentWrapper}>
-                <Image style={styles.userAvatar} source={_avatar} defaultSource={DEFAULT_IMAGE} />
+                <UserAvatar
+                  userName={currentAccount.username}
+                  size="xl"
+                  style={styles.userAvatar}
+                />
                 <View style={styles.userInfoWrapper}>
                   {currentAccount.display_name && (
                     <Text style={styles.username}>{currentAccount.display_name}</Text>

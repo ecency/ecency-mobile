@@ -49,9 +49,6 @@ export default EStyleSheet.create({
     fontSize: 12,
   },
   avatar: {
-    width: 32,
-    height: 32,
-    borderRadius: 32 / 2,
     alignSelf: 'flex-end',
     marginRight: 12,
   },

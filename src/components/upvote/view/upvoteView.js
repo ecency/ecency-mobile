@@ -110,7 +110,9 @@ class UpvoteView extends Component {
             isVoting: false,
           },
           () => {
-            fetchPost();
+            if (fetchPost) {
+              fetchPost();
+            }
           },
         );
       })
