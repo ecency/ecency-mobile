@@ -12,17 +12,17 @@ import styles from './formInputStyles';
 
 class FormInputView extends Component {
   /* Props
-    * ------------------------------------------------
-    *   @prop { string }     placeholder       - Place holder text.
-    *   @prop { string }     type              - Input type.
-    *   @prop { boolean }    isFirstImage      - Render image from steem.
-    *   @prop { boolean }    isEditable        - Can permission edit.
-    *   @prop { boolean }    isValid           - This delegate input valit or not.
-    *   @prop { boolean }    secureTextEntry   - For hiding password value.
-    *
-    *
-    *
-    */
+   * ------------------------------------------------
+   *   @prop { string }     placeholder       - Place holder text.
+   *   @prop { string }     type              - Input type.
+   *   @prop { boolean }    isFirstImage      - Render image from steem.
+   *   @prop { boolean }    isEditable        - Can permission edit.
+   *   @prop { boolean }    isValid           - This delegate input valit or not.
+   *   @prop { boolean }    secureTextEntry   - For hiding password value.
+   *
+   *
+   *
+   */
   constructor(props) {
     super(props);
 
@@ -30,10 +30,17 @@ class FormInputView extends Component {
       value: '',
       inputBorderColor: '#c1c5c7',
       isValid: true,
+      formInputWidth: '99%',
     };
   }
 
   // Component Life Cycles
+  componentWillMount() {
+    setTimeout(() => {
+      this.setState({ formInputWidth: '100%' });
+    }, 100);
+  }
+
   componentWillReceiveProps(nextProps) {
     const { isValid } = this.props;
 
@@ -58,7 +65,9 @@ class FormInputView extends Component {
   };
 
   render() {
-    const { inputBorderColor, isValid, value } = this.state;
+    const {
+      inputBorderColor, isValid, value, formInputWidth,
+    } = this.state;
     const {
       placeholder,
       type,
@@ -68,7 +77,6 @@ class FormInputView extends Component {
       rightIconName,
       secureTextEntry,
     } = this.props;
-
     return (
       <View
         style={[
@@ -92,17 +100,20 @@ class FormInputView extends Component {
         ) : (
           <Ionicons name={rightIconName} style={styles.icon} />
         )}
-        <TextInput
-          onFocus={() => this._handleOnFocus()}
-          autoCapitalize="none"
-          secureTextEntry={secureTextEntry}
-          placeholder={placeholder}
-          editable={isEditable || true}
-          textContentType={type}
-          onChangeText={val => this._handleOnChange(val)}
-          value={value}
-          style={styles.textInput}
-        />
+        <View style={styles.textInput}>
+          <TextInput
+            onFocus={() => this._handleOnFocus()}
+            autoCapitalize="none"
+            secureTextEntry={secureTextEntry}
+            placeholder={placeholder}
+            editable={isEditable || true}
+            textContentType={type}
+            onChangeText={val => this._handleOnChange(val)}
+            value={value}
+            style={{ width: formInputWidth }}
+          />
+        </View>
+
         {value && value.length > 0 ? (
           <Ionicons
             onPress={() => this.setState({ value: '' })}
