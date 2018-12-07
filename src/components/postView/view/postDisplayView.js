@@ -52,17 +52,18 @@ class PostDisplayView extends Component {
 
   _getTabBar = (isFixedFooter = false) => {
     const {
-      post,
       currentAccount,
-      handleOnReplyPress,
+      fetchPost,
       handleOnEditPress,
+      handleOnReplyPress,
       handleOnVotersPress,
+      post,
     } = this.props;
 
     return (
       <StickyBar isFixedFooter={isFixedFooter}>
         <View style={styles.stickyWrapper}>
-          <Upvote isShowPayoutValue content={post} />
+          <Upvote fetchPost={fetchPost} isShowPayoutValue content={post} />
           <TextWithIcon
             isClickable
             iconStyle={styles.barIcons}

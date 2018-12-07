@@ -55,9 +55,7 @@ class PostCard extends Component {
   };
 
   render() {
-    const {
-      content, isHideImage,
-    } = this.props;
+    const { content, isHideImage, fetchPost } = this.props;
     // const likersText = `@${content.top_likers[0]}, @${content.top_likers[1]}, @${
     //   content.top_likers[2]
     // }`;
@@ -101,7 +99,7 @@ class PostCard extends Component {
         </View>
         <View style={styles.bodyFooter}>
           <View style={styles.leftFooterWrapper}>
-            <Upvote isShowPayoutValue content={content} />
+            <Upvote fetchPost={fetchPost} isShowPayoutValue content={content} />
             <TouchableOpacity
               style={styles.commentButton}
               onPress={() => this._handleOnVotersPress()}
