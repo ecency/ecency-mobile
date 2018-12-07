@@ -19,14 +19,15 @@ export default EStyleSheet.create({
     marginLeft: 12,
   },
   textInput: {
-    height: 60,
     flex: 0.7,
+    flexDirection: 'row',
+    justifyContent: 'center',
   },
   icon: {
     flex: 0.15,
     fontSize: 25,
     top: 18,
     left: 8,
-    color:"$iconColor",
+    color: '$iconColor',
   },
 });
