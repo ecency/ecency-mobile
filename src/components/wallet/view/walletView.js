@@ -1,4 +1,4 @@
-import React, { Component } from 'react';
+import React, { Component, Fragment } from 'react';
 import { View, Text, ScrollView } from 'react-native';
 import Ionicons from 'react-native-vector-icons/Ionicons';
 
@@ -29,69 +29,84 @@ class WalletView extends Component {
 
   // Component Functions
 
+  _getUnclaimedText = (walletData, isPreview) => (
+    <Text style={[isPreview ? styles.unclaimedTextPreview : styles.unclaimedText]}>
+      {walletData.rewardSteemBalance
+        ? `${Math.round(walletData.rewardSteemBalance * 1000) / 1000} STEEM`
+        : ''}
+      {walletData.rewardSbdBalance
+        ? ` ${Math.round(walletData.rewardSbdBalance * 1000) / 1000} SDB`
+        : ''}
+      {walletData.rewardVestingSteem
+        ? ` ${Math.round(walletData.rewardVestingSteem * 1000) / 1000} SP`
+        : ''}
+    </Text>
+  );
+
   render() {
-    const { walletData, intl } = this.props;
+    const {
+      walletData, intl, selectedUsername, currentAccountUsername,
+    } = this.props;
 
     return (
       <View style={styles.container}>
         <ScrollView style={styles.scrollView}>
-          {walletData === null ? (
-            <WalletUnclaimedPlaceHolder />
+          {!walletData ? (
+            <Fragment>
+              <WalletUnclaimedPlaceHolder />
+              <WalletDetailsPlaceHolder />
+            </Fragment>
           ) : (
-            (walletData.rewardSteemBalance > 0
-              || walletData.rewardSbdBalance > 0
-              || walletData.rewardVestingSteem > 0) && (
+            <Fragment>
+              {walletData.hasUnclaimedRewards && (
+                <CollapsibleCard
+                  titleColor="#788187"
+                  isBoldTitle
+                  defaultTitle={intl.formatMessage({
+                    id: 'profile.unclaimed_rewards',
+                  })}
+                  expanded
+                  style={{ marginBottom: 0 }}
+                >
+                  {currentAccountUsername === selectedUsername ? (
+                    <MainButton
+                      style={styles.mainButton}
+                      height={50}
+                      onPress={this._handleOnPressLogin}
+                    >
+                      <View style={styles.mainButtonWrapper}>
+                        {this._getUnclaimedText(walletData)}
+                        <View style={styles.mainIconWrapper}>
+                          <Ionicons name="md-add" color="#357ce6" size={23} />
+                        </View>
+                      </View>
+                    </MainButton>
+                  ) : (
+                    this._getUnclaimedText(walletData, true)
+                  )}
+                </CollapsibleCard>
+              )}
               <CollapsibleCard
                 titleColor="#788187"
-                isBoldTitle
-                defaultTitle={intl.formatMessage({
-                  id: 'profile.unclaimed_rewards',
+                title={intl.formatMessage({
+                  id: 'profile.wallet_details',
                 })}
                 expanded
-                style={{ marginBottom: 0 }}
               >
-                <MainButton
-                  style={styles.mainButton}
-                  height={50}
-                  onPress={this._handleOnPressLogin}
-                >
-                  <View style={styles.mainButtonWrapper}>
-                    <Text style={styles.mainButtonText}>
-                      {walletData.rewardSteemBalance
-                        ? `${Math.round(walletData.rewardSteemBalance * 1000) / 1000} STEEM`
-                        : ''}
-                      {walletData.rewardSbdBalance
-                        ? ` ${Math.round(walletData.rewardSbdBalance * 1000) / 1000} SDB`
-                        : ''}
-                      {walletData.rewardVestingSteem
-                        ? ` ${Math.round(walletData.rewardVestingSteem * 1000) / 1000} SP`
-                        : ''}
-                    </Text>
-                    <View style={styles.mainIconWrapper}>
-                      <Ionicons name="md-add" color="#357ce6" size={23} />
-                    </View>
-                  </View>
-                </MainButton>
+                <WalletDetails intl={intl} walletData={walletData} />
               </CollapsibleCard>
-            )
-          )}
-          {walletData === null ? (
-            <WalletDetailsPlaceHolder />
-          ) : (
-            <CollapsibleCard
-              titleColor="#788187"
-              title={intl.formatMessage({
-                id: 'profile.wallet_details',
-              })}
-              expanded
-            >
-              <WalletDetails intl={intl} walletData={walletData} />
-            </CollapsibleCard>
-          )}
-          {walletData === null ? (
-            <WalletDetailsPlaceHolder />
-          ) : (
-            <Transaction intl={intl} walletData={walletData} />
+
+              <CollapsibleCard
+                titleColor="#788187"
+                title={intl.formatMessage({
+                  id: 'profile.wallet_details',
+                })}
+                expanded
+              >
+                <WalletDetails intl={intl} walletData={walletData} />
+              </CollapsibleCard>
+              <Transaction intl={intl} walletData={walletData} />
+            </Fragment>
           )}
         </ScrollView>
       </View>
