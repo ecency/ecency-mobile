@@ -16,7 +16,6 @@ import { default as MENU } from '../../../constants/sideMenuItems';
 import styles from './sideMenuStyles';
 
 // Images
-const DEFAULT_IMAGE = require('../../../assets/avatar_default.png');
 const SIDE_MENU_BACKGROUND = require('../../../assets/side_menu_background.png');
 
 class SideMenuView extends Component {
@@ -85,7 +84,7 @@ class SideMenuView extends Component {
             {isLoggedIn && (
               <View style={styles.headerContentWrapper}>
                 <UserAvatar
-                  userName={currentAccount.username}
+                  username={currentAccount.username}
                   size="xl"
                   style={styles.userAvatar}
                 />
@@ -134,11 +133,10 @@ class SideMenuView extends Component {
                       name={item.item.icon}
                     />
                   )}
-                  {item.item.image && (
-                    <Image
+                  {item.item.username && (
+                    <UserAvatar
+                      username={item.item.username}
                       style={styles.otherUserAvatar}
-                      source={item.item.image}
-                      defaultSource={DEFAULT_IMAGE}
                     />
                   )}
                   <Text style={styles.listItemText}>

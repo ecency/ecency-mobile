@@ -13,8 +13,6 @@ import { default as ROUTES } from '../../../constants/routeNames';
 // Component
 import { SideMenuView } from '..';
 
-const DEFAULT_IMAGE = require('../../../assets/avatar_default.png');
-
 /*
  *               Props Name                              Description
  *@props -->     props name navigation                   coming from react-navigation
@@ -38,7 +36,7 @@ class SideMenuContainer extends Component {
       userData.forEach((element) => {
         accounts.push({
           name: `@${element.username}`,
-          image: element.avatar ? { uri: element.avatar } : DEFAULT_IMAGE,
+          username: element.username
         });
       });
       accounts.push({

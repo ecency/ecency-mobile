@@ -47,16 +47,16 @@ class HeaderContainer extends Component {
       isLoggedIn, currentAccount, selectedUser, isReverse, isLoginDone,
     } = this.props;
     let displayName;
-    let userName;
+    let username;
     let reputation;
 
     if (isReverse && selectedUser) {
       displayName = selectedUser.display_name;
-      userName = selectedUser.name;
+      username = selectedUser.name;
       reputation = getReputation(selectedUser.reputation);
     } else if (!isReverse) {
       displayName = currentAccount.display_name;
-      userName = currentAccount.name;
+      username = currentAccount.name;
       reputation = getReputation(currentAccount.reputation);
     }
 
@@ -68,7 +68,7 @@ class HeaderContainer extends Component {
         isReverse={isReverse}
         isLoginDone={isLoginDone}
         displayName={displayName}
-        userName={userName}
+        username={username}
         reputation={reputation}
       />
     );

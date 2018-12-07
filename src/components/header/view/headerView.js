@@ -44,7 +44,7 @@ class HeaderView extends Component {
       isLoginDone,
       isReverse,
       reputation,
-      userName,
+      username,
     } = this.props;
     const { isSearchModalOpen } = this.state;
 
@@ -70,15 +70,14 @@ class HeaderView extends Component {
               isReverse ? styles.avatarButtonWrapperReverse : styles.avatarDefault,
             ]}
           >
-            <UserAvatar style={styles.avatar} userName={userName} />
+            <UserAvatar style={styles.avatar} username={username} />
           </LinearGradient>
         </TouchableOpacity>
-        {displayName || userName ? (
+        {displayName || username ? (
           <View style={styles.titleWrapper}>
             {displayName && <Text style={styles.title}>{displayName}</Text>}
             <Text style={styles.subTitle}>
-              @
-              {userName}
+              {`@${username}`}
               {`(${reputation})`}
             </Text>
           </View>
