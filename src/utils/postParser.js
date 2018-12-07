@@ -4,54 +4,7 @@ import { getPostSummary } from './formatter';
 import { getReputation } from './reputation';
 import { getTimeFromNow } from './time';
 
-export const parsePosts = (posts, user) => {
-  posts.map((post) => {
-    post.json_metadata = JSON.parse(post.json_metadata);
-    post.json_metadata.image ? (post.image = post.json_metadata.image[0]) : null;
-    post.pending_payout_value = parseFloat(post.pending_payout_value).toFixed(2);
-    post.created = getTimeFromNow(post.created);
-    post.vote_count = post.active_votes.length;
-    post.author_reputation = getReputation(post.author_reputation);
-    post.avatar = `https://steemitimages.com/u/${post.author}/avatar/small`;
-    post.body = markDown2Html(post.body);
-    post.summary = getPostSummary(post.body, 100);
-    post.raw_body = post.body;
-    post.active_votes.sort((a, b) => b.rshares - a.rshares);
-
-    const totalPayout = parseFloat(post.pending_payout_value)
-      + parseFloat(post.total_payout_value)
-      + parseFloat(post.curator_payout_value);
-
-    const voteRshares = post.active_votes.reduce((a, b) => a + parseFloat(b.rshares), 0);
-    const ratio = totalPayout / voteRshares;
-    // post.is_voted = isVoted(post.active_votes, currentUserName);
-
-    if (post && post.active_votes) {
-      for (const i in post.active_votes) {
-        post.vote_perecent = post.active_votes[i].voter === user.name ? post.active_votes[i].percent : null;
-        post.active_votes[i].value = (post.active_votes[i].rshares * ratio).toFixed(2);
-        post.active_votes[i].reputation = getReputation(post.active_votes[i].reputation);
-        post.active_votes[i].percent = post.active_votes[i].percent / 100;
-        post.active_votes[i].avatar = `https://steemitimages.com/u/${
-          post.active_votes[i].voter
-        }/avatar/small`;
-        post.active_votes[i].created = getTimeFromNow(post.active_votes[i].time);
-        post.active_votes[i].is_down_vote = Math.sign(post.active_votes[i].percent) < 0;
-      }
-    }
-
-    if (post.active_votes.length > 2) {
-      post.top_likers = [
-        post.active_votes[0].voter,
-        post.active_votes[1].voter,
-        post.active_votes[2].voter,
-      ];
-    }
-  });
-  return posts;
-};
-
-export const parsePostsSummary = (posts, currentUserName) => posts.map(post => parsePost(post, currentUserName));
+export const parsePosts = (posts, currentUserName) => posts.map(post => parsePost(post, currentUserName));
 
 export const parsePost = (post, currentUserName) => {
   post.json_metadata = JSON.parse(post.json_metadata);
