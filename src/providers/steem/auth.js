@@ -53,7 +53,7 @@ export const Login = (username, password) => {
 
         const jsonMetadata = JSON.parse(account.json_metadata);
         if (Object.keys(jsonMetadata).length !== 0) {
-          avatar = jsonMetadata.profile.avatar;
+          avatar = jsonMetadata.profile.profile_image;
         }
         if (loginFlag) {
           const userData = {

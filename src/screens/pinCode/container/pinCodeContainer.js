@@ -1,4 +1,5 @@
 import React, { Component } from 'react';
+import { Alert } from 'react-native';
 import { connect } from 'react-redux';
 import { injectIntl } from 'react-intl';
 
@@ -81,7 +82,7 @@ class PinCodeContainer extends Component {
           }
         })
         .catch((err) => {
-          alert(err);
+          Alert.alert('Warning', err.message);
           reject(err);
         });
     } else if (!pinCode) {
