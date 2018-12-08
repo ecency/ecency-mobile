@@ -25,13 +25,6 @@ const RootContainer = () => (WrappedComponent) => {
       };
     }
 
-    componentWillMount() {
-      const { isActiveApp, navigation } = this.props;
-      if (!isActiveApp) {
-        navigation.navigate(ROUTES.SCREENS.SPLASH);
-      }
-    }
-
     componentDidMount() {
       AppState.addEventListener('change', this._handleAppStateChange);
       this._createPushListener();
@@ -43,19 +36,27 @@ const RootContainer = () => (WrappedComponent) => {
 
     _handleAppStateChange = (nextAppState) => {
       const { appState } = this.state;
-      const { dispatch } = this.props;
 
       getExistUser().then((isExistUser) => {
-        if (
-          isExistUser
-          && appState.match(/inactive|background/)
-          && nextAppState === 'active'
-          && __DEV__ === false
-        ) {
-          dispatch(openPinCodeModal());
+        if (isExistUser) {
+          if (appState.match(/active|forground/) && nextAppState === 'inactive') {
+            this._startPinCodeTimer();
+          }
+
+          if (appState.match(/inactive|background/) && nextAppState === 'active') {
+            clearTimeout(this._pinCodeTimer);
+          }
         }
       });
+
       this.setState({ appState: nextAppState });
+    };
+
+    _startPinCodeTimer = () => {
+      const { dispatch } = this.props;
+      this._pinCodeTimer = setTimeout(() => {
+        dispatch(openPinCodeModal());
+      }, 5 * 60 * 1000);
     };
 
     _setPinCodeState = (data) => {
