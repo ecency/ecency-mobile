@@ -1,6 +1,10 @@
 import EStyleSheet from 'react-native-extended-stylesheet';
 
 export default EStyleSheet.create({
+  container: {
+    flex: 1,
+    backgroundColor: '$primaryLightBackground',
+  },
   tabbar: {
     alignSelf: 'center',
     height: 55,
@@ -9,8 +13,10 @@ export default EStyleSheet.create({
   tabView: {
     alignSelf: 'center',
     backgroundColor: 'transparent',
+    flex: 1,
   },
   notificationTab: {
+    flex: 1,
     backgroundColor: '$primaryBackgroundColor',
     minWidth: '$deviceWidth',
   },
