@@ -1,5 +1,6 @@
 import { Client, PrivateKey } from 'dsteem';
 import sc2 from './steemConnectAPI';
+import steemConnect from "steemconnect"
 import { getServer } from '../../realm/realm';
 import { getUnreadActivityCount } from '../esteem/esteem';
 
@@ -10,6 +11,9 @@ import {
   parsePosts, parsePost, parseComments, parsePostsSummary,
 } from '../../utils/postParser';
 import { getName, getAvatar } from '../../utils/user';
+
+// Constant 
+import AUTH_TYPE from "../../constants/authType";
 
 const DEFAULT_SERVER = 'https://api.steemit.com';
 let rewardFund = null;
@@ -340,6 +344,36 @@ export const upvote = (vote, postingKey) => {
         reject(err);
       });
   });
+};
+
+export const vote = async (currentAccount, author, permlink, weight) => {
+  const digitPinCode = await getDigitPinCode();
+
+  if (currentAccount.local.authType === AUTH_TYPE.MASTER_KEY) {
+    const key = decryptKey(currentAccount.local.postingKey, digitPinCode);
+    const privateKey = PrivateKey.fromString(key);
+    const voter = currentAccount.name;
+
+    const args = {
+      voter,
+      author,
+      permlink,
+      weight,
+    };
+
+    return client.broadcast.vote(args, privateKey);
+  }
+
+  if (currentAccount.local.authType === AUTH_TYPE.STEEM_CONNECT) {
+    const token = decryptKey(currentAccount.local.accessToken, digitPinCode);
+    const api = steemConnect.Initialize({
+      accessToken: token,
+    });
+
+    const voter = currentAccount.name;
+
+    return api.vote(voter, author, permlink, weight);
+  }
 };
 
 /**

@@ -10,7 +10,7 @@ import Slider from 'react-native-slider';
 import { Icon } from '../../icon';
 import { PulseAnimation } from '../../animations';
 // STEEM
-import { upvote, upvoteAmount } from '../../../providers/steem/dsteem';
+import { upvote, upvoteAmount, vote } from '../../../providers/steem/dsteem';
 import { decryptKey } from '../../../utils/crypto';
 import { getDigitPinCode } from '../../../providers/steem/auth';
 
@@ -90,18 +90,13 @@ class UpvoteView extends Component {
       },
     );
 
-    const digitPinCode = await getDigitPinCode();
-    const postingKey = decryptKey(currentAccount.local.postingKey, digitPinCode);
-    const _weight = sliderValue ? (sliderValue * 100).toFixed(0) * 100 : 0;
+    const weight = sliderValue ? (sliderValue * 100).toFixed(0) * 100 : 0;
 
-    upvote(
-      {
-        voter: currentAccount && currentAccount.username,
-        author,
-        permlink,
-        weight: _weight,
-      },
-      postingKey,
+    vote(
+      currentAccount,
+      author,
+      permlink,
+      weight,
     )
       .then(() => {
         this.setState(
