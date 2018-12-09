@@ -641,7 +641,7 @@ export const lookupAccounts = async (username) => {
  * @method postComment post a comment/reply
  * @param comment comment object { author, permlink, ... }
  */
-export const postComment = (
+export const postComment = async (
   account,
   digitPinCode,
   parentAuthor,
@@ -655,52 +655,93 @@ export const postComment = (
 ) => {
   const { name: author } = account;
 
-  const opArray = [
-    [
-      'comment',
-      {
-        parent_author: parentAuthor,
-        parent_permlink: parentPermlink,
-        author,
-        permlink,
-        title,
-        body,
-        json_metadata: JSON.stringify(jsonMetadata),
-      },
-    ],
-  ];
-
-  if (options) {
-    const e = ['comment_options', options];
-    opArray.push(e);
-  }
-
-  if (voteWeight) {
-    const e = [
-      'vote',
-      {
-        voter: author,
-        author,
-        permlink,
-        weight: voteWeight,
-      },
+  if (account.local.authType === AUTH_TYPE.MASTER_KEY) {
+    const opArray = [
+      [
+        'comment',
+        {
+          parent_author: parentAuthor,
+          parent_permlink: parentPermlink,
+          author,
+          permlink,
+          title,
+          body,
+          json_metadata: JSON.stringify(jsonMetadata),
+        },
+      ],
     ];
-    opArray.push(e);
+
+    if (options) {
+      const e = ['comment_options', options];
+      opArray.push(e);
+    }
+
+    if (voteWeight) {
+      const e = [
+        'vote',
+        {
+          voter: author,
+          author,
+          permlink,
+          weight: voteWeight,
+        },
+      ];
+      opArray.push(e);
+    }
+
+    const key = decryptKey(account.local.postingKey, digitPinCode);
+    const privateKey = PrivateKey.fromString(key);
+
+    return new Promise((resolve, reject) => {
+      client.broadcast
+        .sendOperations(opArray, privateKey)
+        .then((result) => {
+          resolve(result);
+        })
+        .catch((error) => {
+          reject(error);
+        });
+    });
   }
 
-  const key = decryptKey(account.local.postingKey, digitPinCode);
-  const privateKey = PrivateKey.fromString(key);
+  if (account.local.authType === AUTH_TYPE.STEEM_CONNECT) {
+    const token = decryptKey(account.local.accessToken, digitPinCode);
+    const api = steemConnect.Initialize({
+      accessToken: token,
+    });
 
-  return new Promise((resolve, reject) => {
-    client.broadcast
-      .sendOperations(opArray, privateKey)
-      .then((result) => {
-        resolve(result);
-      })
-      .catch((error) => {
-        reject(error);
-      });
-  });
+    const params = {
+      parent_author: parentAuthor,
+      parent_permlink: parentPermlink,
+      author,
+      permlink,
+      title,
+      body,
+      json_metadata: JSON.stringify(jsonMetadata),
+    };
+
+    const opArray = [['comment', params]];
+
+    if (options) {
+      const e = ['comment_options', options];
+      opArray.push(e);
+    }
+
+    if (voteWeight) {
+      const e = [
+        'vote',
+        {
+          voter: author,
+          author,
+          permlink,
+          weight: voteWeight,
+        },
+      ];
+      opArray.push(e);
+    }
+
+    return api.broadcast(opArray);
+  }
 };
 
 export const reblog = async (account, author, permlink) => {
