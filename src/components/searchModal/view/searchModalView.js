@@ -56,9 +56,9 @@ class SearchModalView extends Component {
               />
               <IconButton
                 iconStyle={styles.closeIcon}
-                iconType="FontAwesome"
+                iconType="Ionicons"
                 style={styles.closeIconButton}
-                name="close"
+                name="ios-close-circle-outline"
                 onPress={() => handleOnClose()}
               />
             </View>
