@@ -26,7 +26,7 @@ class NotificationScreen extends PureComponent {
       notifications, getActivities, intl, navigateToNotificationRoute,
     } = this.props;
     return (
-      <View style={globalStyles.container}>
+      <View style={styles.container}>
         <Header />
         <ScrollableTabView
           style={styles.tabView}
