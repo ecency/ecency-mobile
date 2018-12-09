@@ -8,7 +8,7 @@ import Slider from 'react-native-slider';
 
 // Components
 import { Icon } from '../../icon';
-
+import { PulseAnimation } from '../../animations';
 // STEEM
 import { upvote, upvoteAmount } from '../../../providers/steem/dsteem';
 import { decryptKey } from '../../../utils/crypto';
@@ -155,7 +155,17 @@ class UpvoteView extends Component {
             >
               <Fragment>
                 {isVoting ? (
-                  <ActivityIndicator style={ { backgroundColor: "red" } } color="#000000"/>
+                // <ActivityIndicator />
+                  <View style={{ width: 19 }}>
+                    <PulseAnimation
+                      color="#357ce6"
+                      numPulses={1}
+                      diameter={20}
+                      speed={100}
+                      duration={1500}
+                      isShow={!isVoting}
+                    />
+                  </View>
                 ) : (
                   <Icon
                     style={[styles.upvoteIcon]}
@@ -189,7 +199,7 @@ class UpvoteView extends Component {
                   style={styles.upvoteButton}
                 >
                   {isVoting ? (
-                    <ActivityIndicator style={ { backgroundColor: "red" } }/>
+                    <ActivityIndicator />
                   ) : (
                     <Icon
                       size={20}
