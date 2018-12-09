@@ -83,16 +83,13 @@ class ProfileContainer extends Component {
   _handleFollowUnfollowUser = async (isFollowAction) => {
     const { username, isFollowing } = this.state;
     const { currentAccount } = this.props;
-    const digitPinCode = await getDigitPinCode();
-
-    const privateKey = decryptKey(currentAccount.local.postingKey, digitPinCode);
 
     this.setState({
       isProfileLoading: true,
     });
 
     if (isFollowAction && !isFollowing) {
-      this._followUser(currentAccount.name, username, privateKey);
+      this._followUser(currentAccount, currentAccount.name, username);
     } else {
       this._unfollowUser(currentAccount, currentAccount.name, username);
     }
@@ -101,18 +98,13 @@ class ProfileContainer extends Component {
   _handleMuteUnmuteUser = async (isMuteAction) => {
     const { username, isMuted } = this.state;
     const { currentAccount } = this.props;
-    const digitPinCode = await getDigitPinCode();
-
-    const privateKey = decryptKey(currentAccount.local.postingKey, digitPinCode);
 
     this.setState({
       isProfileLoading: true,
     });
 
-    if (isMuteAction && !isMuted) {
-      this._muteUser(currentAccount.name, username, privateKey);
-    } else {
-      this._muteUser(currentAccount.name, username, privateKey);
+    if (isMuteAction) {
+      this._muteUser(currentAccount, currentAccount.name, username);
     }
   };
 
@@ -132,13 +124,13 @@ class ProfileContainer extends Component {
       });
   };
 
-  _followUser = (follower, following, privateKey) => {
+  _followUser = (currentAccount, follower, following) => {
     followUser(
+      currentAccount,
       {
         follower,
         following,
       },
-      privateKey,
     )
       .then(() => {
         this._profileActionDone();
@@ -148,13 +140,13 @@ class ProfileContainer extends Component {
       });
   };
 
-  _muteUser = async (follower, following, privateKey) => {
+  _muteUser = async (currentAccount, follower, following) => {
     ignoreUser(
+      currentAccount,
       {
         follower,
         following,
       },
-      privateKey,
     )
       .then(() => {
         this._profileActionDone();

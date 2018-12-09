@@ -194,36 +194,47 @@ export const getIsMuted = async (username, targetUsername) => {
   return false;
 };
 
-export const ignoreUser = (data, postingKey) => {
-  let key;
-  try {
-    key = PrivateKey.fromString(postingKey);
-  } catch (error) {}
+export const ignoreUser = async (currentAccount, data) => {
+  const digitPinCode = await getDigitPinCode();
 
-  const json = {
-    id: 'follow',
-    json: JSON.stringify([
-      'follow',
-      {
-        follower: `${data.follower}`,
-        following: `${data.following}`,
-        what: ['ignore'],
-      },
-    ]),
-    required_auths: [],
-    required_posting_auths: [`${data.follower}`],
-  };
+  if (currentAccount.local.authType === AUTH_TYPE.MASTER_KEY) {
+    const key = decryptKey(currentAccount.local.postingKey, digitPinCode);
+    const privateKey = PrivateKey.fromString(key);
 
-  return new Promise((resolve, reject) => {
-    client.broadcast
-      .json(json, key)
-      .then((result) => {
-        resolve(result);
-      })
-      .catch((err) => {
-        reject(err);
-      });
-  });
+    const json = {
+      id: 'follow',
+      json: JSON.stringify([
+        'follow',
+        {
+          follower: `${data.follower}`,
+          following: `${data.following}`,
+          what: ['ignore'],
+        },
+      ]),
+      required_auths: [],
+      required_posting_auths: [`${data.follower}`],
+    };
+
+    return new Promise((resolve, reject) => {
+      client.broadcast
+        .json(json, privateKey)
+        .then((result) => {
+          resolve(result);
+        })
+        .catch((err) => {
+          reject(err);
+        });
+    });
+  }
+
+  if (currentAccount.local.authType === AUTH_TYPE.STEEM_CONNECT) {
+    const token = decryptKey(currentAccount.local.accessToken, digitPinCode);
+    const api = steemConnect.Initialize({
+      accessToken: token,
+    });
+
+    return api.ignore(data.follower, data.following);
+  }
 };
 
 /**
@@ -396,35 +407,44 @@ export const transferToken = (data, activeKey) => {
   });
 };
 
-export const followUser = (data, postingKey) => {
-  let key;
-  try {
-    key = PrivateKey.fromString(postingKey);
-  } catch (error) {}
-  const json = {
-    id: 'follow',
-    json: JSON.stringify([
-      'follow',
-      {
-        follower: `${data.follower}`,
-        following: `${data.following}`,
-        what: ['blog'],
-      },
-    ]),
-    required_auths: [],
-    required_posting_auths: [`${data.follower}`],
-  };
+export const followUser = async (currentAccount, data) => {
+  const digitPinCode = await getDigitPinCode();
+  if (currentAccount.local.authType === AUTH_TYPE.MASTER_KEY) {
+    const key = decryptKey(currentAccount.local.postingKey, digitPinCode);
+    const privateKey = PrivateKey.fromString(key);
+    const json = {
+      id: 'follow',
+      json: JSON.stringify([
+        'follow',
+        {
+          follower: `${data.follower}`,
+          following: `${data.following}`,
+          what: ['blog'],
+        },
+      ]),
+      required_auths: [],
+      required_posting_auths: [`${data.follower}`],
+    };
 
-  return new Promise((resolve, reject) => {
-    client.broadcast
-      .json(json, key)
-      .then((result) => {
-        resolve(result);
-      })
-      .catch((err) => {
-        reject(err);
-      });
-  });
+    return new Promise((resolve, reject) => {
+      client.broadcast
+        .json(json, privateKey)
+        .then((result) => {
+          resolve(result);
+        })
+        .catch((err) => {
+          reject(err);
+        });
+    });
+  }
+  if (currentAccount.local.authType === AUTH_TYPE.STEEM_CONNECT) {
+    const token = decryptKey(currentAccount.local.accessToken, digitPinCode);
+    const api = steemConnect.Initialize({
+      accessToken: token,
+    });
+
+    return api.follow(data.follower, data.following);
+  }
 };
 
 export const unfollowUser = async (currentAccount, data) => {
@@ -462,12 +482,10 @@ export const unfollowUser = async (currentAccount, data) => {
   if (currentAccount.local.authType === AUTH_TYPE.STEEM_CONNECT) {
     const token = decryptKey(currentAccount.local.accessToken, digitPinCode);
     const api = steemConnect.Initialize({
-      accessToken: token
+      accessToken: token,
     });
 
-    const follower = currentAccount.username;
-
-    return api.unfollow(follower, data.following);
+    return api.unfollow(data.follower, data.following);
   }
 };
 
