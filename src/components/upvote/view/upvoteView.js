@@ -155,7 +155,7 @@ class UpvoteView extends Component {
             >
               <Fragment>
                 {isVoting ? (
-                  <ActivityIndicator />
+                  <ActivityIndicator style={ { backgroundColor: "red" } } color="#000000"/>
                 ) : (
                   <Icon
                     style={[styles.upvoteIcon]}
@@ -189,7 +189,7 @@ class UpvoteView extends Component {
                   style={styles.upvoteButton}
                 >
                   {isVoting ? (
-                    <ActivityIndicator />
+                    <ActivityIndicator style={ { backgroundColor: "red" } }/>
                   ) : (
                     <Icon
                       size={20}

@@ -8,6 +8,7 @@ import { setUserDataWithPinCode, verifyPinCode } from '../../../providers/steem/
 // Actions & Services
 import { closePinCodeModal } from '../../../redux/actions/applicationActions';
 import { getExistUser, setExistUser } from '../../../realm/realm';
+import { updateCurrentAccount } from '../../../redux/actions/accountAction';
 
 import { PinCodeScreen } from '..';
 
@@ -101,7 +102,12 @@ class PinCodeContainer extends Component {
         username: currentAccount.name,
         accessToken,
       };
-      setUserDataWithPinCode(pinData).then(() => {
+      setUserDataWithPinCode(pinData).then((response) => {
+        const _currentAccount = currentAccount;
+        _currentAccount.local = response;
+
+        dispatch(updateCurrentAccount({ ..._currentAccount }));
+
         setExistUser(true).then(() => {
           dispatch(closePinCodeModal());
           if (navigateTo) {
