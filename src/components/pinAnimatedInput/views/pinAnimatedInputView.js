@@ -6,10 +6,10 @@ import styles from './pinAnimatedInputStyles';
 
 class PinAnimatedInput extends Component {
   /* Props
-    *
-    *   @prop { string }    pin            - Description.
-    *
-    */
+   *
+   *   @prop { string }    pin            - Description.
+   *
+   */
   constructor(props) {
     super(props);
     this.state = {};
@@ -32,7 +32,7 @@ class PinAnimatedInput extends Component {
         ]}
       >
         {[...Array(4)].map((val, index) => {
-          if (pin.length - 1 === index) {
+          if (pin.length === index) {
             return (
               <Animated.View key={`passwordItem-${index}`} style={styles.input}>
                 <Animated.View
@@ -41,7 +41,8 @@ class PinAnimatedInput extends Component {
                 />
               </Animated.View>
             );
-          } if (pin.length > index) {
+          }
+          if (pin.length > index) {
             return (
               <Animated.View key={`passwordItem-${index}`} style={styles.input}>
                 <Animated.View

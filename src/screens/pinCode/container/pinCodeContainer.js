@@ -112,7 +112,9 @@ class PinCodeContainer extends Component {
       });
     } else {
       this.setState({
-        informationText: 'wrongggg!!!',
+        informationText: intl.formatMessage({
+          id: 'pincode.write_again',
+        }),
       });
       setTimeout(() => {
         this.setState({
@@ -132,8 +134,7 @@ class PinCodeContainer extends Component {
         informationText={informationText}
         setPinCode={this._setPinCode}
         showForgotButton={isExistUser}
-        username={currentAccount ? currentAccount.name : 'unknow'}
-        avatar={currentAccount.avatar}
+        username={currentAccount.username}
         intl={intl}
       />
     );
