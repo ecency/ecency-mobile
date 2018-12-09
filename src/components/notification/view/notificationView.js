@@ -48,7 +48,9 @@ class NotificationView extends Component {
   };
 
   render() {
-    const { notifications, intl, navigateToNotificationRoute } = this.props;
+    const {
+      notifications, intl, navigateToNotificationRoute, readAllNotification,
+    } = this.props;
     const { filters } = this.state;
     const today = [];
     const yesterday = [];
@@ -78,6 +80,7 @@ class NotificationView extends Component {
           defaultText="ALL ACTIVITIES"
           onDropdownSelect={this._handleOnDropdownSelect}
           rightIconName="ios-checkmark"
+          onRightIconPress={readAllNotification}
         />
         <ScrollView style={styles.scrollView}>
           {today.length > 0 && (

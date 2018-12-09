@@ -112,5 +112,9 @@
     "set_new": "Yeni pin kodu",
     "write_again": "Tekrar giriniz",
     "forgot_text": "Of! unuttum..."
+  },
+  "alert": {
+    "success": "Başarılı!",
+    "allRead": "Tüm bildirimler okundu"
   }
 }
