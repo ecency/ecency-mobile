@@ -23,7 +23,11 @@ class NotificationScreen extends PureComponent {
 
   render() {
     const {
-      notifications, getActivities, intl, navigateToNotificationRoute,
+      notifications,
+      getActivities,
+      intl,
+      navigateToNotificationRoute,
+      readAllNotification,
     } = this.props;
     return (
       <View style={styles.container}>
@@ -44,6 +48,7 @@ class NotificationScreen extends PureComponent {
               getActivities={getActivities}
               notifications={notifications}
               navigateToNotificationRoute={navigateToNotificationRoute}
+              readAllNotification={readAllNotification}
             />
           </View>
           <View

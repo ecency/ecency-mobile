@@ -1,5 +1,7 @@
 import React, { Component } from 'react';
+import { Alert } from 'react-native';
 import { connect } from 'react-redux';
+import { injectIntl } from 'react-intl';
 
 // Actions and Services
 import { getActivities, markActivityAsRead } from '../../../providers/esteem/esteem';
@@ -62,6 +64,24 @@ class NotificationContainer extends Component {
     }
   };
 
+  _readAllNotification = () => {
+    const { username, dispatch, intl } = this.props;
+    const { notifications } = this.state;
+    markActivityAsRead(username).then((result) => {
+      dispatch(updateUnreadActivityCount(result.unread));
+      const updatedNotifications = notifications.map(item => ({ ...item, read: 1 }));
+      this.setState({ notifications: updatedNotifications });
+      Alert.alert(
+        intl.formatMessage({
+          id: 'alert.success',
+        }),
+        intl.formatMessage({
+          id: 'alert.allRead',
+        }),
+      );
+    });
+  };
+
   render() {
     const { notifications } = this.state;
 
@@ -70,6 +90,7 @@ class NotificationContainer extends Component {
         getActivities={this._getAvtivities}
         notifications={notifications}
         navigateToNotificationRoute={this._navigateToNotificationRoute}
+        readAllNotification={this._readAllNotification}
         {...this.props}
       />
     );
@@ -81,4 +102,4 @@ const mapStateToProps = state => ({
   activeBottomTab: state.ui.activeBottomTab,
 });
 
-export default connect(mapStateToProps)(NotificationContainer);
+export default connect(mapStateToProps)(injectIntl(NotificationContainer));
