@@ -10,9 +10,7 @@ import Slider from 'react-native-slider';
 import { Icon } from '../../icon';
 import { PulseAnimation } from '../../animations';
 // STEEM
-import { upvote, upvoteAmount, vote } from '../../../providers/steem/dsteem';
-import { decryptKey } from '../../../utils/crypto';
-import { getDigitPinCode } from '../../../providers/steem/auth';
+import { upvoteAmount, vote } from '../../../providers/steem/dsteem';
 
 // Styles
 import styles from './upvoteStyles';

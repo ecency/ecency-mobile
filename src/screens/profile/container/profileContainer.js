@@ -94,7 +94,7 @@ class ProfileContainer extends Component {
     if (isFollowAction && !isFollowing) {
       this._followUser(currentAccount.name, username, privateKey);
     } else {
-      this._unfollowUser(currentAccount.name, username, privateKey);
+      this._unfollowUser(currentAccount, currentAccount.name, username);
     }
   };
 
@@ -116,13 +116,13 @@ class ProfileContainer extends Component {
     }
   };
 
-  _unfollowUser = (follower, following, privateKey) => {
+  _unfollowUser = (currentAccount, follower, following) => {
     unfollowUser(
+      currentAccount,
       {
         follower,
         following,
       },
-      privateKey,
     )
       .then(() => {
         this._profileActionDone();

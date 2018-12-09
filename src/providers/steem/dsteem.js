@@ -1,19 +1,19 @@
 import { Client, PrivateKey } from 'dsteem';
+import steemConnect from 'steemconnect';
 import sc2 from './steemConnectAPI';
-import steemConnect from "steemconnect"
 import { getServer } from '../../realm/realm';
 import { getUnreadActivityCount } from '../esteem/esteem';
 
 // Utils
 import { decryptKey } from '../../utils/crypto';
-import { getDigitPinCode } from '../steem/auth';
+import { getDigitPinCode } from './auth';
 import {
   parsePosts, parsePost, parseComments, parsePostsSummary,
 } from '../../utils/postParser';
 import { getName, getAvatar } from '../../utils/user';
 
-// Constant 
-import AUTH_TYPE from "../../constants/authType";
+// Constant
+import AUTH_TYPE from '../../constants/authType';
 
 const DEFAULT_SERVER = 'https://api.steemit.com';
 let rewardFund = null;
@@ -242,6 +242,8 @@ export const getPosts = async (by, query, user) => {
   }
 };
 
+export const getActiveVotes = (author, permlink) => client.database.call('get_active_votes', [author, permlink]);
+
 export const getPostsSummary = async (by, query, currentUserName) => {
   try {
     let posts = await client.database.getDiscussions(by, query);
@@ -327,25 +329,6 @@ export const getPostWithComments = async (user, permlink) => {
  * @param vote vote object(author, permlink, voter, weight)
  * @param postingKey private posting key
  */
-export const upvote = (vote, postingKey) => {
-  let key;
-
-  try {
-    key = PrivateKey.fromString(postingKey);
-  } catch (error) {}
-
-  return new Promise((resolve, reject) => {
-    client.broadcast
-      .vote(vote, key)
-      .then((result) => {
-        resolve(result);
-      })
-      .catch((err) => {
-        reject(err);
-      });
-  });
-};
-
 export const vote = async (currentAccount, author, permlink, weight) => {
   const digitPinCode = await getDigitPinCode();
 
@@ -393,7 +376,7 @@ export const upvoteAmount = async (input) => {
       });
   }
 
-    const estimated = (input / parseFloat(rewardFund.recent_claims))
+  const estimated = (input / parseFloat(rewardFund.recent_claims))
     * parseFloat(rewardFund.reward_balance)
     * (parseFloat(medianPrice.base) / parseFloat(medianPrice.quote));
   return estimated;
@@ -444,35 +427,48 @@ export const followUser = (data, postingKey) => {
   });
 };
 
-export const unfollowUser = (data, postingKey) => {
-  let key;
-  try {
-    key = PrivateKey.fromString(postingKey);
-  } catch (error) {}
-  const json = {
-    id: 'follow',
-    json: JSON.stringify([
-      'follow',
-      {
-        follower: `${data.follower}`,
-        following: `${data.following}`,
-        what: [''],
-      },
-    ]),
-    required_auths: [],
-    required_posting_auths: [`${data.follower}`],
-  };
+export const unfollowUser = async (currentAccount, data) => {
+  const digitPinCode = await getDigitPinCode();
 
-  return new Promise((resolve, reject) => {
-    client.broadcast
-      .json(json, key)
-      .then((result) => {
-        resolve(result);
-      })
-      .catch((err) => {
-        reject(err);
-      });
-  });
+  if (currentAccount.local.authType === AUTH_TYPE.MASTER_KEY) {
+    const key = decryptKey(currentAccount.local.postingKey, digitPinCode);
+    const privateKey = PrivateKey.fromString(key);
+
+    const json = {
+      id: 'follow',
+      json: JSON.stringify([
+        'follow',
+        {
+          follower: `${data.follower}`,
+          following: `${data.following}`,
+          what: [''],
+        },
+      ]),
+      required_auths: [],
+      required_posting_auths: [`${data.follower}`],
+    };
+
+    return new Promise((resolve, reject) => {
+      client.broadcast
+        .json(json, privateKey)
+        .then((result) => {
+          resolve(result);
+        })
+        .catch((err) => {
+          reject(err);
+        });
+    });
+  }
+  if (currentAccount.local.authType === AUTH_TYPE.STEEM_CONNECT) {
+    const token = decryptKey(currentAccount.local.accessToken, digitPinCode);
+    const api = steemConnect.Initialize({
+      accessToken: token
+    });
+
+    const follower = currentAccount.username;
+
+    return api.unfollow(follower, data.following);
+  }
 };
 
 export const delegate = (data, activeKey) => {
