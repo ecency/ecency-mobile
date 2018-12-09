@@ -165,7 +165,7 @@ export const setUserDataWithPinCode = data => new Promise((resolve, reject) => {
   }
 
   updateUserData(updatedUserData)
-    .then(() => {
+    .then((response) => {
       const authData = {
         isLoggedIn: true,
         currentUsername: userData.username,
@@ -176,7 +176,7 @@ export const setUserDataWithPinCode = data => new Promise((resolve, reject) => {
           const encriptedPinCode = encryptKey(data.pinCode, 'pin-code');
           setPinCode(encriptedPinCode)
             .then(() => {
-              resolve(true);
+              resolve(response);
             })
             .catch((error) => {
               reject(error);

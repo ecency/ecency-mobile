@@ -8,11 +8,9 @@ import Slider from 'react-native-slider';
 
 // Components
 import { Icon } from '../../icon';
-
+import { PulseAnimation } from '../../animations';
 // STEEM
-import { upvote, upvoteAmount } from '../../../providers/steem/dsteem';
-import { decryptKey } from '../../../utils/crypto';
-import { getDigitPinCode } from '../../../providers/steem/auth';
+import { upvoteAmount, vote } from '../../../providers/steem/dsteem';
 
 // Styles
 import styles from './upvoteStyles';
@@ -90,18 +88,13 @@ class UpvoteView extends Component {
       },
     );
 
-    const digitPinCode = await getDigitPinCode();
-    const postingKey = decryptKey(currentAccount.local.postingKey, digitPinCode);
-    const _weight = sliderValue ? (sliderValue * 100).toFixed(0) * 100 : 0;
+    const weight = sliderValue ? (sliderValue * 100).toFixed(0) * 100 : 0;
 
-    upvote(
-      {
-        voter: currentAccount && currentAccount.username,
-        author,
-        permlink,
-        weight: _weight,
-      },
-      postingKey,
+    vote(
+      currentAccount,
+      author,
+      permlink,
+      weight,
     )
       .then(() => {
         this.setState(
@@ -155,7 +148,17 @@ class UpvoteView extends Component {
             >
               <Fragment>
                 {isVoting ? (
-                  <ActivityIndicator />
+                // <ActivityIndicator />
+                  <View style={{ width: 19 }}>
+                    <PulseAnimation
+                      color="#357ce6"
+                      numPulses={1}
+                      diameter={20}
+                      speed={100}
+                      duration={1500}
+                      isShow={!isVoting}
+                    />
+                  </View>
                 ) : (
                   <Icon
                     style={[styles.upvoteIcon]}

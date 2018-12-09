@@ -36,7 +36,7 @@ import styles from './loginStyles';
 class LoginScreen extends Component {
   constructor(props) {
     super(props);
-    // Navigation.events().bindComponent(this);
+
     this.state = {
       username: '',
       password: '',

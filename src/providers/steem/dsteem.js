@@ -1,15 +1,19 @@
 import { Client, PrivateKey } from 'dsteem';
+import steemConnect from 'steemconnect';
 import sc2 from './steemConnectAPI';
 import { getServer } from '../../realm/realm';
 import { getUnreadActivityCount } from '../esteem/esteem';
 
 // Utils
 import { decryptKey } from '../../utils/crypto';
-import { getDigitPinCode } from '../steem/auth';
+import { getDigitPinCode } from './auth';
 import {
   parsePosts, parsePost, parseComments, parsePostsSummary,
 } from '../../utils/postParser';
 import { getName, getAvatar } from '../../utils/user';
+
+// Constant
+import AUTH_TYPE from '../../constants/authType';
 
 const DEFAULT_SERVER = 'https://api.steemit.com';
 let rewardFund = null;
@@ -190,36 +194,47 @@ export const getIsMuted = async (username, targetUsername) => {
   return false;
 };
 
-export const ignoreUser = (data, postingKey) => {
-  let key;
-  try {
-    key = PrivateKey.fromString(postingKey);
-  } catch (error) {}
+export const ignoreUser = async (currentAccount, data) => {
+  const digitPinCode = await getDigitPinCode();
 
-  const json = {
-    id: 'follow',
-    json: JSON.stringify([
-      'follow',
-      {
-        follower: `${data.follower}`,
-        following: `${data.following}`,
-        what: ['ignore'],
-      },
-    ]),
-    required_auths: [],
-    required_posting_auths: [`${data.follower}`],
-  };
+  if (currentAccount.local.authType === AUTH_TYPE.MASTER_KEY) {
+    const key = decryptKey(currentAccount.local.postingKey, digitPinCode);
+    const privateKey = PrivateKey.fromString(key);
 
-  return new Promise((resolve, reject) => {
-    client.broadcast
-      .json(json, key)
-      .then((result) => {
-        resolve(result);
-      })
-      .catch((err) => {
-        reject(err);
-      });
-  });
+    const json = {
+      id: 'follow',
+      json: JSON.stringify([
+        'follow',
+        {
+          follower: `${data.follower}`,
+          following: `${data.following}`,
+          what: ['ignore'],
+        },
+      ]),
+      required_auths: [],
+      required_posting_auths: [`${data.follower}`],
+    };
+
+    return new Promise((resolve, reject) => {
+      client.broadcast
+        .json(json, privateKey)
+        .then((result) => {
+          resolve(result);
+        })
+        .catch((err) => {
+          reject(err);
+        });
+    });
+  }
+
+  if (currentAccount.local.authType === AUTH_TYPE.STEEM_CONNECT) {
+    const token = decryptKey(currentAccount.local.accessToken, digitPinCode);
+    const api = steemConnect.Initialize({
+      accessToken: token,
+    });
+
+    return api.ignore(data.follower, data.following);
+  }
 };
 
 /**
@@ -237,6 +252,8 @@ export const getPosts = async (by, query, user) => {
     return error;
   }
 };
+
+export const getActiveVotes = (author, permlink) => client.database.call('get_active_votes', [author, permlink]);
 
 export const getPostsSummary = async (by, query, currentUserName) => {
   try {
@@ -323,23 +340,34 @@ export const getPostWithComments = async (user, permlink) => {
  * @param vote vote object(author, permlink, voter, weight)
  * @param postingKey private posting key
  */
-export const upvote = (vote, postingKey) => {
-  let key;
+export const vote = async (currentAccount, author, permlink, weight) => {
+  const digitPinCode = await getDigitPinCode();
 
-  try {
-    key = PrivateKey.fromString(postingKey);
-  } catch (error) {}
+  if (currentAccount.local.authType === AUTH_TYPE.MASTER_KEY) {
+    const key = decryptKey(currentAccount.local.postingKey, digitPinCode);
+    const privateKey = PrivateKey.fromString(key);
+    const voter = currentAccount.name;
 
-  return new Promise((resolve, reject) => {
-    client.broadcast
-      .vote(vote, key)
-      .then((result) => {
-        resolve(result);
-      })
-      .catch((err) => {
-        reject(err);
-      });
-  });
+    const args = {
+      voter,
+      author,
+      permlink,
+      weight,
+    };
+
+    return client.broadcast.vote(args, privateKey);
+  }
+
+  if (currentAccount.local.authType === AUTH_TYPE.STEEM_CONNECT) {
+    const token = decryptKey(currentAccount.local.accessToken, digitPinCode);
+    const api = steemConnect.Initialize({
+      accessToken: token,
+    });
+
+    const voter = currentAccount.name;
+
+    return api.vote(voter, author, permlink, weight);
+  }
 };
 
 /**
@@ -359,7 +387,7 @@ export const upvoteAmount = async (input) => {
       });
   }
 
-    const estimated = (input / parseFloat(rewardFund.recent_claims))
+  const estimated = (input / parseFloat(rewardFund.recent_claims))
     * parseFloat(rewardFund.reward_balance)
     * (parseFloat(medianPrice.base) / parseFloat(medianPrice.quote));
   return estimated;
@@ -379,66 +407,86 @@ export const transferToken = (data, activeKey) => {
   });
 };
 
-export const followUser = (data, postingKey) => {
-  let key;
-  try {
-    key = PrivateKey.fromString(postingKey);
-  } catch (error) {}
-  const json = {
-    id: 'follow',
-    json: JSON.stringify([
-      'follow',
-      {
-        follower: `${data.follower}`,
-        following: `${data.following}`,
-        what: ['blog'],
-      },
-    ]),
-    required_auths: [],
-    required_posting_auths: [`${data.follower}`],
-  };
+export const followUser = async (currentAccount, data) => {
+  const digitPinCode = await getDigitPinCode();
+  if (currentAccount.local.authType === AUTH_TYPE.MASTER_KEY) {
+    const key = decryptKey(currentAccount.local.postingKey, digitPinCode);
+    const privateKey = PrivateKey.fromString(key);
+    const json = {
+      id: 'follow',
+      json: JSON.stringify([
+        'follow',
+        {
+          follower: `${data.follower}`,
+          following: `${data.following}`,
+          what: ['blog'],
+        },
+      ]),
+      required_auths: [],
+      required_posting_auths: [`${data.follower}`],
+    };
 
-  return new Promise((resolve, reject) => {
-    client.broadcast
-      .json(json, key)
-      .then((result) => {
-        resolve(result);
-      })
-      .catch((err) => {
-        reject(err);
-      });
-  });
+    return new Promise((resolve, reject) => {
+      client.broadcast
+        .json(json, privateKey)
+        .then((result) => {
+          resolve(result);
+        })
+        .catch((err) => {
+          reject(err);
+        });
+    });
+  }
+  if (currentAccount.local.authType === AUTH_TYPE.STEEM_CONNECT) {
+    const token = decryptKey(currentAccount.local.accessToken, digitPinCode);
+    const api = steemConnect.Initialize({
+      accessToken: token,
+    });
+
+    return api.follow(data.follower, data.following);
+  }
 };
 
-export const unfollowUser = (data, postingKey) => {
-  let key;
-  try {
-    key = PrivateKey.fromString(postingKey);
-  } catch (error) {}
-  const json = {
-    id: 'follow',
-    json: JSON.stringify([
-      'follow',
-      {
-        follower: `${data.follower}`,
-        following: `${data.following}`,
-        what: [''],
-      },
-    ]),
-    required_auths: [],
-    required_posting_auths: [`${data.follower}`],
-  };
+export const unfollowUser = async (currentAccount, data) => {
+  const digitPinCode = await getDigitPinCode();
 
-  return new Promise((resolve, reject) => {
-    client.broadcast
-      .json(json, key)
-      .then((result) => {
-        resolve(result);
-      })
-      .catch((err) => {
-        reject(err);
-      });
-  });
+  if (currentAccount.local.authType === AUTH_TYPE.MASTER_KEY) {
+    const key = decryptKey(currentAccount.local.postingKey, digitPinCode);
+    const privateKey = PrivateKey.fromString(key);
+
+    const json = {
+      id: 'follow',
+      json: JSON.stringify([
+        'follow',
+        {
+          follower: `${data.follower}`,
+          following: `${data.following}`,
+          what: [''],
+        },
+      ]),
+      required_auths: [],
+      required_posting_auths: [`${data.follower}`],
+    };
+
+    return new Promise((resolve, reject) => {
+      client.broadcast
+        .json(json, privateKey)
+        .then((result) => {
+          resolve(result);
+        })
+        .catch((err) => {
+          reject(err);
+        });
+    });
+  }
+  if (currentAccount.local.authType === AUTH_TYPE.STEEM_CONNECT) {
+    const token = decryptKey(currentAccount.local.accessToken, digitPinCode);
+    const api = steemConnect.Initialize({
+      accessToken: token,
+    });
+
+    return api.unfollow(data.follower, data.following);
+  }
 };
 
 export const delegate = (data, activeKey) => {
@@ -593,7 +641,7 @@ export const lookupAccounts = async (username) => {
  * @method postComment post a comment/reply
  * @param comment comment object { author, permlink, ... }
  */
-export const postComment = (
+export const postComment = async (
   account,
   digitPinCode,
   parentAuthor,
@@ -607,52 +655,93 @@ export const postComment = (
 ) => {
   const { name: author } = account;
 
-  const opArray = [
-    [
-      'comment',
-      {
-        parent_author: parentAuthor,
-        parent_permlink: parentPermlink,
-        author,
-        permlink,
-        title,
-        body,
-        json_metadata: JSON.stringify(jsonMetadata),
-      },
-    ],
-  ];
-
-  if (options) {
-    const e = ['comment_options', options];
-    opArray.push(e);
-  }
-
-  if (voteWeight) {
-    const e = [
-      'vote',
-      {
-        voter: author,
-        author,
-        permlink,
-        weight: voteWeight,
-      },
+  if (account.local.authType === AUTH_TYPE.MASTER_KEY) {
+    const opArray = [
+      [
+        'comment',
+        {
+          parent_author: parentAuthor,
+          parent_permlink: parentPermlink,
+          author,
+          permlink,
+          title,
+          body,
+          json_metadata: JSON.stringify(jsonMetadata),
+        },
+      ],
     ];
-    opArray.push(e);
+
+    if (options) {
+      const e = ['comment_options', options];
+      opArray.push(e);
+    }
+
+    if (voteWeight) {
+      const e = [
+        'vote',
+        {
+          voter: author,
+          author,
+          permlink,
+          weight: voteWeight,
+        },
+      ];
+      opArray.push(e);
+    }
+
+    const key = decryptKey(account.local.postingKey, digitPinCode);
+    const privateKey = PrivateKey.fromString(key);
+
+    return new Promise((resolve, reject) => {
+      client.broadcast
+        .sendOperations(opArray, privateKey)
+        .then((result) => {
+          resolve(result);
+        })
+        .catch((error) => {
+          reject(error);
+        });
+    });
   }
 
-  const key = decryptKey(account.local.postingKey, digitPinCode);
-  const privateKey = PrivateKey.fromString(key);
+  if (account.local.authType === AUTH_TYPE.STEEM_CONNECT) {
+    const token = decryptKey(account.local.accessToken, digitPinCode);
+    const api = steemConnect.Initialize({
+      accessToken: token,
+    });
 
-  return new Promise((resolve, reject) => {
-    client.broadcast
-      .sendOperations(opArray, privateKey)
-      .then((result) => {
-        resolve(result);
-      })
-      .catch((error) => {
-        reject(error);
-      });
-  });
+    const params = {
+      parent_author: parentAuthor,
+      parent_permlink: parentPermlink,
+      author,
+      permlink,
+      title,
+      body,
+      json_metadata: JSON.stringify(jsonMetadata),
+    };
+
+    const opArray = [['comment', params]];
+
+    if (options) {
+      const e = ['comment_options', options];
+      opArray.push(e);
+    }
+
+    if (voteWeight) {
+      const e = [
+        'vote',
+        {
+          voter: author,
+          author,
+          permlink,
+          weight: voteWeight,
+        },
+      ];
+      opArray.push(e);
+    }
+
+    return api.broadcast(opArray);
+  }
 };
 
 export const reblog = async (account, author, permlink) => {
