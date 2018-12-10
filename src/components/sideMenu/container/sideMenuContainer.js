@@ -36,7 +36,7 @@ class SideMenuContainer extends Component {
       userData.forEach((element) => {
         accounts.push({
           name: `@${element.username}`,
-          username: element.username
+          username: element.username,
         });
       });
       accounts.push({
@@ -58,14 +58,15 @@ class SideMenuContainer extends Component {
     }
   };
 
-  _switchAccount = (username = null) => {
-    const { dispatch } = this.props;
-
-    username = username.slice(1);
-    switchAccount(username).then((accountData) => {
-      dispatch(updateCurrentAccount(accountData));
-      dispatch(openPinCodeModal());
-    });
+  _switchAccount = (anchor = null) => {
+    const { dispatch, currentAccount } = this.props;
+    const username = anchor.slice(1);
+    if (username !== currentAccount.name) {
+      switchAccount(username).then((accountData) => {
+        dispatch(updateCurrentAccount(accountData));
+        dispatch(openPinCodeModal());
+      });
+    }
   };
 
   render() {

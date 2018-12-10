@@ -112,11 +112,10 @@ class ApplicationContainer extends Component {
   };
 
   _getSettings = () => {
-    const { dispatch, isLoggedIn } = this.props;
+    const { dispatch } = this.props;
 
     getSettings().then((response) => {
       if (response) {
-        console.log(response);
         response.isDarkTheme && dispatch(isDarkTheme(response.isDarkTheme));
         response.language && dispatch(setLanguage(response.language));
         response.currency && dispatch(setCurrency(response.currency));

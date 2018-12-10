@@ -7,9 +7,9 @@ import { setUserDataWithPinCode, verifyPinCode } from '../../../providers/steem/
 
 // Actions & Services
 import { closePinCodeModal } from '../../../redux/actions/applicationActions';
-import { getExistUser, setExistUser, getUserData } from '../../../realm/realm';
+import { getExistUser, setExistUser, getUserData, getUserDataWithUsername } from '../../../realm/realm';
 import { updateCurrentAccount } from '../../../redux/actions/accountAction';
-import {formatAccount } from "../../../utils/user";
+import { formatAccount } from '../../../utils/user';
 import { PinCodeScreen } from '..';
 
 class PinCodeContainer extends Component {
@@ -78,6 +78,13 @@ class PinCodeContainer extends Component {
         .then((res) => {
           setWrappedComponentState(res);
           dispatch(closePinCodeModal());
+
+          const realmData = getUserDataWithUsername(currentAccount.name);
+          const _currentAccount = currentAccount;
+          _currentAccount.username = _currentAccount.name;
+          _currentAccount.local = realmData[0];
+          dispatch(updateCurrentAccount({ ..._currentAccount }));
+
           if (navigateTo) {
             navigation.navigate(navigateTo);
           }
