@@ -90,7 +90,6 @@ class LoginScreen extends Component {
 
   _handleOnModalToggle = () => {
     const { isModalOpen } = this.state;
-    console.log('isModalOpen :', isModalOpen);
     this.setState({ isModalOpen: !isModalOpen });
   }
 

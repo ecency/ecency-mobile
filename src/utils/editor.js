@@ -65,3 +65,55 @@ export const makeJsonMetadataReply = tags => ({
   format: 'markdown+html',
   community: 'esteem.app',
 });
+
+export const makeJsonMetadata = (meta, tags) => Object.assign({}, meta, {
+  tags,
+  app: 'esteem/2.0.0-mobile',
+  format: 'markdown+html',
+  community: 'esteem.app',
+});
+
+export const extractMetadata = (body) => {
+  const urlReg = /(\b(https?|ftp):\/\/[A-Z0-9+&@#/%?=~_|!:,.;-]*[-A-Z0-9+&@#/%=~_|])/gim;
+  const userReg = /(^|\s)(@[a-z][-.a-z\d]+[a-z\d])/gim;
+  const imgReg = /(https?:\/\/.*\.(?:png|jpg|jpeg|gif))/gim;
+
+  const out = {};
+
+  const mUrls = body.match(urlReg);
+  const mUsers = body.match(userReg);
+
+  const matchedImages = [];
+  const matchedLinks = [];
+  const matchedUsers = [];
+
+  if (mUrls) {
+    for (let i = 0; i < mUrls.length; i++) {
+      const ind = mUrls[i].match(imgReg);
+      if (ind) {
+        matchedImages.push(mUrls[i]);
+      } else {
+        matchedLinks.push(mUrls[i]);
+      }
+    }
+  }
+
+  if (matchedLinks.length) {
+    out.links = matchedLinks;
+  }
+  if (matchedImages.length) {
+    out.image = matchedImages;
+  }
+
+  if (mUsers) {
+    for (let i = 0; i < mUsers.length; i++) {
+      matchedUsers.push(mUsers[i].trim().substring(1));
+    }
+  }
+
+  if (matchedUsers.length) {
+    out.users = matchedUsers;
+  }
+
+  return out;
+};

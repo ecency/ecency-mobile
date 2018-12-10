@@ -1,3 +1,5 @@
+import { getUserDataWithUsername } from '../realm/realm';
+
 export const getReputation = (input) => {
   if (input === 0) {
     return 25;
@@ -36,3 +38,10 @@ export const getAvatar = about => {
   }
   return null;
 };
+
+// export const formatAccount = account => {
+//   getUserDataWithUsername(account).then(response => {
+//     if (response.length > 0) {
+//     }
+//   });
+// };

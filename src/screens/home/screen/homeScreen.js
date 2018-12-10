@@ -64,7 +64,7 @@ class HomeScreen extends PureComponent {
               <Posts
                 filterOptions={_filterOptions}
                 getFor="feed"
-                tag={tag || currentAccount.username}
+                tag={tag || currentAccount.name}
               />
             </View>
             <View

@@ -1,6 +1,5 @@
 import { Client, PrivateKey } from 'dsteem';
 import steemConnect from 'steemconnect';
-import sc2 from './steemConnectAPI';
 import { getServer } from '../../realm/realm';
 import { getUnreadActivityCount } from '../esteem/esteem';
 
@@ -8,7 +7,7 @@ import { getUnreadActivityCount } from '../esteem/esteem';
 import { decryptKey } from '../../utils/crypto';
 import { getDigitPinCode } from './auth';
 import {
-  parsePosts, parsePost, parseComments, parsePostsSummary,
+  parsePosts, parsePost, parseComments,
 } from '../../utils/postParser';
 import { getName, getAvatar } from '../../utils/user';
 
@@ -409,6 +408,7 @@ export const transferToken = (data, activeKey) => {
 
 export const followUser = async (currentAccount, data) => {
   const digitPinCode = await getDigitPinCode();
+
   if (currentAccount.local.authType === AUTH_TYPE.MASTER_KEY) {
     const key = decryptKey(currentAccount.local.postingKey, digitPinCode);
     const privateKey = PrivateKey.fromString(key);
@@ -490,14 +490,11 @@ export const unfollowUser = async (currentAccount, data) => {
 };
 
 export const delegate = (data, activeKey) => {
-  let key;
-  try {
-    key = PrivateKey.fromString(activeKey);
-  } catch (error) {}
+  const privateKey = PrivateKey.fromString(activeKey);
 
   return new Promise((resolve, reject) => {
     client.broadcast
-      .delegateVestingShares(data, key)
+      .delegateVestingShares(data, privateKey)
       .then((result) => {
         resolve(result);
       })
@@ -526,10 +523,7 @@ export const getFeedHistory = async () => {
 };
 
 export const transferToVesting = (data, activeKey) => {
-  let key;
-  try {
-    key = PrivateKey.fromString(activeKey);
-  } catch (error) {}
+  const privateKey = PrivateKey.fromString(activeKey);
 
   const op = [
     'transfer_to_vesting',
@@ -542,7 +536,7 @@ export const transferToVesting = (data, activeKey) => {
 
   return new Promise((resolve, reject) => {
     client.broadcast
-      .sendOperations([op], key)
+      .sendOperations([op], privateKey)
       .then((result) => {
         resolve(result);
       })
@@ -553,11 +547,7 @@ export const transferToVesting = (data, activeKey) => {
 };
 
 export const withdrawVesting = (data, activeKey) => {
-  let key;
-  try {
-    key = PrivateKey.fromString(activeKey);
-  } catch (error) {}
-
+  const privateKey = PrivateKey.fromString(activeKey);
   const op = [
     'withdraw_vesting',
     {
@@ -568,57 +558,7 @@ export const withdrawVesting = (data, activeKey) => {
 
   return new Promise((resolve, reject) => {
     client.broadcast
-      .sendOperations([op], key)
-      .then((result) => {
-        resolve(result);
-      })
-      .catch((error) => {
-        reject(error);
-      });
-  });
-};
-
-export const postContent = (data, postingKey) => {
-  let key;
-
-  try {
-    key = PrivateKey.fromString(postingKey);
-  } catch (error) {}
-
-  const post = {
-    author: data.author,
-    body: data.body,
-    parent_author: '',
-    parent_permlink: data.tags[0],
-    permlink: data.permlink,
-    title: data.title,
-    json_metadata: JSON.stringify({
-      app: 'esteem/2.0.0-mobile',
-      community: 'esteem.app',
-      tags: data.tags,
-    }),
-  };
-
-  const op = {
-    author: data.author,
-    permlink: data.permlink,
-    max_accepted_payout: '1000000.000 SBD',
-    percent_steem_dollars: 10000,
-    allow_votes: true,
-    allow_curation_rewards: true,
-    extensions: [
-      [
-        0,
-        {
-          beneficiaries: [{ account: 'esteemapp', weight: 1000 }],
-        },
-      ],
-    ],
-  };
-
-  return new Promise((resolve, reject) => {
-    client.broadcast
-      .commentWithOptions(post, op, key)
+      .sendOperations([op], privateKey)
       .then((result) => {
         resolve(result);
       })
@@ -641,7 +581,7 @@ export const lookupAccounts = async (username) => {
  * @method postComment post a comment/reply
  * @param comment comment object { author, permlink, ... }
  */
-export const postComment = async (
+export const postContent = async (
   account,
   digitPinCode,
   parentAuthor,
@@ -744,25 +684,40 @@ export const postComment = async (
   }
 };
 
+// Re-blog
 export const reblog = async (account, author, permlink) => {
   const pin = await getDigitPinCode();
-  const key = decryptKey(account.local.postingKey, pin);
-  const privateKey = PrivateKey.fromString(key);
-  const follower = account.name;
 
-  const json = {
-    id: 'follow',
-    json: JSON.stringify([
-      'reblog',
-      {
-        account: follower,
-        author,
-        permlink,
-      },
-    ]),
-    required_auths: [],
-    required_posting_auths: [follower],
-  };
+  if (account.local.authType === AUTH_TYPE.MASTER_KEY) {
+    const key = decryptKey(account.local.postingKey, pin);
+    const privateKey = PrivateKey.fromString(key);
+    const follower = account.name;
 
-  return client.broadcast.json(json, privateKey);
+    const json = {
+      id: 'follow',
+      json: JSON.stringify([
+        'reblog',
+        {
+          account: follower,
+          author,
+          permlink,
+        },
+      ]),
+      required_auths: [],
+      required_posting_auths: [follower],
+    };
+
+    return client.broadcast.json(json, privateKey);
+  }
+
+  if (account.local.authType === AUTH_TYPE.STEEM_CONNECT) {
+    const token = decryptKey(account.local.accessToken, pin);
+    const api = steemConnect.Initialize({
+      accessToken: token,
+    });
+
+    const follower = account.name;
+
+    return api.reblog(follower, author, permlink);
+  }
 };
