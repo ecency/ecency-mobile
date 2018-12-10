@@ -67,6 +67,8 @@ export const Login = (username, password) => {
             accessToken: '',
           };
 
+          account.local = userData;
+
           // Save user data to Realm DB
           setUserData(userData)
             .then(() => {
