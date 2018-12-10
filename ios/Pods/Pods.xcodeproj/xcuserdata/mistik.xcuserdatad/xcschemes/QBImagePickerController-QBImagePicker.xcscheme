@@ -14,10 +14,10 @@
             buildForArchiving = "YES">
             <BuildableReference
                BuildableIdentifier = "primary"
-               BlueprintIdentifier = "6D5007D85AE108217EBB5ACE22F97310"
-               BlueprintName = "React"
+               BlueprintIdentifier = "B9ACF6901AD9FA03B3DE721FDBC13721"
+               BlueprintName = "QBImagePickerController-QBImagePicker"
                ReferencedContainer = "container:Pods.xcodeproj"
-               BuildableName = "libReact.a">
+               BuildableName = "QBImagePickerController-QBImagePicker.bundle">
             </BuildableReference>
          </BuildActionEntry>
       </BuildActionEntries>

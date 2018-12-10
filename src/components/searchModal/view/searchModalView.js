@@ -45,7 +45,7 @@ class SearchModalView extends Component {
         <View style={styles.container}>
           <SafeAreaView style={styles.safeArea}>
             <View style={styles.inputWrapper}>
-              <Icon style={styles.icon} iconType="FontAwesome" name="search" size={20} />
+              <Icon style={styles.icon} iconType="FontAwesome" name="search" size={15} />
               <TextInput
                 style={styles.input}
                 onChangeText={text => handleOnChangeSearchInput(text)}
@@ -56,9 +56,9 @@ class SearchModalView extends Component {
               />
               <IconButton
                 iconStyle={styles.closeIcon}
-                iconType="FontAwesome"
+                iconType="Ionicons"
                 style={styles.closeIconButton}
-                name="close"
+                name="ios-close-circle-outline"
                 onPress={() => handleOnClose()}
               />
             </View>

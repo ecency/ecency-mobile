@@ -1,5 +1,8 @@
 ### eSteem Mobile
 
+iOS ![iOS](https://build.appcenter.ms/v0.1/apps/fc3725c3-719b-4081-8c1b-e65921f76aba/branches/master/badge)
+  Android ![Android](https://build.appcenter.ms/v0.1/apps/3df3ec7f-c9a2-457b-b132-94dbd7db99db/branches/master/badge)
+
 ### I. How do I get set up?
 
 `$ git clone https://github.com/esteemapp/esteem-mobile.git`

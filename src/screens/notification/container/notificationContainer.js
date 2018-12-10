@@ -62,6 +62,16 @@ class NotificationContainer extends Component {
     }
   };
 
+  _readAllNotification = () => {
+    const { username, dispatch } = this.props;
+    const { notifications } = this.state;
+    markActivityAsRead(username).then((result) => {
+      dispatch(updateUnreadActivityCount(result.unread));
+      const updatedNotifications = notifications.map(item => ({ ...item, read: 1 }));
+      this.setState({ notifications: updatedNotifications });
+    });
+  };
+
   render() {
     const { notifications } = this.state;
 
@@ -70,6 +80,7 @@ class NotificationContainer extends Component {
         getActivities={this._getAvtivities}
         notifications={notifications}
         navigateToNotificationRoute={this._navigateToNotificationRoute}
+        readAllNotification={this._readAllNotification}
         {...this.props}
       />
     );
