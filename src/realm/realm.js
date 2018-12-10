@@ -90,6 +90,15 @@ export const getUserData = () => new Promise((resolve, reject) => {
   }
 });
 
+export const getSelectedUser = username => new Promise((resolve, reject) => {
+  try {
+    const user = realm.objects(USER_SCHEMA).filtered('username = $0', username);
+    resolve(user);
+  } catch (error) {
+    reject(error);
+  }
+});
+
 export const getUserDataWithUsername = (username) => {
   try {
     const user = Array.from(realm.objects(USER_SCHEMA).filtered('username = $0', username));
@@ -399,7 +408,7 @@ export const getPushTokenSaved = () => new Promise((resolve, reject) => {
       resolve(false);
     }
     if (application[0].isPushTokenSaved) {
-      resolve((application[0].isPushTokenSaved));
+      resolve(application[0].isPushTokenSaved);
     } else {
       resolve(false);
     }
@@ -436,7 +445,7 @@ export const getExistUser = () => new Promise((resolve, reject) => {
       resolve(false);
     }
     if (application[0].isExistUser) {
-      resolve((application[0].isExistUser));
+      resolve(application[0].isExistUser);
     } else {
       resolve(false);
     }

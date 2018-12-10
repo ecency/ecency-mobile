@@ -124,6 +124,7 @@ export const loginWithSC2 = async (accessToken) => {
       .then(() => {
         setUserData(userData)
           .then(() => {
+            account.account.username = account.account.name;
             resolve({ ...account.account, accessToken });
           })
           .catch((error) => {

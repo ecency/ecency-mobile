@@ -1,12 +1,11 @@
 import React, { Component } from 'react';
 import { connect } from 'react-redux';
-import { Alert } from 'react-native';
 import ImagePicker from 'react-native-image-crop-picker';
 
 // Services and Actions
 // import { Buffer } from 'buffer';
 import { uploadImage } from '../../../providers/esteem/esteem';
-import { postContent, postComment } from '../../../providers/steem/dsteem';
+import { postContent } from '../../../providers/steem/dsteem';
 import { setDraftPost, getDraftPost } from '../../../realm/realm';
 import { getDigitPinCode } from '../../../providers/steem/auth';
 
@@ -19,10 +18,11 @@ import { default as ROUTES } from '../../../constants/routeNames';
 import {
   generatePermlink,
   generateReplyPermlink,
-  makeJsonMetadataReply,
+  makeJsonMetadata,
   makeOptions,
+  extractMetadata,
+  makeJsonMetadataReply,
 } from '../../../utils/editor';
-import { decryptKey } from '../../../utils/crypto';
 // import { generateSignature } from '../../../utils/image';
 // Component
 import EditorScreen from '../screen/editorScreen';
@@ -205,25 +205,32 @@ class EditorContainer extends Component {
     if (currentAccount) {
       this.setState({ isPostSending: true });
 
+      const meta = extractMetadata(fields.body);
+      const jsonMeta = makeJsonMetadata(meta, fields.tags);
       const permlink = generatePermlink(fields.title);
       const digitPinCode = await getDigitPinCode();
+      const author = currentAccount.name;
+      const options = makeOptions(author, permlink);
+      const parentPermlink = fields.tags[0];
 
-      const postingKey = decryptKey(currentAccount.local.postingKey, digitPinCode);
-
-      const post = {
-        ...fields,
+      await postContent(
+        currentAccount,
+        digitPinCode,
+        '',
+        parentPermlink,
         permlink,
-        author: currentAccount.name,
-      };
-
-      postContent(post, postingKey)
+        fields.title,
+        fields.body,
+        jsonMeta,
+        options,
+        0,
+      )
         .then((result) => {
-          Alert.alert('Success', 'Your reply has been submitted!');
-          navigation.navigate(ROUTES.SCREENS.HOME);
+          alert('Your post succesfully shared');
+          navigation.goBack();
         })
         .catch((error) => {
-          Alert.alert('Failed!', 'Your reply failed to submit!');
-
+          alert(`Opps! there is a problem${error}`);
           this.setState({ isPostSending: false });
         });
     }
@@ -245,13 +252,13 @@ class EditorContainer extends Component {
       const parentAuthor = post.author;
       const parentPermlink = post.permlink;
 
-      await postComment(
+      await postContent(
         currentAccount,
         digitPinCode,
         parentAuthor,
         parentPermlink,
         permlink,
-        '',
+        fields.title || '',
         fields.body,
         jsonMeta,
         options,
@@ -274,7 +281,7 @@ class EditorContainer extends Component {
     if (isReply) {
       this._submitReply(form.fields);
     } else {
-      this._submitPost(form);
+      this._submitPost(form.fields);
     }
   };
 

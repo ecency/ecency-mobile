@@ -7,9 +7,9 @@ import { setUserDataWithPinCode, verifyPinCode } from '../../../providers/steem/
 
 // Actions & Services
 import { closePinCodeModal } from '../../../redux/actions/applicationActions';
-import { getExistUser, setExistUser } from '../../../realm/realm';
+import { getExistUser, setExistUser, getUserData } from '../../../realm/realm';
 import { updateCurrentAccount } from '../../../redux/actions/accountAction';
-
+import {formatAccount } from "../../../utils/user";
 import { PinCodeScreen } from '..';
 
 class PinCodeContainer extends Component {

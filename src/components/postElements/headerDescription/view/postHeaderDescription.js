@@ -25,29 +25,24 @@ class PostHeaderDescription extends Component {
 
   // Component Functions
   _handleOnUserPress = (username) => {
-    const { navigation } = this.props;
+    const { navigation, profileOnPress } = this.props;
 
-    navigation.navigate({
-      routeName: ROUTES.SCREENS.PROFILE,
-      params: {
-        username,
-      },
-      key: username + Math.random() * 100,
-    });
+    if (profileOnPress) {
+      profileOnPress(username);
+    } else {
+      navigation.navigate({
+        routeName: ROUTES.SCREENS.PROFILE,
+        params: {
+          username,
+        },
+        key: username,
+      });
+    }
   };
 
   render() {
     const {
-      date,
-      avatar,
-      name,
-      reputation,
-      size,
-      tag,
-      profileOnPress,
-      tagOnPress,
-      isHideImage,
-      dropdownComponent,
+      date, avatar, name, reputation, size, tag, tagOnPress, isHideImage,
     } = this.props;
 
     const _reputationText = `(${reputation})`;
@@ -63,7 +58,7 @@ class PostHeaderDescription extends Component {
       <View style={styles.container}>
         <TouchableOpacity
           style={styles.avatarNameWrapper}
-          onPress={() => (profileOnPress ? profileOnPress(name) : this._handleOnUserPress(name))}
+          onPress={() => this._handleOnUserPress(name)}
         >
           {_avatar && (
             <FastImage
