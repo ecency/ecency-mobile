@@ -139,6 +139,7 @@ android {
 }
 
 dependencies {
+    compile project(':react-native-fast-image')
     compile project(':react-native-image-crop-picker')
     compile project(':appcenter-push')
     compile project(':react-native-view-overflow')
@@ -146,7 +147,6 @@ dependencies {
     compile project(':react-native-vector-icons')
     compile project(':react-native-restart')
     compile project(':react-native-linear-gradient')
-    compile project(':react-native-fast-image')
     compile project(':react-native-config')
     compile project(':appcenter-crashes')
     compile project(':appcenter-analytics')
