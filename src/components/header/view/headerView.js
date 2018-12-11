@@ -78,7 +78,7 @@ class HeaderView extends Component {
             {displayName && <Text style={styles.title}>{displayName}</Text>}
             <Text style={styles.subTitle}>
               {`@${username}`}
-              {`(${reputation})`}
+              {` (${reputation})`}
             </Text>
           </View>
         ) : (
@@ -113,7 +113,6 @@ class HeaderView extends Component {
             }}
           >
             <IconButton
-              style={styles.searchButton}
               iconStyle={styles.backIcon}
               name="md-search"
               onPress={() => this.setState({ isSearchModalOpen: true })}

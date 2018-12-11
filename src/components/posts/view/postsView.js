@@ -61,9 +61,7 @@ class PostsView extends Component {
 
   _loadMore = () => {
     // TODO: merge above function with this func (after alpha).
-    const {
-      posts, startAuthor, startPermlink,
-    } = this.state;
+    const { posts, startAuthor, startPermlink } = this.state;
     const { getFor, tag, currentAccountUsername } = this.props;
 
     this.setState({ isLoading: true });
@@ -123,6 +121,11 @@ class PostsView extends Component {
     this.setState({ isHideImage: !isHideImage });
   };
 
+  _handleOnScrollStart = () => {
+    const { handleOnScrollStart } = this.props;
+    handleOnScrollStart();
+  };
+
   render() {
     const {
       refreshing, posts, isPostsLoading, isHideImage,
@@ -137,7 +140,8 @@ class PostsView extends Component {
             options={filterOptions}
             selectedOptionIndex={0}
             defaultText={filterOptions[0]}
-            rightIconName="md-apps"
+            rightIconName="view-module"
+            rightIconType="MaterialIcons"
             onDropdownSelect={this._handleOnDropdownSelect}
             onRightIconPress={this._onRightIconPress}
           />
@@ -146,9 +150,7 @@ class PostsView extends Component {
           <FlatList
             data={posts}
             showsVerticalScrollIndicator={false}
-            renderItem={({ item }) => (
-              <PostCard content={item} isHideImage={isHideImage} />
-            )}
+            renderItem={({ item }) => <PostCard content={item} isHideImage={isHideImage} />}
             keyExtractor={(post, index) => index.toString()}
             onEndReached={this._loadMore}
             removeClippedSubviews
@@ -157,6 +159,7 @@ class PostsView extends Component {
             onEndThreshold={0}
             initialNumToRender={10}
             ListFooterComponent={this._renderFooter}
+            onScrollBeginDrag={() => this._handleOnScrollStart()}
           />
         ) : (
           <Fragment>

@@ -43,11 +43,11 @@
 		</dict>
 	</dict>
 	<key>NSCameraUsageDescription</key>
-	<string>Camera Usage Access</string>
+	<string>To access your photos, eSteem needs your permission to help you share your photos.</string>
 	<key>NSLocationWhenInUseUsageDescription</key>
 	<string/>
 	<key>NSMicrophoneUsageDescription</key>
-	<string>Microphone Usage Access</string>
+	<string>To share recording or video, microphone access is required</string>
 	<key>NSPhotoLibraryAddUsageDescription</key>
 	<string>Photo Library Access for allowing user to download and upload photos</string>
 	<key>NSPhotoLibraryUsageDescription</key>

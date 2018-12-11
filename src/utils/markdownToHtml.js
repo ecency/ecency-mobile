@@ -24,9 +24,9 @@ export const markDown2Html = (input) => {
 
   // TODO: Implement Regex  --> Look at utls/formatter.js
 
-//   if (output.startsWith('<p>')) {
-//     output.substring(3, output.length - 3);
-//   }
+  //   if (output.startsWith('<p>')) {
+  //     output.substring(3, output.length - 3);
+  //   }
 
   return output;
 };

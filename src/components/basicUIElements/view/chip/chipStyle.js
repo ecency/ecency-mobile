@@ -6,7 +6,7 @@ export default EStyleSheet.create({
     fontSize: 10,
     backgroundColor: '#c1c5c7',
     borderRadius: 50,
-    maxHeight: 18,
+    height: 20,
     padding: 5,
     paddingHorizontal: 10,
     marginRight: 8,

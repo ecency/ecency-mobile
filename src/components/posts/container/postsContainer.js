@@ -5,6 +5,8 @@ import { connect } from 'react-redux';
 import { PostsView } from '..';
 import { PostCardPlaceHolder } from '../../basicUIElements';
 
+// Actions
+import { isCollapsePostButton } from '../../../redux/actions/uiAction';
 /*
  *            Props Name        Description                                     Value
  *@props -->  props name here   description here                                Value Type Here
@@ -21,6 +23,14 @@ class PostsContainer extends Component {
 
   // Component Functions
 
+  _handleOnScrollStart = () => {
+    const { dispatch, isCollapsePostButtonOpen } = this.props;
+
+    if (isCollapsePostButtonOpen) {
+      dispatch(isCollapsePostButton(false));
+    }
+  };
+
   render() {
     const { currentAccount, isLoginDone } = this.props;
 
@@ -35,6 +45,7 @@ class PostsContainer extends Component {
 
     return (
       <PostsView
+        handleOnScrollStart={this._handleOnScrollStart}
         currentAccountUsername={currentAccount && currentAccount.username}
         {...this.props}
       />
@@ -45,6 +56,7 @@ class PostsContainer extends Component {
 const mapStateToProps = state => ({
   currentAccount: state.account.currentAccount,
   isLoginDone: state.application.isLoginDone,
+  isCollapsePostButtonOpen: state.ui.isCollapsePostButton,
 });
 
 export default connect(mapStateToProps)(PostsContainer);

@@ -98,7 +98,7 @@ class LoginScreen extends Component {
     const {
       isLoading, username, isUsernameValid, keyboardIsOpen, password, isModalOpen,
     } = this.state;
-    
+
     return (
       <View style={styles.container}>
         <StatusBar hidden translucent />

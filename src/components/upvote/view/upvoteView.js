@@ -148,7 +148,6 @@ class UpvoteView extends Component {
             >
               <Fragment>
                 {isVoting ? (
-                // <ActivityIndicator />
                   <View style={{ width: 19 }}>
                     <PulseAnimation
                       color="#357ce6"
@@ -167,7 +166,7 @@ class UpvoteView extends Component {
                     name={iconName}
                   />
                 )}
-                {isShowPayoutValue && (
+                {isShowPayoutValue && pendingPayoutValue && (
                 <Text style={styles.payoutValue}>{`$${pendingPayoutValue}`}</Text>
                 )}
               </Fragment>

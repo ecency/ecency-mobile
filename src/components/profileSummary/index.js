@@ -1,4 +1,4 @@
-import ProfileSummary from "./view/profileSummaryView";
+import ProfileSummary from './view/profileSummaryView';
 
 export { ProfileSummary };
 export default ProfileSummary;

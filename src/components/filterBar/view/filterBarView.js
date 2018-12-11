@@ -1,6 +1,6 @@
 import React from 'react';
 import { View, TouchableOpacity } from 'react-native';
-import Ionicons from 'react-native-vector-icons/Ionicons';
+import { Icon } from '../../icon';
 
 // External Components
 import { DropdownButton } from '../../dropdownButton';
@@ -12,20 +12,21 @@ import { LineBreak } from '../../basicUIElements';
 import styles from './filterBarStyles';
 
 /* Props
-* ------------------------------------------------
-*   @prop { type }    name                - Description....
-*/
+ * ------------------------------------------------
+ *   @prop { type }    name                - Description....
+ */
 
 const FilterBarView = ({
-  rightIconName,
-  options,
   defaultText,
   dropdownIconName,
+  iconSize,
+  isHide,
   onDropdownSelect,
   onRightIconPress,
+  options,
+  rightIconName,
+  rightIconType,
   selectedOptionIndex,
-  isHide,
-  iconSize,
 }) => (
   <View style={styles.container}>
     {!isHide && (
@@ -42,7 +43,12 @@ const FilterBarView = ({
             onPress={() => onRightIconPress && onRightIconPress()}
             style={styles.rightIconWrapper}
           >
-            <Ionicons style={styles.rightIcon} size={iconSize || 32} name={rightIconName} />
+            <Icon
+              style={styles.rightIcon}
+              size={iconSize || 32}
+              iconType={rightIconType}
+              name={rightIconName}
+            />
           </TouchableOpacity>
         </View>
       </LineBreak>
