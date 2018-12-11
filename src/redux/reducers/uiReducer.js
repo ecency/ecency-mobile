@@ -1,7 +1,8 @@
-import { UPDATE_ACTIVE_BOTTOM_TAB } from '../constants/constants';
+import { UPDATE_ACTIVE_BOTTOM_TAB, IS_COLLAPSE_POST_BUTTON } from '../constants/constants';
 
 const initialState = {
   activeBottomTab: 'Home',
+  isCollapsePostButton: false,
 };
 
 export default function (state = initialState, action) {
@@ -10,6 +11,12 @@ export default function (state = initialState, action) {
       return {
         ...state,
         activeBottomTab: action.payload,
+      };
+
+    case IS_COLLAPSE_POST_BUTTON:
+      return {
+        ...state,
+        isCollapsePostButton: action.payload,
       };
     default:
       return state;
