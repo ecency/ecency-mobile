@@ -22,19 +22,15 @@ export default EStyleSheet.create({
   },
   contentView: {
     flex: 4,
-    paddingTop: 15,
   },
   userAvatar: {
-    marginLeft: '$deviceWidth / 10',
+    marginLeft: 32,
   },
   otherUserAvatar: {
-    marginLeft: -15,
-    width: 32,
-    height: 32,
-    borderRadius: 32 / 2,
     borderWidth: 0.1,
-    alignSelf: 'center',
     borderColor: '$borderColor',
+    marginLeft: -7,
+    marginRight: 10,
   },
   userInfoWrapper: {
     alignSelf: 'flex-end',
@@ -53,11 +49,13 @@ export default EStyleSheet.create({
     marginTop: 2,
   },
   listItem: {
-    paddingLeft: '$deviceWidth / 10',
+    marginVertical: 15,
   },
   listItemIcon: {
-    color: '$primaryDarkGray',
+    color: '$iconColor',
     fontSize: 20,
+    marginRight: 5,
+    width: 25,
   },
   listItemText: {
     color: '$primaryDarkGray',
@@ -82,7 +80,6 @@ export default EStyleSheet.create({
   },
   itemWrapper: {
     flexDirection: 'row',
-    marginVertical: 10,
-    marginLeft: '$deviceWidth / 20',
+    marginLeft: 55,
   },
 });

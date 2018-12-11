@@ -17,10 +17,18 @@ export default class TitleAreaView extends Component {
 
   constructor(props) {
     super(props);
-    this.state = {};
+    this.state = {
+      text: props.value || null,
+    };
   }
 
   // Component Life Cycles
+  componentWillReceiveProps = (nextProps) => {
+    const { text } = this.state;
+    if (nextProps.value !== text) {
+      this.setState({ text: nextProps.value });
+    }
+  };
 
   // Component Functions
   _handleOnChange = (text) => {
@@ -35,9 +43,8 @@ export default class TitleAreaView extends Component {
   };
 
   render() {
-    const {
-      intl, isPreviewActive, value, autoFocus,
-    } = this.props;
+    const { intl, isPreviewActive, autoFocus } = this.props;
+    const { text } = this.state;
 
     return (
       <View style={globalStyles.containerHorizontal16}>
@@ -53,9 +60,7 @@ export default class TitleAreaView extends Component {
           autoFocus={autoFocus}
           numberOfLines={4}
           onChangeText={text => this._handleOnChange(text)}
-          // TODO: Fix it
-          // value={value && value}
-          // {...this.props}
+          value={text}
         />
       </View>
     );

@@ -91,7 +91,7 @@ class BasicHeaderView extends Component {
               name={isModalHeader ? 'close' : 'md-arrow-back'}
               onPress={() => (isModalHeader ? handleOnPressClose() : handleOnPressBackButton())}
             />
-            {isHasIcons && (
+            {isHasIcons && !isReply && (
               <View>
                 {!isDraftSaving ? (
                   <IconButton

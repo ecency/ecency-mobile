@@ -42,7 +42,7 @@ class SideMenuContainer extends Component {
       accounts.push({
         name: 'Add Account',
         route: ROUTES.SCREENS.LOGIN,
-        icon: 'plus-square-o',
+        icon: 'plus',
         id: 'add_account',
       });
       this.setState({ accounts });
@@ -59,12 +59,14 @@ class SideMenuContainer extends Component {
   };
 
   _switchAccount = (anchor = null) => {
-    const { dispatch, currentAccount } = this.props;
+    const { dispatch, currentAccount, navigation } = this.props;
     const username = anchor.slice(1);
+    dispatch(openPinCodeModal());
+
     if (username !== currentAccount.name) {
       switchAccount(username).then((accountData) => {
         dispatch(updateCurrentAccount(accountData));
-        dispatch(openPinCodeModal());
+        navigation.closeDrawer();
       });
     }
   };

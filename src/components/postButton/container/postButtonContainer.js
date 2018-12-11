@@ -1,6 +1,7 @@
 import React, { Component } from 'react';
 import { connect } from 'react-redux';
 import { withNavigation } from 'react-navigation';
+import { isCollapsePostButton } from '../../../redux/actions/uiAction';
 
 // Components
 import { PostButtonView } from '..';
@@ -28,13 +29,28 @@ class PostButtonContainer extends Component {
     // navigation.navigate(route);
   };
 
+  _handleButtonCollapse = (status) => {
+    const { dispatch, isCollapsePostButtonOpen } = this.props;
+
+    if (isCollapsePostButtonOpen !== status) {
+      dispatch(isCollapsePostButton(status));
+    }
+  };
+
   render() {
-    return <PostButtonView handleSubButtonPress={this._handleSubButtonPress} {...this.props} />;
+    return (
+      <PostButtonView
+        handleButtonCollapse={this._handleButtonCollapse}
+        handleSubButtonPress={this._handleSubButtonPress}
+        {...this.props}
+      />
+    );
   }
 }
 
 const mapStateToProps = state => ({
   routes: state.nav.routes,
+  isCollapsePostButtonOpen: state.ui.isCollapsePostButton,
 });
 
 export default connect(mapStateToProps)(withNavigation(PostButtonContainer));

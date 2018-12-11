@@ -1,5 +1,5 @@
 import React, { Component } from 'react';
-import { TouchableWithoutFeedback, SafeAreaView } from 'react-native';
+import { TouchableWithoutFeedback, TouchableOpacity, SafeAreaView } from 'react-native';
 import { connect } from 'react-redux';
 import ViewOverflow from 'react-native-view-overflow';
 
@@ -58,16 +58,15 @@ class BottomTabBarView extends Component {
               style={{
                 flex: 1,
                 alignItems: 'center',
-                justifyContent: 'center',
               }}
             >
-              <TouchableWithoutFeedback onPress={() => jumpTo(route.key)}>
+              <TouchableOpacity onPress={() => jumpTo(route.key)}>
                 {renderIcon({
                   route,
                   focused: index === idx,
                   tintColor: index === idx ? activeTintColor : inactiveTintColor,
                 })}
-              </TouchableWithoutFeedback>
+              </TouchableOpacity>
             </ViewOverflow>
           ))}
         </ViewOverflow>

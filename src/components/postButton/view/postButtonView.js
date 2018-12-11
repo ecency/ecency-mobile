@@ -2,7 +2,7 @@ import React, { Component } from 'react';
 import {
   Animated, Easing, TouchableOpacity, View,
 } from 'react-native';
-import Icon from 'react-native-vector-icons/FontAwesome';
+import { Icon } from '../../icon';
 
 // Components
 import SubPostButton from './subPostButtonView';
@@ -26,19 +26,36 @@ class PostButtonView extends Component {
 
   icon3 = new Animated.Value(0);
 
+  constructor(props) {
+    super(props);
+    this.state = {
+      isCollapse: false,
+    };
+  }
+
   componentWillReceiveProps(nextProps) {
     // For closing sub buttons
     if (this.mode._value) {
-      const { routes } = this.props;
+      const { routes, isCollapsePostButtonOpen } = this.props;
       const nextRouteName = nextProps.routes[0].routes[nextProps.routes[0].routes.length - 1].routeName;
       const routeName = routes[0].routes[routes[0].routes.length - 1].routeName;
-      if (routeName !== nextRouteName && nextRouteName !== ROUTES.DRAWER.MAIN) {
-        this.toggleView();
+      const { isCollapse } = this.state;
+
+      if (
+        (routeName !== nextRouteName && nextRouteName !== ROUTES.DRAWER.MAIN)
+        || (isCollapsePostButtonOpen !== nextProps.isCollapsePostButtonOpen
+          && !nextProps.isCollapsePostButtonOpen
+          && isCollapse !== nextProps.isCollapsePostButtonOpen)
+      ) {
+        this._toggleView();
       }
     }
   }
 
-  toggleView = () => {
+  _toggleView = () => {
+    const { isCollapse } = this.state;
+    const { handleButtonCollapse } = this.props;
+
     if (this.mode._value) {
       Animated.parallel(
         [this.mode, this.icon1, this.icon2, this.icon3].map(item => Animated.timing(item, {
@@ -63,6 +80,9 @@ class PostButtonView extends Component {
         ]),
       ]).start();
     }
+
+    this.setState({ isCollapse: !isCollapse });
+    handleButtonCollapse(!isCollapse);
   };
 
   render() {
@@ -127,7 +147,7 @@ class PostButtonView extends Component {
           icon="camera"
           onPress={() => handleSubButtonPress(ROUTES.SCREENS.EDITOR, 'image')}
         />
-        <TouchableOpacity onPress={this.toggleView} activeOpacity={1}>
+        <TouchableOpacity onPress={() => this._toggleView()} activeOpacity={1}>
           <Animated.View
             style={[
               styles.postButton,
@@ -139,7 +159,7 @@ class PostButtonView extends Component {
               },
             ]}
           >
-            <Icon name="plus" size={22} color="#F8F8F8" />
+            <Icon name="plus" size={22} iconType="FontAwesome" color="#F8F8F8" />
           </Animated.View>
         </TouchableOpacity>
       </View>

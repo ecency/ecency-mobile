@@ -1,7 +1,6 @@
 import EStyleSheet from 'react-native-extended-stylesheet';
 
 export default EStyleSheet.create({
-  wrapper: {},
   touchable: {
     maxWidth: '$deviceWidth',
     height: 56,
@@ -22,7 +21,7 @@ export default EStyleSheet.create({
   },
   text: {
     color: 'white',
-    fontWeight: '400',
+    fontWeight: 'bold',
     alignSelf: 'center',
     fontSize: 14,
     paddingLeft: 10,
