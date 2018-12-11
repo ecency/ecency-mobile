@@ -28,6 +28,8 @@ class NotificationScreen extends PureComponent {
       intl,
       navigateToNotificationRoute,
       readAllNotification,
+      handleLoginPress,
+      isLoggedIn,
     } = this.props;
     return (
       <View style={styles.container}>
@@ -44,12 +46,22 @@ class NotificationScreen extends PureComponent {
             })}
             style={styles.notificationTab}
           >
-            <Notification
-              getActivities={getActivities}
-              notifications={notifications}
-              navigateToNotificationRoute={navigateToNotificationRoute}
-              readAllNotification={readAllNotification}
-            />
+            {isLoggedIn ? (
+              <Notification
+                getActivities={getActivities}
+                notifications={notifications}
+                navigateToNotificationRoute={navigateToNotificationRoute}
+                readAllNotification={readAllNotification}
+              />
+            ) : (
+              <NoPost
+                isButtonText
+                defaultText={intl.formatMessage({
+                  id: 'profile.login_to_see',
+                })}
+                handleOnButtonPress={handleLoginPress}
+              />
+            )}
           </View>
           <View
             tabLabel={intl.formatMessage({
