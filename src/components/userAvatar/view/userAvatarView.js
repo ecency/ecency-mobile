@@ -11,14 +11,21 @@ const DEFAULT_IMAGE = require('../../../assets/avatar_default.png');
 
 const UserAvatarView = ({ username, size, style }) => {
   const imageSize = size === 'xl' ? 'large' : 'medium';
-  const _avatar = username ?  { uri: `https://steemitimages.com/u/${username}/avatar/${imageSize}` } : DEFAULT_IMAGE;
+  const _avatar = username
+    ? { uri: `https://steemitimages.com/u/${username}/avatar/${imageSize}` }
+    : DEFAULT_IMAGE;
   let _size = 32;
 
-  if(size === 'xl') {
-    _size = 64
+  if (size === 'xl') {
+    _size = 64;
   }
 
-  return <Image style={[styles.avatar, style, {width: _size, height: _size, borderRadius: _size / 2}]} source={_avatar} />;
+  return (
+    <Image
+      style={[styles.avatar, style, { width: _size, height: _size, borderRadius: _size / 2 }]}
+      source={_avatar}
+    />
+  );
 };
 
 export default UserAvatarView;
