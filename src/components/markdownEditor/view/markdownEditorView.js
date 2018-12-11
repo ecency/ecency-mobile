@@ -6,7 +6,6 @@ import Markdown, { getUniqueID } from 'react-native-markdown-renderer';
 import ActionSheet from 'react-native-actionsheet';
 
 // Components
-import { DropdownButton } from '../../dropdownButton';
 import { IconButton } from '../../iconButton';
 import { StickyBar } from '../../basicUIElements';
 import { TextInput } from '../../textInput';
@@ -28,8 +27,12 @@ export default class MarkdownEditorView extends Component {
 
   // Lifecycle functions
   componentWillReceiveProps(nextProps) {
-    const { draftBody, uploadedImage } = this.props;
-
+    const { draftBody, uploadedImage, isPreviewActive } = this.props;
+    if (!nextProps.isPreviewActive && isPreviewActive) {
+      this.setState({
+        selection: { start: 0, end: 0 },
+      });
+    }
     if (nextProps.draftBody && draftBody !== nextProps.draftBody) {
       this.setState({
         text: nextProps.draftBody,
