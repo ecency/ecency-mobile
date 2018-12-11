@@ -2,7 +2,7 @@ import EStyleSheet from 'react-native-extended-stylesheet';
 
 export default EStyleSheet.create({
   avatar: {
-    borderWidth: 1,
-    borderColor: '$white',
+    borderWidth: 0.75,
+    borderColor: '$borderColor',
   },
 });
