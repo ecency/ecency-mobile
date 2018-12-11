@@ -1,4 +1,4 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
-    <item name="splashBackground" type="color">#ffffff</item>
+    <item name="splashBackground" type="color">rgba(0,0,0,0)</item>
 </resources>
