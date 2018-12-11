@@ -34,11 +34,9 @@ class HomeScreen extends PureComponent {
       'PAYOUT',
     ];
     let tag;
-    let initialPage;
 
     if (isLoginDone && !isLoggedIn) {
       // tag = 'esteemapp';
-      initialPage = 1;
     }
 
     return (
