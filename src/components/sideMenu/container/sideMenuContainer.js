@@ -42,7 +42,7 @@ class SideMenuContainer extends Component {
       accounts.push({
         name: 'Add Account',
         route: ROUTES.SCREENS.LOGIN,
-        icon: 'plus-square-o',
+        icon: 'plus',
         id: 'add_account',
       });
       this.setState({ accounts });

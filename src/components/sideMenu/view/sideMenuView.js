@@ -134,10 +134,7 @@ class SideMenuView extends Component {
                     />
                   )}
                   {item.item.username && (
-                    <UserAvatar
-                      username={item.item.username}
-                      style={styles.otherUserAvatar}
-                    />
+                    <UserAvatar username={item.item.username} style={styles.otherUserAvatar} />
                   )}
                   <Text style={styles.listItemText}>
                     {isAddAccountIconActive

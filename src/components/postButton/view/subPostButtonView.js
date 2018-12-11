@@ -1,5 +1,5 @@
 import React from 'react';
-import { Animated, TouchableHighlight } from 'react-native';
+import { Animated, TouchableOpacity } from 'react-native';
 import Icon from 'react-native-vector-icons/FontAwesome';
 
 // Styles
@@ -25,7 +25,7 @@ const SubPostButton = ({
       },
     ]}
   >
-    <TouchableHighlight
+    <TouchableOpacity
       onPress={() => onPress && onPress()}
       style={[
         styles.subButton,
@@ -37,7 +37,7 @@ const SubPostButton = ({
       ]}
     >
       <Icon name={icon} size={14} color="#F8F8F8" />
-    </TouchableHighlight>
+    </TouchableOpacity>
   </Animated.View>
 );
 

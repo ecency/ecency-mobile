@@ -12,10 +12,13 @@ export default EStyleSheet.create({
     position: 'absolute',
   },
   postButtonWrapper: {
-    position: 'absolute',
     alignItems: 'center',
+    width: 60,
+    height: 60,
+    borderRadius: 60 / 2,
   },
   postButton: {
+    flex: 1,
     bottom: 25,
     backgroundColor: '#357ce6',
     alignItems: 'center',
