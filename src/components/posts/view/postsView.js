@@ -137,7 +137,8 @@ class PostsView extends Component {
             options={filterOptions}
             selectedOptionIndex={0}
             defaultText={filterOptions[0]}
-            rightIconName="md-apps"
+            rightIconName="view-module"
+            rightIconType="MaterialIcons"
             onDropdownSelect={this._handleOnDropdownSelect}
             onRightIconPress={this._onRightIconPress}
           />

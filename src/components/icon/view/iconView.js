@@ -72,10 +72,15 @@ class IconView extends Component {
 
   render() {
     const { badgeCount } = this.props;
+    let _badgeCount = badgeCount;
+
+    if (_badgeCount && _badgeCount >= 99) {
+      _badgeCount = '99+';
+    }
 
     if (!badgeCount) return this._getIcon();
 
-    return this._getIconWithBadge(badgeCount);
+    return this._getIconWithBadge(_badgeCount);
   }
 }
 

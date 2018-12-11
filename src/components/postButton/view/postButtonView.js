@@ -2,7 +2,7 @@ import React, { Component } from 'react';
 import {
   Animated, Easing, TouchableOpacity, View,
 } from 'react-native';
-import Icon from 'react-native-vector-icons/FontAwesome';
+import { Icon } from "../../icon";
 
 // Components
 import SubPostButton from './subPostButtonView';
@@ -139,7 +139,7 @@ class PostButtonView extends Component {
               },
             ]}
           >
-            <Icon name="plus" size={22} color="#F8F8F8" />
+            <Icon name="plus" size={22} iconType="FontAwesome" color="#F8F8F8" />
           </Animated.View>
         </TouchableOpacity>
       </View>

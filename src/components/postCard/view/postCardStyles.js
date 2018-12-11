@@ -179,7 +179,8 @@ export default EStyleSheet.create({
   bodyHeader: {
     backgroundColor: '$primaryBackgroundColor',
     flexDirection: 'row',
-    margin: 16,
+    marginHorizontal: 12,
+    marginBottom: 12,
   },
   leftFooterWrapper: {
     flexDirection: 'row',
