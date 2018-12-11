@@ -34,11 +34,9 @@ class HomeScreen extends PureComponent {
       'PAYOUT',
     ];
     let tag;
-    let initialPage;
 
     if (isLoginDone && !isLoggedIn) {
       // tag = 'esteemapp';
-      initialPage = 1;
     }
 
     return (
@@ -48,7 +46,7 @@ class HomeScreen extends PureComponent {
         <View style={styles.container}>
           <ScrollableTabView
             style={styles.tabView}
-            initialPage={isLoginDone && !isLoggedIn ? 1 : 0}
+            initialPage={!isLoggedIn ? 1 : 0}
             renderTabBar={() => (
               <TabBar
                 style={styles.tabbar}

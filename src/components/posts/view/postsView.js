@@ -1,6 +1,7 @@
 import React, { Component, Fragment } from 'react';
 import { FlatList, View, ActivityIndicator } from 'react-native';
 import { injectIntl } from 'react-intl';
+import { withNavigation } from 'react-navigation';
 
 // STEEM
 import { getPostsSummary } from '../../../providers/steem/dsteem';
@@ -13,6 +14,7 @@ import { PostCardPlaceHolder, NoPost } from '../../basicUIElements';
 import filters from '../../../constants/options/filters.json';
 // Styles
 import styles from './postsStyles';
+import { default as ROUTES } from '../../../constants/routeNames';
 
 class PostsView extends Component {
   constructor(props) {
@@ -130,6 +132,11 @@ class PostsView extends Component {
     handleOnScrollStart();
   };
 
+  _handleOnPressLogin = () => {
+    const { navigation } = this.props;
+    navigation.navigate(ROUTES.SCREENS.LOGIN);
+  };
+
   render() {
     const {
       refreshing, posts, isPostsLoading, isHideImage, selectedFilterIndex,
@@ -158,12 +165,15 @@ class PostsView extends Component {
             && !isLoggedIn
             && isLoginDone && (
               <NoPost
+                isButtonText
                 defaultText={intl.formatMessage({
                   id: 'profile.login_to_see',
                 })}
+                handleOnButtonPress={this._handleOnPressLogin}
               />
           )}
         </Fragment>
+
         {posts && posts.length > 0 && !isPostsLoading ? (
           <FlatList
             data={posts}
@@ -204,4 +214,4 @@ class PostsView extends Component {
   }
 }
 
-export default injectIntl(PostsView);
+export default withNavigation(injectIntl(PostsView));
