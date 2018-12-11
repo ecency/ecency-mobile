@@ -25,6 +25,7 @@ class PostsView extends Component {
       isLoading: false,
       isPostsLoading: false,
       isHideImage: false,
+      selectedFilterIndex: 0,
     };
   }
 
@@ -111,7 +112,10 @@ class PostsView extends Component {
   };
 
   _handleOnDropdownSelect = (index) => {
-    this.setState({ isPostsLoading: true });
+    this.setState({
+      isPostsLoading: true,
+      selectedFilterIndex: index,
+    });
     this._loadPosts(filters[index]);
   };
 
@@ -128,9 +132,11 @@ class PostsView extends Component {
 
   render() {
     const {
-      refreshing, posts, isPostsLoading, isHideImage,
+      refreshing, posts, isPostsLoading, isHideImage, selectedFilterIndex,
     } = this.state;
-    const { filterOptions, intl } = this.props;
+    const {
+      filterOptions, intl, isLoggedIn, getFor, isLoginDone,
+    } = this.props;
 
     return (
       <Fragment>
@@ -146,6 +152,18 @@ class PostsView extends Component {
             onRightIconPress={this._onRightIconPress}
           />
         )}
+        <Fragment>
+          {filters[selectedFilterIndex] === 'feed'
+            && getFor === 'feed'
+            && !isLoggedIn
+            && isLoginDone && (
+              <NoPost
+                defaultText={intl.formatMessage({
+                  id: 'profile.login_to_see',
+                })}
+              />
+          )}
+        </Fragment>
         {posts && posts.length > 0 && !isPostsLoading ? (
           <FlatList
             data={posts}
