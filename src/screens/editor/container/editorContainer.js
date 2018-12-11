@@ -170,7 +170,7 @@ class EditorContainer extends Component {
   _handleMediaOnSelectFailure = (error) => {
     // const { navigation } = this.props;
     this.setState({ isCameraOrPickerOpen: false });
-    Alert.alert('Permission Denied', 'Please, go to settings then find eSteem change the app permision settings.');
+    Alert.alert('Permission Denied', 'Please, go to phone Settings and change eSteem app permissions.');
   };
 
   // Media select functions <- END ->
