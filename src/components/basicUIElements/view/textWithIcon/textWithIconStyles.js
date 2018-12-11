@@ -8,6 +8,7 @@ export default EStyleSheet.create({
   wrapper: {
     flexDirection: 'row',
     alignSelf: 'flex-start',
+    alignItems: 'center',
   },
   icon: {
     color: '$iconColor',
