@@ -11,7 +11,7 @@ class IconContainer extends Component {
   }
 
   render() {
-    const { isBadge, badgeType, unreadActivityCount } = this.props;
+    const { badgeType, unreadActivityCount } = this.props;
     const badgeCount = badgeType === 'notification' ? unreadActivityCount : 0;
 
     return <Icon badgeCount={badgeCount} {...this.props} />;

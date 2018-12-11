@@ -1,6 +1,6 @@
 import React, { Component } from 'react';
 import {
-  View, Text, ImageBackground, FlatList, TouchableOpacity, Image,
+  View, Text, ImageBackground, FlatList, TouchableOpacity,
 } from 'react-native';
 import { injectIntl } from 'react-intl';
 import LinearGradient from 'react-native-linear-gradient';
@@ -134,10 +134,7 @@ class SideMenuView extends Component {
                     />
                   )}
                   {item.item.username && (
-                    <UserAvatar
-                      username={item.item.username}
-                      style={styles.otherUserAvatar}
-                    />
+                    <UserAvatar username={item.item.username} style={styles.otherUserAvatar} />
                   )}
                   <Text style={styles.listItemText}>
                     {isAddAccountIconActive

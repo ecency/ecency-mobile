@@ -10,9 +10,9 @@ import globalStyles from '../../../../globalStyles';
 
 export default class TagAreaView extends Component {
   /* Props
-    * ------------------------------------------------
-    *   @prop { type }    name                - Description....
-    */
+   * ------------------------------------------------
+   *   @prop { type }    name                - Description....
+   */
 
   constructor(props) {
     super(props);
@@ -20,6 +20,7 @@ export default class TagAreaView extends Component {
       currentText: '',
       chips: [' '],
       chipsCount: props.chipsCount || 5,
+      activeChip: 0,
     };
   }
 
@@ -37,7 +38,10 @@ export default class TagAreaView extends Component {
 
   // Component Functions
   _handleOnChange = (text, i) => {
-    this.setState({ currentText: text.trim() });
+    this.setState({
+      currentText: text.replace(/\s/g, ''),
+    });
+
     if (text.indexOf(' ') > 0 && text) {
       this._handleTagAdded();
     }
@@ -53,16 +57,22 @@ export default class TagAreaView extends Component {
   _handleTagAdded = (i = null, text = null) => {
     const { currentText, chips, chipsCount } = this.state;
     const { handleTagChanged } = this.props;
-    const _currentText = (currentText && currentText.trim()) || text;
-
+    const _currentText = currentText || text;
     if (_currentText && chips && chips.length < chipsCount) {
       this.setState({
         chips: [...chips, _currentText],
         currentText: '',
       });
+    } else if (_currentText && chips && chips.length === chipsCount) {
+      let _chips = chips;
+      _chips[chipsCount -1] = currentText;
+      this.setState({
+        chips: _chips,
+        currentText: null,
+      });
     }
 
-    if (handleTagChanged && chips.length < chipsCount + 1) {
+    if (handleTagChanged && chips.length < chipsCount) {
       handleTagChanged([...chips, _currentText]);
     }
   };
@@ -81,10 +91,8 @@ export default class TagAreaView extends Component {
   };
 
   render() {
-    const {
-      isPreviewActive, draftChips, intl, autoFocus,
-    } = this.props;
-    const { chips } = this.state;
+    const { isPreviewActive, intl } = this.props;
+    const { chips, currentText, activeChip } = this.state;
 
     return (
       <View style={globalStyles.containerHorizontal16}>
@@ -102,13 +110,14 @@ export default class TagAreaView extends Component {
               placeholder={intl.formatMessage({
                 id: 'editor.tags',
               })}
-              autoFocus={autoFocus ? i !== 0 && chips.length - 1 === i : false}
+              autoFocus={i !== 0 && chips.length - 1 === i}
               multiline={false}
               handleOnChange={text => this._handleOnChange(text, i)}
               handleOnBlur={() => this._handleOnBlur(i)}
               blurOnSubmit
-              value={draftChips.length > 0 ? chip && chip : null}
+              value={activeChip === i ? currentText : chip}
               autoCapitalize="none"
+              onFocus={() => this.setState({ activeChip: i })}
               {...this.props}
             />
           ))}
