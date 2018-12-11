@@ -1,6 +1,6 @@
 import React, { Component } from 'react';
 import {
-  View, Text, ImageBackground, FlatList, TouchableOpacity, Image,
+  View, Text, ImageBackground, FlatList, TouchableOpacity,
 } from 'react-native';
 import { injectIntl } from 'react-intl';
 import LinearGradient from 'react-native-linear-gradient';

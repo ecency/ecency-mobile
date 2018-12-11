@@ -59,12 +59,14 @@ class SideMenuContainer extends Component {
   };
 
   _switchAccount = (anchor = null) => {
-    const { dispatch, currentAccount } = this.props;
+    const { dispatch, currentAccount, navigation } = this.props;
     const username = anchor.slice(1);
+
     if (username !== currentAccount.name) {
       switchAccount(username).then((accountData) => {
         dispatch(updateCurrentAccount(accountData));
         dispatch(openPinCodeModal());
+        navigation.closeDrawer();
       });
     }
   };

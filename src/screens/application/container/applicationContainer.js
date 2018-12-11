@@ -69,14 +69,19 @@ class ApplicationContainer extends Component {
   _getUserData = async () => {
     const { dispatch } = this.props;
     let realmData;
+    let authStatus;
+    let currentUsername;
 
     await getAuthStatus().then((res) => {
-      if (res.isLoggedIn) {
-        getUserData().then((response) => {
-          if (response.length > 0) {
-            realmData = response;
+      authStatus = res;
+      currentUsername = res.currentUsername;
 
-            response.forEach((accountData) => {
+      if (authStatus.isLoggedIn) {
+        getUserData().then((userData) => {
+          if (userData.length > 0) {
+            realmData = userData;
+
+            userData.forEach((accountData) => {
               dispatch(
                 addOtherAccount({ username: accountData.username, avatar: accountData.avatar }),
               );
@@ -87,11 +92,11 @@ class ApplicationContainer extends Component {
     });
 
     if (realmData) {
-      await getUser(realmData[realmData.length - 1].username)
+      await getUser(currentUsername)
         .then((accountData) => {
           dispatch(login());
 
-          const realmObject = realmData[realmData.length - 1];
+          const realmObject = realmData.filter(data => data.username === currentUsername);
           accountData.local = realmObject;
 
           dispatch(updateCurrentAccount(accountData));
