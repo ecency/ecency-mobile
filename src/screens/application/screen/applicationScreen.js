@@ -1,6 +1,6 @@
 import React, { Component, Fragment } from 'react';
 import { IntlProvider } from 'react-intl';
-import { StatusBar } from 'react-native';
+import { StatusBar, Platform } from 'react-native';
 import EStyleSheet from 'react-native-extended-stylesheet';
 import { ReduxNavigation } from '../../../config/reduxNavigation';
 import { flattenMessages } from '../../../utils/flattenMessages';
@@ -27,7 +27,12 @@ class ApplicationScreen extends Component {
 
     return (
       <Fragment>
-        <StatusBar barStyle={barStyle} />
+        {Platform.os === 'ios' ? (
+          <StatusBar barStyle={barStyle} />
+        ) : (
+          <StatusBar barStyle={barStyle} backgroundColor="white" />
+        )}
+
         <IntlProvider locale={locale} messages={flattenMessages(messages[locale])}>
           <ReduxNavigation />
         </IntlProvider>

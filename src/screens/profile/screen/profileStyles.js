@@ -1,10 +1,8 @@
 import EStyleSheet from 'react-native-extended-stylesheet';
-import { StatusBar } from 'react-native';
 
 export default EStyleSheet.create({
   container: {
     flex: 1,
-    top: StatusBar.currentHeight,
     backgroundColor: '$primaryLightBackground',
   },
   content: {
