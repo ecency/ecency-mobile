@@ -93,7 +93,6 @@ export const loginWithSC2 = async (accessToken) => {
   let avatar = '';
 
   return new Promise((resolve, reject) => {
-
     try {
       const jsonMetadata = JSON.parse(account.account.json_metadata);
       if (Object.keys(jsonMetadata).length !== 0) {

@@ -113,7 +113,9 @@ class TabBar extends Component {
   };
 
   render() {
-    const { activeTab, backgroundColor, style, goToPage } = this.props;
+    const {
+      activeTab, backgroundColor, style, goToPage,
+    } = this.props;
 
     return (
       <View style={[styles.tabs, { backgroundColor }, style]}>

@@ -1,4 +1,4 @@
-import IconButton from "./view/iconButtonView";
+import IconButton from './view/iconButtonView';
 
 export { IconButton };
 export default IconButton;
