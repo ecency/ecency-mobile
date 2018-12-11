@@ -1,5 +1,6 @@
 import React, { Component } from 'react';
 import { connect } from 'react-redux';
+import { Alert } from 'react-native'
 import ImagePicker from 'react-native-image-crop-picker';
 
 // Services and Actions
@@ -169,7 +170,7 @@ class EditorContainer extends Component {
   _handleMediaOnSelectFailure = (error) => {
     // const { navigation } = this.props;
     this.setState({ isCameraOrPickerOpen: false });
-    // navigation.navigate(ROUTES.SCREENS.HOME);
+    Alert.alert('Permission Denied', 'Please, go to settings then find eSteem change the app permision settings.');
   };
 
   // Media select functions <- END ->

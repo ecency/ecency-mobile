@@ -113,7 +113,6 @@ class HeaderView extends Component {
             }}
           >
             <IconButton
-              style={styles.searchButton}
               iconStyle={styles.backIcon}
               name="md-search"
               onPress={() => this.setState({ isSearchModalOpen: true })}
