@@ -7,7 +7,7 @@ const TextWithIcon = ({
   iconName, text, isClickable, onPress, iconStyle, iconType,
 }) => (
   <View style={styles.container}>
-    {isClickable || onPress ? (
+    {(isClickable || onPress) && text ? (
       <TouchableHighlight underlayColor="transparent" onPress={() => onPress && onPress()}>
         <View style={styles.wrapper}>
           <Icon style={[styles.icon, iconStyle]} name={iconName} iconType={iconType} />
@@ -15,10 +15,12 @@ const TextWithIcon = ({
         </View>
       </TouchableHighlight>
     ) : (
-      <View style={styles.wrapper}>
-        <Icon style={[styles.icon, iconStyle]} name={iconName} iconType={iconType} />
-        <Text style={styles.text}>{text}</Text>
-      </View>
+      text && (
+        <View style={styles.wrapper}>
+          <Icon style={[styles.icon, iconStyle]} name={iconName} iconType={iconType} />
+          <Text style={styles.text}>{text}</Text>
+        </View>
+      )
     )}
   </View>
 );

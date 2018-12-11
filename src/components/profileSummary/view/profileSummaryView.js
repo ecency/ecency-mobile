@@ -76,7 +76,7 @@ class ProfileSummaryView extends Component {
     const isColumn = rowLength && DEVICE_WIDTH / rowLength <= 15;
     const followButtonIcon = !isFollowing ? 'user-follow' : 'user-unfollow';
     const ignoreButtonIcon = !isMuted ? 'ban' : 'minus';
-
+    
     return (
       <Fragment>
         <View style={[isColumn ? styles.textWithIconWrapperColumn : styles.textWithIconWrapper]}>
