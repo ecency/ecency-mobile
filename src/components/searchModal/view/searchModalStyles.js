@@ -43,8 +43,8 @@ export default EStyleSheet.create({
     fontSize: 22,
   },
   body: {
-    marginTop: 16,
     marginRight: 24,
+    flex: 1,
   },
   searhItems: {
     marginHorizontal: 30,
