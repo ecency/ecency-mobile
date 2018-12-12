@@ -70,15 +70,16 @@ class PostDisplayView extends Component {
             textMarginLeft={20}
             text={post && post.vote_count}
             onPress={() => handleOnVotersPress && handleOnVotersPress(post.active_votes)}
-            iconName="ios-people"
+            iconType="MaterialIcons"
+            iconName="people"
           />
           <TextWithIcon
             isClickable
             iconStyle={styles.barIcons}
             textMarginLeft={20}
             text={post && post.children}
-            iconName="comments"
-            iconType="FontAwesome"
+            iconName="chat"
+            iconType="MaterialIcons"
           />
           <View style={styles.stickyRightWrapper}>
             {post && currentAccount && currentAccount.name === post.author && (
