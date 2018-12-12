@@ -28,7 +28,7 @@ export default EStyleSheet.create({
     color: '$primaryDarkGray',
     fontSize: 14,
     flexGrow: 1,
-    padding: 10,
+    padding: 7,
   },
   closeIconButton: {
     width: 20,
