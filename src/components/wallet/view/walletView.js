@@ -95,16 +95,6 @@ class WalletView extends Component {
               >
                 <WalletDetails intl={intl} walletData={walletData} />
               </CollapsibleCard>
-
-              <CollapsibleCard
-                titleColor="#788187"
-                title={intl.formatMessage({
-                  id: 'profile.wallet_details',
-                })}
-                expanded
-              >
-                <WalletDetails intl={intl} walletData={walletData} />
-              </CollapsibleCard>
               <Transaction intl={intl} walletData={walletData} />
             </Fragment>
           )}
