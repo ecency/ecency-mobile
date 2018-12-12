@@ -1,10 +1,7 @@
 import React, { Component, Fragment } from 'react';
-import {
-  View, Dimensions, Linking, Text,
-} from 'react-native';
+import { Dimensions, Linking } from 'react-native';
 import { withNavigation } from 'react-navigation';
 import HTML from 'react-native-html-renderer';
-import Markdown, { getUniqueID } from 'react-native-markdown-renderer';
 
 // Styles
 import styles from './postBodyStyles';
@@ -57,10 +54,11 @@ class PostBody extends Component {
     if (isComment) {
       if (node.name === 'img') {
         node.attribs.style = `max-width: ${WIDTH - 50}px; height: 100px; width: ${WIDTH - 50}`;
-      } else if (node.name === 'iframe') {
-        node.attribs.style = `max-width: ${WIDTH}px; left: -20px`;
-        node.attribs.height = 216;
       }
+      //  else if (node.name === 'iframe') {
+      //   node.attribs.style = `max-width: ${WIDTH}px; left: -30px`;
+      //   node.attribs.height = 216;
+      // }
     } else if (node.name === 'a') {
       node.attribs.style = 'text-decoration: underline';
     }
@@ -82,6 +80,7 @@ class PostBody extends Component {
           tagsStyles={isComment ? { img: { height: 120 } } : styles}
           ignoredTags={['script']}
           debug={false}
+          staticContentMaxWidth={WIDTH - 33}
           imagesInitialDimensions={_initialDimensions}
           baseFontStyle={styles.text}
           imagesMaxWidth={isComment ? WIDTH - 50 : WIDTH}

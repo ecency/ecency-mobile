@@ -1,54 +1,123 @@
 import Remarkable from 'remarkable';
 
 const md = new Remarkable({ html: true, breaks: true, linkify: true });
+const isVideo = false;
+const imgCenterRegex = /([<center>]http(s?):)([/|.|\w|\s|-])*\.(?:jpg|gif|png|PNG|GIF|JPG)[</center>]/g;
+const onlyImageLinkRegex = /([\n]http(s?):)([/|.|\w|\s|-])*\.(?:jpg|gif|png|PNG|GIF|JPG)/g;
+const onlyImageDoubleLinkRegex = /(\nhttps)(.*)(?=jpg|gif|png|PNG|GIF|JPG|)/g
+const postRegex = /^https?:\/\/(.*)\/(.*)\/(@[\w.\d-]+)\/(.*)/i;
+const copiedPostRegex = /\/(.*)\/(@[\w.\d-]+)\/(.*)/i;
+const youTubeRegex = /(?:https?:\/\/)?(?:www\.)?(?:youtube\.com\/watch\?v=|youtu\.be\/)([^& \n<]+)(?:[^ \n<]+)?/g;
+const vimeoRegex = /(https?:\/\/)?(www\.)?(?:vimeo)\.com.*(?:videos|video|channels|)\/([\d]+)/i;
+const dTubeRegex = /(https?:\/\/d.tube.#!\/v\/)(\w+)\/(\w+)/g;
+const authorNameRegex = /(^|[^a-zA-Z0-9_!#$%&*@＠\/]|(^|[^a-zA-Z0-9_+~.-\/]))[@＠]([a-z][-\.a-z\d]+[a-z\d])/gi;
+const tagsRegex = /(^|\s|>)(#[-a-z\d]+)/gi;
 
 export const markDown2Html = (input) => {
   if (!input) {
     return '';
   }
-  const isVideo = false;
-  const imgRegex = /(https?:\/\/.*\.(?:tiff?|jpe?g|gif|png|svg|ico))(.*)/gim;
-  const postRegex = /^https?:\/\/(.*)\/(.*)\/(@[\w.\d-]+)\/(.*)/i;
-  const copiedPostRegex = /\/(.*)\/(@[\w.\d-]+)\/(.*)/i;
-  const youTubeRegex = /(?:https?:\/\/)?(?:www\.)?(?:youtube\.com\/watch\?v=|youtu\.be\/)([^& \n<]+)(?:[^ \n<]+)?/g;
-  const vimeoRegex = /(https?:\/\/)?(www\.)?(?:vimeo)\.com.*(?:videos|video|channels|)\/([\d]+)/i;
-  const dTubeRegex = /(https?:\/\/d.tube.#!\/v\/)(\w+)\/(\w+)/g;
+  let output = input;
 
-  // Start replacing user names
-  let output = replaceAuthorNames(input);
+  if (authorNameRegex.test(output)) {
+    output = replaceAuthorNames(output);
+  }
 
-  // Replace tags
-  output = replaceTags(output);
+  if (tagsRegex.test(output)) {
+    output = replaceTags(output);
+  }
+
+  if (youTubeRegex.test(output)) {
+    output = createYoutubeIframe(output);
+  }
+
+  if (dTubeRegex.test(output)) {
+    output = createDtubeIframe(output);
+  }
+
+  if (vimeoRegex.test(output)) {
+    output = createVimeoIframe(output);
+  }
+
+  if (vimeoRegex.test(output)) {
+    output = createVimeoIframe(output);
+  }
+
+  if (imgCenterRegex.test(output)) {
+    output = createCenterImage(output);
+  }
+
+  if (onlyImageDoubleLinkRegex.test(output)) {
+    output = createFromDoubleImageLink(output);
+  }
+
+  if (onlyImageLinkRegex.test(output)) {
+    output = createImage(output);
+  }
 
   output = md.render(output);
-
-  // TODO: Implement Regex  --> Look at utls/formatter.js
-
-  //   if (output.startsWith('<p>')) {
-  //     output.substring(3, output.length - 3);
-  //   }
 
   return output;
 };
 
-export const replaceAuthorNames = input => input.replace(
-  /* eslint-disable-next-line */
-    /(^|[^a-zA-Z0-9_!#$%&*@＠\/]|(^|[^a-zA-Z0-9_+~.-\/]))[@＠]([a-z][-\.a-z\d]+[a-z\d])/gi,
-  (match, preceeding1, preceeding2, user) => {
-    const userLower = user.toLowerCase();
-    const preceedings = (preceeding1 || '') + (preceeding2 || '');
+export const replaceAuthorNames = input => input.replace(authorNameRegex, (match, preceeding1, preceeding2, user) => {
+  const userLower = user.toLowerCase();
+  const preceedings = (preceeding1 || '') + (preceeding2 || '');
+  return `${preceedings}<a class="markdown-author-link" href="${userLower}" data-author="${userLower}">@${user}</a>`;
+});
 
-    return `${preceedings}<a class="markdown-author-link" href="${userLower}" data-author="${userLower}">@${user}</a>`;
-  },
-);
-
-export const replaceTags = input => input.replace(/(^|\s|>)(#[-a-z\d]+)/gi, (tag) => {
-  if (/#[\d]+$/.test(tag)) return tag; // do not allow only numbers (like #1)
-  const preceding = /^\s|>/.test(tag) ? tag[0] : ''; // space or closing tag (>)
-  tag = tag.replace('>', ''); // remove closing tag
+export const replaceTags = input => input.replace(tagsRegex, (tag) => {
+  if (/#[\d]+$/.test(tag)) return tag;
+  const preceding = /^\s|>/.test(tag) ? tag[0] : '';
+  tag = tag.replace('>', '');
   const tag2 = tag.trim().substring(1);
   const tagLower = tag2.toLowerCase();
   return `${preceding}<a class="markdown-tag-link" href="${tagLower}" data-tag="${tagLower}">${tag.trim()}</a>`;
 });
 
 export const removeOnlyPTag = input => input;
+
+const createCenterImage = input => input.replace(imgCenterRegex, (link) => {
+  let _link = link;
+
+    _link = _link.split('>')[1];
+    _link = _link.split('<')[0];
+    return `><img data-href="${_link}" src="${_link}"><`;
+});
+
+
+const createImage = input => input.replace(onlyImageLinkRegex, (link) => {
+  return `<img data-href="${link}" src="${link}">`;
+});
+
+const createFromDoubleImageLink = input => input.replace(onlyImageDoubleLinkRegex, (link) => {
+  const _link = link.trim();
+  return `<img data-href="${_link}" src="${_link}">`;
+});
+
+const createYoutubeIframe = input => input.replace(youTubeRegex, (link) => {
+  const videoID = link.split('=')[1];
+
+  const embedLink = `https://www.youtube.com/embed/${videoID}`;
+
+  return iframeBody(embedLink);
+});
+
+const createDtubeIframe = input => input.replace(dTubeRegex, (link) => {
+  const execLink = dTubeRegex.exec(link);
+
+  const embedLink = `https://emb.d.tube/#!/${execLink[2]}/${execLink[3]}`;
+
+  return iframeBody(embedLink);
+});
+
+const createVimeoIframe = input => input.replace(vimeoRegex, (link) => {
+  const execLink = vimeoRegex.exec(link);
+
+  const embedLink = `https://player.vimeo.com/video/${execLink[3]}`;
+
+  return iframeBody(embedLink);
+});
+
+const iframeBody = link => `<iframe frameborder='0' src="${link}"></iframe>`;
+const imageBody = link => `<img data-href="${link}" src="${link}">`;

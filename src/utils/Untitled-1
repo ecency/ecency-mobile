@@ -1,0 +1,5 @@
+(<center>http(s?):)([/|.|\w|\s|-])*\.(?:jpg|gif|png|PNG|GIF|JPG)(</center>) image center
+
+([\r\n]http(s?):)([/|.|\w|\s|-])*\.(?:jpg|gif|png|PNG|GIF|JPG)[\r\n]
+
+(\nhttps)(.*)(?=jpg|gif|png|PNG|GIF|JPG)
