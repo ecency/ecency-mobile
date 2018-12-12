@@ -72,6 +72,12 @@ class NotificationContainer extends Component {
     });
   };
 
+  _handleOnPressLogin = () => {
+    const { navigation } = this.props;
+
+    navigation.navigate(ROUTES.SCREENS.LOGIN);
+  };
+
   render() {
     const { notifications } = this.state;
 
@@ -81,6 +87,7 @@ class NotificationContainer extends Component {
         notifications={notifications}
         navigateToNotificationRoute={this._navigateToNotificationRoute}
         readAllNotification={this._readAllNotification}
+        handleLoginPress={this._handleOnPressLogin}
         {...this.props}
       />
     );
@@ -89,6 +96,7 @@ class NotificationContainer extends Component {
 
 const mapStateToProps = state => ({
   username: state.account.currentAccount.name,
+  isLoggedIn: state.application.isLoggedIn,
   activeBottomTab: state.ui.activeBottomTab,
 });
 
