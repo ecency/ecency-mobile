@@ -28,7 +28,7 @@ export default EStyleSheet.create({
     color: '$primaryDarkGray',
     fontSize: 14,
     flexGrow: 1,
-    padding: 10,
+    padding: 7,
   },
   closeIconButton: {
     width: 20,
@@ -43,8 +43,8 @@ export default EStyleSheet.create({
     fontSize: 22,
   },
   body: {
-    marginTop: 16,
     marginRight: 24,
+    flex: 1,
   },
   searhItems: {
     marginHorizontal: 30,
