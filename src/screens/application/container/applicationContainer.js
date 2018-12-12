@@ -1,9 +1,10 @@
 import React, { Component } from 'react';
-import { Platform } from 'react-native';
+import { Platform, BackHandler } from 'react-native';
 import { connect } from 'react-redux';
 import { addLocaleData } from 'react-intl';
 import Config from 'react-native-config';
 import AppCenter from 'appcenter';
+import { NavigationActions } from 'react-navigation';
 
 // Constants
 import en from 'react-intl/locale-data/en';
@@ -54,6 +55,7 @@ class ApplicationContainer extends Component {
   }
 
   componentDidMount = async () => {
+    BackHandler.addEventListener('hardwareBackPress', this._onBackPress);
     await this._getUserData();
     this._getSettings();
   };
@@ -65,6 +67,17 @@ class ApplicationContainer extends Component {
       this.setState({ isRenderRequire: false }, () => this.setState({ isRenderRequire: true }));
     }
   }
+
+  componentWillUnmount() {
+    BackHandler.removeEventListener('hardwareBackPress', this.onBackPress);
+  }
+
+  _onBackPress = () => {
+    const { dispatch } = this.props;
+
+    dispatch(NavigationActions.back());
+    return true;
+  };
 
   _getUserData = async () => {
     const { dispatch } = this.props;
