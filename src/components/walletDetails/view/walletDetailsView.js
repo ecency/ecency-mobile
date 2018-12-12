@@ -36,7 +36,7 @@ class WalletDetailsView extends Component {
           text="Steem"
           textColor="#3c4449"
           iconName="ios-information-circle-outline"
-          rightText={`${Math.round(walletData.estimatedValue * 1000) / 1000} STEEM`}
+          rightText={`${Math.round(walletData.balance * 1000) / 1000} STEEM`}
           isBoldText
         />
         <GrayWrapper>
