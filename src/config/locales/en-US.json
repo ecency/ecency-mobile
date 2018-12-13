@@ -88,7 +88,8 @@
     "schedules": "Schedules",
     "gallery": "Gallery",
     "settings": "Settings",
-    "add_account": "Add Account"
+    "add_account": "Add Account",
+    "logout": "Logout"
   },
   "header": {
     "title": "Login to customize your feed",

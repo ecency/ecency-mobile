@@ -43,6 +43,12 @@ const authMenuItems = [
     icon: 'gear',
     id: 'settings',
   },
+  {
+    name: 'Logout',
+    route: ROUTES.MODAL.LOGOUT,
+    icon: 'sign-out',
+    id: 'logout',
+  },
 ];
 
 const noAuthMenuItems = [

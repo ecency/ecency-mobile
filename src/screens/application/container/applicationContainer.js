@@ -110,7 +110,7 @@ class ApplicationContainer extends Component {
           dispatch(login());
 
           const realmObject = realmData.filter(data => data.username === currentUsername);
-          accountData.local = realmObject;
+          accountData.local = realmObject[0];
 
           dispatch(updateCurrentAccount(accountData));
           // If in dev mode pin code does not show
