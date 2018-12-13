@@ -4,7 +4,7 @@ const md = new Remarkable({ html: true, breaks: true, linkify: true });
 const isVideo = false;
 const imgCenterRegex = /([<center>]http(s?):)([/|.|\w|\s|-])*\.(?:jpg|gif|png|PNG|GIF|JPG)[</center>]/g;
 const onlyImageLinkRegex = /([\n]http(s?):)([/|.|\w|\s|-])*\.(?:jpg|gif|png|PNG|GIF|JPG)/g;
-const onlyImageDoubleLinkRegex = /(\nhttps)(.*)(?=jpg|gif|png|PNG|GIF|JPG|)/g
+const onlyImageDoubleLinkRegex = /(\nhttps)(.*)(?=jpg|gif|png|PNG|GIF|JPG|)/g;
 const postRegex = /^https?:\/\/(.*)\/(.*)\/(@[\w.\d-]+)\/(.*)/i;
 const copiedPostRegex = /\/(.*)\/(@[\w.\d-]+)\/(.*)/i;
 const youTubeRegex = /(?:https?:\/\/)?(?:www\.)?(?:youtube\.com\/watch\?v=|youtu\.be\/)([^& \n<]+)(?:[^ \n<]+)?/g;
@@ -12,6 +12,7 @@ const vimeoRegex = /(https?:\/\/)?(www\.)?(?:vimeo)\.com.*(?:videos|video|channe
 const dTubeRegex = /(https?:\/\/d.tube.#!\/v\/)(\w+)\/(\w+)/g;
 const authorNameRegex = /(^|[^a-zA-Z0-9_!#$%&*@＠\/]|(^|[^a-zA-Z0-9_+~.-\/]))[@＠]([a-z][-\.a-z\d]+[a-z\d])/gi;
 const tagsRegex = /(^|\s|>)(#[-a-z\d]+)/gi;
+const centerRegex = /(<center>)/g;
 
 export const markDown2Html = (input) => {
   if (!input) {
@@ -55,6 +56,10 @@ export const markDown2Html = (input) => {
     output = createImage(output);
   }
 
+  if (centerRegex.test(output)) {
+    output = centerStyling(output);
+  }
+
   output = md.render(output);
 
   return output;
@@ -77,18 +82,17 @@ export const replaceTags = input => input.replace(tagsRegex, (tag) => {
 
 export const removeOnlyPTag = input => input;
 
+const centerStyling = input => input.replace(centerRegex, () => '<center style="text-align:center;">');
+
 const createCenterImage = input => input.replace(imgCenterRegex, (link) => {
   let _link = link;
 
-    _link = _link.split('>')[1];
-    _link = _link.split('<')[0];
-    return `><img data-href="${_link}" src="${_link}"><`;
+  _link = _link.split('>')[1];
+  _link = _link.split('<')[0];
+  return `><img data-href="${_link}" src="${_link}"><`;
 });
 
-
-const createImage = input => input.replace(onlyImageLinkRegex, (link) => {
-  return `<img data-href="${link}" src="${link}">`;
-});
+const createImage = input => input.replace(onlyImageLinkRegex, link => `<img data-href="${link}" src="${link}">`);
 
 const createFromDoubleImageLink = input => input.replace(onlyImageDoubleLinkRegex, (link) => {
   const _link = link.trim();

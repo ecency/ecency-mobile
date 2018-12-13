@@ -69,7 +69,6 @@ class PostBody extends Component {
     const _initialDimensions = isComment
       ? { width: WIDTH - 50, height: 80 }
       : { width: WIDTH, height: 216 };
-
     return (
       <Fragment>
         <HTML
