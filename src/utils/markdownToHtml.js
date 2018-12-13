@@ -13,6 +13,7 @@ const dTubeRegex = /(https?:\/\/d.tube.#!\/v\/)(\w+)\/(\w+)/g;
 const authorNameRegex = /(^|[^a-zA-Z0-9_!#$%&*@＠\/]|(^|[^a-zA-Z0-9_+~.-\/]))[@＠]([a-z][-\.a-z\d]+[a-z\d])/gi;
 const tagsRegex = /(^|\s|>)(#[-a-z\d]+)/gi;
 const centerRegex = /(<center>)/g;
+const steemitRegex = /^(http:\/\/www\.|https:\/\/www\.|http:\/\/|https:\/\/)?[steemit]+[a-z0-9]+([\-\.]{1}[a-z0-9]+)*\.[a-z]{2,5}(:[0-9]{1,5})?(\/.*)?$/gm;
 
 export const markDown2Html = (input) => {
   if (!input) {
@@ -60,6 +61,10 @@ export const markDown2Html = (input) => {
     output = centerStyling(output);
   }
 
+  if (postRegex.test(output)) {
+    output = steemitUrlHandle(output);
+  }
+
   output = md.render(output);
 
   return output;
@@ -90,6 +95,15 @@ const createCenterImage = input => input.replace(imgCenterRegex, (link) => {
   _link = _link.split('>')[1];
   _link = _link.split('<')[0];
   return `><img data-href="${_link}" src="${_link}"><`;
+});
+
+const steemitUrlHandle = input => input.replace(postRegex, (link) => {
+  const postMatch = link.match(postRegex);
+  const tag = postMatch[2];
+  const author = postMatch[3].replace('@', '');
+  const permlink = postMatch[4];
+
+  return `<a class="markdown-post-link" href="${permlink}" data_tag={${tag}} data_author="${author}">/${permlink}</a>`;
 });
 
 const createImage = input => input.replace(onlyImageLinkRegex, link => `<img data-href="${link}" src="${link}">`);
