@@ -13,7 +13,6 @@ const dTubeRegex = /(https?:\/\/d.tube.#!\/v\/)(\w+)\/(\w+)/g;
 const authorNameRegex = /(^|[^a-zA-Z0-9_!#$%&*@＠\/]|(^|[^a-zA-Z0-9_+~.-\/]))[@＠]([a-z][-\.a-z\d]+[a-z\d])/gi;
 const tagsRegex = /(^|\s|>)(#[-a-z\d]+)/gi;
 const centerRegex = /(<center>)/g;
-const steemitRegex = /^(http:\/\/www\.|https:\/\/www\.|http:\/\/|https:\/\/)?[steemit]+[a-z0-9]+([\-\.]{1}[a-z0-9]+)*\.[a-z]{2,5}(:[0-9]{1,5})?(\/.*)?$/gm;
 
 export const markDown2Html = (input) => {
   if (!input) {
