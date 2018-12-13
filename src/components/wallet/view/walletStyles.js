@@ -23,6 +23,7 @@ export default EStyleSheet.create({
     fontWeight: 'bold',
     marginBottom: 10,
     paddingHorizontal: 18,
+    height: 30,
   },
   mainButtonWrapper: {
     flexDirection: 'row',

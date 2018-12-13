@@ -11,9 +11,9 @@ import styles from './toggleSwitchStyles';
 
 class ToggleSwitchView extends Component {
   /* Props
-    * ------------------------------------------------
-    *   @prop { type }    name                - Description....
-    */
+   * ------------------------------------------------
+   *   @prop { type }    name                - Description....
+   */
   offsetX = new Animated.Value(0);
 
   constructor(props) {
@@ -23,7 +23,7 @@ class ToggleSwitchView extends Component {
       padding: 12,
       circleWidth: 28,
       circleHeight: 28,
-      translateX: 32,
+      translateX: 36,
       isOn: false || props.isOn,
     };
   }
@@ -42,6 +42,7 @@ class ToggleSwitchView extends Component {
       backgroundColor: 'white',
       transform: [{ translateX: this.offsetX }],
       width: circleWidth,
+      marginLeft: 4,
       height: circleHeight,
       borderRadius: circleWidth / 2,
       shadowOpacity: 0.2,

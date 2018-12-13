@@ -46,7 +46,7 @@ class HomeScreen extends PureComponent {
         <View style={styles.container}>
           <ScrollableTabView
             style={styles.tabView}
-            initialPage={!isLoggedIn ? 1 : 0}
+            activeTab={!isLoggedIn ? 1 : 0}
             renderTabBar={() => (
               <TabBar
                 style={styles.tabbar}

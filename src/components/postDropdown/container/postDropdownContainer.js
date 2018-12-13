@@ -38,7 +38,7 @@ class PostDropdownContainer extends Component {
 
     switch (index) {
       case '0':
-        writeToClipboard(`https://steemit.com/${content.url}`);
+        writeToClipboard(`https://steemit.com${content.url}`);
         break;
 
       case '1':
