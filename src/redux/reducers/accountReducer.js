@@ -4,6 +4,9 @@ import {
   ADD_OTHER_ACCOUNT,
   UPDATE_CURRENT_ACCOUNT,
   UPDATE_UNREAD_ACTIVITY_COUNT,
+  LOGOUT,
+  REMOVE_OTHER_ACCOUNT,
+  LOGOUT_FAIL,
 } from '../constants/constants';
 
 const initialState = {
@@ -12,6 +15,7 @@ const initialState = {
   currentAccount: {},
   hasError: false,
   errorMessage: null,
+  isLogingOut: false,
 };
 
 export default function (state = initialState, action) {
@@ -23,6 +27,7 @@ export default function (state = initialState, action) {
         hasError: false,
         errorMessage: null,
       };
+
     case FETCH_ACCOUNT_FAIL:
       return {
         ...state,
@@ -40,6 +45,12 @@ export default function (state = initialState, action) {
         errorMessage: null,
       };
 
+    case REMOVE_OTHER_ACCOUNT:
+      return {
+        ...state,
+        otherAccounts: state.otherAccounts.filter(item => item.username !== action.payload),
+      };
+
     case UPDATE_CURRENT_ACCOUNT:
       return {
         ...state,
@@ -48,6 +59,7 @@ export default function (state = initialState, action) {
         hasError: false,
         errorMessage: null,
       };
+
     case UPDATE_UNREAD_ACTIVITY_COUNT:
       return {
         ...state,
@@ -59,6 +71,18 @@ export default function (state = initialState, action) {
         hasError: false,
         errorMessage: null,
       };
+
+    case LOGOUT_FAIL:
+      return {
+        ...state,
+        isLogingOut: true,
+      };
+      // case LOGOUT_SUCCESS:
+      //   return {
+      //     ...state,
+      //     initialState,
+      //   };
+
     default:
       return state;
   }

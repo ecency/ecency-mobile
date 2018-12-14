@@ -24,13 +24,14 @@ class ApplicationScreen extends Component {
   render() {
     const { locale, isDarkTheme } = this.props;
     const barStyle = isDarkTheme ? 'light-content' : 'dark-content';
+    const barColor = isDarkTheme ? '#1e2835' : '#fff';
 
     return (
       <Fragment>
         {Platform.os === 'ios' ? (
           <StatusBar barStyle={barStyle} />
         ) : (
-          <StatusBar barStyle={barStyle} backgroundColor="white" />
+          <StatusBar barStyle={barStyle} backgroundColor={barColor} />
         )}
 
         <IntlProvider locale={locale} messages={flattenMessages(messages[locale])}>

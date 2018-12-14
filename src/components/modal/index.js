@@ -1,3 +1,4 @@
-import ModalView from './view/modalView';
+import Modal from './view/modalView';
 
-export default ModalView;
+export { Modal };
+export default Modal;

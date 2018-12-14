@@ -11,6 +11,7 @@ import {
   IS_DARK_THEME,
   IS_LOGIN_DONE,
   SET_UPVOTE_PERCENT,
+  LOGOUT_DONE,
 } from '../constants/constants';
 
 const initialState = {
@@ -20,6 +21,7 @@ const initialState = {
   isDarkTheme: false,
   isLoggedIn: false, // Has any logged in user.
   isLoginDone: false,
+  isLogingOut: false,
   isNotificationOpen: true,
   isPinCodeReqiure: false,
   language: 'en-US',
@@ -32,7 +34,7 @@ export default function (state = initialState, action) {
     case LOGIN:
       return {
         ...state,
-        isLoggedIn: true,
+        isLoggedIn: action.payload,
       };
     case IS_LOGIN_DONE:
       return {
@@ -42,7 +44,12 @@ export default function (state = initialState, action) {
     case LOGOUT:
       return {
         ...state,
-        isLoggedIn: false,
+        isLogingOut: true,
+      };
+    case LOGOUT_DONE:
+      return {
+        ...state,
+        isLogingOut: false,
       };
     case OPEN_PIN_CODE_MODAL:
       return {

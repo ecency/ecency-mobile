@@ -88,7 +88,8 @@
     "schedules": "Yapılacaklar",
     "gallery": "Galeri",
     "settings": "Ayarlar",
-    "add_account": "Hesap Ekle"
+    "add_account": "Hesap Ekle",
+    "logout": "Cıkış"
   },
   "header": {
     "title": "Giriş yap ve akışını özelleştir.",

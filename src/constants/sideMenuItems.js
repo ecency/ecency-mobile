@@ -4,44 +4,50 @@ const authMenuItems = [
   {
     name: 'Profile',
     route: 'ProfileTabbar',
-    icon: 'user-o',
+    icon: 'perm-identity',
     id: 'profile',
   },
   {
     name: 'Bookmarks',
     route: 'bookmarks',
-    icon: 'star-o',
+    icon: 'star-border',
     id: 'bookmarks',
   },
   {
     name: 'Favorites',
     route: 'favorites',
-    icon: 'heart-o',
+    icon: 'favorite-border',
     id: 'favorites',
   },
   {
     name: 'Drafts',
     route: 'drafts',
-    icon: 'file-o',
+    icon: 'insert-drive-file',
     id: 'drafts',
   },
   {
     name: 'Schedules',
     route: 'schedules',
-    icon: 'clock-o',
+    icon: 'schedule',
     id: 'schedules',
   },
   {
     name: 'Gallery',
     route: 'galery',
-    icon: 'picture-o',
+    icon: 'photo-library',
     id: 'gallery',
   },
   {
     name: 'Settings',
     route: ROUTES.SCREENS.SETTINGS,
-    icon: 'gear',
+    icon: 'settings',
     id: 'settings',
+  },
+  {
+    name: 'Logout',
+    route: '',
+    icon: 'exit-to-app',
+    id: 'logout',
   },
 ];
 
@@ -49,13 +55,13 @@ const noAuthMenuItems = [
   {
     name: 'Add Account',
     route: ROUTES.SCREENS.LOGIN,
-    icon: 'plus-square-o',
+    icon: 'add',
     id: 'add_account',
   },
   {
     name: 'Settings',
     route: ROUTES.SCREENS.SETTINGS,
-    icon: 'gear',
+    icon: 'settings',
     id: 'settings',
   },
 ];

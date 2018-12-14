@@ -1,6 +1,7 @@
 const SCREEN_SUFFIX = 'Screen';
 const DRAWER_SUFFIX = 'Drawer';
 const TABBAR_SUFFIX = 'Tabbar';
+const MODAL_SUFFIX = 'Modal';
 
 export default {
   SCREENS: {
@@ -24,5 +25,8 @@ export default {
     POSTBUTTON: `PostButton${TABBAR_SUFFIX}`,
     MESSAGES: `Messages${TABBAR_SUFFIX}`,
     PROFILE: `Profile${TABBAR_SUFFIX}`,
+  },
+  MODAL: {
+    LOGOUT: `Logout${MODAL_SUFFIX}`,
   },
 };

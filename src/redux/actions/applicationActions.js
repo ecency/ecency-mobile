@@ -11,14 +11,20 @@ import {
   SET_CURRENCY,
   SET_LANGUAGE,
   SET_UPVOTE_PERCENT,
+  LOGOUT_DONE,
 } from '../constants/constants';
 
-export const login = () => ({
+export const login = payload => ({
+  payload,
   type: LOGIN,
 });
 
 export const logout = () => ({
   type: LOGOUT,
+});
+
+export const logoutDone = () => ({
+  type: LOGOUT_DONE,
 });
 
 export const isLoginDone = () => ({

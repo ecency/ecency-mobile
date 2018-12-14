@@ -42,7 +42,6 @@ class HomeScreen extends PureComponent {
     return (
       <Fragment>
         <Header />
-
         <View style={styles.container}>
           <ScrollableTabView
             style={styles.tabView}

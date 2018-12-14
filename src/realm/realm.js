@@ -146,6 +146,40 @@ export const updateUserData = userData => new Promise((resolve, reject) => {
   }
 });
 
+export const removeUserData = username => new Promise((resolve, reject) => {
+  try {
+    const account = realm.objects(USER_SCHEMA).filtered('username = $0', username);
+
+    if (Array.from(account).length > 0) {
+      realm.write(() => {
+        realm.delete(account);
+        resolve();
+      });
+
+    } else {
+      reject('Could not remove selected user');
+    }
+  } catch (error) {
+    reject(error);
+  }
+});
+
+// // TODO: This method deleting ALL users. This should delete just a user.
+// export const removeUserData = () => new Promise((resolve, reject) => {
+//   setAuthStatus({ isLoggedIn: false }).then(() => {
+//     try {
+//       const accounts = realm.objects(USER_SCHEMA);
+//       realm.write(() => {
+//         realm.delete(accounts);
+//       });
+//       resolve();
+//     } catch (error) {
+//       alert(error);
+//       reject(error);
+//     }
+//   });
+// });
+
 export const setDraftPost = (fields, username) => new Promise((resolve, reject) => {
   try {
     const draft = realm.objects(DRAFT_SCHEMA).filtered('username = $0', username);
@@ -178,22 +212,6 @@ export const getDraftPost = username => new Promise((resolve, reject) => {
   } catch (error) {
     reject(error);
   }
-});
-
-// TODO: This method deleting ALL users. This should delete just a user.
-export const removeUserData = () => new Promise((resolve, reject) => {
-  setAuthStatus({ isLoggedIn: false }).then(() => {
-    try {
-      const accounts = realm.objects(USER_SCHEMA);
-      realm.write(() => {
-        realm.delete(accounts);
-      });
-      resolve();
-    } catch (error) {
-      alert(error);
-      reject(error);
-    }
-  });
 });
 
 export const getAuthStatus = () => new Promise((resolve, reject) => {
