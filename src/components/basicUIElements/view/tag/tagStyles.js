@@ -15,7 +15,7 @@ export default EStyleSheet.create({
     paddingHorizontal: 10,
     justifyContent: 'center',
     marginRight: 8,
-    height: 20,
+    height: 22,
     backgroundColor: '$iconColor',
     borderRadius: 50,
   },

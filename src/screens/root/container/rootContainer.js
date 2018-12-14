@@ -56,7 +56,7 @@ const RootContainer = () => (WrappedComponent) => {
       const { dispatch } = this.props;
       this._pinCodeTimer = setTimeout(() => {
         dispatch(openPinCodeModal());
-      }, 5 * 60 * 1000);
+      }, 1 * 60 * 1000);
     };
 
     _setPinCodeState = (data) => {

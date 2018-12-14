@@ -80,12 +80,14 @@ class PostsView extends Component {
       currentAccountUsername,
     ).then((result) => {
       const _posts = result;
-      _posts.shift();
-      this.setState({
-        posts: [...posts, ..._posts],
-        startAuthor: result && result[result.length - 1] && result[result.length - 1].author,
-        startPermlink: result && result[result.length - 1] && result[result.length - 1].permlink,
-      });
+      if (_posts.length > 0) {
+        _posts.shift();
+        this.setState({
+          posts: [...posts, ..._posts],
+          startAuthor: result && result[result.length - 1] && result[result.length - 1].author,
+          startPermlink: result && result[result.length - 1] && result[result.length - 1].permlink,
+        });
+      }
     });
   };
 

@@ -23,10 +23,14 @@ class PostBody extends Component {
   // Component Functions
 
   _handleOnLinkPress = (evt, href, hrefatr) => {
-    const { handleOnUserPress } = this.props;
+    const { handleOnUserPress, handleOnPostPress } = this.props;
 
     if (hrefatr.class === 'markdown-author-link') {
       !handleOnUserPress ? this._handleOnUserPress(href) : handleOnUserPress(href);
+    } else if (hrefatr.class === 'markdown-post-link') {
+      !handleOnPostPress
+        ? this._handleOnPostPress(href, hrefatr.data_author)
+        : handleOnPostPress(href);
     } else {
       Linking.canOpenURL(href).then((supported) => {
         if (supported) {
@@ -36,6 +40,19 @@ class PostBody extends Component {
         }
       });
     }
+  };
+
+  _handleOnPostPress = (permlink, author) => {
+    const { navigation } = this.props;
+
+    navigation.navigate({
+      routeName: ROUTES.SCREENS.POST,
+      params: {
+        author,
+        permlink,
+      },
+      key: permlink,
+    });
   };
 
   _handleOnUserPress = (username) => {
@@ -69,7 +86,6 @@ class PostBody extends Component {
     const _initialDimensions = isComment
       ? { width: WIDTH - 50, height: 80 }
       : { width: WIDTH, height: 216 };
-
     return (
       <Fragment>
         <HTML
