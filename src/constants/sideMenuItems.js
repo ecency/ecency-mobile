@@ -45,7 +45,7 @@ const authMenuItems = [
   },
   {
     name: 'Logout',
-    route: ROUTES.MODAL.LOGOUT,
+    route: '',
     icon: 'exit-to-app',
     id: 'logout',
   },

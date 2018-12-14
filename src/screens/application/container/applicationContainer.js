@@ -12,21 +12,25 @@ import tr from 'react-intl/locale-data/tr';
 
 // Services
 import {
-  getUserData,
   getAuthStatus,
-  getSettings,
-  getPushTokenSaved,
-  setPushTokenSaved,
   getExistUser,
+  getPushTokenSaved,
+  getSettings,
+  getUserData,
+  removeUserData,
+  setPushTokenSaved,
+  getUserDataWithUsername,
 } from '../../../realm/realm';
 import { getUser } from '../../../providers/steem/dsteem';
 import { setPushToken } from '../../../providers/esteem/esteem';
+import { switchAccount } from '../../../providers/steem/auth';
 
 // Actions
 import {
   addOtherAccount,
   updateCurrentAccount,
   updateUnreadActivityCount,
+  removeOtherAccount
 } from '../../../redux/actions/accountAction';
 import {
   activeApplication,
@@ -39,6 +43,7 @@ import {
   setCurrency,
   setLanguage,
   setUpvotePercent,
+  logoutDone,
 } from '../../../redux/actions/applicationActions';
 
 // Container
@@ -61,10 +66,14 @@ class ApplicationContainer extends Component {
   };
 
   componentWillReceiveProps(nextProps) {
-    const { isDarkTheme: _isDarkTheme, selectedLanguage } = this.props;
+    const { isDarkTheme: _isDarkTheme, selectedLanguage, isLogingOut } = this.props;
 
     if (_isDarkTheme !== nextProps.isDarkTheme || selectedLanguage !== nextProps.selectedLanguage) {
       this.setState({ isRenderRequire: false }, () => this.setState({ isRenderRequire: true }));
+    }
+
+    if (isLogingOut !== nextProps.isLogingOut && nextProps.isLogingOut) {
+      this._logout();
     }
   }
 
@@ -88,7 +97,7 @@ class ApplicationContainer extends Component {
     await getAuthStatus().then((res) => {
       authStatus = res;
       currentUsername = res.currentUsername;
-
+      console.log(res);
       if (authStatus.isLoggedIn) {
         getUserData().then((userData) => {
           if (userData.length > 0) {
@@ -96,7 +105,7 @@ class ApplicationContainer extends Component {
 
             userData.forEach((accountData) => {
               dispatch(
-                addOtherAccount({ username: accountData.username, avatar: accountData.avatar }),
+                addOtherAccount({ username: accountData.username }),
               );
             });
           }
@@ -107,7 +116,7 @@ class ApplicationContainer extends Component {
     if (realmData) {
       await getUser(currentUsername)
         .then((accountData) => {
-          dispatch(login());
+          dispatch(login(true));
 
           const realmObject = realmData.filter(data => data.username === currentUsername);
           accountData.local = realmObject[0];
@@ -177,6 +186,47 @@ class ApplicationContainer extends Component {
     });
   };
 
+  _logout = () => {
+    const {
+      otherAccounts, currentAccountUsername, dispatch,
+    } = this.props;
+
+    removeUserData(currentAccountUsername)
+      .then(() => {
+        const _otherAccounts = otherAccounts.filter(
+          user => user.username !== currentAccountUsername,
+        );
+
+        if (_otherAccounts.length > 0) {
+          const targetAccountUsername = _otherAccounts[0].username;
+
+          this._switchAccount(targetAccountUsername);
+        } else {
+          dispatch(updateCurrentAccount({}));
+          dispatch(login(false));
+        }
+
+        dispatch(removeOtherAccount(currentAccountUsername));
+        dispatch(logoutDone());
+      })
+      .catch((err) => {
+        alert('err');
+      });
+  };
+
+  _switchAccount = (targetAccountUsername) => {
+    const { dispatch } = this.props;
+
+    switchAccount(targetAccountUsername).then((accountData) => {
+      const realmData = getUserDataWithUsername(targetAccountUsername);
+      const _currentAccount = accountData;
+      _currentAccount.username = accountData.name;
+      _currentAccount.local = realmData[0];
+
+      dispatch(updateCurrentAccount(_currentAccount));
+    });
+  }
+
   render() {
     const { selectedLanguage } = this.props;
     const { isRenderRequire } = this.state;
@@ -194,11 +244,17 @@ class ApplicationContainer extends Component {
 }
 
 const mapStateToProps = state => ({
+  // Application
   isDarkTheme: state.application.isDarkTheme,
   selectedLanguage: state.application.language,
-  unreadActivityCount: state.account.currentAccount.unread_activity_count,
-  isLoggedIn: state.application.isLoggedIn,
   notificationSettings: state.application.isNotificationOpen,
+  isLogingOut: state.application.isLogingOut,
+  isLoggedIn: state.application.isLoggedIn,
+
+  // Account
+  unreadActivityCount: state.account.currentAccount.unread_activity_count,
+  currentAccountUsername: state.account.currentAccount.name,
+  otherAccounts: state.account.otherAccounts,
 });
 
 export default connect(mapStateToProps)(ApplicationContainer);

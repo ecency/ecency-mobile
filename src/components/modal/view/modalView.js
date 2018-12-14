@@ -6,11 +6,11 @@ import { IconButton } from '../../iconButton';
 import styles from './modalStyles';
 
 /*
-*            Props Name        Description                                     Value
-*@props -->  fullModal         For modal size all screen or quick modal        Boolean
-*@props -->  isOpen            For modal is open or not                        Boolean
-*
-*/
+ *            Props Name        Description                                     Value
+ *@props -->  fullModal         For modal size all screen or quick modal        Boolean
+ *@props -->  isOpen            For modal is open or not                        Boolean
+ *
+ */
 
 export default class Modal extends Component {
   constructor(props) {
@@ -50,7 +50,7 @@ export default class Modal extends Component {
           isFullScreen ? styles.fullModal : styles.centerModal,
         ]}
         transparent={isTransparent}
-        animationType="fade"
+        animationType={animationType || "fade"}
         visible={isOpen}
         onRequestClose={() => this._handleOnClose(this)}
         onShow={() => this._handleOnOpen(this)}

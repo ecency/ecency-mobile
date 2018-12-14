@@ -58,9 +58,9 @@ class LoginScreen extends Component {
         if (result) {
           dispatch(updateCurrentAccount({ ...result }));
           dispatch(addOtherAccount({ username: result.name }));
-          dispatch(loginAction());
           dispatch(openPinCodeModal());
           setPinCodeState({ navigateTo: ROUTES.DRAWER.MAIN });
+          dispatch(loginAction(true));
         }
       })
       .catch((err) => {

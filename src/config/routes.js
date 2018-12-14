@@ -80,9 +80,7 @@ const stackNavigatior = createStackNavigator(
     },
   },
   {
-    // cardStyle: {
-    //   backgroundColor: 'white',
-    // },
+    headerMode: 'none',
   },
 );
 

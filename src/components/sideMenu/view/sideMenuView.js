@@ -4,6 +4,7 @@ import {
 } from 'react-native';
 import { injectIntl } from 'react-intl';
 import LinearGradient from 'react-native-linear-gradient';
+import ActionSheet from 'react-native-actionsheet';
 
 // Components
 import { Icon, IconButton } from '../..';
@@ -63,9 +64,27 @@ class SideMenuView extends Component {
     });
   };
 
+  _handleOnMenuItemPress = (item) => {
+    const { navigateToRoute, switchAccount } = this.props;
+
+    if (item.id === 'logout') {
+      this.ActionSheet.show();
+      return;
+    }
+
+    if (item.route) {
+      navigateToRoute(item.route);
+    } else {
+      switchAccount(item.name);
+    }
+  };
+
   render() {
     const {
-      navigateToRoute, currentAccount, isLoggedIn, switchAccount, intl,
+      currentAccount,
+      isLoggedIn,
+      intl,
+      handleLogout,
     } = this.props;
     const { menuItems, isAddAccountIconActive } = this.state;
 
@@ -118,11 +137,7 @@ class SideMenuView extends Component {
               <TouchableOpacity
                 style={styles.listItem}
                 onPress={() => {
-                  if (item.item.route) {
-                    navigateToRoute(item.item.route);
-                  } else {
-                    switchAccount(item.item.name);
-                  }
+                  this._handleOnMenuItemPress(item.item);
                 }}
               >
                 <View style={styles.itemWrapper}>
@@ -148,6 +163,16 @@ class SideMenuView extends Component {
             )}
           />
         </View>
+        <ActionSheet
+          ref={o => (this.ActionSheet = o)}
+          options={['Logout', 'Cancel']}
+          title="Are you sure want to logout?"
+          cancelButtonIndex={1}
+          destructiveButtonIndex={0}
+          onPress={(index) => {
+            index === 0 ? handleLogout() : null;
+          }}
+        />
       </View>
     );
   }

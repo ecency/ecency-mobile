@@ -13,6 +13,9 @@ import { Upvote } from '../../upvote';
 // Styles
 import styles from './postCardStyles';
 
+// Defaults
+import DEFAULT_IMAGE from '../../../assets/no_image.png';
+
 class PostCard extends Component {
   /* Props
    * ------------------------------------------------
@@ -56,11 +59,7 @@ class PostCard extends Component {
 
   render() {
     const { content, isHideImage, fetchPost } = this.props;
-    // const likersText = `@${content.top_likers[0]}, @${content.top_likers[1]}, @${
-    //   content.top_likers[2]
-    // }`;
-    // const otherLikers = ` & ${content.vote_count - content.top_likers.length} others like this`;
-    // const likesCount = `${content.vote_count} likes`;
+    const _image = content && content.image ? { uri: content.image } : DEFAULT_IMAGE;
 
     return (
       <View style={styles.post}>
@@ -85,11 +84,7 @@ class PostCard extends Component {
             onPress={() => this._handleOnContentPress()}
           >
             {!isHideImage && (
-              <Image
-                source={{ uri: content && content.image }}
-                defaultSource={require('../../../assets/no_image.png')}
-                style={styles.image}
-              />
+              <Image source={_image} style={styles.image} defaultSource={DEFAULT_IMAGE} />
             )}
             <View style={[styles.postDescripton]}>
               <Text style={styles.title}>{content.title}</Text>
