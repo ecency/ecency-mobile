@@ -128,7 +128,7 @@ class SideMenuView extends Component {
                 <View style={styles.itemWrapper}>
                   {item.item.icon && (
                     <Icon
-                      iconType="FontAwesome"
+                      iconType="MaterialIcons"
                       style={styles.listItemIcon}
                       name={item.item.icon}
                     />
