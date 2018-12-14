@@ -97,7 +97,6 @@ class ApplicationContainer extends Component {
     await getAuthStatus().then((res) => {
       authStatus = res;
       currentUsername = res.currentUsername;
-      console.log(res);
       if (authStatus.isLoggedIn) {
         getUserData().then((userData) => {
           if (userData.length > 0) {
