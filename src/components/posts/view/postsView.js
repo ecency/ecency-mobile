@@ -35,6 +35,17 @@ class PostsView extends Component {
     this._loadPosts();
   }
 
+  componentWillReceiveProps(nextProps) {
+    const { currentAccountUsername } = this.props;
+
+    if (
+      currentAccountUsername !== nextProps.currentAccountUsername
+      && nextProps.currentAccountUsername
+    ) {
+      this._loadPosts();
+    }
+  }
+
   _loadPosts = (filter = null) => {
     const { getFor, tag, currentAccountUsername } = this.props;
     let options;

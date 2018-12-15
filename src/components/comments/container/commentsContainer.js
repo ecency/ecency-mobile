@@ -1,5 +1,6 @@
 import React, { Component } from 'react';
 import { withNavigation } from 'react-navigation';
+import { connect } from 'react-redux';
 
 import { getComments } from '../../../providers/steem/dsteem';
 
@@ -59,15 +60,20 @@ class CommentsContainer extends Component {
 
   render() {
     const { comments } = this.state;
-
+    const { isLoggedIn } = this.props;
     return (
       <CommentsView
         handleOnReplyPress={this._handleOnReplyPress}
         comments={comments}
+        isLoggedIn={isLoggedIn}
         {...this.props}
       />
     );
   }
 }
 
-export default withNavigation(CommentsContainer);
+const mapStateToProps = state => ({
+  isLoggedIn: state.application.isLoggedIn,
+});
+
+export default withNavigation(connect(mapStateToProps)(CommentsContainer));

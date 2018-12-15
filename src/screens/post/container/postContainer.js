@@ -47,10 +47,17 @@ class PostContainer extends Component {
   };
 
   render() {
-    const { currentAccount } = this.props;
+    const { currentAccount, isLoggedIn } = this.props;
     const { post, error } = this.state;
 
-    return <PostScreen currentAccount={currentAccount} post={post} error={error} />;
+    return (
+      <PostScreen
+        currentAccount={currentAccount}
+        error={error}
+        isLoggedIn={isLoggedIn}
+        post={post}
+      />
+    );
   }
 }
 

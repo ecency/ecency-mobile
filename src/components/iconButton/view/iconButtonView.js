@@ -5,9 +5,9 @@ import { Icon } from '../../icon';
 import styles from './iconButtonStyles';
 
 /* Props
-* ------------------------------------------------
-*   @prop { type }    name                - Description....
-*/
+ * ------------------------------------------------
+ *   @prop { type }    name                - Description....
+ */
 
 const IconButton = ({
   name,
@@ -18,12 +18,14 @@ const IconButton = ({
   style,
   iconStyle,
   iconType,
+  disabled,
 }) => (
   <Fragment>
     <TouchableHighlight
       style={[styles.iconButton, style]}
       onPress={() => onPress && onPress()}
       underlayColor={backgroundColor || 'white'}
+      disabled={disabled}
     >
       <Icon
         style={[
