@@ -54,32 +54,34 @@ class PostDropdownContainer extends Component {
     }
   };
 
-  _reblog = async () => {
-    const { currentAccount, content } = this.props;
-
-    reblog(currentAccount, content.author, content.permlink)
-      .then((result) => {
-        Alert.alert('Success', 'Rebloged!');
-      })
-      .catch((error) => {
-        if (error.jse_shortmsg && String(error.jse_shortmsg).indexOf('has already reblogged')) {
-          Alert.alert('You already reblogged!');
-        } else {
-          Alert.alert('Failed!');
-        }
-      });
+  _reblog = () => {
+    const { currentAccount, content, isLoggedIn } = this.props;
+    if (isLoggedIn) {
+      reblog(currentAccount, content.author, content.permlink)
+        .then((result) => {
+          Alert.alert('Success', 'Rebloged!');
+        })
+        .catch((error) => {
+          if (error.jse_shortmsg && String(error.jse_shortmsg).indexOf('has already reblogged')) {
+            Alert.alert('You already reblogged!');
+          } else {
+            Alert.alert('Failed!');
+          }
+        });
+    }
   };
 
   _replyNavigation = () => {
-    const { navigation, content } = this.props;
-
-    navigation.navigate({
-      routeName: ROUTES.SCREENS.EDITOR,
-      params: {
-        isReply: true,
-        post: content,
-      },
-    });
+    const { navigation, content, isLoggedIn } = this.props;
+    if (isLoggedIn) {
+      navigation.navigate({
+        routeName: ROUTES.SCREENS.EDITOR,
+        params: {
+          isReply: true,
+          post: content,
+        },
+      });
+    }
   };
 
   render() {
@@ -95,6 +97,7 @@ class PostDropdownContainer extends Component {
 
 const mapStateToProps = state => ({
   selectedApi: state.application.api,
+  isLoggedIn: state.application.isLoggedIn,
   currentAccount: state.account.currentAccount,
 });
 export default withNavigation(connect(mapStateToProps)(PostDropdownContainer));
