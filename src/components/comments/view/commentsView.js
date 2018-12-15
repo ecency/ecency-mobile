@@ -39,6 +39,7 @@ class CommentsView extends Component {
       commentNumber,
       handleOnReplyPress,
       isProfilePreview,
+      isLoggedIn,
     } = this.props;
     // commentNumber === 8 && alert('sekkiz:');
     return (
@@ -73,6 +74,7 @@ class CommentsView extends Component {
                       name="reply"
                       onPress={() => handleOnReplyPress && handleOnReplyPress(item)}
                       iconType="FontAwesome"
+                      disabled={!isLoggedIn}
                     />
                   </View>
                 </View>

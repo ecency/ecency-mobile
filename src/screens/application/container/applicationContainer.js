@@ -97,19 +97,17 @@ class ApplicationContainer extends Component {
     await getAuthStatus().then((res) => {
       authStatus = res;
       currentUsername = res.currentUsername;
-      if (authStatus.isLoggedIn) {
-        getUserData().then((userData) => {
-          if (userData.length > 0) {
-            realmData = userData;
+      getUserData().then((userData) => {
+        if (userData.length > 0) {
+          realmData = userData;
 
-            userData.forEach((accountData) => {
-              dispatch(
-                addOtherAccount({ username: accountData.username }),
-              );
-            });
-          }
-        });
-      }
+          userData.forEach((accountData) => {
+            dispatch(
+              addOtherAccount({ username: accountData.username }),
+            );
+          });
+        }
+      });
     });
 
     if (realmData) {

@@ -75,7 +75,7 @@ class SideMenuView extends Component {
     if (item.route) {
       navigateToRoute(item.route);
     } else {
-      switchAccount(item.name);
+      switchAccount(item.username);
     }
   };
 
