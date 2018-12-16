@@ -162,3 +162,6 @@ task copyDownloadableDepsToLibs(type: Copy) {
     from configurations.compile
     into 'libs'
 }
+
+// Add to the bottom of the file
+apply plugin: 'com.google.gms.google-services'
