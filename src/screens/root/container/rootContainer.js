@@ -1,5 +1,5 @@
 import React, { Component, Fragment } from 'react';
-import { AppState } from 'react-native';
+import { AppState, Platform } from 'react-native';
 import { connect } from 'react-redux';
 import Push from 'appcenter-push';
 
@@ -10,6 +10,7 @@ import { getExistUser } from '../../../realm/realm';
 // Components
 import { Modal } from '../../../components';
 import { PinCode } from '../..';
+import PostButtonForAndroid from '../../../components/postButton/view/postButtonsForAndroid';
 
 // Constants
 import ROUTES from '../../../constants/routeNames';
@@ -108,6 +109,7 @@ const RootContainer = () => (WrappedComponent) => {
             {...wrappedComponentStates}
             setPinCodeState={this._setPinCodeState}
           />
+          {Platform.OS === 'android' && <PostButtonForAndroid />}
         </Fragment>
       );
     }
