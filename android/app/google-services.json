@@ -1,0 +1,151 @@
+{
+  "project_info": {
+    "project_number": "727329145824",
+    "firebase_url": "https://esteem-b829d.firebaseio.com",
+    "project_id": "esteem-b829d",
+    "storage_bucket": "esteem-b829d.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:727329145824:android:28cae4042ead15a6",
+        "android_client_info": {
+          "package_name": "app.esteem.mobile"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "727329145824-4cvs3h5kuahadelv8vr3h4f9fpfpgv1f.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyDxysYg5vwiRDTsxOPiIvardNNrNApRp2s"
+        }
+      ],
+      "services": {
+        "analytics_service": {
+          "status": 1
+        },
+        "appinvite_service": {
+          "status": 1,
+          "other_platform_oauth_client": []
+        },
+        "ads_service": {
+          "status": 2
+        }
+      }
+    },
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:727329145824:android:e9c372964fecff2c",
+        "android_client_info": {
+          "package_name": "app.esteem.monitor"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "727329145824-4cvs3h5kuahadelv8vr3h4f9fpfpgv1f.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyDxysYg5vwiRDTsxOPiIvardNNrNApRp2s"
+        }
+      ],
+      "services": {
+        "analytics_service": {
+          "status": 1
+        },
+        "appinvite_service": {
+          "status": 1,
+          "other_platform_oauth_client": []
+        },
+        "ads_service": {
+          "status": 2
+        }
+      }
+    },
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:727329145824:android:371b5b4551cc7d63",
+        "android_client_info": {
+          "package_name": "com.netsolutions.esteem"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "727329145824-ft3rhn0c2d10bmdm4a87m3c3c6ep9cr5.apps.googleusercontent.com",
+          "client_type": 1,
+          "android_info": {
+            "package_name": "com.netsolutions.esteem",
+            "certificate_hash": "f3dc2e50e60b9e849bf19d2de8b0cfa493213bcb"
+          }
+        },
+        {
+          "client_id": "727329145824-o1sm0umuq1l3hh4fp78dehkf4l3tu276.apps.googleusercontent.com",
+          "client_type": 1,
+          "android_info": {
+            "package_name": "com.netsolutions.esteem",
+            "certificate_hash": "da9a30356e24f5a9b26e3c5223e5e6d655196ea8"
+          }
+        },
+        {
+          "client_id": "727329145824-4cvs3h5kuahadelv8vr3h4f9fpfpgv1f.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyDxysYg5vwiRDTsxOPiIvardNNrNApRp2s"
+        }
+      ],
+      "services": {
+        "analytics_service": {
+          "status": 1
+        },
+        "appinvite_service": {
+          "status": 1,
+          "other_platform_oauth_client": []
+        },
+        "ads_service": {
+          "status": 2
+        }
+      }
+    },
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:727329145824:android:05f99127cf9368a6",
+        "android_client_info": {
+          "package_name": "com.netsolutions.esteemwitness"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "727329145824-4cvs3h5kuahadelv8vr3h4f9fpfpgv1f.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyDxysYg5vwiRDTsxOPiIvardNNrNApRp2s"
+        }
+      ],
+      "services": {
+        "analytics_service": {
+          "status": 1
+        },
+        "appinvite_service": {
+          "status": 1,
+          "other_platform_oauth_client": []
+        },
+        "ads_service": {
+          "status": 2
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}
