@@ -1,7 +1,7 @@
 ### eSteem Mobile
 
-iOS ![iOS](https://build.appcenter.ms/v0.1/apps/fc3725c3-719b-4081-8c1b-e65921f76aba/branches/master/badge)
-  Android ![Android](https://build.appcenter.ms/v0.1/apps/3df3ec7f-c9a2-457b-b132-94dbd7db99db/branches/master/badge)
+iOS ![iOS](https://build.appcenter.ms/v0.1/apps/ef80aa2a-d4e1-4f43-a4f8-be12ea72ba9b/branches/master/badge)
+  Android ![Android](https://build.appcenter.ms/v0.1/apps/12aace32-b58a-49da-bf85-5477f89ae16e/branches/master/badge)
 
 ### I. How do I get set up?
 

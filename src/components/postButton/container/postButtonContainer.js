@@ -31,10 +31,7 @@ class PostButtonContainer extends Component {
 
   _handleButtonCollapse = (status) => {
     const { dispatch, isCollapsePostButtonOpen } = this.props;
-
-    if (isCollapsePostButtonOpen !== status) {
-      dispatch(isCollapsePostButton(status));
-    }
+    dispatch(isCollapsePostButton(!isCollapsePostButtonOpen));
   };
 
   render() {
