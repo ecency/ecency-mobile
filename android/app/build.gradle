@@ -164,4 +164,4 @@ task copyDownloadableDepsToLibs(type: Copy) {
 }
 
 // Add to the bottom of the file
-apply plugin: 'com.google.gms.google-services'
+apply plugin: 'com.google.gms.google-services:4.0.2'
