@@ -1,11 +1,12 @@
 import React, { Component } from 'react';
-import {
-  Animated, Easing, TouchableOpacity, View, Platform,
-} from 'react-native';
-import { Icon } from '../../icon';
+import { Animated, Easing, View } from 'react-native';
+import { connect } from 'react-redux';
+import { withNavigation } from 'react-navigation';
 
 // Components
 import SubPostButton from './subPostButtonView';
+
+import { isCollapsePostButton } from '../../../redux/actions/uiAction';
 
 // Constant
 import { default as ROUTES } from '../../../constants/routeNames';
@@ -17,7 +18,7 @@ const SIZE = 60;
 const durationIn = 300;
 const durationOut = 200;
 
-class PostButtonView extends Component {
+class PostButtonsForAndroid extends Component {
   mode = new Animated.Value(0);
 
   icon1 = new Animated.Value(0);
@@ -34,27 +35,24 @@ class PostButtonView extends Component {
   }
 
   componentWillReceiveProps(nextProps) {
+    console.log('nextProps :', nextProps);
     // For closing sub buttons
-    if (this.mode._value) {
-      const { routes, isCollapsePostButtonOpen } = this.props;
-      const nextRouteName = nextProps.routes[0].routes[nextProps.routes[0].routes.length - 1].routeName;
-      const routeName = routes[0].routes[routes[0].routes.length - 1].routeName;
-      const { isCollapse } = this.state;
+    const { routes, isCollapsePostButtonOpen } = this.props;
+    const nextRouteName = nextProps.routes[0].routes[nextProps.routes[0].routes.length - 1].routeName;
+    const routeName = routes[0].routes[routes[0].routes.length - 1].routeName;
+    const { isCollapse } = this.state;
 
-      if (
-        (routeName !== nextRouteName && nextRouteName !== ROUTES.DRAWER.MAIN)
-        || (isCollapsePostButtonOpen !== nextProps.isCollapsePostButtonOpen
-          && !nextProps.isCollapsePostButtonOpen
-          && isCollapse !== nextProps.isCollapsePostButtonOpen)
-      ) {
-        this._toggleView();
-      }
+    if (
+      (routeName !== nextRouteName && nextRouteName !== ROUTES.DRAWER.MAIN)
+      || (isCollapsePostButtonOpen !== nextProps.isCollapsePostButtonOpen
+        && isCollapse !== nextProps.isCollapsePostButtonOpen)
+    ) {
+      this._toggleView();
     }
   }
 
   _toggleView = () => {
     const { isCollapse } = this.state;
-    const { handleButtonCollapse } = this.props;
 
     if (this.mode._value) {
       Animated.parallel(
@@ -82,91 +80,100 @@ class PostButtonView extends Component {
     }
 
     this.setState({ isCollapse: !isCollapse });
-    handleButtonCollapse(!isCollapse);
+    this._handleButtonCollapse(!isCollapse);
+  };
+
+  _handleButtonCollapse = (status) => {
+    const { dispatch, isCollapsePostButtonOpen } = this.props;
+
+    if (isCollapsePostButtonOpen !== status) {
+      dispatch(isCollapsePostButton(status));
+    }
+  };
+
+  _handleSubButtonPress = (route, action) => {
+    const { navigation } = this.props;
+
+    navigation.navigate({
+      routeName: route,
+      params: {
+        action,
+      },
+    });
+
+    // navigation.navigate(route);
   };
 
   render() {
     const firstX = this.icon1.interpolate({
       inputRange: [0, 1],
-      outputRange: [25, -25],
+      outputRange: [0, -50],
     });
     const firstY = this.icon1.interpolate({
       inputRange: [0, 1],
-      outputRange: [-10, -70],
+      outputRange: [0, -70],
     });
     const secondX = this.icon2.interpolate({
       inputRange: [0, 1],
-      outputRange: [25, 30],
+      outputRange: [0, 0],
     });
     const secondY = this.icon2.interpolate({
       inputRange: [0, 1],
-      outputRange: [-10, -95],
+      outputRange: [0, -95],
     });
     const thirdX = this.icon3.interpolate({
       inputRange: [0, 1],
-      outputRange: [25, 85],
+      outputRange: [0, 50],
     });
     const thirdY = this.icon3.interpolate({
       inputRange: [0, 1],
-      outputRange: [-10, -70],
+      outputRange: [0, -70],
     });
 
-    const rotation = this.mode.interpolate({
-      inputRange: [0, 1],
-      outputRange: ['0deg', '45deg'],
-    });
-
-    const { handleSubButtonPress, handleButtonCollapse } = this.props;
     return (
-      <View style={styles.postButtonWrapper}>
+      <View
+        style={{
+          justifyContent: 'center',
+        }}
+      >
         <SubPostButton
           size={SIZE}
           style={{
             left: firstX,
             top: firstY,
+            position: 'relative',
           }}
           icon="video-camera"
-          onPress={() => handleSubButtonPress(ROUTES.SCREENS.EDITOR, 'camera')}
+          onPress={() => this._handleSubButtonPress(ROUTES.SCREENS.EDITOR, 'camera')}
         />
         <SubPostButton
           size={SIZE}
           style={{
             left: secondX,
             top: secondY,
+            position: 'relative',
           }}
           icon="pencil"
-          onPress={() => handleSubButtonPress(ROUTES.SCREENS.EDITOR)}
+          onPress={() => this._handleSubButtonPress(ROUTES.SCREENS.EDITOR)}
         />
         <SubPostButton
           size={SIZE}
           style={{
             left: thirdX,
             top: thirdY,
+            position: 'relative',
           }}
           icon="camera"
-          onPress={() => handleSubButtonPress(ROUTES.SCREENS.EDITOR, 'image')}
+          onPress={() => this._handleSubButtonPress(ROUTES.SCREENS.EDITOR, 'image')}
         />
-        <TouchableOpacity
-          onPress={() => (Platform.OS === 'ios' ? this._toggleView() : handleButtonCollapse())}
-          activeOpacity={1}
-        >
-          <Animated.View
-            style={[
-              styles.postButton,
-              {
-                transform: [{ rotate: rotation }],
-                width: SIZE,
-                height: SIZE,
-                borderRadius: SIZE / 2,
-              },
-            ]}
-          >
-            <Icon name="plus" size={22} iconType="FontAwesome" color="#F8F8F8" />
-          </Animated.View>
-        </TouchableOpacity>
       </View>
     );
   }
 }
 
-export default PostButtonView;
+const mapStateToProps = state => ({
+  routes: state.nav.routes,
+  isCollapsePostButtonOpen: state.ui.isCollapsePostButton,
+});
+
+export default connect(mapStateToProps)(withNavigation(PostButtonsForAndroid));
