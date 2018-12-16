@@ -2,10 +2,11 @@
 
 printf "post-clone.sh\n"
 
-brew uninstall node@6
+# please specify required Node.js version
+NODE_VERSION=8.12.0
 
-curl -o- https://raw.githubusercontent.com/creationix/nvm/v0.33.11/install.sh | bash
-
-nvm use --delete-prefix v6.14.4 --silent
-
-nvm install 8.12.0
+# workaround to override the v8 alias
+npm config delete prefix
+. ~/.bashrc
+nvm install "$NODE_VERSION"
+nvm alias node8 "$NODE_VERSION"
