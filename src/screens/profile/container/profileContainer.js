@@ -14,11 +14,7 @@ import {
   getUser,
   getIsFollowing,
   getIsMuted,
-  getFollowers,
-  getFollowing,
 } from '../../../providers/steem/dsteem';
-import { decryptKey } from '../../../utils/crypto';
-import { getDigitPinCode } from '../../../providers/steem/auth';
 
 // Constants
 import { default as ROUTES } from '../../../constants/routeNames';

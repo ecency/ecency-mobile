@@ -10,7 +10,7 @@ const DEFAULT_IMAGE = require('../../../assets/avatar_default.png');
  */
 
 const UserAvatarView = ({ username, size, style }) => {
-  const imageSize = size === 'xl' ? 'large' : 'medium';
+  const imageSize = size === 'xl' ? 'large' : 'small';
   const _avatar = username
     ? { uri: `https://steemitimages.com/u/${username}/avatar/${imageSize}` }
     : DEFAULT_IMAGE;

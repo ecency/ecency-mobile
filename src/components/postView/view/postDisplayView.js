@@ -57,6 +57,7 @@ class PostDisplayView extends Component {
       handleOnEditPress,
       handleOnReplyPress,
       handleOnVotersPress,
+      isLoggedIn,
       post,
     } = this.props;
 
@@ -97,6 +98,7 @@ class PostDisplayView extends Component {
               name="reply"
               onPress={() => handleOnReplyPress && handleOnReplyPress()}
               iconType="FontAwesome"
+              disabled={!isLoggedIn}
             />
           </View>
         </View>
