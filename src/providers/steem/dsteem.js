@@ -257,7 +257,8 @@ export const getActiveVotes = (author, permlink) => client.database.call('get_ac
 export const getPostsSummary = async (by, query, currentUserName) => {
   try {
     let posts = await client.database.getDiscussions(by, query);
-
+    console.log(posts);
+    console.log(by, query, currentUserName);
     posts = await parsePosts(posts, currentUserName);
     return posts;
   } catch (error) {
