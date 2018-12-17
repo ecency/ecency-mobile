@@ -108,7 +108,7 @@ class PostDisplayView extends Component {
   };
 
   render() {
-    const { post, isFetchComments } = this.props;
+    const { post, fetchPost } = this.props;
     const { postHeight, scrollHeight, isLoadedComments } = this.state;
 
     const isPostEnd = scrollHeight > postHeight;
@@ -153,7 +153,7 @@ class PostDisplayView extends Component {
               author={post.author}
               permlink={post.permlink}
               commentCount={post.children}
-              isFetchComments={isFetchComments}
+              fetchPost={fetchPost}
             />
           )}
         </ScrollView>

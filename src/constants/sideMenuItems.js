@@ -7,36 +7,37 @@ const authMenuItems = [
     icon: 'perm-identity',
     id: 'profile',
   },
-  {
-    name: 'Bookmarks',
-    route: 'bookmarks',
-    icon: 'star-border',
-    id: 'bookmarks',
-  },
-  {
-    name: 'Favorites',
-    route: 'favorites',
-    icon: 'favorite-border',
-    id: 'favorites',
-  },
-  {
-    name: 'Drafts',
-    route: 'drafts',
-    icon: 'insert-drive-file',
-    id: 'drafts',
-  },
-  {
-    name: 'Schedules',
-    route: 'schedules',
-    icon: 'schedule',
-    id: 'schedules',
-  },
-  {
-    name: 'Gallery',
-    route: 'galery',
-    icon: 'photo-library',
-    id: 'gallery',
-  },
+  // These are not ready yet!
+  // {
+  //   name: 'Bookmarks',
+  //   route: 'bookmarks',
+  //   icon: 'star-border',
+  //   id: 'bookmarks',
+  // },
+  // {
+  //   name: 'Favorites',
+  //   route: 'favorites',
+  //   icon: 'favorite-border',
+  //   id: 'favorites',
+  // },
+  // {
+  //   name: 'Drafts',
+  //   route: 'drafts',
+  //   icon: 'insert-drive-file',
+  //   id: 'drafts',
+  // },
+  // {
+  //   name: 'Schedules',
+  //   route: 'schedules',
+  //   icon: 'schedule',
+  //   id: 'schedules',
+  // },
+  // {
+  //   name: 'Gallery',
+  //   route: 'galery',
+  //   icon: 'photo-library',
+  //   id: 'gallery',
+  // },
   {
     name: 'Settings',
     route: ROUTES.SCREENS.SETTINGS,

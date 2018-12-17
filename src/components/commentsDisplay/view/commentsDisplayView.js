@@ -29,7 +29,9 @@ class CommentsDisplayView extends Component {
   };
 
   render() {
-    const { author, permlink, commentCount } = this.props;
+    const {
+      author, permlink, commentCount, fetchPost,
+    } = this.props;
 
     return (
       <Fragment>
@@ -42,7 +44,12 @@ class CommentsDisplayView extends Component {
               onDropdownSelect={this._handleOnDropdownSelect}
             />
             <View style={{ padding: 16 }}>
-              <Comments commentCount={commentCount} author={author} permlink={permlink} />
+              <Comments
+                fetchPost={fetchPost}
+                commentCount={commentCount}
+                author={author}
+                permlink={permlink}
+              />
             </View>
           </Fragment>
         )}
