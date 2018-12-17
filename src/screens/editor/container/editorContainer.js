@@ -1,6 +1,6 @@
 import React, { Component } from 'react';
 import { connect } from 'react-redux';
-import { Alert } from 'react-native'
+import { Alert } from 'react-native';
 import ImagePicker from 'react-native-image-crop-picker';
 
 // Services and Actions
@@ -170,7 +170,10 @@ class EditorContainer extends Component {
   _handleMediaOnSelectFailure = (error) => {
     // const { navigation } = this.props;
     this.setState({ isCameraOrPickerOpen: false });
-    Alert.alert('Permission Denied', 'Please, go to phone Settings and change eSteem app permissions.');
+    Alert.alert(
+      'Permission Denied',
+      'Please, go to phone Settings and change eSteem app permissions.',
+    );
   };
 
   // Media select functions <- END ->
@@ -227,18 +230,17 @@ class EditorContainer extends Component {
         0,
       )
         .then((result) => {
-          alert('Your post succesfully shared');
+          Alert.alert('Success!', 'Your post succesfully shared');
           navigation.goBack();
         })
         .catch((error) => {
-          alert(`Opps! there is a problem${error}`);
-          this.setState({ isPostSending: false });
+          this._handleSubmitFailure(error);
         });
     }
   };
 
   _submitReply = async (fields) => {
-    const { navigation, currentAccount } = this.props;
+    const { currentAccount } = this.props;
 
     if (currentAccount) {
       this.setState({ isPostSending: true });
@@ -266,14 +268,26 @@ class EditorContainer extends Component {
         0,
       )
         .then((result) => {
-          alert('Your post succesfully shared');
-          navigation.goBack();
+          this._handleReplySuccess();
         })
         .catch((error) => {
-          alert(`Opps! there is a problem${error}`);
-          this.setState({ isPostSending: false });
+          this._handleSubmitFailure(error);
         });
     }
+  };
+
+  _handleSubmitFailure = (error) => {
+    Alert.alert('Fail!', `Opps! there is a problem${error}`);
+    this.setState({ isPostSending: false });
+  };
+
+  _handleReplySuccess = () => {
+    const { navigation } = this.props;
+
+    navigation.goBack();
+    navigation.state.params.fetchPost();
+
+    Alert.alert('Success!', 'Your post succesfully shared');
   };
 
   _handleSubmit = (form) => {

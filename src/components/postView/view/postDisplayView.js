@@ -66,40 +66,41 @@ class PostDisplayView extends Component {
         <View style={styles.stickyWrapper}>
           <Upvote fetchPost={fetchPost} isShowPayoutValue content={post} />
           <TextWithIcon
-            isClickable
-            iconStyle={styles.barIcons}
-            textMarginLeft={20}
-            text={post && post.vote_count}
-            onPress={() => handleOnVotersPress && handleOnVotersPress(post.active_votes)}
-            iconType="MaterialIcons"
             iconName="people"
+            iconStyle={styles.barIcons}
+            iconType="MaterialIcons"
+            isClickable
+            onPress={() => handleOnVotersPress && handleOnVotersPress(post.active_votes)}
+            text={post && post.vote_count}
+            textMarginLeft={20}
           />
           <TextWithIcon
-            isClickable
+            iconName="comment"
             iconStyle={styles.barIcons}
-            textMarginLeft={20}
-            text={post && post.children}
-            iconName="chat"
             iconType="MaterialIcons"
+            isClickable
+            text={post && post.children}
+            textMarginLeft={20}
           />
           <View style={styles.stickyRightWrapper}>
             {post && currentAccount && currentAccount.name === post.author && (
               <IconButton
                 iconStyle={styles.barIconRight}
-                style={styles.barIconButton}
-                name="pencil"
-                iconType="SimpleLineIcons"
+                iconType="MaterialIcons"
+                name="create"
                 onPress={() => handleOnEditPress && handleOnEditPress()}
+                style={styles.barIconButton}
               />
             )}
-            <IconButton
-              iconStyle={styles.barIconRight}
-              style={styles.barIconButton}
-              name="reply"
-              onPress={() => handleOnReplyPress && handleOnReplyPress()}
-              iconType="FontAwesome"
-              disabled={!isLoggedIn}
-            />
+            {isLoggedIn && (
+              <IconButton
+                iconStyle={styles.barIconRight}
+                iconType="MaterialIcons"
+                name="reply"
+                onPress={() => handleOnReplyPress && handleOnReplyPress()}
+                style={styles.barIconButton}
+              />
+            )}
           </View>
         </View>
       </StickyBar>
@@ -107,7 +108,7 @@ class PostDisplayView extends Component {
   };
 
   render() {
-    const { post } = this.props;
+    const { post, isFetchComments } = this.props;
     const { postHeight, scrollHeight, isLoadedComments } = this.state;
 
     const isPostEnd = scrollHeight > postHeight;
@@ -152,6 +153,7 @@ class PostDisplayView extends Component {
               author={post.author}
               permlink={post.permlink}
               commentCount={post.children}
+              isFetchComments={isFetchComments}
             />
           )}
         </ScrollView>

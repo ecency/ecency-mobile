@@ -42,7 +42,7 @@ class CommentsDisplayView extends Component {
               onDropdownSelect={this._handleOnDropdownSelect}
             />
             <View style={{ padding: 16 }}>
-              <Comments author={author} permlink={permlink} />
+              <Comments commentCount={commentCount} author={author} permlink={permlink} />
             </View>
           </Fragment>
         )}

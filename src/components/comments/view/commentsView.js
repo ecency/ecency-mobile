@@ -68,14 +68,15 @@ class CommentsView extends Component {
                   <PostBody isComment handleOnUserPress={handleOnUserPress} body={item.body} />
                   <View style={{ flexDirection: 'row' }}>
                     <Upvote isShowPayoutValue content={item} />
-                    <IconButton
-                      iconStyle={{ color: '#c1c5c7' }}
-                      style={{ marginLeft: 20 }}
-                      name="reply"
-                      onPress={() => handleOnReplyPress && handleOnReplyPress(item)}
-                      iconType="FontAwesome"
-                      disabled={!isLoggedIn}
-                    />
+                    {isLoggedIn && (
+                      <IconButton
+                        iconStyle={{ color: '#c1c5c7' }}
+                        style={{ marginLeft: 20 }}
+                        name="reply"
+                        onPress={() => handleOnReplyPress && handleOnReplyPress(item)}
+                        iconType="MaterialIcons"
+                      />
+                    )}
                   </View>
                 </View>
                 {!isProfilePreview && (
