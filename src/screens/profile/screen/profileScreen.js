@@ -138,7 +138,7 @@ class ProfileScreen extends Component {
             </View>
             <View
               tabLabel={intl.formatMessage({
-                id: 'profile.comments',
+                id: 'profile.replies',
               })}
               style={styles.commentsTabBar}
             >
