@@ -275,6 +275,20 @@ export const getUserComments = async (query) => {
   }
 };
 
+export const getRepliesByLastUpdate = async (query) => {
+  try {
+    let replies = await client.database.call('get_replies_by_last_update', [
+      query.start_author,
+      query.start_permlink,
+      query.limit,
+    ]);
+    replies = parseComments(replies);
+    return replies;
+  } catch (error) {
+    return error;
+  }
+};
+
 /**
  * @method getUser get user data
  * @param user post author
