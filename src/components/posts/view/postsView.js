@@ -48,9 +48,7 @@ class PostsView extends Component {
 
   _loadPosts = (filter = null) => {
     const { getFor, tag, currentAccountUsername } = this.props;
-    const {
-      posts, startAuthor, startPermlink,
-    } = this.state;
+    const { posts, startAuthor, startPermlink } = this.state;
     let options;
 
     this.setState({ isLoading: true });
@@ -92,8 +90,6 @@ class PostsView extends Component {
         }
       })
       .catch((err) => {
-        console.log(err);
-
         this.setState({
           isPostsLoading: false,
         });
