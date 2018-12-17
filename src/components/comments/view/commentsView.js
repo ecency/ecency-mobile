@@ -88,6 +88,7 @@ class CommentsView extends Component {
                         avatarSize={avatarSize || 16}
                         author={item.author}
                         permlink={item.permlink}
+                        commentCount={item.children}
                       />
                     )}
                   </View>
