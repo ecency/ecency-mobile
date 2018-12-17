@@ -37,7 +37,7 @@ export default EStyleSheet.create({
     marginLeft: 15,
   },
   username: {
-    color: '$white',
+    color: '$pureWhite',
     fontWeight: 'bold',
     fontSize: 14,
     marginBottom: 8,

@@ -55,13 +55,14 @@ class CommentsContainer extends Component {
   };
 
   _handleOnReplyPress = (item) => {
-    const { navigation } = this.props;
+    const { navigation, fetchPost } = this.props;
 
     navigation.navigate({
       routeName: ROUTES.SCREENS.EDITOR,
       params: {
         isReply: true,
         post: item,
+        fetchPost,
       },
     });
   };
