@@ -354,7 +354,13 @@ export const vote = async (currentAccount, author, permlink, weight) => {
       weight,
     };
 
-    return client.broadcast.vote(args, privateKey);
+    return new Promise((resolve, reject) => {
+      client.broadcast.vote(args, privateKey).then((result) => {
+        resolve(result);
+      }).catch((err) => {
+        reject(err);
+      });
+    });
   }
 
   if (currentAccount.local.authType === AUTH_TYPE.STEEM_CONNECT) {
@@ -365,7 +371,13 @@ export const vote = async (currentAccount, author, permlink, weight) => {
 
     const voter = currentAccount.name;
 
-    return api.vote(voter, author, permlink, weight);
+    return new Promise((resolve, reject) => {
+      api.vote(voter, author, permlink, weight).then((result) => {
+        resolve(result);
+      }).catch((err) => {
+        reject(err);
+      });
+    });
   }
 };
 
