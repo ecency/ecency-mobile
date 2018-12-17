@@ -8,6 +8,7 @@
     ]
   },
   "scripts": {
+    "version": "./version-ios.sh",
     "start": "node node_modules/react-native/local-cli/cli.js start",
     "eject": "node node_modules/react-native/local-cli/cli.js eject",
     "android": "node node_modules/react-native/local-cli/cli.js run-android",
