@@ -42,7 +42,19 @@ class PostsView extends Component {
       currentAccountUsername !== nextProps.currentAccountUsername
       && nextProps.currentAccountUsername
     ) {
-      this._loadPosts();
+      // Set all initial data (New user new rules)
+      this.setState({
+        posts: [],
+        startAuthor: '',
+        startPermlink: '',
+        refreshing: false,
+        isLoading: false,
+        isPostsLoading: false,
+        isHideImage: false,
+        selectedFilterIndex: 0,
+      }, () => {
+        this._loadPosts();
+      });
     }
   }
 
