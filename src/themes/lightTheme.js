@@ -29,6 +29,8 @@ export default {
   $shadowColor: '#b0b0b0',
   $disableGray: '#fff',
   $editorButtonColor: '#3c4449',
+  $pureWhite: '#ffffff',
+
   // Devices Sizes
   $deviceHeight: Dimensions.get('window').height,
   $deviceWidth: Dimensions.get('window').width,

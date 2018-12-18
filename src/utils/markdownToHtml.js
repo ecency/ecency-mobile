@@ -32,9 +32,10 @@ export const markDown2Html = (input) => {
     output = createYoutubeIframe(output);
   }
 
-  if (dTubeRegex.test(output)) {
-    output = createDtubeIframe(output);
-  }
+  // Has bug
+  // if (dTubeRegex.test(output)) {
+  //   output = createDtubeIframe(output);
+  // }
 
   if (vimeoRegex.test(output)) {
     output = createVimeoIframe(output);

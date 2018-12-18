@@ -29,9 +29,11 @@ class PostButtonContainer extends Component {
     // navigation.navigate(route);
   };
 
-  _handleButtonCollapse = (status) => {
+  _handleButtonCollapse = (status, platformIsAndroid) => {
     const { dispatch, isCollapsePostButtonOpen } = this.props;
-    dispatch(isCollapsePostButton(!isCollapsePostButtonOpen));
+    if (isCollapsePostButtonOpen !== status || platformIsAndroid) {
+      dispatch(isCollapsePostButton(!isCollapsePostButtonOpen));
+    }
   };
 
   render() {

@@ -108,7 +108,7 @@ class PostCard extends Component {
             </TouchableOpacity>
           </View>
           <TouchableOpacity style={styles.commentButton}>
-            <Icon style={[styles.commentIcon]} iconType="MaterialIcons" name="chat" />
+            <Icon style={[styles.commentIcon]} iconType="MaterialIcons" name="comment" />
             <Text style={styles.comment}>{content.children}</Text>
           </TouchableOpacity>
         </View>
