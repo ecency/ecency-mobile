@@ -110,7 +110,7 @@ class UpvoteView extends Component {
         );
       })
       .catch((err) => {
-        Alert.alert('Failed!', err);
+        Alert.alert('Failed!', err.message);
         this.setState({
           isVoted: false,
           isVoting: false,

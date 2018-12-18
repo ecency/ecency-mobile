@@ -121,14 +121,15 @@ class TransactionView extends Component {
 
     return (
       <View>
-        <FilterBar
+        {/* this feature not implemented yet */}
+        {/* <FilterBar
           dropdownIconName="md-arrow-dropdown"
           options={['ALL TRANSACTIONS', 'VOTES', 'REPLIES']}
           defaultText="ALL TRANSACTIONS"
           onDropdownSelect={() => this._handleOnDropdownSelect()}
           rightIconName="ios-lock"
           iconSize={16}
-        />
+        /> */}
         <Card>
           {transactions
             && transactions.map((item, index) => {

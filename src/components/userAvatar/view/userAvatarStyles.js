@@ -4,5 +4,6 @@ export default EStyleSheet.create({
   avatar: {
     borderWidth: 0.75,
     borderColor: '$borderColor',
+    backgroundColor: '$pureWhite',
   },
 });
