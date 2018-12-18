@@ -12,15 +12,15 @@ import styles from './percentBarStyles';
 
 class PercentBarView extends Component {
   /* Props
-    * ------------------------------------------------
-    *   @prop { string }    barColor                - Bar color proferties
-    *   @prop { string }    barPercentColor         - Bar background color properties
-    *   @prop { number }    margin                  - If you use with margin right and left you should declare that if it neccessary
-    *   @prop { number }    percent                 - Percent for bar (ex: %32 just send 32)
-    *   @prop { string }    text                    - Text string
-    *   @prop { string }    textColor               - Text color
-    *
-    */
+   * ------------------------------------------------
+   *   @prop { string }    barColor                - Bar color proferties
+   *   @prop { string }    barPercentColor         - Bar background color properties
+   *   @prop { number }    margin                  - If you use with margin right and left you should declare that if it neccessary
+   *   @prop { number }    percent                 - Percent for bar (ex: %32 just send 32)
+   *   @prop { string }    text                    - Text string
+   *   @prop { string }    textColor               - Text color
+   *
+   */
 
   constructor(props) {
     super(props);
@@ -33,8 +33,7 @@ class PercentBarView extends Component {
   _calculateWidth = (percent, margin = null) => {
     if (percent) {
       const per = 100 / percent;
-
-      return Dimensions.get('window').width / per - margin;
+      return (Dimensions.get('window').width - margin) / per;
     }
     return null;
   };
