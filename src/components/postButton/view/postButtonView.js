@@ -147,7 +147,7 @@ class PostButtonView extends Component {
           onPress={() => handleSubButtonPress(ROUTES.SCREENS.EDITOR, 'image')}
         />
         <TouchableOpacity
-          onPress={() => (Platform.OS === 'ios' ? this._toggleView() : handleButtonCollapse())}
+          onPress={() => (Platform.OS === 'ios' ? this._toggleView() : handleButtonCollapse(null, Platform.OS === 'android'))}
           activeOpacity={1}
         >
           <Animated.View

@@ -2,9 +2,6 @@ import React, { Component } from 'react';
 import { withNavigation } from 'react-navigation';
 import { connect } from 'react-redux';
 
-// Services and Actions
-import { getPost } from '../../../providers/steem/dsteem';
-
 // Middleware
 
 // Constants
@@ -24,12 +21,16 @@ import { PostDisplayView } from '..';
 class PostDisplayContainer extends Component {
   constructor(props) {
     super(props);
-    this.state = {
-      _post: null,
-    };
+    this.state = {};
   }
 
   // Component Life Cycle Functions
+  componentWillReceiveProps(nextProps) {
+    const { isFetchPost } = this.props;
+    if (isFetchPost !== nextProps.isFetchPost && nextProps.isFetchPost) {
+      this._fetchPost();
+    }
+  }
 
   // Component Functions
   _handleOnVotersPress = (activeVotes) => {
@@ -45,29 +46,24 @@ class PostDisplayContainer extends Component {
 
   _handleOnReplyPress = () => {
     const { post, navigation } = this.props;
-
     navigation.navigate({
       routeName: ROUTES.SCREENS.EDITOR,
       params: {
         isReply: true,
         post,
+        fetchPost: this._fetchPost,
       },
     });
   };
 
   _fetchPost = async () => {
-    const { currentAccount, post } = this.props;
+    const { post, fetchPost } = this.props;
 
-    await getPost(post.author, post.permlink, currentAccount.username).then((result) => {
-      if (result) {
-        this.setState({ _post: result });
-      }
-    });
+    fetchPost(post.author, post.permlink);
   };
 
   render() {
-    const { post, currentAccount } = this.props;
-    const { _post } = this.state;
+    const { post, currentAccount, isLoggedIn } = this.props;
 
     return (
       <PostDisplayView
@@ -75,7 +71,8 @@ class PostDisplayContainer extends Component {
         handleOnReplyPress={this._handleOnReplyPress}
         currentAccount={currentAccount}
         fetchPost={this._fetchPost}
-        post={_post || post}
+        post={post}
+        isLoggedIn={isLoggedIn}
       />
     );
   }
@@ -83,6 +80,8 @@ class PostDisplayContainer extends Component {
 
 const mapStateToProps = state => ({
   currentAccount: state.account.currentAccount,
+
+  isLoggedIn: state.application.isLoggedIn,
 });
 
 export default withNavigation(connect(mapStateToProps)(PostDisplayContainer));

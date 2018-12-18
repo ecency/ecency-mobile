@@ -23,11 +23,22 @@ class PostContainer extends Component {
   }
 
   // Component Life Cycle Functions
-  async componentDidMount() {
+  componentDidMount() {
     const { navigation } = this.props;
     const { author, permlink } = navigation.state && navigation.state.params;
 
-    await this._loadPost(author, permlink);
+    this._loadPost(author, permlink);
+  }
+
+  componentWillReceiveProps(nextProps) {
+    const { navigation } = this.props;
+    const { isFetch: NextisFetch } = nextProps.navigation.state && nextProps.navigation.state.params;
+
+    if (NextisFetch) {
+      const { author, permlink } = navigation.state && navigation.state.params;
+
+      this._loadPost(author, permlink);
+    }
   }
 
   // Component Functions
@@ -56,6 +67,8 @@ class PostContainer extends Component {
         error={error}
         isLoggedIn={isLoggedIn}
         post={post}
+        fetchPost={this._loadPost}
+        isFetchComments
       />
     );
   }
