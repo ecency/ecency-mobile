@@ -10,7 +10,7 @@ import {
   unfollowUser,
   ignoreUser,
   getFollows,
-  getUserComments,
+  getRepliesByLastUpdate,
   getUser,
   getIsFollowing,
   getIsMuted,
@@ -65,8 +65,8 @@ class ProfileContainer extends Component {
     }
   }
 
-  _getComments = async (user) => {
-    await getUserComments({ start_author: user, limit: 10 })
+  _getReplies = async (user) => {
+    await getRepliesByLastUpdate({ start_author: user, limit: 10 })
       .then((result) => {
         this.setState({
           isReady: true,
@@ -205,7 +205,7 @@ class ProfileContainer extends Component {
         username: selectedUser,
       },
       () => {
-        this._getComments(selectedUser);
+        this._getReplies(selectedUser);
       },
     );
   };

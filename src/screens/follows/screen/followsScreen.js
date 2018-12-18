@@ -15,9 +15,9 @@ import styles from './followScreenStyles';
 
 class FollowsScreen extends Component {
   /* Props
-    * ------------------------------------------------
-    *   @prop { type }    name                - Description....
-    */
+   * ------------------------------------------------
+   *   @prop { type }    name                - Description....
+   */
 
   constructor(props) {
     super(props);
@@ -59,10 +59,10 @@ class FollowsScreen extends Component {
 
   render() {
     const {
-      loadMore, data, isFollowers, count, filterResult, handleSearch, intl,
+      loadMore, data, isFollowing, count, filterResult, handleSearch, intl,
     } = this.props;
     const title = intl.formatMessage({
-      id: !isFollowers ? 'profile.follower' : 'profile.following',
+      id: !isFollowing ? 'profile.follower' : 'profile.following',
     });
 
     const headerTitle = `${title} (${count})`;
