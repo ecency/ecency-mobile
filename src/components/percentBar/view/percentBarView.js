@@ -32,8 +32,7 @@ class PercentBarView extends Component {
   // Component Functions
   _calculateWidth = (percent, margin = null) => {
     if (percent) {
-      const per = 100 / percent;
-      return Dimensions.get('window').width / (per - margin);
+      return (Dimensions.get('window').width * percent) / 100 - margin;
     }
     return null;
   };
