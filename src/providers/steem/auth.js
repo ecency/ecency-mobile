@@ -73,6 +73,7 @@ export const Login = (username, password) => {
           setUserData(userData)
             .then(() => {
               resolve({ ...account, password });
+              updateCurrentUsername(account.name);
             })
             .catch(() => {
               reject(new Error('Invalid credentails, please check and try again'));
@@ -127,6 +128,7 @@ export const loginWithSC2 = async (accessToken) => {
           .then(() => {
             account.account.username = account.account.name;
             resolve({ ...account.account, accessToken });
+            updateCurrentUsername(account.account.name);
           })
           .catch((error) => {
             reject(error);
