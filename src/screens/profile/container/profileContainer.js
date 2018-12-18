@@ -52,11 +52,16 @@ class ProfileContainer extends Component {
   };
 
   componentWillReceiveProps(nextProps) {
-    const { navigation } = this.props;
+    const { navigation, currentAccount } = this.props;
+    const currentUsername = currentAccount.name !== nextProps.currentAccount.name && nextProps.currentAccount.name;
     const isParamsChange = nextProps.navigation.state
       && navigation.state
       && nextProps.navigation.state.params
       && nextProps.navigation.state.params.username !== navigation.state.params.username;
+
+    if (currentUsername) {
+      this._loadProfile(currentUsername);
+    }
 
     if (isParamsChange) {
       const selectedUser = nextProps.navigation.state && nextProps.navigation.state.params;
@@ -105,13 +110,10 @@ class ProfileContainer extends Component {
   };
 
   _unfollowUser = (currentAccount, follower, following) => {
-    unfollowUser(
-      currentAccount,
-      {
-        follower,
-        following,
-      },
-    )
+    unfollowUser(currentAccount, {
+      follower,
+      following,
+    })
       .then(() => {
         this._profileActionDone();
       })
@@ -121,13 +123,10 @@ class ProfileContainer extends Component {
   };
 
   _followUser = (currentAccount, follower, following) => {
-    followUser(
-      currentAccount,
-      {
-        follower,
-        following,
-      },
-    )
+    followUser(currentAccount, {
+      follower,
+      following,
+    })
       .then(() => {
         this._profileActionDone();
       })
@@ -137,13 +136,10 @@ class ProfileContainer extends Component {
   };
 
   _muteUser = async (currentAccount, follower, following) => {
-    ignoreUser(
-      currentAccount,
-      {
-        follower,
-        following,
-      },
-    )
+    ignoreUser(currentAccount, {
+      follower,
+      following,
+    })
       .then(() => {
         this._profileActionDone();
       })
