@@ -48,6 +48,7 @@ import {
 
 // Container
 import { ApplicationScreen } from '..';
+import { Launch } from '../../';
 
 addLocaleData([...en, ...tr]);
 
@@ -239,7 +240,7 @@ class ApplicationContainer extends Component {
     if (isRenderRequire && isReady) {
       return <ApplicationScreen locale={locale} {...this.props} />;
     }
-    return null;
+    return <Launch />;
   }
 }
 
