@@ -38,14 +38,12 @@ export default class TagAreaView extends Component {
 
   // Component Functions
   _handleOnChange = (text, i) => {
-    const { chips } = this.state;
-
     this.setState({
       currentText: text.replace(/\s/g, ''),
     });
 
     if (text.indexOf(' ') > 0 && text) {
-      this._handleTagAdded(chips[i] ? i : null);
+      this._handleTagAdded();
     }
     if (!text && i !== 0) {
       this._handleTagRemove(i);
@@ -54,7 +52,6 @@ export default class TagAreaView extends Component {
 
   _handleOnBlur = (i) => {
     this._handleTagAdded(i);
-    this.setState({ activeChip: null });
   };
 
   _handleTagAdded = (i = null, text = null) => {
@@ -67,8 +64,8 @@ export default class TagAreaView extends Component {
         currentText: '',
       });
     } else if (_currentText && chips && chips.length === chipsCount) {
-      const _chips = chips;
-      _chips[chipsCount - 1] = currentText;
+      let _chips = chips;
+      _chips[chipsCount -1] = currentText;
       this.setState({
         chips: _chips,
         currentText: null,
@@ -118,9 +115,7 @@ export default class TagAreaView extends Component {
               handleOnChange={text => this._handleOnChange(text, i)}
               handleOnBlur={() => this._handleOnBlur(i)}
               blurOnSubmit
-              value={
-                activeChip === i ? currentText || chip.replace(/\s/g, '') : chip.replace(/\s/g, '')
-              }
+              value={activeChip === i ? currentText : chip}
               autoCapitalize="none"
               onFocus={() => this.setState({ activeChip: i })}
               {...this.props}
