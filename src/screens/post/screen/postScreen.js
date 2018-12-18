@@ -23,7 +23,9 @@ class PostScreen extends Component {
   // Component Functions
 
   render() {
-    const { post, currentAccount, isLoggedIn } = this.props;
+    const {
+      post, currentAccount, isLoggedIn, fetchPost, isFetchComments,
+    } = this.props;
 
     return (
       <Fragment>
@@ -33,7 +35,13 @@ class PostScreen extends Component {
           content={post}
           dropdownComponent={<PostDropdown content={post} />}
         />
-        <PostDisplay post={post} currentAccount={currentAccount} isLoggedIn={isLoggedIn} />
+        <PostDisplay
+          post={post}
+          currentAccount={currentAccount}
+          isLoggedIn={isLoggedIn}
+          fetchPost={fetchPost}
+          isFetchComments={isFetchComments}
+        />
       </Fragment>
     );
   }

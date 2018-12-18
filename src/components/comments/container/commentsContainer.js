@@ -32,40 +32,54 @@ class CommentsContainer extends Component {
 
   // Component Life Cycle Functions
   componentDidMount() {
+    this._getComments();
+  }
+
+  componentWillReceiveProps(nextProps) {
+    const { commentCount } = this.props;
+
+    if (nextProps.commentCount > commentCount) {
+      this._getComments();
+    }
+  }
+
+  // Component Functions
+  _getComments = async () => {
     const { author, permlink } = this.props;
 
-    getComments(author, permlink)
-      .then((comments) => {
-        this.setState({
-          comments,
-        });
-      })
-      .catch((error) => {
-        // alert(error);
+    await getComments(author, permlink).then((comments) => {
+      this.setState({
+        comments,
       });
-  }
-  // Component Functions
+    });
+  };
 
   _handleOnReplyPress = (item) => {
-    const { navigation } = this.props;
+    const { navigation, fetchPost } = this.props;
 
     navigation.navigate({
       routeName: ROUTES.SCREENS.EDITOR,
       params: {
         isReply: true,
         post: item,
+        fetchPost,
       },
     });
   };
 
   render() {
     const { comments } = this.state;
-    const { isLoggedIn } = this.props;
+    const {
+      isLoggedIn, commentCount, author, permlink,
+    } = this.props;
     return (
       <CommentsView
         handleOnReplyPress={this._handleOnReplyPress}
         comments={comments}
         isLoggedIn={isLoggedIn}
+        commentCount={commentCount}
+        author={author}
+        permlink={permlink}
         {...this.props}
       />
     );

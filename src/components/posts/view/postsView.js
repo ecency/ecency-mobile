@@ -48,58 +48,52 @@ class PostsView extends Component {
 
   _loadPosts = (filter = null) => {
     const { getFor, tag, currentAccountUsername } = this.props;
+    const { posts, startAuthor, startPermlink } = this.state;
     let options;
 
-    if (!filter) {
-      options = { tag, limit: 3 };
+    this.setState({ isLoading: true });
+
+    if (!filter && tag) {
+      options = {
+        tag,
+        limit: 3,
+      };
     } else {
-      options = { limit: 3 };
+      options = {
+        limit: 3,
+      };
+    }
+
+    if (startAuthor && startPermlink) {
+      options.start_author = startAuthor;
+      options.start_permlink = startPermlink;
     }
 
     getPostsSummary(filter || getFor, options, currentAccountUsername)
       .then((result) => {
         if (result) {
-          this.setState({
-            posts: result,
-            startAuthor: result[result.length - 1] && result[result.length - 1].author,
-            startPermlink: result[result.length - 1] && result[result.length - 1].permlink,
-            refreshing: false,
-            isPostsLoading: false,
-          });
+          let _posts = result;
+
+          if (_posts.length > 0) {
+            if (posts.length > 0) {
+              _posts.shift();
+              _posts = [...posts, ..._posts];
+            }
+            this.setState({
+              posts: _posts,
+              startAuthor: result[result.length - 1] && result[result.length - 1].author,
+              startPermlink: result[result.length - 1] && result[result.length - 1].permlink,
+              refreshing: false,
+              isPostsLoading: false,
+            });
+          }
         }
       })
       .catch((err) => {
-        alert(err);
-      });
-  };
-
-  _loadMore = () => {
-    // TODO: merge above function with this func (after alpha).
-    const { posts, startAuthor, startPermlink } = this.state;
-    const { getFor, tag, currentAccountUsername } = this.props;
-
-    this.setState({ isLoading: true });
-
-    getPostsSummary(
-      getFor,
-      {
-        tag,
-        limit: 3,
-        start_author: startAuthor,
-        start_permlink: startPermlink,
-      },
-      currentAccountUsername,
-    ).then((result) => {
-      const _posts = result;
-      if (_posts.length > 0) {
-        _posts.shift();
         this.setState({
-          posts: [...posts, ..._posts],
-          startAuthor: result && result[result.length - 1] && result[result.length - 1].author,
-          startPermlink: result && result[result.length - 1] && result[result.length - 1].permlink,
+          isPostsLoading: false,
         });
-      }
-    });
+      });
   };
 
   _handleOnRefreshPosts = () => {
@@ -193,7 +187,7 @@ class PostsView extends Component {
             showsVerticalScrollIndicator={false}
             renderItem={({ item }) => <PostCard content={item} isHideImage={isHideImage} />}
             keyExtractor={(post, index) => index.toString()}
-            onEndReached={this._loadMore}
+            onEndReached={() => this._loadPosts()}
             removeClippedSubviews
             refreshing={refreshing}
             onRefresh={() => this._handleOnRefreshPosts()}
