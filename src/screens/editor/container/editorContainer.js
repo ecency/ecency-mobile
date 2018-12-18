@@ -286,8 +286,6 @@ class EditorContainer extends Component {
 
     navigation.goBack();
     navigation.state.params.fetchPost();
-
-    Alert.alert('Success!', 'Your post succesfully shared');
   };
 
   _handleSubmit = (form) => {
