@@ -48,6 +48,7 @@ import {
 
 // Container
 import { ApplicationScreen } from '..';
+import { Launch } from '../../';
 
 addLocaleData([...en, ...tr]);
 
@@ -56,13 +57,14 @@ class ApplicationContainer extends Component {
     super();
     this.state = {
       isRenderRequire: true,
+      isReady: false,
     };
   }
 
   componentDidMount = async () => {
     BackHandler.addEventListener('hardwareBackPress', this._onBackPress);
     await this._getUserData();
-    this._getSettings();
+    await this._getSettings();
   };
 
   componentWillReceiveProps(nextProps) {
@@ -146,6 +148,8 @@ class ApplicationContainer extends Component {
         response.notification && dispatch(isNotificationOpen(response.notification));
         response.server && dispatch(setApi(response.server));
         response.upvotePercent && dispatch(setUpvotePercent(Number(response.upvotePercent)));
+
+        this.setState({isReady: true});
       }
     });
   };
@@ -226,17 +230,17 @@ class ApplicationContainer extends Component {
 
   render() {
     const { selectedLanguage } = this.props;
-    const { isRenderRequire } = this.state;
+    const { isRenderRequire, isReady } = this.state;
 
     const locale = (navigator.languages && navigator.languages[0])
       || navigator.language
       || navigator.userLanguage
       || selectedLanguage;
 
-    if (isRenderRequire) {
+    if (isRenderRequire && isReady) {
       return <ApplicationScreen locale={locale} {...this.props} />;
     }
-    return null;
+    return <Launch />;
   }
 }
 
