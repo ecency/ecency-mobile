@@ -36,6 +36,7 @@ export default EStyleSheet.create({
   },
   name: {
     fontWeight: 'bold',
+    color: '$primaryBlack',
   },
   title: {
     color: '$primaryDarkGray',
