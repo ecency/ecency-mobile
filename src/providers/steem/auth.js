@@ -52,12 +52,11 @@ export const Login = (username, password) => {
         });
         let jsonMetadata;
         try {
-            jsonMetadata = JSON.parse(account.json_metadata);
-        }
-        catch(err) {
-            jsonMetadata = '';
-            //TODO: handle wrong json format properly
-            //reject(new Error(err));
+          jsonMetadata = JSON.parse(account.json_metadata) || '';
+        } catch (err) {
+          jsonMetadata = '';
+          // TODO: handle wrong json format properly
+          // reject(new Error(err));
         }
         if (Object.keys(jsonMetadata).length !== 0) {
           avatar = jsonMetadata.profile.profile_image || '';
