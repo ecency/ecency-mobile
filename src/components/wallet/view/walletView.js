@@ -64,7 +64,6 @@ class WalletView extends Component {
                   id: 'profile.unclaimed_rewards',
                 })}
                 expanded
-                style={{ marginBottom: 0 }}
               >
                 {currentAccountUsername === selectedUsername ? (
                   <MainButton

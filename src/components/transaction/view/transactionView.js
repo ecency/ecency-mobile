@@ -54,6 +54,7 @@ class TransactionView extends Component {
                 <CollapsibleCard
                   noBorder
                   noContainer
+                  key={index}
                   titleComponent={(
                     <WalletLineItem
                       key={index}
