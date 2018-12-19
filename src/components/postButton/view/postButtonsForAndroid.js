@@ -11,9 +11,6 @@ import { isCollapsePostButton } from '../../../redux/actions/uiAction';
 // Constant
 import { default as ROUTES } from '../../../constants/routeNames';
 
-// Styles
-import styles from './postButtonStyles';
-
 const SIZE = 60;
 const durationIn = 300;
 const durationOut = 200;
@@ -42,7 +39,9 @@ class PostButtonsForAndroid extends Component {
     const { isCollapse } = this.state;
 
     if (
-      (routeName !== nextRouteName && nextRouteName !== ROUTES.DRAWER.MAIN)
+      (routeName !== nextRouteName
+        && nextRouteName !== ROUTES.DRAWER.MAIN
+        && isCollapsePostButtonOpen)
       || (isCollapsePostButtonOpen !== nextProps.isCollapsePostButtonOpen
         && isCollapse !== nextProps.isCollapsePostButtonOpen)
     ) {
