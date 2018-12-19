@@ -8,6 +8,7 @@ import {
   setPinCode,
   getPinCode,
   updateCurrentUsername,
+  getUserData,
 } from '../../realm/realm';
 import { encryptKey, decryptKey } from '../../utils/crypto';
 import steemConnect from './steemConnectAPI';
@@ -200,6 +201,50 @@ export const setUserDataWithPinCode = data => new Promise((resolve, reject) => {
       reject(err);
     });
 });
+
+export const updatePinCode = async (data) => {
+  let updatedUserData;
+
+  const users = await getUserData();
+  if (users.length > 0) {
+    users.forEach(async (userData) => {
+      const password = decryptKey(userData.masterKey, data.oldPinCode);
+      const privateKeys = getPrivateKeys(userData.username, password);
+      if (userData.authType === 'masterKey') {
+        updatedUserData = {
+          username: userData.username,
+          authType: 'masterKey',
+          masterKey: encryptKey(password, data.pinCode),
+          postingKey: encryptKey(privateKeys.posting.toString(), data.pinCode),
+          activeKey: encryptKey(privateKeys.active.toString(), data.pinCode),
+          memoKey: encryptKey(privateKeys.memo.toString(), data.pinCode),
+        };
+      } else if (userData.authType === 'steemConnect') {
+        updatedUserData = {
+          username: userData.username,
+          authType: 'steemConnect',
+          accessToken: encryptKey(data.accessToken, data.pinCode),
+          masterKey: '',
+          postingKey: encryptKey(privateKeys.posting.toString(), data.pinCode),
+          activeKey: encryptKey(privateKeys.active.toString(), data.pinCode),
+          memoKey: encryptKey(privateKeys.memo.toString(), data.pinCode),
+        };
+      }
+
+      const response = await updateUserData(updatedUserData);
+      const authData = {
+        isLoggedIn: true,
+        currentUsername: userData.username,
+      };
+
+      await setAuthStatus(authData);
+      const encriptedPinCode = encryptKey(data.pinCode, 'pin-code');
+      await setPinCode(encriptedPinCode);
+
+      return response;
+    });
+  }
+};
 
 export const getDigitPinCode = async () => decryptKey(await getPinCode(), 'pin-code');
 
