@@ -55,6 +55,8 @@ export default EStyleSheet.create({
     color: '$primaryBlue',
     fontSize: 14,
     fontWeight: '600',
+    maxWidth: '$deviceWidth / 2.5',
+    textAlign: 'center',
   },
   thinText: {
     fontSize: 14,

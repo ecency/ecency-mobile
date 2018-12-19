@@ -4,4 +4,7 @@ export default EStyleSheet.create({
   container: {
     paddingBottom: 8,
   },
+  blackText: {
+    color: '$primaryBlack',
+  },
 });
