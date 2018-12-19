@@ -3,6 +3,10 @@ import parseDate from './parseDate';
 import { vestsToSp } from './conversions';
 
 export const getTransactionData = (transaction, walletData, formatNumber) => {
+  if (!transaction || !walletData) {
+    return [];
+  }
+
   const result = {};
 
   // eslint-disable-next-line
