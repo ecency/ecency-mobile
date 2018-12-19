@@ -5,7 +5,6 @@ import { injectIntl } from 'react-intl';
 // Constants
 import LANGUAGE, { VALUE as LANGUAGE_VALUE } from '../../../constants/options/language';
 import CURRENCY, { VALUE as CURRENCY_VALUE } from '../../../constants/options/currency';
-import API, { VALUE as API_VALUE } from '../../../constants/options/api';
 
 // Components
 import { BasicHeader } from '../../../components/basicHeader';
@@ -105,6 +104,9 @@ class SettingsScreen extends Component {
             text={intl.formatMessage({
               id: 'settings.reset',
             })}
+            type="button"
+            actionType="pincode"
+            handleOnChange={handleOnChange}
           />
         </ScrollView>
       </View>
