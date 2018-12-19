@@ -25,10 +25,12 @@ class PostContainer extends Component {
   // Component Life Cycle Functions
   componentDidMount() {
     const { navigation } = this.props;
-    const { content } = navigation.state && navigation.state.params;
+    const { content, permlink, author } = navigation.state && navigation.state.params;
 
     if (content) {
       this.setState({ post: content });
+    } else {
+      this._loadPost(author, permlink);
     }
   }
 
