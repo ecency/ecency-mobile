@@ -48,7 +48,8 @@
     "voting_power": "Oylama güçü",
     "steem_power": "Steem Güçü",
     "next_power_text": "İleriki güç",
-    "days": "days içinde düşecek",
+    "days": "gün içinde düşecek",
+    "day": "gün içinde düşecek",
     "steem_dollars": "Steem Dolar",
     "savings": "Biriktir"
   },
