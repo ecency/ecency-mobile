@@ -9,7 +9,7 @@ import { MainButton } from '../../mainButton';
 import { CollapsibleCard } from '../../collapsibleCard';
 import { WalletDetails } from '../../walletDetails';
 import { Transaction } from '../../transaction';
-import { WalletDetailsPlaceHolder, WalletUnclaimedPlaceHolder } from '../../basicUIElements';
+import { WalletDetailsPlaceHolder } from '../../basicUIElements';
 
 // Styles
 import styles from './walletStyles';
@@ -45,61 +45,58 @@ class WalletView extends Component {
 
   render() {
     const {
-      walletData, intl, selectedUsername, currentAccountUsername,
+      currentAccountUsername, intl, selectedUsername, walletData,
     } = this.props;
 
     return (
-      <View style={styles.container}>
-        <ScrollView style={styles.scrollView}>
-          {!walletData ? (
-            <Fragment>
-              <WalletUnclaimedPlaceHolder />
-              <WalletDetailsPlaceHolder />
-            </Fragment>
-          ) : (
-            <Fragment>
-              {walletData.hasUnclaimedRewards && (
-                <CollapsibleCard
-                  titleColor="#788187"
-                  isBoldTitle
-                  defaultTitle={intl.formatMessage({
-                    id: 'profile.unclaimed_rewards',
-                  })}
-                  expanded
-                  style={{ marginBottom: 0 }}
-                >
-                  {currentAccountUsername === selectedUsername ? (
-                    <MainButton
-                      style={styles.mainButton}
-                      height={50}
-                      onPress={this._handleOnPressLogin}
-                    >
-                      <View style={styles.mainButtonWrapper}>
-                        {this._getUnclaimedText(walletData)}
-                        <View style={styles.mainIconWrapper}>
-                          <Ionicons name="md-add" color="#357ce6" size={23} />
-                        </View>
-                      </View>
-                    </MainButton>
-                  ) : (
-                    this._getUnclaimedText(walletData, true)
-                  )}
-                </CollapsibleCard>
-              )}
+      <ScrollView style={styles.scrollView}>
+        {!walletData ? (
+          <Fragment>
+            <WalletDetailsPlaceHolder />
+          </Fragment>
+        ) : (
+          <Fragment>
+            {walletData.hasUnclaimedRewards && (
               <CollapsibleCard
                 titleColor="#788187"
-                title={intl.formatMessage({
-                  id: 'profile.wallet_details',
+                isBoldTitle
+                defaultTitle={intl.formatMessage({
+                  id: 'profile.unclaimed_rewards',
                 })}
                 expanded
+                style={{ marginBottom: 0 }}
               >
-                <WalletDetails intl={intl} walletData={walletData} />
+                {currentAccountUsername === selectedUsername ? (
+                  <MainButton
+                    style={styles.mainButton}
+                    height={50}
+                    onPress={this._handleOnPressLogin}
+                  >
+                    <View style={styles.mainButtonWrapper}>
+                      {this._getUnclaimedText(walletData)}
+                      <View style={styles.mainIconWrapper}>
+                        <Ionicons name="md-add" color="#357ce6" size={23} />
+                      </View>
+                    </View>
+                  </MainButton>
+                ) : (
+                  this._getUnclaimedText(walletData, true)
+                )}
               </CollapsibleCard>
-              <Transaction intl={intl} walletData={walletData} />
-            </Fragment>
-          )}
-        </ScrollView>
-      </View>
+            )}
+            <CollapsibleCard
+              titleColor="#788187"
+              title={intl.formatMessage({
+                id: 'profile.wallet_details',
+              })}
+              expanded
+            >
+              <WalletDetails intl={intl} walletData={walletData} />
+            </CollapsibleCard>
+            <Transaction intl={intl} walletData={walletData} />
+          </Fragment>
+        )}
+      </ScrollView>
     );
   }
 }

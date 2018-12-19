@@ -39,17 +39,19 @@ const FilterBarView = ({
             onSelect={onDropdownSelect}
             selectedOptionIndex={selectedOptionIndex}
           />
-          <TouchableOpacity
-            onPress={() => onRightIconPress && onRightIconPress()}
-            style={styles.rightIconWrapper}
-          >
-            <Icon
-              style={styles.rightIcon}
-              size={iconSize || 32}
-              iconType={rightIconType}
-              name={rightIconName}
-            />
-          </TouchableOpacity>
+          {rightIconName && (
+            <TouchableOpacity
+              onPress={() => onRightIconPress && onRightIconPress()}
+              style={styles.rightIconWrapper}
+            >
+              <Icon
+                style={styles.rightIcon}
+                size={iconSize || 32}
+                iconType={rightIconType}
+                name={rightIconName}
+              />
+            </TouchableOpacity>
+          )}
         </View>
       </LineBreak>
     )}
