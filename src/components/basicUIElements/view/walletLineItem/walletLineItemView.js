@@ -1,64 +1,79 @@
 import React from 'react';
 import { View, Text } from 'react-native';
+import { GrayWrapper } from '../..';
 
-import IconComp from '../../../icon';
+import { Icon } from '../../../icon';
+import { CollapsibleCard } from '../../../collapsibleCard';
 
 import styles from './walletLineItemStyles';
 
 const WalletLineItem = ({
-  text,
-  textColor,
-  iconName,
-  iconType,
-  rightText,
-  rightTextColor,
-  isBoldText,
-  isThin,
-  isCircleIcon,
   circleIconColor,
   description,
   fitContent,
+  iconName,
+  iconType,
+  isBlackText,
+  isBoldText,
+  isCircleIcon,
+  isThin,
+  rightText,
+  rightTextColor,
+  text,
+  textColor,
+  index,
 }) => (
-  <View style={[styles.container, fitContent && styles.fitContent]}>
-    <View style={styles.iconTextWrapper}>
-      {iconName && (
-        <View
-          style={[
-            styles.iconWrapper,
-            isCircleIcon && styles.circleIcon,
-            circleIconColor && { backgroundColor: circleIconColor },
-          ]}
-        >
-          <IconComp style={styles.icon} name={iconName} iconType={iconType} />
+  <GrayWrapper isGray={index % 2 === 0}>
+    <View style={[styles.container, fitContent && styles.fitContent]}>
+      <View style={styles.iconTextWrapper}>
+        {iconName && (
+          <View
+            style={[
+              styles.iconWrapper,
+              isCircleIcon && styles.circleIcon,
+              circleIconColor && { backgroundColor: circleIconColor },
+            ]}
+          >
+            <Icon style={styles.icon} name={iconName} iconType={iconType} />
+          </View>
+        )}
+        <View>
+          {text && (
+            <View>
+              <Text
+                style={[
+                  styles.text,
+                  !iconName && styles.onlyText,
+                  rightText && styles.longText,
+                  isBlackText && styles.blackText,
+                  textColor && { color: textColor },
+                  isBoldText && { fontWeight: 'bold' },
+                  isThin && styles.thinText,
+                ]}
+              >
+                {text}
+              </Text>
+            </View>
+          )}
+          {description && (
+            <Text style={[styles.description, !iconName && styles.onlyText]}>{description}</Text>
+          )}
+        </View>
+      </View>
+      {rightText && (
+        <View style={styles.rightTextWrapper}>
+          <Text
+            style={[
+              styles.rightText,
+              rightTextColor ? { color: rightTextColor } : !text && styles.onlyRightText,
+            ]}
+          >
+            {rightText}
+          </Text>
         </View>
       )}
-      <View>
-        <Text
-          style={[
-            styles.text,
-            !iconName && styles.onlyText,
-            rightText && styles.longText,
-            textColor && { color: textColor },
-            isBoldText && { fontWeight: 'bold' },
-            isThin && styles.thinText,
-          ]}
-        >
-          {text}
-        </Text>
-        {description && <Text style={styles.description}>{description}</Text>}
-      </View>
     </View>
-    <View style={styles.rightTextWrapper}>
-      <Text
-        style={[
-          styles.rightText,
-          rightTextColor ? { color: rightTextColor } : !text && styles.onlyRightText,
-        ]}
-      >
-        {rightText}
-      </Text>
-    </View>
-  </View>
+  </GrayWrapper>
 );
 
 export default WalletLineItem;

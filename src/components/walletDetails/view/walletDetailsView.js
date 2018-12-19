@@ -34,7 +34,7 @@ class WalletDetailsView extends Component {
       <View style={styles.container}>
         <WalletLineItem
           text="Steem"
-          textColor="#3c4449"
+          isBlackText
           iconName="ios-information-circle-outline"
           rightText={`${Math.round(walletData.balance * 1000) / 1000} STEEM`}
           isBoldText
@@ -44,7 +44,7 @@ class WalletDetailsView extends Component {
             text={intl.formatMessage({
               id: 'profile.steem_power',
             })}
-            textColor="#3c4449"
+            isBlackText
             iconName="ios-information-circle-outline"
             rightText={`${Math.round(
               vestsToSp(walletData.vestingShares, walletData.steemPerMVests) * 1000,
@@ -80,7 +80,7 @@ class WalletDetailsView extends Component {
           text={intl.formatMessage({
             id: 'profile.steem_dollars',
           })}
-          textColor="#3c4449"
+          isBlackText
           iconName="ios-information-circle-outline"
           rightText={`$${Math.round(walletData.sbdBalance * 1000) / 1000}`}
           isBoldText
@@ -90,7 +90,7 @@ class WalletDetailsView extends Component {
             text={intl.formatMessage({
               id: 'profile.savings',
             })}
-            textColor="#3c4449"
+            isBlackText
             iconName="ios-information-circle-outline"
             rightText={`${Math.round(walletData.savingBalance * 1000) / 1000} STEEM`}
             isBoldText
