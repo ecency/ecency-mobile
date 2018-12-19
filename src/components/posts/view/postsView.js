@@ -25,9 +25,10 @@ class PostsView extends Component {
       startPermlink: '',
       refreshing: false,
       isLoading: false,
-      isPostsLoading: false,
+      isPostsLoading: true,
       isHideImage: false,
       selectedFilterIndex: 0,
+      isNoPost: false,
     };
   }
 
@@ -43,18 +44,22 @@ class PostsView extends Component {
       && nextProps.currentAccountUsername
     ) {
       // Set all initial data (New user new rules)
-      this.setState({
-        posts: [],
-        startAuthor: '',
-        startPermlink: '',
-        refreshing: false,
-        isLoading: false,
-        isPostsLoading: false,
-        isHideImage: false,
-        selectedFilterIndex: 0,
-      }, () => {
-        this._loadPosts();
-      });
+      this.setState(
+        {
+          posts: [],
+          startAuthor: '',
+          startPermlink: '',
+          refreshing: false,
+          isLoading: false,
+          isPostsLoading: false,
+          isHideImage: false,
+          selectedFilterIndex: 0,
+          isNoPost: false,
+        },
+        () => {
+          this._loadPosts();
+        },
+      );
     }
   }
 
@@ -83,7 +88,7 @@ class PostsView extends Component {
 
     getPostsSummary(filter || getFor, options, currentAccountUsername)
       .then((result) => {
-        if (result) {
+        if (result.length > 0) {
           let _posts = result;
 
           if (_posts.length > 0) {
@@ -99,10 +104,13 @@ class PostsView extends Component {
               isPostsLoading: false,
             });
           }
+        } else if (result.length === 0) {
+          this.setState({ isNoPost: true });
         }
       })
       .catch((err) => {
         this.setState({
+          refreshing: false,
           isPostsLoading: false,
         });
       });
@@ -158,10 +166,15 @@ class PostsView extends Component {
 
   render() {
     const {
-      refreshing, posts, isPostsLoading, isHideImage, selectedFilterIndex,
+      refreshing,
+      posts,
+      isPostsLoading,
+      isHideImage,
+      selectedFilterIndex,
+      isNoPost,
     } = this.state;
     const {
-      filterOptions, intl, isLoggedIn, getFor, isLoginDone,
+      filterOptions, intl, isLoggedIn, getFor, isLoginDone, tag,
     } = this.props;
 
     return (
@@ -208,22 +221,18 @@ class PostsView extends Component {
             ListFooterComponent={this._renderFooter}
             onScrollBeginDrag={() => this._handleOnScrollStart()}
           />
+        ) : isNoPost ? (
+          <NoPost
+            name={tag}
+            text={intl.formatMessage({
+              id: 'profile.havent_posted',
+            })}
+            defaultText={intl.formatMessage({
+              id: 'profile.login_to_see',
+            })}
+          />
         ) : (
           <Fragment>
-            {/* TODO: fix here */}
-            {/* {
-              (posts.length <= 0 && (
-                <NoPost
-                  name={user.name}
-                  text={intl.formatMessage({
-                    id: 'profile.havent_posted',
-                  })}
-                  defaultText={intl.formatMessage({
-                    id: 'profile.login_to_see',
-                  })}
-                />
-              ))
-              } */}
             <PostCardPlaceHolder />
             <PostCardPlaceHolder />
           </Fragment>

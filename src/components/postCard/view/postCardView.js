@@ -44,7 +44,7 @@ class PostCard extends Component {
   _handleOnContentPress = () => {
     const { handleOnContentPress, content } = this.props;
 
-    handleOnContentPress(content.author, content.permlink);
+    handleOnContentPress(content);
   };
 
   _handleOnVotersPress = () => {
