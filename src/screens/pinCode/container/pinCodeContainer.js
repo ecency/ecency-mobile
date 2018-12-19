@@ -110,7 +110,7 @@ class PinCodeContainer extends Component {
       };
       setUserDataWithPinCode(pinData).then((response) => {
         const _currentAccount = currentAccount;
-        _currentAccount.local = response[0];
+        _currentAccount.local = response;
 
         dispatch(updateCurrentAccount({ ..._currentAccount }));
 

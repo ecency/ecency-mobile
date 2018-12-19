@@ -11,12 +11,12 @@ import styles from './collapsibleCardStyles';
 
 class CollapsibleCardView extends Component {
   /* Props
-    * ------------------------------------------------
-    *   @prop { type }    expanded                - For is collapsible open or close declaration prop.
-    *   @prop { type }    children                - Render include children
-    *   @prop { type }    title                   - Collapsible title.
-    *
-    */
+   * ------------------------------------------------
+   *   @prop { type }    expanded                - For is collapsible open or close declaration prop.
+   *   @prop { type }    children                - Render include children
+   *   @prop { type }    title                   - Collapsible title.
+   *
+   */
   anime = {
     height: new Animated.Value(),
     expanded: false,
@@ -70,6 +70,7 @@ class CollapsibleCardView extends Component {
       fitContent,
       isTitleCenter,
       style,
+      noContainer,
     } = this.props;
     const { expanded } = this.state;
 
@@ -96,7 +97,7 @@ class CollapsibleCardView extends Component {
           style={[styles.content, { height: this.anime.height }]}
           onLayout={e => this._initContentHeight(e)}
         >
-          <View style={[!fitContent && styles.contentBody]}>{children}</View>
+          <View style={[!fitContent && !noContainer && styles.contentBody]}>{children}</View>
         </Animated.View>
       </View>
     );
