@@ -50,7 +50,6 @@ export default EStyleSheet.create({
     backgroundColor: '$primaryLightBlue',
     borderTopWidth: 0.3,
     borderBottomWidth: 0.3,
-    borderColor: '#e7e7e7',
   },
   hasNoAvatar: {
     backgroundColor: '#d8d8d8',
