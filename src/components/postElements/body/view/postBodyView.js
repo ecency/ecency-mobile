@@ -70,7 +70,8 @@ class PostBody extends Component {
   _alterNode = (node, isComment) => {
     if (isComment) {
       if (node.name === 'img') {
-        node.attribs.style = `max-width: ${WIDTH - 50}px; height: 100px; width: ${WIDTH - 50}`;
+        node.attribs.style = `max-width: ${WIDTH - 50}px; height: 100px; width: ${WIDTH
+          - 50}px; text-align: center;`;
       }
       //  else if (node.name === 'iframe') {
       //   node.attribs.style = `max-width: ${WIDTH}px; left: -30px`;
@@ -78,6 +79,10 @@ class PostBody extends Component {
       // }
     } else if (node.name === 'a') {
       node.attribs.style = 'text-decoration: underline';
+    }
+
+    if (node.name === 'img') {
+      node.attribs.style = 'text-align: center;';
     }
   };
 

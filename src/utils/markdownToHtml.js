@@ -13,7 +13,9 @@ const dTubeRegex = /(https?:\/\/d.tube.#!\/v\/)(\w+)\/(\w+)/g;
 const authorNameRegex = /(^|[^a-zA-Z0-9_!#$%&*@＠\/]|(^|[^a-zA-Z0-9_+~.-\/]))[@＠]([a-z][-\.a-z\d]+[a-z\d])/gi;
 const tagsRegex = /(^|\s|>)(#[-a-z\d]+)/gi;
 const centerRegex = /(<center>)/g;
-
+const imgRegex = /(https?:\/\/.*\.(?:tiff?|jpe?g|gif|png|svg|ico))(.*)/gim;
+const pullRightLeftRegex = /(<div class="[^"]*?pull-[^"]*?">(.*?)(<[/]div>))/g;
+const linkRegex = /[-a-zA-Z0-9@:%_\+.~#?&//=]{2,256}\.[a-z]{2,4}\b(\/[-a-zA-Z0-9@:%_\+.~#?&//=]*)?/gi;
 export const markDown2Html = (input) => {
   if (!input) {
     return '';
@@ -36,6 +38,14 @@ export const markDown2Html = (input) => {
   // if (dTubeRegex.test(output)) {
   //   output = createDtubeIframe(output);
   // }
+
+  if (pullRightLeftRegex.test(output)) {
+    output = changePullRightLeft(output);
+  }
+
+  if (imgRegex.test(output)) {
+    output = createImage(output);
+  }
 
   if (vimeoRegex.test(output)) {
     output = createVimeoIframe(output);
@@ -95,6 +105,12 @@ const createCenterImage = input => input.replace(imgCenterRegex, (link) => {
   _link = _link.split('>')[1];
   _link = _link.split('<')[0];
   return `><img data-href="${_link}" src="${_link}"><`;
+});
+
+const changePullRightLeft = input => input.replace(pullRightLeftRegex, (item) => {
+  const imageLink = item.match(linkRegex)[0];
+
+  return `<center style="text-align:center;"><img src="${imageLink}"/></center><br>`;
 });
 
 const steemitUrlHandle = input => input.replace(postRegex, (link) => {
