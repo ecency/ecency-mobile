@@ -37,17 +37,16 @@ class PostCardContainer extends Component {
     }
   };
 
-  _handleOnContentPress = (author, permlink) => {
+  _handleOnContentPress = (content) => {
     const { navigation } = this.props;
 
-    if (author && permlink) {
+    if (content) {
       navigation.navigate({
         routeName: ROUTES.SCREENS.POST,
         params: {
-          author,
-          permlink,
+          content,
         },
-        key: permlink,
+        key: content.permlink,
       });
     }
   };
