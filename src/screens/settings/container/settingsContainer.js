@@ -20,16 +20,15 @@ import {
   setCurrency,
   setApi,
   isDarkTheme,
+  openPinCodeModal,
 } from '../../../redux/actions/applicationActions';
-import { setPushToken } from '../../../providers/esteem/esteem';
-import { getNodes } from '../../../providers/esteem/esteem';
+import { setPushToken, getNodes } from '../../../providers/esteem/esteem';
 
 // Middleware
 
 // Constants
 import { VALUE as CURRENCY_VALUE } from '../../../constants/options/currency';
 import { VALUE as LANGUAGE_VALUE } from '../../../constants/options/language';
-import API_VALUE from '../../../constants/options/api';
 
 // Utilities
 
@@ -86,7 +85,7 @@ class SettingsContainer extends Component {
   };
 
   _handleToggleChanged = (action, actionType) => {
-    const { dispatch } = this.props;
+    const { dispatch, setPinCodeState } = this.props;
 
     switch (actionType) {
       case 'notification':
@@ -98,7 +97,23 @@ class SettingsContainer extends Component {
         dispatch(isDarkTheme(action));
         setTheme(action);
         break;
+      case 'pincode':
+        // test
+        dispatch(openPinCodeModal());
+        setPinCodeState({ isReset: true });
+        break;
+      default:
+        break;
+    }
+  };
 
+  _handleButtonPress = (action, actionType) => {
+    const { dispatch, setPinCodeState } = this.props;
+    switch (actionType) {
+      case 'pincode':
+        dispatch(openPinCodeModal());
+        setPinCodeState({ isReset: true });
+        break;
       default:
         break;
     }
@@ -115,6 +130,7 @@ class SettingsContainer extends Component {
         break;
 
       case 'button':
+        this._handleButtonPress(action, actionType);
         break;
 
       default:
