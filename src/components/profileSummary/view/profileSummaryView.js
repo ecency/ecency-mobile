@@ -79,9 +79,9 @@ class ProfileSummaryView extends Component {
     return (
       <Fragment>
         <View style={[isColumn ? styles.textWithIconWrapperColumn : styles.textWithIconWrapper]}>
-          {location && <TextWithIcon text={location} iconName="md-navigate" />}
-          {link && <TextWithIcon isClickable text={link} iconName="md-globe" />}
-          {date && <TextWithIcon text={date} iconName="md-calendar" />}
+          {!!location && <TextWithIcon text={location} iconName="md-navigate" />}
+          {!!link && <TextWithIcon isClickable text={link} iconName="md-globe" />}
+          {!!date && <TextWithIcon text={date} iconName="md-calendar" />}
         </View>
         <View />
         <Image
