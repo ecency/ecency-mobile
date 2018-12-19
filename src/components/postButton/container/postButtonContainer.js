@@ -25,8 +25,6 @@ class PostButtonContainer extends Component {
         action,
       },
     });
-
-    // navigation.navigate(route);
   };
 
   _handleButtonCollapse = (status, platformIsAndroid) => {

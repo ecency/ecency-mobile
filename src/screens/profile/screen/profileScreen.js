@@ -121,20 +121,12 @@ class ProfileScreen extends Component {
               })}
               style={styles.postTabBar}
             >
-              {user && (
-                <Posts
-                  filterOptions={[
-                    'NEW POSTS',
-                    'VOTES',
-                    'REPLIES',
-                    'MENTIONS',
-                    'FOLLOWS',
-                    'REBLOGS',
-                  ]}
-                  getFor="blog"
-                  tag={username}
-                />
-              )}
+              <Posts
+                filterOptions={['NEW POSTS', 'VOTES', 'REPLIES', 'MENTIONS', 'FOLLOWS', 'REBLOGS']}
+                getFor="blog"
+                tag={username}
+                key={username}
+              />
             </View>
             <View
               tabLabel={intl.formatMessage({

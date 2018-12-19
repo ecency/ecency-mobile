@@ -6,9 +6,7 @@ import { getUnreadActivityCount } from '../esteem/esteem';
 // Utils
 import { decryptKey } from '../../utils/crypto';
 import { getDigitPinCode } from './auth';
-import {
-  parsePosts, parsePost, parseComments,
-} from '../../utils/postParser';
+import { parsePosts, parsePost, parseComments } from '../../utils/postParser';
 import { getName, getAvatar } from '../../utils/user';
 
 // Constant
@@ -257,7 +255,9 @@ export const getActiveVotes = (author, permlink) => client.database.call('get_ac
 export const getPostsSummary = async (by, query, currentUserName) => {
   try {
     let posts = await client.database.getDiscussions(by, query);
-    posts = await parsePosts(posts, currentUserName);
+    if (posts) {
+      posts = await parsePosts(posts, currentUserName);
+    }
     return posts;
   } catch (error) {
     return error;
@@ -368,11 +368,14 @@ export const vote = async (currentAccount, author, permlink, weight) => {
     };
 
     return new Promise((resolve, reject) => {
-      client.broadcast.vote(args, privateKey).then((result) => {
-        resolve(result);
-      }).catch((err) => {
-        reject(err);
-      });
+      client.broadcast
+        .vote(args, privateKey)
+        .then((result) => {
+          resolve(result);
+        })
+        .catch((err) => {
+          reject(err);
+        });
     });
   }
 
@@ -385,11 +388,14 @@ export const vote = async (currentAccount, author, permlink, weight) => {
     const voter = currentAccount.name;
 
     return new Promise((resolve, reject) => {
-      api.vote(voter, author, permlink, weight).then((result) => {
-        resolve(result);
-      }).catch((err) => {
-        reject(err);
-      });
+      api
+        .vote(voter, author, permlink, weight)
+        .then((result) => {
+          resolve(result);
+        })
+        .catch((err) => {
+          reject(err);
+        });
     });
   }
 };

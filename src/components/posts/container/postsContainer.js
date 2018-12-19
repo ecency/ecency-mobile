@@ -32,9 +32,9 @@ class PostsContainer extends Component {
   };
 
   render() {
-    const { currentAccount, isLoginDone } = this.props;
+    const { currentAccount, isLoginDone, tag } = this.props;
 
-    if (!isLoginDone) {
+    if (!isLoginDone && !tag) {
       return (
         <Fragment>
           <PostCardPlaceHolder />

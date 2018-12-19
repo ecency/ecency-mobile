@@ -1,4 +1,4 @@
-import React, { Component } from 'react';
+import React, { Component, Fragment } from 'react';
 import { View, Text } from 'react-native';
 
 // Constants
@@ -25,20 +25,23 @@ class LaunchScreen extends Component {
   // Component Functions
 
   render() {
-    return (
-      <View
-        style={{
-          flex: 1,
-          justifyContent: 'center',
-          alignItems: 'center',
-          marginBottom: 130,
-        }}
-      >
-        <Logo style={{ width: 130, height: 130 }} />
-        {/* <Text style={{ fontSize: 24 }}>eSteem</Text>
-        <Text style={{ fontSize: 24 }}>mobile</Text> */}
-      </View>
-    );
+    return <Fragment />;
+
+    // Temporarily removed
+    // return (
+    //   <View
+    //     style={{
+    //       flex: 1,
+    //       justifyContent: 'center',
+    //       alignItems: 'center',
+    //       marginBottom: 130,
+    //     }}
+    //   >
+    //     <Logo style={{ width: 130, height: 130 }} />
+    //     {/* <Text style={{ fontSize: 24 }}>eSteem</Text>
+    //     <Text style={{ fontSize: 24 }}>mobile</Text> */}
+    //   </View>
+    // );
   }
 }
 

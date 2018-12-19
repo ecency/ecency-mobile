@@ -224,6 +224,7 @@ class ProfileContainer extends Component {
         count,
         username,
       },
+      key: `${username}${count}`,
     });
   };
 

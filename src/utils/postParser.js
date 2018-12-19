@@ -4,9 +4,13 @@ import { getPostSummary } from './formatter';
 import { getReputation } from './reputation';
 import { getTimeFromNow } from './time';
 
-export const parsePosts = (posts, currentUserName) => posts.map(post => parsePost(post, currentUserName));
+export const parsePosts = (posts, currentUserName) => (!posts ? null : posts.map(post => parsePost(post, currentUserName)));
 
 export const parsePost = (post, currentUserName) => {
+  if (!post) {
+    return null;
+  }
+
   post.json_metadata = JSON.parse(post.json_metadata);
   post.json_metadata.image ? (post.image = post.json_metadata.image[0]) : '';
   post.pending_payout_value = parseFloat(post.pending_payout_value).toFixed(2);
