@@ -50,8 +50,15 @@ export const Login = (username, password) => {
             resultKeys[pubKey] = publicKeys[pubKey];
           }
         });
-
-        const jsonMetadata = JSON.parse(account.json_metadata);
+        let jsonMetadata;
+        try {
+            jsonMetadata = JSON.parse(account.json_metadata);
+        }
+        catch(err) {
+            jsonMetadata = '';
+            //TODO: handle wrong json format properly
+            //reject(new Error(err));
+        }
         if (Object.keys(jsonMetadata).length !== 0) {
           avatar = jsonMetadata.profile.profile_image || '';
         }
@@ -76,14 +83,14 @@ export const Login = (username, password) => {
               updateCurrentUsername(account.name);
             })
             .catch(() => {
-              reject(new Error('Invalid credentails, please check and try again'));
+              reject(new Error('Invalid credentials, please check and try again'));
             });
         } else {
-          reject(new Error('Invalid credentails, please check and try again'));
+          reject(new Error('Invalid credentials, please check and try again'));
         }
       })
       .catch(() => {
-        reject(new Error('Invalid credentails, please check and try again'));
+        reject(new Error('Invalid credentials, please check and try again'));
       });
   });
 };
@@ -100,7 +107,7 @@ export const loginWithSC2 = async (accessToken) => {
         avatar = jsonMetadata.profile.profile_image;
       }
     } catch (error) {
-      reject(new Error('Invalid credentails, please check and try again'));
+      reject(new Error('Invalid credentials, please check and try again'));
     }
     const userData = {
       username: account.account.name,
