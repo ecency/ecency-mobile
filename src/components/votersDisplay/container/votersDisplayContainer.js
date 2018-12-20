@@ -11,13 +11,13 @@ import { default as ROUTES } from '../../../constants/routeNames';
 // Utilities
 
 // Component
-import { VotersDisplayView } from '..';
+import VotersDisplayView from '../view/votersDisplayView';
 
 /*
-  *            Props Name        Description                                     Value
-  *@props -->  props name here   description here                                Value Type Here
-  *
-  */
+ *            Props Name        Description                                     Value
+ *@props -->  props name here   description here                                Value Type Here
+ *
+ */
 
 class VotersDisplayContainer extends Component {
   constructor(props) {

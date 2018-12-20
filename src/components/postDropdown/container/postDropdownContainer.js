@@ -16,7 +16,7 @@ import { default as ROUTES } from '../../../constants/routeNames';
 import { writeToClipboard } from '../../../utils/clipboard';
 
 // Component
-import { PostDropdownView } from '..';
+import PostDropdownView from '../view/postDropdownView';
 
 /*
  *            Props Name        Description                                     Value

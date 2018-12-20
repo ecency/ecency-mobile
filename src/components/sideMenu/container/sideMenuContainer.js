@@ -2,17 +2,17 @@ import React, { Component } from 'react';
 import { connect } from 'react-redux';
 
 // Actions
-import { getUserData, getUserDataWithUsername } from '../../../realm/realm';
+import { getUserDataWithUsername } from '../../../realm/realm';
 import { switchAccount } from '../../../providers/steem/auth';
 import { updateCurrentAccount } from '../../../redux/actions/accountAction';
 
-import { openPinCodeModal, logout } from '../../../redux/actions/applicationActions';
+import { logout } from '../../../redux/actions/applicationActions';
 
 // Constanst
 import { default as ROUTES } from '../../../constants/routeNames';
 
 // Component
-import { SideMenuView } from '..';
+import SideMenuView from '../view/sideMenuView';
 
 /*
  *               Props Name                              Description

@@ -2,7 +2,7 @@ import React, { Component } from 'react';
 import { connect } from 'react-redux';
 
 // Services and Actions
-import { globalProps, getFeedHistory, getState } from '../../../providers/steem/dsteem';
+import { globalProps, getState } from '../../../providers/steem/dsteem';
 
 // Middleware
 
@@ -11,10 +11,9 @@ import { globalProps, getFeedHistory, getState } from '../../../providers/steem/
 // Utilities
 import parseToken from '../../../utils/parseToken';
 import parseDate from '../../../utils/parseDate';
-import { vestsToSp } from '../../../utils/conversions';
 
 // Component
-import { WalletView } from '..';
+import WalletView from '../view/walletView';
 
 /*
  *            Props Name        Description                                     Value

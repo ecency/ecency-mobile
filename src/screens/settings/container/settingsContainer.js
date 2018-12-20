@@ -33,7 +33,7 @@ import { VALUE as LANGUAGE_VALUE } from '../../../constants/options/language';
 // Utilities
 
 // Component
-import { SettingsScreen } from '..';
+import SettingsScreen from '../screen/settingsScreen';
 
 /*
  *            Props Name        Description                                     Value

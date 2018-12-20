@@ -2,7 +2,7 @@ import React, { Component, Fragment } from 'react';
 import { connect } from 'react-redux';
 
 // Component
-import { PostsView } from '..';
+import PostsView from '../view/postsView';
 import { PostCardPlaceHolder } from '../../basicUIElements';
 
 // Actions

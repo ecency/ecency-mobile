@@ -9,13 +9,13 @@ import React, { Component } from 'react';
 // Utilities
 
 // Component
-import { VotersScreen } from '..';
+import VotersScreen from '../screen/votersScreen';
 
 /*
-  *            Props Name        Description                                     Value
-  *@props -->  props name here   description here                                Value Type Here
-  *
-  */
+ *            Props Name        Description                                     Value
+ *@props -->  props name here   description here                                Value Type Here
+ *
+ */
 
 class VotersContainer extends Component {
   constructor(props) {
