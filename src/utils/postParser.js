@@ -12,7 +12,7 @@ export const parsePost = (post, currentUserName) => {
   }
 
   post.json_metadata = JSON.parse(post.json_metadata);
-  post.json_metadata.image ? (post.image = post.json_metadata.image[0]) : '';
+  post.image = postImage(post.json_metadata);
   post.pending_payout_value = parseFloat(post.pending_payout_value).toFixed(2);
   post.created = getTimeFromNow(post.created);
   post.vote_count = post.active_votes.length;
@@ -51,6 +51,14 @@ export const parsePost = (post, currentUserName) => {
 };
 
 const isVoted = (activeVotes, currentUserName) => activeVotes.some(v => v.voter === currentUserName && v.percent > 0);
+
+const postImage = (metaData) => {
+  if (metaData && metaData.image && metaData.image[0]) {
+    return `https://cdn.steemitimages.com/300x0/${metaData.image[0]}`;
+  }
+
+  return '';
+};
 
 export const protocolUrl2Obj = (url) => {
   let urlPart = url.split('://')[1];
