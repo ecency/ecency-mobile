@@ -1,4 +1,4 @@
-import React, { Component } from 'react';
+import React, { PureComponent } from 'react';
 import { ScrollView, View } from 'react-native';
 import { injectIntl } from 'react-intl';
 
@@ -13,7 +13,7 @@ import { SettingsItem } from '../../../components/settingsItem';
 // Styles
 import globalStyles from '../../../globalStyles';
 
-class SettingsScreen extends Component {
+class SettingsScreen extends PureComponent {
   /* Props
    * ------------------------------------------------
    *   @prop { type }    name                - Description....

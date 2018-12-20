@@ -1,4 +1,4 @@
-import React, { Component } from 'react';
+import React, { PureComponent } from 'react';
 import { View } from 'react-native';
 
 // Constants
@@ -13,7 +13,7 @@ import { vestsToSp } from '../../../utils/conversions';
 // eslint-disable-next-line
 import styles from './walletDetailsStyles';
 
-class WalletDetailsView extends Component {
+class WalletDetailsView extends PureComponent {
   /* Props
    * ------------------------------------------------
    *   @prop { type }    name                - Description....

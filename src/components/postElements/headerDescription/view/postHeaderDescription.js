@@ -1,4 +1,4 @@
-import React, { Component } from 'react';
+import React, { PureComponent } from 'react';
 import { View, Text, TouchableOpacity } from 'react-native';
 import { withNavigation } from 'react-navigation';
 
@@ -15,7 +15,7 @@ import { default as ROUTES } from '../../../../constants/routeNames';
 // Constants
 const DEFAULT_IMAGE = require('../../../../assets/esteem.png');
 
-class PostHeaderDescription extends Component {
+class PostHeaderDescription extends PureComponent {
   constructor(props) {
     super(props);
     this.state = {};
@@ -25,7 +25,7 @@ class PostHeaderDescription extends Component {
 
   // Component Functions
   _handleOnUserPress = (username) => {
-    const { navigation, profileOnPress } = this.props;
+    const { navigation, profileOnPress, reputation } = this.props;
 
     if (profileOnPress) {
       profileOnPress(username);
@@ -34,6 +34,7 @@ class PostHeaderDescription extends Component {
         routeName: ROUTES.SCREENS.PROFILE,
         params: {
           username,
+          reputation,
         },
         key: username,
       });

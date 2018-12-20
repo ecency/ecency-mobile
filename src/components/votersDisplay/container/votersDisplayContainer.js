@@ -1,4 +1,4 @@
-import React, { Component } from 'react';
+import React, { PureComponent } from 'react';
 import { withNavigation } from 'react-navigation';
 
 // Services and Actions
@@ -19,7 +19,7 @@ import VotersDisplayView from '../view/votersDisplayView';
  *
  */
 
-class VotersDisplayContainer extends Component {
+class VotersDisplayContainer extends PureComponent {
   constructor(props) {
     super(props);
     this.state = {};

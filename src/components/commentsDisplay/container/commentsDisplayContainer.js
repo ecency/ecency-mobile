@@ -1,4 +1,4 @@
-import React, { Component } from 'react';
+import React, { PureComponent } from 'react';
 
 import CommentsDisplayView from '../view/commentsDisplayView';
 
@@ -8,7 +8,7 @@ import CommentsDisplayView from '../view/commentsDisplayView';
  *
  */
 
-class CommentsContainer extends Component {
+class CommentsContainer extends PureComponent {
   constructor(props) {
     super(props);
     this.state = {};

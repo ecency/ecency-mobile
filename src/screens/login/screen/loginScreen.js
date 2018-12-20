@@ -1,4 +1,4 @@
-import React, { Component } from 'react';
+import React, { PureComponent } from 'react';
 import {
   View, Linking, StatusBar, Platform, Alert,
 } from 'react-native';
@@ -19,12 +19,12 @@ import { FormInput } from '../../../components/formInput';
 import { InformationArea } from '../../../components/informationArea';
 import { Login } from '../../../providers/steem/auth';
 import { LoginHeader } from '../../../components/loginHeader';
+import { lookupAccounts } from '../../../providers/steem/dsteem';
 import { MainButton } from '../../../components/mainButton';
+import { Modal } from '../../../components';
 import { TabBar } from '../../../components/tabBar';
 import { TextButton } from '../../../components/buttons';
-import { lookupAccounts } from '../../../providers/steem/dsteem';
 import STEEM_CONNECT_LOGO from '../../../assets/steem_connect.png';
-import { Modal } from '../../../components';
 import SteemConnect from '../../steem-connect/steemConnect';
 
 // Constants
@@ -33,7 +33,7 @@ import { default as ROUTES } from '../../../constants/routeNames';
 // Styles
 import styles from './loginStyles';
 
-class LoginScreen extends Component {
+class LoginScreen extends PureComponent {
   constructor(props) {
     super(props);
 

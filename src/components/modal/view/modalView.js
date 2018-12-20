@@ -1,4 +1,4 @@
-import React, { Component } from 'react';
+import React, { PureComponent } from 'react';
 import {
   Modal as ModalBox, View, Text, SafeAreaView,
 } from 'react-native';
@@ -12,7 +12,7 @@ import styles from './modalStyles';
  *
  */
 
-export default class Modal extends Component {
+export default class Modal extends PureComponent {
   constructor(props) {
     super(props);
     this.state = {};
@@ -50,7 +50,7 @@ export default class Modal extends Component {
           isFullScreen ? styles.fullModal : styles.centerModal,
         ]}
         transparent={isTransparent}
-        animationType={animationType || "fade"}
+        animationType={animationType || 'fade'}
         visible={isOpen}
         onRequestClose={() => this._handleOnClose(this)}
         onShow={() => this._handleOnOpen(this)}

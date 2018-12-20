@@ -1,4 +1,4 @@
-import React, { Component } from 'react';
+import React, { PureComponent } from 'react';
 import { View, TouchableHighlight, Animated } from 'react-native';
 
 // Constants
@@ -9,7 +9,7 @@ import { ContainerHeader } from '../../containerHeader';
 // eslint-disable-next-line
 import styles from './collapsibleCardStyles';
 
-class CollapsibleCardView extends Component {
+class CollapsibleCardView extends PureComponent {
   /* Props
    * ------------------------------------------------
    *   @prop { type }    expanded                - For is collapsible open or close declaration prop.

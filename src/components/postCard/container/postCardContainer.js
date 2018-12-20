@@ -1,4 +1,4 @@
-import React, { Component } from 'react';
+import React, { PureComponent } from 'react';
 import { withNavigation } from 'react-navigation';
 import { connect } from 'react-redux';
 
@@ -15,7 +15,7 @@ import { default as ROUTES } from '../../../constants/routeNames';
  *
  */
 
-class PostCardContainer extends Component {
+class PostCardContainer extends PureComponent {
   constructor(props) {
     super(props);
     this.state = {
@@ -24,12 +24,13 @@ class PostCardContainer extends Component {
   }
 
   _handleOnUserPress = (username) => {
-    const { navigation, currentAccount } = this.props;
-    if (currentAccount.name !== username) {
+    const { navigation, currentAccount, content } = this.props;
+    if (content && currentAccount.name !== content.author) {
       navigation.navigate({
         routeName: ROUTES.SCREENS.PROFILE,
         params: {
-          username,
+          username: content.author,
+          reputation: content.author_reputation,
         },
         key: username,
       });

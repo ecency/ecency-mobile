@@ -1,4 +1,4 @@
-import React, { Component } from 'react';
+import React, { PureComponent } from 'react';
 import { View, Text } from 'react-native';
 // Constants
 
@@ -7,7 +7,7 @@ import { View, Text } from 'react-native';
 import styles from './summaryAreaStyles';
 import globalStyles from '../../../../globalStyles';
 
-export default class SummaryAreaView extends Component {
+export default class SummaryAreaView extends PureComponent {
   /* Props
    * ------------------------------------------------
    *   @prop { type }    name                - Description....

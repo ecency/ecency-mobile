@@ -16,6 +16,9 @@ const centerRegex = /(<center>)/g;
 const imgRegex = /(https?:\/\/.*\.(?:tiff?|jpe?g|gif|png|svg|ico))(.*)/gim;
 const pullRightLeftRegex = /(<div class="[^"]*?pull-[^"]*?">(.*?)(<[/]div>))/g;
 const linkRegex = /[-a-zA-Z0-9@:%_\+.~#?&//=]{2,256}\.[a-z]{2,4}\b(\/[-a-zA-Z0-9@:%_\+.~#?&//=]*)?/gi;
+const markdownImageRegex = /!\[[^\]]*\]\((.*?)\s*("(?:.*[^"])")?\s*\)/g;
+const urlRegex = /(http|ftp|https):\/\/([\w_-]+(?:(?:\.[\w_-]+)+))([\w.,@?^=%&:/~+#-]*[\w@?^=%&/~+#-])?/gm;
+
 export const markDown2Html = (input) => {
   if (!input) {
     return '';
@@ -34,18 +37,17 @@ export const markDown2Html = (input) => {
     output = createYoutubeIframe(output);
   }
 
-  // Has bug
-  // if (dTubeRegex.test(output)) {
-  //   output = createDtubeIframe(output);
-  // }
+  if (dTubeRegex.test(output)) {
+    output = createDtubeIframe(output);
+  }
 
   if (pullRightLeftRegex.test(output)) {
     output = changePullRightLeft(output);
   }
 
-  if (imgRegex.test(output)) {
-    output = createImage(output);
-  }
+  // if (imgRegex.test(output)) {
+  //   output = createImage(output);
+  // }
 
   if (vimeoRegex.test(output)) {
     output = createVimeoIframe(output);
@@ -59,10 +61,6 @@ export const markDown2Html = (input) => {
     output = createCenterImage(output);
   }
 
-  if (onlyImageDoubleLinkRegex.test(output)) {
-    output = createFromDoubleImageLink(output);
-  }
-
   if (onlyImageLinkRegex.test(output)) {
     output = createImage(output);
   }
@@ -74,6 +72,14 @@ export const markDown2Html = (input) => {
   if (postRegex.test(output)) {
     output = steemitUrlHandle(output);
   }
+
+  if (markdownImageRegex.test(output)) {
+    output = changeMarkdownImage(output);
+  }
+
+  // if (onlyImageDoubleLinkRegex.test(output)) {
+  //   output = createFromDoubleImageLink(output);
+  // }
 
   output = md.render(output);
 
@@ -97,6 +103,17 @@ export const replaceTags = input => input.replace(tagsRegex, (tag) => {
 
 export const removeOnlyPTag = input => input;
 
+const changeMarkdownImage = input => input.replace(markdownImageRegex, (link) => {
+  const markdownMatch = link.match(markdownImageRegex);
+  if (markdownMatch[0]) {
+    const firstMarkdownMatch = markdownMatch[0];
+    const _link = firstMarkdownMatch.match(urlRegex)[0];
+
+    return `<img data-href="${`https://img.esteem.app/500x0/${_link}`}" src="${`https://img.esteem.app/400x0/${_link}`}">`;
+  }
+  return link;
+});
+
 const centerStyling = input => input.replace(centerRegex, () => '<center style="text-align:center;">');
 
 const createCenterImage = input => input.replace(imgCenterRegex, (link) => {
@@ -110,7 +127,7 @@ const createCenterImage = input => input.replace(imgCenterRegex, (link) => {
 const changePullRightLeft = input => input.replace(pullRightLeftRegex, (item) => {
   const imageLink = item.match(linkRegex)[0];
 
-  return `<center style="text-align:center;"><img src="${imageLink}"/></center><br>`;
+  return `<center style="text-align:center;"><img src="${`https://img.esteem.app/400x0/${imageLink}`}"/></center><br>`;
 });
 
 const steemitUrlHandle = input => input.replace(postRegex, (link) => {
@@ -122,27 +139,43 @@ const steemitUrlHandle = input => input.replace(postRegex, (link) => {
   return `<a class="markdown-post-link" href="${permlink}" data_tag={${tag}} data_author="${author}">/${permlink}</a>`;
 });
 
-const createImage = input => input.replace(onlyImageLinkRegex, link => `<img data-href="${link}" src="${link}">`);
+const createImage = input => input.replace(
+  onlyImageLinkRegex,
+  link => `<img data-href="${`https://img.esteem.app/300x0/${link}`}" src="${`https://img.esteem.app/400x0/${link}`}">`,
+);
 
 const createFromDoubleImageLink = input => input.replace(onlyImageDoubleLinkRegex, (link) => {
   const _link = link.trim();
-  return `<img data-href="${_link}" src="${_link}">`;
+  return `<img data-href="https://img.esteem.app/300x0/${_link}" src="https://img.esteem.app/300x0/${_link}">`;
 });
 
 const createYoutubeIframe = input => input.replace(youTubeRegex, (link) => {
-  const videoID = link.split('=')[1];
+  const execVideo = youTubeRegex.exec(link);
+  const match = link.match(youTubeRegex);
 
-  const embedLink = `https://www.youtube.com/embed/${videoID}`;
+  if (execVideo[1] && match) {
+    const videoLink = execVideo[1];
+    const embedLink = `https://www.youtube.com/embed/${videoLink}`;
 
-  return iframeBody(embedLink);
+    return iframeBody(embedLink);
+  }
+
+  return link;
 });
 
 const createDtubeIframe = input => input.replace(dTubeRegex, (link) => {
   const execLink = dTubeRegex.exec(link);
+  const dTubeMatch = link.match(dTubeRegex)[0];
 
-  const embedLink = `https://emb.d.tube/#!/${execLink[2]}/${execLink[3]}`;
+  if (execLink[2] && execLink[3]) {
+    const embedLink = `https://emb.d.tube/#!/${execLink[2]}/${execLink[3]}`;
 
-  return iframeBody(embedLink);
+    return iframeBody(embedLink);
+  }
+  if (dTubeMatch) {
+    return iframeBody(dTubeMatch);
+  }
+  return link;
 });
 
 const createVimeoIframe = input => input.replace(vimeoRegex, (link) => {
@@ -153,5 +186,5 @@ const createVimeoIframe = input => input.replace(vimeoRegex, (link) => {
   return iframeBody(embedLink);
 });
 
-const iframeBody = link => `<iframe frameborder='0' src="${link}"></iframe>`;
+const iframeBody = link => `<iframe frameborder='0' allowfullscreen src='${link}'></iframe>`;
 const imageBody = link => `<img data-href="${link}" src="${link}">`;

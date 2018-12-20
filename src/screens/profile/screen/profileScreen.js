@@ -1,4 +1,4 @@
-import React, { Component, Fragment } from 'react';
+import React, { PureComponent, Fragment } from 'react';
 import { View, ScrollView } from 'react-native';
 import { injectIntl } from 'react-intl';
 
@@ -20,7 +20,7 @@ import { getRcPower, getVotingPower } from '../../../utils/manaBar';
 // Styles
 import styles from './profileStyles';
 
-class ProfileScreen extends Component {
+class ProfileScreen extends PureComponent {
   constructor(props) {
     super(props);
     this.state = {};
@@ -44,6 +44,7 @@ class ProfileScreen extends Component {
       isReverseHeader,
       user,
       username,
+      selectedQuickProfile,
     } = this.props;
     let _about;
     let coverImage;
@@ -69,7 +70,11 @@ class ProfileScreen extends Component {
     }
     return (
       <Fragment>
-        <Header key={user && user.username} selectedUser={user} isReverse={isReverseHeader} />
+        <Header
+          key={selectedQuickProfile && selectedQuickProfile.name}
+          selectedUser={selectedQuickProfile}
+          isReverse={isReverseHeader}
+        />
         <View style={styles.container}>
           {!isReady ? (
             <ProfileSummaryPlaceHolder />
