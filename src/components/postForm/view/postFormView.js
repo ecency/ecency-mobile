@@ -1,6 +1,6 @@
-import React, { Component, Fragment } from 'react';
+import React, { PureComponent, Fragment } from 'react';
 
-class PostFormView extends Component {
+class PostFormView extends PureComponent {
   constructor(props) {
     super(props);
     this.state = {};

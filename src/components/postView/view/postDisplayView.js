@@ -1,4 +1,4 @@
-import React, { Component, Fragment } from 'react';
+import React, { PureComponent, Fragment } from 'react';
 import {
   View, Text, ScrollView, Dimensions,
 } from 'react-native';
@@ -16,7 +16,8 @@ import { CommentsDisplay } from '../../commentsDisplay';
 import styles from './postDisplayStyles';
 
 const HEIGHT = Dimensions.get('window').width;
-class PostDisplayView extends Component {
+
+class PostDisplayView extends PureComponent {
   /* Props
    * ------------------------------------------------
    *   @prop { type }    name                - Description....

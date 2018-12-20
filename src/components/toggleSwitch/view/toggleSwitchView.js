@@ -1,4 +1,4 @@
-import React, { Component } from 'react';
+import React, { PureComponent } from 'react';
 import { View, TouchableOpacity, Animated } from 'react-native';
 
 // Constants
@@ -9,7 +9,7 @@ import { View, TouchableOpacity, Animated } from 'react-native';
 // eslint-disable-next-line
 import styles from './toggleSwitchStyles';
 
-class ToggleSwitchView extends Component {
+class ToggleSwitchView extends PureComponent {
   /* Props
    * ------------------------------------------------
    *   @prop { type }    name                - Description....

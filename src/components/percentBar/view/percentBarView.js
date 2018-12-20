@@ -1,7 +1,5 @@
-import React, { Component } from 'react';
-import {
-  View, Dimensions, Text, TouchableOpacity,
-} from 'react-native';
+import React, { PureComponent } from 'react';
+import { View, Dimensions, Text } from 'react-native';
 
 // Constants
 
@@ -10,7 +8,7 @@ import {
 // Styles
 import styles from './percentBarStyles';
 
-class PercentBarView extends Component {
+class PercentBarView extends PureComponent {
   /* Props
    * ------------------------------------------------
    *   @prop { string }    barColor                - Bar color proferties

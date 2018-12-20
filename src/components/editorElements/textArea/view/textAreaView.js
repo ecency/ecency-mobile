@@ -1,14 +1,14 @@
-import React, { Component } from 'react';
+import React, { PureComponent } from 'react';
 // Constants
 
 // Components
 import { MarkdownEditor } from '../../../markdownEditor';
 
-export default class TextAreaView extends Component {
+export default class TextAreaView extends PureComponent {
   /* Props
-    * ------------------------------------------------
-    *   @prop { type }    name                - Description....
-    */
+   * ------------------------------------------------
+   *   @prop { type }    name                - Description....
+   */
 
   constructor(props) {
     super(props);

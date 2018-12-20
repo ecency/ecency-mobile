@@ -12,7 +12,7 @@ export const parsePost = (post, currentUserName) => {
   }
 
   post.json_metadata = JSON.parse(post.json_metadata);
-  post.json_metadata.image ? (post.image = post.json_metadata.image[0]) : '';
+  post.image = postImage(post.json_metadata, post.body);
   post.pending_payout_value = parseFloat(post.pending_payout_value).toFixed(2);
   post.created = getTimeFromNow(post.created);
   post.vote_count = post.active_votes.length;
@@ -51,6 +51,33 @@ export const parsePost = (post, currentUserName) => {
 };
 
 const isVoted = (activeVotes, currentUserName) => activeVotes.some(v => v.voter === currentUserName && v.percent > 0);
+
+const postImage = (metaData, body) => {
+  const markdownImageRegex = /!\[[^\]]*\]\((.*?)\s*("(?:.*[^"])")?\s*\)/g;
+  const urlRegex = /(http|ftp|https):\/\/([\w_-]+(?:(?:\.[\w_-]+)+))([\w.,@?^=%&:/~+#-]*[\w@?^=%&/~+#-])?/gm;
+  const imageRegex = /(http(s?):)([/|.|\w|\s|-])*\.(?:jpg|gif|png)/g;
+  let imageLink;
+
+  if (metaData && metaData.image && metaData.image[0]) {
+    imageLink = metaData.image[0];
+  } else if (body && markdownImageRegex.test(body)) {
+    const markdownMatch = body.match(markdownImageRegex);
+    if (markdownMatch[0]) {
+      const firstMarkdownMatch = markdownMatch[0];
+      imageLink = firstMarkdownMatch.match(urlRegex)[0];
+    }
+  }
+
+  if(!imageLink && imageRegex.test(body)) {
+    const imageMatch = body.match(imageRegex);
+    imageLink = imageMatch[0];
+  }
+
+  if (imageLink) {
+    return `https://img.esteem.app/300x0/${imageLink}`;
+  }
+  return '';
+};
 
 export const protocolUrl2Obj = (url) => {
   let urlPart = url.split('://')[1];

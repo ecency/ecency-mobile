@@ -1,13 +1,4 @@
-import React, { Component } from 'react';
-// import { connect } from 'react-redux';
-
-// Services and Actions
-
-// Middleware
-
-// Constants
-
-// Utilities
+import React, { PureComponent } from 'react';
 
 // Component
 import MessagesScreen from '../screen/messagesScreen';
@@ -18,7 +9,7 @@ import MessagesScreen from '../screen/messagesScreen';
  *
  */
 
-class MessagesContainer extends Component {
+class MessagesContainer extends PureComponent {
   constructor(props) {
     super(props);
     this.state = {};
@@ -29,9 +20,6 @@ class MessagesContainer extends Component {
   // Component Functions
 
   render() {
-    // eslint-disable-next-line
-    //const {} = this.props;
-
     return <MessagesScreen {...this.props} />;
   }
 }

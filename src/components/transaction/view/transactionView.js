@@ -1,4 +1,4 @@
-import React, { Component, Fragment } from 'react';
+import React, { PureComponent, Fragment } from 'react';
 import { injectIntl } from 'react-intl';
 
 // Utilities
@@ -9,7 +9,7 @@ import { getTransactionData } from '../../../utils/wallet';
 import { WalletLineItem, Card } from '../../basicUIElements';
 import { CollapsibleCard } from '../../collapsibleCard';
 
-class TransactionView extends Component {
+class TransactionView extends PureComponent {
   /* Props
    * ------------------------------------------------
    *   @prop { type }    name                - Description....

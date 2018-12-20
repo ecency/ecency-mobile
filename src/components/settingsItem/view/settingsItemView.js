@@ -1,4 +1,4 @@
-import React, { Component } from 'react';
+import React, { PureComponent } from 'react';
 import { View, Text } from 'react-native';
 
 // Constants
@@ -10,7 +10,7 @@ import { ToggleSwitch } from '../../toggleSwitch';
 // Styles
 import styles from './settingsItemStyles';
 
-class SettingsItemView extends Component {
+class SettingsItemView extends PureComponent {
   /* Props
    * ------------------------------------------------
    *   @prop { type }    name                - Description....
