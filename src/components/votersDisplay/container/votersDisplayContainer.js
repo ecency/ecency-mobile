@@ -1,4 +1,4 @@
-import React, { Component } from 'react';
+import React, { PureComponent } from 'react';
 import { withNavigation } from 'react-navigation';
 
 // Services and Actions
@@ -14,12 +14,12 @@ import { default as ROUTES } from '../../../constants/routeNames';
 import { VotersDisplayView } from '..';
 
 /*
-  *            Props Name        Description                                     Value
-  *@props -->  props name here   description here                                Value Type Here
-  *
-  */
+ *            Props Name        Description                                     Value
+ *@props -->  props name here   description here                                Value Type Here
+ *
+ */
 
-class VotersDisplayContainer extends Component {
+class VotersDisplayContainer extends PureComponent {
   constructor(props) {
     super(props);
     this.state = {};

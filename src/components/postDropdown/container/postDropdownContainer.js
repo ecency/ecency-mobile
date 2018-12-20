@@ -1,4 +1,4 @@
-import React, { Component } from 'react';
+import React, { PureComponent } from 'react';
 import { connect } from 'react-redux';
 import { withNavigation } from 'react-navigation';
 import { Alert } from 'react-native';
@@ -24,7 +24,7 @@ import { PostDropdownView } from '..';
  *
  */
 
-class PostDropdownContainer extends Component {
+class PostDropdownContainer extends PureComponent {
   constructor(props) {
     super(props);
     this.state = {};

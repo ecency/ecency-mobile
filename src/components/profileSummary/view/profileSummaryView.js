@@ -1,4 +1,4 @@
-import React, { Component, Fragment } from 'react';
+import React, { PureComponent, Fragment } from 'react';
 import {
   View,
   Image,
@@ -23,7 +23,7 @@ import styles from './profileSummaryStyles';
 
 const DEVICE_WIDTH = Dimensions.get('window').width;
 
-class ProfileSummaryView extends Component {
+class ProfileSummaryView extends PureComponent {
   /* Props
    * ------------------------------------------------
    *   @prop { type }    name                - Description....

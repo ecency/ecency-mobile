@@ -1,4 +1,4 @@
-import React, { Component } from 'react';
+import React, { PureComponent } from 'react';
 
 // Services and Actions
 
@@ -12,12 +12,12 @@ import React, { Component } from 'react';
 import { VotersScreen } from '..';
 
 /*
-  *            Props Name        Description                                     Value
-  *@props -->  props name here   description here                                Value Type Here
-  *
-  */
+ *            Props Name        Description                                     Value
+ *@props -->  props name here   description here                                Value Type Here
+ *
+ */
 
-class VotersContainer extends Component {
+class VotersContainer extends PureComponent {
   constructor(props) {
     super(props);
     this.state = {};

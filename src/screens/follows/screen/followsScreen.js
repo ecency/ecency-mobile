@@ -1,4 +1,4 @@
-import React, { Component } from 'react';
+import React, { PureComponent } from 'react';
 import {
   View, Text, FlatList, ActivityIndicator,
 } from 'react-native';
@@ -13,7 +13,7 @@ import { UserListItem } from '../../../components/basicUIElements';
 // Utils
 import styles from './followScreenStyles';
 
-class FollowsScreen extends Component {
+class FollowsScreen extends PureComponent {
   /* Props
    * ------------------------------------------------
    *   @prop { type }    name                - Description....

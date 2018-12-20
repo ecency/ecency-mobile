@@ -1,11 +1,10 @@
-import React, { Component } from 'react';
+import React, { PureComponent } from 'react';
 import { ScrollView, View } from 'react-native';
 import { injectIntl } from 'react-intl';
 
 // Constants
 import LANGUAGE, { VALUE as LANGUAGE_VALUE } from '../../../constants/options/language';
 import CURRENCY, { VALUE as CURRENCY_VALUE } from '../../../constants/options/currency';
-import API, { VALUE as API_VALUE } from '../../../constants/options/api';
 
 // Components
 import { BasicHeader } from '../../../components/basicHeader';
@@ -14,7 +13,7 @@ import { SettingsItem } from '../../../components/settingsItem';
 // Styles
 import globalStyles from '../../../globalStyles';
 
-class SettingsScreen extends Component {
+class SettingsScreen extends PureComponent {
   /* Props
    * ------------------------------------------------
    *   @prop { type }    name                - Description....

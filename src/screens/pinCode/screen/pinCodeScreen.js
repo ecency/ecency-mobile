@@ -1,4 +1,4 @@
-import React, { Component } from 'react';
+import React, { PureComponent } from 'react';
 import { Text, TouchableOpacity, View } from 'react-native';
 
 import { NumericKeyboard, PinAnimatedInput } from '../../../components';
@@ -6,7 +6,7 @@ import { UserAvatar } from '../../../components/userAvatar';
 
 import styles from './pinCodeStyles';
 
-class PinCodeScreen extends Component {
+class PinCodeScreen extends PureComponent {
   constructor(props) {
     super(props);
     this.state = {

@@ -1,4 +1,4 @@
-import React, { Component } from 'react';
+import React, { PureComponent } from 'react';
 import { withNavigation } from 'react-navigation';
 import { connect } from 'react-redux';
 
@@ -17,7 +17,7 @@ import { HeaderView } from '..';
  *
  */
 
-class HeaderContainer extends Component {
+class HeaderContainer extends PureComponent {
   constructor(props) {
     super(props);
     this.state = {};

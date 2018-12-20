@@ -1,4 +1,4 @@
-import React, { Component, Fragment } from 'react';
+import React, { PureComponent, Fragment } from 'react';
 import { View, ScrollView, FlatList } from 'react-native';
 import { injectIntl } from 'react-intl';
 
@@ -17,7 +17,7 @@ import {
 // Styles
 import styles from './notificationStyles';
 
-class NotificationView extends Component {
+class NotificationView extends PureComponent {
   /* Props
     * ------------------------------------------------
     *   @prop { type }    name                - Description....

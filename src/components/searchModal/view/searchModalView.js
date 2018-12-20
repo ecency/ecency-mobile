@@ -1,4 +1,4 @@
-import React, { Component, Fragment } from 'react';
+import React, { PureComponent } from 'react';
 import {
   View, Text, TextInput, FlatList, TouchableHighlight, SafeAreaView,
 } from 'react-native';
@@ -15,7 +15,7 @@ import { Modal } from '../..';
 // eslint-disable-next-line
 import styles from './searchModalStyles';
 
-class SearchModalView extends Component {
+class SearchModalView extends PureComponent {
   /* Props
    * ------------------------------------------------
    *   @prop { type }    name                - Description....

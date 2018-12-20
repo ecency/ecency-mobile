@@ -1,4 +1,4 @@
-import React, { Component } from 'react';
+import React, { PureComponent } from 'react';
 import { View, FlatList } from 'react-native';
 
 // Constants
@@ -12,7 +12,7 @@ import { IconButton } from '../../iconButton';
 // Styles
 // import styles from './commentStyles';
 
-class CommentsView extends Component {
+class CommentsView extends PureComponent {
   /* Props
    * ------------------------------------------------
    *   @prop { type }    name                - Description....
