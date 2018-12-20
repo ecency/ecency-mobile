@@ -133,7 +133,9 @@ export default class MarkdownEditorView extends Component {
         <FlatList
           data={Formats}
           keyboardShouldPersistTaps="always"
-          renderItem={({ item, index }) => index !== 9 && this._renderMarkupButton({ item, getState, setState })
+          renderItem={
+            ({ item, index }) => index !== 9
+              && this._renderMarkupButton({ item, getState, setState })
           }
           horizontal
         />

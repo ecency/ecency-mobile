@@ -134,6 +134,7 @@ class SideMenuView extends Component {
         <View style={styles.contentView}>
           <FlatList
             data={menuItems}
+            keyExtractor={item => item.id}
             renderItem={item => (
               <TouchableOpacity
                 style={styles.listItem}
