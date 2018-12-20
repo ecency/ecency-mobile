@@ -104,6 +104,9 @@ class SettingsScreen extends PureComponent {
             text={intl.formatMessage({
               id: 'settings.reset',
             })}
+            type="button"
+            actionType="pincode"
+            handleOnChange={handleOnChange}
           />
         </ScrollView>
       </View>

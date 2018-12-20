@@ -61,6 +61,15 @@ class SettingsItemView extends PureComponent {
             onToggle={e => handleOnChange(e, type, actionType)}
           />
         );
+      case 'button':
+        return (
+          <TextButton
+            onPress={() => handleOnChange(null, type, actionType)}
+            textStyle={styles.textStyle}
+            style={styles.textButton}
+            text={text}
+          />
+        );
 
       default:
         return (

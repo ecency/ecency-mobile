@@ -3,7 +3,11 @@ import { Alert } from 'react-native';
 import { connect } from 'react-redux';
 import { injectIntl } from 'react-intl';
 
-import { setUserDataWithPinCode, verifyPinCode } from '../../../providers/steem/auth';
+import {
+  setUserDataWithPinCode,
+  verifyPinCode,
+  updatePinCode,
+} from '../../../providers/steem/auth';
 
 // Actions & Services
 import { closePinCodeModal } from '../../../redux/actions/applicationActions';
@@ -18,6 +22,8 @@ class PinCodeContainer extends Component {
       isExistUser: null,
       informationText: '',
       pinCode: null,
+      isOldPinVerified: false,
+      oldPinCode: null,
     };
   }
 
@@ -25,9 +31,9 @@ class PinCodeContainer extends Component {
   // TODO: these text should move to view!
   componentDidMount() {
     this._getDataFromStorage().then(() => {
-      const { intl } = this.props;
+      const { intl, isReset } = this.props;
       const { isExistUser } = this.state;
-      if (isExistUser) {
+      if (isExistUser || !isReset) {
         this.setState({
           informationText: intl.formatMessage({
             id: 'pincode.enter_text',
@@ -63,9 +69,53 @@ class PinCodeContainer extends Component {
       navigateTo,
       navigation,
       intl,
+      isReset,
     } = this.props;
-    const { isExistUser, pinCode } = this.state;
-    if (isExistUser) {
+    const {
+      isExistUser, pinCode, isOldPinVerified, oldPinCode,
+    } = this.state;
+
+    if (isReset) {
+      const pinData = {
+        pinCode: pin,
+        password: currentAccount ? currentAccount.password : '',
+        username: currentAccount ? currentAccount.name : '',
+        accessToken,
+        oldPinCode,
+      };
+
+      if (isOldPinVerified) {
+        updatePinCode(pinData).then((response) => {
+          const _currentAccount = currentAccount;
+          _currentAccount.local = response;
+
+          dispatch(updateCurrentAccount({ ..._currentAccount }));
+
+          dispatch(closePinCodeModal());
+          if (navigateTo) {
+            navigation.navigate(navigateTo);
+          }
+          resolve();
+        });
+      } else {
+        verifyPinCode(pinData)
+          .then(() => {
+            this.setState({ isOldPinVerified: true });
+            this.setState({
+              informationText: intl.formatMessage({
+                id: 'pincode.set_new',
+              }),
+              pinCode: null,
+              oldPinCode: pin,
+            });
+            resolve();
+          })
+          .catch((err) => {
+            Alert.alert('Warning', err.message);
+            reject(err);
+          });
+      }
+    } else if (isExistUser) {
       // If the user is exist, we are just checking to pin and navigating to home screen
       const pinData = {
         pinCode: pin,
@@ -104,8 +154,8 @@ class PinCodeContainer extends Component {
     } else if (pinCode === pin) {
       const pinData = {
         pinCode: pin,
-        password: currentAccount.password,
-        username: currentAccount.name,
+        password: currentAccount ? currentAccount.password : '',
+        username: currentAccount ? currentAccount.name : '',
         accessToken,
       };
       setUserDataWithPinCode(pinData).then((response) => {
