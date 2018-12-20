@@ -1,6 +1,12 @@
 import React, { Component, Fragment } from 'react';
 import {
-  View, Image, Text, TouchableOpacity, Dimensions, ActivityIndicator,
+  View,
+  Image,
+  Text,
+  TouchableOpacity,
+  Dimensions,
+  ActivityIndicator,
+  Linking,
 } from 'react-native';
 
 // Constants
@@ -19,9 +25,9 @@ const DEVICE_WIDTH = Dimensions.get('window').width;
 
 class ProfileSummaryView extends Component {
   /* Props
-    * ------------------------------------------------
-    *   @prop { type }    name                - Description....
-    */
+   * ------------------------------------------------
+   *   @prop { type }    name                - Description....
+   */
 
   constructor(props) {
     super(props);
@@ -33,6 +39,9 @@ class ProfileSummaryView extends Component {
   // Component Life Cycles
 
   // Component Functions
+  _handleOnPressLink = (url) => {
+    Linking.openURL(url);
+  };
 
   render() {
     const { isShowPercentText } = this.state;
@@ -67,10 +76,10 @@ class ProfileSummaryView extends Component {
     const rowLength = location
       ? location.length
       : null + link
-        ? link.length
-        : null + date
-          ? date.length
-          : null;
+      ? link.length
+      : null + date
+      ? date.length
+      : null;
 
     const isColumn = rowLength && DEVICE_WIDTH / rowLength <= 15;
     const followButtonIcon = !isFollowing ? 'user-follow' : 'user-unfollow';
@@ -80,7 +89,14 @@ class ProfileSummaryView extends Component {
       <Fragment>
         <View style={[isColumn ? styles.textWithIconWrapperColumn : styles.textWithIconWrapper]}>
           {!!location && <TextWithIcon text={location} iconName="md-navigate" />}
-          {!!link && <TextWithIcon isClickable text={link} iconName="md-globe" />}
+          {!!link && (
+            <TextWithIcon
+              isClickable
+              onPress={() => this._handleOnPressLink(link)}
+              text={link}
+              iconName="md-globe"
+            />
+          )}
           {!!date && <TextWithIcon text={date} iconName="md-calendar" />}
         </View>
         <View />
@@ -114,9 +130,12 @@ class ProfileSummaryView extends Component {
               <TouchableOpacity onPress={() => handleOnFollowsPress(false)}>
                 <View style={styles.followCountWrapper}>
                   <Text style={styles.followCount}>{followerCount}</Text>
-                  <Text style={styles.followText}> {intl.formatMessage({
-                    id: 'profile.follower',
-                  })}</Text>
+                  <Text style={styles.followText}>
+                    {' '}
+                    {intl.formatMessage({
+                      id: 'profile.follower',
+                    })}
+                  </Text>
                 </View>
               </TouchableOpacity>
               <TouchableOpacity onPress={() => handleOnFollowsPress(true)}>
