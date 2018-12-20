@@ -60,9 +60,9 @@ const postImage = (metaData, body) => {
 
   if (metaData && metaData.image && metaData.image[0]) {
     imageLink = metaData.image[0];
-  } else if (markdownImageRegex.test(body)) {
+  } else if (body && markdownImageRegex.test(body)) {
     const markdownMatch = body.match(markdownImageRegex);
-    if (markdownMatch) {
+    if (markdownMatch[0]) {
       const firstMarkdownMatch = markdownMatch[0];
       imageLink = firstMarkdownMatch.match(urlRegex)[0];
     }
