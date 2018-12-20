@@ -10,13 +10,13 @@ import { connect } from 'react-redux';
 // Utilities
 
 // Component
-import { LoginScreen } from '..';
+import LoginScreen from '../screen/loginScreen';
 
 /*
-*            Props Name        Description                                     Value
-*@props -->  props name here   description here                                Value Type Here
-*
-*/
+ *            Props Name        Description                                     Value
+ *@props -->  props name here   description here                                Value Type Here
+ *
+ */
 
 class LoginContainer extends Component {
   constructor(props) {

@@ -2,7 +2,7 @@ import React, { Component } from 'react';
 import { connect } from 'react-redux';
 
 // Component
-import { HomeScreen } from '..';
+import HomeScreen from '../screen/homeScreen';
 
 /*
  *            Props Name        Description                                     Value

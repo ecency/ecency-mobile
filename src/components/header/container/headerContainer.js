@@ -12,7 +12,7 @@ import { connect } from 'react-redux';
 import { getReputation } from '../../../utils/user';
 
 // Component
-import { HeaderView } from '..';
+import HeaderView from '../view/headerView';
 
 /*
  *            Props Name        Description                                     Value

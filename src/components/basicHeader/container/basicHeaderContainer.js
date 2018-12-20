@@ -5,13 +5,13 @@ import { withNavigation } from 'react-navigation';
 // import { default as ROUTES } from '../../../constants/routeNames';
 
 // Components
-import { BasicHeaderView } from '..';
+import BasicHeaderView from '../view/basicHeaderView';
 
 class BasicHeaderContainer extends Component {
   /* Props
-    * ------------------------------------------------
-    *   @prop { funtion }    handleOnPressPreviewButton                - Preview button active handler....
-    */
+   * ------------------------------------------------
+   *   @prop { funtion }    handleOnPressPreviewButton                - Preview button active handler....
+   */
 
   constructor(props) {
     super(props);

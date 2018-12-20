@@ -1,12 +1,12 @@
 import React, { Component } from 'react';
 
-import { CommentsDisplayView } from '..';
+import CommentsDisplayView from '../view/commentsDisplayView';
 
 /*
-  *            Props Name        Description                                     Value
-  *@props -->  props name here   description here                                Value Type Here
-  *
-  */
+ *            Props Name        Description                                     Value
+ *@props -->  props name here   description here                                Value Type Here
+ *
+ */
 
 class CommentsContainer extends Component {
   constructor(props) {
