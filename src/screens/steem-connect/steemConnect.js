@@ -1,4 +1,4 @@
-import React, { Component } from 'react';
+import React, { PureComponent } from 'react';
 import { View, WebView, Alert } from 'react-native';
 import { connect } from 'react-redux';
 
@@ -12,7 +12,7 @@ import { login as loginAction, openPinCodeModal } from '../../redux/actions/appl
 // Constants
 import { default as ROUTES } from '../../constants/routeNames';
 
-class SteemConnect extends Component {
+class SteemConnect extends PureComponent {
   constructor(props) {
     super(props);
     this.state = {
@@ -20,7 +20,7 @@ class SteemConnect extends Component {
     };
   }
 
-  onNavigationStateChange(event) {
+  _onNavigationStateChange = (event) => {
     let accessToken;
     const { dispatch, setPinCodeState, handleOnModalClose } = this.props;
     const { isLoading } = this.state;
@@ -52,7 +52,7 @@ class SteemConnect extends Component {
           });
       }
     }
-  }
+  };
 
   render() {
     return (
@@ -65,7 +65,7 @@ class SteemConnect extends Component {
               steemConnectOptions.redirect_uri,
             )}&scope=${encodeURIComponent(steemConnectOptions.scope)}`,
           }}
-          onNavigationStateChange={this.onNavigationStateChange.bind(this)}
+          onNavigationStateChange={this._onNavigationStateChange}
           ref={(ref) => {
             this.webview = ref;
           }}

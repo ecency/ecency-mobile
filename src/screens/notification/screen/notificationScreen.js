@@ -13,7 +13,6 @@ import { NoPost } from '../../../components/basicUIElements';
 
 // Styles
 import MESSAGES_IMAGE from '../../../assets/keep_calm.png';
-import globalStyles from '../../../globalStyles';
 
 class NotificationScreen extends PureComponent {
   constructor(props) {

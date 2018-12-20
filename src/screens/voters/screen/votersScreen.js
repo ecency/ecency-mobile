@@ -1,4 +1,4 @@
-import React, { Component } from 'react';
+import React, { PureComponent } from 'react';
 import { View } from 'react-native';
 import { injectIntl } from 'react-intl';
 
@@ -13,11 +13,11 @@ import { VotersDisplay } from '../../../components/votersDisplay';
 import { isBefore } from '../../../utils/time';
 import globalStyles from '../../../globalStyles';
 
-class VotersScreen extends Component {
+class VotersScreen extends PureComponent {
   /* Props
-    * ------------------------------------------------
-    *   @prop { type }    name                - Description....
-    */
+   * ------------------------------------------------
+   *   @prop { type }    name                - Description....
+   */
 
   constructor(props) {
     super(props);

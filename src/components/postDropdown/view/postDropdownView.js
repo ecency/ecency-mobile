@@ -1,10 +1,10 @@
-import React, { Component } from 'react';
+import React, { PureComponent } from 'react';
 
 // Constants
 // Components
 import { DropdownButton } from '../../dropdownButton';
 
-class PostDropdownView extends Component {
+class PostDropdownView extends PureComponent {
   /* Props
    * ------------------------------------------------
    *   @prop { type }    name                - Description....

@@ -1,4 +1,4 @@
-import React, { Component, Fragment } from 'react';
+import React, { PureComponent, Fragment } from 'react';
 
 import { Platform, View, Text } from 'react-native';
 
@@ -12,7 +12,7 @@ import MaterialIcons from 'react-native-vector-icons/MaterialIcons';
 
 import styles from './iconStyles';
 
-class IconView extends Component {
+class IconView extends PureComponent {
   constructor(props) {
     super(props);
     this.state = {};

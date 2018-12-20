@@ -1,4 +1,4 @@
-import React, { Component } from 'react';
+import React, { PureComponent } from 'react';
 import { connect } from 'react-redux';
 
 // Component
@@ -10,7 +10,7 @@ import HomeScreen from '../screen/homeScreen';
  *
  */
 
-class HomeContainer extends Component {
+class HomeContainer extends PureComponent {
   constructor(props) {
     super(props);
     this.state = {};

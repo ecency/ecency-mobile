@@ -1,4 +1,4 @@
-import React, { Component } from 'react';
+import React, { PureComponent } from 'react';
 import { View } from 'react-native';
 
 // Constants
@@ -7,15 +7,15 @@ import { View } from 'react-native';
 
 // Styles
 // eslint-disable-next-line
-import styles from "./leaderBoardStyles";
+import styles from './leaderBoardStyles';
 
 /*
-*            Props Name        Description                                     Value
-*@props -->  props name here   description here                                Value Type Here
-*
-*/
+ *            Props Name        Description                                     Value
+ *@props -->  props name here   description here                                Value Type Here
+ *
+ */
 
-class LeaderBoardView extends Component {
+class LeaderBoardView extends PureComponent {
   constructor(props) {
     super(props);
     this.state = {};

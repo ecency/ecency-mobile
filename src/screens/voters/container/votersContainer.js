@@ -1,4 +1,4 @@
-import React, { Component } from 'react';
+import React, { PureComponent } from 'react';
 
 // Services and Actions
 
@@ -17,7 +17,7 @@ import VotersScreen from '../screen/votersScreen';
  *
  */
 
-class VotersContainer extends Component {
+class VotersContainer extends PureComponent {
   constructor(props) {
     super(props);
     this.state = {};

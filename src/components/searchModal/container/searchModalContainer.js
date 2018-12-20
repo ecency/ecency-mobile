@@ -1,4 +1,4 @@
-import React, { Component } from 'react';
+import React, { PureComponent } from 'react';
 import { withNavigation } from 'react-navigation';
 
 // Services and Actions
@@ -21,7 +21,7 @@ import SearchModalView from '../view/searchModalView';
  *
  */
 
-class SearchModalContainer extends Component {
+class SearchModalContainer extends PureComponent {
   constructor(props) {
     super(props);
     this.state = {

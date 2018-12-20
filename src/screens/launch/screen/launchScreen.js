@@ -1,4 +1,4 @@
-import React, { Component, Fragment } from 'react';
+import React, { PureComponent, Fragment } from 'react';
 import { View, Text } from 'react-native';
 
 // Constants
@@ -9,7 +9,7 @@ import { Logo } from '../../../components';
 
 // import styles from './launchStyles';
 
-class LaunchScreen extends Component {
+class LaunchScreen extends PureComponent {
   /* Props
    * ------------------------------------------------
    *   @prop { type }    name                - Description....

@@ -1,4 +1,4 @@
-import React, { Component } from 'react';
+import React, { PureComponent } from 'react';
 
 // Component
 import WalletDetailsView from '../view/walletDetailsView';
@@ -10,7 +10,7 @@ import WalletDetailsView from '../view/walletDetailsView';
  *
  */
 
-class WalletContainer extends Component {
+class WalletContainer extends PureComponent {
   constructor(props) {
     super(props);
     this.state = {};

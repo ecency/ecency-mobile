@@ -1,10 +1,10 @@
-import React, { Component } from 'react';
+import React, { PureComponent } from 'react';
 import { connect } from 'react-redux';
 
 // Components
 import Icon from '../view/iconView';
 
-class IconContainer extends Component {
+class IconContainer extends PureComponent {
   constructor(props) {
     super(props);
     this.state = {};

@@ -1,4 +1,4 @@
-import React, { Component, Fragment } from 'react';
+import React, { PureComponent, Fragment } from 'react';
 import { Dimensions, Linking } from 'react-native';
 import { withNavigation } from 'react-navigation';
 import HTML from 'react-native-html-renderer';
@@ -12,7 +12,7 @@ import { default as ROUTES } from '../../../../constants/routeNames';
 
 const WIDTH = Dimensions.get('window').width;
 
-class PostBody extends Component {
+class PostBody extends PureComponent {
   constructor(props) {
     super(props);
     this.state = {};

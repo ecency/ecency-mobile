@@ -1,4 +1,4 @@
-import React, { Component } from 'react';
+import React, { PureComponent } from 'react';
 import { connect } from 'react-redux';
 import { withNavigation } from 'react-navigation';
 import { isCollapsePostButton } from '../../../redux/actions/uiAction';
@@ -6,7 +6,7 @@ import { isCollapsePostButton } from '../../../redux/actions/uiAction';
 // Components
 import PostButtonView from '../view/postButtonView';
 
-class PostButtonContainer extends Component {
+class PostButtonContainer extends PureComponent {
   constructor(props) {
     super(props);
     this.state = {};

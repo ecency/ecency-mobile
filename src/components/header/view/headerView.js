@@ -78,7 +78,7 @@ class HeaderView extends Component {
             {displayName && <Text style={styles.title}>{displayName}</Text>}
             <Text style={styles.subTitle}>
               {`@${username}`}
-              {` (${reputation})`}
+              {reputation && ` (${reputation})`}
             </Text>
           </View>
         ) : (

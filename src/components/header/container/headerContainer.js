@@ -1,4 +1,4 @@
-import React, { Component } from 'react';
+import React, { PureComponent } from 'react';
 import { withNavigation } from 'react-navigation';
 import { connect } from 'react-redux';
 
@@ -7,9 +7,6 @@ import { connect } from 'react-redux';
 // Middleware
 
 // Constants
-
-// Utilities
-import { getReputation } from '../../../utils/user';
 
 // Component
 import HeaderView from '../view/headerView';
@@ -20,7 +17,7 @@ import HeaderView from '../view/headerView';
  *
  */
 
-class HeaderContainer extends Component {
+class HeaderContainer extends PureComponent {
   constructor(props) {
     super(props);
     this.state = {};
@@ -53,11 +50,11 @@ class HeaderContainer extends Component {
     if (isReverse && selectedUser) {
       displayName = selectedUser.display_name;
       username = selectedUser.name;
-      reputation = getReputation(selectedUser.reputation);
+      reputation = selectedUser.reputation;
     } else if (!isReverse) {
       displayName = currentAccount.display_name;
       username = currentAccount.name;
-      reputation = getReputation(currentAccount.reputation);
+      reputation = currentAccount.reputation;
     }
 
     return (

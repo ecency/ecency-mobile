@@ -1,4 +1,4 @@
-import React, { Component } from 'react';
+import React, { PureComponent } from 'react';
 import { View, Text } from 'react-native';
 import Ionicons from 'react-native-vector-icons/Ionicons';
 
@@ -9,13 +9,13 @@ import Ionicons from 'react-native-vector-icons/Ionicons';
 // Styles
 import styles from './informationAreaStyles';
 
-class FormInputView extends Component {
+class FormInputView extends PureComponent {
   /* Props
-    * ------------------------------------------------
-    *   @prop { string }     description       - Description texts.
-    *   @prop { string }     iconName          - For icon render name.
-    *
-    */
+   * ------------------------------------------------
+   *   @prop { string }     description       - Description texts.
+   *   @prop { string }     iconName          - For icon render name.
+   *
+   */
   constructor(props) {
     super(props);
 

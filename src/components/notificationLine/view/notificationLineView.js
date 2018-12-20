@@ -1,4 +1,4 @@
-import React, { Component } from 'react';
+import React, { PureComponent } from 'react';
 import {
   View, Text, Image, TouchableHighlight,
 } from 'react-native';
@@ -12,7 +12,7 @@ import { injectIntl } from 'react-intl';
 // eslint-disable-next-line
 import styles from './notificationLineStyles';
 
-class NotificationLineView extends Component {
+class NotificationLineView extends PureComponent {
   /* Props
     * ------------------------------------------------
     *   @prop { type }    name                - Description....

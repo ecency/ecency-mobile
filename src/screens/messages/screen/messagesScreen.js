@@ -1,4 +1,4 @@
-import React, { Component, Fragment } from 'react';
+import React, { PureComponent, Fragment } from 'react';
 import { injectIntl } from 'react-intl';
 
 // Constants
@@ -11,11 +11,11 @@ import { NoPost } from '../../../components/basicUIElements';
 import styles from './messagesStyle';
 import MESSAGES_IMAGE from '../../../assets/keep_calm.png';
 
-class MessagesScreen extends Component {
+class MessagesScreen extends PureComponent {
   /* Props
-    * ------------------------------------------------
-    *   @prop { type }    name                - Description....
-    */
+   * ------------------------------------------------
+   *   @prop { type }    name                - Description....
+   */
 
   constructor(props) {
     super(props);

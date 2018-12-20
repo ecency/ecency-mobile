@@ -1,4 +1,4 @@
-import React, { Component } from 'react';
+import React, { PureComponent } from 'react';
 import { View, Text } from 'react-native';
 import Ionicons from 'react-native-vector-icons/Ionicons';
 
@@ -9,12 +9,12 @@ import Ionicons from 'react-native-vector-icons/Ionicons';
 // Styles
 import styles from './containerHeaderStyles';
 
-class ContainerHeaderView extends Component {
+class ContainerHeaderView extends PureComponent {
   /* Props
-    * ------------------------------------------------
-    *   @prop { type }    title            - Renderable title for header.
-    *
-    */
+   * ------------------------------------------------
+   *   @prop { type }    title            - Renderable title for header.
+   *
+   */
   constructor(props) {
     super(props);
     this.state = {};
