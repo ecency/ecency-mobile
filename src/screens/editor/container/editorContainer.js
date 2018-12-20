@@ -102,9 +102,9 @@ class EditorContainer extends Component {
 
   _handleOpenImagePicker = () => {
     ImagePicker.openPicker({
-      width: 300,
-      height: 400,
-      cropping: true,
+      //width: 300,
+      //height: 400,
+      //cropping: true,
       // writeTempFile: true,
       // includeBase64: true,
       // multiple: true,
@@ -119,9 +119,9 @@ class EditorContainer extends Component {
 
   _handleOpenCamera = () => {
     ImagePicker.openCamera({
-      width: 300,
-      height: 400,
-      cropping: true,
+      //width: 300,
+      //height: 400,
+      //cropping: true,
       //  includeBase64: true,
     })
       .then((image) => {
