@@ -40,7 +40,6 @@ export default EStyleSheet.create({
     alignSelf: 'center',
   },
   rightIcon: {
-    color: '$iconColor',
     justifyContent: 'center',
     alignSelf: 'center',
   },
