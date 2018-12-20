@@ -1,8 +1,6 @@
 import React, { Component, Fragment } from 'react';
 import { connect } from 'react-redux';
 
-// Components
-import { ProfileScreen } from '..';
 
 // Utilitites
 import {
@@ -18,6 +16,9 @@ import {
 
 // Constants
 import { default as ROUTES } from '../../../constants/routeNames';
+
+// Components
+import ProfileScreen from '../screen/profileScreen';
 
 class ProfileContainer extends Component {
   constructor(props) {

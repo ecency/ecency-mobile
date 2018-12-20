@@ -10,7 +10,7 @@ import { default as ROUTES } from '../../../constants/routeNames';
 // Utilities
 
 // Component
-import { PostDisplayView } from '..';
+import PostDisplayView from '../view/postDisplayView';
 
 /*
  *            Props Name        Description                                     Value

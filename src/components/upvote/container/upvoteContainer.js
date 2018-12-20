@@ -8,7 +8,7 @@ import { setUpvotePercent } from '../../../realm/realm';
 import { setUpvotePercent as upvoteAction } from '../../../redux/actions/applicationActions';
 
 // Component
-import { UpvoteView } from '..';
+import UpvoteView from '../view/upvoteView';
 
 /*
  *            Props Name        Description                                     Value

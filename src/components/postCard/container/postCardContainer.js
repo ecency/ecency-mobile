@@ -5,7 +5,7 @@ import { connect } from 'react-redux';
 // Dsteem
 import { getPost } from '../../../providers/steem/dsteem';
 
-import { PostCardView } from '..';
+import PostCardView from '../view/postCardView';
 
 // Constants
 import { default as ROUTES } from '../../../constants/routeNames';
@@ -20,7 +20,6 @@ class PostCardContainer extends Component {
     super(props);
     this.state = {
       _content: null,
-      error: null,
     };
   }
 
@@ -71,9 +70,7 @@ class PostCardContainer extends Component {
           this.setState({ _content: result });
         }
       })
-      .catch((err) => {
-        this.setState({ error: err });
-      });
+      .catch(() => {});
   };
 
   render() {

@@ -30,7 +30,7 @@ import {
   addOtherAccount,
   updateCurrentAccount,
   updateUnreadActivityCount,
-  removeOtherAccount
+  removeOtherAccount,
 } from '../../../redux/actions/accountAction';
 import {
   activeApplication,
@@ -47,8 +47,8 @@ import {
 } from '../../../redux/actions/applicationActions';
 
 // Container
-import { ApplicationScreen } from '..';
-import { Launch } from '../../';
+import ApplicationScreen from '../screen/applicationScreen';
+import { Launch } from '../..';
 
 addLocaleData([...en, ...tr]);
 
@@ -149,7 +149,7 @@ class ApplicationContainer extends Component {
         response.server && dispatch(setApi(response.server));
         response.upvotePercent && dispatch(setUpvotePercent(Number(response.upvotePercent)));
 
-        this.setState({isReady: true});
+        this.setState({ isReady: true });
       }
     });
   };

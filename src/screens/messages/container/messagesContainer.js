@@ -10,13 +10,13 @@ import React, { Component } from 'react';
 // Utilities
 
 // Component
-import { MessagesScreen } from '..';
+import MessagesScreen from '../screen/messagesScreen';
 
 /*
-  *            Props Name        Description                                     Value
-  *@props -->  props name here   description here                                Value Type Here
-  *
-  */
+ *            Props Name        Description                                     Value
+ *@props -->  props name here   description here                                Value Type Here
+ *
+ */
 
 class MessagesContainer extends Component {
   constructor(props) {

@@ -9,7 +9,7 @@ import { updateUnreadActivityCount } from '../../../redux/actions/accountAction'
 import ROUTES from '../../../constants/routeNames';
 
 // Components
-import { NotificationScreen } from '../index';
+import NotificationScreen from '../screen/notificationScreen';
 
 class NotificationContainer extends Component {
   constructor(props) {
