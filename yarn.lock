@@ -5889,10 +5889,10 @@ mute-stream@0.0.7:
   resolved "https://registry.yarnpkg.com/mute-stream/-/mute-stream-0.0.7.tgz#3075ce93bc21b8fab43e1bc4da7e8115ed1e7bab"
   integrity sha1-MHXOk7whuPq0PhvE2n6BFe0ee6s=
 
-nan@2.8.0:
-  version "2.8.0"
-  resolved "https://registry.yarnpkg.com/nan/-/nan-2.8.0.tgz#ed715f3fe9de02b57a5e6252d90a96675e1f085a"
-  integrity sha1-7XFfP+neArV6XmJS2QqWZ14fCFo=
+nan@^2.10.0:
+  version "2.12.1"
+  resolved "https://registry.yarnpkg.com/nan/-/nan-2.12.1.tgz#7b1aa193e9aa86057e3c7bbd0ac448e770925552"
+  integrity sha512-JY7V6lRkStKcKTvHO5NVSQRv+RV+FIL5pvDoLiAtSL9pKlC5x9PKQcZDsq7m4FO4d57mkhC6Z+QhAh3Jdk5JFw==
 
 nan@^2.2.1, nan@^2.9.2:
   version "2.11.1"
@@ -5962,6 +5962,11 @@ node-int64@^0.4.0:
   version "0.4.0"
   resolved "https://registry.yarnpkg.com/node-int64/-/node-int64-0.4.0.tgz#87a9065cdb355d3182d8f94ce11188b825c68a3b"
   integrity sha1-h6kGXNs1XTGC2PlM4RGIuCXGijs=
+
+node-machine-id@^1.1.10:
+  version "1.1.10"
+  resolved "https://registry.yarnpkg.com/node-machine-id/-/node-machine-id-1.1.10.tgz#b4cb8f01b25b90d4e0675be00df30e61ee75179b"
+  integrity sha512-6SVxo3Ic2Qc09z1rCJh3No7ubizPLszImsMQnZZWfzeOC6SYU4orN214++c3ikB8uaP/A6dwSlO88A3ohI5oNA==
 
 node-modules-regexp@^1.0.0:
   version "1.0.0"
@@ -6791,10 +6796,10 @@ react-native-iphone-x-helper@^1.0.3:
   resolved "https://registry.yarnpkg.com/react-native-iphone-x-helper/-/react-native-iphone-x-helper-1.2.0.tgz#9f8a376eb00bc712115abff4420318a0063fa796"
   integrity sha512-xIeTo4s77wwKgBZLVRIZC9tM9/PkXS46Ul76NXmvmixEb3ZwqGdQesR3zRiLMOoIdfOURB6N9bba9po7+x9Bag==
 
-react-native-keyboard-aware-scroll-view@^0.7.2:
-  version "0.7.4"
-  resolved "https://registry.yarnpkg.com/react-native-keyboard-aware-scroll-view/-/react-native-keyboard-aware-scroll-view-0.7.4.tgz#80fb4b56f3c5cb399da0c6832ec52729856ac08a"
-  integrity sha512-5AJ11sGcleiX43IJ32T0kPtIxcd1JWw0R+YPwkgyZWro7uuGBlq09CFW5jS9JTNoGq7crFzFfTcoTIY6B41rNQ==
+react-native-keyboard-aware-scroll-view@^0.8.0:
+  version "0.8.0"
+  resolved "https://registry.yarnpkg.com/react-native-keyboard-aware-scroll-view/-/react-native-keyboard-aware-scroll-view-0.8.0.tgz#00bcaa38c91323913bb7a733059ad2bc4875f88c"
+  integrity sha512-gPfhgHQI/z7Cc5aeNOEmK0b250QkAeU6V+4oH8EC7mmFneEKn6MAIDjpoiwqt6bV+lFJPABXfx9MtrRmtCeJ/Q==
   dependencies:
     prop-types "^15.6.2"
     react-native-iphone-x-helper "^1.0.3"
@@ -7112,18 +7117,19 @@ readable-stream@^3.0.6:
     string_decoder "^1.1.1"
     util-deprecate "^1.0.1"
 
-realm@2.16.0:
-  version "2.16.0"
-  resolved "https://registry.yarnpkg.com/realm/-/realm-2.16.0.tgz#e7c02445bb403c095f7082305fc2c8c0ac762227"
-  integrity sha512-u2n8+/0XzUVcsCB2VJ0E1KU2BHG08to7td6gm/bAhHgY9a8z4+ye1Gxod7i7cXepG9zljlU9k7fJck7/EbHnMA==
+realm@2.21.1:
+  version "2.21.1"
+  resolved "https://registry.yarnpkg.com/realm/-/realm-2.21.1.tgz#a6e3bf86b8469665a176f1ff8db6ab35a8854d56"
+  integrity sha512-8O+A2DG2RFUuE7noRuaDa45v5fwwr6/CU/HVdMbv1w/DJV+4RxPkSiwF9OhecZ34KkAsWUbUPYZVdj5JNq3Aag==
   dependencies:
     command-line-args "^4.0.6"
     decompress "^4.2.0"
     deepmerge "2.1.0"
     fs-extra "^4.0.2"
     ini "^1.3.4"
-    nan "2.8.0"
+    nan "^2.10.0"
     node-fetch "^1.6.3"
+    node-machine-id "^1.1.10"
     node-pre-gyp "^0.11.0"
     progress "^2.0.0"
     prop-types "^15.5.10"
@@ -7432,7 +7438,7 @@ ripemd160@^2.0.0, ripemd160@^2.0.1:
     hash-base "^3.0.0"
     inherits "^2.0.1"
 
-rn-placeholder@^1.2.0:
+rn-placeholder@^1.3.2:
   version "1.3.2"
   resolved "https://registry.yarnpkg.com/rn-placeholder/-/rn-placeholder-1.3.2.tgz#cee790d0cb3d3a3317d0fcae2323aa8768a1feb8"
   integrity sha512-rC4/BgO4eVKdoFM9ns9V4fnlVpQGeUrffKgAFbc5vqxYziO5We1x50GHpa4w/07FM3tmuxEtFPJPx15v8r468A==

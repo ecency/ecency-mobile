@@ -7,7 +7,8 @@ import LinearGradient from 'react-native-linear-gradient';
 import ActionSheet from 'react-native-actionsheet';
 
 // Components
-import { Icon, IconButton } from '../..';
+import { IconButton } from '../../buttons';
+import { Icon } from '../../icon';
 import { UserAvatar } from '../../userAvatar';
 
 // Constants
@@ -133,6 +134,7 @@ class SideMenuView extends Component {
         <View style={styles.contentView}>
           <FlatList
             data={menuItems}
+            keyExtractor={item => item.id}
             renderItem={item => (
               <TouchableOpacity
                 style={styles.listItem}

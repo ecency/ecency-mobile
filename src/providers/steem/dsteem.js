@@ -1,11 +1,10 @@
 import { Client, PrivateKey } from 'dsteem';
 import steemConnect from 'steemconnect';
-import { getServer } from '../../realm/realm';
+import { getServer, getPinCode } from '../../realm/realm';
 import { getUnreadActivityCount } from '../esteem/esteem';
 
 // Utils
 import { decryptKey } from '../../utils/crypto';
-import { getDigitPinCode } from './auth';
 import { parsePosts, parsePost, parseComments } from '../../utils/postParser';
 import { getName, getAvatar } from '../../utils/user';
 
@@ -30,6 +29,8 @@ const _getClient = async () => {
 };
 
 _getClient();
+
+export const getDigitPinCode = async () => decryptKey(await getPinCode(), 'pin-code');
 
 /**
  * @method getAccount get account data

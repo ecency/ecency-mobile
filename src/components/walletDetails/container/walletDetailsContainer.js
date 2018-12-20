@@ -1,7 +1,7 @@
 import React, { Component } from 'react';
 
 // Component
-import { WalletDetailsView } from '..';
+import WalletDetailsView from '../view/walletDetailsView';
 
 /**
  *            Props Name        Description                                     Value

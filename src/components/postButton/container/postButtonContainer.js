@@ -4,7 +4,7 @@ import { withNavigation } from 'react-navigation';
 import { isCollapsePostButton } from '../../../redux/actions/uiAction';
 
 // Components
-import { PostButtonView } from '..';
+import PostButtonView from '../view/postButtonView';
 
 class PostButtonContainer extends Component {
   constructor(props) {

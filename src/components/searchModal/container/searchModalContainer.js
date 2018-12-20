@@ -13,13 +13,13 @@ import { default as ROUTES } from '../../../constants/routeNames';
 // Utilities
 
 // Component
-import { SearchModalView } from '..';
+import SearchModalView from '../view/searchModalView';
 
 /*
-  *            Props Name        Description                                     Value
-  *@props -->  props name here   description here                                Value Type Here
-  *
-  */
+ *            Props Name        Description                                     Value
+ *@props -->  props name here   description here                                Value Type Here
+ *
+ */
 
 class SearchModalContainer extends Component {
   constructor(props) {

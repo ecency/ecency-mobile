@@ -13,7 +13,9 @@ import {
 import { closePinCodeModal } from '../../../redux/actions/applicationActions';
 import { getExistUser, setExistUser, getUserDataWithUsername } from '../../../realm/realm';
 import { updateCurrentAccount } from '../../../redux/actions/accountAction';
-import { PinCodeScreen } from '..';
+
+// Component
+import PinCodeScreen from '../screen/pinCodeScreen';
 
 class PinCodeContainer extends Component {
   constructor(props) {

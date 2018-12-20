@@ -1,7 +1,7 @@
 import React, { Component } from 'react';
 
 // Component
-import { TransactionView } from '..';
+import TransactionView from '../view/transactionView';
 
 /**
  *            Props Name        Description                                     Value
