@@ -9,7 +9,7 @@ import { getExistUser } from '../../../realm/realm';
 
 // Components
 import { Modal } from '../../../components';
-import { PinCode } from '../..';
+import PinCode from '../../pinCode';
 import PostButtonForAndroid from '../../../components/postButton/view/postButtonsForAndroid';
 
 // Constants

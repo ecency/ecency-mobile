@@ -5,7 +5,7 @@ import { connect } from 'react-redux';
 import { getPost } from '../../../providers/steem/dsteem';
 
 // Component
-import { PostScreen } from '..';
+import PostScreen from '../screen/postScreen';
 
 /*
  *            Props Name        Description                                     Value

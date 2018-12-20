@@ -2,7 +2,7 @@ import React, { Component } from 'react';
 import { connect } from 'react-redux';
 
 // Components
-import { Icon } from '..';
+import Icon from '../view/iconView';
 
 class IconContainer extends Component {
   constructor(props) {

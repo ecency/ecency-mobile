@@ -1,4 +1,3 @@
-import { Application } from './application';
 import { Editor } from './editor';
 import { Follows } from './follows';
 import { Home } from './home';
@@ -15,7 +14,6 @@ import RootComponent from './root';
 import SteemConnect from './steem-connect/steemConnect';
 
 export {
-  Application,
   Editor,
   Follows,
   Home,

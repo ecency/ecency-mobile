@@ -10,7 +10,7 @@ import { default as ROUTES } from '../../../constants/routeNames';
 // Services and Actions
 import { getFollowers, getFollowing, getFollowSearch } from '../../../providers/steem/dsteem';
 // Component
-import { FollowsScreen } from '..';
+import FollowsScreen from '../screen/followsScreen';
 
 /*
   *            Props Name        Description                                     Value

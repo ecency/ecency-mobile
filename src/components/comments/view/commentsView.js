@@ -4,7 +4,7 @@ import { View, FlatList } from 'react-native';
 // Constants
 
 // Components
-import { Comments } from '..';
+import Comments from '../container/commentsContainer';
 import { PostBody, PostHeaderDescription } from '../../postElements';
 import { Upvote } from '../../upvote';
 import { IconButton } from '../../iconButton';

@@ -246,8 +246,6 @@ export const updatePinCode = async (data) => {
   }
 };
 
-export const getDigitPinCode = async () => decryptKey(await getPinCode(), 'pin-code');
-
 export const verifyPinCode = async (data) => {
   const result = getUserDataWithUsername(data.username);
   const userData = result[0];

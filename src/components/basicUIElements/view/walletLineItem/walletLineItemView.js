@@ -1,9 +1,8 @@
 import React from 'react';
 import { View, Text } from 'react-native';
-import { GrayWrapper } from '../..';
+import GrayWrapper from '../grayWrapper/grayWrapperView';
 
 import { Icon } from '../../../icon';
-import { CollapsibleCard } from '../../../collapsibleCard';
 
 import styles from './walletLineItemStyles';
 
