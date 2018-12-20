@@ -8,6 +8,7 @@ import { decryptKey } from '../../utils/crypto';
 import { getDigitPinCode } from './auth';
 import { parsePosts, parsePost, parseComments } from '../../utils/postParser';
 import { getName, getAvatar } from '../../utils/user';
+import { getReputation } from '../../utils/reputation';
 
 // Constant
 import AUTH_TYPE from '../../constants/authType';
@@ -69,6 +70,7 @@ export const getUser = async (user) => {
     const rcPower = await client.call('rc_api', 'find_rc_accounts', { accounts: [user] });
     const unreadActivityCount = await getUnreadActivityCount({ user });
 
+    account[0].reputation = getReputation(account[0].reputation);
     account[0].username = account[0].name;
     account[0].unread_activity_count = unreadActivityCount;
     account[0].rc_manabar = rcPower.rc_accounts[0].rc_manabar;

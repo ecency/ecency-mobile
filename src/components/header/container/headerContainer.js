@@ -8,9 +8,6 @@ import { connect } from 'react-redux';
 
 // Constants
 
-// Utilities
-import { getReputation } from '../../../utils/user';
-
 // Component
 import { HeaderView } from '..';
 
@@ -53,11 +50,11 @@ class HeaderContainer extends Component {
     if (isReverse && selectedUser) {
       displayName = selectedUser.display_name;
       username = selectedUser.name;
-      reputation = getReputation(selectedUser.reputation);
+      reputation = selectedUser.reputation;
     } else if (!isReverse) {
       displayName = currentAccount.display_name;
       username = currentAccount.name;
-      reputation = getReputation(currentAccount.reputation);
+      reputation = currentAccount.reputation;
     }
 
     return (

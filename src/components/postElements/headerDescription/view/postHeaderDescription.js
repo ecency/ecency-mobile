@@ -25,7 +25,7 @@ class PostHeaderDescription extends Component {
 
   // Component Functions
   _handleOnUserPress = (username) => {
-    const { navigation, profileOnPress } = this.props;
+    const { navigation, profileOnPress, reputation } = this.props;
 
     if (profileOnPress) {
       profileOnPress(username);
@@ -34,6 +34,7 @@ class PostHeaderDescription extends Component {
         routeName: ROUTES.SCREENS.PROFILE,
         params: {
           username,
+          reputation,
         },
         key: username,
       });

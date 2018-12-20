@@ -31,6 +31,7 @@ class ProfileContainer extends Component {
       isReady: false,
       isReverseHeader: !!(props.navigation.state && props.navigation.state.params),
       user: null,
+      selectedQuickProfile: null,
     };
   }
 
@@ -45,6 +46,16 @@ class ProfileContainer extends Component {
 
     if (selectedUser) {
       this._loadProfile(selectedUser.username);
+
+      if (selectedUser.username) {
+        const selectedQuickProfile = {
+          reputation: selectedUser.reputation,
+          name: selectedUser.username,
+        };
+
+        this.setState({ selectedQuickProfile });
+      }
+
       this.setState({ isReverseHeader: true });
     } else {
       this._loadProfile(currentAccount.name);
@@ -195,6 +206,14 @@ class ProfileContainer extends Component {
 
     this._fetchProfile(selectedUser);
 
+    this.setState(prevState => ({
+      selectedQuickProfile: {
+        ...prevState.selectedQuickProfile,
+        display_name: user.display_name,
+        reputation: user.reputation,
+      },
+    }));
+
     this.setState(
       {
         user,
@@ -240,6 +259,8 @@ class ProfileContainer extends Component {
       isReverseHeader,
       user,
       username,
+      avatar,
+      selectedQuickProfile,
     } = this.state;
     const { isDarkTheme, isLoggedIn } = this.props;
 
@@ -247,6 +268,8 @@ class ProfileContainer extends Component {
       <Fragment>
         <ProfileScreen
           about={user && user.about && user.about.profile}
+          avatar={avatar}
+          selectedQuickProfile={selectedQuickProfile}
           comments={comments}
           error={error}
           follows={follows}
