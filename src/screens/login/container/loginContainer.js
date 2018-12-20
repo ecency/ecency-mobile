@@ -1,4 +1,4 @@
-import React, { Component } from 'react';
+import React, { PureComponent } from 'react';
 import { connect } from 'react-redux';
 
 // Services and Actions
@@ -13,12 +13,12 @@ import { connect } from 'react-redux';
 import { LoginScreen } from '..';
 
 /*
-*            Props Name        Description                                     Value
-*@props -->  props name here   description here                                Value Type Here
-*
-*/
+ *            Props Name        Description                                     Value
+ *@props -->  props name here   description here                                Value Type Here
+ *
+ */
 
-class LoginContainer extends Component {
+class LoginContainer extends PureComponent {
   constructor(props) {
     super(props);
     this.state = {};

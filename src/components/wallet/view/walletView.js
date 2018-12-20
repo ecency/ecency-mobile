@@ -1,4 +1,4 @@
-import React, { Component, Fragment } from 'react';
+import React, { PureComponent, Fragment } from 'react';
 import { View, Text, ScrollView } from 'react-native';
 import Ionicons from 'react-native-vector-icons/Ionicons';
 
@@ -14,7 +14,7 @@ import { WalletDetailsPlaceHolder } from '../../basicUIElements';
 // Styles
 import styles from './walletStyles';
 
-class WalletView extends Component {
+class WalletView extends PureComponent {
   /* Props
    * ------------------------------------------------
    *   @prop { type }    name                - Description....

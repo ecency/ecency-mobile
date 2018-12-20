@@ -1,4 +1,4 @@
-import React, { Component } from 'react';
+import React, { PureComponent } from 'react';
 import {
   View, Text, Image, SafeAreaView,
 } from 'react-native';
@@ -10,7 +10,7 @@ import { LineBreak } from '../../basicUIElements';
 // Styles
 import styles from './loginHeaderStyles';
 
-class LoginHeaderView extends Component {
+class LoginHeaderView extends PureComponent {
   /* Props
    * ------------------------------------------------
    *   @prop { string }    title            - Title for header string.

@@ -1,4 +1,4 @@
-import React, { Component } from 'react';
+import React, { PureComponent } from 'react';
 import { withNavigation } from 'react-navigation';
 import { connect } from 'react-redux';
 
@@ -15,7 +15,7 @@ import { default as ROUTES } from '../../../constants/routeNames';
  *
  */
 
-class PostCardContainer extends Component {
+class PostCardContainer extends PureComponent {
   constructor(props) {
     super(props);
     this.state = {

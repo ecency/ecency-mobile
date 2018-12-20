@@ -1,4 +1,4 @@
-import React, { Component, Fragment } from 'react';
+import React, { PureComponent, Fragment } from 'react';
 import { connect } from 'react-redux';
 
 // Component
@@ -13,7 +13,7 @@ import { isCollapsePostButton } from '../../../redux/actions/uiAction';
  *
  */
 
-class PostsContainer extends Component {
+class PostsContainer extends PureComponent {
   constructor(props) {
     super(props);
     this.state = {};

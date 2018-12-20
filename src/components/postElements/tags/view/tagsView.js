@@ -1,4 +1,4 @@
-import React, { Component } from 'react';
+import React, { PureComponent } from 'react';
 import { View, FlatList } from 'react-native';
 
 // Components
@@ -8,12 +8,12 @@ import { Tag } from '../../../basicUIElements';
 import styles from './tagsStyles';
 
 // Constants
-class TagsView extends Component {
+class TagsView extends PureComponent {
   constructor(props) {
     super(props);
     this.state = {};
   }
-
+  // TODO: Can be stateless
   // Component Life Cycles
 
   // Component Functions

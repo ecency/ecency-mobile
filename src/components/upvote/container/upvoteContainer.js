@@ -1,4 +1,4 @@
-import React, { Component } from 'react';
+import React, { PureComponent } from 'react';
 import { connect } from 'react-redux';
 
 // Realm
@@ -16,7 +16,7 @@ import { UpvoteView } from '..';
  *
  */
 
-class UpvoteContainer extends Component {
+class UpvoteContainer extends PureComponent {
   constructor(props) {
     super(props);
     this.state = {};

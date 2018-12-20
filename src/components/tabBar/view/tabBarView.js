@@ -1,4 +1,4 @@
-import React, { Component } from 'react';
+import React, { PureComponent } from 'react';
 import { connect } from 'react-redux';
 import {
   Text,
@@ -13,7 +13,7 @@ import {
 // Styles
 import styles from './tabBarStyles';
 
-class TabBar extends Component {
+class TabBar extends PureComponent {
   /* Props
     * ------------------------------------------------ TODO: Fill fallowlines
     *   @prop { type }    name            - Description.

@@ -1,4 +1,4 @@
-import React, { Component, Fragment } from 'react';
+import React, { PureComponent, Fragment } from 'react';
 
 // Constants
 
@@ -7,7 +7,7 @@ import { BasicHeader } from '../../../components/basicHeader';
 import { PostDisplay } from '../../../components/postView';
 import { PostDropdown } from '../../../components/postDropdown';
 
-class PostScreen extends Component {
+class PostScreen extends PureComponent {
   /* Props
    * ------------------------------------------------
    *   @prop { type }    name                - Description....

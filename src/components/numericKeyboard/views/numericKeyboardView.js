@@ -1,14 +1,14 @@
-import React, { Component } from 'react';
+import React, { PureComponent } from 'react';
 import { View } from 'react-native';
 
 import { CircularButton, IconButton } from '../..';
 
 import styles from './numericKeyboardStyles';
 
-class NumericKeyboard extends Component {
+class NumericKeyboard extends PureComponent {
   /* Props
-    *   @prop { func }    onPress            - Function will trigger when any button clicked.
-    */
+   *   @prop { func }    onPress            - Function will trigger when any button clicked.
+   */
   constructor(props) {
     super(props);
     this.state = {};
