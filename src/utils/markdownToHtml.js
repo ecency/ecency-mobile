@@ -34,10 +34,9 @@ export const markDown2Html = (input) => {
     output = createYoutubeIframe(output);
   }
 
-  // Has bug
-  // if (dTubeRegex.test(output)) {
-  //   output = createDtubeIframe(output);
-  // }
+  if (dTubeRegex.test(output)) {
+    output = createDtubeIframe(output);
+  }
 
   if (pullRightLeftRegex.test(output)) {
     output = changePullRightLeft(output);
@@ -145,10 +144,17 @@ const createYoutubeIframe = input => input.replace(youTubeRegex, (link) => {
 
 const createDtubeIframe = input => input.replace(dTubeRegex, (link) => {
   const execLink = dTubeRegex.exec(link);
+  const dTubeMatch = link.match(dTubeRegex)[0];
 
-  const embedLink = `https://emb.d.tube/#!/${execLink[2]}/${execLink[3]}`;
+  if (execLink[2] && execLink[3]) {
+    const embedLink = `https://emb.d.tube/#!/${execLink[2]}/${execLink[3]}`;
 
-  return iframeBody(embedLink);
+    return iframeBody(embedLink);
+  }
+  if (dTubeMatch) {
+    return iframeBody(dTubeMatch);
+  }
+  return link;
 });
 
 const createVimeoIframe = input => input.replace(vimeoRegex, (link) => {
@@ -159,5 +165,5 @@ const createVimeoIframe = input => input.replace(vimeoRegex, (link) => {
   return iframeBody(embedLink);
 });
 
-const iframeBody = link => `<iframe frameborder='0' src='${link}'></iframe>`;
+const iframeBody = link => `<iframe frameborder='0' allowfullscreen src='${link}'></iframe>`;
 const imageBody = link => `<img data-href="${link}" src="${link}">`;

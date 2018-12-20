@@ -1,8 +1,6 @@
 import React, { Component } from 'react';
-import {
-  Image, TouchableOpacity, Text, View,
-} from 'react-native';
-// import FastImage from 'react-native-fast-image';
+import { TouchableOpacity, Text, View } from 'react-native';
+import FastImage from 'react-native-fast-image';
 import { PostHeaderDescription } from '../../postElements';
 import { PostDropdown } from '../../postDropdown';
 import { Icon } from '../../icon';
@@ -84,7 +82,7 @@ class PostCard extends Component {
             onPress={() => this._handleOnContentPress()}
           >
             {!isHideImage && (
-              <Image source={_image} style={styles.image} defaultSource={DEFAULT_IMAGE} />
+              <FastImage source={_image} style={styles.image} defaultSource={DEFAULT_IMAGE} />
             )}
             <View style={[styles.postDescripton]}>
               <Text style={styles.title}>{content.title}</Text>
