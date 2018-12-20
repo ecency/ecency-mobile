@@ -130,11 +130,17 @@ const createFromDoubleImageLink = input => input.replace(onlyImageDoubleLinkRege
 });
 
 const createYoutubeIframe = input => input.replace(youTubeRegex, (link) => {
-  const videoID = link.split('=')[1];
+  const execVideo = youTubeRegex.exec(link);
+  const match = link.match(youTubeRegex);
 
-  const embedLink = `https://www.youtube.com/embed/${videoID}`;
+  if (execVideo[1] && match) {
+    const videoLink = execVideo[1];
+    const embedLink = `https://www.youtube.com/embed/${videoLink}`;
 
-  return iframeBody(embedLink);
+    return iframeBody(embedLink);
+  }
+
+  return link;
 });
 
 const createDtubeIframe = input => input.replace(dTubeRegex, (link) => {
@@ -153,5 +159,5 @@ const createVimeoIframe = input => input.replace(vimeoRegex, (link) => {
   return iframeBody(embedLink);
 });
 
-const iframeBody = link => `<iframe frameborder='0' src="${link}"></iframe>`;
+const iframeBody = link => `<iframe frameborder='0' src='${link}'></iframe>`;
 const imageBody = link => `<img data-href="${link}" src="${link}">`;
