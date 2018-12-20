@@ -74,7 +74,7 @@ const postImage = (metaData, body) => {
   }
 
   if (imageLink) {
-    return `https://cdn.steemitimages.com/300x0/${imageLink}`;
+    return `https://img.esteem.app/300x0/${imageLink}`;
   }
   return '';
 };
