@@ -44,6 +44,7 @@ class ProfileScreen extends Component {
       isReverseHeader,
       user,
       username,
+      selectedQuickProfile,
     } = this.props;
     let _about;
     let coverImage;
@@ -69,7 +70,11 @@ class ProfileScreen extends Component {
     }
     return (
       <Fragment>
-        <Header key={user && user.username} selectedUser={user} isReverse={isReverseHeader} />
+        <Header
+          key={selectedQuickProfile && selectedQuickProfile.name}
+          selectedUser={selectedQuickProfile}
+          isReverse={isReverseHeader}
+        />
         <View style={styles.container}>
           {!isReady ? (
             <ProfileSummaryPlaceHolder />

@@ -32,10 +32,10 @@ class PostCard extends Component {
   // Component Functions
 
   _handleOnUserPress = () => {
-    const { handleOnUserPress, content } = this.props;
+    const { handleOnUserPress } = this.props;
 
-    if (handleOnUserPress && content) {
-      handleOnUserPress(content.author);
+    if (handleOnUserPress) {
+      handleOnUserPress();
     }
   };
 
