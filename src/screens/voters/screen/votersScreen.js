@@ -82,7 +82,7 @@ class VotersScreen extends PureComponent {
           handleOnSearch={this._handleSearch}
         />
         <FilterBar
-          dropdownIconName="md-arrow-dropdown"
+          dropdownIconName="arrow-drop-down"
           options={['REWARDS', 'PERCENT', 'TIME']}
           defaultText="REWARDS"
           onDropdownSelect={this._handleOnDropdownSelect}

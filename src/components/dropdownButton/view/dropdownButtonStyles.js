@@ -14,10 +14,9 @@ export default EStyleSheet.create({
   //   marginLeft: 25,
   // },
   dropdownIcon: {
-    fontSize: 18,
-    color: '$iconColor',
-    marginLeft: 7,
-    marginTop: 1,
+    fontSize: 22,
+    color: '$primaryDarkGray',
+    marginLeft: -10,
   },
   dropdown: {
     marginTop: 5,
@@ -52,10 +51,10 @@ export default EStyleSheet.create({
     marginLeft: 25,
   },
   buttonText: {
-    fontSize: 9,
+    fontSize: 10,
     alignSelf: 'center',
     color: '$primaryDarkGray',
-    fontWeight: 'normal',
+    fontWeight: 'bold',
   },
   rowWrapper: {
     height: 35,

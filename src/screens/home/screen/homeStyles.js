@@ -19,6 +19,11 @@ export default EStyleSheet.create({
     alignSelf: 'center',
     height: 40,
     backgroundColor: '$primaryBackgroundColor',
+    shadowOpacity: 0.2,
+    shadowColor: '$shadowColor',
+    shadowOffset: { height: 4 },
+    zIndex: 99,
+    elevation: 4,
   },
   tabbarItem: {
     flex: 1,

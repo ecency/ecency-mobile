@@ -30,7 +30,7 @@ const FilterBarView = ({
 }) => (
   <View style={styles.container}>
     {!isHide && (
-      <LineBreak height={35}>
+      <LineBreak height={38}>
         <View style={styles.filterBarWrapper}>
           <DropdownButton
             iconName={dropdownIconName}
@@ -46,7 +46,7 @@ const FilterBarView = ({
             >
               <Icon
                 style={styles.rightIcon}
-                size={iconSize || 32}
+                size={iconSize || 28}
                 iconType={rightIconType}
                 name={rightIconName}
               />

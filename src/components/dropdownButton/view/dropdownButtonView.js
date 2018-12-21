@@ -3,7 +3,7 @@ import { View, Text, TouchableHighlight } from 'react-native';
 
 // External components
 import ModalDropdown from 'react-native-modal-dropdown';
-import Ionicons from 'react-native-vector-icons/Ionicons';
+import { Icon } from '../../icon';
 
 // Styles
 import styles from './dropdownButtonStyles';
@@ -68,16 +68,21 @@ const DropdownButtonView = ({
     >
       {isHasChildIcon && (
         <View style={[styles.iconWrapper, childIconWrapperStyle && childIconWrapperStyle]}>
-          <Ionicons
+          <Icon
             style={[styles.dropdownIcon, iconStyle]}
-            name={!iconName ? 'md-arrow-dropdown' : iconName}
+            iconType="MaterialIcons"
+            name={!iconName ? 'arrow-drop-down' : iconName}
           />
         </View>
       )}
     </ModalDropdown>
     {!children && !isHasChildIcon && (
       <View style={styles.iconWrapper}>
-        <Ionicons style={styles.dropdownIcon} name={!iconName ? 'md-arrow-dropdown' : iconName} />
+        <Icon
+          style={styles.dropdownIcon}
+          iconType="MaterialIcons"
+          name={!iconName ? 'arrow-drop-down' : iconName}
+        />
       </View>
     )}
   </View>

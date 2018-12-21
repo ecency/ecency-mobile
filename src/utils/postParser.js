@@ -19,7 +19,7 @@ export const parsePost = (post, currentUserName) => {
   post.author_reputation = getReputation(post.author_reputation);
   post.avatar = `https://steemitimages.com/u/${post.author}/avatar/small`;
   post.body = markDown2Html(post.body);
-  post.summary = getPostSummary(post.body, 100);
+  post.summary = getPostSummary(post.body, 150);
   post.raw_body = post.body;
   post.active_votes.sort((a, b) => b.rshares - a.rshares);
   const totalPayout = parseFloat(post.pending_payout_value)
