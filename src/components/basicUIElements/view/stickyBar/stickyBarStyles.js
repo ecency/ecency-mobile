@@ -13,6 +13,7 @@ export default EStyleSheet.create({
     shadowOffset: {
       height: 1.5,
     },
+    elevation: 3,
   },
   fixedFooter: {
     position: 'absolute',
