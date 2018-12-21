@@ -138,19 +138,16 @@ export const setUserDataWithPinCode = async (data) => {
     memoKey: encryptKey(privateKeys.memo.toString(), data.pinCode),
   };
 
-  updateUserData(updatedUserData)
-    .then(async (response) => {
-      const authData = {
-        isLoggedIn: true,
-        currentUsername: userData.username,
-      };
+  const response = await updateUserData(updatedUserData);
+  const authData = {
+    isLoggedIn: true,
+    currentUsername: userData.username,
+  };
 
-      await setAuthStatus(authData);
-      const encriptedPinCode = encryptKey(data.pinCode, 'pin-code');
-      await setPinCode(encriptedPinCode);
-      return (response);
-    })
-    .catch(err => (err));
+  await setAuthStatus(authData);
+  const encriptedPinCode = encryptKey(data.pinCode, 'pin-code');
+  await setPinCode(encriptedPinCode);
+  return (response);
 };
 
 export const updatePinCode = async (data) => {
@@ -189,7 +186,6 @@ export const verifyPinCode = async (data) => {
   const userData = result[0];
   let account = null;
   let loginFlag = false;
-  console.log('result :', result);
   if (result.length > 0) {
     if (userData.masterKey || userData.accessToken) {
       if (userData.authType === 'steemConnect') {
@@ -220,7 +216,6 @@ export const verifyPinCode = async (data) => {
           }
         });
       }
-      console.log('lofinFlag1 :', loginFlag);
     } else {
       const encriptedPinCode = await getPinCode();
       const pinCode = decryptKey(encriptedPinCode, 'pin-code');
@@ -230,7 +225,6 @@ export const verifyPinCode = async (data) => {
           loginFlag = true;
         }
       }
-      console.log('loginFlag2 :', loginFlag);
     }
   }
   if (loginFlag) {
@@ -246,10 +240,8 @@ export const verifyPinCode = async (data) => {
       memoKey: decryptKey(userData.memoKey, data.pinCode),
     };
     await setAuthStatus(authData);
-    console.log('response :', response);
     return (response);
   }
-  console.log('test :');
   return Promise.reject(new Error('Invalid pin code, please check and try again'));
 };
 
