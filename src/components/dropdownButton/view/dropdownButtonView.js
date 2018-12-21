@@ -35,7 +35,6 @@ const renderDropdownRow = (rowData, rowID, highlighted, rowTextStyle, noHighligh
 const DropdownButtonView = ({
   childIconWrapperStyle,
   children,
-  defaultIndex,
   defaultText,
   iconStyle,
   iconName,
