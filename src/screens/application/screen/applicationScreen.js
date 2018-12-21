@@ -2,7 +2,7 @@ import React, { Component, Fragment } from 'react';
 import { IntlProvider } from 'react-intl';
 import { StatusBar, Platform } from 'react-native';
 import EStyleSheet from 'react-native-extended-stylesheet';
-import { ReduxNavigation } from '../../../config/reduxNavigation';
+import { ReduxNavigation } from '../../../navigation/reduxNavigation';
 import { flattenMessages } from '../../../utils/flattenMessages';
 import messages from '../../../config/locales';
 

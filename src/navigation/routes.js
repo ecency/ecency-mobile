@@ -3,7 +3,7 @@ import {
   createSwitchNavigator,
   createStackNavigator,
 } from 'react-navigation';
-import { BaseNavigator } from '../navigation';
+import { BaseNavigator } from './baseNavigator';
 import { default as ROUTES } from '../constants/routeNames';
 
 // Screens
