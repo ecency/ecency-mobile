@@ -75,12 +75,14 @@ class LoginContainer extends PureComponent {
 
   render() {
     const { isLoading } = this.state;
+    const { navigation } = this.props;
     return (
       <LoginScreen
         handleOnPressLogin={this._handleOnPressLogin}
         getAccountsWithUsername={this._getAccountsWithUsername}
         handleSignUp={this._handleSignUp}
         isLoading={isLoading}
+        navigation={navigation}
       />
     );
   }
