@@ -49,6 +49,7 @@ class ToggleSwitchView extends PureComponent {
       shadowOffset: {
         height: 1.5,
       },
+      elevation: 3,
     };
   };
 

@@ -68,13 +68,13 @@ const postImage = (metaData, body) => {
     }
   }
 
-  if(!imageLink && imageRegex.test(body)) {
+  if (!imageLink && imageRegex.test(body)) {
     const imageMatch = body.match(imageRegex);
     imageLink = imageMatch[0];
   }
 
   if (imageLink) {
-    return `https://img.esteem.app/300x0/${imageLink}`;
+    return `https://img.esteem.app/600x0/${imageLink}`;
   }
   return '';
 };

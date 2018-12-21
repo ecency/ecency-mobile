@@ -36,8 +36,12 @@ class IconView extends PureComponent {
   };
 
   _getIcon = () => {
-    const { iconType, children } = this.props;
-    const name = this._getIconName();
+    const { iconType, children, name } = this.props;
+    let _name = name;
+
+    if (iconType !== 'MaterialIcons') {
+      _name = this._getIconName();
+    }
 
     switch (iconType) {
       case 'Feather':
@@ -52,12 +56,12 @@ class IconView extends PureComponent {
         return <MaterialIcons {...this.props}>{children}</MaterialIcons>;
       case 'MaterialCommunityIcons':
         return (
-          <MaterialCommunityIcons name={name} {...this.props}>
+          <MaterialCommunityIcons name={_name} {...this.props}>
             {children}
           </MaterialCommunityIcons>
         );
       default:
-        return <Ionicons name {...this.props} />;
+        return <Ionicons name={_name} {...this.props} />;
     }
   };
 

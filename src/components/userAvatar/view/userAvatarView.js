@@ -1,5 +1,5 @@
 import React, { Component } from 'react';
-import { Image } from 'react-native';
+import FastImage from 'react-native-fast-image';
 import styles from './userAvatarStyles';
 
 const DEFAULT_IMAGE = require('../../../assets/avatar_default.png');
@@ -38,9 +38,8 @@ class UserAvatarView extends Component {
       _size = 64;
     }
 
-    // eslint-disable-next-line
     return (
-      <Image
+      <FastImage
         style={[styles.avatar, style, { width: _size, height: _size, borderRadius: _size / 2 }]}
         source={_avatar}
       />

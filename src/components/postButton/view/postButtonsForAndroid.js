@@ -98,8 +98,6 @@ class PostButtonsForAndroid extends Component {
         action,
       },
     });
-
-    // navigation.navigate(route);
   };
 
   render() {
@@ -141,8 +139,8 @@ class PostButtonsForAndroid extends Component {
             top: firstY,
             position: 'relative',
           }}
-          icon="video-camera"
-          onPress={() => this._handleSubButtonPress(ROUTES.SCREENS.EDITOR, 'camera')}
+          icon="create"
+          onPress={() => this._handleSubButtonPress(ROUTES.SCREENS.EDITOR)}
         />
         <SubPostButton
           size={SIZE}
@@ -151,8 +149,8 @@ class PostButtonsForAndroid extends Component {
             top: secondY,
             position: 'relative',
           }}
-          icon="pencil"
-          onPress={() => this._handleSubButtonPress(ROUTES.SCREENS.EDITOR)}
+          icon="camera-alt"
+          onPress={() => this._handleSubButtonPress(ROUTES.SCREENS.EDITOR, 'image')}
         />
         <SubPostButton
           size={SIZE}
@@ -161,8 +159,8 @@ class PostButtonsForAndroid extends Component {
             top: thirdY,
             position: 'relative',
           }}
-          icon="camera"
-          onPress={() => this._handleSubButtonPress(ROUTES.SCREENS.EDITOR, 'image')}
+          icon="videocam"
+          onPress={() => this._handleSubButtonPress(ROUTES.SCREENS.EDITOR, 'camera')}
         />
       </View>
     );
