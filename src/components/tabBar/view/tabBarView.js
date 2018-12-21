@@ -47,7 +47,7 @@ class TabBar extends PureComponent {
         onPress={() => onPressHandler(page)}
       >
         <View style={styles.tab}>
-          <Text style={[{ color: textColor, fontWeight }]}>{name}</Text>
+          <Text style={[{ color: textColor, fontWeight }, styles.text ]}>{name}</Text>
         </View>
       </Button>
     );

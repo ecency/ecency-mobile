@@ -75,7 +75,7 @@ class NotificationView extends PureComponent {
     return (
       <View style={styles.container}>
         <FilterBar
-          dropdownIconName="md-arrow-dropdown"
+          dropdownIconName="arrow-drop-down"
           options={filters.map(item => item.value)}
           defaultText="ALL ACTIVITIES"
           onDropdownSelect={this._handleOnDropdownSelect}

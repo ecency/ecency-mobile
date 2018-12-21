@@ -37,7 +37,7 @@ class TransactionView extends PureComponent {
       <Fragment>
         {/* this feature not implemented yet */}
         {/* <FilterBar
-          dropdownIconName="md-arrow-dropdown"
+          dropdownIconName="arrow-drop-down"
           options={['ALL TRANSACTIONS', 'VOTES', 'REPLIES']}
           defaultText="ALL TRANSACTIONS"
           onDropdownSelect={() => this._handleOnDropdownSelect()}
