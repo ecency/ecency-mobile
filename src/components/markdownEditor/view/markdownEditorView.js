@@ -39,7 +39,7 @@ export default class MarkdownEditorView extends Component {
       });
     }
 
-    if (nextProps.uploadedImage && nextProps.uploadedImage !== uploadedImage) {
+    if (nextProps.uploadedImage && nextProps.uploadedImage.url && nextProps.uploadedImage !== uploadedImage) {
       applyImageLink({
         getState: this._getState,
         setState: (state, callback) => {

@@ -102,9 +102,9 @@ class EditorContainer extends Component {
 
   _handleOpenImagePicker = () => {
     ImagePicker.openPicker({
-      //width: 300,
-      //height: 400,
-      //cropping: true,
+      // width: 300,
+      // height: 400,
+      // cropping: true,
       // writeTempFile: true,
       // includeBase64: true,
       // multiple: true,
@@ -119,9 +119,9 @@ class EditorContainer extends Component {
 
   _handleOpenCamera = () => {
     ImagePicker.openCamera({
-      //width: 300,
-      //height: 400,
-      //cropping: true,
+      // width: 300,
+      // height: 400,
+      // cropping: true,
       //  includeBase64: true,
     })
       .then((image) => {
@@ -168,12 +168,14 @@ class EditorContainer extends Component {
   };
 
   _handleMediaOnSelectFailure = (error) => {
-    // const { navigation } = this.props;
     this.setState({ isCameraOrPickerOpen: false });
-    Alert.alert(
-      'Permission Denied',
-      'Please, go to phone Settings and change eSteem app permissions.',
-    );
+
+    if (error.code === 'E_PERMISSION_MISSING') {
+      Alert.alert(
+        'Permission Denied',
+        'Please, go to phone Settings and change eSteem app permissions.',
+      );
+    }
   };
 
   // Media select functions <- END ->
