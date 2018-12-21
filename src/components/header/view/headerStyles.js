@@ -39,14 +39,14 @@ export default EStyleSheet.create({
   title: {
     fontSize: 14,
     fontWeight: 'bold',
-    color: '$primaryDarkGray',
+    color: '$primaryDarkText',
   },
   noAuthTitle: {
     fontSize: 14,
     color: '$iconColor',
   },
   subTitle: {
-    color: '$primaryDarkGray',
+    color: '$primaryDarkText',
     fontSize: 12,
   },
   avatar: {

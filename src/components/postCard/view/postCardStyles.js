@@ -2,14 +2,16 @@ import EStyleSheet from 'react-native-extended-stylesheet';
 
 export default EStyleSheet.create({
   post: {
-    shadowColor: '$white',
     padding: 0,
     marginRight: 0,
     marginLeft: 0,
-    marginTop: 10,
-    marginBottom: 0,
+    marginTop: 5,
+    marginBottom: 10,
     borderRadius: 5,
     backgroundColor: '$primaryBackgroundColor',
+    shadowOpacity: 0.2,
+    shadowColor: '$shadowColor',
+    elevation: 3,
   },
   avatar: {
     width: 30,
@@ -161,15 +163,13 @@ export default EStyleSheet.create({
     backgroundColor: '$primaryBackgroundColor',
   },
   title: {
-    fontSize: 14,
+    fontSize: 16,
     fontWeight: 'bold',
     marginVertical: 12,
     color: '$primaryBlack',
   },
   summary: {
-    fontSize: 12,
-    fontWeight: '200',
-    overflow: 'hidden',
+    fontSize: 13,
     color: '$primaryDarkGray',
   },
   bodyFooter: {
@@ -181,6 +181,7 @@ export default EStyleSheet.create({
   bodyHeader: {
     backgroundColor: '$primaryBackgroundColor',
     flexDirection: 'row',
+    marginTop: 16,
     marginHorizontal: 12,
     marginBottom: 12,
   },

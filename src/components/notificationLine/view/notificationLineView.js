@@ -3,7 +3,7 @@ import {
   View, Text, Image, TouchableHighlight,
 } from 'react-native';
 import { injectIntl } from 'react-intl';
-
+import FastImage from 'react-native-fast-image';
 // Constants
 
 // Components
@@ -14,9 +14,9 @@ import styles from './notificationLineStyles';
 
 class NotificationLineView extends PureComponent {
   /* Props
-    * ------------------------------------------------
-    *   @prop { type }    name                - Description....
-    */
+   * ------------------------------------------------
+   *   @prop { type }    name                - Description....
+   */
 
   constructor(props) {
     super(props);
@@ -40,7 +40,7 @@ class NotificationLineView extends PureComponent {
           key={Math.random()}
           style={[styles.notificationWrapper, !notification.read && styles.isNewNotification]}
         >
-          <Image
+          <FastImage
             style={[styles.avatar, !notification.avatar && styles.hasNoAvatar]}
             source={{
               uri: `https://steemitimages.com/u/${notification.source}/avatar/small`,

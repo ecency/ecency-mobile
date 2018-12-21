@@ -38,7 +38,7 @@ class CommentsDisplayView extends PureComponent {
         {commentCount > 0 && (
           <Fragment>
             <FilterBar
-              dropdownIconName="md-arrow-dropdown"
+              dropdownIconName="arrow-drop-down"
               options={['NEW COMMENTS']}
               defaultText="NEW COMMENTS"
               onDropdownSelect={this._handleOnDropdownSelect}

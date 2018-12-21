@@ -4,7 +4,6 @@ import FastImage from 'react-native-fast-image';
 import { PostHeaderDescription } from '../../postElements';
 import { PostDropdown } from '../../postDropdown';
 import { Icon } from '../../icon';
-import { LineBreak } from '../../basicUIElements';
 
 // STEEM
 import { Upvote } from '../../upvote';
@@ -112,7 +111,6 @@ class PostCard extends Component {
             <Text style={styles.comment}>{content.children}</Text>
           </TouchableOpacity>
         </View>
-        <LineBreak height={8} />
       </View>
     );
   }
