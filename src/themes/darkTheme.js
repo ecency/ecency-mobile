@@ -32,6 +32,8 @@ export default {
   $disableGray: '#fff',
   $editorButtonColor: '#fff',
   $pureWhite: '#ffffff',
+  $notificationBorder: '#1e2835',
+
   // Devices Sizes
   $deviceHeight: Dimensions.get('window').height,
   $deviceWidth: Dimensions.get('window').width,
