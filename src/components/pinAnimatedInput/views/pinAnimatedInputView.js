@@ -32,16 +32,6 @@ class PinAnimatedInput extends PureComponent {
         ]}
       >
         {[...Array(4)].map((val, index) => {
-          if (pin.length === index) {
-            return (
-              <Animated.View key={`passwordItem-${index}`} style={styles.input}>
-                <Animated.View
-                  key={`passwordItem-${index}`}
-                  style={[styles.input, styles.activeInput]}
-                />
-              </Animated.View>
-            );
-          }
           if (pin.length > index) {
             return (
               <Animated.View key={`passwordItem-${index}`} style={styles.input}>

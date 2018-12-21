@@ -8,7 +8,6 @@ export default EStyleSheet.create({
   defaultContainer: {
     flex: 1,
   },
-  title: {},
   text: {
     fontFamily: '$primaryFont',
     letterSpacing: '$primaryLatterSpacing',
@@ -28,6 +27,7 @@ export default EStyleSheet.create({
       width: 0,
       height: 6,
     },
+    elevation: 3,
   },
   errorText: {
     fontFamily: '$primaryFont',
