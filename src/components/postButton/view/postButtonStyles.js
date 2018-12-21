@@ -24,7 +24,8 @@ export default EStyleSheet.create({
     alignItems: 'center',
     justifyContent: 'center',
     shadowColor: '$shadowColor',
-    shadowOffset: { height: 0 },
+    shadowOffset: { height: 2 },
     shadowOpacity: 0.5,
+    elevation: 3,
   },
 });

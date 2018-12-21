@@ -109,7 +109,7 @@ const changeMarkdownImage = input => input.replace(markdownImageRegex, (link) =>
     const firstMarkdownMatch = markdownMatch[0];
     const _link = firstMarkdownMatch.match(urlRegex)[0];
 
-    return `<img data-href="${`https://img.esteem.app/500x0/${_link}`}" src="${`https://img.esteem.app/400x0/${_link}`}">`;
+    return `<img data-href="${`https://img.esteem.app/500x0/${_link}`}" src="${`https://img.esteem.app/500x0/${_link}`}">`;
   }
   return link;
 });
@@ -127,7 +127,7 @@ const createCenterImage = input => input.replace(imgCenterRegex, (link) => {
 const changePullRightLeft = input => input.replace(pullRightLeftRegex, (item) => {
   const imageLink = item.match(linkRegex)[0];
 
-  return `<center style="text-align:center;"><img src="${`https://img.esteem.app/400x0/${imageLink}`}"/></center><br>`;
+  return `<center style="text-align:center;"><img src="${`https://img.esteem.app/500x0/${imageLink}`}"/></center><br>`;
 });
 
 const steemitUrlHandle = input => input.replace(postRegex, (link) => {
@@ -141,12 +141,12 @@ const steemitUrlHandle = input => input.replace(postRegex, (link) => {
 
 const createImage = input => input.replace(
   onlyImageLinkRegex,
-  link => `<img data-href="${`https://img.esteem.app/300x0/${link}`}" src="${`https://img.esteem.app/400x0/${link}`}">`,
+  link => `<img data-href="${`https://img.esteem.app/300x0/${link}`}" src="${`https://img.esteem.app/500x0/${link}`}">`,
 );
 
 const createFromDoubleImageLink = input => input.replace(onlyImageDoubleLinkRegex, (link) => {
   const _link = link.trim();
-  return `<img data-href="https://img.esteem.app/300x0/${_link}" src="https://img.esteem.app/300x0/${_link}">`;
+  return `<img data-href="https://img.esteem.app/300x0/${_link}" src="https://img.esteem.app/500x0/${_link}">`;
 });
 
 const createYoutubeIframe = input => input.replace(youTubeRegex, (link) => {
