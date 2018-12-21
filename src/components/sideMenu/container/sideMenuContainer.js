@@ -49,6 +49,7 @@ class SideMenuContainer extends Component {
       accounts.push({
         name: `@${element.username}`,
         username: element.username,
+        id: element.username,
       });
     });
     accounts.push({
