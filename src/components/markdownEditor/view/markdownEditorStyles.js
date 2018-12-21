@@ -31,6 +31,7 @@ export default EStyleSheet.create({
     alignItems: 'center',
   },
   editorButton: {
+    color: '$primaryDarkGray',
     marginRight: 15,
     height: 24,
   },
