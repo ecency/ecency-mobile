@@ -1,4 +1,4 @@
-import Navigator from '../../config/routes';
+import Navigator from '../../navigation/routes';
 
 export default (state, action) => {
   const newState = Navigator.router.getStateForAction(action, state);
