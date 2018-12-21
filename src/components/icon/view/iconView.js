@@ -55,11 +55,7 @@ class IconView extends PureComponent {
       case 'MaterialIcons':
         return <MaterialIcons {...this.props}>{children}</MaterialIcons>;
       case 'MaterialCommunityIcons':
-        return (
-          <MaterialCommunityIcons name={_name} {...this.props}>
-            {children}
-          </MaterialCommunityIcons>
-        );
+        return <MaterialCommunityIcons {...this.props}>{children}</MaterialCommunityIcons>;
       default:
         return <Ionicons name={_name} {...this.props} />;
     }

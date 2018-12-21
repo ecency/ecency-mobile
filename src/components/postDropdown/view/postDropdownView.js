@@ -3,6 +3,7 @@ import React, { PureComponent } from 'react';
 // Constants
 // Components
 import { DropdownButton } from '../../dropdownButton';
+import styles from './postDropdownStyles';
 
 class PostDropdownView extends PureComponent {
   /* Props
@@ -25,11 +26,11 @@ class PostDropdownView extends PureComponent {
     return (
       <DropdownButton
         isHasChildIcon
-        iconName="md-more"
-        // options={['BOOKMARK', 'REBLOG', 'REPLY']}
+        iconName="more-vert"
         options={options}
         onSelect={handleOnDropdownSelect}
         noHighlight
+        iconStyle={styles.icon}
       />
     );
   }

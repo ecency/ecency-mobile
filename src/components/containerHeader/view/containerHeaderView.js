@@ -1,10 +1,10 @@
 import React, { PureComponent } from 'react';
 import { View, Text } from 'react-native';
-import Ionicons from 'react-native-vector-icons/Ionicons';
 
 // Constants
 
 // Components
+import { Icon } from '../../icon';
 
 // Styles
 import styles from './containerHeaderStyles';
@@ -51,7 +51,7 @@ class ContainerHeaderView extends PureComponent {
         >
           {title || defaultTitle}
         </Text>
-        {iconName && <Ionicons style={styles.icon} name={iconName} />}
+        {iconName && <Icon style={styles.icon} iconType="MaterialIcons" name={iconName} />}
       </View>
     );
   }

@@ -27,7 +27,7 @@ export default EStyleSheet.create({
   icon: {
     alignSelf: 'center',
     color: '$iconColor',
-    fontSize: 18,
+    fontSize: 22,
     marginRight: 32,
   },
 });
