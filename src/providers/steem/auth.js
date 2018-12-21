@@ -25,10 +25,10 @@ export const Login = async (username, password) => {
   // Get user account data from STEEM Blockchain
   const account = await getUser(username);
   if (!account) {
-    return (new Error('Invalid credentials, please check and try again'));
+    return Promise.reject(new Error('Invalid pin code, please check and try again'));
   }
   if (isLoggedInUser(username)) {
-    return (new Error('You are already logged in, please try to add another account'));
+    return Promise.reject(new Error('You are already logged in, please try to add another account'));
   }
 
   // Public keys of user
@@ -78,7 +78,7 @@ export const Login = async (username, password) => {
     await updateCurrentUsername(account.name);
     return ({ ...account, password });
   }
-  return (new Error('Invalid credentials, please check and try again'));
+  return Promise.reject(new Error('Invalid pin code, please check and try again'));
 };
 
 export const loginWithSC2 = async (accessToken) => {
@@ -189,6 +189,7 @@ export const verifyPinCode = async (data) => {
   const userData = result[0];
   let account = null;
   let loginFlag = false;
+  console.log('result :', result);
   if (result.length > 0) {
     if (userData.masterKey || userData.accessToken) {
       if (userData.authType === 'steemConnect') {
@@ -219,6 +220,7 @@ export const verifyPinCode = async (data) => {
           }
         });
       }
+      console.log('lofinFlag1 :', loginFlag);
     } else {
       const encriptedPinCode = await getPinCode();
       const pinCode = decryptKey(encriptedPinCode, 'pin-code');
@@ -228,6 +230,7 @@ export const verifyPinCode = async (data) => {
           loginFlag = true;
         }
       }
+      console.log('loginFlag2 :', loginFlag);
     }
   }
   if (loginFlag) {
@@ -243,9 +246,11 @@ export const verifyPinCode = async (data) => {
       memoKey: decryptKey(userData.memoKey, data.pinCode),
     };
     await setAuthStatus(authData);
+    console.log('response :', response);
     return (response);
   }
-  return (new Error('Invalid pin code, please check and try again'));
+  console.log('test :');
+  return Promise.reject(new Error('Invalid pin code, please check and try again'));
 };
 
 export const switchAccount = username => new Promise((resolve, reject) => {
