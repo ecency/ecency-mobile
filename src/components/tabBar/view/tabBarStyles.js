@@ -19,4 +19,9 @@ export default EStyleSheet.create({
   tabButton: {
     flex: 1,
   },
+  text: {
+    fontSize: 16,
+    fontFamily: '$primaryFont',
+    marginBottom: 12,
+  },
 });

@@ -19,7 +19,7 @@ export default ({
       newText = replaceBetween(text, selection, `${imagePrefix}[${itemText}](${selectedText})`);
       newSelection = {
         start: selection.start + 1,
-        end: selection.start + 1 + itemText.length,
+        end: selection.start + 1 + itemText && itemText.length,
       };
     } else {
       newText = replaceBetween(text, selection, `${imagePrefix}[${selectedText}](${itemUrl})`);
@@ -32,7 +32,7 @@ export default ({
     newText = replaceBetween(text, selection, `${imagePrefix}[${itemText}](${itemUrl})`);
     newSelection = {
       start: selection.start + 1,
-      end: selection.start + 1 + itemText.length,
+      end: selection.start + 1 + itemText && itemText.length,
     };
   }
   setState({ text: newText }, () => {

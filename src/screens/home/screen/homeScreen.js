@@ -23,7 +23,7 @@ class HomeScreen extends PureComponent {
       currentAccount, intl, isLoggedIn, isLoginDone,
     } = this.props;
     const _filterOptions = [
-      'FEED',
+      'NEW POSTS',
       'TRENDING',
       'HOT',
       'NEW',

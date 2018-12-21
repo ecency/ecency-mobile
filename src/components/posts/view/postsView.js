@@ -178,10 +178,10 @@ class PostsView extends Component {
     } = this.props;
 
     return (
-      <Fragment>
+      <View style={styles.container}>
         {filterOptions && (
           <FilterBar
-            dropdownIconName="md-arrow-dropdown"
+            dropdownIconName="arrow-drop-down"
             options={filterOptions}
             selectedOptionIndex={0}
             defaultText={filterOptions[0]}
@@ -237,7 +237,7 @@ class PostsView extends Component {
             <PostCardPlaceHolder />
           </Fragment>
         )}
-      </Fragment>
+      </View>
     );
   }
 }

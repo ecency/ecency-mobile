@@ -1,7 +1,9 @@
 import EStyleSheet from 'react-native-extended-stylesheet';
 
 export default EStyleSheet.create({
-  container: {},
+  container: {
+    backgroundColor: '$primaryLightBackground',
+  },
   placeholder: {
     backgroundColor: '$primaryBackgroundColor',
     padding: 20,

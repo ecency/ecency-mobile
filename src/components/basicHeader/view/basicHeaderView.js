@@ -87,8 +87,8 @@ class BasicHeaderView extends Component {
           <View style={styles.backWrapper}>
             <IconButton
               iconStyle={[styles.backIcon, isModalHeader && styles.closeIcon]}
-              iconType={isModalHeader && 'FontAwesome'}
-              name={isModalHeader ? 'close' : 'md-arrow-back'}
+              iconType="MaterialIcons"
+              name={isModalHeader ? 'arrow-back' : 'arrow-back'}
               onPress={() => (isModalHeader ? handleOnPressClose() : handleOnPressBackButton())}
             />
             {isHasIcons && !isReply && (
@@ -96,8 +96,9 @@ class BasicHeaderView extends Component {
                 {!isDraftSaving ? (
                   <IconButton
                     iconStyle={[styles.saveIcon, isDraftSaved && styles.savedIcon]}
-                    iconType="FontAwesome"
+                    iconType="MaterialIcons"
                     name="save"
+                    size={25}
                     onPress={() => handleOnSaveButtonPress && handleOnSaveButtonPress()}
                   />
                 ) : (
@@ -173,14 +174,16 @@ class BasicHeaderView extends Component {
                 style={styles.iconButton}
                 iconStyle={styles.rightIcon}
                 size={20}
-                name="ios-timer"
+                iconType="MaterialIcons"
+                name="timer"
               />
               <IconButton
                 style={styles.iconButton}
                 size={25}
                 onPress={() => handleOnPressPreviewButton()}
                 iconStyle={styles.rightIcon}
-                name={isPreviewActive ? 'ios-eye' : 'ios-eye-off'}
+                iconType="MaterialIcons"
+                name={isPreviewActive ? 'remove-red-eye' : 'remove-red-eye'}
               />
               {!isLoading ? (
                 <TextButton

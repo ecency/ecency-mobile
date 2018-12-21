@@ -16,20 +16,24 @@ export default {
   $primaryLightGray: '#f6f6f6',
   $primaryRed: '#e63535',
   $primaryBlack: '#c1c5c7',
+  $primaryDarkText: '#526d91',
 
   // General Colors
   $borderColor: '#c5c5c5',
+  $tagColor: '#2e3d51',
   $bubblesBlue: '#5CCDFF',
   $borderTopColor: '#757575',
-  $iconColor: '#c1c5c7',
+  $iconColor: '#788187',
   $dangerColor: '#fff',
   $warningColor: '#fff',
   $successColor: '#fff',
   $disableButton: '#fff',
-  $shadowColor: '#b0b0b0',
+  $shadowColor: '#80000000',
   $disableGray: '#fff',
   $editorButtonColor: '#fff',
   $pureWhite: '#ffffff',
+  $notificationBorder: '#1e2835',
+
   // Devices Sizes
   $deviceHeight: Dimensions.get('window').height,
   $deviceWidth: Dimensions.get('window').width,

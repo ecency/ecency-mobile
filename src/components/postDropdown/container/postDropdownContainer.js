@@ -96,7 +96,6 @@ class PostDropdownContainer extends PureComponent {
 }
 
 const mapStateToProps = state => ({
-  selectedApi: state.application.api,
   isLoggedIn: state.application.isLoggedIn,
   currentAccount: state.account.currentAccount,
 });

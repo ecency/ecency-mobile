@@ -19,11 +19,11 @@ const BaseNavigator = createBottomTabNavigator(
       navigationOptions: () => ({
         tabBarIcon: ({ tintColor }) => (
           <Icon
-            iconType="FontAwesome"
-            style={{ padding: 20 }}
-            name="list"
+            iconType="MaterialIcons"
+            style={{ padding: 15 }}
+            name="menu"
             color={tintColor}
-            size={20}
+            size={26}
           />
         ),
       }),
@@ -35,11 +35,11 @@ const BaseNavigator = createBottomTabNavigator(
           <IconContainer
             isBadge
             badgeType="notification"
-            iconType="FontAwesome"
-            name="bell-o"
+            iconType="MaterialIcons"
+            name="notifications"
             color={tintColor}
-            size={20}
-            style={{ padding: 20 }}
+            size={26}
+            style={{ padding: 15 }}
           />
         ),
       }),
@@ -55,11 +55,11 @@ const BaseNavigator = createBottomTabNavigator(
       navigationOptions: () => ({
         tabBarIcon: ({ tintColor }) => (
           <Icon
-            iconType="FontAwesome"
-            style={{ padding: 20 }}
-            name="envelope-o"
+            iconType="MaterialIcons"
+            style={{ padding: 15 }}
+            name="mail-outline"
             color={tintColor}
-            size={20}
+            size={26}
           />
         ),
       }),
@@ -69,11 +69,11 @@ const BaseNavigator = createBottomTabNavigator(
       navigationOptions: () => ({
         tabBarIcon: ({ tintColor }) => (
           <Icon
-            iconType="FontAwesome"
-            style={{ padding: 20 }}
+            iconType="MaterialIcons"
+            style={{ padding: 15 }}
             name="credit-card"
             color={tintColor}
-            size={20}
+            size={26}
           />
         ),
       }),
