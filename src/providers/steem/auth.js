@@ -5,8 +5,6 @@ import {
   setAuthStatus,
   getUserDataWithUsername,
   updateUserData,
-  setPinCode,
-  getPinCode,
   updateCurrentUsername,
   getUserData,
 } from '../../realm/realm';
@@ -145,8 +143,6 @@ export const setUserDataWithPinCode = async (data) => {
   };
 
   await setAuthStatus(authData);
-  const encriptedPinCode = encryptKey(data.pinCode, 'pin-code');
-  await setPinCode(encriptedPinCode);
   return (response);
 };
 
@@ -173,8 +169,6 @@ export const updatePinCode = async (data) => {
       };
 
       await setAuthStatus(authData);
-      const encriptedPinCode = encryptKey(data.pinCode, 'pin-code');
-      await setPinCode(encriptedPinCode);
 
       return response;
     });
@@ -187,44 +181,33 @@ export const verifyPinCode = async (data) => {
   let account = null;
   let loginFlag = false;
   if (result.length > 0) {
-    if (userData.masterKey || userData.accessToken) {
-      if (userData.authType === 'steemConnect') {
-        const accessToken = decryptKey(userData.accessToken, data.pinCode);
-        await steemConnect.setAccessToken(accessToken);
-        account = await steemConnect.me();
-        if (account) {
+    if (userData.authType === 'steemConnect') {
+      const accessToken = decryptKey(userData.accessToken, data.pinCode);
+      await steemConnect.setAccessToken(accessToken);
+      account = await steemConnect.me();
+      if (account) {
+        loginFlag = true;
+      }
+    } else if (userData.authType === 'masterKey') {
+      const password = decryptKey(userData.masterKey, data.pinCode);
+      account = await getUser(data.username);
+
+      // Public keys of user
+      const publicKeys = {
+        active: account.active.key_auths.map(x => x[0]),
+        memo: account.memo_key,
+        owner: account.owner.key_auths.map(x => x[0]),
+        posting: account.posting.key_auths.map(x => x[0]),
+      };
+      // Set private keys of user
+      const privateKeys = getPrivateKeys(data.username, password);
+
+      // Check all keys
+      Object.keys(publicKeys).map((pubKey) => {
+        if (publicKeys[pubKey] === privateKeys[pubKey].createPublic().toString()) {
           loginFlag = true;
         }
-      } else if (userData.authType === 'masterKey') {
-        const password = decryptKey(userData.masterKey, data.pinCode);
-        account = await getUser(data.username);
-
-        // Public keys of user
-        const publicKeys = {
-          active: account.active.key_auths.map(x => x[0]),
-          memo: account.memo_key,
-          owner: account.owner.key_auths.map(x => x[0]),
-          posting: account.posting.key_auths.map(x => x[0]),
-        };
-        // Set private keys of user
-        const privateKeys = getPrivateKeys(data.username, password);
-
-        // Check all keys
-        Object.keys(publicKeys).map((pubKey) => {
-          if (publicKeys[pubKey] === privateKeys[pubKey].createPublic().toString()) {
-            loginFlag = true;
-          }
-        });
-      }
-    } else {
-      const encriptedPinCode = await getPinCode();
-      const pinCode = decryptKey(encriptedPinCode, 'pin-code');
-      if (pinCode === data.pinCode) {
-        const res = await setUserDataWithPinCode(data);
-        if (res) {
-          loginFlag = true;
-        }
-      }
+      });
     }
   }
   if (loginFlag) {
