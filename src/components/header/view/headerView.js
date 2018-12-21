@@ -48,7 +48,13 @@ class HeaderView extends Component {
       isDarkTheme,
     } = this.props;
     const { isSearchModalOpen } = this.state;
-    const gredientColor = isDarkTheme ? ['#081c36', '#43638e'] : ['#2d5aa0', '#357ce6'];
+    let gredientColor = isDarkTheme ? ['#081c36', '#43638e'] : ['#2d5aa0', '#357ce6'];
+
+    if (isReverse) {
+      gredientColor = isDarkTheme ? ['#43638e', '#081c36'] : ['#357ce6', '#2d5aa0'];
+    } else {
+      gredientColor = isDarkTheme ? ['#081c36', '#43638e'] : ['#2d5aa0', '#357ce6'];
+    }
 
     return (
       <SafeAreaView style={[styles.container, isReverse && styles.containerReverse]}>
@@ -65,7 +71,7 @@ class HeaderView extends Component {
         >
           <LinearGradient
             start={{ x: 0, y: 0 }}
-            end={{ x: 0.5, y: 0 }}
+            end={{ x: 1, y: 0 }}
             colors={gredientColor}
             style={[
               styles.avatarButtonWrapper,

@@ -48,8 +48,8 @@ export default EStyleSheet.create({
   },
   isNewNotification: {
     backgroundColor: '$primaryLightBlue',
-    borderTopWidth: 0.3,
-    borderBottomWidth: 0.3,
+    borderBottomWidth: 0.5,
+    borderBottomColor: '$notificationBorder',
   },
   hasNoAvatar: {
     backgroundColor: '#d8d8d8',
