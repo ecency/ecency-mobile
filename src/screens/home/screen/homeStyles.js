@@ -23,7 +23,6 @@ export default EStyleSheet.create({
     shadowColor: '$shadowColor',
     shadowOffset: { height: 4 },
     zIndex: 99,
-    elevation: 4,
   },
   tabbarItem: {
     flex: 1,

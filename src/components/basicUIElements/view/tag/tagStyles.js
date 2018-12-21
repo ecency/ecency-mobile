@@ -2,14 +2,15 @@ import EStyleSheet from 'react-native-extended-stylesheet';
 
 export default EStyleSheet.create({
   text: {
-    color: '$primaryBackgroundColor',
+    color: '$pureWhite',
     fontSize: 10,
+    fontWeight: 'bold',
   },
   isPin: {
     backgroundColor: '$primaryBlue',
   },
   isPostCardTag: {
-    backgroundColor: '$iconColor',
+    backgroundColor: '$tagColor',
   },
   textWrapper: {
     paddingHorizontal: 10,

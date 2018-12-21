@@ -14,7 +14,7 @@ export default EStyleSheet.create({
     alignSelf: 'center',
   },
   rightIcon: {
-    color: '$iconColor',
+    color: '$primaryDarkText',
     textAlign: 'center',
   },
 });
