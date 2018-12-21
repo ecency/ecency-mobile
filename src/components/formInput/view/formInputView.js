@@ -1,7 +1,7 @@
 import React, { Component } from 'react';
 import { View } from 'react-native';
-import Ionicons from 'react-native-vector-icons/Ionicons';
 import FastImage from 'react-native-fast-image';
+import { Icon } from '../../icon';
 
 // Constants
 
@@ -76,6 +76,7 @@ class FormInputView extends Component {
       leftIconName,
       rightIconName,
       secureTextEntry,
+      iconType,
     } = this.props;
     return (
       <View
@@ -98,7 +99,7 @@ class FormInputView extends Component {
             />
           </View>
         ) : (
-          <Ionicons name={rightIconName} style={styles.icon} />
+          <Icon iconType={iconType || 'MaterialIcons'} name={rightIconName} style={styles.icon} />
         )}
         <View style={styles.textInput}>
           <TextInput
@@ -115,7 +116,8 @@ class FormInputView extends Component {
         </View>
 
         {value && value.length > 0 ? (
-          <Ionicons
+          <Icon
+            iconType={iconType || 'MaterialIcons'}
             onPress={() => this.setState({ value: '' })}
             name={leftIconName}
             style={styles.icon}

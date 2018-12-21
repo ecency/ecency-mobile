@@ -10,11 +10,11 @@ export default EStyleSheet.create({
     justifyContent: 'space-between',
   },
   rightIconWrapper: {
-    marginRight: 32,
+    marginRight: 16,
     alignSelf: 'center',
   },
   rightIcon: {
-    color: '$iconColor',
+    color: '$primaryDarkText',
     textAlign: 'center',
   },
 });

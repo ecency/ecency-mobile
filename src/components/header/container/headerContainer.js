@@ -41,7 +41,12 @@ class HeaderContainer extends PureComponent {
 
   render() {
     const {
-      isLoggedIn, currentAccount, selectedUser, isReverse, isLoginDone,
+      isLoggedIn,
+      currentAccount,
+      selectedUser,
+      isReverse,
+      isLoginDone,
+      isDarkTheme,
     } = this.props;
     let displayName;
     let username;
@@ -67,6 +72,7 @@ class HeaderContainer extends PureComponent {
         displayName={displayName}
         username={username}
         reputation={reputation}
+        isDarkTheme={isDarkTheme}
       />
     );
   }
@@ -75,6 +81,7 @@ class HeaderContainer extends PureComponent {
 const mapStateToProps = state => ({
   isLoggedIn: state.application.isLoggedIn,
   isLoginDone: state.application.isLoginDone,
+  isDarkTheme: state.application.isDarkTheme,
 
   currentAccount: state.account.currentAccount,
 });

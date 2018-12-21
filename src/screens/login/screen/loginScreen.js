@@ -15,13 +15,13 @@ import { MainButton } from '../../../components/mainButton';
 import { Modal } from '../../../components';
 import { TabBar } from '../../../components/tabBar';
 import { TextButton } from '../../../components/buttons';
-import STEEM_CONNECT_LOGO from '../../../assets/steem_connect.png';
 
 // Constants
 import { default as ROUTES } from '../../../constants/routeNames';
 
 // Styles
 import styles from './loginStyles';
+import STEEM_CONNECT_LOGO from '../../../assets/steem_connect.png';
 
 class LoginScreen extends PureComponent {
   constructor(props) {
@@ -112,8 +112,9 @@ class LoginScreen extends PureComponent {
               contentContainerStyle={{ flexGrow: 1 }}
             >
               <FormInput
-                rightIconName="md-at"
-                leftIconName="md-close-circle"
+                rightIconName="at"
+                leftIconName="close"
+                iconType="MaterialCommunityIcons"
                 isValid={isUsernameValid}
                 onChange={value => this._handleUsernameChange(value)}
                 placeholder={intl.formatMessage({
@@ -125,8 +126,8 @@ class LoginScreen extends PureComponent {
                 value={username}
               />
               <FormInput
-                rightIconName="md-lock"
-                leftIconName="md-close-circle"
+                rightIconName="lock"
+                leftIconName="close"
                 isValid={isUsernameValid}
                 onChange={value => this._handleOnPasswordChange(value)}
                 placeholder={intl.formatMessage({

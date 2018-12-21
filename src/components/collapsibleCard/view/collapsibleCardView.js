@@ -88,7 +88,7 @@ class CollapsibleCardView extends PureComponent {
               title={title}
               defaultTitle={defaultTitle}
               isBoldTitle={isBoldTitle}
-              iconName={expanded ? 'md-arrow-dropdown' : 'md-arrow-dropup'}
+              iconName={expanded ? 'arrow-drop-down' : 'arrow-drop-up'}
             />
           )}
         </TouchableHighlight>

@@ -8,17 +8,18 @@ export default EStyleSheet.create({
   avatar: {
     borderColor: '$borderColor',
     borderWidth: 1,
+    marginRight: 5,
   },
   name: {
     marginHorizontal: 3,
-    fontSize: 10,
+    fontSize: 11,
     color: '$primaryBlack',
     fontFamily: '$primaryFont',
     fontWeight: 'bold',
     alignSelf: 'center',
   },
   reputation: {
-    fontSize: 10,
+    fontSize: 11,
     color: '$primaryDarkGray',
     marginRight: 8,
     alignSelf: 'center',
