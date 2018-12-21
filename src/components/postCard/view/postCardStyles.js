@@ -141,6 +141,7 @@ export default EStyleSheet.create({
     shadowOffset: { width: 0, height: 2 },
     shadowRadius: 2,
     shadowOpacity: 0.35,
+    elevation: 3,
   },
   postBodyWrapper: {
     marginHorizontal: 9,
@@ -152,6 +153,7 @@ export default EStyleSheet.create({
     height: 200,
     width: '$deviceWidth - 16',
     borderRadius: 8,
+    backgroundColor: '$primaryLightGray',
   },
   postDescripton: {
     flexDirection: 'column',

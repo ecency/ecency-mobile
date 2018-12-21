@@ -125,8 +125,8 @@ class PostButtonView extends Component {
             left: firstX,
             top: firstY,
           }}
-          icon="video-camera"
-          onPress={() => handleSubButtonPress(ROUTES.SCREENS.EDITOR, 'camera')}
+          icon="create"
+          onPress={() => handleSubButtonPress(ROUTES.SCREENS.EDITOR)}
         />
         <SubPostButton
           size={SIZE}
@@ -134,8 +134,8 @@ class PostButtonView extends Component {
             left: secondX,
             top: secondY,
           }}
-          icon="pencil"
-          onPress={() => handleSubButtonPress(ROUTES.SCREENS.EDITOR)}
+          icon="camera-alt"
+          onPress={() => handleSubButtonPress(ROUTES.SCREENS.EDITOR, 'image')}
         />
         <SubPostButton
           size={SIZE}
@@ -143,11 +143,14 @@ class PostButtonView extends Component {
             left: thirdX,
             top: thirdY,
           }}
-          icon="camera"
-          onPress={() => handleSubButtonPress(ROUTES.SCREENS.EDITOR, 'image')}
+          icon="videocam"
+          onPress={() => handleSubButtonPress(ROUTES.SCREENS.EDITOR, 'camera')}
         />
         <TouchableOpacity
-          onPress={() => (Platform.OS === 'ios' ? this._toggleView() : handleButtonCollapse(null, Platform.OS === 'android'))}
+          onPress={() => (Platform.OS === 'ios'
+            ? this._toggleView()
+            : handleButtonCollapse(null, Platform.OS === 'android'))
+          }
           activeOpacity={1}
         >
           <Animated.View
@@ -161,7 +164,7 @@ class PostButtonView extends Component {
               },
             ]}
           >
-            <Icon name="plus" size={22} iconType="FontAwesome" color="#F8F8F8" />
+            <Icon name="add" size={24} iconType="MaterialIcons" color="#F8F8F8" />
           </Animated.View>
         </TouchableOpacity>
       </View>
