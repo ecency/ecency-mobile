@@ -6,7 +6,6 @@ import { View, TouchableOpacity, Animated } from 'react-native';
 // Components
 
 // Styles
-// eslint-disable-next-line
 import styles from './toggleSwitchStyles';
 
 class ToggleSwitchView extends PureComponent {
@@ -24,7 +23,7 @@ class ToggleSwitchView extends PureComponent {
       circleWidth: 28,
       circleHeight: 28,
       translateX: 36,
-      isOn: false || props.isOn,
+      isOn: props.isOn || false,
     };
   }
 
@@ -70,15 +69,12 @@ class ToggleSwitchView extends PureComponent {
   _onToggle = () => {
     const { onToggle } = this.props;
     const { isOn } = this.state;
+    this.setState({ isOn: !isOn });
 
-    this.setState(
-      {
-        isOn: !isOn,
-      },
-      () => {
-        onToggle && onToggle(!isOn);
-      },
-    );
+    // For debounce
+    setTimeout(() => {
+      if (onToggle) onToggle(!isOn);
+    }, 300);
   };
 
   render() {
