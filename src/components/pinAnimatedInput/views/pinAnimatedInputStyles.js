@@ -5,12 +5,6 @@ export default EStyleSheet.create({
     flexDirection: 'row',
     alignSelf: 'center',
   },
-  activeInput: {
-    backgroundColor: '$primaryBlue',
-    height: 10,
-    width: 10,
-    borderRadius: 20 / 2,
-  },
   inputWithBackground: {
     backgroundColor: '$primaryBlue',
   },
