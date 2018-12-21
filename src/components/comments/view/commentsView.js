@@ -28,7 +28,7 @@ class CommentsView extends PureComponent {
   // Component Functions
   _handleOnDropdownSelect = () => {};
 
-  _keyExtractor = (item, index) => item.permlink;
+  _keyExtractor = item => item.permlink;
 
   render() {
     const {
