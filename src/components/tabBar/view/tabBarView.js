@@ -15,18 +15,18 @@ import styles from './tabBarStyles';
 
 class TabBar extends PureComponent {
   /* Props
-    * ------------------------------------------------ TODO: Fill fallowlines
-    *   @prop { type }    name            - Description.
-    *   @prop { type }    name            - Description.
-    *
-    */
+   * ------------------------------------------------ TODO: Fill fallowlines
+   *   @prop { type }    name            - Description.
+   *   @prop { type }    name            - Description.
+   *
+   */
 
   constructor(props) {
     super(props);
 
     this.state = {
-      activeColor: !props.isDarkTheme ? '#357ce6' : '#357ce6',
-      inactiveColor: !props.isDarkTheme ? '#788187' : '#eaf2fc',
+      activeColor: !props.isDarkTheme ? '#357ce6' : '#96c0ff',
+      inactiveColor: !props.isDarkTheme ? '#788187' : '#526d91',
     };
   }
 
@@ -47,7 +47,7 @@ class TabBar extends PureComponent {
         onPress={() => onPressHandler(page)}
       >
         <View style={styles.tab}>
-          <Text style={[{ color: textColor, fontWeight }, styles.text ]}>{name}</Text>
+          <Text style={[{ color: textColor, fontWeight }, styles.text]}>{name}</Text>
         </View>
       </Button>
     );

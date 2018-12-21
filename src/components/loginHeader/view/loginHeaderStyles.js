@@ -33,9 +33,8 @@ export default EStyleSheet.create({
   mascot: {
     position: 'absolute',
     width: 160,
-
     height: 227,
-    marginTop: 10,
+    marginTop: 40,
     right: -20,
   },
   titleText: {

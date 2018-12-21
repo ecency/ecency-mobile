@@ -24,7 +24,6 @@ import { MainButton } from '../../../components/mainButton';
 import { Modal } from '../../../components';
 import { TabBar } from '../../../components/tabBar';
 import { TextButton } from '../../../components/buttons';
-import STEEM_CONNECT_LOGO from '../../../assets/steem_connect.png';
 import SteemConnect from '../../steem-connect/steemConnect';
 
 // Constants
@@ -32,6 +31,7 @@ import { default as ROUTES } from '../../../constants/routeNames';
 
 // Styles
 import styles from './loginStyles';
+import STEEM_CONNECT_LOGO from '../../../assets/steem_connect.png';
 
 class LoginScreen extends PureComponent {
   constructor(props) {
@@ -87,16 +87,20 @@ class LoginScreen extends PureComponent {
     Linking.openURL('https://signup.steemit.com/?ref=esteem').catch(err => alert('An error occurred', err));
   };
 
-
   _handleOnModalToggle = () => {
     const { isModalOpen } = this.state;
     this.setState({ isModalOpen: !isModalOpen });
-  }
+  };
 
   render() {
     const { navigation, intl, setPinCodeState } = this.props;
     const {
-      isLoading, username, isUsernameValid, keyboardIsOpen, password, isModalOpen,
+      isLoading,
+      username,
+      isUsernameValid,
+      keyboardIsOpen,
+      password,
+      isModalOpen,
     } = this.state;
 
     return (
@@ -141,8 +145,9 @@ class LoginScreen extends PureComponent {
               contentContainerStyle={{ flexGrow: 1 }}
             >
               <FormInput
-                rightIconName="md-at"
-                leftIconName="md-close-circle"
+                rightIconName="at"
+                leftIconName="close"
+                iconType="MaterialCommunityIcons"
                 isValid={isUsernameValid}
                 onChange={value => this._handleUsernameChange(value)}
                 placeholder={intl.formatMessage({
@@ -154,8 +159,8 @@ class LoginScreen extends PureComponent {
                 value={username}
               />
               <FormInput
-                rightIconName="md-lock"
-                leftIconName="md-close-circle"
+                rightIconName="lock"
+                leftIconName="close"
                 isValid={isUsernameValid}
                 onChange={value => this._handleOnPasswordChange(value)}
                 placeholder={intl.formatMessage({
@@ -217,7 +222,10 @@ class LoginScreen extends PureComponent {
           handleOnModalClose={this._handleOnModalToggle}
           title="Steemconnect Login"
         >
-          <SteemConnect handleOnModalClose={this._handleOnModalToggle} setPinCodeState={setPinCodeState} />
+          <SteemConnect
+            handleOnModalClose={this._handleOnModalToggle}
+            setPinCodeState={setPinCodeState}
+          />
         </Modal>
       </View>
     );

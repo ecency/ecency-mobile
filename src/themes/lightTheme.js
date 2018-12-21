@@ -16,9 +16,10 @@ export default {
   $primaryLightGray: '#f6f6f6',
   $primaryRed: '#e63535',
   $primaryBlack: '#3c4449',
-
+  $primaryDarkText: '#788187',
   // General Colors
   $borderColor: '#c5c5c5',
+  $tagColor: '#c1c5c7',
   $bubblesBlue: '#5CCDFF',
   $iconColor: '#c1c5c7',
   $borderTopColor: '#cfcfcf',
