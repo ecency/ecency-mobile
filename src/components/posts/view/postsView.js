@@ -65,7 +65,7 @@ class PostsView extends Component {
 
   _loadPosts = (filter = null) => {
     const { getFor, tag, currentAccountUsername } = this.props;
-    const { posts, startAuthor, startPermlink } = this.state;
+    const { posts, startAuthor, startPermlink, refreshing } = this.state;
     let options;
 
     this.setState({ isLoading: true });
@@ -81,7 +81,7 @@ class PostsView extends Component {
       };
     }
 
-    if (startAuthor && startPermlink) {
+    if (startAuthor && startPermlink && !refreshing) {
       options.start_author = startAuthor;
       options.start_permlink = startPermlink;
     }

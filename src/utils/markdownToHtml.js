@@ -18,6 +18,7 @@ const pullRightLeftRegex = /(<div class="[^"]*?pull-[^"]*?">(.*?)(<[/]div>))/g;
 const linkRegex = /[-a-zA-Z0-9@:%_\+.~#?&//=]{2,256}\.[a-z]{2,4}\b(\/[-a-zA-Z0-9@:%_\+.~#?&//=]*)?/gi;
 const markdownImageRegex = /!\[[^\]]*\]\((.*?)\s*("(?:.*[^"])")?\s*\)/g;
 const urlRegex = /(http|ftp|https):\/\/([\w_-]+(?:(?:\.[\w_-]+)+))([\w.,@?^=%&:/~+#-]*[\w@?^=%&/~+#-])?/gm;
+const aTagRegex = /(<\s*a[^>]*>(.*?)<\s*[/]\s*a>)/g;
 
 export const markDown2Html = (input) => {
   if (!input) {
@@ -37,8 +38,12 @@ export const markDown2Html = (input) => {
     output = createYoutubeIframe(output);
   }
 
-  if (dTubeRegex.test(output)) {
-    output = createDtubeIframe(output);
+  // if (dTubeRegex.test(output)) {
+  //   output = createDtubeIframe(output);
+  // }
+
+  if (aTagRegex.test(output)) {
+    output = handleATag(output);
   }
 
   if (pullRightLeftRegex.test(output)) {
@@ -46,7 +51,7 @@ export const markDown2Html = (input) => {
   }
 
   // if (imgRegex.test(output)) {
-  //   output = createImage(output);
+  //   output = handleImage(output);
   // }
 
   if (vimeoRegex.test(output)) {
@@ -86,13 +91,13 @@ export const markDown2Html = (input) => {
   return output;
 };
 
-export const replaceAuthorNames = input => input.replace(authorNameRegex, (match, preceeding1, preceeding2, user) => {
+const replaceAuthorNames = input => input.replace(authorNameRegex, (match, preceeding1, preceeding2, user) => {
   const userLower = user.toLowerCase();
   const preceedings = (preceeding1 || '') + (preceeding2 || '');
   return `${preceedings}<a class="markdown-author-link" href="${userLower}" data-author="${userLower}">@${user}</a>`;
 });
 
-export const replaceTags = input => input.replace(tagsRegex, (tag) => {
+const replaceTags = input => input.replace(tagsRegex, (tag) => {
   if (/#[\d]+$/.test(tag)) return tag;
   const preceding = /^\s|>/.test(tag) ? tag[0] : '';
   tag = tag.replace('>', '');
@@ -101,7 +106,24 @@ export const replaceTags = input => input.replace(tagsRegex, (tag) => {
   return `${preceding}<a class="markdown-tag-link" href="${tagLower}" data-tag="${tagLower}">${tag.trim()}</a>`;
 });
 
-export const removeOnlyPTag = input => input;
+const handleATag = input => input.replace(aTagRegex, (link) => {
+  if (dTubeRegex.test(link)) {
+    const dTubeMatch = link.match(dTubeRegex)[0];
+    const execLink = dTubeRegex.exec(dTubeMatch);
+
+    if (execLink[2] && execLink[3]) {
+      const embedLink = `https://emb.d.tube/#!/${execLink[2]}/${execLink[3]}`;
+
+      return iframeBody(embedLink);
+    }
+    if (dTubeMatch) {
+      return iframeBody(dTubeMatch);
+    }
+    return link;
+  }
+
+  return link;
+});
 
 const changeMarkdownImage = input => input.replace(markdownImageRegex, (link) => {
   const markdownMatch = link.match(markdownImageRegex);
@@ -121,7 +143,7 @@ const createCenterImage = input => input.replace(imgCenterRegex, (link) => {
 
   _link = _link.split('>')[1];
   _link = _link.split('<')[0];
-  return `><img data-href="${_link}" src="${_link}"><`;
+  return `><img data-href="${`https://img.esteem.app/500x0/${_link}`}" src="${`https://img.esteem.app/500x0/${_link}`}"><`;
 });
 
 const changePullRightLeft = input => input.replace(pullRightLeftRegex, (item) => {
@@ -141,6 +163,11 @@ const steemitUrlHandle = input => input.replace(postRegex, (link) => {
 
 const createImage = input => input.replace(
   onlyImageLinkRegex,
+  link => `<img data-href="${`https://img.esteem.app/300x0/${link}`}" src="${`https://img.esteem.app/500x0/${link}`}">`,
+);
+
+const handleImage = input => input.replace(
+  imgRegex,
   link => `<img data-href="${`https://img.esteem.app/300x0/${link}`}" src="${`https://img.esteem.app/500x0/${link}`}">`,
 );
 

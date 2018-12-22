@@ -4,50 +4,54 @@ import { getPostSummary } from './formatter';
 import { getReputation } from './reputation';
 import { getTimeFromNow } from './time';
 
-export const parsePosts = (posts, currentUserName) => (!posts ? null : posts.map(post => parsePost(post, currentUserName)));
+export const parsePosts = (posts, currentUserName, isSummary) => (!posts ? null : posts.map(post => parsePost(post, currentUserName, isSummary)));
 
-export const parsePost = (post, currentUserName) => {
+export const parsePost = (post, currentUserName, isSummary = false) => {
   if (!post) {
     return null;
   }
+  const _post = post;
 
-  post.json_metadata = JSON.parse(post.json_metadata);
-  post.image = postImage(post.json_metadata, post.body);
-  post.pending_payout_value = parseFloat(post.pending_payout_value).toFixed(2);
-  post.created = getTimeFromNow(post.created);
-  post.vote_count = post.active_votes.length;
-  post.author_reputation = getReputation(post.author_reputation);
-  post.avatar = `https://steemitimages.com/u/${post.author}/avatar/small`;
-  post.body = markDown2Html(post.body);
-  post.summary = getPostSummary(post.body, 150);
-  post.raw_body = post.body;
-  post.active_votes.sort((a, b) => b.rshares - a.rshares);
-  const totalPayout = parseFloat(post.pending_payout_value)
-    + parseFloat(post.total_payout_value)
-    + parseFloat(post.curator_payout_value);
+  _post.json_metadata = JSON.parse(post.json_metadata);
+  _post.image = postImage(post.json_metadata, post.body);
+  _post.pending_payout_value = parseFloat(post.pending_payout_value).toFixed(2);
+  _post.created = getTimeFromNow(post.created);
+  _post.vote_count = post.active_votes.length;
+  _post.author_reputation = getReputation(post.author_reputation);
+  _post.avatar = `https://steemitimages.com/u/${post.author}/avatar/small`;
+  _post.active_votes.sort((a, b) => b.rshares - a.rshares);
 
-  const voteRshares = post.active_votes.reduce((a, b) => a + parseFloat(b.rshares), 0);
-  const ratio = totalPayout / voteRshares;
+  _post.body = markDown2Html(post.body);
+  if (isSummary) _post.summary = getPostSummary(post.body, 150);
 
   if (currentUserName) {
-    post.is_voted = isVoted(post.active_votes, currentUserName);
+    _post.is_voted = isVoted(_post.active_votes, currentUserName);
   } else {
-    post.is_voted = false;
+    _post.is_voted = false;
   }
 
-  for (const i in post.active_votes) {
-    post.vote_perecent = post.active_votes[i].voter === currentUserName ? post.active_votes[i].percent : null;
-    post.active_votes[i].value = (post.active_votes[i].rshares * ratio).toFixed(2);
-    post.active_votes[i].reputation = getReputation(post.active_votes[i].reputation);
-    post.active_votes[i].percent = post.active_votes[i].percent / 100;
-    post.active_votes[i].created = getTimeFromNow(post.active_votes[i].time);
-    post.active_votes[i].is_down_vote = Math.sign(post.active_votes[i].percent) < 0;
-    post.active_votes[i].avatar = `https://steemitimages.com/u/${
-      post.active_votes[i].voter
-    }/avatar/small`;
+  const totalPayout = parseFloat(_post.pending_payout_value)
+    + parseFloat(_post.total_payout_value)
+    + parseFloat(_post.curator_payout_value);
+
+  const voteRshares = _post.active_votes.reduce((a, b) => a + parseFloat(b.rshares), 0);
+  const ratio = totalPayout / voteRshares;
+
+  if (_post.active_votes && _post.active_votes.length > 0) {
+    for (const i in _post.active_votes) {
+      _post.vote_perecent = post.active_votes[i].voter === currentUserName ? post.active_votes[i].percent : null;
+      _post.active_votes[i].value = (post.active_votes[i].rshares * ratio).toFixed(2);
+      _post.active_votes[i].reputation = getReputation(post.active_votes[i].reputation);
+      _post.active_votes[i].percent = post.active_votes[i].percent / 100;
+      _post.active_votes[i].created = getTimeFromNow(post.active_votes[i].time);
+      _post.active_votes[i].is_down_vote = Math.sign(post.active_votes[i].percent) < 0;
+      _post.active_votes[i].avatar = `https://steemitimages.com/u/${
+        _post.active_votes[i].voter
+      }/avatar/small`;
+    }
   }
 
-  return post;
+  return _post;
 };
 
 const isVoted = (activeVotes, currentUserName) => activeVotes.some(v => v.voter === currentUserName && v.percent > 0);
