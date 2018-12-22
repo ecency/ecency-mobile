@@ -44,7 +44,8 @@ class PostCardContainer extends PureComponent {
       navigation.navigate({
         routeName: ROUTES.SCREENS.POST,
         params: {
-          content,
+          author: content.author,
+          permlink: content.permlink,
         },
         key: content.permlink,
       });
