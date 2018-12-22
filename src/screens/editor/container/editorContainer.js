@@ -8,9 +8,6 @@ import ImagePicker from 'react-native-image-crop-picker';
 import { uploadImage } from '../../../providers/esteem/esteem';
 import { postContent } from '../../../providers/steem/dsteem';
 import { setDraftPost, getDraftPost } from '../../../realm/realm';
-import { getDigitPinCode } from '../../../providers/steem/auth';
-
-// Middleware
 
 // Constants
 import { default as ROUTES } from '../../../constants/routeNames';
@@ -138,7 +135,7 @@ class EditorContainer extends Component {
     });
     // For new image api
     // const { currentAccount } = this.props;
-    // const digitPinCode = await getDigitPinCode();
+    // const digitPinCode = await getPinCode();
     // const privateKey = decryptKey(currentAccount.local.postingKey, digitPinCode);
     // const sign = generateSignature(media, privateKey);
     // const data = new Buffer(media.data, 'base64');
@@ -214,14 +211,12 @@ class EditorContainer extends Component {
       const meta = extractMetadata(fields.body);
       const jsonMeta = makeJsonMetadata(meta, fields.tags);
       const permlink = generatePermlink(fields.title);
-      const digitPinCode = await getDigitPinCode();
       const author = currentAccount.name;
       const options = makeOptions(author, permlink);
       const parentPermlink = fields.tags[0];
 
       await postContent(
         currentAccount,
-        digitPinCode,
         '',
         parentPermlink,
         permlink,
@@ -251,7 +246,6 @@ class EditorContainer extends Component {
 
       const jsonMeta = makeJsonMetadataReply(post.json_metadata.tags || ['esteem']);
       const permlink = generateReplyPermlink(post.author);
-      const digitPinCode = await getDigitPinCode();
       const author = currentAccount.name;
       const options = makeOptions(author, permlink);
       const parentAuthor = post.author;
@@ -259,7 +253,6 @@ class EditorContainer extends Component {
 
       await postContent(
         currentAccount,
-        digitPinCode,
         parentAuthor,
         parentPermlink,
         permlink,
