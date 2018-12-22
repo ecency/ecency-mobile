@@ -617,7 +617,6 @@ export const lookupAccounts = async (username) => {
  */
 export const postContent = async (
   account,
-  digitPinCode,
   parentAuthor,
   parentPermlink,
   permlink,
@@ -628,6 +627,7 @@ export const postContent = async (
   voteWeight = null,
 ) => {
   const { name: author } = account;
+  const digitPinCode = await getDigitPinCode();
 
   if (account.local.authType === AUTH_TYPE.MASTER_KEY) {
     const opArray = [
