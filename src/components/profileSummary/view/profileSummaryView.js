@@ -99,7 +99,6 @@ class ProfileSummaryView extends PureComponent {
           )}
           {!!date && <TextWithIcon text={date} iconName="md-calendar" />}
         </View>
-        <View />
         <Image
           style={styles.longImage}
           source={{ uri: coverImage }}
