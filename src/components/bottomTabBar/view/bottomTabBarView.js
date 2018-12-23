@@ -1,5 +1,5 @@
 import React, { Component } from 'react';
-import { TouchableWithoutFeedback, TouchableOpacity, SafeAreaView } from 'react-native';
+import { TouchableOpacity, SafeAreaView } from 'react-native';
 import { connect } from 'react-redux';
 import ViewOverflow from 'react-native-view-overflow';
 

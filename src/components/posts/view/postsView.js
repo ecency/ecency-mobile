@@ -39,6 +39,10 @@ class PostsView extends Component {
   componentWillReceiveProps(nextProps) {
     const { currentAccountUsername } = this.props;
 
+    if (nextProps.isScrollToTop) {
+      this.flatList.scrollToOffset({ x: 0, y: 0, animated: true });
+    }
+
     if (
       currentAccountUsername !== nextProps.currentAccountUsername
       && nextProps.currentAccountUsername
@@ -65,7 +69,9 @@ class PostsView extends Component {
 
   _loadPosts = (filter = null) => {
     const { getFor, tag, currentAccountUsername } = this.props;
-    const { posts, startAuthor, startPermlink, refreshing } = this.state;
+    const {
+      posts, startAuthor, startPermlink, refreshing,
+    } = this.state;
     let options;
 
     this.setState({ isLoading: true });
@@ -220,6 +226,9 @@ class PostsView extends Component {
             initialNumToRender={10}
             ListFooterComponent={this._renderFooter}
             onScrollBeginDrag={() => this._handleOnScrollStart()}
+            ref={(ref) => {
+              this.flatList = ref;
+            }}
           />
         ) : isNoPost ? (
           <NoPost
