@@ -6,7 +6,6 @@ import { View, TouchableOpacity, Animated } from 'react-native';
 // Components
 
 // Styles
-// eslint-disable-next-line
 import styles from './toggleSwitchStyles';
 
 class ToggleSwitchView extends PureComponent {
@@ -24,11 +23,18 @@ class ToggleSwitchView extends PureComponent {
       circleWidth: 28,
       circleHeight: 28,
       translateX: 36,
-      isOn: false || props.isOn,
+      isOn: props.isOn,
     };
   }
 
   // Component Life Cycles
+  componentWillMount() {
+    this.setState({ duration: 0 });
+  }
+
+  componentDidMount() {
+    this.setState({ duration: 300 });
+  }
 
   // Component Functions
   _createCircleStyle = () => {
@@ -70,25 +76,28 @@ class ToggleSwitchView extends PureComponent {
   _onToggle = () => {
     const { onToggle } = this.props;
     const { isOn } = this.state;
+    this.setState({ isOn: !isOn });
 
-    this.setState(
-      {
-        isOn: !isOn,
-      },
-      () => {
-        onToggle && onToggle(!isOn);
-      },
-    );
+    // For debounce
+    setTimeout(() => {
+      if (onToggle) onToggle(!isOn);
+    }, 300);
   };
 
-  render() {
-    const { width, translateX, isOn } = this.state;
+  _triggerAnimation = () => {
+    const {
+      width, translateX, isOn, duration,
+    } = this.state;
     const toValue = isOn ? width - translateX : 0;
 
     Animated.timing(this.offsetX, {
       toValue,
-      duration: 300,
+      duration,
     }).start();
+  };
+
+  render() {
+    this._triggerAnimation();
 
     return (
       <View style={styles.container}>
