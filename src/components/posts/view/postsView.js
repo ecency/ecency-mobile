@@ -37,9 +37,9 @@ class PostsView extends Component {
   }
 
   componentWillReceiveProps(nextProps) {
-    const { currentAccountUsername } = this.props;
+    const { currentAccountUsername, isScrollToTop } = this.props;
 
-    if (nextProps.isScrollToTop) {
+    if (this.flatList && isScrollToTop !== nextProps.isScrollToTop && nextProps.isScrollToTop) {
       this.flatList.scrollToOffset({ x: 0, y: 0, animated: true });
     }
 
@@ -67,16 +67,18 @@ class PostsView extends Component {
     }
   }
 
-  _loadPosts = (filter = null) => {
+  _loadPosts = () => {
     const { getFor, tag, currentAccountUsername } = this.props;
     const {
-      posts, startAuthor, startPermlink, refreshing,
+      posts, startAuthor, startPermlink, refreshing, selectedFilterIndex,
     } = this.state;
+    const filter = selectedFilterIndex !== 0 ? filters[selectedFilterIndex] : getFor;
     let options;
+    let newPosts = [];
 
     this.setState({ isLoading: true });
 
-    if (!filter && tag) {
+    if (!filter && tag || filter === "feed") {
       options = {
         tag,
         limit: 3,
@@ -92,20 +94,35 @@ class PostsView extends Component {
       options.start_permlink = startPermlink;
     }
 
-    getPostsSummary(filter || getFor, options, currentAccountUsername)
+    getPostsSummary(filter, options, currentAccountUsername)
       .then((result) => {
         if (result.length > 0) {
           let _posts = result;
 
           if (_posts.length > 0) {
             if (posts.length > 0) {
-              _posts.shift();
-              _posts = [...posts, ..._posts];
+              if (refreshing) {
+                newPosts = _posts.filter(post => posts.includes(post));
+                _posts = [...newPosts, ...posts];
+              } else {
+                _posts.shift();
+                _posts = [...posts, ..._posts];
+              }
             }
+
+            if (refreshing && newPosts.length > 0) {
+              this.setState({
+                posts: _posts,
+              });
+            } else if (!refreshing) {
+              this.setState({
+                posts: _posts,
+                startAuthor: result[result.length - 1] && result[result.length - 1].author,
+                startPermlink: result[result.length - 1] && result[result.length - 1].permlink,
+              });
+            }
+
             this.setState({
-              posts: _posts,
-              startAuthor: result[result.length - 1] && result[result.length - 1].author,
-              startPermlink: result[result.length - 1] && result[result.length - 1].permlink,
               refreshing: false,
               isPostsLoading: false,
             });
@@ -146,12 +163,16 @@ class PostsView extends Component {
     return null;
   };
 
-  _handleOnDropdownSelect = (index) => {
-    this.setState({
+  _handleOnDropdownSelect = async (index) => {
+    await this.setState({
       isPostsLoading: true,
       selectedFilterIndex: index,
+      posts: [],
+      startAuthor: '',
+      startPermlink: '',
+      isNoPost: false,
     });
-    this._loadPosts(filters[index]);
+    this._loadPosts();
   };
 
   _onRightIconPress = () => {
