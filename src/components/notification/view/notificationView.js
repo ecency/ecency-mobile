@@ -25,6 +25,7 @@ class NotificationView extends PureComponent {
   constructor(props) {
     super(props);
     this.state = {
+      // TODO: Remove filters from local state.
       filters: [
         { key: 'activities', value: 'ALL ACTIVITIES' },
         { key: 'votes', value: 'VOTES' },
@@ -148,17 +149,15 @@ class NotificationView extends PureComponent {
           onRightIconPress={readAllNotification}
         />
         <ScrollView style={styles.scrollView}>
-          <Fragment>
-            {_notifications
-              && _notifications.map(
-                item => item.notifications.length > 0 && (
-                <Fragment>
-                  <ContainerHeader hasSeperator isBoldTitle title={item.title} />
-                  {this._renderList(item.notifications)}
-                </Fragment>
-                ),
-              )}
-          </Fragment>
+          {_notifications
+            && _notifications.map(
+              item => item.notifications.length > 0 && (
+              <Fragment key={item.title}>
+                <ContainerHeader hasSeperator={ _notifications.indexOf(item) !== 1 } isBoldTitle title={item.title} key={item.title} />
+                {this._renderList(item.notifications)}
+              </Fragment>
+              ),
+            )}
         </ScrollView>
       </View>
     );
