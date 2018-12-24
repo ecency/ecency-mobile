@@ -1,5 +1,5 @@
 import React, { PureComponent } from 'react';
-import { Animated } from 'react-native';
+import { Animated, Easing, View } from 'react-native';
 
 // Styles
 import styles from './pinAnimatedInputStyles';
@@ -13,38 +13,77 @@ class PinAnimatedInput extends PureComponent {
   constructor(props) {
     super(props);
     this.state = {};
+
+    this.dots = [];
+
+    this.dots[0] = new Animated.Value(0);
+    this.dots[1] = new Animated.Value(0);
+    this.dots[2] = new Animated.Value(0);
+    this.dots[3] = new Animated.Value(0);
   }
+
+  componentWillReceiveProps(nextProps) {
+    const { loading } = this.props;
+    if (loading !== nextProps.loading) {
+      if (nextProps.loading) {
+        this.dots[0] = new Animated.Value(0);
+        this.dots[1] = new Animated.Value(0);
+        this.dots[2] = new Animated.Value(0);
+        this.dots[3] = new Animated.Value(0);
+        this._startLoadingAnimation();
+      } else {
+        this._stopLoadingAnimation();
+      }
+    }
+  }
+
+  _startLoadingAnimation = () => {
+    const { loading } = this.props;
+    [...Array(4)].map((item, index) => {
+      this.dots[index].setValue(0);
+    });
+    Animated.sequence([
+      ...this.dots.map(item => Animated.timing(item, {
+        toValue: 1,
+        duration: 250,
+        easing: Easing.linear,
+      })),
+    ]).start(() => {
+      if (loading) this._startLoadingAnimation();
+    });
+  };
+
+  _stopLoadingAnimation = () => {
+    [...Array(4)].map((item, index) => {
+      this.dots[index].stopAnimation();
+    });
+  };
 
   render() {
     const { pin } = this.props;
-    const test = new Animated.Value(0);
-    const tilt = test.interpolate({
-      inputRange: [0, 0.3, 0.6, 0.9],
-      outputRange: [0, -50, 50, 0],
+    const marginBottom = [];
+
+    [...Array(4)].map((item, index) => {
+      marginBottom[index] = this.dots[index].interpolate({
+        inputRange: [0, 0.5, 1],
+        outputRange: [0, 20, 0],
+      });
     });
+
     return (
-      <Animated.View
-        style={[
-          {
-            transform: [{ translateX: tilt }],
-          },
-          styles.container,
-        ]}
-      >
-        {[...Array(4)].map((val, index) => {
+      <View style={[styles.container]}>
+        {this.dots.map((val, index) => {
           if (pin.length > index) {
             return (
-              <Animated.View key={`passwordItem-${index}`} style={styles.input}>
-                <Animated.View
-                  key={`passwordItem-${index}`}
-                  style={[styles.input, styles.inputWithBackground]}
-                />
-              </Animated.View>
+              <Animated.View
+                key={`passwordItem-${index}`}
+                style={[styles.input, styles.inputWithBackground, { bottom: marginBottom[index] }]}
+              />
             );
           }
-          return <Animated.View key={`passwordItem-${index}`} style={styles.input} />;
+          return <View key={`passwordItem-${index}`} style={styles.input} />;
         })}
-      </Animated.View>
+      </View>
     );
   }
 }
