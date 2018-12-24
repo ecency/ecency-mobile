@@ -224,6 +224,7 @@ class PostsView extends Component {
             && !isLoggedIn
             && isLoginDone && (
               <NoPost
+                imageStyle={styles.noImage}
                 isButtonText
                 defaultText={intl.formatMessage({
                   id: 'profile.login_to_see',
@@ -253,6 +254,7 @@ class PostsView extends Component {
           />
         ) : isNoPost ? (
           <NoPost
+            imageStyle={styles.noImage}
             name={tag}
             text={intl.formatMessage({
               id: 'profile.havent_posted',
