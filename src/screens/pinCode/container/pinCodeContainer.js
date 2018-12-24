@@ -27,6 +27,7 @@ class PinCodeContainer extends Component {
       isOldPinVerified: false,
       oldPinCode: null,
     };
+    this._setPinCode = this._setPinCode.bind(this);
   }
 
   // TODO: if check for decide to set to pin or verify to pin page
@@ -51,10 +52,6 @@ class PinCodeContainer extends Component {
     });
   }
 
-  componentWillReceiveProps(nextProps){
-console.log('nextProps :', nextProps);
-  }
-
   _getDataFromStorage = () => new Promise((resolve) => {
     getExistUser().then((isExistUser) => {
       this.setState(
@@ -67,7 +64,6 @@ console.log('nextProps :', nextProps);
   });
 
   _resetPinCode = pin => new Promise((resolve, reject) => {
-    console.log('_resetPinCode :', pin);
     const {
       currentAccount,
       dispatch,
@@ -87,7 +83,6 @@ console.log('nextProps :', nextProps);
     };
 
     if (isOldPinVerified) {
-      console.log('pinData updatePinCode :', pinData);
       updatePinCode(pinData).then((response) => {
         const _currentAccount = currentAccount;
         _currentAccount.local = response;
@@ -101,7 +96,6 @@ console.log('nextProps :', nextProps);
         resolve();
       });
     } else {
-      console.log('pinData verifyPinCode :', pinData);
       verifyPinCode(pinData)
         .then(() => {
           this.setState({ isOldPinVerified: true });
@@ -122,7 +116,6 @@ console.log('nextProps :', nextProps);
   });
 
   _setFirstPinCode = pin => new Promise((resolve) => {
-    console.log('_setFirstPinCode :', pin);
     const {
       currentAccount,
       dispatch,
@@ -154,7 +147,6 @@ console.log('nextProps :', nextProps);
   });
 
   _verifyPinCode = pin => new Promise((resolve, reject) => {
-    console.log('_verifyPinCode :', pin);
     const {
       currentAccount,
       dispatch,
@@ -192,15 +184,13 @@ console.log('nextProps :', nextProps);
       });
   });
 
-  _setPinCode = async (pin) => {
+  _setPinCode = async (pin, isReset) => {
     const {
       intl,
-      isReset,
     } = this.props;
     const {
       isExistUser, pinCode,
     } = this.state;
-console.log('this.props :', this.props);
     // For exist users
     if (isReset) return this._resetPinCode(pin);
     if (isExistUser) return this._verifyPinCode(pin);
@@ -209,7 +199,6 @@ console.log('this.props :', this.props);
     if (pinCode === pin) return this._setFirstPinCode(pin);
 
     if (!pinCode) {
-      console.log('1 :', pinCode);
       // If the user is logging in for the first time, the user should set to pin
       await this.setState({
         informationText: intl.formatMessage({
@@ -219,7 +208,6 @@ console.log('this.props :', this.props);
       });
       return Promise.resolve();
     }
-    console.log('2 :', pinCode);
 
     await this.setState({
       informationText: intl.formatMessage({
@@ -238,15 +226,16 @@ console.log('this.props :', this.props);
   };
 
   render() {
-    const { currentAccount, intl } = this.props;
+    const { currentAccount, intl, isReset } = this.props;
     const { informationText, isExistUser } = this.state;
     return (
       <PinCodeScreen
         informationText={informationText}
-        setPinCode={this._setPinCode}
+        setPinCode={pin => this._setPinCode(pin, isReset)}
         showForgotButton={isExistUser}
         username={currentAccount.name}
         intl={intl}
+        {...this.props}
       />
     );
   }
