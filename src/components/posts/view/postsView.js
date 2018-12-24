@@ -78,7 +78,7 @@ class PostsView extends Component {
 
     this.setState({ isLoading: true });
 
-    if (!filter && tag || filter === "feed") {
+    if ((!filter && tag) || filter === 'feed' || getFor === 'blog') {
       options = {
         tag,
         limit: 3,
