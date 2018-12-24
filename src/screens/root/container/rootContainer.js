@@ -61,6 +61,7 @@ const RootContainer = () => (WrappedComponent) => {
     };
 
     _setPinCodeState = (data) => {
+      console.log('data :', data);
       this.setState({ pinCodeStates: { ...data } });
     };
 

@@ -148,28 +148,33 @@ export const setUserDataWithPinCode = async (data) => {
 
 export const updatePinCode = async (data) => {
   const users = await getUserData();
+  console.log('users :', users);
   if (users.length > 0) {
     users.forEach(async (userData) => {
+      console.log('userData :', userData);
+      console.log('data.oldPinCode :', data.oldPinCode);
       const password = decryptKey(userData.masterKey, data.oldPinCode);
       const privateKeys = getPrivateKeys(userData.username, password);
+      console.log('password :', password);
       const updatedUserData = {
         username: userData.username,
         authType: userData.authType,
         accessToken: userData.authType === 'steemConnect' ? encryptKey(data.accessToken, data.pinCode) : '',
-        masterKey: userData.authType === 'masterKey' ? encryptKey(data.password, data.pinCode) : '',
+        masterKey: userData.authType === 'masterKey' ? encryptKey(password, data.pinCode) : '',
         postingKey: encryptKey(privateKeys.posting.toString(), data.pinCode),
         activeKey: encryptKey(privateKeys.active.toString(), data.pinCode),
         memoKey: encryptKey(privateKeys.memo.toString(), data.pinCode),
       };
-
+      console.log('updateUserData :', updateUserData);
       const response = await updateUserData(updatedUserData);
+      console.log('response :', response);
       const authData = {
         isLoggedIn: true,
         currentUsername: userData.username,
       };
 
       await setAuthStatus(authData);
-
+      console.log('authData :', authData);
       return response;
     });
   }
@@ -177,9 +182,12 @@ export const updatePinCode = async (data) => {
 
 export const verifyPinCode = async (data) => {
   const result = getUserDataWithUsername(data.username);
+  console.log('data :', data);
+  console.log('result :', result);
   const userData = result[0];
   let account = null;
   let loginFlag = false;
+  console.log('userData :', userData);
   if (result.length > 0) {
     if (userData.authType === 'steemConnect') {
       const accessToken = decryptKey(userData.accessToken, data.pinCode);
@@ -190,8 +198,9 @@ export const verifyPinCode = async (data) => {
       }
     } else if (userData.authType === 'masterKey') {
       const password = decryptKey(userData.masterKey, data.pinCode);
+      console.log('password :', password);
       account = await getUser(data.username);
-
+console.log('account :', account);
       // Public keys of user
       const publicKeys = {
         active: account.active.key_auths.map(x => x[0]),
@@ -204,12 +213,15 @@ export const verifyPinCode = async (data) => {
 
       // Check all keys
       Object.keys(publicKeys).map((pubKey) => {
+        console.log('publicKeys[pubKey] :', publicKeys[pubKey]);
+        console.log('privateKeys[pubKey].createPublic().toString() :', privateKeys[pubKey].createPublic().toString());
         if (publicKeys[pubKey] === privateKeys[pubKey].createPublic().toString()) {
           loginFlag = true;
         }
       });
     }
   }
+  console.log('loginFlag :', loginFlag);
   if (loginFlag) {
     const authData = {
       isLoggedIn: true,
@@ -222,6 +234,7 @@ export const verifyPinCode = async (data) => {
       activeKey: decryptKey(userData.activeKey, data.pinCode),
       memoKey: decryptKey(userData.memoKey, data.pinCode),
     };
+    console.log('response :', response);
     await setAuthStatus(authData);
     return (response);
   }
