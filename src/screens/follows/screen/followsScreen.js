@@ -21,9 +21,7 @@ class FollowsScreen extends PureComponent {
 
   constructor(props) {
     super(props);
-    this.state = {
-      data: props.data,
-    };
+    this.state = {};
   }
 
   // Component Life Cycles
@@ -78,8 +76,8 @@ class FollowsScreen extends PureComponent {
         {(filterResult && data && filterResult.length > 0) || data.length > 0 ? (
           <FlatList
             data={filterResult || data}
-            keyExtractor={item => item.voter}
-            onEndReached={loadMore}
+            keyExtractor={(item, index) => index.toString()}
+            onEndReached={() => loadMore()}
             removeClippedSubviews={false}
             renderItem={({ item, index }) => this._renderItem(item, index)}
             ListFooterComponent={this._renderFooter}

@@ -1,6 +1,6 @@
 import React, { Component, Fragment } from 'react';
 import { connect } from 'react-redux';
-
+import { withNavigation } from 'react-navigation';
 
 // Utilitites
 import {
@@ -37,7 +37,7 @@ class ProfileContainer extends Component {
   }
 
   componentDidMount = () => {
-    const { navigation, isLoggedIn, currentAccount } = this.props;
+    const { navigation, isLoggedIn } = this.props;
     const selectedUser = navigation.state && navigation.state.params;
 
     if (!isLoggedIn && !selectedUser) {
@@ -58,13 +58,11 @@ class ProfileContainer extends Component {
       }
 
       this.setState({ isReverseHeader: true });
-    } else {
-      this._loadProfile(currentAccount.name);
     }
   };
 
   componentWillReceiveProps(nextProps) {
-    const { navigation, currentAccount } = this.props;
+    const { navigation, currentAccount, activeBottomTab } = this.props;
     const currentUsername = currentAccount.name !== nextProps.currentAccount.name && nextProps.currentAccount.name;
     const isParamsChange = nextProps.navigation.state
       && navigation.state
@@ -73,6 +71,10 @@ class ProfileContainer extends Component {
 
     if (currentUsername) {
       this._loadProfile(currentUsername);
+    }
+
+    if (activeBottomTab !== nextProps.activeBottomTab && nextProps.activeBottomTab === 'ProfileTabbar') {
+      this._loadProfile(currentAccount.name);
     }
 
     if (isParamsChange) {
@@ -296,6 +298,7 @@ const mapStateToProps = state => ({
   isLoggedIn: state.application.isLoggedIn,
   currentAccount: state.account.currentAccount,
   isDarkTheme: state.application.isDarkTheme,
+  activeBottomTab: state.ui.activeBottomTab,
 });
 
-export default connect(mapStateToProps)(ProfileContainer);
+export default connect(mapStateToProps)(withNavigation(ProfileContainer));
