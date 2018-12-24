@@ -28,4 +28,8 @@ export default EStyleSheet.create({
     marginBottom: 40,
     borderColor: '$borderColor',
   },
+  noImage: {
+    width: 193,
+    height: 189,
+  },
 });

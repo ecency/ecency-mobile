@@ -1,5 +1,5 @@
-import React, { Component } from 'react';
-import { TouchableWithoutFeedback, TouchableOpacity, SafeAreaView } from 'react-native';
+import React, { PureComponent } from 'react';
+import { TouchableOpacity, SafeAreaView } from 'react-native';
 import { connect } from 'react-redux';
 import ViewOverflow from 'react-native-view-overflow';
 
@@ -13,7 +13,7 @@ import { updateActiveBottomTab } from '../../../redux/actions/uiAction';
 // Styles
 import styles from './bottomTabBarStyles';
 
-class BottomTabBarView extends Component {
+class BottomTabBarView extends PureComponent {
   /* Props
    * ------------------------------------------------
    *   @prop { type }    name                - Description....
