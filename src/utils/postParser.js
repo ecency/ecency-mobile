@@ -22,7 +22,7 @@ export const parsePost = (post, currentUserName, isSummary = false) => {
   _post.active_votes.sort((a, b) => b.rshares - a.rshares);
 
   _post.body = markDown2Html(post.body);
-  if (isSummary) _post.summary = getPostSummary(post.body, 150);
+  if (isSummary) _post.summary = getPostSummary(_post.body, 150);
 
   if (currentUserName) {
     _post.is_voted = isVoted(_post.active_votes, currentUserName);

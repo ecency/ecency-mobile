@@ -22,6 +22,7 @@ export default {
   $tagColor: '#c1c5c7',
   $bubblesBlue: '#5CCDFF',
   $iconColor: '#c1c5c7',
+  $darkIconColor: '#c1c5c7',
   $borderTopColor: '#cfcfcf',
   $dangerColor: '#fff',
   $warningColor: '#fff',

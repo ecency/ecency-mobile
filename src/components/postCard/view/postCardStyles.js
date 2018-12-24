@@ -7,7 +7,6 @@ export default EStyleSheet.create({
     marginLeft: 0,
     marginTop: 5,
     marginBottom: 10,
-    borderRadius: 5,
     backgroundColor: '$primaryBackgroundColor',
     shadowOpacity: 0.2,
     shadowColor: '$shadowColor',
