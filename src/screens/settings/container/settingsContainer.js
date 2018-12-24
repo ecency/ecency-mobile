@@ -111,8 +111,8 @@ class SettingsContainer extends Component {
     const { dispatch, setPinCodeState } = this.props;
     switch (actionType) {
       case 'pincode':
-        dispatch(openPinCodeModal());
         setPinCodeState({ isReset: true });
+        dispatch(openPinCodeModal());
         break;
       default:
         break;
