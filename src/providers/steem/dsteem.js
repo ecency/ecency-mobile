@@ -246,7 +246,9 @@ export const getPosts = async (by, query, user) => {
   try {
     let posts = await client.database.getDiscussions(by, query);
 
-    posts = await parsePosts(posts, user);
+    if (posts) {
+      posts = await parsePosts(posts, user);
+    }
     return posts;
   } catch (error) {
     return error;
