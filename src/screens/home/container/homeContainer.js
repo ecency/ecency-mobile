@@ -4,6 +4,8 @@ import { connect } from 'react-redux';
 // Component
 import HomeScreen from '../screen/homeScreen';
 
+// Constants
+import { default as ROUTES } from '../../../constants/routeNames';
 /*
  *            Props Name        Description                                     Value
  *@props -->  props name here   description here                                Value Type Here
@@ -21,7 +23,10 @@ class HomeContainer extends PureComponent {
   // Component Life Cycle Functions
   componentWillReceiveProps(nextProps) {
     const { activeBottomTab } = this.props;
-    if (activeBottomTab === nextProps.activeBottomTab && nextProps.activeBottomTab === 'Home') {
+    if (
+      activeBottomTab === nextProps.activeBottomTab
+      && nextProps.activeBottomTab === ROUTES.TABBAR.HOME
+    ) {
       this.setState({ isScrollToTop: true }, () => this.setState({ isScrollToTop: false }));
     }
   }
