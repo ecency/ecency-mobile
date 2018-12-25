@@ -212,7 +212,7 @@ class PostsView extends Component {
       isNoPost,
     } = this.state;
     const {
-      filterOptions, intl, isLoggedIn, getFor, isLoginDone, tag,
+      filterOptions, intl, isLoggedIn, getFor, isLoginDone, tag, isDarkTheme
     } = this.props;
     /* eslint-disable */
 
@@ -265,7 +265,7 @@ class PostsView extends Component {
                 refreshing={this.state.refreshing}
                 onRefresh={this._handleOnRefreshPosts}
                 progressBackgroundColor="#357CE6"
-                tintColor="#fff"
+                tintColor={!isDarkTheme ? '#357ce6' : '#96c0ff'}
                 titleColor="#fff"
                 colors={["#fff"]}
               />
