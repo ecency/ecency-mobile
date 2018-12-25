@@ -23,6 +23,12 @@ class PostCardContainer extends PureComponent {
     };
   }
 
+  componentWillReceiveProps(nextProps) {
+    if (nextProps.isRefresh) {
+      this._fetchPost();
+    }
+  }
+
   _handleOnUserPress = () => {
     const { navigation, currentAccount, content } = this.props;
     if (content && currentAccount.name !== content.author) {

@@ -52,6 +52,7 @@ class BottomTabBarView extends PureComponent {
       !!route
       && !!route.params
       && !!route.params.scrollToTop
+      && _routeName === ROUTES.TABBAR.HOME
     ) {
       route.params.scrollToTop();
     }
