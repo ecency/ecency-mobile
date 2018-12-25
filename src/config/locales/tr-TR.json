@@ -10,8 +10,8 @@
     "fill_order": "Fill Order"
   },
   "notification": {
-    "vote": "gönderini oyladı",
-    "unvote": "gonderini yukarı yönde oyladı",
+    "vote": "beğendi",
+    "unvote": "gonderini aşaği yönde oyladı",
     "reply": "gönderine cevap verdi",
     "mention": "seni etiketledi",
     "follow": "seni takip etti",
