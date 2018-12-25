@@ -42,7 +42,6 @@ class ProfileScreen extends PureComponent {
       isProfileLoading,
       isReady,
       isReverseHeader,
-      navigation,
       selectedQuickProfile,
       user,
       username,
@@ -132,7 +131,6 @@ class ProfileScreen extends PureComponent {
                 getFor="blog"
                 tag={username}
                 key={username}
-                navigation={navigation}
               />
             </View>
             <View
