@@ -62,13 +62,18 @@ class ProfileContainer extends Component {
   };
 
   componentWillReceiveProps(nextProps) {
-    const { navigation, currentAccount, activeBottomTab } = this.props;
+    const { navigation, currentAccount, activeBottomTab, isLoggedIn } = this.props;
     const currentUsername = currentAccount.name !== nextProps.currentAccount.name && nextProps.currentAccount.name;
     const isParamsChange = nextProps.navigation.state
       && navigation.state
       && nextProps.navigation.state.params
       && nextProps.navigation.state.params.username
       && nextProps.navigation.state.params.username !== navigation.state.params.username;
+
+    if (isLoggedIn && !nextProps.isLoggedIn) {
+      navigation.navigate(ROUTES.SCREENS.LOGIN);
+      return;
+    }
 
     if (currentUsername) {
       this._loadProfile(currentUsername);
@@ -83,6 +88,10 @@ class ProfileContainer extends Component {
 
       this._loadProfile(selectedUser && selectedUser.username);
     }
+
+  
+
+
   }
 
   _getReplies = async (user) => {
