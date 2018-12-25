@@ -55,6 +55,7 @@ class PostsContainer extends PureComponent {
 
 const mapStateToProps = state => ({
   currentAccount: state.account.currentAccount,
+  isDarkTheme: state.application.isDarkTheme,
   isLoggedIn: state.application.isLoggedIn,
   isLoginDone: state.application.isLoginDone,
   isCollapsePostButtonOpen: state.ui.isCollapsePostButton,

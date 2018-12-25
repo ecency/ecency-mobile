@@ -7,7 +7,7 @@ import ViewOverflow from 'react-native-view-overflow';
 import { updateActiveBottomTab } from '../../../redux/actions/uiAction';
 
 // Constants
-import { default as ROUTES } from '../../../constants/routeNames';
+import ROUTES from '../../../constants/routeNames';
 
 // Components
 
