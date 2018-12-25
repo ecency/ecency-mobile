@@ -214,9 +214,14 @@ class PostsView extends Component {
       isNoPost,
     } = this.state;
     const {
-      filterOptions, intl, isLoggedIn, getFor, isLoginDone, tag, isDarkTheme, handleOnScroll,
+      filterOptions,
+      intl,
+      isLoggedIn,
+      getFor,
+      isLoginDone,
+      tag,
+      isDarkTheme,
     } = this.props;
-    /* eslint-disable */
 
     return (
       <View style={styles.container}>
@@ -248,11 +253,13 @@ class PostsView extends Component {
           )}
         </Fragment>
 
-        {posts && posts.length > 0 && !isPostsLoading ? (
+        {posts && posts.length > 0 && !isPostsLoading && (
           <FlatList
             data={posts}
             showsVerticalScrollIndicator={false}
-            renderItem={({ item }) => <PostCard isRefresh={refreshing} content={item} isHideImage={isHideImage} />}
+            renderItem={({ item }) => (
+              <PostCard isRefresh={refreshing} content={item} isHideImage={isHideImage} />
+            )}
             keyExtractor={(post, index) => index.toString()}
             onEndReached={() => this._loadPosts()}
             removeClippedSubviews
@@ -264,19 +271,21 @@ class PostsView extends Component {
             onScrollBeginDrag={() => this._handleOnScrollStart()}
             refreshControl={(
               <RefreshControl
-                refreshing={this.state.refreshing}
+                refreshing={refreshing}
                 onRefresh={this._handleOnRefreshPosts}
                 progressBackgroundColor="#357CE6"
                 tintColor={!isDarkTheme ? '#357ce6' : '#96c0ff'}
                 titleColor="#fff"
-                colors={["#fff"]}
+                colors={['#fff']}
               />
 )}
             ref={(ref) => {
               this.flatList = ref;
             }}
           />
-        ) : isNoPost ? (
+        )}
+
+        {isNoPost ? (
           <NoPost
             imageStyle={styles.noImage}
             name={tag}
