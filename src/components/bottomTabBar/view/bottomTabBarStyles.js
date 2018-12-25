@@ -8,7 +8,7 @@ export default EStyleSheet.create({
     backgroundColor: '$primaryBackgroundColor',
     borderTopWidth: 0.1,
     shadowOpacity: 0.1,
-    elevation: 3,
+    elevation: 10,
   },
   safeArea: {
     backgroundColor: '$primaryBackgroundColor',

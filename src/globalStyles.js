@@ -37,7 +37,7 @@ export default EStyleSheet.create({
     padding: 5,
     height: 50,
     flex: 1,
-    color: '#ff1954',
+    color: '$primaryRed',
     paddingTop: 10,
     textAlign: 'center',
   },

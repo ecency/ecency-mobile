@@ -67,6 +67,7 @@ class ProfileContainer extends Component {
     const isParamsChange = nextProps.navigation.state
       && navigation.state
       && nextProps.navigation.state.params
+      && nextProps.navigation.state.params.username
       && nextProps.navigation.state.params.username !== navigation.state.params.username;
 
     if (currentUsername) {
