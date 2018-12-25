@@ -11,7 +11,7 @@ import {
 import { encryptKey, decryptKey } from '../../utils/crypto';
 import steemConnect from './steemConnectAPI';
 
-export const Login = async (username, password) => {
+export const login = async (username, password) => {
   const resultKeys = {
     active: null,
     memo: null,

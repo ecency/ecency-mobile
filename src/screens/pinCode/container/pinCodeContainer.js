@@ -27,7 +27,6 @@ class PinCodeContainer extends Component {
       isOldPinVerified: false,
       oldPinCode: null,
     };
-    this._setPinCode = this._setPinCode.bind(this);
   }
 
   // TODO: if check for decide to set to pin or verify to pin page
@@ -36,6 +35,7 @@ class PinCodeContainer extends Component {
     this._getDataFromStorage().then(() => {
       const { intl } = this.props;
       const { isExistUser } = this.state;
+      
       if (isExistUser) {
         this.setState({
           informationText: intl.formatMessage({
