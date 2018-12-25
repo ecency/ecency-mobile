@@ -3,13 +3,12 @@ import {
   View, Text, Image, TouchableHighlight,
 } from 'react-native';
 import { injectIntl } from 'react-intl';
-import FastImage from 'react-native-fast-image';
 // Constants
 
 // Components
+import { UserAvatar } from '../../userAvatar';
 
 // Styles
-// eslint-disable-next-line
 import styles from './notificationLineStyles';
 
 class NotificationLineView extends PureComponent {
@@ -20,31 +19,49 @@ class NotificationLineView extends PureComponent {
 
   constructor(props) {
     super(props);
-    this.state = {};
+    this.state = {
+      isRead: props.notification.read,
+    };
   }
 
   // Component Life Cycles
 
   // Component Functions
+  _handleOnNotificationPress = () => {
+    const { handleOnPressNotification, notification } = this.props;
+    const { isRead } = this.state;
+
+    if (!isRead) this.setState({ isRead: true });
+
+    handleOnPressNotification(notification);
+  };
 
   render() {
     const {
       notification,
       intl: { formatMessage },
-      handleOnPressNotification,
     } = this.props;
+    const { isRead } = this.state;
+
+    let _title = formatMessage({
+      id: `notification.${notification.type}`,
+    });
+
+    if (notification.weight) {
+      const _percent = `${(notification.weight / 100).toFixed(0)}% `;
+
+      _title = _percent + _title;
+    }
 
     return (
-      <TouchableHighlight onPress={() => handleOnPressNotification(notification)}>
+      <TouchableHighlight onPress={() => this._handleOnNotificationPress()}>
         <View
           key={Math.random()}
-          style={[styles.notificationWrapper, !notification.read && styles.isNewNotification]}
+          style={[styles.notificationWrapper, !isRead && styles.isNewNotification]}
         >
-          <FastImage
+          <UserAvatar
+            username={notification.source}
             style={[styles.avatar, !notification.avatar && styles.hasNoAvatar]}
-            source={{
-              uri: `https://steemitimages.com/u/${notification.source}/avatar/small`,
-            }}
           />
           <View style={styles.body}>
             <View style={styles.titleWrapper}>
@@ -52,11 +69,7 @@ class NotificationLineView extends PureComponent {
                 {notification.source}
                 {' '}
               </Text>
-              <Text style={styles.title}>
-                {formatMessage({
-                  id: `notification.${notification.type}`,
-                })}
-              </Text>
+              <Text style={styles.title}>{_title}</Text>
             </View>
             {notification.description && (
               <Text numberOfLines={1} style={styles.description}>

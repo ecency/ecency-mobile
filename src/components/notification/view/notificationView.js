@@ -25,6 +25,7 @@ class NotificationView extends PureComponent {
   constructor(props) {
     super(props);
     this.state = {
+      // TODO: Remove filters from local state.
       filters: [
         { key: 'activities', value: 'ALL ACTIVITIES' },
         { key: 'votes', value: 'VOTES' },
@@ -47,30 +48,95 @@ class NotificationView extends PureComponent {
     getActivities(filters[index].key);
   };
 
-  render() {
-    const {
-      notifications, intl, navigateToNotificationRoute, readAllNotification,
-    } = this.props;
-    const { filters } = this.state;
-    const today = [];
-    const yesterday = [];
-    const thisWeek = [];
-    const thisMonth = [];
-    const olderThenMonth = [];
+  _renderList = (data) => {
+    const { navigateToNotificationRoute } = this.props;
 
-    notifications.map((item) => {
-      if (isToday(item.timestamp)) {
-        today.push(item);
-      } else if (isYesterday(item.timestamp)) {
-        yesterday.push(item);
-      } else if (isThisWeek(item.timestamp)) {
-        thisWeek.push(item);
-      } else if (isThisMonth(item.timestamp)) {
-        thisMonth.push(item);
-      } else {
-        olderThenMonth.push(item);
-      }
+    return (
+      <FlatList
+        data={data}
+        renderItem={({ item }) => (
+          <NotificationLine
+            notification={item}
+            handleOnPressNotification={navigateToNotificationRoute}
+          />
+        )}
+        keyExtractor={item => item.id}
+      />
+    );
+  };
+
+  _getNotificationsArrays = () => {
+    const { notifications, intl } = this.props;
+
+    if (!notifications && notifications.length < 1) return null;
+
+    const notificationArray = [
+      {
+        title: intl.formatMessage({
+          id: 'notification.recent',
+        }),
+        notifications: [],
+      },
+      {
+        title: intl.formatMessage({
+          id: 'notification.yesterday',
+        }),
+        notifications: [],
+      },
+      {
+        title: intl.formatMessage({
+          id: 'notification.this_week',
+        }),
+        notifications: [],
+      },
+      {
+        title: intl.formatMessage({
+          id: 'notification.this_month',
+        }),
+        notifications: [],
+      },
+      {
+        title: intl.formatMessage({
+          id: 'notification.older_then',
+        }),
+        notifications: [],
+      },
+    ];
+
+    notifications.forEach((item) => {
+      const listIndex = this._getTimeListIndex(item.timestamp);
+
+      notificationArray[listIndex].notifications.push(item);
     });
+
+    return notificationArray;
+  };
+
+  _getTimeListIndex = (timestamp) => {
+    if (isToday(timestamp)) {
+      return 0;
+    }
+
+    if (isYesterday(timestamp)) {
+      return 1;
+    }
+
+    if (isThisWeek(timestamp)) {
+      return 2;
+    }
+
+    if (isThisMonth(timestamp)) {
+      return 3;
+    }
+
+    return 4;
+  };
+
+  render() {
+    const { readAllNotification } = this.props;
+    const { filters } = this.state;
+
+    const _notifications = this._getNotificationsArrays();
 
     return (
       <View style={styles.container}>
@@ -83,111 +149,15 @@ class NotificationView extends PureComponent {
           onRightIconPress={readAllNotification}
         />
         <ScrollView style={styles.scrollView}>
-          {today.length > 0 && (
-            <Fragment>
-              <ContainerHeader
-                hasSeperator
-                isBoldTitle
-                title={intl.formatMessage({
-                  id: 'notification.recent',
-                })}
-              />
-              <FlatList
-                data={today}
-                renderItem={({ item }) => (
-                  <NotificationLine
-                    notification={item}
-                    handleOnPressNotification={navigateToNotificationRoute}
-                  />
-                )}
-                keyExtractor={item => item.id}
-              />
-            </Fragment>
-          )}
-          {yesterday.length > 0 && (
-            <Fragment>
-              <ContainerHeader
-                hasSeperator
-                isBoldTitle
-                title={intl.formatMessage({
-                  id: 'notification.yesterday',
-                })}
-              />
-              <FlatList
-                data={yesterday}
-                renderItem={({ item }) => (
-                  <NotificationLine
-                    notification={item}
-                    handleOnPressNotification={navigateToNotificationRoute}
-                  />
-                )}
-                keyExtractor={item => item.id}
-              />
-            </Fragment>
-          )}
-          {thisWeek.length > 0 && (
-            <Fragment>
-              <ContainerHeader
-                hasSeperator
-                isBoldTitle
-                title={intl.formatMessage({
-                  id: 'notification.this_week',
-                })}
-              />
-              <FlatList
-                data={thisWeek}
-                renderItem={({ item }) => (
-                  <NotificationLine
-                    notification={item}
-                    handleOnPressNotification={navigateToNotificationRoute}
-                  />
-                )}
-                keyExtractor={item => item.id}
-              />
-            </Fragment>
-          )}
-          {thisMonth.length > 0 && (
-            <Fragment>
-              <ContainerHeader
-                hasSeperator
-                isBoldTitle
-                title={intl.formatMessage({
-                  id: 'notification.this_month',
-                })}
-              />
-              <FlatList
-                data={thisMonth}
-                renderItem={({ item }) => (
-                  <NotificationLine
-                    notification={item}
-                    handleOnPressNotification={navigateToNotificationRoute}
-                  />
-                )}
-                keyExtractor={item => item.id}
-              />
-            </Fragment>
-          )}
-          {olderThenMonth.length > 0 && (
-            <Fragment>
-              <ContainerHeader
-                hasSeperator
-                isBoldTitle
-                title={intl.formatMessage({
-                  id: 'notification.older_then',
-                })}
-              />
-              <FlatList
-                data={olderThenMonth}
-                renderItem={({ item }) => (
-                  <NotificationLine
-                    notification={item}
-                    handleOnPressNotification={navigateToNotificationRoute}
-                  />
-                )}
-                keyExtractor={item => item.id}
-              />
-            </Fragment>
-          )}
+          {_notifications
+            && _notifications.map(
+              item => item.notifications.length > 0 && (
+              <Fragment key={item.title}>
+                <ContainerHeader hasSeperator={ _notifications.indexOf(item) !== 1 } isBoldTitle title={item.title} key={item.title} />
+                {this._renderList(item.notifications)}
+              </Fragment>
+              ),
+            )}
         </ScrollView>
       </View>
     );
