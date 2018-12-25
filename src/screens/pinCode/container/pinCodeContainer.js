@@ -35,7 +35,7 @@ class PinCodeContainer extends Component {
     this._getDataFromStorage().then(() => {
       const { intl } = this.props;
       const { isExistUser } = this.state;
-      
+
       if (isExistUser) {
         this.setState({
           informationText: intl.formatMessage({

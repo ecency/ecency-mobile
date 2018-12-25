@@ -75,7 +75,7 @@ class LoginContainer extends PureComponent {
 
   render() {
     const { isLoading } = this.state;
-    const { navigation } = this.props;
+    const { navigation, setPinCodeState } = this.props;
     return (
       <LoginScreen
         handleOnPressLogin={this._handleOnPressLogin}
@@ -83,6 +83,7 @@ class LoginContainer extends PureComponent {
         handleSignUp={this._handleSignUp}
         isLoading={isLoading}
         navigation={navigation}
+        setPinCodeState={setPinCodeState}
       />
     );
   }
