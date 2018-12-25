@@ -7,11 +7,10 @@ export default EStyleSheet.create({
     marginLeft: 0,
     marginTop: 5,
     marginBottom: 10,
-    borderRadius: 5,
     backgroundColor: '$primaryBackgroundColor',
     shadowOpacity: 0.2,
     shadowColor: '$shadowColor',
-    elevation: 3,
+    elevation: 0.1,
   },
   avatar: {
     width: 30,

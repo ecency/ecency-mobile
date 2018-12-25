@@ -23,8 +23,25 @@ import styles from './profileStyles';
 class ProfileScreen extends PureComponent {
   constructor(props) {
     super(props);
-    this.state = {};
+    this.state = {
+      isSummaryOpen: true,
+      collapsibleMoreHeight: 0,
+    };
   }
+
+  _handleOnScroll = () => {
+    const { isSummaryOpen } = this.state;
+
+    if (isSummaryOpen) this.setState({ isSummaryOpen: false });
+  };
+
+  _handleOnSummaryExpanded = () => {
+    this.setState({ isSummaryOpen: true });
+  };
+
+  _handleUIChange = (height) => {
+    this.setState({ collapsibleMoreHeight: height });
+  };
 
   render() {
     const {
@@ -42,10 +59,11 @@ class ProfileScreen extends PureComponent {
       isProfileLoading,
       isReady,
       isReverseHeader,
+      selectedQuickProfile,
       user,
       username,
-      selectedQuickProfile,
     } = this.props;
+    const { isSummaryOpen, collapsibleMoreHeight } = this.state;
     let _about;
     let coverImage;
     let location;
@@ -86,6 +104,9 @@ class ProfileScreen extends PureComponent {
                 id: 'profile.details',
               })}
               expanded
+              isExpanded={isSummaryOpen}
+              handleOnExpanded={this._handleOnSummaryExpanded}
+              moreHeight={collapsibleMoreHeight}
               // expanded={isLoggedIn}
               // locked={!isLoggedIn}
             >
@@ -110,6 +131,7 @@ class ProfileScreen extends PureComponent {
                 location={location}
                 percentRC={resourceCredits}
                 percentVP={votingPower}
+                handleUIChange={this._handleUIChange}
               />
             </CollapsibleCard>
           )}
@@ -131,6 +153,7 @@ class ProfileScreen extends PureComponent {
                 getFor="blog"
                 tag={username}
                 key={username}
+                handleOnScroll={this._handleOnScroll}
               />
             </View>
             <View

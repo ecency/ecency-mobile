@@ -10,11 +10,6 @@ export default EStyleSheet.create({
     height: 50,
     flexDirection: 'row',
     justifyContent: 'space-around',
-    borderWidth: 1,
-    borderTopWidth: 0,
-    borderLeftWidth: 0,
-    borderRightWidth: 0,
-    borderColor: '$white',
   },
   tabButton: {
     flex: 1,
