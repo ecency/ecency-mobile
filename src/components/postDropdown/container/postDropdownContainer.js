@@ -55,10 +55,12 @@ class PostDropdownContainer extends PureComponent {
   };
 
   _reblog = () => {
-    const { currentAccount, content, isLoggedIn } = this.props;
+    const {
+      currentAccount, content, isLoggedIn, pinCode,
+    } = this.props;
     if (isLoggedIn) {
-      reblog(currentAccount, content.author, content.permlink)
-        .then((result) => {
+      reblog(currentAccount, pinCode, content.author, content.permlink)
+        .then(() => {
           Alert.alert('Success', 'Rebloged!');
         })
         .catch((error) => {
@@ -98,5 +100,6 @@ class PostDropdownContainer extends PureComponent {
 const mapStateToProps = state => ({
   isLoggedIn: state.application.isLoggedIn,
   currentAccount: state.account.currentAccount,
+  pinCode: state.account.pin,
 });
 export default withNavigation(connect(mapStateToProps)(PostDropdownContainer));

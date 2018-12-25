@@ -1,5 +1,7 @@
 import { Client, PrivateKey } from 'dsteem';
 import steemConnect from 'steemconnect';
+import Config from 'react-native-config';
+
 import { getServer, getPinCode } from '../../realm/realm';
 import { getUnreadActivityCount } from '../esteem/esteem';
 
@@ -31,7 +33,7 @@ const _getClient = async () => {
 
 _getClient();
 
-export const getDigitPinCode = async () => decryptKey(await getPinCode(), 'pin-code');
+export const getDigitPinCode = pin => decryptKey(pin, Config.PIN_KEY);
 
 /**
  * @method getAccount get account data
@@ -194,8 +196,8 @@ export const getIsMuted = async (username, targetUsername) => {
   return false;
 };
 
-export const ignoreUser = async (currentAccount, data) => {
-  const digitPinCode = await getDigitPinCode();
+export const ignoreUser = async (currentAccount, pin, data) => {
+  const digitPinCode = getDigitPinCode(pin);
 
   if (currentAccount.local.authType === AUTH_TYPE.MASTER_KEY) {
     const key = decryptKey(currentAccount.local.postingKey, digitPinCode);
@@ -355,8 +357,8 @@ export const getPostWithComments = async (user, permlink) => {
  * @param vote vote object(author, permlink, voter, weight)
  * @param postingKey private posting key
  */
-export const vote = async (currentAccount, author, permlink, weight) => {
-  const digitPinCode = await getDigitPinCode();
+export const vote = async (currentAccount, pin, author, permlink, weight) => {
+  const digitPinCode = getDigitPinCode(pin);
 
   if (currentAccount.local.authType === AUTH_TYPE.MASTER_KEY) {
     const key = decryptKey(currentAccount.local.postingKey, digitPinCode);
@@ -440,8 +442,8 @@ export const transferToken = (data, activeKey) => {
   });
 };
 
-export const followUser = async (currentAccount, data) => {
-  const digitPinCode = await getDigitPinCode();
+export const followUser = async (currentAccount, pin, data) => {
+  const digitPinCode = getDigitPinCode(pin);
 
   if (currentAccount.local.authType === AUTH_TYPE.MASTER_KEY) {
     const key = decryptKey(currentAccount.local.postingKey, digitPinCode);
@@ -481,8 +483,8 @@ export const followUser = async (currentAccount, data) => {
   }
 };
 
-export const unfollowUser = async (currentAccount, data) => {
-  const digitPinCode = await getDigitPinCode();
+export const unfollowUser = async (currentAccount, pin, data) => {
+  const digitPinCode = getDigitPinCode(pin);
 
   if (currentAccount.local.authType === AUTH_TYPE.MASTER_KEY) {
     const key = decryptKey(currentAccount.local.postingKey, digitPinCode);
@@ -617,6 +619,7 @@ export const lookupAccounts = async (username) => {
  */
 export const postContent = async (
   account,
+  pin,
   parentAuthor,
   parentPermlink,
   permlink,
@@ -627,7 +630,7 @@ export const postContent = async (
   voteWeight = null,
 ) => {
   const { name: author } = account;
-  const digitPinCode = await getDigitPinCode();
+  const digitPinCode = getDigitPinCode(pin);
 
   if (account.local.authType === AUTH_TYPE.MASTER_KEY) {
     const opArray = [
@@ -719,8 +722,8 @@ export const postContent = async (
 };
 
 // Re-blog
-export const reblog = async (account, author, permlink) => {
-  const pin = await getDigitPinCode();
+export const reblog = async (account, pinCode, author, permlink) => {
+  const pin = getDigitPinCode(pinCode);
 
   if (account.local.authType === AUTH_TYPE.MASTER_KEY) {
     const key = decryptKey(account.local.postingKey, pin);
