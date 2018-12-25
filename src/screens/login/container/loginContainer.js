@@ -3,7 +3,7 @@ import { Alert, Linking } from 'react-native';
 import { connect } from 'react-redux';
 
 // Services and Actions
-import { Login } from '../../../providers/steem/auth';
+import { login } from '../../../providers/steem/auth';
 import { lookupAccounts } from '../../../providers/steem/dsteem';
 import {
   failedAccount,
@@ -46,7 +46,7 @@ class LoginContainer extends PureComponent {
 
     this.setState({ isLoading: true });
 
-    Login(username, password)
+    login(username, password)
       .then((result) => {
         if (result) {
           dispatch(updateCurrentAccount({ ...result }));

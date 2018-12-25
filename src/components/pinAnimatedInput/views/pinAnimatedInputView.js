@@ -26,10 +26,6 @@ class PinAnimatedInput extends PureComponent {
     const { loading } = this.props;
     if (loading !== nextProps.loading) {
       if (nextProps.loading) {
-        this.dots[0] = new Animated.Value(0);
-        this.dots[1] = new Animated.Value(0);
-        this.dots[2] = new Animated.Value(0);
-        this.dots[3] = new Animated.Value(0);
         this._startLoadingAnimation();
       } else {
         this._stopLoadingAnimation();
