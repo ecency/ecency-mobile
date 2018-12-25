@@ -193,8 +193,10 @@ class PostsView extends Component {
   };
 
   _handleOnScrollStart = () => {
-    const { handleOnScrollStart } = this.props;
+    const { handleOnScrollStart, handleOnScroll } = this.props;
     handleOnScrollStart();
+
+    if (handleOnScroll) handleOnScroll();
   };
 
   _handleOnPressLogin = () => {
@@ -212,7 +214,7 @@ class PostsView extends Component {
       isNoPost,
     } = this.state;
     const {
-      filterOptions, intl, isLoggedIn, getFor, isLoginDone, tag, isDarkTheme
+      filterOptions, intl, isLoggedIn, getFor, isLoginDone, tag, isDarkTheme, handleOnScroll,
     } = this.props;
     /* eslint-disable */
 
