@@ -10,7 +10,7 @@ export default EStyleSheet.create({
   },
   hasTopBorder: {
     borderTopColor: '$borderTopColor',
-    borderTopWidth: 1,
+    borderTopWidth: 0.5,
   },
   title: {
     fontFamily: '$primaryFont',
