@@ -1,5 +1,7 @@
 import React, { Component, Fragment } from 'react';
-import { FlatList, View, ActivityIndicator } from 'react-native';
+import {
+  FlatList, View, ActivityIndicator, RefreshControl,
+} from 'react-native';
 import { injectIntl } from 'react-intl';
 import { withNavigation } from 'react-navigation';
 
@@ -32,16 +34,21 @@ class PostsView extends Component {
     };
   }
 
+  // Component Functions
+  componentWillMount() {
+    const { navigation } = this.props;
+
+    navigation.setParams({
+      scrollToTop: this._scrollToTop,
+    });
+  }
+
   componentDidMount() {
     this._loadPosts();
   }
 
   componentWillReceiveProps(nextProps) {
-    const { currentAccountUsername, isScrollToTop } = this.props;
-
-    if (this.flatList && isScrollToTop !== nextProps.isScrollToTop && nextProps.isScrollToTop) {
-      this.flatList.scrollToOffset({ x: 0, y: 0, animated: true });
-    }
+    const { currentAccountUsername } = this.props;
 
     if (
       currentAccountUsername !== nextProps.currentAccountUsername
@@ -66,6 +73,10 @@ class PostsView extends Component {
       );
     }
   }
+
+  _scrollToTop = () => {
+    if (this.flatList) this.flatList.scrollToOffset({ x: 0, y: 0, animated: true });
+  };
 
   _loadPosts = () => {
     const { getFor, tag, currentAccountUsername } = this.props;
@@ -203,6 +214,7 @@ class PostsView extends Component {
     const {
       filterOptions, intl, isLoggedIn, getFor, isLoginDone, tag,
     } = this.props;
+    /* eslint-disable */
 
     return (
       <View style={styles.container}>
@@ -248,6 +260,16 @@ class PostsView extends Component {
             initialNumToRender={10}
             ListFooterComponent={this._renderFooter}
             onScrollBeginDrag={() => this._handleOnScrollStart()}
+            refreshControl={(
+              <RefreshControl
+                refreshing={this.state.refreshing}
+                onRefresh={this._handleOnRefreshPosts}
+                progressBackgroundColor="#357CE6"
+                tintColor="#fff"
+                titleColor="#fff"
+                colors={["#fff"]}
+              />
+)}
             ref={(ref) => {
               this.flatList = ref;
             }}

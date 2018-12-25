@@ -20,7 +20,7 @@ class HomeScreen extends PureComponent {
 
   render() {
     const {
-      currentAccount, intl, isLoggedIn, isLoginDone, isScrollToTop,
+      currentAccount, intl, isLoggedIn, isLoginDone,
     } = this.props;
     const _filterOptions = [
       'NEW POSTS',
@@ -65,7 +65,6 @@ class HomeScreen extends PureComponent {
                 filterOptions={_filterOptions}
                 getFor="feed"
                 tag={tag || currentAccount.name}
-                isScrollToTop={isScrollToTop}
               />
             </View>
             <View
@@ -74,7 +73,7 @@ class HomeScreen extends PureComponent {
               })}
               style={styles.tabbarItem}
             >
-              <Posts filterOptions={_filterOptions} getFor="trending" isScrollToTop={isScrollToTop} />
+              <Posts filterOptions={_filterOptions} getFor="trending" />
             </View>
           </ScrollableTabView>
         </View>

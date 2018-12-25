@@ -15,6 +15,7 @@ export default EStyleSheet.create({
     paddingHorizontal: 16,
     color: '$primaryBlack',
     fontFamily: '$editorFont',
+    textAlignVertical: 'top',
   },
   inlinePadding: {
     padding: 8,

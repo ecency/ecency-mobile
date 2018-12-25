@@ -42,9 +42,10 @@ class ProfileScreen extends PureComponent {
       isProfileLoading,
       isReady,
       isReverseHeader,
+      navigation,
+      selectedQuickProfile,
       user,
       username,
-      selectedQuickProfile,
     } = this.props;
     let _about;
     let coverImage;
@@ -131,6 +132,7 @@ class ProfileScreen extends PureComponent {
                 getFor="blog"
                 tag={username}
                 key={username}
+                navigation={navigation}
               />
             </View>
             <View

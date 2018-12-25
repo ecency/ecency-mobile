@@ -19,9 +19,9 @@ import styles from './notificationStyles';
 
 class NotificationView extends PureComponent {
   /* Props
-    * ------------------------------------------------
-    *   @prop { type }    name                - Description....
-    */
+   * ------------------------------------------------
+   *   @prop { type }    name                - Description....
+   */
   constructor(props) {
     super(props);
     this.state = {
