@@ -75,7 +75,7 @@ class UpvoteView extends Component {
 
   _upvoteContent = async () => {
     const {
-      author, currentAccount, fetchPost, handleSetUpvotePercent, permlink,
+      author, currentAccount, fetchPost, handleSetUpvotePercent, permlink, pinCode,
     } = this.props;
     const { sliderValue } = this.state;
 
@@ -92,6 +92,7 @@ class UpvoteView extends Component {
 
     vote(
       currentAccount,
+      pinCode,
       author,
       permlink,
       weight,

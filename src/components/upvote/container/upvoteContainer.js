@@ -43,6 +43,7 @@ class UpvoteContainer extends PureComponent {
       isLoggedIn,
       isShowPayoutValue,
       upvotePercent,
+      pinCode,
     } = this.props;
     let author;
     let isVoted;
@@ -50,10 +51,10 @@ class UpvoteContainer extends PureComponent {
     let permlink;
 
     if (content) {
-      author = content.author;
+      ({ author } = content);
       isVoted = content.is_voted;
       pendingPayoutValue = content.pending_payout_value;
-      permlink = content.permlink;
+      ({ permlink } = content);
     }
 
     return (
@@ -68,6 +69,7 @@ class UpvoteContainer extends PureComponent {
         pendingPayoutValue={pendingPayoutValue}
         permlink={permlink}
         upvotePercent={upvotePercent}
+        pinCode={pinCode}
       />
     );
   }
@@ -76,7 +78,7 @@ class UpvoteContainer extends PureComponent {
 const mapStateToProps = state => ({
   isLoggedIn: state.application.isLoggedIn,
   upvotePercent: state.application.upvotePercent,
-
+  pinCode: state.account.pin,
   currentAccount: state.account.currentAccount,
 });
 

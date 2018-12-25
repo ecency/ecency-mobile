@@ -203,7 +203,7 @@ class EditorContainer extends Component {
   };
 
   _submitPost = async (fields) => {
-    const { navigation, currentAccount } = this.props;
+    const { navigation, currentAccount, pinCode } = this.props;
 
     if (currentAccount) {
       this.setState({ isPostSending: true });
@@ -217,6 +217,7 @@ class EditorContainer extends Component {
 
       await postContent(
         currentAccount,
+        pinCode,
         '',
         parentPermlink,
         permlink,
@@ -237,7 +238,7 @@ class EditorContainer extends Component {
   };
 
   _submitReply = async (fields) => {
-    const { currentAccount } = this.props;
+    const { currentAccount, pinCode } = this.props;
 
     if (currentAccount) {
       this.setState({ isPostSending: true });
@@ -253,6 +254,7 @@ class EditorContainer extends Component {
 
       await postContent(
         currentAccount,
+        pinCode,
         parentAuthor,
         parentPermlink,
         permlink,
@@ -343,7 +345,7 @@ class EditorContainer extends Component {
 
 const mapStateToProps = state => ({
   isLoggedIn: state.application.isLoggedIn,
-
+  pinCode: state.account.pin,
   currentAccount: state.account.currentAccount,
 });
 
