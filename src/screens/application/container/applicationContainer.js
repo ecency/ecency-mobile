@@ -112,8 +112,10 @@ class ApplicationContainer extends Component {
 
     if (realmData) {
       await getUser(currentUsername)
-        .then((accountData) => {
+        .then(async (accountData) => {
           dispatch(login(true));
+
+          const isExistUser = await getExistUser();
 
           const realmObject = realmData.filter(data => data.username === currentUsername);
           [accountData.local] = realmObject;
@@ -121,7 +123,7 @@ class ApplicationContainer extends Component {
           dispatch(updateCurrentAccount(accountData));
           // If in dev mode pin code does not show
           // eslint-disable-next-line
-          if (__DEV__ === false) {
+          if (__DEV__ === false && !isExistUser) {
             dispatch(openPinCodeModal());
           }
           this._connectNotificationServer(accountData.name);

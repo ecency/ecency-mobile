@@ -2,6 +2,7 @@ import React, { Component } from 'react';
 import { Alert } from 'react-native';
 import { connect } from 'react-redux';
 import { injectIntl } from 'react-intl';
+import Config from 'react-native-config';
 
 import {
   setUserDataWithPinCode,
@@ -12,7 +13,10 @@ import {
 // Actions & Services
 import { closePinCodeModal } from '../../../redux/actions/applicationActions';
 import { getExistUser, setExistUser, getUserDataWithUsername } from '../../../realm/realm';
-import { updateCurrentAccount } from '../../../redux/actions/accountAction';
+import { updateCurrentAccount, setPinCode as savePinCode } from '../../../redux/actions/accountAction';
+
+// Utils
+import { encryptKey } from '../../../utils/crypto';
 
 // Component
 import PinCodeScreen from '../screen/pinCodeScreen';
@@ -88,6 +92,7 @@ class PinCodeContainer extends Component {
         _currentAccount.local = response;
 
         dispatch(updateCurrentAccount({ ..._currentAccount }));
+        this._savePinCode(pin);
 
         dispatch(closePinCodeModal());
         if (navigateTo) {
@@ -137,6 +142,7 @@ class PinCodeContainer extends Component {
       dispatch(updateCurrentAccount({ ..._currentAccount }));
 
       setExistUser(true).then(() => {
+        this._savePinCode(pin);
         dispatch(closePinCodeModal());
         if (navigateTo) {
           navigation.navigate(navigateTo);
@@ -166,6 +172,7 @@ class PinCodeContainer extends Component {
     verifyPinCode(pinData)
       .then((res) => {
         setWrappedComponentState(res);
+        this._savePinCode(pin);
         dispatch(closePinCodeModal());
 
         const realmData = getUserDataWithUsername(currentAccount.name);
@@ -183,6 +190,12 @@ class PinCodeContainer extends Component {
         reject(err);
       });
   });
+
+  _savePinCode = (pin) => {
+    const { dispatch } = this.props;
+    const encryptedPin = encryptKey(pin, Config.PIN_KEY);
+    dispatch(savePinCode(encryptedPin));
+  }
 
   _setPinCode = async (pin, isReset) => {
     const {
