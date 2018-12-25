@@ -32,7 +32,7 @@ class ProfileSummaryView extends PureComponent {
   constructor(props) {
     super(props);
     this.state = {
-      isShowPercentText: false,
+      isShowPercentText: props.isShowPercentText,
     };
   }
 
@@ -66,6 +66,7 @@ class ProfileSummaryView extends PureComponent {
       location,
       percentRC,
       percentVP,
+      handleUIChange,
     } = this.props;
     const votingPowerHoursText = hoursVP && `• Full in ${hoursVP} hours`;
     const votingPowerText = `Voting power: ${percentVP}% ${votingPowerHoursText || ''}`;
@@ -84,6 +85,7 @@ class ProfileSummaryView extends PureComponent {
     const isColumn = rowLength && DEVICE_WIDTH / rowLength <= 15;
     const followButtonIcon = !isFollowing ? 'user-follow' : 'user-unfollow';
     const ignoreButtonIcon = !isMuted ? 'ban' : 'minus';
+    const coverImageUrl = `http://img.esteem.app/400x0/${coverImage}`;
 
     return (
       <Fragment>
@@ -101,10 +103,16 @@ class ProfileSummaryView extends PureComponent {
         </View>
         <Image
           style={styles.longImage}
-          source={{ uri: coverImage }}
+          source={{ uri: coverImageUrl }}
           defaultSource={isDarkTheme ? DARK_COVER_IMAGE : LIGHT_COVER_IMAGE}
         />
-        <TouchableOpacity onPress={() => this.setState({ isShowPercentText: !isShowPercentText })}>
+        <TouchableOpacity
+          onPress={() =>
+            this.setState({ isShowPercentText: !isShowPercentText }, () => {
+              handleUIChange(isShowPercentText ? 0 : 30);
+            })
+          }
+        >
           <PercentBar
             isShowText={isShowPercentText}
             percent={percentVP}

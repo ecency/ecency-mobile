@@ -7,6 +7,7 @@ import ViewOverflow from 'react-native-view-overflow';
 import { updateActiveBottomTab } from '../../../redux/actions/uiAction';
 
 // Constants
+import ROUTES from '../../../constants/routeNames';
 
 // Components
 
@@ -37,6 +38,27 @@ class BottomTabBarView extends PureComponent {
   }
 
   // Component Functions
+  _jumpTo = (route) => {
+    const {
+      jumpTo,
+      navigation: {
+        state: { index, routes },
+      },
+    } = this.props;
+
+    const _routeName = routes[index].routeName;
+
+    if (
+      !!route
+      && !!route.params
+      && !!route.params.scrollToTop
+      && _routeName === ROUTES.TABBAR.HOME
+    ) {
+      route.params.scrollToTop();
+    }
+
+    jumpTo(route.key);
+  };
 
   render() {
     const {
@@ -46,7 +68,6 @@ class BottomTabBarView extends PureComponent {
       activeTintColor,
       inactiveTintColor,
       renderIcon,
-      jumpTo,
     } = this.props;
 
     return (
@@ -60,7 +81,7 @@ class BottomTabBarView extends PureComponent {
                 alignItems: 'center',
               }}
             >
-              <TouchableOpacity onPress={() => jumpTo(route.key)}>
+              <TouchableOpacity onPress={() => this._jumpTo(route)}>
                 {renderIcon({
                   route,
                   focused: index === idx,
