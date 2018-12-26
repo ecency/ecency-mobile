@@ -21,7 +21,7 @@ const BaseNavigator = createBottomTabNavigator(
           <Icon
             iconType="MaterialIcons"
             style={{ padding: 15 }}
-            name="view-list"
+            name="view-day"
             color={tintColor}
             size={26}
           />
