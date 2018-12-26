@@ -91,7 +91,7 @@ class ApplicationContainer extends Component {
   };
 
   _getUserData = async () => {
-    const { dispatch } = this.props;
+    const { dispatch, pinCode } = this.props;
     let realmData;
     let currentUsername;
 
@@ -123,7 +123,7 @@ class ApplicationContainer extends Component {
           dispatch(updateCurrentAccount(accountData));
           // If in dev mode pin code does not show
           // eslint-disable-next-line
-          if (__DEV__ === false && !isExistUser) {
+          if (!isExistUser || !pinCode) {
             dispatch(openPinCodeModal());
           }
           this._connectNotificationServer(accountData.name);
@@ -254,6 +254,7 @@ const mapStateToProps = state => ({
   unreadActivityCount: state.account.currentAccount.unread_activity_count,
   currentAccountUsername: state.account.currentAccount.name,
   otherAccounts: state.account.otherAccounts,
+  pinCode: state.account.pin,
 });
 
 export default connect(mapStateToProps)(ApplicationContainer);

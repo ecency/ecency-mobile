@@ -173,14 +173,13 @@ class PinCodeContainer extends Component {
       .then((res) => {
         setWrappedComponentState(res);
         this._savePinCode(pin);
-        dispatch(closePinCodeModal());
 
         const realmData = getUserDataWithUsername(currentAccount.name);
         const _currentAccount = currentAccount;
         _currentAccount.username = _currentAccount.name;
         [_currentAccount.local] = realmData;
         dispatch(updateCurrentAccount({ ..._currentAccount }));
-
+        dispatch(closePinCodeModal());
         if (navigateTo) {
           navigation.navigate(navigateTo);
         }
@@ -199,17 +198,28 @@ class PinCodeContainer extends Component {
 
   _setPinCode = async (pin, isReset) => {
     const {
-      intl,
+      intl, currentAccount,
     } = this.props;
     const {
       isExistUser, pinCode,
     } = this.state;
+
+    const realmData = getUserDataWithUsername(currentAccount.name);
+    const userData = realmData[0];
     // For exist users
-    if (isReset) return this._resetPinCode(pin);
-    if (isExistUser) return this._verifyPinCode(pin);
+    if (isReset) { await this._resetPinCode(pin); return true; }
+    if (isExistUser) {
+      if (!userData.accessToken && !userData.masterKey) {
+        await this._setFirstPinCode(pin);
+      } else {
+        await this._verifyPinCode(pin);
+      }
+
+      return true;
+    }
 
     // For new users
-    if (pinCode === pin) return this._setFirstPinCode(pin);
+    if (pinCode === pin) { await this._setFirstPinCode(pin); return true; }
 
     if (!pinCode) {
       // If the user is logging in for the first time, the user should set to pin
