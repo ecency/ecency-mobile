@@ -22,8 +22,8 @@ export default EStyleSheet.create({
     width: '$deviceWidth - 24',
     flexDirection: 'row',
     justifyContent: 'space-between',
-    marginBottom: 17,
-    marginTop: 10,
+    marginVertical: 10,
+    height: 30,
   },
   leftIcons: {
     flexDirection: 'row',
@@ -35,10 +35,10 @@ export default EStyleSheet.create({
     justifyContent: 'flex-end',
   },
   insetIconStyle: {
-    marginRight: 12,
+    marginRight: 20,
   },
   activityIndicator: {
-    marginRight: 12,
+    marginRight: 20,
     width: 30,
   },
   followCountWrapper: {

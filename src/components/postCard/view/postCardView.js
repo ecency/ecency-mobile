@@ -5,6 +5,9 @@ import { PostHeaderDescription } from '../../postElements';
 import { PostDropdown } from '../../postDropdown';
 import { Icon } from '../../icon';
 
+// Utils
+import { makeCountFriendly } from '../../../utils/formatter';
+
 // STEEM
 import { Upvote } from '../../upvote';
 // Styles
@@ -59,6 +62,9 @@ class PostCard extends Component {
     const _image = content && content.image
       ? { uri: content.image, priority: FastImage.priority.high }
       : DEFAULT_IMAGE;
+    const reblogedBy = content.reblogged_by && content.reblogged_by[0];
+    // repeat icon
+    // text rebloged by ${reblogedBy}
 
     return (
       <View style={styles.post}>
@@ -72,6 +78,7 @@ class PostCard extends Component {
             reputation={content.author_reputation}
             size={32}
             tag={content.category}
+            reblogedBy={reblogedBy}
           />
           <View style={styles.dropdownWrapper}>
             <PostDropdown content={content} />
@@ -103,12 +110,12 @@ class PostCard extends Component {
                 iconType="MaterialIcons"
                 name="people"
               />
-              <Text style={styles.comment}>{content.vote_count}</Text>
+              <Text style={styles.comment}>{makeCountFriendly(content.vote_count)}</Text>
             </TouchableOpacity>
           </View>
           <TouchableOpacity style={styles.commentButton}>
             <Icon style={[styles.commentIcon]} iconType="MaterialIcons" name="comment" />
-            <Text style={styles.comment}>{content.children}</Text>
+            <Text style={styles.comment}>{makeCountFriendly(content.children)}</Text>
           </TouchableOpacity>
         </View>
       </View>
