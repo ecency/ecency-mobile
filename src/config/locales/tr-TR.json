@@ -1,13 +1,16 @@
 {
   "wallet": {
-    "curation_reward": "Curation Reward",
     "author_reward": "Author Reward",
-    "comment_benefactor_reward": "Comment Benefactor Reward",
+    "claim_reward_balance_ok": "Reward balance claimed",
     "claim_reward_balance": "Claim Reward Balance",
-    "transfer": "Transfer",
+    "comment_benefactor_reward": "Comment Benefactor Reward",
+    "curation_reward": "Curation Reward",
+    "fill_order": "Fill Order",
+    "transactions": "Transactions",
+    "transfer_from_savings": "Tasarruflardan Transfer",
     "transfer_to_vesting": "Transfer To Vesting",
-    "withdraw_vesting": "withdraw_vesting",
-    "fill_order": "Fill Order"
+    "transfer": "Transfer",
+    "withdraw_vesting": "Withdraw Vesting"
   },
   "notification": {
     "vote": "beğendi",

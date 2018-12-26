@@ -17,6 +17,7 @@ import DARK_COVER_IMAGE from '../../../assets/dark_cover_image.png';
 import { TextWithIcon } from '../../basicUIElements';
 import { PercentBar } from '../../percentBar';
 import { IconButton } from '../../iconButton';
+import { DropdownButton } from '../../dropdownButton';
 
 // Utils
 import { makeCountFriendly } from '../../../utils/formatter';
@@ -46,6 +47,16 @@ class ProfileSummaryView extends PureComponent {
     Linking.openURL(url);
   };
 
+  _handleOnDropdownSelect = (index) => {
+    const { isMuted, handleMuteUnmuteUser } = this.props;
+
+    // This funciton should have switch case but now only has one option therefor
+    // temporarily I created with if statments
+    if (index === '0' && handleMuteUnmuteUser) {
+      handleMuteUnmuteUser(!isMuted);
+    }
+  };
+
   render() {
     const { isShowPercentText } = this.state;
     const {
@@ -54,8 +65,8 @@ class ProfileSummaryView extends PureComponent {
       followerCount,
       followingCount,
       handleFollowUnfollowUser,
-      handleMuteUnmuteUser,
       handleOnFollowsPress,
+      handleUIChange,
       hoursRC,
       hoursVP,
       intl,
@@ -69,9 +80,8 @@ class ProfileSummaryView extends PureComponent {
       location,
       percentRC,
       percentVP,
-      handleUIChange,
     } = this.props;
-
+    const dropdownOpions = [];
     const votingPowerHoursText = hoursVP && `• Full in ${hoursVP} hours`;
     const votingPowerText = `Voting power: ${percentVP}% ${votingPowerHoursText || ''}`;
     const rcPowerHoursText = hoursRC && `• Full in ${hoursRC} hours`;
@@ -81,8 +91,9 @@ class ProfileSummaryView extends PureComponent {
     const isColumn = rowLength && DEVICE_WIDTH / rowLength <= 7.3;
 
     const followButtonIcon = !isFollowing ? 'account-plus' : 'account-minus';
-    const ignoreButtonIcon = !isMuted ? 'ban' : 'minus';
     const coverImageUrl = `http://img.esteem.app/400x0/${coverImage}`;
+
+    dropdownOpions.push(!isMuted ? 'MUTE' : 'UNMUTE');
 
     return (
       <Fragment>
@@ -183,21 +194,20 @@ class ProfileSummaryView extends PureComponent {
                       iconType="MaterialCommunityIcons"
                       onPress={() => handleFollowUnfollowUser(!isFollowing)}
                       size={20}
-                      style={styles.insetIconStyle}
                       color="#c1c5c7"
                     />
                   )}
                   {isProfileLoading ? (
                     <ActivityIndicator style={styles.activityIndicator} />
                   ) : (
-                    <IconButton
-                      backgroundColor="transparent"
-                      name={ignoreButtonIcon}
-                      iconType="SimpleLineIcons"
-                      onPress={() => handleMuteUnmuteUser(!isMuted)}
-                      size={16}
-                      style={styles.insetIconStyle}
-                      color="#c1c5c7"
+                    <DropdownButton
+                      isHasChildIcon
+                      iconName="more-vert"
+                      options={dropdownOpions}
+                      onSelect={this._handleOnDropdownSelect}
+                      noHighlight
+                      iconStyle={styles.dropdownIconStyle}
+                      dropdownStyle={styles.dropdownStyle}
                     />
                   )}
                 </Fragment>
