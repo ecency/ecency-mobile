@@ -80,21 +80,17 @@ export const login = async (username, password) => {
 };
 
 export const loginWithSC2 = async (accessToken) => {
-  console.log('accessToken :', accessToken);
   await steemConnect.setAccessToken(accessToken);
   const account = await steemConnect.me();
-  console.log('account :', account);
   let avatar = '';
+
   return new Promise((resolve, reject) => {
     try {
       const jsonMetadata = JSON.parse(account.account.json_metadata);
-      console.log('jsonMetadata :', jsonMetadata);
       if (Object.keys(jsonMetadata).length !== 0) {
         avatar = jsonMetadata.profile.profile_image || '';
       }
-      console.log('avatar :', avatar);
     } catch (error) {
-      console.log('error :', error);
       reject(new Error('Invalid credentials, please check and try again'));
     }
     const userData = {
@@ -107,7 +103,6 @@ export const loginWithSC2 = async (accessToken) => {
       memoKey: '',
       accessToken: '',
     };
-    console.log('userData :', userData);
 
     if (isLoggedInUser(account.account.name)) {
       reject(new Error('You are already logged in, please try to add another account'));
@@ -115,7 +110,6 @@ export const loginWithSC2 = async (accessToken) => {
 
     setUserData(userData)
       .then(() => {
-        console.log('userData 1 :', userData);
         account.account.username = account.account.name;
         updateCurrentUsername(account.account.name);
         resolve({ ...account.account, accessToken });
@@ -127,7 +121,6 @@ export const loginWithSC2 = async (accessToken) => {
 };
 
 export const setUserDataWithPinCode = async (data) => {
-  console.log('data :', data);
   const result = getUserDataWithUsername(data.username);
   const userData = result[0];
 
@@ -187,30 +180,20 @@ export const updatePinCode = async (data) => {
 };
 
 export const verifyPinCode = async (data) => {
-  console.log('data :', data);
   const result = getUserDataWithUsername(data.username);
   const userData = result[0];
   let account = null;
   let loginFlag = false;
-  console.log('userData :', userData);
   if (result.length > 0) {
     if (userData.authType === 'steemConnect') {
-      console.log('userData.accessToken, data.pinCode :', userData.accessToken, data.pinCode);
       let accessToken;
       try {
         accessToken = decryptKey(userData.accessToken, data.pinCode);
       } catch (error) {
         return Promise.reject(new Error('Invalid pin code, please check and try again'));
       }
-      console.log('accessToken :', accessToken);
       await steemConnect.setAccessToken(accessToken);
-      console.log('1');
-      try {
-        account = await steemConnect.me();
-      } catch (error) {
-        console.log('error :', error);
-      }
-      console.log('account :', account);
+      account = await steemConnect.me();
       if (account) {
         loginFlag = true;
       }
@@ -235,7 +218,6 @@ export const verifyPinCode = async (data) => {
       });
     }
   }
-  console.log('loginFlag :', loginFlag);
   if (loginFlag) {
     const authData = {
       isLoggedIn: true,
@@ -249,7 +231,6 @@ export const verifyPinCode = async (data) => {
       memoKey: decryptKey(userData.memoKey, data.pinCode),
     };
     await setAuthStatus(authData);
-    console.log('response :', response);
     return (response);
   }
   return Promise.reject(new Error('Invalid pin code, please check and try again'));
