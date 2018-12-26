@@ -43,6 +43,8 @@ class ProfileSummaryView extends PureComponent {
     Linking.openURL(url);
   };
 
+  // _getFollowCount = ()
+
   render() {
     const { isShowPercentText } = this.state;
     const {
@@ -109,7 +111,7 @@ class ProfileSummaryView extends PureComponent {
         <TouchableOpacity
           onPress={() =>
             this.setState({ isShowPercentText: !isShowPercentText }, () => {
-              handleUIChange(isShowPercentText ? 0 : 30);
+              handleUIChange(!isShowPercentText ? 30 : 0);
             })
           }
         >
