@@ -36,6 +36,7 @@ export default EStyleSheet.create({
   },
   insetIconStyle: {
     marginRight: 20,
+    color: '$primaryDarkText',
   },
   activityIndicator: {
     marginRight: 20,
@@ -58,6 +59,13 @@ export default EStyleSheet.create({
   },
   // TODO: look at here
   dropdownIconStyle: {
-    marginBottom: 7,
+    width: 25,
+    height: 25,
+    left: -5,
+    marginBottom: 3,
+    color: '#c1c5c7',
+  },
+  dropdownStyle: {
+    maxWidth: 150,
   },
 });
