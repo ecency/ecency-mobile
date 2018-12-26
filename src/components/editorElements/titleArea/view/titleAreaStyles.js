@@ -6,5 +6,7 @@ export default EStyleSheet.create({
     fontWeight: 'bold',
     fontSize: 24,
     fontFamily: '$editorFont',
+    textAlignVertical: 'top',
+    paddingVertical: 0,
   },
 });

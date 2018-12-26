@@ -24,6 +24,7 @@ export default {
   $bubblesBlue: '#5CCDFF',
   $borderTopColor: '#757575',
   $iconColor: '#788187',
+  $darkIconColor: '#526d91',
   $dangerColor: '#fff',
   $warningColor: '#fff',
   $successColor: '#fff',

@@ -23,7 +23,13 @@ class PostCardContainer extends PureComponent {
     };
   }
 
-  _handleOnUserPress = (username) => {
+  componentWillReceiveProps(nextProps) {
+    if (nextProps.isRefresh) {
+      this._fetchPost();
+    }
+  }
+
+  _handleOnUserPress = () => {
     const { navigation, currentAccount, content } = this.props;
     if (content && currentAccount.name !== content.author) {
       navigation.navigate({
@@ -32,7 +38,7 @@ class PostCardContainer extends PureComponent {
           username: content.author,
           reputation: content.author_reputation,
         },
-        key: username,
+        key: content.author,
       });
     }
   };

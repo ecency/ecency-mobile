@@ -1,5 +1,7 @@
 import React, { Component, Fragment } from 'react';
-import { FlatList, View, ActivityIndicator } from 'react-native';
+import {
+  FlatList, View, ActivityIndicator, RefreshControl,
+} from 'react-native';
 import { injectIntl } from 'react-intl';
 import { withNavigation } from 'react-navigation';
 
@@ -30,6 +32,15 @@ class PostsView extends Component {
       selectedFilterIndex: 0,
       isNoPost: false,
     };
+  }
+
+  // Component Functions
+  componentWillMount() {
+    const { navigation } = this.props;
+
+    navigation.setParams({
+      scrollToTop: this._scrollToTop,
+    });
   }
 
   componentDidMount() {
@@ -63,14 +74,22 @@ class PostsView extends Component {
     }
   }
 
-  _loadPosts = (filter = null) => {
+  _scrollToTop = () => {
+    if (this.flatList) this.flatList.scrollToOffset({ x: 0, y: 0, animated: true });
+  };
+
+  _loadPosts = () => {
     const { getFor, tag, currentAccountUsername } = this.props;
-    const { posts, startAuthor, startPermlink } = this.state;
+    const {
+      posts, startAuthor, startPermlink, refreshing, selectedFilterIndex,
+    } = this.state;
+    const filter = selectedFilterIndex !== 0 ? filters[selectedFilterIndex] : getFor;
     let options;
+    let newPosts = [];
 
     this.setState({ isLoading: true });
 
-    if (!filter && tag) {
+    if ((!filter && tag) || filter === 'feed' || getFor === 'blog') {
       options = {
         tag,
         limit: 3,
@@ -81,25 +100,40 @@ class PostsView extends Component {
       };
     }
 
-    if (startAuthor && startPermlink) {
+    if (startAuthor && startPermlink && !refreshing) {
       options.start_author = startAuthor;
       options.start_permlink = startPermlink;
     }
 
-    getPostsSummary(filter || getFor, options, currentAccountUsername)
+    getPostsSummary(filter, options, currentAccountUsername)
       .then((result) => {
         if (result.length > 0) {
           let _posts = result;
 
           if (_posts.length > 0) {
             if (posts.length > 0) {
-              _posts.shift();
-              _posts = [...posts, ..._posts];
+              if (refreshing) {
+                newPosts = _posts.filter(post => posts.includes(post));
+                _posts = [...newPosts, ...posts];
+              } else {
+                _posts.shift();
+                _posts = [...posts, ..._posts];
+              }
             }
+
+            if (refreshing && newPosts.length > 0) {
+              this.setState({
+                posts: _posts,
+              });
+            } else if (!refreshing) {
+              this.setState({
+                posts: _posts,
+                startAuthor: result[result.length - 1] && result[result.length - 1].author,
+                startPermlink: result[result.length - 1] && result[result.length - 1].permlink,
+              });
+            }
+
             this.setState({
-              posts: _posts,
-              startAuthor: result[result.length - 1] && result[result.length - 1].author,
-              startPermlink: result[result.length - 1] && result[result.length - 1].permlink,
               refreshing: false,
               isPostsLoading: false,
             });
@@ -140,12 +174,16 @@ class PostsView extends Component {
     return null;
   };
 
-  _handleOnDropdownSelect = (index) => {
-    this.setState({
+  _handleOnDropdownSelect = async (index) => {
+    await this.setState({
       isPostsLoading: true,
       selectedFilterIndex: index,
+      posts: [],
+      startAuthor: '',
+      startPermlink: '',
+      isNoPost: false,
     });
-    this._loadPosts(filters[index]);
+    this._loadPosts();
   };
 
   _onRightIconPress = () => {
@@ -155,8 +193,10 @@ class PostsView extends Component {
   };
 
   _handleOnScrollStart = () => {
-    const { handleOnScrollStart } = this.props;
+    const { handleOnScrollStart, handleOnScroll } = this.props;
     handleOnScrollStart();
+
+    if (handleOnScroll) handleOnScroll();
   };
 
   _handleOnPressLogin = () => {
@@ -174,7 +214,13 @@ class PostsView extends Component {
       isNoPost,
     } = this.state;
     const {
-      filterOptions, intl, isLoggedIn, getFor, isLoginDone, tag,
+      filterOptions,
+      intl,
+      isLoggedIn,
+      getFor,
+      isLoginDone,
+      tag,
+      isDarkTheme,
     } = this.props;
 
     return (
@@ -197,6 +243,7 @@ class PostsView extends Component {
             && !isLoggedIn
             && isLoginDone && (
               <NoPost
+                imageStyle={styles.noImage}
                 isButtonText
                 defaultText={intl.formatMessage({
                   id: 'profile.login_to_see',
@@ -206,11 +253,13 @@ class PostsView extends Component {
           )}
         </Fragment>
 
-        {posts && posts.length > 0 && !isPostsLoading ? (
+        {posts && posts.length > 0 && !isPostsLoading && (
           <FlatList
             data={posts}
             showsVerticalScrollIndicator={false}
-            renderItem={({ item }) => <PostCard content={item} isHideImage={isHideImage} />}
+            renderItem={({ item }) => (
+              <PostCard isRefresh={refreshing} content={item} isHideImage={isHideImage} />
+            )}
             keyExtractor={(post, index) => index.toString()}
             onEndReached={() => this._loadPosts()}
             removeClippedSubviews
@@ -220,9 +269,25 @@ class PostsView extends Component {
             initialNumToRender={10}
             ListFooterComponent={this._renderFooter}
             onScrollBeginDrag={() => this._handleOnScrollStart()}
+            refreshControl={(
+              <RefreshControl
+                refreshing={refreshing}
+                onRefresh={this._handleOnRefreshPosts}
+                progressBackgroundColor="#357CE6"
+                tintColor={!isDarkTheme ? '#357ce6' : '#96c0ff'}
+                titleColor="#fff"
+                colors={['#fff']}
+              />
+)}
+            ref={(ref) => {
+              this.flatList = ref;
+            }}
           />
-        ) : isNoPost ? (
+        )}
+
+        {isNoPost ? (
           <NoPost
+            imageStyle={styles.noImage}
             name={tag}
             text={intl.formatMessage({
               id: 'profile.havent_posted',

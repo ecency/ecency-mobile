@@ -13,17 +13,17 @@ import { getFollowers, getFollowing, getFollowSearch } from '../../../providers/
 import FollowsScreen from '../screen/followsScreen';
 
 /*
-  *            Props Name        Description                                     Value
-  *@props -->  props name here   description here                                Value Type Here
-  *
-  */
+ *            Props Name        Description                                     Value
+ *@props -->  props name here   description here                                Value Type Here
+ *
+ */
 
 class FollowsContainer extends Component {
   constructor(props) {
     super(props);
     this.state = {
       username: null,
-      users: [],
+      users: null,
       count: null,
       isFollowingPress: null,
       startWith: '',
@@ -44,7 +44,7 @@ class FollowsContainer extends Component {
         isFollowingPress,
       });
 
-      await this._loadFollows(username, isFollowingPress);
+      this._loadFollows(username, isFollowingPress);
     }
   }
 
@@ -56,7 +56,7 @@ class FollowsContainer extends Component {
       username, users, isFollowingPress, startWith, count,
     } = this.state;
 
-    if (users && count === users.length + 1) return;
+    if ((users && count < 100) || (users && count === users.length + 1)) return;
 
     const name = username || _username;
     const isFollowing = isFollowingPress || _isFollowingPress;
@@ -66,16 +66,16 @@ class FollowsContainer extends Component {
     if (!isFollowing) {
       await getFollowers(name, startWith).then((result) => {
         _users = result;
-        _startWith = users && users[users.length - 1] && users[users.length - 1].follower;
+        _startWith = result && result[result.length - 1] && result[result.length - 1].follower;
       });
     } else {
       await getFollowing(name, startWith).then((result) => {
         _users = result;
-        _startWith = users && users[users.length - 1] && users[users.length - 1].following;
+        _startWith = result && result[result.length - 1] && result[result.length - 1].following;
       });
     }
 
-    !_username && _users.shift();
+    if (!_username) _users.shift();
 
     this.setState({
       users: !_username ? [...users, ..._users] : _users,
@@ -99,7 +99,10 @@ class FollowsContainer extends Component {
       newData = await getFollowSearch(username, text);
     }
 
-    this.setState({ filterResult: newData });
+    this.setState({
+      filterResult: newData,
+      isLoading: false,
+    });
   };
 
   _handleOnUserPress = (username) => {
@@ -133,7 +136,6 @@ class FollowsContainer extends Component {
         isLoading={isLoading}
         handleSearch={this._handleSearch}
         handleOnUserPress={this._handleOnUserPress}
-        {...this.props}
       />
     );
   }

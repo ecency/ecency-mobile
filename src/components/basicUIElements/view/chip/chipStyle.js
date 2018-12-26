@@ -9,6 +9,7 @@ export default EStyleSheet.create({
     height: 20,
     padding: 5,
     paddingHorizontal: 10,
+    minWidth: 50,
     marginRight: 8,
     fontFamily: '$editorFont',
   },

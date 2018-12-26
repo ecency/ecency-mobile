@@ -248,7 +248,9 @@ export const getPosts = async (by, query, user) => {
   try {
     let posts = await client.database.getDiscussions(by, query);
 
-    posts = await parsePosts(posts, user);
+    if (posts) {
+      posts = await parsePosts(posts, user);
+    }
     return posts;
   } catch (error) {
     return error;
@@ -260,8 +262,9 @@ export const getActiveVotes = (author, permlink) => client.database.call('get_ac
 export const getPostsSummary = async (by, query, currentUserName) => {
   try {
     let posts = await client.database.getDiscussions(by, query);
+
     if (posts) {
-      posts = await parsePosts(posts, currentUserName);
+      posts = await parsePosts(posts, currentUserName, true);
     }
     return posts;
   } catch (error) {

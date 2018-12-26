@@ -1,6 +1,6 @@
 import React, { Component, Fragment } from 'react';
 import { connect } from 'react-redux';
-
+import { withNavigation } from 'react-navigation';
 
 // Utilitites
 import {
@@ -37,7 +37,7 @@ class ProfileContainer extends Component {
   }
 
   componentDidMount = () => {
-    const { navigation, isLoggedIn, currentAccount } = this.props;
+    const { navigation, isLoggedIn } = this.props;
     const selectedUser = navigation.state && navigation.state.params;
 
     if (!isLoggedIn && !selectedUser) {
@@ -58,23 +58,33 @@ class ProfileContainer extends Component {
       }
 
       this.setState({ isReverseHeader: true });
-    } else {
-      this._loadProfile(currentAccount.name);
     }
   };
 
   componentWillReceiveProps(nextProps) {
-    const { navigation, currentAccount } = this.props;
+    const {
+      navigation, currentAccount, activeBottomTab, isLoggedIn,
+    } = this.props;
     const currentUsername = currentAccount.name
       !== nextProps.currentAccount.name
       && nextProps.currentAccount.name;
     const isParamsChange = nextProps.navigation.state
       && navigation.state
       && nextProps.navigation.state.params
+      && nextProps.navigation.state.params.username
       && nextProps.navigation.state.params.username !== navigation.state.params.username;
+
+    if (isLoggedIn && !nextProps.isLoggedIn) {
+      navigation.navigate(ROUTES.SCREENS.LOGIN);
+      return;
+    }
 
     if (currentUsername) {
       this._loadProfile(currentUsername);
+    }
+
+    if (activeBottomTab !== nextProps.activeBottomTab && nextProps.activeBottomTab === 'ProfileTabbar') {
+      this._loadProfile(currentAccount.name);
     }
 
     if (isParamsChange) {
@@ -299,6 +309,7 @@ const mapStateToProps = state => ({
   currentAccount: state.account.currentAccount,
   pinCode: state.account.pin,
   isDarkTheme: state.application.isDarkTheme,
+  activeBottomTab: state.ui.activeBottomTab,
 });
 
-export default connect(mapStateToProps)(ProfileContainer);
+export default connect(mapStateToProps)(withNavigation(ProfileContainer));

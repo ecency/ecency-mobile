@@ -16,10 +16,6 @@ class HomeContainer extends PureComponent {
     this.state = {};
   }
 
-  // Component Life Cycle Functions
-
-  // Component Functions
-
   render() {
     const { isLoggedIn, isLoginDone, currentAccount } = this.props;
 
@@ -36,7 +32,6 @@ class HomeContainer extends PureComponent {
 const mapStateToProps = state => ({
   isLoggedIn: state.application.isLoggedIn,
   isLoginDone: state.application.isLoginDone,
-
   currentAccount: state.account.currentAccount,
 });
 
