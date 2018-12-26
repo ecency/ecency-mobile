@@ -1,5 +1,5 @@
-import React, { Component } from 'react';
-import { TouchableWithoutFeedback, TouchableOpacity, SafeAreaView } from 'react-native';
+import React, { PureComponent } from 'react';
+import { TouchableOpacity, SafeAreaView } from 'react-native';
 import { connect } from 'react-redux';
 import ViewOverflow from 'react-native-view-overflow';
 
@@ -7,13 +7,14 @@ import ViewOverflow from 'react-native-view-overflow';
 import { updateActiveBottomTab } from '../../../redux/actions/uiAction';
 
 // Constants
+import ROUTES from '../../../constants/routeNames';
 
 // Components
 
 // Styles
 import styles from './bottomTabBarStyles';
 
-class BottomTabBarView extends Component {
+class BottomTabBarView extends PureComponent {
   /* Props
    * ------------------------------------------------
    *   @prop { type }    name                - Description....
@@ -37,6 +38,27 @@ class BottomTabBarView extends Component {
   }
 
   // Component Functions
+  _jumpTo = (route) => {
+    const {
+      jumpTo,
+      navigation: {
+        state: { index, routes },
+      },
+    } = this.props;
+
+    const _routeName = routes[index].routeName;
+
+    if (
+      !!route
+      && !!route.params
+      && !!route.params.scrollToTop
+      && _routeName === ROUTES.TABBAR.HOME
+    ) {
+      route.params.scrollToTop();
+    }
+
+    jumpTo(route.key);
+  };
 
   render() {
     const {
@@ -46,7 +68,6 @@ class BottomTabBarView extends Component {
       activeTintColor,
       inactiveTintColor,
       renderIcon,
-      jumpTo,
     } = this.props;
 
     return (
@@ -60,7 +81,7 @@ class BottomTabBarView extends Component {
                 alignItems: 'center',
               }}
             >
-              <TouchableOpacity onPress={() => jumpTo(route.key)}>
+              <TouchableOpacity onPress={() => this._jumpTo(route)}>
                 {renderIcon({
                   route,
                   focused: index === idx,

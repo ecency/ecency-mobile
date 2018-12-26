@@ -10,7 +10,7 @@
     "fill_order": "Fill Order"
   },
   "notification": {
-    "vote": "voted to your post",
+    "vote": "likes your post",
     "unvote": "unvoted your post",
     "reply": "replied to your post",
     "mention": "mentioned you",

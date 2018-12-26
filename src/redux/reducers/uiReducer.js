@@ -1,7 +1,7 @@
 import { UPDATE_ACTIVE_BOTTOM_TAB, IS_COLLAPSE_POST_BUTTON } from '../constants/constants';
 
 const initialState = {
-  activeBottomTab: 'Home',
+  activeBottomTab: 'HomeTabbar',
   isCollapsePostButton: false,
 };
 

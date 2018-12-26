@@ -103,7 +103,7 @@ export default class TagAreaView extends Component {
           {chips.map((chip, i) => (
             <Chip
               key={i}
-              refs={(input) => {
+              ref={(input) => {
                 this.inputs[i] = input;
               }}
               isPin={i === 0 && chips[1]}
