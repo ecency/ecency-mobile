@@ -16,7 +16,7 @@ import { getExistUser, setExistUser, getUserDataWithUsername } from '../../../re
 import { updateCurrentAccount, setPinCode as savePinCode } from '../../../redux/actions/accountAction';
 
 // Utils
-import { encryptKey } from '../../../utils/crypto';
+import { encryptKey, decryptKey } from '../../../utils/crypto';
 
 // Component
 import PinCodeScreen from '../screen/pinCodeScreen';
@@ -198,7 +198,7 @@ class PinCodeContainer extends Component {
 
   _setPinCode = async (pin, isReset) => {
     const {
-      intl, currentAccount,
+      intl, currentAccount, applicationPinCode,
     } = this.props;
     const {
       isExistUser, pinCode,
@@ -206,15 +206,20 @@ class PinCodeContainer extends Component {
 
     const realmData = getUserDataWithUsername(currentAccount.name);
     const userData = realmData[0];
+
     // For exist users
     if (isReset) { await this._resetPinCode(pin); return true; }
     if (isExistUser) {
-      if (!userData.accessToken && !userData.masterKey) {
-        await this._setFirstPinCode(pin);
+      if (!userData.accessToken && !userData.masterKey && applicationPinCode) {
+        const verifiedPin = decryptKey(applicationPinCode, Config.PIN_KEY);
+        if (verifiedPin === pin) {
+          await this._setFirstPinCode(pin);
+        } else {
+          Alert.alert('Warning', 'Invalid pin code, please check and try again');
+        }
       } else {
         await this._verifyPinCode(pin);
       }
-
       return true;
     }
 
@@ -266,6 +271,7 @@ class PinCodeContainer extends Component {
 
 const mapStateToProps = state => ({
   currentAccount: state.account.currentAccount,
+  applicationPinCode: state.account.pin,
 });
 
 export default injectIntl(connect(mapStateToProps)(PinCodeContainer));
