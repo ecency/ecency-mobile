@@ -89,9 +89,6 @@ class ProfileContainer extends Component {
       this._loadProfile(selectedUser && selectedUser.username);
     }
 
-  
-
-
   }
 
   _getReplies = async (user) => {

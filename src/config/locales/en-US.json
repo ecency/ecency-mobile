@@ -6,6 +6,7 @@
     "claim_reward_balance": "Claim Reward Balance",
     "transfer": "Transfer",
     "transfer_to_vesting": "Transfer To Vesting",
+    "transfer_from_savings": "Transfer From Savings",
     "withdraw_vesting": "Power Down",
     "fill_order": "Fill Order"
   },
