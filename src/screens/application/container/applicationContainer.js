@@ -91,38 +91,39 @@ class ApplicationContainer extends Component {
   };
 
   _getUserData = async () => {
-    const { dispatch } = this.props;
+    const { dispatch, pinCode } = this.props;
     let realmData;
-    let authStatus;
     let currentUsername;
 
     await getAuthStatus().then((res) => {
-      authStatus = res;
-      currentUsername = res.currentUsername;
-      getUserData().then((userData) => {
-        if (userData.length > 0) {
-          realmData = userData;
+      ({ currentUsername } = res);
+      if (res) {
+        getUserData().then((userData) => {
+          if (userData.length > 0) {
+            realmData = userData;
 
-          userData.forEach((accountData) => {
-            dispatch(
-              addOtherAccount({ username: accountData.username }),
-            );
-          });
-        }
-      });
+            userData.forEach((accountData) => {
+              dispatch(addOtherAccount({ username: accountData.username }));
+            });
+          }
+        });
+      }
     });
 
     if (realmData) {
       await getUser(currentUsername)
-        .then((accountData) => {
+        .then(async (accountData) => {
           dispatch(login(true));
 
+          const isExistUser = await getExistUser();
+
           const realmObject = realmData.filter(data => data.username === currentUsername);
-          accountData.local = realmObject[0];
+          [accountData.local] = realmObject;
 
           dispatch(updateCurrentAccount(accountData));
           // If in dev mode pin code does not show
-          if (__DEV__ === false) {
+          // eslint-disable-next-line
+          if (!isExistUser || !pinCode) {
             dispatch(openPinCodeModal());
           }
           this._connectNotificationServer(accountData.name);
@@ -142,12 +143,12 @@ class ApplicationContainer extends Component {
 
     getSettings().then((response) => {
       if (response) {
-        response.isDarkTheme && dispatch(isDarkTheme(response.isDarkTheme));
-        response.language && dispatch(setLanguage(response.language));
-        response.currency && dispatch(setCurrency(response.currency));
-        response.notification && dispatch(isNotificationOpen(response.notification));
-        response.server && dispatch(setApi(response.server));
-        response.upvotePercent && dispatch(setUpvotePercent(Number(response.upvotePercent)));
+        if (response.isDarkTheme) dispatch(isDarkTheme(response.isDarkTheme));
+        if (response.language) dispatch(setLanguage(response.language));
+        if (response.currency) dispatch(setCurrency(response.currency));
+        if (response.notification) dispatch(isNotificationOpen(response.notification));
+        if (response.server) dispatch(setApi(response.server));
+        if (response.upvotePercent) dispatch(setUpvotePercent(Number(response.upvotePercent)));
 
         this.setState({ isReady: true });
       }
@@ -158,7 +159,7 @@ class ApplicationContainer extends Component {
     const { dispatch, unreadActivityCount } = this.props;
     const ws = new WebSocket(`${Config.ACTIVITY_WEBSOCKET_URL}?user=${username}`);
 
-    ws.onmessage = (e) => {
+    ws.onmessage = () => {
       // a message was received
       dispatch(updateUnreadActivityCount(unreadActivityCount + 1));
     };
@@ -188,9 +189,7 @@ class ApplicationContainer extends Component {
   };
 
   _logout = () => {
-    const {
-      otherAccounts, currentAccountUsername, dispatch,
-    } = this.props;
+    const { otherAccounts, currentAccountUsername, dispatch } = this.props;
 
     removeUserData(currentAccountUsername)
       .then(() => {
@@ -210,8 +209,7 @@ class ApplicationContainer extends Component {
         dispatch(removeOtherAccount(currentAccountUsername));
         dispatch(logoutDone());
       })
-      .catch((err) => {
-        alert('err');
+      .catch(() => {
       });
   };
 
@@ -222,11 +220,11 @@ class ApplicationContainer extends Component {
       const realmData = getUserDataWithUsername(targetAccountUsername);
       const _currentAccount = accountData;
       _currentAccount.username = accountData.name;
-      _currentAccount.local = realmData[0];
+      [_currentAccount.local] = realmData;
 
       dispatch(updateCurrentAccount(_currentAccount));
     });
-  }
+  };
 
   render() {
     const { selectedLanguage } = this.props;
@@ -256,6 +254,7 @@ const mapStateToProps = state => ({
   unreadActivityCount: state.account.currentAccount.unread_activity_count,
   currentAccountUsername: state.account.currentAccount.name,
   otherAccounts: state.account.otherAccounts,
+  pinCode: state.account.pin,
 });
 
 export default connect(mapStateToProps)(ApplicationContainer);
