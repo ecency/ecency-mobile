@@ -22,8 +22,8 @@ export default EStyleSheet.create({
     width: '$deviceWidth - 24',
     flexDirection: 'row',
     justifyContent: 'space-between',
-    marginBottom: 17,
-    marginTop: 10,
+    marginVertical: 10,
+    height: 30,
   },
   leftIcons: {
     flexDirection: 'row',
@@ -35,10 +35,11 @@ export default EStyleSheet.create({
     justifyContent: 'flex-end',
   },
   insetIconStyle: {
-    marginRight: 12,
+    marginRight: 20,
+    color: '$primaryDarkText',
   },
   activityIndicator: {
-    marginRight: 12,
+    marginRight: 20,
     width: 30,
   },
   followCountWrapper: {
@@ -58,6 +59,13 @@ export default EStyleSheet.create({
   },
   // TODO: look at here
   dropdownIconStyle: {
-    marginBottom: 7,
+    width: 25,
+    height: 25,
+    left: -5,
+    marginBottom: 3,
+    color: '#c1c5c7',
+  },
+  dropdownStyle: {
+    maxWidth: 150,
   },
 });

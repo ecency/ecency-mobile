@@ -54,7 +54,7 @@ const WalletLineItem = ({
               </Text>
             </View>
           )}
-          {description && (
+          {!!description && (
             <Text style={[styles.description, !iconName && styles.onlyText]}>{description}</Text>
           )}
         </View>
