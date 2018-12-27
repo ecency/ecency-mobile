@@ -1,7 +1,7 @@
 import Remarkable from 'remarkable';
-
+// TODO: Refactoring need!
 const md = new Remarkable({ html: true, breaks: true, linkify: true });
-const isVideo = false;
+
 const imgCenterRegex = /([<center>]http(s?):)([/|.|\w|\s|-])*\.(?:jpg|gif|png|PNG|GIF|JPG)[</center>]/g;
 const onlyImageLinkRegex = /([\n]http(s?):)([/|.|\w|\s|-])*\.(?:jpg|gif|png|PNG|GIF|JPG)/g;
 const onlyImageDoubleLinkRegex = /(\nhttps)(.*)(?=jpg|gif|png|PNG|GIF|JPG|)/g;
@@ -39,10 +39,6 @@ export const markDown2Html = (input) => {
     output = createYoutubeIframe(output);
   }
 
-  // if (dTubeRegex.test(output)) {
-  //   output = createDtubeIframe(output);
-  // }
-
   if (aTagRegex.test(output)) {
     output = handleATag(output);
   }
@@ -51,15 +47,10 @@ export const markDown2Html = (input) => {
     output = changePullRightLeft(output);
   }
 
-  // if (imgRegex.test(output)) {
-  //   output = handleImage(output);
-  // }
-
   if (imgTagRegex.test(output)) {
     output = handleImageTag(output);
   }
 
-  //imgTagRegex
   if (vimeoRegex.test(output)) {
     output = createVimeoIframe(output);
   }
@@ -84,13 +75,18 @@ export const markDown2Html = (input) => {
     output = steemitUrlHandle(output);
   }
 
+  if (linkRegex.test(output)) {
+    output = handleLinks(output);
+  }
+
+
   if (markdownImageRegex.test(output)) {
     output = changeMarkdownImage(output);
   }
 
-  // if (onlyImageDoubleLinkRegex.test(output)) {
-  //   output = createFromDoubleImageLink(output);
-  // }
+  if (onlyImageDoubleLinkRegex.test(output)) {
+    output = createFromDoubleImageLink(output);
+  }
 
   output = md.render(output);
 
@@ -131,6 +127,20 @@ const handleATag = input => input.replace(aTagRegex, (link) => {
   return link;
 });
 
+const handleLinks = input => input.replace(linkRegex, (link) => {
+  if (link) {
+    if (link.toLowerCase().trim().indexOf('https://steemitimages.com/0x0/') === 0) {
+      const imageMatch = link.match(imgRegex);
+
+      if (imageMatch && imageMatch[0]) {
+        return imageBody(imageMatch[0]);
+      }
+    }
+  }
+
+  return link;
+});
+
 const changeMarkdownImage = input => input.replace(markdownImageRegex, (link) => {
   const markdownMatch = link.match(markdownImageRegex);
   if (markdownMatch[0]) {
@@ -149,13 +159,13 @@ const createCenterImage = input => input.replace(imgCenterRegex, (link) => {
 
   _link = _link.split('>')[1];
   _link = _link.split('<')[0];
-  return `><img data-href="${`https://img.esteem.app/500x0/${_link}`}" src="${`https://img.esteem.app/500x0/${_link}`}"><`;
+  return `><img data-href="${`https://steemitimages.com/600x0/${_link}`}" src="${`https://steemitimages.com/600x0/${_link}`}"><`;
 });
 
 const changePullRightLeft = input => input.replace(pullRightLeftRegex, (item) => {
   const imageLink = item.match(linkRegex)[0];
 
-  return `<center style="text-align:center;"><img src="${`https://img.esteem.app/500x0/${imageLink}`}"/></center><br>`;
+  return `<center style="text-align:center;"><img src="${`https://steemitimages.com/600x0/${imageLink}`}"/></center><br>`;
 });
 
 const steemitUrlHandle = input => input.replace(postRegex, (link) => {
@@ -167,17 +177,13 @@ const steemitUrlHandle = input => input.replace(postRegex, (link) => {
   return `<a class="markdown-post-link" href="${permlink}" data_tag={${tag}} data_author="${author}">/${permlink}</a>`;
 });
 
-const createImage = input => input.replace(
-  onlyImageLinkRegex,
-  link => imageBody(link),
-);
+const createImage = input => input.replace(onlyImageLinkRegex, link => imageBody(link));
 
 const handleImageTag = input => input.replace(imgTagRegex, (imgTag) => {
   const _imgTag = imgTag.trim();
   const match = _imgTag.match(imgRegex);
 
   if (match && match[0]) {
-
     return imageBody(match[0]);
   }
 
@@ -228,4 +234,4 @@ const createVimeoIframe = input => input.replace(vimeoRegex, (link) => {
 });
 
 const iframeBody = link => `<iframe frameborder='0' allowfullscreen src='${link}'></iframe>`;
-const imageBody = link => `<img data-href="${`https://img.esteem.app/600x0/${link}`}" src="${`https://img.esteem.app/600x0/${link}`}">`;
+const imageBody = link => `<img data-href="${`https://steemitimages.com/600x0/${link}`}" src="${`https://steemitimages.com/600x0/${link}`}">`;
