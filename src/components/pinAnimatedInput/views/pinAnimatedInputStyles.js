@@ -9,7 +9,6 @@ export default EStyleSheet.create({
     backgroundColor: '$primaryBlue',
   },
   input: {
-    alignItems: 'center',
     justifyContent: 'center',
     height: 18,
     margin: 10,

@@ -85,7 +85,7 @@ class SettingsContainer extends Component {
   };
 
   _handleToggleChanged = (action, actionType) => {
-    const { dispatch, setPinCodeState } = this.props;
+    const { dispatch } = this.props;
 
     switch (actionType) {
       case 'notification':
@@ -97,11 +97,6 @@ class SettingsContainer extends Component {
         dispatch(isDarkTheme(action));
         setTheme(action);
         break;
-      case 'pincode':
-        // test
-        dispatch(openPinCodeModal());
-        setPinCodeState({ isReset: true });
-        break;
       default:
         break;
     }
@@ -111,8 +106,8 @@ class SettingsContainer extends Component {
     const { dispatch, setPinCodeState } = this.props;
     switch (actionType) {
       case 'pincode':
-        dispatch(openPinCodeModal());
         setPinCodeState({ isReset: true });
+        dispatch(openPinCodeModal());
         break;
       default:
         break;
