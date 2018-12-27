@@ -17,6 +17,10 @@ import DARK_COVER_IMAGE from '../../../assets/dark_cover_image.png';
 import { TextWithIcon } from '../../basicUIElements';
 import { PercentBar } from '../../percentBar';
 import { IconButton } from '../../iconButton';
+import { DropdownButton } from '../../dropdownButton';
+
+// Utils
+import { makeCountFriendly } from '../../../utils/formatter';
 
 // Styles
 import styles from './profileSummaryStyles';
@@ -43,6 +47,16 @@ class ProfileSummaryView extends PureComponent {
     Linking.openURL(url);
   };
 
+  _handleOnDropdownSelect = (index) => {
+    const { isMuted, handleMuteUnmuteUser } = this.props;
+
+    // This funciton should have switch case but now only has one option therefor
+    // temporarily I created with if statments
+    if (index === '0' && handleMuteUnmuteUser) {
+      handleMuteUnmuteUser(!isMuted);
+    }
+  };
+
   render() {
     const { isShowPercentText } = this.state;
     const {
@@ -51,8 +65,8 @@ class ProfileSummaryView extends PureComponent {
       followerCount,
       followingCount,
       handleFollowUnfollowUser,
-      handleMuteUnmuteUser,
       handleOnFollowsPress,
+      handleUIChange,
       hoursRC,
       hoursVP,
       intl,
@@ -66,40 +80,43 @@ class ProfileSummaryView extends PureComponent {
       location,
       percentRC,
       percentVP,
-      handleUIChange,
     } = this.props;
+    const dropdownOpions = [];
     const votingPowerHoursText = hoursVP && `• Full in ${hoursVP} hours`;
     const votingPowerText = `Voting power: ${percentVP}% ${votingPowerHoursText || ''}`;
     const rcPowerHoursText = hoursRC && `• Full in ${hoursRC} hours`;
     const rcPowerText = `RCs: ${percentRC}% ${rcPowerHoursText || ''}`;
 
-    /* eslint-disable */
-    const rowLength = location
-      ? location.length
-      : null + link
-      ? link.length
-      : null + date
-      ? date.length
-      : null;
+    const rowLength = (location ? location.length : 0) + (link ? link.length : 0) + (date ? date.length : 0);
+    const isColumn = rowLength && DEVICE_WIDTH / rowLength <= 7.3;
 
-    const isColumn = rowLength && DEVICE_WIDTH / rowLength <= 15;
-    const followButtonIcon = !isFollowing ? 'user-follow' : 'user-unfollow';
-    const ignoreButtonIcon = !isMuted ? 'ban' : 'minus';
+    const followButtonIcon = !isFollowing ? 'account-plus' : 'account-minus';
     const coverImageUrl = `http://img.esteem.app/400x0/${coverImage}`;
+
+    dropdownOpions.push(!isMuted ? 'MUTE' : 'UNMUTE');
 
     return (
       <Fragment>
         <View style={[isColumn ? styles.textWithIconWrapperColumn : styles.textWithIconWrapper]}>
-          {!!location && <TextWithIcon text={location} iconName="md-navigate" />}
+          {!!location && (
+            <TextWithIcon
+              text={location}
+              iconName="near-me"
+              iconType="MaterialIcons"
+              iconSize={14}
+            />
+          )}
           {!!link && (
             <TextWithIcon
               isClickable
               onPress={() => this._handleOnPressLink(link)}
               text={link}
-              iconName="md-globe"
+              iconSize={14}
+              iconName="earth"
+              iconType="MaterialCommunityIcons"
             />
           )}
-          {!!date && <TextWithIcon text={date} iconName="md-calendar" />}
+          {!!date && <TextWithIcon text={date} iconName="md-calendar" iconSize={14} />}
         </View>
         <Image
           style={styles.longImage}
@@ -107,10 +124,9 @@ class ProfileSummaryView extends PureComponent {
           defaultSource={isDarkTheme ? DARK_COVER_IMAGE : LIGHT_COVER_IMAGE}
         />
         <TouchableOpacity
-          onPress={() =>
-            this.setState({ isShowPercentText: !isShowPercentText }, () => {
-              handleUIChange(isShowPercentText ? 0 : 30);
-            })
+          onPress={() => this.setState({ isShowPercentText: !isShowPercentText }, () => {
+            handleUIChange(!isShowPercentText ? 30 : 0);
+          })
           }
         >
           <PercentBar
@@ -136,7 +152,7 @@ class ProfileSummaryView extends PureComponent {
             <Fragment>
               <TouchableOpacity onPress={() => handleOnFollowsPress(false)}>
                 <View style={styles.followCountWrapper}>
-                  <Text style={styles.followCount}>{followerCount}</Text>
+                  <Text style={styles.followCount}>{makeCountFriendly(followerCount)}</Text>
                   <Text style={styles.followText}>
                     {' '}
                     {intl.formatMessage({
@@ -147,7 +163,7 @@ class ProfileSummaryView extends PureComponent {
               </TouchableOpacity>
               <TouchableOpacity onPress={() => handleOnFollowsPress(true)}>
                 <View style={styles.followCountWrapper}>
-                  <Text style={styles.followCount}>{followingCount}</Text>
+                  <Text style={styles.followCount}>{makeCountFriendly(followingCount)}</Text>
                   <Text style={styles.followText}>
                     {intl.formatMessage({
                       id: 'profile.following',
@@ -163,9 +179,9 @@ class ProfileSummaryView extends PureComponent {
                 <Fragment>
                   <IconButton
                     backgroundColor="transparent"
-                    name="heart"
-                    iconType="SimpleLineIcons"
-                    size={16}
+                    name="favorite-border"
+                    iconType="MaterialIcons"
+                    size={20}
                     style={[styles.insetIconStyle]}
                     color="#c1c5c7"
                   />
@@ -175,24 +191,23 @@ class ProfileSummaryView extends PureComponent {
                     <IconButton
                       backgroundColor="transparent"
                       name={followButtonIcon}
-                      iconType="SimpleLineIcons"
-                      onPress={() => handleFollowUnfollowUser(isFollowing ? false : true)}
-                      size={16}
-                      style={styles.insetIconStyle}
+                      iconType="MaterialCommunityIcons"
+                      onPress={() => handleFollowUnfollowUser(!isFollowing)}
+                      size={20}
                       color="#c1c5c7"
                     />
                   )}
                   {isProfileLoading ? (
                     <ActivityIndicator style={styles.activityIndicator} />
                   ) : (
-                    <IconButton
-                      backgroundColor="transparent"
-                      name={ignoreButtonIcon}
-                      iconType="SimpleLineIcons"
-                      onPress={() => handleMuteUnmuteUser(isMuted ? false : true)}
-                      size={16}
-                      style={styles.insetIconStyle}
-                      color="#c1c5c7"
+                    <DropdownButton
+                      isHasChildIcon
+                      iconName="more-vert"
+                      options={dropdownOpions}
+                      onSelect={this._handleOnDropdownSelect}
+                      noHighlight
+                      iconStyle={styles.dropdownIconStyle}
+                      dropdownStyle={styles.dropdownStyle}
                     />
                   )}
                 </Fragment>
