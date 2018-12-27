@@ -12,7 +12,7 @@ npm config delete prefix
 . ~/.bashrc
 nvm install "$NODE_VERSION"
 nvm alias node8 "$NODE_VERSION"
-
+nvm alias default v8.12.0
 node -v
 
 printf "end of post-clone.sh\n"
