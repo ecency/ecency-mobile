@@ -1,11 +1,3 @@
-// TODO: Move all formats functions here!
-
-// const imgRegex = /(https?:\/\/.*\.(?:tiff?|jpe?g|gif|png|svg|ico))/gim;
-// const postRegex = /^https?:\/\/(.*)\/(.*)\/(@[\w\.\d-]+)\/(.*)/i;
-// const youTubeRegex = /(?:https?:\/\/)?(?:www\.)?(?:youtube\.com\/watch\?v=|youtu\.be\/)([^& \n<]+)(?:[^ \n<]+)?/g;
-// const vimeoRegex = /(https?:\/\/)?(www\.)?(?:vimeo)\.com.*(?:videos|video|channels|)\/([\d]+)/i;
-// const dTubeRegex = /(https?:\/\/d.tube.#!\/v\/)(\w+)\/(\w+)/g;
-
 export const getPostSummary = (postBody, length, isQuote) => {
   if (!postBody) {
     return '';
@@ -24,3 +16,13 @@ export const getPostSummary = (postBody, length, isQuote) => {
   }
   return isQuote ? `"${postBody}..."` : `${postBody}...`;
 };
+
+export const makeCountFriendly = (value) => {
+  if (!value) return value;
+  if (value >= 1000000) return `${intlFormat(value / 1000000)}M`;
+  if (value >= 1000) return `${intlFormat(value / 1000)}K`;
+
+  return intlFormat(value);
+};
+
+const intlFormat = num => new Intl.NumberFormat().format(Math.round(num * 10) / 10);
