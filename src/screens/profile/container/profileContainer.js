@@ -62,8 +62,12 @@ class ProfileContainer extends Component {
   };
 
   componentWillReceiveProps(nextProps) {
-    const { navigation, currentAccount, activeBottomTab, isLoggedIn } = this.props;
-    const currentUsername = currentAccount.name !== nextProps.currentAccount.name && nextProps.currentAccount.name;
+    const {
+      navigation, currentAccount, activeBottomTab, isLoggedIn,
+    } = this.props;
+    const currentUsername = currentAccount.name
+      !== nextProps.currentAccount.name
+      && nextProps.currentAccount.name;
     const isParamsChange = nextProps.navigation.state
       && navigation.state
       && nextProps.navigation.state.params
@@ -88,10 +92,6 @@ class ProfileContainer extends Component {
 
       this._loadProfile(selectedUser && selectedUser.username);
     }
-
-  
-
-
   }
 
   _getReplies = async (user) => {
@@ -102,39 +102,39 @@ class ProfileContainer extends Component {
           comments: result,
         });
       })
-      .catch((err) => {});
+      .catch(() => {});
   };
 
   _handleFollowUnfollowUser = async (isFollowAction) => {
     const { username, isFollowing } = this.state;
-    const { currentAccount } = this.props;
+    const { currentAccount, pinCode } = this.props;
 
     this.setState({
       isProfileLoading: true,
     });
 
     if (isFollowAction && !isFollowing) {
-      this._followUser(currentAccount, currentAccount.name, username);
+      this._followUser(currentAccount, pinCode, currentAccount.name, username);
     } else {
-      this._unfollowUser(currentAccount, currentAccount.name, username);
+      this._unfollowUser(currentAccount, pinCode, currentAccount.name, username);
     }
   };
 
   _handleMuteUnmuteUser = async (isMuteAction) => {
-    const { username, isMuted } = this.state;
-    const { currentAccount } = this.props;
+    const { username } = this.state;
+    const { currentAccount, pinCode } = this.props;
 
     this.setState({
       isProfileLoading: true,
     });
 
     if (isMuteAction) {
-      this._muteUser(currentAccount, currentAccount.name, username);
+      this._muteUser(currentAccount, pinCode, currentAccount.name, username);
     }
   };
 
-  _unfollowUser = (currentAccount, follower, following) => {
-    unfollowUser(currentAccount, {
+  _unfollowUser = (currentAccount, pinCode, follower, following) => {
+    unfollowUser(currentAccount, pinCode, {
       follower,
       following,
     })
@@ -146,8 +146,8 @@ class ProfileContainer extends Component {
       });
   };
 
-  _followUser = (currentAccount, follower, following) => {
-    followUser(currentAccount, {
+  _followUser = (currentAccount, pinCode, follower, following) => {
+    followUser(currentAccount, pinCode, {
       follower,
       following,
     })
@@ -159,8 +159,8 @@ class ProfileContainer extends Component {
       });
   };
 
-  _muteUser = async (currentAccount, follower, following) => {
-    ignoreUser(currentAccount, {
+  _muteUser = async (currentAccount, pinCode, follower, following) => {
+    ignoreUser(currentAccount, pinCode, {
       follower,
       following,
     })
@@ -307,6 +307,7 @@ class ProfileContainer extends Component {
 const mapStateToProps = state => ({
   isLoggedIn: state.application.isLoggedIn,
   currentAccount: state.account.currentAccount,
+  pinCode: state.account.pin,
   isDarkTheme: state.application.isDarkTheme,
   activeBottomTab: state.ui.activeBottomTab,
 });

@@ -1,30 +1,20 @@
 import React, { PureComponent } from 'react';
-import {
-  View, Linking, StatusBar, Platform, Alert,
-} from 'react-native';
+import { View, StatusBar, Platform } from 'react-native';
 import { KeyboardAwareScrollView } from 'react-native-keyboard-aware-scroll-view';
 import ScrollableTabView from '@esteemapp/react-native-scrollable-tab-view';
 import { injectIntl } from 'react-intl';
 
 // Actions
-import {
-  failedAccount,
-  addOtherAccount,
-  updateCurrentAccount,
-} from '../../../redux/actions/accountAction';
-import { login as loginAction, openPinCodeModal } from '../../../redux/actions/applicationActions';
+import SteemConnect from '../../steem-connect/steemConnect';
 
 // Internal Components
 import { FormInput } from '../../../components/formInput';
 import { InformationArea } from '../../../components/informationArea';
-import { Login } from '../../../providers/steem/auth';
 import { LoginHeader } from '../../../components/loginHeader';
-import { lookupAccounts } from '../../../providers/steem/dsteem';
 import { MainButton } from '../../../components/mainButton';
 import { Modal } from '../../../components';
 import { TabBar } from '../../../components/tabBar';
 import { TextButton } from '../../../components/buttons';
-import SteemConnect from '../../steem-connect/steemConnect';
 
 // Constants
 import { default as ROUTES } from '../../../constants/routeNames';
@@ -40,51 +30,26 @@ class LoginScreen extends PureComponent {
     this.state = {
       username: '',
       password: '',
-      isLoading: false,
       isUsernameValid: true,
       keyboardIsOpen: false,
       isModalOpen: false,
     };
   }
 
-  _handleOnPressLogin = () => {
-    const { dispatch, setPinCodeState } = this.props;
-    const { password, username } = this.state;
-
-    this.setState({ isLoading: true });
-
-    Login(username, password)
-      .then((result) => {
-        if (result) {
-          dispatch(updateCurrentAccount({ ...result }));
-          dispatch(addOtherAccount({ username: result.name }));
-          dispatch(openPinCodeModal());
-          setPinCodeState({ navigateTo: ROUTES.DRAWER.MAIN });
-          dispatch(loginAction(true));
-        }
-      })
-      .catch((err) => {
-        // TODO: Change with global error handling
-        Alert.alert('Error', err.message);
-        dispatch(failedAccount(err.message));
-        this.setState({ isLoading: false });
-      });
-  };
-
-  _handleUsernameChange = async (username) => {
-    await this.setState({ username });
-    const validUsers = await lookupAccounts(username);
-    const isValid = validUsers.includes(username);
-
-    this.setState({ isUsernameValid: isValid });
-  };
-
   _handleOnPasswordChange = (value) => {
     this.setState({ password: value });
   };
 
-  _handleSignUp = () => {
-    Linking.openURL('https://signup.steemit.com/?ref=esteem').catch(err => alert('An error occurred', err));
+  _handleUsernameChange = (username) => {
+    const { getAccountsWithUsername } = this.props;
+
+    this.setState({ username });
+
+    getAccountsWithUsername(username).then((res) => {
+      const isValid = res.includes(username);
+
+      this.setState({ isUsernameValid: isValid });
+    });
   };
 
   _handleOnModalToggle = () => {
@@ -93,14 +58,16 @@ class LoginScreen extends PureComponent {
   };
 
   render() {
-    const { navigation, intl, setPinCodeState } = this.props;
     const {
+      navigation,
+      intl,
+      setPinCodeState,
+      handleOnPressLogin,
+      handleSignUp,
       isLoading,
-      username,
-      isUsernameValid,
-      keyboardIsOpen,
-      password,
-      isModalOpen,
+    } = this.props;
+    const {
+      username, isUsernameValid, keyboardIsOpen, password, isModalOpen,
     } = this.state;
 
     return (
@@ -114,7 +81,7 @@ class LoginScreen extends PureComponent {
           description={intl.formatMessage({
             id: 'login.signin_title',
           })}
-          onPress={() => this._handleSignUp()}
+          onPress={() => handleSignUp()}
           rightButtonText={intl.formatMessage({
             id: 'login.signup',
           })}
@@ -125,7 +92,7 @@ class LoginScreen extends PureComponent {
           renderTabBar={() => (
             <TabBar
               style={styles.tabbar}
-              tabUnderlineDefaultWidth={100} // default containerWidth / (numberOfTabs * 4)
+              tabUnderlineDefaultWidth={100}
               tabUnderlineScaleX={2} // default 3
               activeColor="#357ce6"
               inactiveColor="#222"
@@ -187,7 +154,7 @@ class LoginScreen extends PureComponent {
                 })}
               />
               <MainButton
-                onPress={this._handleOnPressLogin}
+                onPress={() => handleOnPressLogin(username, password)}
                 iconName="md-person"
                 iconColor="white"
                 text={intl.formatMessage({

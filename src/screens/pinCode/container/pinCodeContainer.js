@@ -2,6 +2,7 @@ import React, { Component } from 'react';
 import { Alert } from 'react-native';
 import { connect } from 'react-redux';
 import { injectIntl } from 'react-intl';
+import Config from 'react-native-config';
 
 import {
   setUserDataWithPinCode,
@@ -12,7 +13,10 @@ import {
 // Actions & Services
 import { closePinCodeModal } from '../../../redux/actions/applicationActions';
 import { getExistUser, setExistUser, getUserDataWithUsername } from '../../../realm/realm';
-import { updateCurrentAccount } from '../../../redux/actions/accountAction';
+import { updateCurrentAccount, setPinCode as savePinCode } from '../../../redux/actions/accountAction';
+
+// Utils
+import { encryptKey, decryptKey } from '../../../utils/crypto';
 
 // Component
 import PinCodeScreen from '../screen/pinCodeScreen';
@@ -33,9 +37,10 @@ class PinCodeContainer extends Component {
   // TODO: these text should move to view!
   componentDidMount() {
     this._getDataFromStorage().then(() => {
-      const { intl, isReset } = this.props;
+      const { intl } = this.props;
       const { isExistUser } = this.state;
-      if (isExistUser || !isReset) {
+
+      if (isExistUser) {
         this.setState({
           informationText: intl.formatMessage({
             id: 'pincode.enter_text',
@@ -62,144 +67,203 @@ class PinCodeContainer extends Component {
     });
   });
 
-  _setPinCode = pin => new Promise((resolve, reject) => {
+  _resetPinCode = pin => new Promise((resolve, reject) => {
     const {
       currentAccount,
       dispatch,
       accessToken,
-      setWrappedComponentState,
       navigateTo,
       navigation,
       intl,
-      isReset,
     } = this.props;
-    const {
-      isExistUser, pinCode, isOldPinVerified, oldPinCode,
-    } = this.state;
+    const { isOldPinVerified, oldPinCode } = this.state;
 
-    if (isReset) {
-      const pinData = {
-        pinCode: pin,
-        password: currentAccount ? currentAccount.password : '',
-        username: currentAccount ? currentAccount.name : '',
-        accessToken,
-        oldPinCode,
-      };
+    const pinData = {
+      pinCode: pin,
+      password: currentAccount ? currentAccount.password : '',
+      username: currentAccount ? currentAccount.name : '',
+      accessToken,
+      oldPinCode,
+    };
 
-      if (isOldPinVerified) {
-        updatePinCode(pinData).then((response) => {
-          const _currentAccount = currentAccount;
-          _currentAccount.local = response;
+    if (isOldPinVerified) {
+      updatePinCode(pinData).then((response) => {
+        const _currentAccount = currentAccount;
+        _currentAccount.local = response;
 
-          dispatch(updateCurrentAccount({ ..._currentAccount }));
+        dispatch(updateCurrentAccount({ ..._currentAccount }));
+        this._savePinCode(pin);
 
-          dispatch(closePinCodeModal());
-          if (navigateTo) {
-            navigation.navigate(navigateTo);
-          }
-          resolve();
-        });
-      } else {
-        verifyPinCode(pinData)
-          .then(() => {
-            this.setState({ isOldPinVerified: true });
-            this.setState({
-              informationText: intl.formatMessage({
-                id: 'pincode.set_new',
-              }),
-              pinCode: null,
-              oldPinCode: pin,
-            });
-            resolve();
-          })
-          .catch((err) => {
-            Alert.alert('Warning', err.message);
-            reject(err);
-          });
-      }
-    } else if (isExistUser) {
-      // If the user is exist, we are just checking to pin and navigating to home screen
-      const pinData = {
-        pinCode: pin,
-        password: currentAccount ? currentAccount.password : '',
-        username: currentAccount ? currentAccount.name : '',
-        accessToken,
-      };
+        dispatch(closePinCodeModal());
+        if (navigateTo) {
+          navigation.navigate(navigateTo);
+        }
+        resolve();
+      });
+    } else {
       verifyPinCode(pinData)
-        .then((res) => {
-          setWrappedComponentState(res);
-          dispatch(closePinCodeModal());
-
-          const realmData = getUserDataWithUsername(currentAccount.name);
-          const _currentAccount = currentAccount;
-          _currentAccount.username = _currentAccount.name;
-          _currentAccount.local = realmData[0];
-          dispatch(updateCurrentAccount({ ..._currentAccount }));
-
-          if (navigateTo) {
-            navigation.navigate(navigateTo);
-          }
+        .then(() => {
+          this.setState({ isOldPinVerified: true });
+          this.setState({
+            informationText: intl.formatMessage({
+              id: 'pincode.set_new',
+            }),
+            pinCode: null,
+            oldPinCode: pin,
+          });
+          resolve();
         })
         .catch((err) => {
           Alert.alert('Warning', err.message);
           reject(err);
         });
-    } else if (!pinCode) {
-      // If the user is logging in for the first time, the user should set to pin
-      this.setState({
-        informationText: intl.formatMessage({
-          id: 'pincode.write_again',
-        }),
-        pinCode: pin,
-      });
-      resolve();
-    } else if (pinCode === pin) {
-      const pinData = {
-        pinCode: pin,
-        password: currentAccount ? currentAccount.password : '',
-        username: currentAccount ? currentAccount.name : '',
-        accessToken,
-      };
-      setUserDataWithPinCode(pinData).then((response) => {
-        const _currentAccount = currentAccount;
-        _currentAccount.local = response;
-
-        dispatch(updateCurrentAccount({ ..._currentAccount }));
-
-        setExistUser(true).then(() => {
-          dispatch(closePinCodeModal());
-          if (navigateTo) {
-            navigation.navigate(navigateTo);
-          }
-          resolve();
-        });
-      });
-    } else {
-      this.setState({
-        informationText: intl.formatMessage({
-          id: 'pincode.write_again',
-        }),
-      });
-      setTimeout(() => {
-        this.setState({
-          informationText: 'setup screen',
-          pinCode: null,
-        });
-        resolve();
-      }, 1000);
     }
   });
 
+  _setFirstPinCode = pin => new Promise((resolve) => {
+    const {
+      currentAccount,
+      dispatch,
+      accessToken,
+      navigateTo,
+      navigation,
+    } = this.props;
+
+    const pinData = {
+      pinCode: pin,
+      password: currentAccount ? currentAccount.password : '',
+      username: currentAccount ? currentAccount.name : '',
+      accessToken,
+    };
+    setUserDataWithPinCode(pinData).then((response) => {
+      const _currentAccount = currentAccount;
+      _currentAccount.local = response;
+
+      dispatch(updateCurrentAccount({ ..._currentAccount }));
+
+      setExistUser(true).then(() => {
+        this._savePinCode(pin);
+        dispatch(closePinCodeModal());
+        if (navigateTo) {
+          navigation.navigate(navigateTo);
+        }
+        resolve();
+      });
+    });
+  });
+
+  _verifyPinCode = pin => new Promise((resolve, reject) => {
+    const {
+      currentAccount,
+      dispatch,
+      accessToken,
+      navigateTo,
+      navigation,
+      setWrappedComponentState,
+    } = this.props;
+
+    // If the user is exist, we are just checking to pin and navigating to home screen
+    const pinData = {
+      pinCode: pin,
+      password: currentAccount ? currentAccount.password : '',
+      username: currentAccount ? currentAccount.name : '',
+      accessToken,
+    };
+    verifyPinCode(pinData)
+      .then((res) => {
+        setWrappedComponentState(res);
+        this._savePinCode(pin);
+
+        const realmData = getUserDataWithUsername(currentAccount.name);
+        const _currentAccount = currentAccount;
+        _currentAccount.username = _currentAccount.name;
+        [_currentAccount.local] = realmData;
+        dispatch(updateCurrentAccount({ ..._currentAccount }));
+        dispatch(closePinCodeModal());
+        if (navigateTo) {
+          navigation.navigate(navigateTo);
+        }
+      })
+      .catch((err) => {
+        Alert.alert('Warning', err.message);
+        reject(err);
+      });
+  });
+
+  _savePinCode = (pin) => {
+    const { dispatch } = this.props;
+    const encryptedPin = encryptKey(pin, Config.PIN_KEY);
+    dispatch(savePinCode(encryptedPin));
+  }
+
+  _setPinCode = async (pin, isReset) => {
+    const {
+      intl, currentAccount, applicationPinCode,
+    } = this.props;
+    const {
+      isExistUser, pinCode,
+    } = this.state;
+
+    const realmData = getUserDataWithUsername(currentAccount.name);
+    const userData = realmData[0];
+
+    // For exist users
+    if (isReset) { await this._resetPinCode(pin); return true; }
+    if (isExistUser) {
+      if (!userData.accessToken && !userData.masterKey && applicationPinCode) {
+        const verifiedPin = decryptKey(applicationPinCode, Config.PIN_KEY);
+        if (verifiedPin === pin) {
+          await this._setFirstPinCode(pin);
+        } else {
+          Alert.alert('Warning', 'Invalid pin code, please check and try again');
+        }
+      } else {
+        await this._verifyPinCode(pin);
+      }
+      return true;
+    }
+
+    // For new users
+    if (pinCode === pin) { await this._setFirstPinCode(pin); return true; }
+
+    if (!pinCode) {
+      // If the user is logging in for the first time, the user should set to pin
+      await this.setState({
+        informationText: intl.formatMessage({
+          id: 'pincode.write_again',
+        }),
+        pinCode: pin,
+      });
+      return Promise.resolve();
+    }
+
+    await this.setState({
+      informationText: intl.formatMessage({
+        id: 'pincode.write_again',
+      }),
+    });
+    await setTimeout(() => {
+      this.setState({
+        informationText: intl.formatMessage({
+          id: 'pincode.set_new',
+        }),
+        pinCode: null,
+      });
+      return Promise.resolve();
+    }, 1000);
+  };
+
   render() {
-    const { currentAccount, intl } = this.props;
+    const { currentAccount, intl, isReset } = this.props;
     const { informationText, isExistUser } = this.state;
     return (
       <PinCodeScreen
         informationText={informationText}
-        setPinCode={this._setPinCode}
+        setPinCode={pin => this._setPinCode(pin, isReset)}
         showForgotButton={isExistUser}
         username={currentAccount.name}
         intl={intl}
+        {...this.props}
       />
     );
   }
@@ -207,6 +271,7 @@ class PinCodeContainer extends Component {
 
 const mapStateToProps = state => ({
   currentAccount: state.account.currentAccount,
+  applicationPinCode: state.account.pin,
 });
 
 export default injectIntl(connect(mapStateToProps)(PinCodeContainer));

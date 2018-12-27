@@ -1,5 +1,5 @@
+// import parseDate from './parseDate';
 import parseToken from './parseToken';
-import parseDate from './parseDate';
 import { vestsToSp } from './conversions';
 
 export const getTransactionData = (transaction, walletData, formatNumber) => {
@@ -14,7 +14,7 @@ export const getTransactionData = (transaction, walletData, formatNumber) => {
   const opData = transaction[1].op[1];
   const { timestamp } = transaction[1];
 
-  result.transDate = parseDate(timestamp);
+  result.transDate = timestamp;
   result.icon = 'local-activity';
 
   switch (result.opName) {
@@ -85,7 +85,7 @@ export const getTransactionData = (transaction, walletData, formatNumber) => {
       result.value = `${formatNumber(vestsToSp(opVestingShares, walletData.steemPerMVests), {
         minimumFractionDigits: 3,
       })} SP`;
-      result.icon = 'money';
+      result.icon = 'attach-money';
       result.details = `@${acc}`;
       break;
     case 'fill_order':

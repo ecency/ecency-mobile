@@ -5,17 +5,13 @@ import {
   setAuthStatus,
   getUserDataWithUsername,
   updateUserData,
-  setPinCode,
-  getPinCode,
   updateCurrentUsername,
   getUserData,
 } from '../../realm/realm';
 import { encryptKey, decryptKey } from '../../utils/crypto';
 import steemConnect from './steemConnectAPI';
 
-export const Login = (username, password) => {
-  let publicKeys;
-  let privateKeys;
+export const login = async (username, password) => {
   const resultKeys = {
     active: null,
     memo: null,
@@ -24,75 +20,63 @@ export const Login = (username, password) => {
   };
   let loginFlag = false;
   let avatar = '';
+  // Get user account data from STEEM Blockchain
+  const account = await getUser(username);
+  if (!account) {
+    return Promise.reject(new Error('Invalid pin code, please check and try again'));
+  }
+  if (isLoggedInUser(username)) {
+    return Promise.reject(new Error('You are already logged in, please try to add another account'));
+  }
 
-  return new Promise((resolve, reject) => {
-    // Get user account data from STEEM Blockchain
-    getUser(username)
-      .then((account) => {
-        if (isLoggedInUser(username)) {
-          reject(new Error('You are already logged in, please try to add another account'));
-        }
+  // Public keys of user
+  const publicKeys = {
+    active: account.active.key_auths.map(x => x[0]),
+    memo: account.memo_key,
+    owner: account.owner.key_auths.map(x => x[0]),
+    posting: account.posting.key_auths.map(x => x[0]),
+  };
 
-        // Public keys of user
-        publicKeys = {
-          active: account.active.key_auths.map(x => x[0]),
-          memo: account.memo_key,
-          owner: account.owner.key_auths.map(x => x[0]),
-          posting: account.posting.key_auths.map(x => x[0]),
-        };
+  // Set private keys of user
+  const privateKeys = getPrivateKeys(username, password);
 
-        // Set private keys of user
-        privateKeys = getPrivateKeys(username, password);
-
-        // Check all keys
-        Object.keys(publicKeys).map((pubKey) => {
-          if (publicKeys[pubKey] === privateKeys[pubKey].createPublic().toString()) {
-            loginFlag = true;
-            resultKeys[pubKey] = publicKeys[pubKey];
-          }
-        });
-        let jsonMetadata;
-        try {
-          jsonMetadata = JSON.parse(account.json_metadata) || '';
-        } catch (err) {
-          jsonMetadata = '';
-          // TODO: handle wrong json format properly
-          // reject(new Error(err));
-        }
-        if (Object.keys(jsonMetadata).length !== 0) {
-          avatar = jsonMetadata.profile.profile_image || '';
-        }
-        if (loginFlag) {
-          const userData = {
-            username,
-            avatar,
-            authType: 'masterKey',
-            masterKey: '',
-            postingKey: '',
-            activeKey: '',
-            memoKey: '',
-            accessToken: '',
-          };
-
-          account.local = userData;
-
-          // Save user data to Realm DB
-          setUserData(userData)
-            .then(() => {
-              resolve({ ...account, password });
-              updateCurrentUsername(account.name);
-            })
-            .catch(() => {
-              reject(new Error('Invalid credentials, please check and try again'));
-            });
-        } else {
-          reject(new Error('Invalid credentials, please check and try again'));
-        }
-      })
-      .catch(() => {
-        reject(new Error('Invalid credentials, please check and try again'));
-      });
+  // Check all keys
+  Object.keys(publicKeys).map((pubKey) => {
+    if (publicKeys[pubKey] === privateKeys[pubKey].createPublic().toString()) {
+      loginFlag = true;
+      resultKeys[pubKey] = publicKeys[pubKey];
+    }
   });
+
+  let jsonMetadata;
+  try {
+    jsonMetadata = JSON.parse(account.json_metadata) || '';
+  } catch (err) {
+    jsonMetadata = '';
+  }
+  if (Object.keys(jsonMetadata).length !== 0) {
+    avatar = jsonMetadata.profile.profile_image || '';
+  }
+  if (loginFlag) {
+    const userData = {
+      username,
+      avatar,
+      authType: 'masterKey',
+      masterKey: '',
+      postingKey: '',
+      activeKey: '',
+      memoKey: '',
+      accessToken: '',
+    };
+
+    account.local = userData;
+
+    // Save user data to Realm DB
+    await setUserData(userData);
+    await updateCurrentUsername(account.name);
+    return ({ ...account, password });
+  }
+  return Promise.reject(new Error('Invalid pin code, please check and try again'));
 };
 
 export const loginWithSC2 = async (accessToken) => {
@@ -104,7 +88,7 @@ export const loginWithSC2 = async (accessToken) => {
     try {
       const jsonMetadata = JSON.parse(account.account.json_metadata);
       if (Object.keys(jsonMetadata).length !== 0) {
-        avatar = jsonMetadata.profile.profile_image;
+        avatar = jsonMetadata.profile.profile_image || '';
       }
     } catch (error) {
       reject(new Error('Invalid credentials, please check and try again'));
@@ -120,26 +104,15 @@ export const loginWithSC2 = async (accessToken) => {
       accessToken: '',
     };
 
-    const authData = {
-      isLoggedIn: true,
-      currentUsername: account.account.name,
-    };
-
     if (isLoggedInUser(account.account.name)) {
       reject(new Error('You are already logged in, please try to add another account'));
     }
 
-    setAuthStatus(authData)
+    setUserData(userData)
       .then(() => {
-        setUserData(userData)
-          .then(() => {
-            account.account.username = account.account.name;
-            resolve({ ...account.account, accessToken });
-            updateCurrentUsername(account.account.name);
-          })
-          .catch((error) => {
-            reject(error);
-          });
+        account.account.username = account.account.name;
+        updateCurrentUsername(account.account.name);
+        resolve({ ...account.account, accessToken });
       })
       .catch((error) => {
         reject(error);
@@ -147,90 +120,53 @@ export const loginWithSC2 = async (accessToken) => {
   });
 };
 
-export const setUserDataWithPinCode = data => new Promise((resolve, reject) => {
-  let updatedUserData;
+export const setUserDataWithPinCode = async (data) => {
   const result = getUserDataWithUsername(data.username);
   const userData = result[0];
 
   const privateKeys = getPrivateKeys(userData.username, data.password);
 
-  if (userData.authType === 'masterKey') {
-    updatedUserData = {
-      username: userData.username,
-      authType: 'masterKey',
-      masterKey: encryptKey(data.password, data.pinCode),
-      postingKey: encryptKey(privateKeys.posting.toString(), data.pinCode),
-      activeKey: encryptKey(privateKeys.active.toString(), data.pinCode),
-      memoKey: encryptKey(privateKeys.memo.toString(), data.pinCode),
-    };
-  } else if (userData.authType === 'steemConnect') {
-    updatedUserData = {
-      username: userData.username,
-      authType: 'steemConnect',
-      accessToken: encryptKey(data.accessToken, data.pinCode),
-      masterKey: '',
-      postingKey: encryptKey(privateKeys.posting.toString(), data.pinCode),
-      activeKey: encryptKey(privateKeys.active.toString(), data.pinCode),
-      memoKey: encryptKey(privateKeys.memo.toString(), data.pinCode),
-    };
-  }
+  const updatedUserData = {
+    username: userData.username,
+    authType: userData.authType,
+    accessToken: userData.authType === 'steemConnect' ? encryptKey(data.accessToken, data.pinCode) : '',
+    masterKey: userData.authType === 'masterKey' ? encryptKey(data.password, data.pinCode) : '',
+    postingKey: encryptKey(privateKeys.posting.toString(), data.pinCode),
+    activeKey: encryptKey(privateKeys.active.toString(), data.pinCode),
+    memoKey: encryptKey(privateKeys.memo.toString(), data.pinCode),
+  };
 
-  updateUserData(updatedUserData)
-    .then((response) => {
-      const authData = {
-        isLoggedIn: true,
-        currentUsername: userData.username,
-      };
+  const response = await updateUserData(updatedUserData);
+  const authData = {
+    isLoggedIn: true,
+    currentUsername: userData.username,
+  };
 
-      setAuthStatus(authData)
-        .then(() => {
-          const encriptedPinCode = encryptKey(data.pinCode, 'pin-code');
-          setPinCode(encriptedPinCode)
-            .then(() => {
-              resolve(response);
-            })
-            .catch((error) => {
-              reject(error);
-            });
-        })
-        .catch((error) => {
-          reject(error);
-        });
-    })
-    .catch((err) => {
-      reject(err);
-    });
-});
+  await setAuthStatus(authData);
+  return (response);
+};
 
 export const updatePinCode = async (data) => {
-  let updatedUserData;
-
+  let password = null; 
+  let accessToken = null;
   const users = await getUserData();
   if (users.length > 0) {
     users.forEach(async (userData) => {
-      const password = decryptKey(userData.masterKey, data.oldPinCode);
-      const privateKeys = getPrivateKeys(userData.username, password);
       if (userData.authType === 'masterKey') {
-        updatedUserData = {
-          username: userData.username,
-          authType: 'masterKey',
-          masterKey: encryptKey(password, data.pinCode),
-          postingKey: encryptKey(privateKeys.posting.toString(), data.pinCode),
-          activeKey: encryptKey(privateKeys.active.toString(), data.pinCode),
-          memoKey: encryptKey(privateKeys.memo.toString(), data.pinCode),
-        };
+        password = decryptKey(userData.masterKey, data.oldPinCode);
       } else if (userData.authType === 'steemConnect') {
-        updatedUserData = {
-          username: userData.username,
-          authType: 'steemConnect',
-          accessToken: encryptKey(data.accessToken, data.pinCode),
-          masterKey: '',
-          postingKey: encryptKey(privateKeys.posting.toString(), data.pinCode),
-          activeKey: encryptKey(privateKeys.active.toString(), data.pinCode),
-          memoKey: encryptKey(privateKeys.memo.toString(), data.pinCode),
-        };
+        accessToken = decryptKey(userData.accessToken, data.oldPinCode);
       }
-
+      const privateKeys = getPrivateKeys(userData.username, password);
+      const updatedUserData = {
+        username: userData.username,
+        authType: userData.authType,
+        accessToken: userData.authType === 'steemConnect' ? encryptKey(accessToken, data.pinCode) : '',
+        masterKey: userData.authType === 'masterKey' ? encryptKey(password, data.pinCode) : '',
+        postingKey: encryptKey(privateKeys.posting.toString(), data.pinCode),
+        activeKey: encryptKey(privateKeys.active.toString(), data.pinCode),
+        memoKey: encryptKey(privateKeys.memo.toString(), data.pinCode),
+      };
       const response = await updateUserData(updatedUserData);
       const authData = {
         isLoggedIn: true,
@@ -238,9 +174,6 @@ export const updatePinCode = async (data) => {
       };
 
       await setAuthStatus(authData);
-      const encriptedPinCode = encryptKey(data.pinCode, 'pin-code');
-      await setPinCode(encriptedPinCode);
-
       return response;
     });
   }
@@ -252,72 +185,55 @@ export const verifyPinCode = async (data) => {
   let account = null;
   let loginFlag = false;
   if (result.length > 0) {
-    if (userData.masterKey || userData.accessToken) {
-      if (userData.authType === 'steemConnect') {
-        const accessToken = decryptKey(userData.accessToken, data.pinCode);
-        await steemConnect.setAccessToken(accessToken);
-        account = await steemConnect.me();
-        if (account) {
+    if (userData.authType === 'steemConnect') {
+      let accessToken;
+      try {
+        accessToken = decryptKey(userData.accessToken, data.pinCode);
+      } catch (error) {
+        return Promise.reject(new Error('Invalid pin code, please check and try again'));
+      }
+      await steemConnect.setAccessToken(accessToken);
+      account = await steemConnect.me();
+      if (account) {
+        loginFlag = true;
+      }
+    } else if (userData.authType === 'masterKey') {
+      const password = decryptKey(userData.masterKey, data.pinCode);
+      account = await getUser(data.username);
+      // Public keys of user
+      const publicKeys = {
+        active: account.active.key_auths.map(x => x[0]),
+        memo: account.memo_key,
+        owner: account.owner.key_auths.map(x => x[0]),
+        posting: account.posting.key_auths.map(x => x[0]),
+      };
+      // Set private keys of user
+      const privateKeys = getPrivateKeys(data.username, password);
+
+      // Check all keys
+      Object.keys(publicKeys).map((pubKey) => {
+        if (publicKeys[pubKey] === privateKeys[pubKey].createPublic().toString()) {
           loginFlag = true;
         }
-      } else if (userData.authType === 'masterKey') {
-        const password = decryptKey(userData.masterKey, data.pinCode);
-        account = await getUser(data.username);
-
-        // Public keys of user
-        const publicKeys = {
-          active: account.active.key_auths.map(x => x[0]),
-          memo: account.memo_key,
-          owner: account.owner.key_auths.map(x => x[0]),
-          posting: account.posting.key_auths.map(x => x[0]),
-        };
-        // Set private keys of user
-        const privateKeys = getPrivateKeys(data.username, password);
-
-        // Check all keys
-        Object.keys(publicKeys).map((pubKey) => {
-          if (publicKeys[pubKey] === privateKeys[pubKey].createPublic().toString()) {
-            loginFlag = true;
-          }
-        });
-      }
-    } else {
-      const encriptedPinCode = await getPinCode();
-      const pinCode = decryptKey(encriptedPinCode, 'pin-code');
-      if (pinCode === data.pinCode) {
-        const res = await setUserDataWithPinCode(data);
-        if (res) {
-          loginFlag = true;
-        }
-      }
+      });
     }
   }
-
-  return new Promise((resolve, reject) => {
-    if (loginFlag) {
-      const authData = {
-        isLoggedIn: true,
-        currentUsername: data.username,
-      };
-      const response = {
-        accessToken: decryptKey(userData.accessToken, data.pinCode),
-        postingKey: decryptKey(userData.postingKey, data.pinCode),
-        masterKey: decryptKey(userData.masterKey, data.pinCode),
-        activeKey: decryptKey(userData.activeKey, data.pinCode),
-        memoKey: decryptKey(userData.memoKey, data.pinCode),
-      };
-      setAuthStatus(authData)
-        .then(() => {
-          resolve(response);
-        })
-        .catch(() => {
-          // TODO: create function for throw error
-          reject(new Error('Unknown error, please contact to eSteem.'));
-        });
-    } else {
-      reject(new Error('Invalid pin code, please check and try again'));
-    }
-  });
+  if (loginFlag) {
+    const authData = {
+      isLoggedIn: true,
+      currentUsername: data.username,
+    };
+    const response = {
+      accessToken: decryptKey(userData.accessToken, data.pinCode),
+      postingKey: decryptKey(userData.postingKey, data.pinCode),
+      masterKey: decryptKey(userData.masterKey, data.pinCode),
+      activeKey: decryptKey(userData.activeKey, data.pinCode),
+      memoKey: decryptKey(userData.memoKey, data.pinCode),
+    };
+    await setAuthStatus(authData);
+    return (response);
+  }
+  return Promise.reject(new Error('Invalid pin code, please check and try again'));
 };
 
 export const switchAccount = username => new Promise((resolve, reject) => {
