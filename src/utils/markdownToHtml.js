@@ -13,12 +13,13 @@ const dTubeRegex = /(https?:\/\/d.tube.#!\/v\/)(\w+)\/(\w+)/g;
 const authorNameRegex = /(^|[^a-zA-Z0-9_!#$%&*@＠\/]|(^|[^a-zA-Z0-9_+~.-\/]))[@＠]([a-z][-\.a-z\d]+[a-z\d])/gi;
 const tagsRegex = /(^|\s|>)(#[-a-z\d]+)/gi;
 const centerRegex = /(<center>)/g;
-const imgRegex = /(https?:\/\/.*\.(?:tiff?|jpe?g|gif|png|svg|ico))(.*)/gim;
+const imgRegex = /(https?:\/\/.*\.(?:tiff?|jpe?g|gif|png|svg|ico|PNG|GIF|JPG))/g;
 const pullRightLeftRegex = /(<div class="[^"]*?pull-[^"]*?">(.*?)(<[/]div>))/g;
 const linkRegex = /[-a-zA-Z0-9@:%_\+.~#?&//=]{2,256}\.[a-z]{2,4}\b(\/[-a-zA-Z0-9@:%_\+.~#?&//=]*)?/gi;
 const markdownImageRegex = /!\[[^\]]*\]\((.*?)\s*("(?:.*[^"])")?\s*\)/g;
 const urlRegex = /(http|ftp|https):\/\/([\w_-]+(?:(?:\.[\w_-]+)+))([\w.,@?^=%&:/~+#-]*[\w@?^=%&/~+#-])?/gm;
 const aTagRegex = /(<\s*a[^>]*>(.*?)<\s*[/]\s*a>)/g;
+const imgTagRegex = /(<img([\w\W]+?)\/>)/g;
 
 export const markDown2Html = (input) => {
   if (!input) {
@@ -54,6 +55,11 @@ export const markDown2Html = (input) => {
   //   output = handleImage(output);
   // }
 
+  if (imgTagRegex.test(output)) {
+    output = handleImageTag(output);
+  }
+
+  //imgTagRegex
   if (vimeoRegex.test(output)) {
     output = createVimeoIframe(output);
   }
@@ -131,7 +137,7 @@ const changeMarkdownImage = input => input.replace(markdownImageRegex, (link) =>
     const firstMarkdownMatch = markdownMatch[0];
     const _link = firstMarkdownMatch.match(urlRegex)[0];
 
-    return `<img data-href="${`https://img.esteem.app/500x0/${_link}`}" src="${`https://img.esteem.app/500x0/${_link}`}">`;
+    return imageBody(_link);
   }
   return link;
 });
@@ -163,17 +169,25 @@ const steemitUrlHandle = input => input.replace(postRegex, (link) => {
 
 const createImage = input => input.replace(
   onlyImageLinkRegex,
-  link => `<img data-href="${`https://img.esteem.app/300x0/${link}`}" src="${`https://img.esteem.app/500x0/${link}`}">`,
+  link => imageBody(link),
 );
 
-const handleImage = input => input.replace(
-  imgRegex,
-  link => `<img data-href="${`https://img.esteem.app/300x0/${link}`}" src="${`https://img.esteem.app/500x0/${link}`}">`,
-);
+const handleImageTag = input => input.replace(imgTagRegex, (imgTag) => {
+  const _imgTag = imgTag.trim();
+  const match = _imgTag.match(imgRegex);
+
+  if (match && match[0]) {
+
+    return imageBody(match[0]);
+  }
+
+  return imgTag;
+});
 
 const createFromDoubleImageLink = input => input.replace(onlyImageDoubleLinkRegex, (link) => {
   const _link = link.trim();
-  return `<img data-href="https://img.esteem.app/300x0/${_link}" src="https://img.esteem.app/500x0/${_link}">`;
+
+  return imageBody(_link);
 });
 
 const createYoutubeIframe = input => input.replace(youTubeRegex, (link) => {
@@ -214,4 +228,4 @@ const createVimeoIframe = input => input.replace(vimeoRegex, (link) => {
 });
 
 const iframeBody = link => `<iframe frameborder='0' allowfullscreen src='${link}'></iframe>`;
-const imageBody = link => `<img data-href="${link}" src="${link}">`;
+const imageBody = link => `<img data-href="${`https://img.esteem.app/600x0/${link}`}" src="${`https://img.esteem.app/600x0/${link}`}">`;
