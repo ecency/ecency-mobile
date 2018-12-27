@@ -5,7 +5,7 @@ import { withNavigation } from 'react-navigation';
 import FastImage from 'react-native-fast-image';
 
 // Components
-import { Tag } from '../../../basicUIElements';
+import { Tag, TextWithIcon } from '../../../basicUIElements';
 
 // Styles
 import styles from './postHeaderDescriptionStyles';
@@ -43,7 +43,15 @@ class PostHeaderDescription extends PureComponent {
 
   render() {
     const {
-      date, avatar, name, reputation, size, tag, tagOnPress, isHideImage,
+      avatar,
+      date,
+      isHideImage,
+      name,
+      reblogedBy,
+      reputation,
+      size,
+      tag,
+      tagOnPress,
     } = this.props;
 
     const _reputationText = `(${reputation})`;
@@ -77,6 +85,7 @@ class PostHeaderDescription extends PureComponent {
           </TouchableOpacity>
         )}
         <Text style={styles.date}>{date}</Text>
+        {!!reblogedBy && <TextWithIcon text={reblogedBy} iconType="MaterialIcons" iconName="repeat" />}
       </View>
     );
   }

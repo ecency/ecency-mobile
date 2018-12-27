@@ -14,7 +14,7 @@ export const parsePost = (post, currentUserName, isSummary = false) => {
 
   _post.json_metadata = JSON.parse(post.json_metadata);
   _post.image = postImage(post.json_metadata, post.body);
-  _post.pending_payout_value = parseFloat(post.pending_payout_value).toFixed(2);
+  _post.pending_payout_value = parseFloat(post.pending_payout_value).toFixed(3);
   _post.created = getTimeFromNow(post.created);
   _post.vote_count = post.active_votes.length;
   _post.author_reputation = getReputation(post.author_reputation);
@@ -121,7 +121,7 @@ export const protocolUrl2Obj = (url) => {
 
 export const parseComments = (comments) => {
   comments.map((comment) => {
-    comment.pending_payout_value = parseFloat(comment.pending_payout_value).toFixed(2);
+    comment.pending_payout_value = parseFloat(comment.pending_payout_value).toFixed(3);
     comment.created = getTimeFromNow(comment.created);
     comment.vote_count = comment.active_votes.length;
     comment.author_reputation = getReputation(comment.author_reputation);

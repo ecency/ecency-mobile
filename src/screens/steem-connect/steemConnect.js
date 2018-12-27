@@ -39,7 +39,7 @@ class SteemConnect extends PureComponent {
             if (result) {
               dispatch(updateCurrentAccount({ ...result }));
               dispatch(addOtherAccount({ username: result.name }));
-              dispatch(loginAction());
+              dispatch(loginAction(true));
               dispatch(openPinCodeModal());
               setPinCodeState({ accessToken, navigateTo: ROUTES.DRAWER.MAIN });
             } else {

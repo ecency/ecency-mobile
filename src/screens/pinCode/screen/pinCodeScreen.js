@@ -11,6 +11,7 @@ class PinCodeScreen extends PureComponent {
     super(props);
     this.state = {
       pin: '',
+      loading: false,
     };
   }
 
@@ -18,10 +19,12 @@ class PinCodeScreen extends PureComponent {
 
   // Component Functions
 
-  _handleKeyboardOnPress = (value) => {
+  _handleKeyboardOnPress = async (value) => {
     const { setPinCode } = this.props;
-    const { pin } = this.state;
-
+    const { pin, loading } = this.state;
+    if (loading) {
+      return;
+    }
     if (value === 'clear') {
       this.setState({ pin: '' });
       return;
@@ -31,14 +34,15 @@ class PinCodeScreen extends PureComponent {
     if (pin.length < 3) {
       this.setState({ pin: newPin });
     } else if (pin.length === 3) {
-      this.setState({ pin: newPin });
+      await this.setState({ pin: newPin, loading: true });
+
       setPinCode(`${pin}${value}`)
         .then(() => {
           // TODO: fix unmounted component error
-          this.setState({ pin: '' });
+          this.setState({ pin: '', loading: false });
         })
         .catch(() => {
-          this.setState({ pin: '' });
+          this.setState({ pin: '', loading: false });
         });
     } else if (pin.length > 3) {
       this.setState({ pin: `${value}` });
@@ -49,7 +53,7 @@ class PinCodeScreen extends PureComponent {
     const {
       informationText, showForgotButton, username, intl,
     } = this.props;
-    const { pin } = this.state;
+    const { pin, loading } = this.state;
 
     return (
       <View style={styles.container}>
@@ -63,7 +67,7 @@ class PinCodeScreen extends PureComponent {
           <Text style={styles.informationText}>{informationText}</Text>
         </View>
         <View style={styles.animatedView}>
-          <PinAnimatedInput pin={pin} />
+          <PinAnimatedInput pin={pin} loading={loading} />
         </View>
         <View style={styles.numericKeyboardView}>
           <NumericKeyboard onPress={this._handleKeyboardOnPress} />
