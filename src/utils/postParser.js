@@ -14,7 +14,6 @@ export const parsePost = (post, currentUserName, isSummary = false) => {
 
   _post.json_metadata = JSON.parse(post.json_metadata);
   _post.image = postImage(post.json_metadata, post.body);
-  _post.pending_payout_value = parseFloat(post.pending_payout_value).toFixed(3);
   _post.created = getTimeFromNow(post.created);
   _post.vote_count = post.active_votes.length;
   _post.author_reputation = getReputation(post.author_reputation);
@@ -33,6 +32,8 @@ export const parsePost = (post, currentUserName, isSummary = false) => {
   const totalPayout = parseFloat(_post.pending_payout_value)
     + parseFloat(_post.total_payout_value)
     + parseFloat(_post.curator_payout_value);
+
+  _post.total_payout = totalPayout.toFixed(3);
 
   const voteRshares = _post.active_votes.reduce((a, b) => a + parseFloat(b.rshares), 0);
   const ratio = totalPayout / voteRshares;

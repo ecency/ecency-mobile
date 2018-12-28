@@ -60,8 +60,6 @@ class PostCard extends Component {
       ? { uri: content.image, priority: FastImage.priority.high }
       : DEFAULT_IMAGE;
     const reblogedBy = content.reblogged_by && content.reblogged_by[0];
-    // repeat icon
-    // text rebloged by ${reblogedBy}
 
     return (
       <View style={styles.post}>

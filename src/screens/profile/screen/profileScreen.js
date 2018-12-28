@@ -36,7 +36,9 @@ class ProfileScreen extends PureComponent {
   };
 
   _handleOnSummaryExpanded = () => {
-    this.setState({ isSummaryOpen: true });
+    const { isSummaryOpen } = this.state;
+
+    if (!isSummaryOpen) this.setState({ isSummaryOpen: true });
   };
 
   _handleUIChange = (height) => {
