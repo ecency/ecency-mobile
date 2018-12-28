@@ -18,6 +18,9 @@ export default EStyleSheet.create({
     left: -16,
     // height: 50,
   },
+  ul: {
+    color: 'red',
+  },
   commentContainer: {
     paddingHorizontal: 0,
     marginTop: 20,
