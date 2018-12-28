@@ -5,9 +5,6 @@ import { PostHeaderDescription } from '../../postElements';
 import { PostDropdown } from '../../postDropdown';
 import { Icon } from '../../icon';
 
-// Utils
-import { makeCountFriendly } from '../../../utils/formatter';
-
 // STEEM
 import { Upvote } from '../../upvote';
 // Styles
@@ -110,12 +107,12 @@ class PostCard extends Component {
                 iconType="MaterialIcons"
                 name="people"
               />
-              <Text style={styles.comment}>{makeCountFriendly(content.vote_count)}</Text>
+              <Text style={styles.comment}>{content.vote_count}</Text>
             </TouchableOpacity>
           </View>
           <TouchableOpacity style={styles.commentButton}>
             <Icon style={[styles.commentIcon]} iconType="MaterialIcons" name="comment" />
-            <Text style={styles.comment}>{makeCountFriendly(content.children)}</Text>
+            <Text style={styles.comment}>{content.children}</Text>
           </TouchableOpacity>
         </View>
       </View>
