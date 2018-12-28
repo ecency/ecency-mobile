@@ -18,8 +18,8 @@ export default EStyleSheet.create({
     left: -16,
     // height: 50,
   },
-  ul: {
-    color: 'red',
+  code: {
+    fontFamily: '$editorFont',
   },
   commentContainer: {
     paddingHorizontal: 0,
