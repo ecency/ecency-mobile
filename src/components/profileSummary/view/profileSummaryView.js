@@ -19,9 +19,6 @@ import { PercentBar } from '../../percentBar';
 import { IconButton } from '../../iconButton';
 import { DropdownButton } from '../../dropdownButton';
 
-// Utils
-import { makeCountFriendly } from '../../../utils/formatter';
-
 // Styles
 import styles from './profileSummaryStyles';
 
@@ -152,7 +149,7 @@ class ProfileSummaryView extends PureComponent {
             <Fragment>
               <TouchableOpacity onPress={() => handleOnFollowsPress(false)}>
                 <View style={styles.followCountWrapper}>
-                  <Text style={styles.followCount}>{makeCountFriendly(followerCount)}</Text>
+                  <Text style={styles.followCount}>{followerCount}</Text>
                   <Text style={styles.followText}>
                     {' '}
                     {intl.formatMessage({
@@ -163,7 +160,7 @@ class ProfileSummaryView extends PureComponent {
               </TouchableOpacity>
               <TouchableOpacity onPress={() => handleOnFollowsPress(true)}>
                 <View style={styles.followCountWrapper}>
-                  <Text style={styles.followCount}>{makeCountFriendly(followingCount)}</Text>
+                  <Text style={styles.followCount}>{followingCount}</Text>
                   <Text style={styles.followText}>
                     {intl.formatMessage({
                       id: 'profile.following',
