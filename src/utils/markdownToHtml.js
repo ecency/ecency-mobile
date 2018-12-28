@@ -21,6 +21,7 @@ const urlRegex = /(http|ftp|https):\/\/([\w_-]+(?:(?:\.[\w_-]+)+))([\w.,@?^=%&:/
 const aTagRegex = /(<\s*a[^>]*>(.*?)<\s*[/]\s*a>)/g;
 const imgTagRegex = /(<img[^>]*>)/g;
 const iframeRegex = /(?:<iframe[^>]*)(?:(?:\/>)|(?:>.*?<\/iframe>))/g;
+const codeTagRegex= /(?:<code[^>]*)(?:(?:\/>)|(?:>.*?<\/code>))/g;
 
 export const markDown2Html = (input) => {
   if (!input) {
@@ -66,6 +67,10 @@ export const markDown2Html = (input) => {
 
   if (iframeRegex.test(output)) {
     output = handleIframe(output);
+  }
+
+  if (codeTagRegex.test(output)) {
+    output = handleCodeTag(output);
   }
 
   if (linkRegex.test(output)) {
@@ -153,6 +158,18 @@ const changeMarkdownImage = input => input.replace(markdownImageRegex, (link) =>
 });
 
 const centerStyling = input => input.replace(centerRegex, () => '<center style="text-align:center;">');
+
+const handleCodeTag = input => input.replace(codeTagRegex, (tag) => {
+  const stringsRegex = /(?<=>)(.*)(?=<)/g;
+  const match = tag.match(stringsRegex);
+
+  if (match && match[0]) {
+    return `<p class="code" >${match[0]}</p>`;
+  }
+
+  return iframeBody(match[0]);
+
+});
 
 const createCenterImage = input => input.replace(imgCenterRegex, (link) => {
   let _link = link;

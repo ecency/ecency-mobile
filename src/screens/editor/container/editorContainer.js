@@ -103,7 +103,7 @@ class EditorContainer extends Component {
       // height: 400,
       // cropping: true,
       // writeTempFile: true,
-      // includeBase64: true,
+      includeBase64: true,
       // multiple: true,
     })
       .then((image) => {
@@ -119,7 +119,7 @@ class EditorContainer extends Component {
       // width: 300,
       // height: 400,
       // cropping: true,
-      //  includeBase64: true,
+      includeBase64: true,
     })
       .then((image) => {
         this._handleMediaOnSelected(image);
@@ -145,16 +145,13 @@ class EditorContainer extends Component {
     const file = {
       uri: media.path,
       type: media.mime,
-      name: media.filename,
+      name: media.filename || `IMG_${Math.random()}.JPG`,
       size: media.size,
-      source: media.sourceURL,
-      // data: `data:${media.mime};base64,${media.data}`,
-      // base64: media.data,
     };
 
     uploadImage(file)
       .then((res) => {
-        if (res.data) {
+        if (res.data && res.data.url) {
           this.setState({ uploadedImage: res.data, isUploading: false });
         }
       })
