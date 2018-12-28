@@ -34,7 +34,6 @@ class PinAnimatedInput extends PureComponent {
   }
 
   _startLoadingAnimation = () => {
-    const { loading } = this.props;
     [...Array(4)].map((item, index) => {
       this.dots[index].setValue(0);
     });
@@ -44,8 +43,10 @@ class PinAnimatedInput extends PureComponent {
         duration: 250,
         easing: Easing.linear,
       })),
-    ]).start(() => {
-      if (loading) this._startLoadingAnimation();
+    ]).start((o) => {
+      if (o.finished) {
+        this._startLoadingAnimation();
+      }
     });
   };
 
