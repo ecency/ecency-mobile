@@ -20,6 +20,7 @@ const markdownImageRegex = /!\[[^\]]*\]\((.*?)\s*("(?:.*[^"])")?\s*\)/g;
 const urlRegex = /(http|ftp|https):\/\/([\w_-]+(?:(?:\.[\w_-]+)+))([\w.,@?^=%&:/~+#-]*[\w@?^=%&/~+#-])?/gm;
 const aTagRegex = /(<\s*a[^>]*>(.*?)<\s*[/]\s*a>)/g;
 const imgTagRegex = /(<img[^>]*>)/g;
+const iframeRegex = /(?:<iframe[^>]*)(?:(?:\/>)|(?:>.*?<\/iframe>))/g;
 
 export const markDown2Html = (input) => {
   if (!input) {
@@ -65,6 +66,10 @@ export const markDown2Html = (input) => {
 
   if (markdownImageRegex.test(output)) {
     output = changeMarkdownImage(output);
+  }
+
+  if (iframeRegex.test(output)) {
+    output = handleIframe(output);
   }
 
   if (linkRegex.test(output)) {
@@ -194,6 +199,17 @@ const createYoutubeIframe = input => input.replace(youTubeRegex, (link) => {
     const embedLink = `https://www.youtube.com/embed/${videoLink}`;
 
     return iframeBody(embedLink);
+  }
+
+  return link;
+});
+
+const handleIframe = input => input.replace(iframeRegex, (link) => {
+  const match = link.match(linkRegex);
+
+  if (match && match[0]) {
+
+    return iframeBody(match[0]);
   }
 
   return link;
