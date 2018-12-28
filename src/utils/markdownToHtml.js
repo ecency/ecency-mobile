@@ -19,7 +19,7 @@ const linkRegex = /[-a-zA-Z0-9@:%_\+.~#?&//=]{2,256}\.[a-z]{2,4}\b(\/[-a-zA-Z0-9
 const markdownImageRegex = /!\[[^\]]*\]\((.*?)\s*("(?:.*[^"])")?\s*\)/g;
 const urlRegex = /(http|ftp|https):\/\/([\w_-]+(?:(?:\.[\w_-]+)+))([\w.,@?^=%&:/~+#-]*[\w@?^=%&/~+#-])?/gm;
 const aTagRegex = /(<\s*a[^>]*>(.*?)<\s*[/]\s*a>)/g;
-const imgTagRegex = /(<img([\w\W]+?)\/>)/g;
+const imgTagRegex = /(<img[^>]*>)/g;
 
 export const markDown2Html = (input) => {
   if (!input) {
@@ -43,10 +43,6 @@ export const markDown2Html = (input) => {
     output = handleATag(output);
   }
 
-  if (pullRightLeftRegex.test(output)) {
-    output = changePullRightLeft(output);
-  }
-
   if (imgTagRegex.test(output)) {
     output = handleImageTag(output);
   }
@@ -59,14 +55,6 @@ export const markDown2Html = (input) => {
     output = createVimeoIframe(output);
   }
 
-  if (imgCenterRegex.test(output)) {
-    output = createCenterImage(output);
-  }
-
-  if (onlyImageLinkRegex.test(output)) {
-    output = createImage(output);
-  }
-
   if (centerRegex.test(output)) {
     output = centerStyling(output);
   }
@@ -75,17 +63,12 @@ export const markDown2Html = (input) => {
     output = steemitUrlHandle(output);
   }
 
-  if (linkRegex.test(output)) {
-    output = handleLinks(output);
-  }
-
-
   if (markdownImageRegex.test(output)) {
     output = changeMarkdownImage(output);
   }
 
-  if (onlyImageDoubleLinkRegex.test(output)) {
-    output = createFromDoubleImageLink(output);
+  if (linkRegex.test(output)) {
+    output = handleLinks(output);
   }
 
   output = md.render(output);
@@ -129,7 +112,13 @@ const handleATag = input => input.replace(aTagRegex, (link) => {
 
 const handleLinks = input => input.replace(linkRegex, (link) => {
   if (link) {
-    if (link.toLowerCase().trim().indexOf('https://steemitimages.com/0x0/') === 0) {
+    if (
+      link
+        .toLowerCase()
+        .trim()
+        .indexOf('https://steemitimages.com/0x0/') === 0
+        || imgRegex.test(link)
+    ) {
       const imageMatch = link.match(imgRegex);
 
       if (imageMatch && imageMatch[0]) {
@@ -147,7 +136,7 @@ const changeMarkdownImage = input => input.replace(markdownImageRegex, (link) =>
     const firstMarkdownMatch = markdownMatch[0];
     const _link = firstMarkdownMatch.match(urlRegex)[0];
 
-    return imageBody(_link);
+    return _link;
   }
   return link;
 });
@@ -184,7 +173,7 @@ const handleImageTag = input => input.replace(imgTagRegex, (imgTag) => {
   const match = _imgTag.match(imgRegex);
 
   if (match && match[0]) {
-    return imageBody(match[0]);
+    return match[0];
   }
 
   return imgTag;
@@ -234,4 +223,4 @@ const createVimeoIframe = input => input.replace(vimeoRegex, (link) => {
 });
 
 const iframeBody = link => `<iframe frameborder='0' allowfullscreen src='${link}'></iframe>`;
-const imageBody = link => `<img data-href="${`https://steemitimages.com/600x0/${link}`}" src="${`https://steemitimages.com/600x0/${link}`}">`;
+const imageBody = link => `<img src="${`https://steemitimages.com/600x0/${link}`}">`;
