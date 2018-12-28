@@ -40,10 +40,6 @@ export const markDown2Html = (input) => {
     output = createYoutubeIframe(output);
   }
 
-  if (aTagRegex.test(output)) {
-    output = handleATag(output);
-  }
-
   if (imgTagRegex.test(output)) {
     output = handleImageTag(output);
   }
@@ -74,6 +70,10 @@ export const markDown2Html = (input) => {
 
   if (linkRegex.test(output)) {
     output = handleLinks(output);
+  }
+
+  if (aTagRegex.test(output)) {
+    output = handleATag(output);
   }
 
   output = md.render(output);
@@ -110,6 +110,12 @@ const handleATag = input => input.replace(aTagRegex, (link) => {
       return iframeBody(dTubeMatch);
     }
     return link;
+  }
+
+  if (imgRegex.test(link)) {
+    const imgMatch = link.match(imgRegex)[0];
+
+    if (imgMatch) return `<a src="${imgMatch}">Image</a>`;
   }
 
   return link;
@@ -208,7 +214,6 @@ const handleIframe = input => input.replace(iframeRegex, (link) => {
   const match = link.match(linkRegex);
 
   if (match && match[0]) {
-
     return iframeBody(match[0]);
   }
 
