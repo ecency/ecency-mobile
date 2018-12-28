@@ -120,7 +120,7 @@ class UpvoteView extends Component {
   };
 
   render() {
-    const { isLoggedIn, isShowPayoutValue, pendingPayoutValue } = this.props;
+    const { isLoggedIn, isShowPayoutValue, totalPayout } = this.props;
     const {
       isVoting, amount, sliderValue, isVoted,
     } = this.state;
@@ -167,8 +167,8 @@ class UpvoteView extends Component {
                     name={iconName}
                   />
                 )}
-                {isShowPayoutValue && pendingPayoutValue && (
-                <Text style={styles.payoutValue}>{`$${pendingPayoutValue}`}</Text>
+                {isShowPayoutValue && totalPayout && (
+                <Text style={styles.payoutValue}>{`$${totalPayout}`}</Text>
                 )}
               </Fragment>
             </TouchableOpacity>
