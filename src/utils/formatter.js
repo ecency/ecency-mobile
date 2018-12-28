@@ -25,4 +25,4 @@ export const makeCountFriendly = (value) => {
   return intlFormat(value);
 };
 
-const intlFormat = num => new Intl.NumberFormat().format(Math.round(num * 10) / 10);
+const intlFormat = num => Math.round(num * 10) / 10;
