@@ -5,9 +5,6 @@ import { PostHeaderDescription } from '../../postElements';
 import { PostDropdown } from '../../postDropdown';
 import { Icon } from '../../icon';
 
-// Utils
-import { makeCountFriendly } from '../../../utils/formatter';
-
 // STEEM
 import { Upvote } from '../../upvote';
 // Styles
