@@ -7,9 +7,11 @@ import {
   updateUserData,
   updateCurrentUsername,
   getUserData,
+  setSCAccount,
 } from '../../realm/realm';
 import { encryptKey, decryptKey } from '../../utils/crypto';
 import steemConnect from './steemConnectAPI';
+import { getSCAccessToken } from '../esteem/esteem';
 
 export const login = async (username, password) => {
   const resultKeys = {
@@ -26,7 +28,9 @@ export const login = async (username, password) => {
     return Promise.reject(new Error('Invalid pin code, please check and try again'));
   }
   if (isLoggedInUser(username)) {
-    return Promise.reject(new Error('You are already logged in, please try to add another account'));
+    return Promise.reject(
+      new Error('You are already logged in, please try to add another account'),
+    );
   }
 
   // Public keys of user
@@ -74,13 +78,15 @@ export const login = async (username, password) => {
     // Save user data to Realm DB
     await setUserData(userData);
     await updateCurrentUsername(account.name);
-    return ({ ...account, password });
+    return { ...account, password };
   }
   return Promise.reject(new Error('Invalid pin code, please check and try again'));
 };
 
-export const loginWithSC2 = async (accessToken) => {
-  await steemConnect.setAccessToken(accessToken);
+export const loginWithSC2 = async (code) => {
+  const scTokens = await getSCAccessToken(code);
+  await setSCAccount(scTokens);
+  await steemConnect.setAccessToken(scTokens.access_token);
   const account = await steemConnect.me();
   let avatar = '';
 
@@ -129,7 +135,8 @@ export const setUserDataWithPinCode = async (data) => {
   const updatedUserData = {
     username: userData.username,
     authType: userData.authType,
-    accessToken: userData.authType === 'steemConnect' ? encryptKey(data.accessToken, data.pinCode) : '',
+    accessToken:
+      userData.authType === 'steemConnect' ? encryptKey(data.accessToken, data.pinCode) : '',
     masterKey: userData.authType === 'masterKey' ? encryptKey(data.password, data.pinCode) : '',
     postingKey: encryptKey(privateKeys.posting.toString(), data.pinCode),
     activeKey: encryptKey(privateKeys.active.toString(), data.pinCode),
@@ -143,11 +150,11 @@ export const setUserDataWithPinCode = async (data) => {
   };
 
   await setAuthStatus(authData);
-  return (response);
+  return response;
 };
 
 export const updatePinCode = async (data) => {
-  let password = null; 
+  let password = null;
   let accessToken = null;
   const users = await getUserData();
   if (users.length > 0) {
@@ -161,7 +168,8 @@ export const updatePinCode = async (data) => {
       const updatedUserData = {
         username: userData.username,
         authType: userData.authType,
-        accessToken: userData.authType === 'steemConnect' ? encryptKey(accessToken, data.pinCode) : '',
+        accessToken:
+          userData.authType === 'steemConnect' ? encryptKey(accessToken, data.pinCode) : '',
         masterKey: userData.authType === 'masterKey' ? encryptKey(password, data.pinCode) : '',
         postingKey: encryptKey(privateKeys.posting.toString(), data.pinCode),
         activeKey: encryptKey(privateKeys.active.toString(), data.pinCode),
@@ -231,7 +239,7 @@ export const verifyPinCode = async (data) => {
       memoKey: decryptKey(userData.memoKey, data.pinCode),
     };
     await setAuthStatus(authData);
-    return (response);
+    return response;
   }
   return Promise.reject(new Error('Invalid pin code, please check and try again'));
 };
@@ -239,12 +247,15 @@ export const verifyPinCode = async (data) => {
 export const switchAccount = username => new Promise((resolve, reject) => {
   getUser(username)
     .then((account) => {
-      updateCurrentUsername(username).then(() => {
-        resolve(account);
-      }).catch(() => {
-        reject(new Error('Unknown error, please contact to eSteem.'));
-      });
-    }).catch(() => {
+      updateCurrentUsername(username)
+        .then(() => {
+          resolve(account);
+        })
+        .catch(() => {
+          reject(new Error('Unknown error, please contact to eSteem.'));
+        });
+    })
+    .catch(() => {
       reject(new Error('Unknown error, please contact to eSteem.'));
     });
 });

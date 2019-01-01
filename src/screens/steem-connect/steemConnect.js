@@ -21,27 +21,28 @@ class SteemConnect extends PureComponent {
   }
 
   _onNavigationStateChange = (event) => {
-    let accessToken;
+    let code;
     const { dispatch, setPinCodeState, handleOnModalClose } = this.props;
     const { isLoading } = this.state;
-    if (event.url.indexOf('?access_token=') > -1) {
+    if (event.url.indexOf('?code=') > -1) {
       this.webview.stopLoading();
       try {
-        accessToken = event.url.match(/\?(?:access_token)\=([\S\s]*?)\&/)[1];
+        code = event.url.match(/\?(?:code)\=([\S\s]*?)\&/)[1];
       } catch (error) {
         // TODO: return
       }
       if (!isLoading) {
         this.setState({ isLoading: true });
         handleOnModalClose();
-        loginWithSC2(accessToken, 'pinCode')
+        loginWithSC2(code, 'pinCode')
           .then((result) => {
             if (result) {
               dispatch(updateCurrentAccount({ ...result }));
               dispatch(addOtherAccount({ username: result.name }));
               dispatch(loginAction(true));
               dispatch(openPinCodeModal());
-              setPinCodeState({ accessToken, navigateTo: ROUTES.DRAWER.MAIN });
+              // TODO: return accesstoken
+              setPinCodeState({ accessToken: result.accessToken, navigateTo: ROUTES.DRAWER.MAIN });
             } else {
               // TODO: Error alert (Toast Message)
             }
