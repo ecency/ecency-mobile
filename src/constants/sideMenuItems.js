@@ -47,7 +47,7 @@ const authMenuItems = [
   {
     name: 'Logout',
     route: '',
-    icon: 'exit-to-app',
+    icon: 'power-settings-new',
     id: 'logout',
   },
 ];
