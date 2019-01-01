@@ -2,6 +2,7 @@ import Realm from 'realm';
 
 // CONSTANTS
 const USER_SCHEMA = 'user';
+const SC_ACCOUNTS = 'sc_accounts';
 const AUTH_SCHEMA = 'auth';
 const DRAFT_SCHEMA = 'draft';
 const SETTINGS_SCHEMA = 'settings';
@@ -18,6 +19,16 @@ const userSchema = {
     memoKey: { type: 'string' },
     masterKey: { type: 'string' },
     accessToken: { type: 'string' },
+  },
+};
+
+const scAccounts = {
+  name: SC_ACCOUNTS,
+  properties: {
+    username: { type: 'string', default: null },
+    accessToken: { type: 'string', default: null },
+    refreshToken: { type: 'string', default: null },
+    expireDate: { type: 'string', default: null },
   },
 };
 
@@ -62,7 +73,7 @@ const authSchema = {
 
 const realm = new Realm({
   path: 'esteem.realm',
-  schema: [userSchema, authSchema, draftSchema, settingsSchema, applicationSchema],
+  schema: [userSchema, authSchema, draftSchema, settingsSchema, applicationSchema, scAccounts],
 });
 
 const settings = realm.objects(SETTINGS_SCHEMA);
@@ -155,7 +166,6 @@ export const removeUserData = username => new Promise((resolve, reject) => {
         realm.delete(account);
         resolve();
       });
-
     } else {
       reject('Could not remove selected user');
     }
@@ -485,6 +495,36 @@ export const setExistUser = existUser => new Promise((resolve, reject) => {
         };
         realm.create(APPLICATION_SCHEMA, { ...applicationData });
         resolve(applicationData);
+      }
+    });
+  } catch (error) {
+    reject(error);
+  }
+});
+
+export const setSCAccount = data => new Promise((resolve, reject) => {
+  try {
+    const scAccount = realm.objects(SC_ACCOUNTS).filtered('username = $0', data.username);
+    const date = new Date();
+    const test = new Date(data.expires_in);
+    console.log('date :', date);
+    console.log('test :', test);
+    // TODO: expire date colculate
+    realm.write(() => {
+      if (Array.from(scAccount).length > 0) {
+        scAccount[0].accessToken = data.accessToken;
+        scAccount[0].refreshToken = data.refreshToken;
+        scAccount[0].expireDate = data.expireDate;
+        resolve();
+      } else {
+        const account = {
+          username: data.username,
+          accessToken: data.access_token,
+          refreshToken: data.refresh_token,
+          expireDate: data.expires_in,
+        };
+        realm.create(APPLICATION_SCHEMA, { ...account });
+        resolve();
       }
     });
   } catch (error) {

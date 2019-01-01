@@ -195,3 +195,9 @@ export const uploadImage = (file) => {
 // });
 
 export const getNodes = () => serverList.get().then(resp => resp.data.nodes);
+
+export const getSCAccessToken = code => api
+  .post('/api/sc-token-refresh', {
+    code,
+  })
+  .then(resp => resp.data);
