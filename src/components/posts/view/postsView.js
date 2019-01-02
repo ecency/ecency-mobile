@@ -12,8 +12,8 @@ import { getPostsSummary } from '../../../providers/steem/dsteem';
 import { PostCard } from '../../postCard';
 import { FilterBar } from '../../filterBar';
 import { PostCardPlaceHolder, NoPost } from '../../basicUIElements';
+import {filters, profile_filters} from '../../../constants/options/filters';
 
-import filters from '../../../constants/options/filters.json';
 // Styles
 import styles from './postsStyles';
 import { default as ROUTES } from '../../../constants/routeNames';
@@ -21,6 +21,7 @@ import { default as ROUTES } from '../../../constants/routeNames';
 class PostsView extends Component {
   constructor(props) {
     super(props);
+    const { selectedOptionIndex } = this.props;
     this.state = {
       posts: [],
       startAuthor: '',
@@ -29,7 +30,7 @@ class PostsView extends Component {
       isLoading: false,
       isPostsLoading: true,
       isHideImage: false,
-      selectedFilterIndex: 0,
+      selectedFilterIndex: selectedOptionIndex||0,
       isNoPost: false,
     };
   }
@@ -79,25 +80,32 @@ class PostsView extends Component {
   };
 
   _loadPosts = () => {
-    const { getFor, tag, currentAccountUsername } = this.props;
+
+    const { getFor, tag, currentAccountUsername, pageType } = this.props;
     const {
       posts, startAuthor, startPermlink, refreshing, selectedFilterIndex,
     } = this.state;
-    const filter = selectedFilterIndex !== 0 ? filters[selectedFilterIndex] : getFor;
+    const filter = pageType === 'posts' ? filters[selectedFilterIndex].toLowerCase() : profile_filters[selectedFilterIndex].toLowerCase();
     let options;
     let newPosts = [];
 
     this.setState({ isLoading: true });
-
-    if ((!filter && tag) || filter === 'feed' || getFor === 'blog') {
+    if ((!filter && tag) || filter === 'feed' || filter === 'blog' || getFor === 'blog') {
       options = {
         tag,
         limit: 3,
       };
     } else {
-      options = {
-        limit: 3,
-      };
+      if (filter=='reblogs'){
+        options = {
+          tag,
+          limit: 3,
+        };  
+      } else {
+        options = {
+          limit: 3,
+        };  
+      }
     }
 
     if (startAuthor && startPermlink && !refreshing) {
@@ -110,9 +118,18 @@ class PostsView extends Component {
         if (result.length > 0) {
           let _posts = result;
 
+          if (filter==='reblogs') {
+            for (var i = _posts.length - 1; i >= 0; i--) {
+              if (_posts[i].author === currentAccountUsername) {
+                _posts.splice(i, 1);
+              }
+            }
+          }
           if (_posts.length > 0) {
             if (posts.length > 0) {
               if (refreshing) {
+                //TODO: make sure post is not duplicated, because checking with `includes` might re-add post 
+                //if there was change in post object from blockchain
                 newPosts = _posts.filter(post => posts.includes(post));
                 _posts = [...newPosts, ...posts];
               } else {
@@ -126,6 +143,7 @@ class PostsView extends Component {
                 posts: _posts,
               });
             } else if (!refreshing) {
+              
               this.setState({
                 posts: _posts,
                 startAuthor: result[result.length - 1] && result[result.length - 1].author,
@@ -215,6 +233,7 @@ class PostsView extends Component {
     } = this.state;
     const {
       filterOptions,
+      selectedOptionIndex,
       intl,
       isLoggedIn,
       getFor,
@@ -229,8 +248,8 @@ class PostsView extends Component {
           <FilterBar
             dropdownIconName="arrow-drop-down"
             options={filterOptions}
-            selectedOptionIndex={0}
-            defaultText={filterOptions[0]}
+            selectedOptionIndex={selectedOptionIndex}
+            defaultText={filterOptions[selectedOptionIndex]}
             rightIconName="view-module"
             rightIconType="MaterialIcons"
             onDropdownSelect={this._handleOnDropdownSelect}
@@ -238,7 +257,7 @@ class PostsView extends Component {
           />
         )}
         <Fragment>
-          {filters[selectedFilterIndex] === 'feed'
+          {profile_filters[selectedFilterIndex] === 'feed'
             && getFor === 'feed'
             && !isLoggedIn
             && isLoginDone && (
