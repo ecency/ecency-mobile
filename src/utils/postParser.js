@@ -23,7 +23,7 @@ export const parsePost = (post, currentUserName, isSummary = false) => {
 
   _post.body = markDown2Html(post.body);
   _post.summary = getPostSummary(post.body, 150);
-  _post.is_declined_payout = Number(parseFloat(post.max_accepted_payout.split(' ')[0])) === 0;
+  _post.is_declined_payout = Number(parseFloat(post.max_accepted_payout)) === 0;
 
   if (currentUserName) {
     _post.is_voted = isVoted(_post.active_votes, currentUserName);
