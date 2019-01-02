@@ -8,6 +8,7 @@ import {
   updateCurrentUsername,
   getUserData,
   setSCAccount,
+  getSCAccount,
 } from '../../realm/realm';
 import { encryptKey, decryptKey } from '../../utils/crypto';
 import steemConnect from './steemConnectAPI';
@@ -85,7 +86,6 @@ export const login = async (username, password) => {
 
 export const loginWithSC2 = async (code) => {
   const scTokens = await getSCAccessToken(code);
-  console.log('scTokens :', scTokens);
   await setSCAccount(scTokens);
   await steemConnect.setAccessToken(scTokens.access_token);
   const account = await steemConnect.me();
@@ -200,6 +200,18 @@ export const verifyPinCode = async (data) => {
         accessToken = decryptKey(userData.accessToken, data.pinCode);
       } catch (error) {
         return Promise.reject(new Error('Invalid pin code, please check and try again'));
+      }
+
+      const scAccount = await getSCAccount(userData.username);
+      const now = new Date();
+      const expireDate = new Date(scAccount.expireDate);
+      if (now >= expireDate) {
+        const newSCAccountData = await getSCAccessToken(scAccount.refreshToken);
+        await setSCAccount(newSCAccountData);
+        accessToken = newSCAccountData.access_token;
+        await updateUserData(
+          { ...userData, accessToken: encryptKey(accessToken, data.pinCode) },
+        );
       }
       await steemConnect.setAccessToken(accessToken);
       account = await steemConnect.me();
