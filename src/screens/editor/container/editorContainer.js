@@ -207,6 +207,7 @@ class EditorContainer extends Component {
 
       const meta = extractMetadata(fields.body);
       const jsonMeta = makeJsonMetadata(meta, fields.tags);
+      //TODO: check if permlink is available github: #314
       const permlink = generatePermlink(fields.title);
       const author = currentAccount.name;
       const options = makeOptions(author, permlink);
