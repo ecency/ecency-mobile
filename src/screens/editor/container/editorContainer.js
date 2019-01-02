@@ -4,13 +4,13 @@ import { Alert } from 'react-native';
 import ImagePicker from 'react-native-image-crop-picker';
 
 // Services and Actions
-// import { Buffer } from 'buffer';
+import { Buffer } from 'buffer';
 import { uploadImage } from '../../../providers/esteem/esteem';
-import { postContent } from '../../../providers/steem/dsteem';
+import { postContent, getPurePost } from '../../../providers/steem/dsteem';
 import { setDraftPost, getDraftPost } from '../../../realm/realm';
 
-// Constants
-import { default as ROUTES } from '../../../constants/routeNames';
+// // Constants
+// import { default as ROUTES } from '../../../constants/routeNames';
 
 // Utilities
 import {
@@ -20,6 +20,7 @@ import {
   makeOptions,
   extractMetadata,
   makeJsonMetadataReply,
+  createPatch,
 } from '../../../utils/editor';
 // import { generateSignature } from '../../../utils/image';
 // Component
@@ -40,6 +41,7 @@ class EditorContainer extends Component {
       isCameraOrPickerOpen: false,
       isDraftSaved: false,
       isDraftSaving: false,
+      isEdit: false,
       isPostSending: false,
       isReply: false,
       isUploading: false,
@@ -54,15 +56,33 @@ class EditorContainer extends Component {
     const { currentAccount, navigation } = this.props;
     const username = currentAccount && currentAccount.name ? currentAccount.name : '';
     let isReply;
+    let isEdit;
     let post;
 
     if (navigation.state && navigation.state.params) {
       const navigationParams = navigation.state.params;
 
+      if (navigationParams.post) {
+        post = navigationParams.post;
+        this.setState({ post });
+      }
+
       if (navigationParams.isReply) {
         isReply = navigationParams.isReply;
-        post = navigationParams.post;
-        this.setState({ isReply, post });
+        this.setState({ isReply });
+      }
+
+      if (navigationParams.isEdit) {
+        isEdit = navigationParams.isEdit;
+        this.setState(
+          {
+            isEdit,
+            draftPost: { title: post.title, tags: post.json_metadata.tags },
+          },
+          () => {
+            this._getPurePost(post.author, post.permlink);
+          },
+        );
       }
 
       if (navigationParams.action) {
@@ -72,7 +92,7 @@ class EditorContainer extends Component {
       this.setState({ autoFocusText: true });
     }
 
-    if (!isReply) {
+    if (!isReply && !isEdit) {
       getDraftPost(username)
         .then((result) => {
           this.setState({
@@ -84,6 +104,21 @@ class EditorContainer extends Component {
         });
     }
   }
+
+  _getPurePost = (author, permlink) => {
+    getPurePost(author, permlink)
+      .then((result) => {
+        if (result) {
+          this.setState(prevState => ({
+            draftPost: {
+              ...prevState.draftPost,
+              body: result.body,
+            },
+          }));
+        }
+      })
+      .catch(() => {});
+  };
 
   _handleRoutingAction = (routingAction) => {
     this.setState({ isCameraOrPickerOpen: true });
@@ -207,7 +242,7 @@ class EditorContainer extends Component {
 
       const meta = extractMetadata(fields.body);
       const jsonMeta = makeJsonMetadata(meta, fields.tags);
-      //TODO: check if permlink is available github: #314 https://github.com/esteemapp/esteem-mobile/pull/314
+      // TODO: check if permlink is available github: #314 https://github.com/esteemapp/esteem-mobile/pull/314
       const permlink = generatePermlink(fields.title);
       const author = currentAccount.name;
       const options = makeOptions(author, permlink);
@@ -263,7 +298,46 @@ class EditorContainer extends Component {
         0,
       )
         .then((result) => {
-          this._handleReplySuccess();
+          this._handleSubmitSuccess();
+        })
+        .catch((error) => {
+          this._handleSubmitFailure(error);
+        });
+    }
+  };
+
+  _submitEdit = async (fields) => {
+    const { currentAccount, pinCode } = this.props;
+    const { post } = this.state;
+    if (currentAccount) {
+      this.setState({ isPostSending: true });
+
+      const {
+        body: oldBody, parent_permlink: parentPermlink, permlink, parent_author: parentAuthor,
+      } = post;
+
+      let newBody = fields.body;
+      const patch = createPatch(oldBody, newBody.trim());
+
+      if (patch && patch.length < Buffer.from(oldBody, 'utf-8').length) {
+        newBody = patch;
+      }
+
+      const meta = extractMetadata(fields.body);
+      const jsonMeta = makeJsonMetadata(meta, fields.tags);
+
+      await postContent(
+        currentAccount,
+        pinCode,
+        parentAuthor || '',
+        parentPermlink,
+        permlink,
+        fields.title,
+        newBody,
+        jsonMeta,
+      )
+        .then((result) => {
+          this._handleSubmitSuccess();
         })
         .catch((error) => {
           this._handleSubmitFailure(error);
@@ -276,7 +350,7 @@ class EditorContainer extends Component {
     this.setState({ isPostSending: false });
   };
 
-  _handleReplySuccess = () => {
+  _handleSubmitSuccess = () => {
     const { navigation } = this.props;
 
     navigation.goBack();
@@ -284,10 +358,12 @@ class EditorContainer extends Component {
   };
 
   _handleSubmit = (form) => {
-    const { isReply } = this.state;
+    const { isReply, isEdit } = this.state;
 
-    if (isReply) {
+    if (isReply && !isEdit) {
       this._submitReply(form.fields);
+    } else if (isEdit) {
+      this._submitEdit(form.fields);
     } else {
       this._submitPost(form.fields);
     }
@@ -309,6 +385,7 @@ class EditorContainer extends Component {
       isCameraOrPickerOpen,
       isDraftSaved,
       isDraftSaving,
+      isEdit,
       isOpenCamera,
       isPostSending,
       isReply,
@@ -333,6 +410,7 @@ class EditorContainer extends Component {
         isOpenCamera={isOpenCamera}
         isPostSending={isPostSending}
         isReply={isReply}
+        isEdit={isEdit}
         isUploading={isUploading}
         post={post}
         uploadedImage={uploadedImage}
