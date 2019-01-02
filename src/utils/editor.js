@@ -20,10 +20,9 @@ export const generatePermlink = (title, random = false) => {
 
     // only letters numbers and dashes
     perm = perm.toLowerCase().replace(/[^a-z0-9-]+/g, '');
-    return perm;  
-  } 
+    return perm;
+  }
   return null;
-  
 };
 
 export const generateReplyPermlink = (toAuthor) => {

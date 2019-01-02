@@ -56,6 +56,18 @@ class PostDisplayContainer extends Component {
     });
   };
 
+  _handleOnEditPress = () => {
+    const { post, navigation } = this.props;
+    navigation.navigate({
+      routeName: ROUTES.SCREENS.EDITOR,
+      params: {
+        isEdit: true,
+        post,
+        fetchPost: this._fetchPost,
+      },
+    });
+  };
+
   _fetchPost = async () => {
     const { post, fetchPost } = this.props;
 
@@ -69,6 +81,7 @@ class PostDisplayContainer extends Component {
       <PostDisplayView
         handleOnVotersPress={this._handleOnVotersPress}
         handleOnReplyPress={this._handleOnReplyPress}
+        handleOnEditPress={this._handleOnEditPress}
         currentAccount={currentAccount}
         fetchPost={this._fetchPost}
         post={post}
