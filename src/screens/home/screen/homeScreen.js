@@ -25,17 +25,6 @@ class HomeScreen extends PureComponent {
     const {
       currentAccount, intl, isLoggedIn, isLoginDone,
     } = this.props;
-    const _filterOptions = [
-      'NEW POSTS',
-      'TRENDING',
-      'HOT',
-      'NEW',
-      'ACTIVE',
-      'PROMOTED',
-      'VOTES',
-      'COMMENTS',
-      'PAYOUT',
-    ];
 
     let tag;
 

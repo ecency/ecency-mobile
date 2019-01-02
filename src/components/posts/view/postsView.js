@@ -260,8 +260,8 @@ class PostsView extends Component {
         <Fragment>
           {profile_filters[selectedFilterIndex] === 'feed'
             && getFor === 'feed'
-            && !isLoggedIn
-            && isLoginDone && (
+            && isLoginDone
+            && !isLoggedIn && (
               <NoPost
                 imageStyle={styles.noImage}
                 isButtonText
