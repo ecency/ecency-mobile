@@ -64,4 +64,8 @@ export default EStyleSheet.create({
     color: '$primaryDarkGray',
     marginLeft: 8,
   },
+  declinedPayout: {
+    textDecorationLine: 'line-through',
+    textDecorationStyle: 'solid',
+  },
 });
