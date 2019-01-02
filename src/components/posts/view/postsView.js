@@ -12,7 +12,7 @@ import { getPostsSummary } from '../../../providers/steem/dsteem';
 import { PostCard } from '../../postCard';
 import { FilterBar } from '../../filterBar';
 import { PostCardPlaceHolder, NoPost } from '../../basicUIElements';
-import {filters, profile_filters} from '../../../constants/options/filters';
+import { POPULAR_FILTERS, PROFILE_FILTERS } from '../../../constants/options/filters';
 
 // Styles
 import styles from './postsStyles';
@@ -21,7 +21,7 @@ import { default as ROUTES } from '../../../constants/routeNames';
 class PostsView extends Component {
   constructor(props) {
     super(props);
-    const { selectedOptionIndex } = this.props;
+
     this.state = {
       posts: [],
       startAuthor: '',
@@ -30,7 +30,7 @@ class PostsView extends Component {
       isLoading: false,
       isPostsLoading: true,
       isHideImage: false,
-      selectedFilterIndex: selectedOptionIndex||0,
+      selectedFilterIndex: props.selectedOptionIndex || 0,
       isNoPost: false,
     };
   }
@@ -80,12 +80,15 @@ class PostsView extends Component {
   };
 
   _loadPosts = () => {
-
-    const { getFor, tag, currentAccountUsername, pageType } = this.props;
+    const {
+      getFor, tag, currentAccountUsername, pageType,
+    } = this.props;
     const {
       posts, startAuthor, startPermlink, refreshing, selectedFilterIndex,
     } = this.state;
-    const filter = pageType === 'posts' ? filters[selectedFilterIndex].toLowerCase() : profile_filters[selectedFilterIndex].toLowerCase();
+    const filter = pageType === 'posts'
+      ? POPULAR_FILTERS[selectedFilterIndex].toLowerCase()
+      : PROFILE_FILTERS[selectedFilterIndex].toLowerCase();
     let options;
     let newPosts = [];
 
@@ -96,16 +99,16 @@ class PostsView extends Component {
         limit: 3,
       };
     } else {
-      //TODO: implement filtering of reblogs on `blog` and `feed` posts
-      if (filter=='reblogs'){
+      // TODO: implement filtering of reblogs on `blog` and `feed` posts
+      if (filter == 'reblogs') {
         options = {
           tag,
           limit: 3,
-        };  
+        };
       } else {
         options = {
           limit: 3,
-        };  
+        };
       }
     }
 
@@ -119,8 +122,8 @@ class PostsView extends Component {
         if (result.length > 0) {
           let _posts = result;
 
-          if (filter==='reblogs') {
-            for (var i = _posts.length - 1; i >= 0; i--) {
+          if (filter === 'reblogs') {
+            for (let i = _posts.length - 1; i >= 0; i--) {
               if (_posts[i].author === currentAccountUsername) {
                 _posts.splice(i, 1);
               }
@@ -129,8 +132,8 @@ class PostsView extends Component {
           if (_posts.length > 0) {
             if (posts.length > 0) {
               if (refreshing) {
-                //TODO: make sure post is not duplicated, because checking with `includes` might re-add post 
-                //if there was change in post object from blockchain
+                // TODO: make sure post is not duplicated, because checking with `includes` might re-add post
+                // if there was change in post object from blockchain
                 newPosts = _posts.filter(post => posts.includes(post));
                 _posts = [...newPosts, ...posts];
               } else {
@@ -144,7 +147,6 @@ class PostsView extends Component {
                 posts: _posts,
               });
             } else if (!refreshing) {
-              
               this.setState({
                 posts: _posts,
                 startAuthor: result[result.length - 1] && result[result.length - 1].author,
@@ -258,8 +260,7 @@ class PostsView extends Component {
           />
         )}
         <Fragment>
-          {profile_filters[selectedFilterIndex] === 'feed'
-            && getFor === 'feed'
+          { getFor === 'feed'
             && isLoginDone
             && !isLoggedIn && (
               <NoPost
