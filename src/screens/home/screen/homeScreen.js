@@ -12,8 +12,7 @@ import { Header } from '../../../components/header';
 // Styles
 import styles from './homeStyles';
 
-import {filters, profile_filters} from '../../../constants/options/filters';
-
+import { POPULAR_FILTERS, PROFILE_FILTERS } from '../../../constants/options/filters';
 
 class HomeScreen extends PureComponent {
   constructor(props) {
@@ -27,10 +26,6 @@ class HomeScreen extends PureComponent {
     } = this.props;
 
     let tag;
-
-    if (isLoginDone && !isLoggedIn) {
-      // tag = 'esteemapp';
-    }
 
     return (
       <Fragment>
@@ -55,8 +50,8 @@ class HomeScreen extends PureComponent {
               style={styles.tabbarItem}
             >
               <Posts
-                filterOptions={profile_filters}
-                getFor={profile_filters[1].toLowerCase()}
+                filterOptions={PROFILE_FILTERS}
+                getFor={PROFILE_FILTERS[1].toLowerCase()}
                 tag={tag || currentAccount.name}
                 selectedOptionIndex={1}
                 pageType="profiles"
@@ -68,7 +63,12 @@ class HomeScreen extends PureComponent {
               })}
               style={styles.tabbarItem}
             >
-              <Posts filterOptions={filters} getFor={filters[0].toLowerCase()} selectedOptionIndex={0} pageType="posts" />
+              <Posts
+                filterOptions={POPULAR_FILTERS}
+                getFor={POPULAR_FILTERS[0].toLowerCase()}
+                selectedOptionIndex={0}
+                pageType="posts"
+              />
             </View>
           </ScrollableTabView>
         </View>
