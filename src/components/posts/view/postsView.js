@@ -96,6 +96,7 @@ class PostsView extends Component {
         limit: 3,
       };
     } else {
+      //TODO: implement filtering of reblogs on `blog` and `feed` posts
       if (filter=='reblogs'){
         options = {
           tag,
