@@ -46,6 +46,7 @@ class UpvoteContainer extends PureComponent {
       pinCode,
     } = this.props;
     let author;
+    let isDecinedPayout;
     let isVoted;
     let permlink;
     let totalPayout;
@@ -54,6 +55,7 @@ class UpvoteContainer extends PureComponent {
       ({ author } = content);
       isVoted = content.is_voted;
       totalPayout = content.total_payout;
+      isDecinedPayout = content.is_declined_payout;
       ({ permlink } = content);
     }
 
@@ -63,13 +65,14 @@ class UpvoteContainer extends PureComponent {
         currentAccount={currentAccount}
         fetchPost={fetchPost}
         handleSetUpvotePercent={this._setUpvotePercent}
+        isDecinedPayout={isDecinedPayout}
         isLoggedIn={isLoggedIn}
         isShowPayoutValue={isShowPayoutValue}
         isVoted={isVoted}
-        totalPayout={totalPayout}
         permlink={permlink}
-        upvotePercent={upvotePercent}
         pinCode={pinCode}
+        totalPayout={totalPayout}
+        upvotePercent={upvotePercent}
       />
     );
   }
