@@ -24,7 +24,6 @@ class SteemConnect extends PureComponent {
     let code;
     const { dispatch, setPinCodeState, handleOnModalClose } = this.props;
     const { isLoading } = this.state;
-    console.log('event :', event);
     if (event.url.indexOf('?code=') > -1) {
       this.webview.stopLoading();
       try {
@@ -33,8 +32,6 @@ class SteemConnect extends PureComponent {
         // TODO: return
       }
 
-      console.log('code :', code[1]);
-      console.log('event.url :', event.url);
       if (!isLoading) {
         this.setState({ isLoading: true });
         handleOnModalClose();

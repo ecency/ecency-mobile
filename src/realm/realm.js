@@ -26,7 +26,6 @@ const scAccounts = {
   name: SC_ACCOUNTS,
   properties: {
     username: { type: 'string', default: null },
-    accessToken: { type: 'string', default: null },
     refreshToken: { type: 'string', default: null },
     expireDate: { type: 'string', default: null },
   },
@@ -504,21 +503,13 @@ export const setExistUser = existUser => new Promise((resolve, reject) => {
 
 export const setSCAccount = data => new Promise((resolve, reject) => {
   try {
-    console.log('data :', data);
     const scAccount = realm.objects(SC_ACCOUNTS).filtered('username = $0', data.username);
     const date = new Date();
-    console.log('date :', date);
     date.setSeconds(date.getSeconds() + data.expires_in);
-    console.log('date :', date);
     realm.write(() => {
       if (Array.from(scAccount).length > 0) {
-        console.log('scAccount :', scAccount[0]);
-        scAccount[0].accessToken = data.accessToken;
-        console.log('1');
-        scAccount[0].refreshToken = data.refreshToken;
-        console.log('2');
-        scAccount[0].expireDate = date;
-        console.log('scAccount :', scAccount);
+        scAccount[0].refreshToken = data.refresh_token;
+        scAccount[0].expireDate = date.toString();
         resolve();
       } else {
         const account = {
@@ -527,21 +518,18 @@ export const setSCAccount = data => new Promise((resolve, reject) => {
           refreshToken: data.refresh_token,
           expireDate: date.toString(),
         };
-        console.log('account :', account);
         realm.create(SC_ACCOUNTS, { ...account });
         resolve();
       }
     });
   } catch (error) {
-    console.log('error :', error);
     reject(error);
   }
 });
 
 export const getSCAccount = username => new Promise((resolve, reject) => {
   try {
-    const scAccount = realm.objects(SC_ACCOUNTS);
-    console.log('scAccount :', Array.from(scAccount));
+    const scAccount = realm.objects(SC_ACCOUNTS).filtered('username = $0', username);
     if (Array.from(scAccount).length > 0) {
       resolve(scAccount[0]);
     } else {
