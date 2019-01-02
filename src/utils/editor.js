@@ -1,17 +1,29 @@
+import getSlug from 'speakingurl';
+import { diff_match_patch } from 'diff-match-patch';
+
 export const getWordsCount = text => (text && typeof text === 'string' ? text.replace(/^\s+|\s+$/g, '').split(/\s+/).length : 0);
 
-export const generatePermlink = (text) => {
-  if (text) {
-    const re = /[^a-z0-9]+/gi;
-    const re2 = /^-*|-*$/g;
-    let permlink = text.replace(re, '-');
+export const generatePermlink = (title, random = false) => {
+  if (title) {
+    const slug = getSlug(title);
+    let perm = slug.toString();
 
-    permlink = `${permlink.replace(re2, '').toLowerCase()}-id-${Math.random()
-      .toString(36)
-      .substr(2, 16)}`;
-    return permlink;
-  }
+    if (random) {
+      const rnd = (Math.random() + 1).toString(16).substring(2);
+      perm = `${slug.toString()}-${rnd}est`;
+    }
+
+    // STEEMIT_MAX_PERMLINK_LENGTH
+    if (perm.length > 255) {
+      perm = perm.substring(perm.length - 255, perm.length);
+    }
+
+    // only letters numbers and dashes
+    perm = perm.toLowerCase().replace(/[^a-z0-9-]+/g, '');
+    return perm;  
+  } 
   return null;
+  
 };
 
 export const generateReplyPermlink = (toAuthor) => {
@@ -116,4 +128,12 @@ export const extractMetadata = (body) => {
   }
 
   return out;
+};
+
+export const createPatch = (text1, text2) => {
+  const dmp = new diff_match_patch();
+  if (!text1 && text1 === '') return undefined;
+  const patches = dmp.patch_make(text1, text2);
+  const patch = dmp.patch_toText(patches);
+  return patch;
 };
