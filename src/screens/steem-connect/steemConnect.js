@@ -24,17 +24,21 @@ class SteemConnect extends PureComponent {
     let code;
     const { dispatch, setPinCodeState, handleOnModalClose } = this.props;
     const { isLoading } = this.state;
+    console.log('event :', event);
     if (event.url.indexOf('?code=') > -1) {
       this.webview.stopLoading();
       try {
-        code = event.url.match(/\?(?:code)\=([\S\s]*?)\&/)[1];
+        code = event.url.match(/code=([^&]*)/);
       } catch (error) {
         // TODO: return
       }
+
+      console.log('code :', code[1]);
+      console.log('event.url :', event.url);
       if (!isLoading) {
         this.setState({ isLoading: true });
         handleOnModalClose();
-        loginWithSC2(code, 'pinCode')
+        loginWithSC2(code[1])
           .then((result) => {
             if (result) {
               dispatch(updateCurrentAccount({ ...result }));
@@ -64,7 +68,7 @@ class SteemConnect extends PureComponent {
               steemConnectOptions.client_id
             }&redirect_uri=${encodeURIComponent(
               steemConnectOptions.redirect_uri,
-            )}&scope=${encodeURIComponent(steemConnectOptions.scope)}`,
+            )}&response_type=code&scope=${encodeURIComponent(steemConnectOptions.scope)}`,
           }}
           onNavigationStateChange={this._onNavigationStateChange}
           ref={(ref) => {

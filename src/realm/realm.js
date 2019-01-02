@@ -504,29 +504,49 @@ export const setExistUser = existUser => new Promise((resolve, reject) => {
 
 export const setSCAccount = data => new Promise((resolve, reject) => {
   try {
+    console.log('data :', data);
     const scAccount = realm.objects(SC_ACCOUNTS).filtered('username = $0', data.username);
     const date = new Date();
-    const test = new Date(data.expires_in);
     console.log('date :', date);
-    console.log('test :', test);
-    // TODO: expire date colculate
+    date.setSeconds(date.getSeconds() + data.expires_in);
+    console.log('date :', date);
     realm.write(() => {
       if (Array.from(scAccount).length > 0) {
+        console.log('scAccount :', scAccount[0]);
         scAccount[0].accessToken = data.accessToken;
+        console.log('1');
         scAccount[0].refreshToken = data.refreshToken;
-        scAccount[0].expireDate = data.expireDate;
+        console.log('2');
+        scAccount[0].expireDate = date;
+        console.log('scAccount :', scAccount);
         resolve();
       } else {
         const account = {
           username: data.username,
           accessToken: data.access_token,
           refreshToken: data.refresh_token,
-          expireDate: data.expires_in,
+          expireDate: date.toString(),
         };
-        realm.create(APPLICATION_SCHEMA, { ...account });
+        console.log('account :', account);
+        realm.create(SC_ACCOUNTS, { ...account });
         resolve();
       }
     });
+  } catch (error) {
+    console.log('error :', error);
+    reject(error);
+  }
+});
+
+export const getSCAccount = username => new Promise((resolve, reject) => {
+  try {
+    const scAccount = realm.objects(SC_ACCOUNTS);
+    console.log('scAccount :', Array.from(scAccount));
+    if (Array.from(scAccount).length > 0) {
+      resolve(scAccount[0]);
+    } else {
+      resolve(false);
+    }
   } catch (error) {
     reject(error);
   }
