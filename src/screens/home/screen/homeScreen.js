@@ -12,6 +12,9 @@ import { Header } from '../../../components/header';
 // Styles
 import styles from './homeStyles';
 
+import {filters, profile_filters} from '../../../constants/options/filters';
+
+
 class HomeScreen extends PureComponent {
   constructor(props) {
     super(props);
@@ -33,6 +36,7 @@ class HomeScreen extends PureComponent {
       'COMMENTS',
       'PAYOUT',
     ];
+
     let tag;
 
     if (isLoginDone && !isLoggedIn) {
@@ -62,9 +66,11 @@ class HomeScreen extends PureComponent {
               style={styles.tabbarItem}
             >
               <Posts
-                filterOptions={_filterOptions}
-                getFor="feed"
+                filterOptions={profile_filters}
+                getFor={profile_filters[1].toLowerCase()}
                 tag={tag || currentAccount.name}
+                selectedOptionIndex={1}
+                pageType="profiles"
               />
             </View>
             <View
@@ -73,7 +79,7 @@ class HomeScreen extends PureComponent {
               })}
               style={styles.tabbarItem}
             >
-              <Posts filterOptions={_filterOptions} getFor="trending" />
+              <Posts filterOptions={filters} getFor={filters[0].toLowerCase()} selectedOptionIndex={0} pageType="posts" />
             </View>
           </ScrollableTabView>
         </View>
