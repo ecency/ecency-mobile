@@ -101,6 +101,7 @@
   "basic_header": {
     "publish": "Publish",
     "search": "Search",
+    "update": "Update",
     "reply": "Reply"
   },
   "editor": {

@@ -4,7 +4,8 @@ import { getPostSummary } from './formatter';
 import { getReputation } from './reputation';
 import { getTimeFromNow } from './time';
 
-export const parsePosts = (posts, currentUserName, isSummary) => (!posts ? null : posts.map(post => parsePost(post, currentUserName, isSummary)));
+export const parsePosts = (posts, currentUserName, isSummary) =>
+  !posts ? null : posts.map(post => parsePost(post, currentUserName, isSummary));
 
 export const parsePost = (post, currentUserName, isSummary = false) => {
   if (!post) {
@@ -22,6 +23,7 @@ export const parsePost = (post, currentUserName, isSummary = false) => {
 
   _post.body = markDown2Html(post.body);
   _post.summary = getPostSummary(post.body, 150);
+  _post.is_declined_payout = Number(parseFloat(post.max_accepted_payout)) === 0;
 
   if (currentUserName) {
     _post.is_voted = isVoted(_post.active_votes, currentUserName);
@@ -29,9 +31,10 @@ export const parsePost = (post, currentUserName, isSummary = false) => {
     _post.is_voted = false;
   }
 
-  const totalPayout = parseFloat(_post.pending_payout_value)
-    + parseFloat(_post.total_payout_value)
-    + parseFloat(_post.curator_payout_value);
+  const totalPayout =
+    parseFloat(_post.pending_payout_value) +
+    parseFloat(_post.total_payout_value) +
+    parseFloat(_post.curator_payout_value);
 
   _post.total_payout = totalPayout.toFixed(3);
 
@@ -40,7 +43,8 @@ export const parsePost = (post, currentUserName, isSummary = false) => {
 
   if (_post.active_votes && _post.active_votes.length > 0) {
     for (const i in _post.active_votes) {
-      _post.vote_perecent = post.active_votes[i].voter === currentUserName ? post.active_votes[i].percent : null;
+      _post.vote_perecent =
+        post.active_votes[i].voter === currentUserName ? post.active_votes[i].percent : null;
       _post.active_votes[i].value = (post.active_votes[i].rshares * ratio).toFixed(2);
       _post.active_votes[i].reputation = getReputation(post.active_votes[i].reputation);
       _post.active_votes[i].percent = post.active_votes[i].percent / 100;
@@ -55,7 +59,8 @@ export const parsePost = (post, currentUserName, isSummary = false) => {
   return _post;
 };
 
-const isVoted = (activeVotes, currentUserName) => activeVotes.some(v => v.voter === currentUserName && v.percent > 0);
+const isVoted = (activeVotes, currentUserName) =>
+  activeVotes.some(v => v.voter === currentUserName && v.percent > 0);
 
 const postImage = (metaData, body) => {
   const markdownImageRegex = /!\[[^\]]*\]\((.*?)\s*("(?:.*[^"])")?\s*\)/g;
@@ -79,12 +84,12 @@ const postImage = (metaData, body) => {
   }
 
   if (imageLink) {
-    return `https://img.esteem.app/600x0/${imageLink}`;
+    return `https://steemitimages.com/600x0/${imageLink}`;
   }
   return '';
 };
 
-export const protocolUrl2Obj = (url) => {
+export const protocolUrl2Obj = url => {
   let urlPart = url.split('://')[1];
 
   // remove last char if /
@@ -120,8 +125,8 @@ export const protocolUrl2Obj = (url) => {
   }
 };
 
-export const parseComments = (comments) => {
-  comments.map((comment) => {
+export const parseComments = comments => {
+  comments.map(comment => {
     comment.pending_payout_value = parseFloat(comment.pending_payout_value).toFixed(3);
     comment.created = getTimeFromNow(comment.created);
     comment.vote_count = comment.active_votes.length;

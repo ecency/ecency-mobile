@@ -20,7 +20,7 @@ export default class MarkdownEditorView extends Component {
   constructor(props) {
     super(props);
     this.state = {
-      text: '',
+      text: props.draftBody || '',
       selection: { start: 0, end: 0 },
     };
   }

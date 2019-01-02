@@ -1,4 +1,4 @@
-import React, { PureComponent } from 'react';
+import React, { PureComponent, Fragment } from 'react';
 import { View, FlatList } from 'react-native';
 
 // Constants
@@ -32,16 +32,19 @@ class CommentsView extends PureComponent {
 
   render() {
     const {
-      comments,
       avatarSize,
-      marginLeft,
-      handleOnUserPress,
       commentNumber,
+      comments,
+      currentAccountUsername,
+      handleOnEditPress,
       handleOnReplyPress,
-      isProfilePreview,
+      handleOnUserPress,
       isLoggedIn,
+      isProfilePreview,
+      marginLeft,
+      fetchPost,
     } = this.props;
-    // commentNumber === 8 && alert('sekkiz:');
+
     return (
       <View>
         {!!comments && (
@@ -69,13 +72,24 @@ class CommentsView extends PureComponent {
                   <View style={{ flexDirection: 'row' }}>
                     <Upvote isShowPayoutValue content={item} />
                     {isLoggedIn && (
-                      <IconButton
-                        iconStyle={{ color: '#c1c5c7' }}
-                        style={{ marginLeft: 20 }}
-                        name="reply"
-                        onPress={() => handleOnReplyPress && handleOnReplyPress(item)}
-                        iconType="MaterialIcons"
-                      />
+                      <Fragment>
+                        <IconButton
+                          iconStyle={{ color: '#c1c5c7' }}
+                          style={{ marginLeft: 20 }}
+                          name="reply"
+                          onPress={() => handleOnReplyPress && handleOnReplyPress(item)}
+                          iconType="MaterialIcons"
+                        />
+                        {currentAccountUsername === item.author && (
+                          <IconButton
+                            iconStyle={{ color: '#c1c5c7' }}
+                            style={{ marginLeft: 10 }}
+                            name="create"
+                            onPress={() => handleOnEditPress && handleOnEditPress(item)}
+                            iconType="MaterialIcons"
+                          />
+                        )}
+                      </Fragment>
                     )}
                   </View>
                 </View>
@@ -89,6 +103,7 @@ class CommentsView extends PureComponent {
                         author={item.author}
                         permlink={item.permlink}
                         commentCount={item.children}
+                        fetchPost={fetchPost}
                       />
                     )}
                   </View>

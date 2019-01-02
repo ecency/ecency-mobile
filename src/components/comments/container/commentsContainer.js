@@ -67,19 +67,36 @@ class CommentsContainer extends Component {
     });
   };
 
+  _handleOnEditPress = (item) => {
+    const { navigation, fetchPost } = this.props;
+
+    navigation.navigate({
+      routeName: ROUTES.SCREENS.EDITOR,
+      params: {
+        isEdit: true,
+        isReply: true,
+        post: item,
+        fetchPost,
+      },
+    });
+  };
+
   render() {
     const { comments } = this.state;
     const {
-      isLoggedIn, commentCount, author, permlink,
+      isLoggedIn, commentCount, author, permlink, currentAccount, fetchPost,
     } = this.props;
     return (
       <CommentsView
-        handleOnReplyPress={this._handleOnReplyPress}
-        comments={comments}
-        isLoggedIn={isLoggedIn}
-        commentCount={commentCount}
         author={author}
+        commentCount={commentCount}
+        comments={comments}
+        currentAccountUsername={currentAccount.name}
+        handleOnEditPress={this._handleOnEditPress}
+        handleOnReplyPress={this._handleOnReplyPress}
+        isLoggedIn={isLoggedIn}
         permlink={permlink}
+        fetchPost={fetchPost}
         {...this.props}
       />
     );
@@ -88,6 +105,7 @@ class CommentsContainer extends Component {
 
 const mapStateToProps = state => ({
   isLoggedIn: state.application.isLoggedIn,
+  currentAccount: state.account.currentAccount,
 });
 
 export default withNavigation(connect(mapStateToProps)(CommentsContainer));
