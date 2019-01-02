@@ -85,6 +85,7 @@ export const login = async (username, password) => {
 
 export const loginWithSC2 = async (code) => {
   const scTokens = await getSCAccessToken(code);
+  console.log('scTokens :', scTokens);
   await setSCAccount(scTokens);
   await steemConnect.setAccessToken(scTokens.access_token);
   const account = await steemConnect.me();
@@ -118,7 +119,7 @@ export const loginWithSC2 = async (code) => {
       .then(() => {
         account.account.username = account.account.name;
         updateCurrentUsername(account.account.name);
-        resolve({ ...account.account, accessToken });
+        resolve({ ...account.account, accessToken: scTokens.access_token });
       })
       .catch((error) => {
         reject(error);

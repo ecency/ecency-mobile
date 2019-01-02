@@ -20,9 +20,12 @@ import {
   removeUserData,
   setPushTokenSaved,
   getUserDataWithUsername,
+  getSCAccount,
+  setSCAccount,
+  updateUserData,
 } from '../../../realm/realm';
 import { getUser } from '../../../providers/steem/dsteem';
-import { setPushToken } from '../../../providers/esteem/esteem';
+import { setPushToken, getSCAccessToken } from '../../../providers/esteem/esteem';
 import { switchAccount } from '../../../providers/steem/auth';
 
 // Actions
@@ -98,13 +101,32 @@ class ApplicationContainer extends Component {
     await getAuthStatus().then((res) => {
       ({ currentUsername } = res);
       if (res) {
-        getUserData().then((userData) => {
+        console.log('res :', res);
+        getUserData().then(async (userData) => {
           if (userData.length > 0) {
             realmData = userData;
 
             userData.forEach((accountData) => {
               dispatch(addOtherAccount({ username: accountData.username }));
             });
+            console.log('userData :', userData[0]);
+            if (userData[0].authType === 'steemConnect') {
+              const scAccount = await getSCAccount(userData[0].username);
+              console.log('scAccount :', scAccount);
+              const now = new Date();
+              const expireDate = new Date(scAccount.expireDate);
+              console.log('now :', now);
+              console.log('expireDate :', expireDate);
+              console.log('now >= expireDate :', now <= expireDate);
+              if (now >= expireDate) {
+                const newSCAccountData = await getSCAccessToken(scAccount.refreshToken);
+                console.log('newSCAccountData :', newSCAccountData);
+                await setSCAccount(newSCAccountData);
+                realmData = { ...userData[0], accessToken: scAccount.accessToken };
+                console.log('realmData :', realmData);
+                await updateUserData(realmData);
+              }
+            }
           }
         });
       }
@@ -209,8 +231,7 @@ class ApplicationContainer extends Component {
         dispatch(removeOtherAccount(currentAccountUsername));
         dispatch(logoutDone());
       })
-      .catch(() => {
-      });
+      .catch(() => {});
   };
 
   _switchAccount = (targetAccountUsername) => {
