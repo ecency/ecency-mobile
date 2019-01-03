@@ -140,7 +140,7 @@ class ProfileSummaryView extends PureComponent {
             isShowText={isShowPercentText}
             percent={percentRC}
             margin={24}
-            barColor="#eafcef"
+            barColor={isDarkTheme ? '#333e47' : '#eafcef'}
             barPercentColor="#11c28b"
             textColor="#11c28b"
             isTop={false}

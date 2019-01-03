@@ -2,7 +2,7 @@ import React, { Component } from 'react';
 import { withNavigation } from 'react-navigation';
 
 // Constants
-// import { default as ROUTES } from '../../../constants/routeNames';
+import { default as ROUTES } from '../../../constants/routeNames';
 
 // Components
 import BasicHeaderView from '../view/basicHeaderView';
@@ -22,9 +22,15 @@ class BasicHeaderContainer extends Component {
 
   // Component Functions
   _handleOnPressBackButton = () => {
-    const { navigation } = this.props;
+    const { navigation, isNewPost } = this.props;
 
-    navigation.goBack();
+    if (isNewPost) {
+      navigation.navigate({
+        routeName: ROUTES.SCREENS.HOME,
+      });
+    } else {
+      navigation.goBack();
+    }
   };
 
   render() {
