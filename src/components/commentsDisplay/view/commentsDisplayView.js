@@ -32,15 +32,15 @@ class CommentsDisplayView extends PureComponent {
     const {
       author, permlink, commentCount, fetchPost,
     } = this.props;
-
+    //TODO: implement comments filtering
     return (
       <Fragment>
         {commentCount > 0 && (
           <Fragment>
             <FilterBar
               dropdownIconName="arrow-drop-down"
-              options={['NEW COMMENTS']}
-              defaultText="NEW COMMENTS"
+              options={['TRENDING']}
+              defaultText="TRENDING"
               onDropdownSelect={this._handleOnDropdownSelect}
             />
             <View style={{ padding: 16 }}>

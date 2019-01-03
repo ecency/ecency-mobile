@@ -1,6 +1,6 @@
 import React, { PureComponent } from 'react';
 import {
-  View, Text, TextInput, FlatList, TouchableHighlight, SafeAreaView,
+  View, Text, FlatList, TouchableHighlight, SafeAreaView,
 } from 'react-native';
 import FastImage from 'react-native-fast-image';
 
@@ -10,7 +10,7 @@ import FastImage from 'react-native-fast-image';
 import { Icon } from '../../icon';
 import { IconButton } from '../../iconButton';
 import { Modal } from '../..';
-
+import { TextInput } from '../../textInput';
 // Styles
 // eslint-disable-next-line
 import styles from './searchModalStyles';

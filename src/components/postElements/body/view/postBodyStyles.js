@@ -17,12 +17,13 @@ export default EStyleSheet.create({
   img: {
     left: -16,
     // height: 50,
+    marginTop: 10,
   },
   code: {
     fontFamily: '$editorFont',
   },
   commentContainer: {
     paddingHorizontal: 0,
-    marginTop: 20,
+    marginTop: 10,
   },
 });

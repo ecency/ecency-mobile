@@ -2,6 +2,7 @@ import Realm from 'realm';
 
 // CONSTANTS
 const USER_SCHEMA = 'user';
+const SC_ACCOUNTS = 'sc_accounts';
 const AUTH_SCHEMA = 'auth';
 const DRAFT_SCHEMA = 'draft';
 const SETTINGS_SCHEMA = 'settings';
@@ -18,6 +19,15 @@ const userSchema = {
     memoKey: { type: 'string' },
     masterKey: { type: 'string' },
     accessToken: { type: 'string' },
+  },
+};
+
+const scAccounts = {
+  name: SC_ACCOUNTS,
+  properties: {
+    username: { type: 'string', default: null },
+    refreshToken: { type: 'string', default: null },
+    expireDate: { type: 'string', default: null },
   },
 };
 
@@ -62,7 +72,7 @@ const authSchema = {
 
 const realm = new Realm({
   path: 'esteem.realm',
-  schema: [userSchema, authSchema, draftSchema, settingsSchema, applicationSchema],
+  schema: [userSchema, authSchema, draftSchema, settingsSchema, applicationSchema, scAccounts],
 });
 
 const settings = realm.objects(SETTINGS_SCHEMA);
@@ -155,7 +165,6 @@ export const removeUserData = username => new Promise((resolve, reject) => {
         realm.delete(account);
         resolve();
       });
-
     } else {
       reject('Could not remove selected user');
     }
@@ -487,6 +496,45 @@ export const setExistUser = existUser => new Promise((resolve, reject) => {
         resolve(applicationData);
       }
     });
+  } catch (error) {
+    reject(error);
+  }
+});
+
+export const setSCAccount = data => new Promise((resolve, reject) => {
+  try {
+    const scAccount = realm.objects(SC_ACCOUNTS).filtered('username = $0', data.username);
+    const date = new Date();
+    date.setSeconds(date.getSeconds() + data.expires_in);
+    realm.write(() => {
+      if (Array.from(scAccount).length > 0) {
+        scAccount[0].refreshToken = data.refresh_token;
+        scAccount[0].expireDate = date.toString();
+        resolve();
+      } else {
+        const account = {
+          username: data.username,
+          accessToken: data.access_token,
+          refreshToken: data.refresh_token,
+          expireDate: date.toString(),
+        };
+        realm.create(SC_ACCOUNTS, { ...account });
+        resolve();
+      }
+    });
+  } catch (error) {
+    reject(error);
+  }
+});
+
+export const getSCAccount = username => new Promise((resolve, reject) => {
+  try {
+    const scAccount = realm.objects(SC_ACCOUNTS).filtered('username = $0', username);
+    if (Array.from(scAccount).length > 0) {
+      resolve(scAccount[0]);
+    } else {
+      resolve(false);
+    }
   } catch (error) {
     reject(error);
   }

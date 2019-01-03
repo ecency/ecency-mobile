@@ -98,7 +98,7 @@ class ApplicationContainer extends Component {
     await getAuthStatus().then((res) => {
       ({ currentUsername } = res);
       if (res) {
-        getUserData().then((userData) => {
+        getUserData().then(async (userData) => {
           if (userData.length > 0) {
             realmData = userData;
 
@@ -209,8 +209,7 @@ class ApplicationContainer extends Component {
         dispatch(removeOtherAccount(currentAccountUsername));
         dispatch(logoutDone());
       })
-      .catch(() => {
-      });
+      .catch(() => {});
   };
 
   _switchAccount = (targetAccountUsername) => {

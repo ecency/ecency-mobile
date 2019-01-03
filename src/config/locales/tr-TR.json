@@ -103,6 +103,7 @@
   "basic_header": {
     "publish": "Yayınla",
     "search": "Ara",
+    "update": "Güncelle",
     "reply": "Cevapla"
   },
   "editor": {

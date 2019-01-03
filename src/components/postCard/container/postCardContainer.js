@@ -58,13 +58,14 @@ class PostCardContainer extends PureComponent {
   };
 
   _handleOnVotersPress = (activeVotes) => {
-    const { navigation } = this.props;
+    const { navigation, content } = this.props;
 
     navigation.navigate({
       routeName: ROUTES.SCREENS.VOTERS,
       params: {
         activeVotes,
       },
+      key: content.permlink,
     });
   };
 

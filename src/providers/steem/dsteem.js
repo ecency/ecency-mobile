@@ -312,6 +312,14 @@ export const getPost = async (author, permlink, currentUserName) => {
   }
 };
 
+export const getPurePost = async (author, permlink) => {
+  try {
+    return await client.database.call('get_content', [author, permlink]);
+  } catch (error) {
+    return error;
+  }
+};
+
 /**
  * @method getUser get user data
  * @param user post author

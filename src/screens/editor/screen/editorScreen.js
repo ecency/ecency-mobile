@@ -129,21 +129,25 @@ class EditorScreen extends Component {
 
   render() {
     const {
-      draftPost, fields, isChanged, isPreviewActive, wordsCount, isFormValid,
+      fields, isPreviewActive, wordsCount, isFormValid,
     } = this.state;
     const {
-      autoFocusText,
       handleOnImagePicker,
       intl,
       isDraftSaved,
       isDraftSaving,
+      isEdit,
       isLoggedIn,
       isPostSending,
       isReply,
       isUploading,
       post,
       uploadedImage,
+      draftPost
     } = this.props;
+    const rightButtonText = intl.formatMessage({
+      id: isEdit ? 'basic_header.update' : isReply ? 'basic_header.reply' :  'basic_header.publish',
+    });
 
     return (
       <View style={globalStyles.defaultContainer}>
@@ -155,11 +159,13 @@ class EditorScreen extends Component {
           isDraftSaving={isDraftSaving}
           isFormValid={isFormValid}
           isHasIcons
+          isEdit={isEdit}
           isLoggedIn={isLoggedIn}
           isReply={isReply}
           isLoading={isPostSending || isUploading}
           isPreviewActive={isPreviewActive}
           quickTitle={wordsCount > 0 && `${wordsCount} words`}
+          rightButtonText={rightButtonText}
         />
         <PostForm
           handleFormUpdate={this._handleFormUpdate}
@@ -167,11 +173,11 @@ class EditorScreen extends Component {
           isFormValid={isFormValid}
           isPreviewActive={isPreviewActive}
         >
-          {isReply && <SummaryArea summary={post.summary} />}
+          {isReply && !isEdit && <SummaryArea summary={post.summary} />}
           {!isReply && <TitleArea value={fields.title} componentID="title" intl={intl} />}
           {!isReply && (
             <TagArea
-              draftChips={fields.tags}
+              draftChips={fields.tags.length > 0 ? fields.tags : null}
               componentID="tag-area"
               handleTagChanged={this._handleOnTagAdded}
               intl={intl}
