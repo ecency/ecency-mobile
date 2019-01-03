@@ -1,6 +1,6 @@
 import React, { Component } from 'react';
 import {
-  View, KeyboardAvoidingView, ScrollView, FlatList, Text,
+  View, KeyboardAvoidingView, ScrollView, FlatList, Text, Platform,
 } from 'react-native';
 import Markdown, { getUniqueID } from 'react-native-markdown-renderer';
 import ActionSheet from 'react-native-actionsheet';
@@ -186,7 +186,7 @@ export default class MarkdownEditorView extends Component {
               id: isReply ? 'editor.reply_placeholder' : 'editor.default_placeholder',
             })}
             placeholderTextColor="#c1c5c7"
-            selection={selection}
+            selection={Platform.OS === 'ios' ? selection : undefined}
             selectionColor="#357ce6"
             style={styles.textWrapper}
             underlineColorAndroid="transparent"
