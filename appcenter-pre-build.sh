@@ -1,7 +1,9 @@
 #!/usr/bin/env bash
 # Creates an .env from ENV variables for use with react-native-config
 
-GOOGLE_JSON_FILE=$APPCENTER_SOURCE_DIRECTORY/<path>/google-services.json
+GOOGLE_JSON_FILE=$APPCENTER_SOURCE_DIRECTORY/<path>/app/google-services.json
+
+echo $APPCENTER_SOURCE_DIRECTORY
 
 if [ -e "$GOOGLE_JSON_FILE" ]  
 then  
