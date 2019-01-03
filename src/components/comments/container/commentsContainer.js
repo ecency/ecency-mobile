@@ -44,10 +44,10 @@ class CommentsContainer extends Component {
   }
 
   // Component Functions
-  _getComments = async () => {
+  _getComments = () => {
     const { author, permlink } = this.props;
 
-    await getComments(author, permlink).then((comments) => {
+    getComments(author, permlink).then((comments) => {
       this.setState({
         comments,
       });
@@ -68,7 +68,7 @@ class CommentsContainer extends Component {
   };
 
   _handleOnEditPress = (item) => {
-    const { navigation, fetchPost } = this.props;
+    const { navigation } = this.props;
 
     navigation.navigate({
       routeName: ROUTES.SCREENS.EDITOR,
@@ -76,7 +76,7 @@ class CommentsContainer extends Component {
         isEdit: true,
         isReply: true,
         post: item,
-        fetchPost,
+        fetchPost: this._getComments,
       },
     });
   };
