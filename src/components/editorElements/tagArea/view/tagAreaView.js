@@ -18,7 +18,7 @@ export default class TagAreaView extends Component {
     super(props);
     this.state = {
       currentText: '',
-      chips: props.draftChips || [' '],
+      chips: [' '],
       chipsCount: props.chipsCount || 5,
       activeChip: 0,
     };
