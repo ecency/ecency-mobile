@@ -36,9 +36,9 @@ class PostContainer extends Component {
 
   componentWillReceiveProps(nextProps) {
     const { navigation } = this.props;
-    const { isFetch: NextisFetch } = nextProps.navigation.state && nextProps.navigation.state.params;
+    const { isFetch: nextIsFetch } = nextProps.navigation.state && nextProps.navigation.state.params;
 
-    if (NextisFetch) {
+    if (nextIsFetch) {
       const { author, permlink } = navigation.state && navigation.state.params;
 
       this._loadPost(author, permlink);
