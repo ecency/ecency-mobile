@@ -29,6 +29,7 @@ export default EStyleSheet.create({
     fontSize: 14,
     flexGrow: 1,
     padding: 7,
+    maxWidth: '$deviceWidth - 100',
   },
   closeIconButton: {
     width: 20,
