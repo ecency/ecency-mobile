@@ -4,16 +4,16 @@ import { connect } from 'react-redux';
 import { injectIntl } from 'react-intl';
 import Config from 'react-native-config';
 
+// Actions & Services
 import {
   setUserDataWithPinCode,
   verifyPinCode,
   updatePinCode,
 } from '../../../providers/steem/auth';
-
-// Actions & Services
 import { closePinCodeModal } from '../../../redux/actions/applicationActions';
 import { getExistUser, setExistUser, getUserDataWithUsername } from '../../../realm/realm';
 import { updateCurrentAccount, setPinCode as savePinCode } from '../../../redux/actions/accountAction';
+import { getUser } from '../../../providers/steem/dsteem';
 
 // Utils
 import { encryptKey, decryptKey } from '../../../utils/crypto';
@@ -136,18 +136,20 @@ class PinCodeContainer extends Component {
       accessToken,
     };
     setUserDataWithPinCode(pinData).then((response) => {
-      const _currentAccount = currentAccount;
-      _currentAccount.local = response;
+      getUser(currentAccount.name).then((user) => {
+        const _currentAccount = user;
+        _currentAccount.local = response;
 
-      dispatch(updateCurrentAccount({ ..._currentAccount }));
+        dispatch(updateCurrentAccount({ ..._currentAccount }));
 
-      setExistUser(true).then(() => {
-        this._savePinCode(pin);
-        dispatch(closePinCodeModal());
-        if (navigateTo) {
-          navigation.navigate(navigateTo);
-        }
-        resolve();
+        setExistUser(true).then(() => {
+          this._savePinCode(pin);
+          dispatch(closePinCodeModal());
+          if (navigateTo) {
+            navigation.navigate(navigateTo);
+          }
+          resolve();
+        });
       });
     });
   });
