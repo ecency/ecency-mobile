@@ -24,7 +24,7 @@ class PostScreen extends PureComponent {
 
   render() {
     const {
-      post, currentAccount, isLoggedIn, fetchPost, isFetchComments,
+      post, currentAccount, isLoggedIn, fetchPost, isFetchComments, isNewPost,
     } = this.props;
 
     return (
@@ -34,6 +34,7 @@ class PostScreen extends PureComponent {
           title="Post"
           content={post}
           dropdownComponent={<PostDropdown content={post} />}
+          isNewPost={isNewPost}
         />
         <PostDisplay
           post={post}

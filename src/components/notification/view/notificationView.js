@@ -109,7 +109,7 @@ class NotificationView extends PureComponent {
       notificationArray[listIndex].notifications.push(item);
     });
 
-    return notificationArray;
+    return notificationArray.filter(item => item.notifications.length > 0);
   };
 
   _getTimeListIndex = (timestamp) => {
@@ -149,15 +149,21 @@ class NotificationView extends PureComponent {
           onRightIconPress={readAllNotification}
         />
         <ScrollView style={styles.scrollView}>
-          {_notifications
-            && _notifications.map(
-              item => item.notifications.length > 0 && (
-              <Fragment key={item.title}>
-                <ContainerHeader hasSeperator={ _notifications.indexOf(item) !== 1 } isBoldTitle title={item.title} key={item.title} />
+          <FlatList
+            data={_notifications}
+            renderItem={({ item, index }) => (
+              <Fragment>
+                <ContainerHeader
+                  hasSeperator={index !== 0}
+                  isBoldTitle
+                  title={item.title}
+                  key={item.title}
+                />
                 {this._renderList(item.notifications)}
               </Fragment>
-              ),
             )}
+            keyExtractor={item => item.title}
+          />
         </ScrollView>
       </View>
     );

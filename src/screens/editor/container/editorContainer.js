@@ -9,9 +9,8 @@ import { uploadImage } from '../../../providers/esteem/esteem';
 import { postContent, getPurePost } from '../../../providers/steem/dsteem';
 import { setDraftPost, getDraftPost } from '../../../realm/realm';
 
-// // Constants
-// import { default as ROUTES } from '../../../constants/routeNames';
-
+// Constants
+import { default as ROUTES } from '../../../constants/routeNames';
 // Utilities
 import {
   generatePermlink,
@@ -262,7 +261,15 @@ class EditorContainer extends Component {
       )
         .then((result) => {
           Alert.alert('Success!', 'Your post succesfully shared');
-          navigation.goBack();
+          navigation.navigate({
+            routeName: ROUTES.SCREENS.POST,
+            params: {
+              author: currentAccount.name,
+              permlink,
+              isNewPost: true,
+            },
+            key: permlink,
+          });
         })
         .catch((error) => {
           this._handleSubmitFailure(error);
