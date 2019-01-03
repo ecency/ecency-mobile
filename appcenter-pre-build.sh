@@ -3,7 +3,7 @@
 
 GOOGLE_JSON_FILE=$APPCENTER_SOURCE_DIRECTORY/app/google-services.json
 
-echo $APPCENTER_SOURCE_DIRECTORY
+printf "%s\n\n" $APPCENTER_SOURCE_DIRECTORY
 
 if [ -e "$GOOGLE_JSON_FILE" ]  
 then  
@@ -14,6 +14,10 @@ then
     echo "File content:"
     cat $GOOGLE_JSON_FILE
 fi  
+
+printf "google-services json file:\n"
+
+cat $GOOGLE_JSON_FILE
 
 printf "Old .env file:\n"
 cat .env
