@@ -143,6 +143,7 @@ class EditorScreen extends Component {
       isUploading,
       post,
       uploadedImage,
+      draftPost
     } = this.props;
     const rightButtonText = intl.formatMessage({
       id: isEdit ? 'basic_header.update' : isReply ? 'basic_header.reply' :  'basic_header.publish',
@@ -176,7 +177,7 @@ class EditorScreen extends Component {
           {!isReply && <TitleArea value={fields.title} componentID="title" intl={intl} />}
           {!isReply && (
             <TagArea
-              draftChips={fields.tags && fields.tags > 0 && fields.tags}
+              draftChips={fields.tags.length > 0 ? fields.tags : null}
               componentID="tag-area"
               handleTagChanged={this._handleOnTagAdded}
               intl={intl}
