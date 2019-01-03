@@ -70,9 +70,9 @@ class CommentsView extends PureComponent {
                 >
                   <PostBody isComment handleOnUserPress={handleOnUserPress} body={item.body} />
                   <View style={{ flexDirection: 'row' }}>
-                    <Upvote isShowPayoutValue content={item} />
                     {isLoggedIn && (
                       <Fragment>
+                        <Upvote isShowPayoutValue content={item} />
                         <IconButton
                           iconStyle={{ color: '#c1c5c7' }}
                           style={{ marginLeft: 20 }}
