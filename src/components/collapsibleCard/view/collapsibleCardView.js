@@ -64,7 +64,7 @@ class CollapsibleCardView extends PureComponent {
   _toggleOnPress = () => {
     const { handleOnExpanded, moreHeight } = this.props;
     Animated.timing(this.anime.height, {
-      toValue: this.anime.expanded ? this._getMinValue() : this._getMaxValue() + moreHeight,
+      toValue: this.anime.expanded ? this._getMinValue() : this._getMaxValue() + (moreHeight || 0),
       duration: 200,
     }).start();
     this.anime.expanded = !this.anime.expanded;
