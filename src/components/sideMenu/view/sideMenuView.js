@@ -82,10 +82,7 @@ class SideMenuView extends Component {
 
   render() {
     const {
-      currentAccount,
-      isLoggedIn,
-      intl,
-      handleLogout,
+      currentAccount, isLoggedIn, intl, handleLogout,
     } = this.props;
     const { menuItems, isAddAccountIconActive } = this.state;
 

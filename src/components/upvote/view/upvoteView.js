@@ -120,7 +120,7 @@ class UpvoteView extends Component {
   };
 
   render() {
-    const { isLoggedIn, isShowPayoutValue, totalPayout } = this.props;
+    const { isDecinedPayout, isLoggedIn, isShowPayoutValue, totalPayout } = this.props;
     const {
       isVoting, amount, sliderValue, isVoted,
     } = this.state;
@@ -168,7 +168,7 @@ class UpvoteView extends Component {
                   />
                 )}
                 {isShowPayoutValue && totalPayout && (
-                <Text style={styles.payoutValue}>{`$${totalPayout}`}</Text>
+                <Text style={[styles.payoutValue, isDecinedPayout && styles.declinedPayout]}>{`$${totalPayout}`}</Text>
                 )}
               </Fragment>
             </TouchableOpacity>

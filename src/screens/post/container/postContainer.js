@@ -19,13 +19,18 @@ class PostContainer extends Component {
     this.state = {
       post: null,
       error: null,
+      isNewPost: false,
     };
   }
 
   // Component Life Cycle Functions
   componentDidMount() {
     const { navigation } = this.props;
-    const { content, permlink, author } = navigation.state && navigation.state.params;
+    const {
+      content, permlink, author, isNewPost,
+    } = navigation.state && navigation.state.params;
+
+    if (isNewPost) this.setState({ isNewPost });
 
     if (content) {
       this.setState({ post: content });
@@ -36,9 +41,9 @@ class PostContainer extends Component {
 
   componentWillReceiveProps(nextProps) {
     const { navigation } = this.props;
-    const { isFetch: NextisFetch } = nextProps.navigation.state && nextProps.navigation.state.params;
+    const { isFetch: nextIsFetch } = nextProps.navigation.state && nextProps.navigation.state.params;
 
-    if (NextisFetch) {
+    if (nextIsFetch) {
       const { author, permlink } = navigation.state && navigation.state.params;
 
       this._loadPost(author, permlink);
@@ -63,7 +68,7 @@ class PostContainer extends Component {
 
   render() {
     const { currentAccount, isLoggedIn } = this.props;
-    const { post, error } = this.state;
+    const { post, error, isNewPost } = this.state;
 
     return (
       <PostScreen
@@ -73,6 +78,7 @@ class PostContainer extends Component {
         post={post}
         fetchPost={this._loadPost}
         isFetchComments
+        isNewPost={isNewPost}
       />
     );
   }

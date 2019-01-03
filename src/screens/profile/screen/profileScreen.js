@@ -12,6 +12,7 @@ import { Posts } from '../../../components/posts';
 import { ProfileSummary } from '../../../components/profileSummary';
 import { TabBar } from '../../../components/tabBar';
 import { Wallet } from '../../../components/wallet';
+import { PROFILE_FILTERS } from '../../../constants/options/filters';
 
 // Utilitites
 import { getFormatedCreatedDate } from '../../../utils/time';
@@ -65,7 +66,9 @@ class ProfileScreen extends PureComponent {
       user,
       username,
     } = this.props;
+
     const { isSummaryOpen, collapsibleMoreHeight } = this.state;
+
     let _about;
     let coverImage;
     let location;
@@ -151,7 +154,9 @@ class ProfileScreen extends PureComponent {
               style={styles.postTabBar}
             >
               <Posts
-                filterOptions={['NEW POSTS', 'VOTES', 'REPLIES', 'MENTIONS', 'FOLLOWS', 'REBLOGS']}
+                filterOptions={PROFILE_FILTERS}
+                selectedOptionIndex={0}
+                pageType="profiles"
                 getFor="blog"
                 tag={username}
                 key={username}

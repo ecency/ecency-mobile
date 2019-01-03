@@ -74,6 +74,7 @@ class BasicHeaderView extends Component {
       isLoggedIn,
       isModalHeader,
       isPostSending,
+      rightButtonText,
       isPreviewActive,
       isReply,
       quickTitle,
@@ -170,13 +171,13 @@ class BasicHeaderView extends Component {
 
           {isHasIcons && (
             <Fragment>
-              <IconButton
+              {/* <IconButton
                 style={styles.iconButton}
                 iconStyle={styles.rightIcon}
                 size={20}
                 iconType="MaterialIcons"
                 name="timer"
-              />
+              /> */}
               <IconButton
                 style={styles.iconButton}
                 size={25}
@@ -193,9 +194,7 @@ class BasicHeaderView extends Component {
                   ]}
                   onPress={isFormValid && this._handleOnPress}
                   style={styles.textButtonWrapper}
-                  text={intl.formatMessage({
-                    id: isReply ? 'basic_header.reply' : 'basic_header.publish',
-                  })}
+                  text={rightButtonText}
                 />
               ) : (
                 <ActivityIndicator style={[styles.textButtonWrapper]} />

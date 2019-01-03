@@ -18,7 +18,7 @@ export default class TagAreaView extends Component {
     super(props);
     this.state = {
       currentText: '',
-      chips: [' '],
+      chips: props.draftChips || [' '],
       chipsCount: props.chipsCount || 5,
       activeChip: 0,
     };
@@ -29,7 +29,7 @@ export default class TagAreaView extends Component {
     const { draftChips } = this.props;
 
     if (nextProps.draftChips && nextProps.draftChips !== draftChips) {
-      const _chips = [...nextProps.draftChips, ''];
+      const _chips = [...nextProps.draftChips, ' '];
       this.setState({
         chips: _chips,
       });
@@ -38,44 +38,32 @@ export default class TagAreaView extends Component {
 
   // Component Functions
   _handleOnChange = (text, i) => {
-    const { chips } = this.state;
-
-    this.setState({
-      currentText: text.replace(/\s/g, ''),
-    });
-
+    this.setState({ currentText: text.replace(/\s/g, '') });
     if (text.indexOf(' ') > 0 && text) {
-      this._handleTagAdded(chips[i] ? i : null);
+      this._handleTagAdded();
     }
-    if (!text && i !== 0) {
+    if (!text) {
       this._handleTagRemove(i);
     }
   };
 
   _handleOnBlur = (i) => {
     this._handleTagAdded(i);
-    this.setState({ activeChip: null });
   };
 
   _handleTagAdded = (i = null, text = null) => {
     const { currentText, chips, chipsCount } = this.state;
     const { handleTagChanged } = this.props;
-    const _currentText = currentText || text;
+    const _currentText = (currentText && currentText.trim()) || text;
+
     if (_currentText && chips && chips.length < chipsCount) {
       this.setState({
         chips: [...chips, _currentText],
         currentText: '',
       });
-    } else if (_currentText && chips && chips.length === chipsCount) {
-      const _chips = chips;
-      _chips[chipsCount - 1] = currentText;
-      this.setState({
-        chips: _chips,
-        currentText: null,
-      });
     }
 
-    if (handleTagChanged && chips.length < chipsCount) {
+    if (handleTagChanged && chips.length < chipsCount + 1) {
       handleTagChanged([...chips, _currentText]);
     }
   };
@@ -94,38 +82,40 @@ export default class TagAreaView extends Component {
   };
 
   render() {
-    const { isPreviewActive, intl } = this.props;
-    const { chips, currentText, activeChip } = this.state;
+    const { isPreviewActive } = this.props;
+    const { chips, activeChip, currentText } = this.state;
 
     return (
       <View style={globalStyles.containerHorizontal16}>
         <View style={styles.tagWrapper}>
-          {chips.map((chip, i) => (
+          {chips.map(
+            (chip, i) => i < 5 && (
             <Chip
               key={i}
-              ref={(input) => {
+              refs={(input) => {
                 this.inputs[i] = input;
               }}
               isPin={i === 0 && chips[1]}
               placeholderTextColor="#fff"
               editable={!isPreviewActive}
               maxLength={50}
-              placeholder={intl.formatMessage({
-                id: 'editor.tags',
-              })}
+              placeholder="tags"
               autoFocus={i !== 0 && chips.length - 1 === i}
               multiline={false}
               handleOnChange={text => this._handleOnChange(text, i)}
               handleOnBlur={() => this._handleOnBlur(i)}
               blurOnSubmit
               value={
-                activeChip === i ? currentText || chip.replace(/\s/g, '') : chip.replace(/\s/g, '')
-              }
+                    activeChip === i
+                      ? currentText || chip.replace(/\s/g, '')
+                      : chip.replace(/\s/g, '')
+                  }
               autoCapitalize="none"
               onFocus={() => this.setState({ activeChip: i })}
               {...this.props}
             />
-          ))}
+            ),
+          )}
         </View>
       </View>
     );

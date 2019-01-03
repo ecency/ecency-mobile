@@ -40,7 +40,7 @@ TODO
 
 #### Before you start
 
-1.  When you address an issue or a feature, make sure that there doesn't already exist a Trello card or a ISSUES ticket for this work item.
+1.  When you address an issue or a feature, make sure that there doesn't already exist a ISSUES ticket for this work item.
 
 - [Issues](https://github.com/esteemapp/esteem-mobile/issues)
 
@@ -88,3 +88,11 @@ What ever you want number of commit. Before create push squash your all commit. 
 #### Pushing
 
 - Make sure push your main branch (master)
+
+# Issues
+
+To report a non-critical issue, please file an issue on this GitHub project.
+
+If you find a security issue please report details to: security@esteem.app
+
+We will evaluate the risk and make a patch available before filing the issue.

@@ -8,7 +8,6 @@ export default EStyleSheet.create({
     borderWidth: 1,
     borderTopWidth: 1,
     borderColor: '$primaryLightBackground',
-    borderRadius: 5,
     marginRight: 0,
     marginLeft: 0,
     marginTop: 10,
