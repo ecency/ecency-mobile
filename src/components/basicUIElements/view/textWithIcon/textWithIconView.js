@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { Fragment } from 'react';
 import { View, TouchableHighlight, Text } from 'react-native';
 import { Icon } from '../../../icon';
 import styles from './textWithIconStyles';
@@ -8,15 +8,19 @@ const TextWithIcon = ({
 }) => (
   <View style={styles.container}>
     {isClickable || onPress ? (
-      <TouchableHighlight underlayColor="transparent" onPress={() => onPress && onPress()}>
-        <View style={styles.wrapper}>
+      <TouchableHighlight
+        style={styles.wrapper}
+        underlayColor="transparent"
+        onPress={() => onPress && onPress()}
+      >
+        <Fragment>
           <Icon
             style={[styles.icon, iconStyle, iconSize && { fontSize: iconSize }]}
             name={iconName}
             iconType={iconType}
           />
           <Text style={[styles.text]}>{text}</Text>
-        </View>
+        </Fragment>
       </TouchableHighlight>
     ) : (
       <View style={styles.wrapper}>
