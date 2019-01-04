@@ -2,7 +2,7 @@ import React, { PureComponent, Fragment } from 'react';
 import { injectIntl } from 'react-intl';
 
 // Utilities
-import { getTransactionData } from '../../../utils/wallet';
+import { groomingTransactionData } from '../../../utils/wallet';
 
 // Components
 // import { FilterBar } from '../../filterBar';
@@ -48,7 +48,7 @@ class TransactionView extends PureComponent {
         <Card>
           {transactions
             && transactions.map((item, index) => {
-              const transactionData = getTransactionData(item, walletData, formatNumber);
+              const transactionData = groomingTransactionData(item, walletData, formatNumber);
 
               return (
                 <CollapsibleCard

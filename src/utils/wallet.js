@@ -1,8 +1,9 @@
-// import parseDate from './parseDate';
+import parseDate from './parseDate';
 import parseToken from './parseToken';
 import { vestsToSp } from './conversions';
+import { globalProps, getState } from '../providers/steem/dsteem';
 
-export const getTransactionData = (transaction, walletData, formatNumber) => {
+export const groomingTransactionData = (transaction, walletData, formatNumber) => {
   if (!transaction || !walletData) {
     return [];
   }
@@ -98,4 +99,54 @@ export const getTransactionData = (transaction, walletData, formatNumber) => {
       break;
   }
   return result;
+};
+
+export const groomingWalletData = async (user) => {
+  const walletData = {};
+
+  if (!user) {
+    return walletData;
+  }
+
+  const global = await globalProps();
+  const state = await getState(`/@${user.name}/transfers`);
+  const { accounts } = state;
+
+  // TODO: move them to utils these so big for a lifecycle function
+  walletData.rewardSteemBalance = parseToken(user.reward_steem_balance);
+  walletData.rewardSbdBalance = parseToken(user.reward_sbd_balance);
+  walletData.rewardVestingSteem = parseToken(user.reward_vesting_steem);
+  walletData.hasUnclaimedRewards = walletData.rewardSteemBalance > 0
+    || walletData.rewardSbdBalance > 0
+    || walletData.rewardVestingSteem > 0;
+  walletData.balance = parseToken(user.balance);
+  walletData.vestingShares = parseToken(user.vesting_shares);
+  walletData.vestingSharesDelegated = parseToken(user.delegated_vesting_shares);
+  walletData.vestingSharesReceived = parseToken(user.received_vesting_shares);
+  walletData.vestingSharesTotal = walletData.vestingShares - walletData.vestingSharesDelegated + walletData.vestingSharesReceived;
+
+  walletData.sbdBalance = parseToken(user.sbd_balance);
+  walletData.savingBalance = parseToken(user.savings_balance);
+  walletData.savingBalanceSbd = parseToken(user.savings_sbd_balance);
+
+  // const feedHistory = await getFeedHistory();
+  // const base = parseToken(feedHistory.current_median_history.base);
+  // const quote = parseToken(feedHistory.current_median_history.quote);
+
+  walletData.steemPerMVests = (parseToken(global.total_vesting_fund_steem) / parseToken(global.total_vesting_shares)) * 1e6;
+
+  // walletData.estimatedValue = vestsToSp(walletData.vestingShares, walletData.steemPerMVests) * (base / quote)
+  //  + walletData.balance * (base / quote)
+  //  + walletData.sbdBalance;
+
+  walletData.showPowerDown = user.next_vesting_withdrawal !== '1969-12-31T23:59:59';
+  const timeDiff = Math.abs(parseDate(user.next_vesting_withdrawal) - new Date());
+  walletData.nextVestingWithdrawal = Math.ceil(timeDiff / (1000 * 3600 * 24));
+
+  const { transfer_history: transferHistory } = accounts[user.name];
+  walletData.transactions = transferHistory
+    .slice(Math.max(transferHistory.length - 20, 0))
+    .reverse();
+
+  return walletData;
 };
