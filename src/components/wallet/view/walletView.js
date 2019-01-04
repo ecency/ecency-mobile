@@ -1,10 +1,9 @@
 import React, { PureComponent, Fragment } from 'react';
 import { View, Text, ScrollView } from 'react-native';
-import Ionicons from 'react-native-vector-icons/Ionicons';
-
-// Constants
+import { injectIntl } from 'react-intl';
 
 // Components
+import { Icon } from '../../icon';
 import { MainButton } from '../../mainButton';
 import { CollapsibleCard } from '../../collapsibleCard';
 import { WalletDetails } from '../../walletDetails';
@@ -74,7 +73,7 @@ class WalletView extends PureComponent {
                     <View style={styles.mainButtonWrapper}>
                       {this._getUnclaimedText(walletData)}
                       <View style={styles.mainIconWrapper}>
-                        <Ionicons name="md-add" color="#357ce6" size={23} />
+                        <Icon name="add" iconType="MaterialIcons" color="#357ce6" size={23} />
                       </View>
                     </View>
                   </MainButton>
@@ -100,4 +99,4 @@ class WalletView extends PureComponent {
   }
 }
 
-export default WalletView;
+export default injectIntl(WalletView);
