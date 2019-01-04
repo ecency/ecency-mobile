@@ -5,7 +5,6 @@ import EStyleSheet from 'react-native-extended-stylesheet';
 import { ReduxNavigation } from '../../../navigation/reduxNavigation';
 import { flattenMessages } from '../../../utils/flattenMessages';
 import messages from '../../../config/locales';
-import codePush from "react-native-code-push";
 
 // Themes (Styles)
 import darkTheme from '../../../themes/darkTheme';
@@ -42,6 +41,5 @@ class ApplicationScreen extends Component {
     );
   }
 }
-ApplicationScreen = codePush(ApplicationScreen);
 
 export default ApplicationScreen;
