@@ -41,6 +41,7 @@ export default EStyleSheet.create({
     fontWeight: 'bold',
     fontSize: 14,
     marginBottom: 8,
+    maxWidth: '$deviceWidth / 3',
   },
   usernick: {
     color: 'rgba(255, 255, 255, 0.7)',

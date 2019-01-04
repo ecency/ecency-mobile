@@ -107,7 +107,7 @@ class SideMenuView extends Component {
                 />
                 <View style={styles.userInfoWrapper}>
                   {currentAccount.display_name && (
-                    <Text style={styles.username}>{currentAccount.display_name}</Text>
+                    <Text numberOfLines={1} ellipsizeMode="tail" style={styles.username}>{currentAccount.display_name}</Text>
                   )}
                   <Text style={styles.usernick}>{`@${currentAccount.name}`}</Text>
                 </View>
