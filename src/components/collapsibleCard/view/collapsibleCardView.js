@@ -114,7 +114,7 @@ class CollapsibleCardView extends PureComponent {
         </TouchableHighlight>
 
         <Animated.View
-          style={[styles.content, { height: this.anime.height }]}
+          style={[styles.content, { height: this.anime.height, opacity: expanded ? 1 : 0 }]}
           onLayout={e => this._initContentHeight(e)}
         >
           <View style={[!fitContent && !noContainer && styles.contentBody]}>{children}</View>
