@@ -73,7 +73,7 @@ class FollowsScreen extends PureComponent {
           isHasSearch
           handleOnSearch={handleSearch}
         />
-        {(filterResult && data && filterResult.length > 0) || data.length > 0 ? (
+        {(filterResult && data && filterResult.length > 0) || (data && data.length > 0) ? (
           <FlatList
             data={filterResult || data}
             keyExtractor={(item, index) => index.toString()}

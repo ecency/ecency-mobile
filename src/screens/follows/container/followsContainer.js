@@ -122,9 +122,6 @@ class FollowsContainer extends Component {
       isFollowingPress, users, isLoading, count, username, filterResult,
     } = this.state;
 
-    if (!users) {
-      return null;
-    }
     return (
       <FollowsScreen
         loadMore={this._loadFollows}
