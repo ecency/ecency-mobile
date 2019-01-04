@@ -116,7 +116,7 @@ class ProfileSummaryView extends PureComponent {
               iconType="MaterialCommunityIcons"
             />
           )}
-          {!!date && <TextWithIcon text={date} iconName="md-calendar" iconSize={14} />}
+          {!!date && <TextWithIcon text={date} iconName="calendar" iconType="MaterialCommunityIcons" iconSize={14} />}
         </View>
         <Image
           style={styles.longImage}
