@@ -296,7 +296,7 @@ class ProfileContainer extends Component {
           isProfileLoading={isProfileLoading}
           isReady={isReady}
           isReverseHeader={isReverseHeader}
-          user={user}
+          selectedUser={user}
           username={username}
         />
       </Fragment>

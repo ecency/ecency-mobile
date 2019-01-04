@@ -7,7 +7,11 @@ import ScrollableTabView from '@esteemapp/react-native-scrollable-tab-view';
 import { Comments } from '../../../components/comments';
 import { CollapsibleCard } from '../../../components/collapsibleCard';
 import { Header } from '../../../components/header';
-import { NoPost, ProfileSummaryPlaceHolder } from '../../../components/basicUIElements';
+import {
+  NoPost,
+  ProfileSummaryPlaceHolder,
+  WalletDetailsPlaceHolder,
+} from '../../../components/basicUIElements';
 import { Posts } from '../../../components/posts';
 import { ProfileSummary } from '../../../components/profileSummary';
 import { TabBar } from '../../../components/tabBar';
@@ -63,7 +67,7 @@ class ProfileScreen extends PureComponent {
       isReady,
       isReverseHeader,
       selectedQuickProfile,
-      user,
+      selectedUser,
       username,
     } = this.props;
 
@@ -78,9 +82,9 @@ class ProfileScreen extends PureComponent {
     let fullInHourVP;
     let fullInHourRC;
 
-    if (user) {
-      votingPower = getVotingPower(user).toFixed(1);
-      resourceCredits = getRcPower(user).toFixed(1);
+    if (selectedUser) {
+      votingPower = getVotingPower(selectedUser).toFixed(1);
+      resourceCredits = getRcPower(selectedUser).toFixed(1);
       fullInHourVP = Math.ceil((100 - votingPower) * 0.833333);
       fullInHourRC = Math.ceil((100 - resourceCredits) * 0.833333);
     }
@@ -117,7 +121,7 @@ class ProfileScreen extends PureComponent {
             >
               <ProfileSummary
                 coverImage={coverImage}
-                date={getFormatedCreatedDate(user && user.created)}
+                date={getFormatedCreatedDate(selectedUser && selectedUser.created)}
                 followerCount={follows.follower_count}
                 followingCount={follows.following_count}
                 handleFollowUnfollowUser={handleFollowUnfollowUser}
@@ -190,7 +194,13 @@ class ProfileScreen extends PureComponent {
                 id: 'profile.wallet',
               })}
             >
-              <Wallet user={user} intl={intl} />
+              {selectedUser ? (
+                <Wallet selectedUser={selectedUser} intl={intl} />
+              ) : (
+                <Fragment>
+                  <WalletDetailsPlaceHolder />
+                </Fragment>
+              )}
             </View>
           </ScrollableTabView>
         </View>
