@@ -31,7 +31,7 @@ class WalletContainer extends Component {
   }
 
   render() {
-    const { currentAccountUsername, selectedUser, intl } = this.props;
+    const { currentAccountUsername, selectedUser } = this.props;
     const { walletData } = this.state;
 
     return (
@@ -39,7 +39,6 @@ class WalletContainer extends Component {
         currentAccountUsername={currentAccountUsername}
         selectedUsername={selectedUser && selectedUser.name}
         walletData={walletData}
-        intl={intl}
       />
     );
   }

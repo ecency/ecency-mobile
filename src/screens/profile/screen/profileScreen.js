@@ -195,11 +195,9 @@ class ProfileScreen extends PureComponent {
               })}
             >
               {selectedUser ? (
-                <Wallet selectedUser={selectedUser} intl={intl} />
+                <Wallet selectedUser={selectedUser} />
               ) : (
-                <Fragment>
-                  <WalletDetailsPlaceHolder />
-                </Fragment>
+                <WalletDetailsPlaceHolder />
               )}
             </View>
           </ScrollableTabView>
