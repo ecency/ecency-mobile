@@ -1,37 +1,53 @@
 import React, { PureComponent } from 'react';
-import { View } from 'react-native';
+import { View, FlatList } from 'react-native';
 
 // Constants
 
 // Components
+import { UserListItem } from '../../basicUIElements';
 
 // Styles
-// eslint-disable-next-line
-import styles from './leaderBoardStyles';
+import styles from './leaderboardStyles';
 
-/*
- *            Props Name        Description                                     Value
- *@props -->  props name here   description here                                Value Type Here
- *
- */
-
-class LeaderBoardView extends PureComponent {
-  constructor(props) {
-    super(props);
-    this.state = {};
-  }
-
-  // Component Life Cycles
+class LeaderboardView extends PureComponent {
+  /* Props
+   * ------------------------------------------------
+   *   @prop { type }    name                - Description....
+   */
 
   // Component Functions
+  _renderItem = (item, index) => {
+    const { handleOnUserPress } = this.props;
+
+    return (
+      <UserListItem
+        handleOnUserPress={handleOnUserPress}
+        avatar={`https://steemitimages.com/u/${item._id}/avatar/small`}
+        index={index}
+        username={item._id}
+        description={item.created}
+        isHasRightItem
+        isBlackRightColor
+        rightText={item.count}
+        itemIndex={index + 1}
+      />
+    );
+  };
 
   render() {
-    // eslint-disable-next-line
-    const {} = this.props;
+    const { users } = this.props;
 
-    // eslint-disable-next-line
-    return <ElementName />;
+    return (
+      <View style={styles.container}>
+        <FlatList
+          data={users}
+          keyExtractor={item => item.voter}
+          removeClippedSubviews={false}
+          renderItem={({ item, index }) => this._renderItem(item, index)}
+        />
+      </View>
+    );
   }
 }
 
-export default LeaderBoardView;
+export default LeaderboardView;
