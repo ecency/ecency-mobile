@@ -40,6 +40,9 @@ export default EStyleSheet.create({
   valueGray: {
     color: '$iconColor',
   },
+  valueBlack: {
+    color: '$primaryBlack',
+  },
   rightWrapper: {
     textAlign: 'center',
     alignItems: 'center',
@@ -58,5 +61,10 @@ export default EStyleSheet.create({
   },
   date: {
     color: '$primaryDarkGray',
+  },
+  itemIndex: {
+    color: '$primaryDarkGray',
+    fontSize: 10,
+    marginRight: 17,
   },
 });
