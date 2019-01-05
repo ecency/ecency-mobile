@@ -33,7 +33,7 @@ class PostScreen extends PureComponent {
           isHasDropdown
           title="Post"
           content={post}
-          dropdownComponent={<PostDropdown content={post} />}
+          dropdownComponent={<PostDropdown content={post} fetchPost={fetchPost} />}
           isNewPost={isNewPost}
         />
         <PostDisplay
