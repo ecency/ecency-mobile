@@ -94,7 +94,7 @@
     "add_account": "Add Account",
     "logout": "Logout",
     "cancel": "Cancel",
-    "logout_text": "Are you sure want to logout?"
+    "logout_text": "Are you sure you want to logout?"
   },
   "header": {
     "title": "Login to customize your feed",
@@ -125,7 +125,7 @@
     "allRead": "Marked all notification as read"
   },
   "post": {
-    "reblog_alert": "Are you sure want to reblog?",
+    "reblog_alert": "Are you sure you want to reblog?",
     "reblog_cancel": "Cancel"
   }
 }
