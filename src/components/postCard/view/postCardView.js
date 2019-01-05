@@ -76,7 +76,7 @@ class PostCard extends Component {
             reblogedBy={reblogedBy}
           />
           <View style={styles.dropdownWrapper}>
-            <PostDropdown content={content} />
+            <PostDropdown content={content} fetchPost={fetchPost} />
           </View>
         </View>
         <View style={styles.postBodyWrapper}>

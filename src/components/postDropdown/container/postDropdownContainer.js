@@ -74,13 +74,17 @@ class PostDropdownContainer extends PureComponent {
   };
 
   _replyNavigation = () => {
-    const { navigation, content, isLoggedIn } = this.props;
+    const {
+      navigation, content, isLoggedIn, fetchPost,
+    } = this.props;
+
     if (isLoggedIn) {
       navigation.navigate({
         routeName: ROUTES.SCREENS.EDITOR,
         params: {
           isReply: true,
           post: content,
+          fetchPost,
         },
       });
     }

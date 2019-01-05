@@ -52,10 +52,14 @@ class PostContainer extends Component {
 
   // Component Functions
 
-  _loadPost = async (author, permlink) => {
+  _loadPost = async (author = null, permlink = null) => {
     const { currentAccount, isLoggedIn } = this.props;
+    const { post } = this.state;
 
-    await getPost(author, permlink, isLoggedIn && currentAccount.username)
+    const _author = author || post.author;
+    const _permlink = permlink || post.permlink;
+
+    await getPost(_author, _permlink, isLoggedIn && currentAccount.username)
       .then((result) => {
         if (result) {
           this.setState({ post: result });
