@@ -164,8 +164,8 @@ class SideMenuView extends Component {
         </View>
         <ActionSheet
           ref={o => (this.ActionSheet = o)}
-          options={['Logout', 'Cancel']}
-          title="Are you sure want to logout?"
+          options={[intl.formatMessage({ id: 'side_menu.logout' }), intl.formatMessage({ id: 'side_menu.cancel' })]}
+          title={intl.formatMessage({ id: 'side_menu.logout_text' })}
           cancelButtonIndex={1}
           destructiveButtonIndex={0}
           onPress={(index) => {

@@ -1,7 +1,9 @@
-import React, { PureComponent } from 'react';
+import React, { PureComponent, Fragment } from 'react';
 import { connect } from 'react-redux';
 import { withNavigation } from 'react-navigation';
 import { Alert } from 'react-native';
+import ActionSheet from 'react-native-actionsheet';
+import { injectIntl } from 'react-intl';
 
 // Services and Actions
 import { reblog } from '../../../providers/steem/dsteem';
@@ -42,7 +44,9 @@ class PostDropdownContainer extends PureComponent {
         break;
 
       case '1':
-        this._reblog();
+        setTimeout(() => {
+          this.ActionSheet.show();
+        }, 100);
         break;
 
       case '2':
@@ -87,12 +91,25 @@ class PostDropdownContainer extends PureComponent {
   };
 
   render() {
+    const { intl } = this.props;
+
     return (
-      <PostDropdownView
-        options={OPTIONS}
-        handleOnDropdownSelect={this._handleOnDropdownSelect}
-        {...this.props}
-      />
+      <Fragment>
+        <PostDropdownView
+          options={OPTIONS}
+          handleOnDropdownSelect={this._handleOnDropdownSelect}
+          {...this.props}
+        />
+        <ActionSheet
+          ref={o => (this.ActionSheet = o)}
+          options={['Reblog', intl.formatMessage({ id: 'post.reblog_cancel' })]}
+          title={intl.formatMessage({ id: 'post.reblog_alert' })}
+          cancelButtonIndex={1}
+          onPress={(index) => {
+            index === 0 ? this._reblog() : null;
+          }}
+        />
+      </Fragment>
     );
   }
 }
@@ -102,4 +119,5 @@ const mapStateToProps = state => ({
   currentAccount: state.account.currentAccount,
   pinCode: state.account.pin,
 });
-export default withNavigation(connect(mapStateToProps)(PostDropdownContainer));
+
+export default withNavigation(connect(mapStateToProps)(injectIntl(PostDropdownContainer)));
