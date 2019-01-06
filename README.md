@@ -9,9 +9,7 @@ iOS ![iOS](https://build.appcenter.ms/v0.1/apps/ef80aa2a-d4e1-4f43-a4f8-be12ea72
 
 `$ cd esteem-mobile`
 
-`$ npm install` (You should use `npm` if you use yarn its getting error its about realm \*\*TODO)
-
-`$ npm install -g react-native-cli` (if you already have `react-native` as globally it not require)
+`$ yarn`
 
 `$ react-native start` (Now your local server should start)
 
