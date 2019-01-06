@@ -9,6 +9,7 @@ import {
   getUserData,
   setSCAccount,
   getSCAccount,
+  setPinCode,
 } from '../../realm/realm';
 import { encryptKey, decryptKey } from '../../utils/crypto';
 import steemConnect from './steemConnectAPI';
@@ -128,30 +129,30 @@ export const loginWithSC2 = async (code) => {
 };
 
 export const setUserDataWithPinCode = async (data) => {
-  const result = getUserDataWithUsername(data.username);
-  const userData = result[0];
+  try {
+    const result = getUserDataWithUsername(data.username);
+    const userData = result[0];
 
-  const privateKeys = getPrivateKeys(userData.username, data.password);
+    const privateKeys = getPrivateKeys(userData.username, data.password);
 
-  const updatedUserData = {
-    username: userData.username,
-    authType: userData.authType,
-    accessToken:
-      userData.authType === 'steemConnect' ? encryptKey(data.accessToken, data.pinCode) : '',
-    masterKey: userData.authType === 'masterKey' ? encryptKey(data.password, data.pinCode) : '',
-    postingKey: encryptKey(privateKeys.posting.toString(), data.pinCode),
-    activeKey: encryptKey(privateKeys.active.toString(), data.pinCode),
-    memoKey: encryptKey(privateKeys.memo.toString(), data.pinCode),
-  };
+    const updatedUserData = {
+      username: userData.username,
+      authType: userData.authType,
+      accessToken:
+        userData.authType === 'steemConnect' ? encryptKey(data.accessToken, data.pinCode) : '',
+      masterKey: userData.authType === 'masterKey' ? encryptKey(data.password, data.pinCode) : '',
+      postingKey: encryptKey(privateKeys.posting.toString(), data.pinCode),
+      activeKey: encryptKey(privateKeys.active.toString(), data.pinCode),
+      memoKey: encryptKey(privateKeys.memo.toString(), data.pinCode),
+    };
 
-  const response = await updateUserData(updatedUserData);
-  const authData = {
-    isLoggedIn: true,
-    currentUsername: userData.username,
-  };
+    await setPinCode(data.pinCode);
+    await updateUserData(updatedUserData);
 
-  await setAuthStatus(authData);
-  return response;
+    return updatedUserData;
+  } catch (error) {
+    return Promise.reject(new Error('Unknown error, please contact to eSteem.'));
+  }
 };
 
 export const updatePinCode = async (data) => {
@@ -209,9 +210,7 @@ export const verifyPinCode = async (data) => {
         const newSCAccountData = await getSCAccessToken(scAccount.refreshToken);
         await setSCAccount(newSCAccountData);
         accessToken = newSCAccountData.access_token;
-        await updateUserData(
-          { ...userData, accessToken: encryptKey(accessToken, data.pinCode) },
-        );
+        await updateUserData({ ...userData, accessToken: encryptKey(accessToken, data.pinCode) });
       }
       await steemConnect.setAccessToken(accessToken);
       account = await steemConnect.me();

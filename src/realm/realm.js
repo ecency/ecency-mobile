@@ -1,4 +1,5 @@
 import Realm from 'realm';
+import sha256 from 'crypto-js/sha256';
 
 // CONSTANTS
 const USER_SCHEMA = 'user';
@@ -294,9 +295,10 @@ export const updateCurrentUsername = username => new Promise((resolve, reject) =
 export const setPinCode = pinCode => new Promise((resolve, reject) => {
   try {
     const auth = realm.objects(AUTH_SCHEMA);
+    const pinHash = sha256(pinCode);
 
     realm.write(() => {
-      auth[0].pinCode = pinCode;
+      auth[0].pinCode = pinHash;
       resolve(auth[0]);
     });
   } catch (error) {
