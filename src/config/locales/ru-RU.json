@@ -1,0 +1,131 @@
+{
+  "wallet": {
+    "curation_reward": "Кураторская награда",
+    "author_reward": "Авторская награда",
+    "comment_benefactor_reward": "Награда бенефициару",
+    "claim_reward_balance": "Зачислить награду",
+    "transfer": "Перевод",
+    "transfer_to_vesting": "Перевод в Силу",
+    "transfer_from_savings": "Перевод из сейфа",
+    "withdraw_vesting": "Понижение силы",
+    "fill_order": "Заполнить ордер"
+  },
+  "notification": {
+    "vote": "нравится ваш пост",
+    "unvote": "снял свой голос",
+    "reply": "ответил",
+    "mention": "упомянул вас",
+    "follow": "подписан",
+    "unfollow": "отписан",
+    "ignore": "игнорирует",
+    "reblog": "сделал репост",
+    "comingsoon": "Доска Лидерства будет здесь!",
+    "notification": "Уведомления",
+    "leaderboard": "Доска Лидерства",
+    "recent": "Недавно",
+    "yesterday": "Вчера",
+    "this_week": "На неделе",
+    "this_month": "В этом месяце",
+    "older_then": "Давно"
+  },
+  "messages": {
+    "comingsoon": "Здесь будут сообщения!"
+  },
+  "profile": {
+    "following": "Подписки",
+    "follower": "Подписчики",
+    "post": "Пост",
+    "details": "Подробности",
+    "comments": "Комментарии",
+    "replies": "Ответы",
+    "wallet": "Кошелёк",
+    "wallet_details": "Подробности",
+    "unclaimed_rewards": "Незачисленные награды",
+    "full_in": "Восстановится за",
+    "hours": "ч",
+    "voting_power": "Сила голоса",
+    "login_to_see": "Войдите, чтобы увидеть",
+    "havent_commented": "ещё ничего не комментировал",
+    "havent_posted": "ещё ничего не написал",
+    "steem_power": "Сила голоса",
+    "next_power_text": "Следующее понижение силы",
+    "days": "д",
+    "day": "завтра",
+    "steem_dollars": "Доллары Steem",
+    "savings": "Сейф"
+  },
+  "settings": {
+    "settings": "Настройки",
+    "currency": "Валюта",
+    "language": "Язык",
+    "server": "Сервер",
+    "dark_theme": "Тёмная тема",
+    "push_notification": "Уведомления",
+    "pincode": "Пинкод",
+    "reset": "Сбросить"
+  },
+  "voters": {
+    "voters_info": "Детали голосов",
+    "no_user": "Пользователь не найден"
+  },
+  "login": {
+    "signin": "Войти",
+    "signup": "Регистрация",
+    "signin_title": "Чтобы получить максимум от eSteem",
+    "username": "Пользователь",
+    "password": "Пароль или ключ",
+    "description": "Ключи хранятся только на вашем устройстве и удаляются во время разлогина!",
+    "cancel": "отмена",
+    "login": "Войти",
+    "steemconnect_description": "Если не хотите хранить зашифрованные ключи на вашем устройстве, исползуйте Steemconnect."
+  },
+  "home": {
+    "feed": "Лента",
+    "popular": "Популярное"
+  },
+  "side_menu": {
+    "profile": "Профиль",
+    "bookmarks": "Закладки",
+    "favorites": "Избранное",
+    "drafts": "Черновики",
+    "schedules": "Отложенное",
+    "gallery": "Галлерея",
+    "settings": "Настройки",
+    "add_account": "Добавить аккаунт",
+    "logout": "Выйти",
+    "cancel": "Отмена",
+    "logout_text": "Вы уверены, что хотите разлогина?"
+  },
+  "header": {
+    "title": "Войдите, чтобы настроить свою ленту",
+    "search": "Искать..."
+  },
+  "basic_header": {
+    "publish": "Написать",
+    "search": "Поиск",
+    "update": "Обновить",
+    "reply": "Ответить"
+  },
+  "editor": {
+    "title": "Заголовок",
+    "tags": "теги",
+    "default_placeholder": "О чём вы хотите написать сегодня?",
+    "reply_placeholder": "Напишите ваш комментарий",
+    "publish": "Написать",
+    "reply": "Ответить"
+  },
+  "pincode": {
+    "enter_text": "Введите пинкод",
+    "set_new": "Выберите новый пинкод",
+    "write_again": "Повторите пинкод",
+    "forgot_text": "Запамятовал..."
+  },
+  "alert": {
+    "success": "Успех!",
+    "allRead": "Всё прочтено"
+  },
+  "post": {
+    "reblog_alert": "Вы уверены, что хотите сделать репост?",
+    "reblog_cancel": "Отмена"
+  }
+}
