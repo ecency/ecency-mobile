@@ -92,7 +92,9 @@
     "gallery": "Gallery",
     "settings": "Settings",
     "add_account": "Add Account",
-    "logout": "Logout"
+    "logout": "Logout",
+    "cancel": "Cancel",
+    "logout_text": "Are you sure you want to logout?"
   },
   "header": {
     "title": "Login to customize your feed",
@@ -121,5 +123,9 @@
   "alert": {
     "success": "Success!",
     "allRead": "Marked all notification as read"
+  },
+  "post": {
+    "reblog_alert": "Are you sure you want to reblog?",
+    "reblog_cancel": "Cancel"
   }
 }
