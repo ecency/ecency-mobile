@@ -12,7 +12,7 @@ import { default as ROUTES } from '../../../constants/routeNames';
 // Utilities
 
 // Component
-import LeaderboardView from '../view/leaderboardView';
+import LeaderboardView from '../view/leaderBoardView';
 
 /*
  *            Props Name        Description                                     Value
