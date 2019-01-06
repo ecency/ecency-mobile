@@ -1,5 +1,6 @@
 import React, { PureComponent } from 'react';
 import { View, FlatList, Text } from 'react-native';
+import { injectIntl } from 'react-intl';
 
 // Constants
 
@@ -35,11 +36,15 @@ class LeaderboardView extends PureComponent {
   };
 
   render() {
-    const { users } = this.props;
+    const { users, intl } = this.props;
 
     return (
       <View style={styles.container}>
-        <Text style={styles.text}>Daily Top User</Text>
+        <Text style={styles.text}>
+          {intl.formatMessage({
+            id: 'notification.leaderboard_title',
+          })}
+        </Text>
         <FlatList
           data={users}
           keyExtractor={item => item.voter}
@@ -51,4 +56,4 @@ class LeaderboardView extends PureComponent {
   }
 }
 
-export default LeaderboardView;
+export default injectIntl(LeaderboardView);
