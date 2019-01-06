@@ -1,4 +1,6 @@
 import * as dsteem from 'dsteem';
+import sha256 from 'crypto-js/sha256';
+
 import { getUser } from './dsteem';
 import {
   setUserData,
@@ -10,6 +12,7 @@ import {
   setSCAccount,
   getSCAccount,
   setPinCode,
+  getPinCode,
 } from '../../realm/realm';
 import { encryptKey, decryptKey } from '../../utils/crypto';
 import steemConnect from './steemConnectAPI';
@@ -190,70 +193,34 @@ export const updatePinCode = async (data) => {
 };
 
 export const verifyPinCode = async (data) => {
+  const pinHash = getPinCode();
+
+  // CHECK PIN HASH with console log
+
+  if (sha256(data.pinCode) !== pinHash) {
+    return Promise.reject(new Error('Invalid pin code, please check and try again'));
+  }
+
   const result = getUserDataWithUsername(data.username);
   const userData = result[0];
-  let account = null;
-  let loginFlag = false;
   if (result.length > 0) {
     if (userData.authType === 'steemConnect') {
-      let accessToken;
-      try {
-        accessToken = decryptKey(userData.accessToken, data.pinCode);
-      } catch (error) {
-        return Promise.reject(new Error('Invalid pin code, please check and try again'));
-      }
-
-      const scAccount = await getSCAccount(userData.username);
-      const now = new Date();
-      const expireDate = new Date(scAccount.expireDate);
-      if (now >= expireDate) {
-        const newSCAccountData = await getSCAccessToken(scAccount.refreshToken);
-        await setSCAccount(newSCAccountData);
-        accessToken = newSCAccountData.access_token;
-        await updateUserData({ ...userData, accessToken: encryptKey(accessToken, data.pinCode) });
-      }
-      await steemConnect.setAccessToken(accessToken);
-      account = await steemConnect.me();
-      if (account) {
-        loginFlag = true;
-      }
-    } else if (userData.authType === 'masterKey') {
-      const password = decryptKey(userData.masterKey, data.pinCode);
-      account = await getUser(data.username);
-      // Public keys of user
-      const publicKeys = {
-        active: account.active.key_auths.map(x => x[0]),
-        memo: account.memo_key,
-        owner: account.owner.key_auths.map(x => x[0]),
-        posting: account.posting.key_auths.map(x => x[0]),
-      };
-      // Set private keys of user
-      const privateKeys = getPrivateKeys(data.username, password);
-
-      // Check all keys
-      Object.keys(publicKeys).map((pubKey) => {
-        if (publicKeys[pubKey] === privateKeys[pubKey].createPublic().toString()) {
-          loginFlag = true;
-        }
-      });
+      await refreshSCToken(userData, data.pinCode);
     }
   }
-  if (loginFlag) {
-    const authData = {
-      isLoggedIn: true,
-      currentUsername: data.username,
-    };
-    const response = {
-      accessToken: decryptKey(userData.accessToken, data.pinCode),
-      postingKey: decryptKey(userData.postingKey, data.pinCode),
-      masterKey: decryptKey(userData.masterKey, data.pinCode),
-      activeKey: decryptKey(userData.activeKey, data.pinCode),
-      memoKey: decryptKey(userData.memoKey, data.pinCode),
-    };
-    await setAuthStatus(authData);
-    return response;
+  return true;
+};
+
+export const refreshSCToken = async (userData, pinCode) => {
+  const scAccount = await getSCAccount(userData.username);
+  const now = new Date();
+  const expireDate = new Date(scAccount.expireDate);
+  if (now >= expireDate) {
+    const newSCAccountData = await getSCAccessToken(scAccount.refreshToken);
+    await setSCAccount(newSCAccountData);
+    const accessToken = newSCAccountData.access_token;
+    await updateUserData({ ...userData, accessToken: encryptKey(accessToken, pinCode) });
   }
-  return Promise.reject(new Error('Invalid pin code, please check and try again'));
 };
 
 export const switchAccount = username => new Promise((resolve, reject) => {
