@@ -94,7 +94,9 @@
     "gallery": "Galeri",
     "settings": "Ayarlar",
     "add_account": "Hesap Ekle",
-    "logout": "Cıkış"
+    "logout": "Çık",
+    "cancel": "Vazgeç",
+    "logout_text": "Çıkış yapmak istediginize emin misiniz?"
   },
   "header": {
     "title": "Giriş yap ve akışını özelleştir.",
@@ -123,5 +125,9 @@
   "alert": {
     "success": "Başarılı!",
     "allRead": "Tüm bildirimler okundu"
+  },
+  "post": {
+    "reblog_alert": "Reblog yapma istediginize emin misiniz?",
+    "reblog_cancel": "Vazgeç"
   }
 }
