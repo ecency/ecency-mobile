@@ -1,5 +1,5 @@
 import React, { PureComponent } from 'react';
-import { View, FlatList } from 'react-native';
+import { View, FlatList, Text } from 'react-native';
 
 // Constants
 
@@ -39,6 +39,7 @@ class LeaderboardView extends PureComponent {
 
     return (
       <View style={styles.container}>
+        <Text style={styles.text}>Daily Top User</Text>
         <FlatList
           data={users}
           keyExtractor={item => item.voter}

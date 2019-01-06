@@ -9,6 +9,7 @@ import { NavigationActions } from 'react-navigation';
 // Constants
 import en from 'react-intl/locale-data/en';
 import tr from 'react-intl/locale-data/tr';
+import ru from 'react-intl/locale-data/ru';
 
 // Services
 import {
@@ -50,7 +51,7 @@ import {
 import ApplicationScreen from '../screen/applicationScreen';
 import { Launch } from '../..';
 
-addLocaleData([...en, ...tr]);
+addLocaleData([...en, ...tr, ...ru]);
 
 class ApplicationContainer extends Component {
   constructor() {
