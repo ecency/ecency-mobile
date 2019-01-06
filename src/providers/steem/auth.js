@@ -158,34 +158,34 @@ export const setUserDataWithPinCode = async (data) => {
 export const updatePinCode = async (data) => {
   let password = null;
   let accessToken = null;
-  const users = await getUserData();
-  if (users.length > 0) {
-    users.forEach(async (userData) => {
-      if (userData.authType === 'masterKey') {
-        password = decryptKey(userData.masterKey, data.oldPinCode);
-      } else if (userData.authType === 'steemConnect') {
-        accessToken = decryptKey(userData.accessToken, data.oldPinCode);
-      }
-      const privateKeys = getPrivateKeys(userData.username, password);
-      const updatedUserData = {
-        username: userData.username,
-        authType: userData.authType,
-        accessToken:
-          userData.authType === 'steemConnect' ? encryptKey(accessToken, data.pinCode) : '',
-        masterKey: userData.authType === 'masterKey' ? encryptKey(password, data.pinCode) : '',
-        postingKey: encryptKey(privateKeys.posting.toString(), data.pinCode),
-        activeKey: encryptKey(privateKeys.active.toString(), data.pinCode),
-        memoKey: encryptKey(privateKeys.memo.toString(), data.pinCode),
-      };
-      const response = await updateUserData(updatedUserData);
-      const authData = {
-        isLoggedIn: true,
-        currentUsername: userData.username,
-      };
-
-      await setAuthStatus(authData);
-      return response;
-    });
+  try {
+    await setPinCode(data.pinCode);
+    const users = await getUserData();
+    if (users.length > 0) {
+      users.forEach(async (userData) => {
+        if (userData.authType === 'masterKey') {
+          password = decryptKey(userData.masterKey, data.oldPinCode);
+        } else if (userData.authType === 'steemConnect') {
+          accessToken = decryptKey(userData.accessToken, data.oldPinCode);
+        }
+        const privateKeys = getPrivateKeys(userData.username, password);
+        const updatedUserData = {
+          username: userData.username,
+          authType: userData.authType,
+          accessToken:
+            userData.authType === 'steemConnect' ? encryptKey(accessToken, data.pinCode) : '',
+          masterKey: userData.authType === 'masterKey' ? encryptKey(password, data.pinCode) : '',
+          postingKey: encryptKey(privateKeys.posting.toString(), data.pinCode),
+          activeKey: encryptKey(privateKeys.active.toString(), data.pinCode),
+          memoKey: encryptKey(privateKeys.memo.toString(), data.pinCode),
+        };
+        await updateUserData(updatedUserData);
+      });
+      return true;
+    }
+    return false;
+  } catch (error) {
+    return Promise.reject(new Error('Unknown error, please contact to eSteem.'));
   }
 };
 
