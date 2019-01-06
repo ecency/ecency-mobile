@@ -47,6 +47,8 @@ export const updateDraft = data => new Promise((resolve, reject) => {
     });
 });
 
+export const getLeaderboard = () => api.get('/leaderboard').then(resp => resp.data);
+
 export const getActivities = data => new Promise((resolve, reject) => {
   let url = null;
   switch (data.type) {
@@ -197,7 +199,5 @@ export const uploadImage = (file) => {
 export const getNodes = () => serverList.get().then(resp => resp.data.nodes);
 
 export const getSCAccessToken = code => new Promise((resolve) => {
-  api
-    .post('/sc-token-refresh', { code })
-    .then(resp => resolve(resp.data));
+  api.post('/sc-token-refresh', { code }).then(resp => resolve(resp.data));
 });

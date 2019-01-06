@@ -13,8 +13,11 @@ const UserListItem = ({
   isRightColor,
   isHasRightItem,
   handleOnUserPress,
+  isBlackRightColor,
+  itemIndex,
 }) => (
   <View style={[styles.voteItemWrapper, index % 2 !== 0 && styles.voteItemWrapperGray]}>
+    {itemIndex && <Text style={styles.itemIndex}>{itemIndex}</Text>}
     <TouchableOpacity onPress={() => handleOnUserPress(username)}>
       <FastImage style={[styles.avatar]} source={{ uri: avatar }} />
     </TouchableOpacity>
@@ -24,8 +27,16 @@ const UserListItem = ({
     </View>
     {isHasRightItem && (
       <View style={styles.rightWrapper}>
-        <Text style={[styles.value, isRightColor && styles.valueGray]}>{rightText}</Text>
-        <Text style={styles.text}>{subRightText}</Text>
+        <Text
+          style={[
+            styles.value,
+            isRightColor && styles.valueGray,
+            isBlackRightColor && styles.valueBlack,
+          ]}
+        >
+          {rightText}
+        </Text>
+        {subRightText && <Text style={styles.text}>{subRightText}</Text>}
       </View>
     )}
   </View>
