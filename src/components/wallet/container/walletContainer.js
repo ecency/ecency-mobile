@@ -25,6 +25,7 @@ class WalletContainer extends Component {
     this.state = {
       walletData: null,
       claiming: false,
+      isRefreshing: false,
     };
   }
 
@@ -77,10 +78,10 @@ class WalletContainer extends Component {
             id: 'alert.claim_reward_balance_ok',
           }),
         );
-        this._getWalletData(account);
+        this._getWalletData(account[0]);
       })
       .then((account) => {
-        this._getWalletData(account);
+        this._getWalletData(account[0]);
       })
       .catch((err) => {
         Alert.alert(err);
@@ -90,9 +91,26 @@ class WalletContainer extends Component {
       });
   };
 
+  _handleOnWalletRefresh = () => {
+    const { selectedUser } = this.props;
+    this.setState({ isRefreshing: true });
+
+
+    getAccount(selectedUser.name)
+      .then((account) => {
+        this._getWalletData(account[0]);
+      })
+      .catch((err) => {
+        Alert.alert(err);
+      })
+      .finally(() => {
+        this.setState({ isRefreshing: false });
+      });
+  };
+
   render() {
     const { currentAccount, selectedUser } = this.props;
-    const { walletData, claiming } = this.state;
+    const { walletData, claiming, isRefreshing } = this.state;
 
     return (
       <WalletView
@@ -101,6 +119,8 @@ class WalletContainer extends Component {
         walletData={walletData}
         claimRewardBalance={this._claimRewardBalance}
         claiming={claiming}
+        handleOnWalletRefresh={this._handleOnWalletRefresh}
+        isRefreshing={isRefreshing}
       />
     );
   }

@@ -8,7 +8,7 @@ import { MainButton } from '../../mainButton';
 import { CollapsibleCard } from '../../collapsibleCard';
 import { WalletDetails } from '../../walletDetails';
 import { Transaction } from '../../transaction';
-import { WalletDetailsPlaceHolder } from '../../basicUIElements';
+import { WalletDetailsPlaceHolder, RefreshControl } from '../../basicUIElements';
 
 // Styles
 import styles from './walletStyles';
@@ -44,16 +44,23 @@ class WalletView extends PureComponent {
 
   render() {
     const {
+      claiming,
+      claimRewardBalance,
       currentAccountUsername,
+      handleOnWalletRefresh,
       intl,
+      isRefreshing,
       selectedUsername,
       walletData,
-      claimRewardBalance,
-      claiming,
     } = this.props;
 
     return (
-      <ScrollView style={styles.scrollView}>
+      <ScrollView
+        refreshControl={
+          <RefreshControl refreshing={isRefreshing} onRefresh={handleOnWalletRefresh} />
+        }
+        style={styles.scrollView}
+      >
         {!walletData ? (
           <Fragment>
             <WalletDetailsPlaceHolder />
