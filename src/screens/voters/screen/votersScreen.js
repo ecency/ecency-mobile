@@ -77,7 +77,6 @@ class VotersScreen extends PureComponent {
       <View style={globalStyles.container}>
         <BasicHeader
           title={`${headerTitle} (${data && data.length})`}
-          rightIconName="ios-search"
           isHasSearch
           handleOnSearch={this._handleSearch}
         />

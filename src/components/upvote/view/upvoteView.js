@@ -134,6 +134,8 @@ class UpvoteView extends Component {
 
     const _percent = `${(sliderValue * 100).toFixed(0)}%`;
     const _amount = `$${amount}`;
+    const _totalPayout = totalPayout ? totalPayout : '0.000';
+
     return (
       <PopoverController>
         {({
@@ -167,8 +169,8 @@ class UpvoteView extends Component {
                     name={iconName}
                   />
                 )}
-                {isShowPayoutValue && totalPayout && (
-                <Text style={[styles.payoutValue, isDecinedPayout && styles.declinedPayout]}>{`$${totalPayout}`}</Text>
+                {isShowPayoutValue && (
+                <Text style={[styles.payoutValue, isDecinedPayout && styles.declinedPayout]}>{`$${_totalPayout}`}</Text>
                 )}
               </Fragment>
             </TouchableOpacity>

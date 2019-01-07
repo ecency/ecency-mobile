@@ -45,7 +45,7 @@ export const parsePost = (post, currentUserName, isSummary = false) => {
     for (const i in _post.active_votes) {
       _post.vote_perecent =
         post.active_votes[i].voter === currentUserName ? post.active_votes[i].percent : null;
-      _post.active_votes[i].value = (post.active_votes[i].rshares * ratio).toFixed(2);
+      _post.active_votes[i].value = (post.active_votes[i].rshares * ratio).toFixed(3);
       _post.active_votes[i].reputation = getReputation(post.active_votes[i].reputation);
       _post.active_votes[i].percent = post.active_votes[i].percent / 100;
       _post.active_votes[i].created = getTimeFromNow(post.active_votes[i].time);

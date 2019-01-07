@@ -69,7 +69,6 @@ class FollowsScreen extends PureComponent {
       <View style={styles.container}>
         <BasicHeader
           title={headerTitle}
-          rightIconName="ios-search"
           isHasSearch
           handleOnSearch={handleSearch}
         />
