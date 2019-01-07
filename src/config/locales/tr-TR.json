@@ -126,18 +126,21 @@
   "alert": {
     "success": "Başarılı!",
     "allRead": "Tüm bildirimler okundu",
-    "fail": "Basarisiz!",
-    "success_shared": "Post'un basariyla paylasildi.",
-    "permission_denied": "Izin Alinamadi",
-    "permission_text": "Lutfen, telefon ayarlarina gidin ve eSteem'in izinlerini degistirin.",
-    "success_rebloged": "Reblog yaptiniz!",
-    "already_rebloged": "Zaten reblog yapmissiniz.",
-    "failed_to_open": "Failed to open",
-    "warning": "Warning",
-    "invalid_pincode": "Invalid pin code, please check and try again."
+    "fail": "Başarısız!",
+    "success_shared": "Post'un başarıyla paylaşıldı.",
+    "permission_denied": "Izin Alınamadı",
+    "permission_text": "Lütfen, telefon ayarlarına gidin ve eSteem'in izinlerini degistirin.",
+    "success_rebloged": "Reblog yaptınız!",
+    "already_rebloged": "Zaten reblog yapmışsınız.",
+    "failed_to_open": "Açılamadı.",
+    "warning": "Uyarı!",
+    "invalid_pincode": "Geçersiz pin kod, lutfen tekrar deneyin."
   },
   "post": {
     "reblog_alert": "Reblog yapma istediginize emin misiniz?",
     "reblog_cancel": "Vazgeç"
   }
 }
+
+// Pick it
+// ı ç ş ö Ç Ş ü
