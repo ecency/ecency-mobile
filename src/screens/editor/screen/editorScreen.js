@@ -132,6 +132,7 @@ class EditorScreen extends Component {
       fields, isPreviewActive, wordsCount, isFormValid,
     } = this.state;
     const {
+      draftPost,
       handleOnImagePicker,
       intl,
       isDraftSaved,
@@ -143,7 +144,7 @@ class EditorScreen extends Component {
       isUploading,
       post,
       uploadedImage,
-      draftPost
+      handleOnPressBackButton,
     } = this.props;
     const rightButtonText = intl.formatMessage({
       id: isEdit ? 'basic_header.update' : isReply ? 'basic_header.reply' :  'basic_header.publish',
@@ -155,6 +156,7 @@ class EditorScreen extends Component {
           handleOnPressPreviewButton={this._handleOnPressPreviewButton}
           handleOnSaveButtonPress={this._handleOnSaveButtonPress}
           handleOnSubmit={this._handleOnSubmit}
+          handleOnPressBackButton={handleOnPressBackButton}
           isDraftSaved={isDraftSaved}
           isDraftSaving={isDraftSaving}
           isFormValid={isFormValid}
