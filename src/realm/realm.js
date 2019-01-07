@@ -298,7 +298,7 @@ export const setPinCode = pinCode => new Promise((resolve, reject) => {
     const pinHash = sha256(pinCode);
 
     realm.write(() => {
-      auth[0].pinCode = pinHash;
+      auth[0].pinCode = pinHash.toString();
       resolve(auth[0]);
     });
   } catch (error) {
