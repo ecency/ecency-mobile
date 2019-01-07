@@ -1,6 +1,7 @@
 import React, { Component } from 'react';
 import { Alert } from 'react-native';
 import { connect } from 'react-redux';
+import { injectIntl } from 'react-intl';
 
 // Dsteem
 import { getAccount, claimRewardBalance } from '../../../providers/steem/dsteem';
@@ -95,7 +96,6 @@ class WalletContainer extends Component {
     const { selectedUser } = this.props;
     this.setState({ isRefreshing: true });
 
-
     getAccount(selectedUser.name)
       .then((account) => {
         this._getWalletData(account[0]);
@@ -131,4 +131,4 @@ const mapStateToProps = state => ({
   pinCode: state.account.pin,
 });
 
-export default connect(mapStateToProps)(WalletContainer);
+export default injectIntl(connect(mapStateToProps)(WalletContainer));
