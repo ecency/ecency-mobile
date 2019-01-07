@@ -80,6 +80,12 @@ export const login = async (username, password) => {
 
     account.local = userData;
 
+    const authData = {
+      isLoggedIn: true,
+      currentUsername: username,
+    };
+    await setAuthStatus(authData);
+
     // Save user data to Realm DB
     await setUserData(userData);
     await updateCurrentUsername(account.name);
@@ -90,7 +96,6 @@ export const login = async (username, password) => {
 
 export const loginWithSC2 = async (code) => {
   const scTokens = await getSCAccessToken(code);
-  await setSCAccount(scTokens);
   await steemConnect.setAccessToken(scTokens.access_token);
   const account = await steemConnect.me();
   let avatar = '';
@@ -120,9 +125,15 @@ export const loginWithSC2 = async (code) => {
     }
 
     setUserData(userData)
-      .then(() => {
+      .then(async () => {
         account.account.username = account.account.name;
         updateCurrentUsername(account.account.name);
+        const authData = {
+          isLoggedIn: true,
+          currentUsername: account.account.name,
+        };
+        await setAuthStatus(authData);
+        await setSCAccount(scTokens);
         resolve({ ...account.account, accessToken: scTokens.access_token });
       })
       .catch((error) => {
