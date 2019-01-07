@@ -769,3 +769,46 @@ export const reblog = async (account, pinCode, author, permlink) => {
     return api.reblog(follower, author, permlink);
   }
 };
+
+export const claimRewardBalance = (
+  account,
+  pinCode,
+  rewardSteem,
+  rewardSbd,
+  rewardVests,
+) => {
+  const pin = getDigitPinCode(pinCode);
+
+  if (account.local.authType === AUTH_TYPE.MASTER_KEY) {
+    const key = decryptKey(account.local.postingKey, pin);
+    const privateKey = PrivateKey.fromString(key);
+
+    const opArray = [
+      [
+        'claim_reward_balance',
+        {
+          account: account.name,
+          reward_steem: rewardSteem,
+          reward_sbd: rewardSbd,
+          reward_vests: rewardVests,
+        },
+      ],
+    ];
+
+    return client.broadcast.sendOperations(opArray, privateKey);
+  }
+
+  if (account.local.authType === AUTH_TYPE.STEEM_CONNECT) {
+    const token = decryptKey(account.local.accessToken, pin);
+    const api = steemConnect.Initialize({
+      accessToken: token,
+    });
+
+    return api.claimRewardBalance(
+      account.name,
+      rewardSteem,
+      rewardSbd,
+      rewardVests,
+    );
+  }
+};
