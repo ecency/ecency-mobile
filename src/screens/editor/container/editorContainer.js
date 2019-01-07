@@ -213,6 +213,31 @@ class EditorContainer extends Component {
   // Media select functions <- END ->
 
   _handleOnSaveButtonPress = (fields) => {
+    // const { isDraftSaved } = this.state;
+    // if (!isDraftSaved) {
+    //   const { currentAccount } = this.props;
+    //   const username = currentAccount && currentAccount.name ? currentAccount.name : '';
+
+    //   this.setState({ isDraftSaving: true });
+    //   const draftField = {
+    //     ...fields,
+    //     tags: fields.tags.toString(),
+    //   };
+
+    //   setDraftPost(draftField, username)
+    //     .then(() => {
+    //       this.setState({
+    //         isDraftSaving: false,
+    //         isDraftSaved: true,
+    //       });
+    //     })
+    //     .catch((error) => {
+    //       alert(error);
+    //     });
+    // }
+  };
+
+  _saveCurrentDraft = (fields) => {
     const { isDraftSaved } = this.state;
     if (!isDraftSaved) {
       const { currentAccount } = this.props;
@@ -391,7 +416,7 @@ class EditorContainer extends Component {
     }
   };
 
-  _handleOnPressBackButton= () =>{
+  _handleOnPressBackButton= () => {
     alert("pressed");
   }
 
@@ -418,21 +443,22 @@ class EditorContainer extends Component {
         draftPost={draftPost}
         handleFormChanged={this._handleFormChanged}
         handleOnImagePicker={this._handleRoutingAction}
+        handleOnPressBackButton={this._handleOnPressBackButton}
         handleOnSaveButtonPress={this._handleOnSaveButtonPress}
         handleOnSubmit={this._handleSubmit}
         isCameraOrPickerOpen={isCameraOrPickerOpen}
         isDarkTheme={isDarkTheme}
         isDraftSaved={isDraftSaved}
         isDraftSaving={isDraftSaving}
+        isEdit={isEdit}
         isLoggedIn={isLoggedIn}
         isOpenCamera={isOpenCamera}
         isPostSending={isPostSending}
         isReply={isReply}
-        isEdit={isEdit}
         isUploading={isUploading}
         post={post}
+        saveCurrentDraft={this._saveCurrentDraft}
         uploadedImage={uploadedImage}
-        handleOnPressBackButton={this._handleOnPressBackButton}
       />
     );
   }
