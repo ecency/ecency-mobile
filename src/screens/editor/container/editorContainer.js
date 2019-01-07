@@ -5,7 +5,7 @@ import ImagePicker from 'react-native-image-crop-picker';
 
 // Services and Actions
 import { Buffer } from 'buffer';
-import { uploadImage } from '../../../providers/esteem/esteem';
+import { uploadImage, addDraft, updateDraft } from '../../../providers/esteem/esteem';
 import { postContent, getPurePost } from '../../../providers/steem/dsteem';
 import { setDraftPost, getDraftPost } from '../../../realm/realm';
 
@@ -212,33 +212,8 @@ class EditorContainer extends Component {
 
   // Media select functions <- END ->
 
-  _handleOnSaveButtonPress = (fields) => {
-    // const { isDraftSaved } = this.state;
-    // if (!isDraftSaved) {
-    //   const { currentAccount } = this.props;
-    //   const username = currentAccount && currentAccount.name ? currentAccount.name : '';
-
-    //   this.setState({ isDraftSaving: true });
-    //   const draftField = {
-    //     ...fields,
-    //     tags: fields.tags.toString(),
-    //   };
-
-    //   setDraftPost(draftField, username)
-    //     .then(() => {
-    //       this.setState({
-    //         isDraftSaving: false,
-    //         isDraftSaved: true,
-    //       });
-    //     })
-    //     .catch((error) => {
-    //       alert(error);
-    //     });
-    // }
-  };
-
-  _saveCurrentDraft = (fields) => {
-    const { isDraftSaved } = this.state;
+  _saveDraftToDB = (fields) => {
+    const { isDraftSaved, draftId } = this.state;
     if (!isDraftSaved) {
       const { currentAccount } = this.props;
       const username = currentAccount && currentAccount.name ? currentAccount.name : '';
@@ -247,19 +222,40 @@ class EditorContainer extends Component {
       const draftField = {
         ...fields,
         tags: fields.tags.toString(),
+        username,
       };
 
-      setDraftPost(draftField, username)
-        .then(() => {
+      if (draftId) {
+        updateDraft({ ...draftField, draftId }).then(() => {
           this.setState({
-            isDraftSaving: false,
             isDraftSaved: true,
           });
-        })
-        .catch((error) => {
-          alert(error);
         });
+      } else {
+        addDraft(draftField).then((response) => {
+          this.setState({
+            isDraftSaved: true,
+            draftId: response._id,
+          });
+        });
+      }
+
+      this.setState({
+        isDraftSaving: false,
+      });
     }
+  };
+
+  _saveCurrentDraft = (fields) => {
+    const { currentAccount } = this.props;
+    const username = currentAccount && currentAccount.name ? currentAccount.name : '';
+
+    const draftField = {
+      ...fields,
+      tags: fields.tags.toString(),
+    };
+
+    setDraftPost(draftField, username);
   };
 
   _submitPost = async (fields) => {
@@ -416,10 +412,6 @@ class EditorContainer extends Component {
     }
   };
 
-  _handleOnPressBackButton= () => {
-    alert("pressed");
-  }
-
   render() {
     const { isLoggedIn, isDarkTheme } = this.props;
     const {
@@ -443,8 +435,7 @@ class EditorContainer extends Component {
         draftPost={draftPost}
         handleFormChanged={this._handleFormChanged}
         handleOnImagePicker={this._handleRoutingAction}
-        handleOnPressBackButton={this._handleOnPressBackButton}
-        handleOnSaveButtonPress={this._handleOnSaveButtonPress}
+        saveDraftToDB={this._saveDraftToDB}
         handleOnSubmit={this._handleSubmit}
         isCameraOrPickerOpen={isCameraOrPickerOpen}
         isDarkTheme={isDarkTheme}

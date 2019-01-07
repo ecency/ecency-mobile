@@ -38,7 +38,11 @@ export const addDraft = data => new Promise((resolve, reject) => {
 
 export const updateDraft = data => new Promise((resolve, reject) => {
   api
-    .put(`/drafts/${data.user}/${data.draftId}`, data)
+    .put(`/drafts/${data.username}/${data.draftId}`, {
+      title: data.title,
+      body: data.body,
+      tags: data.tags,
+    })
     .then((res) => {
       resolve(res.data);
     })
