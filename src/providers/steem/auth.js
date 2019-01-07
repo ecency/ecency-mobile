@@ -137,7 +137,6 @@ export const setUserDataWithPinCode = async (data) => {
     const userData = result[0];
 
     const privateKeys = getPrivateKeys(userData.username, data.password);
-
     const updatedUserData = {
       username: userData.username,
       authType: userData.authType,
@@ -193,11 +192,9 @@ export const updatePinCode = async (data) => {
 };
 
 export const verifyPinCode = async (data) => {
-  const pinHash = getPinCode();
+  const pinHash = await getPinCode();
 
-  // CHECK PIN HASH with console log
-
-  if (sha256(data.pinCode) !== pinHash) {
+  if (sha256(data.pinCode).toString() !== pinHash) {
     return Promise.reject(new Error('Invalid pin code, please check and try again'));
   }
 

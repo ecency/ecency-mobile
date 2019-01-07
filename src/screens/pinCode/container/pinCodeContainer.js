@@ -161,7 +161,6 @@ class PinCodeContainer extends Component {
       accessToken,
       navigateTo,
       navigation,
-      setWrappedComponentState,
     } = this.props;
 
     // If the user is exist, we are just checking to pin and navigating to home screen
@@ -172,10 +171,8 @@ class PinCodeContainer extends Component {
       accessToken,
     };
     verifyPinCode(pinData)
-      .then((res) => {
-        setWrappedComponentState(res);
+      .then(() => {
         this._savePinCode(pin);
-
         const realmData = getUserDataWithUsername(currentAccount.name);
         const _currentAccount = currentAccount;
         _currentAccount.username = _currentAccount.name;
