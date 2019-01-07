@@ -787,7 +787,7 @@ export const claimRewardBalance = (
       [
         'claim_reward_balance',
         {
-          account: account.username,
+          account: account.name,
           reward_steem: rewardSteem,
           reward_sbd: rewardSbd,
           reward_vests: rewardVests,
@@ -805,7 +805,7 @@ export const claimRewardBalance = (
     });
 
     return api.claimRewardBalance(
-      account.username,
+      account.name,
       rewardSteem,
       rewardSbd,
       rewardVests,
