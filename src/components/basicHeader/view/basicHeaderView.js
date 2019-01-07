@@ -1,6 +1,6 @@
 import React, { Component, Fragment } from 'react';
 import {
-  View, Text, TextInput, ActivityIndicator, SafeAreaView,
+  View, Text, ActivityIndicator, SafeAreaView,
 } from 'react-native';
 import { injectIntl } from 'react-intl';
 
@@ -8,6 +8,7 @@ import { injectIntl } from 'react-intl';
 import { TextButton } from '../..';
 import { IconButton } from '../../iconButton';
 import { DropdownButton } from '../../dropdownButton';
+import { TextInput } from '../../textInput';
 
 // Constants
 // Styles
@@ -153,6 +154,7 @@ class BasicHeaderView extends Component {
                 placeholder={intl.formatMessage({
                   id: 'basic_header.search',
                 })}
+                placeholderTextColor="#c1c5c7"
                 autoCapitalize="none"
                 style={styles.textInput}
               />
@@ -161,10 +163,11 @@ class BasicHeaderView extends Component {
             {isHasSearch && (
               <IconButton
                 style={styles.rightIcon}
-                size={25}
+                size={22}
                 onPress={() => this._handleSearchButtonPress()}
                 iconStyle={styles.rightIcon}
-                name={rightIconName}
+                iconType="MaterialIcons"
+                name={isInputVisible ? 'close' : 'search'}
               />
             )}
           </View>

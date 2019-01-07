@@ -2,16 +2,15 @@ import EStyleSheet from 'react-native-extended-stylesheet';
 
 export default EStyleSheet.create({
   container: {
+    flex: 1,
     padding: 8,
-    flexDirection: 'row',
-    height: '$deviceHeight - 100',
-    backgroundColor: '$primaryBackgroundColor',
   },
-  title: {
-    color: '$iconColor',
+  text: {
+    color: '$primaryDarkGray',
     fontSize: 14,
-    fontFamily: '$primaryFont',
     fontWeight: 'bold',
-    marginLeft: 16,
+    marginLeft: 20,
+    fontFamily: '$primaryFont',
+    paddingBottom: 10,
   },
 });
