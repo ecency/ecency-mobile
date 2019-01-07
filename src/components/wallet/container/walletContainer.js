@@ -34,6 +34,14 @@ class WalletContainer extends Component {
     this._getWalletData(selectedUser);
   }
 
+  componentWillReceiveProps(nextProps) {
+    const { selectedUser } = this.props;
+
+    if (selectedUser.name !== nextProps.selectedUser.name) {
+      this._getWalletData(nextProps.selectedUser);
+    }
+  }
+
   // Components functions
 
   _getWalletData = async (selectedUser) => {
