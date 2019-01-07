@@ -74,14 +74,16 @@ class CommentsView extends PureComponent {
                       <Fragment>
                         <Upvote isShowPayoutValue content={item} />
                         <IconButton
+                          size={18}
                           iconStyle={{ color: '#c1c5c7' }}
-                          style={{ marginLeft: 20 }}
+                          style={{ marginLeft: 10 }}
                           name="reply"
                           onPress={() => handleOnReplyPress && handleOnReplyPress(item)}
                           iconType="MaterialIcons"
                         />
                         {currentAccountUsername === item.author && (
                           <IconButton
+                            size={18}
                             iconStyle={{ color: '#c1c5c7' }}
                             style={{ marginLeft: 10 }}
                             name="create"
