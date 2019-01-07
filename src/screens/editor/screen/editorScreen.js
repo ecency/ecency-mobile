@@ -74,6 +74,19 @@ class EditorScreen extends Component {
     handleOnSaveButtonPress(fields);
   };
 
+  _saveCurrentDraft = () => {
+    const { saveCurrentDraft } = this.props;
+    const { fields } = this.state;
+
+    if (this.changeTimer) {
+      clearTimeout(this.changeTimer);
+    }
+
+    this.changeTimer = setTimeout(() => {
+      saveCurrentDraft(fields);
+    }, 300);
+  };
+
   _handleOnSubmit = () => {
     const { handleOnSubmit } = this.props;
     const { fields } = this.state;
@@ -117,6 +130,7 @@ class EditorScreen extends Component {
     handleFormChanged();
 
     this._handleIsFormValid();
+    this._saveCurrentDraft();
   };
 
   _handleOnTagAdded = (tags) => {
@@ -147,7 +161,7 @@ class EditorScreen extends Component {
       handleOnPressBackButton,
     } = this.props;
     const rightButtonText = intl.formatMessage({
-      id: isEdit ? 'basic_header.update' : isReply ? 'basic_header.reply' :  'basic_header.publish',
+      id: isEdit ? 'basic_header.update' : isReply ? 'basic_header.reply' : 'basic_header.publish',
     });
 
     return (
