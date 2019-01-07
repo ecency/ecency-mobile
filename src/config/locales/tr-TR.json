@@ -125,7 +125,8 @@
   },
   "alert": {
     "success": "Başarılı!",
-    "allRead": "Tüm bildirimler okundu"
+    "allRead": "Tüm bildirimler okundu",
+    "claim_reward_balance_ok": "Ödül bakiyesi talep edildi."
   },
   "post": {
     "reblog_alert": "Reblog yapma istediginize emin misiniz?",
