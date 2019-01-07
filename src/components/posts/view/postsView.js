@@ -1,7 +1,5 @@
 import React, { Component, Fragment } from 'react';
-import {
-  FlatList, View, ActivityIndicator, RefreshControl,
-} from 'react-native';
+import { FlatList, View, ActivityIndicator } from 'react-native';
 import { injectIntl } from 'react-intl';
 import { withNavigation } from 'react-navigation';
 
@@ -11,7 +9,7 @@ import { getPostsSummary } from '../../../providers/steem/dsteem';
 // COMPONENTS
 import { PostCard } from '../../postCard';
 import { FilterBar } from '../../filterBar';
-import { PostCardPlaceHolder, NoPost } from '../../basicUIElements';
+import { PostCardPlaceHolder, NoPost, RefreshControl } from '../../basicUIElements';
 import { POPULAR_FILTERS, PROFILE_FILTERS } from '../../../constants/options/filters';
 
 // Styles
@@ -260,17 +258,15 @@ class PostsView extends Component {
           />
         )}
         <Fragment>
-          { getFor === 'feed'
-            && isLoginDone
-            && !isLoggedIn && (
-              <NoPost
-                imageStyle={styles.noImage}
-                isButtonText
-                defaultText={intl.formatMessage({
-                  id: 'profile.login_to_see',
-                })}
-                handleOnButtonPress={this._handleOnPressLogin}
-              />
+          {getFor === 'feed' && isLoginDone && !isLoggedIn && (
+            <NoPost
+              imageStyle={styles.noImage}
+              isButtonText
+              defaultText={intl.formatMessage({
+                id: 'profile.login_to_see',
+              })}
+              handleOnButtonPress={this._handleOnPressLogin}
+            />
           )}
         </Fragment>
 
@@ -290,16 +286,9 @@ class PostsView extends Component {
             initialNumToRender={10}
             ListFooterComponent={this._renderFooter}
             onScrollBeginDrag={() => this._handleOnScrollStart()}
-            refreshControl={(
-              <RefreshControl
-                refreshing={refreshing}
-                onRefresh={this._handleOnRefreshPosts}
-                progressBackgroundColor="#357CE6"
-                tintColor={!isDarkTheme ? '#357ce6' : '#96c0ff'}
-                titleColor="#fff"
-                colors={['#fff']}
-              />
-)}
+            refreshControl={
+              <RefreshControl refreshing={refreshing} onRefresh={this._handleOnRefreshPosts} />
+            }
             ref={(ref) => {
               this.flatList = ref;
             }}

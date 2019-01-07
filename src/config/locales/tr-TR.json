@@ -124,6 +124,7 @@
   "alert": {
     "success": "Başarılı!",
     "allRead": "Tüm bildirimler okundu",
+    "claim_reward_balance_ok": "Ödül bakiyesi talep edildi.",
     "fail": "Başarısız!",
     "success_shared": "Post'un başarıyla paylaşıldı.",
     "permission_denied": "Izin Alınamadı",

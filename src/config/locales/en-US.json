@@ -124,6 +124,7 @@
   "alert": {
     "success": "Success!",
     "allRead": "Marked all notifications as read",
+    "claim_reward_balance_ok": "Reward balance claimed",
     "fail": "Fail!",
     "success_shared": "Your post succesfully shared",
     "permission_denied": "Permission denied",

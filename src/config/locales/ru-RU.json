@@ -124,6 +124,7 @@
   "alert": {
     "success": "Успех!",
     "allRead": "Всё прочтено",
+    "claim_reward_balance_ok": "Награда зачислена на баланс",
     "fail": "Не вышло!",
     "success_shared": "Успешно поделились постом!",
     "permission_denied": "Доступ запрещён",
