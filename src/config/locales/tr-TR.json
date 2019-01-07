@@ -125,7 +125,16 @@
   },
   "alert": {
     "success": "Başarılı!",
-    "allRead": "Tüm bildirimler okundu"
+    "allRead": "Tüm bildirimler okundu",
+    "fail": "Basarisiz!",
+    "success_shared": "Post'un basariyla paylasildi.",
+    "permission_denied": "Izin Alinamadi",
+    "permission_text": "Lutfen, telefon ayarlarina gidin ve eSteem'in izinlerini degistirin.",
+    "success_rebloged": "Reblog yaptiniz!",
+    "already_rebloged": "Zaten reblog yapmissiniz.",
+    "failed_to_open": "Failed to open",
+    "warning": "Warning",
+    "invalid_pincode": "Invalid pin code, please check and try again."
   },
   "post": {
     "reblog_alert": "Reblog yapma istediginize emin misiniz?",

@@ -50,10 +50,6 @@ class PostCard extends Component {
     handleOnVotersPress(content.active_votes);
   };
 
-  _handleOnDropdownSelect = () => {
-    // alert('This feature implementing...');
-  };
-
   render() {
     const { content, isHideImage, fetchPost } = this.props;
     const _image = content && content.image
