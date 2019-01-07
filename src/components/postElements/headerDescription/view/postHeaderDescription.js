@@ -18,10 +18,19 @@ const DEFAULT_IMAGE = require('../../../../assets/esteem.png');
 class PostHeaderDescription extends PureComponent {
   constructor(props) {
     super(props);
-    this.state = {};
+    this.state = {
+      reblogedBy: props.reblogedBy || null,
+    };
   }
 
   // Component Life Cycles
+  componentWillReceiveProps(nextProps) {
+    const { reblogedBy } = this.props;
+
+    if (reblogedBy !== nextProps.reblogedBy && !nextProps.reblogedBy) {
+      this.setState({ reblogedBy });
+    }
+  }
 
   // Component Functions
   _handleOnUserPress = (username) => {
@@ -43,16 +52,9 @@ class PostHeaderDescription extends PureComponent {
 
   render() {
     const {
-      avatar,
-      date,
-      isHideImage,
-      name,
-      reblogedBy,
-      reputation,
-      size,
-      tag,
-      tagOnPress,
+      avatar, date, isHideImage, name, reputation, size, tag, tagOnPress,
     } = this.props;
+    const { reblogedBy } = this.state;
 
     const _reputationText = `(${reputation})`;
     let _avatar;
@@ -85,7 +87,9 @@ class PostHeaderDescription extends PureComponent {
           </TouchableOpacity>
         )}
         <Text style={styles.date}>{date}</Text>
-        {!!reblogedBy && <TextWithIcon text={reblogedBy} iconType="MaterialIcons" iconName="repeat" />}
+        {!!reblogedBy && (
+          <TextWithIcon text={reblogedBy} iconType="MaterialIcons" iconName="repeat" />
+        )}
       </View>
     );
   }
