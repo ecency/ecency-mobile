@@ -5,7 +5,7 @@ import serverList from '../../config/serverListApi';
 
 export const getDrafts = data => new Promise((resolve, reject) => {
   api
-    .get(`/drafts/${data.user}`)
+    .get(`/drafts/${data.username}`)
     .then((res) => {
       resolve(res.data);
     })

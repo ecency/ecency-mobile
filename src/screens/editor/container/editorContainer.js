@@ -92,17 +92,21 @@ class EditorContainer extends Component {
     }
 
     if (!isReply && !isEdit) {
-      getDraftPost(username)
-        .then((result) => {
-          this.setState({
-            draftPost: { body: result.body, title: result.title, tags: result.tags.split(',') },
-          });
-        })
-        .catch((error) => {
-          // alert(error);
-        });
+      this._getDraft(username);
     }
   }
+
+  _getDraft = (username) => {
+    getDraftPost(username)
+      .then((result) => {
+        this.setState({
+          draftPost: { body: result.body, title: result.title, tags: result.tags.split(',') },
+        });
+      })
+      .catch((error) => {
+        // alert(error);
+      });
+  };
 
   _getPurePost = (author, permlink) => {
     getPurePost(author, permlink)
@@ -320,7 +324,10 @@ class EditorContainer extends Component {
       this.setState({ isPostSending: true });
 
       const {
-        body: oldBody, parent_permlink: parentPermlink, permlink, parent_author: parentAuthor,
+        body: oldBody,
+        parent_permlink: parentPermlink,
+        permlink,
+        parent_author: parentAuthor,
       } = post;
 
       let newBody = fields.body;
@@ -384,6 +391,10 @@ class EditorContainer extends Component {
     }
   };
 
+  _handleOnPressBackButton= () =>{
+    alert("pressed");
+  }
+
   render() {
     const { isLoggedIn, isDarkTheme } = this.props;
     const {
@@ -421,6 +432,7 @@ class EditorContainer extends Component {
         isUploading={isUploading}
         post={post}
         uploadedImage={uploadedImage}
+        handleOnPressBackButton={this._handleOnPressBackButton}
       />
     );
   }
