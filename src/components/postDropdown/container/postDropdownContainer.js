@@ -60,18 +60,33 @@ class PostDropdownContainer extends PureComponent {
 
   _reblog = () => {
     const {
-      currentAccount, content, isLoggedIn, pinCode,
+      currentAccount, content, isLoggedIn, pinCode, intl,
     } = this.props;
     if (isLoggedIn) {
       reblog(currentAccount, pinCode, content.author, content.permlink)
         .then(() => {
-          Alert.alert('Success', 'Rebloged!');
+          Alert.alert(
+            intl.formatMessage({
+              id: 'alert.success',
+            }),
+            intl.formatMessage({
+              id: 'alert.success_rebloged',
+            }),
+          );
         })
         .catch((error) => {
           if (error.jse_shortmsg && String(error.jse_shortmsg).indexOf('has already reblogged')) {
-            Alert.alert('You already reblogged!');
+            Alert.alert(
+              intl.formatMessage({
+                id: 'alert.already_rebloged',
+              }),
+            );
           } else {
-            Alert.alert('Failed!');
+            Alert.alert(
+              intl.formatMessage({
+                id: 'alert.fail',
+              }),
+            );
           }
         });
     }

@@ -1,5 +1,5 @@
 import React, { Component } from 'react';
-import { Platform, BackHandler } from 'react-native';
+import { Platform, BackHandler, Alert } from 'react-native';
 import { connect } from 'react-redux';
 import { addLocaleData } from 'react-intl';
 import Config from 'react-native-config';
@@ -131,7 +131,7 @@ class ApplicationContainer extends Component {
           this._setPushToken(accountData.name);
         })
         .catch((err) => {
-          alert(err);
+          Alert.alert(err);
         });
     }
 

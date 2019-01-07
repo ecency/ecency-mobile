@@ -1,5 +1,6 @@
 import React, { Component } from 'react';
 import { connect } from 'react-redux';
+import { injectIntl } from 'react-intl';
 import { Alert } from 'react-native';
 import ImagePicker from 'react-native-image-crop-picker';
 
@@ -137,12 +138,7 @@ class EditorContainer extends Component {
 
   _handleOpenImagePicker = () => {
     ImagePicker.openPicker({
-      // width: 300,
-      // height: 400,
-      // cropping: true,
-      // writeTempFile: true,
       includeBase64: true,
-      // multiple: true,
     })
       .then((image) => {
         this._handleMediaOnSelected(image);
@@ -154,9 +150,6 @@ class EditorContainer extends Component {
 
   _handleOpenCamera = () => {
     ImagePicker.openCamera({
-      // width: 300,
-      // height: 400,
-      // cropping: true,
       includeBase64: true,
     })
       .then((image) => {
@@ -180,6 +173,8 @@ class EditorContainer extends Component {
   };
 
   _uploadImage = (media) => {
+    const { intl } = this.props;
+
     const file = {
       uri: media.path,
       type: media.mime,
@@ -194,18 +189,25 @@ class EditorContainer extends Component {
         }
       })
       .catch((error) => {
-        alert(error);
+        Alert.alert(intl.formatMessage({
+          id: 'alert.fail',
+        }), error);
         this.setState({ isUploading: false });
       });
   };
 
   _handleMediaOnSelectFailure = (error) => {
+    const { intl } = this.props;
     this.setState({ isCameraOrPickerOpen: false });
 
     if (error.code === 'E_PERMISSION_MISSING') {
       Alert.alert(
-        'Permission Denied',
-        'Please, go to phone Settings and change eSteem app permissions.',
+        intl.formatMessage({
+          id: 'alert.permission_denied',
+        }),
+        intl.formatMessage({
+          id: 'alert.permission_text',
+        }),
       );
     }
   };
@@ -259,7 +261,7 @@ class EditorContainer extends Component {
   };
 
   _submitPost = async (fields) => {
-    const { navigation, currentAccount, pinCode } = this.props;
+    const { navigation, currentAccount, pinCode, intl } = this.props;
 
     if (currentAccount) {
       this.setState({ isPostSending: true });
@@ -285,7 +287,12 @@ class EditorContainer extends Component {
         0,
       )
         .then((result) => {
-          Alert.alert('Success!', 'Your post succesfully shared');
+          Alert.alert(intl.formatMessage({
+            id: 'alert.success',
+          }), intl.formatMessage({
+            id: 'alert.success_shared',
+          }));
+
           navigation.navigate({
             routeName: ROUTES.SCREENS.POST,
             params: {
@@ -381,7 +388,11 @@ class EditorContainer extends Component {
   };
 
   _handleSubmitFailure = (error) => {
-    Alert.alert('Fail!', `Opps! there is a problem${error}`);
+    const { intl } = this.props;
+ 
+    Alert.alert(intl.formatMessage({
+      id: 'alert.fail',
+    }), error);
     this.setState({ isPostSending: false });
   };
 
@@ -461,4 +472,4 @@ const mapStateToProps = state => ({
   currentAccount: state.account.currentAccount,
 });
 
-export default connect(mapStateToProps)(EditorContainer);
+export default connect(mapStateToProps)(injectIntl(EditorContainer));

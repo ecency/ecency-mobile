@@ -1,6 +1,8 @@
 import React, { PureComponent, Fragment } from 'react';
-import { Dimensions, Linking } from 'react-native';
+import { Dimensions, Linking, Alert } from 'react-native';
 import { withNavigation } from 'react-navigation';
+import { injectIntl } from 'react-intl';
+
 import HTML from 'react-native-html-renderer';
 
 // Styles
@@ -23,20 +25,26 @@ class PostBody extends PureComponent {
   // Component Functions
 
   _handleOnLinkPress = (evt, href, hrefatr) => {
-    const { handleOnUserPress, handleOnPostPress } = this.props;
+    const { handleOnUserPress, handleOnPostPress, intl } = this.props;
 
     if (hrefatr.class === 'markdown-author-link') {
-      !handleOnUserPress ? this._handleOnUserPress(href) : handleOnUserPress(href);
+      if (!handleOnUserPress) {
+        this._handleOnUserPress(href);
+      } else {
+        handleOnUserPress(href);
+      }
     } else if (hrefatr.class === 'markdown-post-link') {
-      !handleOnPostPress
-        ? this._handleOnPostPress(href, hrefatr.data_author)
-        : handleOnPostPress(href);
+      if (!handleOnPostPress) {
+        this._handleOnPostPress(href, hrefatr.data_author);
+      } else {
+        handleOnPostPress(href);
+      }
     } else {
       Linking.canOpenURL(href).then((supported) => {
         if (supported) {
           Linking.openURL(href);
         } else {
-          alert(`Field to open: ${href}`);
+          Alert.alert(intl.formatMessage({ id: 'alert.failed_to_open' }));
         }
       });
     }
@@ -112,4 +120,4 @@ class PostBody extends PureComponent {
   }
 }
 
-export default withNavigation(PostBody);
+export default injectIntl(withNavigation(PostBody));
