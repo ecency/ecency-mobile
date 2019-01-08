@@ -93,7 +93,7 @@ class ApplicationContainer extends Component {
 
   _getUserData = async () => {
     const { dispatch, pinCode } = this.props;
-    let realmData;
+    let realmData = [];
     let currentUsername;
 
     await getAuthStatus().then((res) => {
@@ -102,28 +102,36 @@ class ApplicationContainer extends Component {
         getUserData().then(async (userData) => {
           if (userData.length > 0) {
             realmData = userData;
-
-            userData.forEach((accountData) => {
-              dispatch(addOtherAccount({ username: accountData.username }));
+            userData.forEach((accountData, index) => {
+              if (!accountData.accessToken && !accountData.masterKey) {
+                realmData.splice(index, 1);
+                removeUserData(accountData.username);
+              } else {
+                dispatch(addOtherAccount({ username: accountData.username }));
+              }
             });
           }
         });
       }
     });
 
-    if (realmData) {
-      await getUser(currentUsername)
+    if (realmData.length > 0) {
+      let realmObject = realmData.filter(data => data.username === currentUsername);
+
+      if (realmObject.length <= 0) {
+        realmObject = realmData[realmData.length - 1];
+        await switchAccount(realmObject[0].username);
+      }
+      await getUser(realmObject[0].username)
         .then(async (accountData) => {
           dispatch(login(true));
 
           const isExistUser = await getExistUser();
 
-          const realmObject = realmData.filter(data => data.username === currentUsername);
           [accountData.local] = realmObject;
 
           dispatch(updateCurrentAccount(accountData));
           // If in dev mode pin code does not show
-          // eslint-disable-next-line
           if (!isExistUser || !pinCode) {
             dispatch(openPinCodeModal());
           }
