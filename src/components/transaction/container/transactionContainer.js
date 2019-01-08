@@ -21,9 +21,9 @@ class TransactionContainer extends PureComponent {
   // Component Functions
 
   render() {
-    const { intl, walletData } = this.props;
+    const { walletData } = this.props;
 
-    return <TransactionView intl={intl} walletData={walletData} />;
+    return <TransactionView walletData={walletData} />;
   }
 }
 

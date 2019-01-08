@@ -9,6 +9,7 @@ import { getDrafts, removeDraft } from '../../../providers/esteem/esteem';
 // Middleware
 
 // Constants
+import { default as ROUTES } from '../../../constants/routeNames';
 
 // Utilities
 
@@ -52,27 +53,38 @@ class DraftsContainer extends Component {
       });
   };
 
-  _removeDraft = (selectedDraft) => {
+  _removeDraft = (id) => {
     const { currentAccount, intl } = this.props;
 
-    // getDrafts(currentAccount.name)
-    //   .then((data) => {
-    //     const { drafts } = this.state;
-    //     const newDrafts = [...drafts].filter(draft => draft._id !== item._id);
+    removeDraft({ username: currentAccount.name, draftId: id })
+      .then((data) => {
+        const { drafts } = this.state;
+        const newDrafts = [...drafts].filter(draft => draft._id !== id);
 
-    //     Alert.alert(intl.formatMessage({ id: 'drafts.deleted' }));
-    //     this.setState({ drafts: this.sortData(newDrafts) });
-    //   })
-    //   .catch(() => {
-    //     Alert.alert(intl.formatMessage({ id: 'alert.fail' }));
-    //   })
-    //   .finally(() => {
-    //     this._getDrafts();
-    //   });
+        // Alert.alert(intl.formatMessage({ id: 'drafts.deleted' }));
+        this.setState({ drafts: this._sortData(newDrafts) });
+      })
+      .catch(() => {
+        Alert.alert(intl.formatMessage({ id: 'alert.fail' }));
+      });
   };
 
-  _editDraft = () => {
-    alert('edit');
+  _handleRemoveDraft = (id) => {
+    this._removeDraft(id);
+  };
+
+  _editDraft = (id) => {
+    const { navigation } = this.props;
+    const { drafts } = this.state;
+    const selectedDraft = drafts.find(draft => draft._id === id);
+    console.log(selectedDraft);
+    navigation.navigate({
+      routeName: ROUTES.SCREENS.EDITOR,
+      params: {
+        draft: selectedDraft,
+        fetchPost: this._getDrafts,
+      },
+    });
   };
 
   _sortData = data => data.sort((a, b) => {
@@ -92,7 +104,7 @@ class DraftsContainer extends Component {
         editDraft={this._editDraft}
         currentAccount={currentAccount}
         drafts={drafts}
-        removeDraft={this._removeDraft}
+        removeDraft={this._handleRemoveDraft}
       />
     );
   }

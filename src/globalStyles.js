@@ -58,4 +58,11 @@ export default EStyleSheet.create({
     marginLeft: 42,
     marginRight: 32,
   },
+  hintText: {
+    color: '$iconColor',
+    alignSelf: 'center',
+    fontSize: 16,
+    marginLeft: 16,
+    fontWeight: '500',
+  },
 });

@@ -104,7 +104,7 @@ class WalletView extends PureComponent {
             >
               <WalletDetails intl={intl} walletData={walletData} />
             </CollapsibleCard>
-            <Transaction intl={intl} walletData={walletData} />
+            <Transaction walletData={walletData} />
           </Fragment>
         )}
       </ScrollView>

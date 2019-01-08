@@ -132,11 +132,13 @@
     "success_rebloged": "Rebloged!",
     "already_rebloged": "You have already reblogged!",
     "warning": "Warning",
-    "invalid_pincode": "Invalid pin code, please check and try again."
+    "invalid_pincode": "Invalid pin code, please check and try again.",
+    "remove_alert": "Are you sure want to remove?",
+    "cancel": "Cancel",
+    "delete": "Delete"
   },
   "post": {
-    "reblog_alert": "Are you sure you want to reblog?",
-    "reblog_cancel": "Cancel"
+    "reblog_alert": "Are you sure you want to reblog?"
   },
   "drafts": {
     "title": "Drafts",

@@ -47,6 +47,7 @@ class EditorContainer extends Component {
       isUploading: false,
       post: null,
       uploadedImage: null,
+      draftId: null,
     };
   }
 
@@ -58,9 +59,19 @@ class EditorContainer extends Component {
     let isReply;
     let isEdit;
     let post;
+    let _draft;
 
     if (navigation.state && navigation.state.params) {
       const navigationParams = navigation.state.params;
+
+      if (navigationParams.draft) {
+        _draft = navigationParams.draft;
+
+        this.setState({
+          draftPost: { title: _draft.title, body: _draft.body },
+          draftId: _draft._id,
+        });
+      }
 
       if (navigationParams.post) {
         post = navigationParams.post;
@@ -92,7 +103,7 @@ class EditorContainer extends Component {
       this.setState({ autoFocusText: true });
     }
 
-    if (!isReply && !isEdit) {
+    if (!isReply && !isEdit && !_draft) {
       this._getDraft(username);
     }
   }

@@ -121,7 +121,7 @@ class PostDropdownContainer extends PureComponent {
         />
         <ActionSheet
           ref={o => (this.ActionSheet = o)}
-          options={['Reblog', intl.formatMessage({ id: 'post.reblog_cancel' })]}
+          options={['Reblog', intl.formatMessage({ id: 'alert.cancel' })]}
           title={intl.formatMessage({ id: 'post.reblog_alert' })}
           cancelButtonIndex={1}
           onPress={(index) => {

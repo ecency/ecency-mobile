@@ -40,8 +40,8 @@ export default EStyleSheet.create({
     color: '$primaryBlack',
   },
   summary: {
-    fontSize: 16,
-    color: '$primaryDarkGray',
+    fontSize: 13,
+    color: '$primaryDarkText',
   },
   header: {
     backgroundColor: '$primaryBackgroundColor',
