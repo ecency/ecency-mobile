@@ -22,15 +22,20 @@ export default EStyleSheet.create({
     width: '$deviceWidth - 16',
     borderRadius: 8,
     backgroundColor: '$primaryLightGray',
+    // paddingVertical: 10,
+    marginVertical: 5,
   },
   postDescripton: {
     flexDirection: 'column',
     paddingHorizontal: 8,
-    paddingVertical: 16,
+    // paddingVertical: 16,
     backgroundColor: '$primaryBackgroundColor',
+    marginTop: 5,
+    marginBottom: 10,
   },
   title: {
     fontSize: 16,
+    marginBottom: 7,
     fontWeight: 'bold',
     color: '$primaryBlack',
   },
@@ -41,12 +46,13 @@ export default EStyleSheet.create({
   header: {
     backgroundColor: '$primaryBackgroundColor',
     flexDirection: 'row',
+    flex: 1,
     marginTop: 16,
     marginHorizontal: 12,
     marginBottom: 12,
   },
   rightItem: {
-    // position: 'absolute',
-    // right: -10,
+    position: 'absolute',
+    right: 0,
   },
 });
