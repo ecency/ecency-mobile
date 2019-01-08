@@ -3,9 +3,12 @@ import searchApi from '../../config/search';
 import imageApi from '../../config/imageApi';
 import serverList from '../../config/serverListApi';
 
+/**
+ * @params username
+ */
 export const getDrafts = data => new Promise((resolve, reject) => {
   api
-    .get(`/drafts/${data.username}`)
+    .get(`/drafts/${data}`)
     .then((res) => {
       resolve(res.data);
     })
@@ -14,9 +17,13 @@ export const getDrafts = data => new Promise((resolve, reject) => {
     });
 });
 
+/**
+ * @params username
+ * @params draftID
+ */
 export const removeDraft = data => new Promise((resolve, reject) => {
   api
-    .delete(`/drafts/${data.user}/${data.draftId}`)
+    .delete(`/drafts/${data.username}/${data.draftId}`)
     .then((res) => {
       resolve(res.data);
     })
@@ -25,17 +32,30 @@ export const removeDraft = data => new Promise((resolve, reject) => {
     });
 });
 
+/**
+ * @params username
+ * @params body
+ * @params title
+ * @params tags
+ */
 export const addDraft = data => new Promise((resolve, reject) => {
   api
     .post('/draft', data)
     .then((res) => {
-      resolve(res.data);
+      const { drafts } = res.data;
+      resolve(drafts.pop());
     })
     .catch((error) => {
       reject(error);
     });
 });
 
+/**
+ * @params username
+ * @params body
+ * @params title
+ * @params tags
+ */
 export const updateDraft = data => new Promise((resolve, reject) => {
   api
     .put(`/drafts/${data.username}/${data.draftId}`, {

@@ -131,7 +131,6 @@ class PostDisplayView extends PureComponent {
                   name={post.author}
                   reputation={post.author_reputation}
                   tag={post.category}
-                  avatar={post.avatar}
                   size={16}
                 />
                 <PostBody body={post.body} />

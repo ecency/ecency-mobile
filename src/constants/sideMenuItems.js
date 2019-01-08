@@ -20,12 +20,12 @@ const authMenuItems = [
   //   icon: 'favorite-border',
   //   id: 'favorites',
   // },
-  // {
-  //   name: 'Drafts',
-  //   route: 'drafts',
-  //   icon: 'insert-drive-file',
-  //   id: 'drafts',
-  // },
+  {
+    name: 'Drafts',
+    route: ROUTES.SCREENS.DRAFTS,
+    icon: 'insert-drive-file',
+    id: 'drafts',
+  },
   // {
   //   name: 'Schedules',
   //   route: 'schedules',

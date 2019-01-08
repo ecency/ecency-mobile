@@ -50,6 +50,10 @@ export default EStyleSheet.create({
     backgroundColor: '$primaryBackgroundColor',
     height: '$deviceHeight',
   },
+  lightContainer: {
+    backgroundColor: '$primaryLightBackground',
+    flex: 1,
+  },
   settingsContainer: {
     marginLeft: 42,
     marginRight: 32,
