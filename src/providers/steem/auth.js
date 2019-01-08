@@ -19,14 +19,9 @@ import steemConnect from './steemConnectAPI';
 import { getSCAccessToken } from '../esteem/esteem';
 
 export const login = async (username, password) => {
-  const resultKeys = {
-    active: null,
-    memo: null,
-    owner: null,
-    posting: null,
-  };
   let loginFlag = false;
   let avatar = '';
+  let authType = '';
   // Get user account data from STEEM Blockchain
   const account = await getUser(username);
   if (!account) {
@@ -37,23 +32,23 @@ export const login = async (username, password) => {
       new Error('You are already logged in, please try to add another account'),
     );
   }
-
   // Public keys of user
   const publicKeys = {
-    active: account.active.key_auths.map(x => x[0]),
-    memo: account.memo_key,
-    owner: account.owner.key_auths.map(x => x[0]),
-    posting: account.posting.key_auths.map(x => x[0]),
+    activeKey: account.active.key_auths.map(x => x[0])[0],
+    memoKey: account.memo_key,
+    ownerKey: account.owner.key_auths.map(x => x[0])[0],
+    postingKey: account.posting.key_auths.map(x => x[0])[0],
   };
 
-  // Set private keys of user
+  // // Set private keys of user
   const privateKeys = getPrivateKeys(username, password);
 
   // Check all keys
   Object.keys(publicKeys).map((pubKey) => {
     if (publicKeys[pubKey] === privateKeys[pubKey].createPublic().toString()) {
       loginFlag = true;
-      resultKeys[pubKey] = publicKeys[pubKey];
+      if (privateKeys.isMasterKey) authType = 'masterKey';
+      else authType = pubKey;
     }
   });
 
@@ -70,7 +65,7 @@ export const login = async (username, password) => {
     const userData = {
       username,
       avatar,
-      authType: 'masterKey',
+      authType,
       masterKey: '',
       postingKey: '',
       activeKey: '',
@@ -152,11 +147,25 @@ export const setUserDataWithPinCode = async (data) => {
       username: userData.username,
       authType: userData.authType,
       accessToken:
-        userData.authType === 'steemConnect' ? encryptKey(data.accessToken, data.pinCode) : '',
-      masterKey: userData.authType === 'masterKey' ? encryptKey(data.password, data.pinCode) : '',
-      postingKey: encryptKey(privateKeys.posting.toString(), data.pinCode),
-      activeKey: encryptKey(privateKeys.active.toString(), data.pinCode),
-      memoKey: encryptKey(privateKeys.memo.toString(), data.pinCode),
+        userData.authType === 'steemConnect'
+          ? encryptKey(data.accessToken, data.pinCode)
+          : '',
+      masterKey:
+        userData.authType === 'masterKey'
+          ? encryptKey(data.password, data.pinCode)
+          : '',
+      postingKey:
+        userData.authType === 'masterKey' || userData.authType === 'postingKey'
+          ? encryptKey(privateKeys.postingKey.toString(), data.pinCode)
+          : '',
+      activeKey:
+        userData.authType === 'masterKey' || userData.authType === 'activeKey'
+          ? encryptKey(privateKeys.activeKey.toString(), data.pinCode)
+          : '',
+      memoKey:
+        userData.authType === 'masterKey' || userData.authType === 'memoKey'
+          ? encryptKey(privateKeys.memoKey.toString(), data.pinCode)
+          : '',
     };
 
     await setPinCode(data.pinCode);
@@ -247,12 +256,25 @@ export const switchAccount = username => new Promise((resolve, reject) => {
     });
 });
 
-const getPrivateKeys = (username, password) => ({
-  active: dsteem.PrivateKey.fromLogin(username, password, 'active'),
-  memo: dsteem.PrivateKey.fromLogin(username, password, 'memo'),
-  owner: dsteem.PrivateKey.fromLogin(username, password, 'owner'),
-  posting: dsteem.PrivateKey.fromLogin(username, password, 'posting'),
-});
+const getPrivateKeys = (username, password) => {
+  try {
+    return {
+      activeKey: dsteem.PrivateKey.from(password),
+      memoKey: dsteem.PrivateKey.from(password),
+      ownerKey: dsteem.PrivateKey.from(password),
+      postingKey: dsteem.PrivateKey.from(password),
+      isMasterKey: false,
+    };
+  } catch (e) {
+    return {
+      activeKey: dsteem.PrivateKey.fromLogin(username, password, 'active'),
+      memoKey: dsteem.PrivateKey.fromLogin(username, password, 'memo'),
+      ownerKey: dsteem.PrivateKey.fromLogin(username, password, 'owner'),
+      postingKey: dsteem.PrivateKey.fromLogin(username, password, 'posting'),
+      isMasterKey: true,
+    };
+  }
+};
 
 const isLoggedInUser = (username) => {
   const result = getUserDataWithUsername(username);
