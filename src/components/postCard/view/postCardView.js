@@ -61,7 +61,6 @@ class PostCard extends Component {
       <View style={styles.post}>
         <View style={styles.bodyHeader}>
           <PostHeaderDescription
-            avatar={content && content.avatar}
             date={content.created}
             isHideImage={isHideImage}
             name={content.author}

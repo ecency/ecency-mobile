@@ -58,7 +58,6 @@ class CommentsView extends PureComponent {
                   date={item.created}
                   name={item.author}
                   reputation={item.author_reputation}
-                  avatar={item.avatar}
                   size={avatarSize || 24}
                 />
                 <View
