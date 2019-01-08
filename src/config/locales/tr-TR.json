@@ -133,11 +133,13 @@
     "already_rebloged": "Zaten reblog yapmışsınız.",
     "failed_to_open": "Açılamadı.",
     "warning": "Uyarı!",
-    "invalid_pincode": "Geçersiz pin kod, lutfen tekrar deneyin."
+    "invalid_pincode": "Geçersiz pin kod, lutfen tekrar deneyin.",
+    "remove_alert": "Silmek istediginize emin misiniz?",
+    "cancel": "Vazgeç",
+    "delete": "Sil"
   },
   "post": {
-    "reblog_alert": "Reblog yapma istediginize emin misiniz?",
-    "reblog_cancel": "Vazgeç"
+    "reblog_alert": "Reblog yapma istediginize emin misiniz?"
   },
   // TODO: translate here!!!
   "drafts": {

@@ -2,8 +2,6 @@ import React, { PureComponent } from 'react';
 import { View, Text, TouchableOpacity } from 'react-native';
 import { withNavigation } from 'react-navigation';
 
-import FastImage from 'react-native-fast-image';
-
 // Components
 import { Tag, TextWithIcon } from '../../../basicUIElements';
 import { UserAvatar } from '../../../userAvatar';
