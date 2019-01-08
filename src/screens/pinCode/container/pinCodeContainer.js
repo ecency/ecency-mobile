@@ -12,7 +12,10 @@ import {
 } from '../../../providers/steem/auth';
 import { closePinCodeModal } from '../../../redux/actions/applicationActions';
 import { getExistUser, setExistUser, getUserDataWithUsername } from '../../../realm/realm';
-import { updateCurrentAccount, setPinCode as savePinCode } from '../../../redux/actions/accountAction';
+import {
+  updateCurrentAccount,
+  setPinCode as savePinCode,
+} from '../../../redux/actions/accountAction';
 import { getUser } from '../../../providers/steem/dsteem';
 
 // Utils
@@ -69,12 +72,7 @@ class PinCodeContainer extends Component {
 
   _resetPinCode = pin => new Promise((resolve, reject) => {
     const {
-      currentAccount,
-      dispatch,
-      accessToken,
-      navigateTo,
-      navigation,
-      intl,
+      currentAccount, dispatch, accessToken, navigateTo, navigation, intl,
     } = this.props;
     const { isOldPinVerified, oldPinCode } = this.state;
 
@@ -114,7 +112,9 @@ class PinCodeContainer extends Component {
           resolve();
         })
         .catch((err) => {
-          Alert.alert('Warning', err.message);
+          Alert.alert(intl.formatMessage({
+            id: 'alert.warning',
+          }), err.message);
           reject(err);
         });
     }
@@ -122,11 +122,7 @@ class PinCodeContainer extends Component {
 
   _setFirstPinCode = pin => new Promise((resolve) => {
     const {
-      currentAccount,
-      dispatch,
-      accessToken,
-      navigateTo,
-      navigation,
+      currentAccount, dispatch, accessToken, navigateTo, navigation,
     } = this.props;
 
     const pinData = {
@@ -161,6 +157,7 @@ class PinCodeContainer extends Component {
       accessToken,
       navigateTo,
       navigation,
+      intl,
     } = this.props;
 
     // If the user is exist, we are just checking to pin and navigating to home screen
@@ -184,7 +181,9 @@ class PinCodeContainer extends Component {
         }
       })
       .catch((err) => {
-        Alert.alert('Warning', err.message);
+        Alert.alert(intl.formatMessage({
+          id: 'alert.warning',
+        }), err.message);
         reject(err);
       });
   });
@@ -193,28 +192,34 @@ class PinCodeContainer extends Component {
     const { dispatch } = this.props;
     const encryptedPin = encryptKey(pin, Config.PIN_KEY);
     dispatch(savePinCode(encryptedPin));
-  }
+  };
 
   _setPinCode = async (pin, isReset) => {
-    const {
-      intl, currentAccount, applicationPinCode,
-    } = this.props;
-    const {
-      isExistUser, pinCode,
-    } = this.state;
+    const { intl, currentAccount, applicationPinCode } = this.props;
+    const { isExistUser, pinCode } = this.state;
 
     const realmData = getUserDataWithUsername(currentAccount.name);
     const userData = realmData[0];
 
     // For exist users
-    if (isReset) { await this._resetPinCode(pin); return true; }
+    if (isReset) {
+      await this._resetPinCode(pin);
+      return true;
+    }
     if (isExistUser) {
       if (!userData.accessToken && !userData.masterKey && applicationPinCode) {
         const verifiedPin = decryptKey(applicationPinCode, Config.PIN_KEY);
         if (verifiedPin === pin) {
           await this._setFirstPinCode(pin);
         } else {
-          Alert.alert('Warning', 'Invalid pin code, please check and try again');
+          Alert.alert(
+            intl.formatMessage({
+              id: 'alert.warning',
+            }),
+            intl.formatMessage({
+              id: 'alert.invalid_pincode',
+            }),
+          );
         }
       } else {
         await this._verifyPinCode(pin);
@@ -223,7 +228,10 @@ class PinCodeContainer extends Component {
     }
 
     // For new users
-    if (pinCode === pin) { await this._setFirstPinCode(pin); return true; }
+    if (pinCode === pin) {
+      await this._setFirstPinCode(pin);
+      return true;
+    }
 
     if (!pinCode) {
       // If the user is logging in for the first time, the user should set to pin

@@ -1,14 +1,9 @@
 import React, { PureComponent, Fragment } from 'react';
 import { View } from 'react-native';
 
-// Constants
-
 // Components
 import { FilterBar } from '../../filterBar';
 import { Comments } from '../../comments';
-
-// Styles
-// import styles from './commentsDisplayStyles';
 
 class CommentsDisplayView extends PureComponent {
   /* Props
@@ -24,15 +19,13 @@ class CommentsDisplayView extends PureComponent {
   // Component Life Cycles
 
   // Component Functions
-  _handleOnDropdownSelect = () => {
-    // alert('This feature not read. Thanks for understanding.');
-  };
+  _handleOnDropdownSelect = () => {};
 
   render() {
     const {
       author, permlink, commentCount, fetchPost,
     } = this.props;
-    //TODO: implement comments filtering
+    // TODO: implement comments filtering
     return (
       <Fragment>
         {commentCount > 0 && (
