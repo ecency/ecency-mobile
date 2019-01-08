@@ -7,7 +7,7 @@ import { getTimeFromNow } from '../../../utils/time';
 // Constants
 
 // Components
-
+import { IconButton } from '../../iconButton';
 // Defaults
 import DEFAULT_IMAGE from '../../../assets/no_image.png';
 
@@ -44,12 +44,17 @@ class PostListItemView extends Component {
             size={32}
             tag={mainTag}
           />
-          <View style={styles.rightItem}>
-            <Text>icon</Text>
-          </View>
+          <IconButton
+            backgroundColor="transparent"
+            name="delete"
+            iconType="MaterialIcons"
+            size={20}
+            style={[styles.rightItem]}
+            color="#c1c5c7"
+          />
         </View>
         <View style={styles.body}>
-          <TouchableOpacity style={[{ flexDirection: 'column' }]}>
+          <TouchableOpacity >
             <FastImage source={image} style={styles.image} defaultSource={DEFAULT_IMAGE} />
             <View style={[styles.postDescripton]}>
               <Text style={styles.title}>{title}</Text>
