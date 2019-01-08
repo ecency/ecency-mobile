@@ -105,7 +105,7 @@ class ApplicationContainer extends Component {
             userData.forEach((accountData, index) => {
               if (!accountData.accessToken && !accountData.masterKey) {
                 realmData.splice(index, 1);
-                removeUserData(accountData.username);
+                removeUserData(accountData);
               } else {
                 dispatch(addOtherAccount({ username: accountData.username }));
               }
@@ -116,10 +116,10 @@ class ApplicationContainer extends Component {
     });
 
     if (realmData.length > 0) {
-      let realmObject = realmData.filter(data => data.username === currentUsername);
+      const realmObject = realmData.filter(data => data.username === currentUsername);
 
       if (realmObject.length <= 0) {
-        realmObject = realmData[realmData.length - 1];
+        realmObject[0] = realmData[realmData.length - 1];
         await switchAccount(realmObject[0].username);
       }
       await getUser(realmObject[0].username)
