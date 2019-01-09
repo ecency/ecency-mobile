@@ -114,7 +114,9 @@ class PinCodeContainer extends Component {
         .catch((err) => {
           Alert.alert(intl.formatMessage({
             id: 'alert.warning',
-          }), err.message);
+          }), intl.formatMessage({
+            id: err.message,
+          }));
           reject(err);
         });
     }
@@ -183,7 +185,9 @@ class PinCodeContainer extends Component {
       .catch((err) => {
         Alert.alert(intl.formatMessage({
           id: 'alert.warning',
-        }), err.message);
+        }), intl.formatMessage({
+          id: err.message,
+        }));
         reject(err);
       });
   });
