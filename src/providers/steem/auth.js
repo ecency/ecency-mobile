@@ -142,31 +142,7 @@ export const setUserDataWithPinCode = async (data) => {
     const result = getUserDataWithUsername(data.username);
     const userData = result[0];
 
-    const privateKeys = getPrivateKeys(userData.username, data.password);
-    const updatedUserData = {
-      username: userData.username,
-      authType: userData.authType,
-      accessToken:
-        userData.authType === 'steemConnect'
-          ? encryptKey(data.accessToken, data.pinCode)
-          : '',
-      masterKey:
-        userData.authType === 'masterKey'
-          ? encryptKey(data.password, data.pinCode)
-          : '',
-      postingKey:
-        userData.authType === 'masterKey' || userData.authType === 'postingKey'
-          ? encryptKey(privateKeys.postingKey.toString(), data.pinCode)
-          : '',
-      activeKey:
-        userData.authType === 'masterKey' || userData.authType === 'activeKey'
-          ? encryptKey(privateKeys.activeKey.toString(), data.pinCode)
-          : '',
-      memoKey:
-        userData.authType === 'masterKey' || userData.authType === 'memoKey'
-          ? encryptKey(privateKeys.memoKey.toString(), data.pinCode)
-          : '',
-    };
+    const updatedUserData = getUpdatedUserData(userData, data);
 
     await setPinCode(data.pinCode);
     await updateUserData(updatedUserData);
@@ -178,29 +154,17 @@ export const setUserDataWithPinCode = async (data) => {
 };
 
 export const updatePinCode = async (data) => {
-  let password = null;
-  let accessToken = null;
   try {
     await setPinCode(data.pinCode);
     const users = await getUserData();
     if (users.length > 0) {
       users.forEach(async (userData) => {
         if (userData.authType === 'masterKey') {
-          password = decryptKey(userData.masterKey, data.oldPinCode);
+          data.password = decryptKey(userData.masterKey, data.oldPinCode);
         } else if (userData.authType === 'steemConnect') {
-          accessToken = decryptKey(userData.accessToken, data.oldPinCode);
+          data.accessToken = decryptKey(userData.accessToken, data.oldPinCode);
         }
-        const privateKeys = getPrivateKeys(userData.username, password);
-        const updatedUserData = {
-          username: userData.username,
-          authType: userData.authType,
-          accessToken:
-            userData.authType === 'steemConnect' ? encryptKey(accessToken, data.pinCode) : '',
-          masterKey: userData.authType === 'masterKey' ? encryptKey(password, data.pinCode) : '',
-          postingKey: encryptKey(privateKeys.posting.toString(), data.pinCode),
-          activeKey: encryptKey(privateKeys.active.toString(), data.pinCode),
-          memoKey: encryptKey(privateKeys.memo.toString(), data.pinCode),
-        };
+        const updatedUserData = getUpdatedUserData(userData, data);
         await updateUserData(updatedUserData);
       });
       return true;
@@ -274,6 +238,34 @@ const getPrivateKeys = (username, password) => {
       isMasterKey: true,
     };
   }
+};
+
+export const getUpdatedUserData = (userData, data) => {
+  const privateKeys = getPrivateKeys(userData.username, data.password);
+  return {
+    username: userData.username,
+    authType: userData.authType,
+    accessToken:
+    userData.authType === 'steemConnect'
+      ? encryptKey(data.accessToken, data.pinCode)
+      : '',
+    masterKey:
+    userData.authType === 'masterKey'
+      ? encryptKey(data.password, data.pinCode)
+      : '',
+    postingKey:
+    userData.authType === 'masterKey' || userData.authType === 'postingKey'
+      ? encryptKey(privateKeys.postingKey.toString(), data.pinCode)
+      : '',
+    activeKey:
+    userData.authType === 'masterKey' || userData.authType === 'activeKey'
+      ? encryptKey(privateKeys.activeKey.toString(), data.pinCode)
+      : '',
+    memoKey:
+    userData.authType === 'masterKey' || userData.authType === 'memoKey'
+      ? encryptKey(privateKeys.memoKey.toString(), data.pinCode)
+      : '',
+  };
 };
 
 const isLoggedInUser = (username) => {

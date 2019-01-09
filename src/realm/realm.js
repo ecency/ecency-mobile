@@ -306,6 +306,19 @@ export const setPinCode = pinCode => new Promise((resolve, reject) => {
   }
 });
 
+export const removePinCode = () => new Promise((resolve, reject) => {
+  try {
+    const auth = realm.objects(AUTH_SCHEMA);
+
+    realm.write(() => {
+      auth[0].pinCode = '';
+      resolve(auth[0]);
+    });
+  } catch (error) {
+    reject(error);
+  }
+});
+
 export const getPinCode = () => new Promise((resolve, reject) => {
   try {
     const auth = realm.objects(AUTH_SCHEMA);
@@ -552,6 +565,23 @@ export const getSCAccount = username => new Promise((resolve, reject) => {
       resolve(scAccount[0]);
     } else {
       resolve(false);
+    }
+  } catch (error) {
+    reject(error);
+  }
+});
+
+export const removeSCAccount = username => new Promise((resolve, reject) => {
+  try {
+    const scAccount = realm.objects(SC_ACCOUNTS).filtered('username = $0', username);
+
+    if (Array.from(scAccount).length > 0) {
+      realm.write(() => {
+        realm.delete(scAccount);
+        resolve();
+      });
+    } else {
+      reject(new Error('Could not remove selected user'));
     }
   } catch (error) {
     reject(error);
