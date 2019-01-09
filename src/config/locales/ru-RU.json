@@ -132,10 +132,38 @@
     "success_rebloged": "Репостнуто!",
     "already_rebloged": "Вы уже делились этим постом!",
     "warning": "Внимание",
-    "invalid_pincode": "Неверный пин, попробуйте снова."
+    "invalid_pincode": "Неверный пин, попробуйте снова.",
+    "remove_alert": "Are you sure want to remove?",
+    "cancel": "Cancel",
+    "delete": "Delete"
   },
   "post": {
-    "reblog_alert": "Вы уверены, что хотите сделать репост?",
-    "reblog_cancel": "Отмена"
+    "reblog_alert": "Вы уверены, что хотите сделать репост?"
+  },
+  "drafts": {
+    "title": "Drafts",
+    "load_error": "Could not load drafts",
+    "empty_list": "Nothing here",
+    "deleted": "Draft deleted"
+  },
+  "schedules": {
+    "title": "Scheduled Posts",
+    "empty_list": "Nothing here",
+    "deleted": "Scheduled post deleted",
+    "move": "Move to drafts",
+    "moved": "Moved to drafts"
+  },
+  "bookmarks": {
+    "title": "Bookmarks",
+    "load_error": "Could not load bookmarks",
+    "empty_list": "Nothing here",
+    "deleted": "Bookmark removed",
+    "search": "Search in bookmarks"
+  },
+  "favorites": {
+    "title": "Favorites",
+    "load_error": "Could not load favorites",
+    "empty_list": "Nothing here",
+    "search": "Search in favorites"
   }
 }
