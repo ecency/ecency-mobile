@@ -73,7 +73,7 @@ class PostHeaderDescription extends PureComponent {
           <Text style={styles.name}>{name}</Text>
           <Text style={styles.reputation}>{_reputationText}</Text>
         </TouchableOpacity>
-        {tag && (
+        {!!tag && (
           <TouchableOpacity onPress={() => tagOnPress && tagOnPress()}>
             <Tag isPostCardTag isPin value={tag} />
           </TouchableOpacity>

@@ -57,7 +57,7 @@ class DraftsContainer extends Component {
     const { currentAccount, intl } = this.props;
 
     removeDraft({ username: currentAccount.name, draftId: id })
-      .then((data) => {
+      .then(() => {
         const { drafts } = this.state;
         const newDrafts = [...drafts].filter(draft => draft._id !== id);
 
