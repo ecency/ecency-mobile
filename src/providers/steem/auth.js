@@ -178,12 +178,27 @@ export const updatePinCode = async (data) => {
 export const verifyPinCode = async (data) => {
   const pinHash = await getPinCode();
 
+  const result = getUserDataWithUsername(data.username);
+  const userData = result[0];
+
+  // This is migration for new pin structure, it will remove v2.2
+  if (!pinHash) {
+    try {
+      if (userData.authType === 'steemConnect') {
+        decryptKey(userData.accessToken, data.pinCode);
+      } else {
+        decryptKey(userData.masterKey, data.pinCode);
+      }
+      await setPinCode(data.pinCode);
+    } catch (error) {
+      return Promise.reject(new Error('Invalid pin code, please check and try again'));
+    }
+  }
+
   if (sha256(data.pinCode).toString() !== pinHash) {
     return Promise.reject(new Error('Invalid pin code, please check and try again'));
   }
 
-  const result = getUserDataWithUsername(data.username);
-  const userData = result[0];
   if (result.length > 0) {
     if (userData.authType === 'steemConnect') {
       await refreshSCToken(userData, data.pinCode);
