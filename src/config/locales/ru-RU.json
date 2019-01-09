@@ -128,11 +128,11 @@
     "fail": "Не вышло!",
     "success_shared": "Ваш пост отправлен",
     "permission_denied": "Не достаточно разрешений",
-    "permission_text": "Please, go to phone Settings and change eSteem app permissions.",
-    "success_rebloged": "Rebloged!",
-    "already_rebloged": "You have already reblogged!",
-    "warning": "Warning",
-    "invalid_pincode": "Invalid pin code, please check and try again."
+    "permission_text": "Пожалуйста перейдите в настройки телефона и выдайте разрешения для eSteem",
+    "success_rebloged": "Репостнуто!",
+    "already_rebloged": "Вы уже делились этим постом!",
+    "warning": "Внимание",
+    "invalid_pincode": "Неверный пин, попробуйте снова."
   },
   "post": {
     "reblog_alert": "Вы уверены, что хотите сделать репост?",
