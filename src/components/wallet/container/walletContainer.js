@@ -79,10 +79,10 @@ class WalletContainer extends Component {
             id: 'alert.claim_reward_balance_ok',
           }),
         );
-        this._getWalletData(account[0]);
+        this._getWalletData(account && account[0]);
       })
       .then((account) => {
-        this._getWalletData(account[0]);
+        this._getWalletData(account && account[0]);
       })
       .catch((err) => {
         Alert.alert(err);
@@ -98,7 +98,7 @@ class WalletContainer extends Component {
 
     getAccount(selectedUser.name)
       .then((account) => {
-        this._getWalletData(account[0]);
+        this._getWalletData(account && account[0]);
       })
       .catch((err) => {
         Alert.alert(err);
