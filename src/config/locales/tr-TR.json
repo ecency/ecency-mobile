@@ -132,10 +132,38 @@
     "success_rebloged": "Rebloged!",
     "already_rebloged": "You have already reblogged!",
     "warning": "Warning",
-    "invalid_pincode": "Invalid pin code, please check and try again."
+    "invalid_pincode": "Invalid pin code, please check and try again.",
+    "remove_alert": "Are you sure want to remove?",
+    "cancel": "Cancel",
+    "delete": "Delete"
   },
   "post": {
-    "reblog_alert": "Reblog yapma istediginize emin misiniz?",
-    "reblog_cancel": "Vazgeç"
+    "reblog_alert": "Reblog yapma istediginize emin misiniz?"
+  },
+  "drafts": {
+    "title": "Drafts",
+    "load_error": "Could not load drafts",
+    "empty_list": "Nothing here",
+    "deleted": "Draft deleted"
+  },
+  "schedules": {
+    "title": "Scheduled Posts",
+    "empty_list": "Nothing here",
+    "deleted": "Scheduled post deleted",
+    "move": "Move to drafts",
+    "moved": "Moved to drafts"
+  },
+  "bookmarks": {
+    "title": "Bookmarks",
+    "load_error": "Could not load bookmarks",
+    "empty_list": "Nothing here",
+    "deleted": "Bookmark removed",
+    "search": "Search in bookmarks"
+  },
+  "favorites": {
+    "title": "Favorites",
+    "load_error": "Could not load favorites",
+    "empty_list": "Nothing here",
+    "search": "Search in favorites"
   }
 }
