@@ -2,7 +2,7 @@ import { Client, PrivateKey } from 'dsteem';
 import steemConnect from 'steemconnect';
 import Config from 'react-native-config';
 
-import { getServer, getPinCode } from '../../realm/realm';
+import { getServer } from '../../realm/realm';
 import { getUnreadActivityCount } from '../esteem/esteem';
 
 // Utils
@@ -198,9 +198,8 @@ export const getIsMuted = async (username, targetUsername) => {
 
 export const ignoreUser = async (currentAccount, pin, data) => {
   const digitPinCode = getDigitPinCode(pin);
-
-  if (currentAccount.local.authType === AUTH_TYPE.MASTER_KEY) {
-    const key = decryptKey(currentAccount.local.postingKey, digitPinCode);
+  const key = getAnyPrivateKey(currentAccount.local, digitPinCode);
+  if (currentAccount.local.authType !== AUTH_TYPE.STEEM_CONNECT && key) {
     const privateKey = PrivateKey.fromString(key);
 
     const json = {
@@ -370,9 +369,9 @@ export const getPostWithComments = async (user, permlink) => {
  */
 export const vote = async (currentAccount, pin, author, permlink, weight) => {
   const digitPinCode = getDigitPinCode(pin);
+  const key = getAnyPrivateKey(currentAccount.local, digitPinCode);
 
-  if (currentAccount.local.authType === AUTH_TYPE.MASTER_KEY) {
-    const key = decryptKey(currentAccount.local.postingKey, digitPinCode);
+  if (currentAccount.local.authType !== AUTH_TYPE.STEEM_CONNECT && key) {
     const privateKey = PrivateKey.fromString(key);
     const voter = currentAccount.name;
 
@@ -455,9 +454,8 @@ export const transferToken = (data, activeKey) => {
 
 export const followUser = async (currentAccount, pin, data) => {
   const digitPinCode = getDigitPinCode(pin);
-
-  if (currentAccount.local.authType === AUTH_TYPE.MASTER_KEY) {
-    const key = decryptKey(currentAccount.local.postingKey, digitPinCode);
+  const key = getAnyPrivateKey(currentAccount.local, digitPinCode);
+  if (currentAccount.local.authType !== AUTH_TYPE.STEEM_CONNECT && key) {
     const privateKey = PrivateKey.fromString(key);
     const json = {
       id: 'follow',
@@ -496,9 +494,8 @@ export const followUser = async (currentAccount, pin, data) => {
 
 export const unfollowUser = async (currentAccount, pin, data) => {
   const digitPinCode = getDigitPinCode(pin);
-
-  if (currentAccount.local.authType === AUTH_TYPE.MASTER_KEY) {
-    const key = decryptKey(currentAccount.local.postingKey, digitPinCode);
+  const key = getAnyPrivateKey(currentAccount.local, digitPinCode);
+  if (currentAccount.local.authType !== AUTH_TYPE.STEEM_CONNECT && key) {
     const privateKey = PrivateKey.fromString(key);
 
     const json = {
@@ -642,8 +639,8 @@ export const postContent = async (
 ) => {
   const { name: author } = account;
   const digitPinCode = getDigitPinCode(pin);
-
-  if (account.local.authType === AUTH_TYPE.MASTER_KEY) {
+  const key = getAnyPrivateKey(account.local, digitPinCode);
+  if (account.local.authType !== AUTH_TYPE.STEEM_CONNECT && key) {
     const opArray = [
       [
         'comment',
@@ -677,7 +674,6 @@ export const postContent = async (
       opArray.push(e);
     }
 
-    const key = decryptKey(account.local.postingKey, digitPinCode);
     const privateKey = PrivateKey.fromString(key);
 
     return new Promise((resolve, reject) => {
@@ -735,9 +731,8 @@ export const postContent = async (
 // Re-blog
 export const reblog = async (account, pinCode, author, permlink) => {
   const pin = getDigitPinCode(pinCode);
-
-  if (account.local.authType === AUTH_TYPE.MASTER_KEY) {
-    const key = decryptKey(account.local.postingKey, pin);
+  const key = getAnyPrivateKey(account.local, pin);
+  if (account.local.authType !== AUTH_TYPE.STEEM_CONNECT && key) {
     const privateKey = PrivateKey.fromString(key);
     const follower = account.name;
 
@@ -778,9 +773,8 @@ export const claimRewardBalance = (
   rewardVests,
 ) => {
   const pin = getDigitPinCode(pinCode);
-
-  if (account.local.authType === AUTH_TYPE.MASTER_KEY) {
-    const key = decryptKey(account.local.postingKey, pin);
+  const key = getAnyPrivateKey(account.local, pin);
+  if (account.local.authType !== AUTH_TYPE.STEEM_CONNECT && key) {
     const privateKey = PrivateKey.fromString(key);
 
     const opArray = [
@@ -811,4 +805,24 @@ export const claimRewardBalance = (
       rewardVests,
     );
   }
+};
+const getAnyPrivateKey = async (local, pin) => {
+
+  if (local.postingKey) {
+    return decryptKey(local.postingKey, pin);
+  } if (local.activeKey) {
+    return decryptKey(local.postingKey, pin);
+  }
+  return false;
+
+  // ['postingKey', 'activeKey'].forEach((key) => {
+  //   console.log('key :', key);
+  //   console.log('pin :', pin);
+  //   console.log('local[key] :', local[key]);
+  //   if (key) {
+  //     const privateKey = decryptKey(local[key], pin);
+  //     console.log('privateKey :', privateKey);
+  //     return true;
+  //   }
+  // });
 };
