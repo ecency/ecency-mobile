@@ -260,15 +260,19 @@ class EditorContainer extends Component {
   };
 
   _saveCurrentDraft = (fields) => {
-    const { currentAccount } = this.props;
-    const username = currentAccount && currentAccount.name ? currentAccount.name : '';
+    const { draftId } = this.state;
 
-    const draftField = {
-      ...fields,
-      tags: fields.tags.toString(),
-    };
+    if (!draftId) {
+      const { currentAccount } = this.props;
+      const username = currentAccount && currentAccount.name ? currentAccount.name : '';
 
-    setDraftPost(draftField, username);
+      const draftField = {
+        ...fields,
+        tags: fields.tags.toString(),
+      };
+
+      setDraftPost(draftField, username);
+    }
   };
 
   _submitPost = async (fields) => {

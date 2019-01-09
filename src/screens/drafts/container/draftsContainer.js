@@ -61,7 +61,6 @@ class DraftsContainer extends Component {
         const { drafts } = this.state;
         const newDrafts = [...drafts].filter(draft => draft._id !== id);
 
-        // Alert.alert(intl.formatMessage({ id: 'drafts.deleted' }));
         this.setState({ drafts: this._sortData(newDrafts) });
       })
       .catch(() => {
@@ -69,15 +68,11 @@ class DraftsContainer extends Component {
       });
   };
 
-  _handleRemoveDraft = (id) => {
-    this._removeDraft(id);
-  };
-
   _editDraft = (id) => {
     const { navigation } = this.props;
     const { drafts } = this.state;
     const selectedDraft = drafts.find(draft => draft._id === id);
-    console.log(selectedDraft);
+
     navigation.navigate({
       routeName: ROUTES.SCREENS.EDITOR,
       params: {
@@ -104,7 +99,7 @@ class DraftsContainer extends Component {
         editDraft={this._editDraft}
         currentAccount={currentAccount}
         drafts={drafts}
-        removeDraft={this._handleRemoveDraft}
+        removeDraft={this._removeDraft}
       />
     );
   }
