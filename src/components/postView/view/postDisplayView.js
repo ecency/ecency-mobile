@@ -2,6 +2,7 @@ import React, { PureComponent, Fragment } from 'react';
 import {
   View, Text, ScrollView, Dimensions,
 } from 'react-native';
+import { injectIntl } from 'react-intl';
 
 // Constants
 
@@ -109,13 +110,14 @@ class PostDisplayView extends PureComponent {
   };
 
   render() {
-    const { post, fetchPost } = this.props;
+    const { post, fetchPost, intl } = this.props;
     const { postHeight, scrollHeight, isLoadedComments } = this.state;
 
     const isPostEnd = scrollHeight > postHeight;
     const isGetComment = scrollHeight + 300 > postHeight;
+    const formatedTime = post && intl.formatRelative(post.created);
 
-    isGetComment && !isLoadedComments && this.setState({ isLoadedComments: true });
+    if (isGetComment && !isLoadedComments) this.setState({ isLoadedComments: true });
 
     return (
       <Fragment>
@@ -127,11 +129,10 @@ class PostDisplayView extends PureComponent {
               <View onLayout={event => this._handleOnPostLayout(event)}>
                 <Text style={styles.title}>{post.title}</Text>
                 <PostHeaderDescription
-                  date={post.created}
+                  date={formatedTime}
                   name={post.author}
                   reputation={post.author_reputation}
                   tag={post.category}
-                  avatar={post.avatar}
                   size={16}
                 />
                 <PostBody body={post.body} />
@@ -142,7 +143,7 @@ class PostDisplayView extends PureComponent {
                     {' '}
                     <Text style={styles.footerName}>{post.author}</Text>
                     {' '}
-                    {post.created}
+                    {formatedTime}
                   </Text>
                   {isPostEnd && this._getTabBar()}
                 </View>
@@ -164,4 +165,4 @@ class PostDisplayView extends PureComponent {
   }
 }
 
-export default PostDisplayView;
+export default injectIntl(PostDisplayView);

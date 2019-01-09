@@ -6,7 +6,7 @@ import ImagePicker from 'react-native-image-crop-picker';
 
 // Services and Actions
 import { Buffer } from 'buffer';
-import { uploadImage } from '../../../providers/esteem/esteem';
+import { uploadImage, addDraft, updateDraft } from '../../../providers/esteem/esteem';
 import { postContent, getPurePost } from '../../../providers/steem/dsteem';
 import { setDraftPost, getDraftPost } from '../../../realm/realm';
 
@@ -37,6 +37,7 @@ class EditorContainer extends Component {
     super(props);
     this.state = {
       autoFocusText: false,
+      draftId: null,
       draftPost: null,
       isCameraOrPickerOpen: false,
       isDraftSaved: false,
@@ -47,6 +48,7 @@ class EditorContainer extends Component {
       isUploading: false,
       post: null,
       uploadedImage: null,
+      isDraft: false,
     };
   }
 
@@ -58,9 +60,20 @@ class EditorContainer extends Component {
     let isReply;
     let isEdit;
     let post;
+    let _draft;
 
     if (navigation.state && navigation.state.params) {
       const navigationParams = navigation.state.params;
+
+      if (navigationParams.draft) {
+        _draft = navigationParams.draft;
+
+        this.setState({
+          draftPost: { title: _draft.title, body: _draft.body, tags: _draft.tags.split(',') },
+          draftId: _draft._id,
+          isDraft: true,
+        });
+      }
 
       if (navigationParams.post) {
         post = navigationParams.post;
@@ -92,18 +105,22 @@ class EditorContainer extends Component {
       this.setState({ autoFocusText: true });
     }
 
-    if (!isReply && !isEdit) {
-      getDraftPost(username)
-        .then((result) => {
-          this.setState({
-            draftPost: { body: result.body, title: result.title, tags: result.tags.split(',') },
-          });
-        })
-        .catch((error) => {
-          // alert(error);
-        });
+    if (!isReply && !isEdit && !_draft) {
+      this._getDraft(username);
     }
   }
+
+  _getDraft = (username) => {
+    getDraftPost(username)
+      .then((result) => {
+        this.setState({
+          draftPost: { body: result.body, title: result.title, tags: result.tags.split(',') },
+        });
+      })
+      .catch((error) => {
+        // alert(error);
+      });
+  };
 
   _getPurePost = (author, permlink) => {
     getPurePost(author, permlink)
@@ -185,9 +202,12 @@ class EditorContainer extends Component {
         }
       })
       .catch((error) => {
-        Alert.alert(intl.formatMessage({
-          id: 'alert.fail',
-        }), error);
+        Alert.alert(
+          intl.formatMessage({
+            id: 'alert.fail',
+          }),
+          error,
+        );
         this.setState({ isUploading: false });
       });
   };
@@ -210,8 +230,8 @@ class EditorContainer extends Component {
 
   // Media select functions <- END ->
 
-  _handleOnSaveButtonPress = (fields) => {
-    const { isDraftSaved } = this.state;
+  _saveDraftToDB = (fields) => {
+    const { isDraftSaved, draftId } = this.state;
     if (!isDraftSaved) {
       const { currentAccount } = this.props;
       const username = currentAccount && currentAccount.name ? currentAccount.name : '';
@@ -220,23 +240,50 @@ class EditorContainer extends Component {
       const draftField = {
         ...fields,
         tags: fields.tags.toString(),
+        username,
       };
 
-      setDraftPost(draftField, username)
-        .then(() => {
+      if (draftId) {
+        updateDraft({ ...draftField, draftId }).then(() => {
           this.setState({
-            isDraftSaving: false,
             isDraftSaved: true,
           });
-        })
-        .catch((error) => {
-          alert(error);
         });
+      } else {
+        addDraft(draftField).then((response) => {
+          this.setState({
+            isDraftSaved: true,
+            draftId: response._id,
+          });
+        });
+      }
+
+      this.setState({
+        isDraftSaving: false,
+      });
+    }
+  };
+
+  _saveCurrentDraft = (fields) => {
+    const { draftId } = this.state;
+
+    if (!draftId) {
+      const { currentAccount } = this.props;
+      const username = currentAccount && currentAccount.name ? currentAccount.name : '';
+
+      const draftField = {
+        ...fields,
+        tags: fields.tags.toString(),
+      };
+
+      setDraftPost(draftField, username);
     }
   };
 
   _submitPost = async (fields) => {
-    const { navigation, currentAccount, pinCode, intl } = this.props;
+    const {
+      navigation, currentAccount, pinCode, intl,
+    } = this.props;
 
     if (currentAccount) {
       this.setState({ isPostSending: true });
@@ -262,11 +309,14 @@ class EditorContainer extends Component {
         0,
       )
         .then((result) => {
-          Alert.alert(intl.formatMessage({
-            id: 'alert.success',
-          }), intl.formatMessage({
-            id: 'alert.success_shared',
-          }));
+          Alert.alert(
+            intl.formatMessage({
+              id: 'alert.success',
+            }),
+            intl.formatMessage({
+              id: 'alert.success_shared',
+            }),
+          );
 
           navigation.navigate({
             routeName: ROUTES.SCREENS.POST,
@@ -327,7 +377,10 @@ class EditorContainer extends Component {
       this.setState({ isPostSending: true });
 
       const {
-        body: oldBody, parent_permlink: parentPermlink, permlink, parent_author: parentAuthor,
+        body: oldBody,
+        parent_permlink: parentPermlink,
+        permlink,
+        parent_author: parentAuthor,
       } = post;
 
       let newBody = fields.body;
@@ -361,10 +414,13 @@ class EditorContainer extends Component {
 
   _handleSubmitFailure = (error) => {
     const { intl } = this.props;
- 
-    Alert.alert(intl.formatMessage({
-      id: 'alert.fail',
-    }), error);
+
+    Alert.alert(
+      intl.formatMessage({
+        id: 'alert.fail',
+      }),
+      error,
+    );
     this.setState({ isPostSending: false });
   };
 
@@ -373,6 +429,15 @@ class EditorContainer extends Component {
 
     navigation.goBack();
     navigation.state.params.fetchPost();
+  };
+
+  _handleOnBackPress = () => {
+    const { navigation } = this.props;
+    const { isDraft } = this.state;
+
+    if (isDraft) {
+      navigation.state.params.fetchPost();
+    }
   };
 
   _handleSubmit = (form) => {
@@ -418,19 +483,21 @@ class EditorContainer extends Component {
         draftPost={draftPost}
         handleFormChanged={this._handleFormChanged}
         handleOnImagePicker={this._handleRoutingAction}
-        handleOnSaveButtonPress={this._handleOnSaveButtonPress}
+        saveDraftToDB={this._saveDraftToDB}
         handleOnSubmit={this._handleSubmit}
+        handleOnBackPress={this._handleOnBackPress}
         isCameraOrPickerOpen={isCameraOrPickerOpen}
         isDarkTheme={isDarkTheme}
         isDraftSaved={isDraftSaved}
         isDraftSaving={isDraftSaving}
+        isEdit={isEdit}
         isLoggedIn={isLoggedIn}
         isOpenCamera={isOpenCamera}
         isPostSending={isPostSending}
         isReply={isReply}
-        isEdit={isEdit}
         isUploading={isUploading}
         post={post}
+        saveCurrentDraft={this._saveCurrentDraft}
         uploadedImage={uploadedImage}
       />
     );
