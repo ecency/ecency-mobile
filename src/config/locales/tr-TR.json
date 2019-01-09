@@ -141,32 +141,31 @@
   "post": {
     "reblog_alert": "Reblog yapma istediginize emin misiniz?"
   },
-  // TODO: translate here!!!
   "drafts": {
     "title": "Taslak",
-    "load_error": "Taslaklar yuklenemedi",
-    "empty_list": "Hicbirsey yok",
+    "load_error": "Taslaklar yüklenemedi",
+    "empty_list": "Hiçbir şey yok",
     "deleted": "Taslak silindi"
   },
   "schedules": {
-    "title": "Scheduled Posts",
-    "empty_list": "Nothing here",
-    "deleted": "Scheduled post deleted",
-    "move": "Move to drafts",
-    "moved": "Moved to drafts"
+    "title": "Tarifeli Icerikler",
+    "empty_list": "Hiçbir şey yok!",
+    "deleted": "Tarifeli içerik silindi",
+    "move": "Taslaklara taşı",
+    "moved": "Taslaklara taşındı"
   },
   "bookmarks": {
-    "title": "Bookmarks",
-    "load_error": "Could not load bookmarks",
-    "empty_list": "Nothing here",
-    "deleted": "Bookmark removed",
-    "search": "Search in bookmarks"
+    "title": "Yer imleri",
+    "load_error": "Yer imleri yuklenemedi",
+    "empty_list": "Hiçbir şey yok!",
+    "deleted": "Yer imi silindi",
+    "search": "Yer imlerinde ara"
   },
   "favorites": {
-    "title": "Favorites",
-    "load_error": "Could not load favorites",
-    "empty_list": "Nothing here",
-    "search": "Search in favorites"
+    "title": "Favoriler",
+    "load_error": "Favoriler yüklenemedi",
+    "empty_list": "Hiçbir şey yok!",
+    "search": "Favorilerde ara"
   }
 }
 
