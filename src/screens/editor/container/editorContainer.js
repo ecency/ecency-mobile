@@ -37,6 +37,7 @@ class EditorContainer extends Component {
     super(props);
     this.state = {
       autoFocusText: false,
+      draftId: null,
       draftPost: null,
       isCameraOrPickerOpen: false,
       isDraftSaved: false,
@@ -47,7 +48,7 @@ class EditorContainer extends Component {
       isUploading: false,
       post: null,
       uploadedImage: null,
-      draftId: null,
+      isDraft: false,
     };
   }
 
@@ -68,8 +69,9 @@ class EditorContainer extends Component {
         _draft = navigationParams.draft;
 
         this.setState({
-          draftPost: { title: _draft.title, body: _draft.body },
+          draftPost: { title: _draft.title, body: _draft.body, tags: _draft.tags.split(',') },
           draftId: _draft._id,
+          isDraft: true,
         });
       }
 
@@ -200,9 +202,12 @@ class EditorContainer extends Component {
         }
       })
       .catch((error) => {
-        Alert.alert(intl.formatMessage({
-          id: 'alert.fail',
-        }), error);
+        Alert.alert(
+          intl.formatMessage({
+            id: 'alert.fail',
+          }),
+          error,
+        );
         this.setState({ isUploading: false });
       });
   };
@@ -276,7 +281,9 @@ class EditorContainer extends Component {
   };
 
   _submitPost = async (fields) => {
-    const { navigation, currentAccount, pinCode, intl } = this.props;
+    const {
+      navigation, currentAccount, pinCode, intl,
+    } = this.props;
 
     if (currentAccount) {
       this.setState({ isPostSending: true });
@@ -302,11 +309,14 @@ class EditorContainer extends Component {
         0,
       )
         .then((result) => {
-          Alert.alert(intl.formatMessage({
-            id: 'alert.success',
-          }), intl.formatMessage({
-            id: 'alert.success_shared',
-          }));
+          Alert.alert(
+            intl.formatMessage({
+              id: 'alert.success',
+            }),
+            intl.formatMessage({
+              id: 'alert.success_shared',
+            }),
+          );
 
           navigation.navigate({
             routeName: ROUTES.SCREENS.POST,
@@ -404,10 +414,13 @@ class EditorContainer extends Component {
 
   _handleSubmitFailure = (error) => {
     const { intl } = this.props;
- 
-    Alert.alert(intl.formatMessage({
-      id: 'alert.fail',
-    }), error);
+
+    Alert.alert(
+      intl.formatMessage({
+        id: 'alert.fail',
+      }),
+      error,
+    );
     this.setState({ isPostSending: false });
   };
 
@@ -416,6 +429,15 @@ class EditorContainer extends Component {
 
     navigation.goBack();
     navigation.state.params.fetchPost();
+  };
+
+  _handleOnBackPress = () => {
+    const { navigation } = this.props;
+    const { isDraft } = this.state;
+
+    if (isDraft) {
+      navigation.state.params.fetchPost();
+    }
   };
 
   _handleSubmit = (form) => {
@@ -463,6 +485,7 @@ class EditorContainer extends Component {
         handleOnImagePicker={this._handleRoutingAction}
         saveDraftToDB={this._saveDraftToDB}
         handleOnSubmit={this._handleSubmit}
+        handleOnBackPress={this._handleOnBackPress}
         isCameraOrPickerOpen={isCameraOrPickerOpen}
         isDarkTheme={isDarkTheme}
         isDraftSaved={isDraftSaved}

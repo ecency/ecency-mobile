@@ -1,5 +1,6 @@
 import React, { PureComponent, Fragment } from 'react';
 import { View, FlatList } from 'react-native';
+import { injectIntl } from 'react-intl';
 
 // Constants
 
@@ -43,6 +44,7 @@ class CommentsView extends PureComponent {
       isProfilePreview,
       marginLeft,
       fetchPost,
+      intl,
     } = this.props;
 
     return (
@@ -55,7 +57,7 @@ class CommentsView extends PureComponent {
               <View key={index}>
                 <PostHeaderDescription
                   key={item.permlink}
-                  date={item.created}
+                  date={intl.formatRelative(item.created)}
                   name={item.author}
                   reputation={item.author_reputation}
                   size={avatarSize || 24}
@@ -118,4 +120,4 @@ class CommentsView extends PureComponent {
   }
 }
 
-export default CommentsView;
+export default injectIntl(CommentsView);

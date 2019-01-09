@@ -30,7 +30,7 @@ class DraftsScreen extends Component {
 
   // Component Functions
 
-  _renderItem = (item, index) => {
+  _renderItem = (item) => {
     const { currentAccount, removeDraft, editDraft } = this.props;
     const tags = item.tags ? item.tags.split(/[ ,]+/) : [];
     const tag = tags[0] || '';
@@ -64,7 +64,7 @@ class DraftsScreen extends Component {
             id: 'drafts.title',
           })}
         />
-        {isNoDrafts && (
+        {isNoDrafts && !isLoading && (
           <Text style={globalStyles.hintText}>
             {intl.formatMessage({
               id: 'drafts.empty_list',
@@ -81,7 +81,7 @@ class DraftsScreen extends Component {
             data={drafts}
             keyExtractor={item => item._id}
             removeClippedSubviews={false}
-            renderItem={({ item, index }) => this._renderItem(item, index)}
+            renderItem={({ item }) => this._renderItem(item)}
           />
         )}
       </View>

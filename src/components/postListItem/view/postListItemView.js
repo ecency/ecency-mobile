@@ -4,9 +4,6 @@ import { View, Text, TouchableOpacity } from 'react-native';
 import { injectIntl } from 'react-intl';
 import FastImage from 'react-native-fast-image';
 
-// Utils
-import { getTimeFromNow } from '../../../utils/time';
-
 // Components
 import { PostHeaderDescription } from '../../postElements';
 import { IconButton } from '../../iconButton';

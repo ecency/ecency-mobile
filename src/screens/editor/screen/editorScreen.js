@@ -158,6 +158,7 @@ class EditorScreen extends Component {
       isUploading,
       post,
       uploadedImage,
+      handleOnBackPress,
     } = this.props;
     const rightButtonText = intl.formatMessage({
       id: isEdit ? 'basic_header.update' : isReply ? 'basic_header.reply' : 'basic_header.publish',
@@ -169,6 +170,7 @@ class EditorScreen extends Component {
           handleOnPressPreviewButton={this._handleOnPressPreviewButton}
           handleOnSaveButtonPress={this._handleOnSaveButtonPress}
           handleOnSubmit={this._handleOnSubmit}
+          handleOnBackPress={handleOnBackPress}
           isDraftSaved={isDraftSaved}
           isDraftSaving={isDraftSaving}
           isFormValid={isFormValid}
