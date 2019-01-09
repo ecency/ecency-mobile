@@ -141,7 +141,6 @@
   "post": {
     "reblog_alert": "Reblog yapma istediginize emin misiniz?"
   },
-  // TODO: translate here!!!
   "drafts": {
     "title": "Taslak",
     "load_error": "Taslaklar yuklenemedi",
