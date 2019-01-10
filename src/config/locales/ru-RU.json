@@ -171,6 +171,6 @@
     "invalid_username": "Неверный пин, попробуйте снова",
     "already_logged": "Вы уже вошли, пожалуйста, попробуйте добавить другой аккаунт",
     "invalid_credentials": "Некорректные данные, пожалуйста, проверьте и повторите снова",
-    "unknow_error": "Unknown error, please contact us at info@esteem.app"
+    "unknow_error": "Неизвестная ошибка, пожалуйста, напишите на dunsky@esteem.app"
   }
 }
