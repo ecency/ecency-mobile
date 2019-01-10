@@ -2,10 +2,15 @@ import React, { Component } from 'react';
 import { injectIntl } from 'react-intl';
 import { View, FlatList, Text } from 'react-native';
 import ScrollableTabView from '@esteemapp/react-native-scrollable-tab-view';
+import ActionSheet from 'react-native-actionsheet';
 
 // Components
 import { BasicHeader } from '../../../components/basicHeader';
-import { PostCardPlaceHolder, UserListItem } from '../../../components/basicUIElements';
+import {
+  PostCardPlaceHolder,
+  UserListItem,
+  WalletDetailsPlaceHolder,
+} from '../../../components/basicUIElements';
 import { TabBar } from '../../../components/tabBar';
 
 // Styles
@@ -27,22 +32,21 @@ class BookmarksScreen extends Component {
 
   // Component Functions
 
-  _renderItem = (item, index) => {
-    const { currentAccount } = this.props;
-
-    return (
-      <UserListItem
-        index={index}
-        username={item.account}
-        rightText="bok"
-        subRightText="bok"
-      />
-    );
-  };
+  _renderItem = (item, index) => (
+    <UserListItem
+      handleLongPress={this._handleLongPress}
+      index={index}
+      isClickable
+      username={item.account}
+      rightText="bok"
+      subRightText="bok"
+    />
+  );
 
   _getTabItem = (data, type) => {
     const { isLoading, intl } = this.props;
     const isNoItem = (data && data.length === 0) || !data;
+    const placeHolder = type === 'bookmarks' ? <PostCardPlaceHolder /> : <WalletDetailsPlaceHolder />;
 
     return (
       <View style={styles.container}>
@@ -54,10 +58,7 @@ class BookmarksScreen extends Component {
           </Text>
         )}
         {isLoading ? (
-          <View>
-            <PostCardPlaceHolder />
-            <PostCardPlaceHolder />
-          </View>
+          <View>{placeHolder}</View>
         ) : (
           !isNoItem && (
             <FlatList
@@ -72,8 +73,12 @@ class BookmarksScreen extends Component {
     );
   };
 
+  _handleLongPress = () => {
+    this.ActionSheet.show();
+  };
+
   render() {
-    const { favorites, bookmarks, intl } = this.props;
+    const { favorites, bookmarks, intl, handleRemoveFavorite } = this.props;
 
     return (
       <View style={globalStyles.container}>
@@ -100,7 +105,7 @@ class BookmarksScreen extends Component {
             })}
             style={styles.tabbarItem}
           >
-            {this._getTabItem(favorites, 'bookmarks')}
+            {this._getTabItem(bookmarks, 'bookmarks')}
           </View>
           <View
             tabLabel={intl.formatMessage({
@@ -108,9 +113,22 @@ class BookmarksScreen extends Component {
             })}
             style={styles.tabbarItem}
           >
-            {this._getTabItem(bookmarks, 'favorites')}
+            {this._getTabItem(favorites, 'favorites')}
           </View>
         </ScrollableTabView>
+        <ActionSheet
+          ref={o => (this.ActionSheet = o)}
+          options={[
+            intl.formatMessage({ id: 'alert.delete' }),
+            intl.formatMessage({ id: 'alert.cancel' }),
+          ]}
+          title={intl.formatMessage({ id: 'alert.remove_alert' })}
+          cancelButtonIndex={1}
+          destructiveButtonIndex={0}
+          onPress={(index) => {
+            if (index === 0) handleRemoveFavorite(id);
+          }}
+        />
       </View>
     );
   }
