@@ -10,6 +10,7 @@ import { NavigationActions } from 'react-navigation';
 import en from 'react-intl/locale-data/en';
 import tr from 'react-intl/locale-data/tr';
 import ru from 'react-intl/locale-data/ru';
+import AUTH_TYPE from '../../../constants/authType';
 
 // Services
 import {
@@ -21,6 +22,10 @@ import {
   removeUserData,
   setPushTokenSaved,
   getUserDataWithUsername,
+  removePinCode,
+  setAuthStatus,
+  removeSCAccount,
+  setExistUser,
 } from '../../../realm/realm';
 import { getUser } from '../../../providers/steem/dsteem';
 import { setPushToken } from '../../../providers/esteem/esteem';
@@ -93,7 +98,7 @@ class ApplicationContainer extends Component {
 
   _getUserData = async () => {
     const { dispatch, pinCode } = this.props;
-    let realmData;
+    let realmData = [];
     let currentUsername;
 
     await getAuthStatus().then((res) => {
@@ -102,28 +107,52 @@ class ApplicationContainer extends Component {
         getUserData().then(async (userData) => {
           if (userData.length > 0) {
             realmData = userData;
-
-            userData.forEach((accountData) => {
-              dispatch(addOtherAccount({ username: accountData.username }));
+            userData.forEach((accountData, index) => {
+              if (
+                !accountData.accessToken
+                && !accountData.masterKey
+                && !accountData.postingKey
+                && !accountData.activeKey
+                && !accountData.memoKey
+              ) {
+                realmData.splice(index, 1);
+                if (realmData.length === 0) {
+                  dispatch(login(false));
+                  dispatch(logoutDone());
+                  removePinCode();
+                  setAuthStatus({ isLoggedIn: false });
+                  setExistUser(false);
+                  if (accountData.authType === AUTH_TYPE.STEEM_CONNECT) {
+                    removeSCAccount(accountData.username);
+                  }
+                }
+                removeUserData(accountData.username);
+              } else {
+                dispatch(addOtherAccount({ username: accountData.username }));
+              }
             });
           }
         });
       }
     });
 
-    if (realmData) {
-      await getUser(currentUsername)
+    if (realmData.length > 0) {
+      const realmObject = realmData.filter(data => data.username === currentUsername);
+
+      if (realmObject.length === 0) {
+        realmObject[0] = realmData[realmData.length - 1];
+        await switchAccount(realmObject[0].username);
+      }
+      await getUser(realmObject[0].username)
         .then(async (accountData) => {
           dispatch(login(true));
 
           const isExistUser = await getExistUser();
 
-          const realmObject = realmData.filter(data => data.username === currentUsername);
           [accountData.local] = realmObject;
 
           dispatch(updateCurrentAccount(accountData));
           // If in dev mode pin code does not show
-          // eslint-disable-next-line
           if (!isExistUser || !pinCode) {
             dispatch(openPinCodeModal());
           }
@@ -190,12 +219,14 @@ class ApplicationContainer extends Component {
   };
 
   _logout = () => {
-    const { otherAccounts, currentAccountUsername, dispatch } = this.props;
+    const {
+      otherAccounts, currentAccount, dispatch,
+    } = this.props;
 
-    removeUserData(currentAccountUsername)
+    removeUserData(currentAccount.name)
       .then(() => {
         const _otherAccounts = otherAccounts.filter(
-          user => user.username !== currentAccountUsername,
+          user => user.username !== currentAccount.name,
         );
 
         if (_otherAccounts.length > 0) {
@@ -205,9 +236,15 @@ class ApplicationContainer extends Component {
         } else {
           dispatch(updateCurrentAccount({}));
           dispatch(login(false));
+          removePinCode();
+          setAuthStatus({ isLoggedIn: false });
+          setExistUser(false);
+          if (currentAccount.local === AUTH_TYPE.STEEM_CONNECT) {
+            removeSCAccount(currentAccount.name);
+          }
         }
 
-        dispatch(removeOtherAccount(currentAccountUsername));
+        dispatch(removeOtherAccount(currentAccount.name));
         dispatch(logoutDone());
       })
       .catch(() => {});
@@ -252,7 +289,7 @@ const mapStateToProps = state => ({
 
   // Account
   unreadActivityCount: state.account.currentAccount.unread_activity_count,
-  currentAccountUsername: state.account.currentAccount.name,
+  currentAccount: state.account.currentAccount,
   otherAccounts: state.account.otherAccounts,
   pinCode: state.account.pin,
 });
