@@ -157,7 +157,6 @@ class PinCodeContainer extends Component {
       accessToken,
       navigateTo,
       navigation,
-      setWrappedComponentState,
       intl,
     } = this.props;
 
@@ -169,10 +168,8 @@ class PinCodeContainer extends Component {
       accessToken,
     };
     verifyPinCode(pinData)
-      .then((res) => {
-        setWrappedComponentState(res);
+      .then(() => {
         this._savePinCode(pin);
-
         const realmData = getUserDataWithUsername(currentAccount.name);
         const _currentAccount = currentAccount;
         _currentAccount.username = _currentAccount.name;
