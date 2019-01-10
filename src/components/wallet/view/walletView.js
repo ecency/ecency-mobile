@@ -1,5 +1,7 @@
 import React, { PureComponent, Fragment } from 'react';
-import { View, Text, ScrollView } from 'react-native';
+import {
+  View, Text, ScrollView, RefreshControl,
+} from 'react-native';
 import { injectIntl } from 'react-intl';
 
 // Components
@@ -8,7 +10,7 @@ import { MainButton } from '../../mainButton';
 import { CollapsibleCard } from '../../collapsibleCard';
 import { WalletDetails } from '../../walletDetails';
 import { Transaction } from '../../transaction';
-import { WalletDetailsPlaceHolder, RefreshControl } from '../../basicUIElements';
+import { WalletDetailsPlaceHolder } from '../../basicUIElements';
 
 // Styles
 import styles from './walletStyles';
@@ -66,7 +68,7 @@ class WalletView extends PureComponent {
             titleColor="#fff"
             colors={['#fff']}
           />
-        )}
+)}
         style={styles.scrollView}
       >
         {!walletData ? (
