@@ -4,7 +4,7 @@ import { Alert } from 'react-native';
 import { injectIntl } from 'react-intl';
 
 // Services and Actions
-import { getDrafts, removeDraft } from '../../../providers/esteem/esteem';
+import { getDrafts, removeDraft, getSchedules } from '../../../providers/esteem/esteem';
 
 // Middleware
 
@@ -27,6 +27,7 @@ class DraftsContainer extends Component {
     super(props);
     this.state = {
       drafts: [],
+      schedules: [],
       isLoading: false,
     };
   }
@@ -37,6 +38,23 @@ class DraftsContainer extends Component {
   }
 
   // Component Functions
+
+  _getSchedules = () => {
+    const { currentAccount, intl } = this.props;
+    this.setState({ isLoading: true });
+
+    getSchedules(currentAccount.name)
+      .then((data) => {
+        this.setState({ schedules: this._sortData(data) });
+      })
+      .catch(() => {
+        Alert.alert(intl.formatMessage({ id: 'drafts.load_error' }));
+      })
+      .finally(() => {
+        this.setState({ isLoading: false });
+      });
+  };
+
   _getDrafts = () => {
     const { currentAccount, intl } = this.props;
     this.setState({ isLoading: true });
@@ -88,7 +106,7 @@ class DraftsContainer extends Component {
   });
 
   render() {
-    const { isLoading, drafts } = this.state;
+    const { isLoading, drafts, schedules } = this.state;
     const { currentAccount } = this.props;
 
     return (
@@ -97,6 +115,7 @@ class DraftsContainer extends Component {
         editDraft={this._editDraft}
         currentAccount={currentAccount}
         drafts={drafts}
+        schedules={schedules}
         removeDraft={this._removeDraft}
       />
     );
