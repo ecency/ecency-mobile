@@ -10,6 +10,7 @@ import { NavigationActions } from 'react-navigation';
 import en from 'react-intl/locale-data/en';
 import tr from 'react-intl/locale-data/tr';
 import ru from 'react-intl/locale-data/ru';
+import AUTH_TYPE from '../../../constants/authType';
 
 // Services
 import {
@@ -115,13 +116,13 @@ class ApplicationContainer extends Component {
                 && !accountData.memoKey
               ) {
                 realmData.splice(index, 1);
-                if (realmData.length <= 0) {
+                if (realmData.length === 0) {
                   dispatch(login(false));
                   dispatch(logoutDone());
                   removePinCode();
                   setAuthStatus({ isLoggedIn: false });
                   setExistUser(false);
-                  if (accountData.authType === 'steemConnect') {
+                  if (accountData.authType === AUTH_TYPE.STEEM_CONNECT) {
                     removeSCAccount(accountData.username);
                   }
                 }
@@ -138,7 +139,7 @@ class ApplicationContainer extends Component {
     if (realmData.length > 0) {
       const realmObject = realmData.filter(data => data.username === currentUsername);
 
-      if (realmObject.length <= 0) {
+      if (realmObject.length === 0) {
         realmObject[0] = realmData[realmData.length - 1];
         await switchAccount(realmObject[0].username);
       }
@@ -219,13 +220,13 @@ class ApplicationContainer extends Component {
 
   _logout = () => {
     const {
-      otherAccounts, currentAccountUsername, currentAccountAuthType, dispatch,
+      otherAccounts, currentAccount, dispatch,
     } = this.props;
 
-    removeUserData(currentAccountUsername)
+    removeUserData(currentAccount.name)
       .then(() => {
         const _otherAccounts = otherAccounts.filter(
-          user => user.username !== currentAccountUsername,
+          user => user.username !== currentAccount.name,
         );
 
         if (_otherAccounts.length > 0) {
@@ -238,12 +239,12 @@ class ApplicationContainer extends Component {
           removePinCode();
           setAuthStatus({ isLoggedIn: false });
           setExistUser(false);
-          if (currentAccountAuthType === 'steemConnect') {
-            removeSCAccount(currentAccountUsername);
+          if (currentAccount.local === AUTH_TYPE.STEEM_CONNECT) {
+            removeSCAccount(currentAccount.name);
           }
         }
 
-        dispatch(removeOtherAccount(currentAccountUsername));
+        dispatch(removeOtherAccount(currentAccount.name));
         dispatch(logoutDone());
       })
       .catch(() => {});
@@ -288,10 +289,9 @@ const mapStateToProps = state => ({
 
   // Account
   unreadActivityCount: state.account.currentAccount.unread_activity_count,
-  currentAccountUsername: state.account.currentAccount.name,
+  currentAccount: state.account.currentAccount,
   otherAccounts: state.account.otherAccounts,
   pinCode: state.account.pin,
-  currentAccountAuthType: state.account.currentAccount.local,
 });
 
 export default connect(mapStateToProps)(ApplicationContainer);

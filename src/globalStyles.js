@@ -50,8 +50,19 @@ export default EStyleSheet.create({
     backgroundColor: '$primaryBackgroundColor',
     height: '$deviceHeight',
   },
+  lightContainer: {
+    backgroundColor: '$primaryLightBackground',
+    flex: 1,
+  },
   settingsContainer: {
     marginLeft: 42,
     marginRight: 32,
+  },
+  hintText: {
+    color: '$iconColor',
+    alignSelf: 'center',
+    fontSize: 16,
+    marginLeft: 16,
+    fontWeight: '500',
   },
 });
