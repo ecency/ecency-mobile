@@ -22,7 +22,7 @@ class BasicHeaderContainer extends Component {
 
   // Component Functions
   _handleOnPressBackButton = () => {
-    const { navigation, isNewPost } = this.props;
+    const { navigation, isNewPost, handleOnBackPress } = this.props;
 
     if (isNewPost) {
       navigation.navigate({
@@ -31,6 +31,8 @@ class BasicHeaderContainer extends Component {
     } else {
       navigation.goBack();
     }
+
+    if (handleOnBackPress) handleOnBackPress();
   };
 
   render() {

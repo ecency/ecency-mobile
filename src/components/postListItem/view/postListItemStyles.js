@@ -1,39 +1,20 @@
 import EStyleSheet from 'react-native-extended-stylesheet';
 
 export default EStyleSheet.create({
-  post: {
+  container: {
     padding: 0,
     marginRight: 0,
     marginLeft: 0,
-    marginTop: 5,
-    marginBottom: 5,
+    marginVertical: 5,
     backgroundColor: '$primaryBackgroundColor',
     shadowOpacity: 0.2,
     shadowColor: '$shadowColor',
     elevation: 0.1,
   },
-  commentButton: {
-    padding: 0,
-    margin: 0,
-    flexDirection: 'row',
-  },
-  comment: {
-    alignSelf: 'center',
-    fontSize: 10,
-    marginLeft: 3,
-    color: '$iconColor',
-  },
-  commentIcon: {
-    alignSelf: 'flex-start',
-    fontSize: 20,
-    color: '$iconColor',
-    margin: 0,
-    width: 20,
-  },
-  postBodyWrapper: {
+  body: {
     marginHorizontal: 9,
   },
-  thumbnail: {
+  image: {
     margin: 0,
     alignItems: 'center',
     alignSelf: 'center',
@@ -41,40 +22,37 @@ export default EStyleSheet.create({
     width: '$deviceWidth - 16',
     borderRadius: 8,
     backgroundColor: '$primaryLightGray',
+    // paddingVertical: 10,
+    marginVertical: 5,
   },
   postDescripton: {
     flexDirection: 'column',
     paddingHorizontal: 8,
+    // paddingVertical: 16,
     backgroundColor: '$primaryBackgroundColor',
+    marginTop: 5,
+    marginBottom: 10,
   },
   title: {
     fontSize: 16,
+    marginBottom: 7,
     fontWeight: 'bold',
-    marginVertical: 12,
     color: '$primaryBlack',
   },
   summary: {
     fontSize: 13,
-    color: '$primaryDarkGray',
+    color: '$primaryDarkText',
   },
-  bodyFooter: {
+  header: {
     backgroundColor: '$primaryBackgroundColor',
     flexDirection: 'row',
-    margin: 16,
-    justifyContent: 'space-between',
-  },
-  bodyHeader: {
-    backgroundColor: '$primaryBackgroundColor',
-    flexDirection: 'row',
+    flex: 1,
     marginTop: 16,
     marginHorizontal: 12,
     marginBottom: 12,
   },
-  leftFooterWrapper: {
-    flexDirection: 'row',
-  },
-  dropdownWrapper: {
+  rightItem: {
     position: 'absolute',
-    right: -10,
+    right: 0,
   },
 });

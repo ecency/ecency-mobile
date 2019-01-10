@@ -133,11 +133,39 @@
     "already_rebloged": "Zaten reblog yapmışsınız.",
     "failed_to_open": "Açılamadı.",
     "warning": "Uyarı!",
-    "invalid_pincode": "Geçersiz pin kod, lutfen tekrar deneyin."
+    "invalid_pincode": "Geçersiz pin kod, lutfen tekrar deneyin.",
+    "remove_alert": "Silmek istediginize emin misiniz?",
+    "cancel": "Vazgeç",
+    "delete": "Sil"
   },
   "post": {
-    "reblog_alert": "Reblog yapma istediginize emin misiniz?",
-    "reblog_cancel": "Vazgeç"
+    "reblog_alert": "Reblog yapma istediginize emin misiniz?"
+  },
+  "drafts": {
+    "title": "Taslak",
+    "load_error": "Taslaklar yüklenemedi",
+    "empty_list": "Hiçbir şey yok",
+    "deleted": "Taslak silindi"
+  },
+  "schedules": {
+    "title": "Tarifeli Icerikler",
+    "empty_list": "Hiçbir şey yok!",
+    "deleted": "Tarifeli içerik silindi",
+    "move": "Taslaklara taşı",
+    "moved": "Taslaklara taşındı"
+  },
+  "bookmarks": {
+    "title": "Yer imleri",
+    "load_error": "Yer imleri yuklenemedi",
+    "empty_list": "Hiçbir şey yok!",
+    "deleted": "Yer imi silindi",
+    "search": "Yer imlerinde ara"
+  },
+  "favorites": {
+    "title": "Favoriler",
+    "load_error": "Favoriler yüklenemedi",
+    "empty_list": "Hiçbir şey yok!",
+    "search": "Favorilerde ara"
   },
   "auth": {
     "invalid_pin": "Geçersiz pin kod, lütfen kontrol ediniz ve tekrar deneyin.",
