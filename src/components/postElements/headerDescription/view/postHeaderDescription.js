@@ -2,11 +2,9 @@ import React, { PureComponent } from 'react';
 import { View, Text, TouchableOpacity } from 'react-native';
 import { withNavigation } from 'react-navigation';
 
-import FastImage from 'react-native-fast-image';
-
 // Components
 import { Tag, TextWithIcon } from '../../../basicUIElements';
-
+import { UserAvatar } from '../../../userAvatar';
 // Styles
 import styles from './postHeaderDescriptionStyles';
 
@@ -52,18 +50,11 @@ class PostHeaderDescription extends PureComponent {
 
   render() {
     const {
-      avatar, date, isHideImage, name, reputation, size, tag, tagOnPress,
+      date, isHideImage, name, reputation, size, tag, tagOnPress,
     } = this.props;
     const { reblogedBy } = this.state;
 
     const _reputationText = `(${reputation})`;
-    let _avatar;
-
-    if (isHideImage) {
-      _avatar = null;
-    } else {
-      _avatar = avatar && { uri: avatar };
-    }
 
     return (
       <View style={styles.container}>
@@ -71,17 +62,18 @@ class PostHeaderDescription extends PureComponent {
           style={styles.avatarNameWrapper}
           onPress={() => this._handleOnUserPress(name)}
         >
-          {_avatar && (
-            <FastImage
+          {!isHideImage && (
+            <UserAvatar
               style={[styles.avatar, { width: size, height: size, borderRadius: size / 2 }]}
-              source={_avatar}
+              disableSize
+              username={name}
               defaultSource={DEFAULT_IMAGE}
             />
           )}
           <Text style={styles.name}>{name}</Text>
           <Text style={styles.reputation}>{_reputationText}</Text>
         </TouchableOpacity>
-        {tag && (
+        {!!tag && (
           <TouchableOpacity onPress={() => tagOnPress && tagOnPress()}>
             <Tag isPostCardTag isPin value={tag} />
           </TouchableOpacity>

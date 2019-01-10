@@ -119,7 +119,7 @@ class SideMenuView extends Component {
                       isAddAccountIconActive ? 'md-arrow-dropup' : 'ios-add-circle-outline'
                     }
                     color="white"
-                    size={15}
+                    size={20}
                     handleOnPress={() => this._handleOnPressAddAccountIcon()}
                     style={styles.addAccountIcon}
                   />

@@ -68,10 +68,23 @@ class EditorScreen extends Component {
   };
 
   _handleOnSaveButtonPress = () => {
-    const { handleOnSaveButtonPress } = this.props;
+    const { saveDraftToDB } = this.props;
     const { fields } = this.state;
 
-    handleOnSaveButtonPress(fields);
+    saveDraftToDB(fields);
+  };
+
+  _saveCurrentDraft = () => {
+    const { saveCurrentDraft } = this.props;
+    const { fields } = this.state;
+
+    if (this.changeTimer) {
+      clearTimeout(this.changeTimer);
+    }
+
+    this.changeTimer = setTimeout(() => {
+      saveCurrentDraft(fields);
+    }, 300);
   };
 
   _handleOnSubmit = () => {
@@ -117,6 +130,7 @@ class EditorScreen extends Component {
     handleFormChanged();
 
     this._handleIsFormValid();
+    this._saveCurrentDraft();
   };
 
   _handleOnTagAdded = (tags) => {
@@ -132,6 +146,7 @@ class EditorScreen extends Component {
       fields, isPreviewActive, wordsCount, isFormValid,
     } = this.state;
     const {
+      draftPost,
       handleOnImagePicker,
       intl,
       isDraftSaved,
@@ -143,10 +158,10 @@ class EditorScreen extends Component {
       isUploading,
       post,
       uploadedImage,
-      draftPost
+      handleOnBackPress,
     } = this.props;
     const rightButtonText = intl.formatMessage({
-      id: isEdit ? 'basic_header.update' : isReply ? 'basic_header.reply' :  'basic_header.publish',
+      id: isEdit ? 'basic_header.update' : isReply ? 'basic_header.reply' : 'basic_header.publish',
     });
 
     return (
@@ -155,6 +170,7 @@ class EditorScreen extends Component {
           handleOnPressPreviewButton={this._handleOnPressPreviewButton}
           handleOnSaveButtonPress={this._handleOnSaveButtonPress}
           handleOnSubmit={this._handleOnSubmit}
+          handleOnBackPress={handleOnBackPress}
           isDraftSaved={isDraftSaved}
           isDraftSaving={isDraftSaving}
           isFormValid={isFormValid}

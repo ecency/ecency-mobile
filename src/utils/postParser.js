@@ -4,8 +4,7 @@ import { getPostSummary } from './formatter';
 import { getReputation } from './reputation';
 import { getTimeFromNow } from './time';
 
-export const parsePosts = (posts, currentUserName, isSummary) =>
-  !posts ? null : posts.map(post => parsePost(post, currentUserName, isSummary));
+export const parsePosts = (posts, currentUserName, isSummary) => (!posts ? null : posts.map(post => parsePost(post, currentUserName, isSummary)));
 
 export const parsePost = (post, currentUserName, isSummary = false) => {
   if (!post) {
@@ -15,7 +14,6 @@ export const parsePost = (post, currentUserName, isSummary = false) => {
 
   _post.json_metadata = JSON.parse(post.json_metadata);
   _post.image = postImage(post.json_metadata, post.body);
-  _post.created = getTimeFromNow(post.created);
   _post.vote_count = post.active_votes.length;
   _post.author_reputation = getReputation(post.author_reputation);
   _post.avatar = `https://steemitimages.com/u/${post.author}/avatar/small`;
@@ -31,10 +29,9 @@ export const parsePost = (post, currentUserName, isSummary = false) => {
     _post.is_voted = false;
   }
 
-  const totalPayout =
-    parseFloat(_post.pending_payout_value) +
-    parseFloat(_post.total_payout_value) +
-    parseFloat(_post.curator_payout_value);
+  const totalPayout = parseFloat(_post.pending_payout_value)
+    + parseFloat(_post.total_payout_value)
+    + parseFloat(_post.curator_payout_value);
 
   _post.total_payout = totalPayout.toFixed(3);
 
@@ -43,12 +40,10 @@ export const parsePost = (post, currentUserName, isSummary = false) => {
 
   if (_post.active_votes && _post.active_votes.length > 0) {
     for (const i in _post.active_votes) {
-      _post.vote_perecent =
-        post.active_votes[i].voter === currentUserName ? post.active_votes[i].percent : null;
+      _post.vote_perecent = post.active_votes[i].voter === currentUserName ? post.active_votes[i].percent : null;
       _post.active_votes[i].value = (post.active_votes[i].rshares * ratio).toFixed(3);
       _post.active_votes[i].reputation = getReputation(post.active_votes[i].reputation);
       _post.active_votes[i].percent = post.active_votes[i].percent / 100;
-      _post.active_votes[i].created = getTimeFromNow(post.active_votes[i].time);
       _post.active_votes[i].is_down_vote = Math.sign(post.active_votes[i].percent) < 0;
       _post.active_votes[i].avatar = `https://steemitimages.com/u/${
         _post.active_votes[i].voter
@@ -59,8 +54,7 @@ export const parsePost = (post, currentUserName, isSummary = false) => {
   return _post;
 };
 
-const isVoted = (activeVotes, currentUserName) =>
-  activeVotes.some(v => v.voter === currentUserName && v.percent > 0);
+const isVoted = (activeVotes, currentUserName) => activeVotes.some(v => v.voter === currentUserName && v.percent > 0);
 
 const postImage = (metaData, body) => {
   const markdownImageRegex = /!\[[^\]]*\]\((.*?)\s*("(?:.*[^"])")?\s*\)/g;
@@ -89,7 +83,7 @@ const postImage = (metaData, body) => {
   return '';
 };
 
-export const protocolUrl2Obj = url => {
+export const protocolUrl2Obj = (url) => {
   let urlPart = url.split('://')[1];
 
   // remove last char if /
@@ -125,10 +119,9 @@ export const protocolUrl2Obj = url => {
   }
 };
 
-export const parseComments = comments => {
-  comments.map(comment => {
+export const parseComments = (comments) => {
+  comments.map((comment) => {
     comment.pending_payout_value = parseFloat(comment.pending_payout_value).toFixed(3);
-    comment.created = getTimeFromNow(comment.created);
     comment.vote_count = comment.active_votes.length;
     comment.author_reputation = getReputation(comment.author_reputation);
     comment.avatar = `https://steemitimages.com/u/${comment.author}/avatar/small`;

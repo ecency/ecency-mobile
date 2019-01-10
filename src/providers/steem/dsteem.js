@@ -2,7 +2,7 @@ import { Client, PrivateKey } from 'dsteem';
 import steemConnect from 'steemconnect';
 import Config from 'react-native-config';
 
-import { getServer, getPinCode } from '../../realm/realm';
+import { getServer } from '../../realm/realm';
 import { getUnreadActivityCount } from '../esteem/esteem';
 
 // Utils
@@ -198,9 +198,18 @@ export const getIsMuted = async (username, targetUsername) => {
 
 export const ignoreUser = async (currentAccount, pin, data) => {
   const digitPinCode = getDigitPinCode(pin);
+  const key = getAnyPrivateKey(currentAccount.local, digitPinCode);
 
-  if (currentAccount.local.authType === AUTH_TYPE.MASTER_KEY) {
-    const key = decryptKey(currentAccount.local.postingKey, digitPinCode);
+  if (currentAccount.local.authType === AUTH_TYPE.STEEM_CONNECT) {
+    const token = decryptKey(currentAccount.local.accessToken, digitPinCode);
+    const api = steemConnect.Initialize({
+      accessToken: token,
+    });
+
+    return api.ignore(data.follower, data.following);
+  }
+
+  if (key) {
     const privateKey = PrivateKey.fromString(key);
 
     const json = {
@@ -229,14 +238,7 @@ export const ignoreUser = async (currentAccount, pin, data) => {
     });
   }
 
-  if (currentAccount.local.authType === AUTH_TYPE.STEEM_CONNECT) {
-    const token = decryptKey(currentAccount.local.accessToken, digitPinCode);
-    const api = steemConnect.Initialize({
-      accessToken: token,
-    });
-
-    return api.ignore(data.follower, data.following);
-  }
+  return Promise.reject(new Error('You dont have permission!'));
 };
 
 /**
@@ -370,30 +372,7 @@ export const getPostWithComments = async (user, permlink) => {
  */
 export const vote = async (currentAccount, pin, author, permlink, weight) => {
   const digitPinCode = getDigitPinCode(pin);
-
-  if (currentAccount.local.authType === AUTH_TYPE.MASTER_KEY) {
-    const key = decryptKey(currentAccount.local.postingKey, digitPinCode);
-    const privateKey = PrivateKey.fromString(key);
-    const voter = currentAccount.name;
-
-    const args = {
-      voter,
-      author,
-      permlink,
-      weight,
-    };
-
-    return new Promise((resolve, reject) => {
-      client.broadcast
-        .vote(args, privateKey)
-        .then((result) => {
-          resolve(result);
-        })
-        .catch((err) => {
-          reject(err);
-        });
-    });
-  }
+  const key = getAnyPrivateKey(currentAccount.local, digitPinCode);
 
   if (currentAccount.local.authType === AUTH_TYPE.STEEM_CONNECT) {
     const token = decryptKey(currentAccount.local.accessToken, digitPinCode);
@@ -414,6 +393,31 @@ export const vote = async (currentAccount, pin, author, permlink, weight) => {
         });
     });
   }
+
+  if (key) {
+    const privateKey = PrivateKey.fromString(key);
+    const voter = currentAccount.name;
+    const args = {
+      voter,
+      author,
+      permlink,
+      weight,
+    };
+
+    return new Promise((resolve, reject) => {
+      client.broadcast
+        .vote(args, privateKey)
+        .then((result) => {
+          resolve(result);
+        })
+        .catch((err) => {
+          reject(err);
+        });
+    });
+  }
+
+
+  return Promise.reject(new Error('You dont have permission!'));
 };
 
 /**
@@ -455,9 +459,18 @@ export const transferToken = (data, activeKey) => {
 
 export const followUser = async (currentAccount, pin, data) => {
   const digitPinCode = getDigitPinCode(pin);
+  const key = getAnyPrivateKey(currentAccount.local, digitPinCode);
 
-  if (currentAccount.local.authType === AUTH_TYPE.MASTER_KEY) {
-    const key = decryptKey(currentAccount.local.postingKey, digitPinCode);
+  if (currentAccount.local.authType === AUTH_TYPE.STEEM_CONNECT) {
+    const token = decryptKey(currentAccount.local.accessToken, digitPinCode);
+    const api = steemConnect.Initialize({
+      accessToken: token,
+    });
+    
+    return api.follow(data.follower, data.following);
+  }
+
+  if (key) {
     const privateKey = PrivateKey.fromString(key);
     const json = {
       id: 'follow',
@@ -484,21 +497,24 @@ export const followUser = async (currentAccount, pin, data) => {
         });
     });
   }
+
+  return Promise.reject(new Error('You dont have permission!'));
+};
+
+export const unfollowUser = async (currentAccount, pin, data) => {
+  const digitPinCode = getDigitPinCode(pin);
+  const key = getAnyPrivateKey(currentAccount.local, digitPinCode);
+
   if (currentAccount.local.authType === AUTH_TYPE.STEEM_CONNECT) {
     const token = decryptKey(currentAccount.local.accessToken, digitPinCode);
     const api = steemConnect.Initialize({
       accessToken: token,
     });
 
-    return api.follow(data.follower, data.following);
+    return api.unfollow(data.follower, data.following);
   }
-};
 
-export const unfollowUser = async (currentAccount, pin, data) => {
-  const digitPinCode = getDigitPinCode(pin);
-
-  if (currentAccount.local.authType === AUTH_TYPE.MASTER_KEY) {
-    const key = decryptKey(currentAccount.local.postingKey, digitPinCode);
+  if (key) {
     const privateKey = PrivateKey.fromString(key);
 
     const json = {
@@ -526,14 +542,8 @@ export const unfollowUser = async (currentAccount, pin, data) => {
         });
     });
   }
-  if (currentAccount.local.authType === AUTH_TYPE.STEEM_CONNECT) {
-    const token = decryptKey(currentAccount.local.accessToken, digitPinCode);
-    const api = steemConnect.Initialize({
-      accessToken: token,
-    });
 
-    return api.unfollow(data.follower, data.following);
-  }
+  return Promise.reject(new Error('You dont have permission!'));
 };
 
 export const delegate = (data, activeKey) => {
@@ -642,55 +652,7 @@ export const postContent = async (
 ) => {
   const { name: author } = account;
   const digitPinCode = getDigitPinCode(pin);
-
-  if (account.local.authType === AUTH_TYPE.MASTER_KEY) {
-    const opArray = [
-      [
-        'comment',
-        {
-          parent_author: parentAuthor,
-          parent_permlink: parentPermlink,
-          author,
-          permlink,
-          title,
-          body,
-          json_metadata: JSON.stringify(jsonMetadata),
-        },
-      ],
-    ];
-
-    if (options) {
-      const e = ['comment_options', options];
-      opArray.push(e);
-    }
-
-    if (voteWeight) {
-      const e = [
-        'vote',
-        {
-          voter: author,
-          author,
-          permlink,
-          weight: voteWeight,
-        },
-      ];
-      opArray.push(e);
-    }
-
-    const key = decryptKey(account.local.postingKey, digitPinCode);
-    const privateKey = PrivateKey.fromString(key);
-
-    return new Promise((resolve, reject) => {
-      client.broadcast
-        .sendOperations(opArray, privateKey)
-        .then((result) => {
-          resolve(result);
-        })
-        .catch((error) => {
-          reject(error);
-        });
-    });
-  }
+  const key = getAnyPrivateKey(account.local, digitPinCode);
 
   if (account.local.authType === AUTH_TYPE.STEEM_CONNECT) {
     const token = decryptKey(account.local.accessToken, digitPinCode);
@@ -730,14 +692,75 @@ export const postContent = async (
 
     return api.broadcast(opArray);
   }
+
+  if (key) {
+    const opArray = [
+      [
+        'comment',
+        {
+          parent_author: parentAuthor,
+          parent_permlink: parentPermlink,
+          author,
+          permlink,
+          title,
+          body,
+          json_metadata: JSON.stringify(jsonMetadata),
+        },
+      ],
+    ];
+
+    if (options) {
+      const e = ['comment_options', options];
+      opArray.push(e);
+    }
+
+    if (voteWeight) {
+      const e = [
+        'vote',
+        {
+          voter: author,
+          author,
+          permlink,
+          weight: voteWeight,
+        },
+      ];
+      opArray.push(e);
+    }
+
+    const privateKey = PrivateKey.fromString(key);
+
+    return new Promise((resolve, reject) => {
+      client.broadcast
+        .sendOperations(opArray, privateKey)
+        .then((result) => {
+          resolve(result);
+        })
+        .catch((error) => {
+          reject(error);
+        });
+    });
+  }
+
+  return Promise.reject(new Error('You dont have permission!'));
 };
 
 // Re-blog
 export const reblog = async (account, pinCode, author, permlink) => {
   const pin = getDigitPinCode(pinCode);
+  const key = getAnyPrivateKey(account.local, pin);
 
-  if (account.local.authType === AUTH_TYPE.MASTER_KEY) {
-    const key = decryptKey(account.local.postingKey, pin);
+  if (account.local.authType === AUTH_TYPE.STEEM_CONNECT) {
+    const token = decryptKey(account.local.accessToken, pin);
+    const api = steemConnect.Initialize({
+      accessToken: token,
+    });
+
+    const follower = account.name;
+
+    return api.reblog(follower, author, permlink);
+  }
+
+  if (key) {
     const privateKey = PrivateKey.fromString(key);
     const follower = account.name;
 
@@ -758,14 +781,64 @@ export const reblog = async (account, pinCode, author, permlink) => {
     return client.broadcast.json(json, privateKey);
   }
 
+  return Promise.reject(new Error('You dont have permission!'));
+};
+
+export const claimRewardBalance = (account, pinCode, rewardSteem, rewardSbd, rewardVests) => {
+  const pin = getDigitPinCode(pinCode);
+  const key = getAnyPrivateKey(account.local, pin);
+
   if (account.local.authType === AUTH_TYPE.STEEM_CONNECT) {
     const token = decryptKey(account.local.accessToken, pin);
     const api = steemConnect.Initialize({
       accessToken: token,
     });
 
-    const follower = account.name;
-
-    return api.reblog(follower, author, permlink);
+    return api.claimRewardBalance(account.name, rewardSteem, rewardSbd, rewardVests);
   }
+
+  if (key) {
+    const privateKey = PrivateKey.fromString(key);
+
+    const opArray = [
+      [
+        'claim_reward_balance',
+        {
+          account: account.name,
+          reward_steem: rewardSteem,
+          reward_sbd: rewardSbd,
+          reward_vests: rewardVests,
+        },
+      ],
+    ];
+
+    return client.broadcast.sendOperations(opArray, privateKey);
+  }
+
+  return Promise.reject(new Error('You dont have permission!'));
+};
+
+const getAnyPrivateKey = (local, pin) => {
+  const { postingKey, activeKey } = local;
+
+  if (postingKey) {
+    return decryptKey(local.postingKey, pin);
+  }
+
+  if (activeKey) {
+    return decryptKey(local.postingKey, pin);
+  }
+
+  return false;
+
+  // ['postingKey', 'activeKey'].forEach((key) => {
+  //   console.log('key :', key);
+  //   console.log('pin :', pin);
+  //   console.log('local[key] :', local[key]);
+  //   if (key) {
+  //     const privateKey = decryptKey(local[key], pin);
+  //     console.log('privateKey :', privateKey);
+  //     return true;
+  //   }
+  // });
 };

@@ -1,5 +1,6 @@
 import React, { PureComponent, Fragment } from 'react';
 import { View, FlatList } from 'react-native';
+import { injectIntl } from 'react-intl';
 
 // Constants
 
@@ -43,6 +44,7 @@ class CommentsView extends PureComponent {
       isProfilePreview,
       marginLeft,
       fetchPost,
+      intl,
     } = this.props;
 
     return (
@@ -55,10 +57,9 @@ class CommentsView extends PureComponent {
               <View key={index}>
                 <PostHeaderDescription
                   key={item.permlink}
-                  date={item.created}
+                  date={intl.formatRelative(item.created)}
                   name={item.author}
                   reputation={item.author_reputation}
-                  avatar={item.avatar}
                   size={avatarSize || 24}
                 />
                 <View
@@ -74,14 +75,16 @@ class CommentsView extends PureComponent {
                       <Fragment>
                         <Upvote isShowPayoutValue content={item} />
                         <IconButton
+                          size={18}
                           iconStyle={{ color: '#c1c5c7' }}
-                          style={{ marginLeft: 20 }}
+                          style={{ marginLeft: 10 }}
                           name="reply"
                           onPress={() => handleOnReplyPress && handleOnReplyPress(item)}
                           iconType="MaterialIcons"
                         />
                         {currentAccountUsername === item.author && (
                           <IconButton
+                            size={18}
                             iconStyle={{ color: '#c1c5c7' }}
                             style={{ marginLeft: 10 }}
                             name="create"
@@ -117,4 +120,4 @@ class CommentsView extends PureComponent {
   }
 }
 
-export default CommentsView;
+export default injectIntl(CommentsView);

@@ -4,7 +4,7 @@ export default EStyleSheet.create({
   wrapper: {
     flexDirection: 'column',
     backgroundColor: '$primaryBackgroundColor',
-    shadowOpacity: 0.8,
+    shadowOpacity: 0.2,
     shadowColor: '#e7e7e7',
     paddingHorizontal: 8,
     paddingVertical: 8,
