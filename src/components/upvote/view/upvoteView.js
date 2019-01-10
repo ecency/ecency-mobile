@@ -134,7 +134,7 @@ class UpvoteView extends Component {
 
     const _percent = `${(sliderValue * 100).toFixed(0)}%`;
     const _amount = `$${amount}`;
-    const _totalPayout = totalPayout ? totalPayout : '0.000';
+    const _totalPayout = totalPayout || '0.000';
 
     return (
       <PopoverController>

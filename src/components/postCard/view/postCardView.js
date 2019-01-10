@@ -1,6 +1,9 @@
 import React, { Component } from 'react';
 import { TouchableOpacity, Text, View } from 'react-native';
 import FastImage from 'react-native-fast-image';
+import { injectIntl } from 'react-intl';
+
+// Components
 import { PostHeaderDescription } from '../../postElements';
 import { PostDropdown } from '../../postDropdown';
 import { Icon } from '../../icon';
@@ -13,7 +16,7 @@ import styles from './postCardStyles';
 // Defaults
 import DEFAULT_IMAGE from '../../../assets/no_image.png';
 
-class PostCard extends Component {
+class PostCardView extends Component {
   /* Props
    * ------------------------------------------------
    *   @prop { string }     description       - Description texts.
@@ -50,12 +53,8 @@ class PostCard extends Component {
     handleOnVotersPress(content.active_votes);
   };
 
-  _handleOnDropdownSelect = () => {
-    // alert('This feature implementing...');
-  };
-
   render() {
-    const { content, isHideImage, fetchPost } = this.props;
+    const { content, isHideImage, fetchPost, intl } = this.props;
     const _image = content && content.image
       ? { uri: content.image, priority: FastImage.priority.high }
       : DEFAULT_IMAGE;
@@ -65,8 +64,7 @@ class PostCard extends Component {
       <View style={styles.post}>
         <View style={styles.bodyHeader}>
           <PostHeaderDescription
-            avatar={content && content.avatar}
-            date={content.created}
+            date={intl.formatRelative(content.created)}
             isHideImage={isHideImage}
             name={content.author}
             profileOnPress={this._handleOnUserPress}
@@ -85,7 +83,7 @@ class PostCard extends Component {
             onPress={() => this._handleOnContentPress()}
           >
             {!isHideImage && (
-              <FastImage source={_image} style={styles.image} defaultSource={DEFAULT_IMAGE} />
+              <FastImage source={_image} style={styles.thumbnail} defaultSource={DEFAULT_IMAGE} />
             )}
             <View style={[styles.postDescripton]}>
               <Text style={styles.title}>{content.title}</Text>
@@ -118,4 +116,4 @@ class PostCard extends Component {
   }
 }
 
-export default PostCard;
+export default injectIntl(PostCardView);

@@ -5,6 +5,7 @@ const MODAL_SUFFIX = 'Modal';
 
 export default {
   SCREENS: {
+    DRAFTS: `Drafts${SCREEN_SUFFIX}`,
     EDITOR: `Editor${SCREEN_SUFFIX}`,
     FOLLOWS: `Follows${SCREEN_SUFFIX}`,
     HOME: `Home${SCREEN_SUFFIX}`,

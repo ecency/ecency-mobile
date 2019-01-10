@@ -99,7 +99,7 @@ class NumericKeyboard extends PureComponent {
             isCircle
             buttonStyle={styles.buttonWithoutBorder}
             style={styles.iconButton}
-            name="arrow-round-back"
+            name="backspace"
           />
         </View>
       </View>

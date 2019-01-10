@@ -27,20 +27,30 @@ class UserAvatarView extends Component {
   // Component Functions
 
   render() {
-    const { username, size, style } = this.props;
+    const {
+      username, size, style, disableSize,
+    } = this.props;
     const imageSize = size === 'xl' ? 'large' : 'small';
+    let _size;
     const _avatar = username
       ? { uri: `https://steemitimages.com/u/${username}/avatar/${imageSize}` }
       : DEFAULT_IMAGE;
-    let _size = 32;
 
-    if (size === 'xl') {
-      _size = 64;
+    if (!disableSize) {
+      _size = 32;
+
+      if (size === 'xl') {
+        _size = 64;
+      }
     }
 
     return (
       <FastImage
-        style={[styles.avatar, style, { width: _size, height: _size, borderRadius: _size / 2 }]}
+        style={[
+          styles.avatar,
+          style,
+          !disableSize && { width: _size, height: _size, borderRadius: _size / 2 },
+        ]}
         source={_avatar}
       />
     );
