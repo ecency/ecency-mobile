@@ -7,7 +7,7 @@ export default EStyleSheet.create({
     justifyContent: 'center',
   },
   tabs: {
-    height: 50,
+    height: 40,
     flexDirection: 'row',
     justifyContent: 'space-around',
   },

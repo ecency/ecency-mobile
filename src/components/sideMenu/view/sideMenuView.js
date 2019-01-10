@@ -104,6 +104,7 @@ class SideMenuView extends Component {
                   username={currentAccount.username}
                   size="xl"
                   style={styles.userAvatar}
+                  noAction
                 />
                 <View style={styles.userInfoWrapper}>
                   {currentAccount.display_name && (
@@ -148,7 +149,7 @@ class SideMenuView extends Component {
                     />
                   )}
                   {item.item.username && (
-                    <UserAvatar username={item.item.username} style={styles.otherUserAvatar} />
+                    <UserAvatar noAction username={item.item.username} style={styles.otherUserAvatar} />
                   )}
                   <Text style={styles.listItemText}>
                     {isAddAccountIconActive

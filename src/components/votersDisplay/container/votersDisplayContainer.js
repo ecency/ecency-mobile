@@ -25,24 +25,9 @@ class VotersDisplayContainer extends PureComponent {
     this.state = {};
   }
 
-  // Component Life Cycle Functions
-
-  // Component Functions
-  _handleOnUserPress = (username) => {
-    const { navigation } = this.props;
-
-    navigation.navigate({
-      routeName: ROUTES.SCREENS.PROFILE,
-      params: {
-        username,
-      },
-      key: username,
-    });
-  };
-
   render() {
-    return <VotersDisplayView handleOnUserPress={this._handleOnUserPress} {...this.props} />;
+    return <VotersDisplayView {...this.props} />;
   }
 }
 
-export default withNavigation(VotersDisplayContainer);
+export default VotersDisplayContainer;

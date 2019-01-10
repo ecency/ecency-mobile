@@ -5,10 +5,6 @@ export default EStyleSheet.create({
     flex: 1,
     backgroundColor: '$primaryLightBackground',
   },
-  tabView: {
-    alignSelf: 'center',
-    backgroundColor: 'transparent',
-  },
   tabbar: {
     alignSelf: 'center',
     height: 40,

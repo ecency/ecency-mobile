@@ -65,4 +65,9 @@ export default EStyleSheet.create({
     marginTop: 20,
     fontWeight: '500',
   },
+  tabView: {
+    alignSelf: 'center',
+    backgroundColor: '$primaryBackgroundColor',
+    flex: 1,
+  },
 });

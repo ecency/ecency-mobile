@@ -24,6 +24,7 @@ import { getRcPower, getVotingPower } from '../../../utils/manaBar';
 
 // Styles
 import styles from './profileStyles';
+import globalStyles from '../../../globalStyles';
 
 class ProfileScreen extends PureComponent {
   constructor(props) {
@@ -146,7 +147,7 @@ class ProfileScreen extends PureComponent {
           )}
 
           <ScrollableTabView
-            style={styles.tabView}
+            style={globalStyles.tabView}
             renderTabBar={() => (
               <TabBar style={styles.tabbar} tabUnderlineDefaultWidth={80} tabUnderlineScaleX={2} />
             )}

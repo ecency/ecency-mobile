@@ -7,31 +7,18 @@ const authMenuItems = [
     icon: 'perm-identity',
     id: 'profile',
   },
-  // These are not ready yet!
-  // {
-  //   name: 'Bookmarks',
-  //   route: 'bookmarks',
-  //   icon: 'star-border',
-  //   id: 'bookmarks',
-  // },
-  // {
-  //   name: 'Favorites',
-  //   route: 'favorites',
-  //   icon: 'favorite-border',
-  //   id: 'favorites',
-  // },
+  {
+    name: 'Bookmarks',
+    route: ROUTES.SCREENS.BOOKMARKS,
+    icon: 'star-border',
+    id: 'bookmarks',
+  },
   {
     name: 'Drafts',
     route: ROUTES.SCREENS.DRAFTS,
     icon: 'insert-drive-file',
     id: 'drafts',
   },
-  // {
-  //   name: 'Schedules',
-  //   route: 'schedules',
-  //   icon: 'schedule',
-  //   id: 'schedules',
-  // },
   // {
   //   name: 'Gallery',
   //   route: 'galery',

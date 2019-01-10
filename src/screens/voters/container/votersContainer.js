@@ -1,13 +1,5 @@
 import React, { PureComponent } from 'react';
 
-// Services and Actions
-
-// Middleware
-
-// Constants
-
-// Utilities
-
 // Component
 import VotersScreen from '../screen/votersScreen';
 
