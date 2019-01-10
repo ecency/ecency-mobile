@@ -105,18 +105,6 @@ class FollowsContainer extends Component {
     });
   };
 
-  _handleOnUserPress = (username) => {
-    const { navigation } = this.props;
-
-    navigation.navigate({
-      routeName: ROUTES.SCREENS.PROFILE,
-      params: {
-        username,
-      },
-      key: username,
-    });
-  };
-
   render() {
     const {
       isFollowingPress, users, isLoading, count, username, filterResult,
@@ -132,7 +120,6 @@ class FollowsContainer extends Component {
         count={count}
         isLoading={isLoading}
         handleSearch={this._handleSearch}
-        handleOnUserPress={this._handleOnUserPress}
       />
     );
   }

@@ -3,22 +3,16 @@ import { injectIntl } from 'react-intl';
 import { View, FlatList, Text } from 'react-native';
 import ScrollableTabView from '@esteemapp/react-native-scrollable-tab-view';
 
-// Utils
-import { getPostSummary } from '../../../utils/formatter';
-import { catchDraftImage } from '../../../utils/image';
-// Constants
-
 // Components
 import { BasicHeader } from '../../../components/basicHeader';
-import { PostListItem } from '../../../components/postListItem';
-import { PostCardPlaceHolder } from '../../../components/basicUIElements';
+import { PostCardPlaceHolder, UserListItem } from '../../../components/basicUIElements';
 import { TabBar } from '../../../components/tabBar';
 
 // Styles
 import globalStyles from '../../../globalStyles';
-import styles from './draftStyles';
+import styles from './bookmarksStyles';
 
-class DraftsScreen extends Component {
+class BookmarksScreen extends Component {
   /* Props
    * ------------------------------------------------
    *   @prop { type }    name                - Description....
@@ -33,25 +27,15 @@ class DraftsScreen extends Component {
 
   // Component Functions
 
-  _renderItem = (item) => {
-    const { currentAccount, removeDraft, editDraft } = this.props;
-    const tags = item.tags ? item.tags.split(/[ ,]+/) : [];
-    const tag = tags[0] || '';
-    const image = catchDraftImage(item.body);
-    const summary = getPostSummary(item.body, 100);
+  _renderItem = (item, index) => {
+    const { currentAccount } = this.props;
 
     return (
-      <PostListItem
-        created={item.created}
-        mainTag={tag}
-        title={item.title}
-        summary={summary}
-        image={image ? { uri: catchDraftImage(item.body) } : null}
-        username={currentAccount.name}
-        reputation={currentAccount.reputation}
-        handleOnPressItem={editDraft}
-        handleOnRemoveItem={removeDraft}
-        id={item._id}
+      <UserListItem
+        index={index}
+        username={item.account}
+        rightText="bok"
+        subRightText="bok"
       />
     );
   };
@@ -61,11 +45,11 @@ class DraftsScreen extends Component {
     const isNoItem = (data && data.length === 0) || !data;
 
     return (
-      <View style={globalStyles.lightContainer}>
+      <View style={styles.container}>
         {isNoItem && !isLoading && (
           <Text style={globalStyles.hintText}>
             {intl.formatMessage({
-              id: 'drafts.empty_list',
+              id: 'bookmarks.empty_list',
             })}
           </Text>
         )}
@@ -80,7 +64,7 @@ class DraftsScreen extends Component {
               data={data}
               keyExtractor={item => item._id}
               removeClippedSubviews={false}
-              renderItem={({ item }) => this._renderItem(item)}
+              renderItem={({ item, index }) => this._renderItem(item, index)}
             />
           )
         )}
@@ -89,13 +73,13 @@ class DraftsScreen extends Component {
   };
 
   render() {
-    const { drafts, schedules, intl } = this.props;
+    const { favorites, bookmarks, intl } = this.props;
 
     return (
       <View style={globalStyles.container}>
         <BasicHeader
           title={intl.formatMessage({
-            id: 'drafts.title',
+            id: 'bookmarks.title',
           })}
         />
 
@@ -112,19 +96,19 @@ class DraftsScreen extends Component {
         >
           <View
             tabLabel={intl.formatMessage({
-              id: 'drafts.title',
+              id: 'bookmarks.title',
             })}
             style={styles.tabbarItem}
           >
-            {this._getTabItem(drafts, 'drafts')}
+            {this._getTabItem(favorites, 'bookmarks')}
           </View>
           <View
             tabLabel={intl.formatMessage({
-              id: 'schedules.title',
+              id: 'favorites.title',
             })}
             style={styles.tabbarItem}
           >
-            {this._getTabItem(schedules, 'schedules')}
+            {this._getTabItem(bookmarks, 'favorites')}
           </View>
         </ScrollableTabView>
       </View>
@@ -132,4 +116,4 @@ class DraftsScreen extends Component {
   }
 }
 
-export default injectIntl(DraftsScreen);
+export default injectIntl(BookmarksScreen);

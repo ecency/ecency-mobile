@@ -3,16 +3,16 @@ import { View } from 'react-native';
 import ScrollableTabView from '@esteemapp/react-native-scrollable-tab-view';
 import { injectIntl } from 'react-intl';
 
-// Styles
-import styles from './notificationStyles';
 // Components
 import { TabBar } from '../../../components/tabBar';
 import { Notification } from '../../../components/notification';
 import { Header } from '../../../components/header';
 import { NoPost } from '../../../components/basicUIElements';
+import { LeaderBoard } from '../../../components/leaderboard';
 
 // Styles
-import { LeaderBoard } from '../../../components/leaderboard';
+import styles from './notificationStyles';
+import globalStyles from '../../../globalStyles';
 
 class NotificationScreen extends PureComponent {
   constructor(props) {
@@ -34,7 +34,7 @@ class NotificationScreen extends PureComponent {
       <View style={styles.container}>
         <Header />
         <ScrollableTabView
-          style={styles.tabView}
+          style={globalStyles.tabView}
           renderTabBar={() => (
             <TabBar style={styles.tabbar} tabUnderlineDefaultWidth={100} tabUnderlineScaleX={2} />
           )}
