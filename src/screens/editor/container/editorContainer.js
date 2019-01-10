@@ -69,7 +69,7 @@ class EditorContainer extends Component {
         _draft = navigationParams.draft;
 
         this.setState({
-          draftPost: { title: _draft.title, body: _draft.body, tags: _draft.tags.split(',') },
+          draftPost: { title: _draft.title, body: _draft.body, tags: _draft.tags.split(' ') },
           draftId: _draft._id,
           isDraft: true,
         });
@@ -239,7 +239,7 @@ class EditorContainer extends Component {
       this.setState({ isDraftSaving: true });
       const draftField = {
         ...fields,
-        tags: fields.tags.toString(),
+        tags: fields.tags.join(' '),
         username,
       };
 
