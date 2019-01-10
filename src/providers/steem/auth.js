@@ -28,11 +28,11 @@ export const login = async (username, password) => {
   // Get user account data from STEEM Blockchain
   const account = await getUser(username);
   if (!account) {
-    return Promise.reject(new Error('Invalid pin code, please check and try again'));
+    return Promise.reject(new Error('auth.invalid_username'));
   }
   if (isLoggedInUser(username)) {
     return Promise.reject(
-      new Error('You are already logged in, please try to add another account'),
+      new Error('auth.already_logged'),
     );
   }
   // Public keys of user
@@ -89,7 +89,7 @@ export const login = async (username, password) => {
     await updateCurrentUsername(account.name);
     return { ...account, password };
   }
-  return Promise.reject(new Error('Invalid pin code, please check and try again'));
+  return Promise.reject(new Error('auth.invalid_pin'));
 };
 
 export const loginWithSC2 = async (code) => {
@@ -105,7 +105,7 @@ export const loginWithSC2 = async (code) => {
         avatar = jsonMetadata.profile.profile_image || '';
       }
     } catch (error) {
-      reject(new Error('Invalid credentials, please check and try again'));
+      reject(new Error('auth.invalid_credentials'));
     }
     const userData = {
       username: account.account.name,
@@ -119,7 +119,7 @@ export const loginWithSC2 = async (code) => {
     };
 
     if (isLoggedInUser(account.account.name)) {
-      reject(new Error('You are already logged in, please try to add another account'));
+      reject(new Error('auth.already_logged'));
     }
 
     setUserData(userData)
@@ -151,7 +151,7 @@ export const setUserDataWithPinCode = async (data) => {
 
     return updatedUserData;
   } catch (error) {
-    return Promise.reject(new Error('Unknown error, please contact to eSteem.'));
+    return Promise.reject(new Error('auth.unknow_error'));
   }
 };
 
@@ -173,7 +173,7 @@ export const updatePinCode = async (data) => {
     }
     return false;
   } catch (error) {
-    return Promise.reject(new Error('Unknown error, please contact to eSteem.'));
+    return Promise.reject(new Error('auth.unknow_error'));
   }
 };
 
@@ -198,7 +198,7 @@ export const verifyPinCode = async (data) => {
   }
 
   if (sha256(data.pinCode).toString() !== pinHash) {
-    return Promise.reject(new Error('Invalid pin code, please check and try again'));
+    return Promise.reject(new Error('auth.invalid_pin'));
   }
 
   if (result.length > 0) {
@@ -229,11 +229,11 @@ export const switchAccount = username => new Promise((resolve, reject) => {
           resolve(account);
         })
         .catch(() => {
-          reject(new Error('Unknown error, please contact to eSteem.'));
+          reject(new Error('auth.unknow_error'));
         });
     })
     .catch(() => {
-      reject(new Error('Unknown error, please contact to eSteem.'));
+      reject(new Error('auth.unknow_error'));
     });
 });
 

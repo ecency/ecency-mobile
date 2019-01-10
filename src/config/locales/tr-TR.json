@@ -166,6 +166,13 @@
     "load_error": "Favoriler yüklenemedi",
     "empty_list": "Hiçbir şey yok!",
     "search": "Favorilerde ara"
+  },
+  "auth": {
+    "invalid_pin": "Geçersiz pin kod, lütfen kontrol ediniz ve tekrar deneyin.",
+    "invalid_username": "Geçersiz kullanıcı adı, lütfen kontrol ediniz ve tekrar deneyin.",
+    "already_logged": "Bu kullanıcı ile giriş yaptınız, lütfen farklı bir kullanıcı bilgileri ile giriş yapınız.",
+    "invalid_credentials": "Geçersiz pin kod, lütfen kontrol ediniz ve tekrar deneyin.",
+    "unknow_error": "Bilinmeyen hata, lütfen eSteem ile iletişime geçiniz"
   }
 }
 
