@@ -18,6 +18,9 @@ import { encryptKey, decryptKey } from '../../utils/crypto';
 import steemConnect from './steemConnectAPI';
 import { getSCAccessToken } from '../esteem/esteem';
 
+// Constants
+import AUTH_TYPE from '../../constants/authType';
+
 export const login = async (username, password) => {
   let loginFlag = false;
   let avatar = '';
@@ -47,7 +50,7 @@ export const login = async (username, password) => {
   Object.keys(publicKeys).map((pubKey) => {
     if (publicKeys[pubKey] === privateKeys[pubKey].createPublic().toString()) {
       loginFlag = true;
-      if (privateKeys.isMasterKey) authType = 'masterKey';
+      if (privateKeys.isMasterKey) authType = AUTH_TYPE.MASTER_KEY;
       else authType = pubKey;
     }
   });
@@ -107,7 +110,7 @@ export const loginWithSC2 = async (code) => {
     const userData = {
       username: account.account.name,
       avatar,
-      authType: 'steemConnect',
+      authType: AUTH_TYPE.STEEM_CONNECT,
       masterKey: '',
       postingKey: '',
       activeKey: '',
@@ -121,7 +124,6 @@ export const loginWithSC2 = async (code) => {
 
     setUserData(userData)
       .then(async () => {
-        account.account.username = account.account.name;
         updateCurrentUsername(account.account.name);
         const authData = {
           isLoggedIn: true,
@@ -157,11 +159,11 @@ export const updatePinCode = async (data) => {
   try {
     await setPinCode(data.pinCode);
     const users = await getUserData();
-    if (users.length > 0) {
+    if (users && users.length > 0) {
       users.forEach(async (userData) => {
-        if (userData.authType === 'masterKey') {
+        if (userData.authType === AUTH_TYPE.MASTER_KEY) {
           data.password = decryptKey(userData.masterKey, data.oldPinCode);
-        } else if (userData.authType === 'steemConnect') {
+        } else if (userData.authType === AUTH_TYPE.STEEM_CONNECT) {
           data.accessToken = decryptKey(userData.accessToken, data.oldPinCode);
         }
         const updatedUserData = getUpdatedUserData(userData, data);
@@ -184,7 +186,7 @@ export const verifyPinCode = async (data) => {
   // This is migration for new pin structure, it will remove v2.2
   if (!pinHash) {
     try {
-      if (userData.authType === 'steemConnect') {
+      if (userData.authType === AUTH_TYPE.STEEM_CONNECT) {
         decryptKey(userData.accessToken, data.pinCode);
       } else {
         decryptKey(userData.masterKey, data.pinCode);
@@ -200,7 +202,7 @@ export const verifyPinCode = async (data) => {
   }
 
   if (result.length > 0) {
-    if (userData.authType === 'steemConnect') {
+    if (userData.authType === AUTH_TYPE.STEEM_CONNECT) {
       await refreshSCToken(userData, data.pinCode);
     }
   }
@@ -261,23 +263,23 @@ export const getUpdatedUserData = (userData, data) => {
     username: userData.username,
     authType: userData.authType,
     accessToken:
-    userData.authType === 'steemConnect'
+    userData.authType === AUTH_TYPE.STEEM_CONNECT
       ? encryptKey(data.accessToken, data.pinCode)
       : '',
     masterKey:
-    userData.authType === 'masterKey'
+    userData.authType === AUTH_TYPE.MASTER_KEY
       ? encryptKey(data.password, data.pinCode)
       : '',
     postingKey:
-    userData.authType === 'masterKey' || userData.authType === 'postingKey'
+    userData.authType === AUTH_TYPE.MASTER_KEY || userData.authType === AUTH_TYPE.POSTING_KEY
       ? encryptKey(privateKeys.postingKey.toString(), data.pinCode)
       : '',
     activeKey:
-    userData.authType === 'masterKey' || userData.authType === 'activeKey'
+    userData.authType === AUTH_TYPE.MASTER_KEY || userData.authType === AUTH_TYPE.ACTIVE_KEY
       ? encryptKey(privateKeys.activeKey.toString(), data.pinCode)
       : '',
     memoKey:
-    userData.authType === 'masterKey' || userData.authType === 'memoKey'
+    userData.authType === AUTH_TYPE.MASTER_KEY || userData.authType === AUTH_TYPE.MEMO_KEY
       ? encryptKey(privateKeys.memoKey.toString(), data.pinCode)
       : '',
   };
