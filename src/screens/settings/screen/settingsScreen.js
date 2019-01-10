@@ -37,6 +37,7 @@ class SettingsScreen extends PureComponent {
       isDarkTheme,
       serverList,
       intl,
+      isLoggedIn,
     } = this.props;
 
     return (
@@ -97,17 +98,19 @@ class SettingsScreen extends PureComponent {
             isOn={isNotificationOpen}
             handleOnChange={handleOnChange}
           />
-          <SettingsItem
-            title={intl.formatMessage({
-              id: 'settings.pincode',
-            })}
-            text={intl.formatMessage({
-              id: 'settings.reset',
-            })}
-            type="button"
-            actionType="pincode"
-            handleOnChange={handleOnChange}
-          />
+          {!!isLoggedIn && (
+            <SettingsItem
+              title={intl.formatMessage({
+                id: 'settings.pincode',
+              })}
+              text={intl.formatMessage({
+                id: 'settings.reset',
+              })}
+              type="button"
+              actionType="pincode"
+              handleOnChange={handleOnChange}
+            />
+          )}
         </ScrollView>
       </View>
     );
