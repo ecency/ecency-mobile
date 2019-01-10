@@ -236,6 +236,8 @@ export const ignoreUser = async (currentAccount, pin, data) => {
 
     return api.ignore(data.follower, data.following);
   }
+
+  return Promise.reject(new Error('You dont have permission!'));
 };
 
 /**
@@ -370,11 +372,9 @@ export const getPostWithComments = async (user, permlink) => {
 export const vote = async (currentAccount, pin, author, permlink, weight) => {
   const digitPinCode = getDigitPinCode(pin);
   const key = getAnyPrivateKey(currentAccount.local, digitPinCode);
-
   if (currentAccount.local.authType !== AUTH_TYPE.STEEM_CONNECT && key) {
     const privateKey = PrivateKey.fromString(key);
     const voter = currentAccount.name;
-
     const args = {
       voter,
       author,
@@ -413,6 +413,7 @@ export const vote = async (currentAccount, pin, author, permlink, weight) => {
         });
     });
   }
+  return Promise.reject(new Error('You dont have permission!'));
 };
 
 /**
@@ -490,6 +491,8 @@ export const followUser = async (currentAccount, pin, data) => {
 
     return api.follow(data.follower, data.following);
   }
+
+  return Promise.reject(new Error('You dont have permission!'));
 };
 
 export const unfollowUser = async (currentAccount, pin, data) => {
@@ -531,6 +534,8 @@ export const unfollowUser = async (currentAccount, pin, data) => {
 
     return api.unfollow(data.follower, data.following);
   }
+
+  return Promise.reject(new Error('You dont have permission!'));
 };
 
 export const delegate = (data, activeKey) => {
@@ -726,6 +731,8 @@ export const postContent = async (
 
     return api.broadcast(opArray);
   }
+
+  return Promise.reject(new Error('You dont have permission!'));
 };
 
 // Re-blog
@@ -763,6 +770,7 @@ export const reblog = async (account, pinCode, author, permlink) => {
 
     return api.reblog(follower, author, permlink);
   }
+  return Promise.reject(new Error('You dont have permission!'));
 };
 
 export const claimRewardBalance = (
@@ -805,8 +813,9 @@ export const claimRewardBalance = (
       rewardVests,
     );
   }
+  return Promise.reject(new Error('You dont have permission!'));
 };
-const getAnyPrivateKey = async (local, pin) => {
+const getAnyPrivateKey = (local, pin) => {
 
   if (local.postingKey) {
     return decryptKey(local.postingKey, pin);
