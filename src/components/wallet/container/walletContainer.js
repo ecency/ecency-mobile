@@ -109,7 +109,7 @@ class WalletContainer extends Component {
   };
 
   render() {
-    const { currentAccount, selectedUser } = this.props;
+    const { currentAccount, selectedUser, isDarkTheme } = this.props;
     const { walletData, claiming, isRefreshing } = this.state;
 
     return (
@@ -121,6 +121,7 @@ class WalletContainer extends Component {
         claiming={claiming}
         handleOnWalletRefresh={this._handleOnWalletRefresh}
         isRefreshing={isRefreshing}
+        isDarkTheme={isDarkTheme}
       />
     );
   }
@@ -129,6 +130,7 @@ class WalletContainer extends Component {
 const mapStateToProps = state => ({
   currentAccount: state.account.currentAccount,
   pinCode: state.account.pin,
+  isDarkTheme: state.application.isDarkTheme,
 });
 
 export default injectIntl(connect(mapStateToProps)(WalletContainer));
