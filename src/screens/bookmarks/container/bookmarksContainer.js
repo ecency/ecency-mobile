@@ -44,12 +44,10 @@ class DraftsContainer extends Component {
 
     getFavorites(currentAccount.name)
       .then((data) => {
-        this.setState({ favorites: this._sortData(data) });
+        this.setState({ favorites: this._sortData(data), isLoading: false });
       })
       .catch(() => {
         Alert.alert(intl.formatMessage({ id: 'favorites.load_error' }));
-      })
-      .finally(() => {
         this.setState({ isLoading: false });
       });
   };
