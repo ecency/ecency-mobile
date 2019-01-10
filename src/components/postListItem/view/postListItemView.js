@@ -44,12 +44,14 @@ class PostListItemView extends Component {
       intl,
     } = this.props;
 
+    const formatedTime = created && intl.formatRelative(created);
+
     return (
       <Fragment>
         <View style={styles.container}>
           <View style={styles.header}>
             <PostHeaderDescription
-              date={intl.formatRelative(created)}
+              date={formatedTime}
               name={username}
               reputation={reputation}
               size={32}
