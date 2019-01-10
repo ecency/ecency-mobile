@@ -43,12 +43,10 @@ class DraftsContainer extends Component {
 
     getDrafts(currentAccount.name)
       .then((data) => {
-        this.setState({ drafts: this._sortData(data) });
+        this.setState({ drafts: this._sortData(data), isLoading: false });
       })
       .catch(() => {
         Alert.alert(intl.formatMessage({ id: 'drafts.load_error' }));
-      })
-      .finally(() => {
         this.setState({ isLoading: false });
       });
   };
@@ -109,4 +107,4 @@ const mapStateToProps = state => ({
   currentAccount: state.account.currentAccount,
 });
 
-export default connect(mapStateToProps)(injectIntl(DraftsContainer));
+export default injectIntl(connect(mapStateToProps)(DraftsContainer));
