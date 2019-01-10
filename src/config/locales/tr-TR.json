@@ -123,58 +123,54 @@
   },
   "alert": {
     "success": "Başarılı!",
-    "allRead": "Tüm bildirimler okundu",
-    "claim_reward_balance_ok": "Ödül bakiyesi talep edildi.",
-    "fail": "Başarısız!",
-    "success_shared": "Post'un başarıyla paylaşıldı.",
-    "permission_denied": "Izin Alınamadı",
-    "permission_text": "Lütfen, telefon ayarlarına gidin ve eSteem'in izinlerini degistirin.",
-    "success_rebloged": "Reblog yaptınız!",
-    "already_rebloged": "Zaten reblog yapmışsınız.",
-    "failed_to_open": "Açılamadı.",
-    "warning": "Uyarı!",
-    "invalid_pincode": "Geçersiz pin kod, lutfen tekrar deneyin.",
-    "remove_alert": "Silmek istediginize emin misiniz?",
-    "cancel": "Vazgeç",
-    "delete": "Sil"
+    "allRead": "Marked all notifications as read",
+    "claim_reward_balance_ok": "Reward balance claimed",
+    "fail": "Fail!",
+    "success_shared": "Your post succesfully shared",
+    "permission_denied": "Permission denied",
+    "permission_text": "Please, go to phone Settings and change eSteem app permissions.",
+    "success_rebloged": "Rebloged!",
+    "already_rebloged": "You have already reblogged!",
+    "warning": "Warning",
+    "invalid_pincode": "Invalid pin code, please check and try again.",
+    "remove_alert": "Are you sure want to remove?",
+    "cancel": "Cancel",
+    "delete": "Delete"
   },
   "post": {
     "reblog_alert": "Reblog yapma istediginize emin misiniz?"
   },
   "drafts": {
-    "title": "Taslak",
-    "load_error": "Taslaklar yüklenemedi",
-    "empty_list": "Hiçbir şey yok",
-    "deleted": "Taslak silindi"
+    "title": "Drafts",
+    "load_error": "Could not load drafts",
+    "empty_list": "Nothing here",
+    "deleted": "Draft deleted"
   },
   "schedules": {
-    "title": "Tarifeli Icerikler",
-    "empty_list": "Hiçbir şey yok!",
-    "deleted": "Tarifeli içerik silindi",
-    "move": "Taslaklara taşı",
-    "moved": "Taslaklara taşındı"
+    "title": "Scheduled Posts",
+    "empty_list": "Nothing here",
+    "deleted": "Scheduled post deleted",
+    "move": "Move to drafts",
+    "moved": "Moved to drafts"
   },
   "bookmarks": {
-    "title": "Yer imleri",
-    "load_error": "Yer imleri yuklenemedi",
-    "empty_list": "Hiçbir şey yok!",
-    "deleted": "Yer imi silindi",
-    "search": "Yer imlerinde ara"
+    "title": "Bookmarks",
+    "load_error": "Could not load bookmarks",
+    "empty_list": "Nothing here",
+    "deleted": "Bookmark removed",
+    "search": "Search in bookmarks"
   },
   "favorites": {
-    "title": "Favoriler",
-    "load_error": "Favoriler yüklenemedi",
-    "empty_list": "Hiçbir şey yok!",
-    "search": "Favorilerde ara"
+    "title": "Favorites",
+    "load_error": "Could not load favorites",
+    "empty_list": "Nothing here",
+    "search": "Search in favorites"
   },
   "auth": {
-    "invalid_pin": "Geçersiz pin kod, lütfen kontrol ediniz ve tekrar deneyin.",
-    "invalid_username": "Geçersiz kullanıcı adı, lütfen kontrol ediniz ve tekrar deneyin.",
-    "already_logged": "Bu kullanıcı ile giriş yaptınız, lütfen farklı bir kullanıcı bilgileri ile giriş yapınız.",
-    "invalid_credentials": "Geçersiz pin kod, lütfen kontrol ediniz ve tekrar deneyin.",
-    "unknow_error": "Bilinmeyen hata, lütfen eSteem ile iletişime geçiniz"
+    "invalid_pin": "Invalid pin code, please check and try again",
+    "invalid_username": "Invalid username, please check and try again",
+    "already_logged": "You are already logged in, please try to add another account",
+    "invalid_credentials": "Invalid credentials, please check and try again",
+    "unknow_error": "Unknown error, please contact us at support@esteem.app"
   }
 }
-
-// Pick it
-// ı ç ş ö Ç Ş ü
