@@ -35,7 +35,7 @@
   "profile": {
     "following": "Подписки",
     "follower": "Подписчики",
-    "post": "Блог",
+    "post": "Пост",
     "details": "Подробности",
     "comments": "Комментарии",
     "replies": "Ответы",
@@ -126,50 +126,37 @@
     "allRead": "Всё прочтено",
     "claim_reward_balance_ok": "Награда зачислена на баланс",
     "fail": "Не вышло!",
-    "success_shared": "Успешно поделились постом!",
-    "permission_denied": "Доступ запрещён",
-    "permission_text": "Пожалуйста, откройте настройки телефона и измените разрешения для приложения eSteem.",
+    "success_shared": "Ваш пост отправлен",
+    "permission_denied": "Не достаточно разрешений",
+    "permission_text": "Пожалуйста перейдите в настройки телефона и выдайте разрешения для eSteem",
     "success_rebloged": "Репостнуто!",
-    "already_rebloged": "Вы уже делали этот репост!",
+    "already_rebloged": "Вы уже делились этим постом!",
     "warning": "Внимание",
-    "invalid_pincode": "Не верный пин, пожалуйста, попробуйте снова.",
-    "remove_alert": "Вы уверены, что хотите сделать Удалить?",
+    "invalid_pincode": "Неверный пин, попробуйте снова.",
+    "remove_alert": "Вы уверены, что хотите удалить?",
     "cancel": "Отмена",
     "delete": "Удалить"
   },
   "post": {
     "reblog_alert": "Вы уверены, что хотите сделать репост?"
   },
-  "auth": {
-    "invalid_pin": "Invalid pin code, please check and try again",
-    "invalid_username": "Invalid username, please check and try again",
-    "already_logged": "You are already logged in, please try to add another account",
-    "invalid_credentials": "Invalid credentials, please check and try again",
-    "unknow_error": "Unknown error, please contact us at info@esteem.app"
-  },
-  "gallery": {
-    "title": "Галерея",
-    "copied": "Ссылка скопирована в буфер обмена",
-    "load_error": "Невозможно загрузить галерею",
-    "empty-list": "Здесь пусто"
-  },
   "drafts": {
     "title": "Черновики",
-    "load-error": "Невозможно загрузить черновики",
-    "empty_list": "Здесь пусто",
+    "load_error": "Невозможно загрузить черновики",
+    "empty_list": "Ничего нет",
     "deleted": "Черновик удалён"
   },
   "schedules": {
-    "title": "Отложенные (запланированные) посты",
-    "empty_list": "Здесь пусто",
+    "title": "Отложенные посты",
+    "empty_list": "Ничего нет",
     "deleted": "Отложенный пост удалён",
     "move": "Переместить в черновики",
     "moved": "Перемещён в черновики"
   },
   "bookmarks": {
     "title": "Закладки",
-    "load-error": "Невозможно загрузить закладки",
-    "empty_list": "Здесь пусто",
+    "load_error": "Невозможно загрузить закладки",
+    "empty_list": "Ничего нет",
     "deleted": "Закладка удалена",
     "search": "Поиск по закладкам"
   },
@@ -178,5 +165,12 @@
     "load_error": "Невозможно загрузить избранное",
     "empty_list": "Ничего нет",
     "search": "Поиск по избранному"
+  },
+  "auth": {
+    "invalid_pin": "Неверный пин, попробуйте снова",
+    "invalid_username": "Неверный пин, попробуйте снова",
+    "already_logged": "Вы уже вошли, пожалуйста, попробуйте добавить другой аккаунт",
+    "invalid_credentials": "Некорректные данные, пожалуйста, проверьте и повторите снова",
+    "unknow_error": "Unknown error, please contact us at info@esteem.app"
   }
 }
