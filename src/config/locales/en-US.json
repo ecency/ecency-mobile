@@ -171,6 +171,6 @@
     "invalid_username": "Invalid username, please check and try again",
     "already_logged": "You are already logged in, please try to add another account",
     "invalid_credentials": "Invalid credentials, please check and try again",
-    "unknow_error": "Unknown error, please contact to eSteem."
+    "unknow_error": "Unknown error, please contact us at info@esteem.app"
   }
 }
