@@ -83,11 +83,10 @@ class WalletContainer extends Component {
       })
       .then((account) => {
         this._getWalletData(account && account[0]);
+        this.setState({ claiming: false });
       })
       .catch((err) => {
         Alert.alert(err);
-      })
-      .finally(() => {
         this.setState({ claiming: false });
       });
   };
@@ -99,11 +98,10 @@ class WalletContainer extends Component {
     getAccount(selectedUser.name)
       .then((account) => {
         this._getWalletData(account && account[0]);
+        this.setState({ isRefreshing: false });
       })
       .catch((err) => {
         Alert.alert(err);
-      })
-      .finally(() => {
         this.setState({ isRefreshing: false });
       });
   };
