@@ -32,16 +32,20 @@ class BookmarksScreen extends Component {
 
   // Component Functions
 
-  _renderItem = (item, index) => (
-    <UserListItem
-      handleLongPress={this._handleLongPress}
-      index={index}
-      isClickable
-      username={item.account}
-      rightText="bok"
-      subRightText="bok"
-    />
-  );
+  _renderItem = (item, index) => {
+    const { handleOnPress } = this.props;
+    return (
+      <UserListItem
+        handleOnLongPress={this._handleLongPress}
+        handleOnPress={handleOnPress}
+        index={index}
+        isClickable
+        username={item.account}
+        rightText="bok"
+        subRightText="bok"
+      />
+    );
+  };
 
   _getTabItem = (data, type) => {
     const { isLoading, intl } = this.props;
@@ -78,7 +82,9 @@ class BookmarksScreen extends Component {
   };
 
   render() {
-    const { favorites, bookmarks, intl, handleRemoveFavorite } = this.props;
+    const {
+      favorites, bookmarks, intl, handleRemoveFavorite,
+    } = this.props;
 
     return (
       <View style={globalStyles.container}>
