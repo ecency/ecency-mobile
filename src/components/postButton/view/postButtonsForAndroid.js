@@ -107,7 +107,7 @@ class PostButtonsForAndroid extends Component {
     });
     const firstY = this.icon1.interpolate({
       inputRange: [0, 1],
-      outputRange: [0, -70],
+      outputRange: [20, -70],
     });
     const secondX = this.icon2.interpolate({
       inputRange: [0, 1],
@@ -115,7 +115,7 @@ class PostButtonsForAndroid extends Component {
     });
     const secondY = this.icon2.interpolate({
       inputRange: [0, 1],
-      outputRange: [0, -95],
+      outputRange: [20, -95],
     });
     const thirdX = this.icon3.interpolate({
       inputRange: [0, 1],
@@ -123,7 +123,7 @@ class PostButtonsForAndroid extends Component {
     });
     const thirdY = this.icon3.interpolate({
       inputRange: [0, 1],
-      outputRange: [0, -70],
+      outputRange: [20, -70],
     });
 
     return (
