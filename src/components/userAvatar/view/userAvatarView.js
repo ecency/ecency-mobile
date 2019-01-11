@@ -6,7 +6,7 @@ import FastImage from 'react-native-fast-image';
 import styles from './userAvatarStyles';
 
 // Constants
-import { default as ROUTES } from '../../../constants/routeNames';
+import ROUTES from '../../../constants/routeNames';
 
 const DEFAULT_IMAGE = require('../../../assets/avatar_default.png');
 
