@@ -176,7 +176,7 @@ export default class MarkdownEditorView extends Component {
     const { text, selection } = this.state;
 
     return (
-      <KeyboardAvoidingView style={styles.container} behavior="padding">
+      <KeyboardAvoidingView style={styles.container} keyboardVerticalOffset={Platform.select({ ios: 0, android: 25 })} behavior="padding">
         {!isPreviewActive ? (
           <TextInput
             multiline
