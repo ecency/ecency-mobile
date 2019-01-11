@@ -6,10 +6,8 @@ import { injectIntl } from 'react-intl';
 // Services and Actions
 import { getFavorites, removeFavoriteUser } from '../../../providers/esteem/esteem';
 
-// Middleware
-
 // Constants
-import { default as ROUTES } from '../../../constants/routeNames';
+import ROUTES from '../../../constants/routeNames';
 
 // Utilities
 
@@ -52,13 +50,13 @@ class DraftsContainer extends Component {
       });
   };
 
-  _removeFavorite = (id) => {
+  _removeFavorite = (selectedUsername) => {
     const { currentAccount, intl } = this.props;
 
-    removeFavoriteUser({ username: currentAccount.name, draftId: id })
+    removeFavoriteUser(currentAccount.name, selectedUsername)
       .then(() => {
         const { favorites } = this.state;
-        const newFavorites = [...favorites].filter(draft => draft._id !== id);
+        const newFavorites = [...favorites].filter(fav => fav.account !== selectedUsername);
 
         this.setState({ favorites: this._sortData(newFavorites) });
       })
@@ -67,16 +65,13 @@ class DraftsContainer extends Component {
       });
   };
 
-  _editDraft = (id) => {
+  _handleOnFavoritePress = (username) => {
     const { navigation } = this.props;
-    const { drafts } = this.state;
-    const selectedDraft = drafts.find(draft => draft._id === id);
 
     navigation.navigate({
-      routeName: ROUTES.SCREENS.EDITOR,
+      routeName: ROUTES.SCREENS.PROFILE,
       params: {
-        draft: selectedDraft,
-        fetchPost: this._getDrafts,
+        username,
       },
     });
   };
@@ -98,7 +93,8 @@ class DraftsContainer extends Component {
         currentAccount={currentAccount}
         favorites={favorites}
         bookmarks={bookmarks}
-        removeFavorites={this._removeFavorite}
+        removeFavorite={this._removeFavorite}
+        handleOnFavoritePress={this._handleOnFavoritePress}
       />
     );
   }

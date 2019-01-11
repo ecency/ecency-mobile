@@ -25,19 +25,21 @@ class BookmarksScreen extends Component {
 
   constructor(props) {
     super(props);
-    this.state = {};
+    this.state = {
+      selectedUsername: null,
+    };
   }
 
   // Component Life Cycles
 
   // Component Functions
-
   _renderItem = (item, index) => {
-    const { handleOnPress } = this.props;
+    const { handleOnFavoritePress } = this.props;
+
     return (
       <UserListItem
-        handleOnLongPress={this._handleLongPress}
-        handleOnPress={handleOnPress}
+        handleOnLongPress={() => this._handleLongPress(item.account)}
+        handleOnPress={() => handleOnFavoritePress(item.account)}
         index={index}
         isClickable
         username={item.account}
@@ -77,14 +79,17 @@ class BookmarksScreen extends Component {
     );
   };
 
-  _handleLongPress = () => {
-    this.ActionSheet.show();
+  _handleLongPress = (selectedUsername) => {
+    this.setState({ selectedUsername }, () => {
+      this.ActionSheet.show();
+    });
   };
 
   render() {
     const {
-      favorites, bookmarks, intl, handleRemoveFavorite,
+      favorites, bookmarks, intl, removeFavorite,
     } = this.props;
+    const { selectedUsername } = this.state;
 
     return (
       <View style={globalStyles.container}>
@@ -132,7 +137,7 @@ class BookmarksScreen extends Component {
           cancelButtonIndex={1}
           destructiveButtonIndex={0}
           onPress={(index) => {
-            if (index === 0) handleRemoveFavorite(id);
+            if (index === 0) removeFavorite(selectedUsername);
           }}
         />
       </View>
