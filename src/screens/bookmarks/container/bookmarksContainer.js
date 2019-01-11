@@ -7,7 +7,7 @@ import { injectIntl } from 'react-intl';
 import { getFavorites, removeFavoriteUser } from '../../../providers/esteem/esteem';
 
 // Constants
-import { default as ROUTES } from '../../../constants/routeNames';
+import ROUTES from '../../../constants/routeNames';
 
 // Utilities
 
