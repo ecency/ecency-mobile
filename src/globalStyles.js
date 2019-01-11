@@ -68,6 +68,5 @@ export default EStyleSheet.create({
   tabView: {
     alignSelf: 'center',
     backgroundColor: '$primaryBackgroundColor',
-    flex: 1,
   },
 });
