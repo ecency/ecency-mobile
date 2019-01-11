@@ -9,12 +9,7 @@ export default EStyleSheet.create({
     alignSelf: 'center',
     backgroundColor: '$primaryBackgroundColor',
   },
-  notificationTab: {
-    flex: 1,
-    backgroundColor: '$primaryBackgroundColor',
-    minWidth: '$deviceWidth',
-  },
-  leaderboardTab: {
+  tabbarItem: {
     flex: 1,
     backgroundColor: '$primaryBackgroundColor',
     minWidth: '$deviceWidth',

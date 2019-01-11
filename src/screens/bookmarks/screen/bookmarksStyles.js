@@ -6,6 +6,7 @@ export default EStyleSheet.create({
     flex: 1,
   },
   tabbar: {
+    alignSelf: 'center',
     backgroundColor: '$primaryBackgroundColor',
     shadowOpacity: 0.2,
     shadowColor: '$shadowColor',
