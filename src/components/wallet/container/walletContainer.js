@@ -83,11 +83,10 @@ class WalletContainer extends Component {
       })
       .then((account) => {
         this._getWalletData(account && account[0]);
+        this.setState({ claiming: false });
       })
       .catch((err) => {
         Alert.alert(err);
-      })
-      .finally(() => {
         this.setState({ claiming: false });
       });
   };
@@ -99,17 +98,16 @@ class WalletContainer extends Component {
     getAccount(selectedUser.name)
       .then((account) => {
         this._getWalletData(account && account[0]);
+        this.setState({ isRefreshing: false });
       })
       .catch((err) => {
         Alert.alert(err);
-      })
-      .finally(() => {
         this.setState({ isRefreshing: false });
       });
   };
 
   render() {
-    const { currentAccount, selectedUser } = this.props;
+    const { currentAccount, selectedUser, isDarkTheme } = this.props;
     const { walletData, claiming, isRefreshing } = this.state;
 
     return (
@@ -121,6 +119,7 @@ class WalletContainer extends Component {
         claiming={claiming}
         handleOnWalletRefresh={this._handleOnWalletRefresh}
         isRefreshing={isRefreshing}
+        isDarkTheme={isDarkTheme}
       />
     );
   }
@@ -129,6 +128,7 @@ class WalletContainer extends Component {
 const mapStateToProps = state => ({
   currentAccount: state.account.currentAccount,
   pinCode: state.account.pin,
+  isDarkTheme: state.application.isDarkTheme,
 });
 
 export default injectIntl(connect(mapStateToProps)(WalletContainer));

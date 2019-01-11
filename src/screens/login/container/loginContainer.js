@@ -1,6 +1,7 @@
 import React, { PureComponent } from 'react';
 import { Alert, Linking } from 'react-native';
 import { connect } from 'react-redux';
+import { injectIntl } from 'react-intl';
 
 // Services and Actions
 import { login } from '../../../providers/steem/auth';
@@ -42,7 +43,7 @@ class LoginContainer extends PureComponent {
   // Component Functions
 
   _handleOnPressLogin = (username, password) => {
-    const { dispatch, setPinCodeState } = this.props;
+    const { dispatch, setPinCodeState, intl } = this.props;
 
     this.setState({ isLoading: true });
 
@@ -57,8 +58,10 @@ class LoginContainer extends PureComponent {
         }
       })
       .catch((err) => {
-        // TODO: Change with global error handling
-        Alert.alert('Error', err.message);
+        Alert.alert('Error',
+          intl.formatMessage({
+            id: err.message,
+          }));
         dispatch(failedAccount(err.message));
         this.setState({ isLoading: false });
       });
@@ -93,4 +96,4 @@ const mapStateToProps = state => ({
   account: state.accounts,
 });
 
-export default connect(mapStateToProps)(LoginContainer);
+export default injectIntl(connect(mapStateToProps)(LoginContainer));
