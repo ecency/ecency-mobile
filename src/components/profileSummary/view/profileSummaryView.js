@@ -65,6 +65,7 @@ class ProfileSummaryView extends PureComponent {
       followerCount,
       followingCount,
       handleFollowUnfollowUser,
+      handleOnFavoritePress,
       handleOnFollowsPress,
       handleUIChange,
       hoursRC,
@@ -190,6 +191,7 @@ class ProfileSummaryView extends PureComponent {
                 name={isFavorite ? 'favorite' : 'favorite-border'}
                 size={20}
                 style={[styles.insetIconStyle]}
+                onPress={() => handleOnFavoritePress(isFavorite)}
               />
               {isProfileLoading ? (
                 <ActivityIndicator style={styles.activityIndicator} />
