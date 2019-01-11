@@ -25,7 +25,7 @@ const UserListItem = ({
   >
     <View style={[styles.voteItemWrapper, index % 2 !== 0 && styles.voteItemWrapperGray]}>
       {itemIndex && <Text style={styles.itemIndex}>{itemIndex}</Text>}
-      <UserAvatar noAction={userCanPress} style={[styles.avatar]} username={username} />
+      <UserAvatar noAction={userCanPress} style={styles.avatar} username={username} />
       <View style={styles.userDescription}>
         <Text style={styles.name}>{username}</Text>
         {description && <Text style={styles.date}>{description}</Text>}
