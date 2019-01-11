@@ -114,12 +114,12 @@ class TabBar extends PureComponent {
 
   render() {
     const {
-      activeTab, backgroundColor, style, goToPage,
+      activeTab, backgroundColor, style, goToPage, tabs,
     } = this.props;
 
     return (
       <View style={[styles.tabs, { backgroundColor }, style]}>
-        {this.props.tabs.map((name, page) => {
+        {tabs.map((name, page) => {
           const isTabActive = activeTab === page;
           return this._renderTab(name, page, isTabActive, goToPage);
         })}

@@ -21,6 +21,8 @@ import { default as ROUTES } from '../../../constants/routeNames';
 
 // Styles
 import styles from './loginStyles';
+import globalStyles from '../../../globalStyles';
+
 import STEEM_CONNECT_LOGO from '../../../assets/steem_connect.png';
 
 class LoginScreen extends PureComponent {
@@ -88,7 +90,7 @@ class LoginScreen extends PureComponent {
         />
         <ScrollableTabView
           locked={isLoading}
-          style={styles.tabView}
+          style={globalStyles.tabView}
           renderTabBar={() => (
             <TabBar
               style={styles.tabbar}

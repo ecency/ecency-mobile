@@ -67,7 +67,8 @@ class HeaderView extends Component {
         />
         <TouchableOpacity
           style={styles.avatarWrapper}
-          onPress={() => !isReverse && handleOpenDrawer()}
+          onPress={() => handleOpenDrawer()}
+          disabled={isReverse}
         >
           <LinearGradient
             start={{ x: 0, y: 0 }}
@@ -78,7 +79,7 @@ class HeaderView extends Component {
               isReverse ? styles.avatarButtonWrapperReverse : styles.avatarDefault,
             ]}
           >
-            <UserAvatar style={styles.avatar} username={username} />
+            <UserAvatar noAction style={styles.avatar} username={username} />
           </LinearGradient>
         </TouchableOpacity>
         {displayName || username ? (

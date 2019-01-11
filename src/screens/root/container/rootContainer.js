@@ -9,7 +9,7 @@ import { getExistUser } from '../../../realm/realm';
 
 // Components
 import { Modal } from '../../../components';
-import PinCode from '../../pinCode';
+import { PinCode } from '../../pinCode';
 import PostButtonForAndroid from '../../../components/postButton/view/postButtonsForAndroid';
 
 // Constants
@@ -55,6 +55,7 @@ const RootContainer = () => (WrappedComponent) => {
 
     _startPinCodeTimer = () => {
       const { dispatch } = this.props;
+
       this._pinCodeTimer = setTimeout(() => {
         dispatch(openPinCodeModal());
       }, 1 * 60 * 1000);
@@ -70,6 +71,7 @@ const RootContainer = () => (WrappedComponent) => {
 
     _createPushListener = () => {
       const { navigation } = this.props;
+
       Push.setListener({
         onPushNotificationReceived(pushNotification) {
           if (AppState.currentState === 'background') {
@@ -90,6 +92,7 @@ const RootContainer = () => (WrappedComponent) => {
     render() {
       const { isPinCodeReqiure, navigation } = this.props;
       const { pinCodeStates, wrappedComponentStates } = this.state;
+
       return (
         <Fragment>
           <Modal
