@@ -123,10 +123,54 @@
   },
   "alert": {
     "success": "Success!",
-    "allRead": "Marked all notification as read"
+    "allRead": "Marked all notifications as read",
+    "claim_reward_balance_ok": "Reward balance claimed",
+    "fail": "Fail!",
+    "success_shared": "Your post succesfully shared",
+    "permission_denied": "Permission denied",
+    "permission_text": "Please, go to phone Settings and change eSteem app permissions.",
+    "success_rebloged": "Rebloged!",
+    "already_rebloged": "You have already reblogged!",
+    "warning": "Warning",
+    "invalid_pincode": "Invalid pin code, please check and try again.",
+    "remove_alert": "Are you sure want to remove?",
+    "cancel": "Cancel",
+    "delete": "Delete"
   },
   "post": {
-    "reblog_alert": "Are you sure you want to reblog?",
-    "reblog_cancel": "Cancel"
+    "reblog_alert": "Are you sure you want to reblog?"
+  },
+  "drafts": {
+    "title": "Drafts",
+    "load_error": "Could not load drafts",
+    "empty_list": "Nothing here",
+    "deleted": "Draft deleted"
+  },
+  "schedules": {
+    "title": "Scheduled Posts",
+    "empty_list": "Nothing here",
+    "deleted": "Scheduled post deleted",
+    "move": "Move to drafts",
+    "moved": "Moved to drafts"
+  },
+  "bookmarks": {
+    "title": "Bookmarks",
+    "load_error": "Could not load bookmarks",
+    "empty_list": "Nothing here",
+    "deleted": "Bookmark removed",
+    "search": "Search in bookmarks"
+  },
+  "favorites": {
+    "title": "Favorites",
+    "load_error": "Could not load favorites",
+    "empty_list": "Nothing here",
+    "search": "Search in favorites"
+  },
+  "auth": {
+    "invalid_pin": "Invalid pin code, please check and try again",
+    "invalid_username": "Invalid username, please check and try again",
+    "already_logged": "You are already logged in, please try to add another account",
+    "invalid_credentials": "Invalid credentials, please check and try again",
+    "unknow_error": "Unknown error, please contact us at support@esteem.app"
   }
 }
