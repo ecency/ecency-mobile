@@ -61,6 +61,7 @@ class ProfileScreen extends PureComponent {
       handleOnFollowsPress,
       intl,
       isDarkTheme,
+      isFavorite,
       isFollowing,
       isLoggedIn,
       isMuted,
@@ -133,6 +134,7 @@ class ProfileScreen extends PureComponent {
                 intl={intl}
                 isDarkTheme={isDarkTheme}
                 isFollowing={isFollowing}
+                isFavorite={isFavorite}
                 isLoggedIn={isLoggedIn}
                 isMuted={isMuted}
                 isOwnProfile={!isReverseHeader}
@@ -195,11 +197,7 @@ class ProfileScreen extends PureComponent {
                 id: 'profile.wallet',
               })}
             >
-              {selectedUser ? (
-                <Wallet selectedUser={selectedUser} />
-              ) : (
-                <WalletDetailsPlaceHolder />
-              )}
+              {selectedUser ? <Wallet selectedUser={selectedUser} /> : <WalletDetailsPlaceHolder />}
             </View>
           </ScrollableTabView>
         </View>

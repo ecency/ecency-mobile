@@ -100,7 +100,7 @@ export const getFavorites = username => api.get(`/favorites/${username}`).then(r
  * @params current username
  * @params target username
  */
-export const isFavorite = (currentUsername, targetUsername) => api.get(`/isfavorite/${currentUsername}/${targetUsername}`).then(resp => resp.data);
+export const getIsFavorite = (targetUsername, currentUsername) => api.get(`/isfavorite/${currentUsername}/${targetUsername}`).then(resp => resp.data);
 
 /**
  * @params current username
