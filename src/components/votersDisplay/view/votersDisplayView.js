@@ -2,7 +2,8 @@ import React, { PureComponent } from 'react';
 import { View, FlatList, Text } from 'react-native';
 import { injectIntl } from 'react-intl';
 
-// Constants
+// Utils
+import { getTimeFromNow } from '../../../utils/time';
 
 // Components
 import { UserListItem } from '../../basicUIElements';
@@ -28,7 +29,8 @@ class VotersDisplayView extends PureComponent {
         avatar={item.avatar}
         index={index}
         username={item.voter}
-        description={intl.formatRelative(item.time)}
+        // description={intl.formatRelative(item.time)}
+        description={getTimeFromNow(item.time)}
         isHasRightItem
         isRightColor={item.is_down_vote}
         rightText={value}
