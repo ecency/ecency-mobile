@@ -7,20 +7,9 @@ export default EStyleSheet.create({
   },
   tabbar: {
     alignSelf: 'center',
-    height: 55,
     backgroundColor: '$primaryBackgroundColor',
   },
-  tabView: {
-    alignSelf: 'center',
-    backgroundColor: 'transparent',
-    flex: 1,
-  },
-  notificationTab: {
-    flex: 1,
-    backgroundColor: '$primaryBackgroundColor',
-    minWidth: '$deviceWidth',
-  },
-  leaderboardTab: {
+  tabbarItem: {
     flex: 1,
     backgroundColor: '$primaryBackgroundColor',
     minWidth: '$deviceWidth',

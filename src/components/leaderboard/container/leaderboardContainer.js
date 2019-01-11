@@ -1,13 +1,7 @@
 import React, { PureComponent } from 'react';
-import { withNavigation } from 'react-navigation';
 
 // Services and Actions
 import { getLeaderboard } from '../../../providers/esteem/esteem';
-
-// Middleware
-
-// Constants
-import { default as ROUTES } from '../../../constants/routeNames';
 
 // Utilities
 
@@ -35,19 +29,6 @@ class LeaderboardContainer extends PureComponent {
     this.setState({ users });
   }
 
-  // Component Functions
-  _handleOnUserPress = (username) => {
-    const { navigation } = this.props;
-
-    navigation.navigate({
-      routeName: ROUTES.SCREENS.PROFILE,
-      params: {
-        username,
-      },
-      key: username,
-    });
-  };
-
   render() {
     const { users } = this.state;
 
@@ -55,4 +36,4 @@ class LeaderboardContainer extends PureComponent {
   }
 }
 
-export default withNavigation(LeaderboardContainer);
+export default LeaderboardContainer;

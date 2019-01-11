@@ -17,23 +17,17 @@ class LeaderboardView extends PureComponent {
    */
 
   // Component Functions
-  _renderItem = (item, index) => {
-    const { handleOnUserPress } = this.props;
-
-    return (
-      <UserListItem
-        handleOnUserPress={handleOnUserPress}
-        avatar={`https://steemitimages.com/u/${item._id}/avatar/small`}
-        index={index}
-        username={item._id}
-        description={item.created}
-        isHasRightItem
-        isBlackRightColor
-        rightText={item.count}
-        itemIndex={index + 1}
-      />
-    );
-  };
+  _renderItem = (item, index) => (
+    <UserListItem
+      index={index}
+      username={item._id}
+      description={item.created}
+      isHasRightItem
+      isBlackRightColor
+      rightText={item.count}
+      itemIndex={index + 1}
+    />
+  );
 
   render() {
     const { users, intl } = this.props;

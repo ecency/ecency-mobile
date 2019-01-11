@@ -16,6 +16,7 @@ export default {
     SETTINGS: `Settings${SCREEN_SUFFIX}`,
     STEEM_CONNECT: `SteemConnect${SCREEN_SUFFIX}`,
     VOTERS: `Voters${SCREEN_SUFFIX}`,
+    BOOKMARKS: `Bookmarks${SCREEN_SUFFIX}`,
   },
   DRAWER: {
     MAIN: `Main${DRAWER_SUFFIX}`,
