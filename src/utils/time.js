@@ -14,10 +14,7 @@ const THIS_MONTH = moment()
 export const getTimeFromNow = (value) => {
   if (!value) return null;
 
-  return moment
-    .utc(value)
-    .local()
-    .fromNow();
+  return moment(value).fromNow();
 };
 
 export const getFormatedCreatedDate = (value) => {
