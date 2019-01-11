@@ -86,7 +86,7 @@ class VotersScreen extends PureComponent {
           defaultText="REWARDS"
           onDropdownSelect={this._handleOnDropdownSelect}
         />
-        <VotersDisplay intl={intl} key={Math.random()} votes={filterResult || data} />
+        <VotersDisplay key={Math.random()} votes={filterResult || data} />
       </View>
     );
   }
