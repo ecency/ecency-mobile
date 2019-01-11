@@ -37,7 +37,7 @@ export default EStyleSheet.create({
   },
   tabbar: {
     alignSelf: 'center',
-    height: 50,
+    height: 45,
     backgroundColor: '$primaryBackgroundColor',
     borderBottomColor: '#f1f1f1',
   },
@@ -46,10 +46,6 @@ export default EStyleSheet.create({
     paddingHorizontal: 7,
     backgroundColor: '#f9f9f9',
     minWidth: '$deviceWidth',
-  },
-  tabView: {
-    alignSelf: 'center',
-    backgroundColor: 'transparent',
   },
   postTabBar: {
     backgroundColor: '$primaryBackgroundColor',

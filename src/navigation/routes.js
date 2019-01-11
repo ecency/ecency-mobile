@@ -8,6 +8,7 @@ import { default as ROUTES } from '../constants/routeNames';
 
 // Screens
 import {
+  Bookmarks,
   Drafts,
   Editor,
   Follows,
@@ -81,6 +82,12 @@ const stackNavigatior = createStackNavigator(
     },
     [ROUTES.SCREENS.DRAFTS]: {
       screen: RootComponent()(Drafts),
+      navigationOptions: {
+        header: () => null,
+      },
+    },
+    [ROUTES.SCREENS.BOOKMARKS]: {
+      screen: RootComponent()(Bookmarks),
       navigationOptions: {
         header: () => null,
       },

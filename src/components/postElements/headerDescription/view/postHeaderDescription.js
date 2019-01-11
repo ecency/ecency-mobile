@@ -68,6 +68,7 @@ class PostHeaderDescription extends PureComponent {
               disableSize
               username={name}
               defaultSource={DEFAULT_IMAGE}
+              noAction
             />
           )}
           <Text style={styles.name}>{name}</Text>
