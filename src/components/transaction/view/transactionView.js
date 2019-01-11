@@ -4,6 +4,9 @@ import { injectIntl } from 'react-intl';
 // Utilities
 import { groomingTransactionData } from '../../../utils/wallet';
 
+// Utils
+import { getTimeFromNow } from '../../../utils/time';
+
 // Components
 // import { FilterBar } from '../../filterBar';
 import { WalletLineItem, Card } from '../../basicUIElements';
@@ -62,7 +65,8 @@ class TransactionView extends PureComponent {
                       text={intl.formatMessage({
                         id: `wallet.${transactionData.opName}`,
                       })}
-                      description={intl.formatRelative(transactionData.transDate)}
+                      // description={intl.formatRelative(transactionData.transDate)}
+                      description={getTimeFromNow(transactionData.transDate)}
                       isCircleIcon
                       isThin
                       circleIconColor="white"

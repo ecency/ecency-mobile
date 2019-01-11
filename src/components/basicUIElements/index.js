@@ -6,7 +6,6 @@ import NoPost from './view/noPost/noPostView';
 import PostCardPlaceHolder from './view/placeHolder/postCardPlaceHolderView';
 import PostPlaceHolder from './view/placeHolder/postPlaceHolderView';
 import ProfileSummaryPlaceHolder from './view/placeHolder/profileSummaryPlaceHolder';
-import RefreshControl from './view/refreshControl/refreshControlView';
 import StickyBar from './view/stickyBar/stickyBarView';
 import Tag from './view/tag/tagView';
 import TextWithIcon from './view/textWithIcon/textWithIconView';
@@ -24,7 +23,6 @@ export {
   PostCardPlaceHolder,
   PostPlaceHolder,
   ProfileSummaryPlaceHolder,
-  RefreshControl,
   StickyBar,
   Tag,
   TextWithIcon,
