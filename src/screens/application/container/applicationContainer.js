@@ -267,13 +267,14 @@ class ApplicationContainer extends Component {
     const { selectedLanguage } = this.props;
     const { isRenderRequire, isReady } = this.state;
 
-    const locale = (navigator.languages && navigator.languages[0])
-      || navigator.language
-      || navigator.userLanguage
-      || selectedLanguage;
+    // For testing It comented out.
+    // const locale = (navigator.languages && navigator.languages[0])
+    //   || navigator.language
+    //   || navigator.userLanguage
+    //   || selectedLanguage;
 
     if (isRenderRequire && isReady) {
-      return <ApplicationScreen locale={locale} {...this.props} />;
+      return <ApplicationScreen locale={selectedLanguage} {...this.props} />;
     }
     return <Launch />;
   }

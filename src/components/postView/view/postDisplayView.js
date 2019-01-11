@@ -4,7 +4,8 @@ import {
 } from 'react-native';
 import { injectIntl } from 'react-intl';
 
-// Constants
+// Utils
+import { getTimeFromNow } from '../../../utils/time';
 
 // Components
 import { PostHeaderDescription, PostBody, Tags } from '../../postElements';
@@ -115,7 +116,7 @@ class PostDisplayView extends PureComponent {
 
     const isPostEnd = scrollHeight > postHeight;
     const isGetComment = scrollHeight + 300 > postHeight;
-    const formatedTime = post && intl.formatRelative(post.created);
+    const formatedTime = post && getTimeFromNow(post.created);
 
     if (isGetComment && !isLoadedComments) this.setState({ isLoadedComments: true });
 

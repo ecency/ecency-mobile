@@ -45,12 +45,10 @@ class DraftsContainer extends Component {
 
     getSchedules(currentAccount.name)
       .then((data) => {
-        this.setState({ schedules: this._sortData(data) });
+        this.setState({ schedules: this._sortData(data), isLoading: false });
       })
       .catch(() => {
         Alert.alert(intl.formatMessage({ id: 'drafts.load_error' }));
-      })
-      .finally(() => {
         this.setState({ isLoading: false });
       });
   };
