@@ -3,14 +3,14 @@ import { View } from 'react-native';
 import ScrollableTabView from '@esteemapp/react-native-scrollable-tab-view';
 import { injectIntl } from 'react-intl';
 
-// STEEM
-
 // Components
 import { TabBar } from '../../../components/tabBar';
 import { Posts } from '../../../components/posts';
 import { Header } from '../../../components/header';
+
 // Styles
 import styles from './homeStyles';
+import globalStyles from '../../../globalStyles';
 
 import { POPULAR_FILTERS, PROFILE_FILTERS } from '../../../constants/options/filters';
 
@@ -32,7 +32,7 @@ class HomeScreen extends PureComponent {
         <Header />
         <View style={styles.container}>
           <ScrollableTabView
-            style={styles.tabView}
+            style={globalStyles.tabView}
             activeTab={!isLoggedIn ? 1 : 0}
             renderTabBar={() => (
               <TabBar

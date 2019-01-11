@@ -2,7 +2,7 @@ import React, { Component, Fragment } from 'react';
 import { connect } from 'react-redux';
 import { withNavigation } from 'react-navigation';
 
-// Utilitites
+// Providers
 import {
   followUser,
   unfollowUser,
@@ -13,6 +13,9 @@ import {
   getIsFollowing,
   getIsMuted,
 } from '../../../providers/steem/dsteem';
+
+// Esteem providers
+import { getIsFavorite } from '../../../providers/esteem/esteem';
 
 // Constants
 import { default as ROUTES } from '../../../constants/routeNames';
@@ -26,6 +29,7 @@ class ProfileContainer extends Component {
     this.state = {
       comments: [],
       follows: {},
+      isFavorite: false,
       isFollowing: false,
       isMuted: false,
       isProfileLoading: false,
@@ -194,12 +198,15 @@ class ProfileContainer extends Component {
       const { isLoggedIn, currentAccount } = this.props;
       let _isFollowing;
       let _isMuted;
+      let _isFavorite;
       let _follows;
 
-      if (isLoggedIn) {
+      if (isLoggedIn && currentAccount.name !== username) {
         _isFollowing = await getIsFollowing(username, currentAccount.name);
 
         _isMuted = _isFollowing ? false : await getIsMuted(username, currentAccount.name);
+
+        _isFavorite = getIsFavorite(username, currentAccount.name);
       }
 
       await getFollows(username).then((res) => {
@@ -210,6 +217,7 @@ class ProfileContainer extends Component {
         follows: _follows,
         isFollowing: _isFollowing,
         isMuted: _isMuted,
+        isFavorite: _isFavorite,
       });
     }
   };
@@ -262,18 +270,19 @@ class ProfileContainer extends Component {
 
   render() {
     const {
+      avatar,
       comments,
       error,
       follows,
-      isProfileLoading,
+      isFavorite,
       isFollowing,
       isMuted,
+      isProfileLoading,
       isReady,
       isReverseHeader,
+      selectedQuickProfile,
       user,
       username,
-      avatar,
-      selectedQuickProfile,
     } = this.state;
     const { isDarkTheme, isLoggedIn } = this.props;
 
@@ -282,7 +291,6 @@ class ProfileContainer extends Component {
         <ProfileScreen
           about={user && user.about && user.about.profile}
           avatar={avatar}
-          selectedQuickProfile={selectedQuickProfile}
           comments={comments}
           error={error}
           follows={follows}
@@ -290,12 +298,14 @@ class ProfileContainer extends Component {
           handleMuteUnmuteUser={this._handleMuteUnmuteUser}
           handleOnFollowsPress={this._handleFollowsPress}
           isDarkTheme={isDarkTheme}
+          isFavorite={isFavorite}
           isFollowing={isFollowing}
           isLoggedIn={isLoggedIn}
           isMuted={isMuted}
           isProfileLoading={isProfileLoading}
           isReady={isReady}
           isReverseHeader={isReverseHeader}
+          selectedQuickProfile={selectedQuickProfile}
           selectedUser={user}
           username={username}
         />
