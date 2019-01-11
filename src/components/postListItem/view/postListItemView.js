@@ -4,6 +4,9 @@ import { View, Text, TouchableOpacity } from 'react-native';
 import { injectIntl } from 'react-intl';
 import FastImage from 'react-native-fast-image';
 
+// Utils
+import { getTimeFromNow } from '../../../utils/time';
+
 // Components
 import { PostHeaderDescription } from '../../postElements';
 import { IconButton } from '../../iconButton';
@@ -49,7 +52,8 @@ class PostListItemView extends Component {
         <View style={styles.container}>
           <View style={styles.header}>
             <PostHeaderDescription
-              date={intl.formatRelative(created)}
+              // date={intl.formatRelative(created)}
+              date={getTimeFromNow(created)}
               name={username}
               reputation={reputation}
               size={32}

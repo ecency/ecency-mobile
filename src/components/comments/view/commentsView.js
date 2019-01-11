@@ -2,6 +2,7 @@ import React, { PureComponent, Fragment } from 'react';
 import { View, FlatList } from 'react-native';
 import { injectIntl } from 'react-intl';
 
+import { getTimeFromNow } from '../../../utils/time';
 // Constants
 
 // Components
@@ -57,7 +58,8 @@ class CommentsView extends PureComponent {
               <View key={index}>
                 <PostHeaderDescription
                   key={item.permlink}
-                  date={intl.formatRelative(item.created)}
+                  // date={intl.formatRelative(item.created)}
+                  date={getTimeFromNow(item.created)}
                   name={item.author}
                   reputation={item.author_reputation}
                   size={avatarSize || 24}
