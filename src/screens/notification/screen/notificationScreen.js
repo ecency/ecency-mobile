@@ -43,7 +43,7 @@ class NotificationScreen extends PureComponent {
             tabLabel={intl.formatMessage({
               id: 'notification.notification',
             })}
-            style={styles.notificationTab}
+            style={styles.tabbarItem}
           >
             {isLoggedIn ? (
               <Notification
@@ -66,7 +66,7 @@ class NotificationScreen extends PureComponent {
             tabLabel={intl.formatMessage({
               id: 'notification.leaderboard',
             })}
-            style={styles.leaderboardTab}
+            style={styles.tabbarItem}
           >
             <LeaderBoard />
           </View>
