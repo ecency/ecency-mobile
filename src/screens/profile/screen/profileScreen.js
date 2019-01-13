@@ -58,6 +58,8 @@ class ProfileScreen extends PureComponent {
       follows,
       handleFollowUnfollowUser,
       handleMuteUnmuteUser,
+      handleOnBackPress,
+      handleOnFavoritePress,
       handleOnFollowsPress,
       intl,
       isDarkTheme,
@@ -103,6 +105,7 @@ class ProfileScreen extends PureComponent {
           key={selectedQuickProfile && selectedQuickProfile.name}
           selectedUser={selectedQuickProfile}
           isReverse={isReverseHeader}
+          handleOnBackPress={handleOnBackPress}
         />
         <View style={styles.container}>
           {!isReady ? (
@@ -128,13 +131,15 @@ class ProfileScreen extends PureComponent {
                 followingCount={follows.following_count}
                 handleFollowUnfollowUser={handleFollowUnfollowUser}
                 handleMuteUnmuteUser={handleMuteUnmuteUser}
+                handleOnFavoritePress={handleOnFavoritePress}
                 handleOnFollowsPress={handleOnFollowsPress}
+                handleUIChange={this._handleUIChange}
                 hoursRC={fullInHourRC || null}
                 hoursVP={fullInHourVP || null}
                 intl={intl}
                 isDarkTheme={isDarkTheme}
-                isFollowing={isFollowing}
                 isFavorite={isFavorite}
+                isFollowing={isFollowing}
                 isLoggedIn={isLoggedIn}
                 isMuted={isMuted}
                 isOwnProfile={!isReverseHeader}
@@ -143,7 +148,6 @@ class ProfileScreen extends PureComponent {
                 location={location}
                 percentRC={resourceCredits}
                 percentVP={votingPower}
-                handleUIChange={this._handleUIChange}
               />
             </CollapsibleCard>
           )}
