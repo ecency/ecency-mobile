@@ -31,4 +31,10 @@ export default EStyleSheet.create({
   avatarNameWrapper: {
     flexDirection: 'row',
   },
+  reblogedIcon: {
+    color: '$iconColor',
+    fontSize: 12,
+    marginLeft: 10,
+    alignSelf: 'center',
+  },
 });

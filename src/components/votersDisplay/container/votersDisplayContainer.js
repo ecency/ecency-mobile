@@ -1,14 +1,4 @@
 import React, { PureComponent } from 'react';
-import { withNavigation } from 'react-navigation';
-
-// Services and Actions
-
-// Middleware
-
-// Constants
-import { default as ROUTES } from '../../../constants/routeNames';
-
-// Utilities
 
 // Component
 import VotersDisplayView from '../view/votersDisplayView';
@@ -26,7 +16,9 @@ class VotersDisplayContainer extends PureComponent {
   }
 
   render() {
-    return <VotersDisplayView {...this.props} />;
+    const { votes } = this.props;
+
+    return <VotersDisplayView votes={votes} />;
   }
 }
 
