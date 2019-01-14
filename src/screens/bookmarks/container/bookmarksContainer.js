@@ -4,7 +4,7 @@ import { Alert } from 'react-native';
 import { injectIntl } from 'react-intl';
 
 // Services and Actions
-import { getFavorites, removeFavoriteUser } from '../../../providers/esteem/esteem';
+import { getFavorites, removeFavorite } from '../../../providers/esteem/esteem';
 
 // Constants
 import ROUTES from '../../../constants/routeNames';
@@ -32,10 +32,15 @@ class DraftsContainer extends Component {
 
   // Component Life Cycle Functions
   componentDidMount() {
-    this._getFavorites();
+    this._fetchData();
   }
 
   // Component Functions
+
+  _fetchData = () => {
+    this._getFavorites();
+  };
+
   _getFavorites = () => {
     const { currentAccount, intl } = this.props;
     this.setState({ isLoading: true });
@@ -53,7 +58,7 @@ class DraftsContainer extends Component {
   _removeFavorite = (selectedUsername) => {
     const { currentAccount, intl } = this.props;
 
-    removeFavoriteUser(currentAccount.name, selectedUsername)
+    removeFavorite(currentAccount.name, selectedUsername)
       .then(() => {
         const { favorites } = this.state;
         const newFavorites = [...favorites].filter(fav => fav.account !== selectedUsername);
@@ -72,6 +77,7 @@ class DraftsContainer extends Component {
       routeName: ROUTES.SCREENS.PROFILE,
       params: {
         username,
+        fetchData: this._fetchData,
       },
     });
   };

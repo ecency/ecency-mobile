@@ -4,6 +4,7 @@ import { withNavigation } from 'react-navigation';
 
 // Components
 import { Tag, TextWithIcon } from '../../../basicUIElements';
+import { Icon } from '../../../icon';
 import { UserAvatar } from '../../../userAvatar';
 // Styles
 import styles from './postHeaderDescriptionStyles';
@@ -81,7 +82,12 @@ class PostHeaderDescription extends PureComponent {
         )}
         <Text style={styles.date}>{date}</Text>
         {!!reblogedBy && (
-          <TextWithIcon text={reblogedBy} iconType="MaterialIcons" iconName="repeat" />
+          // <TextWithIcon text={reblogedBy} iconType="MaterialIcons" iconName="repeat" />
+          <Icon
+            style={styles.reblogedIcon}
+            name="repeat"
+            iconType="MaterialIcons"
+          />
         )}
       </View>
     );
