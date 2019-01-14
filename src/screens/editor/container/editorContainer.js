@@ -308,7 +308,7 @@ class EditorContainer extends Component {
         options,
         0,
       )
-        .then((result) => {
+        .then(() => {
           Alert.alert(
             intl.formatMessage({
               id: 'alert.success',

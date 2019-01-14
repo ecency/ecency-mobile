@@ -5,13 +5,16 @@ import {
 import Markdown, { getUniqueID } from 'react-native-markdown-renderer';
 import ActionSheet from 'react-native-actionsheet';
 
+// Utils
+import { markDown2Html } from '../../../utils/markdownToHtml';
+
 // Components
 import { IconButton } from '../../iconButton';
 import { StickyBar } from '../../basicUIElements';
 import { TextInput } from '../../textInput';
 import applyImageLink from './formats/applyWebLinkFormat';
 import Formats from './formats/formats';
-
+import { PostBody } from '../../postElements';
 // Styles
 import styles from './markdownEditorStyles';
 import markdownStyle from './markdownPreviewStyles';
@@ -39,7 +42,11 @@ export default class MarkdownEditorView extends Component {
       });
     }
 
-    if (nextProps.uploadedImage && nextProps.uploadedImage.url && nextProps.uploadedImage !== uploadedImage) {
+    if (
+      nextProps.uploadedImage
+      && nextProps.uploadedImage.url
+      && nextProps.uploadedImage !== uploadedImage
+    ) {
       applyImageLink({
         getState: this._getState,
         setState: (state, callback) => {
@@ -106,9 +113,10 @@ export default class MarkdownEditorView extends Component {
     return (
       <View style={styles.textWrapper}>
         <ScrollView removeClippedSubviews>
-          <Markdown rules={rules} style={markdownStyle}>
+          {/* <Markdown rules={rules} style={markdownStyle}>
             {text === '' ? '...' : text}
-          </Markdown>
+          </Markdown> */}
+          <PostBody body={markDown2Html(text)} />
         </ScrollView>
       </View>
     );
@@ -133,9 +141,7 @@ export default class MarkdownEditorView extends Component {
         <FlatList
           data={Formats}
           keyboardShouldPersistTaps="always"
-          renderItem={
-            ({ item, index }) => index !== 9
-              && this._renderMarkupButton({ item, getState, setState })
+          renderItem={({ item, index }) => index !== 9 && this._renderMarkupButton({ item, getState, setState })
           }
           horizontal
         />
@@ -176,7 +182,11 @@ export default class MarkdownEditorView extends Component {
     const { text, selection } = this.state;
 
     return (
-      <KeyboardAvoidingView style={styles.container} keyboardVerticalOffset={Platform.select({ ios: 0, android: 25 })} behavior="padding">
+      <KeyboardAvoidingView
+        style={styles.container}
+        keyboardVerticalOffset={Platform.select({ ios: 0, android: 25 })}
+        behavior="padding"
+      >
         {!isPreviewActive ? (
           <TextInput
             multiline
