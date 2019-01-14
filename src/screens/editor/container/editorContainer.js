@@ -273,7 +273,7 @@ class EditorContainer extends Component {
 
       const draftField = {
         ...fields,
-        tags: fields.tags && fields.tags.length > 0 ? fields.tags.toString() : "",
+        tags: fields.tags && fields.tags.length > 0 ? fields.tags.toString() : '',
       };
 
       setDraftPost(draftField, username);
