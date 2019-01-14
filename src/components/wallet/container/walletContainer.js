@@ -25,7 +25,7 @@ class WalletContainer extends Component {
     super(props);
     this.state = {
       walletData: null,
-      claiming: false,
+      isClaiming: false,
       isRefreshing: false,
     };
   }
@@ -52,15 +52,15 @@ class WalletContainer extends Component {
     this.setState({ walletData });
   };
 
-  _claimRewardBalance = () => {
+  _claimRewardBalance = async () => {
     const { currentAccount, intl, pinCode } = this.props;
-    const { claiming } = this.state;
+    const { isClaiming } = this.state;
 
-    if (claiming) {
+    if (isClaiming) {
       return;
     }
 
-    this.setState({ claiming: true });
+    await this.setState({ isClaiming: true });
 
     getAccount(currentAccount.name)
       .then((account) => {
@@ -74,20 +74,22 @@ class WalletContainer extends Component {
       })
       .then(() => getAccount(currentAccount.name))
       .then((account) => {
+        this._getWalletData(account && account[0]);
+
         Alert.alert(
           intl.formatMessage({
             id: 'alert.claim_reward_balance_ok',
           }),
         );
-        this._getWalletData(account && account[0]);
       })
       .then((account) => {
         this._getWalletData(account && account[0]);
-        this.setState({ claiming: false });
+        this.setState({ isClaiming: false });
       })
       .catch((err) => {
+        this.setState({ isClaiming: false });
+
         Alert.alert(err);
-        this.setState({ claiming: false });
       });
   };
 
@@ -108,7 +110,7 @@ class WalletContainer extends Component {
 
   render() {
     const { currentAccount, selectedUser, isDarkTheme } = this.props;
-    const { walletData, claiming, isRefreshing } = this.state;
+    const { walletData, isClaiming, isRefreshing } = this.state;
 
     return (
       <WalletView
@@ -116,7 +118,7 @@ class WalletContainer extends Component {
         selectedUsername={selectedUser && selectedUser.name}
         walletData={walletData}
         claimRewardBalance={this._claimRewardBalance}
-        claiming={claiming}
+        isClaiming={isClaiming}
         handleOnWalletRefresh={this._handleOnWalletRefresh}
         isRefreshing={isRefreshing}
         isDarkTheme={isDarkTheme}

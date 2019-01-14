@@ -46,7 +46,7 @@ class WalletView extends PureComponent {
 
   render() {
     const {
-      claiming,
+      isClaiming,
       claimRewardBalance,
       currentAccountUsername,
       handleOnWalletRefresh,
@@ -88,10 +88,11 @@ class WalletView extends PureComponent {
               >
                 {currentAccountUsername === selectedUsername ? (
                   <MainButton
-                    isLoading={claiming}
+                    isLoading={isClaiming}
+                    isDisable={isClaiming}
                     style={styles.mainButton}
                     height={50}
-                    onPress={claimRewardBalance}
+                    onPress={() => claimRewardBalance()}
                   >
                     <View style={styles.mainButtonWrapper}>
                       {this._getUnclaimedText(walletData)}
