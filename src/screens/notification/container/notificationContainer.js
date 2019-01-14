@@ -17,6 +17,7 @@ class NotificationContainer extends Component {
     this.state = {
       notifications: [],
       lastNotificationId: null,
+      notificationLoading: false,
     };
   }
 
@@ -33,12 +34,15 @@ class NotificationContainer extends Component {
     const { lastNotificationId, notifications } = this.state;
     const since = loadMore ? lastNotificationId : null;
 
+    this.setState({ notificationLoading: true });
+
     getActivities({ user: username, type, since }).then((res) => {
       const lastId = [...res].pop().id;
 
       this.setState({
         notifications: loadMore ? [...notifications, ...res] : res,
         lastNotificationId: lastId,
+        notificationLoading: false,
       });
     });
   };
@@ -87,7 +91,7 @@ class NotificationContainer extends Component {
   };
 
   render() {
-    const { notifications } = this.state;
+    const { notifications, notificationLoading } = this.state;
 
     return (
       <NotificationScreen
@@ -96,6 +100,7 @@ class NotificationContainer extends Component {
         navigateToNotificationRoute={this._navigateToNotificationRoute}
         readAllNotification={this._readAllNotification}
         handleLoginPress={this._handleOnPressLogin}
+        notificationLoading={notificationLoading}
         {...this.props}
       />
     );
