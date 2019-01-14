@@ -109,7 +109,7 @@ export const getIsFavorite = (targetUsername, currentUsername) => api.get(`/isfa
 export const addFavorite = (currentUsername, targetUsername) => api
   .post('/favorite', {
     username: currentUsername,
-    targetUsername,
+    account: targetUsername,
   })
   .then(resp => resp.data);
 
@@ -117,7 +117,7 @@ export const addFavorite = (currentUsername, targetUsername) => api
  * @params current username
  * @params target username
  */
-export const removeFavoriteUser = (currentUsername, targetUsername) => api.delete(`/favoriteUser/${currentUsername}/${targetUsername}`);
+export const removeFavorite = (currentUsername, targetUsername) => api.delete(`/favoriteUser/${currentUsername}/${targetUsername}`);
 
 export const getLeaderboard = () => api.get('/leaderboard').then(resp => resp.data);
 

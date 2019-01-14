@@ -15,7 +15,7 @@ import {
 } from '../../../providers/steem/dsteem';
 
 // Esteem providers
-import { getIsFavorite } from '../../../providers/esteem/esteem';
+import { getIsFavorite, addFavorite, removeFavorite } from '../../../providers/esteem/esteem';
 
 // Constants
 import { default as ROUTES } from '../../../constants/routeNames';
@@ -69,9 +69,7 @@ class ProfileContainer extends Component {
     const {
       navigation, currentAccount, activeBottomTab, isLoggedIn,
     } = this.props;
-    const currentUsername = currentAccount.name
-      !== nextProps.currentAccount.name
-      && nextProps.currentAccount.name;
+    const currentUsername = currentAccount.name !== nextProps.currentAccount.name && nextProps.currentAccount.name;
     const isParamsChange = nextProps.navigation.state
       && navigation.state
       && nextProps.navigation.state.params
@@ -87,7 +85,10 @@ class ProfileContainer extends Component {
       this._loadProfile(currentUsername);
     }
 
-    if (activeBottomTab !== nextProps.activeBottomTab && nextProps.activeBottomTab === 'ProfileTabbar') {
+    if (
+      activeBottomTab !== nextProps.activeBottomTab
+      && nextProps.activeBottomTab === 'ProfileTabbar'
+    ) {
       this._loadProfile(currentAccount.name);
     }
 
@@ -99,14 +100,11 @@ class ProfileContainer extends Component {
   }
 
   _getReplies = async (user) => {
-    await getRepliesByLastUpdate({ start_author: user, limit: 10 })
-      .then((result) => {
-        this.setState({
-          isReady: true,
-          comments: result,
-        });
-      })
-      .catch(() => {});
+    await getRepliesByLastUpdate({ start_author: user, limit: 10 }).then((result) => {
+      this.setState({
+        comments: result,
+      });
+    });
   };
 
   _handleFollowUnfollowUser = async (isFollowAction) => {
@@ -196,28 +194,31 @@ class ProfileContainer extends Component {
   _fetchProfile = async (username = null) => {
     if (username) {
       const { isLoggedIn, currentAccount } = this.props;
-      let _isFollowing;
-      let _isMuted;
-      let _isFavorite;
-      let _follows;
+      let isFollowing;
+      let isMuted;
+      let isFavorite;
+      let follows;
 
       if (isLoggedIn && currentAccount.name !== username) {
-        _isFollowing = await getIsFollowing(username, currentAccount.name);
+        isFollowing = await getIsFollowing(username, currentAccount.name);
 
-        _isMuted = _isFollowing ? false : await getIsMuted(username, currentAccount.name);
+        isMuted = isFollowing ? false : await getIsMuted(username, currentAccount.name);
 
-        _isFavorite = getIsFavorite(username, currentAccount.name);
+        getIsFavorite(username, currentAccount.name).then((isFav) => {
+          isFavorite = isFav;
+        });
       }
 
       await getFollows(username).then((res) => {
-        _follows = res;
+        follows = res;
       });
 
       this.setState({
-        follows: _follows,
-        isFollowing: _isFollowing,
-        isMuted: _isMuted,
-        isFavorite: _isFavorite,
+        follows,
+        isFollowing,
+        isMuted,
+        isFavorite,
+        isReady: true,
       });
     }
   };
@@ -268,6 +269,41 @@ class ProfileContainer extends Component {
     });
   };
 
+  _addFavorite = () => {
+    const { currentAccount } = this.props;
+    const { username } = this.state;
+
+    addFavorite(currentAccount.name, username).then(() => {
+      this.setState({ isFavorite: true });
+    });
+  };
+
+  _removeFavorite = () => {
+    const { currentAccount } = this.props;
+    const { username } = this.state;
+
+    removeFavorite(currentAccount.name, username).then(() => {
+      this.setState({ isFavorite: false });
+    });
+  };
+
+  _handleOnFavoritePress = (isFavorite) => {
+    if (isFavorite) {
+      this._removeFavorite();
+    } else {
+      this._addFavorite();
+    }
+  };
+
+  _handleOnBackPress = () => {
+    const { navigation } = this.props;
+    const navigationParams = navigation.state && navigation.state.params;
+
+    if (navigationParams && navigationParams.fetchData) {
+      navigationParams.fetchData();
+    }
+  };
+
   render() {
     const {
       avatar,
@@ -296,6 +332,8 @@ class ProfileContainer extends Component {
           follows={follows}
           handleFollowUnfollowUser={this._handleFollowUnfollowUser}
           handleMuteUnmuteUser={this._handleMuteUnmuteUser}
+          handleOnBackPress={this._handleOnBackPress}
+          handleOnFavoritePress={this._handleOnFavoritePress}
           handleOnFollowsPress={this._handleFollowsPress}
           isDarkTheme={isDarkTheme}
           isFavorite={isFavorite}

@@ -34,7 +34,9 @@ class HeaderContainer extends PureComponent {
   };
 
   _handleOnPressBackButton = () => {
-    const { navigation } = this.props;
+    const { navigation, handleOnBackPress } = this.props;
+
+    if (handleOnBackPress) handleOnBackPress();
 
     navigation.goBack();
   };
