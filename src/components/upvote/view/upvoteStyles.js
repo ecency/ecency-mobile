@@ -4,18 +4,27 @@ export default EStyleSheet.create({
   upvoteButton: {
     flexDirection: 'row',
     alignSelf: 'center',
+    alignItems: 'center',
+    justifyContent: 'center',
   },
   upvoteIcon: {
-    alignSelf: 'flex-start',
+    alignSelf: 'center',
     fontSize: 20,
     color: '$primaryBlue',
   },
-  popover: {
+  popoverSlider: {
     flexDirection: 'row',
     width: '$deviceWidth - 20',
     height: 48,
     borderRadius: '$deviceWidth - 20 / 2',
     paddingHorizontal: 16,
+    backgroundColor: '$primaryBackgroundColor',
+  },
+  popoverDetails: {
+    flexDirection: 'row',
+    height: 100,
+    borderRadius: 20,
+    paddingHorizontal: 26,
     backgroundColor: '$primaryBackgroundColor',
   },
   track: {
@@ -53,6 +62,13 @@ export default EStyleSheet.create({
     alignItems: 'center',
   },
   arrow: {
+    borderTopColor: '$primaryBackgroundColor',
+    marginLeft: 25,
+  },
+  payoutTextButton: {
+    alignSelf: 'center',
+  },
+  hideArrow: {
     borderTopColor: 'transparent',
   },
   overlay: {
@@ -67,5 +83,9 @@ export default EStyleSheet.create({
   declinedPayout: {
     textDecorationLine: 'line-through',
     textDecorationStyle: 'solid',
+  },
+  detailsText: {
+    color: '$primaryDarkGray',
+    fontSize: 10,
   },
 });

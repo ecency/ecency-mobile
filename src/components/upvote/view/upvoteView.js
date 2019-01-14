@@ -1,14 +1,15 @@
 import React, { Component, Fragment } from 'react';
 import {
-  View, TouchableOpacity, ActivityIndicator, Text, Alert,
+  View, TouchableOpacity, Text, Alert,
 } from 'react-native';
+import { injectIntl } from 'react-intl';
 import { Popover, PopoverController } from 'react-native-modal-popover';
 import Slider from 'react-native-slider';
-// Constants
 
 // Components
 import { Icon } from '../../icon';
 import { PulseAnimation } from '../../animations';
+import { TextButton } from '../../buttons';
 // STEEM
 import { upvoteAmount, vote } from '../../../providers/steem/dsteem';
 
@@ -28,6 +29,7 @@ class UpvoteView extends Component {
       isVoting: false,
       isVoted: props.isVoted,
       amount: '0.00000',
+      isShowDetails: false,
     };
   }
 
@@ -75,7 +77,12 @@ class UpvoteView extends Component {
 
   _upvoteContent = async () => {
     const {
-      author, currentAccount, fetchPost, handleSetUpvotePercent, permlink, pinCode,
+      author,
+      currentAccount,
+      fetchPost,
+      handleSetUpvotePercent,
+      permlink,
+      pinCode,
     } = this.props;
     const { sliderValue } = this.state;
 
@@ -90,13 +97,7 @@ class UpvoteView extends Component {
 
     const weight = sliderValue ? (sliderValue * 100).toFixed(0) * 100 : 0;
 
-    vote(
-      currentAccount,
-      pinCode,
-      author,
-      permlink,
-      weight,
-    )
+    vote(currentAccount, pinCode, author, permlink, weight)
       .then(() => {
         this.setState(
           {
@@ -119,11 +120,31 @@ class UpvoteView extends Component {
       });
   };
 
+  _handleOnPopoverClose = () => {
+    this.popoverOnClose = setTimeout(() => {
+      this.setState({ isShowDetails: false }, () => {
+        clearTimeout(this.popoverOnClose);
+      });
+    }, 300);
+  };
+
   render() {
-    const { isDecinedPayout, isLoggedIn, isShowPayoutValue, totalPayout } = this.props;
     const {
-      isVoting, amount, sliderValue, isVoted,
+      isDecinedPayout,
+      isLoggedIn,
+      isShowPayoutValue,
+      totalPayout,
+      pendingPayout,
+      promotedPayout,
+      authorPayout,
+      curationPayout,
+      payoutDate,
+      intl,
+    } = this.props;
+    const {
+      isVoting, amount, sliderValue, isVoted, isShowDetails,
     } = this.state;
+
     let iconName = 'ios-arrow-dropup';
     let iconType;
 
@@ -169,57 +190,98 @@ class UpvoteView extends Component {
                     name={iconName}
                   />
                 )}
-                {isShowPayoutValue && (
-                <Text style={[styles.payoutValue, isDecinedPayout && styles.declinedPayout]}>{`$${_totalPayout}`}</Text>
-                )}
               </Fragment>
             </TouchableOpacity>
+            <View style={styles.payoutTextButton}>
+              {isShowPayoutValue && (
+              <TextButton
+                style={styles.payoutTextButton}
+                textStyle={[styles.payoutValue, isDecinedPayout && styles.declinedPayout]}
+                text={`$${_totalPayout}`}
+                onPress={() => {
+                  openPopover();
+                  this.setState({ isShowDetails: true });
+                }}
+              />
+              )}
+            </View>
 
             <Popover
-              contentStyle={styles.popover}
-              arrowStyle={styles.arrow}
+              contentStyle={isShowDetails ? styles.popoverDetails : styles.popoverSlider}
+              arrowStyle={isShowDetails ? styles.arrow : styles.hideArrow}
               backgroundStyle={styles.overlay}
               visible={popoverVisible}
-              onClose={closePopover}
+              onClose={() => {
+                closePopover();
+                this._handleOnPopoverClose();
+              }}
               fromRect={popoverAnchorRect}
               placement="top"
               supportedOrientations={['portrait', 'landscape']}
             >
               <View style={styles.popoverWrapper}>
-                <TouchableOpacity
-                  onPress={() => {
-                    closePopover();
-                    this._upvoteContent();
-                  }}
-                  style={styles.upvoteButton}
-                >
-                  {isVoting ? (
-                    <ActivityIndicator />
-                  ) : (
-                    <Icon
-                      size={20}
-                      style={[styles.upvoteIcon, { color: '#007ee5' }]}
-                      active={!isLoggedIn}
-                      iconType={iconType}
-                      name={iconName}
+                {isShowDetails ? (
+                  <View>
+                    <Text style={styles.detailsText}>
+                      {`${intl.formatMessage({
+                        id: 'payout.promoted',
+                      })} $${promotedPayout}`}
+                    </Text>
+                    <Text style={styles.detailsText}>
+                      {`${intl.formatMessage({
+                        id: 'payout.potential_payout',
+                      })} $${pendingPayout}`}
+                    </Text>
+                    <Text style={styles.detailsText}>
+                      {`${intl.formatMessage({
+                        id: 'payout.author_payout',
+                      })} $${authorPayout}`}
+                    </Text>
+                    <Text style={styles.detailsText}>
+                      {`${intl.formatMessage({
+                        id: 'payout.curation_payout',
+                      })} $${curationPayout}`}
+                    </Text>
+                    <Text style={styles.detailsText}>
+                      {`${intl.formatMessage({
+                        id: 'payout.payout_date',
+                      })} ${payoutDate}`}
+                    </Text>
+                  </View>
+                ) : (
+                  <Fragment>
+                    <TouchableOpacity
+                      onPress={() => {
+                closePopover();
+                this._upvoteContent();
+              }}
+                      style={styles.upvoteButton}
+                    >
+                      <Icon
+                size={20}
+                style={[styles.upvoteIcon, { color: '#007ee5' }]}
+                active={!isLoggedIn}
+                iconType={iconType}
+                name={iconName}
+              />
+                    </TouchableOpacity>
+                    <Text style={styles.amount}>{_amount}</Text>
+                    <Slider
+                      style={styles.slider}
+                      minimumTrackTintColor="#357ce6"
+                      trackStyle={styles.track}
+                      thumbStyle={styles.thumb}
+                      thumbTintColor="#007ee5"
+                      value={sliderValue}
+                      onValueChange={(value) => {
+                this.setState({ sliderValue: value }, () => {
+                  this._calculateEstimatedAmount();
+                });
+              }}
                     />
-                  )}
-                </TouchableOpacity>
-                <Text style={styles.amount}>{_amount}</Text>
-                <Slider
-                  style={styles.slider}
-                  minimumTrackTintColor="#357ce6"
-                  trackStyle={styles.track}
-                  thumbStyle={styles.thumb}
-                  thumbTintColor="#007ee5"
-                  value={sliderValue}
-                  onValueChange={(value) => {
-                    this.setState({ sliderValue: value }, () => {
-                      this._calculateEstimatedAmount();
-                    });
-                  }}
-                />
-                <Text style={styles.percent}>{_percent}</Text>
+                    <Text style={styles.percent}>{_percent}</Text>
+                  </Fragment>
+                )}
               </View>
             </Popover>
           </Fragment>
@@ -229,4 +291,4 @@ class UpvoteView extends Component {
   }
 }
 
-export default UpvoteView;
+export default injectIntl(UpvoteView);
