@@ -2,7 +2,6 @@ import React, { Component } from 'react';
 import {
   View, KeyboardAvoidingView, ScrollView, FlatList, Text, Platform,
 } from 'react-native';
-import Markdown, { getUniqueID } from 'react-native-markdown-renderer';
 import ActionSheet from 'react-native-actionsheet';
 
 // Utils
@@ -15,9 +14,9 @@ import { TextInput } from '../../textInput';
 import applyImageLink from './formats/applyWebLinkFormat';
 import Formats from './formats/formats';
 import { PostBody } from '../../postElements';
+
 // Styles
 import styles from './markdownEditorStyles';
-import markdownStyle from './markdownPreviewStyles';
 
 export default class MarkdownEditorView extends Component {
   constructor(props) {
@@ -97,26 +96,11 @@ export default class MarkdownEditorView extends Component {
 
   _renderPreview = () => {
     const { text } = this.state;
-    const rules = {
-      heading1: (node, children, parent, styles) => (
-        <Text key={getUniqueID()} style={styles.heading1}>
-          {children}
-        </Text>
-      ),
-      heading2: (node, children, parent, styles) => (
-        <Text key={getUniqueID()} style={styles.heading2}>
-          {children}
-        </Text>
-      ),
-    };
 
     return (
       <View style={styles.textWrapper}>
         <ScrollView removeClippedSubviews>
-          {/* <Markdown rules={rules} style={markdownStyle}>
-            {text === '' ? '...' : text}
-          </Markdown> */}
-          <PostBody body={markDown2Html(text)} />
+          {text ? <PostBody body={markDown2Html(text)} /> : <Text>...</Text>}
         </ScrollView>
       </View>
     );
