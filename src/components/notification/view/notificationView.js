@@ -1,5 +1,7 @@
 import React, { PureComponent, Fragment } from 'react';
-import { View, ScrollView, FlatList } from 'react-native';
+import {
+  View, ScrollView, FlatList, ActivityIndicator,
+} from 'react-native';
 import { injectIntl } from 'react-intl';
 
 // Constants
@@ -69,6 +71,18 @@ class NotificationView extends PureComponent {
     );
   };
 
+  _renderFooterLoading = () => {
+    const { loading, notifications } = this.props;
+    if (loading && notifications.length > 0) {
+      return (
+        <View style={styles.flatlistFooter}>
+          <ActivityIndicator animating size="large" />
+        </View>
+      );
+    }
+    return null;
+  };
+
   _getNotificationsArrays = () => {
     const { notifications, intl } = this.props;
 
@@ -117,30 +131,30 @@ class NotificationView extends PureComponent {
   };
 
   _getTimeListIndex = (timestamp) => {
-    if (isToday(timestamp)) {
-      return 0;
-    }
+    if (isToday(timestamp)) return 0;
 
-    if (isYesterday(timestamp)) {
-      return 1;
-    }
+    if (isYesterday(timestamp)) return 1;
 
-    if (isThisWeek(timestamp)) {
-      return 2;
-    }
+    if (isThisWeek(timestamp)) return 2;
 
-    if (isThisMonth(timestamp)) {
-      return 3;
-    }
+    if (isThisMonth(timestamp)) return 3;
 
     return 4;
   };
 
   render() {
-    const { readAllNotification, getActivities } = this.props;
+    const { readAllNotification, getActivities, loading } = this.props;
     const { filters, selectedFilter } = this.state;
 
     const _notifications = this._getNotificationsArrays();
+
+    if (_notifications.length === 0) {
+      return (
+        <View style={styles.loading}>
+          <ActivityIndicator animating size="large" />
+        </View>
+      );
+    }
 
     return (
       <View style={styles.container}>
@@ -157,7 +171,11 @@ class NotificationView extends PureComponent {
           onScroll={(e) => {
             let paddingToBottom = 1;
             paddingToBottom += e.nativeEvent.layoutMeasurement.height;
-            if (e.nativeEvent.contentOffset.y >= e.nativeEvent.contentSize.height - paddingToBottom) {
+            if (
+              e.nativeEvent.contentOffset.y
+                >= e.nativeEvent.contentSize.height - paddingToBottom
+                && !loading
+            ) {
               getActivities(selectedFilter, true);
             }
           }}
@@ -176,6 +194,7 @@ class NotificationView extends PureComponent {
               </Fragment>
             )}
             keyExtractor={item => item.title}
+            ListFooterComponent={this._renderFooterLoading}
           />
         </ScrollView>
       </View>
