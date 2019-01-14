@@ -26,6 +26,12 @@ import ProfileScreen from '../screen/profileScreen';
 class ProfileContainer extends Component {
   constructor(props) {
     super(props);
+    const isReverseHeader = !!(
+      props.navigation.state &&
+      props.navigation.state.params &&
+      props.navigation.state.username
+    );
+
     this.state = {
       comments: [],
       follows: {},
@@ -34,14 +40,14 @@ class ProfileContainer extends Component {
       isMuted: false,
       isProfileLoading: false,
       isReady: false,
-      isReverseHeader: !!(props.navigation.state && props.navigation.state.params),
+      isReverseHeader,
       user: null,
       selectedQuickProfile: null,
     };
   }
 
   componentDidMount = () => {
-    const { navigation, isLoggedIn } = this.props;
+    const { navigation, isLoggedIn, currentAccount } = this.props;
     const selectedUser = navigation.state && navigation.state.params;
 
     if (!isLoggedIn && !selectedUser) {
@@ -49,7 +55,7 @@ class ProfileContainer extends Component {
       return;
     }
 
-    if (selectedUser) {
+    if (selectedUser && selectedUser.username) {
       this._loadProfile(selectedUser.username);
 
       if (selectedUser.username) {
@@ -62,6 +68,8 @@ class ProfileContainer extends Component {
       }
 
       this.setState({ isReverseHeader: true });
+    } else {
+      this._loadProfile(currentAccount.name);
     }
   };
 
@@ -69,12 +77,8 @@ class ProfileContainer extends Component {
     const {
       navigation, currentAccount, activeBottomTab, isLoggedIn,
     } = this.props;
-    const currentUsername = currentAccount.name !== nextProps.currentAccount.name && nextProps.currentAccount.name;
-    const isParamsChange = nextProps.navigation.state
-      && navigation.state
-      && nextProps.navigation.state.params
-      && nextProps.navigation.state.params.username
-      && nextProps.navigation.state.params.username !== navigation.state.params.username;
+    const currentUsername = currentAccount.name !== nextProps.currentAccount.name
+      && nextProps.currentAccount.name;
 
     if (isLoggedIn && !nextProps.isLoggedIn) {
       navigation.navigate(ROUTES.SCREENS.LOGIN);
@@ -90,12 +94,6 @@ class ProfileContainer extends Component {
       && nextProps.activeBottomTab === 'ProfileTabbar'
     ) {
       this._loadProfile(currentAccount.name);
-    }
-
-    if (isParamsChange) {
-      const selectedUser = nextProps.navigation.state && nextProps.navigation.state.params;
-
-      this._loadProfile(selectedUser && selectedUser.username);
     }
   }
 
