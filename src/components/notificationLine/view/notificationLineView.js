@@ -59,7 +59,7 @@ class NotificationLineView extends PureComponent {
 
       _title = _percent + _title;
     }
-
+console.log('1 :');
     return (
       <TouchableHighlight onPress={() => this._handleOnNotificationPress()}>
         <View

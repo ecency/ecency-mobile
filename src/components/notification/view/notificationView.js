@@ -34,6 +34,7 @@ class NotificationView extends PureComponent {
         { key: 'follows', value: 'FOLLOWS' },
         { key: 'reblogs', value: 'REBLOGS' },
       ],
+      selectedFilter: null,
     };
   }
 
@@ -45,7 +46,8 @@ class NotificationView extends PureComponent {
     const { getActivities } = this.props;
     const { filters } = this.state;
 
-    getActivities(filters[index].key);
+    this.setState({ selectedFilter: filters[index].key });
+    getActivities(filters[index].key, false);
   };
 
   _renderList = (data) => {
@@ -60,6 +62,8 @@ class NotificationView extends PureComponent {
             handleOnPressNotification={navigateToNotificationRoute}
           />
         )}
+        initialNumToRender={data.length}
+        maxToRenderPerBatch={data.length}
         keyExtractor={item => item.id}
       />
     );
@@ -133,8 +137,8 @@ class NotificationView extends PureComponent {
   };
 
   render() {
-    const { readAllNotification } = this.props;
-    const { filters } = this.state;
+    const { readAllNotification, getActivities } = this.props;
+    const { filters, selectedFilter } = this.state;
 
     const _notifications = this._getNotificationsArrays();
 
@@ -148,7 +152,16 @@ class NotificationView extends PureComponent {
           rightIconName="ios-checkmark"
           onRightIconPress={readAllNotification}
         />
-        <ScrollView style={styles.scrollView}>
+        <ScrollView
+          style={styles.scrollView}
+          onScroll={(e) => {
+            let paddingToBottom = 1;
+            paddingToBottom += e.nativeEvent.layoutMeasurement.height;
+            if (e.nativeEvent.contentOffset.y >= e.nativeEvent.contentSize.height - paddingToBottom) {
+              getActivities(selectedFilter, true);
+            }
+          }}
+        >
           <FlatList
             data={_notifications}
             renderItem={({ item, index }) => (

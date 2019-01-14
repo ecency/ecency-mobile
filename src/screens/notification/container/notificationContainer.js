@@ -16,6 +16,7 @@ class NotificationContainer extends Component {
     super(props);
     this.state = {
       notifications: [],
+      lastNotificationId: null,
     };
   }
 
@@ -27,11 +28,18 @@ class NotificationContainer extends Component {
     }
   }
 
-  _getAvtivities = (type = null) => {
+  _getAvtivities = (type = null, loadMore = false) => {
     const { username } = this.props;
+    const { lastNotificationId, notifications } = this.state;
+    const since = loadMore ? lastNotificationId : null;
 
-    getActivities({ user: username, type }).then((res) => {
-      this.setState({ notifications: res });
+    getActivities({ user: username, type, since }).then((res) => {
+      const lastId = [...res].pop().id;
+
+      this.setState({
+        notifications: loadMore ? [...notifications, ...res] : res,
+        lastNotificationId: lastId,
+      });
     });
   };
 
