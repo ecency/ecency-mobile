@@ -1,19 +1,19 @@
 import React, { Component } from 'react';
 import {
-  View, KeyboardAvoidingView, ScrollView, FlatList, Text, Platform,
+  View, KeyboardAvoidingView, FlatList, Text, Platform,
 } from 'react-native';
 import ActionSheet from 'react-native-actionsheet';
 
 // Utils
 import { markDown2Html } from '../../../utils/markdownToHtml';
+import applyImageLink from './formats/applyWebLinkFormat';
+import Formats from './formats/formats';
 
 // Components
 import { IconButton } from '../../iconButton';
+import { PostBody } from '../../postElements';
 import { StickyBar } from '../../basicUIElements';
 import { TextInput } from '../../textInput';
-import applyImageLink from './formats/applyWebLinkFormat';
-import Formats from './formats/formats';
-import { PostBody } from '../../postElements';
 
 // Styles
 import styles from './markdownEditorStyles';
@@ -98,10 +98,8 @@ export default class MarkdownEditorView extends Component {
     const { text } = this.state;
 
     return (
-      <View style={styles.textWrapper}>
-        <ScrollView removeClippedSubviews>
-          {text ? <PostBody body={markDown2Html(text)} /> : <Text>...</Text>}
-        </ScrollView>
+      <View style={styles.previewContainer}>
+        {text ? <PostBody body={markDown2Html(text)} /> : <Text>...</Text>}
       </View>
     );
   };
