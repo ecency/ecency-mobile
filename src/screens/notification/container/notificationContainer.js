@@ -97,6 +97,7 @@ class NotificationContainer extends Component {
   };
 
   render() {
+    const { isLoggedIn } = this.props;
     const { notifications, notificationLoading, readAllNotificationLoading } = this.state;
 
     return (
@@ -108,7 +109,7 @@ class NotificationContainer extends Component {
         handleLoginPress={this._handleOnPressLogin}
         notificationLoading={notificationLoading}
         readAllNotificationLoading={readAllNotificationLoading}
-        {...this.props}
+        isLoggedIn={isLoggedIn}
       />
     );
   }
