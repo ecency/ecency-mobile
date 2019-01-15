@@ -9,7 +9,8 @@ import { setUpvotePercent as upvoteAction } from '../../../redux/actions/applica
 
 // Utils
 import parseToken from '../../../utils/parseToken';
-import { getTimeFromNow } from '../../../utils/time';
+import { isEmptyContentDate, getTimeFromNow } from '../../../utils/time';
+import parseDate from '../../../utils/parseDate';
 
 // Component
 import UpvoteView from '../view/upvoteView';
@@ -71,7 +72,7 @@ class UpvoteContainer extends PureComponent {
       authorPayout = parseToken(content.total_payout_value).toFixed(3);
       curationPayout = parseToken(content.curator_payout_value).toFixed(3);
       payoutDate = getTimeFromNow(
-        content.last_payout === '1970-01-01T00:00:00' ? content.cashout_time : content.last_payout,
+        isEmptyContentDate(content.last_payout) ? content.cashout_time : content.last_payout,
       );
     }
 

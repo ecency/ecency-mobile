@@ -225,22 +225,22 @@ class UpvoteView extends Component {
                     <Text style={styles.detailsText}>
                       {`${intl.formatMessage({
                         id: 'payout.promoted',
-                      })} $${promotedPayout}`}
+                      })} ~$${promotedPayout}`}
                     </Text>
                     <Text style={styles.detailsText}>
                       {`${intl.formatMessage({
                         id: 'payout.potential_payout',
-                      })} $${pendingPayout}`}
+                      })} ~$${pendingPayout}`}
                     </Text>
                     <Text style={styles.detailsText}>
                       {`${intl.formatMessage({
                         id: 'payout.author_payout',
-                      })} $${authorPayout}`}
+                      })} ~$${authorPayout}`}
                     </Text>
                     <Text style={styles.detailsText}>
                       {`${intl.formatMessage({
                         id: 'payout.curation_payout',
-                      })} $${curationPayout}`}
+                      })} ~$${curationPayout}`}
                     </Text>
                     <Text style={styles.detailsText}>
                       {`${intl.formatMessage({
@@ -252,18 +252,18 @@ class UpvoteView extends Component {
                   <Fragment>
                     <TouchableOpacity
                       onPress={() => {
-                closePopover();
-                this._upvoteContent();
-              }}
+                        closePopover();
+                        this._upvoteContent();
+                      }}
                       style={styles.upvoteButton}
                     >
                       <Icon
-                size={20}
-                style={[styles.upvoteIcon, { color: '#007ee5' }]}
-                active={!isLoggedIn}
-                iconType={iconType}
-                name={iconName}
-              />
+                        size={20}
+                        style={[styles.upvoteIcon, { color: '#007ee5' }]}
+                        active={!isLoggedIn}
+                        iconType={iconType}
+                        name={iconName}
+                      />
                     </TouchableOpacity>
                     <Text style={styles.amount}>{_amount}</Text>
                     <Slider
@@ -274,10 +274,10 @@ class UpvoteView extends Component {
                       thumbTintColor="#007ee5"
                       value={sliderValue}
                       onValueChange={(value) => {
-                this.setState({ sliderValue: value }, () => {
-                  this._calculateEstimatedAmount();
-                });
-              }}
+                        this.setState({ sliderValue: value }, () => {
+                          this._calculateEstimatedAmount();
+                        });
+                      }}
                     />
                     <Text style={styles.percent}>{_percent}</Text>
                   </Fragment>
