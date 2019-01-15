@@ -26,10 +26,10 @@ class NotificationLineView extends PureComponent {
 
   // Component Life Cycles
   componentWillReceiveProps(nextProps) {
-    const { isRead } = this.props;
+    const { notification } = this.props;
 
-    if (isRead !== nextProps.isRead) {
-      this.setState({ isRead: nextProps.isRead });
+    if (notification.read !== nextProps.notification.read) {
+      this.setState({ isRead: nextProps.notification.read });
     }
   }
 
@@ -59,7 +59,7 @@ class NotificationLineView extends PureComponent {
 
       _title = _percent + _title;
     }
-console.log('1 :');
+
     return (
       <TouchableHighlight onPress={() => this._handleOnNotificationPress()}>
         <View
