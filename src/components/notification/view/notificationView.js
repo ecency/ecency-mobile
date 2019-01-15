@@ -143,7 +143,9 @@ class NotificationView extends PureComponent {
   };
 
   render() {
-    const { readAllNotification, getActivities, loading } = this.props;
+    const {
+      readAllNotification, getActivities, loading, readAllNotificationLoading,
+    } = this.props;
     const { filters, selectedFilter } = this.state;
 
     const _notifications = this._getNotificationsArrays();
@@ -165,6 +167,7 @@ class NotificationView extends PureComponent {
           onDropdownSelect={this._handleOnDropdownSelect}
           rightIconName="ios-checkmark"
           onRightIconPress={readAllNotification}
+          rightIconLoading={readAllNotificationLoading}
         />
         <ScrollView
           style={styles.scrollView}

@@ -18,6 +18,7 @@ class NotificationContainer extends Component {
       notifications: [],
       lastNotificationId: null,
       notificationLoading: false,
+      readAllNotificationLoading: false,
     };
   }
 
@@ -77,10 +78,13 @@ class NotificationContainer extends Component {
   _readAllNotification = () => {
     const { username, dispatch } = this.props;
     const { notifications } = this.state;
+
+    this.setState({ readAllNotificationLoading: true });
+
     markActivityAsRead(username).then((result) => {
       dispatch(updateUnreadActivityCount(result.unread));
       const updatedNotifications = notifications.map(item => ({ ...item, read: 1 }));
-      this.setState({ notifications: updatedNotifications });
+      this.setState({ notifications: updatedNotifications, readAllNotificationLoading: false });
     });
   };
 
@@ -91,7 +95,7 @@ class NotificationContainer extends Component {
   };
 
   render() {
-    const { notifications, notificationLoading } = this.state;
+    const { notifications, notificationLoading, readAllNotificationLoading } = this.state;
 
     return (
       <NotificationScreen
@@ -101,6 +105,7 @@ class NotificationContainer extends Component {
         readAllNotification={this._readAllNotification}
         handleLoginPress={this._handleOnPressLogin}
         notificationLoading={notificationLoading}
+        readAllNotificationLoading={readAllNotificationLoading}
         {...this.props}
       />
     );

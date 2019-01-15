@@ -30,6 +30,7 @@ class NotificationScreen extends PureComponent {
       handleLoginPress,
       isLoggedIn,
       notificationLoading,
+      readAllNotificationLoading,
     } = this.props;
 
     return (
@@ -53,6 +54,7 @@ class NotificationScreen extends PureComponent {
                 notifications={notifications}
                 navigateToNotificationRoute={navigateToNotificationRoute}
                 readAllNotification={readAllNotification}
+                readAllNotificationLoading={readAllNotificationLoading}
                 loading={notificationLoading}
               />
             ) : (
