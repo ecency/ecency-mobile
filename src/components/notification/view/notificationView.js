@@ -1,6 +1,6 @@
 import React, { PureComponent, Fragment } from 'react';
 import {
-  View, ScrollView, FlatList, ActivityIndicator,
+  View, ScrollView, FlatList, ActivityIndicator, RefreshControl,
 } from 'react-native';
 import { injectIntl } from 'react-intl';
 
@@ -142,20 +142,26 @@ class NotificationView extends PureComponent {
     return 4;
   };
 
+  _getActivityIndicator = () => (
+    <View style={styles.loading}>
+      <ActivityIndicator animating size="large" />
+    </View>
+  );
+
   render() {
     const {
-      readAllNotification, getActivities, loading, readAllNotificationLoading,
+      readAllNotification,
+      getActivities,
+      loading,
+      readAllNotificationLoading,
+      isDarkTheme,
     } = this.props;
     const { filters, selectedFilter } = this.state;
 
     const _notifications = this._getNotificationsArrays();
 
     if (_notifications.length === 0) {
-      return (
-        <View style={styles.loading}>
-          <ActivityIndicator animating size="large" />
-        </View>
-      );
+      return this._getActivityIndicator();
     }
 
     return (
@@ -165,9 +171,9 @@ class NotificationView extends PureComponent {
           options={filters.map(item => item.value)}
           defaultText="ALL ACTIVITIES"
           onDropdownSelect={this._handleOnDropdownSelect}
-          rightIconName="ios-checkmark"
+          rightIconName="check"
+          rightIconType="MaterialIcons"
           onRightIconPress={readAllNotification}
-          rightIconLoading={readAllNotificationLoading}
         />
         <ScrollView
           style={styles.scrollView}
@@ -175,9 +181,8 @@ class NotificationView extends PureComponent {
             let paddingToBottom = 1;
             paddingToBottom += e.nativeEvent.layoutMeasurement.height;
             if (
-              e.nativeEvent.contentOffset.y
-                >= e.nativeEvent.contentSize.height - paddingToBottom
-                && !loading
+              e.nativeEvent.contentOffset.y >= e.nativeEvent.contentSize.height - paddingToBottom
+              && !loading
             ) {
               getActivities(selectedFilter, true);
             }
@@ -185,6 +190,17 @@ class NotificationView extends PureComponent {
         >
           <FlatList
             data={_notifications}
+            refreshing={readAllNotificationLoading}
+            onRefresh={() => null}
+            refreshControl={(
+              <RefreshControl
+                refreshing={readAllNotificationLoading}
+                progressBackgroundColor="#357CE6"
+                tintColor={!isDarkTheme ? '#357ce6' : '#96c0ff'}
+                titleColor="#fff"
+                colors={['#fff']}
+              />
+)}
             renderItem={({ item, index }) => (
               <Fragment>
                 <ContainerHeader

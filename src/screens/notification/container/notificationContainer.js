@@ -22,6 +22,14 @@ class NotificationContainer extends Component {
     };
   }
 
+  componentDidMount() {
+    const { username } = this.props;
+
+    if (username) {
+      this._getAvtivities();
+    }
+  }
+
   componentWillReceiveProps(nextProps) {
     if (nextProps.activeBottomTab === ROUTES.TABBAR.NOTIFICATION) {
       if (nextProps.username) {
@@ -98,12 +106,15 @@ class NotificationContainer extends Component {
 
   render() {
     const { isLoggedIn } = this.props;
-    const { notifications, notificationLoading, readAllNotificationLoading } = this.state;
+    const {
+      notifications, notificationLoading, readAllNotificationLoading, isDarkTheme,
+    } = this.state;
 
     return (
       <NotificationScreen
         getActivities={this._getAvtivities}
         notifications={notifications}
+        isDarkTheme={isDarkTheme}
         navigateToNotificationRoute={this._navigateToNotificationRoute}
         readAllNotification={this._readAllNotification}
         handleLoginPress={this._handleOnPressLogin}
@@ -116,8 +127,10 @@ class NotificationContainer extends Component {
 }
 
 const mapStateToProps = state => ({
-  username: state.account.currentAccount.name,
   isLoggedIn: state.application.isLoggedIn,
+  isDarkTheme: state.application.isDarkTheme,
+
+  username: state.account.currentAccount.name,
   activeBottomTab: state.ui.activeBottomTab,
 });
 
