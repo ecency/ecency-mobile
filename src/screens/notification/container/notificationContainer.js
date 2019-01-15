@@ -37,15 +37,17 @@ class NotificationContainer extends Component {
 
     this.setState({ notificationLoading: true });
 
-    getActivities({ user: username, type, since }).then((res) => {
-      const lastId = [...res].pop().id;
+    getActivities({ user: username, type, since })
+      .then((res) => {
+        const lastId = [...res].pop().id;
 
-      this.setState({
-        notifications: loadMore ? [...notifications, ...res] : res,
-        lastNotificationId: lastId,
-        notificationLoading: false,
-      });
-    });
+        this.setState({
+          notifications: loadMore ? [...notifications, ...res] : res,
+          lastNotificationId: lastId,
+          notificationLoading: false,
+        });
+      })
+      .catch(() => this.setState({ notificationLoading: false }));
   };
 
   _navigateToNotificationRoute = (data) => {
