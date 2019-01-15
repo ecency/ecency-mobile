@@ -31,6 +31,7 @@ class NotificationScreen extends PureComponent {
       isLoggedIn,
       notificationLoading,
     } = this.props;
+
     return (
       <View style={styles.container}>
         <Header />
