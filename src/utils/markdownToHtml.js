@@ -152,7 +152,7 @@ const changeMarkdownImage = input => input.replace(markdownImageRegex, (link) =>
   return link;
 });
 
-const centerStyling = input => input.replace(centerRegex, () => '<center style="text-align: align-items: center;">');
+const centerStyling = input => input.replace(centerRegex, () => '<center style="text-align: center; align-items: center; justify-content: center;">');
 
 const steemitUrlHandle = input => input.replace(postRegex, (link) => {
   const postMatch = link.match(postRegex);
