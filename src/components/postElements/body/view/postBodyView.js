@@ -1,10 +1,11 @@
 import React, { PureComponent, Fragment } from 'react';
-import { Dimensions, Linking, Alert } from 'react-native';
+import {
+  Dimensions, Linking, Alert,
+} from 'react-native';
 import { withNavigation } from 'react-navigation';
 import { injectIntl } from 'react-intl';
 
 import HTML from 'react-native-html-renderer';
-
 // Styles
 import styles from './postBodyStyles';
 
@@ -13,6 +14,14 @@ import { default as ROUTES } from '../../../../constants/routeNames';
 // Components
 
 const WIDTH = Dimensions.get('window').width;
+const CUSTOM_RENDERERS = {
+  // example
+  //center: () => <Text style={{ backgroundColor: 'blue', textAlign: 'center'}}>ugur</Text>,
+};
+const DEFAULT_PROPS = {
+  renderers: CUSTOM_RENDERERS,
+  debug: true,
+};
 
 class PostBody extends PureComponent {
   constructor(props) {
@@ -102,6 +111,7 @@ class PostBody extends PureComponent {
     return (
       <Fragment>
         <HTML
+          {...DEFAULT_PROPS}
           html={body}
           onLinkPress={(evt, href, hrefatr) => this._handleOnLinkPress(evt, href, hrefatr)}
           containerStyle={isComment ? styles.commentContainer : styles.container}
