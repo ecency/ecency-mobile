@@ -225,22 +225,22 @@ class UpvoteView extends Component {
                     <Text style={styles.detailsText}>
                       {`${intl.formatMessage({
                         id: 'payout.promoted',
-                      })} ~$${promotedPayout}`}
+                      })} ${promotedPayout > 0 ? '~' : ''}$${promotedPayout}`}
                     </Text>
                     <Text style={styles.detailsText}>
                       {`${intl.formatMessage({
                         id: 'payout.potential_payout',
-                      })} ~$${pendingPayout}`}
+                      })} ${pendingPayout > 0 ? '~' : ''}$${pendingPayout}`}
                     </Text>
                     <Text style={styles.detailsText}>
                       {`${intl.formatMessage({
                         id: 'payout.author_payout',
-                      })} ~$${authorPayout}`}
+                      })} ${authorPayout > 0 ? '~' : ''}$${authorPayout}`}
                     </Text>
                     <Text style={styles.detailsText}>
                       {`${intl.formatMessage({
                         id: 'payout.curation_payout',
-                      })} ~$${curationPayout}`}
+                      })} ${curationPayout > 0 ? '~' : ''}$${curationPayout}`}
                     </Text>
                     <Text style={styles.detailsText}>
                       {`${intl.formatMessage({
