@@ -7,7 +7,6 @@ import { DropdownButton } from '../../dropdownButton';
 
 // Components
 import { LineBreak } from '../../basicUIElements';
-import { PulseAnimation } from '../../animations';
 
 // Styles
 import styles from './filterBarStyles';
@@ -28,7 +27,6 @@ const FilterBarView = ({
   rightIconName,
   rightIconType,
   selectedOptionIndex,
-  rightIconLoading,
 }) => (
   <View style={styles.container}>
     {!isHide && (
@@ -41,7 +39,7 @@ const FilterBarView = ({
             onSelect={onDropdownSelect}
             selectedOptionIndex={selectedOptionIndex}
           />
-          {rightIconName && !rightIconLoading && (
+          {rightIconName && (
             <TouchableOpacity
               onPress={() => onRightIconPress && onRightIconPress()}
               style={styles.rightIconWrapper}
@@ -53,18 +51,6 @@ const FilterBarView = ({
                 name={rightIconName}
               />
             </TouchableOpacity>
-          )}
-          {rightIconName && rightIconLoading && (
-            <View style={styles.rightIconWrapper}>
-              <PulseAnimation
-                color="#357ce6"
-                numPulses={1}
-                diameter={20}
-                speed={100}
-                duration={100}
-                isShow={!rightIconLoading}
-              />
-            </View>
           )}
         </View>
       </LineBreak>
