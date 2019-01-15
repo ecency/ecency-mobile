@@ -1,6 +1,6 @@
 import React, { Component } from 'react';
 import {
-  View, Text, Image, StyleSheet,
+  View, Image, StyleSheet,
 } from 'react-native';
 
 const styles = StyleSheet.create({
@@ -35,24 +35,24 @@ export default class PulseAnimation extends Component {
     },
   };
 
+  mounted = true;
+
   constructor(props) {
     super(props);
 
     this.state = {
-      color: this.props.color,
-      duration: this.props.duration,
-      image: this.props.image,
-      maxDiameter: this.props.diameter,
-      numPulses: this.props.numPulses,
+      color: props.color,
+      duration: props.duration,
+      image: props.image,
+      maxDiameter: props.diameter,
+      numPulses: props.numPulses,
       pulses: [],
-      pulseStyle: this.props.pulseStyle,
-      speed: this.props.speed,
+      pulseStyle: props.pulseStyle,
+      speed: props.speed,
       started: false,
-      style: this.props.style,
+      style: props.style,
     };
   }
-
-  mounted = true;
 
   componentDidMount() {
     const { numPulses, duration, speed } = this.state;
@@ -79,15 +79,16 @@ export default class PulseAnimation extends Component {
     clearInterval(this.timer);
   }
 
-  createPulse = (pKey) => {
+  createPulse = () => {
     if (this.mounted) {
-      const pulses = this.state.pulses;
+      const { pulses, maxDiameter } = this.state;
+      const { initialDiameter } = this.props;
 
       const pulse = {
         pulseKey: pulses.length + 1,
-        diameter: this.props.initialDiameter,
+        diameter: initialDiameter,
         opacity: 0.5,
-        centerOffset: (this.state.maxDiameter - this.props.initialDiameter) / 2,
+        centerOffset: (maxDiameter - initialDiameter) / 2,
       };
 
       pulses.push(pulse);
@@ -99,10 +100,10 @@ export default class PulseAnimation extends Component {
   updatePulse = () => {
     if (this.mounted) {
       const pulses = this.state.pulses.map((p, i) => {
-        const maxDiameter = this.state.maxDiameter;
+        const { maxDiameter } = this.state;
         const newDiameter = p.diameter > maxDiameter ? 0 : p.diameter + 2;
         const centerOffset = (maxDiameter - newDiameter) / 2;
-        const opacity = Math.abs(newDiameter / this.state.maxDiameter - 1);
+        const opacity = Math.abs(newDiameter / maxDiameter - 1);
 
         const pulse = {
           pulseKey: i + 1,

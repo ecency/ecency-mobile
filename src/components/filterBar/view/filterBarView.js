@@ -22,7 +22,6 @@ const FilterBarView = ({
   iconSize,
   isHide,
   onDropdownSelect,
-  pageType,
   onRightIconPress,
   options,
   rightIconName,
