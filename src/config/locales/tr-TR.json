@@ -172,5 +172,12 @@
     "already_logged": "You are already logged in, please try to add another account",
     "invalid_credentials": "Invalid credentials, please check and try again",
     "unknow_error": "Unknown error, please contact us at support@esteem.app"
+  },
+  "payout": {
+    "potential_payout": "Tahmini Ödeme",
+    "promoted": "Sponsor Ödemeleri",
+    "author_payout": "Yazar Ödemeleri",
+    "curation_payout": "Küratör Ödemeleri",
+    "payout_date": "Ödeme"
   }
 }
