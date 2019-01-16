@@ -77,7 +77,7 @@ const postImage = (metaData, body) => {
   }
 
   if (imageLink) {
-    return `https://steemitimages.com/600x0/${imageLink}`;
+    return imageLink;
   }
   return '';
 };
