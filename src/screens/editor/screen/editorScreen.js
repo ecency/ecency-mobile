@@ -5,8 +5,6 @@ import { injectIntl } from 'react-intl';
 // Utils
 import { getWordsCount } from '../../../utils/editor';
 
-// Constants
-
 // Components
 import { BasicHeader } from '../../../components/basicHeader';
 import {

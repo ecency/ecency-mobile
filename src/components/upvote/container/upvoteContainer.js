@@ -7,6 +7,11 @@ import { setUpvotePercent } from '../../../realm/realm';
 // Services and Actions
 import { setUpvotePercent as upvoteAction } from '../../../redux/actions/applicationActions';
 
+// Utils
+import parseToken from '../../../utils/parseToken';
+import { isEmptyContentDate, getTimeFromNow } from '../../../utils/time';
+import parseDate from '../../../utils/parseDate';
+
 // Component
 import UpvoteView from '../view/upvoteView';
 
@@ -42,13 +47,18 @@ class UpvoteContainer extends PureComponent {
       fetchPost,
       isLoggedIn,
       isShowPayoutValue,
-      upvotePercent,
       pinCode,
+      upvotePercent,
     } = this.props;
     let author;
+    let authorPayout;
+    let curationPayout;
     let isDecinedPayout;
     let isVoted;
+    let payoutDate;
+    let pendingPayout;
     let permlink;
+    let promotedPayout;
     let totalPayout;
 
     if (content) {
@@ -57,11 +67,20 @@ class UpvoteContainer extends PureComponent {
       totalPayout = content.total_payout;
       isDecinedPayout = content.is_declined_payout;
       ({ permlink } = content);
+      pendingPayout = parseToken(content.pending_payout_value).toFixed(3);
+      promotedPayout = parseToken(content.promoted).toFixed(3);
+      authorPayout = parseToken(content.total_payout_value).toFixed(3);
+      curationPayout = parseToken(content.curator_payout_value).toFixed(3);
+      payoutDate = getTimeFromNow(
+        isEmptyContentDate(content.last_payout) ? content.cashout_time : content.last_payout,
+      );
     }
 
     return (
       <UpvoteView
         author={author}
+        authorPayout={authorPayout}
+        curationPayout={curationPayout}
         currentAccount={currentAccount}
         fetchPost={fetchPost}
         handleSetUpvotePercent={this._setUpvotePercent}
@@ -69,8 +88,11 @@ class UpvoteContainer extends PureComponent {
         isLoggedIn={isLoggedIn}
         isShowPayoutValue={isShowPayoutValue}
         isVoted={isVoted}
+        payoutDate={payoutDate}
+        pendingPayout={pendingPayout}
         permlink={permlink}
         pinCode={pinCode}
+        promotedPayout={promotedPayout}
         totalPayout={totalPayout}
         upvotePercent={upvotePercent}
       />
