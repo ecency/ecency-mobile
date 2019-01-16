@@ -55,14 +55,14 @@ class CommentsContainer extends Component {
   };
 
   _handleOnReplyPress = (item) => {
-    const { navigation } = this.props;
+    const { navigation, fetchPost } = this.props;
 
     navigation.navigate({
       routeName: ROUTES.SCREENS.EDITOR,
       params: {
         isReply: true,
         post: item,
-        fetchPost: this._getComments,
+        fetchPost,
       },
     });
   };
@@ -84,7 +84,13 @@ class CommentsContainer extends Component {
   render() {
     const { comments: _comments } = this.state;
     const {
-      isLoggedIn, commentCount, author, permlink, currentAccount, isProfilePreview, comments,
+      isLoggedIn,
+      commentCount,
+      author,
+      permlink,
+      currentAccount,
+      isProfilePreview,
+      comments,
     } = this.props;
 
     return (
