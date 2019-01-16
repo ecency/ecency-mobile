@@ -1,6 +1,5 @@
 import React, { PureComponent, Fragment } from 'react';
 import { View, FlatList } from 'react-native';
-import { injectIntl } from 'react-intl';
 
 import { getTimeFromNow } from '../../../utils/time';
 // Constants
@@ -45,7 +44,6 @@ class CommentsView extends PureComponent {
       isProfilePreview,
       marginLeft,
       fetchPost,
-      intl,
     } = this.props;
 
     return (
@@ -122,4 +120,4 @@ class CommentsView extends PureComponent {
   }
 }
 
-export default injectIntl(CommentsView);
+export default CommentsView;
