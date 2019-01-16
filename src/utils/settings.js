@@ -1,5 +1,5 @@
-export const groomingServerName = (serverName) => {
-  const PREFIX1 = 'https://';
+export const groomingServerName = (serverName, prefix1) => {
+  const PREFIX1 = prefix1 || 'https://';
   const PREFIX2 = 'https://';
 
   if (!serverName) return null;
