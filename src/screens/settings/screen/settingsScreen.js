@@ -78,9 +78,9 @@ class SettingsScreen extends PureComponent {
             })}
             type="dropdown"
             actionType="api"
-            options={serverList.map(server => server)}
+            options={serverList.map(serverName => groomingServerName(serverName))}
             selectedOptionIndex={serverList.indexOf(selectedApi)}
-            defaultText={selectedApi}
+            defaultText={groomingServerName(selectedApi)}
             handleOnChange={handleOnChange}
           />
           <SettingsItem
