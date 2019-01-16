@@ -73,6 +73,7 @@ class ProfileScreen extends PureComponent {
       selectedQuickProfile,
       selectedUser,
       username,
+      getReplies,
     } = this.props;
 
     const { isSummaryOpen, collapsibleMoreHeight } = this.state;
@@ -182,7 +183,7 @@ class ProfileScreen extends PureComponent {
             >
               {comments && comments.length > 0 ? (
                 <ScrollView>
-                  <Comments isProfilePreview comments={comments} />
+                  <Comments isProfilePreview comments={comments} fetchPost={getReplies} />
                 </ScrollView>
               ) : (
                 <NoPost
