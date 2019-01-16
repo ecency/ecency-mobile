@@ -27,6 +27,8 @@ class CommentsContainer extends Component {
     super(props);
     this.state = {
       comments: [],
+      isShowComments: false,
+      isRenderRequire: true,
     };
   }
 
@@ -81,25 +83,55 @@ class CommentsContainer extends Component {
     });
   };
 
+  _showComentsToggle = (permlink) => {
+    const { isShowComments, selectedPermlink } = this.state;
+    const { selectedPermlink: _selectedPermlink } = this.props;
+
+    if (_selectedPermlink !== selectedPermlink) {
+      this.setState({ isShowComments: !!isShowComments, selectedPermlink: permlink });
+    } else {
+      this.setState({ isShowComments: !isShowComments, selectedPermlink: permlink });
+    }
+
+    this.setState({ isRenderRequire: false }, () => this.setState({ isRenderRequire: true }));
+  };
+
   render() {
-    const { comments } = this.state;
     const {
-      isLoggedIn, commentCount, author, permlink, currentAccount, fetchPost,
+      comments, isShowComments, isRenderRequire, selectedPermlink,
+    } = this.state;
+    const {
+      isLoggedIn,
+      commentCount,
+      author,
+      permlink,
+      currentAccount,
+      commentNumber,
+      fetchPost,
+      selectedPermlink: _selectedPermlink,
     } = this.props;
-    return (
-      <CommentsView
-        author={author}
-        commentCount={commentCount}
-        comments={comments}
-        currentAccountUsername={currentAccount.name}
-        handleOnEditPress={this._handleOnEditPress}
-        handleOnReplyPress={this._handleOnReplyPress}
-        isLoggedIn={isLoggedIn}
-        permlink={permlink}
-        fetchPost={fetchPost}
-        {...this.props}
-      />
-    );
+    if (isRenderRequire) {
+      return (
+        <CommentsView
+          key={permlink}
+          selectedPermlink={_selectedPermlink || selectedPermlink}
+          isShowComments={isShowComments}
+          showComentsToggle={this._showComentsToggle}
+          author={author}
+          commentNumber={commentNumber || 1}
+          commentCount={commentCount}
+          comments={comments}
+          currentAccountUsername={currentAccount.name}
+          handleOnEditPress={this._handleOnEditPress}
+          handleOnReplyPress={this._handleOnReplyPress}
+          isLoggedIn={isLoggedIn}
+          permlink={permlink}
+          fetchPost={fetchPost}
+          {...this.props}
+        />
+      );
+    }
+    return null;
   }
 }
 

@@ -46,7 +46,13 @@ class CommentsView extends PureComponent {
       marginLeft,
       fetchPost,
       intl,
+      showComentsToggle,
+      isShowComments,
+      parentPermlink,
+      selectedPermlink,
     } = this.props;
+
+    //    if (isShowComments) alert(isShowComments);
 
     return (
       <View>
@@ -94,25 +100,41 @@ class CommentsView extends PureComponent {
                             iconType="MaterialIcons"
                           />
                         )}
+                        {item.children > 0 && commentNumber === 1 && (
+                          <IconButton
+                            size={18}
+                            iconStyle={{ color: '#c1c5c7' }}
+                            style={{ marginLeft: 10 }}
+                            name="star"
+                            onPress={() => showComentsToggle(item.permlink)}
+                            iconType="MaterialIcons"
+                          />
+                        )}
                       </Fragment>
                     )}
                   </View>
                 </View>
-                {!isProfilePreview && (
-                  <View style={{ marginLeft: marginLeft || 29 }}>
-                    {commentNumber !== 8 && (
-                      <Comments
-                        commentNumber={commentNumber ? commentNumber * 2 : 1}
-                        marginLeft={20}
-                        avatarSize={avatarSize || 16}
-                        author={item.author}
-                        permlink={item.permlink}
-                        commentCount={item.children}
-                        fetchPost={fetchPost}
-                      />
-                    )}
-                  </View>
-                )}
+                {!isProfilePreview
+                  && item.children > 0
+                  && (isShowComments
+                    && (selectedPermlink === item.permlink
+                      || selectedPermlink === item.parent_permlink) && (
+                      <View style={{ marginLeft: marginLeft || 29 }}>
+                        <Comments
+                          key={item.permlink}
+                          selectedPermlink={selectedPermlink}
+                          parentPermlink={item.parent_permlink}
+                          isShowComments={isShowComments}
+                          commentNumber={commentNumber && commentNumber * 2}
+                          marginLeft={20}
+                          avatarSize={avatarSize || 16}
+                          author={item.author}
+                          permlink={item.permlink}
+                          commentCount={item.children}
+                          fetchPost={fetchPost}
+                        />
+                      </View>
+                  ))}
               </View>
             )}
           />
