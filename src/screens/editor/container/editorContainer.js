@@ -76,17 +76,17 @@ class EditorContainer extends Component {
       }
 
       if (navigationParams.post) {
-        post = navigationParams.post;
+        ({ post } = navigationParams);
         this.setState({ post });
       }
 
       if (navigationParams.isReply) {
-        isReply = navigationParams.isReply;
+        ({ isReply } = navigationParams);
         this.setState({ isReply });
       }
 
       if (navigationParams.isEdit) {
-        isEdit = navigationParams.isEdit;
+        ({ isEdit } = navigationParams);
         this.setState(
           {
             isEdit,
@@ -117,7 +117,7 @@ class EditorContainer extends Component {
           draftPost: { body: result.body, title: result.title, tags: result.tags.split(',') },
         });
       })
-      .catch((error) => {
+      .catch(() => {
         // alert(error);
       });
   };
@@ -308,7 +308,7 @@ class EditorContainer extends Component {
         options,
         0,
       )
-        .then((result) => {
+        .then(() => {
           Alert.alert(
             intl.formatMessage({
               id: 'alert.success',
@@ -361,7 +361,7 @@ class EditorContainer extends Component {
         options,
         0,
       )
-        .then((result) => {
+        .then(() => {
           this._handleSubmitSuccess();
         })
         .catch((error) => {
@@ -403,7 +403,7 @@ class EditorContainer extends Component {
         newBody,
         jsonMeta,
       )
-        .then((result) => {
+        .then(() => {
           this._handleSubmitSuccess();
         })
         .catch((error) => {
