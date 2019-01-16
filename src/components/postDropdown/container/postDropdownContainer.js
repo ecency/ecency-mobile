@@ -1,7 +1,7 @@
 import React, { PureComponent, Fragment } from 'react';
 import { connect } from 'react-redux';
 import { withNavigation } from 'react-navigation';
-import { Alert } from 'react-native';
+import { Alert, Share } from 'react-native';
 import ActionSheet from 'react-native-actionsheet';
 import { injectIntl } from 'react-intl';
 
@@ -52,10 +52,21 @@ class PostDropdownContainer extends PureComponent {
       case '2':
         this._replyNavigation();
         break;
+      case '3':
+        setTimeout(() => {
+          this._share();
+        }, 500);
+        break;
 
       default:
         break;
     }
+  };
+
+  _share = () => {
+    Share.share({
+      message: 'Selamun aleykim!'
+    }).then(alert("Aleykum Selamin"));
   };
 
   _reblog = () => {
