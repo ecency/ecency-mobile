@@ -16,7 +16,18 @@ class NotificationContainer extends Component {
     super(props);
     this.state = {
       notifications: [],
+      lastNotificationId: null,
+      notificationLoading: false,
+      readAllNotificationLoading: false,
     };
+  }
+
+  componentDidMount() {
+    const { username } = this.props;
+
+    if (username) {
+      this._getAvtivities();
+    }
   }
 
   componentWillReceiveProps(nextProps) {
@@ -27,12 +38,24 @@ class NotificationContainer extends Component {
     }
   }
 
-  _getAvtivities = (type = null) => {
+  _getAvtivities = (type = null, loadMore = false) => {
     const { username } = this.props;
+    const { lastNotificationId, notifications } = this.state;
+    const since = loadMore ? lastNotificationId : null;
 
-    getActivities({ user: username, type }).then((res) => {
-      this.setState({ notifications: res });
-    });
+    this.setState({ notificationLoading: true });
+
+    getActivities({ user: username, type, since })
+      .then((res) => {
+        const lastId = [...res].pop().id;
+
+        this.setState({
+          notifications: loadMore ? [...notifications, ...res] : res,
+          lastNotificationId: lastId,
+          notificationLoading: false,
+        });
+      })
+      .catch(() => this.setState({ notificationLoading: false }));
   };
 
   _navigateToNotificationRoute = (data) => {
@@ -65,10 +88,13 @@ class NotificationContainer extends Component {
   _readAllNotification = () => {
     const { username, dispatch } = this.props;
     const { notifications } = this.state;
+
+    this.setState({ readAllNotificationLoading: true });
+
     markActivityAsRead(username).then((result) => {
       dispatch(updateUnreadActivityCount(result.unread));
       const updatedNotifications = notifications.map(item => ({ ...item, read: 1 }));
-      this.setState({ notifications: updatedNotifications });
+      this.setState({ notifications: updatedNotifications, readAllNotificationLoading: false });
     });
   };
 
@@ -79,24 +105,32 @@ class NotificationContainer extends Component {
   };
 
   render() {
-    const { notifications } = this.state;
+    const { isLoggedIn } = this.props;
+    const {
+      notifications, notificationLoading, readAllNotificationLoading, isDarkTheme,
+    } = this.state;
 
     return (
       <NotificationScreen
         getActivities={this._getAvtivities}
         notifications={notifications}
+        isDarkTheme={isDarkTheme}
         navigateToNotificationRoute={this._navigateToNotificationRoute}
         readAllNotification={this._readAllNotification}
         handleLoginPress={this._handleOnPressLogin}
-        {...this.props}
+        notificationLoading={notificationLoading}
+        readAllNotificationLoading={readAllNotificationLoading}
+        isLoggedIn={isLoggedIn}
       />
     );
   }
 }
 
 const mapStateToProps = state => ({
-  username: state.account.currentAccount.name,
   isLoggedIn: state.application.isLoggedIn,
+  isDarkTheme: state.application.isDarkTheme,
+
+  username: state.account.currentAccount.name,
   activeBottomTab: state.ui.activeBottomTab,
 });
 
