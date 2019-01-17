@@ -16,6 +16,7 @@ import { default as ROUTES } from '../../../constants/routeNames';
 
 // Utilities
 import { writeToClipboard } from '../../../utils/clipboard';
+import { getPostUrl } from '../../../utils/post';
 
 // Component
 import PostDropdownView from '../view/postDropdownView';
@@ -40,7 +41,7 @@ class PostDropdownContainer extends PureComponent {
 
     switch (index) {
       case '0':
-        writeToClipboard(`https://steemit.com${content.url}`);
+        writeToClipboard(getPostUrl(content.url));
         break;
 
       case '1':
@@ -64,9 +65,12 @@ class PostDropdownContainer extends PureComponent {
   };
 
   _share = () => {
+    const { content } = this.props;
+
     Share.share({
-      message: 'Selamun aleykim!'
-    }).then(alert("Aleykum Selamin"));
+      message: content.title,
+      url: getPostUrl(content.url),
+    });
   };
 
   _reblog = () => {
