@@ -291,7 +291,19 @@ class EditorContainer extends Component {
       const meta = extractMetadata(fields.body);
       const jsonMeta = makeJsonMetadata(meta, fields.tags);
       // TODO: check if permlink is available github: #314 https://github.com/esteemapp/esteem-mobile/pull/314
-      const permlink = generatePermlink(fields.title);
+      let permlink = generatePermlink(fields.title);
+
+      let dublicatePost;
+      try {
+        dublicatePost = await getPurePost(currentAccount.name, permlink);
+      } catch (e) {
+        dublicatePost = null;
+      }
+
+      if (dublicatePost && dublicatePost.id) {
+        permlink = generatePermlink(fields.title, true);
+      }
+
       const author = currentAccount.name;
       const options = makeOptions(author, permlink);
       const parentPermlink = fields.tags[0];
