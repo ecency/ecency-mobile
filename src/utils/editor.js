@@ -12,7 +12,7 @@ export const generatePermlink = (title, random = false) => {
   if (title) {
     if (random) {
       const rnd = (Math.random() + 1).toString(16).substring(2);
-      perm = `${slug.toString()}-${rnd}est`;
+      perm = `${slug.toString()}${rnd}est`;
     }
 
     // STEEMIT_MAX_PERMLINK_LENGTH
