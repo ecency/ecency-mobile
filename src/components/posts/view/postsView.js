@@ -1,5 +1,7 @@
 import React, { Component, Fragment } from 'react';
-import { FlatList, View, ActivityIndicator, RefreshControl } from 'react-native';
+import {
+  FlatList, View, ActivityIndicator, RefreshControl,
+} from 'react-native';
 import { injectIntl } from 'react-intl';
 import { withNavigation } from 'react-navigation';
 
@@ -254,6 +256,7 @@ class PostsView extends Component {
             rightIconType="MaterialIcons"
             onDropdownSelect={this._handleOnDropdownSelect}
             onRightIconPress={this._onRightIconPress}
+            lineBreakStyle={styles.lineBreakStyle}
           />
         )}
         <Fragment>

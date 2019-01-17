@@ -27,10 +27,11 @@ const FilterBarView = ({
   rightIconName,
   rightIconType,
   selectedOptionIndex,
+  lineBreakStyle,
 }) => (
   <View style={styles.container}>
     {!isHide && (
-      <LineBreak height={38}>
+      <LineBreak height={38} style={lineBreakStyle}>
         <View style={styles.filterBarWrapper}>
           <DropdownButton
             iconName={dropdownIconName}
