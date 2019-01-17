@@ -344,6 +344,7 @@ class ProfileContainer extends Component {
           selectedQuickProfile={selectedQuickProfile}
           selectedUser={user}
           username={username}
+          getReplies={() => this._getReplies(username)}
         />
       </Fragment>
     );
