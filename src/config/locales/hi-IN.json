@@ -1,176 +1,183 @@
 {
   "wallet": {
-    "curation_reward": "Curation Reward",
-    "author_reward": "Author Reward",
-    "comment_benefactor_reward": "Comment Benefactor Reward",
-    "claim_reward_balance": "Claim Reward Balance",
-    "transfer": "Transfer",
-    "transfer_to_vesting": "Transfer To Vesting",
-    "transfer_from_savings": "Transfer From Savings",
-    "withdraw_vesting": "Power Down",
-    "fill_order": "Fill Order"
+    "curation_reward": "अध्यक्षता इनाम",
+    "author_reward": "लेखक इनाम",
+    "comment_benefactor_reward": "विवेचना उपकारी इनाम",
+    "claim_reward_balance": "बकाया इनाम का रकम लें",
+    "transfer": "स्थानांतरण",
+    "transfer_to_vesting": "अधिकार निधान में स्थानांतरण करें",
+    "transfer_from_savings": "बचत से स्थानांतरण करें",
+    "withdraw_vesting": "शक्तिक्षय करें",
+    "fill_order": "क्रम पूरा करें"
   },
   "notification": {
-    "vote": "likes your post",
-    "unvote": "unvoted your post",
-    "reply": "replied to your post",
-    "mention": "mentioned you",
-    "follow": "followed you",
-    "unfollow": "unfollowed you",
-    "ignore": "ignored you",
-    "reblog": "reblogged your post",
-    "comingsoon": "Leaderboard feature is coming soon!",
-    "notification": "Notifications",
-    "leaderboard": "Leaderboard",
-    "leaderboard_title": "Daily Top User",
-    "recent": "Recent",
-    "yesterday": "Yesterday",
-    "this_week": "This Week",
-    "this_month": "This Month",
-    "older_then": "Older Than A Month"
+    "vote": "आपकी पोस्ट को पसंद करता है",
+    "unvote": "आपके पोस्ट को पसंद किया",
+    "reply": "आपके पोस्ट में जबाब दिया",
+    "mention": "आपका उल्लेख किया",
+    "follow": "आपके साथ जुड़ा",
+    "unfollow": "आपका साथ छोड़ा",
+    "ignore": "आपको अनदेखा किया",
+    "reblog": "आपका पोस्ट को पुनः प्रसारित किया",
+    "comingsoon": "अधिनायक पटल सुविधा जल्द आने वाली है!",
+    "notification": "अधिसूचनाएं",
+    "leaderboard": "अधिनायकपटल",
+    "leaderboard_title": "प्रत्येक दिन का सर्वोच्च प्रयोगकर्ता",
+    "recent": "ताजा",
+    "yesterday": "बीता कल",
+    "this_week": "इस सप्ताह",
+    "this_month": "इस महीने",
+    "older_then": "एक महीना से अधिक पुराना"
   },
   "messages": {
-    "comingsoon": "Messages feature is coming soon!"
+    "comingsoon": "सन्देश सुविधा जल्द आ रही है!"
   },
   "profile": {
-    "following": "Following",
-    "follower": "Follower",
-    "post": "Post",
-    "details": "Profile Details",
-    "comments": "Comments",
-    "replies": "Replies",
-    "wallet": "Wallet",
-    "wallet_details": "Wallet Details",
-    "unclaimed_rewards": "Unclaimed Rewards",
-    "full_in": "Full in",
-    "hours": "hours",
-    "voting_power": "Voting power",
-    "login_to_see": "Login to see",
-    "havent_commented": "haven't commented anything yet",
-    "havent_posted": "haven't posted anything yet",
-    "steem_power": "Steem Power",
-    "next_power_text": "Next power down is in",
-    "days": "days",
-    "day": "day",
-    "steem_dollars": "Steem Dollars",
-    "savings": "Savings"
+    "following": "अनुगामी",
+    "follower": "अनुयायी",
+    "post": "लेख",
+    "details": "प्रलेख विवरण",
+    "comments": "विवेचनाऐं",
+    "replies": "जबाबें",
+    "wallet": "बटुआ",
+    "wallet_details": "वटुवे की विवरण",
+    "unclaimed_rewards": "लावारिस पड़ी इनामें",
+    "full_in": "में पूरा होगा",
+    "hours": "घंटे",
+    "voting_power": "मतदान की क्षमता",
+    "login_to_see": "देखने के लिए लॉगिन करें",
+    "havent_commented": "अभी तक कोई टिपण्णी नहीं की है",
+    "havent_posted": "अभी तक कोई पोस्ट नहीं की है",
+    "steem_power": "स्टीम ताकत",
+    "next_power_text": "अगला शक्तिक्षय में है",
+    "days": "दिनों",
+    "day": "दिन",
+    "steem_dollars": "स्टीम डॉलर्स",
+    "savings": "बचत"
   },
   "settings": {
-    "settings": "Settings",
-    "currency": "Currency",
-    "language": "Language",
-    "server": "Server",
-    "dark_theme": "Dark Theme",
-    "push_notification": "Push Notification",
-    "pincode": "Pincode",
-    "reset": "Reset"
+    "settings": "समायोजन",
+    "currency": "मुद्रा",
+    "language": "भाषा",
+    "server": "सर्वर",
+    "dark_theme": "काला थीम",
+    "push_notification": "संभर अधिसूचना",
+    "pincode": "पिनकोड",
+    "reset": "पुनः नियोजन"
   },
   "voters": {
-    "voters_info": "Voters Info",
-    "no_user": "No user found."
+    "voters_info": "मतदाताओं की जानकारी",
+    "no_user": "कोई उपयोगकर्ता नहीं मिला|"
   },
   "login": {
-    "signin": "Sign in",
-    "signup": "Sign up",
-    "signin_title": "To get all the benefits of using eSteem",
-    "username": "Username",
-    "password": "Password or WIF",
-    "description": "User credentials are kept locally on the device. Credentials are removed upon logout!",
-    "cancel": "cancel",
-    "login": "LOGIN",
-    "steemconnect_description": "If you don't want to keep your password encrypted and saved on your device, you can use Steemconnect."
+    "signin": "अंदर आएं",
+    "signup": "भाग लें",
+    "signin_title": "इस्टीम की सभी लाभ लेने के लिए",
+    "username": "प्रयोक्ता नाम",
+    "password": "पासवर्ड या डब्लूएआईएफ",
+    "description": "उपयोगकर्ता का प्रमाणिकता लोकल उपकरण में होता है, लॉगआउट होने से प्रमाणिकता हट जाते हैं!",
+    "cancel": "रद्द करें",
+    "login": "लॉगिन करें",
+    "steemconnect_description": "यदि आप नहीं चाहते की आपकी पासवर्ड एन्क्रिप्टेड रूप में आपके उपकरण में रक्षित रहे तो स्टीमकनेक्ट से लॉगिन करें|"
   },
   "home": {
-    "feed": "Feed",
-    "popular": "Popular"
+    "feed": "संभरण",
+    "popular": "लोकप्रिय"
   },
   "side_menu": {
-    "profile": "Profile",
-    "bookmarks": "Bookmarks",
-    "favorites": "Favorites",
-    "drafts": "Drafts",
-    "schedules": "Schedules",
-    "gallery": "Gallery",
-    "settings": "Settings",
-    "add_account": "Add Account",
-    "logout": "Logout",
-    "cancel": "Cancel",
-    "logout_text": "Are you sure you want to logout?"
+    "profile": "रुपरेखा",
+    "bookmarks": "पृष्टस्मृतियाँ",
+    "favorites": "पसंदीदा",
+    "drafts": "प्रारूप",
+    "schedules": "निर्धारित",
+    "gallery": "चित्रशाला",
+    "settings": "समायोजन",
+    "add_account": "खता जोड़ें",
+    "logout": "बहार जाएँ",
+    "cancel": "रद्द करें",
+    "logout_text": "क्या आप सच में बाहर जाना चाहते हैं?"
   },
   "header": {
-    "title": "Login to customize your feed",
-    "search": "Search..."
+    "title": "आपकी अपनी संभरण को अपने अनुकूल संयोजित करने के लिए लॉगिन करें",
+    "search": "खोजें..."
   },
   "basic_header": {
-    "publish": "Publish",
-    "search": "Search",
-    "update": "Update",
-    "reply": "Reply"
+    "publish": "प्रकाशित करें",
+    "search": "खोजें",
+    "update": "नवनीकरण",
+    "reply": "जबाब"
   },
   "editor": {
-    "title": "Title",
-    "tags": "tags",
-    "default_placeholder": "What would you like to write about today?",
-    "reply_placeholder": "What would you like to write about above post?",
-    "publish": "Publish",
-    "reply": "Reply"
+    "title": "शीर्षक",
+    "tags": "लेबलें",
+    "default_placeholder": "आज के बारें में आप क्या लिखना चाहेंगे?",
+    "reply_placeholder": "ऊपर वाली पोस्ट के बारें में आप क्या लिखना चाहेंगे?",
+    "publish": "प्रकाशित करें",
+    "reply": "जबाब दें"
   },
   "pincode": {
-    "enter_text": "Enter pin to unlock",
-    "set_new": "Set new pin",
-    "write_again": "Write again",
-    "forgot_text": "Oh, I forgot it..."
+    "enter_text": "खोलनें के लिए पिन डालें",
+    "set_new": "नया पिन सेट करें",
+    "write_again": "दुबारा लिखें",
+    "forgot_text": "ओह! मैं इसे भूल गया..."
   },
   "alert": {
-    "success": "Success!",
-    "allRead": "Marked all notifications as read",
-    "claim_reward_balance_ok": "Reward balance claimed",
-    "fail": "Fail!",
-    "success_shared": "Your post succesfully shared",
-    "permission_denied": "Permission denied",
-    "permission_text": "Please, go to phone Settings and change eSteem app permissions.",
+    "success": "सफल!",
+    "allRead": "सभी सूचनाओं को पढ़ लिया चिन्हित करें",
+    "claim_reward_balance_ok": "इनाम की राशी ले चुके",
+    "fail": "असफल!",
+    "success_shared": "आपका पोस्ट सफलतापूर्ण साझा हो गया",
+    "permission_denied": "अनुमोदन अस्वीकृत हुवा",
+    "permission_text": "कृपया, अपने फ़ोन समायोजन में जाएँ और इस्टीम एप्प की अनुमोदन बदलें|",
     "success_rebloged": "Rebloged!",
-    "already_rebloged": "You have already reblogged!",
-    "warning": "Warning",
-    "invalid_pincode": "Invalid pin code, please check and try again.",
-    "remove_alert": "Are you sure want to remove?",
-    "cancel": "Cancel",
-    "delete": "Delete"
+    "already_rebloged": "पहले से ही पुनः प्रकाशित है!",
+    "warning": "चेतावनी",
+    "invalid_pincode": "पिन गलत है, कृपया जाँच करें और पुनः प्रयाश करें|",
+    "remove_alert": "क्या आप इसे सच में हटाना चाहते हैं?",
+    "cancel": "रद्द करें",
+    "delete": "मिटा दें"
   },
   "post": {
-    "reblog_alert": "Are you sure you want to reblog?"
+    "reblog_alert": "क्या आप सच में पुनः प्रसारित करना चाहते हैं?"
   },
   "drafts": {
-    "title": "Drafts",
-    "load_error": "Could not load drafts",
-    "empty_list": "Nothing here",
-    "deleted": "Draft deleted"
+    "title": "प्रारूप",
+    "load_error": "प्रारूप भर न सका",
+    "empty_list": "कुछ नहीं है यहां",
+    "deleted": "प्रारूप मिट गया"
   },
   "schedules": {
-    "title": "Scheduled Posts",
-    "empty_list": "Nothing here",
-    "deleted": "Scheduled post deleted",
-    "move": "Move to drafts",
-    "moved": "Moved to drafts"
+    "title": "निर्धारित लेखें",
+    "empty_list": "कुछ नहीं है",
+    "deleted": "निर्धारित लेख हट गया",
+    "move": "प्रलेख में भेजें",
+    "moved": "प्रलेख में गया"
   },
   "bookmarks": {
-    "title": "Bookmarks",
-    "load_error": "Could not load bookmarks",
-    "empty_list": "Nothing here",
-    "deleted": "Bookmark removed",
-    "search": "Search in bookmarks"
+    "title": "पृष्टस्मृतियाँ",
+    "load_error": "पृष्टस्मृतियाँ भर न सका",
+    "empty_list": "कुछ नहीं है",
+    "deleted": "पृष्टस्मृतियाँ हट गया",
+    "search": "पृष्टस्मृतियाँ में खोजें"
   },
   "favorites": {
-    "title": "Favorites",
-    "load_error": "Could not load favorites",
-    "empty_list": "Nothing here",
-    "search": "Search in favorites"
+    "title": "पसंदीदा",
+    "load_error": "पसंदीदा भर ना सका",
+    "empty_list": "कुछ नहीं है",
+    "search": "पसंदीदा में खोजें"
   },
   "auth": {
-    "invalid_pin": "Invalid pin code, please check and try again",
-    "invalid_username": "Invalid username, please check and try again",
-    "already_logged": "You are already logged in, please try to add another account",
-    "invalid_credentials": "Invalid credentials, please check and try again",
-    "unknow_error": "Unknown error, please contact us at support@esteem.app"
+    "invalid_pin": "गलत पिन कोड है, कृप्या जाँच करें और पुनः प्रयाश करें",
+    "invalid_username": "प्रयोक्ता नाम गलत है, कृप्या जाँच करें और पुनः प्रयाश करें",
+    "already_logged": "आप पहले से ही लॉगिन हैं, कृप्या दूसरी खता जोड़ने की कोशिश करें",
+    "invalid_credentials": "प्रमाणपत्र गलत है, कृप्या जाँच करें और पुनः प्रयाश करें",
+    "unknow_error": "अपरिचित त्रुटि है, कृप्या हमसे संपर्क करें यहाँ support@esteem.app"
+  },
+  "payout": {
+    "potential_payout": "Potential Payout",
+    "promoted": "Promoted",
+    "author_payout": "Author Payout",
+    "curation_payout": "Curation Payout",
+    "payout_date": "Payout"
   }
 }
