@@ -18,6 +18,7 @@ export default {
   $primaryRed: '#e63535',
   $primaryBlack: '#3c4449',
   $primaryDarkText: '#788187',
+
   // General Colors
   $borderColor: '#c5c5c5',
   $tagColor: '#c1c5c7',
@@ -34,6 +35,8 @@ export default {
   $editorButtonColor: '#3c4449',
   $pureWhite: '#ffffff',
   $notificationBorder: '#fff',
+  $tableTrColor: '#f5f5f5',
+  $tableBorderColor: '#FFFFFF',
 
   // Devices Sizes
   $deviceHeight: Dimensions.get('window').height,
