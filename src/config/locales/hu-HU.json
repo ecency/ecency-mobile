@@ -4,7 +4,7 @@
     "author_reward": "Author Reward",
     "comment_benefactor_reward": "Comment Benefactor Reward",
     "claim_reward_balance": "Claim Reward Balance",
-    "transfer": "Transfer",
+    "transfer": "Átutalás",
     "transfer_to_vesting": "Transfer To Vesting",
     "transfer_from_savings": "Transfer From Savings",
     "withdraw_vesting": "Power Down",
@@ -15,18 +15,18 @@
     "unvote": "unvoted your post",
     "reply": "replied to your post",
     "mention": "mentioned you",
-    "follow": "followed you",
+    "follow": "követ téged",
     "unfollow": "unfollowed you",
     "ignore": "ignored you",
     "reblog": "reblogged your post",
     "comingsoon": "Leaderboard feature is coming soon!",
-    "notification": "Notifications",
-    "leaderboard": "Leaderboard",
-    "leaderboard_title": "Daily Top User",
+    "notification": "Értesítések",
+    "leaderboard": "Ranglista",
+    "leaderboard_title": "Napi Top felhasználók",
     "recent": "Recent",
-    "yesterday": "Yesterday",
-    "this_week": "This Week",
-    "this_month": "This Month",
+    "yesterday": "Tegnap",
+    "this_week": "Ezen a héten",
+    "this_month": "Ebben a hónapban",
     "older_then": "Older Than A Month"
   },
   "messages": {
@@ -34,86 +34,86 @@
   },
   "profile": {
     "following": "Following",
-    "follower": "Follower",
+    "follower": "Követő",
     "post": "Post",
-    "details": "Profile Details",
-    "comments": "Comments",
-    "replies": "Replies",
+    "details": "Profil adataid",
+    "comments": "Hozzászólások",
+    "replies": "Válaszok",
     "wallet": "Wallet",
     "wallet_details": "Wallet Details",
     "unclaimed_rewards": "Unclaimed Rewards",
     "full_in": "Full in",
-    "hours": "hours",
+    "hours": "órák",
     "voting_power": "Voting power",
     "login_to_see": "Login to see",
     "havent_commented": "haven't commented anything yet",
     "havent_posted": "haven't posted anything yet",
     "steem_power": "Steem Power",
     "next_power_text": "Next power down is in",
-    "days": "days",
-    "day": "day",
-    "steem_dollars": "Steem Dollars",
-    "savings": "Savings"
+    "days": "napok",
+    "day": "nap",
+    "steem_dollars": "Steem Dollár",
+    "savings": "Megtakarítások"
   },
   "settings": {
-    "settings": "Settings",
-    "currency": "Currency",
-    "language": "Language",
-    "server": "Server",
+    "settings": "Beállítások",
+    "currency": "Pénznem",
+    "language": "Nyelv",
+    "server": "Szerver",
     "dark_theme": "Dark Theme",
     "push_notification": "Push Notification",
-    "pincode": "Pincode",
-    "reset": "Reset"
+    "pincode": "Pin kód",
+    "reset": "Visszaállítás"
   },
   "voters": {
     "voters_info": "Voters Info",
     "no_user": "No user found."
   },
   "login": {
-    "signin": "Sign in",
-    "signup": "Sign up",
+    "signin": "Bejelentkezés",
+    "signup": "Regisztráció",
     "signin_title": "To get all the benefits of using eSteem",
-    "username": "Username",
-    "password": "Password or WIF",
+    "username": "Felhasználónév",
+    "password": "Jelszó vagy a WIF",
     "description": "User credentials are kept locally on the device. Credentials are removed upon logout!",
-    "cancel": "cancel",
-    "login": "LOGIN",
+    "cancel": "visszavonom",
+    "login": "BEJELENTKEZÉS",
     "steemconnect_description": "If you don't want to keep your password encrypted and saved on your device, you can use Steemconnect."
   },
   "home": {
     "feed": "Feed",
-    "popular": "Popular"
+    "popular": "Népszerű"
   },
   "side_menu": {
-    "profile": "Profile",
-    "bookmarks": "Bookmarks",
-    "favorites": "Favorites",
-    "drafts": "Drafts",
-    "schedules": "Schedules",
-    "gallery": "Gallery",
-    "settings": "Settings",
-    "add_account": "Add Account",
-    "logout": "Logout",
-    "cancel": "Cancel",
+    "profile": "Profil",
+    "bookmarks": "Könyvjelzők",
+    "favorites": "Kedvencek",
+    "drafts": "Piszkozatok",
+    "schedules": "Időzítések",
+    "gallery": "Galéria",
+    "settings": "Beállítások",
+    "add_account": "Fiók hozzáadása",
+    "logout": "Kijelentkezés",
+    "cancel": "Elvet",
     "logout_text": "Are you sure you want to logout?"
   },
   "header": {
     "title": "Login to customize your feed",
-    "search": "Search..."
+    "search": "Keresés..."
   },
   "basic_header": {
-    "publish": "Publish",
-    "search": "Search",
-    "update": "Update",
-    "reply": "Reply"
+    "publish": "Közzétesz",
+    "search": "Keresés",
+    "update": "Frissítés",
+    "reply": "Válasz"
   },
   "editor": {
-    "title": "Title",
-    "tags": "tags",
-    "default_placeholder": "What would you like to write about today?",
+    "title": "Cím",
+    "tags": "címkék",
+    "default_placeholder": "Miről szeretnél írni ma?",
     "reply_placeholder": "What would you like to write about above post?",
-    "publish": "Publish",
-    "reply": "Reply"
+    "publish": "Közzétesz",
+    "reply": "Válasz"
   },
   "pincode": {
     "enter_text": "Enter pin to unlock",
@@ -122,49 +122,49 @@
     "forgot_text": "Oh, I forgot it..."
   },
   "alert": {
-    "success": "Success!",
-    "allRead": "Marked all notifications as read",
+    "success": "Sikerült!",
+    "allRead": "Minden értesítés megjelölve olvasottként",
     "claim_reward_balance_ok": "Reward balance claimed",
     "fail": "Fail!",
     "success_shared": "Your post succesfully shared",
-    "permission_denied": "Permission denied",
+    "permission_denied": "Engedély megtagadva",
     "permission_text": "Please, go to phone Settings and change eSteem app permissions.",
     "success_rebloged": "Rebloged!",
     "already_rebloged": "You have already reblogged!",
     "warning": "Warning",
     "invalid_pincode": "Invalid pin code, please check and try again.",
-    "remove_alert": "Are you sure want to remove?",
-    "cancel": "Cancel",
-    "delete": "Delete"
+    "remove_alert": "Biztos, hogy törölni akarod?",
+    "cancel": "Elvet",
+    "delete": "Törlés"
   },
   "post": {
-    "reblog_alert": "Are you sure you want to reblog?"
+    "reblog_alert": "Biztos, hogy megosztod?"
   },
   "drafts": {
-    "title": "Drafts",
-    "load_error": "Could not load drafts",
-    "empty_list": "Nothing here",
-    "deleted": "Draft deleted"
+    "title": "Piszkozatok",
+    "load_error": "Nem sikerült betölteni a piszkozatot",
+    "empty_list": "Itt nincs semmi",
+    "deleted": "Piszkozat törölve"
   },
   "schedules": {
     "title": "Scheduled Posts",
-    "empty_list": "Nothing here",
+    "empty_list": "Itt nincs semmi",
     "deleted": "Scheduled post deleted",
     "move": "Move to drafts",
     "moved": "Moved to drafts"
   },
   "bookmarks": {
-    "title": "Bookmarks",
+    "title": "Könyvjelzők",
     "load_error": "Could not load bookmarks",
-    "empty_list": "Nothing here",
-    "deleted": "Bookmark removed",
-    "search": "Search in bookmarks"
+    "empty_list": "Itt nincs semmi",
+    "deleted": "Könyvjelző eltávolítva",
+    "search": "Keresés a könyvjelzők között"
   },
   "favorites": {
-    "title": "Favorites",
-    "load_error": "Could not load favorites",
-    "empty_list": "Nothing here",
-    "search": "Search in favorites"
+    "title": "Kedvencek",
+    "load_error": "Nem sikerült betölteni a Kedvenceket",
+    "empty_list": "Itt nincs semmi",
+    "search": "Keresés a kedvencekben"
   },
   "auth": {
     "invalid_pin": "Invalid pin code, please check and try again",
@@ -172,5 +172,12 @@
     "already_logged": "You are already logged in, please try to add another account",
     "invalid_credentials": "Invalid credentials, please check and try again",
     "unknow_error": "Unknown error, please contact us at support@esteem.app"
+  },
+  "payout": {
+    "potential_payout": "Potential Payout",
+    "promoted": "Promoted",
+    "author_payout": "Author Payout",
+    "curation_payout": "Curation Payout",
+    "payout_date": "Payout"
   }
 }
