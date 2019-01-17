@@ -26,8 +26,8 @@ export default EStyleSheet.create({
   },
   dropdownStyle: {
     marginTop: 15,
-    minWidth: 172,
-    width: 172,
+    minWidth: 192,
+    width: 192,
   },
   dropdownButtonStyle: {
     backgroundColor: '$primaryGray',
@@ -38,6 +38,7 @@ export default EStyleSheet.create({
   },
   dropdown: {
     flexGrow: 1,
+    width: 150,
   },
   textStyle: {
     color: '$primaryBlue',
