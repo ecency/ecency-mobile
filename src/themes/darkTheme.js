@@ -35,6 +35,8 @@ export default {
   $editorButtonColor: '#fff',
   $pureWhite: '#ffffff',
   $notificationBorder: '#1e2835',
+  $tableTrColor: '#2e3d51',
+  $tableBorderColor: '#1e2835',
 
   // Devices Sizes
   $deviceHeight: Dimensions.get('window').height,
