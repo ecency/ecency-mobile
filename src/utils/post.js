@@ -12,3 +12,9 @@ export const postSumTotal = (content) => {
     ? parseToken(content.total_payout_value) + parseToken(content.curator_payout_value)
     : 0;
 };
+
+export const getPostUrl = (url) => {
+  const BASE_URL = 'https://steemit.com';
+
+  return BASE_URL + url;
+};
