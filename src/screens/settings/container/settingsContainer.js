@@ -154,6 +154,7 @@ class SettingsContainer extends Component {
 
   render() {
     const { serverList } = this.state;
+
     return (
       <SettingsScreen
         serverList={serverList}
