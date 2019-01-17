@@ -15,9 +15,18 @@ export default EStyleSheet.create({
   textWrapper: {
     paddingHorizontal: 10,
     justifyContent: 'center',
+    alignItems: 'center',
     marginRight: 8,
     height: 22,
     backgroundColor: '$iconColor',
     borderRadius: 50,
+    flexDirection: 'row',
+  },
+  buttonWrapper: {
+    justifyContent: 'center',
+  },
+  icon: {
+    marginLeft: 10,
+    color: '$pureWhite',
   },
 });

@@ -91,6 +91,8 @@ class CommentsContainer extends Component {
       currentAccount,
       isProfilePreview,
       comments,
+      hideMoreButton,
+      loadCommentReplies,
     } = this.props;
 
     return (
@@ -105,6 +107,8 @@ class CommentsContainer extends Component {
         permlink={permlink}
         fetchPost={this._getComments}
         isProfilePreview={isProfilePreview}
+        hideMoreButton={hideMoreButton}
+        loadCommentReplies={loadCommentReplies}
       />
     );
   }
