@@ -79,6 +79,11 @@ export default class TagAreaView extends Component {
     if (handleTagChanged) {
       handleTagChanged(chips.filter((_, _i) => _i !== i));
     }
+
+    // Restart chips
+    if (chips && chips.length === 1 && i === 0) {
+      this.setState({ chips: [' '] });
+    }
   };
 
   render() {
