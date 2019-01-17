@@ -1,176 +1,183 @@
 {
   "wallet": {
-    "curation_reward": "Curation Reward",
-    "author_reward": "Author Reward",
-    "comment_benefactor_reward": "Comment Benefactor Reward",
-    "claim_reward_balance": "Claim Reward Balance",
-    "transfer": "Transfer",
-    "transfer_to_vesting": "Transfer To Vesting",
-    "transfer_from_savings": "Transfer From Savings",
-    "withdraw_vesting": "Power Down",
-    "fill_order": "Fill Order"
+    "curation_reward": "مكافأة المصوت",
+    "author_reward": "مكافأة صاحب المنشور",
+    "comment_benefactor_reward": "تعليق المتبرع مكافأة",
+    "claim_reward_balance": "المطالبة برصيد المكافأة",
+    "transfer": "تحويل",
+    "transfer_to_vesting": "نقل إلى الاستحقاق",
+    "transfer_from_savings": "النقل الى المدخرات",
+    "withdraw_vesting": "سحب الطاقة",
+    "fill_order": "ملئ الطلب"
   },
   "notification": {
-    "vote": "likes your post",
-    "unvote": "unvoted your post",
-    "reply": "replied to your post",
-    "mention": "mentioned you",
-    "follow": "followed you",
-    "unfollow": "unfollowed you",
-    "ignore": "ignored you",
-    "reblog": "reblogged your post",
-    "comingsoon": "Leaderboard feature is coming soon!",
-    "notification": "Notifications",
-    "leaderboard": "Leaderboard",
-    "leaderboard_title": "Daily Top User",
-    "recent": "Recent",
-    "yesterday": "Yesterday",
-    "this_week": "This Week",
-    "this_month": "This Month",
-    "older_then": "Older Than A Month"
+    "vote": "الإعجابات على منشورك",
+    "unvote": "إزالة التصويت على منشورك",
+    "reply": "قام بالرد على مشاركتك",
+    "mention": "قام بذكرك",
+    "follow": "قام بمتابعتك",
+    "unfollow": "قام بإلغاء متابعتك",
+    "ignore": "قام بتجاهلك",
+    "reblog": "إعادة تدوين مشاركتك",
+    "comingsoon": "ميزة المتصدرين تأتي قريباً!",
+    "notification": "الإشعارات",
+    "leaderboard": "المتصدرين",
+    "leaderboard_title": "أفضل مستخدم يومي",
+    "recent": "الأخيرة",
+    "yesterday": "يوم أمس",
+    "this_week": "هذا الأسبوع",
+    "this_month": "هذا الشهر",
+    "older_then": "أقدم من شهر"
   },
   "messages": {
-    "comingsoon": "Messages feature is coming soon!"
+    "comingsoon": "ميزة الرسائل سوف تأتي قريباً!"
   },
   "profile": {
-    "following": "Following",
-    "follower": "Follower",
-    "post": "Post",
-    "details": "Profile Details",
-    "comments": "Comments",
-    "replies": "Replies",
-    "wallet": "Wallet",
-    "wallet_details": "Wallet Details",
-    "unclaimed_rewards": "Unclaimed Rewards",
-    "full_in": "Full in",
-    "hours": "hours",
-    "voting_power": "Voting power",
-    "login_to_see": "Login to see",
-    "havent_commented": "haven't commented anything yet",
-    "havent_posted": "haven't posted anything yet",
-    "steem_power": "Steem Power",
-    "next_power_text": "Next power down is in",
-    "days": "days",
-    "day": "day",
-    "steem_dollars": "Steem Dollars",
-    "savings": "Savings"
+    "following": "إتباع",
+    "follower": "متابع",
+    "post": "منشور",
+    "details": "تفاصيل الملف الشخصي",
+    "comments": "التعليقات",
+    "replies": "الردود",
+    "wallet": "المحفظة",
+    "wallet_details": "تفاصيل المحفظة",
+    "unclaimed_rewards": "المكافآت الغير مطالب بها",
+    "full_in": "كامل في",
+    "hours": "ساعات",
+    "voting_power": "قوة التصويت",
+    "login_to_see": "سَجّل الدخول لكي ترى",
+    "havent_commented": "لم تكن قد علقت أي شيء حتى الآن",
+    "havent_posted": "لم تنشر أي شيء حتى الآن",
+    "steem_power": "قوة ستيم",
+    "next_power_text": "خفض القوة القادم في",
+    "days": "أيام",
+    "day": "يوم",
+    "steem_dollars": "ستيم دولار",
+    "savings": "مدخرات"
   },
   "settings": {
-    "settings": "Settings",
-    "currency": "Currency",
-    "language": "Language",
-    "server": "Server",
-    "dark_theme": "Dark Theme",
-    "push_notification": "Push Notification",
-    "pincode": "Pincode",
-    "reset": "Reset"
+    "settings": "إعدادات",
+    "currency": "عملة",
+    "language": "لغة",
+    "server": "الخادم",
+    "dark_theme": "الوضع المظلم",
+    "push_notification": "دفع الإشعارات",
+    "pincode": "الرقم السري",
+    "reset": "إعادة"
   },
   "voters": {
-    "voters_info": "Voters Info",
-    "no_user": "No user found."
+    "voters_info": "معلومات عن المصوتين",
+    "no_user": "لم يتم العثور على المستخدم."
   },
   "login": {
-    "signin": "Sign in",
-    "signup": "Sign up",
-    "signin_title": "To get all the benefits of using eSteem",
-    "username": "Username",
-    "password": "Password or WIF",
-    "description": "User credentials are kept locally on the device. Credentials are removed upon logout!",
-    "cancel": "cancel",
-    "login": "LOGIN",
-    "steemconnect_description": "If you don't want to keep your password encrypted and saved on your device, you can use Steemconnect."
+    "signin": "تسجيل الدخول",
+    "signup": "إنشاء حساب",
+    "signin_title": "للحصول على جميع فوائد إستخدم esteem",
+    "username": "إسم المستخدم",
+    "password": "أدخل دكلمة المرور أو Wif",
+    "description": "يتم الاحتفاظ ببيانات اعتماد المستخدم محليًا على الجهاز. تتم إزالة بيانات الاعتماد عند تسجيل الخروج!",
+    "cancel": "إلغاء",
+    "login": "تسجيل الدخول",
+    "steemconnect_description": "إذا كنت لا ترغب في الاحتفاظ بكلمة المرور الخاصة بك مشفرة وحفظها على جهازك ، فيمكنك استخدام Steemconnect."
   },
   "home": {
-    "feed": "Feed",
-    "popular": "Popular"
+    "feed": "المستجدات",
+    "popular": "الأكثر شعبية"
   },
   "side_menu": {
-    "profile": "Profile",
-    "bookmarks": "Bookmarks",
-    "favorites": "Favorites",
-    "drafts": "Drafts",
-    "schedules": "Schedules",
-    "gallery": "Gallery",
-    "settings": "Settings",
-    "add_account": "Add Account",
-    "logout": "Logout",
-    "cancel": "Cancel",
-    "logout_text": "Are you sure you want to logout?"
+    "profile": "الملف الشّخصي",
+    "bookmarks": "إشارات مرجعية",
+    "favorites": "المفضلات",
+    "drafts": "مسودات",
+    "schedules": "جداول زمنية",
+    "gallery": "معرض الصور",
+    "settings": "إعدادات",
+    "add_account": "إضافة حساب",
+    "logout": "تسجيل الخروج",
+    "cancel": "إلغاء",
+    "logout_text": "هل أنت متأكد أنك تريد تسجيل الخروج؟"
   },
   "header": {
-    "title": "Login to customize your feed",
-    "search": "Search..."
+    "title": "تسجيل الدخول لتخصيص خلاصتك",
+    "search": "بحث..."
   },
   "basic_header": {
-    "publish": "Publish",
-    "search": "Search",
-    "update": "Update",
-    "reply": "Reply"
+    "publish": "نشر",
+    "search": "بحث",
+    "update": "تحديث",
+    "reply": "الرد"
   },
   "editor": {
-    "title": "Title",
-    "tags": "tags",
-    "default_placeholder": "What would you like to write about today?",
-    "reply_placeholder": "What would you like to write about above post?",
-    "publish": "Publish",
-    "reply": "Reply"
+    "title": "عنوان",
+    "tags": "العلامات",
+    "default_placeholder": "ما الذي تود أن تكتب عنه اليوم؟",
+    "reply_placeholder": "ماذا تريد أن تكتب عن المشاركة أعلاه؟",
+    "publish": "نشر",
+    "reply": "الرد"
   },
   "pincode": {
-    "enter_text": "Enter pin to unlock",
-    "set_new": "Set new pin",
-    "write_again": "Write again",
-    "forgot_text": "Oh, I forgot it..."
+    "enter_text": "أَدخل الرقم السري للفتح",
+    "set_new": "تعين رقم سري جديد",
+    "write_again": "أكتب مرة أخرى",
+    "forgot_text": "أوه، لقد نسيت ذلك..."
   },
   "alert": {
-    "success": "Success!",
-    "allRead": "Marked all notifications as read",
-    "claim_reward_balance_ok": "Reward balance claimed",
-    "fail": "Fail!",
-    "success_shared": "Your post succesfully shared",
-    "permission_denied": "Permission denied",
-    "permission_text": "Please, go to phone Settings and change eSteem app permissions.",
+    "success": "تم بنجاح!",
+    "allRead": "وضع جميع الإشعارات كأنها مقروءة",
+    "claim_reward_balance_ok": "تم سحب المكافآت",
+    "fail": "فشل!",
+    "success_shared": "مشاركتك تمت مشاركتها بنجاح",
+    "permission_denied": "طلب الإذن مرفوض",
+    "permission_text": "يرجى الانتقال إلى إعدادات الهاتف وتغيير أذونات تطبيق eSteem.",
     "success_rebloged": "Rebloged!",
-    "already_rebloged": "You have already reblogged!",
-    "warning": "Warning",
-    "invalid_pincode": "Invalid pin code, please check and try again.",
-    "remove_alert": "Are you sure want to remove?",
-    "cancel": "Cancel",
-    "delete": "Delete"
+    "already_rebloged": "لقد قمت بالفعل بإعادة نشره!",
+    "warning": "تحذير",
+    "invalid_pincode": "الرقم السري غير صالح، يرجى التحقق والمحاولة مرة أخرى.",
+    "remove_alert": "هل أنت متأكد تريد الإزالة؟",
+    "cancel": "إلغاء",
+    "delete": "حذف"
   },
   "post": {
-    "reblog_alert": "Are you sure you want to reblog?"
+    "reblog_alert": "هل أنت متأكد من رغبتك في إعادة التدوين؟"
   },
   "drafts": {
-    "title": "Drafts",
-    "load_error": "Could not load drafts",
-    "empty_list": "Nothing here",
-    "deleted": "Draft deleted"
+    "title": "المسودات",
+    "load_error": "لا يمكن تحميل المسودات",
+    "empty_list": "لا شيء هنا",
+    "deleted": "مسودة محذوفة"
   },
   "schedules": {
-    "title": "Scheduled Posts",
-    "empty_list": "Nothing here",
-    "deleted": "Scheduled post deleted",
-    "move": "Move to drafts",
-    "moved": "Moved to drafts"
+    "title": "المنشورات المجدولة",
+    "empty_list": "لا شيء هنا",
+    "deleted": "تم مسح المشاركة المجدولة",
+    "move": "نقل إلى المسودات",
+    "moved": "تم النقل إلى المسودات"
   },
   "bookmarks": {
-    "title": "Bookmarks",
-    "load_error": "Could not load bookmarks",
-    "empty_list": "Nothing here",
-    "deleted": "Bookmark removed",
-    "search": "Search in bookmarks"
+    "title": "إشارات مرجعية",
+    "load_error": "لا يمكن تحميل الإشارات المرجعية",
+    "empty_list": "لا شيء هنا",
+    "deleted": "تم مسح الإشاراة المرجعية",
+    "search": "البحث في الإشارات المرجعية"
   },
   "favorites": {
-    "title": "Favorites",
-    "load_error": "Could not load favorites",
-    "empty_list": "Nothing here",
-    "search": "Search in favorites"
+    "title": "المفضلات",
+    "load_error": "لا يمكن تحميل المفضلات",
+    "empty_list": "لا شيء هنا",
+    "search": "البحث في المفضلات"
   },
   "auth": {
-    "invalid_pin": "Invalid pin code, please check and try again",
-    "invalid_username": "Invalid username, please check and try again",
-    "already_logged": "You are already logged in, please try to add another account",
-    "invalid_credentials": "Invalid credentials, please check and try again",
-    "unknow_error": "Unknown error, please contact us at support@esteem.app"
+    "invalid_pin": "الرقم السري غير صالح، يرجى التحقق والمحاولة مرة أخرى",
+    "invalid_username": "اسم المستخدم غير صالح، يرجى التحقق والمحاولة مرة أخرى",
+    "already_logged": "لقد قمت بتسجيل الدخول بالفعل، يرجى محاولة إضافة حساب آخر",
+    "invalid_credentials": "بيانات الاعتماد غير صالحة، يرجى التحقق والمحاولة مرة أخرى",
+    "unknow_error": "خطأ غير معروف، يرجى الاتصال بنا على support@esteem.app"
+  },
+  "payout": {
+    "potential_payout": "Potential Payout",
+    "promoted": "Promoted",
+    "author_payout": "Author Payout",
+    "curation_payout": "Curation Payout",
+    "payout_date": "Payout"
   }
 }
