@@ -1,176 +1,183 @@
 {
   "wallet": {
-    "curation_reward": "Curation Reward",
-    "author_reward": "Author Reward",
-    "comment_benefactor_reward": "Comment Benefactor Reward",
-    "claim_reward_balance": "Claim Reward Balance",
-    "transfer": "Transfer",
-    "transfer_to_vesting": "Transfer To Vesting",
-    "transfer_from_savings": "Transfer From Savings",
+    "curation_reward": "點贊獎勵",
+    "author_reward": "作者獎勵",
+    "comment_benefactor_reward": "評論受益者獎勵",
+    "claim_reward_balance": "領取獎勵餘額",
+    "transfer": "轉帳",
+    "transfer_to_vesting": "轉賬到Steem Power",
+    "transfer_from_savings": "轉到儲蓄",
     "withdraw_vesting": "Power Down",
-    "fill_order": "Fill Order"
+    "fill_order": "填寫訂單"
   },
   "notification": {
-    "vote": "likes your post",
-    "unvote": "unvoted your post",
-    "reply": "replied to your post",
-    "mention": "mentioned you",
-    "follow": "followed you",
-    "unfollow": "unfollowed you",
-    "ignore": "ignored you",
-    "reblog": "reblogged your post",
-    "comingsoon": "Leaderboard feature is coming soon!",
-    "notification": "Notifications",
-    "leaderboard": "Leaderboard",
-    "leaderboard_title": "Daily Top User",
-    "recent": "Recent",
-    "yesterday": "Yesterday",
-    "this_week": "This Week",
-    "this_month": "This Month",
-    "older_then": "Older Than A Month"
+    "vote": "贊了您的帖子",
+    "unvote": "取消點讚您的帖子",
+    "reply": "回復了您的帖子",
+    "mention": "提到了您",
+    "follow": "關注了您",
+    "unfollow": "取消關注了您",
+    "ignore": "忽略了您",
+    "reblog": "轉發了您的帖子",
+    "comingsoon": "即將推出排行榜功能！",
+    "notification": "通知",
+    "leaderboard": "排行榜",
+    "leaderboard_title": "每日最高排名用戶",
+    "recent": "最新",
+    "yesterday": "昨天",
+    "this_week": "本週",
+    "this_month": "本月",
+    "older_then": "一個月前"
   },
   "messages": {
-    "comingsoon": "Messages feature is coming soon!"
+    "comingsoon": "即將推出消息功能！"
   },
   "profile": {
-    "following": "Following",
-    "follower": "Follower",
-    "post": "Post",
-    "details": "Profile Details",
-    "comments": "Comments",
-    "replies": "Replies",
-    "wallet": "Wallet",
-    "wallet_details": "Wallet Details",
-    "unclaimed_rewards": "Unclaimed Rewards",
-    "full_in": "Full in",
-    "hours": "hours",
-    "voting_power": "Voting power",
-    "login_to_see": "Login to see",
-    "havent_commented": "haven't commented anything yet",
-    "havent_posted": "haven't posted anything yet",
+    "following": "已關注",
+    "follower": "關注者",
+    "post": "帖子",
+    "details": "個人資料詳情",
+    "comments": "評論",
+    "replies": "回覆",
+    "wallet": "錢包",
+    "wallet_details": "錢包詳情",
+    "unclaimed_rewards": "未領取的獎勵",
+    "full_in": "將於",
+    "hours": "小時內充滿",
+    "voting_power": "點讚能量",
+    "login_to_see": "登錄查看",
+    "havent_commented": "還沒有發表任何評論",
+    "havent_posted": "還沒有發佈過任何帖子",
     "steem_power": "Steem Power",
-    "next_power_text": "Next power down is in",
-    "days": "days",
-    "day": "day",
+    "next_power_text": "下一次 Power Down 是在",
+    "days": "天",
+    "day": "天",
     "steem_dollars": "Steem Dollars",
-    "savings": "Savings"
+    "savings": "儲蓄"
   },
   "settings": {
-    "settings": "Settings",
-    "currency": "Currency",
-    "language": "Language",
-    "server": "Server",
-    "dark_theme": "Dark Theme",
-    "push_notification": "Push Notification",
-    "pincode": "Pincode",
-    "reset": "Reset"
+    "settings": "設定",
+    "currency": "幣種",
+    "language": "語言",
+    "server": "伺服器",
+    "dark_theme": "深色主題",
+    "push_notification": "推送通知",
+    "pincode": "PIN 碼",
+    "reset": "重置"
   },
   "voters": {
-    "voters_info": "Voters Info",
-    "no_user": "No user found."
+    "voters_info": "投票者訊息",
+    "no_user": "未找到相應的用戶。"
   },
   "login": {
-    "signin": "Sign in",
-    "signup": "Sign up",
-    "signin_title": "To get all the benefits of using eSteem",
-    "username": "Username",
-    "password": "Password or WIF",
-    "description": "User credentials are kept locally on the device. Credentials are removed upon logout!",
-    "cancel": "cancel",
-    "login": "LOGIN",
-    "steemconnect_description": "If you don't want to keep your password encrypted and saved on your device, you can use Steemconnect."
+    "signin": "登入",
+    "signup": "註冊",
+    "signin_title": "為了獲得使用 eSteem 的所有好處",
+    "username": "使用者名稱",
+    "password": "密碼或WIF",
+    "description": "帳號認證資訊只保存在行動裝置本體。登出後認證資訊將被移除。",
+    "cancel": "取消",
+    "login": "登錄",
+    "steemconnect_description": "如果您不想將密碼加密並保存在您的設備上, 則可以使用 Steemconnect。"
   },
   "home": {
-    "feed": "Feed",
-    "popular": "Popular"
+    "feed": "動態消息",
+    "popular": "熱門"
   },
   "side_menu": {
-    "profile": "Profile",
-    "bookmarks": "Bookmarks",
-    "favorites": "Favorites",
-    "drafts": "Drafts",
-    "schedules": "Schedules",
-    "gallery": "Gallery",
-    "settings": "Settings",
-    "add_account": "Add Account",
-    "logout": "Logout",
-    "cancel": "Cancel",
-    "logout_text": "Are you sure you want to logout?"
+    "profile": "個人檔案",
+    "bookmarks": "書籤",
+    "favorites": "我的最愛",
+    "drafts": "草稿",
+    "schedules": "排程",
+    "gallery": "陳列",
+    "settings": "設定",
+    "add_account": "添加帳號",
+    "logout": "登出",
+    "cancel": "取消",
+    "logout_text": "您確定要登出嗎？"
   },
   "header": {
-    "title": "Login to customize your feed",
-    "search": "Search..."
+    "title": "登錄以自定義您的動態消息",
+    "search": "搜尋中…"
   },
   "basic_header": {
-    "publish": "Publish",
-    "search": "Search",
-    "update": "Update",
-    "reply": "Reply"
+    "publish": "發佈",
+    "search": "搜尋",
+    "update": "更新",
+    "reply": "回覆"
   },
   "editor": {
-    "title": "Title",
-    "tags": "tags",
-    "default_placeholder": "What would you like to write about today?",
-    "reply_placeholder": "What would you like to write about above post?",
-    "publish": "Publish",
-    "reply": "Reply"
+    "title": "標題",
+    "tags": "標籤",
+    "default_placeholder": "今天您想要寫些什麼？",
+    "reply_placeholder": "您想對上面的帖子寫些什麼？",
+    "publish": "發佈",
+    "reply": "回覆"
   },
   "pincode": {
-    "enter_text": "Enter pin to unlock",
-    "set_new": "Set new pin",
-    "write_again": "Write again",
-    "forgot_text": "Oh, I forgot it..."
+    "enter_text": "輸入PIN碼解鎖",
+    "set_new": "設置新的PIN碼",
+    "write_again": "重寫",
+    "forgot_text": "哦，我忘記了......"
   },
   "alert": {
-    "success": "Success!",
-    "allRead": "Marked all notifications as read",
-    "claim_reward_balance_ok": "Reward balance claimed",
-    "fail": "Fail!",
-    "success_shared": "Your post succesfully shared",
-    "permission_denied": "Permission denied",
-    "permission_text": "Please, go to phone Settings and change eSteem app permissions.",
+    "success": "成功！",
+    "allRead": "標記所有通知為已讀",
+    "claim_reward_balance_ok": "獎勵餘額已經領取",
+    "fail": "失敗！",
+    "success_shared": "您的帖子已經成功分享",
+    "permission_denied": "權限不足",
+    "permission_text": "請前往手機”設定“，更改eSteem應用程式權限。",
     "success_rebloged": "Rebloged!",
-    "already_rebloged": "You have already reblogged!",
-    "warning": "Warning",
-    "invalid_pincode": "Invalid pin code, please check and try again.",
-    "remove_alert": "Are you sure want to remove?",
-    "cancel": "Cancel",
-    "delete": "Delete"
+    "already_rebloged": "您已經轉發過了！",
+    "warning": "警告",
+    "invalid_pincode": "無效的PIN碼，請核對後再試一次。",
+    "remove_alert": "確定要刪除嗎？",
+    "cancel": "取消",
+    "delete": "刪除"
   },
   "post": {
-    "reblog_alert": "Are you sure you want to reblog?"
+    "reblog_alert": "您確定想要轉發嗎？"
   },
   "drafts": {
-    "title": "Drafts",
-    "load_error": "Could not load drafts",
-    "empty_list": "Nothing here",
-    "deleted": "Draft deleted"
+    "title": "草稿",
+    "load_error": "無法載入草稿",
+    "empty_list": "暫無内容！",
+    "deleted": "草稿已刪除"
   },
   "schedules": {
-    "title": "Scheduled Posts",
-    "empty_list": "Nothing here",
-    "deleted": "Scheduled post deleted",
-    "move": "Move to drafts",
-    "moved": "Moved to drafts"
+    "title": "計劃的帖子",
+    "empty_list": "暫無内容！",
+    "deleted": "已刪除計畫的帖子",
+    "move": "儲存為草稿",
+    "moved": "已儲存為草稿"
   },
   "bookmarks": {
-    "title": "Bookmarks",
-    "load_error": "Could not load bookmarks",
-    "empty_list": "Nothing here",
-    "deleted": "Bookmark removed",
-    "search": "Search in bookmarks"
+    "title": "書籤",
+    "load_error": "無法載入書籤",
+    "empty_list": "暫無内容！",
+    "deleted": "已移除書籤",
+    "search": "搜尋書籤"
   },
   "favorites": {
-    "title": "Favorites",
-    "load_error": "Could not load favorites",
-    "empty_list": "Nothing here",
-    "search": "Search in favorites"
+    "title": "我的最愛",
+    "load_error": "無法載入「我的最愛」",
+    "empty_list": "暫無内容！",
+    "search": "搜尋「我的最愛」"
   },
   "auth": {
-    "invalid_pin": "Invalid pin code, please check and try again",
-    "invalid_username": "Invalid username, please check and try again",
-    "already_logged": "You are already logged in, please try to add another account",
-    "invalid_credentials": "Invalid credentials, please check and try again",
-    "unknow_error": "Unknown error, please contact us at support@esteem.app"
+    "invalid_pin": "無效的PIN碼，請核對後再試一次。",
+    "invalid_username": "無效的使用者名稱，請核對後再試一次。",
+    "already_logged": "您已經登錄, 請嘗試添加另一個帳戶",
+    "invalid_credentials": "憑證無效，請核對後再試一次。",
+    "unknow_error": "未知錯誤, 請聯繫我們 support@esteem.app"
+  },
+  "payout": {
+    "potential_payout": "Potential Payout",
+    "promoted": "Promoted",
+    "author_payout": "Author Payout",
+    "curation_payout": "Curation Payout",
+    "payout_date": "Payout"
   }
 }
