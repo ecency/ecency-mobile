@@ -58,30 +58,30 @@
   "settings": {
     "settings": "Tetapan",
     "currency": "Matawang",
-    "language": "Language",
+    "language": "Bahasa",
     "server": "Server",
-    "dark_theme": "Dark Theme",
-    "push_notification": "Push Notification",
-    "pincode": "Pincode",
-    "reset": "Reset"
+    "dark_theme": "Tema gelap",
+    "push_notification": "Pemberitahuan Segera",
+    "pincode": "Kod PIN",
+    "reset": "Tetapkan semula"
   },
   "voters": {
-    "voters_info": "Voters Info",
-    "no_user": "No user found."
+    "voters_info": "Info pengundi",
+    "no_user": "Pengguna tidak wujud."
   },
   "login": {
-    "signin": "Sign in",
-    "signup": "Sign up",
-    "signin_title": "To get all the benefits of using eSteem",
-    "username": "Username",
-    "password": "Password or WIF",
-    "description": "User credentials are kept locally on the device. Credentials are removed upon logout!",
-    "cancel": "cancel",
-    "login": "LOGIN",
-    "steemconnect_description": "If you don't want to keep your password encrypted and saved on your device, you can use Steemconnect."
+    "signin": "Log masuk",
+    "signup": "Daftar baru",
+    "signin_title": "Mendapatkan faedah akibat menggunakan eSteem",
+    "username": "Nama Pengguna",
+    "password": "Kata laluan atau wif",
+    "description": "Kelayakan pengguna disimpan secara tempatan pada peranti. Apabila log keluar kelayakan akan dikeluarkan!",
+    "cancel": "batal",
+    "login": "LOG MASUK",
+    "steemconnect_description": "Jika anda tidak berhasrat untuk menyimpan kata laluan yang dienkripsi dan disimpan pada peranti anda, anda boleh menggunakan Steemconnect."
   },
   "home": {
-    "feed": "Feed",
+    "feed": "Suapan",
     "popular": "Popular"
   },
   "side_menu": {
@@ -130,48 +130,48 @@
     "permission_denied": "Tidak dibenarkan",
     "permission_text": "Sila pergi ke tetapan telefon dan mengubah keizinan keyakinan eSteem app.",
     "success_rebloged": "Rebloged!",
-    "already_rebloged": "You have already reblogged!",
-    "warning": "Warning",
-    "invalid_pincode": "Invalid pin code, please check and try again.",
-    "remove_alert": "Are you sure want to remove?",
-    "cancel": "Cancel",
-    "delete": "Delete"
+    "already_rebloged": "Anda telah diulang siar!",
+    "warning": "Amaran",
+    "invalid_pincode": "Kod PIN tidah sah, sila semak dan cuba lagi.",
+    "remove_alert": "Adakah anda pasti ingin memadam?",
+    "cancel": "Batal",
+    "delete": "Padam"
   },
   "post": {
-    "reblog_alert": "Are you sure you want to reblog?"
+    "reblog_alert": "Adakah anda ingin menulang siar?"
   },
   "drafts": {
-    "title": "Drafts",
-    "load_error": "Could not load drafts",
-    "empty_list": "Nothing here",
-    "deleted": "Draft deleted"
+    "title": "Draf",
+    "load_error": "Tidak dapat memuatkan Draf",
+    "empty_list": "Kosong",
+    "deleted": "Draf telah dipadamkan"
   },
   "schedules": {
-    "title": "Scheduled Posts",
-    "empty_list": "Nothing here",
-    "deleted": "Scheduled post deleted",
-    "move": "Move to drafts",
-    "moved": "Moved to drafts"
+    "title": "Jadual siaran",
+    "empty_list": "Kosong",
+    "deleted": "Jadual pos telah dipadamkan",
+    "move": "Memindah ke draf",
+    "moved": "Dipindah ke draf"
   },
   "bookmarks": {
-    "title": "Bookmarks",
-    "load_error": "Could not load bookmarks",
-    "empty_list": "Nothing here",
-    "deleted": "Bookmark removed",
-    "search": "Search in bookmarks"
+    "title": "Penanda halaman",
+    "load_error": "Tidak dapat cari tanda halaman",
+    "empty_list": "Kosong",
+    "deleted": "Tanda halaman yang dikeluarkan",
+    "search": "Cari di penanda halaman"
   },
   "favorites": {
-    "title": "Favorites",
-    "load_error": "Could not load favorites",
-    "empty_list": "Nothing here",
-    "search": "Search in favorites"
+    "title": "Kegemaran",
+    "load_error": "Tidak dapat cari kegemaran",
+    "empty_list": "Kosong",
+    "search": "Cari di kegemaran"
   },
   "auth": {
-    "invalid_pin": "Invalid pin code, please check and try again",
-    "invalid_username": "Invalid username, please check and try again",
-    "already_logged": "You are already logged in, please try to add another account",
-    "invalid_credentials": "Invalid credentials, please check and try again",
-    "unknow_error": "Unknown error, please contact us at support@esteem.app"
+    "invalid_pin": "Kod PIN tidah sah, sila semak dan cuba lagi",
+    "invalid_username": "Kod PIN tidah sah, sila semak dan cuba lagi",
+    "already_logged": "Anda telah daftar masuk, sila cuba dengan nama pengguna lain",
+    "invalid_credentials": "Kredensi tidah sah, sila semak dan cuba lagi",
+    "unknow_error": "Ralat tidak diketahui, sila hubungi kita di support@esteem.app"
   },
   "payout": {
     "potential_payout": "Potential Payout",
