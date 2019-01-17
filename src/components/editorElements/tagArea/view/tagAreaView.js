@@ -38,7 +38,8 @@ export default class TagAreaView extends Component {
 
   // Component Functions
   _handleOnChange = (text, i) => {
-    this.setState({ currentText: text.replace(/\s/g, '') });
+    this.setState({ currentText: text.replace(/\s/g, '').toLowerCase() });
+
     if (text.indexOf(' ') > 0 && text) {
       this._handleTagAdded();
     }
