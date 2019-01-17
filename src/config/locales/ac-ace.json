@@ -1,63 +1,63 @@
 {
   "wallet": {
-    "curation_reward": "Curation Reward",
-    "author_reward": "Author Reward",
-    "comment_benefactor_reward": "Comment Benefactor Reward",
-    "claim_reward_balance": "Claim Reward Balance",
-    "transfer": "Transfer",
-    "transfer_to_vesting": "Transfer To Vesting",
-    "transfer_from_savings": "Transfer From Savings",
-    "withdraw_vesting": "Power Down",
-    "fill_order": "Fill Order"
+    "curation_reward": "Upah Kurasi",
+    "author_reward": "Upah Poe",
+    "comment_benefactor_reward": "Upah Komentar Poe App",
+    "claim_reward_balance": "Klem Upah",
+    "transfer": "Kirem",
+    "transfer_to_vesting": "Kirem Keu Vesting",
+    "transfer_from_savings": "Kirem Keu Kubah",
+    "withdraw_vesting": "Peukureueng Teunaga",
+    "fill_order": "Pasoe Puesanan"
   },
   "notification": {
-    "vote": "likes your post",
-    "unvote": "unvoted your post",
-    "reply": "replied to your post",
-    "mention": "mentioned you",
-    "follow": "followed you",
-    "unfollow": "unfollowed you",
-    "ignore": "ignored you",
+    "vote": "galak post droen",
+    "unvote": "hana galak post",
+    "reply": "balah keu post droen",
+    "mention": "seubut droen",
+    "follow": "ikot droen",
+    "unfollow": "piyoh ikut droen",
+    "ignore": "hanapeureumeun droen",
     "reblog": "reblogged your post",
     "comingsoon": "Leaderboard feature is coming soon!",
-    "notification": "Notifications",
+    "notification": "Haba",
     "leaderboard": "Leaderboard",
     "leaderboard_title": "Daily Top User",
-    "recent": "Recent",
-    "yesterday": "Yesterday",
-    "this_week": "This Week",
-    "this_month": "This Month",
+    "recent": "Ataban",
+    "yesterday": "Baroe",
+    "this_week": "Peukan Nyoe",
+    "this_month": "Buleuen Nyoe",
     "older_then": "Older Than A Month"
   },
   "messages": {
     "comingsoon": "Messages feature is coming soon!"
   },
   "profile": {
-    "following": "Following",
-    "follower": "Follower",
-    "post": "Post",
+    "following": "Meuikoet",
+    "follower": "Peungikoet",
+    "post": "Haba",
     "details": "Profile Details",
-    "comments": "Comments",
-    "replies": "Replies",
-    "wallet": "Wallet",
-    "wallet_details": "Wallet Details",
-    "unclaimed_rewards": "Unclaimed Rewards",
-    "full_in": "Full in",
-    "hours": "hours",
-    "voting_power": "Voting power",
-    "login_to_see": "Login to see",
+    "comments": "Seuo'et",
+    "replies": "Balah",
+    "wallet": "Balum",
+    "wallet_details": "Asoe Balum",
+    "unclaimed_rewards": "Upah Galoem Coek",
+    "full_in": "Punoeh ie dalam",
+    "hours": "jeum",
+    "voting_power": "Teunaga Galak",
+    "login_to_see": "Tamoeng Untuk Kaloen",
     "havent_commented": "haven't commented anything yet",
     "havent_posted": "haven't posted anything yet",
-    "steem_power": "Steem Power",
+    "steem_power": "Teunaga Steem",
     "next_power_text": "Next power down is in",
-    "days": "days",
-    "day": "day",
+    "days": "uroe-uroe",
+    "day": "uroe",
     "steem_dollars": "Steem Dollars",
-    "savings": "Savings"
+    "savings": "Celeng"
   },
   "settings": {
-    "settings": "Settings",
-    "currency": "Currency",
+    "settings": "Atoe",
+    "currency": "Mata peng",
     "language": "Language",
     "server": "Server",
     "dark_theme": "Dark Theme",
@@ -70,18 +70,18 @@
     "no_user": "No user found."
   },
   "login": {
-    "signin": "Sign in",
-    "signup": "Sign up",
+    "signin": "Tamoeng",
+    "signup": "Daftar",
     "signin_title": "To get all the benefits of using eSteem",
-    "username": "Username",
+    "username": "Nan pengguna",
     "password": "Password or WIF",
     "description": "User credentials are kept locally on the device. Credentials are removed upon logout!",
-    "cancel": "cancel",
-    "login": "LOGIN",
+    "cancel": "bateu",
+    "login": "TAMOENG",
     "steemconnect_description": "If you don't want to keep your password encrypted and saved on your device, you can use Steemconnect."
   },
   "home": {
-    "feed": "Feed",
+    "feed": "Umpeun",
     "popular": "Popular"
   },
   "side_menu": {
@@ -90,7 +90,7 @@
     "favorites": "Favorites",
     "drafts": "Drafts",
     "schedules": "Schedules",
-    "gallery": "Gallery",
+    "gallery": "Album",
     "settings": "Settings",
     "add_account": "Add Account",
     "logout": "Logout",
@@ -112,65 +112,72 @@
     "tags": "tags",
     "default_placeholder": "What would you like to write about today?",
     "reply_placeholder": "What would you like to write about above post?",
-    "publish": "Publish",
-    "reply": "Reply"
+    "publish": "Peudeuh",
+    "reply": "Balah"
   },
   "pincode": {
-    "enter_text": "Enter pin to unlock",
-    "set_new": "Set new pin",
-    "write_again": "Write again",
-    "forgot_text": "Oh, I forgot it..."
+    "enter_text": "Pasoe gunci keu tamoeng",
+    "set_new": "Gantoe pin baro",
+    "write_again": "Tuleh loem",
+    "forgot_text": "Oh, lon tuwoe nyan..."
   },
   "alert": {
-    "success": "Success!",
-    "allRead": "Marked all notifications as read",
-    "claim_reward_balance_ok": "Reward balance claimed",
-    "fail": "Fail!",
+    "success": "Meuhasee!",
+    "allRead": "Tanda mandum haba nyang kalheuh baca",
+    "claim_reward_balance_ok": "Upah kalheuh klem",
+    "fail": "Bateu!",
     "success_shared": "Your post succesfully shared",
     "permission_denied": "Permission denied",
     "permission_text": "Please, go to phone Settings and change eSteem app permissions.",
     "success_rebloged": "Rebloged!",
     "already_rebloged": "You have already reblogged!",
-    "warning": "Warning",
+    "warning": "Peuingat",
     "invalid_pincode": "Invalid pin code, please check and try again.",
-    "remove_alert": "Are you sure want to remove?",
-    "cancel": "Cancel",
-    "delete": "Delete"
+    "remove_alert": "Peu yakin neuk sampóh?",
+    "cancel": "Bateu",
+    "delete": "Sampóh"
   },
   "post": {
     "reblog_alert": "Are you sure you want to reblog?"
   },
   "drafts": {
-    "title": "Drafts",
+    "title": "Konsep",
     "load_error": "Could not load drafts",
-    "empty_list": "Nothing here",
+    "empty_list": "Hana sapeuna",
     "deleted": "Draft deleted"
   },
   "schedules": {
     "title": "Scheduled Posts",
-    "empty_list": "Nothing here",
+    "empty_list": "Hana sapeuna",
     "deleted": "Scheduled post deleted",
-    "move": "Move to drafts",
-    "moved": "Moved to drafts"
+    "move": "Pinah lam konsep",
+    "moved": "Kalheuh pinah lam konsep"
   },
   "bookmarks": {
     "title": "Bookmarks",
     "load_error": "Could not load bookmarks",
-    "empty_list": "Nothing here",
+    "empty_list": "Hana sapeuna",
     "deleted": "Bookmark removed",
     "search": "Search in bookmarks"
   },
   "favorites": {
     "title": "Favorites",
     "load_error": "Could not load favorites",
-    "empty_list": "Nothing here",
+    "empty_list": "Hana sapeuna",
     "search": "Search in favorites"
   },
   "auth": {
     "invalid_pin": "Invalid pin code, please check and try again",
     "invalid_username": "Invalid username, please check and try again",
     "already_logged": "You are already logged in, please try to add another account",
-    "invalid_credentials": "Invalid credentials, please check and try again",
+    "invalid_credentials": "Salah kredential, cie neu test loem",
     "unknow_error": "Unknown error, please contact us at support@esteem.app"
+  },
+  "payout": {
+    "potential_payout": "Potential Payout",
+    "promoted": "Promoted",
+    "author_payout": "Author Payout",
+    "curation_payout": "Curation Payout",
+    "payout_date": "Payout"
   }
 }
