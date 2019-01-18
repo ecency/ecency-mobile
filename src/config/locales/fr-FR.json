@@ -35,7 +35,7 @@
   "profile": {
     "following": "Abonnements",
     "follower": "Abonnés",
-    "post": "Publication",
+    "post": "Post",
     "details": "Détails du profil",
     "comments": "Commentaires",
     "replies": "Réponses",
@@ -62,7 +62,7 @@
     "server": "Serveur",
     "dark_theme": "Thème Sombre",
     "push_notification": "Notification push",
-    "pincode": "Code PIN",
+    "pincode": "Pincode",
     "reset": "Réinitialiser"
   },
   "voters": {
@@ -116,8 +116,8 @@
     "reply": "Répondre"
   },
   "pincode": {
-    "enter_text": "Entrez le code PIN pour déverrouiller",
-    "set_new": "Définir un nouveau code pin",
+    "enter_text": "Enter pin to unlock",
+    "set_new": "Set new pin",
     "write_again": "Écrire à nouveau",
     "forgot_text": "Ha, je l'ai oublié ..."
   },
@@ -167,7 +167,7 @@
     "search": "Rechercher dans les favoris"
   },
   "auth": {
-    "invalid_pin": "Code pin invalide, s’il vous plaît vérifiez et réessayez",
+    "invalid_pin": "Invalid pin code, please check and try again",
     "invalid_username": "Nom d’utilisateur invalide, s’il vous plaît vérifiez et réessayez",
     "already_logged": "Vous êtes déjà connecté, essayez d’ajouter un autre compte",
     "invalid_credentials": "Informations d'identification invalides, veuillez vérifier et réessayer",
