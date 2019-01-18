@@ -130,7 +130,7 @@ class PostDropdownContainer extends PureComponent {
     return (
       <Fragment>
         <PostDropdownView
-          options={OPTIONS}
+          options={OPTIONS.map(item => intl.formatMessage({ id: `post_dropdown.${item}` }).toUpperCase())}
           handleOnDropdownSelect={this._handleOnDropdownSelect}
           {...this.props}
         />

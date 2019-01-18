@@ -179,5 +179,11 @@
     "author_payout": "Yazar Ödemeleri",
     "curation_payout": "Küratör Ödemeleri",
     "payout_date": "Ödeme"
+  },
+  "post_dropdown": {
+    "copy": "kopyala",
+    "reblog": "reblog",
+    "reply": "cevapla",
+    "share": "paylaş"
   }
 }
