@@ -7,8 +7,8 @@
     "transfer": "Überweisen",
     "transfer_to_vesting": "Zum Steem-Konto überweisen",
     "transfer_from_savings": "Überweisung aus dem Sparkonto",
-    "withdraw_vesting": "Power Down",
-    "fill_order": "Fill Order"
+    "withdraw_vesting": "Power-Down",
+    "fill_order": "Order ausgeführt"
   },
   "notification": {
     "vote": "gefällt dein Beitrag",
@@ -35,7 +35,7 @@
   "profile": {
     "following": "Following",
     "follower": "Follower",
-    "post": "Beiträge",
+    "post": "Post",
     "details": "Profil Details",
     "comments": "Kommentare",
     "replies": "Antworten",
@@ -45,7 +45,7 @@
     "full_in": "Voll in",
     "hours": "Stunden",
     "voting_power": "Voting Power",
-    "login_to_see": "Login to see",
+    "login_to_see": "Login",
     "havent_commented": "hat bisher nichts Kommentiert",
     "havent_posted": "hat bisher noch keine Beiträge veröffentlicht",
     "steem_power": "Steem Power",
@@ -53,7 +53,7 @@
     "days": "Tagen",
     "day": "Tag",
     "steem_dollars": "Steem Dollar",
-    "savings": "Savings"
+    "savings": "Gesichert"
   },
   "settings": {
     "settings": "Einstellungen",
@@ -62,7 +62,7 @@
     "server": "Server",
     "dark_theme": "Dunkles Theme",
     "push_notification": "Push-Benachrichtigung",
-    "pincode": "PIN-Code",
+    "pincode": "Pincode",
     "reset": "Zurücksetzen"
   },
   "voters": {
@@ -72,7 +72,7 @@
   "login": {
     "signin": "Anmelden",
     "signup": "Registrieren",
-    "signin_title": "To get all the benefits of using eSteem",
+    "signin_title": "Um alle Vorteile der Verwendung von eSteem zu nutzen",
     "username": "Benutzername",
     "password": "Passwort oder WIF",
     "description": "Zugangsdaten werden lokal auf dem Gerät gespeichert. Diese werden nach dem Abmelden gelöscht!",
@@ -89,37 +89,37 @@
     "bookmarks": "Lesezeichen",
     "favorites": "Favoriten",
     "drafts": "Entwürfe",
-    "schedules": "Schedules",
-    "gallery": "Gallery",
-    "settings": "Settings",
-    "add_account": "Add Account",
-    "logout": "Logout",
-    "cancel": "Cancel",
-    "logout_text": "Are you sure you want to logout?"
+    "schedules": "Zeitpläne",
+    "gallery": "Galerie",
+    "settings": "Einstellungen",
+    "add_account": "Konto hinzufügen",
+    "logout": "Abmelden",
+    "cancel": "Abbrechen",
+    "logout_text": "Bist du sicher, das du dich ausloggen möchtest?"
   },
   "header": {
-    "title": "Login to customize your feed",
-    "search": "Search..."
+    "title": "Login um den Feed anzupassen",
+    "search": "Suchen..."
   },
   "basic_header": {
-    "publish": "Publish",
-    "search": "Search",
-    "update": "Update",
-    "reply": "Reply"
+    "publish": "Veröffentlichen",
+    "search": "Suchen",
+    "update": "Aktualisieren",
+    "reply": "Antworten"
   },
   "editor": {
-    "title": "Title",
+    "title": "Titel",
     "tags": "tags",
-    "default_placeholder": "What would you like to write about today?",
-    "reply_placeholder": "What would you like to write about above post?",
-    "publish": "Publish",
-    "reply": "Reply"
+    "default_placeholder": "Worüber möchtest du heute schreiben?",
+    "reply_placeholder": "Was möchtest du über den vorgenannten Beitrag schreiben?",
+    "publish": "Veröffentlichen",
+    "reply": "Antworten"
   },
   "pincode": {
     "enter_text": "Enter pin to unlock",
     "set_new": "Set new pin",
-    "write_again": "Write again",
-    "forgot_text": "Oh, I forgot it..."
+    "write_again": "Nochmal schreiben",
+    "forgot_text": "Oh, ich habe ihn vergessen..."
   },
   "alert": {
     "success": "Erfolgreich!",
@@ -132,7 +132,7 @@
     "success_rebloged": "Rebloged!",
     "already_rebloged": "Du hast bereits geteilt!",
     "warning": "Warnung",
-    "invalid_pincode": "Ungültiger Pin-Code. Bitte prüfen und erneut versuchen.",
+    "invalid_pincode": "Invalid pin code, please check and try again.",
     "remove_alert": "Bist du sicher, dass du es entfernen möchtest?",
     "cancel": "Abbrechen",
     "delete": "Entfernen"
@@ -167,17 +167,17 @@
     "search": "In Favoriten suchen"
   },
   "auth": {
-    "invalid_pin": "Ungültiger Pin-Code. Bitte prüfen und erneut versuchen",
+    "invalid_pin": "Invalid pin code, please check and try again",
     "invalid_username": "Ungültiger Username. Bitte prüfen und erneut versuchen",
     "already_logged": "Du bist bereits eingeloggt. Bitte versuche ein anderes Konto hinzuzufügen",
     "invalid_credentials": "Ungültige Zugangsdaten. Bitte prüfen und erneut versuchen",
     "unknow_error": "Unbekannter Fehler! Bitte kontaktiere uns unter support@esteem.app"
   },
   "payout": {
-    "potential_payout": "Potential Payout",
-    "promoted": "Promoted",
-    "author_payout": "Author Payout",
-    "curation_payout": "Curation Payout",
-    "payout_date": "Payout"
+    "potential_payout": "Potenzielle Auszahlung",
+    "promoted": "Beworben",
+    "author_payout": "Autoren-Auszahlung",
+    "curation_payout": "Kuratoren-Auszahlung",
+    "payout_date": "Auszahlung"
   }
 }
