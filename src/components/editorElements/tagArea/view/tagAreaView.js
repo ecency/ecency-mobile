@@ -1,5 +1,5 @@
 import React, { Component } from 'react';
-import { View } from 'react-native';
+import { View, ScrollView } from 'react-native';
 // Constants
 
 // Components
@@ -92,7 +92,7 @@ export default class TagAreaView extends Component {
 
     return (
       <View style={globalStyles.containerHorizontal16}>
-        <View style={styles.tagWrapper}>
+        <ScrollView horizontal style={styles.tagWrapper}>
           {chips.map(
             (chip, i) => i < 5 && (
             <Chip
@@ -121,7 +121,7 @@ export default class TagAreaView extends Component {
             />
             ),
           )}
-        </View>
+        </ScrollView>
       </View>
     );
   }

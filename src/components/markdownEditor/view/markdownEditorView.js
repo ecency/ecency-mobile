@@ -1,6 +1,6 @@
 import React, { Component } from 'react';
 import {
-  View, KeyboardAvoidingView, FlatList, Text, Platform,
+  View, KeyboardAvoidingView, FlatList, Text, Platform, ScrollView,
 } from 'react-native';
 import ActionSheet from 'react-native-actionsheet';
 
@@ -98,9 +98,9 @@ export default class MarkdownEditorView extends Component {
     const { text } = this.state;
 
     return (
-      <View style={styles.previewContainer}>
+      <ScrollView style={styles.previewContainer}>
         {text ? <PostBody body={markDown2Html(text)} /> : <Text>...</Text>}
-      </View>
+      </ScrollView>
     );
   };
 

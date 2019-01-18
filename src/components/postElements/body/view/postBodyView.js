@@ -1,5 +1,7 @@
 import React, { PureComponent, Fragment } from 'react';
-import { Dimensions, Linking, Alert } from 'react-native';
+import {
+  Dimensions, Linking, Alert, Image,
+} from 'react-native';
 import { withNavigation } from 'react-navigation';
 import { injectIntl } from 'react-intl';
 
@@ -143,6 +145,10 @@ class PostBody extends PureComponent {
           imagesMaxWidth={isComment ? WIDTH - 50 : WIDTH}
           alterNode={e => this._alterNode(e, isComment)}
         />
+        {/* <Image
+          style={{ width: 100, height: 100 }}
+          source={{ uri: 'https://media.giphy.com/media/5hs5eKmprnJK5hTVGq/giphy.gif' }}
+        /> */}
       </Fragment>
     );
   }
