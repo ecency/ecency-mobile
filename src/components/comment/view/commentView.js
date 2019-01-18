@@ -9,6 +9,7 @@ import { PostBody, PostHeaderDescription } from '../../postElements';
 import { Upvote } from '../../upvote';
 import { IconButton } from '../../iconButton';
 import { Comments } from '../../comments';
+import { TextWithIcon } from '../../basicUIElements';
 
 // Styles
 import styles from './commentStyles';
@@ -88,14 +89,19 @@ class CommentView extends PureComponent {
               </Fragment>
             )}
             {isShowMoreButton && (
-              <IconButton
-                size={18}
-                iconStyle={styles.moreIcon}
-                style={styles.rightButton}
-                name={isShowSubComments ? 'keyboard-arrow-up' : 'keyboard-arrow-down'}
-                onPress={() => this._showSubCommentsToggle()}
-                iconType="MaterialIcons"
-              />
+              <View style={styles.rightButtonWrapper}>
+                <TextWithIcon
+                  wrapperStyle={styles.rightButton}
+                  iconName={isShowSubComments ? 'keyboard-arrow-up' : 'keyboard-arrow-down'}
+                  textStyle={styles.moreText}
+                  iconType="MaterialIcons"
+                  isClickable
+                  iconStyle={styles.iconStyle}
+                  iconSize={16}
+                  onPress={() => this._showSubCommentsToggle()}
+                  text={`${comment.children} more replies`}
+                />
+              </View>
             )}
           </View>
           {isShowSubComments && commentNumber > 0 && (

@@ -8,23 +8,32 @@ export default EStyleSheet.create({
     marginLeft: 10,
   },
   rightButton: {
-    flexGrow: 1,
-    alignSelf: 'flex-end',
-    position: 'absolute',
-    right: 10,
     backgroundColor: '$iconColor',
-    height: 15,
-    width: 25,
+    height: 18,
+    flexDirection: 'row-reverse',
+    borderRadius: 20,
   },
-  moreIcon: {
+  moreText: {
     color: '$white',
-    marginTop: -1,
+    fontSize: 10,
+    marginLeft: 12,
+    marginRight: 2,
   },
   bodyWrapper: {
     marginTop: -10,
   },
+  iconStyle: {
+    color: '$white',
+    marginRight: 12,
+    marginTop: 1,
+  },
   footerWrapper: {
     flex: 1,
     flexDirection: 'row',
+  },
+  rightButtonWrapper: {
+    alignSelf: 'flex-end',
+    position: 'absolute',
+    right: 0,
   },
 });
