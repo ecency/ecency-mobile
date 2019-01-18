@@ -35,7 +35,7 @@
   "profile": {
     "following": "إتباع",
     "follower": "متابع",
-    "post": "منشور",
+    "post": "Post",
     "details": "تفاصيل الملف الشخصي",
     "comments": "التعليقات",
     "replies": "الردود",
@@ -62,7 +62,7 @@
     "server": "الخادم",
     "dark_theme": "الوضع المظلم",
     "push_notification": "دفع الإشعارات",
-    "pincode": "الرقم السري",
+    "pincode": "Pincode",
     "reset": "إعادة"
   },
   "voters": {
@@ -116,8 +116,8 @@
     "reply": "الرد"
   },
   "pincode": {
-    "enter_text": "أَدخل الرقم السري للفتح",
-    "set_new": "تعين رقم سري جديد",
+    "enter_text": "Enter pin to unlock",
+    "set_new": "Set new pin",
     "write_again": "أكتب مرة أخرى",
     "forgot_text": "أوه، لقد نسيت ذلك..."
   },
@@ -132,7 +132,7 @@
     "success_rebloged": "Rebloged!",
     "already_rebloged": "لقد قمت بالفعل بإعادة نشره!",
     "warning": "تحذير",
-    "invalid_pincode": "الرقم السري غير صالح، يرجى التحقق والمحاولة مرة أخرى.",
+    "invalid_pincode": "Invalid pin code, please check and try again.",
     "remove_alert": "هل أنت متأكد تريد الإزالة؟",
     "cancel": "إلغاء",
     "delete": "حذف"
@@ -167,17 +167,17 @@
     "search": "البحث في المفضلات"
   },
   "auth": {
-    "invalid_pin": "الرقم السري غير صالح، يرجى التحقق والمحاولة مرة أخرى",
+    "invalid_pin": "Invalid pin code, please check and try again",
     "invalid_username": "اسم المستخدم غير صالح، يرجى التحقق والمحاولة مرة أخرى",
     "already_logged": "لقد قمت بتسجيل الدخول بالفعل، يرجى محاولة إضافة حساب آخر",
     "invalid_credentials": "بيانات الاعتماد غير صالحة، يرجى التحقق والمحاولة مرة أخرى",
     "unknow_error": "خطأ غير معروف، يرجى الاتصال بنا على support@esteem.app"
   },
   "payout": {
-    "potential_payout": "Potential Payout",
-    "promoted": "Promoted",
-    "author_payout": "Author Payout",
-    "curation_payout": "Curation Payout",
-    "payout_date": "Payout"
+    "potential_payout": "المكافأة المتوقعة",
+    "promoted": "المروّجة",
+    "author_payout": "مكافأة المؤلف",
+    "curation_payout": "مكافأة المقيّمين",
+    "payout_date": "المكافأة"
   }
 }
