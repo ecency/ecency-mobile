@@ -1,7 +1,7 @@
 {
   "wallet": {
-    "curation_reward": "Curation Reward",
-    "author_reward": "Author Reward",
+    "curation_reward": "Kuráció Jutalom",
+    "author_reward": "Szerzői Jutalom",
     "comment_benefactor_reward": "Comment Benefactor Reward",
     "claim_reward_balance": "Claim Reward Balance",
     "transfer": "Átutalás",
@@ -11,26 +11,26 @@
     "fill_order": "Fill Order"
   },
   "notification": {
-    "vote": "likes your post",
-    "unvote": "unvoted your post",
-    "reply": "replied to your post",
-    "mention": "mentioned you",
+    "vote": "kedvencelte a bejegyzésed",
+    "unvote": "szavazott a bejegyzésedre",
+    "reply": "válaszolt a bejegyzésedre",
+    "mention": "megemlített téged",
     "follow": "követ téged",
-    "unfollow": "unfollowed you",
+    "unfollow": "már nem követ",
     "ignore": "ignored you",
-    "reblog": "reblogged your post",
+    "reblog": "megosztotta a bejegyzésed",
     "comingsoon": "Leaderboard feature is coming soon!",
     "notification": "Értesítések",
     "leaderboard": "Ranglista",
     "leaderboard_title": "Napi Top felhasználók",
-    "recent": "Recent",
+    "recent": "Friss",
     "yesterday": "Tegnap",
     "this_week": "Ezen a héten",
     "this_month": "Ebben a hónapban",
-    "older_then": "Older Than A Month"
+    "older_then": "Egy hónapnál régebbi"
   },
   "messages": {
-    "comingsoon": "Messages feature is coming soon!"
+    "comingsoon": "Üzenetek funkció hamarosan érkezik!"
   },
   "profile": {
     "following": "Following",
@@ -39,15 +39,15 @@
     "details": "Profil adataid",
     "comments": "Hozzászólások",
     "replies": "Válaszok",
-    "wallet": "Wallet",
-    "wallet_details": "Wallet Details",
-    "unclaimed_rewards": "Unclaimed Rewards",
-    "full_in": "Full in",
+    "wallet": "Tárca",
+    "wallet_details": "Tárca részletek",
+    "unclaimed_rewards": "Átvételre váró jutalom",
+    "full_in": "Teljes",
     "hours": "órák",
-    "voting_power": "Voting power",
-    "login_to_see": "Login to see",
-    "havent_commented": "haven't commented anything yet",
-    "havent_posted": "haven't posted anything yet",
+    "voting_power": "Szavazóerő",
+    "login_to_see": "A megtekintéshez jelentkezz be",
+    "havent_commented": "még nem szólt hozzá semmihez",
+    "havent_posted": "még nem tett közzé semmit",
     "steem_power": "Steem Power",
     "next_power_text": "Next power down is in",
     "days": "napok",
@@ -60,25 +60,25 @@
     "currency": "Pénznem",
     "language": "Nyelv",
     "server": "Szerver",
-    "dark_theme": "Dark Theme",
+    "dark_theme": "Sötét téma",
     "push_notification": "Push Notification",
-    "pincode": "Pin kód",
+    "pincode": "Pincode",
     "reset": "Visszaállítás"
   },
   "voters": {
-    "voters_info": "Voters Info",
-    "no_user": "No user found."
+    "voters_info": "Infó a szavazókról",
+    "no_user": "A felahsználó nem található."
   },
   "login": {
     "signin": "Bejelentkezés",
     "signup": "Regisztráció",
-    "signin_title": "To get all the benefits of using eSteem",
+    "signin_title": "Jelentkezz be ahhoz, hogy minden előnyben részesülj",
     "username": "Felhasználónév",
     "password": "Jelszó vagy a WIF",
     "description": "User credentials are kept locally on the device. Credentials are removed upon logout!",
     "cancel": "visszavonom",
     "login": "BEJELENTKEZÉS",
-    "steemconnect_description": "If you don't want to keep your password encrypted and saved on your device, you can use Steemconnect."
+    "steemconnect_description": "Ha nem szeretnéd a jelszavad a gépeden tárolni, akkor használd a Steemconnect-et."
   },
   "home": {
     "feed": "Feed",
@@ -95,7 +95,7 @@
     "add_account": "Fiók hozzáadása",
     "logout": "Kijelentkezés",
     "cancel": "Elvet",
-    "logout_text": "Are you sure you want to logout?"
+    "logout_text": "Biztos, hogy ki szeretnél lépni?"
   },
   "header": {
     "title": "Login to customize your feed",
@@ -118,20 +118,20 @@
   "pincode": {
     "enter_text": "Enter pin to unlock",
     "set_new": "Set new pin",
-    "write_again": "Write again",
+    "write_again": "Írd újra",
     "forgot_text": "Oh, I forgot it..."
   },
   "alert": {
     "success": "Sikerült!",
     "allRead": "Minden értesítés megjelölve olvasottként",
     "claim_reward_balance_ok": "Reward balance claimed",
-    "fail": "Fail!",
+    "fail": "Sikertelen!",
     "success_shared": "Your post succesfully shared",
     "permission_denied": "Engedély megtagadva",
     "permission_text": "Please, go to phone Settings and change eSteem app permissions.",
     "success_rebloged": "Rebloged!",
-    "already_rebloged": "You have already reblogged!",
-    "warning": "Warning",
+    "already_rebloged": "Ezt már megosztottad!",
+    "warning": "Figyelem",
     "invalid_pincode": "Invalid pin code, please check and try again.",
     "remove_alert": "Biztos, hogy törölni akarod?",
     "cancel": "Elvet",
@@ -151,11 +151,11 @@
     "empty_list": "Itt nincs semmi",
     "deleted": "Scheduled post deleted",
     "move": "Move to drafts",
-    "moved": "Moved to drafts"
+    "moved": "Áthelyezve a vázlatokhoz"
   },
   "bookmarks": {
     "title": "Könyvjelzők",
-    "load_error": "Could not load bookmarks",
+    "load_error": "Nem sikerült betölteni a piszkozatokat",
     "empty_list": "Itt nincs semmi",
     "deleted": "Könyvjelző eltávolítva",
     "search": "Keresés a könyvjelzők között"
@@ -168,16 +168,16 @@
   },
   "auth": {
     "invalid_pin": "Invalid pin code, please check and try again",
-    "invalid_username": "Invalid username, please check and try again",
+    "invalid_username": "Érvénytelen felhasználónév, kérjük ellenőrizd és próbáld újra",
     "already_logged": "You are already logged in, please try to add another account",
     "invalid_credentials": "Invalid credentials, please check and try again",
     "unknow_error": "Unknown error, please contact us at support@esteem.app"
   },
   "payout": {
-    "potential_payout": "Potential Payout",
-    "promoted": "Promoted",
-    "author_payout": "Author Payout",
-    "curation_payout": "Curation Payout",
-    "payout_date": "Payout"
+    "potential_payout": "Lehetséges Kifizetés",
+    "promoted": "Támogatott",
+    "author_payout": "Szerzői Kifizetés",
+    "curation_payout": "Kurátori Kifizetés",
+    "payout_date": "Kifizetés"
   }
 }
