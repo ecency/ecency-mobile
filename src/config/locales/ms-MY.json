@@ -35,7 +35,7 @@
   "profile": {
     "following": "Mengikut",
     "follower": "Follower",
-    "post": "Hantar",
+    "post": "Post",
     "details": "Maklumat profil",
     "comments": "Komen-komen",
     "replies": "Balasan",
@@ -62,7 +62,7 @@
     "server": "Server",
     "dark_theme": "Tema gelap",
     "push_notification": "Pemberitahuan Segera",
-    "pincode": "Kod PIN",
+    "pincode": "Pincode",
     "reset": "Tetapkan semula"
   },
   "voters": {
@@ -82,57 +82,57 @@
   },
   "home": {
     "feed": "Suapan",
-    "popular": "Popular"
+    "popular": "Terkenal"
   },
   "side_menu": {
-    "profile": "Profile",
-    "bookmarks": "Bookmarks",
-    "favorites": "Favorites",
-    "drafts": "Drafts",
-    "schedules": "Schedules",
-    "gallery": "Gallery",
-    "settings": "Settings",
-    "add_account": "Add Account",
-    "logout": "Logout",
-    "cancel": "Cancel",
-    "logout_text": "Are you sure you want to logout?"
+    "profile": "Profil",
+    "bookmarks": "Penanda halaman",
+    "favorites": "Kegemaran",
+    "drafts": "Draf",
+    "schedules": "Jadual",
+    "gallery": "Galeri",
+    "settings": "Tetapan",
+    "add_account": "Tambah akaun",
+    "logout": "Log Keluar",
+    "cancel": "Batal",
+    "logout_text": "Anda pasti mahu log keluar?"
   },
   "header": {
-    "title": "Login to customize your feed",
-    "search": "Search..."
+    "title": "Log masuk untuk menyesuaikan suapan anda",
+    "search": "Carian..."
   },
   "basic_header": {
-    "publish": "Publish",
-    "search": "Search",
-    "update": "Update",
-    "reply": "Reply"
+    "publish": "Terbitkan",
+    "search": "Carian",
+    "update": "Mengemaskini",
+    "reply": "Balas"
   },
   "editor": {
-    "title": "Title",
+    "title": "Tajuk",
     "tags": "tags",
-    "default_placeholder": "What would you like to write about today?",
-    "reply_placeholder": "What would you like to write about above post?",
-    "publish": "Publish",
-    "reply": "Reply"
+    "default_placeholder": "Apa yang anda ingin mengarang hari ini?",
+    "reply_placeholder": "Apa yang ingin anda tulis terhadap pos di atas?",
+    "publish": "Terbitkan",
+    "reply": "Balas"
   },
   "pincode": {
     "enter_text": "Enter pin to unlock",
     "set_new": "Set new pin",
-    "write_again": "Write again",
-    "forgot_text": "Oh, I forgot it..."
+    "write_again": "Menulis semula",
+    "forgot_text": "Aduh! Terlupa lah..."
   },
   "alert": {
-    "success": "Success!",
-    "allRead": "Marked all notifications as read",
-    "claim_reward_balance_ok": "Reward balance claimed",
-    "fail": "Fail!",
+    "success": "Berjaya!",
+    "allRead": "Tandakan semua pemberitahuan sebagai telah dibaca",
+    "claim_reward_balance_ok": "Baki ganjaran telah dituntut",
+    "fail": "Gagal!",
     "success_shared": "Pos anda berjaya disiarkan",
     "permission_denied": "Tidak dibenarkan",
     "permission_text": "Sila pergi ke tetapan telefon dan mengubah keizinan keyakinan eSteem app.",
     "success_rebloged": "Rebloged!",
     "already_rebloged": "Anda telah diulang siar!",
     "warning": "Amaran",
-    "invalid_pincode": "Kod PIN tidah sah, sila semak dan cuba lagi.",
+    "invalid_pincode": "Invalid pin code, please check and try again.",
     "remove_alert": "Adakah anda pasti ingin memadam?",
     "cancel": "Batal",
     "delete": "Padam"
@@ -167,17 +167,17 @@
     "search": "Cari di kegemaran"
   },
   "auth": {
-    "invalid_pin": "Kod PIN tidah sah, sila semak dan cuba lagi",
+    "invalid_pin": "Invalid pin code, please check and try again",
     "invalid_username": "Kod PIN tidah sah, sila semak dan cuba lagi",
     "already_logged": "Anda telah daftar masuk, sila cuba dengan nama pengguna lain",
     "invalid_credentials": "Kredensi tidah sah, sila semak dan cuba lagi",
     "unknow_error": "Ralat tidak diketahui, sila hubungi kita di support@esteem.app"
   },
   "payout": {
-    "potential_payout": "Potential Payout",
-    "promoted": "Promoted",
-    "author_payout": "Author Payout",
-    "curation_payout": "Curation Payout",
-    "payout_date": "Payout"
+    "potential_payout": "Potensi Ganjaran",
+    "promoted": "Digalakkan",
+    "author_payout": "Ganjaran Penulis",
+    "curation_payout": "Ganjaran kurasi",
+    "payout_date": "Pembayaran"
   }
 }
