@@ -77,10 +77,6 @@ export const markDown2Html = (input) => {
     output = handleATag(output);
   }
 
-  // if (copiedPostRegex.test(output)) {
-  //   output = handleCopiedPost(output);
-  // }
-
   if (markdownLinkRegex.test(output)) {
     output = handleMarkdownLink(output);
   }
@@ -128,24 +124,6 @@ const handleATag = input => input.replace(aTagRegex, (link) => {
   }
 
   return link;
-});
-
-const handleCopiedPost = input => input.replace(copiedPostRegex, (link) => {
-  const postMatch = link.match(copiedPostRegex);
-
-  if (postMatch) {
-    let tag = postMatch[1];
-
-    if (tag === '/busy.org') {
-      tag = 'busy';
-    }
-
-    return `<a class="markdown-post-link" href="${
-      postMatch[3]
-    }" data_tag={${tag.trim()}} data_author="${postMatch[2].replace('@', '')}">/${
-      postMatch[3]
-    }</a>`;
-  }
 });
 
 const handleMarkdownLink = input => input.replace(markdownLinkRegex, (link) => {
