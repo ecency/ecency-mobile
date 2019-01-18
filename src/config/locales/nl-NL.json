@@ -2,13 +2,13 @@
   "wallet": {
     "curation_reward": "Curatie-beloning",
     "author_reward": "Auteurs-beloning",
-    "comment_benefactor_reward": "Comment Benefactor Reward",
-    "claim_reward_balance": "Claim Reward Balance",
-    "transfer": "Transfer",
-    "transfer_to_vesting": "Transfer To Vesting",
-    "transfer_from_savings": "Transfer From Savings",
-    "withdraw_vesting": "Power Down",
-    "fill_order": "Fill Order"
+    "comment_benefactor_reward": "Reactie Benefactorbeloning",
+    "claim_reward_balance": "Eis Beloningsbalans op",
+    "transfer": "Overschrijven",
+    "transfer_to_vesting": "Overschrijven naar Vesting",
+    "transfer_from_savings": "Overschrijven van spaarrekening",
+    "withdraw_vesting": "Power down",
+    "fill_order": "Vul bestelling"
   },
   "notification": {
     "vote": "vindt je bericht leuk",
@@ -18,7 +18,7 @@
     "follow": "volgt je",
     "unfollow": "ontvolgt je",
     "ignore": "heeft je genegeerd",
-    "reblog": "reblogged your post",
+    "reblog": "deelde je bericht",
     "comingsoon": "Scorebord komt binnenkort!",
     "notification": "Notificaties",
     "leaderboard": "Scorebord",
@@ -35,7 +35,7 @@
   "profile": {
     "following": "Aan het volgen",
     "follower": "Volger",
-    "post": "Bericht",
+    "post": "Post",
     "details": "Profieldetails",
     "comments": "Reacties",
     "replies": "Reacties",
@@ -46,14 +46,14 @@
     "hours": "uren",
     "voting_power": "Stemkracht",
     "login_to_see": "Inloggen om te tonen",
-    "havent_commented": "haven't commented anything yet",
-    "havent_posted": "haven't posted anything yet",
+    "havent_commented": "heeft nog niets gereageerd",
+    "havent_posted": "heeft nog geen bericht geplaatst",
     "steem_power": "Steem Power",
-    "next_power_text": "Next power down is in",
+    "next_power_text": "Volgende power down is over",
     "days": "dagen",
     "day": "dag",
     "steem_dollars": "Steem Dollars",
-    "savings": "Savings"
+    "savings": "Spaarrekening"
   },
   "settings": {
     "settings": "Instellingen",
@@ -66,19 +66,19 @@
     "reset": "Reset"
   },
   "voters": {
-    "voters_info": "Voters Info",
-    "no_user": "No user found."
+    "voters_info": "Stemmers informatie",
+    "no_user": "Geen gebruiker gevonden."
   },
   "login": {
-    "signin": "Sign in",
-    "signup": "Sign up",
-    "signin_title": "To get all the benefits of using eSteem",
-    "username": "Username",
-    "password": "Password or WIF",
-    "description": "User credentials are kept locally on the device. Credentials are removed upon logout!",
+    "signin": "Inloggen",
+    "signup": "Aanmelden",
+    "signin_title": "Om alle voordelen van het gebruik van eSteem te ontvangen",
+    "username": "Gebruikersnaam",
+    "password": "Wachtwoord of WIF",
+    "description": "Gebruikersgegevens worden lokaal op je apparaat opgeslagen. Bij het uitloggen worden de gegevens verwijderd!",
     "cancel": "annuleren",
     "login": "INLOGGEN",
-    "steemconnect_description": "If you don't want to keep your password encrypted and saved on your device, you can use Steemconnect."
+    "steemconnect_description": "Als je niet wilt dat je wachtwoord wordt gecodeerd en opgeslagen op je apparaat, kun je Steemconnect gebruiken."
   },
   "home": {
     "feed": "Feed",
@@ -89,17 +89,17 @@
     "bookmarks": "Bladwijzers",
     "favorites": "Favorieten",
     "drafts": "Concepten",
-    "schedules": "Schedules",
-    "gallery": "Gallery",
-    "settings": "Settings",
-    "add_account": "Add Account",
+    "schedules": "Schema’s",
+    "gallery": "Gallerij",
+    "settings": "Instellingen",
+    "add_account": "Account toevoegen",
     "logout": "Uitloggen",
     "cancel": "Annuleren",
     "logout_text": "Weet je zeker dat je wilt uitloggen?"
   },
   "header": {
-    "title": "Login to customize your feed",
-    "search": "Search..."
+    "title": "Log in om je feed aan te passen",
+    "search": "Zoek..."
   },
   "basic_header": {
     "publish": "Publiceer",
@@ -116,8 +116,8 @@
     "reply": "Reageer"
   },
   "pincode": {
-    "enter_text": "Voer pincode in om te ontgrendelen",
-    "set_new": "Stel nieuwe pincode in",
+    "enter_text": "Enter pin to unlock",
+    "set_new": "Set new pin",
     "write_again": "Schrijf opnieuw",
     "forgot_text": "Oh, ik vergat..."
   },
@@ -129,16 +129,16 @@
     "success_shared": "Je bericht is succesvol gedeeld",
     "permission_denied": "Toegang geweigerd",
     "permission_text": "Ga naar telefoon-instellingen, en wijzig de machtigingen van de eSteem-app.",
-    "success_rebloged": "Rebloged!",
-    "already_rebloged": "You have already reblogged!",
+    "success_rebloged": "Gedeeld!",
+    "already_rebloged": "Je hebt al gedeeld!",
     "warning": "Waarschuwing",
-    "invalid_pincode": "Ongeldige pincode, controleer en probeer het opnieuw.",
+    "invalid_pincode": "Invalid pin code, please check and try again.",
     "remove_alert": "Weet je zeker dat je wilt verwijderen?",
     "cancel": "Annuleren",
     "delete": "Verwijderen"
   },
   "post": {
-    "reblog_alert": "Are you sure you want to reblog?"
+    "reblog_alert": "Weet je zeker dat je het wilt delen?"
   },
   "drafts": {
     "title": "Concepten",
@@ -167,17 +167,17 @@
     "search": "Zoek in favorieten"
   },
   "auth": {
-    "invalid_pin": "Ongeldige pincode, controleer en probeer het opnieuw",
+    "invalid_pin": "Invalid pin code, please check and try again",
     "invalid_username": "Ongeldige gebruikersnaam, controleer en probeer het opnieuw",
     "already_logged": "Je bent al ingelogd, probeer een andere account toe te voegen",
     "invalid_credentials": "Ongeldige gegevens, controleer en probeer het opnieuw",
     "unknow_error": "Onbekende fout, neem contact met ons op via support@esteem.app"
   },
   "payout": {
-    "potential_payout": "Potential Payout",
-    "promoted": "Promoted",
-    "author_payout": "Author Payout",
-    "curation_payout": "Curation Payout",
-    "payout_date": "Payout"
+    "potential_payout": "Potentiële Uitbetaling",
+    "promoted": "Gesponsord",
+    "author_payout": "Auteurs-uitbetaling",
+    "curation_payout": "Curatie-uitbetaling",
+    "payout_date": "Uitbetaling"
   }
 }
