@@ -6,7 +6,7 @@
     "claim_reward_balance": "Klem Upah",
     "transfer": "Kirem",
     "transfer_to_vesting": "Kirem Keu Vesting",
-    "transfer_from_savings": "Kirem Keu Kubah",
+    "transfer_from_savings": "Keubah Peng",
     "withdraw_vesting": "Peukureueng Teunaga",
     "fill_order": "Pasoe Puesanan"
   },
@@ -18,7 +18,7 @@
     "follow": "ikot droen",
     "unfollow": "piyoh ikut droen",
     "ignore": "hanapeureumeun droen",
-    "reblog": "reblogged your post",
+    "reblog": "postingan jih ka di reblog",
     "comingsoon": "Leaderboard feature is coming soon!",
     "notification": "Haba",
     "leaderboard": "Leaderboard",
@@ -35,7 +35,7 @@
   "profile": {
     "following": "Meuikoet",
     "follower": "Peungikoet",
-    "post": "Haba",
+    "post": "Post",
     "details": "Profile Details",
     "comments": "Seuo'et",
     "replies": "Balah",
@@ -58,16 +58,16 @@
   "settings": {
     "settings": "Atoe",
     "currency": "Mata peng",
-    "language": "Language",
+    "language": "Basa",
     "server": "Server",
     "dark_theme": "Dark Theme",
     "push_notification": "Push Notification",
     "pincode": "Pincode",
-    "reset": "Reset"
+    "reset": "Atoe ulang"
   },
   "voters": {
     "voters_info": "Voters Info",
-    "no_user": "No user found."
+    "no_user": "Hana meuteume ureung."
   },
   "login": {
     "signin": "Tamoeng",
@@ -85,39 +85,39 @@
     "popular": "Popular"
   },
   "side_menu": {
-    "profile": "Profile",
-    "bookmarks": "Bookmarks",
-    "favorites": "Favorites",
-    "drafts": "Drafts",
-    "schedules": "Schedules",
+    "profile": "Profil",
+    "bookmarks": "PeuTanda",
+    "favorites": "Nyang Paleng Galak",
+    "drafts": "Konsep",
+    "schedules": "Jadwal",
     "gallery": "Album",
-    "settings": "Settings",
-    "add_account": "Add Account",
-    "logout": "Logout",
-    "cancel": "Cancel",
-    "logout_text": "Are you sure you want to logout?"
+    "settings": "Meu Atoe",
+    "add_account": "Tamah akun",
+    "logout": "Suet",
+    "cancel": "Hana Jade",
+    "logout_text": "Peu betoi neu teubit?"
   },
   "header": {
     "title": "Login to customize your feed",
-    "search": "Search..."
+    "search": "Mieta..."
   },
   "basic_header": {
-    "publish": "Publish",
-    "search": "Search",
+    "publish": "Peudeuh",
+    "search": "Mieta",
     "update": "Update",
-    "reply": "Reply"
+    "reply": "Balah"
   },
   "editor": {
     "title": "Title",
-    "tags": "tags",
-    "default_placeholder": "What would you like to write about today?",
-    "reply_placeholder": "What would you like to write about above post?",
+    "tags": "peutanda",
+    "default_placeholder": "Peu neu tuleh keu uronyoe?",
+    "reply_placeholder": "Peu neu tuleh keu uronyoe?",
     "publish": "Peudeuh",
     "reply": "Balah"
   },
   "pincode": {
-    "enter_text": "Pasoe gunci keu tamoeng",
-    "set_new": "Gantoe pin baro",
+    "enter_text": "Enter pin to unlock",
+    "set_new": "Set new pin",
     "write_again": "Tuleh loem",
     "forgot_text": "Oh, lon tuwoe nyan..."
   },
@@ -127,9 +127,9 @@
     "claim_reward_balance_ok": "Upah kalheuh klem",
     "fail": "Bateu!",
     "success_shared": "Your post succesfully shared",
-    "permission_denied": "Permission denied",
+    "permission_denied": "Hana izin",
     "permission_text": "Please, go to phone Settings and change eSteem app permissions.",
-    "success_rebloged": "Reblogged!",
+    "success_rebloged": "Rebloged!",
     "already_rebloged": "You have already reblogged!",
     "warning": "Peuingat",
     "invalid_pincode": "Invalid pin code, please check and try again.",
