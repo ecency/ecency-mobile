@@ -13,6 +13,7 @@ import { UserAvatar } from '../../userAvatar';
 
 // Constants
 import { default as MENU } from '../../../constants/sideMenuItems';
+import PackageJson from '../../../../package.json';
 
 // Styles
 import styles from './sideMenuStyles';
@@ -85,6 +86,7 @@ class SideMenuView extends Component {
       currentAccount, isLoggedIn, intl, handleLogout,
     } = this.props;
     const { menuItems, isAddAccountIconActive } = this.state;
+    const { version } = PackageJson;
 
     return (
       <View style={styles.container}>
@@ -163,6 +165,7 @@ class SideMenuView extends Component {
             )}
           />
         </View>
+        <Text style={styles.versionText}>{`v ${version}`}</Text>
         <ActionSheet
           ref={o => (this.ActionSheet = o)}
           options={[intl.formatMessage({ id: 'side_menu.logout' }), intl.formatMessage({ id: 'side_menu.cancel' })]}
