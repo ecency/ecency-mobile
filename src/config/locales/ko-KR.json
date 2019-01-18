@@ -4,10 +4,10 @@
     "author_reward": "저자 보상",
     "comment_benefactor_reward": "Comment Benefactor Reward",
     "claim_reward_balance": "Claim Reward Balance",
-    "transfer": "Transfer",
+    "transfer": "송금",
     "transfer_to_vesting": "Transfer To Vesting",
     "transfer_from_savings": "Transfer From Savings",
-    "withdraw_vesting": "Power Down",
+    "withdraw_vesting": "파워 다운",
     "fill_order": "Fill Order"
   },
   "notification": {
@@ -174,10 +174,10 @@
     "unknow_error": "Unknown error, please contact us at support@esteem.app"
   },
   "payout": {
-    "potential_payout": "Potential Payout",
-    "promoted": "Promoted",
-    "author_payout": "Author Payout",
-    "curation_payout": "Curation Payout",
-    "payout_date": "Payout"
+    "potential_payout": "예상 보상 금액",
+    "promoted": "홍보비",
+    "author_payout": "저자 보상",
+    "curation_payout": "큐레이션 보상",
+    "payout_date": "보상"
   }
 }
