@@ -35,7 +35,7 @@
   "profile": {
     "following": "已關注",
     "follower": "關注者",
-    "post": "帖子",
+    "post": "Post",
     "details": "個人資料詳情",
     "comments": "評論",
     "replies": "回覆",
@@ -62,7 +62,7 @@
     "server": "伺服器",
     "dark_theme": "深色主題",
     "push_notification": "推送通知",
-    "pincode": "PIN 碼",
+    "pincode": "Pincode",
     "reset": "重置"
   },
   "voters": {
@@ -116,8 +116,8 @@
     "reply": "回覆"
   },
   "pincode": {
-    "enter_text": "輸入PIN碼解鎖",
-    "set_new": "設置新的PIN碼",
+    "enter_text": "Enter pin to unlock",
+    "set_new": "Set new pin",
     "write_again": "重寫",
     "forgot_text": "哦，我忘記了......"
   },
@@ -129,10 +129,10 @@
     "success_shared": "您的帖子已經成功分享",
     "permission_denied": "權限不足",
     "permission_text": "請前往手機”設定“，更改eSteem應用程式權限。",
-    "success_rebloged": "Rebloged!",
+    "success_rebloged": "已轉發！",
     "already_rebloged": "您已經轉發過了！",
     "warning": "警告",
-    "invalid_pincode": "無效的PIN碼，請核對後再試一次。",
+    "invalid_pincode": "Invalid pin code, please check and try again.",
     "remove_alert": "確定要刪除嗎？",
     "cancel": "取消",
     "delete": "刪除"
@@ -167,17 +167,17 @@
     "search": "搜尋「我的最愛」"
   },
   "auth": {
-    "invalid_pin": "無效的PIN碼，請核對後再試一次。",
+    "invalid_pin": "Invalid pin code, please check and try again",
     "invalid_username": "無效的使用者名稱，請核對後再試一次。",
     "already_logged": "您已經登錄, 請嘗試添加另一個帳戶",
     "invalid_credentials": "憑證無效，請核對後再試一次。",
     "unknow_error": "未知錯誤, 請聯繫我們 support@esteem.app"
   },
   "payout": {
-    "potential_payout": "Potential Payout",
-    "promoted": "Promoted",
-    "author_payout": "Author Payout",
-    "curation_payout": "Curation Payout",
-    "payout_date": "Payout"
+    "potential_payout": "潛在收益",
+    "promoted": "贊助",
+    "author_payout": "作者收益",
+    "curation_payout": "投票收益",
+    "payout_date": "收益时间"
   }
 }
