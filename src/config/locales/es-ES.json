@@ -147,11 +147,11 @@
     "deleted": "Borrador eliminado"
   },
   "schedules": {
-    "title": "Scheduled Posts",
-    "empty_list": "Nothing here",
-    "deleted": "Scheduled post deleted",
-    "move": "Move to drafts",
-    "moved": "Moved to drafts"
+    "title": "Publicaciones programadas",
+    "empty_list": "Nada aquí",
+    "deleted": "Publicación programada eliminada",
+    "move": "Mover a borradores",
+    "moved": "Movido a borradores"
   },
   "bookmarks": {
     "title": "Bookmarks",
