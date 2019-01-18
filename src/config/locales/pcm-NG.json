@@ -1,51 +1,51 @@
 {
   "wallet": {
-    "curation_reward": "Curation Reward",
-    "author_reward": "Author Reward",
-    "comment_benefactor_reward": "Reward for comment wey you make",
+    "curation_reward": "Reward For Post Wey You Upvote",
+    "author_reward": "Person Wey Write Reward",
+    "comment_benefactor_reward": "Reward For Person Wey Comment",
     "claim_reward_balance": "Claim Your Reward",
     "transfer": "Transfer",
     "transfer_to_vesting": "Transfer go vesting",
-    "transfer_from_savings": "Transfer komot from savings",
+    "transfer_from_savings": "Transfer Komot From Savings",
     "withdraw_vesting": "Power Down",
     "fill_order": "Fill Order"
   },
   "notification": {
     "vote": "like you tori",
-    "unvote": "commot e vote",
+    "unvote": "no upvote this post again",
     "reply": "reply your tori",
     "mention": "holla you",
-    "follow": "follow you",
-    "unfollow": "No follow you again",
-    "ignore": "ignore you",
+    "follow": "don dey follow you",
+    "unfollow": "no follow you again",
+    "ignore": "don dey ignore you",
     "reblog": "reblog your tori",
     "comingsoon": "Leaderboard dey come soon!",
     "notification": "Alerts",
     "leaderboard": "Leaderboard",
-    "leaderboard_title": "Person Wey Dey Top",
+    "leaderboard_title": "People Wey Dey Top Today",
     "recent": "Latest",
     "yesterday": "Yesterday",
     "this_week": "This Week",
     "this_month": "This Month",
-    "older_then": "e don pass a month"
+    "older_then": "E don pass one month"
   },
   "messages": {
-    "comingsoon": "Option for messages go soon come"
+    "comingsoon": "Option for messages go soon come!"
   },
   "profile": {
     "following": "Following",
     "follower": "Follower",
-    "post": "Tori",
-    "details": "Your informate",
+    "post": "Posts",
+    "details": "Person informate",
     "comments": "Comments",
     "replies": "Replies",
     "wallet": "Account",
     "wallet_details": "Account informate",
-    "unclaimed_rewards": "Reward wey you never claim",
+    "unclaimed_rewards": "Reward Wey You Never Claim",
     "full_in": "Full in",
     "hours": "hours",
     "voting_power": "Power to vote",
-    "login_to_see": "Login to see",
+    "login_to_see": "Login to see wetin dey",
     "havent_commented": "e never contribute any tori",
     "havent_posted": "e never post anything",
     "steem_power": "Steem Power",
@@ -59,21 +59,21 @@
     "settings": "Settings",
     "currency": "Currency",
     "language": "Language",
-    "server": "Network",
+    "server": "Server",
     "dark_theme": "Theme wey dark",
     "push_notification": "Your Alert",
-    "pincode": "Pincode",
+    "pincode": "PIN code",
     "reset": "Reset"
   },
   "voters": {
-    "voters_info": "Voters info",
-    "no_user": "E no find any person"
+    "voters_info": "People Wey Vote informate",
+    "no_user": "E no see any person."
   },
   "login": {
     "signin": "Login for here",
     "signup": "Register",
-    "signin_title": "To enjoy all the awoof wey dey eSteem",
-    "username": "Guyname",
+    "signin_title": "To enjoy all the yanfu-yanfu wey dey eSteem",
+    "username": "Guy-name",
     "password": "Password or WIF",
     "description": "Person information dey store inside phone. But e go clear komot when dem logout! ",
     "cancel": "cancel",
@@ -85,7 +85,7 @@
     "popular": "Popular"
   },
   "side_menu": {
-    "profile": "Profile",
+    "profile": "Your informate",
     "bookmarks": "Bookmarks",
     "favorites": "Wetin you like pass",
     "drafts": "Saved tori",
@@ -116,24 +116,24 @@
     "reply": "Reply"
   },
   "pincode": {
-    "enter_text": "Press your pin",
-    "set_new": "Put new pin",
-    "write_again": "Write again",
-    "forgot_text": "I don forget am..."
+    "enter_text": "Enter PIN to unlock",
+    "set_new": "Set new PIN",
+    "write_again": "Write am again",
+    "forgot_text": "Chai, I don forget am..."
   },
   "alert": {
-    "success": "Success!",
-    "allRead": "Mark am say you don read all alert",
-    "claim_reward_balance_ok": "You don claim reward",
-    "fail": "Fail!",
+    "success": "E don Successful!",
+    "allRead": "Mark am say you don read all the alert",
+    "claim_reward_balance_ok": "You don claim the reward",
+    "fail": "E Fail oo!",
     "success_shared": "Your post don share finish",
     "permission_denied": "E no gree do",
     "permission_text": "Abeg go your phone settings go change eSteem app permissions. ",
-    "success_rebloged": "Reblogged!",
+    "success_rebloged": "E don reblog!",
     "already_rebloged": "You don reblog am already!",
     "warning": "Warning",
-    "invalid_pincode": "Wrong pin code, abeg check and try am again",
-    "remove_alert": "You sure say you won remove?",
+    "invalid_pincode": "Invalid PIN code, please check and try again.",
+    "remove_alert": "You sure say you won remove am?",
     "cancel": "Cancel",
     "delete": "Delete"
   },
@@ -142,42 +142,42 @@
   },
   "drafts": {
     "title": "Draft",
-    "load_error": "Draft no gree load",
-    "empty_list": "Nothing dey",
-    "deleted": "Draft don delete"
+    "load_error": "Draft no gree load oo",
+    "empty_list": "Nothing dey here",
+    "deleted": "Draft don delete komot"
   },
   "schedules": {
-    "title": "Scheduled tori",
-    "empty_list": "Here empty",
-    "deleted": "Scheduled tori don delete",
-    "move": "Move go draft",
-    "moved": "E don move"
+    "title": "Tori Wey You Don Time",
+    "empty_list": "Here empty oo",
+    "deleted": "Tori wey you time don delete",
+    "move": "Move am go draft",
+    "moved": "E don move go draft"
   },
   "bookmarks": {
     "title": "Bookmarks",
     "load_error": "Bookmarks no gree load",
-    "empty_list": "Nothing here",
-    "deleted": "Bookmark komot",
-    "search": "Find am in bookmark"
+    "empty_list": "Nothing dey here",
+    "deleted": "Bookmark don komot",
+    "search": "Find am for bookmark"
   },
   "favorites": {
     "title": "Favorites",
     "load_error": "Favorites no gree load",
-    "empty_list": "Nothing dey ",
+    "empty_list": "Nothing dey here",
     "search": "Find am for favorite"
   },
   "auth": {
-    "invalid_pin": "Wrong pincode, abeg check am and try again",
-    "invalid_username": "Wrong username, abeg check am and try again ",
-    "already_logged": "You don dey login already, abeg try add another account join",
-    "invalid_credentials": "Wrong informate, abeg check wella and try again",
-    "unknow_error": "Error don happen, abeg holla us at support@esteem.app"
+    "invalid_pin": "Invalid PIN code, please check and try again",
+    "invalid_username": "Your guy-name no correct, abeg check am and try again ",
+    "already_logged": "You don dey inside your account already, abeg try add another account join",
+    "invalid_credentials": "Wrong information, abeg check wella and try again",
+    "unknow_error": "Error don happen, abeg holla us for support@esteem.app"
   },
   "payout": {
-    "potential_payout": "Potential Payout",
-    "promoted": "Promoted",
-    "author_payout": "Author Payout",
-    "curation_payout": "Curation Payout",
-    "payout_date": "Payout"
+    "potential_payout": "Reward wey dey pending",
+    "promoted": "E don promote",
+    "author_payout": "Payment For Person Wey Write",
+    "curation_payout": "Payment For Post Wey You Upvote",
+    "payout_date": "Payment"
   }
 }
