@@ -179,5 +179,11 @@
     "author_payout": "Autoren-Auszahlung",
     "curation_payout": "Kuratoren-Auszahlung",
     "payout_date": "Auszahlung"
+  },
+  "post_dropdown": {
+    "copy": "copy link",
+    "reblog": "reblog",
+    "reply": "reply",
+    "share": "share"
   }
 }
