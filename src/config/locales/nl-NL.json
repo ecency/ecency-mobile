@@ -13,7 +13,7 @@
   "notification": {
     "vote": "vindt je bericht leuk",
     "unvote": "vindt je bericht niet meer leuk",
-    "reply": "heet op je bericht gereageerd",
+    "reply": "heeft op je bericht gereageerd",
     "mention": "noemde je",
     "follow": "volgt je",
     "unfollow": "ontvolgt je",
@@ -119,7 +119,7 @@
     "enter_text": "Enter pin to unlock",
     "set_new": "Set new pin",
     "write_again": "Schrijf opnieuw",
-    "forgot_text": "Oh, ik vergat..."
+    "forgot_text": "Oh, ik ben het vergeten..."
   },
   "alert": {
     "success": "Gelukt!",
@@ -179,5 +179,11 @@
     "author_payout": "Auteurs-uitbetaling",
     "curation_payout": "Curatie-uitbetaling",
     "payout_date": "Uitbetaling"
+  },
+  "post_dropdown": {
+    "copy": "copy link",
+    "reblog": "reblog",
+    "reply": "reply",
+    "share": "share"
   }
 }
