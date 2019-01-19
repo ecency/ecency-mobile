@@ -3,23 +3,23 @@
     "curation_reward": "Gains de curation",
     "author_reward": "Gain de l'Auteur",
     "comment_benefactor_reward": "Comment Benefactor Reward",
-    "claim_reward_balance": "Claim Reward Balance",
+    "claim_reward_balance": "Réclamer le solde de récompense",
     "transfer": "Transfer",
     "transfer_to_vesting": "Transfer To Vesting",
-    "transfer_from_savings": "Transfer From Savings",
-    "withdraw_vesting": "Power Down",
-    "fill_order": "Fill Order"
+    "transfer_from_savings": "Transférer depuis mes Économies",
+    "withdraw_vesting": "Diminuer son influence",
+    "fill_order": "Remplir l’ordre"
   },
   "notification": {
     "vote": "ont aimés votre post",
-    "unvote": "unvoted your post",
+    "unvote": "a retiré son vote sur votre publication",
     "reply": "a répondu à votre post",
     "mention": "vous a mentionné",
     "follow": "vous a suivi",
-    "unfollow": "unfollowed you",
+    "unfollow": "ne vous suit plus",
     "ignore": "vous a ignoré",
     "reblog": "a reblogué votre post",
-    "comingsoon": "Leaderboard feature is coming soon!",
+    "comingsoon": "La fonctionnalité Classement arrive bientôt !",
     "notification": "Notifications",
     "leaderboard": "Classement",
     "leaderboard_title": "Top des utilisateurs du jour",
@@ -30,7 +30,7 @@
     "older_then": "Vieux de plus de 1 mois"
   },
   "messages": {
-    "comingsoon": "Messages feature is coming soon!"
+    "comingsoon": "La fonctionnalité Messages arrive bientôt !"
   },
   "profile": {
     "following": "Abonnements",
@@ -42,14 +42,14 @@
     "wallet": "Portefeuille",
     "wallet_details": "Informations sur le portefeuille",
     "unclaimed_rewards": "Récompenses non réclamées",
-    "full_in": "Full in",
+    "full_in": "Complet en",
     "hours": "heures",
     "voting_power": "Puissance de vote",
     "login_to_see": "Connectez-vous pour voir",
-    "havent_commented": "haven't commented anything yet",
-    "havent_posted": "haven't posted anything yet",
+    "havent_commented": "n'a encore rien commenté",
+    "havent_posted": "n'a encore rien posté",
     "steem_power": "Steem Power",
-    "next_power_text": "Next power down is in",
+    "next_power_text": "Prochaine diminution d'influence dans",
     "days": "jours",
     "day": "jour",
     "steem_dollars": "Steem Dollars",
@@ -66,16 +66,16 @@
     "reset": "Réinitialiser"
   },
   "voters": {
-    "voters_info": "Voters Info",
+    "voters_info": "Info des votants",
     "no_user": "Aucun utilisateur trouvé."
   },
   "login": {
     "signin": "Se connecter",
     "signup": "S’inscrire",
-    "signin_title": "To get all the benefits of using eSteem",
+    "signin_title": "Pour obtenir tous les avantages de l’utilisation de eSteem",
     "username": "Nom d'utilisateur",
     "password": "Mot de passe ou WIF",
-    "description": "User credentials are kept locally on the device. Credentials are removed upon logout!",
+    "description": "Vos informations d'identification sont conservées localement sur votre appareil. Elles sont supprimées dès votre déconnexion !",
     "cancel": "annuler",
     "login": "CONNEXION",
     "steemconnect_description": "Si vous ne voulez pas garder votre mot de passe chiffré et enregistré sur votre appareil, vous pouvez utiliser Steemconnect."
@@ -104,14 +104,14 @@
   "basic_header": {
     "publish": "Publier",
     "search": "Rechercher",
-    "update": "Update",
+    "update": "Mettre à jour",
     "reply": "Répondre"
   },
   "editor": {
     "title": "Titre",
     "tags": "mots-clés",
     "default_placeholder": "Qu’aimeriez-vous écrire aujourd'hui ?",
-    "reply_placeholder": "What would you like to write about above post?",
+    "reply_placeholder": "Qu'aimeriez-vous écrire à propos de l'article ci-dessus ?",
     "publish": "Publier",
     "reply": "Répondre"
   },
@@ -126,11 +126,11 @@
     "allRead": "Marquer toutes les notifications comme lues",
     "claim_reward_balance_ok": "Solde de récompense réclamé",
     "fail": "Échec !",
-    "success_shared": "Your post succesfully shared",
+    "success_shared": "Votre publication à été partagée avec succès",
     "permission_denied": "Autorisation refusée",
-    "permission_text": "Please, go to phone Settings and change eSteem app permissions.",
+    "permission_text": "S'il vous plaît, allez dans les Paramètres de votre téléphone et changez les permissions pour l’application eSteem.",
     "success_rebloged": "Rebloged!",
-    "already_rebloged": "You have already reblogged!",
+    "already_rebloged": "Vous avez déjà reblogué !",
     "warning": "Attention",
     "invalid_pincode": "Invalid pin code, please check and try again.",
     "remove_alert": "Êtes-vous sûr de vouloir retirer ?",
@@ -138,7 +138,7 @@
     "delete": "Supprimer"
   },
   "post": {
-    "reblog_alert": "Are you sure you want to reblog?"
+    "reblog_alert": "Êtes-vous sûr de vouloir rebloguer ?"
   },
   "drafts": {
     "title": "Brouillons",
@@ -174,10 +174,16 @@
     "unknow_error": "Erreur inconnue, contactez-nous à support@esteem.app"
   },
   "payout": {
-    "potential_payout": "Potential Payout",
-    "promoted": "Promoted",
-    "author_payout": "Author Payout",
-    "curation_payout": "Curation Payout",
-    "payout_date": "Payout"
+    "potential_payout": "Gain Potentiel",
+    "promoted": "Promu",
+    "author_payout": "Gain de l'Auteur",
+    "curation_payout": "Gain de la Curation",
+    "payout_date": "Gain"
+  },
+  "post_dropdown": {
+    "copy": "copy link",
+    "reblog": "reblog",
+    "reply": "reply",
+    "share": "share"
   }
 }
