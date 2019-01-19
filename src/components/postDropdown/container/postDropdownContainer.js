@@ -1,7 +1,7 @@
 import React, { PureComponent, Fragment } from 'react';
 import { connect } from 'react-redux';
 import { withNavigation } from 'react-navigation';
-import { Alert } from 'react-native';
+import { Alert, Share } from 'react-native';
 import ActionSheet from 'react-native-actionsheet';
 import { injectIntl } from 'react-intl';
 
@@ -16,6 +16,7 @@ import { default as ROUTES } from '../../../constants/routeNames';
 
 // Utilities
 import { writeToClipboard } from '../../../utils/clipboard';
+import { getPostUrl } from '../../../utils/post';
 
 // Component
 import PostDropdownView from '../view/postDropdownView';
@@ -40,7 +41,7 @@ class PostDropdownContainer extends PureComponent {
 
     switch (index) {
       case '0':
-        writeToClipboard(`https://steemit.com${content.url}`);
+        writeToClipboard(getPostUrl(content.url));
         break;
 
       case '1':
@@ -52,10 +53,24 @@ class PostDropdownContainer extends PureComponent {
       case '2':
         this._replyNavigation();
         break;
+      case '3':
+        setTimeout(() => {
+          this._share();
+        }, 500);
+        break;
 
       default:
         break;
     }
+  };
+
+  _share = () => {
+    const { content } = this.props;
+
+    Share.share({
+      message: content.title,
+      url: getPostUrl(content.url),
+    });
   };
 
   _reblog = () => {
@@ -115,7 +130,7 @@ class PostDropdownContainer extends PureComponent {
     return (
       <Fragment>
         <PostDropdownView
-          options={OPTIONS}
+          options={OPTIONS.map(item => intl.formatMessage({ id: `post_dropdown.${item}` }).toUpperCase())}
           handleOnDropdownSelect={this._handleOnDropdownSelect}
           {...this.props}
         />
