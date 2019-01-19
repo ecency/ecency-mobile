@@ -1,14 +1,14 @@
 {
   "wallet": {
-    "curation_reward": "Recompensas de curadoria",
-    "author_reward": "Recompensas de autor",
-    "comment_benefactor_reward": "Recompensa do benficiário de comentário",
+    "curation_reward": "Recompensas de Curadoria",
+    "author_reward": "Recompensas de Autor",
+    "comment_benefactor_reward": "Recompensa do benificiário do comentário",
     "claim_reward_balance": "Reclamar o balanço da Recompensa",
     "transfer": "Transferir",
     "transfer_to_vesting": "Transferir para vesting",
-    "transfer_from_savings": "Transferir para Poupança",
+    "transfer_from_savings": "Transferir da Poupança",
     "withdraw_vesting": "Decarregar Poder",
-    "fill_order": "Preencher a encomenda"
+    "fill_order": "Preencher pedido"
   },
   "notification": {
     "vote": "gosta do seu post",
@@ -22,37 +22,37 @@
     "comingsoon": "Quadro de Líderes em Breve!",
     "notification": "Notificações",
     "leaderboard": "Quadro de Liderança",
-    "leaderboard_title": "Usuário do Topo hoje",
+    "leaderboard_title": "Usuário do Topo Hoje",
     "recent": "Recente",
     "yesterday": "Ontem",
     "this_week": "Esta Semana",
-    "this_month": "Este mês",
-    "older_then": "Mais de um mês"
+    "this_month": "Este Mês",
+    "older_then": "Com mais de um mês"
   },
   "messages": {
-    "comingsoon": "Recurso de mensagens está chegando em breve!"
+    "comingsoon": "Recurso de mensagens chega em breve!"
   },
   "profile": {
     "following": "Seguindo",
     "follower": "Seguidor",
-    "post": "Post",
-    "details": "Detalhes do perfil",
+    "post": "Posts",
+    "details": "Detalhes do Perfil",
     "comments": "Comentários",
     "replies": "Respostas",
     "wallet": "Carteira",
-    "wallet_details": "Detalhes de carteira",
+    "wallet_details": "Detalhes da Carteira",
     "unclaimed_rewards": "Recompensas não reclamadas",
     "full_in": "Completo em",
     "hours": "horas",
     "voting_power": "Poder de voto",
     "login_to_see": "Login para ver",
     "havent_commented": "ainda não comentou nada",
-    "havent_posted": "não postou nada ainda",
+    "havent_posted": "ainda não postou nada",
     "steem_power": "Poder Steem",
     "next_power_text": "Próxima descarga de Poder Steem",
     "days": "dias",
     "day": "dia",
-    "steem_dollars": "Steem dólares",
+    "steem_dollars": "Steem Dólares",
     "savings": "Poupanças"
   },
   "settings": {
@@ -60,9 +60,9 @@
     "currency": "Moeda",
     "language": "Língua",
     "server": "Servidor",
-    "dark_theme": "Tema escuro",
+    "dark_theme": "Tema Escuro",
     "push_notification": "Puxar Notificações",
-    "pincode": "Pincode",
+    "pincode": "Código PIN",
     "reset": "Reiniciar"
   },
   "voters": {
@@ -77,7 +77,7 @@
     "password": "Senha ou WIF",
     "description": "As credenciais do usuário são mantidas localmente no dispositivo. As credenciais são removidas após logout!",
     "cancel": "cancelar",
-    "login": "INICIAR SESSÃO",
+    "login": "ENTRAR",
     "steemconnect_description": "Se você não quiser manter sua senha criptografada e salvou no seu dispositivo, você pode usar Steemconnect."
   },
   "home": {
@@ -89,7 +89,7 @@
     "bookmarks": "Marcadores",
     "favorites": "Favoritos",
     "drafts": "Rascunhos",
-    "schedules": "Agendamentos",
+    "schedules": "Agendar",
     "gallery": "Galeria",
     "settings": "Configurações",
     "add_account": "Adicionar conta",
@@ -116,8 +116,8 @@
     "reply": "Responder"
   },
   "pincode": {
-    "enter_text": "Enter pin to unlock",
-    "set_new": "Set new pin",
+    "enter_text": "Insira PIN para desbloquear",
+    "set_new": "Crie novo PIN",
     "write_again": "Escreva outra vez",
     "forgot_text": "Oh, esqueci disso..."
   },
@@ -128,11 +128,11 @@
     "fail": "Falha!",
     "success_shared": "Seu post partilhado com sucesso",
     "permission_denied": "Permissão negada",
-    "permission_text": "Por favor, vá para configurações de telefone e alterar as permissões de app Steem.",
-    "success_rebloged": "Rebloged!",
+    "permission_text": "Por favor, vá para configurações de telefone e alterar as permissões da app Steem.",
+    "success_rebloged": "Reblogado!",
     "already_rebloged": "Já fez reblogue deste post!",
     "warning": "Aviso",
-    "invalid_pincode": "Invalid pin code, please check and try again.",
+    "invalid_pincode": "Código PIN inválido, por favor verifique e tente novamente.",
     "remove_alert": "Tem a certeza de que pretende remover?",
     "cancel": "Cancelar",
     "delete": "Apagar"
@@ -167,17 +167,23 @@
     "search": "Procurar nos Favoritos"
   },
   "auth": {
-    "invalid_pin": "Invalid pin code, please check and try again",
+    "invalid_pin": "Código PIN inválido, por favor verifique e tente novamente",
     "invalid_username": "Nome de usuário inválido, por favor verifique e tente novamente",
     "already_logged": "Você já está logado, por favor, tente adicionar outra conta",
     "invalid_credentials": "Credenciais inválidas. Por favor, verifique e tente novamente",
-    "unknow_error": "Erro desconhecido, por favor entre em contato conosco support@esteem.app"
+    "unknow_error": "Erro desconhecido, por favor entre em contato conosco em support@esteem.app"
   },
   "payout": {
-    "potential_payout": "Pagamento potencial",
+    "potential_payout": "Pagamento Potencial",
     "promoted": "Promovidos",
-    "author_payout": "Pagamento do autor",
-    "curation_payout": "Pagamento de curadoria",
+    "author_payout": "Pagamento do Autor",
+    "curation_payout": "Pagamento de Curadoria",
     "payout_date": "Pagamento"
+  },
+  "post_dropdown": {
+    "copy": "copy link",
+    "reblog": "reblog",
+    "reply": "reply",
+    "share": "share"
   }
 }
