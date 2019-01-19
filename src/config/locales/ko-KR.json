@@ -179,5 +179,11 @@
     "author_payout": "저자 보상",
     "curation_payout": "큐레이션 보상",
     "payout_date": "보상"
+  },
+  "post_dropdown": {
+    "copy": "copy link",
+    "reblog": "reblog",
+    "reply": "reply",
+    "share": "share"
   }
 }
