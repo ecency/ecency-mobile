@@ -179,5 +179,11 @@
     "author_payout": "Автору",
     "curation_payout": "Кураторам",
     "payout_date": "Выплата"
+  },
+  "post_dropdown": {
+    "copy": "copy link",
+    "reblog": "reblog",
+    "reply": "reply",
+    "share": "share"
   }
 }
