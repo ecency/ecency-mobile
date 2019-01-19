@@ -85,5 +85,6 @@ export default EStyleSheet.create({
   },
   versionText: {
     textAlign: 'center',
+    color: '$iconColor',
   },
 });
