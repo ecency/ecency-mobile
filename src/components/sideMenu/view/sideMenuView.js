@@ -167,7 +167,7 @@ class SideMenuView extends Component {
             )}
           />
         </View>
-        <Text style={styles.versionText}>{`v${version} b${buildVersion}`}</Text>
+        <Text style={styles.versionText}>{`v${version}, ${buildVersion}`}</Text>
         <ActionSheet
           ref={o => (this.ActionSheet = o)}
           options={[intl.formatMessage({ id: 'side_menu.logout' }), intl.formatMessage({ id: 'side_menu.cancel' })]}
