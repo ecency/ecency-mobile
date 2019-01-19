@@ -82,29 +82,36 @@ class CommentsContainer extends Component {
   };
 
   render() {
-    const { comments: _comments } = this.state;
+    const { comments: _comments, selectedPermlink } = this.state;
     const {
       isLoggedIn,
       commentCount,
       author,
       permlink,
       currentAccount,
-      isProfilePreview,
+      commentNumber,
       comments,
+      fetchPost,
+      isShowMoreButton,
+      selectedPermlink: _selectedPermlink,
     } = this.props;
 
     return (
       <CommentsView
+        key={permlink}
+        selectedPermlink={_selectedPermlink || selectedPermlink}
         author={author}
-        commentNumber={commentCount}
-        comments={comments || _comments}
+        isShowMoreButton={isShowMoreButton}
+        commentNumber={commentNumber || 1}
+        commentCount={commentCount}
+        comments={_comments || comments}
         currentAccountUsername={currentAccount.name}
         handleOnEditPress={this._handleOnEditPress}
         handleOnReplyPress={this._handleOnReplyPress}
         isLoggedIn={isLoggedIn}
         permlink={permlink}
-        fetchPost={this._getComments}
-        isProfilePreview={isProfilePreview}
+        fetchPost={fetchPost}
+        {...this.props}
       />
     );
   }
