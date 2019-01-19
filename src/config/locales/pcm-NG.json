@@ -35,7 +35,7 @@
   "profile": {
     "following": "Following",
     "follower": "Follower",
-    "post": "Posts",
+    "post": "Post",
     "details": "Person informate",
     "comments": "Comments",
     "replies": "Replies",
@@ -78,7 +78,7 @@
     "description": "Person information dey store inside phone. But e go clear komot when dem logout! ",
     "cancel": "cancel",
     "login": "LOGIN",
-    "steemconnect_description": "If you no want make your password save inside your phone, you fit decide to login with Steemconnect."
+    "steemconnect_description": "If you no wan make your password save inside your phone, you fit decide to login with Steemconnect."
   },
   "home": {
     "feed": "Tori",
@@ -95,7 +95,7 @@
     "add_account": "Add Account",
     "logout": "Logout",
     "cancel": "Cancel",
-    "logout_text": "You sure say you won logout?"
+    "logout_text": "You sure say you wan logout?"
   },
   "header": {
     "title": "Login to arrange your tori",
@@ -116,8 +116,8 @@
     "reply": "Reply"
   },
   "pincode": {
-    "enter_text": "Enter PIN to unlock",
-    "set_new": "Set new PIN",
+    "enter_text": "Enter your PIN to open am",
+    "set_new": "Put new PIN",
     "write_again": "Write am again",
     "forgot_text": "Chai, I don forget am..."
   },
@@ -132,13 +132,13 @@
     "success_rebloged": "E don reblog!",
     "already_rebloged": "You don reblog am already!",
     "warning": "Warning",
-    "invalid_pincode": "Invalid PIN code, please check and try again.",
-    "remove_alert": "You sure say you won remove am?",
+    "invalid_pincode": "Your PIN code no correct, abeg check wella and try am again",
+    "remove_alert": "You sure say you wan remove am?",
     "cancel": "Cancel",
     "delete": "Delete"
   },
   "post": {
-    "reblog_alert": "You sure say you won reblog am?"
+    "reblog_alert": "You sure say you wan reblog am?"
   },
   "drafts": {
     "title": "Draft",
@@ -167,10 +167,10 @@
     "search": "Find am for favorite"
   },
   "auth": {
-    "invalid_pin": "Invalid PIN code, please check and try again",
+    "invalid_pin": "Your PIN code no correct, abeg check wella and try am again",
     "invalid_username": "Your guy-name no correct, abeg check am and try again ",
     "already_logged": "You don dey inside your account already, abeg try add another account join",
-    "invalid_credentials": "Wrong information, abeg check wella and try again",
+    "invalid_credentials": "Wrong information, abeg check wella and try am again",
     "unknow_error": "Error don happen, abeg holla us for support@esteem.app"
   },
   "payout": {
@@ -179,5 +179,11 @@
     "author_payout": "Payment For Person Wey Write",
     "curation_payout": "Payment For Post Wey You Upvote",
     "payout_date": "Payment"
+  },
+  "post_dropdown": {
+    "copy": "copy link",
+    "reblog": "reblog",
+    "reply": "reply",
+    "share": "share"
   }
 }
