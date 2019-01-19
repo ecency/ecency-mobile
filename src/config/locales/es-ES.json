@@ -58,74 +58,74 @@
   "settings": {
     "settings": "Ajustes",
     "currency": "Divisa",
-    "language": "Language",
-    "server": "Server",
-    "dark_theme": "Dark Theme",
-    "push_notification": "Push Notification",
+    "language": "Idioma",
+    "server": "Servidor",
+    "dark_theme": "Tema oscuro",
+    "push_notification": "Notificación Push",
     "pincode": "Pincode",
-    "reset": "Reset"
+    "reset": "Reiniciar"
   },
   "voters": {
-    "voters_info": "Voters Info",
-    "no_user": "No user found."
+    "voters_info": "Información de votantes",
+    "no_user": "Ningún usuario encontrado."
   },
   "login": {
-    "signin": "Sign in",
-    "signup": "Sign up",
-    "signin_title": "To get all the benefits of using eSteem",
-    "username": "Username",
-    "password": "Password or WIF",
-    "description": "User credentials are kept locally on the device. Credentials are removed upon logout!",
-    "cancel": "cancel",
-    "login": "LOGIN",
-    "steemconnect_description": "If you don't want to keep your password encrypted and saved on your device, you can use Steemconnect."
+    "signin": "Iniciar sesión",
+    "signup": "Registrarse",
+    "signin_title": "Para obtener todos los beneficios de utilizar eSteem",
+    "username": "Nombre de Usuario",
+    "password": "Contraseña o WIF",
+    "description": "Las credenciales del usuario se guardan localmente en el dispositivo. Al cerrar la sesión las credenciales son eliminadas!",
+    "cancel": "cancelar",
+    "login": "ACCEDER",
+    "steemconnect_description": "Si no desea mantener su contraseña encriptada y guardada en su dispositivo, puede usar Steemconnect."
   },
   "home": {
-    "feed": "Feed",
+    "feed": "Inicio",
     "popular": "Popular"
   },
   "side_menu": {
-    "profile": "Profile",
-    "bookmarks": "Bookmarks",
-    "favorites": "Favorites",
-    "drafts": "Drafts",
-    "schedules": "Schedules",
-    "gallery": "Gallery",
-    "settings": "Settings",
-    "add_account": "Add Account",
-    "logout": "Logout",
-    "cancel": "Cancel",
-    "logout_text": "Are you sure you want to logout?"
+    "profile": "Perfil",
+    "bookmarks": "Marcadores",
+    "favorites": "Favoritos",
+    "drafts": "Borradores",
+    "schedules": "Horarios",
+    "gallery": "Galería",
+    "settings": "Ajustes",
+    "add_account": "Agregar cuenta",
+    "logout": "Cerrar sesión",
+    "cancel": "Cancelar",
+    "logout_text": "¿Estás seguro de que quieres salir?"
   },
   "header": {
-    "title": "Login to customize your feed",
-    "search": "Search..."
+    "title": "Inicie sesión para personalizar su inicio",
+    "search": "Buscar..."
   },
   "basic_header": {
-    "publish": "Publish",
-    "search": "Search",
-    "update": "Update",
-    "reply": "Reply"
+    "publish": "Publicar",
+    "search": "Buscar",
+    "update": "Actualizar",
+    "reply": "Responder"
   },
   "editor": {
-    "title": "Title",
-    "tags": "tags",
-    "default_placeholder": "What would you like to write about today?",
-    "reply_placeholder": "What would you like to write about above post?",
-    "publish": "Publish",
-    "reply": "Reply"
+    "title": "Título",
+    "tags": "etiquetas",
+    "default_placeholder": "Qué te gustaría escribir acerca de hoy?",
+    "reply_placeholder": "Qué te gustaría escribir acerca de la publicación de encima?",
+    "publish": "Publicar",
+    "reply": "Responder"
   },
   "pincode": {
     "enter_text": "Enter pin to unlock",
     "set_new": "Set new pin",
-    "write_again": "Write again",
-    "forgot_text": "Oh, I forgot it..."
+    "write_again": "Escribir de nuevo",
+    "forgot_text": "Oh, me olvidé..."
   },
   "alert": {
-    "success": "Success!",
-    "allRead": "Marked all notifications as read",
-    "claim_reward_balance_ok": "Reward balance claimed",
-    "fail": "Fail!",
+    "success": "Conseguido!",
+    "allRead": "Marcar todas las notificaciones como leídas",
+    "claim_reward_balance_ok": "Recompensa de balance reclamada",
+    "fail": "Falló!",
     "success_shared": "Su publicación fue compartida con éxito",
     "permission_denied": "Permiso dengado",
     "permission_text": "Por favor, ir a ajustes del teléfono y cambiar los permisos de la aplicación de eSteem.",
@@ -154,30 +154,36 @@
     "moved": "Movido a borradores"
   },
   "bookmarks": {
-    "title": "Bookmarks",
-    "load_error": "Could not load bookmarks",
-    "empty_list": "Nothing here",
-    "deleted": "Bookmark removed",
-    "search": "Search in bookmarks"
+    "title": "Marcadores",
+    "load_error": "No pudo cargar marcadores",
+    "empty_list": "Nada aquí",
+    "deleted": "Marcador removido",
+    "search": "Buscar en marcadores"
   },
   "favorites": {
-    "title": "Favorites",
-    "load_error": "Could not load favorites",
-    "empty_list": "Nothing here",
-    "search": "Search in favorites"
+    "title": "Favoritos",
+    "load_error": "No se pudo cargar favoritos",
+    "empty_list": "Nada aquí",
+    "search": "Buscar en favoritos"
   },
   "auth": {
     "invalid_pin": "Invalid pin code, please check and try again",
-    "invalid_username": "Invalid username, please check and try again",
-    "already_logged": "You are already logged in, please try to add another account",
-    "invalid_credentials": "Invalid credentials, please check and try again",
-    "unknow_error": "Unknown error, please contact us at support@esteem.app"
+    "invalid_username": "Nombre de usuario inválido, por favor verifique e inténtelo de nuevo",
+    "already_logged": "Ya está logueado, por favor intente añadir otra cuenta",
+    "invalid_credentials": "Credenciales inválidas, por favor verifique e intente nuevamente",
+    "unknow_error": "Error desconocido, póngase en contacto con nosotros en support@esteem.app"
   },
   "payout": {
-    "potential_payout": "Potential Payout",
-    "promoted": "Promoted",
-    "author_payout": "Author Payout",
-    "curation_payout": "Curation Payout",
-    "payout_date": "Payout"
+    "potential_payout": "Pago Potencial",
+    "promoted": "Promocionado",
+    "author_payout": "Pago de Autor",
+    "curation_payout": "Pago de Curación",
+    "payout_date": "Pago"
+  },
+  "post_dropdown": {
+    "copy": "copy link",
+    "reblog": "reblog",
+    "reply": "reply",
+    "share": "share"
   }
 }
