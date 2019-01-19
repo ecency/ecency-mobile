@@ -1,183 +1,189 @@
 {
   "wallet": {
-    "curation_reward": "Upah Kurasi",
-    "author_reward": "Upah Poe",
-    "comment_benefactor_reward": "Upah Komentar Poe App",
-    "claim_reward_balance": "Klem Upah",
-    "transfer": "Kirem",
-    "transfer_to_vesting": "Kirem Keu Vesting",
-    "transfer_from_savings": "Keubah Peng",
+    "curation_reward": "Gaji kurasi",
+    "author_reward": "Upah Keupoe",
+    "comment_benefactor_reward": "Gaji Komentar Keupoe App",
+    "claim_reward_balance": "Klèm Gaji Keunubah",
+    "transfer": "Kirèm",
+    "transfer_to_vesting": "Kirèm Keu Vesting",
+    "transfer_from_savings": "Kirém keu kubah",
     "withdraw_vesting": "Peukureueng Teunaga",
-    "fill_order": "Pasoe Puesanan"
+    "fill_order": "Pasöe Puesanan"
   },
   "notification": {
-    "vote": "galak post droen",
-    "unvote": "hana galak post",
-    "reply": "balah keu post droen",
-    "mention": "seubut droen",
-    "follow": "ikot droen",
-    "unfollow": "piyoh ikut droen",
-    "ignore": "hanapeureumeun droen",
-    "reblog": "postingan jih ka di reblog",
-    "comingsoon": "Leaderboard feature is coming soon!",
+    "vote": "galak post dröen",
+    "unvote": "hana galak post dröen",
+    "reply": "balah keu post dröen",
+    "mention": "seubut dröen",
+    "follow": "ikot dröen",
+    "unfollow": "piyôh ikut dröen",
+    "ignore": "hanapeureumeun dröen",
+    "reblog": "postingan dröen ka di reblog",
+    "comingsoon": "Papeun ranking akan seugeura lheuh!",
     "notification": "Haba",
-    "leaderboard": "Leaderboard",
-    "leaderboard_title": "Daily Top User",
-    "recent": "Ataban",
-    "yesterday": "Baroe",
-    "this_week": "Peukan Nyoe",
-    "this_month": "Buleuen Nyoe",
-    "older_then": "Older Than A Month"
+    "leaderboard": "Papeun Rangking",
+    "leaderboard_title": "Ureung Palèng Lè pakek",
+    "recent": "Ataban nyoë",
+    "yesterday": "Baroë",
+    "this_week": "Peukan Nyoë",
+    "this_month": "Buleuën Nyoë",
+    "older_then": "Leubéh Lam Sibulëun"
   },
   "messages": {
-    "comingsoon": "Messages feature is coming soon!"
+    "comingsoon": "Fitur peusan seugeura lheuh!"
   },
   "profile": {
-    "following": "Meuikoet",
-    "follower": "Peungikoet",
-    "post": "Post",
-    "details": "Profile Details",
-    "comments": "Seuo'et",
+    "following": "Meuikoët",
+    "follower": "Peungikoët",
+    "post": "Haba",
+    "details": "Data Lëungkap",
+    "comments": "Komentar",
     "replies": "Balah",
     "wallet": "Balum",
-    "wallet_details": "Asoe Balum",
-    "unclaimed_rewards": "Upah Galoem Coek",
-    "full_in": "Punoeh ie dalam",
-    "hours": "jeum",
+    "wallet_details": "Asöe Balum",
+    "unclaimed_rewards": "Upah Galoem Cöek",
+    "full_in": "Punoeh ië dalam",
+    "hours": "jëum",
     "voting_power": "Teunaga Galak",
-    "login_to_see": "Tamoeng Untuk Kaloen",
-    "havent_commented": "haven't commented anything yet",
-    "havent_posted": "haven't posted anything yet",
+    "login_to_see": "Tamoëng Untuk Kaloën",
+    "havent_commented": "galöem peurnah komentar",
+    "havent_posted": "galöem peurnah tumulèh",
     "steem_power": "Teunaga Steem",
-    "next_power_text": "Next power down is in",
-    "days": "uroe-uroe",
-    "day": "uroe",
+    "next_power_text": "Teunaga itrèn seulanjut jih",
+    "days": "uroë-uroë",
+    "day": "uroë",
     "steem_dollars": "Steem Dollars",
-    "savings": "Celeng"
+    "savings": "Keunëubah"
   },
   "settings": {
-    "settings": "Atoe",
-    "currency": "Mata peng",
+    "settings": "Peungaturan",
+    "currency": "Mata péng",
     "language": "Basa",
     "server": "Server",
-    "dark_theme": "Dark Theme",
-    "push_notification": "Push Notification",
-    "pincode": "Pincode",
-    "reset": "Atoe ulang"
+    "dark_theme": "Layeu Supôet",
+    "push_notification": "Teugön Haba",
+    "pincode": "Kode PIN",
+    "reset": "Atôe ulang"
   },
   "voters": {
-    "voters_info": "Voters Info",
-    "no_user": "Hana meuteume ureung."
+    "voters_info": "Info ureueng galak",
+    "no_user": "Hana meuteumë pengguna."
   },
   "login": {
-    "signin": "Tamoeng",
+    "signin": "Tamoëng",
     "signup": "Daftar",
-    "signin_title": "To get all the benefits of using eSteem",
+    "signin_title": "Meurumpök mandum laba bak pakek eSteem",
     "username": "Nan pengguna",
-    "password": "Password or WIF",
-    "description": "User credentials are kept locally on the device. Credentials are removed upon logout!",
-    "cancel": "bateu",
-    "login": "TAMOENG",
-    "steemconnect_description": "If you don't want to keep your password encrypted and saved on your device, you can use Steemconnect."
+    "password": "Gunci atawa WIF",
+    "description": "Mandat ureung pake meukubah lam alat droe. Watee neu tubit mandat nyan disampöeh!",
+    "cancel": "batëu",
+    "login": "TAMOÉNG",
+    "steemconnect_description": "Meunyoe hana pèrle kubah gunci lam nyoe, droën jeut neupakek Steemconnect."
   },
   "home": {
-    "feed": "Umpeun",
-    "popular": "Popular"
+    "feed": "Umpëun",
+    "popular": "Meucuhu"
   },
   "side_menu": {
     "profile": "Profil",
-    "bookmarks": "PeuTanda",
-    "favorites": "Nyang Paleng Galak",
+    "bookmarks": "Buku Peunanda",
+    "favorites": "Nyang Palèng Galak",
     "drafts": "Konsep",
-    "schedules": "Jadwal",
+    "schedules": "Jaduwal",
     "gallery": "Album",
-    "settings": "Meu Atoe",
+    "settings": "Peungaturan",
     "add_account": "Tamah akun",
-    "logout": "Suet",
-    "cancel": "Hana Jade",
+    "logout": "Teubit",
+    "cancel": "Batëu",
     "logout_text": "Peu betoi neu teubit?"
   },
   "header": {
-    "title": "Login to customize your feed",
+    "title": "Tamöeng untuk seusuaikan haba deuh bak dröen",
     "search": "Mieta..."
   },
   "basic_header": {
-    "publish": "Peudeuh",
+    "publish": "Peudëuh",
     "search": "Mieta",
-    "update": "Update",
+    "update": "Peubarô",
     "reply": "Balah"
   },
   "editor": {
-    "title": "Title",
-    "tags": "peutanda",
-    "default_placeholder": "Peu neu tuleh keu uronyoe?",
-    "reply_placeholder": "Peu neu tuleh keu uronyoe?",
-    "publish": "Peudeuh",
+    "title": "Judul",
+    "tags": "bôhtanda",
+    "default_placeholder": "Peu galak neu tuleh keu urönyoe?",
+    "reply_placeholder": "Teuntang peu neu neuk tuleh ata diateuh?",
+    "publish": "Peudëuh",
     "reply": "Balah"
   },
   "pincode": {
-    "enter_text": "Enter pin to unlock",
-    "set_new": "Set new pin",
-    "write_again": "Tuleh loem",
-    "forgot_text": "Oh, lon tuwoe nyan..."
+    "enter_text": "Pasöe gunci keu buka",
+    "set_new": "Pasöe pin barô",
+    "write_again": "Tulèh loem",
+    "forgot_text": "Oh, lôn tuwoe nyan..."
   },
   "alert": {
-    "success": "Meuhasee!",
-    "allRead": "Tanda mandum haba nyang kalheuh baca",
-    "claim_reward_balance_ok": "Upah kalheuh klem",
-    "fail": "Bateu!",
-    "success_shared": "Your post succesfully shared",
+    "success": "Meuhasè!",
+    "allRead": "Tanda mandum haba nyang kalhëuh baca",
+    "claim_reward_balance_ok": "Gaji kalhëuh klèm",
+    "fail": "Gagai!",
+    "success_shared": "Tulisan droen kalhëuh dibagi",
     "permission_denied": "Hana izin",
-    "permission_text": "Please, go to phone Settings and change eSteem app permissions.",
+    "permission_text": "Tulông kaloen bak aturan telepon dan gantoe izin app eSteem.",
     "success_rebloged": "Rebloged!",
-    "already_rebloged": "You have already reblogged!",
-    "warning": "Peuingat",
-    "invalid_pincode": "Invalid pin code, please check and try again.",
+    "already_rebloged": "Kalheuh neureblog lè droen!",
+    "warning": "Pëuingat",
+    "invalid_pincode": "Salah pin, cie neu test loëm.",
     "remove_alert": "Peu yakin neuk sampóh?",
-    "cancel": "Bateu",
+    "cancel": "Batai",
     "delete": "Sampóh"
   },
   "post": {
-    "reblog_alert": "Are you sure you want to reblog?"
+    "reblog_alert": "Peu yakin neuh, neu neuk reblog?"
   },
   "drafts": {
     "title": "Konsep",
-    "load_error": "Could not load drafts",
-    "empty_list": "Hana sapeuna",
-    "deleted": "Draft deleted"
+    "load_error": "Han leupah peutamoëng ata lam konsep",
+    "empty_list": "Hana sapëuna",
+    "deleted": "Konsep kalhëuh meusampöh"
   },
   "schedules": {
-    "title": "Scheduled Posts",
-    "empty_list": "Hana sapeuna",
-    "deleted": "Scheduled post deleted",
+    "title": "Peujadual Post",
+    "empty_list": "Hana sapëuna",
+    "deleted": "Post meujadwal kalhëuh meusampöh",
     "move": "Pinah lam konsep",
     "moved": "Kalheuh pinah lam konsep"
   },
   "bookmarks": {
-    "title": "Bookmarks",
-    "load_error": "Could not load bookmarks",
-    "empty_list": "Hana sapeuna",
-    "deleted": "Bookmark removed",
-    "search": "Search in bookmarks"
+    "title": "Pëunanda buku",
+    "load_error": "Han lëupah peutamoeng ata lam konsep",
+    "empty_list": "Hana sapëuna",
+    "deleted": "Pëunanda buku kalhëuh meusampöh",
+    "search": "Mita lam buku pëunanda"
   },
   "favorites": {
-    "title": "Favorites",
-    "load_error": "Could not load favorites",
-    "empty_list": "Hana sapeuna",
-    "search": "Search in favorites"
+    "title": "Palèng galak",
+    "load_error": "Han lëupah pëutamong ata lam galak",
+    "empty_list": "Hana sapëuna",
+    "search": "Mita lam geugalak"
   },
   "auth": {
-    "invalid_pin": "Invalid pin code, please check and try again",
-    "invalid_username": "Invalid username, please check and try again",
-    "already_logged": "You are already logged in, please try to add another account",
-    "invalid_credentials": "Salah kredential, cie neu test loem",
-    "unknow_error": "Unknown error, please contact us at support@esteem.app"
+    "invalid_pin": "Salah pin, cie neu test loëm",
+    "invalid_username": "Salah nanpöe, ci pëuriksa dan cuba keulai",
+    "already_logged": "Kalheuh tamöeng, cie cuba ngön akun laèn",
+    "invalid_credentials": "Salah kredential, cië neu test löem",
+    "unknow_error": "Salah hanamëupat, cie hubungi kamöe di support@esteem.app"
   },
   "payout": {
-    "potential_payout": "Potential Payout",
-    "promoted": "Promoted",
-    "author_payout": "Author Payout",
-    "curation_payout": "Curation Payout",
-    "payout_date": "Payout"
+    "potential_payout": "Potensi Dibayëu",
+    "promoted": "Kalhëuh Promosi",
+    "author_payout": "Dibayëu Keupö",
+    "curation_payout": "Dibayëu këukurasi",
+    "payout_date": "Dibayëu"
+  },
+  "post_dropdown": {
+    "copy": "copy link",
+    "reblog": "reblog",
+    "reply": "reply",
+    "share": "share"
   }
 }
