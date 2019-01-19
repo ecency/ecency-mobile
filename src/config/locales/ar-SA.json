@@ -35,7 +35,7 @@
   "profile": {
     "following": "إتباع",
     "follower": "متابع",
-    "post": "Post",
+    "post": "منشورات",
     "details": "تفاصيل الملف الشخصي",
     "comments": "التعليقات",
     "replies": "الردود",
@@ -62,7 +62,7 @@
     "server": "الخادم",
     "dark_theme": "الوضع المظلم",
     "push_notification": "دفع الإشعارات",
-    "pincode": "Pincode",
+    "pincode": "رمز PIN",
     "reset": "إعادة"
   },
   "voters": {
@@ -116,8 +116,8 @@
     "reply": "الرد"
   },
   "pincode": {
-    "enter_text": "Enter pin to unlock",
-    "set_new": "Set new pin",
+    "enter_text": "أدخل الرقم السري للفتح",
+    "set_new": "تعيين رقم سري جديد",
     "write_again": "أكتب مرة أخرى",
     "forgot_text": "أوه، لقد نسيت ذلك..."
   },
@@ -129,10 +129,10 @@
     "success_shared": "مشاركتك تمت مشاركتها بنجاح",
     "permission_denied": "طلب الإذن مرفوض",
     "permission_text": "يرجى الانتقال إلى إعدادات الهاتف وتغيير أذونات تطبيق eSteem.",
-    "success_rebloged": "Rebloged!",
+    "success_rebloged": "أعيد تدوينه!",
     "already_rebloged": "لقد قمت بالفعل بإعادة نشره!",
     "warning": "تحذير",
-    "invalid_pincode": "Invalid pin code, please check and try again.",
+    "invalid_pincode": "الرقم السري غير صالح، يرجى التحقق والمحاولة مرة أخرى.",
     "remove_alert": "هل أنت متأكد تريد الإزالة؟",
     "cancel": "إلغاء",
     "delete": "حذف"
@@ -167,7 +167,7 @@
     "search": "البحث في المفضلات"
   },
   "auth": {
-    "invalid_pin": "Invalid pin code, please check and try again",
+    "invalid_pin": "الرقم السري غير صالح، يرجى التحقق والمحاولة مرة أخرى",
     "invalid_username": "اسم المستخدم غير صالح، يرجى التحقق والمحاولة مرة أخرى",
     "already_logged": "لقد قمت بتسجيل الدخول بالفعل، يرجى محاولة إضافة حساب آخر",
     "invalid_credentials": "بيانات الاعتماد غير صالحة، يرجى التحقق والمحاولة مرة أخرى",
@@ -179,5 +179,11 @@
     "author_payout": "مكافأة المؤلف",
     "curation_payout": "مكافأة المقيّمين",
     "payout_date": "المكافأة"
+  },
+  "post_dropdown": {
+    "copy": "copy link",
+    "reblog": "reblog",
+    "reply": "reply",
+    "share": "share"
   }
 }
