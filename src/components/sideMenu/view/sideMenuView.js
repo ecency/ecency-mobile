@@ -5,6 +5,7 @@ import {
 import { injectIntl } from 'react-intl';
 import LinearGradient from 'react-native-linear-gradient';
 import ActionSheet from 'react-native-actionsheet';
+import VersionNumber from 'react-native-version-number';
 
 // Components
 import { IconButton } from '../../buttons';
@@ -13,6 +14,7 @@ import { UserAvatar } from '../../userAvatar';
 
 // Constants
 import { default as MENU } from '../../../constants/sideMenuItems';
+import PackageJson from '../../../../package.json';
 
 // Styles
 import styles from './sideMenuStyles';
@@ -85,6 +87,8 @@ class SideMenuView extends Component {
       currentAccount, isLoggedIn, intl, handleLogout,
     } = this.props;
     const { menuItems, isAddAccountIconActive } = this.state;
+    const { version } = PackageJson;
+    const { buildVersion } = VersionNumber;
 
     return (
       <View style={styles.container}>
@@ -163,6 +167,7 @@ class SideMenuView extends Component {
             )}
           />
         </View>
+        <Text style={styles.versionText}>{`v${version}, ${buildVersion}`}</Text>
         <ActionSheet
           ref={o => (this.ActionSheet = o)}
           options={[intl.formatMessage({ id: 'side_menu.logout' }), intl.formatMessage({ id: 'side_menu.cancel' })]}

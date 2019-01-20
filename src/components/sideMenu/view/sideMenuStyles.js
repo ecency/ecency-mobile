@@ -83,4 +83,8 @@ export default EStyleSheet.create({
     flexDirection: 'row',
     marginLeft: 55,
   },
+  versionText: {
+    textAlign: 'center',
+    color: '$iconColor',
+  },
 });
