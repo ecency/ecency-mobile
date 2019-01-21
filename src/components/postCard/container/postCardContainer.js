@@ -82,7 +82,7 @@ class PostCardContainer extends PureComponent {
   };
 
   render() {
-    const { content, isHideImage } = this.props;
+    const { content, isHideImage, isFirstOfList } = this.props;
     const { _content } = this.state;
 
     return (
@@ -93,6 +93,7 @@ class PostCardContainer extends PureComponent {
         fetchPost={this._fetchPost}
         content={_content || content}
         isHideImage={isHideImage}
+        isFirstOfList={isFirstOfList}
       />
     );
   }
