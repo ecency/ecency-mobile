@@ -2,11 +2,11 @@ import Remarkable from 'remarkable';
 // TODO: Refactoring need!
 const md = new Remarkable({ html: true, breaks: true, linkify: true });
 
-//const imgCenterRegex = /([<center>]http(s?):)([/|.|\w|\s|-])*\.(?:jpg|gif|png|PNG|GIF|JPG)[</center>]/g;
-//const onlyImageLinkRegex = /([\n]http(s?):)([/|.|\w|\s|-])*\.(?:jpg|gif|png|PNG|GIF|JPG)/g;
-//const onlyImageDoubleLinkRegex = /(\nhttps)(.*)(?=jpg|gif|png|PNG|GIF|JPG|)/g;
-//const pullRightLeftRegex = /(<div class="[^"]*?pull-[^"]*?">(.*?)(<[/]div>))/g;
-//const copiedPostRegex = /\/(.*)\/(@[\w.\d-]+)\/(.*)/i;
+// const imgCenterRegex = /([<center>]http(s?):)([/|.|\w|\s|-])*\.(?:jpg|gif|png|PNG|GIF|JPG)[</center>]/g;
+// const onlyImageLinkRegex = /([\n]http(s?):)([/|.|\w|\s|-])*\.(?:jpg|gif|png|PNG|GIF|JPG)/g;
+// const onlyImageDoubleLinkRegex = /(\nhttps)(.*)(?=jpg|gif|png|PNG|GIF|JPG|)/g;
+// const pullRightLeftRegex = /(<div class="[^"]*?pull-[^"]*?">(.*?)(<[/]div>))/g;
+const copiedPostRegex = /\/(.*)\/(@[\w.\d-]+)\/(.*)/i;
 const postRegex = /^https?:\/\/(.*)\/(.*)\/(@[\w.\d-]+)\/(.*)/i;
 const youTubeRegex = /(?:https?:\/\/)?(?:www\.)?(?:youtube\.com\/watch\?v=|youtu\.be\/)([^& \n<]+)(?:[^ \n<]+)?/g;
 const vimeoRegex = /(https?:\/\/)?(www\.)?(?:vimeo)\.com.*(?:videos|video|channels|)\/([\d]+)/i;
@@ -21,6 +21,7 @@ const urlRegex = /(http|ftp|https):\/\/([\w_-]+(?:(?:\.[\w_-]+)+))([\w.,@?^=%&:/
 const aTagRegex = /(<\s*a[^>]*>(.*?)<\s*[/]\s*a>)/g;
 const imgTagRegex = /(<img[^>]*>)/g;
 const iframeRegex = /(?:<iframe[^>]*)(?:(?:\/>)|(?:>.*?<\/iframe>))/g;
+const markdownLinkRegex = /(?:__|[*#])|\[(.*?)\]\(.*?\)/g;
 
 export const markDown2Html = (input) => {
   if (!input) {
@@ -76,6 +77,10 @@ export const markDown2Html = (input) => {
     output = handleATag(output);
   }
 
+  if (markdownLinkRegex.test(output)) {
+    output = handleMarkdownLink(output);
+  }
+
   output = md.render(output);
 
   return output;
@@ -121,6 +126,26 @@ const handleATag = input => input.replace(aTagRegex, (link) => {
   return link;
 });
 
+const handleMarkdownLink = input => input.replace(markdownLinkRegex, (link) => {
+  const postMatch = link.match(copiedPostRegex);
+
+  if (postMatch) {
+    let tag = postMatch[1];
+
+    if (tag === '/busy.org') {
+      tag = 'busy';
+    }
+    
+    const _permlink = postMatch[3].indexOf(')') > 0 ?  postMatch[3].replace(')', '') : postMatch[3];
+
+    return `<a class="markdown-post-link" href="${
+      _permlink
+    }" data_tag={${tag.trim()}} data_author="${postMatch[2].replace('@', '')}">/${
+     _permlink
+    }</a>`;
+  }
+});
+
 const handleLinks = input => input.replace(linkRegex, (link) => {
   if (link) {
     if (
@@ -152,7 +177,10 @@ const changeMarkdownImage = input => input.replace(markdownImageRegex, (link) =>
   return link;
 });
 
-const centerStyling = input => input.replace(centerRegex, () => '<center style="text-align: center; align-items: center; justify-content: center;">');
+const centerStyling = input => input.replace(
+  centerRegex,
+  () => '<center style="text-align: center; align-items: center; justify-content: center;">',
+);
 
 const steemitUrlHandle = input => input.replace(postRegex, (link) => {
   const postMatch = link.match(postRegex);
@@ -162,7 +190,6 @@ const steemitUrlHandle = input => input.replace(postRegex, (link) => {
 
   return `<a class="markdown-post-link" href="${permlink}" data_tag={${tag}} data_author="${author}">/${permlink}</a>`;
 });
-
 
 const handleImageTag = input => input.replace(imgTagRegex, (imgTag) => {
   const _imgTag = imgTag.trim();
@@ -210,8 +237,6 @@ const createVimeoIframe = input => input.replace(vimeoRegex, (link) => {
 const iframeBody = link => `<iframe frameborder='0' allowfullscreen src='${link}'></iframe>`;
 const imageBody = link => `<img src="${`https://steemitimages.com/600x0/${link}`}">`;
 
-
-
 // const handleCodeTag = input => input.replace(codeTagRegex, (tag) => {
 //   const stringsRegex = /(?<=>)(.*)(?=<)/g;
 //   const match = tag.match(stringsRegex);
@@ -238,7 +263,7 @@ const imageBody = link => `<img src="${`https://steemitimages.com/600x0/${link}`
 //   return `<center style="text-align:center;"><img src="${`https://steemitimages.com/600x0/${imageLink}`}"/></center><br>`;
 // });
 
-//const createImage = input => input.replace(onlyImageLinkRegex, link => imageBody(link));
+// const createImage = input => input.replace(onlyImageLinkRegex, link => imageBody(link));
 
 // const createFromDoubleImageLink = input => input.replace(onlyImageDoubleLinkRegex, (link) => {
 //   const _link = link.trim();
