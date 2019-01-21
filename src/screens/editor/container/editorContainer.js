@@ -393,6 +393,7 @@ class EditorContainer extends Component {
         parent_permlink: parentPermlink,
         permlink,
         parent_author: parentAuthor,
+        json_metadata: oldMeta,
       } = post;
 
       let newBody = fields.body;
@@ -403,7 +404,8 @@ class EditorContainer extends Component {
       }
 
       const meta = extractMetadata(fields.body);
-      const jsonMeta = makeJsonMetadata(meta, fields.tags);
+      const metadata = Object.assign({}, meta, oldMeta);
+      const jsonMeta = makeJsonMetadata(metadata, fields.tags);
 
       await postContent(
         currentAccount,
