@@ -1,176 +1,189 @@
 {
   "wallet": {
-    "curation_reward": "Curation Reward",
-    "author_reward": "Author Reward",
-    "comment_benefactor_reward": "Comment Benefactor Reward",
-    "claim_reward_balance": "Claim Reward Balance",
-    "transfer": "Transfer",
-    "transfer_to_vesting": "Transfer To Vesting",
-    "transfer_from_savings": "Transfer From Savings",
-    "withdraw_vesting": "Power Down",
-    "fill_order": "Fill Order"
+    "curation_reward": "Curatie-beloning",
+    "author_reward": "Auteurs-beloning",
+    "comment_benefactor_reward": "Reactie Benefactorbeloning",
+    "claim_reward_balance": "Eis Beloningsbalans op",
+    "transfer": "Overschrijven",
+    "transfer_to_vesting": "Overschrijven naar Vesting",
+    "transfer_from_savings": "Overschrijven van spaarrekening",
+    "withdraw_vesting": "Power down",
+    "fill_order": "Vul bestelling"
   },
   "notification": {
-    "vote": "likes your post",
-    "unvote": "unvoted your post",
-    "reply": "replied to your post",
-    "mention": "mentioned you",
-    "follow": "followed you",
-    "unfollow": "unfollowed you",
-    "ignore": "ignored you",
-    "reblog": "reblogged your post",
-    "comingsoon": "Leaderboard feature is coming soon!",
-    "notification": "Notifications",
-    "leaderboard": "Leaderboard",
-    "leaderboard_title": "Daily Top User",
-    "recent": "Recent",
-    "yesterday": "Yesterday",
-    "this_week": "This Week",
-    "this_month": "This Month",
-    "older_then": "Older Than A Month"
+    "vote": "vindt je bericht leuk",
+    "unvote": "vindt je bericht niet meer leuk",
+    "reply": "heeft op je bericht gereageerd",
+    "mention": "noemde je",
+    "follow": "volgt je",
+    "unfollow": "ontvolgt je",
+    "ignore": "heeft je genegeerd",
+    "reblog": "deelde je bericht",
+    "comingsoon": "Scorebord komt binnenkort!",
+    "notification": "Notificaties",
+    "leaderboard": "Scorebord",
+    "leaderboard_title": "Dagelijkse Topgebruiker",
+    "recent": "Recent(e)",
+    "yesterday": "Gisteren",
+    "this_week": "Deze week",
+    "this_month": "Deze maand",
+    "older_then": "Ouder dan een maand"
   },
   "messages": {
-    "comingsoon": "Messages feature is coming soon!"
+    "comingsoon": "Berichtfunctie komt binnenkort!"
   },
   "profile": {
-    "following": "Following",
-    "follower": "Follower",
+    "following": "Aan het volgen",
+    "follower": "Volger",
     "post": "Post",
-    "details": "Profile Details",
-    "comments": "Comments",
-    "replies": "Replies",
-    "wallet": "Wallet",
-    "wallet_details": "Wallet Details",
-    "unclaimed_rewards": "Unclaimed Rewards",
-    "full_in": "Full in",
-    "hours": "hours",
-    "voting_power": "Voting power",
-    "login_to_see": "Login to see",
-    "havent_commented": "haven't commented anything yet",
-    "havent_posted": "haven't posted anything yet",
+    "details": "Profieldetails",
+    "comments": "Reacties",
+    "replies": "Reacties",
+    "wallet": "Portemonnee",
+    "wallet_details": "Portemonnee Details",
+    "unclaimed_rewards": "Niet-opgeëiste beloningen",
+    "full_in": "Vol in",
+    "hours": "uren",
+    "voting_power": "Stemkracht",
+    "login_to_see": "Inloggen om te tonen",
+    "havent_commented": "heeft nog niets gereageerd",
+    "havent_posted": "heeft nog geen bericht geplaatst",
     "steem_power": "Steem Power",
-    "next_power_text": "Next power down is in",
-    "days": "days",
-    "day": "day",
+    "next_power_text": "Volgende power down is over",
+    "days": "dagen",
+    "day": "dag",
     "steem_dollars": "Steem Dollars",
-    "savings": "Savings"
+    "savings": "Spaarrekening"
   },
   "settings": {
-    "settings": "Settings",
-    "currency": "Currency",
-    "language": "Language",
+    "settings": "Instellingen",
+    "currency": "Valuta",
+    "language": "Taal",
     "server": "Server",
-    "dark_theme": "Dark Theme",
-    "push_notification": "Push Notification",
+    "dark_theme": "Donker thema",
+    "push_notification": "Push-notificatie",
     "pincode": "Pincode",
     "reset": "Reset"
   },
   "voters": {
-    "voters_info": "Voters Info",
-    "no_user": "No user found."
+    "voters_info": "Stemmers informatie",
+    "no_user": "Geen gebruiker gevonden."
   },
   "login": {
-    "signin": "Sign in",
-    "signup": "Sign up",
-    "signin_title": "To get all the benefits of using eSteem",
-    "username": "Username",
-    "password": "Password or WIF",
-    "description": "User credentials are kept locally on the device. Credentials are removed upon logout!",
-    "cancel": "cancel",
-    "login": "LOGIN",
-    "steemconnect_description": "If you don't want to keep your password encrypted and saved on your device, you can use Steemconnect."
+    "signin": "Inloggen",
+    "signup": "Aanmelden",
+    "signin_title": "Om alle voordelen van het gebruik van eSteem te ontvangen",
+    "username": "Gebruikersnaam",
+    "password": "Wachtwoord of WIF",
+    "description": "Gebruikersgegevens worden lokaal op je apparaat opgeslagen. Bij het uitloggen worden de gegevens verwijderd!",
+    "cancel": "annuleren",
+    "login": "INLOGGEN",
+    "steemconnect_description": "Als je niet wilt dat je wachtwoord wordt gecodeerd en opgeslagen op je apparaat, kun je Steemconnect gebruiken."
   },
   "home": {
     "feed": "Feed",
-    "popular": "Popular"
+    "popular": "Populair"
   },
   "side_menu": {
-    "profile": "Profile",
-    "bookmarks": "Bookmarks",
-    "favorites": "Favorites",
-    "drafts": "Drafts",
-    "schedules": "Schedules",
-    "gallery": "Gallery",
-    "settings": "Settings",
-    "add_account": "Add Account",
-    "logout": "Logout",
-    "cancel": "Cancel",
-    "logout_text": "Are you sure you want to logout?"
+    "profile": "Profiel",
+    "bookmarks": "Bladwijzers",
+    "favorites": "Favorieten",
+    "drafts": "Concepten",
+    "schedules": "Schema’s",
+    "gallery": "Gallerij",
+    "settings": "Instellingen",
+    "add_account": "Account toevoegen",
+    "logout": "Uitloggen",
+    "cancel": "Annuleren",
+    "logout_text": "Weet je zeker dat je wilt uitloggen?"
   },
   "header": {
-    "title": "Login to customize your feed",
-    "search": "Search..."
+    "title": "Log in om je feed aan te passen",
+    "search": "Zoek..."
   },
   "basic_header": {
-    "publish": "Publish",
-    "search": "Search",
+    "publish": "Publiceer",
+    "search": "Zoek",
     "update": "Update",
-    "reply": "Reply"
+    "reply": "Reageer"
   },
   "editor": {
-    "title": "Title",
+    "title": "Titel",
     "tags": "tags",
-    "default_placeholder": "What would you like to write about today?",
-    "reply_placeholder": "What would you like to write about above post?",
-    "publish": "Publish",
-    "reply": "Reply"
+    "default_placeholder": "Waar zou je vandaag over willen schrijven?",
+    "reply_placeholder": "Wat zou je willen schrijven over bovenstaand bericht?",
+    "publish": "Publiceer",
+    "reply": "Reageer"
   },
   "pincode": {
     "enter_text": "Enter pin to unlock",
     "set_new": "Set new pin",
-    "write_again": "Write again",
-    "forgot_text": "Oh, I forgot it..."
+    "write_again": "Schrijf opnieuw",
+    "forgot_text": "Oh, ik ben het vergeten..."
   },
   "alert": {
-    "success": "Success!",
-    "allRead": "Marked all notifications as read",
-    "claim_reward_balance_ok": "Reward balance claimed",
-    "fail": "Fail!",
-    "success_shared": "Your post succesfully shared",
-    "permission_denied": "Permission denied",
-    "permission_text": "Please, go to phone Settings and change eSteem app permissions.",
-    "success_rebloged": "Rebloged!",
-    "already_rebloged": "You have already reblogged!",
-    "warning": "Warning",
+    "success": "Gelukt!",
+    "allRead": "Alle notificaties als gelezen markeren",
+    "claim_reward_balance_ok": "Beloningsbalans opgeëist",
+    "fail": "Mislukt!",
+    "success_shared": "Je bericht is succesvol gedeeld",
+    "permission_denied": "Toegang geweigerd",
+    "permission_text": "Ga naar telefoon-instellingen, en wijzig de machtigingen van de eSteem-app.",
+    "success_rebloged": "Gedeeld!",
+    "already_rebloged": "Je hebt al gedeeld!",
+    "warning": "Waarschuwing",
     "invalid_pincode": "Invalid pin code, please check and try again.",
-    "remove_alert": "Are you sure want to remove?",
-    "cancel": "Cancel",
-    "delete": "Delete"
+    "remove_alert": "Weet je zeker dat je wilt verwijderen?",
+    "cancel": "Annuleren",
+    "delete": "Verwijderen"
   },
   "post": {
-    "reblog_alert": "Are you sure you want to reblog?"
+    "reblog_alert": "Weet je zeker dat je het wilt delen?"
   },
   "drafts": {
-    "title": "Drafts",
-    "load_error": "Could not load drafts",
-    "empty_list": "Nothing here",
-    "deleted": "Draft deleted"
+    "title": "Concepten",
+    "load_error": "Kan concepten niet laden",
+    "empty_list": "Niets hier",
+    "deleted": "Concept verwijderd"
   },
   "schedules": {
-    "title": "Scheduled Posts",
-    "empty_list": "Nothing here",
-    "deleted": "Scheduled post deleted",
-    "move": "Move to drafts",
-    "moved": "Moved to drafts"
+    "title": "Geplande berichten",
+    "empty_list": "Niets hier",
+    "deleted": "Geplande post verwijderd",
+    "move": "Verplaatsen naar concepten",
+    "moved": "Verplaatst naar concepten"
   },
   "bookmarks": {
-    "title": "Bookmarks",
-    "load_error": "Could not load bookmarks",
-    "empty_list": "Nothing here",
-    "deleted": "Bookmark removed",
-    "search": "Search in bookmarks"
+    "title": "Bladwijzers",
+    "load_error": "Kon bladwijzers niet laden",
+    "empty_list": "Niets hier",
+    "deleted": "Bladwijzer verwijderd",
+    "search": "Zoek in bladwijzers"
   },
   "favorites": {
-    "title": "Favorites",
-    "load_error": "Could not load favorites",
-    "empty_list": "Nothing here",
-    "search": "Search in favorites"
+    "title": "Favorieten",
+    "load_error": "Kan favorieten niet laden",
+    "empty_list": "Niets hier",
+    "search": "Zoek in favorieten"
   },
   "auth": {
     "invalid_pin": "Invalid pin code, please check and try again",
-    "invalid_username": "Invalid username, please check and try again",
-    "already_logged": "You are already logged in, please try to add another account",
-    "invalid_credentials": "Invalid credentials, please check and try again",
-    "unknow_error": "Unknown error, please contact us at support@esteem.app"
+    "invalid_username": "Ongeldige gebruikersnaam, controleer en probeer het opnieuw",
+    "already_logged": "Je bent al ingelogd, probeer een andere account toe te voegen",
+    "invalid_credentials": "Ongeldige gegevens, controleer en probeer het opnieuw",
+    "unknow_error": "Onbekende fout, neem contact met ons op via support@esteem.app"
+  },
+  "payout": {
+    "potential_payout": "Potentiële Uitbetaling",
+    "promoted": "Gesponsord",
+    "author_payout": "Auteurs-uitbetaling",
+    "curation_payout": "Curatie-uitbetaling",
+    "payout_date": "Uitbetaling"
+  },
+  "post_dropdown": {
+    "copy": "copy link",
+    "reblog": "reblog",
+    "reply": "reply",
+    "share": "share"
   }
 }

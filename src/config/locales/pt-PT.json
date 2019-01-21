@@ -1,176 +1,189 @@
 {
   "wallet": {
-    "curation_reward": "Curation Reward",
-    "author_reward": "Author Reward",
-    "comment_benefactor_reward": "Comment Benefactor Reward",
-    "claim_reward_balance": "Claim Reward Balance",
-    "transfer": "Transfer",
-    "transfer_to_vesting": "Transfer To Vesting",
-    "transfer_from_savings": "Transfer From Savings",
-    "withdraw_vesting": "Power Down",
-    "fill_order": "Fill Order"
+    "curation_reward": "Recompensas de Curadoria",
+    "author_reward": "Recompensas de Autor",
+    "comment_benefactor_reward": "Recompensa do benificiário do comentário",
+    "claim_reward_balance": "Reclamar o balanço da Recompensa",
+    "transfer": "Transferir",
+    "transfer_to_vesting": "Transferir para vesting",
+    "transfer_from_savings": "Transferir da Poupança",
+    "withdraw_vesting": "Decarregar Poder",
+    "fill_order": "Preencher pedido"
   },
   "notification": {
-    "vote": "likes your post",
-    "unvote": "unvoted your post",
-    "reply": "replied to your post",
-    "mention": "mentioned you",
-    "follow": "followed you",
-    "unfollow": "unfollowed you",
-    "ignore": "ignored you",
-    "reblog": "reblogged your post",
-    "comingsoon": "Leaderboard feature is coming soon!",
-    "notification": "Notifications",
-    "leaderboard": "Leaderboard",
-    "leaderboard_title": "Daily Top User",
-    "recent": "Recent",
-    "yesterday": "Yesterday",
-    "this_week": "This Week",
-    "this_month": "This Month",
-    "older_then": "Older Than A Month"
+    "vote": "gosta do seu post",
+    "unvote": "retirou voto do seu post",
+    "reply": "respondeu ao seu post",
+    "mention": "mencionou voçê",
+    "follow": "seguiu você",
+    "unfollow": "deixou de seguir você",
+    "ignore": "ignorou você",
+    "reblog": "reblogou o seu post",
+    "comingsoon": "Quadro de Líderes em Breve!",
+    "notification": "Notificações",
+    "leaderboard": "Quadro de Liderança",
+    "leaderboard_title": "Usuário do Topo Hoje",
+    "recent": "Recente",
+    "yesterday": "Ontem",
+    "this_week": "Esta Semana",
+    "this_month": "Este Mês",
+    "older_then": "Com mais de um mês"
   },
   "messages": {
-    "comingsoon": "Messages feature is coming soon!"
+    "comingsoon": "Recurso de mensagens chega em breve!"
   },
   "profile": {
-    "following": "Following",
-    "follower": "Follower",
-    "post": "Post",
-    "details": "Profile Details",
-    "comments": "Comments",
-    "replies": "Replies",
-    "wallet": "Wallet",
-    "wallet_details": "Wallet Details",
-    "unclaimed_rewards": "Unclaimed Rewards",
-    "full_in": "Full in",
-    "hours": "hours",
-    "voting_power": "Voting power",
-    "login_to_see": "Login to see",
-    "havent_commented": "haven't commented anything yet",
-    "havent_posted": "haven't posted anything yet",
-    "steem_power": "Steem Power",
-    "next_power_text": "Next power down is in",
-    "days": "days",
-    "day": "day",
-    "steem_dollars": "Steem Dollars",
-    "savings": "Savings"
+    "following": "Seguindo",
+    "follower": "Seguidor",
+    "post": "Posts",
+    "details": "Detalhes do Perfil",
+    "comments": "Comentários",
+    "replies": "Respostas",
+    "wallet": "Carteira",
+    "wallet_details": "Detalhes da Carteira",
+    "unclaimed_rewards": "Recompensas não reclamadas",
+    "full_in": "Completo em",
+    "hours": "horas",
+    "voting_power": "Poder de voto",
+    "login_to_see": "Login para ver",
+    "havent_commented": "ainda não comentou nada",
+    "havent_posted": "ainda não postou nada",
+    "steem_power": "Poder Steem",
+    "next_power_text": "Próxima descarga de Poder Steem",
+    "days": "dias",
+    "day": "dia",
+    "steem_dollars": "Steem Dólares",
+    "savings": "Poupanças"
   },
   "settings": {
-    "settings": "Settings",
-    "currency": "Currency",
-    "language": "Language",
-    "server": "Server",
-    "dark_theme": "Dark Theme",
-    "push_notification": "Push Notification",
-    "pincode": "Pincode",
-    "reset": "Reset"
+    "settings": "Configurações",
+    "currency": "Moeda",
+    "language": "Língua",
+    "server": "Servidor",
+    "dark_theme": "Tema Escuro",
+    "push_notification": "Puxar Notificações",
+    "pincode": "Código PIN",
+    "reset": "Reiniciar"
   },
   "voters": {
-    "voters_info": "Voters Info",
-    "no_user": "No user found."
+    "voters_info": "Informação de eleitores",
+    "no_user": "Nenhum usuário encontrado."
   },
   "login": {
-    "signin": "Sign in",
-    "signup": "Sign up",
-    "signin_title": "To get all the benefits of using eSteem",
-    "username": "Username",
-    "password": "Password or WIF",
-    "description": "User credentials are kept locally on the device. Credentials are removed upon logout!",
-    "cancel": "cancel",
-    "login": "LOGIN",
-    "steemconnect_description": "If you don't want to keep your password encrypted and saved on your device, you can use Steemconnect."
+    "signin": "Iniciar sessão",
+    "signup": "Registar",
+    "signin_title": "Para obter todos os benefícios do uso do Steem",
+    "username": "Nome de Usuário",
+    "password": "Senha ou WIF",
+    "description": "As credenciais do usuário são mantidas localmente no dispositivo. As credenciais são removidas após logout!",
+    "cancel": "cancelar",
+    "login": "ENTRAR",
+    "steemconnect_description": "Se você não quiser manter sua senha criptografada e salvou no seu dispositivo, você pode usar Steemconnect."
   },
   "home": {
-    "feed": "Feed",
+    "feed": "Conteúdo de notícias",
     "popular": "Popular"
   },
   "side_menu": {
-    "profile": "Profile",
-    "bookmarks": "Bookmarks",
-    "favorites": "Favorites",
-    "drafts": "Drafts",
-    "schedules": "Schedules",
-    "gallery": "Gallery",
-    "settings": "Settings",
-    "add_account": "Add Account",
-    "logout": "Logout",
-    "cancel": "Cancel",
-    "logout_text": "Are you sure you want to logout?"
+    "profile": "Perfil",
+    "bookmarks": "Marcadores",
+    "favorites": "Favoritos",
+    "drafts": "Rascunhos",
+    "schedules": "Agendar",
+    "gallery": "Galeria",
+    "settings": "Configurações",
+    "add_account": "Adicionar conta",
+    "logout": "Sair",
+    "cancel": "Cancelar",
+    "logout_text": "Tem certeza que deseja sair?"
   },
   "header": {
-    "title": "Login to customize your feed",
-    "search": "Search..."
+    "title": "Login para personalizar o seu feed",
+    "search": "Procurar..."
   },
   "basic_header": {
-    "publish": "Publish",
-    "search": "Search",
-    "update": "Update",
-    "reply": "Reply"
+    "publish": "Publicar",
+    "search": "Procurar",
+    "update": "Atualizar",
+    "reply": "Responder"
   },
   "editor": {
-    "title": "Title",
-    "tags": "tags",
-    "default_placeholder": "What would you like to write about today?",
-    "reply_placeholder": "What would you like to write about above post?",
-    "publish": "Publish",
-    "reply": "Reply"
+    "title": "Título",
+    "tags": "etiquetas",
+    "default_placeholder": "Sobre o que queres escrever hoje?",
+    "reply_placeholder": "O que desejava escrever sobre este post em em cima?",
+    "publish": "Publicar",
+    "reply": "Responder"
   },
   "pincode": {
-    "enter_text": "Enter pin to unlock",
-    "set_new": "Set new pin",
-    "write_again": "Write again",
-    "forgot_text": "Oh, I forgot it..."
+    "enter_text": "Insira PIN para desbloquear",
+    "set_new": "Crie novo PIN",
+    "write_again": "Escreva outra vez",
+    "forgot_text": "Oh, esqueci disso..."
   },
   "alert": {
-    "success": "Success!",
-    "allRead": "Marked all notifications as read",
-    "claim_reward_balance_ok": "Reward balance claimed",
-    "fail": "Fail!",
-    "success_shared": "Your post succesfully shared",
-    "permission_denied": "Permission denied",
-    "permission_text": "Please, go to phone Settings and change eSteem app permissions.",
-    "success_rebloged": "Rebloged!",
-    "already_rebloged": "You have already reblogged!",
-    "warning": "Warning",
-    "invalid_pincode": "Invalid pin code, please check and try again.",
-    "remove_alert": "Are you sure want to remove?",
-    "cancel": "Cancel",
-    "delete": "Delete"
+    "success": "Sucesso!",
+    "allRead": "Marcar todas as notificações como lidas",
+    "claim_reward_balance_ok": "Balanço de Recompensa reclamado",
+    "fail": "Falha!",
+    "success_shared": "Seu post partilhado com sucesso",
+    "permission_denied": "Permissão negada",
+    "permission_text": "Por favor, vá para configurações de telefone e alterar as permissões da app Steem.",
+    "success_rebloged": "Reblogado!",
+    "already_rebloged": "Já fez reblogue deste post!",
+    "warning": "Aviso",
+    "invalid_pincode": "Código PIN inválido, por favor verifique e tente novamente.",
+    "remove_alert": "Tem a certeza de que pretende remover?",
+    "cancel": "Cancelar",
+    "delete": "Apagar"
   },
   "post": {
-    "reblog_alert": "Are you sure you want to reblog?"
+    "reblog_alert": "Tem certeza de que deseja reblogar?"
   },
   "drafts": {
-    "title": "Drafts",
-    "load_error": "Could not load drafts",
-    "empty_list": "Nothing here",
-    "deleted": "Draft deleted"
+    "title": "Rascunhos",
+    "load_error": "Não foi possível carregar os rascunhos",
+    "empty_list": "Nada aqui",
+    "deleted": "Rascunho eliminado"
   },
   "schedules": {
-    "title": "Scheduled Posts",
-    "empty_list": "Nothing here",
-    "deleted": "Scheduled post deleted",
-    "move": "Move to drafts",
-    "moved": "Moved to drafts"
+    "title": "Posts agendados",
+    "empty_list": "Nada aqui",
+    "deleted": "Post programado excluído",
+    "move": "Mover para Rascunhos",
+    "moved": "Movido para Rascunhos"
   },
   "bookmarks": {
-    "title": "Bookmarks",
-    "load_error": "Could not load bookmarks",
-    "empty_list": "Nothing here",
-    "deleted": "Bookmark removed",
-    "search": "Search in bookmarks"
+    "title": "Marcadores",
+    "load_error": "Não foi possível carregar os Marcadores",
+    "empty_list": "Nada aqui",
+    "deleted": "Marcador removido",
+    "search": "Pesquisar marcadores"
   },
   "favorites": {
-    "title": "Favorites",
-    "load_error": "Could not load favorites",
-    "empty_list": "Nothing here",
-    "search": "Search in favorites"
+    "title": "Favoritos",
+    "load_error": "Não foi possível carregar os favoritos",
+    "empty_list": "Nada aqui",
+    "search": "Procurar nos Favoritos"
   },
   "auth": {
-    "invalid_pin": "Invalid pin code, please check and try again",
-    "invalid_username": "Invalid username, please check and try again",
-    "already_logged": "You are already logged in, please try to add another account",
-    "invalid_credentials": "Invalid credentials, please check and try again",
-    "unknow_error": "Unknown error, please contact us at support@esteem.app"
+    "invalid_pin": "Código PIN inválido, por favor verifique e tente novamente",
+    "invalid_username": "Nome de usuário inválido, por favor verifique e tente novamente",
+    "already_logged": "Você já está logado, por favor, tente adicionar outra conta",
+    "invalid_credentials": "Credenciais inválidas. Por favor, verifique e tente novamente",
+    "unknow_error": "Erro desconhecido, por favor entre em contato conosco em support@esteem.app"
+  },
+  "payout": {
+    "potential_payout": "Pagamento Potencial",
+    "promoted": "Promovidos",
+    "author_payout": "Pagamento do Autor",
+    "curation_payout": "Pagamento de Curadoria",
+    "payout_date": "Pagamento"
+  },
+  "post_dropdown": {
+    "copy": "copy link",
+    "reblog": "reblog",
+    "reply": "reply",
+    "share": "share"
   }
 }
