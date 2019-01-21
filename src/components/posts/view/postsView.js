@@ -273,8 +273,13 @@ class PostsView extends Component {
           <FlatList
             data={posts}
             showsVerticalScrollIndicator={false}
-            renderItem={({ item }) => (
-              <PostCard isRefresh={refreshing} content={item} isHideImage={isHideImage} />
+            renderItem={({ item, index }) => (
+              <PostCard
+                isFirstOfList={index === 0}
+                isRefresh={refreshing}
+                content={item}
+                isHideImage={isHideImage}
+              />
             )}
             keyExtractor={(post, index) => index.toString()}
             onEndReached={() => this._loadPosts()}
