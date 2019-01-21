@@ -219,15 +219,11 @@ class ApplicationContainer extends Component {
   };
 
   _logout = () => {
-    const {
-      otherAccounts, currentAccount, dispatch,
-    } = this.props;
+    const { otherAccounts, currentAccount, dispatch } = this.props;
 
     removeUserData(currentAccount.name)
       .then(() => {
-        const _otherAccounts = otherAccounts.filter(
-          user => user.username !== currentAccount.name,
-        );
+        const _otherAccounts = otherAccounts.filter(user => user.username !== currentAccount.name);
 
         if (_otherAccounts.length > 0) {
           const targetAccountUsername = _otherAccounts[0].username;
