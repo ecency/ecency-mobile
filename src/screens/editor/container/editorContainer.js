@@ -404,7 +404,7 @@ class EditorContainer extends Component {
       }
 
       const meta = extractMetadata(fields.body);
-      const metadata = Object.assign({}, meta, oldMeta);
+      const metadata = Object.assign({}, oldMeta, meta);
       const jsonMeta = makeJsonMetadata(metadata, fields.tags);
 
       await postContent(
