@@ -1,6 +1,7 @@
 import React, { PureComponent } from 'react';
 import { View, WebView, Alert } from 'react-native';
 import { connect } from 'react-redux';
+import { injectIntl } from 'react-intl';
 
 import { loginWithSC2 } from '../../providers/steem/auth';
 import { steemConnectOptions } from './config';
@@ -22,7 +23,9 @@ class SteemConnect extends PureComponent {
 
   _onNavigationStateChange = (event) => {
     let code;
-    const { dispatch, setPinCodeState, handleOnModalClose } = this.props;
+    const {
+      dispatch, setPinCodeState, handleOnModalClose, intl,
+    } = this.props;
     const { isLoading } = this.state;
     if (event.url.indexOf('?code=') > -1) {
       this.webview.stopLoading();
@@ -49,7 +52,12 @@ class SteemConnect extends PureComponent {
             }
           })
           .catch((error) => {
-            Alert.alert(error.toString());
+            Alert.alert(
+              'Error',
+              intl.formatMessage({
+                id: error.message,
+              }),
+            );
             // TODO: return
           });
       }
@@ -77,4 +85,4 @@ class SteemConnect extends PureComponent {
   }
 }
 
-export default connect()(SteemConnect);
+export default injectIntl(connect()(SteemConnect));
