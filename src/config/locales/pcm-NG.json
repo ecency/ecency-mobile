@@ -1,0 +1,189 @@
+{
+  "wallet": {
+    "curation_reward": "Reward For Post Wey You Upvote",
+    "author_reward": "Person Wey Write Reward",
+    "comment_benefactor_reward": "Reward For Person Wey Comment",
+    "claim_reward_balance": "Claim Your Reward",
+    "transfer": "Transfer",
+    "transfer_to_vesting": "Transfer go vesting",
+    "transfer_from_savings": "Transfer Komot From Savings",
+    "withdraw_vesting": "Power Down",
+    "fill_order": "Fill Order"
+  },
+  "notification": {
+    "vote": "like you tori",
+    "unvote": "no upvote this post again",
+    "reply": "reply your tori",
+    "mention": "holla you",
+    "follow": "don dey follow you",
+    "unfollow": "no follow you again",
+    "ignore": "don dey ignore you",
+    "reblog": "reblog your tori",
+    "comingsoon": "Leaderboard dey come soon!",
+    "notification": "Alerts",
+    "leaderboard": "Leaderboard",
+    "leaderboard_title": "People Wey Dey Top Today",
+    "recent": "Latest",
+    "yesterday": "Yesterday",
+    "this_week": "This Week",
+    "this_month": "This Month",
+    "older_then": "E don pass one month"
+  },
+  "messages": {
+    "comingsoon": "Option for messages go soon come!"
+  },
+  "profile": {
+    "following": "Following",
+    "follower": "Follower",
+    "post": "Post",
+    "details": "Person informate",
+    "comments": "Comments",
+    "replies": "Replies",
+    "wallet": "Account",
+    "wallet_details": "Account informate",
+    "unclaimed_rewards": "Reward Wey You Never Claim",
+    "full_in": "Full in",
+    "hours": "hours",
+    "voting_power": "Power to vote",
+    "login_to_see": "Login to see wetin dey",
+    "havent_commented": "e never contribute any tori",
+    "havent_posted": "e never post anything",
+    "steem_power": "Steem Power",
+    "next_power_text": "Next power down na",
+    "days": "days",
+    "day": "day",
+    "steem_dollars": "Steem Dollars",
+    "savings": "Savings"
+  },
+  "settings": {
+    "settings": "Settings",
+    "currency": "Currency",
+    "language": "Language",
+    "server": "Server",
+    "dark_theme": "Theme wey dark",
+    "push_notification": "Your Alert",
+    "pincode": "PIN code",
+    "reset": "Reset"
+  },
+  "voters": {
+    "voters_info": "People Wey Vote informate",
+    "no_user": "E no see any person."
+  },
+  "login": {
+    "signin": "Login for here",
+    "signup": "Register",
+    "signin_title": "To enjoy all the yanfu-yanfu wey dey eSteem",
+    "username": "Guy-name",
+    "password": "Password or WIF",
+    "description": "Person information dey store inside phone. But e go clear komot when dem logout! ",
+    "cancel": "cancel",
+    "login": "LOGIN",
+    "steemconnect_description": "If you no wan make your password save inside your phone, you fit decide to login with Steemconnect."
+  },
+  "home": {
+    "feed": "Tori",
+    "popular": "Popular"
+  },
+  "side_menu": {
+    "profile": "Your informate",
+    "bookmarks": "Bookmarks",
+    "favorites": "Wetin you like pass",
+    "drafts": "Saved tori",
+    "schedules": "Schedules",
+    "gallery": "Picture",
+    "settings": "Settings",
+    "add_account": "Add Account",
+    "logout": "Logout",
+    "cancel": "Cancel",
+    "logout_text": "You sure say you wan logout?"
+  },
+  "header": {
+    "title": "Login to arrange your tori",
+    "search": "Search..."
+  },
+  "basic_header": {
+    "publish": "Post am",
+    "search": "Search",
+    "update": "Update",
+    "reply": "Reply"
+  },
+  "editor": {
+    "title": "Title",
+    "tags": "tags",
+    "default_placeholder": "Wetin you go like yan about today?",
+    "reply_placeholder": "Wetin you go like yan about the matter for up",
+    "publish": "Post am",
+    "reply": "Reply"
+  },
+  "pincode": {
+    "enter_text": "Enter your PIN to open am",
+    "set_new": "Put new PIN",
+    "write_again": "Write am again",
+    "forgot_text": "Chai, I don forget am..."
+  },
+  "alert": {
+    "success": "E don Successful!",
+    "allRead": "Mark am say you don read all the alert",
+    "claim_reward_balance_ok": "You don claim the reward",
+    "fail": "E Fail oo!",
+    "success_shared": "Your post don share finish",
+    "permission_denied": "E no gree do",
+    "permission_text": "Abeg go your phone settings go change eSteem app permissions. ",
+    "success_rebloged": "E don reblog!",
+    "already_rebloged": "You don reblog am already!",
+    "warning": "Warning",
+    "invalid_pincode": "Your PIN code no correct, abeg check wella and try am again",
+    "remove_alert": "You sure say you wan remove am?",
+    "cancel": "Cancel",
+    "delete": "Delete"
+  },
+  "post": {
+    "reblog_alert": "You sure say you wan reblog am?"
+  },
+  "drafts": {
+    "title": "Draft",
+    "load_error": "Draft no gree load oo",
+    "empty_list": "Nothing dey here",
+    "deleted": "Draft don delete komot"
+  },
+  "schedules": {
+    "title": "Tori Wey You Don Time",
+    "empty_list": "Here empty oo",
+    "deleted": "Tori wey you time don delete",
+    "move": "Move am go draft",
+    "moved": "E don move go draft"
+  },
+  "bookmarks": {
+    "title": "Bookmarks",
+    "load_error": "Bookmarks no gree load",
+    "empty_list": "Nothing dey here",
+    "deleted": "Bookmark don komot",
+    "search": "Find am for bookmark"
+  },
+  "favorites": {
+    "title": "Favorites",
+    "load_error": "Favorites no gree load",
+    "empty_list": "Nothing dey here",
+    "search": "Find am for favorite"
+  },
+  "auth": {
+    "invalid_pin": "Your PIN code no correct, abeg check wella and try am again",
+    "invalid_username": "Your guy-name no correct, abeg check am and try again ",
+    "already_logged": "You don dey inside your account already, abeg try add another account join",
+    "invalid_credentials": "Wrong information, abeg check wella and try am again",
+    "unknow_error": "Error don happen, abeg holla us for support@esteem.app"
+  },
+  "payout": {
+    "potential_payout": "Reward wey dey pending",
+    "promoted": "E don promote",
+    "author_payout": "Payment For Person Wey Write",
+    "curation_payout": "Payment For Post Wey You Upvote",
+    "payout_date": "Payment"
+  },
+  "post_dropdown": {
+    "copy": "copy link",
+    "reblog": "reblog",
+    "reply": "reply",
+    "share": "share"
+  }
+}
