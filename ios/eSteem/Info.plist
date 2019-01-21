@@ -20,6 +20,16 @@
 	<string>2.0.6</string>
 	<key>CFBundleSignature</key>
 	<string>????</string>
+	<key>CFBundleURLTypes</key>
+	<array>
+		<dict>
+			<key>CFBundleURLSchemes</key>
+			<array>
+				<string>esteem</string>
+				<string>steemit</string>
+			</array>
+		</dict>
+	</array>
 	<key>CFBundleVersion</key>
 	<string>3</string>
 	<key>CodePushDeploymentKey</key>
@@ -47,7 +57,7 @@
 	<key>NSCameraUsageDescription</key>
 	<string>To access your photos, eSteem needs your permission to help you share your photos.</string>
 	<key>NSLocationWhenInUseUsageDescription</key>
-	<string/>
+	<string></string>
 	<key>NSMainNibFile</key>
 	<string>LaunchScreen</string>
 	<key>NSMicrophoneUsageDescription</key>
