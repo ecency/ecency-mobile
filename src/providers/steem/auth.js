@@ -134,8 +134,8 @@ export const loginWithSC2 = async (code) => {
         await setSCAccount(scTokens);
         resolve({ ...account.account, accessToken: scTokens.access_token });
       })
-      .catch((error) => {
-        reject(error);
+      .catch(() => {
+        reject(new Error('auth.unknow_error'));
       });
   });
 };
