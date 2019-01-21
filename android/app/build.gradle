@@ -140,6 +140,7 @@ android {
 }
 
 dependencies {
+    compile project(':react-native-version-number')
     compile project(':react-native-code-push')
     compile project(':realm')
     compile project(':react-native-fast-image')
