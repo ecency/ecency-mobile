@@ -53,6 +53,8 @@ const RootContainer = () => (WrappedComponent) => {
     }
 
     _handleDeepLink = async (url) => {
+      if (!url) return;
+
       let author;
       let permlink;
       let routeName;
