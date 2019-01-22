@@ -110,7 +110,7 @@ class PostBody extends PureComponent {
       }
 
       if (_className === 'pull-left') {
-        node.attribs.style = 'text-align: left; align-self: flex-end;';
+        node.attribs.style = 'text-align: left; align-self: flex-start;';
       }
 
       if (_className === 'text-justify') {
