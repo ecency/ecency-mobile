@@ -274,7 +274,11 @@ class PostsView extends Component {
             data={posts}
             showsVerticalScrollIndicator={false}
             renderItem={({ item }) => (
-              <PostCard isRefresh={refreshing} content={item} isHideImage={isHideImage} />
+              <PostCard
+                isRefresh={refreshing}
+                content={item}
+                isHideImage={isHideImage}
+              />
             )}
             keyExtractor={(post, index) => index.toString()}
             onEndReached={() => this._loadPosts()}

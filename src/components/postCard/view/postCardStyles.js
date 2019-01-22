@@ -2,15 +2,14 @@ import EStyleSheet from 'react-native-extended-stylesheet';
 
 export default EStyleSheet.create({
   post: {
-    padding: 0,
-    marginRight: 0,
-    marginLeft: 0,
-    marginTop: 5,
-    marginBottom: 5,
+    marginBottom: 10,
     backgroundColor: '$primaryBackgroundColor',
     shadowOpacity: 0.2,
     shadowColor: '$shadowColor',
     elevation: 0.1,
+    shadowOffset: {
+      height: 1,
+    },
   },
   commentButton: {
     padding: 0,
