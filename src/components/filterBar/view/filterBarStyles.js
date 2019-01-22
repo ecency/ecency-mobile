@@ -4,11 +4,13 @@ export default EStyleSheet.create({
   container: {
     justifyContent: 'center',
     backgroundColor: '$primaryLightBackground',
-    shadowOpacity: 0.2,
+    shadowOpacity: 0.3,
     shadowColor: '$shadowColor',
     elevation: 0.1,
-    marginBottom: 5,
-    paddingTop: 5,
+    shadowOffset: {
+      height: 1,
+    },
+    zIndex: 99,
   },
   filterBarWrapper: {
     flexDirection: 'row',

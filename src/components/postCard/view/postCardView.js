@@ -57,16 +57,14 @@ class PostCardView extends Component {
   };
 
   render() {
-    const {
-      content, isHideImage, fetchPost, isFirstOfList,
-    } = this.props;
+    const { content, isHideImage, fetchPost } = this.props;
     const _image = content && content.image
       ? { uri: content.image, priority: FastImage.priority.high }
       : DEFAULT_IMAGE;
     const reblogedBy = content.reblogged_by && content.reblogged_by[0];
 
     return (
-      <View style={[styles.post, isFirstOfList ? { marginTop: 0 } : {}]}>
+      <View style={styles.post}>
         <View style={styles.bodyHeader}>
           <PostHeaderDescription
             // date={intl.formatRelative(content.created)}
