@@ -57,9 +57,7 @@ class PostCardView extends Component {
   };
 
   render() {
-    const {
-      content, isHideImage, fetchPost, intl,
-    } = this.props;
+    const { content, isHideImage, fetchPost } = this.props;
     const _image = content && content.image
       ? { uri: content.image, priority: FastImage.priority.high }
       : DEFAULT_IMAGE;
