@@ -1,5 +1,4 @@
 import moment from 'moment';
-import parseToken from './parseToken';
 
 const TODAY = moment().startOf('day');
 const YESTERDAY = moment()

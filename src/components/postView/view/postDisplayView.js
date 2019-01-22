@@ -128,7 +128,7 @@ class PostDisplayView extends PureComponent {
               <PostPlaceHolder />
             ) : (
               <View onLayout={event => this._handleOnPostLayout(event)}>
-                <Text style={styles.title}>{post.title}</Text>
+                <Text style={styles.title}>{post.title || "Not Found"}</Text>
                 <PostHeaderDescription
                   date={formatedTime}
                   name={post.author}
