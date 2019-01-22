@@ -236,7 +236,7 @@ const createVimeoIframe = input => input.replace(vimeoRegex, (link) => {
 });
 
 const iframeBody = link => `<iframe frameborder='0' allowfullscreen src='${link}'></iframe>`;
-const imageBody = link => `<center style="text-align: center; align-items: center; justify-content: center;"><img src="${`https://steemitimages.com/1600x0/${link}`}"></center>`;
+const imageBody = link => `<center style="text-align: center; align-items: center; justify-content: center;"><img src="${`https://steemitimages.com/600x0/${link}`}"></center>`;
 const gifBody = link => `<img src="${`https://steemitimages.com/0x0/${link}`}">`;
 
 // const handleCodeTag = input => input.replace(codeTagRegex, (tag) => {
