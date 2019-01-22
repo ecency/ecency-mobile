@@ -19,6 +19,7 @@ export default EStyleSheet.create({
   previewContainer: {
     flex: 1,
     marginHorizontal: 16,
+    marginVertical: 20,
   },
   inlinePadding: {
     padding: 8,

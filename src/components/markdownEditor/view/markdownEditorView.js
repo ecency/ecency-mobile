@@ -1,6 +1,6 @@
 import React, { Component } from 'react';
 import {
-  View, KeyboardAvoidingView, FlatList, Text, Platform,
+  View, KeyboardAvoidingView, FlatList, Text, Platform, ScrollView,
 } from 'react-native';
 import ActionSheet from 'react-native-actionsheet';
 
@@ -98,9 +98,9 @@ export default class MarkdownEditorView extends Component {
     const { text } = this.state;
 
     return (
-      <View style={styles.previewContainer}>
+      <ScrollView style={styles.previewContainer}>
         {text ? <PostBody body={markDown2Html(text)} /> : <Text>...</Text>}
-      </View>
+      </ScrollView>
     );
   };
 
@@ -123,7 +123,9 @@ export default class MarkdownEditorView extends Component {
         <FlatList
           data={Formats}
           keyboardShouldPersistTaps="always"
-          renderItem={({ item, index }) => index !== 9 && this._renderMarkupButton({ item, getState, setState })
+          renderItem={
+            ({ item, index }) => index !== 9
+            && this._renderMarkupButton({ item, getState, setState })
           }
           horizontal
         />
@@ -167,7 +169,7 @@ export default class MarkdownEditorView extends Component {
       <KeyboardAvoidingView
         style={styles.container}
         keyboardVerticalOffset={Platform.select({ ios: 0, android: 25 })}
-        behavior="padding"
+        behavior={(Platform.OS === 'ios') ? 'padding' : null}
       >
         {!isPreviewActive ? (
           <TextInput
