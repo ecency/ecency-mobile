@@ -172,5 +172,18 @@
     "already_logged": "You are already logged in, please try to add another account",
     "invalid_credentials": "Invalid credentials, please check and try again",
     "unknow_error": "Unknown error, please contact us at support@esteem.app"
+  },
+  "payout": {
+    "potential_payout": "Potential Payout",
+    "promoted": "Promoted",
+    "author_payout": "Author Payout",
+    "curation_payout": "Curation Payout",
+    "payout_date": "Payout"
+  },
+  "post_dropdown": {
+    "copy": "copy link",
+    "reblog": "reblog",
+    "reply": "reply",
+    "share": "share"
   }
 }
