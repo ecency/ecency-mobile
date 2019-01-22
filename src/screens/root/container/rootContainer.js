@@ -36,26 +36,29 @@ const RootContainer = () => (WrappedComponent) => {
 
       if (Platform.OS === 'android') {
         Linking.getInitialURL().then((url) => {
-          this._handleDeepLink(null, url);
+          this._handleDeepLink(url);
         });
       } else {
-        Linking.addEventListener('url', this._handleDeepLink);
+        Linking.addEventListener('url', this._handleOpenURL);
       }
     }
 
     componentWillUnmount() {
       AppState.removeEventListener('change', this._handleAppStateChange);
-      Linking.removeEventListener('url', this._handleDeepLink);
+      Linking.removeEventListener('url', this._handleOpenURL);
     }
 
-    _handleDeepLink = async (event, directUrl=null) => {
+    _handleOpenURL = (event) => {
+      this._handleDeepLink(event.url);
+    }
+
+    _handleDeepLink = async (url) => {
       let author;
       let permlink;
       let routeName;
       let params;
       let content;
       let profile;
-      const url = directUrl || event.url;
       const postRegex = /^https?:\/\/(.*)\/(.*)\/(@[\w.\d-]+)\/(.*)/i;
       const { navigation, currentAccountUsername, intl } = this.props;
 

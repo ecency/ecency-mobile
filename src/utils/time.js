@@ -1,5 +1,4 @@
 import moment from 'moment';
-import parseToken from './parseToken';
 
 const TODAY = moment().startOf('day');
 const YESTERDAY = moment()
@@ -15,7 +14,12 @@ const THIS_MONTH = moment()
 export const getTimeFromNow = (value) => {
   if (!value) return null;
 
-  return moment(value).fromNow();
+  return moment.utc(value).fromNow();
+
+  // return moment
+  // .utc(value)
+  // .local()
+  // .fromNow();
 };
 
 export const getFormatedCreatedDate = (value) => {
