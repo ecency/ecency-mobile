@@ -273,9 +273,8 @@ class PostsView extends Component {
           <FlatList
             data={posts}
             showsVerticalScrollIndicator={false}
-            renderItem={({ item, index }) => (
+            renderItem={({ item }) => (
               <PostCard
-                isFirstOfList={index === 0}
                 isRefresh={refreshing}
                 content={item}
                 isHideImage={isHideImage}
