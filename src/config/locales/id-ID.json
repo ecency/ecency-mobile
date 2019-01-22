@@ -1,176 +1,189 @@
 {
   "wallet": {
-    "curation_reward": "Curation Reward",
-    "author_reward": "Author Reward",
-    "comment_benefactor_reward": "Comment Benefactor Reward",
-    "claim_reward_balance": "Claim Reward Balance",
+    "curation_reward": "Hadiah kurasi",
+    "author_reward": "Hadiah pencipta",
+    "comment_benefactor_reward": "Pemberian hadiah komentar",
+    "claim_reward_balance": "Klaim hadiah",
     "transfer": "Transfer",
-    "transfer_to_vesting": "Transfer To Vesting",
-    "transfer_from_savings": "Transfer From Savings",
-    "withdraw_vesting": "Power Down",
-    "fill_order": "Fill Order"
+    "transfer_to_vesting": "Transfer ke vesting",
+    "transfer_from_savings": "Transfer Dari Tabungan",
+    "withdraw_vesting": "Turunkan Daya Kekuatan",
+    "fill_order": "Isi pesanan"
   },
   "notification": {
-    "vote": "likes your post",
-    "unvote": "unvoted your post",
-    "reply": "replied to your post",
-    "mention": "mentioned you",
-    "follow": "followed you",
-    "unfollow": "unfollowed you",
-    "ignore": "ignored you",
-    "reblog": "reblogged your post",
-    "comingsoon": "Leaderboard feature is coming soon!",
-    "notification": "Notifications",
-    "leaderboard": "Leaderboard",
-    "leaderboard_title": "Daily Top User",
-    "recent": "Recent",
-    "yesterday": "Yesterday",
-    "this_week": "This Week",
-    "this_month": "This Month",
-    "older_then": "Older Than A Month"
+    "vote": "menyukai postingan anda",
+    "unvote": "membatalkan suara posting anda",
+    "reply": "membalas postingan anda",
+    "mention": "menyebut anda",
+    "follow": "mengikuti anda",
+    "unfollow": "berhenti mengikuti anda",
+    "ignore": "mengabaikan anda",
+    "reblog": "menampilkan kembali post anda",
+    "comingsoon": "Leaderboard fitur akan segera hadir!",
+    "notification": "Pemberitahuan",
+    "leaderboard": "Papan Peringkat",
+    "leaderboard_title": "Pengguna harian teratas",
+    "recent": "Baru digunakan",
+    "yesterday": "Kemarin",
+    "this_week": "Minggu ini",
+    "this_month": "Bulan ini",
+    "older_then": "Lebih Lama Dari Sebulan"
   },
   "messages": {
-    "comingsoon": "Messages feature is coming soon!"
+    "comingsoon": "Fitur pesan akan segera hadir!"
   },
   "profile": {
-    "following": "Following",
-    "follower": "Follower",
+    "following": "Mengikuti",
+    "follower": "Pengikut",
     "post": "Post",
-    "details": "Profile Details",
-    "comments": "Comments",
-    "replies": "Replies",
-    "wallet": "Wallet",
-    "wallet_details": "Wallet Details",
-    "unclaimed_rewards": "Unclaimed Rewards",
-    "full_in": "Full in",
-    "hours": "hours",
-    "voting_power": "Voting power",
-    "login_to_see": "Login to see",
-    "havent_commented": "haven't commented anything yet",
-    "havent_posted": "haven't posted anything yet",
-    "steem_power": "Steem Power",
-    "next_power_text": "Next power down is in",
-    "days": "days",
-    "day": "day",
+    "details": "Rincian Profil",
+    "comments": "Komentar",
+    "replies": "Balasan",
+    "wallet": "Dompet",
+    "wallet_details": "Rincian Dompet",
+    "unclaimed_rewards": "Hadiah yang belum Diklaim",
+    "full_in": "Penuh",
+    "hours": "jam",
+    "voting_power": "Kekuatan Suara",
+    "login_to_see": "Masuk untuk melihat",
+    "havent_commented": "belum berkomentar apapun",
+    "havent_posted": "belum pernah mengirimkan sesuatu",
+    "steem_power": "Kekuatan Steem",
+    "next_power_text": "Menurunkan daya berikutnya di",
+    "days": "hari",
+    "day": "hari",
     "steem_dollars": "Steem Dollars",
-    "savings": "Savings"
+    "savings": "Tabungan"
   },
   "settings": {
-    "settings": "Settings",
-    "currency": "Currency",
-    "language": "Language",
+    "settings": "Pengaturan",
+    "currency": "Nilai Tukar Mata Uang",
+    "language": "Bahasa",
     "server": "Server",
-    "dark_theme": "Dark Theme",
-    "push_notification": "Push Notification",
+    "dark_theme": "Tema Gelap",
+    "push_notification": "Notifikasi Gegas",
     "pincode": "Pincode",
-    "reset": "Reset"
+    "reset": "Setel Ulang"
   },
   "voters": {
-    "voters_info": "Voters Info",
-    "no_user": "No user found."
+    "voters_info": "Info Pemilih",
+    "no_user": "Pengguna tidak ditemukan."
   },
   "login": {
-    "signin": "Sign in",
-    "signup": "Sign up",
-    "signin_title": "To get all the benefits of using eSteem",
-    "username": "Username",
-    "password": "Password or WIF",
-    "description": "User credentials are kept locally on the device. Credentials are removed upon logout!",
-    "cancel": "cancel",
-    "login": "LOGIN",
-    "steemconnect_description": "If you don't want to keep your password encrypted and saved on your device, you can use Steemconnect."
+    "signin": "Masuk",
+    "signup": "Daftar",
+    "signin_title": "Untuk mendapatkan semua manfaat dari menggunakan eSteem",
+    "username": "Nama Pengguna",
+    "password": "Kata sandi atau WIF",
+    "description": "kredensial pengguna disimpan secara lokal pada perangkat. Setelah Keluar kredensial dihapus!",
+    "cancel": "batal",
+    "login": "MASUK",
+    "steemconnect_description": "Jika Anda tidak ingin menyimpan sandi Anda dienkripsi dan disimpan pada perangkat Anda, Anda dapat menggunakan Steemconnect."
   },
   "home": {
-    "feed": "Feed",
-    "popular": "Popular"
+    "feed": "Umpan",
+    "popular": "Populer"
   },
   "side_menu": {
-    "profile": "Profile",
-    "bookmarks": "Bookmarks",
-    "favorites": "Favorites",
-    "drafts": "Drafts",
-    "schedules": "Schedules",
-    "gallery": "Gallery",
-    "settings": "Settings",
-    "add_account": "Add Account",
-    "logout": "Logout",
-    "cancel": "Cancel",
-    "logout_text": "Are you sure you want to logout?"
+    "profile": "Profil",
+    "bookmarks": "Tandai",
+    "favorites": "Favorit",
+    "drafts": "Konsep",
+    "schedules": "Daftar jadwal",
+    "gallery": "Album",
+    "settings": "Pengaturan",
+    "add_account": "Tambahkan Akun",
+    "logout": "Keluar",
+    "cancel": "Batal",
+    "logout_text": "Apakah Anda yakin ingin keluar?"
   },
   "header": {
-    "title": "Login to customize your feed",
-    "search": "Search..."
+    "title": "Login untuk menyesuaikan feed Anda",
+    "search": "Cari..."
   },
   "basic_header": {
-    "publish": "Publish",
-    "search": "Search",
-    "update": "Update",
-    "reply": "Reply"
+    "publish": "Terbitkan",
+    "search": "Cari",
+    "update": "Pembaruan",
+    "reply": "Balas"
   },
   "editor": {
-    "title": "Title",
-    "tags": "tags",
-    "default_placeholder": "What would you like to write about today?",
-    "reply_placeholder": "What would you like to write about above post?",
-    "publish": "Publish",
-    "reply": "Reply"
+    "title": "Judul",
+    "tags": "tagar",
+    "default_placeholder": "Apa yang ingin Anda tulis tentang hari ini?",
+    "reply_placeholder": "Apa yang ingin Anda komentari tentang tulisan sebelumnya?",
+    "publish": "Terbitkan",
+    "reply": "Balas"
   },
   "pincode": {
     "enter_text": "Enter pin to unlock",
     "set_new": "Set new pin",
-    "write_again": "Write again",
-    "forgot_text": "Oh, I forgot it..."
+    "write_again": "Menulis lagi",
+    "forgot_text": "Oh, saya lupa..."
   },
   "alert": {
-    "success": "Success!",
-    "allRead": "Marked all notifications as read",
-    "claim_reward_balance_ok": "Reward balance claimed",
-    "fail": "Fail!",
-    "success_shared": "Your post succesfully shared",
-    "permission_denied": "Permission denied",
-    "permission_text": "Please, go to phone Settings and change eSteem app permissions.",
+    "success": "Sukses!",
+    "allRead": "Tandai semua pemberitahuan telah terbaca",
+    "claim_reward_balance_ok": "Hadiah diklaim",
+    "fail": "Gagal!",
+    "success_shared": "Tulisan anda berhasil dibagikan",
+    "permission_denied": "Izin ditolak",
+    "permission_text": "Silakan buka pengaturan telepon dan ubah izin untuk aplikasi eSteem.",
     "success_rebloged": "Rebloged!",
-    "already_rebloged": "You have already reblogged!",
-    "warning": "Warning",
+    "already_rebloged": "Anda sudah selesai membagikan tulisan ini di blog anda!",
+    "warning": "Peringatan",
     "invalid_pincode": "Invalid pin code, please check and try again.",
-    "remove_alert": "Are you sure want to remove?",
-    "cancel": "Cancel",
-    "delete": "Delete"
+    "remove_alert": "Yakin ingin menghapus?",
+    "cancel": "Batal",
+    "delete": "Hapus"
   },
   "post": {
-    "reblog_alert": "Are you sure you want to reblog?"
+    "reblog_alert": "Anda yakin ingin menerbitkan ulang?"
   },
   "drafts": {
-    "title": "Drafts",
-    "load_error": "Could not load drafts",
-    "empty_list": "Nothing here",
-    "deleted": "Draft deleted"
+    "title": "Konsep",
+    "load_error": "Tidak dapat menampilkan konsep",
+    "empty_list": "Disini belum ada apa-apa",
+    "deleted": "Konsep dihapus"
   },
   "schedules": {
-    "title": "Scheduled Posts",
-    "empty_list": "Nothing here",
-    "deleted": "Scheduled post deleted",
-    "move": "Move to drafts",
-    "moved": "Moved to drafts"
+    "title": "Posting terjadwal",
+    "empty_list": "Disini belum ada apa-apa",
+    "deleted": "Tulisan terjadwal dihapus",
+    "move": "Pindahkan ke konsep",
+    "moved": "Pindahkan ke konsep"
   },
   "bookmarks": {
-    "title": "Bookmarks",
-    "load_error": "Could not load bookmarks",
-    "empty_list": "Nothing here",
-    "deleted": "Bookmark removed",
-    "search": "Search in bookmarks"
+    "title": "Tandai",
+    "load_error": "Tidak dapat menampilkan yang telah ditandai",
+    "empty_list": "Disini belum ada apa-apa",
+    "deleted": "Hapus yang ditandai",
+    "search": "Cari di dalam halaman yang ditandai"
   },
   "favorites": {
-    "title": "Favorites",
-    "load_error": "Could not load favorites",
-    "empty_list": "Nothing here",
-    "search": "Search in favorites"
+    "title": "Favorit",
+    "load_error": "Tidak dapat menampilkan favorit",
+    "empty_list": "Kosong",
+    "search": "Cari di dalam favorit"
   },
   "auth": {
     "invalid_pin": "Invalid pin code, please check and try again",
-    "invalid_username": "Invalid username, please check and try again",
-    "already_logged": "You are already logged in, please try to add another account",
-    "invalid_credentials": "Invalid credentials, please check and try again",
-    "unknow_error": "Unknown error, please contact us at support@esteem.app"
+    "invalid_username": "Nama pengguna tidak valid, silakan periksa dan coba lagi",
+    "already_logged": "Anda sudah masuk, coba tambahkan akun lain",
+    "invalid_credentials": "Kredensial tidak valid, silakan periksa dan coba lagi",
+    "unknow_error": "Kesalahan tidak dikenal, silakan hubungi kami di support@esteem.app"
+  },
+  "payout": {
+    "potential_payout": "Potensi pembayaran",
+    "promoted": "Promosikan",
+    "author_payout": "Pembayaran pencipta konten",
+    "curation_payout": "Pembayaran Kurasi",
+    "payout_date": "Pembayaran"
+  },
+  "post_dropdown": {
+    "copy": "copy link",
+    "reblog": "reblog",
+    "reply": "reply",
+    "share": "share"
   }
 }
