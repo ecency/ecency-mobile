@@ -21,7 +21,7 @@ const urlRegex = /(http|ftp|https):\/\/([\w_-]+(?:(?:\.[\w_-]+)+))([\w.,@?^=%&:/
 const aTagRegex = /(<\s*a[^>]*>(.*?)<\s*[/]\s*a>)/g;
 const imgTagRegex = /(<img[^>]*>)/g;
 const iframeRegex = /(?:<iframe[^>]*)(?:(?:\/>)|(?:>.*?<\/iframe>))/g;
-const markdownLinkRegex = /(?:__|[*#])|\[(.*?)\]\(.*?\)/g;
+const markdownLinkRegex = /(?:__|[*])|\[(.*?)\]\(.*?\)/g;
 
 export const markDown2Html = (input) => {
   if (!input) {
@@ -135,14 +135,13 @@ const handleMarkdownLink = input => input.replace(markdownLinkRegex, (link) => {
     if (tag === '/busy.org') {
       tag = 'busy';
     }
-    
-    const _permlink = postMatch[3].indexOf(')') > 0 ?  postMatch[3].replace(')', '') : postMatch[3];
 
-    return `<a class="markdown-post-link" href="${
-      _permlink
-    }" data_tag={${tag.trim()}} data_author="${postMatch[2].replace('@', '')}">/${
-     _permlink
-    }</a>`;
+    const _permlink = postMatch[3].indexOf(')') > 0 ? postMatch[3].replace(')', '') : postMatch[3];
+
+    return `<a class="markdown-post-link" href="${_permlink}" data_tag={${tag.trim()}} data_author="${postMatch[2].replace(
+      '@',
+      '',
+    )}">/${_permlink}</a>`;
   }
 });
 
