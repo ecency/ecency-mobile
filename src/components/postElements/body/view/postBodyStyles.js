@@ -15,7 +15,6 @@ export default EStyleSheet.create({
     fontFamily: '$primaryFont',
   },
   img: {
-    left: -16,
     // height: 50,
     marginTop: 10,
   },
