@@ -68,6 +68,9 @@ export const getState = async (path) => {
 export const getUser = async (user) => {
   try {
     const account = await client.database.getAccounts([user]);
+
+    if (account && account.length < 1) return null;
+
     // get global properties to calculate Steem Power
     const globalProperties = await client.database.getDynamicGlobalProperties();
     const rcPower = await client.call('rc_api', 'find_rc_accounts', { accounts: [user] });
@@ -304,11 +307,11 @@ export const getRepliesByLastUpdate = async (query) => {
  * @param permlink post permlink
  * @param currentUserName active accounts username
  */
-export const getPost = async (author, permlink, currentUserName) => {
+export const getPost = async (author, permlink, currentUserName = null) => {
   try {
     const post = await client.database.call('get_content', [author, permlink]);
 
-    return await parsePost(post, currentUserName);
+    return post ? await parsePost(post, currentUserName) : null;
   } catch (error) {
     return error;
   }
@@ -416,7 +419,6 @@ export const vote = async (currentAccount, pin, author, permlink, weight) => {
     });
   }
 
-
   return Promise.reject(new Error('You dont have permission!'));
 };
 
@@ -466,7 +468,7 @@ export const followUser = async (currentAccount, pin, data) => {
     const api = steemConnect.Initialize({
       accessToken: token,
     });
-    
+
     return api.follow(data.follower, data.following);
   }
 

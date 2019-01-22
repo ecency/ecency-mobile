@@ -1,6 +1,6 @@
 import React, { Component } from 'react';
 import { connect } from 'react-redux';
-
+import { withNavigation } from 'react-navigation';
 // Services and Actions
 import { getPost } from '../../../providers/steem/dsteem';
 
@@ -53,7 +53,7 @@ class PostContainer extends Component {
   // Component Functions
 
   _loadPost = async (author = null, permlink = null) => {
-    const { currentAccount, isLoggedIn } = this.props;
+    const { currentAccount, isLoggedIn, navigation } = this.props;
     const { post } = this.state;
 
     const _author = author || post.author;
@@ -93,4 +93,4 @@ const mapStateToProps = state => ({
   isLoggedIn: state.application.isLoggedIn,
 });
 
-export default connect(mapStateToProps)(PostContainer);
+export default connect(mapStateToProps)(withNavigation(PostContainer));
