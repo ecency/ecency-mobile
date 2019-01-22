@@ -54,7 +54,7 @@ class CommentView extends PureComponent {
     const { isShowSubComments } = this.state;
 
     return (
-      <View style={{ marginLeft: marginLeft || 29 }}>
+      <View>
         <PostHeaderDescription
           key={comment.permlink}
           date={getTimeFromNow(comment.created)}

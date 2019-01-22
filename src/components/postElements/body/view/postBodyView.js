@@ -1,7 +1,5 @@
 import React, { PureComponent, Fragment } from 'react';
-import {
-  Dimensions, Linking, Alert,
-} from 'react-native';
+import { Dimensions, Linking, Alert } from 'react-native';
 import { withNavigation } from 'react-navigation';
 import { injectIntl } from 'react-intl';
 
