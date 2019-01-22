@@ -21,7 +21,7 @@ const urlRegex = /(http|ftp|https):\/\/([\w_-]+(?:(?:\.[\w_-]+)+))([\w.,@?^=%&:/
 const aTagRegex = /(<\s*a[^>]*>(.*?)<\s*[/]\s*a>)/g;
 const imgTagRegex = /(<img[^>]*>)/g;
 const iframeRegex = /(?:<iframe[^>]*)(?:(?:\/>)|(?:>.*?<\/iframe>))/g;
-const markdownLinkRegex = /(?:__|[*])|\[(.*?)\]\(.*?\)/g;
+const markdownLinkRegex = /(?:__|[])|\[(.*?)\]\(.*?\)/g;
 
 export const markDown2Html = (input) => {
   if (!input) {
