@@ -36,7 +36,7 @@ const RootContainer = () => (WrappedComponent) => {
 
       if (Platform.OS === 'android') {
         Linking.getInitialURL().then((url) => {
-          this.navigate(url);
+          this._handleDeepLink(url);
         });
       } else {
         Linking.addEventListener('url', this._handleDeepLink);
