@@ -16,7 +16,7 @@ import { default as ROUTES } from '../../../../constants/routeNames';
 const WIDTH = Dimensions.get('window').width;
 const CUSTOM_RENDERERS = {
   // example
-  //center: () => <Text style={{ backgroundColor: 'blue', textAlign: 'center'}}>ugur</Text>,
+  // center: () => <Text style={{ backgroundColor: 'blue', textAlign: 'center'}}>ugur</Text>,
 };
 const DEFAULT_PROPS = {
   renderers: CUSTOM_RENDERERS,
@@ -100,6 +100,26 @@ class PostBody extends PureComponent {
 
     if (node.name === 'img') {
       node.attribs.style = 'text-align: center;';
+    }
+
+    if (node.name === 'div' && node.attribs && node.attribs.class) {
+      const _className = node.attribs.class;
+
+      if (_className === 'pull-right') {
+        node.attribs.style = 'text-align: right; align-self: flex-end;';
+      }
+
+      if (_className === 'pull-left') {
+        node.attribs.style = 'text-align: left; align-self: flex-start;';
+      }
+
+      if (_className === 'text-justify') {
+        node.attribs.style = 'text-align: justify; text-justify: inter-word; letter-spacing: 1.2px;';
+      }
+
+      if (_className === 'phishy') {
+        node.attribs.style = 'color: red';
+      }
     }
   };
 

@@ -21,7 +21,7 @@ const urlRegex = /(http|ftp|https):\/\/([\w_-]+(?:(?:\.[\w_-]+)+))([\w.,@?^=%&:/
 const aTagRegex = /(<\s*a[^>]*>(.*?)<\s*[/]\s*a>)/g;
 const imgTagRegex = /(<img[^>]*>)/g;
 const iframeRegex = /(?:<iframe[^>]*)(?:(?:\/>)|(?:>.*?<\/iframe>))/g;
-const markdownLinkRegex = /(?:__|[*#])|\[(.*?)\]\(.*?\)/g;
+const markdownLinkRegex = /(?:__|[])|\[(.*?)\]\(.*?\)/g;
 
 export const markDown2Html = (input) => {
   if (!input) {
@@ -135,14 +135,13 @@ const handleMarkdownLink = input => input.replace(markdownLinkRegex, (link) => {
     if (tag === '/busy.org') {
       tag = 'busy';
     }
-    
-    const _permlink = postMatch[3].indexOf(')') > 0 ?  postMatch[3].replace(')', '') : postMatch[3];
 
-    return `<a class="markdown-post-link" href="${
-      _permlink
-    }" data_tag={${tag.trim()}} data_author="${postMatch[2].replace('@', '')}">/${
-     _permlink
-    }</a>`;
+    const _permlink = postMatch[3].indexOf(')') > 0 ? postMatch[3].replace(')', '') : postMatch[3];
+
+    return `<a class="markdown-post-link" href="${_permlink}" data_tag={${tag.trim()}} data_author="${postMatch[2].replace(
+      '@',
+      '',
+    )}">/${_permlink}</a>`;
   }
 });
 
@@ -156,6 +155,8 @@ const handleLinks = input => input.replace(linkRegex, (link) => {
         || imgRegex.test(link)
     ) {
       const imageMatch = link.match(imgRegex);
+
+      if (imageMatch[0].indexOf('.gif') > 0) return gifBody(imageMatch[0]);
 
       if (imageMatch && imageMatch[0]) {
         return imageBody(imageMatch[0]);
@@ -236,6 +237,7 @@ const createVimeoIframe = input => input.replace(vimeoRegex, (link) => {
 
 const iframeBody = link => `<iframe frameborder='0' allowfullscreen src='${link}'></iframe>`;
 const imageBody = link => `<img src="${`https://steemitimages.com/600x0/${link}`}">`;
+const gifBody = link => `<img src="${`https://steemitimages.com/0x0/${link}`}">`;
 
 // const handleCodeTag = input => input.replace(codeTagRegex, (tag) => {
 //   const stringsRegex = /(?<=>)(.*)(?=<)/g;
