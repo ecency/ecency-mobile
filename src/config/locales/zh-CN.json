@@ -185,5 +185,9 @@
     "reblog": "reblog",
     "reply": "reply",
     "share": "share"
+  },
+  "deep_link": {
+    "no_existing_user": "No existing user",
+    "no_existing_post": "No existing post"
   }
 }
