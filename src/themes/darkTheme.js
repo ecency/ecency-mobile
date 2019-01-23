@@ -1,4 +1,4 @@
-import { Dimensions } from 'react-native';
+import { Dimensions, Platform, StatusBar } from 'react-native';
 
 export default {
   // Primary Colors
@@ -39,7 +39,10 @@ export default {
   $tableBorderColor: '#1e2835',
 
   // Devices Sizes
-  $deviceHeight: Dimensions.get('window').height,
+  $deviceHeight:
+    Platform.OS === 'ios'
+      ? Dimensions.get('window').height
+      : Dimensions.get('window').height + StatusBar.currentHeight,
   $deviceWidth: Dimensions.get('window').width,
 
   // Fonts Properties
