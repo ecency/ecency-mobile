@@ -24,6 +24,7 @@ class CommentView extends PureComponent {
     super(props);
     this.state = {
       isShowSubComments: props.isShowSubComments || false,
+      isPressedShowButton: false,
     };
   }
 
@@ -33,7 +34,7 @@ class CommentView extends PureComponent {
   _showSubCommentsToggle = () => {
     const { isShowSubComments } = this.state;
 
-    this.setState({ isShowSubComments: !isShowSubComments });
+    this.setState({ isShowSubComments: !isShowSubComments, isPressedShowButton: true });
   };
 
   render() {
@@ -51,7 +52,7 @@ class CommentView extends PureComponent {
       fetchPost,
       isShowComments,
     } = this.props;
-    const { isShowSubComments } = this.state;
+    const { isShowSubComments, isPressedShowButton } = this.state;
 
     return (
       <View>
@@ -93,13 +94,13 @@ class CommentView extends PureComponent {
                 <TextWithIcon
                   wrapperStyle={styles.rightButton}
                   iconName={isShowSubComments ? 'keyboard-arrow-up' : 'keyboard-arrow-down'}
-                  textStyle={styles.moreText}
+                  textStyle={!isPressedShowButton && styles.moreText}
                   iconType="MaterialIcons"
                   isClickable
                   iconStyle={styles.iconStyle}
                   iconSize={16}
                   onPress={() => this._showSubCommentsToggle()}
-                  text={`${comment.children} more replies`}
+                  text={!isPressedShowButton ? `${comment.children} more replies` : ''}
                 />
               </View>
             )}
