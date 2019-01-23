@@ -8,7 +8,7 @@ import { groomingTransactionData } from '../../../utils/wallet';
 import { getTimeFromNow } from '../../../utils/time';
 
 // Components
-// import { FilterBar } from '../../filterBar';
+import { FilterBar } from '../../filterBar';
 import { WalletLineItem, Card } from '../../basicUIElements';
 import { CollapsibleCard } from '../../collapsibleCard';
 
@@ -39,15 +39,14 @@ class TransactionView extends PureComponent {
     return (
       <Fragment>
         {/* this feature not implemented yet */}
-        {/* <FilterBar
+        <FilterBar
           dropdownIconName="arrow-drop-down"
           options={['ALL TRANSACTIONS', 'VOTES', 'REPLIES']}
           defaultText="ALL TRANSACTIONS"
           onDropdownSelect={() => this._handleOnDropdownSelect()}
           rightIconName="ios-lock"
           iconSize={16}
-          if (index % 2 === 0) {
-        /> */}
+        />
         <Card>
           {transactions
             && transactions.map((item, index) => {
