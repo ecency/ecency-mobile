@@ -21,7 +21,7 @@ const urlRegex = /(http|ftp|https):\/\/([\w_-]+(?:(?:\.[\w_-]+)+))([\w.,@?^=%&:/
 const aTagRegex = /(<\s*a[^>]*>(.*?)<\s*[/]\s*a>)/g;
 const imgTagRegex = /(<img[^>]*>)/g;
 const iframeRegex = /(?:<iframe[^>]*)(?:(?:\/>)|(?:>.*?<\/iframe>))/g;
-// const markdownLinkRegex = /(?:__|[])|\[(.*?)\]\(.*?\)/g;
+//const markdownLinkRegex = /(?:__|[])|\[(.*?)\]\(.*?\)/g;
 
 export const markDown2Html = (input) => {
   if (!input) {
@@ -89,7 +89,7 @@ export const markDown2Html = (input) => {
 const replaceAuthorNames = input => input.replace(authorNameRegex, (match, preceeding1, preceeding2, user) => {
   const userLower = user.toLowerCase();
   const preceedings = (preceeding1 || '') + (preceeding2 || '');
-  return `${preceedings}<a class="markdown-author-link" href="${userLower}" data-author="${userLower}">@${user}</a>`;
+  return `${preceedings}<a class="markdown-author-link" href="${userLower}" data-author="${userLower}"> @${user}</a>`;
 });
 
 const replaceTags = input => input.replace(tagsRegex, (tag) => {
@@ -236,7 +236,7 @@ const createVimeoIframe = input => input.replace(vimeoRegex, (link) => {
 });
 
 const iframeBody = link => `<iframe frameborder='0' allowfullscreen src='${link}'></iframe>`;
-const imageBody = link => `<img src="${`https://steemitimages.com/600x0/${link}`}">`;
+const imageBody = link => `<center style="text-align: center; align-items: center; justify-content: center;"><img src="${`https://steemitimages.com/600x0/${link}`}"></center>`;
 const gifBody = link => `<img src="${`https://steemitimages.com/0x0/${link}`}">`;
 
 // const handleCodeTag = input => input.replace(codeTagRegex, (tag) => {
