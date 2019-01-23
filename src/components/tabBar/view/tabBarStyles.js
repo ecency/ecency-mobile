@@ -17,6 +17,5 @@ export default EStyleSheet.create({
   text: {
     fontSize: 16,
     fontFamily: '$primaryFont',
-    marginBottom: 12,
   },
 });

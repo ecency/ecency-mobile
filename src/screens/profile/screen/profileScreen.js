@@ -154,7 +154,7 @@ class ProfileScreen extends PureComponent {
           )}
 
           <ScrollableTabView
-            style={globalStyles.tabView}
+            style={[globalStyles.tabView, styles.tabView]}
             renderTabBar={() => (
               <TabBar style={styles.tabbar} tabUnderlineDefaultWidth={80} tabUnderlineScaleX={2} />
             )}
