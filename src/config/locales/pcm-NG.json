@@ -3,7 +3,7 @@
     "curation_reward": "Reward For Post Wey You Upvote",
     "author_reward": "Person Wey Write Reward",
     "comment_benefactor_reward": "Reward For Person Wey Comment",
-    "claim_reward_balance": "Claim Your Reward",
+    "claim_reward_balance": "Collect Your Reward",
     "transfer": "Transfer",
     "transfer_to_vesting": "Transfer go vesting",
     "transfer_from_savings": "Transfer Komot From Savings",
@@ -41,7 +41,7 @@
     "replies": "Replies",
     "wallet": "Account",
     "wallet_details": "Account informate",
-    "unclaimed_rewards": "Reward Wey You Never Claim",
+    "unclaimed_rewards": "Reward Wey Dem Never Collect",
     "full_in": "Full in",
     "hours": "hours",
     "voting_power": "Power to vote",
@@ -87,9 +87,9 @@
   "side_menu": {
     "profile": "Your informate",
     "bookmarks": "Bookmarks",
-    "favorites": "Wetin you like pass",
-    "drafts": "Saved tori",
-    "schedules": "Schedules",
+    "favorites": "Favorites",
+    "drafts": "Draft",
+    "schedules": "Tori Wey You Time",
     "gallery": "Picture",
     "settings": "Settings",
     "add_account": "Add Account",
@@ -124,7 +124,7 @@
   "alert": {
     "success": "E don Successful!",
     "allRead": "Mark am say you don read all the alert",
-    "claim_reward_balance_ok": "You don claim the reward",
+    "claim_reward_balance_ok": "You don collect the reward",
     "fail": "E Fail oo!",
     "success_shared": "Your post don share finish",
     "permission_denied": "E no gree do",
@@ -181,9 +181,13 @@
     "payout_date": "Payment"
   },
   "post_dropdown": {
-    "copy": "copy link",
-    "reblog": "reblog",
-    "reply": "reply",
-    "share": "share"
+    "copy": "copy the link",
+    "reblog": "reblog am",
+    "reply": "reply am",
+    "share": "share am"
+  },
+  "deep_link": {
+    "no_existing_user": "No existing user",
+    "no_existing_post": "No existing post"
   }
 }
