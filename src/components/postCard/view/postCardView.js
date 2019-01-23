@@ -87,11 +87,7 @@ class PostCardView extends Component {
             onPress={() => this._handleOnContentPress()}
           >
             {!isHideImage && (
-              <FastImage
-                source={_image}
-                style={styles.thumbnail}
-                defaultSource={DEFAULT_IMAGE}
-              />
+              <FastImage source={_image} style={styles.thumbnail} defaultSource={DEFAULT_IMAGE} />
             )}
             <View style={[styles.postDescripton]}>
               <Text style={styles.title}>{content.title}</Text>
