@@ -11,18 +11,18 @@
     "fill_order": "Isi pesanan"
   },
   "notification": {
-    "vote": "menyukai postingan anda",
+    "vote": "menyukai posting anda",
     "unvote": "membatalkan suara posting anda",
-    "reply": "membalas postingan anda",
+    "reply": "membalas posting anda",
     "mention": "menyebut anda",
     "follow": "mengikuti anda",
     "unfollow": "berhenti mengikuti anda",
     "ignore": "mengabaikan anda",
     "reblog": "menampilkan kembali post anda",
-    "comingsoon": "Leaderboard fitur akan segera hadir!",
+    "comingsoon": "Fungsi papan peringkat akan segera hadir!",
     "notification": "Pemberitahuan",
     "leaderboard": "Papan Peringkat",
-    "leaderboard_title": "Pengguna harian teratas",
+    "leaderboard_title": "Pengguna harian paling atas",
     "recent": "Baru digunakan",
     "yesterday": "Kemarin",
     "this_week": "Minggu ini",
@@ -30,7 +30,7 @@
     "older_then": "Lebih Lama Dari Sebulan"
   },
   "messages": {
-    "comingsoon": "Fitur pesan akan segera hadir!"
+    "comingsoon": "Fungsi pesan akan segera hadir!"
   },
   "profile": {
     "following": "Mengikuti",
@@ -41,12 +41,12 @@
     "replies": "Balasan",
     "wallet": "Dompet",
     "wallet_details": "Rincian Dompet",
-    "unclaimed_rewards": "Hadiah yang belum Diklaim",
+    "unclaimed_rewards": "Hadiah yang belum Di klaim",
     "full_in": "Penuh",
     "hours": "jam",
     "voting_power": "Kekuatan Suara",
     "login_to_see": "Masuk untuk melihat",
-    "havent_commented": "belum berkomentar apapun",
+    "havent_commented": "belum berkomentar",
     "havent_posted": "belum pernah mengirimkan sesuatu",
     "steem_power": "Kekuatan Steem",
     "next_power_text": "Menurunkan daya berikutnya di",
@@ -62,7 +62,7 @@
     "server": "Server",
     "dark_theme": "Tema Gelap",
     "push_notification": "Notifikasi Gegas",
-    "pincode": "Pincode",
+    "pincode": "Kode PIN",
     "reset": "Setel Ulang"
   },
   "voters": {
@@ -109,9 +109,9 @@
   },
   "editor": {
     "title": "Judul",
-    "tags": "tagar",
+    "tags": "tags",
     "default_placeholder": "Apa yang ingin Anda tulis tentang hari ini?",
-    "reply_placeholder": "Apa yang ingin Anda komentari tentang tulisan sebelumnya?",
+    "reply_placeholder": "Apa yang ingin Anda tulis tentang posting di atas?",
     "publish": "Terbitkan",
     "reply": "Balas"
   },
@@ -124,13 +124,13 @@
   "alert": {
     "success": "Sukses!",
     "allRead": "Tandai semua pemberitahuan telah terbaca",
-    "claim_reward_balance_ok": "Hadiah diklaim",
+    "claim_reward_balance_ok": "Hadiah di klaim",
     "fail": "Gagal!",
     "success_shared": "Tulisan anda berhasil dibagikan",
     "permission_denied": "Izin ditolak",
     "permission_text": "Silakan buka pengaturan telepon dan ubah izin untuk aplikasi eSteem.",
     "success_rebloged": "Rebloged!",
-    "already_rebloged": "Anda sudah selesai membagikan tulisan ini di blog anda!",
+    "already_rebloged": "Anda telah menampilkan kembali blog ini!",
     "warning": "Peringatan",
     "invalid_pincode": "Invalid pin code, please check and try again.",
     "remove_alert": "Yakin ingin menghapus?",
@@ -181,9 +181,13 @@
     "payout_date": "Pembayaran"
   },
   "post_dropdown": {
-    "copy": "copy link",
-    "reblog": "reblog",
-    "reply": "reply",
-    "share": "share"
+    "copy": "salin tautan",
+    "reblog": "menampilkan kembali",
+    "reply": "balas",
+    "share": "bagikan"
+  },
+  "deep_link": {
+    "no_existing_user": "No existing user",
+    "no_existing_post": "No existing post"
   }
 }
