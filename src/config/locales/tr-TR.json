@@ -185,5 +185,9 @@
     "reblog": "reblog",
     "reply": "cevapla",
     "share": "paylaş"
+  },
+  "deep_link": {
+    "no_existing_user": "Kullanici Bulunamadi",
+    "no_existing_post": "Boyle bir icerik yok"
   }
 }
