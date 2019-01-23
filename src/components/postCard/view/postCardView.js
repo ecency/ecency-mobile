@@ -91,7 +91,6 @@ class PostCardView extends Component {
                 source={_image}
                 style={styles.thumbnail}
                 defaultSource={DEFAULT_IMAGE}
-                resizeMode={FastImage.resizeMode.stretch}
               />
             )}
             <View style={[styles.postDescripton]}>
