@@ -7,8 +7,7 @@ import { injectIntl } from 'react-intl';
 
 // Services and Actions
 import { reblog } from '../../../providers/steem/dsteem';
-
-// Middleware
+import { addBookmark } from '../../../providers/esteem/esteem';
 
 // Constants
 import OPTIONS from '../../../constants/options/post';
@@ -59,6 +58,10 @@ class PostDropdownContainer extends PureComponent {
         }, 500);
         break;
 
+      case '4':
+        this._addToBookmarks();
+        break;
+
       default:
         break;
     }
@@ -72,6 +75,17 @@ class PostDropdownContainer extends PureComponent {
       url: getPostUrl(content.url),
     });
   };
+
+  _addToBookmarks = () => {
+    const { currentAccount, content, intl } = this.props;
+    addBookmark(currentAccount.name, content.author, content.permlink)
+      .then(() => {
+         Alert.alert(intl.formatMessage({ id: 'bookmarks.added' }));
+      })
+      .catch(() => {
+        Alert.alert(intl.formatMessage({ id: 'alert.fail' }));
+      });
+  }
 
   _reblog = () => {
     const {
