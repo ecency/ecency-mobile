@@ -12,6 +12,7 @@ export default EStyleSheet.create({
     height: 18,
     flexDirection: 'row-reverse',
     borderRadius: 20,
+    minWidth: 40,
   },
   moreText: {
     color: '$white',
