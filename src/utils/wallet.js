@@ -1,7 +1,7 @@
 import parseDate from './parseDate';
 import parseToken from './parseToken';
 import { vestsToSp } from './conversions';
-import { globalProps, getState } from '../providers/steem/dsteem';
+import { globalProps, getState, getFeedHistory } from '../providers/steem/dsteem';
 
 export const groomingTransactionData = (transaction, walletData, formatNumber) => {
   if (!transaction || !walletData) {
@@ -129,15 +129,19 @@ export const groomingWalletData = async (user) => {
   walletData.savingBalance = parseToken(user.savings_balance);
   walletData.savingBalanceSbd = parseToken(user.savings_sbd_balance);
 
-  // const feedHistory = await getFeedHistory();
-  // const base = parseToken(feedHistory.current_median_history.base);
-  // const quote = parseToken(feedHistory.current_median_history.quote);
+  const feedHistory = await getFeedHistory();
+  const base = parseToken(feedHistory.current_median_history.base);
+  const quote = parseToken(feedHistory.current_median_history.quote);
 
-  walletData.steemPerMVests = (parseToken(global.total_vesting_fund_steem) / parseToken(global.total_vesting_shares)) * 1e6;
+  walletData.steemPerMVests = (
+    parseToken(global.total_vesting_fund_steem) / parseToken(global.total_vesting_shares)
+  ) * 1e6;
 
-  // walletData.estimatedValue = vestsToSp(walletData.vestingShares, walletData.steemPerMVests) * (base / quote)
-  //  + walletData.balance * (base / quote)
-  //  + walletData.sbdBalance;
+  walletData.estimatedValue = (
+    vestsToSp(walletData.vestingShares, walletData.steemPerMVests) * (base / quote)
+  )
+   + (walletData.balance * (base / quote))
+   + walletData.sbdBalance;
 
   walletData.showPowerDown = user.next_vesting_withdrawal !== '1969-12-31T23:59:59';
   const timeDiff = Math.abs(parseDate(user.next_vesting_withdrawal) - new Date());
