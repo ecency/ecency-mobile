@@ -32,6 +32,7 @@ class ProfileScreen extends PureComponent {
     this.state = {
       isSummaryOpen: true,
       collapsibleMoreHeight: 0,
+      estimatedWalletValue: 0,
     };
   }
 
@@ -50,6 +51,10 @@ class ProfileScreen extends PureComponent {
   _handleUIChange = (height) => {
     this.setState({ collapsibleMoreHeight: height });
   };
+
+  _setEstimatedWalletValue = (value) => {
+    if (value) this.setState({ estimatedWalletValue: value });
+  }
 
   render() {
     const {
@@ -76,7 +81,7 @@ class ProfileScreen extends PureComponent {
       getReplies,
     } = this.props;
 
-    const { isSummaryOpen, collapsibleMoreHeight } = this.state;
+    const { isSummaryOpen, collapsibleMoreHeight, estimatedWalletValue } = this.state;
 
     let _about;
     let coverImage;
@@ -198,11 +203,20 @@ class ProfileScreen extends PureComponent {
               )}
             </View>
             <View
-              tabLabel={intl.formatMessage({
-                id: 'profile.wallet',
-              })}
+              tabLabel={estimatedWalletValue
+                ? `$${Math.round(estimatedWalletValue * 1000) / 1000}`
+                : intl.formatMessage({
+                  id: 'profile.wallet',
+                })}
             >
-              {selectedUser ? <Wallet selectedUser={selectedUser} /> : <WalletDetailsPlaceHolder />}
+              {selectedUser
+                ? (
+                  <Wallet
+                    setEstimatedWalletValue={this._setEstimatedWalletValue}
+                    selectedUser={selectedUser}
+                  />
+                )
+                : <WalletDetailsPlaceHolder />}
             </View>
           </ScrollableTabView>
         </View>
