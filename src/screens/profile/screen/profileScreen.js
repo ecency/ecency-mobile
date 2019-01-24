@@ -33,6 +33,7 @@ class ProfileScreen extends PureComponent {
       isSummaryOpen: true,
       collapsibleMoreHeight: 0,
       estimatedWalletValue: 0,
+      oldEstimatedWalletValue: 0,
     };
   }
 
@@ -81,7 +82,9 @@ class ProfileScreen extends PureComponent {
       getReplies,
     } = this.props;
 
-    const { isSummaryOpen, collapsibleMoreHeight, estimatedWalletValue } = this.state;
+    const {
+      isSummaryOpen, collapsibleMoreHeight, estimatedWalletValue, oldEstimatedWalletValue,
+    } = this.state;
 
     let _about;
     let coverImage;
@@ -163,6 +166,14 @@ class ProfileScreen extends PureComponent {
             renderTabBar={() => (
               <TabBar style={styles.tabbar} tabUnderlineDefaultWidth={80} tabUnderlineScaleX={2} />
             )}
+            onChangeTab={({ i }) => {
+              if (i !== 2) {
+                this.setState({
+                  estimatedWalletValue: 0,
+                  oldEstimatedWalletValue: estimatedWalletValue,
+                });
+              } else this.setState({ estimatedWalletValue: oldEstimatedWalletValue });
+            }}
           >
             <View
               tabLabel={intl.formatMessage({
