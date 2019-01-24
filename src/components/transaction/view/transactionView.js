@@ -1,5 +1,6 @@
-import React, { PureComponent, Fragment } from 'react';
+import React, { PureComponent } from 'react';
 import { injectIntl } from 'react-intl';
+import { View } from 'react-native';
 
 // Utilities
 import { groomingTransactionData } from '../../../utils/wallet';
@@ -8,9 +9,11 @@ import { groomingTransactionData } from '../../../utils/wallet';
 import { getTimeFromNow } from '../../../utils/time';
 
 // Components
-import { FilterBar } from '../../filterBar';
+// import { FilterBar } from '../../filterBar';
 import { WalletLineItem, Card } from '../../basicUIElements';
 import { CollapsibleCard } from '../../collapsibleCard';
+
+import styles from './transactionStyles';
 
 class TransactionView extends PureComponent {
   /* Props
@@ -37,16 +40,16 @@ class TransactionView extends PureComponent {
     } = this.props;
 
     return (
-      <Fragment>
+      <View style={styles.container}>
         {/* this feature not implemented yet */}
-        <FilterBar
+        {/* <FilterBar
           dropdownIconName="arrow-drop-down"
           options={['ALL TRANSACTIONS', 'VOTES', 'REPLIES']}
           defaultText="ALL TRANSACTIONS"
           onDropdownSelect={() => this._handleOnDropdownSelect()}
           rightIconName="ios-lock"
           iconSize={16}
-        />
+        /> */}
         <Card>
           {transactions
             && transactions.map((item, index) => {
@@ -89,7 +92,7 @@ class TransactionView extends PureComponent {
               );
             })}
         </Card>
-      </Fragment>
+      </View>
     );
   }
 }
