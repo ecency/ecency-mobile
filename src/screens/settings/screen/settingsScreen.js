@@ -36,7 +36,7 @@ class SettingsScreen extends PureComponent {
       selectedLanguage,
       selectedApi,
       selectedCurrency,
-      isNotificationOpen,
+      notificationSettings,
       isDarkTheme,
       serverList,
       intl,
@@ -98,7 +98,7 @@ class SettingsScreen extends PureComponent {
             })}
             type="toggle"
             actionType="notification"
-            isOn={isNotificationOpen}
+            isOn={notificationSettings}
             handleOnChange={handleOnChange}
           />
           {!!isLoggedIn && (

@@ -169,7 +169,6 @@ const mapStateToProps = state => ({
   selectedLanguage: state.application.language,
   selectedApi: state.application.api,
   selectedCurrency: state.application.currency,
-  isNotificationOpen: state.application.isNotificationOpen,
   isDarkTheme: state.application.isDarkTheme,
   notificationSettings: state.application.isNotificationOpen,
   isLoggedIn: state.application.isLoggedIn,
