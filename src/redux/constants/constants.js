@@ -6,6 +6,7 @@ export const SET_USER_DATA = 'SET_USER_DATA';
 // Applicaiton
 export const ACTIVE_APPLICATION = 'ACTIVE_APPLICATION';
 export const CLOSE_PIN_CODE_MODAL = 'CLOSE_PIN_CODE_MODAL';
+export const IS_CONNECTED = 'IS_CONNECTED';
 export const IS_DARK_THEME = 'IS_DARK_THEME';
 export const IS_LOGGED_IN = 'IS_LOGGED_IN';
 export const IS_LOGIN_DONE = 'IS_LOGIN_DONE';

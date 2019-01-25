@@ -1,5 +1,7 @@
 import React, { Component } from 'react';
-import { Platform, BackHandler, Alert } from 'react-native';
+import {
+  Platform, BackHandler, Alert, NetInfo,
+} from 'react-native';
 import { connect } from 'react-redux';
 import { addLocaleData } from 'react-intl';
 import Config from 'react-native-config';
@@ -44,12 +46,13 @@ import {
   isLoginDone,
   isNotificationOpen,
   login,
+  logoutDone,
   openPinCodeModal,
   setApi,
+  setConnectivityStatus,
   setCurrency,
   setLanguage,
   setUpvotePercent,
-  logoutDone,
 } from '../../../redux/actions/applicationActions';
 
 // Container
@@ -68,9 +71,21 @@ class ApplicationContainer extends Component {
   }
 
   componentDidMount = async () => {
-    BackHandler.addEventListener('hardwareBackPress', this._onBackPress);
-    await this._getUserData();
-    await this._getSettings();
+    let isConnected;
+
+    await NetInfo.isConnected.fetch().then((_isConnected) => {
+      isConnected = _isConnected;
+    });
+
+    if (isConnected) {
+      BackHandler.addEventListener('hardwareBackPress', this._onBackPress);
+      NetInfo.isConnected.addEventListener('connectionChange', this._handleConntectionChange);
+
+      this._getSettings();
+      await this._getUserData();
+    } else {
+      Alert.alert('No internet connection');
+    }
   };
 
   componentWillReceiveProps(nextProps) {
@@ -87,7 +102,14 @@ class ApplicationContainer extends Component {
 
   componentWillUnmount() {
     BackHandler.removeEventListener('hardwareBackPress', this.onBackPress);
+    NetInfo.isConnected.removeEventListener('connectionChange', this._handleConntectionChange);
   }
+
+  _handleConntectionChange = (isConnected) => {
+    const { dispatch } = this.props;
+
+    dispatch(setConnectivityStatus(isConnected));
+  };
 
   _onBackPress = () => {
     const { dispatch } = this.props;
@@ -260,7 +282,7 @@ class ApplicationContainer extends Component {
   };
 
   render() {
-    const { selectedLanguage } = this.props;
+    const { selectedLanguage, isConnected } = this.props;
     const { isRenderRequire, isReady } = this.state;
 
     // For testing It comented out.
@@ -270,7 +292,7 @@ class ApplicationContainer extends Component {
     //   || selectedLanguage;
 
     if (isRenderRequire && isReady) {
-      return <ApplicationScreen locale={selectedLanguage} {...this.props} />;
+      return <ApplicationScreen isConnected={isConnected} locale={selectedLanguage} {...this.props} />;
     }
     return <Launch />;
   }
@@ -283,6 +305,7 @@ const mapStateToProps = state => ({
   notificationSettings: state.application.isNotificationOpen,
   isLogingOut: state.application.isLogingOut,
   isLoggedIn: state.application.isLoggedIn,
+  isConnected: state.application.isConnected,
 
   // Account
   unreadActivityCount: state.account.currentAccount.unread_activity_count,
