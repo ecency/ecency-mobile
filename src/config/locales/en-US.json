@@ -159,7 +159,9 @@
     "load_error": "Could not load bookmarks",
     "empty_list": "Nothing here",
     "deleted": "Bookmark removed",
-    "search": "Search in bookmarks"
+    "search": "Search in bookmarks",
+    "added": "Added to bookmars",
+    "add": "Add to bookmarks"
   },
   "favorites": {
     "title": "Favorites",
@@ -185,7 +187,8 @@
     "copy": "copy link",
     "reblog": "reblog",
     "reply": "reply",
-    "share": "share"
+    "share": "share",
+    "bookmarks": "add to bookmarks"
   },
   "deep_link": {
     "no_existing_user": "No existing user",
