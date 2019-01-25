@@ -17,6 +17,7 @@ const UserListItem = ({
   handleOnPress,
   handleOnLongPress,
   isClickable,
+  text,
 }) => (
   <TouchableOpacity
     onLongPress={() => handleOnLongPress && handleOnLongPress()}
@@ -27,7 +28,7 @@ const UserListItem = ({
       {itemIndex && <Text style={styles.itemIndex}>{itemIndex}</Text>}
       <UserAvatar noAction={userCanPress} style={styles.avatar} username={username} />
       <View style={styles.userDescription}>
-        <Text style={styles.name}>{username}</Text>
+        <Text style={styles.name}>{text || username}</Text>
         {description && <Text style={styles.date}>{description}</Text>}
       </View>
       {isHasRightItem && (

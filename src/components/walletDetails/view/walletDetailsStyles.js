@@ -7,4 +7,8 @@ export default EStyleSheet.create({
   blackText: {
     color: '$primaryBlack',
   },
+  walletLineDetail: {
+    marginBottom: 15,
+    marginTop: 0,
+  },
 });

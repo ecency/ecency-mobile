@@ -26,25 +26,30 @@ class BookmarksScreen extends Component {
   constructor(props) {
     super(props);
     this.state = {
-      selectedUsername: null,
+      selectedItemId: null,
+      activeTab: 0,
     };
   }
 
   // Component Life Cycles
 
   // Component Functions
-  _renderItem = (item, index) => {
-    const { handleOnFavoritePress } = this.props;
+  _renderItem = (item, index, itemType) => {
+    const { handleOnFavoritePress, handleOnBookarkPress } = this.props;
+    const isFavorites = itemType === 'favorites';
+    const text = isFavorites ? item.account : `${item.author}/${item.permlink}`;
 
     return (
       <UserListItem
-        handleOnLongPress={() => this._handleLongPress(item.account)}
-        handleOnPress={() => handleOnFavoritePress(item.account)}
+        handleOnLongPress={() => this._handleLongPress(isFavorites ? item.account : item._id)}
+        handleOnPress={() => (isFavorites
+          ? handleOnFavoritePress(item.account)
+          : handleOnBookarkPress(item.permlink, item.author))
+        }
         index={index}
         isClickable
-        username={item.account}
-        rightText="bok"
-        subRightText="bok"
+        text={text}
+        username={item.author}
       />
     );
   };
@@ -71,7 +76,7 @@ class BookmarksScreen extends Component {
               data={data}
               keyExtractor={item => item._id}
               removeClippedSubviews={false}
-              renderItem={({ item, index }) => this._renderItem(item, index)}
+              renderItem={({ item, index }) => this._renderItem(item, index, type)}
             />
           )
         )}
@@ -79,17 +84,17 @@ class BookmarksScreen extends Component {
     );
   };
 
-  _handleLongPress = (selectedUsername) => {
-    this.setState({ selectedUsername }, () => {
+  _handleLongPress = (selectedItemId) => {
+    this.setState({ selectedItemId }, () => {
       this.ActionSheet.show();
     });
   };
 
   render() {
     const {
-      favorites, bookmarks, intl, removeFavorite,
+      favorites, bookmarks, intl, removeFavorite, removeBookmark,
     } = this.props;
-    const { selectedUsername } = this.state;
+    const { selectedItemId, activeTab } = this.state;
 
     return (
       <View style={globalStyles.container}>
@@ -100,6 +105,7 @@ class BookmarksScreen extends Component {
         />
 
         <ScrollableTabView
+          onChangeTab={(event) => this.setState({ activeTab: event.i })}
           style={globalStyles.tabView}
           renderTabBar={() => (
             <TabBar
@@ -137,7 +143,9 @@ class BookmarksScreen extends Component {
           cancelButtonIndex={1}
           destructiveButtonIndex={0}
           onPress={(index) => {
-            if (index === 0) removeFavorite(selectedUsername);
+            if (index === 0) {
+              activeTab === 0 ? removeBookmark(selectedItemId) : removeFavorite(selectedItemId);
+            }
           }}
         />
       </View>

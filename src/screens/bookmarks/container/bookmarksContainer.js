@@ -4,7 +4,7 @@ import { Alert } from 'react-native';
 import { injectIntl } from 'react-intl';
 
 // Services and Actions
-import { getFavorites, removeFavorite } from '../../../providers/esteem/esteem';
+import { getFavorites, removeFavorite, getBookmarks, removeBookmark } from '../../../providers/esteem/esteem';
 
 // Constants
 import ROUTES from '../../../constants/routeNames';
@@ -39,6 +39,7 @@ class DraftsContainer extends Component {
 
   _fetchData = () => {
     this._getFavorites();
+    this._getBookmarks();
   };
 
   _getFavorites = () => {
@@ -51,6 +52,20 @@ class DraftsContainer extends Component {
       })
       .catch(() => {
         Alert.alert(intl.formatMessage({ id: 'favorites.load_error' }));
+        this.setState({ isLoading: false });
+      });
+  };
+
+  _getBookmarks = () => {
+    const { currentAccount, intl } = this.props;
+    this.setState({ isLoading: true });
+
+    getBookmarks(currentAccount.name)
+      .then((data) => {
+        this.setState({ bookmarks: this._sortData(data), isLoading: false });
+      })
+      .catch(() => {
+        Alert.alert(intl.formatMessage({ id: 'bookmarks.load_error' }));
         this.setState({ isLoading: false });
       });
   };
@@ -70,6 +85,21 @@ class DraftsContainer extends Component {
       });
   };
 
+  _removeBoomark = (id) => {
+    const { currentAccount, intl } = this.props;
+
+    removeBookmark(currentAccount.name, id)
+      .then(() => {
+        const { bookmarks } = this.state;
+        const newBookmarks = [...bookmarks].filter(bookmark => bookmark._id !== id);
+
+        this.setState({ bookmarks: this._sortData(newBookmarks) });
+      })
+      .catch(() => {
+        Alert.alert(intl.formatMessage({ id: 'alert.fail' }));
+      });
+  };
+
   _handleOnFavoritePress = (username) => {
     const { navigation } = this.props;
 
@@ -78,6 +108,18 @@ class DraftsContainer extends Component {
       params: {
         username,
         fetchData: this._fetchData,
+      },
+    });
+  };
+
+  _handleOnBookarkPress = (permlink, author) => {
+    const { navigation } = this.props;
+
+    navigation.navigate({
+      routeName: ROUTES.SCREENS.POST,
+      params: {
+        permlink,
+        author,
       },
     });
   };
@@ -100,7 +142,9 @@ class DraftsContainer extends Component {
         favorites={favorites}
         bookmarks={bookmarks}
         removeFavorite={this._removeFavorite}
+        removeBookmark={this._removeBoomark}
         handleOnFavoritePress={this._handleOnFavoritePress}
+        handleOnBookarkPress={this._handleOnBookarkPress}
       />
     );
   }

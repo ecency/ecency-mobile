@@ -1,5 +1,4 @@
 import React, { PureComponent } from 'react';
-import { connect } from 'react-redux';
 
 // Component
 import TransactionView from '../view/transactionView';
@@ -22,14 +21,10 @@ class TransactionContainer extends PureComponent {
   // Component Functions
 
   render() {
-    const { walletData, globalProps } = this.props;
+    const { walletData } = this.props;
 
-    return <TransactionView walletData={walletData} globalProps={globalProps} />;
+    return <TransactionView walletData={walletData} />;
   }
 }
 
-const mapStateToProps = state => ({
-  globalProps: state.account.globalProps,
-});
-
-export default connect(mapStateToProps)(TransactionContainer);
+export default TransactionContainer;
