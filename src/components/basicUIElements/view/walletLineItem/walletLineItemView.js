@@ -21,9 +21,10 @@ const WalletLineItem = ({
   text,
   textColor,
   index,
+  style,
 }) => (
-  <GrayWrapper isGray={index % 2 === 0}>
-    <View style={[styles.container, fitContent && styles.fitContent]}>
+  <GrayWrapper isGray={index && index % 2 !== 0}>
+    <View style={[styles.container, fitContent && styles.fitContent, style]}>
       <View style={styles.iconTextWrapper}>
         {iconName && (
           <View

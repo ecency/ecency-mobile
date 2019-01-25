@@ -32,6 +32,8 @@ class ProfileScreen extends PureComponent {
     this.state = {
       isSummaryOpen: true,
       collapsibleMoreHeight: 0,
+      estimatedWalletValue: 0,
+      oldEstimatedWalletValue: 0,
     };
   }
 
@@ -50,6 +52,10 @@ class ProfileScreen extends PureComponent {
   _handleUIChange = (height) => {
     this.setState({ collapsibleMoreHeight: height });
   };
+
+  _setEstimatedWalletValue = (value) => {
+    if (value) this.setState({ estimatedWalletValue: value });
+  }
 
   render() {
     const {
@@ -76,7 +82,9 @@ class ProfileScreen extends PureComponent {
       getReplies,
     } = this.props;
 
-    const { isSummaryOpen, collapsibleMoreHeight } = this.state;
+    const {
+      isSummaryOpen, collapsibleMoreHeight, estimatedWalletValue, oldEstimatedWalletValue,
+    } = this.state;
 
     let _about;
     let coverImage;
@@ -154,10 +162,18 @@ class ProfileScreen extends PureComponent {
           )}
 
           <ScrollableTabView
-            style={globalStyles.tabView}
+            style={[globalStyles.tabView, styles.tabView]}
             renderTabBar={() => (
               <TabBar style={styles.tabbar} tabUnderlineDefaultWidth={80} tabUnderlineScaleX={2} />
             )}
+            onChangeTab={({ i }) => {
+              if (i !== 2) {
+                this.setState({
+                  estimatedWalletValue: 0,
+                  oldEstimatedWalletValue: estimatedWalletValue,
+                });
+              } else this.setState({ estimatedWalletValue: oldEstimatedWalletValue });
+            }}
           >
             <View
               tabLabel={intl.formatMessage({
@@ -198,11 +214,20 @@ class ProfileScreen extends PureComponent {
               )}
             </View>
             <View
-              tabLabel={intl.formatMessage({
-                id: 'profile.wallet',
-              })}
+              tabLabel={estimatedWalletValue
+                ? `$${Math.round(estimatedWalletValue * 1000) / 1000}`
+                : intl.formatMessage({
+                  id: 'profile.wallet',
+                })}
             >
-              {selectedUser ? <Wallet selectedUser={selectedUser} /> : <WalletDetailsPlaceHolder />}
+              {selectedUser
+                ? (
+                  <Wallet
+                    setEstimatedWalletValue={this._setEstimatedWalletValue}
+                    selectedUser={selectedUser}
+                  />
+                )
+                : <WalletDetailsPlaceHolder />}
             </View>
           </ScrollableTabView>
         </View>
