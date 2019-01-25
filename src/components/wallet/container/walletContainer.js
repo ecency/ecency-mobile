@@ -47,9 +47,11 @@ class WalletContainer extends Component {
   // Components functions
 
   _getWalletData = async (selectedUser) => {
+    const { setEstimatedWalletValue } = this.props;
     const walletData = await groomingWalletData(selectedUser);
 
     this.setState({ walletData });
+    setEstimatedWalletValue(walletData.estimatedValue);
   };
 
   _claimRewardBalance = async () => {
