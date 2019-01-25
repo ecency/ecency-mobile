@@ -6,12 +6,17 @@ import { injectIntl } from 'react-intl';
 import { Popover, PopoverController } from 'react-native-modal-popover';
 import Slider from 'react-native-slider';
 
+// Utils
+import parseToken from '../../../utils/parseToken';
+import { vestsToRshares } from '../../../utils/conversions';
+
 // Components
 import { Icon } from '../../icon';
 import { PulseAnimation } from '../../animations';
 import { TextButton } from '../../buttons';
+
 // STEEM
-import { upvoteAmount, vote } from '../../../providers/steem/dsteem';
+import { vote } from '../../../providers/steem/dsteem';
 
 // Styles
 import styles from './upvoteStyles';
@@ -53,21 +58,22 @@ class UpvoteView extends Component {
 
   // Component Functions
   _calculateEstimatedAmount = async () => {
-    const { currentAccount } = this.props;
-    // Calculate total vesting shares
+    const { currentAccount, globalProps } = this.props;
+
     if (currentAccount) {
       const { sliderValue } = this.state;
-      const totalVests = parseFloat(currentAccount.vesting_shares)
-        + parseFloat(currentAccount.received_vesting_shares)
-        - parseFloat(currentAccount.delegated_vesting_shares);
+      const {
+        fundRecentClaims, fundRewardBalance, base, quote,
+      } = globalProps;
 
-      const finalVest = totalVests * 1e6;
+      const votingPower = currentAccount.voting_power;
+      const totalVests = parseToken(currentAccount.vesting_shares)
+        + parseToken(currentAccount.received_vesting_shares)
+        - parseToken(currentAccount.delegated_vesting_shares);
+      const votePct = sliderValue * 10000;
 
-      const power = (currentAccount.voting_power * (sliderValue * 10000)) / 10000 / 50;
-
-      const rshares = (power * finalVest) / 10000;
-
-      const estimated = await upvoteAmount(rshares);
+      const rShares = vestsToRshares(totalVests, votingPower, votePct);
+      const estimated = (rShares / fundRecentClaims) * fundRewardBalance * (base / quote);
 
       this.setState({
         amount: estimated.toFixed(5),
@@ -252,18 +258,18 @@ class UpvoteView extends Component {
                   <Fragment>
                     <TouchableOpacity
                       onPress={() => {
-                        closePopover();
-                        this._upvoteContent();
-                      }}
+                closePopover();
+                this._upvoteContent();
+              }}
                       style={styles.upvoteButton}
                     >
                       <Icon
-                        size={20}
-                        style={[styles.upvoteIcon, { color: '#007ee5' }]}
-                        active={!isLoggedIn}
-                        iconType={iconType}
-                        name={iconName}
-                      />
+                size={20}
+                style={[styles.upvoteIcon, { color: '#007ee5' }]}
+                active={!isLoggedIn}
+                iconType={iconType}
+                name={iconName}
+              />
                     </TouchableOpacity>
                     <Text style={styles.amount}>{_amount}</Text>
                     <Slider
@@ -274,10 +280,10 @@ class UpvoteView extends Component {
                       thumbTintColor="#007ee5"
                       value={sliderValue}
                       onValueChange={(value) => {
-                        this.setState({ sliderValue: value }, () => {
-                          this._calculateEstimatedAmount();
-                        });
-                      }}
+                this.setState({ sliderValue: value }, () => {
+                  this._calculateEstimatedAmount();
+                });
+              }}
                     />
                     <Text style={styles.percent}>{_percent}</Text>
                   </Fragment>

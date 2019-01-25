@@ -49,6 +49,7 @@ class UpvoteContainer extends PureComponent {
       isShowPayoutValue,
       pinCode,
       upvotePercent,
+      globalProps,
     } = this.props;
     let author;
     let authorPayout;
@@ -83,6 +84,7 @@ class UpvoteContainer extends PureComponent {
         curationPayout={curationPayout}
         currentAccount={currentAccount}
         fetchPost={fetchPost}
+        globalProps={globalProps}
         handleSetUpvotePercent={this._setUpvotePercent}
         isDecinedPayout={isDecinedPayout}
         isLoggedIn={isLoggedIn}
@@ -105,6 +107,7 @@ const mapStateToProps = state => ({
   upvotePercent: state.application.upvotePercent,
   pinCode: state.account.pin,
   currentAccount: state.account.currentAccount,
+  globalProps: state.account.globalProps,
 });
 
 export default connect(mapStateToProps)(UpvoteContainer);

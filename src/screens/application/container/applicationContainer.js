@@ -5,6 +5,7 @@ import { addLocaleData } from 'react-intl';
 import Config from 'react-native-config';
 import AppCenter from 'appcenter';
 import { NavigationActions } from 'react-navigation';
+import { bindActionCreators } from 'redux';
 
 // Constants
 import en from 'react-intl/locale-data/en';
@@ -37,6 +38,7 @@ import {
   updateCurrentAccount,
   updateUnreadActivityCount,
   removeOtherAccount,
+  fetchGlobalProperties,
 } from '../../../redux/actions/accountAction';
 import {
   activeApplication,
@@ -69,8 +71,11 @@ class ApplicationContainer extends Component {
 
   componentDidMount = async () => {
     BackHandler.addEventListener('hardwareBackPress', this._onBackPress);
+    this._refreshGlobalProps();
     await this._getUserData();
     await this._getSettings();
+
+    this.globalInterval = setInterval(this._refreshGlobalProps, 60000);
   };
 
   componentWillReceiveProps(nextProps) {
@@ -87,6 +92,7 @@ class ApplicationContainer extends Component {
 
   componentWillUnmount() {
     BackHandler.removeEventListener('hardwareBackPress', this.onBackPress);
+    clearInterval(this.globalInterval);
   }
 
   _onBackPress = () => {
@@ -94,6 +100,12 @@ class ApplicationContainer extends Component {
 
     dispatch(NavigationActions.back());
     return true;
+  };
+
+  _refreshGlobalProps = () => {
+    const { actions } = this.props;
+
+    actions.fetchGlobalProperties();
   };
 
   _getUserData = async () => {
@@ -276,19 +288,25 @@ class ApplicationContainer extends Component {
   }
 }
 
-const mapStateToProps = state => ({
-  // Application
-  isDarkTheme: state.application.isDarkTheme,
-  selectedLanguage: state.application.language,
-  notificationSettings: state.application.isNotificationOpen,
-  isLogingOut: state.application.isLogingOut,
-  isLoggedIn: state.application.isLoggedIn,
+export default connect(
+  state => ({
+    // Application
+    isDarkTheme: state.application.isDarkTheme,
+    selectedLanguage: state.application.language,
+    notificationSettings: state.application.isNotificationOpen,
+    isLogingOut: state.application.isLogingOut,
+    isLoggedIn: state.application.isLoggedIn,
 
-  // Account
-  unreadActivityCount: state.account.currentAccount.unread_activity_count,
-  currentAccount: state.account.currentAccount,
-  otherAccounts: state.account.otherAccounts,
-  pinCode: state.account.pin,
-});
-
-export default connect(mapStateToProps)(ApplicationContainer);
+    // Account
+    unreadActivityCount: state.account.currentAccount.unread_activity_count,
+    currentAccount: state.account.currentAccount,
+    otherAccounts: state.account.otherAccounts,
+    pinCode: state.account.pin,
+  }),
+  (dispatch, props) => ({
+    dispatch,
+    actions: {
+      ...bindActionCreators({ fetchGlobalProperties }, dispatch),
+    },
+  }),
+)(ApplicationContainer);
