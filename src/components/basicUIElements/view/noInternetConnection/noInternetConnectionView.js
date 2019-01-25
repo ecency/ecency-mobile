@@ -1,11 +1,16 @@
 import React from 'react';
-import { View, Text } from 'react-native';
+import { injectIntl } from 'react-intl';
+import { Text, SafeAreaView } from 'react-native';
 import styles from './noInternetConnectionStyle';
 
-const NoInternetConnection = () => (
-  <View style={styles.container}>
-    <Text style={styles.text}> No internet conenction</Text>
-  </View>
+const NoInternetConnection = props => (
+  <SafeAreaView style={styles.container}>
+    <Text style={styles.text}>
+      {props.intl.formatMessage({
+        id: 'alert.no_internet',
+      })}
+    </Text>
+  </SafeAreaView>
 );
 
-export default NoInternetConnection;
+export default injectIntl(NoInternetConnection);

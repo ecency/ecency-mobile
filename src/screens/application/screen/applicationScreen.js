@@ -1,8 +1,6 @@
 import React, { Component, Fragment } from 'react';
 import { IntlProvider } from 'react-intl';
-import {
-  View, Text, StatusBar, Platform,
-} from 'react-native';
+import { StatusBar, Platform } from 'react-native';
 import EStyleSheet from 'react-native-extended-stylesheet';
 import { ReduxNavigation } from '../../../navigation/reduxNavigation';
 import { flattenMessages } from '../../../utils/flattenMessages';
@@ -28,7 +26,7 @@ class ApplicationScreen extends Component {
 
   render() {
     const { isConnected, isDarkTheme, locale } = this.props;
-    const barStyle = isDarkTheme ? 'light-content' : 'dark-content';
+    const barStyle = isDarkTheme || !isConnected ? 'light-content' : 'dark-content';
     const barColor = isDarkTheme ? '#1e2835' : '#fff';
 
     return (
