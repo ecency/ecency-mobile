@@ -105,8 +105,8 @@ class ProfileScreen extends PureComponent {
     if (about) {
       _about = about.about;
       coverImage = about.cover_image;
-      location = about.location;
-      website = about.website;
+      ({ location } = about);
+      ({ website } = about);
     }
     return (
       <Fragment>
@@ -192,9 +192,12 @@ class ProfileScreen extends PureComponent {
               />
             </View>
             <View
-              tabLabel={intl.formatMessage({
-                id: 'profile.replies',
-              })}
+              tabLabel={isReverseHeader
+                ? intl.formatMessage({
+                  id: 'profile.comments',
+                }) : intl.formatMessage({
+                  id: 'profile.replies',
+                })}
               style={styles.commentsTabBar}
             >
               {comments && comments.length > 0 ? (
