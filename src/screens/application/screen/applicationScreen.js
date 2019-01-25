@@ -1,10 +1,15 @@
 import React, { Component, Fragment } from 'react';
 import { IntlProvider } from 'react-intl';
-import { StatusBar, Platform } from 'react-native';
+import {
+  View, Text, StatusBar, Platform,
+} from 'react-native';
 import EStyleSheet from 'react-native-extended-stylesheet';
 import { ReduxNavigation } from '../../../navigation/reduxNavigation';
 import { flattenMessages } from '../../../utils/flattenMessages';
 import messages from '../../../config/locales';
+
+// Components
+import { NoInternetConnection } from '../../../components/basicUIElements';
 
 // Themes (Styles)
 import darkTheme from '../../../themes/darkTheme';
@@ -22,7 +27,7 @@ class ApplicationScreen extends Component {
   }
 
   render() {
-    const { locale, isDarkTheme } = this.props;
+    const { isConnected, isDarkTheme, locale } = this.props;
     const barStyle = isDarkTheme ? 'light-content' : 'dark-content';
     const barColor = isDarkTheme ? '#1e2835' : '#fff';
 
@@ -32,6 +37,12 @@ class ApplicationScreen extends Component {
           <StatusBar barStyle={barStyle} />
         ) : (
           <StatusBar barStyle={barStyle} backgroundColor={barColor} />
+        )}
+
+        {!isConnected && (
+          <IntlProvider locale={locale} messages={flattenMessages(messages[locale])}>
+            <NoInternetConnection />
+          </IntlProvider>
         )}
 
         <IntlProvider locale={locale} messages={flattenMessages(messages[locale])}>

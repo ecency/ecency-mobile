@@ -1,17 +1,18 @@
 import {
   ACTIVE_APPLICATION,
   CLOSE_PIN_CODE_MODAL,
+  IS_CONNECTED,
   IS_DARK_THEME,
   IS_LOGIN_DONE,
   IS_NOTIFICATION_OPEN,
   LOGIN,
+  LOGOUT_DONE,
   LOGOUT,
   OPEN_PIN_CODE_MODAL,
   SET_API,
   SET_CURRENCY,
   SET_LANGUAGE,
   SET_UPVOTE_PERCENT,
-  LOGOUT_DONE,
 } from '../constants/constants';
 
 export const login = payload => ({
@@ -72,4 +73,9 @@ export const isNotificationOpen = payload => ({
 export const isDarkTheme = payload => ({
   payload,
   type: IS_DARK_THEME,
+});
+
+export const setConnectivityStatus = payload => ({
+  payload,
+  type: IS_CONNECTED,
 });

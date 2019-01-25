@@ -2,6 +2,7 @@ import Card from './view/card/cardView';
 import Chip from './view/chip/chipView';
 import GrayWrapper from './view/grayWrapper/grayWrapperView';
 import LineBreak from './view/lineBreak/lineBreakView';
+import NoInternetConnection from './view/noInternetConnection/noInternetConnectionView';
 import NoPost from './view/noPost/noPostView';
 import PostCardPlaceHolder from './view/placeHolder/postCardPlaceHolderView';
 import PostPlaceHolder from './view/placeHolder/postPlaceHolderView';
@@ -19,6 +20,7 @@ export {
   Chip,
   GrayWrapper,
   LineBreak,
+  NoInternetConnection,
   NoPost,
   PostCardPlaceHolder,
   PostPlaceHolder,
