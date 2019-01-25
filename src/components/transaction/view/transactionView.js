@@ -54,7 +54,7 @@ class TransactionView extends PureComponent {
           {transactions
             && transactions.map((item, index) => {
               const transactionData = groomingTransactionData(item, walletData, formatNumber);
-
+              const value = transactionData.value.split(' ');
               return (
                 <CollapsibleCard
                   noBorder
@@ -75,9 +75,9 @@ class TransactionView extends PureComponent {
                       isBlackText
                       iconName={transactionData.icon}
                       iconType="MaterialIcons"
-                      rightText={transactionData.value}
+                      rightText={`${Math.round(value[0] * 1000) / 1000} ${value[1]}`}
                     />
-)}
+                  )}
                 >
                   {(!!transactionData.details || !!transactionData.memo) && (
                     <WalletLineItem
