@@ -34,6 +34,7 @@ class TransactionView extends PureComponent {
       intl,
       intl: { formatNumber },
       walletData,
+      globalProps,
     } = this.props;
 
     return (
@@ -51,7 +52,12 @@ class TransactionView extends PureComponent {
         <Card>
           {transactions
             && transactions.map((item, index) => {
-              const transactionData = groomingTransactionData(item, walletData, formatNumber);
+              const transactionData = groomingTransactionData(
+                item,
+                walletData,
+                formatNumber,
+                globalProps,
+              );
 
               return (
                 <CollapsibleCard
