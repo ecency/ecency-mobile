@@ -1,7 +1,7 @@
 import parseDate from './parseDate';
 import parseToken from './parseToken';
 import { vestsToSp } from './conversions';
-import { globalProps, getState } from '../providers/steem/dsteem';
+import { getDynamicGlobalProperties, getState } from '../providers/steem/dsteem';
 
 export const groomingTransactionData = (transaction, walletData, formatNumber) => {
   if (!transaction || !walletData) {
@@ -108,7 +108,7 @@ export const groomingWalletData = async (user) => {
     return walletData;
   }
 
-  const global = await globalProps();
+  const global = await getDynamicGlobalProperties();
   const state = await getState(`/@${user.name}/transfers`);
   const { accounts } = state;
 
