@@ -112,7 +112,7 @@ class PostBody extends PureComponent {
       }
 
       if (_className === 'text-justify') {
-        node.attribs.style = 'text-align: justify; text-justify: inter-word; letter-spacing: 1.2px;';
+        node.attribs.style = 'text-align: justify; text-justify: inter-word; letter-spacing: 0px;';
       }
 
       if (_className === 'phishy') {

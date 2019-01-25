@@ -9,6 +9,7 @@ import {
   ignoreUser,
   getFollows,
   getRepliesByLastUpdate,
+  getUserComments,
   getUser,
   getIsFollowing,
   getIsMuted,
@@ -98,11 +99,20 @@ class ProfileContainer extends Component {
   }
 
   _getReplies = async (user) => {
-    await getRepliesByLastUpdate({ start_author: user, limit: 10 }).then((result) => {
-      this.setState({
-        comments: result,
+    const { isReverseHeader } = this.state;
+    if (isReverseHeader) {
+      await getUserComments({ start_author: user, limit: 10 }).then((result) => {
+        this.setState({
+          comments: result,
+        });
       });
-    });
+    } else {
+      await getRepliesByLastUpdate({ start_author: user, limit: 10 }).then((result) => {
+        this.setState({
+          comments: result,
+        });
+      });
+    }
   };
 
   _handleFollowUnfollowUser = async (isFollowAction) => {

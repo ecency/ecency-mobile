@@ -39,7 +39,7 @@ class WalletDetailsView extends PureComponent {
           rightText={`${Math.round(walletData.balance * 1000) / 1000} STEEM`}
           isBoldText
         />
-        <GrayWrapper>
+        <GrayWrapper isGray>
           <WalletLineItem
             text={intl.formatMessage({
               id: 'profile.steem_power',
@@ -57,6 +57,7 @@ class WalletDetailsView extends PureComponent {
               rightText={`- ${Math.round(
                 vestsToSp(walletData.vestingSharesDelegated, walletData.steemPerMVests) * 1000,
               ) / 1000} SP`}
+              style={styles.walletLineDetail}
             />
           )}
           {walletData.vestingSharesReceived > 0 && (
@@ -64,6 +65,7 @@ class WalletDetailsView extends PureComponent {
               rightText={`+ ${Math.round(
                 vestsToSp(walletData.vestingSharesReceived, walletData.steemPerMVests) * 1000,
               ) / 1000} SP`}
+              style={styles.walletLineDetail}
             />
           )}
           {(walletData.vestingSharesDelegated > 0 || walletData.vestingSharesReceived > 0) && (
@@ -72,6 +74,7 @@ class WalletDetailsView extends PureComponent {
                 vestsToSp(walletData.vestingSharesTotal, walletData.steemPerMVests) * 1000,
               ) / 1000} SP`}
               rightTextColor="#357ce6"
+              style={styles.walletLineDetail}
             />
           )}
         </GrayWrapper>
@@ -85,7 +88,7 @@ class WalletDetailsView extends PureComponent {
           rightText={`$${Math.round(walletData.sbdBalance * 1000) / 1000}`}
           isBoldText
         />
-        <GrayWrapper>
+        <GrayWrapper isGray>
           <WalletLineItem
             text={intl.formatMessage({
               id: 'profile.savings',
@@ -95,7 +98,10 @@ class WalletDetailsView extends PureComponent {
             rightText={`${Math.round(walletData.savingBalance * 1000) / 1000} STEEM`}
             isBoldText
           />
-          <WalletLineItem rightText={`$${Math.round(walletData.savingBalanceSbd * 1000) / 1000}`} />
+          <WalletLineItem
+            rightText={`$${Math.round(walletData.savingBalanceSbd * 1000) / 1000}`}
+            style={styles.walletLineDetail}
+          />
         </GrayWrapper>
         {walletData.showPowerDown && (
           <WalletLineItem

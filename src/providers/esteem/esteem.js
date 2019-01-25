@@ -89,7 +89,7 @@ export const getBookmarks = username => api.get(`/bookmarks/${username}`).then(r
  * @params id
  * @params current username
  */
-export const removeBookmark = (id, username) => api.delete(`/bookmarks/${username}/${id}`);
+export const removeBookmark = (username, id) => api.delete(`/bookmarks/${username}/${id}`);
 
 /**
  * @params current username

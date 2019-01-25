@@ -112,9 +112,13 @@ class ApplicationContainer extends Component {
   };
 
   _onBackPress = () => {
-    const { dispatch } = this.props;
+    const { dispatch, nav } = this.props;
 
-    dispatch(NavigationActions.back());
+    if (nav && nav[0].index !== 0) {
+      dispatch(NavigationActions.back());
+    } else {
+      BackHandler.exitApp();
+    }
     return true;
   };
 
@@ -195,12 +199,12 @@ class ApplicationContainer extends Component {
 
     getSettings().then((response) => {
       if (response) {
-        if (response.isDarkTheme) dispatch(isDarkTheme(response.isDarkTheme));
-        if (response.language) dispatch(setLanguage(response.language));
-        if (response.currency) dispatch(setCurrency(response.currency));
-        if (response.notification) dispatch(isNotificationOpen(response.notification));
-        if (response.server) dispatch(setApi(response.server));
-        if (response.upvotePercent) dispatch(setUpvotePercent(Number(response.upvotePercent)));
+        if (response.isDarkTheme !== '') dispatch(isDarkTheme(response.isDarkTheme));
+        if (response.language !== '') dispatch(setLanguage(response.language));
+        if (response.currency !== '') dispatch(setCurrency(response.currency));
+        if (response.notification !== '') dispatch(isNotificationOpen(response.notification));
+        if (response.server !== '') dispatch(setApi(response.server));
+        if (response.upvotePercent !== '') dispatch(setUpvotePercent(Number(response.upvotePercent)));
 
         this.setState({ isReady: true });
       }
@@ -306,6 +310,7 @@ const mapStateToProps = state => ({
   isLogingOut: state.application.isLogingOut,
   isLoggedIn: state.application.isLoggedIn,
   isConnected: state.application.isConnected,
+  nav: state.nav.routes,
 
   // Account
   unreadActivityCount: state.account.currentAccount.unread_activity_count,
