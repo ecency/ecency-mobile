@@ -1,5 +1,6 @@
-import React, { PureComponent, Fragment } from 'react';
+import React, { PureComponent } from 'react';
 import { injectIntl } from 'react-intl';
+import { View } from 'react-native';
 
 // Utilities
 import { groomingTransactionData } from '../../../utils/wallet';
@@ -11,6 +12,8 @@ import { getTimeFromNow } from '../../../utils/time';
 // import { FilterBar } from '../../filterBar';
 import { WalletLineItem, Card } from '../../basicUIElements';
 import { CollapsibleCard } from '../../collapsibleCard';
+
+import styles from './transactionStyles';
 
 class TransactionView extends PureComponent {
   /* Props
@@ -38,7 +41,7 @@ class TransactionView extends PureComponent {
     } = this.props;
 
     return (
-      <Fragment>
+      <View style={styles.container}>
         {/* this feature not implemented yet */}
         {/* <FilterBar
           dropdownIconName="arrow-drop-down"
@@ -47,17 +50,11 @@ class TransactionView extends PureComponent {
           onDropdownSelect={() => this._handleOnDropdownSelect()}
           rightIconName="ios-lock"
           iconSize={16}
-          if (index % 2 === 0) {
         /> */}
         <Card>
           {transactions
             && transactions.map((item, index) => {
-              const transactionData = groomingTransactionData(
-                item,
-                walletData,
-                formatNumber,
-                globalProps,
-              );
+              const transactionData = groomingTransactionData(item, walletData, formatNumber);
 
               return (
                 <CollapsibleCard
@@ -96,7 +93,7 @@ class TransactionView extends PureComponent {
               );
             })}
         </Card>
-      </Fragment>
+      </View>
     );
   }
 }

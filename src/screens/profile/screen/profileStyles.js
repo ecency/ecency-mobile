@@ -3,7 +3,7 @@ import EStyleSheet from 'react-native-extended-stylesheet';
 export default EStyleSheet.create({
   container: {
     flex: 1,
-    backgroundColor: '$primaryLightBackground',
+    backgroundColor: '$primaryGrayBackground',
   },
   content: {
     backgroundColor: '$primaryGrayBackground',
@@ -40,6 +40,10 @@ export default EStyleSheet.create({
     height: 45,
     backgroundColor: '$primaryBackgroundColor',
     borderBottomColor: '#f1f1f1',
+    marginTop: 8,
+  },
+  tabView: {
+    backgroundColor: '$primaryGrayBackground',
   },
   tabbarItem: {
     flex: 1,

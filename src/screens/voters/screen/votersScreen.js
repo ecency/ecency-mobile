@@ -24,6 +24,7 @@ class VotersScreen extends PureComponent {
     this.state = {
       data: props.votes,
       filterResult: null,
+      isRenderRequire: false,
     };
   }
 
@@ -48,7 +49,7 @@ class VotersScreen extends PureComponent {
         break;
     }
 
-    this.setState({ filterResult: _data });
+    this.setState({ filterResult: _data, isRenderRequire: true }, () => this.setState({ isRenderRequire: false }));
   };
 
   _handleRightIconPress = () => {};
@@ -67,7 +68,7 @@ class VotersScreen extends PureComponent {
   };
 
   render() {
-    const { data, filterResult } = this.state;
+    const { data, filterResult, isRenderRequire } = this.state;
     const { intl } = this.props;
     const headerTitle = intl.formatMessage({
       id: 'voters.voters_info',
@@ -86,7 +87,7 @@ class VotersScreen extends PureComponent {
           defaultText="REWARDS"
           onDropdownSelect={this._handleOnDropdownSelect}
         />
-        <VotersDisplay key={Math.random()} votes={filterResult || data} />
+        {!isRenderRequire && <VotersDisplay key={Math.random()} votes={filterResult || data} />}
       </View>
     );
   }

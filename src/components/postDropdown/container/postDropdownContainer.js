@@ -7,8 +7,7 @@ import { injectIntl } from 'react-intl';
 
 // Services and Actions
 import { reblog } from '../../../providers/steem/dsteem';
-
-// Middleware
+import { addBookmark } from '../../../providers/esteem/esteem';
 
 // Constants
 import OPTIONS from '../../../constants/options/post';
@@ -34,19 +33,42 @@ class PostDropdownContainer extends PureComponent {
   }
 
   // Component Life Cycle Functions
+  componentWillUnmount = () => {
+    if (this.alertTimer) {
+      clearTimeout(this.alertTimer);
+      this.alertTimer = 0;
+    }
+
+    if (this.shareTimer) {
+      clearTimeout(this.shareTimer);
+      this.shareTimer = 0;
+    }
+
+    if (this.actionSheetTimer) {
+      clearTimeout(this.actionSheetTimer);
+      this.actionSheetTimer = 0;
+    }
+  };
 
   // Component Functions
-  _handleOnDropdownSelect = (index) => {
-    const { content } = this.props;
+  _handleOnDropdownSelect = async (index) => {
+    const { content, intl } = this.props;
 
     switch (index) {
       case '0':
-        writeToClipboard(getPostUrl(content.url));
+        await writeToClipboard(getPostUrl(content.url));
+        this.alertTimer = setTimeout(() => {
+          Alert.alert(intl.formatMessage({
+            id: 'alert.copied',
+          }));
+          this.alertTimer = 0;
+        }, 300);
         break;
 
       case '1':
-        setTimeout(() => {
+        this.actionSheetTimer = setTimeout(() => {
           this.ActionSheet.show();
+          this.actionSheetTimer = 0;
         }, 100);
         break;
 
@@ -54,9 +76,14 @@ class PostDropdownContainer extends PureComponent {
         this._replyNavigation();
         break;
       case '3':
-        setTimeout(() => {
+        this.shareTimer = setTimeout(() => {
           this._share();
+          this.shareTimer = 0;
         }, 500);
+        break;
+
+      case '4':
+        this._addToBookmarks();
         break;
 
       default:
@@ -72,6 +99,17 @@ class PostDropdownContainer extends PureComponent {
       url: getPostUrl(content.url),
     });
   };
+
+  _addToBookmarks = () => {
+    const { currentAccount, content, intl } = this.props;
+    addBookmark(currentAccount.name, content.author, content.permlink)
+      .then(() => {
+         Alert.alert(intl.formatMessage({ id: 'bookmarks.added' }));
+      })
+      .catch(() => {
+        Alert.alert(intl.formatMessage({ id: 'alert.fail' }));
+      });
+  }
 
   _reblog = () => {
     const {

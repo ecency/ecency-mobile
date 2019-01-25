@@ -185,12 +185,12 @@ class ApplicationContainer extends Component {
 
     getSettings().then((response) => {
       if (response) {
-        if (response.isDarkTheme) dispatch(isDarkTheme(response.isDarkTheme));
-        if (response.language) dispatch(setLanguage(response.language));
-        if (response.currency) dispatch(setCurrency(response.currency));
-        if (response.notification) dispatch(isNotificationOpen(response.notification));
-        if (response.server) dispatch(setApi(response.server));
-        if (response.upvotePercent) dispatch(setUpvotePercent(Number(response.upvotePercent)));
+        if (response.isDarkTheme !== '') dispatch(isDarkTheme(response.isDarkTheme));
+        if (response.language !== '') dispatch(setLanguage(response.language));
+        if (response.currency !== '') dispatch(setCurrency(response.currency));
+        if (response.notification !== '') dispatch(isNotificationOpen(response.notification));
+        if (response.server !== '') dispatch(setApi(response.server));
+        if (response.upvotePercent !== '') dispatch(setUpvotePercent(Number(response.upvotePercent)));
 
         this.setState({ isReady: true });
       }
