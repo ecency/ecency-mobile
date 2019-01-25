@@ -134,7 +134,7 @@ class SettingsContainer extends Component {
   };
 
   _setPushToken = async () => {
-    const { notificationSettings, isLoggedIn, username } = this.props;
+    const { isNotificationSettingsOpen, isLoggedIn, username } = this.props;
     if (isLoggedIn) {
       const token = await AppCenter.getInstallId();
 
@@ -144,7 +144,7 @@ class SettingsContainer extends Component {
             username,
             token,
             system: Platform.OS,
-            allows_notify: notificationSettings,
+            allows_notify: isNotificationSettingsOpen,
           };
           setPushToken(data);
         }
@@ -169,9 +169,8 @@ const mapStateToProps = state => ({
   selectedLanguage: state.application.language,
   selectedApi: state.application.api,
   selectedCurrency: state.application.currency,
-  isNotificationOpen: state.application.isNotificationOpen,
   isDarkTheme: state.application.isDarkTheme,
-  notificationSettings: state.application.isNotificationOpen,
+  isNotificationSettingsOpen: state.application.isNotificationOpen,
   isLoggedIn: state.application.isLoggedIn,
   username: state.account.currentAccount && state.account.currentAccount.name,
 });
