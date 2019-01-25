@@ -4,8 +4,8 @@ import { vestsToSp } from './conversions';
 import { getState, getFeedHistory } from '../providers/steem/dsteem';
 
 
-export const groomingTransactionData = (transaction, walletData, formatNumber) => {
-  if (!transaction || !walletData) {
+export const groomingTransactionData = (transaction, steemPerMVests, formatNumber) => {
+  if (!transaction || !steemPerMVests) {
     return [];
   }
 
@@ -24,7 +24,7 @@ export const groomingTransactionData = (transaction, walletData, formatNumber) =
       const { reward } = opData;
       const { comment_author: commentAuthor, comment_permlink: commentPermlink } = opData;
 
-      result.value = `${formatNumber(vestsToSp(parseToken(reward), walletData.steemPerMVests), {
+      result.value = `${formatNumber(vestsToSp(parseToken(reward), steemPerMVests), {
         minimumFractionDigits: 3,
       })} SP`;
       result.details = `@${commentAuthor}/${commentPermlink}`;
@@ -42,7 +42,7 @@ export const groomingTransactionData = (transaction, walletData, formatNumber) =
       sbdPayout = formatNumber(parseToken(sbdPayout), { minimumFractionDigits: 3 });
       steemPayout = formatNumber(parseToken(steemPayout), { minimumFractionDigits: 3 });
       vestingPayout = formatNumber(
-        vestsToSp(parseToken(vestingPayout), walletData.steemPerMVests),
+        vestsToSp(parseToken(vestingPayout), steemPerMVests),
         { minimumFractionDigits: 3 },
       );
 
@@ -60,7 +60,7 @@ export const groomingTransactionData = (transaction, walletData, formatNumber) =
 
       rewardSdb = formatNumber(parseToken(rewardSdb), { minimumFractionDigits: 3 });
       rewardSteem = formatNumber(parseToken(rewardSteem), { minimumFractionDigits: 3 });
-      rewardVests = formatNumber(vestsToSp(parseToken(rewardVests), walletData.steemPerMVests), {
+      rewardVests = formatNumber(vestsToSp(parseToken(rewardVests), steemPerMVests), {
         minimumFractionDigits: 3,
       });
 
@@ -84,7 +84,7 @@ export const groomingTransactionData = (transaction, walletData, formatNumber) =
       let { vesting_shares: opVestingShares } = opData;
 
       opVestingShares = parseToken(opVestingShares);
-      result.value = `${formatNumber(vestsToSp(opVestingShares, walletData.steemPerMVests), {
+      result.value = `${formatNumber(vestsToSp(opVestingShares, steemPerMVests), {
         minimumFractionDigits: 3,
       })} SP`;
       result.icon = 'attach-money';

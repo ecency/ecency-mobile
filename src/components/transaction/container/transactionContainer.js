@@ -1,4 +1,5 @@
 import React, { PureComponent } from 'react';
+import { connect } from 'react-redux';
 
 // Component
 import TransactionView from '../view/transactionView';
@@ -21,10 +22,14 @@ class TransactionContainer extends PureComponent {
   // Component Functions
 
   render() {
-    const { walletData } = this.props;
+    const { walletData, steemPerMVests } = this.props;
 
-    return <TransactionView walletData={walletData} />;
+    return <TransactionView walletData={walletData} steemPerMVests={steemPerMVests} />;
   }
 }
 
-export default TransactionContainer;
+const mapStateToProps = state => ({
+  steemPerMVests: state.account.globalProps.steemPerMVests,
+});
+
+export default connect(mapStateToProps)(TransactionContainer);
