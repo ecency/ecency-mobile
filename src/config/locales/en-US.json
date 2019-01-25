@@ -187,7 +187,7 @@
     "reblog": "reblog",
     "reply": "reply",
     "share": "share",
-    "bookmarks": "added to bookmarks"
+    "bookmarks": "add to bookmarks"
   },
   "deep_link": {
     "no_existing_user": "No existing user",
