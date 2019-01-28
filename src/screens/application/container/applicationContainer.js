@@ -77,19 +77,20 @@ class ApplicationContainer extends Component {
       isConnected = _isConnected;
     });
 
-    NetInfo.isConnected.addEventListener('change', this._handleConntectionChange);
+    NetInfo.isConnected.addEventListener('connectionChange', this._handleConntectionChange);
     BackHandler.addEventListener('hardwareBackPress', this._onBackPress);
 
     if (isConnected) {
-      this._getSettings();
-      await this._getUserData();
+      this._fetchApp();
     } else {
       Alert.alert('No internet connection');
     }
   };
 
   componentWillReceiveProps(nextProps) {
-    const { isDarkTheme: _isDarkTheme, selectedLanguage, isLogingOut } = this.props;
+    const {
+      isDarkTheme: _isDarkTheme, selectedLanguage, isLogingOut, isConnected,
+    } = this.props;
 
     if (_isDarkTheme !== nextProps.isDarkTheme || selectedLanguage !== nextProps.selectedLanguage) {
       this.setState({ isRenderRequire: false }, () => this.setState({ isRenderRequire: true }));
@@ -98,12 +99,21 @@ class ApplicationContainer extends Component {
     if (isLogingOut !== nextProps.isLogingOut && nextProps.isLogingOut) {
       this._logout();
     }
+
+    if (isConnected !== nextProps.isConnected && nextProps.isConnected) {
+      this._fetchApp();
+    }
   }
 
   componentWillUnmount() {
     BackHandler.removeEventListener('hardwareBackPress', this.onBackPress);
-    NetInfo.isConnected.removeEventListener('change', this._handleConntectionChange);
+    NetInfo.isConnected.removeEventListener('connectionChange', this._handleConntectionChange);
   }
+
+  _fetchApp = async () => {
+    this._getSettings();
+    await this._getUserData();
+  };
 
   _handleConntectionChange = (status) => {
     const { dispatch, isConnected } = this.props;
@@ -112,8 +122,9 @@ class ApplicationContainer extends Component {
       dispatch(setConnectivityStatus(status));
     }
 
-    // NetInfo.isConnected.removeEventListener('connectionChange', this._handleConntectionChange);
-    // NetInfo.isConnected.addEventListener('connectionChange', this._handleConntectionChange);
+    // TODO: solve this work arround
+    NetInfo.isConnected.removeEventListener('connectionChange', this._handleConntectionChange);
+    NetInfo.isConnected.addEventListener('connectionChange', this._handleConntectionChange);
   };
 
   _onBackPress = () => {
