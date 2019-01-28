@@ -137,7 +137,7 @@
     "cancel": "Cancel",
     "delete": "Delete",
     "copied": "Copied!",
-    "no_internet": "No internet connection"
+    "no_internet": "No connection!"
   },
   "post": {
     "reblog_alert": "Are you sure you want to reblog?"

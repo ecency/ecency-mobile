@@ -77,10 +77,10 @@ class ApplicationContainer extends Component {
       isConnected = _isConnected;
     });
 
-    if (isConnected) {
-      BackHandler.addEventListener('hardwareBackPress', this._onBackPress);
-      NetInfo.isConnected.addEventListener('connectionChange', this._handleConntectionChange);
+    NetInfo.isConnected.addEventListener('change', this._handleConntectionChange);
+    BackHandler.addEventListener('hardwareBackPress', this._onBackPress);
 
+    if (isConnected) {
       this._getSettings();
       await this._getUserData();
     } else {
@@ -102,13 +102,18 @@ class ApplicationContainer extends Component {
 
   componentWillUnmount() {
     BackHandler.removeEventListener('hardwareBackPress', this.onBackPress);
-    NetInfo.isConnected.removeEventListener('connectionChange', this._handleConntectionChange);
+    NetInfo.isConnected.removeEventListener('change', this._handleConntectionChange);
   }
 
-  _handleConntectionChange = (isConnected) => {
-    const { dispatch } = this.props;
+  _handleConntectionChange = (status) => {
+    const { dispatch, isConnected } = this.props;
 
-    dispatch(setConnectivityStatus(isConnected));
+    if (isConnected !== status) {
+      dispatch(setConnectivityStatus(status));
+    }
+
+    // NetInfo.isConnected.removeEventListener('connectionChange', this._handleConntectionChange);
+    // NetInfo.isConnected.addEventListener('connectionChange', this._handleConntectionChange);
   };
 
   _onBackPress = () => {
@@ -296,7 +301,9 @@ class ApplicationContainer extends Component {
     //   || selectedLanguage;
 
     if (isRenderRequire && isReady) {
-      return <ApplicationScreen isConnected={isConnected} locale={selectedLanguage} {...this.props} />;
+      return (
+        <ApplicationScreen isConnected={isConnected} locale={selectedLanguage} {...this.props} />
+      );
     }
     return <Launch />;
   }
