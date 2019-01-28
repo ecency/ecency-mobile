@@ -90,9 +90,13 @@ class ApplicationContainer extends Component {
   }
 
   _onBackPress = () => {
-    const { dispatch } = this.props;
+    const { dispatch, nav } = this.props;
 
-    dispatch(NavigationActions.back());
+    if (nav && nav[0].index !== 0) {
+      dispatch(NavigationActions.back());
+    } else {
+      BackHandler.exitApp();
+    }
     return true;
   };
 
@@ -283,6 +287,7 @@ const mapStateToProps = state => ({
   notificationSettings: state.application.isNotificationOpen,
   isLogingOut: state.application.isLogingOut,
   isLoggedIn: state.application.isLoggedIn,
+  nav: state.nav.routes,
 
   // Account
   unreadActivityCount: state.account.currentAccount.unread_activity_count,
