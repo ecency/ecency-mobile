@@ -96,9 +96,13 @@ class ApplicationContainer extends Component {
   }
 
   _onBackPress = () => {
-    const { dispatch } = this.props;
+    const { dispatch, nav } = this.props;
 
-    dispatch(NavigationActions.back());
+    if (nav && nav[0].index !== 0) {
+      dispatch(NavigationActions.back());
+    } else {
+      BackHandler.exitApp();
+    }
     return true;
   };
 
