@@ -1,24 +1,18 @@
-import { getUser } from '../../providers/steem/dsteem';
+import { fetchGlobalProps } from '../../providers/steem/dsteem';
 import {
-  FETCH_ACCOUNT_FAIL,
-  FETCHING_ACCOUNT,
   ADD_OTHER_ACCOUNT,
+  FETCH_ACCOUNT_FAIL,
+  REMOVE_OTHER_ACCOUNT,
+  SET_GLOBAL_PROPS,
+  SET_PIN_CODE,
   UPDATE_CURRENT_ACCOUNT,
   UPDATE_UNREAD_ACTIVITY_COUNT,
-  REMOVE_OTHER_ACCOUNT,
-  SET_PIN_CODE,
 } from '../constants/constants';
 
-export const fetchAccountFromSteem = (username, password) => (dispatch) => {
-  dispatch({ type: FETCHING_ACCOUNT });
-
-  return getUser(username)
-    .then(res => dispatch({
-      type: UPDATE_CURRENT_ACCOUNT,
-      payload: { ...res, password },
-    }))
-    .catch(err => dispatch({ type: FETCH_ACCOUNT_FAIL, payload: err }));
-};
+export const fetchGlobalProperties = () => dispatch => fetchGlobalProps().then(res => dispatch({
+  type: SET_GLOBAL_PROPS,
+  payload: { ...res },
+}));
 
 export const updateCurrentAccount = data => ({
   type: UPDATE_CURRENT_ACCOUNT,
@@ -47,5 +41,10 @@ export const removeOtherAccount = data => ({
 
 export const setPinCode = data => ({
   type: SET_PIN_CODE,
+  payload: data,
+});
+
+export const setGlobalProps = data => ({
+  type: SET_GLOBAL_PROPS,
   payload: data,
 });

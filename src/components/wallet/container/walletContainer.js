@@ -47,8 +47,8 @@ class WalletContainer extends Component {
   // Components functions
 
   _getWalletData = async (selectedUser) => {
-    const { setEstimatedWalletValue } = this.props;
-    const walletData = await groomingWalletData(selectedUser);
+    const { setEstimatedWalletValue, globalProps } = this.props;
+    const walletData = await groomingWalletData(selectedUser, globalProps);
 
     this.setState({ walletData });
     setEstimatedWalletValue(walletData.estimatedValue);
@@ -133,6 +133,7 @@ const mapStateToProps = state => ({
   currentAccount: state.account.currentAccount,
   pinCode: state.account.pin,
   isDarkTheme: state.application.isDarkTheme,
+  globalProps: state.account.globalProps,
 });
 
 export default injectIntl(connect(mapStateToProps)(WalletContainer));
