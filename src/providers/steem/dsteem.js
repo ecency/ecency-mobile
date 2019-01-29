@@ -10,13 +10,12 @@ import { decryptKey } from '../../utils/crypto';
 import { parsePosts, parsePost, parseComments } from '../../utils/postParser';
 import { getName, getAvatar } from '../../utils/user';
 import { getReputation } from '../../utils/reputation';
+import parseToken from '../../utils/parseToken';
 
 // Constant
 import AUTH_TYPE from '../../constants/authType';
 
 const DEFAULT_SERVER = 'https://api.steemit.com';
-let rewardFund = null;
-let medianPrice = null;
 let client = new Client(DEFAULT_SERVER);
 
 const _getClient = async () => {
@@ -34,6 +33,50 @@ const _getClient = async () => {
 _getClient();
 
 export const getDigitPinCode = pin => decryptKey(pin, Config.PIN_KEY);
+
+export const getDynamicGlobalProperties = () => client.database.getDynamicGlobalProperties();
+
+export const getRewardFund = () => client.database.call('get_reward_fund', ['post']);
+
+export const getFeedHistory = async () => {
+  try {
+    const feedHistory = await client.database.call('get_feed_history');
+    return feedHistory;
+  } catch (error) {
+    return error;
+  }
+};
+
+export const fetchGlobalProps = async () => {
+  let globalDynamic;
+  let feedHistory;
+  let rewardFund;
+
+  try {
+    globalDynamic = await getDynamicGlobalProperties();
+    feedHistory = await getFeedHistory();
+    rewardFund = await getRewardFund();
+  } catch (e) {
+    return;
+  }
+
+  const steemPerMVests = (parseToken(globalDynamic.total_vesting_fund_steem)
+      / parseToken(globalDynamic.total_vesting_shares))
+    * 1e6;
+  const base = parseToken(feedHistory.current_median_history.base);
+  const quote = parseToken(feedHistory.current_median_history.quote);
+  const fundRecentClaims = rewardFund.recent_claims;
+  const fundRewardBalance = parseToken(rewardFund.reward_balance);
+  const globalProps = {
+    steemPerMVests,
+    base,
+    quote,
+    fundRecentClaims,
+    fundRewardBalance,
+  };
+
+  return globalProps;
+};
 
 /**
  * @method getAccount get account data
@@ -126,22 +169,6 @@ export const getFollows = user => new Promise((resolve, reject) => {
       reject(err);
     });
 });
-
-/**
- * @method getFollowers
- * @param user username
- * TODO: Pagination
- */
-// export const getFollowers = (user, limit = 100) => new Promise((resolve, reject) => {
-//   client
-//     .call('follow_api', 'get_followers', [user, '', 'blog', limit])
-//     .then((result) => {
-//       resolve(result);
-//     })
-//     .catch((err) => {
-//       reject(err);
-//     });
-// });
 
 /**
  * @method getFollowing
@@ -426,18 +453,12 @@ export const vote = async (currentAccount, pin, author, permlink, weight) => {
  * @method upvoteAmount estimate upvote amount
  */
 export const upvoteAmount = async (input) => {
-  if (!rewardFund || !medianPrice) {
-    rewardFund = await client.database.call('get_reward_fund', ['post']);
+  let medianPrice;
+  const rewardFund = await getRewardFund();
 
-    await client.database
-      .getCurrentMedianHistoryPrice()
-      .then((res) => {
-        medianPrice = res;
-      })
-      .catch((err) => {
-        // reject(err);
-      });
-  }
+  await client.database.getCurrentMedianHistoryPrice().then((res) => {
+    medianPrice = res;
+  });
 
   const estimated = (input / parseFloat(rewardFund.recent_claims))
     * parseFloat(rewardFund.reward_balance)
@@ -561,24 +582,6 @@ export const delegate = (data, activeKey) => {
         reject(err);
       });
   });
-};
-
-export const globalProps = async () => {
-  try {
-    const globalProperties = await client.database.getDynamicGlobalProperties();
-    return globalProperties;
-  } catch (error) {
-    return error;
-  }
-};
-
-export const getFeedHistory = async () => {
-  try {
-    const feedHistory = await client.database.call('get_feed_history');
-    return feedHistory;
-  } catch (error) {
-    return error;
-  }
 };
 
 export const transferToVesting = (data, activeKey) => {
@@ -832,15 +835,4 @@ const getAnyPrivateKey = (local, pin) => {
   }
 
   return false;
-
-  // ['postingKey', 'activeKey'].forEach((key) => {
-  //   console.log('key :', key);
-  //   console.log('pin :', pin);
-  //   console.log('local[key] :', local[key]);
-  //   if (key) {
-  //     const privateKey = decryptKey(local[key], pin);
-  //     console.log('privateKey :', privateKey);
-  //     return true;
-  //   }
-  // });
 };
