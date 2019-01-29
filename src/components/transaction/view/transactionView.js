@@ -36,7 +36,7 @@ class TransactionView extends PureComponent {
       walletData: { transactions },
       intl,
       intl: { formatNumber },
-      walletData,
+      steemPerMVests,
     } = this.props;
 
     return (
@@ -53,16 +53,16 @@ class TransactionView extends PureComponent {
         <Card>
           {transactions
             && transactions.map((item, index) => {
-              const transactionData = groomingTransactionData(item, walletData, formatNumber);
+              const transactionData = groomingTransactionData(item, steemPerMVests, formatNumber);
 
               return (
                 <CollapsibleCard
                   noBorder
                   noContainer
-                  key={index}
+                  key={index.toString()}
                   titleComponent={(
                     <WalletLineItem
-                      key={index}
+                      key={index.toString()}
                       index={index}
                       text={intl.formatMessage({
                         id: `wallet.${transactionData.opName}`,
@@ -81,7 +81,7 @@ class TransactionView extends PureComponent {
                 >
                   {(!!transactionData.details || !!transactionData.memo) && (
                     <WalletLineItem
-                      key={index}
+                      key={index.toString()}
                       text={!!transactionData.details && transactionData.details}
                       isBlackText
                       isThin
