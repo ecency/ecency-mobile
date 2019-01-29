@@ -7,6 +7,7 @@ import {
   REMOVE_OTHER_ACCOUNT,
   LOGOUT_FAIL,
   SET_PIN_CODE,
+  SET_GLOBAL_PROPS,
 } from '../constants/constants';
 
 const initialState = {
@@ -27,6 +28,12 @@ export default function (state = initialState, action) {
         isFetching: true,
         hasError: false,
         errorMessage: null,
+      };
+
+    case SET_GLOBAL_PROPS:
+      return {
+        ...state,
+        globalProps: action.payload,
       };
 
     case FETCH_ACCOUNT_FAIL:
