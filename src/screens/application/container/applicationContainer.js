@@ -340,6 +340,7 @@ export default connect(
     notificationSettings: state.application.isNotificationOpen,
     isLogingOut: state.application.isLogingOut,
     isLoggedIn: state.application.isLoggedIn,
+    isConnected: state.application.isConnected,
     nav: state.nav.routes,
 
     // Account
