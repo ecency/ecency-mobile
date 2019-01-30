@@ -58,6 +58,10 @@ post_install do |installer|
     if targets_to_ignore.include? target.name
       target.remove_from_project
     end
+    
+    if target.name == "React"
+        target.remove_from_project
+    end
 
   end
 end

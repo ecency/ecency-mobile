@@ -14,10 +14,10 @@
             buildForArchiving = "YES">
             <BuildableReference
                BuildableIdentifier = "primary"
-               BlueprintIdentifier = "F42A85ED4E4F11140A903DC0CBEABF34"
-               BlueprintName = "Pods-eSteem"
+               BlueprintIdentifier = "7CA3B437D7438649BE6C700067C8EDF8"
+               BlueprintName = "FLAnimatedImage"
                ReferencedContainer = "container:Pods.xcodeproj"
-               BuildableName = "libPods-eSteem.a">
+               BuildableName = "libFLAnimatedImage.a">
             </BuildableReference>
          </BuildActionEntry>
       </BuildActionEntries>

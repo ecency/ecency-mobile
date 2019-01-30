@@ -1,23 +1,25 @@
 import {
   ACTIVE_APPLICATION,
   CLOSE_PIN_CODE_MODAL,
+  IS_CONNECTED,
+  IS_DARK_THEME,
+  IS_LOGIN_DONE,
+  IS_NOTIFICATION_OPEN,
   LOGIN,
+  LOGOUT_DONE,
   LOGOUT,
   OPEN_PIN_CODE_MODAL,
   SET_API,
   SET_CURRENCY,
   SET_LANGUAGE,
-  IS_NOTIFICATION_OPEN,
-  IS_DARK_THEME,
-  IS_LOGIN_DONE,
   SET_UPVOTE_PERCENT,
-  LOGOUT_DONE,
 } from '../constants/constants';
 
 const initialState = {
   api: 'api.steemit.com',
   currency: 'usd',
   isActive: false,
+  isConnected: true, // internet connectivity
   isDarkTheme: false,
   isLoggedIn: false, // Has any logged in user.
   isLoginDone: false,
@@ -40,6 +42,11 @@ export default function (state = initialState, action) {
       return {
         ...state,
         isLoginDone: true,
+      };
+    case IS_CONNECTED:
+      return {
+        ...state,
+        isConnected: action.payload,
       };
     case LOGOUT:
       return {

@@ -14,10 +14,10 @@
             buildForArchiving = "YES">
             <BuildableReference
                BuildableIdentifier = "primary"
-               BlueprintIdentifier = "F42A85ED4E4F11140A903DC0CBEABF34"
-               BlueprintName = "Pods-eSteem"
+               BlueprintIdentifier = "2EE46F2A2B0FD3542AB09E9B2ED81301"
+               BlueprintName = "JWT"
                ReferencedContainer = "container:Pods.xcodeproj"
-               BuildableName = "libPods-eSteem.a">
+               BuildableName = "libJWT.a">
             </BuildableReference>
          </BuildActionEntry>
       </BuildActionEntries>
