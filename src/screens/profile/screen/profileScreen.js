@@ -1,5 +1,5 @@
 import React, { PureComponent, Fragment } from 'react';
-import { View, ScrollView } from 'react-native';
+import { View, Text, ScrollView } from 'react-native';
 import { injectIntl } from 'react-intl';
 
 // Components
@@ -16,6 +16,9 @@ import { Posts } from '../../../components/posts';
 import { ProfileSummary } from '../../../components/profileSummary';
 import { TabBar } from '../../../components/tabBar';
 import { Wallet } from '../../../components/wallet';
+import { FormatedCurrency } from '../../../components/formatedElements';
+
+// Constants
 import { PROFILE_FILTERS } from '../../../constants/options/filters';
 
 // Utilitites
@@ -55,13 +58,15 @@ class ProfileScreen extends PureComponent {
 
   _setEstimatedWalletValue = (value) => {
     if (value) this.setState({ estimatedWalletValue: value });
-  }
+  };
 
   render() {
     const {
       about,
       comments,
+      currency,
       follows,
+      getReplies,
       handleFollowUnfollowUser,
       handleMuteUnmuteUser,
       handleOnBackPress,
@@ -79,11 +84,13 @@ class ProfileScreen extends PureComponent {
       selectedQuickProfile,
       selectedUser,
       username,
-      getReplies,
     } = this.props;
 
     const {
-      isSummaryOpen, collapsibleMoreHeight, estimatedWalletValue, oldEstimatedWalletValue,
+      isSummaryOpen,
+      collapsibleMoreHeight,
+      estimatedWalletValue,
+      oldEstimatedWalletValue,
     } = this.state;
 
     let _about;
@@ -94,6 +101,7 @@ class ProfileScreen extends PureComponent {
     let resourceCredits;
     let fullInHourVP;
     let fullInHourRC;
+    let _estimatedWalletValue;
 
     if (selectedUser) {
       votingPower = getVotingPower(selectedUser).toFixed(1);
@@ -108,6 +116,14 @@ class ProfileScreen extends PureComponent {
       ({ location } = about);
       ({ website } = about);
     }
+
+    if (estimatedWalletValue) {
+      const { currencyRate, currencySymbol } = currency;
+      _estimatedWalletValue = `${currencySymbol} ${(estimatedWalletValue * currencyRate).toFixed(
+        5,
+      )}`;
+    }
+
     return (
       <Fragment>
         <Header
@@ -192,12 +208,15 @@ class ProfileScreen extends PureComponent {
               />
             </View>
             <View
-              tabLabel={isReverseHeader
-                ? intl.formatMessage({
-                  id: 'profile.comments',
-                }) : intl.formatMessage({
-                  id: 'profile.replies',
-                })}
+              tabLabel={
+                isReverseHeader
+                  ? intl.formatMessage({
+                    id: 'profile.comments',
+                  })
+                  : intl.formatMessage({
+                    id: 'profile.replies',
+                  })
+              }
               style={styles.commentsTabBar}
             >
               {comments && comments.length > 0 ? (
@@ -217,20 +236,22 @@ class ProfileScreen extends PureComponent {
               )}
             </View>
             <View
-              tabLabel={estimatedWalletValue
-                ? `$${Math.round(estimatedWalletValue * 1000) / 1000}`
-                : intl.formatMessage({
-                  id: 'profile.wallet',
-                })}
+              tabLabel={
+                estimatedWalletValue
+                  ? `${_estimatedWalletValue}`
+                  : intl.formatMessage({
+                    id: 'profile.wallet',
+                  })
+              }
             >
-              {selectedUser
-                ? (
-                  <Wallet
-                    setEstimatedWalletValue={this._setEstimatedWalletValue}
-                    selectedUser={selectedUser}
-                  />
-                )
-                : <WalletDetailsPlaceHolder />}
+              {selectedUser ? (
+                <Wallet
+                  setEstimatedWalletValue={this._setEstimatedWalletValue}
+                  selectedUser={selectedUser}
+                />
+              ) : (
+                <WalletDetailsPlaceHolder />
+              )}
             </View>
           </ScrollableTabView>
         </View>
