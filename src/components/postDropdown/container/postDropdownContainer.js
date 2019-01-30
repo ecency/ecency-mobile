@@ -95,10 +95,10 @@ class PostDropdownContainer extends PureComponent {
 
   _share = () => {
     const { content } = this.props;
+    const postUrl = getPostUrl(content.url);
 
     Share.share({
-      message: content.title,
-      url: getPostUrl(content.url),
+      message: `${content.title} ${postUrl}`,
     });
   };
 
