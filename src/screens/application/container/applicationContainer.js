@@ -1,10 +1,13 @@
 import React, { Component } from 'react';
-import { Platform, BackHandler, Alert } from 'react-native';
+import {
+  Platform, BackHandler, Alert, NetInfo,
+} from 'react-native';
 import { connect } from 'react-redux';
 import { addLocaleData } from 'react-intl';
 import Config from 'react-native-config';
 import AppCenter from 'appcenter';
 import { NavigationActions } from 'react-navigation';
+import { bindActionCreators } from 'redux';
 
 // Constants
 import en from 'react-intl/locale-data/en';
@@ -37,6 +40,7 @@ import {
   updateCurrentAccount,
   updateUnreadActivityCount,
   removeOtherAccount,
+  fetchGlobalProperties,
 } from '../../../redux/actions/accountAction';
 import {
   activeApplication,
@@ -44,12 +48,13 @@ import {
   isLoginDone,
   isNotificationOpen,
   login,
+  logoutDone,
   openPinCodeModal,
   setApi,
+  setConnectivityStatus,
   setCurrency,
   setLanguage,
   setUpvotePercent,
-  logoutDone,
 } from '../../../redux/actions/applicationActions';
 
 // Container
@@ -68,13 +73,28 @@ class ApplicationContainer extends Component {
   }
 
   componentDidMount = async () => {
+    let isConnected;
+
+    await NetInfo.isConnected.fetch().then((_isConnected) => {
+      isConnected = _isConnected;
+    });
+
+    NetInfo.isConnected.addEventListener('connectionChange', this._handleConntectionChange);
     BackHandler.addEventListener('hardwareBackPress', this._onBackPress);
-    await this._getUserData();
-    await this._getSettings();
+
+    if (isConnected) {
+      this._fetchApp();
+    } else {
+      Alert.alert('No internet connection');
+    }
+
+    this.globalInterval = setInterval(this._refreshGlobalProps, 60000);
   };
 
   componentWillReceiveProps(nextProps) {
-    const { isDarkTheme: _isDarkTheme, selectedLanguage, isLogingOut } = this.props;
+    const {
+      isDarkTheme: _isDarkTheme, selectedLanguage, isLogingOut, isConnected,
+    } = this.props;
 
     if (_isDarkTheme !== nextProps.isDarkTheme || selectedLanguage !== nextProps.selectedLanguage) {
       this.setState({ isRenderRequire: false }, () => this.setState({ isRenderRequire: true }));
@@ -83,17 +103,51 @@ class ApplicationContainer extends Component {
     if (isLogingOut !== nextProps.isLogingOut && nextProps.isLogingOut) {
       this._logout();
     }
+
+    if (isConnected !== nextProps.isConnected && nextProps.isConnected) {
+      this._fetchApp();
+    }
   }
 
   componentWillUnmount() {
     BackHandler.removeEventListener('hardwareBackPress', this.onBackPress);
+    NetInfo.isConnected.removeEventListener('connectionChange', this._handleConntectionChange);
+    clearInterval(this.globalInterval);
   }
 
-  _onBackPress = () => {
-    const { dispatch } = this.props;
+  _fetchApp = async () => {
+    this._getSettings();
+    await this._getUserData();
+    this._refreshGlobalProps();
+  };
 
-    dispatch(NavigationActions.back());
+  _handleConntectionChange = (status) => {
+    const { dispatch, isConnected } = this.props;
+
+    if (isConnected !== status) {
+      dispatch(setConnectivityStatus(status));
+    }
+
+    // TODO: solve this work arround
+    NetInfo.isConnected.removeEventListener('connectionChange', this._handleConntectionChange);
+    NetInfo.isConnected.addEventListener('connectionChange', this._handleConntectionChange);
+  };
+
+  _onBackPress = () => {
+    const { dispatch, nav } = this.props;
+
+    if (nav && nav[0].index !== 0) {
+      dispatch(NavigationActions.back());
+    } else {
+      BackHandler.exitApp();
+    }
     return true;
+  };
+
+  _refreshGlobalProps = () => {
+    const { actions } = this.props;
+
+    actions.fetchGlobalProperties();
   };
 
   _getUserData = async () => {
@@ -173,12 +227,12 @@ class ApplicationContainer extends Component {
 
     getSettings().then((response) => {
       if (response) {
-        if (response.isDarkTheme) dispatch(isDarkTheme(response.isDarkTheme));
-        if (response.language) dispatch(setLanguage(response.language));
-        if (response.currency) dispatch(setCurrency(response.currency));
-        if (response.notification) dispatch(isNotificationOpen(response.notification));
-        if (response.server) dispatch(setApi(response.server));
-        if (response.upvotePercent) dispatch(setUpvotePercent(Number(response.upvotePercent)));
+        if (response.isDarkTheme !== '') dispatch(isDarkTheme(response.isDarkTheme));
+        if (response.language !== '') dispatch(setLanguage(response.language));
+        if (response.currency !== '') dispatch(setCurrency(response.currency));
+        if (response.notification !== '') dispatch(isNotificationOpen(response.notification));
+        if (response.server !== '') dispatch(setApi(response.server));
+        if (response.upvotePercent !== '') dispatch(setUpvotePercent(Number(response.upvotePercent)));
 
         this.setState({ isReady: true });
       }
@@ -219,15 +273,11 @@ class ApplicationContainer extends Component {
   };
 
   _logout = () => {
-    const {
-      otherAccounts, currentAccount, dispatch,
-    } = this.props;
+    const { otherAccounts, currentAccount, dispatch } = this.props;
 
     removeUserData(currentAccount.name)
       .then(() => {
-        const _otherAccounts = otherAccounts.filter(
-          user => user.username !== currentAccount.name,
-        );
+        const _otherAccounts = otherAccounts.filter(user => user.username !== currentAccount.name);
 
         if (_otherAccounts.length > 0) {
           const targetAccountUsername = _otherAccounts[0].username;
@@ -264,34 +314,45 @@ class ApplicationContainer extends Component {
   };
 
   render() {
-    const { selectedLanguage } = this.props;
+    const { selectedLanguage, isConnected } = this.props;
     const { isRenderRequire, isReady } = this.state;
 
-    const locale = (navigator.languages && navigator.languages[0])
-      || navigator.language
-      || navigator.userLanguage
-      || selectedLanguage;
+    // For testing It comented out.
+    // const locale = (navigator.languages && navigator.languages[0])
+    //   || navigator.language
+    //   || navigator.userLanguage
+    //   || selectedLanguage;
 
     if (isRenderRequire && isReady) {
-      return <ApplicationScreen locale={locale} {...this.props} />;
+      return (
+        <ApplicationScreen isConnected={isConnected} locale={selectedLanguage} {...this.props} />
+      );
     }
     return <Launch />;
   }
 }
 
-const mapStateToProps = state => ({
-  // Application
-  isDarkTheme: state.application.isDarkTheme,
-  selectedLanguage: state.application.language,
-  notificationSettings: state.application.isNotificationOpen,
-  isLogingOut: state.application.isLogingOut,
-  isLoggedIn: state.application.isLoggedIn,
+export default connect(
+  state => ({
+    // Application
+    isDarkTheme: state.application.isDarkTheme,
+    selectedLanguage: state.application.language,
+    notificationSettings: state.application.isNotificationOpen,
+    isLogingOut: state.application.isLogingOut,
+    isLoggedIn: state.application.isLoggedIn,
+    isConnected: state.application.isConnected,
+    nav: state.nav.routes,
 
-  // Account
-  unreadActivityCount: state.account.currentAccount.unread_activity_count,
-  currentAccount: state.account.currentAccount,
-  otherAccounts: state.account.otherAccounts,
-  pinCode: state.account.pin,
-});
-
-export default connect(mapStateToProps)(ApplicationContainer);
+    // Account
+    unreadActivityCount: state.account.currentAccount.unread_activity_count,
+    currentAccount: state.account.currentAccount,
+    otherAccounts: state.account.otherAccounts,
+    pinCode: state.account.pin,
+  }),
+  (dispatch, props) => ({
+    dispatch,
+    actions: {
+      ...bindActionCreators({ fetchGlobalProperties }, dispatch),
+    },
+  }),
+)(ApplicationContainer);

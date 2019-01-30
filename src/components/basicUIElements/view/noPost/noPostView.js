@@ -25,7 +25,7 @@ const NoPost = ({
       <MainButton
         style={{ width: 150 }}
         onPress={handleOnButtonPress}
-        iconName="md-person"
+        iconName="person"
         iconColor="white"
         text={defaultText}
       />

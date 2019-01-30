@@ -24,6 +24,7 @@ import { getRcPower, getVotingPower } from '../../../utils/manaBar';
 
 // Styles
 import styles from './profileStyles';
+import globalStyles from '../../../globalStyles';
 
 class ProfileScreen extends PureComponent {
   constructor(props) {
@@ -31,6 +32,8 @@ class ProfileScreen extends PureComponent {
     this.state = {
       isSummaryOpen: true,
       collapsibleMoreHeight: 0,
+      estimatedWalletValue: 0,
+      oldEstimatedWalletValue: 0,
     };
   }
 
@@ -50,6 +53,10 @@ class ProfileScreen extends PureComponent {
     this.setState({ collapsibleMoreHeight: height });
   };
 
+  _setEstimatedWalletValue = (value) => {
+    if (value) this.setState({ estimatedWalletValue: value });
+  }
+
   render() {
     const {
       about,
@@ -57,9 +64,12 @@ class ProfileScreen extends PureComponent {
       follows,
       handleFollowUnfollowUser,
       handleMuteUnmuteUser,
+      handleOnBackPress,
+      handleOnFavoritePress,
       handleOnFollowsPress,
       intl,
       isDarkTheme,
+      isFavorite,
       isFollowing,
       isLoggedIn,
       isMuted,
@@ -69,9 +79,12 @@ class ProfileScreen extends PureComponent {
       selectedQuickProfile,
       selectedUser,
       username,
+      getReplies,
     } = this.props;
 
-    const { isSummaryOpen, collapsibleMoreHeight } = this.state;
+    const {
+      isSummaryOpen, collapsibleMoreHeight, estimatedWalletValue, oldEstimatedWalletValue,
+    } = this.state;
 
     let _about;
     let coverImage;
@@ -92,8 +105,8 @@ class ProfileScreen extends PureComponent {
     if (about) {
       _about = about.about;
       coverImage = about.cover_image;
-      location = about.location;
-      website = about.website;
+      ({ location } = about);
+      ({ website } = about);
     }
     return (
       <Fragment>
@@ -101,6 +114,7 @@ class ProfileScreen extends PureComponent {
           key={selectedQuickProfile && selectedQuickProfile.name}
           selectedUser={selectedQuickProfile}
           isReverse={isReverseHeader}
+          handleOnBackPress={handleOnBackPress}
         />
         <View style={styles.container}>
           {!isReady ? (
@@ -126,11 +140,14 @@ class ProfileScreen extends PureComponent {
                 followingCount={follows.following_count}
                 handleFollowUnfollowUser={handleFollowUnfollowUser}
                 handleMuteUnmuteUser={handleMuteUnmuteUser}
+                handleOnFavoritePress={handleOnFavoritePress}
                 handleOnFollowsPress={handleOnFollowsPress}
+                handleUIChange={this._handleUIChange}
                 hoursRC={fullInHourRC || null}
                 hoursVP={fullInHourVP || null}
                 intl={intl}
                 isDarkTheme={isDarkTheme}
+                isFavorite={isFavorite}
                 isFollowing={isFollowing}
                 isLoggedIn={isLoggedIn}
                 isMuted={isMuted}
@@ -140,16 +157,23 @@ class ProfileScreen extends PureComponent {
                 location={location}
                 percentRC={resourceCredits}
                 percentVP={votingPower}
-                handleUIChange={this._handleUIChange}
               />
             </CollapsibleCard>
           )}
 
           <ScrollableTabView
-            style={styles.tabView}
+            style={[globalStyles.tabView, styles.tabView]}
             renderTabBar={() => (
               <TabBar style={styles.tabbar} tabUnderlineDefaultWidth={80} tabUnderlineScaleX={2} />
             )}
+            onChangeTab={({ i }) => {
+              if (i !== 2) {
+                this.setState({
+                  estimatedWalletValue: 0,
+                  oldEstimatedWalletValue: estimatedWalletValue,
+                });
+              } else this.setState({ estimatedWalletValue: oldEstimatedWalletValue });
+            }}
           >
             <View
               tabLabel={intl.formatMessage({
@@ -168,14 +192,17 @@ class ProfileScreen extends PureComponent {
               />
             </View>
             <View
-              tabLabel={intl.formatMessage({
-                id: 'profile.replies',
-              })}
+              tabLabel={isReverseHeader
+                ? intl.formatMessage({
+                  id: 'profile.comments',
+                }) : intl.formatMessage({
+                  id: 'profile.replies',
+                })}
               style={styles.commentsTabBar}
             >
               {comments && comments.length > 0 ? (
                 <ScrollView>
-                  <Comments isProfilePreview comments={comments} />
+                  <Comments isProfilePreview comments={comments} fetchPost={getReplies} />
                 </ScrollView>
               ) : (
                 <NoPost
@@ -190,15 +217,20 @@ class ProfileScreen extends PureComponent {
               )}
             </View>
             <View
-              tabLabel={intl.formatMessage({
-                id: 'profile.wallet',
-              })}
+              tabLabel={estimatedWalletValue
+                ? `$${Math.round(estimatedWalletValue * 1000) / 1000}`
+                : intl.formatMessage({
+                  id: 'profile.wallet',
+                })}
             >
-              {selectedUser ? (
-                <Wallet selectedUser={selectedUser} />
-              ) : (
-                <WalletDetailsPlaceHolder />
-              )}
+              {selectedUser
+                ? (
+                  <Wallet
+                    setEstimatedWalletValue={this._setEstimatedWalletValue}
+                    selectedUser={selectedUser}
+                  />
+                )
+                : <WalletDetailsPlaceHolder />}
             </View>
           </ScrollableTabView>
         </View>

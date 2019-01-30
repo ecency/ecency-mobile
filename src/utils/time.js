@@ -14,10 +14,7 @@ const THIS_MONTH = moment()
 export const getTimeFromNow = (value) => {
   if (!value) return null;
 
-  return moment
-    .utc(value)
-    .local()
-    .fromNow();
+  return moment.utc(value).fromNow();
 };
 
 export const getFormatedCreatedDate = (value) => {
@@ -35,3 +32,5 @@ export const isYesterday = value => moment(value).isSame(YESTERDAY, 'd');
 export const isThisWeek = value => moment(value).isSameOrAfter(THIS_WEEK);
 
 export const isThisMonth = value => moment(value).isSameOrAfter(THIS_MONTH);
+
+export const isEmptyContentDate = value => parseInt(value.split('-')[0], 10) < 1980;

@@ -99,13 +99,14 @@ export const loginWithSC2 = async (code) => {
   let avatar = '';
 
   return new Promise((resolve, reject) => {
+    let jsonMetadata;
     try {
-      const jsonMetadata = JSON.parse(account.account.json_metadata);
+      jsonMetadata = JSON.parse(account.account.json_metadata) || '';
       if (Object.keys(jsonMetadata).length !== 0) {
         avatar = jsonMetadata.profile.profile_image || '';
       }
     } catch (error) {
-      reject(new Error('auth.invalid_credentials'));
+      jsonMetadata = '';
     }
     const userData = {
       username: account.account.name,
@@ -133,8 +134,8 @@ export const loginWithSC2 = async (code) => {
         await setSCAccount(scTokens);
         resolve({ ...account.account, accessToken: scTokens.access_token });
       })
-      .catch((error) => {
-        reject(error);
+      .catch(() => {
+        reject(new Error('auth.unknow_error'));
       });
   });
 };

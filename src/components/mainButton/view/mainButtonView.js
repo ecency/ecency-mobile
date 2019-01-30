@@ -2,27 +2,25 @@ import React, { Component, Fragment } from 'react';
 import {
   ActivityIndicator, Image, Text, TouchableOpacity, View,
 } from 'react-native';
-import Ionicons from 'react-native-vector-icons/Ionicons';
-
-// Constants
 
 // Components
+import { Icon } from '../../icon';
 
 // Styles
 import styles from './mainButtonStyles';
 
 class MainButton extends Component {
   /* Props
-    * ------------------------------------------------
-    *   @prop { string }     isLoading          - TODO:
-    *   @prop { string }     text               - TODO:
-    *   @prop { boolean }    secondText         - TODO:
-    *   @prop { boolean }    iconColor          - TODO:
-    *   @prop { boolean }    iconName           - TODO:
-    *   @prop { boolean }    isDisable          - TODO:
-    *
-    *
-    */
+   * ------------------------------------------------
+   *   @prop { string }     isLoading          - TODO:
+   *   @prop { string }     text               - TODO:
+   *   @prop { boolean }    secondText         - TODO:
+   *   @prop { boolean }    iconColor          - TODO:
+   *   @prop { boolean }    iconName           - TODO:
+   *   @prop { boolean }    isDisable          - TODO:
+   *
+   *
+   */
   constructor(props) {
     super(props);
 
@@ -45,7 +43,7 @@ class MainButton extends Component {
   _handleOnPress = () => {
     const { onPress } = this.props;
 
-    onPress && onPress();
+    if (onPress) onPress();
   };
 
   _getBody = () => {
@@ -54,15 +52,16 @@ class MainButton extends Component {
     } = this.props;
 
     if (isLoading) {
-      return <ActivityIndicator color="white" style={styles.activityIndicator} />;
+      this._getIndicator();
     }
+
     if (text) {
       return (
         <Fragment>
           {source ? (
             <Image source={source} style={styles.image} resizeMode="contain" />
           ) : (
-            <Ionicons color={iconColor} name={iconName} style={styles.icon} />
+            <Icon iconType="MaterialIcons" color={iconColor} name={iconName} style={styles.icon} />
           )}
           <Text style={styles.text}>
             {text}
@@ -71,19 +70,22 @@ class MainButton extends Component {
         </Fragment>
       );
     }
-    return <Ionicons color={iconColor} name={iconName} style={styles.icon} />;
+
+    return <Icon iconType="MaterialIcons" color={iconColor} name={iconName} style={styles.icon} />;
   };
+
+  _getIndicator = () => <ActivityIndicator color="white" style={styles.activityIndicator} />;
 
   render() {
     const {
-      wrapperStyle, children, height, style,
+      wrapperStyle, children, height, style, isLoading,
     } = this.props;
     const { isDisable } = this.state;
 
     return (
       <View style={wrapperStyle}>
         <TouchableOpacity
-          disabled={isDisable}
+          disabled={isLoading || isDisable}
           onPress={() => this._handleOnPress()}
           style={[
             styles.touchable,
@@ -92,7 +94,9 @@ class MainButton extends Component {
             style && style,
           ]}
         >
-          <View style={styles.body}>{children || this._getBody()}</View>
+          <View style={styles.body}>
+            {isLoading ? this._getIndicator() : children || this._getBody()}
+          </View>
         </TouchableOpacity>
       </View>
     );

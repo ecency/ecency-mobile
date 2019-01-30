@@ -4,12 +4,20 @@ import { Icon } from '../../../icon';
 import styles from './textWithIconStyles';
 
 const TextWithIcon = ({
-  iconName, text, isClickable, onPress, iconStyle, iconType, iconSize,
+  iconName,
+  text,
+  isClickable,
+  onPress,
+  iconStyle,
+  iconType,
+  iconSize,
+  wrapperStyle,
+  textStyle,
 }) => (
   <View style={styles.container}>
     {isClickable || onPress ? (
       <TouchableHighlight
-        style={styles.wrapper}
+        style={[styles.wrapper, wrapperStyle]}
         underlayColor="transparent"
         onPress={() => onPress && onPress()}
       >
@@ -19,7 +27,7 @@ const TextWithIcon = ({
             name={iconName}
             iconType={iconType}
           />
-          <Text style={[styles.text]}>{text}</Text>
+          <Text style={[styles.text, textStyle]}>{text}</Text>
         </Fragment>
       </TouchableHighlight>
     ) : (

@@ -35,4 +35,7 @@ export default EStyleSheet.create({
     width: 24,
     height: 24,
   },
+  scrollView: {
+    backgroundColor: '$primaryLightBackground',
+  },
 });

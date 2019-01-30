@@ -135,7 +135,9 @@
     "invalid_pincode": "Неверный пин, попробуйте снова.",
     "remove_alert": "Вы уверены, что хотите удалить?",
     "cancel": "Отмена",
-    "delete": "Удалить"
+    "delete": "Удалить",
+    "copied": "Copied!",
+    "no_internet": "No internet connection"
   },
   "post": {
     "reblog_alert": "Вы уверены, что хотите сделать репост?"

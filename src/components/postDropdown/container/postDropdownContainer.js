@@ -1,14 +1,13 @@
 import React, { PureComponent, Fragment } from 'react';
 import { connect } from 'react-redux';
 import { withNavigation } from 'react-navigation';
-import { Alert } from 'react-native';
+import { Alert, Share } from 'react-native';
 import ActionSheet from 'react-native-actionsheet';
 import { injectIntl } from 'react-intl';
 
 // Services and Actions
 import { reblog } from '../../../providers/steem/dsteem';
-
-// Middleware
+import { addBookmark } from '../../../providers/esteem/esteem';
 
 // Constants
 import OPTIONS from '../../../constants/options/post';
@@ -16,6 +15,7 @@ import { default as ROUTES } from '../../../constants/routeNames';
 
 // Utilities
 import { writeToClipboard } from '../../../utils/clipboard';
+import { getPostUrl } from '../../../utils/post';
 
 // Component
 import PostDropdownView from '../view/postDropdownView';
@@ -33,29 +33,84 @@ class PostDropdownContainer extends PureComponent {
   }
 
   // Component Life Cycle Functions
+  componentWillUnmount = () => {
+    if (this.alertTimer) {
+      clearTimeout(this.alertTimer);
+      this.alertTimer = 0;
+    }
+
+    if (this.shareTimer) {
+      clearTimeout(this.shareTimer);
+      this.shareTimer = 0;
+    }
+
+    if (this.actionSheetTimer) {
+      clearTimeout(this.actionSheetTimer);
+      this.actionSheetTimer = 0;
+    }
+  };
 
   // Component Functions
-  _handleOnDropdownSelect = (index) => {
-    const { content } = this.props;
+  _handleOnDropdownSelect = async (index) => {
+    const { content, intl } = this.props;
 
     switch (index) {
       case '0':
-        writeToClipboard(`https://steemit.com${content.url}`);
+        await writeToClipboard(getPostUrl(content.url));
+        this.alertTimer = setTimeout(() => {
+          Alert.alert(
+            intl.formatMessage({
+              id: 'alert.copied',
+            }),
+          );
+          this.alertTimer = 0;
+        }, 300);
         break;
 
       case '1':
-        setTimeout(() => {
+        this.actionSheetTimer = setTimeout(() => {
           this.ActionSheet.show();
+          this.actionSheetTimer = 0;
         }, 100);
         break;
 
       case '2':
         this._replyNavigation();
         break;
+      case '3':
+        this.shareTimer = setTimeout(() => {
+          this._share();
+          this.shareTimer = 0;
+        }, 500);
+        break;
+
+      case '4':
+        this._addToBookmarks();
+        break;
 
       default:
         break;
     }
+  };
+
+  _share = () => {
+    const { content } = this.props;
+
+    Share.share({
+      message: content.title,
+      url: getPostUrl(content.url),
+    });
+  };
+
+  _addToBookmarks = () => {
+    const { currentAccount, content, intl } = this.props;
+    addBookmark(currentAccount.name, content.author, content.permlink)
+      .then(() => {
+        Alert.alert(intl.formatMessage({ id: 'bookmarks.added' }));
+      })
+      .catch(() => {
+        Alert.alert(intl.formatMessage({ id: 'alert.fail' }));
+      });
   };
 
   _reblog = () => {
@@ -110,12 +165,17 @@ class PostDropdownContainer extends PureComponent {
   };
 
   render() {
-    const { intl } = this.props;
+    const { intl, currentAccount, content } = this.props;
+    let _OPTIONS = OPTIONS;
+
+    if (content.author === currentAccount.name) {
+      _OPTIONS = OPTIONS.filter(item => item !== 'reblog');
+    }
 
     return (
       <Fragment>
         <PostDropdownView
-          options={OPTIONS}
+          options={_OPTIONS.map(item => intl.formatMessage({ id: `post_dropdown.${item}` }).toUpperCase())}
           handleOnDropdownSelect={this._handleOnDropdownSelect}
           {...this.props}
         />

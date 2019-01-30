@@ -4,7 +4,6 @@ import { withNavigation } from 'react-navigation';
 import { injectIntl } from 'react-intl';
 
 import HTML from 'react-native-html-renderer';
-
 // Styles
 import styles from './postBodyStyles';
 
@@ -13,6 +12,14 @@ import { default as ROUTES } from '../../../../constants/routeNames';
 // Components
 
 const WIDTH = Dimensions.get('window').width;
+const CUSTOM_RENDERERS = {
+  // example
+  // center: () => <Text style={{ backgroundColor: 'blue', textAlign: 'center'}}>ugur</Text>,
+};
+const DEFAULT_PROPS = {
+  renderers: CUSTOM_RENDERERS,
+  debug: true,
+};
 
 class PostBody extends PureComponent {
   constructor(props) {
@@ -92,6 +99,26 @@ class PostBody extends PureComponent {
     if (node.name === 'img') {
       node.attribs.style = 'text-align: center;';
     }
+
+    if (node.name === 'div' && node.attribs && node.attribs.class) {
+      const _className = node.attribs.class;
+
+      if (_className === 'pull-right') {
+        node.attribs.style = 'text-align: right; align-self: flex-end;';
+      }
+
+      if (_className === 'pull-left') {
+        node.attribs.style = 'text-align: left; align-self: flex-start;';
+      }
+
+      if (_className === 'text-justify') {
+        node.attribs.style = 'text-align: justify; text-justify: inter-word; letter-spacing: 0px;';
+      }
+
+      if (_className === 'phishy') {
+        node.attribs.style = 'color: red';
+      }
+    }
   };
 
   render() {
@@ -102,6 +129,7 @@ class PostBody extends PureComponent {
     return (
       <Fragment>
         <HTML
+          {...DEFAULT_PROPS}
           html={body}
           onLinkPress={(evt, href, hrefatr) => this._handleOnLinkPress(evt, href, hrefatr)}
           containerStyle={isComment ? styles.commentContainer : styles.container}

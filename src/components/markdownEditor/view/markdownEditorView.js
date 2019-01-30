@@ -1,20 +1,22 @@
 import React, { Component } from 'react';
 import {
-  View, KeyboardAvoidingView, ScrollView, FlatList, Text, Platform,
+  View, KeyboardAvoidingView, FlatList, Text, Platform, ScrollView,
 } from 'react-native';
-import Markdown, { getUniqueID } from 'react-native-markdown-renderer';
 import ActionSheet from 'react-native-actionsheet';
 
-// Components
-import { IconButton } from '../../iconButton';
-import { StickyBar } from '../../basicUIElements';
-import { TextInput } from '../../textInput';
+// Utils
+import { markDown2Html } from '../../../utils/markdownToHtml';
 import applyImageLink from './formats/applyWebLinkFormat';
 import Formats from './formats/formats';
 
+// Components
+import { IconButton } from '../../iconButton';
+import { PostBody } from '../../postElements';
+import { StickyBar } from '../../basicUIElements';
+import { TextInput } from '../../textInput';
+
 // Styles
 import styles from './markdownEditorStyles';
-import markdownStyle from './markdownPreviewStyles';
 
 export default class MarkdownEditorView extends Component {
   constructor(props) {
@@ -39,7 +41,11 @@ export default class MarkdownEditorView extends Component {
       });
     }
 
-    if (nextProps.uploadedImage && nextProps.uploadedImage.url && nextProps.uploadedImage !== uploadedImage) {
+    if (
+      nextProps.uploadedImage
+      && nextProps.uploadedImage.url
+      && nextProps.uploadedImage !== uploadedImage
+    ) {
       applyImageLink({
         getState: this._getState,
         setState: (state, callback) => {
@@ -90,27 +96,11 @@ export default class MarkdownEditorView extends Component {
 
   _renderPreview = () => {
     const { text } = this.state;
-    const rules = {
-      heading1: (node, children, parent, styles) => (
-        <Text key={getUniqueID()} style={styles.heading1}>
-          {children}
-        </Text>
-      ),
-      heading2: (node, children, parent, styles) => (
-        <Text key={getUniqueID()} style={styles.heading2}>
-          {children}
-        </Text>
-      ),
-    };
 
     return (
-      <View style={styles.textWrapper}>
-        <ScrollView removeClippedSubviews>
-          <Markdown rules={rules} style={markdownStyle}>
-            {text === '' ? '...' : text}
-          </Markdown>
-        </ScrollView>
-      </View>
+      <ScrollView style={styles.previewContainer}>
+        {text ? <PostBody body={markDown2Html(text)} /> : <Text>...</Text>}
+      </ScrollView>
     );
   };
 
@@ -135,7 +125,7 @@ export default class MarkdownEditorView extends Component {
           keyboardShouldPersistTaps="always"
           renderItem={
             ({ item, index }) => index !== 9
-              && this._renderMarkupButton({ item, getState, setState })
+            && this._renderMarkupButton({ item, getState, setState })
           }
           horizontal
         />
@@ -176,7 +166,11 @@ export default class MarkdownEditorView extends Component {
     const { text, selection } = this.state;
 
     return (
-      <KeyboardAvoidingView style={styles.container} behavior="padding">
+      <KeyboardAvoidingView
+        style={styles.container}
+        keyboardVerticalOffset={Platform.select({ ios: 0, android: 25 })}
+        behavior={(Platform.OS === 'ios') ? 'padding' : null}
+      >
         {!isPreviewActive ? (
           <TextInput
             multiline

@@ -2,6 +2,9 @@ import React, { PureComponent } from 'react';
 import { ScrollView, View } from 'react-native';
 import { injectIntl } from 'react-intl';
 
+// Utils
+import { groomingServerName } from '../../../utils/settings';
+
 // Constants
 import LANGUAGE, { VALUE as LANGUAGE_VALUE } from '../../../constants/options/language';
 import CURRENCY, { VALUE as CURRENCY_VALUE } from '../../../constants/options/currency';
@@ -33,7 +36,7 @@ class SettingsScreen extends PureComponent {
       selectedLanguage,
       selectedApi,
       selectedCurrency,
-      isNotificationOpen,
+      isNotificationSettingsOpen,
       isDarkTheme,
       serverList,
       intl,
@@ -75,9 +78,9 @@ class SettingsScreen extends PureComponent {
             })}
             type="dropdown"
             actionType="api"
-            options={serverList}
+            options={serverList.map(serverName => groomingServerName(serverName))}
             selectedOptionIndex={serverList.indexOf(selectedApi)}
-            defaultText={selectedApi}
+            defaultText={groomingServerName(selectedApi)}
             handleOnChange={handleOnChange}
           />
           <SettingsItem
@@ -95,7 +98,7 @@ class SettingsScreen extends PureComponent {
             })}
             type="toggle"
             actionType="notification"
-            isOn={isNotificationOpen}
+            isOn={isNotificationSettingsOpen}
             handleOnChange={handleOnChange}
           />
           {!!isLoggedIn && (

@@ -26,10 +26,10 @@ class NotificationLineView extends PureComponent {
 
   // Component Life Cycles
   componentWillReceiveProps(nextProps) {
-    const { isRead } = this.props;
+    const { notification } = this.props;
 
-    if (isRead !== nextProps.isRead) {
-      this.setState({ isRead: nextProps.isRead });
+    if (notification.read !== nextProps.notification.read) {
+      this.setState({ isRead: nextProps.notification.read });
     }
   }
 

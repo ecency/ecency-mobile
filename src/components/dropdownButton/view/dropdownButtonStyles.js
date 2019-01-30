@@ -8,11 +8,6 @@ export default EStyleSheet.create({
     alignSelf: 'flex-start',
     height: 35,
   },
-  // dropdownText: {
-  //   fontSize: 9,
-  //   color: '$primaryDarkGray',
-  //   marginLeft: 25,
-  // },
   dropdownIcon: {
     fontSize: 22,
     color: '$primaryDarkText',
@@ -41,10 +36,10 @@ export default EStyleSheet.create({
     fontSize: 10,
     color: '$primaryDarkText',
     padding: 5,
-    borderColor: '#e7e7e7',
+    borderColor: '$borderColor',
   },
   dropdownTextHighlight: {
-    backgroundColor: '#387be5',
+    backgroundColor: '$primaryBlue',
     width: '$deviceWidth / 3',
   },
   button: {

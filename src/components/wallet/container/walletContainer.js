@@ -25,7 +25,7 @@ class WalletContainer extends Component {
     super(props);
     this.state = {
       walletData: null,
-      claiming: false,
+      isClaiming: false,
       isRefreshing: false,
     };
   }
@@ -47,20 +47,22 @@ class WalletContainer extends Component {
   // Components functions
 
   _getWalletData = async (selectedUser) => {
-    const walletData = await groomingWalletData(selectedUser);
+    const { setEstimatedWalletValue, globalProps } = this.props;
+    const walletData = await groomingWalletData(selectedUser, globalProps);
 
     this.setState({ walletData });
+    setEstimatedWalletValue(walletData.estimatedValue);
   };
 
-  _claimRewardBalance = () => {
+  _claimRewardBalance = async () => {
     const { currentAccount, intl, pinCode } = this.props;
-    const { claiming } = this.state;
+    const { isClaiming } = this.state;
 
-    if (claiming) {
+    if (isClaiming) {
       return;
     }
 
-    this.setState({ claiming: true });
+    await this.setState({ isClaiming: true });
 
     getAccount(currentAccount.name)
       .then((account) => {
@@ -74,21 +76,22 @@ class WalletContainer extends Component {
       })
       .then(() => getAccount(currentAccount.name))
       .then((account) => {
+        this._getWalletData(account && account[0]);
+
         Alert.alert(
           intl.formatMessage({
             id: 'alert.claim_reward_balance_ok',
           }),
         );
-        this._getWalletData(account && account[0]);
       })
       .then((account) => {
         this._getWalletData(account && account[0]);
+        this.setState({ isClaiming: false });
       })
       .catch((err) => {
+        this.setState({ isClaiming: false });
+
         Alert.alert(err);
-      })
-      .finally(() => {
-        this.setState({ claiming: false });
       });
   };
 
@@ -99,18 +102,17 @@ class WalletContainer extends Component {
     getAccount(selectedUser.name)
       .then((account) => {
         this._getWalletData(account && account[0]);
+        this.setState({ isRefreshing: false });
       })
       .catch((err) => {
         Alert.alert(err);
-      })
-      .finally(() => {
         this.setState({ isRefreshing: false });
       });
   };
 
   render() {
-    const { currentAccount, selectedUser } = this.props;
-    const { walletData, claiming, isRefreshing } = this.state;
+    const { currentAccount, selectedUser, isDarkTheme } = this.props;
+    const { walletData, isClaiming, isRefreshing } = this.state;
 
     return (
       <WalletView
@@ -118,9 +120,10 @@ class WalletContainer extends Component {
         selectedUsername={selectedUser && selectedUser.name}
         walletData={walletData}
         claimRewardBalance={this._claimRewardBalance}
-        claiming={claiming}
+        isClaiming={isClaiming}
         handleOnWalletRefresh={this._handleOnWalletRefresh}
         isRefreshing={isRefreshing}
+        isDarkTheme={isDarkTheme}
       />
     );
   }
@@ -129,6 +132,8 @@ class WalletContainer extends Component {
 const mapStateToProps = state => ({
   currentAccount: state.account.currentAccount,
   pinCode: state.account.pin,
+  isDarkTheme: state.application.isDarkTheme,
+  globalProps: state.account.globalProps,
 });
 
 export default injectIntl(connect(mapStateToProps)(WalletContainer));

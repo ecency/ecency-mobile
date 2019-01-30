@@ -36,6 +36,8 @@ target 'eSteem' do
 
   pod 'CodePush', :path => '../node_modules/react-native-code-push'
 
+  pod 'react-native-version-number', :path => '../node_modules/react-native-version-number'
+
   target 'eSteemTests' do
     inherit! :search_paths
     # Pods for testing
@@ -55,6 +57,10 @@ post_install do |installer|
     
     if targets_to_ignore.include? target.name
       target.remove_from_project
+    end
+    
+    if target.name == "React"
+        target.remove_from_project
     end
 
   end

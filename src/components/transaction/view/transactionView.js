@@ -1,13 +1,19 @@
-import React, { PureComponent, Fragment } from 'react';
+import React, { PureComponent } from 'react';
 import { injectIntl } from 'react-intl';
+import { View } from 'react-native';
 
 // Utilities
 import { groomingTransactionData } from '../../../utils/wallet';
+
+// Utils
+import { getTimeFromNow } from '../../../utils/time';
 
 // Components
 // import { FilterBar } from '../../filterBar';
 import { WalletLineItem, Card } from '../../basicUIElements';
 import { CollapsibleCard } from '../../collapsibleCard';
+
+import styles from './transactionStyles';
 
 class TransactionView extends PureComponent {
   /* Props
@@ -30,11 +36,11 @@ class TransactionView extends PureComponent {
       walletData: { transactions },
       intl,
       intl: { formatNumber },
-      walletData,
+      steemPerMVests,
     } = this.props;
 
     return (
-      <Fragment>
+      <View style={styles.container}>
         {/* this feature not implemented yet */}
         {/* <FilterBar
           dropdownIconName="arrow-drop-down"
@@ -43,39 +49,40 @@ class TransactionView extends PureComponent {
           onDropdownSelect={() => this._handleOnDropdownSelect()}
           rightIconName="ios-lock"
           iconSize={16}
-          if (index % 2 === 0) {
         /> */}
         <Card>
           {transactions
             && transactions.map((item, index) => {
-              const transactionData = groomingTransactionData(item, walletData, formatNumber);
+              const transactionData = groomingTransactionData(item, steemPerMVests, formatNumber);
+              const value = transactionData.value.split(' ');
 
               return (
                 <CollapsibleCard
                   noBorder
                   noContainer
-                  key={index}
+                  key={index.toString()}
                   titleComponent={(
                     <WalletLineItem
-                      key={index}
+                      key={index.toString()}
                       index={index}
                       text={intl.formatMessage({
                         id: `wallet.${transactionData.opName}`,
                       })}
-                      description={intl.formatRelative(transactionData.transDate)}
+                      // description={intl.formatRelative(transactionData.transDate)}
+                      description={getTimeFromNow(transactionData.transDate)}
                       isCircleIcon
                       isThin
                       circleIconColor="white"
                       isBlackText
                       iconName={transactionData.icon}
                       iconType="MaterialIcons"
-                      rightText={transactionData.value}
+                      rightText={`${Math.round(value[0] * 1000) / 1000} ${value[1]}`}
                     />
-)}
+                  )}
                 >
                   {(!!transactionData.details || !!transactionData.memo) && (
                     <WalletLineItem
-                      key={index}
+                      key={index.toString()}
                       text={!!transactionData.details && transactionData.details}
                       isBlackText
                       isThin
@@ -86,7 +93,7 @@ class TransactionView extends PureComponent {
               );
             })}
         </Card>
-      </Fragment>
+      </View>
     );
   }
 }

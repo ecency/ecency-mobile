@@ -29,17 +29,10 @@ class FollowsScreen extends PureComponent {
   // Component Functions
 
   _renderItem = (item, index) => {
-    const { handleOnUserPress, isFollowing } = this.props;
+    const { isFollowing } = this.props;
     const username = isFollowing ? item.following : item.follower;
-    const avatar = `https://steemitimages.com/u/${username}/avatar/small`;
-    return (
-      <UserListItem
-        handleOnUserPress={handleOnUserPress}
-        avatar={avatar}
-        index={index}
-        username={username}
-      />
-    );
+
+    return <UserListItem index={index} username={username} />;
   };
 
   _renderFooter = () => {
@@ -67,11 +60,7 @@ class FollowsScreen extends PureComponent {
 
     return (
       <View style={styles.container}>
-        <BasicHeader
-          title={headerTitle}
-          isHasSearch
-          handleOnSearch={handleSearch}
-        />
+        <BasicHeader title={headerTitle} isHasSearch handleOnSearch={handleSearch} />
         {(filterResult && data && filterResult.length > 0) || (data && data.length > 0) ? (
           <FlatList
             data={filterResult || data}

@@ -14,7 +14,7 @@
             buildForArchiving = "YES">
             <BuildableReference
                BuildableIdentifier = "primary"
-               BlueprintIdentifier = "0C9113536AF3992A2A9EC0D70EFD306A"
+               BlueprintIdentifier = "0FAD31E36B0488302AD7DD8A5B5798E5"
                BlueprintName = "QBImagePickerController"
                ReferencedContainer = "container:Pods.xcodeproj"
                BuildableName = "libQBImagePickerController.a">
