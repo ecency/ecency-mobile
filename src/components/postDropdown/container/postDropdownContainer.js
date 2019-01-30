@@ -58,9 +58,11 @@ class PostDropdownContainer extends PureComponent {
       case '0':
         await writeToClipboard(getPostUrl(content.url));
         this.alertTimer = setTimeout(() => {
-          Alert.alert(intl.formatMessage({
-            id: 'alert.copied',
-          }));
+          Alert.alert(
+            intl.formatMessage({
+              id: 'alert.copied',
+            }),
+          );
           this.alertTimer = 0;
         }, 300);
         break;
@@ -104,12 +106,12 @@ class PostDropdownContainer extends PureComponent {
     const { currentAccount, content, intl } = this.props;
     addBookmark(currentAccount.name, content.author, content.permlink)
       .then(() => {
-         Alert.alert(intl.formatMessage({ id: 'bookmarks.added' }));
+        Alert.alert(intl.formatMessage({ id: 'bookmarks.added' }));
       })
       .catch(() => {
         Alert.alert(intl.formatMessage({ id: 'alert.fail' }));
       });
-  }
+  };
 
   _reblog = () => {
     const {
@@ -163,12 +165,17 @@ class PostDropdownContainer extends PureComponent {
   };
 
   render() {
-    const { intl } = this.props;
+    const { intl, currentAccount, content } = this.props;
+    let _OPTIONS = OPTIONS;
+
+    if (content.author === currentAccount.name) {
+      _OPTIONS = OPTIONS.filter(item => item !== 'reblog');
+    }
 
     return (
       <Fragment>
         <PostDropdownView
-          options={OPTIONS.map(item => intl.formatMessage({ id: `post_dropdown.${item}` }).toUpperCase())}
+          options={_OPTIONS.map(item => intl.formatMessage({ id: `post_dropdown.${item}` }).toUpperCase())}
           handleOnDropdownSelect={this._handleOnDropdownSelect}
           {...this.props}
         />
