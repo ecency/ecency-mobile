@@ -15,7 +15,6 @@ export default EStyleSheet.create({
     fontFamily: '$primaryFont',
   },
   img: {
-    left: -16,
     // height: 50,
     marginTop: 10,
   },
@@ -25,5 +24,24 @@ export default EStyleSheet.create({
   commentContainer: {
     paddingHorizontal: 0,
     marginTop: 10,
+  },
+  th: {
+    flex: 1,
+    justifyContent: 'center',
+    fontWeight: 'bold',
+    color: '$primaryBlack',
+    fontSize: 14,
+    padding: 5,
+  },
+  tr: {
+    backgroundColor: '$darkIconColor',
+    flexDirection: 'row',
+  },
+  td: {
+    borderWidth: 0.5,
+    borderColor: '$tableBorderColor',
+    flex: 1,
+    padding: 10,
+    backgroundColor: '$tableTrColor',
   },
 });

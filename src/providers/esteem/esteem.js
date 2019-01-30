@@ -71,6 +71,54 @@ export const updateDraft = data => new Promise((resolve, reject) => {
     });
 });
 
+export const addBookmark = (username, author, permlink) => api
+  .post('/bookmark', {
+    username,
+    author,
+    permlink,
+    chain: 'steem',
+  })
+  .then(resp => resp.data);
+
+/**
+ * @params current username
+ */
+export const getBookmarks = username => api.get(`/bookmarks/${username}`).then(resp => resp.data);
+
+/**
+ * @params id
+ * @params current username
+ */
+export const removeBookmark = (username, id) => api.delete(`/bookmarks/${username}/${id}`);
+
+/**
+ * @params current username
+ */
+export const getFavorites = username => api.get(`/favorites/${username}`).then(resp => resp.data);
+
+/**
+ * @params current username
+ * @params target username
+ */
+export const getIsFavorite = (targetUsername, currentUsername) => api.get(`/isfavorite/${currentUsername}/${targetUsername}`).then(resp => resp.data);
+
+/**
+ * @params current username
+ * @params target username
+ */
+export const addFavorite = (currentUsername, targetUsername) => api
+  .post('/favorite', {
+    username: currentUsername,
+    account: targetUsername,
+  })
+  .then(resp => resp.data);
+
+/**
+ * @params current username
+ * @params target username
+ */
+export const removeFavorite = (currentUsername, targetUsername) => api.delete(`/favoriteUser/${currentUsername}/${targetUsername}`);
+
 export const getLeaderboard = () => api.get('/leaderboard').then(resp => resp.data);
 
 export const getActivities = data => new Promise((resolve, reject) => {

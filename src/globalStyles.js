@@ -62,7 +62,11 @@ export default EStyleSheet.create({
     color: '$iconColor',
     alignSelf: 'center',
     fontSize: 16,
-    marginLeft: 16,
+    marginTop: 20,
     fontWeight: '500',
+  },
+  tabView: {
+    alignSelf: 'center',
+    backgroundColor: '$primaryBackgroundColor',
   },
 });

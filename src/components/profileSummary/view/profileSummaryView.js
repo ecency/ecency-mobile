@@ -65,12 +65,14 @@ class ProfileSummaryView extends PureComponent {
       followerCount,
       followingCount,
       handleFollowUnfollowUser,
+      handleOnFavoritePress,
       handleOnFollowsPress,
       handleUIChange,
       hoursRC,
       hoursVP,
       intl,
       isDarkTheme,
+      isFavorite,
       isFollowing,
       isLoggedIn,
       isMuted,
@@ -116,7 +118,14 @@ class ProfileSummaryView extends PureComponent {
               iconType="MaterialCommunityIcons"
             />
           )}
-          {!!date && <TextWithIcon text={date} iconName="calendar" iconType="MaterialCommunityIcons" iconSize={14} />}
+          {!!date && (
+            <TextWithIcon
+              text={date}
+              iconName="calendar"
+              iconType="MaterialCommunityIcons"
+              iconSize={14}
+            />
+          )}
         </View>
         <Image
           style={styles.longImage}
@@ -173,44 +182,41 @@ class ProfileSummaryView extends PureComponent {
               </TouchableOpacity>
             </Fragment>
           </View>
-          {isLoggedIn && (
+          {isLoggedIn && !isOwnProfile && (
             <View style={styles.rightIcons}>
-              {!isOwnProfile && (
-                <Fragment>
-                  <IconButton
-                    backgroundColor="transparent"
-                    name="favorite-border"
-                    iconType="MaterialIcons"
-                    size={20}
-                    style={[styles.insetIconStyle]}
-                    color="#c1c5c7"
-                  />
-                  {isProfileLoading ? (
-                    <ActivityIndicator style={styles.activityIndicator} />
-                  ) : (
-                    <IconButton
-                      backgroundColor="transparent"
-                      name={followButtonIcon}
-                      iconType="MaterialCommunityIcons"
-                      onPress={() => handleFollowUnfollowUser(!isFollowing)}
-                      size={20}
-                      color="#c1c5c7"
-                    />
-                  )}
-                  {isProfileLoading ? (
-                    <ActivityIndicator style={styles.activityIndicator} />
-                  ) : (
-                    <DropdownButton
-                      isHasChildIcon
-                      iconName="more-vert"
-                      options={dropdownOpions}
-                      onSelect={this._handleOnDropdownSelect}
-                      noHighlight
-                      iconStyle={styles.dropdownIconStyle}
-                      dropdownStyle={styles.dropdownStyle}
-                    />
-                  )}
-                </Fragment>
+              <IconButton
+                backgroundColor="transparent"
+                color={isFavorite ? '#e63535' : '#c1c5c7'}
+                iconType="MaterialIcons"
+                name={isFavorite ? 'favorite' : 'favorite-border'}
+                size={20}
+                style={[styles.insetIconStyle]}
+                onPress={() => handleOnFavoritePress(isFavorite)}
+              />
+              {isProfileLoading ? (
+                <ActivityIndicator style={styles.activityIndicator} />
+              ) : (
+                <IconButton
+                  backgroundColor="transparent"
+                  color="#c1c5c7"
+                  iconType="MaterialCommunityIcons"
+                  name={followButtonIcon}
+                  onPress={() => handleFollowUnfollowUser(!isFollowing)}
+                  size={20}
+                />
+              )}
+              {isProfileLoading ? (
+                <ActivityIndicator style={styles.activityIndicator} />
+              ) : (
+                <DropdownButton
+                  dropdownStyle={styles.dropdownStyle}
+                  iconName="more-vert"
+                  iconStyle={styles.dropdownIconStyle}
+                  isHasChildIcon
+                  noHighlight
+                  onSelect={this._handleOnDropdownSelect}
+                  options={dropdownOpions}
+                />
               )}
             </View>
           )}

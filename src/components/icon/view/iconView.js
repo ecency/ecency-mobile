@@ -28,7 +28,7 @@ class IconView extends PureComponent {
       let iconName;
 
       if (!isIos) {
-        iconName = androidName || `md-${name.split('ios-')}`;
+        iconName = androidName || (name && `md-${name.split('ios-')}`);
       }
       return iconName;
     }

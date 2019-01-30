@@ -1,4 +1,4 @@
-import { Dimensions } from 'react-native';
+import { Dimensions, Platform, StatusBar } from 'react-native';
 
 export default {
   // Primary Colors
@@ -18,6 +18,7 @@ export default {
   $primaryRed: '#e63535',
   $primaryBlack: '#3c4449',
   $primaryDarkText: '#788187',
+
   // General Colors
   $borderColor: '#c5c5c5',
   $tagColor: '#c1c5c7',
@@ -34,9 +35,15 @@ export default {
   $editorButtonColor: '#3c4449',
   $pureWhite: '#ffffff',
   $notificationBorder: '#fff',
+  $tableTrColor: '#f5f5f5',
+  $tableBorderColor: '#FFFFFF',
+  $noConnectionColor: '#788187',
 
   // Devices Sizes
-  $deviceHeight: Dimensions.get('window').height,
+  $deviceHeight:
+    Platform.OS === 'ios'
+      ? Dimensions.get('window').height
+      : Dimensions.get('window').height + StatusBar.currentHeight,
   $deviceWidth: Dimensions.get('window').width,
 
   // Fonts Properties

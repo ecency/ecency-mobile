@@ -3,14 +3,16 @@ import { diff_match_patch } from 'diff-match-patch';
 
 export const getWordsCount = text => (text && typeof text === 'string' ? text.replace(/^\s+|\s+$/g, '').split(/\s+/).length : 0);
 
-export const generatePermlink = (title, random = false) => {
-  if (title) {
-    const slug = getSlug(title);
-    let perm = slug.toString();
+const permlinkRnd = () => (Math.random() + 1).toString(16).substring(2);
 
+export const generatePermlink = (title, random = false) => {
+  const slug = getSlug(title);
+  let perm = slug.toString();
+
+  if (title) {
     if (random) {
       const rnd = (Math.random() + 1).toString(16).substring(2);
-      perm = `${slug.toString()}-${rnd}est`;
+      perm = `${slug.toString()}${rnd}est`;
     }
 
     // STEEMIT_MAX_PERMLINK_LENGTH
@@ -20,9 +22,13 @@ export const generatePermlink = (title, random = false) => {
 
     // only letters numbers and dashes
     perm = perm.toLowerCase().replace(/[^a-z0-9-]+/g, '');
-    return perm;
+
+    if (perm.length === 0) {
+      return permlinkRnd();
+    }
   }
-  return null;
+
+  return perm;
 };
 
 export const generateReplyPermlink = (toAuthor) => {

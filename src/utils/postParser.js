@@ -2,7 +2,6 @@
 import { markDown2Html } from './markdownToHtml';
 import { getPostSummary } from './formatter';
 import { getReputation } from './reputation';
-import { getTimeFromNow } from './time';
 
 export const parsePosts = (posts, currentUserName, isSummary) => (!posts ? null : posts.map(post => parsePost(post, currentUserName, isSummary)));
 

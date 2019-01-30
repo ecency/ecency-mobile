@@ -76,17 +76,17 @@ class EditorContainer extends Component {
       }
 
       if (navigationParams.post) {
-        post = navigationParams.post;
+        ({ post } = navigationParams);
         this.setState({ post });
       }
 
       if (navigationParams.isReply) {
-        isReply = navigationParams.isReply;
+        ({ isReply } = navigationParams);
         this.setState({ isReply });
       }
 
       if (navigationParams.isEdit) {
-        isEdit = navigationParams.isEdit;
+        ({ isEdit } = navigationParams);
         this.setState(
           {
             isEdit,
@@ -117,7 +117,7 @@ class EditorContainer extends Component {
           draftPost: { body: result.body, title: result.title, tags: result.tags.split(',') },
         });
       })
-      .catch((error) => {
+      .catch(() => {
         // alert(error);
       });
   };
@@ -273,7 +273,7 @@ class EditorContainer extends Component {
 
       const draftField = {
         ...fields,
-        tags: fields.tags.toString(),
+        tags: fields.tags && fields.tags.length > 0 ? fields.tags.toString() : '',
       };
 
       setDraftPost(draftField, username);
@@ -291,7 +291,19 @@ class EditorContainer extends Component {
       const meta = extractMetadata(fields.body);
       const jsonMeta = makeJsonMetadata(meta, fields.tags);
       // TODO: check if permlink is available github: #314 https://github.com/esteemapp/esteem-mobile/pull/314
-      const permlink = generatePermlink(fields.title);
+      let permlink = generatePermlink(fields.title);
+
+      let dublicatePost;
+      try {
+        dublicatePost = await getPurePost(currentAccount.name, permlink);
+      } catch (e) {
+        dublicatePost = null;
+      }
+
+      if (dublicatePost && dublicatePost.id) {
+        permlink = generatePermlink(fields.title, true);
+      }
+
       const author = currentAccount.name;
       const options = makeOptions(author, permlink);
       const parentPermlink = fields.tags[0];
@@ -308,7 +320,7 @@ class EditorContainer extends Component {
         options,
         0,
       )
-        .then((result) => {
+        .then(() => {
           Alert.alert(
             intl.formatMessage({
               id: 'alert.success',
@@ -361,7 +373,7 @@ class EditorContainer extends Component {
         options,
         0,
       )
-        .then((result) => {
+        .then(() => {
           this._handleSubmitSuccess();
         })
         .catch((error) => {
@@ -381,6 +393,7 @@ class EditorContainer extends Component {
         parent_permlink: parentPermlink,
         permlink,
         parent_author: parentAuthor,
+        json_metadata: oldMeta,
       } = post;
 
       let newBody = fields.body;
@@ -391,7 +404,8 @@ class EditorContainer extends Component {
       }
 
       const meta = extractMetadata(fields.body);
-      const jsonMeta = makeJsonMetadata(meta, fields.tags);
+      const metadata = Object.assign({}, oldMeta, meta);
+      const jsonMeta = makeJsonMetadata(metadata, fields.tags);
 
       await postContent(
         currentAccount,
@@ -403,7 +417,7 @@ class EditorContainer extends Component {
         newBody,
         jsonMeta,
       )
-        .then((result) => {
+        .then(() => {
           this._handleSubmitSuccess();
         })
         .catch((error) => {
@@ -419,7 +433,7 @@ class EditorContainer extends Component {
       intl.formatMessage({
         id: 'alert.fail',
       }),
-      error,
+      error.message || error.toString(),
     );
     this.setState({ isPostSending: false });
   };

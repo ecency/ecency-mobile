@@ -2,7 +2,8 @@ import React, { PureComponent } from 'react';
 import { View, FlatList, Text } from 'react-native';
 import { injectIntl } from 'react-intl';
 
-// Constants
+// Utils
+import { getTimeFromNow } from '../../../utils/time';
 
 // Components
 import { UserListItem } from '../../basicUIElements';
@@ -18,17 +19,16 @@ class VotersDisplayView extends PureComponent {
 
   // Component Functions
   _renderItem = (item, index) => {
-    const { handleOnUserPress, intl } = this.props;
+    const { intl } = this.props;
     const value = `$ ${item.value}`;
     const percent = `${item.percent}%`;
 
     return (
       <UserListItem
-        handleOnUserPress={handleOnUserPress}
-        avatar={item.avatar}
         index={index}
         username={item.voter}
-        description={intl.formatRelative(item.time)}
+        // description={intl.formatRelative(item.time)}
+        description={getTimeFromNow(item.time)}
         isHasRightItem
         isRightColor={item.is_down_vote}
         rightText={value}

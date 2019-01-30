@@ -21,6 +21,8 @@ import { default as ROUTES } from '../../../constants/routeNames';
 
 // Styles
 import styles from './loginStyles';
+import globalStyles from '../../../globalStyles';
+
 import STEEM_CONNECT_LOGO from '../../../assets/steem_connect.png';
 
 class LoginScreen extends PureComponent {
@@ -88,7 +90,7 @@ class LoginScreen extends PureComponent {
         />
         <ScrollableTabView
           locked={isLoading}
-          style={styles.tabView}
+          style={globalStyles.tabView}
           renderTabBar={() => (
             <TabBar
               style={styles.tabbar}
@@ -155,7 +157,7 @@ class LoginScreen extends PureComponent {
               />
               <MainButton
                 onPress={() => handleOnPressLogin(username, password)}
-                iconName="md-person"
+                iconName="person"
                 iconColor="white"
                 text={intl.formatMessage({
                   id: 'login.login',
@@ -175,7 +177,6 @@ class LoginScreen extends PureComponent {
             <MainButton
               wrapperStyle={styles.mainButtonWrapper}
               onPress={() => this._handleOnModalToggle()}
-              iconName="md-person"
               source={STEEM_CONNECT_LOGO}
               text="steem"
               secondText="connect"

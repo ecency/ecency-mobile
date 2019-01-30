@@ -58,7 +58,7 @@ class PinCodeScreen extends PureComponent {
     return (
       <View style={styles.container}>
         <View style={styles.logoView}>
-          <UserAvatar username={username} size="xl" style={styles.avatar} />
+          <UserAvatar noAction username={username} size="xl" style={styles.avatar} />
         </View>
         <View style={styles.titleView}>
           <Text style={styles.title}>{`@${username}`}</Text>

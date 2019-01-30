@@ -2,17 +2,21 @@ import React, { Component, Fragment } from 'react';
 import { connect } from 'react-redux';
 import { withNavigation } from 'react-navigation';
 
-// Utilitites
+// Providers
 import {
   followUser,
   unfollowUser,
   ignoreUser,
   getFollows,
   getRepliesByLastUpdate,
+  getUserComments,
   getUser,
   getIsFollowing,
   getIsMuted,
 } from '../../../providers/steem/dsteem';
+
+// Esteem providers
+import { getIsFavorite, addFavorite, removeFavorite } from '../../../providers/esteem/esteem';
 
 // Constants
 import { default as ROUTES } from '../../../constants/routeNames';
@@ -23,21 +27,28 @@ import ProfileScreen from '../screen/profileScreen';
 class ProfileContainer extends Component {
   constructor(props) {
     super(props);
+    const isReverseHeader = !!(
+      props.navigation.state &&
+      props.navigation.state.params &&
+      props.navigation.state.username
+    );
+
     this.state = {
       comments: [],
       follows: {},
+      isFavorite: false,
       isFollowing: false,
       isMuted: false,
       isProfileLoading: false,
       isReady: false,
-      isReverseHeader: !!(props.navigation.state && props.navigation.state.params),
+      isReverseHeader,
       user: null,
       selectedQuickProfile: null,
     };
   }
 
   componentDidMount = () => {
-    const { navigation, isLoggedIn } = this.props;
+    const { navigation, isLoggedIn, currentAccount } = this.props;
     const selectedUser = navigation.state && navigation.state.params;
 
     if (!isLoggedIn && !selectedUser) {
@@ -45,7 +56,7 @@ class ProfileContainer extends Component {
       return;
     }
 
-    if (selectedUser) {
+    if (selectedUser && selectedUser.username) {
       this._loadProfile(selectedUser.username);
 
       if (selectedUser.username) {
@@ -58,6 +69,8 @@ class ProfileContainer extends Component {
       }
 
       this.setState({ isReverseHeader: true });
+    } else {
+      this._loadProfile(currentAccount.name);
     }
   };
 
@@ -65,14 +78,8 @@ class ProfileContainer extends Component {
     const {
       navigation, currentAccount, activeBottomTab, isLoggedIn,
     } = this.props;
-    const currentUsername = currentAccount.name
-      !== nextProps.currentAccount.name
+    const currentUsername = currentAccount.name !== nextProps.currentAccount.name
       && nextProps.currentAccount.name;
-    const isParamsChange = nextProps.navigation.state
-      && navigation.state
-      && nextProps.navigation.state.params
-      && nextProps.navigation.state.params.username
-      && nextProps.navigation.state.params.username !== navigation.state.params.username;
 
     if (isLoggedIn && !nextProps.isLoggedIn) {
       navigation.navigate(ROUTES.SCREENS.LOGIN);
@@ -83,26 +90,29 @@ class ProfileContainer extends Component {
       this._loadProfile(currentUsername);
     }
 
-    if (activeBottomTab !== nextProps.activeBottomTab && nextProps.activeBottomTab === 'ProfileTabbar') {
+    if (
+      activeBottomTab !== nextProps.activeBottomTab
+      && nextProps.activeBottomTab === 'ProfileTabbar'
+    ) {
       this._loadProfile(currentAccount.name);
-    }
-
-    if (isParamsChange) {
-      const selectedUser = nextProps.navigation.state && nextProps.navigation.state.params;
-
-      this._loadProfile(selectedUser && selectedUser.username);
     }
   }
 
   _getReplies = async (user) => {
-    await getRepliesByLastUpdate({ start_author: user, limit: 10 })
-      .then((result) => {
+    const { isReverseHeader } = this.state;
+    if (isReverseHeader) {
+      await getUserComments({ start_author: user, limit: 10 }).then((result) => {
         this.setState({
-          isReady: true,
           comments: result,
         });
-      })
-      .catch(() => {});
+      });
+    } else {
+      await getRepliesByLastUpdate({ start_author: user, limit: 10 }).then((result) => {
+        this.setState({
+          comments: result,
+        });
+      });
+    }
   };
 
   _handleFollowUnfollowUser = async (isFollowAction) => {
@@ -192,24 +202,31 @@ class ProfileContainer extends Component {
   _fetchProfile = async (username = null) => {
     if (username) {
       const { isLoggedIn, currentAccount } = this.props;
-      let _isFollowing;
-      let _isMuted;
-      let _follows;
+      let isFollowing;
+      let isMuted;
+      let isFavorite;
+      let follows;
 
-      if (isLoggedIn) {
-        _isFollowing = await getIsFollowing(username, currentAccount.name);
+      if (isLoggedIn && currentAccount.name !== username) {
+        isFollowing = await getIsFollowing(username, currentAccount.name);
 
-        _isMuted = _isFollowing ? false : await getIsMuted(username, currentAccount.name);
+        isMuted = isFollowing ? false : await getIsMuted(username, currentAccount.name);
+
+        getIsFavorite(username, currentAccount.name).then((isFav) => {
+          isFavorite = isFav;
+        });
       }
 
       await getFollows(username).then((res) => {
-        _follows = res;
+        follows = res;
       });
 
       this.setState({
-        follows: _follows,
-        isFollowing: _isFollowing,
-        isMuted: _isMuted,
+        follows,
+        isFollowing,
+        isMuted,
+        isFavorite,
+        isReady: true,
       });
     }
   };
@@ -260,20 +277,56 @@ class ProfileContainer extends Component {
     });
   };
 
+  _addFavorite = () => {
+    const { currentAccount } = this.props;
+    const { username } = this.state;
+
+    addFavorite(currentAccount.name, username).then(() => {
+      this.setState({ isFavorite: true });
+    });
+  };
+
+  _removeFavorite = () => {
+    const { currentAccount } = this.props;
+    const { username } = this.state;
+
+    removeFavorite(currentAccount.name, username).then(() => {
+      this.setState({ isFavorite: false });
+    });
+  };
+
+  _handleOnFavoritePress = (isFavorite) => {
+    if (isFavorite) {
+      this._removeFavorite();
+    } else {
+      this._addFavorite();
+    }
+  };
+
+  _handleOnBackPress = () => {
+    const { navigation } = this.props;
+    const navigationParams = navigation.state && navigation.state.params;
+
+    if (navigationParams && navigationParams.fetchData) {
+      navigationParams.fetchData();
+    }
+  };
+
   render() {
     const {
+      avatar,
       comments,
       error,
       follows,
-      isProfileLoading,
+      isFavorite,
       isFollowing,
       isMuted,
+      isProfileLoading,
       isReady,
       isReverseHeader,
+      selectedQuickProfile,
       user,
       username,
-      avatar,
-      selectedQuickProfile,
     } = this.state;
     const { isDarkTheme, isLoggedIn } = this.props;
 
@@ -282,22 +335,26 @@ class ProfileContainer extends Component {
         <ProfileScreen
           about={user && user.about && user.about.profile}
           avatar={avatar}
-          selectedQuickProfile={selectedQuickProfile}
           comments={comments}
           error={error}
           follows={follows}
           handleFollowUnfollowUser={this._handleFollowUnfollowUser}
           handleMuteUnmuteUser={this._handleMuteUnmuteUser}
+          handleOnBackPress={this._handleOnBackPress}
+          handleOnFavoritePress={this._handleOnFavoritePress}
           handleOnFollowsPress={this._handleFollowsPress}
           isDarkTheme={isDarkTheme}
+          isFavorite={isFavorite}
           isFollowing={isFollowing}
           isLoggedIn={isLoggedIn}
           isMuted={isMuted}
           isProfileLoading={isProfileLoading}
           isReady={isReady}
           isReverseHeader={isReverseHeader}
+          selectedQuickProfile={selectedQuickProfile}
           selectedUser={user}
           username={username}
+          getReplies={() => this._getReplies(username)}
         />
       </Fragment>
     );

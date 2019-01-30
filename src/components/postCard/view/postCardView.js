@@ -3,6 +3,9 @@ import { TouchableOpacity, Text, View } from 'react-native';
 import FastImage from 'react-native-fast-image';
 import { injectIntl } from 'react-intl';
 
+// Utils
+import { getTimeFromNow } from '../../../utils/time';
+
 // Components
 import { PostHeaderDescription } from '../../postElements';
 import { PostDropdown } from '../../postDropdown';
@@ -54,7 +57,7 @@ class PostCardView extends Component {
   };
 
   render() {
-    const { content, isHideImage, fetchPost, intl } = this.props;
+    const { content, isHideImage, fetchPost } = this.props;
     const _image = content && content.image
       ? { uri: content.image, priority: FastImage.priority.high }
       : DEFAULT_IMAGE;
@@ -64,7 +67,8 @@ class PostCardView extends Component {
       <View style={styles.post}>
         <View style={styles.bodyHeader}>
           <PostHeaderDescription
-            date={intl.formatRelative(content.created)}
+            // date={intl.formatRelative(content.created)}
+            date={getTimeFromNow(content.created)}
             isHideImage={isHideImage}
             name={content.author}
             profileOnPress={this._handleOnUserPress}

@@ -9,13 +9,17 @@ export default EStyleSheet.create({
   },
   textWrapper: {
     flex: 1,
-    flexDirection: 'column',
     fontSize: 12,
-    marginVertical: 16,
+    paddingVertical: 16,
     paddingHorizontal: 16,
     color: '$primaryBlack',
     fontFamily: '$editorFont',
     textAlignVertical: 'top',
+  },
+  previewContainer: {
+    flex: 1,
+    marginHorizontal: 16,
+    marginVertical: 20,
   },
   inlinePadding: {
     padding: 8,

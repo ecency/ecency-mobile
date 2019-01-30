@@ -11,10 +11,6 @@ export default EStyleSheet.create({
     width: '50%',
     alignItems: 'center',
   },
-  tabView: {
-    alignSelf: 'center',
-    backgroundColor: '$primaryBackgroundColor',
-  },
   tabbar: {
     alignSelf: 'center',
     height: 40,

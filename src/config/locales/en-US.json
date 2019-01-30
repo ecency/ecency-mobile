@@ -35,7 +35,7 @@
   "profile": {
     "following": "Following",
     "follower": "Follower",
-    "post": "Post",
+    "post": "Posts",
     "details": "Profile Details",
     "comments": "Comments",
     "replies": "Replies",
@@ -62,7 +62,7 @@
     "server": "Server",
     "dark_theme": "Dark Theme",
     "push_notification": "Push Notification",
-    "pincode": "Pincode",
+    "pincode": "PIN code",
     "reset": "Reset"
   },
   "voters": {
@@ -116,8 +116,8 @@
     "reply": "Reply"
   },
   "pincode": {
-    "enter_text": "Enter pin to unlock",
-    "set_new": "Set new pin",
+    "enter_text": "Enter PIN to unlock",
+    "set_new": "Set new PIN",
     "write_again": "Write again",
     "forgot_text": "Oh, I forgot it..."
   },
@@ -129,13 +129,15 @@
     "success_shared": "Your post succesfully shared",
     "permission_denied": "Permission denied",
     "permission_text": "Please, go to phone Settings and change eSteem app permissions.",
-    "success_rebloged": "Rebloged!",
+    "success_rebloged": "Reblogged!",
     "already_rebloged": "You have already reblogged!",
     "warning": "Warning",
-    "invalid_pincode": "Invalid pin code, please check and try again.",
-    "remove_alert": "Are you sure want to remove?",
+    "invalid_pincode": "Invalid PIN code, please check and try again.",
+    "remove_alert": "Are you sure you want to remove?",
     "cancel": "Cancel",
-    "delete": "Delete"
+    "delete": "Delete",
+    "copied": "Copied!",
+    "no_internet": "No connection!"
   },
   "post": {
     "reblog_alert": "Are you sure you want to reblog?"
@@ -158,7 +160,9 @@
     "load_error": "Could not load bookmarks",
     "empty_list": "Nothing here",
     "deleted": "Bookmark removed",
-    "search": "Search in bookmarks"
+    "search": "Search in bookmarks",
+    "added": "Added to bookmars",
+    "add": "Add to bookmarks"
   },
   "favorites": {
     "title": "Favorites",
@@ -167,10 +171,28 @@
     "search": "Search in favorites"
   },
   "auth": {
-    "invalid_pin": "Invalid pin code, please check and try again",
+    "invalid_pin": "Invalid PIN code, please check and try again",
     "invalid_username": "Invalid username, please check and try again",
     "already_logged": "You are already logged in, please try to add another account",
     "invalid_credentials": "Invalid credentials, please check and try again",
-    "unknow_error": "Unknown error, please contact us at info@esteem.app"
+    "unknow_error": "Unknown error, please contact us at support@esteem.app"
+  },
+  "payout": {
+    "potential_payout": "Potential Payout",
+    "promoted": "Promoted",
+    "author_payout": "Author Payout",
+    "curation_payout": "Curation Payout",
+    "payout_date": "Payout"
+  },
+  "post_dropdown": {
+    "copy": "copy link",
+    "reblog": "reblog",
+    "reply": "reply",
+    "share": "share",
+    "bookmarks": "add to bookmarks"
+  },
+  "deep_link": {
+    "no_existing_user": "No existing user",
+    "no_existing_post": "No existing post"
   }
 }

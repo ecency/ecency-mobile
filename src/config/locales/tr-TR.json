@@ -135,7 +135,9 @@
     "invalid_pincode": "Invalid pin code, please check and try again.",
     "remove_alert": "Are you sure want to remove?",
     "cancel": "Cancel",
-    "delete": "Delete"
+    "delete": "Delete",
+    "copied": "Copied!",
+    "no_internet": "No internet connection"
   },
   "post": {
     "reblog_alert": "Reblog yapma istediginize emin misiniz?"
