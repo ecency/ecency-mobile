@@ -136,7 +136,8 @@
     "remove_alert": "Вы уверены, что хотите удалить?",
     "cancel": "Отмена",
     "delete": "Удалить",
-    "copied": "Copied!"
+    "copied": "Copied!",
+    "no_internet": "No internet connection"
   },
   "post": {
     "reblog_alert": "Вы уверены, что хотите сделать репост?"

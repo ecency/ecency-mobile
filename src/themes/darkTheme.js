@@ -37,6 +37,7 @@ export default {
   $notificationBorder: '#1e2835',
   $tableTrColor: '#2e3d51',
   $tableBorderColor: '#1e2835',
+  $noConnectionColor: '#788187',
 
   // Devices Sizes
   $deviceHeight:

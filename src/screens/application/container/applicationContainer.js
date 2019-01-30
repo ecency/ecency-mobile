@@ -1,5 +1,7 @@
 import React, { Component } from 'react';
-import { Platform, BackHandler, Alert } from 'react-native';
+import {
+  Platform, BackHandler, Alert, NetInfo,
+} from 'react-native';
 import { connect } from 'react-redux';
 import { addLocaleData } from 'react-intl';
 import Config from 'react-native-config';
@@ -46,12 +48,13 @@ import {
   isLoginDone,
   isNotificationOpen,
   login,
+  logoutDone,
   openPinCodeModal,
   setApi,
+  setConnectivityStatus,
   setCurrency,
   setLanguage,
   setUpvotePercent,
-  logoutDone,
 } from '../../../redux/actions/applicationActions';
 
 // Container
@@ -70,16 +73,28 @@ class ApplicationContainer extends Component {
   }
 
   componentDidMount = async () => {
+    let isConnected;
+
+    await NetInfo.isConnected.fetch().then((_isConnected) => {
+      isConnected = _isConnected;
+    });
+
+    NetInfo.isConnected.addEventListener('connectionChange', this._handleConntectionChange);
     BackHandler.addEventListener('hardwareBackPress', this._onBackPress);
-    this._refreshGlobalProps();
-    await this._getUserData();
-    await this._getSettings();
+
+    if (isConnected) {
+      this._fetchApp();
+    } else {
+      Alert.alert('No internet connection');
+    }
 
     this.globalInterval = setInterval(this._refreshGlobalProps, 60000);
   };
 
   componentWillReceiveProps(nextProps) {
-    const { isDarkTheme: _isDarkTheme, selectedLanguage, isLogingOut } = this.props;
+    const {
+      isDarkTheme: _isDarkTheme, selectedLanguage, isLogingOut, isConnected,
+    } = this.props;
 
     if (_isDarkTheme !== nextProps.isDarkTheme || selectedLanguage !== nextProps.selectedLanguage) {
       this.setState({ isRenderRequire: false }, () => this.setState({ isRenderRequire: true }));
@@ -88,12 +103,35 @@ class ApplicationContainer extends Component {
     if (isLogingOut !== nextProps.isLogingOut && nextProps.isLogingOut) {
       this._logout();
     }
+
+    if (isConnected !== nextProps.isConnected && nextProps.isConnected) {
+      this._fetchApp();
+    }
   }
 
   componentWillUnmount() {
     BackHandler.removeEventListener('hardwareBackPress', this.onBackPress);
+    NetInfo.isConnected.removeEventListener('connectionChange', this._handleConntectionChange);
     clearInterval(this.globalInterval);
   }
+
+  _fetchApp = async () => {
+    this._getSettings();
+    await this._getUserData();
+    this._refreshGlobalProps();
+  };
+
+  _handleConntectionChange = (status) => {
+    const { dispatch, isConnected } = this.props;
+
+    if (isConnected !== status) {
+      dispatch(setConnectivityStatus(status));
+    }
+
+    // TODO: solve this work arround
+    NetInfo.isConnected.removeEventListener('connectionChange', this._handleConntectionChange);
+    NetInfo.isConnected.addEventListener('connectionChange', this._handleConntectionChange);
+  };
 
   _onBackPress = () => {
     const { dispatch, nav } = this.props;
@@ -276,7 +314,7 @@ class ApplicationContainer extends Component {
   };
 
   render() {
-    const { selectedLanguage } = this.props;
+    const { selectedLanguage, isConnected } = this.props;
     const { isRenderRequire, isReady } = this.state;
 
     // For testing It comented out.
@@ -286,7 +324,9 @@ class ApplicationContainer extends Component {
     //   || selectedLanguage;
 
     if (isRenderRequire && isReady) {
-      return <ApplicationScreen locale={selectedLanguage} {...this.props} />;
+      return (
+        <ApplicationScreen isConnected={isConnected} locale={selectedLanguage} {...this.props} />
+      );
     }
     return <Launch />;
   }
@@ -300,6 +340,8 @@ export default connect(
     notificationSettings: state.application.isNotificationOpen,
     isLogingOut: state.application.isLogingOut,
     isLoggedIn: state.application.isLoggedIn,
+    isConnected: state.application.isConnected,
+    nav: state.nav.routes,
 
     // Account
     unreadActivityCount: state.account.currentAccount.unread_activity_count,
