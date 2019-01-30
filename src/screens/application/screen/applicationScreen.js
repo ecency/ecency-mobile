@@ -26,7 +26,7 @@ class ApplicationScreen extends Component {
 
   render() {
     const { isConnected, isDarkTheme, locale } = this.props;
-    const barStyle = isDarkTheme || !isConnected ? 'light-content' : 'dark-content';
+    const barStyle = isDarkTheme ? 'light-content' : 'dark-content';
     const barColor = isDarkTheme ? '#1e2835' : '#fff';
 
     return (

@@ -14,6 +14,7 @@ import { vestsToRshares } from '../../../utils/conversions';
 import { Icon } from '../../icon';
 import { PulseAnimation } from '../../animations';
 import { TextButton } from '../../buttons';
+import { FormatedCurrency } from '../../formatedElements';
 
 // STEEM
 import { vote } from '../../../providers/steem/dsteem';
@@ -203,7 +204,7 @@ class UpvoteView extends Component {
               <TextButton
                 style={styles.payoutTextButton}
                 textStyle={[styles.payoutValue, isDecinedPayout && styles.declinedPayout]}
-                text={`$${_totalPayout}`}
+                text={<FormatedCurrency value={_totalPayout} />}
                 onPress={() => {
                   openPopover();
                   this.setState({ isShowDetails: true });
