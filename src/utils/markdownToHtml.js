@@ -6,6 +6,7 @@ const md = new Remarkable({ html: true, breaks: true, linkify: true });
 // const onlyImageLinkRegex = /([\n]http(s?):)([/|.|\w|\s|-])*\.(?:jpg|gif|png|PNG|GIF|JPG)/g;
 // const onlyImageDoubleLinkRegex = /(\nhttps)(.*)(?=jpg|gif|png|PNG|GIF|JPG|)/g;
 // const pullRightLeftRegex = /(<div class="[^"]*?pull-[^"]*?">(.*?)(<[/]div>))/g;
+// const markdownLinkRegex = /(?:__|[])|\[(.*?)\]\(.*?\)/g;
 const copiedPostRegex = /\/(.*)\/(@[\w.\d-]+)\/(.*)/i;
 const postRegex = /^https?:\/\/(.*)\/(.*)\/(@[\w.\d-]+)\/(.*)/i;
 const youTubeRegex = /(?:https?:\/\/)?(?:www\.)?(?:youtube\.com\/watch\?v=|youtu\.be\/)([^& \n<]+)(?:[^ \n<]+)?/g;
@@ -15,13 +16,12 @@ const authorNameRegex = /(^|[^a-zA-Z0-9_!#$%&*@＠\/]|(^|[^a-zA-Z0-9_+~.-\/]))[@
 const tagsRegex = /(^|\s|>)(#[-a-z\d]+)/gi;
 const centerRegex = /(<center>)/g;
 const imgRegex = /(https?:\/\/.*\.(?:tiff?|jpe?g|gif|png|svg|ico|PNG|GIF|JPG))/g;
-const linkRegex = /[-a-zA-Z0-9@:%_\+.~#?&//=]{2,256}\.[a-z]{2,4}\b(\/[-a-zA-Z0-9@:%_\+.~#?&//=]*)?/gi;
+const linkRegex = /[-a-zA-Z0-9@:%+.~#?&//=]{2,256}\.[a-z]{2,4}\b(\/[-a-zA-Z0-9@:%+.~#?&//=]*)?/gi;
 const markdownImageRegex = /!\[[^\]]*\]\((.*?)\s*("(?:.*[^"])")?\s*\)/g;
 const urlRegex = /(http|ftp|https):\/\/([\w_-]+(?:(?:\.[\w_-]+)+))([\w.,@?^=%&:/~+#-]*[\w@?^=%&/~+#-])?/gm;
 const aTagRegex = /(<\s*a[^>]*>(.*?)<\s*[/]\s*a>)/g;
 const imgTagRegex = /(<img[^>]*>)/g;
 const iframeRegex = /(?:<iframe[^>]*)(?:(?:\/>)|(?:>.*?<\/iframe>))/g;
-//const markdownLinkRegex = /(?:__|[])|\[(.*?)\]\(.*?\)/g;
 
 export const markDown2Html = (input) => {
   if (!input) {
@@ -77,7 +77,7 @@ export const markDown2Html = (input) => {
     output = handleATag(output);
   }
 
-  // if (markdownLinkRegex.test(output)) {
+  // if (copiedPostRegex.test(output)) {
   //   output = handleMarkdownLink(output);
   // }
 
@@ -126,7 +126,7 @@ const handleATag = input => input.replace(aTagRegex, (link) => {
   return link;
 });
 
-const handleMarkdownLink = input => input.replace(markdownLinkRegex, (link) => {
+const handleMarkdownLink = input => input.replace(copiedPostRegex, (link) => {
   const postMatch = link.match(copiedPostRegex);
 
   if (postMatch) {
@@ -156,11 +156,21 @@ const handleLinks = input => input.replace(linkRegex, (link) => {
     ) {
       const imageMatch = link.match(imgRegex);
 
-      if (imageMatch[0].indexOf('.gif') > 0) return gifBody(imageMatch[0]);
+      if (imageMatch) {
+        if (imageMatch[0].indexOf('.gif') > 0) {
+          return gifBody(imageMatch[0]);
+        }
 
-      if (imageMatch && imageMatch[0]) {
-        return imageBody(imageMatch[0]);
+        if (imageMatch[0]) {
+          return imageBody(imageMatch[0]);
+        }
+      } else if (link.trim().indexOf('ipfs.busy.org') > 0) {
+        return imageBody(link);
       }
+
+      return link;
+    } if (link.trim().indexOf('ipfs.busy.org') > 0) {
+      return imageBody(link);
     }
   }
 
