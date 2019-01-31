@@ -1,4 +1,4 @@
-import React, { Component, Fragment } from 'react';
+import React, { Component } from 'react';
 import { connect } from 'react-redux';
 import { withNavigation } from 'react-navigation';
 
@@ -28,9 +28,9 @@ class ProfileContainer extends Component {
   constructor(props) {
     super(props);
     const isReverseHeader = !!(
-      props.navigation.state &&
-      props.navigation.state.params &&
-      props.navigation.state.username
+      props.navigation.state
+      && props.navigation.state.params
+      && props.navigation.state.username
     );
 
     this.state = {
@@ -78,8 +78,7 @@ class ProfileContainer extends Component {
     const {
       navigation, currentAccount, activeBottomTab, isLoggedIn,
     } = this.props;
-    const currentUsername = currentAccount.name !== nextProps.currentAccount.name
-      && nextProps.currentAccount.name;
+    const currentUsername = currentAccount.name !== nextProps.currentAccount.name && nextProps.currentAccount.name;
 
     if (isLoggedIn && !nextProps.isLoggedIn) {
       navigation.navigate(ROUTES.SCREENS.LOGIN);
@@ -328,45 +327,50 @@ class ProfileContainer extends Component {
       user,
       username,
     } = this.state;
-    const { isDarkTheme, isLoggedIn } = this.props;
+    const { isDarkTheme, isLoggedIn, currency } = this.props;
 
     return (
-      <Fragment>
-        <ProfileScreen
-          about={user && user.about && user.about.profile}
-          avatar={avatar}
-          comments={comments}
-          error={error}
-          follows={follows}
-          handleFollowUnfollowUser={this._handleFollowUnfollowUser}
-          handleMuteUnmuteUser={this._handleMuteUnmuteUser}
-          handleOnBackPress={this._handleOnBackPress}
-          handleOnFavoritePress={this._handleOnFavoritePress}
-          handleOnFollowsPress={this._handleFollowsPress}
-          isDarkTheme={isDarkTheme}
-          isFavorite={isFavorite}
-          isFollowing={isFollowing}
-          isLoggedIn={isLoggedIn}
-          isMuted={isMuted}
-          isProfileLoading={isProfileLoading}
-          isReady={isReady}
-          isReverseHeader={isReverseHeader}
-          selectedQuickProfile={selectedQuickProfile}
-          selectedUser={user}
-          username={username}
-          getReplies={() => this._getReplies(username)}
-        />
-      </Fragment>
+      <ProfileScreen
+        about={user && user.about && user.about.profile}
+        avatar={avatar}
+        comments={comments}
+        currency={currency}
+        error={error}
+        follows={follows}
+        getReplies={() => this._getReplies(username)}
+        handleFollowUnfollowUser={this._handleFollowUnfollowUser}
+        handleMuteUnmuteUser={this._handleMuteUnmuteUser}
+        handleOnBackPress={this._handleOnBackPress}
+        handleOnFavoritePress={this._handleOnFavoritePress}
+        handleOnFollowsPress={this._handleFollowsPress}
+        isDarkTheme={isDarkTheme}
+        isFavorite={isFavorite}
+        isFollowing={isFollowing}
+        isLoggedIn={isLoggedIn}
+        isMuted={isMuted}
+        isProfileLoading={isProfileLoading}
+        isReady={isReady}
+        isReverseHeader={isReverseHeader}
+        selectedQuickProfile={selectedQuickProfile}
+        selectedUser={user}
+        username={username}
+      />
     );
   }
 }
 
 const mapStateToProps = state => ({
+  // Applicaiton
   isLoggedIn: state.application.isLoggedIn,
+  isDarkTheme: state.application.isDarkTheme,
+  currency: state.application.currency,
+
+  // Ui
+  activeBottomTab: state.ui.activeBottomTab,
+
+  // Account
   currentAccount: state.account.currentAccount,
   pinCode: state.account.pin,
-  isDarkTheme: state.application.isDarkTheme,
-  activeBottomTab: state.ui.activeBottomTab,
 });
 
 export default connect(mapStateToProps)(withNavigation(ProfileContainer));

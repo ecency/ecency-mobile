@@ -116,9 +116,9 @@ class ApplicationContainer extends Component {
   }
 
   _fetchApp = async () => {
+    this._refreshGlobalProps();
     this._getSettings();
     await this._getUserData();
-    this._refreshGlobalProps();
   };
 
   _handleConntectionChange = (status) => {
@@ -223,16 +223,17 @@ class ApplicationContainer extends Component {
   };
 
   _getSettings = () => {
-    const { dispatch } = this.props;
+    const { dispatch, actions } = this.props;
 
     getSettings().then((response) => {
       if (response) {
         if (response.isDarkTheme !== '') dispatch(isDarkTheme(response.isDarkTheme));
         if (response.language !== '') dispatch(setLanguage(response.language));
-        if (response.currency !== '') dispatch(setCurrency(response.currency));
         if (response.notification !== '') dispatch(isNotificationOpen(response.notification));
         if (response.server !== '') dispatch(setApi(response.server));
         if (response.upvotePercent !== '') dispatch(setUpvotePercent(Number(response.upvotePercent)));
+
+        dispatch(setCurrency(response.currency !== '' ? response.currency : 'usd'));
 
         this.setState({ isReady: true });
       }

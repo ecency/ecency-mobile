@@ -59,7 +59,7 @@ class SettingsScreen extends PureComponent {
             type="dropdown"
             actionType="currency"
             options={CURRENCY}
-            selectedOptionIndex={CURRENCY_VALUE.indexOf(selectedCurrency)}
+            selectedOptionIndex={CURRENCY_VALUE.indexOf(selectedCurrency.currency)}
             handleOnChange={handleOnChange}
           />
           <SettingsItem

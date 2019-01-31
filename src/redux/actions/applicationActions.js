@@ -1,3 +1,5 @@
+import getSymbolFromCurrency from 'currency-symbol-map';
+import { getCurrencyRate } from '../../providers/esteem/esteem';
 import {
   ACTIVE_APPLICATION,
   CLOSE_PIN_CODE_MODAL,
@@ -50,11 +52,6 @@ export const setLanguage = payload => ({
   type: SET_LANGUAGE,
 });
 
-export const setCurrency = payload => ({
-  payload,
-  type: SET_CURRENCY,
-});
-
 export const setApi = payload => ({
   payload,
   type: SET_API,
@@ -79,3 +76,15 @@ export const setConnectivityStatus = payload => ({
   payload,
   type: IS_CONNECTED,
 });
+
+/**
+ * MW
+ */
+export const setCurrency = currency => (dispatch) => {
+  const currencySymbol = getSymbolFromCurrency(currency);
+
+  getCurrencyRate(currency).then(currencyRate => dispatch({
+    type: SET_CURRENCY,
+    payload: { currency, currencyRate, currencySymbol },
+  }));
+};
