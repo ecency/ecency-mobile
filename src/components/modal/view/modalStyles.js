@@ -7,8 +7,6 @@ export default EStyleSheet.create({
     borderRadius: 20,
   },
   fullModal: {
-    height: '$deviceHeight',
-    width: '$deviceWidth',
     flex: 1,
   },
   borderTopRadius: {
