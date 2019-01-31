@@ -14,6 +14,7 @@ import { vestsToRshares } from '../../../utils/conversions';
 import { Icon } from '../../icon';
 import { PulseAnimation } from '../../animations';
 import { TextButton } from '../../buttons';
+import { FormatedCurrency } from '../../formatedElements';
 
 // STEEM
 import { vote } from '../../../providers/steem/dsteem';
@@ -203,7 +204,7 @@ class UpvoteView extends Component {
               <TextButton
                 style={styles.payoutTextButton}
                 textStyle={[styles.payoutValue, isDecinedPayout && styles.declinedPayout]}
-                text={`$${_totalPayout}`}
+                text={<FormatedCurrency value={_totalPayout} />}
                 onPress={() => {
                   openPopover();
                   this.setState({ isShowDetails: true });
@@ -258,18 +259,18 @@ class UpvoteView extends Component {
                   <Fragment>
                     <TouchableOpacity
                       onPress={() => {
-                closePopover();
-                this._upvoteContent();
-              }}
+                      closePopover();
+                      this._upvoteContent();
+                    }}
                       style={styles.upvoteButton}
                     >
                       <Icon
-                size={20}
-                style={[styles.upvoteIcon, { color: '#007ee5' }]}
-                active={!isLoggedIn}
-                iconType={iconType}
-                name={iconName}
-              />
+                        size={20}
+                        style={[styles.upvoteIcon, { color: '#007ee5' }]}
+                        active={!isLoggedIn}
+                        iconType={iconType}
+                        name={iconName}
+                      />
                     </TouchableOpacity>
                     <Text style={styles.amount}>{_amount}</Text>
                     <Slider
@@ -280,10 +281,10 @@ class UpvoteView extends Component {
                       thumbTintColor="#007ee5"
                       value={sliderValue}
                       onValueChange={(value) => {
-                this.setState({ sliderValue: value }, () => {
-                  this._calculateEstimatedAmount();
-                });
-              }}
+                      this.setState({ sliderValue: value }, () => {
+                        this._calculateEstimatedAmount();
+                      });
+                    }}
                     />
                     <Text style={styles.percent}>{_percent}</Text>
                   </Fragment>
