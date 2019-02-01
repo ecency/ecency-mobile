@@ -18,7 +18,9 @@ import lightTheme from '../../../themes/lightTheme';
 class ApplicationScreen extends Component {
   constructor(props) {
     super(props);
-    this.state = {};
+    this.state = {
+      isShowToastNotification: false,
+    };
   }
 
   componentWillMount() {
@@ -26,8 +28,20 @@ class ApplicationScreen extends Component {
     EStyleSheet.build(isDarkTheme ? darkTheme : lightTheme);
   }
 
+  componentWillReceiveProps(nextProps) {
+    const { toastNotification } = this.props;
+    if (nextProps.toastNotification !== toastNotification) {
+      this.setState({ isShowToastNotification: true });
+    } else {
+      this.setState({ isShowToastNotification: false });
+    }
+  }
+
   render() {
-    const { isConnected, isDarkTheme, locale } = this.props;
+    const {
+      isConnected, isDarkTheme, locale, toastNotification,
+    } = this.props;
+    const { isShowToastNotification } = this.state;
     const barStyle = isDarkTheme ? 'light-content' : 'dark-content';
     const barColor = isDarkTheme ? '#1e2835' : '#fff';
 
@@ -48,7 +62,7 @@ class ApplicationScreen extends Component {
         <IntlProvider locale={locale} messages={flattenMessages(messages[locale])}>
           <ErrorBoundary>
             <ReduxNavigation />
-            <ToastNotificaiton text="ugur erdal" />
+            {isShowToastNotification && <ToastNotificaiton text={toastNotification} />}
           </ErrorBoundary>
         </IntlProvider>
       </Fragment>
