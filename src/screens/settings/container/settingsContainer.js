@@ -23,6 +23,7 @@ import {
   isDarkTheme,
   openPinCodeModal,
 } from '../../../redux/actions/applicationActions';
+import { toastNotification } from '../../../redux/actions/uiAction';
 import { setPushToken, getNodes, getCurrencyRate } from '../../../providers/esteem/esteem';
 
 // Middleware
@@ -92,10 +93,10 @@ class SettingsContainer extends Component {
     try {
       serverResp = await client.database.getDynamicGlobalProperties();
     } catch (e) {
-      alert(e);
+      dispatch(toastNotification('Connection Failed!'));
       return;
     } finally {
-      alert('done');
+      dispatch(toastNotification('Succesfuly connected!'));
     }
 
     const localTime = new Date(new Date().toISOString().split('.')[0]);
@@ -103,7 +104,7 @@ class SettingsContainer extends Component {
     const isAlive = localTime - serverTime < 15000;
 
     if (!isAlive) {
-      alert("server not alive");
+      alert('server not alive');
       return;
     }
 
