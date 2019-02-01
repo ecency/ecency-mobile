@@ -8,6 +8,8 @@ import messages from '../../../config/locales';
 
 // Components
 import { NoInternetConnection } from '../../../components/basicUIElements';
+import { ErrorBoundary } from '../../../components/errorBoundary';
+import { ToastNotificaiton } from '../../../components/toastNotification';
 
 // Themes (Styles)
 import darkTheme from '../../../themes/darkTheme';
@@ -44,7 +46,10 @@ class ApplicationScreen extends Component {
         )}
 
         <IntlProvider locale={locale} messages={flattenMessages(messages[locale])}>
-          <ReduxNavigation />
+          <ErrorBoundary>
+            <ReduxNavigation />
+            <ToastNotificaiton text="ugur erdal" />
+          </ErrorBoundary>
         </IntlProvider>
       </Fragment>
     );
