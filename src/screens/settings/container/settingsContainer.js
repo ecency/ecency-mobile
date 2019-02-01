@@ -87,7 +87,6 @@ class SettingsContainer extends Component {
     const { serverList } = this.state;
     const server = serverList[action];
     let serverResp;
-
     const client = new Client(server, { timeout: 3000 });
 
     try {
