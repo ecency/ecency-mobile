@@ -2,6 +2,7 @@ import React, { Component } from 'react';
 import { Platform } from 'react-native';
 import { connect } from 'react-redux';
 import AppCenter from 'appcenter';
+import { Client } from 'dsteem';
 
 // Realm
 import {
@@ -61,7 +62,6 @@ class SettingsContainer extends Component {
   // Component Functions
   _handleDropdownSelected = (action, actionType) => {
     const { dispatch } = this.props;
-    const { serverList } = this.state;
 
     switch (actionType) {
       case 'currency':
@@ -74,13 +74,42 @@ class SettingsContainer extends Component {
         break;
 
       case 'api':
-        dispatch(setApi(serverList[action]));
-        setServer(serverList[action]);
+        this._changeApi(action);
         break;
 
       default:
         break;
     }
+  };
+
+  _changeApi = async (action) => {
+    const { dispatch } = this.props;
+    const { serverList } = this.state;
+    const server = serverList[action];
+    let serverResp;
+
+    const client = new Client(server, { timeout: 3000 });
+
+    try {
+      serverResp = await client.database.getDynamicGlobalProperties();
+    } catch (e) {
+      alert(e);
+      return;
+    } finally {
+      alert('done');
+    }
+
+    const localTime = new Date(new Date().toISOString().split('.')[0]);
+    const serverTime = new Date(serverResp.time);
+    const isAlive = localTime - serverTime < 15000;
+
+    if (!isAlive) {
+      alert("server not alive");
+      return;
+    }
+
+    dispatch(setApi(server));
+    setServer(server);
   };
 
   _currencyChange = (action) => {
