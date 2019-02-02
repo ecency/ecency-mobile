@@ -24,7 +24,7 @@ import {
   openPinCodeModal,
 } from '../../../redux/actions/applicationActions';
 import { toastNotification } from '../../../redux/actions/uiAction';
-import { setPushToken, getNodes, getCurrencyRate } from '../../../providers/esteem/esteem';
+import { setPushToken, getNodes } from '../../../providers/esteem/esteem';
 
 // Middleware
 
@@ -88,15 +88,17 @@ class SettingsContainer extends Component {
     const { serverList } = this.state;
     const server = serverList[action];
     let serverResp;
+    let isError = false;
     const client = new Client(server, { timeout: 3000 });
 
     try {
       serverResp = await client.database.getDynamicGlobalProperties();
     } catch (e) {
+      isError = true;
       dispatch(toastNotification('Connection Failed!'));
       return;
     } finally {
-      dispatch(toastNotification('Succesfuly connected!'));
+      if (!isError) dispatch(toastNotification('Succesfuly connected!'));
     }
 
     const localTime = new Date(new Date().toISOString().split('.')[0]);
@@ -104,7 +106,7 @@ class SettingsContainer extends Component {
     const isAlive = localTime - serverTime < 15000;
 
     if (!isAlive) {
-      alert('server not alive');
+      dispatch(toastNotification('Server not available'));
       return;
     }
 
