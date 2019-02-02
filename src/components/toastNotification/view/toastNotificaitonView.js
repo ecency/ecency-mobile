@@ -30,17 +30,31 @@ class ToastNotification extends Component {
   }
 
   _showToast() {
+    const { duration } = this.props;
     const animatedValue = new Animated.Value(0);
 
     this.setState({ animatedValue });
 
     Animated.timing(animatedValue, { toValue: 1, duration: 350 }).start();
+
+    if (duration) {
+      this.closeTimer = setTimeout(() => {
+        this._hideToast();
+      }, duration);
+    }
   }
 
   _hideToast() {
     const { animatedValue } = this.state;
+    const { handleOnHide } = this.props;
 
-    Animated.timing(animatedValue, { toValue: 0.0, duration: 350 }).start();
+    Animated.timing(animatedValue, { toValue: 0.0, duration: 350 }).start(() => {
+      if (handleOnHide) handleOnHide();
+    });
+
+    if (this.closeTimer) {
+      clearTimeout(this.closeTimer);
+    }
   }
 
   render() {

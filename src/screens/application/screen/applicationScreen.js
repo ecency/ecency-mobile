@@ -10,6 +10,7 @@ import messages from '../../../config/locales';
 import { NoInternetConnection } from '../../../components/basicUIElements';
 import { ErrorBoundary } from '../../../components/errorBoundary';
 import { ToastNotificaiton } from '../../../components/toastNotification';
+import { toastNotification as toastNotificationAction } from '../../../redux/actions/uiAction';
 
 // Themes (Styles)
 import darkTheme from '../../../themes/darkTheme';
@@ -30,12 +31,16 @@ class ApplicationScreen extends Component {
 
   componentWillReceiveProps(nextProps) {
     const { toastNotification } = this.props;
-    if (nextProps.toastNotification !== toastNotification) {
+    if (nextProps.toastNotification && nextProps.toastNotification !== toastNotification) {
       this.setState({ isShowToastNotification: true });
-    } else {
-      this.setState({ isShowToastNotification: false });
     }
   }
+
+  _handleOnHideToastNotification = () => {
+    const { dispatch } = this.props;
+    dispatch(toastNotificationAction(''));
+    this.setState({ isShowToastNotification: false });
+  };
 
   render() {
     const {
@@ -62,7 +67,13 @@ class ApplicationScreen extends Component {
         <IntlProvider locale={locale} messages={flattenMessages(messages[locale])}>
           <ErrorBoundary>
             <ReduxNavigation />
-            {isShowToastNotification && <ToastNotificaiton text={toastNotification} />}
+            {isShowToastNotification && (
+              <ToastNotificaiton
+                text={toastNotification}
+                duration={2000}
+                handleOnHide={this._handleOnHideToastNotification}
+              />
+            )}
           </ErrorBoundary>
         </IntlProvider>
       </Fragment>
