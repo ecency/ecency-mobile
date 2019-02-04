@@ -3,7 +3,6 @@ import EStyleSheet from 'react-native-extended-stylesheet';
 export default EStyleSheet.create({
   container: {
     position: 'absolute',
-    bottom: 100,
     zIndex: 9999,
     justifyContent: 'center',
     alignItems: 'center',
