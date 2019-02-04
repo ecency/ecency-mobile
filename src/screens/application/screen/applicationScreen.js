@@ -8,7 +8,6 @@ import messages from '../../../config/locales';
 
 // Components
 import { NoInternetConnection } from '../../../components/basicUIElements';
-import { ErrorBoundary } from '../../../components/errorBoundary';
 import { ToastNotification } from '../../../components/toastNotification';
 import { toastNotification as toastNotificationAction } from '../../../redux/actions/uiAction';
 
@@ -65,16 +64,14 @@ class ApplicationScreen extends Component {
         )}
 
         <IntlProvider locale={locale} messages={flattenMessages(messages[locale])}>
-          <ErrorBoundary>
-            <ReduxNavigation />
-            {isShowToastNotification && (
-              <ToastNotification
-                text={toastNotification}
-                duration={2000}
-                onHide={this._handleOnHideToastNotification}
-              />
-            )}
-          </ErrorBoundary>
+          <ReduxNavigation />
+          {isShowToastNotification && (
+            <ToastNotification
+              text={toastNotification}
+              duration={2000}
+              onHide={this._handleOnHideToastNotification}
+            />
+          )}
         </IntlProvider>
       </Fragment>
     );

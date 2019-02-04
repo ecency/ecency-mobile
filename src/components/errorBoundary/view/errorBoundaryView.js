@@ -1,4 +1,5 @@
-import React, { Component } from 'react';
+import React, { Component, Fragment } from 'react';
+import Text from 'react-native';
 
 export default class ErrorBoundary extends Component {
   constructor(props) {
@@ -10,15 +11,21 @@ export default class ErrorBoundary extends Component {
     if (__DEV__) {
       return;
     }
-    this.setState({ hasError: true });
+    this.setState({ hasError: true, info, error });
   }
 
   render() {
-    const { hasError } = this.state;
+    const { hasError, info, error } = this.state;
     const { children } = this.props;
 
     if (hasError) {
-      return <h1>Something went wrong.</h1>;
+      return (
+        <Fragment>
+          <Text>Something went wrong.</Text>
+          <Text>{error}</Text>
+          <Text>{info}</Text>
+        </Fragment>
+      );
     }
     return children;
   }
