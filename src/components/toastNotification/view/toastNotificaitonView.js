@@ -1,9 +1,5 @@
 import React, { Component } from 'react';
-import { Animated, Text } from 'react-native';
-
-// Constants
-
-// Components
+import { Animated, TouchableOpacity, Text } from 'react-native';
 
 // Styles
 import styles from './toastNotificationStyles';
@@ -22,13 +18,11 @@ class ToastNotification extends Component {
   }
 
   // Component Life Cycles
-
-  // Component Functions
-
   componentWillMount() {
     this._showToast();
   }
 
+  // Component Functions
   _showToast() {
     const { duration } = this.props;
     const animatedValue = new Animated.Value(0);
@@ -46,10 +40,10 @@ class ToastNotification extends Component {
 
   _hideToast() {
     const { animatedValue } = this.state;
-    const { handleOnHide } = this.props;
+    const { onHide } = this.props;
 
     Animated.timing(animatedValue, { toValue: 0.0, duration: 350 }).start(() => {
-      if (handleOnHide) handleOnHide();
+      if (onHide) onHide();
     });
 
     if (this.closeTimer) {
@@ -58,23 +52,31 @@ class ToastNotification extends Component {
   }
 
   render() {
-    const { text } = this.props;
+    const {
+      text, textStyle, style, onPress, isTop,
+    } = this.props;
     const { animatedValue } = this.state;
+    const outputRange = isTop ? [-50, 0] : [50, 0];
     const y = animatedValue.interpolate({
       inputRange: [0, 1],
-      outputRange: [50, 0],
+      outputRange,
     });
+    const position = isTop ? { top: 100 } : { bottom: 100 };
 
     return (
-      <Animated.View
-        style={{
-          ...styles.container,
-          opacity: animatedValue,
-          transform: [{ translateY: y }],
-        }}
-      >
-        <Text style={styles.text}>{text}</Text>
-      </Animated.View>
+      <TouchableOpacity disabled={!onPress} onPress={() => onPress && onPress()}>
+        <Animated.View
+          style={{
+            ...styles.container,
+            ...style,
+            ...position,
+            opacity: animatedValue,
+            transform: [{ translateY: y }],
+          }}
+        >
+          <Text style={[styles.text, textStyle]}>{text}</Text>
+        </Animated.View>
+      </TouchableOpacity>
     );
   }
 }

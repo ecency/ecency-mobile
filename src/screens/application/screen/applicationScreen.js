@@ -9,7 +9,7 @@ import messages from '../../../config/locales';
 // Components
 import { NoInternetConnection } from '../../../components/basicUIElements';
 import { ErrorBoundary } from '../../../components/errorBoundary';
-import { ToastNotificaiton } from '../../../components/toastNotification';
+import { ToastNotification } from '../../../components/toastNotification';
 import { toastNotification as toastNotificationAction } from '../../../redux/actions/uiAction';
 
 // Themes (Styles)
@@ -68,10 +68,10 @@ class ApplicationScreen extends Component {
           <ErrorBoundary>
             <ReduxNavigation />
             {isShowToastNotification && (
-              <ToastNotificaiton
+              <ToastNotification
                 text={toastNotification}
                 duration={2000}
-                handleOnHide={this._handleOnHideToastNotification}
+                onHide={this._handleOnHideToastNotification}
               />
             )}
           </ErrorBoundary>

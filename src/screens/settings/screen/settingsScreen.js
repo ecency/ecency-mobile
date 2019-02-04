@@ -33,14 +33,14 @@ class SettingsScreen extends PureComponent {
   render() {
     const {
       handleOnChange,
-      selectedLanguage,
+      intl,
+      isDarkTheme,
+      isLoggedIn,
+      isNotificationSettingsOpen,
       selectedApi,
       selectedCurrency,
-      isNotificationSettingsOpen,
-      isDarkTheme,
+      selectedLanguage,
       serverList,
-      intl,
-      isLoggedIn,
     } = this.props;
 
     return (
