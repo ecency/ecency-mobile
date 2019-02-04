@@ -1,5 +1,7 @@
 import React, { Component, Fragment } from 'react';
-import { FlatList, View, ActivityIndicator, RefreshControl } from 'react-native';
+import {
+  FlatList, View, ActivityIndicator, RefreshControl,
+} from 'react-native';
 import { injectIntl } from 'react-intl';
 import { withNavigation } from 'react-navigation';
 
@@ -225,11 +227,7 @@ class PostsView extends Component {
 
   render() {
     const {
-      refreshing,
-      posts,
-      isPostsLoading,
-      isHideImage,
-      isNoPost,
+      refreshing, posts, isPostsLoading, isHideImage, isNoPost,
     } = this.state;
     const {
       filterOptions,
@@ -274,11 +272,7 @@ class PostsView extends Component {
             data={posts}
             showsVerticalScrollIndicator={false}
             renderItem={({ item }) => (
-              <PostCard
-                isRefresh={refreshing}
-                content={item}
-                isHideImage={isHideImage}
-              />
+              <PostCard isRefresh={refreshing} content={item} isHideImage={isHideImage} />
             )}
             keyExtractor={(post, index) => index.toString()}
             onEndReached={() => this._loadPosts()}
@@ -298,7 +292,7 @@ class PostsView extends Component {
                 titleColor="#fff"
                 colors={['#fff']}
               />
-            )}
+)}
             ref={(ref) => {
               this.flatList = ref;
             }}
