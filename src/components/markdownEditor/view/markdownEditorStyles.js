@@ -10,7 +10,8 @@ export default EStyleSheet.create({
   textWrapper: {
     flex: 1,
     fontSize: 12,
-    paddingVertical: 16,
+    paddingTop: 16,
+    paddingBottom: 0, // On android side, textinput has default padding
     paddingHorizontal: 16,
     color: '$primaryBlack',
     fontFamily: '$editorFont',
