@@ -17,7 +17,11 @@ import {
 
 const initialState = {
   api: 'api.steemit.com',
-  currency: 'usd',
+  currency: {
+    currency: 'usd',
+    currecyRate: 1,
+    currencySymbol: '$',
+  },
   isActive: false,
   isConnected: true, // internet connectivity
   isDarkTheme: false,

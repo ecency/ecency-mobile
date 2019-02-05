@@ -3,6 +3,8 @@ import searchApi from '../../config/search';
 import imageApi from '../../config/imageApi';
 import serverList from '../../config/serverListApi';
 
+export const getCurrencyRate = currency => api.get(`/currencyRate/${currency.toUpperCase()}/steem`).then(resp => resp.data);
+
 /**
  * @params username
  */

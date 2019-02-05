@@ -84,7 +84,6 @@ const migration = (oldRealm, newRealm) => {
   // if (oldRealm.schemaVersion < 1) {
   //   const oldObjects = oldRealm.objects('Person');
   //   const newObjects = newRealm.objects('Person');
-
   //   // loop through all objects and set the name property in the new schema
   //   for (let i = 0; i < oldObjects.length; i++) {
   //     newObjects[i].name = `${oldObjects[i].firstName} ${oldObjects[i].lastName}`;
@@ -411,10 +410,10 @@ export const setNotificationIsOpen = notificationIsOpen => new Promise((resolve,
   }
 });
 
-export const setCurrency = selectedCurrency => new Promise((resolve, reject) => {
+export const setCurrency = currencyProps => new Promise((resolve, reject) => {
   try {
     realm.write(() => {
-      settings[0].curreny = selectedCurrency;
+      settings[0].currency = currencyProps;
       resolve(true);
     });
   } catch (error) {
