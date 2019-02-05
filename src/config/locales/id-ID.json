@@ -136,8 +136,8 @@
     "remove_alert": "Yakin ingin menghapus?",
     "cancel": "Batal",
     "delete": "Hapus",
-    "copied": "Copied!",
-    "no_internet": "No connection!"
+    "copied": "Disalin!",
+    "no_internet": "Tidak ada koneksi!"
   },
   "post": {
     "reblog_alert": "Anda yakin ingin menerbitkan ulang?"
@@ -161,8 +161,8 @@
     "empty_list": "Disini belum ada apa-apa",
     "deleted": "Hapus yang ditandai",
     "search": "Cari di dalam halaman yang ditandai",
-    "added": "Added to bookmars",
-    "add": "Add to bookmarks"
+    "added": "Ditambahkan ke bookmark",
+    "add": "Ditambahkan ke bookmark"
   },
   "favorites": {
     "title": "Favorit",
@@ -189,7 +189,7 @@
     "reblog": "menampilkan kembali",
     "reply": "balas",
     "share": "bagikan",
-    "bookmarks": "add to bookmarks"
+    "bookmarks": "tambah ke penanda"
   },
   "deep_link": {
     "no_existing_user": "Tidak ada pengguna yang ada",
