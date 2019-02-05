@@ -8,6 +8,7 @@ import { getAccount, claimRewardBalance } from '../../../providers/steem/dsteem'
 
 // Utils
 import { groomingWalletData } from '../../../utils/wallet';
+import parseToken from '../../../utils/parseToken';
 
 // Component
 import WalletView from '../view/walletView';
@@ -54,9 +55,14 @@ class WalletContainer extends Component {
     setEstimatedWalletValue(walletData.estimatedValue);
   };
 
+  _isHasUnclaimedRewards = account => parseToken(account.reward_steem_balance) > 0
+    || parseToken(account.reward_sbd_balance) > 0
+    || parseToken(account.reward_vesting_steem) > 0;
+
   _claimRewardBalance = async () => {
     const { currentAccount, intl, pinCode } = this.props;
     const { isClaiming } = this.state;
+    let isHasUnclaimedRewards;
 
     if (isClaiming) {
       return;
@@ -66,23 +72,28 @@ class WalletContainer extends Component {
 
     getAccount(currentAccount.name)
       .then((account) => {
-        const {
-          reward_steem_balance: steemBal,
-          reward_sbd_balance: sbdBal,
-          reward_vesting_balance: vestingBal,
-        } = account[0];
-
-        return claimRewardBalance(currentAccount, pinCode, steemBal, sbdBal, vestingBal);
+        isHasUnclaimedRewards = this._isHasUnclaimedRewards(account[0]);
+        if (isHasUnclaimedRewards) {
+          const {
+            reward_steem_balance: steemBal,
+            reward_sbd_balance: sbdBal,
+            reward_vesting_balance: vestingBal,
+          } = account[0];
+          return claimRewardBalance(currentAccount, pinCode, steemBal, sbdBal, vestingBal);
+        }
+        this.setState({ isClaiming: false });
       })
       .then(() => getAccount(currentAccount.name))
       .then((account) => {
         this._getWalletData(account && account[0]);
 
-        Alert.alert(
-          intl.formatMessage({
-            id: 'alert.claim_reward_balance_ok',
-          }),
-        );
+        if (isHasUnclaimedRewards) {
+          Alert.alert(
+            intl.formatMessage({
+              id: 'alert.claim_reward_balance_ok',
+            }),
+          );
+        }
       })
       .then((account) => {
         this._getWalletData(account && account[0]);
