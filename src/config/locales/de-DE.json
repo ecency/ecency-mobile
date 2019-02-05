@@ -135,7 +135,9 @@
     "invalid_pincode": "Ungültiger PIN-Code, bitte überprüfen und erneut versuchen.",
     "remove_alert": "Bist du sicher, dass du es entfernen möchtest?",
     "cancel": "Abbrechen",
-    "delete": "Entfernen"
+    "delete": "Entfernen",
+    "copied": "Copied!",
+    "no_internet": "No connection!"
   },
   "post": {
     "reblog_alert": "Möchtest du diesen Beitrag wirklich teilen?"
@@ -158,7 +160,9 @@
     "load_error": "Lesezeichen können nicht geladen werden",
     "empty_list": "Keine Einträge vorhanden",
     "deleted": "Lesezeichen entfernt",
-    "search": "In Lesezeichen suchen"
+    "search": "In Lesezeichen suchen",
+    "added": "Added to bookmars",
+    "add": "Add to bookmarks"
   },
   "favorites": {
     "title": "Favoriten",
@@ -184,10 +188,11 @@
     "copy": "Link kopieren",
     "reblog": "Teilen",
     "reply": "Antworten",
-    "share": "Teilen"
+    "share": "Teilen",
+    "bookmarks": "add to bookmarks"
   },
   "deep_link": {
-    "no_existing_user": "No existing user",
-    "no_existing_post": "No existing post"
+    "no_existing_user": "Kein vorhandener Benutzer",
+    "no_existing_post": "Kein vorhandener Beitrag"
   }
 }
