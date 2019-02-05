@@ -51,7 +51,7 @@
     "steem_power": "Сила голоса",
     "next_power_text": "Следующее понижение силы",
     "days": "д",
-    "day": "завтра",
+    "day": "д",
     "steem_dollars": "Доллары Steem",
     "savings": "Сейф"
   },
@@ -161,7 +161,9 @@
     "empty_list": "Ничего нет",
     "deleted": "Закладка удалена",
     "search": "Поиск по закладкам",
-    "bookmarks": "добавить в закладки"
+    "bookmarks": "добавить в закладки",
+    "added": "Added to bookmarks",
+    "add": "добавить в закладки"
   },
   "favorites": {
     "title": "Избранное",
@@ -191,7 +193,7 @@
     "bookmarks": "добавить в закладки"
   },
   "deep_link": {
-    "no_existing_user": "Нет существующего пользователя",
-    "no_existing_post": "Нет существующего поста"
+    "no_existing_user": "Несуществующий пользователь",
+    "no_existing_post": "Несуществующий пост"
   }
 }

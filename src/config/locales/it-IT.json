@@ -1,193 +1,198 @@
 {
   "wallet": {
-    "curation_reward": "Curation Reward",
-    "author_reward": "Author Reward",
-    "comment_benefactor_reward": "Comment Benefactor Reward",
-    "claim_reward_balance": "Claim Reward Balance",
-    "transfer": "Transfer",
-    "transfer_to_vesting": "Transfer To Vesting",
-    "transfer_from_savings": "Transfer From Savings",
+    "curation_reward": "Ricompensa Curatore",
+    "author_reward": "Ricompensa Autore",
+    "comment_benefactor_reward": "Ricompensa Commento Benefattore",
+    "claim_reward_balance": "Richiesta Saldo Ricompense",
+    "transfer": "Trasferimento",
+    "transfer_to_vesting": "Traferimento per investimento",
+    "transfer_from_savings": "Trasferisci Dai Risparmi",
     "withdraw_vesting": "Power Down",
-    "fill_order": "Fill Order"
+    "fill_order": "Completa L' Ordine"
   },
   "notification": {
-    "vote": "likes your post",
-    "unvote": "unvoted your post",
-    "reply": "replied to your post",
-    "mention": "mentioned you",
-    "follow": "followed you",
-    "unfollow": "unfollowed you",
-    "ignore": "ignored you",
-    "reblog": "reblogged your post",
-    "comingsoon": "Leaderboard feature is coming soon!",
-    "notification": "Notifications",
-    "leaderboard": "Leaderboard",
-    "leaderboard_title": "Daily Top User",
-    "recent": "Recent",
-    "yesterday": "Yesterday",
-    "this_week": "This Week",
-    "this_month": "This Month",
-    "older_then": "Older Than A Month"
+    "vote": "ha messo mi piace al tuo post",
+    "unvote": "non piace il tuo post",
+    "reply": "ha risposto al tuo post",
+    "mention": "ti ha menzionato",
+    "follow": "ha iniziato a seguirti",
+    "unfollow": "non ti segue più",
+    "ignore": "ti ha ignorato",
+    "reblog": "ha ripostato il tuo post",
+    "comingsoon": "La feature classifica arriverà presto!",
+    "notification": "Notifiche",
+    "leaderboard": "Classifica",
+    "leaderboard_title": "Top Utenti Giornalieri",
+    "recent": "Recenti",
+    "yesterday": "Ieri",
+    "this_week": "Questa settimana",
+    "this_month": "Questo Mese",
+    "older_then": "Più Di Un Mese Fa"
   },
   "messages": {
-    "comingsoon": "Messages feature is coming soon!"
+    "comingsoon": "La feature per i messaggi sta per arrivare!"
   },
   "profile": {
-    "following": "Following",
-    "follower": "Follower",
+    "following": "Seguito",
+    "follower": "Seguace",
     "post": "Post",
-    "details": "Profile Details",
-    "comments": "Comments",
-    "replies": "Replies",
-    "wallet": "Wallet",
-    "wallet_details": "Wallet Details",
-    "unclaimed_rewards": "Unclaimed Rewards",
-    "full_in": "Full in",
-    "hours": "hours",
-    "voting_power": "Voting power",
-    "login_to_see": "Login to see",
-    "havent_commented": "haven't commented anything yet",
-    "havent_posted": "haven't posted anything yet",
+    "details": "Dettagli Del Profilo",
+    "comments": "Commenti",
+    "replies": "Rispondi",
+    "wallet": "Portafoglio",
+    "wallet_details": "Dettagli Portafoglio",
+    "unclaimed_rewards": "Ricompense Non Reclamate",
+    "full_in": "Riempi",
+    "hours": "ore",
+    "voting_power": "Potere di voto",
+    "login_to_see": "Logga per vedere",
+    "havent_commented": "non hai ancora commentato nulla",
+    "havent_posted": "non hai ancora postato nulla",
     "steem_power": "Steem Power",
-    "next_power_text": "Next power down is in",
-    "days": "days",
-    "day": "day",
+    "next_power_text": "Il prossimo power down è tra",
+    "days": "giorni",
+    "day": "giorno",
     "steem_dollars": "Steem Dollars",
-    "savings": "Savings"
+    "savings": "Risparmi"
   },
   "settings": {
-    "settings": "Settings",
-    "currency": "Currency",
-    "language": "Language",
+    "settings": "Impostazioni",
+    "currency": "Moneta",
+    "language": "Linguaggio",
     "server": "Server",
-    "dark_theme": "Dark Theme",
-    "push_notification": "Push Notification",
+    "dark_theme": "Tema Scuro",
+    "push_notification": "Notifiche Push",
     "pincode": "Pincode",
-    "reset": "Reset"
+    "reset": "Resetta"
   },
   "voters": {
-    "voters_info": "Voters Info",
-    "no_user": "No user found."
+    "voters_info": "Info Votanti",
+    "no_user": "Nessun utente trovato."
   },
   "login": {
-    "signin": "Sign in",
-    "signup": "Sign up",
-    "signin_title": "To get all the benefits of using eSteem",
-    "username": "Username",
-    "password": "Password or WIF",
-    "description": "User credentials are kept locally on the device. Credentials are removed upon logout!",
-    "cancel": "cancel",
+    "signin": "Accedi",
+    "signup": "Registrati",
+    "signin_title": "Per ottenere tutti i vantaggi dall' utilizzo di eSteem",
+    "username": "Nome Utente",
+    "password": "Password o WIF",
+    "description": "Le tue credenziali sono memorizzate localmente sul dispositivo. Se fai il Logout le credenziali verranno rimosse!",
+    "cancel": "cancella",
     "login": "LOGIN",
-    "steemconnect_description": "If you don't want to keep your password encrypted and saved on your device, you can use Steemconnect."
+    "steemconnect_description": "Se non volete mantenere la vostra password crittografata e salvata sul dispositivo, è possibile utilizzare Steemconnect."
   },
   "home": {
     "feed": "Feed",
-    "popular": "Popular"
+    "popular": "Popolare"
   },
   "side_menu": {
-    "profile": "Profile",
-    "bookmarks": "Bookmarks",
-    "favorites": "Favorites",
-    "drafts": "Drafts",
-    "schedules": "Schedules",
-    "gallery": "Gallery",
-    "settings": "Settings",
-    "add_account": "Add Account",
-    "logout": "Logout",
-    "cancel": "Cancel",
-    "logout_text": "Are you sure you want to logout?"
+    "profile": "Profilo",
+    "bookmarks": "Segnalibri",
+    "favorites": "Preferiti",
+    "drafts": "Bozze",
+    "schedules": "Programmi",
+    "gallery": "Galleria",
+    "settings": "Impostazioni",
+    "add_account": "Aggiungi Account",
+    "logout": "Disconnettiti",
+    "cancel": "Cancella",
+    "logout_text": "Sei sicuro di voler uscire?"
   },
   "header": {
-    "title": "Login to customize your feed",
-    "search": "Search..."
+    "title": "Effettua il Login per personalizzare il tuo feed",
+    "search": "Cerca..."
   },
   "basic_header": {
-    "publish": "Publish",
-    "search": "Search",
-    "update": "Update",
-    "reply": "Reply"
+    "publish": "Pubblica",
+    "search": "Cerca",
+    "update": "Aggiorna",
+    "reply": "Rispondi"
   },
   "editor": {
-    "title": "Title",
+    "title": "Titolo",
     "tags": "tags",
-    "default_placeholder": "What would you like to write about today?",
-    "reply_placeholder": "What would you like to write about above post?",
-    "publish": "Publish",
-    "reply": "Reply"
+    "default_placeholder": "Che cosa ti piacerebbe scrivere oggi?",
+    "reply_placeholder": "Che cosa ti piacerebbe scrivere riguardo ai seguenti post?",
+    "publish": "Pubblica",
+    "reply": "Rispondi"
   },
   "pincode": {
     "enter_text": "Enter pin to unlock",
     "set_new": "Set new pin",
-    "write_again": "Write again",
-    "forgot_text": "Oh, I forgot it..."
+    "write_again": "Scrivi di nuovo",
+    "forgot_text": "Oh, l'ho dimenticato..."
   },
   "alert": {
-    "success": "Success!",
-    "allRead": "Marked all notifications as read",
-    "claim_reward_balance_ok": "Reward balance claimed",
-    "fail": "Fail!",
-    "success_shared": "Your post succesfully shared",
-    "permission_denied": "Permission denied",
-    "permission_text": "Please, go to phone Settings and change eSteem app permissions.",
+    "success": "Successo!",
+    "allRead": "Segna tutte le notifiche come lette",
+    "claim_reward_balance_ok": "Saldo Ricompensa Richiesto",
+    "fail": "Non riuscito!",
+    "success_shared": "Il tuo post è stato con successo condiviso",
+    "permission_denied": "Permesso negato",
+    "permission_text": "Per favore, vai alle impostazioni del cellulare e modificare le autorizzazioni di eSteem app.",
     "success_rebloged": "Rebloged!",
-    "already_rebloged": "You have already reblogged!",
-    "warning": "Warning",
+    "already_rebloged": "Lo hai già condiviso!",
+    "warning": "Attenzione",
     "invalid_pincode": "Invalid pin code, please check and try again.",
     "remove_alert": "Are you sure want to remove?",
-    "cancel": "Cancel",
-    "delete": "Delete"
+    "cancel": "Cancella",
+    "delete": "Elimina",
+    "copied": "Copied!",
+    "no_internet": "No connection!"
   },
   "post": {
-    "reblog_alert": "Are you sure you want to reblog?"
+    "reblog_alert": "Sei sicuro di volerlo condividere?"
   },
   "drafts": {
-    "title": "Drafts",
-    "load_error": "Could not load drafts",
-    "empty_list": "Nothing here",
-    "deleted": "Draft deleted"
+    "title": "Bozze",
+    "load_error": "Impossibile caricare le bozze",
+    "empty_list": "Non c'è niente qui",
+    "deleted": "Bozza eliminata"
   },
   "schedules": {
-    "title": "Scheduled Posts",
-    "empty_list": "Nothing here",
-    "deleted": "Scheduled post deleted",
-    "move": "Move to drafts",
-    "moved": "Moved to drafts"
+    "title": "Pianifica i post",
+    "empty_list": "Non c'è niente qui",
+    "deleted": "Pianificazione post eliminata",
+    "move": "Sposta in bozze",
+    "moved": "Spostata in bozze"
   },
   "bookmarks": {
-    "title": "Bookmarks",
-    "load_error": "Could not load bookmarks",
-    "empty_list": "Nothing here",
-    "deleted": "Bookmark removed",
-    "search": "Search in bookmarks"
+    "title": "Segnalibri",
+    "load_error": "Impossibile caricare i segnalibri",
+    "empty_list": "Non c'è niente qui",
+    "deleted": "Segnalibro rimosso",
+    "search": "Cerca tra i segnalibri",
+    "added": "Added to bookmars",
+    "add": "Add to bookmarks"
   },
   "favorites": {
-    "title": "Favorites",
-    "load_error": "Could not load favorites",
-    "empty_list": "Nothing here",
-    "search": "Search in favorites"
+    "title": "Preferiti",
+    "load_error": "Impossibile caricare i preferiti",
+    "empty_list": "Non c'è niente qui",
+    "search": "Cerca tra i preferiti"
   },
   "auth": {
     "invalid_pin": "Invalid pin code, please check and try again",
-    "invalid_username": "Invalid username, please check and try again",
-    "already_logged": "You are already logged in, please try to add another account",
-    "invalid_credentials": "Invalid credentials, please check and try again",
-    "unknow_error": "Unknown error, please contact us at support@esteem.app"
+    "invalid_username": "Username invalido, per favore controlla e riprova",
+    "already_logged": "Se già connesso, per favore aggiungi un altro account",
+    "invalid_credentials": "Credenziali invalide, per favore controlla e riprova",
+    "unknow_error": "Errore sconosciuto, per favore contattaci a support@esteem.app"
   },
   "payout": {
-    "potential_payout": "Potential Payout",
-    "promoted": "Promoted",
-    "author_payout": "Author Payout",
-    "curation_payout": "Curation Payout",
-    "payout_date": "Payout"
+    "potential_payout": "Pagamento Potenziale",
+    "promoted": "Sponsorizzati",
+    "author_payout": "Ricompensa Autore",
+    "curation_payout": "Ricompensa Curatore",
+    "payout_date": "Pagamento"
   },
   "post_dropdown": {
-    "copy": "copy link",
-    "reblog": "reblog",
-    "reply": "reply",
-    "share": "share"
+    "copy": "copia il link",
+    "reblog": "condividi",
+    "reply": "rispondi",
+    "share": "condividi",
+    "bookmarks": "add to bookmarks"
   },
   "deep_link": {
-    "no_existing_user": "No existing user",
-    "no_existing_post": "No existing post"
+    "no_existing_user": "Utente non esistente",
+    "no_existing_post": "Post non esistente"
   }
 }
