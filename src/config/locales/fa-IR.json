@@ -1,193 +1,198 @@
 {
   "wallet": {
-    "curation_reward": "Curation Reward",
-    "author_reward": "Author Reward",
-    "comment_benefactor_reward": "Comment Benefactor Reward",
-    "claim_reward_balance": "Claim Reward Balance",
-    "transfer": "Transfer",
-    "transfer_to_vesting": "Transfer To Vesting",
-    "transfer_from_savings": "Transfer From Savings",
-    "withdraw_vesting": "Power Down",
-    "fill_order": "Fill Order"
+    "curation_reward": "پاداش جمع آوری شده",
+    "author_reward": "پاداش نویسنده",
+    "comment_benefactor_reward": "پاداش متعلق به نویسنده نظر",
+    "claim_reward_balance": "دریافت پاداش",
+    "transfer": "انتقال دادن",
+    "transfer_to_vesting": "انتقال برای سرمایه گذاری",
+    "transfer_from_savings": "انتقال از پس انداز",
+    "withdraw_vesting": "کم کردن قدرت",
+    "fill_order": "سفارش"
   },
   "notification": {
-    "vote": "likes your post",
-    "unvote": "unvoted your post",
-    "reply": "replied to your post",
-    "mention": "mentioned you",
-    "follow": "followed you",
-    "unfollow": "unfollowed you",
-    "ignore": "ignored you",
-    "reblog": "reblogged your post",
-    "comingsoon": "Leaderboard feature is coming soon!",
-    "notification": "Notifications",
-    "leaderboard": "Leaderboard",
-    "leaderboard_title": "Daily Top User",
-    "recent": "Recent",
-    "yesterday": "Yesterday",
-    "this_week": "This Week",
-    "this_month": "This Month",
-    "older_then": "Older Than A Month"
+    "vote": "مطلب شما را پسند کرد",
+    "unvote": "رأی‌ خود را پس گرفت",
+    "reply": "به مطلب شما پاسخ داد",
+    "mention": "شما را خطاب کرد",
+    "follow": "شما را دنبال میکند",
+    "unfollow": "شما را دنبال نمیکند",
+    "ignore": "شما را نادیده گرفته",
+    "reblog": "مطلب شما را به اشتراک گذاشت",
+    "comingsoon": "جدول رده بندی به زودی ارائه خواهد شد!",
+    "notification": "اطلاعیه ها",
+    "leaderboard": "جدول رده بندی",
+    "leaderboard_title": "بهترین کاربران روز",
+    "recent": "اخیر",
+    "yesterday": "دیروز",
+    "this_week": "این هفته",
+    "this_month": "این ماه",
+    "older_then": "قدیمی تر از 1 ماه"
   },
   "messages": {
-    "comingsoon": "Messages feature is coming soon!"
+    "comingsoon": "قابلیت ارسال پیام به زودی ارائه خواهد شد!"
   },
   "profile": {
-    "following": "Following",
-    "follower": "Follower",
+    "following": "دنبال میکنید",
+    "follower": "دنبال کنندگان",
     "post": "Post",
-    "details": "Profile Details",
-    "comments": "Comments",
-    "replies": "Replies",
-    "wallet": "Wallet",
-    "wallet_details": "Wallet Details",
-    "unclaimed_rewards": "Unclaimed Rewards",
-    "full_in": "Full in",
-    "hours": "hours",
-    "voting_power": "Voting power",
-    "login_to_see": "Login to see",
-    "havent_commented": "haven't commented anything yet",
-    "havent_posted": "haven't posted anything yet",
-    "steem_power": "Steem Power",
-    "next_power_text": "Next power down is in",
-    "days": "days",
-    "day": "day",
-    "steem_dollars": "Steem Dollars",
-    "savings": "Savings"
+    "details": "جزئیات نمایه",
+    "comments": "نظرات",
+    "replies": "پاسخ‌ها",
+    "wallet": "کیف پول",
+    "wallet_details": "جزئیات کیف پول",
+    "unclaimed_rewards": "جوایز دریافت نشده",
+    "full_in": "کامل در",
+    "hours": "ساعت ها",
+    "voting_power": "قدرت رأی‌ دهی",
+    "login_to_see": "ورود به سیستم برای دیدن",
+    "havent_commented": "هنوز نظری نداده",
+    "havent_posted": "هنوز مطلبی ننوشته اید",
+    "steem_power": "قدرت استیم",
+    "next_power_text": "روز باقی مانده تا کاهش قدرت،",
+    "days": "روزها",
+    "day": "روز",
+    "steem_dollars": "دلار استیم",
+    "savings": "پس انداز"
   },
   "settings": {
-    "settings": "Settings",
-    "currency": "Currency",
-    "language": "Language",
-    "server": "Server",
-    "dark_theme": "Dark Theme",
-    "push_notification": "Push Notification",
+    "settings": "تنظیمات",
+    "currency": "پول در گردش",
+    "language": "زبان",
+    "server": "سرور",
+    "dark_theme": "ظاهر تیره",
+    "push_notification": "اعلام یادآوری ها",
     "pincode": "Pincode",
-    "reset": "Reset"
+    "reset": "راه اندازی مجدد"
   },
   "voters": {
-    "voters_info": "Voters Info",
-    "no_user": "No user found."
+    "voters_info": "اطلاعات رأی دهندگان",
+    "no_user": "کاربری یافت نشد."
   },
   "login": {
-    "signin": "Sign in",
-    "signup": "Sign up",
-    "signin_title": "To get all the benefits of using eSteem",
-    "username": "Username",
-    "password": "Password or WIF",
-    "description": "User credentials are kept locally on the device. Credentials are removed upon logout!",
-    "cancel": "cancel",
-    "login": "LOGIN",
-    "steemconnect_description": "If you don't want to keep your password encrypted and saved on your device, you can use Steemconnect."
+    "signin": "ورود",
+    "signup": "ثبت‌نام کنید",
+    "signin_title": "برای دریافت تمام مزایای استفاده از استیم",
+    "username": "نام کاربری",
+    "password": "رمز عبور و یا WIF",
+    "description": "مدارک کاربر به طور محلی روی دستگاه نگهداری می‌شود. در هنگام خروج، مدارک حذف می‌شود!",
+    "cancel": "انصراف",
+    "login": "ورود به سیستم",
+    "steemconnect_description": "اگر نمی خواهید رمز عبورتان رمزنگاری و در دستگاهتان ذخیره شود، میتوانید از Steemconnect استفاده کنید."
   },
   "home": {
-    "feed": "Feed",
-    "popular": "Popular"
+    "feed": "خبرنامه",
+    "popular": "مورد علاقه"
   },
   "side_menu": {
-    "profile": "Profile",
-    "bookmarks": "Bookmarks",
-    "favorites": "Favorites",
-    "drafts": "Drafts",
-    "schedules": "Schedules",
-    "gallery": "Gallery",
-    "settings": "Settings",
-    "add_account": "Add Account",
-    "logout": "Logout",
-    "cancel": "Cancel",
-    "logout_text": "Are you sure you want to logout?"
+    "profile": "نمایه",
+    "bookmarks": "صفحات محبوب",
+    "favorites": "برگزیده‌ها",
+    "drafts": "پیشنویس ها",
+    "schedules": "جدول زمانی",
+    "gallery": "گالری",
+    "settings": "تنظیمات",
+    "add_account": "اضافه کردن حساب کاربری",
+    "logout": "خروج از حساب",
+    "cancel": "صرف نظر",
+    "logout_text": "آیا مطمئنید که می‌خواهید خارج شوید؟"
   },
   "header": {
-    "title": "Login to customize your feed",
-    "search": "Search..."
+    "title": "برای شخصی سازی فید های خود وارد شوید",
+    "search": "جستجو..."
   },
   "basic_header": {
-    "publish": "Publish",
-    "search": "Search",
-    "update": "Update",
-    "reply": "Reply"
+    "publish": "نشر",
+    "search": "جستجو",
+    "update": "به‌روزآوری",
+    "reply": "پاسخ دادن"
   },
   "editor": {
-    "title": "Title",
-    "tags": "tags",
-    "default_placeholder": "What would you like to write about today?",
-    "reply_placeholder": "What would you like to write about above post?",
-    "publish": "Publish",
-    "reply": "Reply"
+    "title": "تیتر",
+    "tags": "برچسب ها",
+    "default_placeholder": "امروز می خواهید چه مطلبی بنویسید؟",
+    "reply_placeholder": "در مورد پست فوق، چه چیزی میخواهید بنویسید؟",
+    "publish": "نشر",
+    "reply": "پاسخ دادن"
   },
   "pincode": {
     "enter_text": "Enter pin to unlock",
     "set_new": "Set new pin",
-    "write_again": "Write again",
-    "forgot_text": "Oh, I forgot it..."
+    "write_again": "دوباره بنویسید",
+    "forgot_text": "آه، فراموشش کردم..."
   },
   "alert": {
-    "success": "Success!",
-    "allRead": "Marked all notifications as read",
-    "claim_reward_balance_ok": "Reward balance claimed",
-    "fail": "Fail!",
-    "success_shared": "Your post succesfully shared",
-    "permission_denied": "Permission denied",
-    "permission_text": "Please, go to phone Settings and change eSteem app permissions.",
+    "success": "با موفقیت!",
+    "allRead": "علامت زدن تمام اعلانات به عنوان خوانده شده",
+    "claim_reward_balance_ok": "پاداش دریافت شده",
+    "fail": "ناموفق!",
+    "success_shared": "مطلب شما با موفقیت منتشر شد",
+    "permission_denied": "خطای دسترسی",
+    "permission_text": "لطفا به تنظیمات تلفن خود رفته و دسترسی eSteem را تغییر دهید.",
     "success_rebloged": "Rebloged!",
-    "already_rebloged": "You have already reblogged!",
-    "warning": "Warning",
+    "already_rebloged": "شما قبلا به اشتراک گذاشته اید!",
+    "warning": "اخطار",
     "invalid_pincode": "Invalid pin code, please check and try again.",
     "remove_alert": "Are you sure want to remove?",
-    "cancel": "Cancel",
-    "delete": "Delete"
+    "cancel": "لغو",
+    "delete": "پاک کردن",
+    "copied": "Copied!",
+    "no_internet": "No connection!"
   },
   "post": {
-    "reblog_alert": "Are you sure you want to reblog?"
+    "reblog_alert": "آیا مطمئن هستید که می‌خواهید به اشتراک بگذارید؟"
   },
   "drafts": {
-    "title": "Drafts",
-    "load_error": "Could not load drafts",
-    "empty_list": "Nothing here",
-    "deleted": "Draft deleted"
+    "title": "پیشنویس ها",
+    "load_error": "اشکال در بازکردن پیشنویس ها",
+    "empty_list": "هیچی اینجا نیست",
+    "deleted": "پیشنویس حذف شده"
   },
   "schedules": {
-    "title": "Scheduled Posts",
-    "empty_list": "Nothing here",
-    "deleted": "Scheduled post deleted",
-    "move": "Move to drafts",
-    "moved": "Moved to drafts"
+    "title": "مطالب برنامه ریزی شده",
+    "empty_list": "اینجا چیزی نیست",
+    "deleted": "پست های برنامه ریزی شده حذف شدند",
+    "move": "انتقال به پیشنویس",
+    "moved": "به پیشنویس ها منتقل شده"
   },
   "bookmarks": {
-    "title": "Bookmarks",
-    "load_error": "Could not load bookmarks",
-    "empty_list": "Nothing here",
-    "deleted": "Bookmark removed",
-    "search": "Search in bookmarks"
+    "title": "صفحات محبوب",
+    "load_error": "اشکال در باز کردن صفحات محبوب",
+    "empty_list": "هیچی اینجا نیست",
+    "deleted": "از صفحهات محبوب حذف شد",
+    "search": "جستجوی درصفحات محبوب",
+    "added": "Added to bookmars",
+    "add": "Add to bookmarks"
   },
   "favorites": {
-    "title": "Favorites",
-    "load_error": "Could not load favorites",
-    "empty_list": "Nothing here",
-    "search": "Search in favorites"
+    "title": "برگزیده‌ها",
+    "load_error": "باز کردن علاقه مندی ها مقدور نیست",
+    "empty_list": "اینجا چیزی نیست",
+    "search": "جستجو در علاقمندیها"
   },
   "auth": {
     "invalid_pin": "Invalid pin code, please check and try again",
-    "invalid_username": "Invalid username, please check and try again",
-    "already_logged": "You are already logged in, please try to add another account",
-    "invalid_credentials": "Invalid credentials, please check and try again",
-    "unknow_error": "Unknown error, please contact us at support@esteem.app"
+    "invalid_username": "نام کاربری نامعتبر، لطفا چک کنید و دوباره امتحان کنید",
+    "already_logged": "شما در حال حاظر وارد شده اید، لطفا با یک حساب کاربری دیگر تلاش کنید",
+    "invalid_credentials": "اعتبار نامه غیر معتبر، لطفا چک کنید و دوباره تلاش کنید",
+    "unknow_error": "خطای ناشناخته، لطفا با ادرس support@esteem.app با ما تماس بگیرید"
   },
   "payout": {
-    "potential_payout": "Potential Payout",
-    "promoted": "Promoted",
-    "author_payout": "Author Payout",
-    "curation_payout": "Curation Payout",
-    "payout_date": "Payout"
+    "potential_payout": "پرداخت های بالقوه",
+    "promoted": "ارتقا داده شده",
+    "author_payout": "پاداش نویسنده",
+    "curation_payout": "دستمزد حامیان",
+    "payout_date": "پرداخت"
   },
   "post_dropdown": {
-    "copy": "copy link",
-    "reblog": "reblog",
-    "reply": "reply",
-    "share": "share"
+    "copy": "کپی لینک",
+    "reblog": "اشتراک گذاری",
+    "reply": "پاسخ دادن",
+    "share": "درمیان گذاری",
+    "bookmarks": "add to bookmarks"
   },
   "deep_link": {
-    "no_existing_user": "No existing user",
-    "no_existing_post": "No existing post"
+    "no_existing_user": "کاربری موجود نیست",
+    "no_existing_post": "پستی موجود نیست"
   }
 }

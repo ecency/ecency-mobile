@@ -135,7 +135,9 @@
     "invalid_pincode": "Your PIN code no correct, abeg check wella and try am again",
     "remove_alert": "You sure say you wan remove am?",
     "cancel": "Cancel",
-    "delete": "Delete"
+    "delete": "Delete",
+    "copied": "Copied!",
+    "no_internet": "No connection!"
   },
   "post": {
     "reblog_alert": "You sure say you wan reblog am?"
@@ -158,7 +160,9 @@
     "load_error": "Bookmarks no gree load",
     "empty_list": "Nothing dey here",
     "deleted": "Bookmark don komot",
-    "search": "Find am for bookmark"
+    "search": "Find am for bookmark",
+    "added": "Added to bookmars",
+    "add": "Add to bookmarks"
   },
   "favorites": {
     "title": "Favorites",
@@ -184,10 +188,11 @@
     "copy": "copy the link",
     "reblog": "reblog am",
     "reply": "reply am",
-    "share": "share am"
+    "share": "share am",
+    "bookmarks": "add to bookmarks"
   },
   "deep_link": {
-    "no_existing_user": "No existing user",
-    "no_existing_post": "No existing post"
+    "no_existing_user": "The person no exist",
+    "no_existing_post": "The post no exist"
   }
 }

@@ -51,7 +51,7 @@
     "steem_power": "Сила голоса",
     "next_power_text": "Следующее понижение силы",
     "days": "д",
-    "day": "завтра",
+    "day": "д",
     "steem_dollars": "Доллары Steem",
     "savings": "Сейф"
   },
@@ -160,7 +160,9 @@
     "load_error": "Невозможно загрузить закладки",
     "empty_list": "Ничего нет",
     "deleted": "Закладка удалена",
-    "search": "Поиск по закладкам"
+    "search": "Поиск по закладкам",
+    "added": "Added to bookmars",
+    "add": "Add to bookmarks"
   },
   "favorites": {
     "title": "Избранное",
@@ -186,10 +188,11 @@
     "copy": "копировать ссылку",
     "reblog": "репост",
     "reply": "ответить",
-    "share": "поделиться"
+    "share": "поделиться",
+    "bookmarks": "add to bookmarks"
   },
   "deep_link": {
-    "no_existing_user": "No existing user",
-    "no_existing_post": "No existing post"
+    "no_existing_user": "Несуществующий пользователь",
+    "no_existing_post": "Несуществующий пост"
   }
 }
