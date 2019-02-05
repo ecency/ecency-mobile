@@ -5,10 +5,10 @@
     "comment_benefactor_reward": "Recompensa de comentario benefactor",
     "claim_reward_balance": "Reclamar balance de recompensa",
     "transfer": "Transferir",
-    "transfer_to_vesting": "Transferir a ahorros",
+    "transfer_to_vesting": "Transferir a Sp (Vesting)",
     "transfer_from_savings": "Transferir desde ahorros",
     "withdraw_vesting": "Power down",
-    "fill_order": "Llenar orden"
+    "fill_order": "Completar orden"
   },
   "notification": {
     "vote": "le gusta tu publicación",
@@ -136,8 +136,8 @@
     "remove_alert": "Está seguro que quiere borrar?",
     "cancel": "Cancelar",
     "delete": "Borrar",
-    "copied": "Copied!",
-    "no_internet": "No connection!"
+    "copied": "Copiado!",
+    "no_internet": "Sin conexión!"
   },
   "post": {
     "reblog_alert": "Está seguro que quiere rebloguear?"
@@ -161,8 +161,8 @@
     "empty_list": "Nada aquí",
     "deleted": "Marcador removido",
     "search": "Buscar en marcadores",
-    "added": "Added to bookmars",
-    "add": "Add to bookmarks"
+    "added": "Agregado a favoritos",
+    "add": "Añadir a favoritos"
   },
   "favorites": {
     "title": "Favoritos",
@@ -185,14 +185,14 @@
     "payout_date": "Pago"
   },
   "post_dropdown": {
-    "copy": "copy link",
-    "reblog": "reblog",
-    "reply": "reply",
-    "share": "share",
-    "bookmarks": "add to bookmarks"
+    "copy": "copiar enlace",
+    "reblog": "rebloguear",
+    "reply": "responder",
+    "share": "compartir",
+    "bookmarks": "añadir a favoritos"
   },
   "deep_link": {
-    "no_existing_user": "No existing user",
-    "no_existing_post": "No existing post"
+    "no_existing_user": "Usuario no existe",
+    "no_existing_post": "Publicación no existe"
   }
 }
