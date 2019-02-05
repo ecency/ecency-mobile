@@ -158,7 +158,8 @@
     "load_error": "Tidak dapat menampilkan yang telah ditandai",
     "empty_list": "Disini belum ada apa-apa",
     "deleted": "Hapus yang ditandai",
-    "search": "Cari di dalam halaman yang ditandai"
+    "search": "Cari di dalam halaman yang ditandai",
+    "add": "Tambahkan ke bookmark"
   },
   "favorites": {
     "title": "Favorit",
@@ -184,7 +185,8 @@
     "copy": "salin tautan",
     "reblog": "menampilkan kembali",
     "reply": "balas",
-    "share": "bagikan"
+    "share": "bagikan",
+    "bookmarks": "tambahkan ke bookmark"
   },
   "deep_link": {
     "no_existing_user": "No existing user",

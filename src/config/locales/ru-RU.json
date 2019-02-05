@@ -137,7 +137,7 @@
     "cancel": "Отмена",
     "delete": "Удалить",
     "copied": "Copied!",
-    "no_internet": "No internet connection"
+    "no_internet": "Подключение к Интернету отсутствует"
   },
   "post": {
     "reblog_alert": "Вы уверены, что хотите сделать репост?"
@@ -160,7 +160,8 @@
     "load_error": "Невозможно загрузить закладки",
     "empty_list": "Ничего нет",
     "deleted": "Закладка удалена",
-    "search": "Поиск по закладкам"
+    "search": "Поиск по закладкам",
+    "bookmarks": "добавить в закладки"
   },
   "favorites": {
     "title": "Избранное",
@@ -186,10 +187,11 @@
     "copy": "копировать ссылку",
     "reblog": "репост",
     "reply": "ответить",
-    "share": "поделиться"
+    "share": "поделиться",
+    "bookmarks": "добавить в закладки"
   },
   "deep_link": {
-    "no_existing_user": "No existing user",
-    "no_existing_post": "No existing post"
+    "no_existing_user": "Нет существующего пользователя",
+    "no_existing_post": "Нет существующего поста"
   }
 }

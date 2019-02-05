@@ -158,7 +158,8 @@
     "load_error": "Nem sikerült betölteni a piszkozatokat",
     "empty_list": "Itt nincs semmi",
     "deleted": "Könyvjelző eltávolítva",
-    "search": "Keresés a könyvjelzők között"
+    "search": "Keresés a könyvjelzők között",
+    "bookmarks": "A könyvjelzők hozzáadásához"
   },
   "favorites": {
     "title": "Kedvencek",
@@ -184,7 +185,8 @@
     "copy": "link másolása",
     "reblog": "megosztás",
     "reply": "válasz",
-    "share": "megosztás"
+    "share": "megosztás",
+    "bookmarks": "a könyvjelzők hozzáadásához"
   },
   "deep_link": {
     "no_existing_user": "No existing user",
