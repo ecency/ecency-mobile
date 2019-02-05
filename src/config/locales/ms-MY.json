@@ -136,8 +136,8 @@
     "remove_alert": "Adakah anda pasti ingin memadam?",
     "cancel": "Batal",
     "delete": "Padam",
-    "copied": "Copied!",
-    "no_internet": "No connection!"
+    "copied": "Disalin!",
+    "no_internet": "Tiada sambungan!"
   },
   "post": {
     "reblog_alert": "Adakah anda ingin menulang siar?"
@@ -161,8 +161,8 @@
     "empty_list": "Kosong",
     "deleted": "Tanda halaman yang dikeluarkan",
     "search": "Cari di penanda halaman",
-    "added": "Added to bookmars",
-    "add": "Add to bookmarks"
+    "added": "Ditambah ke tanda halaman",
+    "add": "Ditambah ke tanda halaman"
   },
   "favorites": {
     "title": "Kegemaran",
@@ -189,7 +189,7 @@
     "reblog": "ulang siar",
     "reply": "Membalas",
     "share": "kongsi",
-    "bookmarks": "add to bookmarks"
+    "bookmarks": "tambah ke tanda halaman"
   },
   "deep_link": {
     "no_existing_user": "Pengguna tidak wujud",
