@@ -161,8 +161,8 @@
     "empty_list": "Disini belum ada apa-apa",
     "deleted": "Hapus yang ditandai",
     "search": "Cari di dalam halaman yang ditandai",
-    "added": "Added to bookmars",
-    "add": "Add to bookmarks"
+    "add": "Tambahkan ke bookmark",
+    "added": "Added to bookmars"
   },
   "favorites": {
     "title": "Favorit",
@@ -189,7 +189,7 @@
     "reblog": "menampilkan kembali",
     "reply": "balas",
     "share": "bagikan",
-    "bookmarks": "add to bookmarks"
+    "bookmarks": "tambahkan ke bookmark"
   },
   "deep_link": {
     "no_existing_user": "Tidak ada pengguna yang ada",
