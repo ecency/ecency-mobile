@@ -161,8 +161,8 @@
     "empty_list": "Keine Einträge vorhanden",
     "deleted": "Lesezeichen entfernt",
     "search": "In Lesezeichen suchen",
-    "added": "Added to bookmars",
-    "add": "Add to bookmarks"
+    "add": "zu Lesezeichen hinzufügen",
+    "added": "Added to bookmars"
   },
   "favorites": {
     "title": "Favoriten",
@@ -189,7 +189,7 @@
     "reblog": "Teilen",
     "reply": "Antworten",
     "share": "Teilen",
-    "bookmarks": "add to bookmarks"
+    "bookmarks": "zu Lesezeichen hinzufügen"
   },
   "deep_link": {
     "no_existing_user": "Kein vorhandener Benutzer",

@@ -137,7 +137,7 @@
     "cancel": "Отмена",
     "delete": "Удалить",
     "copied": "Copied!",
-    "no_internet": "No internet connection"
+    "no_internet": "Подключение к Интернету отсутствует"
   },
   "post": {
     "reblog_alert": "Вы уверены, что хотите сделать репост?"
@@ -161,8 +161,9 @@
     "empty_list": "Ничего нет",
     "deleted": "Закладка удалена",
     "search": "Поиск по закладкам",
-    "added": "Added to bookmars",
-    "add": "Add to bookmarks"
+    "bookmarks": "добавить в закладки",
+    "added": "Added to bookmarks",
+    "add": "добавить в закладки"
   },
   "favorites": {
     "title": "Избранное",
@@ -189,7 +190,7 @@
     "reblog": "репост",
     "reply": "ответить",
     "share": "поделиться",
-    "bookmarks": "add to bookmarks"
+    "bookmarks": "добавить в закладки"
   },
   "deep_link": {
     "no_existing_user": "Несуществующий пользователь",
