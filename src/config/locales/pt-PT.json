@@ -135,7 +135,9 @@
     "invalid_pincode": "Código PIN inválido, por favor verifique e tente novamente.",
     "remove_alert": "Tem a certeza de que pretende remover?",
     "cancel": "Cancelar",
-    "delete": "Apagar"
+    "delete": "Apagar",
+    "copied": "Copied!",
+    "no_internet": "No connection!"
   },
   "post": {
     "reblog_alert": "Tem certeza de que deseja reblogar?"
@@ -158,7 +160,9 @@
     "load_error": "Não foi possível carregar os Marcadores",
     "empty_list": "Nada aqui",
     "deleted": "Marcador removido",
-    "search": "Pesquisar marcadores"
+    "search": "Pesquisar marcadores",
+    "added": "Added to bookmars",
+    "add": "Add to bookmarks"
   },
   "favorites": {
     "title": "Favoritos",
@@ -184,10 +188,11 @@
     "copy": "copiar ligação",
     "reblog": "reblogar",
     "reply": "responder",
-    "share": "partilhar"
+    "share": "partilhar",
+    "bookmarks": "add to bookmarks"
   },
   "deep_link": {
-    "no_existing_user": "No existing user",
-    "no_existing_post": "No existing post"
+    "no_existing_user": "Usuário não existe",
+    "no_existing_post": "Post não existe"
   }
 }
