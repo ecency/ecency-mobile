@@ -181,9 +181,13 @@
     "payout_date": "Gain"
   },
   "post_dropdown": {
-    "copy": "copy link",
-    "reblog": "reblog",
-    "reply": "reply",
-    "share": "share"
+    "copy": "copier le lien",
+    "reblog": "rebloguer",
+    "reply": "répondre",
+    "share": "partager"
+  },
+  "deep_link": {
+    "no_existing_user": "No existing user",
+    "no_existing_post": "No existing post"
   }
 }

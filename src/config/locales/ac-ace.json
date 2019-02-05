@@ -1,6 +1,6 @@
 {
   "wallet": {
-    "curation_reward": "Gaji kurasi",
+    "curation_reward": "Hadiah kurasi",
     "author_reward": "Upah Keupoe",
     "comment_benefactor_reward": "Gaji Komentar Keupoe App",
     "claim_reward_balance": "Klèm Gaji Keunubah",
@@ -42,7 +42,7 @@
     "wallet": "Balum",
     "wallet_details": "Asöe Balum",
     "unclaimed_rewards": "Upah Galoem Cöek",
-    "full_in": "Punoeh ië dalam",
+    "full_in": "Punoeh lam",
     "hours": "jëum",
     "voting_power": "Teunaga Galak",
     "login_to_see": "Tamoëng Untuk Kaloën",
@@ -182,8 +182,12 @@
   },
   "post_dropdown": {
     "copy": "copy link",
-    "reblog": "reblog",
-    "reply": "reply",
-    "share": "share"
+    "reblog": "neukirem ulang blog",
+    "reply": "balah",
+    "share": "bagi"
+  },
+  "deep_link": {
+    "no_existing_user": "No existing user",
+    "no_existing_post": "No existing post"
   }
 }

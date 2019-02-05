@@ -181,9 +181,13 @@
     "payout_date": "Pembayaran"
   },
   "post_dropdown": {
-    "copy": "copy link",
-    "reblog": "reblog",
-    "reply": "reply",
-    "share": "share"
+    "copy": "salin pautan",
+    "reblog": "ulang siar",
+    "reply": "Membalas",
+    "share": "kongsi"
+  },
+  "deep_link": {
+    "no_existing_user": "No existing user",
+    "no_existing_post": "No existing post"
   }
 }

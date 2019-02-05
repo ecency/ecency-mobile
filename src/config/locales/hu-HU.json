@@ -3,10 +3,10 @@
     "curation_reward": "Kuráció Jutalom",
     "author_reward": "Szerzői Jutalom",
     "comment_benefactor_reward": "Comment Benefactor Reward",
-    "claim_reward_balance": "Claim Reward Balance",
+    "claim_reward_balance": "Jutalom egyenleg átvétele",
     "transfer": "Átutalás",
     "transfer_to_vesting": "Transfer To Vesting",
-    "transfer_from_savings": "Transfer From Savings",
+    "transfer_from_savings": "Átutalás a megtakarításokhoz",
     "withdraw_vesting": "Power Down",
     "fill_order": "Fill Order"
   },
@@ -17,9 +17,9 @@
     "mention": "megemlített téged",
     "follow": "követ téged",
     "unfollow": "már nem követ",
-    "ignore": "ignored you",
+    "ignore": "mellőzött téged",
     "reblog": "megosztotta a bejegyzésed",
-    "comingsoon": "Leaderboard feature is coming soon!",
+    "comingsoon": "Ranglista a funkció hamarosan érkezik!",
     "notification": "Értesítések",
     "leaderboard": "Ranglista",
     "leaderboard_title": "Napi Top felhasználók",
@@ -33,7 +33,7 @@
     "comingsoon": "Üzenetek funkció hamarosan érkezik!"
   },
   "profile": {
-    "following": "Following",
+    "following": "Követés",
     "follower": "Követő",
     "post": "Post",
     "details": "Profil adataid",
@@ -61,7 +61,7 @@
     "language": "Nyelv",
     "server": "Szerver",
     "dark_theme": "Sötét téma",
-    "push_notification": "Push Notification",
+    "push_notification": "Értesítések bekapcsolása",
     "pincode": "Pincode",
     "reset": "Visszaállítás"
   },
@@ -75,13 +75,13 @@
     "signin_title": "Jelentkezz be ahhoz, hogy minden előnyben részesülj",
     "username": "Felhasználónév",
     "password": "Jelszó vagy a WIF",
-    "description": "User credentials are kept locally on the device. Credentials are removed upon logout!",
+    "description": "A felhasználó bejelentkezési adatai helyileg vannak tárolva a készüléken. Kijelentkezéskor a bejelentkezési adatok eltávolítódnak!",
     "cancel": "visszavonom",
     "login": "BEJELENTKEZÉS",
     "steemconnect_description": "Ha nem szeretnéd a jelszavad a gépeden tárolni, akkor használd a Steemconnect-et."
   },
   "home": {
-    "feed": "Feed",
+    "feed": "Hírfolyam",
     "popular": "Népszerű"
   },
   "side_menu": {
@@ -98,7 +98,7 @@
     "logout_text": "Biztos, hogy ki szeretnél lépni?"
   },
   "header": {
-    "title": "Login to customize your feed",
+    "title": "Jelentkezz be a hírfolyam testreszabásához",
     "search": "Keresés..."
   },
   "basic_header": {
@@ -111,28 +111,28 @@
     "title": "Cím",
     "tags": "címkék",
     "default_placeholder": "Miről szeretnél írni ma?",
-    "reply_placeholder": "What would you like to write about above post?",
+    "reply_placeholder": "Miről szeretnél írni ma?",
     "publish": "Közzétesz",
     "reply": "Válasz"
   },
   "pincode": {
     "enter_text": "Enter pin to unlock",
-    "set_new": "Set new pin",
+    "set_new": "Állítson be új PIN-kódot",
     "write_again": "Írd újra",
-    "forgot_text": "Oh, I forgot it..."
+    "forgot_text": "Ó elfelejtettem..."
   },
   "alert": {
     "success": "Sikerült!",
     "allRead": "Minden értesítés megjelölve olvasottként",
-    "claim_reward_balance_ok": "Reward balance claimed",
+    "claim_reward_balance_ok": "Jutalom egyenleg átvéve",
     "fail": "Sikertelen!",
-    "success_shared": "Your post succesfully shared",
+    "success_shared": "A bejegyzésed sikeresen megosztva",
     "permission_denied": "Engedély megtagadva",
-    "permission_text": "Please, go to phone Settings and change eSteem app permissions.",
+    "permission_text": "Kérjük menj a beállításokhoz és változtass az eSteem app engedélyezésein.",
     "success_rebloged": "Rebloged!",
     "already_rebloged": "Ezt már megosztottad!",
     "warning": "Figyelem",
-    "invalid_pincode": "Invalid pin code, please check and try again.",
+    "invalid_pincode": "Érvénytelen PIN-kód, kérjük ellenőrizd és próbáld újra.",
     "remove_alert": "Biztos, hogy törölni akarod?",
     "cancel": "Elvet",
     "delete": "Törlés"
@@ -147,10 +147,10 @@
     "deleted": "Piszkozat törölve"
   },
   "schedules": {
-    "title": "Scheduled Posts",
+    "title": "Beütemezett Bejegyzések",
     "empty_list": "Itt nincs semmi",
-    "deleted": "Scheduled post deleted",
-    "move": "Move to drafts",
+    "deleted": "A beütemezett bejegyzés törölve",
+    "move": "Áthelyezés a vázlatokhoz",
     "moved": "Áthelyezve a vázlatokhoz"
   },
   "bookmarks": {
@@ -167,11 +167,11 @@
     "search": "Keresés a kedvencekben"
   },
   "auth": {
-    "invalid_pin": "Invalid pin code, please check and try again",
+    "invalid_pin": "Érvénytelen PIN-kód, kérjük ellenőrizd és próbáld újra",
     "invalid_username": "Érvénytelen felhasználónév, kérjük ellenőrizd és próbáld újra",
-    "already_logged": "You are already logged in, please try to add another account",
-    "invalid_credentials": "Invalid credentials, please check and try again",
-    "unknow_error": "Unknown error, please contact us at support@esteem.app"
+    "already_logged": "Már be vagy jelentkezve, kérjük adj hozzá egy másik fiókot",
+    "invalid_credentials": "Érvénytelen hitelesítő adatok. Kérjük, ellenőrizd és próbáld újra",
+    "unknow_error": "Ismeretlen hiba, kérjük vedd fel velünk a kapcsolatot itt support@esteem.app"
   },
   "payout": {
     "potential_payout": "Lehetséges Kifizetés",
@@ -181,9 +181,13 @@
     "payout_date": "Kifizetés"
   },
   "post_dropdown": {
-    "copy": "copy link",
-    "reblog": "reblog",
-    "reply": "reply",
-    "share": "share"
+    "copy": "link másolása",
+    "reblog": "megosztás",
+    "reply": "válasz",
+    "share": "megosztás"
+  },
+  "deep_link": {
+    "no_existing_user": "No existing user",
+    "no_existing_post": "No existing post"
   }
 }
