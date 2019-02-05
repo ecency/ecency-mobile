@@ -158,7 +158,8 @@
     "load_error": "Lesezeichen können nicht geladen werden",
     "empty_list": "Keine Einträge vorhanden",
     "deleted": "Lesezeichen entfernt",
-    "search": "In Lesezeichen suchen"
+    "search": "In Lesezeichen suchen",
+    "add": "zu Lesezeichen hinzufügen"
   },
   "favorites": {
     "title": "Favoriten",
@@ -184,7 +185,8 @@
     "copy": "Link kopieren",
     "reblog": "Teilen",
     "reply": "Antworten",
-    "share": "Teilen"
+    "share": "Teilen",
+    "bookmarks": "zu Lesezeichen hinzufügen"
   },
   "deep_link": {
     "no_existing_user": "No existing user",
