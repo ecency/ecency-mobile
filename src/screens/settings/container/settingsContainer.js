@@ -22,7 +22,7 @@ import {
   isDarkTheme,
   openPinCodeModal,
 } from '../../../redux/actions/applicationActions';
-import { setPushToken, getNodes } from '../../../providers/esteem/esteem';
+import { setPushToken, getNodes, getCurrencyRate } from '../../../providers/esteem/esteem';
 
 // Middleware
 
@@ -65,8 +65,7 @@ class SettingsContainer extends Component {
 
     switch (actionType) {
       case 'currency':
-        dispatch(setCurrency(CURRENCY_VALUE[action]));
-        setCurrency2DB(CURRENCY_VALUE[action]);
+        this._currencyChange(action);
         break;
 
       case 'language':
@@ -82,6 +81,13 @@ class SettingsContainer extends Component {
       default:
         break;
     }
+  };
+
+  _currencyChange = (action) => {
+    const { dispatch } = this.props;
+
+    dispatch(setCurrency(CURRENCY_VALUE[action]));
+    setCurrency2DB(CURRENCY_VALUE[action]);
   };
 
   _handleToggleChanged = (action, actionType) => {
@@ -174,4 +180,5 @@ const mapStateToProps = state => ({
   isLoggedIn: state.application.isLoggedIn,
   username: state.account.currentAccount && state.account.currentAccount.name,
 });
+
 export default connect(mapStateToProps)(SettingsContainer);

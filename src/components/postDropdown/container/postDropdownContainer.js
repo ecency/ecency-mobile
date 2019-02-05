@@ -95,10 +95,10 @@ class PostDropdownContainer extends PureComponent {
 
   _share = () => {
     const { content } = this.props;
+    const postUrl = getPostUrl(content.url);
 
     Share.share({
-      message: content.title,
-      url: getPostUrl(content.url),
+      message: `${content.title} ${postUrl}`,
     });
   };
 
@@ -168,7 +168,7 @@ class PostDropdownContainer extends PureComponent {
     const { intl, currentAccount, content } = this.props;
     let _OPTIONS = OPTIONS;
 
-    if (content.author === currentAccount.name) {
+    if (content && content.author === currentAccount.name) {
       _OPTIONS = OPTIONS.filter(item => item !== 'reblog');
     }
 
