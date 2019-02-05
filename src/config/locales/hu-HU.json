@@ -136,8 +136,8 @@
     "remove_alert": "Biztos, hogy törölni akarod?",
     "cancel": "Elvet",
     "delete": "Törlés",
-    "copied": "Copied!",
-    "no_internet": "No connection!"
+    "copied": "Lemásolva!",
+    "no_internet": "Nincs kapcsolat!"
   },
   "post": {
     "reblog_alert": "Biztos, hogy megosztod?"
@@ -161,8 +161,8 @@
     "empty_list": "Itt nincs semmi",
     "deleted": "Könyvjelző eltávolítva",
     "search": "Keresés a könyvjelzők között",
-    "added": "Added to bookmars",
-    "add": "Add to bookmarks"
+    "added": "Hozzáadva a könyvjelzőkhöz",
+    "add": "Hozzáadás a könyvjelzőkhöz"
   },
   "favorites": {
     "title": "Kedvencek",
@@ -189,7 +189,7 @@
     "reblog": "megosztás",
     "reply": "válasz",
     "share": "megosztás",
-    "bookmarks": "add to bookmarks"
+    "bookmarks": "hozzáadás a könyvjelzőkhöz"
   },
   "deep_link": {
     "no_existing_user": "Nem létező felhasználó",
