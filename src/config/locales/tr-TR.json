@@ -7,7 +7,7 @@
     "transfer": "Transfer",
     "transfer_to_vesting": "Yetkiye Transfer Talep Et",
     "transfer_from_savings": "Tasarruflardan Transfer",
-    "withdraw_vesting": "Withdraw Vesting",
+    "withdraw_vesting": "Güç Düşürme",
     "fill_order": "Gerçekleşen emir"
   },
   "notification": {
@@ -132,12 +132,12 @@
     "success_rebloged": "Rebloged!",
     "already_rebloged": "Zaten reblog yapmışsınız.",
     "warning": "Uyarı",
-    "invalid_pincode": "Invalid pin code, please check and try again.",
-    "remove_alert": "Are you sure want to remove?",
+    "invalid_pincode": "Geçersiz pin gözden geçirip yeniden deneyin.",
+    "remove_alert": "Kaldırmak istediğine emin misin ?",
     "cancel": "Vazgeç",
     "delete": "Temizle",
     "copied": "Kopyalandı",
-    "no_internet": "No internet connection"
+    "no_internet": "Bağlantı yok."
   },
   "post": {
     "reblog_alert": "Reblog yapma istediginize emin misiniz?"
@@ -171,7 +171,7 @@
     "search": "Favorilerde ara"
   },
   "auth": {
-    "invalid_pin": "Invalid pin code, please check and try again",
+    "invalid_pin": "Geçersiz pin gözden geçirip yeniden deneyin",
     "invalid_username": "Geçersiz Kullanıcı adı gözden geçirip yeniden deneyin",
     "already_logged": "Zaten oturum açmış, lütfen başka bir hesaba eklemek deneyin",
     "invalid_credentials": "Geçersiz Kullanıcı adı gözden geçirip yeniden deneyin",
