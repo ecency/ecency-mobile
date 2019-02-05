@@ -155,27 +155,10 @@ export const vestToSteem = async (vestingShares, totalVestingShares, totalVestin
     * (parseFloat(vestingShares) / parseFloat(totalVestingShares))
 ).toFixed(0);
 
-/**
- * @method getFollows get account data
- * @param user username
- */
-export const getFollows = user => new Promise((resolve, reject) => {
-  client
-    .call('follow_api', 'get_follow_count', [user])
-    .then((result) => {
-      resolve(result);
-    })
-    .catch((err) => {
-      reject(err);
-    });
-});
+export const getFollows = username => client.database.call('get_follow_count', [username]);
 
-/**
- * @method getFollowing
- * @param user username
- * TODO: Pagination
- */
 export const getFollowing = (follower, startFollowing, followType = 'blog', limit = 100) => client.database.call('get_following', [follower, startFollowing, followType, limit]);
+
 export const getFollowers = (follower, startFollowing, followType = 'blog', limit = 100) => client.database.call('get_followers', [follower, startFollowing, followType, limit]);
 
 export const getIsFollowing = (user, author) => new Promise((resolve, reject) => {
