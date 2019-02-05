@@ -1,189 +1,193 @@
 {
   "wallet": {
-    "curation_reward": "Curation Reward",
-    "author_reward": "Author Reward",
-    "comment_benefactor_reward": "Comment Benefactor Reward",
-    "claim_reward_balance": "Claim Reward Balance",
-    "transfer": "Transfer",
-    "transfer_to_vesting": "Transfer To Vesting",
-    "transfer_from_savings": "Transfer From Savings",
-    "withdraw_vesting": "Power Down",
-    "fill_order": "Fill Order"
+    "curation_reward": "Kuracijos Atlygis",
+    "author_reward": "Autorius Atlygis",
+    "comment_benefactor_reward": "Atlygis už gerą komentarą",
+    "claim_reward_balance": "Atsiimti atlygį",
+    "transfer": "Pervesti",
+    "transfer_to_vesting": "Pervesti į Investicijas",
+    "transfer_from_savings": "Išsiimti Iš Santaupų",
+    "withdraw_vesting": "Mažinti Galią",
+    "fill_order": "Užpildyti"
   },
   "notification": {
-    "vote": "likes your post",
-    "unvote": "unvoted your post",
-    "reply": "replied to your post",
-    "mention": "mentioned you",
-    "follow": "followed you",
-    "unfollow": "unfollowed you",
-    "ignore": "ignored you",
-    "reblog": "reblogged your post",
-    "comingsoon": "Leaderboard feature is coming soon!",
-    "notification": "Notifications",
-    "leaderboard": "Leaderboard",
-    "leaderboard_title": "Daily Top User",
-    "recent": "Recent",
-    "yesterday": "Yesterday",
-    "this_week": "This Week",
-    "this_month": "This Month",
-    "older_then": "Older Than A Month"
+    "vote": "mėgsta jūsų įrašą",
+    "unvote": "nebemėgsta jūsų įrašo",
+    "reply": "atsakė į jūsų įrašą",
+    "mention": "paminėjo jus",
+    "follow": "jus seka",
+    "unfollow": "jūsų nebeseka",
+    "ignore": "jus ignoravo",
+    "reblog": "pasidalino jūsų įrašu",
+    "comingsoon": "Lyderių lentelė jau greitai!",
+    "notification": "Pranešimai",
+    "leaderboard": "Lyderiai",
+    "leaderboard_title": "Dienos Top Vartotojas",
+    "recent": "Naujausi",
+    "yesterday": "Vakar",
+    "this_week": "Šią savaitę",
+    "this_month": "Šį mėnesį",
+    "older_then": "Senesni nei vieno mėnesio"
   },
   "messages": {
-    "comingsoon": "Messages feature is coming soon!"
+    "comingsoon": "Žinučių funkcija jau greitai!"
   },
   "profile": {
-    "following": "Following",
-    "follower": "Follower",
+    "following": "Sekami",
+    "follower": "Sekėjas",
     "post": "Post",
-    "details": "Profile Details",
-    "comments": "Comments",
-    "replies": "Replies",
-    "wallet": "Wallet",
-    "wallet_details": "Wallet Details",
-    "unclaimed_rewards": "Unclaimed Rewards",
-    "full_in": "Full in",
-    "hours": "hours",
-    "voting_power": "Voting power",
-    "login_to_see": "Login to see",
-    "havent_commented": "haven't commented anything yet",
-    "havent_posted": "haven't posted anything yet",
+    "details": "Profilio Informacija",
+    "comments": "Komentarai",
+    "replies": "Atsakymai",
+    "wallet": "Piniginė",
+    "wallet_details": "Piniginės duomenis",
+    "unclaimed_rewards": "Neatsiimti atlygiai",
+    "full_in": "Pilnas už",
+    "hours": "val.",
+    "voting_power": "Balsavimo Galia",
+    "login_to_see": "Prisijunkite norėdami pamatyti",
+    "havent_commented": "kolkas dar nieko nepakomentavo",
+    "havent_posted": "kolkas dar nieko neįkėlė",
     "steem_power": "Steem Power",
-    "next_power_text": "Next power down is in",
-    "days": "days",
-    "day": "day",
+    "next_power_text": "Kitas galios mažinimas už",
+    "days": "d.",
+    "day": "d.",
     "steem_dollars": "Steem Dollars",
-    "savings": "Savings"
+    "savings": "Santaupos"
   },
   "settings": {
-    "settings": "Settings",
-    "currency": "Currency",
-    "language": "Language",
-    "server": "Server",
-    "dark_theme": "Dark Theme",
-    "push_notification": "Push Notification",
+    "settings": "Nustatymai",
+    "currency": "Valiuta",
+    "language": "Kalba",
+    "server": "Serveris",
+    "dark_theme": "Tamsi Tema",
+    "push_notification": "Aktyvieji pranešimai",
     "pincode": "Pincode",
-    "reset": "Reset"
+    "reset": "Atstatyti"
   },
   "voters": {
-    "voters_info": "Voters Info",
-    "no_user": "No user found."
+    "voters_info": "Balsuotojo Informacija",
+    "no_user": "Nerastas joks vartotojas."
   },
   "login": {
-    "signin": "Sign in",
-    "signup": "Sign up",
-    "signin_title": "To get all the benefits of using eSteem",
-    "username": "Username",
-    "password": "Password or WIF",
-    "description": "User credentials are kept locally on the device. Credentials are removed upon logout!",
-    "cancel": "cancel",
-    "login": "LOGIN",
-    "steemconnect_description": "If you don't want to keep your password encrypted and saved on your device, you can use Steemconnect."
+    "signin": "Prisijungti",
+    "signup": "Užsiregistruoti",
+    "signin_title": "Norėdami gauti visus eSteem privalumus",
+    "username": "Vartotojo vardas",
+    "password": "Slaptažodis arba WIF",
+    "description": "Vartotojo kredencialai saugomi lokaliai įrenginyje. Atsijungus kredencialai pašalinami!",
+    "cancel": "atšaukti",
+    "login": "PRISIJUNGTI",
+    "steemconnect_description": "Jei nenorite, kad jūsų slaptažodis būtų įrašomas į jūsų įrenginį, galite naudoti Steemconnect."
   },
   "home": {
-    "feed": "Feed",
-    "popular": "Popular"
+    "feed": "Pagrindinis",
+    "popular": "Populiarūs"
   },
   "side_menu": {
-    "profile": "Profile",
-    "bookmarks": "Bookmarks",
-    "favorites": "Favorites",
-    "drafts": "Drafts",
-    "schedules": "Schedules",
-    "gallery": "Gallery",
-    "settings": "Settings",
-    "add_account": "Add Account",
-    "logout": "Logout",
-    "cancel": "Cancel",
-    "logout_text": "Are you sure you want to logout?"
+    "profile": "Profilis",
+    "bookmarks": "Žymės",
+    "favorites": "Mėgstamiausi",
+    "drafts": "Ruošiniai",
+    "schedules": "Suplanuota",
+    "gallery": "Galerija",
+    "settings": "Nustatymai",
+    "add_account": "Pridėti paskyrą",
+    "logout": "Atsijungti",
+    "cancel": "Atšaukti",
+    "logout_text": "Ar tikrai norite atsijungti?"
   },
   "header": {
-    "title": "Login to customize your feed",
-    "search": "Search..."
+    "title": "Prisijunkite norėdami keisti savo pagrindinį",
+    "search": "Paieška..."
   },
   "basic_header": {
-    "publish": "Publish",
-    "search": "Search",
-    "update": "Update",
-    "reply": "Reply"
+    "publish": "Skelbti",
+    "search": "Paieška",
+    "update": "Atnaujinti",
+    "reply": "Atsakyti"
   },
   "editor": {
-    "title": "Title",
-    "tags": "tags",
-    "default_placeholder": "What would you like to write about today?",
-    "reply_placeholder": "What would you like to write about above post?",
-    "publish": "Publish",
-    "reply": "Reply"
+    "title": "Pavadinimas",
+    "tags": "žymos",
+    "default_placeholder": "Apie ką norėtumėte rašyti šiandien?",
+    "reply_placeholder": "Ką norėtumėte parašyti po įrašu?",
+    "publish": "Skelbti",
+    "reply": "Atsakyti"
   },
   "pincode": {
     "enter_text": "Enter pin to unlock",
     "set_new": "Set new pin",
-    "write_again": "Write again",
-    "forgot_text": "Oh, I forgot it..."
+    "write_again": "Rašyti vėl",
+    "forgot_text": "Oi, pamiršau..."
   },
   "alert": {
-    "success": "Success!",
-    "allRead": "Marked all notifications as read",
-    "claim_reward_balance_ok": "Reward balance claimed",
-    "fail": "Fail!",
-    "success_shared": "Your post succesfully shared",
-    "permission_denied": "Permission denied",
-    "permission_text": "Please, go to phone Settings and change eSteem app permissions.",
+    "success": "Sėkminga!",
+    "allRead": "Pažymėti visus pranešimus kaip skaitytus",
+    "claim_reward_balance_ok": "Atlygis atsiimtas",
+    "fail": "Nepavyko!",
+    "success_shared": "Jūsų įrašas sėkmingai pasidalintas",
+    "permission_denied": "Leidimas nesuteiktas",
+    "permission_text": "Prašome telefono nustatymuose pakeisti eSteem programėlės leidimus.",
     "success_rebloged": "Rebloged!",
-    "already_rebloged": "You have already reblogged!",
-    "warning": "Warning",
+    "already_rebloged": "Jūs tai jau pasidalinote!",
+    "warning": "Dėmesio",
     "invalid_pincode": "Invalid pin code, please check and try again.",
     "remove_alert": "Are you sure want to remove?",
-    "cancel": "Cancel",
-    "delete": "Delete"
+    "cancel": "Atšaukti",
+    "delete": "Ištrinti"
   },
   "post": {
-    "reblog_alert": "Are you sure you want to reblog?"
+    "reblog_alert": "Ar tikrai norite dalintis?"
   },
   "drafts": {
-    "title": "Drafts",
-    "load_error": "Could not load drafts",
-    "empty_list": "Nothing here",
-    "deleted": "Draft deleted"
+    "title": "Ruošiniai",
+    "load_error": "Nepavyko užkrauti ruošinių",
+    "empty_list": "Nieko nėra",
+    "deleted": "Ruošinys panaikintas"
   },
   "schedules": {
-    "title": "Scheduled Posts",
-    "empty_list": "Nothing here",
-    "deleted": "Scheduled post deleted",
-    "move": "Move to drafts",
-    "moved": "Moved to drafts"
+    "title": "Suplanuoti įrašai",
+    "empty_list": "Nieko nėra",
+    "deleted": "Suplanuotas įrašas panaikintas",
+    "move": "Perkelti į ruošinius",
+    "moved": "Perkelta į ruošinius"
   },
   "bookmarks": {
-    "title": "Bookmarks",
-    "load_error": "Could not load bookmarks",
-    "empty_list": "Nothing here",
-    "deleted": "Bookmark removed",
-    "search": "Search in bookmarks"
+    "title": "Žymės",
+    "load_error": "Nepavyko užkrauti žymių",
+    "empty_list": "Nieko nėra",
+    "deleted": "Žymė panaikinta",
+    "search": "Ieškoti žymelėse"
   },
   "favorites": {
-    "title": "Favorites",
-    "load_error": "Could not load favorites",
-    "empty_list": "Nothing here",
-    "search": "Search in favorites"
+    "title": "Mėgstamiausi",
+    "load_error": "Nepavyko pakrauti mėgstamiausių",
+    "empty_list": "Nieko nėra",
+    "search": "Ieškoti mėgstamiausiuose"
   },
   "auth": {
     "invalid_pin": "Invalid pin code, please check and try again",
-    "invalid_username": "Invalid username, please check and try again",
-    "already_logged": "You are already logged in, please try to add another account",
-    "invalid_credentials": "Invalid credentials, please check and try again",
-    "unknow_error": "Unknown error, please contact us at support@esteem.app"
+    "invalid_username": "Neteisingas naudotojo vardas, patikrinkite ir bandykite dar kartą",
+    "already_logged": "Jūs jau prisijungę, bandykite pridėti kitą paskyrą",
+    "invalid_credentials": "Neteisingi duomenys, patikrinkite ir bandykite dar kartą",
+    "unknow_error": "Nežinoma klaida, susisiekite su mumis adresu support@esteem.app"
   },
   "payout": {
-    "potential_payout": "Potential Payout",
-    "promoted": "Promoted",
-    "author_payout": "Author Payout",
-    "curation_payout": "Curation Payout",
-    "payout_date": "Payout"
+    "potential_payout": "Potencialus užmokestis",
+    "promoted": "Reklama",
+    "author_payout": "Autoriaus Užmokestis",
+    "curation_payout": "Kuracijos Užmokestis",
+    "payout_date": "Užmokestis"
   },
   "post_dropdown": {
-    "copy": "copy link",
-    "reblog": "reblog",
-    "reply": "reply",
-    "share": "share"
+    "copy": "kopijuoti nuorodą",
+    "reblog": "pasidalinti",
+    "reply": "atsakymas",
+    "share": "dalintis"
+  },
+  "deep_link": {
+    "no_existing_user": "No existing user",
+    "no_existing_post": "No existing post"
   }
 }

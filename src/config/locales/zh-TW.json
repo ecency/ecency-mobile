@@ -132,7 +132,7 @@
     "success_rebloged": "已轉發！",
     "already_rebloged": "您已經轉發過了！",
     "warning": "警告",
-    "invalid_pincode": "Invalid pin code, please check and try again.",
+    "invalid_pincode": "無效的PIN碼，請核對後再試一次。",
     "remove_alert": "確定要刪除嗎？",
     "cancel": "取消",
     "delete": "刪除"
@@ -181,9 +181,13 @@
     "payout_date": "收益时间"
   },
   "post_dropdown": {
-    "copy": "copy link",
-    "reblog": "reblog",
-    "reply": "reply",
-    "share": "share"
+    "copy": "複製連結",
+    "reblog": "轉發",
+    "reply": "回覆",
+    "share": "分享"
+  },
+  "deep_link": {
+    "no_existing_user": "No existing user",
+    "no_existing_post": "No existing post"
   }
 }

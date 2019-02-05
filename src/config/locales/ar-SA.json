@@ -181,9 +181,13 @@
     "payout_date": "المكافأة"
   },
   "post_dropdown": {
-    "copy": "copy link",
-    "reblog": "reblog",
-    "reply": "reply",
-    "share": "share"
+    "copy": "أنسخ الرابط",
+    "reblog": "إعادة التدوين",
+    "reply": "الرد",
+    "share": "شارك"
+  },
+  "deep_link": {
+    "no_existing_user": "No existing user",
+    "no_existing_post": "No existing post"
   }
 }

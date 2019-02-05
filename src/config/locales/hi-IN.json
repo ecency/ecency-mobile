@@ -176,14 +176,18 @@
   "payout": {
     "potential_payout": "Potential Payout",
     "promoted": "Promoted",
-    "author_payout": "Author Payout",
+    "author_payout": "लेखक भुगतान",
     "curation_payout": "Curation Payout",
-    "payout_date": "Payout"
+    "payout_date": "भुगतान"
   },
   "post_dropdown": {
-    "copy": "copy link",
+    "copy": "लिंक कापी करें",
     "reblog": "reblog",
-    "reply": "reply",
-    "share": "share"
+    "reply": "जवाब दें",
+    "share": "साझा करें"
+  },
+  "deep_link": {
+    "no_existing_user": "No existing user",
+    "no_existing_post": "No existing post"
   }
 }

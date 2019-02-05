@@ -183,10 +183,10 @@
     "payout_date": "Выплата"
   },
   "post_dropdown": {
-    "copy": "copy link",
-    "reblog": "reblog",
-    "reply": "reply",
-    "share": "share"
+    "copy": "копировать ссылку",
+    "reblog": "репост",
+    "reply": "ответить",
+    "share": "поделиться"
   },
   "deep_link": {
     "no_existing_user": "No existing user",
