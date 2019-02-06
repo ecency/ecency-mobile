@@ -136,8 +136,8 @@
     "remove_alert": "Are you sure want to remove?",
     "cancel": "لغو",
     "delete": "پاک کردن",
-    "copied": "Copied!",
-    "no_internet": "No connection!"
+    "copied": "کپی شد!",
+    "no_internet": "اتصال برقرار نیست!"
   },
   "post": {
     "reblog_alert": "آیا مطمئن هستید که می‌خواهید به اشتراک بگذارید؟"
@@ -161,8 +161,8 @@
     "empty_list": "هیچی اینجا نیست",
     "deleted": "از صفحهات محبوب حذف شد",
     "search": "جستجوی درصفحات محبوب",
-    "added": "Added to bookmars",
-    "add": "Add to bookmarks"
+    "added": "به صفحات مورد علاقه اضافه شد",
+    "add": "اضافه کردن به صفحات مورد علاقه"
   },
   "favorites": {
     "title": "برگزیده‌ها",
@@ -189,7 +189,7 @@
     "reblog": "اشتراک گذاری",
     "reply": "پاسخ دادن",
     "share": "درمیان گذاری",
-    "bookmarks": "add to bookmarks"
+    "bookmarks": "اضافه کردن به صفحات مورد علاقه"
   },
   "deep_link": {
     "no_existing_user": "کاربری موجود نیست",
