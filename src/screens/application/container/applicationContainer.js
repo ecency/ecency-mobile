@@ -11,8 +11,12 @@ import { bindActionCreators } from 'redux';
 
 // Constants
 import en from 'react-intl/locale-data/en';
-import tr from 'react-intl/locale-data/tr';
+import id from 'react-intl/locale-data/id';
 import ru from 'react-intl/locale-data/ru';
+import de from 'react-intl/locale-data/de';
+import it from 'react-intl/locale-data/it';
+import hu from 'react-intl/locale-data/hu';
+
 import AUTH_TYPE from '../../../constants/authType';
 
 // Services
@@ -61,7 +65,7 @@ import {
 import ApplicationScreen from '../screen/applicationScreen';
 import { Launch } from '../..';
 
-addLocaleData([...en, ...tr, ...ru]);
+addLocaleData([...en, ...ru, ...de, ...id, ...it, ...hu]);
 
 class ApplicationContainer extends Component {
   constructor() {

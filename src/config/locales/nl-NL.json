@@ -13,7 +13,7 @@
   "notification": {
     "vote": "vindt je bericht leuk",
     "unvote": "vindt je bericht niet meer leuk",
-    "reply": "heeft op je bericht gereageerd",
+    "reply": "heeft op je artikel gereageerd",
     "mention": "noemde je",
     "follow": "volgt je",
     "unfollow": "ontvolgt je",
@@ -35,7 +35,7 @@
   "profile": {
     "following": "Aan het volgen",
     "follower": "Volger",
-    "post": "Post",
+    "post": "Artikelen",
     "details": "Profieldetails",
     "comments": "Reacties",
     "replies": "Reacties",
@@ -47,7 +47,7 @@
     "voting_power": "Stemkracht",
     "login_to_see": "Inloggen om te tonen",
     "havent_commented": "heeft nog niets gereageerd",
-    "havent_posted": "heeft nog geen bericht geplaatst",
+    "havent_posted": "heeft nog geen artikel geplaatst",
     "steem_power": "Steem Power",
     "next_power_text": "Volgende power down is over",
     "days": "dagen",
@@ -116,8 +116,8 @@
     "reply": "Reageer"
   },
   "pincode": {
-    "enter_text": "Enter pin to unlock",
-    "set_new": "Set new pin",
+    "enter_text": "Enter PIN om te ontgrendelen",
+    "set_new": "Stel nieuwe PIN in",
     "write_again": "Schrijf opnieuw",
     "forgot_text": "Oh, ik ben het vergeten..."
   },
@@ -132,10 +132,12 @@
     "success_rebloged": "Gedeeld!",
     "already_rebloged": "Je hebt al gedeeld!",
     "warning": "Waarschuwing",
-    "invalid_pincode": "Invalid pin code, please check and try again.",
+    "invalid_pincode": "Ongeldige PIN-code, controleer en probeer het opnieuw.",
     "remove_alert": "Weet je zeker dat je wilt verwijderen?",
     "cancel": "Annuleren",
-    "delete": "Verwijderen"
+    "delete": "Verwijderen",
+    "copied": "Copied!",
+    "no_internet": "No connection!"
   },
   "post": {
     "reblog_alert": "Weet je zeker dat je het wilt delen?"
@@ -158,7 +160,9 @@
     "load_error": "Kon bladwijzers niet laden",
     "empty_list": "Niets hier",
     "deleted": "Bladwijzer verwijderd",
-    "search": "Zoek in bladwijzers"
+    "search": "Zoek in bladwijzers",
+    "added": "Added to bookmars",
+    "add": "Add to bookmarks"
   },
   "favorites": {
     "title": "Favorieten",
@@ -167,7 +171,7 @@
     "search": "Zoek in favorieten"
   },
   "auth": {
-    "invalid_pin": "Invalid pin code, please check and try again",
+    "invalid_pin": "Ongeldige PIN-code, controleer en probeer het opnieuw",
     "invalid_username": "Ongeldige gebruikersnaam, controleer en probeer het opnieuw",
     "already_logged": "Je bent al ingelogd, probeer een andere account toe te voegen",
     "invalid_credentials": "Ongeldige gegevens, controleer en probeer het opnieuw",
@@ -181,9 +185,14 @@
     "payout_date": "Uitbetaling"
   },
   "post_dropdown": {
-    "copy": "copy link",
-    "reblog": "reblog",
-    "reply": "reply",
-    "share": "share"
+    "copy": "link kopiëren",
+    "reblog": "delen",
+    "reply": "reageer",
+    "share": "deel",
+    "bookmarks": "add to bookmarks"
+  },
+  "deep_link": {
+    "no_existing_user": "Geen bestaande gebruiker",
+    "no_existing_post": "Geen bestaand artikel"
   }
 }

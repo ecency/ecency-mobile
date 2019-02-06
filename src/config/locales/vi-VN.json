@@ -1,189 +1,198 @@
 {
   "wallet": {
-    "curation_reward": "Curation Reward",
-    "author_reward": "Author Reward",
-    "comment_benefactor_reward": "Comment Benefactor Reward",
-    "claim_reward_balance": "Claim Reward Balance",
-    "transfer": "Transfer",
-    "transfer_to_vesting": "Transfer To Vesting",
-    "transfer_from_savings": "Transfer From Savings",
+    "curation_reward": "Phần thưởng curation",
+    "author_reward": "Phần thưởng cho tác giả",
+    "comment_benefactor_reward": "Phần thưởng đc chia sẻ từ bình luận",
+    "claim_reward_balance": "Nhận số dư tiền thưởng",
+    "transfer": "Chuyển cho",
+    "transfer_to_vesting": "Chuyển đến Vesting",
+    "transfer_from_savings": "Chuyển từ tiết kiệm",
     "withdraw_vesting": "Power Down",
-    "fill_order": "Fill Order"
+    "fill_order": "Điền đơn hàng"
   },
   "notification": {
-    "vote": "likes your post",
-    "unvote": "unvoted your post",
-    "reply": "replied to your post",
-    "mention": "mentioned you",
-    "follow": "followed you",
-    "unfollow": "unfollowed you",
-    "ignore": "ignored you",
-    "reblog": "reblogged your post",
-    "comingsoon": "Leaderboard feature is coming soon!",
-    "notification": "Notifications",
-    "leaderboard": "Leaderboard",
-    "leaderboard_title": "Daily Top User",
-    "recent": "Recent",
-    "yesterday": "Yesterday",
-    "this_week": "This Week",
-    "this_month": "This Month",
-    "older_then": "Older Than A Month"
+    "vote": "thích bài đăng của bạn",
+    "unvote": "đã unvote bài viết của bạn",
+    "reply": "đã trả lời bài đăng của bạn",
+    "mention": "đã nhắc đến bạn",
+    "follow": "đã theo dõi bạn",
+    "unfollow": "đã bỏ theo dõi bạn",
+    "ignore": "đã bỏ qua bạn",
+    "reblog": "đã đăng lại bài viết của bạn",
+    "comingsoon": "Sắp có tính năng bảng xếp hạng!",
+    "notification": "Thông báo",
+    "leaderboard": "Bảng xếp hạng",
+    "leaderboard_title": "Người dùng tiêu biểu hàng ngày",
+    "recent": "Gần đây",
+    "yesterday": "Hôm qua",
+    "this_week": "Tuần này",
+    "this_month": "Tháng này",
+    "older_then": "Cách đây hơn 1 tháng"
   },
   "messages": {
-    "comingsoon": "Messages feature is coming soon!"
+    "comingsoon": "Tính năng tin nhắn sẽ được cập nhật sớm!"
   },
   "profile": {
-    "following": "Following",
-    "follower": "Follower",
-    "post": "Post",
-    "details": "Profile Details",
-    "comments": "Comments",
-    "replies": "Replies",
-    "wallet": "Wallet",
-    "wallet_details": "Wallet Details",
-    "unclaimed_rewards": "Unclaimed Rewards",
-    "full_in": "Full in",
-    "hours": "hours",
+    "following": "Đang theo dõi",
+    "follower": "Người theo dõi",
+    "post": "Các bài viết",
+    "details": "Chi tiết hồ sơ",
+    "comments": "Bình luận",
+    "replies": "Trả lời",
+    "wallet": "Ví",
+    "wallet_details": "Thông tin chi tiết ví",
+    "unclaimed_rewards": "Tiền thưởng chưa được nhận",
+    "full_in": "Đầy sau",
+    "hours": "giờ",
     "voting_power": "Voting power",
-    "login_to_see": "Login to see",
-    "havent_commented": "haven't commented anything yet",
-    "havent_posted": "haven't posted anything yet",
+    "login_to_see": "Đăng nhập để xem",
+    "havent_commented": "chưa bình luận gì cả",
+    "havent_posted": "chưa đăng gì cả",
     "steem_power": "Steem Power",
-    "next_power_text": "Next power down is in",
-    "days": "days",
-    "day": "day",
+    "next_power_text": "Lượt power down tiếp theo được diễn ra sau",
+    "days": "ngày",
+    "day": "ngày",
     "steem_dollars": "Steem Dollars",
-    "savings": "Savings"
+    "savings": "Tiết kiệm"
   },
   "settings": {
-    "settings": "Settings",
-    "currency": "Currency",
-    "language": "Language",
-    "server": "Server",
-    "dark_theme": "Dark Theme",
-    "push_notification": "Push Notification",
-    "pincode": "Pincode",
-    "reset": "Reset"
+    "settings": "Cài đặt",
+    "currency": "Tiền tệ",
+    "language": "Ngôn ngữ",
+    "server": "Máy chủ",
+    "dark_theme": "Chế độ tối",
+    "push_notification": "Đẩy thông báo",
+    "pincode": "Mã PIN",
+    "reset": "Thiết lập lại"
   },
   "voters": {
-    "voters_info": "Voters Info",
-    "no_user": "No user found."
+    "voters_info": "Thông tin người bình chọn",
+    "no_user": "Không tìm thấy người dùng nào."
   },
   "login": {
-    "signin": "Sign in",
-    "signup": "Sign up",
-    "signin_title": "To get all the benefits of using eSteem",
-    "username": "Username",
-    "password": "Password or WIF",
-    "description": "User credentials are kept locally on the device. Credentials are removed upon logout!",
-    "cancel": "cancel",
-    "login": "LOGIN",
-    "steemconnect_description": "If you don't want to keep your password encrypted and saved on your device, you can use Steemconnect."
+    "signin": "Đăng nhập",
+    "signup": "Đăng ký",
+    "signin_title": "Để có được tất cả những lợi ích của việc sử dụng eSteem",
+    "username": "Tên người dùng",
+    "password": "Mật khẩu hoặc WIF",
+    "description": "Thông tin đăng nhập của người dùng được lưu cục bộ trên thiết bị. Thông tin được xóa khi đăng xuất!",
+    "cancel": "huỷ",
+    "login": "ĐĂNG NHẬP",
+    "steemconnect_description": "Nếu bạn không muốn giữ mật khẩu của mình được mã hóa và lưu trên thiết bị của mình, bạn có thể sử dụng Steemconnect."
   },
   "home": {
-    "feed": "Feed",
-    "popular": "Popular"
+    "feed": "Nguồn cấp dữ liệu",
+    "popular": "Phổ biến"
   },
   "side_menu": {
-    "profile": "Profile",
-    "bookmarks": "Bookmarks",
-    "favorites": "Favorites",
-    "drafts": "Drafts",
-    "schedules": "Schedules",
-    "gallery": "Gallery",
-    "settings": "Settings",
-    "add_account": "Add Account",
-    "logout": "Logout",
-    "cancel": "Cancel",
-    "logout_text": "Are you sure you want to logout?"
+    "profile": "Hồ sơ",
+    "bookmarks": "Đánh dấu trang",
+    "favorites": "Ưa thích",
+    "drafts": "Bản Nháp",
+    "schedules": "Lịch trình",
+    "gallery": "Bộ sưu tập",
+    "settings": "Cài đặt",
+    "add_account": "Thêm tài khoản",
+    "logout": "Đăng xuất",
+    "cancel": "Huỷ",
+    "logout_text": "Bạn có chắc chắn muốn đăng xuất?"
   },
   "header": {
-    "title": "Login to customize your feed",
-    "search": "Search..."
+    "title": "Đăng nhập để tùy chỉnh nguồn cấp dữ liệu của bạn",
+    "search": "Tìm kiếm..."
   },
   "basic_header": {
-    "publish": "Publish",
-    "search": "Search",
-    "update": "Update",
-    "reply": "Reply"
+    "publish": "Đăng",
+    "search": "Tìm kiếm",
+    "update": "Cập nhật",
+    "reply": "Trả lời"
   },
   "editor": {
-    "title": "Title",
-    "tags": "tags",
-    "default_placeholder": "What would you like to write about today?",
-    "reply_placeholder": "What would you like to write about above post?",
-    "publish": "Publish",
-    "reply": "Reply"
+    "title": "Tiêu đề",
+    "tags": "thẻ",
+    "default_placeholder": "Bạn muốn viết về gì hôm nay?",
+    "reply_placeholder": "Bạn muốn viết gì về bài viết trên?",
+    "publish": "Đăng bài",
+    "reply": "Trả lời"
   },
   "pincode": {
-    "enter_text": "Enter pin to unlock",
-    "set_new": "Set new pin",
-    "write_again": "Write again",
-    "forgot_text": "Oh, I forgot it..."
+    "enter_text": "Nhập mã PIN để mở khóa",
+    "set_new": "Thiết lập mã PIN mới",
+    "write_again": "Viết lại",
+    "forgot_text": "Ối, tôi quên mất..."
   },
   "alert": {
-    "success": "Success!",
-    "allRead": "Marked all notifications as read",
-    "claim_reward_balance_ok": "Reward balance claimed",
-    "fail": "Fail!",
-    "success_shared": "Your post succesfully shared",
-    "permission_denied": "Permission denied",
-    "permission_text": "Please, go to phone Settings and change eSteem app permissions.",
-    "success_rebloged": "Rebloged!",
-    "already_rebloged": "You have already reblogged!",
-    "warning": "Warning",
-    "invalid_pincode": "Invalid pin code, please check and try again.",
+    "success": "Thành công!",
+    "allRead": "Đã đánh dấu tất cả các thông báo là đã đọc",
+    "claim_reward_balance_ok": "Số dư tiền thưởng đã được nhận",
+    "fail": "Thất bại!",
+    "success_shared": "Bài viết của bạn đã được chia sẻ thành công",
+    "permission_denied": "Quyền truy cập bị từ chối",
+    "permission_text": "Vui lòng mở cài đặt điện thoại và thay đổi quyền truy cập cho ứng dụng eSteem.",
+    "success_rebloged": "Đã đăng lại bài viết!",
+    "already_rebloged": "Bạn đã đăng lại bài viết!",
+    "warning": "Cảnh báo",
+    "invalid_pincode": "Mã PIN không hợp lệ, vui lòng kiểm tra và thử lại.",
     "remove_alert": "Are you sure want to remove?",
-    "cancel": "Cancel",
-    "delete": "Delete"
+    "cancel": "Huỷ",
+    "delete": "Xóa",
+    "copied": "Đã sao chép!",
+    "no_internet": "Không có kết nối!"
   },
   "post": {
-    "reblog_alert": "Are you sure you want to reblog?"
+    "reblog_alert": "Bạn có chắc chắn muốn đăng lại không?"
   },
   "drafts": {
-    "title": "Drafts",
-    "load_error": "Could not load drafts",
-    "empty_list": "Nothing here",
-    "deleted": "Draft deleted"
+    "title": "Bản nháp",
+    "load_error": "Không thể tải bản nháp",
+    "empty_list": "Không có gì ở đây",
+    "deleted": "Bản nháp đã bị xóa"
   },
   "schedules": {
-    "title": "Scheduled Posts",
-    "empty_list": "Nothing here",
-    "deleted": "Scheduled post deleted",
-    "move": "Move to drafts",
-    "moved": "Moved to drafts"
+    "title": "Các bài viết được hẹn lịch",
+    "empty_list": "Không có gì ở đây",
+    "deleted": "Các bài viết được hẹn lịch đã bị xóa",
+    "move": "Di chuyển đến bản nháp",
+    "moved": "Được chuyển đến bản nháp"
   },
   "bookmarks": {
-    "title": "Bookmarks",
-    "load_error": "Could not load bookmarks",
-    "empty_list": "Nothing here",
-    "deleted": "Bookmark removed",
-    "search": "Search in bookmarks"
+    "title": "Các trang đánh dấu",
+    "load_error": "Không thể tải các trang đánh dấu",
+    "empty_list": "Không có gì ở đây",
+    "deleted": "Trang đánh dấu đã được gỡ bỏ",
+    "search": "Tìm kiếm trong trang đánh dấu",
+    "added": "Đã thêm vào dấu trang",
+    "add": "Thêm vào dấu trang"
   },
   "favorites": {
-    "title": "Favorites",
-    "load_error": "Could not load favorites",
-    "empty_list": "Nothing here",
-    "search": "Search in favorites"
+    "title": "Ưa thích",
+    "load_error": "Không thể tải các trang ưa thích",
+    "empty_list": "Không có gì ở đây",
+    "search": "Tìm trong danh sách ưa thích"
   },
   "auth": {
-    "invalid_pin": "Invalid pin code, please check and try again",
-    "invalid_username": "Invalid username, please check and try again",
-    "already_logged": "You are already logged in, please try to add another account",
-    "invalid_credentials": "Invalid credentials, please check and try again",
-    "unknow_error": "Unknown error, please contact us at support@esteem.app"
+    "invalid_pin": "Mã PIN không hợp lệ, vui lòng kiểm tra và thử lại",
+    "invalid_username": "Tên đăng nhập không hợp lệ, vui lòng kiểm tra và thử lại",
+    "already_logged": "Bạn đã đăng nhập, vui lòng thử thêm tài khoản khác",
+    "invalid_credentials": "Thông tin không hợp lệ, vui lòng kiểm tra và thử lại",
+    "unknow_error": "Lỗi không xác định, xin vui lòng liên hệ với chúng tôi tại support@esteem.app"
   },
   "payout": {
-    "potential_payout": "Potential Payout",
-    "promoted": "Promoted",
-    "author_payout": "Author Payout",
-    "curation_payout": "Curation Payout",
-    "payout_date": "Payout"
+    "potential_payout": "Thanh toán dự kiến",
+    "promoted": "Đã quảng bá",
+    "author_payout": "Thanh toán cho tác giả",
+    "curation_payout": "Thanh toán curation",
+    "payout_date": "Thanh toán"
   },
   "post_dropdown": {
-    "copy": "copy link",
-    "reblog": "reblog",
-    "reply": "reply",
-    "share": "share"
+    "copy": "sao chép liên kết",
+    "reblog": "đăng lại",
+    "reply": "trả lời",
+    "share": "chia sẻ",
+    "bookmarks": "thêm vào dấu trang"
+  },
+  "deep_link": {
+    "no_existing_user": "Không có người dùng hiện tại",
+    "no_existing_post": "Hiện tại không có bài viết nào"
   }
 }

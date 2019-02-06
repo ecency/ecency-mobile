@@ -20,7 +20,7 @@
     "ignore": "hanapeureumeun dröen",
     "reblog": "postingan dröen ka di reblog",
     "comingsoon": "Papeun ranking akan seugeura lheuh!",
-    "notification": "Haba",
+    "notification": "Bithé",
     "leaderboard": "Papeun Rangking",
     "leaderboard_title": "Ureung Palèng Lè pakek",
     "recent": "Ataban nyoë",
@@ -42,7 +42,7 @@
     "wallet": "Balum",
     "wallet_details": "Asöe Balum",
     "unclaimed_rewards": "Upah Galoem Cöek",
-    "full_in": "Punoeh ië dalam",
+    "full_in": "Punoeh lam",
     "hours": "jëum",
     "voting_power": "Teunaga Galak",
     "login_to_see": "Tamoëng Untuk Kaloën",
@@ -116,7 +116,7 @@
     "reply": "Balah"
   },
   "pincode": {
-    "enter_text": "Pasöe gunci keu buka",
+    "enter_text": "Pasöe gunci untuk buka",
     "set_new": "Pasöe pin barô",
     "write_again": "Tulèh loem",
     "forgot_text": "Oh, lôn tuwoe nyan..."
@@ -135,7 +135,9 @@
     "invalid_pincode": "Salah pin, cie neu test loëm.",
     "remove_alert": "Peu yakin neuk sampóh?",
     "cancel": "Batai",
-    "delete": "Sampóh"
+    "delete": "Sampóh",
+    "copied": "Copied!",
+    "no_internet": "No connection!"
   },
   "post": {
     "reblog_alert": "Peu yakin neuh, neu neuk reblog?"
@@ -158,7 +160,9 @@
     "load_error": "Han lëupah peutamoeng ata lam konsep",
     "empty_list": "Hana sapëuna",
     "deleted": "Pëunanda buku kalhëuh meusampöh",
-    "search": "Mita lam buku pëunanda"
+    "search": "Mita lam buku pëunanda",
+    "added": "Added to bookmars",
+    "add": "Add to bookmarks"
   },
   "favorites": {
     "title": "Palèng galak",
@@ -182,8 +186,13 @@
   },
   "post_dropdown": {
     "copy": "copy link",
-    "reblog": "reblog",
-    "reply": "reply",
-    "share": "share"
+    "reblog": "neukirem ulang blog",
+    "reply": "balah",
+    "share": "bagi",
+    "bookmarks": "add to bookmarks"
+  },
+  "deep_link": {
+    "no_existing_user": "Hana uréung pakék",
+    "no_existing_post": "Hana haba sapeu"
   }
 }

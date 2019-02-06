@@ -132,10 +132,12 @@
     "success_rebloged": "已轉發！",
     "already_rebloged": "您已經轉發過了！",
     "warning": "警告",
-    "invalid_pincode": "Invalid pin code, please check and try again.",
+    "invalid_pincode": "無效的PIN碼，請核對後再試一次。",
     "remove_alert": "確定要刪除嗎？",
     "cancel": "取消",
-    "delete": "刪除"
+    "delete": "刪除",
+    "copied": "Copied!",
+    "no_internet": "No connection!"
   },
   "post": {
     "reblog_alert": "您確定想要轉發嗎？"
@@ -158,7 +160,9 @@
     "load_error": "無法載入書籤",
     "empty_list": "暫無内容！",
     "deleted": "已移除書籤",
-    "search": "搜尋書籤"
+    "search": "搜尋書籤",
+    "added": "Added to bookmars",
+    "add": "Add to bookmarks"
   },
   "favorites": {
     "title": "我的最愛",
@@ -181,9 +185,14 @@
     "payout_date": "收益时间"
   },
   "post_dropdown": {
-    "copy": "copy link",
-    "reblog": "reblog",
-    "reply": "reply",
-    "share": "share"
+    "copy": "複製連結",
+    "reblog": "轉發",
+    "reply": "回覆",
+    "share": "分享",
+    "bookmarks": "add to bookmarks"
+  },
+  "deep_link": {
+    "no_existing_user": "No existing user",
+    "no_existing_post": "No existing post"
   }
 }

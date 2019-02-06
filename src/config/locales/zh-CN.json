@@ -135,7 +135,9 @@
     "invalid_pincode": "Invalid pin code, please check and try again.",
     "remove_alert": "您确定想要移除？",
     "cancel": "取消",
-    "delete": "删除"
+    "delete": "删除",
+    "copied": "Copied!",
+    "no_internet": "No connection!"
   },
   "post": {
     "reblog_alert": "您确定想要转发？"
@@ -158,7 +160,9 @@
     "load_error": "无法加载书签",
     "empty_list": "此处无内容",
     "deleted": "书签已移除",
-    "search": "搜索书签"
+    "search": "搜索书签",
+    "added": "Added to bookmars",
+    "add": "Add to bookmarks"
   },
   "favorites": {
     "title": "收藏夹",
@@ -184,6 +188,11 @@
     "copy": "copy link",
     "reblog": "reblog",
     "reply": "reply",
-    "share": "share"
+    "share": "share",
+    "bookmarks": "add to bookmarks"
+  },
+  "deep_link": {
+    "no_existing_user": "No existing user",
+    "no_existing_post": "No existing post"
   }
 }
