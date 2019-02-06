@@ -53,7 +53,7 @@ class PostListItemView extends Component {
           <View style={styles.header}>
             <PostHeaderDescription
               // date={intl.formatRelative(created)}
-              date={getTimeFromNow(created)}
+              date={getTimeFromNow(created, true)}
               name={username}
               reputation={reputation}
               size={32}
