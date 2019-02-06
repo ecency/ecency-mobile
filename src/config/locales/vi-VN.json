@@ -1,9 +1,9 @@
 {
   "wallet": {
-    "curation_reward": "Phần thưởng cho người quản lý",
+    "curation_reward": "Phần thưởng curation",
     "author_reward": "Phần thưởng cho tác giả",
     "comment_benefactor_reward": "Phần thưởng đc chia sẻ từ bình luận",
-    "claim_reward_balance": "Yêu cầu số dư tiền thưởng",
+    "claim_reward_balance": "Nhận số dư tiền thưởng",
     "transfer": "Chuyển cho",
     "transfer_to_vesting": "Chuyển đến Vesting",
     "transfer_from_savings": "Chuyển từ tiết kiệm",
@@ -41,7 +41,7 @@
     "replies": "Trả lời",
     "wallet": "Ví",
     "wallet_details": "Thông tin chi tiết ví",
-    "unclaimed_rewards": "Tiền thưởng chưa được yêu cầu",
+    "unclaimed_rewards": "Tiền thưởng chưa được nhận",
     "full_in": "Đầy sau",
     "hours": "giờ",
     "voting_power": "Voting power",
@@ -60,7 +60,7 @@
     "currency": "Tiền tệ",
     "language": "Ngôn ngữ",
     "server": "Máy chủ",
-    "dark_theme": "Chủ đề tối",
+    "dark_theme": "Chế độ tối",
     "push_notification": "Đẩy thông báo",
     "pincode": "Mã PIN",
     "reset": "Thiết lập lại"
@@ -109,7 +109,7 @@
   },
   "editor": {
     "title": "Tiêu đề",
-    "tags": "gán thẻ",
+    "tags": "thẻ",
     "default_placeholder": "Bạn muốn viết về gì hôm nay?",
     "reply_placeholder": "Bạn muốn viết gì về bài viết trên?",
     "publish": "Đăng bài",
@@ -124,7 +124,7 @@
   "alert": {
     "success": "Thành công!",
     "allRead": "Đã đánh dấu tất cả các thông báo là đã đọc",
-    "claim_reward_balance_ok": "Số dư tiền thưởng đã được yêu cầu",
+    "claim_reward_balance_ok": "Số dư tiền thưởng đã được nhận",
     "fail": "Thất bại!",
     "success_shared": "Bài viết của bạn đã được chia sẻ thành công",
     "permission_denied": "Quyền truy cập bị từ chối",
@@ -135,7 +135,9 @@
     "invalid_pincode": "Mã PIN không hợp lệ, vui lòng kiểm tra và thử lại.",
     "remove_alert": "Are you sure want to remove?",
     "cancel": "Huỷ",
-    "delete": "Xóa"
+    "delete": "Xóa",
+    "copied": "Đã sao chép!",
+    "no_internet": "Không có kết nối!"
   },
   "post": {
     "reblog_alert": "Bạn có chắc chắn muốn đăng lại không?"
@@ -154,11 +156,13 @@
     "moved": "Được chuyển đến bản nháp"
   },
   "bookmarks": {
-    "title": "Trang đánh dấu",
+    "title": "Các trang đánh dấu",
     "load_error": "Không thể tải các trang đánh dấu",
     "empty_list": "Không có gì ở đây",
     "deleted": "Trang đánh dấu đã được gỡ bỏ",
-    "search": "Tìm kiếm trong trang đánh dấu"
+    "search": "Tìm kiếm trong trang đánh dấu",
+    "added": "Đã thêm vào dấu trang",
+    "add": "Thêm vào dấu trang"
   },
   "favorites": {
     "title": "Ưa thích",
@@ -175,19 +179,20 @@
   },
   "payout": {
     "potential_payout": "Thanh toán dự kiến",
-    "promoted": "Đã được chia sẻ",
+    "promoted": "Đã quảng bá",
     "author_payout": "Thanh toán cho tác giả",
-    "curation_payout": "Thanh toán cho quản lý",
+    "curation_payout": "Thanh toán curation",
     "payout_date": "Thanh toán"
   },
   "post_dropdown": {
     "copy": "sao chép liên kết",
     "reblog": "đăng lại",
     "reply": "trả lời",
-    "share": "chia sẻ"
+    "share": "chia sẻ",
+    "bookmarks": "thêm vào dấu trang"
   },
   "deep_link": {
-    "no_existing_user": "No existing user",
-    "no_existing_post": "No existing post"
+    "no_existing_user": "Không có người dùng hiện tại",
+    "no_existing_post": "Hiện tại không có bài viết nào"
   }
 }

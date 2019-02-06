@@ -8,6 +8,8 @@ import messages from '../../../config/locales';
 
 // Components
 import { NoInternetConnection } from '../../../components/basicUIElements';
+import { ToastNotification } from '../../../components/toastNotification';
+import { toastNotification as toastNotificationAction } from '../../../redux/actions/uiAction';
 
 // Themes (Styles)
 import darkTheme from '../../../themes/darkTheme';
@@ -16,7 +18,9 @@ import lightTheme from '../../../themes/lightTheme';
 class ApplicationScreen extends Component {
   constructor(props) {
     super(props);
-    this.state = {};
+    this.state = {
+      isShowToastNotification: false,
+    };
   }
 
   componentWillMount() {
@@ -24,8 +28,24 @@ class ApplicationScreen extends Component {
     EStyleSheet.build(isDarkTheme ? darkTheme : lightTheme);
   }
 
+  componentWillReceiveProps(nextProps) {
+    const { toastNotification } = this.props;
+    if (nextProps.toastNotification && nextProps.toastNotification !== toastNotification) {
+      this.setState({ isShowToastNotification: true });
+    }
+  }
+
+  _handleOnHideToastNotification = () => {
+    const { dispatch } = this.props;
+    dispatch(toastNotificationAction(''));
+    this.setState({ isShowToastNotification: false });
+  };
+
   render() {
-    const { isConnected, isDarkTheme, locale } = this.props;
+    const {
+      isConnected, isDarkTheme, locale, toastNotification,
+    } = this.props;
+    const { isShowToastNotification } = this.state;
     const barStyle = isDarkTheme ? 'light-content' : 'dark-content';
     const barColor = isDarkTheme ? '#1e2835' : '#fff';
 
@@ -46,6 +66,14 @@ class ApplicationScreen extends Component {
         <IntlProvider locale={locale} messages={flattenMessages(messages[locale])}>
           <ReduxNavigation />
         </IntlProvider>
+
+        {isShowToastNotification && (
+          <ToastNotification
+            text={toastNotification}
+            duration={2000}
+            onHide={this._handleOnHideToastNotification}
+          />
+        )}
       </Fragment>
     );
   }

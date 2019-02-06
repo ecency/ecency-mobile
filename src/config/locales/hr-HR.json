@@ -1,193 +1,198 @@
 {
   "wallet": {
-    "curation_reward": "Curation Reward",
-    "author_reward": "Author Reward",
-    "comment_benefactor_reward": "Comment Benefactor Reward",
-    "claim_reward_balance": "Claim Reward Balance",
-    "transfer": "Transfer",
-    "transfer_to_vesting": "Transfer To Vesting",
-    "transfer_from_savings": "Transfer From Savings",
-    "withdraw_vesting": "Power Down",
-    "fill_order": "Fill Order"
+    "curation_reward": "Nagrada za Glasanje",
+    "author_reward": "Autorova Nagrada",
+    "comment_benefactor_reward": "Dobročinitelj Nagrada za Komentar",
+    "claim_reward_balance": "Preuzmi Nagradu",
+    "transfer": "Pošalji",
+    "transfer_to_vesting": "Prenesi u Vesting",
+    "transfer_from_savings": "Prebaci sa štednje",
+    "withdraw_vesting": "Smanji Moć",
+    "fill_order": "Ispuni Nalog"
   },
   "notification": {
-    "vote": "likes your post",
-    "unvote": "unvoted your post",
-    "reply": "replied to your post",
-    "mention": "mentioned you",
-    "follow": "followed you",
-    "unfollow": "unfollowed you",
-    "ignore": "ignored you",
-    "reblog": "reblogged your post",
-    "comingsoon": "Leaderboard feature is coming soon!",
-    "notification": "Notifications",
-    "leaderboard": "Leaderboard",
-    "leaderboard_title": "Daily Top User",
-    "recent": "Recent",
-    "yesterday": "Yesterday",
-    "this_week": "This Week",
-    "this_month": "This Month",
-    "older_then": "Older Than A Month"
+    "vote": "se sviđa vaša objava",
+    "unvote": "je odglasao vašu objavu",
+    "reply": "je odgovorio na vašu objavu",
+    "mention": "te spomenuo\/la",
+    "follow": "te prati",
+    "unfollow": "te prestao\/la pratiti",
+    "ignore": "te ignorira",
+    "reblog": "je podijelio tvoju objavu",
+    "comingsoon": "Rang lista dolazi uskoro!",
+    "notification": "Obavijesti",
+    "leaderboard": "Rang lista",
+    "leaderboard_title": "Dnevni top korisnik",
+    "recent": "Nedavno",
+    "yesterday": "Jučer",
+    "this_week": "Ovog Tjedna",
+    "this_month": "Ovaj Mjesec",
+    "older_then": "Starije od mjesec dana"
   },
   "messages": {
-    "comingsoon": "Messages feature is coming soon!"
+    "comingsoon": "Značajka poruka dolazi uskoro!"
   },
   "profile": {
-    "following": "Following",
-    "follower": "Follower",
-    "post": "Post",
-    "details": "Profile Details",
-    "comments": "Comments",
-    "replies": "Replies",
-    "wallet": "Wallet",
-    "wallet_details": "Wallet Details",
-    "unclaimed_rewards": "Unclaimed Rewards",
-    "full_in": "Full in",
-    "hours": "hours",
-    "voting_power": "Voting power",
-    "login_to_see": "Login to see",
-    "havent_commented": "haven't commented anything yet",
-    "havent_posted": "haven't posted anything yet",
-    "steem_power": "Steem Power",
-    "next_power_text": "Next power down is in",
-    "days": "days",
-    "day": "day",
-    "steem_dollars": "Steem Dollars",
-    "savings": "Savings"
+    "following": "Pratim",
+    "follower": "Pratitelj",
+    "post": "Objave",
+    "details": "Detalji o profilu",
+    "comments": "Komentari",
+    "replies": "Odgovori",
+    "wallet": "Novčanik",
+    "wallet_details": "Detalji novčanika",
+    "unclaimed_rewards": "Nepreuzete nagrade",
+    "full_in": "Pun za",
+    "hours": "sati",
+    "voting_power": "Snaga glasa",
+    "login_to_see": "Prijavi se da vidiš",
+    "havent_commented": "još nije komentirao\/la",
+    "havent_posted": "još nije ništa objavio\/la",
+    "steem_power": "Steem Moć",
+    "next_power_text": "Sljedeće smanjenje snage je za",
+    "days": "dani",
+    "day": "dan",
+    "steem_dollars": "Steem Dolari",
+    "savings": "Štednja"
   },
   "settings": {
-    "settings": "Settings",
-    "currency": "Currency",
-    "language": "Language",
+    "settings": "Postavke",
+    "currency": "Valuta",
+    "language": "Jezik",
     "server": "Server",
-    "dark_theme": "Dark Theme",
-    "push_notification": "Push Notification",
+    "dark_theme": "Tamna Tema",
+    "push_notification": "Push obavijesti",
     "pincode": "Pincode",
-    "reset": "Reset"
+    "reset": "Resetiraj"
   },
   "voters": {
-    "voters_info": "Voters Info",
-    "no_user": "No user found."
+    "voters_info": "Informacije o glasačima",
+    "no_user": "Nije pronađen nijedan korisnik."
   },
   "login": {
-    "signin": "Sign in",
-    "signup": "Sign up",
-    "signin_title": "To get all the benefits of using eSteem",
-    "username": "Username",
-    "password": "Password or WIF",
-    "description": "User credentials are kept locally on the device. Credentials are removed upon logout!",
-    "cancel": "cancel",
-    "login": "LOGIN",
-    "steemconnect_description": "If you don't want to keep your password encrypted and saved on your device, you can use Steemconnect."
+    "signin": "Prijavite se",
+    "signup": "Registriraj se",
+    "signin_title": "Da bi ste dobili sve beneficije korištenja eSteem-a",
+    "username": "Korisničko ime",
+    "password": "Lozinka ili WIF",
+    "description": "Korisnički podatci se čuvaju lokalno na uređaju. Nakon odjave podatci za prijavu se uklanjaju!",
+    "cancel": "otkaži",
+    "login": "PRIJAVA",
+    "steemconnect_description": "Ako ne želite imati svoju lozinku kriptiranu i spremljenu na vašem uređaju, možete koristiti Steemconnect."
   },
   "home": {
-    "feed": "Feed",
-    "popular": "Popular"
+    "feed": "Novosti",
+    "popular": "Popularno"
   },
   "side_menu": {
-    "profile": "Profile",
-    "bookmarks": "Bookmarks",
-    "favorites": "Favorites",
-    "drafts": "Drafts",
-    "schedules": "Schedules",
-    "gallery": "Gallery",
-    "settings": "Settings",
-    "add_account": "Add Account",
-    "logout": "Logout",
-    "cancel": "Cancel",
-    "logout_text": "Are you sure you want to logout?"
+    "profile": "Profil",
+    "bookmarks": "Knjižne oznake",
+    "favorites": "Favoriti",
+    "drafts": "Skice",
+    "schedules": "Rasporedi",
+    "gallery": "Galerija",
+    "settings": "Postavke",
+    "add_account": "Dodaj Profil",
+    "logout": "Odjava",
+    "cancel": "Poništi",
+    "logout_text": "Jeste li sigurni da se želite odjaviti?"
   },
   "header": {
-    "title": "Login to customize your feed",
-    "search": "Search..."
+    "title": "Ulogirajte se kako bi ste konfigurirali obavijesti",
+    "search": "Pretraži..."
   },
   "basic_header": {
-    "publish": "Publish",
-    "search": "Search",
-    "update": "Update",
-    "reply": "Reply"
+    "publish": "Objavi",
+    "search": "Pretraži",
+    "update": "Ažiriraj",
+    "reply": "Odgovor"
   },
   "editor": {
-    "title": "Title",
-    "tags": "tags",
-    "default_placeholder": "What would you like to write about today?",
-    "reply_placeholder": "What would you like to write about above post?",
-    "publish": "Publish",
-    "reply": "Reply"
+    "title": "Naslov",
+    "tags": "oznake",
+    "default_placeholder": "O čemu bi ste željeli pisati danas?",
+    "reply_placeholder": "Što bi ste željeli napisati iznad vaše objave?",
+    "publish": "Objavi",
+    "reply": "Odgovor"
   },
   "pincode": {
     "enter_text": "Enter pin to unlock",
-    "set_new": "Set new pin",
-    "write_again": "Write again",
-    "forgot_text": "Oh, I forgot it..."
+    "set_new": "Postavi novi PIN",
+    "write_again": "Napiši ponovo",
+    "forgot_text": "Uh, zaboravio sam..."
   },
   "alert": {
-    "success": "Success!",
-    "allRead": "Marked all notifications as read",
-    "claim_reward_balance_ok": "Reward balance claimed",
-    "fail": "Fail!",
-    "success_shared": "Your post succesfully shared",
-    "permission_denied": "Permission denied",
-    "permission_text": "Please, go to phone Settings and change eSteem app permissions.",
+    "success": "Uspjeh!",
+    "allRead": "Označi sve obavijesti kao pročitane",
+    "claim_reward_balance_ok": "Nagrada preuzeta",
+    "fail": "Nije uspjelo!",
+    "success_shared": "Vaša objava je uspješno podijeljena",
+    "permission_denied": "Dopuštenje odbijeno",
+    "permission_text": "Molim vas, idite na postavke uređaja i promijenite dozvole za eSteem aplikaciju.",
     "success_rebloged": "Rebloged!",
-    "already_rebloged": "You have already reblogged!",
-    "warning": "Warning",
+    "already_rebloged": "Već ste ponovo podijelili objavu na svom profilu!",
+    "warning": "Upozorenje",
     "invalid_pincode": "Invalid pin code, please check and try again.",
     "remove_alert": "Are you sure want to remove?",
-    "cancel": "Cancel",
-    "delete": "Delete"
+    "cancel": "Otkaži",
+    "delete": "Izbriši",
+    "copied": "Copied!",
+    "no_internet": "No connection!"
   },
   "post": {
-    "reblog_alert": "Are you sure you want to reblog?"
+    "reblog_alert": "Jeste li sigurni da želite ponovo podijeliti objavu na svom profilu?"
   },
   "drafts": {
-    "title": "Drafts",
-    "load_error": "Could not load drafts",
-    "empty_list": "Nothing here",
-    "deleted": "Draft deleted"
+    "title": "Skice",
+    "load_error": "Nije bilo moguće učitati skice",
+    "empty_list": "Nema ničeg ovdje",
+    "deleted": "Skica izbrisana"
   },
   "schedules": {
-    "title": "Scheduled Posts",
-    "empty_list": "Nothing here",
-    "deleted": "Scheduled post deleted",
-    "move": "Move to drafts",
-    "moved": "Moved to drafts"
+    "title": "Raspored postova",
+    "empty_list": "Nema ničeg ovdje",
+    "deleted": "Zakazani post izbrisan",
+    "move": "Premjesti u skice",
+    "moved": "Premješteno u skice"
   },
   "bookmarks": {
-    "title": "Bookmarks",
-    "load_error": "Could not load bookmarks",
-    "empty_list": "Nothing here",
-    "deleted": "Bookmark removed",
-    "search": "Search in bookmarks"
+    "title": "Knjižne oznake",
+    "load_error": "Nije bilo moguče učitati knjižne oznake",
+    "empty_list": "Nema ničeg ovdje",
+    "deleted": "Knjižna oznaka uklonjena",
+    "search": "Pretraži u knjižnim oznakama",
+    "added": "Added to bookmars",
+    "add": "Add to bookmarks"
   },
   "favorites": {
-    "title": "Favorites",
-    "load_error": "Could not load favorites",
-    "empty_list": "Nothing here",
-    "search": "Search in favorites"
+    "title": "Favoriti",
+    "load_error": "Nije bilo moguće učitati favorite",
+    "empty_list": "Nema ničeg ovdje",
+    "search": "Pretraži favorite"
   },
   "auth": {
     "invalid_pin": "Invalid pin code, please check and try again",
-    "invalid_username": "Invalid username, please check and try again",
-    "already_logged": "You are already logged in, please try to add another account",
-    "invalid_credentials": "Invalid credentials, please check and try again",
-    "unknow_error": "Unknown error, please contact us at support@esteem.app"
+    "invalid_username": "Nevaljano korisničko ime. Molimo provjerite unos i pokušajte ponovo",
+    "already_logged": "Već ste ulogirani, molimo pokušajte dodati drugi račun",
+    "invalid_credentials": "Neispravni podatci, molimo provjerite unos i pokušajte ponovo",
+    "unknow_error": "Nepoznata greška, molimo kontaktirajte nas na support@esteem.app"
   },
   "payout": {
-    "potential_payout": "Potential Payout",
-    "promoted": "Promoted",
-    "author_payout": "Author Payout",
-    "curation_payout": "Curation Payout",
-    "payout_date": "Payout"
+    "potential_payout": "Moguća isplata",
+    "promoted": "Promovirano",
+    "author_payout": "Autorova isplata",
+    "curation_payout": "Kuracijska isplata",
+    "payout_date": "Isplata"
   },
   "post_dropdown": {
-    "copy": "copy link",
-    "reblog": "reblog",
-    "reply": "reply",
-    "share": "share"
+    "copy": "kopiraj link",
+    "reblog": "podijeli",
+    "reply": "odgovor",
+    "share": "podijeli",
+    "bookmarks": "add to bookmarks"
   },
   "deep_link": {
-    "no_existing_user": "No existing user",
-    "no_existing_post": "No existing post"
+    "no_existing_user": "Ne postojeći korisnik",
+    "no_existing_post": "Ne postojeća objava"
   }
 }

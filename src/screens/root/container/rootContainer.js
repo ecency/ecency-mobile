@@ -15,6 +15,7 @@ import { getPost, getUser } from '../../../providers/steem/dsteem';
 import { Modal } from '../../../components';
 import { PinCode } from '../../pinCode';
 import PostButtonForAndroid from '../../../components/postButton/view/postButtonsForAndroid';
+import { ToastNotificaiton } from '../../../components/toastNotification';
 
 // Constants
 import ROUTES from '../../../constants/routeNames';
