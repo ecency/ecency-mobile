@@ -136,8 +136,8 @@
     "remove_alert": "هل أنت متأكد تريد الإزالة؟",
     "cancel": "إلغاء",
     "delete": "حذف",
-    "copied": "Copied!",
-    "no_internet": "No connection!"
+    "copied": "تم النسخ!",
+    "no_internet": "لا يوجد اتصال!"
   },
   "post": {
     "reblog_alert": "هل أنت متأكد من رغبتك في إعادة التدوين؟"
@@ -161,8 +161,8 @@
     "empty_list": "لا شيء هنا",
     "deleted": "تم مسح الإشاراة المرجعية",
     "search": "البحث في الإشارات المرجعية",
-    "added": "Added to bookmars",
-    "add": "Add to bookmarks"
+    "added": "تمت الإضافة إلى الإشارات المرجعية",
+    "add": "إضافة إلى الإشارات المرجعية"
   },
   "favorites": {
     "title": "المفضلات",
@@ -189,7 +189,7 @@
     "reblog": "إعادة التدوين",
     "reply": "الرد",
     "share": "شارك",
-    "bookmarks": "add to bookmarks"
+    "bookmarks": "إضافة إلى الإشارات المرجعية"
   },
   "deep_link": {
     "no_existing_user": "لا يوجد أي مستخدم حاليا",
