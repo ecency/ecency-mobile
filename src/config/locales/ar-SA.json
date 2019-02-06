@@ -136,8 +136,8 @@
     "remove_alert": "هل أنت متأكد تريد الإزالة؟",
     "cancel": "إلغاء",
     "delete": "حذف",
-    "copied": "Copied!",
-    "no_internet": "No connection!"
+    "copied": "تم النسخ!",
+    "no_internet": "لا يوجد اتصال!"
   },
   "post": {
     "reblog_alert": "هل أنت متأكد من رغبتك في إعادة التدوين؟"
@@ -161,7 +161,7 @@
     "empty_list": "لا شيء هنا",
     "deleted": "تم مسح الإشاراة المرجعية",
     "search": "البحث في الإشارات المرجعية",
-    "added": "Added to bookmars",
+    "added": "تمت الإضافة إلى الإشارات المرجعية",
     "add": "Add to bookmarks"
   },
   "favorites": {
