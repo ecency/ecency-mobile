@@ -40,7 +40,7 @@ class SettingsItemView extends PureComponent {
       case 'dropdown':
         return (
           <DropdownButton
-            key={actionType}
+            key={options[selectedOptionIndex]}
             defaultText={defaultText || options[selectedOptionIndex]}
             dropdownButtonStyle={styles.dropdownButtonStyle}
             selectedOptionIndex={selectedOptionIndex}
