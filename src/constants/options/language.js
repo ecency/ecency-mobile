@@ -1,5 +1,3 @@
-// export default ['English', 'Turkish', 'German', 'Spanish', 'Italian', 'Duch', 'Russian'];
-export default ['English', 'Turkish', 'Russian'];
+export default ['Deutsche', 'English', 'Hungarian', 'Indonesian', 'Russian'];
 
-export const VALUE = ['en-US', 'tr-TR', 'ru-RU'];
-// export const VALUE = ['en-US', 'tr-TR', 'gr', 'sp', 'it', 'dc', 'rs'];
+export const VALUE = ['de-DE', 'en-US', 'hu-HU', 'id-ID', 'ru-RU'];

@@ -1,193 +1,198 @@
 {
   "wallet": {
-    "curation_reward": "Curation Reward",
-    "author_reward": "Author Reward",
-    "comment_benefactor_reward": "Comment Benefactor Reward",
-    "claim_reward_balance": "Claim Reward Balance",
-    "transfer": "Transfer",
-    "transfer_to_vesting": "Transfer To Vesting",
-    "transfer_from_savings": "Transfer From Savings",
-    "withdraw_vesting": "Power Down",
-    "fill_order": "Fill Order"
+    "curation_reward": "Ere lati ara asayan ibo",
+    "author_reward": "Ere Ako oro",
+    "comment_benefactor_reward": "Ere eni t'ojere idahun",
+    "claim_reward_balance": "Gba ere lapapo",
+    "transfer": "Fi ranse",
+    "transfer_to_vesting": "Fise afikun eto re",
+    "transfer_from_savings": "Fi ranse si ipamo",
+    "withdraw_vesting": "Din agbara ku",
+    "fill_order": "Gba latira"
   },
   "notification": {
-    "vote": "likes your post",
-    "unvote": "unvoted your post",
-    "reply": "replied to your post",
-    "mention": "mentioned you",
-    "follow": "followed you",
-    "unfollow": "unfollowed you",
-    "ignore": "ignored you",
-    "reblog": "reblogged your post",
-    "comingsoon": "Leaderboard feature is coming soon!",
-    "notification": "Notifications",
-    "leaderboard": "Leaderboard",
-    "leaderboard_title": "Daily Top User",
-    "recent": "Recent",
-    "yesterday": "Yesterday",
-    "this_week": "This Week",
-    "this_month": "This Month",
-    "older_then": "Older Than A Month"
+    "vote": "fe ohun ti o ko",
+    "unvote": "yo ibo re kuro",
+    "reply": "dahun si oro re",
+    "mention": "da oruko re",
+    "follow": "ti n ba o lo",
+    "unfollow": "ko ba o lo mo",
+    "ignore": "ti ko eti ikun",
+    "reblog": "ti se eda oro re",
+    "comingsoon": "Eto ifihan awon asiwaju n bo lona!",
+    "notification": "Awon Akiyesi",
+    "leaderboard": "Ate asiwaju",
+    "leaderboard_title": "Olori ojumo",
+    "recent": "Ai pe",
+    "yesterday": "Ana",
+    "this_week": "Ose yi",
+    "this_month": "Osu yi",
+    "older_then": "Ti koja osu kan"
   },
   "messages": {
-    "comingsoon": "Messages feature is coming soon!"
+    "comingsoon": "Eto sise ateranse nbo lona!"
   },
   "profile": {
-    "following": "Following",
-    "follower": "Follower",
+    "following": "Itele",
+    "follower": "Olutele",
     "post": "Post",
-    "details": "Profile Details",
-    "comments": "Comments",
-    "replies": "Replies",
-    "wallet": "Wallet",
-    "wallet_details": "Wallet Details",
-    "unclaimed_rewards": "Unclaimed Rewards",
-    "full_in": "Full in",
-    "hours": "hours",
-    "voting_power": "Voting power",
-    "login_to_see": "Login to see",
-    "havent_commented": "haven't commented anything yet",
-    "havent_posted": "haven't posted anything yet",
-    "steem_power": "Steem Power",
-    "next_power_text": "Next power down is in",
-    "days": "days",
-    "day": "day",
-    "steem_dollars": "Steem Dollars",
-    "savings": "Savings"
+    "details": "Alaye nipa re",
+    "comments": "Oro iwoye",
+    "replies": "Ifesi",
+    "wallet": "Apamowo",
+    "wallet_details": "Alaye apamowo",
+    "unclaimed_rewards": "Ere ti a o ti gba",
+    "full_in": "Pada kun",
+    "hours": "wakati",
+    "voting_power": "Agbara ibo",
+    "login_to_see": "Wole lati ri",
+    "havent_commented": "koti si oro iwoye kankan bayi",
+    "havent_posted": "oti gbe oro kankan kale",
+    "steem_power": "Agbara steem",
+    "next_power_text": "Idin agbaraku to kan ku",
+    "days": "awon ojo",
+    "day": "ojo",
+    "steem_dollars": "Dollar ti steem",
+    "savings": "Ipamo"
   },
   "settings": {
-    "settings": "Settings",
-    "currency": "Currency",
-    "language": "Language",
-    "server": "Server",
-    "dark_theme": "Dark Theme",
-    "push_notification": "Push Notification",
+    "settings": "Eto",
+    "currency": "Owo",
+    "language": "Èdè",
+    "server": "Ate ayelujara",
+    "dark_theme": "Awo dudu",
+    "push_notification": "Eto gbigba akiyesi",
     "pincode": "Pincode",
-    "reset": "Reset"
+    "reset": "Tun bere"
   },
   "voters": {
-    "voters_info": "Voters Info",
-    "no_user": "No user found."
+    "voters_info": "Alaye nipa oludibo",
+    "no_user": "A ko ri oruko akole yi."
   },
   "login": {
-    "signin": "Sign in",
-    "signup": "Sign up",
-    "signin_title": "To get all the benefits of using eSteem",
-    "username": "Username",
-    "password": "Password or WIF",
-    "description": "User credentials are kept locally on the device. Credentials are removed upon logout!",
-    "cancel": "cancel",
-    "login": "LOGIN",
-    "steemconnect_description": "If you don't want to keep your password encrypted and saved on your device, you can use Steemconnect."
+    "signin": "Atewole",
+    "signup": "Fi oruko sile",
+    "signin_title": "Gbigba gbogbobo anfaani to ro mo lilo esteem",
+    "username": "Oruko olumulo",
+    "password": "Idanimo asiri",
+    "description": "Ori ero ilewo re ni gbogbo awon credentials re o wa. Gbogbo credentials re o di yiyo to ba ti jade!",
+    "cancel": "fa igi le",
+    "login": "Se atewole",
+    "steemconnect_description": "Ti o ba fe ki oro atewole asiri re je fifipamo sori ero yi, o le lo steemconnect."
   },
   "home": {
-    "feed": "Feed",
-    "popular": "Popular"
+    "feed": "Ate gbogbo agbawole",
+    "popular": "Gbajumo"
   },
   "side_menu": {
-    "profile": "Profile",
-    "bookmarks": "Bookmarks",
-    "favorites": "Favorites",
-    "drafts": "Drafts",
-    "schedules": "Schedules",
-    "gallery": "Gallery",
-    "settings": "Settings",
-    "add_account": "Add Account",
-    "logout": "Logout",
-    "cancel": "Cancel",
-    "logout_text": "Are you sure you want to logout?"
+    "profile": "Profaili",
+    "bookmarks": "Awon ifi amin si",
+    "favorites": "Asayan",
+    "drafts": "Awon oro akanse",
+    "schedules": "Awon Iṣeto",
+    "gallery": "Ibi isafihan aworan",
+    "settings": "Eto",
+    "add_account": "Se afikun oruko akọọlẹ",
+    "logout": "Jade kuro",
+    "cancel": "Fa igi le",
+    "logout_text": "Se o da o loju pe o fe jade kuro?"
   },
   "header": {
-    "title": "Login to customize your feed",
-    "search": "Search..."
+    "title": "Se atewole lati seto ate igbawole re bi ose fe",
+    "search": "Ṣawari..."
   },
   "basic_header": {
-    "publish": "Publish",
-    "search": "Search",
-    "update": "Update",
-    "reply": "Reply"
+    "publish": "Ṣe atẹjade",
+    "search": "Ṣawari",
+    "update": "Se afikun",
+    "reply": "Fesi"
   },
   "editor": {
-    "title": "Title",
-    "tags": "tags",
-    "default_placeholder": "What would you like to write about today?",
-    "reply_placeholder": "What would you like to write about above post?",
-    "publish": "Publish",
-    "reply": "Reply"
+    "title": "Akole",
+    "tags": "atona",
+    "default_placeholder": "Kilo fe kosile loni?",
+    "reply_placeholder": "Kilo fe ko nipe oro akosile towa ni oke?",
+    "publish": "Ṣe atẹjade",
+    "reply": "Fesi"
   },
   "pincode": {
-    "enter_text": "Enter pin to unlock",
-    "set_new": "Set new pin",
-    "write_again": "Write again",
-    "forgot_text": "Oh, I forgot it..."
+    "enter_text": "Te PIN re lati si",
+    "set_new": "Pese PIN tuntun",
+    "write_again": "Se akole miran",
+    "forgot_text": "Ah! Motigbgbe re o..."
   },
   "alert": {
-    "success": "Success!",
-    "allRead": "Marked all notifications as read",
-    "claim_reward_balance_ok": "Reward balance claimed",
-    "fail": "Fail!",
-    "success_shared": "Your post succesfully shared",
-    "permission_denied": "Permission denied",
-    "permission_text": "Please, go to phone Settings and change eSteem app permissions.",
-    "success_rebloged": "Rebloged!",
-    "already_rebloged": "You have already reblogged!",
-    "warning": "Warning",
-    "invalid_pincode": "Invalid pin code, please check and try again.",
-    "remove_alert": "Are you sure want to remove?",
-    "cancel": "Cancel",
-    "delete": "Delete"
+    "success": "Aseyori!",
+    "allRead": "Gba pe oti ka gbogbo akiyesi",
+    "claim_reward_balance_ok": "Awon ere ti di gbigba",
+    "fail": "Ko yori!",
+    "success_shared": "Oro akosile re ti di titan ka",
+    "permission_denied": "Ko ase fun",
+    "permission_text": "Jowo, Losi ibi iseto ero ilewo re, ki o si se atunse awon ase to fun eSteem app.",
+    "success_rebloged": "Oti se eda oro yi!",
+    "already_rebloged": "Oti se eda oro tele!",
+    "warning": "Ìkìlọ",
+    "invalid_pincode": "PIN yi o se tewogba, jowo sematuyewo, ki o tun te.",
+    "remove_alert": "Se o da o loju pe ofe yo kuro?",
+    "cancel": "Fa igi le",
+    "delete": "Pa re",
+    "copied": "Copied!",
+    "no_internet": "No connection!"
   },
   "post": {
-    "reblog_alert": "Are you sure you want to reblog?"
+    "reblog_alert": "Se o da o loju pe o fe ṣe eda oro yi?"
   },
   "drafts": {
-    "title": "Drafts",
-    "load_error": "Could not load drafts",
-    "empty_list": "Nothing here",
-    "deleted": "Draft deleted"
+    "title": "Oro akanse",
+    "load_error": "A o ri oro akanse re pese",
+    "empty_list": "Ko si ohun kan nibi",
+    "deleted": "Oro akanse ti pare"
   },
   "schedules": {
-    "title": "Scheduled Posts",
-    "empty_list": "Nothing here",
-    "deleted": "Scheduled post deleted",
-    "move": "Move to drafts",
-    "moved": "Moved to drafts"
+    "title": "Se eto asiko fun oro re",
+    "empty_list": "Ko si ohun kan nibi",
+    "deleted": "Eto asiko oro ti ose ti pare",
+    "move": "Gbe lo si ibi akanse oro",
+    "moved": "Oti gbelo sibi awon akanse oro"
   },
   "bookmarks": {
-    "title": "Bookmarks",
-    "load_error": "Could not load bookmarks",
-    "empty_list": "Nothing here",
-    "deleted": "Bookmark removed",
-    "search": "Search in bookmarks"
+    "title": "Fi amin si",
+    "load_error": "A ko ri ohun ti o fi amin idamo si pese",
+    "empty_list": "Ko si ohun kan nibi",
+    "deleted": "O ti yo ohun ti ofi amin idamo si",
+    "search": "Wa ninu awon amin idamo ti o ti se",
+    "added": "Added to bookmars",
+    "add": "Add to bookmarks"
   },
   "favorites": {
-    "title": "Favorites",
-    "load_error": "Could not load favorites",
-    "empty_list": "Nothing here",
-    "search": "Search in favorites"
+    "title": "Awon ohun ti o yan ni aayo",
+    "load_error": "A kori awon ohun asayan re pese",
+    "empty_list": "Ko si ohun kan nibi",
+    "search": "Wa ninu awon ohun aayo re"
   },
   "auth": {
-    "invalid_pin": "Invalid pin code, please check and try again",
-    "invalid_username": "Invalid username, please check and try again",
-    "already_logged": "You are already logged in, please try to add another account",
-    "invalid_credentials": "Invalid credentials, please check and try again",
-    "unknow_error": "Unknown error, please contact us at support@esteem.app"
+    "invalid_pin": "PIN yi o ri itewogba, jowo se ayewo ki o tun te",
+    "invalid_username": "Oruko akole yi o ri itewogba, jowo se ayewo ki o tun te",
+    "already_logged": "Oti wole, jowo se afikun account miran",
+    "invalid_credentials": "Oruko yi o ri itewogba, jowo se ayewo ki o tun se",
+    "unknow_error": "Akude yi se ajoji, jowo kan siwa lori support@esteem.app"
   },
   "payout": {
-    "potential_payout": "Potential Payout",
-    "promoted": "Promoted",
-    "author_payout": "Author Payout",
-    "curation_payout": "Curation Payout",
-    "payout_date": "Payout"
+    "potential_payout": "Owo ti o n reti",
+    "promoted": "Itanka",
+    "author_payout": "Owo ti oluko oro nreti",
+    "curation_payout": "Isanwojade ti o n reti lati ibi idibo",
+    "payout_date": "Isanwo jade"
   },
   "post_dropdown": {
-    "copy": "copy link",
-    "reblog": "reblog",
-    "reply": "reply",
-    "share": "share"
+    "copy": "se eda link",
+    "reblog": "se eda oro",
+    "reply": "se idahun",
+    "share": "pin pelu",
+    "bookmarks": "add to bookmarks"
   },
   "deep_link": {
-    "no_existing_user": "No existing user",
-    "no_existing_post": "No existing post"
+    "no_existing_user": "A ko ri oruko yi",
+    "no_existing_post": "A kori oro yi"
   }
 }
