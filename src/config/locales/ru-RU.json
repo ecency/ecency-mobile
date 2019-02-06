@@ -51,7 +51,7 @@
     "steem_power": "Сила голоса",
     "next_power_text": "Следующее понижение силы",
     "days": "д",
-    "day": "завтра",
+    "day": "д",
     "steem_dollars": "Доллары Steem",
     "savings": "Сейф"
   },
@@ -137,7 +137,7 @@
     "cancel": "Отмена",
     "delete": "Удалить",
     "copied": "Copied!",
-    "no_internet": "No internet connection"
+    "no_internet": "Подключение к Интернету отсутствует"
   },
   "post": {
     "reblog_alert": "Вы уверены, что хотите сделать репост?"
@@ -160,7 +160,10 @@
     "load_error": "Невозможно загрузить закладки",
     "empty_list": "Ничего нет",
     "deleted": "Закладка удалена",
-    "search": "Поиск по закладкам"
+    "search": "Поиск по закладкам",
+    "bookmarks": "добавить в закладки",
+    "added": "Added to bookmarks",
+    "add": "добавить в закладки"
   },
   "favorites": {
     "title": "Избранное",
@@ -183,13 +186,14 @@
     "payout_date": "Выплата"
   },
   "post_dropdown": {
-    "copy": "copy link",
-    "reblog": "reblog",
-    "reply": "reply",
-    "share": "share"
+    "copy": "копировать ссылку",
+    "reblog": "репост",
+    "reply": "ответить",
+    "share": "поделиться",
+    "bookmarks": "добавить в закладки"
   },
   "deep_link": {
-    "no_existing_user": "No existing user",
-    "no_existing_post": "No existing post"
+    "no_existing_user": "Несуществующий пользователь",
+    "no_existing_post": "Несуществующий пост"
   }
 }

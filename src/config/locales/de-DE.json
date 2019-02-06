@@ -18,11 +18,11 @@
     "follow": "folgt dir jetzt",
     "unfollow": "folgt dir nicht mehr",
     "ignore": "ignoriert dich",
-    "reblog": "hat deinen Beitrag rebloggt",
+    "reblog": "hat deinen Beitrag geteilt",
     "comingsoon": "Ranglisten-Feature kommt bald!",
     "notification": "Benachrichtigungen",
     "leaderboard": "Rangliste",
-    "leaderboard_title": "Tägliche Top User",
+    "leaderboard_title": "Tägliche Top-User",
     "recent": "Vor kurzem",
     "yesterday": "Gestern",
     "this_week": "Diese Woche",
@@ -35,24 +35,24 @@
   "profile": {
     "following": "Following",
     "follower": "Follower",
-    "post": "Post",
-    "details": "Profil Details",
+    "post": "Beiträge",
+    "details": "Profil-Details",
     "comments": "Kommentare",
     "replies": "Antworten",
     "wallet": "Wallet",
-    "wallet_details": "Wallet Details",
+    "wallet_details": "Wallet-Details",
     "unclaimed_rewards": "Nicht abgeholte Belohnungen",
     "full_in": "Voll in",
     "hours": "Stunden",
-    "voting_power": "Voting Power",
+    "voting_power": "Voting-Power",
     "login_to_see": "Login",
-    "havent_commented": "hat bisher nichts Kommentiert",
+    "havent_commented": "hat bisher nichts kommentiert",
     "havent_posted": "hat bisher noch keine Beiträge veröffentlicht",
-    "steem_power": "Steem Power",
+    "steem_power": "Steem-Power",
     "next_power_text": "Nächster Power Down ist in",
     "days": "Tagen",
     "day": "Tag",
-    "steem_dollars": "Steem Dollar",
+    "steem_dollars": "Steem-Dollar",
     "savings": "Gesichert"
   },
   "settings": {
@@ -66,7 +66,7 @@
     "reset": "Zurücksetzen"
   },
   "voters": {
-    "voters_info": "Voter Informationen",
+    "voters_info": "Voter-Informationen",
     "no_user": "Benutzer nicht gefunden."
   },
   "login": {
@@ -95,10 +95,10 @@
     "add_account": "Konto hinzufügen",
     "logout": "Abmelden",
     "cancel": "Abbrechen",
-    "logout_text": "Bist du sicher, das du dich ausloggen möchtest?"
+    "logout_text": "Bist du sicher, dass du dich ausloggen möchtest?"
   },
   "header": {
-    "title": "Login um den Feed anzupassen",
+    "title": "Login, um den Feed anzupassen",
     "search": "Suchen..."
   },
   "basic_header": {
@@ -116,8 +116,8 @@
     "reply": "Antworten"
   },
   "pincode": {
-    "enter_text": "Enter pin to unlock",
-    "set_new": "Set new pin",
+    "enter_text": "PIN zum Entsperren eingeben",
+    "set_new": "Neuen PIN festlegen",
     "write_again": "Nochmal schreiben",
     "forgot_text": "Oh, ich habe ihn vergessen..."
   },
@@ -129,13 +129,15 @@
     "success_shared": "Dein Beitrag wurde erfolgreich erstellt",
     "permission_denied": "Berechtigung verweigert",
     "permission_text": "Bitte gehe zu den Telefoneinstellungen und ändere die Berechtigungen der eSteem-App.",
-    "success_rebloged": "Rebloged!",
+    "success_rebloged": "Geteilt!",
     "already_rebloged": "Du hast bereits geteilt!",
     "warning": "Warnung",
-    "invalid_pincode": "Invalid pin code, please check and try again.",
+    "invalid_pincode": "Ungültiger PIN-Code, bitte überprüfen und erneut versuchen.",
     "remove_alert": "Bist du sicher, dass du es entfernen möchtest?",
     "cancel": "Abbrechen",
-    "delete": "Entfernen"
+    "delete": "Entfernen",
+    "copied": "Copied!",
+    "no_internet": "No connection!"
   },
   "post": {
     "reblog_alert": "Möchtest du diesen Beitrag wirklich teilen?"
@@ -158,7 +160,9 @@
     "load_error": "Lesezeichen können nicht geladen werden",
     "empty_list": "Keine Einträge vorhanden",
     "deleted": "Lesezeichen entfernt",
-    "search": "In Lesezeichen suchen"
+    "search": "In Lesezeichen suchen",
+    "add": "zu Lesezeichen hinzufügen",
+    "added": "Added to bookmars"
   },
   "favorites": {
     "title": "Favoriten",
@@ -167,10 +171,10 @@
     "search": "In Favoriten suchen"
   },
   "auth": {
-    "invalid_pin": "Invalid pin code, please check and try again",
-    "invalid_username": "Ungültiger Username. Bitte prüfen und erneut versuchen",
+    "invalid_pin": "Ungültiger PIN-Code, bitte überprüfen und erneut versuchen",
+    "invalid_username": "Ungültiger Username, bitte überprüfen und erneut versuchen",
     "already_logged": "Du bist bereits eingeloggt. Bitte versuche ein anderes Konto hinzuzufügen",
-    "invalid_credentials": "Ungültige Zugangsdaten. Bitte prüfen und erneut versuchen",
+    "invalid_credentials": "Ungültige Zugangsdaten, bitte überprüfen und erneut versuchen",
     "unknow_error": "Unbekannter Fehler! Bitte kontaktiere uns unter support@esteem.app"
   },
   "payout": {
@@ -181,9 +185,14 @@
     "payout_date": "Auszahlung"
   },
   "post_dropdown": {
-    "copy": "copy link",
-    "reblog": "reblog",
-    "reply": "reply",
-    "share": "share"
+    "copy": "Link kopieren",
+    "reblog": "Teilen",
+    "reply": "Antworten",
+    "share": "Teilen",
+    "bookmarks": "zu Lesezeichen hinzufügen"
+  },
+  "deep_link": {
+    "no_existing_user": "Kein vorhandener Benutzer",
+    "no_existing_post": "Kein vorhandener Beitrag"
   }
 }

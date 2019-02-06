@@ -1,173 +1,177 @@
 {
   "wallet": {
-    "curation_reward": "Curation Reward",
-    "author_reward": "Author Reward",
+    "curation_reward": "Tarkastuspalkinto",
+    "author_reward": "Kirjoittajan palkinto",
     "comment_benefactor_reward": "Comment Benefactor Reward",
     "claim_reward_balance": "Claim Reward Balance",
-    "transfer": "Transfer",
+    "transfer": "Siirto",
     "transfer_to_vesting": "Transfer To Vesting",
     "transfer_from_savings": "Transfer From Savings",
     "withdraw_vesting": "Power Down",
     "fill_order": "Fill Order"
   },
   "notification": {
-    "vote": "likes your post",
+    "vote": "tykkää julkaisustasi",
     "unvote": "unvoted your post",
-    "reply": "replied to your post",
-    "mention": "mentioned you",
-    "follow": "followed you",
-    "unfollow": "unfollowed you",
+    "reply": "vastasi julkaisuusi",
+    "mention": "mainitsi sinut",
+    "follow": "seurasi sinua",
+    "unfollow": "lopetti seuraamisesi",
     "ignore": "ignored you",
     "reblog": "reblogged your post",
     "comingsoon": "Leaderboard feature is coming soon!",
     "notification": "Notifications",
     "leaderboard": "Leaderboard",
     "leaderboard_title": "Daily Top User",
-    "recent": "Recent",
-    "yesterday": "Yesterday",
-    "this_week": "This Week",
-    "this_month": "This Month",
-    "older_then": "Older Than A Month"
+    "recent": "Viimeisimmät",
+    "yesterday": "Eilen",
+    "this_week": "Tällä viikolla",
+    "this_month": "Tässä kuussa",
+    "older_then": "Kuukautta vanhempi"
   },
   "messages": {
     "comingsoon": "Messages feature is coming soon!"
   },
   "profile": {
-    "following": "Following",
-    "follower": "Follower",
-    "post": "Post",
-    "details": "Profile Details",
-    "comments": "Comments",
-    "replies": "Replies",
-    "wallet": "Wallet",
-    "wallet_details": "Wallet Details",
+    "following": "Seurataan",
+    "follower": "Seuraaja",
+    "post": "Julkaisut",
+    "details": "Profiilin Tiedot",
+    "comments": "Kommentit",
+    "replies": "Vastaukset",
+    "wallet": "Lompakko",
+    "wallet_details": "Lompakon tiedot",
     "unclaimed_rewards": "Unclaimed Rewards",
     "full_in": "Full in",
-    "hours": "hours",
+    "hours": "tuntia",
     "voting_power": "Voting power",
-    "login_to_see": "Login to see",
+    "login_to_see": "Kirjaudu sisään nähdäksesi",
     "havent_commented": "haven't commented anything yet",
     "havent_posted": "haven't posted anything yet",
     "steem_power": "Steem Power",
     "next_power_text": "Next power down is in",
-    "days": "days",
-    "day": "day",
-    "steem_dollars": "Steem Dollars",
-    "savings": "Savings"
+    "days": "päivää",
+    "day": "päivä",
+    "steem_dollars": "Steem dollarit",
+    "savings": "Säästöt"
   },
   "settings": {
-    "settings": "Settings",
-    "currency": "Currency",
-    "language": "Language",
-    "server": "Server",
-    "dark_theme": "Dark Theme",
-    "push_notification": "Push Notification",
-    "pincode": "Pincode",
-    "reset": "Reset"
+    "settings": "Asetukset",
+    "currency": "Valuutta",
+    "language": "Kieli",
+    "server": "Palvelin",
+    "dark_theme": "Tumma teema",
+    "push_notification": "Push-ilmoitus",
+    "pincode": "PIN-koodi",
+    "reset": "Nollaa"
   },
   "voters": {
     "voters_info": "Voters Info",
-    "no_user": "No user found."
+    "no_user": "Käyttäjää ei löytynyt."
   },
   "login": {
-    "signin": "Sign in",
-    "signup": "Sign up",
+    "signin": "Kirjaudu sisään",
+    "signup": "Rekisteröidy",
     "signin_title": "To get all the benefits of using eSteem",
-    "username": "Username",
+    "username": "Käyttäjänimi",
     "password": "Password or WIF",
     "description": "User credentials are kept locally on the device. Credentials are removed upon logout!",
-    "cancel": "cancel",
-    "login": "LOGIN",
+    "cancel": "peruuta",
+    "login": "KIRJAUDU SISÄÄN",
     "steemconnect_description": "If you don't want to keep your password encrypted and saved on your device, you can use Steemconnect."
   },
   "home": {
-    "feed": "Feed",
-    "popular": "Popular"
+    "feed": "Syöte",
+    "popular": "Suositut"
   },
   "side_menu": {
-    "profile": "Profile",
-    "bookmarks": "Bookmarks",
-    "favorites": "Favorites",
-    "drafts": "Drafts",
-    "schedules": "Schedules",
-    "gallery": "Gallery",
-    "settings": "Settings",
-    "add_account": "Add Account",
-    "logout": "Logout",
-    "cancel": "Cancel",
+    "profile": "Profiili",
+    "bookmarks": "Kirjanmerkit",
+    "favorites": "Suosikit",
+    "drafts": "Luonnokset",
+    "schedules": "Aikataulut",
+    "gallery": "Galleria",
+    "settings": "Asetukset",
+    "add_account": "Lisää tili",
+    "logout": "Kirjaudu ulos",
+    "cancel": "Peruuta",
     "logout_text": "Are you sure you want to logout?"
   },
   "header": {
-    "title": "Login to customize your feed",
-    "search": "Search..."
+    "title": "Kirjaudu mukauttaaksesi syötettäsi",
+    "search": "Haku..."
   },
   "basic_header": {
-    "publish": "Publish",
-    "search": "Search",
-    "update": "Update",
-    "reply": "Reply"
+    "publish": "Julkaise",
+    "search": "Haku",
+    "update": "Päivitä",
+    "reply": "Vastaa"
   },
   "editor": {
-    "title": "Title",
-    "tags": "tags",
+    "title": "Otsikko",
+    "tags": "tunnisteet",
     "default_placeholder": "What would you like to write about today?",
     "reply_placeholder": "What would you like to write about above post?",
-    "publish": "Publish",
-    "reply": "Reply"
+    "publish": "Julkaise",
+    "reply": "Vastaa"
   },
   "pincode": {
-    "enter_text": "Enter pin to unlock",
-    "set_new": "Set new pin",
-    "write_again": "Write again",
-    "forgot_text": "Oh, I forgot it..."
+    "enter_text": "Poista lukitus antamalla PIN-koodi",
+    "set_new": "Aseta PIN-koodi",
+    "write_again": "Kirjoita uudelleen",
+    "forgot_text": "Unohdin sen..."
   },
   "alert": {
-    "success": "Success!",
-    "allRead": "Marked all notifications as read",
+    "success": "Onnistui!",
+    "allRead": "Ilmoitukset merkattu luetuiksi",
     "claim_reward_balance_ok": "Reward balance claimed",
-    "fail": "Fail!",
-    "success_shared": "Your post succesfully shared",
-    "permission_denied": "Permission denied",
+    "fail": "Virhe!",
+    "success_shared": "Julkaisu jaettu onnistuneesti",
+    "permission_denied": "Käyttö estetty",
     "permission_text": "Please, go to phone Settings and change eSteem app permissions.",
-    "success_rebloged": "Rebloged!",
+    "success_rebloged": "Re-steemattu!",
     "already_rebloged": "You have already reblogged!",
-    "warning": "Warning",
-    "invalid_pincode": "Invalid pin code, please check and try again.",
-    "remove_alert": "Are you sure want to remove?",
-    "cancel": "Cancel",
-    "delete": "Delete"
+    "warning": "Varoitus",
+    "invalid_pincode": "Virheellinen PIN-koodi, tarkista koodi ja yritä uudelleen.",
+    "remove_alert": "Haluatko varmasti poistaa?",
+    "cancel": "Peruuta",
+    "delete": "Poista",
+    "copied": "Copied!",
+    "no_internet": "No connection!"
   },
   "post": {
     "reblog_alert": "Are you sure you want to reblog?"
   },
   "drafts": {
-    "title": "Drafts",
-    "load_error": "Could not load drafts",
-    "empty_list": "Nothing here",
-    "deleted": "Draft deleted"
+    "title": "Luonnokset",
+    "load_error": "Luonnoksia ei voitu ladata",
+    "empty_list": "Täällä ei ole mitään",
+    "deleted": "Luonnos poistettu"
   },
   "schedules": {
-    "title": "Scheduled Posts",
-    "empty_list": "Nothing here",
-    "deleted": "Scheduled post deleted",
-    "move": "Move to drafts",
-    "moved": "Moved to drafts"
+    "title": "Ajastetut julkaisut",
+    "empty_list": "Täällä ei ole mitään",
+    "deleted": "Ajastettu julkaisu poistettu",
+    "move": "Siirrä luonnoksiin",
+    "moved": "Siirretty luonnoksiin"
   },
   "bookmarks": {
-    "title": "Bookmarks",
-    "load_error": "Could not load bookmarks",
-    "empty_list": "Nothing here",
-    "deleted": "Bookmark removed",
-    "search": "Search in bookmarks"
+    "title": "Kirjanmerkit",
+    "load_error": "Kirjanmerkkejä ei voitu ladata",
+    "empty_list": "Täällä ei ole mitään",
+    "deleted": "Kirjanmerkki poistettu",
+    "search": "Hae kirjanmerkkejä",
+    "added": "Added to bookmars",
+    "add": "Add to bookmarks"
   },
   "favorites": {
-    "title": "Favorites",
-    "load_error": "Could not load favorites",
-    "empty_list": "Nothing here",
-    "search": "Search in favorites"
+    "title": "Suosikit",
+    "load_error": "Suosikkeja ei voitu ladata",
+    "empty_list": "Täällä ei ole mitään",
+    "search": "Hae suosikeista"
   },
   "auth": {
-    "invalid_pin": "Invalid pin code, please check and try again",
+    "invalid_pin": "Virheellinen PIN-koodi, tarkista koodi ja yritä uudelleen",
     "invalid_username": "Invalid username, please check and try again",
     "already_logged": "You are already logged in, please try to add another account",
     "invalid_credentials": "Invalid credentials, please check and try again",
@@ -178,12 +182,17 @@
     "promoted": "Promoted",
     "author_payout": "Author Payout",
     "curation_payout": "Curation Payout",
-    "payout_date": "Payout"
+    "payout_date": "Palkkio"
   },
   "post_dropdown": {
-    "copy": "copy link",
+    "copy": "kopioi linkki",
     "reblog": "reblog",
-    "reply": "reply",
-    "share": "share"
+    "reply": "vastaa",
+    "share": "jaa",
+    "bookmarks": "add to bookmarks"
+  },
+  "deep_link": {
+    "no_existing_user": "No existing user",
+    "no_existing_post": "No existing post"
   }
 }

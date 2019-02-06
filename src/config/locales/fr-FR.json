@@ -2,9 +2,9 @@
   "wallet": {
     "curation_reward": "Gains de curation",
     "author_reward": "Gain de l'Auteur",
-    "comment_benefactor_reward": "Comment Benefactor Reward",
+    "comment_benefactor_reward": "Récompense pour Commentaire bienfaiteur",
     "claim_reward_balance": "Réclamer le solde de récompense",
-    "transfer": "Transfer",
+    "transfer": "Transférer",
     "transfer_to_vesting": "Transfer To Vesting",
     "transfer_from_savings": "Transférer depuis mes Économies",
     "withdraw_vesting": "Diminuer son influence",
@@ -135,7 +135,9 @@
     "invalid_pincode": "Invalid pin code, please check and try again.",
     "remove_alert": "Êtes-vous sûr de vouloir retirer ?",
     "cancel": "Annuler",
-    "delete": "Supprimer"
+    "delete": "Supprimer",
+    "copied": "Copied!",
+    "no_internet": "No connection!"
   },
   "post": {
     "reblog_alert": "Êtes-vous sûr de vouloir rebloguer ?"
@@ -158,7 +160,9 @@
     "load_error": "Impossible de charger les signets",
     "empty_list": "Rien ici",
     "deleted": "Signet supprimé",
-    "search": "Rechercher dans les signets"
+    "search": "Rechercher dans les signets",
+    "added": "Added to bookmars",
+    "add": "Add to bookmarks"
   },
   "favorites": {
     "title": "Favoris",
@@ -181,9 +185,14 @@
     "payout_date": "Gain"
   },
   "post_dropdown": {
-    "copy": "copy link",
-    "reblog": "reblog",
-    "reply": "reply",
-    "share": "share"
+    "copy": "copier le lien",
+    "reblog": "rebloguer",
+    "reply": "répondre",
+    "share": "partager",
+    "bookmarks": "add to bookmarks"
+  },
+  "deep_link": {
+    "no_existing_user": "Utilisateur inexistant",
+    "no_existing_post": "Post inexistant"
   }
 }
