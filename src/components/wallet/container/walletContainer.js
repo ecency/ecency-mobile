@@ -1,7 +1,8 @@
 import React, { Component } from 'react';
-import { Alert } from 'react-native';
 import { connect } from 'react-redux';
 import { injectIntl } from 'react-intl';
+
+import { toastNotification } from '../../../redux/actions/uiAction';
 
 // Dsteem
 import { getAccount, claimRewardBalance } from '../../../providers/steem/dsteem';
@@ -55,7 +56,9 @@ class WalletContainer extends Component {
   };
 
   _claimRewardBalance = async () => {
-    const { currentAccount, intl, pinCode } = this.props;
+    const {
+      currentAccount, intl, pinCode, dispatch,
+    } = this.props;
     const { isClaiming } = this.state;
 
     if (isClaiming) {
@@ -78,25 +81,33 @@ class WalletContainer extends Component {
       .then((account) => {
         this._getWalletData(account && account[0]);
 
-        Alert.alert(
-          intl.formatMessage({
-            id: 'alert.claim_reward_balance_ok',
-          }),
+        dispatch(
+          toastNotification(
+            intl.formatMessage({
+              id: 'alert.claim_reward_balance_ok',
+            }),
+          ),
         );
       })
       .then((account) => {
         this._getWalletData(account && account[0]);
         this.setState({ isClaiming: false });
       })
-      .catch((err) => {
+      .catch(() => {
         this.setState({ isClaiming: false });
 
-        Alert.alert(err);
+        dispatch(
+          toastNotification(
+            intl.formatMessage({
+              id: 'alert.fail',
+            }),
+          ),
+        );
       });
   };
 
   _handleOnWalletRefresh = () => {
-    const { selectedUser } = this.props;
+    const { selectedUser, dispatch, intl } = this.props;
     this.setState({ isRefreshing: true });
 
     getAccount(selectedUser.name)
@@ -104,8 +115,14 @@ class WalletContainer extends Component {
         this._getWalletData(account && account[0]);
         this.setState({ isRefreshing: false });
       })
-      .catch((err) => {
-        Alert.alert(err);
+      .catch(() => {
+        dispatch(
+          toastNotification(
+            intl.formatMessage({
+              id: 'alert.fail',
+            }),
+          ),
+        );
         this.setState({ isRefreshing: false });
       });
   };
