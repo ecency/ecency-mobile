@@ -65,14 +65,15 @@ class ApplicationScreen extends Component {
 
         <IntlProvider locale={locale} messages={flattenMessages(messages[locale])}>
           <ReduxNavigation />
-          {isShowToastNotification && (
-            <ToastNotification
-              text={toastNotification}
-              duration={2000}
-              onHide={this._handleOnHideToastNotification}
-            />
-          )}
         </IntlProvider>
+
+        {isShowToastNotification && (
+          <ToastNotification
+            text={toastNotification}
+            duration={2000}
+            onHide={this._handleOnHideToastNotification}
+          />
+        )}
       </Fragment>
     );
   }
