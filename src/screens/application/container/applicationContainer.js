@@ -320,7 +320,7 @@ class ApplicationContainer extends Component {
   };
 
   render() {
-    const { selectedLanguage, isConnected } = this.props;
+    const { selectedLanguage, isConnected, toastNotification} = this.props;
     const { isRenderRequire, isReady } = this.state;
 
     // For testing It comented out.
@@ -331,7 +331,7 @@ class ApplicationContainer extends Component {
 
     if (isRenderRequire && isReady) {
       return (
-        <ApplicationScreen isConnected={isConnected} locale={selectedLanguage} {...this.props} />
+        <ApplicationScreen isConnected={isConnected} locale={selectedLanguage} toastNotification={toastNotification} {...this.props} />
       );
     }
     return <Launch />;
@@ -354,6 +354,9 @@ export default connect(
     currentAccount: state.account.currentAccount,
     otherAccounts: state.account.otherAccounts,
     pinCode: state.account.pin,
+
+    // UI
+    toastNotification: state.ui.toastNotification
   }),
   (dispatch, props) => ({
     dispatch,

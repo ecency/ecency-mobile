@@ -1,4 +1,8 @@
-import { UPDATE_ACTIVE_BOTTOM_TAB, IS_COLLAPSE_POST_BUTTON } from '../constants/constants';
+import {
+  IS_COLLAPSE_POST_BUTTON,
+  TOAST_NOTIFICATION,
+  UPDATE_ACTIVE_BOTTOM_TAB,
+} from '../constants/constants';
 
 export const updateActiveBottomTab = payload => ({
   payload,
@@ -8,4 +12,9 @@ export const updateActiveBottomTab = payload => ({
 export const isCollapsePostButton = payload => ({
   payload,
   type: IS_COLLAPSE_POST_BUTTON,
+});
+
+export const toastNotification = payload => ({
+  payload,
+  type: TOAST_NOTIFICATION,
 });

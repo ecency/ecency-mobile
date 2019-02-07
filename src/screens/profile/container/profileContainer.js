@@ -216,9 +216,11 @@ class ProfileContainer extends Component {
         });
       }
 
-      await getFollows(username).then((res) => {
-        follows = res;
-      });
+      try {
+        follows = await getFollows(username);
+      } catch (err) {
+        follows = null;
+      }
 
       this.setState({
         follows,
