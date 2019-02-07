@@ -16,6 +16,7 @@ import ru from 'react-intl/locale-data/ru';
 import de from 'react-intl/locale-data/de';
 import it from 'react-intl/locale-data/it';
 import hu from 'react-intl/locale-data/hu';
+import tr from 'react-intl/locale-data/tr';
 
 import AUTH_TYPE from '../../../constants/authType';
 
@@ -65,7 +66,7 @@ import {
 import ApplicationScreen from '../screen/applicationScreen';
 import { Launch } from '../..';
 
-addLocaleData([...en, ...ru, ...de, ...id, ...it, ...hu]);
+addLocaleData([...en, ...ru, ...de, ...id, ...it, ...hu, ...tr]);
 
 class ApplicationContainer extends Component {
   constructor() {
