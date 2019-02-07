@@ -13,15 +13,14 @@ export default ({ getState, item, setState }) => {
   } else {
     newPosition = selection.end + item.wrapper.length * 2;
   }
+
   const extra = {
-    selection: {
+    newSelection: {
       start: newPosition,
       end: newPosition,
     },
   };
   setState({ text: newText }, () => {
-    setTimeout(() => {
-      setState({ ...extra });
-    }, 25);
+    setState({ ...extra });
   });
 };

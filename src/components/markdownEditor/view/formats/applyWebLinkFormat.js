@@ -36,6 +36,6 @@ export default ({
     };
   }
   setState({ text: newText }, () => {
-    setState({ selection: newSelection });
+    setState({ newSelection });
   });
 };

@@ -5,6 +5,9 @@ import { View } from 'react-native';
 import { FilterBar } from '../../filterBar';
 import { Comments } from '../../comments';
 
+// Styles
+import styles from './commentDisplayStyles';
+
 class CommentsDisplayView extends PureComponent {
   /* Props
    * ------------------------------------------------
@@ -36,7 +39,7 @@ class CommentsDisplayView extends PureComponent {
               defaultText="TRENDING"
               onDropdownSelect={this._handleOnDropdownSelect}
             />
-            <View style={{ padding: 16 }}>
+            <View style={styles.commentWrapper}>
               <Comments
                 fetchPost={fetchPost}
                 commentCount={commentCount}
