@@ -21,8 +21,6 @@ export default ({ getState, item, setState }) => {
     },
   };
   setState({ text: newText }, () => {
-    setTimeout(() => {
-      setState({ ...extra });
-    }, 25);
+    setState({ ...extra });
   });
 };
