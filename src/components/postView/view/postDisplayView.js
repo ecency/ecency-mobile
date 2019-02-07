@@ -111,7 +111,7 @@ class PostDisplayView extends PureComponent {
   };
 
   render() {
-    const { post, fetchPost, intl } = this.props;
+    const { post, fetchPost } = this.props;
     const { postHeight, scrollHeight, isLoadedComments } = this.state;
 
     const isPostEnd = scrollHeight > postHeight;
@@ -146,7 +146,7 @@ class PostDisplayView extends PureComponent {
                     {' '}
                     {formatedTime}
                   </Text>
-                  {isPostEnd && this._getTabBar()}
+                  {/* {isPostEnd && this._getTabBar()} */}
                 </View>
               </View>
             )}
@@ -160,7 +160,7 @@ class PostDisplayView extends PureComponent {
             />
           )}
         </ScrollView>
-        {!isPostEnd && this._getTabBar(true)}
+        {this._getTabBar(true)}
       </Fragment>
     );
   }

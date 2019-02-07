@@ -26,9 +26,9 @@ export default EStyleSheet.create({
     marginTop: 19,
     marginBottom: 10,
   },
-  marginFooter: {
-    marginBottom: 50,
-  },
+  // marginFooter: {
+  //   marginBottom: 50,
+  // },
   footerText: {
     fontSize: 10,
     fontFamily: '$primaryFont',

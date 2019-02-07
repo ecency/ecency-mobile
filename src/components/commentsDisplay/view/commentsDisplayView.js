@@ -36,7 +36,7 @@ class CommentsDisplayView extends PureComponent {
               defaultText="TRENDING"
               onDropdownSelect={this._handleOnDropdownSelect}
             />
-            <View style={{ padding: 16 }}>
+            <View style={{ padding: 16, paddingBottom: 50, }}>
               <Comments
                 fetchPost={fetchPost}
                 commentCount={commentCount}
