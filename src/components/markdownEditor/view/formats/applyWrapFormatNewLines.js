@@ -42,7 +42,7 @@ export default ({ getState, item, setState }) => {
     );
   }
   const extra = {
-    selection: {
+    newSelection: {
       start: newPosition,
       end: newPosition,
     },
