@@ -56,7 +56,7 @@ class FollowsScreen extends PureComponent {
       id: !isFollowing ? 'profile.follower' : 'profile.following',
     });
 
-    const headerTitle = `${title} (${count})`;
+    const headerTitle = `${title} (${count})`;
 
     return (
       <View style={styles.container}>
