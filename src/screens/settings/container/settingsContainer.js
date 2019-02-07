@@ -2,6 +2,7 @@ import React, { Component } from 'react';
 import { Platform } from 'react-native';
 import { connect } from 'react-redux';
 import AppCenter from 'appcenter';
+import Push from 'appcenter-push';
 import { Client } from 'dsteem';
 
 // Realm
@@ -135,8 +136,7 @@ class SettingsContainer extends Component {
 
     switch (actionType) {
       case 'notification':
-        dispatch(isNotificationOpen(action));
-        setNotificationIsOpen(action);
+        this._handleNotification(action);
         break;
 
       case 'theme':
@@ -146,6 +146,17 @@ class SettingsContainer extends Component {
       default:
         break;
     }
+  };
+
+  _handleNotification = async (action) => {
+    const { dispatch } = this.props;
+
+    dispatch(isNotificationOpen(action));
+    setNotificationIsOpen(action);
+
+    const isPushEnabled = await Push.isEnabled();
+
+    await Push.setEnabled(!isPushEnabled);
   };
 
   _handleButtonPress = (action, actionType) => {
