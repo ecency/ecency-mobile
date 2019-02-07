@@ -24,6 +24,7 @@ export default class MarkdownEditorView extends Component {
     this.state = {
       text: props.draftBody || '',
       selection: { start: 0, end: 0 },
+      newSelection: null,
     };
   }
 
@@ -79,20 +80,24 @@ export default class MarkdownEditorView extends Component {
   };
 
   _handleOnSelectionChange = (event) => {
-    this.setState({
-      selection: event.nativeEvent.selection,
-    });
+    const { newSelection } = this.state;
+
+    if (newSelection) {
+      this.setState({
+        selection: newSelection,
+        newSelection: null,
+      });
+    } else {
+      this.setState({
+        selection: event.nativeEvent.selection,
+      });
+    }
   };
 
   _getState = () => {
-    this.setState({
-      selection: {
-        start: 1,
-        end: 1,
-      },
-    });
     return this.state;
   };
+
 
   _renderPreview = () => {
     const { text } = this.state;
@@ -180,7 +185,7 @@ export default class MarkdownEditorView extends Component {
               id: isReply ? 'editor.reply_placeholder' : 'editor.default_placeholder',
             })}
             placeholderTextColor="#c1c5c7"
-            selection={Platform.OS === 'ios' ? selection : undefined}
+            selection={selection}
             selectionColor="#357ce6"
             style={styles.textWrapper}
             underlineColorAndroid="transparent"
