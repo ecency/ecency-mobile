@@ -14,10 +14,10 @@
             buildForArchiving = "YES">
             <BuildableReference
                BuildableIdentifier = "primary"
-               BlueprintIdentifier = "F42A85ED4E4F11140A903DC0CBEABF34"
-               BlueprintName = "Pods-eSteem"
+               BlueprintIdentifier = "D29860CC73E0AFE19F826C3EA070CDD9"
+               BlueprintName = "react-native-version-number"
                ReferencedContainer = "container:Pods.xcodeproj"
-               BuildableName = "libPods-eSteem.a">
+               BuildableName = "libreact-native-version-number.a">
             </BuildableReference>
          </BuildActionEntry>
       </BuildActionEntries>
