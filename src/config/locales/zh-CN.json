@@ -113,7 +113,9 @@
     "default_placeholder": "今天您想要写些什么？",
     "reply_placeholder": "您想要在帖子上面写些什么？",
     "publish": "发布",
-    "reply": "回复"
+    "reply": "回复",
+    "open_galery": "Open Galery",
+    "capture_photo": "Capture a photo"
   },
   "pincode": {
     "enter_text": "Enter pin to unlock",
@@ -134,6 +136,8 @@
     "warning": "警告",
     "invalid_pincode": "Invalid pin code, please check and try again.",
     "remove_alert": "您确定想要移除？",
+    "clear_alert": "Are you sure you want to clear?",
+    "clear": "Clear",
     "cancel": "取消",
     "delete": "删除",
     "copied": "Copied!",
