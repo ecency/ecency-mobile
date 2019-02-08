@@ -113,7 +113,9 @@
     "default_placeholder": "Bu gün ne hakkında yazmak istersin?",
     "reply_placeholder": "Yukarıdaki yazi hakkinda nasil bir cevap yazmak istersin?",
     "publish": "Yayınla",
-    "reply": "Cevapla"
+    "reply": "Cevapla",
+    "open_galery": "Open Galery",
+    "capture_photo": "Capture a photo"
   },
   "pincode": {
     "enter_text": "Açmak için pin kodunu giriniz",
@@ -134,6 +136,8 @@
     "warning": "Uyarı",
     "invalid_pincode": "Geçersiz pin gözden geçirip yeniden deneyin.",
     "remove_alert": "Kaldırmak istediğine emin misin ?",
+    "clear_alert": "Are you sure you want to clear?",
+    "clear": "Clear",
     "cancel": "Vazgeç",
     "delete": "Temizle",
     "copied": "Kopyalandı",
