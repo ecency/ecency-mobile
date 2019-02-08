@@ -75,7 +75,6 @@ import com.android.build.OutputFile
 
 project.ext.react = [
   bundleCommand: "ram-bundle",
-  bundleConfig: "config.js",
   entryFile: "index.js"
 ]
 
