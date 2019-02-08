@@ -2,7 +2,7 @@
   "wallet": {
     "curation_reward": "Phần thưởng curation",
     "author_reward": "Phần thưởng cho tác giả",
-    "comment_benefactor_reward": "Phần thưởng đc chia sẻ từ bình luận",
+    "comment_benefactor_reward": "Phần thưởng được chia sẻ từ bình luận",
     "claim_reward_balance": "Nhận số dư tiền thưởng",
     "transfer": "Chuyển cho",
     "transfer_to_vesting": "Chuyển đến Vesting",
