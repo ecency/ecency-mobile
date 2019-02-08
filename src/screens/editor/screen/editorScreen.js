@@ -27,6 +27,7 @@ class EditorScreen extends Component {
       isFormValid: false,
       isPreviewActive: false,
       wordsCount: null,
+      isRemoveTag: false,
       fields: {
         title: (props.draftPost && props.draftPost.title) || '',
         body: (props.draftPost && props.draftPost.body) || '',
@@ -50,6 +51,18 @@ class EditorScreen extends Component {
   };
 
   // Component Functions
+  _initialFields = () => {
+    this.setState({
+      fields: {
+        title: '',
+        body: '',
+        tags: [],
+        isValid: false,
+      },
+      isRemoveTag: true,
+    });
+  };
+
   _handleOnPressPreviewButton = () => {
     const { isPreviewActive } = this.state;
 
@@ -134,14 +147,14 @@ class EditorScreen extends Component {
   _handleOnTagAdded = (tags) => {
     const _tags = tags.filter(tag => tag && tag !== ' ');
     const fields = { ...this.state.fields };
-
+    
     fields.tags = _tags;
-    this.setState({ fields });
+    this.setState({ fields, isRemoveTag: false, });
   };
 
   render() {
     const {
-      fields, isPreviewActive, wordsCount, isFormValid,
+      fields, isPreviewActive, wordsCount, isFormValid, isRemoveTag,
     } = this.state;
     const {
       draftPost,
@@ -192,6 +205,7 @@ class EditorScreen extends Component {
           {!isReply && (
             <TagArea
               draftChips={fields.tags.length > 0 ? fields.tags : null}
+              isRemoveTag={isRemoveTag}
               componentID="tag-area"
               handleTagChanged={this._handleOnTagAdded}
               intl={intl}
@@ -204,6 +218,7 @@ class EditorScreen extends Component {
             handleOpenImagePicker={handleOnImagePicker}
             intl={intl}
             uploadedImage={uploadedImage}
+            initialFields={this._initialFields}
             isReply={isReply}
           />
         </PostForm>
