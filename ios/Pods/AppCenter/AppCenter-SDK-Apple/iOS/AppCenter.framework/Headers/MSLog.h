@@ -26,11 +26,6 @@
 @property(nonatomic, copy) NSString *distributionGroupId;
 
 /**
- * Optional user identifier.
- */
-@property(nonatomic, copy) NSString *userId;
-
-/**
  * Device properties associated to this log.
  */
 @property(nonatomic) MSDevice *device;
