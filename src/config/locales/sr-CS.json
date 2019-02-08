@@ -113,7 +113,9 @@
     "default_placeholder": "Kako vam je prošao dan?",
     "reply_placeholder": "Šta želite da napišete o postu iznad?",
     "publish": "Objavi",
-    "reply": "Odgovori"
+    "reply": "Odgovori",
+    "open_galery": "Open Galery",
+    "capture_photo": "Capture a photo"
   },
   "pincode": {
     "enter_text": "Enter pin to unlock",
@@ -134,6 +136,8 @@
     "warning": "Upozorenje",
     "invalid_pincode": "Invalid pin code, please check and try again.",
     "remove_alert": "Are you sure want to remove?",
+    "clear_alert": "Are you sure you want to clear?",
+    "clear": "Clear",
     "cancel": "Otkaži",
     "delete": "Izbriši",
     "copied": "Copied!",
