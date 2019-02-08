@@ -113,7 +113,9 @@
     "default_placeholder": "Miről szeretnél írni ma?",
     "reply_placeholder": "Mit szeretnél írni a fenti bejegyzésről?",
     "publish": "Közzétesz",
-    "reply": "Válasz"
+    "reply": "Válasz",
+    "open_galery": "Open Galery",
+    "capture_photo": "Capture a photo"
   },
   "pincode": {
     "enter_text": "Feloldáshoz írd be a PIN kódot",
@@ -134,6 +136,8 @@
     "warning": "Figyelmeztetés",
     "invalid_pincode": "Érvénytelen PIN kód, kérjük ellenőrizd és próbáld újra.",
     "remove_alert": "Biztos, hogy törölni akarod?",
+    "clear_alert": "Are you sure you want to clear?",
+    "clear": "Clear",
     "cancel": "Elvet",
     "delete": "Törlés",
     "copied": "Lemásolva!",
@@ -161,7 +165,6 @@
     "empty_list": "Itt nincs semmi",
     "deleted": "Könyvjelző eltávolítva",
     "search": "Keresés a könyvjelzők között",
-    "bookmarks": "A könyvjelzők hozzáadásához",
     "added": "Hozzáadva a könyvjelzőkhöz",
     "add": "Hozzáadás a könyvjelzőkhöz"
   },

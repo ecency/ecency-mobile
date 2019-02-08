@@ -113,7 +113,9 @@
     "default_placeholder": "Peu galak neu tuleh keu urönyoe?",
     "reply_placeholder": "Teuntang peu neu neuk tuleh ata diateuh?",
     "publish": "Peudëuh",
-    "reply": "Balah"
+    "reply": "Balah",
+    "open_galery": "Open Galery",
+    "capture_photo": "Capture a photo"
   },
   "pincode": {
     "enter_text": "Pasöe gunci untuk buka",
@@ -134,6 +136,8 @@
     "warning": "Pëuingat",
     "invalid_pincode": "Salah pin, cie neu test loëm.",
     "remove_alert": "Peu yakin neuk sampóh?",
+    "clear_alert": "Are you sure you want to clear?",
+    "clear": "Clear",
     "cancel": "Batai",
     "delete": "Sampóh",
     "copied": "Copied!",

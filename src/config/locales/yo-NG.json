@@ -113,7 +113,9 @@
     "default_placeholder": "Kilo fe kosile loni?",
     "reply_placeholder": "Kilo fe ko nipe oro akosile towa ni oke?",
     "publish": "Ṣe atẹjade",
-    "reply": "Fesi"
+    "reply": "Fesi",
+    "open_galery": "Open Galery",
+    "capture_photo": "Capture a photo"
   },
   "pincode": {
     "enter_text": "Te PIN re lati si",
@@ -134,6 +136,8 @@
     "warning": "Ìkìlọ",
     "invalid_pincode": "PIN yi o se tewogba, jowo sematuyewo, ki o tun te.",
     "remove_alert": "Se o da o loju pe ofe yo kuro?",
+    "clear_alert": "Are you sure you want to clear?",
+    "clear": "Clear",
     "cancel": "Fa igi le",
     "delete": "Pa re",
     "copied": "Copied!",

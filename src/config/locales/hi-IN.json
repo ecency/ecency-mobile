@@ -113,7 +113,9 @@
     "default_placeholder": "आज के बारें में आप क्या लिखना चाहेंगे?",
     "reply_placeholder": "ऊपर वाली पोस्ट के बारें में आप क्या लिखना चाहेंगे?",
     "publish": "प्रकाशित करें",
-    "reply": "जबाब दें"
+    "reply": "जबाब दें",
+    "open_galery": "Open Galery",
+    "capture_photo": "Capture a photo"
   },
   "pincode": {
     "enter_text": "Enter pin to unlock",
@@ -134,6 +136,8 @@
     "warning": "चेतावनी",
     "invalid_pincode": "Invalid pin code, please check and try again.",
     "remove_alert": "क्या आप इसे सच में हटाना चाहते हैं?",
+    "clear_alert": "Are you sure you want to clear?",
+    "clear": "Clear",
     "cancel": "रद्द करें",
     "delete": "मिटा दें",
     "copied": "Copied!",

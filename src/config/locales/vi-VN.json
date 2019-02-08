@@ -2,7 +2,7 @@
   "wallet": {
     "curation_reward": "Phần thưởng curation",
     "author_reward": "Phần thưởng cho tác giả",
-    "comment_benefactor_reward": "Phần thưởng đc chia sẻ từ bình luận",
+    "comment_benefactor_reward": "Phần thưởng được chia sẻ từ bình luận",
     "claim_reward_balance": "Nhận số dư tiền thưởng",
     "transfer": "Chuyển cho",
     "transfer_to_vesting": "Chuyển đến Vesting",
@@ -113,7 +113,9 @@
     "default_placeholder": "Bạn muốn viết về gì hôm nay?",
     "reply_placeholder": "Bạn muốn viết gì về bài viết trên?",
     "publish": "Đăng bài",
-    "reply": "Trả lời"
+    "reply": "Trả lời",
+    "open_galery": "Open Galery",
+    "capture_photo": "Capture a photo"
   },
   "pincode": {
     "enter_text": "Nhập mã PIN để mở khóa",
@@ -134,6 +136,8 @@
     "warning": "Cảnh báo",
     "invalid_pincode": "Mã PIN không hợp lệ, vui lòng kiểm tra và thử lại.",
     "remove_alert": "Are you sure want to remove?",
+    "clear_alert": "Are you sure you want to clear?",
+    "clear": "Clear",
     "cancel": "Huỷ",
     "delete": "Xóa",
     "copied": "Đã sao chép!",
