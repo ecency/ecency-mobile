@@ -113,7 +113,9 @@
     "default_placeholder": "Waar zou je vandaag over willen schrijven?",
     "reply_placeholder": "Wat zou je willen schrijven over bovenstaand bericht?",
     "publish": "Publiceer",
-    "reply": "Reageer"
+    "reply": "Reageer",
+    "open_galery": "Open Galery",
+    "capture_photo": "Capture a photo"
   },
   "pincode": {
     "enter_text": "Enter PIN om te ontgrendelen",
@@ -134,6 +136,8 @@
     "warning": "Waarschuwing",
     "invalid_pincode": "Ongeldige PIN-code, controleer en probeer het opnieuw.",
     "remove_alert": "Weet je zeker dat je wilt verwijderen?",
+    "clear_alert": "Are you sure you want to clear?",
+    "clear": "Clear",
     "cancel": "Annuleren",
     "delete": "Verwijderen",
     "copied": "Copied!",
