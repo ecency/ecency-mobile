@@ -32,7 +32,6 @@ export default EStyleSheet.create({
     maxWidth: '$deviceWidth / 2',
   },
   rightButtonsWrapper: {
-    marginRight: 16,
     flexDirection: 'row',
     alignItems: 'center',
   },
@@ -52,5 +51,15 @@ export default EStyleSheet.create({
   },
   icon: {
     color: '$editorButtonColor',
+  },
+  clearButtonWrapper: {
+    justifyContent: 'center',
+    alignItems: 'center',
+    height: 50,
+    width: 56,
+    backgroundColor: '$primaryBlue',
+  },
+  clearIcon: {
+    color: '$white',
   },
 });
