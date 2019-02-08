@@ -147,7 +147,7 @@ export default class MarkdownEditorView extends Component {
           iconType="FontAwesome"
           name="image"
         />
-        <View style={styles.clearButtonWrapper}>
+        {/*<View style={styles.clearButtonWrapper}>
           <IconButton
             onPress={() => this.ClearActionSheet.show()}
             size={20}
@@ -155,7 +155,7 @@ export default class MarkdownEditorView extends Component {
             iconType="FontAwesome"
             name="trash"
           />
-        </View>
+        </View>*/}
         {/* TODO: After alpha */}
         {/* <DropdownButton
           style={styles.dropdownStyle}
