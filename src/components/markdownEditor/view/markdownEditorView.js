@@ -94,10 +94,7 @@ export default class MarkdownEditorView extends Component {
     }
   };
 
-  _getState = () => {
-    return this.state;
-  };
-
+  _getState = () => this.state;
 
   _renderPreview = () => {
     const { text } = this.state;
@@ -128,9 +125,7 @@ export default class MarkdownEditorView extends Component {
         <FlatList
           data={Formats}
           keyboardShouldPersistTaps="always"
-          renderItem={
-            ({ item, index }) => index !== 9
-            && this._renderMarkupButton({ item, getState, setState })
+          renderItem={({ item, index }) => index !== 9 && this._renderMarkupButton({ item, getState, setState })
           }
           horizontal
         />
@@ -152,6 +147,15 @@ export default class MarkdownEditorView extends Component {
           iconType="FontAwesome"
           name="image"
         />
+        <View style={styles.clearButtonWrapper}>
+          <IconButton
+            onPress={() => this.ClearActionSheet.show()}
+            size={20}
+            iconStyle={styles.clearIcon}
+            iconType="FontAwesome"
+            name="trash"
+          />
+        </View>
         {/* TODO: After alpha */}
         {/* <DropdownButton
           style={styles.dropdownStyle}
@@ -164,9 +168,17 @@ export default class MarkdownEditorView extends Component {
     </StickyBar>
   );
 
+  _handleClear = () => {
+    const { initialFields } = this.props;
+
+    initialFields();
+
+    this.setState({ text: '' });
+  };
+
   render() {
     const {
-      intl, isPreviewActive, isReply, handleOpenImagePicker,
+      handleOpenImagePicker, intl, isPreviewActive, isReply,
     } = this.props;
     const { text, selection } = this.state;
 
@@ -174,7 +186,7 @@ export default class MarkdownEditorView extends Component {
       <KeyboardAvoidingView
         style={styles.container}
         keyboardVerticalOffset={Platform.select({ ios: 0, android: 25 })}
-        behavior={(Platform.OS === 'ios') ? 'padding' : null}
+        behavior={Platform.OS === 'ios' ? 'padding' : null}
       >
         {!isPreviewActive ? (
           <TextInput
@@ -202,12 +214,42 @@ export default class MarkdownEditorView extends Component {
               this.setState(state, callback);
             },
           })}
+
+        {/* TODO: This is a problem re-factor */}
         <ActionSheet
           ref={o => (this.ActionSheet = o)}
-          options={['Open Gallery', 'Capture a photo', 'Cancel']}
+          options={[
+            intl.formatMessage({
+              id: 'editor.open_galery',
+            }),
+            intl.formatMessage({
+              id: 'editor.capture_photo',
+            }),
+            intl.formatMessage({
+              id: 'alert.cancel',
+            }),
+          ]}
           cancelButtonIndex={2}
           onPress={(index) => {
             handleOpenImagePicker(index === 0 ? 'image' : index === 1 && 'camera');
+          }}
+        />
+        <ActionSheet
+          ref={o => (this.ClearActionSheet = o)}
+          title={intl.formatMessage({
+            id: 'alert.clear_alert',
+          })}
+          options={[
+            intl.formatMessage({
+              id: 'alert.clear',
+            }),
+            intl.formatMessage({
+              id: 'alert.cancel',
+            }),
+          ]}
+          cancelButtonIndex={1}
+          onPress={(index) => {
+            index === 0 && this._handleClear();
           }}
         />
       </KeyboardAvoidingView>
