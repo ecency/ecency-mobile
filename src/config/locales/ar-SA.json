@@ -113,7 +113,9 @@
     "default_placeholder": "ما الذي تود أن تكتب عنه اليوم؟",
     "reply_placeholder": "ماذا تريد أن تكتب عن المشاركة أعلاه؟",
     "publish": "نشر",
-    "reply": "الرد"
+    "reply": "الرد",
+    "open_galery": "Open Galery",
+    "capture_photo": "Capture a photo"
   },
   "pincode": {
     "enter_text": "أدخل الرقم السري للفتح",
@@ -134,6 +136,8 @@
     "warning": "تحذير",
     "invalid_pincode": "الرقم السري غير صالح، يرجى التحقق والمحاولة مرة أخرى.",
     "remove_alert": "هل أنت متأكد تريد الإزالة؟",
+    "clear_alert": "Are you sure you want to clear?",
+    "clear": "Clear",
     "cancel": "إلغاء",
     "delete": "حذف",
     "copied": "تم النسخ!",
