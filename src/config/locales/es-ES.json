@@ -113,7 +113,9 @@
     "default_placeholder": "Qué te gustaría escribir acerca de hoy?",
     "reply_placeholder": "Qué te gustaría escribir acerca de la publicación de encima?",
     "publish": "Publicar",
-    "reply": "Responder"
+    "reply": "Responder",
+    "open_galery": "Open Galery",
+    "capture_photo": "Capture a photo"
   },
   "pincode": {
     "enter_text": "Enter pin to unlock",
@@ -134,6 +136,8 @@
     "warning": "Advertencia",
     "invalid_pincode": "Invalid pin code, please check and try again.",
     "remove_alert": "Está seguro que quiere borrar?",
+    "clear_alert": "Are you sure you want to clear?",
+    "clear": "Clear",
     "cancel": "Cancelar",
     "delete": "Borrar",
     "copied": "Copiado!",

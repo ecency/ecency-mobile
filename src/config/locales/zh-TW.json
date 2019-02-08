@@ -113,7 +113,9 @@
     "default_placeholder": "今天您想要寫些什麼？",
     "reply_placeholder": "您想對上面的帖子寫些什麼？",
     "publish": "發佈",
-    "reply": "回覆"
+    "reply": "回覆",
+    "open_galery": "Open Galery",
+    "capture_photo": "Capture a photo"
   },
   "pincode": {
     "enter_text": "輸入PIN碼即可解鎖",
@@ -134,6 +136,8 @@
     "warning": "警告",
     "invalid_pincode": "無效的PIN碼，請核對後再試一次。",
     "remove_alert": "確定要刪除嗎？",
+    "clear_alert": "Are you sure you want to clear?",
+    "clear": "Clear",
     "cancel": "取消",
     "delete": "刪除",
     "copied": "Copied!",

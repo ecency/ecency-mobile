@@ -113,7 +113,9 @@
     "default_placeholder": "Apa yang ingin Anda tulis tentang hari ini?",
     "reply_placeholder": "Apa yang ingin Anda tulis tentang posting di atas?",
     "publish": "Terbitkan",
-    "reply": "Balas"
+    "reply": "Balas",
+    "open_galery": "Open Galery",
+    "capture_photo": "Capture a photo"
   },
   "pincode": {
     "enter_text": "Masukkan PIN untuk membuka kunci",
@@ -134,6 +136,8 @@
     "warning": "Peringatan",
     "invalid_pincode": "Invalid pin code, please check and try again.",
     "remove_alert": "Yakin ingin menghapus?",
+    "clear_alert": "Are you sure you want to clear?",
+    "clear": "Clear",
     "cancel": "Batal",
     "delete": "Hapus",
     "copied": "Disalin!",

@@ -113,7 +113,9 @@
     "default_placeholder": "What would you like to write about today?",
     "reply_placeholder": "What would you like to write about above post?",
     "publish": "Publish",
-    "reply": "Reply"
+    "reply": "Reply",
+    "open_galery": "Open Galery",
+    "capture_photo": "Capture a photo"
   },
   "pincode": {
     "enter_text": "Enter PIN to unlock",
@@ -134,6 +136,8 @@
     "warning": "Warning",
     "invalid_pincode": "Invalid PIN code, please check and try again.",
     "remove_alert": "Are you sure want to remove?",
+    "clear_alert": "Are you sure you want to clear?",
+    "clear": "Clear",
     "cancel": "Cancel",
     "delete": "Delete",
     "copied": "Copied!",
