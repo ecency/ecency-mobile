@@ -160,6 +160,7 @@ dependencies {
     compile project(':appcenter-crashes')
     compile project(':appcenter-analytics')
     compile project(':appcenter')
+    implementation 'com.microsoft.appcenter:appcenter-push:1.11.2'
     compile 'com.facebook.fresco:animated-gif:1.10.0'
     implementation fileTree(dir: "libs", include: ["*.jar"])
     implementation "com.android.support:appcompat-v7:${rootProject.ext.supportLibVersion}"
