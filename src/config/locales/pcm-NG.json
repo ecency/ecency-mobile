@@ -113,7 +113,9 @@
     "default_placeholder": "Wetin you go like yan about today?",
     "reply_placeholder": "Wetin you go like yan about the matter for up",
     "publish": "Post am",
-    "reply": "Reply"
+    "reply": "Reply",
+    "open_galery": "Open Galery",
+    "capture_photo": "Capture a photo"
   },
   "pincode": {
     "enter_text": "Enter your PIN to open am",
@@ -134,6 +136,8 @@
     "warning": "Warning",
     "invalid_pincode": "Your PIN code no correct, abeg check wella and try am again",
     "remove_alert": "You sure say you wan remove am?",
+    "clear_alert": "Are you sure you want to clear?",
+    "clear": "Clear",
     "cancel": "Cancel",
     "delete": "Delete",
     "copied": "Copied!",
