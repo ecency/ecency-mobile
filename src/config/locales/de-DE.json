@@ -140,8 +140,8 @@
     "clear": "Clear",
     "cancel": "Abbrechen",
     "delete": "Entfernen",
-    "copied": "Copied!",
-    "no_internet": "No connection!"
+    "copied": "Kopiert!",
+    "no_internet": "Keine Verbindung!"
   },
   "post": {
     "reblog_alert": "Möchtest du diesen Beitrag wirklich teilen?"
@@ -165,8 +165,8 @@
     "empty_list": "Keine Einträge vorhanden",
     "deleted": "Lesezeichen entfernt",
     "search": "In Lesezeichen suchen",
-    "added": "Added to bookmars",
-    "add": "Add to bookmarks"
+    "added": "Zu den Lesezeichen hinzugefügt",
+    "add": "Neues Lesezeichen"
   },
   "favorites": {
     "title": "Favoriten",
@@ -193,7 +193,7 @@
     "reblog": "Teilen",
     "reply": "Antworten",
     "share": "Teilen",
-    "bookmarks": "add to bookmarks"
+    "bookmarks": "Lesezeichen hinzufügen"
   },
   "deep_link": {
     "no_existing_user": "Kein vorhandener Benutzer",
