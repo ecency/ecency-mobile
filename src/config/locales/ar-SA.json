@@ -114,8 +114,8 @@
     "reply_placeholder": "ماذا تريد أن تكتب عن المشاركة أعلاه؟",
     "publish": "نشر",
     "reply": "الرد",
-    "open_galery": "Open Galery",
-    "capture_photo": "Capture a photo"
+    "open_galery": "إفتح معرض الصور",
+    "capture_photo": "إلتقط صورة"
   },
   "pincode": {
     "enter_text": "أدخل الرقم السري للفتح",
@@ -136,8 +136,8 @@
     "warning": "تحذير",
     "invalid_pincode": "الرقم السري غير صالح، يرجى التحقق والمحاولة مرة أخرى.",
     "remove_alert": "هل أنت متأكد تريد الإزالة؟",
-    "clear_alert": "Are you sure you want to clear?",
-    "clear": "Clear",
+    "clear_alert": "هل أنت متأكد من أنك تريد المسح؟",
+    "clear": "مسح",
     "cancel": "إلغاء",
     "delete": "حذف",
     "copied": "تم النسخ!",
@@ -165,7 +165,7 @@
     "empty_list": "لا شيء هنا",
     "deleted": "تم مسح الإشاراة المرجعية",
     "search": "البحث في الإشارات المرجعية",
-    "added": "Added to bookmarks",
+    "added": "تمت الإضافة إلى الإشارات المرجعية",
     "add": "إضافة إلى الإشارات المرجعية"
   },
   "favorites": {
