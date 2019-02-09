@@ -136,12 +136,12 @@
     "warning": "Pëuingat",
     "invalid_pincode": "Salah pin, cie neu test loëm.",
     "remove_alert": "Peu yakin neuk sampóh?",
-    "clear_alert": "Peu yakin neuk sampóh?",
+    "clear_alert": "Peu yakin neuk sampöh?",
     "clear": "Sampöh",
     "cancel": "Batai",
     "delete": "Sampóh",
-    "copied": "Copied!",
-    "no_internet": "No connection!"
+    "copied": "Kalheuh Meusalén!",
+    "no_internet": "Hana koneksi!"
   },
   "post": {
     "reblog_alert": "Peu yakin neuh, neu neuk reblog?"
@@ -166,7 +166,7 @@
     "deleted": "Pëunanda buku kalhëuh meusampöh",
     "search": "Mita lam buku pëunanda",
     "added": "Added to bookmarks",
-    "add": "Add to bookmarks"
+    "add": "Tamah dalam bookmarks"
   },
   "favorites": {
     "title": "Palèng galak",
@@ -193,7 +193,7 @@
     "reblog": "neukirem ulang blog",
     "reply": "balah",
     "share": "bagi",
-    "bookmarks": "add to bookmarks"
+    "bookmarks": "tamah dalam bookmarks"
   },
   "deep_link": {
     "no_existing_user": "Hana uréung pakék",
