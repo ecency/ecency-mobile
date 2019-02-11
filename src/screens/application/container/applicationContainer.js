@@ -8,6 +8,7 @@ import Config from 'react-native-config';
 import AppCenter from 'appcenter';
 import { NavigationActions } from 'react-navigation';
 import { bindActionCreators } from 'redux';
+import Push from 'appcenter-push';
 
 // Constants
 import en from 'react-intl/locale-data/en';
@@ -228,15 +229,18 @@ class ApplicationContainer extends Component {
   };
 
   _getSettings = () => {
-    const { dispatch, actions } = this.props;
+    const { dispatch } = this.props;
 
     getSettings().then((response) => {
       if (response) {
         if (response.isDarkTheme !== '') dispatch(isDarkTheme(response.isDarkTheme));
         if (response.language !== '') dispatch(setLanguage(response.language));
-        if (response.notification !== '') dispatch(isNotificationOpen(response.notification));
         if (response.server !== '') dispatch(setApi(response.server));
         if (response.upvotePercent !== '') dispatch(setUpvotePercent(Number(response.upvotePercent)));
+        if (response.notification !== '') {
+          dispatch(isNotificationOpen(response.notification));
+          Push.setEnabled(response.notification);
+        }
 
         dispatch(setCurrency(response.currency !== '' ? response.currency : 'usd'));
 
@@ -267,7 +271,7 @@ class ApplicationContainer extends Component {
               username,
               token,
               system: Platform.OS,
-              allows_notify: notificationSettings,
+              allows_notify: Number(notificationSettings),
             };
             setPushToken(data).then(() => {
               setPushTokenSaved(true);
