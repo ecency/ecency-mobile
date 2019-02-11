@@ -14,7 +14,7 @@
             buildForArchiving = "YES">
             <BuildableReference
                BuildableIdentifier = "primary"
-               BlueprintIdentifier = "CD137AE82446D0F4001DE934D6585521"
+               BlueprintIdentifier = "AFFED4092B22750815A4EEA11817590E"
                BlueprintName = "FLAnimatedImage"
                ReferencedContainer = "container:Pods.xcodeproj"
                BuildableName = "libFLAnimatedImage.a">
