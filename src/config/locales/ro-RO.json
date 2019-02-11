@@ -24,9 +24,9 @@
     "leaderboard": "Leaderboard",
     "leaderboard_title": "Daily Top User",
     "recent": "Recent",
-    "yesterday": "Yesterday",
-    "this_week": "This Week",
-    "this_month": "This Month",
+    "yesterday": "Ieri",
+    "this_week": "Săptămâna aceasta",
+    "this_month": "Luna Aceasta",
     "older_then": "Older Than A Month"
   },
   "messages": {
@@ -39,26 +39,26 @@
     "details": "Profile Details",
     "comments": "Comments",
     "replies": "Replies",
-    "wallet": "Wallet",
+    "wallet": "Portofel",
     "wallet_details": "Wallet Details",
     "unclaimed_rewards": "Unclaimed Rewards",
     "full_in": "Full in",
-    "hours": "hours",
+    "hours": "ore",
     "voting_power": "Voting power",
     "login_to_see": "Login to see",
     "havent_commented": "haven't commented anything yet",
     "havent_posted": "haven't posted anything yet",
     "steem_power": "Steem Power",
     "next_power_text": "Next power down is in",
-    "days": "days",
-    "day": "day",
-    "steem_dollars": "Steem Dollars",
-    "savings": "Savings"
+    "days": "zile",
+    "day": "zi",
+    "steem_dollars": "Steem Dolari",
+    "savings": "Economii"
   },
   "settings": {
-    "settings": "Settings",
-    "currency": "Currency",
-    "language": "Language",
+    "settings": "Setări",
+    "currency": "Monedă",
+    "language": "Limbă",
     "server": "Server",
     "dark_theme": "Dark Theme",
     "push_notification": "Push Notification",
@@ -81,17 +81,17 @@
     "steemconnect_description": "If you don't want to keep your password encrypted and saved on your device, you can use Steemconnect."
   },
   "home": {
-    "feed": "Feed",
+    "feed": "Flux",
     "popular": "Popular"
   },
   "side_menu": {
-    "profile": "Profile",
+    "profile": "Profil",
     "bookmarks": "Bookmarks",
-    "favorites": "Favorites",
-    "drafts": "Drafts",
-    "schedules": "Schedules",
-    "gallery": "Gallery",
-    "settings": "Settings",
+    "favorites": "Favorite",
+    "drafts": "Schițe",
+    "schedules": "Programate",
+    "gallery": "Galerie",
+    "settings": "Setări",
     "add_account": "Add Account",
     "logout": "Logout",
     "cancel": "Cancel",
@@ -99,16 +99,16 @@
   },
   "header": {
     "title": "Login to customize your feed",
-    "search": "Search..."
+    "search": "Caută..."
   },
   "basic_header": {
-    "publish": "Publish",
-    "search": "Search",
-    "update": "Update",
+    "publish": "Publică",
+    "search": "Caută",
+    "update": "Actualizare",
     "reply": "Reply"
   },
   "editor": {
-    "title": "Title",
+    "title": "Titlu",
     "tags": "tags",
     "default_placeholder": "What would you like to write about today?",
     "reply_placeholder": "What would you like to write about above post?",
@@ -121,10 +121,10 @@
     "enter_text": "Enter pin to unlock",
     "set_new": "Set new pin",
     "write_again": "Write again",
-    "forgot_text": "Oh, I forgot it..."
+    "forgot_text": "Oh, am uitat..."
   },
   "alert": {
-    "success": "Success!",
+    "success": "Succes!",
     "allRead": "Marked all notifications as read",
     "claim_reward_balance_ok": "Reward balance claimed",
     "fail": "Fail!",
