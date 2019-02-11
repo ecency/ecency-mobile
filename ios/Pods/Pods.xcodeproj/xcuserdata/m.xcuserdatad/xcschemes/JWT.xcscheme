@@ -14,7 +14,7 @@
             buildForArchiving = "YES">
             <BuildableReference
                BuildableIdentifier = "primary"
-               BlueprintIdentifier = "F7F72F792C173D5D8A5D0F33DE3DDE23"
+               BlueprintIdentifier = "D3CFC0F2324067C5BFB6679CFD8FD62C"
                BlueprintName = "JWT"
                ReferencedContainer = "container:Pods.xcodeproj"
                BuildableName = "libJWT.a">

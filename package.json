@@ -9,7 +9,7 @@
   },
   "scripts": {
     "version": "./version-ios.sh",
-    "start": "node node_modules/react-native/local-cli/cli.js start --config ../../../../config.js",
+    "start": "node node_modules/react-native/local-cli/cli.js start",
     "eject": "node node_modules/react-native/local-cli/cli.js eject",
     "android": "node node_modules/react-native/local-cli/cli.js run-android",
     "ios": "node node_modules/react-native/local-cli/cli.js run-ios",
@@ -42,7 +42,7 @@
     "react-intl": "^2.7.2",
     "react-native": "^0.57.5",
     "react-native-actionsheet": "^2.4.2",
-    "react-native-code-push": "^5.5.1",
+    "react-native-code-push": "^5.5.2",
     "react-native-config": "^0.11.5",
     "react-native-extended-stylesheet": "^0.10.0",
     "react-native-fast-image": "^4.0.14",
