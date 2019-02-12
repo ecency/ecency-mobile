@@ -79,7 +79,7 @@
     "cancel": "atšaukti",
     "login": "PRISIJUNGTI",
     "steemconnect_description": "Jei nenorite, kad jūsų slaptažodis būtų įrašomas į jūsų įrenginį, galite naudoti Steemconnect.",
-    "steemconnect_fee_description": "Steemconnect may charge some fees from your reward transactions"
+    "steemconnect_fee_description": "Steemconnect gali paimti mažą mokestį nuo jūsų atlygio pavedimų"
   },
   "home": {
     "feed": "Pagrindinis",
@@ -166,7 +166,7 @@
     "empty_list": "Nieko nėra",
     "deleted": "Žymė panaikinta",
     "search": "Ieškoti žymelėse",
-    "added": "Added to bookmarks",
+    "added": "Pridėta į žymes",
     "add": "Pridėti į žymes"
   },
   "favorites": {
