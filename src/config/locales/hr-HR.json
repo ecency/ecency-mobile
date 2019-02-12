@@ -78,7 +78,8 @@
     "description": "Korisnički podatci se čuvaju lokalno na uređaju. Nakon odjave podatci za prijavu se uklanjaju!",
     "cancel": "otkaži",
     "login": "PRIJAVA",
-    "steemconnect_description": "Ako ne želite imati svoju lozinku kriptiranu i spremljenu na vašem uređaju, možete koristiti Steemconnect."
+    "steemconnect_description": "Ako ne želite imati svoju lozinku kriptiranu i spremljenu na vašem uređaju, možete koristiti Steemconnect.",
+    "steemconnect_fee_description": "Steemconnect may charge some fees from your reward transactions"
   },
   "home": {
     "feed": "Novosti",
