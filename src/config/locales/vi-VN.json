@@ -78,7 +78,8 @@
     "description": "Thông tin đăng nhập của người dùng được lưu cục bộ trên thiết bị. Thông tin được xóa khi đăng xuất!",
     "cancel": "huỷ",
     "login": "ĐĂNG NHẬP",
-    "steemconnect_description": "Nếu bạn không muốn giữ mật khẩu của mình được mã hóa và lưu trên thiết bị của mình, bạn có thể sử dụng Steemconnect."
+    "steemconnect_description": "Nếu bạn không muốn giữ mật khẩu của mình được mã hóa và lưu trên thiết bị của mình, bạn có thể sử dụng Steemconnect.",
+    "steemconnect_fee_description": "Steemconnect may charge some fees from your reward transactions"
   },
   "home": {
     "feed": "Nguồn cấp dữ liệu",
