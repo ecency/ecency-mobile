@@ -78,7 +78,8 @@
     "description": "Le tue credenziali sono memorizzate localmente sul dispositivo. Se fai il Logout le credenziali verranno rimosse!",
     "cancel": "cancella",
     "login": "LOGIN",
-    "steemconnect_description": "Se non volete mantenere la vostra password crittografata e salvata sul dispositivo, è possibile utilizzare Steemconnect."
+    "steemconnect_description": "Se non volete mantenere la vostra password crittografata e salvata sul dispositivo, è possibile utilizzare Steemconnect.",
+    "steemconnect_fee_description": "Steemconnect may charge some fees from your reward transactions"
   },
   "home": {
     "feed": "Feed",
