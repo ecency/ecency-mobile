@@ -127,7 +127,7 @@ class EditorScreen extends Component {
   };
 
   _handleFormUpdate = (componentID, content) => {
-    const { handleFormChanged } = this.props;
+    const { handleFormChanged, isReply } = this.props;
     const fields = { ...this.state.fields };
 
     if (componentID === 'body') {
@@ -141,15 +141,15 @@ class EditorScreen extends Component {
     handleFormChanged();
 
     this._handleIsFormValid();
-    this._saveCurrentDraft();
+    if (isReply) this._saveCurrentDraft();
   };
 
   _handleOnTagAdded = (tags) => {
     const _tags = tags.filter(tag => tag && tag !== ' ');
     const fields = { ...this.state.fields };
-    
+
     fields.tags = _tags;
-    this.setState({ fields, isRemoveTag: false, });
+    this.setState({ fields, isRemoveTag: false });
   };
 
   render() {
