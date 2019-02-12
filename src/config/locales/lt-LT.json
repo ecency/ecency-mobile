@@ -78,7 +78,8 @@
     "description": "Vartotojo kredencialai saugomi lokaliai įrenginyje. Atsijungus kredencialai pašalinami!",
     "cancel": "atšaukti",
     "login": "PRISIJUNGTI",
-    "steemconnect_description": "Jei nenorite, kad jūsų slaptažodis būtų įrašomas į jūsų įrenginį, galite naudoti Steemconnect."
+    "steemconnect_description": "Jei nenorite, kad jūsų slaptažodis būtų įrašomas į jūsų įrenginį, galite naudoti Steemconnect.",
+    "steemconnect_fee_description": "Steemconnect may charge some fees from your reward transactions"
   },
   "home": {
     "feed": "Pagrindinis",
