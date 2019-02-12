@@ -39,19 +39,21 @@ class BookmarksScreen extends Component {
     const isFavorites = itemType === 'favorites';
     const text = isFavorites ? item.account : `${item.author}/${item.permlink}`;
 
+  if(item.author || item.account){
     return (
       <UserListItem
-        handleOnLongPress={() => this._handleLongPress(isFavorites ? item.account : item._id)}
-        handleOnPress={() => (isFavorites
-          ? handleOnFavoritePress(item.account)
-          : handleOnBookarkPress(item.permlink, item.author))
-        }
-        index={index}
-        isClickable
-        text={text}
-        username={item.author}
-      />
-    );
+      handleOnLongPress={() => this._handleLongPress(isFavorites ? item.account : item._id)}
+      handleOnPress={() => (isFavorites
+        ? handleOnFavoritePress(item.account)
+        : handleOnBookarkPress(item.permlink, item.author))
+      }
+          index={index}
+          isClickable
+          text={text}
+          username={item.author}
+          />
+      );
+    }
   };
 
   _getTabItem = (data, type) => {
