@@ -78,7 +78,8 @@
     "description": "Ori ero ilewo re ni gbogbo awon credentials re o wa. Gbogbo credentials re o di yiyo to ba ti jade!",
     "cancel": "fa igi le",
     "login": "Se atewole",
-    "steemconnect_description": "Ti o ba fe ki oro atewole asiri re je fifipamo sori ero yi, o le lo steemconnect."
+    "steemconnect_description": "Ti o ba fe ki oro atewole asiri re je fifipamo sori ero yi, o le lo steemconnect.",
+    "steemconnect_fee_description": "Steemconnect may charge some fees from your reward transactions"
   },
   "home": {
     "feed": "Ate gbogbo agbawole",
