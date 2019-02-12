@@ -78,7 +78,8 @@
     "description": "Vos informations d'identification sont conservées localement sur votre appareil. Elles sont supprimées dès votre déconnexion !",
     "cancel": "annuler",
     "login": "CONNEXION",
-    "steemconnect_description": "Si vous ne voulez pas garder votre mot de passe chiffré et enregistré sur votre appareil, vous pouvez utiliser Steemconnect."
+    "steemconnect_description": "Si vous ne voulez pas garder votre mot de passe chiffré et enregistré sur votre appareil, vous pouvez utiliser Steemconnect.",
+    "steemconnect_fee_description": "Steemconnect may charge some fees from your reward transactions"
   },
   "home": {
     "feed": "Fil d'actualités",
