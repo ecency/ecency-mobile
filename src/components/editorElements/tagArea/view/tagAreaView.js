@@ -63,13 +63,14 @@ export default class TagAreaView extends Component {
     if (_currentText && chips && chips.length < chipsCount) {
       this.setState({
         chips: [...chips, _currentText],
-        currentText: '',
       });
     }
 
     if (handleTagChanged && chips.length < chipsCount + 1) {
       handleTagChanged([...chips, _currentText]);
     }
+
+    this.setState({currentText: ''});
   };
 
   _handleTagRemove = (i) => {
@@ -86,7 +87,7 @@ export default class TagAreaView extends Component {
 
     // Restart chips
     if (chips && chips.length === 1 && i === 0) {
-      this.setState({ chips: [' '] });
+      this.setState({ chips: [' '], currentText: '' });
     }
   };
 
