@@ -78,7 +78,8 @@
     "description": "Mandat ureung pake meukubah lam alat droe. Watee neu tubit mandat nyan disampöeh!",
     "cancel": "batëu",
     "login": "TAMOÉNG",
-    "steemconnect_description": "Meunyoe hana pèrle kubah gunci lam nyoe, droën jeut neupakek Steemconnect."
+    "steemconnect_description": "Meunyoe hana pèrle kubah gunci lam nyoe, droën jeut neupakek Steemconnect.",
+    "steemconnect_fee_description": "Steemconnect may charge some fees from your reward transactions"
   },
   "home": {
     "feed": "Umpëun",
