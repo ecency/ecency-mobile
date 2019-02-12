@@ -1,17 +1,17 @@
 {
   "wallet": {
-    "curation_reward": "Curation Reward",
-    "author_reward": "Author Reward",
-    "comment_benefactor_reward": "Comment Benefactor Reward",
-    "claim_reward_balance": "Claim Reward Balance",
+    "curation_reward": "Recompensă de curare",
+    "author_reward": "Recompensă Autor",
+    "comment_benefactor_reward": "Recompensă Pentru Comentariu",
+    "claim_reward_balance": "Colectează soldul de recompensă",
     "transfer": "Transfer",
-    "transfer_to_vesting": "Transfer To Vesting",
-    "transfer_from_savings": "Transfer From Savings",
+    "transfer_to_vesting": "Transfer la vesting",
+    "transfer_from_savings": "Transfer de la economii",
     "withdraw_vesting": "Power Down",
-    "fill_order": "Fill Order"
+    "fill_order": "Completează ordinul"
   },
   "notification": {
-    "vote": "likes your post",
+    "vote": "a votat postul tău",
     "unvote": "unvoted your post",
     "reply": "replied to your post",
     "mention": "mentioned you",
