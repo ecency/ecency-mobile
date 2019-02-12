@@ -78,7 +78,8 @@
     "description": "Person information dey store inside phone. But e go clear komot when dem logout! ",
     "cancel": "cancel",
     "login": "LOGIN",
-    "steemconnect_description": "If you no wan make your password save inside your phone, you fit decide to login with Steemconnect."
+    "steemconnect_description": "If you no wan make your password save inside your phone, you fit decide to login with Steemconnect.",
+    "steemconnect_fee_description": "Steemconnect may charge some fees from your reward transactions"
   },
   "home": {
     "feed": "Tori",
