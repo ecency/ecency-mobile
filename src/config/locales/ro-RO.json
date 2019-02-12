@@ -15,7 +15,7 @@
     "unvote": "unvoted your post",
     "reply": "replied to your post",
     "mention": "mentioned you",
-    "follow": "followed you",
+    "follow": "te urmărește",
     "unfollow": "unfollowed you",
     "ignore": "ignored you",
     "reblog": "reblogged your post",
@@ -33,7 +33,7 @@
     "comingsoon": "Messages feature is coming soon!"
   },
   "profile": {
-    "following": "Following",
+    "following": "Urmăriți",
     "follower": "Follower",
     "post": "Post",
     "details": "Profile Details",
