@@ -78,7 +78,8 @@
     "description": "يتم الاحتفاظ ببيانات اعتماد المستخدم محليًا على الجهاز. تتم إزالة بيانات الاعتماد عند تسجيل الخروج!",
     "cancel": "إلغاء",
     "login": "تسجيل الدخول",
-    "steemconnect_description": "إذا كنت لا ترغب في الاحتفاظ بكلمة المرور الخاصة بك مشفرة وحفظها على جهازك ، فيمكنك استخدام Steemconnect."
+    "steemconnect_description": "إذا كنت لا ترغب في الاحتفاظ بكلمة المرور الخاصة بك مشفرة وحفظها على جهازك ، فيمكنك استخدام Steemconnect.",
+    "steemconnect_fee_description": "Steemconnect may charge some fees from your reward transactions"
   },
   "home": {
     "feed": "المستجدات",
