@@ -78,7 +78,8 @@
     "description": "A felhasználó bejelentkezési adatai helyileg vannak tárolva a készüléken. Kijelentkezéskor a bejelentkezési adatok eltávolítódnak!",
     "cancel": "visszavonom",
     "login": "BEJELENTKEZÉS",
-    "steemconnect_description": "Ha nem szeretnéd a jelszavad a készülékeden elmentve tárolni, akkor használd a Steemconnect-et."
+    "steemconnect_description": "Ha nem szeretnéd a jelszavad a készülékeden elmentve tárolni, akkor használd a Steemconnect-et.",
+    "steemconnect_fee_description": "Steemconnect may charge some fees from your reward transactions"
   },
   "home": {
     "feed": "Hírfolyam",
