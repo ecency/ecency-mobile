@@ -60,6 +60,7 @@ class BookmarksScreen extends Component {
     const { isLoading, intl } = this.props;
     const isNoItem = (data && data.length === 0) || !data;
     const placeHolder = type === 'bookmarks' ? <PostCardPlaceHolder /> : <WalletDetailsPlaceHolder />;
+    const isFavorites = type === 'favorites';
 
     return (
       <View style={styles.container}>
@@ -75,7 +76,9 @@ class BookmarksScreen extends Component {
         ) : (
           !isNoItem && (
             <FlatList
-              data={data}
+              data={
+                data.map((item) => item._id !== data[item._id] && isFavorites ? item.account !== data[item.account] && item : item)
+              }
               keyExtractor={item => item._id}
               removeClippedSubviews={false}
               renderItem={({ item, index }) => this._renderItem(item, index, type)}
