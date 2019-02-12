@@ -78,7 +78,8 @@
     "description": "مدارک کاربر به طور محلی روی دستگاه نگهداری می‌شود. در هنگام خروج، مدارک حذف می‌شود!",
     "cancel": "انصراف",
     "login": "ورود به سیستم",
-    "steemconnect_description": "اگر نمی خواهید رمز عبورتان رمزنگاری و در دستگاهتان ذخیره شود، میتوانید از Steemconnect استفاده کنید."
+    "steemconnect_description": "اگر نمی خواهید رمز عبورتان رمزنگاری و در دستگاهتان ذخیره شود، میتوانید از Steemconnect استفاده کنید.",
+    "steemconnect_fee_description": "Steemconnect may charge some fees from your reward transactions"
   },
   "home": {
     "feed": "خبرنامه",
