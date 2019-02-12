@@ -78,7 +78,8 @@
     "description": "As credenciais do usuário são mantidas localmente no dispositivo. As credenciais são removidas após logout!",
     "cancel": "cancelar",
     "login": "ENTRAR",
-    "steemconnect_description": "Se você não quiser manter sua senha criptografada e salvou no seu dispositivo, você pode usar Steemconnect."
+    "steemconnect_description": "Se você não quiser manter sua senha criptografada e salvou no seu dispositivo, você pode usar Steemconnect.",
+    "steemconnect_fee_description": "Steemconnect may charge some fees from your reward transactions"
   },
   "home": {
     "feed": "Conteúdo de notícias",
