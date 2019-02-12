@@ -78,7 +78,8 @@
     "description": "Kullanıçı bilgileri telefonunuz üzeründe şifreli olarak tutulur ve çıkış yaptıgınızda tüm bilgiler silinir.",
     "cancel": "geç",
     "login": "GİRİŞ",
-    "steemconnect_description": "Eğer kullanıçı bilgilerini şifreli olarak tutulmasını istemiyorsanız Steemconnect ilede giriş yapabilirsiniz."
+    "steemconnect_description": "Eğer kullanıçı bilgilerini şifreli olarak tutulmasını istemiyorsanız Steemconnect ilede giriş yapabilirsiniz.",
+    "steemconnect_fee_description": "Steemconnect may charge some fees from your reward transactions"
   },
   "home": {
     "feed": "Akış",
