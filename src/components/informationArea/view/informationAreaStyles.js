@@ -17,4 +17,7 @@ export default EStyleSheet.create({
     fontSize: 12,
     color: '$primaryDarkGray',
   },
+  bold: {
+    fontWeight: '700',
+  },
 });
