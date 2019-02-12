@@ -79,7 +79,7 @@
     "cancel": "anulează",
     "login": "AUTENTIFICARE",
     "steemconnect_description": "If you don't want to keep your password encrypted and saved on your device, you can use Steemconnect.",
-    "steemconnect_fee_description": "Steemconnect may charge some fees from your reward transactions"
+    "steemconnect_fee_description": "Steemconnect poate percepe anumite taxe la tranzacțiile tale de recompensă"
   },
   "home": {
     "feed": "Flux",
