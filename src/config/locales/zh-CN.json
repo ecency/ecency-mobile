@@ -78,7 +78,8 @@
     "description": "用户凭证保存在本地设备，注销后将被移除！",
     "cancel": "取消",
     "login": "登录",
-    "steemconnect_description": "如果您不想在设备上加密保存您的密码，可以使用 Steemconnect。"
+    "steemconnect_description": "如果您不想在设备上加密保存您的密码，可以使用 Steemconnect。",
+    "steemconnect_fee_description": "Steemconnect may charge some fees from your reward transactions"
   },
   "home": {
     "feed": "Feed",
