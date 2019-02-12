@@ -78,7 +78,8 @@
     "description": "Zugangsdaten werden lokal auf dem Gerät gespeichert. Diese werden nach dem Abmelden gelöscht!",
     "cancel": "Abbrechen",
     "login": "LOGIN",
-    "steemconnect_description": "Wenn du dein Passwort nicht verschlüsselt auf deinem Gerät gespeichert halten möchtest, kannst du Steemconnect verwenden."
+    "steemconnect_description": "Wenn du dein Passwort nicht verschlüsselt auf deinem Gerät gespeichert halten möchtest, kannst du Steemconnect verwenden.",
+    "steemconnect_fee_description": "Steemconnect may charge some fees from your reward transactions"
   },
   "home": {
     "feed": "Feed",
