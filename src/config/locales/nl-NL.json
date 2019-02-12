@@ -78,7 +78,8 @@
     "description": "Gebruikersgegevens worden lokaal op je apparaat opgeslagen. Bij het uitloggen worden de gegevens verwijderd!",
     "cancel": "annuleren",
     "login": "INLOGGEN",
-    "steemconnect_description": "Als je niet wilt dat je wachtwoord wordt gecodeerd en opgeslagen op je apparaat, kun je Steemconnect gebruiken."
+    "steemconnect_description": "Als je niet wilt dat je wachtwoord wordt gecodeerd en opgeslagen op je apparaat, kun je Steemconnect gebruiken.",
+    "steemconnect_fee_description": "Steemconnect may charge some fees from your reward transactions"
   },
   "home": {
     "feed": "Feed",
