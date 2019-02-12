@@ -78,7 +78,8 @@
     "description": "उपयोगकर्ता का प्रमाणिकता लोकल उपकरण में होता है, लॉगआउट होने से प्रमाणिकता हट जाते हैं!",
     "cancel": "रद्द करें",
     "login": "लॉगिन करें",
-    "steemconnect_description": "यदि आप नहीं चाहते की आपकी पासवर्ड एन्क्रिप्टेड रूप में आपके उपकरण में रक्षित रहे तो स्टीमकनेक्ट से लॉगिन करें|"
+    "steemconnect_description": "यदि आप नहीं चाहते की आपकी पासवर्ड एन्क्रिप्टेड रूप में आपके उपकरण में रक्षित रहे तो स्टीमकनेक्ट से लॉगिन करें|",
+    "steemconnect_fee_description": "Steemconnect may charge some fees from your reward transactions"
   },
   "home": {
     "feed": "संभरण",
