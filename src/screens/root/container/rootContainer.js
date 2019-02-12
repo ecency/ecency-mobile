@@ -164,16 +164,39 @@ const RootContainer = () => (WrappedComponent) => {
 
       Push.setListener({
         onPushNotificationReceived(pushNotification) {
-          if (AppState.currentState === 'background') {
-            if (pushNotification.customProperties.routeName) {
+          const extra = JSON.parse(pushNotification.customProperties.extra);
+          if (extra.parent_permlink) {
+            setTimeout(() => {
               navigation.navigate({
-                routeName: pushNotification.customProperties.routeName,
+                routeName: ROUTES.SCREENS.POST,
+                params: {
+                  author: extra.parent_author,
+                  permlink: extra.parent_permlink,
+                },
+                key: extra.parent_permlink,
               });
-            } else {
+            }, 4000);
+          } else if (extra.permlink) {
+            setTimeout(() => {
               navigation.navigate({
-                routeName: ROUTES.TABBAR.NOTIFICATION,
+                routeName: ROUTES.SCREENS.POST,
+                params: {
+                  author: pushNotification.customProperties.target,
+                  permlink: extra.permlink,
+                },
+                key: extra.permlink,
               });
-            }
+            }, 4000);
+          } else {
+            setTimeout(() => {
+              navigation.navigate({
+                routeName: ROUTES.SCREENS.PROFILE,
+                params: {
+                  username: pushNotification.customProperties.source,
+                },
+                key: pushNotification.customProperties.source,
+              });
+            }, 4000);
           }
         },
       });
