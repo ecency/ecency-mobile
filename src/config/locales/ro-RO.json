@@ -12,7 +12,7 @@
   },
   "notification": {
     "vote": "a votat postul tău",
-    "unvote": "unvoted your post",
+    "unvote": "a votat postul tău",
     "reply": "a răspuns la postul tău",
     "mention": "te-a menționat",
     "follow": "te urmărește",
@@ -67,10 +67,10 @@
   },
   "voters": {
     "voters_info": "Detalii votanți",
-    "no_user": "No user found."
+    "no_user": "Nu s-a găsit nici un utilizator."
   },
   "login": {
-    "signin": "Sign in",
+    "signin": "Loghează-te",
     "signup": "Înscrie-te",
     "signin_title": "To get all the benefits of using eSteem",
     "username": "Nume utilizator",
@@ -126,7 +126,7 @@
   "alert": {
     "success": "Succes!",
     "allRead": "Marked all notifications as read",
-    "claim_reward_balance_ok": "Reward balance claimed",
+    "claim_reward_balance_ok": "Sold de recompensă colectat",
     "fail": "Fail!",
     "success_shared": "Your post succesfully shared",
     "permission_denied": "Permisiune respinsă",
@@ -141,7 +141,7 @@
     "cancel": "Anulează",
     "delete": "Șterge",
     "copied": "Copiat!",
-    "no_internet": "No connection!"
+    "no_internet": "Nu există conexiune!"
   },
   "post": {
     "reblog_alert": "Are you sure you want to reblog?"
