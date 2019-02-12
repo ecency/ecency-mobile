@@ -170,6 +170,13 @@ class LoginScreen extends PureComponent {
           <View tabLabel="SteemConnect" style={styles.tabbarItem}>
             <InformationArea
               description={intl.formatMessage({
+                id: 'login.steemconnect_fee_description',
+              })}
+              iconName="ios-information-circle-outline"
+              bold
+            />
+            <InformationArea
+              description={intl.formatMessage({
                 id: 'login.steemconnect_description',
               })}
               iconName="ios-information-circle-outline"

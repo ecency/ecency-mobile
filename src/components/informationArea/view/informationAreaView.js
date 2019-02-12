@@ -27,12 +27,12 @@ class FormInputView extends PureComponent {
   // Component Functions
 
   render() {
-    const { description, iconName } = this.props;
+    const { description, iconName, bold } = this.props;
 
     return (
       <View style={styles.container}>
         <Ionicons color="#c1c5c7" style={styles.infoIcon} name={iconName} />
-        <Text style={styles.infoText}>{description}</Text>
+        <Text style={[styles.infoText, bold && styles.bold]}>{description}</Text>
       </View>
     );
   }
