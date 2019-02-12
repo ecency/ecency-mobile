@@ -47,9 +47,9 @@
     "voting_power": "Putere de votare",
     "login_to_see": "Login to see",
     "havent_commented": "haven't commented anything yet",
-    "havent_posted": "haven't posted anything yet",
+    "havent_posted": "încă nu a postat nimic",
     "steem_power": "Steem Power",
-    "next_power_text": "Next power down is in",
+    "next_power_text": "Următoarul power down în",
     "days": "zile",
     "day": "zi",
     "steem_dollars": "Steem Dolari",
@@ -66,12 +66,12 @@
     "reset": "Reset"
   },
   "voters": {
-    "voters_info": "Voters Info",
+    "voters_info": "Detalii votanți",
     "no_user": "No user found."
   },
   "login": {
     "signin": "Sign in",
-    "signup": "Sign up",
+    "signup": "Înscrie-te",
     "signin_title": "To get all the benefits of using eSteem",
     "username": "Username",
     "password": "Parolă sau WIF",
@@ -105,15 +105,15 @@
     "publish": "Publică",
     "search": "Caută",
     "update": "Actualizare",
-    "reply": "Reply"
+    "reply": "Răspunde"
   },
   "editor": {
     "title": "Titlu",
-    "tags": "tags",
+    "tags": "tag-uri",
     "default_placeholder": "What would you like to write about today?",
     "reply_placeholder": "What would you like to write about above post?",
-    "publish": "Publish",
-    "reply": "Reply",
+    "publish": "Publică",
+    "reply": "Răspunde",
     "open_galery": "Deschide Galeria",
     "capture_photo": "Capture a photo"
   },
