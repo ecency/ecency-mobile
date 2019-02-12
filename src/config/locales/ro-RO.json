@@ -18,8 +18,8 @@
     "follow": "te urmărește",
     "unfollow": "a anulat urmărirea",
     "ignore": "te-a ignorat",
-    "reblog": "reblogged your post",
-    "comingsoon": "Leaderboard feature is coming soon!",
+    "reblog": "a redistribuit postarea ta",
+    "comingsoon": "Clasamentul va fi disponibil în curând!",
     "notification": "Notificări",
     "leaderboard": "Clasament",
     "leaderboard_title": "Utilizatori de Top Zilnic",
@@ -27,7 +27,7 @@
     "yesterday": "Ieri",
     "this_week": "Săptămâna aceasta",
     "this_month": "Luna Aceasta",
-    "older_then": "Older Than A Month"
+    "older_then": "Mai vechi de o lună"
   },
   "messages": {
     "comingsoon": "Messages feature is coming soon!"
@@ -153,26 +153,26 @@
     "deleted": "Draft deleted"
   },
   "schedules": {
-    "title": "Scheduled Posts",
-    "empty_list": "Nothing here",
-    "deleted": "Scheduled post deleted",
+    "title": "Postări Programate",
+    "empty_list": "Nici un rezultat",
+    "deleted": "Postarea planificată a fost ștearsă",
     "move": "Mută la schițe",
     "moved": "Mutat la schițe"
   },
   "bookmarks": {
     "title": "Bookmarks",
     "load_error": "Bookmarks nu a putut fi încărcat",
-    "empty_list": "Nothing here",
-    "deleted": "Bookmark removed",
-    "search": "Search in bookmarks",
-    "added": "Added to bookmarks",
-    "add": "Add to bookmarks"
+    "empty_list": "Nici un rezultat",
+    "deleted": "Mutat de la bookmarks",
+    "search": "Căutare la bookmarks",
+    "added": "Adaugat la bookmarks",
+    "add": "Adaugă la bookmarks"
   },
   "favorites": {
     "title": "Favorite",
     "load_error": "Nu s-au putut încărca favoritele",
-    "empty_list": "Nothing here",
-    "search": "Search in favorites"
+    "empty_list": "Nici un rezultat",
+    "search": "Caută în favorite"
   },
   "auth": {
     "invalid_pin": "Invalid pin code, please check and try again",
@@ -182,21 +182,21 @@
     "unknow_error": "Unknown error, please contact us at support@esteem.app"
   },
   "payout": {
-    "potential_payout": "Potential Payout",
-    "promoted": "Promoted",
-    "author_payout": "Author Payout",
-    "curation_payout": "Curation Payout",
-    "payout_date": "Payout"
+    "potential_payout": "Plată probabilă",
+    "promoted": "Promovat",
+    "author_payout": "Plata autorului",
+    "curation_payout": "Plată de curare",
+    "payout_date": "Plată"
   },
   "post_dropdown": {
-    "copy": "copy link",
+    "copy": "copiază link",
     "reblog": "reblog",
-    "reply": "reply",
+    "reply": "răspunde",
     "share": "share",
-    "bookmarks": "add to bookmarks"
+    "bookmarks": "adaugă la bookmarks"
   },
   "deep_link": {
-    "no_existing_user": "No existing user",
-    "no_existing_post": "No existing post"
+    "no_existing_user": "Utilizator inexistent",
+    "no_existing_post": "Utilizator inexistent"
   }
 }
