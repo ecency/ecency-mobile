@@ -93,12 +93,12 @@
     "gallery": "Galerie",
     "settings": "Setări",
     "add_account": "Add Account",
-    "logout": "Logout",
-    "cancel": "Cancel",
-    "logout_text": "Are you sure you want to logout?"
+    "logout": "Deconectare",
+    "cancel": "Anulează",
+    "logout_text": "Esti sigur că vrei să te deconectezi?"
   },
   "header": {
-    "title": "Login to customize your feed",
+    "title": "Autentifică-te pentru a personaliza feed-ul",
     "search": "Caută..."
   },
   "basic_header": {
