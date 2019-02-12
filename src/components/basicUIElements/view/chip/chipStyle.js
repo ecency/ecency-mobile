@@ -18,6 +18,7 @@ export default EStyleSheet.create({
   textInput: {
     fontFamily: '$editorFont',
     fontSize: 10,
+    color: "$primaryLightGray"
   },
   isPin: {
     backgroundColor: '$primaryBlue',
