@@ -29,28 +29,27 @@ class SideMenuContainer extends Component {
   }
 
   // Component Life Cycle Functions
-  componentWillMount() {
-    const { otherAccounts } = this.props;
-
-    this._createUserList(otherAccounts);
-  }
 
   componentWillReceiveProps(nextProps) {
-    const { otherAccounts, isLoggedIn } = this.props;
+    const { isLoggedIn } = this.props;
 
-    if (isLoggedIn && otherAccounts !== nextProps.otherAccounts) {
+    if (isLoggedIn) {
       this._createUserList(nextProps.otherAccounts);
     }
   }
 
   _createUserList = (otherAccounts) => {
+    const { currentAccount } = this.props;
+
     const accounts = [];
     otherAccounts.forEach((element) => {
-      accounts.push({
-        name: `@${element.username}`,
-        username: element.username,
-        id: element.username,
-      });
+      if (element.username !== currentAccount.name) {
+        accounts.push({
+          name: `@${element.username}`,
+          username: element.username,
+          id: element.username,
+        });
+      }
     });
     accounts.push({
       name: 'Add Account',
@@ -96,7 +95,7 @@ class SideMenuContainer extends Component {
   render() {
     const { currentAccount, isLoggedIn } = this.props;
     const { accounts } = this.state;
-
+    console.log('this.props.otherAccounts :', this.props.otherAccounts);
     return (
       <SideMenuView
         navigateToRoute={this._navigateToRoute}
