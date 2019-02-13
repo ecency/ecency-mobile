@@ -161,43 +161,35 @@ const RootContainer = () => (WrappedComponent) => {
 
     _createPushListener = () => {
       const { navigation } = this.props;
+      let params = null;
+      let key = null;
+      let routeName = null;
 
       Push.setListener({
         onPushNotificationReceived(pushNotification) {
           const extra = JSON.parse(pushNotification.customProperties.extra);
-          if (extra.parent_permlink) {
-            setTimeout(() => {
-              navigation.navigate({
-                routeName: ROUTES.SCREENS.POST,
-                params: {
-                  author: extra.parent_author,
-                  permlink: extra.parent_permlink,
-                },
-                key: extra.parent_permlink,
-              });
-            }, 4000);
-          } else if (extra.permlink) {
-            setTimeout(() => {
-              navigation.navigate({
-                routeName: ROUTES.SCREENS.POST,
-                params: {
-                  author: pushNotification.customProperties.target,
-                  permlink: extra.permlink,
-                },
-                key: extra.permlink,
-              });
-            }, 4000);
+
+          if (extra.parent_permlink || extra.permlink) {
+            params = {
+              author:
+                extra.parent_permlink
+                  ? extra.parent_author
+                  : pushNotification.customProperties.target,
+              permlink: extra.parent_permlink ? extra.parent_permlink : extra.permlink,
+            };
+            key = extra.parent_permlink ? extra.parent_permlink : extra.permlink;
+            routeName = ROUTES.SCREENS.POST;
           } else {
-            setTimeout(() => {
-              navigation.navigate({
-                routeName: ROUTES.SCREENS.PROFILE,
-                params: {
-                  username: pushNotification.customProperties.source,
-                },
-                key: pushNotification.customProperties.source,
-              });
-            }, 4000);
+            params = {
+              username: pushNotification.customProperties.source,
+            };
+            key = pushNotification.customProperties.source;
+            routeName = ROUTES.SCREENS.PROFILE;
           }
+
+          setTimeout(() => {
+            navigation.navigate({ routeName, params, key });
+          }, 4000);
         },
       });
     };
