@@ -1,7 +1,7 @@
 import React, { Component } from 'react';
 import { connect } from 'react-redux';
 import { injectIntl } from 'react-intl';
-import { Alert } from 'react-native';
+import { Alert, AsyncStorage } from 'react-native';
 import ImagePicker from 'react-native-image-crop-picker';
 
 // Services and Actions
@@ -105,21 +105,30 @@ class EditorContainer extends Component {
       this.setState({ autoFocusText: true });
     }
 
-    if (!isReply && !isEdit && !_draft) {
-      this._getDraft(username);
+    if (!isEdit && !_draft) {
+      this._getDraft(username, isReply);
     }
   }
 
-  _getDraft = (username) => {
-    getDraftPost(username)
-      .then((result) => {
-        this.setState({
-          draftPost: { body: result.body, title: result.title, tags: result.tags.split(',') },
-        });
-      })
-      .catch(() => {
-        // alert(error);
+  _getDraft = async (username, isReply) => {
+    if (isReply) {
+      const draftReply = await AsyncStorage.getItem('temp-reply');
+      this.setState({
+        draftPost: { body: draftReply },
       });
+    } else {
+      await getDraftPost(username)
+        .then((result) => {
+          this.setState({
+            draftPost: { body: result.body, title: result.title, tags: result.tags.split(',') },
+          });
+        })
+        .catch(() => {
+          // alert(error);
+        });
+    }
+
+
   };
 
   _getPurePost = (author, permlink) => {
@@ -264,8 +273,8 @@ class EditorContainer extends Component {
     }
   };
 
-  _saveCurrentDraft = (fields) => {
-    const { draftId } = this.state;
+  _saveCurrentDraft = async (fields) => {
+    const { draftId, isReply } = this.state;
 
     if (!draftId) {
       const { currentAccount } = this.props;
@@ -276,7 +285,11 @@ class EditorContainer extends Component {
         tags: fields.tags && fields.tags.length > 0 ? fields.tags.toString() : '',
       };
 
-      setDraftPost(draftField, username);
+      if (isReply && draftField.body) {
+        await AsyncStorage.setItem('temp-reply', draftField.body);
+      } else {
+        setDraftPost(draftField, username);
+      }
     }
   };
 
@@ -339,6 +352,8 @@ class EditorContainer extends Component {
             },
             key: permlink,
           });
+
+          setDraftPost({ title: '', body: '', tags: [] }, currentAccount.name);
         })
         .catch((error) => {
           this._handleSubmitFailure(error);

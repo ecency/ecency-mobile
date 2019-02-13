@@ -18,9 +18,6 @@ export default EStyleSheet.create({
     // height: 50,
     marginTop: 10,
   },
-  code: {
-    fontFamily: '$editorFont',
-  },
   commentContainer: {
     paddingHorizontal: 0,
     marginTop: 10,
@@ -43,5 +40,14 @@ export default EStyleSheet.create({
     flex: 1,
     padding: 10,
     backgroundColor: '$tableTrColor',
+  },
+  blockquote: {
+    borderLeftWidth: 5,
+    borderColor: '$darkIconColor',
+    paddingLeft: 5,
+  },
+  code: {
+    backgroundColor: '$darkIconColor',
+    fontFamily: '$editorFont',
   },
 });
