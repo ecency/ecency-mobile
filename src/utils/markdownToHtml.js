@@ -16,7 +16,7 @@ const authorNameRegex = /(^|[^a-zA-Z0-9_!#$%&*@＠\/]|(^|[^a-zA-Z0-9_+~.-\/]))[@
 const tagsRegex = /(^|\s|>)(#[-a-z\d]+)/gi;
 const centerRegex = /(<center>)/g;
 const imgRegex = /(https?:\/\/.*\.(?:tiff?|jpe?g|gif|png|svg|ico|PNG|GIF|JPG))/g;
-const linkRegex = /[-a-zA-Z0-9@:%+.~#?&//=]{2,256}\.[a-z]{2,4}\b(\/[-a-zA-Z0-9@:%+.~#?&//=]*)?/gi;
+const linkRegex = /[-a-zA-Z0-9@:%+.~#?&//=]{2,256}\.[a-z]{2,4}\b(\/[-a-zA-Z0-9@:%+._~#?&//=]*)?/gi;
 const markdownImageRegex = /!\[[^\]]*\]\((.*?)\s*("(?:.*[^"])")?\s*\)/g;
 const urlRegex = /(http|ftp|https):\/\/([\w_-]+(?:(?:\.[\w_-]+)+))([\w.,@?^=%&:/~+#-]*[\w@?^=%&/~+#-])?/gm;
 const aTagRegex = /(<\s*a[^>]*>(.*?)<\s*[/]\s*a>)/g;
@@ -68,6 +68,10 @@ export const markDown2Html = (input) => {
   if (iframeRegex.test(output)) {
     output = handleIframe(output);
   }
+
+  // if (imgRegex.test(output)) {
+  //   output = handleImageLink(output);
+  // }
 
   if (linkRegex.test(output)) {
     output = handleLinks(output);
@@ -160,7 +164,7 @@ const handleLinks = input => input.replace(linkRegex, (link) => {
         if (imageMatch[0].indexOf('.gif') > 0) {
           return gifBody(imageMatch[0]);
         }
-
+        console.log(imageMatch);
         if (imageMatch[0]) {
           return imageBody(imageMatch[0]);
         }
@@ -169,7 +173,12 @@ const handleLinks = input => input.replace(linkRegex, (link) => {
       }
 
       return link;
-    } if (link.trim().indexOf('ipfs.busy.org') > 0) {
+    }
+    if (link.trim().indexOf('ipfs.busy.org') > 0) {
+      return imageBody(link);
+    }
+
+    if (imgRegex.test(link)) {
       return imageBody(link);
     }
   }
@@ -244,6 +253,8 @@ const createVimeoIframe = input => input.replace(vimeoRegex, (link) => {
 
   return iframeBody(embedLink);
 });
+
+const handleImageLink = input => input.replace(imgRegex, link => imageBody(link));
 
 const iframeBody = link => `<iframe frameborder='0' allowfullscreen src='${link}'></iframe>`;
 const imageBody = link => `<center style="text-align: center; align-items: center; justify-content: center;"><img src="${`https://steemitimages.com/600x0/${link}`}"></center>`;
