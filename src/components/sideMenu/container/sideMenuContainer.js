@@ -95,7 +95,7 @@ class SideMenuContainer extends Component {
   render() {
     const { currentAccount, isLoggedIn } = this.props;
     const { accounts } = this.state;
-    console.log('this.props.otherAccounts :', this.props.otherAccounts);
+
     return (
       <SideMenuView
         navigateToRoute={this._navigateToRoute}
