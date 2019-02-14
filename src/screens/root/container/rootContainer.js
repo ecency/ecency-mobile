@@ -34,7 +34,15 @@ const RootContainer = () => (WrappedComponent) => {
     componentDidMount() {
       AppState.addEventListener('change', this._handleAppStateChange);
       this._createPushListener();
-      Linking.addEventListener('url', this._handleOpenURL);
+      console.log('test ===11222211==== :');
+
+      if (Platform.OS === 'android') {
+        Linking.getInitialURL().then((url) => {
+          this._handleDeepLink(url);
+        });
+      } else {
+        Linking.addEventListener('url', this._handleOpenURL);
+      }
     }
 
     componentWillUnmount() {
@@ -43,10 +51,12 @@ const RootContainer = () => (WrappedComponent) => {
     }
 
     _handleOpenURL = (event) => {
+      console.log('event :', event);
       this._handleDeepLink(event.url);
     }
 
     _handleDeepLink = async (url) => {
+      console.log('url :', url);
       if (!url) return;
 
       let author;
@@ -58,7 +68,9 @@ const RootContainer = () => (WrappedComponent) => {
       const postRegex = /^https?:\/\/(.*)\/(.*)\/(@[\w.\d-]+)\/(.*)/i;
       const { navigation, currentAccountUsername, intl } = this.props;
 
+      console.log('url.indexOf() :', url.indexOf('steemit'));
       if (url.indexOf('esteem') > -1) {
+        console.log('test ===3 === :');
         const route = url.replace(/.*?:\/\//g, '');
         const routeParams = route.indexOf('/') > -1 ? route.split('/') : [route];
 
@@ -69,9 +81,12 @@ const RootContainer = () => (WrappedComponent) => {
           author = route.length >= 3 && route;
         }
       } else if (url.indexOf('steemit') > -1) {
+        console.log('test ===2 === :');
         const urlMatch = url.match(postRegex);
         const sss = urlMatch;
       }
+      console.log('author :', author);
+      console.log('permlink :', permlink);
 
       if (author && permlink) {
         await getPost(author, permlink, currentAccountUsername)
