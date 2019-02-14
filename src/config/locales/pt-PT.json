@@ -79,7 +79,7 @@
     "cancel": "cancelar",
     "login": "ENTRAR",
     "steemconnect_description": "Se você não quiser manter sua senha criptografada e salvou no seu dispositivo, você pode usar Steemconnect.",
-    "steemconnect_fee_description": "Steemconnect may charge some fees from your reward transactions"
+    "steemconnect_fee_description": "A ligação Steemconnect pode cobrar algumas taxas de suas transações de recompensa"
   },
   "home": {
     "feed": "Conteúdo de notícias",
