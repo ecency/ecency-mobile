@@ -282,17 +282,17 @@ class ApplicationContainer extends Component {
     });
   };
 
-  _logout = () => {
+  _logout = async () => {
     const { otherAccounts, currentAccount, dispatch } = this.props;
 
-    removeUserData(currentAccount.name)
-      .then(() => {
+    await removeUserData(currentAccount.name)
+      .then(async () => {
         const _otherAccounts = otherAccounts.filter(user => user.username !== currentAccount.name);
 
         if (_otherAccounts.length > 0) {
           const targetAccountUsername = _otherAccounts[0].username;
 
-          this._switchAccount(targetAccountUsername);
+          await this._switchAccount(targetAccountUsername);
         } else {
           dispatch(updateCurrentAccount({}));
           dispatch(login(false));
@@ -310,10 +310,10 @@ class ApplicationContainer extends Component {
       .catch(() => {});
   };
 
-  _switchAccount = (targetAccountUsername) => {
+  _switchAccount = async (targetAccountUsername) => {
     const { dispatch } = this.props;
 
-    switchAccount(targetAccountUsername).then((accountData) => {
+    await switchAccount(targetAccountUsername).then((accountData) => {
       const realmData = getUserDataWithUsername(targetAccountUsername);
       const _currentAccount = accountData;
       _currentAccount.username = accountData.name;
@@ -324,7 +324,7 @@ class ApplicationContainer extends Component {
   };
 
   render() {
-    const { selectedLanguage, isConnected, toastNotification} = this.props;
+    const { selectedLanguage, isConnected, toastNotification } = this.props;
     const { isRenderRequire, isReady } = this.state;
 
     // For testing It comented out.
@@ -335,7 +335,12 @@ class ApplicationContainer extends Component {
 
     if (isRenderRequire && isReady) {
       return (
-        <ApplicationScreen isConnected={isConnected} locale={selectedLanguage} toastNotification={toastNotification} {...this.props} />
+        <ApplicationScreen
+          isConnected={isConnected}
+          locale={selectedLanguage}
+          toastNotification={toastNotification}
+          {...this.props}
+        />
       );
     }
     return <Launch />;
@@ -360,9 +365,9 @@ export default connect(
     pinCode: state.account.pin,
 
     // UI
-    toastNotification: state.ui.toastNotification
+    toastNotification: state.ui.toastNotification,
   }),
-  (dispatch, props) => ({
+  dispatch => ({
     dispatch,
     actions: {
       ...bindActionCreators({ fetchGlobalProperties }, dispatch),
