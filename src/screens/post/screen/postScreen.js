@@ -24,7 +24,13 @@ class PostScreen extends PureComponent {
 
   render() {
     const {
-      post, currentAccount, isLoggedIn, fetchPost, isFetchComments, isNewPost,
+      currentAccount,
+      fetchPost,
+      isFetchComments,
+      isLoggedIn,
+      isNewPost,
+      parentPost,
+      post,
     } = this.props;
 
     return (
@@ -37,11 +43,12 @@ class PostScreen extends PureComponent {
           isNewPost={isNewPost}
         />
         <PostDisplay
-          post={post}
           currentAccount={currentAccount}
-          isLoggedIn={isLoggedIn}
           fetchPost={fetchPost}
           isFetchComments={isFetchComments}
+          isLoggedIn={isLoggedIn}
+          parentPost={parentPost}
+          post={post}
         />
       </Fragment>
     );
