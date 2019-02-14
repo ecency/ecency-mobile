@@ -18,7 +18,7 @@ import AUTH_TYPE from '../../constants/authType';
 const DEFAULT_SERVER = 'https://api.steemit.com';
 let client = new Client(DEFAULT_SERVER);
 
-const _getClient = async () => {
+export const checkClient = async () => {
   let selectedServer = DEFAULT_SERVER;
 
   await getServer().then((response) => {
@@ -30,7 +30,7 @@ const _getClient = async () => {
   client = new Client(selectedServer);
 };
 
-_getClient();
+checkClient();
 
 export const getDigitPinCode = pin => decryptKey(pin, Config.PIN_KEY);
 
