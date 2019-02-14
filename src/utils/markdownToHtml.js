@@ -164,7 +164,7 @@ const handleLinks = input => input.replace(linkRegex, (link) => {
         if (imageMatch[0].indexOf('.gif') > 0) {
           return gifBody(imageMatch[0]);
         }
-        console.log(imageMatch);
+
         if (imageMatch[0]) {
           return imageBody(imageMatch[0]);
         }
