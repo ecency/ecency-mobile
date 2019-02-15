@@ -191,13 +191,13 @@
   },
   "post_dropdown": {
     "copy": "लिंक कापी करें",
-    "reblog": "reblog",
+    "reblog": "रीब्लॉग करें",
     "reply": "जवाब दें",
     "share": "साझा करें",
-    "bookmarks": "add to bookmarks"
+    "bookmarks": "पृष्ठ स्मृति में जोड़ें"
   },
   "deep_link": {
-    "no_existing_user": "No existing user",
-    "no_existing_post": "No existing post"
+    "no_existing_user": "कोई विद्यमान उपयोगकर्ता नहीं",
+    "no_existing_post": "कोई विद्यमान पोस्ट नहीं"
   }
 }
