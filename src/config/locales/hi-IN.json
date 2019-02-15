@@ -116,7 +116,7 @@
     "publish": "प्रकाशित करें",
     "reply": "जबाब दें",
     "open_galery": "गैलरी खोलें",
-    "capture_photo": "Capture a photo"
+    "capture_photo": "फोटो खीचें"
   },
   "pincode": {
     "enter_text": "Enter pin to unlock",
@@ -137,12 +137,12 @@
     "warning": "चेतावनी",
     "invalid_pincode": "Invalid pin code, please check and try again.",
     "remove_alert": "क्या आप इसे सच में हटाना चाहते हैं?",
-    "clear_alert": "Are you sure you want to clear?",
-    "clear": "Clear",
+    "clear_alert": "क्या आप सचमुच में मिटाना चाहते हैं?",
+    "clear": "मिटायें",
     "cancel": "रद्द करें",
     "delete": "मिटा दें",
-    "copied": "Copied!",
-    "no_internet": "No connection!"
+    "copied": "प्रतिलिपि हो गयी!",
+    "no_internet": "संपर्क नहीं"
   },
   "post": {
     "reblog_alert": "क्या आप सच में पुनः प्रसारित करना चाहते हैं?"
