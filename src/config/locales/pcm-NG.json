@@ -79,7 +79,7 @@
     "cancel": "cancel",
     "login": "LOGIN",
     "steemconnect_description": "If you no wan make your password save inside your phone, you fit decide to login with Steemconnect.",
-    "steemconnect_fee_description": "Steemconnect may charge some fees from your reward transactions"
+    "steemconnect_fee_description": "Steemconnect fit charge you small from wetin you won transact"
   },
   "home": {
     "feed": "Tori",
@@ -115,8 +115,8 @@
     "reply_placeholder": "Wetin you go like yan about the matter for up",
     "publish": "Post am",
     "reply": "Reply",
-    "open_galery": "Open Galery",
-    "capture_photo": "Capture a photo"
+    "open_galery": "Open Picture",
+    "capture_photo": "Take new picture"
   },
   "pincode": {
     "enter_text": "Enter your PIN to open am",
@@ -137,12 +137,12 @@
     "warning": "Warning",
     "invalid_pincode": "Your PIN code no correct, abeg check wella and try am again",
     "remove_alert": "You sure say you wan remove am?",
-    "clear_alert": "Are you sure you want to clear?",
-    "clear": "Clear",
+    "clear_alert": "You sure say you won komot am?",
+    "clear": "Komot",
     "cancel": "Cancel",
     "delete": "Delete",
-    "copied": "Copied!",
-    "no_internet": "No connection!"
+    "copied": "E don copy!",
+    "no_internet": "Connection no dey!"
   },
   "post": {
     "reblog_alert": "You sure say you wan reblog am?"
@@ -166,8 +166,8 @@
     "empty_list": "Nothing dey here",
     "deleted": "Bookmark don komot",
     "search": "Find am for bookmark",
-    "added": "Added to bookmarks",
-    "add": "Add to bookmarks"
+    "added": "E don add to bookmark",
+    "add": "Add am to bookmark"
   },
   "favorites": {
     "title": "Favorites",
@@ -194,7 +194,7 @@
     "reblog": "reblog am",
     "reply": "reply am",
     "share": "share am",
-    "bookmarks": "add to bookmarks"
+    "bookmarks": "add am to bookmark"
   },
   "deep_link": {
     "no_existing_user": "The person no exist",
