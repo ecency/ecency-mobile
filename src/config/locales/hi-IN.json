@@ -166,8 +166,8 @@
     "empty_list": "कुछ नहीं है",
     "deleted": "पृष्टस्मृतियाँ हट गया",
     "search": "पृष्टस्मृतियाँ में खोजें",
-    "added": "Added to bookmarks",
-    "add": "Add to bookmarks"
+    "added": "पृष्ठ स्मृति में जुड़ गया",
+    "add": "पृष्ठ स्मृति में जोड़ें"
   },
   "favorites": {
     "title": "पसंदीदा",
@@ -183,7 +183,7 @@
     "unknow_error": "अपरिचित त्रुटि है, कृप्या हमसे संपर्क करें यहाँ support@esteem.app"
   },
   "payout": {
-    "potential_payout": "Potential Payout",
+    "potential_payout": "संभावित भुगतान",
     "promoted": "Promoted",
     "author_payout": "लेखक भुगतान",
     "curation_payout": "Curation Payout",
