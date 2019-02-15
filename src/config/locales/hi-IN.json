@@ -79,7 +79,7 @@
     "cancel": "रद्द करें",
     "login": "लॉगिन करें",
     "steemconnect_description": "यदि आप नहीं चाहते की आपकी पासवर्ड एन्क्रिप्टेड रूप में आपके उपकरण में रक्षित रहे तो स्टीमकनेक्ट से लॉगिन करें|",
-    "steemconnect_fee_description": "Steemconnect may charge some fees from your reward transactions"
+    "steemconnect_fee_description": "स्टीमकनेक्ट कुछ फ़ीस ले सकता है आपके पुरुस्कार लेन-देन से"
   },
   "home": {
     "feed": "संभरण",
@@ -115,7 +115,7 @@
     "reply_placeholder": "ऊपर वाली पोस्ट के बारें में आप क्या लिखना चाहेंगे?",
     "publish": "प्रकाशित करें",
     "reply": "जबाब दें",
-    "open_galery": "Open Galery",
+    "open_galery": "गैलरी खोलें",
     "capture_photo": "Capture a photo"
   },
   "pincode": {
