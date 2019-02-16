@@ -126,18 +126,18 @@
   },
   "alert": {
     "success": "Succes!",
-    "allRead": "Marked all notifications as read",
+    "allRead": "Marchează toate notificările ca citite",
     "claim_reward_balance_ok": "Sold de recompensă colectat",
-    "fail": "Fail!",
-    "success_shared": "Your post succesfully shared",
+    "fail": "Eșuat!",
+    "success_shared": "Postarea ta a fost distribuită cu succes",
     "permission_denied": "Permisiune respinsă",
-    "permission_text": "Please, go to phone Settings and change eSteem app permissions.",
+    "permission_text": "Te rugăm să mergi în setările telefonului și să schimbi permisiunile aplicației eSteem.",
     "success_rebloged": "Rebloged!",
-    "already_rebloged": "You have already reblogged!",
+    "already_rebloged": "Ai redistribuit postarea deja!",
     "warning": "Atenționare",
     "invalid_pincode": "Invalid pin code, please check and try again.",
     "remove_alert": "Are you sure want to remove?",
-    "clear_alert": "Are you sure you want to clear?",
+    "clear_alert": "Ești sigur că vrei să ștergi?",
     "clear": "Șterge",
     "cancel": "Anulează",
     "delete": "Șterge",
@@ -145,7 +145,7 @@
     "no_internet": "Nu există conexiune!"
   },
   "post": {
-    "reblog_alert": "Are you sure you want to reblog?"
+    "reblog_alert": "Ești sigur că vrei să redistribui?"
   },
   "drafts": {
     "title": "Schițe",
@@ -177,7 +177,7 @@
   },
   "auth": {
     "invalid_pin": "Invalid pin code, please check and try again",
-    "invalid_username": "Invalid username, please check and try again",
+    "invalid_username": "Nume utilizator invalid, te rugăm să verifici și să reincerci",
     "already_logged": "You are already logged in, please try to add another account",
     "invalid_credentials": "Invalid credentials, please check and try again",
     "unknow_error": "Unknown error, please contact us at support@esteem.app"
