@@ -178,9 +178,9 @@
   "auth": {
     "invalid_pin": "Invalid pin code, please check and try again",
     "invalid_username": "Nume utilizator invalid, te rugăm să verifici și să reincerci",
-    "already_logged": "You are already logged in, please try to add another account",
-    "invalid_credentials": "Invalid credentials, please check and try again",
-    "unknow_error": "Unknown error, please contact us at support@esteem.app"
+    "already_logged": "Ești deja conectat, te rugăm încearcă să adăugi alt cont",
+    "invalid_credentials": "Credențiale invalide, te rugăm să verifici și să reîncerci",
+    "unknow_error": "Eroare necunoscută, te rugăm să ne contactezi la support@esteem.app"
   },
   "payout": {
     "potential_payout": "Plată probabilă",
@@ -193,7 +193,7 @@
     "copy": "copiază link",
     "reblog": "reblog",
     "reply": "răspunde",
-    "share": "share",
+    "share": "distribuire",
     "bookmarks": "adaugă la bookmarks"
   },
   "deep_link": {
