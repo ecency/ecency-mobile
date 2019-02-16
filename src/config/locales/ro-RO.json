@@ -30,7 +30,7 @@
     "older_then": "Mai vechi de o lună"
   },
   "messages": {
-    "comingsoon": "Messages feature is coming soon!"
+    "comingsoon": "Funcția mesaje va fi disponibilă in curând!"
   },
   "profile": {
     "following": "Urmăriți",
@@ -60,10 +60,10 @@
     "currency": "Monedă",
     "language": "Limbă",
     "server": "Server",
-    "dark_theme": "Dark Theme",
+    "dark_theme": "Tema întunecată",
     "push_notification": "Notificări",
     "pincode": "Pincode",
-    "reset": "Reset"
+    "reset": "Resetare"
   },
   "voters": {
     "voters_info": "Detalii votanți",
@@ -72,13 +72,13 @@
   "login": {
     "signin": "Loghează-te",
     "signup": "Înscrie-te",
-    "signin_title": "To get all the benefits of using eSteem",
+    "signin_title": "Pentru a beneficia de toate funcționalitățile eSteem",
     "username": "Nume utilizator",
     "password": "Parolă sau WIF",
-    "description": "User credentials are kept locally on the device. Credentials are removed upon logout!",
+    "description": "Credentialele utilizatorului sunt salvate local pe dispozitiv. Credentialele sunt șterse după deconectare!",
     "cancel": "anulează",
     "login": "AUTENTIFICARE",
-    "steemconnect_description": "If you don't want to keep your password encrypted and saved on your device, you can use Steemconnect.",
+    "steemconnect_description": "Dacă nu vrei să păstrezi parola criptată și salvată pe dispozitivul tău, poți folosi Steemconnect.",
     "steemconnect_fee_description": "Steemconnect poate percepe anumite taxe la tranzacțiile tale de recompensă"
   },
   "home": {
@@ -111,12 +111,12 @@
   "editor": {
     "title": "Titlu",
     "tags": "tag-uri",
-    "default_placeholder": "What would you like to write about today?",
-    "reply_placeholder": "What would you like to write about above post?",
+    "default_placeholder": "Despre ce vrei să scrii azi?",
+    "reply_placeholder": "Ce ai vrea să scrii despre postarea respectivă?",
     "publish": "Publică",
     "reply": "Răspunde",
     "open_galery": "Deschide Galeria",
-    "capture_photo": "Capture a photo"
+    "capture_photo": "Captură foto"
   },
   "pincode": {
     "enter_text": "Enter pin to unlock",
