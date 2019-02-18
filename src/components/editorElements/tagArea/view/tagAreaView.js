@@ -26,13 +26,17 @@ export default class TagAreaView extends Component {
 
   // Component Life Cycles
   componentWillReceiveProps(nextProps) {
-    const { draftChips } = this.props;
+    const { draftChips, isRemoveTag } = this.props;
 
     if (nextProps.draftChips && nextProps.draftChips !== draftChips) {
       const _chips = [...nextProps.draftChips, ' '];
       this.setState({
         chips: _chips,
       });
+    }
+
+    if (isRemoveTag !== nextProps.isRemoveTag && nextProps.isRemoveTag) {
+      this.setState({ chips: [' '], currentText: '' });
     }
   }
 

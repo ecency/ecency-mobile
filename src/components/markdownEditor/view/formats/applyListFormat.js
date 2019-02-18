@@ -26,7 +26,7 @@ export default ({ getState, item, setState }) => {
 
   setState({ text: newText }, () => {
     setTimeout(() => {
-      setState({ selection: newSelection });
+      setState({ newSelection });
     }, 300);
   });
 };

@@ -1,13 +1,14 @@
 import React, { PureComponent, Fragment } from 'react';
 import { connect } from 'react-redux';
 import { withNavigation } from 'react-navigation';
-import { Alert, Share } from 'react-native';
+import { Share } from 'react-native';
 import ActionSheet from 'react-native-actionsheet';
 import { injectIntl } from 'react-intl';
 
 // Services and Actions
 import { reblog } from '../../../providers/steem/dsteem';
 import { addBookmark } from '../../../providers/esteem/esteem';
+import { toastNotification } from '../../../redux/actions/uiAction';
 
 // Constants
 import OPTIONS from '../../../constants/options/post';
@@ -52,16 +53,18 @@ class PostDropdownContainer extends PureComponent {
 
   // Component Functions
   _handleOnDropdownSelect = async (index) => {
-    const { content, intl } = this.props;
+    const { content, dispatch, intl } = this.props;
 
     switch (index) {
       case '0':
         await writeToClipboard(getPostUrl(content.url));
         this.alertTimer = setTimeout(() => {
-          Alert.alert(
-            intl.formatMessage({
-              id: 'alert.copied',
-            }),
+          dispatch(
+            toastNotification(
+              intl.formatMessage({
+                id: 'alert.copied',
+              }),
+            ),
           );
           this.alertTimer = 0;
         }, 300);
@@ -103,45 +106,54 @@ class PostDropdownContainer extends PureComponent {
   };
 
   _addToBookmarks = () => {
-    const { currentAccount, content, intl } = this.props;
+    const { content, currentAccount, dispatch, intl } = this.props;
     addBookmark(currentAccount.name, content.author, content.permlink)
       .then(() => {
-        Alert.alert(intl.formatMessage({ id: 'bookmarks.added' }));
+        dispatch(
+          toastNotification(
+            intl.formatMessage({
+              id: 'bookmarks.added',
+            }),
+          ),
+        );
       })
       .catch(() => {
-        Alert.alert(intl.formatMessage({ id: 'alert.fail' }));
+        dispatch(
+          toastNotification(
+            intl.formatMessage({
+              id: 'alert.fail',
+            }),
+          ),
+        );
       });
   };
 
   _reblog = () => {
     const {
-      currentAccount, content, isLoggedIn, pinCode, intl,
+      content, currentAccount, dispatch, intl, isLoggedIn, pinCode,
     } = this.props;
     if (isLoggedIn) {
       reblog(currentAccount, pinCode, content.author, content.permlink)
         .then(() => {
-          Alert.alert(
-            intl.formatMessage({
-              id: 'alert.success',
-            }),
-            intl.formatMessage({
-              id: 'alert.success_rebloged',
-            }),
+          dispatch(
+            toastNotification(
+              intl.formatMessage({
+                id: 'alert.success_rebloged',
+              }),
+            ),
           );
         })
         .catch((error) => {
           if (error.jse_shortmsg && String(error.jse_shortmsg).indexOf('has already reblogged')) {
-            Alert.alert(
-              intl.formatMessage({
-                id: 'alert.already_rebloged',
-              }),
+            dispatch(
+              toastNotification(
+                intl.formatMessage({
+                  id: 'alert.already_rebloged',
+                }),
+              ),
             );
           } else {
-            Alert.alert(
-              intl.formatMessage({
-                id: 'alert.fail',
-              }),
-            );
+            dispatch(toastNotification(intl.formatMessage({ id: 'alert.fail' })));
           }
         });
     }
@@ -149,7 +161,7 @@ class PostDropdownContainer extends PureComponent {
 
   _replyNavigation = () => {
     const {
-      navigation, content, isLoggedIn, fetchPost,
+      content, fetchPost, isLoggedIn, navigation,
     } = this.props;
 
     if (isLoggedIn) {

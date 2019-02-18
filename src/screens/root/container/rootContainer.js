@@ -15,6 +15,7 @@ import { getPost, getUser } from '../../../providers/steem/dsteem';
 import { Modal } from '../../../components';
 import { PinCode } from '../../pinCode';
 import PostButtonForAndroid from '../../../components/postButton/view/postButtonsForAndroid';
+import { ToastNotificaiton } from '../../../components/toastNotification';
 
 // Constants
 import ROUTES from '../../../constants/routeNames';
@@ -160,20 +161,35 @@ const RootContainer = () => (WrappedComponent) => {
 
     _createPushListener = () => {
       const { navigation } = this.props;
+      let params = null;
+      let key = null;
+      let routeName = null;
 
       Push.setListener({
         onPushNotificationReceived(pushNotification) {
-          if (AppState.currentState === 'background') {
-            if (pushNotification.customProperties.routeName) {
-              navigation.navigate({
-                routeName: pushNotification.customProperties.routeName,
-              });
-            } else {
-              navigation.navigate({
-                routeName: ROUTES.TABBAR.NOTIFICATION,
-              });
-            }
+          const extra = JSON.parse(pushNotification.customProperties.extra);
+
+          if (extra.parent_permlink || extra.permlink) {
+            params = {
+              author:
+                extra.parent_permlink
+                  ? extra.parent_author
+                  : pushNotification.customProperties.target,
+              permlink: extra.parent_permlink ? extra.parent_permlink : extra.permlink,
+            };
+            key = extra.parent_permlink ? extra.parent_permlink : extra.permlink;
+            routeName = ROUTES.SCREENS.POST;
+          } else {
+            params = {
+              username: pushNotification.customProperties.source,
+            };
+            key = pushNotification.customProperties.source;
+            routeName = ROUTES.SCREENS.PROFILE;
           }
+
+          setTimeout(() => {
+            navigation.navigate({ routeName, params, key });
+          }, 4000);
         },
       });
     };

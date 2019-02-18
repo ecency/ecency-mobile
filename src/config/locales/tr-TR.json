@@ -79,7 +79,7 @@
     "cancel": "geç",
     "login": "GİRİŞ",
     "steemconnect_description": "Eğer kullanıçı bilgilerini şifreli olarak tutulmasını istemiyorsanız Steemconnect ilede giriş yapabilirsiniz.",
-    "steemconnect_fee_description": "Steemconnect may charge some fees from your reward transactions"
+    "steemconnect_fee_description": "Steemconnect, ödül işlemlerinden bazı ücretler alabilir."
   },
   "home": {
     "feed": "Akış",
