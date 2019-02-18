@@ -4,18 +4,16 @@
 
 @interface AppCenterReactNativeShared : NSObject
 
-+ (void)setAppSecret:(NSString *)secret;
++ (void) setAppSecret: (NSString *)secret;
 
-+ (NSString *)getAppSecret;
++ (NSString *) getAppSecret;
 
-+ (void)configureAppCenter;
++ (void) configureAppCenter;
 
-+ (MSWrapperSdk *)getWrapperSdk;
++ (MSWrapperSdk *) getWrapperSdk;
 
-+ (void)setWrapperSdk:(MSWrapperSdk *)sdk;
++ (void) setWrapperSdk:(MSWrapperSdk *)sdk;
 
-+ (void)setStartAutomatically:(BOOL)shouldStartAutomatically;
-
-+ (NSDictionary *)getConfiguration;
++ (void) setStartAutomatically:(BOOL)shouldStartAutomatically;
 
 @end
