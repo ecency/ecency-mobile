@@ -1,5 +1,5 @@
 import React, { PureComponent } from 'react';
-import { View, FlatList } from 'react-native';
+import { FlatList } from 'react-native';
 
 // Components
 import { Comment } from '../../comment';
@@ -21,49 +21,46 @@ class CommentsView extends PureComponent {
   // Component Life Cycles
 
   // Component Functions
-  _handleOnDropdownSelect = () => {};
 
   _keyExtractor = item => item.permlink;
 
   render() {
     const {
       avatarSize,
+      commentCount,
       commentNumber,
       comments,
       currentAccountUsername,
+      fetchPost,
       handleOnEditPress,
       handleOnReplyPress,
       handleOnUserPress,
       isLoggedIn,
-      marginLeft,
       isShowSubComments,
-      fetchPost,
-      commentCount,
+      marginLeft,
     } = this.props;
 
     return (
       <FlatList
         data={comments}
         keyExtractor={this._keyExtractor}
-        renderItem={({ item, index }) => (
-          <View key={index}>
-            <Comment
-              isShowMoreButton={commentNumber === 1 && item.children > 0}
-              comment={item}
-              marginLeft={marginLeft}
-              commentNumber={commentNumber}
-              fetchPost={fetchPost}
-              commentCount={commentCount || item.children}
-              isShowSubComments={isShowSubComments}
-              avatarSize={avatarSize}
-              currentAccountUsername={currentAccountUsername}
-              handleOnReplyPress={handleOnReplyPress}
-              handleOnEditPress={handleOnEditPress}
-              handleOnUserPress={handleOnUserPress}
-              isLoggedIn={isLoggedIn}
-              showComentsToggle={this._showComentsToggle}
-            />
-          </View>
+        renderItem={({ item }) => (
+          <Comment
+            avatarSize={avatarSize}
+            comment={item}
+            commentCount={commentCount || item.children}
+            commentNumber={commentNumber}
+            currentAccountUsername={currentAccountUsername}
+            fetchPost={fetchPost}
+            handleOnEditPress={handleOnEditPress}
+            handleOnReplyPress={handleOnReplyPress}
+            handleOnUserPress={handleOnUserPress}
+            isLoggedIn={isLoggedIn}
+            isShowMoreButton={commentNumber === 1 && item.children > 0}
+            isShowSubComments={isShowSubComments}
+            key={item.permlink}
+            marginLeft={marginLeft}
+          />
         )}
       />
     );

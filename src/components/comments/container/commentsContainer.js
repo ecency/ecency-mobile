@@ -12,7 +12,7 @@ import { getComments } from '../../../providers/steem/dsteem';
 import { default as ROUTES } from '../../../constants/routeNames';
 
 // Utilities
-
+import authorReputation from '../../../utils/authorReputation';
 // Component
 import { CommentsView } from '..';
 
@@ -36,14 +36,89 @@ class CommentsContainer extends Component {
   }
 
   componentWillReceiveProps(nextProps) {
-    const { commentCount } = this.props;
+    const { commentCount, selectedFilter } = this.props;
 
     if (nextProps.commentCount > commentCount) {
       this._getComments();
     }
+
+    if (selectedFilter !== nextProps.selectedFilter) {
+      const shortedComments = this._shortComments(nextProps.selectedFilter);
+      this.setState({ comments: shortedComments });
+    }
   }
 
   // Component Functions
+
+  _shortComments = (sortOrder) => {
+    const { comments: parent } = this.state;
+
+    const allPayout = c => parseFloat(c.pending_payout_value.split(' ')[0])
+      + parseFloat(c.total_payout_value.split(' ')[0])
+      + parseFloat(c.curator_payout_value.split(' ')[0]);
+
+    const absNegative = a => a.net_rshares < 0;
+
+    const sortOrders = {
+      trending: (a, b) => {
+        if (absNegative(a)) {
+          return 1;
+        }
+
+        if (absNegative(b)) {
+          return -1;
+        }
+
+        const apayout = allPayout(a);
+        const bpayout = allPayout(b);
+        if (apayout !== bpayout) {
+          return bpayout - apayout;
+        }
+
+        return 0;
+      },
+      reputation: (a, b) => {
+        const keyA = authorReputation(a.author_reputation);
+        const keyB = authorReputation(b.author_reputation);
+
+        if (keyA > keyB) return -1;
+        if (keyA < keyB) return 1;
+
+        return 0;
+      },
+      votes: (a, b) => {
+        const keyA = a.net_votes;
+        const keyB = b.net_votes;
+
+        if (keyA > keyB) return -1;
+        if (keyA < keyB) return 1;
+
+        return 0;
+      },
+      age: (a, b) => {
+        if (absNegative(a)) {
+          return 1;
+        }
+
+        if (absNegative(b)) {
+          return -1;
+        }
+
+        const keyA = Date.parse(a.created);
+        const keyB = Date.parse(b.created);
+
+        if (keyA > keyB) return -1;
+        if (keyA < keyB) return 1;
+
+        return 0;
+      },
+    };
+
+    parent.sort(sortOrders[sortOrder]);
+
+    return parent;
+  };
+
   _getComments = () => {
     const { author, permlink } = this.props;
 
@@ -87,18 +162,19 @@ class CommentsContainer extends Component {
       isLoggedIn,
       commentCount,
       author,
-      permlink,
       currentAccount,
       commentNumber,
       comments,
       fetchPost,
       isShowMoreButton,
+      selectedFilter,
       selectedPermlink: _selectedPermlink,
     } = this.props;
 
     return (
       <CommentsView
-        key={permlink}
+        key={selectedFilter}
+        selectedFilter={selectedFilter}
         selectedPermlink={_selectedPermlink || selectedPermlink}
         author={author}
         isShowMoreButton={isShowMoreButton}
@@ -109,7 +185,6 @@ class CommentsContainer extends Component {
         handleOnEditPress={this._handleOnEditPress}
         handleOnReplyPress={this._handleOnReplyPress}
         isLoggedIn={isLoggedIn}
-        permlink={permlink}
         fetchPost={fetchPost}
         {...this.props}
       />

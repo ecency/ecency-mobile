@@ -137,7 +137,7 @@ class PostDisplayView extends PureComponent {
                   size={16}
                 />
                 <PostBody body={post.body} />
-                <View style={[styles.footer, !isPostEnd && styles.marginFooter]}>
+                <View style={styles.footer}>
                   <Tags tags={post.json_metadata && post.json_metadata.tags} />
                   <Text style={styles.footerText}>
                     Posted by
