@@ -36,7 +36,7 @@ class WalletView extends PureComponent {
         ? `${Math.round(walletData.rewardSteemBalance * 1000) / 1000} STEEM`
         : ''}
       {walletData.rewardSbdBalance
-        ? ` ${Math.round(walletData.rewardSbdBalance * 1000) / 1000} SDB`
+        ? ` ${Math.round(walletData.rewardSbdBalance * 1000) / 1000} SBD`
         : ''}
       {walletData.rewardVestingSteem
         ? ` ${Math.round(walletData.rewardVestingSteem * 1000) / 1000} SP`

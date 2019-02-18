@@ -78,7 +78,8 @@
     "description": "User credentials are kept locally on the device. Credentials are removed upon logout!",
     "cancel": "cancel",
     "login": "LOGIN",
-    "steemconnect_description": "If you don't want to keep your password encrypted and saved on your device, you can use Steemconnect."
+    "steemconnect_description": "If you don't want to keep your password encrypted and saved on your device, you can use Steemconnect.",
+    "steemconnect_fee_description": "Steemconnect may charge some fees from your reward transactions"
   },
   "home": {
     "feed": "Feed",
@@ -113,7 +114,9 @@
     "default_placeholder": "What would you like to write about today?",
     "reply_placeholder": "What would you like to write about above post?",
     "publish": "Publish",
-    "reply": "Reply"
+    "reply": "Reply",
+    "open_galery": "Open Galery",
+    "capture_photo": "Capture a photo"
   },
   "pincode": {
     "enter_text": "Enter PIN to unlock",
@@ -134,6 +137,8 @@
     "warning": "Warning",
     "invalid_pincode": "Invalid PIN code, please check and try again.",
     "remove_alert": "Are you sure you want to remove?",
+    "clear_alert": "Are you sure you want to clear?",
+    "clear": "Clear",
     "cancel": "Cancel",
     "delete": "Delete",
     "copied": "Copied!",
@@ -161,7 +166,7 @@
     "empty_list": "Nothing here",
     "deleted": "Bookmark removed",
     "search": "Search in bookmarks",
-    "added": "Added to bookmars",
+    "added": "Added to bookmarks",
     "add": "Add to bookmarks"
   },
   "favorites": {

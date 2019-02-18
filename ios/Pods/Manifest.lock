@@ -10,7 +10,7 @@ PODS:
     - AppCenter/Core (= 1.11.0)
   - Base64 (1.1.2)
   - boost-for-react-native (1.63.0)
-  - CodePush (5.5.1):
+  - CodePush (5.5.2):
     - Base64 (~> 1.1)
     - JWT (~> 3.0.0-beta.7)
     - React
@@ -79,8 +79,8 @@ PODS:
     - React/Core
     - RSKImageCropper
   - RSKImageCropper (2.2.1)
-  - SDWebImage/Core (4.4.4)
-  - SDWebImage/GIF (4.4.4):
+  - SDWebImage/Core (4.4.5)
+  - SDWebImage/GIF (4.4.5):
     - FLAnimatedImage (~> 1.0)
     - SDWebImage/Core
   - SSZipArchive (2.1.4)
@@ -148,22 +148,22 @@ SPEC CHECKSUMS:
   AppCenterReactNativeShared: a77b000c2ac6dc2e44472621d7d0770f196e5822
   Base64: cecfb41a004124895a7bcee567a89bae5a89d49b
   boost-for-react-native: 39c7adb57c4e60d6c5479dd8623128eb5b3f0f2c
-  CodePush: f6b348759cdc42c734d9c3a46ceb2997c270b12e
+  CodePush: 338a023972c64636503e8886cf4cb6ec27dd1c01
   DoubleConversion: bb338842f62ab1d708ceb63ec3d999f0f3d98ecd
   FLAnimatedImage: 4a0b56255d9b05f18b6dd7ee06871be5d3b89e31
   Folly: c89ac2d5c6ab169cd7397ef27485c44f35f742c7
   glog: e8acf0ebbf99759d3ff18c86c292a5898282dcde
   JWT: 05028b9624591bba9681bb57df2c5f95fa258bad
   QBImagePickerController: d54cf93db6decf26baf6ed3472f336ef35cae022
-  React: 1fe0eb13d90b625d94c3b117c274dcfd2e760e11
-  react-native-fast-image: cba3d9bf9c2cf8ddb643d887a686c53a5dd90a2c
-  react-native-version-number: 36c0d8eb57a275a6239a860f8dbab3d18299b0e0
-  RNImageCropPicker: 32ca4b9fef4e1b7b85ba69494242122948117e06
+  React: adbac0757ce35e92fbd447ab98c810209d27d9b0
+  react-native-fast-image: 6d50167ad4d68b59640ceead8c2bc4e58d91d8bd
+  react-native-version-number: 75301519bb72064ad209a498ed08b128cbcf10e7
+  RNImageCropPicker: 754299983d07c450aec0834c0efe0ed114131ff3
   RSKImageCropper: 98296ad26b41753f796b6898d015509598f13d97
-  SDWebImage: c00ec18ab25d10e5ffac109b0f78d1b4341c9691
+  SDWebImage: ecc03494e973b93b80213649d32175f8d2d17d4d
   SSZipArchive: 41455d4b8d2b6ab93990820b50dc697c2554a322
-  yoga: b1ce48b6cf950b98deae82838f5173ea7cf89e85
+  yoga: 74cdf036c30820443b25ade59916236b1e95ee93
 
 PODFILE CHECKSUM: 19ca750f5874376432380838891f13aaeecb302d
 
-COCOAPODS: 1.5.3
+COCOAPODS: 1.6.0

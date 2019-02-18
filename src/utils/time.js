@@ -11,8 +11,10 @@ const THIS_MONTH = moment()
   .subtract(1, 'M')
   .startOf('day');
 
-export const getTimeFromNow = (value) => {
+export const getTimeFromNow = (value, isWithoutUtc) => {
   if (!value) return null;
+
+  if (isWithoutUtc) return moment(value).fromNow();
 
   return moment.utc(value).fromNow();
 };

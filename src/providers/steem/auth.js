@@ -89,7 +89,7 @@ export const login = async (username, password) => {
     await updateCurrentUsername(account.name);
     return { ...account, password };
   }
-  return Promise.reject(new Error('auth.invalid_pin'));
+  return Promise.reject(new Error('auth.invalid_credentials'));
 };
 
 export const loginWithSC2 = async (code) => {

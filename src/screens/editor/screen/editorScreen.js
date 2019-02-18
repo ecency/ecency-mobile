@@ -27,6 +27,7 @@ class EditorScreen extends Component {
       isFormValid: false,
       isPreviewActive: false,
       wordsCount: null,
+      isRemoveTag: false,
       fields: {
         title: (props.draftPost && props.draftPost.title) || '',
         body: (props.draftPost && props.draftPost.body) || '',
@@ -50,6 +51,18 @@ class EditorScreen extends Component {
   };
 
   // Component Functions
+  _initialFields = () => {
+    this.setState({
+      fields: {
+        title: '',
+        body: '',
+        tags: [],
+        isValid: false,
+      },
+      isRemoveTag: true,
+    });
+  };
+
   _handleOnPressPreviewButton = () => {
     const { isPreviewActive } = this.state;
 
@@ -114,7 +127,7 @@ class EditorScreen extends Component {
   };
 
   _handleFormUpdate = (componentID, content) => {
-    const { handleFormChanged } = this.props;
+    const { handleFormChanged, isReply } = this.props;
     const fields = { ...this.state.fields };
 
     if (componentID === 'body') {
@@ -128,7 +141,7 @@ class EditorScreen extends Component {
     handleFormChanged();
 
     this._handleIsFormValid();
-    this._saveCurrentDraft();
+    if (isReply) this._saveCurrentDraft();
   };
 
   _handleOnTagAdded = (tags) => {
@@ -136,12 +149,12 @@ class EditorScreen extends Component {
     const fields = { ...this.state.fields };
 
     fields.tags = _tags;
-    this.setState({ fields });
+    this.setState({ fields, isRemoveTag: false });
   };
 
   render() {
     const {
-      fields, isPreviewActive, wordsCount, isFormValid,
+      fields, isPreviewActive, wordsCount, isFormValid, isRemoveTag,
     } = this.state;
     const {
       draftPost,
@@ -192,6 +205,7 @@ class EditorScreen extends Component {
           {!isReply && (
             <TagArea
               draftChips={fields.tags.length > 0 ? fields.tags : null}
+              isRemoveTag={isRemoveTag}
               componentID="tag-area"
               handleTagChanged={this._handleOnTagAdded}
               intl={intl}
@@ -204,6 +218,7 @@ class EditorScreen extends Component {
             handleOpenImagePicker={handleOnImagePicker}
             intl={intl}
             uploadedImage={uploadedImage}
+            initialFields={this._initialFields}
             isReply={isReply}
           />
         </PostForm>

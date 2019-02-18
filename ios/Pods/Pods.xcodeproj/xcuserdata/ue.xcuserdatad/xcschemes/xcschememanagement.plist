@@ -4,141 +4,116 @@
 <dict>
 	<key>SchemeUserState</key>
 	<dict>
-		<key>Base64.xcscheme</key>
+		<key>AppCenter.xcscheme_^#shared#^_</key>
 		<dict>
-			<key>isShown</key>
-			<false/>
 			<key>orderHint</key>
-			<integer>7</integer>
+			<integer>56</integer>
 		</dict>
-		<key>CodePush.xcscheme</key>
+		<key>AppCenterReactNativeShared.xcscheme_^#shared#^_</key>
 		<dict>
-			<key>isShown</key>
-			<false/>
 			<key>orderHint</key>
-			<integer>8</integer>
+			<integer>57</integer>
 		</dict>
-		<key>DoubleConversion.xcscheme</key>
+		<key>Base64.xcscheme_^#shared#^_</key>
 		<dict>
-			<key>isShown</key>
-			<false/>
 			<key>orderHint</key>
-			<integer>9</integer>
+			<integer>58</integer>
 		</dict>
-		<key>FLAnimatedImage.xcscheme</key>
+		<key>CodePush.xcscheme_^#shared#^_</key>
 		<dict>
-			<key>isShown</key>
-			<false/>
 			<key>orderHint</key>
-			<integer>10</integer>
+			<integer>60</integer>
 		</dict>
-		<key>Folly.xcscheme</key>
+		<key>DoubleConversion.xcscheme_^#shared#^_</key>
 		<dict>
-			<key>isShown</key>
-			<false/>
 			<key>orderHint</key>
-			<integer>11</integer>
+			<integer>61</integer>
 		</dict>
-		<key>JWT.xcscheme</key>
+		<key>FLAnimatedImage.xcscheme_^#shared#^_</key>
 		<dict>
-			<key>isShown</key>
-			<false/>
 			<key>orderHint</key>
-			<integer>13</integer>
+			<integer>62</integer>
 		</dict>
-		<key>Pods-eSteem-tvOS.xcscheme</key>
+		<key>Folly.xcscheme_^#shared#^_</key>
 		<dict>
-			<key>isShown</key>
-			<false/>
 			<key>orderHint</key>
-			<integer>15</integer>
+			<integer>63</integer>
 		</dict>
-		<key>Pods-eSteem-tvOSTests.xcscheme</key>
+		<key>JWT.xcscheme_^#shared#^_</key>
 		<dict>
-			<key>isShown</key>
-			<false/>
 			<key>orderHint</key>
-			<integer>16</integer>
+			<integer>65</integer>
 		</dict>
-		<key>Pods-eSteem.xcscheme</key>
+		<key>Pods-eSteem-tvOS.xcscheme_^#shared#^_</key>
 		<dict>
-			<key>isShown</key>
-			<false/>
 			<key>orderHint</key>
-			<integer>14</integer>
+			<integer>67</integer>
 		</dict>
-		<key>Pods-eSteemTests.xcscheme</key>
+		<key>Pods-eSteem-tvOSTests.xcscheme_^#shared#^_</key>
 		<dict>
-			<key>isShown</key>
-			<false/>
 			<key>orderHint</key>
-			<integer>17</integer>
+			<integer>68</integer>
 		</dict>
-		<key>QBImagePickerController-QBImagePicker.xcscheme</key>
+		<key>Pods-eSteem.xcscheme_^#shared#^_</key>
 		<dict>
-			<key>isShown</key>
-			<false/>
 			<key>orderHint</key>
-			<integer>19</integer>
+			<integer>66</integer>
 		</dict>
-		<key>QBImagePickerController.xcscheme</key>
+		<key>Pods-eSteemTests.xcscheme_^#shared#^_</key>
 		<dict>
-			<key>isShown</key>
-			<false/>
 			<key>orderHint</key>
-			<integer>18</integer>
+			<integer>69</integer>
 		</dict>
-		<key>RNImageCropPicker.xcscheme</key>
+		<key>QBImagePickerController-QBImagePicker.xcscheme_^#shared#^_</key>
 		<dict>
-			<key>isShown</key>
-			<false/>
 			<key>orderHint</key>
-			<integer>22</integer>
+			<integer>71</integer>
 		</dict>
-		<key>RSKImageCropper.xcscheme</key>
+		<key>QBImagePickerController.xcscheme_^#shared#^_</key>
 		<dict>
-			<key>isShown</key>
-			<false/>
 			<key>orderHint</key>
-			<integer>23</integer>
+			<integer>70</integer>
 		</dict>
-		<key>SDWebImage.xcscheme</key>
+		<key>RNImageCropPicker.xcscheme_^#shared#^_</key>
 		<dict>
-			<key>isShown</key>
-			<false/>
 			<key>orderHint</key>
-			<integer>24</integer>
+			<integer>74</integer>
 		</dict>
-		<key>SSZipArchive.xcscheme</key>
+		<key>RSKImageCropper.xcscheme_^#shared#^_</key>
 		<dict>
-			<key>isShown</key>
-			<false/>
 			<key>orderHint</key>
-			<integer>25</integer>
+			<integer>75</integer>
 		</dict>
-		<key>glog.xcscheme</key>
+		<key>SDWebImage.xcscheme_^#shared#^_</key>
 		<dict>
-			<key>isShown</key>
-			<false/>
 			<key>orderHint</key>
-			<integer>12</integer>
+			<integer>76</integer>
 		</dict>
-		<key>react-native-fast-image.xcscheme</key>
+		<key>SSZipArchive.xcscheme_^#shared#^_</key>
 		<dict>
-			<key>isShown</key>
-			<false/>
 			<key>orderHint</key>
-			<integer>20</integer>
+			<integer>77</integer>
 		</dict>
-		<key>react-native-version-number.xcscheme</key>
+		<key>boost-for-react-native.xcscheme_^#shared#^_</key>
 		<dict>
-			<key>isShown</key>
-			<false/>
 			<key>orderHint</key>
-			<integer>21</integer>
+			<integer>59</integer>
+		</dict>
+		<key>glog.xcscheme_^#shared#^_</key>
+		<dict>
+			<key>orderHint</key>
+			<integer>64</integer>
+		</dict>
+		<key>react-native-fast-image.xcscheme_^#shared#^_</key>
+		<dict>
+			<key>orderHint</key>
+			<integer>72</integer>
+		</dict>
+		<key>react-native-version-number.xcscheme_^#shared#^_</key>
+		<dict>
+			<key>orderHint</key>
+			<integer>73</integer>
 		</dict>
 	</dict>
-	<key>SuppressBuildableAutocreation</key>
-	<dict/>
 </dict>
 </plist>
