@@ -78,7 +78,8 @@
     "description": "帳號認證資訊只保存在行動裝置本體。登出後認證資訊將被移除。",
     "cancel": "取消",
     "login": "登錄",
-    "steemconnect_description": "如果您不想將密碼加密並保存在您的設備上, 則可以使用 Steemconnect。"
+    "steemconnect_description": "如果您不想將密碼加密並保存在您的設備上, 則可以使用 Steemconnect。",
+    "steemconnect_fee_description": "Steemconnect may charge some fees from your reward transactions"
   },
   "home": {
     "feed": "動態消息",
@@ -165,7 +166,7 @@
     "empty_list": "暫無内容！",
     "deleted": "已移除書籤",
     "search": "搜尋書籤",
-    "added": "Added to bookmars",
+    "added": "Added to bookmarks",
     "add": "Add to bookmarks"
   },
   "favorites": {
