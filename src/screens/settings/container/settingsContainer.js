@@ -157,6 +157,7 @@ class SettingsContainer extends Component {
     const isPushEnabled = await Push.isEnabled();
 
     await Push.setEnabled(!isPushEnabled);
+    this._setPushToken();
   };
 
   _handleButtonPress = (action, actionType) => {
@@ -201,7 +202,7 @@ class SettingsContainer extends Component {
             username,
             token,
             system: Platform.OS,
-            allows_notify: isNotificationSettingsOpen,
+            allows_notify: Number(isNotificationSettingsOpen),
           };
           setPushToken(data);
         }
