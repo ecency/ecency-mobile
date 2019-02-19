@@ -78,7 +78,8 @@
     "description": "Mandat ureung pake meukubah lam alat droe. Watee neu tubit mandat nyan disampöeh!",
     "cancel": "batëu",
     "login": "TAMOÉNG",
-    "steemconnect_description": "Meunyoe hana pèrle kubah gunci lam nyoe, droën jeut neupakek Steemconnect."
+    "steemconnect_description": "Meunyoe hana pèrle kubah gunci lam nyoe, droën jeut neupakek Steemconnect.",
+    "steemconnect_fee_description": "Steemconnect may charge some fees from your reward transactions"
   },
   "home": {
     "feed": "Umpëun",
@@ -114,8 +115,8 @@
     "reply_placeholder": "Teuntang peu neu neuk tuleh ata diateuh?",
     "publish": "Peudëuh",
     "reply": "Balah",
-    "open_galery": "Open Galery",
-    "capture_photo": "Capture a photo"
+    "open_galery": "Buka Galery",
+    "capture_photo": "Cök Fôtô"
   },
   "pincode": {
     "enter_text": "Pasöe gunci untuk buka",
@@ -136,12 +137,12 @@
     "warning": "Pëuingat",
     "invalid_pincode": "Salah pin, cie neu test loëm.",
     "remove_alert": "Peu yakin neuk sampóh?",
-    "clear_alert": "Are you sure you want to clear?",
-    "clear": "Clear",
+    "clear_alert": "Peu yakin neuk sampöh?",
+    "clear": "Sampöh",
     "cancel": "Batai",
     "delete": "Sampóh",
-    "copied": "Copied!",
-    "no_internet": "No connection!"
+    "copied": "Kalheuh Meusalén!",
+    "no_internet": "Hana koneksi!"
   },
   "post": {
     "reblog_alert": "Peu yakin neuh, neu neuk reblog?"
@@ -165,8 +166,8 @@
     "empty_list": "Hana sapëuna",
     "deleted": "Pëunanda buku kalhëuh meusampöh",
     "search": "Mita lam buku pëunanda",
-    "added": "Added to bookmars",
-    "add": "Add to bookmarks"
+    "added": "Added to bookmarks",
+    "add": "Tamah dalam bookmarks"
   },
   "favorites": {
     "title": "Palèng galak",
@@ -193,7 +194,7 @@
     "reblog": "neukirem ulang blog",
     "reply": "balah",
     "share": "bagi",
-    "bookmarks": "add to bookmarks"
+    "bookmarks": "tamah dalam bookmarks"
   },
   "deep_link": {
     "no_existing_user": "Hana uréung pakék",

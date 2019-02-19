@@ -52,11 +52,11 @@ class PostDropdownContainer extends PureComponent {
   };
 
   // Component Functions
-  _handleOnDropdownSelect = async (index) => {
+  _handleOnDropdownSelect = async (index, item) => {
     const { content, dispatch, intl } = this.props;
 
-    switch (index) {
-      case '0':
+    switch (item) {
+      case 'COPY LINK':
         await writeToClipboard(getPostUrl(content.url));
         this.alertTimer = setTimeout(() => {
           dispatch(
@@ -70,24 +70,24 @@ class PostDropdownContainer extends PureComponent {
         }, 300);
         break;
 
-      case '1':
+      case 'REBLOG':
         this.actionSheetTimer = setTimeout(() => {
           this.ActionSheet.show();
           this.actionSheetTimer = 0;
         }, 100);
         break;
 
-      case '2':
+      case 'REPLY':
         this._replyNavigation();
         break;
-      case '3':
+      case 'SHARE':
         this.shareTimer = setTimeout(() => {
           this._share();
           this.shareTimer = 0;
         }, 500);
         break;
 
-      case '4':
+      case 'ADD TO BOOKMARKS':
         this._addToBookmarks();
         break;
 
@@ -106,7 +106,9 @@ class PostDropdownContainer extends PureComponent {
   };
 
   _addToBookmarks = () => {
-    const { content, currentAccount, dispatch, intl } = this.props;
+    const {
+      content, currentAccount, dispatch, intl,
+    } = this.props;
     addBookmark(currentAccount.name, content.author, content.permlink)
       .then(() => {
         dispatch(

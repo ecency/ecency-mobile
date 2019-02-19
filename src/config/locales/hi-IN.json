@@ -78,7 +78,8 @@
     "description": "उपयोगकर्ता का प्रमाणिकता लोकल उपकरण में होता है, लॉगआउट होने से प्रमाणिकता हट जाते हैं!",
     "cancel": "रद्द करें",
     "login": "लॉगिन करें",
-    "steemconnect_description": "यदि आप नहीं चाहते की आपकी पासवर्ड एन्क्रिप्टेड रूप में आपके उपकरण में रक्षित रहे तो स्टीमकनेक्ट से लॉगिन करें|"
+    "steemconnect_description": "यदि आप नहीं चाहते की आपकी पासवर्ड एन्क्रिप्टेड रूप में आपके उपकरण में रक्षित रहे तो स्टीमकनेक्ट से लॉगिन करें|",
+    "steemconnect_fee_description": "स्टीमकनेक्ट कुछ फ़ीस ले सकता है आपके पुरुस्कार लेन-देन से"
   },
   "home": {
     "feed": "संभरण",
@@ -114,8 +115,8 @@
     "reply_placeholder": "ऊपर वाली पोस्ट के बारें में आप क्या लिखना चाहेंगे?",
     "publish": "प्रकाशित करें",
     "reply": "जबाब दें",
-    "open_galery": "Open Galery",
-    "capture_photo": "Capture a photo"
+    "open_galery": "गैलरी खोलें",
+    "capture_photo": "फोटो खीचें"
   },
   "pincode": {
     "enter_text": "Enter pin to unlock",
@@ -136,12 +137,12 @@
     "warning": "चेतावनी",
     "invalid_pincode": "Invalid pin code, please check and try again.",
     "remove_alert": "क्या आप इसे सच में हटाना चाहते हैं?",
-    "clear_alert": "Are you sure you want to clear?",
-    "clear": "Clear",
+    "clear_alert": "क्या आप सचमुच में मिटाना चाहते हैं?",
+    "clear": "मिटायें",
     "cancel": "रद्द करें",
     "delete": "मिटा दें",
-    "copied": "Copied!",
-    "no_internet": "No connection!"
+    "copied": "प्रतिलिपि हो गयी!",
+    "no_internet": "संपर्क नहीं"
   },
   "post": {
     "reblog_alert": "क्या आप सच में पुनः प्रसारित करना चाहते हैं?"
@@ -165,8 +166,8 @@
     "empty_list": "कुछ नहीं है",
     "deleted": "पृष्टस्मृतियाँ हट गया",
     "search": "पृष्टस्मृतियाँ में खोजें",
-    "added": "Added to bookmars",
-    "add": "Add to bookmarks"
+    "added": "पृष्ठ स्मृति में जुड़ गया",
+    "add": "पृष्ठ स्मृति में जोड़ें"
   },
   "favorites": {
     "title": "पसंदीदा",
@@ -182,21 +183,21 @@
     "unknow_error": "अपरिचित त्रुटि है, कृप्या हमसे संपर्क करें यहाँ support@esteem.app"
   },
   "payout": {
-    "potential_payout": "Potential Payout",
-    "promoted": "Promoted",
+    "potential_payout": "संभावित भुगतान",
+    "promoted": "पदोन्नत",
     "author_payout": "लेखक भुगतान",
-    "curation_payout": "Curation Payout",
+    "curation_payout": "अध्यक्ष्ता इनाम",
     "payout_date": "भुगतान"
   },
   "post_dropdown": {
     "copy": "लिंक कापी करें",
-    "reblog": "reblog",
+    "reblog": "रीब्लॉग करें",
     "reply": "जवाब दें",
     "share": "साझा करें",
-    "bookmarks": "add to bookmarks"
+    "bookmarks": "पृष्ठ स्मृति में जोड़ें"
   },
   "deep_link": {
-    "no_existing_user": "No existing user",
-    "no_existing_post": "No existing post"
+    "no_existing_user": "कोई विद्यमान उपयोगकर्ता नहीं",
+    "no_existing_post": "कोई विद्यमान पोस्ट नहीं"
   }
 }
