@@ -78,7 +78,8 @@
     "description": "يتم الاحتفاظ ببيانات اعتماد المستخدم محليًا على الجهاز. تتم إزالة بيانات الاعتماد عند تسجيل الخروج!",
     "cancel": "إلغاء",
     "login": "تسجيل الدخول",
-    "steemconnect_description": "إذا كنت لا ترغب في الاحتفاظ بكلمة المرور الخاصة بك مشفرة وحفظها على جهازك ، فيمكنك استخدام Steemconnect."
+    "steemconnect_description": "إذا كنت لا ترغب في الاحتفاظ بكلمة المرور الخاصة بك مشفرة وحفظها على جهازك ، فيمكنك استخدام Steemconnect.",
+    "steemconnect_fee_description": "قد تفرض عليك Steemconnect بعض الرسوم من معاملات المكافآت الخاصة بك"
   },
   "home": {
     "feed": "المستجدات",
@@ -114,8 +115,8 @@
     "reply_placeholder": "ماذا تريد أن تكتب عن المشاركة أعلاه؟",
     "publish": "نشر",
     "reply": "الرد",
-    "open_galery": "Open Galery",
-    "capture_photo": "Capture a photo"
+    "open_galery": "إفتح معرض الصور",
+    "capture_photo": "إلتقط صورة"
   },
   "pincode": {
     "enter_text": "أدخل الرقم السري للفتح",
@@ -136,8 +137,8 @@
     "warning": "تحذير",
     "invalid_pincode": "الرقم السري غير صالح، يرجى التحقق والمحاولة مرة أخرى.",
     "remove_alert": "هل أنت متأكد تريد الإزالة؟",
-    "clear_alert": "Are you sure you want to clear?",
-    "clear": "Clear",
+    "clear_alert": "هل أنت متأكد من أنك تريد المسح؟",
+    "clear": "مسح",
     "cancel": "إلغاء",
     "delete": "حذف",
     "copied": "تم النسخ!",

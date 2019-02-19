@@ -26,7 +26,7 @@ import {
 } from '../../../redux/actions/applicationActions';
 import { toastNotification } from '../../../redux/actions/uiAction';
 import { setPushToken, getNodes } from '../../../providers/esteem/esteem';
-
+import { checkClient } from '../../../providers/steem/dsteem';
 // Middleware
 
 // Constants
@@ -120,7 +120,8 @@ class SettingsContainer extends Component {
     if (isError) {
       dispatch(setApi(selectedApi));
     } else {
-      setServer(server);
+      await setServer(server);
+      checkClient();
     }
   };
 

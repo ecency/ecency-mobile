@@ -1,202 +1,203 @@
 {
   "wallet": {
-    "curation_reward": "Curation Reward",
-    "author_reward": "Author Reward",
-    "comment_benefactor_reward": "Comment Benefactor Reward",
-    "claim_reward_balance": "Claim Reward Balance",
+    "curation_reward": "Recompensă de curare",
+    "author_reward": "Recompensă Autor",
+    "comment_benefactor_reward": "Recompensă Pentru Comentariu",
+    "claim_reward_balance": "Colectează soldul de recompensă",
     "transfer": "Transfer",
-    "transfer_to_vesting": "Transfer To Vesting",
-    "transfer_from_savings": "Transfer From Savings",
+    "transfer_to_vesting": "Transfer la vesting",
+    "transfer_from_savings": "Transfer de la economii",
     "withdraw_vesting": "Power Down",
-    "fill_order": "Fill Order"
+    "fill_order": "Completează ordinul"
   },
   "notification": {
-    "vote": "likes your post",
-    "unvote": "unvoted your post",
-    "reply": "replied to your post",
-    "mention": "mentioned you",
-    "follow": "followed you",
-    "unfollow": "unfollowed you",
-    "ignore": "ignored you",
-    "reblog": "reblogged your post",
-    "comingsoon": "Leaderboard feature is coming soon!",
-    "notification": "Notifications",
-    "leaderboard": "Leaderboard",
-    "leaderboard_title": "Daily Top User",
+    "vote": "a votat postul tău",
+    "unvote": "a votat postul tău",
+    "reply": "a răspuns la postul tău",
+    "mention": "te-a menționat",
+    "follow": "te urmărește",
+    "unfollow": "a anulat urmărirea",
+    "ignore": "te-a ignorat",
+    "reblog": "a redistribuit postarea ta",
+    "comingsoon": "Clasamentul va fi disponibil în curând!",
+    "notification": "Notificări",
+    "leaderboard": "Clasament",
+    "leaderboard_title": "Utilizatori de Top Zilnic",
     "recent": "Recent",
-    "yesterday": "Yesterday",
-    "this_week": "This Week",
-    "this_month": "This Month",
-    "older_then": "Older Than A Month"
+    "yesterday": "Ieri",
+    "this_week": "Săptămâna aceasta",
+    "this_month": "Luna Aceasta",
+    "older_then": "Mai vechi de o lună"
   },
   "messages": {
-    "comingsoon": "Messages feature is coming soon!"
+    "comingsoon": "Funcția mesaje va fi disponibilă in curând!"
   },
   "profile": {
-    "following": "Following",
-    "follower": "Follower",
+    "following": "Urmăriți",
+    "follower": "Urmăritor",
     "post": "Post",
-    "details": "Profile Details",
-    "comments": "Comments",
-    "replies": "Replies",
-    "wallet": "Wallet",
-    "wallet_details": "Wallet Details",
-    "unclaimed_rewards": "Unclaimed Rewards",
-    "full_in": "Full in",
-    "hours": "hours",
-    "voting_power": "Voting power",
-    "login_to_see": "Login to see",
-    "havent_commented": "haven't commented anything yet",
-    "havent_posted": "haven't posted anything yet",
+    "details": "Detalii Profil",
+    "comments": "Comentarii",
+    "replies": "Răspunsuri",
+    "wallet": "Portofel",
+    "wallet_details": "Detalii Portofel",
+    "unclaimed_rewards": "Recompense Necolectate",
+    "full_in": "Plin în",
+    "hours": "ore",
+    "voting_power": "Putere de votare",
+    "login_to_see": "Autentifică-te pentru a vedea",
+    "havent_commented": "încă nu a comentat",
+    "havent_posted": "încă nu a postat nimic",
     "steem_power": "Steem Power",
-    "next_power_text": "Next power down is in",
-    "days": "days",
-    "day": "day",
-    "steem_dollars": "Steem Dollars",
-    "savings": "Savings"
+    "next_power_text": "Următoarul power down în",
+    "days": "zile",
+    "day": "zi",
+    "steem_dollars": "Steem Dolari",
+    "savings": "Economii"
   },
   "settings": {
-    "settings": "Settings",
-    "currency": "Currency",
-    "language": "Language",
+    "settings": "Setări",
+    "currency": "Monedă",
+    "language": "Limbă",
     "server": "Server",
-    "dark_theme": "Dark Theme",
-    "push_notification": "Push Notification",
+    "dark_theme": "Tema întunecată",
+    "push_notification": "Notificări",
     "pincode": "Pincode",
-    "reset": "Reset"
+    "reset": "Resetare"
   },
   "voters": {
-    "voters_info": "Voters Info",
-    "no_user": "No user found."
+    "voters_info": "Detalii votanți",
+    "no_user": "Nu s-a găsit nici un utilizator."
   },
   "login": {
-    "signin": "Sign in",
-    "signup": "Sign up",
-    "signin_title": "To get all the benefits of using eSteem",
-    "username": "Username",
-    "password": "Password or WIF",
-    "description": "User credentials are kept locally on the device. Credentials are removed upon logout!",
-    "cancel": "cancel",
-    "login": "LOGIN",
-    "steemconnect_description": "If you don't want to keep your password encrypted and saved on your device, you can use Steemconnect."
+    "signin": "Loghează-te",
+    "signup": "Înscrie-te",
+    "signin_title": "Pentru a beneficia de toate funcționalitățile eSteem",
+    "username": "Nume utilizator",
+    "password": "Parolă sau WIF",
+    "description": "Credentialele utilizatorului sunt salvate local pe dispozitiv. Credentialele sunt șterse după deconectare!",
+    "cancel": "anulează",
+    "login": "AUTENTIFICARE",
+    "steemconnect_description": "Dacă nu vrei să păstrezi parola criptată și salvată pe dispozitivul tău, poți folosi Steemconnect.",
+    "steemconnect_fee_description": "Steemconnect poate percepe anumite taxe la tranzacțiile tale de recompensă"
   },
   "home": {
-    "feed": "Feed",
+    "feed": "Flux",
     "popular": "Popular"
   },
   "side_menu": {
-    "profile": "Profile",
+    "profile": "Profil",
     "bookmarks": "Bookmarks",
-    "favorites": "Favorites",
-    "drafts": "Drafts",
-    "schedules": "Schedules",
-    "gallery": "Gallery",
-    "settings": "Settings",
-    "add_account": "Add Account",
-    "logout": "Logout",
-    "cancel": "Cancel",
-    "logout_text": "Are you sure you want to logout?"
+    "favorites": "Favorite",
+    "drafts": "Schițe",
+    "schedules": "Programate",
+    "gallery": "Galerie",
+    "settings": "Setări",
+    "add_account": "Adaugare Cont",
+    "logout": "Deconectare",
+    "cancel": "Anulează",
+    "logout_text": "Esti sigur că vrei să te deconectezi?"
   },
   "header": {
-    "title": "Login to customize your feed",
-    "search": "Search..."
+    "title": "Autentifică-te pentru a personaliza feed-ul",
+    "search": "Caută..."
   },
   "basic_header": {
-    "publish": "Publish",
-    "search": "Search",
-    "update": "Update",
-    "reply": "Reply"
+    "publish": "Publică",
+    "search": "Caută",
+    "update": "Actualizare",
+    "reply": "Răspunde"
   },
   "editor": {
-    "title": "Title",
-    "tags": "tags",
-    "default_placeholder": "What would you like to write about today?",
-    "reply_placeholder": "What would you like to write about above post?",
-    "publish": "Publish",
-    "reply": "Reply",
-    "open_galery": "Open Galery",
-    "capture_photo": "Capture a photo"
+    "title": "Titlu",
+    "tags": "tag-uri",
+    "default_placeholder": "Despre ce vrei să scrii azi?",
+    "reply_placeholder": "Ce ai vrea să scrii despre postarea respectivă?",
+    "publish": "Publică",
+    "reply": "Răspunde",
+    "open_galery": "Deschide Galeria",
+    "capture_photo": "Captură foto"
   },
   "pincode": {
     "enter_text": "Enter pin to unlock",
     "set_new": "Set new pin",
-    "write_again": "Write again",
-    "forgot_text": "Oh, I forgot it..."
+    "write_again": "Scrie din nou",
+    "forgot_text": "Oh, am uitat..."
   },
   "alert": {
-    "success": "Success!",
-    "allRead": "Marked all notifications as read",
-    "claim_reward_balance_ok": "Reward balance claimed",
-    "fail": "Fail!",
-    "success_shared": "Your post succesfully shared",
-    "permission_denied": "Permission denied",
-    "permission_text": "Please, go to phone Settings and change eSteem app permissions.",
+    "success": "Succes!",
+    "allRead": "Marchează toate notificările ca citite",
+    "claim_reward_balance_ok": "Sold de recompensă colectat",
+    "fail": "Eșuat!",
+    "success_shared": "Postarea ta a fost distribuită cu succes",
+    "permission_denied": "Permisiune respinsă",
+    "permission_text": "Te rugăm să mergi în setările telefonului și să schimbi permisiunile aplicației eSteem.",
     "success_rebloged": "Rebloged!",
-    "already_rebloged": "You have already reblogged!",
-    "warning": "Warning",
+    "already_rebloged": "Ai redistribuit postarea deja!",
+    "warning": "Atenționare",
     "invalid_pincode": "Invalid pin code, please check and try again.",
     "remove_alert": "Are you sure want to remove?",
-    "clear_alert": "Are you sure you want to clear?",
-    "clear": "Clear",
-    "cancel": "Cancel",
-    "delete": "Delete",
-    "copied": "Copied!",
-    "no_internet": "No connection!"
+    "clear_alert": "Ești sigur că vrei să ștergi?",
+    "clear": "Șterge",
+    "cancel": "Anulează",
+    "delete": "Șterge",
+    "copied": "Copiat!",
+    "no_internet": "Nu există conexiune!"
   },
   "post": {
-    "reblog_alert": "Are you sure you want to reblog?"
+    "reblog_alert": "Ești sigur că vrei să redistribui?"
   },
   "drafts": {
-    "title": "Drafts",
-    "load_error": "Could not load drafts",
-    "empty_list": "Nothing here",
-    "deleted": "Draft deleted"
+    "title": "Schițe",
+    "load_error": "Schițele nu au putut fi încărcate",
+    "empty_list": "Nici un rezultat",
+    "deleted": "Schiță ștearsă"
   },
   "schedules": {
-    "title": "Scheduled Posts",
-    "empty_list": "Nothing here",
-    "deleted": "Scheduled post deleted",
-    "move": "Move to drafts",
-    "moved": "Moved to drafts"
+    "title": "Postări Programate",
+    "empty_list": "Nici un rezultat",
+    "deleted": "Postarea planificată a fost ștearsă",
+    "move": "Mută la schițe",
+    "moved": "Mutat la schițe"
   },
   "bookmarks": {
     "title": "Bookmarks",
-    "load_error": "Could not load bookmarks",
-    "empty_list": "Nothing here",
-    "deleted": "Bookmark removed",
-    "search": "Search in bookmarks",
-    "added": "Added to bookmars",
-    "add": "Add to bookmarks"
+    "load_error": "Bookmarks nu a putut fi încărcat",
+    "empty_list": "Nici un rezultat",
+    "deleted": "Mutat de la bookmarks",
+    "search": "Căutare la bookmarks",
+    "added": "Adaugat la bookmarks",
+    "add": "Adaugă la bookmarks"
   },
   "favorites": {
-    "title": "Favorites",
-    "load_error": "Could not load favorites",
-    "empty_list": "Nothing here",
-    "search": "Search in favorites"
+    "title": "Favorite",
+    "load_error": "Nu s-au putut încărca favoritele",
+    "empty_list": "Nici un rezultat",
+    "search": "Caută în favorite"
   },
   "auth": {
     "invalid_pin": "Invalid pin code, please check and try again",
-    "invalid_username": "Invalid username, please check and try again",
-    "already_logged": "You are already logged in, please try to add another account",
-    "invalid_credentials": "Invalid credentials, please check and try again",
-    "unknow_error": "Unknown error, please contact us at support@esteem.app"
+    "invalid_username": "Nume utilizator invalid, te rugăm să verifici și să reincerci",
+    "already_logged": "Ești deja conectat, te rugăm încearcă să adăugi alt cont",
+    "invalid_credentials": "Credențiale invalide, te rugăm să verifici și să reîncerci",
+    "unknow_error": "Eroare necunoscută, te rugăm să ne contactezi la support@esteem.app"
   },
   "payout": {
-    "potential_payout": "Potential Payout",
-    "promoted": "Promoted",
-    "author_payout": "Author Payout",
-    "curation_payout": "Curation Payout",
-    "payout_date": "Payout"
+    "potential_payout": "Plată probabilă",
+    "promoted": "Promovat",
+    "author_payout": "Plata autorului",
+    "curation_payout": "Plată de curare",
+    "payout_date": "Plată"
   },
   "post_dropdown": {
-    "copy": "copy link",
+    "copy": "copiază link",
     "reblog": "reblog",
-    "reply": "reply",
-    "share": "share",
-    "bookmarks": "add to bookmarks"
+    "reply": "răspunde",
+    "share": "distribuire",
+    "bookmarks": "adaugă la bookmarks"
   },
   "deep_link": {
-    "no_existing_user": "No existing user",
-    "no_existing_post": "No existing post"
+    "no_existing_user": "Utilizator inexistent",
+    "no_existing_post": "Utilizator inexistent"
   }
 }

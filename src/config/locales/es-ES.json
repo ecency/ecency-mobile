@@ -78,7 +78,8 @@
     "description": "Las credenciales del usuario se guardan localmente en el dispositivo. Al cerrar la sesión las credenciales son eliminadas!",
     "cancel": "cancelar",
     "login": "ACCEDER",
-    "steemconnect_description": "Si no desea mantener su contraseña encriptada y guardada en su dispositivo, puede usar Steemconnect."
+    "steemconnect_description": "Si no desea mantener su contraseña encriptada y guardada en su dispositivo, puede usar Steemconnect.",
+    "steemconnect_fee_description": "Steemconnect may charge some fees from your reward transactions"
   },
   "home": {
     "feed": "Inicio",
@@ -165,7 +166,7 @@
     "empty_list": "Nada aquí",
     "deleted": "Marcador removido",
     "search": "Buscar en marcadores",
-    "added": "Agregado a favoritos",
+    "added": "Añadido a marcadores",
     "add": "Añadir a favoritos"
   },
   "favorites": {

@@ -27,10 +27,10 @@
     "yesterday": "Yesterday",
     "this_week": "This Week",
     "this_month": "This Month",
-    "older_then": "Older Than A Month"
+    "older_then": "This Week"
   },
   "messages": {
-    "comingsoon": "Messages feature is coming soon!"
+    "comingsoon": "விரைவில் வரும் செய்திகளை அம்சம்!"
   },
   "profile": {
     "following": "Following",
@@ -78,7 +78,8 @@
     "description": "User credentials are kept locally on the device. Credentials are removed upon logout!",
     "cancel": "cancel",
     "login": "LOGIN",
-    "steemconnect_description": "If you don't want to keep your password encrypted and saved on your device, you can use Steemconnect."
+    "steemconnect_description": "If you don't want to keep your password encrypted and saved on your device, you can use Steemconnect.",
+    "steemconnect_fee_description": "Steemconnect may charge some fees from your reward transactions"
   },
   "home": {
     "feed": "Feed",
@@ -165,7 +166,7 @@
     "empty_list": "Nothing here",
     "deleted": "Bookmark removed",
     "search": "Search in bookmarks",
-    "added": "Added to bookmars",
+    "added": "Added to bookmarks",
     "add": "Add to bookmarks"
   },
   "favorites": {

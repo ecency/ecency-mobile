@@ -75,17 +75,20 @@ class PostDisplayContainer extends Component {
   };
 
   render() {
-    const { post, currentAccount, isLoggedIn } = this.props;
+    const {
+      currentAccount, isLoggedIn, parentPost, post,
+    } = this.props;
 
     return (
       <PostDisplayView
-        handleOnVotersPress={this._handleOnVotersPress}
-        handleOnReplyPress={this._handleOnReplyPress}
-        handleOnEditPress={this._handleOnEditPress}
         currentAccount={currentAccount}
         fetchPost={this._fetchPost}
-        post={post}
+        handleOnEditPress={this._handleOnEditPress}
+        handleOnReplyPress={this._handleOnReplyPress}
+        handleOnVotersPress={this._handleOnVotersPress}
         isLoggedIn={isLoggedIn}
+        parentPost={parentPost}
+        post={post}
       />
     );
   }

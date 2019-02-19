@@ -78,7 +78,8 @@
     "description": "Kelayakan pengguna disimpan secara tempatan pada peranti. Apabila log keluar kelayakan akan dikeluarkan!",
     "cancel": "batal",
     "login": "LOG MASUK",
-    "steemconnect_description": "Jika anda tidak berhasrat untuk menyimpan kata laluan yang dienkripsi dan disimpan pada peranti anda, anda boleh menggunakan Steemconnect."
+    "steemconnect_description": "Jika anda tidak berhasrat untuk menyimpan kata laluan yang dienkripsi dan disimpan pada peranti anda, anda boleh menggunakan Steemconnect.",
+    "steemconnect_fee_description": "Kegunaan Steemconnect mungkin akan mengenekan bayaran fi dari transaksi ganjaran"
   },
   "home": {
     "feed": "Suapan",
@@ -165,7 +166,7 @@
     "empty_list": "Kosong",
     "deleted": "Tanda halaman yang dikeluarkan",
     "search": "Cari di penanda halaman",
-    "added": "Ditambah ke tanda halaman",
+    "added": "Tanda halaman ditambah",
     "add": "Ditambah ke tanda halaman"
   },
   "favorites": {

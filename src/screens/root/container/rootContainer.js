@@ -15,7 +15,6 @@ import { getPost, getUser } from '../../../providers/steem/dsteem';
 import { Modal } from '../../../components';
 import { PinCode } from '../../pinCode';
 import PostButtonForAndroid from '../../../components/postButton/view/postButtonsForAndroid';
-import { ToastNotificaiton } from '../../../components/toastNotification';
 
 // Constants
 import ROUTES from '../../../constants/routeNames';
@@ -34,7 +33,14 @@ const RootContainer = () => (WrappedComponent) => {
     componentDidMount() {
       AppState.addEventListener('change', this._handleAppStateChange);
       this._createPushListener();
-      Linking.addEventListener('url', this._handleOpenURL);
+
+      if (Platform.OS === 'android') {
+        Linking.getInitialURL().then((url) => {
+          this._handleDeepLink(url);
+        });
+      } else {
+        Linking.addEventListener('url', this._handleOpenURL);
+      }
     }
 
     componentWillUnmount() {
@@ -44,7 +50,7 @@ const RootContainer = () => (WrappedComponent) => {
 
     _handleOpenURL = (event) => {
       this._handleDeepLink(event.url);
-    }
+    };
 
     _handleDeepLink = async (url) => {
       if (!url) return;
@@ -55,22 +61,19 @@ const RootContainer = () => (WrappedComponent) => {
       let params;
       let content;
       let profile;
-      const postRegex = /^https?:\/\/(.*)\/(.*)\/(@[\w.\d-]+)\/(.*)/i;
       const { navigation, currentAccountUsername, intl } = this.props;
 
-      if (url.indexOf('esteem') > -1) {
-        const route = url.replace(/.*?:\/\//g, '');
-        const routeParams = route.indexOf('/') > -1 ? route.split('/') : [route];
+      if (
+        url.indexOf('esteem') > -1
+        || url.indexOf('steemit') > -1
+        || url.indexOf('busy') > -1
+        || url.indexOf('steempeak') > -1
+      ) {
+        url = url.substring(url.indexOf('@'), url.length);
+        const routeParams = url.indexOf('/') > -1 ? url.split('/') : [url];
 
-        if (routeParams && routeParams.length > 1) {
-          permlink = routeParams[2];
-          author = routeParams[1].indexOf('@') > -1 ? routeParams[1].replace('@', '') : routeParams[1];
-        } else if ((routeParams && routeParams.length === 1) || route.indexOf('@') > -1) {
-          author = route.length >= 3 && route;
-        }
-      } else if (url.indexOf('steemit') > -1) {
-        const urlMatch = url.match(postRegex);
-        const sss = urlMatch;
+        [, permlink] = routeParams;
+        author = routeParams[0].indexOf('@') > -1 ? routeParams[0].replace('@', '') : routeParams[0];
       }
 
       if (author && permlink) {
@@ -113,11 +116,14 @@ const RootContainer = () => (WrappedComponent) => {
       }
 
       if (profile || content) {
-        navigation.navigate({
-          routeName,
-          params,
-          key: permlink || author,
-        });
+        this.navigationTimeout = setTimeout(() => {
+          clearTimeout(this.navigationTimeout);
+          navigation.navigate({
+            routeName,
+            params,
+            key: permlink || author,
+          });
+        }, 2000);
       }
     };
 
@@ -171,10 +177,9 @@ const RootContainer = () => (WrappedComponent) => {
 
           if (extra.parent_permlink || extra.permlink) {
             params = {
-              author:
-                extra.parent_permlink
-                  ? extra.parent_author
-                  : pushNotification.customProperties.target,
+              author: extra.parent_permlink
+                ? extra.parent_author
+                : pushNotification.customProperties.target,
               permlink: extra.parent_permlink ? extra.parent_permlink : extra.permlink,
             };
             key = extra.parent_permlink ? extra.parent_permlink : extra.permlink;
