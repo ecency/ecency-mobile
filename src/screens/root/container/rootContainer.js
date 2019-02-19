@@ -50,7 +50,7 @@ const RootContainer = () => (WrappedComponent) => {
 
     _handleOpenURL = (event) => {
       this._handleDeepLink(event.url);
-    }
+    };
 
     _handleDeepLink = async (url) => {
       if (!url) return;
@@ -116,7 +116,8 @@ const RootContainer = () => (WrappedComponent) => {
       }
 
       if (profile || content) {
-        setTimeout(() => {
+        this.navigationTimeout = setTimeout(() => {
+          clearTimeout(this.navigationTimeout);
           navigation.navigate({
             routeName,
             params,
@@ -176,10 +177,9 @@ const RootContainer = () => (WrappedComponent) => {
 
           if (extra.parent_permlink || extra.permlink) {
             params = {
-              author:
-                extra.parent_permlink
-                  ? extra.parent_author
-                  : pushNotification.customProperties.target,
+              author: extra.parent_permlink
+                ? extra.parent_author
+                : pushNotification.customProperties.target,
               permlink: extra.parent_permlink ? extra.parent_permlink : extra.permlink,
             };
             key = extra.parent_permlink ? extra.parent_permlink : extra.permlink;
