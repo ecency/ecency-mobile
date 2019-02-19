@@ -1,6 +1,6 @@
 {
   "wallet": {
-    "curation_reward": "پاداش جمع آوری شده",
+    "curation_reward": "پاداش مشارکت",
     "author_reward": "پاداش نویسنده",
     "comment_benefactor_reward": "پاداش متعلق به نویسنده نظر",
     "claim_reward_balance": "دریافت پاداش",
@@ -186,7 +186,7 @@
     "potential_payout": "پرداخت های بالقوه",
     "promoted": "ارتقا داده شده",
     "author_payout": "پاداش نویسنده",
-    "curation_payout": "دستمزد حامیان",
+    "curation_payout": "پاداش مشارکت",
     "payout_date": "پرداخت"
   },
   "post_dropdown": {
