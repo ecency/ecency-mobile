@@ -115,7 +115,7 @@ class PostDisplayView extends PureComponent {
     const { post, fetchPost, parentPost } = this.props;
     const { postHeight, scrollHeight, isLoadedComments } = this.state;
 
-    const isPostEnd = scrollHeight > postHeight;
+    // const isPostEnd = scrollHeight > postHeight;
     const isGetComment = scrollHeight + 300 > postHeight;
     const formatedTime = post && getTimeFromNow(post.created);
 
