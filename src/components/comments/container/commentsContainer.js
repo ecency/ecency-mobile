@@ -11,8 +11,6 @@ import { getComments } from '../../../providers/steem/dsteem';
 // Constants
 import { default as ROUTES } from '../../../constants/routeNames';
 
-// Utilities
-import authorReputation from '../../../utils/authorReputation';
 // Component
 import { CommentsView } from '..';
 
@@ -42,7 +40,7 @@ class CommentsContainer extends Component {
       this._getComments();
     }
 
-    if (selectedFilter !== nextProps.selectedFilter) {
+    if (selectedFilter !== nextProps.selectedFilter && nextProps.selectedFilter) {
       const shortedComments = this._shortComments(nextProps.selectedFilter);
       this.setState({ comments: shortedComments });
     }
@@ -60,7 +58,7 @@ class CommentsContainer extends Component {
     const absNegative = a => a.net_rshares < 0;
 
     const sortOrders = {
-      trending: (a, b) => {
+      TRENDING: (a, b) => {
         if (absNegative(a)) {
           return 1;
         }
@@ -77,16 +75,16 @@ class CommentsContainer extends Component {
 
         return 0;
       },
-      reputation: (a, b) => {
-        const keyA = authorReputation(a.author_reputation);
-        const keyB = authorReputation(b.author_reputation);
+      REPUTATION: (a, b) => {
+        const keyA = a.author_reputation;
+        const keyB = b.author_reputation;
 
         if (keyA > keyB) return -1;
         if (keyA < keyB) return 1;
 
         return 0;
       },
-      votes: (a, b) => {
+      VOTES: (a, b) => {
         const keyA = a.net_votes;
         const keyB = b.net_votes;
 
@@ -95,7 +93,7 @@ class CommentsContainer extends Component {
 
         return 0;
       },
-      age: (a, b) => {
+      AGE: (a, b) => {
         if (absNegative(a)) {
           return 1;
         }
