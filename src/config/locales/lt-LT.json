@@ -78,7 +78,8 @@
     "description": "Vartotojo kredencialai saugomi lokaliai įrenginyje. Atsijungus kredencialai pašalinami!",
     "cancel": "atšaukti",
     "login": "PRISIJUNGTI",
-    "steemconnect_description": "Jei nenorite, kad jūsų slaptažodis būtų įrašomas į jūsų įrenginį, galite naudoti Steemconnect."
+    "steemconnect_description": "Jei nenorite, kad jūsų slaptažodis būtų įrašomas į jūsų įrenginį, galite naudoti Steemconnect.",
+    "steemconnect_fee_description": "Steemconnect gali paimti mažą mokestį nuo jūsų atlygio pavedimų"
   },
   "home": {
     "feed": "Pagrindinis",
@@ -114,8 +115,8 @@
     "reply_placeholder": "Ką norėtumėte parašyti po įrašu?",
     "publish": "Skelbti",
     "reply": "Atsakyti",
-    "open_galery": "Open Galery",
-    "capture_photo": "Capture a photo"
+    "open_galery": "Atidaryti Galeriją",
+    "capture_photo": "Užfiksuoti nuotrauką"
   },
   "pincode": {
     "enter_text": "Enter pin to unlock",
@@ -136,12 +137,12 @@
     "warning": "Dėmesio",
     "invalid_pincode": "Invalid pin code, please check and try again.",
     "remove_alert": "Are you sure want to remove?",
-    "clear_alert": "Are you sure you want to clear?",
-    "clear": "Clear",
+    "clear_alert": "Ar tikrai norite panaikinti?",
+    "clear": "Panaikinti",
     "cancel": "Atšaukti",
     "delete": "Ištrinti",
-    "copied": "Copied!",
-    "no_internet": "No connection!"
+    "copied": "Nukopijuota!",
+    "no_internet": "Nėra ryšio!"
   },
   "post": {
     "reblog_alert": "Ar tikrai norite dalintis?"
@@ -165,8 +166,8 @@
     "empty_list": "Nieko nėra",
     "deleted": "Žymė panaikinta",
     "search": "Ieškoti žymelėse",
-    "added": "Added to bookmars",
-    "add": "Add to bookmarks"
+    "added": "Pridėta į žymes",
+    "add": "Pridėti į žymes"
   },
   "favorites": {
     "title": "Mėgstamiausi",
@@ -193,10 +194,10 @@
     "reblog": "pasidalinti",
     "reply": "atsakymas",
     "share": "dalintis",
-    "bookmarks": "add to bookmarks"
+    "bookmarks": "pridėti į žymes"
   },
   "deep_link": {
-    "no_existing_user": "No existing user",
-    "no_existing_post": "No existing post"
+    "no_existing_user": "Nėra tokio vartotojo",
+    "no_existing_post": "Nėra tokio įrašo"
   }
 }

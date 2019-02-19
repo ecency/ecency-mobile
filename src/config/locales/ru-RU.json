@@ -78,7 +78,8 @@
     "description": "Ключи хранятся только на вашем устройстве и удаляются во время разлогина!",
     "cancel": "отмена",
     "login": "Войти",
-    "steemconnect_description": "Если не хотите хранить зашифрованные ключи на вашем устройстве, исползуйте Steemconnect."
+    "steemconnect_description": "Если не хотите хранить зашифрованные ключи на вашем устройстве, исползуйте Steemconnect.",
+    "steemconnect_fee_description": "Steemconnect may charge some fees from your reward transactions"
   },
   "home": {
     "feed": "Лента",
@@ -165,7 +166,7 @@
     "empty_list": "Ничего нет",
     "deleted": "Закладка удалена",
     "search": "Поиск по закладкам",
-    "added": "Added to bookmars",
+    "added": "Added to bookmarks",
     "add": "Add to bookmarks"
   },
   "favorites": {
