@@ -141,7 +141,7 @@ class EditorScreen extends Component {
     handleFormChanged();
 
     this._handleIsFormValid();
-    if (isReply) this._saveCurrentDraft();
+    this._saveCurrentDraft();
   };
 
   _handleOnTagAdded = (tags) => {
