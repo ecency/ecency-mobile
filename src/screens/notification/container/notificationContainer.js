@@ -71,7 +71,7 @@ class NotificationContainer extends Component {
         params: {
           author: data.author,
           permlink: data.permlink,
-          isNotification: true,
+          isHasParentPost: data.parent_author && data.parent_permlink,
         },
         key: data.permlink,
       });
