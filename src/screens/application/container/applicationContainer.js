@@ -75,10 +75,12 @@ class ApplicationContainer extends Component {
     this.state = {
       isRenderRequire: true,
       isReady: false,
+      isIos: Platform.OS !== 'android',
     };
   }
 
   componentDidMount = async () => {
+    const { isIos } = this.state;
     let isConnected;
 
     await NetInfo.isConnected.fetch().then((_isConnected) => {
@@ -86,7 +88,7 @@ class ApplicationContainer extends Component {
     });
 
     NetInfo.isConnected.addEventListener('connectionChange', this._handleConntectionChange);
-    BackHandler.addEventListener('hardwareBackPress', this._onBackPress);
+    if (!isIos) BackHandler.addEventListener('hardwareBackPress', this._onBackPress);
 
     if (isConnected) {
       this._fetchApp();
@@ -116,7 +118,10 @@ class ApplicationContainer extends Component {
   }
 
   componentWillUnmount() {
-    BackHandler.removeEventListener('hardwareBackPress', this.onBackPress);
+    const { isIos } = this.state;
+
+    if (!isIos) BackHandler.removeEventListener('hardwareBackPress', this._onBackPress);
+
     NetInfo.isConnected.removeEventListener('connectionChange', this._handleConntectionChange);
     clearInterval(this.globalInterval);
   }
