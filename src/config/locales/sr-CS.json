@@ -78,7 +78,8 @@
     "description": "User credentials are kept locally on the device. Credentials are removed upon logout!",
     "cancel": "otkaži",
     "login": "PRIJAVI SE",
-    "steemconnect_description": "If you don't want to keep your password encrypted and saved on your device, you can use Steemconnect."
+    "steemconnect_description": "If you don't want to keep your password encrypted and saved on your device, you can use Steemconnect.",
+    "steemconnect_fee_description": "Steemconnect may charge some fees from your reward transactions"
   },
   "home": {
     "feed": "Novosti",
@@ -165,7 +166,7 @@
     "empty_list": "Ovde nema ništa",
     "deleted": "Obeleživač je uklonjen",
     "search": "Pretraži među obeleživačima",
-    "added": "Added to bookmars",
+    "added": "Added to bookmarks",
     "add": "Add to bookmarks"
   },
   "favorites": {

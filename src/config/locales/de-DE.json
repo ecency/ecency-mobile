@@ -78,7 +78,8 @@
     "description": "Zugangsdaten werden lokal auf dem Gerät gespeichert. Diese werden nach dem Abmelden gelöscht!",
     "cancel": "Abbrechen",
     "login": "LOGIN",
-    "steemconnect_description": "Wenn du dein Passwort nicht verschlüsselt auf deinem Gerät gespeichert halten möchtest, kannst du Steemconnect verwenden."
+    "steemconnect_description": "Wenn du dein Passwort nicht verschlüsselt auf deinem Gerät gespeichert halten möchtest, kannst du Steemconnect verwenden.",
+    "steemconnect_fee_description": "Steemconnect may charge some fees from your reward transactions"
   },
   "home": {
     "feed": "Feed",
@@ -114,8 +115,8 @@
     "reply_placeholder": "Was möchtest du über den vorgenannten Beitrag schreiben?",
     "publish": "Veröffentlichen",
     "reply": "Antworten",
-    "open_galery": "Open Galery",
-    "capture_photo": "Capture a photo"
+    "open_galery": "Gallerie öffnen",
+    "capture_photo": "Ein Foto aufnehmen"
   },
   "pincode": {
     "enter_text": "PIN zum Entsperren eingeben",
@@ -140,8 +141,8 @@
     "clear": "Clear",
     "cancel": "Abbrechen",
     "delete": "Entfernen",
-    "copied": "Copied!",
-    "no_internet": "No connection!"
+    "copied": "Kopiert!",
+    "no_internet": "Keine Verbindung!"
   },
   "post": {
     "reblog_alert": "Möchtest du diesen Beitrag wirklich teilen?"
@@ -165,8 +166,8 @@
     "empty_list": "Keine Einträge vorhanden",
     "deleted": "Lesezeichen entfernt",
     "search": "In Lesezeichen suchen",
-    "added": "Added to bookmars",
-    "add": "Add to bookmarks"
+    "added": "Added to bookmarks",
+    "add": "Neues Lesezeichen"
   },
   "favorites": {
     "title": "Favoriten",
@@ -190,10 +191,10 @@
   },
   "post_dropdown": {
     "copy": "Link kopieren",
-    "reblog": "Teilen",
+    "reblog": "Reblog",
     "reply": "Antworten",
     "share": "Teilen",
-    "bookmarks": "add to bookmarks"
+    "bookmarks": "Lesezeichen hinzufügen"
   },
   "deep_link": {
     "no_existing_user": "Kein vorhandener Benutzer",
