@@ -20,6 +20,8 @@ class PostContainer extends Component {
       post: null,
       error: null,
       isNewPost: false,
+      isNotification: false,
+      parentPost: null,
     };
   }
 
@@ -27,15 +29,17 @@ class PostContainer extends Component {
   componentDidMount() {
     const { navigation } = this.props;
     const {
-      content, permlink, author, isNewPost,
+      content, permlink, author, isNewPost, isNotification,
     } = navigation.state && navigation.state.params;
 
     if (isNewPost) this.setState({ isNewPost });
 
     if (content) {
       this.setState({ post: content });
-    } else {
+    } else if (author && permlink) {
       this._loadPost(author, permlink);
+
+      if (isNotification) this.setState({ isNotification });
     }
   }
 
@@ -52,8 +56,8 @@ class PostContainer extends Component {
 
   // Component Functions
 
-  _loadPost = async (author = null, permlink = null) => {
-    const { currentAccount, isLoggedIn, navigation } = this.props;
+  _loadPost = async (author = null, permlink = null, isParentPost = false) => {
+    const { currentAccount, isLoggedIn } = this.props;
     const { post } = this.state;
 
     const _author = author || post.author;
@@ -62,7 +66,11 @@ class PostContainer extends Component {
     await getPost(_author, _permlink, isLoggedIn && currentAccount.username)
       .then((result) => {
         if (result) {
-          this.setState({ post: result });
+          if (isParentPost) {
+            this.setState({ parentPost: result });
+          } else {
+            this.setState({ post: result });
+          }
         }
       })
       .catch((err) => {
@@ -72,17 +80,22 @@ class PostContainer extends Component {
 
   render() {
     const { currentAccount, isLoggedIn } = this.props;
-    const { post, error, isNewPost } = this.state;
+    const {
+      error, isNewPost, parentPost, post, isNotification,
+    } = this.state;
+
+    if (isNotification && post) this._loadPost(post.parent_author, post.parent_permlink, true);
 
     return (
       <PostScreen
         currentAccount={currentAccount}
         error={error}
-        isLoggedIn={isLoggedIn}
-        post={post}
         fetchPost={this._loadPost}
         isFetchComments
+        isLoggedIn={isLoggedIn}
         isNewPost={isNewPost}
+        parentPost={parentPost}
+        post={post}
       />
     );
   }

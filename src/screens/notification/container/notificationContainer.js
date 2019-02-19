@@ -71,6 +71,7 @@ class NotificationContainer extends Component {
         params: {
           author: data.author,
           permlink: data.permlink,
+          isNotification: true,
         },
         key: data.permlink,
       });
@@ -107,7 +108,10 @@ class NotificationContainer extends Component {
   render() {
     const { isLoggedIn } = this.props;
     const {
-      notifications, notificationLoading, readAllNotificationLoading, isDarkTheme,
+      notifications,
+      notificationLoading,
+      readAllNotificationLoading,
+      isDarkTheme,
     } = this.state;
 
     return (

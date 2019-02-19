@@ -13,6 +13,7 @@ import { PostPlaceHolder, StickyBar, TextWithIcon } from '../../basicUIElements'
 import { Upvote } from '../../upvote';
 import { IconButton } from '../../iconButton';
 import { CommentsDisplay } from '../../commentsDisplay';
+import { ParentPost } from '../../parentPost';
 
 // Styles
 import styles from './postDisplayStyles';
@@ -111,7 +112,7 @@ class PostDisplayView extends PureComponent {
   };
 
   render() {
-    const { post, fetchPost } = this.props;
+    const { post, fetchPost, parentPost } = this.props;
     const { postHeight, scrollHeight, isLoadedComments } = this.state;
 
     const isPostEnd = scrollHeight > postHeight;
@@ -123,6 +124,8 @@ class PostDisplayView extends PureComponent {
     return (
       <Fragment>
         <ScrollView style={styles.scroll} onScroll={event => this._handleOnScroll(event)}>
+          {parentPost && <ParentPost post={parentPost} />}
+
           <View style={styles.header}>
             {!post ? (
               <PostPlaceHolder />
