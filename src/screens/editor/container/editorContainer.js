@@ -1,7 +1,7 @@
 import React, { Component } from 'react';
 import { connect } from 'react-redux';
 import { injectIntl } from 'react-intl';
-import { Alert } from 'react-native';
+import { Alert, AsyncStorage } from 'react-native';
 import ImagePicker from 'react-native-image-crop-picker';
 
 // Services and Actions
@@ -105,26 +105,33 @@ class EditorContainer extends Component {
       this.setState({ autoFocusText: true });
     }
 
-    if (!isReply && !isEdit && !_draft) {
-      this._getDraft(username);
+    if (!isEdit && !_draft) {
+      this._getDraft(username, isReply);
     }
   }
 
-  _getDraft = (username) => {
-    getDraftPost(username)
-      .then((result) => {
-        this.setState({
-          draftPost: { body: result.body, title: result.title, tags: result.tags.split(',') },
-        });
-      })
-      .catch(() => {
-        // alert(error);
+  _getDraft = async (username, isReply) => {
+    if (isReply) {
+      const draftReply = await AsyncStorage.getItem('temp-reply');
+      this.setState({
+        draftPost: { body: draftReply },
       });
+    } else {
+      await getDraftPost(username)
+        .then(result => {
+          this.setState({
+            draftPost: { body: result.body, title: result.title, tags: result.tags.split(',') },
+          });
+        })
+        .catch(() => {
+          // alert(error);
+        });
+    }
   };
 
   _getPurePost = (author, permlink) => {
     getPurePost(author, permlink)
-      .then((result) => {
+      .then(result => {
         if (result) {
           this.setState(prevState => ({
             draftPost: {
@@ -137,7 +144,7 @@ class EditorContainer extends Component {
       .catch(() => {});
   };
 
-  _handleRoutingAction = (routingAction) => {
+  _handleRoutingAction = routingAction => {
     this.setState({ isCameraOrPickerOpen: true });
 
     if (routingAction === 'camera') {
@@ -153,10 +160,10 @@ class EditorContainer extends Component {
     ImagePicker.openPicker({
       includeBase64: true,
     })
-      .then((image) => {
+      .then(image => {
         this._handleMediaOnSelected(image);
       })
-      .catch((e) => {
+      .catch(e => {
         this._handleMediaOnSelectFailure(e);
       });
   };
@@ -165,15 +172,15 @@ class EditorContainer extends Component {
     ImagePicker.openCamera({
       includeBase64: true,
     })
-      .then((image) => {
+      .then(image => {
         this._handleMediaOnSelected(image);
       })
-      .catch((e) => {
+      .catch(e => {
         this._handleMediaOnSelectFailure(e);
       });
   };
 
-  _handleMediaOnSelected = (media) => {
+  _handleMediaOnSelected = media => {
     this.setState({ isCameraOrPickerOpen: false, isUploading: true }, () => {
       this._uploadImage(media);
     });
@@ -185,7 +192,7 @@ class EditorContainer extends Component {
     // const data = new Buffer(media.data, 'base64');
   };
 
-  _uploadImage = (media) => {
+  _uploadImage = media => {
     const { intl } = this.props;
 
     const file = {
@@ -196,12 +203,12 @@ class EditorContainer extends Component {
     };
 
     uploadImage(file)
-      .then((res) => {
+      .then(res => {
         if (res.data && res.data.url) {
           this.setState({ uploadedImage: res.data, isUploading: false });
         }
       })
-      .catch((error) => {
+      .catch(error => {
         Alert.alert(
           intl.formatMessage({
             id: 'alert.fail',
@@ -212,7 +219,7 @@ class EditorContainer extends Component {
       });
   };
 
-  _handleMediaOnSelectFailure = (error) => {
+  _handleMediaOnSelectFailure = error => {
     const { intl } = this.props;
     this.setState({ isCameraOrPickerOpen: false });
 
@@ -230,7 +237,7 @@ class EditorContainer extends Component {
 
   // Media select functions <- END ->
 
-  _saveDraftToDB = (fields) => {
+  _saveDraftToDB = fields => {
     const { isDraftSaved, draftId } = this.state;
     if (!isDraftSaved) {
       const { currentAccount } = this.props;
@@ -250,7 +257,7 @@ class EditorContainer extends Component {
           });
         });
       } else {
-        addDraft(draftField).then((response) => {
+        addDraft(draftField).then(response => {
           this.setState({
             isDraftSaved: true,
             draftId: response._id,
@@ -264,8 +271,8 @@ class EditorContainer extends Component {
     }
   };
 
-  _saveCurrentDraft = (fields) => {
-    const { draftId } = this.state;
+  _saveCurrentDraft = async fields => {
+    const { draftId, isReply } = this.state;
 
     if (!draftId) {
       const { currentAccount } = this.props;
@@ -276,14 +283,16 @@ class EditorContainer extends Component {
         tags: fields.tags && fields.tags.length > 0 ? fields.tags.toString() : '',
       };
 
-      setDraftPost(draftField, username);
+      if (isReply && draftField.body) {
+        await AsyncStorage.setItem('temp-reply', draftField.body);
+      } else {
+        setDraftPost(draftField, username);
+      }
     }
   };
 
-  _submitPost = async (fields) => {
-    const {
-      navigation, currentAccount, pinCode, intl,
-    } = this.props;
+  _submitPost = async fields => {
+    const { navigation, currentAccount, pinCode, intl } = this.props;
 
     if (currentAccount) {
       this.setState({ isPostSending: true });
@@ -339,14 +348,16 @@ class EditorContainer extends Component {
             },
             key: permlink,
           });
+
+          setDraftPost({ title: '', body: '', tags: [] }, currentAccount.name);
         })
-        .catch((error) => {
+        .catch(error => {
           this._handleSubmitFailure(error);
         });
     }
   };
 
-  _submitReply = async (fields) => {
+  _submitReply = async fields => {
     const { currentAccount, pinCode } = this.props;
 
     if (currentAccount) {
@@ -375,14 +386,15 @@ class EditorContainer extends Component {
       )
         .then(() => {
           this._handleSubmitSuccess();
+          AsyncStorage.setItem('temp-reply', "");
         })
-        .catch((error) => {
+        .catch(error => {
           this._handleSubmitFailure(error);
         });
     }
   };
 
-  _submitEdit = async (fields) => {
+  _submitEdit = async fields => {
     const { currentAccount, pinCode } = this.props;
     const { post } = this.state;
     if (currentAccount) {
@@ -420,13 +432,13 @@ class EditorContainer extends Component {
         .then(() => {
           this._handleSubmitSuccess();
         })
-        .catch((error) => {
+        .catch(error => {
           this._handleSubmitFailure(error);
         });
     }
   };
 
-  _handleSubmitFailure = (error) => {
+  _handleSubmitFailure = error => {
     const { intl } = this.props;
 
     Alert.alert(
@@ -454,7 +466,7 @@ class EditorContainer extends Component {
     }
   };
 
-  _handleSubmit = (form) => {
+  _handleSubmit = form => {
     const { isReply, isEdit } = this.state;
 
     if (isReply && !isEdit) {
