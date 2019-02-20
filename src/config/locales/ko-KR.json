@@ -2,7 +2,7 @@
   "wallet": {
     "curation_reward": "큐레이션 보상",
     "author_reward": "저자 보상",
-    "comment_benefactor_reward": "Comment Benefactor Reward",
+    "comment_benefactor_reward": "댓글 후원자 보상",
     "claim_reward_balance": "보상 요청",
     "transfer": "송금",
     "transfer_to_vesting": "파워 업",
@@ -11,15 +11,15 @@
     "fill_order": "체결 주문"
   },
   "notification": {
-    "vote": "likes your post",
-    "unvote": "unvoted your post",
-    "reply": "replied to your post",
-    "mention": "mentioned you",
-    "follow": "followed you",
-    "unfollow": "unfollowed you",
-    "ignore": "ignored you",
-    "reblog": "reblogged your post",
-    "comingsoon": "Leaderboard feature is coming soon!",
+    "vote": "님이 당신 글을 좋아합니다",
+    "unvote": "님이 당신 글에 대한 투표를 취소했습니다",
+    "reply": "님이 당신 글에 댓글을 남겼습니다",
+    "mention": "님이 당신을 언급했습니다",
+    "follow": "님이 팔로우를 시작했습니다",
+    "unfollow": "님이 팔로우를 취소했습니다",
+    "ignore": "님이 당신을 차단했습니다",
+    "reblog": "님이 당신 글을 리블로그했습니다",
+    "comingsoon": "순위표 기능은 곧 출시될 예정입니다!",
     "notification": "알림",
     "leaderboard": "순위표",
     "leaderboard_title": "일별 상위 사용자",
@@ -30,7 +30,7 @@
     "older_then": "1 달 이상"
   },
   "messages": {
-    "comingsoon": "메시지 기능은 곧 출시 예정입니다!"
+    "comingsoon": "메시지 기능은 곧 출시될 예정입니다!"
   },
   "profile": {
     "following": "팔로잉",
@@ -45,9 +45,9 @@
     "full_in": "Full in",
     "hours": "hours",
     "voting_power": "보팅 파워",
-    "login_to_see": "Login to see",
-    "havent_commented": "haven't commented anything yet",
-    "havent_posted": "haven't posted anything yet",
+    "login_to_see": "로그인해서 확인하기",
+    "havent_commented": "댓글을 작성한 적이 아직 없습니다",
+    "havent_posted": "게시한 글이 아직 없습니다",
     "steem_power": "스팀 파워",
     "next_power_text": "Next power down is in",
     "days": "days",
@@ -72,7 +72,7 @@
   "login": {
     "signin": "로그인",
     "signup": "회원 가입",
-    "signin_title": "To get all the benefits of using eSteem",
+    "signin_title": "로그인해서 eSteem에서 제공하는 모든 혜택을 누리세요",
     "username": "사용자 이름",
     "password": "비밀번호 또는 WIF",
     "description": "사용자의 비밀번호는 기기에만 저장됩니다. 로그아웃 시 저장된 비밀번호는 삭제됩니다!",
