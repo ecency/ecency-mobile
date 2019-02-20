@@ -52,18 +52,18 @@
     "next_power_text": "Next power down is in",
     "days": "days",
     "day": "day",
-    "steem_dollars": "Steem Dollars",
-    "savings": "Savings"
+    "steem_dollars": "스팀 달러",
+    "savings": "안전 금고"
   },
   "settings": {
-    "settings": "Settings",
+    "settings": "설정",
     "currency": "Currency",
-    "language": "Language",
-    "server": "Server",
-    "dark_theme": "Dark Theme",
-    "push_notification": "Push Notification",
+    "language": "언어",
+    "server": "서버",
+    "dark_theme": "어두운 테마",
+    "push_notification": "푸시 알림",
     "pincode": "Pincode",
-    "reset": "Reset"
+    "reset": "초기화"
   },
   "voters": {
     "voters_info": "Voters Info",
@@ -82,41 +82,41 @@
     "steemconnect_fee_description": "Steemconnect may charge some fees from your reward transactions"
   },
   "home": {
-    "feed": "Feed",
-    "popular": "Popular"
+    "feed": "피드",
+    "popular": "인기 순"
   },
   "side_menu": {
-    "profile": "Profile",
-    "bookmarks": "Bookmarks",
-    "favorites": "Favorites",
-    "drafts": "Drafts",
-    "schedules": "Schedules",
-    "gallery": "Gallery",
-    "settings": "Settings",
-    "add_account": "Add Account",
-    "logout": "Logout",
-    "cancel": "Cancel",
-    "logout_text": "Are you sure you want to logout?"
+    "profile": "프로필",
+    "bookmarks": "즐겨찾기",
+    "favorites": "좋아하는 저자",
+    "drafts": "임시 보관함",
+    "schedules": "일정",
+    "gallery": "갤러리",
+    "settings": "설정",
+    "add_account": "계정 추가",
+    "logout": "로그아웃",
+    "cancel": "취소",
+    "logout_text": "로그 아웃 하시겠습니까?"
   },
   "header": {
-    "title": "Login to customize your feed",
+    "title": "맞춤형 피드를 원하신다면 로그인하세요",
     "search": "Search..."
   },
   "basic_header": {
-    "publish": "Publish",
+    "publish": "게시하기",
     "search": "Search",
-    "update": "Update",
-    "reply": "Reply"
+    "update": "업데이트",
+    "reply": "댓글"
   },
   "editor": {
-    "title": "Title",
-    "tags": "tags",
+    "title": "제목",
+    "tags": "태그",
     "default_placeholder": "What would you like to write about today?",
     "reply_placeholder": "What would you like to write about above post?",
-    "publish": "Publish",
-    "reply": "Reply",
-    "open_galery": "Open Galery",
-    "capture_photo": "Capture a photo"
+    "publish": "게시하기",
+    "reply": "댓글",
+    "open_galery": "갤러리 열기",
+    "capture_photo": "사진 캡처하기"
   },
   "pincode": {
     "enter_text": "Enter pin to unlock",
@@ -137,50 +137,50 @@
     "warning": "Warning",
     "invalid_pincode": "Invalid pin code, please check and try again.",
     "remove_alert": "Are you sure want to remove?",
-    "clear_alert": "Are you sure you want to clear?",
-    "clear": "Clear",
-    "cancel": "Cancel",
-    "delete": "Delete",
-    "copied": "Copied!",
-    "no_internet": "No connection!"
+    "clear_alert": "정말로 삭제하시겠습니까?",
+    "clear": "삭제",
+    "cancel": "취소",
+    "delete": "삭제",
+    "copied": "복사됨!",
+    "no_internet": "인터넷 연결을 확인하세요!"
   },
   "post": {
-    "reblog_alert": "Are you sure you want to reblog?"
+    "reblog_alert": "정말로 리블로그 하시겠습니까?"
   },
   "drafts": {
-    "title": "Drafts",
-    "load_error": "Could not load drafts",
-    "empty_list": "Nothing here",
-    "deleted": "Draft deleted"
+    "title": "임시 보관함",
+    "load_error": "임시 저장된 글을 불러올 수 없습니다",
+    "empty_list": "빈 목록입니다",
+    "deleted": "임시 저장된 글이 삭제되었습니다"
   },
   "schedules": {
-    "title": "Scheduled Posts",
-    "empty_list": "Nothing here",
-    "deleted": "Scheduled post deleted",
-    "move": "Move to drafts",
-    "moved": "Moved to drafts"
+    "title": "글 발행 일정",
+    "empty_list": "빈 목록입니다",
+    "deleted": "예약된 글이 삭제되었습니다",
+    "move": "임시 보관함으로 이동",
+    "moved": "임시 보관함으로 이동했습니다"
   },
   "bookmarks": {
-    "title": "Bookmarks",
-    "load_error": "Could not load bookmarks",
-    "empty_list": "Nothing here",
-    "deleted": "Bookmark removed",
-    "search": "Search in bookmarks",
-    "added": "Added to bookmarks",
-    "add": "Add to bookmarks"
+    "title": "즐겨찾기",
+    "load_error": "즐겨찾기를 불러올 수 없습니다",
+    "empty_list": "빈 목록입니다",
+    "deleted": "즐겨찾기가 삭제되었습니다",
+    "search": "즐겨찾기에서 검색",
+    "added": "즐겨찾기에 추가되었습니다",
+    "add": "즐겨찾기에 추가"
   },
   "favorites": {
-    "title": "Favorites",
-    "load_error": "Could not load favorites",
-    "empty_list": "Nothing here",
-    "search": "Search in favorites"
+    "title": "좋아하는 저자",
+    "load_error": "좋아하는 저자 목록을 불러올 수 없습니다.",
+    "empty_list": "빈 목록입니다",
+    "search": "좋아하는 저자 목록에서 검색"
   },
   "auth": {
     "invalid_pin": "Invalid pin code, please check and try again",
-    "invalid_username": "Invalid username, please check and try again",
-    "already_logged": "You are already logged in, please try to add another account",
-    "invalid_credentials": "Invalid credentials, please check and try again",
-    "unknow_error": "Unknown error, please contact us at support@esteem.app"
+    "invalid_username": "올바르지 않은 사용자 이름입니다. 확인 후 다시 시도해주세요",
+    "already_logged": "이미 로그인되었습니다. 다른 계정을 이용해 시도해주세요",
+    "invalid_credentials": "올바르지 않은 비밀번호입니다. 확인 후 다시 시도해주세요",
+    "unknow_error": "알 수 없는 오류입니다. support@esteem.app 로 문의바랍니다"
   },
   "payout": {
     "potential_payout": "예상 보상 금액",
@@ -190,14 +190,14 @@
     "payout_date": "보상"
   },
   "post_dropdown": {
-    "copy": "copy link",
-    "reblog": "reblog",
-    "reply": "reply",
-    "share": "share",
-    "bookmarks": "add to bookmarks"
+    "copy": "링크 복사",
+    "reblog": "리블로그",
+    "reply": "댓글",
+    "share": "공유",
+    "bookmarks": "즐겨찾기에 추가"
   },
   "deep_link": {
-    "no_existing_user": "No existing user",
-    "no_existing_post": "No existing post"
+    "no_existing_user": "존재하지 않는 사용자입니다",
+    "no_existing_post": "존재하지 않는 글입니다"
   }
 }
