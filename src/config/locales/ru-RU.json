@@ -115,8 +115,8 @@
     "reply_placeholder": "Напишите ваш комментарий",
     "publish": "Написать",
     "reply": "Ответить",
-    "open_galery": "Open Galery",
-    "capture_photo": "Capture a photo"
+    "open_galery": "Открыть галерею",
+    "capture_photo": "Сделать фото"
   },
   "pincode": {
     "enter_text": "Введите пинкод",
@@ -137,11 +137,11 @@
     "warning": "Внимание",
     "invalid_pincode": "Неверный пин, попробуйте снова.",
     "remove_alert": "Вы уверены, что хотите удалить?",
-    "clear_alert": "Are you sure you want to clear?",
-    "clear": "Clear",
+    "clear_alert": "Вы уверены, что хотите очистить?",
+    "clear": "Очистить",
     "cancel": "Отмена",
     "delete": "Удалить",
-    "copied": "Copied!",
+    "copied": "Скопировано!",
     "no_internet": "No internet connection"
   },
   "post": {
@@ -166,8 +166,8 @@
     "empty_list": "Ничего нет",
     "deleted": "Закладка удалена",
     "search": "Поиск по закладкам",
-    "added": "Added to bookmarks",
-    "add": "Add to bookmarks"
+    "added": "закладка добавлена",
+    "add": "добавить"
   },
   "favorites": {
     "title": "Избранное",
@@ -194,7 +194,7 @@
     "reblog": "репост",
     "reply": "ответить",
     "share": "поделиться",
-    "bookmarks": "add to bookmarks"
+    "bookmarks": "добавить в закладки"
   },
   "deep_link": {
     "no_existing_user": "Несуществующий пользователь",
