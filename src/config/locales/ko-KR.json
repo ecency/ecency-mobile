@@ -50,8 +50,8 @@
     "havent_posted": "게시한 글이 아직 없습니다",
     "steem_power": "스팀 파워",
     "next_power_text": "Next power down is in",
-    "days": "days",
-    "day": "day",
+    "days": "일",
+    "day": "일",
     "steem_dollars": "스팀 달러",
     "savings": "안전 금고"
   },
@@ -67,7 +67,7 @@
   },
   "voters": {
     "voters_info": "투표자 정보",
-    "no_user": "No user found."
+    "no_user": "투표한 사용자가 없습니다"
   },
   "login": {
     "signin": "로그인",
@@ -100,11 +100,11 @@
   },
   "header": {
     "title": "맞춤형 피드를 원하신다면 로그인하세요",
-    "search": "Search..."
+    "search": "검색하기..."
   },
   "basic_header": {
     "publish": "게시하기",
-    "search": "Search",
+    "search": "검색",
     "update": "업데이트",
     "reply": "댓글"
   },
@@ -122,7 +122,7 @@
     "enter_text": "잠금을 해제하려면 PIN 코드를 입력해주세요",
     "set_new": "새로운 PIN 코드 설정",
     "write_again": "다시 한 번 입력해주세요",
-    "forgot_text": "Oh, I forgot it..."
+    "forgot_text": "PIN 코드가 기억나지 않습니다..."
   },
   "alert": {
     "success": "성공!",
