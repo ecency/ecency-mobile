@@ -56,6 +56,7 @@ export const parsePost = (post, currentUserName, isSummary = false) => {
 const isVoted = (activeVotes, currentUserName) => activeVotes.some(v => v.voter === currentUserName && v.percent > 0);
 
 const postImage = (metaData, body) => {
+  const imgTagRegex = /(<img[^>]*>)/g;
   const markdownImageRegex = /!\[[^\]]*\]\((.*?)\s*("(?:.*[^"])")?\s*\)/g;
   const urlRegex = /(http|ftp|https):\/\/([\w_-]+(?:(?:\.[\w_-]+)+))([\w.,@?^=%&:/~+#-]*[\w@?^=%&/~+#-])?/gm;
   const imageRegex = /(http(s?):)([/|.|\w|\s|-])*\.(?:jpg|gif|png)/g;
@@ -76,47 +77,56 @@ const postImage = (metaData, body) => {
     imageLink = imageMatch[0];
   }
 
+  if (!imageLink && imgTagRegex.test(body)) {
+    const _imgTag = body.match(imgTagRegex);
+    const match = _imgTag[0].match(urlRegex);
+
+    if (match && match[0]) {
+      imageLink = match[0];
+    }
+  }
+
   if (imageLink) {
     return `https://steemitimages.com/600x0/${imageLink}`;
   }
   return '';
 };
 
-export const protocolUrl2Obj = (url) => {
-  let urlPart = url.split('://')[1];
+// export const protocolUrl2Obj = (url) => {
+//   let urlPart = url.split('://')[1];
 
-  // remove last char if /
-  if (urlPart.endsWith('/')) {
-    urlPart = urlPart.substring(0, urlPart.length - 1);
-  }
+//   // remove last char if /
+//   if (urlPart.endsWith('/')) {
+//     urlPart = urlPart.substring(0, urlPart.length - 1);
+//   }
 
-  const parts = urlPart.split('/');
+//   const parts = urlPart.split('/');
 
-  // filter
-  if (parts.length === 1) {
-    return { type: 'filter' };
-  }
+//   // filter
+//   if (parts.length === 1) {
+//     return { type: 'filter' };
+//   }
 
-  // filter with tag
-  if (parts.length === 2) {
-    return { type: 'filter-tag', filter: parts[0], tag: parts[1] };
-  }
+//   // filter with tag
+//   if (parts.length === 2) {
+//     return { type: 'filter-tag', filter: parts[0], tag: parts[1] };
+//   }
 
-  // account
-  if (parts.length === 1 && parts[0].startsWith('@')) {
-    return { type: 'account', account: parts[0].replace('@', '') };
-  }
+//   // account
+//   if (parts.length === 1 && parts[0].startsWith('@')) {
+//     return { type: 'account', account: parts[0].replace('@', '') };
+//   }
 
-  // post
-  if (parts.length === 3 && parts[1].startsWith('@')) {
-    return {
-      type: 'post',
-      cat: parts[0],
-      author: parts[1].replace('@', ''),
-      permlink: parts[2],
-    };
-  }
-};
+//   // post
+//   if (parts.length === 3 && parts[1].startsWith('@')) {
+//     return {
+//       type: 'post',
+//       cat: parts[0],
+//       author: parts[1].replace('@', ''),
+//       permlink: parts[2],
+//     };
+//   }
+// };
 
 export const parseComments = (comments) => {
   comments.map((comment) => {
