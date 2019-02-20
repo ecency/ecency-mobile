@@ -62,7 +62,7 @@
     "server": "서버",
     "dark_theme": "어두운 테마",
     "push_notification": "푸시 알림",
-    "pincode": "Pincode",
+    "pincode": "PIN 코드",
     "reset": "초기화"
   },
   "voters": {
@@ -119,9 +119,9 @@
     "capture_photo": "사진 캡처하기"
   },
   "pincode": {
-    "enter_text": "Enter pin to unlock",
-    "set_new": "Set new pin",
-    "write_again": "Write again",
+    "enter_text": "잠금을 해제하려면 PIN 코드를 입력해주세요",
+    "set_new": "새로운 PIN 코드 설정",
+    "write_again": "다시 한 번 입력해주세요",
     "forgot_text": "Oh, I forgot it..."
   },
   "alert": {
@@ -135,7 +135,7 @@
     "success_rebloged": "Rebloged!",
     "already_rebloged": "이미 리블로그했습니다!",
     "warning": "경고",
-    "invalid_pincode": "Invalid pin code, please check and try again.",
+    "invalid_pincode": "올바르지 않은 PIN 코드입니다. 확인 후 다시 시도해주세요.",
     "remove_alert": "Are you sure want to remove?",
     "clear_alert": "정말로 삭제하시겠습니까?",
     "clear": "삭제",
@@ -176,7 +176,7 @@
     "search": "좋아하는 저자 목록에서 검색"
   },
   "auth": {
-    "invalid_pin": "Invalid pin code, please check and try again",
+    "invalid_pin": "올바르지 않은 PIN 코드입니다. 확인 후 다시 시도해주세요",
     "invalid_username": "올바르지 않은 사용자 이름입니다. 확인 후 다시 시도해주세요",
     "already_logged": "이미 로그인되었습니다. 다른 계정을 이용해 시도해주세요",
     "invalid_credentials": "올바르지 않은 비밀번호입니다. 확인 후 다시 시도해주세요",
