@@ -57,7 +57,7 @@
   },
   "settings": {
     "settings": "설정",
-    "currency": "Currency",
+    "currency": "화폐 표기",
     "language": "언어",
     "server": "서버",
     "dark_theme": "어두운 테마",
@@ -66,20 +66,20 @@
     "reset": "초기화"
   },
   "voters": {
-    "voters_info": "Voters Info",
+    "voters_info": "투표자 정보",
     "no_user": "No user found."
   },
   "login": {
-    "signin": "Sign in",
-    "signup": "Sign up",
+    "signin": "로그인",
+    "signup": "회원 가입",
     "signin_title": "To get all the benefits of using eSteem",
-    "username": "Username",
-    "password": "Password or WIF",
-    "description": "User credentials are kept locally on the device. Credentials are removed upon logout!",
-    "cancel": "cancel",
-    "login": "LOGIN",
-    "steemconnect_description": "If you don't want to keep your password encrypted and saved on your device, you can use Steemconnect.",
-    "steemconnect_fee_description": "Steemconnect may charge some fees from your reward transactions"
+    "username": "사용자 이름",
+    "password": "비밀번호 또는 WIF",
+    "description": "사용자의 비밀번호는 기기에만 저장됩니다. 로그아웃 시 저장된 비밀번호는 삭제됩니다!",
+    "cancel": "취소",
+    "login": "로그인",
+    "steemconnect_description": "암호화된 비밀번호를 기기에 저장하고 싶지 않다면, Steemconnect를 사용하시길 바랍니다",
+    "steemconnect_fee_description": "Steemconnect는 당신의 보상 트랜잭션에 대해 일정 수수료를 부과할 수 있습니다"
   },
   "home": {
     "feed": "피드",
@@ -125,16 +125,16 @@
     "forgot_text": "Oh, I forgot it..."
   },
   "alert": {
-    "success": "Success!",
-    "allRead": "Marked all notifications as read",
-    "claim_reward_balance_ok": "Reward balance claimed",
-    "fail": "Fail!",
-    "success_shared": "Your post succesfully shared",
-    "permission_denied": "Permission denied",
-    "permission_text": "Please, go to phone Settings and change eSteem app permissions.",
+    "success": "성공!",
+    "allRead": "모든 알림을 읽은 상태로 표시",
+    "claim_reward_balance_ok": "보상을 요청했습니다",
+    "fail": "실패!",
+    "success_shared": "글을 성공적으로 공유했습니다",
+    "permission_denied": "권한이 없습니다",
+    "permission_text": "휴대폰 설정으로 이동하여 eSteem 앱 알림 설정을 변경해주세요",
     "success_rebloged": "Rebloged!",
-    "already_rebloged": "You have already reblogged!",
-    "warning": "Warning",
+    "already_rebloged": "이미 리블로그했습니다!",
+    "warning": "경고",
     "invalid_pincode": "Invalid pin code, please check and try again.",
     "remove_alert": "Are you sure want to remove?",
     "clear_alert": "정말로 삭제하시겠습니까?",
