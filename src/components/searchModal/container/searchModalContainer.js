@@ -3,7 +3,7 @@ import { withNavigation } from 'react-navigation';
 
 // Services and Actions
 import { search } from '../../../providers/esteem/esteem';
-import { lookupAccounts } from '../../../providers/steem/dsteem';
+import { lookupAccounts, getTrendingTags } from '../../../providers/steem/dsteem';
 
 // Middleware
 
@@ -38,11 +38,16 @@ class SearchModalContainer extends PureComponent {
   };
 
   _handleOnChangeSearchInput = (text) => {
-    if (text && text !== '@') {
+    if (text && text !== '@' && text !== '#') {
       if (text[0] === '@') {
         lookupAccounts(text.substr(1)).then((res) => {
           const users = res.map(item => ({ author: item }));
           this.setState({ searchResults: { type: 'user', data: users } });
+        });
+      } else if (text[0] === '#') {
+        getTrendingTags(text.substr(1)).then((res) => {
+          console.log('res :', res);
+          // TODO:
         });
       } else {
         search({ q: text }).then((res) => {
