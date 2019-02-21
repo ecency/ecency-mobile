@@ -32,7 +32,7 @@ class PostBody extends PureComponent {
   // Component Functions
 
   _handleOnLinkPress = (evt, href, hrefatr) => {
-    const { handleOnUserPress, handleOnPostPress, intl } = this.props;
+    const { handleOnUserPress, handleOnPostPress } = this.props;
 
     if (hrefatr.class === 'markdown-author-link') {
       if (!handleOnUserPress) {
@@ -47,9 +47,38 @@ class PostBody extends PureComponent {
         handleOnPostPress(href);
       }
     } else {
-      Linking.canOpenURL(href).then((supported) => {
+      this._handleBrowserLink(href);
+    }
+  };
+
+  _handleBrowserLink = async (url) => {
+    if (!url) return;
+
+    let author;
+    let permlink;
+    const { intl } = this.props;
+
+    if (
+      url.indexOf('esteem') > -1
+      || url.indexOf('steemit') > -1
+      || url.indexOf('busy') > -1
+      || url.indexOf('steempeak') > -1
+    ) {
+      url = url.substring(url.indexOf('@'), url.length);
+      const routeParams = url.indexOf('/') > -1 ? url.split('/') : [url];
+
+      [, permlink] = routeParams;
+      author = routeParams[0].indexOf('@') > -1 ? routeParams[0].replace('@', '') : routeParams[0];
+    }
+
+    if (author && permlink) {
+      this._handleOnPostPress(permlink, author);
+    } else if (author) {
+      this._handleOnUserPress(author);
+    } else {
+      Linking.canOpenURL(url).then((supported) => {
         if (supported) {
-          Linking.openURL(href);
+          Linking.openURL(url);
         } else {
           Alert.alert(intl.formatMessage({ id: 'alert.failed_to_open' }));
         }
