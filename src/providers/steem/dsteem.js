@@ -622,6 +622,15 @@ export const lookupAccounts = async (username) => {
   }
 };
 
+export const getTrendingTags = async (tag) => {
+  try {
+    const users = await client.database.call('get_trending_tags', [tag, 20]);
+    return users;
+  } catch (error) {
+    throw error;
+  }
+};
+
 /**
  * @method postComment post a comment/reply
  * @param comment comment object { author, permlink, ... }
