@@ -20,7 +20,7 @@ class PostContainer extends Component {
       post: null,
       error: null,
       isNewPost: false,
-      isNotification: false,
+      isHasParentPost: false,
       parentPost: null,
     };
   }
@@ -29,7 +29,7 @@ class PostContainer extends Component {
   componentDidMount() {
     const { navigation } = this.props;
     const {
-      content, permlink, author, isNewPost, isNotification,
+      content, permlink, author, isNewPost, isHasParentPost,
     } = navigation.state && navigation.state.params;
 
     if (isNewPost) this.setState({ isNewPost });
@@ -39,7 +39,7 @@ class PostContainer extends Component {
     } else if (author && permlink) {
       this._loadPost(author, permlink);
 
-      if (isNotification) this.setState({ isNotification });
+      if (isHasParentPost) this.setState({ isHasParentPost });
     }
   }
 
@@ -81,10 +81,10 @@ class PostContainer extends Component {
   render() {
     const { currentAccount, isLoggedIn } = this.props;
     const {
-      error, isNewPost, parentPost, post, isNotification,
+      error, isNewPost, parentPost, post, isHasParentPost,
     } = this.state;
 
-    if (isNotification && post) this._loadPost(post.parent_author, post.parent_permlink, true);
+    if (isHasParentPost && post) this._loadPost(post.parent_author, post.parent_permlink, true);
 
     return (
       <PostScreen
