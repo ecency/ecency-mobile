@@ -199,5 +199,11 @@
   "deep_link": {
     "no_existing_user": "Kein vorhandener Benutzer",
     "no_existing_post": "Kein vorhandener Beitrag"
+  },
+  "comment_filter": {
+    "trending": "trending",
+    "reputation": "reputation",
+    "votes": "votes",
+    "age": "age"
   }
 }
