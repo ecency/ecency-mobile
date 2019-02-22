@@ -41,17 +41,28 @@ class SearchModalContainer extends PureComponent {
     if (text && text !== '@' && text !== '#') {
       if (text[0] === '@') {
         lookupAccounts(text.substr(1)).then((res) => {
-          const users = res.map(item => ({ author: item }));
+          const users = res.map(item => ({
+            image: `https://steemitimages.com/u/${item}/avatar/small`,
+            text: item,
+          }));
           this.setState({ searchResults: { type: 'user', data: users } });
         });
       } else if (text[0] === '#') {
         getTrendingTags(text.substr(1)).then((res) => {
-          console.log('res :', res);
-          // TODO:
+          const tags = res.map(item => ({
+            text: `#${item.name}`,
+          }));
+
+          this.setState({ searchResults: { type: 'tag', data: tags } });
         });
       } else {
         search({ q: text }).then((res) => {
-          res.results = res.results.filter(item => item.title !== '');
+          res.results = res.results
+            .filter(item => item.title !== '')
+            .map(item => ({
+              image: item.img_url || `https://steemitimages.com/u/${item.author}/avatar/small`,
+              text: item.title,
+            }));
           this.setState({ searchResults: { type: 'content', data: res.results } });
         });
       }

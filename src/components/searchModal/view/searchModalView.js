@@ -77,19 +77,19 @@ class SearchModalView extends PureComponent {
               renderItem={({ item }) => (
                 <TouchableHighlight onPress={() => handleOnPressListItem(searchResults.type, item)}>
                   <View style={styles.searhItems}>
-                    <FastImage
-                      source={{
-                        uri:
-                          searchResults.type === 'user'
-                            ? `https://steemitimages.com/u/${item.author}/avatar/small`
-                            : item.img_url
-                              || `https://steemitimages.com/u/${item.author}/avatar/small`,
-                      }}
-                      style={styles.searchItemImage}
-                    />
-                    <Text style={styles.searchItemText}>
-                      {searchResults.type === 'user' ? item.author : item.title}
-                    </Text>
+                    <View style={{ flex: 1 }}>
+                      {item.image && (
+                        <FastImage
+                          source={{
+                            uri: item.image,
+                          }}
+                          style={styles.searchItemImage}
+                        />
+                      )}
+                    </View>
+                    <View style={{ flex: 7 }}>
+                      {item.text && <Text style={styles.searchItemText}>{item.text}</Text>}
+                    </View>
                   </View>
                 </TouchableHighlight>
               )}
