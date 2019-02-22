@@ -79,7 +79,7 @@
     "cancel": "geç",
     "login": "GİRİŞ",
     "steemconnect_description": "Eğer kullanıçı bilgilerini şifreli olarak tutulmasını istemiyorsanız Steemconnect ilede giriş yapabilirsiniz.",
-    "steemconnect_fee_description": "Steemconnect, ödül işlemlerinden bazı ücretler alabilir."
+    "steemconnect_fee_description": "Steemconnect may charge some fees from your reward transactions"
   },
   "home": {
     "feed": "Akış",
@@ -199,5 +199,11 @@
   "deep_link": {
     "no_existing_user": "Kullanici Bulunamadi",
     "no_existing_post": "Boyle bir icerik yok"
+  },
+  "comment_filter": {
+    "trending": "trending",
+    "reputation": "reputation",
+    "votes": "votes",
+    "age": "age"
   }
 }
