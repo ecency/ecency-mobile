@@ -34,6 +34,7 @@ class SearchModalContainer extends PureComponent {
   // Component Functions
   _handleCloseButton = () => {
     const { navigation } = this.props;
+
     navigation.goBack();
   };
 
