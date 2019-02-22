@@ -39,19 +39,19 @@ class BookmarksScreen extends Component {
     const isFavorites = itemType === 'favorites';
     const text = isFavorites ? item.account : `${item.author}/${item.permlink}`;
 
-  if (item.author || item.account) {
-    return (
-      <UserListItem
-        handleOnLongPress={() => this._handleLongPress(isFavorites ? item.account : item._id)}
-        handleOnPress={() => (isFavorites
-          ? handleOnFavoritePress(item.account)
-          : handleOnBookarkPress(item.permlink, item.author))
-        }
-        index={index}
-        isClickable
-        text={text}
-        username={item.author}
-      />
+    if (item.author || item.account) {
+      return (
+        <UserListItem
+          handleOnLongPress={() => this._handleLongPress(isFavorites ? item.account : item._id)}
+          handleOnPress={() => (isFavorites
+            ? handleOnFavoritePress(item.account)
+            : handleOnBookarkPress(item.permlink, item.author))
+      }
+          index={index}
+          isClickable
+          text={text}
+          username={item.author}
+        />
       );
     }
   };
@@ -77,7 +77,7 @@ class BookmarksScreen extends Component {
           !isNoItem && (
             <FlatList
               data={
-                data.map((item) => item._id !== data[item._id] && isFavorites ? item.account !== data[item.account] && item : item)
+                data.map(item => (item._id !== data[item._id] && isFavorites ? item.account !== data[item.account] && item : item))
               }
               keyExtractor={item => item._id}
               removeClippedSubviews={false}
@@ -110,7 +110,7 @@ class BookmarksScreen extends Component {
         />
 
         <ScrollableTabView
-          onChangeTab={(event) => this.setState({ activeTab: event.i })}
+          onChangeTab={event => this.setState({ activeTab: event.i })}
           style={globalStyles.tabView}
           renderTabBar={() => (
             <TabBar
