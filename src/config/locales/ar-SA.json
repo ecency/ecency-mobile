@@ -201,9 +201,9 @@
     "no_existing_post": "لا يوجد أي منشور حالياً"
   },
   "comment_filter": {
-    "trending": "trending",
-    "reputation": "reputation",
-    "votes": "votes",
-    "age": "age"
+    "trending": "الشائع",
+    "reputation": "السمعة",
+    "votes": "الأصوات",
+    "age": "العمر"
   }
 }
