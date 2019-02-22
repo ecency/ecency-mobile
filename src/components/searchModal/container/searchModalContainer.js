@@ -71,24 +71,45 @@ class SearchModalContainer extends PureComponent {
 
   _handleOnPressListItem = (type, item) => {
     const { navigation, handleOnClose } = this.props;
+    let routeName = null;
+    let params = null;
+    let key = null;
+
     handleOnClose();
     this.setState({ searchResults: {} });
-    if (type === 'user') {
-      navigation.navigate({
-        routeName: ROUTES.SCREENS.PROFILE,
-        params: {
+
+    switch (type) {
+      case 'user':
+        routeName = ROUTES.SCREENS.PROFILE;
+        params = {
           username: item.author,
-        },
-        key: item.author,
-      });
-    } else if (type === 'content') {
-      navigation.navigate({
-        routeName: ROUTES.SCREENS.POST,
-        params: {
+        };
+        key = item.author;
+        break;
+      case 'content':
+        routeName = ROUTES.SCREENS.POST;
+        params = {
           author: item.author,
           permlink: item.permlink,
-        },
-        key: item.permlink,
+        };
+        key = item.permlink;
+        break;
+      case 'tag':
+        routeName = ROUTES.SCREENS.SEARCH_RESULT;
+        params = {
+          tag: item.text.substr(1),
+        };
+        break;
+
+      default:
+        break;
+    }
+
+    if (routeName) {
+      navigation.navigate({
+        routeName,
+        params,
+        key,
       });
     }
   };
