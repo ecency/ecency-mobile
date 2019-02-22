@@ -201,9 +201,9 @@
     "no_existing_post": "존재하지 않는 글입니다"
   },
   "comment_filter": {
-    "trending": "trending",
-    "reputation": "reputation",
-    "votes": "votes",
-    "age": "age"
+    "trending": "대세 글",
+    "reputation": "평판",
+    "votes": "투표 수",
+    "age": "작성일"
   }
 }
