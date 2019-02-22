@@ -46,8 +46,8 @@
     "hours": "시간",
     "voting_power": "보팅 파워",
     "login_to_see": "로그인해서 확인하기",
-    "havent_commented": "댓글을 작성한 적이 아직 없습니다",
-    "havent_posted": "게시한 글이 아직 없습니다",
+    "havent_commented": "아직 댓글을 작성한 적이 없습니다",
+    "havent_posted": "아직 게시한 글이 없습니다",
     "steem_power": "스팀 파워",
     "next_power_text": "다음 번 파워 다운까지 남은 기간",
     "days": "일",
@@ -57,7 +57,7 @@
   },
   "settings": {
     "settings": "설정",
-    "currency": "화폐 표기",
+    "currency": "화폐",
     "language": "언어",
     "server": "서버",
     "dark_theme": "어두운 테마",
@@ -120,7 +120,7 @@
   },
   "pincode": {
     "enter_text": "잠금을 해제하려면 PIN 코드를 입력해주세요",
-    "set_new": "새로운 PIN 코드 설정",
+    "set_new": "새로운 PIN 코드 설정하기",
     "write_again": "다시 한 번 입력해주세요",
     "forgot_text": "PIN 코드가 기억나지 않습니다..."
   },
@@ -137,7 +137,7 @@
     "warning": "경고",
     "invalid_pincode": "올바르지 않은 PIN 코드입니다. 확인 후 다시 시도해주세요.",
     "remove_alert": "정말 삭제하시겠습니까?",
-    "clear_alert": "정말로 삭제하시겠습니까?",
+    "clear_alert": "정말 삭제하시겠습니까?",
     "clear": "삭제",
     "cancel": "취소",
     "delete": "삭제",
@@ -145,7 +145,7 @@
     "no_internet": "인터넷 연결을 확인하세요!"
   },
   "post": {
-    "reblog_alert": "정말로 리블로그 하시겠습니까?"
+    "reblog_alert": "정말 리블로그 하시겠습니까?"
   },
   "drafts": {
     "title": "임시 보관함",
