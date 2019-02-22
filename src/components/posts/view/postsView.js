@@ -98,18 +98,20 @@ class PostsView extends Component {
         tag,
         limit: 3,
       };
+    } else if (filter == 'reblogs') {
+      options = {
+        tag,
+        limit: 3,
+      };
+    } else if (tag) {
+      options = {
+        tag,
+        limit: 3,
+      };
     } else {
-      // TODO: implement filtering of reblogs on `blog` and `feed` posts
-      if (filter == 'reblogs') {
-        options = {
-          tag,
-          limit: 3,
-        };
-      } else {
-        options = {
-          limit: 3,
-        };
-      }
+      options = {
+        limit: 3,
+      };
     }
 
     if (startAuthor && startPermlink && !refreshing) {
@@ -117,6 +119,7 @@ class PostsView extends Component {
       options.start_permlink = startPermlink;
     }
 
+    console.log('filter, options, currentAccountUsername :', filter, options, currentAccountUsername);
     getPostsSummary(filter, options, currentAccountUsername)
       .then((result) => {
         if (result.length > 0) {

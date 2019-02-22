@@ -61,7 +61,7 @@ class UpvoteView extends Component {
   _calculateEstimatedAmount = async () => {
     const { currentAccount, globalProps } = this.props;
 
-    if (currentAccount) {
+    if (currentAccount && Object.entries(currentAccount).length !== 0) {
       const { sliderValue } = this.state;
       const {
         fundRecentClaims, fundRewardBalance, base, quote,
