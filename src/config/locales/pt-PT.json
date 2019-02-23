@@ -201,9 +201,9 @@
     "no_existing_post": "Post não existe"
   },
   "comment_filter": {
-    "trending": "trending",
-    "reputation": "reputation",
-    "votes": "votes",
-    "age": "age"
+    "trending": "destaques",
+    "reputation": "reputação",
+    "votes": "votos",
+    "age": "idade"
   }
 }
