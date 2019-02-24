@@ -6,6 +6,7 @@ import { injectIntl } from 'react-intl';
 // Components
 import { TabBar } from '../../../components/tabBar';
 import { Posts } from '../../../components/posts';
+import SearchInput from '../../../components/searchInput';
 
 // Styles
 import styles from './searchResultStyles';
@@ -23,6 +24,7 @@ class SearchResultScreen extends PureComponent {
     return (
       <Fragment>
         <View style={styles.container}>
+          <SearchInput />
           <ScrollableTabView
             style={globalStyles.tabView}
             renderTabBar={() => (
@@ -54,7 +56,7 @@ class SearchResultScreen extends PureComponent {
                 selectedOptionIndex={0}
                 pageType="posts"
               />
-            </View> */}
+            </Fragment> */}
           </ScrollableTabView>
         </View>
       </Fragment>
