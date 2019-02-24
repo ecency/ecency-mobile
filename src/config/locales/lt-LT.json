@@ -199,5 +199,11 @@
   "deep_link": {
     "no_existing_user": "Nėra tokio vartotojo",
     "no_existing_post": "Nėra tokio įrašo"
+  },
+  "comment_filter": {
+    "trending": "trending",
+    "reputation": "reputation",
+    "votes": "votes",
+    "age": "age"
   }
 }
