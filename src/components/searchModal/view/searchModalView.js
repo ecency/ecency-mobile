@@ -11,8 +11,9 @@ import { Icon } from '../../icon';
 import { IconButton } from '../../iconButton';
 import { Modal } from '../..';
 import { TextInput } from '../../textInput';
+import SearchInput from '../../searchInput';
+
 // Styles
-// eslint-disable-next-line
 import styles from './searchModalStyles';
 
 class SearchModalView extends PureComponent {
