@@ -57,7 +57,7 @@
   },
   "settings": {
     "settings": "설정",
-    "currency": "화폐 표기",
+    "currency": "화폐",
     "language": "언어",
     "server": "서버",
     "dark_theme": "어두운 테마",
@@ -120,7 +120,7 @@
   },
   "pincode": {
     "enter_text": "잠금을 해제하려면 PIN 코드를 입력해주세요",
-    "set_new": "새로운 PIN 코드 설정",
+    "set_new": "새로운 PIN 코드 설정하기",
     "write_again": "다시 한 번 입력해주세요",
     "forgot_text": "PIN 코드가 기억나지 않습니다..."
   },
@@ -145,7 +145,7 @@
     "no_internet": "인터넷 연결을 확인하세요!"
   },
   "post": {
-    "reblog_alert": "정말로 리블로그 하시겠습니까?"
+    "reblog_alert": "정말 리블로그 하시겠습니까?"
   },
   "drafts": {
     "title": "임시 보관함",

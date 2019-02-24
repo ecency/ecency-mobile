@@ -90,11 +90,11 @@ class WalletContainer extends Component {
       .then((account) => {
         this._getWalletData(account && account[0]);
         if (isHasUnclaimedRewards) {
-             dispatch(
-              toastNotification(
-                intl.formatMessage({
-                  id: 'alert.claim_reward_balance_ok',
-                }),
+          dispatch(
+            toastNotification(
+              intl.formatMessage({
+                id: 'alert.claim_reward_balance_ok',
+              }),
             ),
           );
         }

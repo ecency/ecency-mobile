@@ -203,5 +203,11 @@
   "search": {
     "posts": "Posts",
     "comments": "Comments"
+  },
+  "comment_filter": {
+    "trending": "trending",
+    "reputation": "reputation",
+    "votes": "votes",
+    "age": "age"
   }
 }
