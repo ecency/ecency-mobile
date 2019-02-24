@@ -199,5 +199,11 @@
   "deep_link": {
     "no_existing_user": "Không có người dùng hiện tại",
     "no_existing_post": "Hiện tại không có bài viết nào"
+  },
+  "comment_filter": {
+    "trending": "trending",
+    "reputation": "reputation",
+    "votes": "votes",
+    "age": "age"
   }
 }
