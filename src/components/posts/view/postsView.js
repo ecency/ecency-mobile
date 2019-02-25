@@ -119,7 +119,6 @@ class PostsView extends Component {
       options.start_permlink = startPermlink;
     }
 
-    console.log('filter, options, currentAccountUsername :', filter, options, currentAccountUsername);
     getPostsSummary(filter, options, currentAccountUsername)
       .then((result) => {
         if (result.length > 0) {
