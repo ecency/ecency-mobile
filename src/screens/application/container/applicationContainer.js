@@ -79,22 +79,22 @@ class ApplicationContainer extends Component {
   }
 
   componentDidMount = async () => {
-    let isConnected;
+    // let isConnected;
 
-    await NetInfo.isConnected.fetch().then((_isConnected) => {
-      isConnected = _isConnected;
-    });
+    // await NetInfo.isConnected.fetch().then((_isConnected) => {
+    //   isConnected = _isConnected;
+    // });
 
-    NetInfo.isConnected.addEventListener('connectionChange', this._handleConntectionChange);
-    BackHandler.addEventListener('hardwareBackPress', this._onBackPress);
+    // NetInfo.isConnected.addEventListener('connectionChange', this._handleConntectionChange);
+    // BackHandler.addEventListener('hardwareBackPress', this._onBackPress);
 
-    if (isConnected) {
-      this._fetchApp();
-    } else {
-      Alert.alert('No internet connection');
-    }
-
-    this.globalInterval = setInterval(this._refreshGlobalProps, 60000);
+    // if (isConnected) {
+    // } else {
+    //   Alert.alert('No internet connection');
+    // }
+    
+    // this.globalInterval = setInterval(this._refreshGlobalProps, 60000);
+    this._fetchApp();
   };
 
   componentWillReceiveProps(nextProps) {
@@ -116,9 +116,9 @@ class ApplicationContainer extends Component {
   }
 
   componentWillUnmount() {
-    BackHandler.removeEventListener('hardwareBackPress', this.onBackPress);
-    NetInfo.isConnected.removeEventListener('connectionChange', this._handleConntectionChange);
-    clearInterval(this.globalInterval);
+    // BackHandler.removeEventListener('hardwareBackPress', this.onBackPress);
+    // NetInfo.isConnected.removeEventListener('connectionChange', this._handleConntectionChange);
+    // clearInterval(this.globalInterval);
   }
 
   _fetchApp = async () => {
@@ -135,8 +135,8 @@ class ApplicationContainer extends Component {
     }
 
     // TODO: solve this work arround
-    NetInfo.isConnected.removeEventListener('connectionChange', this._handleConntectionChange);
-    NetInfo.isConnected.addEventListener('connectionChange', this._handleConntectionChange);
+    // NetInfo.isConnected.removeEventListener('connectionChange', this._handleConntectionChange);
+    // NetInfo.isConnected.addEventListener('connectionChange', this._handleConntectionChange);
   };
 
   _onBackPress = () => {
@@ -145,7 +145,7 @@ class ApplicationContainer extends Component {
     if (nav && nav[0].index !== 0) {
       dispatch(NavigationActions.back());
     } else {
-      BackHandler.exitApp();
+      //BackHandler.exitApp();
     }
     return true;
   };
