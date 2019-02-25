@@ -199,5 +199,11 @@
   "deep_link": {
     "no_existing_user": "Nem létező felhasználó",
     "no_existing_post": "Nem létező bejegyzés"
+  },
+  "comment_filter": {
+    "trending": "trending",
+    "reputation": "reputation",
+    "votes": "votes",
+    "age": "age"
   }
 }
