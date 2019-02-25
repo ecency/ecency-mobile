@@ -13,25 +13,27 @@ import styles from './searchInputStyles';
  * ------------------------------------------------
  *   @prop { type }    name                - Description....
  */
-
-const SearchInputView = () => (
+const SearchInputView = ({
+  onChangeText, handleOnModalClose, placeholder, editable = true,
+}) => (
   <SafeAreaView style={styles.safeArea}>
     <View style={styles.inputWrapper}>
       <Icon style={styles.icon} iconType="FontAwesome" name="search" size={15} />
       <TextInput
         style={styles.input}
-        onChangeText={text => console.log('text :', text)}
-        placeholder="tst"
+        onChangeText={text => onChangeText(text)}
+        placeholder={placeholder}
         placeholderTextColor="#c1c5c7"
         autoCapitalize="none"
         autoFocus
+        editable={editable}
       />
       <IconButton
         iconStyle={styles.closeIcon}
         iconType="Ionicons"
         style={styles.closeIconButton}
         name="ios-close-circle-outline"
-        onPress={() => console.log('test :')}
+        onPress={() => handleOnModalClose()}
       />
     </View>
   </SafeAreaView>

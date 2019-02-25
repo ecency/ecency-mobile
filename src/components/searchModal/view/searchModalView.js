@@ -1,16 +1,13 @@
 import React, { PureComponent } from 'react';
 import {
-  View, Text, FlatList, TouchableHighlight, SafeAreaView,
+  View, Text, FlatList, TouchableHighlight,
 } from 'react-native';
 import FastImage from 'react-native-fast-image';
 
 // Constants
 
 // Components
-import { Icon } from '../../icon';
-import { IconButton } from '../../iconButton';
 import { Modal } from '../..';
-import { TextInput } from '../../textInput';
 import SearchInput from '../../searchInput';
 
 // Styles
@@ -50,27 +47,11 @@ class SearchModalView extends PureComponent {
         isTransparent
       >
         <View style={styles.container}>
-          <SafeAreaView style={styles.safeArea}>
-            <View style={styles.inputWrapper}>
-              <Icon style={styles.icon} iconType="FontAwesome" name="search" size={15} />
-              <TextInput
-                style={styles.input}
-                onChangeText={text => handleOnChangeSearchInput(text)}
-                placeholder={placeholder}
-                placeholderTextColor="#c1c5c7"
-                autoCapitalize="none"
-                autoFocus
-              />
-              <IconButton
-                iconStyle={styles.closeIcon}
-                iconType="Ionicons"
-                style={styles.closeIconButton}
-                name="ios-close-circle-outline"
-                onPress={() => handleOnClose()}
-              />
-            </View>
-          </SafeAreaView>
-
+          <SearchInput
+            onChangeText={handleOnChangeSearchInput}
+            handleOnModalClose={handleOnClose}
+            placeholder={placeholder}
+          />
           <View style={styles.body}>
             <FlatList
               data={searchResults.data}
