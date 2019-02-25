@@ -16,12 +16,24 @@ class SearchResultContainer extends PureComponent {
     this.state = {};
   }
 
+  _navigationGoBack = () => {
+    const { navigation } = this.props;
+
+    navigation.goBack();
+  };
+
   render() {
     const { currentAccount, navigation } = this.props;
 
     const tag = navigation.getParam('tag', 'esteem');
 
-    return <SearchResultScreen currentAccount={currentAccount} tag={tag} />;
+    return (
+      <SearchResultScreen
+        currentAccount={currentAccount}
+        tag={tag}
+        navigationGoBack={this._navigationGoBack}
+      />
+    );
   }
 }
 

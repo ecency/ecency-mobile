@@ -19,12 +19,17 @@ class SearchResultScreen extends PureComponent {
   }
 
   render() {
-    const { intl, tag } = this.props;
+    const { intl, tag, navigationGoBack } = this.props;
 
     return (
       <Fragment>
         <View style={styles.container}>
-          <SearchInput />
+          <SearchInput
+            onChangeText={text => console.log('text :', text)}
+            handleOnModalClose={navigationGoBack}
+            placeholder={tag}
+            editable={false}
+          />
           <ScrollableTabView
             style={globalStyles.tabView}
             renderTabBar={() => (
