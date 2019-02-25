@@ -201,9 +201,9 @@
     "no_existing_post": "Nėra tokio įrašo"
   },
   "comment_filter": {
-    "trending": "trending",
-    "reputation": "reputation",
-    "votes": "votes",
-    "age": "age"
+    "trending": "populiariausi",
+    "reputation": "reputacija",
+    "votes": "balsai",
+    "age": "laikas"
   }
 }
