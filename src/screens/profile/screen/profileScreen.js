@@ -119,7 +119,7 @@ class ProfileScreen extends PureComponent {
 
     if (estimatedWalletValue) {
       const { currencyRate, currencySymbol } = currency;
-      _estimatedWalletValue = `${currencySymbol} ${(estimatedWalletValue * currencyRate).toFixed(  
+      _estimatedWalletValue = `${currencySymbol} ${(estimatedWalletValue * currencyRate).toFixed(
       )}`;
     }
 
