@@ -79,7 +79,7 @@
     "cancel": "geç",
     "login": "GİRİŞ",
     "steemconnect_description": "Eğer kullanıçı bilgilerini şifreli olarak tutulmasını istemiyorsanız Steemconnect ilede giriş yapabilirsiniz.",
-    "steemconnect_fee_description": "Steemconnect may charge some fees from your reward transactions"
+    "steemconnect_fee_description": "Not: Steemconnect ödül işlemlerinde bazı ücretler alabilir"
   },
   "home": {
     "feed": "Akış",
@@ -115,8 +115,8 @@
     "reply_placeholder": "Yukarıdaki yazi hakkinda nasil bir cevap yazmak istersin?",
     "publish": "Yayınla",
     "reply": "Cevapla",
-    "open_galery": "Open Galery",
-    "capture_photo": "Capture a photo"
+    "open_galery": "Gariyi Aç",
+    "capture_photo": "Bir fotoğraf yakala"
   },
   "pincode": {
     "enter_text": "Açmak için pin kodunu giriniz",
@@ -137,8 +137,8 @@
     "warning": "Uyarı",
     "invalid_pincode": "Geçersiz pin gözden geçirip yeniden deneyin.",
     "remove_alert": "Kaldırmak istediğine emin misin ?",
-    "clear_alert": "Are you sure you want to clear?",
-    "clear": "Clear",
+    "clear_alert": "Silmek istediğinizden emin misiniz?",
+    "clear": "Temizle",
     "cancel": "Vazgeç",
     "delete": "Temizle",
     "copied": "Kopyalandı",
@@ -166,7 +166,7 @@
     "empty_list": "Burada hiçbir şey yok",
     "deleted": "Yer işareti kaldırıldı",
     "search": "Yer imlerinde ara",
-    "added": "Added to bookmarks",
+    "added": "Yer imlerine eklendi",
     "add": "Yerimlerine ekle"
   },
   "favorites": {
@@ -198,12 +198,12 @@
   },
   "deep_link": {
     "no_existing_user": "Kullanici Bulunamadi",
-    "no_existing_post": "Boyle bir icerik yok"
+    "no_existing_post": "Kullanici Bulunamadi"
   },
   "comment_filter": {
-    "trending": "trending",
-    "reputation": "reputation",
-    "votes": "votes",
-    "age": "age"
+    "trending": "öne çıkanlar",
+    "reputation": "itibar",
+    "votes": "oylar",
+    "age": "yaş"
   }
 }
