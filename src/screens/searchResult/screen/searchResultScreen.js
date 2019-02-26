@@ -27,8 +27,9 @@ class SearchResultScreen extends PureComponent {
           <SearchInput
             onChangeText={text => console.log('text :', text)}
             handleOnModalClose={navigationGoBack}
-            placeholder={tag}
+            placeholder={`#${tag}`}
             editable={false}
+            autoFocus={false}
           />
           <ScrollableTabView
             style={globalStyles.tabView}
