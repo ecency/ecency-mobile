@@ -79,7 +79,7 @@
     "cancel": "batal",
     "login": "MASUK",
     "steemconnect_description": "Jika Anda tidak ingin menyimpan sandi Anda dienkripsi dan disimpan pada perangkat Anda, Anda dapat menggunakan Steemconnect.",
-    "steemconnect_fee_description": "Steemconnect may charge some fees from your reward transactions"
+    "steemconnect_fee_description": "Steemconnect dapat membebankan beberapa biaya dari transaksi hadiah Anda"
   },
   "home": {
     "feed": "Umpan",
