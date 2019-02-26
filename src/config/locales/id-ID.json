@@ -201,9 +201,9 @@
     "no_existing_post": "Tidak ada post yang ada"
   },
   "comment_filter": {
-    "trending": "trending",
-    "reputation": "reputation",
-    "votes": "votes",
-    "age": "age"
+    "trending": "Trending",
+    "reputation": "reputasi",
+    "votes": "berikan suara",
+    "age": "usia"
   }
 }
