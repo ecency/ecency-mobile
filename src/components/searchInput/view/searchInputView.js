@@ -14,7 +14,7 @@ import styles from './searchInputStyles';
  *   @prop { type }    name                - Description....
  */
 const SearchInputView = ({
-  onChangeText, handleOnModalClose, placeholder, editable = true,
+  onChangeText, handleOnModalClose, placeholder, editable = true, autoFocus = true,
 }) => (
   <SafeAreaView style={styles.safeArea}>
     <View style={styles.inputWrapper}>
@@ -25,7 +25,7 @@ const SearchInputView = ({
         placeholder={placeholder}
         placeholderTextColor="#c1c5c7"
         autoCapitalize="none"
-        autoFocus
+        autoFocus={autoFocus}
         editable={editable}
       />
       <IconButton
