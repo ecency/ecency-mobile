@@ -199,5 +199,11 @@
   "deep_link": {
     "no_existing_user": "Pengguna tidak wujud",
     "no_existing_post": "Pos tidak wujud"
+  },
+  "comment_filter": {
+    "trending": "trending",
+    "reputation": "reputation",
+    "votes": "votes",
+    "age": "age"
   }
 }

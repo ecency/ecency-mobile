@@ -70,7 +70,7 @@ export default class TagAreaView extends Component {
       handleTagChanged([...chips, _currentText]);
     }
 
-    this.setState({currentText: ''});
+    this.setState({ currentText: '' });
   };
 
   _handleTagRemove = (i) => {
