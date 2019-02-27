@@ -200,6 +200,10 @@
     "no_existing_user": "The person no exist",
     "no_existing_post": "The post no exist"
   },
+  "search": {
+    "posts": "Posts",
+    "comments": "Comments"
+  },
   "comment_filter": {
     "trending": "trending",
     "reputation": "reputation",
