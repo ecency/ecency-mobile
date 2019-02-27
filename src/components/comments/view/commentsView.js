@@ -57,6 +57,7 @@ class CommentsView extends PureComponent {
             handleOnUserPress={handleOnUserPress}
             isLoggedIn={isLoggedIn}
             isShowMoreButton={commentNumber === 1 && item.children > 0}
+            voteCount={item.vote_count}
             isShowSubComments={isShowSubComments}
             key={item.permlink}
             marginLeft={marginLeft}
