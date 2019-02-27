@@ -201,8 +201,8 @@
     "no_existing_post": "존재하지 않는 글입니다"
   },
   "search": {
-    "posts": "Posts",
-    "comments": "Comments"
+    "posts": "글 목록",
+    "comments": "작성한 댓글"
   },
   "comment_filter": {
     "trending": "대세 글",
