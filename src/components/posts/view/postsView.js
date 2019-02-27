@@ -93,23 +93,20 @@ class PostsView extends Component {
     let newPosts = [];
 
     this.setState({ isLoading: true });
-    if ((!filter && tag) || filter === 'feed' || filter === 'blog' || getFor === 'blog') {
+    if (tag || filter === 'feed' || filter === 'blog' || getFor === 'blog') {
+      options = {
+        tag,
+        limit: 3,
+      };
+    } else if (filter === 'reblogs') {
       options = {
         tag,
         limit: 3,
       };
     } else {
-      // TODO: implement filtering of reblogs on `blog` and `feed` posts
-      if (filter == 'reblogs') {
-        options = {
-          tag,
-          limit: 3,
-        };
-      } else {
-        options = {
-          limit: 3,
-        };
-      }
+      options = {
+        limit: 3,
+      };
     }
 
     if (startAuthor && startPermlink && !refreshing) {
