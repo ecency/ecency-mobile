@@ -200,6 +200,10 @@
     "no_existing_user": "Ne postojeći korisnik",
     "no_existing_post": "Ne postojeća objava"
   },
+  "search": {
+    "posts": "Posts",
+    "comments": "Comments"
+  },
   "comment_filter": {
     "trending": "trending",
     "reputation": "reputation",
