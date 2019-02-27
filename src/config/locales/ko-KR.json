@@ -200,6 +200,10 @@
     "no_existing_user": "존재하지 않는 사용자입니다",
     "no_existing_post": "존재하지 않는 글입니다"
   },
+  "search": {
+    "posts": "Posts",
+    "comments": "Comments"
+  },
   "comment_filter": {
     "trending": "대세 글",
     "reputation": "평판",
