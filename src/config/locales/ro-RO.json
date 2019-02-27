@@ -200,6 +200,10 @@
     "no_existing_user": "Utilizator inexistent",
     "no_existing_post": "Utilizator inexistent"
   },
+  "search": {
+    "posts": "Posts",
+    "comments": "Comments"
+  },
   "comment_filter": {
     "trending": "trending",
     "reputation": "reputation",

@@ -200,6 +200,10 @@
     "no_existing_user": "A ko ri oruko yi",
     "no_existing_post": "A kori oro yi"
   },
+  "search": {
+    "posts": "Posts",
+    "comments": "Comments"
+  },
   "comment_filter": {
     "trending": "trending",
     "reputation": "reputation",
