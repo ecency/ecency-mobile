@@ -1,23 +1,15 @@
 import EStyleSheet from 'react-native-extended-stylesheet';
 
 export default EStyleSheet.create({
-  container: {
-    flex: 1,
-    flexDirection: 'column',
-    backgroundColor: 'rgba(0,0,0,0.8)',
-  },
   inputWrapper: {
+    marginTop: 20,
     backgroundColor: '$primaryLightBackground',
     flexDirection: 'row',
     height: 44,
-    margin: 16,
     borderRadius: 8,
-    marginTop: 5,
     padding: 5,
     justifyContent: 'center',
-  },
-  safeArea: {
-    marginTop: 20,
+    marginHorizontal: 16,
   },
   icon: {
     alignSelf: 'center',
@@ -42,32 +34,5 @@ export default EStyleSheet.create({
   closeIcon: {
     color: '$iconColor',
     fontSize: 22,
-  },
-  body: {
-    marginRight: 24,
-    flex: 1,
-  },
-  searhItems: {
-    marginHorizontal: 30,
-    marginVertical: 10,
-    flexDirection: 'row',
-    alignItems: 'center',
-  },
-  searchItemImageWrapper: {
-    flex: 1,
-  },
-  searchItemTextWrapper: {
-    flex: 7,
-  },
-  searchItemImage: {
-    width: 40,
-    height: 40,
-    borderRadius: 20,
-    borderWidth: 1,
-    borderColor: '$primaryGray',
-  },
-  searchItemText: {
-    color: '$white',
-    marginLeft: 10,
   },
 });
