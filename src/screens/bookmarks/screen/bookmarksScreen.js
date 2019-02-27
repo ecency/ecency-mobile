@@ -50,7 +50,7 @@ class BookmarksScreen extends Component {
           index={index}
           isClickable
           text={text}
-          username={item.author}
+          username={isFavorites ? item.account : item.author}
         />
       );
     }
