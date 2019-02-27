@@ -201,9 +201,9 @@
     "no_existing_post": "پستی موجود نیست"
   },
   "comment_filter": {
-    "trending": "trending",
-    "reputation": "reputation",
-    "votes": "votes",
-    "age": "age"
+    "trending": "پرطرفدار",
+    "reputation": "شهرت",
+    "votes": "رأی‌ ها",
+    "age": "سن"
   }
 }

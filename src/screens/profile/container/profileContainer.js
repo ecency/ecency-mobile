@@ -56,7 +56,7 @@ class ProfileContainer extends Component {
       return;
     }
 
-    if (selectedUser && selectedUser.username) {
+    if (selectedUser && selectedUser.username && selectedUser.username !== currentAccount.name) {
       this._loadProfile(selectedUser.username);
 
       if (selectedUser.username) {

@@ -59,7 +59,7 @@ class SearchModalView extends PureComponent {
               renderItem={({ item }) => (
                 <TouchableHighlight onPress={() => handleOnPressListItem(searchResults.type, item)}>
                   <View style={styles.searhItems}>
-                    <View style={{ flex: 1 }}>
+                    <View style={styles.searchItemImageWrapper}>
                       {item.image && (
                         <FastImage
                           source={{
@@ -69,7 +69,7 @@ class SearchModalView extends PureComponent {
                         />
                       )}
                     </View>
-                    <View style={{ flex: 7 }}>
+                    <View style={styles.searchItemTextWrapper}>
                       {item.text && <Text style={styles.searchItemText}>{item.text}</Text>}
                     </View>
                   </View>
