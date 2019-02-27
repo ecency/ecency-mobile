@@ -93,17 +93,12 @@ class PostsView extends Component {
     let newPosts = [];
 
     this.setState({ isLoading: true });
-    if ((!filter && tag) || filter === 'feed' || filter === 'blog' || getFor === 'blog') {
+    if (tag || filter === 'feed' || filter === 'blog' || getFor === 'blog') {
       options = {
         tag,
         limit: 3,
       };
-    } else if (filter == 'reblogs') {
-      options = {
-        tag,
-        limit: 3,
-      };
-    } else if (tag) {
+    } else if (filter === 'reblogs') {
       options = {
         tag,
         limit: 3,
