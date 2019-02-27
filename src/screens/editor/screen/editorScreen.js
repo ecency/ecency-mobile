@@ -39,7 +39,7 @@ class EditorScreen extends Component {
 
   // Component Life Cycles
   componentWillReceiveProps = (nextProps) => {
-    const { draftPost } = this.props;
+    const { draftPost, isUploading } = this.props;
 
     if (nextProps.draftPost && draftPost !== nextProps.draftPost) {
       this.setState({
@@ -47,6 +47,10 @@ class EditorScreen extends Component {
           ...nextProps.draftPost,
         },
       });
+    }
+
+    if (isUploading !== nextProps) {
+      this._handleFormUpdate();
     }
   };
 
@@ -107,7 +111,7 @@ class EditorScreen extends Component {
     }
   };
 
-  _handleIsFormValid = () => {
+  _handleIsFormValid = (bodyText) => {
     const { fields } = this.state;
     const { isReply } = this.props;
     let _isFormValid;
@@ -118,9 +122,8 @@ class EditorScreen extends Component {
       _isFormValid = fields
         && fields.title
         && fields.title.length > 0
-        && fields.body
-        && fields.body.length > 0
-        && fields.tags.length > 0;
+        && ((fields.body && fields.body.length > 0 && fields.tags.length > 0)
+          || (bodyText && bodyText.length > 0));
     }
 
     this.setState({ isFormValid: _isFormValid });
@@ -215,6 +218,9 @@ class EditorScreen extends Component {
             componentID="body"
             draftBody={fields && fields.body}
             handleOnTextChange={this._setWordsCount}
+            handleFormUpdate={this._handleFormUpdate}
+            handleIsFormValid={this._handleIsFormValid}
+            isFormValid={isFormValid}
             handleOpenImagePicker={handleOnImagePicker}
             intl={intl}
             uploadedImage={uploadedImage}
