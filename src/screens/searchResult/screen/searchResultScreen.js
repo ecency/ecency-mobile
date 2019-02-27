@@ -1,4 +1,4 @@
-import React, { PureComponent, Fragment } from 'react';
+import React, { PureComponent } from 'react';
 import { View } from 'react-native';
 import ScrollableTabView from '@esteemapp/react-native-scrollable-tab-view';
 import { injectIntl } from 'react-intl';
@@ -22,35 +22,33 @@ class SearchResultScreen extends PureComponent {
     const { intl, tag, navigationGoBack } = this.props;
 
     return (
-      <Fragment>
-        <View style={styles.container}>
-          <SearchInput
-            onChangeText={text => console.log('text :', text)}
-            handleOnModalClose={navigationGoBack}
-            placeholder={`#${tag}`}
-            editable={false}
-            autoFocus={false}
-          />
-          <ScrollableTabView
-            style={globalStyles.tabView}
-            renderTabBar={() => (
-              <TabBar
-                style={styles.tabbar}
-                tabUnderlineDefaultWidth={80}
-                tabUnderlineScaleX={2}
-                tabBarPosition="overlayTop"
-              />
-            )}
+      <View style={styles.container}>
+        <SearchInput
+          onChangeText={() => {}}
+          handleOnModalClose={navigationGoBack}
+          placeholder={`#${tag}`}
+          editable={false}
+        />
+        <ScrollableTabView
+          style={globalStyles.tabView}
+          renderTabBar={() => (
+            <TabBar
+              style={styles.tabbar}
+              tabUnderlineDefaultWidth={80}
+              tabUnderlineScaleX={2}
+              tabBarPosition="overlayTop"
+            />
+          )}
+        >
+          <View
+            tabLabel={intl.formatMessage({
+              id: 'search.posts',
+            })}
+            style={styles.tabbarItem}
           >
-            <View
-              tabLabel={intl.formatMessage({
-                id: 'search.posts',
-              })}
-              style={styles.tabbarItem}
-            >
-              <Posts pageType="posts" tag={tag} />
-            </View>
-            {/* <View
+            <Posts pageType="posts" tag={tag} />
+          </View>
+          {/* <View
               tabLabel={intl.formatMessage({
                 id: 'search.comments',
               })}
@@ -63,9 +61,8 @@ class SearchResultScreen extends PureComponent {
                 pageType="posts"
               />
             </Fragment> */}
-          </ScrollableTabView>
-        </View>
-      </Fragment>
+        </ScrollableTabView>
+      </View>
     );
   }
 }

@@ -2,6 +2,7 @@ import EStyleSheet from 'react-native-extended-stylesheet';
 
 export default EStyleSheet.create({
   inputWrapper: {
+    marginTop: 20,
     backgroundColor: '$primaryLightBackground',
     flexDirection: 'row',
     height: 44,
@@ -9,9 +10,6 @@ export default EStyleSheet.create({
     padding: 5,
     justifyContent: 'center',
     marginHorizontal: 16,
-  },
-  safeArea: {
-    marginTop: 20,
   },
   icon: {
     alignSelf: 'center',
