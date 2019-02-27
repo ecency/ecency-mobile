@@ -200,6 +200,10 @@
     "no_existing_user": "कोई विद्यमान उपयोगकर्ता नहीं",
     "no_existing_post": "कोई विद्यमान पोस्ट नहीं"
   },
+  "search": {
+    "posts": "Posts",
+    "comments": "Comments"
+  },
   "comment_filter": {
     "trending": "trending",
     "reputation": "reputation",
