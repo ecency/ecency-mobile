@@ -200,6 +200,10 @@
     "no_existing_user": "Tidak ada pengguna yang ada",
     "no_existing_post": "Tidak ada post yang ada"
   },
+  "search": {
+    "posts": "Posts",
+    "comments": "Comments"
+  },
   "comment_filter": {
     "trending": "Trending",
     "reputation": "reputasi",
