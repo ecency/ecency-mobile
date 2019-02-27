@@ -10,7 +10,7 @@ import { NavigationActions } from 'react-navigation';
 import { bindActionCreators } from 'redux';
 import Push from 'appcenter-push';
 
-// Constants
+// Languages
 import en from 'react-intl/locale-data/en';
 import id from 'react-intl/locale-data/id';
 import ru from 'react-intl/locale-data/ru';
@@ -18,7 +18,11 @@ import de from 'react-intl/locale-data/de';
 import it from 'react-intl/locale-data/it';
 import hu from 'react-intl/locale-data/hu';
 import tr from 'react-intl/locale-data/tr';
+import ko from 'react-intl/locale-data/ko';
+import lt from 'react-intl/locale-data/lt';
+import pt from 'react-intl/locale-data/pt';
 
+// Constants
 import AUTH_TYPE from '../../../constants/authType';
 
 // Services
@@ -67,7 +71,7 @@ import {
 import ApplicationScreen from '../screen/applicationScreen';
 import { Launch } from '../..';
 
-addLocaleData([...en, ...ru, ...de, ...id, ...it, ...hu, ...tr]);
+addLocaleData([...en, ...ru, ...de, ...id, ...it, ...hu, ...tr, ...ko, ...pt, ...lt]);
 
 class ApplicationContainer extends Component {
   constructor() {
