@@ -201,8 +201,8 @@
     "no_existing_post": "Pos tidak wujud"
   },
   "search": {
-    "posts": "Posts",
-    "comments": "Comments"
+    "posts": "Pos",
+    "comments": "Komen"
   },
   "comment_filter": {
     "trending": "trending",
