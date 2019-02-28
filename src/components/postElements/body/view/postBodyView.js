@@ -62,7 +62,7 @@ class PostBody extends PureComponent {
       url.indexOf('esteem') > -1
       || url.indexOf('steemit') > -1
       || url.indexOf('busy') > -1
-      || url.indexOf('steempeak') > -1
+      || (url.indexOf('steempeak') > -1 && url.indexOf('files') < 0)
     ) {
       url = url.substring(url.indexOf('@'), url.length);
       const routeParams = url.indexOf('/') > -1 ? url.split('/') : [url];
