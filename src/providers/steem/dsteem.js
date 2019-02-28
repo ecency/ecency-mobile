@@ -4,7 +4,7 @@ import Config from 'react-native-config';
 
 import { getServer } from '../../realm/realm';
 import { getUnreadActivityCount } from '../esteem/esteem';
-
+import { userActivity } from '../esteem/ePoint';
 // Utils
 import { decryptKey } from '../../utils/crypto';
 import { parsePosts, parsePost, parseComments } from '../../utils/postParser';
@@ -376,14 +376,18 @@ export const getPostWithComments = async (user, permlink) => {
   return [post, comments];
 };
 
-// export const getAccountRC = username => client.call('rc_api', 'find_rc_accounts', { accounts: [username] });
-
 /**
  * @method upvote upvote a content
  * @param vote vote object(author, permlink, voter, weight)
  * @param postingKey private posting key
  */
-export const vote = async (currentAccount, pin, author, permlink, weight) => {
+
+export const vote = (account, pin, author, permlink, weight) => _vote(account, pin, author, permlink, weight).then((resp) => {
+  userActivity(account.username, 120, resp.block_num, resp.id);
+  return resp;
+});
+
+const _vote = async (currentAccount, pin, author, permlink, weight) => {
   const digitPinCode = getDigitPinCode(pin);
   const key = getAnyPrivateKey(currentAccount.local, digitPinCode);
 
@@ -631,11 +635,41 @@ export const getTrendingTags = async (tag) => {
   }
 };
 
+export const postContent = (
+  account,
+  pin,
+  parentAuthor,
+  parentPermlink,
+  permlink,
+  title,
+  body,
+  jsonMetadata,
+  options = null,
+  voteWeight = null,
+) => _postContent(
+  account,
+  pin,
+  parentAuthor,
+  parentPermlink,
+  permlink,
+  title,
+  body,
+  jsonMetadata,
+  options,
+  voteWeight,
+).then((resp) => {
+  if (options) {
+    const t = title ? 100 : 110;
+    userActivity(account.username, t, resp.block_num, resp.id);
+  }
+  return resp;
+});
+
 /**
  * @method postComment post a comment/reply
  * @param comment comment object { author, permlink, ... }
  */
-export const postContent = async (
+const _postContent = async (
   account,
   pin,
   parentAuthor,
@@ -742,7 +776,13 @@ export const postContent = async (
 };
 
 // Re-blog
-export const reblog = async (account, pinCode, author, permlink) => {
+
+export const reblog = (account, pinCode, author, permlink) => _reblog(account, pin, author, permlink).then((resp) => {
+  userActivity(account.name, 130, resp.block_num, resp.id);
+  return resp;
+});
+
+const _reblog = async (account, pinCode, author, permlink) => {
   const pin = getDigitPinCode(pinCode);
   const key = getAnyPrivateKey(account.local, pin);
 
