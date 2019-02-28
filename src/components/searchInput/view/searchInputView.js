@@ -1,5 +1,5 @@
 import React from 'react';
-import { View, SafeAreaView } from 'react-native';
+import { SafeAreaView } from 'react-native';
 
 // Components
 import { Icon } from '../../icon';
@@ -17,7 +17,11 @@ import styles from './searchInputStyles';
  *   @prop { bool }    editable                - Editable value for input. Default value is true.
  */
 const SearchInputView = ({
-  onChangeText, handleOnModalClose, placeholder, editable = true,
+  onChangeText,
+  handleOnModalClose,
+  placeholder,
+  editable = true,
+  autoFocus = true,
 }) => (
   <SafeAreaView style={styles.inputWrapper}>
     <Icon style={styles.icon} iconType="FontAwesome" name="search" size={15} />
@@ -27,7 +31,7 @@ const SearchInputView = ({
       placeholder={placeholder}
       placeholderTextColor="#c1c5c7"
       autoCapitalize="none"
-      autoFocus
+      autoFocus={autoFocus}
       editable={editable}
     />
     <IconButton
