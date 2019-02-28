@@ -201,8 +201,8 @@
     "no_existing_post": "Utilizator inexistent"
   },
   "search": {
-    "posts": "Posts",
-    "comments": "Comments"
+    "posts": "Postări",
+    "comments": "Comentarii"
   },
   "comment_filter": {
     "trending": "trending",
