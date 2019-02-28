@@ -1,4 +1,4 @@
-import React, { PureComponent, Fragment } from 'react';
+import React, { PureComponent } from 'react';
 import { View } from 'react-native';
 import ScrollableTabView from '@esteemapp/react-native-scrollable-tab-view';
 import { injectIntl } from 'react-intl';
@@ -26,7 +26,7 @@ class SearchResultScreen extends PureComponent {
         <SearchInput
           onChangeText={() => {}}
           handleOnModalClose={navigationGoBack}
-          placeholder={tag}
+          placeholder={`#${tag}`}
           editable={false}
         />
         <ScrollableTabView
