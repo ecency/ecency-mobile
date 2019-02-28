@@ -1,5 +1,5 @@
 import React, { PureComponent, Fragment } from 'react';
-import { View } from 'react-native';
+import { View, Text } from 'react-native';
 
 import { getTimeFromNow } from '../../../utils/time';
 // Constants
@@ -40,17 +40,18 @@ class CommentView extends PureComponent {
   render() {
     const {
       avatarSize,
+      comment,
+      commentNumber,
       currentAccountUsername,
+      fetchPost,
       handleOnEditPress,
       handleOnReplyPress,
       handleOnUserPress,
       isLoggedIn,
-      marginLeft,
-      isShowMoreButton,
-      comment,
-      commentNumber,
-      fetchPost,
       isShowComments,
+      isShowMoreButton,
+      marginLeft,
+      voteCount,
     } = this.props;
     const { isShowSubComments, isPressedShowButton } = this.state;
 
@@ -69,6 +70,13 @@ class CommentView extends PureComponent {
             {isLoggedIn && (
               <Fragment>
                 <Upvote isShowPayoutValue content={comment} />
+                <IconButton
+                  size={18}
+                  iconStyle={styles.leftIcon}
+                  iconType="MaterialIcons"
+                  name="people"
+                />
+                <Text style={styles.voteCountText}>{voteCount}</Text>
                 <IconButton
                   size={18}
                   iconStyle={styles.leftIcon}
