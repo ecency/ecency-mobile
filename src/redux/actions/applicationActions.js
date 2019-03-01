@@ -15,6 +15,7 @@ import {
   SET_CURRENCY,
   SET_LANGUAGE,
   SET_UPVOTE_PERCENT,
+  SET_NSFW,
 } from '../constants/constants';
 
 export const login = payload => ({
@@ -75,6 +76,11 @@ export const isDarkTheme = payload => ({
 export const setConnectivityStatus = payload => ({
   payload,
   type: IS_CONNECTED,
+});
+
+export const setNsfw = payload => ({
+  payload,
+  type: SET_NSFW,
 });
 
 /**
