@@ -13,6 +13,7 @@ import {
   SET_CURRENCY,
   SET_LANGUAGE,
   SET_UPVOTE_PERCENT,
+  SET_NSFW,
 } from '../constants/constants';
 
 const initialState = {
@@ -33,6 +34,7 @@ const initialState = {
   language: 'en-US',
   loading: false, // It is lock to all screen and shows loading animation.
   upvotePercent: 1,
+  nsfw: 'Always show',
 };
 
 export default function (state = initialState, action) {
@@ -100,6 +102,10 @@ export default function (state = initialState, action) {
     case SET_UPVOTE_PERCENT:
       return Object.assign({}, state, {
         upvotePercent: action.payload,
+      });
+    case SET_NSFW:
+      return Object.assign({}, state, {
+        nsfw: action.payload,
       });
     default:
       return state;
