@@ -201,8 +201,8 @@
     "no_existing_post": "پستی موجود نیست"
   },
   "search": {
-    "posts": "Posts",
-    "comments": "Comments"
+    "posts": "پست‌ها",
+    "comments": "نظرات"
   },
   "comment_filter": {
     "trending": "پرطرفدار",
