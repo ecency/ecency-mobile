@@ -5,8 +5,8 @@
     "comment_benefactor_reward": "הגב תגמול המיטיב",
     "claim_reward_balance": "תביעת תגמול איזון",
     "transfer": "העברה",
-    "transfer_to_vesting": "Transfer To Vesting",
-    "transfer_from_savings": "Transfer From Savings",
+    "transfer_to_vesting": "העבר כדאי לממש",
+    "transfer_from_savings": "העבר מחסכונות",
     "withdraw_vesting": "Power Down",
     "fill_order": "Fill Order"
   },
