@@ -20,6 +20,7 @@ import {
   Settings,
   SteemConnect,
   Voters,
+  SearchResult,
 } from '../screens';
 
 // Components
@@ -88,6 +89,12 @@ const stackNavigatior = createStackNavigator(
     },
     [ROUTES.SCREENS.BOOKMARKS]: {
       screen: RootComponent()(Bookmarks),
+      navigationOptions: {
+        header: () => null,
+      },
+    },
+    [ROUTES.SCREENS.SEARCH_RESULT]: {
+      screen: RootComponent()(SearchResult),
       navigationOptions: {
         header: () => null,
       },

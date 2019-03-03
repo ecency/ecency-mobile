@@ -200,6 +200,10 @@
     "no_existing_user": "Hana uréung pakék",
     "no_existing_post": "Hana haba sapeu"
   },
+  "search": {
+    "posts": "Posts",
+    "comments": "Comments"
+  },
   "comment_filter": {
     "trending": "trending",
     "reputation": "reputation",

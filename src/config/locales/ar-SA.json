@@ -200,6 +200,10 @@
     "no_existing_user": "لا يوجد أي مستخدم حاليا",
     "no_existing_post": "لا يوجد أي منشور حالياً"
   },
+  "search": {
+    "posts": "منشورات",
+    "comments": "التعليقات"
+  },
   "comment_filter": {
     "trending": "الشائع",
     "reputation": "السمعة",
