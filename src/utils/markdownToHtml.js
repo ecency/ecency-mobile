@@ -22,6 +22,7 @@ const urlRegex = /(http|ftp|https):\/\/([\w_-]+(?:(?:\.[\w_-]+)+))([\w.,@?^=%&:/
 const aTagRegex = /(<\s*a[^>]*>(.*?)<\s*[/]\s*a>)/g;
 const imgTagRegex = /(<img[^>]*>)/g;
 const iframeRegex = /(?:<iframe[^>]*)(?:(?:\/>)|(?:>.*?<\/iframe>))/g;
+const hTagRegex = /(<h([1-6])>([^<]*)<\/h([1-6])>)/g;
 
 export const markDown2Html = (input) => {
   if (!input) {
@@ -81,6 +82,10 @@ export const markDown2Html = (input) => {
     output = handleATag(output);
   }
 
+  if (hTagRegex.test(output)) {
+    output = handleHTag(output);
+  }
+
   // if (copiedPostRegex.test(output)) {
   //   output = handleMarkdownLink(output);
   // }
@@ -129,6 +134,8 @@ const handleATag = input => input.replace(aTagRegex, (link) => {
 
   return link;
 });
+
+const handleHTag = input => input.replace(hTagRegex, tag => `<div>${tag}</div>`);
 
 const handleMarkdownLink = input => input.replace(copiedPostRegex, (link) => {
   const postMatch = link.match(copiedPostRegex);
