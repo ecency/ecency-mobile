@@ -14,6 +14,20 @@ export default EStyleSheet.create({
     color: '$primaryBlue',
     fontFamily: '$primaryFont',
   },
+  h4: {
+    fontSize: 15,
+    marginHorizontal: 10,
+    marginVertical: 5,
+  },
+  h1: {
+    fontSize: 30,
+  },
+  h2: {
+    fontSize: 25,
+  },
+  h3: {
+    fontSize: 20,
+  },
   img: {
     // height: 50,
     marginTop: 10,
