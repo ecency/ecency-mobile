@@ -33,6 +33,7 @@ export default EStyleSheet.create({
   img: {
     // height: 50,
     marginTop: 10,
+    // left: -15,
   },
   commentContainer: {
     paddingHorizontal: 0,

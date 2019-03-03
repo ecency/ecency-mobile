@@ -4,6 +4,9 @@ import {
 } from 'react-native';
 import { injectIntl } from 'react-intl';
 
+// Providers
+import { userActivity } from '../../../providers/esteem/ePoint';
+
 // Utils
 import { getTimeFromNow } from '../../../utils/time';
 
@@ -36,6 +39,13 @@ class PostDisplayView extends PureComponent {
   }
 
   // Component Life Cycles
+  componentDidMount() {
+    const { currentAccount, isLoggedIn } = this.props;
+
+    if (isLoggedIn && currentAccount && currentAccount.name) {
+      userActivity(currentAccount.name, 10);
+    }
+  }
 
   // Component Functions
   _handleOnScroll = (event) => {

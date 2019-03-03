@@ -200,6 +200,10 @@
     "no_existing_user": "Không có người dùng hiện tại",
     "no_existing_post": "Hiện tại không có bài viết nào"
   },
+  "search": {
+    "posts": "Posts",
+    "comments": "Comments"
+  },
   "comment_filter": {
     "trending": "trending",
     "reputation": "reputation",

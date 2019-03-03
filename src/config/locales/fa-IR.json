@@ -200,6 +200,10 @@
     "no_existing_user": "کاربری موجود نیست",
     "no_existing_post": "پستی موجود نیست"
   },
+  "search": {
+    "posts": "پست‌ها",
+    "comments": "نظرات"
+  },
   "comment_filter": {
     "trending": "پرطرفدار",
     "reputation": "شهرت",

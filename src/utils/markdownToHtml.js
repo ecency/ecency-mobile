@@ -15,7 +15,7 @@ const dTubeRegex = /(https?:\/\/d.tube.#!\/v\/)(\w+)\/(\w+)/g;
 const authorNameRegex = /(^|[^a-zA-Z0-9_!#$%&*@＠\/]|(^|[^a-zA-Z0-9_+~.-\/]))[@＠]([a-z][-\.a-z\d]+[a-z\d])/gi;
 const tagsRegex = /(^|\s|>)(#[-a-z\d]+)/gi;
 const centerRegex = /(<center>)/g;
-const imgRegex = /(https?:\/\/.*\.(?:tiff?|jpe?g|gif|png|svg|ico|PNG|GIF|JPG))/g;
+const imgRegex = /(https?:\/\/.*\.(?:tiff?|jpe?g|gif|png|svg|ico|PNG|GIF|JPG|JPEG))/g;
 const linkRegex = /[-a-zA-Z0-9@:%+.~#?&//=]{2,256}\.[a-z]{2,4}\b(\/[-a-zA-Z0-9@:%+._~#?&//=]*)?/gi;
 const markdownImageRegex = /!\[[^\]]*\]\((.*?)\s*("(?:.*[^"])")?\s*\)/g;
 const urlRegex = /(http|ftp|https):\/\/([\w_-]+(?:(?:\.[\w_-]+)+))([\w.,@?^=%&:/~+#-]*[\w@?^=%&/~+#-])?/gm;
@@ -264,8 +264,8 @@ const createVimeoIframe = input => input.replace(vimeoRegex, (link) => {
 const handleImageLink = input => input.replace(imgRegex, link => imageBody(link));
 
 const iframeBody = link => `<iframe frameborder='0' allowfullscreen src='${link}'></iframe>`;
-const imageBody = link => `<center style="text-align: center; align-items: center; justify-content: center;"><img src="${`https://steemitimages.com/600x0/${link}`}"></center>`;
-const gifBody = link => `<img src="${`https://steemitimages.com/0x0/${link}`}">`;
+const imageBody = link => `<center style="text-align: center; align-items: center; justify-content: center;"><img src="${`https://steemitimages.com/600x0/${link}`}" /></center>`;
+const gifBody = link => `<img src="${`https://steemitimages.com/0x0/${link}`}" />`;
 
 // const handleCodeTag = input => input.replace(codeTagRegex, (tag) => {
 //   const stringsRegex = /(?<=>)(.*)(?=<)/g;

@@ -200,6 +200,10 @@
     "no_existing_user": "Kullanici Bulunamadi",
     "no_existing_post": "Kullanici Bulunamadi"
   },
+  "search": {
+    "posts": "Posts",
+    "comments": "Comments"
+  },
   "comment_filter": {
     "trending": "öne çıkanlar",
     "reputation": "itibar",
