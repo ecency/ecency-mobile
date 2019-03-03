@@ -17,9 +17,7 @@ export default EStyleSheet.create({
   h4: {
     fontSize: 15,
     marginHorizontal: 10,
-    // height: 10,
-    marginBottom: 5,
-    marginTop: 5,
+    marginVertical: 5,
   },
   h1: {
     fontSize: 30,
