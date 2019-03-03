@@ -201,8 +201,8 @@
     "no_existing_post": "لا يوجد أي منشور حالياً"
   },
   "search": {
-    "posts": "Posts",
-    "comments": "Comments"
+    "posts": "منشورات",
+    "comments": "التعليقات"
   },
   "comment_filter": {
     "trending": "الشائع",
