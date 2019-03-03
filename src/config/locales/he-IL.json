@@ -1,12 +1,12 @@
 {
   "wallet": {
-    "curation_reward": "Curation Reward",
-    "author_reward": "Author Reward",
-    "comment_benefactor_reward": "Comment Benefactor Reward",
-    "claim_reward_balance": "Claim Reward Balance",
-    "transfer": "Transfer",
-    "transfer_to_vesting": "Transfer To Vesting",
-    "transfer_from_savings": "Transfer From Savings",
+    "curation_reward": "תגמול ארגון התוכן",
+    "author_reward": "תגמול הסופר",
+    "comment_benefactor_reward": "הגב תגמול המיטיב",
+    "claim_reward_balance": "תביעת תגמול איזון",
+    "transfer": "העברה",
+    "transfer_to_vesting": "העבר כדאי לממש",
+    "transfer_from_savings": "העבר מחסכונות",
     "withdraw_vesting": "Power Down",
     "fill_order": "Fill Order"
   },
