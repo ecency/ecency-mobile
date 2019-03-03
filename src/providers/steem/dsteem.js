@@ -382,10 +382,13 @@ export const getPostWithComments = async (user, permlink) => {
  * @param postingKey private posting key
  */
 
-export const vote = (account, pin, author, permlink, weight) => _vote(account, pin, author, permlink, weight).then((resp) => {
-  userActivity(account.username, 120, resp.block_num, resp.id);
-  return resp;
-});
+export const vote = (account, pin, author, permlink, weight) => _vote(
+  account, pin, author, permlink, weight,
+)
+  .then((resp) => {
+    userActivity(account.username, 120, resp.block_num, resp.id);
+    return resp;
+  });
 
 const _vote = async (currentAccount, pin, author, permlink, weight) => {
   const digitPinCode = getDigitPinCode(pin);
@@ -776,8 +779,10 @@ const _postContent = async (
 };
 
 // Re-blog
-
-export const reblog = (account, pinCode, author, permlink) => _reblog(account, pin, author, permlink).then((resp) => {
+// TODO: remove pinCode
+export const reblog = (account, pinCode, author, permlink) => _reblog(
+  account, pinCode, author, permlink,
+).then((resp) => {
   userActivity(account.name, 130, resp.block_num, resp.id);
   return resp;
 });

@@ -42,7 +42,9 @@ class PostDisplayView extends PureComponent {
   componentDidMount() {
     const { currentAccount, isLoggedIn } = this.props;
 
-    userActivity(currentAccount.name, 10);
+    if (isLoggedIn && currentAccount && currentAccount.name) {
+      userActivity(currentAccount.name, 10);
+    }
   }
 
   // Component Functions
