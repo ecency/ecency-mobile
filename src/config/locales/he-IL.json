@@ -61,16 +61,16 @@
     "language": "שפה",
     "server": "שרת",
     "dark_theme": "ערכת נושא כהה",
-    "push_notification": "התראת לחיצה",
-    "pincode": "Pincode",
-    "reset": "התחל מחדש"
+    "push_notification": "התראת דחיפה",
+    "pincode": "סיסמה",
+    "reset": "אתחול מחדש"
   },
   "voters": {
     "voters_info": "פרטי מצביעים",
-    "no_user": "לא נמצא משתמש\\ת."
+    "no_user": "לא נמצא משתמש\\ת בשם זה."
   },
   "login": {
-    "signin": "התחבר\\י",
+    "signin": "התחבר\\י לחשבון",
     "signup": "Sign up",
     "signin_title": "To get all the benefits of using eSteem",
     "username": "Username",
@@ -119,8 +119,8 @@
     "capture_photo": "Capture a photo"
   },
   "pincode": {
-    "enter_text": "Enter pin to unlock",
-    "set_new": "Set new pin",
+    "enter_text": "תקליד\\י סיסמה בכדי לבטל נעילה",
+    "set_new": "הגדר PIN חדש",
     "write_again": "Write again",
     "forgot_text": "Oh, I forgot it..."
   },
@@ -132,15 +132,15 @@
     "success_shared": "Your post succesfully shared",
     "permission_denied": "Permission denied",
     "permission_text": "Please, go to phone Settings and change eSteem app permissions.",
-    "success_rebloged": "Rebloged!",
+    "success_rebloged": "שותף!",
     "already_rebloged": "You have already reblogged!",
     "warning": "Warning",
-    "invalid_pincode": "Invalid pin code, please check and try again.",
-    "remove_alert": "Are you sure want to remove?",
+    "invalid_pincode": "קוד PIN לא תקין\\ה, אנא בדק\\י ונסה\\י שנית.",
+    "remove_alert": "בוודאות ברצונך להסיר?",
     "clear_alert": "Are you sure you want to clear?",
     "clear": "Clear",
     "cancel": "בטל\\י",
-    "delete": "מחק",
+    "delete": "מחק\\י",
     "copied": "הועתק!",
     "no_internet": "אין חיבור!"
   },
@@ -156,58 +156,58 @@
   "schedules": {
     "title": "פוסטים מתוכננים",
     "empty_list": "ריק כאן",
-    "deleted": "Scheduled post deleted",
-    "move": "Move to drafts",
-    "moved": "Moved to drafts"
+    "deleted": "פוסטים מתוכננים נמחקו",
+    "move": "העבר\\י לטיוטה",
+    "moved": "הועבר לטיוטה"
   },
   "bookmarks": {
-    "title": "Bookmarks",
-    "load_error": "Could not load bookmarks",
-    "empty_list": "Nothing here",
-    "deleted": "Bookmark removed",
-    "search": "Search in bookmarks",
-    "added": "Added to bookmarks",
-    "add": "Add to bookmarks"
+    "title": "סימניות",
+    "load_error": "לא ניתן לעלות סימניות",
+    "empty_list": "אין כאן מידע",
+    "deleted": "סימנייה הוסרה",
+    "search": "חפש בסימניות",
+    "added": "הוסף לסימניות",
+    "add": "הוסף\\י לסימניות"
   },
   "favorites": {
-    "title": "Favorites",
-    "load_error": "Could not load favorites",
-    "empty_list": "Nothing here",
-    "search": "Search in favorites"
+    "title": "מועדפים",
+    "load_error": "לא ניתן לעלות מועדפים",
+    "empty_list": "לא נמצא כאן דבר",
+    "search": "חפש\\י במועדפים"
   },
   "auth": {
     "invalid_pin": "Invalid pin code, please check and try again",
-    "invalid_username": "Invalid username, please check and try again",
-    "already_logged": "You are already logged in, please try to add another account",
-    "invalid_credentials": "Invalid credentials, please check and try again",
-    "unknow_error": "Unknown error, please contact us at support@esteem.app"
+    "invalid_username": "שם משתמש לא תקין, אנא בדק\\י ונסה\\י שנית",
+    "already_logged": "הינך כבר מחובר\\ת למערכת, אנא נסה להוסיף חשבון אחר",
+    "invalid_credentials": "הישגים\\פרטים לא תקפים, אנא בדוק\\י ונסה\\י שנית",
+    "unknow_error": "תקלה לא ידועה, אנא איתנו צור קשר בsupport@esteem.app"
   },
   "payout": {
-    "potential_payout": "Potential Payout",
-    "promoted": "Promoted",
-    "author_payout": "Author Payout",
-    "curation_payout": "Curation Payout",
-    "payout_date": "Payout"
+    "potential_payout": "תשלום אפשרי",
+    "promoted": "קודם",
+    "author_payout": "תשלום הכותב",
+    "curation_payout": "תשלום מושגח",
+    "payout_date": "תשלום"
   },
   "post_dropdown": {
-    "copy": "copy link",
-    "reblog": "reblog",
-    "reply": "reply",
-    "share": "share",
-    "bookmarks": "add to bookmarks"
+    "copy": "העתק קישור",
+    "reblog": "העלה מחדש לבלוג",
+    "reply": "השב",
+    "share": "שתף\\י",
+    "bookmarks": "הוסף\\י לסימניות"
   },
   "deep_link": {
-    "no_existing_user": "No existing user",
-    "no_existing_post": "No existing post"
+    "no_existing_user": "אין משתמש קיים בשם זה",
+    "no_existing_post": "אין פוסט קיים"
   },
   "search": {
-    "posts": "Posts",
-    "comments": "Comments"
+    "posts": "פוסטים\\ העלאות",
+    "comments": "תגובות"
   },
   "comment_filter": {
-    "trending": "trending",
-    "reputation": "reputation",
-    "votes": "votes",
-    "age": "age"
+    "trending": "חם כעת",
+    "reputation": "מוניטין",
+    "votes": "הצבעות",
+    "age": "גיל"
   }
 }
