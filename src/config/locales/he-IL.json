@@ -22,7 +22,7 @@
     "comingsoon": "מאפיין ה-לידרבורד יוצא להשקה בקרוב!",
     "notification": "התראות",
     "leaderboard": "לוח תוצאות",
-    "leaderboard_title": "Daily Top User",
+    "leaderboard_title": "משתמש יומי ברמה גבוהה",
     "recent": "לאחרונה",
     "yesterday": "אתמול",
     "this_week": "בשבוע הזה",
@@ -71,13 +71,13 @@
   },
   "login": {
     "signin": "התחבר\\י לחשבון",
-    "signup": "Sign up",
-    "signin_title": "To get all the benefits of using eSteem",
-    "username": "Username",
-    "password": "Password or WIF",
-    "description": "User credentials are kept locally on the device. Credentials are removed upon logout!",
-    "cancel": "cancel",
-    "login": "LOGIN",
+    "signup": "הירשם\\י",
+    "signin_title": "על מנת לקבל את כל ההטבות שeSteem מציע",
+    "username": "שם משתמש",
+    "password": "סיסמה או WIF",
+    "description": "מידע של המשתמש שמור באופן מקומי על המכשיר. הפרטים נמחקים בעת התנתקות מהחשבון!",
+    "cancel": "בטל\\י",
+    "login": "כניסה",
     "steemconnect_description": "If you don't want to keep your password encrypted and saved on your device, you can use Steemconnect.",
     "steemconnect_fee_description": "Steemconnect may charge some fees from your reward transactions"
   },
@@ -176,11 +176,11 @@
     "search": "חפש\\י במועדפים"
   },
   "auth": {
-    "invalid_pin": "Invalid pin code, please check and try again",
+    "invalid_pin": "קוד PIN לא תקין\\ה, אנא בדק\\י ונסה\\י שנית",
     "invalid_username": "שם משתמש לא תקין, אנא בדק\\י ונסה\\י שנית",
     "already_logged": "הינך כבר מחובר\\ת למערכת, אנא נסה להוסיף חשבון אחר",
-    "invalid_credentials": "הישגים\\פרטים לא תקפים, אנא בדוק\\י ונסה\\י שנית",
-    "unknow_error": "תקלה לא ידועה, אנא איתנו צור קשר בsupport@esteem.app"
+    "invalid_credentials": "הישגים\\פרטים לא תקינים, אנא בדוק\\י ונסה\\י שנית",
+    "unknow_error": "תקלה לא מזוהה, אנא איתנו צור קשר בsupport@esteem.app"
   },
   "payout": {
     "potential_payout": "תשלום אפשרי",
