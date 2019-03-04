@@ -201,8 +201,8 @@
     "no_existing_post": "Nėra tokio įrašo"
   },
   "search": {
-    "posts": "Posts",
-    "comments": "Comments"
+    "posts": "Įrašai",
+    "comments": "Komentarai"
   },
   "comment_filter": {
     "trending": "populiariausi",
