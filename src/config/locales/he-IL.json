@@ -7,207 +7,207 @@
     "transfer": "העברה",
     "transfer_to_vesting": "העבר כדאי לממש",
     "transfer_from_savings": "העבר מחסכונות",
-    "withdraw_vesting": "Power Down",
-    "fill_order": "Fill Order"
+    "withdraw_vesting": "כבה כח",
+    "fill_order": "מלא הזמנה"
   },
   "notification": {
-    "vote": "likes your post",
-    "unvote": "unvoted your post",
-    "reply": "replied to your post",
-    "mention": "mentioned you",
-    "follow": "followed you",
-    "unfollow": "unfollowed you",
-    "ignore": "ignored you",
-    "reblog": "reblogged your post",
-    "comingsoon": "Leaderboard feature is coming soon!",
-    "notification": "Notifications",
-    "leaderboard": "Leaderboard",
-    "leaderboard_title": "Daily Top User",
-    "recent": "Recent",
-    "yesterday": "Yesterday",
-    "this_week": "This Week",
-    "this_month": "This Month",
-    "older_then": "Older Than A Month"
+    "vote": "אוהב\\ת את הפוסט שלך",
+    "unvote": "ביטל\\ה את ההצבעה לפוסט שלך",
+    "reply": "הגיב\\ה לפוסט שלך",
+    "mention": "הזכיר\\ה אותך",
+    "follow": "עוקב\\ת אחרייך",
+    "unfollow": "הפסיק\\ה לעקוב אחרייך",
+    "ignore": "התעלם\\מה ממך (\\מהצעתך)",
+    "reblog": "העלה\\תה את הפוסט שלך לבלוג שלו\\ה",
+    "comingsoon": "מאפיין ה-לידרבורד יוצא להשקה בקרוב!",
+    "notification": "התראות",
+    "leaderboard": "לוח תוצאות",
+    "leaderboard_title": "משתמש יומי ברמה גבוהה",
+    "recent": "לאחרונה",
+    "yesterday": "אתמול",
+    "this_week": "בשבוע הזה",
+    "this_month": "בחודש הזה",
+    "older_then": "בגיר מחודש"
   },
   "messages": {
-    "comingsoon": "Messages feature is coming soon!"
+    "comingsoon": "אופציית תקשור דרך הודעות יוצאת בקרוב!"
   },
   "profile": {
-    "following": "Following",
-    "follower": "Follower",
+    "following": "עוקב\\ת",
+    "follower": "עוקב\\ת",
     "post": "Post",
-    "details": "Profile Details",
-    "comments": "Comments",
-    "replies": "Replies",
-    "wallet": "Wallet",
-    "wallet_details": "Wallet Details",
-    "unclaimed_rewards": "Unclaimed Rewards",
-    "full_in": "Full in",
-    "hours": "hours",
-    "voting_power": "Voting power",
-    "login_to_see": "Login to see",
-    "havent_commented": "haven't commented anything yet",
-    "havent_posted": "haven't posted anything yet",
-    "steem_power": "Steem Power",
-    "next_power_text": "Next power down is in",
-    "days": "days",
-    "day": "day",
-    "steem_dollars": "Steem Dollars",
-    "savings": "Savings"
+    "details": "פרטי פרופיל",
+    "comments": "תגובות",
+    "replies": "תגובות",
+    "wallet": "ארנק",
+    "wallet_details": "פרטי ארנק",
+    "unclaimed_rewards": "תגמולים שלא נלקחו",
+    "full_in": "מלא ב",
+    "hours": "שעות",
+    "voting_power": "כח בצבעה",
+    "login_to_see": "התחבר\\י כדאי לראות",
+    "havent_commented": "לא הגיב\\ה עדיין",
+    "havent_posted": "לא העלה\\תה פוסט עדיין",
+    "steem_power": "כח Steem",
+    "next_power_text": "כח כבוי הבא נמצא ב",
+    "days": "ימים",
+    "day": "יום",
+    "steem_dollars": "דולר Steem",
+    "savings": "חסכונות"
   },
   "settings": {
-    "settings": "Settings",
-    "currency": "Currency",
-    "language": "Language",
-    "server": "Server",
-    "dark_theme": "Dark Theme",
-    "push_notification": "Push Notification",
-    "pincode": "Pincode",
-    "reset": "Reset"
+    "settings": "הגדרות",
+    "currency": "יתרת מטבע",
+    "language": "שפה",
+    "server": "שרת",
+    "dark_theme": "ערכת נושא כהה",
+    "push_notification": "התראת דחיפה",
+    "pincode": "סיסמה",
+    "reset": "אתחול מחדש"
   },
   "voters": {
-    "voters_info": "Voters Info",
-    "no_user": "No user found."
+    "voters_info": "פרטי מצביעים",
+    "no_user": "לא נמצא משתמש\\ת בשם זה."
   },
   "login": {
-    "signin": "Sign in",
-    "signup": "Sign up",
-    "signin_title": "To get all the benefits of using eSteem",
-    "username": "Username",
-    "password": "Password or WIF",
-    "description": "User credentials are kept locally on the device. Credentials are removed upon logout!",
-    "cancel": "cancel",
-    "login": "LOGIN",
-    "steemconnect_description": "If you don't want to keep your password encrypted and saved on your device, you can use Steemconnect.",
-    "steemconnect_fee_description": "Steemconnect may charge some fees from your reward transactions"
+    "signin": "התחבר\\י לחשבון",
+    "signup": "הירשם\\י",
+    "signin_title": "על מנת לקבל את כל ההטבות שeSteem מציע",
+    "username": "שם משתמש",
+    "password": "סיסמה או WIF",
+    "description": "מידע של המשתמש שמור באופן מקומי על המכשיר. הפרטים נמחקים בעת התנתקות מהחשבון!",
+    "cancel": "בטל\\י",
+    "login": "כניסה",
+    "steemconnect_description": "אם אינך מעוניין\\ת להמשיך את סיסמתך מוצפנת ושמורה על מכשירך, את\\ה רשאי\\ת להשתמש בSteemconnect.",
+    "steemconnect_fee_description": "Steemconnect עשוי לגבות תשלומים מסוימים מהעברות תגמולותיך"
   },
   "home": {
-    "feed": "Feed",
-    "popular": "Popular"
+    "feed": "פיד",
+    "popular": "פופולרי"
   },
   "side_menu": {
-    "profile": "Profile",
-    "bookmarks": "Bookmarks",
-    "favorites": "Favorites",
-    "drafts": "Drafts",
-    "schedules": "Schedules",
-    "gallery": "Gallery",
-    "settings": "Settings",
-    "add_account": "Add Account",
-    "logout": "Logout",
-    "cancel": "Cancel",
-    "logout_text": "Are you sure you want to logout?"
+    "profile": "פרופיל",
+    "bookmarks": "סימניות",
+    "favorites": "מועדפים",
+    "drafts": "טיוטות",
+    "schedules": "לוחות זמנים",
+    "gallery": "גלריה",
+    "settings": "הגדרות",
+    "add_account": "הוסף\/י חשבון",
+    "logout": "יציאה מהמערכת",
+    "cancel": "ביטול",
+    "logout_text": "האם את\\ה בטוח\\ה שברצונך להתנתק?"
   },
   "header": {
-    "title": "Login to customize your feed",
-    "search": "Search..."
+    "title": "התחבר\\י כדי לעצב אישית את הפיד שלך",
+    "search": "חיפוש..."
   },
   "basic_header": {
-    "publish": "Publish",
-    "search": "Search",
-    "update": "Update",
-    "reply": "Reply"
+    "publish": "פרסם\\י",
+    "search": "חפש\\י",
+    "update": "עדכן\\י",
+    "reply": "הגב\\י"
   },
   "editor": {
-    "title": "Title",
-    "tags": "tags",
-    "default_placeholder": "What would you like to write about today?",
-    "reply_placeholder": "What would you like to write about above post?",
-    "publish": "Publish",
-    "reply": "Reply",
-    "open_galery": "Open Galery",
-    "capture_photo": "Capture a photo"
+    "title": "כותרת",
+    "tags": "מתויגים",
+    "default_placeholder": "מה ברצונך לכתוב על אודות יומך?",
+    "reply_placeholder": "מה ברצונך לכתוב בנוגע לעברך?",
+    "publish": "פרסם\\י",
+    "reply": "השב\\י",
+    "open_galery": "פתח\\י גלריה",
+    "capture_photo": "צלם תמונה"
   },
   "pincode": {
-    "enter_text": "Enter pin to unlock",
-    "set_new": "Set new pin",
-    "write_again": "Write again",
-    "forgot_text": "Oh, I forgot it..."
+    "enter_text": "תקליד\\י סיסמה בכדי לבטל נעילה",
+    "set_new": "הגדר PIN חדש",
+    "write_again": "כתוב שנית",
+    "forgot_text": "אוי, אני שכחתי..."
   },
   "alert": {
-    "success": "Success!",
-    "allRead": "Marked all notifications as read",
-    "claim_reward_balance_ok": "Reward balance claimed",
-    "fail": "Fail!",
-    "success_shared": "Your post succesfully shared",
-    "permission_denied": "Permission denied",
-    "permission_text": "Please, go to phone Settings and change eSteem app permissions.",
-    "success_rebloged": "Rebloged!",
-    "already_rebloged": "You have already reblogged!",
-    "warning": "Warning",
-    "invalid_pincode": "Invalid pin code, please check and try again.",
-    "remove_alert": "Are you sure want to remove?",
-    "clear_alert": "Are you sure you want to clear?",
-    "clear": "Clear",
-    "cancel": "Cancel",
-    "delete": "Delete",
-    "copied": "Copied!",
-    "no_internet": "No connection!"
+    "success": "הצלחה!",
+    "allRead": "סימן את כל ההתראות כנקראו",
+    "claim_reward_balance_ok": "תגמול מאזן נאסף",
+    "fail": "כישלון!",
+    "success_shared": "הפוסט שלך שותף בהצלחה",
+    "permission_denied": "הרשאה\\ בקשה נדחתה",
+    "permission_text": "אנא, שנה את ההרשאות באפליקציית הeSteem. ניתן להיכנס דרך ההגדרות בטלפון.",
+    "success_rebloged": "שותף!",
+    "already_rebloged": "כבר פרסמת מחדש!",
+    "warning": "אזהרה",
+    "invalid_pincode": "קוד PIN לא תקין\\ה, אנא בדק\\י ונסה\\י שנית.",
+    "remove_alert": "בוודאות ברצונך להסיר?",
+    "clear_alert": "האם את\\ה בטוח שברצונך למחוק הכל?",
+    "clear": "נקי",
+    "cancel": "בטל\\י",
+    "delete": "מחק\\י",
+    "copied": "הועתק!",
+    "no_internet": "אין חיבור!"
   },
   "post": {
-    "reblog_alert": "Are you sure you want to reblog?"
+    "reblog_alert": "ברצונך לעלות מחדש פוסט זה לבלוגך?"
   },
   "drafts": {
-    "title": "Drafts",
-    "load_error": "Could not load drafts",
-    "empty_list": "Nothing here",
-    "deleted": "Draft deleted"
+    "title": "טיוטות",
+    "load_error": "לא ניתן לעלות טיוטה",
+    "empty_list": "לא נמצא כאן",
+    "deleted": "טיוטה נמחקה"
   },
   "schedules": {
-    "title": "Scheduled Posts",
-    "empty_list": "Nothing here",
-    "deleted": "Scheduled post deleted",
-    "move": "Move to drafts",
-    "moved": "Moved to drafts"
+    "title": "פוסטים מתוכננים",
+    "empty_list": "ריק כאן",
+    "deleted": "פוסטים מתוכננים נמחקו",
+    "move": "העבר\\י לטיוטה",
+    "moved": "הועבר לטיוטה"
   },
   "bookmarks": {
-    "title": "Bookmarks",
-    "load_error": "Could not load bookmarks",
-    "empty_list": "Nothing here",
-    "deleted": "Bookmark removed",
-    "search": "Search in bookmarks",
-    "added": "Added to bookmarks",
-    "add": "Add to bookmarks"
+    "title": "סימניות",
+    "load_error": "לא ניתן לעלות סימניות",
+    "empty_list": "אין כאן מידע",
+    "deleted": "סימנייה הוסרה",
+    "search": "חפש בסימניות",
+    "added": "הוסף לסימניות",
+    "add": "הוסף\\י לסימניות"
   },
   "favorites": {
-    "title": "Favorites",
-    "load_error": "Could not load favorites",
-    "empty_list": "Nothing here",
-    "search": "Search in favorites"
+    "title": "מועדפים",
+    "load_error": "לא ניתן לעלות מועדפים",
+    "empty_list": "לא נמצא כאן דבר",
+    "search": "חפש\\י במועדפים"
   },
   "auth": {
-    "invalid_pin": "Invalid pin code, please check and try again",
-    "invalid_username": "Invalid username, please check and try again",
-    "already_logged": "You are already logged in, please try to add another account",
-    "invalid_credentials": "Invalid credentials, please check and try again",
-    "unknow_error": "Unknown error, please contact us at support@esteem.app"
+    "invalid_pin": "קוד PIN לא תקין\\ה, אנא בדק\\י ונסה\\י שנית",
+    "invalid_username": "שם משתמש לא תקין, אנא בדק\\י ונסה\\י שנית",
+    "already_logged": "הינך כבר מחובר\\ת למערכת, אנא נסה להוסיף חשבון אחר",
+    "invalid_credentials": "הישגים\\פרטים לא תקינים, אנא בדוק\\י ונסה\\י שנית",
+    "unknow_error": "תקלה לא מזוהה, אנא איתנו צור קשר בsupport@esteem.app"
   },
   "payout": {
-    "potential_payout": "Potential Payout",
-    "promoted": "Promoted",
-    "author_payout": "Author Payout",
-    "curation_payout": "Curation Payout",
-    "payout_date": "Payout"
+    "potential_payout": "תשלום אפשרי",
+    "promoted": "קודם",
+    "author_payout": "תשלום הכותב",
+    "curation_payout": "תשלום מושגח",
+    "payout_date": "תשלום"
   },
   "post_dropdown": {
-    "copy": "copy link",
-    "reblog": "reblog",
-    "reply": "reply",
-    "share": "share",
-    "bookmarks": "add to bookmarks"
+    "copy": "העתק קישור",
+    "reblog": "העלה מחדש לבלוג",
+    "reply": "השב",
+    "share": "שתף\\י",
+    "bookmarks": "הוסף\\י לסימניות"
   },
   "deep_link": {
-    "no_existing_user": "No existing user",
-    "no_existing_post": "No existing post"
+    "no_existing_user": "אין משתמש קיים בשם זה",
+    "no_existing_post": "אין פוסט קיים"
   },
   "search": {
-    "posts": "Posts",
-    "comments": "Comments"
+    "posts": "פוסטים\\ העלאות",
+    "comments": "תגובות"
   },
   "comment_filter": {
-    "trending": "trending",
-    "reputation": "reputation",
-    "votes": "votes",
-    "age": "age"
+    "trending": "חם כעת",
+    "reputation": "מוניטין",
+    "votes": "הצבעות",
+    "age": "גיל"
   }
 }
