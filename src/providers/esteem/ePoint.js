@@ -12,7 +12,14 @@ export const userActivity = (username, type, blockNumber = '', transactionNumber
   }
 
   try {
-    return ePointApi.post('/usr-activity', params).then(res => res.data);
+    return ePointApi
+      .post('/usr-activity', {
+        us: username,
+        ty: type,
+        bn: blockNumber,
+        tn: transactionNumber,
+      })
+      .then(res => res.data);
   } catch (error) {
     return null;
   }
