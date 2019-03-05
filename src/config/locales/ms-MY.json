@@ -64,11 +64,11 @@
     "push_notification": "Pemberitahuan Segera",
     "pincode": "Pincode",
     "reset": "Tetapkan semula",
-    "nsfw_content": "NSFW Content",
+    "nsfw_content": "Kandungan NSFW",
     "nsfw": {
-      "always_show": "Always show",
-      "always_hide": "Always hide",
-      "always_warn": "Always warn"
+      "always_show": "Benarkan",
+      "always_hide": "Tutup",
+      "always_warn": "Beri amaran dahulu"
     }
   },
   "voters": {
