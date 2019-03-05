@@ -63,7 +63,13 @@
     "dark_theme": "Тёмная тема",
     "push_notification": "Уведомления",
     "pincode": "Пинкод",
-    "reset": "Сбросить"
+    "reset": "Сбросить",
+    "nsfw_content": "NSFW Content",
+    "nsfw": {
+      "always_show": "Always show",
+      "always_hide": "Always hide",
+      "always_warn": "Always warn"
+    }
   },
   "voters": {
     "voters_info": "Детали голосов",
