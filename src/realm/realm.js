@@ -51,6 +51,7 @@ const settingsSchema = {
     notification: { type: 'bool', default: true },
     server: { type: 'string', default: null },
     upvotePercent: { type: 'string', default: null },
+    nsfw: { type: 'string', default: null },
   },
 };
 
@@ -74,7 +75,7 @@ const authSchema = {
 const realm = new Realm({
   path: 'esteem.realm',
   schema: [userSchema, authSchema, draftSchema, settingsSchema, applicationSchema, scAccounts],
-  schemaVersion: 0,
+  schemaVersion: 1,
   migration,
 });
 
@@ -102,6 +103,7 @@ if (Array.from(settings).length <= 0) {
       notification: true,
       server: '',
       upvotePercent: '1',
+      nsfw: '0',
     });
   });
 }
@@ -360,6 +362,29 @@ export const getUpvotePercent = () => new Promise((resolve, reject) => {
     } else {
       resolve(false);
     }
+  } catch (error) {
+    reject(error);
+  }
+});
+
+export const getNsfw = () => new Promise((resolve, reject) => {
+  try {
+    if (settings[0]) {
+      resolve(settings[0].nsfw);
+    } else {
+      resolve(false);
+    }
+  } catch (error) {
+    reject(error);
+  }
+});
+
+export const setNsfw = nsfw => new Promise((resolve, reject) => {
+  try {
+    realm.write(() => {
+      settings[0].nsfw = nsfw;
+      resolve(true);
+    });
   } catch (error) {
     reject(error);
   }

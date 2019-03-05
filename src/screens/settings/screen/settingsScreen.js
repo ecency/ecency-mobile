@@ -8,6 +8,7 @@ import { groomingServerName } from '../../../utils/settings';
 // Constants
 import LANGUAGE, { VALUE as LANGUAGE_VALUE } from '../../../constants/options/language';
 import CURRENCY, { VALUE as CURRENCY_VALUE } from '../../../constants/options/currency';
+import NSFW from '../../../constants/options/nsfw';
 
 // Components
 import { BasicHeader } from '../../../components/basicHeader';
@@ -41,6 +42,7 @@ class SettingsScreen extends PureComponent {
       selectedCurrency,
       selectedLanguage,
       serverList,
+      nsfw,
     } = this.props;
 
     return (
@@ -81,6 +83,18 @@ class SettingsScreen extends PureComponent {
             options={serverList.map(serverName => groomingServerName(serverName))}
             selectedOptionIndex={serverList.indexOf(selectedApi)}
             defaultText={groomingServerName(selectedApi)}
+            handleOnChange={handleOnChange}
+          />
+          <SettingsItem
+            title={intl.formatMessage({
+              id: 'settings.nsfw_content',
+            })}
+            type="dropdown"
+            actionType="nsfw"
+            options={NSFW.map(item => intl.formatMessage({
+              id: item,
+            }))}
+            selectedOptionIndex={parseInt(nsfw, 10)}
             handleOnChange={handleOnChange}
           />
           <SettingsItem
