@@ -63,7 +63,13 @@
     "dark_theme": "Layeu Supôet",
     "push_notification": "Teugön Haba",
     "pincode": "Kode PIN",
-    "reset": "Atôe ulang"
+    "reset": "Atôe ulang",
+    "nsfw_content": "NSFW Content",
+    "nsfw": {
+      "always_show": "Always show",
+      "always_hide": "Always hide",
+      "always_warn": "Always warn"
+    }
   },
   "voters": {
     "voters_info": "Info ureueng galak",
