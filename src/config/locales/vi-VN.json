@@ -63,7 +63,13 @@
     "dark_theme": "Chế độ tối",
     "push_notification": "Đẩy thông báo",
     "pincode": "Mã PIN",
-    "reset": "Thiết lập lại"
+    "reset": "Thiết lập lại",
+    "nsfw_content": "NSFW Content",
+    "nsfw": {
+      "always_show": "Always show",
+      "always_hide": "Always hide",
+      "always_warn": "Always warn"
+    }
   },
   "voters": {
     "voters_info": "Thông tin người bình chọn",
