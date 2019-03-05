@@ -11,6 +11,7 @@ import { parsePosts, parsePost, parseComments } from '../../utils/postParser';
 import { getName, getAvatar } from '../../utils/user';
 import { getReputation } from '../../utils/reputation';
 import parseToken from '../../utils/parseToken';
+import filterNsfwPost from '../../utils/filterNsfwPost';
 
 // Constant
 import AUTH_TYPE from '../../constants/authType';
@@ -274,12 +275,17 @@ export const getPosts = async (by, query, user) => {
 
 export const getActiveVotes = (author, permlink) => client.database.call('get_active_votes', [author, permlink]);
 
-export const getPostsSummary = async (by, query, currentUserName) => {
+export const getPostsSummary = async (by, query, currentUserName, filterNsfw) => {
   try {
     let posts = await client.database.getDiscussions(by, query);
 
     if (posts) {
       posts = await parsePosts(posts, currentUserName, true);
+
+      if (filterNsfw !== '0') {
+        const updatedPosts = filterNsfwPost(posts, filterNsfw);
+        return updatedPosts;
+      }
     }
     return posts;
   } catch (error) {

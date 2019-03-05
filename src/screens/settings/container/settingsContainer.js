@@ -13,6 +13,7 @@ import {
   setServer,
   setNotificationIsOpen,
   getExistUser,
+  setNsfw as setNsfw2DB,
 } from '../../../realm/realm';
 
 // Services and Actions
@@ -23,6 +24,7 @@ import {
   setApi,
   isDarkTheme,
   openPinCodeModal,
+  setNsfw,
 } from '../../../redux/actions/applicationActions';
 import { toastNotification } from '../../../redux/actions/uiAction';
 import { setPushToken, getNodes } from '../../../providers/esteem/esteem';
@@ -79,6 +81,11 @@ class SettingsContainer extends Component {
         this._changeApi(action);
         break;
 
+      case 'nsfw':
+        dispatch(setNsfw(action));
+        setNsfw2DB(action);
+        break;
+
       default:
         break;
     }
@@ -112,7 +119,6 @@ class SettingsContainer extends Component {
         dispatch(toastNotification('Server not available'));
         isError = true;
 
-        this.setState({ apiCheck: false });
         return;
       }
     }
@@ -232,6 +238,7 @@ const mapStateToProps = state => ({
   isNotificationSettingsOpen: state.application.isNotificationOpen,
   isLoggedIn: state.application.isLoggedIn,
   username: state.account.currentAccount && state.account.currentAccount.name,
+  nsfw: state.application.nsfw,
 });
 
 export default connect(mapStateToProps)(SettingsContainer);

@@ -21,6 +21,7 @@ export const SET_API = 'SET_API';
 export const SET_CURRENCY = 'SET_CURRENCY';
 export const SET_LANGUAGE = 'SET_LANGUAGE';
 export const SET_UPVOTE_PERCENT = 'SET_UPVOTE_PERCENT';
+export const SET_NSFW = 'SET_NSFW';
 
 // Accounts
 export const ADD_OTHER_ACCOUNT = 'ADD_OTHER_ACCOUNT';
