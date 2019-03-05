@@ -100,7 +100,7 @@ class ApplicationContainer extends Component {
       Alert.alert('No internet connection');
     }
 
-    this.globalInterval = setInterval(this._refreshGlobalProps, 60000);
+    this.globalInterval = setInterval(this._refreshGlobalProps, 180000);
   };
 
   componentWillReceiveProps(nextProps) {
