@@ -63,7 +63,13 @@
     "dark_theme": "Sötét téma",
     "push_notification": "Értesítések Bekapcsolása",
     "pincode": "PIN kód",
-    "reset": "Visszaállítás"
+    "reset": "Visszaállítás",
+    "nsfw_content": "NSFW Content",
+    "nsfw": {
+      "always_show": "Always show",
+      "always_hide": "Always hide",
+      "always_warn": "Always warn"
+    }
   },
   "voters": {
     "voters_info": "Infó a szavazókról",
