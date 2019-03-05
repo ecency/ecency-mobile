@@ -63,7 +63,13 @@
     "dark_theme": "Awo dudu",
     "push_notification": "Eto gbigba akiyesi",
     "pincode": "Pincode",
-    "reset": "Tun bere"
+    "reset": "Tun bere",
+    "nsfw_content": "NSFW Content",
+    "nsfw": {
+      "always_show": "Always show",
+      "always_hide": "Always hide",
+      "always_warn": "Always warn"
+    }
   },
   "voters": {
     "voters_info": "Alaye nipa oludibo",
