@@ -380,7 +380,7 @@ class EditorContainer extends Component {
         parentAuthor,
         parentPermlink,
         permlink,
-        fields.title || '',
+        '',
         fields.body,
         jsonMeta,
         options,
