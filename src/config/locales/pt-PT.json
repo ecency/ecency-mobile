@@ -64,11 +64,11 @@
     "push_notification": "Puxar Notificações",
     "pincode": "Código PIN",
     "reset": "Reiniciar",
-    "nsfw_content": "NSFW Content",
+    "nsfw_content": "Conteúdo NSFW",
     "nsfw": {
-      "always_show": "Always show",
-      "always_hide": "Always hide",
-      "always_warn": "Always warn"
+      "always_show": "Mostrar sempre",
+      "always_hide": "Ocultar sempre",
+      "always_warn": "Avisar sempre"
     }
   },
   "voters": {
