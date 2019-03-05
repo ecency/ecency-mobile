@@ -64,11 +64,11 @@
     "push_notification": "اعلام یادآوری ها",
     "pincode": "Pincode",
     "reset": "راه اندازی مجدد",
-    "nsfw_content": "محتوای NSFW",
+    "nsfw_content": "محتوای نامناسب برای کودکان",
     "nsfw": {
-      "always_show": "Always show",
-      "always_hide": "Always hide",
-      "always_warn": "Always warn"
+      "always_show": "همیشه نمایش بده",
+      "always_hide": "همیشه پنهان باشد",
+      "always_warn": "همیشه هشدار بده"
     }
   },
   "voters": {
