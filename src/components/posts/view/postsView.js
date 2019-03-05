@@ -81,7 +81,7 @@ class PostsView extends Component {
 
   _loadPosts = () => {
     const {
-      getFor, tag, currentAccountUsername, pageType,
+      getFor, tag, currentAccountUsername, pageType, nsfw,
     } = this.props;
     const {
       posts, startAuthor, startPermlink, refreshing, selectedFilterIndex,
@@ -114,7 +114,7 @@ class PostsView extends Component {
       options.start_permlink = startPermlink;
     }
 
-    getPostsSummary(filter, options, currentAccountUsername)
+    getPostsSummary(filter, options, currentAccountUsername, nsfw)
       .then((result) => {
         if (result.length > 0) {
           let _posts = result;
@@ -160,7 +160,7 @@ class PostsView extends Component {
           this.setState({ isNoPost: true });
         }
       })
-      .catch((err) => {
+      .catch(() => {
         this.setState({
           refreshing: false,
           isPostsLoading: false,

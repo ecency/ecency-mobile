@@ -65,6 +65,7 @@ import {
   setCurrency,
   setLanguage,
   setUpvotePercent,
+  setNsfw,
 } from '../../../redux/actions/applicationActions';
 
 // Container
@@ -250,6 +251,7 @@ class ApplicationContainer extends Component {
           dispatch(isNotificationOpen(response.notification));
           Push.setEnabled(response.notification);
         }
+        if (response.nsfw !== '') dispatch(setNsfw(response.nsfw));
 
         dispatch(setCurrency(response.currency !== '' ? response.currency : 'usd'));
 
