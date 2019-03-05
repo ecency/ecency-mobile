@@ -63,7 +63,13 @@
     "dark_theme": "ערכת נושא כהה",
     "push_notification": "התראת דחיפה",
     "pincode": "סיסמה",
-    "reset": "אתחול מחדש"
+    "reset": "אתחול מחדש",
+    "nsfw_content": "NSFW Content",
+    "nsfw": {
+      "always_show": "Always show",
+      "always_hide": "Always hide",
+      "always_warn": "Always warn"
+    }
   },
   "voters": {
     "voters_info": "פרטי מצביעים",
