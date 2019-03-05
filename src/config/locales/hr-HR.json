@@ -63,7 +63,13 @@
     "dark_theme": "Tamna Tema",
     "push_notification": "Push obavijesti",
     "pincode": "Pincode",
-    "reset": "Resetiraj"
+    "reset": "Resetiraj",
+    "nsfw_content": "NSFW Content",
+    "nsfw": {
+      "always_show": "Always show",
+      "always_hide": "Always hide",
+      "always_warn": "Always warn"
+    }
   },
   "voters": {
     "voters_info": "Informacije o glasačima",
