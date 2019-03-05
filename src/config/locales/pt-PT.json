@@ -63,7 +63,13 @@
     "dark_theme": "Tema Escuro",
     "push_notification": "Puxar Notificações",
     "pincode": "Código PIN",
-    "reset": "Reiniciar"
+    "reset": "Reiniciar",
+    "nsfw_content": "Conteúdo NSFW",
+    "nsfw": {
+      "always_show": "Mostrar sempre",
+      "always_hide": "Ocultar sempre",
+      "always_warn": "Avisar sempre"
+    }
   },
   "voters": {
     "voters_info": "Informação de eleitores",

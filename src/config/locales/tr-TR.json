@@ -63,7 +63,13 @@
     "dark_theme": "Koyu Tema",
     "push_notification": "Bildirim",
     "pincode": "Pinkod",
-    "reset": "Sifirla"
+    "reset": "Sifirla",
+    "nsfw_content": "NSFW Content",
+    "nsfw": {
+      "always_show": "Always show",
+      "always_hide": "Always hide",
+      "always_warn": "Always warn"
+    }
   },
   "voters": {
     "voters_info": "Oy Verenler",

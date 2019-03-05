@@ -63,7 +63,13 @@
     "dark_theme": "Tema Scuro",
     "push_notification": "Notifiche Push",
     "pincode": "Pincode",
-    "reset": "Resetta"
+    "reset": "Resetta",
+    "nsfw_content": "NSFW Content",
+    "nsfw": {
+      "always_show": "Always show",
+      "always_hide": "Always hide",
+      "always_warn": "Always warn"
+    }
   },
   "voters": {
     "voters_info": "Info Votanti",

@@ -63,7 +63,13 @@
     "dark_theme": "Tema gelap",
     "push_notification": "Pemberitahuan Segera",
     "pincode": "Pincode",
-    "reset": "Tetapkan semula"
+    "reset": "Tetapkan semula",
+    "nsfw_content": "NSFW Content",
+    "nsfw": {
+      "always_show": "Always show",
+      "always_hide": "Always hide",
+      "always_warn": "Always warn"
+    }
   },
   "voters": {
     "voters_info": "Info pengundi",

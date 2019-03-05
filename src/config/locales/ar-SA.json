@@ -63,7 +63,13 @@
     "dark_theme": "الوضع المظلم",
     "push_notification": "دفع الإشعارات",
     "pincode": "رمز PIN",
-    "reset": "إعادة"
+    "reset": "إعادة",
+    "nsfw_content": "NSFW Content",
+    "nsfw": {
+      "always_show": "Always show",
+      "always_hide": "Always hide",
+      "always_warn": "Always warn"
+    }
   },
   "voters": {
     "voters_info": "معلومات عن المصوتين",
