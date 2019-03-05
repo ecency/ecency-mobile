@@ -47,6 +47,7 @@ class PostScreen extends PureComponent {
           fetchPost={fetchPost}
           isFetchComments={isFetchComments}
           isLoggedIn={isLoggedIn}
+          isNewPost={isNewPost}
           parentPost={parentPost}
           post={post}
         />

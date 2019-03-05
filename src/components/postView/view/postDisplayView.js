@@ -40,9 +40,9 @@ class PostDisplayView extends PureComponent {
 
   // Component Life Cycles
   componentDidMount() {
-    const { currentAccount, isLoggedIn } = this.props;
+    const { currentAccount, isLoggedIn, isNewPost } = this.props;
 
-    if (isLoggedIn && currentAccount && currentAccount.name) {
+    if (isLoggedIn && currentAccount && currentAccount.name && !isNewPost) {
       userActivity(currentAccount.name, 10);
     }
   }
