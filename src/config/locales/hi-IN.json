@@ -63,7 +63,13 @@
     "dark_theme": "काला थीम",
     "push_notification": "संभर अधिसूचना",
     "pincode": "Pincode",
-    "reset": "पुनः नियोजन"
+    "reset": "पुनः नियोजन",
+    "nsfw_content": "NSFW Content",
+    "nsfw": {
+      "always_show": "Always show",
+      "always_hide": "Always hide",
+      "always_warn": "Always warn"
+    }
   },
   "voters": {
     "voters_info": "मतदाताओं की जानकारी",
