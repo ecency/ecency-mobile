@@ -64,10 +64,10 @@
     "push_notification": "푸시 알림",
     "pincode": "PIN 코드",
     "reset": "초기화",
-    "nsfw_content": "NSFW Content",
+    "nsfw_content": "NSFW 콘텐츠",
     "nsfw": {
-      "always_show": "Always show",
-      "always_hide": "Always hide",
+      "always_show": "항상 보여주기",
+      "always_hide": "항상 숨기기",
       "always_warn": "Always warn"
     }
   },
