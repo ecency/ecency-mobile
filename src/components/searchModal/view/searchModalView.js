@@ -1,7 +1,8 @@
 import React, { PureComponent } from 'react';
 import {
-  View, Text, FlatList, TouchableHighlight,
+  View, Text, FlatList, TouchableHighlight, SafeAreaView,
 } from 'react-native';
+
 import FastImage from 'react-native-fast-image';
 
 // Constants
@@ -46,7 +47,7 @@ class SearchModalView extends PureComponent {
         swipeToClose
         isTransparent
       >
-        <View style={styles.container}>
+        <SafeAreaView style={styles.container}>
           <SearchInput
             onChangeText={handleOnChangeSearchInput}
             handleOnModalClose={handleOnClose}
@@ -81,7 +82,7 @@ class SearchModalView extends PureComponent {
               initialNumToRender={20}
             />
           </View>
-        </View>
+        </SafeAreaView>
       </Modal>
     );
   }
