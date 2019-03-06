@@ -1,29 +1,26 @@
 import ePointApi from '../../config/ePoint';
 
-export const userActivity = (username, type, blockNumber = '', transactionNumber = '') => {
-  const params = { username, type };
+export const userActivity = (us, ty, bl = '', tx = '') => new Promise((resolve, reject) => {
+  const params = { us, ty };
 
-  if (blockNumber) {
-    params.blockNumber = blockNumber;
+  if (bl) {
+    params.bl = bl;
   }
 
-  if (transactionNumber) {
-    params.transactionNumber = transactionNumber;
+  if (tx) {
+    params.tx = tx;
   }
 
-  try {
-    return ePointApi
-      .post('/usr-activity', {
-        us: username,
-        ty: type,
-        bn: blockNumber,
-        tn: transactionNumber,
-      })
-      .then(res => res.data);
-  } catch (error) {
-    return null;
-  }
-};
+  ePointApi
+    .post('/usr-activity', params)
+    .then((res) => {
+      console.log(res);
+      resolve(res.data);
+    })
+    .catch((error) => {
+      reject(error);
+    });
+});
 
 export const transfer = (sender, receiver, amount) => new Promise((resolve, reject) => {
   ePointApi
