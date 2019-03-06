@@ -64,10 +64,10 @@
     "push_notification": "התראת דחיפה",
     "pincode": "סיסמה",
     "reset": "אתחול מחדש",
-    "nsfw_content": "NSFW Content",
+    "nsfw_content": "תוכן NSFW",
     "nsfw": {
-      "always_show": "Always show",
-      "always_hide": "Always hide",
+      "always_show": "הצג תמיד",
+      "always_hide": "הסתר תמיד",
       "always_warn": "Always warn"
     }
   },
