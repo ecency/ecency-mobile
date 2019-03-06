@@ -1,11 +1,11 @@
 {
   "wallet": {
-    "curation_reward": "תגמול ארגון התוכן",
+    "curation_reward": "תגמול לניהול פעילויות ותוכן",
     "author_reward": "תגמול הסופר",
     "comment_benefactor_reward": "הגב תגמול המיטיב",
-    "claim_reward_balance": "תביעת תגמול איזון",
+    "claim_reward_balance": "רכוש תגמול על מאזן כח",
     "transfer": "העברה",
-    "transfer_to_vesting": "העבר כדאי לממש",
+    "transfer_to_vesting": "העבר בדי להוציא לפועל",
     "transfer_from_savings": "העבר מחסכונות",
     "withdraw_vesting": "כבה כח",
     "fill_order": "מלא הזמנה"
@@ -68,7 +68,7 @@
     "nsfw": {
       "always_show": "הצג תמיד",
       "always_hide": "הסתר תמיד",
-      "always_warn": "Always warn"
+      "always_warn": "תמיד לתת אזהרה"
     }
   },
   "voters": {
