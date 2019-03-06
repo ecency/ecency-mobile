@@ -83,9 +83,9 @@ class SearchModalContainer extends PureComponent {
       case 'user':
         routeName = ROUTES.SCREENS.PROFILE;
         params = {
-          username: item.author,
+          username: item.text,
         };
-        key = item.author;
+        key = item.text;
         break;
       case 'content':
         routeName = ROUTES.SCREENS.POST;
