@@ -64,11 +64,11 @@
     "push_notification": "Notifikasi Gegas",
     "pincode": "Kode PIN",
     "reset": "Setel Ulang",
-    "nsfw_content": "NSFW Content",
+    "nsfw_content": "Konten NSFW",
     "nsfw": {
-      "always_show": "Always show",
-      "always_hide": "Always hide",
-      "always_warn": "Always warn"
+      "always_show": "Selalu Tampilkan",
+      "always_hide": "Selalu menyembunyikan",
+      "always_warn": "Selalu memperingatkan"
     }
   },
   "voters": {
@@ -207,8 +207,8 @@
     "no_existing_post": "Tidak ada post yang ada"
   },
   "search": {
-    "posts": "Posts",
-    "comments": "Comments"
+    "posts": "Kiriman",
+    "comments": "Komentar"
   },
   "comment_filter": {
     "trending": "Trending",
