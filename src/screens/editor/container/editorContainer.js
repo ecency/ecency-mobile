@@ -351,7 +351,7 @@ class EditorContainer extends Component {
             key: permlink,
           });
 
-          setDraftPost({ title: '', body: '', tags: [] }, currentAccount.name);
+          setDraftPost({ title: '', body: '', tags: '' }, currentAccount.name);
         })
         .catch((error) => {
           this._handleSubmitFailure(error);
