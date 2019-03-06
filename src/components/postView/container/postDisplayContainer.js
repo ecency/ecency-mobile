@@ -76,7 +76,7 @@ class PostDisplayContainer extends Component {
 
   render() {
     const {
-      currentAccount, isLoggedIn, parentPost, post,
+      currentAccount, isLoggedIn, isNewPost, parentPost, post,
     } = this.props;
 
     return (
@@ -87,6 +87,7 @@ class PostDisplayContainer extends Component {
         handleOnReplyPress={this._handleOnReplyPress}
         handleOnVotersPress={this._handleOnVotersPress}
         isLoggedIn={isLoggedIn}
+        isNewPost={isNewPost}
         parentPost={parentPost}
         post={post}
       />

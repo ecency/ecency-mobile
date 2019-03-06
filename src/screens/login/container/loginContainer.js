@@ -6,6 +6,7 @@ import { injectIntl } from 'react-intl';
 // Services and Actions
 import { login } from '../../../providers/steem/auth';
 import { lookupAccounts } from '../../../providers/steem/dsteem';
+import { userActivity } from '../../../providers/esteem/ePoint';
 import {
   failedAccount,
   addOtherAccount,
@@ -55,13 +56,16 @@ class LoginContainer extends PureComponent {
           dispatch(openPinCodeModal());
           setPinCodeState({ navigateTo: ROUTES.DRAWER.MAIN });
           dispatch(loginAction(true));
+          userActivity(result.name, 20);
         }
       })
       .catch((err) => {
-        Alert.alert('Error',
+        Alert.alert(
+          'Error',
           intl.formatMessage({
             id: err.message,
-          }));
+          }),
+        );
         dispatch(failedAccount(err.message));
         this.setState({ isLoading: false });
       });
