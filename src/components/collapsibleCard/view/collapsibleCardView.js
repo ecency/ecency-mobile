@@ -38,8 +38,7 @@ class CollapsibleCardView extends PureComponent {
     const { expanded } = this.state;
 
     if (
-      !nextProps.isExpanded
-      && isExpanded !== nextProps.isExpanded
+      isExpanded !== nextProps.isExpanded
       && expanded !== nextProps.isExpanded
     ) {
       this._toggleOnPress();

@@ -54,10 +54,6 @@ export default EStyleSheet.create({
     backgroundColor: '$primaryLightBackground',
     flex: 1,
   },
-  settingsContainer: {
-    marginLeft: 42,
-    marginRight: 32,
-  },
   hintText: {
     color: '$iconColor',
     alignSelf: 'center',

@@ -1,4 +1,4 @@
-import React, { PureComponent } from 'react';
+import React, { PureComponent, Fragment } from 'react';
 import { ScrollView, View } from 'react-native';
 import { injectIntl } from 'react-intl';
 
@@ -13,9 +13,10 @@ import NSFW from '../../../constants/options/nsfw';
 // Components
 import { BasicHeader } from '../../../components/basicHeader';
 import { SettingsItem } from '../../../components/settingsItem';
+import { CollapsibleCard } from '../../../components/collapsibleCard';
 
 // Styles
-import globalStyles from '../../../globalStyles';
+import styles from './settingsStyles';
 
 class SettingsScreen extends PureComponent {
   /* Props
@@ -43,93 +44,161 @@ class SettingsScreen extends PureComponent {
       selectedLanguage,
       serverList,
       nsfw,
+      isNotificationMenuOpen,
     } = this.props;
+    console.log('isNotificationMenuOpen :', isNotificationMenuOpen);
 
     return (
-      <View style={globalStyles.container}>
+      <Fragment>
         <BasicHeader
           title={intl.formatMessage({
             id: 'settings.settings',
           })}
         />
 
-        <ScrollView style={globalStyles.settingsContainer}>
-          <SettingsItem
-            title={intl.formatMessage({
-              id: 'settings.currency',
-            })}
-            type="dropdown"
-            actionType="currency"
-            options={CURRENCY}
-            selectedOptionIndex={CURRENCY_VALUE.indexOf(selectedCurrency.currency)}
-            handleOnChange={handleOnChange}
-          />
-          <SettingsItem
-            title={intl.formatMessage({
-              id: 'settings.language',
-            })}
-            type="dropdown"
-            actionType="language"
-            options={LANGUAGE}
-            selectedOptionIndex={LANGUAGE_VALUE.indexOf(selectedLanguage)}
-            handleOnChange={handleOnChange}
-          />
-          <SettingsItem
-            title={intl.formatMessage({
-              id: 'settings.server',
-            })}
-            type="dropdown"
-            actionType="api"
-            options={serverList.map(serverName => groomingServerName(serverName))}
-            selectedOptionIndex={serverList.indexOf(selectedApi)}
-            defaultText={groomingServerName(selectedApi)}
-            handleOnChange={handleOnChange}
-          />
-          <SettingsItem
-            title={intl.formatMessage({
-              id: 'settings.nsfw_content',
-            })}
-            type="dropdown"
-            actionType="nsfw"
-            options={NSFW.map(item => intl.formatMessage({
-              id: item,
-            }))}
-            selectedOptionIndex={parseInt(nsfw, 10)}
-            handleOnChange={handleOnChange}
-          />
-          <SettingsItem
-            title={intl.formatMessage({
-              id: 'settings.dark_theme',
-            })}
-            type="toggle"
-            actionType="theme"
-            isOn={isDarkTheme}
-            handleOnChange={handleOnChange}
-          />
-          <SettingsItem
-            title={intl.formatMessage({
-              id: 'settings.push_notification',
-            })}
-            type="toggle"
-            actionType="notification"
-            isOn={isNotificationSettingsOpen}
-            handleOnChange={handleOnChange}
-          />
-          {!!isLoggedIn && (
+        <ScrollView>
+          <View style={styles.settingsCard}>
             <SettingsItem
               title={intl.formatMessage({
-                id: 'settings.pincode',
+                id: 'settings.general',
               })}
-              text={intl.formatMessage({
-                id: 'settings.reset',
+              titleStyle={styles.cardTitle}
+            />
+            <SettingsItem
+              title={intl.formatMessage({
+                id: 'settings.currency',
               })}
-              type="button"
-              actionType="pincode"
+              type="dropdown"
+              actionType="currency"
+              options={CURRENCY}
+              selectedOptionIndex={CURRENCY_VALUE.indexOf(selectedCurrency.currency)}
               handleOnChange={handleOnChange}
             />
-          )}
+            <SettingsItem
+              title={intl.formatMessage({
+                id: 'settings.language',
+              })}
+              type="dropdown"
+              actionType="language"
+              options={LANGUAGE}
+              selectedOptionIndex={LANGUAGE_VALUE.indexOf(selectedLanguage)}
+              handleOnChange={handleOnChange}
+            />
+            <SettingsItem
+              title={intl.formatMessage({
+                id: 'settings.server',
+              })}
+              type="dropdown"
+              actionType="api"
+              options={serverList.map(serverName => groomingServerName(serverName))}
+              selectedOptionIndex={serverList.indexOf(selectedApi)}
+              defaultText={groomingServerName(selectedApi)}
+              handleOnChange={handleOnChange}
+            />
+            <SettingsItem
+              title={intl.formatMessage({
+                id: 'settings.nsfw_content',
+              })}
+              type="dropdown"
+              actionType="nsfw"
+              options={NSFW.map(item => intl.formatMessage({
+                id: item,
+              }))}
+              selectedOptionIndex={parseInt(nsfw, 10)}
+              handleOnChange={handleOnChange}
+            />
+            <SettingsItem
+              title={intl.formatMessage({
+                id: 'settings.dark_theme',
+              })}
+              type="toggle"
+              actionType="theme"
+              isOn={isDarkTheme}
+              handleOnChange={handleOnChange}
+            />
+            {!!isLoggedIn && (
+              <SettingsItem
+                title={intl.formatMessage({
+                  id: 'settings.pincode',
+                })}
+                text={intl.formatMessage({
+                  id: 'settings.reset',
+                })}
+                type="button"
+                actionType="pincode"
+                handleOnChange={handleOnChange}
+              />
+            )}
+          </View>
+          <View style={styles.settingsCard}>
+            <CollapsibleCard
+              titleComponent={(
+                <SettingsItem
+                  title={intl.formatMessage({
+                    id: 'settings.push_notification',
+                  })}
+                  titleStyle={styles.cardTitle}
+                  type="toggle"
+                  actionType="notification"
+                  isOn={isNotificationSettingsOpen}
+                  handleOnChange={handleOnChange}
+                />
+)}
+              noBorder
+              fitContent
+              locked
+              isExpanded={isNotificationSettingsOpen}
+              expanded={isNotificationMenuOpen}
+            >
+              <SettingsItem
+                title={intl.formatMessage({
+                  id: 'settings.push.follow',
+                })}
+                type="toggle"
+                actionType="notification"
+                isOn={isNotificationSettingsOpen}
+                handleOnChange={handleOnChange}
+              />
+              <SettingsItem
+                title={intl.formatMessage({
+                  id: 'settings.push.vote',
+                })}
+                type="toggle"
+                actionType="notification"
+                isOn={isNotificationSettingsOpen}
+                handleOnChange={handleOnChange}
+              />
+              <SettingsItem
+                title={intl.formatMessage({
+                  id: 'settings.push.comment',
+                })}
+                type="toggle"
+                actionType="notification"
+                isOn={isNotificationSettingsOpen}
+                handleOnChange={handleOnChange}
+              />
+              <SettingsItem
+                title={intl.formatMessage({
+                  id: 'settings.push.mention',
+                })}
+                type="toggle"
+                actionType="notification"
+                isOn={isNotificationSettingsOpen}
+                handleOnChange={handleOnChange}
+              />
+              <SettingsItem
+                title={intl.formatMessage({
+                  id: 'settings.push.transfers',
+                })}
+                type="toggle"
+                actionType="notification"
+                isOn={isNotificationSettingsOpen}
+                handleOnChange={handleOnChange}
+              />
+            </CollapsibleCard>
+          </View>
         </ScrollView>
-      </View>
+      </Fragment>
     );
   }
 }
