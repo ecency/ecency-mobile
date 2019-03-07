@@ -147,6 +147,26 @@ class SettingsContainer extends Component {
         this._handleNotification(action);
         break;
 
+      case 'notification.follow':
+        this._handleNotification(action);
+        break;
+
+      case 'notification.vote':
+        this._handleNotification(action);
+        break;
+
+      case 'notification.comment':
+        this._handleNotification(action);
+        break;
+
+      case 'notification.mention':
+        this._handleNotification(action);
+        break;
+
+      case 'notification.transfers':
+        this._handleNotification(action);
+        break;
+
       case 'theme':
         dispatch(isDarkTheme(action));
         setTheme(action);
