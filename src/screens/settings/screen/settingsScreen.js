@@ -45,8 +45,12 @@ class SettingsScreen extends PureComponent {
       serverList,
       nsfw,
       isNotificationMenuOpen,
+      commentNotification,
+      followNotification,
+      mentionNotification,
+      transfersNotification,
+      voteNotification,
     } = this.props;
-    console.log('isNotificationMenuOpen :', isNotificationMenuOpen);
 
     return (
       <Fragment>
@@ -156,7 +160,7 @@ class SettingsScreen extends PureComponent {
                 })}
                 type="toggle"
                 actionType="notification.follow"
-                isOn={isNotificationSettingsOpen}
+                isOn={followNotification}
                 handleOnChange={handleOnChange}
               />
               <SettingsItem
@@ -165,7 +169,7 @@ class SettingsScreen extends PureComponent {
                 })}
                 type="toggle"
                 actionType="notification.vote"
-                isOn={isNotificationSettingsOpen}
+                isOn={voteNotification}
                 handleOnChange={handleOnChange}
               />
               <SettingsItem
@@ -174,7 +178,7 @@ class SettingsScreen extends PureComponent {
                 })}
                 type="toggle"
                 actionType="notification.comment"
-                isOn={isNotificationSettingsOpen}
+                isOn={commentNotification}
                 handleOnChange={handleOnChange}
               />
               <SettingsItem
@@ -183,7 +187,7 @@ class SettingsScreen extends PureComponent {
                 })}
                 type="toggle"
                 actionType="notification.mention"
-                isOn={isNotificationSettingsOpen}
+                isOn={mentionNotification}
                 handleOnChange={handleOnChange}
               />
               <SettingsItem
@@ -192,7 +196,7 @@ class SettingsScreen extends PureComponent {
                 })}
                 type="toggle"
                 actionType="notification.transfers"
-                isOn={isNotificationSettingsOpen}
+                isOn={transfersNotification}
                 handleOnChange={handleOnChange}
               />
             </CollapsibleCard>

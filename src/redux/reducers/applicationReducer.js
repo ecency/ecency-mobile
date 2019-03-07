@@ -1,5 +1,10 @@
 import {
   ACTIVE_APPLICATION,
+  CHANGE_COMMENT_NOTIFICATION,
+  CHANGE_FOLLOW_NOTIFICATION,
+  CHANGE_MENTION_NOTIFICATION,
+  CHANGE_TRANSFERS_NOTIFICATION,
+  CHANGE_VOTE_NOTIFICATION,
   CLOSE_PIN_CODE_MODAL,
   IS_CONNECTED,
   IS_DARK_THEME,
@@ -33,6 +38,13 @@ const initialState = {
   isPinCodeReqiure: false,
   language: 'en-US',
   loading: false, // It is lock to all screen and shows loading animation.
+  notificationDetails: {
+    commentNotification: true,
+    followNotification: true,
+    mentionNotification: true,
+    transfersNotification: true,
+    voteNotification: true,
+  },
   upvotePercent: 1,
   nsfw: 'Always show',
 };
@@ -94,6 +106,41 @@ export default function (state = initialState, action) {
     case IS_NOTIFICATION_OPEN:
       return Object.assign({}, state, {
         isNotificationOpen: action.payload,
+      });
+    case CHANGE_COMMENT_NOTIFICATION:
+      return Object.assign({}, state, {
+        notificationDetails: {
+          ...state.notificationDetails,
+          commentNotification: action.payload,
+        },
+      });
+    case CHANGE_FOLLOW_NOTIFICATION:
+      return Object.assign({}, state, {
+        notificationDetails: {
+          ...state.notificationDetails,
+          followNotification: action.payload,
+        },
+      });
+    case CHANGE_MENTION_NOTIFICATION:
+      return Object.assign({}, state, {
+        notificationDetails: {
+          ...state.notificationDetails,
+          mentionNotification: action.payload,
+        },
+      });
+    case CHANGE_TRANSFERS_NOTIFICATION:
+      return Object.assign({}, state, {
+        notificationDetails: {
+          ...state.notificationDetails,
+          transfersNotification: action.payload,
+        },
+      });
+    case CHANGE_VOTE_NOTIFICATION:
+      return Object.assign({}, state, {
+        notificationDetails: {
+          ...state.notificationDetails,
+          voteNotification: action.payload,
+        },
       });
     case IS_DARK_THEME:
       return Object.assign({}, state, {

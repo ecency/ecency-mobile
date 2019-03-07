@@ -11,7 +11,7 @@ import {
   setLanguage as setLanguage2DB,
   setCurrency as setCurrency2DB,
   setServer,
-  setNotificationIsOpen,
+  setNotificationSettings,
   getExistUser,
   setNsfw as setNsfw2DB,
 } from '../../../realm/realm';
@@ -19,7 +19,7 @@ import {
 // Services and Actions
 import {
   setLanguage,
-  isNotificationOpen,
+  changeNotificationSettings,
   setCurrency,
   setApi,
   isDarkTheme,
@@ -144,27 +144,12 @@ class SettingsContainer extends Component {
 
     switch (actionType) {
       case 'notification':
-        this._handleNotification(action);
-        break;
-
       case 'notification.follow':
-        this._handleNotification(action);
-        break;
-
       case 'notification.vote':
-        this._handleNotification(action);
-        break;
-
       case 'notification.comment':
-        this._handleNotification(action);
-        break;
-
       case 'notification.mention':
-        this._handleNotification(action);
-        break;
-
       case 'notification.transfers':
-        this._handleNotification(action);
+        this._handleNotification(action, actionType);
         break;
 
       case 'theme':
@@ -176,11 +161,11 @@ class SettingsContainer extends Component {
     }
   };
 
-  _handleNotification = async (action) => {
+  _handleNotification = async (action, actionType) => {
     const { dispatch } = this.props;
 
-    dispatch(isNotificationOpen(action));
-    setNotificationIsOpen(action);
+    dispatch(changeNotificationSettings({ action, type: actionType }));
+    setNotificationSettings({ action, type: actionType });
 
     const isPushEnabled = await Push.isEnabled();
 
@@ -261,6 +246,11 @@ const mapStateToProps = state => ({
   isLoggedIn: state.application.isLoggedIn,
   username: state.account.currentAccount && state.account.currentAccount.name,
   nsfw: state.application.nsfw,
+  commentNotification: state.application.notificationDetails.commentNotification,
+  followNotification: state.application.notificationDetails.followNotification,
+  mentionNotification: state.application.notificationDetails.mentionNotification,
+  transfersNotification: state.application.notificationDetails.transfersNotification,
+  voteNotification: state.application.notificationDetails.voteNotification,
 });
 
 export default connect(mapStateToProps)(SettingsContainer);
