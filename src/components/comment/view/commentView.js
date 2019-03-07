@@ -44,6 +44,7 @@ class CommentView extends PureComponent {
       commentNumber,
       currentAccountUsername,
       fetchPost,
+      handleDeleteComment,
       handleOnEditPress,
       handleOnReplyPress,
       handleOnUserPress,
@@ -95,6 +96,14 @@ class CommentView extends PureComponent {
                     iconType="MaterialIcons"
                   />
                 )}
+                <IconButton
+                  size={18}
+                  iconStyle={styles.leftIcon}
+                  style={styles.leftButton}
+                  name="delete-forever"
+                  onPress={() => handleDeleteComment && handleDeleteComment(comment.author, comment.permlink)}
+                  iconType="MaterialIcons"
+                />
               </Fragment>
             )}
             {isShowMoreButton && (
