@@ -188,6 +188,7 @@ class CommentsContainer extends Component {
         handleOnReplyPress={this._handleOnReplyPress}
         isLoggedIn={isLoggedIn}
         fetchPost={fetchPost}
+        handleDeleteComment={this._handleDeleteComment}
         {...this.props}
       />
     );

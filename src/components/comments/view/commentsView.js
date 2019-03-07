@@ -38,6 +38,7 @@ class CommentsView extends PureComponent {
       isLoggedIn,
       isShowSubComments,
       marginLeft,
+      handleDeleteComment,
     } = this.props;
 
     return (
@@ -50,6 +51,7 @@ class CommentsView extends PureComponent {
             comment={item}
             commentCount={commentCount || item.children}
             commentNumber={commentNumber}
+            handleDeleteComment={handleDeleteComment}
             currentAccountUsername={currentAccountUsername}
             fetchPost={fetchPost}
             handleOnEditPress={handleOnEditPress}
