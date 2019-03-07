@@ -3,6 +3,7 @@ import {
   CLOSE_PIN_CODE_MODAL,
   IS_CONNECTED,
   IS_DARK_THEME,
+  IS_DEFAULT_FOOTER,
   IS_LOGIN_DONE,
   IS_NOTIFICATION_OPEN,
   LOGIN,
@@ -12,8 +13,8 @@ import {
   SET_API,
   SET_CURRENCY,
   SET_LANGUAGE,
-  SET_UPVOTE_PERCENT,
   SET_NSFW,
+  SET_UPVOTE_PERCENT,
 } from '../constants/constants';
 
 const initialState = {
@@ -26,6 +27,7 @@ const initialState = {
   isActive: false,
   isConnected: true, // internet connectivity
   isDarkTheme: false,
+  isDefaultFooter: true,
   isLoggedIn: false, // Has any logged in user.
   isLoginDone: false,
   isLogingOut: false,
@@ -106,6 +108,10 @@ export default function (state = initialState, action) {
     case SET_NSFW:
       return Object.assign({}, state, {
         nsfw: action.payload,
+      });
+    case IS_DEFAULT_FOOTER:
+      return Object.assign({}, state, {
+        isDefaultFooter: action.payload,
       });
     default:
       return state;

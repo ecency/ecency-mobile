@@ -5,6 +5,7 @@ import {
   CLOSE_PIN_CODE_MODAL,
   IS_CONNECTED,
   IS_DARK_THEME,
+  IS_DEFAULT_FOOTER,
   IS_LOGIN_DONE,
   IS_NOTIFICATION_OPEN,
   LOGIN,
@@ -14,8 +15,8 @@ import {
   SET_API,
   SET_CURRENCY,
   SET_LANGUAGE,
-  SET_UPVOTE_PERCENT,
   SET_NSFW,
+  SET_UPVOTE_PERCENT,
 } from '../constants/constants';
 
 export const login = payload => ({
@@ -81,6 +82,11 @@ export const setConnectivityStatus = payload => ({
 export const setNsfw = payload => ({
   payload,
   type: SET_NSFW,
+});
+
+export const isDefaultFooter = payload => ({
+  payload,
+  type: IS_DEFAULT_FOOTER,
 });
 
 /**
