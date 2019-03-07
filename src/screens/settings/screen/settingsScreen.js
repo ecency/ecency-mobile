@@ -152,46 +152,46 @@ class SettingsScreen extends PureComponent {
             >
               <SettingsItem
                 title={intl.formatMessage({
-                  id: 'settings.push.follow',
+                  id: 'settings.notification.follow',
                 })}
                 type="toggle"
-                actionType="notification"
+                actionType="notification.follow"
                 isOn={isNotificationSettingsOpen}
                 handleOnChange={handleOnChange}
               />
               <SettingsItem
                 title={intl.formatMessage({
-                  id: 'settings.push.vote',
+                  id: 'settings.notification.vote',
                 })}
                 type="toggle"
-                actionType="notification"
+                actionType="notification.vote"
                 isOn={isNotificationSettingsOpen}
                 handleOnChange={handleOnChange}
               />
               <SettingsItem
                 title={intl.formatMessage({
-                  id: 'settings.push.comment',
+                  id: 'settings.notification.comment',
                 })}
                 type="toggle"
-                actionType="notification"
+                actionType="notification.comment"
                 isOn={isNotificationSettingsOpen}
                 handleOnChange={handleOnChange}
               />
               <SettingsItem
                 title={intl.formatMessage({
-                  id: 'settings.push.mention',
+                  id: 'settings.notification.mention',
                 })}
                 type="toggle"
-                actionType="notification"
+                actionType="notification.mention"
                 isOn={isNotificationSettingsOpen}
                 handleOnChange={handleOnChange}
               />
               <SettingsItem
                 title={intl.formatMessage({
-                  id: 'settings.push.transfers',
+                  id: 'settings.notification.transfers',
                 })}
                 type="toggle"
-                actionType="notification"
+                actionType="notification.transfers"
                 isOn={isNotificationSettingsOpen}
                 handleOnChange={handleOnChange}
               />
