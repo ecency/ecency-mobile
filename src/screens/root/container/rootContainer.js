@@ -173,22 +173,24 @@ const RootContainer = () => (WrappedComponent) => {
 
       Push.setListener({
         onPushNotificationReceived(pushNotification) {
-          const extra = JSON.parse(pushNotification.customProperties.extra);
+          const push = pushNotification.customProperties;
 
-          if (extra.parent_permlink || extra.permlink) {
+          if (push.parent_permlink1 || push.permlink1) {
             params = {
-              author: extra.parent_permlink
-                ? extra.parent_author
-                : pushNotification.customProperties.target,
-              permlink: extra.parent_permlink ? extra.parent_permlink : extra.permlink,
+              author: push.parent_permlink1 ? push.parent_author : push.target,
+              permlink: push.parent_permlink1
+                ? `${push.parent_permlink1}${push.parent_permlink2}${push.parent_permlink3}`
+                : `${push.permlink1}${push.permlink2}${push.permlink3}`,
             };
-            key = extra.parent_permlink ? extra.parent_permlink : extra.permlink;
+            key = push.parent_permlink1
+              ? `${push.parent_permlink1}${push.parent_permlink2}${push.parent_permlink3}`
+              : `${push.permlink1}${push.permlink2}${push.permlink3}`;
             routeName = ROUTES.SCREENS.POST;
           } else {
             params = {
-              username: pushNotification.customProperties.source,
+              username: push.source,
             };
-            key = pushNotification.customProperties.source;
+            key = push.source;
             routeName = ROUTES.SCREENS.PROFILE;
           }
 
