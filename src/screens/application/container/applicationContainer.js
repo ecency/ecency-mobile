@@ -56,7 +56,7 @@ import {
   activeApplication,
   isDarkTheme,
   isLoginDone,
-  isNotificationOpen,
+  changeNotificationSettings,
   login,
   logoutDone,
   openPinCodeModal,
@@ -247,8 +247,15 @@ class ApplicationContainer extends Component {
         if (response.language !== '') dispatch(setLanguage(response.language));
         if (response.server !== '') dispatch(setApi(response.server));
         if (response.upvotePercent !== '') dispatch(setUpvotePercent(Number(response.upvotePercent)));
+
         if (response.notification !== '') {
-          dispatch(isNotificationOpen(response.notification));
+          dispatch(changeNotificationSettings({ type: 'notification', action: response.notification }));
+          dispatch(changeNotificationSettings({ type: 'notification.follow', action: response.followNotification }));
+          dispatch(changeNotificationSettings({ type: 'notification.vote', action: response.voteNotification }));
+          dispatch(changeNotificationSettings({ type: 'notification.comment', action: response.commentNotification }));
+          dispatch(changeNotificationSettings({ type: 'notification.mention', action: response.mentionNotification }));
+          dispatch(changeNotificationSettings({ type: 'notification.transfers', action: response.transfersNotification }));
+
           Push.setEnabled(response.notification);
         }
         if (response.nsfw !== '') dispatch(setNsfw(response.nsfw));
