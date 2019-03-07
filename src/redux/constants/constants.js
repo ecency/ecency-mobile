@@ -11,6 +11,7 @@ export const IS_DARK_THEME = 'IS_DARK_THEME';
 export const IS_LOGGED_IN = 'IS_LOGGED_IN';
 export const IS_LOGIN_DONE = 'IS_LOGIN_DONE';
 export const IS_NOTIFICATION_OPEN = 'IS_NOTIFICATION_OPEN';
+export const IS_DEFAULT_FOOTER = 'IS_DEFAULT_FOOTER';
 export const LOGIN = 'LOGIN';
 export const LOGOUT = 'LOGOUT';
 export const LOGOUT_DONE = 'LOGOUT_DONE';
