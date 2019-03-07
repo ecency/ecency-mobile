@@ -1,25 +1,25 @@
 {
   "wallet": {
-    "curation_reward": "תגמול ארגון התוכן",
+    "curation_reward": "תגמול לניהול פעילויות ותוכן",
     "author_reward": "תגמול הסופר",
     "comment_benefactor_reward": "הגב תגמול המיטיב",
-    "claim_reward_balance": "תביעת תגמול איזון",
+    "claim_reward_balance": "רכוש תגמול על מאזן כח",
     "transfer": "העברה",
-    "transfer_to_vesting": "העבר כדאי לממש",
+    "transfer_to_vesting": "העבר בדי להוציא לפועל",
     "transfer_from_savings": "העבר מחסכונות",
     "withdraw_vesting": "כבה כח",
-    "fill_order": "מלא הזמנה"
+    "fill_order": "מלא בקשה"
   },
   "notification": {
     "vote": "אוהב\\ת את הפוסט שלך",
-    "unvote": "ביטל\\ה את ההצבעה לפוסט שלך",
+    "unvote": "ביטל\\ה את הצבעתו\\ה לפוסט שלך",
     "reply": "הגיב\\ה לפוסט שלך",
     "mention": "הזכיר\\ה אותך",
-    "follow": "עוקב\\ת אחרייך",
+    "follow": "עקב\\ה אחרייך",
     "unfollow": "הפסיק\\ה לעקוב אחרייך",
-    "ignore": "התעלם\\מה ממך (\\מהצעתך)",
+    "ignore": "התעלם\\ה ממך (\\מהצעתך)",
     "reblog": "העלה\\תה את הפוסט שלך לבלוג שלו\\ה",
-    "comingsoon": "מאפיין ה-לידרבורד יוצא להשקה בקרוב!",
+    "comingsoon": "יישום ה-לידרבורד יוצא להשקה בקרוב!",
     "notification": "התראות",
     "leaderboard": "לוח תוצאות",
     "leaderboard_title": "משתמש יומי ברמה גבוהה",
@@ -27,7 +27,7 @@
     "yesterday": "אתמול",
     "this_week": "בשבוע הזה",
     "this_month": "בחודש הזה",
-    "older_then": "בגיר מחודש"
+    "older_then": "בוגר\\ת מחודש"
   },
   "messages": {
     "comingsoon": "אופציית תקשור דרך הודעות יוצאת בקרוב!"
@@ -44,8 +44,8 @@
     "unclaimed_rewards": "תגמולים שלא נלקחו",
     "full_in": "מלא ב",
     "hours": "שעות",
-    "voting_power": "כח בצבעה",
-    "login_to_see": "התחבר\\י כדאי לראות",
+    "voting_power": "כח הצבעה",
+    "login_to_see": "התחבר\\י כדי לראות",
     "havent_commented": "לא הגיב\\ה עדיין",
     "havent_posted": "לא העלה\\תה פוסט עדיין",
     "steem_power": "כח Steem",
@@ -64,11 +64,11 @@
     "push_notification": "התראת דחיפה",
     "pincode": "סיסמה",
     "reset": "אתחול מחדש",
-    "nsfw_content": "NSFW Content",
+    "nsfw_content": "תוכן NSFW",
     "nsfw": {
-      "always_show": "Always show",
-      "always_hide": "Always hide",
-      "always_warn": "Always warn"
+      "always_show": "הצג תמיד",
+      "always_hide": "הסתר תמיד",
+      "always_warn": "תמיד לתת אזהרה"
     }
   },
   "voters": {
