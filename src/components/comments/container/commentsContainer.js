@@ -2,7 +2,7 @@ import React, { Component } from 'react';
 import { withNavigation } from 'react-navigation';
 import { connect } from 'react-redux';
 
-import { getComments } from '../../../providers/steem/dsteem';
+import { getComments, deleteComment } from '../../../providers/steem/dsteem';
 
 // Services and Actions
 
@@ -153,6 +153,10 @@ class CommentsContainer extends Component {
       },
     });
   };
+  
+  _handleDeleteComment = (author, permlink) => {
+    deleteComment(author, permlink);
+  }
 
   render() {
     const { comments: _comments, selectedPermlink } = this.state;
