@@ -51,6 +51,7 @@ class SettingsContainer extends Component {
     super(props);
     this.state = {
       serverList: [],
+      isNotificationMenuOpen: props.isNotificationSettingsOpen,
     };
   }
 
@@ -218,12 +219,13 @@ class SettingsContainer extends Component {
   };
 
   render() {
-    const { serverList } = this.state;
+    const { serverList, isNotificationMenuOpen } = this.state;
 
     return (
       <SettingsScreen
         serverList={serverList}
         handleOnChange={this._handleOnChange}
+        isNotificationMenuOpen={isNotificationMenuOpen}
         {...this.props}
       />
     );
