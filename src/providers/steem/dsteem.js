@@ -344,7 +344,7 @@ export const getPurePost = async (author, permlink) => {
 export const deleteComment = (author, permlink) => {
   return new Promise((resolve, reject) => {
     client.database
-      .call('delete_comment', [author, permlink])
+      .call('comment_delete', [author, permlink])
       .then((response) => {
         resolve(response);
       })
