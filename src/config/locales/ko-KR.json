@@ -68,7 +68,7 @@
     "nsfw": {
       "always_show": "항상 보여주기",
       "always_hide": "항상 숨기기",
-      "always_warn": "Always warn"
+      "always_warn": "항상 경고 표시하기"
     }
   },
   "voters": {
