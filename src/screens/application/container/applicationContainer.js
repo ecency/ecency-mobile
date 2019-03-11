@@ -92,7 +92,7 @@ class ApplicationContainer extends Component {
       isConnected = _isConnected;
     });
 
-    NetInfo.isConnected.addEventListener('connectionChange', this._handleConntectionChange);
+    // NetInfo.isConnected.addEventListener('connectionChange', this._handleConntectionChange);
     if (!isIos) BackHandler.addEventListener('hardwareBackPress', this._onBackPress);
 
     if (isConnected) {
@@ -127,7 +127,7 @@ class ApplicationContainer extends Component {
 
     if (!isIos) BackHandler.removeEventListener('hardwareBackPress', this._onBackPress);
 
-    NetInfo.isConnected.removeEventListener('connectionChange', this._handleConntectionChange);
+    // NetInfo.isConnected.removeEventListener('connectionChange', this._handleConntectionChange);
     clearInterval(this.globalInterval);
   }
 
@@ -145,8 +145,8 @@ class ApplicationContainer extends Component {
     }
 
     // TODO: solve this work arround
-    NetInfo.isConnected.removeEventListener('connectionChange', this._handleConntectionChange);
-    NetInfo.isConnected.addEventListener('connectionChange', this._handleConntectionChange);
+    // NetInfo.isConnected.removeEventListener('connectionChange', this._handleConntectionChange);
+    // NetInfo.isConnected.addEventListener('connectionChange', this._handleConntectionChange);
   };
 
   _onBackPress = () => {
