@@ -49,30 +49,30 @@
     "havent_commented": "לא הגיב\\ה עדיין",
     "havent_posted": "לא העלה\\תה פוסט עדיין",
     "steem_power": "כוח Steem",
-    "next_power_text": "כח כבוי הבא נמצא ב",
+    "next_power_text": "הנזלת יתרת כוח הסטים ההבאה נמצאת ב",
     "days": "ימים",
     "day": "יום",
-    "steem_dollars": "דולר Steem",
+    "steem_dollars": "דולרי Steem",
     "savings": "חסכונות"
   },
   "settings": {
     "settings": "הגדרות",
-    "currency": "יתרת מטבע",
+    "currency": "יתרה",
     "language": "שפה",
     "server": "שרת",
     "dark_theme": "ערכת נושא כהה",
     "push_notification": "התראת דחיפה",
-    "pincode": "סיסמה",
+    "pincode": "קוד אישי",
     "reset": "אתחול מחדש",
     "nsfw_content": "תוכן NSFW",
     "nsfw": {
       "always_show": "הצג תמיד",
       "always_hide": "הסתר תמיד",
-      "always_warn": "תמיד לתת אזהרה"
+      "always_warn": "הזהר תמיד"
     }
   },
   "voters": {
-    "voters_info": "פרטי מצביעים",
+    "voters_info": "פרטי המצביעים",
     "no_user": "לא נמצא משתמש\\ת בשם זה."
   },
   "login": {
