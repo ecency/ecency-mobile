@@ -147,6 +147,7 @@ configurations.all {
 }
 
 dependencies {
+    compile project(':react-native-device-info')
     compile project(':react-native-version-number')
     compile project(':react-native-code-push')
     compile project(':realm')

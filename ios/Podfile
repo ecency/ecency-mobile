@@ -3,10 +3,10 @@
 
 platform :ios, '9.0'
 target 'eSteem' do
-  pod 'AppCenter/Push', '~> 1.13.0'
-  pod 'AppCenter/Crashes', '~> 1.13.0'
-  pod 'AppCenter/Analytics', '~> 1.13.0'
-  pod 'AppCenterReactNativeShared', '~> 1.12.0'
+  pod 'AppCenter/Push', '~> 1.13.2'
+  pod 'AppCenter/Crashes', '~> 1.13.2'
+  pod 'AppCenter/Analytics', '~> 1.13.2'
+  pod 'AppCenterReactNativeShared', '~> 1.12.2'
   # Uncomment the next line if you're using Swift or would like to use dynamic frameworks
   # use_frameworks!
 
@@ -37,6 +37,8 @@ target 'eSteem' do
   pod 'CodePush', :path => '../node_modules/react-native-code-push'
 
   pod 'react-native-version-number', :path => '../node_modules/react-native-version-number'
+
+  pod 'RNDeviceInfo', :path => '../node_modules/react-native-device-info'
 
   target 'eSteemTests' do
     inherit! :search_paths
