@@ -85,7 +85,7 @@
     "cancel": "בטל\\י",
     "login": "כניסה",
     "steemconnect_description": "אם אינך מעוניין\\ת לשמור יותר את סיסמתך מוצפנת ועל מכשירך, את\\ה רשאי\\ת להתחבר דרךSteemconnect.",
-    "steemconnect_fee_description": "Steemconnect עשוי לגבות תשלומים מסוימים מן התגמולות של העברות"
+    "steemconnect_fee_description": "Steemconnect עשוי לגבות תשלומים מסוימים מיתרת תגמוליך"
   },
   "home": {
     "feed": "פיד",
@@ -100,7 +100,7 @@
     "gallery": "גלריה",
     "settings": "הגדרות",
     "add_account": "הוסף\/י חשבון",
-    "logout": "התנתק מהחשבון",
+    "logout": "התנתק\/י",
     "cancel": "ביטול",
     "logout_text": "האם את\\ה בטוח\\ה שברצונך להתנתק?"
   },
@@ -117,7 +117,7 @@
   "editor": {
     "title": "כותרת",
     "tags": "תיוגים",
-    "default_placeholder": "מה תרצה לכתוב על אודות יומך?",
+    "default_placeholder": "על מה תרצה לכתוב, היום?",
     "reply_placeholder": "מ?",
     "publish": "פרסם\\י",
     "reply": "השב\\י",
