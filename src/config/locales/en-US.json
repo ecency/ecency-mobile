@@ -144,6 +144,7 @@
     "invalid_pincode": "Invalid PIN code, please check and try again.",
     "remove_alert": "Are you sure you want to remove?",
     "clear_alert": "Are you sure you want to clear?",
+    "clear_user_alert": "Are you sure you want to clear all user data?",
     "clear": "Clear",
     "cancel": "Cancel",
     "delete": "Delete",

@@ -10,11 +10,19 @@ import {
   verifyPinCode,
   updatePinCode,
 } from '../../../providers/steem/auth';
-import { closePinCodeModal } from '../../../redux/actions/applicationActions';
-import { getExistUser, setExistUser, getUserDataWithUsername } from '../../../realm/realm';
+import { closePinCodeModal, login, logoutDone } from '../../../redux/actions/applicationActions';
+import {
+  getExistUser,
+  setExistUser,
+  getUserDataWithUsername,
+  removeAllUserData,
+  removePinCode,
+  setAuthStatus,
+} from '../../../realm/realm';
 import {
   updateCurrentAccount,
   setPinCode as savePinCode,
+  removeOtherAccount,
 } from '../../../redux/actions/accountAction';
 import { getUser } from '../../../providers/steem/dsteem';
 
@@ -112,11 +120,14 @@ class PinCodeContainer extends Component {
           resolve();
         })
         .catch((err) => {
-          Alert.alert(intl.formatMessage({
-            id: 'alert.warning',
-          }), intl.formatMessage({
-            id: err.message,
-          }));
+          Alert.alert(
+            intl.formatMessage({
+              id: 'alert.warning',
+            }),
+            intl.formatMessage({
+              id: err.message,
+            }),
+          );
           reject(err);
         });
     }
@@ -154,12 +165,7 @@ class PinCodeContainer extends Component {
 
   _verifyPinCode = pin => new Promise((resolve, reject) => {
     const {
-      currentAccount,
-      dispatch,
-      accessToken,
-      navigateTo,
-      navigation,
-      intl,
+      currentAccount, dispatch, accessToken, navigateTo, navigation, intl,
     } = this.props;
 
     // If the user is exist, we are just checking to pin and navigating to home screen
@@ -183,11 +189,14 @@ class PinCodeContainer extends Component {
         }
       })
       .catch((err) => {
-        Alert.alert(intl.formatMessage({
-          id: 'alert.warning',
-        }), intl.formatMessage({
-          id: err.message,
-        }));
+        Alert.alert(
+          intl.formatMessage({
+            id: 'alert.warning',
+          }),
+          intl.formatMessage({
+            id: err.message,
+          }),
+        );
         reject(err);
       });
   });
@@ -264,6 +273,42 @@ class PinCodeContainer extends Component {
     }, 1000);
   };
 
+  _handleForgotButton = () => {
+    const { intl } = this.props;
+
+    Alert.alert(
+      intl.formatMessage({
+        id: 'alert.warning',
+      }),
+      intl.formatMessage({
+        id: 'alert.clear_user_alert',
+      }),
+      [
+        { text: intl.formatMessage({ id: 'alert.clear' }), onPress: () => this._forgotPinCode() },
+        { text: intl.formatMessage({ id: 'alert.cancel' }), style: 'destructive' },
+      ]
+    );
+  };
+
+  _forgotPinCode = async () => {
+    const { otherAccounts, dispatch } = this.props;
+
+    await removeAllUserData()
+      .then(async () => {
+        dispatch(updateCurrentAccount({}));
+        dispatch(login(false));
+        removePinCode();
+        setAuthStatus({ isLoggedIn: false });
+        setExistUser(false);
+        if (otherAccounts.length > 0) {
+          otherAccounts.map(item => dispatch(removeOtherAccount(item.username)));
+        }
+        dispatch(logoutDone());
+        dispatch(closePinCodeModal());
+      })
+      .catch(() => {});
+  };
+
   render() {
     const { currentAccount, intl, isReset } = this.props;
     const { informationText, isExistUser } = this.state;
@@ -274,6 +319,7 @@ class PinCodeContainer extends Component {
         showForgotButton={isExistUser}
         username={currentAccount.name}
         intl={intl}
+        handleForgotButton={() => this._handleForgotButton()}
         {...this.props}
       />
     );
@@ -283,6 +329,7 @@ class PinCodeContainer extends Component {
 const mapStateToProps = state => ({
   currentAccount: state.account.currentAccount,
   applicationPinCode: state.account.pin,
+  otherAccounts: state.account.otherAccounts,
 });
 
 export default injectIntl(connect(mapStateToProps)(PinCodeContainer));
