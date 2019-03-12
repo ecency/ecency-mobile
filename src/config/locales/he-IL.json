@@ -2,12 +2,12 @@
   "wallet": {
     "curation_reward": "תגמול עבור פעילויות ותוכן",
     "author_reward": "תגמול הסופר",
-    "comment_benefactor_reward": "תגמולים על תגובות המיטיב",
+    "comment_benefactor_reward": "תגמולי המיטיב על תגובות",
     "claim_reward_balance": "קבל תגמולים על יתרה",
     "transfer": "העברה",
-    "transfer_to_vesting": "העבר לvesting",
+    "transfer_to_vesting": "העבר לVesting",
     "transfer_from_savings": "העבר מחסכונות",
-    "withdraw_vesting": "הפיכת כוח הסטים ליתרה נזילה",
+    "withdraw_vesting": "המרת כוח הסטים ליתרה נזילה",
     "fill_order": "מלא בקשה"
   },
   "notification": {
