@@ -118,7 +118,7 @@
     "title": "כותרת",
     "tags": "תיוגים",
     "default_placeholder": "על מה תרצה לכתוב, היום?",
-    "reply_placeholder": "מ?",
+    "reply_placeholder": "מה תרצה לכתוב לגבי הפוסט הנ\"ל?",
     "publish": "פרסם\\י",
     "reply": "השב\\י",
     "open_galery": "פתח\\י גלריה",
@@ -197,21 +197,21 @@
   },
   "post_dropdown": {
     "copy": "העתק קישור",
-    "reblog": "העלה מחדש לבלוג",
+    "reblog": "שתף\/י שוב",
     "reply": "השב",
     "share": "שתף\\י",
     "bookmarks": "הוסף\\י לסימניות"
   },
   "deep_link": {
-    "no_existing_user": "אין משתמש קיים",
-    "no_existing_post": "אין פוסט קיים"
+    "no_existing_user": "המשתמש אינו קיים",
+    "no_existing_post": "הפוסט אינו קיים"
   },
   "search": {
     "posts": "העלאות",
     "comments": "תגובות"
   },
   "comment_filter": {
-    "trending": "מצליח כעת",
+    "trending": "פופולארי כעת",
     "reputation": "מוניטין",
     "votes": "הצבעות",
     "age": "גיל"
