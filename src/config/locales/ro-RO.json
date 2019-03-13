@@ -213,9 +213,9 @@
     "comments": "Comentarii"
   },
   "comment_filter": {
-    "trending": "trending",
-    "reputation": "reputation",
-    "votes": "votes",
-    "age": "age"
+    "trending": "trenduri",
+    "reputation": "reputație",
+    "votes": "voturi",
+    "age": "vechime"
   }
 }
