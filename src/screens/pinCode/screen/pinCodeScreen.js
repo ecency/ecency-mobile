@@ -51,7 +51,7 @@ class PinCodeScreen extends PureComponent {
 
   render() {
     const {
-      informationText, showForgotButton, username, intl,
+      informationText, showForgotButton, username, intl, handleForgotButton,
     } = this.props;
     const { pin, loading } = this.state;
 
@@ -73,7 +73,7 @@ class PinCodeScreen extends PureComponent {
           <NumericKeyboard onPress={this._handleKeyboardOnPress} />
         </View>
         {showForgotButton ? (
-          <TouchableOpacity style={styles.forgotButtonView}>
+          <TouchableOpacity onPress={() => handleForgotButton()} style={styles.forgotButtonView}>
             <Text style={styles.forgotButtonText}>
               {intl.formatMessage({
                 id: 'pincode.forgot_text',
