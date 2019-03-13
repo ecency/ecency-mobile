@@ -140,11 +140,11 @@
     "permission_denied": "בקשה נדחתה",
     "permission_text": "אנא, שנה את ההרשאות באפליקציית הeSteem, דרך ההגדרות בטלפון.",
     "success_rebloged": "שותף!",
-    "already_rebloged": "כבר פרסמת מחדש!",
+    "already_rebloged": "כבר שיתפת!",
     "warning": "אזהרה",
     "invalid_pincode": "קוד PIN לא תקין, אנא בדוק ונסה שנית.",
     "remove_alert": "האם בוודאות ברצונך להסיר?",
-    "clear_alert": "האם את\\ה בטוח שברצונך למחוק הכל?",
+    "clear_alert": "האם את\\ה בטוח\\ה שברצונך למחוק?",
     "clear_user_alert": "Are you sure you want to clear all user data?",
     "clear": "ריק",
     "cancel": "בטל\\י",
@@ -153,17 +153,17 @@
     "no_internet": "אין חיבור!"
   },
   "post": {
-    "reblog_alert": "האם ברצונך לעלות מחדש פוסט זה לבלוגך?"
+    "reblog_alert": "האם את\\ה בטוח\/ה רוצה לשתף ?"
   },
   "drafts": {
     "title": "טיוטה",
     "load_error": "לא ניתן לעלות טיוטה",
-    "empty_list": "ריק כאן",
+    "empty_list": "אין כאן מידע",
     "deleted": "טיוטה נמחקה"
   },
   "schedules": {
     "title": "פוסטים מתוכננים",
-    "empty_list": "ריק כאן",
+    "empty_list": "אין כאן מידע",
     "deleted": "פוסטים מתוכננים נמחקו",
     "move": "העבר\\י לטיוטה",
     "moved": "הועבר לטיוטה"
@@ -171,7 +171,7 @@
   "bookmarks": {
     "title": "סימניות",
     "load_error": "לא ניתן לעלות סימניות",
-    "empty_list": "ריק כאן",
+    "empty_list": "אין כאן מידע",
     "deleted": "הסימנייה הוסרה",
     "search": "חפש בסימניות",
     "added": "הוסף לסימניות",
@@ -180,7 +180,7 @@
   "favorites": {
     "title": "מועדפים",
     "load_error": "לא ניתן לעלות מועדפים",
-    "empty_list": "ריק כאן",
+    "empty_list": "אין כאן מידע",
     "search": "חפש\\י במועדפים"
   },
   "auth": {
@@ -191,7 +191,7 @@
     "unknow_error": "תקלה לא מזוהה, אנא איתנו צור קשר בsupport@esteem.app"
   },
   "payout": {
-    "potential_payout": "תשלום אפשרי",
+    "potential_payout": "תשלום ( מוערך)",
     "promoted": "מקודמים",
     "author_payout": "תשלום הסופר",
     "curation_payout": "תשלום אוצרות התוכן",
