@@ -65,11 +65,11 @@
     "push_notification": "Notificări",
     "pincode": "Pincode",
     "reset": "Resetare",
-    "nsfw_content": "NSFW Content",
+    "nsfw_content": "Conținut NSFW",
     "nsfw": {
-      "always_show": "Always show",
-      "always_hide": "Always hide",
-      "always_warn": "Always warn"
+      "always_show": "Afisează întotdeauna",
+      "always_hide": "Ascunde întotdeauna",
+      "always_warn": "Avertizează întotdeauna"
     }
   },
   "voters": {
@@ -145,7 +145,7 @@
     "invalid_pincode": "Invalid pin code, please check and try again.",
     "remove_alert": "Are you sure want to remove?",
     "clear_alert": "Ești sigur că vrei să ștergi?",
-    "clear_user_alert": "Are you sure you want to clear all user data?",
+    "clear_user_alert": "Esti sigur că vrei să ștergi toate datele?",
     "clear": "Șterge",
     "cancel": "Anulează",
     "delete": "Șterge",
