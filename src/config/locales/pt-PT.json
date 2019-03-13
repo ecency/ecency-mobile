@@ -145,7 +145,7 @@
     "invalid_pincode": "Código PIN inválido, por favor verifique e tente novamente.",
     "remove_alert": "Tem a certeza de que pretende remover?",
     "clear_alert": "Tem certeza que deseja limpar?",
-    "clear_user_alert": "Are you sure you want to clear all user data?",
+    "clear_user_alert": "Tem certeza de que deseja limpar todos os dados de usuário?",
     "clear": "Limpar",
     "cancel": "Cancelar",
     "delete": "Apagar",
