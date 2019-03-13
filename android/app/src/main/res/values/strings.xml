@@ -1,6 +1,6 @@
 <resources>
     <string moduleConfig="true" name="reactNativeCodePush_androidDeploymentKey">hvFLmwFbA1yko829EQO_apTfdlCKSybps-jnWV</string>
     <string name="app_name">eSteem</string>
-    <string name="appCenterAnalytics_whenToEnableAnalytics" moduleConfig="true">ALWAYS_SEND</string>
-    <string name="appCenterCrashes_whenToSendCrashes" moduleConfig="true">ALWAYS_SEND</string>
+    <string name="appCenterAnalytics_whenToEnableAnalytics" moduleConfig="true" translatable="false">ALWAYS_SEND</string>
+    <string name="appCenterCrashes_whenToSendCrashes" moduleConfig="true" translatable="false">ALWAYS_SEND</string>
 </resources>
