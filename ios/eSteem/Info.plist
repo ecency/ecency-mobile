@@ -57,7 +57,7 @@
 	<key>NSCameraUsageDescription</key>
 	<string>To access your photos, eSteem needs your permission to help you share your photos.</string>
 	<key>NSLocationWhenInUseUsageDescription</key>
-	<string></string>
+	<string/>
 	<key>NSMainNibFile</key>
 	<string>LaunchScreen</string>
 	<key>NSMicrophoneUsageDescription</key>
