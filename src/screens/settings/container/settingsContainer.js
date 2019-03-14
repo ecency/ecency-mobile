@@ -162,15 +162,37 @@ class SettingsContainer extends Component {
   };
 
   _handleNotification = async (action, actionType) => {
-    const { dispatch } = this.props;
+    const { dispatch, notificationDetails } = this.props;
+    const notifyTypesConst = {
+      vote: 1,
+      mention: 2,
+      follow: 3,
+      comment: 4,
+      reblog: 5,
+      transfers: 6,
+    };
+    const notifyTypes = [];
 
     dispatch(changeNotificationSettings({ action, type: actionType }));
     setNotificationSettings({ action, type: actionType });
 
-    const isPushEnabled = await Push.isEnabled();
+    if (actionType === 'notification') {
+      await Push.setEnabled(action);
+      this._setPushToken(action ? [1, 2, 3, 4, 5, 6] : notifyTypes);
+    } else {
+      Object.keys(notificationDetails).map((item) => {
+        const notificationType = item.replace('Notification', '');
 
-    await Push.setEnabled(!isPushEnabled);
-    this._setPushToken();
+        if (notificationType === actionType.replace('notification.', '')) {
+          if (action) {
+            notifyTypes.push(notifyTypesConst[notificationType]);
+          }
+        } else if (notificationDetails[item]) {
+          notifyTypes.push(notifyTypesConst[notificationType]);
+        }
+      });
+      this._setPushToken(notifyTypes);
+    }
   };
 
   _handleButtonPress = (action, actionType) => {
@@ -204,8 +226,9 @@ class SettingsContainer extends Component {
     }
   };
 
-  _setPushToken = async () => {
+  _setPushToken = async (notifyTypes) => {
     const { isNotificationSettingsOpen, isLoggedIn, username } = this.props;
+
     if (isLoggedIn) {
       const token = await AppCenter.getInstallId();
 
@@ -216,6 +239,7 @@ class SettingsContainer extends Component {
             token,
             system: Platform.OS,
             allows_notify: Number(isNotificationSettingsOpen),
+            notify_types: notifyTypes,
           };
           setPushToken(data);
         }
@@ -246,6 +270,7 @@ const mapStateToProps = state => ({
   isLoggedIn: state.application.isLoggedIn,
   username: state.account.currentAccount && state.account.currentAccount.name,
   nsfw: state.application.nsfw,
+  notificationDetails: state.application.notificationDetails,
   commentNotification: state.application.notificationDetails.commentNotification,
   followNotification: state.application.notificationDetails.followNotification,
   mentionNotification: state.application.notificationDetails.mentionNotification,
