@@ -3,13 +3,17 @@ import { markDown2Html } from './markdownToHtml';
 import { getPostSummary } from './formatter';
 import { getReputation } from './reputation';
 
-export const parsePosts = (posts, currentUserName, isSummary) => (!posts ? null : posts.map(post => parsePost(post, currentUserName, isSummary)));
+export const parsePosts = (posts, currentUserName) => (!posts ? null : posts.map(post => parsePost(post, currentUserName)));
 
-export const parsePost = (post, currentUserName, isSummary = false) => {
+export const parsePost = (post, currentUserName) => {
   if (!post) {
     return null;
   }
   const _post = post;
+
+  if (currentUserName === _post.author) {
+    _post.markdownBody = post.body;
+  }
 
   _post.json_metadata = JSON.parse(post.json_metadata);
   _post.image = postImage(post.json_metadata, post.body);
@@ -26,10 +30,6 @@ export const parsePost = (post, currentUserName, isSummary = false) => {
     _post.is_voted = isVoted(_post.active_votes, currentUserName);
   } else {
     _post.is_voted = false;
-  }
-
-  if (currentUserName === _post.author) {
-    _post.markdownBody = post.body;
   }
 
   const totalPayout = parseFloat(_post.pending_payout_value)
