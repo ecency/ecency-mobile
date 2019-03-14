@@ -186,8 +186,7 @@ export const updateUserData = userData => new Promise((resolve, reject) => {
 
 export const removeUserData = username => new Promise((resolve, reject) => {
   try {
-    const account = realm.objects(USER_SCHEMA).filtered('username = $0', username);
-
+    const account = realm.objects(USER_SCHEMA).filtered('username = $0', username)
     if (Array.from(account).length > 0) {
       realm.write(() => {
         realm.delete(account);
@@ -196,6 +195,21 @@ export const removeUserData = username => new Promise((resolve, reject) => {
     } else {
       reject('Could not remove selected user');
     }
+  } catch (error) {
+    reject(error);
+  }
+});
+
+export const removeAllUserData = () => new Promise((resolve, reject) => {
+  try {
+    const accounts = realm.objects(USER_SCHEMA);
+    const scAccount = realm.objects(SC_ACCOUNTS);
+
+    realm.write(() => {
+      realm.delete(accounts);
+      realm.delete(scAccount);
+      resolve();
+    });
   } catch (error) {
     reject(error);
   }

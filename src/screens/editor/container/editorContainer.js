@@ -90,7 +90,7 @@ class EditorContainer extends Component {
         this.setState(
           {
             isEdit,
-            draftPost: { title: post.title, tags: post.json_metadata.tags },
+            draftPost: { title: post.title, body: post.markdownBody, tags: post.json_metadata.tags },
           },
           () => {
             this._getPurePost(post.author, post.permlink);

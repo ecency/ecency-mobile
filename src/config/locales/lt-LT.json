@@ -64,11 +64,11 @@
     "push_notification": "Aktyvieji pranešimai",
     "pincode": "Pincode",
     "reset": "Atstatyti",
-    "nsfw_content": "NSFW Content",
+    "nsfw_content": "NSFW Turinys",
     "nsfw": {
-      "always_show": "Always show",
-      "always_hide": "Always hide",
-      "always_warn": "Always warn"
+      "always_show": "Visada rodyti",
+      "always_hide": "Visada paslėpti",
+      "always_warn": "Visada įspėti"
     }
   },
   "voters": {

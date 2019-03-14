@@ -64,11 +64,11 @@
     "push_notification": "دفع الإشعارات",
     "pincode": "رمز PIN",
     "reset": "إعادة",
-    "nsfw_content": "NSFW Content",
+    "nsfw_content": "محتوى NSFW",
     "nsfw": {
-      "always_show": "Always show",
-      "always_hide": "Always hide",
-      "always_warn": "Always warn"
+      "always_show": "عرض دوماً",
+      "always_hide": "إخفاء دوماً",
+      "always_warn": "التحذير دوماً"
     }
   },
   "voters": {

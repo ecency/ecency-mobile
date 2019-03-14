@@ -28,6 +28,10 @@ export const parsePost = (post, currentUserName, isSummary = false) => {
     _post.is_voted = false;
   }
 
+  if (currentUserName === _post.author) {
+    _post.markdownBody = post.body;
+  }
+
   const totalPayout = parseFloat(_post.pending_payout_value)
     + parseFloat(_post.total_payout_value)
     + parseFloat(_post.curator_payout_value);
