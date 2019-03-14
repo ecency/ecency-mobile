@@ -9,52 +9,51 @@ export const parsePost = (post, currentUserName) => {
   if (!post) {
     return null;
   }
-  const _post = post;
 
-  if (currentUserName === _post.author) {
-    _post.markdownBody = post.body;
+  if (currentUserName === post.author) {
+    post.markdownBody = post.body;
   }
 
-  _post.json_metadata = JSON.parse(post.json_metadata);
-  _post.image = postImage(post.json_metadata, post.body);
-  _post.vote_count = post.active_votes.length;
-  _post.author_reputation = getReputation(post.author_reputation);
-  _post.avatar = `https://steemitimages.com/u/${post.author}/avatar/small`;
-  _post.active_votes.sort((a, b) => b.rshares - a.rshares);
+  post.json_metadata = JSON.parse(post.json_metadata);
+  post.image = postImage(post.json_metadata, post.body);
+  post.vote_count = post.active_votes.length;
+  post.author_reputation = getReputation(post.author_reputation);
+  post.avatar = `https://steemitimages.com/u/${post.author}/avatar/small`;
+  post.active_votes.sort((a, b) => b.rshares - a.rshares);
 
-  _post.body = markDown2Html(post.body);
-  _post.summary = getPostSummary(post.body, 150);
-  _post.is_declined_payout = Number(parseFloat(post.max_accepted_payout)) === 0;
+  post.body = markDown2Html(post.body);
+  post.summary = getPostSummary(post.body, 150);
+  post.is_declined_payout = Number(parseFloat(post.max_accepted_payout)) === 0;
 
   if (currentUserName) {
-    _post.is_voted = isVoted(_post.active_votes, currentUserName);
+    post.is_voted = isVoted(post.active_votes, currentUserName);
   } else {
-    _post.is_voted = false;
+    post.is_voted = false;
   }
 
-  const totalPayout = parseFloat(_post.pending_payout_value)
-    + parseFloat(_post.total_payout_value)
-    + parseFloat(_post.curator_payout_value);
+  const totalPayout = parseFloat(post.pending_payout_value)
+    + parseFloat(post.total_payout_value)
+    + parseFloat(post.curator_payout_value);
 
-  _post.total_payout = totalPayout.toFixed(3);
+  post.total_payout = totalPayout.toFixed(3);
 
-  const voteRshares = _post.active_votes.reduce((a, b) => a + parseFloat(b.rshares), 0);
+  const voteRshares = post.active_votes.reduce((a, b) => a + parseFloat(b.rshares), 0);
   const ratio = totalPayout / voteRshares;
 
-  if (_post.active_votes && _post.active_votes.length > 0) {
-    for (const i in _post.active_votes) {
-      _post.vote_perecent = post.active_votes[i].voter === currentUserName ? post.active_votes[i].percent : null;
-      _post.active_votes[i].value = (post.active_votes[i].rshares * ratio).toFixed(3);
-      _post.active_votes[i].reputation = getReputation(post.active_votes[i].reputation);
-      _post.active_votes[i].percent = post.active_votes[i].percent / 100;
-      _post.active_votes[i].is_down_vote = Math.sign(post.active_votes[i].percent) < 0;
-      _post.active_votes[i].avatar = `https://steemitimages.com/u/${
-        _post.active_votes[i].voter
+  if (post.active_votes && post.active_votes.length > 0) {
+    for (const i in post.active_votes) {
+      post.vote_perecent = post.active_votes[i].voter === currentUserName ? post.active_votes[i].percent : null;
+      post.active_votes[i].value = (post.active_votes[i].rshares * ratio).toFixed(3);
+      post.active_votes[i].reputation = getReputation(post.active_votes[i].reputation);
+      post.active_votes[i].percent = post.active_votes[i].percent / 100;
+      post.active_votes[i].is_down_vote = Math.sign(post.active_votes[i].percent) < 0;
+      post.active_votes[i].avatar = `https://steemitimages.com/u/${
+        post.active_votes[i].voter
       }/avatar/small`;
     }
   }
 
-  return _post;
+  return post;
 };
 
 const isVoted = (activeVotes, currentUserName) => activeVotes.some(v => v.voter === currentUserName && v.percent > 0);
