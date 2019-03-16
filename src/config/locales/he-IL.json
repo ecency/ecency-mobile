@@ -66,6 +66,7 @@
     "pincode": "קוד PIN",
     "reset": "אתחל",
     "nsfw_content": "תוכן NSFW",
+    "default_footer": "Default Footer",
     "nsfw": {
       "always_show": "הצג תמיד",
       "always_hide": "הסתר תמיד",
