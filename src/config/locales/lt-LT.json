@@ -66,6 +66,7 @@
     "pincode": "Pincode",
     "reset": "Atstatyti",
     "nsfw_content": "NSFW Turinys",
+    "default_footer": "Default Footer",
     "nsfw": {
       "always_show": "Visada rodyti",
       "always_hide": "Visada paslėpti",
