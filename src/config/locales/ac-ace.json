@@ -66,6 +66,7 @@
     "pincode": "Kode PIN",
     "reset": "Atôe ulang",
     "nsfw_content": "NSFW Content",
+    "default_footer": "Default Footer",
     "nsfw": {
       "always_show": "Always show",
       "always_hide": "Always hide",
