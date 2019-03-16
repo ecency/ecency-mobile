@@ -56,6 +56,7 @@ const settingsSchema = {
     voteNotification: { type: 'bool', default: true },
     commentNotification: { type: 'bool', default: true },
     mentionNotification: { type: 'bool', default: true },
+    reblogNotification: { type: 'bool', default: true },
     transfersNotification: { type: 'bool', default: true },
   },
 };
@@ -113,6 +114,7 @@ if (Array.from(settings).length <= 0) {
       voteNotification: true,
       commentNotification: true,
       mentionNotification: true,
+      reblogNotification: true,
       transfersNotification: true,
     });
   });
@@ -463,6 +465,9 @@ export const setNotificationSettings = ({ type, action }) => new Promise((resolv
           break;
         case 'notification.mention':
           settings[0].mentionNotification = action;
+          break;
+        case 'notification.reblog':
+          settings[0].reblogNotification = action;
           break;
         case 'notification.transfers':
           settings[0].transfersNotification = action;

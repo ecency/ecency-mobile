@@ -69,6 +69,7 @@
       "vote": "Vote",
       "comment": "Comment",
       "mention": "Mention",
+      "reblog": "Reblog",
       "transfers": "Transfers"
     },
     "pincode": "PIN code",

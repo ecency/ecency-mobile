@@ -48,6 +48,7 @@ class SettingsScreen extends PureComponent {
       commentNotification,
       followNotification,
       mentionNotification,
+      reblogNotification,
       transfersNotification,
       voteNotification,
     } = this.props;
@@ -134,73 +135,84 @@ class SettingsScreen extends PureComponent {
               />
             )}
           </View>
-          <View style={styles.settingsCard}>
-            <CollapsibleCard
-              titleComponent={(
+          {!!isLoggedIn && (
+            <View style={styles.settingsCard}>
+              <CollapsibleCard
+                titleComponent={(
+                  <SettingsItem
+                    title={intl.formatMessage({
+                      id: 'settings.push_notification',
+                    })}
+                    titleStyle={styles.cardTitle}
+                    type="toggle"
+                    actionType="notification"
+                    isOn={isNotificationSettingsOpen}
+                    handleOnChange={handleOnChange}
+                  />
+)}
+                noBorder
+                fitContent
+                locked
+                isExpanded={isNotificationSettingsOpen}
+                expanded={isNotificationMenuOpen}
+              >
                 <SettingsItem
                   title={intl.formatMessage({
-                    id: 'settings.push_notification',
+                    id: 'settings.notification.follow',
                   })}
-                  titleStyle={styles.cardTitle}
                   type="toggle"
-                  actionType="notification"
-                  isOn={isNotificationSettingsOpen}
+                  actionType="notification.follow"
+                  isOn={followNotification}
                   handleOnChange={handleOnChange}
                 />
-)}
-              noBorder
-              fitContent
-              locked
-              isExpanded={isNotificationSettingsOpen}
-              expanded={isNotificationMenuOpen}
-            >
-              <SettingsItem
-                title={intl.formatMessage({
-                  id: 'settings.notification.follow',
-                })}
-                type="toggle"
-                actionType="notification.follow"
-                isOn={followNotification}
-                handleOnChange={handleOnChange}
-              />
-              <SettingsItem
-                title={intl.formatMessage({
-                  id: 'settings.notification.vote',
-                })}
-                type="toggle"
-                actionType="notification.vote"
-                isOn={voteNotification}
-                handleOnChange={handleOnChange}
-              />
-              <SettingsItem
-                title={intl.formatMessage({
-                  id: 'settings.notification.comment',
-                })}
-                type="toggle"
-                actionType="notification.comment"
-                isOn={commentNotification}
-                handleOnChange={handleOnChange}
-              />
-              <SettingsItem
-                title={intl.formatMessage({
-                  id: 'settings.notification.mention',
-                })}
-                type="toggle"
-                actionType="notification.mention"
-                isOn={mentionNotification}
-                handleOnChange={handleOnChange}
-              />
-              <SettingsItem
-                title={intl.formatMessage({
-                  id: 'settings.notification.transfers',
-                })}
-                type="toggle"
-                actionType="notification.transfers"
-                isOn={transfersNotification}
-                handleOnChange={handleOnChange}
-              />
-            </CollapsibleCard>
-          </View>
+                <SettingsItem
+                  title={intl.formatMessage({
+                    id: 'settings.notification.vote',
+                  })}
+                  type="toggle"
+                  actionType="notification.vote"
+                  isOn={voteNotification}
+                  handleOnChange={handleOnChange}
+                />
+                <SettingsItem
+                  title={intl.formatMessage({
+                    id: 'settings.notification.comment',
+                  })}
+                  type="toggle"
+                  actionType="notification.comment"
+                  isOn={commentNotification}
+                  handleOnChange={handleOnChange}
+                />
+                <SettingsItem
+                  title={intl.formatMessage({
+                    id: 'settings.notification.mention',
+                  })}
+                  type="toggle"
+                  actionType="notification.mention"
+                  isOn={mentionNotification}
+                  handleOnChange={handleOnChange}
+                />
+                <SettingsItem
+                  title={intl.formatMessage({
+                    id: 'settings.notification.reblog',
+                  })}
+                  type="toggle"
+                  actionType="notification.reblog"
+                  isOn={reblogNotification}
+                  handleOnChange={handleOnChange}
+                />
+                <SettingsItem
+                  title={intl.formatMessage({
+                    id: 'settings.notification.transfers',
+                  })}
+                  type="toggle"
+                  actionType="notification.transfers"
+                  isOn={transfersNotification}
+                  handleOnChange={handleOnChange}
+                />
+              </CollapsibleCard>
+            </View>
+          )}
         </ScrollView>
       </Fragment>
     );
