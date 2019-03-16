@@ -66,6 +66,7 @@
     "pincode": "Pincode",
     "reset": "Tetapkan semula",
     "nsfw_content": "Kandungan NSFW",
+    "default_footer": "Default Footer",
     "nsfw": {
       "always_show": "Benarkan",
       "always_hide": "Tutup",
