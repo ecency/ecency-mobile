@@ -3,6 +3,7 @@ import {
   CHANGE_COMMENT_NOTIFICATION,
   CHANGE_FOLLOW_NOTIFICATION,
   CHANGE_MENTION_NOTIFICATION,
+  CHANGE_REBLOG_NOTIFICATION,
   CHANGE_TRANSFERS_NOTIFICATION,
   CHANGE_VOTE_NOTIFICATION,
   CLOSE_PIN_CODE_MODAL,
@@ -42,6 +43,7 @@ const initialState = {
     commentNotification: true,
     followNotification: true,
     mentionNotification: true,
+    reblogNotification: true,
     transfersNotification: true,
     voteNotification: true,
   },
@@ -126,6 +128,13 @@ export default function (state = initialState, action) {
         notificationDetails: {
           ...state.notificationDetails,
           mentionNotification: action.payload,
+        },
+      });
+    case CHANGE_REBLOG_NOTIFICATION:
+      return Object.assign({}, state, {
+        notificationDetails: {
+          ...state.notificationDetails,
+          reblogNotification: action.payload,
         },
       });
     case CHANGE_TRANSFERS_NOTIFICATION:

@@ -5,6 +5,7 @@ import {
   CHANGE_COMMENT_NOTIFICATION,
   CHANGE_FOLLOW_NOTIFICATION,
   CHANGE_MENTION_NOTIFICATION,
+  CHANGE_REBLOG_NOTIFICATION,
   CHANGE_TRANSFERS_NOTIFICATION,
   CHANGE_VOTE_NOTIFICATION,
   CLOSE_PIN_CODE_MODAL,
@@ -92,6 +93,12 @@ export const changeNotificationSettings = (payload) => {
       return {
         payload: payload.action,
         type: CHANGE_MENTION_NOTIFICATION,
+      };
+
+    case 'notification.reblog':
+      return {
+        payload: payload.action,
+        type: CHANGE_REBLOG_NOTIFICATION,
       };
 
     case 'notification.transfers':

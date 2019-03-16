@@ -1,7 +1,8 @@
 import React, { PureComponent } from 'react';
-import { Alert, Linking } from 'react-native';
+import { Alert, Linking, Platform } from 'react-native';
 import { connect } from 'react-redux';
 import { injectIntl } from 'react-intl';
+import AppCenter from 'appcenter';
 
 // Services and Actions
 import { login } from '../../../providers/steem/auth';
@@ -13,6 +14,8 @@ import {
   updateCurrentAccount,
 } from '../../../redux/actions/accountAction';
 import { login as loginAction, openPinCodeModal } from '../../../redux/actions/applicationActions';
+import { setPushTokenSaved } from '../../../realm/realm';
+import { setPushToken } from '../../../providers/esteem/esteem';
 
 // Middleware
 
@@ -57,6 +60,7 @@ class LoginContainer extends PureComponent {
           setPinCodeState({ navigateTo: ROUTES.DRAWER.MAIN });
           dispatch(loginAction(true));
           userActivity(result.name, 20);
+          this._setPushToken(result.name);
         }
       })
       .catch((err) => {
@@ -69,6 +73,39 @@ class LoginContainer extends PureComponent {
         dispatch(failedAccount(err.message));
         this.setState({ isLoading: false });
       });
+  };
+
+  _setPushToken = async (username) => {
+    const { notificationSettings, notificationDetails } = this.props;
+    const notifyTypesConst = {
+      vote: 1,
+      mention: 2,
+      follow: 3,
+      comment: 4,
+      reblog: 5,
+      transfers: 6,
+    };
+    const notifyTypes = [];
+    const token = await AppCenter.getInstallId();
+
+    Object.keys(notificationDetails).map((item) => {
+      const notificationType = item.replace('Notification', '');
+
+      if (notificationDetails[item]) {
+        notifyTypes.push(notifyTypesConst[notificationType]);
+      }
+    });
+
+    const data = {
+      username,
+      token,
+      system: Platform.OS,
+      allows_notify: Number(notificationSettings),
+      notify_types: notifyTypes,
+    };
+    setPushToken(data).then(() => {
+      setPushTokenSaved(true);
+    });
   };
 
   _getAccountsWithUsername = async (username) => {
@@ -98,6 +135,8 @@ class LoginContainer extends PureComponent {
 
 const mapStateToProps = state => ({
   account: state.accounts,
+  notificationDetails: state.application.notificationDetails,
+  notificationSettings: state.application.isNotificationOpen,
 });
 
 export default injectIntl(connect(mapStateToProps)(LoginContainer));
