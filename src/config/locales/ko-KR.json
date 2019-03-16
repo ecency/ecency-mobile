@@ -66,6 +66,7 @@
     "pincode": "PIN 코드",
     "reset": "초기화",
     "nsfw_content": "NSFW 콘텐츠",
+    "default_footer": "Default Footer",
     "nsfw": {
       "always_show": "항상 보여주기",
       "always_hide": "항상 숨기기",
