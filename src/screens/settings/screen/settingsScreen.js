@@ -1,4 +1,4 @@
-import React, { PureComponent } from 'react';
+import React, { PureComponent, Fragment } from 'react';
 import { ScrollView, View } from 'react-native';
 import { injectIntl } from 'react-intl';
 
@@ -36,13 +36,14 @@ class SettingsScreen extends PureComponent {
       handleOnChange,
       intl,
       isDarkTheme,
+      isDefaultFooter,
       isLoggedIn,
       isNotificationSettingsOpen,
+      nsfw,
       selectedApi,
       selectedCurrency,
       selectedLanguage,
       serverList,
-      nsfw,
     } = this.props;
 
     return (
@@ -116,17 +117,28 @@ class SettingsScreen extends PureComponent {
             handleOnChange={handleOnChange}
           />
           {!!isLoggedIn && (
-            <SettingsItem
-              title={intl.formatMessage({
-                id: 'settings.pincode',
-              })}
-              text={intl.formatMessage({
-                id: 'settings.reset',
-              })}
-              type="button"
-              actionType="pincode"
-              handleOnChange={handleOnChange}
-            />
+            <Fragment>
+              <SettingsItem
+                title={intl.formatMessage({
+                  id: 'settings.default_footer',
+                })}
+                type="toggle"
+                actionType="default_footer"
+                isOn={isDefaultFooter}
+                handleOnChange={handleOnChange}
+              />
+              <SettingsItem
+                title={intl.formatMessage({
+                  id: 'settings.pincode',
+                })}
+                text={intl.formatMessage({
+                  id: 'settings.reset',
+                })}
+                type="button"
+                actionType="pincode"
+                handleOnChange={handleOnChange}
+              />
+            </Fragment>
           )}
         </ScrollView>
       </View>
