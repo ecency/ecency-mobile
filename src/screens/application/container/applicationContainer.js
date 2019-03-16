@@ -39,6 +39,7 @@ import {
   setAuthStatus,
   removeSCAccount,
   setExistUser,
+  setDefaultFooter,
 } from '../../../realm/realm';
 import { getUser } from '../../../providers/steem/dsteem';
 import { setPushToken } from '../../../providers/esteem/esteem';
@@ -247,6 +248,7 @@ class ApplicationContainer extends Component {
         if (response.language !== '') dispatch(setLanguage(response.language));
         if (response.server !== '') dispatch(setApi(response.server));
         if (response.upvotePercent !== '') dispatch(setUpvotePercent(Number(response.upvotePercent)));
+        if (response.isDefaultFooter !== '') dispatch(setDefaultFooter(response.isDefaultFooter));
         if (response.notification !== '') {
           dispatch(isNotificationOpen(response.notification));
           Push.setEnabled(response.notification);
