@@ -8,7 +8,7 @@
     "transfer_to_vesting": "העבר לVesting",
     "transfer_from_savings": "העבר מחסכונות",
     "withdraw_vesting": "המרת כוח הסטים ליתרה נזילה",
-    "fill_order": "מלא בקשה"
+    "fill_order": "מלא הזמנה"
   },
   "notification": {
     "vote": "אוהב\\ת את הפוסט שלך",
@@ -18,7 +18,7 @@
     "follow": "עקב\\ה אחרייך",
     "unfollow": "הפסיק\\ה לעקוב אחרייך",
     "ignore": "התעלם\\ה ממך",
-    "reblog": "העלה\\תה את הפוסט שלך לבלוג שלו\\ה",
+    "reblog": "שיתף\/ה את הפוסט שלך",
     "transfer": "סטים מועבר",
     "comingsoon": "מאפיין לוח התוצאות יוצא להשקה בקרוב!",
     "notification": "התראות",
@@ -58,7 +58,7 @@
   },
   "settings": {
     "settings": "הגדרות",
-    "currency": "יתרה",
+    "currency": "יתרת מטבע",
     "language": "שפה",
     "server": "שרת",
     "dark_theme": "ערכת נושא כהה",
@@ -139,7 +139,7 @@
     "fail": "נכשל!",
     "success_shared": "הפוסט שלך שותף בהצלחה",
     "permission_denied": "בקשה נדחתה",
-    "permission_text": "אנא, שנה את ההרשאות באפליקציית הeSteem, דרך ההגדרות בטלפון.",
+    "permission_text": "אנא, שנה את ההרשאות לאפליקציית ה eSteem, דרך ההגדרות בטלפון.",
     "success_rebloged": "שותף!",
     "already_rebloged": "כבר שיתפת!",
     "warning": "אזהרה",
