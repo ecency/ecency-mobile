@@ -62,7 +62,7 @@
     "language": "שפה",
     "server": "שרת",
     "dark_theme": "ערכת נושא כהה",
-    "push_notification": "הודעות דחיפה",
+    "push_notification": "התראות דחיפה",
     "pincode": "קוד PIN",
     "reset": "אתחל",
     "nsfw_content": "תוכן NSFW",
@@ -75,7 +75,7 @@
   },
   "voters": {
     "voters_info": "פרטי המצביעים",
-    "no_user": "לא נמצא שום משתמש\\ת."
+    "no_user": "לא נמצא משתמש\\ת."
   },
   "login": {
     "signin": "התחבר\\י",
@@ -97,7 +97,7 @@
     "profile": "פרופיל",
     "bookmarks": "סימניות",
     "favorites": "מועדפים",
-    "drafts": "טיוטה",
+    "drafts": "טיוטות",
     "schedules": "לוחות זמנים",
     "gallery": "גלריה",
     "settings": "הגדרות",
@@ -138,7 +138,7 @@
     "claim_reward_balance_ok": "תגמול יתרה נתקבלה",
     "fail": "נכשל!",
     "success_shared": "הפוסט שלך שותף בהצלחה",
-    "permission_denied": "בקשה נדחתה",
+    "permission_denied": "הרשאה נדחתה",
     "permission_text": "אנא, שנה את ההרשאות לאפליקציית ה eSteem, דרך ההגדרות בטלפון.",
     "success_rebloged": "שותף!",
     "already_rebloged": "כבר שיתפת!",
@@ -157,7 +157,7 @@
     "reblog_alert": "האם את\\ה בטוח\/ה רוצה לשתף ?"
   },
   "drafts": {
-    "title": "טיוטה",
+    "title": "טיוטות",
     "load_error": "לא ניתן לעלות טיוטה",
     "empty_list": "אין כאן מידע",
     "deleted": "טיוטה נמחקה"
