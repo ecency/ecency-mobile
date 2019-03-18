@@ -66,6 +66,7 @@
     "pincode": "Kode PIN",
     "reset": "Setel Ulang",
     "nsfw_content": "Konten NSFW",
+    "default_footer": "Default Footer",
     "nsfw": {
       "always_show": "Selalu Tampilkan",
       "always_hide": "Selalu menyembunyikan",

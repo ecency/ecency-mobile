@@ -65,7 +65,8 @@
     "push_notification": "Obaveštenja",
     "pincode": "Pincode",
     "reset": "Resetuj",
-    "nsfw_content": "NSFW Content",
+    "nsfw_content": "NSFW sadržaj",
+    "default_footer": "Default Footer",
     "nsfw": {
       "always_show": "Always show",
       "always_hide": "Always hide",
@@ -185,8 +186,8 @@
   },
   "auth": {
     "invalid_pin": "Invalid pin code, please check and try again",
-    "invalid_username": "Invalid username, please check and try again",
-    "already_logged": "You are already logged in, please try to add another account",
+    "invalid_username": "Pogrešno korisničko ime, molimo proverite i pokušajte ponovo",
+    "already_logged": "Već ste prijavljeni, molimo pokušajte da dodate drugi nalog",
     "invalid_credentials": "Nevažeća ovlašćenja, molimo proverite i pokušajte ponovo",
     "unknow_error": "Nepoznata greška, molimo kontaktirajte nas na support@esteem.app"
   },
@@ -202,20 +203,20 @@
     "reblog": "podeli",
     "reply": "odgovori",
     "share": "podeli",
-    "bookmarks": "add to bookmarks"
+    "bookmarks": "dodaj u obeleživače"
   },
   "deep_link": {
     "no_existing_user": "No existing user",
     "no_existing_post": "No existing post"
   },
   "search": {
-    "posts": "Posts",
-    "comments": "Comments"
+    "posts": "Postovi",
+    "comments": "Komentari"
   },
   "comment_filter": {
-    "trending": "trending",
-    "reputation": "reputation",
-    "votes": "votes",
-    "age": "age"
+    "trending": "popularnosti",
+    "reputation": "reputaciji",
+    "votes": "glasovi",
+    "age": "starost"
   }
 }

@@ -66,6 +66,7 @@
     "pincode": "Pincode",
     "reset": "Tetapkan semula",
     "nsfw_content": "Kandungan NSFW",
+    "default_footer": "Ranka Pendirian",
     "nsfw": {
       "always_show": "Benarkan",
       "always_hide": "Tutup",
@@ -213,9 +214,9 @@
     "comments": "Komen"
   },
   "comment_filter": {
-    "trending": "trending",
-    "reputation": "reputation",
-    "votes": "votes",
-    "age": "age"
+    "trending": "tending",
+    "reputation": "reputasi",
+    "votes": "vote",
+    "age": "usia"
   }
 }

@@ -66,6 +66,7 @@
     "pincode": "PIN kód",
     "reset": "Visszaállítás",
     "nsfw_content": "NSFW tartalom",
+    "default_footer": "Alapértelmezett lábléc",
     "nsfw": {
       "always_show": "Mindig látszik",
       "always_hide": "Mindig rejtve",
