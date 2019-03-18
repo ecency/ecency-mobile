@@ -31,7 +31,7 @@ class VotersDisplayView extends PureComponent {
         isHasRightItem
         isRightColor={item.is_down_vote}
         rightText={value}
-        handleOnPress={handleOnUserPress(item.voter)}
+        handleOnPress={() => handleOnUserPress(item.voter)}
         isClickable
         subRightText={percent}
       />

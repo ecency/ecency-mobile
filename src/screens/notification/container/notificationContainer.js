@@ -81,6 +81,7 @@ class NotificationContainer extends Component {
       };
     } else if (data.type === 'transfer') {
       routeName = ROUTES.TABBAR.PROFILE;
+      params = { isWalletTab: true };
     }
 
     navigation.navigate({
