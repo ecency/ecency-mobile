@@ -1,5 +1,6 @@
 import React, { PureComponent } from 'react';
 import { withNavigation } from 'react-navigation';
+import { connect } from 'react-redux';
 
 // Services and Actions
 import { search } from '../../../providers/esteem/esteem';
@@ -45,6 +46,7 @@ class SearchModalContainer extends PureComponent {
           const users = res.map(item => ({
             image: `https://steemitimages.com/u/${item}/avatar/small`,
             text: item,
+            ...item,
           }));
           this.setState({ searchResults: { type: 'user', data: users } });
         });
@@ -52,6 +54,7 @@ class SearchModalContainer extends PureComponent {
         getTrendingTags(text.substr(1)).then((res) => {
           const tags = res.map(item => ({
             text: `#${item.name}`,
+            ...item,
           }));
 
           this.setState({ searchResults: { type: 'tag', data: tags } });
@@ -63,6 +66,7 @@ class SearchModalContainer extends PureComponent {
             .map(item => ({
               image: item.img_url || `https://steemitimages.com/u/${item.author}/avatar/small`,
               text: item.title,
+              ...item,
             }));
           this.setState({ searchResults: { type: 'content', data: res.results } });
         });
@@ -71,7 +75,7 @@ class SearchModalContainer extends PureComponent {
   };
 
   _handleOnPressListItem = (type, item) => {
-    const { navigation, handleOnClose } = this.props;
+    const { navigation, handleOnClose, username } = this.props;
     let routeName = null;
     let params = null;
     let key = null;
@@ -81,7 +85,7 @@ class SearchModalContainer extends PureComponent {
 
     switch (type) {
       case 'user':
-        routeName = ROUTES.SCREENS.PROFILE;
+        routeName = item.text === username ? ROUTES.TABBAR.PROFILE : ROUTES.SCREENS.PROFILE;
         params = {
           username: item.text,
         };
@@ -118,6 +122,7 @@ class SearchModalContainer extends PureComponent {
   render() {
     const { searchResults } = this.state;
     const { handleOnClose, isOpen, placeholder } = this.props;
+
     return (
       <SearchModalView
         searchResults={searchResults}
@@ -132,4 +137,8 @@ class SearchModalContainer extends PureComponent {
   }
 }
 
-export default withNavigation(SearchModalContainer);
+const mapStateToProps = state => ({
+  username: state.account.currentAccount.name,
+});
+
+export default connect(mapStateToProps)(withNavigation(SearchModalContainer));
