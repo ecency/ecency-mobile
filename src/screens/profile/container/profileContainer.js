@@ -44,14 +44,12 @@ class ProfileContainer extends Component {
       isReverseHeader,
       user: null,
       selectedQuickProfile: null,
-      activeTab: 0,
     };
   }
 
   componentDidMount = () => {
     const { navigation, isLoggedIn, currentAccount } = this.props;
     const selectedUser = navigation.state && navigation.state.params;
-    const { isWalletTab } = navigation.state && navigation.state.params;
 
     if (!isLoggedIn && !selectedUser) {
       navigation.navigate(ROUTES.SCREENS.LOGIN);
@@ -73,10 +71,6 @@ class ProfileContainer extends Component {
       this.setState({ isReverseHeader: true });
     } else {
       this._loadProfile(currentAccount.name);
-    }
-
-    if (isWalletTab) {
-      this.setState({ activeTab: 2 });
     }
   };
 
@@ -334,14 +328,12 @@ class ProfileContainer extends Component {
       selectedQuickProfile,
       user,
       username,
-      activeTab,
     } = this.state;
     const { isDarkTheme, isLoggedIn, currency } = this.props;
 
     return (
       <ProfileScreen
         about={user && user.about && user.about.profile}
-        activeTab={activeTab}
         avatar={avatar}
         comments={comments}
         currency={currency}
