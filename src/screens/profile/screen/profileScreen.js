@@ -84,6 +84,7 @@ class ProfileScreen extends PureComponent {
       selectedQuickProfile,
       selectedUser,
       username,
+      activeTab,
     } = this.props;
 
     const {
@@ -119,8 +120,9 @@ class ProfileScreen extends PureComponent {
 
     if (estimatedWalletValue) {
       const { currencyRate, currencySymbol } = currency;
-      _estimatedWalletValue = `${currencySymbol} ${(estimatedWalletValue * currencyRate).toFixed(
-      )}`;
+      _estimatedWalletValue = `${currencySymbol} ${(
+        estimatedWalletValue * currencyRate
+      ).toFixed()}`;
     }
 
     return (
@@ -177,6 +179,7 @@ class ProfileScreen extends PureComponent {
           )}
 
           <ScrollableTabView
+            initialPage={activeTab || 0}
             style={[globalStyles.tabView, styles.tabView]}
             renderTabBar={() => (
               <TabBar style={styles.tabbar} tabUnderlineDefaultWidth={80} tabUnderlineScaleX={2} />

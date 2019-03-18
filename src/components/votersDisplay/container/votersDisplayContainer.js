@@ -1,4 +1,5 @@
 import React, { PureComponent } from 'react';
+import { withNavigation } from 'react-navigation';
 
 // Constants
 import ROUTES from '../../../constants/routeNames';
@@ -18,7 +19,7 @@ class VotersDisplayContainer extends PureComponent {
     this.state = {};
   }
 
-  handleOnUserPress = (username) => {
+  _handleOnUserPress = (username) => {
     const { navigation } = this.props;
 
     navigation.navigate({
@@ -33,8 +34,8 @@ class VotersDisplayContainer extends PureComponent {
   render() {
     const { votes } = this.props;
 
-    return <VotersDisplayView votes={votes} />;
+    return <VotersDisplayView handleOnUserPress={this._handleOnUserPress} votes={votes} />;
   }
 }
 
-export default VotersDisplayContainer;
+export default withNavigation(VotersDisplayContainer);
