@@ -67,7 +67,7 @@ export default EStyleSheet.create({
     borderColor: '$primaryGray',
   },
   searchItemText: {
-    color: '$white',
+    color: '$pureWhite',
     marginLeft: 10,
   },
 });

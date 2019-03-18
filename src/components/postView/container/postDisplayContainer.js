@@ -34,13 +34,15 @@ class PostDisplayContainer extends Component {
 
   // Component Functions
   _handleOnVotersPress = (activeVotes) => {
-    const { navigation } = this.props;
+    const { navigation, post } = this.props;
 
     navigation.navigate({
       routeName: ROUTES.SCREENS.VOTERS,
       params: {
         activeVotes,
       },
+      // TODO: make unic
+      key: post.permlink + Math.random(),
     });
   };
 
