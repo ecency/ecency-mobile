@@ -118,7 +118,7 @@ class SettingsScreen extends PureComponent {
           />
           {!!isLoggedIn && (
             <Fragment>
-              <SettingsItem
+              {/* <SettingsItem
                 title={intl.formatMessage({
                   id: 'settings.default_footer',
                 })}
@@ -126,7 +126,7 @@ class SettingsScreen extends PureComponent {
                 actionType="default_footer"
                 isOn={isDefaultFooter}
                 handleOnChange={handleOnChange}
-              />
+              /> */}
               <SettingsItem
                 title={intl.formatMessage({
                   id: 'settings.pincode',
