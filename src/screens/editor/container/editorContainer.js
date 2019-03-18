@@ -293,7 +293,7 @@ class EditorContainer extends Component {
 
   _submitPost = async (fields) => {
     const {
-      navigation, currentAccount, pinCode, intl,
+      navigation, currentAccount, pinCode, intl, isDefaultFooter,
     } = this.props;
 
     if (currentAccount) {
@@ -533,9 +533,10 @@ class EditorContainer extends Component {
 }
 
 const mapStateToProps = state => ({
+  currentAccount: state.account.currentAccount,
+  isDefaultFooter: state.account.isDefaultFooter,
   isLoggedIn: state.application.isLoggedIn,
   pinCode: state.account.pin,
-  currentAccount: state.account.currentAccount,
 });
 
 export default connect(mapStateToProps)(injectIntl(EditorContainer));

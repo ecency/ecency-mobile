@@ -65,11 +65,12 @@
     "push_notification": "Push-Benachrichtigung",
     "pincode": "Pincode",
     "reset": "Zurücksetzen",
-    "nsfw_content": "NSFW Content",
+    "nsfw_content": "NSFW Inhalt",
+    "default_footer": "Standard Fußzeile",
     "nsfw": {
-      "always_show": "Always show",
-      "always_hide": "Always hide",
-      "always_warn": "Always warn"
+      "always_show": "Immer anzeigen",
+      "always_hide": "Immer verstecken",
+      "always_warn": "Immer warnen"
     }
   },
   "voters": {
@@ -86,7 +87,7 @@
     "cancel": "Abbrechen",
     "login": "LOGIN",
     "steemconnect_description": "Wenn du dein Passwort nicht verschlüsselt auf deinem Gerät gespeichert halten möchtest, kannst du Steemconnect verwenden.",
-    "steemconnect_fee_description": "Steemconnect may charge some fees from your reward transactions"
+    "steemconnect_fee_description": "Steemconnect kann einige Gebühren für Ihre Reward-Transaktionen berechnen"
   },
   "home": {
     "feed": "Feed",
@@ -144,9 +145,9 @@
     "warning": "Warnung",
     "invalid_pincode": "Ungültiger PIN-Code, bitte überprüfen und erneut versuchen.",
     "remove_alert": "Bist du sicher, dass du es entfernen möchtest?",
-    "clear_alert": "Are you sure you want to clear?",
-    "clear_user_alert": "Are you sure you want to clear all user data?",
-    "clear": "Clear",
+    "clear_alert": "Sind sie sicher, das sie alles löschen wollen?",
+    "clear_user_alert": "Wollen sie wirklich alle Benutzerdaten löschen?",
+    "clear": "Löschen",
     "cancel": "Abbrechen",
     "delete": "Entfernen",
     "copied": "Kopiert!",
@@ -174,7 +175,7 @@
     "empty_list": "Keine Einträge vorhanden",
     "deleted": "Lesezeichen entfernt",
     "search": "In Lesezeichen suchen",
-    "added": "Added to bookmarks",
+    "added": "Zu deinen Lesezeichen hinzugefügt",
     "add": "Neues Lesezeichen"
   },
   "favorites": {
@@ -209,13 +210,13 @@
     "no_existing_post": "Kein vorhandener Beitrag"
   },
   "search": {
-    "posts": "Posts",
-    "comments": "Comments"
+    "posts": "Beiträge",
+    "comments": "Kommentare"
   },
   "comment_filter": {
-    "trending": "trending",
-    "reputation": "reputation",
-    "votes": "votes",
-    "age": "age"
+    "trending": "im Trend",
+    "reputation": "ruf",
+    "votes": "stimmen",
+    "age": "alter"
   }
 }

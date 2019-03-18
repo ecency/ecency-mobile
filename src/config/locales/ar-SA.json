@@ -66,6 +66,7 @@
     "pincode": "رمز PIN",
     "reset": "إعادة",
     "nsfw_content": "محتوى NSFW",
+    "default_footer": "تذييل إفتراضي",
     "nsfw": {
       "always_show": "عرض دوماً",
       "always_hide": "إخفاء دوماً",

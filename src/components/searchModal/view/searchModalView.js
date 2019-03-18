@@ -1,6 +1,6 @@
 import React, { PureComponent } from 'react';
 import {
-  View, Text, FlatList, TouchableHighlight, SafeAreaView,
+  View, Text, FlatList, TouchableOpacity, SafeAreaView,
 } from 'react-native';
 
 import FastImage from 'react-native-fast-image';
@@ -58,7 +58,8 @@ class SearchModalView extends PureComponent {
               data={searchResults.data}
               showsVerticalScrollIndicator={false}
               renderItem={({ item }) => (
-                <TouchableHighlight onPress={() => handleOnPressListItem(searchResults.type, item)}>
+                // TODO: Make it quick ui component
+                <TouchableOpacity onPress={() => handleOnPressListItem(searchResults.type, item)}>
                   <View style={styles.searhItems}>
                     <View style={styles.searchItemImageWrapper}>
                       {item.image && (
@@ -74,7 +75,7 @@ class SearchModalView extends PureComponent {
                       {item.text && <Text style={styles.searchItemText}>{item.text}</Text>}
                     </View>
                   </View>
-                </TouchableHighlight>
+                </TouchableOpacity>
               )}
               keyExtractor={(post, index) => index.toString()}
               removeClippedSubviews

@@ -66,6 +66,7 @@
     "pincode": "Pincode",
     "reset": "Resetare",
     "nsfw_content": "Conținut NSFW",
+    "default_footer": "Default Footer",
     "nsfw": {
       "always_show": "Afisează întotdeauna",
       "always_hide": "Ascunde întotdeauna",

@@ -8,23 +8,25 @@ import VersionNumber from 'react-native-version-number';
 
 // Realm
 import {
-  setTheme,
-  setLanguage as setLanguage2DB,
-  setCurrency as setCurrency2DB,
-  setServer,
-  setNotificationIsOpen,
   getExistUser,
+  setCurrency as setCurrency2DB,
+  setDefaultFooter,
+  setLanguage as setLanguage2DB,
+  setNotificationIsOpen,
   setNsfw as setNsfw2DB,
+  setServer,
+  setTheme,
 } from '../../../realm/realm';
 
 // Services and Actions
 import {
-  setLanguage,
-  isNotificationOpen,
-  setCurrency,
-  setApi,
   isDarkTheme,
+  isDefaultFooter,
+  isNotificationOpen,
   openPinCodeModal,
+  setApi,
+  setCurrency,
+  setLanguage,
   setNsfw,
 } from '../../../redux/actions/applicationActions';
 import { toastNotification } from '../../../redux/actions/uiAction';
@@ -156,6 +158,11 @@ class SettingsContainer extends Component {
         dispatch(isDarkTheme(action));
         setTheme(action);
         break;
+
+      case 'default_footer':
+        dispatch(isDefaultFooter(action));
+        // setDefaultFooter(action);
+        break;
       default:
         break;
     }
@@ -267,14 +274,15 @@ class SettingsContainer extends Component {
 }
 
 const mapStateToProps = state => ({
-  selectedLanguage: state.application.language,
+  isDarkTheme: state.application.isDarkTheme,
+  isDefaultFooter: state.application.isDefaultFooter,
+  isLoggedIn: state.application.isLoggedIn,
+  isNotificationSettingsOpen: state.application.isNotificationOpen,
+  nsfw: state.application.nsfw,
   selectedApi: state.application.api,
   selectedCurrency: state.application.currency,
-  isDarkTheme: state.application.isDarkTheme,
-  isNotificationSettingsOpen: state.application.isNotificationOpen,
-  isLoggedIn: state.application.isLoggedIn,
+  selectedLanguage: state.application.language,
   username: state.account.currentAccount && state.account.currentAccount.name,
-  nsfw: state.application.nsfw,
 });
 
 export default connect(mapStateToProps)(SettingsContainer);
