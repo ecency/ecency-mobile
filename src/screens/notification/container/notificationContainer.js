@@ -31,10 +31,8 @@ class NotificationContainer extends Component {
   }
 
   componentWillReceiveProps(nextProps) {
-    if (nextProps.activeBottomTab === ROUTES.TABBAR.NOTIFICATION) {
-      if (nextProps.username) {
-        this._getAvtivities();
-      }
+    if (nextProps.activeBottomTab === ROUTES.TABBAR.NOTIFICATION && nextProps.username) {
+      this._getAvtivities();
     }
   }
 
@@ -60,30 +58,36 @@ class NotificationContainer extends Component {
 
   _navigateToNotificationRoute = (data) => {
     const { navigation, username, dispatch } = this.props;
-
+    let routeName;
+    let params;
+    let key;
     markActivityAsRead(username, data.id).then((result) => {
       dispatch(updateUnreadActivityCount(result.unread));
     });
 
     if (data.permlink) {
-      navigation.navigate({
-        routeName: ROUTES.SCREENS.POST,
-        params: {
-          author: data.author,
-          permlink: data.permlink,
-          isHasParentPost: data.parent_author && data.parent_permlink,
-        },
-        key: data.permlink,
-      });
-    } else {
-      navigation.navigate({
-        routeName: ROUTES.SCREENS.PROFILE,
-        params: {
-          username: data.follower,
-        },
-        key: data.follower,
-      });
+      routeName = ROUTES.SCREENS.POST;
+      key = data.permlink;
+      params = {
+        author: data.author,
+        permlink: data.permlink,
+        isHasParentPost: data.parent_author && data.parent_permlink,
+      };
+    } else if (data.type === 'follow') {
+      routeName = ROUTES.SCREENS.PROFILE;
+      key = data.follower;
+      params = {
+        username: data.follower,
+      };
+    } else if (data.type === 'transfer') {
+      routeName = ROUTES.TABBAR.PROFILE;
     }
+
+    navigation.navigate({
+      routeName,
+      params,
+      key,
+    });
   };
 
   _readAllNotification = () => {
