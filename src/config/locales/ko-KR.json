@@ -66,12 +66,16 @@
     "pincode": "PIN 코드",
     "reset": "초기화",
     "nsfw_content": "NSFW 콘텐츠",
+    "send_feedback": "Send Feedback",
+    "send": "Send",
     "default_footer": "Default Footer",
     "nsfw": {
       "always_show": "항상 보여주기",
       "always_hide": "항상 숨기기",
       "always_warn": "항상 경고 표시하기"
-    }
+    },
+    "feedback_success": "Email successfully open",
+    "feedback_fail": "Email client could not open"
   },
   "voters": {
     "voters_info": "투표자 정보",
