@@ -219,7 +219,6 @@ export default class MarkdownEditorView extends Component {
             style={styles.textWrapper}
             underlineColorAndroid="transparent"
             value={text}
-            {...this.props}
           />
         ) : (
           this._renderPreview()

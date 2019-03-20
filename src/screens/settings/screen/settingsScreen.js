@@ -37,13 +37,14 @@ class SettingsScreen extends PureComponent {
       handleOnChange,
       intl,
       isDarkTheme,
+      isDefaultFooter,
       isLoggedIn,
       isNotificationSettingsOpen,
+      nsfw,
       selectedApi,
       selectedCurrency,
       selectedLanguage,
       serverList,
-      nsfw,
       isNotificationMenuOpen,
       commentNotification,
       followNotification,
@@ -133,6 +134,15 @@ class SettingsScreen extends PureComponent {
                 actionType="pincode"
                 handleOnChange={handleOnChange}
               />
+              //  <SettingsItem
+              //   title={intl.formatMessage({
+              //     id: 'settings.default_footer',
+              //   })}
+              //   type="toggle"
+              //   actionType="default_footer"
+              //   isOn={isDefaultFooter}
+              //   handleOnChange={handleOnChange}
+              // /> 
             )}
           </View>
           {!!isLoggedIn && (

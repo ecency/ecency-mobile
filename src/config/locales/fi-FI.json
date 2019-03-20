@@ -19,6 +19,7 @@
     "unfollow": "lopetti seuraamisesi",
     "ignore": "ignored you",
     "reblog": "reblogged your post",
+    "transfer": "transfered steem",
     "comingsoon": "Leaderboard feature is coming soon!",
     "notification": "Notifications",
     "leaderboard": "Leaderboard",
@@ -65,6 +66,7 @@
     "pincode": "PIN-koodi",
     "reset": "Nollaa",
     "nsfw_content": "NSFW Content",
+    "default_footer": "Default Footer",
     "nsfw": {
       "always_show": "Always show",
       "always_hide": "Always hide",
@@ -144,6 +146,7 @@
     "invalid_pincode": "Virheellinen PIN-koodi, tarkista koodi ja yritä uudelleen.",
     "remove_alert": "Haluatko varmasti poistaa?",
     "clear_alert": "Are you sure you want to clear?",
+    "clear_user_alert": "Are you sure you want to clear all user data?",
     "clear": "Clear",
     "cancel": "Peruuta",
     "delete": "Poista",

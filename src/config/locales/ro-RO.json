@@ -19,6 +19,7 @@
     "unfollow": "a anulat urmărirea",
     "ignore": "te-a ignorat",
     "reblog": "a redistribuit postarea ta",
+    "transfer": "transfered steem",
     "comingsoon": "Clasamentul va fi disponibil în curând!",
     "notification": "Notificări",
     "leaderboard": "Clasament",
@@ -64,11 +65,12 @@
     "push_notification": "Notificări",
     "pincode": "Pincode",
     "reset": "Resetare",
-    "nsfw_content": "NSFW Content",
+    "nsfw_content": "Conținut NSFW",
+    "default_footer": "Default Footer",
     "nsfw": {
-      "always_show": "Always show",
-      "always_hide": "Always hide",
-      "always_warn": "Always warn"
+      "always_show": "Afisează întotdeauna",
+      "always_hide": "Ascunde întotdeauna",
+      "always_warn": "Avertizează întotdeauna"
     }
   },
   "voters": {
@@ -144,6 +146,7 @@
     "invalid_pincode": "Invalid pin code, please check and try again.",
     "remove_alert": "Are you sure want to remove?",
     "clear_alert": "Ești sigur că vrei să ștergi?",
+    "clear_user_alert": "Esti sigur că vrei să ștergi toate datele?",
     "clear": "Șterge",
     "cancel": "Anulează",
     "delete": "Șterge",
@@ -211,9 +214,9 @@
     "comments": "Comentarii"
   },
   "comment_filter": {
-    "trending": "trending",
-    "reputation": "reputation",
-    "votes": "votes",
-    "age": "age"
+    "trending": "trenduri",
+    "reputation": "reputație",
+    "votes": "voturi",
+    "age": "vechime"
   }
 }

@@ -19,6 +19,7 @@
     "unfollow": "már nem követ téged",
     "ignore": "mellőzött téged",
     "reblog": "megosztotta a bejegyzésed",
+    "transfer": "átutalt steem",
     "comingsoon": "Ranglista funkció hamarosan érkezik!",
     "notification": "Értesítések",
     "leaderboard": "Ranglista",
@@ -64,11 +65,12 @@
     "push_notification": "Értesítések Bekapcsolása",
     "pincode": "PIN kód",
     "reset": "Visszaállítás",
-    "nsfw_content": "NSFW Content",
+    "nsfw_content": "NSFW tartalom",
+    "default_footer": "Alapértelmezett lábléc",
     "nsfw": {
-      "always_show": "Always show",
-      "always_hide": "Always hide",
-      "always_warn": "Always warn"
+      "always_show": "Mindig látszik",
+      "always_hide": "Mindig rejtve",
+      "always_warn": "Mindig figyelmeztess"
     }
   },
   "voters": {
@@ -144,6 +146,7 @@
     "invalid_pincode": "Érvénytelen PIN kód, kérjük ellenőrizd és próbáld újra.",
     "remove_alert": "Biztos, hogy törölni akarod?",
     "clear_alert": "Biztos törölni akarod?",
+    "clear_user_alert": "Biztos, hogy törölsz minden adatot?",
     "clear": "Törlés",
     "cancel": "Elvet",
     "delete": "Törlés",
@@ -207,13 +210,13 @@
     "no_existing_post": "Nem létező bejegyzés"
   },
   "search": {
-    "posts": "Posts",
-    "comments": "Comments"
+    "posts": "Bejegyzések",
+    "comments": "Hozzászólások"
   },
   "comment_filter": {
-    "trending": "trending",
-    "reputation": "reputation",
-    "votes": "votes",
+    "trending": "népszerű",
+    "reputation": "reputáció",
+    "votes": "szavazatok",
     "age": "age"
   }
 }

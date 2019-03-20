@@ -75,6 +75,7 @@
     "pincode": "PIN code",
     "reset": "Reset",
     "nsfw_content": "NSFW Content",
+    "default_footer": "Default Footer",
     "nsfw": {
       "always_show": "Always show",
       "always_hide": "Always hide",

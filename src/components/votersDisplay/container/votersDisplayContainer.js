@@ -1,4 +1,8 @@
 import React, { PureComponent } from 'react';
+import { withNavigation } from 'react-navigation';
+
+// Constants
+import ROUTES from '../../../constants/routeNames';
 
 // Component
 import VotersDisplayView from '../view/votersDisplayView';
@@ -15,11 +19,23 @@ class VotersDisplayContainer extends PureComponent {
     this.state = {};
   }
 
+  _handleOnUserPress = (username) => {
+    const { navigation } = this.props;
+
+    navigation.navigate({
+      routeName: ROUTES.SCREENS.PROFILE,
+      params: {
+        username,
+      },
+      key: username,
+    });
+  };
+
   render() {
     const { votes } = this.props;
 
-    return <VotersDisplayView votes={votes} />;
+    return <VotersDisplayView handleOnUserPress={this._handleOnUserPress} votes={votes} />;
   }
 }
 
-export default VotersDisplayContainer;
+export default withNavigation(VotersDisplayContainer);
