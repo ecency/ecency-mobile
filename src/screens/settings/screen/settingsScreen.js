@@ -118,6 +118,26 @@ class SettingsScreen extends PureComponent {
           />
           {!!isLoggedIn && (
             <Fragment>
+              <SettingsItem
+                title={intl.formatMessage({
+                  id: 'settings.pincode',
+                })}
+                text={intl.formatMessage({
+                  id: 'settings.reset',
+                })}
+                type="button"
+                actionType="pincode"
+                handleOnChange={handleOnChange}
+              />
+              <SettingsItem
+                title={intl.formatMessage({
+                  id: 'settings.send_feedback',
+                })}
+                text={intl.formatMessage({
+                  id: 'settings.send',
+                })}
+                type="button"
+                actionType="feedback"
               {/* <SettingsItem
                 title={intl.formatMessage({
                   id: 'settings.default_footer',
