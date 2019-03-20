@@ -8,7 +8,7 @@
     "transfer_to_vesting": "העבר לVesting",
     "transfer_from_savings": "העבר מחסכונות",
     "withdraw_vesting": "המרת כוח הסטים ליתרה נזילה",
-    "fill_order": "מלא בקשה"
+    "fill_order": "מלא הזמנה"
   },
   "notification": {
     "vote": "אוהב\\ת את הפוסט שלך",
@@ -18,7 +18,8 @@
     "follow": "עקב\\ה אחרייך",
     "unfollow": "הפסיק\\ה לעקוב אחרייך",
     "ignore": "התעלם\\ה ממך",
-    "reblog": "העלה\\תה את הפוסט שלך לבלוג שלו\\ה",
+    "reblog": "שיתף\/ה את הפוסט שלך",
+    "transfer": "סטים מועבר",
     "comingsoon": "מאפיין לוח התוצאות יוצא להשקה בקרוב!",
     "notification": "התראות",
     "leaderboard": "לוח תוצאות",
@@ -57,14 +58,15 @@
   },
   "settings": {
     "settings": "הגדרות",
-    "currency": "יתרה",
+    "currency": "יתרת מטבע",
     "language": "שפה",
     "server": "שרת",
     "dark_theme": "ערכת נושא כהה",
-    "push_notification": "הודעות דחיפה",
+    "push_notification": "התראות דחיפה",
     "pincode": "קוד PIN",
     "reset": "אתחל",
     "nsfw_content": "תוכן NSFW",
+    "default_footer": "ברירת מחדל תחתונה",
     "nsfw": {
       "always_show": "הצג תמיד",
       "always_hide": "הסתר תמיד",
@@ -73,7 +75,7 @@
   },
   "voters": {
     "voters_info": "פרטי המצביעים",
-    "no_user": "לא נמצא שום משתמש\\ת."
+    "no_user": "לא נמצא משתמש\\ת."
   },
   "login": {
     "signin": "התחבר\\י",
@@ -95,7 +97,7 @@
     "profile": "פרופיל",
     "bookmarks": "סימניות",
     "favorites": "מועדפים",
-    "drafts": "טיוטה",
+    "drafts": "טיוטות",
     "schedules": "לוחות זמנים",
     "gallery": "גלריה",
     "settings": "הגדרות",
@@ -136,14 +138,15 @@
     "claim_reward_balance_ok": "תגמול יתרה נתקבלה",
     "fail": "נכשל!",
     "success_shared": "הפוסט שלך שותף בהצלחה",
-    "permission_denied": "בקשה נדחתה",
-    "permission_text": "אנא, שנה את ההרשאות באפליקציית הeSteem, דרך ההגדרות בטלפון.",
+    "permission_denied": "הרשאה נדחתה",
+    "permission_text": "אנא, שנה את ההרשאות לאפליקציית ה eSteem, דרך ההגדרות בטלפון.",
     "success_rebloged": "שותף!",
-    "already_rebloged": "כבר פרסמת מחדש!",
+    "already_rebloged": "כבר שיתפת!",
     "warning": "אזהרה",
     "invalid_pincode": "קוד PIN לא תקין, אנא בדוק ונסה שנית.",
     "remove_alert": "האם בוודאות ברצונך להסיר?",
-    "clear_alert": "האם את\\ה בטוח שברצונך למחוק הכל?",
+    "clear_alert": "האם את\\ה בטוח\\ה שברצונך למחוק?",
+    "clear_user_alert": "האם את\/ה בטוח\/ה שברצונך למחוק את כל נתוני המשתמש?",
     "clear": "ריק",
     "cancel": "בטל\\י",
     "delete": "מחק\\י",
@@ -151,17 +154,17 @@
     "no_internet": "אין חיבור!"
   },
   "post": {
-    "reblog_alert": "האם ברצונך לעלות מחדש פוסט זה לבלוגך?"
+    "reblog_alert": "האם את\\ה בטוח\/ה רוצה לשתף ?"
   },
   "drafts": {
-    "title": "טיוטה",
+    "title": "טיוטות",
     "load_error": "לא ניתן לעלות טיוטה",
-    "empty_list": "ריק כאן",
+    "empty_list": "אין כאן מידע",
     "deleted": "טיוטה נמחקה"
   },
   "schedules": {
     "title": "פוסטים מתוכננים",
-    "empty_list": "ריק כאן",
+    "empty_list": "אין כאן מידע",
     "deleted": "פוסטים מתוכננים נמחקו",
     "move": "העבר\\י לטיוטה",
     "moved": "הועבר לטיוטה"
@@ -169,7 +172,7 @@
   "bookmarks": {
     "title": "סימניות",
     "load_error": "לא ניתן לעלות סימניות",
-    "empty_list": "ריק כאן",
+    "empty_list": "אין כאן מידע",
     "deleted": "הסימנייה הוסרה",
     "search": "חפש בסימניות",
     "added": "הוסף לסימניות",
@@ -178,7 +181,7 @@
   "favorites": {
     "title": "מועדפים",
     "load_error": "לא ניתן לעלות מועדפים",
-    "empty_list": "ריק כאן",
+    "empty_list": "אין כאן מידע",
     "search": "חפש\\י במועדפים"
   },
   "auth": {
@@ -189,7 +192,7 @@
     "unknow_error": "תקלה לא מזוהה, אנא איתנו צור קשר בsupport@esteem.app"
   },
   "payout": {
-    "potential_payout": "תשלום אפשרי",
+    "potential_payout": "תשלום ( מוערך)",
     "promoted": "מקודמים",
     "author_payout": "תשלום הסופר",
     "curation_payout": "תשלום אוצרות התוכן",

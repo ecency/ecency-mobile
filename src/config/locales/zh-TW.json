@@ -19,6 +19,7 @@
     "unfollow": "取消關注了您",
     "ignore": "忽略了您",
     "reblog": "轉發了您的帖子",
+    "transfer": "transfered steem",
     "comingsoon": "即將推出排行榜功能！",
     "notification": "通知",
     "leaderboard": "排行榜",
@@ -65,6 +66,7 @@
     "pincode": "PIN 碼",
     "reset": "重置",
     "nsfw_content": "NSFW Content",
+    "default_footer": "Default Footer",
     "nsfw": {
       "always_show": "Always show",
       "always_hide": "Always hide",
@@ -144,6 +146,7 @@
     "invalid_pincode": "無效的PIN碼，請核對後再試一次。",
     "remove_alert": "確定要刪除嗎？",
     "clear_alert": "Are you sure you want to clear?",
+    "clear_user_alert": "Are you sure you want to clear all user data?",
     "clear": "Clear",
     "cancel": "取消",
     "delete": "刪除",

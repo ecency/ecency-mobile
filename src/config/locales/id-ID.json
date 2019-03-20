@@ -19,6 +19,7 @@
     "unfollow": "berhenti mengikuti anda",
     "ignore": "mengabaikan anda",
     "reblog": "menampilkan kembali post anda",
+    "transfer": "steem ditransfer",
     "comingsoon": "Fungsi papan peringkat akan segera hadir!",
     "notification": "Pemberitahuan",
     "leaderboard": "Papan Peringkat",
@@ -65,6 +66,7 @@
     "pincode": "Kode PIN",
     "reset": "Setel Ulang",
     "nsfw_content": "Konten NSFW",
+    "default_footer": "Default Footer",
     "nsfw": {
       "always_show": "Selalu Tampilkan",
       "always_hide": "Selalu menyembunyikan",
@@ -144,6 +146,7 @@
     "invalid_pincode": "Invalid pin code, please check and try again.",
     "remove_alert": "Yakin ingin menghapus?",
     "clear_alert": "Anda yakin ingin menghapus?",
+    "clear_user_alert": "Anda yakin anda ingin menghapus semua data pengguna?",
     "clear": "Bersihkan",
     "cancel": "Batal",
     "delete": "Hapus",

@@ -19,6 +19,7 @@
     "unfollow": "شما را دنبال نمیکند",
     "ignore": "شما را نادیده گرفته",
     "reblog": "مطلب شما را به اشتراک گذاشت",
+    "transfer": "steem منتقل شده",
     "comingsoon": "جدول رده بندی به زودی ارائه خواهد شد!",
     "notification": "اطلاعیه ها",
     "leaderboard": "جدول رده بندی",
@@ -65,6 +66,7 @@
     "pincode": "Pincode",
     "reset": "راه اندازی مجدد",
     "nsfw_content": "محتوای نامناسب برای کودکان",
+    "default_footer": "پانویس پیش فرض",
     "nsfw": {
       "always_show": "همیشه نمایش بده",
       "always_hide": "همیشه پنهان باشد",
@@ -144,6 +146,7 @@
     "invalid_pincode": "Invalid pin code, please check and try again.",
     "remove_alert": "Are you sure want to remove?",
     "clear_alert": "آیا مطمئن هستید که می‌خواهید پاک کنید؟",
+    "clear_user_alert": "آیا مطمئن هستید که میخواهید تمام اطلاعات را پاک کنید؟",
     "clear": "حذف کردن",
     "cancel": "لغو",
     "delete": "پاک کردن",

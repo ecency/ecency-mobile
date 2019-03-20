@@ -19,6 +19,7 @@
     "unfollow": "ko ba o lo mo",
     "ignore": "ti ko eti ikun",
     "reblog": "ti se eda oro re",
+    "transfer": "transfered steem",
     "comingsoon": "Eto ifihan awon asiwaju n bo lona!",
     "notification": "Awon Akiyesi",
     "leaderboard": "Ate asiwaju",
@@ -65,6 +66,7 @@
     "pincode": "Pincode",
     "reset": "Tun bere",
     "nsfw_content": "NSFW Content",
+    "default_footer": "Default Footer",
     "nsfw": {
       "always_show": "Always show",
       "always_hide": "Always hide",
@@ -144,6 +146,7 @@
     "invalid_pincode": "PIN yi o se tewogba, jowo sematuyewo, ki o tun te.",
     "remove_alert": "Se o da o loju pe ofe yo kuro?",
     "clear_alert": "Are you sure you want to clear?",
+    "clear_user_alert": "Are you sure you want to clear all user data?",
     "clear": "Clear",
     "cancel": "Fa igi le",
     "delete": "Pa re",

@@ -19,6 +19,7 @@
     "unfollow": "non ti segue più",
     "ignore": "ti ha ignorato",
     "reblog": "ha ripostato il tuo post",
+    "transfer": "transfered steem",
     "comingsoon": "La feature classifica arriverà presto!",
     "notification": "Notifiche",
     "leaderboard": "Classifica",
@@ -65,6 +66,7 @@
     "pincode": "Pincode",
     "reset": "Resetta",
     "nsfw_content": "NSFW Content",
+    "default_footer": "Default Footer",
     "nsfw": {
       "always_show": "Always show",
       "always_hide": "Always hide",
@@ -144,6 +146,7 @@
     "invalid_pincode": "Invalid pin code, please check and try again.",
     "remove_alert": "Are you sure want to remove?",
     "clear_alert": "Are you sure you want to clear?",
+    "clear_user_alert": "Are you sure you want to clear all user data?",
     "clear": "Clear",
     "cancel": "Cancella",
     "delete": "Elimina",

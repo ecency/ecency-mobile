@@ -19,6 +19,7 @@
     "unfollow": "berhenti mengikuti anda",
     "ignore": "abaikan anda",
     "reblog": "ulang siar pos anda",
+    "transfer": "Pindahkan Steem",
     "comingsoon": "Papan Pendahulu akan datang tidak lama lagi!",
     "notification": "Pemberitahuan",
     "leaderboard": "Papan Pendahulu",
@@ -65,6 +66,7 @@
     "pincode": "Pincode",
     "reset": "Tetapkan semula",
     "nsfw_content": "Kandungan NSFW",
+    "default_footer": "Ranka Pendirian",
     "nsfw": {
       "always_show": "Benarkan",
       "always_hide": "Tutup",
@@ -144,6 +146,7 @@
     "invalid_pincode": "Invalid pin code, please check and try again.",
     "remove_alert": "Adakah anda pasti ingin memadam?",
     "clear_alert": "Pasti kamu ingin padamkan semua?",
+    "clear_user_alert": "Adakah anda pasti memadamkan semua data pengguna?",
     "clear": "Padamkan",
     "cancel": "Batal",
     "delete": "Padam",
@@ -211,9 +214,9 @@
     "comments": "Komen"
   },
   "comment_filter": {
-    "trending": "trending",
-    "reputation": "reputation",
-    "votes": "votes",
-    "age": "age"
+    "trending": "tending",
+    "reputation": "reputasi",
+    "votes": "vote",
+    "age": "usia"
   }
 }

@@ -36,6 +36,7 @@ import {
   setAuthStatus,
   removeSCAccount,
   setExistUser,
+  setDefaultFooter,
 } from '../../../realm/realm';
 import { getUser } from '../../../providers/steem/dsteem';
 import { switchAccount } from '../../../providers/steem/auth';
@@ -62,6 +63,7 @@ import {
   setLanguage,
   setUpvotePercent,
   setNsfw,
+  isDefaultFooter,
 } from '../../../redux/actions/applicationActions';
 
 // Container
@@ -242,7 +244,7 @@ class ApplicationContainer extends Component {
         if (response.language !== '') dispatch(setLanguage(response.language));
         if (response.server !== '') dispatch(setApi(response.server));
         if (response.upvotePercent !== '') dispatch(setUpvotePercent(Number(response.upvotePercent)));
-
+        if (response.isDefaultFooter !== '') dispatch(isDefaultFooter(response.isDefaultFooter));
         if (response.notification !== '') {
           dispatch(changeNotificationSettings({ type: 'notification', action: response.notification }));
           dispatch(changeNotificationSettings({ type: 'notification.follow', action: response.followNotification }));

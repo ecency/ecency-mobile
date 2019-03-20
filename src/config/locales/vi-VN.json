@@ -19,6 +19,7 @@
     "unfollow": "đã bỏ theo dõi bạn",
     "ignore": "đã bỏ qua bạn",
     "reblog": "đã đăng lại bài viết của bạn",
+    "transfer": "transfered steem",
     "comingsoon": "Sắp có tính năng bảng xếp hạng!",
     "notification": "Thông báo",
     "leaderboard": "Bảng xếp hạng",
@@ -65,6 +66,7 @@
     "pincode": "Mã PIN",
     "reset": "Thiết lập lại",
     "nsfw_content": "NSFW Content",
+    "default_footer": "Default Footer",
     "nsfw": {
       "always_show": "Always show",
       "always_hide": "Always hide",
@@ -144,6 +146,7 @@
     "invalid_pincode": "Mã PIN không hợp lệ, vui lòng kiểm tra và thử lại.",
     "remove_alert": "Are you sure want to remove?",
     "clear_alert": "Are you sure you want to clear?",
+    "clear_user_alert": "Are you sure you want to clear all user data?",
     "clear": "Clear",
     "cancel": "Huỷ",
     "delete": "Xóa",

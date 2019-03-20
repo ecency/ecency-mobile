@@ -45,13 +45,14 @@ const draftSchema = {
 const settingsSchema = {
   name: SETTINGS_SCHEMA,
   properties: {
-    language: { type: 'string', default: null },
-    isDarkTheme: { type: 'bool', default: false },
     currency: { type: 'string', default: null },
+    isDarkTheme: { type: 'bool', default: false },
+    isDefaultFooter: { type: 'bool', default: true },
+    language: { type: 'string', default: null },
     notification: { type: 'bool', default: true },
+    nsfw: { type: 'string', default: null },
     server: { type: 'string', default: null },
     upvotePercent: { type: 'string', default: null },
-    nsfw: { type: 'string', default: null },
     followNotification: { type: 'bool', default: true },
     voteNotification: { type: 'bool', default: true },
     commentNotification: { type: 'bool', default: true },
@@ -363,6 +364,17 @@ export const setTheme = isDarkTheme => new Promise((resolve, reject) => {
   try {
     realm.write(() => {
       settings[0].isDarkTheme = isDarkTheme;
+      resolve(true);
+    });
+  } catch (error) {
+    reject(error);
+  }
+});
+
+export const setDefaultFooter = isDefaultFooter => new Promise((resolve, reject) => {
+  try {
+    realm.write(() => {
+      settings[0].isDefaultFooter = isDefaultFooter;
       resolve(true);
     });
   } catch (error) {

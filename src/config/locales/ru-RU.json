@@ -19,6 +19,7 @@
     "unfollow": "отписан",
     "ignore": "игнорирует",
     "reblog": "сделал репост",
+    "transfer": "transfered steem",
     "comingsoon": "Доска Лидерства будет здесь!",
     "notification": "Уведомления",
     "leaderboard": "Лидеры",
@@ -65,6 +66,7 @@
     "pincode": "Пинкод",
     "reset": "Сбросить",
     "nsfw_content": "NSFW Content",
+    "default_footer": "Default Footer",
     "nsfw": {
       "always_show": "Always show",
       "always_hide": "Always hide",
@@ -144,6 +146,7 @@
     "invalid_pincode": "Неверный пин, попробуйте снова.",
     "remove_alert": "Вы уверены, что хотите удалить?",
     "clear_alert": "Вы уверены, что хотите очистить?",
+    "clear_user_alert": "Are you sure you want to clear all user data?",
     "clear": "Очистить",
     "cancel": "Отмена",
     "delete": "Удалить",

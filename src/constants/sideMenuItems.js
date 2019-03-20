@@ -3,7 +3,7 @@ import { default as ROUTES } from './routeNames';
 const authMenuItems = [
   {
     name: 'Profile',
-    route: 'ProfileTabbar',
+    route: ROUTES.TABBAR.PROFILE,
     icon: 'perm-identity',
     id: 'profile',
   },

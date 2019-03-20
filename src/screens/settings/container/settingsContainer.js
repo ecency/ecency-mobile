@@ -7,13 +7,17 @@ import { Client } from 'dsteem';
 
 // Realm
 import {
-  setTheme,
-  setLanguage as setLanguage2DB,
+  getExistUser,
   setCurrency as setCurrency2DB,
   setServer,
   setNotificationSettings,
   getExistUser,
+  setDefaultFooter,
+  setLanguage as setLanguage2DB,
+  setNotificationIsOpen,
   setNsfw as setNsfw2DB,
+  setServer,
+  setTheme,
 } from '../../../realm/realm';
 
 // Services and Actions
@@ -23,7 +27,12 @@ import {
   setCurrency,
   setApi,
   isDarkTheme,
+  isDefaultFooter,
+  isNotificationOpen,
   openPinCodeModal,
+  setApi,
+  setCurrency,
+  setLanguage,
   setNsfw,
 } from '../../../redux/actions/applicationActions';
 import { toastNotification } from '../../../redux/actions/uiAction';
@@ -157,6 +166,11 @@ class SettingsContainer extends Component {
         dispatch(isDarkTheme(action));
         setTheme(action);
         break;
+
+      case 'default_footer':
+        dispatch(isDefaultFooter(action));
+        // setDefaultFooter(action);
+        break;
       default:
         break;
     }
@@ -263,13 +277,10 @@ class SettingsContainer extends Component {
 }
 
 const mapStateToProps = state => ({
-  selectedLanguage: state.application.language,
-  selectedApi: state.application.api,
-  selectedCurrency: state.application.currency,
   isDarkTheme: state.application.isDarkTheme,
-  isNotificationSettingsOpen: state.application.isNotificationOpen,
+  isDefaultFooter: state.application.isDefaultFooter,
   isLoggedIn: state.application.isLoggedIn,
-  username: state.account.currentAccount && state.account.currentAccount.name,
+  isNotificationSettingsOpen: state.application.isNotificationOpen,
   nsfw: state.application.nsfw,
   notificationDetails: state.application.notificationDetails,
   commentNotification: state.application.notificationDetails.commentNotification,
@@ -278,6 +289,10 @@ const mapStateToProps = state => ({
   reblogNotification: state.application.notificationDetails.reblogNotification,
   transfersNotification: state.application.notificationDetails.transfersNotification,
   voteNotification: state.application.notificationDetails.voteNotification,
+  selectedApi: state.application.api,
+  selectedCurrency: state.application.currency,
+  selectedLanguage: state.application.language,
+  username: state.account.currentAccount && state.account.currentAccount.name,
 });
 
 export default connect(mapStateToProps)(SettingsContainer);
