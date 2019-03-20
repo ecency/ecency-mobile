@@ -11,12 +11,10 @@ import {
   setCurrency as setCurrency2DB,
   setServer,
   setNotificationSettings,
-  getExistUser,
   setDefaultFooter,
   setLanguage as setLanguage2DB,
   setNotificationIsOpen,
   setNsfw as setNsfw2DB,
-  setServer,
   setTheme,
 } from '../../../realm/realm';
 
@@ -30,9 +28,6 @@ import {
   isDefaultFooter,
   isNotificationOpen,
   openPinCodeModal,
-  setApi,
-  setCurrency,
-  setLanguage,
   setNsfw,
 } from '../../../redux/actions/applicationActions';
 import { toastNotification } from '../../../redux/actions/uiAction';
