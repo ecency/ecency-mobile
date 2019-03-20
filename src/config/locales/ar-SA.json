@@ -66,12 +66,16 @@
     "pincode": "رمز PIN",
     "reset": "إعادة",
     "nsfw_content": "محتوى NSFW",
+    "send_feedback": "Send Feedback",
+    "send": "Send",
     "default_footer": "تذييل إفتراضي",
     "nsfw": {
       "always_show": "عرض دوماً",
       "always_hide": "إخفاء دوماً",
       "always_warn": "التحذير دوماً"
-    }
+    },
+    "feedback_success": "Email successfully open",
+    "feedback_fail": "Email client could not open"
   },
   "voters": {
     "voters_info": "معلومات عن المصوتين",
