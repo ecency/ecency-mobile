@@ -66,7 +66,7 @@
     "pincode": "Código PIN",
     "reset": "Reiniciar",
     "nsfw_content": "Conteúdo NSFW",
-    "default_footer": "Default Footer",
+    "default_footer": "Rodapé Padrão",
     "nsfw": {
       "always_show": "Mostrar sempre",
       "always_hide": "Ocultar sempre",
