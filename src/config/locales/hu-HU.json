@@ -66,12 +66,16 @@
     "pincode": "PIN kód",
     "reset": "Visszaállítás",
     "nsfw_content": "NSFW tartalom",
+    "send_feedback": "Send Feedback",
+    "send": "Send",
     "default_footer": "Alapértelmezett lábléc",
     "nsfw": {
       "always_show": "Mindig látszik",
       "always_hide": "Mindig rejtve",
       "always_warn": "Mindig figyelmeztess"
-    }
+    },
+    "feedback_success": "Email successfully open",
+    "feedback_fail": "Email client could not open"
   },
   "voters": {
     "voters_info": "Infó a szavazókról",
