@@ -66,16 +66,16 @@
     "pincode": "קוד PIN",
     "reset": "אתחל",
     "nsfw_content": "תוכן NSFW",
-    "send_feedback": "Send Feedback",
-    "send": "Send",
+    "send_feedback": "שלח\/י משוב",
+    "send": "שלח\/י",
     "default_footer": "ברירת מחדל תחתונה",
     "nsfw": {
       "always_show": "הצג תמיד",
       "always_hide": "הסתר תמיד",
       "always_warn": "הזהר תמיד"
     },
-    "feedback_success": "Email successfully open",
-    "feedback_fail": "Email client could not open"
+    "feedback_success": "האימייל נפתח בהצלחה",
+    "feedback_fail": "דואר הלקוח אינו יכול להיפתח"
   },
   "voters": {
     "voters_info": "פרטי המצביעים",
