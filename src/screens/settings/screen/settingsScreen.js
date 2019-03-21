@@ -44,6 +44,7 @@ class SettingsScreen extends PureComponent {
       selectedCurrency,
       selectedLanguage,
       serverList,
+      handleOnButtonPress,
     } = this.props;
 
     return (
@@ -92,9 +93,11 @@ class SettingsScreen extends PureComponent {
             })}
             type="dropdown"
             actionType="nsfw"
-            options={NSFW.map(item => intl.formatMessage({
-              id: item,
-            }))}
+            options={NSFW.map(item =>
+              intl.formatMessage({
+                id: item,
+              }),
+            )}
             selectedOptionIndex={parseInt(nsfw, 10)}
             handleOnChange={handleOnChange}
           />
@@ -118,26 +121,6 @@ class SettingsScreen extends PureComponent {
           />
           {!!isLoggedIn && (
             <Fragment>
-              <SettingsItem
-                title={intl.formatMessage({
-                  id: 'settings.pincode',
-                })}
-                text={intl.formatMessage({
-                  id: 'settings.reset',
-                })}
-                type="button"
-                actionType="pincode"
-                handleOnChange={handleOnChange}
-              />
-              <SettingsItem
-                title={intl.formatMessage({
-                  id: 'settings.send_feedback',
-                })}
-                text={intl.formatMessage({
-                  id: 'settings.send',
-                })}
-                type="button"
-                actionType="feedback"
               {/* <SettingsItem
                 title={intl.formatMessage({
                   id: 'settings.default_footer',
@@ -156,10 +139,21 @@ class SettingsScreen extends PureComponent {
                 })}
                 type="button"
                 actionType="pincode"
-                handleOnChange={handleOnChange}
+                handleOnButtonPress={handleOnButtonPress}
               />
             </Fragment>
           )}
+          <SettingsItem
+            title={intl.formatMessage({
+              id: 'settings.send_feedback',
+            })}
+            text={intl.formatMessage({
+              id: 'settings.send',
+            })}
+            type="button"
+            actionType="feedback"
+            handleOnButtonPress={handleOnButtonPress}
+          />
         </ScrollView>
       </View>
     );

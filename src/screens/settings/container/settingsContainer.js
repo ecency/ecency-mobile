@@ -90,10 +90,6 @@ class SettingsContainer extends Component {
         setNsfw2DB(action);
         break;
 
-      case 'feedback':
-        this._handleSendFeedback();
-        break;
-
       default:
         break;
     }
@@ -180,12 +176,16 @@ class SettingsContainer extends Component {
     this._setPushToken();
   };
 
-  _handleButtonPress = (action, actionType) => {
+  _handleButtonPress = (actionType) => {
     const { dispatch, setPinCodeState } = this.props;
     switch (actionType) {
       case 'pincode':
         setPinCodeState({ isReset: true });
         dispatch(openPinCodeModal());
+        break;
+
+      case 'feedback':
+        this._handleSendFeedback();
         break;
       default:
         break;
@@ -200,10 +200,6 @@ class SettingsContainer extends Component {
 
       case 'toggle':
         this._handleToggleChanged(action, actionType);
-        break;
-
-      case 'button':
-        this._handleButtonPress(action, actionType);
         break;
 
       default:
@@ -229,18 +225,18 @@ class SettingsContainer extends Component {
       });
     }
   };
-  
+
   _handleSendFeedback = async () => {
     const { dispatch, intl } = this.props;
     let message;
 
-     await sendEmail(
+    await sendEmail(
       'bug@esteem.app',
       'Feedback/Bug report',
       `Write your message here!
-       App version: ${VersionNumber.buildVersion}
-      Platform: ${Platform.OS === 'ios' ? 'IOS' : 'Android'}
-      Device: ${DeviceInfo.getDeviceName()}`,
+
+      App version: ${VersionNumber.buildVersion}
+      Platform: ${Platform.OS === 'ios' ? 'IOS' : 'Android'}`,
     )
       .then(() => {
         message = 'settings.feedback_success';
@@ -249,7 +245,7 @@ class SettingsContainer extends Component {
         message = 'settings.feedback_fail';
       });
 
-     if (message) {
+    if (message) {
       dispatch(
         toastNotification(
           intl.formatMessage({
@@ -267,6 +263,7 @@ class SettingsContainer extends Component {
       <SettingsScreen
         serverList={serverList}
         handleOnChange={this._handleOnChange}
+        handleOnButtonPress={this._handleButtonPress}
         {...this.props}
       />
     );
