@@ -66,12 +66,16 @@
     "pincode": "Pincode",
     "reset": "重置",
     "nsfw_content": "NSFW Content",
+    "send_feedback": "Send Feedback",
+    "send": "Send",
     "default_footer": "Default Footer",
     "nsfw": {
       "always_show": "Always show",
       "always_hide": "Always hide",
       "always_warn": "Always warn"
-    }
+    },
+    "feedback_success": "Email successfully open",
+    "feedback_fail": "Email client could not open"
   },
   "voters": {
     "voters_info": "投票者信息",

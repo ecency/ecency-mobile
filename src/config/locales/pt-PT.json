@@ -66,12 +66,16 @@
     "pincode": "Código PIN",
     "reset": "Reiniciar",
     "nsfw_content": "Conteúdo NSFW",
+    "send_feedback": "Send Feedback",
+    "send": "Send",
     "default_footer": "Rodapé Padrão",
     "nsfw": {
       "always_show": "Mostrar sempre",
       "always_hide": "Ocultar sempre",
       "always_warn": "Avisar sempre"
-    }
+    },
+    "feedback_success": "Email successfully open",
+    "feedback_fail": "Email client could not open"
   },
   "voters": {
     "voters_info": "Informação de eleitores",
