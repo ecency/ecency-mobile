@@ -66,16 +66,16 @@
     "pincode": "Pincode",
     "reset": "راه اندازی مجدد",
     "nsfw_content": "محتوای نامناسب برای کودکان",
-    "send_feedback": "Send Feedback",
-    "send": "Send",
+    "send_feedback": "ارسال پیشنهادات و انتقادات",
+    "send": "ارسال",
     "default_footer": "پانویس پیش فرض",
     "nsfw": {
       "always_show": "همیشه نمایش بده",
       "always_hide": "همیشه پنهان باشد",
       "always_warn": "همیشه هشدار بده"
     },
-    "feedback_success": "Email successfully open",
-    "feedback_fail": "Email client could not open"
+    "feedback_success": "ایمیل با موفقیت باز شد",
+    "feedback_fail": "سرویس دهنده ایمیل نمی تواند باز شود"
   },
   "voters": {
     "voters_info": "اطلاعات رأی دهندگان",
