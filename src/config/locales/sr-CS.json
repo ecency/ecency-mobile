@@ -19,8 +19,8 @@
     "unfollow": "vas ne prati više",
     "ignore": "vas je ignorisao",
     "reblog": "je podelio vaš post",
-    "transfer": "transfered steem",
-    "comingsoon": "Leaderboard feature is coming soon!",
+    "transfer": "transfer je uspešan",
+    "comingsoon": "Rang lista dolazi uskoro!",
     "notification": "Obaveštenja",
     "leaderboard": "Rang lista",
     "leaderboard_title": "Najbolji korisnici na dnevnom nivou",
@@ -31,7 +31,7 @@
     "older_then": "Stariji od mesec dana"
   },
   "messages": {
-    "comingsoon": "Messages feature is coming soon!"
+    "comingsoon": "Slanje poruka će uskoro biti u funkciji!"
   },
   "profile": {
     "following": "Pratim",
@@ -66,16 +66,16 @@
     "pincode": "Pincode",
     "reset": "Resetuj",
     "nsfw_content": "NSFW sadržaj",
-    "send_feedback": "Send Feedback",
-    "send": "Send",
-    "default_footer": "Default Footer",
+    "send_feedback": "Pošalji Povratnu Informaciju",
+    "send": "Pošalji",
+    "default_footer": "Podrazumevani podnožje",
     "nsfw": {
-      "always_show": "Always show",
-      "always_hide": "Always hide",
-      "always_warn": "Always warn"
+      "always_show": "Uvek prikazuj",
+      "always_hide": "Uvek sakrij",
+      "always_warn": "Uvek pokaži upozorenje"
     },
-    "feedback_success": "Email successfully open",
-    "feedback_fail": "Email client could not open"
+    "feedback_success": "Email je uspešno otvoren",
+    "feedback_fail": "Klijent nije mogao otvoriti email"
   },
   "voters": {
     "voters_info": "Informacije o glasačima",
@@ -140,7 +140,7 @@
     "success": "Uspešno!",
     "allRead": "Marked all notifications as read",
     "claim_reward_balance_ok": "Potvrđeni bilans nagrade",
-    "fail": "Fail!",
+    "fail": "Nije uspelo!",
     "success_shared": "Uspešno ste podelili post",
     "permission_denied": "Pristup odbijen",
     "permission_text": "Please, go to phone Settings and change eSteem app permissions.",
