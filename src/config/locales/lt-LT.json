@@ -66,12 +66,16 @@
     "pincode": "Pincode",
     "reset": "Atstatyti",
     "nsfw_content": "NSFW Turinys",
+    "send_feedback": "Send Feedback",
+    "send": "Send",
     "default_footer": "Default Footer",
     "nsfw": {
       "always_show": "Visada rodyti",
       "always_hide": "Visada paslėpti",
       "always_warn": "Visada įspėti"
-    }
+    },
+    "feedback_success": "Email successfully open",
+    "feedback_fail": "Email client could not open"
   },
   "voters": {
     "voters_info": "Balsuotojo Informacija",

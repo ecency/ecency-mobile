@@ -66,12 +66,16 @@
     "pincode": "Pincode",
     "reset": "Zurücksetzen",
     "nsfw_content": "NSFW Inhalt",
+    "send_feedback": "Feedback senden",
+    "send": "Senden",
     "default_footer": "Standard Fußzeile",
     "nsfw": {
       "always_show": "Immer anzeigen",
       "always_hide": "Immer verstecken",
       "always_warn": "Immer warnen"
-    }
+    },
+    "feedback_success": "E-Mail erfolgreich geöffnet",
+    "feedback_fail": "E-Mail Client konnte nicht geöffnet werden"
   },
   "voters": {
     "voters_info": "Voter-Informationen",

@@ -52,6 +52,7 @@ class SettingsScreen extends PureComponent {
       reblogNotification,
       transfersNotification,
       voteNotification,
+      handleOnButtonPress,
     } = this.props;
 
     return (
@@ -132,7 +133,7 @@ class SettingsScreen extends PureComponent {
                 })}
                 type="button"
                 actionType="pincode"
-                handleOnChange={handleOnChange}
+                handleOnButtonPress={handleOnButtonPress}
               />
               //  <SettingsItem
               //   title={intl.formatMessage({
@@ -223,6 +224,17 @@ class SettingsScreen extends PureComponent {
               </CollapsibleCard>
             </View>
           )}
+          <SettingsItem
+            title={intl.formatMessage({
+              id: 'settings.send_feedback',
+            })}
+            text={intl.formatMessage({
+              id: 'settings.send',
+            })}
+            type="button"
+            actionType="feedback"
+            handleOnButtonPress={handleOnButtonPress}
+          />
         </ScrollView>
       </Fragment>
     );

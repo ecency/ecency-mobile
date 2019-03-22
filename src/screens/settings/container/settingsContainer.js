@@ -4,6 +4,7 @@ import { connect } from 'react-redux';
 import AppCenter from 'appcenter';
 import Push from 'appcenter-push';
 import { Client } from 'dsteem';
+import VersionNumber from 'react-native-version-number';
 
 // Realm
 import {
@@ -40,6 +41,7 @@ import { VALUE as CURRENCY_VALUE } from '../../../constants/options/currency';
 import { VALUE as LANGUAGE_VALUE } from '../../../constants/options/language';
 
 // Utilities
+import { sendEmail } from '../../../utils/sendEmail';
 
 // Component
 import SettingsScreen from '../screen/settingsScreen';
@@ -205,12 +207,16 @@ class SettingsContainer extends Component {
     }
   };
 
-  _handleButtonPress = (action, actionType) => {
+  _handleButtonPress = (actionType) => {
     const { dispatch, setPinCodeState } = this.props;
     switch (actionType) {
       case 'pincode':
         setPinCodeState({ isReset: true });
         dispatch(openPinCodeModal());
+        break;
+
+      case 'feedback':
+        this._handleSendFeedback();
         break;
       default:
         break;
@@ -225,10 +231,6 @@ class SettingsContainer extends Component {
 
       case 'toggle':
         this._handleToggleChanged(action, actionType);
-        break;
-
-      case 'button':
-        this._handleButtonPress(action, actionType);
         break;
 
       default:
@@ -257,6 +259,36 @@ class SettingsContainer extends Component {
     }
   };
 
+  _handleSendFeedback = async () => {
+    const { dispatch, intl } = this.props;
+    let message;
+
+    await sendEmail(
+      'bug@esteem.app',
+      'Feedback/Bug report',
+      `Write your message here!
+
+      App version: ${VersionNumber.buildVersion}
+      Platform: ${Platform.OS === 'ios' ? 'IOS' : 'Android'}`,
+    )
+      .then(() => {
+        message = 'settings.feedback_success';
+      })
+      .catch(() => {
+        message = 'settings.feedback_fail';
+      });
+
+    if (message) {
+      dispatch(
+        toastNotification(
+          intl.formatMessage({
+            id: message,
+          }),
+        ),
+      );
+    }
+  };
+
   render() {
     const { serverList, isNotificationMenuOpen } = this.state;
 
@@ -265,6 +297,7 @@ class SettingsContainer extends Component {
         serverList={serverList}
         handleOnChange={this._handleOnChange}
         isNotificationMenuOpen={isNotificationMenuOpen}
+        handleOnButtonPress={this._handleButtonPress}
         {...this.props}
       />
     );
