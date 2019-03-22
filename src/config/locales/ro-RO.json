@@ -66,12 +66,16 @@
     "pincode": "Pincode",
     "reset": "Resetare",
     "nsfw_content": "Conținut NSFW",
+    "send_feedback": "Send Feedback",
+    "send": "Send",
     "default_footer": "Default Footer",
     "nsfw": {
       "always_show": "Afisează întotdeauna",
       "always_hide": "Ascunde întotdeauna",
       "always_warn": "Avertizează întotdeauna"
-    }
+    },
+    "feedback_success": "Email successfully open",
+    "feedback_fail": "Email client could not open"
   },
   "voters": {
     "voters_info": "Detalii votanți",

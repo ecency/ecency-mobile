@@ -66,12 +66,16 @@
     "pincode": "Pincode",
     "reset": "Tetapkan semula",
     "nsfw_content": "Kandungan NSFW",
+    "send_feedback": "Send Feedback",
+    "send": "Send",
     "default_footer": "Ranka Pendirian",
     "nsfw": {
       "always_show": "Benarkan",
       "always_hide": "Tutup",
       "always_warn": "Beri amaran dahulu"
-    }
+    },
+    "feedback_success": "Email successfully open",
+    "feedback_fail": "Email client could not open"
   },
   "voters": {
     "voters_info": "Info pengundi",
