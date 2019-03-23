@@ -138,7 +138,7 @@
   },
   "alert": {
     "success": "Uspešno!",
-    "allRead": "Marked all notifications as read",
+    "allRead": "Sva obaveštenja su označena kao pročitana",
     "claim_reward_balance_ok": "Potvrđeni bilans nagrade",
     "fail": "Nije uspelo!",
     "success_shared": "Uspešno ste podelili post",
