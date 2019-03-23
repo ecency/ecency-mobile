@@ -63,12 +63,12 @@
     "server": "Server",
     "dark_theme": "Noćni mod",
     "push_notification": "Obaveštenja",
-    "pincode": "Pincode",
+    "pincode": "PIN kod",
     "reset": "Resetuj",
     "nsfw_content": "NSFW sadržaj",
     "send_feedback": "Pošalji Povratnu Informaciju",
     "send": "Pošalji",
-    "default_footer": "Podrazumevani podnožje",
+    "default_footer": "Podrazumevano podnožje",
     "nsfw": {
       "always_show": "Uvek prikazuj",
       "always_hide": "Uvek sakrij",
@@ -87,11 +87,11 @@
     "signin_title": "Da biste iskusili sve prednosti korišćenja eSteem-a",
     "username": "Korisničko ime",
     "password": "Lozinka ili WIF",
-    "description": "User credentials are kept locally on the device. Credentials are removed upon logout!",
+    "description": "Korisnikovi podaci su sačuvani lokalno na uređaju. Nakon odjavljivanja, svi podaci su izbrisani!",
     "cancel": "otkaži",
     "login": "PRIJAVI SE",
-    "steemconnect_description": "If you don't want to keep your password encrypted and saved on your device, you can use Steemconnect.",
-    "steemconnect_fee_description": "Steemconnect may charge some fees from your reward transactions"
+    "steemconnect_description": "Ukoliko ne želite da čuvate vašu lozinku zaštićenu na vašem uređaju, možete koristiti Steemconnect.",
+    "steemconnect_fee_description": "Steemconnect može naplatiti neke naknade od vaših transakcija za nagradu"
   },
   "home": {
     "feed": "Novosti",
@@ -131,24 +131,24 @@
     "capture_photo": "Nova fotografija"
   },
   "pincode": {
-    "enter_text": "Enter pin to unlock",
-    "set_new": "Set new pin",
+    "enter_text": "Unesite PIN da otključate",
+    "set_new": "Postavi novi PIN",
     "write_again": "Probaj ponovo",
     "forgot_text": "Jao, zaboravio sam..."
   },
   "alert": {
     "success": "Uspešno!",
-    "allRead": "Marked all notifications as read",
+    "allRead": "Sva obaveštenja su označena kao pročitana",
     "claim_reward_balance_ok": "Potvrđeni bilans nagrade",
     "fail": "Nije uspelo!",
     "success_shared": "Uspešno ste podelili post",
     "permission_denied": "Pristup odbijen",
-    "permission_text": "Please, go to phone Settings and change eSteem app permissions.",
-    "success_rebloged": "Rebloged!",
+    "permission_text": "Molimo, idite na podešavanja telefona i promenite ovlašćenja za eSteem aplikaciju.",
+    "success_rebloged": "Podeljeno!",
     "already_rebloged": "Već ste podelili!",
     "warning": "Upozorenje",
-    "invalid_pincode": "Invalid pin code, please check and try again.",
-    "remove_alert": "Are you sure want to remove?",
+    "invalid_pincode": "Nevažeći PIN kod, molimo proverite i pokušajte ponovo.",
+    "remove_alert": "Da li ste sigurni da želite da uklonite?",
     "clear_alert": "Da li ste sigurni da želite da izbrišete?",
     "clear_user_alert": "Da li stе sigurni da žеlitе da izbrišеtе svе korisničke podatkе?",
     "clear": "Izbriši",
@@ -189,7 +189,7 @@
     "search": "Pretraži omiljeno"
   },
   "auth": {
-    "invalid_pin": "Invalid pin code, please check and try again",
+    "invalid_pin": "Nevažeći PIN kod, molimo proverite i pokušajte ponovo",
     "invalid_username": "Pogrešno korisničko ime, molimo proverite i pokušajte ponovo",
     "already_logged": "Već ste prijavljeni, molimo pokušajte da dodate drugi nalog",
     "invalid_credentials": "Nevažeća ovlašćenja, molimo proverite i pokušajte ponovo",

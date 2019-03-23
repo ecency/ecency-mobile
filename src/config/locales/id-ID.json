@@ -66,16 +66,16 @@
     "pincode": "Kode PIN",
     "reset": "Setel Ulang",
     "nsfw_content": "Konten NSFW",
-    "send_feedback": "Send Feedback",
-    "send": "Send",
+    "send_feedback": "Kirim Umpan balik",
+    "send": "Kirim",
     "default_footer": "Default Footer",
     "nsfw": {
       "always_show": "Selalu Tampilkan",
       "always_hide": "Selalu menyembunyikan",
       "always_warn": "Selalu memperingatkan"
     },
-    "feedback_success": "Email successfully open",
-    "feedback_fail": "Email client could not open"
+    "feedback_success": "Email berhasil dibuka",
+    "feedback_fail": "Klien email tidak bisa dibuka"
   },
   "voters": {
     "voters_info": "Info Pemilih",
