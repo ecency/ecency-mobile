@@ -96,9 +96,6 @@ class EditorContainer extends Component {
               tags: post.json_metadata.tags,
             },
           },
-          () => {
-            // this._getPurePost(post.author, post.permlink);
-          },
         );
       }
 
@@ -131,21 +128,6 @@ class EditorContainer extends Component {
           // alert(error);
         });
     }
-  };
-
-  _getPurePost = (author, permlink) => {
-    getPurePost(author, permlink)
-      .then((result) => {
-        if (result) {
-          this.setState(prevState => ({
-            draftPost: {
-              ...prevState.draftPost,
-              body: result.body,
-            },
-          }));
-        }
-      })
-      .catch(() => {});
   };
 
   _handleRoutingAction = (routingAction) => {
