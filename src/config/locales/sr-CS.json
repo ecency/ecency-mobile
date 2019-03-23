@@ -131,8 +131,8 @@
     "capture_photo": "Nova fotografija"
   },
   "pincode": {
-    "enter_text": "Enter pin to unlock",
-    "set_new": "Set new pin",
+    "enter_text": "Unesite PIN da otključate",
+    "set_new": "Postavi novi PIN",
     "write_again": "Probaj ponovo",
     "forgot_text": "Jao, zaboravio sam..."
   },
@@ -144,11 +144,11 @@
     "success_shared": "Uspešno ste podelili post",
     "permission_denied": "Pristup odbijen",
     "permission_text": "Molimo, idite na podešavanja telefona i promenite ovlašćenja za eSteem aplikaciju.",
-    "success_rebloged": "Rebloged!",
+    "success_rebloged": "Podeljeno!",
     "already_rebloged": "Već ste podelili!",
     "warning": "Upozorenje",
-    "invalid_pincode": "Invalid pin code, please check and try again.",
-    "remove_alert": "Are you sure want to remove?",
+    "invalid_pincode": "Nevažeći PIN kod, molimo proverite i pokušajte ponovo.",
+    "remove_alert": "Da li ste sigurni da želite da uklonite?",
     "clear_alert": "Da li ste sigurni da želite da izbrišete?",
     "clear_user_alert": "Da li stе sigurni da žеlitе da izbrišеtе svе korisničke podatkе?",
     "clear": "Izbriši",
@@ -189,7 +189,7 @@
     "search": "Pretraži omiljeno"
   },
   "auth": {
-    "invalid_pin": "Invalid pin code, please check and try again",
+    "invalid_pin": "Nevažeći PIN kod, molimo proverite i pokušajte ponovo",
     "invalid_username": "Pogrešno korisničko ime, molimo proverite i pokušajte ponovo",
     "already_logged": "Već ste prijavljeni, molimo pokušajte da dodate drugi nalog",
     "invalid_credentials": "Nevažeća ovlašćenja, molimo proverite i pokušajte ponovo",
