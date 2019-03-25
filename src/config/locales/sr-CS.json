@@ -19,7 +19,7 @@
     "unfollow": "vas ne prati više",
     "ignore": "vas je ignorisao",
     "reblog": "je podelio vaš post",
-    "transfer": "transfer je uspešan",
+    "transfer": "transferovan steem",
     "comingsoon": "Rang lista dolazi uskoro!",
     "notification": "Obaveštenja",
     "leaderboard": "Rang lista",
@@ -36,7 +36,7 @@
   "profile": {
     "following": "Pratim",
     "follower": "Pratilac",
-    "post": "Post",
+    "post": "Postovi",
     "details": "Detalji profila",
     "comments": "Komentari",
     "replies": "Odgovori",
@@ -68,7 +68,7 @@
     "nsfw_content": "NSFW sadržaj",
     "send_feedback": "Pošalji Povratnu Informaciju",
     "send": "Pošalji",
-    "default_footer": "Podrazumevano podnožje",
+    "default_footer": "Podrazumevan potpis",
     "nsfw": {
       "always_show": "Uvek prikazuj",
       "always_hide": "Uvek sakrij",
@@ -123,12 +123,12 @@
   "editor": {
     "title": "Naslov",
     "tags": "oznake",
-    "default_placeholder": "Kako vam je prošao dan?",
+    "default_placeholder": "O čemu želite da pišete danas?",
     "reply_placeholder": "Šta želite da napišete o postu iznad?",
     "publish": "Objavi",
     "reply": "Odgovori",
     "open_galery": "Otvori galeriju",
-    "capture_photo": "Nova fotografija"
+    "capture_photo": "Fotografiši"
   },
   "pincode": {
     "enter_text": "Unesite PIN da otključate",
@@ -218,8 +218,8 @@
     "comments": "Komentari"
   },
   "comment_filter": {
-    "trending": "popularnosti",
-    "reputation": "reputaciji",
+    "trending": "popularno",
+    "reputation": "reputacija",
     "votes": "glasovi",
     "age": "starost"
   }
