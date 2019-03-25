@@ -7,6 +7,7 @@ import {
   CHANGE_MENTION_NOTIFICATION,
   CHANGE_REBLOG_NOTIFICATION,
   CHANGE_TRANSFERS_NOTIFICATION,
+  CHANGE_ALL_NOTIFICATION_SETTINGS,
   CHANGE_VOTE_NOTIFICATION,
   CLOSE_PIN_CODE_MODAL,
   IS_CONNECTED,
@@ -68,6 +69,11 @@ export const setApi = payload => ({
 export const setUpvotePercent = payload => ({
   payload,
   type: SET_UPVOTE_PERCENT,
+});
+
+export const changeAllNotificationSettings = payload => ({
+  payload,
+  type: CHANGE_ALL_NOTIFICATION_SETTINGS,
 });
 
 export const changeNotificationSettings = (payload) => {

@@ -6,6 +6,7 @@ import {
   CHANGE_REBLOG_NOTIFICATION,
   CHANGE_TRANSFERS_NOTIFICATION,
   CHANGE_VOTE_NOTIFICATION,
+  CHANGE_ALL_NOTIFICATION_SETTINGS,
   CLOSE_PIN_CODE_MODAL,
   IS_CONNECTED,
   IS_DARK_THEME,
@@ -151,6 +152,19 @@ export default function (state = initialState, action) {
         notificationDetails: {
           ...state.notificationDetails,
           voteNotification: action.payload,
+        },
+      });
+
+    case CHANGE_ALL_NOTIFICATION_SETTINGS:
+      return Object.assign({}, state, {
+        notificationDetails: {
+          ...state.notificationDetails,
+          mentionNotification: action.payload.mentionNotification,
+          reblogNotification: action.payload.reblogNotification,
+          transfersNotification: action.payload.transfersNotification,
+          voteNotification: action.payload.voteNotification,
+          followNotification: action.payload.followNotification,
+          commentNotification: action.payload.commentNotification,
         },
       });
     case IS_DARK_THEME:

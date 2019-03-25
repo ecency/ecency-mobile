@@ -54,6 +54,7 @@ import {
   isDarkTheme,
   isLoginDone,
   changeNotificationSettings,
+  changeAllNotificationSettings,
   login,
   logoutDone,
   openPinCodeModal,
@@ -247,12 +248,7 @@ class ApplicationContainer extends Component {
         if (response.isDefaultFooter !== '') dispatch(isDefaultFooter(response.isDefaultFooter));
         if (response.notification !== '') {
           dispatch(changeNotificationSettings({ type: 'notification', action: response.notification }));
-          dispatch(changeNotificationSettings({ type: 'notification.follow', action: response.followNotification }));
-          dispatch(changeNotificationSettings({ type: 'notification.vote', action: response.voteNotification }));
-          dispatch(changeNotificationSettings({ type: 'notification.comment', action: response.commentNotification }));
-          dispatch(changeNotificationSettings({ type: 'notification.mention', action: response.mentionNotification }));
-          dispatch(changeNotificationSettings({ type: 'notification.reblog', action: response.reblogNotification }));
-          dispatch(changeNotificationSettings({ type: 'notification.transfers', action: response.transfersNotification }));
+          dispatch(changeAllNotificationSettings(response));
 
           Push.setEnabled(response.notification);
         }
