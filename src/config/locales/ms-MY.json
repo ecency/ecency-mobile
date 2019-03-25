@@ -66,16 +66,16 @@
     "pincode": "Pincode",
     "reset": "Tetapkan semula",
     "nsfw_content": "Kandungan NSFW",
-    "send_feedback": "Send Feedback",
-    "send": "Send",
+    "send_feedback": "Hantar Maklum Balas",
+    "send": "Hantar",
     "default_footer": "Ranka Pendirian",
     "nsfw": {
       "always_show": "Benarkan",
       "always_hide": "Tutup",
       "always_warn": "Beri amaran dahulu"
     },
-    "feedback_success": "Email successfully open",
-    "feedback_fail": "Email client could not open"
+    "feedback_success": "E-mel berjaya dibuka",
+    "feedback_fail": "Klien e-mel tidak dapat dibuka"
   },
   "voters": {
     "voters_info": "Info pengundi",

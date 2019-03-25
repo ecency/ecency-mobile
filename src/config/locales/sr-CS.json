@@ -19,8 +19,8 @@
     "unfollow": "vas ne prati više",
     "ignore": "vas je ignorisao",
     "reblog": "je podelio vaš post",
-    "transfer": "transfered steem",
-    "comingsoon": "Leaderboard feature is coming soon!",
+    "transfer": "transferovan steem",
+    "comingsoon": "Rang lista dolazi uskoro!",
     "notification": "Obaveštenja",
     "leaderboard": "Rang lista",
     "leaderboard_title": "Najbolji korisnici na dnevnom nivou",
@@ -31,12 +31,12 @@
     "older_then": "Stariji od mesec dana"
   },
   "messages": {
-    "comingsoon": "Messages feature is coming soon!"
+    "comingsoon": "Slanje poruka će uskoro biti u funkciji!"
   },
   "profile": {
     "following": "Pratim",
     "follower": "Pratilac",
-    "post": "Post",
+    "post": "Postovi",
     "details": "Detalji profila",
     "comments": "Komentari",
     "replies": "Odgovori",
@@ -63,19 +63,19 @@
     "server": "Server",
     "dark_theme": "Noćni mod",
     "push_notification": "Obaveštenja",
-    "pincode": "Pincode",
+    "pincode": "PIN kod",
     "reset": "Resetuj",
     "nsfw_content": "NSFW sadržaj",
-    "send_feedback": "Send Feedback",
-    "send": "Send",
-    "default_footer": "Default Footer",
+    "send_feedback": "Pošalji Povratnu Informaciju",
+    "send": "Pošalji",
+    "default_footer": "Podrazumevan potpis",
     "nsfw": {
-      "always_show": "Always show",
-      "always_hide": "Always hide",
-      "always_warn": "Always warn"
+      "always_show": "Uvek prikazuj",
+      "always_hide": "Uvek sakrij",
+      "always_warn": "Uvek pokaži upozorenje"
     },
-    "feedback_success": "Email successfully open",
-    "feedback_fail": "Email client could not open"
+    "feedback_success": "Email je uspešno otvoren",
+    "feedback_fail": "Klijent nije mogao otvoriti email"
   },
   "voters": {
     "voters_info": "Informacije o glasačima",
@@ -87,11 +87,11 @@
     "signin_title": "Da biste iskusili sve prednosti korišćenja eSteem-a",
     "username": "Korisničko ime",
     "password": "Lozinka ili WIF",
-    "description": "User credentials are kept locally on the device. Credentials are removed upon logout!",
+    "description": "Korisnikovi podaci su sačuvani lokalno na uređaju. Nakon odjavljivanja, svi podaci su izbrisani!",
     "cancel": "otkaži",
     "login": "PRIJAVI SE",
-    "steemconnect_description": "If you don't want to keep your password encrypted and saved on your device, you can use Steemconnect.",
-    "steemconnect_fee_description": "Steemconnect may charge some fees from your reward transactions"
+    "steemconnect_description": "Ukoliko ne želite da čuvate vašu lozinku zaštićenu na vašem uređaju, možete koristiti Steemconnect.",
+    "steemconnect_fee_description": "Steemconnect može naplatiti neke naknade od vaših transakcija za nagradu"
   },
   "home": {
     "feed": "Novosti",
@@ -108,7 +108,7 @@
     "add_account": "Dodaj Nalog",
     "logout": "Odjavi se",
     "cancel": "Otkaži",
-    "logout_text": "Are you sure you want to logout?"
+    "logout_text": "Da li ste sigurni da želite da se odjavite?"
   },
   "header": {
     "title": "Prijavite se kako biste prilagodili vaše novosti",
@@ -123,39 +123,39 @@
   "editor": {
     "title": "Naslov",
     "tags": "oznake",
-    "default_placeholder": "Kako vam je prošao dan?",
+    "default_placeholder": "O čemu želite da pišete danas?",
     "reply_placeholder": "Šta želite da napišete o postu iznad?",
     "publish": "Objavi",
     "reply": "Odgovori",
-    "open_galery": "Open Galery",
-    "capture_photo": "Capture a photo"
+    "open_galery": "Otvori galeriju",
+    "capture_photo": "Fotografiši"
   },
   "pincode": {
-    "enter_text": "Enter pin to unlock",
-    "set_new": "Set new pin",
+    "enter_text": "Unesite PIN da otključate",
+    "set_new": "Postavi novi PIN",
     "write_again": "Probaj ponovo",
     "forgot_text": "Jao, zaboravio sam..."
   },
   "alert": {
     "success": "Uspešno!",
-    "allRead": "Marked all notifications as read",
+    "allRead": "Sva obaveštenja su označena kao pročitana",
     "claim_reward_balance_ok": "Potvrđeni bilans nagrade",
-    "fail": "Fail!",
+    "fail": "Nije uspelo!",
     "success_shared": "Uspešno ste podelili post",
     "permission_denied": "Pristup odbijen",
-    "permission_text": "Please, go to phone Settings and change eSteem app permissions.",
-    "success_rebloged": "Rebloged!",
+    "permission_text": "Molimo, idite na podešavanja telefona i promenite ovlašćenja za eSteem aplikaciju.",
+    "success_rebloged": "Podeljeno!",
     "already_rebloged": "Već ste podelili!",
     "warning": "Upozorenje",
-    "invalid_pincode": "Invalid pin code, please check and try again.",
-    "remove_alert": "Are you sure want to remove?",
-    "clear_alert": "Are you sure you want to clear?",
-    "clear_user_alert": "Are you sure you want to clear all user data?",
-    "clear": "Clear",
+    "invalid_pincode": "Nevažeći PIN kod, molimo proverite i pokušajte ponovo.",
+    "remove_alert": "Da li ste sigurni da želite da uklonite?",
+    "clear_alert": "Da li ste sigurni da želite da izbrišete?",
+    "clear_user_alert": "Da li stе sigurni da žеlitе da izbrišеtе svе korisničke podatkе?",
+    "clear": "Izbriši",
     "cancel": "Otkaži",
     "delete": "Izbriši",
-    "copied": "Copied!",
-    "no_internet": "No connection!"
+    "copied": "Kopirano!",
+    "no_internet": "Niste konektovani na internet!"
   },
   "post": {
     "reblog_alert": "Da li ste sigurni da želite da podelite?"
@@ -179,8 +179,8 @@
     "empty_list": "Ovde nema ništa",
     "deleted": "Obeleživač je uklonjen",
     "search": "Pretraži među obeleživačima",
-    "added": "Added to bookmarks",
-    "add": "Add to bookmarks"
+    "added": "Dodato u obeleživače",
+    "add": "Dodaj u obeleživače"
   },
   "favorites": {
     "title": "Omiljeno",
@@ -189,7 +189,7 @@
     "search": "Pretraži omiljeno"
   },
   "auth": {
-    "invalid_pin": "Invalid pin code, please check and try again",
+    "invalid_pin": "Nevažeći PIN kod, molimo proverite i pokušajte ponovo",
     "invalid_username": "Pogrešno korisničko ime, molimo proverite i pokušajte ponovo",
     "already_logged": "Već ste prijavljeni, molimo pokušajte da dodate drugi nalog",
     "invalid_credentials": "Nevažeća ovlašćenja, molimo proverite i pokušajte ponovo",
@@ -210,16 +210,16 @@
     "bookmarks": "dodaj u obeleživače"
   },
   "deep_link": {
-    "no_existing_user": "No existing user",
-    "no_existing_post": "No existing post"
+    "no_existing_user": "Nema postojećih korisnika",
+    "no_existing_post": "Nema postojećih postova"
   },
   "search": {
     "posts": "Postovi",
     "comments": "Komentari"
   },
   "comment_filter": {
-    "trending": "popularnosti",
-    "reputation": "reputaciji",
+    "trending": "popularno",
+    "reputation": "reputacija",
     "votes": "glasovi",
     "age": "starost"
   }
