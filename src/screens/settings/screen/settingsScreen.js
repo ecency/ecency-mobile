@@ -123,18 +123,31 @@ class SettingsScreen extends PureComponent {
               isOn={isDarkTheme}
               handleOnChange={handleOnChange}
             />
+            <SettingsItem
+              title={intl.formatMessage({
+                id: 'settings.send_feedback',
+              })}
+              text={intl.formatMessage({
+                id: 'settings.send',
+              })}
+              type="button"
+              actionType="feedback"
+              handleOnButtonPress={handleOnButtonPress}
+            />
             {!!isLoggedIn && (
-              <SettingsItem
-                title={intl.formatMessage({
-                  id: 'settings.pincode',
-                })}
-                text={intl.formatMessage({
-                  id: 'settings.reset',
-                })}
-                type="button"
-                actionType="pincode"
-                handleOnButtonPress={handleOnButtonPress}
-              />
+              <Fragment>
+                <SettingsItem
+                  title={intl.formatMessage({
+                    id: 'settings.pincode',
+                  })}
+                  text={intl.formatMessage({
+                    id: 'settings.reset',
+                  })}
+                  type="button"
+                  actionType="pincode"
+                  handleOnButtonPress={handleOnButtonPress}
+                />
+              </Fragment>
               //  <SettingsItem
               //   title={intl.formatMessage({
               //     id: 'settings.default_footer',
@@ -143,7 +156,7 @@ class SettingsScreen extends PureComponent {
               //   actionType="default_footer"
               //   isOn={isDefaultFooter}
               //   handleOnChange={handleOnChange}
-              // /> 
+              // />
             )}
           </View>
           {!!isLoggedIn && (
@@ -224,17 +237,6 @@ class SettingsScreen extends PureComponent {
               </CollapsibleCard>
             </View>
           )}
-          <SettingsItem
-            title={intl.formatMessage({
-              id: 'settings.send_feedback',
-            })}
-            text={intl.formatMessage({
-              id: 'settings.send',
-            })}
-            type="button"
-            actionType="feedback"
-            handleOnButtonPress={handleOnButtonPress}
-          />
         </ScrollView>
       </Fragment>
     );
