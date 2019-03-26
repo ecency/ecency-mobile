@@ -58,11 +58,20 @@
   },
   "settings": {
     "settings": "Ayarlar",
+    "general": "General",
     "currency": "Para Birimi",
     "language": "Dil",
     "server": "Sunucu",
     "dark_theme": "Koyu Tema",
     "push_notification": "Bildirim",
+    "notification": {
+      "follow": "Follow",
+      "vote": "Vote",
+      "comment": "Comment",
+      "mention": "Mention",
+      "reblog": "Reblog",
+      "transfers": "Transfers"
+    },
     "pincode": "Pinkod",
     "reset": "Sifirla",
     "nsfw_content": "NSFW Content",
