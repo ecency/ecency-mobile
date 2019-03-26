@@ -10,23 +10,25 @@ import VersionNumber from 'react-native-version-number';
 import {
   getExistUser,
   setCurrency as setCurrency2DB,
+  setServer,
+  setNotificationSettings,
   setDefaultFooter,
   setLanguage as setLanguage2DB,
   setNotificationIsOpen,
   setNsfw as setNsfw2DB,
-  setServer,
   setTheme,
 } from '../../../realm/realm';
 
 // Services and Actions
 import {
+  setLanguage,
+  changeNotificationSettings,
+  setCurrency,
+  setApi,
   isDarkTheme,
   isDefaultFooter,
   isNotificationOpen,
   openPinCodeModal,
-  setApi,
-  setCurrency,
-  setLanguage,
   setNsfw,
 } from '../../../redux/actions/applicationActions';
 import { toastNotification } from '../../../redux/actions/uiAction';
@@ -55,6 +57,7 @@ class SettingsContainer extends Component {
     super(props);
     this.state = {
       serverList: [],
+      isNotificationMenuOpen: props.isNotificationSettingsOpen,
     };
   }
 
@@ -147,7 +150,13 @@ class SettingsContainer extends Component {
 
     switch (actionType) {
       case 'notification':
-        this._handleNotification(action);
+      case 'notification.follow':
+      case 'notification.vote':
+      case 'notification.comment':
+      case 'notification.mention':
+      case 'notification.reblog':
+      case 'notification.transfers':
+        this._handleNotification(action, actionType);
         break;
 
       case 'theme':
@@ -164,16 +173,38 @@ class SettingsContainer extends Component {
     }
   };
 
-  _handleNotification = async (action) => {
-    const { dispatch } = this.props;
+  _handleNotification = async (action, actionType) => {
+    const { dispatch, notificationDetails } = this.props;
+    const notifyTypesConst = {
+      vote: 1,
+      mention: 2,
+      follow: 3,
+      comment: 4,
+      reblog: 5,
+      transfers: 6,
+    };
+    const notifyTypes = [];
 
-    dispatch(isNotificationOpen(action));
-    setNotificationIsOpen(action);
+    dispatch(changeNotificationSettings({ action, type: actionType }));
+    setNotificationSettings({ action, type: actionType });
 
-    const isPushEnabled = await Push.isEnabled();
+    if (actionType === 'notification') {
+      await Push.setEnabled(action);
+      this._setPushToken(action ? [1, 2, 3, 4, 5, 6] : notifyTypes);
+    } else {
+      Object.keys(notificationDetails).map((item) => {
+        const notificationType = item.replace('Notification', '');
 
-    await Push.setEnabled(!isPushEnabled);
-    this._setPushToken();
+        if (notificationType === actionType.replace('notification.', '')) {
+          if (action) {
+            notifyTypes.push(notifyTypesConst[notificationType]);
+          }
+        } else if (notificationDetails[item]) {
+          notifyTypes.push(notifyTypesConst[notificationType]);
+        }
+      });
+      this._setPushToken(notifyTypes);
+    }
   };
 
   _handleButtonPress = (actionType) => {
@@ -207,8 +238,9 @@ class SettingsContainer extends Component {
     }
   };
 
-  _setPushToken = async () => {
+  _setPushToken = async (notifyTypes) => {
     const { isNotificationSettingsOpen, isLoggedIn, username } = this.props;
+
     if (isLoggedIn) {
       const token = await AppCenter.getInstallId();
 
@@ -219,6 +251,7 @@ class SettingsContainer extends Component {
             token,
             system: Platform.OS,
             allows_notify: Number(isNotificationSettingsOpen),
+            notify_types: notifyTypes,
           };
           setPushToken(data);
         }
@@ -257,12 +290,13 @@ class SettingsContainer extends Component {
   };
 
   render() {
-    const { serverList } = this.state;
+    const { serverList, isNotificationMenuOpen } = this.state;
 
     return (
       <SettingsScreen
         serverList={serverList}
         handleOnChange={this._handleOnChange}
+        isNotificationMenuOpen={isNotificationMenuOpen}
         handleOnButtonPress={this._handleButtonPress}
         {...this.props}
       />
@@ -276,6 +310,13 @@ const mapStateToProps = state => ({
   isLoggedIn: state.application.isLoggedIn,
   isNotificationSettingsOpen: state.application.isNotificationOpen,
   nsfw: state.application.nsfw,
+  notificationDetails: state.application.notificationDetails,
+  commentNotification: state.application.notificationDetails.commentNotification,
+  followNotification: state.application.notificationDetails.followNotification,
+  mentionNotification: state.application.notificationDetails.mentionNotification,
+  reblogNotification: state.application.notificationDetails.reblogNotification,
+  transfersNotification: state.application.notificationDetails.transfersNotification,
+  voteNotification: state.application.notificationDetails.voteNotification,
   selectedApi: state.application.api,
   selectedCurrency: state.application.currency,
   selectedLanguage: state.application.language,

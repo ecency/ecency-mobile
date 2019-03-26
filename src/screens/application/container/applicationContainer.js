@@ -5,7 +5,6 @@ import {
 import { connect } from 'react-redux';
 import { addLocaleData } from 'react-intl';
 import Config from 'react-native-config';
-import AppCenter from 'appcenter';
 import { NavigationActions } from 'react-navigation';
 import { bindActionCreators } from 'redux';
 import Push from 'appcenter-push';
@@ -29,11 +28,9 @@ import AUTH_TYPE from '../../../constants/authType';
 import {
   getAuthStatus,
   getExistUser,
-  getPushTokenSaved,
   getSettings,
   getUserData,
   removeUserData,
-  setPushTokenSaved,
   getUserDataWithUsername,
   removePinCode,
   setAuthStatus,
@@ -42,7 +39,6 @@ import {
   setDefaultFooter,
 } from '../../../realm/realm';
 import { getUser } from '../../../providers/steem/dsteem';
-import { setPushToken } from '../../../providers/esteem/esteem';
 import { switchAccount } from '../../../providers/steem/auth';
 
 // Actions
@@ -57,7 +53,8 @@ import {
   activeApplication,
   isDarkTheme,
   isLoginDone,
-  isNotificationOpen,
+  changeNotificationSettings,
+  changeAllNotificationSettings,
   login,
   logoutDone,
   openPinCodeModal,
@@ -229,7 +226,6 @@ class ApplicationContainer extends Component {
             dispatch(openPinCodeModal());
           }
           this._connectNotificationServer(accountData.name);
-          this._setPushToken(accountData.name);
         })
         .catch((err) => {
           Alert.alert(err);
@@ -251,7 +247,9 @@ class ApplicationContainer extends Component {
         if (response.upvotePercent !== '') dispatch(setUpvotePercent(Number(response.upvotePercent)));
         if (response.isDefaultFooter !== '') dispatch(isDefaultFooter(response.isDefaultFooter));
         if (response.notification !== '') {
-          dispatch(isNotificationOpen(response.notification));
+          dispatch(changeNotificationSettings({ type: 'notification', action: response.notification }));
+          dispatch(changeAllNotificationSettings(response));
+
           Push.setEnabled(response.notification);
         }
         if (response.nsfw !== '') dispatch(setNsfw(response.nsfw));
@@ -271,29 +269,6 @@ class ApplicationContainer extends Component {
       // a message was received
       dispatch(updateUnreadActivityCount(unreadActivityCount + 1));
     };
-  };
-
-  _setPushToken = async (username) => {
-    const { notificationSettings } = this.props;
-    const token = await AppCenter.getInstallId();
-
-    getExistUser().then((isExistUser) => {
-      if (isExistUser) {
-        getPushTokenSaved().then((isPushTokenSaved) => {
-          if (!isPushTokenSaved) {
-            const data = {
-              username,
-              token,
-              system: Platform.OS,
-              allows_notify: Number(notificationSettings),
-            };
-            setPushToken(data).then(() => {
-              setPushTokenSaved(true);
-            });
-          }
-        });
-      }
-    });
   };
 
   _logout = async () => {

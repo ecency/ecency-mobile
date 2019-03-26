@@ -1,5 +1,5 @@
 import React, { PureComponent, Fragment } from 'react';
-import { View, Text, ScrollView } from 'react-native';
+import { View, ScrollView } from 'react-native';
 import { injectIntl } from 'react-intl';
 
 // Components
@@ -16,7 +16,6 @@ import { Posts } from '../../../components/posts';
 import { ProfileSummary } from '../../../components/profileSummary';
 import { TabBar } from '../../../components/tabBar';
 import { Wallet } from '../../../components/wallet';
-import { FormatedCurrency } from '../../../components/formatedElements';
 
 // Constants
 import { PROFILE_FILTERS } from '../../../constants/options/filters';
