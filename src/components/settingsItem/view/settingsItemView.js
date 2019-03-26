@@ -85,11 +85,11 @@ class SettingsItemView extends PureComponent {
   };
 
   render() {
-    const { title } = this.props;
+    const { title, titleStyle } = this.props;
 
     return (
       <View style={styles.wrapper}>
-        <Text style={styles.text}>{title}</Text>
+        <Text style={[styles.text, titleStyle]}>{title}</Text>
         {this._renderItem()}
       </View>
     );

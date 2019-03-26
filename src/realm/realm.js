@@ -53,6 +53,12 @@ const settingsSchema = {
     nsfw: { type: 'string', default: null },
     server: { type: 'string', default: null },
     upvotePercent: { type: 'string', default: null },
+    followNotification: { type: 'bool', default: true },
+    voteNotification: { type: 'bool', default: true },
+    commentNotification: { type: 'bool', default: true },
+    mentionNotification: { type: 'bool', default: true },
+    reblogNotification: { type: 'bool', default: true },
+    transfersNotification: { type: 'bool', default: true },
   },
 };
 
@@ -105,6 +111,12 @@ if (Array.from(settings).length <= 0) {
       server: '',
       upvotePercent: '1',
       nsfw: '0',
+      followNotification: true,
+      voteNotification: true,
+      commentNotification: true,
+      mentionNotification: true,
+      reblogNotification: true,
+      transfersNotification: true,
     });
   });
 }
@@ -450,10 +462,34 @@ export const setServer = selectedServer => new Promise((resolve, reject) => {
   }
 });
 
-export const setNotificationIsOpen = notificationIsOpen => new Promise((resolve, reject) => {
+export const setNotificationSettings = ({ type, action }) => new Promise((resolve, reject) => {
   try {
     realm.write(() => {
-      settings[0].notification = notificationIsOpen;
+      switch (type) {
+        case 'notification.follow':
+          settings[0].followNotification = action;
+          break;
+        case 'notification.vote':
+          settings[0].voteNotification = action;
+          break;
+        case 'notification.comment':
+          settings[0].commentNotification = action;
+          break;
+        case 'notification.mention':
+          settings[0].mentionNotification = action;
+          break;
+        case 'notification.reblog':
+          settings[0].reblogNotification = action;
+          break;
+        case 'notification.transfers':
+          settings[0].transfersNotification = action;
+          break;
+        case 'notification':
+          settings[0].notification = action;
+          break;
+        default:
+          break;
+      }
       resolve(true);
     });
   } catch (error) {
