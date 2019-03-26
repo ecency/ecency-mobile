@@ -76,7 +76,7 @@ const authSchema = {
 const realm = new Realm({
   path: 'esteem.realm',
   schema: [userSchema, authSchema, draftSchema, settingsSchema, applicationSchema, scAccounts],
-  schemaVersion: 1,
+  schemaVersion: 2,
   migration,
 });
 
