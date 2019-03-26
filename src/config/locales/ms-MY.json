@@ -58,11 +58,20 @@
   },
   "settings": {
     "settings": "Tetapan",
+    "general": "General",
     "currency": "Matawang",
     "language": "Bahasa",
     "server": "Server",
     "dark_theme": "Tema gelap",
     "push_notification": "Pemberitahuan Segera",
+    "notification": {
+      "follow": "Follow",
+      "vote": "Vote",
+      "comment": "Comment",
+      "mention": "Mention",
+      "reblog": "Reblog",
+      "transfers": "Transfers"
+    },
     "pincode": "Pincode",
     "reset": "Tetapkan semula",
     "nsfw_content": "Kandungan NSFW",
