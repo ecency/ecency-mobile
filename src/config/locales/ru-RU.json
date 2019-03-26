@@ -58,11 +58,20 @@
   },
   "settings": {
     "settings": "Настройки",
+    "general": "General",
     "currency": "Валюта",
     "language": "Язык",
     "server": "Сервер",
     "dark_theme": "Тёмная тема",
     "push_notification": "Уведомления",
+    "notification": {
+      "follow": "Follow",
+      "vote": "Vote",
+      "comment": "Comment",
+      "mention": "Mention",
+      "reblog": "Reblog",
+      "transfers": "Transfers"
+    },
     "pincode": "Пинкод",
     "reset": "Сбросить",
     "nsfw_content": "NSFW Content",
