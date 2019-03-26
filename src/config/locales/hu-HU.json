@@ -58,11 +58,20 @@
   },
   "settings": {
     "settings": "Beállítások",
+    "general": "General",
     "currency": "Pénznem",
     "language": "Nyelv",
     "server": "Szerver",
     "dark_theme": "Sötét téma",
     "push_notification": "Értesítések Bekapcsolása",
+    "notification": {
+      "follow": "Follow",
+      "vote": "Vote",
+      "comment": "Comment",
+      "mention": "Mention",
+      "reblog": "Reblog",
+      "transfers": "Transfers"
+    },
     "pincode": "PIN kód",
     "reset": "Visszaállítás",
     "nsfw_content": "NSFW tartalom",
