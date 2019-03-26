@@ -58,11 +58,20 @@
   },
   "settings": {
     "settings": "Instellingen",
+    "general": "General",
     "currency": "Valuta",
     "language": "Taal",
     "server": "Server",
     "dark_theme": "Donker thema",
     "push_notification": "Push-notificatie",
+    "notification": {
+      "follow": "Follow",
+      "vote": "Vote",
+      "comment": "Comment",
+      "mention": "Mention",
+      "reblog": "Reblog",
+      "transfers": "Transfers"
+    },
     "pincode": "Pincode",
     "reset": "Reset",
     "nsfw_content": "NSFW Content",
