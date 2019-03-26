@@ -90,10 +90,11 @@ class EditorContainer extends Component {
         this.setState(
           {
             isEdit,
-            draftPost: { title: post.title, body: post.markdownBody, tags: post.json_metadata.tags },
-          },
-          () => {
-            this._getPurePost(post.author, post.permlink);
+            draftPost: {
+              title: post.title,
+              body: post.markdownBody,
+              tags: post.json_metadata.tags,
+            },
           },
         );
       }
@@ -127,21 +128,6 @@ class EditorContainer extends Component {
           // alert(error);
         });
     }
-  };
-
-  _getPurePost = (author, permlink) => {
-    getPurePost(author, permlink)
-      .then((result) => {
-        if (result) {
-          this.setState(prevState => ({
-            draftPost: {
-              ...prevState.draftPost,
-              body: result.body,
-            },
-          }));
-        }
-      })
-      .catch(() => {});
   };
 
   _handleRoutingAction = (routingAction) => {
@@ -293,8 +279,8 @@ class EditorContainer extends Component {
 
   _submitPost = async (fields) => {
     const {
-      navigation, currentAccount, pinCode, intl, isDefaultFooter,
-    } = this.props;
+ navigation, currentAccount, pinCode, intl, isDefaultFooter 
+} = this.props;
 
     if (currentAccount) {
       this.setState({ isPostSending: true });
@@ -411,14 +397,19 @@ class EditorContainer extends Component {
       } = post;
 
       let newBody = fields.body;
+      let _oldMeta = oldMeta;
       const patch = createPatch(oldBody, newBody.trim());
 
       if (patch && patch.length < Buffer.from(oldBody, 'utf-8').length) {
         newBody = patch;
       }
 
+      if (typeof _oldMeta === 'string') {
+        _oldMeta = JSON.parse(_oldMeta);
+      }
+
       const meta = extractMetadata(fields.body);
-      const metadata = Object.assign({}, oldMeta, meta);
+      const metadata = Object.assign({}, _oldMeta, meta);
       const jsonMeta = makeJsonMetadata(metadata, fields.tags);
 
       await postContent(
