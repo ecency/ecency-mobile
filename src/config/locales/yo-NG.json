@@ -58,11 +58,20 @@
   },
   "settings": {
     "settings": "Eto",
+    "general": "General",
     "currency": "Owo",
     "language": "Èdè",
     "server": "Ate ayelujara",
     "dark_theme": "Awo dudu",
     "push_notification": "Eto gbigba akiyesi",
+    "notification": {
+      "follow": "Follow",
+      "vote": "Vote",
+      "comment": "Comment",
+      "mention": "Mention",
+      "reblog": "Reblog",
+      "transfers": "Transfers"
+    },
     "pincode": "Pincode",
     "reset": "Tun bere",
     "nsfw_content": "NSFW Content",
