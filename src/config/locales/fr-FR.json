@@ -58,11 +58,20 @@
   },
   "settings": {
     "settings": "Réglages",
+    "general": "General",
     "currency": "Devise",
     "language": "Langue",
     "server": "Serveur",
     "dark_theme": "Thème Sombre",
     "push_notification": "Notification push",
+    "notification": {
+      "follow": "Follow",
+      "vote": "Vote",
+      "comment": "Comment",
+      "mention": "Mention",
+      "reblog": "Reblog",
+      "transfers": "Transfers"
+    },
     "pincode": "Pincode",
     "reset": "Réinitialiser",
     "nsfw_content": "NSFW Content",
