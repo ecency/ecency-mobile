@@ -58,11 +58,20 @@
   },
   "settings": {
     "settings": "Peungaturan",
+    "general": "General",
     "currency": "Mata péng",
     "language": "Basa",
     "server": "Server",
     "dark_theme": "Layeu Supôet",
     "push_notification": "Teugön Haba",
+    "notification": {
+      "follow": "Follow",
+      "vote": "Vote",
+      "comment": "Comment",
+      "mention": "Mention",
+      "reblog": "Reblog",
+      "transfers": "Transfers"
+    },
     "pincode": "Kode PIN",
     "reset": "Atôe ulang",
     "nsfw_content": "NSFW Content",
