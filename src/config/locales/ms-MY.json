@@ -58,19 +58,19 @@
   },
   "settings": {
     "settings": "Tetapan",
-    "general": "General",
+    "general": "Umum",
     "currency": "Matawang",
     "language": "Bahasa",
     "server": "Server",
     "dark_theme": "Tema gelap",
     "push_notification": "Pemberitahuan Segera",
     "notification": {
-      "follow": "Follow",
+      "follow": "Ikut",
       "vote": "Vote",
-      "comment": "Comment",
-      "mention": "Mention",
+      "comment": "Komen",
+      "mention": "Menyebut",
       "reblog": "Reblog",
-      "transfers": "Transfers"
+      "transfers": "Pindah"
     },
     "pincode": "Pincode",
     "reset": "Tetapkan semula",
