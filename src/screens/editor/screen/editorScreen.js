@@ -38,15 +38,16 @@ class EditorScreen extends Component {
   }
 
   // Component Life Cycles
-  componentWillReceiveProps = (nextProps) => {
+  componentWillReceiveProps = async (nextProps) => {
     const { draftPost, isUploading } = this.props;
 
     if (nextProps.draftPost && draftPost !== nextProps.draftPost) {
-      this.setState({
+      await this.setState(prevState => ({
         fields: {
+          ...prevState.fields,
           ...nextProps.draftPost,
         },
-      });
+      }));
     }
 
     if (isUploading !== nextProps) {
