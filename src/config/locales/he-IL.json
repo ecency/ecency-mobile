@@ -58,19 +58,19 @@
   },
   "settings": {
     "settings": "הגדרות",
-    "general": "General",
+    "general": "כללי",
     "currency": "יתרת מטבע",
     "language": "שפה",
     "server": "שרת",
     "dark_theme": "ערכת נושא כהה",
     "push_notification": "התראות דחיפה",
     "notification": {
-      "follow": "Follow",
-      "vote": "Vote",
-      "comment": "Comment",
-      "mention": "Mention",
-      "reblog": "Reblog",
-      "transfers": "Transfers"
+      "follow": "עקוב\/י",
+      "vote": "הצבע\/י",
+      "comment": "תגיב\/י",
+      "mention": "איזכור",
+      "reblog": "שתף\/י",
+      "transfers": "העברות"
     },
     "pincode": "קוד PIN",
     "reset": "אתחל",
