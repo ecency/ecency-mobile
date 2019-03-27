@@ -58,11 +58,20 @@
   },
   "settings": {
     "settings": "설정",
+    "general": "General",
     "currency": "화폐",
     "language": "언어",
     "server": "서버",
     "dark_theme": "어두운 테마",
     "push_notification": "푸시 알림",
+    "notification": {
+      "follow": "Follow",
+      "vote": "Vote",
+      "comment": "Comment",
+      "mention": "Mention",
+      "reblog": "Reblog",
+      "transfers": "Transfers"
+    },
     "pincode": "PIN 코드",
     "reset": "초기화",
     "nsfw_content": "NSFW 콘텐츠",

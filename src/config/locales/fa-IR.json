@@ -58,11 +58,20 @@
   },
   "settings": {
     "settings": "تنظیمات",
+    "general": "عمومی",
     "currency": "پول در گردش",
     "language": "زبان",
     "server": "سرور",
     "dark_theme": "ظاهر تیره",
     "push_notification": "اعلام یادآوری ها",
+    "notification": {
+      "follow": "دنبال کردن",
+      "vote": "رأی",
+      "comment": "نظر",
+      "mention": "اشاره کردن",
+      "reblog": "اشتراک گذاری",
+      "transfers": "تراکنش ها"
+    },
     "pincode": "Pincode",
     "reset": "راه اندازی مجدد",
     "nsfw_content": "محتوای نامناسب برای کودکان",

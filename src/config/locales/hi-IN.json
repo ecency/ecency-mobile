@@ -58,11 +58,20 @@
   },
   "settings": {
     "settings": "समायोजन",
+    "general": "General",
     "currency": "मुद्रा",
     "language": "भाषा",
     "server": "सर्वर",
     "dark_theme": "काला थीम",
     "push_notification": "संभर अधिसूचना",
+    "notification": {
+      "follow": "Follow",
+      "vote": "Vote",
+      "comment": "Comment",
+      "mention": "Mention",
+      "reblog": "Reblog",
+      "transfers": "Transfers"
+    },
     "pincode": "Pincode",
     "reset": "पुनः नियोजन",
     "nsfw_content": "NSFW Content",

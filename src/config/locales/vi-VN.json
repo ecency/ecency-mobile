@@ -58,11 +58,20 @@
   },
   "settings": {
     "settings": "Cài đặt",
+    "general": "General",
     "currency": "Tiền tệ",
     "language": "Ngôn ngữ",
     "server": "Máy chủ",
     "dark_theme": "Chế độ tối",
     "push_notification": "Đẩy thông báo",
+    "notification": {
+      "follow": "Follow",
+      "vote": "Vote",
+      "comment": "Comment",
+      "mention": "Mention",
+      "reblog": "Reblog",
+      "transfers": "Transfers"
+    },
     "pincode": "Mã PIN",
     "reset": "Thiết lập lại",
     "nsfw_content": "NSFW Content",

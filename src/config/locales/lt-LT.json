@@ -58,11 +58,20 @@
   },
   "settings": {
     "settings": "Nustatymai",
+    "general": "General",
     "currency": "Valiuta",
     "language": "Kalba",
     "server": "Serveris",
     "dark_theme": "Tamsi Tema",
     "push_notification": "Aktyvieji pranešimai",
+    "notification": {
+      "follow": "Follow",
+      "vote": "Vote",
+      "comment": "Comment",
+      "mention": "Mention",
+      "reblog": "Reblog",
+      "transfers": "Transfers"
+    },
     "pincode": "Pincode",
     "reset": "Atstatyti",
     "nsfw_content": "NSFW Turinys",
