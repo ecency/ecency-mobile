@@ -58,11 +58,20 @@
   },
   "settings": {
     "settings": "Pengaturan",
+    "general": "General",
     "currency": "Nilai Tukar Mata Uang",
     "language": "Bahasa",
     "server": "Server",
     "dark_theme": "Tema Gelap",
     "push_notification": "Notifikasi Gegas",
+    "notification": {
+      "follow": "Follow",
+      "vote": "Vote",
+      "comment": "Comment",
+      "mention": "Mention",
+      "reblog": "Reblog",
+      "transfers": "Transfers"
+    },
     "pincode": "Kode PIN",
     "reset": "Setel Ulang",
     "nsfw_content": "Konten NSFW",

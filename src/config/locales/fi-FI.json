@@ -58,11 +58,20 @@
   },
   "settings": {
     "settings": "Asetukset",
+    "general": "General",
     "currency": "Valuutta",
     "language": "Kieli",
     "server": "Palvelin",
     "dark_theme": "Tumma teema",
     "push_notification": "Push-ilmoitus",
+    "notification": {
+      "follow": "Follow",
+      "vote": "Vote",
+      "comment": "Comment",
+      "mention": "Mention",
+      "reblog": "Reblog",
+      "transfers": "Transfers"
+    },
     "pincode": "PIN-koodi",
     "reset": "Nollaa",
     "nsfw_content": "NSFW Content",

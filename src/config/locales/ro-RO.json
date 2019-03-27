@@ -58,11 +58,20 @@
   },
   "settings": {
     "settings": "Setări",
+    "general": "General",
     "currency": "Monedă",
     "language": "Limbă",
     "server": "Server",
     "dark_theme": "Tema întunecată",
     "push_notification": "Notificări",
+    "notification": {
+      "follow": "Follow",
+      "vote": "Vote",
+      "comment": "Comment",
+      "mention": "Mention",
+      "reblog": "Reblog",
+      "transfers": "Transfers"
+    },
     "pincode": "Pincode",
     "reset": "Resetare",
     "nsfw_content": "Conținut NSFW",

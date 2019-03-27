@@ -58,11 +58,20 @@
   },
   "settings": {
     "settings": "Podešavanja",
+    "general": "General",
     "currency": "Valuta",
     "language": "Jezik",
     "server": "Server",
     "dark_theme": "Noćni mod",
     "push_notification": "Obaveštenja",
+    "notification": {
+      "follow": "Follow",
+      "vote": "Vote",
+      "comment": "Comment",
+      "mention": "Mention",
+      "reblog": "Reblog",
+      "transfers": "Transfers"
+    },
     "pincode": "PIN kod",
     "reset": "Resetuj",
     "nsfw_content": "NSFW sadržaj",

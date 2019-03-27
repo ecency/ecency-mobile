@@ -58,23 +58,32 @@
   },
   "settings": {
     "settings": "Beállítások",
+    "general": "Általános",
     "currency": "Pénznem",
     "language": "Nyelv",
     "server": "Szerver",
     "dark_theme": "Sötét téma",
     "push_notification": "Értesítések Bekapcsolása",
+    "notification": {
+      "follow": "Követés",
+      "vote": "Szavazás",
+      "comment": "Hozzászólás",
+      "mention": "Említés",
+      "reblog": "Megosztás",
+      "transfers": "Átutalások"
+    },
     "pincode": "PIN kód",
     "reset": "Visszaállítás",
     "nsfw_content": "NSFW tartalom",
-    "send_feedback": "Send Feedback",
-    "send": "Send",
+    "send_feedback": "Visszajelzés küldése",
+    "send": "Küldés",
     "default_footer": "Alapértelmezett lábléc",
     "nsfw": {
       "always_show": "Mindig látszik",
       "always_hide": "Mindig rejtve",
       "always_warn": "Mindig figyelmeztess"
     },
-    "feedback_success": "Email successfully open",
+    "feedback_success": "Email sikeresen megnyitva",
     "feedback_fail": "Email client could not open"
   },
   "voters": {

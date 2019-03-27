@@ -58,11 +58,20 @@
   },
   "settings": {
     "settings": "הגדרות",
+    "general": "כללי",
     "currency": "יתרת מטבע",
     "language": "שפה",
     "server": "שרת",
     "dark_theme": "ערכת נושא כהה",
     "push_notification": "התראות דחיפה",
+    "notification": {
+      "follow": "עקוב\/י",
+      "vote": "הצבע\/י",
+      "comment": "תגיב\/י",
+      "mention": "איזכור",
+      "reblog": "שתף\/י",
+      "transfers": "העברות"
+    },
     "pincode": "קוד PIN",
     "reset": "אתחל",
     "nsfw_content": "תוכן NSFW",

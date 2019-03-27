@@ -58,11 +58,20 @@
   },
   "settings": {
     "settings": "إعدادات",
+    "general": "عام",
     "currency": "عملة",
     "language": "لغة",
     "server": "الخادم",
     "dark_theme": "الوضع المظلم",
     "push_notification": "دفع الإشعارات",
+    "notification": {
+      "follow": "تابع",
+      "vote": "تصويت",
+      "comment": "تعليق",
+      "mention": "إشارة",
+      "reblog": "إعادة النشر",
+      "transfers": "التحويلات"
+    },
     "pincode": "رمز PIN",
     "reset": "إعادة",
     "nsfw_content": "محتوى NSFW",

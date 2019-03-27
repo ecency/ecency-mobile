@@ -58,11 +58,20 @@
   },
   "settings": {
     "settings": "設定",
+    "general": "General",
     "currency": "幣種",
     "language": "語言",
     "server": "伺服器",
     "dark_theme": "深色主題",
     "push_notification": "推送通知",
+    "notification": {
+      "follow": "Follow",
+      "vote": "Vote",
+      "comment": "Comment",
+      "mention": "Mention",
+      "reblog": "Reblog",
+      "transfers": "Transfers"
+    },
     "pincode": "PIN 碼",
     "reset": "重置",
     "nsfw_content": "NSFW Content",
