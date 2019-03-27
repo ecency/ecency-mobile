@@ -67,8 +67,8 @@
     "notification": {
       "follow": "دنبال کردن",
       "vote": "رأی",
-      "comment": "Comment",
-      "mention": "Mention",
+      "comment": "نظر",
+      "mention": "ذکر نام",
       "reblog": "Reblog",
       "transfers": "Transfers"
     },
