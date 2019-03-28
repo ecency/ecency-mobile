@@ -19,6 +19,7 @@ class NotificationContainer extends Component {
       lastNotificationId: null,
       notificationLoading: false,
       readAllNotificationLoading: false,
+      selectedFilter: 'activities',
     };
   }
 
@@ -31,8 +32,10 @@ class NotificationContainer extends Component {
   }
 
   componentWillReceiveProps(nextProps) {
+    const { selectedFilter } = this.state;
+
     if (nextProps.activeBottomTab === ROUTES.TABBAR.NOTIFICATION && nextProps.username) {
-      this._getAvtivities();
+      this._getAvtivities(selectedFilter);
     }
   }
 
@@ -110,6 +113,10 @@ class NotificationContainer extends Component {
     navigation.navigate(ROUTES.SCREENS.LOGIN);
   };
 
+  _changeSelectedFilter = (value) => {
+    this.setState({ selectedFilter: value });
+  };
+
   render() {
     const { isLoggedIn } = this.props;
     const {
@@ -130,6 +137,7 @@ class NotificationContainer extends Component {
         notificationLoading={notificationLoading}
         readAllNotificationLoading={readAllNotificationLoading}
         isLoggedIn={isLoggedIn}
+        changeSelectedFilter={this._changeSelectedFilter}
       />
     );
   }
