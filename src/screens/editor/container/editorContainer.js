@@ -279,8 +279,8 @@ class EditorContainer extends Component {
 
   _submitPost = async (fields) => {
     const {
- navigation, currentAccount, pinCode, intl, isDefaultFooter 
-} = this.props;
+      navigation, currentAccount, pinCode, intl, isDefaultFooter,
+    } = this.props;
 
     if (currentAccount) {
       this.setState({ isPostSending: true });
