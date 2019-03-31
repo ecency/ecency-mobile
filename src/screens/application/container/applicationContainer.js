@@ -1,4 +1,3 @@
-/* eslint-disable */
 import React, { Component } from 'react';
 import { Platform, BackHandler, Alert, NetInfo } from 'react-native';
 import { connect } from 'react-redux';
