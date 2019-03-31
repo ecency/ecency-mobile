@@ -31,6 +31,7 @@ class NotificationScreen extends PureComponent {
       isLoggedIn,
       notificationLoading,
       readAllNotificationLoading,
+      changeSelectedFilter,
     } = this.props;
 
     return (
@@ -56,6 +57,7 @@ class NotificationScreen extends PureComponent {
                 readAllNotification={readAllNotification}
                 readAllNotificationLoading={readAllNotificationLoading}
                 loading={notificationLoading}
+                changeSelectedFilter={changeSelectedFilter}
               />
             ) : (
               <NoPost
