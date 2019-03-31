@@ -144,6 +144,9 @@ export const getActivities = data => new Promise((resolve, reject) => {
     case 'reblogs':
       url = `/reblogs/${data.user}`;
       break;
+    case 'transfers':
+      url = `/transfers/${data.user}`;
+      break;
     default:
       url = `/activities/${data.user}`;
       break;
