@@ -329,7 +329,10 @@ class ProfileContainer extends Component {
       user,
       username,
     } = this.state;
-    const { isDarkTheme, isLoggedIn, currency } = this.props;
+    const {
+      isDarkTheme, isLoggedIn, currency, navigation,
+    } = this.props;
+    const activePage = (navigation.state.params && navigation.state.params.activePage) || 0;
 
     return (
       <ProfileScreen
@@ -356,6 +359,7 @@ class ProfileContainer extends Component {
         selectedQuickProfile={selectedQuickProfile}
         selectedUser={user}
         username={username}
+        activePage={activePage}
       />
     );
   }
