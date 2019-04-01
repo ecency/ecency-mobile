@@ -58,19 +58,19 @@
   },
   "settings": {
     "settings": "Configurações",
-    "general": "General",
+    "general": "Geral",
     "currency": "Moeda",
     "language": "Língua",
     "server": "Servidor",
     "dark_theme": "Tema Escuro",
     "push_notification": "Puxar Notificações",
     "notification": {
-      "follow": "Follow",
-      "vote": "Vote",
-      "comment": "Comment",
-      "mention": "Mention",
-      "reblog": "Reblog",
-      "transfers": "Transfers"
+      "follow": "Seguir",
+      "vote": "Votar",
+      "comment": "Comentar",
+      "mention": "Menção",
+      "reblog": "Republicar",
+      "transfers": "Transferências"
     },
     "pincode": "Código PIN",
     "reset": "Reiniciar",

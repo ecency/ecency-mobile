@@ -58,19 +58,19 @@
   },
   "settings": {
     "settings": "Pengaturan",
-    "general": "General",
+    "general": "Umum",
     "currency": "Nilai Tukar Mata Uang",
     "language": "Bahasa",
     "server": "Server",
     "dark_theme": "Tema Gelap",
     "push_notification": "Notifikasi Gegas",
     "notification": {
-      "follow": "Follow",
-      "vote": "Vote",
-      "comment": "Comment",
-      "mention": "Mention",
+      "follow": "Ikuti",
+      "vote": "Berikan dukungan suara",
+      "comment": "Komentar",
+      "mention": "Menyebutkan",
       "reblog": "Reblog",
-      "transfers": "Transfers"
+      "transfers": "Transfer"
     },
     "pincode": "Kode PIN",
     "reset": "Setel Ulang",
