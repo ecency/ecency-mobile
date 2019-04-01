@@ -111,6 +111,12 @@ class PostBody extends PureComponent {
     });
   };
 
+  _hasParentTag = (node, name) => {
+    if (!node.parent) return false;
+    if (node.name === name) return true;
+    return this._hasParentTag(node.parent, name);
+  };
+
   _alterNode = (node, isComment) => {
     if (isComment) {
       if (node.name === 'img') {
@@ -127,6 +133,9 @@ class PostBody extends PureComponent {
 
     if (node.name === 'img') {
       node.attribs.style = 'text-align: center;';
+      if (this._hasParentTag(node, 'td')) {
+        node.attribs.style = `max-width: ${WIDTH / 2 - 20}px; `;
+      }
     }
 
     if (node.name === 'div' && node.attribs && node.attribs.class) {
@@ -155,6 +164,7 @@ class PostBody extends PureComponent {
     const _initialDimensions = isComment
       ? { width: WIDTH - 50, height: 80 }
       : { width: WIDTH, height: 216 };
+
     return (
       <Fragment>
         <HTML
