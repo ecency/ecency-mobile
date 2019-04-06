@@ -76,7 +76,10 @@ class ProfileContainer extends Component {
 
   componentWillReceiveProps(nextProps) {
     const {
-      navigation, currentAccount, activeBottomTab, isLoggedIn,
+      navigation,
+      currentAccount,
+      activeBottomTab,
+      isLoggedIn,
     } = this.props;
     const currentUsername = currentAccount.name !== nextProps.currentAccount.name && nextProps.currentAccount.name;
 
@@ -95,6 +98,10 @@ class ProfileContainer extends Component {
     ) {
       this._loadProfile(currentAccount.name);
     }
+  }
+
+  componentWillUnmount() {
+    clearInterval(this.fetchProfileTimer);
   }
 
   _getReplies = async (user) => {
@@ -184,21 +191,25 @@ class ProfileContainer extends Component {
   _profileActionDone = (error = null) => {
     const { username } = this.state;
 
-    this.setState({
-      isProfileLoading: false,
-    });
-
     if (error) {
       this.setState({
         error,
       });
       alert(error);
     } else {
-      this._fetchProfile(username);
+      /**
+      * This follow code totally a work arround
+      * Ceated for server response delay.
+      */
+      this.fetchProfileTimer = setTimeout(() => {
+        this._fetchProfile(username);
+      }, 8000);
     }
   };
 
+
   _fetchProfile = async (username = null) => {
+    const { isProfileLoading } = this.state;
     if (username) {
       const { isLoggedIn, currentAccount } = this.props;
       let isFollowing;
@@ -220,6 +231,12 @@ class ProfileContainer extends Component {
         follows = await getFollows(username);
       } catch (err) {
         follows = null;
+      }
+
+      if (isProfileLoading) {
+        this.setState({
+          isProfileLoading: false,
+        });
       }
 
       this.setState({
