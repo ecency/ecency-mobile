@@ -1,4 +1,3 @@
-/* eslint-disable */
 import Remarkable from 'remarkable';
 // TODO: Refactoring need!
 const md = new Remarkable({ html: true, breaks: true, linkify: true });
