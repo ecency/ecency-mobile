@@ -18,6 +18,8 @@ import tr from 'react-intl/locale-data/tr';
 import ko from 'react-intl/locale-data/ko';
 import lt from 'react-intl/locale-data/lt';
 import pt from 'react-intl/locale-data/pt';
+import fa from 'react-intl/locale-data/fa';
+import he from 'react-intl/locale-data/he';
 
 // Constants
 import AUTH_TYPE from '../../../constants/authType';
@@ -69,7 +71,7 @@ import {
 import ApplicationScreen from '../screen/applicationScreen';
 import { Launch } from '../..';
 
-addLocaleData([...en, ...ru, ...de, ...id, ...it, ...hu, ...tr, ...ko, ...pt, ...lt]);
+addLocaleData([...en, ...ru, ...de, ...id, ...it, ...hu, ...tr, ...ko, ...pt, ...lt, ...fa]);
 
 class ApplicationContainer extends Component {
   constructor() {
@@ -209,7 +211,7 @@ class ApplicationContainer extends Component {
         await switchAccount(realmObject[0].username);
       }
       await getUser(realmObject[0].username)
-        .then(async accountData => {
+        .then((accountData) => {
           dispatch(login(true));
 
           const isExistUser = await getExistUser();
