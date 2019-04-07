@@ -153,9 +153,13 @@ class CommentsContainer extends Component {
       },
     });
   };
-  
-  _handleDeleteComment = (author, permlink) => {
-    deleteComment(author, permlink);
+
+  _handleDeleteComment = (permlink) => {
+    const { currentAccount, pinCode } = this.props;
+
+    deleteComment(currentAccount, pinCode, permlink).then(() => {
+      this._getComments();
+    });
   }
 
   render() {
@@ -198,6 +202,7 @@ class CommentsContainer extends Component {
 const mapStateToProps = state => ({
   isLoggedIn: state.application.isLoggedIn,
   currentAccount: state.account.currentAccount,
+  pinCode: state.account.pin,
 });
 
 export default withNavigation(connect(mapStateToProps)(CommentsContainer));
