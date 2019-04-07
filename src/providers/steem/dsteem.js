@@ -341,6 +341,19 @@ export const getPurePost = async (author, permlink) => {
   }
 };
 
+export const deleteComment = (author, permlink) => {
+  return new Promise((resolve, reject) => {
+    client.database
+      .call('comment_delete', [author, permlink])
+      .then((response) => {
+        resolve(response);
+      })
+      .catch((error) => {
+        reject(error);
+      });
+  });
+};
+
 /**
  * @method getUser get user data
  * @param user post author
