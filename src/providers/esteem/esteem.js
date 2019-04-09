@@ -223,7 +223,7 @@ export const schedule = (
   upvote,
   scheduleDate,
 ) => api
-  .post('/api/schedules', {
+  .post('/schedules', {
     username: user,
     category: tags[0],
     title,
@@ -238,18 +238,18 @@ export const schedule = (
   })
   .then(resp => resp.data);
 
-export const getSchedules = user => api.get(`/api/schedules/${user}`).then(resp => resp.data);
+export const getSchedules = user => api.get(`/schedules/${user}`).then(resp => resp.data);
 
-export const removeSchedule = (id, user) => api.delete(`/api/schedules/${user}/${id}`);
+export const removeSchedule = (user, id) => api.delete(`/schedules/${user}/${id}`);
 
-export const moveSchedule = (id, user) => api.put(`/api/schedules/${user}/${id}`);
+export const moveSchedule = (id, user) => api.put(`/schedules/${user}/${id}`);
 
 // Old image service
 // Images
 
 export const getImages = user => api.get(`api/images/${user}`).then(resp => resp.data);
 
-export const addMyImage = (user, url) => api.post('/api/image', { username: user, image_url: url });
+export const addMyImage = (user, url) => api.post('/image', { username: user, image_url: url });
 
 export const uploadImage = (file) => {
   const fData = new FormData();

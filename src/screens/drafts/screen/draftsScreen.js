@@ -33,8 +33,10 @@ class DraftsScreen extends Component {
 
   // Component Functions
 
-  _renderItem = (item) => {
-    const { currentAccount, removeDraft, editDraft } = this.props;
+  _renderItem = (item, type) => {
+    const {
+      currentAccount, removeDraft, editDraft, removeSchedule,
+    } = this.props;
     const tags = item.tags ? item.tags.split(/[ ,]+/) : [];
     const tag = tags[0] || '';
     const image = catchDraftImage(item.body);
@@ -50,7 +52,7 @@ class DraftsScreen extends Component {
         username={currentAccount.name}
         reputation={currentAccount.reputation}
         handleOnPressItem={editDraft}
-        handleOnRemoveItem={removeDraft}
+        handleOnRemoveItem={type === 'schedules' ? removeSchedule : removeDraft}
         id={item._id}
       />
     );
@@ -80,7 +82,7 @@ class DraftsScreen extends Component {
               data={data}
               keyExtractor={item => item._id}
               removeClippedSubviews={false}
-              renderItem={({ item }) => this._renderItem(item)}
+              renderItem={({ item }) => this._renderItem(item, type)}
             />
           )
         )}
