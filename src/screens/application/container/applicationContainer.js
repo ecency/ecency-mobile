@@ -1,7 +1,5 @@
 import React, { Component } from 'react';
-import {
-  Platform, BackHandler, Alert, NetInfo,
-} from 'react-native';
+import { Platform, BackHandler, Alert, NetInfo } from 'react-native';
 import { connect } from 'react-redux';
 import { addLocaleData } from 'react-intl';
 import Config from 'react-native-config';
@@ -20,6 +18,8 @@ import tr from 'react-intl/locale-data/tr';
 import ko from 'react-intl/locale-data/ko';
 import lt from 'react-intl/locale-data/lt';
 import pt from 'react-intl/locale-data/pt';
+import fa from 'react-intl/locale-data/fa';
+import he from 'react-intl/locale-data/he';
 
 // Constants
 import AUTH_TYPE from '../../../constants/authType';
@@ -71,7 +71,7 @@ import {
 import ApplicationScreen from '../screen/applicationScreen';
 import { Launch } from '../..';
 
-addLocaleData([...en, ...ru, ...de, ...id, ...it, ...hu, ...tr, ...ko, ...pt, ...lt]);
+addLocaleData([...en, ...ru, ...de, ...id, ...it, ...hu, ...tr, ...ko, ...pt, ...lt, ...fa]);
 
 class ApplicationContainer extends Component {
   constructor() {
@@ -87,7 +87,7 @@ class ApplicationContainer extends Component {
     const { isIos } = this.state;
     let isConnected;
 
-    await NetInfo.isConnected.fetch().then((_isConnected) => {
+    await NetInfo.isConnected.fetch().then(_isConnected => {
       isConnected = _isConnected;
     });
 
@@ -104,9 +104,7 @@ class ApplicationContainer extends Component {
   };
 
   componentWillReceiveProps(nextProps) {
-    const {
-      isDarkTheme: _isDarkTheme, selectedLanguage, isLogingOut, isConnected,
-    } = this.props;
+    const { isDarkTheme: _isDarkTheme, selectedLanguage, isLogingOut, isConnected } = this.props;
 
     if (_isDarkTheme !== nextProps.isDarkTheme || selectedLanguage !== nextProps.selectedLanguage) {
       this.setState({ isRenderRequire: false }, () => this.setState({ isRenderRequire: true }));
@@ -136,7 +134,7 @@ class ApplicationContainer extends Component {
     await this._getUserData();
   };
 
-  _handleConntectionChange = (status) => {
+  _handleConntectionChange = status => {
     const { dispatch, isConnected } = this.props;
 
     if (isConnected !== status) {
@@ -170,19 +168,19 @@ class ApplicationContainer extends Component {
     let realmData = [];
     let currentUsername;
 
-    await getAuthStatus().then((res) => {
+    await getAuthStatus().then(res => {
       ({ currentUsername } = res);
       if (res) {
-        getUserData().then(async (userData) => {
+        getUserData().then(async userData => {
           if (userData.length > 0) {
             realmData = userData;
             userData.forEach((accountData, index) => {
               if (
-                !accountData.accessToken
-                && !accountData.masterKey
-                && !accountData.postingKey
-                && !accountData.activeKey
-                && !accountData.memoKey
+                !accountData.accessToken &&
+                !accountData.masterKey &&
+                !accountData.postingKey &&
+                !accountData.activeKey &&
+                !accountData.memoKey
               ) {
                 realmData.splice(index, 1);
                 if (realmData.length === 0) {
@@ -213,7 +211,7 @@ class ApplicationContainer extends Component {
         await switchAccount(realmObject[0].username);
       }
       await getUser(realmObject[0].username)
-        .then(async (accountData) => {
+        .then(async accountData => {
           dispatch(login(true));
 
           const isExistUser = await getExistUser();
@@ -227,7 +225,7 @@ class ApplicationContainer extends Component {
           }
           this._connectNotificationServer(accountData.name);
         })
-        .catch((err) => {
+        .catch(err => {
           Alert.alert(err);
         });
     }
@@ -239,15 +237,18 @@ class ApplicationContainer extends Component {
   _getSettings = () => {
     const { dispatch } = this.props;
 
-    getSettings().then((response) => {
+    getSettings().then(response => {
       if (response) {
         if (response.isDarkTheme !== '') dispatch(isDarkTheme(response.isDarkTheme));
         if (response.language !== '') dispatch(setLanguage(response.language));
         if (response.server !== '') dispatch(setApi(response.server));
-        if (response.upvotePercent !== '') dispatch(setUpvotePercent(Number(response.upvotePercent)));
+        if (response.upvotePercent !== '')
+          dispatch(setUpvotePercent(Number(response.upvotePercent)));
         if (response.isDefaultFooter !== '') dispatch(isDefaultFooter(response.isDefaultFooter));
         if (response.notification !== '') {
-          dispatch(changeNotificationSettings({ type: 'notification', action: response.notification }));
+          dispatch(
+            changeNotificationSettings({ type: 'notification', action: response.notification }),
+          );
           dispatch(changeAllNotificationSettings(response));
 
           Push.setEnabled(response.notification);
@@ -261,7 +262,7 @@ class ApplicationContainer extends Component {
     });
   };
 
-  _connectNotificationServer = (username) => {
+  _connectNotificationServer = username => {
     const { dispatch, unreadActivityCount } = this.props;
     const ws = new WebSocket(`${Config.ACTIVITY_WEBSOCKET_URL}?user=${username}`);
 
@@ -299,10 +300,10 @@ class ApplicationContainer extends Component {
       .catch(() => {});
   };
 
-  _switchAccount = async (targetAccountUsername) => {
+  _switchAccount = async targetAccountUsername => {
     const { dispatch } = this.props;
 
-    await switchAccount(targetAccountUsername).then((accountData) => {
+    await switchAccount(targetAccountUsername).then(accountData => {
       const realmData = getUserDataWithUsername(targetAccountUsername);
       const _currentAccount = accountData;
       _currentAccount.username = accountData.name;

@@ -4,7 +4,9 @@ import { Alert } from 'react-native';
 import { injectIntl } from 'react-intl';
 
 // Services and Actions
-import { getDrafts, removeDraft, getSchedules } from '../../../providers/esteem/esteem';
+import {
+  getDrafts, removeDraft, getSchedules, removeSchedule,
+} from '../../../providers/esteem/esteem';
 
 // Middleware
 
@@ -35,6 +37,7 @@ class DraftsContainer extends Component {
   // Component Life Cycle Functions
   componentDidMount() {
     this._getDrafts();
+    this._getSchedules();
   }
 
   // Component Functions
@@ -82,6 +85,21 @@ class DraftsContainer extends Component {
       });
   };
 
+  _removeSchedule = (id) => {
+    const { currentAccount, intl } = this.props;
+
+    removeSchedule({ username: currentAccount.name, draftId: id })
+      .then(() => {
+        const { schedules } = this.state;
+        const newSchedules = [...schedules].filter(schedule => schedule._id !== id);
+
+        this.setState({ schedules: this._sortData(newSchedules) });
+      })
+      .catch(() => {
+        Alert.alert(intl.formatMessage({ id: 'alert.fail' }));
+      });
+  };
+
   _editDraft = (id) => {
     const { navigation } = this.props;
     const { drafts } = this.state;
@@ -115,6 +133,7 @@ class DraftsContainer extends Component {
         drafts={drafts}
         schedules={schedules}
         removeDraft={this._removeDraft}
+        removeSchedule={this._removeSchedule}
       />
     );
   }
