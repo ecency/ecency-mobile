@@ -1,4 +1,8 @@
 import React, { PureComponent } from 'react';
+import { withNavigation } from 'react-navigation';
+
+// Constants
+import ROUTES from '../../../constants/routeNames';
 
 // Component
 import WalletDetailsView from '../view/walletDetailsView';
@@ -19,12 +23,19 @@ class WalletContainer extends PureComponent {
   // Component Life Cycle Functions
 
   // Component Functions
+  _navigate = () => {
+    const { navigation } = this.props;
+    console.log('navigation :', navigation);
+    navigation.navigate({
+      routeName: ROUTES.SCREENS.TRANSFER,
+    });
+  };
 
   render() {
     const { intl, walletData } = this.props;
 
-    return <WalletDetailsView intl={intl} walletData={walletData} />;
+    return <WalletDetailsView intl={intl} walletData={walletData} navigate={this._navigate} />;
   }
 }
 
-export default WalletContainer;
+export default withNavigation(WalletContainer);

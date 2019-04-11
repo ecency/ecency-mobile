@@ -1,8 +1,9 @@
 import React from 'react';
-import { View, Text } from 'react-native';
+import { View, Text, Picker } from 'react-native';
 import GrayWrapper from '../grayWrapper/grayWrapperView';
 
 import { Icon } from '../../../icon';
+import { DropdownButton } from '../../../dropdownButton';
 
 import styles from './walletLineItemStyles';
 
@@ -22,6 +23,9 @@ const WalletLineItem = ({
   textColor,
   index,
   style,
+  dropdown,
+  dropdownOptions,
+  onDropdownSelect,
 }) => (
   <GrayWrapper isGray={index && index % 2 !== 0}>
     <View style={[styles.container, fitContent && styles.fitContent, style]}>
@@ -70,6 +74,17 @@ const WalletLineItem = ({
           >
             {rightText}
           </Text>
+        </View>
+      )}
+      {dropdown && (
+        <View style={styles.test}>
+          <DropdownButton
+            isHasChildIcon
+            iconName="arrow-drop-down"
+            options={dropdownOptions}
+            noHighlight
+            onSelect={onDropdownSelect}
+          />
         </View>
       )}
     </View>
