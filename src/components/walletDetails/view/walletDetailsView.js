@@ -29,7 +29,7 @@ class WalletDetailsView extends PureComponent {
   // Component Functions
 
   render() {
-    const { walletData, intl } = this.props;
+    const { walletData, intl, navigate } = this.props;
     return (
       <View style={styles.container}>
         <WalletLineItem
@@ -38,6 +38,9 @@ class WalletDetailsView extends PureComponent {
           iconName="ios-information-circle-outline"
           rightText={`${Math.round(walletData.balance * 1000) / 1000} STEEM`}
           isBoldText
+          dropdown
+          dropdownOptions={['Transfer']}
+          onDropdownSelect={test => navigate()}
         />
         <GrayWrapper isGray>
           <WalletLineItem

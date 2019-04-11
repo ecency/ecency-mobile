@@ -21,6 +21,7 @@ import {
   SteemConnect,
   Voters,
   SearchResult,
+  Transfer,
 } from '../screens';
 
 // Components
@@ -95,6 +96,12 @@ const stackNavigatior = createStackNavigator(
     },
     [ROUTES.SCREENS.SEARCH_RESULT]: {
       screen: RootComponent()(SearchResult),
+      navigationOptions: {
+        header: () => null,
+      },
+    },
+    [ROUTES.SCREENS.TRANSFER]: {
+      screen: RootComponent()(Transfer),
       navigationOptions: {
         header: () => null,
       },

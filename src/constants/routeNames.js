@@ -18,6 +18,7 @@ export default {
     VOTERS: `Voters${SCREEN_SUFFIX}`,
     BOOKMARKS: `Bookmarks${SCREEN_SUFFIX}`,
     SEARCH_RESULT: `SearchResult${SCREEN_SUFFIX}`,
+    TRANSFER: `Transfer${SCREEN_SUFFIX}`,
   },
   DRAWER: {
     MAIN: `Main${DRAWER_SUFFIX}`,
