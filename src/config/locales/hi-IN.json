@@ -229,7 +229,7 @@
   "comment_filter": {
     "trending": "प्रचलित",
     "reputation": "प्रतिष्ठा",
-    "votes": "votes",
-    "age": "age"
+    "votes": "मत",
+    "age": "उम्र"
   }
 }
