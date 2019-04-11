@@ -137,7 +137,7 @@
     "publish": "Yayınla",
     "reply": "Cevapla",
     "open_galery": "Gariyi Aç",
-    "capture_photo": "Bir fotoğraf yakala"
+    "capture_photo": "Bir fotoğraf çekin"
   },
   "pincode": {
     "enter_text": "Açmak için pin kodunu giriniz",
@@ -220,7 +220,7 @@
   },
   "deep_link": {
     "no_existing_user": "Kullanici Bulunamadi",
-    "no_existing_post": "Kullanici Bulunamadi"
+    "no_existing_post": "Mevcut yayın yok"
   },
   "search": {
     "posts": "Gönderi",
