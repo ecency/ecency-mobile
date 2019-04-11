@@ -3,6 +3,7 @@ import {
   View, Text, ActivityIndicator, SafeAreaView,
 } from 'react-native';
 import { injectIntl } from 'react-intl';
+import DatePicker from 'react-native-datepicker';
 
 // Components
 import { TextButton } from '../..';
@@ -25,6 +26,7 @@ class BasicHeaderView extends Component {
     super(props);
     this.state = {
       isInputVisible: false,
+      date: '2016-05-15',
     };
   }
 
@@ -181,6 +183,44 @@ class BasicHeaderView extends Component {
                 iconType="MaterialIcons"
                 name="timer"
               /> */}
+
+              <DatePicker
+                // style={{ width: 200 }}
+                date={this.state.date}
+                mode="date"
+                placeholder="select date"
+                format="YYYY-MM-DD"
+                minDate="2018-05-01"
+                maxDate="3000-06-01"
+                confirmBtnText="Confirm"
+                cancelBtnText="Cancel"
+                onDateChange={(date) => { this.setState({ date }); }}
+                hideText
+                customStyles={{
+                  dateIcon: {
+                    position: 'absolute',
+                    left: 0,
+                    top: 4,
+                    marginLeft: 0,
+                  },
+                  dateInput: {
+                    marginLeft: 36,
+                    height: 10,
+                    width: 10,
+                    backgroundColor: '#cbcbcb',
+                  },
+                  // ... You can check the source to find the other keys.
+                }}
+                iconComponent={(
+                  <IconButton
+                    style={styles.iconButton}
+                    iconStyle={styles.rightIcon}
+                    size={20}
+                    iconType="MaterialIcons"
+                    name="timer"
+                  />
+                )}
+              />
               <IconButton
                 style={styles.iconButton}
                 size={25}
