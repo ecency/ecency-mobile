@@ -79,12 +79,12 @@
     "send": "भेजना",
     "default_footer": "Default Footer",
     "nsfw": {
-      "always_show": "Always show",
-      "always_hide": "Always hide",
-      "always_warn": "Always warn"
+      "always_show": "हमेशा दिखाएं",
+      "always_hide": "हमेशा छिपाए",
+      "always_warn": "हमेशा चेतावनी देते हैं"
     },
-    "feedback_success": "Email successfully open",
-    "feedback_fail": "Email client could not open"
+    "feedback_success": "ईमेल सफलतापूर्वक खुला",
+    "feedback_fail": "ईमेल क्लाइंट नहीं खोल सका"
   },
   "voters": {
     "voters_info": "मतदाताओं की जानकारी",
@@ -159,7 +159,7 @@
     "invalid_pincode": "Invalid pin code, please check and try again.",
     "remove_alert": "क्या आप इसे सच में हटाना चाहते हैं?",
     "clear_alert": "क्या आप सचमुच में मिटाना चाहते हैं?",
-    "clear_user_alert": "Are you sure you want to clear all user data?",
+    "clear_user_alert": "क्या आप वाकई सभी उपयोगकर्ता डेटा को साफ़ करना चाहते हैं?",
     "clear": "मिटायें",
     "cancel": "रद्द करें",
     "delete": "मिटा दें",
@@ -223,12 +223,12 @@
     "no_existing_post": "कोई विद्यमान पोस्ट नहीं"
   },
   "search": {
-    "posts": "Posts",
-    "comments": "Comments"
+    "posts": "पोस्ट",
+    "comments": "टिप्पणियाँ"
   },
   "comment_filter": {
-    "trending": "trending",
-    "reputation": "reputation",
+    "trending": "प्रचलित",
+    "reputation": "प्रतिष्ठा",
     "votes": "votes",
     "age": "age"
   }
