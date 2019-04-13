@@ -129,7 +129,7 @@ class ApplicationContainer extends Component {
   }
 
   _fetchApp = async () => {
-    this._refreshGlobalProps();
+    await this._refreshGlobalProps();
     this._getSettings();
     await this._getUserData();
   };
@@ -211,7 +211,7 @@ class ApplicationContainer extends Component {
         await switchAccount(realmObject[0].username);
       }
       await getUser(realmObject[0].username)
-        .then(async accountData => {
+        .then((accountData) => {
           dispatch(login(true));
 
           const isExistUser = await getExistUser();
@@ -242,8 +242,9 @@ class ApplicationContainer extends Component {
         if (response.isDarkTheme !== '') dispatch(isDarkTheme(response.isDarkTheme));
         if (response.language !== '') dispatch(setLanguage(response.language));
         if (response.server !== '') dispatch(setApi(response.server));
-        if (response.upvotePercent !== '')
+        if (response.upvotePercent !== '') {
           dispatch(setUpvotePercent(Number(response.upvotePercent)));
+        }
         if (response.isDefaultFooter !== '') dispatch(isDefaultFooter(response.isDefaultFooter));
         if (response.notification !== '') {
           dispatch(
