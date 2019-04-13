@@ -6,13 +6,14 @@ import ScrollableTabView from '@esteemapp/react-native-scrollable-tab-view';
 // Utils
 import { getPostSummary } from '../../../utils/formatter';
 import { catchDraftImage } from '../../../utils/image';
-// Constants
+import { getFormatedCreatedDate } from '../../../utils/time';
 
 // Components
 import { BasicHeader } from '../../../components/basicHeader';
 import { PostListItem } from '../../../components/postListItem';
 import { PostCardPlaceHolder } from '../../../components/basicUIElements';
 import { TabBar } from '../../../components/tabBar';
+import ActionSheet from 'react-native-actionsheet';
 
 // Styles
 import globalStyles from '../../../globalStyles';
@@ -26,7 +27,9 @@ class DraftsScreen extends Component {
 
   constructor(props) {
     super(props);
-    this.state = {};
+    this.state = {
+      selectedId: null,
+    }
   }
 
   // Component Life Cycles
@@ -41,19 +44,22 @@ class DraftsScreen extends Component {
     const tag = tags[0] || '';
     const image = catchDraftImage(item.body);
     const summary = getPostSummary(item.body, 100);
+    const isSchedules = type === 'schedules';
 
     return (
       <PostListItem
-        created={item.created}
+        created={isSchedules ? getFormatedCreatedDate(item.schedule) : item.created}
         mainTag={tag}
         title={item.title}
+        isFormatedDate={isSchedules}
         summary={summary}
         image={image ? { uri: catchDraftImage(item.body) } : null}
         username={currentAccount.name}
         reputation={currentAccount.reputation}
-        handleOnPressItem={editDraft}
-        handleOnRemoveItem={type === 'schedules' ? removeSchedule : removeDraft}
+        handleOnPressItem={() => isSchedules ? this.setState({selectedId: item._id}, () => this.ActionSheet.show()) : editDraft}
+        handleOnRemoveItem={isSchedules ? removeSchedule : removeDraft}
         id={item._id}
+        key={item._id}
       />
     );
   };
@@ -91,7 +97,8 @@ class DraftsScreen extends Component {
   };
 
   render() {
-    const { drafts, schedules, intl } = this.props;
+    const { drafts, schedules, intl, moveScheduleToDraft } = this.props;
+    const { selectedId } = this.state;
 
     return (
       <View style={globalStyles.container}>
@@ -129,6 +136,24 @@ class DraftsScreen extends Component {
             {this._getTabItem(schedules, 'schedules')}
           </View>
         </ScrollableTabView>
+        <ActionSheet
+          ref={o => (this.ActionSheet = o)}
+          title={intl.formatMessage({
+            id: 'alert.move_question',
+          })}
+          options={[
+            intl.formatMessage({
+              id: 'alert.move',
+            }),
+            intl.formatMessage({
+              id: 'alert.cancel',
+            }),
+          ]}
+          cancelButtonIndex={1}
+          onPress={(index) => {
+            index === 0 && moveScheduleToDraft(selectedId);
+          }}
+        />
       </View>
     );
   }

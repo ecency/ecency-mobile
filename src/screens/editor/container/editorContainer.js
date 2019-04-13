@@ -6,7 +6,13 @@ import ImagePicker from 'react-native-image-crop-picker';
 
 // Services and Actions
 import { Buffer } from 'buffer';
-import { uploadImage, addDraft, updateDraft } from '../../../providers/esteem/esteem';
+import {
+  uploadImage,
+  addDraft,
+  updateDraft,
+  schedule,
+} from '../../../providers/esteem/esteem';
+import { toastNotification } from '../../../redux/actions/uiAction';
 import { postContent, getPurePost } from '../../../providers/steem/dsteem';
 import { setDraftPost, getDraftPost } from '../../../realm/realm';
 
@@ -69,7 +75,11 @@ class EditorContainer extends Component {
         _draft = navigationParams.draft;
 
         this.setState({
-          draftPost: { title: _draft.title, body: _draft.body, tags: _draft.tags.split(' ') },
+          draftPost: {
+            title: _draft.title,
+            body: _draft.body,
+            tags: _draft.tags.includes(' ') ? _draft.tags.split(' ') : _draft.tags.split(','),
+          },
           draftId: _draft._id,
           isDraft: true,
         });
@@ -87,16 +97,14 @@ class EditorContainer extends Component {
 
       if (navigationParams.isEdit) {
         ({ isEdit } = navigationParams);
-        this.setState(
-          {
-            isEdit,
-            draftPost: {
-              title: post.title,
-              body: post.markdownBody,
-              tags: post.json_metadata.tags,
-            },
+        this.setState({
+          isEdit,
+          draftPost: {
+            title: post.title,
+            body: post.markdownBody,
+            tags: post.json_metadata.tags,
           },
-        );
+        });
       }
 
       if (navigationParams.action) {
@@ -121,7 +129,11 @@ class EditorContainer extends Component {
       await getDraftPost(username)
         .then((result) => {
           this.setState({
-            draftPost: { body: result.body, title: result.title, tags: result.tags.split(',') },
+            draftPost: {
+              body: result.body,
+              title: result.title,
+              tags: result.tags.split(','),
+            },
           });
         })
         .catch(() => {
@@ -266,7 +278,8 @@ class EditorContainer extends Component {
 
       const draftField = {
         ...fields,
-        tags: fields.tags && fields.tags.length > 0 ? fields.tags.toString() : '',
+        tags:
+          fields.tags && fields.tags.length > 0 ? fields.tags.toString() : '',
       };
 
       if (isReply && draftField.body) {
@@ -277,9 +290,14 @@ class EditorContainer extends Component {
     }
   };
 
-  _submitPost = async (fields) => {
+  _submitPost = async (fields, scheduleDate) => {
     const {
-      navigation, currentAccount, pinCode, intl, isDefaultFooter,
+      currentAccount,
+      dispatch,
+      intl,
+      navigation,
+      pinCode,
+      // isDefaultFooter,
     } = this.props;
 
     if (currentAccount) {
@@ -305,43 +323,63 @@ class EditorContainer extends Component {
       const options = makeOptions(author, permlink);
       const parentPermlink = fields.tags[0];
 
-      await postContent(
-        currentAccount,
-        pinCode,
-        '',
-        parentPermlink,
-        permlink,
-        fields.title,
-        fields.body,
-        jsonMeta,
-        options,
-        0,
-      )
-        .then(() => {
-          Alert.alert(
-            intl.formatMessage({
-              id: 'alert.success',
-            }),
-            intl.formatMessage({
-              id: 'alert.success_shared',
-            }),
-          );
-
-          navigation.navigate({
-            routeName: ROUTES.SCREENS.POST,
-            params: {
-              author: currentAccount.name,
-              permlink,
-              isNewPost: true,
-            },
-            key: permlink,
-          });
-
-          setDraftPost({ title: '', body: '', tags: '' }, currentAccount.name);
-        })
-        .catch((error) => {
-          this._handleSubmitFailure(error);
+      if (scheduleDate) {
+        await this._setScheduledPost({
+          author,
+          permlink,
+          fields,
+          scheduleDate,
         });
+      } else {
+        await postContent(
+          currentAccount,
+          pinCode,
+          '',
+          parentPermlink,
+          permlink,
+          fields.title,
+          fields.body,
+          jsonMeta,
+          options,
+          0,
+        )
+          .then(() => {
+            // Alert.alert(
+            //   intl.formatMessage({
+            //     id: 'alert.success',
+            //   }),
+            //   intl.formatMessage({
+            //     id: 'alert.success_shared',
+            //   }),
+            // );
+
+            dispatch(
+              toastNotification(
+                intl.formatMessage({
+                  id: 'alert.success_shared',
+                }),
+              ),
+            );
+
+            navigation.navigate({
+              routeName: ROUTES.SCREENS.POST,
+              params: {
+                author: currentAccount.name,
+                permlink,
+                isNewPost: true,
+              },
+              key: permlink,
+            });
+
+            setDraftPost(
+              { title: '', body: '', tags: '' },
+              currentAccount.name,
+            );
+          })
+          .catch((error) => {
+            this._handleSubmitFailure(error);
+          });
+      }
     }
   };
 
@@ -353,7 +391,9 @@ class EditorContainer extends Component {
 
       const { post } = this.state;
 
-      const jsonMeta = makeJsonMetadataReply(post.json_metadata.tags || ['esteem']);
+      const jsonMeta = makeJsonMetadataReply(
+        post.json_metadata.tags || ['esteem'],
+      );
       const permlink = generateReplyPermlink(post.author);
       const author = currentAccount.name;
       const options = makeOptions(author, permlink);
@@ -479,6 +519,38 @@ class EditorContainer extends Component {
     }
   };
 
+  _handleDatePickerChange = (datePickerValue, fields) => {
+    this._submitPost(fields, datePickerValue);
+  };
+
+  _setScheduledPost = (data) => {
+    const { dispatch } = this.props;
+
+    schedule(
+      data.author,
+      data.fields.title,
+      data.permlink,
+      '',
+      data.fields.tags,
+      data.fields.body,
+      '',
+      '',
+      data.scheduleDate,
+    ).then(() => {
+      this.setState({ isPostSending: false });
+      dispatch(
+        toastNotification(
+          // intl.formatMessage({
+          //   id: 'alert.copied',
+          // }),
+          'Scheduled',
+        ),
+      );
+    }).catch(() => {
+      this.setState({ isPostSending: false });
+    });
+  }
+
   render() {
     const { isLoggedIn, isDarkTheme } = this.props;
     const {
@@ -500,11 +572,11 @@ class EditorContainer extends Component {
       <EditorScreen
         autoFocusText={autoFocusText}
         draftPost={draftPost}
+        handleDatePickerChange={this._handleDatePickerChange}
         handleFormChanged={this._handleFormChanged}
-        handleOnImagePicker={this._handleRoutingAction}
-        saveDraftToDB={this._saveDraftToDB}
-        handleOnSubmit={this._handleSubmit}
         handleOnBackPress={this._handleOnBackPress}
+        handleOnImagePicker={this._handleRoutingAction}
+        handleOnSubmit={this._handleSubmit}
         isCameraOrPickerOpen={isCameraOrPickerOpen}
         isDarkTheme={isDarkTheme}
         isDraftSaved={isDraftSaved}
@@ -517,6 +589,7 @@ class EditorContainer extends Component {
         isUploading={isUploading}
         post={post}
         saveCurrentDraft={this._saveCurrentDraft}
+        saveDraftToDB={this._saveDraftToDB}
         uploadedImage={uploadedImage}
       />
     );
