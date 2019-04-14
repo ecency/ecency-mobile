@@ -74,7 +74,7 @@ class DraftsContainer extends Component {
   _removeDraft = (id) => {
     const { currentAccount, intl } = this.props;
 
-    removeDraft({ username: currentAccount.name, draftId: id })
+    removeDraft(currentAccount.name, id)
       .then(() => {
         const { drafts } = this.state;
         const newDrafts = [...drafts].filter(draft => draft._id !== id);
@@ -88,9 +88,8 @@ class DraftsContainer extends Component {
 
   _removeSchedule = (id) => {
     const { currentAccount, intl } = this.props;
-    console.log(id);
 
-    removeSchedule({ username: currentAccount.name, draftId: id })
+    removeSchedule(currentAccount.name, id)
       .then((res) => {
         const { schedules } = this.state;
         const newSchedules = [...schedules].filter(schedule => schedule._id !== id);
