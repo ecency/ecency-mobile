@@ -23,9 +23,9 @@ export const getDrafts = data => new Promise((resolve, reject) => {
  * @params username
  * @params draftID
  */
-export const removeDraft = data => new Promise((resolve, reject) => {
+export const removeDraft = (username, id) => new Promise((resolve, reject) => {
   api
-    .delete(`/drafts/${data.username}/${data.draftId}`)
+    .delete(`/drafts/${username}/${id}`)
     .then((res) => {
       resolve(res.data);
     })
@@ -238,16 +238,16 @@ export const schedule = (
   })
   .then(resp => resp.data);
 
-export const getSchedules = user => api.get(`/schedules/${user}`).then(resp => resp.data);
+export const getSchedules = username => api.get(`/schedules/${username}`).then(resp => resp.data);
 
-export const removeSchedule = (user, id) => api.delete(`/schedules/${user}/${id}`);
+export const removeSchedule = (username, id) => api.delete(`/schedules/${username}/${id}`);
 
-export const moveSchedule = (id, user) => api.put(`/schedules/${user}/${id}`);
+export const moveSchedule = (id, username) => api.put(`/schedules/${username}/${id}`);
 
 // Old image service
 // Images
 
-export const getImages = user => api.get(`api/images/${user}`).then(resp => resp.data);
+export const getImages = username => api.get(`api/images/${username}`).then(resp => resp.data);
 
 export const addMyImage = (user, url) => api.post('/image', { username: user, image_url: url });
 
