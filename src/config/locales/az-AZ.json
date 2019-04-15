@@ -100,49 +100,49 @@
     "cancel": "imtina",
     "login": "GİRİŞ",
     "steemconnect_description": "Əgər məlumatları şifrəli kimi saxlamaq istəmirsinizsə, Steemconnect istifadə edə bilərsiniz.",
-    "steemconnect_fee_description": "Steemconnect may charge some fees from your reward transactions"
+    "steemconnect_fee_description": "Steemconnect mükafat köçürmələrində ödəniş tuta bilər"
   },
   "home": {
-    "feed": "Feed",
-    "popular": "Popular"
+    "feed": "Axın",
+    "popular": "Məşhur"
   },
   "side_menu": {
-    "profile": "Profile",
-    "bookmarks": "Bookmarks",
-    "favorites": "Favorites",
-    "drafts": "Drafts",
-    "schedules": "Schedules",
-    "gallery": "Gallery",
-    "settings": "Settings",
-    "add_account": "Add Account",
-    "logout": "Logout",
-    "cancel": "Cancel",
-    "logout_text": "Are you sure you want to logout?"
+    "profile": "Profil",
+    "bookmarks": "Əlfəcinlər",
+    "favorites": "Sevimlilər",
+    "drafts": "Qaralamalar",
+    "schedules": "Cədvəllər",
+    "gallery": "Qalereya",
+    "settings": "Tənzimləmələr",
+    "add_account": "Hesab Əlavə et",
+    "logout": "Çıxış",
+    "cancel": "İmtina",
+    "logout_text": "Çıxış etmək istədiyinə əminsən?"
   },
   "header": {
-    "title": "Login to customize your feed",
-    "search": "Search..."
+    "title": "Axınını özəlləşdirmək üçün giriş et",
+    "search": "Axtar..."
   },
   "basic_header": {
-    "publish": "Publish",
-    "search": "Search",
-    "update": "Update",
-    "reply": "Reply"
+    "publish": "Dərc et",
+    "search": "Axtar",
+    "update": "Yenilə",
+    "reply": "Cavabla"
   },
   "editor": {
-    "title": "Title",
-    "tags": "tags",
-    "default_placeholder": "What would you like to write about today?",
-    "reply_placeholder": "What would you like to write about above post?",
-    "publish": "Publish",
-    "reply": "Reply",
-    "open_galery": "Open Galery",
-    "capture_photo": "Capture a photo"
+    "title": "Başlıq",
+    "tags": "etiketlər",
+    "default_placeholder": "Bugün nə haqqında yazmaq istəyirsən?",
+    "reply_placeholder": "Yuxarıdakı göndəriş haqqında nə yazmaq istəyirsən?",
+    "publish": "Dərc et",
+    "reply": "Cavabla",
+    "open_galery": "Qalereyanı Aç",
+    "capture_photo": "Foto çək"
   },
   "pincode": {
-    "enter_text": "Enter pin to unlock",
-    "set_new": "Set new pin",
-    "write_again": "Write again",
+    "enter_text": "Kilidi açmaq üçün PIN-i daxil et",
+    "set_new": "Yeni PIN tənzimlə",
+    "write_again": "Təkrar yaz",
     "forgot_text": "Oh, I forgot it..."
   },
   "alert": {
