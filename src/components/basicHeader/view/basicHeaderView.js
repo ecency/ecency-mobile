@@ -74,7 +74,6 @@ class BasicHeaderView extends Component {
       isLoading,
       isLoggedIn,
       isModalHeader,
-      isPostSending,
       rightButtonText,
       isPreviewActive,
       isReply,
