@@ -83,23 +83,23 @@
       "always_hide": "Həmişə gizlət",
       "always_warn": "Həmişə xəbərdar et"
     },
-    "feedback_success": "Email successfully open",
-    "feedback_fail": "Email client could not open"
+    "feedback_success": "E-poçt uğurla açıldı",
+    "feedback_fail": "E-poçt sifarişçisi açıla bilmədi"
   },
   "voters": {
-    "voters_info": "Voters Info",
-    "no_user": "No user found."
+    "voters_info": "Səsverənlər",
+    "no_user": "İstifadəçi tapılmadı."
   },
   "login": {
-    "signin": "Sign in",
-    "signup": "Sign up",
-    "signin_title": "To get all the benefits of using eSteem",
-    "username": "Username",
-    "password": "Password or WIF",
-    "description": "User credentials are kept locally on the device. Credentials are removed upon logout!",
-    "cancel": "cancel",
-    "login": "LOGIN",
-    "steemconnect_description": "If you don't want to keep your password encrypted and saved on your device, you can use Steemconnect.",
+    "signin": "Daxil ol",
+    "signup": "Qeydiyyatdan keç",
+    "signin_title": "eSteem-in bütün üstünlüklərindən faydalanın",
+    "username": "İstifadəçi adı",
+    "password": "Şifrə və ya WIF",
+    "description": "İstifadəçi kimlik məlumatları telefonunuzda saxlanılır. Çıxış edərkən kimlik məlumatları silinir!",
+    "cancel": "imtina",
+    "login": "GİRİŞ",
+    "steemconnect_description": "Əgər məlumatları şifrəli kimi saxlamaq istəmirsinizsə, Steemconnect istifadə edə bilərsiniz.",
     "steemconnect_fee_description": "Steemconnect may charge some fees from your reward transactions"
   },
   "home": {
