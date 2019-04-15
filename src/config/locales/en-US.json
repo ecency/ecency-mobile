@@ -164,7 +164,8 @@
     "cancel": "Cancel",
     "delete": "Delete",
     "copied": "Copied!",
-    "no_internet": "No connection!"
+    "no_internet": "No connection!",
+    "confirm": "Confirm"
   },
   "post": {
     "reblog_alert": "Are you sure you want to reblog?"
@@ -231,5 +232,17 @@
     "reputation": "reputation",
     "votes": "votes",
     "age": "age"
+  },
+  "transfer": {
+    "title": "Transfer To Account",
+    "from": "From",
+    "to": "To",
+    "amount": "Amount",
+    "memo": "Memo",
+    "information": "1",
+    "amount_desc": "2",
+    "memo_desc": "This memo is public",
+    "to_placeholder": "3",
+    "memo_placeholder": "4"
   }
 }
