@@ -143,93 +143,93 @@
     "enter_text": "Kilidi açmaq üçün PIN-i daxil et",
     "set_new": "Yeni PIN tənzimlə",
     "write_again": "Təkrar yaz",
-    "forgot_text": "Oh, I forgot it..."
+    "forgot_text": "Unutmuşam..."
   },
   "alert": {
-    "success": "Success!",
-    "allRead": "Marked all notifications as read",
-    "claim_reward_balance_ok": "Reward balance claimed",
-    "fail": "Fail!",
-    "success_shared": "Your post succesfully shared",
-    "permission_denied": "Permission denied",
-    "permission_text": "Please, go to phone Settings and change eSteem app permissions.",
-    "success_rebloged": "Rebloged!",
-    "already_rebloged": "You have already reblogged!",
-    "warning": "Warning",
-    "invalid_pincode": "Invalid pin code, please check and try again.",
-    "remove_alert": "Are you sure want to remove?",
-    "clear_alert": "Are you sure you want to clear?",
-    "clear_user_alert": "Are you sure you want to clear all user data?",
-    "clear": "Clear",
-    "cancel": "Cancel",
-    "delete": "Delete",
-    "copied": "Copied!",
-    "no_internet": "No connection!"
+    "success": "Uğurlu!",
+    "allRead": "Bütün bildirişləri oxunmuş kimi işarələ",
+    "claim_reward_balance_ok": "Mükafat alındı",
+    "fail": "Uğursuz!",
+    "success_shared": "Göndərişin uğurla paylaşıldı",
+    "permission_denied": "İcazə verilmədi",
+    "permission_text": "Zəhmət olmasa telefon tənzimləmələrinə gedərək eSteem tətbiq icazələrini dəyişdirin.",
+    "success_rebloged": "Təkrar paylaşıldı!",
+    "already_rebloged": "Artıq təkrar paylaşdınız!",
+    "warning": "Xəbərdarlıq",
+    "invalid_pincode": "Etibarsız PIN kod, zəhmət olmasa yoxlayıb yenidən sınayın.",
+    "remove_alert": "Çıxarmaq istədiyinizə əminsiniz?",
+    "clear_alert": "Təmizləmək istədiyinizə əminsiniz?",
+    "clear_user_alert": "Bütün istifadəçi verilənlərini təmizləmək istədiyinizə əminsiniz?",
+    "clear": "Təmizlə",
+    "cancel": "İmtina",
+    "delete": "Sil",
+    "copied": "Kopyalandı!",
+    "no_internet": "Bağlantı yoxdur!"
   },
   "post": {
-    "reblog_alert": "Are you sure you want to reblog?"
+    "reblog_alert": "Təkrar paylaşmaq istədiyinizə əminsiniz?"
   },
   "drafts": {
-    "title": "Drafts",
-    "load_error": "Could not load drafts",
-    "empty_list": "Nothing here",
-    "deleted": "Draft deleted"
+    "title": "Qaralamalar",
+    "load_error": "Qaralamalar yüklənə bilmədi",
+    "empty_list": "Burada heç nə yoxdur",
+    "deleted": "Qaralama silindi"
   },
   "schedules": {
-    "title": "Scheduled Posts",
-    "empty_list": "Nothing here",
-    "deleted": "Scheduled post deleted",
-    "move": "Move to drafts",
-    "moved": "Moved to drafts"
+    "title": "Planlaşdırılmış Göndərişlər",
+    "empty_list": "Burada heç nə yoxdur",
+    "deleted": "Planlaşdırılmış göndəriş silindi",
+    "move": "Qaralamalara köçür",
+    "moved": "Qaralamalara köçürüldü"
   },
   "bookmarks": {
-    "title": "Bookmarks",
-    "load_error": "Could not load bookmarks",
-    "empty_list": "Nothing here",
-    "deleted": "Bookmark removed",
-    "search": "Search in bookmarks",
-    "added": "Added to bookmarks",
-    "add": "Add to bookmarks"
+    "title": "Əlfəcinlər",
+    "load_error": "Əlfəcinlər yüklənilə bilmədi",
+    "empty_list": "Burada heç nə yoxdur",
+    "deleted": "Əlfəcin çıxarıldı",
+    "search": "Əlfəcinlərdə axtar",
+    "added": "Əlfəcinlərə əlavə edildi",
+    "add": "Əlfəcinlərə əlavə et"
   },
   "favorites": {
-    "title": "Favorites",
-    "load_error": "Could not load favorites",
-    "empty_list": "Nothing here",
-    "search": "Search in favorites"
+    "title": "Sevimlilər",
+    "load_error": "Sevimlilər yüklənilə bilmədi",
+    "empty_list": "Burada heç nə yoxdur",
+    "search": "Sevimlilərdə axtar"
   },
   "auth": {
-    "invalid_pin": "Invalid pin code, please check and try again",
-    "invalid_username": "Invalid username, please check and try again",
-    "already_logged": "You are already logged in, please try to add another account",
-    "invalid_credentials": "Invalid credentials, please check and try again",
-    "unknow_error": "Unknown error, please contact us at support@esteem.app"
+    "invalid_pin": "Etibarsız PIN kod, zəhmət olmasa yoxlayıb yenidən sınayın",
+    "invalid_username": "Etibarsız istifadəçi adı, zəhmət olmasa yoxlayıb yenidən sınayın",
+    "already_logged": "Artıq giriş etdiniz, zəhmət olmasa başqa bir hesab əlavə edin",
+    "invalid_credentials": "Etibarsız kimlik məlumatları, zəhmət olmasa yoxlayıb yenidən sınayın",
+    "unknow_error": "Bilinməyən xəta, zəhmət olmasa support@esteem.app vasitəsilə bizimlə əlaqə saxlayın"
   },
   "payout": {
-    "potential_payout": "Potential Payout",
-    "promoted": "Promoted",
-    "author_payout": "Author Payout",
-    "curation_payout": "Curation Payout",
-    "payout_date": "Payout"
+    "potential_payout": "Mümkün Ola Biləcək Ödəniş",
+    "promoted": "Tanıdılan",
+    "author_payout": "Müəllif Ödənişi",
+    "curation_payout": "Kurator Ödənişi",
+    "payout_date": "Ödəniş"
   },
   "post_dropdown": {
-    "copy": "copy link",
-    "reblog": "reblog",
-    "reply": "reply",
-    "share": "share",
-    "bookmarks": "add to bookmarks"
+    "copy": "bağlantını kopyala",
+    "reblog": "təkrar paylaş",
+    "reply": "cavabla",
+    "share": "paylaş",
+    "bookmarks": "əlfəcinlərə əlavə et"
   },
   "deep_link": {
-    "no_existing_user": "No existing user",
-    "no_existing_post": "No existing post"
+    "no_existing_user": "Heç bir istifadəçi yoxdur",
+    "no_existing_post": "Heç bir göndəriş yoxdur"
   },
   "search": {
-    "posts": "Posts",
-    "comments": "Comments"
+    "posts": "Göndərişlər",
+    "comments": "Rəylər"
   },
   "comment_filter": {
-    "trending": "trending",
-    "reputation": "reputation",
-    "votes": "votes",
-    "age": "age"
+    "trending": "trend",
+    "reputation": "nüfuz",
+    "votes": "səslər",
+    "age": "yaş"
   }
 }
