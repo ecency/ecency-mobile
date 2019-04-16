@@ -76,7 +76,10 @@ class ProfileContainer extends Component {
 
   componentWillReceiveProps(nextProps) {
     const {
-      navigation, currentAccount, activeBottomTab, isLoggedIn,
+      navigation,
+      currentAccount,
+      activeBottomTab,
+      isLoggedIn,
     } = this.props;
     const currentUsername = currentAccount.name !== nextProps.currentAccount.name && nextProps.currentAccount.name;
 
@@ -115,34 +118,37 @@ class ProfileContainer extends Component {
   };
 
   _handleFollowUnfollowUser = async (isFollowAction) => {
-    const { username, isFollowing } = this.state;
-    const { currentAccount, pinCode } = this.props;
+    const { isFollowing } = this.state;
 
     this.setState({
       isProfileLoading: true,
     });
 
     if (isFollowAction && !isFollowing) {
-      this._followUser(currentAccount, pinCode, currentAccount.name, username);
+      this._followUser();
     } else {
-      this._unfollowUser(currentAccount, pinCode, currentAccount.name, username);
+      this._unfollowUser();
     }
   };
 
-  _handleMuteUnmuteUser = async (isMuteAction) => {
-    const { username } = this.state;
-    const { currentAccount, pinCode } = this.props;
-
+  _handleMuteUnmuteUser = (isMuteAction) => {
     this.setState({
       isProfileLoading: true,
     });
 
     if (isMuteAction) {
-      this._muteUser(currentAccount, pinCode, currentAccount.name, username);
+      this._muteUser();
+    } else {
+      this._unfollowUser();
     }
   };
 
-  _unfollowUser = (currentAccount, pinCode, follower, following) => {
+  _unfollowUser = () => {
+    const { username } = this.state;
+    const { currentAccount, pinCode } = this.props;
+    const follower = currentAccount.name;
+    const following = username;
+
     unfollowUser(currentAccount, pinCode, {
       follower,
       following,
@@ -155,7 +161,12 @@ class ProfileContainer extends Component {
       });
   };
 
-  _followUser = (currentAccount, pinCode, follower, following) => {
+  _followUser = () => {
+    const { username } = this.state;
+    const { currentAccount, pinCode } = this.props;
+    const follower = currentAccount.name;
+    const following = username;
+
     followUser(currentAccount, pinCode, {
       follower,
       following,
@@ -168,7 +179,12 @@ class ProfileContainer extends Component {
       });
   };
 
-  _muteUser = async (currentAccount, pinCode, follower, following) => {
+  _muteUser = () => {
+    const { username } = this.state;
+    const { currentAccount, pinCode } = this.props;
+    const follower = currentAccount.name;
+    const following = username;
+
     ignoreUser(currentAccount, pinCode, {
       follower,
       following,
@@ -184,32 +200,32 @@ class ProfileContainer extends Component {
   _profileActionDone = (error = null) => {
     const { username } = this.state;
 
-    this.setState({
-      isProfileLoading: false,
-    });
-
     if (error) {
       this.setState({
         error,
-      });
-      alert(error);
+      }, () => alert(error));
     } else {
-      this._fetchProfile(username);
+      this._fetchProfile(username, true);
     }
   };
 
-  _fetchProfile = async (username = null) => {
+
+  _fetchProfile = async (username = null, isProfileAction = false) => {
+    const {
+      username: _username, isFollowing, isMuted,
+    } = this.state;
+
     if (username) {
       const { isLoggedIn, currentAccount } = this.props;
-      let isFollowing;
-      let isMuted;
+      let _isFollowing;
+      let _isMuted;
       let isFavorite;
       let follows;
 
       if (isLoggedIn && currentAccount.name !== username) {
-        isFollowing = await getIsFollowing(username, currentAccount.name);
+        _isFollowing = await getIsFollowing(username, currentAccount.name);
 
-        isMuted = isFollowing ? false : await getIsMuted(username, currentAccount.name);
+        _isMuted = _isFollowing ? false : await getIsMuted(username, currentAccount.name);
 
         getIsFavorite(username, currentAccount.name).then((isFav) => {
           isFavorite = isFav;
@@ -222,13 +238,22 @@ class ProfileContainer extends Component {
         follows = null;
       }
 
-      this.setState({
-        follows,
-        isFollowing,
-        isMuted,
-        isFavorite,
-        isReady: true,
-      });
+      /**
+      * This follow code totally a work arround
+      * Ceated for server response delay.
+      */
+      if (isProfileAction && (isFollowing === _isFollowing && isMuted === _isMuted)) {
+        this._fetchProfile(_username, true);
+      } else {
+        this.setState({
+          follows,
+          isFollowing: _isFollowing,
+          isMuted: _isMuted,
+          isFavorite,
+          isReady: true,
+          isProfileLoading: false,
+        });
+      }
     }
   };
 
@@ -337,6 +362,7 @@ class ProfileContainer extends Component {
     return (
       <ProfileScreen
         about={user && user.about && user.about.profile}
+        activePage={activePage}
         avatar={avatar}
         comments={comments}
         currency={currency}
@@ -359,7 +385,6 @@ class ProfileContainer extends Component {
         selectedQuickProfile={selectedQuickProfile}
         selectedUser={user}
         username={username}
-        activePage={activePage}
       />
     );
   }

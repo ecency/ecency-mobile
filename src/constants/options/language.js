@@ -8,6 +8,7 @@ export default [
   'Porteguese',
   'Russian',
   'Turkish',
+  'Persian',
 ];
 
 export const VALUE = [
@@ -20,4 +21,5 @@ export const VALUE = [
   'pt-PT',
   'ru-RU',
   'tr-TR',
+  'fa-IR',
 ];
