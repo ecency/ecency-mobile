@@ -192,7 +192,7 @@ export const getFollowSearch = (user, targetUser) => new Promise((resolve, rejec
     });
 });
 
-export const getIsMuted = async (username, targetUsername) => {
+export const getIsMuted = async (targetUsername, username) => {
   let resp;
 
   try {

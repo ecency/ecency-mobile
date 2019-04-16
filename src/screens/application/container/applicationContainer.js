@@ -20,6 +20,8 @@ import tr from 'react-intl/locale-data/tr';
 import ko from 'react-intl/locale-data/ko';
 import lt from 'react-intl/locale-data/lt';
 import pt from 'react-intl/locale-data/pt';
+import fa from 'react-intl/locale-data/fa';
+import he from 'react-intl/locale-data/he';
 
 // Constants
 import AUTH_TYPE from '../../../constants/authType';
@@ -71,7 +73,7 @@ import {
 import ApplicationScreen from '../screen/applicationScreen';
 import { Launch } from '../..';
 
-addLocaleData([...en, ...ru, ...de, ...id, ...it, ...hu, ...tr, ...ko, ...pt, ...lt]);
+addLocaleData([...en, ...ru, ...de, ...id, ...it, ...hu, ...tr, ...ko, ...pt, ...lt, ...fa]);
 
 class ApplicationContainer extends Component {
   constructor() {
@@ -131,7 +133,7 @@ class ApplicationContainer extends Component {
   }
 
   _fetchApp = async () => {
-    this._refreshGlobalProps();
+    await this._refreshGlobalProps();
     this._getSettings();
     await this._getUserData();
   };
@@ -156,6 +158,7 @@ class ApplicationContainer extends Component {
     } else {
       BackHandler.exitApp();
     }
+
     return true;
   };
 
@@ -172,6 +175,7 @@ class ApplicationContainer extends Component {
 
     await getAuthStatus().then((res) => {
       ({ currentUsername } = res);
+      
       if (res) {
         getUserData().then(async (userData) => {
           if (userData.length > 0) {
@@ -212,11 +216,12 @@ class ApplicationContainer extends Component {
         realmObject[0] = realmData[realmData.length - 1];
         await switchAccount(realmObject[0].username);
       }
+
       await getUser(realmObject[0].username)
-        .then(async (accountData) => {
+        .then((accountData) => {
           dispatch(login(true));
 
-          const isExistUser = await getExistUser();
+          const isExistUser = getExistUser();
 
           [accountData.local] = realmObject;
 
@@ -244,10 +249,14 @@ class ApplicationContainer extends Component {
         if (response.isDarkTheme !== '') dispatch(isDarkTheme(response.isDarkTheme));
         if (response.language !== '') dispatch(setLanguage(response.language));
         if (response.server !== '') dispatch(setApi(response.server));
-        if (response.upvotePercent !== '') dispatch(setUpvotePercent(Number(response.upvotePercent)));
+        if (response.upvotePercent !== '') {
+          dispatch(setUpvotePercent(Number(response.upvotePercent)));
+        }
         if (response.isDefaultFooter !== '') dispatch(isDefaultFooter(response.isDefaultFooter));
         if (response.notification !== '') {
-          dispatch(changeNotificationSettings({ type: 'notification', action: response.notification }));
+          dispatch(
+            changeNotificationSettings({ type: 'notification', action: response.notification }),
+          );
           dispatch(changeAllNotificationSettings(response));
 
           Push.setEnabled(response.notification);
