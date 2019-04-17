@@ -158,6 +158,7 @@ class ApplicationContainer extends Component {
     } else {
       BackHandler.exitApp();
     }
+
     return true;
   };
 
@@ -174,6 +175,7 @@ class ApplicationContainer extends Component {
 
     await getAuthStatus().then((res) => {
       ({ currentUsername } = res);
+      
       if (res) {
         getUserData().then(async (userData) => {
           if (userData.length > 0) {
@@ -214,6 +216,7 @@ class ApplicationContainer extends Component {
         realmObject[0] = realmData[realmData.length - 1];
         await switchAccount(realmObject[0].username);
       }
+
       await getUser(realmObject[0].username)
         .then((accountData) => {
           dispatch(login(true));

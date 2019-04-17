@@ -341,6 +341,57 @@ export const getPurePost = async (author, permlink) => {
   }
 };
 
+// export const deleteComment = (author, permlink) => {
+//   return new Promise((resolve, reject) => {
+//     client.database
+//       .call('delete_comment', [author, permlink])
+//       .then((response) => {
+//         resolve(response);
+//       })
+//       .catch((error) => {
+//         reject(error);
+//       });
+//   });
+// };
+
+export const deleteComment = (currentAccount, pin, permlink) => {
+  const { name: author } = currentAccount;
+  const digitPinCode = getDigitPinCode(pin);
+  const key = getAnyPrivateKey(currentAccount.local, digitPinCode);
+
+  if (currentAccount.local.authType === AUTH_TYPE.STEEM_CONNECT) {
+    const token = decryptKey(currentAccount.accessToken, pin);
+    const api = steemConnect.Initialize({
+      accessToken: token,
+    });
+
+    const params = {
+      author,
+      permlink,
+    };
+
+    const opArray = [['delete_comment', params]];
+
+    return api.broadcast(opArray).then(resp => resp.result);
+  }
+
+  if (key) {
+    const opArray = [
+      [
+        'delete_comment',
+        {
+          author,
+          permlink,
+        },
+      ],
+    ];
+
+    const privateKey = PrivateKey.fromString(key);
+
+    return client.broadcast.sendOperations(opArray, privateKey);
+  }
+};
+
 /**
  * @method getUser get user data
  * @param user post author
