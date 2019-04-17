@@ -2,7 +2,7 @@ import React, { Component } from 'react';
 import { withNavigation } from 'react-navigation';
 import { connect } from 'react-redux';
 
-import { getComments } from '../../../providers/steem/dsteem';
+import { getComments, deleteComment } from '../../../providers/steem/dsteem';
 
 // Services and Actions
 
@@ -154,6 +154,14 @@ class CommentsContainer extends Component {
     });
   };
 
+  _handleDeleteComment = (permlink) => {
+    const { currentAccount, pinCode } = this.props;
+
+    deleteComment(currentAccount, pinCode, permlink).then(() => {
+      this._getComments();
+    });
+  }
+
   render() {
     const { comments: _comments, selectedPermlink } = this.state;
     const {
@@ -184,6 +192,7 @@ class CommentsContainer extends Component {
         handleOnReplyPress={this._handleOnReplyPress}
         isLoggedIn={isLoggedIn}
         fetchPost={fetchPost}
+        handleDeleteComment={this._handleDeleteComment}
         {...this.props}
       />
     );
@@ -193,6 +202,7 @@ class CommentsContainer extends Component {
 const mapStateToProps = state => ({
   isLoggedIn: state.application.isLoggedIn,
   currentAccount: state.account.currentAccount,
+  pinCode: state.account.pin,
 });
 
 export default withNavigation(connect(mapStateToProps)(CommentsContainer));
