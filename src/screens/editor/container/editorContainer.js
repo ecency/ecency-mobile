@@ -114,9 +114,11 @@ class EditorContainer extends Component {
   _getDraft = async (username, isReply) => {
     if (isReply) {
       const draftReply = await AsyncStorage.getItem('temp-reply');
-      this.setState({
-        draftPost: { body: draftReply },
-      });
+      if (draftReply) {
+        this.setState({
+          draftPost: { body: draftReply },
+        });
+      }
     } else {
       await getDraftPost(username)
         .then((result) => {
