@@ -1,8 +1,11 @@
 import React, { PureComponent } from 'react';
 import { withNavigation } from 'react-navigation';
+import { connect } from 'react-redux';
 
 // Constants
 import ROUTES from '../../../constants/routeNames';
+
+import { openPinCodeModal } from '../../../redux/actions/applicationActions';
 
 // Component
 import WalletDetailsView from '../view/walletDetailsView';
@@ -24,11 +27,10 @@ class WalletContainer extends PureComponent {
 
   // Component Functions
   _navigate = () => {
-    const { navigation } = this.props;
-    console.log('navigation :', navigation);
-    navigation.navigate({
-      routeName: ROUTES.SCREENS.TRANSFER,
-    });
+    const { dispatch, setPinCodeState } = this.props;
+
+    setPinCodeState({ navigateTo: ROUTES.SCREENS.TRANSFER });
+    dispatch(openPinCodeModal());
   };
 
   render() {
@@ -38,4 +40,4 @@ class WalletContainer extends PureComponent {
   }
 }
 
-export default withNavigation(WalletContainer);
+export default connect()(withNavigation(WalletContainer));

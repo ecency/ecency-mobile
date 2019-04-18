@@ -2,7 +2,8 @@ import React, { Component } from 'react';
 import { connect } from 'react-redux';
 
 // Services and Actions
-import { lookupAccounts } from '../../../providers/steem/dsteem';
+import { lookupAccounts, transferToken } from '../../../providers/steem/dsteem';
+import { toastNotification } from '../../../redux/actions/uiAction';
 
 // Middleware
 
@@ -34,7 +35,23 @@ class ExampleContainer extends Component {
   };
 
   _transferToAccount = (from, destination, amount, memo) => {
-    console.log('from, destination, amount, memo, :', from, destination, amount, memo);
+    const {
+      currentAccount, pinCode, navigation, dispatch,
+    } = this.props;
+
+    const data = {
+      from,
+      destination,
+      amount,
+      memo,
+    };
+
+    transferToken(currentAccount, pinCode, data)
+      .then((res) => {
+        dispatch(toastNotification('Successfull'));
+        navigation.goBack();
+      })
+      .catch(err => dispatch(toastNotification(err)));
   };
 
   render() {
@@ -52,6 +69,8 @@ class ExampleContainer extends Component {
 
 const mapStateToProps = state => ({
   accounts: state.account.otherAccounts,
+  currentAccount: state.account.currentAccount,
+  pinCode: state.account.pin,
 });
 
 export default connect(mapStateToProps)(ExampleContainer);
