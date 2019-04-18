@@ -23,12 +23,18 @@
     "comingsoon": "Leaderboard feature is coming soon!",
     "notification": "Notifications",
     "leaderboard": "Leaderboard",
+    "epoint": "Points",
     "leaderboard_title": "Daily Top User",
     "recent": "Recent",
     "yesterday": "Yesterday",
     "this_week": "This Week",
     "this_month": "This Month",
     "older_then": "Older Than A Month"
+  },
+  "points": {
+    "post": "Post",
+    "comment": "Comment",
+    "checkin": "Checki-in"
   },
   "messages": {
     "comingsoon": "Messages feature is coming soon!"

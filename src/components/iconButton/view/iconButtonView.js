@@ -10,15 +10,18 @@ import styles from './iconButtonStyles';
  */
 
 const IconButton = ({
-  name,
-  color,
-  size,
-  onPress,
   backgroundColor,
-  style,
+  badgeCount,
+  badgeTextStyle,
+  badgeStyle,
+  color,
+  disabled,
   iconStyle,
   iconType,
-  disabled,
+  name,
+  onPress,
+  size,
+  style,
 }) => (
   <Fragment>
     <TouchableHighlight
@@ -34,9 +37,12 @@ const IconButton = ({
           styles.icon,
           iconStyle && iconStyle,
         ]}
+        badgeTextStyle={badgeTextStyle}
         name={name}
+        badgeStyle={badgeStyle}
         size={size}
         iconType={iconType}
+        badgeCount={badgeCount}
       />
     </TouchableHighlight>
   </Fragment>
