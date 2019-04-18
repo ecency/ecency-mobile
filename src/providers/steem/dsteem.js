@@ -388,13 +388,10 @@ export const getPostWithComments = async (user, permlink) => {
  * @param postingKey private posting key
  */
 
-export const vote = (account, pin, author, permlink, weight) => _vote(
-  account, pin, author, permlink, weight,
-)
-  .then((resp) => {
-    userActivity(account.username, 120, resp.block_num, resp.id);
-    return resp;
-  });
+export const vote = (account, pin, author, permlink, weight) => _vote(account, pin, author, permlink, weight).then((resp) => {
+  userActivity(account.username, 120, resp.block_num, resp.id);
+  return resp;
+});
 
 const _vote = async (currentAccount, pin, author, permlink, weight) => {
   const digitPinCode = getDigitPinCode(pin);
@@ -462,18 +459,69 @@ export const upvoteAmount = async (input) => {
   return estimated;
 };
 
-export const transferToken = (data, activeKey) => {
-  const key = PrivateKey.fromString(activeKey);
-  return new Promise((resolve, reject) => {
-    client.broadcast
-      .transfer(data, key)
-      .then((result) => {
-        resolve(result);
-      })
-      .catch((err) => {
-        reject(err);
-      });
-  });
+export const transferToken = (currentAccount, pin, data) => {
+  const digitPinCode = getDigitPinCode(pin);
+  const key = getAnyPrivateKey({ activeKey: currentAccount.local.activeKey }, digitPinCode);
+
+  if (currentAccount.local.authType === AUTH_TYPE.STEEM_CONNECT) {
+    const token = decryptKey(currentAccount.local.accessToken, digitPinCode);
+    console.log('currentAccount.local :', currentAccount.local);
+    console.log('token :', token);
+    const api = steemConnect.Initialize({
+      accessToken: token,
+    });
+    console.log('api :', api);
+    const opArr = [];
+
+    const e = [
+      'transfer',
+      {
+        from: data.from,
+        to: data.destination,
+        amount: {
+          amount: data.amount,
+          precision: 3,
+          nai: '@@000000021',
+        },
+        memo: 'Thanks for all the fish.',
+      },
+    ];
+    opArr.push(e);
+    console.log('opArr :', opArr);
+    api
+      .broadcast(opArr)
+      .then(res => console.log('res1111111 :', res))
+      .catch(err => console.log('err1111111 :', Object.keys(err), err.name, err.error, err.error_description));
+
+    return api.broadcast(opArr);
+  }
+
+  if (key) {
+    const privateKey = PrivateKey.fromString(key);
+    const args = {
+      from: data.from,
+      to: data.destination,
+      amount: `${data.amount} STEEM`,
+      memo: data.memo,
+    };
+
+    console.log('args :', args);
+    console.log('privateKey :', privateKey);
+    console.log('key :', key);
+
+    return new Promise((resolve, reject) => {
+      client.broadcast
+        .transfer(args, privateKey)
+        .then((result) => {
+          resolve(result);
+        })
+        .catch((err) => {
+          reject(err);
+        });
+    });
+  }
+
+  return Promise.reject(new Error('You dont have permission!'));
 };
 
 export const followUser = async (currentAccount, pin, data) => {
@@ -786,9 +834,7 @@ const _postContent = async (
 
 // Re-blog
 // TODO: remove pinCode
-export const reblog = (account, pinCode, author, permlink) => _reblog(
-  account, pinCode, author, permlink,
-).then((resp) => {
+export const reblog = (account, pinCode, author, permlink) => _reblog(account, pinCode, author, permlink).then((resp) => {
   userActivity(account.name, 130, resp.block_num, resp.id);
   return resp;
 });
@@ -874,7 +920,7 @@ const getAnyPrivateKey = (local, pin) => {
   }
 
   if (activeKey) {
-    return decryptKey(local.postingKey, pin);
+    return decryptKey(local.activeKey, pin);
   }
 
   return false;
