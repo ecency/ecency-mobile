@@ -63,4 +63,7 @@ export default EStyleSheet.create({
   activeBadge: {
     backgroundColor: '$black',
   },
+  listWrapper: {
+    marginHorizontal: 8,
+  },
 });
