@@ -1,4 +1,4 @@
-import Card from './view/card/cardView';
+import { Card } from './view/card/cardView';
 import Chip from './view/chip/chipView';
 import GrayWrapper from './view/grayWrapper/grayWrapperView';
 import LineBreak from './view/lineBreak/lineBreakView';
