@@ -54,14 +54,21 @@ class ExampleContainer extends Component {
       .catch(err => dispatch(toastNotification(err)));
   };
 
+  _handleOnModalClose = () => {
+    const { navigation } = this.props;
+    navigation.goBack();
+  };
+
   render() {
-    const { accounts } = this.props;
+    const { accounts, currentAccount } = this.props;
 
     return (
       <TransferView
         accounts={accounts}
         getAccountsWithUsername={this._getAccountsWithUsername}
         transferToAccount={this._transferToAccount}
+        handleOnModalClose={this._handleOnModalClose}
+        accountType={currentAccount.local.authType}
       />
     );
   }
