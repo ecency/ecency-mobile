@@ -1,8 +1,11 @@
 /* eslint-disable no-restricted-globals */
 import React, { Fragment, Component } from 'react';
-import { Text, View } from 'react-native';
+import { Text, View, WebView } from 'react-native';
 import ActionSheet from 'react-native-actionsheet';
 import { injectIntl } from 'react-intl';
+
+import { steemConnectOptions } from '../../../constants/steemConnectOptions';
+import AUTH_TYPE from '../../../constants/authType';
 
 import { BasicHeader } from '../../../components/basicHeader';
 import { TextInput } from '../../../components/textInput';
@@ -11,6 +14,7 @@ import { MainButton } from '../../../components/mainButton';
 import { DropdownButton } from '../../../components/dropdownButton';
 import { UserAvatar } from '../../../components/userAvatar';
 import { Icon } from '../../../components/icon';
+import { Modal } from '../../../components/modal';
 
 import styles from './transferStyles';
 /* Props
@@ -27,6 +31,7 @@ class TransferView extends Component {
       amount: '',
       memo: '',
       isUsernameValid: false,
+      steemConnectTransfer: false,
     };
   }
 
@@ -58,12 +63,16 @@ class TransferView extends Component {
   };
 
   _handleTransferAction = () => {
-    const { transferToAccount } = this.props;
+    const { transferToAccount, accountType } = this.props;
     const {
       from, destination, amount, memo,
     } = this.state;
 
-    transferToAccount(from, destination, amount, memo);
+    if (accountType === AUTH_TYPE.STEEM_CONNECT) {
+      this.setState({ steemConnectTransfer: true });
+    } else {
+      transferToAccount(from, destination, amount, memo);
+    }
   };
 
   _renderInput = (placeholder, state) => (
@@ -91,8 +100,16 @@ class TransferView extends Component {
   _renderDescription = text => <Text style={styles.description}>{text}</Text>;
 
   render() {
-    const { accounts, intl } = this.props;
-    const { destination, isUsernameValid, amount } = this.state;
+    const { accounts, intl, handleOnModalClose } = this.props;
+    const {
+      destination, isUsernameValid, amount, steemConnectTransfer, memo,
+    } = this.state;
+
+    const path = `sign/transfer?from=${
+      accounts[0].username
+    }&to=${destination}&amount=${encodeURIComponent(`${amount} STEEM`)}&memo=${encodeURIComponent(
+      memo,
+    )}`;
 
     return (
       <Fragment>
@@ -162,6 +179,15 @@ class TransferView extends Component {
             index === 0 ? this._handleTransferAction() : null;
           }}
         />
+        <Modal
+          isOpen={steemConnectTransfer}
+          isFullScreen
+          isCloseButton
+          handleOnModalClose={handleOnModalClose}
+          title="Steemconnect Transfer"
+        >
+          <WebView source={{ uri: `${steemConnectOptions.base_url}${path}` }} />
+        </Modal>
       </Fragment>
     );
   }
