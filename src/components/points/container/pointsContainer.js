@@ -2,7 +2,7 @@ import React, { Component, Alert } from 'react';
 import { connect } from 'react-redux';
 
 // Services and Actions
-import { getUser, getUserPoints } from '../../../providers/esteem/ePoint';
+import { getUser, getUserPoints, claim } from '../../../providers/esteem/ePoint';
 
 // Constant
 import POINTS from '../../../constants/options/points';
@@ -22,12 +22,19 @@ class PointsContainer extends Component {
       userPoints: {},
       userActivities: {},
       refreshing: false,
+      isClaiming: false,
     };
   }
 
   // Component Life Cycle Functions
   componentDidMount() {
     this._fetchuserPointActivities();
+
+    this.fetchInterval = setInterval(this._fetchuserPointActivities, 360000);
+  }
+
+  componentWillUnmount() {
+    clearInterval(this.fetchInterval);
   }
 
   // Component Functions
@@ -65,9 +72,24 @@ class PointsContainer extends Component {
     this.setState({ refreshing: false });
   };
 
+  _claimPoints = async () => {
+    const { username } = this.props;
+    this.setState({ isClaiming: true });
+
+    await claim(username)
+      .then(() => {
+        this._fetchuserPointActivities();
+      })
+      .catch((err) => {
+        Alert.alert(err);
+      });
+
+    this.setState({ isClaiming: false });
+  }
+
   render() {
     const {
-      userPoints, userActivities, isDarkTheme, refreshing,
+      userPoints, userActivities, isDarkTheme, refreshing, isClaiming,
     } = this.state;
 
     return (
@@ -77,6 +99,8 @@ class PointsContainer extends Component {
         isDarkTheme={isDarkTheme}
         fetchUserActivity={this._fetchuserPointActivities}
         refreshing={refreshing}
+        isClaiming={isClaiming}
+        claimPoints={this._claimPoints}
       />
     );
   }
