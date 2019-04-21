@@ -66,4 +66,28 @@ export default EStyleSheet.create({
   listWrapper: {
     marginHorizontal: 8,
   },
+  mainButton: {
+    marginVertical: 8,
+    alignSelf: 'center',
+    paddingHorizontal: 24,
+  },
+  mainButtonWrapper: {
+    flexDirection: 'row',
+  },
+  unclaimedText: {
+    color: '$primaryBackgroundColor',
+    fontSize: 14,
+    fontWeight: 'bold',
+    alignSelf: 'center',
+  },
+  mainIconWrapper: {
+    backgroundColor: '$primaryBackgroundColor',
+    justifyContent: 'center',
+    alignSelf: 'center',
+    alignItems: 'center',
+    borderRadius: 20,
+    marginLeft: 20,
+    width: 24,
+    height: 24,
+  },
 });

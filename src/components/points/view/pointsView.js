@@ -7,6 +7,8 @@ import { injectIntl } from 'react-intl';
 // Components
 import { LineBreak, WalletLineItem } from '../../basicUIElements';
 import { IconButton } from '../../iconButton';
+import { Icon } from '../../icon';
+import { MainButton } from '../../mainButton';
 
 // Utils
 import { getTimeFromNow } from '../../../utils/time';
@@ -46,7 +48,7 @@ class PointsView extends Component {
 
    render() {
      const {
-       userActivities, userPoints, intl,
+       userActivities, userPoints, intl, isClaiming, claimPoints,
      } = this.props;
      const isActiveIcon = true;
 
@@ -58,6 +60,25 @@ class PointsView extends Component {
          >
            <Text style={styles.pointText}>{userPoints.points}</Text>
            <Text style={styles.subText}>eSteem Points</Text>
+
+           {userPoints.unclaimed_points > 0
+           && (
+           <MainButton
+             isLoading={isClaiming}
+             isDisable={isClaiming}
+             style={styles.mainButton}
+             height={50}
+             onPress={() => claimPoints()}
+           >
+             <View style={styles.mainButtonWrapper}>
+               <Text style={styles.unclaimedText}>{userPoints.unclaimed_points}</Text>
+               <View style={styles.mainIconWrapper}>
+                 <Icon name="add" iconType="MaterialIcons" color="#357ce6" size={23} />
+               </View>
+             </View>
+           </MainButton>
+           )
+          }
 
            <View style={styles.iconsWrapper}>
              <View styles={styles.iconWrapper}>
