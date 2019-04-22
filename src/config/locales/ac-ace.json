@@ -66,7 +66,7 @@
     "push_notification": "Teugön Haba",
     "notification": {
       "follow": "Follow",
-      "vote": "Vote",
+      "vote": "Pilèh",
       "comment": "Comment",
       "mention": "Mention",
       "reblog": "Reblog",
@@ -230,9 +230,9 @@
     "comments": "Comments"
   },
   "comment_filter": {
-    "trending": "trending",
-    "reputation": "reputation",
-    "votes": "votes",
-    "age": "age"
+    "trending": "mëucuhu",
+    "reputation": "reputasi",
+    "votes": "pilèh-pilèh",
+    "age": "umuë"
   }
 }
