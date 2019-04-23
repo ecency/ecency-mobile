@@ -38,9 +38,9 @@
     "post_title": "Bejegyzés pontok",
     "comment_title": "Hozzászólás pontok",
     "vote_title": "Points for vote",
-    "reblog_title": "Points for reblog",
-    "login_title": "Points for login",
-    "checkin_title": "Points for usage",
+    "reblog_title": "Megosztási pontok",
+    "login_title": "Bejelentkezés pontok",
+    "checkin_title": "Használati pontok",
     "checkin_extra_title": "Használati bónusz"
   },
   "messages": {
