@@ -23,12 +23,25 @@
     "comingsoon": "ميزة المتصدرين تأتي قريباً!",
     "notification": "الإشعارات",
     "leaderboard": "المتصدرين",
+    "epoint": "Points",
     "leaderboard_title": "أفضل مستخدم يومي",
     "recent": "الأخيرة",
     "yesterday": "يوم أمس",
     "this_week": "هذا الأسبوع",
     "this_month": "هذا الشهر",
     "older_then": "أقدم من شهر"
+  },
+  "points": {
+    "post": "Post",
+    "comment": "Comment",
+    "checkin": "Checki-in",
+    "post_title": "Points for post",
+    "comment_title": "Points for comment",
+    "vote_title": "Points for vote",
+    "reblog_title": "Points for reblog",
+    "login_title": "Points for login",
+    "checkin_title": "Points for usage",
+    "checkin_extra_title": "Usage bonus"
   },
   "messages": {
     "comingsoon": "ميزة الرسائل سوف تأتي قريباً!"
