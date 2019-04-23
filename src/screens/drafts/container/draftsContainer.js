@@ -5,7 +5,7 @@ import { injectIntl } from 'react-intl';
 
 // Services and Actions
 import {
-  getDrafts, removeDraft, getSchedules, removeSchedule, moveSchedule
+  getDrafts, removeDraft, getSchedules, removeSchedule, moveSchedule,
 } from '../../../providers/esteem/esteem';
 import { toastNotification } from '../../../redux/actions/uiAction';
 
@@ -101,32 +101,30 @@ class DraftsContainer extends Component {
         Alert.alert(intl.formatMessage({ id: 'alert.fail' }));
       });
   };
-  
+
   _moveScheduleToDraft = (id) => {
     const { currentAccount, dispatch, intl } = this.props;
-    console.log(id);
 
     moveSchedule(id, currentAccount.name)
-    .then((res) => {
-      console.log(res);
-      dispatch(
-        toastNotification(
-          intl.formatMessage({
-            id: 'alert.success_moved',
-          }),
-        ),
-      );
+      .then((res) => {
+        dispatch(
+          toastNotification(
+            intl.formatMessage({
+              id: 'alert.success_moved',
+            }),
+          ),
+        );
 
-      this._getDrafts();
-      this._getSchedules();
-    })
-    .catch(() => {
-      dispatch(
-        toastNotification(
-          intl.formatMessage({ id: 'alert.fail' })
-        ),
-      );
-    });
+        this._getDrafts();
+        this._getSchedules();
+      })
+      .catch(() => {
+        dispatch(
+          toastNotification(
+            intl.formatMessage({ id: 'alert.fail' }),
+          ),
+        );
+      });
   }
 
   _editDraft = (id) => {

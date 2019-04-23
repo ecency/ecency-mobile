@@ -23,12 +23,25 @@
     "comingsoon": "Leaderboard feature is coming soon!",
     "notification": "Notifications",
     "leaderboard": "Leaderboard",
+    "epoint": "Points",
     "leaderboard_title": "Daily Top User",
     "recent": "Recent",
     "yesterday": "Yesterday",
     "this_week": "This Week",
     "this_month": "This Month",
     "older_then": "Older Than A Month"
+  },
+  "points": {
+    "post": "Post",
+    "comment": "Comment",
+    "checkin": "Checki-in",
+    "post_title": "Points for post",
+    "comment_title": "Points for comment",
+    "vote_title": "Points for vote",
+    "reblog_title": "Points for reblog",
+    "login_title": "Points for login",    
+    "checkin_title": "Points for usage",
+    "checkin_extra_title": "Usage bonus"
   },
   "messages": {
     "comingsoon": "Messages feature is coming soon!"
