@@ -23,12 +23,25 @@
     "comingsoon": "Papan Pendahulu akan datang tidak lama lagi!",
     "notification": "Pemberitahuan",
     "leaderboard": "Papan Pendahulu",
+    "epoint": "Points",
     "leaderboard_title": "Pengguna tertinggi harian",
     "recent": "Terbaru",
     "yesterday": "Semalam",
     "this_week": "Minggu ini",
     "this_month": "Bulan Ini",
     "older_then": "Lebih dari sebulan"
+  },
+  "points": {
+    "post": "Post",
+    "comment": "Comment",
+    "checkin": "Checki-in",
+    "post_title": "Points for post",
+    "comment_title": "Points for comment",
+    "vote_title": "Points for vote",
+    "reblog_title": "Points for reblog",
+    "login_title": "Points for login",
+    "checkin_title": "Points for usage",
+    "checkin_extra_title": "Usage bonus"
   },
   "messages": {
     "comingsoon": "Ciri-ciri mesej yang akan datang tidak lama lagi!"
