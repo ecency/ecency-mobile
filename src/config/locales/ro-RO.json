@@ -19,11 +19,11 @@
     "unfollow": "a anulat urmărirea",
     "ignore": "te-a ignorat",
     "reblog": "a redistribuit postarea ta",
-    "transfer": "transfered steem",
+    "transfer": "steem transferat",
     "comingsoon": "Clasamentul va fi disponibil în curând!",
     "notification": "Notificări",
     "leaderboard": "Clasament",
-    "epoint": "Points",
+    "epoint": "Puncte",
     "leaderboard_title": "Utilizatori de Top Zilnic",
     "recent": "Recent",
     "yesterday": "Ieri",
@@ -32,16 +32,16 @@
     "older_then": "Mai vechi de o lună"
   },
   "points": {
-    "post": "Post",
-    "comment": "Comment",
+    "post": "Postare",
+    "comment": "Comentariu",
     "checkin": "Checki-in",
-    "post_title": "Points for post",
-    "comment_title": "Points for comment",
-    "vote_title": "Points for vote",
+    "post_title": "Puncte pentru postare",
+    "comment_title": "Puncte pentru comentariu",
+    "vote_title": "Puncte pentru vot",
     "reblog_title": "Points for reblog",
     "login_title": "Points for login",
     "checkin_title": "Points for usage",
-    "checkin_extra_title": "Usage bonus"
+    "checkin_extra_title": "Bonus de utilizare"
   },
   "messages": {
     "comingsoon": "Funcția mesaje va fi disponibilă in curând!"
@@ -79,7 +79,7 @@
     "push_notification": "Notificări",
     "notification": {
       "follow": "Follow",
-      "vote": "Vote",
+      "vote": "Vot",
       "comment": "Comment",
       "mention": "Mention",
       "reblog": "Reblog",
@@ -163,7 +163,7 @@
     "allRead": "Marchează toate notificările ca citite",
     "claim_reward_balance_ok": "Sold de recompensă colectat",
     "fail": "Eșuat!",
-    "move": "Move",
+    "move": "Mută",
     "move_question": "Are you sure to move to drafts?",
     "success_shared": "Postarea ta a fost distribuită cu succes",
     "success_moved": "Moved to draft",
