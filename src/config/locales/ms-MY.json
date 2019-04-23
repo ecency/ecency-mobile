@@ -38,10 +38,10 @@
     "post_title": "Mata ganjaran -> post_title",
     "comment_title": "Mata ganjaran -> comment_title",
     "vote_title": "Mata ganjaran -> vote_title",
-    "reblog_title": "Points for reblog",
-    "login_title": "Points for login",
-    "checkin_title": "Points for usage",
-    "checkin_extra_title": "Usage bonus"
+    "reblog_title": "Mata ganjaran -> reblog_title",
+    "login_title": "Mata ganjaran log masuk",
+    "checkin_title": "Mata ganjaran kegunaan",
+    "checkin_extra_title": "Bonus kegunaan"
   },
   "messages": {
     "comingsoon": "Ciri-ciri mesej yang akan datang tidak lama lagi!"
