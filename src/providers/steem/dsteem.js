@@ -463,55 +463,113 @@ export const transferToken = (currentAccount, pin, data) => {
   const digitPinCode = getDigitPinCode(pin);
   const key = getAnyPrivateKey({ activeKey: currentAccount.local.activeKey }, digitPinCode);
 
-  if (currentAccount.local.authType === AUTH_TYPE.STEEM_CONNECT) {
-    const token = decryptKey(currentAccount.local.accessToken, digitPinCode);
-    console.log('currentAccount.local :', currentAccount.local);
-    console.log('token :', token);
-    const api = steemConnect.Initialize({
-      accessToken: token,
-    });
-    console.log('api :', api);
-    const opArr = [];
-
-    const e = [
-      'transfer',
-      {
-        from: data.from,
-        to: data.destination,
-        amount: {
-          amount: data.amount,
-          precision: 3,
-          nai: '@@000000021',
-        },
-        memo: 'Thanks for all the fish.',
-      },
-    ];
-    opArr.push(e);
-    console.log('opArr :', opArr);
-    api
-      .broadcast(opArr)
-      .then(res => console.log('res1111111 :', res))
-      .catch(err => console.log('err1111111 :', Object.keys(err), err.name, err.error, err.error_description));
-
-    return api.broadcast(opArr);
-  }
-
   if (key) {
     const privateKey = PrivateKey.fromString(key);
     const args = {
       from: data.from,
       to: data.destination,
-      amount: `${data.amount} STEEM`,
+      amount: data.amount,
       memo: data.memo,
     };
-
-    console.log('args :', args);
-    console.log('privateKey :', privateKey);
-    console.log('key :', key);
 
     return new Promise((resolve, reject) => {
       client.broadcast
         .transfer(args, privateKey)
+        .then((result) => {
+          resolve(result);
+        })
+        .catch((err) => {
+          reject(err);
+        });
+    });
+  }
+
+  return Promise.reject(new Error('You dont have permission!'));
+};
+
+export const transferToSavings = (currentAccount, pin, data) => {
+  const digitPinCode = getDigitPinCode(pin);
+  const key = getAnyPrivateKey({ activeKey: currentAccount.local.activeKey }, digitPinCode);
+
+  if (key) {
+    const privateKey = PrivateKey.fromString(key);
+    const args = [
+      'transfer_to_savings',
+      {
+        from: data.from,
+        to: data.destination,
+        amount: data.amount,
+        memo: data.memo,
+      },
+    ];
+
+    console.log('args :', args);
+
+    return new Promise((resolve, reject) => {
+      client.broadcast
+        .sendOperations(args, privateKey)
+        .then((result) => {
+          resolve(result);
+        })
+        .catch((err) => {
+          reject(err);
+        });
+    });
+  }
+
+  return Promise.reject(new Error('You dont have permission!'));
+};
+
+export const transferFromSavings = (currentAccount, pin, data) => {
+  const digitPinCode = getDigitPinCode(pin);
+  const key = getAnyPrivateKey({ activeKey: currentAccount.local.activeKey }, digitPinCode);
+
+  if (key) {
+    const privateKey = PrivateKey.fromString(key);
+    const args = [
+      'transfer_from_savings',
+      {
+        from: data.from,
+        to: data.destination,
+        amount: data.amount,
+        memo: data.memo,
+        request_id: data.requestId,
+      },
+    ];
+
+    return new Promise((resolve, reject) => {
+      client.broadcast
+        .sendOperations(args, privateKey)
+        .then((result) => {
+          resolve(result);
+        })
+        .catch((err) => {
+          reject(err);
+        });
+    });
+  }
+
+  return Promise.reject(new Error('You dont have permission!'));
+};
+
+export const transferToVesting = (currentAccount, pin, data) => {
+  const digitPinCode = getDigitPinCode(pin);
+  const key = getAnyPrivateKey({ activeKey: currentAccount.local.activeKey }, digitPinCode);
+
+  if (key) {
+    const privateKey = PrivateKey.fromString(key);
+    const args = [
+      'transfer_to_vesting',
+      {
+        from: data.from,
+        to: data.destination,
+        amount: data.amount,
+      },
+    ];
+
+    return new Promise((resolve, reject) => {
+      client.broadcast
+        .sendOperations(args, privateKey)
         .then((result) => {
           resolve(result);
         })
@@ -624,30 +682,6 @@ export const delegate = (data, activeKey) => {
       })
       .catch((err) => {
         reject(err);
-      });
-  });
-};
-
-export const transferToVesting = (data, activeKey) => {
-  const privateKey = PrivateKey.fromString(activeKey);
-
-  const op = [
-    'transfer_to_vesting',
-    {
-      from: data.from,
-      to: data.to,
-      amount: data.amount,
-    },
-  ];
-
-  return new Promise((resolve, reject) => {
-    client.broadcast
-      .sendOperations([op], privateKey)
-      .then((result) => {
-        resolve(result);
-      })
-      .catch((error) => {
-        reject(error);
       });
   });
 };
