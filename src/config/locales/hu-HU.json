@@ -23,7 +23,7 @@
     "comingsoon": "Ranglista funkció hamarosan érkezik!",
     "notification": "Értesítések",
     "leaderboard": "Ranglista",
-    "epoint": "Points",
+    "epoint": "Pontok",
     "leaderboard_title": "Napi Top Felhasználók",
     "recent": "Friss",
     "yesterday": "Tegnap",
@@ -32,16 +32,16 @@
     "older_then": "Egy Hónapnál Régebbi"
   },
   "points": {
-    "post": "Post",
-    "comment": "Comment",
+    "post": "Bejegyzés",
+    "comment": "Hozzászólás",
     "checkin": "Checki-in",
-    "post_title": "Points for post",
-    "comment_title": "Points for comment",
+    "post_title": "Bejegyzés pontok",
+    "comment_title": "Hozzászólás pontok",
     "vote_title": "Points for vote",
     "reblog_title": "Points for reblog",
     "login_title": "Points for login",
     "checkin_title": "Points for usage",
-    "checkin_extra_title": "Usage bonus"
+    "checkin_extra_title": "Használati bónusz"
   },
   "messages": {
     "comingsoon": "Üzenetek funkció hamarosan érkezik!"
