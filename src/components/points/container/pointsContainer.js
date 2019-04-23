@@ -1,4 +1,5 @@
-import React, { Component, Alert } from 'react';
+import React, { Component } from 'react';
+import { Alert } from 'react-native';
 import { connect } from 'react-redux';
 
 // Services and Actions
@@ -61,9 +62,11 @@ class PointsContainer extends Component {
 
     await getUserPoints(username)
       .then((userActivities) => {
-        this.setState({
-          userActivities: this._groomUserActivities(userActivities),
-        });
+        if (Object.entries(userActivities).length !== 0) {
+          this.setState({
+            userActivities: this._groomUserActivities(userActivities),
+          });
+        }
       })
       .catch((err) => {
         Alert.alert(err);
