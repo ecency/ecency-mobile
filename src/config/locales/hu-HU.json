@@ -97,7 +97,7 @@
       "always_warn": "Mindig figyelmeztess"
     },
     "feedback_success": "Email sikeresen megnyitva",
-    "feedback_fail": "Email client could not open"
+    "feedback_fail": "A levelezőprogram nem nyitható meg"
   },
   "voters": {
     "voters_info": "Infó a szavazókról",
@@ -246,6 +246,6 @@
     "trending": "népszerű",
     "reputation": "reputáció",
     "votes": "szavazatok",
-    "age": "age"
+    "age": "időrend"
   }
 }
