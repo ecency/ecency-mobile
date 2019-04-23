@@ -27,10 +27,15 @@ class WalletContainer extends PureComponent {
 
   // Component Functions
   _navigate = () => {
-    const { dispatch, setPinCodeState } = this.props;
+    const { dispatch, setPinCodeState, navigation } = this.props;
 
-    setPinCodeState({ navigateTo: ROUTES.SCREENS.TRANSFER });
-    dispatch(openPinCodeModal());
+    navigation.navigate(ROUTES.SCREENS.TRANSFER, {
+      transferType: 'transferToSaving',
+      fundType: 'STEEM',
+    });
+
+    // setPinCodeState({ navigateTo: ROUTES.SCREENS.TRANSFER, navigateParams: {transferType: 'sbd'} });
+    // dispatch(openPinCodeModal());
   };
 
   render() {
