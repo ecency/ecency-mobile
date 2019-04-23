@@ -1,13 +1,14 @@
 import React from 'react';
 import { View, Text } from 'react-native';
-import GrayWrapper from '../grayWrapper/grayWrapperView';
 
+// Components
+import GrayWrapper from '../grayWrapper/grayWrapperView';
 import { Icon } from '../../../icon';
 
+// Styles
 import styles from './walletLineItemStyles';
 
 const WalletLineItem = ({
-  circleIconColor,
   description,
   fitContent,
   iconName,
@@ -31,7 +32,7 @@ const WalletLineItem = ({
             style={[
               styles.iconWrapper,
               isCircleIcon && styles.circleIcon,
-              circleIconColor && { backgroundColor: circleIconColor },
+              index && { backgroundColor: `${index && index % 2 !== 0 ? 'white' : '#f5f5f5'}` },
             ]}
           >
             <Icon style={styles.icon} name={iconName} iconType={iconType} />
