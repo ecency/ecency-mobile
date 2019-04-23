@@ -61,14 +61,18 @@ class IconView extends PureComponent {
     }
   };
 
-  _getIconWithBadge = badgeCount => (
-    <Fragment>
-      <View style={styles.badgeWrapper}>
-        <Text style={styles.badge}>{badgeCount}</Text>
-      </View>
-      {this._getIcon()}
-    </Fragment>
-  );
+  _getIconWithBadge = (badgeCount) => {
+    const { badgeStyle, badgeTextStyle } = this.props;
+
+    return (
+      <Fragment>
+        <View style={[badgeStyle || styles.badgeWrapper]}>
+          <Text style={[badgeTextStyle || styles.badge]}>{badgeCount}</Text>
+        </View>
+        {this._getIcon()}
+      </Fragment>
+    );
+  }
 
   render() {
     const { badgeCount } = this.props;

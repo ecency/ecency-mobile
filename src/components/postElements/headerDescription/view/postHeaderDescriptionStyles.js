@@ -37,4 +37,9 @@ export default EStyleSheet.create({
     marginLeft: 10,
     alignSelf: 'center',
   },
+  ownerIndicator: {
+    color: '$primaryBlue',
+    alignSelf: 'center',
+    marginLeft: 8,
+  },
 });

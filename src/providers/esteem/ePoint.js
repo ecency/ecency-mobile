@@ -14,7 +14,6 @@ export const userActivity = (us, ty, bl = '', tx = '') => new Promise((resolve, 
   ePointApi
     .post('/usr-activity', params)
     .then((res) => {
-      console.log(res);
       resolve(res.data);
     })
     .catch((error) => {
@@ -39,7 +38,7 @@ export const transfer = (sender, receiver, amount) => new Promise((resolve, reje
 
 export const getUser = username => new Promise((resolve, reject) => {
   ePointApi
-    .get(`/users/:${username}`)
+    .get(`/users/${username}`)
     .then((res) => {
       resolve(res.data);
     })
@@ -50,7 +49,7 @@ export const getUser = username => new Promise((resolve, reject) => {
 
 export const getUserPoints = username => new Promise((resolve, reject) => {
   ePointApi
-    .get(`/users/:${username}/points`)
+    .get(`/users/${username}/points`)
     .then((res) => {
       resolve(res.data);
     })

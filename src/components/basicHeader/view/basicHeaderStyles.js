@@ -49,6 +49,9 @@ export default EStyleSheet.create({
     justifyContent: 'center',
     alignSelf: 'center',
   },
+  scheduleIcon: {
+    color: '$iconColor',
+  },
   textButton: {
     fontSize: 16,
   },
