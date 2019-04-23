@@ -19,7 +19,7 @@
     "unfollow": "seni takipetmeyi bıraktı",
     "ignore": "seni engelledi",
     "reblog": "senin postunu paylaştı",
-    "transfer": "transfered steem",
+    "transfer": "transfer edilen steem",
     "comingsoon": "Liderler tablosu yakında burada!",
     "notification": "Bildirimler",
     "leaderboard": "Liderler Tablosu",
@@ -58,33 +58,33 @@
   },
   "settings": {
     "settings": "Ayarlar",
-    "general": "General",
+    "general": "Genel",
     "currency": "Para Birimi",
     "language": "Dil",
     "server": "Sunucu",
     "dark_theme": "Koyu Tema",
     "push_notification": "Bildirim",
     "notification": {
-      "follow": "Follow",
-      "vote": "Vote",
-      "comment": "Comment",
-      "mention": "Mention",
-      "reblog": "Reblog",
-      "transfers": "Transfers"
+      "follow": "Takip Et",
+      "vote": "Oy",
+      "comment": "Yorum",
+      "mention": "Bahset",
+      "reblog": "Yeniden yayınla",
+      "transfers": "Transferler"
     },
     "pincode": "Pinkod",
     "reset": "Sifirla",
-    "nsfw_content": "NSFW Content",
-    "send_feedback": "Send Feedback",
-    "send": "Send",
-    "default_footer": "Default Footer",
+    "nsfw_content": "NSFW İçeriği",
+    "send_feedback": "Geri Bildirim Gönder",
+    "send": "Gönder",
+    "default_footer": "Varsayılan Altbilgi",
     "nsfw": {
-      "always_show": "Always show",
-      "always_hide": "Always hide",
-      "always_warn": "Always warn"
+      "always_show": "Her zaman göster",
+      "always_hide": "Her zaman gizle",
+      "always_warn": "Her zaman uyar"
     },
-    "feedback_success": "Email successfully open",
-    "feedback_fail": "Email client could not open"
+    "feedback_success": "E-posta başarıyla açıldı",
+    "feedback_fail": "E-posta istemcisi açılamadı"
   },
   "voters": {
     "voters_info": "Oy Verenler",
@@ -137,7 +137,7 @@
     "publish": "Yayınla",
     "reply": "Cevapla",
     "open_galery": "Gariyi Aç",
-    "capture_photo": "Bir fotoğraf yakala"
+    "capture_photo": "Bir fotoğraf çekin"
   },
   "pincode": {
     "enter_text": "Açmak için pin kodunu giriniz",
@@ -150,7 +150,10 @@
     "allRead": "Tüm bildirimleri okundu olarak işaretle",
     "claim_reward_balance_ok": "Ödül alındı",
     "fail": "Başarısız!",
+    "move": "Taşı",
+    "move_question": "Taslaklara taşıyacağınızdan emin misiniz?",
     "success_shared": "Gönderin başarıyla paylaşıldı",
+    "success_moved": "Taslağa taşındı",
     "permission_denied": "İzin reddedildi",
     "permission_text": "Lütfen telefon ayarlarına gidin ve eSteem'in izinlerini açın.",
     "success_rebloged": "Rebloged!",
@@ -159,7 +162,7 @@
     "invalid_pincode": "Geçersiz pin gözden geçirip yeniden deneyin.",
     "remove_alert": "Kaldırmak istediğine emin misin ?",
     "clear_alert": "Silmek istediğinizden emin misiniz?",
-    "clear_user_alert": "Are you sure you want to clear all user data?",
+    "clear_user_alert": "Tüm kullanıcı verilerini silmek istediğinize emin misiniz?",
     "clear": "Temizle",
     "cancel": "Vazgeç",
     "delete": "Temizle",
@@ -220,11 +223,11 @@
   },
   "deep_link": {
     "no_existing_user": "Kullanici Bulunamadi",
-    "no_existing_post": "Kullanici Bulunamadi"
+    "no_existing_post": "Mevcut yayın yok"
   },
   "search": {
-    "posts": "Posts",
-    "comments": "Comments"
+    "posts": "Gönderi",
+    "comments": "Yorumlar"
   },
   "comment_filter": {
     "trending": "öne çıkanlar",

@@ -4,8 +4,6 @@ import { View } from 'react-native';
 
 // Utilities
 import { groomingTransactionData } from '../../../utils/wallet';
-
-// Utils
 import { getTimeFromNow } from '../../../utils/time';
 
 // Components
@@ -60,10 +58,10 @@ class TransactionView extends PureComponent {
                 <CollapsibleCard
                   noBorder
                   noContainer
-                  key={index.toString()}
+                  key={transactionData.transDate.toString()}
                   titleComponent={(
                     <WalletLineItem
-                      key={index.toString()}
+                      key={transactionData.transDate.toString()}
                       index={index}
                       text={intl.formatMessage({
                         id: `wallet.${transactionData.opName}`,

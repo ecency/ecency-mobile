@@ -19,7 +19,7 @@
     "unfollow": "आपका साथ छोड़ा",
     "ignore": "आपको अनदेखा किया",
     "reblog": "आपका पोस्ट को पुनः प्रसारित किया",
-    "transfer": "transfered steem",
+    "transfer": "steem स्थानांतरण",
     "comingsoon": "अधिनायक पटल सुविधा जल्द आने वाली है!",
     "notification": "अधिसूचनाएं",
     "leaderboard": "अधिनायकपटल",
@@ -58,33 +58,33 @@
   },
   "settings": {
     "settings": "समायोजन",
-    "general": "General",
+    "general": "सामान्य",
     "currency": "मुद्रा",
     "language": "भाषा",
     "server": "सर्वर",
     "dark_theme": "काला थीम",
     "push_notification": "संभर अधिसूचना",
     "notification": {
-      "follow": "Follow",
-      "vote": "Vote",
-      "comment": "Comment",
-      "mention": "Mention",
+      "follow": "का पालन करें",
+      "vote": "वोट",
+      "comment": "टिप्पणी",
+      "mention": "उल्लेख",
       "reblog": "Reblog",
-      "transfers": "Transfers"
+      "transfers": "स्थानांतरण"
     },
     "pincode": "Pincode",
     "reset": "पुनः नियोजन",
-    "nsfw_content": "NSFW Content",
-    "send_feedback": "Send Feedback",
-    "send": "Send",
+    "nsfw_content": "NSFW सामग्री",
+    "send_feedback": "प्रतिक्रिया भेजें",
+    "send": "भेजना",
     "default_footer": "Default Footer",
     "nsfw": {
-      "always_show": "Always show",
-      "always_hide": "Always hide",
-      "always_warn": "Always warn"
+      "always_show": "हमेशा दिखाएं",
+      "always_hide": "हमेशा छिपाए",
+      "always_warn": "हमेशा चेतावनी देते हैं"
     },
-    "feedback_success": "Email successfully open",
-    "feedback_fail": "Email client could not open"
+    "feedback_success": "ईमेल सफलतापूर्वक खुला",
+    "feedback_fail": "ईमेल क्लाइंट नहीं खोल सका"
   },
   "voters": {
     "voters_info": "मतदाताओं की जानकारी",
@@ -150,7 +150,10 @@
     "allRead": "सभी सूचनाओं को पढ़ लिया चिन्हित करें",
     "claim_reward_balance_ok": "इनाम की राशी ले चुके",
     "fail": "असफल!",
+    "move": "हटाना",
+    "move_question": "क्या आप ड्राफ्ट में जाना सुनिश्चित करते हैं?",
     "success_shared": "आपका पोस्ट सफलतापूर्ण साझा हो गया",
+    "success_moved": "ड्राफ्ट में ले जाया गया",
     "permission_denied": "अनुमोदन अस्वीकृत हुवा",
     "permission_text": "कृपया, अपने फ़ोन समायोजन में जाएँ और इस्टीम एप्प की अनुमोदन बदलें|",
     "success_rebloged": "Rebloged!",
@@ -159,7 +162,7 @@
     "invalid_pincode": "Invalid pin code, please check and try again.",
     "remove_alert": "क्या आप इसे सच में हटाना चाहते हैं?",
     "clear_alert": "क्या आप सचमुच में मिटाना चाहते हैं?",
-    "clear_user_alert": "Are you sure you want to clear all user data?",
+    "clear_user_alert": "क्या आप वाकई सभी उपयोगकर्ता डेटा को साफ़ करना चाहते हैं?",
     "clear": "मिटायें",
     "cancel": "रद्द करें",
     "delete": "मिटा दें",
@@ -223,13 +226,13 @@
     "no_existing_post": "कोई विद्यमान पोस्ट नहीं"
   },
   "search": {
-    "posts": "Posts",
-    "comments": "Comments"
+    "posts": "पोस्ट",
+    "comments": "टिप्पणियाँ"
   },
   "comment_filter": {
-    "trending": "trending",
-    "reputation": "reputation",
-    "votes": "votes",
-    "age": "age"
+    "trending": "प्रचलित",
+    "reputation": "प्रतिष्ठा",
+    "votes": "मत",
+    "age": "उम्र"
   }
 }
