@@ -544,7 +544,8 @@ export const transferToSavings = (currentAccount, pin, data) => {
 
   if (key) {
     const privateKey = PrivateKey.fromString(key);
-    const args = [
+
+    const args = [[
       'transfer_to_savings',
       {
         from: data.from,
@@ -552,9 +553,7 @@ export const transferToSavings = (currentAccount, pin, data) => {
         amount: data.amount,
         memo: data.memo,
       },
-    ];
-
-    console.log('args :', args);
+    ]];
 
     return new Promise((resolve, reject) => {
       client.broadcast
@@ -577,7 +576,7 @@ export const transferFromSavings = (currentAccount, pin, data) => {
 
   if (key) {
     const privateKey = PrivateKey.fromString(key);
-    const args = [
+    const args = [[
       'transfer_from_savings',
       {
         from: data.from,
@@ -586,7 +585,7 @@ export const transferFromSavings = (currentAccount, pin, data) => {
         memo: data.memo,
         request_id: data.requestId,
       },
-    ];
+    ]];
 
     return new Promise((resolve, reject) => {
       client.broadcast
@@ -609,14 +608,14 @@ export const transferToVesting = (currentAccount, pin, data) => {
 
   if (key) {
     const privateKey = PrivateKey.fromString(key);
-    const args = [
+    const args = [[
       'transfer_to_vesting',
       {
         from: data.from,
         to: data.destination,
         amount: data.amount,
       },
-    ];
+    ]];
 
     return new Promise((resolve, reject) => {
       client.broadcast

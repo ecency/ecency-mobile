@@ -95,7 +95,7 @@ export const groomingTransactionData = (transaction, steemPerMVests, formatNumbe
       result.icon = 'reorder';
       break;
     default:
-      break;
+      return [];
   }
   return result;
 };

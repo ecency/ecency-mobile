@@ -40,7 +40,7 @@ class WalletDetailsView extends PureComponent {
           isBoldText
           dropdown
           dropdownOptions={['Transfer']}
-          onDropdownSelect={test => navigate()}
+          onDropdownSelect={(a,b) => navigate(a,b)}
         />
         <GrayWrapper isGray>
           <WalletLineItem
