@@ -97,7 +97,7 @@
       "always_warn": "Avertizează întotdeauna"
     },
     "feedback_success": "E-mail deschis cu succes",
-    "feedback_fail": "Email client could not open"
+    "feedback_fail": "Email-ul nu a putut fi accesat"
   },
   "voters": {
     "voters_info": "Detalii votanți",
