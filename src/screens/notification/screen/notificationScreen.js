@@ -76,7 +76,17 @@ class NotificationScreen extends PureComponent {
             })}
             style={styles.tabbarItem}
           >
-            <Points />
+            {isLoggedIn ? (
+              <Points />
+            ) : (
+              <NoPost
+                isButtonText
+                defaultText={intl.formatMessage({
+                  id: 'profile.login_to_see',
+                })}
+                handleOnButtonPress={handleLoginPress}
+              />
+            )}
           </View>
           <View
             tabLabel={intl.formatMessage({
