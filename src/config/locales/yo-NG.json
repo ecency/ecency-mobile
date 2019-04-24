@@ -23,12 +23,25 @@
     "comingsoon": "Eto ifihan awon asiwaju n bo lona!",
     "notification": "Awon Akiyesi",
     "leaderboard": "Ate asiwaju",
+    "epoint": "Points",
     "leaderboard_title": "Olori ojumo",
     "recent": "Ai pe",
     "yesterday": "Ana",
     "this_week": "Ose yi",
     "this_month": "Osu yi",
     "older_then": "Ti koja osu kan"
+  },
+  "points": {
+    "post": "Post",
+    "comment": "Comment",
+    "checkin": "Checki-in",
+    "post_title": "Points for post",
+    "comment_title": "Points for comment",
+    "vote_title": "Points for vote",
+    "reblog_title": "Points for reblog",
+    "login_title": "Points for login",
+    "checkin_title": "Points for usage",
+    "checkin_extra_title": "Usage bonus"
   },
   "messages": {
     "comingsoon": "Eto sise ateranse nbo lona!"
