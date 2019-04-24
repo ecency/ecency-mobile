@@ -55,15 +55,14 @@ class ExampleContainer extends Component {
       amount,
       memo,
     };
+    data.amount = `${data.amount} ${fundType}`;
 
     switch (transferType) {
       case 'transferToken':
         func = transferToken;
-        data.amount = `${data.amount} ${fundType}`;
         break;
       case 'transferToSaving':
         func = transferToSavings;
-        data.amount = `${data.amount} ${fundType}`;
         break;
       case 'powerUp':
         func = transferToVesting;
@@ -71,22 +70,18 @@ class ExampleContainer extends Component {
       case 'withdrawToSaving':
         func = transferFromSavings;
         data.requestId = new Date().getTime() >>> 0;
-        data.amount = `${data.amount} ${fundType}`;
         break;
 
       default:
         break;
     }
 
-    console.log('func :', func);
     return func(currentAccount, pinCode, data)
-      .then((res) => {
-        console.log('res :', res);
+      .then(() => {
         dispatch(toastNotification('Successfull'));
         navigation.goBack();
       })
       .catch((err) => {
-        console.log('err :', err);
         dispatch(toastNotification(err.message));
       });
   };
