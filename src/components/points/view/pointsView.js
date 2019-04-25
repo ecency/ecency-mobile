@@ -50,12 +50,14 @@ class PointsView extends Component {
      const {
        userActivities, userPoints, intl, isClaiming, claimPoints,
      } = this.props;
-     const isActiveIcon = true;
+     // TODO:
+     const isActiveIcon = false;
 
      return (
        <Fragment>
          <LineBreak height={12} />
          <ScrollView
+           style={styles.scrollContainer}
            refreshControl={this.refreshControl()}
          >
            <Text style={styles.pointText}>{userPoints.points}</Text>

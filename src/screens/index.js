@@ -5,7 +5,7 @@ import { Follows } from './follows';
 import { Home } from './home';
 import { Launch } from './launch';
 import { Login } from './login';
-import { Messages } from './messages';
+import { Points } from './points';
 import { Notification } from './notification';
 import { PinCode } from './pinCode';
 import { Post } from './post';
@@ -24,7 +24,7 @@ export {
   Home,
   Launch,
   Login,
-  Messages,
+  Points,
   Notification,
   PinCode,
   Post,
