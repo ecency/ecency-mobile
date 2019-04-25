@@ -256,9 +256,12 @@
     "amount": "Amount",
     "memo": "Memo",
     "information": "1",
-    "amount_desc": "2",
+    "amount_desc": "amount desc",
     "memo_desc": "This memo is public",
     "to_placeholder": "3",
-    "memo_placeholder": "4"
+    "memo_placeholder": "4",
+    "transferToken": "Transfer",
+    "transferToSaving": "Transfer To Saving",
+    "powerUp": "Power Up"
   }
 }
