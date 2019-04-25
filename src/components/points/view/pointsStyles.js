@@ -94,4 +94,7 @@ export default EStyleSheet.create({
     width: 24,
     height: 24,
   },
+  scrollContainer: {
+    flex: 1,
+  },
 });
