@@ -182,7 +182,7 @@
     "delete": "Törlés",
     "copied": "Lemásolva!",
     "no_internet": "Nincs kapcsolat!",
-    "confirm": "Confirm"
+    "confirm": "Megerősítés"
   },
   "post": {
     "reblog_alert": "Biztos, hogy megosztod?"
@@ -251,19 +251,19 @@
     "age": "időrend"
   },
   "transfer": {
-    "title": "Transfer To Account",
-    "from": "From",
-    "to": "To",
-    "amount": "Amount",
-    "memo": "Memo",
+    "title": "Átutalás más fiókba",
+    "from": "Feladó",
+    "to": "Címzett",
+    "amount": "Összeg",
+    "memo": "Üzenet",
     "information": "Are you sure to transfer to funds?",
-    "amount_desc": "Balance",
-    "memo_desc": "This memo is public",
-    "to_placeholder": "Username",
-    "memo_placeholder": "Enter your notes here",
-    "transferToken": "Transfer",
-    "transferToSaving": "Transfer To Saving",
+    "amount_desc": "Egyenleg",
+    "memo_desc": "Ez az üzenet nyilvános",
+    "to_placeholder": "Felhasználónév",
+    "memo_placeholder": "Megjegyzés ide",
+    "transferToken": "Átutalás",
+    "transferToSaving": "Átutalás a megtakarításokhoz",
     "powerUp": "Power Up",
-    "steemconnect_title": "Steemconnect Transfer"
+    "steemconnect_title": "Steemconnect átadása"
   }
 }
