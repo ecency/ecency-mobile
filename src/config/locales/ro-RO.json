@@ -182,7 +182,7 @@
     "delete": "Șterge",
     "copied": "Copiat!",
     "no_internet": "Nu există conexiune!",
-    "confirm": "Confirm"
+    "confirm": "Confirmă"
   },
   "post": {
     "reblog_alert": "Ești sigur că vrei să redistribui?"
@@ -251,19 +251,19 @@
     "age": "vechime"
   },
   "transfer": {
-    "title": "Transfer To Account",
-    "from": "From",
-    "to": "To",
-    "amount": "Amount",
-    "memo": "Memo",
+    "title": "Transferă către contul",
+    "from": "De la",
+    "to": "Către",
+    "amount": "Sumă",
+    "memo": "Notă",
     "information": "Are you sure to transfer to funds?",
-    "amount_desc": "Balance",
-    "memo_desc": "This memo is public",
-    "to_placeholder": "Username",
-    "memo_placeholder": "Enter your notes here",
-    "transferToken": "Transfer",
-    "transferToSaving": "Transfer To Saving",
+    "amount_desc": "Sold",
+    "memo_desc": "Această notă este publică",
+    "to_placeholder": "Nume de utilizator",
+    "memo_placeholder": "Introdu comentariul tău aici",
+    "transferToken": "Transferă",
+    "transferToSaving": "Tranferă la economii",
     "powerUp": "Power Up",
-    "steemconnect_title": "Steemconnect Transfer"
+    "steemconnect_title": "Transfer Steemconnect"
   }
 }
