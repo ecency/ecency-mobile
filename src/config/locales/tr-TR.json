@@ -42,7 +42,7 @@
     "login_title": "Giriş için puanlar",
     "checkin_title": "Kullanım için puanlar",
     "checkin_extra_title": "Kullanım bonusu",
-    "no_activity": "No activity here!"
+    "no_activity": "Burada etkinlik yok!"
   },
   "messages": {
     "comingsoon": "Mesajlar yakinda burada!"
@@ -182,7 +182,7 @@
     "delete": "Temizle",
     "copied": "Kopyalandı",
     "no_internet": "Bağlantı yok.",
-    "confirm": "Confirm"
+    "confirm": "Onayla"
   },
   "post": {
     "reblog_alert": "Reblog yapma istediginize emin misiniz?"
@@ -251,19 +251,19 @@
     "age": "yaş"
   },
   "transfer": {
-    "title": "Transfer To Account",
-    "from": "From",
-    "to": "To",
-    "amount": "Amount",
-    "memo": "Memo",
-    "information": "Are you sure to transfer to funds?",
-    "amount_desc": "Balance",
-    "memo_desc": "This memo is public",
-    "to_placeholder": "Username",
-    "memo_placeholder": "Enter your notes here",
-    "transferToken": "Transfer",
-    "transferToSaving": "Transfer To Saving",
-    "powerUp": "Power Up",
-    "steemconnect_title": "Steemconnect Transfer"
+    "title": "Hesaba aktar",
+    "from": "Gönderen",
+    "to": "Kime",
+    "amount": "Miktar",
+    "memo": "Notlar",
+    "information": "Fonlara transfer etmek istediğinize emin misin?",
+    "amount_desc": "Bakiye",
+    "memo_desc": "Bu not herkese açık",
+    "to_placeholder": "Kullanıcı Adı",
+    "memo_placeholder": "Notlarınızı buraya girin",
+    "transferToken": "Havale",
+    "transferToSaving": "Tasarrufa Aktar",
+    "powerUp": "Güç yükselt",
+    "steemconnect_title": "Steemconnect Aktarımı"
   }
 }
