@@ -32,7 +32,7 @@ export default EStyleSheet.create({
     alignItems: 'center',
   },
   iconButton: {
-    marginTop: 3,
+    marginTop: 1,
     marginLeft: 1,
   },
   activeIconWrapper: {
