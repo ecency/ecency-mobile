@@ -41,7 +41,8 @@
     "reblog_title": "Mata ganjaran -> reblog_title",
     "login_title": "Mata ganjaran log masuk",
     "checkin_title": "Mata ganjaran kegunaan",
-    "checkin_extra_title": "Bonus kegunaan"
+    "checkin_extra_title": "Bonus kegunaan",
+    "no_activity": "No activity here!"
   },
   "messages": {
     "comingsoon": "Ciri-ciri mesej yang akan datang tidak lama lagi!"

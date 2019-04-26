@@ -41,7 +41,8 @@
     "reblog_title": "نقاط لإعادة النشر",
     "login_title": "نقاط لتسجيل الدخول",
     "checkin_title": "نقاط للاستخدام",
-    "checkin_extra_title": "مكافأة الاستخدام"
+    "checkin_extra_title": "مكافأة الاستخدام",
+    "no_activity": "No activity here!"
   },
   "messages": {
     "comingsoon": "ميزة الرسائل سوف تأتي قريباً!"
