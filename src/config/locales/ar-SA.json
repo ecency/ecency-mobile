@@ -181,7 +181,8 @@
     "cancel": "إلغاء",
     "delete": "حذف",
     "copied": "تم النسخ!",
-    "no_internet": "لا يوجد اتصال!"
+    "no_internet": "لا يوجد اتصال!",
+    "confirm": "Confirm"
   },
   "post": {
     "reblog_alert": "هل أنت متأكد من رغبتك في إعادة التدوين؟"
@@ -248,5 +249,21 @@
     "reputation": "السمعة",
     "votes": "الأصوات",
     "age": "العمر"
+  },
+  "transfer": {
+    "title": "Transfer To Account",
+    "from": "From",
+    "to": "To",
+    "amount": "Amount",
+    "memo": "Memo",
+    "information": "Are you sure to transfer to funds?",
+    "amount_desc": "Balance",
+    "memo_desc": "This memo is public",
+    "to_placeholder": "Username",
+    "memo_placeholder": "Enter your notes here",
+    "transferToken": "Transfer",
+    "transferToSaving": "Transfer To Saving",
+    "powerUp": "Power Up",
+    "steemconnect_title": "Steemconnect Transfer"
   }
 }
