@@ -1,5 +1,5 @@
 import React, { PureComponent } from 'react';
-import { View, Text } from 'react-native';
+import { View } from 'react-native';
 import ScrollableTabView from '@esteemapp/react-native-scrollable-tab-view';
 import { injectIntl } from 'react-intl';
 
@@ -9,7 +9,6 @@ import { Notification } from '../../../components/notification';
 import { Header } from '../../../components/header';
 import { NoPost } from '../../../components/basicUIElements';
 import { LeaderBoard } from '../../../components/leaderboard';
-import { Points } from '../../../components/points';
 
 // Styles
 import styles from './notificationStyles';
@@ -69,14 +68,6 @@ class NotificationScreen extends PureComponent {
                 handleOnButtonPress={handleLoginPress}
               />
             )}
-          </View>
-          <View
-            tabLabel={intl.formatMessage({
-              id: 'notification.epoint',
-            })}
-            style={styles.tabbarItem}
-          >
-            <Points />
           </View>
           <View
             tabLabel={intl.formatMessage({

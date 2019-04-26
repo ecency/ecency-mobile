@@ -3,7 +3,7 @@ import EStyleSheet from 'react-native-extended-stylesheet';
 export default EStyleSheet.create({
   pointText: {
     color: '$primaryBlue',
-    fontSize: 24,
+    fontSize: 26,
     marginTop: 24,
     justifyContent: 'center',
     alignSelf: 'center',
@@ -31,6 +31,10 @@ export default EStyleSheet.create({
     justifyContent: 'center',
     alignItems: 'center',
   },
+  iconButton: {
+    marginTop: 3,
+    marginLeft: 1,
+  },
   activeIconWrapper: {
     backgroundColor: '$primaryBlue',
   },
@@ -43,7 +47,7 @@ export default EStyleSheet.create({
   },
   badge: {
     position: 'absolute',
-    right: -7,
+    right: -9,
     top: 20,
     backgroundColor: '$primaryBlue',
     justifyContent: 'center',
@@ -89,5 +93,8 @@ export default EStyleSheet.create({
     marginLeft: 20,
     width: 24,
     height: 24,
+  },
+  scrollContainer: {
+    flex: 1,
   },
 });
