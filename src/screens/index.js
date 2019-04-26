@@ -15,6 +15,7 @@ import { Voters } from './voters';
 import RootComponent from './root';
 import SteemConnect from './steem-connect/steemConnect';
 import { SearchResult } from './searchResult';
+import Transfer from './transfer';
 
 export {
   Bookmarks,
@@ -34,4 +35,5 @@ export {
   SteemConnect,
   Voters,
   SearchResult,
+  Transfer,
 };

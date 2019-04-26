@@ -12,9 +12,7 @@ import {
   setCurrency as setCurrency2DB,
   setServer,
   setNotificationSettings,
-  setDefaultFooter,
   setLanguage as setLanguage2DB,
-  setNotificationIsOpen,
   setNsfw as setNsfw2DB,
   setTheme,
 } from '../../../realm/realm';
@@ -27,7 +25,6 @@ import {
   setApi,
   isDarkTheme,
   isDefaultFooter,
-  isNotificationOpen,
   openPinCodeModal,
   setNsfw,
 } from '../../../redux/actions/applicationActions';

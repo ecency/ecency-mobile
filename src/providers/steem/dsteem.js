@@ -439,13 +439,10 @@ export const getPostWithComments = async (user, permlink) => {
  * @param postingKey private posting key
  */
 
-export const vote = (account, pin, author, permlink, weight) => _vote(
-  account, pin, author, permlink, weight,
-)
-  .then((resp) => {
-    userActivity(account.username, 120, resp.block_num, resp.id);
-    return resp;
-  });
+export const vote = (account, pin, author, permlink, weight) => _vote(account, pin, author, permlink, weight).then((resp) => {
+  userActivity(account.username, 120, resp.block_num, resp.id);
+  return resp;
+});
 
 const _vote = async (currentAccount, pin, author, permlink, weight) => {
   const digitPinCode = getDigitPinCode(pin);
@@ -513,18 +510,126 @@ export const upvoteAmount = async (input) => {
   return estimated;
 };
 
-export const transferToken = (data, activeKey) => {
-  const key = PrivateKey.fromString(activeKey);
-  return new Promise((resolve, reject) => {
-    client.broadcast
-      .transfer(data, key)
-      .then((result) => {
-        resolve(result);
-      })
-      .catch((err) => {
-        reject(err);
-      });
-  });
+export const transferToken = (currentAccount, pin, data) => {
+  const digitPinCode = getDigitPinCode(pin);
+  const key = getAnyPrivateKey({ activeKey: currentAccount.local.activeKey }, digitPinCode);
+
+  if (key) {
+    const privateKey = PrivateKey.fromString(key);
+    const args = {
+      from: data.from,
+      to: data.destination,
+      amount: data.amount,
+      memo: data.memo,
+    };
+
+    return new Promise((resolve, reject) => {
+      client.broadcast
+        .transfer(args, privateKey)
+        .then((result) => {
+          resolve(result);
+        })
+        .catch((err) => {
+          reject(err);
+        });
+    });
+  }
+
+  return Promise.reject(new Error('You dont have permission!'));
+};
+
+export const transferToSavings = (currentAccount, pin, data) => {
+  const digitPinCode = getDigitPinCode(pin);
+  const key = getAnyPrivateKey({ activeKey: currentAccount.local.activeKey }, digitPinCode);
+
+  if (key) {
+    const privateKey = PrivateKey.fromString(key);
+
+    const args = [[
+      'transfer_to_savings',
+      {
+        from: data.from,
+        to: data.destination,
+        amount: data.amount,
+        memo: data.memo,
+      },
+    ]];
+
+    return new Promise((resolve, reject) => {
+      client.broadcast
+        .sendOperations(args, privateKey)
+        .then((result) => {
+          resolve(result);
+        })
+        .catch((err) => {
+          reject(err);
+        });
+    });
+  }
+
+  return Promise.reject(new Error('You dont have permission!'));
+};
+
+export const transferFromSavings = (currentAccount, pin, data) => {
+  const digitPinCode = getDigitPinCode(pin);
+  const key = getAnyPrivateKey({ activeKey: currentAccount.local.activeKey }, digitPinCode);
+
+  if (key) {
+    const privateKey = PrivateKey.fromString(key);
+    const args = [[
+      'transfer_from_savings',
+      {
+        from: data.from,
+        to: data.destination,
+        amount: data.amount,
+        memo: data.memo,
+        request_id: data.requestId,
+      },
+    ]];
+
+    return new Promise((resolve, reject) => {
+      client.broadcast
+        .sendOperations(args, privateKey)
+        .then((result) => {
+          resolve(result);
+        })
+        .catch((err) => {
+          reject(err);
+        });
+    });
+  }
+
+  return Promise.reject(new Error('You dont have permission!'));
+};
+
+export const transferToVesting = (currentAccount, pin, data) => {
+  const digitPinCode = getDigitPinCode(pin);
+  const key = getAnyPrivateKey({ activeKey: currentAccount.local.activeKey }, digitPinCode);
+
+  if (key) {
+    const privateKey = PrivateKey.fromString(key);
+    const args = [[
+      'transfer_to_vesting',
+      {
+        from: data.from,
+        to: data.destination,
+        amount: data.amount,
+      },
+    ]];
+
+    return new Promise((resolve, reject) => {
+      client.broadcast
+        .sendOperations(args, privateKey)
+        .then((result) => {
+          resolve(result);
+        })
+        .catch((err) => {
+          reject(err);
+        });
+    });
+  }
+
+  return Promise.reject(new Error('You dont have permission!'));
 };
 
 export const followUser = async (currentAccount, pin, data) => {
@@ -627,30 +732,6 @@ export const delegate = (data, activeKey) => {
       })
       .catch((err) => {
         reject(err);
-      });
-  });
-};
-
-export const transferToVesting = (data, activeKey) => {
-  const privateKey = PrivateKey.fromString(activeKey);
-
-  const op = [
-    'transfer_to_vesting',
-    {
-      from: data.from,
-      to: data.to,
-      amount: data.amount,
-    },
-  ];
-
-  return new Promise((resolve, reject) => {
-    client.broadcast
-      .sendOperations([op], privateKey)
-      .then((result) => {
-        resolve(result);
-      })
-      .catch((error) => {
-        reject(error);
       });
   });
 };
@@ -837,9 +918,7 @@ const _postContent = async (
 
 // Re-blog
 // TODO: remove pinCode
-export const reblog = (account, pinCode, author, permlink) => _reblog(
-  account, pinCode, author, permlink,
-).then((resp) => {
+export const reblog = (account, pinCode, author, permlink) => _reblog(account, pinCode, author, permlink).then((resp) => {
   userActivity(account.name, 130, resp.block_num, resp.id);
   return resp;
 });
@@ -925,7 +1004,7 @@ const getAnyPrivateKey = (local, pin) => {
   }
 
   if (activeKey) {
-    return decryptKey(local.postingKey, pin);
+    return decryptKey(local.activeKey, pin);
   }
 
   return false;
