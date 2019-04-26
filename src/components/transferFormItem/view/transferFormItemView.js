@@ -9,7 +9,7 @@ import styles from './transferFormItemStyles';
 
 const TransferFormItemView = ({ rightComponent, label }) => (
   <View style={styles.container}>
-    <View style={styles.leftPart}>{label && <Text>{label}</Text>}</View>
+    <View style={styles.leftPart}>{label && <Text style={styles.text}>{label}</Text>}</View>
     <View style={styles.rightPart}>{rightComponent && rightComponent()}</View>
   </View>
 );
