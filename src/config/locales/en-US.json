@@ -255,13 +255,14 @@
     "to": "To",
     "amount": "Amount",
     "memo": "Memo",
-    "information": "1",
-    "amount_desc": "amount desc",
+    "information": "Are you sure to transfer to funds?",
+    "amount_desc": "Balance",
     "memo_desc": "This memo is public",
-    "to_placeholder": "3",
-    "memo_placeholder": "4",
+    "to_placeholder": "Username",
+    "memo_placeholder": "Enter your notes here",
     "transferToken": "Transfer",
     "transferToSaving": "Transfer To Saving",
-    "powerUp": "Power Up"
+    "powerUp": "Power Up",
+    "steemconnect_title": "Steemconnect Transfer"
   }
 }

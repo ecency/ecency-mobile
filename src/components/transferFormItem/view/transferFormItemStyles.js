@@ -9,6 +9,10 @@ export default EStyleSheet.create({
     flex: 1,
     padding: 10,
     justifyContent: 'center',
+    color: '$primaryBlack',
+  },
+  text: {
+    color: '$primaryBlack',
   },
   rightPart: {
     flex: 2,

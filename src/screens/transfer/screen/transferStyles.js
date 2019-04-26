@@ -28,6 +28,7 @@ export default EStyleSheet.create({
     borderColor: '$borderColor',
     borderRadius: 10,
     padding: 10,
+    color: '$primaryBlack',
   },
   description: {
     color: '$iconColor',
@@ -39,7 +40,7 @@ export default EStyleSheet.create({
     alignItems: 'center',
   },
   buttonText: {
-    color: '$white',
+    color: 'white',
   },
   dropdown: {
     borderWidth: 1,

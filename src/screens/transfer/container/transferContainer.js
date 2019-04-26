@@ -92,7 +92,10 @@ class ExampleContainer extends Component {
   };
 
   render() {
-    const { accounts, currentAccount } = this.props;
+    const { accounts, currentAccount, navigation } = this.props;
+
+    const fundType = navigation.getParam('fundType', '');
+    const balance = navigation.getParam('balance', '');
 
     return (
       <TransferView
@@ -101,6 +104,8 @@ class ExampleContainer extends Component {
         transferToAccount={this._transferToAccount}
         handleOnModalClose={this._handleOnModalClose}
         accountType={currentAccount.local.authType}
+        balance={balance}
+        fundType={fundType}
       />
     );
   }

@@ -39,7 +39,7 @@ class TransferView extends Component {
 
   // Component Functions
   _setState = (key, value) => {
-    const { getAccountsWithUsername } = this.props;
+    const { getAccountsWithUsername, balance } = this.props;
 
     if (key) {
       switch (key) {
@@ -52,7 +52,7 @@ class TransferView extends Component {
           this.setState({ [key]: value });
           break;
         case 'amount':
-          if (!isNaN(value)) this.setState({ [key]: value });
+          if (!isNaN(value) && parseFloat(value) <= parseFloat(balance)) this.setState({ [key]: value });
           break;
 
         default:
@@ -100,7 +100,7 @@ class TransferView extends Component {
   _renderDescription = text => <Text style={styles.description}>{text}</Text>;
 
   render() {
-    const { accounts, intl, handleOnModalClose } = this.props;
+    const { accounts, intl, handleOnModalClose, balance, fundType } = this.props;
     const {
       destination, isUsernameValid, amount, steemConnectTransfer, memo,
     } = this.state;
@@ -140,11 +140,10 @@ class TransferView extends Component {
             />
             <TransferFormItem
               label={intl.formatMessage({ id: 'transfer.amount' })}
-              rightComponent={() => this._renderInput('Amount', 'amount')}
+              rightComponent={() => this._renderInput(intl.formatMessage({ id: 'transfer.amount' }), 'amount')}
             />
             <TransferFormItem
-              rightComponent={() => this._renderDescription(intl.formatMessage({ id: 'transfer.amount_desc' }))
-              }
+              rightComponent={() => this._renderDescription(`${intl.formatMessage({ id: 'transfer.amount_desc' })} ${balance} ${fundType}`)}
             />
             <TransferFormItem
               label={intl.formatMessage({ id: 'transfer.memo' })}
@@ -184,7 +183,7 @@ class TransferView extends Component {
           isFullScreen
           isCloseButton
           handleOnModalClose={handleOnModalClose}
-          title="Steemconnect Transfer"
+          title={intl.formatMessage({ id: 'transfer.steemconnect_title' })}
         >
           <WebView source={{ uri: `${steemConnectOptions.base_url}${path}` }} />
         </Modal>
