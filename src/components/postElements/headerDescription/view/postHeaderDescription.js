@@ -32,7 +32,7 @@ class PostHeaderDescription extends PureComponent {
   }
 
   // Component Functions
-  _handleOnUserPress = username => {
+  _handleOnUserPress = (username) => {
     const { navigation, profileOnPress, reputation } = this.props;
 
     if (profileOnPress) {
