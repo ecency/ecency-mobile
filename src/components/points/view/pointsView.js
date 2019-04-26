@@ -50,12 +50,14 @@ class PointsView extends Component {
      const {
        userActivities, userPoints, intl, isClaiming, claimPoints,
      } = this.props;
-     const isActiveIcon = true;
+     // TODO: this feature temporarily closed.
+     const isActiveIcon = false;
 
      return (
        <Fragment>
          <LineBreak height={12} />
          <ScrollView
+           style={styles.scrollContainer}
            refreshControl={this.refreshControl()}
          >
            <Text style={styles.pointText}>{userPoints.points}</Text>
@@ -84,7 +86,9 @@ class PointsView extends Component {
              <View styles={styles.iconWrapper}>
                <View style={styles.iconWrapper}>
                  <IconButton
+                   disabled
                    iconStyle={styles.icon}
+                   style={styles.iconButton}
                    iconType="MaterialCommunityIcons"
                    name="pencil"
                    badgeCount={50}
@@ -97,9 +101,11 @@ class PointsView extends Component {
              <View styles={styles.iconWrapper}>
                <View style={styles.iconWrapper}>
                  <IconButton
+                   disabled
+                   style={styles.iconButton}
                    iconStyle={styles.icon}
-                   iconType="MaterialIcons"
-                   name="comment"
+                   iconType="MaterialCommunityIcons"
+                   name="comment-text"
                    badgeCount={15}
                    badgeStyle={styles.badge}
                    badgeTextStyle={styles.badgeText}
@@ -110,6 +116,8 @@ class PointsView extends Component {
              <View styles={styles.iconWrapper}>
                <View style={[styles.iconWrapper, isActiveIcon && styles.activeIconWrapper]}>
                  <IconButton
+                   disabled
+                   style={styles.iconButton}
                    iconStyle={[styles.icon, isActiveIcon && styles.activeIcon]}
                    iconType="MaterialCommunityIcons"
                    name="clock-outline"
@@ -123,23 +131,28 @@ class PointsView extends Component {
            </View>
 
            <View style={styles.listWrapper}>
-             <FlatList
-               data={userActivities}
-               renderItem={({ item, index }) => (
-                 <WalletLineItem
-                   key={item.id.toString()}
-                   index={index + 1}
-                   text={intl.formatMessage({ id: item.textKey })}
-                   description={getTimeFromNow(item.created)}
-                   isCircleIcon
-                   isThin
-                   isBlackText
-                   iconName={item.icon}
-                   iconType={item.iconType}
-                   rightText={`${item.amount} ESTEEM`}
+             {userActivities && userActivities.length < 1
+               ? <Text style={styles.subText}>{intl.formatMessage({ id: 'points.no_activity' })}</Text>
+               : (
+                 <FlatList
+                   data={userActivities}
+                   renderItem={({ item, index }) => (
+                     <WalletLineItem
+                       key={item.id.toString()}
+                       index={index + 1}
+                       text={intl.formatMessage({ id: item.textKey })}
+                       description={getTimeFromNow(item.created)}
+                       isCircleIcon
+                       isThin
+                       isBlackText
+                       iconName={item.icon}
+                       iconType={item.iconType}
+                       rightText={`${item.amount} ESTM`}
+                     />
+                   )}
                  />
-               )}
-             />
+               )
+                  }
            </View>
          </ScrollView>
        </Fragment>
