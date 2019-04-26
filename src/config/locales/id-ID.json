@@ -181,7 +181,8 @@
     "cancel": "Batal",
     "delete": "Hapus",
     "copied": "Disalin!",
-    "no_internet": "Tidak ada koneksi!"
+    "no_internet": "Tidak ada koneksi!",
+    "confirm": "Confirm"
   },
   "post": {
     "reblog_alert": "Anda yakin ingin menerbitkan ulang?"
@@ -248,5 +249,21 @@
     "reputation": "reputasi",
     "votes": "berikan suara",
     "age": "usia"
+  },
+  "transfer": {
+    "title": "Transfer To Account",
+    "from": "From",
+    "to": "To",
+    "amount": "Amount",
+    "memo": "Memo",
+    "information": "Are you sure to transfer to funds?",
+    "amount_desc": "Balance",
+    "memo_desc": "This memo is public",
+    "to_placeholder": "Username",
+    "memo_placeholder": "Enter your notes here",
+    "transferToken": "Transfer",
+    "transferToSaving": "Transfer To Saving",
+    "powerUp": "Power Up",
+    "steemconnect_title": "Steemconnect Transfer"
   }
 }
