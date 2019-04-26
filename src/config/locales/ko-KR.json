@@ -181,7 +181,8 @@
     "cancel": "취소",
     "delete": "삭제",
     "copied": "복사됨!",
-    "no_internet": "인터넷 연결을 확인하세요!"
+    "no_internet": "인터넷 연결을 확인하세요!",
+    "confirm": "Confirm"
   },
   "post": {
     "reblog_alert": "정말 리블로그 하시겠습니까?"
@@ -248,5 +249,21 @@
     "reputation": "평판",
     "votes": "투표 수",
     "age": "작성일"
+  },
+  "transfer": {
+    "title": "Transfer To Account",
+    "from": "From",
+    "to": "To",
+    "amount": "Amount",
+    "memo": "Memo",
+    "information": "Are you sure to transfer to funds?",
+    "amount_desc": "Balance",
+    "memo_desc": "This memo is public",
+    "to_placeholder": "Username",
+    "memo_placeholder": "Enter your notes here",
+    "transferToken": "Transfer",
+    "transferToSaving": "Transfer To Saving",
+    "powerUp": "Power Up",
+    "steemconnect_title": "Steemconnect Transfer"
   }
 }
