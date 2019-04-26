@@ -23,7 +23,7 @@
     "comingsoon": "מאפיין לוח התוצאות יוצא להשקה בקרוב!",
     "notification": "התראות",
     "leaderboard": "לוח תוצאות",
-    "epoint": "Points",
+    "epoint": "נקודות",
     "leaderboard_title": "המשתמשים המובילים היום",
     "recent": "לאחרונה",
     "yesterday": "אתמול",
@@ -32,16 +32,16 @@
     "older_then": "ישן יותר מחודש"
   },
   "points": {
-    "post": "Post",
-    "comment": "Comment",
+    "post": "פוסט",
+    "comment": "תגובה",
     "checkin": "Checki-in",
-    "post_title": "Points for post",
-    "comment_title": "Points for comment",
-    "vote_title": "Points for vote",
-    "reblog_title": "Points for reblog",
-    "login_title": "Points for login",
-    "checkin_title": "Points for usage",
-    "checkin_extra_title": "Usage bonus"
+    "post_title": "נקודות עבור פוסט",
+    "comment_title": "נקודות עבור תגובה",
+    "vote_title": "נקודות עבור הצבעה",
+    "reblog_title": "נקודות עבור שיתוף",
+    "login_title": "נקודות עבור כניסה",
+    "checkin_title": "נקודות עבור שימוש",
+    "checkin_extra_title": "בונוס שימוש"
   },
   "messages": {
     "comingsoon": "אפשרות ההודעות יוצאת בקרוב!"
@@ -163,10 +163,10 @@
     "allRead": "סימון כל ההודעות כנקראו",
     "claim_reward_balance_ok": "תגמול יתרה נתקבלה",
     "fail": "נכשל!",
-    "move": "Move",
-    "move_question": "Are you sure to move to drafts?",
+    "move": "הזזה",
+    "move_question": "את\/ה בטוח\/ה להעביר לטיוטות?",
     "success_shared": "הפוסט שלך שותף בהצלחה",
-    "success_moved": "Moved to draft",
+    "success_moved": "הועבר לטיוטות",
     "permission_denied": "הרשאה נדחתה",
     "permission_text": "אנא, שנה את ההרשאות לאפליקציית ה eSteem, דרך ההגדרות בטלפון.",
     "success_rebloged": "שותף!",
