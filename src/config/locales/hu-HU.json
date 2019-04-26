@@ -41,7 +41,8 @@
     "reblog_title": "Megosztási pontok",
     "login_title": "Bejelentkezés pontok",
     "checkin_title": "Használati pontok",
-    "checkin_extra_title": "Használati bónusz"
+    "checkin_extra_title": "Használati bónusz",
+    "no_activity": "No activity here!"
   },
   "messages": {
     "comingsoon": "Üzenetek funkció hamarosan érkezik!"
