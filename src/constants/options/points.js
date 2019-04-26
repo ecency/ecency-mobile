@@ -20,7 +20,7 @@ export default {
     iconType: 'MaterialIcons',
   },
   10: {
-    icon: 'check-circle',
+    icon: 'ticket',
     textKey: 'points.checkin_title',
     iconType: 'MaterialCommunityIcons',
   },
