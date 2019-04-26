@@ -41,7 +41,8 @@
     "reblog_title": "Points for reblog",
     "login_title": "Points for login",
     "checkin_title": "Points for usage",
-    "checkin_extra_title": "Usage bonus"
+    "checkin_extra_title": "Usage bonus",
+    "no_activity": "No activity here!"
   },
   "messages": {
     "comingsoon": "Здесь будут сообщения!"
