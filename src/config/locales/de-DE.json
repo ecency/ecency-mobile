@@ -181,7 +181,8 @@
     "cancel": "Abbrechen",
     "delete": "Entfernen",
     "copied": "Kopiert!",
-    "no_internet": "Keine Verbindung!"
+    "no_internet": "Keine Verbindung!",
+    "confirm": "Confirm"
   },
   "post": {
     "reblog_alert": "Möchtest du diesen Beitrag wirklich teilen?"
@@ -248,5 +249,21 @@
     "reputation": "ruf",
     "votes": "stimmen",
     "age": "alter"
+  },
+  "transfer": {
+    "title": "Transfer To Account",
+    "from": "From",
+    "to": "To",
+    "amount": "Amount",
+    "memo": "Memo",
+    "information": "Are you sure to transfer to funds?",
+    "amount_desc": "Balance",
+    "memo_desc": "This memo is public",
+    "to_placeholder": "Username",
+    "memo_placeholder": "Enter your notes here",
+    "transferToken": "Transfer",
+    "transferToSaving": "Transfer To Saving",
+    "powerUp": "Power Up",
+    "steemconnect_title": "Steemconnect Transfer"
   }
 }
