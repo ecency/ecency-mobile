@@ -181,7 +181,8 @@
     "cancel": "İmtina",
     "delete": "Sil",
     "copied": "Kopyalandı!",
-    "no_internet": "Bağlantı yoxdur!"
+    "no_internet": "Bağlantı yoxdur!",
+    "confirm": "Confirm"
   },
   "post": {
     "reblog_alert": "Təkrar paylaşmaq istədiyinizə əminsiniz?"
@@ -248,5 +249,21 @@
     "reputation": "nüfuz",
     "votes": "səslər",
     "age": "yaş"
+  },
+  "transfer": {
+    "title": "Transfer To Account",
+    "from": "From",
+    "to": "To",
+    "amount": "Amount",
+    "memo": "Memo",
+    "information": "Are you sure to transfer to funds?",
+    "amount_desc": "Balance",
+    "memo_desc": "This memo is public",
+    "to_placeholder": "Username",
+    "memo_placeholder": "Enter your notes here",
+    "transferToken": "Transfer",
+    "transferToSaving": "Transfer To Saving",
+    "powerUp": "Power Up",
+    "steemconnect_title": "Steemconnect Transfer"
   }
 }
