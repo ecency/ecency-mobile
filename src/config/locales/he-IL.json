@@ -41,7 +41,8 @@
     "reblog_title": "נקודות עבור שיתוף",
     "login_title": "נקודות עבור כניסה",
     "checkin_title": "נקודות עבור שימוש",
-    "checkin_extra_title": "בונוס שימוש"
+    "checkin_extra_title": "בונוס שימוש",
+    "no_activity": "No activity here!"
   },
   "messages": {
     "comingsoon": "אפשרות ההודעות יוצאת בקרוב!"
