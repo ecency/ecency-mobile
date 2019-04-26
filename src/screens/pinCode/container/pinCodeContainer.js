@@ -287,7 +287,7 @@ class PinCodeContainer extends Component {
       [
         { text: intl.formatMessage({ id: 'alert.clear' }), onPress: () => this._forgotPinCode() },
         { text: intl.formatMessage({ id: 'alert.cancel' }), style: 'destructive' },
-      ]
+      ],
     );
   };
 
