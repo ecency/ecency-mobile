@@ -19,16 +19,30 @@
     "unfollow": "ne vous suit plus",
     "ignore": "vous a ignoré",
     "reblog": "a reblogué votre post",
-    "transfer": "transfered steem",
+    "transfer": "steem transférés",
     "comingsoon": "La fonctionnalité Classement arrive bientôt !",
     "notification": "Notifications",
     "leaderboard": "Classement",
+    "epoint": "Points",
     "leaderboard_title": "Top des utilisateurs du jour",
     "recent": "Récent",
     "yesterday": "Hier",
     "this_week": "Cette semaine",
     "this_month": "Ce mois",
     "older_then": "Vieux de plus de 1 mois"
+  },
+  "points": {
+    "post": "Post",
+    "comment": "Comment",
+    "checkin": "Checki-in",
+    "post_title": "Points for post",
+    "comment_title": "Points for comment",
+    "vote_title": "Points for vote",
+    "reblog_title": "Points for reblog",
+    "login_title": "Points for login",
+    "checkin_title": "Points for usage",
+    "checkin_extra_title": "Usage bonus",
+    "no_activity": "No activity here!"
   },
   "messages": {
     "comingsoon": "La fonctionnalité Messages arrive bientôt !"
@@ -58,33 +72,33 @@
   },
   "settings": {
     "settings": "Réglages",
-    "general": "General",
+    "general": "Général",
     "currency": "Devise",
     "language": "Langue",
     "server": "Serveur",
     "dark_theme": "Thème Sombre",
     "push_notification": "Notification push",
     "notification": {
-      "follow": "Follow",
+      "follow": "Abonné",
       "vote": "Vote",
-      "comment": "Comment",
+      "comment": "Commentaire",
       "mention": "Mention",
       "reblog": "Reblog",
-      "transfers": "Transfers"
+      "transfers": "Transferts"
     },
     "pincode": "Pincode",
     "reset": "Réinitialiser",
-    "nsfw_content": "NSFW Content",
-    "send_feedback": "Send Feedback",
-    "send": "Send",
-    "default_footer": "Default Footer",
+    "nsfw_content": "Contenu NSFW",
+    "send_feedback": "Envoyer une suggestion",
+    "send": "Envoyer",
+    "default_footer": "Pied de page par défaut",
     "nsfw": {
-      "always_show": "Always show",
-      "always_hide": "Always hide",
-      "always_warn": "Always warn"
+      "always_show": "Toujours afficher",
+      "always_hide": "Toujours masquer",
+      "always_warn": "Toujours avertir"
     },
-    "feedback_success": "Email successfully open",
-    "feedback_fail": "Email client could not open"
+    "feedback_success": "E-mail ouvert avec succès",
+    "feedback_fail": "Le client e-mail n'a pas pu être ouvert"
   },
   "voters": {
     "voters_info": "Info des votants",
@@ -100,7 +114,7 @@
     "cancel": "annuler",
     "login": "CONNEXION",
     "steemconnect_description": "Si vous ne voulez pas garder votre mot de passe chiffré et enregistré sur votre appareil, vous pouvez utiliser Steemconnect.",
-    "steemconnect_fee_description": "Steemconnect may charge some fees from your reward transactions"
+    "steemconnect_fee_description": "Steemconnect peut facturer des frais sur vos transactions de récompense"
   },
   "home": {
     "feed": "Fil d'actualités",
@@ -136,8 +150,8 @@
     "reply_placeholder": "Qu'aimeriez-vous écrire à propos de l'article ci-dessus ?",
     "publish": "Publier",
     "reply": "Répondre",
-    "open_galery": "Open Galery",
-    "capture_photo": "Capture a photo"
+    "open_galery": "Ouvrir la galerie",
+    "capture_photo": "Prendre une photo"
   },
   "pincode": {
     "enter_text": "Enter pin to unlock",
@@ -150,7 +164,10 @@
     "allRead": "Marquer toutes les notifications comme lues",
     "claim_reward_balance_ok": "Solde de récompense réclamé",
     "fail": "Échec !",
+    "move": "Déplacer",
+    "move_question": "Êtes-vous sûr de vouloir déplacer vers Broullions ?",
     "success_shared": "Votre publication à été partagée avec succès",
+    "success_moved": "Déplacé vers Brouillons",
     "permission_denied": "Autorisation refusée",
     "permission_text": "S'il vous plaît, allez dans les Paramètres de votre téléphone et changez les permissions pour l’application eSteem.",
     "success_rebloged": "Rebloged!",
@@ -158,13 +175,13 @@
     "warning": "Attention",
     "invalid_pincode": "Invalid pin code, please check and try again.",
     "remove_alert": "Êtes-vous sûr de vouloir retirer ?",
-    "clear_alert": "Are you sure you want to clear?",
-    "clear_user_alert": "Are you sure you want to clear all user data?",
-    "clear": "Clear",
+    "clear_alert": "Êtes-vous sûr de vouloir effacer ?",
+    "clear_user_alert": "Êtes-vous sûr de vouloir effacer toutes les données utilisateur ?",
+    "clear": "Effacer",
     "cancel": "Annuler",
     "delete": "Supprimer",
-    "copied": "Copied!",
-    "no_internet": "No connection!"
+    "copied": "Copié !",
+    "no_internet": "Pas de connexion !"
   },
   "post": {
     "reblog_alert": "Êtes-vous sûr de vouloir rebloguer ?"
@@ -188,8 +205,8 @@
     "empty_list": "Rien ici",
     "deleted": "Signet supprimé",
     "search": "Rechercher dans les signets",
-    "added": "Added to bookmarks",
-    "add": "Add to bookmarks"
+    "added": "Ajouté aux signets",
+    "add": "Ajouter aux signets"
   },
   "favorites": {
     "title": "Favoris",
@@ -216,20 +233,20 @@
     "reblog": "rebloguer",
     "reply": "répondre",
     "share": "partager",
-    "bookmarks": "add to bookmarks"
+    "bookmarks": "ajouter aux signets"
   },
   "deep_link": {
     "no_existing_user": "Utilisateur inexistant",
     "no_existing_post": "Post inexistant"
   },
   "search": {
-    "posts": "Posts",
-    "comments": "Comments"
+    "posts": "Publications",
+    "comments": "Commentaires"
   },
   "comment_filter": {
-    "trending": "trending",
-    "reputation": "reputation",
+    "trending": "tendances",
+    "reputation": "réputation",
     "votes": "votes",
-    "age": "age"
+    "age": "âge"
   }
 }

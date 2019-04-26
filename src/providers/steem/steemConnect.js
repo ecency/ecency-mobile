@@ -127,12 +127,7 @@ export const unFollow = data => new Promise((resolve, reject) => {
  */
 export const claimRewards = data => new Promise((resolve, reject) => {
   steemConnect
-    .claimRewardBalance(
-      data.account,
-      data.rewardSteem,
-      data.rewardSBD,
-      data.VESTS,
-    )
+    .claimRewardBalance(data.account, data.rewardSteem, data.rewardSBD, data.VESTS)
     .then((result) => {
       resolve(result);
     })

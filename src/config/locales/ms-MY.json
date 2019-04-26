@@ -23,12 +23,26 @@
     "comingsoon": "Papan Pendahulu akan datang tidak lama lagi!",
     "notification": "Pemberitahuan",
     "leaderboard": "Papan Pendahulu",
+    "epoint": "Mata ganjaran",
     "leaderboard_title": "Pengguna tertinggi harian",
     "recent": "Terbaru",
     "yesterday": "Semalam",
     "this_week": "Minggu ini",
     "this_month": "Bulan Ini",
     "older_then": "Lebih dari sebulan"
+  },
+  "points": {
+    "post": "Hantar",
+    "comment": "Komen",
+    "checkin": "Mata ganjaran -> dimasukkan",
+    "post_title": "Mata ganjaran -> post_title",
+    "comment_title": "Mata ganjaran -> comment_title",
+    "vote_title": "Mata ganjaran -> vote_title",
+    "reblog_title": "Mata ganjaran -> reblog_title",
+    "login_title": "Mata ganjaran log masuk",
+    "checkin_title": "Mata ganjaran kegunaan",
+    "checkin_extra_title": "Bonus kegunaan",
+    "no_activity": "No activity here!"
   },
   "messages": {
     "comingsoon": "Ciri-ciri mesej yang akan datang tidak lama lagi!"
@@ -150,7 +164,10 @@
     "allRead": "Tandakan semua pemberitahuan sebagai telah dibaca",
     "claim_reward_balance_ok": "Baki ganjaran telah dituntut",
     "fail": "Gagal!",
+    "move": "Pindah",
+    "move_question": "Adakah anda pasti hendak mengalih ke Draf?",
     "success_shared": "Pos anda berjaya disiarkan",
+    "success_moved": "Pindah kepada Draf",
     "permission_denied": "Tidak dibenarkan",
     "permission_text": "Sila pergi ke tetapan telefon dan mengubah keizinan keyakinan eSteem app.",
     "success_rebloged": "Rebloged!",

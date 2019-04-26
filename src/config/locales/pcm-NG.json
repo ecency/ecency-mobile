@@ -23,12 +23,26 @@
     "comingsoon": "Leaderboard dey come soon!",
     "notification": "Alerts",
     "leaderboard": "Leaderboard",
+    "epoint": "Points",
     "leaderboard_title": "People Wey Dey Top Today",
     "recent": "Latest",
     "yesterday": "Yesterday",
     "this_week": "This Week",
     "this_month": "This Month",
     "older_then": "E don pass one month"
+  },
+  "points": {
+    "post": "Post",
+    "comment": "Comment",
+    "checkin": "Checki-in",
+    "post_title": "Points for post",
+    "comment_title": "Points for comment",
+    "vote_title": "Points for vote",
+    "reblog_title": "Points for reblog",
+    "login_title": "Points for login",
+    "checkin_title": "Points for usage",
+    "checkin_extra_title": "Usage bonus",
+    "no_activity": "No activity here!"
   },
   "messages": {
     "comingsoon": "Option for messages go soon come!"
@@ -150,7 +164,10 @@
     "allRead": "Mark am say you don read all the alert",
     "claim_reward_balance_ok": "You don collect the reward",
     "fail": "E Fail oo!",
+    "move": "Move",
+    "move_question": "Are you sure to move to drafts?",
     "success_shared": "Your post don share finish",
+    "success_moved": "Moved to draft",
     "permission_denied": "E no gree do",
     "permission_text": "Abeg go your phone settings go change eSteem app permissions. ",
     "success_rebloged": "E don reblog!",

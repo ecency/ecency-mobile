@@ -2,6 +2,7 @@ import React, { Component } from 'react';
 import { injectIntl } from 'react-intl';
 import { View, FlatList, Text } from 'react-native';
 import ScrollableTabView from '@esteemapp/react-native-scrollable-tab-view';
+import ActionSheet from 'react-native-actionsheet';
 
 // Utils
 import { getPostSummary } from '../../../utils/formatter';
@@ -13,7 +14,6 @@ import { BasicHeader } from '../../../components/basicHeader';
 import { PostListItem } from '../../../components/postListItem';
 import { PostCardPlaceHolder } from '../../../components/basicUIElements';
 import { TabBar } from '../../../components/tabBar';
-import ActionSheet from 'react-native-actionsheet';
 
 // Styles
 import globalStyles from '../../../globalStyles';
@@ -29,7 +29,7 @@ class DraftsScreen extends Component {
     super(props);
     this.state = {
       selectedId: null,
-    }
+    };
   }
 
   // Component Life Cycles
@@ -56,7 +56,7 @@ class DraftsScreen extends Component {
         image={image ? { uri: catchDraftImage(item.body) } : null}
         username={currentAccount.name}
         reputation={currentAccount.reputation}
-        handleOnPressItem={() => isSchedules ? this.setState({selectedId: item._id}, () => this.ActionSheet.show()) : editDraft}
+        handleOnPressItem={() => (isSchedules ? this.setState({ selectedId: item._id }, () => this.ActionSheet.show()) : editDraft)}
         handleOnRemoveItem={isSchedules ? removeSchedule : removeDraft}
         id={item._id}
         key={item._id}
@@ -97,7 +97,9 @@ class DraftsScreen extends Component {
   };
 
   render() {
-    const { drafts, schedules, intl, moveScheduleToDraft } = this.props;
+    const {
+      drafts, schedules, intl, moveScheduleToDraft,
+    } = this.props;
     const { selectedId } = this.state;
 
     return (

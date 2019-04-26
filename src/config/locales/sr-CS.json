@@ -23,12 +23,26 @@
     "comingsoon": "Rang lista dolazi uskoro!",
     "notification": "Obaveštenja",
     "leaderboard": "Rang lista",
+    "epoint": "Points",
     "leaderboard_title": "Najbolji korisnici na dnevnom nivou",
     "recent": "Nedavno",
     "yesterday": "Juče",
     "this_week": "Ove nedelje",
     "this_month": "Ovaj mesec",
     "older_then": "Stariji od mesec dana"
+  },
+  "points": {
+    "post": "Post",
+    "comment": "Comment",
+    "checkin": "Checki-in",
+    "post_title": "Points for post",
+    "comment_title": "Points for comment",
+    "vote_title": "Points for vote",
+    "reblog_title": "Points for reblog",
+    "login_title": "Points for login",
+    "checkin_title": "Points for usage",
+    "checkin_extra_title": "Usage bonus",
+    "no_activity": "No activity here!"
   },
   "messages": {
     "comingsoon": "Slanje poruka će uskoro biti u funkciji!"
@@ -150,7 +164,10 @@
     "allRead": "Sva obaveštenja su označena kao pročitana",
     "claim_reward_balance_ok": "Potvrđeni bilans nagrade",
     "fail": "Nije uspelo!",
+    "move": "Move",
+    "move_question": "Are you sure to move to drafts?",
     "success_shared": "Uspešno ste podelili post",
+    "success_moved": "Moved to draft",
     "permission_denied": "Pristup odbijen",
     "permission_text": "Molimo, idite na podešavanja telefona i promenite ovlašćenja za eSteem aplikaciju.",
     "success_rebloged": "Podeljeno!",

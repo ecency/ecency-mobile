@@ -23,12 +23,26 @@
     "comingsoon": "Ranglista funkció hamarosan érkezik!",
     "notification": "Értesítések",
     "leaderboard": "Ranglista",
+    "epoint": "Pontok",
     "leaderboard_title": "Napi Top Felhasználók",
     "recent": "Friss",
     "yesterday": "Tegnap",
     "this_week": "Ezen a héten",
     "this_month": "Ebben a hónapban",
     "older_then": "Egy Hónapnál Régebbi"
+  },
+  "points": {
+    "post": "Bejegyzés",
+    "comment": "Hozzászólás",
+    "checkin": "Checki-in",
+    "post_title": "Bejegyzés pontok",
+    "comment_title": "Hozzászólás pontok",
+    "vote_title": "Szavazási pontok",
+    "reblog_title": "Megosztási pontok",
+    "login_title": "Bejelentkezés pontok",
+    "checkin_title": "Használati pontok",
+    "checkin_extra_title": "Használati bónusz",
+    "no_activity": "No activity here!"
   },
   "messages": {
     "comingsoon": "Üzenetek funkció hamarosan érkezik!"
@@ -84,7 +98,7 @@
       "always_warn": "Mindig figyelmeztess"
     },
     "feedback_success": "Email sikeresen megnyitva",
-    "feedback_fail": "Email client could not open"
+    "feedback_fail": "A levelezőprogram nem nyitható meg"
   },
   "voters": {
     "voters_info": "Infó a szavazókról",
@@ -150,7 +164,10 @@
     "allRead": "Minden értesítés megjelölve olvasottként",
     "claim_reward_balance_ok": "Jutalom egyenleg átvéve",
     "fail": "Sikertelen!",
+    "move": "Áthelyezés",
+    "move_question": "Biztos, hogy áthelyezed a piszkozatokhoz?",
     "success_shared": "A bejegyzésed sikeresen megosztva",
+    "success_moved": "Áthelyezve a vázlatokhoz",
     "permission_denied": "Engedély megtagadva",
     "permission_text": "Kérjük menj a telefon beállításokhoz és változtass az eSteem app engedélyezésein.",
     "success_rebloged": "Megosztva!",
@@ -230,6 +247,6 @@
     "trending": "népszerű",
     "reputation": "reputáció",
     "votes": "szavazatok",
-    "age": "age"
+    "age": "időrend"
   }
 }

@@ -23,12 +23,26 @@
     "comingsoon": "即将推出排行榜！",
     "notification": "通知",
     "leaderboard": "排行榜",
+    "epoint": "Points",
     "leaderboard_title": "每日最高排名用户",
     "recent": "最近",
     "yesterday": "昨天",
     "this_week": "本周",
     "this_month": "本月",
     "older_then": "一个月前"
+  },
+  "points": {
+    "post": "Post",
+    "comment": "Comment",
+    "checkin": "Checki-in",
+    "post_title": "Points for post",
+    "comment_title": "Points for comment",
+    "vote_title": "Points for vote",
+    "reblog_title": "Points for reblog",
+    "login_title": "Points for login",
+    "checkin_title": "Points for usage",
+    "checkin_extra_title": "Usage bonus",
+    "no_activity": "No activity here!"
   },
   "messages": {
     "comingsoon": "即将推出消息功能！"
@@ -150,7 +164,10 @@
     "allRead": "已将所有通知标为已读",
     "claim_reward_balance_ok": "奖励余额已领取",
     "fail": "失败！",
+    "move": "Move",
+    "move_question": "Are you sure to move to drafts?",
     "success_shared": "您的帖子已成功分享",
+    "success_moved": "Moved to draft",
     "permission_denied": "无权限",
     "permission_text": "请前往手机设置更改 eSteem 应用程序权限。",
     "success_rebloged": "Rebloged!",

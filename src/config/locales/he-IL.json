@@ -23,12 +23,26 @@
     "comingsoon": "מאפיין לוח התוצאות יוצא להשקה בקרוב!",
     "notification": "התראות",
     "leaderboard": "לוח תוצאות",
+    "epoint": "נקודות",
     "leaderboard_title": "המשתמשים המובילים היום",
     "recent": "לאחרונה",
     "yesterday": "אתמול",
     "this_week": "השבוע",
     "this_month": "החודש הזה",
     "older_then": "ישן יותר מחודש"
+  },
+  "points": {
+    "post": "פוסט",
+    "comment": "תגובה",
+    "checkin": "Checki-in",
+    "post_title": "נקודות עבור פוסט",
+    "comment_title": "נקודות עבור תגובה",
+    "vote_title": "נקודות עבור הצבעה",
+    "reblog_title": "נקודות עבור שיתוף",
+    "login_title": "נקודות עבור כניסה",
+    "checkin_title": "נקודות עבור שימוש",
+    "checkin_extra_title": "בונוס שימוש",
+    "no_activity": "No activity here!"
   },
   "messages": {
     "comingsoon": "אפשרות ההודעות יוצאת בקרוב!"
@@ -150,7 +164,10 @@
     "allRead": "סימון כל ההודעות כנקראו",
     "claim_reward_balance_ok": "תגמול יתרה נתקבלה",
     "fail": "נכשל!",
+    "move": "הזזה",
+    "move_question": "את\/ה בטוח\/ה להעביר לטיוטות?",
     "success_shared": "הפוסט שלך שותף בהצלחה",
+    "success_moved": "הועבר לטיוטות",
     "permission_denied": "הרשאה נדחתה",
     "permission_text": "אנא, שנה את ההרשאות לאפליקציית ה eSteem, דרך ההגדרות בטלפון.",
     "success_rebloged": "שותף!",

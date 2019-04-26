@@ -23,12 +23,26 @@
     "comingsoon": "Scorebord komt binnenkort!",
     "notification": "Notificaties",
     "leaderboard": "Scorebord",
+    "epoint": "Points",
     "leaderboard_title": "Dagelijkse Topgebruiker",
     "recent": "Recent(e)",
     "yesterday": "Gisteren",
     "this_week": "Deze week",
     "this_month": "Deze maand",
     "older_then": "Ouder dan een maand"
+  },
+  "points": {
+    "post": "Post",
+    "comment": "Comment",
+    "checkin": "Checki-in",
+    "post_title": "Points for post",
+    "comment_title": "Points for comment",
+    "vote_title": "Points for vote",
+    "reblog_title": "Points for reblog",
+    "login_title": "Points for login",
+    "checkin_title": "Points for usage",
+    "checkin_extra_title": "Usage bonus",
+    "no_activity": "No activity here!"
   },
   "messages": {
     "comingsoon": "Berichtfunctie komt binnenkort!"
@@ -150,7 +164,10 @@
     "allRead": "Alle notificaties als gelezen markeren",
     "claim_reward_balance_ok": "Beloningsbalans opgeëist",
     "fail": "Mislukt!",
+    "move": "Move",
+    "move_question": "Are you sure to move to drafts?",
     "success_shared": "Je bericht is succesvol gedeeld",
+    "success_moved": "Moved to draft",
     "permission_denied": "Toegang geweigerd",
     "permission_text": "Ga naar telefoon-instellingen, en wijzig de machtigingen van de eSteem-app.",
     "success_rebloged": "Gedeeld!",

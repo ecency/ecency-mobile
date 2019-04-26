@@ -23,12 +23,26 @@
     "comingsoon": "순위표 기능은 곧 출시될 예정입니다!",
     "notification": "알림",
     "leaderboard": "순위표",
+    "epoint": "Points",
     "leaderboard_title": "일별 상위 사용자",
     "recent": "최근",
     "yesterday": "어제",
     "this_week": "이번 주",
     "this_month": "이번 달",
     "older_then": "1 달 이상"
+  },
+  "points": {
+    "post": "Post",
+    "comment": "Comment",
+    "checkin": "Checki-in",
+    "post_title": "Points for post",
+    "comment_title": "Points for comment",
+    "vote_title": "Points for vote",
+    "reblog_title": "Points for reblog",
+    "login_title": "Points for login",
+    "checkin_title": "Points for usage",
+    "checkin_extra_title": "Usage bonus",
+    "no_activity": "No activity here!"
   },
   "messages": {
     "comingsoon": "메시지 기능은 곧 출시될 예정입니다!"
@@ -150,7 +164,10 @@
     "allRead": "모든 알림을 읽은 상태로 표시",
     "claim_reward_balance_ok": "보상을 요청했습니다",
     "fail": "실패!",
+    "move": "Move",
+    "move_question": "Are you sure to move to drafts?",
     "success_shared": "글을 성공적으로 공유했습니다",
+    "success_moved": "Moved to draft",
     "permission_denied": "권한이 없습니다",
     "permission_text": "휴대폰 설정으로 이동하여 eSteem 앱 알림 설정을 변경해주세요",
     "success_rebloged": "리블로그 완료!",

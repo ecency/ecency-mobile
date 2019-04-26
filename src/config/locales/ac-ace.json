@@ -19,16 +19,30 @@
     "unfollow": "piyôh ikut dröen",
     "ignore": "hanapeureumeun dröen",
     "reblog": "postingan dröen ka di reblog",
-    "transfer": "transfered steem",
+    "transfer": "steem kalhëuh meukirèm",
     "comingsoon": "Papeun ranking akan seugeura lheuh!",
     "notification": "Bithé",
     "leaderboard": "Papeun Rangking",
+    "epoint": "Points",
     "leaderboard_title": "Ureung Palèng Lè pakek",
     "recent": "Ataban nyoë",
     "yesterday": "Baroë",
     "this_week": "Peukan Nyoë",
     "this_month": "Buleuën Nyoë",
     "older_then": "Leubéh Lam Sibulëun"
+  },
+  "points": {
+    "post": "Post",
+    "comment": "Comment",
+    "checkin": "Checki-in",
+    "post_title": "Points for post",
+    "comment_title": "Points for comment",
+    "vote_title": "Points for vote",
+    "reblog_title": "Points for reblog",
+    "login_title": "Points for login",
+    "checkin_title": "Points for usage",
+    "checkin_extra_title": "Usage bonus",
+    "no_activity": "No activity here!"
   },
   "messages": {
     "comingsoon": "Fitur peusan seugeura lheuh!"
@@ -58,30 +72,30 @@
   },
   "settings": {
     "settings": "Peungaturan",
-    "general": "General",
+    "general": "Umum",
     "currency": "Mata péng",
     "language": "Basa",
     "server": "Server",
     "dark_theme": "Layeu Supôet",
     "push_notification": "Teugön Haba",
     "notification": {
-      "follow": "Follow",
-      "vote": "Vote",
-      "comment": "Comment",
-      "mention": "Mention",
+      "follow": "Iköt",
+      "vote": "Pilèh",
+      "comment": "Komentar",
+      "mention": "Seuböt",
       "reblog": "Reblog",
-      "transfers": "Transfers"
+      "transfers": "Kirèm"
     },
     "pincode": "Kode PIN",
     "reset": "Atôe ulang",
-    "nsfw_content": "NSFW Content",
+    "nsfw_content": "Konten urëung chik",
     "send_feedback": "Send Feedback",
-    "send": "Send",
+    "send": "Kirèm",
     "default_footer": "Default Footer",
     "nsfw": {
       "always_show": "Always show",
-      "always_hide": "Always hide",
-      "always_warn": "Always warn"
+      "always_hide": "Söm Sabè",
+      "always_warn": "Sabë pëuingat"
     },
     "feedback_success": "Email successfully open",
     "feedback_fail": "Email client could not open"
@@ -150,7 +164,10 @@
     "allRead": "Tanda mandum haba nyang kalhëuh baca",
     "claim_reward_balance_ok": "Gaji kalhëuh klèm",
     "fail": "Gagai!",
+    "move": "Pinah",
+    "move_question": "Peu neuyakin neuk pinah lam draft?",
     "success_shared": "Tulisan droen kalhëuh dibagi",
+    "success_moved": "Klaheuh na lam draft",
     "permission_denied": "Hana izin",
     "permission_text": "Tulông kaloen bak aturan telepon dan gantoe izin app eSteem.",
     "success_rebloged": "Rebloged!",
@@ -159,7 +176,7 @@
     "invalid_pincode": "Salah pin, cie neu test loëm.",
     "remove_alert": "Peu yakin neuk sampóh?",
     "clear_alert": "Peu yakin neuk sampöh?",
-    "clear_user_alert": "Are you sure you want to clear all user data?",
+    "clear_user_alert": "Pëu yakin nëuk sampöh mandum data pöe?",
     "clear": "Sampöh",
     "cancel": "Batai",
     "delete": "Sampóh",
@@ -223,13 +240,13 @@
     "no_existing_post": "Hana haba sapeu"
   },
   "search": {
-    "posts": "Posts",
-    "comments": "Comments"
+    "posts": "Post",
+    "comments": "Komentar-komentar"
   },
   "comment_filter": {
-    "trending": "trending",
-    "reputation": "reputation",
-    "votes": "votes",
-    "age": "age"
+    "trending": "mëucuhu",
+    "reputation": "reputasi",
+    "votes": "pilèh-pilèh",
+    "age": "umuë"
   }
 }
