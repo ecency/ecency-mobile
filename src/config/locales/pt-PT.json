@@ -42,7 +42,7 @@
     "login_title": "Points for login",
     "checkin_title": "Points for usage",
     "checkin_extra_title": "Usage bonus",
-    "no_activity": "No activity here!"
+    "no_activity": "Nenhuma atividade aqui!"
   },
   "messages": {
     "comingsoon": "Recurso de mensagens chega em breve!"
@@ -258,12 +258,12 @@
     "memo": "Memo",
     "information": "Tem certeza que deseja transferir para fundos?",
     "amount_desc": "Balanço",
-    "memo_desc": "This memo is public",
-    "to_placeholder": "Username",
-    "memo_placeholder": "Enter your notes here",
-    "transferToken": "Transfer",
-    "transferToSaving": "Transfer To Saving",
-    "powerUp": "Power Up",
-    "steemconnect_title": "Steemconnect Transfer"
+    "memo_desc": "Este memo é público",
+    "to_placeholder": "Utilizador",
+    "memo_placeholder": "Insira aqui as suas notas",
+    "transferToken": "Transferir",
+    "transferToSaving": "Transferir para Poupanças",
+    "powerUp": "Carregar Poder",
+    "steemconnect_title": "Transferência por Steemconnect"
   }
 }
