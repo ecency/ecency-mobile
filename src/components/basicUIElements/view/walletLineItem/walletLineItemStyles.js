@@ -74,7 +74,7 @@ export default EStyleSheet.create({
     justifyContent: 'center',
     alignSelf: 'center',
   },
-  test: {
+  dropdownWrapper: {
     flex: 1,
   },
 });

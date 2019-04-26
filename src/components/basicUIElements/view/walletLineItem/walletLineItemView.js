@@ -78,7 +78,7 @@ const WalletLineItem = ({
         </View>
       )}
       {dropdown && (
-        <View style={styles.test}>
+        <View style={styles.dropdownWrapper}>
           <DropdownButton
             isHasChildIcon
             iconName="arrow-drop-down"
