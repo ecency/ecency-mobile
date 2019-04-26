@@ -3,8 +3,9 @@ import { markDown2Html } from './markdownToHtml';
 import { getPostSummary } from './formatter';
 import { getReputation } from './reputation';
 
-export const parsePosts = (posts, currentUserName) =>
-  !posts ? null : posts.map(post => parsePost(post, currentUserName));
+export const parsePosts = (posts, currentUserName) => (
+  !posts ? null : posts.map(post => parsePost(post, currentUserName))
+);
 
 export const parsePost = (post, currentUserName) => {
   if (!post) {
@@ -32,10 +33,9 @@ export const parsePost = (post, currentUserName) => {
     post.is_voted = false;
   }
 
-  const totalPayout =
-    parseFloat(post.pending_payout_value) +
-    parseFloat(post.total_payout_value) +
-    parseFloat(post.curator_payout_value);
+  const totalPayout = parseFloat(post.pending_payout_value)
+    + parseFloat(post.total_payout_value)
+    + parseFloat(post.curator_payout_value);
 
   post.total_payout = totalPayout.toFixed(3);
 
@@ -44,8 +44,7 @@ export const parsePost = (post, currentUserName) => {
 
   if (post.active_votes && post.active_votes.length > 0) {
     for (const i in post.active_votes) {
-      post.vote_perecent =
-        post.active_votes[i].voter === currentUserName ? post.active_votes[i].percent : null;
+      post.vote_perecent = post.active_votes[i].voter === currentUserName ? post.active_votes[i].percent : null;
       post.active_votes[i].value = (post.active_votes[i].rshares * ratio).toFixed(3);
       post.active_votes[i].reputation = getReputation(post.active_votes[i].reputation);
       post.active_votes[i].percent = post.active_votes[i].percent / 100;
@@ -59,8 +58,7 @@ export const parsePost = (post, currentUserName) => {
   return post;
 };
 
-const isVoted = (activeVotes, currentUserName) =>
-  activeVotes.some(v => v.voter === currentUserName && v.percent > 0);
+const isVoted = (activeVotes, currentUserName) => activeVotes.some(v => v.voter === currentUserName && v.percent > 0);
 
 const postImage = (metaData, body) => {
   const imgTagRegex = /(<img[^>]*>)/g;
@@ -135,8 +133,8 @@ const postImage = (metaData, body) => {
 //   }
 // };
 
-export const parseComments = comments => {
-  comments.map(comment => {
+export const parseComments = (comments) => {
+  comments.map((comment) => {
     comment.pending_payout_value = parseFloat(comment.pending_payout_value).toFixed(3);
     comment.vote_count = comment.active_votes.length;
     comment.author_reputation = getReputation(comment.author_reputation);
