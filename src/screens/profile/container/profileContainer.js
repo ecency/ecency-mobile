@@ -76,10 +76,7 @@ class ProfileContainer extends Component {
 
   componentWillReceiveProps(nextProps) {
     const {
-      navigation,
-      currentAccount,
-      activeBottomTab,
-      isLoggedIn,
+      navigation, currentAccount, activeBottomTab, isLoggedIn,
     } = this.props;
     const currentUsername = currentAccount.name !== nextProps.currentAccount.name && nextProps.currentAccount.name;
 
@@ -201,19 +198,19 @@ class ProfileContainer extends Component {
     const { username } = this.state;
 
     if (error) {
-      this.setState({
-        error,
-      }, () => alert(error));
+      this.setState(
+        {
+          error,
+        },
+        () => alert(error),
+      );
     } else {
       this._fetchProfile(username, true);
     }
   };
 
-
   _fetchProfile = async (username = null, isProfileAction = false) => {
-    const {
-      username: _username, isFollowing, isMuted,
-    } = this.state;
+    const { username: _username, isFollowing, isMuted } = this.state;
 
     if (username) {
       const { isLoggedIn, currentAccount } = this.props;
@@ -239,9 +236,9 @@ class ProfileContainer extends Component {
       }
 
       /**
-      * This follow code totally a work arround
-      * Ceated for server response delay.
-      */
+       * This follow code totally a work arround
+       * Ceated for server response delay.
+       */
       if (isProfileAction && (isFollowing === _isFollowing && isMuted === _isMuted)) {
         this._fetchProfile(_username, true);
       } else {
@@ -355,7 +352,7 @@ class ProfileContainer extends Component {
       username,
     } = this.state;
     const {
-      isDarkTheme, isLoggedIn, currency, navigation,
+      isDarkTheme, isLoggedIn, currency, navigation, setPinCodeState,
     } = this.props;
     const activePage = (navigation.state.params && navigation.state.params.activePage) || 0;
 
@@ -385,6 +382,7 @@ class ProfileContainer extends Component {
         selectedQuickProfile={selectedQuickProfile}
         selectedUser={user}
         username={username}
+        setPinCodeState={setPinCodeState}
       />
     );
   }
