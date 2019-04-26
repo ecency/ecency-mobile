@@ -41,8 +41,8 @@
     "reblog_title": "Points for reblog",
     "login_title": "Points for login",
     "checkin_title": "Points for usage",
-    "checkin_extra_title": "Usage bonus",
-    "no_activity": "No activity here!"
+    "checkin_extra_title": "Bonus d'utilisation",
+    "no_activity": "Aucune activité ici !"
   },
   "messages": {
     "comingsoon": "La fonctionnalité Messages arrive bientôt !"
@@ -252,18 +252,18 @@
   },
   "transfer": {
     "title": "Transfer To Account",
-    "from": "From",
-    "to": "To",
-    "amount": "Amount",
-    "memo": "Memo",
+    "from": "De",
+    "to": "À",
+    "amount": "Montant",
+    "memo": "Mémo",
     "information": "Are you sure to transfer to funds?",
-    "amount_desc": "Balance",
-    "memo_desc": "This memo is public",
-    "to_placeholder": "Username",
-    "memo_placeholder": "Enter your notes here",
+    "amount_desc": "Solde",
+    "memo_desc": "Ce mémo est public",
+    "to_placeholder": "Nom d'utilisateur",
+    "memo_placeholder": "Entrez vos notes ici",
     "transferToken": "Transfer",
     "transferToSaving": "Transfer To Saving",
     "powerUp": "Power Up",
-    "steemconnect_title": "Steemconnect Transfer"
+    "steemconnect_title": "Transfert Steemconnect"
   }
 }
