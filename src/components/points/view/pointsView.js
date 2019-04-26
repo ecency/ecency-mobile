@@ -105,7 +105,7 @@ class PointsView extends Component {
                    style={styles.iconButton}
                    iconStyle={styles.icon}
                    iconType="MaterialCommunityIcons"
-                   name="comment-text"
+                   name="comment-text-outline"
                    badgeCount={15}
                    badgeStyle={styles.badge}
                    badgeTextStyle={styles.badgeText}

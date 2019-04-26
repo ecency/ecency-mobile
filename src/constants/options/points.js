@@ -5,9 +5,9 @@ export default {
     iconType: 'MaterialIcons',
   },
   110: {
-    icon: 'comment',
+    icon: 'comment-text-outline',
     textKey: 'points.comment_title',
-    iconType: 'MaterialIcons',
+    iconType: 'MaterialCommunityIcons',
   },
   120: {
     icon: 'upcircle',
