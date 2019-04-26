@@ -175,7 +175,7 @@ class ApplicationContainer extends Component {
 
     await getAuthStatus().then((res) => {
       ({ currentUsername } = res);
-      
+
       if (res) {
         getUserData().then(async (userData) => {
           if (userData.length > 0) {
