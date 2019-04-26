@@ -182,7 +182,7 @@
     "delete": "Apagar",
     "copied": "Copiado!",
     "no_internet": "Sem ligação!",
-    "confirm": "Confirm"
+    "confirm": "Confirmar"
   },
   "post": {
     "reblog_alert": "Tem certeza de que deseja reblogar?"
@@ -251,13 +251,13 @@
     "age": "idade"
   },
   "transfer": {
-    "title": "Transfer To Account",
-    "from": "From",
-    "to": "To",
-    "amount": "Amount",
+    "title": "Transferir para a conta",
+    "from": "De",
+    "to": "Para",
+    "amount": "Quantia",
     "memo": "Memo",
-    "information": "Are you sure to transfer to funds?",
-    "amount_desc": "Balance",
+    "information": "Tem certeza que deseja transferir para fundos?",
+    "amount_desc": "Balanço",
     "memo_desc": "This memo is public",
     "to_placeholder": "Username",
     "memo_placeholder": "Enter your notes here",
