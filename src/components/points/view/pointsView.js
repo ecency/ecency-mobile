@@ -50,7 +50,7 @@ class PointsView extends Component {
      const {
        userActivities, userPoints, intl, isClaiming, claimPoints,
      } = this.props;
-     // TODO:
+     // TODO: this feature temporarily closed.
      const isActiveIcon = false;
 
      return (

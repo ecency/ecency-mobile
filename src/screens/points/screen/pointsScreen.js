@@ -32,20 +32,11 @@ class PointsScreen extends PureComponent {
     return (
       <View style={styles.container}>
         <Header />
-        {/* <NoPost
-          style={styles.container}
-          imageStyle={styles.image}
-          source={MESSAGES_IMAGE}
-          defaultText={intl.formatMessage({
-            id: 'messages.comingsoon',
-          })}
-        /> */}
-
         {isLoggedIn ? (
           <Points />
         ) : (
           <NoPost
-            style={{ flex: 1 }}
+            style={styles.noPostContainer}
             isButtonText
             defaultText={intl.formatMessage({
               id: 'profile.login_to_see',
