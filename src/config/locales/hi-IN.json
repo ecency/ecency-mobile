@@ -23,12 +23,26 @@
     "comingsoon": "अधिनायक पटल सुविधा जल्द आने वाली है!",
     "notification": "अधिसूचनाएं",
     "leaderboard": "अधिनायकपटल",
+    "epoint": "Points",
     "leaderboard_title": "प्रत्येक दिन का सर्वोच्च प्रयोगकर्ता",
     "recent": "ताजा",
     "yesterday": "बीता कल",
     "this_week": "इस सप्ताह",
     "this_month": "इस महीने",
     "older_then": "एक महीना से अधिक पुराना"
+  },
+  "points": {
+    "post": "Post",
+    "comment": "Comment",
+    "checkin": "Checki-in",
+    "post_title": "Points for post",
+    "comment_title": "Points for comment",
+    "vote_title": "Points for vote",
+    "reblog_title": "Points for reblog",
+    "login_title": "Points for login",
+    "checkin_title": "Points for usage",
+    "checkin_extra_title": "Usage bonus",
+    "no_activity": "No activity here!"
   },
   "messages": {
     "comingsoon": "सन्देश सुविधा जल्द आ रही है!"
@@ -150,7 +164,10 @@
     "allRead": "सभी सूचनाओं को पढ़ लिया चिन्हित करें",
     "claim_reward_balance_ok": "इनाम की राशी ले चुके",
     "fail": "असफल!",
+    "move": "हटाना",
+    "move_question": "क्या आप ड्राफ्ट में जाना सुनिश्चित करते हैं?",
     "success_shared": "आपका पोस्ट सफलतापूर्ण साझा हो गया",
+    "success_moved": "ड्राफ्ट में ले जाया गया",
     "permission_denied": "अनुमोदन अस्वीकृत हुवा",
     "permission_text": "कृपया, अपने फ़ोन समायोजन में जाएँ और इस्टीम एप्प की अनुमोदन बदलें|",
     "success_rebloged": "Rebloged!",

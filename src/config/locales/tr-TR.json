@@ -23,12 +23,26 @@
     "comingsoon": "Liderler tablosu yakında burada!",
     "notification": "Bildirimler",
     "leaderboard": "Liderler Tablosu",
+    "epoint": "Points",
     "leaderboard_title": "Günlük lider kullanıcılar",
     "recent": "Geçen",
     "yesterday": "Dün",
     "this_week": "Bu Hafta",
     "this_month": "Bu Ay",
     "older_then": "Bir Aydan Daha Önce"
+  },
+  "points": {
+    "post": "Post",
+    "comment": "Comment",
+    "checkin": "Checki-in",
+    "post_title": "Points for post",
+    "comment_title": "Points for comment",
+    "vote_title": "Points for vote",
+    "reblog_title": "Points for reblog",
+    "login_title": "Points for login",
+    "checkin_title": "Points for usage",
+    "checkin_extra_title": "Usage bonus",
+    "no_activity": "No activity here!"
   },
   "messages": {
     "comingsoon": "Mesajlar yakinda burada!"
@@ -150,7 +164,10 @@
     "allRead": "Tüm bildirimleri okundu olarak işaretle",
     "claim_reward_balance_ok": "Ödül alındı",
     "fail": "Başarısız!",
+    "move": "Taşı",
+    "move_question": "Taslaklara taşıyacağınızdan emin misiniz?",
     "success_shared": "Gönderin başarıyla paylaşıldı",
+    "success_moved": "Taslağa taşındı",
     "permission_denied": "İzin reddedildi",
     "permission_text": "Lütfen telefon ayarlarına gidin ve eSteem'in izinlerini açın.",
     "success_rebloged": "Rebloged!",

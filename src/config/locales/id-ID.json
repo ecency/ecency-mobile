@@ -23,12 +23,26 @@
     "comingsoon": "Fungsi papan peringkat akan segera hadir!",
     "notification": "Pemberitahuan",
     "leaderboard": "Papan Peringkat",
+    "epoint": "Points",
     "leaderboard_title": "Pengguna harian paling atas",
     "recent": "Baru digunakan",
     "yesterday": "Kemarin",
     "this_week": "Minggu ini",
     "this_month": "Bulan ini",
     "older_then": "Lebih Lama Dari Sebulan"
+  },
+  "points": {
+    "post": "Post",
+    "comment": "Comment",
+    "checkin": "Checki-in",
+    "post_title": "Points for post",
+    "comment_title": "Points for comment",
+    "vote_title": "Points for vote",
+    "reblog_title": "Points for reblog",
+    "login_title": "Points for login",
+    "checkin_title": "Points for usage",
+    "checkin_extra_title": "Usage bonus",
+    "no_activity": "No activity here!"
   },
   "messages": {
     "comingsoon": "Fungsi pesan akan segera hadir!"
@@ -150,7 +164,10 @@
     "allRead": "Tandai semua pemberitahuan telah terbaca",
     "claim_reward_balance_ok": "Hadiah di klaim",
     "fail": "Gagal!",
+    "move": "Move",
+    "move_question": "Are you sure to move to drafts?",
     "success_shared": "Tulisan anda berhasil dibagikan",
+    "success_moved": "Moved to draft",
     "permission_denied": "Izin ditolak",
     "permission_text": "Silakan buka pengaturan telepon dan ubah izin untuk aplikasi eSteem.",
     "success_rebloged": "Rebloged!",

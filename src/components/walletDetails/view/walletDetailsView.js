@@ -29,7 +29,11 @@ class WalletDetailsView extends PureComponent {
   // Component Functions
 
   render() {
-    const { walletData, intl } = this.props;
+    const { walletData, intl, navigate } = this.props;
+
+    const steemDropdown = ['transferToken', 'transferToSaving', 'powerUp'];
+    const sbdDropdown = ['transferToken', 'transferToSaving'];
+
     return (
       <View style={styles.container}>
         <WalletLineItem
@@ -38,6 +42,9 @@ class WalletDetailsView extends PureComponent {
           iconName="ios-information-circle-outline"
           rightText={`${Math.round(walletData.balance * 1000) / 1000} STEEM`}
           isBoldText
+          dropdown
+          dropdownOptions={steemDropdown.map(item => intl.formatMessage({ id: `transfer.${item}` }))}
+          onDropdownSelect={index => navigate(steemDropdown[index], 'STEEM')}
         />
         <GrayWrapper isGray>
           <WalletLineItem
@@ -87,6 +94,9 @@ class WalletDetailsView extends PureComponent {
           iconName="ios-information-circle-outline"
           rightText={`$${Math.round(walletData.sbdBalance * 1000) / 1000}`}
           isBoldText
+          dropdown
+          dropdownOptions={sbdDropdown.map(item => intl.formatMessage({ id: `transfer.${item}` }))}
+          onDropdownSelect={a => navigate(steemDropdown[a], 'SBD')}
         />
         <GrayWrapper isGray>
           <WalletLineItem

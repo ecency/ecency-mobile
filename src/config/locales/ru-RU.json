@@ -23,12 +23,26 @@
     "comingsoon": "Доска Лидерства будет здесь!",
     "notification": "Уведомления",
     "leaderboard": "Лидеры",
+    "epoint": "Points",
     "leaderboard_title": "Доска Лидерства",
     "recent": "Недавно",
     "yesterday": "Вчера",
     "this_week": "На неделе",
     "this_month": "В этом месяце",
     "older_then": "Давно"
+  },
+  "points": {
+    "post": "Post",
+    "comment": "Comment",
+    "checkin": "Checki-in",
+    "post_title": "Points for post",
+    "comment_title": "Points for comment",
+    "vote_title": "Points for vote",
+    "reblog_title": "Points for reblog",
+    "login_title": "Points for login",
+    "checkin_title": "Points for usage",
+    "checkin_extra_title": "Usage bonus",
+    "no_activity": "No activity here!"
   },
   "messages": {
     "comingsoon": "Здесь будут сообщения!"
@@ -150,7 +164,10 @@
     "allRead": "Всё прочтено",
     "claim_reward_balance_ok": "Награда зачислена на баланс",
     "fail": "Не вышло!",
+    "move": "Move",
+    "move_question": "Are you sure to move to drafts?",
     "success_shared": "Ваш пост отправлен",
+    "success_moved": "Moved to draft",
     "permission_denied": "Не достаточно разрешений",
     "permission_text": "Пожалуйста перейдите в настройки телефона и выдайте разрешения для eSteem",
     "success_rebloged": "Репостнуто!",

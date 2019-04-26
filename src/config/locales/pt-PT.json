@@ -23,12 +23,26 @@
     "comingsoon": "Quadro de Líderes em Breve!",
     "notification": "Notificações",
     "leaderboard": "Quadro de Liderança",
+    "epoint": "Points",
     "leaderboard_title": "Usuário do Topo Hoje",
     "recent": "Recente",
     "yesterday": "Ontem",
     "this_week": "Esta Semana",
     "this_month": "Este Mês",
     "older_then": "Com mais de um mês"
+  },
+  "points": {
+    "post": "Post",
+    "comment": "Comment",
+    "checkin": "Checki-in",
+    "post_title": "Points for post",
+    "comment_title": "Points for comment",
+    "vote_title": "Points for vote",
+    "reblog_title": "Points for reblog",
+    "login_title": "Points for login",
+    "checkin_title": "Points for usage",
+    "checkin_extra_title": "Usage bonus",
+    "no_activity": "No activity here!"
   },
   "messages": {
     "comingsoon": "Recurso de mensagens chega em breve!"
@@ -150,7 +164,10 @@
     "allRead": "Marcar todas as notificações como lidas",
     "claim_reward_balance_ok": "Balanço de Recompensa reclamado",
     "fail": "Falha!",
+    "move": "Mover",
+    "move_question": "Tem certeza que deseja mover para rascunhos?",
     "success_shared": "Seu post partilhado com sucesso",
+    "success_moved": "Movido para Rascunhos",
     "permission_denied": "Permissão negada",
     "permission_text": "Por favor, vá para configurações de telefone e alterar as permissões da app Steem.",
     "success_rebloged": "Reblogado!",

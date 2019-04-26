@@ -23,12 +23,26 @@
     "comingsoon": "即將推出排行榜功能！",
     "notification": "通知",
     "leaderboard": "排行榜",
+    "epoint": "Points",
     "leaderboard_title": "每日最高排名用戶",
     "recent": "最新",
     "yesterday": "昨天",
     "this_week": "本週",
     "this_month": "本月",
     "older_then": "一個月前"
+  },
+  "points": {
+    "post": "Post",
+    "comment": "Comment",
+    "checkin": "Checki-in",
+    "post_title": "Points for post",
+    "comment_title": "Points for comment",
+    "vote_title": "Points for vote",
+    "reblog_title": "Points for reblog",
+    "login_title": "Points for login",
+    "checkin_title": "Points for usage",
+    "checkin_extra_title": "Usage bonus",
+    "no_activity": "No activity here!"
   },
   "messages": {
     "comingsoon": "即將推出消息功能！"
@@ -150,7 +164,10 @@
     "allRead": "標記所有通知為已讀",
     "claim_reward_balance_ok": "獎勵餘額已經領取",
     "fail": "失敗！",
+    "move": "Move",
+    "move_question": "Are you sure to move to drafts?",
     "success_shared": "您的帖子已經成功分享",
+    "success_moved": "Moved to draft",
     "permission_denied": "權限不足",
     "permission_text": "請前往手機「設定」，更改eSteem應用程式權限。",
     "success_rebloged": "已轉發！",

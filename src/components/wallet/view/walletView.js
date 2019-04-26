@@ -55,6 +55,7 @@ class WalletView extends PureComponent {
       selectedUsername,
       walletData,
       isDarkTheme,
+      setPinCodeState,
     } = this.props;
 
     return (
@@ -113,7 +114,11 @@ class WalletView extends PureComponent {
               })}
               expanded
             >
-              <WalletDetails intl={intl} walletData={walletData} />
+              <WalletDetails
+                intl={intl}
+                walletData={walletData}
+                setPinCodeState={setPinCodeState}
+              />
             </CollapsibleCard>
             <Transaction walletData={walletData} />
           </Fragment>

@@ -23,12 +23,26 @@
     "comingsoon": "Ranglisten-Feature kommt bald!",
     "notification": "Benachrichtigungen",
     "leaderboard": "Rangliste",
+    "epoint": "Points",
     "leaderboard_title": "Tägliche Top-User",
     "recent": "Vor kurzem",
     "yesterday": "Gestern",
     "this_week": "Diese Woche",
     "this_month": "Diesen Monat",
     "older_then": "Älter als ein Monat"
+  },
+  "points": {
+    "post": "Post",
+    "comment": "Comment",
+    "checkin": "Checki-in",
+    "post_title": "Points for post",
+    "comment_title": "Points for comment",
+    "vote_title": "Points for vote",
+    "reblog_title": "Points for reblog",
+    "login_title": "Points for login",
+    "checkin_title": "Points for usage",
+    "checkin_extra_title": "Usage bonus",
+    "no_activity": "No activity here!"
   },
   "messages": {
     "comingsoon": "Nachrichten-Feature ist bald verfügbar!"
@@ -150,7 +164,10 @@
     "allRead": "Alle Benachrichtigungen als gelesen markieren",
     "claim_reward_balance_ok": "Belohnung abgeholt",
     "fail": "Fehlgeschlagen!",
+    "move": "Move",
+    "move_question": "Are you sure to move to drafts?",
     "success_shared": "Dein Beitrag wurde erfolgreich erstellt",
+    "success_moved": "Moved to draft",
     "permission_denied": "Berechtigung verweigert",
     "permission_text": "Bitte gehe zu den Telefoneinstellungen und ändere die Berechtigungen der eSteem-App.",
     "success_rebloged": "Geteilt!",

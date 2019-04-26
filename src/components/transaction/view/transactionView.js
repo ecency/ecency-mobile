@@ -52,6 +52,8 @@ class TransactionView extends PureComponent {
           {transactions
             && transactions.map((item, index) => {
               const transactionData = groomingTransactionData(item, steemPerMVests, formatNumber);
+              if (transactionData.length === 0) return null;
+
               const value = transactionData.value.split(' ');
 
               return (

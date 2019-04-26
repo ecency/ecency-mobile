@@ -23,12 +23,26 @@
     "comingsoon": "La feature classifica arriverà presto!",
     "notification": "Notifiche",
     "leaderboard": "Classifica",
+    "epoint": "Points",
     "leaderboard_title": "Top Utenti Giornalieri",
     "recent": "Recenti",
     "yesterday": "Ieri",
     "this_week": "Questa settimana",
     "this_month": "Questo Mese",
     "older_then": "Più Di Un Mese Fa"
+  },
+  "points": {
+    "post": "Post",
+    "comment": "Comment",
+    "checkin": "Checki-in",
+    "post_title": "Points for post",
+    "comment_title": "Points for comment",
+    "vote_title": "Points for vote",
+    "reblog_title": "Points for reblog",
+    "login_title": "Points for login",
+    "checkin_title": "Points for usage",
+    "checkin_extra_title": "Usage bonus",
+    "no_activity": "No activity here!"
   },
   "messages": {
     "comingsoon": "La feature per i messaggi sta per arrivare!"
@@ -150,7 +164,10 @@
     "allRead": "Segna tutte le notifiche come lette",
     "claim_reward_balance_ok": "Saldo Ricompensa Richiesto",
     "fail": "Non riuscito!",
+    "move": "Move",
+    "move_question": "Are you sure to move to drafts?",
     "success_shared": "Il tuo post è stato con successo condiviso",
+    "success_moved": "Moved to draft",
     "permission_denied": "Permesso negato",
     "permission_text": "Per favore, vai alle impostazioni del cellulare e modificare le autorizzazioni di eSteem app.",
     "success_rebloged": "Rebloged!",

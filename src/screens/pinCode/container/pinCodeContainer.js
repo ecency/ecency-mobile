@@ -80,7 +80,7 @@ class PinCodeContainer extends Component {
 
   _resetPinCode = pin => new Promise((resolve, reject) => {
     const {
-      currentAccount, dispatch, accessToken, navigateTo, navigation, intl,
+      currentAccount, dispatch, accessToken, navigateTo, navigateParams, navigation, intl,
     } = this.props;
     const { isOldPinVerified, oldPinCode } = this.state;
 
@@ -102,7 +102,7 @@ class PinCodeContainer extends Component {
 
         dispatch(closePinCodeModal());
         if (navigateTo) {
-          navigation.navigate(navigateTo);
+          navigation.navigate(navigateTo, navigateParams);
         }
         resolve();
       });
@@ -135,7 +135,7 @@ class PinCodeContainer extends Component {
 
   _setFirstPinCode = pin => new Promise((resolve) => {
     const {
-      currentAccount, dispatch, accessToken, navigateTo, navigation,
+      currentAccount, dispatch, accessToken, navigateTo, navigateParams, navigation,
     } = this.props;
 
     const pinData = {
@@ -155,7 +155,7 @@ class PinCodeContainer extends Component {
           this._savePinCode(pin);
           dispatch(closePinCodeModal());
           if (navigateTo) {
-            navigation.navigate(navigateTo);
+            navigation.navigate(navigateTo, navigateParams);
           }
           resolve();
         });
@@ -165,7 +165,7 @@ class PinCodeContainer extends Component {
 
   _verifyPinCode = pin => new Promise((resolve, reject) => {
     const {
-      currentAccount, dispatch, accessToken, navigateTo, navigation, intl,
+      currentAccount, dispatch, accessToken, navigateTo, navigateParams, navigation, intl,
     } = this.props;
 
     // If the user is exist, we are just checking to pin and navigating to home screen
@@ -184,8 +184,9 @@ class PinCodeContainer extends Component {
         [_currentAccount.local] = realmData;
         dispatch(updateCurrentAccount({ ..._currentAccount }));
         dispatch(closePinCodeModal());
+        console.log('navigateParams :', navigateParams);
         if (navigateTo) {
-          navigation.navigate(navigateTo);
+          navigation.navigate(navigateTo, navigateParams);
         }
       })
       .catch((err) => {
@@ -286,7 +287,7 @@ class PinCodeContainer extends Component {
       [
         { text: intl.formatMessage({ id: 'alert.clear' }), onPress: () => this._forgotPinCode() },
         { text: intl.formatMessage({ id: 'alert.cancel' }), style: 'destructive' },
-      ]
+      ],
     );
   };
 

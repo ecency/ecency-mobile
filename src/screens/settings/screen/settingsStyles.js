@@ -1,6 +1,9 @@
 import EStyleSheet from 'react-native-extended-stylesheet';
 
 export default EStyleSheet.create({
+  container: {
+    backgroundColor: '$primaryLightBackground',
+  },
   settingsCard: {
     backgroundColor: '$primaryBackgroundColor',
     paddingLeft: 42,
