@@ -42,7 +42,7 @@
     "login_title": "Puncte pentru autentificare",
     "checkin_title": "Puncte pentru utilizare",
     "checkin_extra_title": "Bonus de utilizare",
-    "no_activity": "No activity here!"
+    "no_activity": "Nici o activitate aici!"
   },
   "messages": {
     "comingsoon": "Funcția mesaje va fi disponibilă in curând!"
@@ -181,7 +181,8 @@
     "cancel": "Anulează",
     "delete": "Șterge",
     "copied": "Copiat!",
-    "no_internet": "Nu există conexiune!"
+    "no_internet": "Nu există conexiune!",
+    "confirm": "Confirmă"
   },
   "post": {
     "reblog_alert": "Ești sigur că vrei să redistribui?"
@@ -248,5 +249,21 @@
     "reputation": "reputație",
     "votes": "voturi",
     "age": "vechime"
+  },
+  "transfer": {
+    "title": "Transferă către contul",
+    "from": "De la",
+    "to": "Către",
+    "amount": "Sumă",
+    "memo": "Notă",
+    "information": "Are you sure to transfer to funds?",
+    "amount_desc": "Sold",
+    "memo_desc": "Această notă este publică",
+    "to_placeholder": "Nume de utilizator",
+    "memo_placeholder": "Introdu comentariul tău aici",
+    "transferToken": "Transferă",
+    "transferToSaving": "Tranferă la economii",
+    "powerUp": "Power Up",
+    "steemconnect_title": "Transfer Steemconnect"
   }
 }

@@ -181,7 +181,8 @@
     "cancel": "בטל\\י",
     "delete": "מחק\\י",
     "copied": "הועתק!",
-    "no_internet": "אין חיבור!"
+    "no_internet": "אין חיבור!",
+    "confirm": "Confirm"
   },
   "post": {
     "reblog_alert": "האם את\\ה בטוח\/ה רוצה לשתף ?"
@@ -248,5 +249,21 @@
     "reputation": "מוניטין",
     "votes": "הצבעות",
     "age": "גיל"
+  },
+  "transfer": {
+    "title": "Transfer To Account",
+    "from": "From",
+    "to": "To",
+    "amount": "Amount",
+    "memo": "Memo",
+    "information": "Are you sure to transfer to funds?",
+    "amount_desc": "Balance",
+    "memo_desc": "This memo is public",
+    "to_placeholder": "Username",
+    "memo_placeholder": "Enter your notes here",
+    "transferToken": "Transfer",
+    "transferToSaving": "Transfer To Saving",
+    "powerUp": "Power Up",
+    "steemconnect_title": "Steemconnect Transfer"
   }
 }

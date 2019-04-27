@@ -181,7 +181,8 @@
     "cancel": "لغو",
     "delete": "پاک کردن",
     "copied": "کپی شد!",
-    "no_internet": "اتصال برقرار نیست!"
+    "no_internet": "اتصال برقرار نیست!",
+    "confirm": "Confirm"
   },
   "post": {
     "reblog_alert": "آیا مطمئن هستید که می‌خواهید به اشتراک بگذارید؟"
@@ -248,5 +249,21 @@
     "reputation": "شهرت",
     "votes": "رأی‌ ها",
     "age": "سن"
+  },
+  "transfer": {
+    "title": "Transfer To Account",
+    "from": "From",
+    "to": "To",
+    "amount": "Amount",
+    "memo": "Memo",
+    "information": "Are you sure to transfer to funds?",
+    "amount_desc": "Balance",
+    "memo_desc": "This memo is public",
+    "to_placeholder": "Username",
+    "memo_placeholder": "Enter your notes here",
+    "transferToken": "Transfer",
+    "transferToSaving": "Transfer To Saving",
+    "powerUp": "Power Up",
+    "steemconnect_title": "Steemconnect Transfer"
   }
 }
