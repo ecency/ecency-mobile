@@ -17,10 +17,14 @@ export default EStyleSheet.create({
     marginTop: 5,
   },
   iconsWrapper: {
-    marginVertical: 32,
+    marginVertical: 24,
+    marginHorizontal: 32,
     justifyContent: 'center',
     alignSelf: 'center',
     flexDirection: 'row',
+  },
+  iconsList: {
+    height: 55,
   },
   iconWrapper: {
     marginHorizontal: 16,

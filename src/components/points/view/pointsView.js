@@ -13,6 +13,9 @@ import { MainButton } from '../../mainButton';
 // Utils
 import { getTimeFromNow } from '../../../utils/time';
 
+// Constants
+import POINTS, { POINTS_KEYS } from '../../../constants/options/points';
+
 // Styles
 import styles from './pointsStyles';
 
@@ -83,51 +86,28 @@ class PointsView extends Component {
           }
 
            <View style={styles.iconsWrapper}>
-             <View styles={styles.iconWrapper}>
-               <View style={styles.iconWrapper}>
-                 <IconButton
-                   disabled
-                   iconStyle={styles.icon}
-                   style={styles.iconButton}
-                   iconType="MaterialCommunityIcons"
-                   name="pencil"
-                   badgeCount={50}
-                   badgeStyle={styles.badge}
-                   badgeTextStyle={styles.badgeText}
-                 />
-               </View>
-               <Text style={styles.subText}>{intl.formatMessage({ id: 'points.post' })}</Text>
-             </View>
-             <View styles={styles.iconWrapper}>
-               <View style={styles.iconWrapper}>
-                 <IconButton
-                   disabled
-                   style={styles.iconButton}
-                   iconStyle={styles.icon}
-                   iconType="MaterialCommunityIcons"
-                   name="comment-text-outline"
-                   badgeCount={15}
-                   badgeStyle={styles.badge}
-                   badgeTextStyle={styles.badgeText}
-                 />
-               </View>
-               <Text style={styles.subText}>{intl.formatMessage({ id: 'points.comment' })}</Text>
-             </View>
-             <View styles={styles.iconWrapper}>
-               <View style={[styles.iconWrapper, isActiveIcon && styles.activeIconWrapper]}>
-                 <IconButton
-                   disabled
-                   style={styles.iconButton}
-                   iconStyle={[styles.icon, isActiveIcon && styles.activeIcon]}
-                   iconType="MaterialCommunityIcons"
-                   name="clock-outline"
-                   badgeCount={50}
-                   badgeStyle={[styles.badge, isActiveIcon && styles.activeBadge]}
-                   badgeTextStyle={styles.badgeText}
-                 />
-               </View>
-               <Text style={styles.subText}>{intl.formatMessage({ id: 'points.checkin' })}</Text>
-             </View>
+             <FlatList
+               style={styles.iconsList}
+               data={POINTS_KEYS}
+               horizontal
+               renderItem={({ item }) => (
+                 <View styles={styles.iconWrapper}>
+                   <View style={styles.iconWrapper}>
+                     <IconButton
+                       disabled
+                       iconStyle={styles.icon}
+                       style={styles.iconButton}
+                       iconType={POINTS[item.type].iconType}
+                       name={POINTS[item.type].icon}
+                       badgeCount={POINTS[item.type].point}
+                       badgeStyle={styles.badge}
+                       badgeTextStyle={styles.badgeText}
+                     />
+                   </View>
+                   <Text style={styles.subText}>{intl.formatMessage({ id: POINTS[item.type].nameKey })}</Text>
+                 </View>
+               )}
+             />
            </View>
 
            <View style={styles.listWrapper}>
