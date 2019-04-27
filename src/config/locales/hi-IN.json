@@ -23,7 +23,7 @@
     "comingsoon": "अधिनायक पटल सुविधा जल्द आने वाली है!",
     "notification": "अधिसूचनाएं",
     "leaderboard": "अधिनायकपटल",
-    "epoint": "Points",
+    "epoint": "अंक",
     "leaderboard_title": "प्रत्येक दिन का सर्वोच्च प्रयोगकर्ता",
     "recent": "ताजा",
     "yesterday": "बीता कल",
@@ -33,7 +33,7 @@
   },
   "points": {
     "post": "Post",
-    "comment": "Comment",
+    "comment": "टिप्पणी",
     "checkin": "Checki-in",
     "post_title": "Points for post",
     "comment_title": "Points for comment",
