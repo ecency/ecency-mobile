@@ -181,7 +181,8 @@
     "cancel": "Batai",
     "delete": "Sampóh",
     "copied": "Kalheuh Meusalén!",
-    "no_internet": "Hana koneksi!"
+    "no_internet": "Hana koneksi!",
+    "confirm": "Confirm"
   },
   "post": {
     "reblog_alert": "Peu yakin neuh, neu neuk reblog?"
@@ -248,5 +249,21 @@
     "reputation": "reputasi",
     "votes": "pilèh-pilèh",
     "age": "umuë"
+  },
+  "transfer": {
+    "title": "Transfer To Account",
+    "from": "From",
+    "to": "To",
+    "amount": "Amount",
+    "memo": "Memo",
+    "information": "Are you sure to transfer to funds?",
+    "amount_desc": "Balance",
+    "memo_desc": "This memo is public",
+    "to_placeholder": "Username",
+    "memo_placeholder": "Enter your notes here",
+    "transferToken": "Transfer",
+    "transferToSaving": "Transfer To Saving",
+    "powerUp": "Power Up",
+    "steemconnect_title": "Steemconnect Transfer"
   }
 }
