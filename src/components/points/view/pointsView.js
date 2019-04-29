@@ -1,8 +1,9 @@
 import React, { Component, Fragment } from 'react';
 import {
-  Text, View, FlatList, ScrollView, RefreshControl,
+  Text, View, FlatList, ScrollView, RefreshControl, TouchableOpacity,
 } from 'react-native';
 import { injectIntl } from 'react-intl';
+import { Popover, PopoverController } from 'react-native-modal-popover';
 
 // Components
 import { LineBreak, WalletLineItem } from '../../basicUIElements';
@@ -57,6 +58,7 @@ class PointsView extends Component {
      const isActiveIcon = false;
 
      return (
+
        <Fragment>
          <LineBreak height={12} />
          <ScrollView
@@ -65,7 +67,6 @@ class PointsView extends Component {
          >
            <Text style={styles.pointText}>{userPoints.points}</Text>
            <Text style={styles.subText}>eSteem Points</Text>
-
            {userPoints.unclaimed_points > 0
            && (
            <MainButton
@@ -91,21 +92,48 @@ class PointsView extends Component {
                data={POINTS_KEYS}
                horizontal
                renderItem={({ item }) => (
-                 <View styles={styles.iconWrapper}>
-                   <View style={styles.iconWrapper}>
-                     <IconButton
-                       disabled
-                       iconStyle={styles.icon}
-                       style={styles.iconButton}
-                       iconType={POINTS[item.type].iconType}
-                       name={POINTS[item.type].icon}
-                       badgeCount={POINTS[item.type].point}
-                       badgeStyle={styles.badge}
-                       badgeTextStyle={styles.badgeText}
-                     />
-                   </View>
-                   <Text style={styles.subText}>{intl.formatMessage({ id: POINTS[item.type].nameKey })}</Text>
-                 </View>
+                 <PopoverController key={item.type}>
+                   {({
+                     openPopover, closePopover, popoverVisible, setPopoverAnchor, popoverAnchorRect,
+                   }) => (
+                     <View styles={styles.iconWrapper} key={item.type}>
+                       <View style={styles.iconWrapper}>
+                         <TouchableOpacity
+                           ref={setPopoverAnchor}
+                           onPress={openPopover}
+                         >
+                           <IconButton
+                             iconStyle={styles.icon}
+                             style={styles.iconButton}
+                             iconType={POINTS[item.type].iconType}
+                             name={POINTS[item.type].icon}
+                             badgeCount={POINTS[item.type].point}
+                             badgeStyle={styles.badge}
+                             badgeTextStyle={styles.badgeText}
+                             disabled
+                           />
+                         </TouchableOpacity>
+                       </View>
+                       <Text style={styles.subText}>{intl.formatMessage({ id: POINTS[item.type].nameKey })}</Text>
+                       <Popover
+                         backgroundStyle={styles.overlay}
+                         contentStyle={styles.popoverDetails}
+                         arrowStyle={styles.arrow}
+                         visible={popoverVisible}
+                         onClose={() => {
+                           closePopover();
+                         }}
+                         fromRect={popoverAnchorRect}
+                         placement="top"
+                         supportedOrientations={['portrait', 'landscape']}
+                       >
+                         <View style={styles.popoverWrapper}>
+                           <Text>{intl.formatMessage({ id: POINTS[item.type].descriptionKey })}</Text>
+                         </View>
+                       </Popover>
+                     </View>
+                   )}
+                 </PopoverController>
                )}
              />
            </View>
@@ -134,8 +162,11 @@ class PointsView extends Component {
                )
                   }
            </View>
+
          </ScrollView>
        </Fragment>
+
+
      );
    }
 }
