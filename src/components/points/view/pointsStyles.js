@@ -56,7 +56,6 @@ export default EStyleSheet.create({
     backgroundColor: '$primaryBlue',
     justifyContent: 'center',
     alignItems: 'center',
-    zIndex: 99,
     padding: 2,
     height: 12,
     minWidth: 18,
@@ -101,5 +100,24 @@ export default EStyleSheet.create({
   scrollContainer: {
     flex: 1,
   },
-
+  popoverDetails: {
+    flexDirection: 'row',
+    height: 130,
+    width: '$deviceWidth /2',
+    borderRadius: 20,
+    paddingHorizontal: 26,
+    backgroundColor: '$primaryBackgroundColor',
+  },
+  arrow: {
+    borderTopColor: '$primaryBackgroundColor',
+  },
+  popoverWrapper: {
+    flex: 1,
+    flexDirection: 'row',
+    justifyContent: 'space-between',
+    alignItems: 'center',
+  },
+  overlay: {
+    backgroundColor: '#403c4449',
+  },
 });
