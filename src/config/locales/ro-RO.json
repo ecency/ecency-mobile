@@ -35,6 +35,10 @@
     "post": "Postare",
     "comment": "Comentariu",
     "checkin": "Checki-in",
+    "vote": "Vote",
+    "reblog": "Reblog",
+    "login": "Login",
+    "checkin_extra": "Bonus",
     "post_title": "Puncte pentru postare",
     "comment_title": "Puncte pentru comentariu",
     "vote_title": "Puncte pentru vot",
@@ -42,7 +46,14 @@
     "login_title": "Puncte pentru autentificare",
     "checkin_title": "Puncte pentru utilizare",
     "checkin_extra_title": "Bonus de utilizare",
-    "no_activity": "Nici o activitate aici!"
+    "no_activity": "Nici o activitate aici!",
+    "post_desc": "You can earn point by posting regularly. Posting gives you 15 points.",
+    "comment_desc": "Each comment you make helps you to grow your audience and make friendship but also earns you 5 points.",
+    "checkin_desc": "Checking in on eSteem app gives you 0.25 points and helps you stay connected with your friends and community.",
+    "vote_desc": "By voting you give reward to other creators and show your appreciation but also earn 0.01 x vote weight points.",
+    "reblog_desc": "  Share what post you like with your friends and earn 1 points.",
+    "login_desc": "When you login into eSteem app you are entitled to earn 100 points automatically.",
+    "checkin_extra_desc": "Consistent use of app gives you extra chances to earn more 10 points, be more active and earn more."
   },
   "messages": {
     "comingsoon": "Funcția mesaje va fi disponibilă in curând!"
