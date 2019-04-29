@@ -157,8 +157,8 @@ const RootContainer = () => (WrappedComponent) => {
       }, 1 * 60 * 1000);
     };
 
-    _setPinCodeState = (data) => {
-      this.setState({ pinCodeStates: { ...data } });
+    _setPinCodeState = async (data) => {
+      return this.setState({ pinCodeStates: { ...data } });
     };
 
     _setWrappedComponentState = (data) => {

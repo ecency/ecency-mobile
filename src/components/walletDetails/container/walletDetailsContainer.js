@@ -26,7 +26,7 @@ class WalletContainer extends PureComponent {
   // Component Life Cycle Functions
 
   // Component Functions
-  _navigate = (transferType, fundType) => {
+  _navigate = async (transferType, fundType) => {
     const { dispatch, setPinCodeState, walletData } = this.props;
     let balance;
 
@@ -41,7 +41,7 @@ class WalletContainer extends PureComponent {
         break;
     }
 
-    setPinCodeState({
+    await setPinCodeState({
       navigateTo: ROUTES.SCREENS.TRANSFER,
       navigateParams: { transferType, fundType, balance },
     });
