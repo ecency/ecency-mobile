@@ -313,6 +313,7 @@ class PinCodeContainer extends Component {
   render() {
     const { currentAccount, intl, isReset } = this.props;
     const { informationText, isExistUser } = this.state;
+
     return (
       <PinCodeScreen
         informationText={informationText}
