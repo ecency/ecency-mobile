@@ -34,7 +34,7 @@
   "points": {
     "post": "پست",
     "comment": "نظر",
-    "checkin": "چک کردن",
+    "checkin": "حاضری زدن",
     "vote": "رأی",
     "reblog": "اشتراک گذاری",
     "login": "ورود",
@@ -49,10 +49,10 @@
     "no_activity": "هیچ فعالیتی اینجا نیست!",
     "post_desc": "شما میتوانید با ایجاد پست به طور منظم، امتیاز دریافت کنید. ایجاد پست ۱۵ امتیاز به شما میدهد.",
     "comment_desc": "هر نظری که ثبت میکنید باعث میشود مخاطبان و دوستان خود را افزایش دهید و همچنین ۵ امتیاز را به همراه دارد.",
-    "checkin_desc": "Checking in on eSteem app gives you 0.25 points and helps you stay connected with your friends and community.",
-    "vote_desc": "By voting you give reward to other creators and show your appreciation but also earn 0.01 x vote weight points.",
-    "reblog_desc": "  Share what post you like with your friends and earn 1 points.",
-    "login_desc": "When you login into eSteem app you are entitled to earn 100 points automatically.",
+    "checkin_desc": "حاضری زدن در اپ eSteem به شما 0.25 امتیاز میدهد و همچنین به شما کمک میکند تا با دوستانتان و و بقیه جامعه در ارتباط باقی بمانید.",
+    "vote_desc": "شما با رای دادن به آثار دیگران قدردانی خود را نشان میدهید و علاوه بر آن به میزان (0.01 ×میزان رای شما ) امتیاز دریافت می کنید.",
+    "reblog_desc": "  پست های مورد علاقه خود را با دوستانتان به اشتراک بگذارید و 1 امتیاز دریافت کنید.",
+    "login_desc": "زمانی که شما توسط اپ eSteem وارد حساب کاربری خود شوید به صورت اتوماتیک 100 امتیاز دریافت خواهید کرد.",
     "checkin_extra_desc": "Consistent use of app gives you extra chances to earn more 10 points, be more active and earn more."
   },
   "messages": {
