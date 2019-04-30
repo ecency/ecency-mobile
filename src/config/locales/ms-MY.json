@@ -53,7 +53,7 @@
     "vote_desc": "Dengan memberi vote kepada para pengarang, anda akan dihargai oleh mereka dan juga mengumpul 0.01 x nisbah tambahan vote.",
     "reblog_desc": "Mengulang siar post yang anda sukai kepada kawan, anda juga memgumpul 1 mata.",
     "login_desc": "Apabila anda log masuk eSteem, anda akan diberi 100 mata secara otomatik.",
-    "checkin_extra_desc": "Consistent use of app gives you extra chances to earn more 10 points, be more active and earn more."
+    "checkin_extra_desc": "Pengguna app dengan konsisten, anda mungkin akan dapat 10 mata secara percuma. Lebih memgguna, lebih ganjaran."
   },
   "messages": {
     "comingsoon": "Ciri-ciri mesej yang akan datang tidak lama lagi!"
@@ -193,7 +193,7 @@
     "delete": "Padam",
     "copied": "Disalin!",
     "no_internet": "Tiada sambungan!",
-    "confirm": "Confirm"
+    "confirm": "Muktamat"
   },
   "post": {
     "reblog_alert": "Adakah anda ingin menulang siar?"
@@ -262,19 +262,19 @@
     "age": "usia"
   },
   "transfer": {
-    "title": "Transfer To Account",
-    "from": "From",
-    "to": "To",
-    "amount": "Amount",
+    "title": "Transfer ke akaun",
+    "from": "Daripada",
+    "to": "Kepada",
+    "amount": "Jumlah",
     "memo": "Memo",
-    "information": "Are you sure to transfer to funds?",
-    "amount_desc": "Balance",
-    "memo_desc": "This memo is public",
-    "to_placeholder": "Username",
-    "memo_placeholder": "Enter your notes here",
-    "transferToken": "Transfer",
-    "transferToSaving": "Transfer To Saving",
-    "powerUp": "Power Up",
+    "information": "Adakah awda pasti hendak memindahkan dana?",
+    "amount_desc": "Baki",
+    "memo_desc": "Memo ini adalah umum",
+    "to_placeholder": "Nama Pengguna",
+    "memo_placeholder": "Masukkan catatan anda di sini",
+    "transferToken": "Pindah",
+    "transferToSaving": "Pindah kepada simpanan",
+    "powerUp": "Mengekuasai",
     "steemconnect_title": "Steemconnect Transfer"
   }
 }
