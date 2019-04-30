@@ -49,9 +49,9 @@
     "no_activity": "Fəaliyyət yoxdur!",
     "post_desc": "Müntəzəm olaraq paylaşıb xal qazana bilərsiniz. Paylaşım sizə 15 xal verər.",
     "comment_desc": "Bildirdiyiniz hər bir rəy əhatənizi genişləndirməyə və dostluqlar qurmağa kömək edər, həmçinin 5 xal qazandırar.",
-    "checkin_desc": "Checking in on eSteem app gives you 0.25 points and helps you stay connected with your friends and community.",
-    "vote_desc": "By voting you give reward to other creators and show your appreciation but also earn 0.01 x vote weight points.",
-    "reblog_desc": "  Share what post you like with your friends and earn 1 points.",
+    "checkin_desc": "eSteem tətbiqində yoxlamaq sizə 0.25 xal qazandırar və dostlarla və cəmiyyətlə əlaqədə qalmağınıza kömək edər.",
+    "vote_desc": "Səs verərək digər yaradıcılara da mükafat verə və minnətdarlığınızı göstərə bilərsiniz, beləcə 0.01 x səsvermə ağırlıq xal qazanarsınız.",
+    "reblog_desc": "  Bəyəndiyiniz göndərişləri dostlarınızla paylaşın və 1 xal qazanın.",
     "login_desc": "When you login into eSteem app you are entitled to earn 100 points automatically.",
     "checkin_extra_desc": "Consistent use of app gives you extra chances to earn more 10 points, be more active and earn more."
   },
