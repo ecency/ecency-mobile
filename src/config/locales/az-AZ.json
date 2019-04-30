@@ -176,9 +176,9 @@
     "claim_reward_balance_ok": "Mükafat alındı",
     "fail": "Uğursuz!",
     "move": "Köçürt",
-    "move_question": "Are you sure to move to drafts?",
+    "move_question": "Qaralamalara köçürtmək istədiyinizə əminsiniz?",
     "success_shared": "Göndərişin uğurla paylaşıldı",
-    "success_moved": "Moved to draft",
+    "success_moved": "Qaralamalara köçürüldü",
     "permission_denied": "İcazə verilmədi",
     "permission_text": "Zəhmət olmasa telefon tənzimləmələrinə gedərək eSteem tətbiq icazələrini dəyişdirin.",
     "success_rebloged": "Təkrar paylaşıldı!",
@@ -193,7 +193,7 @@
     "delete": "Sil",
     "copied": "Kopyalandı!",
     "no_internet": "Bağlantı yoxdur!",
-    "confirm": "Confirm"
+    "confirm": "Təsdiqlə"
   },
   "post": {
     "reblog_alert": "Təkrar paylaşmaq istədiyinizə əminsiniz?"
@@ -262,19 +262,19 @@
     "age": "yaş"
   },
   "transfer": {
-    "title": "Transfer To Account",
-    "from": "From",
-    "to": "To",
-    "amount": "Amount",
-    "memo": "Memo",
-    "information": "Are you sure to transfer to funds?",
-    "amount_desc": "Balance",
-    "memo_desc": "This memo is public",
-    "to_placeholder": "Username",
-    "memo_placeholder": "Enter your notes here",
-    "transferToken": "Transfer",
-    "transferToSaving": "Transfer To Saving",
-    "powerUp": "Power Up",
-    "steemconnect_title": "Steemconnect Transfer"
+    "title": "Hesaba Köçürt",
+    "from": "Buradan",
+    "to": "Buraya",
+    "amount": "Məbləğ",
+    "memo": "Qeyd",
+    "information": "Fondlara köçürmə olduğuna əminsiniz?",
+    "amount_desc": "Balans",
+    "memo_desc": "Bu qeyd ictimaidir",
+    "to_placeholder": "İstifadəçi adı",
+    "memo_placeholder": "Qeydlərinizi buraya daxil edin",
+    "transferToken": "Köçürmə",
+    "transferToSaving": "Yığımlara Köçürmə",
+    "powerUp": "Gücü artır",
+    "steemconnect_title": "Steemconnect Köçürməsi"
   }
 }
