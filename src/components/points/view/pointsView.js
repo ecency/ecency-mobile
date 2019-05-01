@@ -128,7 +128,7 @@ class PointsView extends Component {
                          supportedOrientations={['portrait', 'landscape']}
                        >
                          <View style={styles.popoverWrapper}>
-                           <Text>{intl.formatMessage({ id: POINTS[item.type].descriptionKey })}</Text>
+                           <Text style={styles.popoverText}>{intl.formatMessage({ id: POINTS[item.type].descriptionKey })}</Text>
                          </View>
                        </Popover>
                      </View>

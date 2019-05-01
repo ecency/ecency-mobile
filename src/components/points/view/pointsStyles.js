@@ -10,7 +10,7 @@ export default EStyleSheet.create({
     fontWeight: 'bold',
   },
   subText: {
-    color: '$tagColor',
+    color: '$darkIconColor',
     fontSize: 8,
     justifyContent: 'center',
     alignSelf: 'center',
@@ -119,5 +119,8 @@ export default EStyleSheet.create({
   },
   overlay: {
     backgroundColor: '#403c4449',
+  },
+  popoverText: {
+    color: '$primaryDarkText',
   },
 });
