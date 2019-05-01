@@ -263,18 +263,18 @@
   },
   "transfer": {
     "title": "अकाउंट में स्थान्तरित करें",
-    "from": "From",
-    "to": "To",
-    "amount": "Amount",
-    "memo": "Memo",
-    "information": "Are you sure to transfer to funds?",
-    "amount_desc": "Balance",
-    "memo_desc": "This memo is public",
-    "to_placeholder": "Username",
-    "memo_placeholder": "Enter your notes here",
-    "transferToken": "Transfer",
-    "transferToSaving": "Transfer To Saving",
-    "powerUp": "Power Up",
-    "steemconnect_title": "Steemconnect Transfer"
+    "from": "से",
+    "to": "को",
+    "amount": "रकम",
+    "memo": "ज्ञापन",
+    "information": "क्या आप रकम स्थान्तरित करना चाहते हैं?",
+    "amount_desc": "शेष रकम",
+    "memo_desc": "यह ज्ञापन सार्वजनिक है",
+    "to_placeholder": "प्रयोक्ता नाम",
+    "memo_placeholder": "अपनी टिप्पणी यहाँ लिखें",
+    "transferToken": "स्थान्तरण",
+    "transferToSaving": "बचत खाते में स्थान्तरण करें",
+    "powerUp": "स्टीम क्षमता बढ़ाएं",
+    "steemconnect_title": "स्टीमकनेक्ट स्थान्तरण"
   }
 }
