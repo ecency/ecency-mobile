@@ -36,9 +36,9 @@
     "comment": "Komen",
     "checkin": "Mata ganjaran -> dimasukkan",
     "vote": "Vote",
-    "reblog": "Reblog",
-    "login": "Login",
-    "checkin_extra": "Bonus",
+    "reblog": "Ulang siar",
+    "login": "Log Masuk",
+    "checkin_extra": "Mata ganjaran",
     "post_title": "Mata ganjaran -> post_title",
     "comment_title": "Mata ganjaran -> comment_title",
     "vote_title": "Mata ganjaran -> vote_title",
@@ -46,14 +46,14 @@
     "login_title": "Mata ganjaran log masuk",
     "checkin_title": "Mata ganjaran kegunaan",
     "checkin_extra_title": "Bonus kegunaan",
-    "no_activity": "No activity here!",
-    "post_desc": "You can earn point by posting regularly. Posting gives you 15 points.",
-    "comment_desc": "Each comment you make helps you to grow your audience and make friendship but also earns you 5 points.",
-    "checkin_desc": "Checking in on eSteem app gives you 0.25 points and helps you stay connected with your friends and community.",
-    "vote_desc": "By voting you give reward to other creators and show your appreciation but also earn 0.01 x vote weight points.",
-    "reblog_desc": "  Share what post you like with your friends and earn 1 points.",
-    "login_desc": "When you login into eSteem app you are entitled to earn 100 points automatically.",
-    "checkin_extra_desc": "Consistent use of app gives you extra chances to earn more 10 points, be more active and earn more."
+    "no_activity": "Tiada aktiviti di sini!",
+    "post_desc": "Anda boleh mendapatkan mata ganjaran dengan post. Mengarang post memberikan anda 15 mata.",
+    "comment_desc": "Setiap komen yang anda membuat membantu anda untuk mengembangkan pengikut anda dan menjadikan sahabat, di samping juga mendapat 5 mata.",
+    "checkin_desc": "Log masuk eSteem memberikan anda mata 0.25 dan membantu anda kekal berhubung dengan rakan-rakan kalian.",
+    "vote_desc": "Dengan memberi vote kepada para pengarang, anda akan dihargai oleh mereka dan juga mengumpul 0.01 x nisbah tambahan vote.",
+    "reblog_desc": "Mengulang siar post yang anda sukai kepada kawan, anda juga memgumpul 1 mata.",
+    "login_desc": "Apabila anda log masuk eSteem, anda akan diberi 100 mata secara otomatik.",
+    "checkin_extra_desc": "Pengguna app dengan konsisten, anda mungkin akan dapat 10 mata secara percuma. Lebih memgguna, lebih ganjaran."
   },
   "messages": {
     "comingsoon": "Ciri-ciri mesej yang akan datang tidak lama lagi!"
@@ -193,7 +193,7 @@
     "delete": "Padam",
     "copied": "Disalin!",
     "no_internet": "Tiada sambungan!",
-    "confirm": "Confirm"
+    "confirm": "Muktamat"
   },
   "post": {
     "reblog_alert": "Adakah anda ingin menulang siar?"
@@ -262,19 +262,19 @@
     "age": "usia"
   },
   "transfer": {
-    "title": "Transfer To Account",
-    "from": "From",
-    "to": "To",
-    "amount": "Amount",
+    "title": "Transfer ke akaun",
+    "from": "Daripada",
+    "to": "Kepada",
+    "amount": "Jumlah",
     "memo": "Memo",
-    "information": "Are you sure to transfer to funds?",
-    "amount_desc": "Balance",
-    "memo_desc": "This memo is public",
-    "to_placeholder": "Username",
-    "memo_placeholder": "Enter your notes here",
-    "transferToken": "Transfer",
-    "transferToSaving": "Transfer To Saving",
-    "powerUp": "Power Up",
+    "information": "Adakah awda pasti hendak memindahkan dana?",
+    "amount_desc": "Baki",
+    "memo_desc": "Memo ini adalah umum",
+    "to_placeholder": "Nama Pengguna",
+    "memo_placeholder": "Masukkan catatan anda di sini",
+    "transferToken": "Pindah",
+    "transferToSaving": "Pindah kepada simpanan",
+    "powerUp": "Mengekuasai",
     "steemconnect_title": "Steemconnect Transfer"
   }
 }
