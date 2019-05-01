@@ -52,7 +52,7 @@
     "checkin_desc": "Checking in on eSteem app gives you 0.25 points and helps you stay connected with your friends and community.",
     "vote_desc": "By voting you give reward to other creators and show your appreciation but also earn 0.01 x vote weight points.",
     "reblog_desc": "  Share what post you like with your friends and earn 1 points.",
-    "login_desc": "When you login into eSteem app you are entitled to earn 100 points automatically.",
+    "login_desc": "Minden eSteem bejelentkezés alkalmával automatikusan 100 pontra vagy jogosult.",
     "checkin_extra_desc": "Consistent use of app gives you extra chances to earn more 10 points, be more active and earn more."
   },
   "messages": {
