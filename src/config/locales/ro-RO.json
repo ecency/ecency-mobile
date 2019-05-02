@@ -48,11 +48,11 @@
     "checkin_extra_title": "Bonus de utilizare",
     "no_activity": "Nici o activitate aici!",
     "post_desc": "Poți câștiga puncte postând regulat. Fiecare postare își aduce 15 puncte.",
-    "comment_desc": "Each comment you make helps you to grow your audience and make friendship but also earns you 5 points.",
+    "comment_desc": "Fiecare comentariu te ajută să îți crești audiența și să iti faci prieteni. De asemenea, câștigi 5 puncte.",
     "checkin_desc": "Checking in on eSteem app gives you 0.25 points and helps you stay connected with your friends.",
-    "vote_desc": "By voting you give reward to other creators and show your appreciation but also earn 0.01 x vote weight points.",
-    "reblog_desc": "  Share what post you like with your friends and earn 1 points.",
-    "login_desc": "When you login into eSteem app you are entitled to earn 100 points automatically.",
+    "vote_desc": "Votând oferi recompense altor creatori de conținut și le arăți aprecierea ta. De asemenea, câștigi 0.01 din valoarea votului în puncte.",
+    "reblog_desc": "  Distribuie postările care îți plac pentru prietenii tăi și câștigă 1 punct.",
+    "login_desc": "Când te autentifici în aplicația eSteem câștigi 100 de puncte automat.",
     "checkin_extra_desc": "Consistent use of app gives you extra chances to earn more 10 points, be more active and earn more."
   },
   "messages": {
