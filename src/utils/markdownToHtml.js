@@ -98,7 +98,7 @@ export const markDown2Html = (input) => {
 const replaceAuthorNames = input => input.replace(authorNameRegex, (match, preceeding1, preceeding2, user) => {
   const userLower = user.toLowerCase();
   const preceedings = (preceeding1 || '') + (preceeding2 || '');
-  return `${preceedings}<a class="markdown-author-link" href="${userLower}" data-author="${userLower}"> @${user}</a>`;
+  return `${preceedings}<a class="markdown-author-link" href="${userLower}" data-author="${userLower}">@${user}</a>`;
 });
 
 const replaceTags = input => input.replace(tagsRegex, (tag) => {
