@@ -48,12 +48,12 @@
     "checkin_extra_title": "Használati bónusz",
     "no_activity": "Itt nincs tevékenység!",
     "post_desc": "Pontokat szerezhetsz rendszeres blogolással. Egy bejegyzés 15 pontot ér.",
-    "comment_desc": "Each comment you make helps you to grow your audience and make friendship but also earns you 5 points.",
-    "checkin_desc": "Checking in on eSteem app gives you 0.25 points and helps you stay connected with your friends.",
-    "vote_desc": "By voting you give reward to other creators and show your appreciation but also earn 0.01 x vote weight points.",
-    "reblog_desc": "  Share what post you like with your friends and earn 1 points.",
+    "comment_desc": "Minden hozzászólásod segít abban, hogy növeld a táborod és követőket szerezz, továbbá 5 pontot hoz neked.",
+    "checkin_desc": "Az eSteem alkalmazásba történő bejelentkezés 0,25 pontot ér és segít abban, hogy kapcsolatban maradj a barátaiddal.",
+    "vote_desc": "Szavazás által megjutalmazol más alkotókat és elismerésed fejezed ki, de kaphatsz 0,01 x a szavazás értékéből.",
+    "reblog_desc": "  Ossz meg a barátaiddal pármilyen bejegyzést, ami tetszik és nyerj 1 pontot.",
     "login_desc": "Minden eSteem bejelentkezés alkalmával automatikusan 100 pontra vagy jogosult.",
-    "checkin_extra_desc": "Consistent use of app gives you extra chances to earn more 10 points, be more active and earn more."
+    "checkin_extra_desc": "Az alkalmazás következetes használata extra esélyt kínál arra, hogy több 10 pontot nyerj, légy aktívabb és nyerj többet."
   },
   "messages": {
     "comingsoon": "Üzenetek funkció hamarosan érkezik!"
@@ -267,7 +267,7 @@
     "to": "Címzett",
     "amount": "Összeg",
     "memo": "Üzenet",
-    "information": "Are you sure to transfer to funds?",
+    "information": "Bistoz átutalod a megtakarításokhoz?",
     "amount_desc": "Egyenleg",
     "memo_desc": "Ez az üzenet nyilvános",
     "to_placeholder": "Felhasználónév",
@@ -275,6 +275,6 @@
     "transferToken": "Átutalás",
     "transferToSaving": "Átutalás a megtakarításokhoz",
     "powerUp": "Power Up",
-    "steemconnect_title": "Steemconnect átadása"
+    "steemconnect_title": "Steemconnect átutalás"
   }
 }
