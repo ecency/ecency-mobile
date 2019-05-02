@@ -48,8 +48,8 @@
     "checkin_extra_title": "Használati bónusz",
     "no_activity": "Itt nincs tevékenység!",
     "post_desc": "Pontokat szerezhetsz rendszeres blogolással. Egy bejegyzés 15 pontot ér.",
-    "comment_desc": "Each comment you make helps you to grow your audience and make friendship but also earns you 5 points.",
-    "checkin_desc": "Checking in on eSteem app gives you 0.25 points and helps you stay connected with your friends.",
+    "comment_desc": "Minden hozzászólásod segít abban, hogy növeld a táborod és követőket szerezz, továbbá 5 pontot hoz neked.",
+    "checkin_desc": "Az eSteem alkalmazásba történő bejelentkezés 0,25 pontot ér és segít abban, hogy kapcsolatban maradj a barátaiddal.",
     "vote_desc": "By voting you give reward to other creators and show your appreciation but also earn 0.01 x vote weight points.",
     "reblog_desc": "  Share what post you like with your friends and earn 1 points.",
     "login_desc": "Minden eSteem bejelentkezés alkalmával automatikusan 100 pontra vagy jogosult.",
@@ -275,6 +275,6 @@
     "transferToken": "Átutalás",
     "transferToSaving": "Átutalás a megtakarításokhoz",
     "powerUp": "Power Up",
-    "steemconnect_title": "Steemconnect átadása"
+    "steemconnect_title": "Steemconnect átutalás"
   }
 }
