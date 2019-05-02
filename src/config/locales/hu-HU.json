@@ -267,7 +267,7 @@
     "to": "Címzett",
     "amount": "Összeg",
     "memo": "Üzenet",
-    "information": "Are you sure to transfer to funds?",
+    "information": "Bistoz átutalod a megtakarításokhoz?",
     "amount_desc": "Egyenleg",
     "memo_desc": "Ez az üzenet nyilvános",
     "to_placeholder": "Felhasználónév",
