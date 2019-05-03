@@ -262,7 +262,6 @@
     "age": "időrend"
   },
   "transfer": {
-    "title": "Átutalás más fiókba",
     "from": "Feladó",
     "to": "Címzett",
     "amount": "Összeg",
@@ -275,6 +274,7 @@
     "transferToken": "Átutalás",
     "transferToSaving": "Átutalás a megtakarításokhoz",
     "powerUp": "Power Up",
+    "withdrawToSaving": "Withdraw To Saving",
     "steemconnect_title": "Steemconnect átutalás"
   }
 }
