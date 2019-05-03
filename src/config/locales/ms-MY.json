@@ -262,7 +262,6 @@
     "age": "usia"
   },
   "transfer": {
-    "title": "Transfer ke akaun",
     "from": "Daripada",
     "to": "Kepada",
     "amount": "Jumlah",
@@ -275,6 +274,7 @@
     "transferToken": "Pindah",
     "transferToSaving": "Pindah kepada simpanan",
     "powerUp": "Mengekuasai",
+    "withdrawToSaving": "Withdraw To Saving",
     "steemconnect_title": "Steemconnect Transfer"
   }
 }
