@@ -43,7 +43,8 @@ export const isLoginDone = () => ({
   type: IS_LOGIN_DONE,
 });
 
-export const openPinCodeModal = () => ({
+export const openPinCodeModal = payload => ({
+  payload,
   type: OPEN_PIN_CODE_MODAL,
 });
 

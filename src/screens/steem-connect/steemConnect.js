@@ -24,7 +24,7 @@ class SteemConnect extends PureComponent {
   _onNavigationStateChange = (event) => {
     let code;
     const {
-      dispatch, setPinCodeState, handleOnModalClose, intl,
+      dispatch, handleOnModalClose, intl,
     } = this.props;
     const { isLoading } = this.state;
     if (event.url.indexOf('?code=') > -1) {
@@ -44,9 +44,7 @@ class SteemConnect extends PureComponent {
               dispatch(updateCurrentAccount({ ...result }));
               dispatch(addOtherAccount({ username: result.name }));
               dispatch(loginAction(true));
-              dispatch(openPinCodeModal());
-              // TODO: return accesstoken
-              setPinCodeState({ accessToken: result.accessToken, navigateTo: ROUTES.DRAWER.MAIN });
+              dispatch(openPinCodeModal({ accessToken: result.accessToken, navigateTo: ROUTES.DRAWER.MAIN }));
             } else {
               // TODO: Error alert (Toast Message)
             }
