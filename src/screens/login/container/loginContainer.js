@@ -47,7 +47,7 @@ class LoginContainer extends PureComponent {
   // Component Functions
 
   _handleOnPressLogin = (username, password) => {
-    const { dispatch, setPinCodeState, intl } = this.props;
+    const { dispatch, intl } = this.props;
 
     this.setState({ isLoading: true });
 
@@ -56,8 +56,7 @@ class LoginContainer extends PureComponent {
         if (result) {
           dispatch(updateCurrentAccount({ ...result }));
           dispatch(addOtherAccount({ username: result.name }));
-          dispatch(openPinCodeModal());
-          setPinCodeState({ navigateTo: ROUTES.DRAWER.MAIN });
+          dispatch(openPinCodeModal({ navigateTo: ROUTES.DRAWER.MAIN }));
           dispatch(loginAction(true));
           userActivity(result.name, 20);
           this._setPushToken(result.name);
@@ -119,7 +118,7 @@ class LoginContainer extends PureComponent {
 
   render() {
     const { isLoading } = this.state;
-    const { navigation, setPinCodeState } = this.props;
+    const { navigation } = this.props;
     return (
       <LoginScreen
         handleOnPressLogin={this._handleOnPressLogin}
@@ -127,7 +126,6 @@ class LoginContainer extends PureComponent {
         handleSignUp={this._handleSignUp}
         isLoading={isLoading}
         navigation={navigation}
-        setPinCodeState={setPinCodeState}
       />
     );
   }

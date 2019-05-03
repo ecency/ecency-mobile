@@ -205,11 +205,10 @@ class SettingsContainer extends Component {
   };
 
   _handleButtonPress = (actionType) => {
-    const { dispatch, setPinCodeState } = this.props;
+    const { dispatch } = this.props;
     switch (actionType) {
       case 'pincode':
-        setPinCodeState({ isReset: true });
-        dispatch(openPinCodeModal());
+        dispatch(openPinCodeModal({ isReset: true }));
         break;
 
       case 'feedback':
