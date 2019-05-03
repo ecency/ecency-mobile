@@ -84,7 +84,6 @@ class ProfileScreen extends PureComponent {
       selectedUser,
       username,
       activePage,
-      setPinCodeState,
     } = this.props;
 
     const {
@@ -250,7 +249,6 @@ class ProfileScreen extends PureComponent {
                 <Wallet
                   setEstimatedWalletValue={this._setEstimatedWalletValue}
                   selectedUser={selectedUser}
-                  setPinCodeState={setPinCodeState}
                 />
               ) : (
                 <WalletDetailsPlaceHolder />

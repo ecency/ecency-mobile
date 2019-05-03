@@ -80,7 +80,7 @@ class PinCodeContainer extends Component {
 
   _resetPinCode = pin => new Promise((resolve, reject) => {
     const {
-      currentAccount, dispatch, accessToken, navigateTo, navigateParams, navigation, intl,
+      currentAccount, dispatch, pinCodeParams: { navigateTo, navigateParams, accessToken }, navigation, intl,
     } = this.props;
     const { isOldPinVerified, oldPinCode } = this.state;
 
@@ -135,7 +135,7 @@ class PinCodeContainer extends Component {
 
   _setFirstPinCode = pin => new Promise((resolve) => {
     const {
-      currentAccount, dispatch, accessToken, navigateTo, navigateParams, navigation,
+      currentAccount, dispatch, pinCodeParams: { navigateTo, navigateParams, accessToken }, navigation,
     } = this.props;
 
     const pinData = {
@@ -165,7 +165,7 @@ class PinCodeContainer extends Component {
 
   _verifyPinCode = pin => new Promise((resolve, reject) => {
     const {
-      currentAccount, dispatch, accessToken, navigateTo, navigateParams, navigation, intl,
+      currentAccount, dispatch, pinCodeParams: { navigateTo, navigateParams, accessToken }, navigation, intl,
     } = this.props;
 
     // If the user is exist, we are just checking to pin and navigating to home screen
@@ -184,7 +184,6 @@ class PinCodeContainer extends Component {
         [_currentAccount.local] = realmData;
         dispatch(updateCurrentAccount({ ..._currentAccount }));
         dispatch(closePinCodeModal());
-        console.log('navigateParams :', navigateParams);
         if (navigateTo) {
           navigation.navigate(navigateTo, navigateParams);
         }
@@ -311,7 +310,7 @@ class PinCodeContainer extends Component {
   };
 
   render() {
-    const { currentAccount, intl, isReset } = this.props;
+    const { currentAccount, intl, pinCodeParams: { isReset } } = this.props;
     const { informationText, isExistUser } = this.state;
 
     return (
@@ -332,6 +331,7 @@ const mapStateToProps = state => ({
   currentAccount: state.account.currentAccount,
   applicationPinCode: state.account.pin,
   otherAccounts: state.account.otherAccounts,
+  pinCodeParams: state.application.pinCodeNavigation,
 });
 
 export default injectIntl(connect(mapStateToProps)(PinCodeContainer));

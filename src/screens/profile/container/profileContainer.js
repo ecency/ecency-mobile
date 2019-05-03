@@ -352,7 +352,7 @@ class ProfileContainer extends Component {
       username,
     } = this.state;
     const {
-      isDarkTheme, isLoggedIn, currency, navigation, setPinCodeState,
+      isDarkTheme, isLoggedIn, currency, navigation,
     } = this.props;
     const activePage = (navigation.state.params && navigation.state.params.activePage) || 0;
 
@@ -382,7 +382,6 @@ class ProfileContainer extends Component {
         selectedQuickProfile={selectedQuickProfile}
         selectedUser={user}
         username={username}
-        setPinCodeState={setPinCodeState}
       />
     );
   }

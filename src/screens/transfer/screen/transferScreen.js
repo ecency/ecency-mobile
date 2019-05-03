@@ -75,7 +75,7 @@ class TransferView extends Component {
     }
   };
 
-  _renderInput = (placeholder, state) => (
+  _renderInput = (placeholder, state, keyboardType) => (
     <TextInput
       style={styles.input}
       onChangeText={text => this._setState(state, text)}
@@ -83,7 +83,7 @@ class TransferView extends Component {
       placeholder={placeholder}
       placeholderTextColor="#c1c5c7"
       autoCapitalize="none"
-      keyboardType="numeric"
+      keyboardType={keyboardType}
     />
   );
 
@@ -100,7 +100,7 @@ class TransferView extends Component {
   _renderDescription = text => <Text style={styles.description}>{text}</Text>;
 
   render() {
-    const { accounts, intl, handleOnModalClose, balance, fundType } = this.props;
+    const { accounts, intl, handleOnModalClose, balance, fundType, transferType } = this.props;
     const {
       destination, isUsernameValid, amount, steemConnectTransfer, memo,
     } = this.state;
@@ -113,7 +113,7 @@ class TransferView extends Component {
 
     return (
       <Fragment>
-        <BasicHeader title={intl.formatMessage({ id: 'transfer.title' })} />
+        <BasicHeader title={intl.formatMessage({ id: `transfer.${transferType}` })} />
         <View style={styles.container}>
           <View style={styles.topContent}>
             <UserAvatar
@@ -135,19 +135,20 @@ class TransferView extends Component {
               rightComponent={() => this._renderInput(
                 intl.formatMessage({ id: 'transfer.to_placeholder' }),
                 'destination',
+                'default',
               )
               }
             />
             <TransferFormItem
               label={intl.formatMessage({ id: 'transfer.amount' })}
-              rightComponent={() => this._renderInput(intl.formatMessage({ id: 'transfer.amount' }), 'amount')}
+              rightComponent={() => this._renderInput(intl.formatMessage({ id: 'transfer.amount' }), 'amount', 'numeric')}
             />
             <TransferFormItem
               rightComponent={() => this._renderDescription(`${intl.formatMessage({ id: 'transfer.amount_desc' })} ${balance} ${fundType}`)}
             />
             <TransferFormItem
               label={intl.formatMessage({ id: 'transfer.memo' })}
-              rightComponent={() => this._renderInput(intl.formatMessage({ id: 'transfer.memo_placeholder' }), 'memo')
+              rightComponent={() => this._renderInput(intl.formatMessage({ id: 'transfer.memo_placeholder' }), 'memo', 'default')
               }
             />
             <TransferFormItem

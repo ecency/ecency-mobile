@@ -139,7 +139,7 @@ class WalletContainer extends Component {
 
   render() {
     const {
-      currentAccount, selectedUser, isDarkTheme, setPinCodeState,
+      currentAccount, selectedUser, isDarkTheme,
     } = this.props;
     const { walletData, isClaiming, isRefreshing } = this.state;
 
@@ -153,7 +153,6 @@ class WalletContainer extends Component {
         handleOnWalletRefresh={this._handleOnWalletRefresh}
         isRefreshing={isRefreshing}
         isDarkTheme={isDarkTheme}
-        setPinCodeState={setPinCodeState}
       />
     );
   }
