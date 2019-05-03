@@ -100,7 +100,7 @@ class TransferView extends Component {
   _renderDescription = text => <Text style={styles.description}>{text}</Text>;
 
   render() {
-    const { accounts, intl, handleOnModalClose, balance, fundType } = this.props;
+    const { accounts, intl, handleOnModalClose, balance, fundType, transferType } = this.props;
     const {
       destination, isUsernameValid, amount, steemConnectTransfer, memo,
     } = this.state;
@@ -113,7 +113,7 @@ class TransferView extends Component {
 
     return (
       <Fragment>
-        <BasicHeader title={intl.formatMessage({ id: 'transfer.title' })} />
+        <BasicHeader title={intl.formatMessage({ id: `transfer.${transferType}` })} />
         <View style={styles.container}>
           <View style={styles.topContent}>
             <UserAvatar
