@@ -26,9 +26,19 @@ export default EStyleSheet.create({
   input: {
     borderWidth: 1,
     borderColor: '$borderColor',
-    borderRadius: 10,
+    borderRadius: 8,
     padding: 10,
     color: '$primaryBlack',
+    width: 172,
+  },
+  textarea: {
+    borderWidth: 1,
+    borderColor: '$borderColor',
+    borderRadius: 8,
+    padding: 10,
+    color: '$primaryBlack',
+    width: 172,
+    height: 75,
   },
   description: {
     color: '$iconColor',
@@ -42,16 +52,37 @@ export default EStyleSheet.create({
   buttonText: {
     color: 'white',
   },
-  dropdown: {
-    borderWidth: 1,
-    borderColor: '$borderColor',
-    borderRadius: 10,
-    flex: 1,
-    padding: 10,
-  },
   icon: {
     fontSize: 40,
     color: '$iconColor',
     marginHorizontal: 20,
+  },
+  rowTextStyle: {
+    fontSize: 12,
+    color: '$primaryDarkGray',
+    padding: 5,
+  },
+  dropdownText: {
+    fontSize: 14,
+    paddingLeft: 16,
+    paddingHorizontal: 14,
+    color: '$primaryDarkGray',
+  },
+  dropdownStyle: {
+    marginTop: 15,
+    minWidth: 192,
+    width: 192,
+    maxHeight: '$deviceHeight - 200',
+  },
+  dropdownButtonStyle: {
+    backgroundColor: '$primaryGray',
+    height: 44,
+    width: 172,
+    borderRadius: 8,
+    marginHorizontal: 2,
+  },
+  dropdown: {
+    flexGrow: 1,
+    width: 150,
   },
 });

@@ -32,6 +32,7 @@ class TransferView extends Component {
       memo: '',
       isUsernameValid: false,
       steemConnectTransfer: false,
+      isTransfering: false,
     };
   }
 
@@ -52,7 +53,9 @@ class TransferView extends Component {
           this.setState({ [key]: value });
           break;
         case 'amount':
-          if (!isNaN(value) && parseFloat(value) <= parseFloat(balance)) this.setState({ [key]: value });
+          if ((parseFloat(Number(value)) <= parseFloat(balance))) {
+            this.setState({ [key]: value });
+          }
           break;
 
         default:
@@ -68,6 +71,8 @@ class TransferView extends Component {
       from, destination, amount, memo,
     } = this.state;
 
+    this.setState({ isTransfering: true });
+
     if (accountType === AUTH_TYPE.STEEM_CONNECT) {
       this.setState({ steemConnectTransfer: true });
     } else {
@@ -75,34 +80,58 @@ class TransferView extends Component {
     }
   };
 
-  _renderInput = (placeholder, state, keyboardType) => (
+  _handleOnAmountChange = (state, amount) => {
+    let _amount = amount;
+    if (_amount.includes(',')) {
+      _amount = amount.replace(',', '.');
+    }
+
+    this._setState(state, _amount);
+  }
+
+  _renderInput = (placeholder, state, keyboardType, isTextArea) => (
     <TextInput
-      style={styles.input}
-      onChangeText={text => this._setState(state, text)}
+      style={[isTextArea ? styles.textarea : styles.input]}
+      onChangeText={amount => this._handleOnAmountChange(state, amount)}
       value={this.state[state]}
       placeholder={placeholder}
       placeholderTextColor="#c1c5c7"
       autoCapitalize="none"
+      multiline={isTextArea}
+      numberOfLines={isTextArea ? 4 : 1}
       keyboardType={keyboardType}
     />
   );
 
   _renderDropdown = accounts => (
     <DropdownButton
+      dropdownButtonStyle={styles.dropdownButtonStyle}
+      rowTextStyle={styles.rowTextStyle}
       style={styles.dropdown}
+      dropdownStyle={styles.dropdownStyle}
+      textStyle={styles.dropdownText}
       options={accounts.map(item => item.username)}
       defaultText={accounts[0].username}
       selectedOptionIndex={0}
-      onSelect={(index, value) => this.setState({ from: value })}
+      onSelect={(index, value) => this._handleOnDropdownChange(value)}
     />
   );
+
+  _handleOnDropdownChange = (value) => {
+    const { fetchBalance } = this.props;
+
+    fetchBalance(value);
+    this.setState({ from: value });
+  }
 
   _renderDescription = text => <Text style={styles.description}>{text}</Text>;
 
   render() {
-    const { accounts, intl, handleOnModalClose, balance, fundType, transferType } = this.props;
     const {
-      destination, isUsernameValid, amount, steemConnectTransfer, memo,
+      accounts, intl, handleOnModalClose, balance, fundType, transferType,
+    } = this.props;
+    const {
+      destination, isUsernameValid, amount, steemConnectTransfer, memo, isTransfering,
     } = this.state;
 
     const path = `sign/transfer?from=${
@@ -148,7 +177,7 @@ class TransferView extends Component {
             />
             <TransferFormItem
               label={intl.formatMessage({ id: 'transfer.memo' })}
-              rightComponent={() => this._renderInput(intl.formatMessage({ id: 'transfer.memo_placeholder' }), 'memo', 'default')
+              rightComponent={() => this._renderInput(intl.formatMessage({ id: 'transfer.memo_placeholder' }), 'memo', 'default', true)
               }
             />
             <TransferFormItem
@@ -161,6 +190,7 @@ class TransferView extends Component {
               style={styles.button}
               isDisable={!(amount && isUsernameValid)}
               onPress={() => this.ActionSheet.show()}
+              isLoading={isTransfering}
             >
               <Text style={styles.buttonText}>NEXT</Text>
             </MainButton>
