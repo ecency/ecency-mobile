@@ -24,7 +24,6 @@ const RootContainer = () => (WrappedComponent) => {
     constructor(props) {
       super(props);
       this.state = {
-        pinCodeStates: null,
         wrappedComponentStates: null,
         appState: AppState.currentState,
       };
@@ -157,10 +156,6 @@ const RootContainer = () => (WrappedComponent) => {
       }, 1 * 60 * 1000);
     };
 
-    _setPinCodeState = async (data) => {
-      return this.setState({ pinCodeStates: { ...data } });
-    };
-
     _setWrappedComponentState = (data) => {
       this.setState({ wrappedComponentStates: { ...data } });
     };
@@ -203,7 +198,7 @@ const RootContainer = () => (WrappedComponent) => {
 
     render() {
       const { isPinCodeReqiure, navigation } = this.props;
-      const { pinCodeStates, wrappedComponentStates } = this.state;
+      const { wrappedComponentStates } = this.state;
 
       return (
         <Fragment>
@@ -214,7 +209,6 @@ const RootContainer = () => (WrappedComponent) => {
             backButtonClose={false}
           >
             <PinCode
-              {...pinCodeStates}
               setWrappedComponentState={this._setWrappedComponentState}
               navigation={navigation}
             />
@@ -222,7 +216,6 @@ const RootContainer = () => (WrappedComponent) => {
           <WrappedComponent
             {...this.props}
             {...wrappedComponentStates}
-            setPinCodeState={this._setPinCodeState}
           />
           {Platform.OS === 'android' && <PostButtonForAndroid />}
         </Fragment>

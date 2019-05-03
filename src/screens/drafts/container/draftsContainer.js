@@ -93,7 +93,6 @@ class DraftsContainer extends Component {
       .then((res) => {
         const { schedules } = this.state;
         const newSchedules = [...schedules].filter(schedule => schedule._id !== id);
-        console.log(res);
 
         this.setState({ schedules: this._sortData(newSchedules, true) });
       })

@@ -96,6 +96,7 @@ class ExampleContainer extends Component {
 
     const fundType = navigation.getParam('fundType', '');
     const balance = navigation.getParam('balance', '');
+    const transferType = navigation.getParam('transferType', '');
 
     return (
       <TransferView
@@ -106,6 +107,7 @@ class ExampleContainer extends Component {
         accountType={currentAccount.local.authType}
         balance={balance}
         fundType={fundType}
+        transferType={transferType}
       />
     );
   }
