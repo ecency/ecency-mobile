@@ -262,7 +262,6 @@
     "age": "idade"
   },
   "transfer": {
-    "title": "Transferir para a conta",
     "from": "De",
     "to": "Para",
     "amount": "Quantia",
@@ -275,6 +274,7 @@
     "transferToken": "Transferir",
     "transferToSaving": "Transferir para Poupanças",
     "powerUp": "Carregar Poder",
+    "withdrawToSaving": "Withdraw To Saving",
     "steemconnect_title": "Transferência por Steemconnect"
   }
 }

@@ -262,7 +262,6 @@
     "age": "âge"
   },
   "transfer": {
-    "title": "Transfer To Account",
     "from": "De",
     "to": "À",
     "amount": "Montant",
@@ -275,6 +274,7 @@
     "transferToken": "Transfer",
     "transferToSaving": "Transfer To Saving",
     "powerUp": "Power Up",
+    "withdrawToSaving": "Withdraw To Saving",
     "steemconnect_title": "Transfert Steemconnect"
   }
 }

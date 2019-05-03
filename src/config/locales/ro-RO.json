@@ -262,7 +262,6 @@
     "age": "vechime"
   },
   "transfer": {
-    "title": "Transferă către contul",
     "from": "De la",
     "to": "Către",
     "amount": "Sumă",
@@ -275,6 +274,7 @@
     "transferToken": "Transferă",
     "transferToSaving": "Tranferă la economii",
     "powerUp": "Power Up",
+    "withdrawToSaving": "Withdraw To Saving",
     "steemconnect_title": "Transfer Steemconnect"
   }
 }

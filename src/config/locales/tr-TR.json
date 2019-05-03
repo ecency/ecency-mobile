@@ -262,7 +262,6 @@
     "age": "yaş"
   },
   "transfer": {
-    "title": "Hesaba aktar",
     "from": "Gönderen",
     "to": "Kime",
     "amount": "Miktar",
@@ -275,6 +274,7 @@
     "transferToken": "Havale",
     "transferToSaving": "Tasarrufa Aktar",
     "powerUp": "Güç yükselt",
+    "withdrawToSaving": "Withdraw To Saving",
     "steemconnect_title": "Steemconnect Aktarımı"
   }
 }
