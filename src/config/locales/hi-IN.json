@@ -262,7 +262,6 @@
     "age": "उम्र"
   },
   "transfer": {
-    "title": "अकाउंट में स्थान्तरित करें",
     "from": "से",
     "to": "को",
     "amount": "रकम",
@@ -275,6 +274,7 @@
     "transferToken": "स्थान्तरण",
     "transferToSaving": "बचत खाते में स्थान्तरण करें",
     "powerUp": "स्टीम क्षमता बढ़ाएं",
+    "withdrawToSaving": "Withdraw To Saving",
     "steemconnect_title": "स्टीमकनेक्ट स्थान्तरण"
   }
 }
