@@ -125,17 +125,12 @@ class TransferView extends Component {
   _renderDescription = text => <Text style={styles.description}>{text}</Text>;
 
   render() {
-<<<<<<< HEAD
-    const { accounts, intl, handleOnModalClose, balance, fundType, transferType } = this.props;
-    const { destination, isUsernameValid, amount, steemConnectTransfer, memo } = this.state;
-=======
     const {
       accounts, intl, handleOnModalClose, balance, fundType, transferType,
     } = this.props;
     const {
       destination, isUsernameValid, amount, steemConnectTransfer, memo, isTransfering,
     } = this.state;
->>>>>>> feb784d9679b44d20148f7770d7d1a3ff3a6b357
 
     const path = `sign/transfer?from=${
       accounts[0].username
@@ -147,7 +142,6 @@ class TransferView extends Component {
       <Fragment>
         <BasicHeader title={intl.formatMessage({ id: `transfer.${transferType}` })} />
         <View style={styles.container}>
-<<<<<<< HEAD
           <ScrollView>
             <View style={styles.topContent}>
               <UserAvatar
@@ -200,6 +194,7 @@ class TransferView extends Component {
                     intl.formatMessage({ id: 'transfer.memo_placeholder' }),
                     'memo',
                     'default',
+                    true,
                   )
                 }
               />
@@ -214,64 +209,12 @@ class TransferView extends Component {
                 style={styles.button}
                 isDisable={!(amount && isUsernameValid)}
                 onPress={() => this.ActionSheet.show()}
+                isLoading={isTransfering}
               >
                 <Text style={styles.buttonText}>NEXT</Text>
               </MainButton>
             </View>
           </ScrollView>
-=======
-          <View style={styles.topContent}>
-            <UserAvatar
-              username={accounts[0].username}
-              size="xl"
-              style={styles.userAvatar}
-              noAction
-            />
-            <Icon style={styles.icon} name="arrow-forward" iconType="MaterialIcons" />
-            <UserAvatar username={destination} size="xl" style={styles.userAvatar} noAction />
-          </View>
-          <View style={styles.middleContent}>
-            <TransferFormItem
-              label={intl.formatMessage({ id: 'transfer.from' })}
-              rightComponent={() => this._renderDropdown(accounts)}
-            />
-            <TransferFormItem
-              label={intl.formatMessage({ id: 'transfer.to' })}
-              rightComponent={() => this._renderInput(
-                intl.formatMessage({ id: 'transfer.to_placeholder' }),
-                'destination',
-                'default',
-              )
-              }
-            />
-            <TransferFormItem
-              label={intl.formatMessage({ id: 'transfer.amount' })}
-              rightComponent={() => this._renderInput(intl.formatMessage({ id: 'transfer.amount' }), 'amount', 'numeric')}
-            />
-            <TransferFormItem
-              rightComponent={() => this._renderDescription(`${intl.formatMessage({ id: 'transfer.amount_desc' })} ${balance} ${fundType}`)}
-            />
-            <TransferFormItem
-              label={intl.formatMessage({ id: 'transfer.memo' })}
-              rightComponent={() => this._renderInput(intl.formatMessage({ id: 'transfer.memo_placeholder' }), 'memo', 'default', true)
-              }
-            />
-            <TransferFormItem
-              rightComponent={() => this._renderDescription(intl.formatMessage({ id: 'transfer.memo_desc' }))
-              }
-            />
-          </View>
-          <View style={styles.bottomContent}>
-            <MainButton
-              style={styles.button}
-              isDisable={!(amount && isUsernameValid)}
-              onPress={() => this.ActionSheet.show()}
-              isLoading={isTransfering}
-            >
-              <Text style={styles.buttonText}>NEXT</Text>
-            </MainButton>
-          </View>
->>>>>>> feb784d9679b44d20148f7770d7d1a3ff3a6b357
         </View>
         <ActionSheet
           ref={o => (this.ActionSheet = o)}
