@@ -29,22 +29,30 @@ class TransferContainer extends Component {
 
   // Component Life Cycle Functions
   componentDidMount() {
-    const { currentAccount: { name }, navigation } = this.props;
+    const { currentAccount: { name } } = this.props;
 
-    const balance = navigation.getParam('balance', '');
-
-    this.setState({ balance });
-
-
-    if (!balance) this.fetchBalance(name);
+    this.fetchBalance(name);
   }
 
   // Component Functions
 
   fetchBalance = (username) => {
+    const { navigation } = this.props;
+    const fundType = navigation.getParam('fundType', '');
+
     getAccount(username)
       .then((account) => {
-        const balance = account[0].balance.replace('STEEM', '');
+        let balance;
+        switch (fundType) {
+          case 'STEEM':
+            balance = account[0].balance.replace(fundType, '');
+            break;
+          case 'SBD':
+            balance = account[0].sbd_balance.replace(fundType, '');
+            break;
+          default:
+            break;
+        }
 
         this.setState({ balance: Number(balance) });
       });
@@ -108,7 +116,7 @@ class TransferContainer extends Component {
 
   render() {
     const {
-      accounts, currentAccount, navigation, fetchBalance,
+      accounts, currentAccount, navigation,
     } = this.props;
     const { balance } = this.state;
 
@@ -123,6 +131,7 @@ class TransferContainer extends Component {
         transferToAccount={this._transferToAccount}
         handleOnModalClose={this._handleOnModalClose}
         accountType={currentAccount.local.authType}
+        currentAccountName={currentAccount.name}
         balance={balance}
         fundType={fundType}
         transferType={transferType}
