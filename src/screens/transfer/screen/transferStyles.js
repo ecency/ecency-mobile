@@ -5,7 +5,6 @@ export default EStyleSheet.create({
     flex: 1,
     backgroundColor: '$primaryBackgroundColor',
     justifyContent: 'center',
-    alignItems: 'center',
   },
   topContent: {
     flexDirection: 'row',
