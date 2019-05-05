@@ -23,7 +23,7 @@
     "comingsoon": "جدول رده بندی به زودی ارائه خواهد شد!",
     "notification": "اطلاعیه ها",
     "leaderboard": "جدول رده بندی",
-    "epoint": "Points",
+    "epoint": "امتیازها",
     "leaderboard_title": "بهترین کاربران روز",
     "recent": "اخیر",
     "yesterday": "دیروز",
@@ -32,16 +32,28 @@
     "older_then": "قدیمی تر از 1 ماه"
   },
   "points": {
-    "post": "Post",
-    "comment": "Comment",
-    "checkin": "Checki-in",
-    "post_title": "Points for post",
-    "comment_title": "Points for comment",
-    "vote_title": "Points for vote",
-    "reblog_title": "Points for reblog",
-    "login_title": "Points for login",
-    "checkin_title": "Points for usage",
-    "checkin_extra_title": "Usage bonus"
+    "post": "پست",
+    "comment": "نظر",
+    "checkin": "حاضری زدن",
+    "vote": "رأی",
+    "reblog": "اشتراک گذاری",
+    "login": "ورود",
+    "checkin_extra": "پاداش",
+    "post_title": "امتیاز برای ایجاد پست",
+    "comment_title": "امتیاز برای نظر دادن",
+    "vote_title": "امتیاز برای رای دادن",
+    "reblog_title": "امتیاز برای اشتراک گذاری",
+    "login_title": "امتیاز برای ورود به حساب کاربری",
+    "checkin_title": "امتیاز برای استفاده کردن",
+    "checkin_extra_title": "استفاده از پاداش",
+    "no_activity": "هیچ فعالیتی اینجا نیست!",
+    "post_desc": "شما میتوانید با ایجاد پست به طور منظم، امتیاز دریافت کنید. ایجاد پست ۱۵ امتیاز به شما میدهد.",
+    "comment_desc": "هر نظری که ثبت میکنید باعث میشود مخاطبان و دوستان خود را افزایش دهید و همچنین ۵ امتیاز را به همراه دارد.",
+    "checkin_desc": "Checking in on eSteem app gives you 0.25 points and helps you stay connected with your friends.",
+    "vote_desc": "شما با رای دادن به آثار دیگران قدردانی خود را نشان میدهید و علاوه بر آن به میزان (0.01 ×میزان رای شما ) امتیاز دریافت می کنید.",
+    "reblog_desc": "  پست های مورد علاقه خود را با دوستانتان به اشتراک بگذارید و 1 امتیاز دریافت کنید.",
+    "login_desc": "زمانی که شما توسط اپ eSteem وارد حساب کاربری خود شوید به صورت اتوماتیک 100 امتیاز دریافت خواهید کرد.",
+    "checkin_extra_desc": "استفاده مداوم از این اپ به شما شانس دریافت 10 امتیاز دیگر را می دهد، بیشتر فعال باشید و امتیازات بیشتری دریافت کنید."
   },
   "messages": {
     "comingsoon": "قابلیت ارسال پیام به زودی ارائه خواهد شد!"
@@ -163,10 +175,10 @@
     "allRead": "علامت زدن تمام اعلانات به عنوان خوانده شده",
     "claim_reward_balance_ok": "پاداش دریافت شده",
     "fail": "ناموفق!",
-    "move": "Move",
-    "move_question": "Are you sure to move to drafts?",
+    "move": "انتقال",
+    "move_question": "آیا مطمئن هستید که می خواهید به پیشنویس ها منتقل کنید؟",
     "success_shared": "مطلب شما با موفقیت منتشر شد",
-    "success_moved": "Moved to draft",
+    "success_moved": "به پیشنویس ها منتقل شد",
     "permission_denied": "خطای دسترسی",
     "permission_text": "لطفا به تنظیمات تلفن خود رفته و دسترسی eSteem را تغییر دهید.",
     "success_rebloged": "Rebloged!",
@@ -180,7 +192,8 @@
     "cancel": "لغو",
     "delete": "پاک کردن",
     "copied": "کپی شد!",
-    "no_internet": "اتصال برقرار نیست!"
+    "no_internet": "اتصال برقرار نیست!",
+    "confirm": "تأیید"
   },
   "post": {
     "reblog_alert": "آیا مطمئن هستید که می‌خواهید به اشتراک بگذارید؟"
@@ -247,5 +260,21 @@
     "reputation": "شهرت",
     "votes": "رأی‌ ها",
     "age": "سن"
+  },
+  "transfer": {
+    "from": "از",
+    "to": "به",
+    "amount": "مقدار",
+    "memo": "یادداشت",
+    "information": "آیا مطمئن هستید که میخواهید به حساب منابع مالی خود انتقال دهید؟",
+    "amount_desc": "موجودی",
+    "memo_desc": "این یادداشت عمومی است",
+    "to_placeholder": "نام کاربری",
+    "memo_placeholder": "یادداشت های خود را در اینجا وارد کنید",
+    "transferToken": "انتقال",
+    "transferToSaving": "انتقال به پس انداز",
+    "powerUp": "بالا بردن قدرت",
+    "withdrawToSaving": "Withdraw To Saving",
+    "steemconnect_title": "انتقال Steemconnect"
   }
 }

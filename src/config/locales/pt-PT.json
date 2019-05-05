@@ -35,13 +35,25 @@
     "post": "Post",
     "comment": "Comment",
     "checkin": "Checki-in",
+    "vote": "Votar",
+    "reblog": "Republicar",
+    "login": "Entrar",
+    "checkin_extra": "Bónus",
     "post_title": "Points for post",
     "comment_title": "Points for comment",
     "vote_title": "Points for vote",
     "reblog_title": "Points for reblog",
     "login_title": "Points for login",
     "checkin_title": "Points for usage",
-    "checkin_extra_title": "Usage bonus"
+    "checkin_extra_title": "Usage bonus",
+    "no_activity": "Nenhuma atividade aqui!",
+    "post_desc": "Você pode ganhar pontos ao postar regularmente. Postar dá 15 pontos.",
+    "comment_desc": "Cada comentário que faz ajuda a aumentar seu público e a fazer amizade, mas também ganha 5 pontos.",
+    "checkin_desc": "Verificando no aplicativo eSteem dá 0,25 pontos e ajuda a permanecer conectado com seus amigos.",
+    "vote_desc": "Ao votar, recompensa outros criadores e mostra seu apreço, mas também ganha 0,01 x pontos de peso de voto.",
+    "reblog_desc": "  Compartilhe o post que gosta com seus amigos e ganhe 1 ponto.",
+    "login_desc": "Quando entrar no aplicativo eSteem, você tem o direito de ganhar 100 pontos automaticamente.",
+    "checkin_extra_desc": "O uso consistente do aplicativo dá mais chances para ganhar mais 10 pontos, seja mais ativo e ganhar mais."
   },
   "messages": {
     "comingsoon": "Recurso de mensagens chega em breve!"
@@ -180,7 +192,8 @@
     "cancel": "Cancelar",
     "delete": "Apagar",
     "copied": "Copiado!",
-    "no_internet": "Sem ligação!"
+    "no_internet": "Sem ligação!",
+    "confirm": "Confirmar"
   },
   "post": {
     "reblog_alert": "Tem certeza de que deseja reblogar?"
@@ -247,5 +260,21 @@
     "reputation": "reputação",
     "votes": "votos",
     "age": "idade"
+  },
+  "transfer": {
+    "from": "De",
+    "to": "Para",
+    "amount": "Quantia",
+    "memo": "Memo",
+    "information": "Tem certeza que deseja transferir para fundos?",
+    "amount_desc": "Balanço",
+    "memo_desc": "Este memo é público",
+    "to_placeholder": "Utilizador",
+    "memo_placeholder": "Insira aqui as suas notas",
+    "transferToken": "Transferir",
+    "transferToSaving": "Transferir para Poupanças",
+    "powerUp": "Carregar Poder",
+    "withdrawToSaving": "Withdraw To Saving",
+    "steemconnect_title": "Transferência por Steemconnect"
   }
 }

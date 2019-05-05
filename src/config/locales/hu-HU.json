@@ -35,13 +35,25 @@
     "post": "Bejegyzés",
     "comment": "Hozzászólás",
     "checkin": "Checki-in",
+    "vote": "Szavazás",
+    "reblog": "Megosztás",
+    "login": "Bejelentkezés",
+    "checkin_extra": "Bónusz",
     "post_title": "Bejegyzés pontok",
     "comment_title": "Hozzászólás pontok",
     "vote_title": "Szavazási pontok",
     "reblog_title": "Megosztási pontok",
     "login_title": "Bejelentkezés pontok",
     "checkin_title": "Használati pontok",
-    "checkin_extra_title": "Használati bónusz"
+    "checkin_extra_title": "Használati bónusz",
+    "no_activity": "Itt nincs tevékenység!",
+    "post_desc": "Pontokat szerezhetsz rendszeres blogolással. Egy bejegyzés 15 pontot ér.",
+    "comment_desc": "Minden hozzászólásod segít abban, hogy növeld a táborod és követőket szerezz, továbbá 5 pontot hoz neked.",
+    "checkin_desc": "Az eSteem alkalmazásba történő bejelentkezés 0,25 pontot ér és segít abban, hogy kapcsolatban maradj a barátaiddal.",
+    "vote_desc": "Szavazás által megjutalmazol más alkotókat és elismerésed fejezed ki, de kaphatsz 0,01 x a szavazás értékéből.",
+    "reblog_desc": "  Ossz meg a barátaiddal pármilyen bejegyzést, ami tetszik és nyerj 1 pontot.",
+    "login_desc": "Minden eSteem bejelentkezés alkalmával automatikusan 100 pontra vagy jogosult.",
+    "checkin_extra_desc": "Az alkalmazás következetes használata extra esélyt kínál arra, hogy több 10 pontot nyerj, légy aktívabb és nyerj többet."
   },
   "messages": {
     "comingsoon": "Üzenetek funkció hamarosan érkezik!"
@@ -180,7 +192,8 @@
     "cancel": "Elvet",
     "delete": "Törlés",
     "copied": "Lemásolva!",
-    "no_internet": "Nincs kapcsolat!"
+    "no_internet": "Nincs kapcsolat!",
+    "confirm": "Megerősítés"
   },
   "post": {
     "reblog_alert": "Biztos, hogy megosztod?"
@@ -247,5 +260,21 @@
     "reputation": "reputáció",
     "votes": "szavazatok",
     "age": "időrend"
+  },
+  "transfer": {
+    "from": "Feladó",
+    "to": "Címzett",
+    "amount": "Összeg",
+    "memo": "Üzenet",
+    "information": "Bistoz átutalod a megtakarításokhoz?",
+    "amount_desc": "Egyenleg",
+    "memo_desc": "Ez az üzenet nyilvános",
+    "to_placeholder": "Felhasználónév",
+    "memo_placeholder": "Megjegyzés ide",
+    "transferToken": "Átutalás",
+    "transferToSaving": "Átutalás a megtakarításokhoz",
+    "powerUp": "Power Up",
+    "withdrawToSaving": "Withdraw To Saving",
+    "steemconnect_title": "Steemconnect átutalás"
   }
 }

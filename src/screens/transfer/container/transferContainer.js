@@ -8,14 +8,9 @@ import {
   transferFromSavings,
   transferToSavings,
   transferToVesting,
+  getAccount,
 } from '../../../providers/steem/dsteem';
 import { toastNotification } from '../../../redux/actions/uiAction';
-
-// Middleware
-
-// Constants
-
-// Utilities
 
 // Component
 import TransferView from '../screen/transferScreen';
@@ -26,15 +21,35 @@ import TransferView from '../screen/transferScreen';
  *
  */
 
-class ExampleContainer extends Component {
+class TransferContainer extends Component {
   constructor(props) {
     super(props);
     this.state = {};
   }
 
   // Component Life Cycle Functions
+  componentDidMount() {
+    const { currentAccount: { name }, navigation } = this.props;
+
+    const balance = navigation.getParam('balance', '');
+
+    this.setState({ balance });
+
+
+    if (!balance) this.fetchBalance(name);
+  }
 
   // Component Functions
+
+  fetchBalance = (username) => {
+    getAccount(username)
+      .then((account) => {
+        const balance = account[0].balance.replace('STEEM', '');
+
+        this.setState({ balance: Number(balance) });
+      });
+  }
+
   _getAccountsWithUsername = async (username) => {
     const validUsers = await lookupAccounts(username);
     return validUsers;
@@ -92,15 +107,18 @@ class ExampleContainer extends Component {
   };
 
   render() {
-    const { accounts, currentAccount, navigation } = this.props;
+    const {
+      accounts, currentAccount, navigation, fetchBalance,
+    } = this.props;
+    const { balance } = this.state;
 
     const fundType = navigation.getParam('fundType', '');
-    const balance = navigation.getParam('balance', '');
     const transferType = navigation.getParam('transferType', '');
 
     return (
       <TransferView
         accounts={accounts}
+        fetchBalance={this.fetchBalance}
         getAccountsWithUsername={this._getAccountsWithUsername}
         transferToAccount={this._transferToAccount}
         handleOnModalClose={this._handleOnModalClose}
@@ -119,4 +137,4 @@ const mapStateToProps = state => ({
   pinCode: state.account.pin,
 });
 
-export default connect(mapStateToProps)(ExampleContainer);
+export default connect(mapStateToProps)(TransferContainer);

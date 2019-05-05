@@ -23,7 +23,7 @@
     "comingsoon": "अधिनायक पटल सुविधा जल्द आने वाली है!",
     "notification": "अधिसूचनाएं",
     "leaderboard": "अधिनायकपटल",
-    "epoint": "Points",
+    "epoint": "अंक",
     "leaderboard_title": "प्रत्येक दिन का सर्वोच्च प्रयोगकर्ता",
     "recent": "ताजा",
     "yesterday": "बीता कल",
@@ -32,16 +32,28 @@
     "older_then": "एक महीना से अधिक पुराना"
   },
   "points": {
-    "post": "Post",
-    "comment": "Comment",
-    "checkin": "Checki-in",
-    "post_title": "Points for post",
-    "comment_title": "Points for comment",
-    "vote_title": "Points for vote",
-    "reblog_title": "Points for reblog",
-    "login_title": "Points for login",
-    "checkin_title": "Points for usage",
-    "checkin_extra_title": "Usage bonus"
+    "post": "लेख",
+    "comment": "टिप्पणी",
+    "checkin": "आगमन",
+    "vote": "वोट",
+    "reblog": "पुनर्प्रेशण",
+    "login": "लॉग इन करें",
+    "checkin_extra": "बोनस",
+    "post_title": "पद के लिए अंक",
+    "comment_title": "टिप्पणी के लिए अंक",
+    "vote_title": "वोट के लिए अंक",
+    "reblog_title": "पुनर्प्रेशण के लिए अंक",
+    "login_title": "लॉगिन के लिए अंक",
+    "checkin_title": "उपयोग के लिए अंक",
+    "checkin_extra_title": "उपयोग बोनस",
+    "no_activity": "यहां कोई गतिविधि नहीं!",
+    "post_desc": "आप नियमित रूप से पोस्ट करके बिंदु अर्जित कर सकते हैं। पोस्टिंग आपको 15 अंक देती है।",
+    "comment_desc": "आपके द्वारा की गई प्रत्येक टिप्पणी से आपको अपने दर्शकों को विकसित करने और दोस्ती करने में मदद मिलती है, लेकिन आपको 5 अंक भी मिलते हैं।",
+    "checkin_desc": "इस्टीम एप्प आपको 0. २५ प्रतिशत अंक देता है जुड़ने पर और मदद करता है दोस्तों के साथ जुड़े रहने में|",
+    "vote_desc": "मतदान करके आप अन्य रचनाकारों को इनाम देते हैं और अपनी प्रशंसा दिखाते हैं, लेकिन 0.01 x वोट वेट अंक भी अर्जित करते हैं।",
+    "reblog_desc": "  जिस पोस्ट को आप पसंद करते हैं उसे पुनर्प्रेशण करें और १ अंक पाएँ|",
+    "login_desc": "जब आप इस्टीम में लॉगिन करते हैं तो आप १०० अंकों के स्वतः दावेदार हो जाते हैं|",
+    "checkin_extra_desc": "आपको अतिरिक्त मौका मिलता है १० अंक प्राप्त करने का अगर एप्प को लगातार उपयोग करते हैं, अधिक से अधिक समय तक एप्प में सक्रिय रहें|"
   },
   "messages": {
     "comingsoon": "सन्देश सुविधा जल्द आ रही है!"
@@ -82,7 +94,7 @@
       "vote": "वोट",
       "comment": "टिप्पणी",
       "mention": "उल्लेख",
-      "reblog": "Reblog",
+      "reblog": "पुनर्प्रेशण",
       "transfers": "स्थानांतरण"
     },
     "pincode": "Pincode",
@@ -90,7 +102,7 @@
     "nsfw_content": "NSFW सामग्री",
     "send_feedback": "प्रतिक्रिया भेजें",
     "send": "भेजना",
-    "default_footer": "Default Footer",
+    "default_footer": "वितथ पृष्ठ पदांत",
     "nsfw": {
       "always_show": "हमेशा दिखाएं",
       "always_hide": "हमेशा छिपाए",
@@ -180,7 +192,8 @@
     "cancel": "रद्द करें",
     "delete": "मिटा दें",
     "copied": "प्रतिलिपि हो गयी!",
-    "no_internet": "संपर्क नहीं"
+    "no_internet": "संपर्क नहीं",
+    "confirm": "पुष्टी करें"
   },
   "post": {
     "reblog_alert": "क्या आप सच में पुनः प्रसारित करना चाहते हैं?"
@@ -247,5 +260,21 @@
     "reputation": "प्रतिष्ठा",
     "votes": "मत",
     "age": "उम्र"
+  },
+  "transfer": {
+    "from": "से",
+    "to": "को",
+    "amount": "रकम",
+    "memo": "ज्ञापन",
+    "information": "क्या आप रकम स्थान्तरित करना चाहते हैं?",
+    "amount_desc": "शेष रकम",
+    "memo_desc": "यह ज्ञापन सार्वजनिक है",
+    "to_placeholder": "प्रयोक्ता नाम",
+    "memo_placeholder": "अपनी टिप्पणी यहाँ लिखें",
+    "transferToken": "स्थान्तरण",
+    "transferToSaving": "बचत खाते में स्थान्तरण करें",
+    "powerUp": "स्टीम क्षमता बढ़ाएं",
+    "withdrawToSaving": "बचत खाते से निकालें",
+    "steemconnect_title": "स्टीमकनेक्ट स्थान्तरण"
   }
 }

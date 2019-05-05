@@ -84,11 +84,11 @@ export const makeJsonMetadataReply = tags => ({
 });
 
 export const makeJsonMetadata = (meta, tags) => Object.assign({}, meta, {
-    tags,
-    app: 'esteem/2.0.0-mobile',
-    format: 'markdown+html',
-    community: 'esteem.app',
-  });
+  tags,
+  app: 'esteem/2.0.0-mobile',
+  format: 'markdown+html',
+  community: 'esteem.app',
+});
 
 export const extractMetadata = (body) => {
   const urlReg = /(\b(https?|ftp):\/\/[A-Z0-9+&@#/%?=~_|!:,.;-]*[-A-Z0-9+&@#/%=~_|])/gim;

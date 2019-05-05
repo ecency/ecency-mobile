@@ -3,24 +3,28 @@ import EStyleSheet from 'react-native-extended-stylesheet';
 export default EStyleSheet.create({
   pointText: {
     color: '$primaryBlue',
-    fontSize: 24,
+    fontSize: 26,
     marginTop: 24,
     justifyContent: 'center',
     alignSelf: 'center',
     fontWeight: 'bold',
   },
   subText: {
-    color: '$tagColor',
+    color: '$darkIconColor',
     fontSize: 8,
     justifyContent: 'center',
     alignSelf: 'center',
     marginTop: 5,
   },
   iconsWrapper: {
-    marginVertical: 32,
+    marginVertical: 24,
+    marginHorizontal: 32,
     justifyContent: 'center',
     alignSelf: 'center',
     flexDirection: 'row',
+  },
+  iconsList: {
+    height: 55,
   },
   iconWrapper: {
     marginHorizontal: 16,
@@ -30,6 +34,10 @@ export default EStyleSheet.create({
     backgroundColor: '$primaryGrayBackground',
     justifyContent: 'center',
     alignItems: 'center',
+  },
+  iconButton: {
+    marginTop: 1,
+    marginLeft: 1,
   },
   activeIconWrapper: {
     backgroundColor: '$primaryBlue',
@@ -43,12 +51,11 @@ export default EStyleSheet.create({
   },
   badge: {
     position: 'absolute',
-    right: -7,
+    right: -9,
     top: 20,
     backgroundColor: '$primaryBlue',
     justifyContent: 'center',
     alignItems: 'center',
-    zIndex: 99,
     padding: 2,
     height: 12,
     minWidth: 18,
@@ -89,5 +96,31 @@ export default EStyleSheet.create({
     marginLeft: 20,
     width: 24,
     height: 24,
+  },
+  scrollContainer: {
+    flex: 1,
+  },
+  popoverDetails: {
+    flexDirection: 'row',
+    height: 130,
+    width: '$deviceWidth /2',
+    borderRadius: 20,
+    paddingHorizontal: 26,
+    backgroundColor: '$primaryBackgroundColor',
+  },
+  arrow: {
+    borderTopColor: '$primaryBackgroundColor',
+  },
+  popoverWrapper: {
+    flex: 1,
+    flexDirection: 'row',
+    justifyContent: 'space-between',
+    alignItems: 'center',
+  },
+  overlay: {
+    backgroundColor: '#403c4449',
+  },
+  popoverText: {
+    color: '$primaryDarkText',
   },
 });

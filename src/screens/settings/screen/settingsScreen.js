@@ -63,7 +63,7 @@ class SettingsScreen extends PureComponent {
           })}
         />
 
-        <ScrollView>
+        <ScrollView style={styles.container}>
           <View style={styles.settingsCard}>
             <SettingsItem
               title={intl.formatMessage({

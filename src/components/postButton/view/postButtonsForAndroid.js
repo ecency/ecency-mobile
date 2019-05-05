@@ -35,7 +35,7 @@ class PostButtonsForAndroid extends Component {
     // For closing sub buttons
     const { routes, isCollapsePostButtonOpen } = this.props;
     const nextRouteName = nextProps.routes[0].routes[nextProps.routes[0].routes.length - 1].routeName;
-    const routeName = routes[0].routes[routes[0].routes.length - 1].routeName;
+    const { routeName } = routes[0].routes[routes[0].routes.length - 1];
     const { isCollapse } = this.state;
 
     if (

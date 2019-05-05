@@ -55,7 +55,7 @@ class NotificationLineView extends PureComponent {
     });
 
     if (notification.weight) {
-      const _percent = `${(notification.weight / 100).toFixed(0)}% `;
+      const _percent = `${parseFloat((notification.weight / 100).toFixed(2))}% `;
 
       _title = _percent + _title;
     }

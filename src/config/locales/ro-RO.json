@@ -35,13 +35,25 @@
     "post": "Postare",
     "comment": "Comentariu",
     "checkin": "Checki-in",
+    "vote": "Vot",
+    "reblog": "Redistribuire",
+    "login": "Autentificare",
+    "checkin_extra": "Bonus",
     "post_title": "Puncte pentru postare",
     "comment_title": "Puncte pentru comentariu",
     "vote_title": "Puncte pentru vot",
     "reblog_title": "Puncte pentru reblog",
     "login_title": "Puncte pentru autentificare",
     "checkin_title": "Puncte pentru utilizare",
-    "checkin_extra_title": "Bonus de utilizare"
+    "checkin_extra_title": "Bonus de utilizare",
+    "no_activity": "Nici o activitate aici!",
+    "post_desc": "Poți câștiga puncte postând regulat. Fiecare postare își aduce 15 puncte.",
+    "comment_desc": "Fiecare comentariu te ajută să îți crești audiența și să iti faci prieteni. De asemenea, câștigi 5 puncte.",
+    "checkin_desc": "Autentificarea prin aplicația eSteem îți aduce 0.25 puncte și te ajută să rămâi conectat cu prietenii tăi și comunitatea.",
+    "vote_desc": "Votând oferi recompense altor creatori de conținut și le arăți aprecierea ta. De asemenea, câștigi 0.01 din valoarea votului în puncte.",
+    "reblog_desc": "  Distribuie postările care îți plac pentru prietenii tăi și câștigă 1 punct.",
+    "login_desc": "Când te autentifici în aplicația eSteem câștigi 100 de puncte automat.",
+    "checkin_extra_desc": "Utilizarea constantă a aplicației îți oferă șanse în plus pentru câștigarea a 10 puncte. Fii cât mai activ și câștigă mai mult."
   },
   "messages": {
     "comingsoon": "Funcția mesaje va fi disponibilă in curând!"
@@ -180,7 +192,8 @@
     "cancel": "Anulează",
     "delete": "Șterge",
     "copied": "Copiat!",
-    "no_internet": "Nu există conexiune!"
+    "no_internet": "Nu există conexiune!",
+    "confirm": "Confirmă"
   },
   "post": {
     "reblog_alert": "Ești sigur că vrei să redistribui?"
@@ -247,5 +260,21 @@
     "reputation": "reputație",
     "votes": "voturi",
     "age": "vechime"
+  },
+  "transfer": {
+    "from": "De la",
+    "to": "Către",
+    "amount": "Sumă",
+    "memo": "Notă",
+    "information": "Ești sigur că vrei să transferi la fonduri?",
+    "amount_desc": "Sold",
+    "memo_desc": "Această notă este publică",
+    "to_placeholder": "Nume de utilizator",
+    "memo_placeholder": "Introdu comentariul tău aici",
+    "transferToken": "Transferă",
+    "transferToSaving": "Tranferă la economii",
+    "powerUp": "Power Up",
+    "withdrawToSaving": "Withdraw To Saving",
+    "steemconnect_title": "Transfer Steemconnect"
   }
 }
