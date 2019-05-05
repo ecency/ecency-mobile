@@ -129,7 +129,7 @@ class TransferView extends Component {
       accounts, intl, handleOnModalClose, balance, fundType, transferType,
     } = this.props;
     const {
-      destination, isUsernameValid, amount, steemConnectTransfer, memo, isTransfering,
+      destination, isUsernameValid, amount, steemConnectTransfer, memo, isTransfering, from,
     } = this.state;
 
     const path = `sign/transfer?from=${
@@ -145,7 +145,7 @@ class TransferView extends Component {
           <ScrollView>
             <View style={styles.topContent}>
               <UserAvatar
-                username={accounts[0].username}
+                username={from}
                 size="xl"
                 style={styles.userAvatar}
                 noAction
