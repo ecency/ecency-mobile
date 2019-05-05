@@ -1,6 +1,6 @@
 /* eslint-disable no-restricted-globals */
 import React, { Fragment, Component } from 'react';
-import { Text, View, WebView } from 'react-native';
+import { Text, View, WebView, ScrollView } from 'react-native';
 import ActionSheet from 'react-native-actionsheet';
 import { injectIntl } from 'react-intl';
 
@@ -44,7 +44,7 @@ class TransferView extends Component {
     if (key) {
       switch (key) {
         case 'destination':
-          getAccountsWithUsername(value).then((res) => {
+          getAccountsWithUsername(value).then(res => {
             const isValid = res.includes(value);
 
             this.setState({ isUsernameValid: isValid });
@@ -52,7 +52,8 @@ class TransferView extends Component {
           this.setState({ [key]: value });
           break;
         case 'amount':
-          if (!isNaN(value) && parseFloat(value) <= parseFloat(balance)) this.setState({ [key]: value });
+          if (!isNaN(value) && parseFloat(value) <= parseFloat(balance))
+            this.setState({ [key]: value });
           break;
 
         default:
@@ -64,9 +65,7 @@ class TransferView extends Component {
 
   _handleTransferAction = () => {
     const { transferToAccount, accountType } = this.props;
-    const {
-      from, destination, amount, memo,
-    } = this.state;
+    const { from, destination, amount, memo } = this.state;
 
     if (accountType === AUTH_TYPE.STEEM_CONNECT) {
       this.setState({ steemConnectTransfer: true });
@@ -101,9 +100,7 @@ class TransferView extends Component {
 
   render() {
     const { accounts, intl, handleOnModalClose, balance, fundType, transferType } = this.props;
-    const {
-      destination, isUsernameValid, amount, steemConnectTransfer, memo,
-    } = this.state;
+    const { destination, isUsernameValid, amount, steemConnectTransfer, memo } = this.state;
 
     const path = `sign/transfer?from=${
       accounts[0].username
@@ -115,56 +112,77 @@ class TransferView extends Component {
       <Fragment>
         <BasicHeader title={intl.formatMessage({ id: `transfer.${transferType}` })} />
         <View style={styles.container}>
-          <View style={styles.topContent}>
-            <UserAvatar
-              username={accounts[0].username}
-              size="xl"
-              style={styles.userAvatar}
-              noAction
-            />
-            <Icon style={styles.icon} name="arrow-forward" iconType="MaterialIcons" />
-            <UserAvatar username={destination} size="xl" style={styles.userAvatar} noAction />
-          </View>
-          <View style={styles.middleContent}>
-            <TransferFormItem
-              label={intl.formatMessage({ id: 'transfer.from' })}
-              rightComponent={() => this._renderDropdown(accounts)}
-            />
-            <TransferFormItem
-              label={intl.formatMessage({ id: 'transfer.to' })}
-              rightComponent={() => this._renderInput(
-                intl.formatMessage({ id: 'transfer.to_placeholder' }),
-                'destination',
-                'default',
-              )
-              }
-            />
-            <TransferFormItem
-              label={intl.formatMessage({ id: 'transfer.amount' })}
-              rightComponent={() => this._renderInput(intl.formatMessage({ id: 'transfer.amount' }), 'amount', 'numeric')}
-            />
-            <TransferFormItem
-              rightComponent={() => this._renderDescription(`${intl.formatMessage({ id: 'transfer.amount_desc' })} ${balance} ${fundType}`)}
-            />
-            <TransferFormItem
-              label={intl.formatMessage({ id: 'transfer.memo' })}
-              rightComponent={() => this._renderInput(intl.formatMessage({ id: 'transfer.memo_placeholder' }), 'memo', 'default')
-              }
-            />
-            <TransferFormItem
-              rightComponent={() => this._renderDescription(intl.formatMessage({ id: 'transfer.memo_desc' }))
-              }
-            />
-          </View>
-          <View style={styles.bottomContent}>
-            <MainButton
-              style={styles.button}
-              isDisable={!(amount && isUsernameValid)}
-              onPress={() => this.ActionSheet.show()}
-            >
-              <Text style={styles.buttonText}>NEXT</Text>
-            </MainButton>
-          </View>
+          <ScrollView>
+            <View style={styles.topContent}>
+              <UserAvatar
+                username={accounts[0].username}
+                size="xl"
+                style={styles.userAvatar}
+                noAction
+              />
+              <Icon style={styles.icon} name="arrow-forward" iconType="MaterialIcons" />
+              <UserAvatar username={destination} size="xl" style={styles.userAvatar} noAction />
+            </View>
+            <View style={styles.middleContent}>
+              <TransferFormItem
+                label={intl.formatMessage({ id: 'transfer.from' })}
+                rightComponent={() => this._renderDropdown(accounts)}
+              />
+              <TransferFormItem
+                label={intl.formatMessage({ id: 'transfer.to' })}
+                rightComponent={() =>
+                  this._renderInput(
+                    intl.formatMessage({ id: 'transfer.to_placeholder' }),
+                    'destination',
+                    'default',
+                  )
+                }
+              />
+              <TransferFormItem
+                label={intl.formatMessage({ id: 'transfer.amount' })}
+                rightComponent={() =>
+                  this._renderInput(
+                    intl.formatMessage({ id: 'transfer.amount' }),
+                    'amount',
+                    'numeric',
+                  )
+                }
+              />
+              <TransferFormItem
+                rightComponent={() =>
+                  this._renderDescription(
+                    `${intl.formatMessage({
+                      id: 'transfer.amount_desc',
+                    })} ${balance} ${fundType}`,
+                  )
+                }
+              />
+              <TransferFormItem
+                label={intl.formatMessage({ id: 'transfer.memo' })}
+                rightComponent={() =>
+                  this._renderInput(
+                    intl.formatMessage({ id: 'transfer.memo_placeholder' }),
+                    'memo',
+                    'default',
+                  )
+                }
+              />
+              <TransferFormItem
+                rightComponent={() =>
+                  this._renderDescription(intl.formatMessage({ id: 'transfer.memo_desc' }))
+                }
+              />
+            </View>
+            <View style={styles.bottomContent}>
+              <MainButton
+                style={styles.button}
+                isDisable={!(amount && isUsernameValid)}
+                onPress={() => this.ActionSheet.show()}
+              >
+                <Text style={styles.buttonText}>NEXT</Text>
+              </MainButton>
+            </View>
+          </ScrollView>
         </View>
         <ActionSheet
           ref={o => (this.ActionSheet = o)}
@@ -175,7 +193,7 @@ class TransferView extends Component {
           title={intl.formatMessage({ id: 'transfer.information' })}
           cancelButtonIndex={1}
           destructiveButtonIndex={0}
-          onPress={(index) => {
+          onPress={index => {
             index === 0 ? this._handleTransferAction() : null;
           }}
         />
