@@ -4,6 +4,7 @@ import { withNavigation } from 'react-navigation';
 import { injectIntl } from 'react-intl';
 
 import HTML from 'react-native-html-renderer';
+import { getParentsTagsRecursively } from 'react-native-html-renderer/src/HTMLUtils';
 // Styles
 import styles from './postBodyStyles';
 
@@ -159,6 +160,12 @@ class PostBody extends PureComponent {
     }
   };
 
+  _alterData = (node) => {
+    if (node.type === 'text' && node.data.includes('markdown-author-link') && node.parent && getParentsTagsRecursively(node.parent).includes('code')) {
+      return node.data.replace(/<[^>]*>/g, '');
+    }
+  }
+
   render() {
     const { body, isComment } = this.props;
     const _initialDimensions = isComment
@@ -181,6 +188,7 @@ class PostBody extends PureComponent {
           baseFontStyle={styles.text}
           imagesMaxWidth={isComment ? WIDTH - 50 : WIDTH}
           alterNode={e => this._alterNode(e, isComment)}
+          alterData={e => this._alterData(e)}
         />
       </Fragment>
     );

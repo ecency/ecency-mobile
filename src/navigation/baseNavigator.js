@@ -7,7 +7,7 @@ import ROUTES from '../constants/routeNames';
 // Components
 import { Icon, IconContainer } from '../components/icon';
 import {
-  Home, Notification, Profile, RootComponent, Messages,
+  Home, Notification, Profile, RootComponent, Points,
 } from '../screens';
 import { PostButton } from '../components/postButton';
 import { BottomTabBar } from '../components/bottomTabBar';
@@ -50,14 +50,14 @@ const BaseNavigator = createBottomTabNavigator(
         tabBarIcon: <PostButton />,
       }),
     },
-    [ROUTES.TABBAR.MESSAGES]: {
-      screen: RootComponent()(Messages),
+    [ROUTES.TABBAR.POINTS]: {
+      screen: RootComponent()(Points),
       navigationOptions: () => ({
         tabBarIcon: ({ tintColor }) => (
           <Icon
-            iconType="MaterialIcons"
+            iconType="MaterialCommunityIcons"
             style={{ padding: 15 }}
-            name="mail-outline"
+            name="gift"
             color={tintColor}
             size={26}
           />

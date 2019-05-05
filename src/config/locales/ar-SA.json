@@ -35,13 +35,25 @@
     "post": "منشور",
     "comment": "تعليق",
     "checkin": "Checki-in",
+    "vote": "Vote",
+    "reblog": "Reblog",
+    "login": "Login",
+    "checkin_extra": "Bonus",
     "post_title": "نقاط للمنشور",
     "comment_title": "نقاط للتعليق",
     "vote_title": "نقاط للتصويت",
     "reblog_title": "نقاط لإعادة النشر",
     "login_title": "نقاط لتسجيل الدخول",
     "checkin_title": "نقاط للاستخدام",
-    "checkin_extra_title": "مكافأة الاستخدام"
+    "checkin_extra_title": "مكافأة الاستخدام",
+    "no_activity": "No activity here!",
+    "post_desc": "You can earn point by posting regularly. Posting gives you 15 points.",
+    "comment_desc": "Each comment you make helps you to grow your audience and make friendship but also earns you 5 points.",
+    "checkin_desc": "Checking in on eSteem app gives you 0.25 points and helps you stay connected with your friends.",
+    "vote_desc": "By voting you give reward to other creators and show your appreciation but also earn 0.01 x vote weight points.",
+    "reblog_desc": "  Share what post you like with your friends and earn 1 points.",
+    "login_desc": "When you login into eSteem app you are entitled to earn 100 points automatically.",
+    "checkin_extra_desc": "Consistent use of app gives you extra chances to earn more 10 points, be more active and earn more."
   },
   "messages": {
     "comingsoon": "ميزة الرسائل سوف تأتي قريباً!"
@@ -180,7 +192,8 @@
     "cancel": "إلغاء",
     "delete": "حذف",
     "copied": "تم النسخ!",
-    "no_internet": "لا يوجد اتصال!"
+    "no_internet": "لا يوجد اتصال!",
+    "confirm": "Confirm"
   },
   "post": {
     "reblog_alert": "هل أنت متأكد من رغبتك في إعادة التدوين؟"
@@ -247,5 +260,21 @@
     "reputation": "السمعة",
     "votes": "الأصوات",
     "age": "العمر"
+  },
+  "transfer": {
+    "from": "From",
+    "to": "To",
+    "amount": "Amount",
+    "memo": "Memo",
+    "information": "Are you sure to transfer to funds?",
+    "amount_desc": "Balance",
+    "memo_desc": "This memo is public",
+    "to_placeholder": "Username",
+    "memo_placeholder": "Enter your notes here",
+    "transferToken": "Transfer",
+    "transferToSaving": "Transfer To Saving",
+    "powerUp": "Power Up",
+    "withdrawToSaving": "Withdraw To Saving",
+    "steemconnect_title": "Steemconnect Transfer"
   }
 }

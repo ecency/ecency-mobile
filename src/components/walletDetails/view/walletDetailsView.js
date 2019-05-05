@@ -43,7 +43,9 @@ class WalletDetailsView extends PureComponent {
           rightText={`${Math.round(walletData.balance * 1000) / 1000} STEEM`}
           isBoldText
           dropdown
-          dropdownOptions={steemDropdown.map(item => intl.formatMessage({ id: `transfer.${item}` }))}
+          dropdownOptions={steemDropdown.map(item =>
+            intl.formatMessage({ id: `transfer.${item}` }),
+          )}
           onDropdownSelect={index => navigate(steemDropdown[index], 'STEEM')}
         />
         <GrayWrapper isGray>

@@ -112,7 +112,7 @@ class CommentView extends PureComponent {
                         />
                         <ActionSheet
                           ref={o => (this.ActionSheet = o)}
-                          options={['Reblog', intl.formatMessage({ id: 'alert.cancel' })]}
+                          options={[intl.formatMessage({ id: 'alert.delete' }), intl.formatMessage({ id: 'alert.cancel' })]}
                           title={intl.formatMessage({ id: 'alert.delete' })}
                           destructiveButtonIndex={0}
                           cancelButtonIndex={1}

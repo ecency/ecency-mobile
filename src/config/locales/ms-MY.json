@@ -35,13 +35,25 @@
     "post": "Hantar",
     "comment": "Komen",
     "checkin": "Mata ganjaran -> dimasukkan",
+    "vote": "Vote",
+    "reblog": "Ulang siar",
+    "login": "Log Masuk",
+    "checkin_extra": "Mata ganjaran",
     "post_title": "Mata ganjaran -> post_title",
     "comment_title": "Mata ganjaran -> comment_title",
     "vote_title": "Mata ganjaran -> vote_title",
     "reblog_title": "Mata ganjaran -> reblog_title",
     "login_title": "Mata ganjaran log masuk",
     "checkin_title": "Mata ganjaran kegunaan",
-    "checkin_extra_title": "Bonus kegunaan"
+    "checkin_extra_title": "Bonus kegunaan",
+    "no_activity": "Tiada aktiviti di sini!",
+    "post_desc": "Anda boleh mendapatkan mata ganjaran dengan post. Mengarang post memberikan anda 15 mata.",
+    "comment_desc": "Setiap komen yang anda membuat membantu anda untuk mengembangkan pengikut anda dan menjadikan sahabat, di samping juga mendapat 5 mata.",
+    "checkin_desc": "Dengan check in eSteem app, anda akan mendapati 0.25 mata dan anda akan berhubung dengan para pengguna.",
+    "vote_desc": "Dengan memberi vote kepada para pengarang, anda akan dihargai oleh mereka dan juga mengumpul 0.01 x nisbah tambahan vote.",
+    "reblog_desc": "Mengulang siar post yang anda sukai kepada kawan, anda juga memgumpul 1 mata.",
+    "login_desc": "Apabila anda log masuk eSteem, anda akan diberi 100 mata secara otomatik.",
+    "checkin_extra_desc": "Pengguna app dengan konsisten, anda mungkin akan dapat 10 mata secara percuma. Lebih memgguna, lebih ganjaran."
   },
   "messages": {
     "comingsoon": "Ciri-ciri mesej yang akan datang tidak lama lagi!"
@@ -180,7 +192,8 @@
     "cancel": "Batal",
     "delete": "Padam",
     "copied": "Disalin!",
-    "no_internet": "Tiada sambungan!"
+    "no_internet": "Tiada sambungan!",
+    "confirm": "Muktamat"
   },
   "post": {
     "reblog_alert": "Adakah anda ingin menulang siar?"
@@ -247,5 +260,21 @@
     "reputation": "reputasi",
     "votes": "vote",
     "age": "usia"
+  },
+  "transfer": {
+    "from": "Daripada",
+    "to": "Kepada",
+    "amount": "Jumlah",
+    "memo": "Memo",
+    "information": "Adakah awda pasti hendak memindahkan dana?",
+    "amount_desc": "Baki",
+    "memo_desc": "Memo ini adalah umum",
+    "to_placeholder": "Nama Pengguna",
+    "memo_placeholder": "Masukkan catatan anda di sini",
+    "transferToken": "Pindah",
+    "transferToSaving": "Pindah kepada simpanan",
+    "powerUp": "Mengekuasai",
+    "withdrawToSaving": "Withdraw To Saving",
+    "steemconnect_title": "Steemconnect Transfer"
   }
 }

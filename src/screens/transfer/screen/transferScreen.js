@@ -32,6 +32,7 @@ class TransferView extends Component {
       memo: '',
       isUsernameValid: false,
       steemConnectTransfer: false,
+      isTransfering: false,
     };
   }
 
@@ -52,8 +53,14 @@ class TransferView extends Component {
           this.setState({ [key]: value });
           break;
         case 'amount':
+<<<<<<< HEAD
           if (!isNaN(value) && parseFloat(value) <= parseFloat(balance))
             this.setState({ [key]: value });
+=======
+          if ((parseFloat(Number(value)) <= parseFloat(balance))) {
+            this.setState({ [key]: value });
+          }
+>>>>>>> feb784d9679b44d20148f7770d7d1a3ff3a6b357
           break;
 
         default:
@@ -67,6 +74,8 @@ class TransferView extends Component {
     const { transferToAccount, accountType } = this.props;
     const { from, destination, amount, memo } = this.state;
 
+    this.setState({ isTransfering: true });
+
     if (accountType === AUTH_TYPE.STEEM_CONNECT) {
       this.setState({ steemConnectTransfer: true });
     } else {
@@ -74,33 +83,64 @@ class TransferView extends Component {
     }
   };
 
-  _renderInput = (placeholder, state, keyboardType) => (
+  _handleOnAmountChange = (state, amount) => {
+    let _amount = amount;
+    if (_amount.includes(',')) {
+      _amount = amount.replace(',', '.');
+    }
+
+    this._setState(state, _amount);
+  }
+
+  _renderInput = (placeholder, state, keyboardType, isTextArea) => (
     <TextInput
-      style={styles.input}
-      onChangeText={text => this._setState(state, text)}
+      style={[isTextArea ? styles.textarea : styles.input]}
+      onChangeText={amount => this._handleOnAmountChange(state, amount)}
       value={this.state[state]}
       placeholder={placeholder}
       placeholderTextColor="#c1c5c7"
       autoCapitalize="none"
+      multiline={isTextArea}
+      numberOfLines={isTextArea ? 4 : 1}
       keyboardType={keyboardType}
     />
   );
 
   _renderDropdown = accounts => (
     <DropdownButton
+      dropdownButtonStyle={styles.dropdownButtonStyle}
+      rowTextStyle={styles.rowTextStyle}
       style={styles.dropdown}
+      dropdownStyle={styles.dropdownStyle}
+      textStyle={styles.dropdownText}
       options={accounts.map(item => item.username)}
       defaultText={accounts[0].username}
       selectedOptionIndex={0}
-      onSelect={(index, value) => this.setState({ from: value })}
+      onSelect={(index, value) => this._handleOnDropdownChange(value)}
     />
   );
+
+  _handleOnDropdownChange = (value) => {
+    const { fetchBalance } = this.props;
+
+    fetchBalance(value);
+    this.setState({ from: value });
+  }
 
   _renderDescription = text => <Text style={styles.description}>{text}</Text>;
 
   render() {
+<<<<<<< HEAD
     const { accounts, intl, handleOnModalClose, balance, fundType, transferType } = this.props;
     const { destination, isUsernameValid, amount, steemConnectTransfer, memo } = this.state;
+=======
+    const {
+      accounts, intl, handleOnModalClose, balance, fundType, transferType,
+    } = this.props;
+    const {
+      destination, isUsernameValid, amount, steemConnectTransfer, memo, isTransfering,
+    } = this.state;
+>>>>>>> feb784d9679b44d20148f7770d7d1a3ff3a6b357
 
     const path = `sign/transfer?from=${
       accounts[0].username
@@ -112,6 +152,7 @@ class TransferView extends Component {
       <Fragment>
         <BasicHeader title={intl.formatMessage({ id: `transfer.${transferType}` })} />
         <View style={styles.container}>
+<<<<<<< HEAD
           <ScrollView>
             <View style={styles.topContent}>
               <UserAvatar
@@ -183,6 +224,59 @@ class TransferView extends Component {
               </MainButton>
             </View>
           </ScrollView>
+=======
+          <View style={styles.topContent}>
+            <UserAvatar
+              username={accounts[0].username}
+              size="xl"
+              style={styles.userAvatar}
+              noAction
+            />
+            <Icon style={styles.icon} name="arrow-forward" iconType="MaterialIcons" />
+            <UserAvatar username={destination} size="xl" style={styles.userAvatar} noAction />
+          </View>
+          <View style={styles.middleContent}>
+            <TransferFormItem
+              label={intl.formatMessage({ id: 'transfer.from' })}
+              rightComponent={() => this._renderDropdown(accounts)}
+            />
+            <TransferFormItem
+              label={intl.formatMessage({ id: 'transfer.to' })}
+              rightComponent={() => this._renderInput(
+                intl.formatMessage({ id: 'transfer.to_placeholder' }),
+                'destination',
+                'default',
+              )
+              }
+            />
+            <TransferFormItem
+              label={intl.formatMessage({ id: 'transfer.amount' })}
+              rightComponent={() => this._renderInput(intl.formatMessage({ id: 'transfer.amount' }), 'amount', 'numeric')}
+            />
+            <TransferFormItem
+              rightComponent={() => this._renderDescription(`${intl.formatMessage({ id: 'transfer.amount_desc' })} ${balance} ${fundType}`)}
+            />
+            <TransferFormItem
+              label={intl.formatMessage({ id: 'transfer.memo' })}
+              rightComponent={() => this._renderInput(intl.formatMessage({ id: 'transfer.memo_placeholder' }), 'memo', 'default', true)
+              }
+            />
+            <TransferFormItem
+              rightComponent={() => this._renderDescription(intl.formatMessage({ id: 'transfer.memo_desc' }))
+              }
+            />
+          </View>
+          <View style={styles.bottomContent}>
+            <MainButton
+              style={styles.button}
+              isDisable={!(amount && isUsernameValid)}
+              onPress={() => this.ActionSheet.show()}
+              isLoading={isTransfering}
+            >
+              <Text style={styles.buttonText}>NEXT</Text>
+            </MainButton>
+          </View>
+>>>>>>> feb784d9679b44d20148f7770d7d1a3ff3a6b357
         </View>
         <ActionSheet
           ref={o => (this.ActionSheet = o)}

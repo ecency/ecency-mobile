@@ -2,9 +2,8 @@ import EStyleSheet from 'react-native-extended-stylesheet';
 
 export default EStyleSheet.create({
   container: {
-    justifyContent: 'center',
-    alignItems: 'center',
     flex: 1,
+    backgroundColor: '$primaryBackgroundColor',
   },
   image: {
     width: 193,
@@ -13,5 +12,8 @@ export default EStyleSheet.create({
   text: {
     color: '#788187',
     fontWeight: 'bold',
+  },
+  noPostContainer: {
+    flex: 1,
   },
 });
