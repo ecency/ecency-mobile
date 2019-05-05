@@ -53,14 +53,9 @@ class TransferView extends Component {
           this.setState({ [key]: value });
           break;
         case 'amount':
-<<<<<<< HEAD
-          if (!isNaN(value) && parseFloat(value) <= parseFloat(balance))
-            this.setState({ [key]: value });
-=======
           if ((parseFloat(Number(value)) <= parseFloat(balance))) {
             this.setState({ [key]: value });
           }
->>>>>>> feb784d9679b44d20148f7770d7d1a3ff3a6b357
           break;
 
         default:
