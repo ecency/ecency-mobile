@@ -26,7 +26,7 @@ class TransferView extends Component {
   constructor(props) {
     super(props);
     this.state = {
-      from: props.accounts[0].username,
+      from: props.currentAccountName,
       destination: '',
       amount: '',
       memo: '',
