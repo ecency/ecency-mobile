@@ -101,7 +101,7 @@ class TransferView extends Component {
     />
   );
 
-  _renderDropdown = accounts => (
+  _renderDropdown = (accounts, currentAccountName) => (
     <DropdownButton
       dropdownButtonStyle={styles.dropdownButtonStyle}
       rowTextStyle={styles.rowTextStyle}
@@ -109,8 +109,8 @@ class TransferView extends Component {
       dropdownStyle={styles.dropdownStyle}
       textStyle={styles.dropdownText}
       options={accounts.map(item => item.username)}
-      defaultText={accounts[0].username}
-      selectedOptionIndex={0}
+      defaultText={currentAccountName}
+      selectedOptionIndex={accounts.findIndex(item => item.username === currentAccountName)}
       onSelect={(index, value) => this._handleOnDropdownChange(value)}
     />
   );
@@ -126,7 +126,7 @@ class TransferView extends Component {
 
   render() {
     const {
-      accounts, intl, handleOnModalClose, balance, fundType, transferType,
+      accounts, intl, handleOnModalClose, balance, fundType, transferType, currentAccountName,
     } = this.props;
     const {
       destination, isUsernameValid, amount, steemConnectTransfer, memo, isTransfering, from,
@@ -156,7 +156,7 @@ class TransferView extends Component {
             <View style={styles.middleContent}>
               <TransferFormItem
                 label={intl.formatMessage({ id: 'transfer.from' })}
-                rightComponent={() => this._renderDropdown(accounts)}
+                rightComponent={() => this._renderDropdown(accounts, currentAccountName)}
               />
               <TransferFormItem
                 label={intl.formatMessage({ id: 'transfer.to' })}
@@ -211,7 +211,7 @@ class TransferView extends Component {
                 onPress={() => this.ActionSheet.show()}
                 isLoading={isTransfering}
               >
-                <Text style={styles.buttonText}>NEXT</Text>
+                <Text style={styles.buttonText}>{intl.formatMessage({ id: 'transfer.next' })}</Text>
               </MainButton>
             </View>
           </ScrollView>
