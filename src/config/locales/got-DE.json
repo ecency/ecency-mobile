@@ -166,7 +166,7 @@
   },
   "pincode": {
     "enter_text": "Enter pin to unlock",
-    "set_new": "Set new pin",
+    "set_new": "Lagei niwi PIN",
     "write_again": "Write again",
     "forgot_text": "Oh, I forgot it..."
   },
@@ -181,11 +181,11 @@
     "success_moved": "Moved to draft",
     "permission_denied": "Permission denied",
     "permission_text": "Please, go to phone Settings and change eSteem app permissions.",
-    "success_rebloged": "Rebloged!",
+    "success_rebloged": "Aftrablaugiþ!",
     "already_rebloged": "You have already reblogged!",
     "warning": "Warning",
-    "invalid_pincode": "Invalid pin code, please check and try again.",
-    "remove_alert": "Are you sure want to remove?",
+    "invalid_pincode": "Ungaraihts pin kodus, bidjam þuk sai jah sokei aftra.",
+    "remove_alert": "Bi sunjai wileis þata usniman?",
     "clear_alert": "Are you sure you want to clear?",
     "clear_user_alert": "Are you sure you want to clear all user data?",
     "clear": "Clear",
@@ -227,7 +227,7 @@
     "search": "Search in favorites"
   },
   "auth": {
-    "invalid_pin": "Invalid pin code, please check and try again",
+    "invalid_pin": "Ungaraihts pin kodus, bidjam þuk sai jah sokei aftra",
     "invalid_username": "Invalid username, please check and try again",
     "already_logged": "You are already logged in, please try to add another account",
     "invalid_credentials": "Invalid credentials, please check and try again",
@@ -269,7 +269,7 @@
     "information": "Are you sure to transfer to funds?",
     "amount_desc": "Balance",
     "memo_desc": "This memo is public",
-    "to_placeholder": "Username",
+    "to_placeholder": "Atgagganamo",
     "memo_placeholder": "Enter your notes here",
     "transferToken": "Transfer",
     "transferToSaving": "Transfer To Saving",
