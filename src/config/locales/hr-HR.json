@@ -205,7 +205,7 @@
     "deleted": "Skica izbrisana"
   },
   "schedules": {
-    "title": "Raspored postova",
+    "title": "Schedules",
     "empty_list": "Nema ničeg ovdje",
     "deleted": "Zakazani post izbrisan",
     "move": "Premjesti u skice",
