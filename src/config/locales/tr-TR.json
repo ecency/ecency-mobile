@@ -205,7 +205,7 @@
     "deleted": "Taslak silindi"
   },
   "schedules": {
-    "title": "Zamanlanmiş Gönderi",
+    "title": "Schedules",
     "empty_list": "Burada hiçbir şey yok",
     "deleted": "Zamanlanmiş Gönderi Silindi",
     "move": "Taslaklara taşı",
