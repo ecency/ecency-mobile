@@ -205,7 +205,7 @@
     "deleted": "Borrador eliminado"
   },
   "schedules": {
-    "title": "Publicaciones programadas",
+    "title": "Schedules",
     "empty_list": "Nada aquí",
     "deleted": "Publicación programada eliminada",
     "move": "Mover a borradores",
