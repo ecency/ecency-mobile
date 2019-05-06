@@ -13,4 +13,7 @@ export default EStyleSheet.create({
   cardTitle: {
     color: '$primaryBlue',
   },
+  paddingBottom: {
+    paddingBottom: 20,
+  },
 });

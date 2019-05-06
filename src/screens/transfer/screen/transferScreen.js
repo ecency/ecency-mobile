@@ -1,6 +1,8 @@
 /* eslint-disable no-restricted-globals */
 import React, { Fragment, Component } from 'react';
-import { Text, View, WebView, ScrollView } from 'react-native';
+import {
+  Text, View, WebView, ScrollView, TouchableOpacity,
+} from 'react-native';
 import ActionSheet from 'react-native-actionsheet';
 import { injectIntl } from 'react-intl';
 
@@ -45,7 +47,7 @@ class TransferView extends Component {
     if (key) {
       switch (key) {
         case 'destination':
-          getAccountsWithUsername(value).then(res => {
+          getAccountsWithUsername(value).then((res) => {
             const isValid = res.includes(value);
 
             this.setState({ isUsernameValid: isValid });
@@ -67,7 +69,9 @@ class TransferView extends Component {
 
   _handleTransferAction = () => {
     const { transferToAccount, accountType } = this.props;
-    const { from, destination, amount, memo } = this.state;
+    const {
+      from, destination, amount, memo,
+    } = this.state;
 
     this.setState({ isTransfering: true });
 
@@ -79,7 +83,7 @@ class TransferView extends Component {
   };
 
   _handleOnAmountChange = (state, amount) => {
-    let _amount = amount;
+    let _amount = amount.toString();
     if (_amount.includes(',')) {
       _amount = amount.replace(',', '.');
     }
@@ -160,47 +164,47 @@ class TransferView extends Component {
               />
               <TransferFormItem
                 label={intl.formatMessage({ id: 'transfer.to' })}
-                rightComponent={() =>
-                  this._renderInput(
-                    intl.formatMessage({ id: 'transfer.to_placeholder' }),
-                    'destination',
-                    'default',
-                  )
+                rightComponent={() => this._renderInput(
+                  intl.formatMessage({ id: 'transfer.to_placeholder' }),
+                  'destination',
+                  'default',
+                )
                 }
               />
               <TransferFormItem
                 label={intl.formatMessage({ id: 'transfer.amount' })}
-                rightComponent={() =>
-                  this._renderInput(
-                    intl.formatMessage({ id: 'transfer.amount' }),
-                    'amount',
-                    'numeric',
-                  )
+                rightComponent={() => this._renderInput(
+                  intl.formatMessage({ id: 'transfer.amount' }),
+                  'amount',
+                  'numeric',
+                )
                 }
               />
               <TransferFormItem
-                rightComponent={() =>
-                  this._renderDescription(
-                    `${intl.formatMessage({
-                      id: 'transfer.amount_desc',
-                    })} ${balance} ${fundType}`,
-                  )
-                }
+                rightComponent={() => (
+                  <TouchableOpacity onPress={() => this._handleOnAmountChange('amount', balance)}>
+                    {this._renderDescription(
+                      `${intl.formatMessage({
+                        id: 'transfer.amount_desc',
+                      })} ${balance} ${fundType}`,
+                    )}
+
+                  </TouchableOpacity>
+                )
+                  }
               />
               <TransferFormItem
                 label={intl.formatMessage({ id: 'transfer.memo' })}
-                rightComponent={() =>
-                  this._renderInput(
-                    intl.formatMessage({ id: 'transfer.memo_placeholder' }),
-                    'memo',
-                    'default',
-                    true,
-                  )
+                rightComponent={() => this._renderInput(
+                  intl.formatMessage({ id: 'transfer.memo_placeholder' }),
+                  'memo',
+                  'default',
+                  true,
+                )
                 }
               />
               <TransferFormItem
-                rightComponent={() =>
-                  this._renderDescription(intl.formatMessage({ id: 'transfer.memo_desc' }))
+                rightComponent={() => this._renderDescription(intl.formatMessage({ id: 'transfer.memo_desc' }))
                 }
               />
             </View>
@@ -225,7 +229,7 @@ class TransferView extends Component {
           title={intl.formatMessage({ id: 'transfer.information' })}
           cancelButtonIndex={1}
           destructiveButtonIndex={0}
-          onPress={index => {
+          onPress={(index) => {
             index === 0 ? this._handleTransferAction() : null;
           }}
         />

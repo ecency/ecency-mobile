@@ -37,7 +37,6 @@ class SettingsScreen extends PureComponent {
       handleOnChange,
       intl,
       isDarkTheme,
-      isDefaultFooter,
       isLoggedIn,
       isNotificationSettingsOpen,
       nsfw,
@@ -70,6 +69,15 @@ class SettingsScreen extends PureComponent {
                 id: 'settings.general',
               })}
               titleStyle={styles.cardTitle}
+            />
+            <SettingsItem
+              title={intl.formatMessage({
+                id: 'settings.dark_theme',
+              })}
+              type="toggle"
+              actionType="theme"
+              isOn={isDarkTheme}
+              handleOnChange={handleOnChange}
             />
             <SettingsItem
               title={intl.formatMessage({
@@ -114,26 +122,6 @@ class SettingsScreen extends PureComponent {
               selectedOptionIndex={parseInt(nsfw, 10)}
               handleOnChange={handleOnChange}
             />
-            <SettingsItem
-              title={intl.formatMessage({
-                id: 'settings.dark_theme',
-              })}
-              type="toggle"
-              actionType="theme"
-              isOn={isDarkTheme}
-              handleOnChange={handleOnChange}
-            />
-            <SettingsItem
-              title={intl.formatMessage({
-                id: 'settings.send_feedback',
-              })}
-              text={intl.formatMessage({
-                id: 'settings.send',
-              })}
-              type="button"
-              actionType="feedback"
-              handleOnButtonPress={handleOnButtonPress}
-            />
             {!!isLoggedIn && (
               <Fragment>
                 <SettingsItem
@@ -173,7 +161,7 @@ class SettingsScreen extends PureComponent {
                     isOn={isNotificationSettingsOpen}
                     handleOnChange={handleOnChange}
                   />
-)}
+                )}
                 noBorder
                 fitContent
                 locked
@@ -237,6 +225,19 @@ class SettingsScreen extends PureComponent {
               </CollapsibleCard>
             </View>
           )}
+          <View style={[styles.settingsCard, styles.paddingBottom]}>
+            <SettingsItem
+              title={intl.formatMessage({
+                id: 'settings.send_feedback',
+              })}
+              text={intl.formatMessage({
+                id: 'settings.send',
+              })}
+              type="button"
+              actionType="feedback"
+              handleOnButtonPress={handleOnButtonPress}
+            />
+          </View>
         </ScrollView>
       </Fragment>
     );
