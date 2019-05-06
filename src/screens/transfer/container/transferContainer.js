@@ -12,6 +12,9 @@ import {
 } from '../../../providers/steem/dsteem';
 import { toastNotification } from '../../../redux/actions/uiAction';
 
+// Utils
+import { countDecimals } from '../../../utils/number';
+
 // Component
 import TransferView from '../screen/transferScreen';
 
@@ -78,6 +81,11 @@ class TransferContainer extends Component {
       amount,
       memo,
     };
+
+    if (countDecimals(Number(data.amount)) < 3) {
+      data.amount = Number(data.amount).toFixed(3);
+    }
+
     data.amount = `${data.amount} ${fundType}`;
 
     switch (transferType) {
