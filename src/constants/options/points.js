@@ -1,7 +1,7 @@
 export default {
   100: {
     icon: 'pencil',
-    textKey: 'points.post_title',
+    textKey: 'points.post_title',
     nameKey: 'points.post',
     descriptionKey: 'points.post_desc',
     iconType: 'MaterialCommunityIcons',
