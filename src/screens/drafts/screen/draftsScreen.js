@@ -56,7 +56,13 @@ class DraftsScreen extends Component {
         image={image ? { uri: catchDraftImage(item.body) } : null}
         username={currentAccount.name}
         reputation={currentAccount.reputation}
-        handleOnPressItem={() => (isSchedules ? this.setState({ selectedId: item._id }, () => this.ActionSheet.show()) : editDraft)}
+        handleOnPressItem={
+          () => (
+            isSchedules
+              ? this.setState({ selectedId: item._id }, () => this.ActionSheet.show())
+              : editDraft(item._id)
+          )
+        }
         handleOnRemoveItem={isSchedules ? removeSchedule : removeDraft}
         id={item._id}
         key={item._id}
