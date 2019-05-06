@@ -47,8 +47,8 @@
     "checkin_title": "Points for usage",
     "checkin_extra_title": "Bonus d'utilisation",
     "no_activity": "Aucune activité ici !",
-    "post_desc": "You can earn point by posting regularly. Posting gives you 15 points.",
-    "comment_desc": "Each comment you make helps you to grow your audience and make friendship but also earns you 5 points.",
+    "post_desc": "Vous pouvez gagner des points en publiant régulièrement. Publier vous donne 15 points.",
+    "comment_desc": "Chaque commentaire que vous faites vous aide à agrandir votre audience et à créer de l'amitié, mais vous donne également 5 points.",
     "checkin_desc": "Checking in on eSteem app gives you 0.25 points and helps you stay connected with your friends.",
     "vote_desc": "By voting you give reward to other creators and show your appreciation but also earn 0.01 x vote weight points.",
     "reblog_desc": "  Share what post you like with your friends and earn 1 points.",
@@ -205,7 +205,7 @@
     "deleted": "Brouillon supprimé"
   },
   "schedules": {
-    "title": "Publications planifiées",
+    "title": "Plannings",
     "empty_list": "Rien ici",
     "deleted": "Publication planifiée supprimée",
     "move": "Déplacer vers brouillons",

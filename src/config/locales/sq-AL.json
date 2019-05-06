@@ -205,7 +205,7 @@
     "deleted": "Draft deleted"
   },
   "schedules": {
-    "title": "Scheduled Posts",
+    "title": "Schedules",
     "empty_list": "Nothing here",
     "deleted": "Scheduled post deleted",
     "move": "Move to drafts",
