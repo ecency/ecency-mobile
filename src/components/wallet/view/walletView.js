@@ -116,6 +116,7 @@ class WalletView extends PureComponent {
               <WalletDetails
                 intl={intl}
                 walletData={walletData}
+                isShowDropdowns={currentAccountUsername === selectedUsername}
               />
             </CollapsibleCard>
             <Transaction walletData={walletData} />
