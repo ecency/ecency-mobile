@@ -16,12 +16,12 @@ export default {
     point: 5,
   },
   120: {
-    icon: 'upcircle',
+    icon: 'upcircleo',
     textKey: 'points.vote_title',
     nameKey: 'points.vote',
     descriptionKey: 'points.vote_desc',
     iconType: 'AntDesign',
-    point: 0.1,
+    point: 0.3,
   },
   130: {
     icon: 'repeat',
@@ -32,12 +32,12 @@ export default {
     point: 1,
   },
   10: {
-    icon: 'ticket',
+    icon: 'star-border',
     textKey: 'points.checkin_title',
     nameKey: 'points.checkin',
     descriptionKey: 'points.checkin_desc',
-    iconType: 'MaterialCommunityIcons',
-    point: 0.2,
+    iconType: 'MaterialIcons',
+    point: 0.25,
   },
   20: {
     icon: 'person',
