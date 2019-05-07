@@ -172,6 +172,7 @@
   },
   "alert": {
     "success": "Berjaya!",
+    "successful": "Successful",
     "allRead": "Tandakan semua pemberitahuan sebagai telah dibaca",
     "claim_reward_balance_ok": "Baki ganjaran telah dituntut",
     "fail": "Gagal!",
