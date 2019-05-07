@@ -39,11 +39,11 @@
     "reblog": "Reblog",
     "login": "Login",
     "checkin_extra": "Bonus",
-    "post_title": "Points for post",
-    "comment_title": "Points for comment",
-    "vote_title": "Points for vote",
-    "reblog_title": "Points for reblog",
-    "login_title": "Points for login",
+    "post_title": "Points pour vos publications",
+    "comment_title": "Points pour vos commentaires",
+    "vote_title": "Points pour vos votes",
+    "reblog_title": "Points pour vos reblog",
+    "login_title": "Points pour vos connexions",
     "checkin_title": "Points for usage",
     "checkin_extra_title": "Bonus d'utilisation",
     "no_activity": "Aucune activité ici !",
@@ -51,8 +51,8 @@
     "comment_desc": "Chaque commentaire que vous faites vous aide à agrandir votre audience et à créer de l'amitié, mais vous donne également 5 points.",
     "checkin_desc": "Checking in on eSteem app gives you 0.25 points and helps you stay connected with your friends.",
     "vote_desc": "By voting you give reward to other creators and show your appreciation but also earn 0.01 x vote weight points.",
-    "reblog_desc": "  Share what post you like with your friends and earn 1 points.",
-    "login_desc": "When you login into eSteem app you are entitled to earn 100 points automatically.",
+    "reblog_desc": "  Partagez les publication que vous aimez avec vos amis et gagnez 1 point.",
+    "login_desc": "Lorsque vous vous connectez sur l'application eSteem, vous avez le droit de gagner 100 points automatiquement.",
     "checkin_extra_desc": "Consistent use of app gives you extra chances to earn more 10 points, be more active and earn more."
   },
   "messages": {
@@ -193,7 +193,7 @@
     "delete": "Supprimer",
     "copied": "Copié !",
     "no_internet": "Pas de connexion !",
-    "confirm": "Confirm"
+    "confirm": "Valider"
   },
   "post": {
     "reblog_alert": "Êtes-vous sûr de vouloir rebloguer ?"
@@ -266,7 +266,7 @@
     "to": "À",
     "amount": "Montant",
     "memo": "Mémo",
-    "information": "Are you sure to transfer to funds?",
+    "information": "Êtes-vous sûr de vouloir transférer vers vos fonds ?",
     "amount_desc": "Solde",
     "memo_desc": "Ce mémo est public",
     "to_placeholder": "Nom d'utilisateur",
