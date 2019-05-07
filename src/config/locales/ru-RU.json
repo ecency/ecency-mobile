@@ -99,14 +99,14 @@
     },
     "pincode": "Пинкод",
     "reset": "Сбросить",
-    "nsfw_content": "Ненормативное содержание",
+    "nsfw_content": "Ненормативное",
     "send_feedback": "Отправить отзыв",
     "send": "Отправить",
     "default_footer": "Подвал по умолчанию",
     "nsfw": {
-      "always_show": "Отображать всегда",
-      "always_hide": "Всегда скрывать",
-      "always_warn": "Всегда предупреждать"
+      "always_show": "Отображать",
+      "always_hide": "Скрывать",
+      "always_warn": "Предупреждать"
     },
     "feedback_success": "Письмо успешно отправлено",
     "feedback_fail": "Не удалось отправить письмо"
@@ -172,7 +172,7 @@
   },
   "alert": {
     "success": "Успех!",
-    "successful": "Successful",
+    "successful": "Успешно",
     "allRead": "Всё прочтено",
     "claim_reward_balance_ok": "Награда зачислена на баланс",
     "fail": "Не вышло!",
