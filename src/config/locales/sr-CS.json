@@ -205,7 +205,7 @@
     "deleted": "Radna verzija je izbrisana"
   },
   "schedules": {
-    "title": "Planirani postovi",
+    "title": "Schedules",
     "empty_list": "Ovde nema ništa",
     "deleted": "Planirani post je izbrisan",
     "move": "Premesti u radne verzije",

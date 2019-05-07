@@ -23,7 +23,7 @@
     "comingsoon": "Fungsi papan peringkat akan segera hadir!",
     "notification": "Pemberitahuan",
     "leaderboard": "Papan Peringkat",
-    "epoint": "Points",
+    "epoint": "Poin",
     "leaderboard_title": "Pengguna harian paling atas",
     "recent": "Baru digunakan",
     "yesterday": "Kemarin",
@@ -32,28 +32,28 @@
     "older_then": "Lebih Lama Dari Sebulan"
   },
   "points": {
-    "post": "Post",
-    "comment": "Comment",
-    "checkin": "Checki-in",
-    "vote": "Vote",
-    "reblog": "Reblog",
-    "login": "Login",
+    "post": "posting",
+    "comment": "Komentar",
+    "checkin": "Mendaftar",
+    "vote": "Beri suara",
+    "reblog": "Menampilkan kembali",
+    "login": "Masuk",
     "checkin_extra": "Bonus",
-    "post_title": "Points for post",
-    "comment_title": "Points for comment",
-    "vote_title": "Points for vote",
-    "reblog_title": "Points for reblog",
-    "login_title": "Points for login",
-    "checkin_title": "Points for usage",
-    "checkin_extra_title": "Usage bonus",
-    "no_activity": "No activity here!",
-    "post_desc": "You can earn point by posting regularly. Posting gives you 15 points.",
-    "comment_desc": "Each comment you make helps you to grow your audience and make friendship but also earns you 5 points.",
-    "checkin_desc": "Checking in on eSteem app gives you 0.25 points and helps you stay connected with your friends.",
-    "vote_desc": "By voting you give reward to other creators and show your appreciation but also earn 0.01 x vote weight points.",
-    "reblog_desc": "  Share what post you like with your friends and earn 1 points.",
-    "login_desc": "When you login into eSteem app you are entitled to earn 100 points automatically.",
-    "checkin_extra_desc": "Consistent use of app gives you extra chances to earn more 10 points, be more active and earn more."
+    "post_title": "Poin untuk posting",
+    "comment_title": "Poin untuk komentar",
+    "vote_title": "Poin untuk suara",
+    "reblog_title": "Poin untuk menampilkan kembali",
+    "login_title": "Poin untuk masuk",
+    "checkin_title": "Poin untuk penggunaan",
+    "checkin_extra_title": "Bonus penggunaan",
+    "no_activity": "Tidak ada aktifitas disini!",
+    "post_desc": "Anda bisa mendapatkan poin dengan memposting secara teratur. Posting memberi Anda 15 poin.",
+    "comment_desc": "Setiap komentar yang Anda buat membantu Anda untuk menumbuhkan audiens Anda dan menjalin persahabatan tetapi juga memberi Anda 5 poin.",
+    "checkin_desc": "Memeriksa aplikasi eSteem memberi Anda 0,25 poin dan membantu Anda tetap terhubung dengan teman-teman Anda.",
+    "vote_desc": "Dengan memberikan suara Anda memberikan hadiah kepada penulis lain dan menunjukkan penghargaan Anda, tetapi juga mendapatkan 0,01 poin suara.",
+    "reblog_desc": "  Bagikan pos yang Anda sukai dengan teman dan dapatkan 1 poin.",
+    "login_desc": "Saat Anda masuk ke aplikasi eSteem, Anda berhak mendapatkan 100 poin secara otomatis.",
+    "checkin_extra_desc": "Penggunaan aplikasi yang konsisten memberi Anda peluang ekstra untuk mendapatkan lebih banyak 10 poin, menjadi lebih aktif dan menghasilkan lebih banyak."
   },
   "messages": {
     "comingsoon": "Fungsi pesan akan segera hadir!"
@@ -175,10 +175,10 @@
     "allRead": "Tandai semua pemberitahuan telah terbaca",
     "claim_reward_balance_ok": "Hadiah di klaim",
     "fail": "Gagal!",
-    "move": "Move",
-    "move_question": "Are you sure to move to drafts?",
+    "move": "Pindahkan",
+    "move_question": "Apakah Anda yakin untuk pindah ke konsep?",
     "success_shared": "Tulisan anda berhasil dibagikan",
-    "success_moved": "Moved to draft",
+    "success_moved": "Pindah ke konsep",
     "permission_denied": "Izin ditolak",
     "permission_text": "Silakan buka pengaturan telepon dan ubah izin untuk aplikasi eSteem.",
     "success_rebloged": "Rebloged!",
@@ -193,7 +193,7 @@
     "delete": "Hapus",
     "copied": "Disalin!",
     "no_internet": "Tidak ada koneksi!",
-    "confirm": "Confirm"
+    "confirm": "Konfirmasi"
   },
   "post": {
     "reblog_alert": "Anda yakin ingin menerbitkan ulang?"
@@ -205,7 +205,7 @@
     "deleted": "Konsep dihapus"
   },
   "schedules": {
-    "title": "Posting terjadwal",
+    "title": "Daftar jadwal",
     "empty_list": "Disini belum ada apa-apa",
     "deleted": "Tulisan terjadwal dihapus",
     "move": "Pindahkan ke konsep",
@@ -262,20 +262,20 @@
     "age": "usia"
   },
   "transfer": {
-    "from": "From",
-    "to": "To",
-    "amount": "Amount",
+    "from": "Dari",
+    "to": "Kepada",
+    "amount": "Jumlah",
     "memo": "Memo",
-    "information": "Are you sure to transfer to funds?",
-    "amount_desc": "Balance",
-    "memo_desc": "This memo is public",
-    "to_placeholder": "Username",
-    "memo_placeholder": "Enter your notes here",
+    "information": "Apakah Anda yakin untuk mentransfer dana ke?",
+    "amount_desc": "Keseimbangan",
+    "memo_desc": "Memo ini bersifat publik",
+    "to_placeholder": "Nama Pengguna",
+    "memo_placeholder": "Masukan catatan anda disini",
     "transferToken": "Transfer",
-    "transferToSaving": "Transfer To Saving",
+    "transferToSaving": "Transfer untuk menyimpan",
     "powerUp": "Power Up",
-    "withdrawToSaving": "Withdraw To Saving",
+    "withdrawToSaving": "Tarik untuk menyimpan",
     "steemconnect_title": "Steemconnect Transfer",
-    "next": "NEXT"
+    "next": "LANJUT"
   }
 }
