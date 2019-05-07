@@ -40,7 +40,7 @@ export default {
     point: 0.25,
   },
   20: {
-    icon: 'person',
+    icon: 'person-outline',
     textKey: 'points.login_title',
     nameKey: 'points.login',
     descriptionKey: 'points.login_desc',
@@ -48,7 +48,7 @@ export default {
     point: 100,
   },
   30: {
-    icon: 'check-decagram',
+    icon: 'check-all',
     textKey: 'points.checkin_extra_title',
     nameKey: 'points.checkin_extra',
     descriptionKey: 'points.checkin_extra_desc',
