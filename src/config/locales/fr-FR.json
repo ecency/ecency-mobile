@@ -172,6 +172,7 @@
   },
   "alert": {
     "success": "Succés!",
+    "successful": "Successful",
     "allRead": "Marquer toutes les notifications comme lues",
     "claim_reward_balance_ok": "Solde de récompense réclamé",
     "fail": "Échec !",
