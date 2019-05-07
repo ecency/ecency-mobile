@@ -172,6 +172,7 @@
   },
   "alert": {
     "success": "Meuhasè!",
+    "successful": "Successful",
     "allRead": "Tanda mandum haba nyang kalhëuh baca",
     "claim_reward_balance_ok": "Gaji kalhëuh klèm",
     "fail": "Gagai!",
