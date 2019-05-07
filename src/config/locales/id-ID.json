@@ -49,11 +49,11 @@
     "no_activity": "Tidak ada aktifitas disini!",
     "post_desc": "Anda bisa mendapatkan poin dengan memposting secara teratur. Posting memberi Anda 15 poin.",
     "comment_desc": "Setiap komentar yang Anda buat membantu Anda untuk menumbuhkan audiens Anda dan menjalin persahabatan tetapi juga memberi Anda 5 poin.",
-    "checkin_desc": "Checking in on eSteem app gives you 0.25 points and helps you stay connected with your friends.",
-    "vote_desc": "By voting you give reward to other creators and show your appreciation but also earn 0.01 x vote weight points.",
-    "reblog_desc": "  Share what post you like with your friends and earn 1 points.",
-    "login_desc": "When you login into eSteem app you are entitled to earn 100 points automatically.",
-    "checkin_extra_desc": "Consistent use of app gives you extra chances to earn more 10 points, be more active and earn more."
+    "checkin_desc": "Memeriksa aplikasi eSteem memberi Anda 0,25 poin dan membantu Anda tetap terhubung dengan teman-teman Anda.",
+    "vote_desc": "Dengan memberikan suara Anda memberikan hadiah kepada penulis lain dan menunjukkan penghargaan Anda, tetapi juga mendapatkan 0,01 poin suara.",
+    "reblog_desc": "  Bagikan pos yang Anda sukai dengan teman dan dapatkan 1 poin.",
+    "login_desc": "Saat Anda masuk ke aplikasi eSteem, Anda berhak mendapatkan 100 poin secara otomatis.",
+    "checkin_extra_desc": "Penggunaan aplikasi yang konsisten memberi Anda peluang ekstra untuk mendapatkan lebih banyak 10 poin, menjadi lebih aktif dan menghasilkan lebih banyak."
   },
   "messages": {
     "comingsoon": "Fungsi pesan akan segera hadir!"
@@ -175,10 +175,10 @@
     "allRead": "Tandai semua pemberitahuan telah terbaca",
     "claim_reward_balance_ok": "Hadiah di klaim",
     "fail": "Gagal!",
-    "move": "Move",
-    "move_question": "Are you sure to move to drafts?",
+    "move": "Pindahkan",
+    "move_question": "Apakah Anda yakin untuk pindah ke konsep?",
     "success_shared": "Tulisan anda berhasil dibagikan",
-    "success_moved": "Moved to draft",
+    "success_moved": "Pindah ke konsep",
     "permission_denied": "Izin ditolak",
     "permission_text": "Silakan buka pengaturan telepon dan ubah izin untuk aplikasi eSteem.",
     "success_rebloged": "Rebloged!",
@@ -193,7 +193,7 @@
     "delete": "Hapus",
     "copied": "Disalin!",
     "no_internet": "Tidak ada koneksi!",
-    "confirm": "Confirm"
+    "confirm": "Konfirmasi"
   },
   "post": {
     "reblog_alert": "Anda yakin ingin menerbitkan ulang?"
@@ -205,7 +205,7 @@
     "deleted": "Konsep dihapus"
   },
   "schedules": {
-    "title": "Schedules",
+    "title": "Daftar jadwal",
     "empty_list": "Disini belum ada apa-apa",
     "deleted": "Tulisan terjadwal dihapus",
     "move": "Pindahkan ke konsep",
@@ -262,9 +262,9 @@
     "age": "usia"
   },
   "transfer": {
-    "from": "From",
-    "to": "To",
-    "amount": "Amount",
+    "from": "Dari",
+    "to": "Kepada",
+    "amount": "Jumlah",
     "memo": "Memo",
     "information": "Are you sure to transfer to funds?",
     "amount_desc": "Balance",
