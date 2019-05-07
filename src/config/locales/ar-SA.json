@@ -172,6 +172,7 @@
   },
   "alert": {
     "success": "تم بنجاح!",
+    "successful": "Successful",
     "allRead": "وضع جميع الإشعارات كأنها مقروءة",
     "claim_reward_balance_ok": "تم سحب المكافآت",
     "fail": "فشل!",
