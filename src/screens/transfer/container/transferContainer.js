@@ -1,5 +1,6 @@
 import React, { Component } from 'react';
 import { connect } from 'react-redux';
+import { injectIntl } from 'react-intl';
 
 // Services and Actions
 import {
@@ -68,7 +69,7 @@ class TransferContainer extends Component {
 
   _transferToAccount = (from, destination, amount, memo) => {
     const {
-      currentAccount, pinCode, navigation, dispatch,
+      currentAccount, pinCode, navigation, dispatch, intl,
     } = this.props;
 
     const transferType = navigation.getParam('transferType', '');
@@ -109,7 +110,7 @@ class TransferContainer extends Component {
 
     return func(currentAccount, pinCode, data)
       .then(() => {
-        dispatch(toastNotification('Successfull'));
+        dispatch(toastNotification(intl.formatMessage({ id: 'alert.successful' })));
         navigation.goBack();
       })
       .catch((err) => {
@@ -154,4 +155,4 @@ const mapStateToProps = state => ({
   pinCode: state.account.pin,
 });
 
-export default connect(mapStateToProps)(TransferContainer);
+export default connect(mapStateToProps)(injectIntl(TransferContainer));

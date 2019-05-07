@@ -77,4 +77,8 @@ export default EStyleSheet.create({
   dropdownWrapper: {
     flex: 1,
   },
+  dropdownRowText: {
+    fontSize: 12.5,
+    color: '$primaryDarkGray',
+  },
 });

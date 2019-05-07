@@ -85,6 +85,7 @@ const WalletLineItem = ({
             options={dropdownOptions}
             noHighlight
             onSelect={onDropdownSelect}
+            rowTextStyle={styles.dropdownRowText}
           />
         </View>
       )}
