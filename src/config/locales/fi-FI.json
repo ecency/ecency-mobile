@@ -172,6 +172,7 @@
   },
   "alert": {
     "success": "Onnistui!",
+    "successful": "Successful",
     "allRead": "Ilmoitukset merkattu luetuiksi",
     "claim_reward_balance_ok": "Reward balance claimed",
     "fail": "Virhe!",
