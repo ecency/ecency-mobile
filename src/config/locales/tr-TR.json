@@ -172,6 +172,7 @@
   },
   "alert": {
     "success": "Başarılı!",
+    "successful": "Successful",
     "allRead": "Tüm bildirimleri okundu olarak işaretle",
     "claim_reward_balance_ok": "Ödül alındı",
     "fail": "Başarısız!",
