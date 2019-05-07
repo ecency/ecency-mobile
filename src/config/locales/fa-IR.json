@@ -172,6 +172,7 @@
   },
   "alert": {
     "success": "با موفقیت!",
+    "successful": "Successful",
     "allRead": "علامت زدن تمام اعلانات به عنوان خوانده شده",
     "claim_reward_balance_ok": "پاداش دریافت شده",
     "fail": "ناموفق!",
