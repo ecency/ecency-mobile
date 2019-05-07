@@ -205,7 +205,7 @@
     "deleted": "Schiță ștearsă"
   },
   "schedules": {
-    "title": "Postări Programate",
+    "title": "Planificări",
     "empty_list": "Nici un rezultat",
     "deleted": "Postarea planificată a fost ștearsă",
     "move": "Mută la schițe",
@@ -276,6 +276,6 @@
     "powerUp": "Power Up",
     "withdrawToSaving": "Retrage la economii",
     "steemconnect_title": "Transfer Steemconnect",
-    "next": "NEXT"
+    "next": "URMĂTORUL"
   }
 }

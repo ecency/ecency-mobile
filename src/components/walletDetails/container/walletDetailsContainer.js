@@ -48,9 +48,16 @@ class WalletContainer extends PureComponent {
   };
 
   render() {
-    const { intl, walletData } = this.props;
+    const { intl, walletData, isShowDropdowns } = this.props;
 
-    return <WalletDetailsView intl={intl} walletData={walletData} navigate={this._navigate} />;
+    return (
+      <WalletDetailsView
+        intl={intl}
+        walletData={walletData}
+        navigate={this._navigate}
+        isShowDropdowns={isShowDropdowns}
+      />
+    );
   }
 }
 
