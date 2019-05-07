@@ -172,6 +172,7 @@
   },
   "alert": {
     "success": "सफल!",
+    "successful": "Successful",
     "allRead": "सभी सूचनाओं को पढ़ लिया चिन्हित करें",
     "claim_reward_balance_ok": "इनाम की राशी ले चुके",
     "fail": "असफल!",
