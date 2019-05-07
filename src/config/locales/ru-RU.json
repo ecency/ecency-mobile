@@ -172,6 +172,7 @@
   },
   "alert": {
     "success": "Успех!",
+    "successful": "Successful",
     "allRead": "Всё прочтено",
     "claim_reward_balance_ok": "Награда зачислена на баланс",
     "fail": "Не вышло!",
@@ -272,10 +273,10 @@
     "to_placeholder": "Пользователь",
     "memo_placeholder": "Введите свою заметку",
     "transferToken": "Перевод",
-    "transferToSaving": "Transfer To Saving",
-    "powerUp": "Power Up",
-    "withdrawToSaving": "Withdraw To Saving",
-    "steemconnect_title": "Steemconnect Transfer",
-    "next": "NEXT"
+    "transferToSaving": "Отправить в сейф",
+    "powerUp": "Увеличение силы",
+    "withdrawToSaving": "Вывести в сейф",
+    "steemconnect_title": "Перевод Steemconnect",
+    "next": "ДАЛЕЕ"
   }
 }
