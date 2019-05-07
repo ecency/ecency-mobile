@@ -13,6 +13,7 @@ export default EStyleSheet.create({
   },
   text: {
     color: '$primaryBlack',
+    fontWeight: '600',
   },
   rightPart: {
     flex: 2,

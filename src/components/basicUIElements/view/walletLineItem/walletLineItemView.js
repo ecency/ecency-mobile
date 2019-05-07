@@ -24,7 +24,7 @@ const WalletLineItem = ({
   textColor,
   index,
   style,
-  dropdown,
+  isHasdropdown,
   dropdownOptions,
   onDropdownSelect,
 }) => (
@@ -77,7 +77,7 @@ const WalletLineItem = ({
           </Text>
         </View>
       )}
-      {dropdown && (
+      {isHasdropdown && (
         <View style={styles.dropdownWrapper}>
           <DropdownButton
             isHasChildIcon
