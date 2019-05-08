@@ -172,6 +172,7 @@
   },
   "alert": {
     "success": "성공!",
+    "successful": "Successful",
     "allRead": "모든 알림을 읽은 상태로 표시",
     "claim_reward_balance_ok": "보상을 요청했습니다",
     "fail": "실패!",

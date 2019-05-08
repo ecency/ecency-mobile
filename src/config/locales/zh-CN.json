@@ -172,6 +172,7 @@
   },
   "alert": {
     "success": "成功!",
+    "successful": "Successful",
     "allRead": "已将所有通知标为已读",
     "claim_reward_balance_ok": "奖励余额已领取",
     "fail": "失败！",

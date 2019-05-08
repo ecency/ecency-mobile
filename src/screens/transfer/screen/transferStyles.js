@@ -74,7 +74,8 @@ export default EStyleSheet.create({
     maxHeight: '$deviceHeight - 200',
   },
   dropdownButtonStyle: {
-    backgroundColor: '$primaryGray',
+    borderColor: '$borderColor',
+    borderWidth: 1,
     height: 44,
     width: 172,
     borderRadius: 8,

@@ -172,6 +172,7 @@
   },
   "alert": {
     "success": "Gelukt!",
+    "successful": "Successful",
     "allRead": "Alle notificaties als gelezen markeren",
     "claim_reward_balance_ok": "Beloningsbalans opgeëist",
     "fail": "Mislukt!",
