@@ -17,7 +17,7 @@
 	<key>CFBundlePackageType</key>
 	<string>APPL</string>
 	<key>CFBundleShortVersionString</key>
-	<string>2.0.9</string>
+	<string>2.1.0</string>
 	<key>CFBundleSignature</key>
 	<string>????</string>
 	<key>CFBundleURLTypes</key>
@@ -31,7 +31,7 @@
 		</dict>
 	</array>
 	<key>CFBundleVersion</key>
-	<string>778</string>
+	<string>779</string>
 	<key>CodePushDeploymentKey</key>
 	<string>13ThFZsgwk6UZp6mIe95IDbnfw8iHy1jfsn-E</string>
 	<key>LSRequiresIPhoneOS</key>
@@ -57,7 +57,7 @@
 	<key>NSCameraUsageDescription</key>
 	<string>To access your photos, eSteem needs your permission to help you share your photos.</string>
 	<key>NSLocationWhenInUseUsageDescription</key>
-	<string/>
+	<string></string>
 	<key>NSMainNibFile</key>
 	<string>LaunchScreen</string>
 	<key>NSMicrophoneUsageDescription</key>
