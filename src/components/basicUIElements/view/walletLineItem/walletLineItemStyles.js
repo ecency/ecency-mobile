@@ -81,4 +81,7 @@ export default EStyleSheet.create({
     fontSize: 14,
     color: '$primaryDarkGray',
   },
+  dropdownStyle: {
+    minWidth: '$deviceWidth * 0.7',
+  },
 });
