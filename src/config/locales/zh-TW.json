@@ -172,6 +172,7 @@
   },
   "alert": {
     "success": "成功！",
+    "successful": "Successful",
     "allRead": "標記所有通知為已讀",
     "claim_reward_balance_ok": "獎勵餘額已經領取",
     "fail": "失敗！",
