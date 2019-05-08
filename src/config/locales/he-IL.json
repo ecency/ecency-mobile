@@ -172,6 +172,7 @@
   },
   "alert": {
     "success": "הצלחה!",
+    "successful": "Successful",
     "allRead": "סימון כל ההודעות כנקראו",
     "claim_reward_balance_ok": "תגמול יתרה נתקבלה",
     "fail": "נכשל!",

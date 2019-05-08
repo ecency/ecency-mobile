@@ -172,6 +172,7 @@
   },
   "alert": {
     "success": "E don Successful!",
+    "successful": "Successful",
     "allRead": "Mark am say you don read all the alert",
     "claim_reward_balance_ok": "You don collect the reward",
     "fail": "E Fail oo!",

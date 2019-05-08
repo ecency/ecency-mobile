@@ -172,6 +172,7 @@
   },
   "alert": {
     "success": "Erfolgreich!",
+    "successful": "Successful",
     "allRead": "Alle Benachrichtigungen als gelesen markieren",
     "claim_reward_balance_ok": "Belohnung abgeholt",
     "fail": "Fehlgeschlagen!",

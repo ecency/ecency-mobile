@@ -172,6 +172,7 @@
   },
   "alert": {
     "success": "Uspjeh!",
+    "successful": "Successful",
     "allRead": "Označi sve obavijesti kao pročitane",
     "claim_reward_balance_ok": "Nagrada preuzeta",
     "fail": "Nije uspjelo!",
