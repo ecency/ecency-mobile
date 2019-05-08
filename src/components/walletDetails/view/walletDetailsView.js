@@ -47,6 +47,7 @@ class WalletDetailsView extends PureComponent {
           isHasdropdown={isShowDropdowns}
           dropdownOptions={steemDropdown.map(item => intl.formatMessage({ id: `transfer.${item}` }))}
           onDropdownSelect={index => navigate(steemDropdown[index], 'STEEM')}
+          dropdownStyle={styles.dropdownStyle}
         />
         <GrayWrapper isGray>
           <WalletLineItem
@@ -99,6 +100,7 @@ class WalletDetailsView extends PureComponent {
           isHasdropdown={isShowDropdowns}
           dropdownOptions={sbdDropdown.map(item => intl.formatMessage({ id: `transfer.${item}` }))}
           onDropdownSelect={a => navigate(steemDropdown[a], 'SBD')}
+          dropdownStyle={styles.dropdownStyle}
         />
         <GrayWrapper isGray>
           <WalletLineItem

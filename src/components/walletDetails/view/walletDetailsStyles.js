@@ -11,4 +11,7 @@ export default EStyleSheet.create({
     marginBottom: 15,
     marginTop: 0,
   },
+  dropdownStyle: {
+    minWidth: '$deviceWidth * 0.7',
+  },
 });
