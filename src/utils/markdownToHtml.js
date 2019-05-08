@@ -263,10 +263,7 @@ const handleIframe = input => input.replace(iframeRegex, (link) => {
   return link;
 });
 
-const handleEmptyLink = input => input.replace(handleEmptyLink, (aa) => {
-  console.log(aa);
-  return 'ugur';
-});
+const handleEmptyLink = input => input.replace(handleEmptyLink, () => '');
 
 const createVimeoIframe = input => input.replace(vimeoRegex, (link) => {
   const execLink = vimeoRegex.exec(link);
