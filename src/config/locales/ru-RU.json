@@ -99,14 +99,14 @@
     },
     "pincode": "Пинкод",
     "reset": "Сбросить",
-    "nsfw_content": "Ненормативное содержание",
+    "nsfw_content": "Ненормативное",
     "send_feedback": "Отправить отзыв",
     "send": "Отправить",
     "default_footer": "Подвал по умолчанию",
     "nsfw": {
-      "always_show": "Отображать всегда",
-      "always_hide": "Всегда скрывать",
-      "always_warn": "Всегда предупреждать"
+      "always_show": "Отображать",
+      "always_hide": "Скрывать",
+      "always_warn": "Предупреждать"
     },
     "feedback_success": "Письмо успешно отправлено",
     "feedback_fail": "Не удалось отправить письмо"
@@ -172,6 +172,7 @@
   },
   "alert": {
     "success": "Успех!",
+    "successful": "Успешно",
     "allRead": "Всё прочтено",
     "claim_reward_balance_ok": "Награда зачислена на баланс",
     "fail": "Не вышло!",
@@ -272,10 +273,10 @@
     "to_placeholder": "Пользователь",
     "memo_placeholder": "Введите свою заметку",
     "transferToken": "Перевод",
-    "transferToSaving": "Transfer To Saving",
-    "powerUp": "Power Up",
-    "withdrawToSaving": "Withdraw To Saving",
-    "steemconnect_title": "Steemconnect Transfer",
-    "next": "NEXT"
+    "transferToSaving": "Отправить в сейф",
+    "powerUp": "Увеличение силы",
+    "withdrawToSaving": "Вывести в сейф",
+    "steemconnect_title": "Перевод Steemconnect",
+    "next": "ДАЛЕЕ"
   }
 }

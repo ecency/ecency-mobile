@@ -172,6 +172,7 @@
   },
   "alert": {
     "success": "Sukses!",
+    "successful": "Berhasil",
     "allRead": "Tandai semua pemberitahuan telah terbaca",
     "claim_reward_balance_ok": "Hadiah di klaim",
     "fail": "Gagal!",

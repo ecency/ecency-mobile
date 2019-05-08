@@ -172,6 +172,7 @@
   },
   "alert": {
     "success": "Aseyori!",
+    "successful": "Successful",
     "allRead": "Gba pe oti ka gbogbo akiyesi",
     "claim_reward_balance_ok": "Awon ere ti di gbigba",
     "fail": "Ko yori!",
