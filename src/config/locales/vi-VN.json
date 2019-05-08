@@ -172,6 +172,7 @@
   },
   "alert": {
     "success": "Thành công!",
+    "successful": "Successful",
     "allRead": "Đã đánh dấu tất cả các thông báo là đã đọc",
     "claim_reward_balance_ok": "Số dư tiền thưởng đã được nhận",
     "fail": "Thất bại!",

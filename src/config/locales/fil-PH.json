@@ -172,6 +172,7 @@
   },
   "alert": {
     "success": "Success!",
+    "successful": "Successful",
     "allRead": "Marked all notifications as read",
     "claim_reward_balance_ok": "Reward balance claimed",
     "fail": "Fail!",
