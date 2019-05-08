@@ -23,6 +23,7 @@ const aTagRegex = /(<\s*a[^>]*>(.*?)<\s*[/]\s*a>)/g;
 const imgTagRegex = /(<img[^>]*>)/g;
 const iframeRegex = /(?:<iframe[^>]*)(?:(?:\/>)|(?:>.*?<\/iframe>))/g;
 const hTagRegex = /(<h([1-6])>([^<]*)<\/h([1-6])>)/g;
+const emptyLinkRegex = /!\[]\(\)/g;
 
 export const markDown2Html = (input) => {
   if (!input) {
@@ -32,6 +33,10 @@ export const markDown2Html = (input) => {
 
   if (authorNameRegex.test(output)) {
     output = replaceAuthorNames(output);
+  }
+
+  if (emptyLinkRegex.test(output)) {
+    output = handleEmptyLink(output);
   }
 
   if (tagsRegex.test(output)) {
@@ -197,9 +202,10 @@ const changeMarkdownImage = input => input.replace(markdownImageRegex, (link) =>
   const markdownMatch = link.match(markdownImageRegex);
   if (markdownMatch[0]) {
     const firstMarkdownMatch = markdownMatch[0];
-    const _link = firstMarkdownMatch.match(urlRegex)[0];
+    const _link = firstMarkdownMatch.match(urlRegex) && firstMarkdownMatch.match(urlRegex)[0];
 
-    return _link;
+    if (_link) return _link;
+    return link;
   }
   return link;
 });
@@ -257,6 +263,11 @@ const handleIframe = input => input.replace(iframeRegex, (link) => {
   return link;
 });
 
+const handleEmptyLink = input => input.replace(handleEmptyLink, (aa) => {
+  console.log(aa);
+  return 'ugur';
+});
+
 const createVimeoIframe = input => input.replace(vimeoRegex, (link) => {
   const execLink = vimeoRegex.exec(link);
 
@@ -268,7 +279,7 @@ const createVimeoIframe = input => input.replace(vimeoRegex, (link) => {
 const iframeBody = link => `<iframe frameborder='0' allowfullscreen src='${link}'></iframe>`;
 const imageBody = link => `<center style="text-align: center; align-items: center; justify-content: center;"><img src="${`https://steemitimages.com/600x0/${link}`}" /></center>`;
 const gifBody = link => `<img src="${`https://steemitimages.com/0x0/${link}`}" />`;
-const handleImageLink = input => input.replace(imgRegex, link => imageBody(link));
+// const handleImageLink = input => input.replace(imgRegex, link => imageBody(link));
 
 // const handleCodeTag = input => input.replace(codeTagRegex, (tag) => {
 //   const stringsRegex = /(?<=>)(.*)(?=<)/g;
