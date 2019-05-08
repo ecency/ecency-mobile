@@ -172,6 +172,7 @@
   },
   "alert": {
     "success": "Succes!",
+    "successful": "Reușit",
     "allRead": "Marchează toate notificările ca citite",
     "claim_reward_balance_ok": "Sold de recompensă colectat",
     "fail": "Eșuat!",

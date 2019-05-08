@@ -172,6 +172,7 @@
   },
   "alert": {
     "success": "Uğurlu!",
+    "successful": "Successful",
     "allRead": "Bütün bildirişləri oxunmuş kimi işarələ",
     "claim_reward_balance_ok": "Mükafat alındı",
     "fail": "Uğursuz!",

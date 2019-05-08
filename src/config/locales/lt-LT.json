@@ -172,6 +172,7 @@
   },
   "alert": {
     "success": "Sėkminga!",
+    "successful": "Successful",
     "allRead": "Pažymėti visus pranešimus kaip skaitytus",
     "claim_reward_balance_ok": "Atlygis atsiimtas",
     "fail": "Nepavyko!",

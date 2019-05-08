@@ -9,7 +9,7 @@ export default EStyleSheet.create({
   },
   // TODO: merge them / ugur
   unclaimedText: {
-    color: '$primaryBackgroundColor',
+    color: '$pureWhite',
     fontSize: 14,
     fontWeight: 'bold',
     alignSelf: 'center',
@@ -26,7 +26,7 @@ export default EStyleSheet.create({
     flexDirection: 'row',
   },
   mainIconWrapper: {
-    backgroundColor: '$primaryBackgroundColor',
+    backgroundColor: '$pureWhite',
     justifyContent: 'center',
     alignSelf: 'center',
     alignItems: 'center',

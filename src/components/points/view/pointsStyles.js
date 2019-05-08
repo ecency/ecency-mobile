@@ -82,13 +82,13 @@ export default EStyleSheet.create({
     flexDirection: 'row',
   },
   unclaimedText: {
-    color: '$primaryBackgroundColor',
+    color: '$pureWhite',
     fontSize: 14,
     fontWeight: 'bold',
     alignSelf: 'center',
   },
   mainIconWrapper: {
-    backgroundColor: '$primaryBackgroundColor',
+    backgroundColor: '$pureWhite',
     justifyContent: 'center',
     alignSelf: 'center',
     alignItems: 'center',

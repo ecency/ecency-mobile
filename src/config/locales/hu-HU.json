@@ -172,6 +172,7 @@
   },
   "alert": {
     "success": "Sikerült!",
+    "successful": "Successful",
     "allRead": "Minden értesítés megjelölve olvasottként",
     "claim_reward_balance_ok": "Jutalom egyenleg átvéve",
     "fail": "Sikertelen!",
