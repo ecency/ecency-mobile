@@ -53,7 +53,7 @@
     "vote_desc": "Balsuodamas tu įvertinti kitų kūrėjų darbą ir skiri jiem atlygį. Tu taipogi už tai gausi 0.01 x balso galios taškų.",
     "reblog_desc": "  Pasidalink su draugais įrašais kurie tau patinka ir gauk po 1 tašką už pasidalinimą.",
     "login_desc": "Kai jūs pirma kartą prisijungiate prie eSteem, jūs automatiškai būsite apdovanotas 100 taškų.",
-    "checkin_extra_desc": "Consistent use of app gives you extra chances to earn more 10 points, be more active and earn more."
+    "checkin_extra_desc": "Reguliarus programos naudojimasis suteikia jums papildomą šansą gauti dar 10 taškų. Kuo aktyvesnis esi, tuo daugiau taškų surinksi."
   },
   "messages": {
     "comingsoon": "Žinučių funkcija jau greitai!"
@@ -83,33 +83,33 @@
   },
   "settings": {
     "settings": "Nustatymai",
-    "general": "General",
+    "general": "Bendra",
     "currency": "Valiuta",
     "language": "Kalba",
     "server": "Serveris",
     "dark_theme": "Tamsi Tema",
     "push_notification": "Aktyvieji pranešimai",
     "notification": {
-      "follow": "Follow",
-      "vote": "Vote",
-      "comment": "Comment",
-      "mention": "Mention",
-      "reblog": "Reblog",
-      "transfers": "Transfers"
+      "follow": "Sekėjai",
+      "vote": "Balsai",
+      "comment": "Komentarai",
+      "mention": "Paminėjimai",
+      "reblog": "Pasidalinimai",
+      "transfers": "Pervedimai"
     },
     "pincode": "Pincode",
     "reset": "Atstatyti",
     "nsfw_content": "NSFW Turinys",
     "send_feedback": "Siųsti Atsiliepimus",
     "send": "Siųsti",
-    "default_footer": "Default Footer",
+    "default_footer": "Numatytoji Poraštė",
     "nsfw": {
       "always_show": "Visada rodyti",
       "always_hide": "Visada paslėpti",
       "always_warn": "Visada įspėti"
     },
-    "feedback_success": "Email successfully open",
-    "feedback_fail": "Email client could not open"
+    "feedback_success": "El. laiškas sėkmingai atidarytas",
+    "feedback_fail": "El. pašto atidaryti nepavyko"
   },
   "voters": {
     "voters_info": "Balsuotojo Informacija",
@@ -172,14 +172,14 @@
   },
   "alert": {
     "success": "Sėkminga!",
-    "successful": "Successful",
+    "successful": "Sėkminga",
     "allRead": "Pažymėti visus pranešimus kaip skaitytus",
     "claim_reward_balance_ok": "Atlygis atsiimtas",
     "fail": "Nepavyko!",
-    "move": "Move",
-    "move_question": "Are you sure to move to drafts?",
+    "move": "Perkelti",
+    "move_question": "Ar tikrai norite perkelti į ruošinius?",
     "success_shared": "Jūsų įrašas sėkmingai pasidalintas",
-    "success_moved": "Moved to draft",
+    "success_moved": "Perkelta į ruošinius",
     "permission_denied": "Leidimas nesuteiktas",
     "permission_text": "Prašome telefono nustatymuose pakeisti eSteem programėlės leidimus.",
     "success_rebloged": "Rebloged!",
@@ -188,13 +188,13 @@
     "invalid_pincode": "Neteisingas PIN kodas, prašome patikrinti ir bandyti dar kartą.",
     "remove_alert": "Are you sure want to remove?",
     "clear_alert": "Ar tikrai norite panaikinti?",
-    "clear_user_alert": "Are you sure you want to clear all user data?",
+    "clear_user_alert": "Ar tikrai norite panaikinti visą naudotojo informaciją?",
     "clear": "Panaikinti",
     "cancel": "Atšaukti",
     "delete": "Ištrinti",
     "copied": "Nukopijuota!",
     "no_internet": "Nėra ryšio!",
-    "confirm": "Confirm"
+    "confirm": "Patvirtinti"
   },
   "post": {
     "reblog_alert": "Ar tikrai norite dalintis?"
@@ -206,7 +206,7 @@
     "deleted": "Ruošinys panaikintas"
   },
   "schedules": {
-    "title": "Schedules",
+    "title": "Suplanuota",
     "empty_list": "Nieko nėra",
     "deleted": "Suplanuotas įrašas panaikintas",
     "move": "Perkelti į ruošinius",
@@ -263,13 +263,13 @@
     "age": "laikas"
   },
   "transfer": {
-    "from": "From",
-    "to": "To",
-    "amount": "Amount",
-    "memo": "Memo",
-    "information": "Are you sure to transfer to funds?",
-    "amount_desc": "Balance",
-    "memo_desc": "This memo is public",
+    "from": "Nuo",
+    "to": "Į",
+    "amount": "Kiekis",
+    "memo": "Atmintinė",
+    "information": "Ar tikrai norite persiųsti lėšas?",
+    "amount_desc": "Likutis",
+    "memo_desc": "Ši atmintinė yra vieša",
     "to_placeholder": "Username",
     "memo_placeholder": "Enter your notes here",
     "transferToken": "Transfer",
