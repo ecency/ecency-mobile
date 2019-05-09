@@ -270,13 +270,13 @@
     "information": "Ar tikrai norite persiųsti lėšas?",
     "amount_desc": "Likutis",
     "memo_desc": "Ši atmintinė yra vieša",
-    "to_placeholder": "Username",
-    "memo_placeholder": "Enter your notes here",
-    "transferToken": "Transfer",
-    "transferToSaving": "Transfer To Saving",
+    "to_placeholder": "Vartotojo vardas",
+    "memo_placeholder": "Įveskite savo užrašus čia",
+    "transferToken": "Pervesti",
+    "transferToSaving": "Pervesti į Santaupas",
     "powerUp": "Power Up",
-    "withdrawToSaving": "Withdraw To Saving",
-    "steemconnect_title": "Steemconnect Transfer",
-    "next": "NEXT"
+    "withdrawToSaving": "Atsiimti į Santaupas",
+    "steemconnect_title": "Steemconnect Pervedimas",
+    "next": "TOLIAU"
   }
 }
