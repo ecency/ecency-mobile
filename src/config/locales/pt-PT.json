@@ -172,7 +172,7 @@
   },
   "alert": {
     "success": "Sucesso!",
-    "successful": "Successful",
+    "successful": "Bem sucedido",
     "allRead": "Marcar todas as notificações como lidas",
     "claim_reward_balance_ok": "Balanço de Recompensa reclamado",
     "fail": "Falha!",
