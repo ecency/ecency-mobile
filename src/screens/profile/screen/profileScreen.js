@@ -51,11 +51,11 @@ class ProfileScreen extends PureComponent {
     if (!isSummaryOpen) this.setState({ isSummaryOpen: true });
   };
 
-  _handleUIChange = (height) => {
+  _handleUIChange = height => {
     this.setState({ collapsibleMoreHeight: height });
   };
 
-  _setEstimatedWalletValue = (value) => {
+  _setEstimatedWalletValue = value => {
     if (value) this.setState({ estimatedWalletValue: value });
   };
 
@@ -212,11 +212,11 @@ class ProfileScreen extends PureComponent {
               tabLabel={
                 isReverseHeader
                   ? intl.formatMessage({
-                    id: 'profile.comments',
-                  })
+                      id: 'profile.comments',
+                    })
                   : intl.formatMessage({
-                    id: 'profile.replies',
-                  })
+                      id: 'profile.replies',
+                    })
               }
               style={styles.commentsTabBar}
             >
@@ -241,8 +241,8 @@ class ProfileScreen extends PureComponent {
                 estimatedWalletValue
                   ? `${_estimatedWalletValue}`
                   : intl.formatMessage({
-                    id: 'profile.wallet',
-                  })
+                      id: 'profile.wallet',
+                    })
               }
             >
               {selectedUser ? (

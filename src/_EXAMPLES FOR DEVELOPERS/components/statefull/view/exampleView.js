@@ -7,13 +7,13 @@ import {} from 'react-native';
 
 // Styles
 // eslint-disable-next-line
-import styles from "./_styles";
+import styles from './_styles';
 
 class ExampleView extends Component {
   /* Props
-    * ------------------------------------------------
-    *   @prop { type }    name                - Description....
-    */
+   * ------------------------------------------------
+   *   @prop { type }    name                - Description....
+   */
 
   constructor(props) {
     super(props);

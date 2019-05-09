@@ -1,4 +1,4 @@
-export const getReputation = (input) => {
+export const getReputation = input => {
   if (input === 0) {
     return 25;
   }

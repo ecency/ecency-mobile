@@ -5,7 +5,7 @@ const readFromClipboard = async () => {
   return clipboardContent;
 };
 
-const writeToClipboard = async (text) => {
+const writeToClipboard = async text => {
   await Clipboard.setString(text);
   return true;
 };

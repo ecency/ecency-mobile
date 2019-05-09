@@ -1,7 +1,5 @@
 import React, { PureComponent, Fragment } from 'react';
-import {
-  View, ScrollView, FlatList, ActivityIndicator, RefreshControl,
-} from 'react-native';
+import { View, ScrollView, FlatList, ActivityIndicator, RefreshControl } from 'react-native';
 import { injectIntl } from 'react-intl';
 
 // Constants
@@ -12,9 +10,7 @@ import { FilterBar } from '../../filterBar';
 import NotificationLine from '../../notificationLine';
 
 // Utils
-import {
-  isToday, isYesterday, isThisWeek, isThisMonth,
-} from '../../../utils/time';
+import { isToday, isYesterday, isThisWeek, isThisMonth } from '../../../utils/time';
 
 // Styles
 import styles from './notificationStyles';
@@ -45,7 +41,7 @@ class NotificationView extends PureComponent {
 
   // Component Functions
 
-  _handleOnDropdownSelect = (index) => {
+  _handleOnDropdownSelect = index => {
     const { getActivities, changeSelectedFilter } = this.props;
     const { filters } = this.state;
 
@@ -54,7 +50,7 @@ class NotificationView extends PureComponent {
     getActivities(filters[index].key, false);
   };
 
-  _renderList = (data) => {
+  _renderList = data => {
     const { navigateToNotificationRoute } = this.props;
 
     return (
@@ -123,7 +119,7 @@ class NotificationView extends PureComponent {
       },
     ];
 
-    notifications.forEach((item) => {
+    notifications.forEach(item => {
       const listIndex = this._getTimeListIndex(item.timestamp);
 
       notificationArray[listIndex].notifications.push(item);
@@ -132,7 +128,7 @@ class NotificationView extends PureComponent {
     return notificationArray.filter(item => item.notifications.length > 0);
   };
 
-  _getTimeListIndex = (timestamp) => {
+  _getTimeListIndex = timestamp => {
     if (isToday(timestamp)) return 0;
 
     if (isYesterday(timestamp)) return 1;
@@ -179,12 +175,12 @@ class NotificationView extends PureComponent {
         />
         <ScrollView
           style={styles.scrollView}
-          onScroll={(e) => {
+          onScroll={e => {
             let paddingToBottom = 1;
             paddingToBottom += e.nativeEvent.layoutMeasurement.height;
             if (
-              e.nativeEvent.contentOffset.y >= e.nativeEvent.contentSize.height - paddingToBottom
-              && !loading
+              e.nativeEvent.contentOffset.y >= e.nativeEvent.contentSize.height - paddingToBottom &&
+              !loading
             ) {
               getActivities(selectedFilter, true);
             }
@@ -194,15 +190,15 @@ class NotificationView extends PureComponent {
             data={_notifications}
             refreshing={readAllNotificationLoading}
             onRefresh={() => null}
-            refreshControl={(
+            refreshControl={
               <RefreshControl
-                refreshing={readAllNotificationLoading}
-                progressBackgroundColor="#357CE6"
-                tintColor={!isDarkTheme ? '#357ce6' : '#96c0ff'}
-                titleColor="#fff"
-                colors={['#fff']}
-              />
-)}
+  refreshing={readAllNotificationLoading}
+  progressBackgroundColor="#357CE6"
+  tintColor={!isDarkTheme ? '#357ce6' : '#96c0ff'}
+  titleColor="#fff"
+  colors={['#fff']}
+/>
+            }
             renderItem={({ item, index }) => (
               <Fragment>
                 <ContainerHeader

@@ -7,9 +7,7 @@ import { getWordsCount } from '../../../utils/editor';
 
 // Components
 import { BasicHeader } from '../../../components/basicHeader';
-import {
-  TitleArea, TagArea, TextArea, SummaryArea,
-} from '../../../components/editorElements';
+import { TitleArea, TagArea, TextArea, SummaryArea } from '../../../components/editorElements';
 import { PostForm } from '../../../components/postForm';
 
 // Styles
@@ -38,7 +36,7 @@ class EditorScreen extends Component {
   }
 
   // Component Life Cycles
-  componentWillReceiveProps = async (nextProps) => {
+  componentWillReceiveProps = async nextProps => {
     const { draftPost, isUploading } = this.props;
 
     if (nextProps.draftPost && draftPost !== nextProps.draftPost) {
@@ -74,7 +72,7 @@ class EditorScreen extends Component {
     this.setState({ isPreviewActive: !isPreviewActive });
   };
 
-  _setWordsCount = (content) => {
+  _setWordsCount = content => {
     const _wordsCount = getWordsCount(content);
     const { wordsCount } = this.state;
 
@@ -112,7 +110,7 @@ class EditorScreen extends Component {
     }
   };
 
-  _handleIsFormValid = (bodyText) => {
+  _handleIsFormValid = bodyText => {
     const { fields } = this.state;
     const { isReply } = this.props;
     let _isFormValid;
@@ -120,11 +118,12 @@ class EditorScreen extends Component {
     if (isReply) {
       _isFormValid = fields && fields.body && fields.body.length > 0;
     } else {
-      _isFormValid = fields
-        && fields.title
-        && fields.title.length > 0
-        && ((fields.body && fields.body.length > 0 && fields.tags.length > 0)
-          || (bodyText && bodyText.length > 0));
+      _isFormValid =
+        fields &&
+        fields.title &&
+        fields.title.length > 0 &&
+        ((fields.body && fields.body.length > 0 && fields.tags.length > 0) ||
+          (bodyText && bodyText.length > 0));
     }
 
     this.setState({ isFormValid: _isFormValid });
@@ -148,7 +147,7 @@ class EditorScreen extends Component {
     this._saveCurrentDraft();
   };
 
-  _handleOnTagAdded = (tags) => {
+  _handleOnTagAdded = tags => {
     const _tags = tags.filter(tag => tag && tag !== ' ');
     const fields = { ...this.state.fields };
 
@@ -157,9 +156,7 @@ class EditorScreen extends Component {
   };
 
   render() {
-    const {
-      fields, isPreviewActive, wordsCount, isFormValid, isRemoveTag,
-    } = this.state;
+    const { fields, isPreviewActive, wordsCount, isFormValid, isRemoveTag } = this.state;
     const {
       draftPost,
       handleOnImagePicker,

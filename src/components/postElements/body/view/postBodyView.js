@@ -52,7 +52,7 @@ class PostBody extends PureComponent {
     }
   };
 
-  _handleBrowserLink = async (url) => {
+  _handleBrowserLink = async url => {
     if (!url) return;
 
     let author;
@@ -60,10 +60,10 @@ class PostBody extends PureComponent {
     const { intl } = this.props;
 
     if (
-      url.indexOf('esteem') > -1
-      || url.indexOf('steemit') > -1
-      || url.indexOf('busy') > -1
-      || (url.indexOf('steempeak') > -1 && url.indexOf('files') < 0)
+      url.indexOf('esteem') > -1 ||
+      url.indexOf('steemit') > -1 ||
+      url.indexOf('busy') > -1 ||
+      (url.indexOf('steempeak') > -1 && url.indexOf('files') < 0)
     ) {
       url = url.substring(url.indexOf('@'), url.length);
       const routeParams = url.indexOf('/') > -1 ? url.split('/') : [url];
@@ -77,7 +77,7 @@ class PostBody extends PureComponent {
     } else if (author) {
       this._handleOnUserPress(author);
     } else {
-      Linking.canOpenURL(url).then((supported) => {
+      Linking.canOpenURL(url).then(supported => {
         if (supported) {
           Linking.openURL(url);
         } else {
@@ -100,7 +100,7 @@ class PostBody extends PureComponent {
     });
   };
 
-  _handleOnUserPress = (username) => {
+  _handleOnUserPress = username => {
     const { navigation } = this.props;
 
     navigation.navigate({
@@ -121,8 +121,8 @@ class PostBody extends PureComponent {
   _alterNode = (node, isComment) => {
     if (isComment) {
       if (node.name === 'img') {
-        node.attribs.style = `max-width: ${WIDTH - 50}px; height: 100px; width: ${WIDTH
-          - 50}px; text-align: center;`;
+        node.attribs.style = `max-width: ${WIDTH - 50}px; height: 100px; width: ${WIDTH -
+          50}px; text-align: center;`;
       }
       //  else if (node.name === 'iframe') {
       //   node.attribs.style = `max-width: ${WIDTH}px; left: -30px`;
@@ -160,11 +160,16 @@ class PostBody extends PureComponent {
     }
   };
 
-  _alterData = (node) => {
-    if (node.type === 'text' && node.data.includes('markdown-author-link') && node.parent && getParentsTagsRecursively(node.parent).includes('code')) {
+  _alterData = node => {
+    if (
+      node.type === 'text' &&
+      node.data.includes('markdown-author-link') &&
+      node.parent &&
+      getParentsTagsRecursively(node.parent).includes('code')
+    ) {
       return node.data.replace(/<[^>]*>/g, '');
     }
-  }
+  };
 
   render() {
     const { body, isComment } = this.props;

@@ -1,8 +1,6 @@
 /* eslint-disable no-restricted-globals */
 import React, { Fragment, Component } from 'react';
-import {
-  Text, View, WebView, ScrollView, TouchableOpacity,
-} from 'react-native';
+import { Text, View, WebView, ScrollView, TouchableOpacity } from 'react-native';
 import ActionSheet from 'react-native-actionsheet';
 import { injectIntl } from 'react-intl';
 
@@ -47,7 +45,7 @@ class TransferView extends Component {
     if (key) {
       switch (key) {
         case 'destination':
-          getAccountsWithUsername(value).then((res) => {
+          getAccountsWithUsername(value).then(res => {
             const isValid = res.includes(value);
 
             this.setState({ isUsernameValid: isValid });
@@ -55,7 +53,7 @@ class TransferView extends Component {
           this.setState({ [key]: value });
           break;
         case 'amount':
-          if ((parseFloat(Number(value)) <= parseFloat(balance))) {
+          if (parseFloat(Number(value)) <= parseFloat(balance)) {
             this.setState({ [key]: value });
           }
           break;
@@ -69,9 +67,7 @@ class TransferView extends Component {
 
   _handleTransferAction = () => {
     const { transferToAccount, accountType } = this.props;
-    const {
-      from, destination, amount, memo,
-    } = this.state;
+    const { from, destination, amount, memo } = this.state;
 
     this.setState({ isTransfering: true });
 
@@ -89,7 +85,7 @@ class TransferView extends Component {
     }
 
     this._setState(state, _amount);
-  }
+  };
 
   _renderInput = (placeholder, state, keyboardType, isTextArea) => (
     <TextInput
@@ -119,21 +115,33 @@ class TransferView extends Component {
     />
   );
 
-  _handleOnDropdownChange = (value) => {
+  _handleOnDropdownChange = value => {
     const { fetchBalance } = this.props;
 
     fetchBalance(value);
     this.setState({ from: value });
-  }
+  };
 
   _renderDescription = text => <Text style={styles.description}>{text}</Text>;
 
   render() {
     const {
-      accounts, intl, handleOnModalClose, balance, fundType, transferType, currentAccountName,
+      accounts,
+      intl,
+      handleOnModalClose,
+      balance,
+      fundType,
+      transferType,
+      currentAccountName,
     } = this.props;
     const {
-      destination, isUsernameValid, amount, steemConnectTransfer, memo, isTransfering, from,
+      destination,
+      isUsernameValid,
+      amount,
+      steemConnectTransfer,
+      memo,
+      isTransfering,
+      from,
     } = this.state;
 
     const path = `sign/transfer?from=${
@@ -148,12 +156,7 @@ class TransferView extends Component {
         <View style={styles.container}>
           <ScrollView>
             <View style={styles.topContent}>
-              <UserAvatar
-                username={from}
-                size="xl"
-                style={styles.userAvatar}
-                noAction
-              />
+              <UserAvatar username={from} size="xl" style={styles.userAvatar} noAction />
               <Icon style={styles.icon} name="arrow-forward" iconType="MaterialIcons" />
               <UserAvatar username={destination} size="xl" style={styles.userAvatar} noAction />
             </View>
@@ -164,20 +167,22 @@ class TransferView extends Component {
               />
               <TransferFormItem
                 label={intl.formatMessage({ id: 'transfer.to' })}
-                rightComponent={() => this._renderInput(
-                  intl.formatMessage({ id: 'transfer.to_placeholder' }),
-                  'destination',
-                  'default',
-                )
+                rightComponent={() =>
+                  this._renderInput(
+                    intl.formatMessage({ id: 'transfer.to_placeholder' }),
+                    'destination',
+                    'default',
+                  )
                 }
               />
               <TransferFormItem
                 label={intl.formatMessage({ id: 'transfer.amount' })}
-                rightComponent={() => this._renderInput(
-                  intl.formatMessage({ id: 'transfer.amount' }),
-                  'amount',
-                  'numeric',
-                )
+                rightComponent={() =>
+                  this._renderInput(
+                    intl.formatMessage({ id: 'transfer.amount' }),
+                    'amount',
+                    'numeric',
+                  )
                 }
               />
               <TransferFormItem
@@ -188,23 +193,23 @@ class TransferView extends Component {
                         id: 'transfer.amount_desc',
                       })} ${balance} ${fundType}`,
                     )}
-
                   </TouchableOpacity>
-                )
-                  }
+                )}
               />
               <TransferFormItem
                 label={intl.formatMessage({ id: 'transfer.memo' })}
-                rightComponent={() => this._renderInput(
-                  intl.formatMessage({ id: 'transfer.memo_placeholder' }),
-                  'memo',
-                  'default',
-                  true,
-                )
+                rightComponent={() =>
+                  this._renderInput(
+                    intl.formatMessage({ id: 'transfer.memo_placeholder' }),
+                    'memo',
+                    'default',
+                    true,
+                  )
                 }
               />
               <TransferFormItem
-                rightComponent={() => this._renderDescription(intl.formatMessage({ id: 'transfer.memo_desc' }))
+                rightComponent={() =>
+                  this._renderDescription(intl.formatMessage({ id: 'transfer.memo_desc' }))
                 }
               />
             </View>
@@ -229,7 +234,7 @@ class TransferView extends Component {
           title={intl.formatMessage({ id: 'transfer.information' })}
           cancelButtonIndex={1}
           destructiveButtonIndex={0}
-          onPress={(index) => {
+          onPress={index => {
             index === 0 ? this._handleTransferAction() : null;
           }}
         />

@@ -8,15 +8,16 @@ import styles from './parentPostStyles';
 const ParentPost = ({ post, navigation }) => (
   <View style={styles.container}>
     <TouchableOpacity
-      onPress={() => (navigation && navigation.navigate
-        ? navigation.navigate({
-          routeName: ROUTES.SCREENS.POST,
-          params: {
-            content: post,
-          },
-          key: post.permlink,
-        })
-        : null)
+      onPress={() =>
+        navigation && navigation.navigate
+          ? navigation.navigate({
+              routeName: ROUTES.SCREENS.POST,
+              params: {
+                content: post,
+              },
+              key: post.permlink,
+            })
+          : null
       }
     >
       <Text style={styles.title}>{post.title}</Text>

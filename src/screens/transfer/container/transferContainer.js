@@ -33,44 +33,43 @@ class TransferContainer extends Component {
 
   // Component Life Cycle Functions
   componentDidMount() {
-    const { currentAccount: { name } } = this.props;
+    const {
+      currentAccount: { name },
+    } = this.props;
 
     this.fetchBalance(name);
   }
 
   // Component Functions
 
-  fetchBalance = (username) => {
+  fetchBalance = username => {
     const { navigation } = this.props;
     const fundType = navigation.getParam('fundType', '');
 
-    getAccount(username)
-      .then((account) => {
-        let balance;
-        switch (fundType) {
-          case 'STEEM':
-            balance = account[0].balance.replace(fundType, '');
-            break;
-          case 'SBD':
-            balance = account[0].sbd_balance.replace(fundType, '');
-            break;
-          default:
-            break;
-        }
+    getAccount(username).then(account => {
+      let balance;
+      switch (fundType) {
+        case 'STEEM':
+          balance = account[0].balance.replace(fundType, '');
+          break;
+        case 'SBD':
+          balance = account[0].sbd_balance.replace(fundType, '');
+          break;
+        default:
+          break;
+      }
 
-        this.setState({ balance: Number(balance) });
-      });
-  }
+      this.setState({ balance: Number(balance) });
+    });
+  };
 
-  _getAccountsWithUsername = async (username) => {
+  _getAccountsWithUsername = async username => {
     const validUsers = await lookupAccounts(username);
     return validUsers;
   };
 
   _transferToAccount = (from, destination, amount, memo) => {
-    const {
-      currentAccount, pinCode, navigation, dispatch, intl,
-    } = this.props;
+    const { currentAccount, pinCode, navigation, dispatch, intl } = this.props;
 
     const transferType = navigation.getParam('transferType', '');
     const fundType = navigation.getParam('fundType', '');
@@ -113,7 +112,7 @@ class TransferContainer extends Component {
         dispatch(toastNotification(intl.formatMessage({ id: 'alert.successful' })));
         navigation.goBack();
       })
-      .catch((err) => {
+      .catch(err => {
         dispatch(toastNotification(err.message));
       });
   };
@@ -124,9 +123,7 @@ class TransferContainer extends Component {
   };
 
   render() {
-    const {
-      accounts, currentAccount, navigation,
-    } = this.props;
+    const { accounts, currentAccount, navigation } = this.props;
     const { balance } = this.state;
 
     const fundType = navigation.getParam('fundType', '');

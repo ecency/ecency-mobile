@@ -34,9 +34,7 @@ class LeaderboardView extends PureComponent {
   };
 
   render() {
-    const {
-      users, intl, fetchLeaderBoard, refreshing,
-    } = this.props;
+    const { users, intl, fetchLeaderBoard, refreshing } = this.props;
 
     return (
       <View style={styles.container}>

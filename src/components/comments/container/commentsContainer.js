@@ -48,12 +48,13 @@ class CommentsContainer extends Component {
 
   // Component Functions
 
-  _shortComments = (sortOrder) => {
+  _shortComments = sortOrder => {
     const { comments: parent } = this.state;
 
-    const allPayout = c => parseFloat(c.pending_payout_value.split(' ')[0])
-      + parseFloat(c.total_payout_value.split(' ')[0])
-      + parseFloat(c.curator_payout_value.split(' ')[0]);
+    const allPayout = c =>
+      parseFloat(c.pending_payout_value.split(' ')[0]) +
+      parseFloat(c.total_payout_value.split(' ')[0]) +
+      parseFloat(c.curator_payout_value.split(' ')[0]);
 
     const absNegative = a => a.net_rshares < 0;
 
@@ -120,14 +121,14 @@ class CommentsContainer extends Component {
   _getComments = () => {
     const { author, permlink } = this.props;
 
-    getComments(author, permlink).then((comments) => {
+    getComments(author, permlink).then(comments => {
       this.setState({
         comments,
       });
     });
   };
 
-  _handleOnReplyPress = (item) => {
+  _handleOnReplyPress = item => {
     const { navigation, fetchPost } = this.props;
 
     navigation.navigate({
@@ -140,7 +141,7 @@ class CommentsContainer extends Component {
     });
   };
 
-  _handleOnEditPress = (item) => {
+  _handleOnEditPress = item => {
     const { navigation } = this.props;
 
     navigation.navigate({
@@ -154,13 +155,13 @@ class CommentsContainer extends Component {
     });
   };
 
-  _handleDeleteComment = (permlink) => {
+  _handleDeleteComment = permlink => {
     const { currentAccount, pinCode } = this.props;
 
     deleteComment(currentAccount, pinCode, permlink).then(() => {
       this._getComments();
     });
-  }
+  };
 
   render() {
     const { comments: _comments, selectedPermlink } = this.state;

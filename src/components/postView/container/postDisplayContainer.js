@@ -33,7 +33,7 @@ class PostDisplayContainer extends Component {
   }
 
   // Component Functions
-  _handleOnVotersPress = (activeVotes) => {
+  _handleOnVotersPress = activeVotes => {
     const { navigation, post } = this.props;
 
     navigation.navigate({
@@ -77,9 +77,7 @@ class PostDisplayContainer extends Component {
   };
 
   render() {
-    const {
-      currentAccount, isLoggedIn, isNewPost, parentPost, post,
-    } = this.props;
+    const { currentAccount, isLoggedIn, isNewPost, parentPost, post } = this.props;
 
     return (
       <PostDisplayView

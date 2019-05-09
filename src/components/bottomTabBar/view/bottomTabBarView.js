@@ -38,7 +38,7 @@ class BottomTabBarView extends PureComponent {
   }
 
   // Component Functions
-  _jumpTo = (route) => {
+  _jumpTo = route => {
     const {
       jumpTo,
       navigation: {
@@ -49,10 +49,10 @@ class BottomTabBarView extends PureComponent {
     const _routeName = routes[index].routeName;
 
     if (
-      !!route
-      && !!route.params
-      && !!route.params.scrollToTop
-      && _routeName === ROUTES.TABBAR.HOME
+      !!route &&
+      !!route.params &&
+      !!route.params.scrollToTop &&
+      _routeName === ROUTES.TABBAR.HOME
     ) {
       route.params.scrollToTop();
     }

@@ -40,12 +40,13 @@ class PointsContainer extends Component {
 
   // Component Functions
 
-  _groomUserActivities = userActivities => userActivities.map(item => ({
-    ...item,
-    icon: POINTS[item.type].icon,
-    iconType: POINTS[item.type].iconType,
-    textKey: POINTS[item.type].textKey,
-  }));
+  _groomUserActivities = userActivities =>
+    userActivities.map(item => ({
+      ...item,
+      icon: POINTS[item.type].icon,
+      iconType: POINTS[item.type].iconType,
+      textKey: POINTS[item.type].textKey,
+    }));
 
   _fetchuserPointActivities = async () => {
     const { username } = this.props;
@@ -53,22 +54,22 @@ class PointsContainer extends Component {
     this.setState({ refreshing: true });
 
     await getUser(username)
-      .then((userPoints) => {
+      .then(userPoints => {
         this.setState({ userPoints });
       })
-      .catch((err) => {
+      .catch(err => {
         Alert.alert(err);
       });
 
     await getUserPoints(username)
-      .then((userActivities) => {
+      .then(userActivities => {
         if (Object.entries(userActivities).length !== 0) {
           this.setState({
             userActivities: this._groomUserActivities(userActivities),
           });
         }
       })
-      .catch((err) => {
+      .catch(err => {
         Alert.alert(err);
       });
 
@@ -83,17 +84,15 @@ class PointsContainer extends Component {
       .then(() => {
         this._fetchuserPointActivities();
       })
-      .catch((err) => {
+      .catch(err => {
         Alert.alert(err);
       });
 
     this.setState({ isClaiming: false });
-  }
+  };
 
   render() {
-    const {
-      userPoints, userActivities, isDarkTheme, refreshing, isClaiming,
-    } = this.state;
+    const { userPoints, userActivities, isDarkTheme, refreshing, isClaiming } = this.state;
 
     return (
       <PointsView

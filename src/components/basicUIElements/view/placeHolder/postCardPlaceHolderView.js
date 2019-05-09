@@ -5,7 +5,7 @@ import Placeholder from 'rn-placeholder';
 
 import styles from './postCardPlaceHolderStyles';
 // TODO: make container for place holder wrapper after alpha
-const PostCardPlaceHolder = (props) => {
+const PostCardPlaceHolder = props => {
   const color = props.isDarkTheme ? '#2e3d51' : '#f5f5f5';
 
   return (

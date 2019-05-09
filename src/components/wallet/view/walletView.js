@@ -1,7 +1,5 @@
 import React, { PureComponent, Fragment } from 'react';
-import {
-  View, Text, ScrollView, RefreshControl,
-} from 'react-native';
+import { View, Text, ScrollView, RefreshControl } from 'react-native';
 import { injectIntl } from 'react-intl';
 
 // Components
@@ -59,16 +57,16 @@ class WalletView extends PureComponent {
 
     return (
       <ScrollView
-        refreshControl={(
+        refreshControl={
           <RefreshControl
-            refreshing={isRefreshing}
-            onRefresh={handleOnWalletRefresh}
-            progressBackgroundColor="#357CE6"
-            tintColor={!isDarkTheme ? '#357ce6' : '#96c0ff'}
-            titleColor="#fff"
-            colors={['#fff']}
-          />
-)}
+  refreshing={isRefreshing}
+  onRefresh={handleOnWalletRefresh}
+  progressBackgroundColor="#357CE6"
+  tintColor={!isDarkTheme ? '#357ce6' : '#96c0ff'}
+  titleColor="#fff"
+  colors={['#fff']}
+/>
+        }
         style={styles.scrollView}
       >
         {!walletData ? (

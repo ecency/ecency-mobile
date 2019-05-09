@@ -1,7 +1,5 @@
 import React, { PureComponent, Fragment } from 'react';
-import {
-  View, Text, ScrollView, Dimensions,
-} from 'react-native';
+import { View, Text, ScrollView, Dimensions } from 'react-native';
 import { injectIntl } from 'react-intl';
 
 // Providers
@@ -48,7 +46,7 @@ class PostDisplayView extends PureComponent {
   }
 
   // Component Functions
-  _handleOnScroll = (event) => {
+  _handleOnScroll = event => {
     const { y } = event.nativeEvent.contentOffset;
 
     this.setState({
@@ -56,7 +54,7 @@ class PostDisplayView extends PureComponent {
     });
   };
 
-  _handleOnPostLayout = (event) => {
+  _handleOnPostLayout = event => {
     const { height } = event.nativeEvent.layout;
 
     this.setState({
@@ -153,11 +151,7 @@ class PostDisplayView extends PureComponent {
                 <View style={styles.footer}>
                   <Tags tags={post.json_metadata && post.json_metadata.tags} />
                   <Text style={styles.footerText}>
-                    Posted by
-                    {' '}
-                    <Text style={styles.footerName}>{post.author}</Text>
-                    {' '}
-                    {formatedTime}
+                    Posted by <Text style={styles.footerName}>{post.author}</Text> {formatedTime}
                   </Text>
                   {/* {isPostEnd && this._getTabBar()} */}
                 </View>
