@@ -38,7 +38,6 @@ import {
   setAuthStatus,
   removeSCAccount,
   setExistUser,
-  setDefaultFooter,
 } from '../../../realm/realm';
 import { getUser } from '../../../providers/steem/dsteem';
 import { switchAccount } from '../../../providers/steem/auth';
@@ -82,6 +81,7 @@ class ApplicationContainer extends Component {
       isRenderRequire: true,
       isReady: false,
       isIos: Platform.OS !== 'android',
+      isThemeReady: false,
     };
   }
 
@@ -265,6 +265,8 @@ class ApplicationContainer extends Component {
         if (response.nsfw !== '') dispatch(setNsfw(response.nsfw));
 
         dispatch(setCurrency(response.currency !== '' ? response.currency : 'usd'));
+
+        this.setState({ isThemeReady: true });
       }
     });
   };
@@ -322,7 +324,7 @@ class ApplicationContainer extends Component {
 
   render() {
     const { selectedLanguage, isConnected, toastNotification } = this.props;
-    const { isRenderRequire, isReady } = this.state;
+    const { isRenderRequire, isReady, isThemeReady } = this.state;
 
     // For testing It comented out.
     // const locale = (navigator.languages && navigator.languages[0])
@@ -330,7 +332,7 @@ class ApplicationContainer extends Component {
     //   || navigator.userLanguage
     //   || selectedLanguage;
 
-    if (isRenderRequire) {
+    if (isRenderRequire && isThemeReady) {
       return (
         <ApplicationScreen
           isConnected={isConnected}
