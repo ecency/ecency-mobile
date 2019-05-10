@@ -60,6 +60,7 @@ class IconButtonView extends Component {
         style={[
           isCircle && styles.circleButton,
           buttonColor && { backgroundColor: buttonColor },
+          styles.buttonStyle,
           buttonStyle,
         ]}
         onPress={() => this._handleOnPress()}
