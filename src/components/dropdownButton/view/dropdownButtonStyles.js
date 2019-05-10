@@ -24,6 +24,7 @@ export default EStyleSheet.create({
     shadowOpacity: 0.3,
     shadowColor: '$shadowColor',
     backgroundColor: '$primaryBackgroundColor',
+    maxHeight: '$deviceHeight / 2',
   },
   iconWrapper: {
     justifyContent: 'center',
