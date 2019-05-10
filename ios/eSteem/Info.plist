@@ -31,7 +31,7 @@
 		</dict>
 	</array>
 	<key>CFBundleVersion</key>
-	<string>779</string>
+	<string>1648</string>
 	<key>CodePushDeploymentKey</key>
 	<string>13ThFZsgwk6UZp6mIe95IDbnfw8iHy1jfsn-E</string>
 	<key>LSRequiresIPhoneOS</key>
@@ -56,8 +56,10 @@
 	</dict>
 	<key>NSCameraUsageDescription</key>
 	<string>To access your photos, eSteem needs your permission to help you share your photos.</string>
+	<key>NSLocationAlwaysUsageDescription</key>
+	<string>To get accurate location for sharing</string>
 	<key>NSLocationWhenInUseUsageDescription</key>
-	<string></string>
+	<string>To choose and share current location</string>
 	<key>NSMainNibFile</key>
 	<string>LaunchScreen</string>
 	<key>NSMicrophoneUsageDescription</key>

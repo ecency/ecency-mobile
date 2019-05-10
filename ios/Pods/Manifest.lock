@@ -1,16 +1,16 @@
 PODS:
-  - AppCenter/Analytics (1.13.2):
+  - AppCenter/Analytics (1.14.0):
     - AppCenter/Core
-  - AppCenter/Core (1.13.2)
-  - AppCenter/Crashes (1.13.2):
+  - AppCenter/Core (1.14.0)
+  - AppCenter/Crashes (1.14.0):
     - AppCenter/Core
-  - AppCenter/Push (1.13.2):
+  - AppCenter/Push (1.14.0):
     - AppCenter/Core
-  - AppCenterReactNativeShared (1.12.2):
-    - AppCenter/Core (= 1.13.2)
+  - AppCenterReactNativeShared (1.13.0):
+    - AppCenter/Core (= 1.14.0)
   - Base64 (1.1.2)
   - boost-for-react-native (1.63.0)
-  - CodePush (5.5.2):
+  - CodePush (5.6.0):
     - Base64 (~> 1.1)
     - JWT (~> 3.0.0-beta.7)
     - React
@@ -87,10 +87,10 @@ PODS:
   - yoga (0.57.8.React)
 
 DEPENDENCIES:
-  - AppCenter/Analytics (~> 1.13.0)
-  - AppCenter/Crashes (~> 1.13.0)
-  - AppCenter/Push (~> 1.13.0)
-  - AppCenterReactNativeShared (~> 1.12.0)
+  - AppCenter/Analytics (~> 1.14.0)
+  - AppCenter/Crashes (~> 1.14.0)
+  - AppCenter/Push (~> 1.14.0)
+  - AppCenterReactNativeShared (~> 1.13.0)
   - CodePush (from `../node_modules/react-native-code-push`)
   - DoubleConversion (from `../node_modules/react-native/third-party-podspecs/DoubleConversion.podspec`)
   - Folly (from `../node_modules/react-native/third-party-podspecs/Folly.podspec`)
@@ -144,11 +144,11 @@ EXTERNAL SOURCES:
     :path: "../node_modules/react-native/ReactCommon/yoga"
 
 SPEC CHECKSUMS:
-  AppCenter: bce7fe1098e8e8aeb70aaae1898600534069f549
-  AppCenterReactNativeShared: 6c0750b874f3242c47cb64083e23b835975c6aa2
+  AppCenter: 02c5efe08d3bbab5421ae41d5f7aa7238906b817
+  AppCenterReactNativeShared: 00f470c3c17b47718db8733cbe811ccdcfd86282
   Base64: cecfb41a004124895a7bcee567a89bae5a89d49b
   boost-for-react-native: 39c7adb57c4e60d6c5479dd8623128eb5b3f0f2c
-  CodePush: b4c024dfc7b1f44434aaadf9f6763bb22e243980
+  CodePush: 300e90b3481fa82569090406165b83745de3613a
   DoubleConversion: bb338842f62ab1d708ceb63ec3d999f0f3d98ecd
   FLAnimatedImage: 4a0b56255d9b05f18b6dd7ee06871be5d3b89e31
   Folly: c89ac2d5c6ab169cd7397ef27485c44f35f742c7
@@ -157,13 +157,13 @@ SPEC CHECKSUMS:
   QBImagePickerController: d54cf93db6decf26baf6ed3472f336ef35cae022
   React: adbac0757ce35e92fbd447ab98c810209d27d9b0
   react-native-fast-image: 6d50167ad4d68b59640ceead8c2bc4e58d91d8bd
-  react-native-version-number: d4919bbe43b62039894c6a747633bb59a8a44df3
+  react-native-version-number: 75301519bb72064ad209a498ed08b128cbcf10e7
   RNImageCropPicker: 754299983d07c450aec0834c0efe0ed114131ff3
   RSKImageCropper: 98296ad26b41753f796b6898d015509598f13d97
   SDWebImage: 3f3f0c02f09798048c47a5ed0a13f17b063572d8
   SSZipArchive: 41455d4b8d2b6ab93990820b50dc697c2554a322
   yoga: 74cdf036c30820443b25ade59916236b1e95ee93
 
-PODFILE CHECKSUM: 7e5e745ff42e44b918e4f17ac209c3b553d6be97
+PODFILE CHECKSUM: 0d5614564707613e34092ab72ec2506e826478ea
 
 COCOAPODS: 1.6.1
