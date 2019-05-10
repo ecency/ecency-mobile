@@ -11,4 +11,7 @@ export default EStyleSheet.create({
     borderColor: '$primaryBlue',
     borderWidth: 1,
   },
+  buttonStyle: {
+    padding: 10,
+  },
 });
