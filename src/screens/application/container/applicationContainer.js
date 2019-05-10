@@ -136,6 +136,7 @@ class ApplicationContainer extends Component {
     await this._refreshGlobalProps();
     this._getSettings();
     await this._getUserData();
+    this.setState({ isReady: true });
   };
 
   _handleConntectionChange = (status) => {
@@ -264,8 +265,6 @@ class ApplicationContainer extends Component {
         if (response.nsfw !== '') dispatch(setNsfw(response.nsfw));
 
         dispatch(setCurrency(response.currency !== '' ? response.currency : 'usd'));
-
-        this.setState({ isReady: true });
       }
     });
   };
@@ -331,12 +330,13 @@ class ApplicationContainer extends Component {
     //   || navigator.userLanguage
     //   || selectedLanguage;
 
-    if (isRenderRequire && isReady) {
+    if (isRenderRequire) {
       return (
         <ApplicationScreen
           isConnected={isConnected}
           locale={selectedLanguage}
           toastNotification={toastNotification}
+          isReady={isReady}
           {...this.props}
         />
       );
