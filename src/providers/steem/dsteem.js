@@ -1,10 +1,11 @@
+/* eslint-disable camelcase */
 import { Client, PrivateKey } from 'dsteem';
 import steemConnect from 'steemconnect';
 import Config from 'react-native-config';
 
 import { getServer } from '../../realm/realm';
 import { getUnreadActivityCount } from '../esteem/esteem';
-import { userActivity } from '../esteem/ePoint';
+import { userActivity, transfer } from '../esteem/ePoint';
 // Utils
 import { decryptKey } from '../../utils/crypto';
 import { parsePosts, parsePost, parseComments } from '../../utils/postParser';
@@ -460,7 +461,7 @@ const _vote = async (currentAccount, pin, author, permlink, weight) => {
       api
         .vote(voter, author, permlink, weight)
         .then((result) => {
-          resolve(result);
+          resolve(result.result);
         })
         .catch((err) => {
           reject(err);
@@ -801,7 +802,9 @@ export const postContent = (
 ).then((resp) => {
   if (options) {
     const t = title ? 100 : 110;
-    userActivity(account.username, t, resp.block_num, resp.id);
+    const { block_num, id } = resp;
+
+    userActivity(account.username, t, block_num, id);
   }
   return resp;
 });
@@ -862,7 +865,7 @@ const _postContent = async (
       opArray.push(e);
     }
 
-    return api.broadcast(opArray);
+    return api.broadcast(opArray).then(resp => resp.result);
   }
 
   if (key) {
@@ -935,7 +938,7 @@ const _reblog = async (account, pinCode, author, permlink) => {
 
     const follower = account.name;
 
-    return api.reblog(follower, author, permlink);
+    return api.reblog(follower, author, permlink).then(resp => resp.result);
   }
 
   if (key) {
