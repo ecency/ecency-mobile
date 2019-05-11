@@ -30,7 +30,9 @@ class HeaderContainer extends PureComponent {
   _handleOpenDrawer = () => {
     const { navigation } = this.props;
 
-    navigation.openDrawer();
+    if (navigation && navigation.openDrawer && typeof(navigation.openDrawer) == "function") {
+      navigation.openDrawer();
+    } 
   };
 
   _handleOnPressBackButton = () => {
