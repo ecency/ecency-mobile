@@ -228,7 +228,7 @@ export const schedule = (
     category: tags[0],
     title,
     permlink,
-    json: JSON.stringify(json),
+    json: jsonStringify(json),
     tags,
     body,
     post_type: operationType,
