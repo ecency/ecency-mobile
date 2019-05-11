@@ -289,7 +289,7 @@ class PostsView extends Component {
                 titleColor="#fff"
                 colors={['#fff']}
               />
-)}
+            )}
             ref={(ref) => {
               this.flatList = ref;
             }}
