@@ -32,7 +32,7 @@ class CommentsDisplayView extends PureComponent {
 
   render() {
     const {
-      author, commentCount, fetchPost, intl, permlink,
+      author, commentCount, fetchPost, intl, permlink, mainAuthor
     } = this.props;
     const { selectedFilter } = this.state;
 
@@ -55,6 +55,7 @@ class CommentsDisplayView extends PureComponent {
                 commentCount={commentCount}
                 author={author}
                 permlink={permlink}
+                mainAuthor={mainAuthor}
               />
             </View>
           </Fragment>

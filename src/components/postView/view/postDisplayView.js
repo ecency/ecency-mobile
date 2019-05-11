@@ -168,6 +168,7 @@ class PostDisplayView extends PureComponent {
           {post && (isGetComment || isLoadedComments) && (
             <CommentsDisplay
               author={post.author}
+              mainAuthor={post.author}
               permlink={post.permlink}
               commentCount={post.children}
               fetchPost={fetchPost}
