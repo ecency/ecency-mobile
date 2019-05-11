@@ -70,7 +70,7 @@ class PostBody extends PureComponent {
       || (url.indexOf('steempeak') > -1 && url.indexOf('files') < 0)
     ) {
       url = url.substring(url.indexOf('@'), url.length);
-      const routeParams = url.indexOf('/') > -1 ? url.split('/') : [url];
+      const routeParams = url && url.indexOf('/') > -1 ? url.split('/') : [url];
 
       [, permlink] = routeParams;
       author = routeParams[0].indexOf('@') > -1 ? routeParams[0].replace('@', '') : routeParams[0];

@@ -202,7 +202,7 @@ class NotificationView extends PureComponent {
                 titleColor="#fff"
                 colors={['#fff']}
               />
-)}
+            )}
             renderItem={({ item, index }) => (
               <Fragment>
                 <ContainerHeader
