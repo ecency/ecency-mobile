@@ -67,6 +67,7 @@ class CommentView extends PureComponent {
           name={comment.author}
           reputation={comment.author_reputation}
           size={avatarSize || 24}
+          currentAccountUsername={currentAccountUsername}
           isShowOwnerIndicator={currentAccountUsername === comment.author}
         />
         <View style={[{ marginLeft: marginLeft || 29 }, styles.bodyWrapper]}>

@@ -73,7 +73,7 @@ class PostDisplayContainer extends Component {
   _fetchPost = async () => {
     const { post, fetchPost } = this.props;
 
-    fetchPost(post.author, post.permlink);
+    if (post) fetchPost(post.author, post.permlink);
   };
 
   render() {

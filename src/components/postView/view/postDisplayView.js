@@ -122,7 +122,7 @@ class PostDisplayView extends PureComponent {
   };
 
   render() {
-    const { post, fetchPost, parentPost } = this.props;
+    const { post, fetchPost, parentPost, currentAccount: { name } } = this.props;
     const { postHeight, scrollHeight, isLoadedComments } = this.state;
 
     // const isPostEnd = scrollHeight > postHeight;
@@ -145,6 +145,7 @@ class PostDisplayView extends PureComponent {
                 <PostHeaderDescription
                   date={formatedTime}
                   name={post.author}
+                  currentAccountUsername={name}
                   reputation={post.author_reputation}
                   tag={post.category}
                   size={16}
