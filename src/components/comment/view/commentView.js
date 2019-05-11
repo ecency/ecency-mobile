@@ -56,6 +56,8 @@ class CommentView extends PureComponent {
       marginLeft,
       voteCount,
       intl,
+      author,
+      mainAuthor={mainAuthor}
     } = this.props;
     const { isShowSubComments, isPressedShowButton } = this.state;
 
@@ -68,7 +70,7 @@ class CommentView extends PureComponent {
           reputation={comment.author_reputation}
           size={avatarSize || 24}
           currentAccountUsername={currentAccountUsername}
-          isShowOwnerIndicator={currentAccountUsername === comment.author}
+          isShowOwnerIndicator={mainAuthor === comment.author}
         />
         <View style={[{ marginLeft: marginLeft || 29 }, styles.bodyWrapper]}>
           <PostBody isComment handleOnUserPress={handleOnUserPress} body={comment.body} />
@@ -155,6 +157,7 @@ class CommentView extends PureComponent {
               commentCount={comment.children}
               isShowMoreButton={false}
               fetchPost={fetchPost}
+              mainAuthor={mainAuthor}
             />
           )}
         </View>

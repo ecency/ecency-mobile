@@ -26,6 +26,7 @@ class CommentsView extends PureComponent {
 
   render() {
     const {
+      mainAuthor,
       avatarSize,
       commentCount,
       commentNumber,
@@ -47,6 +48,7 @@ class CommentsView extends PureComponent {
         keyExtractor={this._keyExtractor}
         renderItem={({ item }) => (
           <Comment
+            mainAuthor={mainAuthor}
             avatarSize={avatarSize}
             comment={item}
             commentCount={commentCount || item.children}
