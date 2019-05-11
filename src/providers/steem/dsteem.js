@@ -5,7 +5,7 @@ import Config from 'react-native-config';
 
 import { getServer } from '../../realm/realm';
 import { getUnreadActivityCount } from '../esteem/esteem';
-import { userActivity, transfer } from '../esteem/ePoint';
+import { userActivity } from '../esteem/ePoint';
 // Utils
 import { decryptKey } from '../../utils/crypto';
 import { parsePosts, parsePost, parseComments } from '../../utils/postParser';
@@ -13,6 +13,7 @@ import { getName, getAvatar } from '../../utils/user';
 import { getReputation } from '../../utils/reputation';
 import parseToken from '../../utils/parseToken';
 import filterNsfwPost from '../../utils/filterNsfwPost';
+import { jsonStringify } from '../../utils/jsonUtils';
 
 // Constant
 import AUTH_TYPE from '../../constants/authType';
@@ -229,7 +230,7 @@ export const ignoreUser = async (currentAccount, pin, data) => {
 
     const json = {
       id: 'follow',
-      json: JSON.stringify([
+      json: jsonStringify([
         'follow',
         {
           follower: `${data.follower}`,
@@ -650,7 +651,7 @@ export const followUser = async (currentAccount, pin, data) => {
     const privateKey = PrivateKey.fromString(key);
     const json = {
       id: 'follow',
-      json: JSON.stringify([
+      json: jsonStringify([
         'follow',
         {
           follower: `${data.follower}`,
@@ -695,7 +696,7 @@ export const unfollowUser = async (currentAccount, pin, data) => {
 
     const json = {
       id: 'follow',
-      json: JSON.stringify([
+      json: jsonStringify([
         'follow',
         {
           follower: `${data.follower}`,
@@ -842,7 +843,7 @@ const _postContent = async (
       permlink,
       title,
       body,
-      json_metadata: JSON.stringify(jsonMetadata),
+      json_metadata: jsonStringify(jsonMetadata),
     };
 
     const opArray = [['comment', params]];
@@ -879,7 +880,7 @@ const _postContent = async (
           permlink,
           title,
           body,
-          json_metadata: JSON.stringify(jsonMetadata),
+          json_metadata: jsonStringify(jsonMetadata),
         },
       ],
     ];
@@ -947,7 +948,7 @@ const _reblog = async (account, pinCode, author, permlink) => {
 
     const json = {
       id: 'follow',
-      json: JSON.stringify([
+      json: jsonStringify([
         'reblog',
         {
           account: follower,
