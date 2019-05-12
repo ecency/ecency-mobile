@@ -8,10 +8,13 @@ export default (posts, option) => {
     });
     return posts;
   }
-  posts.map((post) => {
-    if (post.parent_permlink !== 'nsfw' && !post.json_metadata.tags.includes('nsfw')) {
-      updatedPosts.push(post);
-    }
-  });
-  return updatedPosts;
+
+  if (posts) {
+    posts.map((post) => {
+      if (post.parent_permlink !== 'nsfw' && !post.json_metadata.tags.includes('nsfw')) {
+        updatedPosts.push(post);
+      }
+    });
+    return updatedPosts;
+  }
 };
