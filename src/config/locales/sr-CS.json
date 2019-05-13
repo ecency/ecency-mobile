@@ -197,7 +197,8 @@
     "confirm": "Confirm"
   },
   "post": {
-    "reblog_alert": "Da li ste sigurni da želite da podelite?"
+    "reblog_alert": "Da li ste sigurni da želite da podelite?",
+    "removed_hint": "The post was removed by"
   },
   "drafts": {
     "title": "Radne verzije",
