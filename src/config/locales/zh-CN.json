@@ -197,7 +197,8 @@
     "confirm": "Confirm"
   },
   "post": {
-    "reblog_alert": "您确定想要转发？"
+    "reblog_alert": "您确定想要转发？",
+    "removed_hint": "The post was removed by"
   },
   "drafts": {
     "title": "草稿",
