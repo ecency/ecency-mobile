@@ -197,7 +197,8 @@
     "confirm": "Patvirtinti"
   },
   "post": {
-    "reblog_alert": "Ar tikrai norite dalintis?"
+    "reblog_alert": "Ar tikrai norite dalintis?",
+    "removed_hint": "The post was removed by"
   },
   "drafts": {
     "title": "Ruošiniai",
