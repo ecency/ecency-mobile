@@ -197,7 +197,8 @@
     "confirm": "Təsdiqlə"
   },
   "post": {
-    "reblog_alert": "Təkrar paylaşmaq istədiyinizə əminsiniz?"
+    "reblog_alert": "Təkrar paylaşmaq istədiyinizə əminsiniz?",
+    "removed_hint": "The post was removed by"
   },
   "drafts": {
     "title": "Qaralamalar",
