@@ -78,11 +78,13 @@ class PostDisplayContainer extends Component {
 
   render() {
     const {
-      currentAccount, isLoggedIn, isNewPost, parentPost, post,
+      currentAccount, isLoggedIn, isNewPost, parentPost, post, isPostUnavailable, author,
     } = this.props;
 
     return (
       <PostDisplayView
+        author={author}
+        isPostUnavailable={isPostUnavailable}
         currentAccount={currentAccount}
         fetchPost={this._fetchPost}
         handleOnEditPress={this._handleOnEditPress}
