@@ -197,7 +197,8 @@
     "confirm": "تأیید"
   },
   "post": {
-    "reblog_alert": "آیا مطمئن هستید که می‌خواهید به اشتراک بگذارید؟"
+    "reblog_alert": "آیا مطمئن هستید که می‌خواهید به اشتراک بگذارید؟",
+    "removed_hint": "The post was removed by"
   },
   "drafts": {
     "title": "پیشنویس ها",
