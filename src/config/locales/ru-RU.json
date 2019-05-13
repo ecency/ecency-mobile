@@ -197,7 +197,8 @@
     "confirm": "Подтвердить"
   },
   "post": {
-    "reblog_alert": "Вы уверены, что хотите сделать репост?"
+    "reblog_alert": "Вы уверены, что хотите сделать репост?",
+    "removed_hint": "The post was removed by"
   },
   "drafts": {
     "title": "Черновики",
