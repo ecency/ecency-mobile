@@ -197,7 +197,8 @@
     "confirm": "Confirmă"
   },
   "post": {
-    "reblog_alert": "Ești sigur că vrei să redistribui?"
+    "reblog_alert": "Ești sigur că vrei să redistribui?",
+    "removed_hint": "The post was removed by"
   },
   "drafts": {
     "title": "Schițe",
