@@ -197,7 +197,8 @@
     "confirm": "Confirm"
   },
   "post": {
-    "reblog_alert": "Está seguro que quiere rebloguear?"
+    "reblog_alert": "Está seguro que quiere rebloguear?",
+    "removed_hint": "The post was removed by"
   },
   "drafts": {
     "title": "Borradores",
