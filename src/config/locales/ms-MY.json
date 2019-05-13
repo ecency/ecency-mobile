@@ -197,7 +197,8 @@
     "confirm": "Muktamat"
   },
   "post": {
-    "reblog_alert": "Adakah anda ingin menulang siar?"
+    "reblog_alert": "Adakah anda ingin menulang siar?",
+    "removed_hint": "The post was removed by"
   },
   "drafts": {
     "title": "Draf",
