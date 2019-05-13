@@ -197,7 +197,8 @@
     "confirm": "Confirm"
   },
   "post": {
-    "reblog_alert": "Weet je zeker dat je het wilt delen?"
+    "reblog_alert": "Weet je zeker dat je het wilt delen?",
+    "removed_hint": "The post was removed by"
   },
   "drafts": {
     "title": "Concepten",
