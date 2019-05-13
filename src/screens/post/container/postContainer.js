@@ -22,6 +22,7 @@ class PostContainer extends Component {
       isNewPost: false,
       isHasParentPost: false,
       parentPost: null,
+      isPostUnavailable: false,
     };
   }
 
@@ -38,7 +39,7 @@ class PostContainer extends Component {
       this.setState({ post: content });
     } else if (author && permlink) {
       this._loadPost(author, permlink);
-
+      this.setState({ author });
       if (isHasParentPost) this.setState({ isHasParentPost });
     }
   }
@@ -65,12 +66,14 @@ class PostContainer extends Component {
 
     await getPost(_author, _permlink, isLoggedIn && currentAccount.username)
       .then((result) => {
-        if (result) {
+        if (result && result.id > 0) {
           if (isParentPost) {
             this.setState({ parentPost: result });
           } else {
             this.setState({ post: result });
           }
+        } else {
+          this.setState({ isPostUnavailable: true });
         }
       })
       .catch((err) => {
@@ -81,7 +84,7 @@ class PostContainer extends Component {
   render() {
     const { currentAccount, isLoggedIn } = this.props;
     const {
-      error, isNewPost, parentPost, post, isHasParentPost,
+      error, isNewPost, parentPost, post, isHasParentPost, isPostUnavailable, author,
     } = this.state;
 
     if (isHasParentPost && post) this._loadPost(post.parent_author, post.parent_permlink, true);
@@ -90,12 +93,14 @@ class PostContainer extends Component {
       <PostScreen
         currentAccount={currentAccount}
         error={error}
+        author={author}
         fetchPost={this._loadPost}
         isFetchComments
         isLoggedIn={isLoggedIn}
         isNewPost={isNewPost}
         parentPost={parentPost}
         post={post}
+        isPostUnavailable={isPostUnavailable}
       />
     );
   }

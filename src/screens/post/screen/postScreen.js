@@ -31,6 +31,8 @@ class PostScreen extends PureComponent {
       isNewPost,
       parentPost,
       post,
+      isPostUnavailable,
+      author,
     } = this.props;
 
     return (
@@ -43,7 +45,9 @@ class PostScreen extends PureComponent {
           isNewPost={isNewPost}
         />
         <PostDisplay
+          author={author}
           currentAccount={currentAccount}
+          isPostUnavailable={isPostUnavailable}
           fetchPost={fetchPost}
           isFetchComments={isFetchComments}
           isLoggedIn={isLoggedIn}
