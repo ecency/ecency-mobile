@@ -6,8 +6,10 @@ export const getWordsCount = text => (text && typeof text === 'string' ? text.re
 const permlinkRnd = () => (Math.random() + 1).toString(16).substring(2);
 
 export const generatePermlink = (title, random = false) => {
+  if (!title) return '';
+
   const slug = getSlug(title);
-  let perm = slug.toString();
+  let perm = slug && slug.toString();
 
   if (title) {
     if (random) {
@@ -32,6 +34,8 @@ export const generatePermlink = (title, random = false) => {
 };
 
 export const generateReplyPermlink = (toAuthor) => {
+  if (!toAuthor) return '';
+
   const t = new Date(Date.now());
 
   const timeFormat = `${t.getFullYear().toString()}${(
@@ -48,6 +52,8 @@ export const generateReplyPermlink = (toAuthor) => {
 };
 
 export const makeOptions = (author, permlink, operationType) => {
+  if (!author || !permlink) return {};
+
   const a = {
     allow_curation_rewards: true,
     allow_votes: true,
@@ -63,10 +69,12 @@ export const makeOptions = (author, permlink, operationType) => {
       a.max_accepted_payout = '1000000.000 SBD';
       a.percent_steem_dollars = 0;
       break;
+
     case 'dp':
       a.max_accepted_payout = '0.000 SBD';
       a.percent_steem_dollars = 10000;
       break;
+
     default:
       a.max_accepted_payout = '1000000.000 SBD';
       a.percent_steem_dollars = 10000;
@@ -97,8 +105,8 @@ export const extractMetadata = (body) => {
 
   const out = {};
 
-  const mUrls = body.match(urlReg);
-  const mUsers = body.match(userReg);
+  const mUrls = body && body.match(urlReg);
+  const mUsers = body && body.match(userReg);
 
   const matchedImages = [];
   const matchedLinks = [];
@@ -136,9 +144,11 @@ export const extractMetadata = (body) => {
 };
 
 export const createPatch = (text1, text2) => {
-  const dmp = new diff_match_patch();
   if (!text1 && text1 === '') return undefined;
+
+  const dmp = new diff_match_patch();
   const patches = dmp.patch_make(text1, text2);
   const patch = dmp.patch_toText(patches);
+
   return patch;
 };
