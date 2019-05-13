@@ -197,7 +197,8 @@
     "confirm": "Valider"
   },
   "post": {
-    "reblog_alert": "Êtes-vous sûr de vouloir rebloguer ?"
+    "reblog_alert": "Êtes-vous sûr de vouloir rebloguer ?",
+    "removed_hint": "The post was removed by"
   },
   "drafts": {
     "title": "Brouillons",
