@@ -197,7 +197,8 @@
     "confirm": "Konfirmasi"
   },
   "post": {
-    "reblog_alert": "Anda yakin ingin menerbitkan ulang?"
+    "reblog_alert": "Anda yakin ingin menerbitkan ulang?",
+    "removed_hint": "The post was removed by"
   },
   "drafts": {
     "title": "Konsep",
