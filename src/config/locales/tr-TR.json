@@ -197,7 +197,8 @@
     "confirm": "Onayla"
   },
   "post": {
-    "reblog_alert": "Reblog yapma istediginize emin misiniz?"
+    "reblog_alert": "Reblog yapma istediginize emin misiniz?",
+    "removed_hint": "The post was removed by"
   },
   "drafts": {
     "title": "Taslaklar",
