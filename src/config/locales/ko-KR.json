@@ -197,7 +197,8 @@
     "confirm": "Confirm"
   },
   "post": {
-    "reblog_alert": "정말 리블로그 하시겠습니까?"
+    "reblog_alert": "정말 리블로그 하시겠습니까?",
+    "removed_hint": "The post was removed by"
   },
   "drafts": {
     "title": "임시 보관함",
