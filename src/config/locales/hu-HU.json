@@ -197,7 +197,8 @@
     "confirm": "Megerősítés"
   },
   "post": {
-    "reblog_alert": "Biztos, hogy megosztod?"
+    "reblog_alert": "Biztos, hogy megosztod?",
+    "removed_hint": "The post was removed by"
   },
   "drafts": {
     "title": "Piszkozatok",
