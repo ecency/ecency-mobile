@@ -197,7 +197,8 @@
     "confirm": "पुष्टी करें"
   },
   "post": {
-    "reblog_alert": "क्या आप सच में पुनः प्रसारित करना चाहते हैं?"
+    "reblog_alert": "क्या आप सच में पुनः प्रसारित करना चाहते हैं?",
+    "removed_hint": "The post was removed by"
   },
   "drafts": {
     "title": "प्रारूप",
