@@ -1,4 +1,6 @@
 export default (input) => {
+  if (!input) return 0;
+
   if (input === 0) {
     return 25;
   }

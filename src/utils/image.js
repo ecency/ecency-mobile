@@ -49,23 +49,17 @@ export const catchEntryImage = (entry, width = 0, height = 0) => {
   // try to extract images by regex
   const imgReg2 = /(http(s?):)([/|.|\w|\s|-])*\.(?:jpe?g|gif|png)/gim;
   const m = entry.body.match(imgReg2);
-  if (m) {
-    return proxifyImageSrc(m[0], width, height);
-  }
+  if (m) return proxifyImageSrc(m[0], width, height);
 
   // If no image specified in json metadata, try extract first image href from entry body
   let imgReg = /<img.+src=(?:"|')(.+?)(?:"|')(.*)>/;
   let bodyMatch = entry.body.match(imgReg);
-  if (bodyMatch) {
-    return proxifyImageSrc(bodyMatch[1], width, height);
-  }
+  if (bodyMatch) return proxifyImageSrc(bodyMatch[1], width, height);
 
   // If there is no <img> tag, check from markdown img tag ![](image.png)
   imgReg = /(?:!\[(.*?)\]\((.*?)\))/;
   bodyMatch = imgReg.exec(entry.body);
-  if (bodyMatch) {
-    return proxifyImageSrc(bodyMatch[2], width, height);
-  }
+  if (bodyMatch) return proxifyImageSrc(bodyMatch[2], width, height);
 
   return null;
 };
@@ -73,7 +67,7 @@ export const catchEntryImage = (entry, width = 0, height = 0) => {
 export const catchDraftImage = (body) => {
   const imgRegex = /(https?:\/\/.*\.(?:tiff?|jpe?g|gif|png|svg|ico|PNG|GIF|JPG))/g;
 
-  if (imgRegex.test(body)) {
+  if (body && imgRegex.test(body)) {
     const imageMatch = body.match(imgRegex);
 
     return proxifyImageSrc(imageMatch[0]);
