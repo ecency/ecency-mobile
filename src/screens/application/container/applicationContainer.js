@@ -234,7 +234,7 @@ class ApplicationContainer extends Component {
           this._connectNotificationServer(accountData.name);
         })
         .catch((err) => {
-          Alert.alert(err);
+          // Alert.alert(err);
         });
     }
 
