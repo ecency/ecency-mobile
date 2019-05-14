@@ -120,7 +120,12 @@ export const getUser = async (user) => {
     // get global properties to calculate Steem Power
     const globalProperties = await client.database.getDynamicGlobalProperties();
     const rcPower = await client.call('rc_api', 'find_rc_accounts', { accounts: [user] });
-    const unreadActivityCount = await getUnreadActivityCount({ user });
+    let unreadActivityCount;
+    try {
+      unreadActivityCount = await getUnreadActivityCount({ user });
+    } catch (error) {
+      unreadActivityCount = 0;
+    }
 
     account[0].reputation = getReputation(account[0].reputation);
     account[0].username = account[0].name;
