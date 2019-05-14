@@ -40,7 +40,7 @@
     "moment": "^2.22.2",
     "react": "^16.7.0",
     "react-intl": "^2.7.2",
-    "react-native": "^0.57.5",
+    "react-native": "esteemapp/react-native",
     "react-native-actionsheet": "^2.4.2",
     "react-native-code-push": "^5.5.2",
     "react-native-config": "^0.11.5",
