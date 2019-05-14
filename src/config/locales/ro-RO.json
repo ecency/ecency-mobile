@@ -34,7 +34,7 @@
   "points": {
     "post": "Postare",
     "comment": "Comentariu",
-    "checkin": "Check-in",
+    "checkin": "Logare",
     "vote": "Vot",
     "reblog": "Redistribuire",
     "login": "Autentificare",
@@ -198,7 +198,7 @@
   },
   "post": {
     "reblog_alert": "Ești sigur că vrei să redistribui?",
-    "removed_hint": "The post was removed by"
+    "removed_hint": "Postarea a fost eliminată de către"
   },
   "drafts": {
     "title": "Schițe",
