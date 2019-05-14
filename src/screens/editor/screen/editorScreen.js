@@ -1,6 +1,7 @@
 import React, { Component } from 'react';
 import { View } from 'react-native';
 import { injectIntl } from 'react-intl';
+import { get } from 'lodash';
 
 // Utils
 import { getWordsCount } from '../../../utils/editor';
@@ -57,6 +58,8 @@ class EditorScreen extends Component {
 
   // Component Functions
   _initialFields = () => {
+    const { initialEditor } = this.props;
+
     this.setState({
       fields: {
         title: '',
@@ -66,6 +69,8 @@ class EditorScreen extends Component {
       },
       isRemoveTag: true,
     });
+
+    if (initialEditor) initialEditor();
   };
 
   _handleOnPressPreviewButton = () => {
@@ -115,24 +120,23 @@ class EditorScreen extends Component {
   _handleIsFormValid = (bodyText) => {
     const { fields } = this.state;
     const { isReply } = this.props;
-    let _isFormValid;
+    let isFormValid;
 
     if (isReply) {
-      _isFormValid = fields && fields.body && fields.body.length > 0;
+      isFormValid = get(fields, 'body').length > 0;
     } else {
-      _isFormValid = fields
-        && fields.title
-        && fields.title.length > 0
-        && ((fields.body && fields.body.length > 0 && fields.tags.length > 0)
-          || (bodyText && bodyText.length > 0));
+      isFormValid = get(fields, 'title', '')
+        && (get(fields, 'body', '') || (bodyText && bodyText > 0))
+        && get(fields, 'tags', null);
     }
 
-    this.setState({ isFormValid: _isFormValid });
+    this.setState({ isFormValid });
   };
 
   _handleFormUpdate = (componentID, content) => {
-    const { handleFormChanged, isReply } = this.props;
-    const fields = { ...this.state.fields };
+    const { handleFormChanged } = this.props;
+    const { fields: _fields } = this.state;
+    const fields = { ..._fields };
 
     if (componentID === 'body') {
       fields.body = content;
@@ -140,20 +144,26 @@ class EditorScreen extends Component {
       fields.title = content;
     }
 
-    this.setState({ fields });
+    if ((get(fields, 'body', '').trim() !== get(_fields, 'body', '').trim()
+        || get(fields, 'title', '').trim() !== get(_fields, 'title', '').trim()
+        || get(fields, 'tags') !== get(_fields, 'tags'))) {
+      handleFormChanged();
+    }
 
-    handleFormChanged();
+    this.setState({ fields });
 
     this._handleIsFormValid();
     this._saveCurrentDraft();
   };
 
-  _handleOnTagAdded = (tags) => {
+  _handleOnTagAdded = async (tags) => {
+    const { fields: _fields } = this.state;
     const _tags = tags.filter(tag => tag && tag !== ' ');
-    const fields = { ...this.state.fields };
 
-    fields.tags = _tags;
-    this.setState({ fields, isRemoveTag: false });
+    const fields = { ..._fields, tags: [..._tags] };
+    await this.setState({ fields, isRemoveTag: false });
+
+    this._handleFormUpdate();
   };
 
   render() {
@@ -161,7 +171,6 @@ class EditorScreen extends Component {
       fields, isPreviewActive, wordsCount, isFormValid, isRemoveTag,
     } = this.state;
     const {
-      draftPost,
       handleOnImagePicker,
       intl,
       isDraftSaved,
