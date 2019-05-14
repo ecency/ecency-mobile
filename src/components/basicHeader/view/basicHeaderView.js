@@ -97,6 +97,7 @@ class BasicHeaderView extends Component {
       title,
     } = this.props;
     const { isInputVisible, datePickerValue } = this.state;
+
     return (
       <SafeAreaView style={styles.safeArea}>
         <View style={styles.container}>
