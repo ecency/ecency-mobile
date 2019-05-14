@@ -161,7 +161,7 @@
     "reply_placeholder": "Apa yang ingin anda tulis terhadap pos di atas?",
     "publish": "Terbitkan",
     "reply": "Balas",
-    "open_galery": "Membuka galeri",
+    "open_galery": "Open Gallery",
     "capture_photo": "Tangkap gambar"
   },
   "pincode": {
@@ -197,7 +197,8 @@
     "confirm": "Muktamat"
   },
   "post": {
-    "reblog_alert": "Adakah anda ingin menulang siar?"
+    "reblog_alert": "Adakah anda ingin menulang siar?",
+    "removed_hint": "Pos tersebut dipadamkan oleh"
   },
   "drafts": {
     "title": "Draf",

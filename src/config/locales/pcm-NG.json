@@ -161,7 +161,7 @@
     "reply_placeholder": "Wetin you go like yan about the matter for up",
     "publish": "Post am",
     "reply": "Reply",
-    "open_galery": "Open Picture",
+    "open_galery": "Open Gallery",
     "capture_photo": "Take new picture"
   },
   "pincode": {
@@ -197,7 +197,8 @@
     "confirm": "Confirm"
   },
   "post": {
-    "reblog_alert": "You sure say you wan reblog am?"
+    "reblog_alert": "You sure say you wan reblog am?",
+    "removed_hint": "The post was removed by"
   },
   "drafts": {
     "title": "Draft",

@@ -161,7 +161,7 @@
     "reply_placeholder": "Apa yang ingin Anda tulis tentang posting di atas?",
     "publish": "Terbitkan",
     "reply": "Balas",
-    "open_galery": "Buka Album",
+    "open_galery": "Open Gallery",
     "capture_photo": "Ambil Foto"
   },
   "pincode": {
@@ -197,7 +197,8 @@
     "confirm": "Konfirmasi"
   },
   "post": {
-    "reblog_alert": "Anda yakin ingin menerbitkan ulang?"
+    "reblog_alert": "Anda yakin ingin menerbitkan ulang?",
+    "removed_hint": "Pos dihapus oleh"
   },
   "drafts": {
     "title": "Konsep",

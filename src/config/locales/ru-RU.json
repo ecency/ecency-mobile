@@ -34,7 +34,7 @@
   "points": {
     "post": "Пост",
     "comment": "Комментарий",
-    "checkin": "Check-in",
+    "checkin": "Чекин",
     "vote": "Голос",
     "reblog": "Репост",
     "login": "Логин",
@@ -161,7 +161,7 @@
     "reply_placeholder": "Напишите ваш комментарий",
     "publish": "Написать",
     "reply": "Ответить",
-    "open_galery": "Открыть галерею",
+    "open_galery": "Open Gallery",
     "capture_photo": "Сделать фото"
   },
   "pincode": {
@@ -197,7 +197,8 @@
     "confirm": "Подтвердить"
   },
   "post": {
-    "reblog_alert": "Вы уверены, что хотите сделать репост?"
+    "reblog_alert": "Вы уверены, что хотите сделать репост?",
+    "removed_hint": "The post was removed by"
   },
   "drafts": {
     "title": "Черновики",
