@@ -234,7 +234,7 @@ class ApplicationContainer extends Component {
           this._connectNotificationServer(accountData.name);
         })
         .catch((err) => {
-          Alert.alert(`Fetching data from server failed, please try again or notify us at info@esteem.app \n${err.substr(0, 20)}`);
+          Alert.alert(`Fetching data from server failed, please try again or notify us at info@esteem.app \n${err.message.substr(0, 20)}`);
         });
     }
 
