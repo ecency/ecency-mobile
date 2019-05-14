@@ -34,7 +34,7 @@
   "points": {
     "post": "Bejegyzés",
     "comment": "Hozzászólás",
-    "checkin": "Check-in",
+    "checkin": "Bejelentkezés",
     "vote": "Szavazás",
     "reblog": "Megosztás",
     "login": "Bejelentkezés",
@@ -172,7 +172,7 @@
   },
   "alert": {
     "success": "Sikerült!",
-    "successful": "Successful",
+    "successful": "Sikeres",
     "allRead": "Minden értesítés megjelölve olvasottként",
     "claim_reward_balance_ok": "Jutalom egyenleg átvéve",
     "fail": "Sikertelen!",
@@ -197,7 +197,8 @@
     "confirm": "Megerősítés"
   },
   "post": {
-    "reblog_alert": "Biztos, hogy megosztod?"
+    "reblog_alert": "Biztos, hogy megosztod?",
+    "removed_hint": "A bejegyzést eltávolította"
   },
   "drafts": {
     "title": "Piszkozatok",
@@ -206,7 +207,7 @@
     "deleted": "Piszkozat törölve"
   },
   "schedules": {
-    "title": "Schedules",
+    "title": "Időzítések",
     "empty_list": "Itt nincs semmi",
     "deleted": "A beütemezett bejegyzés törölve",
     "move": "Áthelyezés a vázlatokhoz",
@@ -275,8 +276,8 @@
     "transferToken": "Átutalás",
     "transferToSaving": "Átutalás a megtakarításokhoz",
     "powerUp": "Power Up",
-    "withdrawToSaving": "Withdraw To Saving",
+    "withdrawToSaving": "Átutalás A Megtakarításokhoz",
     "steemconnect_title": "Steemconnect átutalás",
-    "next": "NEXT"
+    "next": "KÖVETKEZŐ"
   }
 }

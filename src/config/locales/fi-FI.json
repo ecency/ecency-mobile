@@ -161,7 +161,7 @@
     "reply_placeholder": "What would you like to write about above post?",
     "publish": "Julkaise",
     "reply": "Vastaa",
-    "open_galery": "Open Galery",
+    "open_galery": "Open Gallery",
     "capture_photo": "Capture a photo"
   },
   "pincode": {
@@ -197,7 +197,8 @@
     "confirm": "Confirm"
   },
   "post": {
-    "reblog_alert": "Are you sure you want to reblog?"
+    "reblog_alert": "Are you sure you want to reblog?",
+    "removed_hint": "The post was removed by"
   },
   "drafts": {
     "title": "Luonnokset",

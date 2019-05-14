@@ -161,7 +161,7 @@
     "reply_placeholder": "Šta želite da napišete o postu iznad?",
     "publish": "Objavi",
     "reply": "Odgovori",
-    "open_galery": "Otvori galeriju",
+    "open_galery": "Open Gallery",
     "capture_photo": "Fotografiši"
   },
   "pincode": {
@@ -197,7 +197,8 @@
     "confirm": "Confirm"
   },
   "post": {
-    "reblog_alert": "Da li ste sigurni da želite da podelite?"
+    "reblog_alert": "Da li ste sigurni da želite da podelite?",
+    "removed_hint": "The post was removed by"
   },
   "drafts": {
     "title": "Radne verzije",

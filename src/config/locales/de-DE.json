@@ -161,7 +161,7 @@
     "reply_placeholder": "Was möchtest du über den vorgenannten Beitrag schreiben?",
     "publish": "Veröffentlichen",
     "reply": "Antworten",
-    "open_galery": "Gallerie öffnen",
+    "open_galery": "Open Gallery",
     "capture_photo": "Ein Foto aufnehmen"
   },
   "pincode": {
@@ -197,7 +197,8 @@
     "confirm": "Confirm"
   },
   "post": {
-    "reblog_alert": "Möchtest du diesen Beitrag wirklich teilen?"
+    "reblog_alert": "Möchtest du diesen Beitrag wirklich teilen?",
+    "removed_hint": "The post was removed by"
   },
   "drafts": {
     "title": "Entwürfe",
