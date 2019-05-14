@@ -234,7 +234,7 @@ class ApplicationContainer extends Component {
           this._connectNotificationServer(accountData.name);
         })
         .catch((err) => {
-          // Alert.alert(err);
+          Alert.alert(`Fetching data from server failed, please try again or notify us at info@esteem.app \n${err.substr(0, 20)}`);
         });
     }
 
@@ -306,7 +306,9 @@ class ApplicationContainer extends Component {
         dispatch(removeOtherAccount(currentAccount.name));
         dispatch(logoutDone());
       })
-      .catch(() => {});
+      .catch((err) => {
+        Alert.alert(`Fetching data from server failed, please try again or notify us at info@esteem.app \n${err.substr(0, 20)}`);
+      });
   };
 
   _switchAccount = async (targetAccountUsername) => {
