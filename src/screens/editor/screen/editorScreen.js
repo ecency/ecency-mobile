@@ -1,7 +1,7 @@
 import React, { Component } from 'react';
 import { View } from 'react-native';
 import { injectIntl } from 'react-intl';
-import { get } from 'lodash';
+import get from 'lodash/get';
 
 // Utils
 import { getWordsCount } from '../../../utils/editor';
