@@ -22,6 +22,7 @@ class PostContainer extends Component {
       isNewPost: false,
       isHasParentPost: false,
       parentPost: null,
+      isPostUnavailable: false,
     };
   }
 
@@ -37,7 +38,7 @@ class PostContainer extends Component {
       this.setState({ post: content });
     } else if (author && permlink) {
       this._loadPost(author, permlink);
-
+      this.setState({ author });
       if (isHasParentPost) this.setState({ isHasParentPost });
     }
   }
@@ -64,13 +65,20 @@ class PostContainer extends Component {
     const _permlink = permlink || post.permlink;
 
     await getPost(_author, _permlink, isLoggedIn && currentAccount.username)
+<<<<<<< HEAD
       .then(result => {
         if (result) {
+=======
+      .then((result) => {
+        if (result && result.id > 0) {
+>>>>>>> 3bd23bb1faf32382b70b2851b200099e6dd0b945
           if (isParentPost) {
             this.setState({ parentPost: result });
           } else {
             this.setState({ post: result });
           }
+        } else {
+          this.setState({ isPostUnavailable: true });
         }
       })
       .catch(err => {
@@ -80,7 +88,13 @@ class PostContainer extends Component {
 
   render() {
     const { currentAccount, isLoggedIn } = this.props;
+<<<<<<< HEAD
     const { error, isNewPost, parentPost, post, isHasParentPost } = this.state;
+=======
+    const {
+      error, isNewPost, parentPost, post, isHasParentPost, isPostUnavailable, author,
+    } = this.state;
+>>>>>>> 3bd23bb1faf32382b70b2851b200099e6dd0b945
 
     if (isHasParentPost && post) this._loadPost(post.parent_author, post.parent_permlink, true);
 
@@ -88,12 +102,14 @@ class PostContainer extends Component {
       <PostScreen
         currentAccount={currentAccount}
         error={error}
+        author={author}
         fetchPost={this._loadPost}
         isFetchComments
         isLoggedIn={isLoggedIn}
         isNewPost={isNewPost}
         parentPost={parentPost}
         post={post}
+        isPostUnavailable={isPostUnavailable}
       />
     );
   }

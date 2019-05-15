@@ -175,6 +175,7 @@ class CommentsContainer extends Component {
       fetchPost,
       isShowMoreButton,
       selectedFilter,
+      mainAuthor,
       selectedPermlink: _selectedPermlink,
     } = this.props;
 
@@ -184,6 +185,7 @@ class CommentsContainer extends Component {
         selectedFilter={selectedFilter}
         selectedPermlink={_selectedPermlink || selectedPermlink}
         author={author}
+        mainAuthor={mainAuthor}
         isShowMoreButton={isShowMoreButton}
         commentNumber={commentNumber || 1}
         commentCount={commentCount}

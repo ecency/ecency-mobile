@@ -1,4 +1,10 @@
+<<<<<<< HEAD
 export default input => {
+=======
+export default (input) => {
+  if (!input) return 0;
+
+>>>>>>> 3bd23bb1faf32382b70b2851b200099e6dd0b945
   if (input === 0) {
     return 25;
   }

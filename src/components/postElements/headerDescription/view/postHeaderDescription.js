@@ -32,20 +32,32 @@ class PostHeaderDescription extends PureComponent {
   }
 
   // Component Functions
+<<<<<<< HEAD
   _handleOnUserPress = username => {
     const { navigation, profileOnPress, reputation } = this.props;
+=======
+  _handleOnUserPress = (username) => {
+    const {
+      navigation,
+      profileOnPress,
+      reputation,
+      currentAccountUsername,
+    } = this.props;
+>>>>>>> 3bd23bb1faf32382b70b2851b200099e6dd0b945
 
-    if (profileOnPress) {
-      profileOnPress(username);
-    } else {
-      navigation.navigate({
-        routeName: ROUTES.SCREENS.PROFILE,
-        params: {
-          username,
-          reputation,
-        },
-        key: username,
-      });
+    if (currentAccountUsername !== username) {
+      if (profileOnPress) {
+        profileOnPress(username);
+      } else {
+        navigation.navigate({
+          routeName: ROUTES.SCREENS.PROFILE,
+          params: {
+            username,
+            reputation,
+          },
+          key: username,
+        });
+      }
     }
   };
 

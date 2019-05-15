@@ -1,5 +1,5 @@
-import { Linking } from 'react-native';
 import qs from 'qs';
+import { Linking } from 'react-native';
 
 export const sendEmail = async (to, subject, body, options = {}) => {
   const { cc, bcc } = options;

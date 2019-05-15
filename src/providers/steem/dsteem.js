@@ -1,3 +1,4 @@
+/* eslint-disable camelcase */
 import { Client, PrivateKey } from 'dsteem';
 import steemConnect from 'steemconnect';
 import Config from 'react-native-config';
@@ -12,6 +13,7 @@ import { getName, getAvatar } from '../../utils/user';
 import { getReputation } from '../../utils/reputation';
 import parseToken from '../../utils/parseToken';
 import filterNsfwPost from '../../utils/filterNsfwPost';
+import { jsonStringify } from '../../utils/jsonUtils';
 
 // Constant
 import AUTH_TYPE from '../../constants/authType';
@@ -120,7 +122,12 @@ export const getUser = async user => {
     // get global properties to calculate Steem Power
     const globalProperties = await client.database.getDynamicGlobalProperties();
     const rcPower = await client.call('rc_api', 'find_rc_accounts', { accounts: [user] });
-    const unreadActivityCount = await getUnreadActivityCount({ user });
+    let unreadActivityCount;
+    try {
+      unreadActivityCount = await getUnreadActivityCount({ user });
+    } catch (error) {
+      unreadActivityCount = 0;
+    }
 
     account[0].reputation = getReputation(account[0].reputation);
     account[0].username = account[0].name;
@@ -235,7 +242,7 @@ export const ignoreUser = async (currentAccount, pin, data) => {
 
     const json = {
       id: 'follow',
-      json: JSON.stringify([
+      json: jsonStringify([
         'follow',
         {
           follower: `${data.follower}`,
@@ -468,8 +475,13 @@ const _vote = async (currentAccount, pin, author, permlink, weight) => {
     return new Promise((resolve, reject) => {
       api
         .vote(voter, author, permlink, weight)
+<<<<<<< HEAD
         .then(result => {
           resolve(result);
+=======
+        .then((result) => {
+          resolve(result.result);
+>>>>>>> 3bd23bb1faf32382b70b2851b200099e6dd0b945
         })
         .catch(err => {
           reject(err);
@@ -665,7 +677,7 @@ export const followUser = async (currentAccount, pin, data) => {
     const privateKey = PrivateKey.fromString(key);
     const json = {
       id: 'follow',
-      json: JSON.stringify([
+      json: jsonStringify([
         'follow',
         {
           follower: `${data.follower}`,
@@ -710,7 +722,7 @@ export const unfollowUser = async (currentAccount, pin, data) => {
 
     const json = {
       id: 'follow',
-      json: JSON.stringify([
+      json: jsonStringify([
         'follow',
         {
           follower: `${data.follower}`,
@@ -803,6 +815,7 @@ export const postContent = (
   jsonMetadata,
   options = null,
   voteWeight = null,
+<<<<<<< HEAD
 ) =>
   _postContent(
     account,
@@ -822,6 +835,28 @@ export const postContent = (
     }
     return resp;
   });
+=======
+) => _postContent(
+  account,
+  pin,
+  parentAuthor,
+  parentPermlink,
+  permlink,
+  title,
+  body,
+  jsonMetadata,
+  options,
+  voteWeight,
+).then((resp) => {
+  if (options) {
+    const t = title ? 100 : 110;
+    const { block_num, id } = resp;
+
+    userActivity(account.username, t, block_num, id);
+  }
+  return resp;
+});
+>>>>>>> 3bd23bb1faf32382b70b2851b200099e6dd0b945
 
 /**
  * @method postComment post a comment/reply
@@ -856,7 +891,7 @@ const _postContent = async (
       permlink,
       title,
       body,
-      json_metadata: JSON.stringify(jsonMetadata),
+      json_metadata: jsonStringify(jsonMetadata),
     };
 
     const opArray = [['comment', params]];
@@ -879,7 +914,7 @@ const _postContent = async (
       opArray.push(e);
     }
 
-    return api.broadcast(opArray);
+    return api.broadcast(opArray).then(resp => resp.result);
   }
 
   if (key) {
@@ -893,7 +928,7 @@ const _postContent = async (
           permlink,
           title,
           body,
-          json_metadata: JSON.stringify(jsonMetadata),
+          json_metadata: jsonStringify(jsonMetadata),
         },
       ],
     ];
@@ -953,7 +988,7 @@ const _reblog = async (account, pinCode, author, permlink) => {
 
     const follower = account.name;
 
-    return api.reblog(follower, author, permlink);
+    return api.reblog(follower, author, permlink).then(resp => resp.result);
   }
 
   if (key) {
@@ -962,7 +997,7 @@ const _reblog = async (account, pinCode, author, permlink) => {
 
     const json = {
       id: 'follow',
-      json: JSON.stringify([
+      json: jsonStringify([
         'reblog',
         {
           account: follower,

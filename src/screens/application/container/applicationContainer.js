@@ -36,7 +36,6 @@ import {
   setAuthStatus,
   removeSCAccount,
   setExistUser,
-  setDefaultFooter,
 } from '../../../realm/realm';
 import { getUser } from '../../../providers/steem/dsteem';
 import { switchAccount } from '../../../providers/steem/auth';
@@ -80,6 +79,7 @@ class ApplicationContainer extends Component {
       isRenderRequire: true,
       isReady: false,
       isIos: Platform.OS !== 'android',
+      isThemeReady: false,
     };
   }
 
@@ -132,6 +132,7 @@ class ApplicationContainer extends Component {
     await this._refreshGlobalProps();
     this._getSettings();
     await this._getUserData();
+    this.setState({ isReady: true });
   };
 
   _handleConntectionChange = status => {
@@ -228,8 +229,13 @@ class ApplicationContainer extends Component {
           }
           this._connectNotificationServer(accountData.name);
         })
+<<<<<<< HEAD
         .catch(err => {
           Alert.alert(err);
+=======
+        .catch((err) => {
+          Alert.alert(`Fetching data from server failed, please try again or notify us at info@esteem.app \n${err.message.substr(0, 20)}`);
+>>>>>>> 3bd23bb1faf32382b70b2851b200099e6dd0b945
         });
     }
 
@@ -261,7 +267,7 @@ class ApplicationContainer extends Component {
 
         dispatch(setCurrency(response.currency !== '' ? response.currency : 'usd'));
 
-        this.setState({ isReady: true });
+        this.setState({ isThemeReady: true });
       }
     });
   };
@@ -301,7 +307,9 @@ class ApplicationContainer extends Component {
         dispatch(removeOtherAccount(currentAccount.name));
         dispatch(logoutDone());
       })
-      .catch(() => {});
+      .catch((err) => {
+        Alert.alert(`Fetching data from server failed, please try again or notify us at info@esteem.app \n${err.substr(0, 20)}`);
+      });
   };
 
   _switchAccount = async targetAccountUsername => {
@@ -319,7 +327,7 @@ class ApplicationContainer extends Component {
 
   render() {
     const { selectedLanguage, isConnected, toastNotification } = this.props;
-    const { isRenderRequire, isReady } = this.state;
+    const { isRenderRequire, isReady, isThemeReady } = this.state;
 
     // For testing It comented out.
     // const locale = (navigator.languages && navigator.languages[0])
@@ -327,12 +335,13 @@ class ApplicationContainer extends Component {
     //   || navigator.userLanguage
     //   || selectedLanguage;
 
-    if (isRenderRequire && isReady) {
+    if (isRenderRequire && isThemeReady) {
       return (
         <ApplicationScreen
           isConnected={isConnected}
           locale={selectedLanguage}
           toastNotification={toastNotification}
+          isReady={isReady}
           {...this.props}
         />
       );

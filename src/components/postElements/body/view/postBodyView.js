@@ -5,6 +5,10 @@ import { injectIntl } from 'react-intl';
 
 import HTML from 'react-native-html-renderer';
 import { getParentsTagsRecursively } from 'react-native-html-renderer/src/HTMLUtils';
+
+// Utils
+import { validateUsername } from  '../../../../utils/user';
+
 // Styles
 import styles from './postBodyStyles';
 
@@ -66,7 +70,7 @@ class PostBody extends PureComponent {
       (url.indexOf('steempeak') > -1 && url.indexOf('files') < 0)
     ) {
       url = url.substring(url.indexOf('@'), url.length);
-      const routeParams = url.indexOf('/') > -1 ? url.split('/') : [url];
+      const routeParams = url && url.indexOf('/') > -1 ? url.split('/') : [url];
 
       [, permlink] = routeParams;
       author = routeParams[0].indexOf('@') > -1 ? routeParams[0].replace('@', '') : routeParams[0];
@@ -103,13 +107,17 @@ class PostBody extends PureComponent {
   _handleOnUserPress = username => {
     const { navigation } = this.props;
 
-    navigation.navigate({
-      routeName: ROUTES.SCREENS.PROFILE,
-      params: {
-        username,
-      },
-      key: username,
-    });
+    if (username && validateUsername(username)) {
+      navigation.navigate({
+        routeName: ROUTES.SCREENS.PROFILE,
+        params: {
+          username,
+        },
+        key: username,
+      });
+    } else {
+      Alert.alert('Opps!', 'Wrong link :(');
+    }
   };
 
   _hasParentTag = (node, name) => {

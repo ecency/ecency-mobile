@@ -275,6 +275,7 @@ class PostsView extends Component {
             onScrollBeginDrag={() => this._handleOnScrollStart()}
             refreshControl={
               <RefreshControl
+<<<<<<< HEAD
   refreshing={refreshing}
   onRefresh={this._handleOnRefreshPosts}
   progressBackgroundColor="#357CE6"
@@ -284,6 +285,17 @@ class PostsView extends Component {
 />
             }
             ref={ref => {
+=======
+                refreshing={refreshing}
+                onRefresh={this._handleOnRefreshPosts}
+                progressBackgroundColor="#357CE6"
+                tintColor={!isDarkTheme ? '#357ce6' : '#96c0ff'}
+                titleColor="#fff"
+                colors={['#fff']}
+              />
+            )}
+            ref={(ref) => {
+>>>>>>> 3bd23bb1faf32382b70b2851b200099e6dd0b945
               this.flatList = ref;
             }}
           />

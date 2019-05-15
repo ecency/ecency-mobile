@@ -10,7 +10,9 @@ import { getTimeFromNow } from '../../../utils/time';
 
 // Components
 import { PostHeaderDescription, PostBody, Tags } from '../../postElements';
-import { PostPlaceHolder, StickyBar, TextWithIcon } from '../../basicUIElements';
+import {
+  PostPlaceHolder, StickyBar, TextWithIcon, NoPost,
+} from '../../basicUIElements';
 import { Upvote } from '../../upvote';
 import { IconButton } from '../../iconButton';
 import { CommentsDisplay } from '../../commentsDisplay';
@@ -120,7 +122,15 @@ class PostDisplayView extends PureComponent {
   };
 
   render() {
-    const { post, fetchPost, parentPost } = this.props;
+    const {
+      post,
+      fetchPost,
+      parentPost,
+      currentAccount: { name },
+      isPostUnavailable,
+      author,
+      intl,
+    } = this.props;
     const { postHeight, scrollHeight, isLoadedComments } = this.state;
 
     // const isPostEnd = scrollHeight > postHeight;
@@ -128,6 +138,17 @@ class PostDisplayView extends PureComponent {
     const formatedTime = post && getTimeFromNow(post.created);
 
     if (isGetComment && !isLoadedComments) this.setState({ isLoadedComments: true });
+
+    if (isPostUnavailable) {
+      return (
+        <NoPost
+          imageStyle={{ height: 200, width: 300 }}
+          defaultText={`${intl.formatMessage({
+            id: 'post.removed_hint',
+          })} ${author}`}
+        />
+      );
+    }
 
     return (
       <Fragment>
@@ -142,7 +163,8 @@ class PostDisplayView extends PureComponent {
                 {!!post.title && <Text style={styles.title}>{post.title}</Text>}
                 <PostHeaderDescription
                   date={formatedTime}
-                  name={post.author}
+                  name={author || post.author}
+                  currentAccountUsername={name}
                   reputation={post.author_reputation}
                   tag={post.category}
                   size={16}
@@ -151,7 +173,15 @@ class PostDisplayView extends PureComponent {
                 <View style={styles.footer}>
                   <Tags tags={post.json_metadata && post.json_metadata.tags} />
                   <Text style={styles.footerText}>
+<<<<<<< HEAD
                     Posted by <Text style={styles.footerName}>{post.author}</Text> {formatedTime}
+=======
+                    Posted by
+                    {' '}
+                    <Text style={styles.footerName}>{author || post.author}</Text>
+                    {' '}
+                    {formatedTime}
+>>>>>>> 3bd23bb1faf32382b70b2851b200099e6dd0b945
                   </Text>
                   {/* {isPostEnd && this._getTabBar()} */}
                 </View>
@@ -160,14 +190,15 @@ class PostDisplayView extends PureComponent {
           </View>
           {post && (isGetComment || isLoadedComments) && (
             <CommentsDisplay
-              author={post.author}
+              author={author || post.author}
+              mainAuthor={author || post.author}
               permlink={post.permlink}
               commentCount={post.children}
               fetchPost={fetchPost}
             />
           )}
         </ScrollView>
-        {this._getTabBar(true)}
+        {post && this._getTabBar(true)}
       </Fragment>
     );
   }

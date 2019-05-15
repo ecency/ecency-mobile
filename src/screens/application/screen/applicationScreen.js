@@ -1,6 +1,6 @@
-import React, { Component, Fragment } from 'react';
+import React, { Component } from 'react';
 import { IntlProvider } from 'react-intl';
-import { StatusBar, Platform } from 'react-native';
+import { StatusBar, Platform, View } from 'react-native';
 import EStyleSheet from 'react-native-extended-stylesheet';
 import { ReduxNavigation } from '../../../navigation/reduxNavigation';
 import { flattenMessages } from '../../../utils/flattenMessages';
@@ -42,13 +42,19 @@ class ApplicationScreen extends Component {
   };
 
   render() {
+<<<<<<< HEAD
     const { isConnected, isDarkTheme, locale, toastNotification } = this.props;
+=======
+    const {
+      isConnected, isDarkTheme, locale, toastNotification, isReady,
+    } = this.props;
+>>>>>>> 3bd23bb1faf32382b70b2851b200099e6dd0b945
     const { isShowToastNotification } = this.state;
     const barStyle = isDarkTheme ? 'light-content' : 'dark-content';
     const barColor = isDarkTheme ? '#1e2835' : '#fff';
 
     return (
-      <Fragment>
+      <View pointerEvents={isReady ? 'auto' : 'none'} style={{ flex: 1 }}>
         {Platform.os === 'ios' ? (
           <StatusBar barStyle={barStyle} />
         ) : (
@@ -72,7 +78,7 @@ class ApplicationScreen extends Component {
             onHide={this._handleOnHideToastNotification}
           />
         )}
-      </Fragment>
+      </View>
     );
   }
 }

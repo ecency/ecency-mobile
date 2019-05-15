@@ -34,7 +34,7 @@
   "points": {
     "post": "Post",
     "comment": "Comment",
-    "checkin": "Checki-in",
+    "checkin": "Registo de entrada",
     "vote": "Votar",
     "reblog": "Republicar",
     "login": "Entrar",
@@ -161,7 +161,7 @@
     "reply_placeholder": "O que desejava escrever sobre este post em em cima?",
     "publish": "Publicar",
     "reply": "Responder",
-    "open_galery": "Galeria Aberta",
+    "open_galery": "Open Gallery",
     "capture_photo": "Capturar uma foto"
   },
   "pincode": {
@@ -172,7 +172,7 @@
   },
   "alert": {
     "success": "Sucesso!",
-    "successful": "Successful",
+    "successful": "Bem sucedido",
     "allRead": "Marcar todas as notificações como lidas",
     "claim_reward_balance_ok": "Balanço de Recompensa reclamado",
     "fail": "Falha!",
@@ -197,7 +197,8 @@
     "confirm": "Confirmar"
   },
   "post": {
-    "reblog_alert": "Tem certeza de que deseja reblogar?"
+    "reblog_alert": "Tem certeza de que deseja reblogar?",
+    "removed_hint": "The post was removed by"
   },
   "drafts": {
     "title": "Rascunhos",

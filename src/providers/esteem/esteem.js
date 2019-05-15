@@ -236,6 +236,7 @@ export const schedule = (
   operationType,
   upvote,
   scheduleDate,
+<<<<<<< HEAD
 ) =>
   api
     .post('/schedules', {
@@ -252,6 +253,23 @@ export const schedule = (
       chain: 'steem',
     })
     .then(resp => resp.data);
+=======
+) => api
+  .post('/schedules', {
+    username: user,
+    category: tags[0],
+    title,
+    permlink,
+    json: jsonStringify(json),
+    tags,
+    body,
+    post_type: operationType,
+    upvote_this: upvote,
+    schedule: scheduleDate,
+    chain: 'steem',
+  })
+  .then(resp => resp.data);
+>>>>>>> 3bd23bb1faf32382b70b2851b200099e6dd0b945
 
 export const getSchedules = username => api.get(`/schedules/${username}`).then(resp => resp.data);
 

@@ -35,4 +35,8 @@ export const isThisWeek = value => moment(value).isSameOrAfter(THIS_WEEK);
 
 export const isThisMonth = value => moment(value).isSameOrAfter(THIS_MONTH);
 
-export const isEmptyContentDate = value => parseInt(value.split('-')[0], 10) < 1980;
+export const isEmptyContentDate = (value) => {
+  if (!value) return false;
+
+  return parseInt(value.split('-')[0], 10) < 1980;
+};

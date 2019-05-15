@@ -73,14 +73,22 @@ class PostDisplayContainer extends Component {
   _fetchPost = async () => {
     const { post, fetchPost } = this.props;
 
-    fetchPost(post.author, post.permlink);
+    if (post) fetchPost(post.author, post.permlink);
   };
 
   render() {
+<<<<<<< HEAD
     const { currentAccount, isLoggedIn, isNewPost, parentPost, post } = this.props;
+=======
+    const {
+      currentAccount, isLoggedIn, isNewPost, parentPost, post, isPostUnavailable, author,
+    } = this.props;
+>>>>>>> 3bd23bb1faf32382b70b2851b200099e6dd0b945
 
     return (
       <PostDisplayView
+        author={author}
+        isPostUnavailable={isPostUnavailable}
         currentAccount={currentAccount}
         fetchPost={this._fetchPost}
         handleOnEditPress={this._handleOnEditPress}

@@ -192,6 +192,7 @@ class NotificationView extends PureComponent {
             onRefresh={() => null}
             refreshControl={
               <RefreshControl
+<<<<<<< HEAD
   refreshing={readAllNotificationLoading}
   progressBackgroundColor="#357CE6"
   tintColor={!isDarkTheme ? '#357ce6' : '#96c0ff'}
@@ -199,6 +200,15 @@ class NotificationView extends PureComponent {
   colors={['#fff']}
 />
             }
+=======
+                refreshing={readAllNotificationLoading}
+                progressBackgroundColor="#357CE6"
+                tintColor={!isDarkTheme ? '#357ce6' : '#96c0ff'}
+                titleColor="#fff"
+                colors={['#fff']}
+              />
+            )}
+>>>>>>> 3bd23bb1faf32382b70b2851b200099e6dd0b945
             renderItem={({ item, index }) => (
               <Fragment>
                 <ContainerHeader
