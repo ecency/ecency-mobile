@@ -3,7 +3,7 @@ import { connect } from 'react-redux';
 import { injectIntl } from 'react-intl';
 import { Alert, AsyncStorage } from 'react-native';
 import ImagePicker from 'react-native-image-crop-picker';
-import { get } from 'lodash';
+import get from 'lodash/get';
 
 // Services and Actions
 import { Buffer } from 'buffer';
