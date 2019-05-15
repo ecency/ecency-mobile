@@ -14,7 +14,7 @@
             buildForArchiving = "YES">
             <BuildableReference
                BuildableIdentifier = "primary"
-               BlueprintIdentifier = "0DBF6A0BDC87A32B6855207E8318D558"
+               BlueprintIdentifier = "F7AAC9CA0A527EC56A97568724153DD7"
                BuildableName = "libRNImageCropPicker.a"
                BlueprintName = "RNImageCropPicker"
                ReferencedContainer = "container:Pods.xcodeproj">
