@@ -1,8 +1,8 @@
 {
   "wallet": {
-    "curation_reward": "Curation Reward",
-    "author_reward": "Author Reward",
-    "comment_benefactor_reward": "Comment Benefactor Reward",
+    "curation_reward": "Kuraatori tasu",
+    "author_reward": "Autoritasu",
+    "comment_benefactor_reward": "Kommentaari Annetustasu",
     "claim_reward_balance": "Claim Reward Balance",
     "transfer": "Transfer",
     "transfer_to_vesting": "Transfer To Vesting",
