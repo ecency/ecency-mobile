@@ -38,12 +38,14 @@ class PostBody extends PureComponent {
 
   _handleOnLinkPress = (evt, href, hrefatr) => {
     const { handleOnUserPress, handleOnPostPress } = this.props;
+    console.log('href :', href);
+    console.log('hrefatr :', hrefatr);
 
     if (hrefatr.class === 'markdown-author-link') {
       if (!handleOnUserPress) {
-        this._handleOnUserPress(href);
+        this._handleOnUserPress(hrefatr.data_author);
       } else {
-        handleOnUserPress(href);
+        handleOnUserPress(hrefatr.data_author);
       }
     } else if (hrefatr.class === 'markdown-post-link') {
       if (!handleOnPostPress) {
@@ -137,6 +139,7 @@ class PostBody extends PureComponent {
       //   node.attribs.height = 216;
       // }
     } else if (node.name === 'a') {
+      console.log('node :', node);
       node.attribs.style = 'text-decoration: underline';
     }
 
