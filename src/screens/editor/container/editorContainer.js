@@ -359,7 +359,7 @@ class EditorContainer extends Component {
             navigation.navigate({
               routeName: ROUTES.SCREENS.POST,
               params: {
-                author: currentAccount.name,
+                author: get(currentAccount, 'name'),
                 permlink,
                 isNewPost: true,
               },
