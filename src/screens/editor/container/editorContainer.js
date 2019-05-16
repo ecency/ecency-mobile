@@ -3,6 +3,7 @@ import { connect } from 'react-redux';
 import { injectIntl } from 'react-intl';
 import { Alert, AsyncStorage } from 'react-native';
 import ImagePicker from 'react-native-image-crop-picker';
+import get from 'lodash/get';
 
 // Services and Actions
 import { Buffer } from 'buffer';
@@ -122,6 +123,7 @@ class EditorContainer extends Component {
   _getDraft = async (username, isReply) => {
     if (isReply) {
       const draftReply = await AsyncStorage.getItem('temp-reply');
+
       if (draftReply) {
         this.setState({
           draftPost: { body: draftReply },
@@ -137,9 +139,6 @@ class EditorContainer extends Component {
               tags: result.tags.split(','),
             },
           });
-        })
-        .catch(() => {
-          // alert(error);
         });
     }
   };
@@ -223,7 +222,7 @@ class EditorContainer extends Component {
     const { intl } = this.props;
     this.setState({ isCameraOrPickerOpen: false });
 
-    if (error.code === 'E_PERMISSION_MISSING') {
+    if (get(error, 'code') === 'E_PERMISSION_MISSING') {
       Alert.alert(
         intl.formatMessage({
           id: 'alert.permission_denied',
@@ -235,28 +234,30 @@ class EditorContainer extends Component {
     }
   };
 
-  // Media select functions <- END ->
-
   _saveDraftToDB = (fields) => {
     const { isDraftSaved, draftId } = this.state;
+
     if (!isDraftSaved) {
       const { currentAccount } = this.props;
-      const username = currentAccount && currentAccount.name ? currentAccount.name : '';
+      const username = get(currentAccount, 'name', '');
+      let draftField;
 
       this.setState({ isDraftSaving: true });
-      const draftField = {
-        ...fields,
-        tags: fields.tags.join(' '),
-        username,
-      };
+      if (fields) {
+        draftField = {
+          ...fields,
+          tags: fields.tags.join(' '),
+          username,
+        };
+      }
 
-      if (draftId) {
+      if (draftId && draftField) {
         updateDraft({ ...draftField, draftId }).then(() => {
           this.setState({
             isDraftSaved: true,
           });
         });
-      } else {
+      } else if (draftField) {
         addDraft(draftField).then((response) => {
           this.setState({
             isDraftSaved: true,
@@ -267,6 +268,7 @@ class EditorContainer extends Component {
 
       this.setState({
         isDraftSaving: false,
+        isDraftSaved,
       });
     }
   };
@@ -346,15 +348,6 @@ class EditorContainer extends Component {
           0,
         )
           .then(() => {
-            // Alert.alert(
-            //   intl.formatMessage({
-            //     id: 'alert.success',
-            //   }),
-            //   intl.formatMessage({
-            //     id: 'alert.success_shared',
-            //   }),
-            // );
-
             dispatch(
               toastNotification(
                 intl.formatMessage({
@@ -488,8 +481,10 @@ class EditorContainer extends Component {
   _handleSubmitSuccess = () => {
     const { navigation } = this.props;
 
-    navigation.goBack();
-    navigation.state.params.fetchPost();
+    if (navigation) {
+      navigation.goBack();
+      navigation.state.params.fetchPost();
+    }
   };
 
   _handleOnBackPress = () => {
@@ -526,7 +521,7 @@ class EditorContainer extends Component {
   };
 
   _setScheduledPost = (data) => {
-    const { dispatch } = this.props;
+    const { dispatch, intl } = this.props;
 
     schedule(
       data.author,
@@ -542,15 +537,25 @@ class EditorContainer extends Component {
       this.setState({ isPostSending: false });
       dispatch(
         toastNotification(
-          // intl.formatMessage({
-          //   id: 'alert.copied',
-          // }),
-          'Scheduled',
+          intl.formatMessage({
+            id: 'alert.success',
+          }),
         ),
       );
     }).catch(() => {
       this.setState({ isPostSending: false });
     });
+  }
+
+  _initialEditor = () => {
+    const { currentAccount: { name } } = this.props;
+
+    setDraftPost(
+      { title: '', body: '', tags: '' },
+      name,
+    );
+
+    this.setState({ uploadedImage: null });
   }
 
   render() {
@@ -579,6 +584,7 @@ class EditorContainer extends Component {
         handleOnBackPress={this._handleOnBackPress}
         handleOnImagePicker={this._handleRoutingAction}
         handleOnSubmit={this._handleSubmit}
+        initialEditor={this._initialEditor}
         isCameraOrPickerOpen={isCameraOrPickerOpen}
         isDarkTheme={isDarkTheme}
         isDraftSaved={isDraftSaved}
