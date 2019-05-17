@@ -3,7 +3,7 @@ import { View, ScrollView } from 'react-native';
 import { injectIntl } from 'react-intl';
 
 // Components
-import ScrollableTabView from '@esteemapp/react-native-scrollable-tab-view';
+import ScrollableTabView from 'react-native-scrollable-tab-view';
 import { Comments } from '../../../components/comments';
 import { CollapsibleCard } from '../../../components/collapsibleCard';
 import { Header } from '../../../components/header';
