@@ -274,9 +274,9 @@ class EditorContainer extends Component {
   };
 
   _saveCurrentDraft = async (fields) => {
-    const { draftId, isReply } = this.state;
+    const { draftId, isReply, isEdit } = this.state;
 
-    if (!draftId) {
+    if (!draftId && !isEdit) {
       const { currentAccount } = this.props;
       const username = currentAccount && currentAccount.name ? currentAccount.name : '';
 
@@ -408,8 +408,8 @@ class EditorContainer extends Component {
         0,
       )
         .then(() => {
-          this._handleSubmitSuccess();
           AsyncStorage.setItem('temp-reply', '');
+          this._handleSubmitSuccess();
         })
         .catch((error) => {
           this._handleSubmitFailure(error);
