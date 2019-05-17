@@ -27,6 +27,7 @@ const RootContainer = () => (WrappedComponent) => {
       this.state = {
         wrappedComponentStates: null,
         appState: AppState.currentState,
+        isNotificationRouted: false,
       };
     }
 
@@ -202,8 +203,11 @@ const RootContainer = () => (WrappedComponent) => {
           }
 
           this.pushNavigationTimeout = setTimeout(() => {
+            const { isNotificationRouted } = this.state;
+
             clearTimeout(this.pushNavigationTimeout);
-            navigation.navigate({ routeName, params, key });
+            if (isNotificationRouted) navigation.navigate({ routeName, params, key });
+            this.setState({ isNotificationRouted: true });
           }, 4000);
         },
       });
