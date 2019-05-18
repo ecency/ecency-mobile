@@ -7,7 +7,7 @@ import HTML from 'react-native-html-renderer';
 import { getParentsTagsRecursively } from 'react-native-html-renderer/src/HTMLUtils';
 
 // Utils
-import { validateUsername } from  '../../../../utils/user';
+import { validateUsername } from '../../../../utils/user';
 
 // Styles
 import styles from './postBodyStyles';
@@ -94,14 +94,16 @@ class PostBody extends PureComponent {
   _handleOnPostPress = (permlink, author) => {
     const { navigation } = this.props;
 
-    navigation.navigate({
-      routeName: ROUTES.SCREENS.POST,
-      params: {
-        author,
-        permlink,
-      },
-      key: permlink,
-    });
+    if (permlink) {
+      navigation.navigate({
+        routeName: ROUTES.SCREENS.POST,
+        params: {
+          author,
+          permlink,
+        },
+        key: permlink,
+      });
+    }
   };
 
   _handleOnUserPress = (username) => {
