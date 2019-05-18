@@ -117,13 +117,15 @@ class DraftsContainer extends Component {
   _handleOnBookarkPress = (permlink, author) => {
     const { navigation } = this.props;
 
-    navigation.navigate({
-      routeName: ROUTES.SCREENS.POST,
-      params: {
-        permlink,
-        author,
-      },
-    });
+    if (permlink && author) {
+      navigation.navigate({
+        routeName: ROUTES.SCREENS.POST,
+        params: {
+          permlink,
+          author,
+        },
+      });
+    }
   };
 
   _sortData = data => data.sort((a, b) => {

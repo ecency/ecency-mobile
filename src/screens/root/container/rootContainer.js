@@ -5,6 +5,7 @@ import {
 import { connect } from 'react-redux';
 import Push from 'appcenter-push';
 import { injectIntl } from 'react-intl';
+import get from 'lodash/get';
 
 // Actions & Services
 import { openPinCodeModal } from '../../../redux/actions/applicationActions';
@@ -26,6 +27,7 @@ const RootContainer = () => (WrappedComponent) => {
       this.state = {
         wrappedComponentStates: null,
         appState: AppState.currentState,
+        isNotificationRouted: false,
       };
     }
 
@@ -72,13 +74,15 @@ const RootContainer = () => (WrappedComponent) => {
         const routeParams = url.indexOf('/') > -1 ? url.split('/') : [url];
 
         [, permlink] = routeParams;
-        author = routeParams[0].indexOf('@') > -1 ? routeParams[0].replace('@', '') : routeParams[0];
+        author = routeParams && routeParams.length > 0
+        && routeParams[0].indexOf('@') > -1
+          ? routeParams[0].replace('@', '') : routeParams[0];
       }
 
       if (author && permlink) {
         await getPost(author, permlink, currentAccountUsername)
           .then((result) => {
-            if (result && result.title) {
+            if (get(result, 'title')) {
               content = result;
             } else {
               this._handleAlert(
@@ -111,10 +115,10 @@ const RootContainer = () => (WrappedComponent) => {
         }
 
         routeName = ROUTES.SCREENS.PROFILE;
-        params = { username: profile.name, reputation: profile.reputation };
+        params = { username: get(profile, 'name'), reputation: get(profile, 'reputation') };
       }
 
-      if (profile || content) {
+      if (routeName && (profile || content)) {
         this.navigationTimeout = setTimeout(() => {
           clearTimeout(this.navigationTimeout);
           navigation.navigate({
@@ -168,18 +172,27 @@ const RootContainer = () => (WrappedComponent) => {
 
       Push.setListener({
         onPushNotificationReceived(pushNotification) {
-          const push = pushNotification.customProperties;
+          const push = get(pushNotification, 'customProperties');
+          const permlink1 = get(push, 'permlink1');
+          const permlink2 = get(push, 'permlink2');
+          const permlink3 = get(push, 'permlink3');
+          const parentPermlink1 = get(push, 'parent_permlink1');
+          const parentPermlink2 = get(push, 'parent_permlink2');
+          const parentPermlink3 = get(push, 'parent_permlink3');
 
-          if (push.parent_permlink1 || push.permlink1) {
+          if (parentPermlink1 || permlink1) {
+            const fullParentPermlink = `${parentPermlink1}${parentPermlink2}${parentPermlink3}`;
+            const fullPermlink = `${permlink1}${permlink2}${permlink3}`;
+
             params = {
-              author: push.parent_permlink1 ? push.parent_author : push.target,
-              permlink: push.parent_permlink1
-                ? `${push.parent_permlink1}${push.parent_permlink2}${push.parent_permlink3}`
-                : `${push.permlink1}${push.permlink2}${push.permlink3}`,
+              author: parentPermlink1 ? get(push, 'parent_author') : get(push, 'target'),
+              permlink: parentPermlink1
+                ? fullParentPermlink
+                : fullPermlink,
             };
-            key = push.parent_permlink1
-              ? `${push.parent_permlink1}${push.parent_permlink2}${push.parent_permlink3}`
-              : `${push.permlink1}${push.permlink2}${push.permlink3}`;
+            key = parentPermlink1
+              ? fullParentPermlink
+              : fullPermlink;
             routeName = ROUTES.SCREENS.POST;
           } else {
             params = {
@@ -189,8 +202,12 @@ const RootContainer = () => (WrappedComponent) => {
             routeName = ROUTES.SCREENS.PROFILE;
           }
 
-          setTimeout(() => {
-            navigation.navigate({ routeName, params, key });
+          this.pushNavigationTimeout = setTimeout(() => {
+            const { isNotificationRouted } = this.state;
+
+            clearTimeout(this.pushNavigationTimeout);
+            if (isNotificationRouted) navigation.navigate({ routeName, params, key });
+            this.setState({ isNotificationRouted: true });
           }, 4000);
         },
       });
