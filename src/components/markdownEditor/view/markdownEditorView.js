@@ -236,7 +236,7 @@ export default class MarkdownEditorView extends Component {
           ref={o => (this.ActionSheet = o)}
           options={[
             intl.formatMessage({
-              id: 'editor.open_galery',
+              id: 'editor.open_gallery',
             }),
             intl.formatMessage({
               id: 'editor.capture_photo',
