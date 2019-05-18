@@ -17,8 +17,7 @@ class NotificationContainer extends Component {
     this.state = {
       notifications: [],
       lastNotificationId: null,
-      notificationLoading: false,
-      readAllNotificationLoading: false,
+      isNotificationRefreshing: false,
       selectedFilter: 'activities',
     };
   }
@@ -27,36 +26,38 @@ class NotificationContainer extends Component {
     const { username } = this.props;
 
     if (username) {
-      this._getAvtivities();
+      this._getAvtivities(username);
     }
   }
 
   componentWillReceiveProps(nextProps) {
     const { selectedFilter } = this.state;
+    const { username } = this.props;
 
-    if (nextProps.activeBottomTab === ROUTES.TABBAR.NOTIFICATION && nextProps.username) {
-      this._getAvtivities(selectedFilter);
+    if ((nextProps.activeBottomTab === ROUTES.TABBAR.NOTIFICATION && nextProps.username)
+    || (nextProps.username !== username && nextProps.username)) {
+      this._getAvtivities(nextProps.username, selectedFilter);
     }
   }
 
-  _getAvtivities = (type = null, loadMore = false) => {
-    const { username } = this.props;
+  _getAvtivities = (user, type = null, loadMore = false) => {
     const { lastNotificationId, notifications } = this.state;
     const since = loadMore ? lastNotificationId : null;
+    const { username } = this.props;
 
-    this.setState({ notificationLoading: true });
+    this.setState({ isNotificationRefreshing: true });
 
-    getActivities({ user: username, type, since })
+    getActivities({ user: user || username, type, since })
       .then((res) => {
         const lastId = [...res].pop().id;
 
         this.setState({
           notifications: loadMore ? [...notifications, ...res] : res,
           lastNotificationId: lastId,
-          notificationLoading: false,
+          isNotificationRefreshing: false,
         });
       })
-      .catch(() => this.setState({ notificationLoading: false }));
+      .catch(() => this.setState({ isNotificationRefreshing: false }));
   };
 
   _navigateToNotificationRoute = (data) => {
@@ -98,12 +99,12 @@ class NotificationContainer extends Component {
     const { username, dispatch } = this.props;
     const { notifications } = this.state;
 
-    this.setState({ readAllNotificationLoading: true });
+    this.setState({ isNotificationRefreshing: true });
 
     markActivityAsRead(username).then((result) => {
       dispatch(updateUnreadActivityCount(result.unread));
       const updatedNotifications = notifications.map(item => ({ ...item, read: 1 }));
-      this.setState({ notifications: updatedNotifications, readAllNotificationLoading: false });
+      this.setState({ notifications: updatedNotifications, isNotificationRefreshing: false });
     });
   };
 
@@ -121,8 +122,7 @@ class NotificationContainer extends Component {
     const { isLoggedIn } = this.props;
     const {
       notifications,
-      notificationLoading,
-      readAllNotificationLoading,
+      isNotificationRefreshing,
       isDarkTheme,
     } = this.state;
 
@@ -134,8 +134,7 @@ class NotificationContainer extends Component {
         navigateToNotificationRoute={this._navigateToNotificationRoute}
         readAllNotification={this._readAllNotification}
         handleLoginPress={this._handleOnPressLogin}
-        notificationLoading={notificationLoading}
-        readAllNotificationLoading={readAllNotificationLoading}
+        isNotificationRefreshing={isNotificationRefreshing}
         isLoggedIn={isLoggedIn}
         changeSelectedFilter={this._changeSelectedFilter}
       />

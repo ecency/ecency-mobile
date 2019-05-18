@@ -7,8 +7,12 @@ import { getUser, getUserPoints, claim } from '../../../providers/esteem/ePoint'
 
 // Constant
 import POINTS from '../../../constants/options/points';
+
 // Component
 import PointsView from '../view/pointsView';
+
+// Constants
+import ROUTES from '../../../constants/routeNames';
 
 /*
  *            Props Name        Description                                     Value
@@ -21,17 +25,29 @@ class PointsContainer extends Component {
     super(props);
     this.state = {
       userPoints: {},
-      userActivities: {},
+      userActivities: null,
       refreshing: false,
       isClaiming: false,
+      isLoading: true,
     };
   }
 
   // Component Life Cycle Functions
   componentDidMount() {
-    this._fetchuserPointActivities();
+    const { username } = this.props;
+
+    this._fetchuserPointActivities(username);
 
     this.fetchInterval = setInterval(this._fetchuserPointActivities, 360000);
+  }
+
+  componentWillReceiveProps(nextProps) {
+    const { username } = this.props;
+
+    if ((nextProps.activeBottomTab === ROUTES.TABBAR.POINTS && nextProps.username)
+    || (nextProps.username !== username && nextProps.username)) {
+      this._fetchuserPointActivities(nextProps.username);
+    }
   }
 
   componentWillUnmount() {
@@ -47,9 +63,8 @@ class PointsContainer extends Component {
     textKey: POINTS[item.type].textKey,
   }));
 
-  _fetchuserPointActivities = async () => {
-    const { username } = this.props;
-
+  _fetchuserPointActivities = async (username) => {
+    if (!username) return;
     this.setState({ refreshing: true });
 
     await getUser(username)
@@ -72,19 +87,23 @@ class PointsContainer extends Component {
         Alert.alert(err);
       });
 
-    this.setState({ refreshing: false });
+    this.setState({
+      refreshing: false,
+      isLoading: false,
+    });
   };
 
   _claimPoints = async () => {
     const { username } = this.props;
+
     this.setState({ isClaiming: true });
 
     await claim(username)
       .then(() => {
-        this._fetchuserPointActivities();
+        this._fetchuserPointActivities(username);
       })
-      .catch((err) => {
-        Alert.alert(err);
+      .catch((error) => {
+        Alert.alert(`Fetching data from server failed, please try again or notify us at info@esteem.app \n${error.message.substr(0, 20)}`);
       });
 
     this.setState({ isClaiming: false });
@@ -92,18 +111,19 @@ class PointsContainer extends Component {
 
   render() {
     const {
-      userPoints, userActivities, isDarkTheme, refreshing, isClaiming,
+      isClaiming, isDarkTheme, isLoading, refreshing, userActivities, userPoints,
     } = this.state;
 
     return (
       <PointsView
-        userPoints={userPoints}
-        userActivities={userActivities}
-        isDarkTheme={isDarkTheme}
-        fetchUserActivity={this._fetchuserPointActivities}
-        refreshing={refreshing}
-        isClaiming={isClaiming}
         claimPoints={this._claimPoints}
+        fetchUserActivity={this._fetchuserPointActivities}
+        isClaiming={isClaiming}
+        isDarkTheme={isDarkTheme}
+        isLoading={isLoading}
+        refreshing={refreshing}
+        userActivities={userActivities}
+        userPoints={userPoints}
       />
     );
   }
@@ -112,6 +132,7 @@ class PointsContainer extends Component {
 const mapStateToProps = state => ({
   username: state.account.currentAccount.name,
   isDarkTheme: state.application.isDarkTheme,
+  activeBottomTab: state.ui.activeBottomTab,
 });
 
 export default connect(mapStateToProps)(PointsContainer);
