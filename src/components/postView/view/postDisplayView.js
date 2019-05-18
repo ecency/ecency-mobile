@@ -3,6 +3,8 @@ import {
   View, Text, ScrollView, Dimensions,
 } from 'react-native';
 import { injectIntl } from 'react-intl';
+import get from 'lodash/get';
+import ActionSheet from 'react-native-actionsheet';
 
 // Providers
 import { userActivity } from '../../../providers/esteem/ePoint';
@@ -44,7 +46,7 @@ class PostDisplayView extends PureComponent {
   componentDidMount() {
     const { currentAccount, isLoggedIn, isNewPost } = this.props;
 
-    if (isLoggedIn && currentAccount && currentAccount.name && !isNewPost) {
+    if (isLoggedIn && get(currentAccount, 'name') && !isNewPost) {
       userActivity(currentAccount.name, 10);
     }
   }
@@ -86,8 +88,8 @@ class PostDisplayView extends PureComponent {
             iconStyle={styles.barIcons}
             iconType="MaterialIcons"
             isClickable
-            onPress={() => handleOnVotersPress && handleOnVotersPress(post.active_votes)}
-            text={post && post.vote_count}
+            onPress={() => handleOnVotersPress && handleOnVotersPress(get(post, 'active_votes'))}
+            text={get(post, 'vote_count')}
             textMarginLeft={20}
           />
           <TextWithIcon
@@ -95,18 +97,29 @@ class PostDisplayView extends PureComponent {
             iconStyle={styles.barIcons}
             iconType="MaterialIcons"
             isClickable
-            text={post && post.children}
+            text={get(post, 'children')}
             textMarginLeft={20}
           />
           <View style={styles.stickyRightWrapper}>
-            {post && currentAccount && currentAccount.name === post.author && (
-              <IconButton
-                iconStyle={styles.barIconRight}
-                iconType="MaterialIcons"
-                name="create"
-                onPress={() => handleOnEditPress && handleOnEditPress()}
-                style={styles.barIconButton}
-              />
+            {get(currentAccount, 'name') === get(post, 'author') && (
+              <Fragment>
+                {!get(post, 'children') && !get(post, 'vote_count') && (
+                  <IconButton
+                    iconStyle={styles.barIconRight}
+                    iconType="MaterialIcons"
+                    name="delete-forever"
+                    onPress={() => this.ActionSheet.show()}
+                    style={styles.barIconButton}
+                  />
+                )}
+                <IconButton
+                  iconStyle={styles.barIconRight}
+                  iconType="MaterialIcons"
+                  name="create"
+                  onPress={() => handleOnEditPress && handleOnEditPress()}
+                  style={styles.barIconButton}
+                />
+              </Fragment>
             )}
             {isLoggedIn && (
               <IconButton
@@ -132,6 +145,7 @@ class PostDisplayView extends PureComponent {
       isPostUnavailable,
       author,
       intl,
+      handleOnRemovePress,
     } = this.props;
     const { postHeight, scrollHeight, isLoadedComments } = this.state;
 
@@ -197,6 +211,13 @@ class PostDisplayView extends PureComponent {
           )}
         </ScrollView>
         {post && this._getTabBar(true)}
+        <ActionSheet
+          ref={o => (this.ActionSheet = o)}
+          options={[intl.formatMessage({ id: 'alert.delete' }), intl.formatMessage({ id: 'alert.cancel' })]}
+          title={intl.formatMessage({ id: 'post.remove_alert' })}
+          cancelButtonIndex={1}
+          onPress={index => (index === 0 ? handleOnRemovePress(get(post, 'permlink')) : null)}
+        />
       </Fragment>
     );
   }
