@@ -214,7 +214,7 @@ class PostDisplayView extends PureComponent {
         <ActionSheet
           ref={o => (this.ActionSheet = o)}
           options={[intl.formatMessage({ id: 'alert.delete' }), intl.formatMessage({ id: 'alert.cancel' })]}
-          title={intl.formatMessage({ id: 'post.remove_alert' })}
+          title={intl.formatMessage({ id: 'alert.remove_alert' })}
           cancelButtonIndex={1}
           onPress={index => (index === 0 ? handleOnRemovePress(get(post, 'permlink')) : null)}
         />
