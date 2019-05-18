@@ -1,4 +1,4 @@
-import Card from './view/card/cardView';
+import { Card } from './view/card/cardView';
 import Chip from './view/chip/chipView';
 import GrayWrapper from './view/grayWrapper/grayWrapperView';
 import LineBreak from './view/lineBreak/lineBreakView';
@@ -8,7 +8,7 @@ import PostCardPlaceHolder from './view/placeHolder/postCardPlaceHolderView';
 import PostPlaceHolder from './view/placeHolder/postPlaceHolderView';
 import ProfileSummaryPlaceHolder from './view/placeHolder/profileSummaryPlaceHolder';
 import StickyBar from './view/stickyBar/stickyBarView';
-import Tag from './view/tag/tagView';
+import Tag from './view/tag/tagContainer';
 import TextWithIcon from './view/textWithIcon/textWithIconView';
 import UserListItem from './view/userListItem/userListItem';
 import WalletDetailsPlaceHolder from './view/placeHolder/walletDetailsPlaceHolder';

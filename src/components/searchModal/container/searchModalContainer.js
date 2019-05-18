@@ -1,9 +1,10 @@
 import React, { PureComponent } from 'react';
 import { withNavigation } from 'react-navigation';
+import { connect } from 'react-redux';
 
 // Services and Actions
 import { search } from '../../../providers/esteem/esteem';
-import { lookupAccounts } from '../../../providers/steem/dsteem';
+import { lookupAccounts, getTrendingTags } from '../../../providers/steem/dsteem';
 
 // Middleware
 
@@ -34,19 +35,39 @@ class SearchModalContainer extends PureComponent {
   // Component Functions
   _handleCloseButton = () => {
     const { navigation } = this.props;
+
     navigation.goBack();
   };
 
   _handleOnChangeSearchInput = (text) => {
-    if (text && text !== '@') {
+    if (text && text !== '@' && text !== '#') {
       if (text[0] === '@') {
         lookupAccounts(text.substr(1)).then((res) => {
-          const users = res.map(item => ({ author: item }));
+          const users = res.map(item => ({
+            image: `https://steemitimages.com/u/${item}/avatar/small`,
+            text: item,
+            ...item,
+          }));
           this.setState({ searchResults: { type: 'user', data: users } });
+        });
+      } else if (text[0] === '#') {
+        getTrendingTags(text.substr(1)).then((res) => {
+          const tags = res.map(item => ({
+            text: `#${item.name}`,
+            ...item,
+          }));
+
+          this.setState({ searchResults: { type: 'tag', data: tags } });
         });
       } else {
         search({ q: text }).then((res) => {
-          res.results = res.results.filter(item => item.title !== '');
+          res.results = res.results
+            .filter(item => item.title !== '')
+            .map(item => ({
+              image: item.img_url || `https://steemitimages.com/u/${item.author}/avatar/small`,
+              text: item.title,
+              ...item,
+            }));
           this.setState({ searchResults: { type: 'content', data: res.results } });
         });
       }
@@ -54,25 +75,46 @@ class SearchModalContainer extends PureComponent {
   };
 
   _handleOnPressListItem = (type, item) => {
-    const { navigation, handleOnClose } = this.props;
+    const { navigation, handleOnClose, username } = this.props;
+    let routeName = null;
+    let params = null;
+    let key = null;
+
     handleOnClose();
     this.setState({ searchResults: {} });
-    if (type === 'user') {
-      navigation.navigate({
-        routeName: ROUTES.SCREENS.PROFILE,
-        params: {
-          username: item.author,
-        },
-        key: item.author,
-      });
-    } else if (type === 'content') {
-      navigation.navigate({
-        routeName: ROUTES.SCREENS.POST,
-        params: {
+
+    switch (type) {
+      case 'user':
+        routeName = item.text === username ? ROUTES.TABBAR.PROFILE : ROUTES.SCREENS.PROFILE;
+        params = {
+          username: item.text,
+        };
+        key = item.text;
+        break;
+      case 'content':
+        routeName = ROUTES.SCREENS.POST;
+        params = {
           author: item.author,
           permlink: item.permlink,
-        },
-        key: item.permlink,
+        };
+        key = item.permlink;
+        break;
+      case 'tag':
+        routeName = ROUTES.SCREENS.SEARCH_RESULT;
+        params = {
+          tag: item.text.substr(1),
+        };
+        break;
+
+      default:
+        break;
+    }
+
+    if (routeName) {
+      navigation.navigate({
+        routeName,
+        params,
+        key,
       });
     }
   };
@@ -80,6 +122,7 @@ class SearchModalContainer extends PureComponent {
   render() {
     const { searchResults } = this.state;
     const { handleOnClose, isOpen, placeholder } = this.props;
+
     return (
       <SearchModalView
         searchResults={searchResults}
@@ -94,4 +137,8 @@ class SearchModalContainer extends PureComponent {
   }
 }
 
-export default withNavigation(SearchModalContainer);
+const mapStateToProps = state => ({
+  username: state.account.currentAccount.name,
+});
+
+export default connect(mapStateToProps)(withNavigation(SearchModalContainer));

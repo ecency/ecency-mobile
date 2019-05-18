@@ -6,7 +6,10 @@ const readFromClipboard = async () => {
 };
 
 const writeToClipboard = async (text) => {
+  if (!text) return false;
+
   await Clipboard.setString(text);
+
   return true;
 };
 

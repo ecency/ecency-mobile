@@ -2,8 +2,18 @@
 
 iOS ![iOS](https://build.appcenter.ms/v0.1/apps/ef80aa2a-d4e1-4f43-a4f8-be12ea72ba9b/branches/master/badge)
   Android ![Android](https://build.appcenter.ms/v0.1/apps/12aace32-b58a-49da-bf85-5477f89ae16e/branches/master/badge)
+  
+### Production 🚀
+[IOS](https://itunes.apple.com/cy/app/esteem-v2/id1451896376?l=tr&mt=8)
 
-### I. How do I get set up?
+[ANDROID](https://play.google.com/store/apps/details?id=app.esteem.mobile)
+
+## Open Beta 🔥
+[IOS](https://install.appcenter.ms/orgs/esteem.app/apps/esteem-1/distribution_groups/beta_testers)
+
+[ANDROID](https://install.appcenter.ms/orgs/esteem.app/apps/esteem/distribution_groups/beta_testers)
+
+### I. How do I get set up? 🔧
 
 `$ git clone https://github.com/esteemapp/esteem-mobile.git`
 
@@ -32,7 +42,7 @@ TODO
 2. Add the Genymotion tools directory to your path (instructions for [Mac](http://osxdaily.com/2014/08/14/add-new-path-to-path-command-line/), [Linux](http://www.computerhope.com/issues/ch001647.htm), and [Windows](https://www.howtogeek.com/118594/how-to-edit-your-system-path-for-easy-command-line-access/)).
 3. Make sure that you can run adb from your terminal.
 
-# The Rules
+# The Rules 🔪
 
 ### Patches and Review Process
 
@@ -53,10 +63,10 @@ If you would like to have someone in particular review your work, leave your pat
 
 #### Who to assign your patch for review
 
-- [@feruzm](https://github.com/feruzm)
-- [@talhasch](https://github.com/talhasch)
-- [@mistikk](https://github.com/mistikk)
-- [@ue](https://github.com/ue)
+- [@feruzm](https://github.com/feruzm) 👮
+- [@talhasch](https://github.com/talhasch) 🕵
+- [@mistikk](https://github.com/mistikk) 👽
+- [@ue](https://github.com/ue) 💀
 
 ### Patch Review Template
 
@@ -87,7 +97,7 @@ What ever you want number of commit. Before create push squash your all commit. 
 
 - Make sure push your main branch (master)
 
-# Issues
+# Issues 👻
 
 To report a non-critical issue, please file an issue on this GitHub project.
 

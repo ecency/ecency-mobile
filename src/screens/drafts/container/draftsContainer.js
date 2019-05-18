@@ -4,7 +4,10 @@ import { Alert } from 'react-native';
 import { injectIntl } from 'react-intl';
 
 // Services and Actions
-import { getDrafts, removeDraft, getSchedules } from '../../../providers/esteem/esteem';
+import {
+  getDrafts, removeDraft, getSchedules, removeSchedule, moveSchedule,
+} from '../../../providers/esteem/esteem';
+import { toastNotification } from '../../../redux/actions/uiAction';
 
 // Middleware
 
@@ -35,6 +38,7 @@ class DraftsContainer extends Component {
   // Component Life Cycle Functions
   componentDidMount() {
     this._getDrafts();
+    this._getSchedules();
   }
 
   // Component Functions
@@ -45,7 +49,7 @@ class DraftsContainer extends Component {
 
     getSchedules(currentAccount.name)
       .then((data) => {
-        this.setState({ schedules: this._sortData(data), isLoading: false });
+        this.setState({ schedules: this._sortData(data, true), isLoading: false });
       })
       .catch(() => {
         Alert.alert(intl.formatMessage({ id: 'drafts.load_error' }));
@@ -70,7 +74,7 @@ class DraftsContainer extends Component {
   _removeDraft = (id) => {
     const { currentAccount, intl } = this.props;
 
-    removeDraft({ username: currentAccount.name, draftId: id })
+    removeDraft(currentAccount.name, id)
       .then(() => {
         const { drafts } = this.state;
         const newDrafts = [...drafts].filter(draft => draft._id !== id);
@@ -81,6 +85,46 @@ class DraftsContainer extends Component {
         Alert.alert(intl.formatMessage({ id: 'alert.fail' }));
       });
   };
+
+  _removeSchedule = (id) => {
+    const { currentAccount, intl } = this.props;
+
+    removeSchedule(currentAccount.name, id)
+      .then((res) => {
+        const { schedules } = this.state;
+        const newSchedules = [...schedules].filter(schedule => schedule._id !== id);
+
+        this.setState({ schedules: this._sortData(newSchedules, true) });
+      })
+      .catch(() => {
+        Alert.alert(intl.formatMessage({ id: 'alert.fail' }));
+      });
+  };
+
+  _moveScheduleToDraft = (id) => {
+    const { currentAccount, dispatch, intl } = this.props;
+
+    moveSchedule(id, currentAccount.name)
+      .then((res) => {
+        dispatch(
+          toastNotification(
+            intl.formatMessage({
+              id: 'alert.success_moved',
+            }),
+          ),
+        );
+
+        this._getDrafts();
+        this._getSchedules();
+      })
+      .catch(() => {
+        dispatch(
+          toastNotification(
+            intl.formatMessage({ id: 'alert.fail' }),
+          ),
+        );
+      });
+  }
 
   _editDraft = (id) => {
     const { navigation } = this.props;
@@ -96,9 +140,9 @@ class DraftsContainer extends Component {
     });
   };
 
-  _sortData = data => data.sort((a, b) => {
-    const dateA = new Date(a.created).getTime();
-    const dateB = new Date(b.created).getTime();
+  _sortData = (data, isSchedule) => data.sort((a, b) => {
+    const dateA = new Date(isSchedule ? a.schedule : a.created).getTime();
+    const dateB = new Date(isSchedule ? a.schedule : b.created).getTime();
 
     return dateB > dateA ? 1 : -1;
   });
@@ -115,6 +159,8 @@ class DraftsContainer extends Component {
         drafts={drafts}
         schedules={schedules}
         removeDraft={this._removeDraft}
+        moveScheduleToDraft={this._moveScheduleToDraft}
+        removeSchedule={this._removeSchedule}
       />
     );
   }

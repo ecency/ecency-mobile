@@ -113,7 +113,11 @@ class WalletView extends PureComponent {
               })}
               expanded
             >
-              <WalletDetails intl={intl} walletData={walletData} />
+              <WalletDetails
+                intl={intl}
+                walletData={walletData}
+                isShowDropdowns={currentAccountUsername === selectedUsername}
+              />
             </CollapsibleCard>
             <Transaction walletData={walletData} />
           </Fragment>

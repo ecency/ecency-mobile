@@ -19,15 +19,41 @@
     "unfollow": "unfollowed you",
     "ignore": "ignored you",
     "reblog": "reblogged your post",
+    "transfer": "transfered steem",
     "comingsoon": "Leaderboard feature is coming soon!",
     "notification": "Notifications",
     "leaderboard": "Leaderboard",
+    "epoint": "Points",
     "leaderboard_title": "Daily Top User",
     "recent": "Recent",
     "yesterday": "Yesterday",
     "this_week": "This Week",
     "this_month": "This Month",
     "older_then": "Older Than A Month"
+  },
+  "points": {
+    "post": "Post",
+    "comment": "Comment",
+    "checkin": "Check-in",
+    "vote": "Vote",
+    "reblog": "Reblog",
+    "login": "Login",
+    "checkin_extra": "Bonus",
+    "post_title": "Points for post",
+    "comment_title": "Points for comment",
+    "vote_title": "Points for vote",
+    "reblog_title": "Points for reblog",
+    "login_title": "Points for login",
+    "checkin_title": "Points for usage",
+    "checkin_extra_title": "Usage bonus",
+    "no_activity": "No activity here!",
+    "post_desc": "You can earn point by posting regularly. Posting gives you 15 points.",
+    "comment_desc": "Each comment you make helps you to grow your audience and make friendship but also earns you 5 points.",
+    "checkin_desc": "Checking in on eSteem app gives you 0.25 points and helps you stay connected with your friends.",
+    "vote_desc": "By voting you give reward to other creators and show your appreciation but also earn 0.01 x vote weight points.",
+    "reblog_desc": "  Share what post you like with your friends and earn 1 points.",
+    "login_desc": "When you login into eSteem app you are entitled to earn 100 points automatically.",
+    "checkin_extra_desc": "Consistent use of app gives you extra chances to earn more 10 points, be more active and earn more."
   },
   "messages": {
     "comingsoon": "Messages feature is coming soon!"
@@ -57,13 +83,33 @@
   },
   "settings": {
     "settings": "Settings",
+    "general": "General",
     "currency": "Currency",
     "language": "Language",
     "server": "Server",
     "dark_theme": "Dark Theme",
     "push_notification": "Push Notification",
+    "notification": {
+      "follow": "Follow",
+      "vote": "Vote",
+      "comment": "Comment",
+      "mention": "Mention",
+      "reblog": "Reblog",
+      "transfers": "Transfers"
+    },
     "pincode": "PIN code",
-    "reset": "Reset"
+    "reset": "Reset",
+    "nsfw_content": "NSFW Content",
+    "send_feedback": "Send Feedback",
+    "send": "Send",
+    "default_footer": "Default Footer",
+    "nsfw": {
+      "always_show": "Always show",
+      "always_hide": "Always hide",
+      "always_warn": "Always warn"
+    },
+    "feedback_success": "Email successfully open",
+    "feedback_fail": "Email client could not open"
   },
   "voters": {
     "voters_info": "Voters Info",
@@ -115,7 +161,7 @@
     "reply_placeholder": "What would you like to write about above post?",
     "publish": "Publish",
     "reply": "Reply",
-    "open_galery": "Open Galery",
+    "open_gallery": "Open Gallery",
     "capture_photo": "Capture a photo"
   },
   "pincode": {
@@ -126,10 +172,14 @@
   },
   "alert": {
     "success": "Success!",
+    "successful": "Successful",
     "allRead": "Marked all notifications as read",
     "claim_reward_balance_ok": "Reward balance claimed",
     "fail": "Fail!",
+    "move": "Move",
+    "move_question": "Are you sure to move to drafts?",
     "success_shared": "Your post succesfully shared",
+    "success_moved": "Moved to draft",
     "permission_denied": "Permission denied",
     "permission_text": "Please, go to phone Settings and change eSteem app permissions.",
     "success_rebloged": "Reblogged!",
@@ -138,14 +188,17 @@
     "invalid_pincode": "Invalid PIN code, please check and try again.",
     "remove_alert": "Are you sure you want to remove?",
     "clear_alert": "Are you sure you want to clear?",
+    "clear_user_alert": "Are you sure you want to clear all user data?",
     "clear": "Clear",
     "cancel": "Cancel",
     "delete": "Delete",
     "copied": "Copied!",
-    "no_internet": "No connection!"
+    "no_internet": "No connection!",
+    "confirm": "Confirm"
   },
   "post": {
-    "reblog_alert": "Are you sure you want to reblog?"
+    "reblog_alert": "Are you sure you want to reblog?",
+    "removed_hint": "The post was removed by"
   },
   "drafts": {
     "title": "Drafts",
@@ -154,7 +207,7 @@
     "deleted": "Draft deleted"
   },
   "schedules": {
-    "title": "Scheduled Posts",
+    "title": "Schedules",
     "empty_list": "Nothing here",
     "deleted": "Scheduled post deleted",
     "move": "Move to drafts",
@@ -199,5 +252,32 @@
   "deep_link": {
     "no_existing_user": "No existing user",
     "no_existing_post": "No existing post"
+  },
+  "search": {
+    "posts": "Posts",
+    "comments": "Comments"
+  },
+  "comment_filter": {
+    "trending": "trending",
+    "reputation": "reputation",
+    "votes": "votes",
+    "age": "age"
+  },
+  "transfer": {
+    "from": "From",
+    "to": "To",
+    "amount": "Amount",
+    "memo": "Memo",
+    "information": "Are you sure to transfer to funds?",
+    "amount_desc": "Balance",
+    "memo_desc": "This memo is public",
+    "to_placeholder": "Username",
+    "memo_placeholder": "Enter your notes here",
+    "transferToken": "Transfer",
+    "transferToSaving": "Transfer To Saving",
+    "powerUp": "Power Up",
+    "withdrawToSaving": "Withdraw To Saving",
+    "steemconnect_title": "Steemconnect Transfer",
+    "next": "NEXT"
   }
 }

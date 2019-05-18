@@ -19,7 +19,7 @@ class VotersDisplayView extends PureComponent {
 
   // Component Functions
   _renderItem = (item, index) => {
-    const { intl } = this.props;
+    const { handleOnUserPress } = this.props;
     const value = `$ ${item.value}`;
     const percent = `${item.percent}%`;
 
@@ -27,11 +27,12 @@ class VotersDisplayView extends PureComponent {
       <UserListItem
         index={index}
         username={item.voter}
-        // description={intl.formatRelative(item.time)}
         description={getTimeFromNow(item.time)}
         isHasRightItem
         isRightColor={item.is_down_vote}
         rightText={value}
+        handleOnPress={() => handleOnUserPress(item.voter)}
+        isClickable
         subRightText={percent}
       />
     );

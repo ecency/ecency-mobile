@@ -59,6 +59,7 @@ const mapStateToProps = state => ({
   isLoggedIn: state.application.isLoggedIn,
   isLoginDone: state.application.isLoginDone,
   isCollapsePostButtonOpen: state.ui.isCollapsePostButton,
+  nsfw: state.application.nsfw,
 });
 
 export default connect(mapStateToProps)(PostsContainer);

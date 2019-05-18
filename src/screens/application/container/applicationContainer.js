@@ -5,12 +5,11 @@ import {
 import { connect } from 'react-redux';
 import { addLocaleData } from 'react-intl';
 import Config from 'react-native-config';
-import AppCenter from 'appcenter';
 import { NavigationActions } from 'react-navigation';
 import { bindActionCreators } from 'redux';
 import Push from 'appcenter-push';
 
-// Constants
+// Languages
 import en from 'react-intl/locale-data/en';
 import id from 'react-intl/locale-data/id';
 import ru from 'react-intl/locale-data/ru';
@@ -18,18 +17,22 @@ import de from 'react-intl/locale-data/de';
 import it from 'react-intl/locale-data/it';
 import hu from 'react-intl/locale-data/hu';
 import tr from 'react-intl/locale-data/tr';
+import ko from 'react-intl/locale-data/ko';
+import lt from 'react-intl/locale-data/lt';
+import pt from 'react-intl/locale-data/pt';
+import fa from 'react-intl/locale-data/fa';
+import he from 'react-intl/locale-data/he';
 
+// Constants
 import AUTH_TYPE from '../../../constants/authType';
 
 // Services
 import {
   getAuthStatus,
   getExistUser,
-  getPushTokenSaved,
   getSettings,
   getUserData,
   removeUserData,
-  setPushTokenSaved,
   getUserDataWithUsername,
   removePinCode,
   setAuthStatus,
@@ -37,7 +40,6 @@ import {
   setExistUser,
 } from '../../../realm/realm';
 import { getUser } from '../../../providers/steem/dsteem';
-import { setPushToken } from '../../../providers/esteem/esteem';
 import { switchAccount } from '../../../providers/steem/auth';
 
 // Actions
@@ -52,7 +54,8 @@ import {
   activeApplication,
   isDarkTheme,
   isLoginDone,
-  isNotificationOpen,
+  changeNotificationSettings,
+  changeAllNotificationSettings,
   login,
   logoutDone,
   openPinCodeModal,
@@ -61,13 +64,15 @@ import {
   setCurrency,
   setLanguage,
   setUpvotePercent,
+  setNsfw,
+  isDefaultFooter,
 } from '../../../redux/actions/applicationActions';
 
 // Container
 import ApplicationScreen from '../screen/applicationScreen';
 import { Launch } from '../..';
 
-addLocaleData([...en, ...ru, ...de, ...id, ...it, ...hu, ...tr]);
+addLocaleData([...en, ...ru, ...de, ...id, ...it, ...hu, ...tr, ...ko, ...pt, ...lt, ...fa]);
 
 class ApplicationContainer extends Component {
   constructor() {
@@ -75,18 +80,21 @@ class ApplicationContainer extends Component {
     this.state = {
       isRenderRequire: true,
       isReady: false,
+      isIos: Platform.OS !== 'android',
+      isThemeReady: false,
     };
   }
 
   componentDidMount = async () => {
+    const { isIos } = this.state;
     let isConnected;
 
     await NetInfo.isConnected.fetch().then((_isConnected) => {
       isConnected = _isConnected;
     });
 
-    NetInfo.isConnected.addEventListener('connectionChange', this._handleConntectionChange);
-    BackHandler.addEventListener('hardwareBackPress', this._onBackPress);
+    // NetInfo.isConnected.addEventListener('connectionChange', this._handleConntectionChange);
+    if (!isIos) BackHandler.addEventListener('hardwareBackPress', this._onBackPress);
 
     if (isConnected) {
       this._fetchApp();
@@ -94,7 +102,7 @@ class ApplicationContainer extends Component {
       Alert.alert('No internet connection');
     }
 
-    this.globalInterval = setInterval(this._refreshGlobalProps, 60000);
+    this.globalInterval = setInterval(this._refreshGlobalProps, 180000);
   };
 
   componentWillReceiveProps(nextProps) {
@@ -116,15 +124,19 @@ class ApplicationContainer extends Component {
   }
 
   componentWillUnmount() {
-    BackHandler.removeEventListener('hardwareBackPress', this.onBackPress);
-    NetInfo.isConnected.removeEventListener('connectionChange', this._handleConntectionChange);
+    const { isIos } = this.state;
+
+    if (!isIos) BackHandler.removeEventListener('hardwareBackPress', this._onBackPress);
+
+    // NetInfo.isConnected.removeEventListener('connectionChange', this._handleConntectionChange);
     clearInterval(this.globalInterval);
   }
 
   _fetchApp = async () => {
-    this._refreshGlobalProps();
+    await this._refreshGlobalProps();
     this._getSettings();
     await this._getUserData();
+    this.setState({ isReady: true });
   };
 
   _handleConntectionChange = (status) => {
@@ -135,8 +147,8 @@ class ApplicationContainer extends Component {
     }
 
     // TODO: solve this work arround
-    NetInfo.isConnected.removeEventListener('connectionChange', this._handleConntectionChange);
-    NetInfo.isConnected.addEventListener('connectionChange', this._handleConntectionChange);
+    // NetInfo.isConnected.removeEventListener('connectionChange', this._handleConntectionChange);
+    // NetInfo.isConnected.addEventListener('connectionChange', this._handleConntectionChange);
   };
 
   _onBackPress = () => {
@@ -147,6 +159,7 @@ class ApplicationContainer extends Component {
     } else {
       BackHandler.exitApp();
     }
+
     return true;
   };
 
@@ -163,6 +176,7 @@ class ApplicationContainer extends Component {
 
     await getAuthStatus().then((res) => {
       ({ currentUsername } = res);
+
       if (res) {
         getUserData().then(async (userData) => {
           if (userData.length > 0) {
@@ -203,11 +217,12 @@ class ApplicationContainer extends Component {
         realmObject[0] = realmData[realmData.length - 1];
         await switchAccount(realmObject[0].username);
       }
+
       await getUser(realmObject[0].username)
-        .then(async (accountData) => {
+        .then((accountData) => {
           dispatch(login(true));
 
-          const isExistUser = await getExistUser();
+          const isExistUser = getExistUser();
 
           [accountData.local] = realmObject;
 
@@ -217,10 +232,9 @@ class ApplicationContainer extends Component {
             dispatch(openPinCodeModal());
           }
           this._connectNotificationServer(accountData.name);
-          this._setPushToken(accountData.name);
         })
         .catch((err) => {
-          Alert.alert(err);
+          Alert.alert(`Fetching data from server failed, please try again or notify us at info@esteem.app \n${err.message.substr(0, 20)}`);
         });
     }
 
@@ -236,15 +250,23 @@ class ApplicationContainer extends Component {
         if (response.isDarkTheme !== '') dispatch(isDarkTheme(response.isDarkTheme));
         if (response.language !== '') dispatch(setLanguage(response.language));
         if (response.server !== '') dispatch(setApi(response.server));
-        if (response.upvotePercent !== '') dispatch(setUpvotePercent(Number(response.upvotePercent)));
+        if (response.upvotePercent !== '') {
+          dispatch(setUpvotePercent(Number(response.upvotePercent)));
+        }
+        if (response.isDefaultFooter !== '') dispatch(isDefaultFooter(response.isDefaultFooter));
         if (response.notification !== '') {
-          dispatch(isNotificationOpen(response.notification));
+          dispatch(
+            changeNotificationSettings({ type: 'notification', action: response.notification }),
+          );
+          dispatch(changeAllNotificationSettings(response));
+
           Push.setEnabled(response.notification);
         }
+        if (response.nsfw !== '') dispatch(setNsfw(response.nsfw));
 
         dispatch(setCurrency(response.currency !== '' ? response.currency : 'usd'));
 
-        this.setState({ isReady: true });
+        this.setState({ isThemeReady: true });
       }
     });
   };
@@ -257,29 +279,6 @@ class ApplicationContainer extends Component {
       // a message was received
       dispatch(updateUnreadActivityCount(unreadActivityCount + 1));
     };
-  };
-
-  _setPushToken = async (username) => {
-    const { notificationSettings } = this.props;
-    const token = await AppCenter.getInstallId();
-
-    getExistUser().then((isExistUser) => {
-      if (isExistUser) {
-        getPushTokenSaved().then((isPushTokenSaved) => {
-          if (!isPushTokenSaved) {
-            const data = {
-              username,
-              token,
-              system: Platform.OS,
-              allows_notify: Number(notificationSettings),
-            };
-            setPushToken(data).then(() => {
-              setPushTokenSaved(true);
-            });
-          }
-        });
-      }
-    });
   };
 
   _logout = async () => {
@@ -307,7 +306,9 @@ class ApplicationContainer extends Component {
         dispatch(removeOtherAccount(currentAccount.name));
         dispatch(logoutDone());
       })
-      .catch(() => {});
+      .catch((err) => {
+        Alert.alert(`Fetching data from server failed, please try again or notify us at info@esteem.app \n${err.substr(0, 20)}`);
+      });
   };
 
   _switchAccount = async (targetAccountUsername) => {
@@ -325,7 +326,7 @@ class ApplicationContainer extends Component {
 
   render() {
     const { selectedLanguage, isConnected, toastNotification } = this.props;
-    const { isRenderRequire, isReady } = this.state;
+    const { isRenderRequire, isReady, isThemeReady } = this.state;
 
     // For testing It comented out.
     // const locale = (navigator.languages && navigator.languages[0])
@@ -333,12 +334,13 @@ class ApplicationContainer extends Component {
     //   || navigator.userLanguage
     //   || selectedLanguage;
 
-    if (isRenderRequire && isReady) {
+    if (isRenderRequire && isThemeReady) {
       return (
         <ApplicationScreen
           isConnected={isConnected}
           locale={selectedLanguage}
           toastNotification={toastNotification}
+          isReady={isReady}
           {...this.props}
         />
       );

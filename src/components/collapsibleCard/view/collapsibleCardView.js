@@ -34,11 +34,11 @@ class CollapsibleCardView extends PureComponent {
   }
 
   componentWillReceiveProps(nextProps) {
-    const { isExpanded, moreHeight } = this.props;
+    const { isExpanded, moreHeight, locked } = this.props;
     const { expanded } = this.state;
 
     if (
-      !nextProps.isExpanded
+      (locked || !nextProps.isExpanded)
       && isExpanded !== nextProps.isExpanded
       && expanded !== nextProps.isExpanded
     ) {

@@ -81,7 +81,7 @@ class PostsView extends Component {
 
   _loadPosts = () => {
     const {
-      getFor, tag, currentAccountUsername, pageType,
+      getFor, tag, currentAccountUsername, pageType, nsfw,
     } = this.props;
     const {
       posts, startAuthor, startPermlink, refreshing, selectedFilterIndex,
@@ -93,23 +93,20 @@ class PostsView extends Component {
     let newPosts = [];
 
     this.setState({ isLoading: true });
-    if ((!filter && tag) || filter === 'feed' || filter === 'blog' || getFor === 'blog') {
+    if (tag || filter === 'feed' || filter === 'blog' || getFor === 'blog') {
+      options = {
+        tag,
+        limit: 3,
+      };
+    } else if (filter === 'reblogs') {
       options = {
         tag,
         limit: 3,
       };
     } else {
-      // TODO: implement filtering of reblogs on `blog` and `feed` posts
-      if (filter == 'reblogs') {
-        options = {
-          tag,
-          limit: 3,
-        };
-      } else {
-        options = {
-          limit: 3,
-        };
-      }
+      options = {
+        limit: 3,
+      };
     }
 
     if (startAuthor && startPermlink && !refreshing) {
@@ -117,7 +114,7 @@ class PostsView extends Component {
       options.start_permlink = startPermlink;
     }
 
-    getPostsSummary(filter, options, currentAccountUsername)
+    getPostsSummary(filter, options, currentAccountUsername, nsfw)
       .then((result) => {
         if (result.length > 0) {
           let _posts = result;
@@ -163,7 +160,7 @@ class PostsView extends Component {
           this.setState({ isNoPost: true });
         }
       })
-      .catch((err) => {
+      .catch(() => {
         this.setState({
           refreshing: false,
           isPostsLoading: false,
@@ -292,7 +289,7 @@ class PostsView extends Component {
                 titleColor="#fff"
                 colors={['#fff']}
               />
-)}
+            )}
             ref={(ref) => {
               this.flatList = ref;
             }}

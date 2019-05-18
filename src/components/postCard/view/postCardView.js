@@ -18,6 +18,7 @@ import styles from './postCardStyles';
 
 // Defaults
 import DEFAULT_IMAGE from '../../../assets/no_image.png';
+import NSFW_IMAGE from '../../../assets/nsfw.png';
 
 class PostCardView extends Component {
   /* Props
@@ -56,11 +57,22 @@ class PostCardView extends Component {
     handleOnVotersPress(content.active_votes);
   };
 
+  _getPostImage = (content, isNsfwPost) => {
+    if (content && content.image) {
+      if (isNsfwPost && content.nsfw) {
+        return NSFW_IMAGE;
+      }
+      return { uri: content.image, priority: FastImage.priority.high };
+    }
+    return DEFAULT_IMAGE;
+  };
+
   render() {
-    const { content, isHideImage, fetchPost } = this.props;
-    const _image = content && content.image
-      ? { uri: content.image, priority: FastImage.priority.high }
-      : DEFAULT_IMAGE;
+    const {
+      content, isHideImage, fetchPost, isNsfwPost,
+    } = this.props;
+
+    const _image = this._getPostImage(content, isNsfwPost);
     const reblogedBy = content.reblogged_by && content.reblogged_by[0];
 
     return (

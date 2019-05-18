@@ -36,3 +36,9 @@ export const getAvatar = about => {
   }
   return null;
 };
+
+export const validateUsername = username => {
+  const usernameRegex = /^[a-zA-Z0-9]+$/g;
+
+  return usernameRegex.test(username)
+};

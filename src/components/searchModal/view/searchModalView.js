@@ -1,18 +1,17 @@
 import React, { PureComponent } from 'react';
 import {
-  View, Text, FlatList, TouchableHighlight, SafeAreaView,
+  View, Text, FlatList, TouchableOpacity, SafeAreaView,
 } from 'react-native';
+
 import FastImage from 'react-native-fast-image';
 
 // Constants
 
 // Components
-import { Icon } from '../../icon';
-import { IconButton } from '../../iconButton';
 import { Modal } from '../..';
-import { TextInput } from '../../textInput';
+import SearchInput from '../../searchInput';
+
 // Styles
-// eslint-disable-next-line
 import styles from './searchModalStyles';
 
 class SearchModalView extends PureComponent {
@@ -41,51 +40,42 @@ class SearchModalView extends PureComponent {
     } = this.props;
 
     return (
-      <Modal isOpen={isOpen} isFullScreen swipeToClose backButtonClose isTransparent>
-        <View style={styles.container}>
-          <SafeAreaView style={styles.safeArea}>
-            <View style={styles.inputWrapper}>
-              <Icon style={styles.icon} iconType="FontAwesome" name="search" size={15} />
-              <TextInput
-                style={styles.input}
-                onChangeText={text => handleOnChangeSearchInput(text)}
-                placeholder={placeholder}
-                placeholderTextColor="#c1c5c7"
-                autoCapitalize="none"
-                autoFocus
-              />
-              <IconButton
-                iconStyle={styles.closeIcon}
-                iconType="Ionicons"
-                style={styles.closeIconButton}
-                name="ios-close-circle-outline"
-                onPress={() => handleOnClose()}
-              />
-            </View>
-          </SafeAreaView>
-
+      <Modal
+        isOpen={isOpen}
+        handleOnModalClose={() => handleOnClose()}
+        isFullScreen
+        swipeToClose
+        isTransparent
+      >
+        <SafeAreaView style={styles.container}>
+          <SearchInput
+            onChangeText={handleOnChangeSearchInput}
+            handleOnModalClose={handleOnClose}
+            placeholder={placeholder}
+          />
           <View style={styles.body}>
             <FlatList
               data={searchResults.data}
               showsVerticalScrollIndicator={false}
               renderItem={({ item }) => (
-                <TouchableHighlight onPress={() => handleOnPressListItem(searchResults.type, item)}>
+                // TODO: Make it quick ui component
+                <TouchableOpacity onPress={() => handleOnPressListItem(searchResults.type, item)}>
                   <View style={styles.searhItems}>
-                    <FastImage
-                      source={{
-                        uri:
-                          searchResults.type === 'user'
-                            ? `https://steemitimages.com/u/${item.author}/avatar/small`
-                            : item.img_url
-                              || `https://steemitimages.com/u/${item.author}/avatar/small`,
-                      }}
-                      style={styles.searchItemImage}
-                    />
-                    <Text style={styles.searchItemText}>
-                      {searchResults.type === 'user' ? item.author : item.title}
-                    </Text>
+                    <View style={styles.searchItemImageWrapper}>
+                      {item.image && (
+                        <FastImage
+                          source={{
+                            uri: item.image,
+                          }}
+                          style={styles.searchItemImage}
+                        />
+                      )}
+                    </View>
+                    <View style={styles.searchItemTextWrapper}>
+                      {item.text && <Text style={styles.searchItemText}>{item.text}</Text>}
+                    </View>
                   </View>
-                </TouchableHighlight>
+                </TouchableOpacity>
               )}
               keyExtractor={(post, index) => index.toString()}
               removeClippedSubviews
@@ -93,7 +83,7 @@ class SearchModalView extends PureComponent {
               initialNumToRender={20}
             />
           </View>
-        </View>
+        </SafeAreaView>
       </Modal>
     );
   }

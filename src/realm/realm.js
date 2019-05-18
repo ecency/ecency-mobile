@@ -45,12 +45,20 @@ const draftSchema = {
 const settingsSchema = {
   name: SETTINGS_SCHEMA,
   properties: {
-    language: { type: 'string', default: null },
-    isDarkTheme: { type: 'bool', default: false },
     currency: { type: 'string', default: null },
+    isDarkTheme: { type: 'bool', default: false },
+    isDefaultFooter: { type: 'bool', default: true },
+    language: { type: 'string', default: null },
     notification: { type: 'bool', default: true },
+    nsfw: { type: 'string', default: null },
     server: { type: 'string', default: null },
     upvotePercent: { type: 'string', default: null },
+    followNotification: { type: 'bool', default: true },
+    voteNotification: { type: 'bool', default: true },
+    commentNotification: { type: 'bool', default: true },
+    mentionNotification: { type: 'bool', default: true },
+    reblogNotification: { type: 'bool', default: true },
+    transfersNotification: { type: 'bool', default: true },
   },
 };
 
@@ -74,7 +82,7 @@ const authSchema = {
 const realm = new Realm({
   path: 'esteem.realm',
   schema: [userSchema, authSchema, draftSchema, settingsSchema, applicationSchema, scAccounts],
-  schemaVersion: 0,
+  schemaVersion: 2,
   migration,
 });
 
@@ -102,6 +110,13 @@ if (Array.from(settings).length <= 0) {
       notification: true,
       server: '',
       upvotePercent: '1',
+      nsfw: '0',
+      followNotification: true,
+      voteNotification: true,
+      commentNotification: true,
+      mentionNotification: true,
+      reblogNotification: true,
+      transfersNotification: true,
     });
   });
 }
@@ -175,7 +190,6 @@ export const updateUserData = userData => new Promise((resolve, reject) => {
 export const removeUserData = username => new Promise((resolve, reject) => {
   try {
     const account = realm.objects(USER_SCHEMA).filtered('username = $0', username);
-
     if (Array.from(account).length > 0) {
       realm.write(() => {
         realm.delete(account);
@@ -184,6 +198,21 @@ export const removeUserData = username => new Promise((resolve, reject) => {
     } else {
       reject('Could not remove selected user');
     }
+  } catch (error) {
+    reject(error);
+  }
+});
+
+export const removeAllUserData = () => new Promise((resolve, reject) => {
+  try {
+    const accounts = realm.objects(USER_SCHEMA);
+    const scAccount = realm.objects(SC_ACCOUNTS);
+
+    realm.write(() => {
+      realm.delete(accounts);
+      realm.delete(scAccount);
+      resolve();
+    });
   } catch (error) {
     reject(error);
   }
@@ -342,6 +371,17 @@ export const setTheme = isDarkTheme => new Promise((resolve, reject) => {
   }
 });
 
+export const setDefaultFooter = isDefaultFooter => new Promise((resolve, reject) => {
+  try {
+    realm.write(() => {
+      settings[0].isDefaultFooter = isDefaultFooter;
+      resolve(true);
+    });
+  } catch (error) {
+    reject(error);
+  }
+});
+
 export const setUpvotePercent = percent => new Promise((resolve, reject) => {
   try {
     realm.write(() => {
@@ -360,6 +400,29 @@ export const getUpvotePercent = () => new Promise((resolve, reject) => {
     } else {
       resolve(false);
     }
+  } catch (error) {
+    reject(error);
+  }
+});
+
+export const getNsfw = () => new Promise((resolve, reject) => {
+  try {
+    if (settings[0]) {
+      resolve(settings[0].nsfw);
+    } else {
+      resolve(false);
+    }
+  } catch (error) {
+    reject(error);
+  }
+});
+
+export const setNsfw = nsfw => new Promise((resolve, reject) => {
+  try {
+    realm.write(() => {
+      settings[0].nsfw = nsfw;
+      resolve(true);
+    });
   } catch (error) {
     reject(error);
   }
@@ -399,10 +462,34 @@ export const setServer = selectedServer => new Promise((resolve, reject) => {
   }
 });
 
-export const setNotificationIsOpen = notificationIsOpen => new Promise((resolve, reject) => {
+export const setNotificationSettings = ({ type, action }) => new Promise((resolve, reject) => {
   try {
     realm.write(() => {
-      settings[0].notification = notificationIsOpen;
+      switch (type) {
+        case 'notification.follow':
+          settings[0].followNotification = action;
+          break;
+        case 'notification.vote':
+          settings[0].voteNotification = action;
+          break;
+        case 'notification.comment':
+          settings[0].commentNotification = action;
+          break;
+        case 'notification.mention':
+          settings[0].mentionNotification = action;
+          break;
+        case 'notification.reblog':
+          settings[0].reblogNotification = action;
+          break;
+        case 'notification.transfers':
+          settings[0].transfersNotification = action;
+          break;
+        case 'notification':
+          settings[0].notification = action;
+          break;
+        default:
+          break;
+      }
       resolve(true);
     });
   } catch (error) {

@@ -10,7 +10,6 @@ import { setUpvotePercent as upvoteAction } from '../../../redux/actions/applica
 // Utils
 import parseToken from '../../../utils/parseToken';
 import { isEmptyContentDate, getTimeFromNow } from '../../../utils/time';
-import parseDate from '../../../utils/parseDate';
 
 // Component
 import UpvoteView from '../view/upvoteView';

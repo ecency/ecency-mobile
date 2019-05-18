@@ -1,5 +1,5 @@
 import React, { PureComponent, Fragment } from 'react';
-import { View, Text, ScrollView } from 'react-native';
+import { View, ScrollView } from 'react-native';
 import { injectIntl } from 'react-intl';
 
 // Components
@@ -16,7 +16,6 @@ import { Posts } from '../../../components/posts';
 import { ProfileSummary } from '../../../components/profileSummary';
 import { TabBar } from '../../../components/tabBar';
 import { Wallet } from '../../../components/wallet';
-import { FormatedCurrency } from '../../../components/formatedElements';
 
 // Constants
 import { PROFILE_FILTERS } from '../../../constants/options/filters';
@@ -84,6 +83,7 @@ class ProfileScreen extends PureComponent {
       selectedQuickProfile,
       selectedUser,
       username,
+      activePage,
     } = this.props;
 
     const {
@@ -119,8 +119,9 @@ class ProfileScreen extends PureComponent {
 
     if (estimatedWalletValue) {
       const { currencyRate, currencySymbol } = currency;
-      _estimatedWalletValue = `${currencySymbol} ${(estimatedWalletValue * currencyRate).toFixed(  
-      )}`;
+      _estimatedWalletValue = `${currencySymbol} ${(
+        estimatedWalletValue * currencyRate
+      ).toFixed()}`;
     }
 
     return (
@@ -178,6 +179,7 @@ class ProfileScreen extends PureComponent {
 
           <ScrollableTabView
             style={[globalStyles.tabView, styles.tabView]}
+            initialPage={activePage}
             renderTabBar={() => (
               <TabBar style={styles.tabbar} tabUnderlineDefaultWidth={80} tabUnderlineScaleX={2} />
             )}

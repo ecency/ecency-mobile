@@ -4,15 +4,21 @@ import {
 } from 'react-native';
 import { injectIntl } from 'react-intl';
 
+// Providers
+import { userActivity } from '../../../providers/esteem/ePoint';
+
 // Utils
 import { getTimeFromNow } from '../../../utils/time';
 
 // Components
 import { PostHeaderDescription, PostBody, Tags } from '../../postElements';
-import { PostPlaceHolder, StickyBar, TextWithIcon } from '../../basicUIElements';
+import {
+  PostPlaceHolder, StickyBar, TextWithIcon, NoPost,
+} from '../../basicUIElements';
 import { Upvote } from '../../upvote';
 import { IconButton } from '../../iconButton';
 import { CommentsDisplay } from '../../commentsDisplay';
+import { ParentPost } from '../../parentPost';
 
 // Styles
 import styles from './postDisplayStyles';
@@ -35,6 +41,13 @@ class PostDisplayView extends PureComponent {
   }
 
   // Component Life Cycles
+  componentDidMount() {
+    const { currentAccount, isLoggedIn, isNewPost } = this.props;
+
+    if (isLoggedIn && currentAccount && currentAccount.name && !isNewPost) {
+      userActivity(currentAccount.name, 10);
+    }
+  }
 
   // Component Functions
   _handleOnScroll = (event) => {
@@ -111,18 +124,39 @@ class PostDisplayView extends PureComponent {
   };
 
   render() {
-    const { post, fetchPost } = this.props;
+    const {
+      post,
+      fetchPost,
+      parentPost,
+      currentAccount: { name },
+      isPostUnavailable,
+      author,
+      intl,
+    } = this.props;
     const { postHeight, scrollHeight, isLoadedComments } = this.state;
 
-    const isPostEnd = scrollHeight > postHeight;
+    // const isPostEnd = scrollHeight > postHeight;
     const isGetComment = scrollHeight + 300 > postHeight;
     const formatedTime = post && getTimeFromNow(post.created);
 
     if (isGetComment && !isLoadedComments) this.setState({ isLoadedComments: true });
 
+    if (isPostUnavailable) {
+      return (
+        <NoPost
+          imageStyle={{ height: 200, width: 300 }}
+          defaultText={`${intl.formatMessage({
+            id: 'post.removed_hint',
+          })} ${author}`}
+        />
+      );
+    }
+
     return (
       <Fragment>
         <ScrollView style={styles.scroll} onScroll={event => this._handleOnScroll(event)}>
+          {parentPost && <ParentPost post={parentPost} />}
+
           <View style={styles.header}>
             {!post ? (
               <PostPlaceHolder />
@@ -131,18 +165,19 @@ class PostDisplayView extends PureComponent {
                 {!!post.title && <Text style={styles.title}>{post.title}</Text>}
                 <PostHeaderDescription
                   date={formatedTime}
-                  name={post.author}
+                  name={author || post.author}
+                  currentAccountUsername={name}
                   reputation={post.author_reputation}
                   tag={post.category}
                   size={16}
                 />
                 <PostBody body={post.body} />
-                <View style={[styles.footer, !isPostEnd && styles.marginFooter]}>
+                <View style={styles.footer}>
                   <Tags tags={post.json_metadata && post.json_metadata.tags} />
                   <Text style={styles.footerText}>
                     Posted by
                     {' '}
-                    <Text style={styles.footerName}>{post.author}</Text>
+                    <Text style={styles.footerName}>{author || post.author}</Text>
                     {' '}
                     {formatedTime}
                   </Text>
@@ -153,14 +188,15 @@ class PostDisplayView extends PureComponent {
           </View>
           {post && (isGetComment || isLoadedComments) && (
             <CommentsDisplay
-              author={post.author}
+              author={author || post.author}
+              mainAuthor={author || post.author}
               permlink={post.permlink}
               commentCount={post.children}
               fetchPost={fetchPost}
             />
           )}
         </ScrollView>
-        {this._getTabBar(true)}
+        {post && this._getTabBar(true)}
       </Fragment>
     );
   }

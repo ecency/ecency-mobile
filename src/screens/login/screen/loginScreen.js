@@ -63,7 +63,6 @@ class LoginScreen extends PureComponent {
     const {
       navigation,
       intl,
-      setPinCodeState,
       handleOnPressLogin,
       handleSignUp,
       isLoading,
@@ -199,7 +198,6 @@ class LoginScreen extends PureComponent {
         >
           <SteemConnect
             handleOnModalClose={this._handleOnModalToggle}
-            setPinCodeState={setPinCodeState}
           />
         </Modal>
       </View>

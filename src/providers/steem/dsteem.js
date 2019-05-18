@@ -1,16 +1,19 @@
+/* eslint-disable camelcase */
 import { Client, PrivateKey } from 'dsteem';
 import steemConnect from 'steemconnect';
 import Config from 'react-native-config';
 
 import { getServer } from '../../realm/realm';
 import { getUnreadActivityCount } from '../esteem/esteem';
-
+import { userActivity } from '../esteem/ePoint';
 // Utils
 import { decryptKey } from '../../utils/crypto';
 import { parsePosts, parsePost, parseComments } from '../../utils/postParser';
 import { getName, getAvatar } from '../../utils/user';
 import { getReputation } from '../../utils/reputation';
 import parseToken from '../../utils/parseToken';
+import filterNsfwPost from '../../utils/filterNsfwPost';
+import { jsonStringify } from '../../utils/jsonUtils';
 
 // Constant
 import AUTH_TYPE from '../../constants/authType';
@@ -18,7 +21,7 @@ import AUTH_TYPE from '../../constants/authType';
 const DEFAULT_SERVER = 'https://api.steemit.com';
 let client = new Client(DEFAULT_SERVER);
 
-const _getClient = async () => {
+export const checkClient = async () => {
   let selectedServer = DEFAULT_SERVER;
 
   await getServer().then((response) => {
@@ -30,7 +33,7 @@ const _getClient = async () => {
   client = new Client(selectedServer);
 };
 
-_getClient();
+checkClient();
 
 export const getDigitPinCode = pin => decryptKey(pin, Config.PIN_KEY);
 
@@ -117,7 +120,12 @@ export const getUser = async (user) => {
     // get global properties to calculate Steem Power
     const globalProperties = await client.database.getDynamicGlobalProperties();
     const rcPower = await client.call('rc_api', 'find_rc_accounts', { accounts: [user] });
-    const unreadActivityCount = await getUnreadActivityCount({ user });
+    let unreadActivityCount;
+    try {
+      unreadActivityCount = await getUnreadActivityCount({ user });
+    } catch (error) {
+      unreadActivityCount = 0;
+    }
 
     account[0].reputation = getReputation(account[0].reputation);
     account[0].username = account[0].name;
@@ -191,7 +199,7 @@ export const getFollowSearch = (user, targetUser) => new Promise((resolve, rejec
     });
 });
 
-export const getIsMuted = async (username, targetUsername) => {
+export const getIsMuted = async (targetUsername, username) => {
   let resp;
 
   try {
@@ -227,7 +235,7 @@ export const ignoreUser = async (currentAccount, pin, data) => {
 
     const json = {
       id: 'follow',
-      json: JSON.stringify([
+      json: jsonStringify([
         'follow',
         {
           follower: `${data.follower}`,
@@ -274,12 +282,17 @@ export const getPosts = async (by, query, user) => {
 
 export const getActiveVotes = (author, permlink) => client.database.call('get_active_votes', [author, permlink]);
 
-export const getPostsSummary = async (by, query, currentUserName) => {
+export const getPostsSummary = async (by, query, currentUserName, filterNsfw) => {
   try {
     let posts = await client.database.getDiscussions(by, query);
 
     if (posts) {
       posts = await parsePosts(posts, currentUserName, true);
+
+      if (filterNsfw !== '0') {
+        const updatedPosts = filterNsfwPost(posts, filterNsfw);
+        return updatedPosts;
+      }
     }
     return posts;
   } catch (error) {
@@ -335,6 +348,57 @@ export const getPurePost = async (author, permlink) => {
   }
 };
 
+// export const deleteComment = (author, permlink) => {
+//   return new Promise((resolve, reject) => {
+//     client.database
+//       .call('delete_comment', [author, permlink])
+//       .then((response) => {
+//         resolve(response);
+//       })
+//       .catch((error) => {
+//         reject(error);
+//       });
+//   });
+// };
+
+export const deleteComment = (currentAccount, pin, permlink) => {
+  const { name: author } = currentAccount;
+  const digitPinCode = getDigitPinCode(pin);
+  const key = getAnyPrivateKey(currentAccount.local, digitPinCode);
+
+  if (currentAccount.local.authType === AUTH_TYPE.STEEM_CONNECT) {
+    const token = decryptKey(currentAccount.accessToken, pin);
+    const api = steemConnect.Initialize({
+      accessToken: token,
+    });
+
+    const params = {
+      author,
+      permlink,
+    };
+
+    const opArray = [['delete_comment', params]];
+
+    return api.broadcast(opArray).then(resp => resp.result);
+  }
+
+  if (key) {
+    const opArray = [
+      [
+        'delete_comment',
+        {
+          author,
+          permlink,
+        },
+      ],
+    ];
+
+    const privateKey = PrivateKey.fromString(key);
+
+    return client.broadcast.sendOperations(opArray, privateKey);
+  }
+};
+
 /**
  * @method getUser get user data
  * @param user post author
@@ -376,14 +440,18 @@ export const getPostWithComments = async (user, permlink) => {
   return [post, comments];
 };
 
-// export const getAccountRC = username => client.call('rc_api', 'find_rc_accounts', { accounts: [username] });
-
 /**
  * @method upvote upvote a content
  * @param vote vote object(author, permlink, voter, weight)
  * @param postingKey private posting key
  */
-export const vote = async (currentAccount, pin, author, permlink, weight) => {
+
+export const vote = (account, pin, author, permlink, weight) => _vote(account, pin, author, permlink, weight).then((resp) => {
+  userActivity(account.username, 120, resp.block_num, resp.id);
+  return resp;
+});
+
+const _vote = async (currentAccount, pin, author, permlink, weight) => {
   const digitPinCode = getDigitPinCode(pin);
   const key = getAnyPrivateKey(currentAccount.local, digitPinCode);
 
@@ -399,7 +467,7 @@ export const vote = async (currentAccount, pin, author, permlink, weight) => {
       api
         .vote(voter, author, permlink, weight)
         .then((result) => {
-          resolve(result);
+          resolve(result.result);
         })
         .catch((err) => {
           reject(err);
@@ -449,18 +517,126 @@ export const upvoteAmount = async (input) => {
   return estimated;
 };
 
-export const transferToken = (data, activeKey) => {
-  const key = PrivateKey.fromString(activeKey);
-  return new Promise((resolve, reject) => {
-    client.broadcast
-      .transfer(data, key)
-      .then((result) => {
-        resolve(result);
-      })
-      .catch((err) => {
-        reject(err);
-      });
-  });
+export const transferToken = (currentAccount, pin, data) => {
+  const digitPinCode = getDigitPinCode(pin);
+  const key = getAnyPrivateKey({ activeKey: currentAccount.local.activeKey }, digitPinCode);
+
+  if (key) {
+    const privateKey = PrivateKey.fromString(key);
+    const args = {
+      from: data.from,
+      to: data.destination,
+      amount: data.amount,
+      memo: data.memo,
+    };
+
+    return new Promise((resolve, reject) => {
+      client.broadcast
+        .transfer(args, privateKey)
+        .then((result) => {
+          resolve(result);
+        })
+        .catch((err) => {
+          reject(err);
+        });
+    });
+  }
+
+  return Promise.reject(new Error('You dont have permission!'));
+};
+
+export const transferToSavings = (currentAccount, pin, data) => {
+  const digitPinCode = getDigitPinCode(pin);
+  const key = getAnyPrivateKey({ activeKey: currentAccount.local.activeKey }, digitPinCode);
+
+  if (key) {
+    const privateKey = PrivateKey.fromString(key);
+
+    const args = [[
+      'transfer_to_savings',
+      {
+        from: data.from,
+        to: data.destination,
+        amount: data.amount,
+        memo: data.memo,
+      },
+    ]];
+
+    return new Promise((resolve, reject) => {
+      client.broadcast
+        .sendOperations(args, privateKey)
+        .then((result) => {
+          resolve(result);
+        })
+        .catch((err) => {
+          reject(err);
+        });
+    });
+  }
+
+  return Promise.reject(new Error('You dont have permission!'));
+};
+
+export const transferFromSavings = (currentAccount, pin, data) => {
+  const digitPinCode = getDigitPinCode(pin);
+  const key = getAnyPrivateKey({ activeKey: currentAccount.local.activeKey }, digitPinCode);
+
+  if (key) {
+    const privateKey = PrivateKey.fromString(key);
+    const args = [[
+      'transfer_from_savings',
+      {
+        from: data.from,
+        to: data.destination,
+        amount: data.amount,
+        memo: data.memo,
+        request_id: data.requestId,
+      },
+    ]];
+
+    return new Promise((resolve, reject) => {
+      client.broadcast
+        .sendOperations(args, privateKey)
+        .then((result) => {
+          resolve(result);
+        })
+        .catch((err) => {
+          reject(err);
+        });
+    });
+  }
+
+  return Promise.reject(new Error('You dont have permission!'));
+};
+
+export const transferToVesting = (currentAccount, pin, data) => {
+  const digitPinCode = getDigitPinCode(pin);
+  const key = getAnyPrivateKey({ activeKey: currentAccount.local.activeKey }, digitPinCode);
+
+  if (key) {
+    const privateKey = PrivateKey.fromString(key);
+    const args = [[
+      'transfer_to_vesting',
+      {
+        from: data.from,
+        to: data.destination,
+        amount: data.amount,
+      },
+    ]];
+
+    return new Promise((resolve, reject) => {
+      client.broadcast
+        .sendOperations(args, privateKey)
+        .then((result) => {
+          resolve(result);
+        })
+        .catch((err) => {
+          reject(err);
+        });
+    });
+  }
+
+  return Promise.reject(new Error('You dont have permission!'));
 };
 
 export const followUser = async (currentAccount, pin, data) => {
@@ -480,7 +656,7 @@ export const followUser = async (currentAccount, pin, data) => {
     const privateKey = PrivateKey.fromString(key);
     const json = {
       id: 'follow',
-      json: JSON.stringify([
+      json: jsonStringify([
         'follow',
         {
           follower: `${data.follower}`,
@@ -525,7 +701,7 @@ export const unfollowUser = async (currentAccount, pin, data) => {
 
     const json = {
       id: 'follow',
-      json: JSON.stringify([
+      json: jsonStringify([
         'follow',
         {
           follower: `${data.follower}`,
@@ -567,30 +743,6 @@ export const delegate = (data, activeKey) => {
   });
 };
 
-export const transferToVesting = (data, activeKey) => {
-  const privateKey = PrivateKey.fromString(activeKey);
-
-  const op = [
-    'transfer_to_vesting',
-    {
-      from: data.from,
-      to: data.to,
-      amount: data.amount,
-    },
-  ];
-
-  return new Promise((resolve, reject) => {
-    client.broadcast
-      .sendOperations([op], privateKey)
-      .then((result) => {
-        resolve(result);
-      })
-      .catch((error) => {
-        reject(error);
-      });
-  });
-};
-
 export const withdrawVesting = (data, activeKey) => {
   const privateKey = PrivateKey.fromString(activeKey);
   const op = [
@@ -622,11 +774,52 @@ export const lookupAccounts = async (username) => {
   }
 };
 
+export const getTrendingTags = async (tag) => {
+  try {
+    const users = await client.database.call('get_trending_tags', [tag, 20]);
+    return users;
+  } catch (error) {
+    throw error;
+  }
+};
+
+export const postContent = (
+  account,
+  pin,
+  parentAuthor,
+  parentPermlink,
+  permlink,
+  title,
+  body,
+  jsonMetadata,
+  options = null,
+  voteWeight = null,
+) => _postContent(
+  account,
+  pin,
+  parentAuthor,
+  parentPermlink,
+  permlink,
+  title,
+  body,
+  jsonMetadata,
+  options,
+  voteWeight,
+).then((resp) => {
+  if (options) {
+    const t = title ? 100 : 110;
+    const { block_num, id } = resp;
+
+    userActivity(account.username, t, block_num, id);
+  }
+  return resp;
+});
+
 /**
  * @method postComment post a comment/reply
  * @param comment comment object { author, permlink, ... }
  */
-export const postContent = async (
+const _postContent = async (
   account,
   pin,
   parentAuthor,
@@ -655,7 +848,7 @@ export const postContent = async (
       permlink,
       title,
       body,
-      json_metadata: JSON.stringify(jsonMetadata),
+      json_metadata: jsonStringify(jsonMetadata),
     };
 
     const opArray = [['comment', params]];
@@ -678,7 +871,7 @@ export const postContent = async (
       opArray.push(e);
     }
 
-    return api.broadcast(opArray);
+    return api.broadcast(opArray).then(resp => resp.result);
   }
 
   if (key) {
@@ -692,7 +885,7 @@ export const postContent = async (
           permlink,
           title,
           body,
-          json_metadata: JSON.stringify(jsonMetadata),
+          json_metadata: jsonStringify(jsonMetadata),
         },
       ],
     ];
@@ -733,7 +926,13 @@ export const postContent = async (
 };
 
 // Re-blog
-export const reblog = async (account, pinCode, author, permlink) => {
+// TODO: remove pinCode
+export const reblog = (account, pinCode, author, permlink) => _reblog(account, pinCode, author, permlink).then((resp) => {
+  userActivity(account.name, 130, resp.block_num, resp.id);
+  return resp;
+});
+
+const _reblog = async (account, pinCode, author, permlink) => {
   const pin = getDigitPinCode(pinCode);
   const key = getAnyPrivateKey(account.local, pin);
 
@@ -745,7 +944,7 @@ export const reblog = async (account, pinCode, author, permlink) => {
 
     const follower = account.name;
 
-    return api.reblog(follower, author, permlink);
+    return api.reblog(follower, author, permlink).then(resp => resp.result);
   }
 
   if (key) {
@@ -754,7 +953,7 @@ export const reblog = async (account, pinCode, author, permlink) => {
 
     const json = {
       id: 'follow',
-      json: JSON.stringify([
+      json: jsonStringify([
         'reblog',
         {
           account: follower,
@@ -814,7 +1013,7 @@ const getAnyPrivateKey = (local, pin) => {
   }
 
   if (activeKey) {
-    return decryptKey(local.postingKey, pin);
+    return decryptKey(local.activeKey, pin);
   }
 
   return false;

@@ -17,6 +17,8 @@ export default {
     STEEM_CONNECT: `SteemConnect${SCREEN_SUFFIX}`,
     VOTERS: `Voters${SCREEN_SUFFIX}`,
     BOOKMARKS: `Bookmarks${SCREEN_SUFFIX}`,
+    SEARCH_RESULT: `SearchResult${SCREEN_SUFFIX}`,
+    TRANSFER: `Transfer${SCREEN_SUFFIX}`,
   },
   DRAWER: {
     MAIN: `Main${DRAWER_SUFFIX}`,
@@ -25,7 +27,7 @@ export default {
     HOME: `Home${TABBAR_SUFFIX}`,
     NOTIFICATION: `Notification${TABBAR_SUFFIX}`,
     POSTBUTTON: `PostButton${TABBAR_SUFFIX}`,
-    MESSAGES: `Messages${TABBAR_SUFFIX}`,
+    POINTS: `Points${TABBAR_SUFFIX}`,
     PROFILE: `Profile${TABBAR_SUFFIX}`,
   },
   MODAL: {

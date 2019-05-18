@@ -24,6 +24,7 @@ export default EStyleSheet.create({
     shadowOpacity: 0.3,
     shadowColor: '$shadowColor',
     backgroundColor: '$primaryBackgroundColor',
+    maxHeight: '$deviceHeight / 2',
   },
   iconWrapper: {
     justifyContent: 'center',
@@ -56,7 +57,7 @@ export default EStyleSheet.create({
     justifyContent: 'center',
     borderTopRightRadius: 20,
     borderBottomRightRadius: 20,
-    width: '$deviceWidth / 2.5',
+    width: '$deviceWidth / 2',
     padding: 5,
   },
   dropdownRow: {

@@ -25,6 +25,7 @@ export default EStyleSheet.create({
     color: '$primaryDarkGray',
     fontSize: 14,
     fontWeight: 'bold',
+    maxWidth: '$deviceWidth - 100',
     fontFamily: '$primaryFont',
   },
   reputation: {
