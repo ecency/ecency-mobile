@@ -15,7 +15,6 @@ import { getPost, getUser } from '../../../providers/steem/dsteem';
 import { Modal } from '../../../components';
 import { PinCode } from '../../pinCode';
 import PostButtonForAndroid from '../../../components/postButton/view/postButtonsForAndroid';
-import { ToastNotificaiton } from '../../../components/toastNotification';
 
 // Constants
 import ROUTES from '../../../constants/routeNames';
@@ -25,7 +24,6 @@ const RootContainer = () => (WrappedComponent) => {
     constructor(props) {
       super(props);
       this.state = {
-        pinCodeStates: null,
         wrappedComponentStates: null,
         appState: AppState.currentState,
       };
@@ -34,7 +32,14 @@ const RootContainer = () => (WrappedComponent) => {
     componentDidMount() {
       AppState.addEventListener('change', this._handleAppStateChange);
       this._createPushListener();
-      Linking.addEventListener('url', this._handleOpenURL);
+
+      if (Platform.OS === 'android') {
+        Linking.getInitialURL().then((url) => {
+          this._handleDeepLink(url);
+        });
+      } else {
+        Linking.addEventListener('url', this._handleOpenURL);
+      }
     }
 
     componentWillUnmount() {
@@ -44,7 +49,7 @@ const RootContainer = () => (WrappedComponent) => {
 
     _handleOpenURL = (event) => {
       this._handleDeepLink(event.url);
-    }
+    };
 
     _handleDeepLink = async (url) => {
       if (!url) return;
@@ -55,22 +60,19 @@ const RootContainer = () => (WrappedComponent) => {
       let params;
       let content;
       let profile;
-      const postRegex = /^https?:\/\/(.*)\/(.*)\/(@[\w.\d-]+)\/(.*)/i;
       const { navigation, currentAccountUsername, intl } = this.props;
 
-      if (url.indexOf('esteem') > -1) {
-        const route = url.replace(/.*?:\/\//g, '');
-        const routeParams = route.indexOf('/') > -1 ? route.split('/') : [route];
+      if (
+        url.indexOf('esteem') > -1
+        || url.indexOf('steemit') > -1
+        || url.indexOf('busy') > -1
+        || url.indexOf('steempeak') > -1
+      ) {
+        url = url.substring(url.indexOf('@'), url.length);
+        const routeParams = url.indexOf('/') > -1 ? url.split('/') : [url];
 
-        if (routeParams && routeParams.length > 1) {
-          permlink = routeParams[2];
-          author = routeParams[1].indexOf('@') > -1 ? routeParams[1].replace('@', '') : routeParams[1];
-        } else if ((routeParams && routeParams.length === 1) || route.indexOf('@') > -1) {
-          author = route.length >= 3 && route;
-        }
-      } else if (url.indexOf('steemit') > -1) {
-        const urlMatch = url.match(postRegex);
-        const sss = urlMatch;
+        [, permlink] = routeParams;
+        author = routeParams[0].indexOf('@') > -1 ? routeParams[0].replace('@', '') : routeParams[0];
       }
 
       if (author && permlink) {
@@ -113,11 +115,14 @@ const RootContainer = () => (WrappedComponent) => {
       }
 
       if (profile || content) {
-        navigation.navigate({
-          routeName,
-          params,
-          key: permlink || author,
-        });
+        this.navigationTimeout = setTimeout(() => {
+          clearTimeout(this.navigationTimeout);
+          navigation.navigate({
+            routeName,
+            params,
+            key: permlink || author,
+          });
+        }, 2000);
       }
     };
 
@@ -151,10 +156,6 @@ const RootContainer = () => (WrappedComponent) => {
       }, 1 * 60 * 1000);
     };
 
-    _setPinCodeState = (data) => {
-      this.setState({ pinCodeStates: { ...data } });
-    };
-
     _setWrappedComponentState = (data) => {
       this.setState({ wrappedComponentStates: { ...data } });
     };
@@ -167,23 +168,24 @@ const RootContainer = () => (WrappedComponent) => {
 
       Push.setListener({
         onPushNotificationReceived(pushNotification) {
-          const extra = JSON.parse(pushNotification.customProperties.extra);
+          const push = pushNotification.customProperties;
 
-          if (extra.parent_permlink || extra.permlink) {
+          if (push.parent_permlink1 || push.permlink1) {
             params = {
-              author:
-                extra.parent_permlink
-                  ? extra.parent_author
-                  : pushNotification.customProperties.target,
-              permlink: extra.parent_permlink ? extra.parent_permlink : extra.permlink,
+              author: push.parent_permlink1 ? push.parent_author : push.target,
+              permlink: push.parent_permlink1
+                ? `${push.parent_permlink1}${push.parent_permlink2}${push.parent_permlink3}`
+                : `${push.permlink1}${push.permlink2}${push.permlink3}`,
             };
-            key = extra.parent_permlink ? extra.parent_permlink : extra.permlink;
+            key = push.parent_permlink1
+              ? `${push.parent_permlink1}${push.parent_permlink2}${push.parent_permlink3}`
+              : `${push.permlink1}${push.permlink2}${push.permlink3}`;
             routeName = ROUTES.SCREENS.POST;
           } else {
             params = {
-              username: pushNotification.customProperties.source,
+              username: push.source,
             };
-            key = pushNotification.customProperties.source;
+            key = push.source;
             routeName = ROUTES.SCREENS.PROFILE;
           }
 
@@ -196,7 +198,7 @@ const RootContainer = () => (WrappedComponent) => {
 
     render() {
       const { isPinCodeReqiure, navigation } = this.props;
-      const { pinCodeStates, wrappedComponentStates } = this.state;
+      const { wrappedComponentStates } = this.state;
 
       return (
         <Fragment>
@@ -207,7 +209,6 @@ const RootContainer = () => (WrappedComponent) => {
             backButtonClose={false}
           >
             <PinCode
-              {...pinCodeStates}
               setWrappedComponentState={this._setWrappedComponentState}
               navigation={navigation}
             />
@@ -215,7 +216,6 @@ const RootContainer = () => (WrappedComponent) => {
           <WrappedComponent
             {...this.props}
             {...wrappedComponentStates}
-            setPinCodeState={this._setPinCodeState}
           />
           {Platform.OS === 'android' && <PostButtonForAndroid />}
         </Fragment>

@@ -23,9 +23,9 @@ export const getDrafts = data => new Promise((resolve, reject) => {
  * @params username
  * @params draftID
  */
-export const removeDraft = data => new Promise((resolve, reject) => {
+export const removeDraft = (username, id) => new Promise((resolve, reject) => {
   api
-    .delete(`/drafts/${data.username}/${data.draftId}`)
+    .delete(`/drafts/${username}/${id}`)
     .then((res) => {
       resolve(res.data);
     })
@@ -144,6 +144,9 @@ export const getActivities = data => new Promise((resolve, reject) => {
     case 'reblogs':
       url = `/reblogs/${data.user}`;
       break;
+    case 'transfers':
+      url = `/transfers/${data.user}`;
+      break;
     default:
       url = `/activities/${data.user}`;
       break;
@@ -220,12 +223,12 @@ export const schedule = (
   upvote,
   scheduleDate,
 ) => api
-  .post('/api/schedules', {
+  .post('/schedules', {
     username: user,
     category: tags[0],
     title,
     permlink,
-    json: JSON.stringify(json),
+    json: jsonStringify(json),
     tags,
     body,
     post_type: operationType,
@@ -235,18 +238,18 @@ export const schedule = (
   })
   .then(resp => resp.data);
 
-export const getSchedules = user => api.get(`/api/schedules/${user}`).then(resp => resp.data);
+export const getSchedules = username => api.get(`/schedules/${username}`).then(resp => resp.data);
 
-export const removeSchedule = (id, user) => api.delete(`/api/schedules/${user}/${id}`);
+export const removeSchedule = (username, id) => api.delete(`/schedules/${username}/${id}`);
 
-export const moveSchedule = (id, user) => api.put(`/api/schedules/${user}/${id}`);
+export const moveSchedule = (id, username) => api.put(`/schedules/${username}/${id}`);
 
 // Old image service
 // Images
 
-export const getImages = user => api.get(`api/images/${user}`).then(resp => resp.data);
+export const getImages = username => api.get(`api/images/${username}`).then(resp => resp.data);
 
-export const addMyImage = (user, url) => api.post('/api/image', { username: user, image_url: url });
+export const addMyImage = (user, url) => api.post('/image', { username: user, image_url: url });
 
 export const uploadImage = (file) => {
   const fData = new FormData();

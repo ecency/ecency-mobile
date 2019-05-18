@@ -1,4 +1,11 @@
 import React, { PureComponent } from 'react';
+import { withNavigation } from 'react-navigation';
+import { connect } from 'react-redux';
+
+// Constants
+import ROUTES from '../../../constants/routeNames';
+
+import { openPinCodeModal } from '../../../redux/actions/applicationActions';
 
 // Component
 import WalletDetailsView from '../view/walletDetailsView';
@@ -19,12 +26,39 @@ class WalletContainer extends PureComponent {
   // Component Life Cycle Functions
 
   // Component Functions
+  _navigate = async (transferType, fundType) => {
+    const { dispatch, walletData } = this.props;
+    let balance;
+
+    switch (fundType) {
+      case 'STEEM':
+        balance = Math.round(walletData.balance * 1000) / 1000;
+        break;
+      case 'SBD':
+        balance = Math.round(walletData.sbdBalance * 1000) / 1000;
+        break;
+      default:
+        break;
+    }
+
+    dispatch(openPinCodeModal({
+      navigateTo: ROUTES.SCREENS.TRANSFER,
+      navigateParams: { transferType, fundType, balance },
+    }));
+  };
 
   render() {
-    const { intl, walletData } = this.props;
+    const { intl, walletData, isShowDropdowns } = this.props;
 
-    return <WalletDetailsView intl={intl} walletData={walletData} />;
+    return (
+      <WalletDetailsView
+        intl={intl}
+        walletData={walletData}
+        navigate={this._navigate}
+        isShowDropdowns={isShowDropdowns}
+      />
+    );
   }
 }
 
-export default WalletContainer;
+export default connect()(withNavigation(WalletContainer));

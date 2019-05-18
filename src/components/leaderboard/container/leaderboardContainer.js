@@ -1,9 +1,10 @@
 import React, { PureComponent } from 'react';
-
+import { withNavigation } from 'react-navigation';
 // Services and Actions
 import { getLeaderboard } from '../../../providers/esteem/esteem';
 
-// Utilities
+// Constants
+import ROUTES from '../../../constants/routeNames';
 
 // Component
 import LeaderboardView from '../view/leaderboardView';
@@ -19,21 +20,46 @@ class LeaderboardContainer extends PureComponent {
     super(props);
     this.state = {
       users: null,
+      refreshing: false,
     };
   }
 
   // Component Life Cycle Functions
-  async componentDidMount() {
-    const users = await getLeaderboard();
-
-    this.setState({ users });
+  componentDidMount() {
+    this._fetchLeaderBoard();
   }
 
-  render() {
-    const { users } = this.state;
+  _handleOnUserPress = (username) => {
+    const { navigation } = this.props;
 
-    return <LeaderboardView users={users} handleOnUserPress={this._handleOnUserPress} />;
+    navigation.navigate({
+      routeName: ROUTES.SCREENS.PROFILE,
+      params: {
+        username,
+      },
+    });
+  };
+
+  _fetchLeaderBoard = async () => {
+    this.setState({ refreshing: true });
+
+    const users = await getLeaderboard();
+
+    this.setState({ users, refreshing: false });
+  };
+
+  render() {
+    const { users, refreshing } = this.state;
+
+    return (
+      <LeaderboardView
+        users={users}
+        refreshing={refreshing}
+        fetchLeaderBoard={this._fetchLeaderBoard}
+        handleOnUserPress={this._handleOnUserPress}
+      />
+    );
   }
 }
 
-export default LeaderboardContainer;
+export default withNavigation(LeaderboardContainer);

@@ -44,12 +44,12 @@ export default class TitleAreaView extends Component {
 
   render() {
     const { intl, isPreviewActive, autoFocus } = this.props;
-    const { text } = this.state;
+    const { text, height } = this.state;
 
     return (
       <View style={globalStyles.containerHorizontal16}>
         <TextInput
-          style={[styles.textInput, {height: Math.max(35, this.state.height)}]}
+          style={[styles.textInput, { height: Math.max(35, height) }]}
           placeholderTextColor="#c1c5c7"
           editable={!isPreviewActive}
           maxLength={250}
@@ -59,7 +59,7 @@ export default class TitleAreaView extends Component {
           multiline
           numberOfLines={4}
           onContentSizeChange={(event) => {
-            this.setState({ height: event.nativeEvent.contentSize.height })
+            this.setState({ height: event.nativeEvent.contentSize.height });
           }}
           autoFocus={autoFocus}
           onChangeText={text => this._handleOnChange(text)}

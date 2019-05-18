@@ -1,5 +1,7 @@
 import React, { PureComponent, Fragment } from 'react';
-import { View } from 'react-native';
+import { View, Text } from 'react-native';
+import ActionSheet from 'react-native-actionsheet';
+import { injectIntl } from 'react-intl';
 
 import { getTimeFromNow } from '../../../utils/time';
 // Constants
@@ -40,17 +42,22 @@ class CommentView extends PureComponent {
   render() {
     const {
       avatarSize,
+      comment,
+      commentNumber,
       currentAccountUsername,
+      fetchPost,
+      handleDeleteComment,
       handleOnEditPress,
       handleOnReplyPress,
       handleOnUserPress,
       isLoggedIn,
-      marginLeft,
-      isShowMoreButton,
-      comment,
-      commentNumber,
-      fetchPost,
       isShowComments,
+      isShowMoreButton,
+      marginLeft,
+      voteCount,
+      intl,
+      author,
+      mainAuthor={mainAuthor}
     } = this.props;
     const { isShowSubComments, isPressedShowButton } = this.state;
 
@@ -62,6 +69,8 @@ class CommentView extends PureComponent {
           name={comment.author}
           reputation={comment.author_reputation}
           size={avatarSize || 24}
+          currentAccountUsername={currentAccountUsername}
+          isShowOwnerIndicator={mainAuthor === comment.author}
         />
         <View style={[{ marginLeft: marginLeft || 29 }, styles.bodyWrapper]}>
           <PostBody isComment handleOnUserPress={handleOnUserPress} body={comment.body} />
@@ -72,20 +81,51 @@ class CommentView extends PureComponent {
                 <IconButton
                   size={18}
                   iconStyle={styles.leftIcon}
+                  iconType="MaterialIcons"
+                  name="people"
+                />
+                <Text style={styles.voteCountText}>{voteCount}</Text>
+                <IconButton
+                  size={18}
+                  iconStyle={styles.leftIcon}
                   style={styles.leftButton}
                   name="reply"
                   onPress={() => handleOnReplyPress && handleOnReplyPress(comment)}
                   iconType="MaterialIcons"
                 />
                 {currentAccountUsername === comment.author && (
-                  <IconButton
-                    size={18}
-                    iconStyle={styles.leftIcon}
-                    style={styles.leftButton}
-                    name="create"
-                    onPress={() => handleOnEditPress && handleOnEditPress(comment)}
-                    iconType="MaterialIcons"
-                  />
+                  <Fragment>
+                    <IconButton
+                      size={18}
+                      iconStyle={styles.leftIcon}
+                      style={styles.leftButton}
+                      name="create"
+                      onPress={() => handleOnEditPress && handleOnEditPress(comment)}
+                      iconType="MaterialIcons"
+                    />
+                    {!comment.children && !voteCount && (
+                      <Fragment>
+                        <IconButton
+                          size={18}
+                          iconStyle={styles.leftIcon}
+                          style={styles.leftButton}
+                          name="delete-forever"
+                          onPress={() => this.ActionSheet.show()}
+                          iconType="MaterialIcons"
+                        />
+                        <ActionSheet
+                          ref={o => (this.ActionSheet = o)}
+                          options={[intl.formatMessage({ id: 'alert.delete' }), intl.formatMessage({ id: 'alert.cancel' })]}
+                          title={intl.formatMessage({ id: 'alert.delete' })}
+                          destructiveButtonIndex={0}
+                          cancelButtonIndex={1}
+                          onPress={(index) => {
+                            index === 0 ? handleDeleteComment(comment.permlink) : null;
+                          }}
+                        />
+                      </Fragment>
+                    )}
+                  </Fragment>
                 )}
               </Fragment>
             )}
@@ -117,6 +157,7 @@ class CommentView extends PureComponent {
               commentCount={comment.children}
               isShowMoreButton={false}
               fetchPost={fetchPost}
+              mainAuthor={mainAuthor}
             />
           )}
         </View>
@@ -125,4 +166,4 @@ class CommentView extends PureComponent {
   }
 }
 
-export default CommentView;
+export default injectIntl(CommentView);

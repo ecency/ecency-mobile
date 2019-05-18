@@ -14,12 +14,24 @@ export default EStyleSheet.create({
     color: '$primaryBlue',
     fontFamily: '$primaryFont',
   },
+  h4: {
+    fontSize: 15,
+    marginHorizontal: 10,
+    marginVertical: 5,
+  },
+  h1: {
+    fontSize: 30,
+  },
+  h2: {
+    fontSize: 25,
+  },
+  h3: {
+    fontSize: 20,
+  },
   img: {
     // height: 50,
     marginTop: 10,
-  },
-  code: {
-    fontFamily: '$editorFont',
+    // left: -15,
   },
   commentContainer: {
     paddingHorizontal: 0,
@@ -43,5 +55,14 @@ export default EStyleSheet.create({
     flex: 1,
     padding: 10,
     backgroundColor: '$tableTrColor',
+  },
+  blockquote: {
+    borderLeftWidth: 5,
+    borderColor: '$darkIconColor',
+    paddingLeft: 5,
+  },
+  code: {
+    backgroundColor: '$darkIconColor',
+    fontFamily: '$editorFont',
   },
 });

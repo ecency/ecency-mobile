@@ -82,8 +82,10 @@ class PostCardContainer extends PureComponent {
   };
 
   render() {
-    const { content, isHideImage } = this.props;
+    const { content, isHideImage, nsfw } = this.props;
     const { _content } = this.state;
+
+    const isNsfwPost = nsfw === '1';
 
     return (
       <PostCardView
@@ -93,6 +95,7 @@ class PostCardContainer extends PureComponent {
         fetchPost={this._fetchPost}
         content={_content || content}
         isHideImage={isHideImage}
+        isNsfwPost={isNsfwPost}
       />
     );
   }
@@ -100,6 +103,7 @@ class PostCardContainer extends PureComponent {
 
 const mapStateToProps = state => ({
   currentAccount: state.account.currentAccount,
+  nsfw: state.application.nsfw,
 });
 
 export default withNavigation(connect(mapStateToProps)(PostCardContainer));

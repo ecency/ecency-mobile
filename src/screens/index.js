@@ -5,7 +5,7 @@ import { Follows } from './follows';
 import { Home } from './home';
 import { Launch } from './launch';
 import { Login } from './login';
-import { Messages } from './messages';
+import { Points } from './points';
 import { Notification } from './notification';
 import { PinCode } from './pinCode';
 import { Post } from './post';
@@ -14,6 +14,8 @@ import { Settings } from './settings';
 import { Voters } from './voters';
 import RootComponent from './root';
 import SteemConnect from './steem-connect/steemConnect';
+import { SearchResult } from './searchResult';
+import Transfer from './transfer';
 
 export {
   Bookmarks,
@@ -23,7 +25,7 @@ export {
   Home,
   Launch,
   Login,
-  Messages,
+  Points,
   Notification,
   PinCode,
   Post,
@@ -32,4 +34,6 @@ export {
   Settings,
   SteemConnect,
   Voters,
+  SearchResult,
+  Transfer,
 };

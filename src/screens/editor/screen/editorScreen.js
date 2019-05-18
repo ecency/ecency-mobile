@@ -1,6 +1,7 @@
 import React, { Component } from 'react';
 import { View } from 'react-native';
 import { injectIntl } from 'react-intl';
+import get from 'lodash/get';
 
 // Utils
 import { getWordsCount } from '../../../utils/editor';
@@ -38,20 +39,27 @@ class EditorScreen extends Component {
   }
 
   // Component Life Cycles
-  componentWillReceiveProps = (nextProps) => {
-    const { draftPost } = this.props;
+  componentWillReceiveProps = async (nextProps) => {
+    const { draftPost, isUploading } = this.props;
 
     if (nextProps.draftPost && draftPost !== nextProps.draftPost) {
-      this.setState({
+      await this.setState(prevState => ({
         fields: {
+          ...prevState.fields,
           ...nextProps.draftPost,
         },
-      });
+      }));
+    }
+
+    if (isUploading !== nextProps) {
+      this._handleFormUpdate();
     }
   };
 
   // Component Functions
   _initialFields = () => {
+    const { initialEditor } = this.props;
+
     this.setState({
       fields: {
         title: '',
@@ -61,6 +69,8 @@ class EditorScreen extends Component {
       },
       isRemoveTag: true,
     });
+
+    if (initialEditor) initialEditor();
   };
 
   _handleOnPressPreviewButton = () => {
@@ -107,28 +117,26 @@ class EditorScreen extends Component {
     }
   };
 
-  _handleIsFormValid = () => {
+  _handleIsFormValid = (bodyText) => {
     const { fields } = this.state;
     const { isReply } = this.props;
-    let _isFormValid;
+    let isFormValid;
 
     if (isReply) {
-      _isFormValid = fields && fields.body && fields.body.length > 0;
+      isFormValid = get(fields, 'body').length > 0;
     } else {
-      _isFormValid = fields
-        && fields.title
-        && fields.title.length > 0
-        && fields.body
-        && fields.body.length > 0
-        && fields.tags.length > 0;
+      isFormValid = get(fields, 'title', '')
+        && (get(fields, 'body', '') || (bodyText && bodyText > 0))
+        && get(fields, 'tags', null);
     }
 
-    this.setState({ isFormValid: _isFormValid });
+    this.setState({ isFormValid });
   };
 
   _handleFormUpdate = (componentID, content) => {
-    const { handleFormChanged, isReply } = this.props;
-    const fields = { ...this.state.fields };
+    const { handleFormChanged } = this.props;
+    const { fields: _fields } = this.state;
+    const fields = { ..._fields };
 
     if (componentID === 'body') {
       fields.body = content;
@@ -136,20 +144,26 @@ class EditorScreen extends Component {
       fields.title = content;
     }
 
+    if ((get(fields, 'body', '').trim() !== get(_fields, 'body', '').trim()
+        || get(fields, 'title', '').trim() !== get(_fields, 'title', '').trim()
+        || get(fields, 'tags') !== get(_fields, 'tags'))) {
+      handleFormChanged();
+    }
+
     this.setState({ fields });
 
-    handleFormChanged();
-
     this._handleIsFormValid();
-    if (isReply) this._saveCurrentDraft();
+    this._saveCurrentDraft();
   };
 
-  _handleOnTagAdded = (tags) => {
+  _handleOnTagAdded = async (tags) => {
+    const { fields: _fields } = this.state;
     const _tags = tags.filter(tag => tag && tag !== ' ');
-    const fields = { ...this.state.fields };
 
-    fields.tags = _tags;
-    this.setState({ fields, isRemoveTag: false });
+    const fields = { ..._fields, tags: [..._tags] };
+    await this.setState({ fields, isRemoveTag: false });
+
+    this._handleFormUpdate();
   };
 
   render() {
@@ -157,7 +171,6 @@ class EditorScreen extends Component {
       fields, isPreviewActive, wordsCount, isFormValid, isRemoveTag,
     } = this.state;
     const {
-      draftPost,
       handleOnImagePicker,
       intl,
       isDraftSaved,
@@ -170,6 +183,7 @@ class EditorScreen extends Component {
       post,
       uploadedImage,
       handleOnBackPress,
+      handleDatePickerChange,
     } = this.props;
     const rightButtonText = intl.formatMessage({
       id: isEdit ? 'basic_header.update' : isReply ? 'basic_header.reply' : 'basic_header.publish',
@@ -178,19 +192,20 @@ class EditorScreen extends Component {
     return (
       <View style={globalStyles.defaultContainer}>
         <BasicHeader
+          handleDatePickerChange={date => handleDatePickerChange(date, fields)}
+          handleOnBackPress={handleOnBackPress}
           handleOnPressPreviewButton={this._handleOnPressPreviewButton}
           handleOnSaveButtonPress={this._handleOnSaveButtonPress}
           handleOnSubmit={this._handleOnSubmit}
-          handleOnBackPress={handleOnBackPress}
           isDraftSaved={isDraftSaved}
           isDraftSaving={isDraftSaving}
+          isEdit={isEdit}
           isFormValid={isFormValid}
           isHasIcons
-          isEdit={isEdit}
-          isLoggedIn={isLoggedIn}
-          isReply={isReply}
           isLoading={isPostSending || isUploading}
+          isLoggedIn={isLoggedIn}
           isPreviewActive={isPreviewActive}
+          isReply={isReply}
           quickTitle={wordsCount > 0 && `${wordsCount} words`}
           rightButtonText={rightButtonText}
         />
@@ -215,6 +230,9 @@ class EditorScreen extends Component {
             componentID="body"
             draftBody={fields && fields.body}
             handleOnTextChange={this._setWordsCount}
+            handleFormUpdate={this._handleFormUpdate}
+            handleIsFormValid={this._handleIsFormValid}
+            isFormValid={isFormValid}
             handleOpenImagePicker={handleOnImagePicker}
             intl={intl}
             uploadedImage={uploadedImage}

@@ -34,6 +34,7 @@ class SettingsItemView extends PureComponent {
       isOn,
       actionType,
       defaultText,
+      handleOnButtonPress,
     } = this.props;
 
     switch (type) {
@@ -64,7 +65,7 @@ class SettingsItemView extends PureComponent {
       case 'button':
         return (
           <TextButton
-            onPress={() => handleOnChange(null, type, actionType)}
+            onPress={() => handleOnButtonPress(actionType)}
             textStyle={styles.textStyle}
             style={styles.textButton}
             text={text}
@@ -84,11 +85,11 @@ class SettingsItemView extends PureComponent {
   };
 
   render() {
-    const { title } = this.props;
+    const { title, titleStyle } = this.props;
 
     return (
       <View style={styles.wrapper}>
-        <Text style={styles.text}>{title}</Text>
+        <Text style={[styles.text, titleStyle]}>{title}</Text>
         {this._renderItem()}
       </View>
     );

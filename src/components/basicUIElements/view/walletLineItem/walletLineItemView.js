@@ -1,13 +1,15 @@
 import React from 'react';
 import { View, Text } from 'react-native';
+
+// Components
 import GrayWrapper from '../grayWrapper/grayWrapperView';
-
 import { Icon } from '../../../icon';
+import { DropdownButton } from '../../../dropdownButton';
 
+// Styles
 import styles from './walletLineItemStyles';
 
 const WalletLineItem = ({
-  circleIconColor,
   description,
   fitContent,
   iconName,
@@ -22,6 +24,10 @@ const WalletLineItem = ({
   textColor,
   index,
   style,
+  isHasdropdown,
+  dropdownOptions,
+  onDropdownSelect,
+  dropdownStyle,
 }) => (
   <GrayWrapper isGray={index && index % 2 !== 0}>
     <View style={[styles.container, fitContent && styles.fitContent, style]}>
@@ -31,7 +37,7 @@ const WalletLineItem = ({
             style={[
               styles.iconWrapper,
               isCircleIcon && styles.circleIcon,
-              circleIconColor && { backgroundColor: circleIconColor },
+              index && { backgroundColor: `${index && index % 2 !== 0 ? 'white' : '#f5f5f5'}` },
             ]}
           >
             <Icon style={styles.icon} name={iconName} iconType={iconType} />
@@ -70,6 +76,19 @@ const WalletLineItem = ({
           >
             {rightText}
           </Text>
+        </View>
+      )}
+      {isHasdropdown && (
+        <View style={styles.dropdownWrapper}>
+          <DropdownButton
+            isHasChildIcon
+            iconName="arrow-drop-down"
+            options={dropdownOptions}
+            noHighlight
+            onSelect={onDropdownSelect}
+            rowTextStyle={styles.dropdownRowText}
+            dropdownStyle={styles.dropdownStyle}
+          />
         </View>
       )}
     </View>

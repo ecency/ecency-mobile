@@ -61,7 +61,7 @@ const DropdownButtonView = ({
       dropdownTextStyle={[dropdownTextStyle || styles.dropdownText]}
       dropdownTextHighlightStyle={styles.dropdownTextHighlight}
       options={options}
-      onSelect={e => onSelect && onSelect(e)}
+      onSelect={e => onSelect && onSelect(e, options[e])}
       defaultIndex={selectedOptionIndex}
       defaultValue={defaultText}
       renderSeparator={() => null}
@@ -76,8 +76,8 @@ const DropdownButtonView = ({
             name={!iconName ? 'arrow-drop-down' : iconName}
           />
         </View>
-      ) : isHasChildIcon && (
-        <ActivityIndicator />
+      ) : (
+        isHasChildIcon && <ActivityIndicator />
       )}
     </ModalDropdown>
     {!children && !isHasChildIcon && (

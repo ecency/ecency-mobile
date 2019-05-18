@@ -38,6 +38,5 @@ export default EStyleSheet.create({
   },
   safeArea: {
     backgroundColor: '$primaryBackgroundColor',
-    flex: 1,
   },
 });

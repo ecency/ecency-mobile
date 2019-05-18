@@ -33,25 +33,39 @@ class PostHeaderDescription extends PureComponent {
 
   // Component Functions
   _handleOnUserPress = (username) => {
-    const { navigation, profileOnPress, reputation } = this.props;
+    const {
+      navigation,
+      profileOnPress,
+      reputation,
+      currentAccountUsername,
+    } = this.props;
 
-    if (profileOnPress) {
-      profileOnPress(username);
-    } else {
-      navigation.navigate({
-        routeName: ROUTES.SCREENS.PROFILE,
-        params: {
-          username,
-          reputation,
-        },
-        key: username,
-      });
+    if (currentAccountUsername !== username) {
+      if (profileOnPress) {
+        profileOnPress(username);
+      } else {
+        navigation.navigate({
+          routeName: ROUTES.SCREENS.PROFILE,
+          params: {
+            username,
+            reputation,
+          },
+          key: username,
+        });
+      }
     }
   };
 
   render() {
     const {
-      date, isHideImage, name, reputation, size, tag, tagOnPress,
+      date,
+      isHideImage,
+      name,
+      reputation,
+      size,
+      tag,
+      tagOnPress,
+      isShowOwnerIndicator,
     } = this.props;
     const { reblogedBy } = this.state;
 
@@ -81,13 +95,12 @@ class PostHeaderDescription extends PureComponent {
           </TouchableOpacity>
         )}
         <Text style={styles.date}>{date}</Text>
+        {isShowOwnerIndicator && (
+          <Icon style={styles.ownerIndicator} name="stars" iconType="MaterialIcons" />
+        )}
         {!!reblogedBy && (
           // <TextWithIcon text={reblogedBy} iconType="MaterialIcons" iconName="repeat" />
-          <Icon
-            style={styles.reblogedIcon}
-            name="repeat"
-            iconType="MaterialIcons"
-          />
+          <Icon style={styles.reblogedIcon} name="repeat" iconType="MaterialIcons" />
         )}
       </View>
     );

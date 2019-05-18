@@ -4,6 +4,11 @@ import { withNavigation } from 'react-navigation';
 import { injectIntl } from 'react-intl';
 
 import HTML from 'react-native-html-renderer';
+import { getParentsTagsRecursively } from 'react-native-html-renderer/src/HTMLUtils';
+
+// Utils
+import { validateUsername } from  '../../../../utils/user';
+
 // Styles
 import styles from './postBodyStyles';
 
@@ -32,7 +37,7 @@ class PostBody extends PureComponent {
   // Component Functions
 
   _handleOnLinkPress = (evt, href, hrefatr) => {
-    const { handleOnUserPress, handleOnPostPress, intl } = this.props;
+    const { handleOnUserPress, handleOnPostPress } = this.props;
 
     if (hrefatr.class === 'markdown-author-link') {
       if (!handleOnUserPress) {
@@ -47,9 +52,38 @@ class PostBody extends PureComponent {
         handleOnPostPress(href);
       }
     } else {
-      Linking.canOpenURL(href).then((supported) => {
+      this._handleBrowserLink(href);
+    }
+  };
+
+  _handleBrowserLink = async (url) => {
+    if (!url) return;
+
+    let author;
+    let permlink;
+    const { intl } = this.props;
+
+    if (
+      url.indexOf('esteem') > -1
+      || url.indexOf('steemit') > -1
+      || url.indexOf('busy') > -1
+      || (url.indexOf('steempeak') > -1 && url.indexOf('files') < 0)
+    ) {
+      url = url.substring(url.indexOf('@'), url.length);
+      const routeParams = url && url.indexOf('/') > -1 ? url.split('/') : [url];
+
+      [, permlink] = routeParams;
+      author = routeParams[0].indexOf('@') > -1 ? routeParams[0].replace('@', '') : routeParams[0];
+    }
+
+    if (author && permlink) {
+      this._handleOnPostPress(permlink, author);
+    } else if (author) {
+      this._handleOnUserPress(author);
+    } else {
+      Linking.canOpenURL(url).then((supported) => {
         if (supported) {
-          Linking.openURL(href);
+          Linking.openURL(url);
         } else {
           Alert.alert(intl.formatMessage({ id: 'alert.failed_to_open' }));
         }
@@ -73,13 +107,23 @@ class PostBody extends PureComponent {
   _handleOnUserPress = (username) => {
     const { navigation } = this.props;
 
-    navigation.navigate({
-      routeName: ROUTES.SCREENS.PROFILE,
-      params: {
-        username,
-      },
-      key: username,
-    });
+    if (username && validateUsername(username)) {
+      navigation.navigate({
+        routeName: ROUTES.SCREENS.PROFILE,
+        params: {
+          username,
+        },
+        key: username,
+      });
+    } else {
+      Alert.alert('Opps!', 'Wrong link :(');
+    }
+  };
+
+  _hasParentTag = (node, name) => {
+    if (!node.parent) return false;
+    if (node.name === name) return true;
+    return this._hasParentTag(node.parent, name);
   };
 
   _alterNode = (node, isComment) => {
@@ -98,6 +142,9 @@ class PostBody extends PureComponent {
 
     if (node.name === 'img') {
       node.attribs.style = 'text-align: center;';
+      if (this._hasParentTag(node, 'td')) {
+        node.attribs.style = `max-width: ${WIDTH / 2 - 20}px; `;
+      }
     }
 
     if (node.name === 'div' && node.attribs && node.attribs.class) {
@@ -121,11 +168,18 @@ class PostBody extends PureComponent {
     }
   };
 
+  _alterData = (node) => {
+    if (node.type === 'text' && node.data.includes('markdown-author-link') && node.parent && getParentsTagsRecursively(node.parent).includes('code')) {
+      return node.data.replace(/<[^>]*>/g, '');
+    }
+  }
+
   render() {
     const { body, isComment } = this.props;
     const _initialDimensions = isComment
       ? { width: WIDTH - 50, height: 80 }
       : { width: WIDTH, height: 216 };
+
     return (
       <Fragment>
         <HTML
@@ -142,6 +196,7 @@ class PostBody extends PureComponent {
           baseFontStyle={styles.text}
           imagesMaxWidth={isComment ? WIDTH - 50 : WIDTH}
           alterNode={e => this._alterNode(e, isComment)}
+          alterData={e => this._alterData(e)}
         />
       </Fragment>
     );

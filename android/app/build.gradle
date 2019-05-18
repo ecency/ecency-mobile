@@ -79,6 +79,7 @@ project.ext.react = [
 ]
 
 apply from: "../../node_modules/react-native/react.gradle"
+apply from: "../../node_modules/react-native-sentry/sentry.gradle"
 apply from: "../../node_modules/react-native-code-push/android/codepush.gradle"
 
 /**
@@ -147,6 +148,7 @@ configurations.all {
 }
 
 dependencies {
+    compile project(':react-native-sentry')
     compile project(':react-native-version-number')
     compile project(':react-native-code-push')
     compile project(':realm')

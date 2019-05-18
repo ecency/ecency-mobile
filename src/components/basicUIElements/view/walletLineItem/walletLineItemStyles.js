@@ -4,7 +4,6 @@ export default EStyleSheet.create({
   container: {
     marginVertical: 15,
     flexDirection: 'row',
-    justifyContent: 'space-between',
     paddingHorizontal: 16,
   },
   fitContent: {
@@ -12,9 +11,9 @@ export default EStyleSheet.create({
   },
   iconTextWrapper: {
     flexDirection: 'row',
-    justifyContent: 'space-between',
     alignSelf: 'center',
-    alignItems: 'center',
+    alignItems: 'flex-start',
+    flex: 5,
   },
   iconWrapper: {
     alignSelf: 'center',
@@ -29,8 +28,9 @@ export default EStyleSheet.create({
   },
   rightTextWrapper: {
     flexDirection: 'row',
-    justifyContent: 'center',
+    justifyContent: 'flex-end',
     alignSelf: 'center',
+    flex: 5,
   },
   text: {
     fontFamily: '$primaryFont',
@@ -73,5 +73,15 @@ export default EStyleSheet.create({
     height: 32,
     justifyContent: 'center',
     alignSelf: 'center',
+  },
+  dropdownWrapper: {
+    flex: 1,
+  },
+  dropdownRowText: {
+    fontSize: 14,
+    color: '$primaryDarkGray',
+  },
+  dropdownStyle: {
+    minWidth: '$deviceWidth * 0.7',
   },
 });

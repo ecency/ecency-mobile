@@ -1,4 +1,5 @@
 import EStyleSheet from 'react-native-extended-stylesheet';
+import { Platform } from 'react-native';
 
 export default EStyleSheet.create({
   text: {
@@ -13,7 +14,7 @@ export default EStyleSheet.create({
     backgroundColor: '$tagColor',
   },
   textWrapper: {
-    paddingHorizontal: 10,
+    paddingHorizontal: Platform.OS === 'android' ? 20 : 10,
     justifyContent: 'center',
     marginRight: 8,
     height: 22,

@@ -20,6 +20,7 @@ export default EStyleSheet.create({
   scroll: {
     height: '$deviceHeight / 1.135',
     backgroundColor: '$primaryBackgroundColor',
+    marginBottom: 50,
   },
   footer: {
     flexDirection: 'column',

@@ -3,7 +3,6 @@ import parseToken from './parseToken';
 import { vestsToSp } from './conversions';
 import { getState, getFeedHistory } from '../providers/steem/dsteem';
 
-
 export const groomingTransactionData = (transaction, steemPerMVests, formatNumber) => {
   if (!transaction || !steemPerMVests) {
     return [];
@@ -41,10 +40,9 @@ export const groomingTransactionData = (transaction, steemPerMVests, formatNumbe
 
       sbdPayout = formatNumber(parseToken(sbdPayout), { minimumFractionDigits: 3 });
       steemPayout = formatNumber(parseToken(steemPayout), { minimumFractionDigits: 3 });
-      vestingPayout = formatNumber(
-        vestsToSp(parseToken(vestingPayout), steemPerMVests),
-        { minimumFractionDigits: 3 },
-      );
+      vestingPayout = formatNumber(vestsToSp(parseToken(vestingPayout), steemPerMVests), {
+        minimumFractionDigits: 3,
+      });
 
       result.value = `${sbdPayout > 0 ? `${sbdPayout} SBD` : ''} ${
         steemPayout > 0 ? `${steemPayout} steemPayout` : ''
@@ -97,7 +95,7 @@ export const groomingTransactionData = (transaction, steemPerMVests, formatNumbe
       result.icon = 'reorder';
       break;
     default:
-      break;
+      return [];
   }
   return result;
 };
@@ -135,11 +133,15 @@ export const groomingWalletData = async (user, globalProps) => {
 
   walletData.steemPerMVests = globalProps.steemPerMVests;
 
-  walletData.estimatedValue = (
-    vestsToSp(walletData.vestingShares, walletData.steemPerMVests) * (base / quote)
-  )
-   + (walletData.balance * (base / quote))
-   + walletData.sbdBalance;
+  const pricePerSteem = base / quote;
+
+  const totalSteem = vestsToSp(walletData.vestingShares, walletData.steemPerMVests)
+    + walletData.balance
+    + walletData.savingBalance;
+
+  const totalSbd = walletData.sbdBalance + walletData.savingBalanceSbd;
+
+  walletData.estimatedValue = totalSteem * pricePerSteem + totalSbd;
 
   walletData.showPowerDown = user.next_vesting_withdrawal !== '1969-12-31T23:59:59';
   const timeDiff = Math.abs(parseDate(user.next_vesting_withdrawal) - new Date());

@@ -35,6 +35,7 @@ class NotificationView extends PureComponent {
         { key: 'mentions', value: 'MENTIONS' },
         { key: 'follows', value: 'FOLLOWS' },
         { key: 'reblogs', value: 'REBLOGS' },
+        { key: 'transfers', value: 'TRANSFERS' },
       ],
       selectedFilter: null,
     };
@@ -45,10 +46,11 @@ class NotificationView extends PureComponent {
   // Component Functions
 
   _handleOnDropdownSelect = (index) => {
-    const { getActivities } = this.props;
+    const { getActivities, changeSelectedFilter } = this.props;
     const { filters } = this.state;
 
     this.setState({ selectedFilter: filters[index].key });
+    changeSelectedFilter(filters[index].key);
     getActivities(filters[index].key, false);
   };
 
@@ -200,7 +202,7 @@ class NotificationView extends PureComponent {
                 titleColor="#fff"
                 colors={['#fff']}
               />
-)}
+            )}
             renderItem={({ item, index }) => (
               <Fragment>
                 <ContainerHeader

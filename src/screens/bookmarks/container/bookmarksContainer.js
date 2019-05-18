@@ -4,7 +4,9 @@ import { Alert } from 'react-native';
 import { injectIntl } from 'react-intl';
 
 // Services and Actions
-import { getFavorites, removeFavorite, getBookmarks, removeBookmark } from '../../../providers/esteem/esteem';
+import {
+  getFavorites, removeFavorite, getBookmarks, removeBookmark,
+} from '../../../providers/esteem/esteem';
 
 // Constants
 import ROUTES from '../../../constants/routeNames';

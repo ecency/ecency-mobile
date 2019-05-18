@@ -58,6 +58,23 @@ export default class MarkdownEditorView extends Component {
     }
   }
 
+  componentDidUpdate(prevProps, prevState) {
+    const { text } = this.state;
+    const { isFormValid, handleIsFormValid } = this.props;
+
+    if (prevState.text !== text && !isFormValid) {
+      const nextText = text.replace(prevState.text, '');
+
+      if (nextText && nextText.length > 0) {
+        this._changeText(text);
+
+        if (handleIsFormValid) {
+          handleIsFormValid(text);
+        }
+      }
+    }
+  }
+
   // Component functions
   _changeText = (input) => {
     const {
@@ -147,7 +164,7 @@ export default class MarkdownEditorView extends Component {
           iconType="FontAwesome"
           name="image"
         />
-        {/*<View style={styles.clearButtonWrapper}>
+        <View style={styles.clearButtonWrapper}>
           <IconButton
             onPress={() => this.ClearActionSheet.show()}
             size={20}
@@ -155,7 +172,7 @@ export default class MarkdownEditorView extends Component {
             iconType="FontAwesome"
             name="trash"
           />
-        </View>*/}
+        </View>
         {/* TODO: After alpha */}
         {/* <DropdownButton
           style={styles.dropdownStyle}
@@ -202,7 +219,6 @@ export default class MarkdownEditorView extends Component {
             style={styles.textWrapper}
             underlineColorAndroid="transparent"
             value={text}
-            {...this.props}
           />
         ) : (
           this._renderPreview()
@@ -220,7 +236,7 @@ export default class MarkdownEditorView extends Component {
           ref={o => (this.ActionSheet = o)}
           options={[
             intl.formatMessage({
-              id: 'editor.open_galery',
+              id: 'editor.open_gallery',
             }),
             intl.formatMessage({
               id: 'editor.capture_photo',

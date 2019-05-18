@@ -37,4 +37,16 @@ export default EStyleSheet.create({
     position: 'absolute',
     right: 0,
   },
+  voteCountText: {
+    alignSelf: 'center',
+    justifyContent: 'center',
+    alignItems: 'center',
+    fontSize: 10,
+    color: '$iconColor',
+  },
+  voteCountWrapper: {
+    flexDirection: 'row',
+    justifyContent: 'center',
+    alignItems: 'center',
+  },
 });

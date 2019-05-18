@@ -34,13 +34,15 @@ class PostDisplayContainer extends Component {
 
   // Component Functions
   _handleOnVotersPress = (activeVotes) => {
-    const { navigation } = this.props;
+    const { navigation, post } = this.props;
 
     navigation.navigate({
       routeName: ROUTES.SCREENS.VOTERS,
       params: {
         activeVotes,
       },
+      // TODO: make unic
+      key: post.permlink + Math.random(),
     });
   };
 
@@ -71,21 +73,27 @@ class PostDisplayContainer extends Component {
   _fetchPost = async () => {
     const { post, fetchPost } = this.props;
 
-    fetchPost(post.author, post.permlink);
+    if (post) fetchPost(post.author, post.permlink);
   };
 
   render() {
-    const { post, currentAccount, isLoggedIn } = this.props;
+    const {
+      currentAccount, isLoggedIn, isNewPost, parentPost, post, isPostUnavailable, author,
+    } = this.props;
 
     return (
       <PostDisplayView
-        handleOnVotersPress={this._handleOnVotersPress}
-        handleOnReplyPress={this._handleOnReplyPress}
-        handleOnEditPress={this._handleOnEditPress}
+        author={author}
+        isPostUnavailable={isPostUnavailable}
         currentAccount={currentAccount}
         fetchPost={this._fetchPost}
-        post={post}
+        handleOnEditPress={this._handleOnEditPress}
+        handleOnReplyPress={this._handleOnReplyPress}
+        handleOnVotersPress={this._handleOnVotersPress}
         isLoggedIn={isLoggedIn}
+        isNewPost={isNewPost}
+        parentPost={parentPost}
+        post={post}
       />
     );
   }

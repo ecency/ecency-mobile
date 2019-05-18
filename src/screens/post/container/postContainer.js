@@ -20,6 +20,9 @@ class PostContainer extends Component {
       post: null,
       error: null,
       isNewPost: false,
+      isHasParentPost: false,
+      parentPost: null,
+      isPostUnavailable: false,
     };
   }
 
@@ -27,15 +30,17 @@ class PostContainer extends Component {
   componentDidMount() {
     const { navigation } = this.props;
     const {
-      content, permlink, author, isNewPost,
+      content, permlink, author, isNewPost, isHasParentPost,
     } = navigation.state && navigation.state.params;
 
     if (isNewPost) this.setState({ isNewPost });
 
     if (content) {
       this.setState({ post: content });
-    } else {
+    } else if (author && permlink) {
       this._loadPost(author, permlink);
+      this.setState({ author });
+      if (isHasParentPost) this.setState({ isHasParentPost });
     }
   }
 
@@ -52,8 +57,8 @@ class PostContainer extends Component {
 
   // Component Functions
 
-  _loadPost = async (author = null, permlink = null) => {
-    const { currentAccount, isLoggedIn, navigation } = this.props;
+  _loadPost = async (author = null, permlink = null, isParentPost = false) => {
+    const { currentAccount, isLoggedIn } = this.props;
     const { post } = this.state;
 
     const _author = author || post.author;
@@ -61,8 +66,14 @@ class PostContainer extends Component {
 
     await getPost(_author, _permlink, isLoggedIn && currentAccount.username)
       .then((result) => {
-        if (result) {
-          this.setState({ post: result });
+        if (result && result.id > 0) {
+          if (isParentPost) {
+            this.setState({ parentPost: result });
+          } else {
+            this.setState({ post: result });
+          }
+        } else {
+          this.setState({ isPostUnavailable: true });
         }
       })
       .catch((err) => {
@@ -72,17 +83,24 @@ class PostContainer extends Component {
 
   render() {
     const { currentAccount, isLoggedIn } = this.props;
-    const { post, error, isNewPost } = this.state;
+    const {
+      error, isNewPost, parentPost, post, isHasParentPost, isPostUnavailable, author,
+    } = this.state;
+
+    if (isHasParentPost && post) this._loadPost(post.parent_author, post.parent_permlink, true);
 
     return (
       <PostScreen
         currentAccount={currentAccount}
         error={error}
-        isLoggedIn={isLoggedIn}
-        post={post}
+        author={author}
         fetchPost={this._loadPost}
         isFetchComments
+        isLoggedIn={isLoggedIn}
         isNewPost={isNewPost}
+        parentPost={parentPost}
+        post={post}
+        isPostUnavailable={isPostUnavailable}
       />
     );
   }

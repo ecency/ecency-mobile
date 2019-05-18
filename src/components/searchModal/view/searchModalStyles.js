@@ -53,6 +53,12 @@ export default EStyleSheet.create({
     flexDirection: 'row',
     alignItems: 'center',
   },
+  searchItemImageWrapper: {
+    flex: 1,
+  },
+  searchItemTextWrapper: {
+    flex: 7,
+  },
   searchItemImage: {
     width: 40,
     height: 40,
@@ -61,7 +67,7 @@ export default EStyleSheet.create({
     borderColor: '$primaryGray',
   },
   searchItemText: {
-    color: '$primaryDarkGray',
+    color: '$pureWhite',
     marginLeft: 10,
   },
 });

@@ -1,16 +1,16 @@
 PODS:
-  - AppCenter/Analytics (1.11.0):
+  - AppCenter/Analytics (1.14.0):
     - AppCenter/Core
-  - AppCenter/Core (1.11.0)
-  - AppCenter/Crashes (1.11.0):
+  - AppCenter/Core (1.14.0)
+  - AppCenter/Crashes (1.14.0):
     - AppCenter/Core
-  - AppCenter/Push (1.11.0):
+  - AppCenter/Push (1.14.0):
     - AppCenter/Core
-  - AppCenterReactNativeShared (1.10.0):
-    - AppCenter/Core (= 1.11.0)
+  - AppCenterReactNativeShared (1.13.0):
+    - AppCenter/Core (= 1.14.0)
   - Base64 (1.1.2)
   - boost-for-react-native (1.63.0)
-  - CodePush (5.5.2):
+  - CodePush (5.6.0):
     - Base64 (~> 1.1)
     - JWT (~> 3.0.0-beta.7)
     - React
@@ -79,18 +79,24 @@ PODS:
     - React/Core
     - RSKImageCropper
   - RSKImageCropper (2.2.1)
-  - SDWebImage/Core (4.4.5)
-  - SDWebImage/GIF (4.4.5):
+  - SDWebImage/Core (4.4.6)
+  - SDWebImage/GIF (4.4.6):
     - FLAnimatedImage (~> 1.0)
     - SDWebImage/Core
-  - SSZipArchive (2.1.4)
+  - Sentry (4.1.3):
+    - Sentry/Core (= 4.1.3)
+  - Sentry/Core (4.1.3)
+  - SentryReactNative (0.42.0):
+    - React
+    - Sentry (~> 4.1.3)
+  - SSZipArchive (2.2.1)
   - yoga (0.57.8.React)
 
 DEPENDENCIES:
-  - AppCenter/Analytics (~> 1.11.0)
-  - AppCenter/Crashes (~> 1.11.0)
-  - AppCenter/Push (~> 1.11.0)
-  - AppCenterReactNativeShared (~> 1.10.0)
+  - AppCenter/Analytics (~> 1.14.0)
+  - AppCenter/Crashes (~> 1.14.0)
+  - AppCenter/Push (~> 1.14.0)
+  - AppCenterReactNativeShared (~> 1.13.0)
   - CodePush (from `../node_modules/react-native-code-push`)
   - DoubleConversion (from `../node_modules/react-native/third-party-podspecs/DoubleConversion.podspec`)
   - Folly (from `../node_modules/react-native/third-party-podspecs/Folly.podspec`)
@@ -108,6 +114,7 @@ DEPENDENCIES:
   - React/RCTText (from `../node_modules/react-native`)
   - React/RCTWebSocket (from `../node_modules/react-native`)
   - RNImageCropPicker (from `../node_modules/react-native-image-crop-picker`)
+  - SentryReactNative (from `../node_modules/react-native-sentry`)
   - yoga (from `../node_modules/react-native/ReactCommon/yoga`)
 
 SPEC REPOS:
@@ -121,6 +128,7 @@ SPEC REPOS:
     - QBImagePickerController
     - RSKImageCropper
     - SDWebImage
+    - Sentry
     - SSZipArchive
 
 EXTERNAL SOURCES:
@@ -140,15 +148,17 @@ EXTERNAL SOURCES:
     :path: "../node_modules/react-native-version-number"
   RNImageCropPicker:
     :path: "../node_modules/react-native-image-crop-picker"
+  SentryReactNative:
+    :path: "../node_modules/react-native-sentry"
   yoga:
     :path: "../node_modules/react-native/ReactCommon/yoga"
 
 SPEC CHECKSUMS:
-  AppCenter: 3bccf8d733e337d0db574dd4cb0e33ab9637b7f2
-  AppCenterReactNativeShared: a77b000c2ac6dc2e44472621d7d0770f196e5822
+  AppCenter: 02c5efe08d3bbab5421ae41d5f7aa7238906b817
+  AppCenterReactNativeShared: 00f470c3c17b47718db8733cbe811ccdcfd86282
   Base64: cecfb41a004124895a7bcee567a89bae5a89d49b
   boost-for-react-native: 39c7adb57c4e60d6c5479dd8623128eb5b3f0f2c
-  CodePush: 338a023972c64636503e8886cf4cb6ec27dd1c01
+  CodePush: 300e90b3481fa82569090406165b83745de3613a
   DoubleConversion: bb338842f62ab1d708ceb63ec3d999f0f3d98ecd
   FLAnimatedImage: 4a0b56255d9b05f18b6dd7ee06871be5d3b89e31
   Folly: c89ac2d5c6ab169cd7397ef27485c44f35f742c7
@@ -160,10 +170,12 @@ SPEC CHECKSUMS:
   react-native-version-number: 75301519bb72064ad209a498ed08b128cbcf10e7
   RNImageCropPicker: 754299983d07c450aec0834c0efe0ed114131ff3
   RSKImageCropper: 98296ad26b41753f796b6898d015509598f13d97
-  SDWebImage: ecc03494e973b93b80213649d32175f8d2d17d4d
-  SSZipArchive: 41455d4b8d2b6ab93990820b50dc697c2554a322
+  SDWebImage: 3f3f0c02f09798048c47a5ed0a13f17b063572d8
+  Sentry: 4e8a17b61ddd116f89536cc81d567fdee1ebca96
+  SentryReactNative: 09d5cc89e8bb5d80cfaf3ae11ed2ecb0a47317d2
+  SSZipArchive: 8e859da2520142e09166bc9161967db296e9d02f
   yoga: 74cdf036c30820443b25ade59916236b1e95ee93
 
-PODFILE CHECKSUM: 19ca750f5874376432380838891f13aaeecb302d
+PODFILE CHECKSUM: 9d6cbced7fff15ababa5452217143cede564a460
 
-COCOAPODS: 1.6.0
+COCOAPODS: 1.6.1

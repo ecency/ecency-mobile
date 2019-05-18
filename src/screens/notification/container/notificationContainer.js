@@ -19,6 +19,7 @@ class NotificationContainer extends Component {
       lastNotificationId: null,
       notificationLoading: false,
       readAllNotificationLoading: false,
+      selectedFilter: 'activities',
     };
   }
 
@@ -31,10 +32,10 @@ class NotificationContainer extends Component {
   }
 
   componentWillReceiveProps(nextProps) {
-    if (nextProps.activeBottomTab === ROUTES.TABBAR.NOTIFICATION) {
-      if (nextProps.username) {
-        this._getAvtivities();
-      }
+    const { selectedFilter } = this.state;
+
+    if (nextProps.activeBottomTab === ROUTES.TABBAR.NOTIFICATION && nextProps.username) {
+      this._getAvtivities(selectedFilter);
     }
   }
 
@@ -60,29 +61,37 @@ class NotificationContainer extends Component {
 
   _navigateToNotificationRoute = (data) => {
     const { navigation, username, dispatch } = this.props;
-
+    let routeName;
+    let params;
+    let key;
     markActivityAsRead(username, data.id).then((result) => {
       dispatch(updateUnreadActivityCount(result.unread));
     });
 
     if (data.permlink) {
-      navigation.navigate({
-        routeName: ROUTES.SCREENS.POST,
-        params: {
-          author: data.author,
-          permlink: data.permlink,
-        },
-        key: data.permlink,
-      });
-    } else {
-      navigation.navigate({
-        routeName: ROUTES.SCREENS.PROFILE,
-        params: {
-          username: data.follower,
-        },
-        key: data.follower,
-      });
+      routeName = ROUTES.SCREENS.POST;
+      key = data.permlink;
+      params = {
+        author: data.author,
+        permlink: data.permlink,
+        isHasParentPost: data.parent_author && data.parent_permlink,
+      };
+    } else if (data.type === 'follow') {
+      routeName = ROUTES.SCREENS.PROFILE;
+      key = data.follower;
+      params = {
+        username: data.follower,
+      };
+    } else if (data.type === 'transfer') {
+      routeName = ROUTES.TABBAR.PROFILE;
+      params = { activePage: 2 };
     }
+
+    navigation.navigate({
+      routeName,
+      params,
+      key,
+    });
   };
 
   _readAllNotification = () => {
@@ -104,10 +113,17 @@ class NotificationContainer extends Component {
     navigation.navigate(ROUTES.SCREENS.LOGIN);
   };
 
+  _changeSelectedFilter = (value) => {
+    this.setState({ selectedFilter: value });
+  };
+
   render() {
     const { isLoggedIn } = this.props;
     const {
-      notifications, notificationLoading, readAllNotificationLoading, isDarkTheme,
+      notifications,
+      notificationLoading,
+      readAllNotificationLoading,
+      isDarkTheme,
     } = this.state;
 
     return (
@@ -121,6 +137,7 @@ class NotificationContainer extends Component {
         notificationLoading={notificationLoading}
         readAllNotificationLoading={readAllNotificationLoading}
         isLoggedIn={isLoggedIn}
+        changeSelectedFilter={this._changeSelectedFilter}
       />
     );
   }
