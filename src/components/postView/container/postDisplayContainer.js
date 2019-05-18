@@ -1,8 +1,13 @@
 import React, { Component } from 'react';
 import { withNavigation } from 'react-navigation';
 import { connect } from 'react-redux';
+import { injectIntl } from 'react-intl';
 
-// Middleware
+// Action
+import { toastNotification } from '../../../redux/actions/uiAction';
+
+// Dsteem
+import { deleteComment } from '../../../providers/steem/dsteem';
 
 // Constants
 import { default as ROUTES } from '../../../constants/routeNames';
@@ -70,6 +75,23 @@ class PostDisplayContainer extends Component {
     });
   };
 
+  _handleDeleteComment = (permlink) => {
+    const {
+      currentAccount, pinCode, navigation, dispatch, intl,
+    } = this.props;
+
+    deleteComment(currentAccount, pinCode, permlink).then(() => {
+      navigation.goBack();
+      dispatch(
+        toastNotification(
+          intl.formatMessage({
+            id: 'alert.removed',
+          }),
+        ),
+      );
+    });
+  }
+
   _fetchPost = async () => {
     const { post, fetchPost } = this.props;
 
@@ -84,14 +106,15 @@ class PostDisplayContainer extends Component {
     return (
       <PostDisplayView
         author={author}
-        isPostUnavailable={isPostUnavailable}
         currentAccount={currentAccount}
         fetchPost={this._fetchPost}
         handleOnEditPress={this._handleOnEditPress}
+        handleOnRemovePress={this._handleDeleteComment}
         handleOnReplyPress={this._handleOnReplyPress}
         handleOnVotersPress={this._handleOnVotersPress}
         isLoggedIn={isLoggedIn}
         isNewPost={isNewPost}
+        isPostUnavailable={isPostUnavailable}
         parentPost={parentPost}
         post={post}
       />
@@ -101,8 +124,8 @@ class PostDisplayContainer extends Component {
 
 const mapStateToProps = state => ({
   currentAccount: state.account.currentAccount,
-
+  pinCode: state.account.pin,
   isLoggedIn: state.application.isLoggedIn,
 });
 
-export default withNavigation(connect(mapStateToProps)(PostDisplayContainer));
+export default withNavigation(connect(mapStateToProps)(injectIntl(PostDisplayContainer)));

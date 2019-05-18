@@ -57,7 +57,7 @@ class CommentView extends PureComponent {
       voteCount,
       intl,
       author,
-      mainAuthor={mainAuthor}
+      mainAuthor = { mainAuthor },
     } = this.props;
     const { isShowSubComments, isPressedShowButton } = this.state;
 
