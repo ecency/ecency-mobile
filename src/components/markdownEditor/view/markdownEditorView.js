@@ -3,9 +3,9 @@ import {
   View, KeyboardAvoidingView, FlatList, Text, Platform, ScrollView,
 } from 'react-native';
 import ActionSheet from 'react-native-actionsheet';
+import { renderPostBody } from '@esteemapp/esteem-render-helpers';
 
 // Utils
-import { markDown2Html } from '../../../utils/markdownToHtml';
 import applyImageLink from './formats/applyWebLinkFormat';
 import Formats from './formats/formats';
 
@@ -118,7 +118,7 @@ export default class MarkdownEditorView extends Component {
 
     return (
       <ScrollView style={styles.previewContainer}>
-        {text ? <PostBody body={markDown2Html(text)} /> : <Text>...</Text>}
+        {text ? <PostBody body={renderPostBody(text)} /> : <Text>...</Text>}
       </ScrollView>
     );
   };

@@ -1,7 +1,8 @@
 import React, { PureComponent, Fragment } from 'react';
-import { Dimensions, Linking, Alert } from 'react-native';
+import { Dimensions, Linking, Alert, TouchableHighlight, Text } from 'react-native';
 import { withNavigation } from 'react-navigation';
 import { injectIntl } from 'react-intl';
+import FastImage from 'react-native-fast-image';
 
 import HTML from 'react-native-html-renderer';
 import { getParentsTagsRecursively } from 'react-native-html-renderer/src/HTMLUtils';
@@ -14,6 +15,7 @@ import styles from './postBodyStyles';
 
 // Constants
 import { default as ROUTES } from '../../../../constants/routeNames';
+import DEFAULT_IMAGE from '../../../../assets/no_image.png';
 // Components
 
 const WIDTH = Dimensions.get('window').width;
@@ -43,13 +45,13 @@ class PostBody extends PureComponent {
 
     if (hrefatr.class === 'markdown-author-link') {
       if (!handleOnUserPress) {
-        this._handleOnUserPress(hrefatr.data_author);
+        this._handleOnUserPress(hrefatr['data-author']);
       } else {
-        handleOnUserPress(hrefatr.data_author);
+        handleOnUserPress(hrefatr['data-author']);
       }
     } else if (hrefatr.class === 'markdown-post-link') {
       if (!handleOnPostPress) {
-        this._handleOnPostPress(href, hrefatr.data_author);
+        this._handleOnPostPress(href, hrefatr['data-author']);
       } else {
         handleOnPostPress(href);
       }
@@ -109,7 +111,7 @@ class PostBody extends PureComponent {
   _handleOnUserPress = (username) => {
     const { navigation } = this.props;
 
-    if (username && validateUsername(username)) {
+    if (username) {
       navigation.navigate({
         routeName: ROUTES.SCREENS.PROFILE,
         params: {
@@ -200,6 +202,17 @@ class PostBody extends PureComponent {
           imagesMaxWidth={isComment ? WIDTH - 50 : WIDTH}
           alterNode={e => this._alterNode(e, isComment)}
           alterData={e => this._alterData(e)}
+          renderers={{
+            img: (htmlAttribs, children, convertedCSSStyles, passProps) => (
+              <FastImage
+                key={passProps.key}
+                defaultSource={DEFAULT_IMAGE}
+                source={{ uri: htmlAttribs.src, priority: FastImage.priority.high }}
+                style={isComment ? styles.commentImage : styles.postImage} 
+              />
+            ),
+            a: (htmlAttribs, children, convertedCSSStyles, passProps) => console.log('htmlAttribs, children, convertedCSSStyles, passProps :', htmlAttribs, children, convertedCSSStyles, passProps),
+          }}
         />
       </Fragment>
     );
