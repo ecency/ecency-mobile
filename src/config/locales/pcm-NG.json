@@ -177,9 +177,9 @@
     "claim_reward_balance_ok": "You don collect the reward",
     "fail": "E Fail oo!",
     "move": "Move",
-    "move_question": "Are you sure to move to drafts?",
+    "move_question": "You sure say you won move am go draft?",
     "success_shared": "Your post don share finish",
-    "success_moved": "Moved to draft",
+    "success_moved": "E don move go draft",
     "permission_denied": "E no gree do",
     "permission_text": "Abeg go your phone settings go change eSteem app permissions. ",
     "success_rebloged": "E don reblog!",
@@ -188,18 +188,18 @@
     "invalid_pincode": "Your PIN code no correct, abeg check wella and try am again",
     "remove_alert": "You sure say you wan remove am?",
     "clear_alert": "You sure say you won komot am?",
-    "clear_user_alert": "Are you sure you want to clear all user data?",
+    "clear_user_alert": "You sure say you won clear all the user data?",
     "clear": "Komot",
     "cancel": "Cancel",
     "delete": "Delete",
     "copied": "E don copy!",
     "no_internet": "Connection no dey!",
-    "confirm": "Confirm",
-    "removed": "Removed"
+    "confirm": "Confam",
+    "removed": "E don remove"
   },
   "post": {
     "reblog_alert": "You sure say you wan reblog am?",
-    "removed_hint": "The post was removed by"
+    "removed_hint": "The post don komot by"
   },
   "drafts": {
     "title": "Draft",
@@ -208,7 +208,7 @@
     "deleted": "Draft don delete komot"
   },
   "schedules": {
-    "title": "Schedules",
+    "title": "Tori Wey You Time",
     "empty_list": "Here empty oo",
     "deleted": "Tori wey you time don delete",
     "move": "Move am go draft",
@@ -255,11 +255,11 @@
     "no_existing_post": "The post no exist"
   },
   "search": {
-    "posts": "Posts",
+    "posts": "Tori",
     "comments": "Comments"
   },
   "comment_filter": {
-    "trending": "trending",
+    "trending": "wey dey reign",
     "reputation": "reputation",
     "votes": "votes",
     "age": "age"
@@ -269,16 +269,16 @@
     "to": "To",
     "amount": "Amount",
     "memo": "Memo",
-    "information": "Are you sure to transfer to funds?",
+    "information": "You sure say you won transfer the money?",
     "amount_desc": "Balance",
-    "memo_desc": "This memo is public",
-    "to_placeholder": "Username",
-    "memo_placeholder": "Enter your notes here",
+    "memo_desc": "Na everybody go see this memo",
+    "to_placeholder": "Guy-name",
+    "memo_placeholder": "Write your note for here",
     "transferToken": "Transfer",
-    "transferToSaving": "Transfer To Saving",
+    "transferToSaving": "Transfer go Savings",
     "powerUp": "Power Up",
-    "withdrawToSaving": "Withdraw To Saving",
-    "steemconnect_title": "Steemconnect Transfer",
+    "withdrawToSaving": "Withdraw go savings",
+    "steemconnect_title": "Transfer with steemconnect",
     "next": "NEXT"
   }
 }
