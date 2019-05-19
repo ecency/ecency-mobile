@@ -50,10 +50,10 @@
     "post_desc": "You fit get point if you dey post everytime. Na 15 point posting go give you.",
     "comment_desc": "Every comment wey you comment go help you dey popular and make friends. e go still help you get 5 point too.",
     "checkin_desc": "To dey enter eSteem app everytime go help you get 0.25 point and e go still help dey connected with your paddi dem.",
-    "vote_desc": "By voting you give reward to other creators and show your appreciation but also earn 0.01 x vote weight points.",
-    "reblog_desc": "  Share what post you like with your friends and earn 1 points.",
-    "login_desc": "When you login into eSteem app you are entitled to earn 100 points automatically.",
-    "checkin_extra_desc": "Consistent use of app gives you extra chances to earn more 10 points, be more active and earn more."
+    "vote_desc": "If you vote, you dey give reward to other people and e show say you like their work. e go also help you get 0.01 × vote weight point.",
+    "reblog_desc": "  Share post wey you like with your paddi make you get 1 point.",
+    "login_desc": "When you login enter eSteem app ehn, 100 point don dey ground for you.",
+    "checkin_extra_desc": "If you dey use the app wella, you go get the chance to get 10 point. So dey active so that you go earn more."
   },
   "messages": {
     "comingsoon": "Option for messages go soon come!"
@@ -90,26 +90,26 @@
     "dark_theme": "Theme wey dark",
     "push_notification": "Your Alert",
     "notification": {
-      "follow": "Follow",
+      "follow": "Follow am",
       "vote": "Vote",
       "comment": "Comment",
       "mention": "Mention",
-      "reblog": "Reblog",
-      "transfers": "Transfers"
+      "reblog": "Reblog am",
+      "transfers": "Transfer"
     },
     "pincode": "PIN code",
     "reset": "Reset",
-    "nsfw_content": "NSFW Content",
-    "send_feedback": "Send Feedback",
-    "send": "Send",
-    "default_footer": "Default Footer",
+    "nsfw_content": "Adult things",
+    "send_feedback": "Send as you see am",
+    "send": "Send am",
+    "default_footer": "Follow come footer",
     "nsfw": {
-      "always_show": "Always show",
-      "always_hide": "Always hide",
-      "always_warn": "Always warn"
+      "always_show": "Show everytime",
+      "always_hide": "Hide everytime",
+      "always_warn": "Warn everytime"
     },
-    "feedback_success": "Email successfully open",
-    "feedback_fail": "Email client could not open"
+    "feedback_success": "Email don open successfully",
+    "feedback_fail": "Email no gree open"
   },
   "voters": {
     "voters_info": "People Wey Vote informate",
@@ -161,7 +161,7 @@
     "reply_placeholder": "Wetin you go like yan about the matter for up",
     "publish": "Post am",
     "reply": "Reply",
-    "open_gallery": "Open Gallery",
+    "open_gallery": "Open Picture",
     "capture_photo": "Take new picture"
   },
   "pincode": {
@@ -172,7 +172,7 @@
   },
   "alert": {
     "success": "E don Successful!",
-    "successful": "Successful",
+    "successful": "E don Successful",
     "allRead": "Mark am say you don read all the alert",
     "claim_reward_balance_ok": "You don collect the reward",
     "fail": "E Fail oo!",
