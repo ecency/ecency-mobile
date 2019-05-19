@@ -1,5 +1,6 @@
 import React, { Component } from 'react';
 import { connect } from 'react-redux';
+import get from 'lodash/get';
 
 // Actions and Services
 import { getActivities, markActivityAsRead } from '../../../providers/esteem/esteem';
@@ -62,6 +63,9 @@ class NotificationContainer extends Component {
 
   _navigateToNotificationRoute = (data) => {
     const { navigation, username, dispatch } = this.props;
+    const type = get(data, 'type');
+    const permlink = get(data, 'permlink');
+    const author = get(data, 'author');
     let routeName;
     let params;
     let key;
@@ -69,30 +73,32 @@ class NotificationContainer extends Component {
       dispatch(updateUnreadActivityCount(result.unread));
     });
 
-    if (data.permlink) {
+    if (permlink) {
       routeName = ROUTES.SCREENS.POST;
-      key = data.permlink;
+      key = permlink;
       params = {
-        author: data.author,
-        permlink: data.permlink,
-        isHasParentPost: data.parent_author && data.parent_permlink,
+        author,
+        permlink,
+        isHasParentPost: get(data, 'parent_permlink'),
       };
-    } else if (data.type === 'follow') {
+    } else if (type === 'follow') {
       routeName = ROUTES.SCREENS.PROFILE;
-      key = data.follower;
+      key = get(data, 'follower');
       params = {
-        username: data.follower,
+        username: get(data, 'follower'),
       };
-    } else if (data.type === 'transfer') {
+    } else if (type === 'transfer') {
       routeName = ROUTES.TABBAR.PROFILE;
       params = { activePage: 2 };
     }
 
-    navigation.navigate({
-      routeName,
-      params,
-      key,
-    });
+    if (routeName) {
+      navigation.navigate({
+        routeName,
+        params,
+        key,
+      });
+    }
   };
 
   _readAllNotification = () => {

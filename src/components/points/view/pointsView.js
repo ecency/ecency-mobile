@@ -1,10 +1,16 @@
 /* eslint-disable no-nested-ternary */
 import React, { Component, Fragment } from 'react';
 import {
-  Text, View, FlatList, ScrollView, RefreshControl, TouchableOpacity,
+  Text,
+  View,
+  FlatList,
+  ScrollView,
+  RefreshControl,
+  TouchableOpacity,
 } from 'react-native';
 import { injectIntl } from 'react-intl';
 import { Popover, PopoverController } from 'react-native-modal-popover';
+import { get, size } from 'lodash';
 
 // Components
 import { LineBreak, WalletLineItem, ListPlaceHolder } from '../../basicUIElements';
@@ -23,16 +29,14 @@ import styles from './pointsStyles';
 
 class PointsView extends Component {
   /* Props
-    * ------------------------------------------------
-    *   @prop { type }    name                - Description....
-    */
+   * ------------------------------------------------
+   *   @prop { type }    name                - Description....
+   */
 
   constructor(props) {
     super(props);
     this.state = {};
   }
-
-  // Component Life Cycles
 
   // Component Functions
 
@@ -64,8 +68,6 @@ class PointsView extends Component {
     const {
       claimPoints, intl, isClaiming, userActivities, userPoints,
     } = this.props;
-    // TODO: this feature temporarily closed.
-    const isActiveIcon = false;
 
     return (
       <Fragment>
@@ -157,25 +159,24 @@ class PointsView extends Component {
               : (
                 <FlatList
                   data={userActivities}
+                  keyExtractor={item => item.id.toString()}
                   renderItem={({ item, index }) => (
                     <WalletLineItem
-                      key={item.id.toString()}
                       index={index + 1}
                       text={intl.formatMessage({ id: item.textKey })}
-                      description={getTimeFromNow(item.created)}
+                      description={getTimeFromNow(get(item, 'created'))}
                       isCircleIcon
                       isThin
                       isBlackText
-                      iconName={item.icon}
-                      iconType={item.iconType}
-                      rightText={`${item.amount} ESTM`}
+                      iconName={get(item, 'icon')}
+                      iconType={get(item, 'iconType')}
+                      rightText={`${get(item, 'amount')} ESTM`}
                     />
                   )}
                 />
               )
               }
           </View>
-
         </ScrollView>
       </Fragment>
 

@@ -1,7 +1,7 @@
 import React, { Component } from 'react';
 import { injectIntl } from 'react-intl';
 import { View, FlatList, Text } from 'react-native';
-import ScrollableTabView from '@esteemapp/react-native-scrollable-tab-view';
+import ScrollableTabView from 'react-native-scrollable-tab-view';
 import ActionSheet from 'react-native-actionsheet';
 
 // Components

@@ -53,6 +53,7 @@ class PostDisplayContainer extends Component {
 
   _handleOnReplyPress = () => {
     const { post, navigation } = this.props;
+
     navigation.navigate({
       routeName: ROUTES.SCREENS.EDITOR,
       params: {
@@ -65,14 +66,20 @@ class PostDisplayContainer extends Component {
 
   _handleOnEditPress = () => {
     const { post, navigation } = this.props;
-    navigation.navigate({
-      routeName: ROUTES.SCREENS.EDITOR,
-      params: {
-        isEdit: true,
-        post,
-        fetchPost: this._fetchPost,
-      },
-    });
+
+    if (post) {
+      const isReply = post.parent_author;
+
+      navigation.navigate({
+        routeName: ROUTES.SCREENS.EDITOR,
+        params: {
+          isEdit: true,
+          isReply,
+          post,
+          fetchPost: this._fetchPost,
+        },
+      });
+    }
   };
 
   _handleDeleteComment = (permlink) => {

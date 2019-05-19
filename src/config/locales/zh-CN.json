@@ -194,7 +194,8 @@
     "delete": "删除",
     "copied": "Copied!",
     "no_internet": "No connection!",
-    "confirm": "Confirm"
+    "confirm": "Confirm",
+    "removed": "Removed"
   },
   "post": {
     "reblog_alert": "您确定想要转发？",

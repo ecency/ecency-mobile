@@ -5,6 +5,7 @@ import {
 import { connect } from 'react-redux';
 import Push from 'appcenter-push';
 import { injectIntl } from 'react-intl';
+import get from 'lodash/get';
 
 // Actions & Services
 import { openPinCodeModal } from '../../../redux/actions/applicationActions';
@@ -31,7 +32,6 @@ const RootContainer = () => (WrappedComponent) => {
 
     componentDidMount() {
       AppState.addEventListener('change', this._handleAppStateChange);
-      this._createPushListener();
 
       if (Platform.OS === 'android') {
         Linking.getInitialURL().then((url) => {
@@ -72,13 +72,15 @@ const RootContainer = () => (WrappedComponent) => {
         const routeParams = url.indexOf('/') > -1 ? url.split('/') : [url];
 
         [, permlink] = routeParams;
-        author = routeParams[0].indexOf('@') > -1 ? routeParams[0].replace('@', '') : routeParams[0];
+        author = routeParams && routeParams.length > 0
+        && routeParams[0].indexOf('@') > -1
+          ? routeParams[0].replace('@', '') : routeParams[0];
       }
 
       if (author && permlink) {
         await getPost(author, permlink, currentAccountUsername)
           .then((result) => {
-            if (result && result.title) {
+            if (get(result, 'title')) {
               content = result;
             } else {
               this._handleAlert(
@@ -111,10 +113,10 @@ const RootContainer = () => (WrappedComponent) => {
         }
 
         routeName = ROUTES.SCREENS.PROFILE;
-        params = { username: profile.name, reputation: profile.reputation };
+        params = { username: get(profile, 'name'), reputation: get(profile, 'reputation') };
       }
 
-      if (profile || content) {
+      if (routeName && (profile || content)) {
         this.navigationTimeout = setTimeout(() => {
           clearTimeout(this.navigationTimeout);
           navigation.navigate({
@@ -158,42 +160,6 @@ const RootContainer = () => (WrappedComponent) => {
 
     _setWrappedComponentState = (data) => {
       this.setState({ wrappedComponentStates: { ...data } });
-    };
-
-    _createPushListener = () => {
-      const { navigation } = this.props;
-      let params = null;
-      let key = null;
-      let routeName = null;
-
-      Push.setListener({
-        onPushNotificationReceived(pushNotification) {
-          const push = pushNotification.customProperties;
-
-          if (push.parent_permlink1 || push.permlink1) {
-            params = {
-              author: push.parent_permlink1 ? push.parent_author : push.target,
-              permlink: push.parent_permlink1
-                ? `${push.parent_permlink1}${push.parent_permlink2}${push.parent_permlink3}`
-                : `${push.permlink1}${push.permlink2}${push.permlink3}`,
-            };
-            key = push.parent_permlink1
-              ? `${push.parent_permlink1}${push.parent_permlink2}${push.parent_permlink3}`
-              : `${push.permlink1}${push.permlink2}${push.permlink3}`;
-            routeName = ROUTES.SCREENS.POST;
-          } else {
-            params = {
-              username: push.source,
-            };
-            key = push.source;
-            routeName = ROUTES.SCREENS.PROFILE;
-          }
-
-          setTimeout(() => {
-            navigation.navigate({ routeName, params, key });
-          }, 4000);
-        },
-      });
     };
 
     render() {
