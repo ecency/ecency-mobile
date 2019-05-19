@@ -194,7 +194,8 @@
     "delete": "Sampóh",
     "copied": "Kalheuh Meusalén!",
     "no_internet": "Hana koneksi!",
-    "confirm": "Confirm"
+    "confirm": "Confirm",
+    "removed": "Removed"
   },
   "post": {
     "reblog_alert": "Peu yakin neuh, neu neuk reblog?",
