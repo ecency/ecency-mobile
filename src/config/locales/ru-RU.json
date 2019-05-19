@@ -194,7 +194,8 @@
     "delete": "Удалить",
     "copied": "Скопировано!",
     "no_internet": "No internet connection",
-    "confirm": "Подтвердить"
+    "confirm": "Подтвердить",
+    "removed": "Removed"
   },
   "post": {
     "reblog_alert": "Вы уверены, что хотите сделать репост?",

@@ -194,7 +194,8 @@
     "delete": "Temizle",
     "copied": "Kopyalandı",
     "no_internet": "Bağlantı yok.",
-    "confirm": "Onayla"
+    "confirm": "Onayla",
+    "removed": "Removed"
   },
   "post": {
     "reblog_alert": "Reblog yapma istediginize emin misiniz?",

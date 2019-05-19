@@ -194,7 +194,8 @@
     "delete": "Padam",
     "copied": "Disalin!",
     "no_internet": "Tiada sambungan!",
-    "confirm": "Muktamat"
+    "confirm": "Muktamat",
+    "removed": "Removed"
   },
   "post": {
     "reblog_alert": "Adakah anda ingin menulang siar?",

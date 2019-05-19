@@ -194,7 +194,8 @@
     "delete": "Sil",
     "copied": "Kopyalandı!",
     "no_internet": "Bağlantı yoxdur!",
-    "confirm": "Təsdiqlə"
+    "confirm": "Təsdiqlə",
+    "removed": "Removed"
   },
   "post": {
     "reblog_alert": "Təkrar paylaşmaq istədiyinizə əminsiniz?",
