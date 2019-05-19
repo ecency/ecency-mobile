@@ -194,7 +194,8 @@
     "delete": "حذف",
     "copied": "تم النسخ!",
     "no_internet": "لا يوجد اتصال!",
-    "confirm": "Confirm"
+    "confirm": "Confirm",
+    "removed": "Removed"
   },
   "post": {
     "reblog_alert": "هل أنت متأكد من رغبتك في إعادة التدوين؟",
