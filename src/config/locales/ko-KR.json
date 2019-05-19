@@ -194,7 +194,8 @@
     "delete": "삭제",
     "copied": "복사됨!",
     "no_internet": "인터넷 연결을 확인하세요!",
-    "confirm": "Confirm"
+    "confirm": "Confirm",
+    "removed": "Removed"
   },
   "post": {
     "reblog_alert": "정말 리블로그 하시겠습니까?",
