@@ -1,6 +1,6 @@
 import React, { PureComponent, Fragment } from 'react';
 import {
-  View, ScrollView, FlatList, ActivityIndicator, RefreshControl,
+  View, FlatList, ActivityIndicator, RefreshControl,
 } from 'react-native';
 import { injectIntl } from 'react-intl';
 
@@ -10,6 +10,7 @@ import { injectIntl } from 'react-intl';
 import { ContainerHeader } from '../../containerHeader';
 import { FilterBar } from '../../filterBar';
 import NotificationLine from '../../notificationLine';
+import { ListPlaceHolder } from '../../basicUIElements';
 
 // Utils
 import {
@@ -60,15 +61,15 @@ class NotificationView extends PureComponent {
     return (
       <FlatList
         data={data}
+        initialNumToRender={data && data.length}
+        maxToRenderPerBatch={data && data.length}
+        keyExtractor={item => item.id}
         renderItem={({ item }) => (
           <NotificationLine
             notification={item}
             handleOnPressNotification={navigateToNotificationRoute}
           />
         )}
-        initialNumToRender={data.length}
-        maxToRenderPerBatch={data.length}
-        keyExtractor={item => item.id}
       />
     );
   };
@@ -154,17 +155,11 @@ class NotificationView extends PureComponent {
     const {
       readAllNotification,
       getActivities,
-      loading,
-      readAllNotificationLoading,
+      isNotificationRefreshing,
       isDarkTheme,
     } = this.props;
     const { filters, selectedFilter } = this.state;
-
     const _notifications = this._getNotificationsArrays();
-
-    if (_notifications.length === 0) {
-      return this._getActivityIndicator();
-    }
 
     return (
       <View style={styles.container}>
@@ -177,47 +172,39 @@ class NotificationView extends PureComponent {
           rightIconType="MaterialIcons"
           onRightIconPress={readAllNotification}
         />
-        <ScrollView
-          style={styles.scrollView}
-          onScroll={(e) => {
-            let paddingToBottom = 1;
-            paddingToBottom += e.nativeEvent.layoutMeasurement.height;
-            if (
-              e.nativeEvent.contentOffset.y >= e.nativeEvent.contentSize.height - paddingToBottom
-              && !loading
-            ) {
-              getActivities(selectedFilter, true);
-            }
-          }}
-        >
-          <FlatList
-            data={_notifications}
-            refreshing={readAllNotificationLoading}
-            onRefresh={() => null}
-            refreshControl={(
-              <RefreshControl
-                refreshing={readAllNotificationLoading}
-                progressBackgroundColor="#357CE6"
-                tintColor={!isDarkTheme ? '#357ce6' : '#96c0ff'}
-                titleColor="#fff"
-                colors={['#fff']}
-              />
-            )}
-            renderItem={({ item, index }) => (
-              <Fragment>
-                <ContainerHeader
-                  hasSeperator={index !== 0}
-                  isBoldTitle
-                  title={item.title}
-                  key={item.title}
+        { _notifications.length === 0
+          ? <ListPlaceHolder />
+          : (
+            <FlatList
+              data={_notifications}
+              refreshing={isNotificationRefreshing}
+              onRefresh={() => getActivities()}
+              keyExtractor={item => item.title}
+              onEndReached={() => getActivities(selectedFilter, true)}
+              ListFooterComponent={this._renderFooterLoading}
+              refreshControl={(
+                <RefreshControl
+                  refreshing={isNotificationRefreshing}
+                  progressBackgroundColor="#357CE6"
+                  tintColor={!isDarkTheme ? '#357ce6' : '#96c0ff'}
+                  titleColor="#fff"
+                  colors={['#fff']}
                 />
-                {this._renderList(item.notifications)}
-              </Fragment>
             )}
-            keyExtractor={item => item.title}
-            ListFooterComponent={this._renderFooterLoading}
-          />
-        </ScrollView>
+              renderItem={({ item, index }) => (
+                <Fragment>
+                  <ContainerHeader
+                    hasSeperator={index !== 0}
+                    isBoldTitle
+                    title={item.title}
+                    key={item.title}
+                  />
+                  {this._renderList(item.notifications)}
+                </Fragment>
+              )}
+            />
+          )
+        }
       </View>
     );
   }
