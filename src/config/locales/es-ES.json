@@ -194,7 +194,8 @@
     "delete": "Borrar",
     "copied": "Copiado!",
     "no_internet": "Sin conexión!",
-    "confirm": "Confirm"
+    "confirm": "Confirm",
+    "removed": "Removed"
   },
   "post": {
     "reblog_alert": "Está seguro que quiere rebloguear?",
