@@ -194,7 +194,8 @@
     "delete": "Verwijderen",
     "copied": "Copied!",
     "no_internet": "No connection!",
-    "confirm": "Confirm"
+    "confirm": "Confirm",
+    "removed": "Removed"
   },
   "post": {
     "reblog_alert": "Weet je zeker dat je het wilt delen?",

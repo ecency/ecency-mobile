@@ -38,7 +38,7 @@ class PointsContainer extends Component {
 
     this._fetchuserPointActivities(username);
 
-    this.fetchInterval = setInterval(this._fetchuserPointActivities, 360000);
+    this.fetchInterval = setInterval(this._fetchuserPointActivities, 6 * 60 * 1000);
   }
 
   componentWillReceiveProps(nextProps) {

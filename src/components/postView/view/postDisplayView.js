@@ -167,7 +167,7 @@ class PostDisplayView extends PureComponent {
     }
 
     return (
-      <Fragment>
+      <View style={styles.container}>
         <ScrollView style={styles.scroll} onScroll={event => this._handleOnScroll(event)}>
           {parentPost && <ParentPost post={parentPost} />}
 
@@ -218,7 +218,7 @@ class PostDisplayView extends PureComponent {
           cancelButtonIndex={1}
           onPress={index => (index === 0 ? handleOnRemovePress(get(post, 'permlink')) : null)}
         />
-      </Fragment>
+      </View>
     );
   }
 }

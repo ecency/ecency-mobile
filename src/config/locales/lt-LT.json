@@ -194,7 +194,8 @@
     "delete": "Ištrinti",
     "copied": "Nukopijuota!",
     "no_internet": "Nėra ryšio!",
-    "confirm": "Patvirtinti"
+    "confirm": "Patvirtinti",
+    "removed": "Removed"
   },
   "post": {
     "reblog_alert": "Ar tikrai norite dalintis?",
