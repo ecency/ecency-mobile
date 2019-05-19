@@ -194,7 +194,8 @@
     "delete": "מחק\\י",
     "copied": "הועתק!",
     "no_internet": "אין חיבור!",
-    "confirm": "Confirm"
+    "confirm": "Confirm",
+    "removed": "Removed"
   },
   "post": {
     "reblog_alert": "האם את\\ה בטוח\/ה רוצה לשתף ?",
