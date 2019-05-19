@@ -366,6 +366,8 @@ class EditorContainer extends Component {
               key: permlink,
             });
 
+            this.setState({ isPostSending: false });
+
             setDraftPost(
               { title: '', body: '', tags: '' },
               currentAccount.name,
@@ -485,6 +487,8 @@ class EditorContainer extends Component {
       navigation.goBack();
       navigation.state.params.fetchPost();
     }
+
+    this.setState({ isPostSending: false });
   };
 
   _handleOnBackPress = () => {
