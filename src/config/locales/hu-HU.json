@@ -194,7 +194,8 @@
     "delete": "Törlés",
     "copied": "Lemásolva!",
     "no_internet": "Nincs kapcsolat!",
-    "confirm": "Megerősítés"
+    "confirm": "Megerősítés",
+    "removed": "Removed"
   },
   "post": {
     "reblog_alert": "Biztos, hogy megosztod?",
