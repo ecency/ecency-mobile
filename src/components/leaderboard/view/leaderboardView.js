@@ -45,8 +45,6 @@ class LeaderboardView extends PureComponent {
             id: 'notification.leaderboard_title',
           })}
         </Text>
-<<<<<<< HEAD
-
         {!users
           ? <ListPlaceHolder />
           : (
@@ -60,16 +58,6 @@ class LeaderboardView extends PureComponent {
             />
           )
         }
-=======
-        <FlatList
-          data={users}
-          refreshing={refreshing}
-          keyExtractor={item => item._id}
-          removeClippedSubviews={false}
-          onRefresh={() => fetchLeaderBoard()}
-          renderItem={({ item, index }) => this._renderItem(item, index)}
-        />
->>>>>>> a1029cd94557166ab9cc5cca1bfee8d0915c9f67
       </View>
     );
   }
