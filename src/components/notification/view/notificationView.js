@@ -172,7 +172,7 @@ class NotificationView extends PureComponent {
           rightIconType="MaterialIcons"
           onRightIconPress={readAllNotification}
         />
-        { _notifications.length === 0 && true
+        { _notifications.length === 0
           ? <ListPlaceHolder />
           : (
             <FlatList
