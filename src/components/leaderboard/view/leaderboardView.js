@@ -3,7 +3,7 @@ import { View, FlatList, Text } from 'react-native';
 import { injectIntl } from 'react-intl';
 
 // Components
-import { UserListItem } from '../../basicUIElements';
+import { UserListItem, ListPlaceHolder } from '../../basicUIElements';
 
 // Styles
 import styles from './leaderboardStyles';
@@ -45,6 +45,22 @@ class LeaderboardView extends PureComponent {
             id: 'notification.leaderboard_title',
           })}
         </Text>
+<<<<<<< HEAD
+
+        {!users
+          ? <ListPlaceHolder />
+          : (
+            <FlatList
+              data={users}
+              refreshing={refreshing}
+              keyExtractor={item => item.voter}
+              removeClippedSubviews={false}
+              onRefresh={() => fetchLeaderBoard()}
+              renderItem={({ item, index }) => this._renderItem(item, index)}
+            />
+          )
+        }
+=======
         <FlatList
           data={users}
           refreshing={refreshing}
@@ -53,6 +69,7 @@ class LeaderboardView extends PureComponent {
           onRefresh={() => fetchLeaderBoard()}
           renderItem={({ item, index }) => this._renderItem(item, index)}
         />
+>>>>>>> a1029cd94557166ab9cc5cca1bfee8d0915c9f67
       </View>
     );
   }

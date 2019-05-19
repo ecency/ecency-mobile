@@ -59,7 +59,7 @@ export const getUserPoints = username => new Promise((resolve) => {
     });
 });
 
-export const claim = username => new Promise((resolve) => {
+export const claim = username => new Promise((resolve, reject) => {
   ePointApi
     .put('/claim', {
       us: `${username}`,
@@ -68,6 +68,6 @@ export const claim = username => new Promise((resolve) => {
       resolve(res.data);
     })
     .catch((error) => {
-      Alert.alert('Error', error.message);
+      reject(error);
     });
 });

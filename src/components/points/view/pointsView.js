@@ -1,3 +1,4 @@
+/* eslint-disable no-nested-ternary */
 import React, { Component, Fragment } from 'react';
 import {
   Text,
@@ -12,7 +13,7 @@ import { Popover, PopoverController } from 'react-native-modal-popover';
 import { get, size } from 'lodash';
 
 // Components
-import { LineBreak, WalletLineItem } from '../../basicUIElements';
+import { LineBreak, WalletLineItem, ListPlaceHolder } from '../../basicUIElements';
 import { IconButton } from '../../iconButton';
 import { Icon } from '../../icon';
 import { MainButton } from '../../mainButton';
@@ -39,28 +40,33 @@ class PointsView extends Component {
 
   // Component Functions
 
-  refreshControl = () => {
-    const { fetchUserActivity, refreshing, isDarkTheme } = this.props;
+   refreshControl = () => {
+     const { fetchUserActivity, refreshing, isDarkTheme } = this.props;
 
-    return (
-      <RefreshControl
-        refreshing={refreshing}
-        onRefresh={fetchUserActivity}
-        progressBackgroundColor="#357CE6"
-        tintColor={!isDarkTheme ? '#357ce6' : '#96c0ff'}
-        titleColor="#fff"
-        colors={['#fff']}
-      />
-    );
-  };
+     return (
+       <RefreshControl
+         refreshing={refreshing}
+         onRefresh={fetchUserActivity}
+         progressBackgroundColor="#357CE6"
+         tintColor={!isDarkTheme ? '#357ce6' : '#96c0ff'}
+         titleColor="#fff"
+         colors={['#fff']}
+       />
+     );
+   }
+
+  _renderLoading = () => {
+    const { isLoading, intl } = this.props;
+
+    if (isLoading) {
+      return <ListPlaceHolder />;
+    }
+    return <Text style={styles.subText}>{intl.formatMessage({ id: 'points.no_activity' })}</Text>;
+  }
 
   render() {
     const {
-      userActivities,
-      userPoints,
-      intl,
-      isClaiming,
-      claimPoints,
+      claimPoints, intl, isClaiming, userActivities, userPoints,
     } = this.props;
 
     return (
@@ -72,46 +78,36 @@ class PointsView extends Component {
         >
           <Text style={styles.pointText}>{userPoints.points}</Text>
           <Text style={styles.subText}>eSteem Points</Text>
-          {get(userPoints, 'unclaimed_points') > 0 && (
-            <MainButton
-              isLoading={isClaiming}
-              isDisable={isClaiming}
-              style={styles.mainButton}
-              height={50}
-              onPress={() => claimPoints()}
-            >
-              <View style={styles.mainButtonWrapper}>
-                <Text style={styles.unclaimedText}>
-                  {userPoints.unclaimed_points}
-                </Text>
-                <View style={styles.mainIconWrapper}>
-                  <Icon
-                    name="add"
-                    iconType="MaterialIcons"
-                    color="#357ce6"
-                    size={23}
-                  />
-                </View>
-              </View>
-            </MainButton>
-          )}
+          {userPoints.unclaimed_points > 0
+           && (
+           <MainButton
+             isLoading={isClaiming}
+             isDisable={isClaiming}
+             style={styles.mainButton}
+             height={50}
+             onPress={() => claimPoints()}
+           >
+             <View style={styles.mainButtonWrapper}>
+               <Text style={styles.unclaimedText}>{userPoints.unclaimed_points}</Text>
+               <View style={styles.mainIconWrapper}>
+                 <Icon name="add" iconType="MaterialIcons" color="#357ce6" size={23} />
+               </View>
+             </View>
+           </MainButton>
+           )
+          }
 
           <View style={styles.iconsWrapper}>
             <FlatList
               style={styles.iconsList}
               data={POINTS_KEYS}
               horizontal
-              keyExtractor={(item, index) => (item.type + index).toString()}
               renderItem={({ item }) => (
-                <PopoverController>
+                <PopoverController key={item.type}>
                   {({
-                    openPopover,
-                    closePopover,
-                    popoverVisible,
-                    setPopoverAnchor,
-                    popoverAnchorRect,
+                    openPopover, closePopover, popoverVisible, setPopoverAnchor, popoverAnchorRect,
                   }) => (
-                    <View styles={styles.iconWrapper}>
+                    <View styles={styles.iconWrapper} key={item.type}>
                       <View style={styles.iconWrapper}>
                         <TouchableOpacity
                           ref={setPopoverAnchor}
@@ -146,9 +142,7 @@ class PointsView extends Component {
                       >
                         <View style={styles.popoverWrapper}>
                           <Text style={styles.popoverText}>
-                            {intl.formatMessage({
-                              id: POINTS[item.type].descriptionKey,
-                            })}
+                            {intl.formatMessage({ id: POINTS[item.type].descriptionKey })}
                           </Text>
                         </View>
                       </Popover>
@@ -160,32 +154,33 @@ class PointsView extends Component {
           </View>
 
           <View style={styles.listWrapper}>
-            {size(userActivities) < 1 ? (
-              <Text style={styles.subText}>
-                {intl.formatMessage({ id: 'points.no_activity' })}
-              </Text>
-            ) : (
-              <FlatList
-                data={userActivities}
-                keyExtractor={item => item.id.toString()}
-                renderItem={({ item, index }) => (
-                  <WalletLineItem
-                    index={index + 1}
-                    text={intl.formatMessage({ id: item.textKey })}
-                    description={getTimeFromNow(get(item, 'created'))}
-                    isCircleIcon
-                    isThin
-                    isBlackText
-                    iconName={get(item, 'icon')}
-                    iconType={get(item, 'iconType')}
-                    rightText={`${get(item, 'amount')} ESTM`}
-                  />
-                )}
-              />
-            )}
+            {!userActivities
+              ? this._renderLoading()
+              : (
+                <FlatList
+                  data={userActivities}
+                  keyExtractor={item => item.id.toString()}
+                  renderItem={({ item, index }) => (
+                    <WalletLineItem
+                      index={index + 1}
+                      text={intl.formatMessage({ id: item.textKey })}
+                      description={getTimeFromNow(get(item, 'created'))}
+                      isCircleIcon
+                      isThin
+                      isBlackText
+                      iconName={get(item, 'icon')}
+                      iconType={get(item, 'iconType')}
+                      rightText={`${get(item, 'amount')} ESTM`}
+                    />
+                  )}
+                />
+              )
+              }
           </View>
         </ScrollView>
       </Fragment>
+
+
     );
   }
 }
