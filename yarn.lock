@@ -1090,20 +1090,6 @@
     lodash "^4.17.11"
     to-fast-properties "^2.0.0"
 
-"@esteemapp/react-native-scrollable-tab-view@^0.8.2":
-  version "0.8.2"
-  resolved "https://registry.yarnpkg.com/@esteemapp/react-native-scrollable-tab-view/-/react-native-scrollable-tab-view-0.8.2.tgz#44c0b0dbfc5dca7361a0c60f21e5e6e95d486742"
-  integrity sha512-RjhzM0pSPHTHyMoyGa3NZRBBDB4gvco8TVmDo7MKzUqjF8a8BQYp43o8IMR5tkKN7UzGgKNsStuRch7MEb+0jQ==
-  dependencies:
-    create-react-class "^15.6.2"
-    prop-types "^15.6.0"
-    react-timer-mixin "^0.13.3"
-
-"@esteemapp/react-native-tags@^1.3.1":
-  version "1.3.1"
-  resolved "https://registry.yarnpkg.com/@esteemapp/react-native-tags/-/react-native-tags-1.3.1.tgz#8345384b21f4cfe26cd01bfea738b9b0ec7b04c2"
-  integrity sha512-r/EHz8h5wYOPNHA9nv6b2hcaX6pFJI36NHII4ADWJ4Ll9ikQIHCQsDmlS7X8FMmnRQZonETEKglMULfU0of9qw==
-
 "@samverschueren/stream-to-observable@^0.3.0":
   version "0.3.0"
   resolved "https://registry.yarnpkg.com/@samverschueren/stream-to-observable/-/stream-to-observable-0.3.0.tgz#ecdf48d532c58ea477acfcab80348424f8d0662f"
@@ -7357,11 +7343,6 @@ react-native-modal-popover@0.0.12:
     lodash.debounce "^4.0.8"
     prop-types "^15.6.2"
 
-react-native-restart@0.0.6:
-  version "0.0.6"
-  resolved "https://registry.yarnpkg.com/react-native-restart/-/react-native-restart-0.0.6.tgz#77770d078683947b2c1f2adb876f179269d8443a"
-  integrity sha512-ysKvNOjCeCS8A4ouQkJ8DZRYH4wgPdPEJqqqSGFuNzK4eAi3VPOeneQ3w0HHYeOui5fc6fV9y9ClOB9LcKbKpQ==
-
 react-native-safe-area-view@0.11.0:
   version "0.11.0"
   resolved "https://registry.yarnpkg.com/react-native-safe-area-view/-/react-native-safe-area-view-0.11.0.tgz#4f3dda43c2bace37965e7c6aef5fc83d4f19d174"
@@ -7373,6 +7354,15 @@ react-native-screens@^1.0.0-alpha.11:
   version "1.0.0-alpha.22"
   resolved "https://registry.yarnpkg.com/react-native-screens/-/react-native-screens-1.0.0-alpha.22.tgz#7a120377b52aa9bbb94d0b8541a014026be9289b"
   integrity sha512-kSyAt0AeVU6N7ZonfV6dP6iZF8B7Bce+tk3eujXhzBGsLg0VSLnU7uE9VqJF0xdQrHR91ZjGgVMieo/8df9KTA==
+
+react-native-scrollable-tab-view@^0.10.0:
+  version "0.10.0"
+  resolved "https://registry.yarnpkg.com/react-native-scrollable-tab-view/-/react-native-scrollable-tab-view-0.10.0.tgz#8ce7908254685ee37d35df7d849676eaa1e81132"
+  integrity sha512-7FWw9X2hLozWqpGJTAU/p7ONdTTO635bbAZ5AUPDrB4JwaLbhNV6ePjsNUjsCaopgCwz/EdmH0hTCPeja9dh4w==
+  dependencies:
+    create-react-class "^15.6.2"
+    prop-types "^15.6.0"
+    react-timer-mixin "^0.13.3"
 
 react-native-sentry@^0.42.0:
   version "0.42.0"
@@ -7422,10 +7412,9 @@ react-native-view-overflow@0.0.3:
   resolved "https://registry.yarnpkg.com/react-native-view-overflow/-/react-native-view-overflow-0.0.3.tgz#d7b08e8c1e5047a2cf07f3ece82025899f930674"
   integrity sha512-CcX61kqFyO41WAmqARr/1A7YgTkd1GoQGJl0LYrzl+4CL5uw2CAu68T+1DPapt7RdgvSMLZIPlNvj4TzdJY/hw==
 
-react-native@^0.57.5:
+react-native@esteemapp/react-native:
   version "0.57.8"
-  resolved "https://registry.yarnpkg.com/react-native/-/react-native-0.57.8.tgz#1a840fbe144cd3902cc14313a783ce28efc48cb9"
-  integrity sha512-K6DAMTPTq+lxVYC73y4Kh/bgLajddBaIKzwsVeV4JOoS1Fdq48/ISXD3vApV+x+/IBVTXnrT9qlA+9U6MMZCqA==
+  resolved "https://codeload.github.com/esteemapp/react-native/tar.gz/862999968c8a912c63c048c7b428ea2365a0b58f"
   dependencies:
     "@babel/runtime" "^7.0.0"
     absolute-path "^0.0.0"
@@ -9378,9 +9367,9 @@ xcode@^2.0.0:
     simple-plist "^1.0.0"
     uuid "^3.3.2"
 
-"xcode@git+https://github.com/apache/cordova-node-xcode.git#e7646f0680d509b590b839e567c217590451505b":
+"xcode@https://github.com/apache/cordova-node-xcode#e7646f0680d509b590b839e567c217590451505b":
   version "1.0.1-dev"
-  resolved "git+https://github.com/apache/cordova-node-xcode.git#e7646f0680d509b590b839e567c217590451505b"
+  resolved "https://github.com/apache/cordova-node-xcode#e7646f0680d509b590b839e567c217590451505b"
   dependencies:
     simple-plist "^0.2.1"
     uuid "3.0.1"

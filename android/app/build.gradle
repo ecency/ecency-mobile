@@ -157,7 +157,6 @@ dependencies {
     compile project(':appcenter-push')
     compile project(':react-native-view-overflow')
     compile project(':react-native-vector-icons')
-    compile project(':react-native-restart')
     compile project(':react-native-linear-gradient')
     compile project(':react-native-config')
     compile project(':appcenter-crashes')

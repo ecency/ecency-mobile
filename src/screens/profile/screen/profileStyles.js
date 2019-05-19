@@ -53,11 +53,11 @@ export default EStyleSheet.create({
   },
   postTabBar: {
     backgroundColor: '$primaryBackgroundColor',
+    flex: 1,
   },
   commentsTabBar: {
     backgroundColor: '$primaryBackgroundColor',
     paddingHorizontal: 16,
     paddingVertical: 5,
   },
-  tabBarTitle: {},
 });

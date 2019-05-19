@@ -31,7 +31,7 @@ class PointsContainer extends Component {
   componentDidMount() {
     this._fetchuserPointActivities();
 
-    this.fetchInterval = setInterval(this._fetchuserPointActivities, 360000);
+    this.fetchInterval = setInterval(this._fetchuserPointActivities, 6 * 60 * 1000);
   }
 
   componentWillUnmount() {
