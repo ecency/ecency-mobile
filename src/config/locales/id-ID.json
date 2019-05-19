@@ -194,7 +194,8 @@
     "delete": "Hapus",
     "copied": "Disalin!",
     "no_internet": "Tidak ada koneksi!",
-    "confirm": "Konfirmasi"
+    "confirm": "Konfirmasi",
+    "removed": "Removed"
   },
   "post": {
     "reblog_alert": "Anda yakin ingin menerbitkan ulang?",
