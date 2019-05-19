@@ -27,13 +27,11 @@ const RootContainer = () => (WrappedComponent) => {
       this.state = {
         wrappedComponentStates: null,
         appState: AppState.currentState,
-        isNotificationRouted: false,
       };
     }
 
     componentDidMount() {
       AppState.addEventListener('change', this._handleAppStateChange);
-      this._createPushListener();
 
       if (Platform.OS === 'android') {
         Linking.getInitialURL().then((url) => {
@@ -162,55 +160,6 @@ const RootContainer = () => (WrappedComponent) => {
 
     _setWrappedComponentState = (data) => {
       this.setState({ wrappedComponentStates: { ...data } });
-    };
-
-    _createPushListener = () => {
-      const { navigation } = this.props;
-      let params = null;
-      let key = null;
-      let routeName = null;
-
-      Push.setListener({
-        onPushNotificationReceived(pushNotification) {
-          const push = get(pushNotification, 'customProperties');
-          const permlink1 = get(push, 'permlink1');
-          const permlink2 = get(push, 'permlink2');
-          const permlink3 = get(push, 'permlink3');
-          const parentPermlink1 = get(push, 'parent_permlink1');
-          const parentPermlink2 = get(push, 'parent_permlink2');
-          const parentPermlink3 = get(push, 'parent_permlink3');
-
-          if (parentPermlink1 || permlink1) {
-            const fullParentPermlink = `${parentPermlink1}${parentPermlink2}${parentPermlink3}`;
-            const fullPermlink = `${permlink1}${permlink2}${permlink3}`;
-
-            params = {
-              author: parentPermlink1 ? get(push, 'parent_author') : get(push, 'target'),
-              permlink: parentPermlink1
-                ? fullParentPermlink
-                : fullPermlink,
-            };
-            key = parentPermlink1
-              ? fullParentPermlink
-              : fullPermlink;
-            routeName = ROUTES.SCREENS.POST;
-          } else {
-            params = {
-              username: push.source,
-            };
-            key = push.source;
-            routeName = ROUTES.SCREENS.PROFILE;
-          }
-
-          this.pushNavigationTimeout = setTimeout(() => {
-            const { isNotificationRouted } = this.state;
-
-            clearTimeout(this.pushNavigationTimeout);
-            if (isNotificationRouted) navigation.navigate({ routeName, params, key });
-            this.setState({ isNotificationRouted: true });
-          }, 4000);
-        },
-      });
     };
 
     render() {
