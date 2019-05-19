@@ -8,6 +8,7 @@ import Config from 'react-native-config';
 import { NavigationActions } from 'react-navigation';
 import { bindActionCreators } from 'redux';
 import Push from 'appcenter-push';
+import get from 'lodash/get';
 
 // Languages
 import en from 'react-intl/locale-data/en';
@@ -21,10 +22,10 @@ import ko from 'react-intl/locale-data/ko';
 import lt from 'react-intl/locale-data/lt';
 import pt from 'react-intl/locale-data/pt';
 import fa from 'react-intl/locale-data/fa';
-import he from 'react-intl/locale-data/he';
 
 // Constants
 import AUTH_TYPE from '../../../constants/authType';
+import ROUTES from '../../../constants/routeNames';
 
 // Services
 import {
@@ -103,6 +104,7 @@ class ApplicationContainer extends Component {
     }
 
     this.globalInterval = setInterval(this._refreshGlobalProps, 180000);
+    this._createPushListener();
   };
 
   componentWillReceiveProps(nextProps) {
@@ -137,6 +139,58 @@ class ApplicationContainer extends Component {
     this._getSettings();
     await this._getUserData();
     this.setState({ isReady: true });
+  };
+
+  _createPushListener = () => {
+    const { dispatch } = this.props;
+    let params = null;
+    let key = null;
+    let routeName = null;
+
+    Push.setListener({
+      onPushNotificationReceived(pushNotification) {
+        const push = get(pushNotification, 'customProperties');
+        const permlink1 = get(push, 'permlink1');
+        const permlink2 = get(push, 'permlink2');
+        const permlink3 = get(push, 'permlink3');
+        const parentPermlink1 = get(push, 'parent_permlink1');
+        const parentPermlink2 = get(push, 'parent_permlink2');
+        const parentPermlink3 = get(push, 'parent_permlink3');
+
+        if (parentPermlink1 || permlink1) {
+          const fullParentPermlink = `${parentPermlink1}${parentPermlink2}${parentPermlink3}`;
+          const fullPermlink = `${permlink1}${permlink2}${permlink3}`;
+
+          params = {
+            author: parentPermlink1 ? get(push, 'parent_author') : get(push, 'target'),
+            permlink: parentPermlink1
+              ? fullParentPermlink
+              : fullPermlink,
+          };
+          key = parentPermlink1
+            ? fullParentPermlink
+            : fullPermlink;
+          routeName = ROUTES.SCREENS.POST;
+        } else {
+          params = {
+            username: push.source,
+          };
+          key = push.source;
+          routeName = ROUTES.SCREENS.PROFILE;
+        }
+
+        this.pushNavigationTimeout = setTimeout(() => {
+          clearTimeout(this.pushNavigationTimeout);
+          const navigateAction = NavigationActions.navigate({
+            routeName,
+            params,
+            key,
+            action: NavigationActions.navigate({ routeName }),
+          });
+          dispatch(navigateAction);
+        }, 4000);
+      },
+    });
   };
 
   _handleConntectionChange = (status) => {

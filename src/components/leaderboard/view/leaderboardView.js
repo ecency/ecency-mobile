@@ -48,7 +48,7 @@ class LeaderboardView extends PureComponent {
         <FlatList
           data={users}
           refreshing={refreshing}
-          keyExtractor={item => item.voter}
+          keyExtractor={item => item._id}
           removeClippedSubviews={false}
           onRefresh={() => fetchLeaderBoard()}
           renderItem={({ item, index }) => this._renderItem(item, index)}
