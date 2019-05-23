@@ -3,7 +3,6 @@ package app.esteem.mobile;
 import android.app.Application;
 
 import com.facebook.react.ReactApplication;
-import io.sentry.RNSentryPackage;
 import com.apsl.versionnumber.RNVersionNumberPackage;
 import com.microsoft.codepush.react.CodePush;
 import io.realm.react.RealmReactPackage;
@@ -44,7 +43,6 @@ public class MainApplication extends Application implements ReactApplication {
     protected List<ReactPackage> getPackages() {
       return Arrays.<ReactPackage>asList(
           new MainReactPackage(),
-            new RNSentryPackage(),
             new RNVersionNumberPackage(),
             new CodePush(getResources().getString(R.string.reactNativeCodePush_androidDeploymentKey), getApplicationContext(), BuildConfig.DEBUG),
             new RealmReactPackage(),
