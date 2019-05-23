@@ -40,6 +40,8 @@ target 'eSteem' do
 
 
 
+  pod 'BugsnagReactNative', :path => '../node_modules/bugsnag-react-native'
+
   target 'eSteemTests' do
     inherit! :search_paths
     # Pods for testing

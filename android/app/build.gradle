@@ -147,6 +147,7 @@ configurations.all {
 }
 
 dependencies {
+    compile project(':bugsnag-react-native')
     compile project(':react-native-version-number')
     compile project(':react-native-code-push')
     compile project(':realm')
