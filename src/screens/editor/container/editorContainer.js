@@ -132,13 +132,15 @@ class EditorContainer extends Component {
     } else {
       await getDraftPost(username)
         .then((result) => {
-          this.setState({
-            draftPost: {
-              body: result.body,
-              title: result.title,
-              tags: result.tags.split(','),
-            },
-          });
+          if (result) {
+            this.setState({
+              draftPost: {
+                body: result.body,
+                title: result.title,
+                tags: result.tags.split(','),
+              },
+            });
+          }
         });
     }
   };

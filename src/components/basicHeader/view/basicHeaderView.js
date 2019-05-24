@@ -194,7 +194,7 @@ class BasicHeaderView extends Component {
                 <DatePicker
                   style={{ width: 50 }}
                   date={datePickerValue}
-                  mode="date"
+                  mode={datePickerValue ? 'time' : 'date'}
                   format="YYYY-MM-DD"
                   minDate={moment()}
                   maxDate="3000-06-01"
