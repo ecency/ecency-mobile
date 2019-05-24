@@ -37,7 +37,7 @@
     "jsc-android": "^236355.1.1",
     "lodash": "^4.17.11",
     "moment": "^2.22.2",
-    "react": "^16.7.0",
+    "react": "^16.8.6",
     "react-intl": "^2.7.2",
     "react-native": "esteemapp/react-native",
     "react-native-actionsheet": "^2.4.2",
