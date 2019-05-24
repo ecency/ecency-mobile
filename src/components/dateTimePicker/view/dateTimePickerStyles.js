@@ -36,4 +36,7 @@ export default EStyleSheet.create({
     justifyContent: 'center',
     alignSelf: 'center',
   },
+  picker: {
+    width: 50,
+  },
 });

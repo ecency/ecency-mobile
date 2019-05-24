@@ -70,7 +70,7 @@ class DateTimePickerView extends PureComponent {
 
     return (
       <DatePicker
-        style={{ width: 50 }}
+        style={styles.picker}
         date={date}
         mode={_type}
         format={_format}
