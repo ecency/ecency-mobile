@@ -3,21 +3,17 @@ import {
   View, Text, ActivityIndicator, SafeAreaView,
 } from 'react-native';
 import { injectIntl } from 'react-intl';
-import DatePicker from 'react-native-datepicker';
-import moment from 'moment';
 
 // Components
 import { TextButton } from '../..';
 import { IconButton } from '../../iconButton';
 import { DropdownButton } from '../../dropdownButton';
 import { TextInput } from '../../textInput';
-import { Icon } from '../../icon';
 import { DateTimePicker } from '../../dateTimePicker';
 
 // Constants
 // Styles
 import styles from './basicHeaderStyles';
-import datePickerStyles from './datePickerStyles';
 
 class BasicHeaderView extends Component {
   /* Props
@@ -30,7 +26,6 @@ class BasicHeaderView extends Component {
     super(props);
     this.state = {
       isInputVisible: false,
-      datePickerValue: '',
     };
   }
 
@@ -65,8 +60,6 @@ class BasicHeaderView extends Component {
   _handleDatePickerChange = (datePickerValue) => {
     const { handleDatePickerChange } = this.props;
 
-    this.setState({ datePickerValue });
-
     if (handleDatePickerChange) {
       handleDatePickerChange(datePickerValue);
     }
@@ -97,7 +90,7 @@ class BasicHeaderView extends Component {
       rightIconName,
       title,
     } = this.props;
-    const { isInputVisible, datePickerValue } = this.state;
+    const { isInputVisible } = this.state;
 
     return (
       <SafeAreaView style={styles.safeArea}>
@@ -192,32 +185,6 @@ class BasicHeaderView extends Component {
             <Fragment>
               {!isReply
                 && (
-                // <DatePicker
-                //   style={{ width: 50 }}
-                //   date={datePickerValue}
-                //   mode={datePickerValue ? 'time' : 'date'}
-                //   format="YYYY-MM-DD"
-                //   minDate={moment()}
-                //   maxDate="3000-06-01"
-                //   confirmBtnText="Confirm"
-                //   cancelBtnText="Cancel"
-                //   onDateChange={(_datePickerValue) => { this._handleDatePickerChange(_datePickerValue); }}
-                //   hideText
-                //   disabled={!isFormValid}
-                //   onPressDate
-                //   customStyles={{
-                //     ...datePickerStyles,
-                //   }}
-                //   iconComponent={(
-                //     <Icon
-                //       style={{ ...styles.iconButton, ...styles.scheduleIcon }}
-                //       size={20}
-                //       iconType="MaterialIcons"
-                //       name="timer"
-                //     />
-                //     )}
-                // />
-
                 <DateTimePicker type="date-time" onSubmit={this._handleDatePickerChange} disabled={!isFormValid} />
                 )
               }

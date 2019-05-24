@@ -1,6 +1,7 @@
 import React, { PureComponent } from 'react';
 import DatePicker from 'react-native-datepicker';
 import moment from 'moment';
+import { injectIntl } from 'react-intl';
 
 // Component
 import { Icon } from '../../icon';
@@ -8,7 +9,7 @@ import { Icon } from '../../icon';
 // Styles
 import styles from './dateTimePickerStyles';
 
-export default class DateTimePickerView extends PureComponent {
+class DateTimePickerView extends PureComponent {
   constructor(props) {
     super(props);
     this.state = {
@@ -38,7 +39,8 @@ export default class DateTimePickerView extends PureComponent {
     }
 
     if (date && value) {
-      onSubmit(value);
+      const formatedDateTime = new Date(`${date} ${value}`).toISOString();
+      onSubmit(formatedDateTime);
       this._initState();
     }
   }
@@ -49,17 +51,21 @@ export default class DateTimePickerView extends PureComponent {
       type,
       iconName,
       disabled,
+      intl,
     } = this.props;
     const { date } = this.state;
     let _type;
     let _format;
+    let _minDate;
 
     if (type === 'date-time') {
       _type = date ? 'time' : 'date';
       _format = date ? 'HH:MM' : 'YYYY-MM-DD';
+      _minDate = date ? null : moment();
     } else {
       _type = type;
       _format = type === 'date' ? 'YYYY-MM-DD' : 'HH:MM';
+      _minDate = type === 'date' ? moment() : null;
     }
 
     return (
@@ -68,12 +74,16 @@ export default class DateTimePickerView extends PureComponent {
         date={date}
         mode={_type}
         format={_format}
-        minDate={moment()}
-        maxDate="3000-06-01"
-        confirmBtnText="Confirm"
-        cancelBtnText="Cancel"
+        minDate={_minDate}
+        confirmBtnText={intl.formatMessage({
+          id: 'alert.confirm',
+        })}
+        cancelBtnText={intl.formatMessage({
+          id: 'alert.cancel',
+        })}
         onDateChange={_datePickerValue => this._setValue(!date ? 'date' : 'time', _datePickerValue)}
         hideText
+        is24Hour
         ref={(picker) => { this.datePicker = picker; }}
         disabled={disabled}
         customStyles={{
@@ -96,3 +106,5 @@ DateTimePickerView.defaultProps = {
   iconName: 'timer',
   type: 'date',
 };
+
+export default injectIntl(DateTimePickerView);
