@@ -67,12 +67,12 @@ export default EStyleSheet.create({
   },
   postImage: {
     marginTop: 10,
-    height: 216,
+    minHeight: 216,
     width: '100%',
   },
   commentImage: {
     marginTop: 10,
-    height: 80,
+    minHeight: 80,
     width: '100%',
   },
 });
