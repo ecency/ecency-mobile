@@ -29,9 +29,15 @@ export default class DateTimePickerView extends PureComponent {
     const { date, time } = this.state;
     this.setState({ [stateName]: value });
 
-    if (!time) this.datePicker.onPressDate();
+    if (!time && !date) {
+      this.timePickerTimeout = setTimeout(() => {
+        this.datePicker.onPressDate();
+      }, 500);
+    } else {
+      clearTimeout(this.timePickerTimeout);
+    }
 
-    if (date) {
+    if (date && value) {
       onSubmit(value);
       this._initState();
     }
@@ -44,7 +50,7 @@ export default class DateTimePickerView extends PureComponent {
       iconName,
       disabled,
     } = this.props;
-    const { date, time } = this.state;
+    const { date } = this.state;
     let _type;
     let _format;
 
@@ -55,9 +61,6 @@ export default class DateTimePickerView extends PureComponent {
       _type = type;
       _format = type === 'date' ? 'YYYY-MM-DD' : 'HH:MM';
     }
-
-    // if(!time) const var = true;
-
 
     return (
       <DatePicker
