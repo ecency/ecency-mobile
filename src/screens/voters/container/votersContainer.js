@@ -21,7 +21,8 @@ class VotersContainer extends PureComponent {
 
   render() {
     const { navigation } = this.props;
-    const activeVotes = navigation.state && navigation.state.params && navigation.state.params.activeVotes;
+    const activeVotes =
+      navigation.state && navigation.state.params && navigation.state.params.activeVotes;
 
     return <VotersScreen votes={activeVotes} {...this.props} />;
   }

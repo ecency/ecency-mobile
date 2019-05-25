@@ -1,7 +1,8 @@
 import getSlug from 'speakingurl';
 import { diff_match_patch } from 'diff-match-patch';
 
-export const getWordsCount = text => (text && typeof text === 'string' ? text.replace(/^\s+|\s+$/g, '').split(/\s+/).length : 0);
+export const getWordsCount = text =>
+  text && typeof text === 'string' ? text.replace(/^\s+|\s+$/g, '').split(/\s+/).length : 0;
 
 const permlinkRnd = () => (Math.random() + 1).toString(16).substring(2);
 
@@ -33,7 +34,7 @@ export const generatePermlink = (title, random = false) => {
   return perm;
 };
 
-export const generateReplyPermlink = (toAuthor) => {
+export const generateReplyPermlink = toAuthor => {
   if (!toAuthor) return '';
 
   const t = new Date(Date.now());
@@ -91,14 +92,15 @@ export const makeJsonMetadataReply = tags => ({
   community: 'esteem.app',
 });
 
-export const makeJsonMetadata = (meta, tags) => Object.assign({}, meta, {
-  tags,
-  app: 'esteem/2.0.0-mobile',
-  format: 'markdown+html',
-  community: 'esteem.app',
-});
+export const makeJsonMetadata = (meta, tags) =>
+  Object.assign({}, meta, {
+    tags,
+    app: 'esteem/2.0.0-mobile',
+    format: 'markdown+html',
+    community: 'esteem.app',
+  });
 
-export const extractMetadata = (body) => {
+export const extractMetadata = body => {
   const urlReg = /(\b(https?|ftp):\/\/[A-Z0-9+&@#/%?=~_|!:,.;-]*[-A-Z0-9+&@#/%=~_|])/gim;
   const userReg = /(^|\s)(@[a-z][-.a-z\d]+[a-z\d])/gim;
   const imgReg = /(https?:\/\/.*\.(?:png|jpg|jpeg|gif))/gim;

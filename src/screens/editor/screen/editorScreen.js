@@ -8,9 +8,7 @@ import { getWordsCount } from '../../../utils/editor';
 
 // Components
 import { BasicHeader } from '../../../components/basicHeader';
-import {
-  TitleArea, TagArea, TextArea, SummaryArea,
-} from '../../../components/editorElements';
+import { TitleArea, TagArea, TextArea, SummaryArea } from '../../../components/editorElements';
 import { PostForm } from '../../../components/postForm';
 
 // Styles
@@ -39,7 +37,7 @@ class EditorScreen extends Component {
   }
 
   // Component Life Cycles
-  componentWillReceiveProps = async (nextProps) => {
+  componentWillReceiveProps = async nextProps => {
     const { draftPost, isUploading } = this.props;
 
     if (nextProps.draftPost && draftPost !== nextProps.draftPost) {
@@ -79,7 +77,7 @@ class EditorScreen extends Component {
     this.setState({ isPreviewActive: !isPreviewActive });
   };
 
-  _setWordsCount = (content) => {
+  _setWordsCount = content => {
     const _wordsCount = getWordsCount(content);
     const { wordsCount } = this.state;
 
@@ -117,7 +115,7 @@ class EditorScreen extends Component {
     }
   };
 
-  _handleIsFormValid = (bodyText) => {
+  _handleIsFormValid = bodyText => {
     const { fields } = this.state;
     const { isReply } = this.props;
     let isFormValid;
@@ -125,9 +123,10 @@ class EditorScreen extends Component {
     if (isReply) {
       isFormValid = get(fields, 'body').length > 0;
     } else {
-      isFormValid = get(fields, 'title', '')
-        && (get(fields, 'body', '') || (bodyText && bodyText > 0))
-        && get(fields, 'tags', null);
+      isFormValid =
+        get(fields, 'title', '') &&
+        (get(fields, 'body', '') || (bodyText && bodyText > 0)) &&
+        get(fields, 'tags', null);
     }
 
     this.setState({ isFormValid });
@@ -144,9 +143,11 @@ class EditorScreen extends Component {
       fields.title = content;
     }
 
-    if ((get(fields, 'body', '').trim() !== get(_fields, 'body', '').trim()
-        || get(fields, 'title', '').trim() !== get(_fields, 'title', '').trim()
-        || get(fields, 'tags') !== get(_fields, 'tags'))) {
+    if (
+      get(fields, 'body', '').trim() !== get(_fields, 'body', '').trim() ||
+      get(fields, 'title', '').trim() !== get(_fields, 'title', '').trim() ||
+      get(fields, 'tags') !== get(_fields, 'tags')
+    ) {
       handleFormChanged();
     }
 
@@ -156,7 +157,7 @@ class EditorScreen extends Component {
     this._saveCurrentDraft();
   };
 
-  _handleOnTagAdded = async (tags) => {
+  _handleOnTagAdded = async tags => {
     const { fields: _fields } = this.state;
     const _tags = tags.filter(tag => tag && tag !== ' ');
 
@@ -167,9 +168,7 @@ class EditorScreen extends Component {
   };
 
   render() {
-    const {
-      fields, isPreviewActive, wordsCount, isFormValid, isRemoveTag,
-    } = this.state;
+    const { fields, isPreviewActive, wordsCount, isFormValid, isRemoveTag } = this.state;
     const {
       handleOnImagePicker,
       intl,
