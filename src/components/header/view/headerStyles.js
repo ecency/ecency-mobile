@@ -65,9 +65,15 @@ export default EStyleSheet.create({
   backButton: {
     marginLeft: 24,
   },
-  backButtonWrapper: {
+  reverseBackButtonWrapper: {
     flexGrow: 1,
     flexDirection: 'column',
     justifyContent: 'center',
+  },
+  backButtonWrapper: {
+    alignItems: 'flex-end',
+    justifyContent: 'center',
+    flex: 1,
+    marginRight: 16,
   },
 });
