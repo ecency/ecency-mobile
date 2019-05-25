@@ -7,12 +7,7 @@ import get from 'lodash/get';
 
 // Services and Actions
 import { Buffer } from 'buffer';
-import {
-  uploadImage,
-  addDraft,
-  updateDraft,
-  schedule,
-} from '../../../providers/esteem/esteem';
+import { uploadImage, addDraft, updateDraft, schedule } from '../../../providers/esteem/esteem';
 import { toastNotification } from '../../../redux/actions/uiAction';
 import { postContent, getPurePost } from '../../../providers/steem/dsteem';
 import { setDraftPost, getDraftPost } from '../../../realm/realm';
@@ -130,20 +125,19 @@ class EditorContainer extends Component {
         });
       }
     } else {
-      await getDraftPost(username)
-        .then((result) => {
-          this.setState({
-            draftPost: {
-              body: result.body,
-              title: result.title,
-              tags: result.tags.split(','),
-            },
-          });
+      await getDraftPost(username).then(result => {
+        this.setState({
+          draftPost: {
+            body: result.body,
+            title: result.title,
+            tags: result.tags.split(','),
+          },
         });
+      });
     }
   };
 
-  _handleRoutingAction = (routingAction) => {
+  _handleRoutingAction = routingAction => {
     this.setState({ isCameraOrPickerOpen: true });
 
     if (routingAction === 'camera') {
@@ -159,10 +153,10 @@ class EditorContainer extends Component {
     ImagePicker.openPicker({
       includeBase64: true,
     })
-      .then((image) => {
+      .then(image => {
         this._handleMediaOnSelected(image);
       })
-      .catch((e) => {
+      .catch(e => {
         this._handleMediaOnSelectFailure(e);
       });
   };
@@ -171,15 +165,15 @@ class EditorContainer extends Component {
     ImagePicker.openCamera({
       includeBase64: true,
     })
-      .then((image) => {
+      .then(image => {
         this._handleMediaOnSelected(image);
       })
-      .catch((e) => {
+      .catch(e => {
         this._handleMediaOnSelectFailure(e);
       });
   };
 
-  _handleMediaOnSelected = (media) => {
+  _handleMediaOnSelected = media => {
     this.setState({ isCameraOrPickerOpen: false, isUploading: true }, () => {
       this._uploadImage(media);
     });
@@ -191,7 +185,7 @@ class EditorContainer extends Component {
     // const data = new Buffer(media.data, 'base64');
   };
 
-  _uploadImage = (media) => {
+  _uploadImage = media => {
     const { intl } = this.props;
 
     const file = {
@@ -202,12 +196,12 @@ class EditorContainer extends Component {
     };
 
     uploadImage(file)
-      .then((res) => {
+      .then(res => {
         if (res.data && res.data.url) {
           this.setState({ uploadedImage: res.data, isUploading: false });
         }
       })
-      .catch((error) => {
+      .catch(error => {
         Alert.alert(
           intl.formatMessage({
             id: 'alert.fail',
@@ -218,7 +212,7 @@ class EditorContainer extends Component {
       });
   };
 
-  _handleMediaOnSelectFailure = (error) => {
+  _handleMediaOnSelectFailure = error => {
     const { intl } = this.props;
     this.setState({ isCameraOrPickerOpen: false });
 
@@ -234,7 +228,7 @@ class EditorContainer extends Component {
     }
   };
 
-  _saveDraftToDB = (fields) => {
+  _saveDraftToDB = fields => {
     const { isDraftSaved, draftId } = this.state;
 
     if (!isDraftSaved) {
@@ -258,7 +252,7 @@ class EditorContainer extends Component {
           });
         });
       } else if (draftField) {
-        addDraft(draftField).then((response) => {
+        addDraft(draftField).then(response => {
           this.setState({
             isDraftSaved: true,
             draftId: response._id,
@@ -273,7 +267,7 @@ class EditorContainer extends Component {
     }
   };
 
-  _saveCurrentDraft = async (fields) => {
+  _saveCurrentDraft = async fields => {
     const { draftId, isReply, isEdit } = this.state;
 
     if (!draftId && !isEdit) {
@@ -282,8 +276,7 @@ class EditorContainer extends Component {
 
       const draftField = {
         ...fields,
-        tags:
-          fields.tags && fields.tags.length > 0 ? fields.tags.toString() : '',
+        tags: fields.tags && fields.tags.length > 0 ? fields.tags.toString() : '',
       };
 
       if (isReply && draftField.body) {
@@ -368,19 +361,16 @@ class EditorContainer extends Component {
 
             this.setState({ isPostSending: false });
 
-            setDraftPost(
-              { title: '', body: '', tags: '' },
-              currentAccount.name,
-            );
+            setDraftPost({ title: '', body: '', tags: '' }, currentAccount.name);
           })
-          .catch((error) => {
+          .catch(error => {
             this._handleSubmitFailure(error);
           });
       }
     }
   };
 
-  _submitReply = async (fields) => {
+  _submitReply = async fields => {
     const { currentAccount, pinCode } = this.props;
 
     if (currentAccount) {
@@ -388,9 +378,7 @@ class EditorContainer extends Component {
 
       const { post } = this.state;
 
-      const jsonMeta = makeJsonMetadataReply(
-        post.json_metadata.tags || ['esteem'],
-      );
+      const jsonMeta = makeJsonMetadataReply(post.json_metadata.tags || ['esteem']);
       const permlink = generateReplyPermlink(post.author);
       const author = currentAccount.name;
       const options = makeOptions(author, permlink);
@@ -413,13 +401,13 @@ class EditorContainer extends Component {
           AsyncStorage.setItem('temp-reply', '');
           this._handleSubmitSuccess();
         })
-        .catch((error) => {
+        .catch(error => {
           this._handleSubmitFailure(error);
         });
     }
   };
 
-  _submitEdit = async (fields) => {
+  _submitEdit = async fields => {
     const { currentAccount, pinCode } = this.props;
     const { post } = this.state;
     if (currentAccount) {
@@ -462,13 +450,13 @@ class EditorContainer extends Component {
         .then(() => {
           this._handleSubmitSuccess();
         })
-        .catch((error) => {
+        .catch(error => {
           this._handleSubmitFailure(error);
         });
     }
   };
 
-  _handleSubmitFailure = (error) => {
+  _handleSubmitFailure = error => {
     const { intl } = this.props;
 
     Alert.alert(
@@ -500,7 +488,7 @@ class EditorContainer extends Component {
     }
   };
 
-  _handleSubmit = (form) => {
+  _handleSubmit = form => {
     const { isReply, isEdit } = this.state;
 
     if (isReply && !isEdit) {
@@ -524,7 +512,7 @@ class EditorContainer extends Component {
     this._submitPost(fields, datePickerValue);
   };
 
-  _setScheduledPost = (data) => {
+  _setScheduledPost = data => {
     const { dispatch, intl } = this.props;
 
     schedule(
@@ -537,30 +525,31 @@ class EditorContainer extends Component {
       '',
       '',
       data.scheduleDate,
-    ).then(() => {
-      this.setState({ isPostSending: false });
-      dispatch(
-        toastNotification(
-          intl.formatMessage({
-            id: 'alert.success',
-          }),
-        ),
-      );
-    }).catch(() => {
-      this.setState({ isPostSending: false });
-    });
-  }
+    )
+      .then(() => {
+        this.setState({ isPostSending: false });
+        dispatch(
+          toastNotification(
+            intl.formatMessage({
+              id: 'alert.success',
+            }),
+          ),
+        );
+      })
+      .catch(() => {
+        this.setState({ isPostSending: false });
+      });
+  };
 
   _initialEditor = () => {
-    const { currentAccount: { name } } = this.props;
+    const {
+      currentAccount: { name },
+    } = this.props;
 
-    setDraftPost(
-      { title: '', body: '', tags: '' },
-      name,
-    );
+    setDraftPost({ title: '', body: '', tags: '' }, name);
 
     this.setState({ uploadedImage: null });
-  }
+  };
 
   render() {
     const { isLoggedIn, isDarkTheme } = this.props;

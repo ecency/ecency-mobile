@@ -42,9 +42,7 @@ class ApplicationScreen extends Component {
   };
 
   render() {
-    const {
-      isConnected, isDarkTheme, locale, toastNotification, isReady,
-    } = this.props;
+    const { isConnected, isDarkTheme, locale, toastNotification, isReady } = this.props;
     const { isShowToastNotification } = this.state;
     const barStyle = isDarkTheme ? 'light-content' : 'dark-content';
     const barColor = isDarkTheme ? '#1e2835' : '#fff';

@@ -3,9 +3,9 @@ import { View } from 'react-native';
 import styles from './exampleStyles';
 
 /* Props
-* ------------------------------------------------
-*   @prop { type }    name                - Description....
-*/
+ * ------------------------------------------------
+ *   @prop { type }    name                - Description....
+ */
 
 const ExampleView = ({ x, y, z }) => <View />;
 

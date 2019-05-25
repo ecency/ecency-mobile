@@ -38,7 +38,7 @@ class PostDisplayContainer extends Component {
   }
 
   // Component Functions
-  _handleOnVotersPress = (activeVotes) => {
+  _handleOnVotersPress = activeVotes => {
     const { navigation, post } = this.props;
 
     navigation.navigate({
@@ -82,10 +82,8 @@ class PostDisplayContainer extends Component {
     }
   };
 
-  _handleDeleteComment = (permlink) => {
-    const {
-      currentAccount, pinCode, navigation, dispatch, intl,
-    } = this.props;
+  _handleDeleteComment = permlink => {
+    const { currentAccount, pinCode, navigation, dispatch, intl } = this.props;
 
     deleteComment(currentAccount, pinCode, permlink).then(() => {
       navigation.goBack();
@@ -97,7 +95,7 @@ class PostDisplayContainer extends Component {
         ),
       );
     });
-  }
+  };
 
   _fetchPost = async () => {
     const { post, fetchPost } = this.props;
@@ -107,7 +105,13 @@ class PostDisplayContainer extends Component {
 
   render() {
     const {
-      currentAccount, isLoggedIn, isNewPost, parentPost, post, isPostUnavailable, author,
+      currentAccount,
+      isLoggedIn,
+      isNewPost,
+      parentPost,
+      post,
+      isPostUnavailable,
+      author,
     } = this.props;
 
     return (

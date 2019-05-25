@@ -52,7 +52,7 @@ class LoginContainer extends PureComponent {
     this.setState({ isLoading: true });
 
     login(username, password)
-      .then((result) => {
+      .then(result => {
         if (result) {
           dispatch(updateCurrentAccount({ ...result }));
           dispatch(addOtherAccount({ username: result.name }));
@@ -62,7 +62,7 @@ class LoginContainer extends PureComponent {
           this._setPushToken(result.name);
         }
       })
-      .catch((err) => {
+      .catch(err => {
         Alert.alert(
           'Error',
           intl.formatMessage({
@@ -74,7 +74,7 @@ class LoginContainer extends PureComponent {
       });
   };
 
-  _setPushToken = async (username) => {
+  _setPushToken = async username => {
     const { notificationSettings, notificationDetails } = this.props;
     const notifyTypesConst = {
       vote: 1,
@@ -87,7 +87,7 @@ class LoginContainer extends PureComponent {
     const notifyTypes = [];
     const token = await AppCenter.getInstallId();
 
-    Object.keys(notificationDetails).map((item) => {
+    Object.keys(notificationDetails).map(item => {
       const notificationType = item.replace('Notification', '');
 
       if (notificationDetails[item]) {
@@ -107,13 +107,15 @@ class LoginContainer extends PureComponent {
     });
   };
 
-  _getAccountsWithUsername = async (username) => {
+  _getAccountsWithUsername = async username => {
     const validUsers = await lookupAccounts(username);
     return validUsers;
   };
 
   _handleSignUp = () => {
-    Linking.openURL('https://signup.steemit.com/?ref=esteem').catch(err => alert('An error occurred', err));
+    Linking.openURL('https://signup.steemit.com/?ref=esteem').catch(err =>
+      alert('An error occurred', err),
+    );
   };
 
   render() {

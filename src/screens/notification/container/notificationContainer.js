@@ -35,8 +35,10 @@ class NotificationContainer extends Component {
     const { selectedFilter } = this.state;
     const { username } = this.props;
 
-    if ((nextProps.activeBottomTab === ROUTES.TABBAR.NOTIFICATION && nextProps.username)
-    || (nextProps.username !== username && nextProps.username)) {
+    if (
+      (nextProps.activeBottomTab === ROUTES.TABBAR.NOTIFICATION && nextProps.username) ||
+      (nextProps.username !== username && nextProps.username)
+    ) {
       this._getAvtivities(nextProps.username, selectedFilter);
     }
   }
@@ -49,7 +51,7 @@ class NotificationContainer extends Component {
     this.setState({ isNotificationRefreshing: true });
 
     getActivities({ user: user || username, type, since })
-      .then((res) => {
+      .then(res => {
         const lastId = [...res].pop().id;
 
         this.setState({
@@ -61,7 +63,7 @@ class NotificationContainer extends Component {
       .catch(() => this.setState({ isNotificationRefreshing: false }));
   };
 
-  _navigateToNotificationRoute = (data) => {
+  _navigateToNotificationRoute = data => {
     const { navigation, username, dispatch } = this.props;
     const type = get(data, 'type');
     const permlink = get(data, 'permlink');
@@ -69,7 +71,7 @@ class NotificationContainer extends Component {
     let routeName;
     let params;
     let key;
-    markActivityAsRead(username, data.id).then((result) => {
+    markActivityAsRead(username, data.id).then(result => {
       dispatch(updateUnreadActivityCount(result.unread));
     });
 
@@ -107,7 +109,7 @@ class NotificationContainer extends Component {
 
     this.setState({ isNotificationRefreshing: true });
 
-    markActivityAsRead(username).then((result) => {
+    markActivityAsRead(username).then(result => {
       dispatch(updateUnreadActivityCount(result.unread));
       const updatedNotifications = notifications.map(item => ({ ...item, read: 1 }));
       this.setState({ notifications: updatedNotifications, isNotificationRefreshing: false });
@@ -120,17 +122,13 @@ class NotificationContainer extends Component {
     navigation.navigate(ROUTES.SCREENS.LOGIN);
   };
 
-  _changeSelectedFilter = (value) => {
+  _changeSelectedFilter = value => {
     this.setState({ selectedFilter: value });
   };
 
   render() {
     const { isLoggedIn } = this.props;
-    const {
-      notifications,
-      isNotificationRefreshing,
-      isDarkTheme,
-    } = this.state;
+    const { notifications, isNotificationRefreshing, isDarkTheme } = this.state;
 
     return (
       <NotificationScreen

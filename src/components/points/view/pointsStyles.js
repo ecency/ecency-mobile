@@ -60,7 +60,6 @@ export default EStyleSheet.create({
     height: 12,
     minWidth: 18,
     borderRadius: 12 / 2,
-
   },
   badgeText: {
     fontSize: 8,

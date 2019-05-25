@@ -116,9 +116,11 @@ class SettingsScreen extends PureComponent {
               })}
               type="dropdown"
               actionType="nsfw"
-              options={NSFW.map(item => intl.formatMessage({
-                id: item,
-              }))}
+              options={NSFW.map(item =>
+                intl.formatMessage({
+                  id: item,
+                }),
+              )}
               selectedOptionIndex={parseInt(nsfw, 10)}
               handleOnChange={handleOnChange}
             />
@@ -150,18 +152,18 @@ class SettingsScreen extends PureComponent {
           {!!isLoggedIn && (
             <View style={styles.settingsCard}>
               <CollapsibleCard
-                titleComponent={(
+                titleComponent={
                   <SettingsItem
-                    title={intl.formatMessage({
+  title={intl.formatMessage({
                       id: 'settings.push_notification',
                     })}
-                    titleStyle={styles.cardTitle}
-                    type="toggle"
-                    actionType="notification"
-                    isOn={isNotificationSettingsOpen}
-                    handleOnChange={handleOnChange}
-                  />
-                )}
+  titleStyle={styles.cardTitle}
+  type="toggle"
+  actionType="notification"
+  isOn={isNotificationSettingsOpen}
+  handleOnChange={handleOnChange}
+/>
+                }
                 noBorder
                 fitContent
                 locked
