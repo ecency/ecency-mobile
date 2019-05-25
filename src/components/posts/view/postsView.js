@@ -1,7 +1,5 @@
 import React, { Component, Fragment } from 'react';
-import {
-  FlatList, View, ActivityIndicator, RefreshControl,
-} from 'react-native';
+import { FlatList, View, ActivityIndicator, RefreshControl } from 'react-native';
 import { injectIntl } from 'react-intl';
 import { withNavigation } from 'react-navigation';
 
@@ -52,8 +50,8 @@ class PostsView extends Component {
     const { currentAccountUsername } = this.props;
 
     if (
-      currentAccountUsername !== nextProps.currentAccountUsername
-      && nextProps.currentAccountUsername
+      currentAccountUsername !== nextProps.currentAccountUsername &&
+      nextProps.currentAccountUsername
     ) {
       // Set all initial data (New user new rules)
       this.setState(
@@ -80,15 +78,12 @@ class PostsView extends Component {
   };
 
   _loadPosts = () => {
-    const {
-      getFor, tag, currentAccountUsername, pageType, nsfw,
-    } = this.props;
-    const {
-      posts, startAuthor, startPermlink, refreshing, selectedFilterIndex,
-    } = this.state;
-    const filter = pageType === 'posts'
-      ? POPULAR_FILTERS[selectedFilterIndex].toLowerCase()
-      : PROFILE_FILTERS[selectedFilterIndex].toLowerCase();
+    const { getFor, tag, currentAccountUsername, pageType, nsfw } = this.props;
+    const { posts, startAuthor, startPermlink, refreshing, selectedFilterIndex } = this.state;
+    const filter =
+      pageType === 'posts'
+        ? POPULAR_FILTERS[selectedFilterIndex].toLowerCase()
+        : PROFILE_FILTERS[selectedFilterIndex].toLowerCase();
     let options;
     let newPosts = [];
 
@@ -115,7 +110,7 @@ class PostsView extends Component {
     }
 
     getPostsSummary(filter, options, currentAccountUsername, nsfw)
-      .then((result) => {
+      .then(result => {
         if (result.length > 0) {
           let _posts = result;
 
@@ -192,7 +187,7 @@ class PostsView extends Component {
     return null;
   };
 
-  _handleOnDropdownSelect = async (index) => {
+  _handleOnDropdownSelect = async index => {
     await this.setState({
       isPostsLoading: true,
       selectedFilterIndex: index,
@@ -223,9 +218,7 @@ class PostsView extends Component {
   };
 
   render() {
-    const {
-      refreshing, posts, isPostsLoading, isHideImage, isNoPost,
-    } = this.state;
+    const { refreshing, posts, isPostsLoading, isHideImage, isNoPost } = this.state;
     const {
       filterOptions,
       selectedOptionIndex,
@@ -280,17 +273,17 @@ class PostsView extends Component {
             initialNumToRender={10}
             ListFooterComponent={this._renderFooter}
             onScrollBeginDrag={() => this._handleOnScrollStart()}
-            refreshControl={(
+            refreshControl={
               <RefreshControl
-                refreshing={refreshing}
-                onRefresh={this._handleOnRefreshPosts}
-                progressBackgroundColor="#357CE6"
-                tintColor={!isDarkTheme ? '#357ce6' : '#96c0ff'}
-                titleColor="#fff"
-                colors={['#fff']}
-              />
-            )}
-            ref={(ref) => {
+  refreshing={refreshing}
+  onRefresh={this._handleOnRefreshPosts}
+  progressBackgroundColor="#357CE6"
+  tintColor={!isDarkTheme ? '#357ce6' : '#96c0ff'}
+  titleColor="#fff"
+  colors={['#fff']}
+/>
+            }
+            ref={ref => {
               this.flatList = ref;
             }}
           />

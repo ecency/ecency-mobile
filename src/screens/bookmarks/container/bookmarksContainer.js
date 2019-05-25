@@ -5,7 +5,10 @@ import { injectIntl } from 'react-intl';
 
 // Services and Actions
 import {
-  getFavorites, removeFavorite, getBookmarks, removeBookmark,
+  getFavorites,
+  removeFavorite,
+  getBookmarks,
+  removeBookmark,
 } from '../../../providers/esteem/esteem';
 
 // Constants
@@ -49,7 +52,7 @@ class DraftsContainer extends Component {
     this.setState({ isLoading: true });
 
     getFavorites(currentAccount.name)
-      .then((data) => {
+      .then(data => {
         this.setState({ favorites: this._sortData(data), isLoading: false });
       })
       .catch(() => {
@@ -63,7 +66,7 @@ class DraftsContainer extends Component {
     this.setState({ isLoading: true });
 
     getBookmarks(currentAccount.name)
-      .then((data) => {
+      .then(data => {
         this.setState({ bookmarks: this._sortData(data), isLoading: false });
       })
       .catch(() => {
@@ -72,7 +75,7 @@ class DraftsContainer extends Component {
       });
   };
 
-  _removeFavorite = (selectedUsername) => {
+  _removeFavorite = selectedUsername => {
     const { currentAccount, intl } = this.props;
 
     removeFavorite(currentAccount.name, selectedUsername)
@@ -87,7 +90,7 @@ class DraftsContainer extends Component {
       });
   };
 
-  _removeBoomark = (id) => {
+  _removeBoomark = id => {
     const { currentAccount, intl } = this.props;
 
     removeBookmark(currentAccount.name, id)
@@ -102,7 +105,7 @@ class DraftsContainer extends Component {
       });
   };
 
-  _handleOnFavoritePress = (username) => {
+  _handleOnFavoritePress = username => {
     const { navigation } = this.props;
 
     navigation.navigate({
@@ -128,12 +131,13 @@ class DraftsContainer extends Component {
     }
   };
 
-  _sortData = data => data.sort((a, b) => {
-    const dateA = new Date(a.created).getTime();
-    const dateB = new Date(b.created).getTime();
+  _sortData = data =>
+    data.sort((a, b) => {
+      const dateA = new Date(a.created).getTime();
+      const dateB = new Date(b.created).getTime();
 
-    return dateB > dateA ? 1 : -1;
-  });
+      return dateB > dateA ? 1 : -1;
+    });
 
   render() {
     const { isLoading, favorites, bookmarks } = this.state;

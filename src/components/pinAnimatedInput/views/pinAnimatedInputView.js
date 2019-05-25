@@ -38,12 +38,14 @@ class PinAnimatedInput extends PureComponent {
       this.dots[index].setValue(0);
     });
     Animated.sequence([
-      ...this.dots.map(item => Animated.timing(item, {
-        toValue: 1,
-        duration: 250,
-        easing: Easing.linear,
-      })),
-    ]).start((o) => {
+      ...this.dots.map(item =>
+        Animated.timing(item, {
+          toValue: 1,
+          duration: 250,
+          easing: Easing.linear,
+        }),
+      ),
+    ]).start(o => {
       if (o.finished) {
         this._startLoadingAnimation();
       }

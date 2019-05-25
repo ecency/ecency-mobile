@@ -44,8 +44,10 @@ class PointsContainer extends Component {
   componentWillReceiveProps(nextProps) {
     const { username } = this.props;
 
-    if ((nextProps.activeBottomTab === ROUTES.TABBAR.POINTS && nextProps.username)
-    || (nextProps.username !== username && nextProps.username)) {
+    if (
+      (nextProps.activeBottomTab === ROUTES.TABBAR.POINTS && nextProps.username) ||
+      (nextProps.username !== username && nextProps.username)
+    ) {
       this._fetchuserPointActivities(nextProps.username);
     }
   }
@@ -56,34 +58,35 @@ class PointsContainer extends Component {
 
   // Component Functions
 
-  _groomUserActivities = userActivities => userActivities.map(item => ({
-    ...item,
-    icon: POINTS[item.type].icon,
-    iconType: POINTS[item.type].iconType,
-    textKey: POINTS[item.type].textKey,
-  }));
+  _groomUserActivities = userActivities =>
+    userActivities.map(item => ({
+      ...item,
+      icon: POINTS[item.type].icon,
+      iconType: POINTS[item.type].iconType,
+      textKey: POINTS[item.type].textKey,
+    }));
 
-  _fetchuserPointActivities = async (username) => {
+  _fetchuserPointActivities = async username => {
     if (!username) return;
     this.setState({ refreshing: true });
 
     await getUser(username)
-      .then((userPoints) => {
+      .then(userPoints => {
         this.setState({ userPoints });
       })
-      .catch((err) => {
+      .catch(err => {
         Alert.alert(err);
       });
 
     await getUserPoints(username)
-      .then((userActivities) => {
+      .then(userActivities => {
         if (Object.entries(userActivities).length !== 0) {
           this.setState({
             userActivities: this._groomUserActivities(userActivities),
           });
         }
       })
-      .catch((err) => {
+      .catch(err => {
         Alert.alert(err);
       });
 
@@ -102,16 +105,26 @@ class PointsContainer extends Component {
       .then(() => {
         this._fetchuserPointActivities(username);
       })
-      .catch((error) => {
-        Alert.alert(`Fetching data from server failed, please try again or notify us at info@esteem.app \n${error.message.substr(0, 20)}`);
+      .catch(error => {
+        Alert.alert(
+          `Fetching data from server failed, please try again or notify us at info@esteem.app \n${error.message.substr(
+            0,
+            20,
+          )}`,
+        );
       });
 
     this.setState({ isClaiming: false });
-  }
+  };
 
   render() {
     const {
-      isClaiming, isDarkTheme, isLoading, refreshing, userActivities, userPoints,
+      isClaiming,
+      isDarkTheme,
+      isLoading,
+      refreshing,
+      userActivities,
+      userPoints,
     } = this.state;
 
     return (

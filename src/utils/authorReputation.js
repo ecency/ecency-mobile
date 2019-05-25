@@ -1,4 +1,4 @@
-export default (input) => {
+export default input => {
   if (!input) return 0;
 
   if (input === 0) {

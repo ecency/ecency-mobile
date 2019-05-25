@@ -38,11 +38,11 @@ class SideMenuContainer extends Component {
     }
   }
 
-  _createUserList = (otherAccounts) => {
+  _createUserList = otherAccounts => {
     const { currentAccount } = this.props;
 
     const accounts = [];
-    otherAccounts.forEach((element) => {
+    otherAccounts.forEach(element => {
       if (element.username !== currentAccount.name) {
         accounts.push({
           name: `@${element.username}`,
@@ -73,7 +73,7 @@ class SideMenuContainer extends Component {
     const { dispatch, currentAccount, navigation } = this.props;
 
     if (anchor !== currentAccount.name) {
-      switchAccount(anchor).then((accountData) => {
+      switchAccount(anchor).then(accountData => {
         const realmData = getUserDataWithUsername(anchor);
         const _currentAccount = accountData;
 

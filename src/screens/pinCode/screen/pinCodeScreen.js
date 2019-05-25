@@ -19,7 +19,7 @@ class PinCodeScreen extends PureComponent {
 
   // Component Functions
 
-  _handleKeyboardOnPress = async (value) => {
+  _handleKeyboardOnPress = async value => {
     const { setPinCode } = this.props;
     const { pin, loading } = this.state;
     if (loading) {
@@ -50,9 +50,7 @@ class PinCodeScreen extends PureComponent {
   };
 
   render() {
-    const {
-      informationText, showForgotButton, username, intl, handleForgotButton,
-    } = this.props;
+    const { informationText, showForgotButton, username, intl, handleForgotButton } = this.props;
     const { pin, loading } = this.state;
 
     return (

@@ -8,7 +8,7 @@ export const getUserIsLoggedIn = () => {
 
 export const getUserDataFromRealm = () => {
   getUserData()
-    .then((res) => {
+    .then(res => {
       userData = Array.from(res);
     })
     .catch(() => null);

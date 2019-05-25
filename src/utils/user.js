@@ -1,4 +1,4 @@
-export const getReputation = (input) => {
+export const getReputation = input => {
   if (input === 0) {
     return 25;
   }
@@ -40,5 +40,5 @@ export const getAvatar = about => {
 export const validateUsername = username => {
   const usernameRegex = /^[a-zA-Z0-9]+$/g;
 
-  return usernameRegex.test(username)
+  return usernameRegex.test(username);
 };
