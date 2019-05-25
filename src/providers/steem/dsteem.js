@@ -1,4 +1,3 @@
-/* eslint-disable camelcase */
 import { Client, PrivateKey } from 'dsteem';
 import steemConnect from 'steemconnect';
 import Config from 'react-native-config';
@@ -347,19 +346,6 @@ export const getPurePost = async (author, permlink) => {
     return error;
   }
 };
-
-// export const deleteComment = (author, permlink) => {
-//   return new Promise((resolve, reject) => {
-//     client.database
-//       .call('delete_comment', [author, permlink])
-//       .then((response) => {
-//         resolve(response);
-//       })
-//       .catch((error) => {
-//         reject(error);
-//       });
-//   });
-// };
 
 export const deleteComment = (currentAccount, pin, permlink) => {
   const { name: author } = currentAccount;
