@@ -53,6 +53,10 @@ export default EStyleSheet.create({
     alignSelf: 'flex-end',
     marginRight: 12,
   },
+  reverseAvatar: {
+    alignSelf: 'flex-start',
+    marginLeft: 12,
+  },
   backIcon: {
     fontSize: 24,
     color: '$iconColor',

@@ -77,7 +77,11 @@ class HeaderView extends Component {
               isReverse ? styles.avatarButtonWrapperReverse : styles.avatarDefault,
             ]}
           >
-            <UserAvatar noAction style={styles.avatar} username={username} />
+            <UserAvatar
+              noAction
+              style={isReverse ? styles.reverseAvatar : styles.avatar}
+              username={username}
+            />
           </LinearGradient>
         </TouchableOpacity>
         {displayName || username ? (
