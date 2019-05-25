@@ -1,10 +1,19 @@
 {
-  "extends": "airbnb",
   "parser": "babel-eslint",
+  "extends": [
+    "airbnb",
+    "plugin:prettier/recommended",
+    "plugin:eslint-comments/recommended",
+    "plugin:import/errors",
+    "plugin:import/warnings",
+    "plugin:jest/recommended"
+  ],
   "env": {
-    "browser": true
+    "browser": true,
+    "jest": true,
+    "react-native/react-native": true
   },
-  "plugins": ["react"],
+  "plugins": ["react", "react-native", "jsx-a11y", "import", "prettier", "jest", "eslint-comments"],
   "rules": {
     "react/jsx-filename-extension": [
       2,
@@ -12,6 +21,7 @@
         "extensions": [".js", ".jsx"]
       }
     ],
+    "max-len": ["error", 100],
     "react/forbid-prop-types": [0],
     "no-underscore-dangle": 0,
     "react/require-default-props": [0],
