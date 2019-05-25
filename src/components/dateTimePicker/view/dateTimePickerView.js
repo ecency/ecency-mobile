@@ -23,12 +23,13 @@ class DateTimePickerView extends PureComponent {
       date: '',
       time: '',
     });
-  }
+  };
 
   _setValue = (stateName, value) => {
     const { onSubmit } = this.props;
     const { date, time } = this.state;
-    this.setState({ [stateName]: value });
+    const _value = value === 'Invalid date' ? moment().format('HH:mm:ss') : value;
+    this.setState({ [stateName]: _value });
 
     if (!time && !date) {
       this.timePickerTimeout = setTimeout(() => {
@@ -38,21 +39,15 @@ class DateTimePickerView extends PureComponent {
       clearTimeout(this.timePickerTimeout);
     }
 
-    if (date && value) {
-      const formatedDateTime = new Date(`${date} ${value}`).toISOString();
+    if (date && _value) {
+      const formatedDateTime = new Date(`${date} ${_value}`).toISOString();
       onSubmit(formatedDateTime);
       this._initState();
     }
-  }
-
+  };
 
   render() {
-    const {
-      type,
-      iconName,
-      disabled,
-      intl,
-    } = this.props;
+    const { type, iconName, disabled, intl } = this.props;
     const { date } = this.state;
     let _type;
     let _format;
@@ -84,19 +79,21 @@ class DateTimePickerView extends PureComponent {
         onDateChange={_datePickerValue => this._setValue(!date ? 'date' : 'time', _datePickerValue)}
         hideText
         is24Hour
-        ref={(picker) => { this.datePicker = picker; }}
+        ref={picker => {
+          this.datePicker = picker;
+        }}
         disabled={disabled}
         customStyles={{
           ...styles,
         }}
-        iconComponent={(
+        iconComponent={
           <Icon
             style={{ ...styles.iconButton, ...styles.scheduleIcon }}
             size={20}
             iconType="MaterialIcons"
             name={iconName}
           />
-        )}
+        }
       />
     );
   }
