@@ -68,9 +68,7 @@ class PostCardView extends Component {
   };
 
   render() {
-    const {
-      content, isHideImage, fetchPost, isNsfwPost,
-    } = this.props;
+    const { content, isHideImage, fetchPost, isNsfwPost } = this.props;
 
     const _image = this._getPostImage(content, isNsfwPost);
     const reblogedBy = content.reblogged_by && content.reblogged_by[0];

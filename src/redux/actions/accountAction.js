@@ -9,10 +9,13 @@ import {
   UPDATE_UNREAD_ACTIVITY_COUNT,
 } from '../constants/constants';
 
-export const fetchGlobalProperties = () => dispatch => fetchGlobalProps().then(res => dispatch({
-  type: SET_GLOBAL_PROPS,
-  payload: { ...res },
-}));
+export const fetchGlobalProperties = () => dispatch =>
+  fetchGlobalProps().then(res =>
+    dispatch({
+      type: SET_GLOBAL_PROPS,
+      payload: { ...res },
+    }),
+  );
 
 export const updateCurrentAccount = data => ({
   type: UPDATE_CURRENT_ACCOUNT,

@@ -85,9 +85,7 @@ class ToggleSwitchView extends PureComponent {
   };
 
   _triggerAnimation = () => {
-    const {
-      width, translateX, isOn, duration,
-    } = this.state;
+    const { width, translateX, isOn, duration } = this.state;
     const toValue = isOn ? width - translateX : 0;
 
     Animated.timing(this.offsetX, {
