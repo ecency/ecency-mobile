@@ -5,8 +5,8 @@ import Placeholder from 'rn-placeholder';
 
 import styles from './walletDetailsPlaceHolderStyles';
 
-const WalletDetailsPlaceHolder = (props) => {
-  const color = props.isDarkTheme ? '#2e3d51' : '#f5f5f5';
+const WalletDetailsPlaceHolder = ({ isDarkTheme }) => {
+  const color = isDarkTheme ? '#2e3d51' : '#f5f5f5';
 
   return (
     <View style={styles.container}>

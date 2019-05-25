@@ -28,9 +28,9 @@ class ProfileContainer extends Component {
   constructor(props) {
     super(props);
     const isReverseHeader = !!(
-      props.navigation.state
-      && props.navigation.state.params
-      && props.navigation.state.username
+      props.navigation.state &&
+      props.navigation.state.params &&
+      props.navigation.state.username
     );
 
     this.state = {
@@ -75,10 +75,9 @@ class ProfileContainer extends Component {
   };
 
   componentWillReceiveProps(nextProps) {
-    const {
-      navigation, currentAccount, activeBottomTab, isLoggedIn,
-    } = this.props;
-    const currentUsername = currentAccount.name !== nextProps.currentAccount.name && nextProps.currentAccount.name;
+    const { navigation, currentAccount, activeBottomTab, isLoggedIn } = this.props;
+    const currentUsername =
+      currentAccount.name !== nextProps.currentAccount.name && nextProps.currentAccount.name;
 
     if (isLoggedIn && !nextProps.isLoggedIn) {
       navigation.navigate(ROUTES.SCREENS.LOGIN);
@@ -90,23 +89,23 @@ class ProfileContainer extends Component {
     }
 
     if (
-      activeBottomTab !== nextProps.activeBottomTab
-      && nextProps.activeBottomTab === 'ProfileTabbar'
+      activeBottomTab !== nextProps.activeBottomTab &&
+      nextProps.activeBottomTab === 'ProfileTabbar'
     ) {
       this._loadProfile(currentAccount.name);
     }
   }
 
-  _getReplies = async (user) => {
+  _getReplies = async user => {
     const { isReverseHeader } = this.state;
     if (isReverseHeader) {
-      await getUserComments({ start_author: user, limit: 10 }).then((result) => {
+      await getUserComments({ start_author: user, limit: 10 }).then(result => {
         this.setState({
           comments: result,
         });
       });
     } else {
-      await getRepliesByLastUpdate({ start_author: user, limit: 10 }).then((result) => {
+      await getRepliesByLastUpdate({ start_author: user, limit: 10 }).then(result => {
         this.setState({
           comments: result,
         });
@@ -114,7 +113,7 @@ class ProfileContainer extends Component {
     }
   };
 
-  _handleFollowUnfollowUser = async (isFollowAction) => {
+  _handleFollowUnfollowUser = async isFollowAction => {
     const { isFollowing } = this.state;
 
     this.setState({
@@ -128,7 +127,7 @@ class ProfileContainer extends Component {
     }
   };
 
-  _handleMuteUnmuteUser = (isMuteAction) => {
+  _handleMuteUnmuteUser = isMuteAction => {
     this.setState({
       isProfileLoading: true,
     });
@@ -153,7 +152,7 @@ class ProfileContainer extends Component {
       .then(() => {
         this._profileActionDone();
       })
-      .catch((err) => {
+      .catch(err => {
         this._profileActionDone(err);
       });
   };
@@ -171,7 +170,7 @@ class ProfileContainer extends Component {
       .then(() => {
         this._profileActionDone();
       })
-      .catch((err) => {
+      .catch(err => {
         this._profileActionDone(err);
       });
   };
@@ -189,7 +188,7 @@ class ProfileContainer extends Component {
       .then(() => {
         this._profileActionDone();
       })
-      .catch((err) => {
+      .catch(err => {
         this._profileActionDone(err);
       });
   };
@@ -224,7 +223,7 @@ class ProfileContainer extends Component {
 
         _isMuted = _isFollowing ? false : await getIsMuted(username, currentAccount.name);
 
-        getIsFavorite(username, currentAccount.name).then((isFav) => {
+        getIsFavorite(username, currentAccount.name).then(isFav => {
           isFavorite = isFav;
         });
       }
@@ -278,7 +277,7 @@ class ProfileContainer extends Component {
     );
   };
 
-  _handleFollowsPress = async (isFollowingPress) => {
+  _handleFollowsPress = async isFollowingPress => {
     const { navigation } = this.props;
     const { username, follows } = this.state;
     let count;
@@ -318,7 +317,7 @@ class ProfileContainer extends Component {
     });
   };
 
-  _handleOnFavoritePress = (isFavorite) => {
+  _handleOnFavoritePress = isFavorite => {
     if (isFavorite) {
       this._removeFavorite();
     } else {
@@ -351,9 +350,7 @@ class ProfileContainer extends Component {
       user,
       username,
     } = this.state;
-    const {
-      isDarkTheme, isLoggedIn, currency, navigation,
-    } = this.props;
+    const { isDarkTheme, isLoggedIn, currency, navigation } = this.props;
     const activePage = (navigation.state.params && navigation.state.params.activePage) || 0;
 
     return (

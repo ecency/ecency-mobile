@@ -52,9 +52,7 @@ class FollowsContainer extends Component {
   _loadFollows = async (_username = null, _isFollowingPress = null) => {
     let _users;
     let _startWith;
-    const {
-      username, users, isFollowingPress, startWith, count,
-    } = this.state;
+    const { username, users, isFollowingPress, startWith, count } = this.state;
 
     if ((users && count < 100) || (users && count === users.length + 1)) return;
 
@@ -64,12 +62,12 @@ class FollowsContainer extends Component {
     this.setState({ isLoading: true });
 
     if (!isFollowing) {
-      await getFollowers(name, startWith).then((result) => {
+      await getFollowers(name, startWith).then(result => {
         _users = result;
         _startWith = result && result[result.length - 1] && result[result.length - 1].follower;
       });
     } else {
-      await getFollowing(name, startWith).then((result) => {
+      await getFollowing(name, startWith).then(result => {
         _users = result;
         _startWith = result && result[result.length - 1] && result[result.length - 1].following;
       });
@@ -84,11 +82,11 @@ class FollowsContainer extends Component {
     });
   };
 
-  _handleSearch = async (text) => {
+  _handleSearch = async text => {
     const { users, username } = this.state;
     let newData;
 
-    newData = users.filter((item) => {
+    newData = users.filter(item => {
       const itemName = item.follower.toUpperCase();
       const _text = text.toUpperCase();
 
@@ -106,9 +104,7 @@ class FollowsContainer extends Component {
   };
 
   render() {
-    const {
-      isFollowingPress, users, isLoading, count, username, filterResult,
-    } = this.state;
+    const { isFollowingPress, users, isLoading, count, username, filterResult } = this.state;
 
     return (
       <FollowsScreen

@@ -49,8 +49,8 @@ class TransactionView extends PureComponent {
           iconSize={16}
         /> */}
         <Card>
-          {transactions
-            && transactions.map((item, index) => {
+          {transactions &&
+            transactions.map((item, index) => {
               const transactionData = groomingTransactionData(item, steemPerMVests, formatNumber);
               if (transactionData.length === 0) return null;
 
@@ -61,24 +61,24 @@ class TransactionView extends PureComponent {
                   noBorder
                   noContainer
                   key={transactionData.transDate.toString()}
-                  titleComponent={(
+                  titleComponent={
                     <WalletLineItem
-                      key={transactionData.transDate.toString()}
-                      index={index}
-                      text={intl.formatMessage({
+  key={transactionData.transDate.toString()}
+  index={index}
+  text={intl.formatMessage({
                         id: `wallet.${transactionData.opName}`,
                       })}
                       // description={intl.formatRelative(transactionData.transDate)}
-                      description={getTimeFromNow(transactionData.transDate)}
-                      isCircleIcon
-                      isThin
-                      circleIconColor="white"
-                      isBlackText
-                      iconName={transactionData.icon}
-                      iconType="MaterialIcons"
-                      rightText={`${Math.round(value[0] * 1000) / 1000} ${value[1]}`}
-                    />
-                  )}
+  description={getTimeFromNow(transactionData.transDate)}
+  isCircleIcon
+  isThin
+  circleIconColor="white"
+  isBlackText
+  iconName={transactionData.icon}
+  iconType="MaterialIcons"
+  rightText={`${Math.round(value[0] * 1000) / 1000} ${value[1]}`}
+/>
+                  }
                 >
                   {(!!transactionData.details || !!transactionData.memo) && (
                     <WalletLineItem

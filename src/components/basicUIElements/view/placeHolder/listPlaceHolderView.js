@@ -12,15 +12,11 @@ const ListPlaceHolderView = () => {
   const ratio = (HEIGHT - 300) / 50;
   const listElements = [];
 
-  times(parseInt(ratio), (i) => {
+  times(parseInt(ratio), i => {
     listElements.push(<ListItemPlaceHolder key={i} />);
   });
 
-  return (
-    <Fragment>
-      {listElements}
-    </Fragment>
-  );
+  return <Fragment>{listElements}</Fragment>;
 };
 
 const mapStateToProps = state => ({

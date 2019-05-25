@@ -3,9 +3,7 @@ import { TouchableWithoutFeedback, Text, View } from 'react-native';
 
 import styles from './textButtonStyles';
 
-const TextButtonView = ({
-  text, onPress, style, textStyle, isHasChild,
-}) => (
+const TextButtonView = ({ text, onPress, style, textStyle }) => (
   <Fragment>
     <TouchableWithoutFeedback style={[styles.button]} onPress={() => onPress && onPress()}>
       <View style={style}>

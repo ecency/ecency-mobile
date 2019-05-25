@@ -29,7 +29,7 @@ class LeaderboardContainer extends PureComponent {
     this._fetchLeaderBoard();
   }
 
-  _handleOnUserPress = (username) => {
+  _handleOnUserPress = username => {
     const { navigation } = this.props;
 
     navigation.navigate({

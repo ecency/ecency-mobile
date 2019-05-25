@@ -34,9 +34,7 @@ class LeaderboardView extends PureComponent {
   };
 
   render() {
-    const {
-      users, intl, fetchLeaderBoard, refreshing,
-    } = this.props;
+    const { users, intl, fetchLeaderBoard, refreshing } = this.props;
 
     return (
       <View style={styles.container}>
@@ -45,19 +43,18 @@ class LeaderboardView extends PureComponent {
             id: 'notification.leaderboard_title',
           })}
         </Text>
-        {!users
-          ? <ListPlaceHolder />
-          : (
-            <FlatList
-              data={users}
-              refreshing={refreshing}
-              keyExtractor={item => item.voter}
-              removeClippedSubviews={false}
-              onRefresh={() => fetchLeaderBoard()}
-              renderItem={({ item, index }) => this._renderItem(item, index)}
-            />
-          )
-        }
+        {!users ? (
+          <ListPlaceHolder />
+        ) : (
+          <FlatList
+            data={users}
+            refreshing={refreshing}
+            keyExtractor={item => item.voter}
+            removeClippedSubviews={false}
+            onRefresh={() => fetchLeaderBoard()}
+            renderItem={({ item, index }) => this._renderItem(item, index)}
+          />
+        )}
       </View>
     );
   }

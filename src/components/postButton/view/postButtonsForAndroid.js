@@ -34,16 +34,17 @@ class PostButtonsForAndroid extends Component {
   componentWillReceiveProps(nextProps) {
     // For closing sub buttons
     const { routes, isCollapsePostButtonOpen } = this.props;
-    const nextRouteName = nextProps.routes[0].routes[nextProps.routes[0].routes.length - 1].routeName;
+    const nextRouteName =
+      nextProps.routes[0].routes[nextProps.routes[0].routes.length - 1].routeName;
     const { routeName } = routes[0].routes[routes[0].routes.length - 1];
     const { isCollapse } = this.state;
 
     if (
-      (routeName !== nextRouteName
-        && nextRouteName !== ROUTES.DRAWER.MAIN
-        && isCollapsePostButtonOpen)
-      || (isCollapsePostButtonOpen !== nextProps.isCollapsePostButtonOpen
-        && isCollapse !== nextProps.isCollapsePostButtonOpen)
+      (routeName !== nextRouteName &&
+        nextRouteName !== ROUTES.DRAWER.MAIN &&
+        isCollapsePostButtonOpen) ||
+      (isCollapsePostButtonOpen !== nextProps.isCollapsePostButtonOpen &&
+        isCollapse !== nextProps.isCollapsePostButtonOpen)
     ) {
       this._toggleView();
     }
@@ -54,11 +55,13 @@ class PostButtonsForAndroid extends Component {
 
     if (this.mode._value) {
       Animated.parallel(
-        [this.mode, this.icon1, this.icon2, this.icon3].map(item => Animated.timing(item, {
-          toValue: 0,
-          duration: durationIn,
-          easing: Easing.cubic,
-        })),
+        [this.mode, this.icon1, this.icon2, this.icon3].map(item =>
+          Animated.timing(item, {
+            toValue: 0,
+            duration: durationIn,
+            easing: Easing.cubic,
+          }),
+        ),
       ).start();
     } else {
       Animated.parallel([
@@ -68,11 +71,13 @@ class PostButtonsForAndroid extends Component {
           easing: Easing.cubic,
         }),
         Animated.sequence([
-          ...[this.icon1, this.icon2, this.icon3].map(item => Animated.timing(item, {
-            toValue: 1,
-            duration: durationOut,
-            easing: Easing.elastic(1),
-          })),
+          ...[this.icon1, this.icon2, this.icon3].map(item =>
+            Animated.timing(item, {
+              toValue: 1,
+              duration: durationOut,
+              easing: Easing.elastic(1),
+            }),
+          ),
         ]),
       ]).start();
     }
@@ -81,7 +86,7 @@ class PostButtonsForAndroid extends Component {
     this._handleButtonCollapse(!isCollapse);
   };
 
-  _handleButtonCollapse = (status) => {
+  _handleButtonCollapse = status => {
     const { dispatch, isCollapsePostButtonOpen } = this.props;
 
     if (isCollapsePostButtonOpen !== status) {

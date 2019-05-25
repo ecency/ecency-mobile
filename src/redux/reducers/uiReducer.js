@@ -10,7 +10,7 @@ const initialState = {
   toastNotifcaion: '',
 };
 
-export default function (state = initialState, action) {
+export default function(state = initialState, action) {
   switch (action.type) {
     case UPDATE_ACTIVE_BOTTOM_TAB:
       return {

@@ -31,7 +31,7 @@ class VotersScreen extends PureComponent {
   // Component Life Cycles
 
   // Component Functions
-  _handleOnDropdownSelect = (index) => {
+  _handleOnDropdownSelect = index => {
     const { data } = this.state;
     const _data = data;
 
@@ -49,15 +49,17 @@ class VotersScreen extends PureComponent {
         break;
     }
 
-    this.setState({ filterResult: _data, isRenderRequire: true }, () => this.setState({ isRenderRequire: false }));
+    this.setState({ filterResult: _data, isRenderRequire: true }, () =>
+      this.setState({ isRenderRequire: false }),
+    );
   };
 
   _handleRightIconPress = () => {};
 
-  _handleSearch = (text) => {
+  _handleSearch = text => {
     const { data } = this.state;
 
-    const newData = data.filter((item) => {
+    const newData = data.filter(item => {
       const itemName = item.voter.toUpperCase();
       const _text = text.toUpperCase();
 
