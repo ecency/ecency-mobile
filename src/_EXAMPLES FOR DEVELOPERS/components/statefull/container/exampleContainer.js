@@ -13,10 +13,10 @@ import { connect } from 'react-redux';
 import { ExampleView } from '..';
 
 /*
-  *            Props Name        Description                                     Value
-  *@props -->  props name here   description here                                Value Type Here
-  *
-  */
+ *            Props Name        Description                                     Value
+ *@props -->  props name here   description here                                Value Type Here
+ *
+ */
 
 class ExampleContainer extends Component {
   constructor(props) {

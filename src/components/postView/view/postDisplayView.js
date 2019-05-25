@@ -1,7 +1,5 @@
 import React, { PureComponent, Fragment } from 'react';
-import {
-  View, Text, ScrollView, Dimensions,
-} from 'react-native';
+import { View, Text, ScrollView, Dimensions } from 'react-native';
 import { injectIntl } from 'react-intl';
 import get from 'lodash/get';
 import ActionSheet from 'react-native-actionsheet';
@@ -14,9 +12,7 @@ import { getTimeFromNow } from '../../../utils/time';
 
 // Components
 import { PostHeaderDescription, PostBody, Tags } from '../../postElements';
-import {
-  PostPlaceHolder, StickyBar, TextWithIcon, NoPost,
-} from '../../basicUIElements';
+import { PostPlaceHolder, StickyBar, TextWithIcon, NoPost } from '../../basicUIElements';
 import { Upvote } from '../../upvote';
 import { IconButton } from '../../iconButton';
 import { CommentsDisplay } from '../../commentsDisplay';
@@ -52,7 +48,7 @@ class PostDisplayView extends PureComponent {
   }
 
   // Component Functions
-  _handleOnScroll = (event) => {
+  _handleOnScroll = event => {
     const { y } = event.nativeEvent.contentOffset;
 
     this.setState({
@@ -60,7 +56,7 @@ class PostDisplayView extends PureComponent {
     });
   };
 
-  _handleOnPostLayout = (event) => {
+  _handleOnPostLayout = event => {
     const { height } = event.nativeEvent.layout;
 
     this.setState({
@@ -189,10 +185,8 @@ class PostDisplayView extends PureComponent {
                 <View style={styles.footer}>
                   <Tags tags={post.json_metadata && post.json_metadata.tags} />
                   <Text style={styles.footerText}>
-                    Posted by
-                    {' '}
-                    <Text style={styles.footerName}>{author || post.author}</Text>
-                    {' '}
+                    Posted by <Text style={styles.footerName}>{author || post.author}</Text>
+{' '}
                     {formatedTime}
                   </Text>
                   {/* {isPostEnd && this._getTabBar()} */}
@@ -213,7 +207,10 @@ class PostDisplayView extends PureComponent {
         {post && this._getTabBar(true)}
         <ActionSheet
           ref={o => (this.ActionSheet = o)}
-          options={[intl.formatMessage({ id: 'alert.delete' }), intl.formatMessage({ id: 'alert.cancel' })]}
+          options={[
+            intl.formatMessage({ id: 'alert.delete' }),
+            intl.formatMessage({ id: 'alert.cancel' }),
+          ]}
           title={intl.formatMessage({ id: 'alert.remove_alert' })}
           cancelButtonIndex={1}
           onPress={index => (index === 0 ? handleOnRemovePress(get(post, 'permlink')) : null)}

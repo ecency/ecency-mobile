@@ -1,7 +1,5 @@
 import React, { PureComponent } from 'react';
-import {
-  View, Text, FlatList, TouchableOpacity, SafeAreaView,
-} from 'react-native';
+import { View, Text, FlatList, TouchableOpacity, SafeAreaView } from 'react-native';
 
 import FastImage from 'react-native-fast-image';
 

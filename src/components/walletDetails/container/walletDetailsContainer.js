@@ -41,10 +41,12 @@ class WalletContainer extends PureComponent {
         break;
     }
 
-    dispatch(openPinCodeModal({
-      navigateTo: ROUTES.SCREENS.TRANSFER,
-      navigateParams: { transferType, fundType, balance },
-    }));
+    dispatch(
+      openPinCodeModal({
+        navigateTo: ROUTES.SCREENS.TRANSFER,
+        navigateParams: { transferType, fundType, balance },
+      }),
+    );
   };
 
   render() {

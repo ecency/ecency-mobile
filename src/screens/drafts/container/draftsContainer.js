@@ -5,7 +5,11 @@ import { injectIntl } from 'react-intl';
 
 // Services and Actions
 import {
-  getDrafts, removeDraft, getSchedules, removeSchedule, moveSchedule,
+  getDrafts,
+  removeDraft,
+  getSchedules,
+  removeSchedule,
+  moveSchedule,
 } from '../../../providers/esteem/esteem';
 import { toastNotification } from '../../../redux/actions/uiAction';
 
@@ -48,7 +52,7 @@ class DraftsContainer extends Component {
     this.setState({ isLoading: true });
 
     getSchedules(currentAccount.name)
-      .then((data) => {
+      .then(data => {
         this.setState({ schedules: this._sortData(data, true), isLoading: false });
       })
       .catch(() => {
@@ -62,7 +66,7 @@ class DraftsContainer extends Component {
     this.setState({ isLoading: true });
 
     getDrafts(currentAccount.name)
-      .then((data) => {
+      .then(data => {
         this.setState({ drafts: this._sortData(data), isLoading: false });
       })
       .catch(() => {
@@ -71,7 +75,7 @@ class DraftsContainer extends Component {
       });
   };
 
-  _removeDraft = (id) => {
+  _removeDraft = id => {
     const { currentAccount, intl } = this.props;
 
     removeDraft(currentAccount.name, id)
@@ -86,11 +90,11 @@ class DraftsContainer extends Component {
       });
   };
 
-  _removeSchedule = (id) => {
+  _removeSchedule = id => {
     const { currentAccount, intl } = this.props;
 
     removeSchedule(currentAccount.name, id)
-      .then((res) => {
+      .then(res => {
         const { schedules } = this.state;
         const newSchedules = [...schedules].filter(schedule => schedule._id !== id);
 
@@ -101,11 +105,11 @@ class DraftsContainer extends Component {
       });
   };
 
-  _moveScheduleToDraft = (id) => {
+  _moveScheduleToDraft = id => {
     const { currentAccount, dispatch, intl } = this.props;
 
     moveSchedule(id, currentAccount.name)
-      .then((res) => {
+      .then(res => {
         dispatch(
           toastNotification(
             intl.formatMessage({
@@ -118,15 +122,11 @@ class DraftsContainer extends Component {
         this._getSchedules();
       })
       .catch(() => {
-        dispatch(
-          toastNotification(
-            intl.formatMessage({ id: 'alert.fail' }),
-          ),
-        );
+        dispatch(toastNotification(intl.formatMessage({ id: 'alert.fail' })));
       });
-  }
+  };
 
-  _editDraft = (id) => {
+  _editDraft = id => {
     const { navigation } = this.props;
     const { drafts } = this.state;
     const selectedDraft = drafts.find(draft => draft._id === id);
@@ -140,12 +140,13 @@ class DraftsContainer extends Component {
     });
   };
 
-  _sortData = (data, isSchedule) => data.sort((a, b) => {
-    const dateA = new Date(isSchedule ? a.schedule : a.created).getTime();
-    const dateB = new Date(isSchedule ? a.schedule : b.created).getTime();
+  _sortData = (data, isSchedule) =>
+    data.sort((a, b) => {
+      const dateA = new Date(isSchedule ? a.schedule : a.created).getTime();
+      const dateB = new Date(isSchedule ? a.schedule : b.created).getTime();
 
-    return dateB > dateA ? 1 : -1;
-  });
+      return dateB > dateA ? 1 : -1;
+    });
 
   render() {
     const { isLoading, drafts, schedules } = this.state;

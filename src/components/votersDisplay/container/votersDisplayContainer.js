@@ -19,7 +19,7 @@ class VotersDisplayContainer extends PureComponent {
     this.state = {};
   }
 
-  _handleOnUserPress = (username) => {
+  _handleOnUserPress = username => {
     const { navigation } = this.props;
 
     navigation.navigate({

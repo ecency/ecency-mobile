@@ -1,7 +1,5 @@
 import React, { Component } from 'react';
-import {
-  View, Text, SafeAreaView, TouchableOpacity,
-} from 'react-native';
+import { View, Text, SafeAreaView, TouchableOpacity } from 'react-native';
 import LinearGradient from 'react-native-linear-gradient';
 import { injectIntl } from 'react-intl';
 

@@ -19,7 +19,7 @@ export const getTimeFromNow = (value, isWithoutUtc) => {
   return moment.utc(value).fromNow();
 };
 
-export const getFormatedCreatedDate = (value) => {
+export const getFormatedCreatedDate = value => {
   if (!value) return null;
 
   return moment(value).format('DD MMM, YYYY');
@@ -35,7 +35,7 @@ export const isThisWeek = value => moment(value).isSameOrAfter(THIS_WEEK);
 
 export const isThisMonth = value => moment(value).isSameOrAfter(THIS_MONTH);
 
-export const isEmptyContentDate = (value) => {
+export const isEmptyContentDate = value => {
   if (!value) return false;
 
   return parseInt(value.split('-')[0], 10) < 1980;
