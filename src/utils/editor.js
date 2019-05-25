@@ -1,5 +1,8 @@
 import getSlug from 'speakingurl';
-import { diff_match_patch } from 'diff-match-patch';
+import { diff_match_patch as diffMatchPatch } from 'diff-match-patch';
+import PackageJson from '../../../../package.json';
+
+const { version } = PackageJson;
 
 export const getWordsCount = text =>
   text && typeof text === 'string' ? text.replace(/^\s+|\s+$/g, '').split(/\s+/).length : 0;
@@ -87,7 +90,7 @@ export const makeOptions = (author, permlink, operationType) => {
 
 export const makeJsonMetadataReply = tags => ({
   tags,
-  app: 'esteem/2.0.0-mobile',
+  app: `esteem/${version}-mobile`,
   format: 'markdown+html',
   community: 'esteem.app',
 });
@@ -95,10 +98,17 @@ export const makeJsonMetadataReply = tags => ({
 export const makeJsonMetadata = (meta, tags) =>
   Object.assign({}, meta, {
     tags,
-    app: 'esteem/2.0.0-mobile',
+    app: `esteem/${version}-mobile`,
     format: 'markdown+html',
     community: 'esteem.app',
   });
+
+export const makeJsonMetadataForUpdate = (oldJson, meta, tags) => {
+  const { meta: oldMeta } = oldJson;
+  const mergedMeta = Object.assign({}, oldMeta, meta);
+
+  return Object.assign({}, oldJson, mergedMeta, { tags });
+};
 
 export const extractMetadata = body => {
   const urlReg = /(\b(https?|ftp):\/\/[A-Z0-9+&@#/%?=~_|!:,.;-]*[-A-Z0-9+&@#/%=~_|])/gim;
@@ -148,7 +158,7 @@ export const extractMetadata = body => {
 export const createPatch = (text1, text2) => {
   if (!text1 && text1 === '') return undefined;
 
-  const dmp = new diff_match_patch();
+  const dmp = new diffMatchPatch();
   const patches = dmp.patch_make(text1, text2);
   const patch = dmp.patch_toText(patches);
 
