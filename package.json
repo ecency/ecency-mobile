@@ -18,7 +18,7 @@
     "lint:fix": "eslint src/ --fix",
     "format": "prettier --print-width=100 --single-quote --trailing-comma all --write \"{src,__tests__}/**/*.js\"",
     "lint-staged": "lint-staged",
-    "clear": "watchman watch-del-all && rm -rf $TMPDIR/react-native-packager-cache-* && rm -rf $TMPDIR/metro-bundler-cache-* && rm -rf node_modules/ && npm install && npm start -- --reset-cache"
+    "clear": "watchman watch-del-all && rm -rf $TMPDIR/react-native-packager-cache-* && rm -rf $TMPDIR/metro-bundler-cache-* && rm -rf node_modules/ && yarn install && yarn start -- --reset-cache"
   },
   "dependencies": {
     "@babel/runtime": "^7.1.2",
@@ -39,7 +39,7 @@
     "moment": "^2.22.2",
     "react": "^16.7.0",
     "react-intl": "^2.7.2",
-    "react-native": "esteemapp/react-native",
+    "react-native": "^0.57.5",
     "react-native-actionsheet": "^2.4.2",
     "react-native-code-push": "^5.5.2",
     "react-native-config": "^0.11.5",
