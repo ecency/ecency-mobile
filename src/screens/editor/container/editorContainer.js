@@ -27,6 +27,7 @@ import {
   makeOptions,
   extractMetadata,
   makeJsonMetadataReply,
+  makeJsonMetadataForUpdate,
   createPatch,
 } from '../../../utils/editor';
 // import { generateSignature } from '../../../utils/image';
@@ -152,8 +153,6 @@ class EditorContainer extends Component {
       this._handleOpenImagePicker();
     }
   };
-
-  // Media select functions <- START ->
 
   _handleOpenImagePicker = () => {
     ImagePicker.openPicker({
@@ -424,38 +423,39 @@ class EditorContainer extends Component {
     const { post } = this.state;
     if (currentAccount) {
       this.setState({ isPostSending: true });
-
+      const { tags, body, title } = fields;
       const {
         body: oldBody,
         parent_permlink: parentPermlink,
         permlink,
-        parent_author: parentAuthor,
-        json_metadata: oldMeta,
+        json_metadata: jsonMetadata,
       } = post;
 
-      let newBody = fields.body;
-      let _oldMeta = oldMeta;
+      let newBody = body;
       const patch = createPatch(oldBody, newBody.trim());
 
       if (patch && patch.length < Buffer.from(oldBody, 'utf-8').length) {
         newBody = patch;
       }
 
-      if (typeof _oldMeta === 'string') {
-        _oldMeta = JSON.parse(_oldMeta);
-      }
-
       const meta = extractMetadata(fields.body);
-      const metadata = Object.assign({}, _oldMeta, meta);
-      const jsonMeta = makeJsonMetadata(metadata, fields.tags);
+
+      let jsonMeta = {};
+
+      try {
+        const oldJson = JSON.parse(jsonMetadata);
+        jsonMeta = makeJsonMetadataForUpdate(oldJson, meta, tags);
+      } catch (e) {
+        jsonMeta = makeJsonMetadata(meta, tags);
+      }
 
       await postContent(
         currentAccount,
         pinCode,
-        parentAuthor || '',
+        '',
         parentPermlink,
         permlink,
-        fields.title,
+        title,
         newBody,
         jsonMeta,
       )
