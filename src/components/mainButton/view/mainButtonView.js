@@ -1,7 +1,5 @@
 import React, { Component, Fragment } from 'react';
-import {
-  ActivityIndicator, Image, Text, TouchableOpacity, View,
-} from 'react-native';
+import { ActivityIndicator, Image, Text, TouchableOpacity, View } from 'react-native';
 
 // Components
 import { Icon } from '../../icon';
@@ -47,9 +45,7 @@ class MainButton extends Component {
   };
 
   _getBody = () => {
-    const {
-      isLoading, text, secondText, iconColor, iconName, source,
-    } = this.props;
+    const { isLoading, text, secondText, iconColor, iconName, source } = this.props;
 
     if (isLoading) {
       this._getIndicator();
@@ -77,9 +73,7 @@ class MainButton extends Component {
   _getIndicator = () => <ActivityIndicator color="white" style={styles.activityIndicator} />;
 
   render() {
-    const {
-      wrapperStyle, children, height, style, isLoading,
-    } = this.props;
+    const { wrapperStyle, children, height, style, isLoading } = this.props;
     const { isDisable } = this.state;
 
     return (

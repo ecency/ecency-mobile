@@ -1,7 +1,5 @@
 import React from 'react';
-import {
-  FlatList, TouchableOpacity, Text, View,
-} from 'react-native';
+import { FlatList, TouchableOpacity, Text, View } from 'react-native';
 
 import Formats from './formats/formats';
 
@@ -21,9 +19,10 @@ export const renderEditorButtons = ({ getState, setState }, formats, markdownBut
     <FlatList
       data={formats || Formats}
       keyboardShouldPersistTaps="always"
-      renderItem={({ item, index }) => (markdownButton
-        ? markdownButton({ item, getState, setState })
-        : defaultMarkdownButton({ item, getState, setState }))
+      renderItem={({ item, index }) =>
+        markdownButton
+          ? markdownButton({ item, getState, setState })
+          : defaultMarkdownButton({ item, getState, setState })
       }
       horizontal
     />

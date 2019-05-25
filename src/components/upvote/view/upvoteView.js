@@ -1,7 +1,5 @@
 import React, { Component, Fragment } from 'react';
-import {
-  View, TouchableOpacity, Text, Alert,
-} from 'react-native';
+import { View, TouchableOpacity, Text, Alert } from 'react-native';
 import { injectIntl } from 'react-intl';
 import { Popover, PopoverController } from 'react-native-modal-popover';
 import Slider from 'react-native-slider';
@@ -63,14 +61,13 @@ class UpvoteView extends Component {
 
     if (currentAccount && Object.entries(currentAccount).length !== 0) {
       const { sliderValue } = this.state;
-      const {
-        fundRecentClaims, fundRewardBalance, base, quote,
-      } = globalProps;
+      const { fundRecentClaims, fundRewardBalance, base, quote } = globalProps;
 
       const votingPower = currentAccount.voting_power;
-      const totalVests = parseToken(currentAccount.vesting_shares)
-        + parseToken(currentAccount.received_vesting_shares)
-        - parseToken(currentAccount.delegated_vesting_shares);
+      const totalVests =
+        parseToken(currentAccount.vesting_shares) +
+        parseToken(currentAccount.received_vesting_shares) -
+        parseToken(currentAccount.delegated_vesting_shares);
       const votePct = sliderValue * 10000;
 
       const rShares = vestsToRshares(totalVests, votingPower, votePct);
@@ -118,7 +115,7 @@ class UpvoteView extends Component {
           },
         );
       })
-      .catch((err) => {
+      .catch(err => {
         Alert.alert('Failed!', err.message);
         this.setState({
           isVoted: false,
@@ -148,9 +145,7 @@ class UpvoteView extends Component {
       payoutDate,
       intl,
     } = this.props;
-    const {
-      isVoting, amount, sliderValue, isVoted, isShowDetails,
-    } = this.state;
+    const { isVoting, amount, sliderValue, isVoted, isShowDetails } = this.state;
 
     let iconName = 'ios-arrow-dropup';
     let iconType;
@@ -166,9 +161,7 @@ class UpvoteView extends Component {
 
     return (
       <PopoverController>
-        {({
-          openPopover, closePopover, popoverVisible, setPopoverAnchor, popoverAnchorRect,
-        }) => (
+        {({ openPopover, closePopover, popoverVisible, setPopoverAnchor, popoverAnchorRect }) => (
           <Fragment>
             <TouchableOpacity
               start
@@ -201,15 +194,15 @@ class UpvoteView extends Component {
             </TouchableOpacity>
             <View style={styles.payoutTextButton}>
               {isShowPayoutValue && (
-              <TextButton
-                style={styles.payoutTextButton}
-                textStyle={[styles.payoutValue, isDecinedPayout && styles.declinedPayout]}
-                text={<FormatedCurrency value={_totalPayout} />}
-                onPress={() => {
-                  openPopover();
-                  this.setState({ isShowDetails: true });
-                }}
-              />
+                <TextButton
+                  style={styles.payoutTextButton}
+                  textStyle={[styles.payoutValue, isDecinedPayout && styles.declinedPayout]}
+                  text={<FormatedCurrency value={_totalPayout} />}
+                  onPress={() => {
+                    openPopover();
+                    this.setState({ isShowDetails: true });
+                  }}
+                />
               )}
             </View>
 
@@ -280,7 +273,7 @@ class UpvoteView extends Component {
                       thumbStyle={styles.thumb}
                       thumbTintColor="#007ee5"
                       value={sliderValue}
-                      onValueChange={(value) => {
+                      onValueChange={value => {
                         this.setState({ sliderValue: value }, () => {
                           this._calculateEstimatedAmount();
                         });

@@ -53,7 +53,7 @@ export default class TagAreaView extends Component {
     }
   };
 
-  _handleOnBlur = (i) => {
+  _handleOnBlur = i => {
     this._handleTagAdded(i);
   };
 
@@ -75,7 +75,7 @@ export default class TagAreaView extends Component {
     this.setState({ currentText: '' });
   };
 
-  _handleTagRemove = (i) => {
+  _handleTagRemove = i => {
     const { chips } = this.state;
     const { handleTagChanged } = this.props;
 
@@ -101,33 +101,34 @@ export default class TagAreaView extends Component {
       <View style={globalStyles.containerHorizontal16}>
         <ScrollView horizontal style={styles.tagWrapper}>
           {chips.map(
-            (chip, i) => i < 5 && (
-              <Chip
-                key={i}
-                refs={(input) => {
-                  this.inputs[i] = input;
-                }}
-                isPin={i === 0 && chips[1]}
-                placeholderTextColor="#fff"
-                removeButton
-                handleOnRemoveButtonPress={() => this._handleTagRemove(i)}
-                editable={!isPreviewActive}
-                maxLength={50}
-                placeholder="tags"
-                autoFocus={i !== 0 && chips.length - 1 === i}
-                multiline={false}
-                handleOnChange={text => this._handleOnChange(text, i)}
-                handleOnBlur={() => this._handleOnBlur(i)}
-                blurOnSubmit
-                value={
-                      activeChip === i
-                        ? currentText || chip.replace(/\s/g, '')
-                        : chip.replace(/\s/g, '')
-                    }
-                autoCapitalize="none"
-                onFocus={() => this.setState({ activeChip: i })}
-              />
-            ),
+            (chip, i) =>
+              i < 5 && (
+                <Chip
+                  key={i}
+                  refs={input => {
+                    this.inputs[i] = input;
+                  }}
+                  isPin={i === 0 && chips[1]}
+                  placeholderTextColor="#fff"
+                  removeButton
+                  handleOnRemoveButtonPress={() => this._handleTagRemove(i)}
+                  editable={!isPreviewActive}
+                  maxLength={50}
+                  placeholder="tags"
+                  autoFocus={i !== 0 && chips.length - 1 === i}
+                  multiline={false}
+                  handleOnChange={text => this._handleOnChange(text, i)}
+                  handleOnBlur={() => this._handleOnBlur(i)}
+                  blurOnSubmit
+                  value={
+                    activeChip === i
+                      ? currentText || chip.replace(/\s/g, '')
+                      : chip.replace(/\s/g, '')
+                  }
+                  autoCapitalize="none"
+                  onFocus={() => this.setState({ activeChip: i })}
+                />
+              ),
           )}
         </ScrollView>
       </View>

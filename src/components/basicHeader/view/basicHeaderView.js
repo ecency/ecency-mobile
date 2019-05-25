@@ -1,7 +1,5 @@
 import React, { Component, Fragment } from 'react';
-import {
-  View, Text, ActivityIndicator, SafeAreaView,
-} from 'react-native';
+import { View, Text, ActivityIndicator, SafeAreaView } from 'react-native';
 import { injectIntl } from 'react-intl';
 
 // Components
@@ -49,7 +47,7 @@ class BasicHeaderView extends Component {
     this.setState({ isInputVisible: !isInputVisible });
   };
 
-  _handleOnSearch = (value) => {
+  _handleOnSearch = value => {
     const { handleOnSearch } = this.props;
 
     handleOnSearch(value);
@@ -57,13 +55,13 @@ class BasicHeaderView extends Component {
 
   _handleOnInputChange = () => {};
 
-  _handleDatePickerChange = (datePickerValue) => {
+  _handleDatePickerChange = datePickerValue => {
     const { handleDatePickerChange } = this.props;
 
     if (handleDatePickerChange) {
       handleDatePickerChange(datePickerValue);
     }
-  }
+  };
 
   render() {
     const {
@@ -183,11 +181,13 @@ class BasicHeaderView extends Component {
 
           {isHasIcons && (
             <Fragment>
-              {!isReply
-                && (
-                <DateTimePicker type="date-time" onSubmit={this._handleDatePickerChange} disabled={!isFormValid} />
-                )
-              }
+              {!isReply && (
+                <DateTimePicker
+                  type="date-time"
+                  onSubmit={this._handleDatePickerChange}
+                  disabled={!isFormValid}
+                />
+              )}
               <IconButton
                 style={styles.iconButton}
                 size={25}

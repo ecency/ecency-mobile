@@ -61,7 +61,7 @@ class SettingsContainer extends Component {
   // Component Life Cycle Functions
   componentDidMount() {
     getNodes()
-      .then((resp) => {
+      .then(resp => {
         this.setState({ serverList: resp });
       })
       .catch(() => {});
@@ -95,7 +95,7 @@ class SettingsContainer extends Component {
     }
   };
 
-  _changeApi = async (action) => {
+  _changeApi = async action => {
     const { dispatch, selectedApi } = this.props;
     const { serverList } = this.state;
     const server = serverList[action];
@@ -135,7 +135,7 @@ class SettingsContainer extends Component {
     }
   };
 
-  _currencyChange = (action) => {
+  _currencyChange = action => {
     const { dispatch } = this.props;
 
     dispatch(setCurrency(CURRENCY_VALUE[action]));
@@ -189,7 +189,7 @@ class SettingsContainer extends Component {
       await Push.setEnabled(action);
       this._setPushToken(action ? [1, 2, 3, 4, 5, 6] : notifyTypes);
     } else {
-      Object.keys(notificationDetails).map((item) => {
+      Object.keys(notificationDetails).map(item => {
         const notificationType = item.replace('Notification', '');
 
         if (notificationType === actionType.replace('notification.', '')) {
@@ -204,7 +204,7 @@ class SettingsContainer extends Component {
     }
   };
 
-  _handleButtonPress = (actionType) => {
+  _handleButtonPress = actionType => {
     const { dispatch } = this.props;
     switch (actionType) {
       case 'pincode':
@@ -234,13 +234,13 @@ class SettingsContainer extends Component {
     }
   };
 
-  _setPushToken = async (notifyTypes) => {
+  _setPushToken = async notifyTypes => {
     const { isNotificationSettingsOpen, isLoggedIn, username } = this.props;
 
     if (isLoggedIn) {
       const token = await AppCenter.getInstallId();
 
-      getExistUser().then((isExistUser) => {
+      getExistUser().then(isExistUser => {
         if (isExistUser) {
           const data = {
             username,

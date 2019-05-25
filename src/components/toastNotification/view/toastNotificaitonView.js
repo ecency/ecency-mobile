@@ -52,9 +52,7 @@ class ToastNotification extends Component {
   }
 
   render() {
-    const {
-      text, textStyle, style, onPress, isTop,
-    } = this.props;
+    const { text, textStyle, style, onPress, isTop } = this.props;
     const { animatedValue } = this.state;
     const outputRange = isTop ? [-50, 0] : [50, 0];
     const y = animatedValue.interpolate({

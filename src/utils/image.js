@@ -64,7 +64,7 @@ export const catchEntryImage = (entry, width = 0, height = 0) => {
   return null;
 };
 
-export const catchDraftImage = (body) => {
+export const catchDraftImage = body => {
   const imgRegex = /(https?:\/\/.*\.(?:tiff?|jpe?g|gif|png|svg|ico|PNG|GIF|JPG))/g;
 
   if (body && imgRegex.test(body)) {

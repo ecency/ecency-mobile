@@ -1,7 +1,5 @@
 import React, { PureComponent } from 'react';
-import {
-  View, Text, Image, TouchableHighlight,
-} from 'react-native';
+import { View, Text, Image, TouchableHighlight } from 'react-native';
 import { injectIntl } from 'react-intl';
 // Constants
 
@@ -72,10 +70,7 @@ class NotificationLineView extends PureComponent {
           />
           <View style={styles.body}>
             <View style={styles.titleWrapper}>
-              <Text style={styles.name}>
-                {notification.source}
-                {' '}
-              </Text>
+              <Text style={styles.name}>{notification.source} </Text>
               <Text style={styles.title}>{_title}</Text>
             </View>
             {notification.description && (
