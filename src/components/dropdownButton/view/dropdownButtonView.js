@@ -1,7 +1,5 @@
 import React from 'react';
-import {
-  View, Text, TouchableHighlight, ActivityIndicator,
-} from 'react-native';
+import { View, Text, TouchableHighlight, ActivityIndicator } from 'react-native';
 
 // External components
 import ModalDropdown from 'react-native-modal-dropdown';
@@ -65,7 +63,8 @@ const DropdownButtonView = ({
       defaultIndex={selectedOptionIndex}
       defaultValue={defaultText}
       renderSeparator={() => null}
-      renderRow={(rowData, rowID, highlighted) => renderDropdownRow(rowData, rowID, highlighted, rowTextStyle, noHighlight)
+      renderRow={(rowData, rowID, highlighted) =>
+        renderDropdownRow(rowData, rowID, highlighted, rowTextStyle, noHighlight)
       }
     >
       {isHasChildIcon && !isLoading ? (

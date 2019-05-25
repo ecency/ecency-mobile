@@ -48,7 +48,7 @@ class WalletContainer extends Component {
 
   // Components functions
 
-  _getWalletData = async (selectedUser) => {
+  _getWalletData = async selectedUser => {
     const { setEstimatedWalletValue, globalProps } = this.props;
     const walletData = await groomingWalletData(selectedUser, globalProps);
 
@@ -56,14 +56,13 @@ class WalletContainer extends Component {
     setEstimatedWalletValue(walletData.estimatedValue);
   };
 
-  _isHasUnclaimedRewards = account => parseToken(account.reward_steem_balance) > 0
-    || parseToken(account.reward_sbd_balance) > 0
-    || parseToken(account.reward_vesting_steem) > 0;
+  _isHasUnclaimedRewards = account =>
+    parseToken(account.reward_steem_balance) > 0 ||
+    parseToken(account.reward_sbd_balance) > 0 ||
+    parseToken(account.reward_vesting_steem) > 0;
 
   _claimRewardBalance = async () => {
-    const {
-      currentAccount, intl, pinCode, dispatch,
-    } = this.props;
+    const { currentAccount, intl, pinCode, dispatch } = this.props;
     const { isClaiming } = this.state;
     let isHasUnclaimedRewards;
 
@@ -74,7 +73,7 @@ class WalletContainer extends Component {
     await this.setState({ isClaiming: true });
 
     getAccount(currentAccount.name)
-      .then((account) => {
+      .then(account => {
         isHasUnclaimedRewards = this._isHasUnclaimedRewards(account[0]);
         if (isHasUnclaimedRewards) {
           const {
@@ -87,7 +86,7 @@ class WalletContainer extends Component {
         this.setState({ isClaiming: false });
       })
       .then(() => getAccount(currentAccount.name))
-      .then((account) => {
+      .then(account => {
         this._getWalletData(account && account[0]);
         if (isHasUnclaimedRewards) {
           dispatch(
@@ -99,7 +98,7 @@ class WalletContainer extends Component {
           );
         }
       })
-      .then((account) => {
+      .then(account => {
         this._getWalletData(account && account[0]);
         this.setState({ isClaiming: false });
       })
@@ -121,7 +120,7 @@ class WalletContainer extends Component {
     this.setState({ isRefreshing: true });
 
     getAccount(selectedUser.name)
-      .then((account) => {
+      .then(account => {
         this._getWalletData(account && account[0]);
         this.setState({ isRefreshing: false });
       })
@@ -138,9 +137,7 @@ class WalletContainer extends Component {
   };
 
   render() {
-    const {
-      currentAccount, selectedUser, isDarkTheme,
-    } = this.props;
+    const { currentAccount, selectedUser, isDarkTheme } = this.props;
     const { walletData, isClaiming, isRefreshing } = this.state;
 
     return (

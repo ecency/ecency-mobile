@@ -83,7 +83,7 @@ class TabBar extends PureComponent {
       outputRange: [0, containerWidth / numberOfTabs],
     });
 
-    const scaleValue = (defaultScale) => {
+    const scaleValue = defaultScale => {
       const number = 4;
       const arr = new Array(number * 2);
 
@@ -113,9 +113,7 @@ class TabBar extends PureComponent {
   };
 
   render() {
-    const {
-      activeTab, backgroundColor, style, goToPage, tabs,
-    } = this.props;
+    const { activeTab, backgroundColor, style, goToPage, tabs } = this.props;
 
     return (
       <View style={[styles.tabs, { backgroundColor }, style]}>

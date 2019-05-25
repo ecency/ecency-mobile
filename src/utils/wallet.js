@@ -68,9 +68,7 @@ export const groomingTransactionData = (transaction, steemPerMVests, formatNumbe
       break;
     case 'transfer':
     case 'transfer_to_vesting':
-      const {
-        amount, memo, from, to,
-      } = opData;
+      const { amount, memo, from, to } = opData;
 
       result.value = `${amount}`;
       result.icon = 'compare-arrows';
@@ -114,14 +112,16 @@ export const groomingWalletData = async (user, globalProps) => {
   walletData.rewardSteemBalance = parseToken(user.reward_steem_balance);
   walletData.rewardSbdBalance = parseToken(user.reward_sbd_balance);
   walletData.rewardVestingSteem = parseToken(user.reward_vesting_steem);
-  walletData.hasUnclaimedRewards = walletData.rewardSteemBalance > 0
-    || walletData.rewardSbdBalance > 0
-    || walletData.rewardVestingSteem > 0;
+  walletData.hasUnclaimedRewards =
+    walletData.rewardSteemBalance > 0 ||
+    walletData.rewardSbdBalance > 0 ||
+    walletData.rewardVestingSteem > 0;
   walletData.balance = parseToken(user.balance);
   walletData.vestingShares = parseToken(user.vesting_shares);
   walletData.vestingSharesDelegated = parseToken(user.delegated_vesting_shares);
   walletData.vestingSharesReceived = parseToken(user.received_vesting_shares);
-  walletData.vestingSharesTotal = walletData.vestingShares - walletData.vestingSharesDelegated + walletData.vestingSharesReceived;
+  walletData.vestingSharesTotal =
+    walletData.vestingShares - walletData.vestingSharesDelegated + walletData.vestingSharesReceived;
 
   walletData.sbdBalance = parseToken(user.sbd_balance);
   walletData.savingBalance = parseToken(user.savings_balance);
@@ -135,9 +135,10 @@ export const groomingWalletData = async (user, globalProps) => {
 
   const pricePerSteem = base / quote;
 
-  const totalSteem = vestsToSp(walletData.vestingShares, walletData.steemPerMVests)
-    + walletData.balance
-    + walletData.savingBalance;
+  const totalSteem =
+    vestsToSp(walletData.vestingShares, walletData.steemPerMVests) +
+    walletData.balance +
+    walletData.savingBalance;
 
   const totalSbd = walletData.sbdBalance + walletData.savingBalanceSbd;
 

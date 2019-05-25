@@ -18,7 +18,7 @@ class NumericKeyboard extends PureComponent {
 
   // Component Functions
 
-  _handleOnPress = (value) => {
+  _handleOnPress = value => {
     alert(value);
   };
 

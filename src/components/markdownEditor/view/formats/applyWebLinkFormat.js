@@ -3,9 +3,7 @@ import { isStringWebLink, replaceBetween } from './utils';
 export const writeUrlTextHere = 'https://example.com';
 export const writeTextHereString = 'Text here';
 
-export default ({
-  getState, item, setState, isImage = null,
-}) => {
+export default ({ getState, item, setState, isImage = null }) => {
   const { selection, text } = getState();
   const imagePrefix = isImage ? '!' : '';
   const itemText = item ? item.text : writeTextHereString;
