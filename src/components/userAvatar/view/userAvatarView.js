@@ -32,7 +32,7 @@ class UserAvatarView extends Component {
   }
 
   // Component Functions
-  _handleOnAvatarPress = (username) => {
+  _handleOnAvatarPress = username => {
     const { navigation } = this.props;
 
     navigation.navigate({
@@ -45,9 +45,7 @@ class UserAvatarView extends Component {
   };
 
   render() {
-    const {
-      username, size, style, disableSize, noAction,
-    } = this.props;
+    const { username, size, style, disableSize, noAction } = this.props;
     const imageSize = size === 'xl' ? 'large' : 'small';
     let _size;
     const _avatar = username

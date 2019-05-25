@@ -20,7 +20,7 @@ const initialState = {
   pin: null,
 };
 
-export default function (state = initialState, action) {
+export default function(state = initialState, action) {
   switch (action.type) {
     case FETCHING_ACCOUNT:
       return {

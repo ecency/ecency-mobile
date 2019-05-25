@@ -6,9 +6,7 @@ import ROUTES from '../constants/routeNames';
 
 // Components
 import { Icon, IconContainer } from '../components/icon';
-import {
-  Home, Notification, Profile, RootComponent, Points,
-} from '../screens';
+import { Home, Notification, Profile, RootComponent, Points } from '../screens';
 import { PostButton } from '../components/postButton';
 import { BottomTabBar } from '../components/bottomTabBar';
 

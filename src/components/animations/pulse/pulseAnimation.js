@@ -1,7 +1,5 @@
 import React, { Component } from 'react';
-import {
-  View, Image, StyleSheet,
-} from 'react-native';
+import { View, Image, StyleSheet } from 'react-native';
 
 const styles = StyleSheet.create({
   container: {
@@ -120,9 +118,7 @@ export default class PulseAnimation extends Component {
   };
 
   render() {
-    const {
-      color, image, maxDiameter, pulses, pulseStyle, started, style,
-    } = this.state;
+    const { color, image, maxDiameter, pulses, pulseStyle, started, style } = this.state;
     const containerStyle = [styles.container, style];
     const pulseWrapperStyle = { width: maxDiameter, height: maxDiameter };
 

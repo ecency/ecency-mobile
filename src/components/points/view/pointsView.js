@@ -1,13 +1,6 @@
 /* eslint-disable no-nested-ternary */
 import React, { Component, Fragment } from 'react';
-import {
-  Text,
-  View,
-  FlatList,
-  ScrollView,
-  RefreshControl,
-  TouchableOpacity,
-} from 'react-native';
+import { Text, View, FlatList, ScrollView, RefreshControl, TouchableOpacity } from 'react-native';
 import { injectIntl } from 'react-intl';
 import { Popover, PopoverController } from 'react-native-modal-popover';
 import { get, size } from 'lodash';
@@ -40,20 +33,20 @@ class PointsView extends Component {
 
   // Component Functions
 
-   refreshControl = () => {
-     const { fetchUserActivity, refreshing, isDarkTheme } = this.props;
+  refreshControl = () => {
+    const { fetchUserActivity, refreshing, isDarkTheme } = this.props;
 
-     return (
-       <RefreshControl
-         refreshing={refreshing}
-         onRefresh={fetchUserActivity}
-         progressBackgroundColor="#357CE6"
-         tintColor={!isDarkTheme ? '#357ce6' : '#96c0ff'}
-         titleColor="#fff"
-         colors={['#fff']}
-       />
-     );
-   }
+    return (
+      <RefreshControl
+        refreshing={refreshing}
+        onRefresh={fetchUserActivity}
+        progressBackgroundColor="#357CE6"
+        tintColor={!isDarkTheme ? '#357ce6' : '#96c0ff'}
+        titleColor="#fff"
+        colors={['#fff']}
+      />
+    );
+  };
 
   _renderLoading = () => {
     const { isLoading, intl } = this.props;
@@ -62,40 +55,33 @@ class PointsView extends Component {
       return <ListPlaceHolder />;
     }
     return <Text style={styles.subText}>{intl.formatMessage({ id: 'points.no_activity' })}</Text>;
-  }
+  };
 
   render() {
-    const {
-      claimPoints, intl, isClaiming, userActivities, userPoints,
-    } = this.props;
+    const { claimPoints, intl, isClaiming, userActivities, userPoints } = this.props;
 
     return (
       <Fragment>
         <LineBreak height={12} />
-        <ScrollView
-          style={styles.scrollContainer}
-          refreshControl={this.refreshControl()}
-        >
+        <ScrollView style={styles.scrollContainer} refreshControl={this.refreshControl()}>
           <Text style={styles.pointText}>{userPoints.points}</Text>
           <Text style={styles.subText}>eSteem Points</Text>
-          {userPoints.unclaimed_points > 0
-           && (
-           <MainButton
-             isLoading={isClaiming}
-             isDisable={isClaiming}
-             style={styles.mainButton}
-             height={50}
-             onPress={() => claimPoints()}
-           >
-             <View style={styles.mainButtonWrapper}>
-               <Text style={styles.unclaimedText}>{userPoints.unclaimed_points}</Text>
-               <View style={styles.mainIconWrapper}>
-                 <Icon name="add" iconType="MaterialIcons" color="#357ce6" size={23} />
-               </View>
-             </View>
-           </MainButton>
-           )
-          }
+          {userPoints.unclaimed_points > 0 && (
+            <MainButton
+              isLoading={isClaiming}
+              isDisable={isClaiming}
+              style={styles.mainButton}
+              height={50}
+              onPress={() => claimPoints()}
+            >
+              <View style={styles.mainButtonWrapper}>
+                <Text style={styles.unclaimedText}>{userPoints.unclaimed_points}</Text>
+                <View style={styles.mainIconWrapper}>
+                  <Icon name="add" iconType="MaterialIcons" color="#357ce6" size={23} />
+                </View>
+              </View>
+            </MainButton>
+          )}
 
           <View style={styles.iconsWrapper}>
             <FlatList
@@ -105,14 +91,15 @@ class PointsView extends Component {
               renderItem={({ item }) => (
                 <PopoverController key={item.type}>
                   {({
-                    openPopover, closePopover, popoverVisible, setPopoverAnchor, popoverAnchorRect,
+                    openPopover,
+                    closePopover,
+                    popoverVisible,
+                    setPopoverAnchor,
+                    popoverAnchorRect,
                   }) => (
                     <View styles={styles.iconWrapper} key={item.type}>
                       <View style={styles.iconWrapper}>
-                        <TouchableOpacity
-                          ref={setPopoverAnchor}
-                          onPress={openPopover}
-                        >
+                        <TouchableOpacity ref={setPopoverAnchor} onPress={openPopover}>
                           <IconButton
                             iconStyle={styles.icon}
                             style={styles.iconButton}
@@ -154,33 +141,30 @@ class PointsView extends Component {
           </View>
 
           <View style={styles.listWrapper}>
-            {!userActivities
-              ? this._renderLoading()
-              : (
-                <FlatList
-                  data={userActivities}
-                  keyExtractor={item => item.id.toString()}
-                  renderItem={({ item, index }) => (
-                    <WalletLineItem
-                      index={index + 1}
-                      text={intl.formatMessage({ id: item.textKey })}
-                      description={getTimeFromNow(get(item, 'created'))}
-                      isCircleIcon
-                      isThin
-                      isBlackText
-                      iconName={get(item, 'icon')}
-                      iconType={get(item, 'iconType')}
-                      rightText={`${get(item, 'amount')} ESTM`}
-                    />
-                  )}
-                />
-              )
-              }
+            {!userActivities ? (
+              this._renderLoading()
+            ) : (
+              <FlatList
+                data={userActivities}
+                keyExtractor={item => item.id.toString()}
+                renderItem={({ item, index }) => (
+                  <WalletLineItem
+                    index={index + 1}
+                    text={intl.formatMessage({ id: item.textKey })}
+                    description={getTimeFromNow(get(item, 'created'))}
+                    isCircleIcon
+                    isThin
+                    isBlackText
+                    iconName={get(item, 'icon')}
+                    iconType={get(item, 'iconType')}
+                    rightText={`${get(item, 'amount')} ESTM`}
+                  />
+                )}
+              />
+            )}
           </View>
         </ScrollView>
       </Fragment>
-
-
     );
   }
 }

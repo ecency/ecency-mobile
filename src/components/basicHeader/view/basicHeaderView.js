@@ -1,7 +1,5 @@
 import React, { Component, Fragment } from 'react';
-import {
-  View, Text, ActivityIndicator, SafeAreaView,
-} from 'react-native';
+import { View, Text, ActivityIndicator, SafeAreaView } from 'react-native';
 import { injectIntl } from 'react-intl';
 import DatePicker from 'react-native-datepicker';
 import moment from 'moment';
@@ -53,7 +51,7 @@ class BasicHeaderView extends Component {
     this.setState({ isInputVisible: !isInputVisible });
   };
 
-  _handleOnSearch = (value) => {
+  _handleOnSearch = value => {
     const { handleOnSearch } = this.props;
 
     handleOnSearch(value);
@@ -61,7 +59,7 @@ class BasicHeaderView extends Component {
 
   _handleOnInputChange = () => {};
 
-  _handleDatePickerChange = (datePickerValue) => {
+  _handleDatePickerChange = datePickerValue => {
     const { handleDatePickerChange } = this.props;
 
     this.setState({ datePickerValue });
@@ -69,7 +67,7 @@ class BasicHeaderView extends Component {
     if (handleDatePickerChange) {
       handleDatePickerChange(datePickerValue);
     }
-  }
+  };
 
   render() {
     const {
@@ -189,8 +187,7 @@ class BasicHeaderView extends Component {
 
           {isHasIcons && (
             <Fragment>
-              {!isReply
-                && (
+              {!isReply && (
                 <DatePicker
                   style={{ width: 50 }}
                   date={datePickerValue}
@@ -200,24 +197,25 @@ class BasicHeaderView extends Component {
                   maxDate="3000-06-01"
                   confirmBtnText="Confirm"
                   cancelBtnText="Cancel"
-                  onDateChange={(_datePickerValue) => { this._handleDatePickerChange(_datePickerValue); }}
+                  onDateChange={_datePickerValue => {
+                    this._handleDatePickerChange(_datePickerValue);
+                  }}
                   hideText
                   disabled={!isFormValid}
                   onPressDate
                   customStyles={{
                     ...datePickerStyles,
                   }}
-                  iconComponent={(
+                  iconComponent={
                     <Icon
-                      style={{ ...styles.iconButton, ...styles.scheduleIcon }}
-                      size={20}
-                      iconType="MaterialIcons"
-                      name="timer"
-                    />
-                    )}
+  style={{ ...styles.iconButton, ...styles.scheduleIcon }}
+  size={20}
+  iconType="MaterialIcons"
+  name="timer"
+/>
+                  }
                 />
-                )
-              }
+              )}
               <IconButton
                 style={styles.iconButton}
                 size={25}
