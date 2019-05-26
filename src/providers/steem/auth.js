@@ -31,9 +31,7 @@ export const login = async (username, password) => {
     return Promise.reject(new Error('auth.invalid_username'));
   }
   if (isLoggedInUser(username)) {
-    return Promise.reject(
-      new Error('auth.already_logged'),
-    );
+    return Promise.reject(new Error('auth.already_logged'));
   }
   // Public keys of user
   const publicKeys = {
@@ -47,7 +45,7 @@ export const login = async (username, password) => {
   const privateKeys = getPrivateKeys(username, password);
 
   // Check all keys
-  Object.keys(publicKeys).map((pubKey) => {
+  Object.keys(publicKeys).map(pubKey => {
     if (publicKeys[pubKey] === privateKeys[pubKey].createPublic().toString()) {
       loginFlag = true;
       if (privateKeys.isMasterKey) authType = AUTH_TYPE.MASTER_KEY;
@@ -92,7 +90,7 @@ export const login = async (username, password) => {
   return Promise.reject(new Error('auth.invalid_credentials'));
 };
 
-export const loginWithSC2 = async (code) => {
+export const loginWithSC2 = async code => {
   const scTokens = await getSCAccessToken(code);
   await steemConnect.setAccessToken(scTokens.access_token);
   const account = await steemConnect.me();
@@ -140,7 +138,7 @@ export const loginWithSC2 = async (code) => {
   });
 };
 
-export const setUserDataWithPinCode = async (data) => {
+export const setUserDataWithPinCode = async data => {
   try {
     const result = getUserDataWithUsername(data.username);
     const userData = result[0];
@@ -156,12 +154,12 @@ export const setUserDataWithPinCode = async (data) => {
   }
 };
 
-export const updatePinCode = async (data) => {
+export const updatePinCode = async data => {
   try {
     await setPinCode(data.pinCode);
     const users = await getUserData();
     if (users && users.length > 0) {
-      users.forEach(async (userData) => {
+      users.forEach(async userData => {
         if (userData.authType === AUTH_TYPE.MASTER_KEY) {
           data.password = decryptKey(userData.masterKey, data.oldPinCode);
         } else if (userData.authType === AUTH_TYPE.STEEM_CONNECT) {
@@ -178,7 +176,7 @@ export const updatePinCode = async (data) => {
   }
 };
 
-export const verifyPinCode = async (data) => {
+export const verifyPinCode = async data => {
   const pinHash = await getPinCode();
 
   const result = getUserDataWithUsername(data.username);
@@ -222,21 +220,22 @@ export const refreshSCToken = async (userData, pinCode) => {
   }
 };
 
-export const switchAccount = username => new Promise((resolve, reject) => {
-  getUser(username)
-    .then((account) => {
-      updateCurrentUsername(username)
-        .then(() => {
-          resolve(account);
-        })
-        .catch(() => {
-          reject(new Error('auth.unknow_error'));
-        });
-    })
-    .catch(() => {
-      reject(new Error('auth.unknow_error'));
-    });
-});
+export const switchAccount = username =>
+  new Promise((resolve, reject) => {
+    getUser(username)
+      .then(account => {
+        updateCurrentUsername(username)
+          .then(() => {
+            resolve(account);
+          })
+          .catch(() => {
+            reject(new Error('auth.unknow_error'));
+          });
+      })
+      .catch(() => {
+        reject(new Error('auth.unknow_error'));
+      });
+  });
 
 const getPrivateKeys = (username, password) => {
   try {
@@ -264,29 +263,27 @@ export const getUpdatedUserData = (userData, data) => {
     username: userData.username,
     authType: userData.authType,
     accessToken:
-    userData.authType === AUTH_TYPE.STEEM_CONNECT
-      ? encryptKey(data.accessToken, data.pinCode)
-      : '',
+      userData.authType === AUTH_TYPE.STEEM_CONNECT
+        ? encryptKey(data.accessToken, data.pinCode)
+        : '',
     masterKey:
-    userData.authType === AUTH_TYPE.MASTER_KEY
-      ? encryptKey(data.password, data.pinCode)
-      : '',
+      userData.authType === AUTH_TYPE.MASTER_KEY ? encryptKey(data.password, data.pinCode) : '',
     postingKey:
-    userData.authType === AUTH_TYPE.MASTER_KEY || userData.authType === AUTH_TYPE.POSTING_KEY
-      ? encryptKey(privateKeys.postingKey.toString(), data.pinCode)
-      : '',
+      userData.authType === AUTH_TYPE.MASTER_KEY || userData.authType === AUTH_TYPE.POSTING_KEY
+        ? encryptKey(privateKeys.postingKey.toString(), data.pinCode)
+        : '',
     activeKey:
-    userData.authType === AUTH_TYPE.MASTER_KEY || userData.authType === AUTH_TYPE.ACTIVE_KEY
-      ? encryptKey(privateKeys.activeKey.toString(), data.pinCode)
-      : '',
+      userData.authType === AUTH_TYPE.MASTER_KEY || userData.authType === AUTH_TYPE.ACTIVE_KEY
+        ? encryptKey(privateKeys.activeKey.toString(), data.pinCode)
+        : '',
     memoKey:
-    userData.authType === AUTH_TYPE.MASTER_KEY || userData.authType === AUTH_TYPE.MEMO_KEY
-      ? encryptKey(privateKeys.memoKey.toString(), data.pinCode)
-      : '',
+      userData.authType === AUTH_TYPE.MASTER_KEY || userData.authType === AUTH_TYPE.MEMO_KEY
+        ? encryptKey(privateKeys.memoKey.toString(), data.pinCode)
+        : '',
   };
 };
 
-const isLoggedInUser = (username) => {
+const isLoggedInUser = username => {
   const result = getUserDataWithUsername(username);
   if (result.length > 0) {
     return true;

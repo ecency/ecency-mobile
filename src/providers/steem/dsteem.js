@@ -1,4 +1,3 @@
-/* eslint-disable camelcase */
 import { Client, PrivateKey } from 'dsteem';
 import steemConnect from 'steemconnect';
 import Config from 'react-native-config';
@@ -24,7 +23,7 @@ let client = new Client(DEFAULT_SERVER);
 export const checkClient = async () => {
   let selectedServer = DEFAULT_SERVER;
 
-  await getServer().then((response) => {
+  await getServer().then(response => {
     if (response) {
       selectedServer = response;
     }
@@ -63,9 +62,10 @@ export const fetchGlobalProps = async () => {
     return;
   }
 
-  const steemPerMVests = (parseToken(globalDynamic.total_vesting_fund_steem)
-      / parseToken(globalDynamic.total_vesting_shares))
-    * 1e6;
+  const steemPerMVests =
+    (parseToken(globalDynamic.total_vesting_fund_steem) /
+      parseToken(globalDynamic.total_vesting_shares)) *
+    1e6;
   const base = parseToken(feedHistory.current_median_history.base);
   const quote = parseToken(feedHistory.current_median_history.quote);
   const fundRecentClaims = rewardFund.recent_claims;
@@ -85,20 +85,21 @@ export const fetchGlobalProps = async () => {
  * @method getAccount get account data
  * @param user username
  */
-export const getAccount = user => new Promise((resolve, reject) => {
-  try {
-    const account = client.database.getAccounts([user]);
-    resolve(account);
-  } catch (error) {
-    reject(error);
-  }
-});
+export const getAccount = user =>
+  new Promise((resolve, reject) => {
+    try {
+      const account = client.database.getAccounts([user]);
+      resolve(account);
+    } catch (error) {
+      reject(error);
+    }
+  });
 
 /**
  * @method getAccount get account data
  * @param user username
  */
-export const getState = async (path) => {
+export const getState = async path => {
   try {
     const state = await client.database.getState(path);
     return state;
@@ -111,7 +112,7 @@ export const getState = async (path) => {
  * @method getUser get account data
  * @param user username
  */
-export const getUser = async (user) => {
+export const getUser = async user => {
   try {
     const account = await client.database.getAccounts([user]);
 
@@ -158,46 +159,51 @@ export const getUser = async (user) => {
 };
 
 // TODO: Move to utils folder
-export const vestToSteem = async (vestingShares, totalVestingShares, totalVestingFundSteem) => (
-  parseFloat(totalVestingFundSteem)
-    * (parseFloat(vestingShares) / parseFloat(totalVestingShares))
-).toFixed(0);
+export const vestToSteem = async (vestingShares, totalVestingShares, totalVestingFundSteem) =>
+  (
+    parseFloat(totalVestingFundSteem) *
+    (parseFloat(vestingShares) / parseFloat(totalVestingShares))
+  ).toFixed(0);
 
 export const getFollows = username => client.database.call('get_follow_count', [username]);
 
-export const getFollowing = (follower, startFollowing, followType = 'blog', limit = 100) => client.database.call('get_following', [follower, startFollowing, followType, limit]);
+export const getFollowing = (follower, startFollowing, followType = 'blog', limit = 100) =>
+  client.database.call('get_following', [follower, startFollowing, followType, limit]);
 
-export const getFollowers = (follower, startFollowing, followType = 'blog', limit = 100) => client.database.call('get_followers', [follower, startFollowing, followType, limit]);
+export const getFollowers = (follower, startFollowing, followType = 'blog', limit = 100) =>
+  client.database.call('get_followers', [follower, startFollowing, followType, limit]);
 
-export const getIsFollowing = (user, author) => new Promise((resolve, reject) => {
-  client.database
-    .call('get_following', [author, user, 'blog', 1])
-    .then((result) => {
-      if (result[0] && result[0].follower === author && result[0].following === user) {
-        resolve(true);
-      } else {
-        resolve(false);
-      }
-    })
-    .catch((err) => {
-      reject(err);
-    });
-});
+export const getIsFollowing = (user, author) =>
+  new Promise((resolve, reject) => {
+    client.database
+      .call('get_following', [author, user, 'blog', 1])
+      .then(result => {
+        if (result[0] && result[0].follower === author && result[0].following === user) {
+          resolve(true);
+        } else {
+          resolve(false);
+        }
+      })
+      .catch(err => {
+        reject(err);
+      });
+  });
 
-export const getFollowSearch = (user, targetUser) => new Promise((resolve, reject) => {
-  client.database
-    .call('get_following', [targetUser, user, 'blog', 1])
-    .then((result) => {
-      if (result[0] && result[0].follower === targetUser && result[0].following === user) {
-        resolve(result[0].follower);
-      } else {
-        resolve(null);
-      }
-    })
-    .catch((err) => {
-      reject(err);
-    });
-});
+export const getFollowSearch = (user, targetUser) =>
+  new Promise((resolve, reject) => {
+    client.database
+      .call('get_following', [targetUser, user, 'blog', 1])
+      .then(result => {
+        if (result[0] && result[0].follower === targetUser && result[0].following === user) {
+          resolve(result[0].follower);
+        } else {
+          resolve(null);
+        }
+      })
+      .catch(err => {
+        reject(err);
+      });
+  });
 
 export const getIsMuted = async (targetUsername, username) => {
   let resp;
@@ -250,10 +256,10 @@ export const ignoreUser = async (currentAccount, pin, data) => {
     return new Promise((resolve, reject) => {
       client.broadcast
         .json(json, privateKey)
-        .then((result) => {
+        .then(result => {
           resolve(result);
         })
-        .catch((err) => {
+        .catch(err => {
           reject(err);
         });
     });
@@ -280,7 +286,8 @@ export const getPosts = async (by, query, user) => {
   }
 };
 
-export const getActiveVotes = (author, permlink) => client.database.call('get_active_votes', [author, permlink]);
+export const getActiveVotes = (author, permlink) =>
+  client.database.call('get_active_votes', [author, permlink]);
 
 export const getPostsSummary = async (by, query, currentUserName, filterNsfw) => {
   try {
@@ -300,7 +307,7 @@ export const getPostsSummary = async (by, query, currentUserName, filterNsfw) =>
   }
 };
 
-export const getUserComments = async (query) => {
+export const getUserComments = async query => {
   try {
     let comments = await client.database.getDiscussions('comments', query);
     comments = parseComments(comments);
@@ -310,7 +317,7 @@ export const getUserComments = async (query) => {
   }
 };
 
-export const getRepliesByLastUpdate = async (query) => {
+export const getRepliesByLastUpdate = async query => {
   try {
     let replies = await client.database.call('get_replies_by_last_update', [
       query.start_author,
@@ -347,19 +354,6 @@ export const getPurePost = async (author, permlink) => {
     return error;
   }
 };
-
-// export const deleteComment = (author, permlink) => {
-//   return new Promise((resolve, reject) => {
-//     client.database
-//       .call('delete_comment', [author, permlink])
-//       .then((response) => {
-//         resolve(response);
-//       })
-//       .catch((error) => {
-//         reject(error);
-//       });
-//   });
-// };
 
 export const deleteComment = (currentAccount, pin, permlink) => {
   const { name: author } = currentAccount;
@@ -409,13 +403,13 @@ export const getComments = (user, permlink) => {
   return new Promise((resolve, reject) => {
     client.database
       .call('get_content_replies', [user, permlink])
-      .then((result) => {
+      .then(result => {
         comments = parseComments(result);
       })
       .then(() => {
         resolve(comments);
       })
-      .catch((error) => {
+      .catch(error => {
         reject(error);
       });
   });
@@ -430,10 +424,10 @@ export const getPostWithComments = async (user, permlink) => {
   let post;
   let comments;
 
-  await getPost(user, permlink).then((result) => {
+  await getPost(user, permlink).then(result => {
     post = result;
   });
-  await getComments(user, permlink).then((result) => {
+  await getComments(user, permlink).then(result => {
     comments = result;
   });
 
@@ -446,10 +440,11 @@ export const getPostWithComments = async (user, permlink) => {
  * @param postingKey private posting key
  */
 
-export const vote = (account, pin, author, permlink, weight) => _vote(account, pin, author, permlink, weight).then((resp) => {
-  userActivity(account.username, 120, resp.block_num, resp.id);
-  return resp;
-});
+export const vote = (account, pin, author, permlink, weight) =>
+  _vote(account, pin, author, permlink, weight).then(resp => {
+    userActivity(account.username, 120, resp.block_num, resp.id);
+    return resp;
+  });
 
 const _vote = async (currentAccount, pin, author, permlink, weight) => {
   const digitPinCode = getDigitPinCode(pin);
@@ -466,10 +461,10 @@ const _vote = async (currentAccount, pin, author, permlink, weight) => {
     return new Promise((resolve, reject) => {
       api
         .vote(voter, author, permlink, weight)
-        .then((result) => {
+        .then(result => {
           resolve(result.result);
         })
-        .catch((err) => {
+        .catch(err => {
           reject(err);
         });
     });
@@ -488,10 +483,10 @@ const _vote = async (currentAccount, pin, author, permlink, weight) => {
     return new Promise((resolve, reject) => {
       client.broadcast
         .vote(args, privateKey)
-        .then((result) => {
+        .then(result => {
           resolve(result);
         })
-        .catch((err) => {
+        .catch(err => {
           reject(err);
         });
     });
@@ -503,17 +498,18 @@ const _vote = async (currentAccount, pin, author, permlink, weight) => {
 /**
  * @method upvoteAmount estimate upvote amount
  */
-export const upvoteAmount = async (input) => {
+export const upvoteAmount = async input => {
   let medianPrice;
   const rewardFund = await getRewardFund();
 
-  await client.database.getCurrentMedianHistoryPrice().then((res) => {
+  await client.database.getCurrentMedianHistoryPrice().then(res => {
     medianPrice = res;
   });
 
-  const estimated = (input / parseFloat(rewardFund.recent_claims))
-    * parseFloat(rewardFund.reward_balance)
-    * (parseFloat(medianPrice.base) / parseFloat(medianPrice.quote));
+  const estimated =
+    (input / parseFloat(rewardFund.recent_claims)) *
+    parseFloat(rewardFund.reward_balance) *
+    (parseFloat(medianPrice.base) / parseFloat(medianPrice.quote));
   return estimated;
 };
 
@@ -533,10 +529,10 @@ export const transferToken = (currentAccount, pin, data) => {
     return new Promise((resolve, reject) => {
       client.broadcast
         .transfer(args, privateKey)
-        .then((result) => {
+        .then(result => {
           resolve(result);
         })
-        .catch((err) => {
+        .catch(err => {
           reject(err);
         });
     });
@@ -552,23 +548,25 @@ export const transferToSavings = (currentAccount, pin, data) => {
   if (key) {
     const privateKey = PrivateKey.fromString(key);
 
-    const args = [[
-      'transfer_to_savings',
-      {
-        from: data.from,
-        to: data.destination,
-        amount: data.amount,
-        memo: data.memo,
-      },
-    ]];
+    const args = [
+      [
+        'transfer_to_savings',
+        {
+          from: data.from,
+          to: data.destination,
+          amount: data.amount,
+          memo: data.memo,
+        },
+      ],
+    ];
 
     return new Promise((resolve, reject) => {
       client.broadcast
         .sendOperations(args, privateKey)
-        .then((result) => {
+        .then(result => {
           resolve(result);
         })
-        .catch((err) => {
+        .catch(err => {
           reject(err);
         });
     });
@@ -583,24 +581,26 @@ export const transferFromSavings = (currentAccount, pin, data) => {
 
   if (key) {
     const privateKey = PrivateKey.fromString(key);
-    const args = [[
-      'transfer_from_savings',
-      {
-        from: data.from,
-        to: data.destination,
-        amount: data.amount,
-        memo: data.memo,
-        request_id: data.requestId,
-      },
-    ]];
+    const args = [
+      [
+        'transfer_from_savings',
+        {
+          from: data.from,
+          to: data.destination,
+          amount: data.amount,
+          memo: data.memo,
+          request_id: data.requestId,
+        },
+      ],
+    ];
 
     return new Promise((resolve, reject) => {
       client.broadcast
         .sendOperations(args, privateKey)
-        .then((result) => {
+        .then(result => {
           resolve(result);
         })
-        .catch((err) => {
+        .catch(err => {
           reject(err);
         });
     });
@@ -615,22 +615,24 @@ export const transferToVesting = (currentAccount, pin, data) => {
 
   if (key) {
     const privateKey = PrivateKey.fromString(key);
-    const args = [[
-      'transfer_to_vesting',
-      {
-        from: data.from,
-        to: data.destination,
-        amount: data.amount,
-      },
-    ]];
+    const args = [
+      [
+        'transfer_to_vesting',
+        {
+          from: data.from,
+          to: data.destination,
+          amount: data.amount,
+        },
+      ],
+    ];
 
     return new Promise((resolve, reject) => {
       client.broadcast
         .sendOperations(args, privateKey)
-        .then((result) => {
+        .then(result => {
           resolve(result);
         })
-        .catch((err) => {
+        .catch(err => {
           reject(err);
         });
     });
@@ -671,10 +673,10 @@ export const followUser = async (currentAccount, pin, data) => {
     return new Promise((resolve, reject) => {
       client.broadcast
         .json(json, privateKey)
-        .then((result) => {
+        .then(result => {
           resolve(result);
         })
-        .catch((err) => {
+        .catch(err => {
           reject(err);
         });
     });
@@ -716,10 +718,10 @@ export const unfollowUser = async (currentAccount, pin, data) => {
     return new Promise((resolve, reject) => {
       client.broadcast
         .json(json, privateKey)
-        .then((result) => {
+        .then(result => {
           resolve(result);
         })
-        .catch((err) => {
+        .catch(err => {
           reject(err);
         });
     });
@@ -734,10 +736,10 @@ export const delegate = (data, activeKey) => {
   return new Promise((resolve, reject) => {
     client.broadcast
       .delegateVestingShares(data, privateKey)
-      .then((result) => {
+      .then(result => {
         resolve(result);
       })
-      .catch((err) => {
+      .catch(err => {
         reject(err);
       });
   });
@@ -756,16 +758,16 @@ export const withdrawVesting = (data, activeKey) => {
   return new Promise((resolve, reject) => {
     client.broadcast
       .sendOperations([op], privateKey)
-      .then((result) => {
+      .then(result => {
         resolve(result);
       })
-      .catch((error) => {
+      .catch(error => {
         reject(error);
       });
   });
 };
 
-export const lookupAccounts = async (username) => {
+export const lookupAccounts = async username => {
   try {
     const users = await client.database.call('lookup_accounts', [username, 20]);
     return users;
@@ -774,7 +776,7 @@ export const lookupAccounts = async (username) => {
   }
 };
 
-export const getTrendingTags = async (tag) => {
+export const getTrendingTags = async tag => {
   try {
     const users = await client.database.call('get_trending_tags', [tag, 20]);
     return users;
@@ -794,26 +796,27 @@ export const postContent = (
   jsonMetadata,
   options = null,
   voteWeight = null,
-) => _postContent(
-  account,
-  pin,
-  parentAuthor,
-  parentPermlink,
-  permlink,
-  title,
-  body,
-  jsonMetadata,
-  options,
-  voteWeight,
-).then((resp) => {
-  if (options) {
-    const t = title ? 100 : 110;
-    const { block_num, id } = resp;
+) =>
+  _postContent(
+    account,
+    pin,
+    parentAuthor,
+    parentPermlink,
+    permlink,
+    title,
+    body,
+    jsonMetadata,
+    options,
+    voteWeight,
+  ).then(resp => {
+    if (options) {
+      const t = title ? 100 : 110;
+      const { block_num, id } = resp;
 
-    userActivity(account.username, t, block_num, id);
-  }
-  return resp;
-});
+      userActivity(account.username, t, block_num, id);
+    }
+    return resp;
+  });
 
 /**
  * @method postComment post a comment/reply
@@ -913,10 +916,10 @@ const _postContent = async (
     return new Promise((resolve, reject) => {
       client.broadcast
         .sendOperations(opArray, privateKey)
-        .then((result) => {
+        .then(result => {
           resolve(result);
         })
-        .catch((error) => {
+        .catch(error => {
           reject(error);
         });
     });
@@ -927,10 +930,11 @@ const _postContent = async (
 
 // Re-blog
 // TODO: remove pinCode
-export const reblog = (account, pinCode, author, permlink) => _reblog(account, pinCode, author, permlink).then((resp) => {
-  userActivity(account.name, 130, resp.block_num, resp.id);
-  return resp;
-});
+export const reblog = (account, pinCode, author, permlink) =>
+  _reblog(account, pinCode, author, permlink).then(resp => {
+    userActivity(account.name, 130, resp.block_num, resp.id);
+    return resp;
+  });
 
 const _reblog = async (account, pinCode, author, permlink) => {
   const pin = getDigitPinCode(pinCode);

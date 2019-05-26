@@ -1,7 +1,5 @@
 import React, { PureComponent } from 'react';
-import {
-  Modal as ModalBox, View, Text, SafeAreaView,
-} from 'react-native';
+import { Modal as ModalBox, View, Text, SafeAreaView } from 'react-native';
 import { IconButton } from '../../iconButton';
 import styles from './modalStyles';
 

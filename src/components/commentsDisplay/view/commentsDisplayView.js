@@ -31,9 +31,7 @@ class CommentsDisplayView extends PureComponent {
   };
 
   render() {
-    const {
-      author, commentCount, fetchPost, intl, permlink, mainAuthor
-    } = this.props;
+    const { author, commentCount, fetchPost, intl, permlink, mainAuthor } = this.props;
     const { selectedFilter } = this.state;
 
     return (
@@ -42,7 +40,9 @@ class CommentsDisplayView extends PureComponent {
           <Fragment>
             <FilterBar
               dropdownIconName="arrow-drop-down"
-              options={COMMENT_FILTER.map(item => intl.formatMessage({ id: `comment_filter.${item}` }).toUpperCase())}
+              options={COMMENT_FILTER.map(item =>
+                intl.formatMessage({ id: `comment_filter.${item}` }).toUpperCase(),
+              )}
               defaultText={intl
                 .formatMessage({ id: `comment_filter.${COMMENT_FILTER[0]}` })
                 .toUpperCase()}

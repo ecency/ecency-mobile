@@ -1,22 +1,17 @@
 import React, { Component, Fragment } from 'react';
-import {
-  View, Text, ActivityIndicator, SafeAreaView,
-} from 'react-native';
+import { View, Text, ActivityIndicator, SafeAreaView } from 'react-native';
 import { injectIntl } from 'react-intl';
-import DatePicker from 'react-native-datepicker';
-import moment from 'moment';
 
 // Components
 import { TextButton } from '../..';
 import { IconButton } from '../../iconButton';
 import { DropdownButton } from '../../dropdownButton';
 import { TextInput } from '../../textInput';
-import { Icon } from '../../icon';
+import { DateTimePicker } from '../../dateTimePicker';
 
 // Constants
 // Styles
 import styles from './basicHeaderStyles';
-import datePickerStyles from './datePickerStyles';
 
 class BasicHeaderView extends Component {
   /* Props
@@ -29,7 +24,6 @@ class BasicHeaderView extends Component {
     super(props);
     this.state = {
       isInputVisible: false,
-      datePickerValue: '',
     };
   }
 
@@ -53,7 +47,7 @@ class BasicHeaderView extends Component {
     this.setState({ isInputVisible: !isInputVisible });
   };
 
-  _handleOnSearch = (value) => {
+  _handleOnSearch = value => {
     const { handleOnSearch } = this.props;
 
     handleOnSearch(value);
@@ -61,15 +55,13 @@ class BasicHeaderView extends Component {
 
   _handleOnInputChange = () => {};
 
-  _handleDatePickerChange = (datePickerValue) => {
+  _handleDatePickerChange = datePickerValue => {
     const { handleDatePickerChange } = this.props;
-
-    this.setState({ datePickerValue });
 
     if (handleDatePickerChange) {
       handleDatePickerChange(datePickerValue);
     }
-  }
+  };
 
   render() {
     const {
@@ -96,7 +88,7 @@ class BasicHeaderView extends Component {
       rightIconName,
       title,
     } = this.props;
-    const { isInputVisible, datePickerValue } = this.state;
+    const { isInputVisible } = this.state;
 
     return (
       <SafeAreaView style={styles.safeArea}>
@@ -189,35 +181,13 @@ class BasicHeaderView extends Component {
 
           {isHasIcons && (
             <Fragment>
-              {!isReply
-                && (
-                <DatePicker
-                  style={{ width: 50 }}
-                  date={datePickerValue}
-                  mode="date"
-                  format="YYYY-MM-DD"
-                  minDate={moment()}
-                  maxDate="3000-06-01"
-                  confirmBtnText="Confirm"
-                  cancelBtnText="Cancel"
-                  onDateChange={(_datePickerValue) => { this._handleDatePickerChange(_datePickerValue); }}
-                  hideText
+              {!isReply && (
+                <DateTimePicker
+                  type="date-time"
+                  onSubmit={this._handleDatePickerChange}
                   disabled={!isFormValid}
-                  onPressDate
-                  customStyles={{
-                    ...datePickerStyles,
-                  }}
-                  iconComponent={(
-                    <Icon
-                      style={{ ...styles.iconButton, ...styles.scheduleIcon }}
-                      size={20}
-                      iconType="MaterialIcons"
-                      name="timer"
-                    />
-                    )}
                 />
-                )
-              }
+              )}
               <IconButton
                 style={styles.iconButton}
                 size={25}
