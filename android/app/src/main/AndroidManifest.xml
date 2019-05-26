@@ -55,6 +55,9 @@
       <meta-data
           android:name="com.google.firebase.messaging.default_notification_color"
           android:resource="@color/notification_icon" />
+      <meta-data
+          android:name="com.bugsnag.android.API_KEY"
+          android:value="209f4246554ad209c903a45106669b9f" />
     </application>
 
 </manifest>
