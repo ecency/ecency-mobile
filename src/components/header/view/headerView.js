@@ -77,7 +77,11 @@ class HeaderView extends Component {
               isReverse ? styles.avatarButtonWrapperReverse : styles.avatarDefault,
             ]}
           >
-            <UserAvatar noAction style={styles.avatar} username={username} />
+            <UserAvatar
+              noAction
+              style={isReverse ? styles.reverseAvatar : styles.avatar}
+              username={username}
+            />
           </LinearGradient>
         </TouchableOpacity>
         {displayName || username ? (
@@ -100,7 +104,7 @@ class HeaderView extends Component {
           </View>
         )}
         {isReverse && (
-          <View style={styles.backButtonWrapper}>
+          <View style={styles.reverseBackButtonWrapper}>
             <IconButton
               style={styles.backButton}
               iconStyle={styles.backIcon}
@@ -111,14 +115,7 @@ class HeaderView extends Component {
         )}
 
         {!isReverse && (
-          <View
-            style={{
-              alignItems: 'flex-end',
-              justifyContent: 'center',
-              flex: 1,
-              marginRight: 16,
-            }}
-          >
+          <View style={styles.backButtonWrapper}>
             <IconButton
               iconStyle={styles.backIcon}
               name="md-search"
