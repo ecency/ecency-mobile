@@ -44,7 +44,7 @@ class PostBody extends PureComponent {
     }
   };
 
-  _handleBrowserLink = async (url) => {
+  _handleBrowserLink = async url => {
     if (!url) return;
     const { intl } = this.props;
 
@@ -60,17 +60,19 @@ class PostBody extends PureComponent {
   _handleOnPostPress = (permlink, author) => {
     const { navigation } = this.props;
 
-    navigation.navigate({
-      routeName: ROUTES.SCREENS.POST,
-      params: {
-        author,
-        permlink,
-      },
-      key: permlink,
-    });
+    if (permlink) {
+      navigation.navigate({
+        routeName: ROUTES.SCREENS.POST,
+        params: {
+          author,
+          permlink,
+        },
+        key: permlink,
+      });
+    }
   };
 
-  _handleOnUserPress = (username) => {
+  _handleOnUserPress = username => {
     const { navigation } = this.props;
 
     if (username) {
@@ -95,8 +97,8 @@ class PostBody extends PureComponent {
   _alterNode = (node, isComment) => {
     if (isComment) {
       if (node.name === 'img') {
-        node.attribs.style = `max-width: ${WIDTH - 50}px; height: 100px; width: ${WIDTH
-          - 50}px; text-align: center;`;
+        node.attribs.style = `max-width: ${WIDTH - 50}px; height: 100px; width: ${WIDTH -
+          50}px; text-align: center;`;
       }
       //  else if (node.name === 'iframe') {
       //   node.attribs.style = `max-width: ${WIDTH}px; left: -30px`;
@@ -134,11 +136,16 @@ class PostBody extends PureComponent {
     }
   };
 
-  _alterData = (node) => {
-    if (node.type === 'text' && node.data.includes('markdown-author-link') && node.parent && getParentsTagsRecursively(node.parent).includes('code')) {
+  _alterData = node => {
+    if (
+      node.type === 'text' &&
+      node.data.includes('markdown-author-link') &&
+      node.parent &&
+      getParentsTagsRecursively(node.parent).includes('code')
+    ) {
       return node.data.replace(/<[^>]*>/g, '');
     }
-  }
+  };
 
   render() {
     const { body, isComment } = this.props;

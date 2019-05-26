@@ -1,7 +1,7 @@
 import React, { PureComponent } from 'react';
 import { View, StatusBar, Platform } from 'react-native';
 import { KeyboardAwareScrollView } from 'react-native-keyboard-aware-scroll-view';
-import ScrollableTabView from '@esteemapp/react-native-scrollable-tab-view';
+import ScrollableTabView from 'react-native-scrollable-tab-view';
 import { injectIntl } from 'react-intl';
 
 // Actions
@@ -38,16 +38,16 @@ class LoginScreen extends PureComponent {
     };
   }
 
-  _handleOnPasswordChange = (value) => {
+  _handleOnPasswordChange = value => {
     this.setState({ password: value });
   };
 
-  _handleUsernameChange = (username) => {
+  _handleUsernameChange = username => {
     const { getAccountsWithUsername } = this.props;
 
     this.setState({ username });
 
-    getAccountsWithUsername(username).then((res) => {
+    getAccountsWithUsername(username).then(res => {
       const isValid = res.includes(username);
 
       this.setState({ isUsernameValid: isValid });
@@ -60,16 +60,8 @@ class LoginScreen extends PureComponent {
   };
 
   render() {
-    const {
-      navigation,
-      intl,
-      handleOnPressLogin,
-      handleSignUp,
-      isLoading,
-    } = this.props;
-    const {
-      username, isUsernameValid, keyboardIsOpen, password, isModalOpen,
-    } = this.state;
+    const { navigation, intl, handleOnPressLogin, handleSignUp, isLoading } = this.props;
+    const { username, isUsernameValid, keyboardIsOpen, password, isModalOpen } = this.state;
 
     return (
       <View style={styles.container}>
@@ -196,9 +188,7 @@ class LoginScreen extends PureComponent {
           handleOnModalClose={this._handleOnModalToggle}
           title="Steemconnect Login"
         >
-          <SteemConnect
-            handleOnModalClose={this._handleOnModalToggle}
-          />
+          <SteemConnect handleOnModalClose={this._handleOnModalToggle} />
         </Modal>
       </View>
     );

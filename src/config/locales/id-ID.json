@@ -161,7 +161,7 @@
     "reply_placeholder": "Apa yang ingin Anda tulis tentang posting di atas?",
     "publish": "Terbitkan",
     "reply": "Balas",
-    "open_galery": "Open Gallery",
+    "open_gallery": "Open Gallery",
     "capture_photo": "Ambil Foto"
   },
   "pincode": {
@@ -194,7 +194,8 @@
     "delete": "Hapus",
     "copied": "Disalin!",
     "no_internet": "Tidak ada koneksi!",
-    "confirm": "Konfirmasi"
+    "confirm": "Konfirmasi",
+    "removed": "Removed"
   },
   "post": {
     "reblog_alert": "Anda yakin ingin menerbitkan ulang?",

@@ -89,7 +89,7 @@ class PostListItemView extends Component {
           title={intl.formatMessage({ id: 'alert.remove_alert' })}
           cancelButtonIndex={1}
           destructiveButtonIndex={0}
-          onPress={(index) => {
+          onPress={index => {
             if (index === 0) handleOnRemoveItem(id);
           }}
         />

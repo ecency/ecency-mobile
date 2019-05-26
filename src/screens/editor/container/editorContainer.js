@@ -3,15 +3,11 @@ import { connect } from 'react-redux';
 import { injectIntl } from 'react-intl';
 import { Alert, AsyncStorage } from 'react-native';
 import ImagePicker from 'react-native-image-crop-picker';
+import get from 'lodash/get';
 
 // Services and Actions
 import { Buffer } from 'buffer';
-import {
-  uploadImage,
-  addDraft,
-  updateDraft,
-  schedule,
-} from '../../../providers/esteem/esteem';
+import { uploadImage, addDraft, updateDraft, schedule } from '../../../providers/esteem/esteem';
 import { toastNotification } from '../../../redux/actions/uiAction';
 import { postContent, getPurePost } from '../../../providers/steem/dsteem';
 import { setDraftPost, getDraftPost } from '../../../realm/realm';
@@ -26,6 +22,7 @@ import {
   makeOptions,
   extractMetadata,
   makeJsonMetadataReply,
+  makeJsonMetadataForUpdate,
   createPatch,
 } from '../../../utils/editor';
 // import { generateSignature } from '../../../utils/image';
@@ -122,14 +119,15 @@ class EditorContainer extends Component {
   _getDraft = async (username, isReply) => {
     if (isReply) {
       const draftReply = await AsyncStorage.getItem('temp-reply');
+
       if (draftReply) {
         this.setState({
           draftPost: { body: draftReply },
         });
       }
     } else {
-      await getDraftPost(username)
-        .then((result) => {
+      await getDraftPost(username).then(result => {
+        if (result) {
           this.setState({
             draftPost: {
               body: result.body,
@@ -137,14 +135,12 @@ class EditorContainer extends Component {
               tags: result.tags.split(','),
             },
           });
-        })
-        .catch(() => {
-          // alert(error);
-        });
+        }
+      });
     }
   };
 
-  _handleRoutingAction = (routingAction) => {
+  _handleRoutingAction = routingAction => {
     this.setState({ isCameraOrPickerOpen: true });
 
     if (routingAction === 'camera') {
@@ -154,16 +150,14 @@ class EditorContainer extends Component {
     }
   };
 
-  // Media select functions <- START ->
-
   _handleOpenImagePicker = () => {
     ImagePicker.openPicker({
       includeBase64: true,
     })
-      .then((image) => {
+      .then(image => {
         this._handleMediaOnSelected(image);
       })
-      .catch((e) => {
+      .catch(e => {
         this._handleMediaOnSelectFailure(e);
       });
   };
@@ -172,15 +166,15 @@ class EditorContainer extends Component {
     ImagePicker.openCamera({
       includeBase64: true,
     })
-      .then((image) => {
+      .then(image => {
         this._handleMediaOnSelected(image);
       })
-      .catch((e) => {
+      .catch(e => {
         this._handleMediaOnSelectFailure(e);
       });
   };
 
-  _handleMediaOnSelected = (media) => {
+  _handleMediaOnSelected = media => {
     this.setState({ isCameraOrPickerOpen: false, isUploading: true }, () => {
       this._uploadImage(media);
     });
@@ -192,7 +186,7 @@ class EditorContainer extends Component {
     // const data = new Buffer(media.data, 'base64');
   };
 
-  _uploadImage = (media) => {
+  _uploadImage = media => {
     const { intl } = this.props;
 
     const file = {
@@ -203,12 +197,12 @@ class EditorContainer extends Component {
     };
 
     uploadImage(file)
-      .then((res) => {
+      .then(res => {
         if (res.data && res.data.url) {
           this.setState({ uploadedImage: res.data, isUploading: false });
         }
       })
-      .catch((error) => {
+      .catch(error => {
         Alert.alert(
           intl.formatMessage({
             id: 'alert.fail',
@@ -219,11 +213,11 @@ class EditorContainer extends Component {
       });
   };
 
-  _handleMediaOnSelectFailure = (error) => {
+  _handleMediaOnSelectFailure = error => {
     const { intl } = this.props;
     this.setState({ isCameraOrPickerOpen: false });
 
-    if (error.code === 'E_PERMISSION_MISSING') {
+    if (get(error, 'code') === 'E_PERMISSION_MISSING') {
       Alert.alert(
         intl.formatMessage({
           id: 'alert.permission_denied',
@@ -235,29 +229,31 @@ class EditorContainer extends Component {
     }
   };
 
-  // Media select functions <- END ->
-
-  _saveDraftToDB = (fields) => {
+  _saveDraftToDB = fields => {
     const { isDraftSaved, draftId } = this.state;
+
     if (!isDraftSaved) {
       const { currentAccount } = this.props;
-      const username = currentAccount && currentAccount.name ? currentAccount.name : '';
+      const username = get(currentAccount, 'name', '');
+      let draftField;
 
       this.setState({ isDraftSaving: true });
-      const draftField = {
-        ...fields,
-        tags: fields.tags.join(' '),
-        username,
-      };
+      if (fields) {
+        draftField = {
+          ...fields,
+          tags: fields.tags.join(' '),
+          username,
+        };
+      }
 
-      if (draftId) {
+      if (draftId && draftField) {
         updateDraft({ ...draftField, draftId }).then(() => {
           this.setState({
             isDraftSaved: true,
           });
         });
-      } else {
-        addDraft(draftField).then((response) => {
+      } else if (draftField) {
+        addDraft(draftField).then(response => {
           this.setState({
             isDraftSaved: true,
             draftId: response._id,
@@ -267,21 +263,21 @@ class EditorContainer extends Component {
 
       this.setState({
         isDraftSaving: false,
+        isDraftSaved,
       });
     }
   };
 
-  _saveCurrentDraft = async (fields) => {
-    const { draftId, isReply } = this.state;
+  _saveCurrentDraft = async fields => {
+    const { draftId, isReply, isEdit } = this.state;
 
-    if (!draftId) {
+    if (!draftId && !isEdit) {
       const { currentAccount } = this.props;
       const username = currentAccount && currentAccount.name ? currentAccount.name : '';
 
       const draftField = {
         ...fields,
-        tags:
-          fields.tags && fields.tags.length > 0 ? fields.tags.toString() : '',
+        tags: fields.tags && fields.tags.length > 0 ? fields.tags.toString() : '',
       };
 
       if (isReply && draftField.body) {
@@ -346,15 +342,6 @@ class EditorContainer extends Component {
           0,
         )
           .then(() => {
-            // Alert.alert(
-            //   intl.formatMessage({
-            //     id: 'alert.success',
-            //   }),
-            //   intl.formatMessage({
-            //     id: 'alert.success_shared',
-            //   }),
-            // );
-
             dispatch(
               toastNotification(
                 intl.formatMessage({
@@ -366,26 +353,25 @@ class EditorContainer extends Component {
             navigation.navigate({
               routeName: ROUTES.SCREENS.POST,
               params: {
-                author: currentAccount.name,
+                author: get(currentAccount, 'name'),
                 permlink,
                 isNewPost: true,
               },
               key: permlink,
             });
 
-            setDraftPost(
-              { title: '', body: '', tags: '' },
-              currentAccount.name,
-            );
+            this.setState({ isPostSending: false });
+
+            setDraftPost({ title: '', body: '', tags: '' }, currentAccount.name);
           })
-          .catch((error) => {
+          .catch(error => {
             this._handleSubmitFailure(error);
           });
       }
     }
   };
 
-  _submitReply = async (fields) => {
+  _submitReply = async fields => {
     const { currentAccount, pinCode } = this.props;
 
     if (currentAccount) {
@@ -393,9 +379,7 @@ class EditorContainer extends Component {
 
       const { post } = this.state;
 
-      const jsonMeta = makeJsonMetadataReply(
-        post.json_metadata.tags || ['esteem'],
-      );
+      const jsonMeta = makeJsonMetadataReply(post.json_metadata.tags || ['esteem']);
       const permlink = generateReplyPermlink(post.author);
       const author = currentAccount.name;
       const options = makeOptions(author, permlink);
@@ -415,65 +399,66 @@ class EditorContainer extends Component {
         0,
       )
         .then(() => {
-          this._handleSubmitSuccess();
           AsyncStorage.setItem('temp-reply', '');
+          this._handleSubmitSuccess();
         })
-        .catch((error) => {
+        .catch(error => {
           this._handleSubmitFailure(error);
         });
     }
   };
 
-  _submitEdit = async (fields) => {
+  _submitEdit = async fields => {
     const { currentAccount, pinCode } = this.props;
     const { post } = this.state;
     if (currentAccount) {
       this.setState({ isPostSending: true });
-
+      const { tags, body, title } = fields;
       const {
         body: oldBody,
         parent_permlink: parentPermlink,
         permlink,
-        parent_author: parentAuthor,
-        json_metadata: oldMeta,
+        json_metadata: jsonMetadata,
       } = post;
 
-      let newBody = fields.body;
-      let _oldMeta = oldMeta;
+      let newBody = body;
       const patch = createPatch(oldBody, newBody.trim());
 
       if (patch && patch.length < Buffer.from(oldBody, 'utf-8').length) {
         newBody = patch;
       }
 
-      if (typeof _oldMeta === 'string') {
-        _oldMeta = JSON.parse(_oldMeta);
-      }
-
       const meta = extractMetadata(fields.body);
-      const metadata = Object.assign({}, _oldMeta, meta);
-      const jsonMeta = makeJsonMetadata(metadata, fields.tags);
+
+      let jsonMeta = {};
+
+      try {
+        const oldJson = JSON.parse(jsonMetadata);
+        jsonMeta = makeJsonMetadataForUpdate(oldJson, meta, tags);
+      } catch (e) {
+        jsonMeta = makeJsonMetadata(meta, tags);
+      }
 
       await postContent(
         currentAccount,
         pinCode,
-        parentAuthor || '',
+        '',
         parentPermlink,
         permlink,
-        fields.title,
+        title,
         newBody,
         jsonMeta,
       )
         .then(() => {
           this._handleSubmitSuccess();
         })
-        .catch((error) => {
+        .catch(error => {
           this._handleSubmitFailure(error);
         });
     }
   };
 
-  _handleSubmitFailure = (error) => {
+  _handleSubmitFailure = error => {
     const { intl } = this.props;
 
     Alert.alert(
@@ -488,8 +473,12 @@ class EditorContainer extends Component {
   _handleSubmitSuccess = () => {
     const { navigation } = this.props;
 
-    navigation.goBack();
-    navigation.state.params.fetchPost();
+    if (navigation) {
+      navigation.goBack();
+      navigation.state.params.fetchPost();
+    }
+
+    this.setState({ isPostSending: false });
   };
 
   _handleOnBackPress = () => {
@@ -501,7 +490,7 @@ class EditorContainer extends Component {
     }
   };
 
-  _handleSubmit = (form) => {
+  _handleSubmit = form => {
     const { isReply, isEdit } = this.state;
 
     if (isReply && !isEdit) {
@@ -525,8 +514,8 @@ class EditorContainer extends Component {
     this._submitPost(fields, datePickerValue);
   };
 
-  _setScheduledPost = (data) => {
-    const { dispatch } = this.props;
+  _setScheduledPost = data => {
+    const { dispatch, intl } = this.props;
 
     schedule(
       data.author,
@@ -538,20 +527,31 @@ class EditorContainer extends Component {
       '',
       '',
       data.scheduleDate,
-    ).then(() => {
-      this.setState({ isPostSending: false });
-      dispatch(
-        toastNotification(
-          // intl.formatMessage({
-          //   id: 'alert.copied',
-          // }),
-          'Scheduled',
-        ),
-      );
-    }).catch(() => {
-      this.setState({ isPostSending: false });
-    });
-  }
+    )
+      .then(() => {
+        this.setState({ isPostSending: false });
+        dispatch(
+          toastNotification(
+            intl.formatMessage({
+              id: 'alert.success',
+            }),
+          ),
+        );
+      })
+      .catch(() => {
+        this.setState({ isPostSending: false });
+      });
+  };
+
+  _initialEditor = () => {
+    const {
+      currentAccount: { name },
+    } = this.props;
+
+    setDraftPost({ title: '', body: '', tags: '' }, name);
+
+    this.setState({ uploadedImage: null });
+  };
 
   render() {
     const { isLoggedIn, isDarkTheme } = this.props;
@@ -579,6 +579,7 @@ class EditorContainer extends Component {
         handleOnBackPress={this._handleOnBackPress}
         handleOnImagePicker={this._handleRoutingAction}
         handleOnSubmit={this._handleSubmit}
+        initialEditor={this._initialEditor}
         isCameraOrPickerOpen={isCameraOrPickerOpen}
         isDarkTheme={isDarkTheme}
         isDraftSaved={isDraftSaved}

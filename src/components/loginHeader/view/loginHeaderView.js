@@ -1,7 +1,5 @@
 import React, { PureComponent } from 'react';
-import {
-  View, Text, Image, SafeAreaView,
-} from 'react-native';
+import { View, Text, Image, SafeAreaView } from 'react-native';
 // Constants
 
 // Components
@@ -27,9 +25,7 @@ class LoginHeaderView extends PureComponent {
   // Component Functions
 
   render() {
-    const {
-      description, isKeyboardOpen, onPress, rightButtonText, title,
-    } = this.props;
+    const { description, isKeyboardOpen, onPress, rightButtonText, title } = this.props;
 
     return (
       <SafeAreaView style={styles.safeArea}>

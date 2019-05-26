@@ -161,7 +161,7 @@
     "reply_placeholder": "מה תרצה לכתוב לגבי הפוסט הנ\"ל?",
     "publish": "פרסם\\י",
     "reply": "השב\\י",
-    "open_galery": "Open Gallery",
+    "open_gallery": "Open Gallery",
     "capture_photo": "לכידת תמונה"
   },
   "pincode": {
@@ -194,7 +194,8 @@
     "delete": "מחק\\י",
     "copied": "הועתק!",
     "no_internet": "אין חיבור!",
-    "confirm": "Confirm"
+    "confirm": "Confirm",
+    "removed": "Removed"
   },
   "post": {
     "reblog_alert": "האם את\\ה בטוח\/ה רוצה לשתף ?",

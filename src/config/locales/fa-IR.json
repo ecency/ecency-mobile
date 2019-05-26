@@ -161,7 +161,7 @@
     "reply_placeholder": "در مورد پست فوق، چه چیزی میخواهید بنویسید؟",
     "publish": "نشر",
     "reply": "پاسخ دادن",
-    "open_galery": "Open Gallery",
+    "open_gallery": "Open Gallery",
     "capture_photo": "گرفتن عکس"
   },
   "pincode": {
@@ -194,7 +194,8 @@
     "delete": "پاک کردن",
     "copied": "کپی شد!",
     "no_internet": "اتصال برقرار نیست!",
-    "confirm": "تأیید"
+    "confirm": "تأیید",
+    "removed": "Removed"
   },
   "post": {
     "reblog_alert": "آیا مطمئن هستید که می‌خواهید به اشتراک بگذارید؟",

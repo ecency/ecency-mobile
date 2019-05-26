@@ -39,7 +39,6 @@ target 'eSteem' do
   pod 'react-native-version-number', :path => '../node_modules/react-native-version-number'
 
 
-  pod 'SentryReactNative', :path => '../node_modules/react-native-sentry'
 
   target 'eSteemTests' do
     inherit! :search_paths

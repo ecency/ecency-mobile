@@ -161,7 +161,7 @@
     "reply_placeholder": "ऊपर वाली पोस्ट के बारें में आप क्या लिखना चाहेंगे?",
     "publish": "प्रकाशित करें",
     "reply": "जबाब दें",
-    "open_galery": "Open Gallery",
+    "open_gallery": "Open Gallery",
     "capture_photo": "फोटो खीचें"
   },
   "pincode": {
@@ -194,7 +194,8 @@
     "delete": "मिटा दें",
     "copied": "प्रतिलिपि हो गयी!",
     "no_internet": "संपर्क नहीं",
-    "confirm": "पुष्टी करें"
+    "confirm": "पुष्टी करें",
+    "removed": "Removed"
   },
   "post": {
     "reblog_alert": "क्या आप सच में पुनः प्रसारित करना चाहते हैं?",

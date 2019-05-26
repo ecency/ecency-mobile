@@ -161,7 +161,7 @@
     "reply_placeholder": "Qu'aimeriez-vous écrire à propos de l'article ci-dessus ?",
     "publish": "Publier",
     "reply": "Répondre",
-    "open_galery": "Open Gallery",
+    "open_gallery": "Open Gallery",
     "capture_photo": "Prendre une photo"
   },
   "pincode": {
@@ -194,7 +194,8 @@
     "delete": "Supprimer",
     "copied": "Copié !",
     "no_internet": "Pas de connexion !",
-    "confirm": "Valider"
+    "confirm": "Valider",
+    "removed": "Removed"
   },
   "post": {
     "reblog_alert": "Êtes-vous sûr de vouloir rebloguer ?",

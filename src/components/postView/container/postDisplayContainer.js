@@ -1,8 +1,13 @@
 import React, { Component } from 'react';
 import { withNavigation } from 'react-navigation';
 import { connect } from 'react-redux';
+import { injectIntl } from 'react-intl';
 
-// Middleware
+// Action
+import { toastNotification } from '../../../redux/actions/uiAction';
+
+// Dsteem
+import { deleteComment } from '../../../providers/steem/dsteem';
 
 // Constants
 import { default as ROUTES } from '../../../constants/routeNames';
@@ -33,7 +38,7 @@ class PostDisplayContainer extends Component {
   }
 
   // Component Functions
-  _handleOnVotersPress = (activeVotes) => {
+  _handleOnVotersPress = activeVotes => {
     const { navigation, post } = this.props;
 
     navigation.navigate({
@@ -48,6 +53,7 @@ class PostDisplayContainer extends Component {
 
   _handleOnReplyPress = () => {
     const { post, navigation } = this.props;
+
     navigation.navigate({
       routeName: ROUTES.SCREENS.EDITOR,
       params: {
@@ -60,13 +66,34 @@ class PostDisplayContainer extends Component {
 
   _handleOnEditPress = () => {
     const { post, navigation } = this.props;
-    navigation.navigate({
-      routeName: ROUTES.SCREENS.EDITOR,
-      params: {
-        isEdit: true,
-        post,
-        fetchPost: this._fetchPost,
-      },
+
+    if (post) {
+      const isReply = post.parent_author;
+
+      navigation.navigate({
+        routeName: ROUTES.SCREENS.EDITOR,
+        params: {
+          isEdit: true,
+          isReply,
+          post,
+          fetchPost: this._fetchPost,
+        },
+      });
+    }
+  };
+
+  _handleDeleteComment = permlink => {
+    const { currentAccount, pinCode, navigation, dispatch, intl } = this.props;
+
+    deleteComment(currentAccount, pinCode, permlink).then(() => {
+      navigation.goBack();
+      dispatch(
+        toastNotification(
+          intl.formatMessage({
+            id: 'alert.removed',
+          }),
+        ),
+      );
     });
   };
 
@@ -78,20 +105,27 @@ class PostDisplayContainer extends Component {
 
   render() {
     const {
-      currentAccount, isLoggedIn, isNewPost, parentPost, post, isPostUnavailable, author,
+      currentAccount,
+      isLoggedIn,
+      isNewPost,
+      parentPost,
+      post,
+      isPostUnavailable,
+      author,
     } = this.props;
 
     return (
       <PostDisplayView
         author={author}
-        isPostUnavailable={isPostUnavailable}
         currentAccount={currentAccount}
         fetchPost={this._fetchPost}
         handleOnEditPress={this._handleOnEditPress}
+        handleOnRemovePress={this._handleDeleteComment}
         handleOnReplyPress={this._handleOnReplyPress}
         handleOnVotersPress={this._handleOnVotersPress}
         isLoggedIn={isLoggedIn}
         isNewPost={isNewPost}
+        isPostUnavailable={isPostUnavailable}
         parentPost={parentPost}
         post={post}
       />
@@ -101,8 +135,8 @@ class PostDisplayContainer extends Component {
 
 const mapStateToProps = state => ({
   currentAccount: state.account.currentAccount,
-
+  pinCode: state.account.pin,
   isLoggedIn: state.application.isLoggedIn,
 });
 
-export default withNavigation(connect(mapStateToProps)(PostDisplayContainer));
+export default withNavigation(connect(mapStateToProps)(injectIntl(PostDisplayContainer)));

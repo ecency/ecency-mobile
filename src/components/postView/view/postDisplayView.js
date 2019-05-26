@@ -1,8 +1,8 @@
 import React, { PureComponent, Fragment } from 'react';
-import {
-  View, Text, ScrollView, Dimensions,
-} from 'react-native';
+import { View, Text, ScrollView, Dimensions } from 'react-native';
 import { injectIntl } from 'react-intl';
+import get from 'lodash/get';
+import ActionSheet from 'react-native-actionsheet';
 
 // Providers
 import { userActivity } from '../../../providers/esteem/ePoint';
@@ -12,9 +12,7 @@ import { getTimeFromNow } from '../../../utils/time';
 
 // Components
 import { PostHeaderDescription, PostBody, Tags } from '../../postElements';
-import {
-  PostPlaceHolder, StickyBar, TextWithIcon, NoPost,
-} from '../../basicUIElements';
+import { PostPlaceHolder, StickyBar, TextWithIcon, NoPost } from '../../basicUIElements';
 import { Upvote } from '../../upvote';
 import { IconButton } from '../../iconButton';
 import { CommentsDisplay } from '../../commentsDisplay';
@@ -44,13 +42,13 @@ class PostDisplayView extends PureComponent {
   componentDidMount() {
     const { currentAccount, isLoggedIn, isNewPost } = this.props;
 
-    if (isLoggedIn && currentAccount && currentAccount.name && !isNewPost) {
+    if (isLoggedIn && get(currentAccount, 'name') && !isNewPost) {
       userActivity(currentAccount.name, 10);
     }
   }
 
   // Component Functions
-  _handleOnScroll = (event) => {
+  _handleOnScroll = event => {
     const { y } = event.nativeEvent.contentOffset;
 
     this.setState({
@@ -58,7 +56,7 @@ class PostDisplayView extends PureComponent {
     });
   };
 
-  _handleOnPostLayout = (event) => {
+  _handleOnPostLayout = event => {
     const { height } = event.nativeEvent.layout;
 
     this.setState({
@@ -86,8 +84,8 @@ class PostDisplayView extends PureComponent {
             iconStyle={styles.barIcons}
             iconType="MaterialIcons"
             isClickable
-            onPress={() => handleOnVotersPress && handleOnVotersPress(post.active_votes)}
-            text={post && post.vote_count}
+            onPress={() => handleOnVotersPress && handleOnVotersPress(get(post, 'active_votes'))}
+            text={get(post, 'vote_count')}
             textMarginLeft={20}
           />
           <TextWithIcon
@@ -95,18 +93,29 @@ class PostDisplayView extends PureComponent {
             iconStyle={styles.barIcons}
             iconType="MaterialIcons"
             isClickable
-            text={post && post.children}
+            text={get(post, 'children')}
             textMarginLeft={20}
           />
           <View style={styles.stickyRightWrapper}>
-            {post && currentAccount && currentAccount.name === post.author && (
-              <IconButton
-                iconStyle={styles.barIconRight}
-                iconType="MaterialIcons"
-                name="create"
-                onPress={() => handleOnEditPress && handleOnEditPress()}
-                style={styles.barIconButton}
-              />
+            {get(currentAccount, 'name') === get(post, 'author') && (
+              <Fragment>
+                {!get(post, 'children') && !get(post, 'vote_count') && (
+                  <IconButton
+                    iconStyle={styles.barIconRight}
+                    iconType="MaterialIcons"
+                    name="delete-forever"
+                    onPress={() => this.ActionSheet.show()}
+                    style={styles.barIconButton}
+                  />
+                )}
+                <IconButton
+                  iconStyle={styles.barIconRight}
+                  iconType="MaterialIcons"
+                  name="create"
+                  onPress={() => handleOnEditPress && handleOnEditPress()}
+                  style={styles.barIconButton}
+                />
+              </Fragment>
             )}
             {isLoggedIn && (
               <IconButton
@@ -132,6 +141,7 @@ class PostDisplayView extends PureComponent {
       isPostUnavailable,
       author,
       intl,
+      handleOnRemovePress,
     } = this.props;
     const { postHeight, scrollHeight, isLoadedComments } = this.state;
 
@@ -153,7 +163,7 @@ class PostDisplayView extends PureComponent {
     }
 
     return (
-      <Fragment>
+      <View style={styles.container}>
         <ScrollView style={styles.scroll} onScroll={event => this._handleOnScroll(event)}>
           {parentPost && <ParentPost post={parentPost} />}
 
@@ -175,10 +185,8 @@ class PostDisplayView extends PureComponent {
                 <View style={styles.footer}>
                   <Tags tags={post.json_metadata && post.json_metadata.tags} />
                   <Text style={styles.footerText}>
-                    Posted by
-                    {' '}
-                    <Text style={styles.footerName}>{author || post.author}</Text>
-                    {' '}
+                    Posted by <Text style={styles.footerName}>{author || post.author}</Text>
+{' '}
                     {formatedTime}
                   </Text>
                   {/* {isPostEnd && this._getTabBar()} */}
@@ -197,7 +205,17 @@ class PostDisplayView extends PureComponent {
           )}
         </ScrollView>
         {post && this._getTabBar(true)}
-      </Fragment>
+        <ActionSheet
+          ref={o => (this.ActionSheet = o)}
+          options={[
+            intl.formatMessage({ id: 'alert.delete' }),
+            intl.formatMessage({ id: 'alert.cancel' }),
+          ]}
+          title={intl.formatMessage({ id: 'alert.remove_alert' })}
+          cancelButtonIndex={1}
+          onPress={index => (index === 0 ? handleOnRemovePress(get(post, 'permlink')) : null)}
+        />
+      </View>
     );
   }
 }

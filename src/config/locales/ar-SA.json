@@ -161,7 +161,7 @@
     "reply_placeholder": "ماذا تريد أن تكتب عن المشاركة أعلاه؟",
     "publish": "نشر",
     "reply": "الرد",
-    "open_galery": "Open Gallery",
+    "open_gallery": "Open Gallery",
     "capture_photo": "إلتقط صورة"
   },
   "pincode": {
@@ -194,7 +194,8 @@
     "delete": "حذف",
     "copied": "تم النسخ!",
     "no_internet": "لا يوجد اتصال!",
-    "confirm": "Confirm"
+    "confirm": "Confirm",
+    "removed": "Removed"
   },
   "post": {
     "reblog_alert": "هل أنت متأكد من رغبتك في إعادة التدوين؟",

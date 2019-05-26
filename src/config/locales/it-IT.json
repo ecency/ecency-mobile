@@ -161,7 +161,7 @@
     "reply_placeholder": "Che cosa ti piacerebbe scrivere riguardo ai seguenti post?",
     "publish": "Pubblica",
     "reply": "Rispondi",
-    "open_galery": "Open Gallery",
+    "open_gallery": "Open Gallery",
     "capture_photo": "Capture a photo"
   },
   "pincode": {
@@ -194,7 +194,8 @@
     "delete": "Elimina",
     "copied": "Copied!",
     "no_internet": "No connection!",
-    "confirm": "Confirm"
+    "confirm": "Confirm",
+    "removed": "Removed"
   },
   "post": {
     "reblog_alert": "Sei sicuro di volerlo condividere?",

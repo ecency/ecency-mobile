@@ -161,7 +161,7 @@
     "reply_placeholder": "您想對上面的帖子寫些什麼？",
     "publish": "發佈",
     "reply": "回覆",
-    "open_galery": "Open Gallery",
+    "open_gallery": "Open Gallery",
     "capture_photo": "Capture a photo"
   },
   "pincode": {
@@ -194,7 +194,8 @@
     "delete": "刪除",
     "copied": "Copied!",
     "no_internet": "No connection!",
-    "confirm": "Confirm"
+    "confirm": "Confirm",
+    "removed": "Removed"
   },
   "post": {
     "reblog_alert": "您確定想要轉發嗎？",

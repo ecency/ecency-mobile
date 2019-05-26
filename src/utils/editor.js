@@ -1,7 +1,11 @@
 import getSlug from 'speakingurl';
-import { diff_match_patch } from 'diff-match-patch';
+import { diff_match_patch as diffMatchPatch } from 'diff-match-patch';
+import PackageJson from '../../../../package.json';
 
-export const getWordsCount = text => (text && typeof text === 'string' ? text.replace(/^\s+|\s+$/g, '').split(/\s+/).length : 0);
+const { version } = PackageJson;
+
+export const getWordsCount = text =>
+  text && typeof text === 'string' ? text.replace(/^\s+|\s+$/g, '').split(/\s+/).length : 0;
 
 const permlinkRnd = () => (Math.random() + 1).toString(16).substring(2);
 
@@ -33,7 +37,7 @@ export const generatePermlink = (title, random = false) => {
   return perm;
 };
 
-export const generateReplyPermlink = (toAuthor) => {
+export const generateReplyPermlink = toAuthor => {
   if (!toAuthor) return '';
 
   const t = new Date(Date.now());
@@ -86,19 +90,27 @@ export const makeOptions = (author, permlink, operationType) => {
 
 export const makeJsonMetadataReply = tags => ({
   tags,
-  app: 'esteem/2.0.0-mobile',
+  app: `esteem/${version}-mobile`,
   format: 'markdown+html',
   community: 'esteem.app',
 });
 
-export const makeJsonMetadata = (meta, tags) => Object.assign({}, meta, {
-  tags,
-  app: 'esteem/2.0.0-mobile',
-  format: 'markdown+html',
-  community: 'esteem.app',
-});
+export const makeJsonMetadata = (meta, tags) =>
+  Object.assign({}, meta, {
+    tags,
+    app: `esteem/${version}-mobile`,
+    format: 'markdown+html',
+    community: 'esteem.app',
+  });
 
-export const extractMetadata = (body) => {
+export const makeJsonMetadataForUpdate = (oldJson, meta, tags) => {
+  const { meta: oldMeta } = oldJson;
+  const mergedMeta = Object.assign({}, oldMeta, meta);
+
+  return Object.assign({}, oldJson, mergedMeta, { tags });
+};
+
+export const extractMetadata = body => {
   const urlReg = /(\b(https?|ftp):\/\/[A-Z0-9+&@#/%?=~_|!:,.;-]*[-A-Z0-9+&@#/%=~_|])/gim;
   const userReg = /(^|\s)(@[a-z][-.a-z\d]+[a-z\d])/gim;
   const imgReg = /(https?:\/\/.*\.(?:png|jpg|jpeg|gif))/gim;
@@ -146,7 +158,7 @@ export const extractMetadata = (body) => {
 export const createPatch = (text1, text2) => {
   if (!text1 && text1 === '') return undefined;
 
-  const dmp = new diff_match_patch();
+  const dmp = new diffMatchPatch();
   const patches = dmp.patch_make(text1, text2);
   const patch = dmp.patch_toText(patches);
 

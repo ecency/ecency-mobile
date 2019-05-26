@@ -161,7 +161,7 @@
     "reply_placeholder": "Šta želite da napišete o postu iznad?",
     "publish": "Objavi",
     "reply": "Odgovori",
-    "open_galery": "Open Gallery",
+    "open_gallery": "Open Gallery",
     "capture_photo": "Fotografiši"
   },
   "pincode": {
@@ -194,7 +194,8 @@
     "delete": "Izbriši",
     "copied": "Kopirano!",
     "no_internet": "Niste konektovani na internet!",
-    "confirm": "Confirm"
+    "confirm": "Confirm",
+    "removed": "Removed"
   },
   "post": {
     "reblog_alert": "Da li ste sigurni da želite da podelite?",
