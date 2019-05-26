@@ -1,5 +1,6 @@
 import React, { Component } from 'react';
 import { connect } from 'react-redux';
+import get from 'lodash/get';
 
 // Actions and Services
 import { getActivities, markActivityAsRead } from '../../../providers/esteem/esteem';
@@ -17,8 +18,7 @@ class NotificationContainer extends Component {
     this.state = {
       notifications: [],
       lastNotificationId: null,
-      notificationLoading: false,
-      readAllNotificationLoading: false,
+      isNotificationRefreshing: false,
       selectedFilter: 'activities',
     };
   }
@@ -27,83 +27,92 @@ class NotificationContainer extends Component {
     const { username } = this.props;
 
     if (username) {
-      this._getAvtivities();
+      this._getAvtivities(username);
     }
   }
 
   componentWillReceiveProps(nextProps) {
     const { selectedFilter } = this.state;
+    const { username } = this.props;
 
-    if (nextProps.activeBottomTab === ROUTES.TABBAR.NOTIFICATION && nextProps.username) {
-      this._getAvtivities(selectedFilter);
+    if (
+      (nextProps.activeBottomTab === ROUTES.TABBAR.NOTIFICATION && nextProps.username) ||
+      (nextProps.username !== username && nextProps.username)
+    ) {
+      this._getAvtivities(nextProps.username, selectedFilter);
     }
   }
 
-  _getAvtivities = (type = null, loadMore = false) => {
-    const { username } = this.props;
+  _getAvtivities = (user, type = null, loadMore = false) => {
     const { lastNotificationId, notifications } = this.state;
     const since = loadMore ? lastNotificationId : null;
+    const { username } = this.props;
 
-    this.setState({ notificationLoading: true });
+    this.setState({ isNotificationRefreshing: true });
 
-    getActivities({ user: username, type, since })
-      .then((res) => {
+    getActivities({ user: user || username, type, since })
+      .then(res => {
         const lastId = [...res].pop().id;
 
         this.setState({
           notifications: loadMore ? [...notifications, ...res] : res,
           lastNotificationId: lastId,
-          notificationLoading: false,
+          isNotificationRefreshing: false,
         });
       })
-      .catch(() => this.setState({ notificationLoading: false }));
+      .catch(() => this.setState({ isNotificationRefreshing: false }));
   };
 
-  _navigateToNotificationRoute = (data) => {
+  _navigateToNotificationRoute = data => {
     const { navigation, username, dispatch } = this.props;
+    const type = get(data, 'type');
+    const permlink = get(data, 'permlink');
+    const author = get(data, 'author');
     let routeName;
     let params;
     let key;
-    markActivityAsRead(username, data.id).then((result) => {
+    markActivityAsRead(username, data.id).then(result => {
       dispatch(updateUnreadActivityCount(result.unread));
     });
 
-    if (data.permlink) {
+    if (permlink) {
       routeName = ROUTES.SCREENS.POST;
-      key = data.permlink;
+      key = permlink;
       params = {
-        author: data.author,
-        permlink: data.permlink,
-        isHasParentPost: data.parent_author && data.parent_permlink,
+        author,
+        permlink,
+        isHasParentPost: get(data, 'parent_permlink'),
       };
-    } else if (data.type === 'follow') {
+    } else if (type === 'follow') {
       routeName = ROUTES.SCREENS.PROFILE;
-      key = data.follower;
+      key = get(data, 'follower');
       params = {
-        username: data.follower,
+        username: get(data, 'follower'),
       };
-    } else if (data.type === 'transfer') {
+    } else if (type === 'transfer') {
       routeName = ROUTES.TABBAR.PROFILE;
       params = { activePage: 2 };
     }
 
-    navigation.navigate({
-      routeName,
-      params,
-      key,
-    });
+    if (routeName) {
+      navigation.navigate({
+        routeName,
+        params,
+        key,
+      });
+    }
   };
 
   _readAllNotification = () => {
     const { username, dispatch } = this.props;
     const { notifications } = this.state;
 
-    this.setState({ readAllNotificationLoading: true });
+    this.setState({ isNotificationRefreshing: true });
 
-    markActivityAsRead(username).then((result) => {
+    markActivityAsRead(username).then(result => {
       dispatch(updateUnreadActivityCount(result.unread));
       const updatedNotifications = notifications.map(item => ({ ...item, read: 1 }));
-      this.setState({ notifications: updatedNotifications, readAllNotificationLoading: false });
+      this.setState({ notifications: updatedNotifications, isNotificationRefreshing: false });
     });
   };
 
@@ -113,18 +122,13 @@ class NotificationContainer extends Component {
     navigation.navigate(ROUTES.SCREENS.LOGIN);
   };
 
-  _changeSelectedFilter = (value) => {
+  _changeSelectedFilter = value => {
     this.setState({ selectedFilter: value });
   };
 
   render() {
     const { isLoggedIn } = this.props;
-    const {
-      notifications,
-      notificationLoading,
-      readAllNotificationLoading,
-      isDarkTheme,
-    } = this.state;
+    const { notifications, isNotificationRefreshing, isDarkTheme } = this.state;
 
     return (
       <NotificationScreen
@@ -134,8 +138,7 @@ class NotificationContainer extends Component {
         navigateToNotificationRoute={this._navigateToNotificationRoute}
         readAllNotification={this._readAllNotification}
         handleLoginPress={this._handleOnPressLogin}
-        notificationLoading={notificationLoading}
-        readAllNotificationLoading={readAllNotificationLoading}
+        isNotificationRefreshing={isNotificationRefreshing}
         isLoggedIn={isLoggedIn}
         changeSelectedFilter={this._changeSelectedFilter}
       />

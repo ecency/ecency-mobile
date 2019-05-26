@@ -30,7 +30,7 @@ class UpvoteContainer extends PureComponent {
 
   // Component Functions
 
-  _setUpvotePercent = (value) => {
+  _setUpvotePercent = value => {
     const { dispatch } = this.props;
 
     if (value) {

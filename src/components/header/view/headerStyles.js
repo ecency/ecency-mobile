@@ -53,6 +53,10 @@ export default EStyleSheet.create({
     alignSelf: 'flex-end',
     marginRight: 12,
   },
+  reverseAvatar: {
+    alignSelf: 'flex-start',
+    marginLeft: 12,
+  },
   backIcon: {
     fontSize: 24,
     color: '$iconColor',
@@ -61,9 +65,15 @@ export default EStyleSheet.create({
   backButton: {
     marginLeft: 24,
   },
-  backButtonWrapper: {
+  reverseBackButtonWrapper: {
     flexGrow: 1,
     flexDirection: 'column',
     justifyContent: 'center',
+  },
+  backButtonWrapper: {
+    alignItems: 'flex-end',
+    justifyContent: 'center',
+    flex: 1,
+    marginRight: 16,
   },
 });

@@ -1,5 +1,5 @@
 // TODO: Refactor
-export const sanitizeNode = (node) => {
+export const sanitizeNode = node => {
   const ALLOWED_TAGS = [
     'A',
     'STRONG',
@@ -53,11 +53,9 @@ export const sanitizeNode = (node) => {
   ];
 
   const allElems = node.querySelectorAll('*');
-  allElems.forEach((el) => {
+  allElems.forEach(el => {
     if (ALLOWED_TAGS.indexOf(el.tagName) === -1) {
-      el.outerHTML = `<span>${el.innerText
-        .replace('>', '&gt;')
-        .replace('<', '&lt;')}</span>`;
+      el.outerHTML = `<span>${el.innerText.replace('>', '&gt;').replace('<', '&lt;')}</span>`;
     }
 
     for (const attr of el.attributes) {

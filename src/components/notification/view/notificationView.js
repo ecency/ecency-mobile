@@ -1,7 +1,5 @@
 import React, { PureComponent, Fragment } from 'react';
-import {
-  View, ScrollView, FlatList, ActivityIndicator, RefreshControl,
-} from 'react-native';
+import { View, FlatList, ActivityIndicator, RefreshControl } from 'react-native';
 import { injectIntl } from 'react-intl';
 
 // Constants
@@ -10,11 +8,10 @@ import { injectIntl } from 'react-intl';
 import { ContainerHeader } from '../../containerHeader';
 import { FilterBar } from '../../filterBar';
 import NotificationLine from '../../notificationLine';
+import { ListPlaceHolder } from '../../basicUIElements';
 
 // Utils
-import {
-  isToday, isYesterday, isThisWeek, isThisMonth,
-} from '../../../utils/time';
+import { isToday, isYesterday, isThisWeek, isThisMonth } from '../../../utils/time';
 
 // Styles
 import styles from './notificationStyles';
@@ -45,7 +42,7 @@ class NotificationView extends PureComponent {
 
   // Component Functions
 
-  _handleOnDropdownSelect = (index) => {
+  _handleOnDropdownSelect = index => {
     const { getActivities, changeSelectedFilter } = this.props;
     const { filters } = this.state;
 
@@ -54,21 +51,21 @@ class NotificationView extends PureComponent {
     getActivities(filters[index].key, false);
   };
 
-  _renderList = (data) => {
+  _renderList = data => {
     const { navigateToNotificationRoute } = this.props;
 
     return (
       <FlatList
         data={data}
+        initialNumToRender={data && data.length}
+        maxToRenderPerBatch={data && data.length}
+        keyExtractor={item => item.id}
         renderItem={({ item }) => (
           <NotificationLine
             notification={item}
             handleOnPressNotification={navigateToNotificationRoute}
           />
         )}
-        initialNumToRender={data.length}
-        maxToRenderPerBatch={data.length}
-        keyExtractor={item => item.id}
       />
     );
   };
@@ -123,7 +120,7 @@ class NotificationView extends PureComponent {
       },
     ];
 
-    notifications.forEach((item) => {
+    notifications.forEach(item => {
       const listIndex = this._getTimeListIndex(item.timestamp);
 
       notificationArray[listIndex].notifications.push(item);
@@ -132,7 +129,7 @@ class NotificationView extends PureComponent {
     return notificationArray.filter(item => item.notifications.length > 0);
   };
 
-  _getTimeListIndex = (timestamp) => {
+  _getTimeListIndex = timestamp => {
     if (isToday(timestamp)) return 0;
 
     if (isYesterday(timestamp)) return 1;
@@ -154,17 +151,11 @@ class NotificationView extends PureComponent {
     const {
       readAllNotification,
       getActivities,
-      loading,
-      readAllNotificationLoading,
+      isNotificationRefreshing,
       isDarkTheme,
     } = this.props;
     const { filters, selectedFilter } = this.state;
-
     const _notifications = this._getNotificationsArrays();
-
-    if (_notifications.length === 0) {
-      return this._getActivityIndicator();
-    }
 
     return (
       <View style={styles.container}>
@@ -177,32 +168,25 @@ class NotificationView extends PureComponent {
           rightIconType="MaterialIcons"
           onRightIconPress={readAllNotification}
         />
-        <ScrollView
-          style={styles.scrollView}
-          onScroll={(e) => {
-            let paddingToBottom = 1;
-            paddingToBottom += e.nativeEvent.layoutMeasurement.height;
-            if (
-              e.nativeEvent.contentOffset.y >= e.nativeEvent.contentSize.height - paddingToBottom
-              && !loading
-            ) {
-              getActivities(selectedFilter, true);
-            }
-          }}
-        >
+        {_notifications.length === 0 ? (
+          <ListPlaceHolder />
+        ) : (
           <FlatList
             data={_notifications}
-            refreshing={readAllNotificationLoading}
-            onRefresh={() => null}
-            refreshControl={(
+            refreshing={isNotificationRefreshing}
+            onRefresh={() => getActivities()}
+            keyExtractor={item => item.title}
+            onEndReached={() => getActivities(selectedFilter, true)}
+            ListFooterComponent={this._renderFooterLoading}
+            refreshControl={
               <RefreshControl
-                refreshing={readAllNotificationLoading}
-                progressBackgroundColor="#357CE6"
-                tintColor={!isDarkTheme ? '#357ce6' : '#96c0ff'}
-                titleColor="#fff"
-                colors={['#fff']}
-              />
-            )}
+  refreshing={isNotificationRefreshing}
+  progressBackgroundColor="#357CE6"
+  tintColor={!isDarkTheme ? '#357ce6' : '#96c0ff'}
+  titleColor="#fff"
+  colors={['#fff']}
+/>
+            }
             renderItem={({ item, index }) => (
               <Fragment>
                 <ContainerHeader
@@ -214,10 +198,8 @@ class NotificationView extends PureComponent {
                 {this._renderList(item.notifications)}
               </Fragment>
             )}
-            keyExtractor={item => item.title}
-            ListFooterComponent={this._renderFooterLoading}
           />
-        </ScrollView>
+        )}
       </View>
     );
   }

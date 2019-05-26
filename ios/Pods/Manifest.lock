@@ -83,13 +83,7 @@ PODS:
   - SDWebImage/GIF (4.4.6):
     - FLAnimatedImage (~> 1.0)
     - SDWebImage/Core
-  - Sentry (4.1.3):
-    - Sentry/Core (= 4.1.3)
-  - Sentry/Core (4.1.3)
-  - SentryReactNative (0.42.0):
-    - React
-    - Sentry (~> 4.1.3)
-  - SSZipArchive (2.2.1)
+  - SSZipArchive (2.2.2)
   - yoga (0.57.8.React)
 
 DEPENDENCIES:
@@ -114,7 +108,6 @@ DEPENDENCIES:
   - React/RCTText (from `../node_modules/react-native`)
   - React/RCTWebSocket (from `../node_modules/react-native`)
   - RNImageCropPicker (from `../node_modules/react-native-image-crop-picker`)
-  - SentryReactNative (from `../node_modules/react-native-sentry`)
   - yoga (from `../node_modules/react-native/ReactCommon/yoga`)
 
 SPEC REPOS:
@@ -128,7 +121,6 @@ SPEC REPOS:
     - QBImagePickerController
     - RSKImageCropper
     - SDWebImage
-    - Sentry
     - SSZipArchive
 
 EXTERNAL SOURCES:
@@ -148,8 +140,6 @@ EXTERNAL SOURCES:
     :path: "../node_modules/react-native-version-number"
   RNImageCropPicker:
     :path: "../node_modules/react-native-image-crop-picker"
-  SentryReactNative:
-    :path: "../node_modules/react-native-sentry"
   yoga:
     :path: "../node_modules/react-native/ReactCommon/yoga"
 
@@ -171,11 +161,9 @@ SPEC CHECKSUMS:
   RNImageCropPicker: 754299983d07c450aec0834c0efe0ed114131ff3
   RSKImageCropper: 98296ad26b41753f796b6898d015509598f13d97
   SDWebImage: 3f3f0c02f09798048c47a5ed0a13f17b063572d8
-  Sentry: 4e8a17b61ddd116f89536cc81d567fdee1ebca96
-  SentryReactNative: 09d5cc89e8bb5d80cfaf3ae11ed2ecb0a47317d2
-  SSZipArchive: 8e859da2520142e09166bc9161967db296e9d02f
+  SSZipArchive: fa16b8cc4cdeceb698e5e5d9f67e9558532fbf23
   yoga: 74cdf036c30820443b25ade59916236b1e95ee93
 
-PODFILE CHECKSUM: 9d6cbced7fff15ababa5452217143cede564a460
+PODFILE CHECKSUM: 701dfb65d49e483fee82795022cc4212b9b1528e
 
 COCOAPODS: 1.6.1

@@ -161,7 +161,7 @@
     "reply_placeholder": "Yukarıdaki yazi hakkinda nasil bir cevap yazmak istersin?",
     "publish": "Yayınla",
     "reply": "Cevapla",
-    "open_galery": "Open Gallery",
+    "open_gallery": "Open Gallery",
     "capture_photo": "Bir fotoğraf çekin"
   },
   "pincode": {
@@ -194,7 +194,8 @@
     "delete": "Temizle",
     "copied": "Kopyalandı",
     "no_internet": "Bağlantı yok.",
-    "confirm": "Onayla"
+    "confirm": "Onayla",
+    "removed": "Removed"
   },
   "post": {
     "reblog_alert": "Reblog yapma istediginize emin misiniz?",

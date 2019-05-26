@@ -161,7 +161,7 @@
     "reply_placeholder": "Mit szeretnél írni a fenti bejegyzésről?",
     "publish": "Közzétesz",
     "reply": "Válasz",
-    "open_galery": "Galéria Megnyitása",
+    "open_gallery": "Galéria Megnyitása",
     "capture_photo": "Készíts egy fotót"
   },
   "pincode": {
@@ -194,7 +194,8 @@
     "delete": "Törlés",
     "copied": "Lemásolva!",
     "no_internet": "Nincs kapcsolat!",
-    "confirm": "Megerősítés"
+    "confirm": "Megerősítés",
+    "removed": "Eltávolítva"
   },
   "post": {
     "reblog_alert": "Biztos, hogy megosztod?",

@@ -161,7 +161,7 @@
     "reply_placeholder": "Was möchtest du über den vorgenannten Beitrag schreiben?",
     "publish": "Veröffentlichen",
     "reply": "Antworten",
-    "open_galery": "Open Gallery",
+    "open_gallery": "Open Gallery",
     "capture_photo": "Ein Foto aufnehmen"
   },
   "pincode": {
@@ -194,7 +194,8 @@
     "delete": "Entfernen",
     "copied": "Kopiert!",
     "no_internet": "Keine Verbindung!",
-    "confirm": "Confirm"
+    "confirm": "Confirm",
+    "removed": "Removed"
   },
   "post": {
     "reblog_alert": "Möchtest du diesen Beitrag wirklich teilen?",

@@ -3,7 +3,6 @@ package app.esteem.mobile;
 import android.app.Application;
 
 import com.facebook.react.ReactApplication;
-import io.sentry.RNSentryPackage;
 import com.apsl.versionnumber.RNVersionNumberPackage;
 import com.microsoft.codepush.react.CodePush;
 import io.realm.react.RealmReactPackage;
@@ -12,7 +11,6 @@ import com.reactnative.ivpusic.imagepicker.PickerPackage;
 import com.microsoft.appcenter.reactnative.push.AppCenterReactNativePushPackage;
 import com.entria.views.RNViewOverflowPackage;
 import com.oblador.vectoricons.VectorIconsPackage;
-import com.avishayil.rnrestart.ReactNativeRestartPackage;
 import com.BV.LinearGradient.LinearGradientPackage;
 import com.lugg.ReactNativeConfig.ReactNativeConfigPackage;
 import com.microsoft.appcenter.reactnative.crashes.AppCenterReactNativeCrashesPackage;
@@ -45,7 +43,6 @@ public class MainApplication extends Application implements ReactApplication {
     protected List<ReactPackage> getPackages() {
       return Arrays.<ReactPackage>asList(
           new MainReactPackage(),
-            new RNSentryPackage(),
             new RNVersionNumberPackage(),
             new CodePush(getResources().getString(R.string.reactNativeCodePush_androidDeploymentKey), getApplicationContext(), BuildConfig.DEBUG),
             new RealmReactPackage(),
@@ -54,7 +51,6 @@ public class MainApplication extends Application implements ReactApplication {
             new AppCenterReactNativePushPackage(MainApplication.this),
             new RNViewOverflowPackage(),
             new VectorIconsPackage(),
-            new ReactNativeRestartPackage(),
             new LinearGradientPackage(),
             new ReactNativeConfigPackage(),
             new AppCenterReactNativeCrashesPackage(MainApplication.this, getResources().getString(R.string.appCenterCrashes_whenToSendCrashes)),

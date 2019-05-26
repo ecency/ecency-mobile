@@ -1,7 +1,5 @@
 import React, { Component } from 'react';
-import {
-  View, Text, ImageBackground, FlatList, TouchableOpacity,
-} from 'react-native';
+import { View, Text, ImageBackground, FlatList, TouchableOpacity } from 'react-native';
 import { injectIntl } from 'react-intl';
 import LinearGradient from 'react-native-linear-gradient';
 import ActionSheet from 'react-native-actionsheet';
@@ -39,10 +37,15 @@ class SideMenuView extends Component {
   // Component Life Cycles
 
   componentWillReceiveProps(nextProps) {
-    const { isLoggedIn } = this.props;
+    const { isLoggedIn, accounts } = this.props;
+    const { isAddAccountIconActive } = this.state;
 
     if (isLoggedIn !== nextProps.isLoggedIn) {
       this._setMenuItems(nextProps.isLoggedIn);
+    }
+
+    if (accounts !== nextProps.accounts && isAddAccountIconActive) {
+      this.setState({ menuItems: nextProps.accounts });
     }
   }
 
@@ -61,13 +64,13 @@ class SideMenuView extends Component {
     this.setState({ isAddAccountIconActive: !isAddAccountIconActive });
   };
 
-  _setMenuItems = (isLoggedIn) => {
+  _setMenuItems = isLoggedIn => {
     this.setState({
       menuItems: isLoggedIn ? MENU.AUTH_MENU_ITEMS : MENU.NO_AUTH_MENU_ITEMS,
     });
   };
 
-  _handleOnMenuItemPress = (item) => {
+  _handleOnMenuItemPress = item => {
     const { navigateToRoute, switchAccount } = this.props;
 
     if (item.id === 'logout') {
@@ -83,9 +86,7 @@ class SideMenuView extends Component {
   };
 
   render() {
-    const {
-      currentAccount, isLoggedIn, intl, handleLogout,
-    } = this.props;
+    const { currentAccount, isLoggedIn, intl, handleLogout } = this.props;
     const { menuItems, isAddAccountIconActive } = this.state;
     const { version } = PackageJson;
     const { buildVersion } = VersionNumber;
@@ -112,7 +113,9 @@ class SideMenuView extends Component {
                 />
                 <View style={styles.userInfoWrapper}>
                   {currentAccount.display_name && (
-                    <Text numberOfLines={1} ellipsizeMode="tail" style={styles.username}>{currentAccount.display_name}</Text>
+                    <Text numberOfLines={1} ellipsizeMode="tail" style={styles.username}>
+                      {currentAccount.display_name}
+                    </Text>
                   )}
                   <Text style={styles.usernick}>{`@${currentAccount.name}`}</Text>
                 </View>
@@ -153,7 +156,11 @@ class SideMenuView extends Component {
                     />
                   )}
                   {item.item.username && (
-                    <UserAvatar noAction username={item.item.username} style={styles.otherUserAvatar} />
+                    <UserAvatar
+                      noAction
+                      username={item.item.username}
+                      style={styles.otherUserAvatar}
+                    />
                   )}
                   <Text style={styles.listItemText}>
                     {isAddAccountIconActive
@@ -170,11 +177,14 @@ class SideMenuView extends Component {
         <Text style={styles.versionText}>{`v${version}, ${buildVersion}`}</Text>
         <ActionSheet
           ref={o => (this.ActionSheet = o)}
-          options={[intl.formatMessage({ id: 'side_menu.logout' }), intl.formatMessage({ id: 'side_menu.cancel' })]}
+          options={[
+            intl.formatMessage({ id: 'side_menu.logout' }),
+            intl.formatMessage({ id: 'side_menu.cancel' }),
+          ]}
           title={intl.formatMessage({ id: 'side_menu.logout_text' })}
           cancelButtonIndex={1}
           destructiveButtonIndex={0}
-          onPress={(index) => {
+          onPress={index => {
             index === 0 ? handleLogout() : null;
           }}
         />

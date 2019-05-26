@@ -14,9 +14,7 @@ import styles from './postButtonStyles';
  *
  */
 
-const SubPostButton = ({
-  style, icon, onPress, size,
-}) => (
+const SubPostButton = ({ style, icon, onPress, size }) => (
   <Animated.View
     style={[
       styles.subButtonWrapper,

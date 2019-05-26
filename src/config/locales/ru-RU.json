@@ -161,7 +161,7 @@
     "reply_placeholder": "Напишите ваш комментарий",
     "publish": "Написать",
     "reply": "Ответить",
-    "open_galery": "Open Gallery",
+    "open_gallery": "Open Gallery",
     "capture_photo": "Сделать фото"
   },
   "pincode": {
@@ -194,7 +194,8 @@
     "delete": "Удалить",
     "copied": "Скопировано!",
     "no_internet": "No internet connection",
-    "confirm": "Подтвердить"
+    "confirm": "Подтвердить",
+    "removed": "Removed"
   },
   "post": {
     "reblog_alert": "Вы уверены, что хотите сделать репост?",

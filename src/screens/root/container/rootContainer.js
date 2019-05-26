@@ -1,10 +1,9 @@
 import React, { Component, Fragment } from 'react';
-import {
-  AppState, Platform, Linking, Alert,
-} from 'react-native';
+import { AppState, Platform, Linking, Alert } from 'react-native';
 import { connect } from 'react-redux';
 import Push from 'appcenter-push';
 import { injectIntl } from 'react-intl';
+import get from 'lodash/get';
 
 // Actions & Services
 import { openPinCodeModal } from '../../../redux/actions/applicationActions';
@@ -19,7 +18,7 @@ import PostButtonForAndroid from '../../../components/postButton/view/postButton
 // Constants
 import ROUTES from '../../../constants/routeNames';
 
-const RootContainer = () => (WrappedComponent) => {
+const RootContainer = () => WrappedComponent => {
   class RootComponent extends Component {
     constructor(props) {
       super(props);
@@ -31,10 +30,9 @@ const RootContainer = () => (WrappedComponent) => {
 
     componentDidMount() {
       AppState.addEventListener('change', this._handleAppStateChange);
-      this._createPushListener();
 
       if (Platform.OS === 'android') {
-        Linking.getInitialURL().then((url) => {
+        Linking.getInitialURL().then(url => {
           this._handleDeepLink(url);
         });
       } else {
@@ -47,11 +45,11 @@ const RootContainer = () => (WrappedComponent) => {
       Linking.removeEventListener('url', this._handleOpenURL);
     }
 
-    _handleOpenURL = (event) => {
+    _handleOpenURL = event => {
       this._handleDeepLink(event.url);
     };
 
-    _handleDeepLink = async (url) => {
+    _handleDeepLink = async url => {
       if (!url) return;
 
       let author;
@@ -63,22 +61,25 @@ const RootContainer = () => (WrappedComponent) => {
       const { navigation, currentAccountUsername, intl } = this.props;
 
       if (
-        url.indexOf('esteem') > -1
-        || url.indexOf('steemit') > -1
-        || url.indexOf('busy') > -1
-        || url.indexOf('steempeak') > -1
+        url.indexOf('esteem') > -1 ||
+        url.indexOf('steemit') > -1 ||
+        url.indexOf('busy') > -1 ||
+        url.indexOf('steempeak') > -1
       ) {
         url = url.substring(url.indexOf('@'), url.length);
         const routeParams = url.indexOf('/') > -1 ? url.split('/') : [url];
 
         [, permlink] = routeParams;
-        author = routeParams[0].indexOf('@') > -1 ? routeParams[0].replace('@', '') : routeParams[0];
+        author =
+          routeParams && routeParams.length > 0 && routeParams[0].indexOf('@') > -1
+            ? routeParams[0].replace('@', '')
+            : routeParams[0];
       }
 
       if (author && permlink) {
         await getPost(author, permlink, currentAccountUsername)
-          .then((result) => {
-            if (result && result.title) {
+          .then(result => {
+            if (get(result, 'title')) {
               content = result;
             } else {
               this._handleAlert(
@@ -111,10 +112,10 @@ const RootContainer = () => (WrappedComponent) => {
         }
 
         routeName = ROUTES.SCREENS.PROFILE;
-        params = { username: profile.name, reputation: profile.reputation };
+        params = { username: get(profile, 'name'), reputation: get(profile, 'reputation') };
       }
 
-      if (profile || content) {
+      if (routeName && (profile || content)) {
         this.navigationTimeout = setTimeout(() => {
           clearTimeout(this.navigationTimeout);
           navigation.navigate({
@@ -130,10 +131,10 @@ const RootContainer = () => (WrappedComponent) => {
       Alert.alert(title, text);
     };
 
-    _handleAppStateChange = (nextAppState) => {
+    _handleAppStateChange = nextAppState => {
       const { appState } = this.state;
 
-      getExistUser().then((isExistUser) => {
+      getExistUser().then(isExistUser => {
         if (isExistUser) {
           if (appState.match(/active|forground/) && nextAppState === 'inactive') {
             this._startPinCodeTimer();
@@ -156,44 +157,8 @@ const RootContainer = () => (WrappedComponent) => {
       }, 1 * 60 * 1000);
     };
 
-    _setWrappedComponentState = (data) => {
+    _setWrappedComponentState = data => {
       this.setState({ wrappedComponentStates: { ...data } });
-    };
-
-    _createPushListener = () => {
-      const { navigation } = this.props;
-      let params = null;
-      let key = null;
-      let routeName = null;
-
-      Push.setListener({
-        onPushNotificationReceived(pushNotification) {
-          const push = pushNotification.customProperties;
-
-          if (push.parent_permlink1 || push.permlink1) {
-            params = {
-              author: push.parent_permlink1 ? push.parent_author : push.target,
-              permlink: push.parent_permlink1
-                ? `${push.parent_permlink1}${push.parent_permlink2}${push.parent_permlink3}`
-                : `${push.permlink1}${push.permlink2}${push.permlink3}`,
-            };
-            key = push.parent_permlink1
-              ? `${push.parent_permlink1}${push.parent_permlink2}${push.parent_permlink3}`
-              : `${push.permlink1}${push.permlink2}${push.permlink3}`;
-            routeName = ROUTES.SCREENS.POST;
-          } else {
-            params = {
-              username: push.source,
-            };
-            key = push.source;
-            routeName = ROUTES.SCREENS.PROFILE;
-          }
-
-          setTimeout(() => {
-            navigation.navigate({ routeName, params, key });
-          }, 4000);
-        },
-      });
     };
 
     render() {
@@ -213,10 +178,7 @@ const RootContainer = () => (WrappedComponent) => {
               navigation={navigation}
             />
           </Modal>
-          <WrappedComponent
-            {...this.props}
-            {...wrappedComponentStates}
-          />
+          <WrappedComponent {...this.props} {...wrappedComponentStates} />
           {Platform.OS === 'android' && <PostButtonForAndroid />}
         </Fragment>
       );

@@ -1,7 +1,5 @@
 import React, { Component } from 'react';
-import {
-  View, KeyboardAvoidingView, FlatList, Text, Platform, ScrollView,
-} from 'react-native';
+import { View, KeyboardAvoidingView, FlatList, Text, Platform, ScrollView } from 'react-native';
 import ActionSheet from 'react-native-actionsheet';
 import { renderPostBody } from '@esteemapp/esteem-render-helpers';
 
@@ -43,9 +41,9 @@ export default class MarkdownEditorView extends Component {
     }
 
     if (
-      nextProps.uploadedImage
-      && nextProps.uploadedImage.url
-      && nextProps.uploadedImage !== uploadedImage
+      nextProps.uploadedImage &&
+      nextProps.uploadedImage.url &&
+      nextProps.uploadedImage !== uploadedImage
     ) {
       applyImageLink({
         getState: this._getState,
@@ -76,10 +74,8 @@ export default class MarkdownEditorView extends Component {
   }
 
   // Component functions
-  _changeText = (input) => {
-    const {
-      onChange, handleOnTextChange, handleIsValid, componentID,
-    } = this.props;
+  _changeText = input => {
+    const { onChange, handleOnTextChange, handleIsValid, componentID } = this.props;
 
     this.setState({ text: input });
 
@@ -96,7 +92,7 @@ export default class MarkdownEditorView extends Component {
     }
   };
 
-  _handleOnSelectionChange = (event) => {
+  _handleOnSelectionChange = event => {
     const { newSelection } = this.state;
 
     if (newSelection) {
@@ -142,7 +138,8 @@ export default class MarkdownEditorView extends Component {
         <FlatList
           data={Formats}
           keyboardShouldPersistTaps="always"
-          renderItem={({ item, index }) => index !== 9 && this._renderMarkupButton({ item, getState, setState })
+          renderItem={({ item, index }) =>
+            index !== 9 && this._renderMarkupButton({ item, getState, setState })
           }
           horizontal
         />
@@ -194,9 +191,7 @@ export default class MarkdownEditorView extends Component {
   };
 
   render() {
-    const {
-      handleOpenImagePicker, intl, isPreviewActive, isReply,
-    } = this.props;
+    const { handleOpenImagePicker, intl, isPreviewActive, isReply } = this.props;
     const { text, selection } = this.state;
 
     return (
@@ -223,8 +218,8 @@ export default class MarkdownEditorView extends Component {
         ) : (
           this._renderPreview()
         )}
-        {!isPreviewActive
-          && this._renderEditorButtons({
+        {!isPreviewActive &&
+          this._renderEditorButtons({
             getState: this._getState,
             setState: (state, callback) => {
               this.setState(state, callback);
@@ -236,7 +231,7 @@ export default class MarkdownEditorView extends Component {
           ref={o => (this.ActionSheet = o)}
           options={[
             intl.formatMessage({
-              id: 'editor.open_galery',
+              id: 'editor.open_gallery',
             }),
             intl.formatMessage({
               id: 'editor.capture_photo',
@@ -246,7 +241,7 @@ export default class MarkdownEditorView extends Component {
             }),
           ]}
           cancelButtonIndex={2}
-          onPress={(index) => {
+          onPress={index => {
             handleOpenImagePicker(index === 0 ? 'image' : index === 1 && 'camera');
           }}
         />
@@ -264,7 +259,7 @@ export default class MarkdownEditorView extends Component {
             }),
           ]}
           cancelButtonIndex={1}
-          onPress={(index) => {
+          onPress={index => {
             index === 0 && this._handleClear();
           }}
         />

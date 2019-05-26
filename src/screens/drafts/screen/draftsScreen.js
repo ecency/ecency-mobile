@@ -1,7 +1,7 @@
 import React, { Component } from 'react';
 import { injectIntl } from 'react-intl';
 import { View, FlatList, Text } from 'react-native';
-import ScrollableTabView from '@esteemapp/react-native-scrollable-tab-view';
+import ScrollableTabView from 'react-native-scrollable-tab-view';
 import ActionSheet from 'react-native-actionsheet';
 
 // Utils
@@ -37,9 +37,7 @@ class DraftsScreen extends Component {
   // Component Functions
 
   _renderItem = (item, type) => {
-    const {
-      currentAccount, removeDraft, editDraft, removeSchedule,
-    } = this.props;
+    const { currentAccount, removeDraft, editDraft, removeSchedule } = this.props;
     const tags = item.tags ? item.tags.split(/[ ,]+/) : [];
     const tag = tags[0] || '';
     const image = catchDraftImage(item.body);
@@ -56,12 +54,10 @@ class DraftsScreen extends Component {
         image={image ? { uri: catchDraftImage(item.body) } : null}
         username={currentAccount.name}
         reputation={currentAccount.reputation}
-        handleOnPressItem={
-          () => (
-            isSchedules
-              ? this.setState({ selectedId: item._id }, () => this.ActionSheet.show())
-              : editDraft(item._id)
-          )
+        handleOnPressItem={() =>
+          isSchedules
+            ? this.setState({ selectedId: item._id }, () => this.ActionSheet.show())
+            : editDraft(item._id)
         }
         handleOnRemoveItem={isSchedules ? removeSchedule : removeDraft}
         id={item._id}
@@ -103,9 +99,7 @@ class DraftsScreen extends Component {
   };
 
   render() {
-    const {
-      drafts, schedules, intl, moveScheduleToDraft,
-    } = this.props;
+    const { drafts, schedules, intl, moveScheduleToDraft } = this.props;
     const { selectedId } = this.state;
 
     return (
@@ -158,7 +152,7 @@ class DraftsScreen extends Component {
             }),
           ]}
           cancelButtonIndex={1}
-          onPress={(index) => {
+          onPress={index => {
             index === 0 && moveScheduleToDraft(selectedId);
           }}
         />

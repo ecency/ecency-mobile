@@ -1,6 +1,6 @@
 import React, { PureComponent, Fragment } from 'react';
 import { View } from 'react-native';
-import ScrollableTabView from '@esteemapp/react-native-scrollable-tab-view';
+import ScrollableTabView from 'react-native-scrollable-tab-view';
 import { injectIntl } from 'react-intl';
 
 // Components
@@ -21,9 +21,7 @@ class HomeScreen extends PureComponent {
   }
 
   render() {
-    const {
-      currentAccount, intl, isLoggedIn,
-    } = this.props;
+    const { currentAccount, intl, isLoggedIn } = this.props;
 
     let tag;
 

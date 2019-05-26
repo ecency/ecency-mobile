@@ -161,7 +161,7 @@
     "reply_placeholder": "Ce ai vrea să scrii despre postarea respectivă?",
     "publish": "Publică",
     "reply": "Răspunde",
-    "open_galery": "Deschide Galeria",
+    "open_gallery": "Deschide Galeria",
     "capture_photo": "Captură foto"
   },
   "pincode": {
@@ -194,7 +194,8 @@
     "delete": "Șterge",
     "copied": "Copiat!",
     "no_internet": "Nu există conexiune!",
-    "confirm": "Confirmă"
+    "confirm": "Confirmă",
+    "removed": "Removed"
   },
   "post": {
     "reblog_alert": "Ești sigur că vrei să redistribui?",

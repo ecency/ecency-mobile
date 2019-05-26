@@ -1,7 +1,7 @@
 import React, { Component } from 'react';
 import { injectIntl } from 'react-intl';
 import { View, FlatList, Text } from 'react-native';
-import ScrollableTabView from '@esteemapp/react-native-scrollable-tab-view';
+import ScrollableTabView from 'react-native-scrollable-tab-view';
 import ActionSheet from 'react-native-actionsheet';
 
 // Components
@@ -43,9 +43,10 @@ class BookmarksScreen extends Component {
       return (
         <UserListItem
           handleOnLongPress={() => this._handleLongPress(isFavorites ? item.account : item._id)}
-          handleOnPress={() => (isFavorites
-            ? handleOnFavoritePress(item.account)
-            : handleOnBookarkPress(item.permlink, item.author))
+          handleOnPress={() =>
+            isFavorites
+              ? handleOnFavoritePress(item.account)
+              : handleOnBookarkPress(item.permlink, item.author)
           }
           index={index}
           isClickable
@@ -59,7 +60,8 @@ class BookmarksScreen extends Component {
   _getTabItem = (data, type) => {
     const { isLoading, intl } = this.props;
     const isNoItem = (data && data.length === 0) || !data;
-    const placeHolder = type === 'bookmarks' ? <PostCardPlaceHolder /> : <WalletDetailsPlaceHolder />;
+    const placeHolder =
+      type === 'bookmarks' ? <PostCardPlaceHolder /> : <WalletDetailsPlaceHolder />;
     const isFavorites = type === 'favorites';
 
     return (
@@ -76,9 +78,11 @@ class BookmarksScreen extends Component {
         ) : (
           !isNoItem && (
             <FlatList
-              data={data.map(item => (item._id !== data[item._id] && isFavorites
-                ? item.account !== data[item.account] && item
-                : item))}
+              data={data.map(item =>
+                item._id !== data[item._id] && isFavorites
+                  ? item.account !== data[item.account] && item
+                  : item,
+              )}
               keyExtractor={item => item._id}
               removeClippedSubviews={false}
               renderItem={({ item, index }) => this._renderItem(item, index, type)}
@@ -89,16 +93,14 @@ class BookmarksScreen extends Component {
     );
   };
 
-  _handleLongPress = (selectedItemId) => {
+  _handleLongPress = selectedItemId => {
     this.setState({ selectedItemId }, () => {
       this.ActionSheet.show();
     });
   };
 
   render() {
-    const {
-      favorites, bookmarks, intl, removeFavorite, removeBookmark,
-    } = this.props;
+    const { favorites, bookmarks, intl, removeFavorite, removeBookmark } = this.props;
     const { selectedItemId, activeTab } = this.state;
 
     return (
@@ -147,7 +149,7 @@ class BookmarksScreen extends Component {
           title={intl.formatMessage({ id: 'alert.remove_alert' })}
           cancelButtonIndex={1}
           destructiveButtonIndex={0}
-          onPress={(index) => {
+          onPress={index => {
             if (index === 0) {
               activeTab === 0 ? removeBookmark(selectedItemId) : removeFavorite(selectedItemId);
             }

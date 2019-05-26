@@ -106,9 +106,7 @@ class PostDropdownContainer extends PureComponent {
   };
 
   _addToBookmarks = () => {
-    const {
-      content, currentAccount, dispatch, intl,
-    } = this.props;
+    const { content, currentAccount, dispatch, intl } = this.props;
     addBookmark(currentAccount.name, content.author, content.permlink)
       .then(() => {
         dispatch(
@@ -131,9 +129,7 @@ class PostDropdownContainer extends PureComponent {
   };
 
   _reblog = () => {
-    const {
-      content, currentAccount, dispatch, intl, isLoggedIn, pinCode,
-    } = this.props;
+    const { content, currentAccount, dispatch, intl, isLoggedIn, pinCode } = this.props;
     if (isLoggedIn) {
       reblog(currentAccount, pinCode, content.author, content.permlink)
         .then(() => {
@@ -145,7 +141,7 @@ class PostDropdownContainer extends PureComponent {
             ),
           );
         })
-        .catch((error) => {
+        .catch(error => {
           if (error.jse_shortmsg && String(error.jse_shortmsg).indexOf('has already reblogged')) {
             dispatch(
               toastNotification(
@@ -162,9 +158,7 @@ class PostDropdownContainer extends PureComponent {
   };
 
   _replyNavigation = () => {
-    const {
-      content, fetchPost, isLoggedIn, navigation,
-    } = this.props;
+    const { content, fetchPost, isLoggedIn, navigation } = this.props;
 
     if (isLoggedIn) {
       navigation.navigate({
@@ -189,7 +183,9 @@ class PostDropdownContainer extends PureComponent {
     return (
       <Fragment>
         <PostDropdownView
-          options={_OPTIONS.map(item => intl.formatMessage({ id: `post_dropdown.${item}` }).toUpperCase())}
+          options={_OPTIONS.map(item =>
+            intl.formatMessage({ id: `post_dropdown.${item}` }).toUpperCase(),
+          )}
           handleOnDropdownSelect={this._handleOnDropdownSelect}
           {...this.props}
         />
@@ -198,7 +194,7 @@ class PostDropdownContainer extends PureComponent {
           options={['Reblog', intl.formatMessage({ id: 'alert.cancel' })]}
           title={intl.formatMessage({ id: 'post.reblog_alert' })}
           cancelButtonIndex={1}
-          onPress={(index) => {
+          onPress={index => {
             index === 0 ? this._reblog() : null;
           }}
         />

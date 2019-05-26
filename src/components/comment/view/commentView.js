@@ -57,7 +57,7 @@ class CommentView extends PureComponent {
       voteCount,
       intl,
       author,
-      mainAuthor={mainAuthor}
+      mainAuthor = { mainAuthor },
     } = this.props;
     const { isShowSubComments, isPressedShowButton } = this.state;
 
@@ -115,11 +115,14 @@ class CommentView extends PureComponent {
                         />
                         <ActionSheet
                           ref={o => (this.ActionSheet = o)}
-                          options={[intl.formatMessage({ id: 'alert.delete' }), intl.formatMessage({ id: 'alert.cancel' })]}
+                          options={[
+                            intl.formatMessage({ id: 'alert.delete' }),
+                            intl.formatMessage({ id: 'alert.cancel' }),
+                          ]}
                           title={intl.formatMessage({ id: 'alert.delete' })}
                           destructiveButtonIndex={0}
                           cancelButtonIndex={1}
-                          onPress={(index) => {
+                          onPress={index => {
                             index === 0 ? handleDeleteComment(comment.permlink) : null;
                           }}
                         />

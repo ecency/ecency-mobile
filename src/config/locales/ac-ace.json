@@ -161,7 +161,7 @@
     "reply_placeholder": "Teuntang peu neu neuk tuleh ata diateuh?",
     "publish": "Peudëuh",
     "reply": "Balah",
-    "open_galery": "Open Gallery",
+    "open_gallery": "Open Gallery",
     "capture_photo": "Cök Fôtô"
   },
   "pincode": {
@@ -194,7 +194,8 @@
     "delete": "Sampóh",
     "copied": "Kalheuh Meusalén!",
     "no_internet": "Hana koneksi!",
-    "confirm": "Confirm"
+    "confirm": "Confirm",
+    "removed": "Removed"
   },
   "post": {
     "reblog_alert": "Peu yakin neuh, neu neuk reblog?",
