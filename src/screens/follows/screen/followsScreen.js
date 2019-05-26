@@ -1,7 +1,5 @@
 import React, { PureComponent } from 'react';
-import {
-  View, Text, FlatList, ActivityIndicator,
-} from 'react-native';
+import { View, Text, FlatList, ActivityIndicator } from 'react-native';
 import { injectIntl } from 'react-intl';
 
 // Constants
@@ -49,9 +47,7 @@ class FollowsScreen extends PureComponent {
   };
 
   render() {
-    const {
-      loadMore, data, isFollowing, count, filterResult, handleSearch, intl,
-    } = this.props;
+    const { loadMore, data, isFollowing, count, filterResult, handleSearch, intl } = this.props;
     const title = intl.formatMessage({
       id: !isFollowing ? 'profile.follower' : 'profile.following',
     });

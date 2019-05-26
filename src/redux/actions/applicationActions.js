@@ -77,7 +77,7 @@ export const changeAllNotificationSettings = payload => ({
   type: CHANGE_ALL_NOTIFICATION_SETTINGS,
 });
 
-export const changeNotificationSettings = (payload) => {
+export const changeNotificationSettings = payload => {
   switch (payload.type) {
     case 'notification.follow':
       return {
@@ -149,11 +149,13 @@ export const isDefaultFooter = payload => ({
 /**
  * MW
  */
-export const setCurrency = currency => (dispatch) => {
+export const setCurrency = currency => dispatch => {
   const currencySymbol = getSymbolFromCurrency(currency);
 
-  getCurrencyRate(currency).then(currencyRate => dispatch({
-    type: SET_CURRENCY,
-    payload: { currency, currencyRate, currencySymbol },
-  }));
+  getCurrencyRate(currency).then(currencyRate =>
+    dispatch({
+      type: SET_CURRENCY,
+      payload: { currency, currencyRate, currencySymbol },
+    }),
+  );
 };

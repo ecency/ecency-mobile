@@ -21,9 +21,7 @@ class HomeScreen extends PureComponent {
   }
 
   render() {
-    const {
-      currentAccount, intl, isLoggedIn,
-    } = this.props;
+    const { currentAccount, intl, isLoggedIn } = this.props;
 
     let tag;
 

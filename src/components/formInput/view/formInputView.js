@@ -50,7 +50,7 @@ class FormInputView extends Component {
   }
 
   // Component Functions
-  _handleOnChange = (value) => {
+  _handleOnChange = value => {
     const { onChange } = this.props;
 
     this.setState({ value });
@@ -65,9 +65,7 @@ class FormInputView extends Component {
   };
 
   render() {
-    const {
-      inputBorderColor, isValid, value, formInputWidth,
-    } = this.state;
+    const { inputBorderColor, isValid, value, formInputWidth } = this.state;
     const {
       placeholder,
       type,

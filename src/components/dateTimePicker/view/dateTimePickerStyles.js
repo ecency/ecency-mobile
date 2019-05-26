@@ -28,4 +28,15 @@ export default EStyleSheet.create({
   datePickerCon: {
     backgroundColor: '$primaryBackgroundColor',
   },
+  scheduleIcon: {
+    color: '$iconColor',
+  },
+  iconButton: {
+    marginRight: 24,
+    justifyContent: 'center',
+    alignSelf: 'center',
+  },
+  picker: {
+    width: 50,
+  },
 });

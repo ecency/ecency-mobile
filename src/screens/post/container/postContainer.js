@@ -29,9 +29,8 @@ class PostContainer extends Component {
   // Component Life Cycle Functions
   componentDidMount() {
     const { navigation } = this.props;
-    const {
-      content, permlink, author, isNewPost, isHasParentPost,
-    } = navigation.state && navigation.state.params;
+    const { content, permlink, author, isNewPost, isHasParentPost } =
+      navigation.state && navigation.state.params;
 
     if (isNewPost) this.setState({ isNewPost });
 
@@ -46,7 +45,8 @@ class PostContainer extends Component {
 
   componentWillReceiveProps(nextProps) {
     const { navigation } = this.props;
-    const { isFetch: nextIsFetch } = nextProps.navigation.state && nextProps.navigation.state.params;
+    const { isFetch: nextIsFetch } =
+      nextProps.navigation.state && nextProps.navigation.state.params;
 
     if (nextIsFetch) {
       const { author, permlink } = navigation.state && navigation.state.params;
@@ -65,7 +65,7 @@ class PostContainer extends Component {
     const _permlink = permlink || post.permlink;
 
     await getPost(_author, _permlink, isLoggedIn && currentAccount.username)
-      .then((result) => {
+      .then(result => {
         if (result && result.id > 0) {
           if (isParentPost) {
             this.setState({ parentPost: result });
@@ -76,7 +76,7 @@ class PostContainer extends Component {
           this.setState({ isPostUnavailable: true });
         }
       })
-      .catch((err) => {
+      .catch(err => {
         this.setState({ error: err });
       });
   };
@@ -84,7 +84,13 @@ class PostContainer extends Component {
   render() {
     const { currentAccount, isLoggedIn } = this.props;
     const {
-      error, isNewPost, parentPost, post, isHasParentPost, isPostUnavailable, author,
+      error,
+      isNewPost,
+      parentPost,
+      post,
+      isHasParentPost,
+      isPostUnavailable,
+      author,
     } = this.state;
 
     if (isHasParentPost && post) this._loadPost(post.parent_author, post.parent_permlink, true);

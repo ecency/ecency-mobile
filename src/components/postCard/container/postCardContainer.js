@@ -43,7 +43,7 @@ class PostCardContainer extends PureComponent {
     }
   };
 
-  _handleOnContentPress = (content) => {
+  _handleOnContentPress = content => {
     const { navigation } = this.props;
 
     if (content) {
@@ -57,7 +57,7 @@ class PostCardContainer extends PureComponent {
     }
   };
 
-  _handleOnVotersPress = (activeVotes) => {
+  _handleOnVotersPress = activeVotes => {
     const { navigation, content } = this.props;
 
     navigation.navigate({
@@ -73,7 +73,7 @@ class PostCardContainer extends PureComponent {
     const { currentAccount, content } = this.props;
 
     await getPost(content.author, content.permlink, currentAccount.username)
-      .then((result) => {
+      .then(result => {
         if (result) {
           this.setState({ _content: result });
         }

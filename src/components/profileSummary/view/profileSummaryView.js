@@ -43,11 +43,11 @@ class ProfileSummaryView extends PureComponent {
   // Component Life Cycles
 
   // Component Functions
-  _handleOnPressLink = (url) => {
+  _handleOnPressLink = url => {
     Linking.openURL(url);
   };
 
-  _handleOnDropdownSelect = (index) => {
+  _handleOnDropdownSelect = index => {
     const { isMuted, handleMuteUnmuteUser } = this.props;
 
     // This funciton should have switch case but now only has one option therefor
@@ -89,7 +89,8 @@ class ProfileSummaryView extends PureComponent {
     const rcPowerHoursText = hoursRC && `• Full in ${hoursRC} hours`;
     const rcPowerText = `RCs: ${percentRC}% ${rcPowerHoursText || ''}`;
 
-    const rowLength = (location ? location.length : 0) + (link ? link.length : 0) + (date ? date.length : 0);
+    const rowLength =
+      (location ? location.length : 0) + (link ? link.length : 0) + (date ? date.length : 0);
     const isColumn = rowLength && DEVICE_WIDTH / rowLength <= 7.3;
 
     const followButtonIcon = !isFollowing ? 'account-plus' : 'account-minus';
@@ -133,9 +134,10 @@ class ProfileSummaryView extends PureComponent {
           defaultSource={isDarkTheme ? DARK_COVER_IMAGE : LIGHT_COVER_IMAGE}
         />
         <TouchableOpacity
-          onPress={() => this.setState({ isShowPercentText: !isShowPercentText }, () => {
-            handleUIChange(!isShowPercentText ? 30 : 0);
-          })
+          onPress={() =>
+            this.setState({ isShowPercentText: !isShowPercentText }, () => {
+              handleUIChange(!isShowPercentText ? 30 : 0);
+            })
           }
         >
           <PercentBar

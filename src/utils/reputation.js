@@ -1,4 +1,4 @@
-export const getReputation = (reputation) => {
+export const getReputation = reputation => {
   if (reputation === null) return reputation;
 
   let _reputation = String(parseInt(reputation));

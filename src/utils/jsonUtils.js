@@ -1,4 +1,4 @@
-export const jsonStringify = (jsonMetadata) => {
+export const jsonStringify = jsonMetadata => {
   if (!jsonMetadata) return '';
 
   try {
