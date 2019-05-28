@@ -1,0 +1,284 @@
+{
+  "wallet": {
+    "curation_reward": "Gains de curation",
+    "author_reward": "Gain de l'Auteur",
+    "comment_benefactor_reward": "Récompense pour Commentaire bienfaiteur",
+    "claim_reward_balance": "Réclamer le solde de récompense",
+    "transfer": "Transférer",
+    "transfer_to_vesting": "Transfer To Vesting",
+    "transfer_from_savings": "Transférer depuis mes Économies",
+    "withdraw_vesting": "Diminuer son influence",
+    "fill_order": "Remplir l’ordre"
+  },
+  "notification": {
+    "vote": "ont aimés votre post",
+    "unvote": "a retiré son vote sur votre publication",
+    "reply": "a répondu à votre post",
+    "mention": "vous a mentionné",
+    "follow": "vous a suivi",
+    "unfollow": "ne vous suit plus",
+    "ignore": "vous a ignoré",
+    "reblog": "a reblogué votre post",
+    "transfer": "steem transférés",
+    "comingsoon": "La fonctionnalité Classement arrive bientôt !",
+    "notification": "Notifications",
+    "leaderboard": "Classement",
+    "epoint": "Points",
+    "leaderboard_title": "Top des utilisateurs du jour",
+    "recent": "Récent",
+    "yesterday": "Hier",
+    "this_week": "Cette semaine",
+    "this_month": "Ce mois",
+    "older_then": "Vieux de plus de 1 mois"
+  },
+  "points": {
+    "post": "Post",
+    "comment": "Comment",
+    "checkin": "Check-in",
+    "vote": "Vote",
+    "reblog": "Reblog",
+    "login": "Login",
+    "checkin_extra": "Bonus",
+    "post_title": "Points pour vos publications",
+    "comment_title": "Points pour vos commentaires",
+    "vote_title": "Points pour vos votes",
+    "reblog_title": "Points pour vos reblog",
+    "login_title": "Points pour vos connexions",
+    "checkin_title": "Points for usage",
+    "checkin_extra_title": "Bonus d'utilisation",
+    "no_activity": "Aucune activité ici !",
+    "post_desc": "Vous pouvez gagner des points en publiant régulièrement. Publier vous donne 15 points.",
+    "comment_desc": "Chaque commentaire que vous faites vous aide à agrandir votre audience et à créer de l'amitié, mais vous donne également 5 points.",
+    "checkin_desc": "Checking in on eSteem app gives you 0.25 points and helps you stay connected with your friends.",
+    "vote_desc": "By voting you give reward to other creators and show your appreciation but also earn 0.01 x vote weight points.",
+    "reblog_desc": "  Partagez les publication que vous aimez avec vos amis et gagnez 1 point.",
+    "login_desc": "Lorsque vous vous connectez sur l'application eSteem, vous avez le droit de gagner 100 points automatiquement.",
+    "checkin_extra_desc": "Consistent use of app gives you extra chances to earn more 10 points, be more active and earn more."
+  },
+  "messages": {
+    "comingsoon": "La fonctionnalité Messages arrive bientôt !"
+  },
+  "profile": {
+    "following": "Abonnements",
+    "follower": "Abonnés",
+    "post": "Post",
+    "details": "Détails du profil",
+    "comments": "Commentaires",
+    "replies": "Réponses",
+    "wallet": "Portefeuille",
+    "wallet_details": "Informations sur le portefeuille",
+    "unclaimed_rewards": "Récompenses non réclamées",
+    "full_in": "Complet en",
+    "hours": "heures",
+    "voting_power": "Puissance de vote",
+    "login_to_see": "Connectez-vous pour voir",
+    "havent_commented": "n'a encore rien commenté",
+    "havent_posted": "n'a encore rien posté",
+    "steem_power": "Steem Power",
+    "next_power_text": "Prochaine diminution d'influence dans",
+    "days": "jours",
+    "day": "jour",
+    "steem_dollars": "Steem Dollars",
+    "savings": "Économies"
+  },
+  "settings": {
+    "settings": "Réglages",
+    "general": "Général",
+    "currency": "Devise",
+    "language": "Langue",
+    "server": "Serveur",
+    "dark_theme": "Thème Sombre",
+    "push_notification": "Notification push",
+    "notification": {
+      "follow": "Abonné",
+      "vote": "Vote",
+      "comment": "Commentaire",
+      "mention": "Mention",
+      "reblog": "Reblog",
+      "transfers": "Transferts"
+    },
+    "pincode": "Pincode",
+    "reset": "Réinitialiser",
+    "nsfw_content": "Contenu NSFW",
+    "send_feedback": "Envoyer une suggestion",
+    "send": "Envoyer",
+    "default_footer": "Pied de page par défaut",
+    "nsfw": {
+      "always_show": "Toujours afficher",
+      "always_hide": "Toujours masquer",
+      "always_warn": "Toujours avertir"
+    },
+    "feedback_success": "E-mail ouvert avec succès",
+    "feedback_fail": "Le client e-mail n'a pas pu être ouvert"
+  },
+  "voters": {
+    "voters_info": "Info des votants",
+    "no_user": "Aucun utilisateur trouvé."
+  },
+  "login": {
+    "signin": "Se connecter",
+    "signup": "S’inscrire",
+    "signin_title": "Pour obtenir tous les avantages de l’utilisation de eSteem",
+    "username": "Nom d'utilisateur",
+    "password": "Mot de passe ou WIF",
+    "description": "Vos informations d'identification sont conservées localement sur votre appareil. Elles sont supprimées dès votre déconnexion !",
+    "cancel": "annuler",
+    "login": "CONNEXION",
+    "steemconnect_description": "Si vous ne voulez pas garder votre mot de passe chiffré et enregistré sur votre appareil, vous pouvez utiliser Steemconnect.",
+    "steemconnect_fee_description": "Steemconnect peut facturer des frais sur vos transactions de récompense"
+  },
+  "home": {
+    "feed": "Fil d'actualités",
+    "popular": "Populaires"
+  },
+  "side_menu": {
+    "profile": "Profil",
+    "bookmarks": "Signets",
+    "favorites": "Favoris",
+    "drafts": "Brouillons",
+    "schedules": "Planifications",
+    "gallery": "Gallerie",
+    "settings": "Réglages",
+    "add_account": "Ajouter un compte",
+    "logout": "Déconnexion",
+    "cancel": "Annuler",
+    "logout_text": "Voulez-vous vraiment vous déconnecter?"
+  },
+  "header": {
+    "title": "Connectez-vous pour personnaliser votre flux",
+    "search": "Rechercher..."
+  },
+  "basic_header": {
+    "publish": "Publier",
+    "search": "Rechercher",
+    "update": "Mettre à jour",
+    "reply": "Répondre"
+  },
+  "editor": {
+    "title": "Titre",
+    "tags": "mots-clés",
+    "default_placeholder": "Qu’aimeriez-vous écrire aujourd'hui ?",
+    "reply_placeholder": "Qu'aimeriez-vous écrire à propos de l'article ci-dessus ?",
+    "publish": "Publier",
+    "reply": "Répondre",
+    "open_gallery": "Open Gallery",
+    "capture_photo": "Prendre une photo"
+  },
+  "pincode": {
+    "enter_text": "Enter pin to unlock",
+    "set_new": "Set new pin",
+    "write_again": "Écrire à nouveau",
+    "forgot_text": "Ha, je l'ai oublié ..."
+  },
+  "alert": {
+    "success": "Succés!",
+    "successful": "Successful",
+    "allRead": "Marquer toutes les notifications comme lues",
+    "claim_reward_balance_ok": "Solde de récompense réclamé",
+    "fail": "Échec !",
+    "move": "Déplacer",
+    "move_question": "Êtes-vous sûr de vouloir déplacer vers Broullions ?",
+    "success_shared": "Votre publication à été partagée avec succès",
+    "success_moved": "Déplacé vers Brouillons",
+    "permission_denied": "Autorisation refusée",
+    "permission_text": "S'il vous plaît, allez dans les Paramètres de votre téléphone et changez les permissions pour l’application eSteem.",
+    "success_rebloged": "Rebloged!",
+    "already_rebloged": "Vous avez déjà reblogué !",
+    "warning": "Attention",
+    "invalid_pincode": "Invalid pin code, please check and try again.",
+    "remove_alert": "Êtes-vous sûr de vouloir retirer ?",
+    "clear_alert": "Êtes-vous sûr de vouloir effacer ?",
+    "clear_user_alert": "Êtes-vous sûr de vouloir effacer toutes les données utilisateur ?",
+    "clear": "Effacer",
+    "cancel": "Annuler",
+    "delete": "Supprimer",
+    "copied": "Copié !",
+    "no_internet": "Pas de connexion !",
+    "confirm": "Valider",
+    "removed": "Removed"
+  },
+  "post": {
+    "reblog_alert": "Êtes-vous sûr de vouloir rebloguer ?",
+    "removed_hint": "The post was removed by"
+  },
+  "drafts": {
+    "title": "Brouillons",
+    "load_error": "Impossible de charger les brouillons",
+    "empty_list": "Rien ici",
+    "deleted": "Brouillon supprimé"
+  },
+  "schedules": {
+    "title": "Plannings",
+    "empty_list": "Rien ici",
+    "deleted": "Publication planifiée supprimée",
+    "move": "Déplacer vers brouillons",
+    "moved": "Déplacé vers brouillons"
+  },
+  "bookmarks": {
+    "title": "Signets",
+    "load_error": "Impossible de charger les signets",
+    "empty_list": "Rien ici",
+    "deleted": "Signet supprimé",
+    "search": "Rechercher dans les signets",
+    "added": "Ajouté aux signets",
+    "add": "Ajouter aux signets"
+  },
+  "favorites": {
+    "title": "Favoris",
+    "load_error": "Impossible de charger les favoris",
+    "empty_list": "Rien ici",
+    "search": "Rechercher dans les favoris"
+  },
+  "auth": {
+    "invalid_pin": "Invalid pin code, please check and try again",
+    "invalid_username": "Nom d’utilisateur invalide, s’il vous plaît vérifiez et réessayez",
+    "already_logged": "Vous êtes déjà connecté, essayez d’ajouter un autre compte",
+    "invalid_credentials": "Informations d'identification invalides, veuillez vérifier et réessayer",
+    "unknow_error": "Erreur inconnue, contactez-nous à support@esteem.app"
+  },
+  "payout": {
+    "potential_payout": "Gain Potentiel",
+    "promoted": "Promu",
+    "author_payout": "Gain de l'Auteur",
+    "curation_payout": "Gain de la Curation",
+    "payout_date": "Gain"
+  },
+  "post_dropdown": {
+    "copy": "copier le lien",
+    "reblog": "rebloguer",
+    "reply": "répondre",
+    "share": "partager",
+    "bookmarks": "ajouter aux signets"
+  },
+  "deep_link": {
+    "no_existing_user": "Utilisateur inexistant",
+    "no_existing_post": "Post inexistant"
+  },
+  "search": {
+    "posts": "Publications",
+    "comments": "Commentaires"
+  },
+  "comment_filter": {
+    "trending": "tendances",
+    "reputation": "réputation",
+    "votes": "votes",
+    "age": "âge"
+  },
+  "transfer": {
+    "from": "De",
+    "to": "À",
+    "amount": "Montant",
+    "memo": "Mémo",
+    "information": "Êtes-vous sûr de vouloir transférer vers vos fonds ?",
+    "amount_desc": "Solde",
+    "memo_desc": "Ce mémo est public",
+    "to_placeholder": "Nom d'utilisateur",
+    "memo_placeholder": "Entrez vos notes ici",
+    "transferToken": "Transfer",
+    "transferToSaving": "Transfer To Saving",
+    "powerUp": "Power Up",
+    "withdrawToSaving": "Withdraw To Saving",
+    "steemconnect_title": "Transfert Steemconnect",
+    "next": "NEXT"
+  }
+}

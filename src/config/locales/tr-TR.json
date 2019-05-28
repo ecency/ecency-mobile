@@ -1,0 +1,284 @@
+{
+  "wallet": {
+    "curation_reward": "Küratör Ödülü",
+    "author_reward": "Yazar Ödülü",
+    "comment_benefactor_reward": "Yorum Bağış Ödülü",
+    "claim_reward_balance": "Ödül Bakiyesini Talep Et",
+    "transfer": "Transfer",
+    "transfer_to_vesting": "Yetkiye Transfer Talep Et",
+    "transfer_from_savings": "Tasarruflardan Transfer",
+    "withdraw_vesting": "Güç Düşürme",
+    "fill_order": "Gerçekleşen emir"
+  },
+  "notification": {
+    "vote": "beğendi",
+    "unvote": "gonderini aşaği yönde oyladı",
+    "reply": "gönderine cevap verdi",
+    "mention": "seni etiketledi",
+    "follow": "seni takip etti",
+    "unfollow": "seni takipetmeyi bıraktı",
+    "ignore": "seni engelledi",
+    "reblog": "senin postunu paylaştı",
+    "transfer": "transfer edilen steem",
+    "comingsoon": "Liderler tablosu yakında burada!",
+    "notification": "Bildirimler",
+    "leaderboard": "Liderler Tablosu",
+    "epoint": "Puanlar",
+    "leaderboard_title": "Günlük lider kullanıcılar",
+    "recent": "Geçen",
+    "yesterday": "Dün",
+    "this_week": "Bu Hafta",
+    "this_month": "Bu Ay",
+    "older_then": "Bir Aydan Daha Önce"
+  },
+  "points": {
+    "post": "Gönderi",
+    "comment": "Yorum",
+    "checkin": "Check-in",
+    "vote": "Vote",
+    "reblog": "Reblog",
+    "login": "Login",
+    "checkin_extra": "Bonus",
+    "post_title": "Gönderi için puan",
+    "comment_title": "Yorum için puanlar",
+    "vote_title": "Oy için puanlar",
+    "reblog_title": "Reb günlüğü için puanlar",
+    "login_title": "Giriş için puanlar",
+    "checkin_title": "Kullanım için puanlar",
+    "checkin_extra_title": "Kullanım bonusu",
+    "no_activity": "Burada etkinlik yok!",
+    "post_desc": "You can earn point by posting regularly. Posting gives you 15 points.",
+    "comment_desc": "Each comment you make helps you to grow your audience and make friendship but also earns you 5 points.",
+    "checkin_desc": "Checking in on eSteem app gives you 0.25 points and helps you stay connected with your friends.",
+    "vote_desc": "By voting you give reward to other creators and show your appreciation but also earn 0.01 x vote weight points.",
+    "reblog_desc": "  Share what post you like with your friends and earn 1 points.",
+    "login_desc": "When you login into eSteem app you are entitled to earn 100 points automatically.",
+    "checkin_extra_desc": "Consistent use of app gives you extra chances to earn more 10 points, be more active and earn more."
+  },
+  "messages": {
+    "comingsoon": "Mesajlar yakinda burada!"
+  },
+  "profile": {
+    "following": "Takip edilen",
+    "follower": "Takipçi",
+    "post": "Gönderi",
+    "details": "Profil Detayları",
+    "comments": "Yorumlar",
+    "replies": "Yorumlar",
+    "wallet": "Cüzdan",
+    "wallet_details": "Cüzdan Detayları",
+    "unclaimed_rewards": "Sahipsiz Ödül",
+    "full_in": "Olacak",
+    "hours": "saat",
+    "voting_power": "Oylama güçü",
+    "login_to_see": "Giriş yap ve gör!",
+    "havent_commented": "henüz yorum yapmadı",
+    "havent_posted": "henüz post paylasmadi",
+    "steem_power": "Steem Güçü",
+    "next_power_text": "İleriki güç",
+    "days": "gün içinde düşecek",
+    "day": "gün içinde düşecek",
+    "steem_dollars": "Steem Dolar",
+    "savings": "Biriktir"
+  },
+  "settings": {
+    "settings": "Ayarlar",
+    "general": "Genel",
+    "currency": "Para Birimi",
+    "language": "Dil",
+    "server": "Sunucu",
+    "dark_theme": "Koyu Tema",
+    "push_notification": "Bildirim",
+    "notification": {
+      "follow": "Takip Et",
+      "vote": "Oy",
+      "comment": "Yorum",
+      "mention": "Bahset",
+      "reblog": "Yeniden yayınla",
+      "transfers": "Transferler"
+    },
+    "pincode": "Pinkod",
+    "reset": "Sifirla",
+    "nsfw_content": "NSFW İçeriği",
+    "send_feedback": "Geri Bildirim Gönder",
+    "send": "Gönder",
+    "default_footer": "Varsayılan Altbilgi",
+    "nsfw": {
+      "always_show": "Her zaman göster",
+      "always_hide": "Her zaman gizle",
+      "always_warn": "Her zaman uyar"
+    },
+    "feedback_success": "E-posta başarıyla açıldı",
+    "feedback_fail": "E-posta istemcisi açılamadı"
+  },
+  "voters": {
+    "voters_info": "Oy Verenler",
+    "no_user": "Kullanıcı bulunamadı."
+  },
+  "login": {
+    "signin": "Giriş",
+    "signup": "Kayıt",
+    "signin_title": "eSteem'in ayrıcalıklı dünyasına hoşgeldiniz.",
+    "username": "Kullanıcı Adı",
+    "password": "Şifre yada WIF",
+    "description": "Kullanıçı bilgileri telefonunuz üzeründe şifreli olarak tutulur ve çıkış yaptıgınızda tüm bilgiler silinir.",
+    "cancel": "geç",
+    "login": "GİRİŞ",
+    "steemconnect_description": "Eğer kullanıçı bilgilerini şifreli olarak tutulmasını istemiyorsanız Steemconnect ilede giriş yapabilirsiniz.",
+    "steemconnect_fee_description": "Not: Steemconnect ödül işlemlerinde bazı ücretler alabilir"
+  },
+  "home": {
+    "feed": "Akış",
+    "popular": "Popüler"
+  },
+  "side_menu": {
+    "profile": "Profil",
+    "bookmarks": "Yerimleri",
+    "favorites": "Favoriler",
+    "drafts": "Taslaklar",
+    "schedules": "Yapılacaklar",
+    "gallery": "Galeri",
+    "settings": "Ayarlar",
+    "add_account": "Hesap Ekle",
+    "logout": "Çık",
+    "cancel": "Vazgeç",
+    "logout_text": "Çıkış yapmak istediginize emin misiniz?"
+  },
+  "header": {
+    "title": "Giriş yap ve akışını özelleştir.",
+    "search": "Ara..."
+  },
+  "basic_header": {
+    "publish": "Yayınla",
+    "search": "Ara",
+    "update": "Güncelle",
+    "reply": "Cevapla"
+  },
+  "editor": {
+    "title": "Başlık",
+    "tags": "etiketler",
+    "default_placeholder": "Bu gün ne hakkında yazmak istersin?",
+    "reply_placeholder": "Yukarıdaki yazi hakkinda nasil bir cevap yazmak istersin?",
+    "publish": "Yayınla",
+    "reply": "Cevapla",
+    "open_gallery": "Open Gallery",
+    "capture_photo": "Bir fotoğraf çekin"
+  },
+  "pincode": {
+    "enter_text": "Açmak için pin kodunu giriniz",
+    "set_new": "Yeni pin kodu",
+    "write_again": "Tekrar giriniz",
+    "forgot_text": "Of! unuttum..."
+  },
+  "alert": {
+    "success": "Başarılı!",
+    "successful": "Successful",
+    "allRead": "Tüm bildirimleri okundu olarak işaretle",
+    "claim_reward_balance_ok": "Ödül alındı",
+    "fail": "Başarısız!",
+    "move": "Taşı",
+    "move_question": "Taslaklara taşıyacağınızdan emin misiniz?",
+    "success_shared": "Gönderin başarıyla paylaşıldı",
+    "success_moved": "Taslağa taşındı",
+    "permission_denied": "İzin reddedildi",
+    "permission_text": "Lütfen telefon ayarlarına gidin ve eSteem'in izinlerini açın.",
+    "success_rebloged": "Rebloged!",
+    "already_rebloged": "Zaten reblog yapmışsınız.",
+    "warning": "Uyarı",
+    "invalid_pincode": "Geçersiz pin gözden geçirip yeniden deneyin.",
+    "remove_alert": "Kaldırmak istediğine emin misin ?",
+    "clear_alert": "Silmek istediğinizden emin misiniz?",
+    "clear_user_alert": "Tüm kullanıcı verilerini silmek istediğinize emin misiniz?",
+    "clear": "Temizle",
+    "cancel": "Vazgeç",
+    "delete": "Temizle",
+    "copied": "Kopyalandı",
+    "no_internet": "Bağlantı yok.",
+    "confirm": "Onayla",
+    "removed": "Removed"
+  },
+  "post": {
+    "reblog_alert": "Reblog yapma istediginize emin misiniz?",
+    "removed_hint": "The post was removed by"
+  },
+  "drafts": {
+    "title": "Taslaklar",
+    "load_error": "Taslaklar yüklenemedi",
+    "empty_list": "Burada hiçbir şey yok",
+    "deleted": "Taslak silindi"
+  },
+  "schedules": {
+    "title": "Schedules",
+    "empty_list": "Burada hiçbir şey yok",
+    "deleted": "Zamanlanmiş Gönderi Silindi",
+    "move": "Taslaklara taşı",
+    "moved": "Taslaklara taşı"
+  },
+  "bookmarks": {
+    "title": "Yerimleri",
+    "load_error": "Yer imleri yüklenemedi",
+    "empty_list": "Burada hiçbir şey yok",
+    "deleted": "Yer işareti kaldırıldı",
+    "search": "Yer imlerinde ara",
+    "added": "Yer imlerine eklendi",
+    "add": "Yerimlerine ekle"
+  },
+  "favorites": {
+    "title": "Favoriler",
+    "load_error": "Beğeniler yüklenemedi",
+    "empty_list": "Burada hiçbir şey yok",
+    "search": "Favorilerde ara"
+  },
+  "auth": {
+    "invalid_pin": "Geçersiz pin gözden geçirip yeniden deneyin",
+    "invalid_username": "Geçersiz Kullanıcı adı gözden geçirip yeniden deneyin",
+    "already_logged": "Zaten oturum açmış, lütfen başka bir hesaba eklemek deneyin",
+    "invalid_credentials": "Geçersiz Kullanıcı adı gözden geçirip yeniden deneyin",
+    "unknow_error": "Bilinmeyen bir hata, lütfen bize ulaşın support@esteem.app"
+  },
+  "payout": {
+    "potential_payout": "Tahmini Ödeme",
+    "promoted": "Sponsor Ödemeleri",
+    "author_payout": "Yazar Ödemeleri",
+    "curation_payout": "Küratör Ödemeleri",
+    "payout_date": "Ödeme"
+  },
+  "post_dropdown": {
+    "copy": "kopyala",
+    "reblog": "Reblog",
+    "reply": "cevapla",
+    "share": "paylaş",
+    "bookmarks": "yer imlerine ekle"
+  },
+  "deep_link": {
+    "no_existing_user": "Kullanici Bulunamadi",
+    "no_existing_post": "Mevcut yayın yok"
+  },
+  "search": {
+    "posts": "Gönderi",
+    "comments": "Yorumlar"
+  },
+  "comment_filter": {
+    "trending": "öne çıkanlar",
+    "reputation": "itibar",
+    "votes": "oylar",
+    "age": "yaş"
+  },
+  "transfer": {
+    "from": "Gönderen",
+    "to": "Kime",
+    "amount": "Miktar",
+    "memo": "Notlar",
+    "information": "Fonlara transfer etmek istediğinize emin misin?",
+    "amount_desc": "Bakiye",
+    "memo_desc": "Bu not herkese açık",
+    "to_placeholder": "Kullanıcı Adı",
+    "memo_placeholder": "Notlarınızı buraya girin",
+    "transferToken": "Havale",
+    "transferToSaving": "Tasarrufa Aktar",
+    "powerUp": "Güç yükselt",
+    "withdrawToSaving": "Withdraw To Saving",
+    "steemconnect_title": "Steemconnect Aktarımı",
+    "next": "NEXT"
+  }
+}

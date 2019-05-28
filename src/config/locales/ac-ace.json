@@ -1,0 +1,284 @@
+{
+  "wallet": {
+    "curation_reward": "Gaji kurasi",
+    "author_reward": "Upah Keupoe",
+    "comment_benefactor_reward": "Gaji Komentar Keupoe App",
+    "claim_reward_balance": "Klèm Gaji Keunubah",
+    "transfer": "Kirèm",
+    "transfer_to_vesting": "Kirèm Keu Vesting",
+    "transfer_from_savings": "Kirém keu kubah",
+    "withdraw_vesting": "Peukureueng Teunaga",
+    "fill_order": "Pasöe Puesanan"
+  },
+  "notification": {
+    "vote": "galak post dröen",
+    "unvote": "hana galak post dröen",
+    "reply": "balah keu post dröen",
+    "mention": "seubut dröen",
+    "follow": "ikot dröen",
+    "unfollow": "piyôh ikut dröen",
+    "ignore": "hanapeureumeun dröen",
+    "reblog": "postingan dröen ka di reblog",
+    "transfer": "steem kalhëuh meukirèm",
+    "comingsoon": "Papeun ranking akan seugeura lheuh!",
+    "notification": "Bithé",
+    "leaderboard": "Papeun Rangking",
+    "epoint": "Points",
+    "leaderboard_title": "Ureung Palèng Lè pakek",
+    "recent": "Ataban nyoë",
+    "yesterday": "Baroë",
+    "this_week": "Peukan Nyoë",
+    "this_month": "Buleuën Nyoë",
+    "older_then": "Leubéh Lam Sibulëun"
+  },
+  "points": {
+    "post": "Post",
+    "comment": "Comment",
+    "checkin": "Check-in",
+    "vote": "Vote",
+    "reblog": "Reblog",
+    "login": "Login",
+    "checkin_extra": "Bonus",
+    "post_title": "Points for post",
+    "comment_title": "Points for comment",
+    "vote_title": "Points for vote",
+    "reblog_title": "Points for reblog",
+    "login_title": "Points for login",
+    "checkin_title": "Points for usage",
+    "checkin_extra_title": "Usage bonus",
+    "no_activity": "No activity here!",
+    "post_desc": "You can earn point by posting regularly. Posting gives you 15 points.",
+    "comment_desc": "Each comment you make helps you to grow your audience and make friendship but also earns you 5 points.",
+    "checkin_desc": "Checking in on eSteem app gives you 0.25 points and helps you stay connected with your friends.",
+    "vote_desc": "By voting you give reward to other creators and show your appreciation but also earn 0.01 x vote weight points.",
+    "reblog_desc": "  Share what post you like with your friends and earn 1 points.",
+    "login_desc": "When you login into eSteem app you are entitled to earn 100 points automatically.",
+    "checkin_extra_desc": "Consistent use of app gives you extra chances to earn more 10 points, be more active and earn more."
+  },
+  "messages": {
+    "comingsoon": "Fitur peusan seugeura lheuh!"
+  },
+  "profile": {
+    "following": "Meuikoët",
+    "follower": "Peungikoët",
+    "post": "Haba",
+    "details": "Data Lëungkap",
+    "comments": "Komentar",
+    "replies": "Balah",
+    "wallet": "Balum",
+    "wallet_details": "Asöe Balum",
+    "unclaimed_rewards": "Upah Galoem Cöek",
+    "full_in": "Punoeh lam",
+    "hours": "jëum",
+    "voting_power": "Teunaga Galak",
+    "login_to_see": "Tamoëng Untuk Kaloën",
+    "havent_commented": "galöem peurnah komentar",
+    "havent_posted": "galöem peurnah tumulèh",
+    "steem_power": "Teunaga Steem",
+    "next_power_text": "Teunaga itrèn seulanjut jih",
+    "days": "uroë-uroë",
+    "day": "uroë",
+    "steem_dollars": "Steem Dollars",
+    "savings": "Keunëubah"
+  },
+  "settings": {
+    "settings": "Peungaturan",
+    "general": "Umum",
+    "currency": "Mata péng",
+    "language": "Basa",
+    "server": "Server",
+    "dark_theme": "Layeu Supôet",
+    "push_notification": "Teugön Haba",
+    "notification": {
+      "follow": "Iköt",
+      "vote": "Pilèh",
+      "comment": "Komentar",
+      "mention": "Seuböt",
+      "reblog": "Reblog",
+      "transfers": "Kirèm"
+    },
+    "pincode": "Kode PIN",
+    "reset": "Atôe ulang",
+    "nsfw_content": "Konten urëung chik",
+    "send_feedback": "Send Feedback",
+    "send": "Kirèm",
+    "default_footer": "Default Footer",
+    "nsfw": {
+      "always_show": "Always show",
+      "always_hide": "Söm Sabè",
+      "always_warn": "Sabë pëuingat"
+    },
+    "feedback_success": "Email successfully open",
+    "feedback_fail": "Email client could not open"
+  },
+  "voters": {
+    "voters_info": "Info ureueng galak",
+    "no_user": "Hana meuteumë pengguna."
+  },
+  "login": {
+    "signin": "Tamoëng",
+    "signup": "Daftar",
+    "signin_title": "Meurumpök mandum laba bak pakek eSteem",
+    "username": "Nan pengguna",
+    "password": "Gunci atawa WIF",
+    "description": "Mandat ureung pake meukubah lam alat droe. Watee neu tubit mandat nyan disampöeh!",
+    "cancel": "batëu",
+    "login": "TAMOÉNG",
+    "steemconnect_description": "Meunyoe hana pèrle kubah gunci lam nyoe, droën jeut neupakek Steemconnect.",
+    "steemconnect_fee_description": "Steemconnect may charge some fees from your reward transactions"
+  },
+  "home": {
+    "feed": "Umpëun",
+    "popular": "Meucuhu"
+  },
+  "side_menu": {
+    "profile": "Profil",
+    "bookmarks": "Buku Peunanda",
+    "favorites": "Nyang Palèng Galak",
+    "drafts": "Konsep",
+    "schedules": "Jaduwal",
+    "gallery": "Album",
+    "settings": "Peungaturan",
+    "add_account": "Tamah akun",
+    "logout": "Teubit",
+    "cancel": "Batëu",
+    "logout_text": "Peu betoi neu teubit?"
+  },
+  "header": {
+    "title": "Tamöeng untuk seusuaikan haba deuh bak dröen",
+    "search": "Mieta..."
+  },
+  "basic_header": {
+    "publish": "Peudëuh",
+    "search": "Mieta",
+    "update": "Peubarô",
+    "reply": "Balah"
+  },
+  "editor": {
+    "title": "Judul",
+    "tags": "bôhtanda",
+    "default_placeholder": "Peu galak neu tuleh keu urönyoe?",
+    "reply_placeholder": "Teuntang peu neu neuk tuleh ata diateuh?",
+    "publish": "Peudëuh",
+    "reply": "Balah",
+    "open_gallery": "Open Gallery",
+    "capture_photo": "Cök Fôtô"
+  },
+  "pincode": {
+    "enter_text": "Pasöe gunci untuk buka",
+    "set_new": "Pasöe pin barô",
+    "write_again": "Tulèh loem",
+    "forgot_text": "Oh, lôn tuwoe nyan..."
+  },
+  "alert": {
+    "success": "Meuhasè!",
+    "successful": "Successful",
+    "allRead": "Tanda mandum haba nyang kalhëuh baca",
+    "claim_reward_balance_ok": "Gaji kalhëuh klèm",
+    "fail": "Gagai!",
+    "move": "Pinah",
+    "move_question": "Peu neuyakin neuk pinah lam draft?",
+    "success_shared": "Tulisan droen kalhëuh dibagi",
+    "success_moved": "Klaheuh na lam draft",
+    "permission_denied": "Hana izin",
+    "permission_text": "Tulông kaloen bak aturan telepon dan gantoe izin app eSteem.",
+    "success_rebloged": "Rebloged!",
+    "already_rebloged": "Kalheuh neureblog lè droen!",
+    "warning": "Pëuingat",
+    "invalid_pincode": "Salah pin, cie neu test loëm.",
+    "remove_alert": "Peu yakin neuk sampóh?",
+    "clear_alert": "Peu yakin neuk sampöh?",
+    "clear_user_alert": "Pëu yakin nëuk sampöh mandum data pöe?",
+    "clear": "Sampöh",
+    "cancel": "Batai",
+    "delete": "Sampóh",
+    "copied": "Kalheuh Meusalén!",
+    "no_internet": "Hana koneksi!",
+    "confirm": "Confirm",
+    "removed": "Removed"
+  },
+  "post": {
+    "reblog_alert": "Peu yakin neuh, neu neuk reblog?",
+    "removed_hint": "The post was removed by"
+  },
+  "drafts": {
+    "title": "Konsep",
+    "load_error": "Han leupah peutamoëng ata lam konsep",
+    "empty_list": "Hana sapëuna",
+    "deleted": "Konsep kalhëuh meusampöh"
+  },
+  "schedules": {
+    "title": "Schedules",
+    "empty_list": "Hana sapëuna",
+    "deleted": "Post meujadwal kalhëuh meusampöh",
+    "move": "Pinah lam konsep",
+    "moved": "Kalheuh pinah lam konsep"
+  },
+  "bookmarks": {
+    "title": "Pëunanda buku",
+    "load_error": "Han lëupah peutamoeng ata lam konsep",
+    "empty_list": "Hana sapëuna",
+    "deleted": "Pëunanda buku kalhëuh meusampöh",
+    "search": "Mita lam buku pëunanda",
+    "added": "Added to bookmarks",
+    "add": "Tamah dalam bookmarks"
+  },
+  "favorites": {
+    "title": "Palèng galak",
+    "load_error": "Han lëupah pëutamong ata lam galak",
+    "empty_list": "Hana sapëuna",
+    "search": "Mita lam geugalak"
+  },
+  "auth": {
+    "invalid_pin": "Salah pin, cie neu test loëm",
+    "invalid_username": "Salah nanpöe, ci pëuriksa dan cuba keulai",
+    "already_logged": "Kalheuh tamöeng, cie cuba ngön akun laèn",
+    "invalid_credentials": "Salah kredential, cië neu test löem",
+    "unknow_error": "Salah hanamëupat, cie hubungi kamöe di support@esteem.app"
+  },
+  "payout": {
+    "potential_payout": "Potensi Dibayëu",
+    "promoted": "Kalhëuh Promosi",
+    "author_payout": "Dibayëu Keupö",
+    "curation_payout": "Dibayëu këukurasi",
+    "payout_date": "Dibayëu"
+  },
+  "post_dropdown": {
+    "copy": "copy link",
+    "reblog": "neukirem ulang blog",
+    "reply": "balah",
+    "share": "bagi",
+    "bookmarks": "tamah dalam bookmarks"
+  },
+  "deep_link": {
+    "no_existing_user": "Hana uréung pakék",
+    "no_existing_post": "Hana haba sapeu"
+  },
+  "search": {
+    "posts": "Post",
+    "comments": "Komentar-komentar"
+  },
+  "comment_filter": {
+    "trending": "mëucuhu",
+    "reputation": "reputasi",
+    "votes": "pilèh-pilèh",
+    "age": "umuë"
+  },
+  "transfer": {
+    "from": "From",
+    "to": "To",
+    "amount": "Amount",
+    "memo": "Memo",
+    "information": "Are you sure to transfer to funds?",
+    "amount_desc": "Balance",
+    "memo_desc": "This memo is public",
+    "to_placeholder": "Username",
+    "memo_placeholder": "Enter your notes here",
+    "transferToken": "Transfer",
+    "transferToSaving": "Transfer To Saving",
+    "powerUp": "Power Up",
+    "withdrawToSaving": "Withdraw To Saving",
+    "steemconnect_title": "Steemconnect Transfer",
+    "next": "NEXT"
+  }
+}

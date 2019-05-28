@@ -1,0 +1,284 @@
+{
+  "wallet": {
+    "curation_reward": "Кураторская награда",
+    "author_reward": "Авторская награда",
+    "comment_benefactor_reward": "Награда бенефициару",
+    "claim_reward_balance": "Зачислить награду",
+    "transfer": "Перевод",
+    "transfer_to_vesting": "Перевод в Силу",
+    "transfer_from_savings": "Перевод из сейфа",
+    "withdraw_vesting": "Понижение силы",
+    "fill_order": "Заполнить ордер"
+  },
+  "notification": {
+    "vote": "нравится ваш пост",
+    "unvote": "снял свой голос",
+    "reply": "ответил",
+    "mention": "упомянул вас",
+    "follow": "подписан",
+    "unfollow": "отписан",
+    "ignore": "игнорирует",
+    "reblog": "сделал репост",
+    "transfer": "отправлено Steem",
+    "comingsoon": "Доска Лидерства будет здесь!",
+    "notification": "Уведомления",
+    "leaderboard": "Лидеры",
+    "epoint": "Очки",
+    "leaderboard_title": "Доска Лидерства",
+    "recent": "Недавно",
+    "yesterday": "Вчера",
+    "this_week": "На неделе",
+    "this_month": "В этом месяце",
+    "older_then": "Давно"
+  },
+  "points": {
+    "post": "Пост",
+    "comment": "Комментарий",
+    "checkin": "Чекин",
+    "vote": "Голос",
+    "reblog": "Репост",
+    "login": "Логин",
+    "checkin_extra": "Бонус",
+    "post_title": "Очки за пост",
+    "comment_title": "Очки за комментарий",
+    "vote_title": "Очки за голос",
+    "reblog_title": "Очки за репост",
+    "login_title": "Очки за логин",
+    "checkin_title": "Очки за пользование",
+    "checkin_extra_title": "Бонус за использование",
+    "no_activity": "Здесь пусто!",
+    "post_desc": "Зарабатывай очки за посты. По 15 очков за каждый.",
+    "comment_desc": "Каждый коммент помогает набирать аудиторию, завязывает дружбу и приносит 5 очков.",
+    "checkin_desc": "Чекин в приложении eSteem даёт 0.25 очков и помогает оставаться на связи с друзьями.",
+    "vote_desc": "Голосуя вы награждаете других и высказываете своё уважение, а также получаете процент очков в зависимости от силы голоса.",
+    "reblog_desc": "Делитесь постами с друзьями и получайте по 1 очку.",
+    "login_desc": "Когда вы логинитесь в приложения eSteem, вы автоматически получаете 100 очков.",
+    "checkin_extra_desc": "Постоянное использование приложения даёт вам дополнительный шанс получить 10 очков. Чем больше активности, тем больше очков."
+  },
+  "messages": {
+    "comingsoon": "Здесь будут сообщения!"
+  },
+  "profile": {
+    "following": "Подписки",
+    "follower": "Подписчики",
+    "post": "Пост",
+    "details": "Подробности",
+    "comments": "Комментарии",
+    "replies": "Ответы",
+    "wallet": "Кошелёк",
+    "wallet_details": "Подробности",
+    "unclaimed_rewards": "Незачисленные награды",
+    "full_in": "Восстановится за",
+    "hours": "ч",
+    "voting_power": "Сила голоса",
+    "login_to_see": "Войдите, чтобы увидеть",
+    "havent_commented": "ещё ничего не комментировал",
+    "havent_posted": "ещё ничего не написал",
+    "steem_power": "Сила голоса",
+    "next_power_text": "Следующее понижение силы",
+    "days": "д",
+    "day": "д",
+    "steem_dollars": "Доллары Steem",
+    "savings": "Сейф"
+  },
+  "settings": {
+    "settings": "Настройки",
+    "general": "Общие",
+    "currency": "Валюта",
+    "language": "Язык",
+    "server": "Сервер",
+    "dark_theme": "Тёмная тема",
+    "push_notification": "Уведомления",
+    "notification": {
+      "follow": "Подписки",
+      "vote": "Голоса",
+      "comment": "Комментарии",
+      "mention": "Упоминания",
+      "reblog": "Репосты",
+      "transfers": "Переводы"
+    },
+    "pincode": "Пинкод",
+    "reset": "Сбросить",
+    "nsfw_content": "Ненормативное",
+    "send_feedback": "Отправить отзыв",
+    "send": "Отправить",
+    "default_footer": "Подвал по умолчанию",
+    "nsfw": {
+      "always_show": "Отображать",
+      "always_hide": "Скрывать",
+      "always_warn": "Предупреждать"
+    },
+    "feedback_success": "Письмо успешно отправлено",
+    "feedback_fail": "Не удалось отправить письмо"
+  },
+  "voters": {
+    "voters_info": "Детали голосов",
+    "no_user": "Пользователь не найден"
+  },
+  "login": {
+    "signin": "Войти",
+    "signup": "Регистрация",
+    "signin_title": "Чтобы получить максимум от eSteem",
+    "username": "Пользователь",
+    "password": "Пароль или ключ",
+    "description": "Ключи хранятся только на вашем устройстве и удаляются во время разлогина!",
+    "cancel": "отмена",
+    "login": "Войти",
+    "steemconnect_description": "Если не хотите хранить зашифрованные ключи на вашем устройстве, исползуйте Steemconnect.",
+    "steemconnect_fee_description": "Примечание: Steemconnect может взимать некоторые сборы из ваших транзакций вознаграждений"
+  },
+  "home": {
+    "feed": "Лента",
+    "popular": "Популярное"
+  },
+  "side_menu": {
+    "profile": "Профиль",
+    "bookmarks": "Закладки",
+    "favorites": "Избранное",
+    "drafts": "Черновики",
+    "schedules": "Отложенное",
+    "gallery": "Галлерея",
+    "settings": "Настройки",
+    "add_account": "Добавить аккаунт",
+    "logout": "Выйти",
+    "cancel": "Отмена",
+    "logout_text": "Вы уверены, что хотите разлогина?"
+  },
+  "header": {
+    "title": "Войдите, чтобы настроить свою ленту",
+    "search": "Искать..."
+  },
+  "basic_header": {
+    "publish": "Написать",
+    "search": "Поиск",
+    "update": "Обновить",
+    "reply": "Ответить"
+  },
+  "editor": {
+    "title": "Заголовок",
+    "tags": "теги",
+    "default_placeholder": "О чём вы хотите написать сегодня?",
+    "reply_placeholder": "Напишите ваш комментарий",
+    "publish": "Написать",
+    "reply": "Ответить",
+    "open_gallery": "Open Gallery",
+    "capture_photo": "Сделать фото"
+  },
+  "pincode": {
+    "enter_text": "Введите пинкод",
+    "set_new": "Выберите новый пинкод",
+    "write_again": "Повторите пинкод",
+    "forgot_text": "Запамятовал..."
+  },
+  "alert": {
+    "success": "Успех!",
+    "successful": "Успешно",
+    "allRead": "Всё прочтено",
+    "claim_reward_balance_ok": "Награда зачислена на баланс",
+    "fail": "Не вышло!",
+    "move": "Переместить",
+    "move_question": "Вы уверены, что хотите переместить в черновики?",
+    "success_shared": "Ваш пост отправлен",
+    "success_moved": "Перемещён в черновики",
+    "permission_denied": "Не достаточно разрешений",
+    "permission_text": "Пожалуйста перейдите в настройки телефона и выдайте разрешения для eSteem",
+    "success_rebloged": "Репостнуто!",
+    "already_rebloged": "Вы уже делились этим постом!",
+    "warning": "Внимание",
+    "invalid_pincode": "Неверный пин, попробуйте снова.",
+    "remove_alert": "Вы уверены, что хотите удалить?",
+    "clear_alert": "Вы уверены, что хотите очистить?",
+    "clear_user_alert": "Вы уверены, что хотите удалить все Ваши данные?",
+    "clear": "Очистить",
+    "cancel": "Отмена",
+    "delete": "Удалить",
+    "copied": "Скопировано!",
+    "no_internet": "No internet connection",
+    "confirm": "Подтвердить",
+    "removed": "Removed"
+  },
+  "post": {
+    "reblog_alert": "Вы уверены, что хотите сделать репост?",
+    "removed_hint": "The post was removed by"
+  },
+  "drafts": {
+    "title": "Черновики",
+    "load_error": "Невозможно загрузить черновики",
+    "empty_list": "Ничего нет",
+    "deleted": "Черновик удалён"
+  },
+  "schedules": {
+    "title": "Отложенные",
+    "empty_list": "Ничего нет",
+    "deleted": "Отложенный пост удалён",
+    "move": "Переместить в черновики",
+    "moved": "Перемещён в черновики"
+  },
+  "bookmarks": {
+    "title": "Закладки",
+    "load_error": "Невозможно загрузить закладки",
+    "empty_list": "Ничего нет",
+    "deleted": "Закладка удалена",
+    "search": "Поиск по закладкам",
+    "added": "закладка добавлена",
+    "add": "добавить"
+  },
+  "favorites": {
+    "title": "Избранное",
+    "load_error": "Невозможно загрузить избранное",
+    "empty_list": "Ничего нет",
+    "search": "Поиск по избранному"
+  },
+  "auth": {
+    "invalid_pin": "Неверный пин, попробуйте снова",
+    "invalid_username": "Неверный пин, попробуйте снова",
+    "already_logged": "Вы уже вошли, пожалуйста, попробуйте добавить другой аккаунт",
+    "invalid_credentials": "Некорректные данные, пожалуйста, проверьте и повторите снова",
+    "unknow_error": "Неизвестная ошибка, пожалуйста, напишите на support@esteem.app"
+  },
+  "payout": {
+    "potential_payout": "Потенциальная выплата",
+    "promoted": "Продвижение",
+    "author_payout": "Автору",
+    "curation_payout": "Кураторам",
+    "payout_date": "Выплата"
+  },
+  "post_dropdown": {
+    "copy": "копировать ссылку",
+    "reblog": "репост",
+    "reply": "ответить",
+    "share": "поделиться",
+    "bookmarks": "добавить в закладки"
+  },
+  "deep_link": {
+    "no_existing_user": "Несуществующий пользователь",
+    "no_existing_post": "Несуществующий пост"
+  },
+  "search": {
+    "posts": "Посты",
+    "comments": "Комментарии"
+  },
+  "comment_filter": {
+    "trending": "популярное",
+    "reputation": "репутация",
+    "votes": "голоса",
+    "age": "время"
+  },
+  "transfer": {
+    "from": "От",
+    "to": "Кому",
+    "amount": "Сумма",
+    "memo": "Примечание",
+    "information": "Вы уверены, что хотите перевести средства?",
+    "amount_desc": "Баланс",
+    "memo_desc": "Эта заметка публична",
+    "to_placeholder": "Пользователь",
+    "memo_placeholder": "Введите свою заметку",
+    "transferToken": "Перевод",
+    "transferToSaving": "Отправить в сейф",
+    "powerUp": "Увеличение силы",
+    "withdrawToSaving": "Вывести в сейф",
+    "steemconnect_title": "Перевод Steemconnect",
+    "next": "ДАЛЕЕ"
+  }
+}

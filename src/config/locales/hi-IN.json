@@ -1,0 +1,284 @@
+{
+  "wallet": {
+    "curation_reward": "अध्यक्षता इनाम",
+    "author_reward": "लेखक इनाम",
+    "comment_benefactor_reward": "विवेचना उपकारी इनाम",
+    "claim_reward_balance": "बकाया इनाम का रकम लें",
+    "transfer": "स्थानांतरण",
+    "transfer_to_vesting": "अधिकार निधान में स्थानांतरण करें",
+    "transfer_from_savings": "बचत से स्थानांतरण करें",
+    "withdraw_vesting": "शक्तिक्षय करें",
+    "fill_order": "क्रम पूरा करें"
+  },
+  "notification": {
+    "vote": "आपकी पोस्ट को पसंद करता है",
+    "unvote": "आपके पोस्ट को पसंद किया",
+    "reply": "आपके पोस्ट में जबाब दिया",
+    "mention": "आपका उल्लेख किया",
+    "follow": "आपके साथ जुड़ा",
+    "unfollow": "आपका साथ छोड़ा",
+    "ignore": "आपको अनदेखा किया",
+    "reblog": "आपका पोस्ट को पुनः प्रसारित किया",
+    "transfer": "steem स्थानांतरण",
+    "comingsoon": "अधिनायक पटल सुविधा जल्द आने वाली है!",
+    "notification": "अधिसूचनाएं",
+    "leaderboard": "अधिनायकपटल",
+    "epoint": "अंक",
+    "leaderboard_title": "प्रत्येक दिन का सर्वोच्च प्रयोगकर्ता",
+    "recent": "ताजा",
+    "yesterday": "बीता कल",
+    "this_week": "इस सप्ताह",
+    "this_month": "इस महीने",
+    "older_then": "एक महीना से अधिक पुराना"
+  },
+  "points": {
+    "post": "लेख",
+    "comment": "टिप्पणी",
+    "checkin": "Check-in",
+    "vote": "वोट",
+    "reblog": "पुनर्प्रेशण",
+    "login": "लॉग इन करें",
+    "checkin_extra": "बोनस",
+    "post_title": "पद के लिए अंक",
+    "comment_title": "टिप्पणी के लिए अंक",
+    "vote_title": "वोट के लिए अंक",
+    "reblog_title": "पुनर्प्रेशण के लिए अंक",
+    "login_title": "लॉगिन के लिए अंक",
+    "checkin_title": "उपयोग के लिए अंक",
+    "checkin_extra_title": "उपयोग बोनस",
+    "no_activity": "यहां कोई गतिविधि नहीं!",
+    "post_desc": "आप नियमित रूप से पोस्ट करके बिंदु अर्जित कर सकते हैं। पोस्टिंग आपको 15 अंक देती है।",
+    "comment_desc": "आपके द्वारा की गई प्रत्येक टिप्पणी से आपको अपने दर्शकों को विकसित करने और दोस्ती करने में मदद मिलती है, लेकिन आपको 5 अंक भी मिलते हैं।",
+    "checkin_desc": "इस्टीम एप्प आपको 0. २५ प्रतिशत अंक देता है जुड़ने पर और मदद करता है दोस्तों के साथ जुड़े रहने में|",
+    "vote_desc": "मतदान करके आप अन्य रचनाकारों को इनाम देते हैं और अपनी प्रशंसा दिखाते हैं, लेकिन 0.01 x वोट वेट अंक भी अर्जित करते हैं।",
+    "reblog_desc": "  जिस पोस्ट को आप पसंद करते हैं उसे पुनर्प्रेशण करें और १ अंक पाएँ|",
+    "login_desc": "जब आप इस्टीम में लॉगिन करते हैं तो आप १०० अंकों के स्वतः दावेदार हो जाते हैं|",
+    "checkin_extra_desc": "आपको अतिरिक्त मौका मिलता है १० अंक प्राप्त करने का अगर एप्प को लगातार उपयोग करते हैं, अधिक से अधिक समय तक एप्प में सक्रिय रहें|"
+  },
+  "messages": {
+    "comingsoon": "सन्देश सुविधा जल्द आ रही है!"
+  },
+  "profile": {
+    "following": "अनुगामी",
+    "follower": "अनुयायी",
+    "post": "Post",
+    "details": "प्रलेख विवरण",
+    "comments": "विवेचनाऐं",
+    "replies": "जबाबें",
+    "wallet": "बटुआ",
+    "wallet_details": "वटुवे की विवरण",
+    "unclaimed_rewards": "लावारिस पड़ी इनामें",
+    "full_in": "में पूरा होगा",
+    "hours": "घंटे",
+    "voting_power": "मतदान की क्षमता",
+    "login_to_see": "देखने के लिए लॉगिन करें",
+    "havent_commented": "अभी तक कोई टिपण्णी नहीं की है",
+    "havent_posted": "अभी तक कोई पोस्ट नहीं की है",
+    "steem_power": "स्टीम ताकत",
+    "next_power_text": "अगला शक्तिक्षय में है",
+    "days": "दिनों",
+    "day": "दिन",
+    "steem_dollars": "स्टीम डॉलर्स",
+    "savings": "बचत"
+  },
+  "settings": {
+    "settings": "समायोजन",
+    "general": "सामान्य",
+    "currency": "मुद्रा",
+    "language": "भाषा",
+    "server": "सर्वर",
+    "dark_theme": "काला थीम",
+    "push_notification": "संभर अधिसूचना",
+    "notification": {
+      "follow": "का पालन करें",
+      "vote": "वोट",
+      "comment": "टिप्पणी",
+      "mention": "उल्लेख",
+      "reblog": "पुनर्प्रेशण",
+      "transfers": "स्थानांतरण"
+    },
+    "pincode": "Pincode",
+    "reset": "पुनः नियोजन",
+    "nsfw_content": "NSFW सामग्री",
+    "send_feedback": "प्रतिक्रिया भेजें",
+    "send": "भेजना",
+    "default_footer": "वितथ पृष्ठ पदांत",
+    "nsfw": {
+      "always_show": "हमेशा दिखाएं",
+      "always_hide": "हमेशा छिपाए",
+      "always_warn": "हमेशा चेतावनी देते हैं"
+    },
+    "feedback_success": "ईमेल सफलतापूर्वक खुला",
+    "feedback_fail": "ईमेल क्लाइंट नहीं खोल सका"
+  },
+  "voters": {
+    "voters_info": "मतदाताओं की जानकारी",
+    "no_user": "कोई उपयोगकर्ता नहीं मिला|"
+  },
+  "login": {
+    "signin": "अंदर आएं",
+    "signup": "भाग लें",
+    "signin_title": "इस्टीम की सभी लाभ लेने के लिए",
+    "username": "प्रयोक्ता नाम",
+    "password": "पासवर्ड या डब्लूएआईएफ",
+    "description": "उपयोगकर्ता का प्रमाणिकता लोकल उपकरण में होता है, लॉगआउट होने से प्रमाणिकता हट जाते हैं!",
+    "cancel": "रद्द करें",
+    "login": "लॉगिन करें",
+    "steemconnect_description": "यदि आप नहीं चाहते की आपकी पासवर्ड एन्क्रिप्टेड रूप में आपके उपकरण में रक्षित रहे तो स्टीमकनेक्ट से लॉगिन करें|",
+    "steemconnect_fee_description": "स्टीमकनेक्ट कुछ फ़ीस ले सकता है आपके पुरुस्कार लेन-देन से"
+  },
+  "home": {
+    "feed": "संभरण",
+    "popular": "लोकप्रिय"
+  },
+  "side_menu": {
+    "profile": "रुपरेखा",
+    "bookmarks": "पृष्टस्मृतियाँ",
+    "favorites": "पसंदीदा",
+    "drafts": "प्रारूप",
+    "schedules": "निर्धारित",
+    "gallery": "चित्रशाला",
+    "settings": "समायोजन",
+    "add_account": "खता जोड़ें",
+    "logout": "बहार जाएँ",
+    "cancel": "रद्द करें",
+    "logout_text": "क्या आप सच में बाहर जाना चाहते हैं?"
+  },
+  "header": {
+    "title": "आपकी अपनी संभरण को अपने अनुकूल संयोजित करने के लिए लॉगिन करें",
+    "search": "खोजें..."
+  },
+  "basic_header": {
+    "publish": "प्रकाशित करें",
+    "search": "खोजें",
+    "update": "नवनीकरण",
+    "reply": "जबाब"
+  },
+  "editor": {
+    "title": "शीर्षक",
+    "tags": "लेबलें",
+    "default_placeholder": "आज के बारें में आप क्या लिखना चाहेंगे?",
+    "reply_placeholder": "ऊपर वाली पोस्ट के बारें में आप क्या लिखना चाहेंगे?",
+    "publish": "प्रकाशित करें",
+    "reply": "जबाब दें",
+    "open_gallery": "Open Gallery",
+    "capture_photo": "फोटो खीचें"
+  },
+  "pincode": {
+    "enter_text": "Enter pin to unlock",
+    "set_new": "Set new pin",
+    "write_again": "दुबारा लिखें",
+    "forgot_text": "ओह! मैं इसे भूल गया..."
+  },
+  "alert": {
+    "success": "सफल!",
+    "successful": "Successful",
+    "allRead": "सभी सूचनाओं को पढ़ लिया चिन्हित करें",
+    "claim_reward_balance_ok": "इनाम की राशी ले चुके",
+    "fail": "असफल!",
+    "move": "हटाना",
+    "move_question": "क्या आप ड्राफ्ट में जाना सुनिश्चित करते हैं?",
+    "success_shared": "आपका पोस्ट सफलतापूर्ण साझा हो गया",
+    "success_moved": "ड्राफ्ट में ले जाया गया",
+    "permission_denied": "अनुमोदन अस्वीकृत हुवा",
+    "permission_text": "कृपया, अपने फ़ोन समायोजन में जाएँ और इस्टीम एप्प की अनुमोदन बदलें|",
+    "success_rebloged": "Rebloged!",
+    "already_rebloged": "पहले से ही पुनः प्रकाशित है!",
+    "warning": "चेतावनी",
+    "invalid_pincode": "Invalid pin code, please check and try again.",
+    "remove_alert": "क्या आप इसे सच में हटाना चाहते हैं?",
+    "clear_alert": "क्या आप सचमुच में मिटाना चाहते हैं?",
+    "clear_user_alert": "क्या आप वाकई सभी उपयोगकर्ता डेटा को साफ़ करना चाहते हैं?",
+    "clear": "मिटायें",
+    "cancel": "रद्द करें",
+    "delete": "मिटा दें",
+    "copied": "प्रतिलिपि हो गयी!",
+    "no_internet": "संपर्क नहीं",
+    "confirm": "पुष्टी करें",
+    "removed": "Removed"
+  },
+  "post": {
+    "reblog_alert": "क्या आप सच में पुनः प्रसारित करना चाहते हैं?",
+    "removed_hint": "The post was removed by"
+  },
+  "drafts": {
+    "title": "प्रारूप",
+    "load_error": "प्रारूप भर न सका",
+    "empty_list": "कुछ नहीं है यहां",
+    "deleted": "प्रारूप मिट गया"
+  },
+  "schedules": {
+    "title": "Schedules",
+    "empty_list": "कुछ नहीं है",
+    "deleted": "निर्धारित लेख हट गया",
+    "move": "प्रलेख में भेजें",
+    "moved": "प्रलेख में गया"
+  },
+  "bookmarks": {
+    "title": "पृष्टस्मृतियाँ",
+    "load_error": "पृष्टस्मृतियाँ भर न सका",
+    "empty_list": "कुछ नहीं है",
+    "deleted": "पृष्टस्मृतियाँ हट गया",
+    "search": "पृष्टस्मृतियाँ में खोजें",
+    "added": "पृष्ठ स्मृति में जुड़ गया",
+    "add": "पृष्ठ स्मृति में जोड़ें"
+  },
+  "favorites": {
+    "title": "पसंदीदा",
+    "load_error": "पसंदीदा भर ना सका",
+    "empty_list": "कुछ नहीं है",
+    "search": "पसंदीदा में खोजें"
+  },
+  "auth": {
+    "invalid_pin": "Invalid pin code, please check and try again",
+    "invalid_username": "प्रयोक्ता नाम गलत है, कृप्या जाँच करें और पुनः प्रयाश करें",
+    "already_logged": "आप पहले से ही लॉगिन हैं, कृप्या दूसरी खता जोड़ने की कोशिश करें",
+    "invalid_credentials": "प्रमाणपत्र गलत है, कृप्या जाँच करें और पुनः प्रयाश करें",
+    "unknow_error": "अपरिचित त्रुटि है, कृप्या हमसे संपर्क करें यहाँ support@esteem.app"
+  },
+  "payout": {
+    "potential_payout": "संभावित भुगतान",
+    "promoted": "पदोन्नत",
+    "author_payout": "लेखक भुगतान",
+    "curation_payout": "अध्यक्ष्ता इनाम",
+    "payout_date": "भुगतान"
+  },
+  "post_dropdown": {
+    "copy": "लिंक कापी करें",
+    "reblog": "रीब्लॉग करें",
+    "reply": "जवाब दें",
+    "share": "साझा करें",
+    "bookmarks": "पृष्ठ स्मृति में जोड़ें"
+  },
+  "deep_link": {
+    "no_existing_user": "कोई विद्यमान उपयोगकर्ता नहीं",
+    "no_existing_post": "कोई विद्यमान पोस्ट नहीं"
+  },
+  "search": {
+    "posts": "पोस्ट",
+    "comments": "टिप्पणियाँ"
+  },
+  "comment_filter": {
+    "trending": "प्रचलित",
+    "reputation": "प्रतिष्ठा",
+    "votes": "मत",
+    "age": "उम्र"
+  },
+  "transfer": {
+    "from": "से",
+    "to": "को",
+    "amount": "रकम",
+    "memo": "ज्ञापन",
+    "information": "क्या आप रकम स्थान्तरित करना चाहते हैं?",
+    "amount_desc": "शेष रकम",
+    "memo_desc": "यह ज्ञापन सार्वजनिक है",
+    "to_placeholder": "प्रयोक्ता नाम",
+    "memo_placeholder": "अपनी टिप्पणी यहाँ लिखें",
+    "transferToken": "स्थान्तरण",
+    "transferToSaving": "बचत खाते में स्थान्तरण करें",
+    "powerUp": "स्टीम क्षमता बढ़ाएं",
+    "withdrawToSaving": "बचत खाते से निकालें",
+    "steemconnect_title": "स्टीमकनेक्ट स्थान्तरण",
+    "next": "NEXT"
+  }
+}

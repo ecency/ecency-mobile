@@ -1,0 +1,284 @@
+{
+  "wallet": {
+    "curation_reward": "Kuraatori tasu",
+    "author_reward": "Autoritasu",
+    "comment_benefactor_reward": "Kommentaari Annetustasu",
+    "claim_reward_balance": "Tasude väljanõue",
+    "transfer": "Ülekanne",
+    "transfer_to_vesting": "Ülekanne Vestimiseks",
+    "transfer_from_savings": "Ülekanne Säästudest",
+    "withdraw_vesting": "Väljaluülitus",
+    "fill_order": "Täida Tellimus"
+  },
+  "notification": {
+    "vote": "saatis sulle hääle",
+    "unvote": "eemaldas hääle su postituselt",
+    "reply": "vastas su postitusele",
+    "mention": "mainis sind",
+    "follow": "hakkas sind jälgima",
+    "unfollow": "enam ei jälgi sind",
+    "ignore": "ignoreeris sind",
+    "reblog": "taaspostitas sinu postituse",
+    "transfer": "saatis steem'i",
+    "comingsoon": "Edetabel tuleb varsti!",
+    "notification": "Teavitused",
+    "leaderboard": "Edetabel",
+    "epoint": "Punktid",
+    "leaderboard_title": "Päeva Parim Kasutaja",
+    "recent": "Hiljutised",
+    "yesterday": "Eile",
+    "this_week": "See Nädal",
+    "this_month": "See Kuu",
+    "older_then": "Vanem Kui Kuu"
+  },
+  "points": {
+    "post": "Postitus",
+    "comment": "Kommentaar",
+    "checkin": "Kasutus",
+    "vote": "Hääletus",
+    "reblog": "Taaspostitus",
+    "login": "Sisselogimine",
+    "checkin_extra": "Boonus",
+    "post_title": "Punktid postitustest",
+    "comment_title": "Punktid kommentaaridest",
+    "vote_title": "Punktid hääletustest",
+    "reblog_title": "Punktid taaspostitustest",
+    "login_title": "Punktid sisselogimisest",
+    "checkin_title": "Punktid kasutamisest",
+    "checkin_extra_title": "Kasutusboonus",
+    "no_activity": "Siin on vaikus!",
+    "post_desc": "Punkte saab teenida regulaarselt postitades. Iga postitus annab sulle 15 punkti.",
+    "comment_desc": "Each comment you make helps you to grow your audience and make friendship but also earns you 5 points.",
+    "checkin_desc": "Checking in on eSteem app gives you 0.25 points and helps you stay connected with your friends.",
+    "vote_desc": "By voting you give reward to other creators and show your appreciation but also earn 0.01 x vote weight points.",
+    "reblog_desc": "  Share what post you like with your friends and earn 1 points.",
+    "login_desc": "When you login into eSteem app you are entitled to earn 100 points automatically.",
+    "checkin_extra_desc": "Consistent use of app gives you extra chances to earn more 10 points, be more active and earn more."
+  },
+  "messages": {
+    "comingsoon": "Messages feature is coming soon!"
+  },
+  "profile": {
+    "following": "Following",
+    "follower": "Follower",
+    "post": "Post",
+    "details": "Profile Details",
+    "comments": "Comments",
+    "replies": "Replies",
+    "wallet": "Wallet",
+    "wallet_details": "Wallet Details",
+    "unclaimed_rewards": "Unclaimed Rewards",
+    "full_in": "Full in",
+    "hours": "hours",
+    "voting_power": "Voting power",
+    "login_to_see": "Login to see",
+    "havent_commented": "haven't commented anything yet",
+    "havent_posted": "haven't posted anything yet",
+    "steem_power": "Steem Power",
+    "next_power_text": "Next power down is in",
+    "days": "days",
+    "day": "day",
+    "steem_dollars": "Steem Dollars",
+    "savings": "Savings"
+  },
+  "settings": {
+    "settings": "Settings",
+    "general": "General",
+    "currency": "Currency",
+    "language": "Language",
+    "server": "Server",
+    "dark_theme": "Dark Theme",
+    "push_notification": "Push Notification",
+    "notification": {
+      "follow": "Follow",
+      "vote": "Vote",
+      "comment": "Comment",
+      "mention": "Mention",
+      "reblog": "Reblog",
+      "transfers": "Transfers"
+    },
+    "pincode": "Pincode",
+    "reset": "Reset",
+    "nsfw_content": "NSFW Content",
+    "send_feedback": "Send Feedback",
+    "send": "Send",
+    "default_footer": "Default Footer",
+    "nsfw": {
+      "always_show": "Always show",
+      "always_hide": "Always hide",
+      "always_warn": "Always warn"
+    },
+    "feedback_success": "Email successfully open",
+    "feedback_fail": "Email client could not open"
+  },
+  "voters": {
+    "voters_info": "Voters Info",
+    "no_user": "No user found."
+  },
+  "login": {
+    "signin": "Sign in",
+    "signup": "Sign up",
+    "signin_title": "To get all the benefits of using eSteem",
+    "username": "Username",
+    "password": "Password or WIF",
+    "description": "User credentials are kept locally on the device. Credentials are removed upon logout!",
+    "cancel": "cancel",
+    "login": "LOGIN",
+    "steemconnect_description": "If you don't want to keep your password encrypted and saved on your device, you can use Steemconnect.",
+    "steemconnect_fee_description": "Steemconnect may charge some fees from your reward transactions"
+  },
+  "home": {
+    "feed": "Feed",
+    "popular": "Popular"
+  },
+  "side_menu": {
+    "profile": "Profile",
+    "bookmarks": "Bookmarks",
+    "favorites": "Favorites",
+    "drafts": "Drafts",
+    "schedules": "Schedules",
+    "gallery": "Gallery",
+    "settings": "Settings",
+    "add_account": "Add Account",
+    "logout": "Logout",
+    "cancel": "Cancel",
+    "logout_text": "Are you sure you want to logout?"
+  },
+  "header": {
+    "title": "Login to customize your feed",
+    "search": "Search..."
+  },
+  "basic_header": {
+    "publish": "Publish",
+    "search": "Search",
+    "update": "Update",
+    "reply": "Reply"
+  },
+  "editor": {
+    "title": "Title",
+    "tags": "tags",
+    "default_placeholder": "What would you like to write about today?",
+    "reply_placeholder": "What would you like to write about above post?",
+    "publish": "Publish",
+    "reply": "Reply",
+    "open_gallery": "Open Gallery",
+    "capture_photo": "Capture a photo"
+  },
+  "pincode": {
+    "enter_text": "Enter pin to unlock",
+    "set_new": "Set new pin",
+    "write_again": "Write again",
+    "forgot_text": "Oh, I forgot it..."
+  },
+  "alert": {
+    "success": "Success!",
+    "successful": "Successful",
+    "allRead": "Marked all notifications as read",
+    "claim_reward_balance_ok": "Reward balance claimed",
+    "fail": "Fail!",
+    "move": "Move",
+    "move_question": "Are you sure to move to drafts?",
+    "success_shared": "Your post succesfully shared",
+    "success_moved": "Moved to draft",
+    "permission_denied": "Permission denied",
+    "permission_text": "Please, go to phone Settings and change eSteem app permissions.",
+    "success_rebloged": "Rebloged!",
+    "already_rebloged": "You have already reblogged!",
+    "warning": "Warning",
+    "invalid_pincode": "Invalid pin code, please check and try again.",
+    "remove_alert": "Are you sure want to remove?",
+    "clear_alert": "Are you sure you want to clear?",
+    "clear_user_alert": "Are you sure you want to clear all user data?",
+    "clear": "Clear",
+    "cancel": "Cancel",
+    "delete": "Delete",
+    "copied": "Copied!",
+    "no_internet": "No connection!",
+    "confirm": "Confirm",
+    "removed": "Removed"
+  },
+  "post": {
+    "reblog_alert": "Are you sure you want to reblog?",
+    "removed_hint": "The post was removed by"
+  },
+  "drafts": {
+    "title": "Drafts",
+    "load_error": "Could not load drafts",
+    "empty_list": "Nothing here",
+    "deleted": "Draft deleted"
+  },
+  "schedules": {
+    "title": "Schedules",
+    "empty_list": "Nothing here",
+    "deleted": "Scheduled post deleted",
+    "move": "Move to drafts",
+    "moved": "Moved to drafts"
+  },
+  "bookmarks": {
+    "title": "Bookmarks",
+    "load_error": "Could not load bookmarks",
+    "empty_list": "Nothing here",
+    "deleted": "Bookmark removed",
+    "search": "Search in bookmarks",
+    "added": "Added to bookmarks",
+    "add": "Add to bookmarks"
+  },
+  "favorites": {
+    "title": "Favorites",
+    "load_error": "Could not load favorites",
+    "empty_list": "Nothing here",
+    "search": "Search in favorites"
+  },
+  "auth": {
+    "invalid_pin": "Invalid pin code, please check and try again",
+    "invalid_username": "Invalid username, please check and try again",
+    "already_logged": "You are already logged in, please try to add another account",
+    "invalid_credentials": "Invalid credentials, please check and try again",
+    "unknow_error": "Unknown error, please contact us at support@esteem.app"
+  },
+  "payout": {
+    "potential_payout": "Potential Payout",
+    "promoted": "Promoted",
+    "author_payout": "Author Payout",
+    "curation_payout": "Curation Payout",
+    "payout_date": "Payout"
+  },
+  "post_dropdown": {
+    "copy": "copy link",
+    "reblog": "reblog",
+    "reply": "reply",
+    "share": "share",
+    "bookmarks": "add to bookmarks"
+  },
+  "deep_link": {
+    "no_existing_user": "No existing user",
+    "no_existing_post": "No existing post"
+  },
+  "search": {
+    "posts": "Posts",
+    "comments": "Comments"
+  },
+  "comment_filter": {
+    "trending": "trending",
+    "reputation": "reputation",
+    "votes": "votes",
+    "age": "age"
+  },
+  "transfer": {
+    "from": "From",
+    "to": "To",
+    "amount": "Amount",
+    "memo": "Memo",
+    "information": "Are you sure to transfer to funds?",
+    "amount_desc": "Balance",
+    "memo_desc": "This memo is public",
+    "to_placeholder": "Username",
+    "memo_placeholder": "Enter your notes here",
+    "transferToken": "Transfer",
+    "transferToSaving": "Transfer To Saving",
+    "powerUp": "Power Up",
+    "withdrawToSaving": "Withdraw To Saving",
+    "steemconnect_title": "Steemconnect Transfer",
+    "next": "NEXT"
+  }
+}

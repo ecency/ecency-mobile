@@ -1,9 +1,14 @@
-/**
- * @format
- */
+import { AppRegistry } from 'react-native';
+import AppCenter from 'appcenter';
+import codePush from 'react-native-code-push';
+import { name as appName } from './app.json';
+import 'core-js';
+import 'intl';
 
-import {AppRegistry} from 'react-native';
-import App from './App';
-import {name as appName} from './app.json';
+// set check frequency options
+const codePushOptions = { checkFrequency: codePush.CheckFrequency.ON_APP_START };
+const eSteemApp = codePush(codePushOptions)(require('./App').default);
 
-AppRegistry.registerComponent(appName, () => App);
+AppCenter.setLogLevel(AppCenter.LogLevel.VERBOSE);
+
+AppRegistry.registerComponent(appName, () => eSteemApp);

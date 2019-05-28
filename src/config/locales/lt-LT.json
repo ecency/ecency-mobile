@@ -1,0 +1,284 @@
+{
+  "wallet": {
+    "curation_reward": "Kuracijos Atlygis",
+    "author_reward": "Autorius Atlygis",
+    "comment_benefactor_reward": "Atlygis už gerą komentarą",
+    "claim_reward_balance": "Atsiimti atlygį",
+    "transfer": "Pervesti",
+    "transfer_to_vesting": "Pervesti į Investicijas",
+    "transfer_from_savings": "Išsiimti Iš Santaupų",
+    "withdraw_vesting": "Mažinti Galią",
+    "fill_order": "Užpildyti"
+  },
+  "notification": {
+    "vote": "mėgsta jūsų įrašą",
+    "unvote": "nebemėgsta jūsų įrašo",
+    "reply": "atsakė į jūsų įrašą",
+    "mention": "paminėjo jus",
+    "follow": "jus seka",
+    "unfollow": "jūsų nebeseka",
+    "ignore": "jus ignoravo",
+    "reblog": "pasidalino jūsų įrašu",
+    "transfer": "pervestas steem",
+    "comingsoon": "Lyderių lentelė jau greitai!",
+    "notification": "Pranešimai",
+    "leaderboard": "Lyderiai",
+    "epoint": "Taškai",
+    "leaderboard_title": "Dienos Top Vartotojas",
+    "recent": "Naujausi",
+    "yesterday": "Vakar",
+    "this_week": "Šią savaitę",
+    "this_month": "Šį mėnesį",
+    "older_then": "Senesni nei vieno mėnesio"
+  },
+  "points": {
+    "post": "Įrašas",
+    "comment": "Komentaras",
+    "checkin": "Check-in",
+    "vote": "Balsas",
+    "reblog": "Pasidalinimas",
+    "login": "Prisijungimas",
+    "checkin_extra": "Bonusas",
+    "post_title": "Taškai už įrašą",
+    "comment_title": "Taškai už komentarą",
+    "vote_title": "Taškai už balsą",
+    "reblog_title": "Taškai už pasidalinimą",
+    "login_title": "Taškai už prisijungimą",
+    "checkin_title": "Taškai už naudojimąsi",
+    "checkin_extra_title": "Naudojimosi bonusas",
+    "no_activity": "Jokios veiklos čia!",
+    "post_desc": "Gali gauti taškų keldamas įrašus reguliariai. Įrašas yra vertas 15 taškų.",
+    "comment_desc": "Komentarai padeda tau augti, galbūt rasti bendraminčių ir apdovanoja 5 taškais už kiekvieną parašytą komentarą.",
+    "checkin_desc": "Reguliarus tikrinimas ir aktyvumo palaikymas tau duos 0.25 taško už kiekvieną prisijungimą.",
+    "vote_desc": "Balsuodamas tu įvertinti kitų kūrėjų darbą ir skiri jiem atlygį. Tu taipogi už tai gausi 0.01 x balso galios taškų.",
+    "reblog_desc": "  Pasidalink su draugais įrašais kurie tau patinka ir gauk po 1 tašką už pasidalinimą.",
+    "login_desc": "Kai jūs pirma kartą prisijungiate prie eSteem, jūs automatiškai būsite apdovanotas 100 taškų.",
+    "checkin_extra_desc": "Reguliarus programos naudojimasis suteikia jums papildomą šansą gauti dar 10 taškų. Kuo aktyvesnis esi, tuo daugiau taškų surinksi."
+  },
+  "messages": {
+    "comingsoon": "Žinučių funkcija jau greitai!"
+  },
+  "profile": {
+    "following": "Sekami",
+    "follower": "Sekėjas",
+    "post": "Post",
+    "details": "Profilio Informacija",
+    "comments": "Komentarai",
+    "replies": "Atsakymai",
+    "wallet": "Piniginė",
+    "wallet_details": "Piniginės duomenis",
+    "unclaimed_rewards": "Neatsiimti atlygiai",
+    "full_in": "Pilnas už",
+    "hours": "val.",
+    "voting_power": "Balsavimo Galia",
+    "login_to_see": "Prisijunkite norėdami pamatyti",
+    "havent_commented": "kolkas dar nieko nepakomentavo",
+    "havent_posted": "kolkas dar nieko neįkėlė",
+    "steem_power": "Steem Power",
+    "next_power_text": "Kitas galios mažinimas už",
+    "days": "d.",
+    "day": "d.",
+    "steem_dollars": "Steem Dollars",
+    "savings": "Santaupos"
+  },
+  "settings": {
+    "settings": "Nustatymai",
+    "general": "Bendra",
+    "currency": "Valiuta",
+    "language": "Kalba",
+    "server": "Serveris",
+    "dark_theme": "Tamsi Tema",
+    "push_notification": "Aktyvieji pranešimai",
+    "notification": {
+      "follow": "Sekėjai",
+      "vote": "Balsai",
+      "comment": "Komentarai",
+      "mention": "Paminėjimai",
+      "reblog": "Pasidalinimai",
+      "transfers": "Pervedimai"
+    },
+    "pincode": "Pincode",
+    "reset": "Atstatyti",
+    "nsfw_content": "NSFW Turinys",
+    "send_feedback": "Siųsti Atsiliepimus",
+    "send": "Siųsti",
+    "default_footer": "Numatytoji Poraštė",
+    "nsfw": {
+      "always_show": "Visada rodyti",
+      "always_hide": "Visada paslėpti",
+      "always_warn": "Visada įspėti"
+    },
+    "feedback_success": "El. laiškas sėkmingai atidarytas",
+    "feedback_fail": "El. pašto atidaryti nepavyko"
+  },
+  "voters": {
+    "voters_info": "Balsuotojo Informacija",
+    "no_user": "Nerastas joks vartotojas."
+  },
+  "login": {
+    "signin": "Prisijungti",
+    "signup": "Užsiregistruoti",
+    "signin_title": "Norėdami gauti visus eSteem privalumus",
+    "username": "Vartotojo vardas",
+    "password": "Slaptažodis arba WIF",
+    "description": "Vartotojo kredencialai saugomi lokaliai įrenginyje. Atsijungus kredencialai pašalinami!",
+    "cancel": "atšaukti",
+    "login": "PRISIJUNGTI",
+    "steemconnect_description": "Jei nenorite, kad jūsų slaptažodis būtų įrašomas į jūsų įrenginį, galite naudoti Steemconnect.",
+    "steemconnect_fee_description": "Steemconnect gali paimti mažą mokestį nuo jūsų atlygio pavedimų"
+  },
+  "home": {
+    "feed": "Pagrindinis",
+    "popular": "Populiarūs"
+  },
+  "side_menu": {
+    "profile": "Profilis",
+    "bookmarks": "Žymės",
+    "favorites": "Mėgstamiausi",
+    "drafts": "Ruošiniai",
+    "schedules": "Suplanuota",
+    "gallery": "Galerija",
+    "settings": "Nustatymai",
+    "add_account": "Pridėti paskyrą",
+    "logout": "Atsijungti",
+    "cancel": "Atšaukti",
+    "logout_text": "Ar tikrai norite atsijungti?"
+  },
+  "header": {
+    "title": "Prisijunkite norėdami keisti savo pagrindinį",
+    "search": "Paieška..."
+  },
+  "basic_header": {
+    "publish": "Skelbti",
+    "search": "Paieška",
+    "update": "Atnaujinti",
+    "reply": "Atsakyti"
+  },
+  "editor": {
+    "title": "Pavadinimas",
+    "tags": "žymos",
+    "default_placeholder": "Apie ką norėtumėte rašyti šiandien?",
+    "reply_placeholder": "Ką norėtumėte parašyti po įrašu?",
+    "publish": "Skelbti",
+    "reply": "Atsakyti",
+    "open_gallery": "Open Gallery",
+    "capture_photo": "Užfiksuoti nuotrauką"
+  },
+  "pincode": {
+    "enter_text": "Enter pin to unlock",
+    "set_new": "Set new pin",
+    "write_again": "Rašyti vėl",
+    "forgot_text": "Oi, pamiršau..."
+  },
+  "alert": {
+    "success": "Sėkminga!",
+    "successful": "Sėkminga",
+    "allRead": "Pažymėti visus pranešimus kaip skaitytus",
+    "claim_reward_balance_ok": "Atlygis atsiimtas",
+    "fail": "Nepavyko!",
+    "move": "Perkelti",
+    "move_question": "Ar tikrai norite perkelti į ruošinius?",
+    "success_shared": "Jūsų įrašas sėkmingai pasidalintas",
+    "success_moved": "Perkelta į ruošinius",
+    "permission_denied": "Leidimas nesuteiktas",
+    "permission_text": "Prašome telefono nustatymuose pakeisti eSteem programėlės leidimus.",
+    "success_rebloged": "Rebloged!",
+    "already_rebloged": "Jūs tai jau pasidalinote!",
+    "warning": "Dėmesio",
+    "invalid_pincode": "Neteisingas PIN kodas, prašome patikrinti ir bandyti dar kartą.",
+    "remove_alert": "Are you sure want to remove?",
+    "clear_alert": "Ar tikrai norite panaikinti?",
+    "clear_user_alert": "Ar tikrai norite panaikinti visą naudotojo informaciją?",
+    "clear": "Panaikinti",
+    "cancel": "Atšaukti",
+    "delete": "Ištrinti",
+    "copied": "Nukopijuota!",
+    "no_internet": "Nėra ryšio!",
+    "confirm": "Patvirtinti",
+    "removed": "Removed"
+  },
+  "post": {
+    "reblog_alert": "Ar tikrai norite dalintis?",
+    "removed_hint": "The post was removed by"
+  },
+  "drafts": {
+    "title": "Ruošiniai",
+    "load_error": "Nepavyko užkrauti ruošinių",
+    "empty_list": "Nieko nėra",
+    "deleted": "Ruošinys panaikintas"
+  },
+  "schedules": {
+    "title": "Suplanuota",
+    "empty_list": "Nieko nėra",
+    "deleted": "Suplanuotas įrašas panaikintas",
+    "move": "Perkelti į ruošinius",
+    "moved": "Perkelta į ruošinius"
+  },
+  "bookmarks": {
+    "title": "Žymės",
+    "load_error": "Nepavyko užkrauti žymių",
+    "empty_list": "Nieko nėra",
+    "deleted": "Žymė panaikinta",
+    "search": "Ieškoti žymelėse",
+    "added": "Pridėta į žymes",
+    "add": "Pridėti į žymes"
+  },
+  "favorites": {
+    "title": "Mėgstamiausi",
+    "load_error": "Nepavyko pakrauti mėgstamiausių",
+    "empty_list": "Nieko nėra",
+    "search": "Ieškoti mėgstamiausiuose"
+  },
+  "auth": {
+    "invalid_pin": "Neteisingas PIN kodas, prašome patikrinti ir bandyti dar kartą",
+    "invalid_username": "Neteisingas naudotojo vardas, patikrinkite ir bandykite dar kartą",
+    "already_logged": "Jūs jau prisijungę, bandykite pridėti kitą paskyrą",
+    "invalid_credentials": "Neteisingi duomenys, patikrinkite ir bandykite dar kartą",
+    "unknow_error": "Nežinoma klaida, susisiekite su mumis adresu support@esteem.app"
+  },
+  "payout": {
+    "potential_payout": "Potencialus užmokestis",
+    "promoted": "Reklama",
+    "author_payout": "Autoriaus Užmokestis",
+    "curation_payout": "Kuracijos Užmokestis",
+    "payout_date": "Užmokestis"
+  },
+  "post_dropdown": {
+    "copy": "kopijuoti nuorodą",
+    "reblog": "pasidalinti",
+    "reply": "atsakymas",
+    "share": "dalintis",
+    "bookmarks": "pridėti į žymes"
+  },
+  "deep_link": {
+    "no_existing_user": "Nėra tokio vartotojo",
+    "no_existing_post": "Nėra tokio įrašo"
+  },
+  "search": {
+    "posts": "Įrašai",
+    "comments": "Komentarai"
+  },
+  "comment_filter": {
+    "trending": "populiariausi",
+    "reputation": "reputacija",
+    "votes": "balsai",
+    "age": "laikas"
+  },
+  "transfer": {
+    "from": "Nuo",
+    "to": "Į",
+    "amount": "Kiekis",
+    "memo": "Atmintinė",
+    "information": "Ar tikrai norite persiųsti lėšas?",
+    "amount_desc": "Likutis",
+    "memo_desc": "Ši atmintinė yra vieša",
+    "to_placeholder": "Vartotojo vardas",
+    "memo_placeholder": "Įveskite savo užrašus čia",
+    "transferToken": "Pervesti",
+    "transferToSaving": "Pervesti į Santaupas",
+    "powerUp": "Power Up",
+    "withdrawToSaving": "Atsiimti į Santaupas",
+    "steemconnect_title": "Steemconnect Pervedimas",
+    "next": "TOLIAU"
+  }
+}

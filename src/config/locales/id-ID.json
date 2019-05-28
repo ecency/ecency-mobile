@@ -1,0 +1,284 @@
+{
+  "wallet": {
+    "curation_reward": "Imbalan kurasi",
+    "author_reward": "Imbalan Penulis",
+    "comment_benefactor_reward": "Pemberian imbalan komentar",
+    "claim_reward_balance": "Klaim Imbalan",
+    "transfer": "Transfer",
+    "transfer_to_vesting": "Transfer ke vesting",
+    "transfer_from_savings": "Transfer Dari Tabungan",
+    "withdraw_vesting": "Turunkan Daya Kekuatan",
+    "fill_order": "Isi pesanan"
+  },
+  "notification": {
+    "vote": "menyukai posting anda",
+    "unvote": "membatalkan suara posting anda",
+    "reply": "membalas posting anda",
+    "mention": "menyebut anda",
+    "follow": "mengikuti anda",
+    "unfollow": "berhenti mengikuti anda",
+    "ignore": "mengabaikan anda",
+    "reblog": "menampilkan kembali post anda",
+    "transfer": "steem ditransfer",
+    "comingsoon": "Fungsi papan peringkat akan segera hadir!",
+    "notification": "Pemberitahuan",
+    "leaderboard": "Papan Peringkat",
+    "epoint": "Poin",
+    "leaderboard_title": "Pengguna harian paling atas",
+    "recent": "Baru digunakan",
+    "yesterday": "Kemarin",
+    "this_week": "Minggu ini",
+    "this_month": "Bulan ini",
+    "older_then": "Lebih Lama Dari Sebulan"
+  },
+  "points": {
+    "post": "posting",
+    "comment": "Komentar",
+    "checkin": "Check-in",
+    "vote": "Beri suara",
+    "reblog": "Menampilkan kembali",
+    "login": "Masuk",
+    "checkin_extra": "Bonus",
+    "post_title": "Poin untuk posting",
+    "comment_title": "Poin untuk komentar",
+    "vote_title": "Poin untuk suara",
+    "reblog_title": "Poin untuk menampilkan kembali",
+    "login_title": "Poin untuk masuk",
+    "checkin_title": "Poin untuk penggunaan",
+    "checkin_extra_title": "Bonus penggunaan",
+    "no_activity": "Tidak ada aktifitas disini!",
+    "post_desc": "Anda bisa mendapatkan poin dengan memposting secara teratur. Posting memberi Anda 15 poin.",
+    "comment_desc": "Setiap komentar yang Anda buat membantu Anda untuk menumbuhkan audiens Anda dan menjalin persahabatan tetapi juga memberi Anda 5 poin.",
+    "checkin_desc": "Memeriksa aplikasi eSteem memberi Anda 0,25 poin dan membantu Anda tetap terhubung dengan teman-teman Anda.",
+    "vote_desc": "Dengan memberikan suara Anda memberikan hadiah kepada penulis lain dan menunjukkan penghargaan Anda, tetapi juga mendapatkan 0,01 poin suara.",
+    "reblog_desc": "  Bagikan pos yang Anda sukai dengan teman dan dapatkan 1 poin.",
+    "login_desc": "Saat Anda masuk ke aplikasi eSteem, Anda berhak mendapatkan 100 poin secara otomatis.",
+    "checkin_extra_desc": "Penggunaan aplikasi yang konsisten memberi Anda peluang ekstra untuk mendapatkan lebih banyak 10 poin, menjadi lebih aktif dan menghasilkan lebih banyak."
+  },
+  "messages": {
+    "comingsoon": "Fungsi pesan akan segera hadir!"
+  },
+  "profile": {
+    "following": "Mengikuti",
+    "follower": "Pengikut",
+    "post": "Post",
+    "details": "Rincian Profil",
+    "comments": "Komentar",
+    "replies": "Balasan",
+    "wallet": "Dompet",
+    "wallet_details": "Rincian Dompet",
+    "unclaimed_rewards": "Hadiah yang belum Di klaim",
+    "full_in": "Penuh",
+    "hours": "jam",
+    "voting_power": "Kekuatan Suara",
+    "login_to_see": "Masuk untuk melihat",
+    "havent_commented": "belum berkomentar",
+    "havent_posted": "belum pernah mengirimkan sesuatu",
+    "steem_power": "Kekuatan Steem",
+    "next_power_text": "Menurunkan daya berikutnya di",
+    "days": "hari",
+    "day": "hari",
+    "steem_dollars": "Steem Dollars",
+    "savings": "Tabungan"
+  },
+  "settings": {
+    "settings": "Pengaturan",
+    "general": "Umum",
+    "currency": "Nilai Tukar Mata Uang",
+    "language": "Bahasa",
+    "server": "Server",
+    "dark_theme": "Tema Gelap",
+    "push_notification": "Notifikasi Gegas",
+    "notification": {
+      "follow": "Ikuti",
+      "vote": "Berikan dukungan suara",
+      "comment": "Komentar",
+      "mention": "Menyebutkan",
+      "reblog": "Reblog",
+      "transfers": "Transfer"
+    },
+    "pincode": "Kode PIN",
+    "reset": "Setel Ulang",
+    "nsfw_content": "Konten NSFW",
+    "send_feedback": "Kirim Umpan balik",
+    "send": "Kirim",
+    "default_footer": "Default Footer",
+    "nsfw": {
+      "always_show": "Selalu Tampilkan",
+      "always_hide": "Selalu menyembunyikan",
+      "always_warn": "Selalu memperingatkan"
+    },
+    "feedback_success": "Email berhasil dibuka",
+    "feedback_fail": "Klien email tidak bisa dibuka"
+  },
+  "voters": {
+    "voters_info": "Info Pemilih",
+    "no_user": "Pengguna tidak ditemukan."
+  },
+  "login": {
+    "signin": "Masuk",
+    "signup": "Daftar",
+    "signin_title": "Untuk mendapatkan semua manfaat dari menggunakan eSteem",
+    "username": "Nama Pengguna",
+    "password": "Kata sandi atau WIF",
+    "description": "kredensial pengguna disimpan secara lokal pada perangkat. Setelah Keluar kredensial dihapus!",
+    "cancel": "batal",
+    "login": "MASUK",
+    "steemconnect_description": "Jika Anda tidak ingin menyimpan sandi Anda dienkripsi dan disimpan pada perangkat Anda, Anda dapat menggunakan Steemconnect.",
+    "steemconnect_fee_description": "Steemconnect dapat membebankan beberapa biaya dari transaksi hadiah Anda"
+  },
+  "home": {
+    "feed": "Umpan",
+    "popular": "Populer"
+  },
+  "side_menu": {
+    "profile": "Profil",
+    "bookmarks": "Tandai",
+    "favorites": "Favorit",
+    "drafts": "Konsep",
+    "schedules": "Daftar jadwal",
+    "gallery": "Album",
+    "settings": "Pengaturan",
+    "add_account": "Tambahkan Akun",
+    "logout": "Keluar",
+    "cancel": "Batal",
+    "logout_text": "Apakah Anda yakin ingin keluar?"
+  },
+  "header": {
+    "title": "Login untuk menyesuaikan feed Anda",
+    "search": "Cari..."
+  },
+  "basic_header": {
+    "publish": "Terbitkan",
+    "search": "Cari",
+    "update": "Pembaruan",
+    "reply": "Balas"
+  },
+  "editor": {
+    "title": "Judul",
+    "tags": "tags",
+    "default_placeholder": "Apa yang ingin Anda tulis tentang hari ini?",
+    "reply_placeholder": "Apa yang ingin Anda tulis tentang posting di atas?",
+    "publish": "Terbitkan",
+    "reply": "Balas",
+    "open_gallery": "Open Gallery",
+    "capture_photo": "Ambil Foto"
+  },
+  "pincode": {
+    "enter_text": "Masukkan PIN untuk membuka kunci",
+    "set_new": "Atur pin baru",
+    "write_again": "Menulis lagi",
+    "forgot_text": "Oh, saya lupa..."
+  },
+  "alert": {
+    "success": "Sukses!",
+    "successful": "Berhasil",
+    "allRead": "Tandai semua pemberitahuan telah terbaca",
+    "claim_reward_balance_ok": "Hadiah di klaim",
+    "fail": "Gagal!",
+    "move": "Pindahkan",
+    "move_question": "Apakah Anda yakin untuk pindah ke konsep?",
+    "success_shared": "Tulisan anda berhasil dibagikan",
+    "success_moved": "Pindah ke konsep",
+    "permission_denied": "Izin ditolak",
+    "permission_text": "Silakan buka pengaturan telepon dan ubah izin untuk aplikasi eSteem.",
+    "success_rebloged": "Rebloged!",
+    "already_rebloged": "Anda telah menampilkan kembali blog ini!",
+    "warning": "Peringatan",
+    "invalid_pincode": "Invalid pin code, please check and try again.",
+    "remove_alert": "Yakin ingin menghapus?",
+    "clear_alert": "Anda yakin ingin menghapus?",
+    "clear_user_alert": "Anda yakin anda ingin menghapus semua data pengguna?",
+    "clear": "Bersihkan",
+    "cancel": "Batal",
+    "delete": "Hapus",
+    "copied": "Disalin!",
+    "no_internet": "Tidak ada koneksi!",
+    "confirm": "Konfirmasi",
+    "removed": "Removed"
+  },
+  "post": {
+    "reblog_alert": "Anda yakin ingin menerbitkan ulang?",
+    "removed_hint": "Pos dihapus oleh"
+  },
+  "drafts": {
+    "title": "Konsep",
+    "load_error": "Tidak dapat menampilkan konsep",
+    "empty_list": "Disini belum ada apa-apa",
+    "deleted": "Konsep dihapus"
+  },
+  "schedules": {
+    "title": "Daftar jadwal",
+    "empty_list": "Disini belum ada apa-apa",
+    "deleted": "Tulisan terjadwal dihapus",
+    "move": "Pindahkan ke konsep",
+    "moved": "Pindahkan ke konsep"
+  },
+  "bookmarks": {
+    "title": "Tandai",
+    "load_error": "Tidak dapat menampilkan yang telah ditandai",
+    "empty_list": "Disini belum ada apa-apa",
+    "deleted": "Hapus yang ditandai",
+    "search": "Cari di dalam halaman yang ditandai",
+    "added": "Ditambahkan ke ditandai",
+    "add": "Ditambahkan ke bookmark"
+  },
+  "favorites": {
+    "title": "Favorit",
+    "load_error": "Tidak dapat menampilkan favorit",
+    "empty_list": "Kosong",
+    "search": "Cari di dalam favorit"
+  },
+  "auth": {
+    "invalid_pin": "Invalid pin code, please check and try again",
+    "invalid_username": "Nama pengguna tidak valid, silakan periksa dan coba lagi",
+    "already_logged": "Anda sudah masuk, coba tambahkan akun lain",
+    "invalid_credentials": "Kredensial tidak valid, silakan periksa dan coba lagi",
+    "unknow_error": "Kesalahan tidak dikenal, silakan hubungi kami di support@esteem.app"
+  },
+  "payout": {
+    "potential_payout": "Potensi pembayaran",
+    "promoted": "Promosikan",
+    "author_payout": "Pembayaran pencipta konten",
+    "curation_payout": "Pembayaran Kurasi",
+    "payout_date": "Pembayaran"
+  },
+  "post_dropdown": {
+    "copy": "salin tautan",
+    "reblog": "menampilkan kembali",
+    "reply": "balas",
+    "share": "bagikan",
+    "bookmarks": "tambah ke penanda"
+  },
+  "deep_link": {
+    "no_existing_user": "Tidak ada pengguna yang ada",
+    "no_existing_post": "Tidak ada post yang ada"
+  },
+  "search": {
+    "posts": "Kiriman",
+    "comments": "Komentar"
+  },
+  "comment_filter": {
+    "trending": "Trending",
+    "reputation": "reputasi",
+    "votes": "berikan suara",
+    "age": "usia"
+  },
+  "transfer": {
+    "from": "Dari",
+    "to": "Kepada",
+    "amount": "Jumlah",
+    "memo": "Memo",
+    "information": "Apakah Anda yakin untuk mentransfer dana ke?",
+    "amount_desc": "Keseimbangan",
+    "memo_desc": "Memo ini bersifat publik",
+    "to_placeholder": "Nama Pengguna",
+    "memo_placeholder": "Masukan catatan anda disini",
+    "transferToken": "Transfer",
+    "transferToSaving": "Transfer untuk menyimpan",
+    "powerUp": "Power Up",
+    "withdrawToSaving": "Tarik untuk menyimpan",
+    "steemconnect_title": "Steemconnect Transfer",
+    "next": "LANJUT"
+  }
+}
