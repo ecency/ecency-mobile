@@ -1,7 +1,6 @@
 # Uncomment the next line to define a global platform for your project
 # platform :ios, '9.0'
 
-platform :ios, '9.0'
 target 'eSteem' do
   pod 'AppCenter/Push', '~> 1.14.0'
   pod 'AppCenter/Crashes', '~> 1.14.0'
@@ -13,39 +12,36 @@ target 'eSteem' do
   # Pods for eSteem
   pod 'React', :path => '../node_modules/react-native', :subspecs => [
     'Core',
-    'CxxBridge', # Include this for RN >= 0.47
-    "RCTActionSheet",
-    "RCTAnimation",
-    "RCTCameraRoll",
-    "RCTWebSocket",
-    "DevSupport",
-    'RCTText',
-    'RCTNetwork',
+    'CxxBridge',
+    'DevSupport',
+    'RCTActionSheet',
+    'RCTAnimation',
+    'RCTGeolocation',
     'RCTImage',
+    'RCTLinkingIOS',
+    'RCTNetwork',
+    'RCTSettings',
+    'RCTText',
+    'RCTVibration',
+    'RCTWebSocket',
   ]
-  pod 'yoga', :path => '../node_modules/react-native/ReactCommon/yoga'
 
-    # Third party deps podspec link
+  pod 'yoga', :path => '../node_modules/react-native/ReactCommon/yoga'
   pod 'DoubleConversion', :podspec => '../node_modules/react-native/third-party-podspecs/DoubleConversion.podspec'
   pod 'glog', :podspec => '../node_modules/react-native/third-party-podspecs/glog.podspec'
   pod 'Folly', :podspec => '../node_modules/react-native/third-party-podspecs/Folly.podspec'
-
-  pod 'RNImageCropPicker', :path =>  '../node_modules/react-native-image-crop-picker'
-
-  pod 'react-native-fast-image', :path => '../node_modules/react-native-fast-image'
-
   pod 'CodePush', :path => '../node_modules/react-native-code-push'
 
-  pod 'react-native-version-number', :path => '../node_modules/react-native-version-number'
+  
 
-
-
+  platform :ios, '9.0'
   target 'eSteemTests' do
     inherit! :search_paths
     # Pods for testing
   end
 
 end
+
 post_install do |installer|
   installer.pods_project.targets.each do |target|
 
@@ -67,6 +63,7 @@ post_install do |installer|
 
   end
 end
+
 target 'eSteem-tvOS' do
   # Uncomment the next line if you're using Swift or would like to use dynamic frameworks
   # use_frameworks!
