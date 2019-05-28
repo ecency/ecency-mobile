@@ -150,9 +150,7 @@ class LoginScreen extends PureComponent {
                 onPress={() => handleOnPressLogin(username, password)}
                 iconName="person"
                 iconColor="white"
-                text={intl.formatMessage({
-                  id: 'login.login',
-                })}
+                text={'mustafa'}
                 isDisable={!isUsernameValid || password.length < 2 || username.length < 2}
                 isLoading={isLoading}
               />
