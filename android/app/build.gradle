@@ -98,7 +98,11 @@ def enableProguardInReleaseBuilds = false
 
 android {
     compileSdkVersion rootProject.ext.compileSdkVersion
-    buildToolsVersion rootProject.ext.buildToolsVersion
+    
+    compileOptions {
+        sourceCompatibility JavaVersion.VERSION_1_8
+        targetCompatibility JavaVersion.VERSION_1_8
+    }
 
     defaultConfig {
         applicationId "app.esteem.mobile"
@@ -106,9 +110,6 @@ android {
         targetSdkVersion rootProject.ext.targetSdkVersion
         versionCode versionMajor * 10000 + versionMinor * 100 + versionPatch
         versionName "${versionMajor}.${versionMinor}.${versionPatch}"
-        ndk {
-            abiFilters "armeabi-v7a", "x86"
-        }
         vectorDrawables.useSupportLibrary = true
     }
     splits {
@@ -116,7 +117,7 @@ android {
             reset()
             enable enableSeparateBuildPerCPUArchitecture
             universalApk false  // If true, also generate a universal APK
-            include "armeabi-v7a", "x86"
+            include "armeabi-v7a", "x86", "arm64-v8a", "x86_64"
         }
     }
     buildTypes {
@@ -130,7 +131,7 @@ android {
         variant.outputs.each { output ->
             // For each separate APK per architecture, set a unique version code as described here:
             // http://tools.android.com/tech-docs/new-build-system/user-guide/apk-splits
-            def versionCodes = ["armeabi-v7a":1, "x86":2]
+            def versionCodes = ["armeabi-v7a":1, "x86":2, "arm64-v8a": 3, "x86_64": 4]
             def abi = output.getFilter(OutputFile.ABI)
             if (abi != null) {  // null for the universal-debug, universal-release variants
                 output.versionCodeOverride =
@@ -147,21 +148,21 @@ configurations.all {
 }
 
 dependencies {
-    compile project(':react-native-version-number')
-    compile project(':react-native-code-push')
-    compile project(':realm')
-    compile project(':react-native-fast-image')
-    compile project(':react-native-image-crop-picker')
-    compile project(':appcenter-push')
-    compile project(':react-native-view-overflow')
-    compile project(':react-native-vector-icons')
-    compile project(':react-native-linear-gradient')
-    compile project(':react-native-config')
-    compile project(':appcenter-crashes')
-    compile project(':appcenter-analytics')
-    compile project(':appcenter')
+    implementation project(':react-native-version-number')
+    implementation project(':react-native-code-push')
+    implementation project(':realm')
+    implementation project(':react-native-fast-image')
+    implementation project(':react-native-image-crop-picker')
+    implementation project(':appcenter-push')
+    implementation project(':react-native-view-overflow')
+    implementation project(':react-native-vector-icons')
+    implementation project(':react-native-linear-gradient')
+    implementation project(':react-native-config')
+    implementation project(':appcenter-crashes')
+    implementation project(':appcenter-analytics')
+    implementation project(':appcenter')
     implementation 'com.microsoft.appcenter:appcenter-push:1.11.2'
-    compile 'com.facebook.fresco:animated-gif:1.10.0'
+    implementation 'com.facebook.fresco:animated-gif:1.10.0'
     implementation fileTree(dir: "libs", include: ["*.jar"])
     implementation "com.android.support:appcompat-v7:${rootProject.ext.supportLibVersion}"
     implementation "com.facebook.react:react-native:+"  // From node_modules

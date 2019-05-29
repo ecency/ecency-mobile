@@ -30,15 +30,13 @@ target 'eSteem' do
   pod 'glog', :podspec => '../node_modules/react-native/third-party-podspecs/glog.podspec'
   pod 'Folly', :podspec => '../node_modules/react-native/third-party-podspecs/Folly.podspec'
 
-  pod 'RNImageCropPicker', :path =>  '../node_modules/react-native-image-crop-picker'
+  pod 'CodePush', :path => '../node_modules/react-native-code-push'
 
   pod 'react-native-fast-image', :path => '../node_modules/react-native-fast-image'
 
-  pod 'CodePush', :path => '../node_modules/react-native-code-push'
+  pod 'RNImageCropPicker', :path => '../node_modules/react-native-image-crop-picker'
 
   pod 'react-native-version-number', :path => '../node_modules/react-native-version-number'
-
-
 
   target 'eSteemTests' do
     inherit! :search_paths
