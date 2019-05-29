@@ -8,25 +8,31 @@ PODS:
     - AppCenter/Core
   - AppCenterReactNativeShared (1.13.0):
     - AppCenter/Core (= 1.14.0)
-  - Base64 (1.1.2)
   - boost-for-react-native (1.63.0)
-  - CodePush (5.6.0):
-    - Base64 (~> 1.1)
-    - JWT (~> 3.0.0-beta.7)
+  - CodePush (1000.0.0):
+    - CodePush/Base64 (= 1000.0.0)
+    - CodePush/Core (= 1000.0.0)
+    - CodePush/JWT (= 1000.0.0)
+    - CodePush/SSZipArchive (= 1000.0.0)
     - React
-    - SSZipArchive (~> 2.1)
+  - CodePush/Base64 (1000.0.0):
+    - React
+  - CodePush/Core (1000.0.0):
+    - React
+  - CodePush/JWT (1000.0.0):
+    - React
+  - CodePush/SSZipArchive (1000.0.0):
+    - React
   - DoubleConversion (1.1.6)
   - FLAnimatedImage (1.0.12)
-  - Folly (2016.10.31.00):
+  - Folly (2018.10.22.00):
     - boost-for-react-native
     - DoubleConversion
     - glog
   - glog (0.3.5)
-  - JWT (3.0.0-beta.11):
-    - Base64 (~> 1.1.2)
   - QBImagePickerController (3.4.0)
-  - React (0.57.8):
-    - React/Core (= 0.57.8)
+  - React (0.59.8):
+    - React/Core (= 0.59.8)
   - react-native-fast-image (4.0.14):
     - FLAnimatedImage
     - React
@@ -34,43 +40,51 @@ PODS:
     - SDWebImage/GIF
   - react-native-version-number (0.3.6):
     - React
-  - React/Core (0.57.8):
-    - yoga (= 0.57.8.React)
-  - React/CxxBridge (0.57.8):
-    - Folly (= 2016.10.31.00)
+  - React/Core (0.59.8):
+    - yoga (= 0.59.8.React)
+  - React/CxxBridge (0.59.8):
+    - Folly (= 2018.10.22.00)
     - React/Core
     - React/cxxreact
-  - React/cxxreact (0.57.8):
+    - React/jsiexecutor
+  - React/cxxreact (0.59.8):
     - boost-for-react-native (= 1.63.0)
-    - Folly (= 2016.10.31.00)
-    - React/jschelpers
+    - DoubleConversion
+    - Folly (= 2018.10.22.00)
+    - glog
     - React/jsinspector
-  - React/DevSupport (0.57.8):
+  - React/DevSupport (0.59.8):
     - React/Core
     - React/RCTWebSocket
-  - React/fishhook (0.57.8)
-  - React/jschelpers (0.57.8):
-    - Folly (= 2016.10.31.00)
-    - React/PrivateDatabase
-  - React/jsinspector (0.57.8)
-  - React/PrivateDatabase (0.57.8)
-  - React/RCTActionSheet (0.57.8):
+  - React/fishhook (0.59.8)
+  - React/jsi (0.59.8):
+    - DoubleConversion
+    - Folly (= 2018.10.22.00)
+    - glog
+  - React/jsiexecutor (0.59.8):
+    - DoubleConversion
+    - Folly (= 2018.10.22.00)
+    - glog
+    - React/cxxreact
+    - React/jsi
+  - React/jsinspector (0.59.8)
+  - React/RCTActionSheet (0.59.8):
     - React/Core
-  - React/RCTAnimation (0.57.8):
+  - React/RCTAnimation (0.59.8):
     - React/Core
-  - React/RCTBlob (0.57.8):
+  - React/RCTBlob (0.59.8):
     - React/Core
-  - React/RCTCameraRoll (0.57.8):
+  - React/RCTCameraRoll (0.59.8):
     - React/Core
     - React/RCTImage
-  - React/RCTImage (0.57.8):
+  - React/RCTImage (0.59.8):
     - React/Core
     - React/RCTNetwork
-  - React/RCTNetwork (0.57.8):
+  - React/RCTNetwork (0.59.8):
     - React/Core
-  - React/RCTText (0.57.8):
+  - React/RCTText (0.59.8):
     - React/Core
-  - React/RCTWebSocket (0.57.8):
+  - React/RCTWebSocket (0.59.8):
     - React/Core
     - React/fishhook
     - React/RCTBlob
@@ -83,8 +97,7 @@ PODS:
   - SDWebImage/GIF (4.4.6):
     - FLAnimatedImage (~> 1.0)
     - SDWebImage/Core
-  - SSZipArchive (2.2.2)
-  - yoga (0.57.8.React)
+  - yoga (0.59.8.React)
 
 DEPENDENCIES:
   - AppCenter/Analytics (~> 1.14.0)
@@ -114,14 +127,11 @@ SPEC REPOS:
   https://github.com/cocoapods/specs.git:
     - AppCenter
     - AppCenterReactNativeShared
-    - Base64
     - boost-for-react-native
     - FLAnimatedImage
-    - JWT
     - QBImagePickerController
     - RSKImageCropper
     - SDWebImage
-    - SSZipArchive
 
 EXTERNAL SOURCES:
   CodePush:
@@ -146,24 +156,21 @@ EXTERNAL SOURCES:
 SPEC CHECKSUMS:
   AppCenter: 02c5efe08d3bbab5421ae41d5f7aa7238906b817
   AppCenterReactNativeShared: 00f470c3c17b47718db8733cbe811ccdcfd86282
-  Base64: cecfb41a004124895a7bcee567a89bae5a89d49b
   boost-for-react-native: 39c7adb57c4e60d6c5479dd8623128eb5b3f0f2c
-  CodePush: 300e90b3481fa82569090406165b83745de3613a
+  CodePush: a503ca0caee269e68d8faaafe4414990ec282520
   DoubleConversion: bb338842f62ab1d708ceb63ec3d999f0f3d98ecd
   FLAnimatedImage: 4a0b56255d9b05f18b6dd7ee06871be5d3b89e31
-  Folly: c89ac2d5c6ab169cd7397ef27485c44f35f742c7
-  glog: e8acf0ebbf99759d3ff18c86c292a5898282dcde
-  JWT: 05028b9624591bba9681bb57df2c5f95fa258bad
+  Folly: de497beb10f102453a1afa9edbf8cf8a251890de
+  glog: aefd1eb5dda2ab95ba0938556f34b98e2da3a60d
   QBImagePickerController: d54cf93db6decf26baf6ed3472f336ef35cae022
-  React: adbac0757ce35e92fbd447ab98c810209d27d9b0
+  React: 76e6aa2b87d05eb6cccb6926d72685c9a07df152
   react-native-fast-image: 6d50167ad4d68b59640ceead8c2bc4e58d91d8bd
   react-native-version-number: b415bbec6a13f2df62bf978e85bc0d699462f37f
   RNImageCropPicker: 754299983d07c450aec0834c0efe0ed114131ff3
   RSKImageCropper: 98296ad26b41753f796b6898d015509598f13d97
   SDWebImage: 3f3f0c02f09798048c47a5ed0a13f17b063572d8
-  SSZipArchive: fa16b8cc4cdeceb698e5e5d9f67e9558532fbf23
-  yoga: 74cdf036c30820443b25ade59916236b1e95ee93
+  yoga: 92b2102c3d373d1a790db4ab761d2b0ffc634f64
 
-PODFILE CHECKSUM: 701dfb65d49e483fee82795022cc4212b9b1528e
+PODFILE CHECKSUM: ab732d8c64d6afc103bba2b4ead467d6a8684996
 
 COCOAPODS: 1.6.1
