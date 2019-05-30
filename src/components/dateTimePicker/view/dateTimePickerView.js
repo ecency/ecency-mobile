@@ -56,17 +56,16 @@ class DateTimePickerView extends PureComponent {
     if (type === 'date-time') {
       _type = date ? 'time' : 'date';
       _format = date ? 'HH:MM' : 'YYYY-MM-DD';
-      _minDate = date ? null : moment();
+      _minDate = date ? null : moment().format('YYYY-MM-DD');
     } else {
       _type = type;
       _format = type === 'date' ? 'YYYY-MM-DD' : 'HH:MM';
-      _minDate = type === 'date' ? moment() : null;
+      _minDate = type === 'date' ? moment().format('YYYY-MM-DD') : null;
     }
 
     return (
       <DatePicker
         style={styles.picker}
-        date={date}
         mode={_type}
         format={_format}
         minDate={_minDate}
