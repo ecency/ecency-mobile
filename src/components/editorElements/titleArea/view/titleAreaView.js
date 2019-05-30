@@ -19,6 +19,7 @@ export default class TitleAreaView extends Component {
     super(props);
     this.state = {
       text: props.value || null,
+      height: 0,
     };
   }
 

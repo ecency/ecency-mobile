@@ -1,9 +1,6 @@
 import EStyleSheet from 'react-native-extended-stylesheet';
 
 export default EStyleSheet.create({
-  btnConfirm: {
-    color: '$iconColor',
-  },
   btnTextCancel: {
     color: '$iconColor',
   },

@@ -14,7 +14,7 @@
             buildForArchiving = "YES">
             <BuildableReference
                BuildableIdentifier = "primary"
-               BlueprintIdentifier = "87BBFAEF333E59F12E6E9770794D208D"
+               BlueprintIdentifier = "D5E671935EE0804AB89986835B3F7BDE"
                BuildableName = "libreact-native-version-number.a"
                BlueprintName = "react-native-version-number"
                ReferencedContainer = "container:Pods.xcodeproj">
