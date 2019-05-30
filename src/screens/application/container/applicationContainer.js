@@ -7,6 +7,7 @@ import { NavigationActions } from 'react-navigation';
 import { bindActionCreators } from 'redux';
 import Push from 'appcenter-push';
 import get from 'lodash/get';
+import AppCenter from 'appcenter';
 
 // Languages
 import en from 'react-intl/locale-data/en';
@@ -40,6 +41,7 @@ import {
 } from '../../../realm/realm';
 import { getUser } from '../../../providers/steem/dsteem';
 import { switchAccount } from '../../../providers/steem/auth';
+import { setPushToken } from '../../../providers/esteem/esteem';
 
 // Actions
 import {
@@ -333,11 +335,17 @@ class ApplicationContainer extends Component {
   };
 
   _logout = async () => {
-    const { otherAccounts, currentAccount, dispatch } = this.props;
+    const {
+      otherAccounts,
+      currentAccount: { name, local },
+      dispatch,
+    } = this.props;
 
-    await removeUserData(currentAccount.name)
+    await removeUserData(name)
       .then(async () => {
-        const _otherAccounts = otherAccounts.filter(user => user.username !== currentAccount.name);
+        const _otherAccounts = otherAccounts.filter(user => user.username !== name);
+
+        this._enableNotification(name, false);
 
         if (_otherAccounts.length > 0) {
           const targetAccountUsername = _otherAccounts[0].username;
@@ -349,12 +357,12 @@ class ApplicationContainer extends Component {
           removePinCode();
           setAuthStatus({ isLoggedIn: false });
           setExistUser(false);
-          if (currentAccount.local === AUTH_TYPE.STEEM_CONNECT) {
-            removeSCAccount(currentAccount.name);
+          if (local === AUTH_TYPE.STEEM_CONNECT) {
+            removeSCAccount(name);
           }
         }
 
-        dispatch(removeOtherAccount(currentAccount.name));
+        dispatch(removeOtherAccount(name));
         dispatch(logoutDone());
       })
       .catch(err => {
@@ -365,6 +373,18 @@ class ApplicationContainer extends Component {
           )}`,
         );
       });
+  };
+
+  _enableNotification = async (username, isEnable) => {
+    const token = await AppCenter.getInstallId();
+
+    setPushToken({
+      username,
+      token,
+      system: Platform.OS,
+      allows_notify: Number(isEnable),
+      notify_types: [1, 2, 3, 4, 5, 6],
+    });
   };
 
   _switchAccount = async targetAccountUsername => {

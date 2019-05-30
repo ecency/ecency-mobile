@@ -154,15 +154,15 @@ class SettingsScreen extends PureComponent {
               <CollapsibleCard
                 titleComponent={
                   <SettingsItem
-  title={intl.formatMessage({
+                    title={intl.formatMessage({
                       id: 'settings.push_notification',
                     })}
-  titleStyle={styles.cardTitle}
-  type="toggle"
-  actionType="notification"
-  isOn={isNotificationSettingsOpen}
-  handleOnChange={handleOnChange}
-/>
+                    titleStyle={styles.cardTitle}
+                    type="toggle"
+                    actionType="notification"
+                    isOn={isNotificationSettingsOpen}
+                    handleOnChange={handleOnChange}
+                  />
                 }
                 noBorder
                 fitContent
