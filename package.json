@@ -22,6 +22,7 @@
   },
   "dependencies": {
     "@babel/runtime": "^7.1.2",
+    "@esteemapp/esteem-render-helpers": "^1.0.9",
     "appcenter": "^1.10.0",
     "appcenter-analytics": "^1.10.0",
     "appcenter-crashes": "^1.10.0",

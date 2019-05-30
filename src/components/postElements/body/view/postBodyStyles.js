@@ -28,11 +28,6 @@ export default EStyleSheet.create({
   h3: {
     fontSize: 20,
   },
-  img: {
-    // height: 50,
-    marginTop: 10,
-    // left: -15,
-  },
   commentContainer: {
     paddingHorizontal: 0,
     marginTop: 10,
@@ -64,5 +59,20 @@ export default EStyleSheet.create({
   code: {
     backgroundColor: '$darkIconColor',
     fontFamily: '$editorFont',
+  },
+  center: {
+    textAlign: 'center',
+    alignItems: 'center',
+    justifyContent: 'center',
+  },
+  postImage: {
+    marginTop: 10,
+    minHeight: 216,
+    width: '100%',
+  },
+  commentImage: {
+    marginTop: 10,
+    minHeight: 80,
+    width: '100%',
   },
 });
