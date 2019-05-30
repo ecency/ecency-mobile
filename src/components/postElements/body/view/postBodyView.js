@@ -6,8 +6,8 @@ import { withNavigation } from 'react-navigation';
 import { injectIntl } from 'react-intl';
 import FastImage from 'react-native-fast-image';
 
-import HTML from 'react-native-html-renderer';
-import { getParentsTagsRecursively } from 'react-native-html-renderer/src/HTMLUtils';
+import HTML from 'react-native-render-html';
+import { getParentsTagsRecursively } from 'react-native-render-html/src/HTMLUtils';
 
 // Styles
 import styles from './postBodyStyles';
