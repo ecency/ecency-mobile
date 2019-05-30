@@ -38,6 +38,8 @@ target 'eSteem' do
 
   pod 'react-native-version-number', :path => '../node_modules/react-native-version-number'
 
+  pod 'BugsnagReactNative', :path => '../node_modules/bugsnag-react-native'
+
   target 'eSteemTests' do
     inherit! :search_paths
     # Pods for testing
