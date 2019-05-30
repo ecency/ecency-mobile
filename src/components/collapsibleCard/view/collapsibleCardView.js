@@ -17,7 +17,7 @@ class CollapsibleCardView extends PureComponent {
    *
    */
   anime = {
-    height: new Animated.Value(),
+    height: new Animated.Value(-1),
     expanded: false,
     contentHeight: 0,
   };
