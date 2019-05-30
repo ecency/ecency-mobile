@@ -1,55 +1,43 @@
 import React, { PureComponent, Fragment } from 'react';
-import { Dimensions, Linking, Alert } from 'react-native';
+import {
+  Dimensions, Linking, Alert, TouchableOpacity, Text,
+} from 'react-native';
 import { withNavigation } from 'react-navigation';
 import { injectIntl } from 'react-intl';
+import FastImage from 'react-native-fast-image';
 
 import HTML from 'react-native-render-html';
 import { getParentsTagsRecursively } from 'react-native-render-html/src/HTMLUtils';
-
-// Utils
-import { validateUsername } from '../../../../utils/user';
 
 // Styles
 import styles from './postBodyStyles';
 
 // Constants
 import { default as ROUTES } from '../../../../constants/routeNames';
+import DEFAULT_IMAGE from '../../../../assets/no_image.png';
 // Components
 
 const WIDTH = Dimensions.get('window').width;
-const CUSTOM_RENDERERS = {
-  // example
-  // center: () => <Text style={{ backgroundColor: 'blue', textAlign: 'center'}}>ugur</Text>,
-};
-const DEFAULT_PROPS = {
-  renderers: CUSTOM_RENDERERS,
-  debug: true,
-};
 
 class PostBody extends PureComponent {
-  constructor(props) {
-    super(props);
-    this.state = {};
-  }
-
   // Component Life Cycles
 
   // Component Functions
 
-  _handleOnLinkPress = (evt, href, hrefatr) => {
+  _handleOnLinkPress = (href, hrefatr) => {
     const { handleOnUserPress, handleOnPostPress } = this.props;
 
     if (hrefatr.class === 'markdown-author-link') {
       if (!handleOnUserPress) {
-        this._handleOnUserPress(href);
+        this._handleOnUserPress(hrefatr['data-author']);
       } else {
-        handleOnUserPress(href);
+        handleOnUserPress(hrefatr['data-author']);
       }
     } else if (hrefatr.class === 'markdown-post-link') {
       if (!handleOnPostPress) {
-        this._handleOnPostPress(href, hrefatr.data_author);
+        this._handleOnPostPress(hrefatr['data-permlink'], hrefatr['data-author']);
       } else {
-        handleOnPostPress(href);
+        handleOnPostPress(hrefatr['data-permlink']);
       }
     } else {
       this._handleBrowserLink(href);
@@ -58,37 +46,15 @@ class PostBody extends PureComponent {
 
   _handleBrowserLink = async url => {
     if (!url) return;
-
-    let author;
-    let permlink;
     const { intl } = this.props;
 
-    if (
-      url.indexOf('esteem') > -1 ||
-      url.indexOf('steemit') > -1 ||
-      url.indexOf('busy') > -1 ||
-      (url.indexOf('steempeak') > -1 && url.indexOf('files') < 0)
-    ) {
-      url = url.substring(url.indexOf('@'), url.length);
-      const routeParams = url && url.indexOf('/') > -1 ? url.split('/') : [url];
-
-      [, permlink] = routeParams;
-      author = routeParams[0].indexOf('@') > -1 ? routeParams[0].replace('@', '') : routeParams[0];
-    }
-
-    if (author && permlink) {
-      this._handleOnPostPress(permlink, author);
-    } else if (author) {
-      this._handleOnUserPress(author);
-    } else {
-      Linking.canOpenURL(url).then(supported => {
-        if (supported) {
-          Linking.openURL(url);
-        } else {
-          Alert.alert(intl.formatMessage({ id: 'alert.failed_to_open' }));
-        }
-      });
-    }
+    Linking.canOpenURL(url).then((supported) => {
+      if (supported) {
+        Linking.openURL(url);
+      } else {
+        Alert.alert(intl.formatMessage({ id: 'alert.failed_to_open' }));
+      }
+    });
   };
 
   _handleOnPostPress = (permlink, author) => {
@@ -109,7 +75,7 @@ class PostBody extends PureComponent {
   _handleOnUserPress = username => {
     const { navigation } = this.props;
 
-    if (username && validateUsername(username)) {
+    if (username) {
       navigation.navigate({
         routeName: ROUTES.SCREENS.PROFILE,
         params: {
@@ -187,10 +153,35 @@ class PostBody extends PureComponent {
       ? { width: WIDTH - 50, height: 80 }
       : { width: WIDTH, height: 216 };
 
+    const _customRenderer = {
+      img: (htmlAttribs, children, convertedCSSStyles, passProps) => (
+        <FastImage
+          key={passProps.key}
+          defaultSource={DEFAULT_IMAGE}
+          source={{ uri: htmlAttribs.src, priority: FastImage.priority.normal }}
+          style={isComment ? styles.commentImage : styles.postImage}
+          resizeMode={FastImage.resizeMode.contain}
+        />
+      ),
+      a: (htmlAttribs, children, convertedCSSStyles, passProps) => {
+        if (passProps.parentWrapper === 'Text') {
+          return (
+            <Text key={passProps.key} {...htmlAttribs} onPress={() => this._handleOnLinkPress(htmlAttribs['data-href'], htmlAttribs)}>
+              {children}
+            </Text>
+          );
+        }
+        return (
+          <TouchableOpacity key={passProps.key} {...htmlAttribs} onPress={() => this._handleOnLinkPress(htmlAttribs['data-href'], htmlAttribs)}>
+            {children}
+          </TouchableOpacity>
+        );
+      },
+    };
+
     return (
       <Fragment>
         <HTML
-          {...DEFAULT_PROPS}
           html={body}
           onLinkPress={(evt, href, hrefatr) => this._handleOnLinkPress(evt, href, hrefatr)}
           containerStyle={isComment ? styles.commentContainer : styles.container}
@@ -204,6 +195,7 @@ class PostBody extends PureComponent {
           imagesMaxWidth={isComment ? WIDTH - 50 : WIDTH}
           alterNode={e => this._alterNode(e, isComment)}
           alterData={e => this._alterData(e)}
+          renderers={_customRenderer}
         />
       </Fragment>
     );

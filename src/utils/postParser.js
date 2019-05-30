@@ -1,3 +1,4 @@
+import { postBodySummary, renderPostBody } from '@esteemapp/esteem-render-helpers';
 // Utils
 import { markDown2Html } from './markdownToHtml';
 import { getPostSummary } from './formatter';
@@ -22,8 +23,8 @@ export const parsePost = (post, currentUserName) => {
   post.avatar = `https://steemitimages.com/u/${post.author}/avatar/small`;
   post.active_votes.sort((a, b) => b.rshares - a.rshares);
 
-  post.body = markDown2Html(post.body);
-  post.summary = getPostSummary(post.body, 150);
+  post.body = renderPostBody(post);
+  post.summary = postBodySummary(post, 150);
   post.is_declined_payout = Number(parseFloat(post.max_accepted_payout)) === 0;
 
   if (currentUserName) {
@@ -142,8 +143,8 @@ export const parseComments = comments => {
     comment.author_reputation = getReputation(comment.author_reputation);
     comment.avatar = `https://steemitimages.com/u/${comment.author}/avatar/small`;
     comment.markdownBody = comment.body;
-    comment.body = markDown2Html(comment.body);
-    comment.summary = getPostSummary(comment.body, 100, true);
+    comment.body = renderPostBody(comment);
+    comment.summary = `"${getPostSummary(comment.body, 100, true)}"`;
   });
   return comments;
 };
