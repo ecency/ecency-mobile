@@ -1,4 +1,5 @@
 apply plugin: "com.android.application"
+apply plugin: 'com.bugsnag.android.gradle'
 apply from: project(':react-native-config').projectDir.getPath() + "/dotenv.gradle"
 
 import com.android.build.OutputFile
@@ -148,6 +149,7 @@ configurations.all {
 }
 
 dependencies {
+    implementation project(':bugsnag-react-native')
     implementation project(':react-native-version-number')
     implementation project(':react-native-code-push')
     implementation project(':realm')
