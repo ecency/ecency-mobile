@@ -41,19 +41,19 @@
     "checkin_extra": "Awoof",
     "post_title": "Point for post",
     "comment_title": "Point for comment",
-    "vote_title": "Points for vote",
-    "reblog_title": "Points for reblog",
-    "login_title": "Points for login",
-    "checkin_title": "Points for usage",
-    "checkin_extra_title": "Usage bonus",
-    "no_activity": "No activity here!",
-    "post_desc": "You can earn point by posting regularly. Posting gives you 15 points.",
-    "comment_desc": "Each comment you make helps you to grow your audience and make friendship but also earns you 5 points.",
-    "checkin_desc": "Checking in on eSteem app gives you 0.25 points and helps you stay connected with your friends.",
-    "vote_desc": "By voting you give reward to other creators and show your appreciation but also earn 0.01 x vote weight points.",
-    "reblog_desc": "  Share what post you like with your friends and earn 1 points.",
-    "login_desc": "When you login into eSteem app you are entitled to earn 100 points automatically.",
-    "checkin_extra_desc": "Consistent use of app gives you extra chances to earn more 10 points, be more active and earn more."
+    "vote_title": "Point for vote",
+    "reblog_title": "Point for reblog",
+    "login_title": "Point for login",
+    "checkin_title": "Point for use",
+    "checkin_extra_title": "Awoof for using",
+    "no_activity": "Nothing happen here!",
+    "post_desc": "You fit get point if you dey post everytime. Na 15 point posting go give you.",
+    "comment_desc": "Every comment wey you comment go help you dey popular and make friends. e go still help you get 5 point too.",
+    "checkin_desc": "To dey enter eSteem app everytime go help you get 0.25 point and e go still help dey connected with your paddi dem.",
+    "vote_desc": "If you vote, you dey give reward to other people and e show say you like their work. e go also help you get 0.01 × vote weight point.",
+    "reblog_desc": "  Share post wey you like with your paddi make you get 1 point.",
+    "login_desc": "When you login enter eSteem app ehn, 100 point don dey ground for you.",
+    "checkin_extra_desc": "If you dey use the app wella, you go get the chance to get 10 point. So dey active so that you go earn more."
   },
   "messages": {
     "comingsoon": "Option for messages go soon come!"
@@ -90,26 +90,26 @@
     "dark_theme": "Theme wey dark",
     "push_notification": "Your Alert",
     "notification": {
-      "follow": "Follow",
+      "follow": "Follow am",
       "vote": "Vote",
       "comment": "Comment",
       "mention": "Mention",
-      "reblog": "Reblog",
-      "transfers": "Transfers"
+      "reblog": "Reblog am",
+      "transfers": "Transfer"
     },
     "pincode": "PIN code",
     "reset": "Reset",
-    "nsfw_content": "NSFW Content",
-    "send_feedback": "Send Feedback",
-    "send": "Send",
-    "default_footer": "Default Footer",
+    "nsfw_content": "Adult things",
+    "send_feedback": "Send as you see am",
+    "send": "Send am",
+    "default_footer": "Follow come footer",
     "nsfw": {
-      "always_show": "Always show",
-      "always_hide": "Always hide",
-      "always_warn": "Always warn"
+      "always_show": "Show everytime",
+      "always_hide": "Hide everytime",
+      "always_warn": "Warn everytime"
     },
-    "feedback_success": "Email successfully open",
-    "feedback_fail": "Email client could not open"
+    "feedback_success": "Email don open successfully",
+    "feedback_fail": "Email no gree open"
   },
   "voters": {
     "voters_info": "People Wey Vote informate",
@@ -161,7 +161,7 @@
     "reply_placeholder": "Wetin you go like yan about the matter for up",
     "publish": "Post am",
     "reply": "Reply",
-    "open_gallery": "Open Gallery",
+    "open_gallery": "Open Picture",
     "capture_photo": "Take new picture"
   },
   "pincode": {
@@ -172,14 +172,14 @@
   },
   "alert": {
     "success": "E don Successful!",
-    "successful": "Successful",
+    "successful": "E don Successful",
     "allRead": "Mark am say you don read all the alert",
     "claim_reward_balance_ok": "You don collect the reward",
     "fail": "E Fail oo!",
     "move": "Move",
-    "move_question": "Are you sure to move to drafts?",
+    "move_question": "You sure say you won move am go draft?",
     "success_shared": "Your post don share finish",
-    "success_moved": "Moved to draft",
+    "success_moved": "E don move go draft",
     "permission_denied": "E no gree do",
     "permission_text": "Abeg go your phone settings go change eSteem app permissions. ",
     "success_rebloged": "E don reblog!",
@@ -188,18 +188,18 @@
     "invalid_pincode": "Your PIN code no correct, abeg check wella and try am again",
     "remove_alert": "You sure say you wan remove am?",
     "clear_alert": "You sure say you won komot am?",
-    "clear_user_alert": "Are you sure you want to clear all user data?",
+    "clear_user_alert": "You sure say you won clear all the user data?",
     "clear": "Komot",
     "cancel": "Cancel",
     "delete": "Delete",
     "copied": "E don copy!",
     "no_internet": "Connection no dey!",
-    "confirm": "Confirm",
-    "removed": "Removed"
+    "confirm": "Confam",
+    "removed": "E don remove"
   },
   "post": {
     "reblog_alert": "You sure say you wan reblog am?",
-    "removed_hint": "The post was removed by"
+    "removed_hint": "The post don komot by"
   },
   "drafts": {
     "title": "Draft",
@@ -208,7 +208,7 @@
     "deleted": "Draft don delete komot"
   },
   "schedules": {
-    "title": "Schedules",
+    "title": "Tori Wey You Time",
     "empty_list": "Here empty oo",
     "deleted": "Tori wey you time don delete",
     "move": "Move am go draft",
@@ -255,11 +255,11 @@
     "no_existing_post": "The post no exist"
   },
   "search": {
-    "posts": "Posts",
+    "posts": "Tori",
     "comments": "Comments"
   },
   "comment_filter": {
-    "trending": "trending",
+    "trending": "wey dey reign",
     "reputation": "reputation",
     "votes": "votes",
     "age": "age"
@@ -269,16 +269,16 @@
     "to": "To",
     "amount": "Amount",
     "memo": "Memo",
-    "information": "Are you sure to transfer to funds?",
+    "information": "You sure say you won transfer the money?",
     "amount_desc": "Balance",
-    "memo_desc": "This memo is public",
-    "to_placeholder": "Username",
-    "memo_placeholder": "Enter your notes here",
+    "memo_desc": "Na everybody go see this memo",
+    "to_placeholder": "Guy-name",
+    "memo_placeholder": "Write your note for here",
     "transferToken": "Transfer",
-    "transferToSaving": "Transfer To Saving",
+    "transferToSaving": "Transfer go Savings",
     "powerUp": "Power Up",
-    "withdrawToSaving": "Withdraw To Saving",
-    "steemconnect_title": "Steemconnect Transfer",
+    "withdrawToSaving": "Withdraw go savings",
+    "steemconnect_title": "Transfer with steemconnect",
     "next": "NEXT"
   }
 }
