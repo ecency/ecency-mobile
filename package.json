@@ -29,6 +29,7 @@
     "appcenter-push": "^1.10.0",
     "axios": "^0.18.0",
     "buffer": "^5.2.1",
+    "bugsnag-react-native": "^2.20.0",
     "core-js": "^2.6.0",
     "crypto-js": "^3.1.9-1",
     "currency-symbol-map": "^4.0.4",
