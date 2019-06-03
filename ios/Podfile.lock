@@ -9,6 +9,11 @@ PODS:
   - AppCenterReactNativeShared (1.13.0):
     - AppCenter/Core (= 1.14.0)
   - boost-for-react-native (1.63.0)
+  - BugsnagReactNative (2.20.0):
+    - BugsnagReactNative/Core (= 2.20.0)
+    - React
+  - BugsnagReactNative/Core (2.20.0):
+    - React
   - CodePush (1000.0.0):
     - CodePush/Base64 (= 1000.0.0)
     - CodePush/Core (= 1000.0.0)
@@ -104,6 +109,7 @@ DEPENDENCIES:
   - AppCenter/Crashes (~> 1.14.0)
   - AppCenter/Push (~> 1.14.0)
   - AppCenterReactNativeShared (~> 1.13.0)
+  - BugsnagReactNative (from `../node_modules/bugsnag-react-native`)
   - CodePush (from `../node_modules/react-native-code-push`)
   - DoubleConversion (from `../node_modules/react-native/third-party-podspecs/DoubleConversion.podspec`)
   - Folly (from `../node_modules/react-native/third-party-podspecs/Folly.podspec`)
@@ -134,6 +140,8 @@ SPEC REPOS:
     - SDWebImage
 
 EXTERNAL SOURCES:
+  BugsnagReactNative:
+    :path: "../node_modules/bugsnag-react-native"
   CodePush:
     :path: "../node_modules/react-native-code-push"
   DoubleConversion:
@@ -157,6 +165,7 @@ SPEC CHECKSUMS:
   AppCenter: 02c5efe08d3bbab5421ae41d5f7aa7238906b817
   AppCenterReactNativeShared: 00f470c3c17b47718db8733cbe811ccdcfd86282
   boost-for-react-native: 39c7adb57c4e60d6c5479dd8623128eb5b3f0f2c
+  BugsnagReactNative: 9f2adc8dddc3231317989497328b24bf97150256
   CodePush: a503ca0caee269e68d8faaafe4414990ec282520
   DoubleConversion: bb338842f62ab1d708ceb63ec3d999f0f3d98ecd
   FLAnimatedImage: 4a0b56255d9b05f18b6dd7ee06871be5d3b89e31
@@ -171,6 +180,6 @@ SPEC CHECKSUMS:
   SDWebImage: 3f3f0c02f09798048c47a5ed0a13f17b063572d8
   yoga: 92b2102c3d373d1a790db4ab761d2b0ffc634f64
 
-PODFILE CHECKSUM: ab732d8c64d6afc103bba2b4ead467d6a8684996
+PODFILE CHECKSUM: 4c8480eb882a405d8226d42c0b34046d1eb5e724
 
 COCOAPODS: 1.6.1
