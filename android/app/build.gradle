@@ -105,6 +105,10 @@ android {
         targetCompatibility JavaVersion.VERSION_1_8
     }
 
+    lintOptions {
+        checkReleaseBuilds false
+    }
+
     defaultConfig {
         applicationId "app.esteem.mobile"
         minSdkVersion rootProject.ext.minSdkVersion
