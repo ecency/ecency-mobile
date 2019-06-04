@@ -1,33 +1,22 @@
 import CryptoJS from 'crypto-js';
 import * as dsteem from 'dsteem';
 import { Buffer } from 'buffer';
+import { proxifyImageSrc } from '@esteemapp/esteem-render-helpers';
 
 export const generateSignature = (media, privateKey) => {
   const STRING = 'ImageSigningChallenge';
-  const prefix = new Buffer(STRING);
+  const prefix = Buffer.from(STRING);
 
   const commaIdx = media.data.indexOf(',');
   const dataBs64 = media.data.substring(commaIdx + 1);
-  const data = new Buffer(dataBs64, 'base64');
+  const data = Buffer.from(dataBs64, 'base64');
 
   const hash = CryptoJS.SHA256(prefix, data);
   const buffer = Buffer.from(hash.toString(CryptoJS.enc.Hex), 'hex');
   const array = new Uint8Array(buffer);
   const key = dsteem.PrivateKey.fromString(privateKey);
 
-  return key.sign(new Buffer(array)).toString();
-};
-
-export const proxifyImageSrc = (url, width = 0, height = 0) => {
-  if (!url) {
-    return '';
-  }
-
-  const prefix = `https://steemitimages.com/${width}x${height}/`;
-
-  if (url.startsWith(prefix)) return url;
-
-  return `${prefix}${url}`;
+  return key.sign(Buffer.from(array)).toString();
 };
 
 export const catchEntryImage = (entry, width = 0, height = 0) => {
