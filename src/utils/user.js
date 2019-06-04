@@ -22,17 +22,17 @@ export const getReputation = input => {
 
   return Math.floor(reputationLevel);
 };
-/* eslint-disable */
+
 export const getName = about => {
-  if (about['profile'] && about['profile']['name']) {
-    return about['profile']['name'];
+  if (about.profile && about.profile.name) {
+    return about.profile.name;
   }
   return null;
 };
 
 export const getAvatar = about => {
-  if (about['profile'] && about['profile']['profile_image']) {
-    return about['profile']['profile_image'];
+  if (about.profile && about.profile.profile_image) {
+    return about.profile.profile_image;
   }
   return null;
 };
