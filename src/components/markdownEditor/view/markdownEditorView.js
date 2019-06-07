@@ -183,6 +183,7 @@ export default class MarkdownEditorView extends Component {
             iconStyle={styles.clearIcon}
             iconType="FontAwesome"
             name="trash"
+            backgroundColor={styles.clearButtonWrapper.backgroundColor}
           />
         </View>
       </View>
