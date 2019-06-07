@@ -3,15 +3,15 @@ import { isStringWebLink, replaceBetween } from './utils';
 export const writeUrlTextHere = 'https://example.com';
 export const writeTextHereString = 'Text here';
 
-export default ({ getState, item, setState, isImage = null }) => {
+export default async ({ getState, item, setState, isImage = null }) => {
   const { selection, text } = getState();
   const imagePrefix = isImage ? '!' : '';
   const itemText = item ? item.text : writeTextHereString;
   const itemUrl = item ? item.url : writeUrlTextHere;
-
   let newText;
   let newSelection;
   const selectedText = text.substring(selection.start, selection.end);
+
   if (selection.start !== selection.end) {
     if (isStringWebLink(selectedText)) {
       newText = replaceBetween(text, selection, `${imagePrefix}[${itemText}](${selectedText})`);
@@ -40,7 +40,7 @@ export default ({ getState, item, setState, isImage = null }) => {
       };
     }
   }
-  setState({ text: newText }, () => {
-    setState({ newSelection });
-  });
+
+  await setState({ text: newText, textUpdated: true });
+  await setState({ newSelection });
 };
