@@ -270,15 +270,15 @@
     "amount": "كمية",
     "memo": "مذكرة",
     "information": "هل أنت متأكد من التحويل إلى الأموال؟",
-    "amount_desc": "Balance",
-    "memo_desc": "This memo is public",
-    "to_placeholder": "Username",
-    "memo_placeholder": "Enter your notes here",
-    "transferToken": "Transfer",
-    "transferToSaving": "Transfer To Saving",
-    "powerUp": "Power Up",
-    "withdrawToSaving": "Withdraw To Saving",
-    "steemconnect_title": "Steemconnect Transfer",
-    "next": "NEXT"
+    "amount_desc": "الرصيد",
+    "memo_desc": "هذه المذكرة عامة",
+    "to_placeholder": "إسم المستخدم",
+    "memo_placeholder": "أدخل ملاحظاتك هنا",
+    "transferToken": "تحويل",
+    "transferToSaving": "النقل إلى المدخرات",
+    "powerUp": "رفع الطاقة",
+    "withdrawToSaving": "سحب إلى الادخار",
+    "steemconnect_title": "نقل Steemconnect",
+    "next": "التالي"
   }
 }
