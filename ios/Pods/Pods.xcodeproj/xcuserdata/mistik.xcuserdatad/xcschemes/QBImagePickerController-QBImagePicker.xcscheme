@@ -14,7 +14,7 @@
             buildForAnalyzing = "YES">
             <BuildableReference
                BuildableIdentifier = "primary"
-               BlueprintIdentifier = "43DBF9C0DE6FD648DDBBA7B4232DCBA8"
+               BlueprintIdentifier = "EF225CE4CF6CE33376C975BE46FCF844"
                BuildableName = "QBImagePicker.bundle"
                BlueprintName = "QBImagePickerController-QBImagePicker"
                ReferencedContainer = "container:Pods.xcodeproj">
@@ -45,7 +45,7 @@
       <MacroExpansion>
          <BuildableReference
             BuildableIdentifier = "primary"
-            BlueprintIdentifier = "43DBF9C0DE6FD648DDBBA7B4232DCBA8"
+            BlueprintIdentifier = "EF225CE4CF6CE33376C975BE46FCF844"
             BuildableName = "QBImagePicker.bundle"
             BlueprintName = "QBImagePickerController-QBImagePicker"
             ReferencedContainer = "container:Pods.xcodeproj">
