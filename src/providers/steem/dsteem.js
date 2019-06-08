@@ -4,7 +4,8 @@ import Config from 'react-native-config';
 
 import { getServer } from '../../realm/realm';
 import { getUnreadActivityCount } from '../esteem/esteem';
-import { userActivity } from '../esteem/ePoint';
+import { userActivity, transfer } from '../esteem/ePoint';
+
 // Utils
 import { decryptKey } from '../../utils/crypto';
 import { parsePosts, parsePost, parseComments } from '../../utils/postParser';
@@ -530,7 +531,10 @@ export const transferToken = (currentAccount, pin, data) => {
       client.broadcast
         .transfer(args, privateKey)
         .then(result => {
-          resolve(result);
+          if (result) {
+            transfer(data.from, data.destination, data.ammount);
+            resolve(result);
+          }
         })
         .catch(err => {
           reject(err);

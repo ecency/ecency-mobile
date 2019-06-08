@@ -1,4 +1,12 @@
 export default {
+  150: {
+    icon: 'cached',
+    textKey: 'points.delegation_title',
+    nameKey: 'points.delegation',
+    descriptionKey: 'points.delegation_desc',
+    iconType: 'MaterialIcons',
+    point: 1,
+  },
   100: {
     icon: 'pencil',
     textKey: 'points.post_title',
@@ -58,6 +66,9 @@ export default {
 };
 
 export const POINTS_KEYS = [
+  {
+    type: 150,
+  },
   {
     type: 100,
   },
