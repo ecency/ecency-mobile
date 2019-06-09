@@ -1,18 +1,22 @@
 import React, { Component } from 'react';
 import { withNavigation } from 'react-navigation';
 import { connect } from 'react-redux';
+import { injectIntl } from 'react-intl';
+import get from 'lodash/get';
 
 import { getComments, deleteComment } from '../../../providers/steem/dsteem';
 
 // Services and Actions
+import { writeToClipboard } from '../../../utils/clipboard';
+import { toastNotification } from '../../../redux/actions/uiAction';
 
 // Middleware
 
 // Constants
-import { default as ROUTES } from '../../../constants/routeNames';
+import ROUTES from '../../../constants/routeNames';
 
 // Component
-import { CommentsView } from '..';
+import CommentsView from '../view/commentsView';
 
 /*
  *            Props Name        Description                                     Value
@@ -163,6 +167,27 @@ class CommentsContainer extends Component {
     });
   };
 
+  _handleCommentCopyAction = (index, selectedComment) => {
+    const { dispatch, intl } = this.props;
+
+    switch (index) {
+      case 0:
+        writeToClipboard(`https://steemit.com${get(selectedComment, 'url')}`).then(() => {
+          dispatch(
+            toastNotification(
+              intl.formatMessage({
+                id: 'alert.copied',
+              }),
+            ),
+          );
+        });
+        break;
+
+      default:
+        break;
+    }
+  };
+
   render() {
     const { comments: _comments, selectedPermlink } = this.state;
     const {
@@ -196,6 +221,7 @@ class CommentsContainer extends Component {
         isLoggedIn={isLoggedIn}
         fetchPost={fetchPost}
         handleDeleteComment={this._handleDeleteComment}
+        handleCommentCopyAction={this._handleCommentCopyAction}
         {...this.props}
       />
     );
@@ -208,4 +234,4 @@ const mapStateToProps = state => ({
   pinCode: state.account.pin,
 });
 
-export default withNavigation(connect(mapStateToProps)(CommentsContainer));
+export default withNavigation(connect(mapStateToProps)(injectIntl(CommentsContainer)));
