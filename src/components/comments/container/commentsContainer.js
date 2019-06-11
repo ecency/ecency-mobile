@@ -123,9 +123,13 @@ class CommentsContainer extends Component {
   };
 
   _getComments = () => {
-    const { author, permlink } = this.props;
+    const {
+      author,
+      permlink,
+      currentAccount: { name },
+    } = this.props;
 
-    getComments(author, permlink).then(comments => {
+    getComments(author, permlink, name).then(comments => {
       this.setState({
         comments,
       });
