@@ -8,19 +8,14 @@ export default ({ getState, item, setState }) => {
     item.wrapper.concat(text.substring(selection.start, selection.end), item.wrapper),
   );
   let newPosition;
+
   if (selection.start === selection.end) {
     newPosition = selection.end + item.wrapper.length;
   } else {
     newPosition = selection.end + item.wrapper.length * 2;
   }
 
-  const extra = {
-    newSelection: {
-      start: newPosition,
-      end: newPosition,
-    },
-  };
-  setState({ text: newText }, () => {
-    setState({ ...extra });
+  setState({ text: newText, textUpdated: true }, () => {
+    setState({ newSelection: { start: newPosition, end: newPosition } });
   });
 };
