@@ -42,6 +42,7 @@ export default async ({ getState, item, setState }) => {
     );
   }
 
-  await setState({ text: newText, textUpdated: true });
-  await setState({ newSelection: { start: newPosition, end: newPosition } });
+  await setState({ text: newText, textUpdated: true }, async () => {
+    await setState({ newSelection: { start: newPosition, end: newPosition } });
+  });
 };
