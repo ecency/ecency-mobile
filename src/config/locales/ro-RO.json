@@ -199,7 +199,8 @@
   },
   "post": {
     "reblog_alert": "Ești sigur că vrei să redistribui?",
-    "removed_hint": "Postarea a fost eliminată de către"
+    "removed_hint": "Postarea a fost eliminată de către",
+    "copy_link": "Copy Link"
   },
   "drafts": {
     "title": "Schițe",
