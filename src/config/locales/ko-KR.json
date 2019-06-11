@@ -199,7 +199,8 @@
   },
   "post": {
     "reblog_alert": "정말 리블로그 하시겠습니까?",
-    "removed_hint": "The post was removed by"
+    "removed_hint": "The post was removed by",
+    "copy_link": "Copy Link"
   },
   "drafts": {
     "title": "임시 보관함",
