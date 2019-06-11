@@ -199,7 +199,8 @@
   },
   "post": {
     "reblog_alert": "Вы уверены, что хотите сделать репост?",
-    "removed_hint": "Сообщение удалено"
+    "removed_hint": "Сообщение удалено",
+    "copy_link": "Copy Link"
   },
   "drafts": {
     "title": "Черновики",
