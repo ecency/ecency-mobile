@@ -398,16 +398,16 @@ export const deleteComment = (currentAccount, pin, permlink) => {
  * @param user post author
  * @param permlink post permlink
  */
-export const getComments = (user, permlink) => {
+export const getComments = (user, permlink, currentUserName) => {
   let comments;
   return new Promise((resolve, reject) => {
     client.database
       .call('get_content_replies', [user, permlink])
       .then(result => {
-        comments = parseComments(result);
+        comments = parseComments(result, currentUserName);
       })
       .then(() => {
-        resolve(comments);
+        resolve(parseComments(comments, currentUserName));
       })
       .catch(error => {
         reject(error);

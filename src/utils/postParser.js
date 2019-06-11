@@ -98,7 +98,7 @@ const postImage = (metaData, body) => {
   return '';
 };
 
-export const parseComments = comments => {
+export const parseComments = (comments, currentUserName) => {
   forEach(comments, comment => {
     comment.pending_payout_value = parseFloat(comment.pending_payout_value).toFixed(3);
     comment.vote_count = comment.active_votes.length;
@@ -107,6 +107,12 @@ export const parseComments = comments => {
     comment.markdownBody = comment.body;
     comment.body = renderPostBody(comment);
     comment.summary = `"${postBodySummary(comment, 100, true)}"`;
+
+    if (currentUserName) {
+      comment.is_voted = isVoted(comment.active_votes, currentUserName);
+    } else {
+      comment.is_voted = false;
+    }
   });
   return comments;
 };
