@@ -199,7 +199,8 @@
   },
   "post": {
     "reblog_alert": "Tem certeza de que deseja reblogar?",
-    "removed_hint": "O post foi removido por"
+    "removed_hint": "O post foi removido por",
+    "copy_link": "Copy Link"
   },
   "drafts": {
     "title": "Rascunhos",
