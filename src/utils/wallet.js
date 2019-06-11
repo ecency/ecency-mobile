@@ -10,8 +10,7 @@ export const groomingTransactionData = (transaction, steemPerMVests, formatNumbe
 
   const result = {};
 
-  // eslint-disable-next-line
-  result.opName = transaction[1].op[0];
+  [result.opName] = transaction[1].op;
   const opData = transaction[1].op[1];
   const { timestamp } = transaction[1];
 

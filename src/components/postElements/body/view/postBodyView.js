@@ -1,10 +1,9 @@
 import React, { PureComponent, Fragment } from 'react';
-import {
-  Dimensions, Linking, Alert, TouchableOpacity, Text,
-} from 'react-native';
+import { Dimensions, Linking, Alert, TouchableOpacity, Text } from 'react-native';
 import { withNavigation } from 'react-navigation';
 import { injectIntl } from 'react-intl';
 import FastImage from 'react-native-fast-image';
+import { proxifyImageSrc } from '@esteemapp/esteem-render-helpers';
 
 import HTML from 'react-native-render-html';
 import { getParentsTagsRecursively } from 'react-native-render-html/src/HTMLUtils';
@@ -48,7 +47,7 @@ class PostBody extends PureComponent {
     if (!url) return;
     const { intl } = this.props;
 
-    Linking.canOpenURL(url).then((supported) => {
+    Linking.canOpenURL(url).then(supported => {
       if (supported) {
         Linking.openURL(url);
       } else {
@@ -158,7 +157,10 @@ class PostBody extends PureComponent {
         <FastImage
           key={passProps.key}
           defaultSource={DEFAULT_IMAGE}
-          source={{ uri: htmlAttribs.src, priority: FastImage.priority.normal }}
+          source={{
+            uri: proxifyImageSrc(htmlAttribs.src, _initialDimensions.width, 0),
+            priority: FastImage.priority.normal,
+          }}
           style={isComment ? styles.commentImage : styles.postImage}
           resizeMode={FastImage.resizeMode.contain}
         />
@@ -166,13 +168,21 @@ class PostBody extends PureComponent {
       a: (htmlAttribs, children, convertedCSSStyles, passProps) => {
         if (passProps.parentWrapper === 'Text') {
           return (
-            <Text key={passProps.key} {...htmlAttribs} onPress={() => this._handleOnLinkPress(htmlAttribs['data-href'], htmlAttribs)}>
+            <Text
+              key={passProps.key}
+              {...htmlAttribs}
+              onPress={() => this._handleOnLinkPress(htmlAttribs['data-href'], htmlAttribs)}
+            >
               {children}
             </Text>
           );
         }
         return (
-          <TouchableOpacity key={passProps.key} {...htmlAttribs} onPress={() => this._handleOnLinkPress(htmlAttribs['data-href'], htmlAttribs)}>
+          <TouchableOpacity
+            key={passProps.key}
+            {...htmlAttribs}
+            onPress={() => this._handleOnLinkPress(htmlAttribs['data-href'], htmlAttribs)}
+          >
             {children}
           </TouchableOpacity>
         );
