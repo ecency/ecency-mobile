@@ -1,4 +1,3 @@
-/* eslint-disable no-restricted-globals */
 import React, { Fragment, Component } from 'react';
 import { Text, View, WebView, ScrollView, TouchableOpacity } from 'react-native';
 import ActionSheet from 'react-native-actionsheet';

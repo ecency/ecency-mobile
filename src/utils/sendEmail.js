@@ -1,3 +1,4 @@
+// eslint-disable-next-line import/no-extraneous-dependencies
 import qs from 'qs';
 import { Linking } from 'react-native';
 

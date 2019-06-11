@@ -3,9 +3,9 @@ import { injectIntl } from 'react-intl';
 import { View, FlatList, Text } from 'react-native';
 import ScrollableTabView from 'react-native-scrollable-tab-view';
 import ActionSheet from 'react-native-actionsheet';
+import { postBodySummary } from '@esteemapp/esteem-render-helpers';
 
 // Utils
-import { getPostSummary } from '../../../utils/formatter';
 import { catchDraftImage } from '../../../utils/image';
 import { getFormatedCreatedDate } from '../../../utils/time';
 
@@ -41,7 +41,7 @@ class DraftsScreen extends Component {
     const tags = item.tags ? item.tags.split(/[ ,]+/) : [];
     const tag = tags[0] || '';
     const image = catchDraftImage(item.body);
-    const summary = getPostSummary(item.body, 100);
+    const summary = postBodySummary(item, 100);
     const isSchedules = type === 'schedules';
 
     return (

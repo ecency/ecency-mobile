@@ -11,7 +11,6 @@ export default [
     iconType: 'FontAwesome',
     wrapper: '**',
     onPress: applyWrapFormat,
-    // style: { fontWeight: 'bold' },
   },
   {
     key: 'I',
