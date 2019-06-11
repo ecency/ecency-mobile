@@ -199,7 +199,8 @@
   },
   "post": {
     "reblog_alert": "Anda yakin ingin menerbitkan ulang?",
-    "removed_hint": "Pos dihapus oleh"
+    "removed_hint": "Pos dihapus oleh",
+    "copy_link": "Copy Link"
   },
   "drafts": {
     "title": "Konsep",
