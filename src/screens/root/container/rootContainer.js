@@ -31,13 +31,10 @@ const RootContainer = () => WrappedComponent => {
     componentDidMount() {
       AppState.addEventListener('change', this._handleAppStateChange);
 
-      if (Platform.OS === 'android') {
-        Linking.getInitialURL().then(url => {
-          this._handleDeepLink(url);
-        });
-      } else {
-        Linking.addEventListener('url', this._handleOpenURL);
-      }
+      Linking.getInitialURL().then(url => {
+        this._handleDeepLink(url);
+      });
+      Linking.addEventListener('url', this._handleOpenURL);
     }
 
     componentWillUnmount() {
