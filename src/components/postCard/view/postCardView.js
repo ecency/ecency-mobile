@@ -120,10 +120,10 @@ class PostCardView extends Component {
               <Text style={styles.comment}>{content.vote_count}</Text>
             </TouchableOpacity>
           </View>
-          <TouchableOpacity style={styles.commentButton}>
+          <View style={styles.commentButton}>
             <Icon style={[styles.commentIcon]} iconType="MaterialIcons" name="comment" />
             <Text style={styles.comment}>{content.children}</Text>
-          </TouchableOpacity>
+          </View>
         </View>
       </View>
     );
