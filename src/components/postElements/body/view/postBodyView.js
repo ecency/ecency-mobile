@@ -147,7 +147,7 @@ class PostBody extends PureComponent {
   };
 
   render() {
-    const { body, isComment } = this.props;
+    const { body, isComment, textSelectable = true } = this.props;
     const _initialDimensions = isComment
       ? { width: WIDTH - 50, height: 80 }
       : { width: WIDTH, height: 216 };
@@ -195,7 +195,7 @@ class PostBody extends PureComponent {
           html={body}
           onLinkPress={(evt, href, hrefatr) => this._handleOnLinkPress(evt, href, hrefatr)}
           containerStyle={isComment ? styles.commentContainer : styles.container}
-          textSelectable
+          textSelectable={textSelectable}
           tagsStyles={isComment ? { img: { height: 120 } } : styles}
           ignoredTags={['script']}
           debug={false}
