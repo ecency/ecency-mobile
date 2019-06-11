@@ -32,14 +32,14 @@
     "older_then": "Lebih Lama Dari Sebulan"
   },
   "points": {
-    "post": "posting",
+    "post": "Kiriman",
     "comment": "Komentar",
-    "checkin": "Check-in",
+    "checkin": "Masuk",
     "vote": "Beri suara",
     "reblog": "Menampilkan kembali",
     "login": "Masuk",
     "checkin_extra": "Bonus",
-    "post_title": "Poin untuk posting",
+    "post_title": "Poin untuk kiriman",
     "comment_title": "Poin untuk komentar",
     "vote_title": "Poin untuk suara",
     "reblog_title": "Poin untuk menampilkan kembali",
@@ -161,7 +161,7 @@
     "reply_placeholder": "Apa yang ingin Anda tulis tentang posting di atas?",
     "publish": "Terbitkan",
     "reply": "Balas",
-    "open_gallery": "Open Gallery",
+    "open_gallery": "Buka Album",
     "capture_photo": "Ambil Foto"
   },
   "pincode": {
@@ -195,7 +195,7 @@
     "copied": "Disalin!",
     "no_internet": "Tidak ada koneksi!",
     "confirm": "Konfirmasi",
-    "removed": "Removed"
+    "removed": "Hapus"
   },
   "post": {
     "reblog_alert": "Anda yakin ingin menerbitkan ulang?",
