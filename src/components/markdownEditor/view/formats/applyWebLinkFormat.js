@@ -41,6 +41,7 @@ export default async ({ getState, item, setState, isImage = null }) => {
     }
   }
 
-  await setState({ text: newText, textUpdated: true });
-  await setState({ newSelection });
+  await setState({ text: newText, textUpdated: true }, async () => {
+    await setState({ newSelection });
+  });
 };
