@@ -199,7 +199,8 @@
   },
   "post": {
     "reblog_alert": "Se o da o loju pe o fe ṣe eda oro yi?",
-    "removed_hint": "The post was removed by"
+    "removed_hint": "The post was removed by",
+    "copy_link": "Copy Link"
   },
   "drafts": {
     "title": "Oro akanse",
