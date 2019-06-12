@@ -199,7 +199,8 @@
   },
   "post": {
     "reblog_alert": "Jeste li sigurni da želite ponovo podijeliti objavu na svom profilu?",
-    "removed_hint": "The post was removed by"
+    "removed_hint": "The post was removed by",
+    "copy_link": "Copy Link"
   },
   "drafts": {
     "title": "Skice",

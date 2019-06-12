@@ -195,11 +195,12 @@
     "copied": "Disalin!",
     "no_internet": "Tiada sambungan!",
     "confirm": "Muktamat",
-    "removed": "Removed"
+    "removed": "Buang"
   },
   "post": {
     "reblog_alert": "Adakah anda ingin menulang siar?",
-    "removed_hint": "Pos tersebut dipadamkan oleh"
+    "removed_hint": "Pos tersebut dipadamkan oleh",
+    "copy_link": "Salin pautan"
   },
   "drafts": {
     "title": "Draf",

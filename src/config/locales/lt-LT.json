@@ -199,7 +199,8 @@
   },
   "post": {
     "reblog_alert": "Ar tikrai norite dalintis?",
-    "removed_hint": "The post was removed by"
+    "removed_hint": "The post was removed by",
+    "copy_link": "Copy Link"
   },
   "drafts": {
     "title": "Ruošiniai",

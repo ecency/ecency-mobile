@@ -1,6 +1,6 @@
 import { replaceBetween } from './utils';
 
-export default ({ getState, item, setState }) => {
+export default async ({ getState, item, setState }) => {
   const { text, selection } = getState();
   let newText = replaceBetween(
     text,
@@ -41,15 +41,8 @@ export default ({ getState, item, setState }) => {
       )}`,
     );
   }
-  const extra = {
-    newSelection: {
-      start: newPosition,
-      end: newPosition,
-    },
-  };
-  setState({ text: newText }, () => {
-    setTimeout(() => {
-      setState({ ...extra });
-    }, 25);
+
+  await setState({ text: newText, textUpdated: true }, async () => {
+    await setState({ newSelection: { start: newPosition, end: newPosition } });
   });
 };

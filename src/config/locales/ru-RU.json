@@ -161,7 +161,7 @@
     "reply_placeholder": "Напишите ваш комментарий",
     "publish": "Написать",
     "reply": "Ответить",
-    "open_gallery": "Open Gallery",
+    "open_gallery": "Перейти в галерею",
     "capture_photo": "Сделать фото"
   },
   "pincode": {
@@ -195,11 +195,12 @@
     "copied": "Скопировано!",
     "no_internet": "No internet connection",
     "confirm": "Подтвердить",
-    "removed": "Removed"
+    "removed": "Удалено"
   },
   "post": {
     "reblog_alert": "Вы уверены, что хотите сделать репост?",
-    "removed_hint": "The post was removed by"
+    "removed_hint": "Сообщение удалено",
+    "copy_link": "Copy Link"
   },
   "drafts": {
     "title": "Черновики",
