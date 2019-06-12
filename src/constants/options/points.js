@@ -1,4 +1,20 @@
 export default {
+  999: {
+    icon: 'compare-arrows',
+    textKey: 'points.incoming_transfer_title',
+    nameKey: 'points.delegation',
+    descriptionKey: 'points.incoming_transfer_description',
+    iconType: 'MaterialIcons',
+    point: 0.1,
+  },
+  998: {
+    icon: 'compare-arrows',
+    textKey: 'points.outgoing_transfer_title',
+    nameKey: 'points.delegation',
+    descriptionKey: 'points.outgoing_transfer_description',
+    iconType: 'MaterialIcons',
+    point: 0.1,
+  },
   150: {
     icon: 'local-activity',
     textKey: 'points.delegation_title',
