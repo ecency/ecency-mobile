@@ -1,9 +1,8 @@
-/* eslint-disable no-nested-ternary */
 import React, { Component, Fragment } from 'react';
 import { Text, View, FlatList, ScrollView, RefreshControl, TouchableOpacity } from 'react-native';
 import { injectIntl } from 'react-intl';
 import { Popover, PopoverController } from 'react-native-modal-popover';
-import { get, size } from 'lodash';
+import { get } from 'lodash';
 
 // Components
 import { LineBreak, WalletLineItem, ListPlaceHolder } from '../../basicUIElements';
@@ -48,6 +47,19 @@ class PointsView extends Component {
     );
   };
 
+  _getTranslation = id => {
+    const { intl } = this.props;
+    let translation;
+
+    try {
+      translation = intl.formatMessage({ id });
+    } catch (error) {
+      translation = '';
+    }
+
+    return translation;
+  };
+
   _renderLoading = () => {
     const { isLoading, intl } = this.props;
 
@@ -58,7 +70,7 @@ class PointsView extends Component {
   };
 
   render() {
-    const { claimPoints, intl, isClaiming, userActivities, userPoints } = this.props;
+    const { claimPoints, isClaiming, userActivities, userPoints } = this.props;
 
     return (
       <Fragment>
@@ -113,7 +125,7 @@ class PointsView extends Component {
                         </TouchableOpacity>
                       </View>
                       <Text style={styles.subText}>
-                        {intl.formatMessage({ id: get(POINTS[get(item, 'type')], 'nameKey') })}
+                        {this._getTranslation(get(POINTS[get(item, 'type')], 'nameKey'))}
                       </Text>
                       <Popover
                         backgroundStyle={styles.overlay}
@@ -129,9 +141,7 @@ class PointsView extends Component {
                       >
                         <View style={styles.popoverWrapper}>
                           <Text style={styles.popoverText}>
-                            {intl.formatMessage({
-                              id: get(POINTS[get(item, 'type')], 'descriptionKey'),
-                            })}
+                            {this._getTranslation(get(POINTS[get(item, 'type')], 'descriptionKey'))}
                           </Text>
                         </View>
                       </Popover>
@@ -152,7 +162,7 @@ class PointsView extends Component {
                 renderItem={({ item, index }) => (
                   <WalletLineItem
                     index={index + 1}
-                    text={intl.formatMessage({ id: get(item, 'textKey') })}
+                    text={this._getTranslation(get(item, 'textKey'))}
                     description={getTimeFromNow(get(item, 'created'))}
                     isCircleIcon
                     isThin
