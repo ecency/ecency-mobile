@@ -199,7 +199,8 @@
   },
   "post": {
     "reblog_alert": "You sure say you wan reblog am?",
-    "removed_hint": "The post don komot by"
+    "removed_hint": "The post don komot by",
+    "copy_link": "Copy Link"
   },
   "drafts": {
     "title": "Draft",

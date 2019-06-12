@@ -199,7 +199,8 @@
   },
   "post": {
     "reblog_alert": "هل أنت متأكد من رغبتك في إعادة التدوين؟",
-    "removed_hint": "تمت إزالة المنشور بواسطة"
+    "removed_hint": "تمت إزالة المنشور بواسطة",
+    "copy_link": "Copy Link"
   },
   "drafts": {
     "title": "المسودات",

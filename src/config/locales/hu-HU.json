@@ -199,7 +199,8 @@
   },
   "post": {
     "reblog_alert": "Biztos, hogy megosztod?",
-    "removed_hint": "A bejegyzést eltávolította"
+    "removed_hint": "A bejegyzést eltávolította",
+    "copy_link": "Copy Link"
   },
   "drafts": {
     "title": "Piszkozatok",
