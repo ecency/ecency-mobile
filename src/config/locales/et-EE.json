@@ -158,25 +158,25 @@
     "title": "Pealkiri",
     "tags": "sildid",
     "default_placeholder": "Millest sooviksid sa täna kirjutada?",
-    "reply_placeholder": "What would you like to write about above post?",
-    "publish": "Publish",
-    "reply": "Reply",
-    "open_gallery": "Open Gallery",
-    "capture_photo": "Capture a photo"
+    "reply_placeholder": "Mida sooviksid sa ülaloleva postituse kohta kirjutada?",
+    "publish": "Avalda",
+    "reply": "Vasta",
+    "open_gallery": "Ava Galerii",
+    "capture_photo": "Tee pilti"
   },
   "pincode": {
     "enter_text": "Enter pin to unlock",
     "set_new": "Set new pin",
-    "write_again": "Write again",
-    "forgot_text": "Oh, I forgot it..."
+    "write_again": "Sisesta uuesti",
+    "forgot_text": "Ups, ma unustasin..."
   },
   "alert": {
-    "success": "Success!",
-    "successful": "Successful",
-    "allRead": "Marked all notifications as read",
-    "claim_reward_balance_ok": "Reward balance claimed",
-    "fail": "Fail!",
-    "move": "Move",
+    "success": "Edukas!",
+    "successful": "Edukas",
+    "allRead": "Kõik teavitused on loetuks märgitud",
+    "claim_reward_balance_ok": "Tasu jääk nõutud",
+    "fail": "Ebaõnnestumine!",
+    "move": "Liiguta",
     "move_question": "Are you sure to move to drafts?",
     "success_shared": "Your post succesfully shared",
     "success_moved": "Moved to draft",
