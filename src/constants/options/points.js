@@ -1,6 +1,6 @@
 export default {
   150: {
-    icon: 'cached',
+    icon: 'local-activity',
     textKey: 'points.delegation_title',
     nameKey: 'points.delegation',
     descriptionKey: 'points.delegation_desc',

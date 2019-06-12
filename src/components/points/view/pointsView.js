@@ -64,9 +64,9 @@ class PointsView extends Component {
       <Fragment>
         <LineBreak height={12} />
         <ScrollView style={styles.scrollContainer} refreshControl={this.refreshControl()}>
-          <Text style={styles.pointText}>{userPoints.points}</Text>
+          <Text style={styles.pointText}>{get(userPoints, 'points')}</Text>
           <Text style={styles.subText}>eSteem Points</Text>
-          {userPoints.unclaimed_points > 0 && (
+          {get(userPoints, 'unclaimed_points') > 0 && (
             <MainButton
               isLoading={isClaiming}
               isDisable={isClaiming}
@@ -75,7 +75,7 @@ class PointsView extends Component {
               onPress={() => claimPoints()}
             >
               <View style={styles.mainButtonWrapper}>
-                <Text style={styles.unclaimedText}>{userPoints.unclaimed_points}</Text>
+                <Text style={styles.unclaimedText}>{get(userPoints, 'unclaimed_points')}</Text>
                 <View style={styles.mainIconWrapper}>
                   <Icon name="add" iconType="MaterialIcons" color="#357ce6" size={23} />
                 </View>
@@ -89,7 +89,7 @@ class PointsView extends Component {
               data={POINTS_KEYS}
               horizontal
               renderItem={({ item }) => (
-                <PopoverController key={item.type}>
+                <PopoverController key={get(item, 'type')}>
                   {({
                     openPopover,
                     closePopover,
@@ -97,15 +97,15 @@ class PointsView extends Component {
                     setPopoverAnchor,
                     popoverAnchorRect,
                   }) => (
-                    <View styles={styles.iconWrapper} key={item.type}>
+                    <View styles={styles.iconWrapper} key={get(item, 'type')}>
                       <View style={styles.iconWrapper}>
                         <TouchableOpacity ref={setPopoverAnchor} onPress={openPopover}>
                           <IconButton
                             iconStyle={styles.icon}
                             style={styles.iconButton}
-                            iconType={POINTS[item.type].iconType}
-                            name={POINTS[item.type].icon}
-                            badgeCount={POINTS[item.type].point}
+                            iconType={get(POINTS[get(item, 'type')], 'iconType')}
+                            name={get(POINTS[get(item, 'type')], 'icon')}
+                            badgeCount={get(POINTS[get(item, 'type')], 'point')}
                             badgeStyle={styles.badge}
                             badgeTextStyle={styles.badgeText}
                             disabled
@@ -113,7 +113,7 @@ class PointsView extends Component {
                         </TouchableOpacity>
                       </View>
                       <Text style={styles.subText}>
-                        {intl.formatMessage({ id: POINTS[item.type].nameKey })}
+                        {intl.formatMessage({ id: get(POINTS[get(item, 'type')], 'nameKey') })}
                       </Text>
                       <Popover
                         backgroundStyle={styles.overlay}
@@ -129,7 +129,9 @@ class PointsView extends Component {
                       >
                         <View style={styles.popoverWrapper}>
                           <Text style={styles.popoverText}>
-                            {intl.formatMessage({ id: POINTS[item.type].descriptionKey })}
+                            {intl.formatMessage({
+                              id: get(POINTS[get(item, 'type')], 'descriptionKey'),
+                            })}
                           </Text>
                         </View>
                       </Popover>
@@ -150,7 +152,7 @@ class PointsView extends Component {
                 renderItem={({ item, index }) => (
                   <WalletLineItem
                     index={index + 1}
-                    text={intl.formatMessage({ id: item.textKey })}
+                    text={intl.formatMessage({ id: get(item, 'textKey') })}
                     description={getTimeFromNow(get(item, 'created'))}
                     isCircleIcon
                     isThin
