@@ -1,7 +1,11 @@
-import React, { PureComponent } from 'react';
+import React, { PureComponent, Fragment } from 'react';
 import { FlatList } from 'react-native';
+import ActionSheet from 'react-native-actionsheet';
+import get from 'lodash/get';
+import { injectIntl } from 'react-intl';
 
 // Components
+// eslint-disable-next-line import/no-cycle
 import { Comment } from '../../comment';
 
 // Styles
@@ -15,7 +19,10 @@ class CommentsView extends PureComponent {
 
   constructor(props) {
     super(props);
-    this.state = {};
+    this.state = {
+      selectedComment: null,
+    };
+    this.commentMenu = React.createRef();
   }
 
   // Component Life Cycles
@@ -23,6 +30,11 @@ class CommentsView extends PureComponent {
   // Component Functions
 
   _keyExtractor = item => item.permlink;
+
+  _openCommentMenu = item => {
+    this.setState({ selectedComment: item });
+    this.commentMenu.current.show();
+  };
 
   render() {
     const {
@@ -40,36 +52,56 @@ class CommentsView extends PureComponent {
       isShowSubComments,
       marginLeft,
       handleDeleteComment,
+      handleCommentCopyAction,
+      intl,
     } = this.props;
+    const { selectedComment } = this.state;
 
     return (
-      <FlatList
-        data={comments}
-        keyExtractor={this._keyExtractor}
-        renderItem={({ item }) => (
-          <Comment
-            mainAuthor={mainAuthor}
-            avatarSize={avatarSize}
-            comment={item}
-            commentCount={commentCount || item.children}
-            commentNumber={commentNumber}
-            handleDeleteComment={handleDeleteComment}
-            currentAccountUsername={currentAccountUsername}
-            fetchPost={fetchPost}
-            handleOnEditPress={handleOnEditPress}
-            handleOnReplyPress={handleOnReplyPress}
-            handleOnUserPress={handleOnUserPress}
-            isLoggedIn={isLoggedIn}
-            isShowMoreButton={commentNumber === 1 && item.children > 0}
-            voteCount={item.net_votes}
-            isShowSubComments={isShowSubComments}
-            key={item.permlink}
-            marginLeft={marginLeft}
-          />
-        )}
-      />
+      <Fragment>
+        <FlatList
+          data={comments}
+          keyExtractor={this._keyExtractor}
+          renderItem={({ item }) => (
+            <Comment
+              mainAuthor={mainAuthor}
+              avatarSize={avatarSize}
+              comment={item}
+              commentCount={commentCount || item.children}
+              commentNumber={commentNumber}
+              handleDeleteComment={handleDeleteComment}
+              currentAccountUsername={currentAccountUsername}
+              fetchPost={fetchPost}
+              handleOnEditPress={handleOnEditPress}
+              handleOnReplyPress={handleOnReplyPress}
+              handleOnUserPress={handleOnUserPress}
+              isLoggedIn={isLoggedIn}
+              isShowMoreButton={commentNumber === 1 && item.children > 0}
+              voteCount={item.net_votes}
+              isShowSubComments={isShowSubComments}
+              key={item.permlink}
+              marginLeft={marginLeft}
+              handleOnLongPress={() => this._openCommentMenu(item)}
+            />
+          )}
+        />
+        <ActionSheet
+          ref={this.commentMenu}
+          options={[
+            intl.formatMessage({
+              id: 'post.copy_link',
+            }),
+            intl.formatMessage({
+              id: 'alert.cancel',
+            }),
+          ]}
+          title={get(selectedComment, 'summary')}
+          cancelButtonIndex={1}
+          onPress={index => handleCommentCopyAction(index, selectedComment)}
+        />
+      </Fragment>
     );
   }
 }
 
-export default CommentsView;
+export default injectIntl(CommentsView);

@@ -1,5 +1,5 @@
 import React, { PureComponent } from 'react';
-import { View } from 'react-native';
+import { View, SafeAreaView } from 'react-native';
 import ScrollableTabView from 'react-native-scrollable-tab-view';
 import { injectIntl } from 'react-intl';
 
@@ -23,12 +23,14 @@ class SearchResultScreen extends PureComponent {
 
     return (
       <View style={styles.container}>
-        <SearchInput
-          onChangeText={() => {}}
-          handleOnModalClose={navigationGoBack}
-          placeholder={`#${tag}`}
-          editable={false}
-        />
+        <SafeAreaView>
+          <SearchInput
+            onChangeText={() => {}}
+            handleOnModalClose={navigationGoBack}
+            placeholder={`#${tag}`}
+            editable={false}
+          />
+        </SafeAreaView>
         <ScrollableTabView
           style={globalStyles.tabView}
           renderTabBar={() => (

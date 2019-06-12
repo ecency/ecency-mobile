@@ -202,7 +202,8 @@
   },
   "post": {
     "reblog_alert": "Are you sure you want to reblog?",
-    "removed_hint": "The post was removed by"
+    "removed_hint": "The post was removed by",
+    "copy_link": "Copy Link"
   },
   "drafts": {
     "title": "Drafts",

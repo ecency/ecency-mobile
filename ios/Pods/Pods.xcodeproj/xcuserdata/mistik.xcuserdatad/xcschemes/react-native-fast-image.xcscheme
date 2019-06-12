@@ -14,7 +14,7 @@
             buildForArchiving = "YES">
             <BuildableReference
                BuildableIdentifier = "primary"
-               BlueprintIdentifier = "07D440C89C0EB317A6F833C93CBB221B"
+               BlueprintIdentifier = "03ED12D221A71DCE28798F9666DC9DC7"
                BuildableName = "libreact-native-fast-image.a"
                BlueprintName = "react-native-fast-image"
                ReferencedContainer = "container:Pods.xcodeproj">

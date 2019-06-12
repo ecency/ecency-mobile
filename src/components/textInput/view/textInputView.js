@@ -1,9 +1,9 @@
 import React from 'react';
-import { connect } from 'react-redux';
 import { TextInput } from 'react-native';
+import { connect } from 'react-redux';
 
-const TextInputView = props => (
-  <TextInput keyboardAppearance={props.isDarkTheme ? 'dark' : 'light'} {...props} />
+const TextInputView = ({ isDarkTheme, innerRef, ...props }) => (
+  <TextInput ref={innerRef} keyboardAppearance={isDarkTheme ? 'dark' : 'light'} {...props} />
 );
 
 const mapStateToProps = state => ({

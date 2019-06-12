@@ -22,8 +22,13 @@ export default class MarkdownEditorView extends Component {
     this.state = {
       text: props.draftBody || '',
       selection: { start: 0, end: 0 },
+      textUpdated: false,
       newSelection: null,
     };
+
+    this.inputRef = React.createRef();
+    this.galleryRef = React.createRef();
+    this.clearRef = React.createRef();
   }
 
   // Lifecycle functions
@@ -47,8 +52,8 @@ export default class MarkdownEditorView extends Component {
     ) {
       applyImageLink({
         getState: this._getState,
-        setState: (state, callback) => {
-          this.setState(state, callback);
+        setState: async (state, callback) => {
+          await this.setState(state, callback);
         },
         item: { url: nextProps.uploadedImage.url, text: nextProps.uploadedImage.hash },
         isImage: !!nextProps.uploadedImage,
@@ -76,6 +81,14 @@ export default class MarkdownEditorView extends Component {
   // Component functions
   _changeText = input => {
     const { onChange, handleOnTextChange, handleIsValid, componentID } = this.props;
+    const { textUpdated } = this.state;
+
+    if (textUpdated) {
+      this.setState({
+        textUpdated: false,
+      });
+      return;
+    }
 
     this.setState({ text: input });
 
@@ -100,14 +113,16 @@ export default class MarkdownEditorView extends Component {
         selection: newSelection,
         newSelection: null,
       });
-    } else {
-      this.setState({
-        selection: event.nativeEvent.selection,
-      });
+      return;
     }
+    this.setState({
+      selection: event.nativeEvent.selection,
+    });
   };
 
-  _getState = () => this.state;
+  _getState = () => {
+    return this.state;
+  };
 
   _renderPreview = () => {
     const { text } = this.state;
@@ -154,7 +169,7 @@ export default class MarkdownEditorView extends Component {
           onPress={() => Formats[9].onPress({ getState, setState })}
         />
         <IconButton
-          onPress={() => this.ActionSheet.show()}
+          onPress={() => this.galleryRef.current.show()}
           style={styles.rightIcons}
           size={20}
           iconStyle={styles.icon}
@@ -163,21 +178,14 @@ export default class MarkdownEditorView extends Component {
         />
         <View style={styles.clearButtonWrapper}>
           <IconButton
-            onPress={() => this.ClearActionSheet.show()}
+            onPress={() => this.clearRef.current.show()}
             size={20}
             iconStyle={styles.clearIcon}
             iconType="FontAwesome"
             name="trash"
+            backgroundColor={styles.clearButtonWrapper.backgroundColor}
           />
         </View>
-        {/* TODO: After alpha */}
-        {/* <DropdownButton
-          style={styles.dropdownStyle}
-          options={['option1', 'option2', 'option3', 'option4']}
-          iconName="md-more"
-          iconStyle={styles.dropdownIconStyle}
-          isHasChildIcon
-        /> */}
       </View>
     </StickyBar>
   );
@@ -203,7 +211,7 @@ export default class MarkdownEditorView extends Component {
         {!isPreviewActive ? (
           <TextInput
             multiline
-            onChangeText={e => this._changeText(e)}
+            onChangeText={this._changeText}
             onSelectionChange={this._handleOnSelectionChange}
             placeholder={intl.formatMessage({
               id: isReply ? 'editor.reply_placeholder' : 'editor.default_placeholder',
@@ -214,6 +222,7 @@ export default class MarkdownEditorView extends Component {
             style={styles.textWrapper}
             underlineColorAndroid="transparent"
             value={text}
+            innerRef={this.inputRef}
           />
         ) : (
           this._renderPreview()
@@ -222,13 +231,12 @@ export default class MarkdownEditorView extends Component {
           this._renderEditorButtons({
             getState: this._getState,
             setState: (state, callback) => {
+              this.inputRef.current.focus();
               this.setState(state, callback);
             },
           })}
-
-        {/* TODO: This is a problem re-factor */}
         <ActionSheet
-          ref={o => (this.ActionSheet = o)}
+          ref={this.galleryRef}
           options={[
             intl.formatMessage({
               id: 'editor.open_gallery',
@@ -246,7 +254,7 @@ export default class MarkdownEditorView extends Component {
           }}
         />
         <ActionSheet
-          ref={o => (this.ClearActionSheet = o)}
+          ref={this.clearRef}
           title={intl.formatMessage({
             id: 'alert.clear_alert',
           })}
@@ -259,9 +267,7 @@ export default class MarkdownEditorView extends Component {
             }),
           ]}
           cancelButtonIndex={1}
-          onPress={index => {
-            index === 0 && this._handleClear();
-          }}
+          onPress={index => index === 0 && this._handleClear()}
         />
       </KeyboardAvoidingView>
     );
