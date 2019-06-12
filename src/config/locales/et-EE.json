@@ -120,44 +120,44 @@
     "signup": "Loo kasutaja",
     "signin_title": "Selleks et saada juurdepääs kogu eSteem'i funktsionaalsusele",
     "username": "Kasutajanimi",
-    "password": "Password or WIF",
-    "description": "User credentials are kept locally on the device. Credentials are removed upon logout!",
-    "cancel": "cancel",
-    "login": "LOGIN",
+    "password": "Parool või WIF",
+    "description": "Kasutaja paroolid hoitakse lokaalselt nutiseadmes. Välja logides see kustutatakse!",
+    "cancel": "tühista",
+    "login": "LOGI SISSE",
     "steemconnect_description": "If you don't want to keep your password encrypted and saved on your device, you can use Steemconnect.",
     "steemconnect_fee_description": "Steemconnect may charge some fees from your reward transactions"
   },
   "home": {
-    "feed": "Feed",
-    "popular": "Popular"
+    "feed": "Sein",
+    "popular": "Populaarne"
   },
   "side_menu": {
-    "profile": "Profile",
-    "bookmarks": "Bookmarks",
-    "favorites": "Favorites",
-    "drafts": "Drafts",
-    "schedules": "Schedules",
-    "gallery": "Gallery",
-    "settings": "Settings",
-    "add_account": "Add Account",
-    "logout": "Logout",
-    "cancel": "Cancel",
-    "logout_text": "Are you sure you want to logout?"
+    "profile": "Profiil",
+    "bookmarks": "Järjehoidjad",
+    "favorites": "Lemmikud",
+    "drafts": "Mustandid",
+    "schedules": "Ajakavad",
+    "gallery": "Galerii",
+    "settings": "Seaded",
+    "add_account": "Lisa konto",
+    "logout": "Logi välja",
+    "cancel": "Tühista",
+    "logout_text": "Oled kindel, et soovid välja logida?"
   },
   "header": {
     "title": "Login to customize your feed",
-    "search": "Search..."
+    "search": "Otsi..."
   },
   "basic_header": {
-    "publish": "Publish",
-    "search": "Search",
-    "update": "Update",
-    "reply": "Reply"
+    "publish": "Avalda",
+    "search": "Otsi",
+    "update": "Uuenda",
+    "reply": "Vasta"
   },
   "editor": {
-    "title": "Title",
-    "tags": "tags",
-    "default_placeholder": "What would you like to write about today?",
+    "title": "Pealkiri",
+    "tags": "sildid",
+    "default_placeholder": "Millest sooviksid sa täna kirjutada?",
     "reply_placeholder": "What would you like to write about above post?",
     "publish": "Publish",
     "reply": "Reply",
