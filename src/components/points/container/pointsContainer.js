@@ -1,6 +1,7 @@
 import React, { Component } from 'react';
 import { Alert } from 'react-native';
 import { connect } from 'react-redux';
+import get from 'lodash/get';
 
 // Services and Actions
 import { getUser, getUserPoints, claim } from '../../../providers/esteem/ePoint';
@@ -61,9 +62,9 @@ class PointsContainer extends Component {
   _groomUserActivities = userActivities =>
     userActivities.map(item => ({
       ...item,
-      icon: POINTS[item.type].icon,
-      iconType: POINTS[item.type].iconType,
-      textKey: POINTS[item.type].textKey,
+      icon: get(POINTS[get(item, 'type')], 'icon'),
+      iconType: get(POINTS[get(item, 'type')], 'iconType'),
+      textKey: get(POINTS[get(item, 'type')], 'textKey'),
     }));
 
   _fetchuserPointActivities = async username => {
