@@ -275,10 +275,10 @@
     "memo_desc": "Memo ini adalah umum",
     "to_placeholder": "Nama Pengguna",
     "memo_placeholder": "Masukkan catatan anda di sini",
-    "transferToken": "Pindah",
-    "transferToSaving": "Pindah kepada simpanan",
+    "transfer_token": "Pindah",
+    "transfer_to_saving": "Pindah kepada simpanan",
     "powerUp": "Mengekuasai",
-    "withdrawToSaving": "Keluarkan kepada penyimpanan",
+    "withdraw_to_saving": "Keluarkan kepada penyimpanan",
     "steemconnect_title": "Steemconnect Transfer",
     "next": "SETERUSNYA"
   }

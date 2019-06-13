@@ -275,10 +275,10 @@
     "memo_desc": "Bu qeyd ictimaidir",
     "to_placeholder": "İstifadəçi adı",
     "memo_placeholder": "Qeydlərinizi buraya daxil edin",
-    "transferToken": "Köçürmə",
-    "transferToSaving": "Yığımlara Köçürmə",
+    "transfer_token": "Köçürmə",
+    "transfer_to_saving": "Yığımlara Köçürmə",
     "powerUp": "Gücü artır",
-    "withdrawToSaving": "Withdraw To Saving",
+    "withdraw_to_saving": "Withdraw To Saving",
     "steemconnect_title": "Steemconnect Köçürməsi",
     "next": "NEXT"
   }

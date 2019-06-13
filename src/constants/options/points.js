@@ -2,7 +2,7 @@ export default {
   999: {
     icon: 'compare-arrows',
     textKey: 'points.incoming_transfer_title',
-    nameKey: 'points.delegation',
+    nameKey: 'points.incoming_transfer',
     descriptionKey: 'points.incoming_transfer_description',
     iconType: 'MaterialIcons',
     point: 0.1,
@@ -10,7 +10,7 @@ export default {
   998: {
     icon: 'compare-arrows',
     textKey: 'points.outgoing_transfer_title',
-    nameKey: 'points.delegation',
+    nameKey: 'points.outgoing_transfer',
     descriptionKey: 'points.outgoing_transfer_description',
     iconType: 'MaterialIcons',
     point: 0.1,

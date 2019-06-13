@@ -9,6 +9,7 @@ import { LineBreak, WalletLineItem, ListPlaceHolder } from '../../basicUIElement
 import { IconButton } from '../../iconButton';
 import { Icon } from '../../icon';
 import { MainButton } from '../../mainButton';
+import { DropdownButton } from '../../dropdownButton';
 
 // Utils
 import { getTimeFromNow } from '../../../utils/time';
@@ -70,13 +71,31 @@ class PointsView extends Component {
   };
 
   render() {
-    const { claimPoints, isClaiming, userActivities, userPoints } = this.props;
+    const {
+      claimPoints,
+      isClaiming,
+      userActivities,
+      userPoints,
+      handleOnPressTransfer,
+    } = this.props;
 
     return (
       <Fragment>
         <LineBreak height={12} />
         <ScrollView style={styles.scrollContainer} refreshControl={this.refreshControl()}>
-          <Text style={styles.pointText}>{get(userPoints, 'points')}</Text>
+          <View style={styles.pointsWrapper}>
+            <Text style={styles.pointText}>{get(userPoints, 'points')}</Text>
+            <DropdownButton
+              isHasChildIcon
+              iconName="arrow-drop-down"
+              options={['Transfer']}
+              noHighlight
+              dropdownButtonStyle={styles.dropdownButtonStyle}
+              onSelect={handleOnPressTransfer}
+              rowTextStyle={styles.dropdownRowText}
+              dropdownStyle={styles.dropdownStyle}
+            />
+          </View>
           <Text style={styles.subText}>eSteem Points</Text>
           {get(userPoints, 'unclaimed_points') > 0 && (
             <MainButton
