@@ -514,7 +514,7 @@ export const upvoteAmount = async input => {
   return estimated;
 };
 
-export const transfer_token = (currentAccount, pin, data) => {
+export const transferToken = (currentAccount, pin, data) => {
   const digitPinCode = getDigitPinCode(pin);
   const key = getAnyPrivateKey({ activeKey: currentAccount.local.activeKey }, digitPinCode);
 
@@ -545,7 +545,7 @@ export const transfer_token = (currentAccount, pin, data) => {
   return Promise.reject(new Error('You dont have permission!'));
 };
 
-export const transfer_to_savings = (currentAccount, pin, data) => {
+export const transferToSavings = (currentAccount, pin, data) => {
   const digitPinCode = getDigitPinCode(pin);
   const key = getAnyPrivateKey({ activeKey: currentAccount.local.activeKey }, digitPinCode);
 

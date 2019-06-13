@@ -62,11 +62,16 @@ class PointsContainer extends Component {
 
   _handleOnPressTransfer = () => {
     const { dispatch } = this.props;
+    const { userPoints } = this.state;
 
     dispatch(
       openPinCodeModal({
         navigateTo: ROUTES.SCREENS.TRANSFER,
-        navigateParams: { transferType: '', fundType: '', balance: '' },
+        navigateParams: {
+          transferType: 'points',
+          fundType: 'ESTM',
+          balance: Math.round(get(userPoints, 'points') * 1000) / 1000,
+        },
       }),
     );
   };
