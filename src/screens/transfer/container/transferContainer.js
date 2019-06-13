@@ -5,9 +5,9 @@ import { injectIntl } from 'react-intl';
 // Services and Actions
 import {
   lookupAccounts,
-  transfer_token,
+  transferToken,
   transferFromSavings,
-  transfer_to_savings,
+  transferToSavings,
   transferToVesting,
   getAccount,
 } from '../../../providers/steem/dsteem';
@@ -55,6 +55,9 @@ class TransferContainer extends Component {
         case 'SBD':
           balance = account[0].sbd_balance.replace(fundType, '');
           break;
+        case 'ESTM':
+          balance = navigation.getParam('balance', '');
+          break;
         default:
           break;
       }
@@ -90,10 +93,10 @@ class TransferContainer extends Component {
 
     switch (transferType) {
       case 'transfer_token':
-        func = transfer_token;
+        func = transferToken;
         break;
       case 'transfer_to_saving':
-        func = transfer_to_savings;
+        func = transferToSavings;
         break;
       case 'powerUp':
         func = transferToVesting;
@@ -101,6 +104,9 @@ class TransferContainer extends Component {
       case 'withdraw_to_saving':
         func = transferFromSavings;
         data.requestId = new Date().getTime() >>> 0;
+        break;
+      case 'points':
+        alert('sss');
         break;
 
       default:

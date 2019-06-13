@@ -1,5 +1,11 @@
 import { Alert } from 'react-native';
+import { Client, PrivateKey } from 'dsteem';
 import ePointApi from '../../config/ePoint';
+
+// Utils
+import { decryptKey } from '../../utils/crypto';
+
+const client = new Client(getItem('server', 'https://api.steemit.com'));
 
 export const userActivity = (us, ty, bl = '', tx = '') =>
   new Promise(resolve => {
@@ -38,6 +44,35 @@ export const transfer = (sender, receiver, amount) =>
         Alert.alert('Error', error.message);
       });
   });
+
+export const transferPoint = (account, pin, to, amount, memo) => {
+  const { username: from } = account;
+
+  const json = JSON.stringify({
+    sender: from,
+    receiver: to,
+    amount,
+    memo,
+  });
+
+  if (account.type === 's' || true) {
+    const key = decryptKey(account.keys.active, pin);
+    const privateKey = PrivateKey.fromString(key);
+
+    const op = {
+      id: 'esteem_point_transfer',
+      json,
+      required_auths: [from],
+      required_posting_auths: [],
+    };
+
+    return Client.broadcast.json(op, privateKey);
+  }
+
+  if (account.type === 'sc') {
+    return sctTransferPoint(from, json);
+  }
+};
 
 export const getUser = username =>
   new Promise(resolve => {
