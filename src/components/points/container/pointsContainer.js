@@ -5,6 +5,7 @@ import get from 'lodash/get';
 
 // Services and Actions
 import { getUser, getUserPoints, claim } from '../../../providers/esteem/ePoint';
+import { openPinCodeModal } from '../../../redux/actions/applicationActions';
 
 // Constant
 import POINTS from '../../../constants/options/points';
@@ -58,6 +59,17 @@ class PointsContainer extends Component {
   }
 
   // Component Functions
+
+  _handleOnPressTransfer = () => {
+    const { dispatch } = this.props;
+
+    dispatch(
+      openPinCodeModal({
+        navigateTo: ROUTES.SCREENS.TRANSFER,
+        navigateParams: { transferType: '', fundType: '', balance: '' },
+      }),
+    );
+  };
 
   _groomUserActivities = userActivities =>
     userActivities.map(item => ({
@@ -138,6 +150,7 @@ class PointsContainer extends Component {
         refreshing={refreshing}
         userActivities={userActivities}
         userPoints={userPoints}
+        handleOnPressTransfer={this._handleOnPressTransfer}
       />
     );
   }

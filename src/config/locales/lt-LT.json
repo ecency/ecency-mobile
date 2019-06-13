@@ -275,10 +275,10 @@
     "memo_desc": "Ši atmintinė yra vieša",
     "to_placeholder": "Vartotojo vardas",
     "memo_placeholder": "Įveskite savo užrašus čia",
-    "transferToken": "Pervesti",
-    "transferToSaving": "Pervesti į Santaupas",
+    "transfer_token": "Pervesti",
+    "transfer_to_saving": "Pervesti į Santaupas",
     "powerUp": "Power Up",
-    "withdrawToSaving": "Atsiimti į Santaupas",
+    "withdraw_to_saving": "Atsiimti į Santaupas",
     "steemconnect_title": "Steemconnect Pervedimas",
     "next": "TOLIAU"
   }
