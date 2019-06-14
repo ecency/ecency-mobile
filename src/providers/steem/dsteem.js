@@ -1,6 +1,7 @@
 import { Client, PrivateKey } from 'dsteem';
 import steemConnect from 'steemconnect';
 import Config from 'react-native-config';
+import get from 'lodash/get';
 
 import { getServer } from '../../realm/realm';
 import { getUnreadActivityCount } from '../esteem/esteem';
@@ -1013,12 +1014,54 @@ export const claimRewardBalance = (account, pinCode, rewardSteem, rewardSbd, rew
   return Promise.reject(new Error('You dont have permission!'));
 };
 
+export const transferPoint = (currentAccount, pinCode, data) => {
+  const pin = getDigitPinCode(pinCode);
+  const key = getActiveKey(currentAccount.local, pin);
+  const username = get(currentAccount, 'name');
+
+  const json = JSON.stringify({
+    sender: get(data, 'from'),
+    receiver: get(data, 'destination'),
+    amount: get(data, 'amount'),
+    memo: get(data, 'memo'),
+  });
+
+  if (currentAccount.local.authType === AUTH_TYPE.STEEM_CONNECT) {
+    // return sctTransferPoint(username, json);
+  }
+
+  if (key) {
+    const privateKey = PrivateKey.fromString(key);
+
+    const op = {
+      id: 'esteem_point_transfer',
+      json,
+      required_auths: [username],
+      required_posting_auths: [],
+    };
+
+    return client.broadcast.json(op, privateKey);
+  }
+
+  return Promise.reject(new Error('Something went wrong!'));
+};
+
 const getAnyPrivateKey = (local, pin) => {
   const { postingKey, activeKey } = local;
 
   if (postingKey) {
     return decryptKey(local.postingKey, pin);
   }
+
+  if (activeKey) {
+    return decryptKey(local.activeKey, pin);
+  }
+
+  return false;
+};
+
+const getActiveKey = (local, pin) => {
+  const { activeKey } = local;
 
   if (activeKey) {
     return decryptKey(local.activeKey, pin);

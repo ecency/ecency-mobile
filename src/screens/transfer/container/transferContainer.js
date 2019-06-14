@@ -10,6 +10,7 @@ import {
   transferToSavings,
   transferToVesting,
   getAccount,
+  transferPoint,
 } from '../../../providers/steem/dsteem';
 import { toastNotification } from '../../../redux/actions/uiAction';
 
@@ -106,7 +107,7 @@ class TransferContainer extends Component {
         data.requestId = new Date().getTime() >>> 0;
         break;
       case 'points':
-        alert('sss');
+        func = transferPoint;
         break;
 
       default:

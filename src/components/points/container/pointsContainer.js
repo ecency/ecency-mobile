@@ -69,7 +69,7 @@ class PointsContainer extends Component {
         navigateTo: ROUTES.SCREENS.TRANSFER,
         navigateParams: {
           transferType: 'points',
-          fundType: 'ESTM',
+          fundType: 'POINT',
           balance: Math.round(get(userPoints, 'points') * 1000) / 1000,
         },
       }),
