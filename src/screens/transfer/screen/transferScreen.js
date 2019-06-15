@@ -148,7 +148,7 @@ class TransferView extends Component {
       const json = JSON.stringify({
         sender: accounts[0].username,
         receiver: destination,
-        amount,
+        amount: `${Number(amount).toFixed(3)} ${fundType}`,
         memo,
       });
       path = `sign/custom-json?required_auths=%5B%22${
@@ -159,9 +159,9 @@ class TransferView extends Component {
     } else {
       path = `sign/transfer?from=${
         accounts[0].username
-      }&to=${destination}&amount=${encodeURIComponent(`${amount} STEEM`)}&memo=${encodeURIComponent(
-        memo,
-      )}`;
+      }&to=${destination}&amount=${encodeURIComponent(
+        `${amount} ${fundType}`,
+      )}&memo=${encodeURIComponent(memo)}`;
     }
 
     return (
