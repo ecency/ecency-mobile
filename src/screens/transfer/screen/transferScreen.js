@@ -142,12 +142,27 @@ class TransferView extends Component {
       isTransfering,
       from,
     } = this.state;
+    let path;
 
-    const path = `sign/transfer?from=${
-      accounts[0].username
-    }&to=${destination}&amount=${encodeURIComponent(`${amount} STEEM`)}&memo=${encodeURIComponent(
-      memo,
-    )}`;
+    if (transferType === 'points') {
+      const json = JSON.stringify({
+        sender: accounts[0].username,
+        receiver: destination,
+        amount: `${Number(amount).toFixed(3)} ${fundType}`,
+        memo,
+      });
+      path = `sign/custom-json?required_auths=%5B%22${
+        accounts[0].username
+      }%22%5D&required_posting_auths=%5B%5D&id=esteem_point_transfer&json=${encodeURIComponent(
+        json,
+      )}`;
+    } else {
+      path = `sign/transfer?from=${
+        accounts[0].username
+      }&to=${destination}&amount=${encodeURIComponent(
+        `${amount} ${fundType}`,
+      )}&memo=${encodeURIComponent(memo)}`;
+    }
 
     return (
       <Fragment>

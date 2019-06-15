@@ -275,10 +275,10 @@
     "memo_desc": "Este memo é público",
     "to_placeholder": "Utilizador",
     "memo_placeholder": "Insira aqui as suas notas",
-    "transferToken": "Transferir",
-    "transferToSaving": "Transferir para Poupanças",
+    "transfer_token": "Transferir",
+    "transfer_to_saving": "Transferir para Poupanças",
     "powerUp": "Carregar Poder",
-    "withdrawToSaving": "Levantar para Guradar",
+    "withdraw_to_saving": "Levantar para Guradar",
     "steemconnect_title": "Transferência por Steemconnect",
     "next": "SEGUINTE"
   }

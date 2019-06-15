@@ -9,6 +9,29 @@ export default EStyleSheet.create({
     alignSelf: 'center',
     fontWeight: 'bold',
   },
+  pointsWrapper: {
+    flexDirection: 'row',
+    justifyContent: 'center',
+    alignSelf: 'center',
+    flex: 1,
+  },
+  dropdownWrapper: {
+    flex: 1,
+  },
+  dropdownRowText: {
+    fontSize: 14,
+    color: '$primaryDarkGray',
+  },
+  dropdownStyle: {
+    minWidth: '$deviceWidth * 0.7',
+  },
+  dropdownButtonStyle: {
+    justifyContent: 'center',
+    alignSelf: 'center',
+    position: 'absolute',
+    right: -40,
+    top: 20,
+  },
   subText: {
     color: '$darkIconColor',
     fontSize: 8,

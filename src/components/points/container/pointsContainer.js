@@ -1,9 +1,11 @@
 import React, { Component } from 'react';
 import { Alert } from 'react-native';
 import { connect } from 'react-redux';
+import get from 'lodash/get';
 
 // Services and Actions
 import { getUser, getUserPoints, claim } from '../../../providers/esteem/ePoint';
+import { openPinCodeModal } from '../../../redux/actions/applicationActions';
 
 // Constant
 import POINTS from '../../../constants/options/points';
@@ -58,12 +60,28 @@ class PointsContainer extends Component {
 
   // Component Functions
 
+  _handleOnPressTransfer = () => {
+    const { dispatch } = this.props;
+    const { userPoints } = this.state;
+
+    dispatch(
+      openPinCodeModal({
+        navigateTo: ROUTES.SCREENS.TRANSFER,
+        navigateParams: {
+          transferType: 'points',
+          fundType: 'POINT',
+          balance: Math.round(get(userPoints, 'points') * 1000) / 1000,
+        },
+      }),
+    );
+  };
+
   _groomUserActivities = userActivities =>
     userActivities.map(item => ({
       ...item,
-      icon: POINTS[item.type].icon,
-      iconType: POINTS[item.type].iconType,
-      textKey: POINTS[item.type].textKey,
+      icon: get(POINTS[get(item, 'type')], 'icon'),
+      iconType: get(POINTS[get(item, 'type')], 'iconType'),
+      textKey: get(POINTS[get(item, 'type')], 'textKey'),
     }));
 
   _fetchuserPointActivities = async username => {
@@ -137,6 +155,7 @@ class PointsContainer extends Component {
         refreshing={refreshing}
         userActivities={userActivities}
         userPoints={userPoints}
+        handleOnPressTransfer={this._handleOnPressTransfer}
       />
     );
   }

@@ -275,10 +275,10 @@
     "memo_desc": "Ce mémo est public",
     "to_placeholder": "Nom d'utilisateur",
     "memo_placeholder": "Entrez vos notes ici",
-    "transferToken": "Transfer",
-    "transferToSaving": "Transfer To Saving",
+    "transfer_token": "Transfer",
+    "transfer_to_saving": "Transfer To Saving",
     "powerUp": "Power Up",
-    "withdrawToSaving": "Withdraw To Saving",
+    "withdraw_to_saving": "Withdraw To Saving",
     "steemconnect_title": "Transfert Steemconnect",
     "next": "NEXT"
   }

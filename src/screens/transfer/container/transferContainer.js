@@ -10,6 +10,7 @@ import {
   transferToSavings,
   transferToVesting,
   getAccount,
+  transferPoint,
 } from '../../../providers/steem/dsteem';
 import { toastNotification } from '../../../redux/actions/uiAction';
 
@@ -55,6 +56,9 @@ class TransferContainer extends Component {
         case 'SBD':
           balance = account[0].sbd_balance.replace(fundType, '');
           break;
+        case 'POINT':
+          balance = navigation.getParam('balance', '');
+          break;
         default:
           break;
       }
@@ -89,18 +93,21 @@ class TransferContainer extends Component {
     data.amount = `${data.amount} ${fundType}`;
 
     switch (transferType) {
-      case 'transferToken':
+      case 'transfer_token':
         func = transferToken;
         break;
-      case 'transferToSaving':
+      case 'transfer_to_saving':
         func = transferToSavings;
         break;
       case 'powerUp':
         func = transferToVesting;
         break;
-      case 'withdrawToSaving':
+      case 'withdraw_to_saving':
         func = transferFromSavings;
         data.requestId = new Date().getTime() >>> 0;
+        break;
+      case 'points':
+        func = transferPoint;
         break;
 
       default:
