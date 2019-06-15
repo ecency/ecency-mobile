@@ -31,8 +31,8 @@ class WalletDetailsView extends PureComponent {
   render() {
     const { walletData, intl, navigate, isShowDropdowns } = this.props;
 
-    const steemDropdown = ['transferToken', 'transferToSaving', 'powerUp'];
-    const sbdDropdown = ['transferToken', 'transferToSaving'];
+    const steemDropdown = ['transfer_token', 'transfer_to_saving', 'powerUp'];
+    const sbdDropdown = ['transfer_token', 'transfer_to_saving'];
 
     return (
       <View style={styles.container}>

@@ -275,10 +275,10 @@
     "memo_desc": "Memo ini bersifat publik",
     "to_placeholder": "Nama Pengguna",
     "memo_placeholder": "Masukan catatan anda disini",
-    "transferToken": "Transfer",
-    "transferToSaving": "Transfer untuk menyimpan",
+    "transfer_token": "Transfer",
+    "transfer_to_saving": "Transfer untuk menyimpan",
     "powerUp": "Power Up",
-    "withdrawToSaving": "Tarik untuk menyimpan",
+    "withdraw_to_saving": "Tarik untuk menyimpan",
     "steemconnect_title": "Steemconnect Transfer",
     "next": "LANJUT"
   }

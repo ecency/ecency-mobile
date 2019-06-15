@@ -275,10 +275,10 @@
     "memo_desc": "هذه المذكرة عامة",
     "to_placeholder": "إسم المستخدم",
     "memo_placeholder": "أدخل ملاحظاتك هنا",
-    "transferToken": "تحويل",
-    "transferToSaving": "النقل إلى المدخرات",
+    "transfer_token": "تحويل",
+    "transfer_to_saving": "النقل إلى المدخرات",
     "powerUp": "رفع الطاقة",
-    "withdrawToSaving": "سحب إلى الادخار",
+    "withdraw_to_saving": "سحب إلى الادخار",
     "steemconnect_title": "نقل Steemconnect",
     "next": "التالي"
   }
