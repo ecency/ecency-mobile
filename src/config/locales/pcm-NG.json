@@ -275,10 +275,10 @@
     "memo_desc": "Na everybody go see this memo",
     "to_placeholder": "Guy-name",
     "memo_placeholder": "Write your note for here",
-    "transferToken": "Transfer",
-    "transferToSaving": "Transfer go Savings",
+    "transfer_token": "Transfer",
+    "transfer_to_saving": "Transfer go Savings",
     "powerUp": "Power Up",
-    "withdrawToSaving": "Withdraw go savings",
+    "withdraw_to_saving": "Withdraw go savings",
     "steemconnect_title": "Transfer with steemconnect",
     "next": "NEXT"
   }

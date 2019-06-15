@@ -1,4 +1,28 @@
 export default {
+  999: {
+    icon: 'compare-arrows',
+    textKey: 'points.incoming_transfer_title',
+    nameKey: 'points.incoming_transfer',
+    descriptionKey: 'points.incoming_transfer_description',
+    iconType: 'MaterialIcons',
+    point: 0.1,
+  },
+  998: {
+    icon: 'compare-arrows',
+    textKey: 'points.outgoing_transfer_title',
+    nameKey: 'points.outgoing_transfer',
+    descriptionKey: 'points.outgoing_transfer_description',
+    iconType: 'MaterialIcons',
+    point: 0.1,
+  },
+  150: {
+    icon: 'local-activity',
+    textKey: 'points.delegation_title',
+    nameKey: 'points.delegation',
+    descriptionKey: 'points.delegation_desc',
+    iconType: 'MaterialIcons',
+    point: 1,
+  },
   100: {
     icon: 'pencil',
     textKey: 'points.post_title',
@@ -58,6 +82,9 @@ export default {
 };
 
 export const POINTS_KEYS = [
+  {
+    type: 150,
+  },
   {
     type: 100,
   },

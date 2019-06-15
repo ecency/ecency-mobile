@@ -275,10 +275,10 @@
     "memo_desc": "Эта заметка публична",
     "to_placeholder": "Пользователь",
     "memo_placeholder": "Введите свою заметку",
-    "transferToken": "Перевод",
-    "transferToSaving": "Отправить в сейф",
+    "transfer_token": "Перевод",
+    "transfer_to_saving": "Отправить в сейф",
     "powerUp": "Увеличение силы",
-    "withdrawToSaving": "Вывести в сейф",
+    "withdraw_to_saving": "Вывести в сейф",
     "steemconnect_title": "Перевод Steemconnect",
     "next": "ДАЛЕЕ"
   }
