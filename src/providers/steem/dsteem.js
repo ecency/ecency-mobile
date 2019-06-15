@@ -1026,10 +1026,6 @@ export const transferPoint = (currentAccount, pinCode, data) => {
     memo: get(data, 'memo'),
   });
 
-  if (currentAccount.local.authType === AUTH_TYPE.STEEM_CONNECT) {
-    // return sctTransferPoint(username, json);
-  }
-
   if (key) {
     const privateKey = PrivateKey.fromString(key);
 
