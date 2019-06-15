@@ -275,10 +275,10 @@
     "memo_desc": "Bu not herkese açık",
     "to_placeholder": "Kullanıcı Adı",
     "memo_placeholder": "Notlarınızı buraya girin",
-    "transferToken": "Havale",
-    "transferToSaving": "Tasarrufa Aktar",
+    "transfer_token": "Havale",
+    "transfer_to_saving": "Tasarrufa Aktar",
     "powerUp": "Güç yükselt",
-    "withdrawToSaving": "Withdraw To Saving",
+    "withdraw_to_saving": "Withdraw To Saving",
     "steemconnect_title": "Steemconnect Aktarımı",
     "next": "NEXT"
   }

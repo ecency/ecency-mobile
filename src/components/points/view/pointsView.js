@@ -1,15 +1,15 @@
-/* eslint-disable no-nested-ternary */
 import React, { Component, Fragment } from 'react';
 import { Text, View, FlatList, ScrollView, RefreshControl, TouchableOpacity } from 'react-native';
 import { injectIntl } from 'react-intl';
 import { Popover, PopoverController } from 'react-native-modal-popover';
-import { get, size } from 'lodash';
+import { get } from 'lodash';
 
 // Components
 import { LineBreak, WalletLineItem, ListPlaceHolder } from '../../basicUIElements';
 import { IconButton } from '../../iconButton';
 import { Icon } from '../../icon';
 import { MainButton } from '../../mainButton';
+import { DropdownButton } from '../../dropdownButton';
 
 // Utils
 import { getTimeFromNow } from '../../../utils/time';
@@ -48,6 +48,19 @@ class PointsView extends Component {
     );
   };
 
+  _getTranslation = id => {
+    const { intl } = this.props;
+    let translation;
+
+    try {
+      translation = intl.formatMessage({ id });
+    } catch (error) {
+      translation = '';
+    }
+
+    return translation;
+  };
+
   _renderLoading = () => {
     const { isLoading, intl } = this.props;
 
@@ -58,15 +71,33 @@ class PointsView extends Component {
   };
 
   render() {
-    const { claimPoints, intl, isClaiming, userActivities, userPoints } = this.props;
+    const {
+      claimPoints,
+      isClaiming,
+      userActivities,
+      userPoints,
+      handleOnPressTransfer,
+    } = this.props;
 
     return (
       <Fragment>
         <LineBreak height={12} />
         <ScrollView style={styles.scrollContainer} refreshControl={this.refreshControl()}>
-          <Text style={styles.pointText}>{userPoints.points}</Text>
+          <View style={styles.pointsWrapper}>
+            <Text style={styles.pointText}>{get(userPoints, 'points')}</Text>
+            <DropdownButton
+              isHasChildIcon
+              iconName="arrow-drop-down"
+              options={['Transfer']}
+              noHighlight
+              dropdownButtonStyle={styles.dropdownButtonStyle}
+              onSelect={handleOnPressTransfer}
+              rowTextStyle={styles.dropdownRowText}
+              dropdownStyle={styles.dropdownStyle}
+            />
+          </View>
           <Text style={styles.subText}>eSteem Points</Text>
-          {userPoints.unclaimed_points > 0 && (
+          {get(userPoints, 'unclaimed_points') > 0 && (
             <MainButton
               isLoading={isClaiming}
               isDisable={isClaiming}
@@ -75,7 +106,7 @@ class PointsView extends Component {
               onPress={() => claimPoints()}
             >
               <View style={styles.mainButtonWrapper}>
-                <Text style={styles.unclaimedText}>{userPoints.unclaimed_points}</Text>
+                <Text style={styles.unclaimedText}>{get(userPoints, 'unclaimed_points')}</Text>
                 <View style={styles.mainIconWrapper}>
                   <Icon name="add" iconType="MaterialIcons" color="#357ce6" size={23} />
                 </View>
@@ -89,7 +120,7 @@ class PointsView extends Component {
               data={POINTS_KEYS}
               horizontal
               renderItem={({ item }) => (
-                <PopoverController key={item.type}>
+                <PopoverController key={get(item, 'type')}>
                   {({
                     openPopover,
                     closePopover,
@@ -97,15 +128,15 @@ class PointsView extends Component {
                     setPopoverAnchor,
                     popoverAnchorRect,
                   }) => (
-                    <View styles={styles.iconWrapper} key={item.type}>
+                    <View styles={styles.iconWrapper} key={get(item, 'type')}>
                       <View style={styles.iconWrapper}>
                         <TouchableOpacity ref={setPopoverAnchor} onPress={openPopover}>
                           <IconButton
                             iconStyle={styles.icon}
                             style={styles.iconButton}
-                            iconType={POINTS[item.type].iconType}
-                            name={POINTS[item.type].icon}
-                            badgeCount={POINTS[item.type].point}
+                            iconType={get(POINTS[get(item, 'type')], 'iconType')}
+                            name={get(POINTS[get(item, 'type')], 'icon')}
+                            badgeCount={get(POINTS[get(item, 'type')], 'point')}
                             badgeStyle={styles.badge}
                             badgeTextStyle={styles.badgeText}
                             disabled
@@ -113,7 +144,7 @@ class PointsView extends Component {
                         </TouchableOpacity>
                       </View>
                       <Text style={styles.subText}>
-                        {intl.formatMessage({ id: POINTS[item.type].nameKey })}
+                        {this._getTranslation(get(POINTS[get(item, 'type')], 'nameKey'))}
                       </Text>
                       <Popover
                         backgroundStyle={styles.overlay}
@@ -129,7 +160,7 @@ class PointsView extends Component {
                       >
                         <View style={styles.popoverWrapper}>
                           <Text style={styles.popoverText}>
-                            {intl.formatMessage({ id: POINTS[item.type].descriptionKey })}
+                            {this._getTranslation(get(POINTS[get(item, 'type')], 'descriptionKey'))}
                           </Text>
                         </View>
                       </Popover>
@@ -150,7 +181,7 @@ class PointsView extends Component {
                 renderItem={({ item, index }) => (
                   <WalletLineItem
                     index={index + 1}
-                    text={intl.formatMessage({ id: item.textKey })}
+                    text={this._getTranslation(get(item, 'textKey'))}
                     description={getTimeFromNow(get(item, 'created'))}
                     isCircleIcon
                     isThin

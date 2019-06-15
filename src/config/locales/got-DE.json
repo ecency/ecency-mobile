@@ -275,10 +275,10 @@
     "memo_desc": "This memo is public",
     "to_placeholder": "Atgagganamo",
     "memo_placeholder": "Enter your notes here",
-    "transferToken": "Transfer",
-    "transferToSaving": "Transfer To Saving",
+    "transfer_token": "Transfer",
+    "transfer_to_saving": "Transfer To Saving",
     "powerUp": "Power Up",
-    "withdrawToSaving": "Withdraw To Saving",
+    "withdraw_to_saving": "Withdraw To Saving",
     "steemconnect_title": "Steemconnect Transfer",
     "next": "NEXT"
   }

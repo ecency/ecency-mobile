@@ -275,10 +275,10 @@
     "memo_desc": "این یادداشت عمومی است",
     "to_placeholder": "نام کاربری",
     "memo_placeholder": "یادداشت های خود را در اینجا وارد کنید",
-    "transferToken": "انتقال",
-    "transferToSaving": "انتقال به پس انداز",
+    "transfer_token": "انتقال",
+    "transfer_to_saving": "انتقال به پس انداز",
     "powerUp": "بالا بردن قدرت",
-    "withdrawToSaving": "Withdraw To Saving",
+    "withdraw_to_saving": "Withdraw To Saving",
     "steemconnect_title": "انتقال Steemconnect",
     "next": "NEXT"
   }

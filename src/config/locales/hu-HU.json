@@ -275,10 +275,10 @@
     "memo_desc": "Ez az üzenet nyilvános",
     "to_placeholder": "Felhasználónév",
     "memo_placeholder": "Megjegyzés ide",
-    "transferToken": "Átutalás",
-    "transferToSaving": "Átutalás a megtakarításokhoz",
+    "transfer_token": "Átutalás",
+    "transfer_to_saving": "Átutalás a megtakarításokhoz",
     "powerUp": "Power Up",
-    "withdrawToSaving": "Átutalás A Megtakarításokhoz",
+    "withdraw_to_saving": "Átutalás A Megtakarításokhoz",
     "steemconnect_title": "Steemconnect átutalás",
     "next": "KÖVETKEZŐ"
   }

@@ -275,10 +275,10 @@
     "memo_desc": "Această notă este publică",
     "to_placeholder": "Nume de utilizator",
     "memo_placeholder": "Introdu comentariul tău aici",
-    "transferToken": "Transferă",
-    "transferToSaving": "Tranferă la economii",
+    "transfer_token": "Transferă",
+    "transfer_to_saving": "Tranferă la economii",
     "powerUp": "Power Up",
-    "withdrawToSaving": "Retrage la economii",
+    "withdraw_to_saving": "Retrage la economii",
     "steemconnect_title": "Transfer Steemconnect",
     "next": "URMĂTORUL"
   }
