@@ -127,6 +127,7 @@ export default class TagAreaView extends Component {
                   }
                   autoCapitalize="none"
                   onFocus={() => this.setState({ activeChip: i })}
+                  autoCorrect={false}
                 />
               ),
           )}
