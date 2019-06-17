@@ -20,6 +20,7 @@ class NotificationContainer extends Component {
       lastNotificationId: null,
       isNotificationRefreshing: false,
       selectedFilter: 'activities',
+      endOfNotification: false,
     };
   }
 
@@ -39,28 +40,37 @@ class NotificationContainer extends Component {
       (nextProps.activeBottomTab === ROUTES.TABBAR.NOTIFICATION && nextProps.username) ||
       (nextProps.username !== username && nextProps.username)
     ) {
-      this._getAvtivities(nextProps.username, selectedFilter);
+      this.setState({ endOfNotification: false }, () =>
+        this._getAvtivities(nextProps.username, selectedFilter),
+      );
     }
   }
 
   _getAvtivities = (user, type = null, loadMore = false) => {
-    const { lastNotificationId, notifications } = this.state;
+    const { lastNotificationId, notifications, endOfNotification } = this.state;
     const since = loadMore ? lastNotificationId : null;
     const { username } = this.props;
 
-    this.setState({ isNotificationRefreshing: true });
-
-    getActivities({ user: user || username, type, since })
-      .then(res => {
-        const lastId = [...res].pop().id;
-
-        this.setState({
-          notifications: loadMore ? [...notifications, ...res] : res,
-          lastNotificationId: lastId,
-          isNotificationRefreshing: false,
-        });
-      })
-      .catch(() => this.setState({ isNotificationRefreshing: false }));
+    if (!endOfNotification) {
+      this.setState({ isNotificationRefreshing: true });
+      getActivities({ user: user || username, type, since })
+        .then(res => {
+          const lastId = res.length > 0 ? [...res].pop().id : null;
+          if (lastId === lastNotificationId || res.length === 0) {
+            this.setState({
+              endOfNotification: true,
+              isNotificationRefreshing: false,
+            });
+          } else {
+            this.setState({
+              notifications: loadMore ? [...notifications, ...res] : res,
+              lastNotificationId: lastId,
+              isNotificationRefreshing: false,
+            });
+          }
+        })
+        .catch(() => this.setState({ isNotificationRefreshing: false }));
+    }
   };
 
   _navigateToNotificationRoute = data => {
@@ -122,8 +132,8 @@ class NotificationContainer extends Component {
     navigation.navigate(ROUTES.SCREENS.LOGIN);
   };
 
-  _changeSelectedFilter = value => {
-    this.setState({ selectedFilter: value });
+  _changeSelectedFilter = async value => {
+    await this.setState({ selectedFilter: value, endOfNotification: false });
   };
 
   render() {
