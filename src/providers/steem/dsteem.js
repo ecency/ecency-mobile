@@ -65,13 +65,13 @@ export const fetchGlobalProps = async () => {
   }
 
   const steemPerMVests =
-    (parseToken(globalDynamic.total_vesting_fund_steem) /
-      parseToken(globalDynamic.total_vesting_shares)) *
+    (parseToken(get(globalDynamic, 'total_vesting_fund_steem')) /
+      parseToken(get(globalDynamic, 'total_vesting_shares'))) *
     1e6;
-  const base = parseToken(feedHistory.current_median_history.base);
-  const quote = parseToken(feedHistory.current_median_history.quote);
-  const fundRecentClaims = rewardFund.recent_claims;
-  const fundRewardBalance = parseToken(rewardFund.reward_balance);
+  const base = parseToken(get(feedHistory, 'current_median_history.base'));
+  const quote = parseToken(get(feedHistory, 'current_median_history.quote'));
+  const fundRecentClaims = get(rewardFund, 'recent_claims');
+  const fundRewardBalance = parseToken(get(rewardFund, 'reward_balance'));
   const globalProps = {
     steemPerMVests,
     base,
@@ -288,8 +288,15 @@ export const getPosts = async (by, query, user) => {
   }
 };
 
-export const getActiveVotes = (author, permlink) =>
-  client.database.call('get_active_votes', [author, permlink]);
+export const getActiveVotes = async (author, permlink) => {
+  if (!author || !permlink) return null;
+
+  try {
+    return await client.database.call('get_active_votes', [author, permlink]);
+  } catch (error) {
+    return error;
+  }
+};
 
 export const getPostsSummary = async (by, query, currentUserName, filterNsfw) => {
   try {
@@ -312,7 +319,7 @@ export const getPostsSummary = async (by, query, currentUserName, filterNsfw) =>
 export const getUserComments = async query => {
   try {
     let comments = await client.database.getDiscussions('comments', query);
-    comments = parseComments(comments);
+    comments = await parseComments(comments);
     return comments;
   } catch (error) {
     return error;
@@ -326,7 +333,7 @@ export const getRepliesByLastUpdate = async query => {
       query.start_permlink,
       query.limit,
     ]);
-    replies = parseComments(replies);
+    replies = await parseComments(replies);
     return replies;
   } catch (error) {
     return error;
@@ -343,6 +350,8 @@ export const getPost = async (author, permlink, currentUserName = null) => {
   try {
     const post = await client.database.call('get_content', [author, permlink]);
 
+    const ugur = await getState(`/${post.category}/@${post.author}/${post.permlink}`);
+    console.log(ugur);
     return post ? await parsePost(post, currentUserName) : null;
   } catch (error) {
     return error;
@@ -400,21 +409,43 @@ export const deleteComment = (currentAccount, pin, permlink) => {
  * @param user post author
  * @param permlink post permlink
  */
-export const getComments = (user, permlink, currentUserName) => {
-  let comments;
-  return new Promise((resolve, reject) => {
-    client.database
-      .call('get_content_replies', [user, permlink])
-      .then(result => {
-        comments = parseComments(result, currentUserName);
-      })
-      .then(() => {
-        resolve(parseComments(comments, currentUserName));
-      })
-      .catch(error => {
-        reject(error);
-      });
-  });
+// export const getComments = async (user, permlink, currentUserName) => {
+//   return new Promise((resolve, reject) => {
+//     client.database
+//       .call('get_content_replies', [user, permlink])
+//       .then(async result => {
+//         const comments = await parseComments(result, currentUserName);
+//         resolve(comments);
+//       })
+//       .catch(error => {
+//         reject(error);
+//       });
+//   });
+// };
+
+// export const getComments = async (user, permlink, currentUserName) => {
+//   try {
+//     const comments = client.database.call('get_content_replies', [user, permlink]);
+//     const groomedComments = await parseComments(comments, currentUserName);
+
+//     return groomedComments;
+//   } catch (error) {
+//     return error;
+//   }
+// };
+
+export const getComments = async (author, permlink, currentUserName = null) => {
+  try {
+    const post = await client.database.call('get_content_replies', [author, permlink]);
+
+    // const ugur = await getState(`/esteem/@${author}/${permlink}`);
+    // console.log(post);
+    // console.log(ugur);
+    // return post ? await parseComments(post, currentUserName) : null;
+    return post;
+  } catch (error) {
+    return error;
+  }
 };
 
 /**
