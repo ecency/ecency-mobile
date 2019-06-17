@@ -5,7 +5,7 @@ import { injectIntl } from 'react-intl';
 import get from 'lodash/get';
 
 import { getComments, deleteComment } from '../../../providers/steem/dsteem';
-
+import { parseComments } from '../../../utils/postParser';
 // Services and Actions
 import { writeToClipboard } from '../../../utils/clipboard';
 import { toastNotification } from '../../../redux/actions/uiAction';
@@ -56,9 +56,9 @@ class CommentsContainer extends Component {
     const { comments: parent } = this.state;
 
     const allPayout = c =>
-      parseFloat(c.pending_payout_value.split(' ')[0]) +
-      parseFloat(c.total_payout_value.split(' ')[0]) +
-      parseFloat(c.curator_payout_value.split(' ')[0]);
+      parseFloat(get(c, 'pending_payout_value').split(' ')[0]) +
+      parseFloat(get(c, 'total_payout_value').split(' ')[0]) +
+      parseFloat(get(c, 'curator_payout_value').split(' ')[0]);
 
     const absNegative = a => a.net_rshares < 0;
 
@@ -122,17 +122,22 @@ class CommentsContainer extends Component {
     return parent;
   };
 
-  _getComments = () => {
+  _getComments = async () => {
     const {
       author,
       permlink,
       currentAccount: { name },
     } = this.props;
+    let com;
 
-    getComments(author, permlink, name).then(comments => {
-      this.setState({
-        comments,
-      });
+    await getComments(author, permlink, name)
+      .then(async comments => {
+        com = comments;
+      })
+      .catch(() => {});
+
+    await this.setState({
+      comments: await parseComments(com, name),
     });
   };
 
@@ -218,7 +223,7 @@ class CommentsContainer extends Component {
         isShowMoreButton={isShowMoreButton}
         commentNumber={commentNumber || 1}
         commentCount={commentCount}
-        comments={_comments || comments}
+        comments={parseComments(_comments || comments, currentAccount.name)}
         currentAccountUsername={currentAccount.name}
         handleOnEditPress={this._handleOnEditPress}
         handleOnReplyPress={this._handleOnReplyPress}
