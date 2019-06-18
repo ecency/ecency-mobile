@@ -1,6 +1,8 @@
 import React, { Component } from 'react';
 import { connect } from 'react-redux';
 import { withNavigation } from 'react-navigation';
+import get from 'lodash/get';
+
 // Services and Actions
 import { getPost } from '../../../providers/steem/dsteem';
 
@@ -29,8 +31,10 @@ class PostContainer extends Component {
   // Component Life Cycle Functions
   componentDidMount() {
     const { navigation } = this.props;
-    const { content, permlink, author, isNewPost, isHasParentPost } =
-      navigation.state && navigation.state.params;
+    const { content, permlink, author, isNewPost, isHasParentPost } = get(
+      navigation,
+      'state.params',
+    );
 
     if (isNewPost) this.setState({ isNewPost });
 
@@ -45,11 +49,10 @@ class PostContainer extends Component {
 
   componentWillReceiveProps(nextProps) {
     const { navigation } = this.props;
-    const { isFetch: nextIsFetch } =
-      nextProps.navigation.state && nextProps.navigation.state.params;
+    const { isFetch: nextIsFetch } = get(nextProps, 'navigation.state.params');
 
     if (nextIsFetch) {
-      const { author, permlink } = navigation.state && navigation.state.params;
+      const { author, permlink } = get(navigation, 'state.params');
 
       this._loadPost(author, permlink);
     }
@@ -61,12 +64,12 @@ class PostContainer extends Component {
     const { currentAccount, isLoggedIn } = this.props;
     const { post } = this.state;
 
-    const _author = author || post.author;
-    const _permlink = permlink || post.permlink;
+    const _author = author || get(post, 'author');
+    const _permlink = permlink || get(post, 'permlink');
 
-    await getPost(_author, _permlink, isLoggedIn && currentAccount.username)
+    await getPost(_author, _permlink, isLoggedIn && get(currentAccount, 'username'))
       .then(result => {
-        if (result && result.id > 0) {
+        if (get(result, 'id', 0) > 0) {
           if (isParentPost) {
             this.setState({ parentPost: result });
           } else {
@@ -93,7 +96,8 @@ class PostContainer extends Component {
       author,
     } = this.state;
 
-    if (isHasParentPost && post) this._loadPost(post.parent_author, post.parent_permlink, true);
+    if (isHasParentPost && post)
+      this._loadPost(get(post, 'parent_author'), get(post, 'parent_permlink'), true);
 
     return (
       <PostScreen

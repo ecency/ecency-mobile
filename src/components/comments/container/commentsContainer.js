@@ -5,7 +5,6 @@ import { injectIntl } from 'react-intl';
 import get from 'lodash/get';
 
 import { getComments, deleteComment } from '../../../providers/steem/dsteem';
-import { parseComments } from '../../../utils/postParser';
 // Services and Actions
 import { writeToClipboard } from '../../../utils/clipboard';
 import { toastNotification } from '../../../redux/actions/uiAction';
@@ -44,8 +43,8 @@ class CommentsContainer extends Component {
       this._getComments();
     }
 
-    if (selectedFilter !== nextProps.selectedFilter && nextProps.selectedFilter) {
-      const shortedComments = this._shortComments(nextProps.selectedFilter);
+    if (selectedFilter !== get(nextProps, 'selectedFilter') && get(nextProps, 'selectedFilter')) {
+      const shortedComments = this._shortComments(get(nextProps, 'selectedFilter'));
       this.setState({ comments: shortedComments });
     }
   }
@@ -81,8 +80,8 @@ class CommentsContainer extends Component {
         return 0;
       },
       REPUTATION: (a, b) => {
-        const keyA = a.author_reputation;
-        const keyB = b.author_reputation;
+        const keyA = get(a, 'author_reputation');
+        const keyB = get(b, 'author_reputation');
 
         if (keyA > keyB) return -1;
         if (keyA < keyB) return 1;
@@ -107,8 +106,8 @@ class CommentsContainer extends Component {
           return -1;
         }
 
-        const keyA = Date.parse(a.created);
-        const keyB = Date.parse(b.created);
+        const keyA = Date.parse(get(a, 'created'));
+        const keyB = Date.parse(get(b, 'created'));
 
         if (keyA > keyB) return -1;
         if (keyA < keyB) return 1;
@@ -128,17 +127,14 @@ class CommentsContainer extends Component {
       permlink,
       currentAccount: { name },
     } = this.props;
-    let com;
 
     await getComments(author, permlink, name)
       .then(async comments => {
-        com = comments;
+        this.setState({
+          comments,
+        });
       })
       .catch(() => {});
-
-    await this.setState({
-      comments: await parseComments(com, name),
-    });
   };
 
   _handleOnReplyPress = item => {
@@ -223,7 +219,7 @@ class CommentsContainer extends Component {
         isShowMoreButton={isShowMoreButton}
         commentNumber={commentNumber || 1}
         commentCount={commentCount}
-        comments={parseComments(_comments || comments, currentAccount.name)}
+        comments={_comments || comments}
         currentAccountUsername={currentAccount.name}
         handleOnEditPress={this._handleOnEditPress}
         handleOnReplyPress={this._handleOnReplyPress}
