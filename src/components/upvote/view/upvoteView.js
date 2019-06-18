@@ -3,6 +3,7 @@ import { View, TouchableOpacity, Text, Alert } from 'react-native';
 import { injectIntl } from 'react-intl';
 import { Popover, PopoverController } from 'react-native-modal-popover';
 import Slider from 'react-native-slider';
+import get from 'lodash/get';
 
 // Utils
 import parseToken from '../../../utils/parseToken';
@@ -29,9 +30,9 @@ class UpvoteView extends Component {
   constructor(props) {
     super(props);
     this.state = {
-      sliderValue: props.upvotePercent || 1,
+      sliderValue: get(props, 'upvotePercent', 1),
       isVoting: false,
-      isVoted: props.isVoted,
+      isVoted: get(props, 'isVoted', false),
       amount: '0.00000',
       isShowDetails: false,
     };
@@ -46,12 +47,12 @@ class UpvoteView extends Component {
     const { isVoted, upvotePercent } = this.props;
     const { isVoted: localIsVoted } = this.state;
 
-    if (isVoted !== nextProps.isVoted && localIsVoted !== nextProps.isVoted) {
-      this.setState({ isVoted: nextProps.isVoted });
+    if (isVoted !== get(nextProps, 'isVoted') && localIsVoted !== get(nextProps, 'isVoted')) {
+      this.setState({ isVoted: get(nextProps, 'isVoted') });
     }
 
-    if (upvotePercent !== nextProps.upvotePercent) {
-      this.setState({ sliderValue: nextProps.upvotePercent });
+    if (upvotePercent !== get(nextProps, 'upvotePercent')) {
+      this.setState({ sliderValue: get(nextProps, 'upvotePercent') });
     }
   }
 
@@ -65,9 +66,9 @@ class UpvoteView extends Component {
 
       const votingPower = currentAccount.voting_power;
       const totalVests =
-        parseToken(currentAccount.vesting_shares) +
-        parseToken(currentAccount.received_vesting_shares) -
-        parseToken(currentAccount.delegated_vesting_shares);
+        parseToken(get(currentAccount, 'vesting_shares')) +
+        parseToken(get(currentAccount, 'received_vesting_shares')) -
+        parseToken(get(currentAccount, 'delegated_vesting_shares'));
       const votePct = sliderValue * 10000;
 
       const rShares = vestsToRshares(totalVests, votingPower, votePct);
