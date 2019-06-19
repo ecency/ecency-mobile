@@ -53,7 +53,7 @@ export default EStyleSheet.create({
     color: '$primaryBlack',
   },
   summary: {
-    fontSize: 13,
+    fontSize: 14,
     color: '$primaryDarkGray',
   },
   bodyFooter: {
