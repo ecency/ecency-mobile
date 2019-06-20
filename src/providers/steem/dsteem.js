@@ -353,8 +353,6 @@ export const getPost = async (author, permlink, currentUserName = null) => {
   try {
     const post = await client.database.call('get_content', [author, permlink]);
 
-    const ugur = await getState(`/${post.category}/@${post.author}/${post.permlink}`);
-    console.log(ugur);
     return post ? await parsePost(post, currentUserName) : null;
   } catch (error) {
     return error;
