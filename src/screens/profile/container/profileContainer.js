@@ -44,6 +44,7 @@ class ProfileContainer extends Component {
       isReverseHeader,
       user: null,
       selectedQuickProfile: null,
+      forceLoadPost: false,
     };
   }
 
@@ -75,7 +76,7 @@ class ProfileContainer extends Component {
   };
 
   componentWillReceiveProps(nextProps) {
-    const { navigation, currentAccount, activeBottomTab, isLoggedIn } = this.props;
+    const { activeBottomTab, currentAccount, isLoggedIn, navigation } = this.props;
     const currentUsername =
       currentAccount.name !== nextProps.currentAccount.name && nextProps.currentAccount.name;
 
@@ -84,15 +85,13 @@ class ProfileContainer extends Component {
       return;
     }
 
-    if (currentUsername) {
-      this._loadProfile(currentUsername);
-    }
-
     if (
-      activeBottomTab !== nextProps.activeBottomTab &&
-      nextProps.activeBottomTab === 'ProfileTabbar'
+      (activeBottomTab !== nextProps.activeBottomTab &&
+        nextProps.activeBottomTab === ROUTES.TABBAR.PROFILE) ||
+      currentUsername
     ) {
       this._loadProfile(currentAccount.name);
+      this.setState({ forceLoadPost: true });
     }
   }
 
@@ -334,6 +333,10 @@ class ProfileContainer extends Component {
     }
   };
 
+  _changeForceLoadPostState = value => {
+    this.setState({ forceLoadPost: value });
+  };
+
   render() {
     const {
       avatar,
@@ -349,6 +352,7 @@ class ProfileContainer extends Component {
       selectedQuickProfile,
       user,
       username,
+      forceLoadPost,
     } = this.state;
     const { isDarkTheme, isLoggedIn, currency, navigation } = this.props;
     const activePage = (navigation.state.params && navigation.state.params.activePage) || 0;
@@ -379,6 +383,8 @@ class ProfileContainer extends Component {
         selectedQuickProfile={selectedQuickProfile}
         selectedUser={user}
         username={username}
+        forceLoadPost={forceLoadPost}
+        changeForceLoadPostState={this._changeForceLoadPostState}
       />
     );
   }

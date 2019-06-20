@@ -47,11 +47,12 @@ class PostsView extends Component {
   }
 
   componentWillReceiveProps(nextProps) {
-    const { currentAccountUsername } = this.props;
+    const { currentAccountUsername, changeForceLoadPostState } = this.props;
 
     if (
-      currentAccountUsername !== nextProps.currentAccountUsername &&
-      nextProps.currentAccountUsername
+      (currentAccountUsername !== nextProps.currentAccountUsername &&
+        nextProps.currentAccountUsername) ||
+      nextProps.forceLoadPost
     ) {
       // Set all initial data (New user new rules)
       this.setState(
@@ -68,6 +69,9 @@ class PostsView extends Component {
         },
         () => {
           this._loadPosts();
+          if (changeForceLoadPostState) {
+            changeForceLoadPostState(false);
+          }
         },
       );
     }
@@ -275,13 +279,13 @@ class PostsView extends Component {
             onScrollBeginDrag={() => this._handleOnScrollStart()}
             refreshControl={
               <RefreshControl
-  refreshing={refreshing}
-  onRefresh={this._handleOnRefreshPosts}
-  progressBackgroundColor="#357CE6"
-  tintColor={!isDarkTheme ? '#357ce6' : '#96c0ff'}
-  titleColor="#fff"
-  colors={['#fff']}
-/>
+                refreshing={refreshing}
+                onRefresh={this._handleOnRefreshPosts}
+                progressBackgroundColor="#357CE6"
+                tintColor={!isDarkTheme ? '#357ce6' : '#96c0ff'}
+                titleColor="#fff"
+                colors={['#fff']}
+              />
             }
             ref={ref => {
               this.flatList = ref;
