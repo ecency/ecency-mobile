@@ -82,7 +82,7 @@ class PostCardContainer extends PureComponent {
   };
 
   render() {
-    const { content, isHideImage, nsfw } = this.props;
+    const { content, isHideImage, nsfw, hideReblogOption } = this.props;
     const { _content } = this.state;
 
     const isNsfwPost = nsfw === '1';
@@ -96,6 +96,7 @@ class PostCardContainer extends PureComponent {
         content={_content || content}
         isHideImage={isHideImage}
         isNsfwPost={isNsfwPost}
+        hideReblogOption={hideReblogOption}
       />
     );
   }
