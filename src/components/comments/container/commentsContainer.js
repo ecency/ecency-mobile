@@ -129,7 +129,7 @@ class CommentsContainer extends Component {
     } = this.props;
 
     await getComments(author, permlink, name)
-      .then(async comments => {
+      .then(comments => {
         this.setState({
           comments,
         });
