@@ -1,9 +1,7 @@
 import React, { Component } from 'react';
+import get from 'lodash/get';
 
 // Middleware
-
-// Constants
-import { default as ROUTES } from '../../../constants/routeNames';
 
 // Utilities
 
@@ -83,11 +81,13 @@ class FollowsContainer extends Component {
   };
 
   _handleSearch = async text => {
-    const { users, username } = this.state;
+    const { users, username, isFollowingPress } = this.state;
     let newData;
 
     newData = users.filter(item => {
-      const itemName = item.follower.toUpperCase();
+      const itemName = isFollowingPress
+        ? get(item, 'following').toUpperCase()
+        : get(item, 'follower').toUpperCase();
       const _text = text.toUpperCase();
 
       return itemName.indexOf(_text) > -1;
