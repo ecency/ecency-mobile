@@ -2,6 +2,7 @@ import React, { Component, Fragment } from 'react';
 import { FlatList, View, ActivityIndicator, RefreshControl } from 'react-native';
 import { injectIntl } from 'react-intl';
 import { withNavigation } from 'react-navigation';
+import get from 'lodash/get';
 
 // STEEM
 import { getPostsSummary } from '../../../providers/steem/dsteem';
@@ -28,7 +29,7 @@ class PostsView extends Component {
       isLoading: false,
       isPostsLoading: true,
       isHideImage: false,
-      selectedFilterIndex: props.selectedOptionIndex || 0,
+      selectedFilterIndex: get(props, 'selectedOptionIndex', 0),
       isNoPost: false,
     };
   }
