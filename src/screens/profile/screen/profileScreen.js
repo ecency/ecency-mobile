@@ -206,7 +206,7 @@ class ProfileScreen extends PureComponent {
                 tag={username}
                 key={username}
                 handleOnScroll={this._handleOnScroll}
-                hideReblogOption
+                isHideReblogOption
               />
             </View>
             <View

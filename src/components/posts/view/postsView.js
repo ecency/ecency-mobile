@@ -228,7 +228,7 @@ class PostsView extends Component {
       isLoginDone,
       tag,
       isDarkTheme,
-      hideReblogOption,
+      isHideReblogOption,
     } = this.props;
 
     return (
@@ -264,7 +264,7 @@ class PostsView extends Component {
             showsVerticalScrollIndicator={false}
             renderItem={({ item }) => (
               <PostCard
-                hideReblogOption={hideReblogOption}
+                isHideReblogOption={isHideReblogOption}
                 isRefresh={refreshing}
                 content={item}
                 isHideImage={isHideImage}
@@ -281,13 +281,13 @@ class PostsView extends Component {
             onScrollBeginDrag={() => this._handleOnScrollStart()}
             refreshControl={
               <RefreshControl
-  refreshing={refreshing}
-  onRefresh={this._handleOnRefreshPosts}
-  progressBackgroundColor="#357CE6"
-  tintColor={!isDarkTheme ? '#357ce6' : '#96c0ff'}
-  titleColor="#fff"
-  colors={['#fff']}
-/>
+                refreshing={refreshing}
+                onRefresh={this._handleOnRefreshPosts}
+                progressBackgroundColor="#357CE6"
+                tintColor={!isDarkTheme ? '#357ce6' : '#96c0ff'}
+                titleColor="#fff"
+                colors={['#fff']}
+              />
             }
             ref={ref => {
               this.flatList = ref;

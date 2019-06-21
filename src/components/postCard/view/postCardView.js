@@ -68,7 +68,7 @@ class PostCardView extends Component {
   };
 
   render() {
-    const { content, isHideImage, fetchPost, isNsfwPost, hideReblogOption } = this.props;
+    const { content, isHideImage, fetchPost, isNsfwPost, isHideReblogOption } = this.props;
 
     const _image = this._getPostImage(content, isNsfwPost);
     const reblogedBy = content.reblogged_by && content.reblogged_by[0];
@@ -89,7 +89,7 @@ class PostCardView extends Component {
           />
           <View style={styles.dropdownWrapper}>
             <PostDropdown
-              hideReblogOption={hideReblogOption}
+              isHideReblogOption={isHideReblogOption}
               content={content}
               fetchPost={fetchPost}
             />

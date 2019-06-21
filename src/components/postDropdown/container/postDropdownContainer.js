@@ -173,10 +173,10 @@ class PostDropdownContainer extends PureComponent {
   };
 
   render() {
-    const { intl, currentAccount, content, hideReblogOption } = this.props;
+    const { intl, currentAccount, content, isHideReblogOption } = this.props;
     let _OPTIONS = OPTIONS;
 
-    if ((content && content.author === currentAccount.name) || hideReblogOption) {
+    if ((content && content.author === currentAccount.name) || isHideReblogOption) {
       _OPTIONS = OPTIONS.filter(item => item !== 'reblog');
     }
 
