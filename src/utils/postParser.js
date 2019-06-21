@@ -1,6 +1,12 @@
 import isEmpty from 'lodash/isEmpty';
 import forEach from 'lodash/forEach';
+import get from 'lodash/get';
+
 import { postBodySummary, renderPostBody } from '@esteemapp/esteem-render-helpers';
+
+// Dsteem
+import { getActiveVotes } from '../providers/steem/dsteem';
+
 // Utils
 import { getReputation } from './reputation';
 
@@ -47,7 +53,7 @@ export const parsePost = (post, currentUserName) => {
     forEach(post.active_votes, value => {
       post.vote_perecent = value.voter === currentUserName ? value.percent : null;
       value.value = (value.rshares * ratio).toFixed(3);
-      value.reputation = getReputation(value.reputation);
+      value.reputation = getReputation(get(value, 'reputation'));
       value.percent /= 100;
       value.is_down_vote = Math.sign(value.percent) < 0;
       value.avatar = `https://steemitimages.com/u/${value.voter}/avatar/small`;
@@ -56,9 +62,6 @@ export const parsePost = (post, currentUserName) => {
 
   return post;
 };
-
-const isVoted = (activeVotes, currentUserName) =>
-  activeVotes.some(v => v.voter === currentUserName && v.percent > 0);
 
 const postImage = (metaData, body) => {
   const imgTagRegex = /(<img[^>]*>)/g;
@@ -98,15 +101,31 @@ const postImage = (metaData, body) => {
   return '';
 };
 
-export const parseComments = comments => {
-  forEach(comments, comment => {
-    comment.pending_payout_value = parseFloat(comment.pending_payout_value).toFixed(3);
-    comment.vote_count = comment.active_votes.length;
-    comment.author_reputation = getReputation(comment.author_reputation);
-    comment.avatar = `https://steemitimages.com/u/${comment.author}/avatar/small`;
-    comment.markdownBody = comment.body;
+export const parseComments = async (comments, currentUserName) => {
+  const _comments = await comments.map(async comment => {
+    const activeVotes = await getActiveVotes(get(comment, 'author'), get(comment, 'permlink'));
+
+    comment.pending_payout_value = parseFloat(
+      get(comment, 'pending_payout_value') ? get(comment, 'pending_payout_value') : 0,
+    ).toFixed(3);
+    comment.author_reputation = getReputation(get(comment, 'author_reputation'));
+    comment.avatar = `https://steemitimages.com/u/${get(comment, 'author')}/avatar/small`;
+    comment.markdownBody = get(comment, 'body');
     comment.body = renderPostBody(comment);
-    comment.summary = `"${postBodySummary(comment, 100, true)}"`;
+    comment.active_votes = activeVotes;
+    comment.vote_count = activeVotes && activeVotes.length;
+
+    if (currentUserName && activeVotes && activeVotes.length > 0) {
+      comment.is_voted = isVoted(activeVotes, currentUserName);
+    } else {
+      comment.is_voted = false;
+    }
+
+    return _comments;
   });
+
   return comments;
 };
+
+const isVoted = (activeVotes, currentUserName) =>
+  activeVotes.some(v => v.voter === currentUserName && v.percent > 0);
