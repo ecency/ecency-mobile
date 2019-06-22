@@ -1,5 +1,6 @@
 import React, { PureComponent } from 'react';
 import { connect } from 'react-redux';
+import get from 'lodash/get';
 
 // Realm
 import { setUpvotePercent } from '../../../realm/realm';
@@ -50,31 +51,21 @@ class UpvoteContainer extends PureComponent {
       upvotePercent,
       globalProps,
     } = this.props;
-    let author;
-    let authorPayout;
-    let curationPayout;
-    let isDecinedPayout;
-    let isVoted;
-    let payoutDate;
-    let pendingPayout;
-    let permlink;
-    let promotedPayout;
-    let totalPayout;
 
-    if (content) {
-      ({ author } = content);
-      isVoted = content.is_voted;
-      totalPayout = content.total_payout;
-      isDecinedPayout = content.is_declined_payout;
-      ({ permlink } = content);
-      pendingPayout = parseToken(content.pending_payout_value).toFixed(3);
-      promotedPayout = parseToken(content.promoted).toFixed(3);
-      authorPayout = parseToken(content.total_payout_value).toFixed(3);
-      curationPayout = parseToken(content.curator_payout_value).toFixed(3);
-      payoutDate = getTimeFromNow(
-        isEmptyContentDate(content.last_payout) ? content.cashout_time : content.last_payout,
-      );
-    }
+    const author = get(content, 'author');
+    const isVoted = get(content, 'is_voted');
+    const totalPayout = get(content, 'total_payout');
+    const isDecinedPayout = get(content, 'is_declined_payout');
+    const permlink = get(content, 'permlink');
+    const pendingPayout = parseToken(get(content, 'pending_payout_value', 0)).toFixed(3);
+    const promotedPayout = parseToken(get(content, 'promoted', 0)).toFixed(3);
+    const authorPayout = parseToken(get(content, 'total_payout_value', 0)).toFixed(3);
+    const curationPayout = parseToken(get(content, 'curator_payout_value', 0)).toFixed(3);
+    const payoutDate = getTimeFromNow(
+      isEmptyContentDate(get(content, 'last_payout'))
+        ? get(content, 'cashout_time')
+        : get(content, 'last_payout'),
+    );
 
     return (
       <UpvoteView

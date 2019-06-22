@@ -5,7 +5,6 @@ import { injectIntl } from 'react-intl';
 import get from 'lodash/get';
 
 import { getComments, deleteComment } from '../../../providers/steem/dsteem';
-
 // Services and Actions
 import { writeToClipboard } from '../../../utils/clipboard';
 import { toastNotification } from '../../../redux/actions/uiAction';
@@ -44,8 +43,8 @@ class CommentsContainer extends Component {
       this._getComments();
     }
 
-    if (selectedFilter !== nextProps.selectedFilter && nextProps.selectedFilter) {
-      const shortedComments = this._shortComments(nextProps.selectedFilter);
+    if (selectedFilter !== get(nextProps, 'selectedFilter') && get(nextProps, 'selectedFilter')) {
+      const shortedComments = this._shortComments(get(nextProps, 'selectedFilter'));
       this.setState({ comments: shortedComments });
     }
   }
@@ -56,9 +55,9 @@ class CommentsContainer extends Component {
     const { comments: parent } = this.state;
 
     const allPayout = c =>
-      parseFloat(c.pending_payout_value.split(' ')[0]) +
-      parseFloat(c.total_payout_value.split(' ')[0]) +
-      parseFloat(c.curator_payout_value.split(' ')[0]);
+      parseFloat(get(c, 'pending_payout_value').split(' ')[0]) +
+      parseFloat(get(c, 'total_payout_value').split(' ')[0]) +
+      parseFloat(get(c, 'curator_payout_value').split(' ')[0]);
 
     const absNegative = a => a.net_rshares < 0;
 
@@ -81,8 +80,8 @@ class CommentsContainer extends Component {
         return 0;
       },
       REPUTATION: (a, b) => {
-        const keyA = a.author_reputation;
-        const keyB = b.author_reputation;
+        const keyA = get(a, 'author_reputation');
+        const keyB = get(b, 'author_reputation');
 
         if (keyA > keyB) return -1;
         if (keyA < keyB) return 1;
@@ -107,8 +106,8 @@ class CommentsContainer extends Component {
           return -1;
         }
 
-        const keyA = Date.parse(a.created);
-        const keyB = Date.parse(b.created);
+        const keyA = Date.parse(get(a, 'created'));
+        const keyB = Date.parse(get(b, 'created'));
 
         if (keyA > keyB) return -1;
         if (keyA < keyB) return 1;
@@ -122,14 +121,20 @@ class CommentsContainer extends Component {
     return parent;
   };
 
-  _getComments = () => {
-    const { author, permlink } = this.props;
+  _getComments = async () => {
+    const {
+      author,
+      permlink,
+      currentAccount: { name },
+    } = this.props;
 
-    getComments(author, permlink).then(comments => {
-      this.setState({
-        comments,
-      });
-    });
+    await getComments(author, permlink, name)
+      .then(comments => {
+        this.setState({
+          comments,
+        });
+      })
+      .catch(() => {});
   };
 
   _handleOnReplyPress = item => {

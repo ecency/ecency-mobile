@@ -67,7 +67,7 @@ class CommentsView extends PureComponent {
               mainAuthor={mainAuthor}
               avatarSize={avatarSize}
               comment={item}
-              commentCount={commentCount || item.children}
+              commentCount={commentCount || get(item.children)}
               commentNumber={commentNumber}
               handleDeleteComment={handleDeleteComment}
               currentAccountUsername={currentAccountUsername}
@@ -76,8 +76,8 @@ class CommentsView extends PureComponent {
               handleOnReplyPress={handleOnReplyPress}
               handleOnUserPress={handleOnUserPress}
               isLoggedIn={isLoggedIn}
-              isShowMoreButton={commentNumber === 1 && item.children > 0}
-              voteCount={item.net_votes}
+              isShowMoreButton={commentNumber === 1 && get(item, 'children') > 0}
+              voteCount={get(item, 'vote_count')}
               isShowSubComments={isShowSubComments}
               key={item.permlink}
               marginLeft={marginLeft}

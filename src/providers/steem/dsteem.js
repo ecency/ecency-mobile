@@ -65,13 +65,13 @@ export const fetchGlobalProps = async () => {
   }
 
   const steemPerMVests =
-    (parseToken(globalDynamic.total_vesting_fund_steem) /
-      parseToken(globalDynamic.total_vesting_shares)) *
+    (parseToken(get(globalDynamic, 'total_vesting_fund_steem')) /
+      parseToken(get(globalDynamic, 'total_vesting_shares'))) *
     1e6;
-  const base = parseToken(feedHistory.current_median_history.base);
-  const quote = parseToken(feedHistory.current_median_history.quote);
-  const fundRecentClaims = rewardFund.recent_claims;
-  const fundRewardBalance = parseToken(rewardFund.reward_balance);
+  const base = parseToken(get(feedHistory, 'current_median_history.base'));
+  const quote = parseToken(get(feedHistory, 'current_median_history.quote'));
+  const fundRecentClaims = get(rewardFund, 'recent_claims');
+  const fundRewardBalance = parseToken(get(rewardFund, 'reward_balance'));
   const globalProps = {
     steemPerMVests,
     base,
@@ -140,19 +140,20 @@ export const getUser = async user => {
       globalProperties.total_vesting_fund_steem,
     );
     account[0].received_steem_power = await vestToSteem(
-      account[0].received_vesting_shares,
-      globalProperties.total_vesting_shares,
-      globalProperties.total_vesting_fund_steem,
+      get(account[0], 'received_vesting_shares'),
+      get(globalProperties, 'total_vesting_shares'),
+      get(globalProperties, 'total_vesting_fund_steem'),
     );
     account[0].delegated_steem_power = await vestToSteem(
-      account[0].delegated_vesting_shares,
-      globalProperties.total_vesting_shares,
-      globalProperties.total_vesting_fund_steem,
+      get(account[0], 'delegated_vesting_shares'),
+      get(globalProperties, 'total_vesting_shares'),
+      get(globalProperties, 'total_vesting_fund_steem'),
     );
 
-    account[0].about = account[0].json_metadata && JSON.parse(account[0].json_metadata);
-    account[0].avatar = getAvatar(account[0].about);
-    account[0].display_name = getName(account[0].about);
+    account[0].about =
+      get(account[0], 'json_metadata') && JSON.parse(get(account[0], 'json_metadata'));
+    account[0].avatar = getAvatar(get(account[0], 'about'));
+    account[0].display_name = getName(get(account[0], 'about'));
 
     return account[0];
   } catch (error) {
@@ -289,7 +290,16 @@ export const getPosts = async (by, query, user) => {
 };
 
 export const getActiveVotes = (author, permlink) =>
-  client.database.call('get_active_votes', [author, permlink]);
+  new Promise((resolve, reject) => {
+    client.database
+      .call('get_active_votes', [author, permlink])
+      .then(result => {
+        resolve(result);
+      })
+      .catch(err => {
+        reject(err);
+      });
+  });
 
 export const getPostsSummary = async (by, query, currentUserName, filterNsfw) => {
   try {
@@ -312,7 +322,7 @@ export const getPostsSummary = async (by, query, currentUserName, filterNsfw) =>
 export const getUserComments = async query => {
   try {
     let comments = await client.database.getDiscussions('comments', query);
-    comments = parseComments(comments);
+    comments = await parseComments(comments);
     return comments;
   } catch (error) {
     return error;
@@ -326,7 +336,7 @@ export const getRepliesByLastUpdate = async query => {
       query.start_permlink,
       query.limit,
     ]);
-    replies = parseComments(replies);
+    replies = await parseComments(replies);
     return replies;
   } catch (error) {
     return error;
@@ -395,26 +405,20 @@ export const deleteComment = (currentAccount, pin, permlink) => {
   }
 };
 
-/**
- * @method getUser get user data
- * @param user post author
- * @param permlink post permlink
- */
-export const getComments = (user, permlink) => {
-  let comments;
-  return new Promise((resolve, reject) => {
-    client.database
-      .call('get_content_replies', [user, permlink])
-      .then(result => {
-        comments = parseComments(result);
-      })
-      .then(() => {
-        resolve(comments);
-      })
-      .catch(error => {
-        reject(error);
-      });
-  });
+const wait = ms => new Promise(r => setTimeout(r, ms));
+
+export const getComments = async (author, permlink, currentUserName = null) => {
+  try {
+    const comments = await client.database.call('get_content_replies', [author, permlink]);
+
+    const groomedComments = await parseComments(comments, currentUserName);
+    // WORK ARROUND
+    await wait(comments && comments.length * 30);
+
+    return comments ? groomedComments : null;
+  } catch (error) {
+    return error;
+  }
 };
 
 /**
@@ -517,15 +521,15 @@ export const upvoteAmount = async input => {
 
 export const transferToken = (currentAccount, pin, data) => {
   const digitPinCode = getDigitPinCode(pin);
-  const key = getAnyPrivateKey({ activeKey: currentAccount.local.activeKey }, digitPinCode);
+  const key = getAnyPrivateKey({ activeKey: get(currentAccount, 'local.activeKey') }, digitPinCode);
 
   if (key) {
     const privateKey = PrivateKey.fromString(key);
     const args = {
-      from: data.from,
-      to: data.destination,
-      amount: data.amount,
-      memo: data.memo,
+      from: get(data, 'from'),
+      to: get(data, 'destination'),
+      amount: get(data, 'amount'),
+      memo: get(data, 'memo'),
     };
 
     return new Promise((resolve, reject) => {
@@ -533,7 +537,7 @@ export const transferToken = (currentAccount, pin, data) => {
         .transfer(args, privateKey)
         .then(result => {
           if (result) {
-            transfer(data.from, data.destination, data.ammount);
+            transfer(get(data, 'from'), get(data, 'destination'), get(data, 'ammount'));
             resolve(result);
           }
         })
@@ -548,7 +552,7 @@ export const transferToken = (currentAccount, pin, data) => {
 
 export const transferToSavings = (currentAccount, pin, data) => {
   const digitPinCode = getDigitPinCode(pin);
-  const key = getAnyPrivateKey({ activeKey: currentAccount.local.activeKey }, digitPinCode);
+  const key = getAnyPrivateKey({ activeKey: get(currentAccount, 'local.activeKey') }, digitPinCode);
 
   if (key) {
     const privateKey = PrivateKey.fromString(key);
@@ -557,10 +561,10 @@ export const transferToSavings = (currentAccount, pin, data) => {
       [
         'transfer_to_savings',
         {
-          from: data.from,
-          to: data.destination,
-          amount: data.amount,
-          memo: data.memo,
+          from: get(data, 'from'),
+          to: get(data, 'destination'),
+          amount: get(data, 'amount'),
+          memo: get(data, 'memo'),
         },
       ],
     ];
@@ -582,7 +586,7 @@ export const transferToSavings = (currentAccount, pin, data) => {
 
 export const transferFromSavings = (currentAccount, pin, data) => {
   const digitPinCode = getDigitPinCode(pin);
-  const key = getAnyPrivateKey({ activeKey: currentAccount.local.activeKey }, digitPinCode);
+  const key = getAnyPrivateKey({ activeKey: get(currentAccount, 'local.activeKey') }, digitPinCode);
 
   if (key) {
     const privateKey = PrivateKey.fromString(key);
@@ -590,11 +594,11 @@ export const transferFromSavings = (currentAccount, pin, data) => {
       [
         'transfer_from_savings',
         {
-          from: data.from,
-          to: data.destination,
-          amount: data.amount,
-          memo: data.memo,
-          request_id: data.requestId,
+          from: get(data, 'from'),
+          to: get(data, 'destination'),
+          amount: get(data, 'amount'),
+          memo: get(data, 'memo'),
+          request_id: get(data, 'requestId'),
         },
       ],
     ];
@@ -616,7 +620,7 @@ export const transferFromSavings = (currentAccount, pin, data) => {
 
 export const transferToVesting = (currentAccount, pin, data) => {
   const digitPinCode = getDigitPinCode(pin);
-  const key = getAnyPrivateKey({ activeKey: currentAccount.local.activeKey }, digitPinCode);
+  const key = getAnyPrivateKey({ activeKey: get(currentAccount, 'local.activeKey') }, digitPinCode);
 
   if (key) {
     const privateKey = PrivateKey.fromString(key);
@@ -651,7 +655,7 @@ export const followUser = async (currentAccount, pin, data) => {
   const key = getAnyPrivateKey(currentAccount.local, digitPinCode);
 
   if (currentAccount.local.authType === AUTH_TYPE.STEEM_CONNECT) {
-    const token = decryptKey(currentAccount.local.accessToken, digitPinCode);
+    const token = decryptKey(get(currentAccount, 'local.accessToken'), digitPinCode);
     const api = steemConnect.Initialize({
       accessToken: token,
     });
@@ -982,15 +986,15 @@ const _reblog = async (account, pinCode, author, permlink) => {
 
 export const claimRewardBalance = (account, pinCode, rewardSteem, rewardSbd, rewardVests) => {
   const pin = getDigitPinCode(pinCode);
-  const key = getAnyPrivateKey(account.local, pin);
+  const key = getAnyPrivateKey(get(account, 'local'), pin);
 
   if (account.local.authType === AUTH_TYPE.STEEM_CONNECT) {
-    const token = decryptKey(account.local.accessToken, pin);
+    const token = decryptKey(get(account, 'local.accessToken'), pin);
     const api = steemConnect.Initialize({
       accessToken: token,
     });
 
-    return api.claimRewardBalance(account.name, rewardSteem, rewardSbd, rewardVests);
+    return api.claimRewardBalance(get(account, 'name'), rewardSteem, rewardSbd, rewardVests);
   }
 
   if (key) {
@@ -1016,7 +1020,7 @@ export const claimRewardBalance = (account, pinCode, rewardSteem, rewardSbd, rew
 
 export const transferPoint = (currentAccount, pinCode, data) => {
   const pin = getDigitPinCode(pinCode);
-  const key = getActiveKey(currentAccount.local, pin);
+  const key = getActiveKey(get(currentAccount, 'local'), pin);
   const username = get(currentAccount, 'name');
 
   const json = JSON.stringify({
