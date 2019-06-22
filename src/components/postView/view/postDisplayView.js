@@ -186,7 +186,7 @@ class PostDisplayView extends PureComponent {
                   <Tags tags={post.json_metadata && post.json_metadata.tags} />
                   <Text style={styles.footerText}>
                     Posted by
-                    <Text style={styles.footerName}>{author || post.author}</Text>
+                    <Text style={styles.footerName}>{` ${author || post.author} `}</Text>
                     {formatedTime}
                   </Text>
                   {/* {isPostEnd && this._getTabBar()} */}

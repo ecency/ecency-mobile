@@ -233,6 +233,7 @@ class PostsView extends Component {
       isLoginDone,
       tag,
       isDarkTheme,
+      isHideReblogOption,
     } = this.props;
 
     return (
@@ -267,7 +268,12 @@ class PostsView extends Component {
             data={posts}
             showsVerticalScrollIndicator={false}
             renderItem={({ item }) => (
-              <PostCard isRefresh={refreshing} content={item} isHideImage={isHideImage} />
+              <PostCard
+                isHideReblogOption={isHideReblogOption}
+                isRefresh={refreshing}
+                content={item}
+                isHideImage={isHideImage}
+              />
             )}
             keyExtractor={(post, index) => index.toString()}
             onEndReached={() => this._loadPosts()}
