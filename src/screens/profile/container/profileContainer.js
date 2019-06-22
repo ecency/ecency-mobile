@@ -79,7 +79,8 @@ class ProfileContainer extends Component {
   componentWillReceiveProps(nextProps) {
     const { activeBottomTab, currentAccount, isLoggedIn, navigation } = this.props;
     const currentUsername =
-      currentAccount.name !== nextProps.currentAccount.name && nextProps.currentAccount.name;
+      get(currentAccount, 'name') !== nextProps.currentAccount.name &&
+      nextProps.currentAccount.name;
 
     if (isLoggedIn && !nextProps.isLoggedIn) {
       navigation.navigate(ROUTES.SCREENS.LOGIN);
@@ -87,8 +88,8 @@ class ProfileContainer extends Component {
     }
 
     if (
-      (activeBottomTab !== nextProps.activeBottomTab &&
-        nextProps.activeBottomTab === ROUTES.TABBAR.PROFILE) ||
+      (activeBottomTab !== get(nextProps, 'activeBottomTab') &&
+        get(nextProps, 'activeBottomTab') === ROUTES.TABBAR.PROFILE) ||
       currentUsername
     ) {
       this._loadProfile(currentAccount.name);
