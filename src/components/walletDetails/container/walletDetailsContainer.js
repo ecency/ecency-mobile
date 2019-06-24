@@ -37,6 +37,12 @@ class WalletContainer extends PureComponent {
       case 'SBD':
         balance = Math.round(walletData.sbdBalance * 1000) / 1000;
         break;
+      case 'SAVING_STEEM':
+        balance = Math.round(walletData.savingBalance * 1000) / 1000;
+        break;
+      case 'SAVING_SBD':
+        balance = Math.round(walletData.savingBalanceSbd * 1000) / 1000;
+        break;
       default:
         break;
     }

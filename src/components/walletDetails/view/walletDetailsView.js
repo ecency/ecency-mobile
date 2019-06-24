@@ -1,8 +1,6 @@
 import React, { PureComponent } from 'react';
 import { View } from 'react-native';
 
-// Constants
-
 // Components
 import { GrayWrapper, WalletLineItem } from '../../basicUIElements';
 
@@ -10,20 +8,9 @@ import { GrayWrapper, WalletLineItem } from '../../basicUIElements';
 import { vestsToSp } from '../../../utils/conversions';
 
 // Styles
-// eslint-disable-next-line
 import styles from './walletDetailsStyles';
 
 class WalletDetailsView extends PureComponent {
-  /* Props
-   * ------------------------------------------------
-   *   @prop { type }    name                - Description....
-   */
-
-  constructor(props) {
-    super(props);
-    this.state = {};
-  }
-
   // Component Life Cycles
 
   // Component Functions
@@ -33,6 +20,8 @@ class WalletDetailsView extends PureComponent {
 
     const steemDropdown = ['transfer_token', 'transfer_to_saving', 'powerUp'];
     const sbdDropdown = ['transfer_token', 'transfer_to_saving'];
+    const savingSteemDropdown = ['withdraw_steem'];
+    const savingSbdDropdown = ['withdraw_sbd'];
 
     return (
       <View style={styles.container}>
@@ -98,7 +87,7 @@ class WalletDetailsView extends PureComponent {
           isBoldText
           isHasdropdown={isShowDropdowns}
           dropdownOptions={sbdDropdown.map(item => intl.formatMessage({ id: `transfer.${item}` }))}
-          onDropdownSelect={a => navigate(steemDropdown[a], 'SBD')}
+          onDropdownSelect={a => navigate(sbdDropdown[a], 'SBD')}
         />
         <GrayWrapper isGray>
           <WalletLineItem
@@ -109,10 +98,20 @@ class WalletDetailsView extends PureComponent {
             iconName="ios-information-circle-outline"
             rightText={`${Math.round(walletData.savingBalance * 1000) / 1000} STEEM`}
             isBoldText
+            isHasdropdown={isShowDropdowns}
+            dropdownOptions={savingSteemDropdown.map(item =>
+              intl.formatMessage({ id: `transfer.${item}` }),
+            )}
+            onDropdownSelect={a => navigate(savingSteemDropdown[a], 'SAVING_STEEM')}
           />
           <WalletLineItem
             rightText={`$${Math.round(walletData.savingBalanceSbd * 1000) / 1000}`}
             style={styles.walletLineDetail}
+            isHasdropdown={isShowDropdowns}
+            dropdownOptions={savingSbdDropdown.map(item =>
+              intl.formatMessage({ id: `transfer.${item}` }),
+            )}
+            onDropdownSelect={a => navigate(savingSbdDropdown[a], 'SAVING_SBD')}
           />
         </GrayWrapper>
         {walletData.showPowerDown && (
