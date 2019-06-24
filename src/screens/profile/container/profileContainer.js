@@ -1,6 +1,7 @@
 import React, { Component } from 'react';
 import { connect } from 'react-redux';
 import { withNavigation } from 'react-navigation';
+import get from 'lodash/get';
 
 // Providers
 import {
@@ -44,19 +45,20 @@ class ProfileContainer extends Component {
       isReverseHeader,
       user: null,
       selectedQuickProfile: null,
+      forceLoadPost: false,
     };
   }
 
   componentDidMount = () => {
     const { navigation, isLoggedIn, currentAccount } = this.props;
-    const selectedUser = navigation.state && navigation.state.params;
+    const selectedUser = get(navigation.state, 'params');
 
     if (!isLoggedIn && !selectedUser) {
       navigation.navigate(ROUTES.SCREENS.LOGIN);
       return;
     }
 
-    if (selectedUser && selectedUser.username && selectedUser.username !== currentAccount.name) {
+    if (get(selectedUser, 'username', false) && selectedUser.username !== currentAccount.name) {
       this._loadProfile(selectedUser.username);
 
       if (selectedUser.username) {
@@ -75,24 +77,23 @@ class ProfileContainer extends Component {
   };
 
   componentWillReceiveProps(nextProps) {
-    const { navigation, currentAccount, activeBottomTab, isLoggedIn } = this.props;
+    const { activeBottomTab, currentAccount, isLoggedIn, navigation } = this.props;
     const currentUsername =
-      currentAccount.name !== nextProps.currentAccount.name && nextProps.currentAccount.name;
+      get(currentAccount, 'name') !== nextProps.currentAccount.name &&
+      nextProps.currentAccount.name;
 
     if (isLoggedIn && !nextProps.isLoggedIn) {
       navigation.navigate(ROUTES.SCREENS.LOGIN);
       return;
     }
 
-    if (currentUsername) {
-      this._loadProfile(currentUsername);
-    }
-
     if (
-      activeBottomTab !== nextProps.activeBottomTab &&
-      nextProps.activeBottomTab === 'ProfileTabbar'
+      (activeBottomTab !== get(nextProps, 'activeBottomTab') &&
+        get(nextProps, 'activeBottomTab') === ROUTES.TABBAR.PROFILE) ||
+      currentUsername
     ) {
       this._loadProfile(currentAccount.name);
+      this.setState({ forceLoadPost: true });
     }
   }
 
@@ -327,11 +328,15 @@ class ProfileContainer extends Component {
 
   _handleOnBackPress = () => {
     const { navigation } = this.props;
-    const navigationParams = navigation.state && navigation.state.params;
+    const navigationParams = get(navigation.state, 'params');
 
-    if (navigationParams && navigationParams.fetchData) {
+    if (get(navigationParams, 'fetchData')) {
       navigationParams.fetchData();
     }
+  };
+
+  _changeForceLoadPostState = value => {
+    this.setState({ forceLoadPost: value });
   };
 
   render() {
@@ -349,13 +354,14 @@ class ProfileContainer extends Component {
       selectedQuickProfile,
       user,
       username,
+      forceLoadPost,
     } = this.state;
     const { isDarkTheme, isLoggedIn, currency, navigation } = this.props;
-    const activePage = (navigation.state.params && navigation.state.params.activePage) || 0;
+    const activePage = get(navigation.state.params, 'state', 0);
 
     return (
       <ProfileScreen
-        about={user && user.about && user.about.profile}
+        about={get(user, 'about.profile')}
         activePage={activePage}
         avatar={avatar}
         comments={comments}
@@ -379,6 +385,8 @@ class ProfileContainer extends Component {
         selectedQuickProfile={selectedQuickProfile}
         selectedUser={user}
         username={username}
+        forceLoadPost={forceLoadPost}
+        changeForceLoadPostState={this._changeForceLoadPostState}
       />
     );
   }

@@ -84,6 +84,8 @@ class ProfileScreen extends PureComponent {
       selectedUser,
       username,
       activePage,
+      forceLoadPost,
+      changeForceLoadPostState,
     } = this.props;
 
     const {
@@ -206,6 +208,8 @@ class ProfileScreen extends PureComponent {
                 tag={username}
                 key={username}
                 handleOnScroll={this._handleOnScroll}
+                forceLoadPost={forceLoadPost}
+                changeForceLoadPostState={changeForceLoadPostState}
                 isHideReblogOption
               />
             </View>
