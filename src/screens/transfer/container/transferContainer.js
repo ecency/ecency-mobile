@@ -29,7 +29,9 @@ import TransferView from '../screen/transferScreen';
 class TransferContainer extends Component {
   constructor(props) {
     super(props);
-    this.state = {};
+    this.state = {
+      fundType: props.navigation.getParam('fundType', ''),
+    };
   }
 
   // Component Life Cycle Functions
@@ -45,7 +47,7 @@ class TransferContainer extends Component {
 
   fetchBalance = username => {
     const { navigation } = this.props;
-    const fundType = navigation.getParam('fundType', '');
+    const { fundType } = this.state;
 
     getAccount(username).then(account => {
       let balance;
@@ -58,6 +60,14 @@ class TransferContainer extends Component {
           break;
         case 'POINT':
           balance = navigation.getParam('balance', '');
+          break;
+        case 'SAVING_STEEM':
+          this.setState({ fundType: 'STEEM' });
+          balance = account[0].savings_balance.replace(' STEEM', '');
+          break;
+        case 'SAVING_SBD':
+          this.setState({ fundType: 'STEEM DOLLAR' });
+          balance = account[0].savings_sbd_balance.replace(' SBD', '');
           break;
         default:
           break;
@@ -131,9 +141,8 @@ class TransferContainer extends Component {
 
   render() {
     const { accounts, currentAccount, navigation } = this.props;
-    const { balance } = this.state;
+    const { balance, fundType } = this.state;
 
-    const fundType = navigation.getParam('fundType', '');
     const transferType = navigation.getParam('transferType', '');
 
     return (
