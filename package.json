@@ -105,5 +105,8 @@
   "pre-commit": "lint-staged",
   "jest": {
     "preset": "react-native"
+  },
+  "resolutions": {
+    "underscore.string": "^3.3.5"
   }
 }
