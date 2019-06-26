@@ -140,24 +140,25 @@ class TransferContainer extends Component {
   };
 
   render() {
-    const { accounts, currentAccount, navigation } = this.props;
+    const { accounts, currentAccount, navigation, children } = this.props;
     const { balance, fundType } = this.state;
 
     const transferType = navigation.getParam('transferType', '');
 
     return (
-      <TransferView
-        accounts={accounts}
-        fetchBalance={this.fetchBalance}
-        getAccountsWithUsername={this._getAccountsWithUsername}
-        transferToAccount={this._transferToAccount}
-        handleOnModalClose={this._handleOnModalClose}
-        accountType={currentAccount.local.authType}
-        currentAccountName={currentAccount.name}
-        balance={balance}
-        fundType={fundType}
-        transferType={transferType}
-      />
+      children &&
+      children({
+        accounts,
+        balance,
+        fundType,
+        transferType,
+        fetchBalance: this.fetchBalance,
+        getAccountsWithUsername: this._getAccountsWithUsername,
+        transferToAccount: this._transferToAccount,
+        handleOnModalClose: this._handleOnModalClose,
+        accountType: currentAccount.local.authType,
+        currentAccountName: currentAccount.name,
+      })
     );
   }
 }
