@@ -3,6 +3,7 @@ import { Text, View, FlatList, ScrollView, RefreshControl, TouchableOpacity } fr
 import { injectIntl } from 'react-intl';
 import { Popover, PopoverController } from 'react-native-modal-popover';
 import { get } from 'lodash';
+import { withNavigation } from 'react-navigation';
 
 // Components
 import { LineBreak, WalletLineItem, ListPlaceHolder } from '../../basicUIElements';
@@ -16,6 +17,7 @@ import { getTimeFromNow } from '../../../utils/time';
 
 // Constants
 import POINTS, { POINTS_KEYS } from '../../../constants/options/points';
+import { default as ROUTES } from '../../../constants/routeNames';
 
 // Styles
 import styles from './pointsStyles';
@@ -77,6 +79,7 @@ class PointsView extends Component {
       userActivities,
       userPoints,
       handleOnPressTransfer,
+      navigation,
     } = this.props;
 
     return (
@@ -97,6 +100,16 @@ class PointsView extends Component {
             />
           </View>
           <Text style={styles.subText}>eSteem Points</Text>
+
+          <IconButton
+            iconStyle={styles.boastIcon}
+            style={styles.boastButton}
+            onPress={() => navigation.navigate(ROUTES.SCREENS.BOOST)}
+            name="rocket"
+            iconType="MaterialCommunityIcons"
+          />
+          <Text style={styles.subText}>Boast</Text>
+
           {get(userPoints, 'unclaimed_points') > 0 && (
             <MainButton
               isLoading={isClaiming}
@@ -200,4 +213,4 @@ class PointsView extends Component {
   }
 }
 
-export default injectIntl(PointsView);
+export default withNavigation(injectIntl(PointsView));
