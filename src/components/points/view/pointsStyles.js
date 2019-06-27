@@ -9,6 +9,18 @@ export default EStyleSheet.create({
     alignSelf: 'center',
     fontWeight: 'bold',
   },
+  boastButton: {
+    marginTop: 14,
+    justifyContent: 'center',
+    alignSelf: 'center',
+    backgroundColor: '$primaryBlue',
+  },
+  boastIcon: {
+    color: '$white',
+    fontSize: 26,
+    justifyContent: 'center',
+    alignSelf: 'center',
+  },
   pointsWrapper: {
     flexDirection: 'row',
     justifyContent: 'center',

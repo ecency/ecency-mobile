@@ -22,6 +22,7 @@ import {
   Voters,
   SearchResult,
   Transfer,
+  Boost,
 } from '../screens';
 
 // Components
@@ -102,6 +103,12 @@ const stackNavigatior = createStackNavigator(
     },
     [ROUTES.SCREENS.TRANSFER]: {
       screen: RootComponent()(Transfer),
+      navigationOptions: {
+        header: () => null,
+      },
+    },
+    [ROUTES.SCREENS.BOOST]: {
+      screen: Boost,
       navigationOptions: {
         header: () => null,
       },
