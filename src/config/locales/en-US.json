@@ -291,6 +291,7 @@
     "next": "NEXT"
   },
   "boost": {
-    "title": "Boost"
+    "title": "Boost",
+    "buy": "GET POINTS"
   }
 }
