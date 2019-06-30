@@ -1,6 +1,6 @@
 import React, { Component } from 'react';
 import { injectIntl } from 'react-intl';
-import { View, Text } from 'react-native';
+import { View, Text, ImageBackground } from 'react-native';
 
 // Components
 import { BasicHeader } from '../../../components/basicHeader';
@@ -11,13 +11,15 @@ import { MainButton } from '../../../components/mainButton';
 import globalStyles from '../../../globalStyles';
 import styles from './boostScreenStyles';
 
+const SIDE_MENU_BACKGROUND = require('../../../assets/side_menu_background.png');
+
 const BOOST_DATA = [
-  { name: '100 ESTM', color: '#fff', price: '1$', description: 'awesome point' },
+  { name: '100 ESTM', color: '#fff', price: '1$', description: 'For beginner users' },
   { name: '200 ESTM', color: '#fff', price: '2$', description: 'awesome point' },
   { name: '500 ESTM', color: '#fff', price: '5$', description: 'awesome point' },
   { name: '1000 ESTM', color: '#fff', price: '10$', description: 'awesome point' },
-  { name: '5000 ESTM', color: '#fff', price: '50$', description: 'awesome point' },
-  { name: '10000 ESTM', color: '#fff', price: '100$', description: 'awesome point' },
+  { name: '5000 ESTM', color: '#fff', price: '50$', description: 'Most using' },
+  { name: '10000 ESTM', color: '#fff', price: '100$', description: 'Popular choice' },
 ];
 
 class BoostScreen extends Component {
@@ -48,15 +50,16 @@ class BoostScreen extends Component {
             id: 'boost.title',
           })}
         />
-        <View style={styles.descriptionWrapper}>
+        <ImageBackground source={SIDE_MENU_BACKGROUND} style={styles.descriptionWrapper}>
           <Text style={styles.title}>{BOOST_DATA[selectedBoost].name}</Text>
-        </View>
+          <Text style={styles.description}>{BOOST_DATA[selectedBoost].description}</Text>
+        </ImageBackground>
 
         <View style={styles.wrapper}>
           <BoostItemsList
             items={BOOST_DATA}
             handleOnPlaceSelect={item => console.log(item)}
-            selectedSlide={0}
+            selectedSlide={2}
             onSnapToItem={item => this.setState({ selectedBoost: item })}
           />
         </View>

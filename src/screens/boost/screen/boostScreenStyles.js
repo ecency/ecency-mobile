@@ -4,20 +4,26 @@ export default EStyleSheet.create({
   wrapper: {
     flex: 1,
     position: 'absolute',
-    top: '$deviceHeight / 2.6',
+    top: '$deviceHeight / 3',
     // backgroundColor: '$primaryBlue',
   },
   descriptionWrapper: {
-    backgroundColor: '$primaryBlue',
-    height: '$deviceHeight / 3',
+    height: '$deviceHeight / 3.5',
+    flexDirection: 'column',
+    alignItems: 'center',
   },
   title: {
     color: '$white',
     fontSize: 26,
     marginTop: 24,
     justifyContent: 'center',
-    alignSelf: 'center',
     fontWeight: 'bold',
+  },
+  description: {
+    color: '$white',
+    fontSize: 18,
+    marginTop: 24,
+    justifyContent: 'center',
   },
   button: {
     marginTop: 150,
