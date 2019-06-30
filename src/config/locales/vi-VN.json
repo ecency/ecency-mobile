@@ -59,8 +59,8 @@
     "checkin_desc": "Đăng ký trên ứng dụng eSteem cho bạn 0,25 điểm và giúp bạn kết nối với những người bạn của bạn.",
     "vote_desc": "Bằng cách bình chọn, bạn không chỉ trao phần thưởng cho những người sáng tạo nội dung và thể hiện sự đánh giá cao của bạn mà còn kiếm được 0,01 x điểm số bình chọn.",
     "reblog_desc": "  Chia sẻ bài viết nào bạn thích với bạn bè của bạn và kiếm được 1 điểm.",
-    "login_desc": "When you login into eSteem app you are entitled to earn 100 points automatically.",
-    "checkin_extra_desc": "Consistent use of app gives you extra chances to earn more 10 points, be more active and earn more."
+    "login_desc": "Khi bạn đăng nhập vào ứng dụng eSteem, tự động bạn có được 100 điểm thưởng.",
+    "checkin_extra_desc": "Việc sử dụng ứng dụng lâu dài sẽ cho bạn thêm nhiều cơ hội kiếm thêm 10 điểm thưởng, hãy tích cực hơn và kiếm thêm nhiều điểm thưởng hơn."
   },
   "messages": {
     "comingsoon": "Tính năng tin nhắn sẽ được cập nhật sớm!"
@@ -90,25 +90,25 @@
   },
   "settings": {
     "settings": "Cài đặt",
-    "general": "General",
+    "general": "Tổng quan",
     "currency": "Tiền tệ",
     "language": "Ngôn ngữ",
     "server": "Máy chủ",
     "dark_theme": "Chế độ tối",
     "push_notification": "Đẩy thông báo",
     "notification": {
-      "follow": "Follow",
-      "vote": "Vote",
-      "comment": "Comment",
-      "mention": "Mention",
-      "reblog": "Reblog",
-      "transfers": "Transfers"
+      "follow": "Theo dõi",
+      "vote": "Bình chọn",
+      "comment": "Câu bình luận",
+      "mention": "Nhắc đến",
+      "reblog": "Đăng lại",
+      "transfers": "Những phần chuyển khoản"
     },
     "pincode": "Mã PIN",
     "reset": "Thiết lập lại",
-    "nsfw_content": "NSFW Content",
-    "send_feedback": "Send Feedback",
-    "send": "Send",
+    "nsfw_content": "Nội dung NSFW (nội dung không phù hợp để xem trong môi trường làm việc hoặc gần trẻ em)",
+    "send_feedback": "Gửi phản hồi",
+    "send": "Gửi",
     "default_footer": "Default Footer",
     "nsfw": {
       "always_show": "Always show",
