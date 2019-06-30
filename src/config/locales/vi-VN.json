@@ -184,9 +184,9 @@
     "claim_reward_balance_ok": "Số dư tiền thưởng đã được nhận",
     "fail": "Thất bại!",
     "move": "Di chuyển",
-    "move_question": "Are you sure to move to drafts?",
+    "move_question": "Bạn có chắc chắn để chuyển đến những bản dự thảo?",
     "success_shared": "Bài viết của bạn đã được chia sẻ thành công",
-    "success_moved": "Moved to draft",
+    "success_moved": "Được chuyển đến bản dự thảo",
     "permission_denied": "Quyền truy cập bị từ chối",
     "permission_text": "Vui lòng mở cài đặt điện thoại và thay đổi quyền truy cập cho ứng dụng eSteem.",
     "success_rebloged": "Đã đăng lại bài viết!",
@@ -194,20 +194,20 @@
     "warning": "Cảnh báo",
     "invalid_pincode": "Mã PIN không hợp lệ, vui lòng kiểm tra và thử lại.",
     "remove_alert": "Are you sure want to remove?",
-    "clear_alert": "Are you sure you want to clear?",
-    "clear_user_alert": "Are you sure you want to clear all user data?",
-    "clear": "Clear",
+    "clear_alert": "Bạn có chắc chắn muốn xóa không?",
+    "clear_user_alert": "Bạn có chắc chắn muốn xóa tất cả dữ liệu của bạn?",
+    "clear": "Xóa",
     "cancel": "Huỷ",
     "delete": "Xóa",
     "copied": "Đã sao chép!",
     "no_internet": "Không có kết nối!",
-    "confirm": "Confirm",
-    "removed": "Removed"
+    "confirm": "Xác nhận",
+    "removed": "Đã xóa"
   },
   "post": {
     "reblog_alert": "Bạn có chắc chắn muốn đăng lại không?",
-    "removed_hint": "The post was removed by",
-    "copy_link": "Copy Link"
+    "removed_hint": "Bài viết đã bị xóa bởi",
+    "copy_link": "Sao chép liên kết"
   },
   "drafts": {
     "title": "Bản nháp",
@@ -216,7 +216,7 @@
     "deleted": "Bản nháp đã bị xóa"
   },
   "schedules": {
-    "title": "Schedules",
+    "title": "Những lịch trình",
     "empty_list": "Không có gì ở đây",
     "deleted": "Các bài viết được hẹn lịch đã bị xóa",
     "move": "Di chuyển đến bản nháp",
@@ -228,7 +228,7 @@
     "empty_list": "Không có gì ở đây",
     "deleted": "Trang đánh dấu đã được gỡ bỏ",
     "search": "Tìm kiếm trong trang đánh dấu",
-    "added": "Added to bookmarks",
+    "added": "Được thêm vào phần đánh dấu trang",
     "add": "Thêm vào dấu trang"
   },
   "favorites": {
@@ -263,31 +263,31 @@
     "no_existing_post": "Hiện tại không có bài viết nào"
   },
   "search": {
-    "posts": "Posts",
-    "comments": "Comments"
+    "posts": "Các bài đăng",
+    "comments": "Các lời bình luận"
   },
   "comment_filter": {
-    "trending": "trending",
-    "reputation": "reputation",
-    "votes": "votes",
-    "age": "age"
+    "trending": "đang thịnh hành",
+    "reputation": "uy tín",
+    "votes": "những bình chọn",
+    "age": "tuổi"
   },
   "transfer": {
-    "from": "From",
-    "to": "To",
-    "amount": "Amount",
-    "memo": "Memo",
-    "information": "Are you sure to transfer to funds?",
-    "amount_desc": "Balance",
-    "memo_desc": "This memo is public",
-    "to_placeholder": "Username",
-    "memo_placeholder": "Enter your notes here",
-    "transfer_token": "Transfer",
-    "points": "Points Transfer",
-    "transfer_to_saving": "Transfer To Saving",
-    "powerUp": "Power Up",
-    "withdraw_to_saving": "Withdraw To Saving",
-    "steemconnect_title": "Steemconnect Transfer",
-    "next": "NEXT"
+    "from": "Từ",
+    "to": "Đến",
+    "amount": "Số lượng",
+    "memo": "Bản ghi nhớ",
+    "information": "Bạn có chắc chắn chuyển tiền?",
+    "amount_desc": "Số dư",
+    "memo_desc": "Bản ghi nhớ này được công khai",
+    "to_placeholder": "Tên người dùng",
+    "memo_placeholder": "Nhập ghi chú của bạn vào đây",
+    "transfer_token": "Chuyển khoản",
+    "points": "Chuyển điểm",
+    "transfer_to_saving": "Chuyển đến phần tiết kiệm",
+    "powerUp": "Tăng lên",
+    "withdraw_to_saving": "Rút về phần tiết kiệm",
+    "steemconnect_title": "Chuyển khoản Steemconnect",
+    "next": "KẾ TIẾP"
   }
 }
