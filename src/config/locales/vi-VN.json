@@ -109,14 +109,14 @@
     "nsfw_content": "Nội dung NSFW (nội dung không phù hợp để xem trong môi trường làm việc hoặc gần trẻ em)",
     "send_feedback": "Gửi phản hồi",
     "send": "Gửi",
-    "default_footer": "Default Footer",
+    "default_footer": "Phần mặc định ở cuối trang",
     "nsfw": {
-      "always_show": "Always show",
-      "always_hide": "Always hide",
-      "always_warn": "Always warn"
+      "always_show": "Luôn hiển thị",
+      "always_hide": "Luôn ẩn",
+      "always_warn": "Luôn cảnh báo"
     },
-    "feedback_success": "Email successfully open",
-    "feedback_fail": "Email client could not open"
+    "feedback_success": "Email đã được mở thành công",
+    "feedback_fail": "Email mà khách hàng không thể mở"
   },
   "voters": {
     "voters_info": "Thông tin người bình chọn",
@@ -132,7 +132,7 @@
     "cancel": "huỷ",
     "login": "ĐĂNG NHẬP",
     "steemconnect_description": "Nếu bạn không muốn giữ mật khẩu của mình được mã hóa và lưu trên thiết bị của mình, bạn có thể sử dụng Steemconnect.",
-    "steemconnect_fee_description": "Steemconnect may charge some fees from your reward transactions"
+    "steemconnect_fee_description": "Steemconnect có thể tính một số khoản phí từ các giao dịch phần thưởng của bạn"
   },
   "home": {
     "feed": "Nguồn cấp dữ liệu",
@@ -168,8 +168,8 @@
     "reply_placeholder": "Bạn muốn viết gì về bài viết trên?",
     "publish": "Đăng bài",
     "reply": "Trả lời",
-    "open_gallery": "Open Gallery",
-    "capture_photo": "Capture a photo"
+    "open_gallery": "Thư viện mở",
+    "capture_photo": "Chụp ảnh"
   },
   "pincode": {
     "enter_text": "Nhập mã PIN để mở khóa",
@@ -179,11 +179,11 @@
   },
   "alert": {
     "success": "Thành công!",
-    "successful": "Successful",
+    "successful": "Thành công",
     "allRead": "Đã đánh dấu tất cả các thông báo là đã đọc",
     "claim_reward_balance_ok": "Số dư tiền thưởng đã được nhận",
     "fail": "Thất bại!",
-    "move": "Move",
+    "move": "Di chuyển",
     "move_question": "Are you sure to move to drafts?",
     "success_shared": "Bài viết của bạn đã được chia sẻ thành công",
     "success_moved": "Moved to draft",
