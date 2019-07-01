@@ -206,7 +206,7 @@
   },
   "post": {
     "reblog_alert": "정말 리블로그 하시겠습니까?",
-    "removed_hint": "The post was removed by",
+    "removed_hint": "포스팅이 삭제되었습니다",
     "copy_link": "링크 복사"
   },
   "drafts": {
