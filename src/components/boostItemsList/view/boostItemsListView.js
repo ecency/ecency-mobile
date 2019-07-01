@@ -21,20 +21,6 @@ class BoostItemsListView extends Component {
     this.state = {};
   }
 
-  // Component Life Cycles
-
-  componentWillReceiveProps(nextProps) {
-    const { selectedSlide } = this.props;
-
-    if (selectedSlide !== nextProps.selectedSlide) {
-      this._goToSelectedSlide(nextProps.selectedSlide);
-    }
-  }
-
-  // Component Functions
-
-  // [{ name: 'asdas', icon: 'pencil', totalUser: 'asd' }];
-
   _renderPlaceListItem = ({ item }) => (
     <TouchableOpacity
       style={[styles.slide, { backgroundColor: item.color }]}
@@ -42,27 +28,12 @@ class BoostItemsListView extends Component {
     >
       <View style={styles.slideContainer}>
         <Text style={styles.pointText}>{item.name}</Text>
-        {/* <View
-          style={[
-            styles.iconWrapper,
-            this.props.items[this._carousel.currentIndex] === item && styles.activeIconWrapper,
-          ]}
-        >
-          <Image source={{ uri: item.icon }} style={styles.placeIcon} />
-        </View> */}
         <View>
           <Text style={styles.priceText}>{item.price}</Text>
         </View>
       </View>
     </TouchableOpacity>
   );
-
-  _goToSelectedSlide = index => {
-    const { onSnapToItem } = this.props;
-    /* eslint-disable-next-line */
-    this._carousel.snapToItem(index, (animated = true), (fireCallback = true));
-    onSnapToItem(index);
-  };
 
   _handleOnSlidePress = item => {
     const { items, navigateToRoom } = this.props;
@@ -102,7 +73,7 @@ class BoostItemsListView extends Component {
             this._carousel = c;
           }}
           snapOnAndroid
-          firstItem={0}
+          firstItem={3}
           showsHorizontalScrollIndicator={false}
           data={items}
           renderItem={this._renderPlaceListItem}
