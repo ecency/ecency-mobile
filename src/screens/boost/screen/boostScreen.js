@@ -59,13 +59,13 @@ class BoostScreen extends Component {
           <BoostItemsList
             items={BOOST_DATA}
             handleOnPlaceSelect={item => console.log(item)}
-            selectedSlide={2}
+            selectedSlide={4}
             onSnapToItem={item => this.setState({ selectedBoost: item })}
           />
         </View>
         <View style={styles.button}>
           <MainButton
-            onPress={() => alert('aa')}
+            onPress={() => alert(selectedBoost)}
             iconName="rocket"
             iconType="MaterialCommunityIcons"
             iconColor="white"
