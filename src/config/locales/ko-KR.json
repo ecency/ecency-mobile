@@ -19,7 +19,7 @@
     "unfollow": "님이 팔로우를 취소했습니다",
     "ignore": "님이 당신을 차단했습니다",
     "reblog": "님이 당신 글을 리블로그했습니다",
-    "transfer": "transfered steem",
+    "transfer": "스팀 송금",
     "comingsoon": "순위표 기능은 곧 출시될 예정입니다!",
     "notification": "알림",
     "leaderboard": "순위표",
@@ -38,8 +38,8 @@
     "vote": "투표",
     "reblog": "리블로그",
     "login": "로그인",
-    "incoming_transfer_title": "Incoming transfer",
-    "outgoing_transfer_title": "Outgoing transfer",
+    "incoming_transfer_title": "받은 포인트",
+    "outgoing_transfer_title": "보낸 포인트",
     "checkin_extra": "체크인 보너스",
     "delegation": "임대",
     "delegation_title": "임대 보상",
@@ -59,7 +59,7 @@
     "checkin_desc": "eSteem 앱에 로그인하면 친구들과 지속적인 관계를 유지할 수 있으며, 0.25 포인트도 획득할 수 있습니다.",
     "vote_desc": "보팅을 통해 글 작성자에게 보상을 제공하고 감사 표시를 할 수 있습니다. 또한, 보팅 시 보팅 가중치에 0.01을 곱한 포인트가 지급됩니다.",
     "reblog_desc": "좋아하는 글을 친구에게 공유하고 1 포인트를 획득하세요.",
-    "login_desc": "When you login into eSteem app you are entitled to earn 100 points automatically.",
+    "login_desc": "eSteem 앱에 최초 로그인 시 100 포인트가 자동 지급됩니다.",
     "checkin_extra_desc": "꾸준히 앱을 이용한 사용자는 10 포인트 이상의 추가 포인트를 획득할 수 있는 기회가 제공되며 더 열심히 이용할수록 더 많은 포인트를 획득할 수 있습니다."
   },
   "messages": {
@@ -115,7 +115,7 @@
       "always_hide": "항상 숨기기",
       "always_warn": "항상 경고 표시하기"
     },
-    "feedback_success": "Email successfully open",
+    "feedback_success": "이메일 클라이언트가 성공적으로 열렸습니다",
     "feedback_fail": "이메일 클라이언트를 열지 못했습니다"
   },
   "voters": {
@@ -277,7 +277,7 @@
     "to": "받는 사람",
     "amount": "수량",
     "memo": "메모",
-    "information": "Are you sure to transfer to funds?",
+    "information": "자금을 송금하시겠습니까?",
     "amount_desc": "잔액",
     "memo_desc": "이 메모는 누구나 볼 수 있습니다",
     "to_placeholder": "사용자 이름",
