@@ -290,6 +290,8 @@
     "steemconnect_title": "Steemconnect Transfer",
     "next": "NEXT",
     "withdraw_steem": "Withdraw Steem",
-    "withdraw_sbd": "Withdraw Steem Dollar"
+    "withdraw_sbd": "Withdraw Steem Dollar",
+    "delegate": "Delegate",
+    "power_down": "Power Down"
   }
 }

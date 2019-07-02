@@ -22,6 +22,7 @@ class WalletDetailsView extends PureComponent {
     const sbdDropdown = ['transfer_token', 'transfer_to_saving'];
     const savingSteemDropdown = ['withdraw_steem'];
     const savingSbdDropdown = ['withdraw_sbd'];
+    const steemPowerDropdown = ['delegate', 'power_down'];
 
     return (
       <View style={styles.container}>
@@ -48,6 +49,11 @@ class WalletDetailsView extends PureComponent {
               vestsToSp(walletData.vestingShares, walletData.steemPerMVests) * 1000,
             ) / 1000} SP`}
             isBoldText
+            isHasdropdown={isShowDropdowns}
+            dropdownOptions={steemPowerDropdown.map(item =>
+              intl.formatMessage({ id: `transfer.${item}` }),
+            )}
+            onDropdownSelect={a => navigate(steemPowerDropdown[a], 'STEEM_POWER')}
           />
 
           {walletData.vestingSharesDelegated > 0 && (
