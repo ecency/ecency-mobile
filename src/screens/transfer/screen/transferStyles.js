@@ -15,7 +15,6 @@ export default EStyleSheet.create({
   middleContent: {
     flex: 3,
     justifyContent: 'center',
-    alignItems: 'center',
   },
   bottomContent: {
     flex: 2,
@@ -84,5 +83,62 @@ export default EStyleSheet.create({
   dropdown: {
     flexGrow: 1,
     width: 150,
+  },
+  track: {
+    height: 2,
+    borderRadius: 1,
+  },
+  thumb: {
+    width: 16,
+    height: 16,
+    borderRadius: 16 / 2,
+    backgroundColor: '$primaryLightBackground',
+    shadowColor: 'black',
+    shadowOffset: { width: 0, height: 2 },
+    shadowRadius: 2,
+    shadowOpacity: 0.35,
+    elevation: 3,
+  },
+  slider: {
+    flex: 1,
+    marginHorizontal: 30,
+  },
+  formButton: {
+    padding: 7,
+    borderRadius: 5,
+    backgroundColor: '$primaryBlue',
+    marginTop: 5,
+  },
+  formButtonText: {
+    color: '$white',
+    fontSize: 14,
+  },
+  amountText: {
+    color: '$primaryBlue',
+  },
+  informationText: {
+    alignSelf: 'center',
+    color: '$iconColor',
+  },
+  spInformation: {
+    backgroundColor: 'red',
+    width: '$deviceWidth / 3',
+    borderRadius: 5,
+    margin: 5,
+  },
+  vestsInformation: {
+    backgroundColor: 'gray',
+    width: '$deviceWidth / 3',
+    borderRadius: 5,
+    margin: 5,
+  },
+  steemInformation: {
+    backgroundColor: 'green',
+    width: '$deviceWidth / 3',
+    borderRadius: 5,
+    margin: 5,
+  },
+  avatar: {
+    marginBottom: 30,
   },
 });
