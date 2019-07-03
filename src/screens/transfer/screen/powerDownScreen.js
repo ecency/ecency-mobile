@@ -104,20 +104,12 @@ class PowerDownView extends Component {
     return (
       <View>
         {destinationAccounts.map(item => (
-          <View
-            style={{
-              flexDirection: 'row',
-              alignItems: 'center',
-              justifyContent: 'space-between',
-              padding: 5,
-            }}
-            key={item.username}
-          >
+          <View style={styles.destinationAccountsLists} key={item.username}>
             <Text>{item.username}</Text>
             <IconButton
-              style={{ borderColor: 'red', borderWidth: 1, width: 25, height: 25, borderRadius: 5 }}
+              style={styles.iconButton}
               size={20}
-              iconStyle={{ color: 'red' }}
+              iconStyle={styles.crossIcon}
               iconType="MaterialIcons"
               name="clear"
               onPress={() => this._removeDestinationAccount(item)}
@@ -232,7 +224,7 @@ class PowerDownView extends Component {
               <Text style={styles.informationText}>Drag the sliderto adjust to amount</Text>
             </View>
             <View style={styles.bottomContent}>
-              <View style={{ flexDirection: 'row' }}>
+              <View style={styles.informationView}>
                 <InformationBox
                   style={styles.spInformation}
                   text={`- ${spCalculated.toFixed(3)} SP`}
