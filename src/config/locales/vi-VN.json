@@ -19,11 +19,11 @@
     "unfollow": "đã bỏ theo dõi bạn",
     "ignore": "đã bỏ qua bạn",
     "reblog": "đã đăng lại bài viết của bạn",
-    "transfer": "transfered steem",
+    "transfer": "steem được chuyển khoản",
     "comingsoon": "Sắp có tính năng bảng xếp hạng!",
     "notification": "Thông báo",
     "leaderboard": "Bảng xếp hạng",
-    "epoint": "Points",
+    "epoint": "Các điểm thưởng",
     "leaderboard_title": "Người dùng tiêu biểu hàng ngày",
     "recent": "Gần đây",
     "yesterday": "Hôm qua",
@@ -32,28 +32,35 @@
     "older_then": "Cách đây hơn 1 tháng"
   },
   "points": {
-    "post": "Post",
-    "comment": "Comment",
-    "checkin": "Check-in",
-    "vote": "Vote",
-    "reblog": "Reblog",
-    "login": "Login",
-    "checkin_extra": "Bonus",
-    "post_title": "Points for post",
-    "comment_title": "Points for comment",
-    "vote_title": "Points for vote",
-    "reblog_title": "Points for reblog",
-    "login_title": "Points for login",
-    "checkin_title": "Points for usage",
-    "checkin_extra_title": "Usage bonus",
-    "no_activity": "No activity here!",
-    "post_desc": "You can earn point by posting regularly. Posting gives you 15 points.",
-    "comment_desc": "Each comment you make helps you to grow your audience and make friendship but also earns you 5 points.",
-    "checkin_desc": "Checking in on eSteem app gives you 0.25 points and helps you stay connected with your friends.",
-    "vote_desc": "By voting you give reward to other creators and show your appreciation but also earn 0.01 x vote weight points.",
-    "reblog_desc": "  Share what post you like with your friends and earn 1 points.",
-    "login_desc": "When you login into eSteem app you are entitled to earn 100 points automatically.",
-    "checkin_extra_desc": "Consistent use of app gives you extra chances to earn more 10 points, be more active and earn more."
+    "post": "Bài đăng",
+    "comment": "Câu bình luận",
+    "checkin": "Đăng ký vào",
+    "vote": "Bình chọn",
+    "reblog": "Đăng lại",
+    "login": "Đăng nhập",
+    "incoming_transfer_title": "Chuyển khoản đang được chuyển đến",
+    "outgoing_transfer_title": "Chuyển khoản đang được chuyển đi",
+    "checkin_extra": "Thưởng",
+    "delegation": "Sự ủy thác",
+    "delegation_title": "Phần thưởng được ủy thác",
+    "delegation_desc": "Bạn có thể kiếm 1 điểm mỗi ngày cho mỗi 100sp ủy thác",
+    "post_title": "Các điểm cho bài viết",
+    "comment_title": "Các điểm cho câu bình luận",
+    "vote_title": "Các điểm cho bình chọn",
+    "reblog_title": "Các điểm cho đăng lại bài viết",
+    "login_title": "Các điểm thưởng cho đăng nhập",
+    "checkin_title": "Các điểm thưởng cho việc sử dụng",
+    "checkin_extra_title": "Phần thưởng cho việc sử dụng",
+    "no_activity": "Không có hoạt động nào ở đây!",
+    "outgoing_transfer_description": "",
+    "incoming_transfer_description": "",
+    "post_desc": "Bạn có thể kiếm điểm thưởng bằng cách đăng bài thường xuyên. Mỗi lần đăng bài bạn được 15 điểm.",
+    "comment_desc": "Mỗi câu bình luận bạn đưa ra không chỉ giúp bạn tăng lượng khán giả và kết bạn mà còn giúp bạn kiếm được thêm 5 điểm.",
+    "checkin_desc": "Đăng ký trên ứng dụng eSteem cho bạn 0,25 điểm và giúp bạn kết nối với những người bạn của bạn.",
+    "vote_desc": "Bằng cách bình chọn, bạn không chỉ trao phần thưởng cho những người sáng tạo nội dung và thể hiện sự đánh giá cao của bạn mà còn kiếm được 0,01 x điểm số bình chọn.",
+    "reblog_desc": "  Chia sẻ bài viết nào bạn thích với bạn bè của bạn và kiếm được 1 điểm.",
+    "login_desc": "Khi bạn đăng nhập vào ứng dụng eSteem, tự động bạn có được 100 điểm thưởng.",
+    "checkin_extra_desc": "Việc sử dụng ứng dụng lâu dài sẽ cho bạn thêm nhiều cơ hội kiếm thêm 10 điểm thưởng, hãy tích cực hơn và kiếm thêm nhiều điểm thưởng hơn."
   },
   "messages": {
     "comingsoon": "Tính năng tin nhắn sẽ được cập nhật sớm!"
@@ -83,33 +90,33 @@
   },
   "settings": {
     "settings": "Cài đặt",
-    "general": "General",
+    "general": "Tổng quan",
     "currency": "Tiền tệ",
     "language": "Ngôn ngữ",
     "server": "Máy chủ",
     "dark_theme": "Chế độ tối",
     "push_notification": "Đẩy thông báo",
     "notification": {
-      "follow": "Follow",
-      "vote": "Vote",
-      "comment": "Comment",
-      "mention": "Mention",
-      "reblog": "Reblog",
-      "transfers": "Transfers"
+      "follow": "Theo dõi",
+      "vote": "Bình chọn",
+      "comment": "Câu bình luận",
+      "mention": "Nhắc đến",
+      "reblog": "Đăng lại",
+      "transfers": "Những phần chuyển khoản"
     },
     "pincode": "Mã PIN",
     "reset": "Thiết lập lại",
-    "nsfw_content": "NSFW Content",
-    "send_feedback": "Send Feedback",
-    "send": "Send",
-    "default_footer": "Default Footer",
+    "nsfw_content": "Nội dung NSFW (nội dung không phù hợp để xem trong môi trường làm việc hoặc gần trẻ em)",
+    "send_feedback": "Gửi phản hồi",
+    "send": "Gửi",
+    "default_footer": "Phần mặc định ở cuối trang",
     "nsfw": {
-      "always_show": "Always show",
-      "always_hide": "Always hide",
-      "always_warn": "Always warn"
+      "always_show": "Luôn hiển thị",
+      "always_hide": "Luôn ẩn",
+      "always_warn": "Luôn cảnh báo"
     },
-    "feedback_success": "Email successfully open",
-    "feedback_fail": "Email client could not open"
+    "feedback_success": "Email đã được mở thành công",
+    "feedback_fail": "Email mà khách hàng không thể mở"
   },
   "voters": {
     "voters_info": "Thông tin người bình chọn",
@@ -125,7 +132,7 @@
     "cancel": "huỷ",
     "login": "ĐĂNG NHẬP",
     "steemconnect_description": "Nếu bạn không muốn giữ mật khẩu của mình được mã hóa và lưu trên thiết bị của mình, bạn có thể sử dụng Steemconnect.",
-    "steemconnect_fee_description": "Steemconnect may charge some fees from your reward transactions"
+    "steemconnect_fee_description": "Steemconnect có thể tính một số khoản phí từ các giao dịch phần thưởng của bạn"
   },
   "home": {
     "feed": "Nguồn cấp dữ liệu",
@@ -161,8 +168,8 @@
     "reply_placeholder": "Bạn muốn viết gì về bài viết trên?",
     "publish": "Đăng bài",
     "reply": "Trả lời",
-    "open_gallery": "Open Gallery",
-    "capture_photo": "Capture a photo"
+    "open_gallery": "Thư viện mở",
+    "capture_photo": "Chụp ảnh"
   },
   "pincode": {
     "enter_text": "Nhập mã PIN để mở khóa",
@@ -172,14 +179,14 @@
   },
   "alert": {
     "success": "Thành công!",
-    "successful": "Successful",
+    "successful": "Thành công",
     "allRead": "Đã đánh dấu tất cả các thông báo là đã đọc",
     "claim_reward_balance_ok": "Số dư tiền thưởng đã được nhận",
     "fail": "Thất bại!",
-    "move": "Move",
-    "move_question": "Are you sure to move to drafts?",
+    "move": "Di chuyển",
+    "move_question": "Bạn có chắc chắn để chuyển đến những bản dự thảo?",
     "success_shared": "Bài viết của bạn đã được chia sẻ thành công",
-    "success_moved": "Moved to draft",
+    "success_moved": "Được chuyển đến bản dự thảo",
     "permission_denied": "Quyền truy cập bị từ chối",
     "permission_text": "Vui lòng mở cài đặt điện thoại và thay đổi quyền truy cập cho ứng dụng eSteem.",
     "success_rebloged": "Đã đăng lại bài viết!",
@@ -187,20 +194,20 @@
     "warning": "Cảnh báo",
     "invalid_pincode": "Mã PIN không hợp lệ, vui lòng kiểm tra và thử lại.",
     "remove_alert": "Are you sure want to remove?",
-    "clear_alert": "Are you sure you want to clear?",
-    "clear_user_alert": "Are you sure you want to clear all user data?",
-    "clear": "Clear",
+    "clear_alert": "Bạn có chắc chắn muốn xóa không?",
+    "clear_user_alert": "Bạn có chắc chắn muốn xóa tất cả dữ liệu của bạn?",
+    "clear": "Xóa",
     "cancel": "Huỷ",
     "delete": "Xóa",
     "copied": "Đã sao chép!",
     "no_internet": "Không có kết nối!",
-    "confirm": "Confirm",
-    "removed": "Removed"
+    "confirm": "Xác nhận",
+    "removed": "Đã xóa"
   },
   "post": {
     "reblog_alert": "Bạn có chắc chắn muốn đăng lại không?",
-    "removed_hint": "The post was removed by",
-    "copy_link": "Copy Link"
+    "removed_hint": "Bài viết đã bị xóa bởi",
+    "copy_link": "Sao chép liên kết"
   },
   "drafts": {
     "title": "Bản nháp",
@@ -209,7 +216,7 @@
     "deleted": "Bản nháp đã bị xóa"
   },
   "schedules": {
-    "title": "Schedules",
+    "title": "Những lịch trình",
     "empty_list": "Không có gì ở đây",
     "deleted": "Các bài viết được hẹn lịch đã bị xóa",
     "move": "Di chuyển đến bản nháp",
@@ -221,7 +228,7 @@
     "empty_list": "Không có gì ở đây",
     "deleted": "Trang đánh dấu đã được gỡ bỏ",
     "search": "Tìm kiếm trong trang đánh dấu",
-    "added": "Added to bookmarks",
+    "added": "Được thêm vào phần đánh dấu trang",
     "add": "Thêm vào dấu trang"
   },
   "favorites": {
@@ -256,30 +263,30 @@
     "no_existing_post": "Hiện tại không có bài viết nào"
   },
   "search": {
-    "posts": "Posts",
-    "comments": "Comments"
+    "posts": "Các bài đăng",
+    "comments": "Các lời bình luận"
   },
   "comment_filter": {
-    "trending": "trending",
-    "reputation": "reputation",
-    "votes": "votes",
-    "age": "age"
+    "trending": "đang thịnh hành",
+    "reputation": "uy tín",
+    "votes": "những bình chọn",
+    "age": "tuổi"
   },
   "transfer": {
-    "from": "From",
-    "to": "To",
-    "amount": "Amount",
-    "memo": "Memo",
-    "information": "Are you sure to transfer to funds?",
-    "amount_desc": "Balance",
-    "memo_desc": "This memo is public",
-    "to_placeholder": "Username",
-    "memo_placeholder": "Enter your notes here",
-    "transfer_token": "Transfer",
-    "transfer_to_saving": "Transfer To Saving",
-    "powerUp": "Power Up",
-    "withdraw_to_saving": "Withdraw To Saving",
-    "steemconnect_title": "Steemconnect Transfer",
-    "next": "NEXT"
+    "to": "Đến",
+    "amount": "Số lượng",
+    "memo": "Bản ghi nhớ",
+    "information": "Bạn có chắc chắn chuyển tiền?",
+    "amount_desc": "Số dư",
+    "memo_desc": "Bản ghi nhớ này được công khai",
+    "to_placeholder": "Tên người dùng",
+    "memo_placeholder": "Nhập ghi chú của bạn vào đây",
+    "transfer_token": "Chuyển khoản",
+    "points": "Chuyển điểm",
+    "transfer_to_saving": "Chuyển đến phần tiết kiệm",
+    "powerUp": "Tăng lên",
+    "withdraw_to_saving": "Rút về phần tiết kiệm",
+    "steemconnect_title": "Chuyển khoản Steemconnect",
+    "next": "KẾ TIẾP"
   }
 }
