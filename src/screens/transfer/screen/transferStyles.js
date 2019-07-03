@@ -141,4 +141,34 @@ export default EStyleSheet.create({
   avatar: {
     marginBottom: 30,
   },
+  destinationAccountsLists: {
+    flexDirection: 'row',
+    alignItems: 'center',
+    justifyContent: 'space-between',
+    padding: 5,
+  },
+  iconButton: {
+    borderColor: 'red',
+    borderWidth: 1,
+    width: 25,
+    height: 25,
+    borderRadius: 5,
+  },
+  crossIcon: {
+    color: 'red',
+  },
+  informationView: {
+    flexDirection: 'row',
+  },
+  modalContainer: {
+    flex: 1,
+    flexDirection: 'column',
+    justifyContent: 'center',
+    alignItems: 'center',
+  },
+  checkView: {
+    flexDirection: 'row',
+    justifyContent: 'space-around',
+    margin: 20,
+  },
 });
