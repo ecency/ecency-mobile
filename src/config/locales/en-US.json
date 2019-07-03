@@ -299,6 +299,9 @@
     "save": "Save",
     "percent": "Percentage",
     "percent_information": "Percentage of power down to this account",
-    "auto_vests": "Automatically power up to the target account"
+    "auto_vests": "Automatically power up to the target account",
+    "stop": "Stop",
+    "stop_information": "Are you sure to stop?",
+    "incoming_funds": "Incoming Funds"
   }
 }

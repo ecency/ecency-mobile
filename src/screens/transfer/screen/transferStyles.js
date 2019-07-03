@@ -47,6 +47,13 @@ export default EStyleSheet.create({
     justifyContent: 'center',
     alignItems: 'center',
   },
+  stopButton: {
+    width: '$deviceWidth / 3',
+    marginTop: 30,
+    justifyContent: 'center',
+    alignItems: 'center',
+    backgroundColor: 'red',
+  },
   buttonText: {
     color: 'white',
   },
