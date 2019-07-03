@@ -71,7 +71,7 @@ class WithdrawAccountModal extends Component {
       <View style={styles.modalContainer}>
         <UserAvatar username={account} size="xl" style={styles.avatar} noAction />
         <TransferFormItem
-          label={intl.formatMessage({ id: 'transfer.to' })}
+          label={intl.formatMessage({ id: 'transfer.account' })}
           rightComponent={() =>
             this._renderInput(
               intl.formatMessage({ id: 'transfer.to_placeholder' }),
@@ -81,7 +81,7 @@ class WithdrawAccountModal extends Component {
           }
         />
         <TransferFormItem
-          label={intl.formatMessage({ id: 'transfer.amount' })}
+          label={intl.formatMessage({ id: 'transfer.percent' })}
           rightComponent={() => this._renderInformationText(`${percent.toFixed(0)} %`)}
         />
         <View style={styles.informationView}>
@@ -98,11 +98,15 @@ class WithdrawAccountModal extends Component {
             }}
           />
         </View>
-        <Text style={styles.informationText}>Drag the sliderto adjust to amount</Text>
+        <Text style={styles.informationText}>
+          {intl.formatMessage({ id: 'transfer.percent_information' })}
+        </Text>
         <TouchableOpacity onPress={() => this.setState({ autoPowerUp: !autoPowerUp })}>
           <View style={styles.checkView}>
             <CheckBox locked isChecked={autoPowerUp} />
-            <Text style={styles.informationText}>Drag the sliderto adjust to amount</Text>
+            <Text style={styles.informationText}>
+              {intl.formatMessage({ id: 'transfer.auto_vests' })}
+            </Text>
           </View>
         </TouchableOpacity>
         <MainButton
@@ -110,7 +114,7 @@ class WithdrawAccountModal extends Component {
           style={styles.button}
           onPress={() => handleOnSubmit(account, percent, autoPowerUp)}
         >
-          <Text style={styles.buttonText}>{intl.formatMessage({ id: 'transfer.next' })}</Text>
+          <Text style={styles.buttonText}>{intl.formatMessage({ id: 'transfer.save' })}</Text>
         </MainButton>
       </View>
     );

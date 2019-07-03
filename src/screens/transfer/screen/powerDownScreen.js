@@ -198,11 +198,11 @@ class PowerDownView extends Component {
           <ScrollView>
             <View style={styles.middleContent}>
               <TransferFormItem
-                label={intl.formatMessage({ id: 'transfer.from' })}
+                label={intl.formatMessage({ id: 'transfer.account' })}
                 rightComponent={() => this._renderDropdown(accounts, currentAccountName)}
               />
               <TransferFormItem
-                label={intl.formatMessage({ id: 'transfer.from' })}
+                label={intl.formatMessage({ id: 'transfer.destination_accounts' })}
                 rightComponent={this._renderDestinationAccountItems}
               />
               <TransferFormItem
@@ -221,7 +221,9 @@ class PowerDownView extends Component {
                   this.setState({ amount: value });
                 }}
               />
-              <Text style={styles.informationText}>Drag the sliderto adjust to amount</Text>
+              <Text style={styles.informationText}>
+                {intl.formatMessage({ id: 'transfer.amount_information' })}
+              </Text>
             </View>
             <View style={styles.bottomContent}>
               <View style={styles.informationView}>
