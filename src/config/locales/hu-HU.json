@@ -282,11 +282,11 @@
     "memo_desc": "Ez az üzenet nyilvános",
     "to_placeholder": "Felhasználónév",
     "memo_placeholder": "Megjegyzés ide",
-    "transfer_token": "Transfer",
     "points": "Points Transfer",
-    "transfer_to_saving": "Transfer To Saving",
+    "transfer_token": "Átutalás",
+    "transfer_to_saving": "Átutalás a megtakarításokhoz",
     "powerUp": "Power Up",
-    "withdraw_to_saving": "Withdraw To Saving",
+    "withdraw_to_saving": "Átutalás A Megtakarításokhoz",
     "steemconnect_title": "Steemconnect átutalás",
     "next": "KÖVETKEZŐ"
   }

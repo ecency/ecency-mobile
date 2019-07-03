@@ -282,11 +282,11 @@
     "memo_desc": "यह ज्ञापन सार्वजनिक है",
     "to_placeholder": "प्रयोक्ता नाम",
     "memo_placeholder": "अपनी टिप्पणी यहाँ लिखें",
-    "transfer_token": "Transfer",
     "points": "Points Transfer",
-    "transfer_to_saving": "Transfer To Saving",
+    "transfer_token": "स्थान्तरण",
+    "transfer_to_saving": "बचत खाते में स्थान्तरण करें",
     "powerUp": "स्टीम क्षमता बढ़ाएं",
-    "withdraw_to_saving": "Withdraw To Saving",
+    "withdraw_to_saving": "बचत खाते से निकालें",
     "steemconnect_title": "स्टीमकनेक्ट स्थान्तरण",
     "next": "NEXT"
   }
