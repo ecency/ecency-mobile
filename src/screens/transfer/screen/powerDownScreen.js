@@ -18,9 +18,12 @@ import { SquareButton } from '../../../components/buttons';
 import InformationBox from '../../../components/informationBox';
 import { Icon } from '../../../components/icon';
 import { IconButton } from '../../../components/iconButton';
-import parseToken from '../../../utils/parseToken';
-import { vestsToSp } from '../../../utils/conversions';
 import WithdrawAccountModal from './withdrawAccountModal';
+
+import parseToken from '../../../utils/parseToken';
+import parseDate from '../../../utils/parseDate';
+import { vestsToSp } from '../../../utils/conversions';
+import isEmptyDate from '../../../utils/isEmptyDate';
 
 import styles from './transferStyles';
 /* Props
@@ -39,6 +42,9 @@ class PowerDownView extends Component {
       isOpenWithdrawAccount: false,
       destinationAccounts: [],
     };
+
+    this.startActionSheet = React.createRef();
+    this.stopActionSheet = React.createRef();
   }
 
   // Component Life Cycles
@@ -142,6 +148,18 @@ class PowerDownView extends Component {
 
   _renderInformationText = text => <Text style={styles.amountText}>{text}</Text>;
 
+  _renderIncomingFunds = (poweringDownFund, poweringDownVests, nextPowerDown) => (
+    <Fragment>
+      <Text style={{ color: 'green', fontSize: 20, marginVertical: 5 }}>
+        {`+ ${poweringDownFund} STEEM`}
+      </Text>
+      <Text style={{ color: 'red', fontSize: 15, marginVertical: 5 }}>
+        {`- ${poweringDownVests} VESTS`}
+      </Text>
+      <Text style={{ marginVertical: 5 }}>{nextPowerDown}</Text>
+    </Fragment>
+  );
+
   _handleOnDropdownChange = value => {
     const { fetchBalance } = this.props;
 
@@ -181,15 +199,25 @@ class PowerDownView extends Component {
     } = this.props;
     const { amount, steemConnectTransfer, isTransfering, isOpenWithdrawAccount } = this.state;
     let path;
+    let poweringDownVests = 0;
+    let availableVestingShares = 0;
 
-    const availableVestingShares =
-      parseToken(get(selectedAccount, 'vesting_shares')) -
-      (Number(get(selectedAccount, 'to_withdraw')) - Number(get(selectedAccount, 'withdrawn'))) /
-        1e6 -
-      parseToken(get(selectedAccount, 'delegated_vesting_shares'));
+    const poweringDown = !isEmptyDate(selectedAccount.next_vesting_withdrawal);
+    const nextPowerDown = parseDate(selectedAccount.next_vesting_withdrawal);
+
+    if (poweringDown) {
+      poweringDownVests = parseToken(selectedAccount.vesting_withdraw_rate);
+    } else {
+      availableVestingShares =
+        parseToken(get(selectedAccount, 'vesting_shares')) -
+        (Number(get(selectedAccount, 'to_withdraw')) - Number(get(selectedAccount, 'withdrawn'))) /
+          1e6 -
+        parseToken(get(selectedAccount, 'delegated_vesting_shares'));
+    }
 
     const spCalculated = vestsToSp(amount, steemPerMVests);
     const fundPerWeek = Math.round((spCalculated / 13) * 1000) / 1000;
+    const poweringDownFund = vestsToSp(poweringDownVests, steemPerMVests).toFixed(3);
 
     return (
       <Fragment>
@@ -205,55 +233,95 @@ class PowerDownView extends Component {
                 label={intl.formatMessage({ id: 'transfer.destination_accounts' })}
                 rightComponent={this._renderDestinationAccountItems}
               />
-              <TransferFormItem
-                label={intl.formatMessage({ id: 'transfer.amount' })}
-                rightComponent={() => this._renderInformationText(`${amount.toFixed(6)} VESTS`)}
-              />
-              <Slider
-                style={styles.slider}
-                trackStyle={styles.track}
-                thumbStyle={styles.thumb}
-                minimumTrackTintColor="#357ce6"
-                thumbTintColor="#007ee5"
-                maximumValue={availableVestingShares}
-                value={amount}
-                onValueChange={value => {
-                  this.setState({ amount: value });
-                }}
-              />
-              <Text style={styles.informationText}>
-                {intl.formatMessage({ id: 'transfer.amount_information' })}
-              </Text>
+              {!poweringDown && (
+                <Fragment>
+                  <TransferFormItem
+                    label={intl.formatMessage({ id: 'transfer.amount' })}
+                    rightComponent={() => this._renderInformationText(`${amount.toFixed(6)} VESTS`)}
+                  />
+                  <Slider
+                    style={styles.slider}
+                    trackStyle={styles.track}
+                    thumbStyle={styles.thumb}
+                    minimumTrackTintColor="#357ce6"
+                    thumbTintColor="#007ee5"
+                    maximumValue={availableVestingShares}
+                    value={amount}
+                    onValueChange={value => {
+                      this.setState({ amount: value });
+                    }}
+                  />
+                  <Text style={styles.informationText}>
+                    {intl.formatMessage({ id: 'transfer.amount_information' })}
+                  </Text>
+                </Fragment>
+              )}
+              {poweringDown && (
+                <Fragment>
+                  <TransferFormItem
+                    label={intl.formatMessage({ id: 'transfer.incoming_funds' })}
+                    rightComponent={() =>
+                      this._renderIncomingFunds(
+                        poweringDownFund,
+                        poweringDownVests,
+                        nextPowerDown.toLocaleString(),
+                      )
+                    }
+                  />
+                </Fragment>
+              )}
             </View>
             <View style={styles.bottomContent}>
-              <View style={styles.informationView}>
-                <InformationBox
-                  style={styles.spInformation}
-                  text={`- ${spCalculated.toFixed(3)} SP`}
-                />
-                <InformationBox
-                  style={styles.vestsInformation}
-                  text={`- ${amount.toFixed(0)} VESTS`}
-                />
-              </View>
-              <Icon style={styles.icon} size={40} iconType="MaterialIcons" name="arrow-downward" />
-              <InformationBox
-                style={styles.steemInformation}
-                text={`+ ${fundPerWeek.toFixed(3)} STEEM`}
-              />
-              <MainButton
-                style={styles.button}
-                isDisable={amount <= 0}
-                onPress={() => this.ActionSheet.show()}
-                isLoading={isTransfering}
-              >
-                <Text style={styles.buttonText}>{intl.formatMessage({ id: 'transfer.next' })}</Text>
-              </MainButton>
+              {!poweringDown && (
+                <Fragment>
+                  <View style={styles.informationView}>
+                    <InformationBox
+                      style={styles.spInformation}
+                      text={`- ${spCalculated.toFixed(3)} SP`}
+                    />
+                    <InformationBox
+                      style={styles.vestsInformation}
+                      text={`- ${amount.toFixed(0)} VESTS`}
+                    />
+                  </View>
+                  <Icon
+                    style={styles.icon}
+                    size={40}
+                    iconType="MaterialIcons"
+                    name="arrow-downward"
+                  />
+                  <InformationBox
+                    style={styles.steemInformation}
+                    text={`+ ${fundPerWeek.toFixed(3)} STEEM`}
+                  />
+                  <MainButton
+                    style={styles.button}
+                    isDisable={amount <= 0}
+                    onPress={() => this.startActionSheet.current.show()}
+                    isLoading={isTransfering}
+                  >
+                    <Text style={styles.buttonText}>
+                      {intl.formatMessage({ id: 'transfer.next' })}
+                    </Text>
+                  </MainButton>
+                </Fragment>
+              )}
+              {poweringDown && (
+                <MainButton
+                  style={styles.stopButton}
+                  onPress={() => this.stopActionSheet.current.show()}
+                  isLoading={isTransfering}
+                >
+                  <Text style={styles.buttonText}>
+                    {intl.formatMessage({ id: 'transfer.stop' })}
+                  </Text>
+                </MainButton>
+              )}
             </View>
           </ScrollView>
         </View>
         <ActionSheet
-          ref={o => (this.ActionSheet = o)}
+          ref={this.startActionSheet}
           options={[
             intl.formatMessage({ id: 'alert.confirm' }),
             intl.formatMessage({ id: 'alert.cancel' }),
@@ -261,9 +329,20 @@ class PowerDownView extends Component {
           title={intl.formatMessage({ id: 'transfer.information' })}
           cancelButtonIndex={1}
           destructiveButtonIndex={0}
-          onPress={index => {
-            index === 0 ? this._handleTransferAction() : null;
-          }}
+          onPress={index => (index === 0 ? this._handleTransferAction() : null)}
+        />
+        <ActionSheet
+          ref={this.stopActionSheet}
+          options={[
+            intl.formatMessage({ id: 'alert.confirm' }),
+            intl.formatMessage({ id: 'alert.cancel' }),
+          ]}
+          title={intl.formatMessage({ id: 'transfer.stop_information' })}
+          cancelButtonIndex={1}
+          destructiveButtonIndex={0}
+          onPress={index =>
+            index === 0 ? this.setState({ amount: 0 }, this._handleTransferAction()) : null
+          }
         />
         <Modal
           isOpen={isOpenWithdrawAccount}
