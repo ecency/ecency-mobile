@@ -292,6 +292,13 @@
     "withdraw_steem": "Withdraw Steem",
     "withdraw_sbd": "Withdraw Steem Dollar",
     "delegate": "Delegate",
-    "power_down": "Power Down"
+    "power_down": "Power Down",
+    "account": "Account",
+    "destination_accounts": "Destination Account(s)",
+    "amount_information": "Drag the sliderto adjust to amount",
+    "save": "Save",
+    "percent": "Percentage",
+    "percent_information": "Percentage of power down to this account",
+    "auto_vests": "Automatically power up to the target account"
   }
 }

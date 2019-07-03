@@ -119,6 +119,7 @@ export default EStyleSheet.create({
   informationText: {
     alignSelf: 'center',
     color: '$iconColor',
+    marginLeft: 5,
   },
   spInformation: {
     backgroundColor: 'red',
