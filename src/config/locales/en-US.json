@@ -38,7 +38,12 @@
     "vote": "Vote",
     "reblog": "Reblog",
     "login": "Login",
+    "incoming_transfer_title": "Incoming transfer",
+    "outgoing_transfer_title": "Outgoing transfer",
     "checkin_extra": "Bonus",
+    "delegation": "Delegation",
+    "delegation_title": "Delegation reward",
+    "delegation_desc": "You can earn 1 point per day for each 100sp delegation",
     "post_title": "Points for post",
     "comment_title": "Points for comment",
     "vote_title": "Points for vote",
@@ -47,6 +52,8 @@
     "checkin_title": "Points for usage",
     "checkin_extra_title": "Usage bonus",
     "no_activity": "No activity here!",
+    "outgoing_transfer_description": "",
+    "incoming_transfer_description": "",
     "post_desc": "You can earn point by posting regularly. Posting gives you 15 points.",
     "comment_desc": "Each comment you make helps you to grow your audience and make friendship but also earns you 5 points.",
     "checkin_desc": "Checking in on eSteem app gives you 0.25 points and helps you stay connected with your friends.",
@@ -194,11 +201,13 @@
     "delete": "Delete",
     "copied": "Copied!",
     "no_internet": "No connection!",
-    "confirm": "Confirm"
+    "confirm": "Confirm",
+    "removed": "Removed"
   },
   "post": {
     "reblog_alert": "Are you sure you want to reblog?",
-    "removed_hint": "The post was removed by"
+    "removed_hint": "The post was removed by",
+    "copy_link": "Copy Link"
   },
   "drafts": {
     "title": "Drafts",
@@ -273,10 +282,11 @@
     "memo_desc": "This memo is public",
     "to_placeholder": "Username",
     "memo_placeholder": "Enter your notes here",
-    "transferToken": "Transfer",
-    "transferToSaving": "Transfer To Saving",
+    "transfer_token": "Transfer",
+    "points": "Points Transfer",
+    "transfer_to_saving": "Transfer To Saving",
     "powerUp": "Power Up",
-    "withdrawToSaving": "Withdraw To Saving",
+    "withdraw_to_saving": "Withdraw To Saving",
     "steemconnect_title": "Steemconnect Transfer",
     "next": "NEXT"
   }

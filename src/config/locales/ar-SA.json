@@ -282,11 +282,11 @@
     "memo_desc": "هذه المذكرة عامة",
     "to_placeholder": "إسم المستخدم",
     "memo_placeholder": "أدخل ملاحظاتك هنا",
-    "transfer_token": "Transfer",
     "points": "Points Transfer",
-    "transfer_to_saving": "Transfer To Saving",
+    "transfer_token": "تحويل",
+    "transfer_to_saving": "النقل إلى المدخرات",
     "powerUp": "رفع الطاقة",
-    "withdraw_to_saving": "Withdraw To Saving",
+    "withdraw_to_saving": "سحب إلى الادخار",
     "steemconnect_title": "نقل Steemconnect",
     "next": "التالي"
   }

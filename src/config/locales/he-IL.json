@@ -18,7 +18,7 @@
     "follow": "עקב\\ה אחרייך",
     "unfollow": "הפסיק\\ה לעקוב אחרייך",
     "ignore": "התעלם\\ה ממך",
-    "reblog": "שיתף\/ה את הפוסט שלך",
+    "reblog": "שיתף/ה את הפוסט שלך",
     "transfer": "סטים מועבר",
     "comingsoon": "מאפיין לוח התוצאות יוצא להשקה בקרוב!",
     "notification": "התראות",
@@ -97,18 +97,18 @@
     "dark_theme": "ערכת נושא כהה",
     "push_notification": "התראות דחיפה",
     "notification": {
-      "follow": "עקוב\/י",
-      "vote": "הצבע\/י",
-      "comment": "תגיב\/י",
+      "follow": "עקוב/י",
+      "vote": "הצבע/י",
+      "comment": "תגיב/י",
       "mention": "איזכור",
-      "reblog": "שתף\/י",
+      "reblog": "שתף/י",
       "transfers": "העברות"
     },
     "pincode": "קוד PIN",
     "reset": "אתחל",
     "nsfw_content": "תוכן NSFW",
-    "send_feedback": "שלח\/י משוב",
-    "send": "שלח\/י",
+    "send_feedback": "שלח/י משוב",
+    "send": "שלח/י",
     "default_footer": "ברירת מחדל תחתונה",
     "nsfw": {
       "always_show": "הצג תמיד",
@@ -146,8 +146,8 @@
     "schedules": "לוחות זמנים",
     "gallery": "גלריה",
     "settings": "הגדרות",
-    "add_account": "הוסף\/י חשבון",
-    "logout": "התנתק\/י",
+    "add_account": "הוסף/י חשבון",
+    "logout": "התנתק/י",
     "cancel": "ביטול",
     "logout_text": "האם את\\ה בטוח\\ה שברצונך להתנתק?"
   },
@@ -184,7 +184,7 @@
     "claim_reward_balance_ok": "תגמול יתרה נתקבלה",
     "fail": "נכשל!",
     "move": "הזזה",
-    "move_question": "את\/ה בטוח\/ה להעביר לטיוטות?",
+    "move_question": "את/ה בטוח/ה להעביר לטיוטות?",
     "success_shared": "הפוסט שלך שותף בהצלחה",
     "success_moved": "הועבר לטיוטות",
     "permission_denied": "הרשאה נדחתה",
@@ -195,7 +195,7 @@
     "invalid_pincode": "קוד PIN לא תקין, אנא בדוק ונסה שנית.",
     "remove_alert": "האם בוודאות ברצונך להסיר?",
     "clear_alert": "האם את\\ה בטוח\\ה שברצונך למחוק?",
-    "clear_user_alert": "האם את\/ה בטוח\/ה שברצונך למחוק את כל נתוני המשתמש?",
+    "clear_user_alert": "האם את/ה בטוח/ה שברצונך למחוק את כל נתוני המשתמש?",
     "clear": "ריק",
     "cancel": "בטל\\י",
     "delete": "מחק\\י",
@@ -205,7 +205,7 @@
     "removed": "Removed"
   },
   "post": {
-    "reblog_alert": "האם את\\ה בטוח\/ה רוצה לשתף ?",
+    "reblog_alert": "האם את\\ה בטוח/ה רוצה לשתף ?",
     "removed_hint": "The post was removed by",
     "copy_link": "Copy Link"
   },
@@ -240,7 +240,7 @@
   "auth": {
     "invalid_pin": "קוד PIN לא תקין, אנא בדק\\י ונסה\\י שנית",
     "invalid_username": "שם משתמש לא תקין, אנא בדוק\\י ונסה\\י שנית",
-    "already_logged": "הינך כבר מחובר\\ת למערכת, אנא נסה\/י להוסיף חשבון אחר",
+    "already_logged": "הינך כבר מחובר\\ת למערכת, אנא נסה/י להוסיף חשבון אחר",
     "invalid_credentials": "פרטים אינם תקינים, אנא בדק\\י ונסה\\י שנית",
     "unknow_error": "תקלה לא מזוהה, אנא איתנו צור קשר בsupport@esteem.app"
   },
@@ -253,7 +253,7 @@
   },
   "post_dropdown": {
     "copy": "העתק קישור",
-    "reblog": "שתף\/י שוב",
+    "reblog": "שתף/י שוב",
     "reply": "השב",
     "share": "שתף\\י",
     "bookmarks": "הוסף\\י לסימניות"
