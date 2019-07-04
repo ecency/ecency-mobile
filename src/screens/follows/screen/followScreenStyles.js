@@ -9,6 +9,7 @@ export default EStyleSheet.create({
   text: {
     color: '$iconColor',
     fontSize: 12,
+    marginLeft: 20,
     fontFamily: '$primaryFont',
   },
 });

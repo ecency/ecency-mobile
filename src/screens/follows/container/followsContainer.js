@@ -81,8 +81,9 @@ class FollowsContainer extends Component {
   };
 
   _handleSearch = async text => {
-    const { users, username, isFollowingPress } = this.state;
+    const { count, users, username, isFollowingPress } = this.state;
     let newData;
+    // const isAllFetch = count === users.length;
 
     newData = users.filter(item => {
       const itemName = isFollowingPress
@@ -93,9 +94,7 @@ class FollowsContainer extends Component {
       return itemName.indexOf(_text) > -1;
     });
 
-    if (newData.length <= 0) {
-      newData = await getFollowSearch(username, text);
-    }
+    if (!newData) newData = await getFollowSearch(username, text);
 
     this.setState({
       filterResult: newData,
@@ -110,7 +109,7 @@ class FollowsContainer extends Component {
       <FollowsScreen
         loadMore={this._loadFollows}
         isFollowing={isFollowingPress}
-        data={users}
+        data={filterResult || users}
         filterResult={filterResult}
         username={username}
         count={count}
