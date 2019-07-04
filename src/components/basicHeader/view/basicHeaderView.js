@@ -45,6 +45,8 @@ class BasicHeaderView extends Component {
     const { isInputVisible } = this.state;
 
     this.setState({ isInputVisible: !isInputVisible });
+
+    if (isInputVisible) this._handleOnSearch('');
   };
 
   _handleOnSearch = value => {
