@@ -153,6 +153,7 @@ configurations.all {
 }
 
 dependencies {
+    implementation project(':react-native-navigation-bar-color')
     implementation project(':bugsnag-react-native')
     implementation project(':react-native-version-number')
     implementation project(':react-native-code-push')
