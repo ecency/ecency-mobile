@@ -202,7 +202,8 @@
     "copied": "Nukopijuota!",
     "no_internet": "Nėra ryšio!",
     "confirm": "Patvirtinti",
-    "removed": "Removed"
+    "removed": "Removed",
+    "same_user": "This user already added to list"
   },
   "post": {
     "reblog_alert": "Ar tikrai norite dalintis?",
@@ -282,12 +283,26 @@
     "memo_desc": "Ši atmintinė yra vieša",
     "to_placeholder": "Vartotojo vardas",
     "memo_placeholder": "Įveskite savo užrašus čia",
+    "transfer_token": "Transfer",
     "points": "Points Transfer",
-    "transfer_token": "Pervesti",
-    "transfer_to_saving": "Pervesti į Santaupas",
+    "transfer_to_saving": "Transfer To Saving",
     "powerUp": "Power Up",
-    "withdraw_to_saving": "Atsiimti į Santaupas",
+    "withdraw_to_saving": "Withdraw To Saving",
     "steemconnect_title": "Steemconnect Pervedimas",
-    "next": "TOLIAU"
+    "next": "TOLIAU",
+    "withdraw_steem": "Withdraw Steem",
+    "withdraw_sbd": "Withdraw Steem Dollar",
+    "delegate": "Delegate",
+    "power_down": "Power Down",
+    "account": "Account",
+    "destination_accounts": "Destination Account(s)",
+    "amount_information": "Drag the sliderto adjust to amount",
+    "save": "Save",
+    "percent": "Percentage",
+    "percent_information": "Percentage of power down to this account",
+    "auto_vests": "Automatically power up to the target account",
+    "stop": "Stop",
+    "stop_information": "Are you sure to stop?",
+    "incoming_funds": "Incoming Funds"
   }
 }

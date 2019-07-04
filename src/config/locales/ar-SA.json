@@ -202,7 +202,8 @@
     "copied": "تم النسخ!",
     "no_internet": "لا يوجد اتصال!",
     "confirm": "تأكيد",
-    "removed": "محذوف"
+    "removed": "محذوف",
+    "same_user": "This user already added to list"
   },
   "post": {
     "reblog_alert": "هل أنت متأكد من رغبتك في إعادة التدوين؟",
@@ -282,12 +283,26 @@
     "memo_desc": "هذه المذكرة عامة",
     "to_placeholder": "إسم المستخدم",
     "memo_placeholder": "أدخل ملاحظاتك هنا",
+    "transfer_token": "Transfer",
     "points": "Points Transfer",
-    "transfer_token": "تحويل",
-    "transfer_to_saving": "النقل إلى المدخرات",
+    "transfer_to_saving": "Transfer To Saving",
     "powerUp": "رفع الطاقة",
-    "withdraw_to_saving": "سحب إلى الادخار",
+    "withdraw_to_saving": "Withdraw To Saving",
     "steemconnect_title": "نقل Steemconnect",
-    "next": "التالي"
+    "next": "التالي",
+    "withdraw_steem": "Withdraw Steem",
+    "withdraw_sbd": "Withdraw Steem Dollar",
+    "delegate": "Delegate",
+    "power_down": "Power Down",
+    "account": "Account",
+    "destination_accounts": "Destination Account(s)",
+    "amount_information": "Drag the sliderto adjust to amount",
+    "save": "Save",
+    "percent": "Percentage",
+    "percent_information": "Percentage of power down to this account",
+    "auto_vests": "Automatically power up to the target account",
+    "stop": "Stop",
+    "stop_information": "Are you sure to stop?",
+    "incoming_funds": "Incoming Funds"
   }
 }
