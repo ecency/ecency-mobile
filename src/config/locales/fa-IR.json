@@ -202,7 +202,8 @@
     "copied": "کپی شد!",
     "no_internet": "اتصال برقرار نیست!",
     "confirm": "تأیید",
-    "removed": "Removed"
+    "removed": "Removed",
+    "same_user": "This user already added to list"
   },
   "post": {
     "reblog_alert": "آیا مطمئن هستید که می‌خواهید به اشتراک بگذارید؟",
@@ -282,12 +283,26 @@
     "memo_desc": "این یادداشت عمومی است",
     "to_placeholder": "نام کاربری",
     "memo_placeholder": "یادداشت های خود را در اینجا وارد کنید",
+    "transfer_token": "Transfer",
     "points": "Points Transfer",
-    "transfer_token": "انتقال",
-    "transfer_to_saving": "انتقال به پس انداز",
+    "transfer_to_saving": "Transfer To Saving",
     "powerUp": "بالا بردن قدرت",
     "withdraw_to_saving": "Withdraw To Saving",
     "steemconnect_title": "انتقال Steemconnect",
-    "next": "NEXT"
+    "next": "NEXT",
+    "withdraw_steem": "Withdraw Steem",
+    "withdraw_sbd": "Withdraw Steem Dollar",
+    "delegate": "Delegate",
+    "power_down": "Power Down",
+    "account": "Account",
+    "destination_accounts": "Destination Account(s)",
+    "amount_information": "Drag the sliderto adjust to amount",
+    "save": "Save",
+    "percent": "Percentage",
+    "percent_information": "Percentage of power down to this account",
+    "auto_vests": "Automatically power up to the target account",
+    "stop": "Stop",
+    "stop_information": "Are you sure to stop?",
+    "incoming_funds": "Incoming Funds"
   }
 }
