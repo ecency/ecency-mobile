@@ -650,6 +650,105 @@ export const transferToVesting = (currentAccount, pin, data) => {
   return Promise.reject(new Error('You dont have permission!'));
 };
 
+export const withdrawVesting = (currentAccount, pin, data) => {
+  const digitPinCode = getDigitPinCode(pin);
+  const key = getAnyPrivateKey({ activeKey: get(currentAccount, 'local.activeKey') }, digitPinCode);
+
+  if (key) {
+    const privateKey = PrivateKey.fromString(key);
+    const args = [
+      [
+        'withdraw_vesting',
+        {
+          account: data.from,
+          vesting_shares: data.amount,
+        },
+      ],
+    ];
+
+    return new Promise((resolve, reject) => {
+      client.broadcast
+        .sendOperations(args, privateKey)
+        .then(result => {
+          resolve(result);
+        })
+        .catch(err => {
+          reject(err);
+        });
+    });
+  }
+
+  return Promise.reject(new Error('You dont have permission!'));
+};
+
+export const delegateVestingShares = (currentAccount, pin, data) => {
+  const digitPinCode = getDigitPinCode(pin);
+  const key = getAnyPrivateKey({ activeKey: get(currentAccount, 'local.activeKey') }, digitPinCode);
+
+  if (key) {
+    const privateKey = PrivateKey.fromString(key);
+    const args = [
+      [
+        'delegate_vesting_shares',
+        {
+          delegator: data.from,
+          delegatee: data.to,
+          vesting_shares: data.amount,
+        },
+      ],
+    ];
+
+    return new Promise((resolve, reject) => {
+      client.broadcast
+        .sendOperations(args, privateKey)
+        .then(result => {
+          resolve(result);
+        })
+        .catch(err => {
+          reject(err);
+        });
+    });
+  }
+
+  return Promise.reject(new Error('You dont have permission!'));
+};
+
+export const setWithdrawVestingRoute = (currentAccount, pin, data) => {
+  const digitPinCode = getDigitPinCode(pin);
+  const key = getAnyPrivateKey({ activeKey: get(currentAccount, 'local.activeKey') }, digitPinCode);
+
+  if (key) {
+    const privateKey = PrivateKey.fromString(key);
+    const args = [
+      [
+        'set_withdraw_vesting_route',
+        {
+          from_account: data.from,
+          to_account: data.to,
+          percent: data.percentage,
+          auto_vest: data.autoVest,
+        },
+      ],
+    ];
+
+    return new Promise((resolve, reject) => {
+      client.broadcast
+        .sendOperations(args, privateKey)
+        .then(result => {
+          resolve(result);
+        })
+        .catch(err => {
+          reject(err);
+        });
+    });
+  }
+
+  return Promise.reject(new Error('You dont have permission!'));
+};
+
+export const getWithdrawRoutes = account =>
+  client.database.call('get_withdraw_routes', [account, 'outgoing']);
+
 export const followUser = async (currentAccount, pin, data) => {
   const digitPinCode = getDigitPinCode(pin);
   const key = getAnyPrivateKey(currentAccount.local, digitPinCode);
@@ -737,43 +836,6 @@ export const unfollowUser = async (currentAccount, pin, data) => {
   }
 
   return Promise.reject(new Error('You dont have permission!'));
-};
-
-export const delegate = (data, activeKey) => {
-  const privateKey = PrivateKey.fromString(activeKey);
-
-  return new Promise((resolve, reject) => {
-    client.broadcast
-      .delegateVestingShares(data, privateKey)
-      .then(result => {
-        resolve(result);
-      })
-      .catch(err => {
-        reject(err);
-      });
-  });
-};
-
-export const withdrawVesting = (data, activeKey) => {
-  const privateKey = PrivateKey.fromString(activeKey);
-  const op = [
-    'withdraw_vesting',
-    {
-      account: data.account,
-      vesting_shares: data.vesting_shares,
-    },
-  ];
-
-  return new Promise((resolve, reject) => {
-    client.broadcast
-      .sendOperations([op], privateKey)
-      .then(result => {
-        resolve(result);
-      })
-      .catch(error => {
-        reject(error);
-      });
-  });
 };
 
 export const lookupAccounts = async username => {
