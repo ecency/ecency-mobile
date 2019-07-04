@@ -23,7 +23,7 @@ import WithdrawAccountModal from './withdrawAccountModal';
 import parseToken from '../../../utils/parseToken';
 import parseDate from '../../../utils/parseDate';
 import { vestsToSp } from '../../../utils/conversions';
-import isEmptyDate from '../../../utils/isEmptyDate';
+import { isEmptyDate } from '../../../utils/time';
 
 import styles from './transferStyles';
 /* Props
@@ -108,7 +108,7 @@ class PowerDownView extends Component {
       return this._renderButton();
     }
     return (
-      <View>
+      <Fragment>
         {destinationAccounts.map(item => (
           <View style={styles.destinationAccountsLists} key={item.username}>
             <Text>{item.username}</Text>
@@ -123,7 +123,7 @@ class PowerDownView extends Component {
           </View>
         ))}
         {this._renderButton()}
-      </View>
+      </Fragment>
     );
   };
 
@@ -150,13 +150,9 @@ class PowerDownView extends Component {
 
   _renderIncomingFunds = (poweringDownFund, poweringDownVests, nextPowerDown) => (
     <Fragment>
-      <Text style={{ color: 'green', fontSize: 20, marginVertical: 5 }}>
-        {`+ ${poweringDownFund} STEEM`}
-      </Text>
-      <Text style={{ color: 'red', fontSize: 15, marginVertical: 5 }}>
-        {`- ${poweringDownVests} VESTS`}
-      </Text>
-      <Text style={{ marginVertical: 5 }}>{nextPowerDown}</Text>
+      <Text style={styles.incomingFundSteem}>{`+ ${poweringDownFund} STEEM`}</Text>
+      <Text style={styles.incomingFundVests}>{`- ${poweringDownVests} VESTS`}</Text>
+      <Text style={styles.nextPowerDown}>{nextPowerDown}</Text>
     </Fragment>
   );
 
@@ -172,7 +168,7 @@ class PowerDownView extends Component {
 
   _handleOnSubmit = (username, percent, autoPowerUp) => {
     const { destinationAccounts } = this.state;
-    const { setWithdrawVestingRoute, currentAccountName } = this.props;
+    const { setWithdrawVestingRoute, currentAccountName, intl } = this.props;
 
     if (!destinationAccounts.some(item => item.username === username)) {
       destinationAccounts.push({ username, percent, autoPowerUp });
@@ -182,7 +178,10 @@ class PowerDownView extends Component {
         destinationAccounts,
       });
     } else {
-      Alert.alert('Opps!', 'same username');
+      Alert.alert(
+        intl.formatMessage({ id: 'alert.fail' }),
+        intl.formatMessage({ id: 'alert.same_user' }),
+      );
     }
   };
 
@@ -202,11 +201,11 @@ class PowerDownView extends Component {
     let poweringDownVests = 0;
     let availableVestingShares = 0;
 
-    const poweringDown = !isEmptyDate(selectedAccount.next_vesting_withdrawal);
-    const nextPowerDown = parseDate(selectedAccount.next_vesting_withdrawal);
+    const poweringDown = !isEmptyDate(get(selectedAccount, 'next_vesting_withdrawal'));
+    const nextPowerDown = parseDate(get(selectedAccount, 'next_vesting_withdrawal'));
 
     if (poweringDown) {
-      poweringDownVests = parseToken(selectedAccount.vesting_withdraw_rate);
+      poweringDownVests = parseToken(get(selectedAccount, 'vesting_withdraw_rate'));
     } else {
       availableVestingShares =
         parseToken(get(selectedAccount, 'vesting_shares')) -

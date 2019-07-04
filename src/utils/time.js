@@ -40,3 +40,5 @@ export const isEmptyContentDate = value => {
 
   return parseInt(value.split('-')[0], 10) < 1980;
 };
+
+export const isEmptyDate = s => parseInt(s.split('-')[0], 10) < 1980;

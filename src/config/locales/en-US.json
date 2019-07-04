@@ -202,7 +202,8 @@
     "copied": "Copied!",
     "no_internet": "No connection!",
     "confirm": "Confirm",
-    "removed": "Removed"
+    "removed": "Removed",
+    "same_user": "This user already added to list"
   },
   "post": {
     "reblog_alert": "Are you sure you want to reblog?",

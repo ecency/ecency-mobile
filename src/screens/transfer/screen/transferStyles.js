@@ -179,4 +179,17 @@ export default EStyleSheet.create({
     justifyContent: 'space-around',
     margin: 20,
   },
+  incomingFundSteem: {
+    color: 'green',
+    fontSize: 20,
+    marginVertical: 5,
+  },
+  incomingFundVests: {
+    color: 'red',
+    fontSize: 15,
+    marginVertical: 5,
+  },
+  nextPowerDown: {
+    marginVertical: 5,
+  },
 });
