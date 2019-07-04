@@ -1,4 +1,4 @@
-import React, { Component } from 'react';
+import { Component } from 'react';
 import { connect } from 'react-redux';
 import { injectIntl } from 'react-intl';
 
@@ -11,14 +11,15 @@ import {
   transferToVesting,
   getAccount,
   transferPoint,
+  withdrawVesting,
+  delegateVestingShares,
+  setWithdrawVestingRoute,
 } from '../../../providers/steem/dsteem';
 import { toastNotification } from '../../../redux/actions/uiAction';
+import { getUserDataWithUsername } from '../../../realm/realm';
 
 // Utils
 import { countDecimals } from '../../../utils/number';
-
-// Component
-import TransferView from '../screen/transferScreen';
 
 /*
  *            Props Name        Description                                     Value
@@ -29,7 +30,10 @@ import TransferView from '../screen/transferScreen';
 class TransferContainer extends Component {
   constructor(props) {
     super(props);
-    this.state = {};
+    this.state = {
+      fundType: props.navigation.getParam('fundType', ''),
+      selectedAccount: props.currentAccount,
+    };
   }
 
   // Component Life Cycle Functions
@@ -45,7 +49,7 @@ class TransferContainer extends Component {
 
   fetchBalance = username => {
     const { navigation } = this.props;
-    const fundType = navigation.getParam('fundType', '');
+    const { fundType } = this.state;
 
     getAccount(username).then(account => {
       let balance;
@@ -58,6 +62,18 @@ class TransferContainer extends Component {
           break;
         case 'POINT':
           balance = navigation.getParam('balance', '');
+          break;
+        case 'SAVING_STEEM':
+          this.setState({ fundType: 'STEEM' });
+          balance = account[0].savings_balance.replace(' STEEM', '');
+          break;
+        case 'SAVING_SBD':
+          this.setState({ fundType: 'STEEM DOLLAR' });
+          balance = account[0].savings_sbd_balance.replace(' SBD', '');
+          break;
+        case 'STEEM_POWER':
+          balance = account[0].balance.replace(fundType, '');
+          this.setState({ selectedAccount: account[0] });
           break;
         default:
           break;
@@ -73,7 +89,9 @@ class TransferContainer extends Component {
   };
 
   _transferToAccount = (from, destination, amount, memo) => {
-    const { currentAccount, pinCode, navigation, dispatch, intl } = this.props;
+    const { pinCode, navigation, dispatch, intl } = this.props;
+    let { currentAccount } = this.props;
+    const { selectedAccount } = this.state;
 
     const transferType = navigation.getParam('transferType', '');
     const fundType = navigation.getParam('fundType', '');
@@ -109,9 +127,20 @@ class TransferContainer extends Component {
       case 'points':
         func = transferPoint;
         break;
-
+      case 'power_down':
+        data.amount = `${amount.toFixed(6)} VESTS`;
+        func = withdrawVesting;
+        currentAccount = selectedAccount;
+        break;
+      case 'delegate':
+        func = delegateVestingShares;
+        break;
       default:
         break;
+    }
+    if (!currentAccount.local) {
+      const realmData = getUserDataWithUsername(currentAccount.name);
+      currentAccount.local = realmData[0];
     }
 
     return func(currentAccount, pinCode, data)
@@ -124,31 +153,49 @@ class TransferContainer extends Component {
       });
   };
 
+  _setWithdrawVestingRoute = (from, to, percentage, autoVest) => {
+    const { currentAccount, pinCode } = this.props;
+
+    const data = {
+      from,
+      to,
+      percentage,
+      autoVest,
+    };
+
+    setWithdrawVestingRoute(currentAccount, pinCode, data).catch(err => {
+      alert(err);
+    });
+  };
+
   _handleOnModalClose = () => {
     const { navigation } = this.props;
     navigation.goBack();
   };
 
   render() {
-    const { accounts, currentAccount, navigation } = this.props;
-    const { balance } = this.state;
+    const { accounts, navigation, children, steemPerMVests, currentAccount } = this.props;
+    const { balance, fundType, selectedAccount } = this.state;
 
-    const fundType = navigation.getParam('fundType', '');
     const transferType = navigation.getParam('transferType', '');
 
     return (
-      <TransferView
-        accounts={accounts}
-        fetchBalance={this.fetchBalance}
-        getAccountsWithUsername={this._getAccountsWithUsername}
-        transferToAccount={this._transferToAccount}
-        handleOnModalClose={this._handleOnModalClose}
-        accountType={currentAccount.local.authType}
-        currentAccountName={currentAccount.name}
-        balance={balance}
-        fundType={fundType}
-        transferType={transferType}
-      />
+      children &&
+      children({
+        accounts,
+        balance,
+        fundType,
+        transferType,
+        selectedAccount,
+        steemPerMVests,
+        fetchBalance: this.fetchBalance,
+        getAccountsWithUsername: this._getAccountsWithUsername,
+        transferToAccount: this._transferToAccount,
+        handleOnModalClose: this._handleOnModalClose,
+        accountType: currentAccount.local.authType,
+        currentAccountName: currentAccount.name,
+        setWithdrawVestingRoute: this._setWithdrawVestingRoute,
+      })
     );
   }
 }
@@ -157,6 +204,7 @@ const mapStateToProps = state => ({
   accounts: state.account.otherAccounts,
   currentAccount: state.account.currentAccount,
   pinCode: state.account.pin,
+  steemPerMVests: state.account.globalProps.steemPerMVests,
 });
 
 export default connect(mapStateToProps)(injectIntl(TransferContainer));
