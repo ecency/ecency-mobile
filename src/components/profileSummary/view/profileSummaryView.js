@@ -94,7 +94,7 @@ class ProfileSummaryView extends PureComponent {
     const isColumn = rowLength && DEVICE_WIDTH / rowLength <= 7.3;
 
     const followButtonIcon = !isFollowing ? 'account-plus' : 'account-minus';
-    const coverImageUrl = `http://img.esteem.app/400x0/${coverImage}`;
+    const coverImageUrl = `https://steemitimages.com/400x0/${coverImage}`;
 
     dropdownOpions.push(!isMuted ? 'MUTE' : 'UNMUTE');
 
