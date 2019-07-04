@@ -14,9 +14,9 @@
     "vote": "se sviđa vaša objava",
     "unvote": "je odglasao vašu objavu",
     "reply": "je odgovorio na vašu objavu",
-    "mention": "te spomenuo/la",
+    "mention": "te spomenuo\/la",
     "follow": "te prati",
-    "unfollow": "te prestao/la pratiti",
+    "unfollow": "te prestao\/la pratiti",
     "ignore": "te ignorira",
     "reblog": "je podijelio tvoju objavu",
     "transfer": "transfered steem",
@@ -79,8 +79,8 @@
     "hours": "sati",
     "voting_power": "Snaga glasa",
     "login_to_see": "Prijavi se da vidiš",
-    "havent_commented": "još nije komentirao/la",
-    "havent_posted": "još nije ništa objavio/la",
+    "havent_commented": "još nije komentirao\/la",
+    "havent_posted": "još nije ništa objavio\/la",
     "steem_power": "Steem Moć",
     "next_power_text": "Sljedeće smanjenje snage je za",
     "days": "dani",
@@ -202,7 +202,8 @@
     "copied": "Copied!",
     "no_internet": "No connection!",
     "confirm": "Confirm",
-    "removed": "Removed"
+    "removed": "Removed",
+    "same_user": "This user already added to list"
   },
   "post": {
     "reblog_alert": "Jeste li sigurni da želite ponovo podijeliti objavu na svom profilu?",
@@ -288,6 +289,20 @@
     "powerUp": "Power Up",
     "withdraw_to_saving": "Withdraw To Saving",
     "steemconnect_title": "Steemconnect Transfer",
-    "next": "NEXT"
+    "next": "NEXT",
+    "withdraw_steem": "Withdraw Steem",
+    "withdraw_sbd": "Withdraw Steem Dollar",
+    "delegate": "Delegate",
+    "power_down": "Power Down",
+    "account": "Account",
+    "destination_accounts": "Destination Account(s)",
+    "amount_information": "Drag the sliderto adjust to amount",
+    "save": "Save",
+    "percent": "Percentage",
+    "percent_information": "Percentage of power down to this account",
+    "auto_vests": "Automatically power up to the target account",
+    "stop": "Stop",
+    "stop_information": "Are you sure to stop?",
+    "incoming_funds": "Incoming Funds"
   }
 }
