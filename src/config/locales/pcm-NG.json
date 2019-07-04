@@ -202,7 +202,8 @@
     "copied": "E don copy!",
     "no_internet": "Connection no dey!",
     "confirm": "Confam",
-    "removed": "E don remove"
+    "removed": "E don remove",
+    "same_user": "This user already added to list"
   },
   "post": {
     "reblog_alert": "You sure say you wan reblog am?",
@@ -284,10 +285,24 @@
     "memo_placeholder": "Write your note for here",
     "transfer_token": "Transfer",
     "points": "Points Transfer",
-    "transfer_to_saving": "Transfer go Savings",
+    "transfer_to_saving": "Transfer To Saving",
     "powerUp": "Power Up",
-    "withdraw_to_saving": "Withdraw go savings",
+    "withdraw_to_saving": "Withdraw To Saving",
     "steemconnect_title": "Transfer with steemconnect",
-    "next": "NEXT"
+    "next": "NEXT",
+    "withdraw_steem": "Withdraw Steem",
+    "withdraw_sbd": "Withdraw Steem Dollar",
+    "delegate": "Delegate",
+    "power_down": "Power Down",
+    "account": "Account",
+    "destination_accounts": "Destination Account(s)",
+    "amount_information": "Drag the sliderto adjust to amount",
+    "save": "Save",
+    "percent": "Percentage",
+    "percent_information": "Percentage of power down to this account",
+    "auto_vests": "Automatically power up to the target account",
+    "stop": "Stop",
+    "stop_information": "Are you sure to stop?",
+    "incoming_funds": "Incoming Funds"
   }
 }
