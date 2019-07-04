@@ -53,6 +53,7 @@
     "react-native-linear-gradient": "^2.4.2",
     "react-native-modal-dropdown": "^0.6.2",
     "react-native-modal-popover": "0.0.12",
+    "react-native-navigation-bar-color": "^0.1.0",
     "react-native-render-html": "^4.1.2",
     "react-native-scrollable-tab-view": "^0.10.0",
     "react-native-slider": "^0.11.0",
