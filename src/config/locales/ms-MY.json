@@ -203,7 +203,7 @@
     "no_internet": "Tiada sambungan!",
     "confirm": "Muktamat",
     "removed": "Buang",
-    "same_user": "This user already added to list"
+    "same_user": "Pengguna telah ditambah ke dalam senarai"
   },
   "post": {
     "reblog_alert": "Adakah anda ingin menulang siar?",
@@ -290,7 +290,7 @@
     "withdraw_to_saving": "Keluarkan kepada penyimpanan",
     "steemconnect_title": "Steemconnect Transfer",
     "next": "SETERUSNYA",
-    "withdraw_steem": "Withdraw Steem",
+    "withdraw_steem": "Keluarkan Steem",
     "withdraw_sbd": "Withdraw Steem Dollar",
     "delegate": "Delegate",
     "power_down": "Power Down",
