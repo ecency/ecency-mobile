@@ -203,7 +203,7 @@
     "no_internet": "Tiada sambungan!",
     "confirm": "Muktamat",
     "removed": "Buang",
-    "same_user": "This user already added to list"
+    "same_user": "Pengguna telah ditambah ke dalam senarai"
   },
   "post": {
     "reblog_alert": "Adakah anda ingin menulang siar?",
@@ -290,19 +290,19 @@
     "withdraw_to_saving": "Keluarkan kepada penyimpanan",
     "steemconnect_title": "Steemconnect Transfer",
     "next": "SETERUSNYA",
-    "withdraw_steem": "Withdraw Steem",
-    "withdraw_sbd": "Withdraw Steem Dollar",
-    "delegate": "Delegate",
+    "withdraw_steem": "Keluarkan Steem",
+    "withdraw_sbd": "Keluarkan Steem Dollar",
+    "delegate": "Delegasi",
     "power_down": "Power Down",
-    "account": "Account",
-    "destination_accounts": "Destination Account(s)",
-    "amount_information": "Drag the sliderto adjust to amount",
-    "save": "Save",
-    "percent": "Percentage",
-    "percent_information": "Percentage of power down to this account",
-    "auto_vests": "Automatically power up to the target account",
-    "stop": "Stop",
-    "stop_information": "Are you sure to stop?",
-    "incoming_funds": "Incoming Funds"
+    "account": "Akaun",
+    "destination_accounts": "Kepada Akaun(atau akaun-akaun)",
+    "amount_information": "Seret penggelongsor untuk menyelaraskan amaun",
+    "save": "Simpan Perubahan",
+    "percent": "Peratusan",
+    "percent_information": "Peratusan daripada Power Down masuk akaun ini",
+    "auto_vests": "Power up kepada akaun secara otomatik",
+    "stop": "Berhenti",
+    "stop_information": "Anda pasti menghentikan?",
+    "incoming_funds": "Wang masuk"
   }
 }
