@@ -1,3 +1,4 @@
+import get from 'lodash/get';
 import parseDate from './parseDate';
 import parseToken from './parseToken';
 import { vestsToSp } from './conversions';
@@ -25,7 +26,7 @@ export const groomingTransactionData = (transaction, steemPerMVests, formatNumbe
       result.value = `${formatNumber(vestsToSp(parseToken(reward), steemPerMVests), {
         minimumFractionDigits: 3,
       })} SP`;
-      result.details = `@${commentAuthor}/${commentPermlink}`;
+      result.details = commentAuthor ? `@${commentAuthor}/${commentPermlink}` : null;
       break;
     case 'author_reward':
     case 'comment_benefactor_reward':
@@ -47,7 +48,7 @@ export const groomingTransactionData = (transaction, steemPerMVests, formatNumbe
         steemPayout > 0 ? `${steemPayout} steemPayout` : ''
       } ${vestingPayout > 0 ? `${vestingPayout} SP` : ''}`;
 
-      result.details = `@${author}/${permlink}`;
+      result.details = author && permlink ? `@${author}/${permlink}` : null;
       if (result.opName === 'comment_benefactor_reward') {
         result.icon = 'comment';
       }
@@ -71,8 +72,8 @@ export const groomingTransactionData = (transaction, steemPerMVests, formatNumbe
 
       result.value = `${amount}`;
       result.icon = 'compare-arrows';
-      result.details = `@${from} to @${to}`;
-      result.memo = memo;
+      result.details = from && to ? `@${from} to @${to}` : null;
+      result.memo = memo || null;
       break;
     case 'withdraw_vesting':
       const { acc } = opData;
@@ -83,7 +84,7 @@ export const groomingTransactionData = (transaction, steemPerMVests, formatNumbe
         minimumFractionDigits: 3,
       })} SP`;
       result.icon = 'attach-money';
-      result.details = `@${acc}`;
+      result.details = acc ? `@${acc}` : null;
       break;
     case 'fill_order':
       const { current_pays: currentPays, open_pays: openPays } = opData;
@@ -104,7 +105,7 @@ export const groomingWalletData = async (user, globalProps) => {
     return walletData;
   }
 
-  const state = await getState(`/@${user.name}/transfers`);
+  const state = await getState(`/@${get(user, 'name')}/transfers`);
   const { accounts } = state;
 
   // TODO: move them to utils these so big for a lifecycle function
