@@ -65,7 +65,7 @@ class PostsView extends Component {
           isLoading: false,
           isPostsLoading: false,
           isHideImage: false,
-          selectedFilterIndex: 0,
+          selectedFilterIndex: 1,
           isNoPost: false,
         },
         () => {
@@ -284,8 +284,8 @@ class PostsView extends Component {
             initialNumToRender={10}
             ListFooterComponent={this._renderFooter}
             onScrollBeginDrag={() => this._handleOnScrollStart()}
-            refreshControl={
-              <RefreshControl
+            refreshControl={(
+<RefreshControl
                 refreshing={refreshing}
                 onRefresh={this._handleOnRefreshPosts}
                 progressBackgroundColor="#357CE6"
@@ -293,7 +293,7 @@ class PostsView extends Component {
                 titleColor="#fff"
                 colors={['#fff']}
               />
-            }
+)}
             ref={ref => {
               this.flatList = ref;
             }}
