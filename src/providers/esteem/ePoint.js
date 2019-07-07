@@ -1,9 +1,9 @@
 import { Alert } from 'react-native';
-import { Client, PrivateKey } from 'dsteem';
+// import { Client, PrivateKey } from 'dsteem';
 import ePointApi from '../../config/ePoint';
 
 // Utils
-import { decryptKey } from '../../utils/crypto';
+// import { decryptKey } from '../../utils/crypto';
 
 // const client = new Client(getItem('server', 'https://api.steemit.com'));
 

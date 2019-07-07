@@ -107,3 +107,23 @@ export const POINTS_KEYS = [
     type: 30,
   },
 ];
+
+export const PROMOTE_PRICING = [
+  { duration: 1, price: 150 },
+  { duration: 2, price: 250 },
+  { duration: 3, price: 350 },
+  { duration: 7, price: 500 },
+  { duration: 14, price: 1000 },
+];
+
+export const PROMOTE_STATUS_PENDING = 1;
+export const PROMOTE_STATUS_SUCCESS = 2;
+export const PROMOTE_STATUS_USER_ERR = 3;
+export const PROMOTE_STATUS_INSUFFICIENT_ERR = 4;
+export const PROMOTE_STATUS_POST_ERR = 5;
+export const PROMOTE_STATUS_POST_DUPLICATE = 6;
+export const PROMOTE_STATUS_FORMAT_ERR = 7;
+
+export const PROMOTED_POST_STATUS_ON = 1;
+export const PROMOTED_POST_STATUS_EXPIRED = 2;
+export const PROMOTED_POST_STATUS_DISABLED = 3;
