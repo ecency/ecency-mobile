@@ -85,16 +85,21 @@ class FollowsContainer extends Component {
     let newData;
     // const isAllFetch = count === users.length;
 
-    newData = users.filter(item => {
-      const itemName = isFollowingPress
-        ? get(item, 'following').toUpperCase()
-        : get(item, 'follower').toUpperCase();
-      const _text = text.toUpperCase();
+    if (count !== users.length) {
+      newData = users.filter(item => {
+        const itemName = isFollowingPress
+          ? get(item, 'following').toUpperCase()
+          : get(item, 'follower').toUpperCase();
+        const _text = text.toUpperCase();
 
-      return itemName.indexOf(_text) > -1;
-    });
+        return itemName.indexOf(_text) > -1;
+      });
+    }
 
-    if (!newData) newData = await getFollowSearch(username, text);
+    if (!newData || newData.length < 1) {
+      const followSearch = await getFollowSearch(username, text);
+      newData = followSearch || {};
+    }
 
     this.setState({
       filterResult: newData,
