@@ -1,5 +1,5 @@
 import React, { Component, Fragment } from 'react';
-import { View, Text } from 'react-native';
+import { View, Text, WebView } from 'react-native';
 import { injectIntl } from 'react-intl';
 import Slider from 'react-native-slider';
 import get from 'lodash/get';
@@ -7,6 +7,7 @@ import ActionSheet from 'react-native-actionsheet';
 
 // Constants
 import AUTH_TYPE from '../../../constants/authType';
+import { steemConnectOptions } from '../../../constants/steemConnectOptions';
 
 // Components
 import { BasicHeader } from '../../../components/basicHeader';
@@ -16,6 +17,7 @@ import { TextInput } from '../../../components/textInput';
 import { MainButton } from '../../../components/mainButton';
 import { UserAvatar } from '../../../components/userAvatar';
 import { Icon } from '../../../components/icon';
+import { Modal } from '../../../components/modal';
 
 import parseToken from '../../../utils/parseToken';
 import { isEmptyDate } from '../../../utils/time';
@@ -31,6 +33,7 @@ class DelegateScreen extends Component {
       isTransfering: false,
       from: props.currentAccountName,
       destination: '',
+      steemConnectTransfer: false,
     };
 
     this.startActionSheet = React.createRef();
@@ -125,8 +128,8 @@ class DelegateScreen extends Component {
   _renderInformationText = text => <Text style={styles.amountText}>{text}</Text>;
 
   render() {
-    const { intl, accounts, currentAccountName, selectedAccount } = this.props;
-    const { amount, isTransfering, from, destination } = this.state;
+    const { intl, accounts, currentAccountName, selectedAccount, handleOnModalClose } = this.props;
+    const { amount, isTransfering, from, destination, steemConnectTransfer } = this.state;
     let availableVestingShares = 0;
 
     if (!isEmptyDate(get(selectedAccount, 'next_vesting_withdrawal'))) {
@@ -142,6 +145,10 @@ class DelegateScreen extends Component {
         parseToken(get(selectedAccount, 'vesting_shares')) -
         parseToken(get(selectedAccount, 'delegated_vesting_shares'));
     }
+    const fixedAmount = `${amount.toFixed(6)} VESTS`;
+    const path = `sign/delegate-vesting-shares?delegator=${from}&delegatee=${destination}&vesting_shares=${encodeURIComponent(
+      fixedAmount,
+    )}`;
 
     return (
       <Fragment>
@@ -208,6 +215,15 @@ class DelegateScreen extends Component {
           destructiveButtonIndex={0}
           onPress={index => (index === 0 ? this._handleTransferAction() : null)}
         />
+        <Modal
+          isOpen={steemConnectTransfer}
+          isFullScreen
+          isCloseButton
+          handleOnModalClose={handleOnModalClose}
+          title={intl.formatMessage({ id: 'transfer.steemconnect_title' })}
+        >
+          <WebView source={{ uri: `${steemConnectOptions.base_url}${path}` }} />
+        </Modal>
       </Fragment>
     );
   }
