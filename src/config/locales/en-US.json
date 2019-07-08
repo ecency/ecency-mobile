@@ -296,7 +296,7 @@
     "power_down": "Power Down",
     "account": "Account",
     "destination_accounts": "Destination Account(s)",
-    "amount_information": "Drag the sliderto adjust to amount",
+    "amount_information": "Drag the slider to adjust to amount",
     "save": "Save",
     "percent": "Percentage",
     "percent_information": "Percentage of power down to this account",
@@ -304,6 +304,7 @@
     "stop": "Stop",
     "stop_information": "Are you sure to stop?",
     "incoming_funds": "Incoming Funds",
-    "sc_power_down_error": "Steem connect setWithdrawVestingRoute not implemented yet."
+    "sc_power_down_error": "Steem connect setWithdrawVestingRoute not implemented yet.",
+    "estimated_weekly": "Estimated Weekly"
   }
 }

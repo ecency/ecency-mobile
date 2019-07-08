@@ -293,6 +293,9 @@ class PowerDownView extends Component {
                     style={styles.steemInformation}
                     text={`+ ${fundPerWeek.toFixed(3)} STEEM`}
                   />
+                  <Text style={styles.informationText}>
+                    {intl.formatMessage({ id: 'transfer.estimated_weekly' })}
+                  </Text>
                   <MainButton
                     style={styles.button}
                     isDisable={amount <= 0}
