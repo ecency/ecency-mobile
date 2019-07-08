@@ -303,6 +303,7 @@
     "auto_vests": "Automatically power up to the target account",
     "stop": "Stop",
     "stop_information": "Are you sure to stop?",
-    "incoming_funds": "Incoming Funds"
+    "incoming_funds": "Incoming Funds",
+    "sc_power_down_error": "Steem connect setWithdrawVestingRoute not implemented yet."
   }
 }
