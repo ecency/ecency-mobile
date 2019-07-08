@@ -296,13 +296,15 @@
     "power_down": "Power Down",
     "account": "Cont",
     "destination_accounts": "Cont(uri) de Destinație",
-    "amount_information": "Trage glisorul pentru a ajusta cantitatea",
+    "amount_information": "Drag the slider to adjust to amount",
     "save": "Salvează",
     "percent": "Procentaj",
     "percent_information": "Procentul de power down la acest cont",
     "auto_vests": "Power up automat contul ţintă",
     "stop": "Oprește",
     "stop_information": "Ești sigur că vrei să te oprești?",
-    "incoming_funds": "Fondurile Primite"
+    "incoming_funds": "Fondurile Primite",
+    "sc_power_down_error": "Steem connect setWithdrawVestingRoute not implemented yet.",
+    "estimated_weekly": "Estimated Weekly"
   }
 }
