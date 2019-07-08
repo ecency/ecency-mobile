@@ -4,6 +4,7 @@ import TransferContainer from './container/transferContainer';
 
 import TransferView from './screen/transferScreen';
 import PowerDownView from './screen/powerDownScreen';
+import DelegateView from './screen/delegateScreen';
 
 const Transfer = ({ navigation }) => (
   <TransferContainer navigation={navigation}>
@@ -44,7 +45,19 @@ const Transfer = ({ navigation }) => (
             />
           );
         case 'delegate':
-          return null;
+          return (
+            <DelegateView
+              accounts={accounts}
+              currentAccountName={currentAccountName}
+              selectedAccount={selectedAccount}
+              getAccountsWithUsername={getAccountsWithUsername}
+              balance={balance}
+              fetchBalance={fetchBalance}
+              transferToAccount={transferToAccount}
+              accountType={accountType}
+              handleOnModalClose={handleOnModalClose}
+            />
+          );
         case 'power_down':
           return (
             <PowerDownView
