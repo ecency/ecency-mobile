@@ -46,6 +46,7 @@ export default EStyleSheet.create({
     marginTop: 30,
     justifyContent: 'center',
     alignItems: 'center',
+    fontWeight: 'bold',
   },
   stopButton: {
     width: '$deviceWidth / 3',
@@ -53,6 +54,7 @@ export default EStyleSheet.create({
     justifyContent: 'center',
     alignItems: 'center',
     backgroundColor: 'red',
+    fontWeight: 'bold',
   },
   buttonText: {
     color: 'white',
@@ -111,7 +113,7 @@ export default EStyleSheet.create({
     marginHorizontal: 30,
   },
   formButton: {
-    padding: 7,
+    padding: 12,
     borderRadius: 5,
     backgroundColor: '$primaryBlue',
     marginTop: 5,
@@ -126,7 +128,7 @@ export default EStyleSheet.create({
   informationText: {
     alignSelf: 'center',
     color: '$iconColor',
-    marginLeft: 5,
+    margin: 10,
   },
   spInformation: {
     backgroundColor: 'red',
