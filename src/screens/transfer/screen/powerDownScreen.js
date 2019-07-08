@@ -1,12 +1,11 @@
 import React, { Fragment, Component } from 'react';
-import { Text, View, WebView, ScrollView, Alert } from 'react-native';
+import { Text, View, ScrollView, Alert } from 'react-native';
 import ActionSheet from 'react-native-actionsheet';
 import { injectIntl } from 'react-intl';
 import Slider from 'react-native-slider';
 import get from 'lodash/get';
 
 import { getWithdrawRoutes } from '../../../providers/steem/dsteem';
-import { steemConnectOptions } from '../../../constants/steemConnectOptions';
 import AUTH_TYPE from '../../../constants/authType';
 
 import { BasicHeader } from '../../../components/basicHeader';
@@ -75,13 +74,16 @@ class PowerDownView extends Component {
   };
 
   _handleTransferAction = () => {
-    const { transferToAccount, accountType } = this.props;
+    const { transferToAccount, accountType, intl } = this.props;
     const { from, destinationAccounts, amount } = this.state;
 
     this.setState({ isTransfering: true });
 
     if (accountType === AUTH_TYPE.STEEM_CONNECT) {
-      this.setState({ steemConnectTransfer: true });
+      Alert.alert(
+        intl.formatMessage({ id: 'alert.warning' }),
+        intl.formatMessage({ id: 'transfer.sc_power_down_error' }),
+      );
     } else {
       transferToAccount(from, destinationAccounts, amount, '');
     }
@@ -190,14 +192,12 @@ class PowerDownView extends Component {
       accounts,
       selectedAccount,
       intl,
-      handleOnModalClose,
       getAccountsWithUsername,
       transferType,
       currentAccountName,
       steemPerMVests,
     } = this.props;
-    const { amount, steemConnectTransfer, isTransfering, isOpenWithdrawAccount } = this.state;
-    let path;
+    const { amount, isTransfering, isOpenWithdrawAccount } = this.state;
     let poweringDownVests = 0;
     let availableVestingShares = 0;
 
@@ -293,6 +293,9 @@ class PowerDownView extends Component {
                     style={styles.steemInformation}
                     text={`+ ${fundPerWeek.toFixed(3)} STEEM`}
                   />
+                  <Text style={styles.informationText}>
+                    {intl.formatMessage({ id: 'transfer.estimated_weekly' })}
+                  </Text>
                   <MainButton
                     style={styles.button}
                     isDisable={amount <= 0}
@@ -354,15 +357,6 @@ class PowerDownView extends Component {
             getAccountsWithUsername={getAccountsWithUsername}
             handleOnSubmit={this._handleOnSubmit}
           />
-        </Modal>
-        <Modal
-          isOpen={steemConnectTransfer}
-          isFullScreen
-          isCloseButton
-          handleOnModalClose={handleOnModalClose}
-          title={intl.formatMessage({ id: 'transfer.steemconnect_title' })}
-        >
-          <WebView source={{ uri: `${steemConnectOptions.base_url}${path}` }} />
         </Modal>
       </Fragment>
     );
