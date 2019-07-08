@@ -107,7 +107,6 @@ export default EStyleSheet.create({
     elevation: 3,
   },
   slider: {
-    flex: 1,
     marginHorizontal: 30,
   },
   formButton: {

@@ -692,7 +692,7 @@ export const delegateVestingShares = (currentAccount, pin, data) => {
         'delegate_vesting_shares',
         {
           delegator: data.from,
-          delegatee: data.to,
+          delegatee: data.destination,
           vesting_shares: data.amount,
         },
       ],
