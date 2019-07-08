@@ -296,13 +296,15 @@
     "power_down": "Power Down",
     "account": "Fiók",
     "destination_accounts": "Cél Fiók(ok)",
-    "amount_information": "A csúszka húzásával állítsd be a mennyiséget",
+    "amount_information": "Drag the slider to adjust to amount",
     "save": "Mentés",
     "percent": "Százalék",
     "percent_information": "Power Down százaléka ennek a fióknak",
     "auto_vests": "Automatikus power up a megadott fióknak",
     "stop": "Megállítás",
     "stop_information": "Bistos megállítod?",
-    "incoming_funds": "Bejövő tőke"
+    "incoming_funds": "Bejövő tőke",
+    "sc_power_down_error": "Steem connect setWithdrawVestingRoute not implemented yet.",
+    "estimated_weekly": "Estimated Weekly"
   }
 }
