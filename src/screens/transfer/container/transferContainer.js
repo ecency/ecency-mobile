@@ -134,6 +134,8 @@ class TransferContainer extends Component {
         break;
       case 'delegate':
         func = delegateVestingShares;
+        currentAccount = selectedAccount;
+        data.amount = `${amount.toFixed(6)} VESTS`;
         break;
       default:
         break;
