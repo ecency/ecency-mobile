@@ -55,6 +55,7 @@ const Transfer = ({ navigation }) => (
               fetchBalance={fetchBalance}
               transferToAccount={transferToAccount}
               accountType={accountType}
+              handleOnModalClose={handleOnModalClose}
             />
           );
         case 'power_down':
