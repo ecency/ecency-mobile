@@ -203,7 +203,7 @@
     "no_internet": "Nu există conexiune!",
     "confirm": "Confirmă",
     "removed": "Şters",
-    "same_user": "This user already added to list"
+    "same_user": "Utilizator adăugat deja la listă"
   },
   "post": {
     "reblog_alert": "Ești sigur că vrei să redistribui?",
@@ -284,25 +284,25 @@
     "to_placeholder": "Nume de utilizator",
     "memo_placeholder": "Introdu comentariul tău aici",
     "transfer_token": "Transfer",
-    "points": "Points Transfer",
+    "points": "Transfer Puncte",
     "transfer_to_saving": "Tranferă la economii",
     "powerUp": "Power Up",
     "withdraw_to_saving": "Retrage la economii",
     "steemconnect_title": "Transfer Steemconnect",
     "next": "URMĂTORUL",
-    "withdraw_steem": "Withdraw Steem",
-    "withdraw_sbd": "Withdraw Steem Dollar",
-    "delegate": "Delegate",
+    "withdraw_steem": "Retrage Steem",
+    "withdraw_sbd": "Retrage Steem Dolar",
+    "delegate": "Delegare",
     "power_down": "Power Down",
-    "account": "Account",
-    "destination_accounts": "Destination Account(s)",
-    "amount_information": "Drag the sliderto adjust to amount",
-    "save": "Save",
-    "percent": "Percentage",
-    "percent_information": "Percentage of power down to this account",
-    "auto_vests": "Automatically power up to the target account",
-    "stop": "Stop",
+    "account": "Cont",
+    "destination_accounts": "Cont(uri) de Destinație",
+    "amount_information": "Trage glisorul pentru a ajusta cantitatea",
+    "save": "Salvează",
+    "percent": "Procentaj",
+    "percent_information": "Procentul de power down la acest cont",
+    "auto_vests": "Power up automat contul ţintă",
+    "stop": "Oprește",
     "stop_information": "Are you sure to stop?",
-    "incoming_funds": "Incoming Funds"
+    "incoming_funds": "Fondurile Primite"
   }
 }
