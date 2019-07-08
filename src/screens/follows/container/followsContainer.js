@@ -83,7 +83,6 @@ class FollowsContainer extends Component {
   _handleSearch = async text => {
     const { count, users, username, isFollowingPress } = this.state;
     let newData;
-    // const isAllFetch = count === users.length;
 
     if (count !== users.length) {
       newData = users.filter(item => {
