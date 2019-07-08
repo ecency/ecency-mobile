@@ -203,7 +203,7 @@
     "no_internet": "Sem ligação!",
     "confirm": "Confirmar",
     "removed": "Removido",
-    "same_user": "This user already added to list"
+    "same_user": "Este usuário já foi adicionado à lista"
   },
   "post": {
     "reblog_alert": "Tem certeza de que deseja reblogar?",
@@ -290,19 +290,19 @@
     "withdraw_to_saving": "Levantar das poupanças",
     "steemconnect_title": "Transferência por Steemconnect",
     "next": "SEGUINTE",
-    "withdraw_steem": "Withdraw Steem",
-    "withdraw_sbd": "Withdraw Steem Dollar",
-    "delegate": "Delegate",
-    "power_down": "Power Down",
-    "account": "Account",
-    "destination_accounts": "Destination Account(s)",
-    "amount_information": "Drag the sliderto adjust to amount",
-    "save": "Save",
-    "percent": "Percentage",
-    "percent_information": "Percentage of power down to this account",
-    "auto_vests": "Automatically power up to the target account",
-    "stop": "Stop",
-    "stop_information": "Are you sure to stop?",
-    "incoming_funds": "Incoming Funds"
+    "withdraw_steem": "Levantar Steem",
+    "withdraw_sbd": "Levantar Steem Dólar",
+    "delegate": "Delegar",
+    "power_down": "Decarregar Poder",
+    "account": "Conta",
+    "destination_accounts": "Conta(s) de destino",
+    "amount_information": "Arraste o controle deslizante para ajustar a quantidade",
+    "save": "Guardar",
+    "percent": "Percentagem",
+    "percent_information": "Percentagem de Descarga de Poder para esta conta",
+    "auto_vests": "Carregar Poder automaticamente para a conta alvo",
+    "stop": "Parar",
+    "stop_information": "Tem certeza que deseja parar?",
+    "incoming_funds": "Fundos recebidos"
   }
 }
