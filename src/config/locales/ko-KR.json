@@ -296,7 +296,7 @@
     "power_down": "파워 다운",
     "account": "계정",
     "destination_accounts": "대상 계정",
-    "amount_information": "Drag the slider to adjust to amount",
+    "amount_information": "슬라이드를 드래그해서 수량을 설정할 수 있습니다",
     "save": "저장",
     "percent": "비율",
     "percent_information": "이 계정에 대한 파워 다운 비율",
@@ -304,7 +304,7 @@
     "stop": "중지",
     "stop_information": "중지하시겠습니까?",
     "incoming_funds": "입금 예정 스팀",
-    "sc_power_down_error": "Steem connect setWithdrawVestingRoute not implemented yet.",
-    "estimated_weekly": "Estimated Weekly"
+    "sc_power_down_error": "steemconnect setWithdrawVestingRoute는 아직 구현되지 않았습니다.",
+    "estimated_weekly": "주간 예상 수량"
   }
 }
