@@ -296,7 +296,7 @@
     "power_down": "Decarregar Poder",
     "account": "Conta",
     "destination_accounts": "Conta(s) de destino",
-    "amount_information": "Drag the slider to adjust to amount",
+    "amount_information": "Arraste o controle deslizante para ajustar a quantidade",
     "save": "Guardar",
     "percent": "Percentagem",
     "percent_information": "Percentagem de Descarga de Poder para esta conta",
@@ -304,7 +304,7 @@
     "stop": "Parar",
     "stop_information": "Tem certeza que deseja parar?",
     "incoming_funds": "Fundos recebidos",
-    "sc_power_down_error": "Steem connect setWithdrawVestingRoute not implemented yet.",
-    "estimated_weekly": "Estimated Weekly"
+    "sc_power_down_error": "Steem conecta setWithdrawVestingRoute ainda não implementado.",
+    "estimated_weekly": "Estimado Semanalmente"
   }
 }
