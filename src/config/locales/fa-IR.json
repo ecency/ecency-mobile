@@ -203,12 +203,12 @@
     "no_internet": "اتصال برقرار نیست!",
     "confirm": "تأیید",
     "removed": "حذف شد",
-    "same_user": "This user already added to list"
+    "same_user": "این کاربر قبلا به لیست اضافه شده است"
   },
   "post": {
     "reblog_alert": "آیا مطمئن هستید که می‌خواهید به اشتراک بگذارید؟",
-    "removed_hint": "The post was removed by",
-    "copy_link": "Copy Link"
+    "removed_hint": "این پست حذف شده است توسط",
+    "copy_link": "کپی لینک"
   },
   "drafts": {
     "title": "پیشنویس ها",
@@ -217,7 +217,7 @@
     "deleted": "پیشنویس حذف شده"
   },
   "schedules": {
-    "title": "Schedules",
+    "title": "زمان بندی ها",
     "empty_list": "اینجا چیزی نیست",
     "deleted": "پست های برنامه ریزی شده حذف شدند",
     "move": "انتقال به پیشنویس",
@@ -283,28 +283,28 @@
     "memo_desc": "این یادداشت عمومی است",
     "to_placeholder": "نام کاربری",
     "memo_placeholder": "یادداشت های خود را در اینجا وارد کنید",
-    "transfer_token": "Transfer",
-    "points": "Points Transfer",
-    "transfer_to_saving": "Transfer To Saving",
+    "transfer_token": "انتقال",
+    "points": "انتقال امتیاز ها",
+    "transfer_to_saving": "انتقال به پس انداز",
     "powerUp": "بالا بردن قدرت",
-    "withdraw_to_saving": "Withdraw To Saving",
+    "withdraw_to_saving": "برداشت و انتقال به پس انداز",
     "steemconnect_title": "انتقال Steemconnect",
-    "next": "NEXT",
-    "withdraw_steem": "Withdraw Steem",
-    "withdraw_sbd": "Withdraw Steem Dollar",
-    "delegate": "Delegate",
-    "power_down": "Power Down",
-    "account": "Account",
-    "destination_accounts": "Destination Account(s)",
-    "amount_information": "Drag the slider to adjust to amount",
-    "save": "Save",
-    "percent": "Percentage",
-    "percent_information": "Percentage of power down to this account",
-    "auto_vests": "Automatically power up to the target account",
-    "stop": "Stop",
-    "stop_information": "Are you sure to stop?",
-    "incoming_funds": "Incoming Funds",
+    "next": "بعدی",
+    "withdraw_steem": "برداشت استیم",
+    "withdraw_sbd": "برداشت دلار استیم",
+    "delegate": "اجاره",
+    "power_down": "کم کردن قدرت",
+    "account": "حساب کاربری",
+    "destination_accounts": "اجاره داده شده به حساب (های) کاربری",
+    "amount_information": "کشیدن لغزنده برای تنظیم مقدار",
+    "save": "ذخیره",
+    "percent": "درصد",
+    "percent_information": "درصد کاهش قدرت برای این حساب کاربری",
+    "auto_vests": "به صورت خودکار حساب کاربری مورد نظر را افزایش قدرت بده",
+    "stop": "توقف",
+    "stop_information": "آیا مطمئن هستید که میخواهید عملیات را متوقف کنید؟",
+    "incoming_funds": "وجوه دریافتی",
     "sc_power_down_error": "Steem connect setWithdrawVestingRoute not implemented yet.",
-    "estimated_weekly": "Estimated Weekly"
+    "estimated_weekly": "برآورد هفتگی"
   }
 }
