@@ -198,7 +198,7 @@ export const getFollowSearch = (user, targetUser) =>
       .call('get_following', [targetUser, user, 'blog', 1])
       .then(result => {
         if (result[0] && result[0].follower === targetUser && result[0].following === user) {
-          resolve(result[0].follower);
+          resolve(result);
         } else {
           resolve(null);
         }
