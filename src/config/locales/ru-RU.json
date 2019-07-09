@@ -296,13 +296,15 @@
     "power_down": "Понижение Силы",
     "account": "Aккаунт",
     "destination_accounts": "Аккаунт(ы) получателя",
-    "amount_information": "Потяните ползунок для регулировки количества",
+    "amount_information": "Drag the slider to adjust to amount",
     "save": "Сохранить",
     "percent": "Проценты",
     "percent_information": "Процент понижения Силы в этот аккаунт",
     "auto_vests": "Автоматически переводить в Силу на целевой аккаунт",
     "stop": "Остановить",
     "stop_information": "Вы уверены, что хотите остановить?",
-    "incoming_funds": "Входящие средства"
+    "incoming_funds": "Входящие средства",
+    "sc_power_down_error": "Steem connect setWithdrawVestingRoute not implemented yet.",
+    "estimated_weekly": "Estimated Weekly"
   }
 }

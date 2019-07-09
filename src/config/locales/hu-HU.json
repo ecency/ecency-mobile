@@ -303,6 +303,8 @@
     "auto_vests": "Automatikus power up a megadott fióknak",
     "stop": "Megállítás",
     "stop_information": "Bistos megállítod?",
-    "incoming_funds": "Bejövő tőke"
+    "incoming_funds": "Bejövő tőke",
+    "sc_power_down_error": "Steem connect setWithdrawVestingRoute not implemented yet.",
+    "estimated_weekly": "Heti Becslés"
   }
 }
