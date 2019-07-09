@@ -296,7 +296,7 @@
     "power_down": "Power Down",
     "account": "Akaun",
     "destination_accounts": "Kepada Akaun(atau akaun-akaun)",
-    "amount_information": "Drag the slider to adjust to amount",
+    "amount_information": "Seret penggelongsor untuk menyelaraskan amaun",
     "save": "Simpan Perubahan",
     "percent": "Peratusan",
     "percent_information": "Peratusan daripada Power Down masuk akaun ini",
@@ -304,7 +304,7 @@
     "stop": "Berhenti",
     "stop_information": "Anda pasti menghentikan?",
     "incoming_funds": "Wang masuk",
-    "sc_power_down_error": "Steem connect setWithdrawVestingRoute not implemented yet.",
-    "estimated_weekly": "Estimated Weekly"
+    "sc_power_down_error": "Sambungan Steem dan setWithdrawVestingRoute belum dilaksanakan.",
+    "estimated_weekly": "Anggaran Mingguan"
   }
 }
