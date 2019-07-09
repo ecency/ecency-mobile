@@ -47,7 +47,7 @@ class FollowsScreen extends PureComponent {
   };
 
   render() {
-    const { loadMore, data, isFollowing, count, filterResult, handleSearch, intl } = this.props;
+    const { loadMore, data, isFollowing, count, handleSearch, intl } = this.props;
     const title = intl.formatMessage({
       id: !isFollowing ? 'profile.follower' : 'profile.following',
     });
@@ -57,14 +57,14 @@ class FollowsScreen extends PureComponent {
     return (
       <View style={styles.container}>
         <BasicHeader title={headerTitle} isHasSearch handleOnSearch={handleSearch} />
-        {(filterResult && data && filterResult.length > 0) || (data && data.length > 0) ? (
+        {data && data.length > 0 ? (
           <FlatList
-            data={filterResult || data}
+            data={data}
             keyExtractor={(item, index) => index.toString()}
             onEndReached={() => loadMore()}
             removeClippedSubviews={false}
             renderItem={({ item, index }) => this._renderItem(item, index)}
-            ListFooterComponent={this._renderFooter}
+            // ListFooterComponent={this._renderFooter}
           />
         ) : (
           <Text style={styles.text}>
