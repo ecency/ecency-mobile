@@ -302,6 +302,8 @@
     "auto_vests": "대상 계정에 자동으로 파워 업 하기",
     "stop": "중지",
     "stop_information": "중지하시겠습니까?",
-    "incoming_funds": "입금 예정 스팀"
+    "incoming_funds": "입금 예정 스팀",
+    "sc_power_down_error": "steemconnect setWithdrawVestingRoute는 아직 구현되지 않았습니다.",
+    "estimated_weekly": "주간 예상 수량"
   }
 }

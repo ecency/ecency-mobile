@@ -303,6 +303,8 @@
     "auto_vests": "Power up kepada akaun secara otomatik",
     "stop": "Berhenti",
     "stop_information": "Anda pasti menghentikan?",
-    "incoming_funds": "Wang masuk"
+    "incoming_funds": "Wang masuk",
+    "sc_power_down_error": "Sambungan Steem dan setWithdrawVestingRoute belum dilaksanakan.",
+    "estimated_weekly": "Anggaran Mingguan"
   }
 }
