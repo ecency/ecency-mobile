@@ -1,7 +1,9 @@
 import React, { PureComponent } from 'react';
 import { injectIntl } from 'react-intl';
 import { View } from 'react-native';
-// Constants
+
+// Containers
+import { PointsContainer } from '../../../containers';
 
 // Components
 import { Header } from '../../../components/header';
@@ -33,7 +35,31 @@ class PointsScreen extends PureComponent {
       <View style={styles.container}>
         <Header />
         {isLoggedIn ? (
-          <Points />
+          <PointsContainer>
+            {({
+              handleOnPressTransfer,
+              claimPoints,
+              fetchUserActivity,
+              isClaiming,
+              isDarkTheme,
+              isLoading,
+              refreshing,
+              userActivities,
+              userPoints,
+            }) => (
+              <Points
+                claimPoints={claimPoints}
+                fetchUserActivity={fetchUserActivity}
+                isClaiming={isClaiming}
+                isDarkTheme={isDarkTheme}
+                isLoading={isLoading}
+                refreshing={refreshing}
+                userActivities={userActivities}
+                userPoints={userPoints}
+                handleOnPressTransfer={handleOnPressTransfer}
+              />
+            )}
+          </PointsContainer>
         ) : (
           <NoPost
             style={styles.noPostContainer}

@@ -306,5 +306,9 @@
     "incoming_funds": "Incoming Funds",
     "sc_power_down_error": "Steem connect setWithdrawVestingRoute not implemented yet.",
     "estimated_weekly": "Estimated Weekly"
+  },
+  "promote": {
+    "user": "User",
+    "permlink": "Permlink"
   }
 }
