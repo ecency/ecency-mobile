@@ -136,7 +136,7 @@ class PointsContainer extends Component {
     await getUser(username)
       .then(userPoints => {
         const balance = Math.round(get(userPoints, 'points') * 1000) / 1000;
-        this.setState({ userPoints, balance });
+        return balance;
       })
       .catch(err => {
         Alert.alert(err);
