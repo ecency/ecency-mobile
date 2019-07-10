@@ -40,7 +40,36 @@ export const getDigitPinCode = pin => decryptKey(pin, Config.PIN_KEY);
 
 export const getDynamicGlobalProperties = () => client.database.getDynamicGlobalProperties();
 
+export const getChainProperties = () => client.database.getChainProperties();
+
 export const getRewardFund = () => client.database.call('get_reward_fund', ['post']);
+
+export const getMinDelegation = async () => {
+  const gpo = await getDynamicGlobalProperties();
+  const wso = await getChainProperties();
+
+  console.log('parseFloat(wso.account_creation_fee) :', parseFloat(wso.account_creation_fee));
+  console.log(
+    'parseFloat(gpo.total_vesting_fund_steem) :',
+    parseFloat(gpo.total_vesting_fund_steem),
+  );
+  console.log('parseFloat(gpo.total_vesting_shares) :', parseFloat(gpo.total_vesting_shares));
+  console.log(
+    'parseFloat(gpo.total_vesting_fund_steem) / parseFloat(gpo.total_vesting_shares) :',
+    parseFloat(gpo.total_vesting_fund_steem) / parseFloat(gpo.total_vesting_shares),
+  );
+  const minDelegation =
+    parseFloat(wso.account_creation_fee) *
+    10 *
+    (parseFloat(gpo.total_vesting_fund_steem) / parseFloat(gpo.total_vesting_shares));
+
+  console.log('minDelegation :', minDelegation);
+
+  // total_vesting_fund_steem/total_vesting_shares
+  // min_delegation = wso.median_props.account_creation_fee.amount * 10 * gpo.get_vesting_share_price();
+};
+
+getMinDelegation();
 
 export const getFeedHistory = async () => {
   try {
@@ -121,7 +150,7 @@ export const getUser = async user => {
     if (account && account.length < 1) return null;
 
     // get global properties to calculate Steem Power
-    const globalProperties = await client.database.getDynamicGlobalProperties();
+    const globalProperties = await getDynamicGlobalProperties();
     const rcPower = await client.call('rc_api', 'find_rc_accounts', { accounts: [user] });
     let unreadActivityCount;
     try {
