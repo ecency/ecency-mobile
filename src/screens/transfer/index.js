@@ -1,6 +1,6 @@
 import React from 'react';
 
-import TransferContainer from './container/transferContainer';
+import { TransferContainer } from '../../containers';
 
 import TransferView from './screen/transferScreen';
 import PowerDownView from './screen/powerDownScreen';
