@@ -4,11 +4,16 @@
 import React, { PureComponent, Fragment } from 'react';
 import { injectIntl } from 'react-intl';
 import { Text, View, WebView, ScrollView, TouchableOpacity } from 'react-native';
+import get from 'lodash/get';
 import ActionSheet from 'react-native-actionsheet';
 import Slider from 'react-native-slider';
+import { CustomSlider } from '../../../components/scaleSlider/customSlider';
 
 // Container
 import { PointsContainer } from '../../../containers';
+
+// Services and Actions
+import { getUser } from '../../../providers/esteem/ePoint';
 
 // Components
 import { BasicHeader } from '../../../components/basicHeader';
@@ -17,6 +22,8 @@ import { TransferFormItem } from '../../../components/transferFormItem';
 import { MainButton } from '../../../components/mainButton';
 import { DropdownButton } from '../../../components/dropdownButton';
 // import { Modal } from '../../../components/modal';
+
+import { PROMOTE_PRICING } from '../../../constants/options/points';
 
 // Styles
 import styles from './promoteStyles';
@@ -31,7 +38,9 @@ class PointsScreen extends PureComponent {
     super(props);
     this.state = {
       permlink: '',
-      selectedUser: props.currentAccountName,
+      selectedUser: '',
+      balance: '',
+      day: 1,
     };
   }
 
@@ -42,7 +51,7 @@ class PointsScreen extends PureComponent {
   _renderInput = (placeholder, state, keyboardType, isTextArea) => (
     <TextInput
       style={[isTextArea ? styles.textarea : styles.input]}
-      onChangeText={val => this._handleOnAmountChange(state, val)}
+      onChangeText={val => this.setState({ permlink: val })}
       value={this.state[state]}
       placeholder={placeholder}
       placeholderTextColor="#c1c5c7"
@@ -55,7 +64,7 @@ class PointsScreen extends PureComponent {
 
   _renderDescription = text => <Text style={styles.description}>{text}</Text>;
 
-  _renderDropdown = (accounts, currentAccountName, getUserBalance) => (
+  _renderDropdown = (accounts, currentAccountName) => (
     <DropdownButton
       dropdownButtonStyle={styles.dropdownButtonStyle}
       rowTextStyle={styles.rowTextStyle}
@@ -67,13 +76,27 @@ class PointsScreen extends PureComponent {
       selectedOptionIndex={accounts.findIndex(item => item.username === currentAccountName)}
       onSelect={(index, value) => {
         this.setState({ selectedUser: value });
-        getUserBalance(value);
+        this._getUserBalance(value);
       }}
     />
   );
 
+  _getUserBalance = async username => {
+    await getUser(username)
+      .then(userPoints => {
+        const balance = Math.round(get(userPoints, 'points') * 1000) / 1000;
+        this.setState({ balance });
+      })
+      .catch(err => {
+        Alert.alert(err);
+      });
+  };
+
   render() {
     const { intl } = this.props;
+    const { selectedUser, balance } = this.state;
+
+    // this._getUserBalance();
 
     return (
       <PointsContainer>
@@ -85,8 +108,7 @@ class PointsScreen extends PureComponent {
           refreshing,
           accounts,
           currentAccountName,
-          balance,
-          getUserBalance,
+          balance: _balance,
         }) => (
           <Fragment>
             <BasicHeader title="Promote" />
@@ -96,12 +118,12 @@ class PointsScreen extends PureComponent {
                   <TransferFormItem
                     label={intl.formatMessage({ id: 'promote.user' })}
                     rightComponent={() =>
-                      this._renderDropdown(accounts, currentAccountName, getUserBalance)
+                      this._renderDropdown(accounts, selectedUser || currentAccountName)
                     }
                   />
-                  <Text style={styles.balanceText}>{`${balance} eSteem Points`}</Text>
+                  <Text style={styles.balanceText}>{`${balance || _balance} eSteem Points`}</Text>
                   <TransferFormItem
-                    label={intl.formatMessage({ id: 'transfer.amount' })}
+                    label={intl.formatMessage({ id: 'promote.permlink' })}
                     rightComponent={() =>
                       this._renderInput(
                         intl.formatMessage({ id: 'promote.permlink' }),
@@ -110,36 +132,13 @@ class PointsScreen extends PureComponent {
                       )
                     }
                   />
-                  <TransferFormItem
-                    rightComponent={() => (
-                      <TouchableOpacity
-                        onPress={() => this._handleOnAmountChange('amount', balance)}
-                      >
-                        {this._renderDescription(
-                          `${intl.formatMessage({
-                            id: 'transfer.amount_desc',
-                          })}`,
-                        )}
-                      </TouchableOpacity>
-                    )}
+                  <CustomSlider
+                    min={1}
+                    values={[1, 2, 3, 7, 14]}
+                    LRpadding={40}
+                    callback={day => this.setState({ day })}
+                    single
                   />
-                  {/* <TransferFormItem
-                rightComponent={() =>
-                  this._renderDescription(intl.formatMessage({ id: 'transfer.memo_desc' }))
-                }
-              /> */}
-                  {/* <Slider
-                    style={styles.slider}
-                    trackStyle={styles.track}
-                    thumbStyle={styles.thumb}
-                    minimumTrackTintColor="#357ce6"
-                    thumbTintColor="#007ee5"
-                    maximumValue={10000}
-                    value={100}
-                    onValueChange={val => {
-                      this.setState({ amount: val });
-                    }}
-                  /> */}
                 </View>
                 <View style={styles.bottomContent}>
                   <MainButton
