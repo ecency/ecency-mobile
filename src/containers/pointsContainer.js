@@ -7,6 +7,7 @@ import get from 'lodash/get';
 // Services and Actions
 import { getUser, getUserPoints, claim } from '../providers/esteem/ePoint';
 import { openPinCodeModal } from '../redux/actions/applicationActions';
+import { promote } from '../providers/steem/dsteem';
 
 // Constant
 import POINTS from '../constants/options/points';
@@ -164,6 +165,24 @@ class PointsContainer extends Component {
     this.setState({ isClaiming: false });
   };
 
+  _promote = async (duration, permlink, author) => {
+    const { currentAccount, pinCode } = this.props;
+    this.setState({ isLoading: true });
+
+    await promote(currentAccount, pinCode, duration, permlink, author)
+      .then(() => {
+        this.setState({ isLoading: false });
+      })
+      .catch(error => {
+        Alert.alert(
+          `Fetching data from server failed, please try again or notify us at info@esteem.app \n${error.message.substr(
+            0,
+            20,
+          )}`,
+        );
+      });
+  };
+
   render() {
     const {
       isClaiming,
@@ -193,6 +212,7 @@ class PointsContainer extends Component {
         handleOnPressTransfer: this._handleOnPressTransfer,
         balance,
         getUserBalance: this._getUserBalance,
+        promote: this._promote,
       })
     );
   }
@@ -204,6 +224,7 @@ const mapStateToProps = state => ({
   activeBottomTab: state.ui.activeBottomTab,
   accounts: state.account.otherAccounts,
   currentAccount: state.account.currentAccount,
+  pinCode: state.account.pin,
 });
 
 export default connect(mapStateToProps)(PointsContainer);

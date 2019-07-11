@@ -309,6 +309,7 @@
   },
   "promote": {
     "user": "User",
-    "permlink": "Permlink"
+    "permlink": "Permlink",
+    "information": "Are you sure to transfer to promote?"
   }
 }

@@ -3,11 +3,10 @@
 /* eslint-disable no-return-assign */
 import React, { PureComponent, Fragment } from 'react';
 import { injectIntl } from 'react-intl';
-import { Text, View, WebView, ScrollView, TouchableOpacity } from 'react-native';
+import { Text, View, WebView, ScrollView } from 'react-native';
 import get from 'lodash/get';
 import ActionSheet from 'react-native-actionsheet';
-import Slider from 'react-native-slider';
-import { CustomSlider } from '../../../components/scaleSlider/customSlider';
+import { ScaleSlider } from '../../../components';
 
 // Container
 import { PointsContainer } from '../../../containers';
@@ -23,7 +22,7 @@ import { MainButton } from '../../../components/mainButton';
 import { DropdownButton } from '../../../components/dropdownButton';
 // import { Modal } from '../../../components/modal';
 
-import { PROMOTE_PRICING } from '../../../constants/options/points';
+import { PROMOTE_PRICING, PROMOTE_DAYS } from '../../../constants/options/points';
 
 // Styles
 import styles from './promoteStyles';
@@ -92,11 +91,15 @@ class PointsScreen extends PureComponent {
       });
   };
 
+  _promote = promote => {
+    const { day, permlink, author } = this.state;
+    // @u-e/esteem-mobile-v2-guide
+    if (promote) promote(day, permlink, 'u-e');
+  };
+
   render() {
     const { intl } = this.props;
-    const { selectedUser, balance } = this.state;
-
-    // this._getUserBalance();
+    const { selectedUser, balance, day } = this.state;
 
     return (
       <PointsContainer>
@@ -109,6 +112,7 @@ class PointsScreen extends PureComponent {
           accounts,
           currentAccountName,
           balance: _balance,
+          promote,
         }) => (
           <Fragment>
             <BasicHeader title="Promote" />
@@ -132,11 +136,19 @@ class PointsScreen extends PureComponent {
                       )
                     }
                   />
-                  <CustomSlider
-                    min={1}
+
+                  <View style={styles.total}>
+                    <Text style={styles.day}>{`${day} days `}</Text>
+                    <Text style={styles.price}>
+                      {`${get(PROMOTE_PRICING[PROMOTE_DAYS.indexOf(day)], 'price')} eSteem points`}
+                    </Text>
+                  </View>
+
+                  <ScaleSlider
                     values={[1, 2, 3, 7, 14]}
-                    LRpadding={40}
-                    callback={day => this.setState({ day })}
+                    LRpadding={50}
+                    activeValue={day}
+                    handleOnValueChange={day => this.setState({ day })}
                     single
                   />
                 </View>
@@ -154,19 +166,19 @@ class PointsScreen extends PureComponent {
                 </View>
               </ScrollView>
             </View>
-            {/* <ActionSheet
+            <ActionSheet
               ref={o => (this.ActionSheet = o)}
               options={[
                 intl.formatMessage({ id: 'alert.confirm' }),
                 intl.formatMessage({ id: 'alert.cancel' }),
               ]}
-              title={intl.formatMessage({ id: 'transfer.information' })}
+              title={intl.formatMessage({ id: 'promote.information' })}
               cancelButtonIndex={1}
               destructiveButtonIndex={0}
               onPress={index => {
-                index === 0 ? this._handleTransferAction() : null;
+                index === 0 ? this._promote(promote) : null;
               }}
-            /> */}
+            />
             {/* <Modal
           isOpen={steemConnectTransfer}
           isFullScreen
