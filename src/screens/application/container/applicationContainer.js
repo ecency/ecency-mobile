@@ -70,7 +70,7 @@ import {
   isDefaultFooter,
 } from '../../../redux/actions/applicationActions';
 
-// Container
+// Screens
 import ApplicationScreen from '../screen/applicationScreen';
 import { Launch } from '../..';
 
@@ -334,14 +334,14 @@ class ApplicationContainer extends Component {
     };
   };
 
-  _logout = async () => {
+  _logout = () => {
     const {
       otherAccounts,
       currentAccount: { name, local },
       dispatch,
     } = this.props;
 
-    await removeUserData(name)
+    removeUserData(name)
       .then(async () => {
         const _otherAccounts = otherAccounts.filter(user => user.username !== name);
 
@@ -388,14 +388,14 @@ class ApplicationContainer extends Component {
   _switchAccount = async targetAccountUsername => {
     const { dispatch } = this.props;
 
-    await switchAccount(targetAccountUsername).then(accountData => {
-      const realmData = getUserDataWithUsername(targetAccountUsername);
-      const _currentAccount = accountData;
-      _currentAccount.username = accountData.name;
-      [_currentAccount.local] = realmData;
+    const accountData = await switchAccount(targetAccountUsername);
 
-      dispatch(updateCurrentAccount(_currentAccount));
-    });
+    const realmData = getUserDataWithUsername(targetAccountUsername);
+    const _currentAccount = accountData;
+    _currentAccount.username = accountData.name;
+    [_currentAccount.local] = realmData;
+
+    dispatch(updateCurrentAccount(_currentAccount));
   };
 
   render() {
