@@ -1,7 +1,6 @@
 import React, { Component, Fragment } from 'react';
 import { AppState, Platform, Linking, Alert } from 'react-native';
 import { connect } from 'react-redux';
-import Push from 'appcenter-push';
 import { injectIntl } from 'react-intl';
 import get from 'lodash/get';
 

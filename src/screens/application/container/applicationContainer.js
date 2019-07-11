@@ -399,21 +399,27 @@ class ApplicationContainer extends Component {
   };
 
   render() {
-    const { selectedLanguage, isConnected, toastNotification } = this.props;
+    const {
+      selectedLanguage,
+      isConnected,
+      toastNotification,
+      isDarkTheme: _isDarkTheme,
+      children,
+    } = this.props;
     const { isRenderRequire, isReady, isThemeReady } = this.state;
 
-    if (isRenderRequire && isThemeReady) {
-      return (
-        <ApplicationScreen
-          isConnected={isConnected}
-          locale={selectedLanguage}
-          toastNotification={toastNotification}
-          isReady={isReady}
-          {...this.props}
-        />
-      );
-    }
-    return <Launch />;
+    return (
+      children &&
+      children({
+        isConnected,
+        toastNotification,
+        isReady,
+        isRenderRequire,
+        isThemeReady,
+        isDarkTheme: _isDarkTheme,
+        locale: selectedLanguage,
+      })
+    );
   }
 }
 

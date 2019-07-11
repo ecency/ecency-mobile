@@ -1,7 +1,7 @@
 import React from 'react';
 import { Provider } from 'react-redux';
 
-import { Application } from './screens/application';
+import Application from './screens/application';
 import store from './redux/store/store';
 
 export default () => (
