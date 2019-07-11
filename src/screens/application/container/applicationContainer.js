@@ -1,14 +1,14 @@
 import React, { Component } from 'react';
-import { Platform, BackHandler, Alert, NetInfo } from 'react-native';
-import { connect } from 'react-redux';
-import { addLocaleData } from 'react-intl';
 import Config from 'react-native-config';
-import { NavigationActions } from 'react-navigation';
-import { bindActionCreators } from 'redux';
 import Push from 'appcenter-push';
 import get from 'lodash/get';
 import AppCenter from 'appcenter';
 import changeNavigationBarColor from 'react-native-navigation-bar-color';
+import { Platform, BackHandler, Alert, NetInfo } from 'react-native';
+import { connect } from 'react-redux';
+import { addLocaleData } from 'react-intl';
+import { NavigationActions } from 'react-navigation';
+import { bindActionCreators } from 'redux';
 
 // Languages
 import en from 'react-intl/locale-data/en';
@@ -77,8 +77,8 @@ import { Launch } from '../..';
 addLocaleData([...en, ...ru, ...de, ...id, ...it, ...hu, ...tr, ...ko, ...pt, ...lt, ...fa]);
 
 class ApplicationContainer extends Component {
-  constructor() {
-    super();
+  constructor(props) {
+    super(props);
     this.state = {
       isRenderRequire: true,
       isReady: false,
@@ -87,22 +87,18 @@ class ApplicationContainer extends Component {
     };
   }
 
-  componentDidMount = async () => {
+  componentDidMount = () => {
     const { isIos } = this.state;
-    let isConnected;
 
-    await NetInfo.isConnected.fetch().then(_isConnected => {
-      isConnected = _isConnected;
+    NetInfo.isConnected.fetch().then(_isConnected => {
+      if (_isConnected) {
+        this._fetchApp();
+      } else {
+        Alert.alert('No internet connection');
+      }
     });
 
-    // NetInfo.isConnected.addEventListener('connectionChange', this._handleConntectionChange);
     if (!isIos) BackHandler.addEventListener('hardwareBackPress', this._onBackPress);
-
-    if (isConnected) {
-      this._fetchApp();
-    } else {
-      Alert.alert('No internet connection');
-    }
 
     this.globalInterval = setInterval(this._refreshGlobalProps, 180000);
     this._createPushListener();
@@ -289,10 +285,8 @@ class ApplicationContainer extends Component {
         })
         .catch(err => {
           Alert.alert(
-            `Fetching data from server failed, please try again or notify us at info@esteem.app \n${err.message.substr(
-              0,
-              20,
-            )}`,
+            `Fetching data from server failed, please try again or notify us at info@esteem.app 
+            \n${err.message.substr(0, 20)}`,
           );
         });
     }
@@ -373,10 +367,8 @@ class ApplicationContainer extends Component {
       })
       .catch(err => {
         Alert.alert(
-          `Fetching data from server failed, please try again or notify us at info@esteem.app \n${err.substr(
-            0,
-            20,
-          )}`,
+          `Fetching data from server failed, please try again or notify us at info@esteem.app 
+          \n${err.substr(0, 20)}`,
         );
       });
   };
@@ -409,12 +401,6 @@ class ApplicationContainer extends Component {
   render() {
     const { selectedLanguage, isConnected, toastNotification } = this.props;
     const { isRenderRequire, isReady, isThemeReady } = this.state;
-
-    // For testing It comented out.
-    // const locale = (navigator.languages && navigator.languages[0])
-    //   || navigator.language
-    //   || navigator.userLanguage
-    //   || selectedLanguage;
 
     if (isRenderRequire && isThemeReady) {
       return (
