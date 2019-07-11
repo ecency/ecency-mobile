@@ -115,6 +115,7 @@ export const PROMOTE_PRICING = [
   { duration: 7, price: 500 },
   { duration: 14, price: 1000 },
 ];
+export const PROMOTE_DAYS = [1, 2, 3, 7, 14];
 
 export const PROMOTE_STATUS_PENDING = 1;
 export const PROMOTE_STATUS_SUCCESS = 2;

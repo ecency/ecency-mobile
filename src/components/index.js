@@ -7,6 +7,7 @@ import { SideMenu } from './sideMenu';
 import Modal from './modal';
 import Icon from './icon';
 import UserListItem from './basicUIElements/view/userListItem/userListItem';
+import ScaleSlider from './scaleSlider/scaleSliderView';
 
 export {
   Logo,
@@ -20,4 +21,5 @@ export {
   SideMenu,
   Modal,
   Icon,
+  ScaleSlider,
 };

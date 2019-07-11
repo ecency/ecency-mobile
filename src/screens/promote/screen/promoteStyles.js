@@ -199,4 +199,20 @@ export default EStyleSheet.create({
   nextPowerDown: {
     marginVertical: 5,
   },
+  total: {
+    marginVertical: 15,
+    flexDirection: 'row',
+    flex: 1,
+    justifyContent: 'center',
+    alignItems: 'center',
+  },
+  day: {
+    fontSize: 22,
+    color: '$primaryBlue',
+    fontWeight: 'bold',
+  },
+  price: {
+    fontSize: 15,
+    color: '$primaryBlue',
+  },
 });
