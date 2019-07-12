@@ -7,6 +7,7 @@ import { Text, View, WebView, ScrollView } from 'react-native';
 import get from 'lodash/get';
 import ActionSheet from 'react-native-actionsheet';
 import { ScaleSlider } from '../../../components';
+import { steemConnectOptions } from '../../../constants/steemConnectOptions';
 
 // Container
 import { PointsContainer } from '../../../containers';
@@ -20,7 +21,7 @@ import { TextInput } from '../../../components/textInput';
 import { TransferFormItem } from '../../../components/transferFormItem';
 import { MainButton } from '../../../components/mainButton';
 import { DropdownButton } from '../../../components/dropdownButton';
-// import { Modal } from '../../../components/modal';
+import { Modal } from '../../../components/modal';
 
 import { PROMOTE_PRICING, PROMOTE_DAYS } from '../../../constants/options/points';
 
@@ -40,6 +41,8 @@ class PointsScreen extends PureComponent {
       selectedUser: '',
       balance: '',
       day: 1,
+      isSCModalOpen: false,
+      SCPath: '',
     };
   }
 
@@ -91,15 +94,33 @@ class PointsScreen extends PureComponent {
       });
   };
 
-  _promote = promote => {
+  _promote = (promote, currentAccount) => {
     const { day, permlink, author } = this.state;
     // @u-e/esteem-mobile-v2-guide
-    if (promote) promote(day, permlink, 'u-e');
+    if (get(currentAccount, 'local.authType') === 'steemConnect') {
+      const user = get(currentAccount, 'name');
+
+      const json = JSON.stringify({
+        user,
+        author,
+        permlink,
+        duration: day,
+      });
+
+      const uri = `sign/custom-json?authority=active&required_auths=%5B%22${user}%22%5D&required_posting_auths=%5B%5D&id=esteem_promote&json=${encodeURIComponent(
+        json,
+      )}`;
+
+      this.setState({
+        isSCModalOpen: true,
+        SCPath: uri,
+      });
+    } else if (promote) promote(day, permlink, 'u-e');
   };
 
   render() {
     const { intl } = this.props;
-    const { selectedUser, balance, day } = this.state;
+    const { selectedUser, balance, day, SCPath, isSCModalOpen } = this.state;
 
     return (
       <PointsContainer>
@@ -113,6 +134,7 @@ class PointsScreen extends PureComponent {
           currentAccountName,
           balance: _balance,
           promote,
+          currentAccount,
         }) => (
           <Fragment>
             <BasicHeader title="Promote" />
@@ -176,18 +198,18 @@ class PointsScreen extends PureComponent {
               cancelButtonIndex={1}
               destructiveButtonIndex={0}
               onPress={index => {
-                index === 0 ? this._promote(promote) : null;
+                index === 0 ? this._promote(promote, currentAccount) : null;
               }}
             />
-            {/* <Modal
-          isOpen={steemConnectTransfer}
-          isFullScreen
-          isCloseButton
-          handleOnModalClose={handleOnModalClose}
-          title={intl.formatMessage({ id: 'transfer.steemconnect_title' })}
-        >
-        <WebView source={{ uri: `${steemConnectOptions.base_url}${path}` }} />
-        </Modal> */}
+            <Modal
+              isOpen={isSCModalOpen}
+              isFullScreen
+              isCloseButton
+              handleOnModalClose={() => this.setState({ openSCModal: false })}
+              title={intl.formatMessage({ id: 'transfer.steemconnect_title' })}
+            >
+              <WebView source={{ uri: `${steemConnectOptions.base_url}${SCPath}` }} />
+            </Modal>
           </Fragment>
         )}
       </PointsContainer>
