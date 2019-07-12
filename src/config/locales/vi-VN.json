@@ -203,7 +203,7 @@
     "no_internet": "Không có kết nối!",
     "confirm": "Xác nhận",
     "removed": "Đã xóa",
-    "same_user": "This user already added to list"
+    "same_user": "Người dùng này đã được thêm vào danh sách"
   },
   "post": {
     "reblog_alert": "Bạn có chắc chắn muốn đăng lại không?",
@@ -290,21 +290,21 @@
     "withdraw_to_saving": "Rút về phần tiết kiệm",
     "steemconnect_title": "Chuyển khoản Steemconnect",
     "next": "KẾ TIẾP",
-    "withdraw_steem": "Withdraw Steem",
-    "withdraw_sbd": "Withdraw Steem Dollar",
-    "delegate": "Delegate",
-    "power_down": "Power Down",
-    "account": "Account",
-    "destination_accounts": "Destination Account(s)",
-    "amount_information": "Drag the slider to adjust to amount",
-    "save": "Save",
-    "percent": "Percentage",
-    "percent_information": "Percentage of power down to this account",
-    "auto_vests": "Automatically power up to the target account",
-    "stop": "Stop",
-    "stop_information": "Are you sure to stop?",
-    "incoming_funds": "Incoming Funds",
-    "sc_power_down_error": "Steem connect setWithdrawVestingRoute not implemented yet.",
-    "estimated_weekly": "Estimated Weekly"
+    "withdraw_steem": "Rút Steem",
+    "withdraw_sbd": "Rút đô la Steem",
+    "delegate": "Ủy thác",
+    "power_down": "Giảm xuống",
+    "account": "Tài khoản",
+    "destination_accounts": "(Những) tài khoản mục tiêu",
+    "amount_information": "Kéo thanh trượt để điều chỉnh số lượng",
+    "save": "Lưu lại",
+    "percent": "Tỷ lệ phần trăm",
+    "percent_information": "Tỷ lệ phần trăm sự giảm nguồn tiền của tài khoản này",
+    "auto_vests": "Tự động tăng nguồn tiền cho tài khoản đích",
+    "stop": "Dừng lại",
+    "stop_information": "Bạn có chắn muốn dừng lại?",
+    "incoming_funds": "Các quỹ sắp có",
+    "sc_power_down_error": "Kết nối Steem để thiết lập LệnhRútCổphần chưa được triển khai.",
+    "estimated_weekly": "Dự kiến hàng tuần"
   }
 }
