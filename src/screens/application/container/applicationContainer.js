@@ -1,10 +1,10 @@
-import React, { Component } from 'react';
+import { Component } from 'react';
+import { Platform, BackHandler, Alert, NetInfo, Linking, AppState } from 'react-native';
 import Config from 'react-native-config';
 import Push from 'appcenter-push';
 import get from 'lodash/get';
 import AppCenter from 'appcenter';
 import changeNavigationBarColor from 'react-native-navigation-bar-color';
-import { Platform, BackHandler, Alert, NetInfo } from 'react-native';
 import { connect } from 'react-redux';
 import { addLocaleData } from 'react-intl';
 import { NavigationActions } from 'react-navigation';
@@ -40,7 +40,7 @@ import {
   removeSCAccount,
   setExistUser,
 } from '../../../realm/realm';
-import { getUser } from '../../../providers/steem/dsteem';
+import { getUser, getPost } from '../../../providers/steem/dsteem';
 import { switchAccount } from '../../../providers/steem/auth';
 import { setPushToken } from '../../../providers/esteem/esteem';
 
@@ -70,10 +70,6 @@ import {
   isDefaultFooter,
 } from '../../../redux/actions/applicationActions';
 
-// Screens
-import ApplicationScreen from '../screen/applicationScreen';
-import { Launch } from '../..';
-
 addLocaleData([...en, ...ru, ...de, ...id, ...it, ...hu, ...tr, ...ko, ...pt, ...lt, ...fa]);
 
 class ApplicationContainer extends Component {
@@ -84,6 +80,7 @@ class ApplicationContainer extends Component {
       isReady: false,
       isIos: Platform.OS !== 'android',
       isThemeReady: false,
+      appState: AppState.currentState,
     };
   }
 
@@ -99,6 +96,14 @@ class ApplicationContainer extends Component {
     });
 
     if (!isIos) BackHandler.addEventListener('hardwareBackPress', this._onBackPress);
+
+    Linking.addEventListener('url', this._handleOpenURL);
+
+    Linking.getInitialURL().then(url => {
+      this._handleDeepLink(url);
+    });
+
+    AppState.addEventListener('change', this._handleAppStateChange);
 
     this.globalInterval = setInterval(this._refreshGlobalProps, 180000);
     this._createPushListener();
@@ -132,7 +137,113 @@ class ApplicationContainer extends Component {
 
     // NetInfo.isConnected.removeEventListener('connectionChange', this._handleConntectionChange);
     clearInterval(this.globalInterval);
+
+    Linking.removeEventListener('url', this._handleOpenURL);
+
+    AppState.removeEventListener('change', this._handleAppStateChange);
   }
+
+  _handleOpenURL = event => {
+    this._handleDeepLink(event.url);
+  };
+
+  _handleDeepLink = async url => {
+    if (!url) return;
+
+    let author;
+    let permlink;
+    let routeName;
+    let params;
+    let content;
+    let profile;
+    const { currentAccount, dispatch } = this.props;
+
+    if (
+      url.indexOf('esteem') > -1 ||
+      url.indexOf('steemit') > -1 ||
+      url.indexOf('busy') > -1 ||
+      url.indexOf('steempeak') > -1
+    ) {
+      url = url.substring(url.indexOf('@'), url.length);
+      const routeParams = url.indexOf('/') > -1 ? url.split('/') : [url];
+
+      [, permlink] = routeParams;
+      author =
+        routeParams && routeParams.length > 0 && routeParams[0].indexOf('@') > -1
+          ? routeParams[0].replace('@', '')
+          : routeParams[0];
+    }
+
+    if (author && permlink) {
+      await getPost(author, permlink, currentAccount.name)
+        .then(result => {
+          if (get(result, 'title')) {
+            content = result;
+          } else {
+            this._handleAlert('No existing post');
+          }
+        })
+        .catch(() => {
+          this._handleAlert('No existing post');
+        });
+
+      routeName = ROUTES.SCREENS.POST;
+      params = { content };
+    } else if (author) {
+      profile = await getUser(author);
+
+      if (!profile) {
+        this._handleAlert('No existing user');
+        return;
+      }
+
+      routeName = ROUTES.SCREENS.PROFILE;
+      params = { username: get(profile, 'name'), reputation: get(profile, 'reputation') };
+    }
+
+    if (routeName && (profile || content)) {
+      this.navigationTimeout = setTimeout(() => {
+        clearTimeout(this.navigationTimeout);
+        const navigateAction = NavigationActions.navigate({
+          routeName,
+          params,
+          key: permlink || author,
+          action: NavigationActions.navigate({ routeName }),
+        });
+        dispatch(navigateAction);
+      }, 2000);
+    }
+  };
+
+  _handleAlert = (title = null, text = null) => {
+    Alert.alert(title, text);
+  };
+
+  _handleAppStateChange = nextAppState => {
+    const { appState } = this.state;
+
+    getExistUser().then(isExistUser => {
+      if (isExistUser) {
+        if (appState.match(/active|forground/) && nextAppState === 'inactive') {
+          this._startPinCodeTimer();
+        }
+
+        if (appState.match(/inactive|background/) && nextAppState === 'active') {
+          clearTimeout(this._pinCodeTimer);
+        }
+      }
+    });
+
+    this.setState({ appState: nextAppState });
+  };
+
+  _startPinCodeTimer = () => {
+    const { dispatch } = this.props;
+
+    this._pinCodeTimer = setTimeout(() => {
+      dispatch(openPinCodeModal());
+    }, 1 * 60 * 1000);
+  };
 
   _fetchApp = async () => {
     await this._refreshGlobalProps();
@@ -405,6 +516,7 @@ class ApplicationContainer extends Component {
       toastNotification,
       isDarkTheme: _isDarkTheme,
       children,
+      isPinCodeReqiure,
     } = this.props;
     const { isRenderRequire, isReady, isThemeReady } = this.state;
 
@@ -416,6 +528,7 @@ class ApplicationContainer extends Component {
         isReady,
         isRenderRequire,
         isThemeReady,
+        isPinCodeReqiure,
         isDarkTheme: _isDarkTheme,
         locale: selectedLanguage,
       })
@@ -433,6 +546,8 @@ export default connect(
     isLoggedIn: state.application.isLoggedIn,
     isConnected: state.application.isConnected,
     nav: state.nav.routes,
+    isPinCodeReqiure: state.application.isPinCodeReqiure,
+    isActiveApp: state.application.isActive,
 
     // Account
     unreadActivityCount: state.account.currentAccount.unread_activity_count,

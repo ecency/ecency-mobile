@@ -3,6 +3,7 @@ import { Alert } from 'react-native';
 import { connect } from 'react-redux';
 import { injectIntl } from 'react-intl';
 import Config from 'react-native-config';
+import { NavigationActions } from 'react-navigation';
 
 // Actions & Services
 import {
@@ -85,7 +86,6 @@ class PinCodeContainer extends Component {
         currentAccount,
         dispatch,
         pinCodeParams: { navigateTo, navigateParams, accessToken },
-        navigation,
         intl,
       } = this.props;
       const { isOldPinVerified, oldPinCode } = this.state;
@@ -108,7 +108,12 @@ class PinCodeContainer extends Component {
 
           dispatch(closePinCodeModal());
           if (navigateTo) {
-            navigation.navigate(navigateTo, navigateParams);
+            const navigateAction = NavigationActions.navigate({
+              routeName: navigateTo,
+              params: navigateParams,
+              action: NavigationActions.navigate({ routeName: navigateTo }),
+            });
+            dispatch(navigateAction);
           }
           resolve();
         });
@@ -145,7 +150,6 @@ class PinCodeContainer extends Component {
         currentAccount,
         dispatch,
         pinCodeParams: { navigateTo, navigateParams, accessToken },
-        navigation,
       } = this.props;
 
       const pinData = {
@@ -165,7 +169,12 @@ class PinCodeContainer extends Component {
             this._savePinCode(pin);
             dispatch(closePinCodeModal());
             if (navigateTo) {
-              navigation.navigate(navigateTo, navigateParams);
+              const navigateAction = NavigationActions.navigate({
+                routeName: navigateTo,
+                params: navigateParams,
+                action: NavigationActions.navigate({ routeName: navigateTo }),
+              });
+              dispatch(navigateAction);
             }
             resolve();
           });
@@ -179,7 +188,6 @@ class PinCodeContainer extends Component {
         currentAccount,
         dispatch,
         pinCodeParams: { navigateTo, navigateParams, accessToken },
-        navigation,
         intl,
       } = this.props;
 
@@ -200,7 +208,12 @@ class PinCodeContainer extends Component {
           dispatch(updateCurrentAccount({ ..._currentAccount }));
           dispatch(closePinCodeModal());
           if (navigateTo) {
-            navigation.navigate(navigateTo, navigateParams);
+            const navigateAction = NavigationActions.navigate({
+              routeName: navigateTo,
+              params: navigateParams,
+              action: NavigationActions.navigate({ routeName: navigateTo }),
+            });
+            dispatch(navigateAction);
           }
         })
         .catch(err => {

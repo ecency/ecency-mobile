@@ -6,14 +6,14 @@ import ROUTES from '../constants/routeNames';
 
 // Components
 import { Icon, IconContainer } from '../components/icon';
-import { Home, Notification, Profile, RootComponent, Points } from '../screens';
+import { Home, Notification, Profile, Points } from '../screens';
 import { PostButton } from '../components/postButton';
 import { BottomTabBar } from '../components/bottomTabBar';
 
 const BaseNavigator = createBottomTabNavigator(
   {
     [ROUTES.TABBAR.HOME]: {
-      screen: RootComponent()(Home),
+      screen: Home,
       navigationOptions: () => ({
         tabBarIcon: ({ tintColor }) => (
           <Icon
@@ -27,7 +27,7 @@ const BaseNavigator = createBottomTabNavigator(
       }),
     },
     [ROUTES.TABBAR.NOTIFICATION]: {
-      screen: RootComponent()(Notification),
+      screen: Notification,
       navigationOptions: () => ({
         tabBarIcon: ({ tintColor }) => (
           <IconContainer
@@ -49,7 +49,7 @@ const BaseNavigator = createBottomTabNavigator(
       }),
     },
     [ROUTES.TABBAR.POINTS]: {
-      screen: RootComponent()(Points),
+      screen: Points,
       navigationOptions: () => ({
         tabBarIcon: ({ tintColor }) => (
           <Icon
@@ -63,7 +63,7 @@ const BaseNavigator = createBottomTabNavigator(
       }),
     },
     [ROUTES.TABBAR.PROFILE]: {
-      screen: RootComponent()(Profile),
+      screen: Profile,
       navigationOptions: () => ({
         tabBarIcon: ({ tintColor }) => (
           <Icon
