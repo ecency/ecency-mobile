@@ -16,7 +16,6 @@ import {
   PinCode,
   Post,
   Profile,
-  RootComponent,
   Settings,
   SteemConnect,
   Voters,
@@ -47,7 +46,7 @@ const stackNavigatior = createStackNavigator(
       },
     },
     [ROUTES.SCREENS.PROFILE]: {
-      screen: RootComponent()(Profile),
+      screen: Profile,
       navigationOptions: {
         header: () => null,
       },
@@ -59,49 +58,49 @@ const stackNavigatior = createStackNavigator(
       },
     },
     [ROUTES.SCREENS.EDITOR]: {
-      screen: RootComponent()(Editor),
+      screen: Editor,
       navigationOptions: {
         header: () => null,
       },
     },
     [ROUTES.SCREENS.VOTERS]: {
-      screen: RootComponent()(Voters),
+      screen: Voters,
       navigationOptions: {
         header: () => null,
       },
     },
     [ROUTES.SCREENS.FOLLOWS]: {
-      screen: RootComponent()(Follows),
+      screen: Follows,
       navigationOptions: {
         header: () => null,
       },
     },
     [ROUTES.SCREENS.SETTINGS]: {
-      screen: RootComponent()(Settings),
+      screen: Settings,
       navigationOptions: {
         header: () => null,
       },
     },
     [ROUTES.SCREENS.DRAFTS]: {
-      screen: RootComponent()(Drafts),
+      screen: Drafts,
       navigationOptions: {
         header: () => null,
       },
     },
     [ROUTES.SCREENS.BOOKMARKS]: {
-      screen: RootComponent()(Bookmarks),
+      screen: Bookmarks,
       navigationOptions: {
         header: () => null,
       },
     },
     [ROUTES.SCREENS.SEARCH_RESULT]: {
-      screen: RootComponent()(SearchResult),
+      screen: SearchResult,
       navigationOptions: {
         header: () => null,
       },
     },
     [ROUTES.SCREENS.TRANSFER]: {
-      screen: RootComponent()(Transfer),
+      screen: Transfer,
       navigationOptions: {
         header: () => null,
       },
@@ -114,7 +113,7 @@ const stackNavigatior = createStackNavigator(
 
 export default createSwitchNavigator({
   stackNavigatior,
-  [ROUTES.SCREENS.LOGIN]: { screen: RootComponent()(Login) },
-  [ROUTES.SCREENS.PINCODE]: { screen: RootComponent()(PinCode) },
-  [ROUTES.SCREENS.STEEM_CONNECT]: { screen: RootComponent()(SteemConnect) },
+  [ROUTES.SCREENS.LOGIN]: { screen: Login },
+  [ROUTES.SCREENS.PINCODE]: { screen: PinCode },
+  [ROUTES.SCREENS.STEEM_CONNECT]: { screen: SteemConnect },
 });

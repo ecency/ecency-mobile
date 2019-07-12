@@ -13,6 +13,7 @@ const Application = () => (
       isDarkTheme,
       isRenderRequire,
       isThemeReady,
+      isPinCodeReqiure,
     }) => {
       if (!isRenderRequire || !isThemeReady) {
         return null;
@@ -24,6 +25,7 @@ const Application = () => (
           toastNotification={toastNotification}
           isReady={isReady}
           isDarkTheme={isDarkTheme}
+          isPinCodeReqiure={isPinCodeReqiure}
         />
       );
     }}

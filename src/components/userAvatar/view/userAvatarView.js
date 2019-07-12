@@ -1,6 +1,7 @@
 import React, { Component } from 'react';
 import { TouchableOpacity } from 'react-native';
-import { withNavigation } from 'react-navigation';
+import { connect } from 'react-redux';
+import { NavigationActions } from 'react-navigation';
 
 import FastImage from 'react-native-fast-image';
 import styles from './userAvatarStyles';
@@ -16,32 +17,26 @@ const DEFAULT_IMAGE = require('../../../assets/avatar_default.png');
  */
 
 class UserAvatarView extends Component {
-  /* Props
-   * ------------------------------------------------
-   *   @prop { type }    name                - Description....
-   */
-
-  constructor(props) {
-    super(props);
-    this.state = {};
-  }
-
   // Component Life Cycles
   shouldComponentUpdate(nextProps) {
-    return nextProps.username !== this.props.username;
+    const { username } = this.props;
+
+    return nextProps.username !== username;
   }
 
   // Component Functions
   _handleOnAvatarPress = username => {
-    const { navigation } = this.props;
+    const { dispatch } = this.props;
 
-    navigation.navigate({
+    const navigateAction = NavigationActions.navigate({
       routeName: ROUTES.SCREENS.PROFILE,
       params: {
         username,
       },
       key: username,
+      action: NavigationActions.navigate({ routeName: ROUTES.SCREENS.PROFILE }),
     });
+    dispatch(navigateAction);
   };
 
   render() {
@@ -75,4 +70,4 @@ class UserAvatarView extends Component {
   }
 }
 
-export default withNavigation(UserAvatarView);
+export default connect()(UserAvatarView);
