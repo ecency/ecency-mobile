@@ -3,21 +3,22 @@
 /* eslint-disable no-return-assign */
 import React, { PureComponent, Fragment } from 'react';
 import { injectIntl } from 'react-intl';
-import { Text, View, WebView, ScrollView } from 'react-native';
+import { Text, View, WebView, ScrollView, TouchableOpacity } from 'react-native';
 import get from 'lodash/get';
 import ActionSheet from 'react-native-actionsheet';
 import { ScaleSlider } from '../../../components';
 import { steemConnectOptions } from '../../../constants/steemConnectOptions';
+import Autocomplete from 'react-native-autocomplete-input';
 
 // Container
 import { PointsContainer } from '../../../containers';
 
 // Services and Actions
 import { getUser } from '../../../providers/esteem/ePoint';
+import { searchPath } from '../../../providers/esteem/esteem';
 
 // Components
 import { BasicHeader } from '../../../components/basicHeader';
-import { TextInput } from '../../../components/textInput';
 import { TransferFormItem } from '../../../components/transferFormItem';
 import { MainButton } from '../../../components/mainButton';
 import { DropdownButton } from '../../../components/dropdownButton';
@@ -43,6 +44,7 @@ class PointsScreen extends PureComponent {
       day: 1,
       isSCModalOpen: false,
       SCPath: '',
+      permlinkSuggestions: [],
     };
   }
 
@@ -50,19 +52,15 @@ class PointsScreen extends PureComponent {
 
   // Component Functions
 
-  _renderInput = (placeholder, state, keyboardType, isTextArea) => (
-    <TextInput
-      style={[isTextArea ? styles.textarea : styles.input]}
-      onChangeText={val => this.setState({ permlink: val })}
-      value={this.state[state]}
-      placeholder={placeholder}
-      placeholderTextColor="#c1c5c7"
-      autoCapitalize="none"
-      multiline={isTextArea}
-      numberOfLines={isTextArea ? 4 : 1}
-      keyboardType={keyboardType}
-    />
-  );
+  _handleOnPermlinkChange = async text => {
+    await searchPath(text).then(res => {
+      this.setState({ permlinkSuggestions: res && res.length > 10 ? res.slice(0, 7) : res });
+    });
+
+    if (!text || (text && text.length < 1)) this.setState({ permlinkSuggestions: [] });
+
+    await this.setState({ permlink: text });
+  };
 
   _renderDescription = text => <Text style={styles.description}>{text}</Text>;
 
@@ -94,20 +92,21 @@ class PointsScreen extends PureComponent {
       });
   };
 
-  _promote = (promote, currentAccount) => {
-    const { day, permlink, author } = this.state;
+  _promote = async (promote, currentAccount, getUserDataWithUsername) => {
+    const { day, permlink, author, selectedUser } = this.state;
     // @u-e/esteem-mobile-v2-guide
+
     if (get(currentAccount, 'local.authType') === 'steemConnect') {
-      const user = get(currentAccount, 'name');
+      // const user = selectedUser;
 
       const json = JSON.stringify({
-        user,
+        user: selectedUser,
         author,
         permlink,
         duration: day,
       });
 
-      const uri = `sign/custom-json?authority=active&required_auths=%5B%22${user}%22%5D&required_posting_auths=%5B%5D&id=esteem_promote&json=${encodeURIComponent(
+      const uri = `sign/custom-json?authority=active&required_auths=%5B%22${selectedUser}%22%5D&required_posting_auths=%5B%5D&id=esteem_promote&json=${encodeURIComponent(
         json,
       )}`;
 
@@ -115,12 +114,35 @@ class PointsScreen extends PureComponent {
         isSCModalOpen: true,
         SCPath: uri,
       });
-    } else if (promote) promote(day, permlink, 'u-e');
+    } else if (promote) {
+      let userFromRealm;
+
+      if (selectedUser) {
+        userFromRealm = await getUserDataWithUsername(selectedUser);
+      }
+
+      const user = !userFromRealm
+        ? {
+            name: selectedUser,
+            local: userFromRealm[0],
+          }
+        : currentAccount;
+
+      promote(day, permlink, user);
+    }
   };
 
   render() {
     const { intl } = this.props;
-    const { selectedUser, balance, day, SCPath, isSCModalOpen } = this.state;
+    const {
+      selectedUser,
+      balance,
+      day,
+      SCPath,
+      isSCModalOpen,
+      permlinkSuggestions,
+      permlink,
+    } = this.state;
 
     return (
       <PointsContainer>
@@ -135,6 +157,7 @@ class PointsScreen extends PureComponent {
           balance: _balance,
           promote,
           currentAccount,
+          getUserDataWithUsername,
         }) => (
           <Fragment>
             <BasicHeader title="Promote" />
@@ -148,16 +171,39 @@ class PointsScreen extends PureComponent {
                     }
                   />
                   <Text style={styles.balanceText}>{`${balance || _balance} eSteem Points`}</Text>
-                  <TransferFormItem
-                    label={intl.formatMessage({ id: 'promote.permlink' })}
-                    rightComponent={() =>
-                      this._renderInput(
-                        intl.formatMessage({ id: 'promote.permlink' }),
-                        'permlink',
-                        'default',
-                      )
-                    }
-                  />
+                  <Fragment>
+                    <View style={styles.autocomplateLineContainer}>
+                      <View style={styles.autocomplateLabelContainer}>
+                        {
+                          <Text style={styles.autocomplateLabelText}>
+                            {intl.formatMessage({ id: 'promote.permlink' })}
+                          </Text>
+                        }
+                      </View>
+
+                      <Autocomplete
+                        autoCapitalize="none"
+                        autoCorrect={false}
+                        containerStyle={styles.autocomplateContainer}
+                        inputContainerStyle={styles.autocomplate}
+                        data={permlinkSuggestions}
+                        listContainerStyle={styles.autocomplateListContainer}
+                        listStyle={styles.autocomplateList}
+                        onChangeText={text => this._handleOnPermlinkChange(text)}
+                        placeholder={intl.formatMessage({ id: 'promote.permlink' })}
+                        defaultValue={permlink}
+                        renderItem={({ item, i }) => (
+                          <TouchableOpacity
+                            onPress={() =>
+                              this.setState({ permlink: item, permlinkSuggestions: [] })
+                            }
+                          >
+                            <Text style={styles.autocomplateItemText}>{item}</Text>
+                          </TouchableOpacity>
+                        )}
+                      />
+                    </View>
+                  </Fragment>
 
                   <View style={styles.total}>
                     <Text style={styles.day}>{`${day} days `}</Text>
@@ -177,9 +223,9 @@ class PointsScreen extends PureComponent {
                 <View style={styles.bottomContent}>
                   <MainButton
                     style={styles.button}
-                    isDisable={false}
+                    isDisable={isLoading}
                     onPress={() => this.ActionSheet.show()}
-                    isLoading={false}
+                    isLoading={isLoading}
                   >
                     <Text style={styles.buttonText}>
                       {intl.formatMessage({ id: 'transfer.next' })}
@@ -198,14 +244,16 @@ class PointsScreen extends PureComponent {
               cancelButtonIndex={1}
               destructiveButtonIndex={0}
               onPress={index => {
-                index === 0 ? this._promote(promote, currentAccount) : null;
+                index === 0
+                  ? this._promote(promote, currentAccount, getUserDataWithUsername)
+                  : null;
               }}
             />
             <Modal
               isOpen={isSCModalOpen}
               isFullScreen
               isCloseButton
-              handleOnModalClose={() => this.setState({ openSCModal: false })}
+              handleOnModalClose={() => this.setState({ isSCModalOpen: false })}
               title={intl.formatMessage({ id: 'transfer.steemconnect_title' })}
             >
               <WebView source={{ uri: `${steemConnectOptions.base_url}${SCPath}` }} />

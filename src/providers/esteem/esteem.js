@@ -226,6 +226,35 @@ export const search = data =>
       });
   });
 
+export const searchPath = q =>
+  new Promise((resolve, reject) => {
+    searchApi
+      .post('/search-path', {
+        q,
+      })
+      .then(res => {
+        resolve(res.data);
+      })
+      .catch(error => {
+        reject(error);
+      });
+  });
+
+// export const searchPath = q =>
+//   searchApi
+//     .post(
+//       '/search-path',
+//       {
+//         q,
+//       },
+//       {
+//         headers: {
+//           Authorization: SEARCH_API_TOKEN,
+//         },
+//       },
+//     )
+//     .then(resp => resp.data);
+
 // Schedule
 export const schedule = (
   user,

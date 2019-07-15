@@ -7,7 +7,8 @@ import get from 'lodash/get';
 // Services and Actions
 import { getUser, getUserPoints, claim } from '../providers/esteem/ePoint';
 import { openPinCodeModal } from '../redux/actions/applicationActions';
-import { promote } from '../providers/steem/dsteem';
+import { promote, getAccount } from '../providers/steem/dsteem';
+import { getUserDataWithUsername } from '../realm/realm';
 
 // Constant
 import POINTS from '../constants/options/points';
@@ -169,7 +170,7 @@ class PointsContainer extends Component {
     const { currentAccount, pinCode } = this.props;
     this.setState({ isLoading: true });
 
-    await promote(currentAccount, pinCode, duration, permlink, author)
+    await promote(author || currentAccount, pinCode, duration, permlink, author)
       .then(() => {
         this.setState({ isLoading: false });
       })
@@ -213,6 +214,8 @@ class PointsContainer extends Component {
         balance,
         getUserBalance: this._getUserBalance,
         promote: this._promote,
+        getAccount,
+        getUserDataWithUsername,
       })
     );
   }
