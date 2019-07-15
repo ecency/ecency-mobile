@@ -27,6 +27,7 @@ export default EStyleSheet.create({
     flex: 2,
     justifyContent: 'center',
     alignItems: 'center',
+    zIndex: -1,
   },
   input: {
     borderWidth: 1,
@@ -35,6 +36,43 @@ export default EStyleSheet.create({
     padding: 10,
     color: '$primaryBlack',
     width: 172,
+  },
+  autocomplate: {
+    borderWidth: 1,
+    borderColor: '$borderColor',
+    borderRadius: 8,
+    padding: 2,
+    color: '$primaryBlack',
+    width: 172,
+    marginRight: 33,
+  },
+  autocomplateLineContainer: {
+    flexDirection: 'row',
+    paddingHorizontal: 20,
+    zIndex: 999,
+  },
+  autocomplateLabelText: {
+    color: '$primaryBlack',
+    fontWeight: '600',
+  },
+  autocomplateListContainer: {
+    backgroundColor: '$primaryWhiteLightBackground',
+    borderColor: 'red',
+    width: 172,
+    zIndex: 999,
+  },
+  autocomplateItemText: {
+    color: '$primaryBlack',
+    padding: 3,
+  },
+  autocomplateList: {
+    zIndex: 999,
+  },
+  autocomplateLabelContainer: {
+    flex: 1,
+    padding: 10,
+    justifyContent: 'center',
+    color: '$primaryBlack',
   },
   textarea: {
     borderWidth: 1,
