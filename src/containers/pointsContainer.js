@@ -170,7 +170,7 @@ class PointsContainer extends Component {
     const { currentAccount, pinCode } = this.props;
     this.setState({ isLoading: true });
 
-    await promote(author || currentAccount, pinCode, duration, permlink, author)
+    await promote(author || currentAccount, pinCode, duration, permlink, get(author, 'name'))
       .then(() => {
         this.setState({ isLoading: false });
       })

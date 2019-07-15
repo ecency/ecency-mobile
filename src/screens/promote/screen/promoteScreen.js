@@ -121,7 +121,7 @@ class PointsScreen extends PureComponent {
         userFromRealm = await getUserDataWithUsername(selectedUser);
       }
 
-      const user = !userFromRealm
+      const user = userFromRealm
         ? {
             name: selectedUser,
             local: userFromRealm[0],
