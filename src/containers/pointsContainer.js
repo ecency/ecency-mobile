@@ -3,12 +3,15 @@ import React, { Component } from 'react';
 import { Alert } from 'react-native';
 import { connect } from 'react-redux';
 import get from 'lodash/get';
+import { injectIntl } from 'react-intl';
+import { withNavigation } from 'react-navigation';
 
 // Services and Actions
 import { getUser, getUserPoints, claim } from '../providers/esteem/ePoint';
 import { openPinCodeModal } from '../redux/actions/applicationActions';
 import { promote, getAccount } from '../providers/steem/dsteem';
 import { getUserDataWithUsername } from '../realm/realm';
+import { toastNotification } from '../redux/actions/uiAction';
 
 // Constant
 import POINTS from '../constants/options/points';
@@ -167,12 +170,14 @@ class PointsContainer extends Component {
   };
 
   _promote = async (duration, permlink, author) => {
-    const { currentAccount, pinCode } = this.props;
+    const { currentAccount, pinCode, dispatch, intl, navigation } = this.props;
     this.setState({ isLoading: true });
 
     await promote(author || currentAccount, pinCode, duration, permlink, get(author, 'name'))
       .then(() => {
         this.setState({ isLoading: false });
+        dispatch(toastNotification(intl.formatMessage({ id: 'alert.successful' })));
+        navigation.goBack();
       })
       .catch(error => {
         Alert.alert(
@@ -230,4 +235,4 @@ const mapStateToProps = state => ({
   pinCode: state.account.pin,
 });
 
-export default connect(mapStateToProps)(PointsContainer);
+export default withNavigation(connect(mapStateToProps)(injectIntl(PointsContainer)));
