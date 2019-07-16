@@ -236,7 +236,7 @@ class CommentsContainer extends Component {
 const mapStateToProps = state => ({
   isLoggedIn: state.application.isLoggedIn,
   currentAccount: state.account.currentAccount,
-  pinCode: state.account.pin,
+  pinCode: state.application.pin,
 });
 
 export default withNavigation(connect(mapStateToProps)(injectIntl(CommentsContainer)));

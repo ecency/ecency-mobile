@@ -11,7 +11,12 @@ import {
   verifyPinCode,
   updatePinCode,
 } from '../../../providers/steem/auth';
-import { closePinCodeModal, login, logoutDone } from '../../../redux/actions/applicationActions';
+import {
+  closePinCodeModal,
+  login,
+  logoutDone,
+  setPinCode as savePinCode,
+} from '../../../redux/actions/applicationActions';
 import {
   getExistUser,
   setExistUser,
@@ -20,11 +25,7 @@ import {
   removePinCode,
   setAuthStatus,
 } from '../../../realm/realm';
-import {
-  updateCurrentAccount,
-  setPinCode as savePinCode,
-  removeOtherAccount,
-} from '../../../redux/actions/accountAction';
+import { updateCurrentAccount, removeOtherAccount } from '../../../redux/actions/accountAction';
 import { getUser } from '../../../providers/steem/dsteem';
 
 // Utils
@@ -361,7 +362,7 @@ class PinCodeContainer extends Component {
 
 const mapStateToProps = state => ({
   currentAccount: state.account.currentAccount,
-  applicationPinCode: state.account.pin,
+  applicationPinCode: state.application.pin,
   otherAccounts: state.account.otherAccounts,
   pinCodeParams: state.application.pinCodeNavigation,
 });

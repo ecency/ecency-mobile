@@ -4,7 +4,6 @@ import {
   FETCH_ACCOUNT_FAIL,
   REMOVE_OTHER_ACCOUNT,
   SET_GLOBAL_PROPS,
-  SET_PIN_CODE,
   UPDATE_CURRENT_ACCOUNT,
   UPDATE_UNREAD_ACTIVITY_COUNT,
 } from '../constants/constants';
@@ -39,11 +38,6 @@ export const updateUnreadActivityCount = data => ({
 
 export const removeOtherAccount = data => ({
   type: REMOVE_OTHER_ACCOUNT,
-  payload: data,
-});
-
-export const setPinCode = data => ({
-  type: SET_PIN_CODE,
   payload: data,
 });
 

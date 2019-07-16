@@ -603,7 +603,7 @@ const mapStateToProps = state => ({
   currentAccount: state.account.currentAccount,
   isDefaultFooter: state.account.isDefaultFooter,
   isLoggedIn: state.application.isLoggedIn,
-  pinCode: state.account.pin,
+  pinCode: state.application.pin,
 });
 
 export default connect(mapStateToProps)(injectIntl(EditorContainer));

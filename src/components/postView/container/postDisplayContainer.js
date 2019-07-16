@@ -135,7 +135,7 @@ class PostDisplayContainer extends Component {
 
 const mapStateToProps = state => ({
   currentAccount: state.account.currentAccount,
-  pinCode: state.account.pin,
+  pinCode: state.application.pin,
   isLoggedIn: state.application.isLoggedIn,
 });
 

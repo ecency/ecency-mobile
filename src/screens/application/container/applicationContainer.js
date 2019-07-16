@@ -1,5 +1,6 @@
 import { Component } from 'react';
-import { Platform, BackHandler, Alert, NetInfo, Linking, AppState } from 'react-native';
+import { Platform, BackHandler, Alert, Linking, AppState } from 'react-native';
+import NetInfo from '@react-native-community/netinfo';
 import Config from 'react-native-config';
 import Push from 'appcenter-push';
 import get from 'lodash/get';
@@ -87,13 +88,7 @@ class ApplicationContainer extends Component {
   componentDidMount = () => {
     const { isIos } = this.state;
 
-    NetInfo.isConnected.fetch().then(_isConnected => {
-      if (_isConnected) {
-        this._fetchApp();
-      } else {
-        Alert.alert('No internet connection');
-      }
-    });
+    this._setNetworkListener();
 
     if (!isIos) BackHandler.addEventListener('hardwareBackPress', this._onBackPress);
 
@@ -125,7 +120,7 @@ class ApplicationContainer extends Component {
       this._logout();
     }
 
-    if (isConnected !== nextProps.isConnected && nextProps.isConnected) {
+    if (isConnected !== null && isConnected !== nextProps.isConnected && nextProps.isConnected) {
       this._fetchApp();
     }
   }
@@ -142,6 +137,20 @@ class ApplicationContainer extends Component {
 
     AppState.removeEventListener('change', this._handleAppStateChange);
   }
+
+  _setNetworkListener = () => {
+    this.netListener = NetInfo.addEventListener(state => {
+      const { isConnected, dispatch } = this.props;
+      if (state.isConnected !== isConnected) {
+        dispatch(setConnectivityStatus(state.isConnected));
+        if (state.isConnected) {
+          this._fetchApp();
+        } else {
+          // no internet
+        }
+      }
+    });
+  };
 
   _handleOpenURL = event => {
     this._handleDeepLink(event.url);
@@ -247,9 +256,14 @@ class ApplicationContainer extends Component {
 
   _fetchApp = async () => {
     await this._refreshGlobalProps();
-    this._getSettings();
-    await this._getUserData();
+    await this._getSettings();
+    const userRealmObject = await this._getUserDataFromRealm();
     this.setState({ isReady: true });
+
+    const { isConnected } = this.props;
+    if (isConnected && userRealmObject) {
+      await this._fetchUserDataFromDsteem(userRealmObject);
+    }
   };
 
   _createPushListener = () => {
@@ -330,7 +344,7 @@ class ApplicationContainer extends Component {
     actions.fetchGlobalProperties();
   };
 
-  _getUserData = async () => {
+  _getUserDataFromRealm = async () => {
     const { dispatch, pinCode } = this.props;
     let realmData = [];
     let currentUsername;
@@ -376,63 +390,83 @@ class ApplicationContainer extends Component {
 
       if (realmObject.length === 0) {
         realmObject[0] = realmData[realmData.length - 1];
+        // TODO:
         await switchAccount(realmObject[0].username);
       }
+      const isExistUser = await getExistUser();
 
-      await getUser(realmObject[0].username)
-        .then(accountData => {
-          dispatch(login(true));
+      realmObject[0].name = currentUsername;
+      dispatch(
+        updateCurrentAccount({
+          name: realmObject[0].username,
+          avatar: realmObject[0].avatar,
+          authType: realmObject[0].authType,
+        }),
+      );
+      // If in dev mode pin code does not show
+      if (!isExistUser || !pinCode) {
+        dispatch(openPinCodeModal());
+      }
 
-          const isExistUser = getExistUser();
+      dispatch(activeApplication());
+      dispatch(isLoginDone());
+      dispatch(login(true));
 
-          [accountData.local] = realmObject;
-
-          dispatch(updateCurrentAccount(accountData));
-          // If in dev mode pin code does not show
-          if (!isExistUser || !pinCode) {
-            dispatch(openPinCodeModal());
-          }
-          this._connectNotificationServer(accountData.name);
-        })
-        .catch(err => {
-          Alert.alert(
-            `Fetching data from server failed, please try again or notify us at info@esteem.app 
-            \n${err.message.substr(0, 20)}`,
-          );
-        });
+      return realmObject[0];
     }
 
     dispatch(activeApplication());
     dispatch(isLoginDone());
+
+    return null;
   };
 
-  _getSettings = () => {
+  _fetchUserDataFromDsteem = async realmObject => {
     const { dispatch } = this.props;
 
-    getSettings().then(response => {
-      if (response) {
-        if (response.isDarkTheme !== '') dispatch(isDarkTheme(response.isDarkTheme));
-        if (response.language !== '') dispatch(setLanguage(response.language));
-        if (response.server !== '') dispatch(setApi(response.server));
-        if (response.upvotePercent !== '') {
-          dispatch(setUpvotePercent(Number(response.upvotePercent)));
-        }
-        if (response.isDefaultFooter !== '') dispatch(isDefaultFooter(response.isDefaultFooter));
-        if (response.notification !== '') {
-          dispatch(
-            changeNotificationSettings({ type: 'notification', action: response.notification }),
-          );
-          dispatch(changeAllNotificationSettings(response));
+    await getUser(realmObject.username)
+      .then(accountData => {
+        accountData.local = realmObject;
 
-          Push.setEnabled(response.notification);
-        }
-        if (response.nsfw !== '') dispatch(setNsfw(response.nsfw));
+        dispatch(updateCurrentAccount(accountData));
 
-        dispatch(setCurrency(response.currency !== '' ? response.currency : 'usd'));
+        this._connectNotificationServer(accountData.name);
+      })
+      .catch(err => {
+        Alert.alert(
+          `Fetching data from server failed, please try again or notify us at info@esteem.app 
+            \n${err.message.substr(0, 20)}`,
+        );
+      });
+  };
 
-        this.setState({ isThemeReady: true });
+  _getSettings = async () => {
+    const { dispatch } = this.props;
+
+    const settings = await getSettings();
+
+    if (settings) {
+      if (settings.isDarkTheme !== '') dispatch(isDarkTheme(settings.isDarkTheme));
+      if (settings.language !== '') dispatch(setLanguage(settings.language));
+      if (settings.server !== '') dispatch(setApi(settings.server));
+      if (settings.upvotePercent !== '') {
+        dispatch(setUpvotePercent(Number(settings.upvotePercent)));
       }
-    });
+      if (settings.isDefaultFooter !== '') dispatch(isDefaultFooter(settings.isDefaultFooter));
+      if (settings.notification !== '') {
+        dispatch(
+          changeNotificationSettings({ type: 'notification', action: settings.notification }),
+        );
+        dispatch(changeAllNotificationSettings(settings));
+
+        Push.setEnabled(settings.notification);
+      }
+      if (settings.nsfw !== '') dispatch(setNsfw(settings.nsfw));
+
+      dispatch(setCurrency(settings.currency !== '' ? settings.currency : 'usd'));
+
+      this.setState({ isThemeReady: true });
+    }
   };
 
   _connectNotificationServer = username => {
@@ -553,7 +587,7 @@ export default connect(
     unreadActivityCount: state.account.currentAccount.unread_activity_count,
     currentAccount: state.account.currentAccount,
     otherAccounts: state.account.otherAccounts,
-    pinCode: state.account.pin,
+    pinCode: state.application.pin,
 
     // UI
     toastNotification: state.ui.toastNotification,
