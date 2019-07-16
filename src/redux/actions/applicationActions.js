@@ -24,6 +24,7 @@ import {
   SET_LANGUAGE,
   SET_NSFW,
   SET_UPVOTE_PERCENT,
+  SET_PIN_CODE,
 } from '../constants/constants';
 
 export const login = payload => ({
@@ -122,7 +123,7 @@ export const changeNotificationSettings = payload => {
       };
 
     default:
-      break;
+      return null;
   }
 };
 
@@ -159,3 +160,8 @@ export const setCurrency = currency => dispatch => {
     }),
   );
 };
+
+export const setPinCode = data => ({
+  type: SET_PIN_CODE,
+  payload: data,
+});

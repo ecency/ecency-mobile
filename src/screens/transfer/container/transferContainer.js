@@ -205,7 +205,7 @@ class TransferContainer extends Component {
 const mapStateToProps = state => ({
   accounts: state.account.otherAccounts,
   currentAccount: state.account.currentAccount,
-  pinCode: state.account.pin,
+  pinCode: state.application.pin,
   steemPerMVests: state.account.globalProps.steemPerMVests,
 });
 

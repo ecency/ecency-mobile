@@ -157,7 +157,7 @@ class WalletContainer extends Component {
 
 const mapStateToProps = state => ({
   currentAccount: state.account.currentAccount,
-  pinCode: state.account.pin,
+  pinCode: state.application.pin,
   isDarkTheme: state.application.isDarkTheme,
   globalProps: state.account.globalProps,
 });

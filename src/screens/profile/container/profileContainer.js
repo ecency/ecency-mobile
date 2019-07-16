@@ -403,7 +403,7 @@ const mapStateToProps = state => ({
 
   // Account
   currentAccount: state.account.currentAccount,
-  pinCode: state.account.pin,
+  pinCode: state.application.pin,
 });
 
 export default connect(mapStateToProps)(withNavigation(ProfileContainer));

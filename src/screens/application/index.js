@@ -15,7 +15,7 @@ const Application = () => (
       isThemeReady,
       isPinCodeReqiure,
     }) => {
-      if (!isRenderRequire || !isThemeReady) {
+      if (!isReady || !isRenderRequire || !isThemeReady) {
         return null;
       }
       return (
