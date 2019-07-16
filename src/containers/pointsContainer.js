@@ -169,11 +169,11 @@ class PointsContainer extends Component {
     this.setState({ isClaiming: false });
   };
 
-  _promote = async (duration, permlink, author) => {
+  _promote = async (duration, permlink, author, user) => {
     const { currentAccount, pinCode, dispatch, intl, navigation } = this.props;
     this.setState({ isLoading: true });
 
-    await promote(author || currentAccount, pinCode, duration, permlink, get(author, 'name'))
+    await promote(user || currentAccount, pinCode, duration, permlink, author)
       .then(() => {
         this.setState({ isLoading: false });
         dispatch(toastNotification(intl.formatMessage({ id: 'alert.successful' })));

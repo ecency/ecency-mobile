@@ -38,7 +38,7 @@ export default EStyleSheet.create({
     width: 172,
   },
   autocomplate: {
-    borderWidth: 1,
+    borderWidth: 0,
     borderColor: '$borderColor',
     borderRadius: 8,
     padding: 2,
@@ -57,7 +57,6 @@ export default EStyleSheet.create({
   },
   autocomplateListContainer: {
     backgroundColor: '$primaryWhiteLightBackground',
-    borderColor: 'red',
     width: 172,
     zIndex: 999,
   },
@@ -67,6 +66,7 @@ export default EStyleSheet.create({
   },
   autocomplateList: {
     zIndex: 999,
+    backgroundColor: '$primaryWhiteLightBackground',
   },
   autocomplateLabelContainer: {
     flex: 1,
@@ -91,13 +91,6 @@ export default EStyleSheet.create({
     marginTop: 30,
     justifyContent: 'center',
     alignItems: 'center',
-  },
-  stopButton: {
-    width: '$deviceWidth / 3',
-    marginTop: 30,
-    justifyContent: 'center',
-    alignItems: 'center',
-    backgroundColor: 'red',
   },
   buttonText: {
     color: 'white',
@@ -136,69 +129,12 @@ export default EStyleSheet.create({
     flexGrow: 1,
     width: 150,
   },
-  track: {
-    height: 2,
-    borderRadius: 1,
-  },
-  thumb: {
-    width: 16,
-    height: 16,
-    borderRadius: 16 / 2,
-    backgroundColor: '$primaryLightBackground',
-    shadowColor: 'black',
-    shadowOffset: { width: 0, height: 2 },
-    shadowRadius: 2,
-    shadowOpacity: 0.35,
-    elevation: 3,
-  },
   slider: {
     flex: 1,
     marginHorizontal: 30,
   },
-  formButton: {
-    padding: 7,
-    borderRadius: 5,
-    backgroundColor: '$primaryBlue',
-    marginTop: 5,
-  },
-  formButtonText: {
-    color: '$white',
-    fontSize: 14,
-  },
   amountText: {
     color: '$primaryBlue',
-  },
-  informationText: {
-    alignSelf: 'center',
-    color: '$iconColor',
-    marginLeft: 5,
-  },
-  spInformation: {
-    backgroundColor: 'red',
-    width: '$deviceWidth / 3',
-    borderRadius: 5,
-    margin: 5,
-  },
-  vestsInformation: {
-    backgroundColor: 'gray',
-    width: '$deviceWidth / 3',
-    borderRadius: 5,
-    margin: 5,
-  },
-  steemInformation: {
-    backgroundColor: 'green',
-    width: '$deviceWidth / 3',
-    borderRadius: 5,
-    margin: 5,
-  },
-  avatar: {
-    marginBottom: 30,
-  },
-  destinationAccountsLists: {
-    flexDirection: 'row',
-    alignItems: 'center',
-    justifyContent: 'space-between',
-    padding: 5,
   },
   iconButton: {
     borderColor: 'red',
@@ -206,36 +142,6 @@ export default EStyleSheet.create({
     width: 25,
     height: 25,
     borderRadius: 5,
-  },
-  crossIcon: {
-    color: 'red',
-  },
-  informationView: {
-    flexDirection: 'row',
-  },
-  modalContainer: {
-    flex: 1,
-    flexDirection: 'column',
-    justifyContent: 'center',
-    alignItems: 'center',
-  },
-  checkView: {
-    flexDirection: 'row',
-    justifyContent: 'space-around',
-    margin: 20,
-  },
-  incomingFundSteem: {
-    color: 'green',
-    fontSize: 20,
-    marginVertical: 5,
-  },
-  incomingFundVests: {
-    color: 'red',
-    fontSize: 15,
-    marginVertical: 5,
-  },
-  nextPowerDown: {
-    marginVertical: 5,
   },
   total: {
     marginVertical: 15,

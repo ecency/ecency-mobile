@@ -1,3 +1,4 @@
+/* eslint-disable prefer-destructuring */
 /* eslint-disable no-unused-expressions */
 /* eslint-disable no-undef */
 /* eslint-disable no-return-assign */
@@ -6,9 +7,9 @@ import { injectIntl } from 'react-intl';
 import { Text, View, WebView, ScrollView, TouchableOpacity } from 'react-native';
 import get from 'lodash/get';
 import ActionSheet from 'react-native-actionsheet';
-import { ScaleSlider } from '../../../components';
-import { steemConnectOptions } from '../../../constants/steemConnectOptions';
 import Autocomplete from 'react-native-autocomplete-input';
+import { ScaleSlider, TextInput } from '../../../components';
+import { steemConnectOptions } from '../../../constants/steemConnectOptions';
 
 // Container
 import { PointsContainer } from '../../../containers';
@@ -53,13 +54,13 @@ class PointsScreen extends PureComponent {
   // Component Functions
 
   _handleOnPermlinkChange = async text => {
-    await searchPath(text).then(res => {
+    searchPath(text).then(res => {
       this.setState({ permlinkSuggestions: res && res.length > 10 ? res.slice(0, 7) : res });
     });
 
     if (!text || (text && text.length < 1)) this.setState({ permlinkSuggestions: [] });
 
-    await this.setState({ permlink: text });
+    this.setState({ permlink: text });
   };
 
   _renderDescription = text => <Text style={styles.description}>{text}</Text>;
@@ -93,16 +94,23 @@ class PointsScreen extends PureComponent {
   };
 
   _promote = async (promote, currentAccount, getUserDataWithUsername) => {
-    const { day, permlink, author, selectedUser } = this.state;
-    // @u-e/esteem-mobile-v2-guide
+    const { day, permlink, selectedUser } = this.state;
+    let _author;
+    let _permlink;
+
+    const seperatedPermlink = permlink.split('/');
+    if (seperatedPermlink && seperatedPermlink.length > 0) {
+      _author = seperatedPermlink[0];
+      _permlink = seperatedPermlink[1];
+    }
 
     if (get(currentAccount, 'local.authType') === 'steemConnect') {
       // const user = selectedUser;
 
       const json = JSON.stringify({
         user: selectedUser,
-        author,
-        permlink,
+        _author,
+        _permlink,
         duration: day,
       });
 
@@ -128,7 +136,7 @@ class PointsScreen extends PureComponent {
           }
         : currentAccount;
 
-      promote(day, permlink, user);
+      promote(day, _permlink, _author, user);
     }
   };
 
@@ -184,16 +192,24 @@ class PointsScreen extends PureComponent {
                       <Autocomplete
                         autoCapitalize="none"
                         autoCorrect={false}
-                        containerStyle={styles.autocomplateContainer}
                         inputContainerStyle={styles.autocomplate}
                         data={permlinkSuggestions}
                         listContainerStyle={styles.autocomplateListContainer}
                         listStyle={styles.autocomplateList}
                         onChangeText={text => this._handleOnPermlinkChange(text)}
-                        placeholder={intl.formatMessage({ id: 'promote.permlink' })}
-                        defaultValue={permlink}
+                        renderTextInput={() => (
+                          <TextInput
+                            style={styles.input}
+                            onChangeText={text => this._handleOnPermlinkChange(text)}
+                            value={permlink}
+                            placeholder={intl.formatMessage({ id: 'promote.permlink' })}
+                            placeholderTextColor="#c1c5c7"
+                            autoCapitalize="none"
+                          />
+                        )}
                         renderItem={({ item, i }) => (
                           <TouchableOpacity
+                            key={item}
                             onPress={() =>
                               this.setState({ permlink: item, permlinkSuggestions: [] })
                             }
