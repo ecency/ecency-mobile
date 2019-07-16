@@ -155,11 +155,7 @@ class PointsScreen extends PureComponent {
     return (
       <PointsContainer>
         {({
-          handleOnPressTransfer,
-          claimPoints,
-          fetchUserActivity,
           isLoading,
-          refreshing,
           accounts,
           currentAccountName,
           balance: _balance,
