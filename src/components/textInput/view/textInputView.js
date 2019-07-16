@@ -1,11 +1,11 @@
 import React, { Fragment } from 'react';
-import { TextInput, Text, View } from 'react-native';
+import { TextInput } from 'react-native';
 import { connect } from 'react-redux';
 
 // Styles
 import styles from './textInputStyles';
 
-const TextInputView = ({ isDarkTheme, innerRef, options, ...props }) => (
+const TextInputView = ({ isDarkTheme, innerRef, ...props }) => (
   <Fragment>
     <TextInput
       style={styles.input}
@@ -13,18 +13,6 @@ const TextInputView = ({ isDarkTheme, innerRef, options, ...props }) => (
       keyboardAppearance={isDarkTheme ? 'dark' : 'light'}
       {...props}
     />
-    {!!options && (
-      <View style={styles.optionsWrapper}>
-        <Text>sa</Text>
-        <Text>sa</Text>
-        <Text>sa</Text>
-        <Text>sa</Text>
-        <Text>sa</Text>
-        <Text>sa</Text>
-        <Text>sa</Text>
-        <Text>sa</Text>
-      </View>
-    )}
   </Fragment>
 );
 

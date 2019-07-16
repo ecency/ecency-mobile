@@ -1,25 +1,27 @@
-import Logo from './logo/logo';
-import { FormInput } from './formInput';
 import { CircularButton, TextButton, IconButton } from './buttons';
+import { FormInput } from './formInput';
 import { NumericKeyboard } from './numericKeyboard';
 import { PinAnimatedInput } from './pinAnimatedInput';
 import { SideMenu } from './sideMenu';
-import Modal from './modal';
+import { TextInput } from './textInput';
 import Icon from './icon';
-import UserListItem from './basicUIElements/view/userListItem/userListItem';
+import Logo from './logo/logo';
+import Modal from './modal';
 import ScaleSlider from './scaleSlider/scaleSliderView';
+import UserListItem from './basicUIElements/view/userListItem/userListItem';
 
 export {
-  Logo,
-  UserListItem,
-  FormInput,
   CircularButton,
-  TextButton,
+  FormInput,
+  Icon,
   IconButton,
+  Logo,
+  Modal,
   NumericKeyboard,
   PinAnimatedInput,
-  SideMenu,
-  Modal,
-  Icon,
   ScaleSlider,
+  SideMenu,
+  TextButton,
+  TextInput,
+  UserListItem,
 };
