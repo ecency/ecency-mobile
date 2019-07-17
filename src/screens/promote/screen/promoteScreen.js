@@ -1,10 +1,6 @@
-/* eslint-disable prefer-destructuring */
-/* eslint-disable no-unused-expressions */
-/* eslint-disable no-undef */
-/* eslint-disable no-return-assign */
 import React, { PureComponent, Fragment } from 'react';
 import { injectIntl } from 'react-intl';
-import { Text, View, WebView, ScrollView, TouchableOpacity } from 'react-native';
+import { Text, View, WebView, ScrollView, TouchableOpacity, Alert } from 'react-native';
 import get from 'lodash/get';
 import ActionSheet from 'react-native-actionsheet';
 import Autocomplete from 'react-native-autocomplete-input';
@@ -47,6 +43,8 @@ class PointsScreen extends PureComponent {
       SCPath: '',
       permlinkSuggestions: [],
     };
+
+    this.startActionSheet = React.createRef();
   }
 
   // Component Life Cycles
@@ -164,7 +162,7 @@ class PointsScreen extends PureComponent {
           getUserDataWithUsername,
         }) => (
           <Fragment>
-            <BasicHeader title="Promote" />
+            <BasicHeader title={intl.formatMessage({ id: 'promote.title' })} />
             <View style={styles.container}>
               <ScrollView>
                 <View style={styles.middleContent}>
@@ -203,7 +201,7 @@ class PointsScreen extends PureComponent {
                             autoCapitalize="none"
                           />
                         )}
-                        renderItem={({ item, i }) => (
+                        renderItem={({ item }) => (
                           <TouchableOpacity
                             key={item}
                             onPress={() =>
@@ -218,7 +216,11 @@ class PointsScreen extends PureComponent {
                   </Fragment>
 
                   <View style={styles.total}>
-                    <Text style={styles.day}>{`${day} days `}</Text>
+                    <Text style={styles.day}>
+                      {`${day} ${intl.formatMessage({
+                        id: 'promote.days',
+                      })} `}
+                    </Text>
                     <Text style={styles.price}>
                       {`${get(PROMOTE_PRICING[PROMOTE_DAYS.indexOf(day)], 'price')} eSteem points`}
                     </Text>
@@ -236,7 +238,7 @@ class PointsScreen extends PureComponent {
                   <MainButton
                     style={styles.button}
                     isDisable={isLoading}
-                    onPress={() => this.ActionSheet.show()}
+                    onPress={() => this.startActionSheet.current.show()}
                     isLoading={isLoading}
                   >
                     <Text style={styles.buttonText}>
@@ -247,7 +249,7 @@ class PointsScreen extends PureComponent {
               </ScrollView>
             </View>
             <ActionSheet
-              ref={o => (this.ActionSheet = o)}
+              ref={this.startActionSheet}
               options={[
                 intl.formatMessage({ id: 'alert.confirm' }),
                 intl.formatMessage({ id: 'alert.cancel' }),
