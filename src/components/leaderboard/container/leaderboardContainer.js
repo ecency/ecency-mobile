@@ -30,7 +30,11 @@ class LeaderboardContainer extends PureComponent {
 
   // Component Life Cycle Functions
   componentDidMount() {
-    this._fetchLeaderBoard();
+    const { isConnected } = this.props;
+
+    if (isConnected) {
+      this._fetchLeaderBoard();
+    }
   }
 
   _handleOnUserPress = username => {

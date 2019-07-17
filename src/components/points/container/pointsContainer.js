@@ -36,9 +36,11 @@ class PointsContainer extends Component {
 
   // Component Life Cycle Functions
   componentDidMount() {
-    const { username } = this.props;
+    const { username, isConnected } = this.props;
 
-    this._fetchuserPointActivities(username);
+    if (isConnected) {
+      this._fetchuserPointActivities(username);
+    }
 
     this.fetchInterval = setInterval(this._fetchuserPointActivities, 6 * 60 * 1000);
   }
@@ -47,8 +49,9 @@ class PointsContainer extends Component {
     const { username } = this.props;
 
     if (
-      (nextProps.activeBottomTab === ROUTES.TABBAR.POINTS && nextProps.username) ||
-      (nextProps.username !== username && nextProps.username)
+      nextProps.isConnected &&
+      ((nextProps.activeBottomTab === ROUTES.TABBAR.POINTS && nextProps.username) ||
+        (nextProps.username !== username && nextProps.username))
     ) {
       this._fetchuserPointActivities(nextProps.username);
     }
@@ -165,6 +168,7 @@ const mapStateToProps = state => ({
   username: state.account.currentAccount.name,
   isDarkTheme: state.application.isDarkTheme,
   activeBottomTab: state.ui.activeBottomTab,
+  isConnected: state.application.isConnected,
 });
 
 export default connect(mapStateToProps)(PointsContainer);
