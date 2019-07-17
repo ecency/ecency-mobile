@@ -3,6 +3,8 @@ import React from 'react';
 import ApplicationScreen from './screen/applicationScreen';
 import ApplicationContainer from './container/applicationContainer';
 
+import Launch from '../launch';
+
 const Application = () => (
   <ApplicationContainer>
     {({
@@ -16,7 +18,7 @@ const Application = () => (
       isPinCodeReqiure,
     }) => {
       if (!isReady || !isRenderRequire || !isThemeReady) {
-        return null;
+        return <Launch />;
       }
       return (
         <ApplicationScreen
