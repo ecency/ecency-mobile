@@ -110,9 +110,7 @@ class LoginContainer extends PureComponent {
   _getAccountsWithUsername = async username => {
     const { intl, isConnected } = this.props;
 
-    if (isConnected) {
-      return null;
-    }
+    if (isConnected) return null;
 
     try {
       const validUsers = await lookupAccounts(username);
@@ -121,7 +119,7 @@ class LoginContainer extends PureComponent {
     } catch (error) {
       Alert.alert(
         intl.formatMessage({ id: 'alert.error' }),
-        intl.formatMessage({ d: 'alert.unknow_error' }),
+        intl.formatMessage({ id: 'alert.unknow_error' }),
       );
     }
   };
