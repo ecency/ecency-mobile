@@ -8,6 +8,7 @@ import { bindActionCreators } from 'redux';
 import Push from 'appcenter-push';
 import get from 'lodash/get';
 import AppCenter from 'appcenter';
+import changeNavigationBarColor from 'react-native-navigation-bar-color';
 
 // Languages
 import en from 'react-intl/locale-data/en';
@@ -112,6 +113,11 @@ class ApplicationContainer extends Component {
 
     if (_isDarkTheme !== nextProps.isDarkTheme || selectedLanguage !== nextProps.selectedLanguage) {
       this.setState({ isRenderRequire: false }, () => this.setState({ isRenderRequire: true }));
+      if (nextProps.isDarkTheme) {
+        changeNavigationBarColor('#1e2835');
+      } else {
+        changeNavigationBarColor('#FFFFFF');
+      }
     }
 
     if (isLogingOut !== nextProps.isLogingOut && nextProps.isLogingOut) {

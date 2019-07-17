@@ -60,6 +60,6 @@ export default EStyleSheet.create({
     backgroundColor: '$primaryBlue',
   },
   clearIcon: {
-    color: '$white',
+    color: '$primaryLightGray',
   },
 });
