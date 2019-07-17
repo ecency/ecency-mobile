@@ -143,11 +143,7 @@ class ApplicationContainer extends Component {
       const { isConnected, dispatch } = this.props;
       if (state.isConnected !== isConnected) {
         dispatch(setConnectivityStatus(state.isConnected));
-        if (state.isConnected) {
-          this._fetchApp();
-        } else {
-          // no internet
-        }
+        this._fetchApp();
       }
     });
   };
@@ -441,7 +437,7 @@ class ApplicationContainer extends Component {
   };
 
   _getSettings = async () => {
-    const { dispatch } = this.props;
+    const { dispatch, isConnected } = this.props;
 
     const settings = await getSettings();
 
@@ -463,7 +459,9 @@ class ApplicationContainer extends Component {
       }
       if (settings.nsfw !== '') dispatch(setNsfw(settings.nsfw));
 
-      dispatch(setCurrency(settings.currency !== '' ? settings.currency : 'usd'));
+      if (isConnected) {
+        dispatch(setCurrency(settings.currency !== '' ? settings.currency : 'usd'));
+      }
 
       this.setState({ isThemeReady: true });
     }
