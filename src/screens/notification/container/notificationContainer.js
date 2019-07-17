@@ -27,9 +27,9 @@ class NotificationContainer extends Component {
   }
 
   componentDidMount() {
-    const { username } = this.props;
+    const { username, isConnected } = this.props;
 
-    if (username) {
+    if (username && isConnected) {
       this._getAvtivities(username);
     }
   }
