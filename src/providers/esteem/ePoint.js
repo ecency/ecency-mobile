@@ -1,11 +1,5 @@
 import { Alert } from 'react-native';
-// import { Client, PrivateKey } from 'dsteem';
 import ePointApi from '../../config/ePoint';
-
-// Utils
-// import { decryptKey } from '../../utils/crypto';
-
-// const client = new Client(getItem('server', 'https://api.steemit.com'));
 
 export const userActivity = (us, ty, bl = '', tx = '') =>
   new Promise(resolve => {

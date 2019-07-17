@@ -2,9 +2,9 @@ import EStyleSheet from 'react-native-extended-stylesheet';
 
 export default EStyleSheet.create({
   optionsWrapper: {
-    backgroundColor: 'white',
+    backgroundColor: '$white',
     borderTopWidth: 0,
-    borderColor: '#000',
+    borderColor: '$black',
     left: 0,
     position: 'absolute',
     right: 0,
