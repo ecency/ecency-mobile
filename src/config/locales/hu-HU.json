@@ -38,7 +38,12 @@
     "vote": "Szavazás",
     "reblog": "Megosztás",
     "login": "Bejelentkezés",
+    "incoming_transfer_title": "Bejövő átutalás",
+    "outgoing_transfer_title": "Kimenő átutalás",
     "checkin_extra": "Bónusz",
+    "delegation": "Delegálás",
+    "delegation_title": "Delegálási jutalom",
+    "delegation_desc": "Minen 100sp delegálásért napi 1 pontot kaphatsz",
     "post_title": "Bejegyzés pontok",
     "comment_title": "Hozzászólás pontok",
     "vote_title": "Szavazási pontok",
@@ -47,6 +52,8 @@
     "checkin_title": "Használati pontok",
     "checkin_extra_title": "Használati bónusz",
     "no_activity": "Itt nincs tevékenység!",
+    "outgoing_transfer_description": "",
+    "incoming_transfer_description": "",
     "post_desc": "Pontokat szerezhetsz rendszeres blogolással. Egy bejegyzés 15 pontot ér.",
     "comment_desc": "Minden hozzászólásod segít abban, hogy növeld a táborod és követőket szerezz, továbbá 5 pontot hoz neked.",
     "checkin_desc": "Az eSteem alkalmazásba történő bejelentkezés 0,25 pontot ér és segít abban, hogy kapcsolatban maradj a barátaiddal.",
@@ -195,12 +202,13 @@
     "copied": "Lemásolva!",
     "no_internet": "Nincs kapcsolat!",
     "confirm": "Megerősítés",
-    "removed": "Eltávolítva"
+    "removed": "Eltávolítva",
+    "same_user": "Ez a felhasználó már szerepel a listán"
   },
   "post": {
     "reblog_alert": "Biztos, hogy megosztod?",
     "removed_hint": "A bejegyzést eltávolította",
-    "copy_link": "Copy Link"
+    "copy_link": "Link másolása"
   },
   "drafts": {
     "title": "Piszkozatok",
@@ -276,10 +284,27 @@
     "to_placeholder": "Felhasználónév",
     "memo_placeholder": "Megjegyzés ide",
     "transfer_token": "Átutalás",
+    "points": "Pontok Átutalása",
     "transfer_to_saving": "Átutalás a megtakarításokhoz",
     "powerUp": "Power Up",
     "withdraw_to_saving": "Átutalás A Megtakarításokhoz",
     "steemconnect_title": "Steemconnect átutalás",
-    "next": "KÖVETKEZŐ"
+    "next": "KÖVETKEZŐ",
+    "withdraw_steem": "Steem Visszavonás",
+    "withdraw_sbd": "Steem Dollár Visszavonás",
+    "delegate": "Delegálás",
+    "power_down": "Power Down",
+    "account": "Fiók",
+    "destination_accounts": "Cél Fiók(ok)",
+    "amount_information": "A csúszka húzásával állítsd be a mennyiséget",
+    "save": "Mentés",
+    "percent": "Százalék",
+    "percent_information": "Power Down százaléka ennek a fióknak",
+    "auto_vests": "Automatikus power up a megadott fióknak",
+    "stop": "Megállítás",
+    "stop_information": "Bistos megállítod?",
+    "incoming_funds": "Bejövő tőke",
+    "sc_power_down_error": "Steem connect setWithdrawVestingRoute not implemented yet.",
+    "estimated_weekly": "Heti Becslés"
   }
 }

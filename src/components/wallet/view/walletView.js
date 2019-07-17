@@ -59,13 +59,13 @@ class WalletView extends PureComponent {
       <ScrollView
         refreshControl={
           <RefreshControl
-  refreshing={isRefreshing}
-  onRefresh={handleOnWalletRefresh}
-  progressBackgroundColor="#357CE6"
-  tintColor={!isDarkTheme ? '#357ce6' : '#96c0ff'}
-  titleColor="#fff"
-  colors={['#fff']}
-/>
+            refreshing={isRefreshing}
+            onRefresh={handleOnWalletRefresh}
+            progressBackgroundColor="#357CE6"
+            tintColor={!isDarkTheme ? '#357ce6' : '#96c0ff'}
+            titleColor="#fff"
+            colors={['#fff']}
+          />
         }
         style={styles.scrollView}
       >

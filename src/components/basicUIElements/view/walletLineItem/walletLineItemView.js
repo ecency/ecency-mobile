@@ -66,7 +66,7 @@ const WalletLineItem = ({
           )}
         </View>
       </View>
-      {rightText && (
+      {!!rightText && (
         <View style={styles.rightTextWrapper}>
           <Text
             style={[

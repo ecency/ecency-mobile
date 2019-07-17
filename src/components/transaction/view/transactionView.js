@@ -1,6 +1,8 @@
+/* eslint-disable react/jsx-wrap-multilines */
 import React, { PureComponent } from 'react';
 import { injectIntl } from 'react-intl';
 import { View } from 'react-native';
+import get from 'lodash/get';
 
 // Utilities
 import { groomingTransactionData } from '../../../utils/wallet';
@@ -27,7 +29,7 @@ class TransactionView extends PureComponent {
   // Component Life Cycles
 
   // Component Functions
-  _handleOnDropdownSelect = () => {};
+  // _handleOnDropdownSelect = () => {};
 
   render() {
     const {
@@ -69,7 +71,7 @@ class TransactionView extends PureComponent {
                         id: `wallet.${transactionData.opName}`,
                       })}
                       // description={intl.formatRelative(transactionData.transDate)}
-                      description={getTimeFromNow(transactionData.transDate)}
+                      description={getTimeFromNow(get(transactionData, 'transDate'))}
                       isCircleIcon
                       isThin
                       circleIconColor="white"
@@ -80,13 +82,13 @@ class TransactionView extends PureComponent {
                     />
                   }
                 >
-                  {(!!transactionData.details || !!transactionData.memo) && (
+                  {(get(transactionData, 'details') || get(transactionData, 'memo')) && (
                     <WalletLineItem
                       key={index.toString()}
-                      text={!!transactionData.details && transactionData.details}
+                      text={get(transactionData, 'details', 'pipi')}
                       isBlackText
                       isThin
-                      description={!!transactionData.memo && transactionData.memo}
+                      description={get(transactionData, 'memo')}
                     />
                   )}
                 </CollapsibleCard>

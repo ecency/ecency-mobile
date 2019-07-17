@@ -3,6 +3,8 @@ package app.esteem.mobile;
 import android.app.Application;
 
 import com.facebook.react.ReactApplication;
+import com.dooboolab.RNIap.RNIapPackage;
+import com.thebylito.navigationbarcolor.NavigationBarColorPackage;
 import com.bugsnag.BugsnagReactNative;
 import com.apsl.versionnumber.RNVersionNumberPackage;
 import com.microsoft.codepush.react.CodePush;
@@ -44,6 +46,8 @@ public class MainApplication extends Application implements ReactApplication {
     protected List<ReactPackage> getPackages() {
       return Arrays.<ReactPackage>asList(
           new MainReactPackage(),
+            new RNIapPackage(),
+            new NavigationBarColorPackage(),
             BugsnagReactNative.getPackage(),
             new RNVersionNumberPackage(),
             new CodePush(getResources().getString(R.string.reactNativeCodePush_androidDeploymentKey), getApplicationContext(), BuildConfig.DEBUG),
