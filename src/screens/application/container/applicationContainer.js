@@ -100,7 +100,6 @@ class ApplicationContainer extends Component {
 
     AppState.addEventListener('change', this._handleAppStateChange);
 
-    this.globalInterval = setInterval(this._refreshGlobalProps, 180000);
     this._createPushListener();
   };
 
@@ -122,6 +121,7 @@ class ApplicationContainer extends Component {
 
     if (isConnected !== null && isConnected !== nextProps.isConnected && nextProps.isConnected) {
       this._fetchApp();
+      this.globalInterval = setInterval(this._refreshGlobalProps, 180000);
     }
   }
 
@@ -136,6 +136,8 @@ class ApplicationContainer extends Component {
     Linking.removeEventListener('url', this._handleOpenURL);
 
     AppState.removeEventListener('change', this._handleAppStateChange);
+
+    this.netListener();
   }
 
   _setNetworkListener = () => {
@@ -144,6 +146,9 @@ class ApplicationContainer extends Component {
       if (state.isConnected !== isConnected) {
         dispatch(setConnectivityStatus(state.isConnected));
         this._fetchApp();
+        if (!state.isConnected) {
+          clearInterval(this.globalInterval);
+        }
       }
     });
   };
@@ -259,6 +264,7 @@ class ApplicationContainer extends Component {
     const { isConnected } = this.props;
     if (isConnected && userRealmObject) {
       await this._fetchUserDataFromDsteem(userRealmObject);
+      this.globalInterval = setInterval(this._refreshGlobalProps, 180000);
     }
   };
 
