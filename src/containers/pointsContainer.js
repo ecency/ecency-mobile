@@ -1,4 +1,3 @@
-/* eslint-disable no-unused-vars */
 import React, { Component } from 'react';
 import { Alert } from 'react-native';
 import { connect } from 'react-redux';
@@ -116,7 +115,7 @@ class PointsContainer extends Component {
         this.setState({ userPoints, balance });
       })
       .catch(err => {
-        Alert.alert(err);
+        Alert.alert(err.message);
       });
 
     await getUserPoints(username)

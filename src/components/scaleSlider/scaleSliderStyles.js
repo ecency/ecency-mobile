@@ -42,4 +42,10 @@ export default EStyleSheet.create({
     position: 'absolute',
     borderColor: '$primaryBlue',
   },
+  selected: {
+    backgroundColor: '$primaryBlue',
+  },
+  track: {
+    backgroundColor: '$primaryLightGray',
+  },
 });

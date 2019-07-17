@@ -1,6 +1,7 @@
 import React, { Component } from 'react';
 import { View, Dimensions, Text } from 'react-native';
 import MultiSlider from '@ptomasroos/react-native-multi-slider';
+import get from 'lodash/get';
 
 import styles from './scaleSliderStyles';
 
@@ -8,8 +9,8 @@ export default class ScaleSliderView extends Component {
   constructor(props) {
     super(props);
     this.state = {
-      activeValue: props.activeValue || props.values[0],
-      activeIndex: props.values.indexOf(props.activeValue) || 0,
+      activeValue: get(props, 'activeValue') || props.values[0],
+      activeIndex: get(props, 'values', '').indexOf(get(props, 'activeValue')) || 0,
     };
   }
 
@@ -52,7 +53,7 @@ export default class ScaleSliderView extends Component {
   };
 
   render() {
-    const { LRpadding, values, day } = this.props;
+    const { LRpadding, values } = this.props;
     const { activeIndex } = this.state;
 
     return (
@@ -62,8 +63,8 @@ export default class ScaleSliderView extends Component {
         </View>
         <View style={styles.container}>
           <MultiSlider
-            trackStyle={{ backgroundColor: '#bdc3c7' }}
-            selectedStyle={{ backgroundColor: '#357ce6' }}
+            trackStyle={styles.track}
+            selectedStyle={styles.selected}
             sliderLength={Dimensions.get('window').width - LRpadding * 2}
             onValuesChange={this._valueChange}
             values={[activeIndex + 1]}
