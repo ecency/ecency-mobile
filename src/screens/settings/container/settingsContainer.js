@@ -15,6 +15,7 @@ import {
   setLanguage as setLanguage2DB,
   setNsfw as setNsfw2DB,
   setTheme,
+  setPinCodeOpen,
 } from '../../../realm/realm';
 
 // Services and Actions
@@ -27,6 +28,7 @@ import {
   isDefaultFooter,
   openPinCodeModal,
   setNsfw,
+  isPinCodeOpen,
 } from '../../../redux/actions/applicationActions';
 import { toastNotification } from '../../../redux/actions/uiAction';
 import { setPushToken, getNodes } from '../../../providers/esteem/esteem';
@@ -165,6 +167,11 @@ class SettingsContainer extends Component {
         dispatch(isDefaultFooter(action));
         // setDefaultFooter(action);
         break;
+
+      case 'pincode':
+        setPinCodeOpen(action);
+        dispatch(isPinCodeOpen(action));
+        break;
       default:
         break;
     }
@@ -207,7 +214,7 @@ class SettingsContainer extends Component {
   _handleButtonPress = actionType => {
     const { dispatch } = this.props;
     switch (actionType) {
-      case 'pincode':
+      case 'reset_pin':
         dispatch(openPinCodeModal({ isReset: true }));
         break;
 
@@ -302,6 +309,7 @@ class SettingsContainer extends Component {
 
 const mapStateToProps = state => ({
   isDarkTheme: state.application.isDarkTheme,
+  isPinCodeOpen: state.application.isPinCodeOpen,
   isDefaultFooter: state.application.isDefaultFooter,
   isLoggedIn: state.application.isLoggedIn,
   isNotificationSettingsOpen: state.application.isNotificationOpen,

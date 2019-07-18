@@ -37,6 +37,7 @@ class SettingsScreen extends PureComponent {
       handleOnChange,
       intl,
       isDarkTheme,
+      isPinCodeOpen,
       isLoggedIn,
       isNotificationSettingsOpen,
       nsfw,
@@ -125,16 +126,28 @@ class SettingsScreen extends PureComponent {
               handleOnChange={handleOnChange}
             />
             {!!isLoggedIn && (
+              <SettingsItem
+                title={intl.formatMessage({
+                  id: 'settings.pincode',
+                })}
+                type="toggle"
+                actionType="pincode"
+                isOn={isPinCodeOpen}
+                handleOnChange={handleOnChange}
+              />
+            )}
+
+            {!!isLoggedIn && !!isPinCodeOpen && (
               <Fragment>
                 <SettingsItem
                   title={intl.formatMessage({
-                    id: 'settings.pincode',
+                    id: 'settings.reset_pin',
                   })}
                   text={intl.formatMessage({
                     id: 'settings.reset',
                   })}
                   type="button"
-                  actionType="pincode"
+                  actionType="reset_pin"
                   handleOnButtonPress={handleOnButtonPress}
                 />
               </Fragment>
