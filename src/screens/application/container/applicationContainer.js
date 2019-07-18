@@ -10,6 +10,7 @@ import { connect } from 'react-redux';
 import { addLocaleData } from 'react-intl';
 import { NavigationActions } from 'react-navigation';
 import { bindActionCreators } from 'redux';
+import EStyleSheet from 'react-native-extended-stylesheet';
 
 // Languages
 import en from 'react-intl/locale-data/en';
@@ -71,6 +72,9 @@ import {
   isDefaultFooter,
 } from '../../../redux/actions/applicationActions';
 
+import darkTheme from '../../../themes/darkTheme';
+import lightTheme from '../../../themes/lightTheme';
+
 addLocaleData([...en, ...ru, ...de, ...id, ...it, ...hu, ...tr, ...ko, ...pt, ...lt, ...fa]);
 
 class ApplicationContainer extends Component {
@@ -83,6 +87,11 @@ class ApplicationContainer extends Component {
       isThemeReady: false,
       appState: AppState.currentState,
     };
+  }
+
+  componentWillMount() {
+    const { isDarkTheme: _isDarkTheme } = this.props;
+    EStyleSheet.build(_isDarkTheme ? darkTheme : lightTheme);
   }
 
   componentDidMount = () => {

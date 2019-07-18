@@ -9,8 +9,6 @@ import { toastNotification as toastNotificationAction } from '../../../redux/act
 // Components
 import { NoInternetConnection } from '../../../components/basicUIElements';
 import { ToastNotification } from '../../../components/toastNotification';
-import { Modal } from '../../../components';
-import { PinCode } from '../../pinCode';
 import PostButtonForAndroid from '../../../components/postButton/view/postButtonsForAndroid';
 
 // Themes (Styles)
@@ -44,7 +42,7 @@ class ApplicationScreen extends Component {
   };
 
   render() {
-    const { isConnected, isDarkTheme, toastNotification, isReady, isPinCodeReqiure } = this.props;
+    const { isConnected, isDarkTheme, toastNotification, isReady } = this.props;
     const { isShowToastNotification } = this.state;
     const barStyle = isDarkTheme ? 'light-content' : 'dark-content';
     const barColor = isDarkTheme ? '#1e2835' : '#fff';
@@ -59,14 +57,6 @@ class ApplicationScreen extends Component {
         <Fragment>
           {!isConnected && <NoInternetConnection />}
           <ReduxNavigation />
-          <Modal
-            isOpen={isPinCodeReqiure}
-            isFullScreen
-            swipeToClose={false}
-            backButtonClose={false}
-          >
-            <PinCode setWrappedComponentState={this._setWrappedComponentState} />
-          </Modal>
         </Fragment>
         {Platform.OS === 'android' && <PostButtonForAndroid />}
 
