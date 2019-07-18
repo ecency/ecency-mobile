@@ -1108,6 +1108,60 @@ export const transferPoint = (currentAccount, pinCode, data) => {
   return Promise.reject(new Error('Something went wrong!'));
 };
 
+export const promote = (currentAccount, pinCode, duration, permlink, author) => {
+  const pin = getDigitPinCode(pinCode);
+  const key = getActiveKey(get(currentAccount, 'local'), pin);
+
+  if (key) {
+    const privateKey = PrivateKey.fromString(key);
+    const user = get(currentAccount, 'name');
+
+    const json = {
+      id: 'esteem_promote',
+      json: JSON.stringify({
+        user,
+        author,
+        permlink,
+        duration,
+      }),
+      required_auths: [user],
+      required_posting_auths: [],
+    };
+
+    return client.broadcast.json(json, privateKey);
+  }
+
+  return Promise.reject(new Error('Something went wrong!'));
+};
+
+export const boost = (currentAccount, pinCode, point, permlink, author) => {
+  const pin = getDigitPinCode(pinCode);
+  const key = getActiveKey(get(currentAccount, 'local'), pin);
+
+  if (key) {
+    const privateKey = PrivateKey.fromString(key);
+    const user = get(currentAccount, 'name');
+
+    const json = {
+      id: 'esteem_boost',
+      json: JSON.stringify({
+        user,
+        author,
+        permlink,
+        amount: `${point} POINT`,
+      }),
+      required_auths: [user],
+      required_posting_auths: [],
+    };
+
+    return client.broadcast.json(json, privateKey);
+  }
+
+  return Promise.reject(new Error('Something went wrong!'));
+};
+
+// HELPERS
+
 const getAnyPrivateKey = (local, pin) => {
   const { postingKey, activeKey } = local;
 
