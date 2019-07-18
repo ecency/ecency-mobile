@@ -71,7 +71,10 @@ import {
   setNsfw,
   isDefaultFooter,
   isPinCodeOpen,
+  setPinCode as savePinCode,
 } from '../../../redux/actions/applicationActions';
+
+import { encryptKey } from '../../../utils/crypto';
 
 import darkTheme from '../../../themes/darkTheme';
 import lightTheme from '../../../themes/lightTheme';
@@ -258,11 +261,13 @@ class ApplicationContainer extends Component {
   };
 
   _startPinCodeTimer = () => {
-    const { dispatch } = this.props;
+    const { dispatch, isPinCodeOpen: _isPinCodeOpen } = this.props;
 
-    this._pinCodeTimer = setTimeout(() => {
-      dispatch(openPinCodeModal());
-    }, 1 * 60 * 1000);
+    if (_isPinCodeOpen) {
+      this._pinCodeTimer = setTimeout(() => {
+        dispatch(openPinCodeModal());
+      }, 1 * 60 * 1000);
+    }
   };
 
   _fetchApp = async () => {
@@ -357,7 +362,7 @@ class ApplicationContainer extends Component {
   };
 
   _getUserDataFromRealm = async () => {
-    const { dispatch, pinCode } = this.props;
+    const { dispatch, pinCode, isPinCodeOpen: _isPinCodeOpen } = this.props;
     let realmData = [];
     let currentUsername;
 
@@ -416,8 +421,11 @@ class ApplicationContainer extends Component {
         }),
       );
       // If in dev mode pin code does not show
-      if (!isExistUser || !pinCode) {
+      if ((!isExistUser || !pinCode) && _isPinCodeOpen) {
         dispatch(openPinCodeModal());
+      } else if (!_isPinCodeOpen) {
+        const encryptedPin = encryptKey(Config.DEFAULT_PIN, Config.PIN_KEY);
+        dispatch(savePinCode(encryptedPin));
       }
 
       dispatch(activeApplication());

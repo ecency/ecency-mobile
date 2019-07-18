@@ -156,6 +156,7 @@ export const setUserDataWithPinCode = async data => {
 
 export const updatePinCode = async data => {
   try {
+    let currentUser = null;
     await setPinCode(data.pinCode);
     const users = await getUserData();
     if (users && users.length > 0) {
@@ -167,8 +168,11 @@ export const updatePinCode = async data => {
         }
         const updatedUserData = getUpdatedUserData(userData, data);
         await updateUserData(updatedUserData);
+        if (userData.username === data.username) {
+          currentUser = updatedUserData;
+        }
       });
-      return true;
+      return currentUser;
     }
     return false;
   } catch (error) {
