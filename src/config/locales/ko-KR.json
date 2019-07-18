@@ -306,5 +306,12 @@
     "incoming_funds": "입금 예정 스팀",
     "sc_power_down_error": "steemconnect setWithdrawVestingRoute는 아직 구현되지 않았습니다.",
     "estimated_weekly": "주간 예상 수량"
+  },
+  "promote": {
+    "title": "Promote",
+    "days": "days",
+    "user": "User",
+    "permlink": "Permlink",
+    "information": "Are you sure to transfer to promote?"
   }
 }
