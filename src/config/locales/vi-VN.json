@@ -305,5 +305,12 @@
     "incoming_funds": "Các quỹ sắp có",
     "sc_power_down_error": "Kết nối Steem để thiết lập LệnhRútCổphần chưa được triển khai.",
     "estimated_weekly": "Dự kiến hàng tuần"
+  },
+  "promote": {
+    "title": "Promote",
+    "days": "days",
+    "user": "User",
+    "permlink": "Permlink",
+    "information": "Are you sure to transfer to promote?"
   }
 }
