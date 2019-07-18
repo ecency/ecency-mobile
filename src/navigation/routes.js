@@ -107,7 +107,7 @@ const stackNavigatior = createStackNavigator(
       },
     },
     [ROUTES.SCREENS.PROMOTE]: {
-      screen: RootComponent()(Promote),
+      screen: Promote,
       navigationOptions: {
         header: () => null,
       },
