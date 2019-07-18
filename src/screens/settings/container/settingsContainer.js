@@ -45,7 +45,7 @@ import { VALUE as LANGUAGE_VALUE } from '../../../constants/options/language';
 
 // Utilities
 import { sendEmail } from '../../../utils/sendEmail';
-import { encryptKey } from '../../../utils/crypto';
+import { encryptKey, decryptKey } from '../../../utils/crypto';
 
 // Component
 import SettingsScreen from '../screen/settingsScreen';
@@ -174,11 +174,22 @@ class SettingsContainer extends Component {
         break;
 
       case 'pincode':
-        dispatch(
-          openPinCodeModal({
-            callback: (pinCode, oldPincode) => this._setDefaultPinCode(action, oldPincode),
-          }),
-        );
+        if (action) {
+          dispatch(
+            openPinCodeModal({
+              callback: () => this._setDefaultPinCode(action),
+              isReset: true,
+              isOldPinVerified: true,
+              oldPinCode: Config.DEFAULT_PIN,
+            }),
+          );
+        } else {
+          dispatch(
+            openPinCodeModal({
+              callback: () => this._setDefaultPinCode(action),
+            }),
+          );
+        }
         break;
       default:
         break;
@@ -300,10 +311,11 @@ class SettingsContainer extends Component {
     }
   };
 
-  _setDefaultPinCode = (action, oldPinCode) => {
-    const { dispatch, username, currentAccount } = this.props;
+  _setDefaultPinCode = action => {
+    const { dispatch, username, currentAccount, pinCode } = this.props;
 
     if (!action) {
+      const oldPinCode = decryptKey(pinCode, Config.PIN_KEY);
       const pinData = {
         pinCode: Config.DEFAULT_PIN,
         username,
@@ -321,6 +333,9 @@ class SettingsContainer extends Component {
         setPinCodeOpen(action);
         dispatch(isPinCodeOpen(action));
       });
+    } else {
+      setPinCodeOpen(action);
+      dispatch(isPinCodeOpen(action));
     }
   };
 
@@ -342,6 +357,7 @@ class SettingsContainer extends Component {
 const mapStateToProps = state => ({
   isDarkTheme: state.application.isDarkTheme,
   isPinCodeOpen: state.application.isPinCodeOpen,
+  pinCode: state.application.pin,
   isDefaultFooter: state.application.isDefaultFooter,
   isLoggedIn: state.application.isLoggedIn,
   isNotificationSettingsOpen: state.application.isNotificationOpen,
@@ -356,6 +372,7 @@ const mapStateToProps = state => ({
   selectedApi: state.application.api,
   selectedCurrency: state.application.currency,
   selectedLanguage: state.application.language,
+
   username: state.account.currentAccount && state.account.currentAccount.name,
   currentAccount: state.account.currentAccount,
 });

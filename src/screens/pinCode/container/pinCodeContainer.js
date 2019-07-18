@@ -4,6 +4,7 @@ import { connect } from 'react-redux';
 import { injectIntl } from 'react-intl';
 import Config from 'react-native-config';
 import { NavigationActions } from 'react-navigation';
+import get from 'lodash/get';
 
 // Actions & Services
 import {
@@ -41,8 +42,8 @@ class PinCodeContainer extends Component {
       isExistUser: null,
       informationText: '',
       pinCode: null,
-      isOldPinVerified: false,
-      oldPinCode: null,
+      isOldPinVerified: get(props.pinCodeParams, 'isOldPinVerified', false),
+      oldPinCode: get(props.pinCodeParams, 'oldPinCode', null),
     };
   }
 
