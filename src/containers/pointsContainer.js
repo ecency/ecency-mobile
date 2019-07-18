@@ -2,19 +2,21 @@ import React, { Component } from 'react';
 import { Alert } from 'react-native';
 import { connect } from 'react-redux';
 import get from 'lodash/get';
+import { injectIntl } from 'react-intl';
+import { withNavigation } from 'react-navigation';
 
 // Services and Actions
-import { getUser, getUserPoints, claim } from '../../../providers/esteem/ePoint';
-import { openPinCodeModal } from '../../../redux/actions/applicationActions';
+import { getUser, getUserPoints, claim } from '../providers/esteem/ePoint';
+import { openPinCodeModal } from '../redux/actions/applicationActions';
+import { promote, getAccount } from '../providers/steem/dsteem';
+import { getUserDataWithUsername } from '../realm/realm';
+import { toastNotification } from '../redux/actions/uiAction';
 
 // Constant
-import POINTS from '../../../constants/options/points';
-
-// Component
-import PointsView from '../view/pointsView';
+import POINTS from '../constants/options/points';
 
 // Constants
-import ROUTES from '../../../constants/routeNames';
+import ROUTES from '../constants/routeNames';
 
 /*
  *            Props Name        Description                                     Value
@@ -60,18 +62,37 @@ class PointsContainer extends Component {
 
   // Component Functions
 
-  _handleOnPressTransfer = () => {
+  _handleOnPressTransfer = index => {
     const { dispatch } = this.props;
-    const { userPoints } = this.state;
+    const { balance } = this.state;
+    let navigateTo;
+    let navigateParams;
+
+    switch (Number(index)) {
+      case 0:
+        navigateTo = ROUTES.SCREENS.TRANSFER;
+        navigateParams = {
+          transferType: 'points',
+          fundType: 'POINT',
+          balance,
+        };
+        break;
+
+      case 1:
+        navigateTo = ROUTES.SCREENS.PROMOTE;
+        navigateParams = {
+          balance,
+        };
+        break;
+
+      default:
+        break;
+    }
 
     dispatch(
       openPinCodeModal({
-        navigateTo: ROUTES.SCREENS.TRANSFER,
-        navigateParams: {
-          transferType: 'points',
-          fundType: 'POINT',
-          balance: Math.round(get(userPoints, 'points') * 1000) / 1000,
-        },
+        navigateTo,
+        navigateParams,
       }),
     );
   };
@@ -90,10 +111,11 @@ class PointsContainer extends Component {
 
     await getUser(username)
       .then(userPoints => {
-        this.setState({ userPoints });
+        const balance = Math.round(get(userPoints, 'points') * 1000) / 1000;
+        this.setState({ userPoints, balance });
       })
       .catch(err => {
-        Alert.alert(err);
+        Alert.alert(err.message);
       });
 
     await getUserPoints(username)
@@ -112,6 +134,17 @@ class PointsContainer extends Component {
       refreshing: false,
       isLoading: false,
     });
+  };
+
+  _getUserBalance = async username => {
+    await getUser(username)
+      .then(userPoints => {
+        const balance = Math.round(get(userPoints, 'points') * 1000) / 1000;
+        return balance;
+      })
+      .catch(err => {
+        Alert.alert(err);
+      });
   };
 
   _claimPoints = async () => {
@@ -135,6 +168,26 @@ class PointsContainer extends Component {
     this.setState({ isClaiming: false });
   };
 
+  _promote = async (duration, permlink, author, user) => {
+    const { currentAccount, pinCode, dispatch, intl, navigation } = this.props;
+    this.setState({ isLoading: true });
+
+    await promote(user || currentAccount, pinCode, duration, permlink, author)
+      .then(() => {
+        this.setState({ isLoading: false });
+        dispatch(toastNotification(intl.formatMessage({ id: 'alert.successful' })));
+        navigation.goBack();
+      })
+      .catch(error => {
+        Alert.alert(
+          `Fetching data from server failed, please try again or notify us at info@esteem.app \n${error.message.substr(
+            0,
+            20,
+          )}`,
+        );
+      });
+  };
+
   render() {
     const {
       isClaiming,
@@ -143,20 +196,31 @@ class PointsContainer extends Component {
       refreshing,
       userActivities,
       userPoints,
+      balance,
     } = this.state;
+    const { children, accounts, currentAccount } = this.props;
 
     return (
-      <PointsView
-        claimPoints={this._claimPoints}
-        fetchUserActivity={this._fetchuserPointActivities}
-        isClaiming={isClaiming}
-        isDarkTheme={isDarkTheme}
-        isLoading={isLoading}
-        refreshing={refreshing}
-        userActivities={userActivities}
-        userPoints={userPoints}
-        handleOnPressTransfer={this._handleOnPressTransfer}
-      />
+      children &&
+      children({
+        accounts,
+        currentAccount,
+        currentAccountName: currentAccount.name,
+        claimPoints: this._claimPoints,
+        fetchUserActivity: this._fetchuserPointActivities,
+        isClaiming,
+        isDarkTheme,
+        isLoading,
+        refreshing,
+        userActivities,
+        userPoints,
+        handleOnPressTransfer: this._handleOnPressTransfer,
+        balance,
+        getUserBalance: this._getUserBalance,
+        promote: this._promote,
+        getAccount,
+        getUserDataWithUsername,
+      })
     );
   }
 }
@@ -165,6 +229,9 @@ const mapStateToProps = state => ({
   username: state.account.currentAccount.name,
   isDarkTheme: state.application.isDarkTheme,
   activeBottomTab: state.ui.activeBottomTab,
+  accounts: state.account.otherAccounts,
+  currentAccount: state.account.currentAccount,
+  pinCode: state.account.pin,
 });
 
-export default connect(mapStateToProps)(PointsContainer);
+export default withNavigation(connect(mapStateToProps)(injectIntl(PointsContainer)));

@@ -16,6 +16,7 @@ import RootComponent from './root';
 import SteemConnect from './steem-connect/steemConnect';
 import { SearchResult } from './searchResult';
 import Transfer from './transfer';
+import Promote from './promote/screen/promoteScreen';
 
 export {
   Bookmarks,
@@ -25,15 +26,16 @@ export {
   Home,
   Launch,
   Login,
-  Points,
   Notification,
   PinCode,
+  Points,
   Post,
   Profile,
+  Promote,
   RootComponent,
+  SearchResult,
   Settings,
   SteemConnect,
-  Voters,
-  SearchResult,
   Transfer,
+  Voters,
 };
