@@ -25,6 +25,7 @@ import {
   SET_NSFW,
   SET_UPVOTE_PERCENT,
   SET_PIN_CODE,
+  IS_PIN_CODE_OPEN,
 } from '../constants/constants';
 
 export const login = payload => ({
@@ -130,6 +131,11 @@ export const changeNotificationSettings = payload => {
 export const isDarkTheme = payload => ({
   payload,
   type: IS_DARK_THEME,
+});
+
+export const isPinCodeOpen = payload => ({
+  payload,
+  type: IS_PIN_CODE_OPEN,
 });
 
 export const setConnectivityStatus = payload => ({
