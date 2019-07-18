@@ -308,9 +308,9 @@
     "estimated_weekly": "Estimado Semanalmente"
   },
   "promote": {
-    "title": "Promote",
-    "days": "days",
-    "user": "User",
+    "title": "Promover",
+    "days": "dias",
+    "user": "Utilizador",
     "permlink": "Permlink",
     "information": "Are you sure to transfer to promote?"
   }
