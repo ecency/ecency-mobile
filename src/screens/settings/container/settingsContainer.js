@@ -5,6 +5,7 @@ import AppCenter from 'appcenter';
 import Push from 'appcenter-push';
 import { Client } from 'dsteem';
 import VersionNumber from 'react-native-version-number';
+import Config from 'react-native-config';
 
 // Realm
 import {
@@ -29,10 +30,13 @@ import {
   openPinCodeModal,
   setNsfw,
   isPinCodeOpen,
+  setPinCode as savePinCode,
 } from '../../../redux/actions/applicationActions';
 import { toastNotification } from '../../../redux/actions/uiAction';
 import { setPushToken, getNodes } from '../../../providers/esteem/esteem';
 import { checkClient } from '../../../providers/steem/dsteem';
+import { updatePinCode } from '../../../providers/steem/auth';
+import { updateCurrentAccount } from '../../../redux/actions/accountAction';
 // Middleware
 
 // Constants
@@ -41,6 +45,7 @@ import { VALUE as LANGUAGE_VALUE } from '../../../constants/options/language';
 
 // Utilities
 import { sendEmail } from '../../../utils/sendEmail';
+import { encryptKey } from '../../../utils/crypto';
 
 // Component
 import SettingsScreen from '../screen/settingsScreen';
@@ -169,8 +174,11 @@ class SettingsContainer extends Component {
         break;
 
       case 'pincode':
-        setPinCodeOpen(action);
-        dispatch(isPinCodeOpen(action));
+        dispatch(
+          openPinCodeModal({
+            callback: (pinCode, oldPincode) => this._setDefaultPinCode(action, oldPincode),
+          }),
+        );
         break;
       default:
         break;
@@ -292,6 +300,30 @@ class SettingsContainer extends Component {
     }
   };
 
+  _setDefaultPinCode = (action, oldPinCode) => {
+    const { dispatch, username, currentAccount } = this.props;
+
+    if (!action) {
+      const pinData = {
+        pinCode: Config.DEFAULT_PIN,
+        username,
+        oldPinCode,
+      };
+      updatePinCode(pinData).then(response => {
+        const _currentAccount = currentAccount;
+        _currentAccount.local = response;
+
+        dispatch(updateCurrentAccount({ ..._currentAccount }));
+
+        const encryptedPin = encryptKey(Config.DEFAULT_PIN, Config.PIN_KEY);
+        dispatch(savePinCode(encryptedPin));
+
+        setPinCodeOpen(action);
+        dispatch(isPinCodeOpen(action));
+      });
+    }
+  };
+
   render() {
     const { serverList, isNotificationMenuOpen } = this.state;
 
@@ -325,6 +357,7 @@ const mapStateToProps = state => ({
   selectedCurrency: state.application.currency,
   selectedLanguage: state.application.language,
   username: state.account.currentAccount && state.account.currentAccount.name,
+  currentAccount: state.account.currentAccount,
 });
 
 export default connect(mapStateToProps)(SettingsContainer);
