@@ -33,6 +33,7 @@
   },
   "points": {
     "post": "Post",
+    "esteemPoints": "eSteem Points",
     "comment": "Comment",
     "checkin": "Check-in",
     "vote": "Vote",
@@ -293,7 +294,7 @@
   },
   "boost": {
     "title": "Boost",
-    "buy": "GET POINTS",
+    "buy": "GET ESTM",
     "next": "NEXT"
   },
   "promote": {

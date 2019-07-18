@@ -80,7 +80,9 @@ class PointsView extends Component {
       userPoints,
       handleOnPressTransfer,
       navigation,
+      intl,
     } = this.props;
+    const unclaimedPoints = get(userPoints, 'unclaimed_points', 0);
 
     return (
       <Fragment>
@@ -99,33 +101,26 @@ class PointsView extends Component {
               dropdownStyle={styles.dropdownStyle}
             />
           </View>
-          <Text style={styles.subText}>eSteem Points</Text>
+          <Text style={styles.subText}>{intl.formatMessage({ id: 'points.esteemPoints' })}</Text>
 
-          <IconButton
-            iconStyle={styles.boastIcon}
-            style={styles.boastButton}
-            onPress={() => navigation.navigate(ROUTES.SCREENS.BOOST)}
-            name="rocket"
-            iconType="MaterialCommunityIcons"
-          />
-          <Text style={styles.subText}>Boast</Text>
-
-          {get(userPoints, 'unclaimed_points') > 0 && (
-            <MainButton
-              isLoading={isClaiming}
-              isDisable={isClaiming}
-              style={styles.mainButton}
-              height={50}
-              onPress={() => claimPoints()}
-            >
-              <View style={styles.mainButtonWrapper}>
-                <Text style={styles.unclaimedText}>{get(userPoints, 'unclaimed_points')}</Text>
-                <View style={styles.mainIconWrapper}>
-                  <Icon name="add" iconType="MaterialIcons" color="#357ce6" size={23} />
-                </View>
+          <MainButton
+            isLoading={isClaiming}
+            isDisable={isClaiming}
+            style={styles.mainButton}
+            height={50}
+            onPress={() =>
+              unclaimedPoints > 0 ? claimPoints() : navigation.navigate(ROUTES.SCREENS.BOOST)
+            }
+          >
+            <View style={styles.mainButtonWrapper}>
+              <Text style={styles.unclaimedText}>
+                {unclaimedPoints > 0 ? unclaimedPoints : intl.formatMessage({ id: 'boost.buy' })}
+              </Text>
+              <View style={styles.mainIconWrapper}>
+                <Icon name="add" iconType="MaterialIcons" color="#357ce6" size={23} />
               </View>
-            </MainButton>
-          )}
+            </View>
+          </MainButton>
 
           <View style={styles.iconsWrapper}>
             <FlatList
@@ -164,9 +159,7 @@ class PointsView extends Component {
                         contentStyle={styles.popoverDetails}
                         arrowStyle={styles.arrow}
                         visible={popoverVisible}
-                        onClose={() => {
-                          closePopover();
-                        }}
+                        onClose={() => closePopover()}
                         fromRect={popoverAnchorRect}
                         placement="top"
                         supportedOrientations={['portrait', 'landscape']}
