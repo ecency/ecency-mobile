@@ -14,12 +14,12 @@ import {
   withdrawVesting,
   delegateVestingShares,
   setWithdrawVestingRoute,
-} from '../../../providers/steem/dsteem';
-import { toastNotification } from '../../../redux/actions/uiAction';
-import { getUserDataWithUsername } from '../../../realm/realm';
+} from '../providers/steem/dsteem';
+import { toastNotification } from '../redux/actions/uiAction';
+import { getUserDataWithUsername } from '../realm/realm';
 
 // Utils
-import { countDecimals } from '../../../utils/number';
+import { countDecimals } from '../utils/number';
 
 /*
  *            Props Name        Description                                     Value
