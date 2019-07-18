@@ -6,6 +6,8 @@ import { SideMenu } from './sideMenu';
 import Icon from './icon';
 import Logo from './logo/logo';
 import Modal from './modal';
+import { TextInput } from './textInput';
+import ScaleSlider from './scaleSlider/scaleSliderView';
 import UserListItem from './basicUIElements/view/userListItem/userListItem';
 
 export {
@@ -17,7 +19,9 @@ export {
   Modal,
   NumericKeyboard,
   PinAnimatedInput,
+  ScaleSlider,
   SideMenu,
   TextButton,
+  TextInput,
   UserListItem,
 };

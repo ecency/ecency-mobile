@@ -293,6 +293,14 @@
   },
   "boost": {
     "title": "Boost",
-    "buy": "GET POINTS"
+    "buy": "GET POINTS",
+    "next": "NEXT"
+  },
+  "promote": {
+    "title": "Promote",
+    "days": "days",
+    "user": "User",
+    "permlink": "Permlink",
+    "information": "Are you sure to transfer to promote?"
   }
 }

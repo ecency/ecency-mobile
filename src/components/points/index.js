@@ -1,3 +1,3 @@
-import Points from './container/pointsContainer';
+import Points from './view/pointsView';
 
 export { Points };
