@@ -306,5 +306,12 @@
     "incoming_funds": "Wang masuk",
     "sc_power_down_error": "Sambungan Steem dan setWithdrawVestingRoute belum dilaksanakan.",
     "estimated_weekly": "Anggaran Mingguan"
+  },
+  "promote": {
+    "title": "Promote",
+    "days": "days",
+    "user": "User",
+    "permlink": "Permlink",
+    "information": "Are you sure to transfer to promote?"
   }
 }
