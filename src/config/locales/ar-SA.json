@@ -203,7 +203,9 @@
     "no_internet": "لا يوجد اتصال!",
     "confirm": "تأكيد",
     "removed": "محذوف",
-    "same_user": "This user already added to list"
+    "same_user": "This user already added to list",
+    "unknow_error": "An error occurred",
+    "error": "Error"
   },
   "post": {
     "reblog_alert": "هل أنت متأكد من رغبتك في إعادة التدوين؟",
