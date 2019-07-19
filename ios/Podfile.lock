@@ -9,10 +9,10 @@ PODS:
   - AppCenterReactNativeShared (1.13.0):
     - AppCenter/Core (= 1.14.0)
   - boost-for-react-native (1.63.0)
-  - BugsnagReactNative (2.20.0):
-    - BugsnagReactNative/Core (= 2.20.0)
+  - BugsnagReactNative (2.21.0):
+    - BugsnagReactNative/Core (= 2.21.0)
     - React
-  - BugsnagReactNative/Core (2.20.0):
+  - BugsnagReactNative/Core (2.21.0):
     - React
   - CodePush (1000.0.0):
     - CodePush/Base64 (= 1000.0.0)
@@ -43,6 +43,8 @@ PODS:
     - React
     - SDWebImage/Core
     - SDWebImage/GIF
+  - react-native-netinfo (3.2.1):
+    - React
   - react-native-version-number (0.3.6):
     - React
   - React/Core (0.59.8):
@@ -115,6 +117,7 @@ DEPENDENCIES:
   - Folly (from `../node_modules/react-native/third-party-podspecs/Folly.podspec`)
   - glog (from `../node_modules/react-native/third-party-podspecs/glog.podspec`)
   - react-native-fast-image (from `../node_modules/react-native-fast-image`)
+  - "react-native-netinfo (from `../node_modules/@react-native-community/netinfo`)"
   - react-native-version-number (from `../node_modules/react-native-version-number`)
   - React/Core (from `../node_modules/react-native`)
   - React/CxxBridge (from `../node_modules/react-native`)
@@ -154,6 +157,8 @@ EXTERNAL SOURCES:
     :path: "../node_modules/react-native"
   react-native-fast-image:
     :path: "../node_modules/react-native-fast-image"
+  react-native-netinfo:
+    :path: "../node_modules/@react-native-community/netinfo"
   react-native-version-number:
     :path: "../node_modules/react-native-version-number"
   RNImageCropPicker:
@@ -165,7 +170,7 @@ SPEC CHECKSUMS:
   AppCenter: 02c5efe08d3bbab5421ae41d5f7aa7238906b817
   AppCenterReactNativeShared: 00f470c3c17b47718db8733cbe811ccdcfd86282
   boost-for-react-native: 39c7adb57c4e60d6c5479dd8623128eb5b3f0f2c
-  BugsnagReactNative: 9f2adc8dddc3231317989497328b24bf97150256
+  BugsnagReactNative: 9f273f292378a016977f578e4467cf84b7182b07
   CodePush: a503ca0caee269e68d8faaafe4414990ec282520
   DoubleConversion: bb338842f62ab1d708ceb63ec3d999f0f3d98ecd
   FLAnimatedImage: 4a0b56255d9b05f18b6dd7ee06871be5d3b89e31
@@ -174,12 +179,13 @@ SPEC CHECKSUMS:
   QBImagePickerController: d54cf93db6decf26baf6ed3472f336ef35cae022
   React: 76e6aa2b87d05eb6cccb6926d72685c9a07df152
   react-native-fast-image: 6d50167ad4d68b59640ceead8c2bc4e58d91d8bd
+  react-native-netinfo: 0da34082d2cec3100c9b5073bb217e35f1142bdd
   react-native-version-number: b415bbec6a13f2df62bf978e85bc0d699462f37f
   RNImageCropPicker: 754299983d07c450aec0834c0efe0ed114131ff3
   RSKImageCropper: 98296ad26b41753f796b6898d015509598f13d97
   SDWebImage: 3f3f0c02f09798048c47a5ed0a13f17b063572d8
   yoga: 92b2102c3d373d1a790db4ab761d2b0ffc634f64
 
-PODFILE CHECKSUM: 4c8480eb882a405d8226d42c0b34046d1eb5e724
+PODFILE CHECKSUM: 451286a0b160bb4194d053480003360275a2cf06
 
 COCOAPODS: 1.6.1

@@ -12,7 +12,6 @@ import { Post } from './post';
 import { Profile } from './profile';
 import { Settings } from './settings';
 import { Voters } from './voters';
-import RootComponent from './root';
 import SteemConnect from './steem-connect/steemConnect';
 import { SearchResult } from './searchResult';
 import Transfer from './transfer';
@@ -32,7 +31,6 @@ export {
   Post,
   Profile,
   Promote,
-  RootComponent,
   SearchResult,
   Settings,
   SteemConnect,

@@ -1,6 +1,9 @@
 import EStyleSheet from 'react-native-extended-stylesheet';
 
 export default EStyleSheet.create({
+  grayBackground: {
+    backgroundColor: '$noConnectionColor',
+  },
   container: {
     alignItems: 'center',
     height: 45,
