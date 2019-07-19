@@ -203,7 +203,9 @@
     "no_internet": "Bağlantı yok.",
     "confirm": "Onayla",
     "removed": "Removed",
-    "same_user": "This user already added to list"
+    "same_user": "This user already added to list",
+    "unknow_error": "An error occurred",
+    "error": "Error"
   },
   "post": {
     "reblog_alert": "Reblog yapma istediginize emin misiniz?",
