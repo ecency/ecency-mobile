@@ -7,6 +7,7 @@ import { PostCardPlaceHolder } from '../../basicUIElements';
 
 // Actions
 import { isCollapsePostButton } from '../../../redux/actions/uiAction';
+import { setFeedPosts } from '../../../redux/actions/postsAction';
 /*
  *            Props Name        Description                                     Value
  *@props -->  props name here   description here                                Value Type Here
@@ -31,8 +32,14 @@ class PostsContainer extends PureComponent {
     }
   };
 
+  _setFeedPosts = posts => {
+    const { dispatch } = this.props;
+
+    dispatch(setFeedPosts(posts));
+  };
+
   render() {
-    const { currentAccount, isLoginDone, tag } = this.props;
+    const { currentAccount, isLoginDone, tag, feedPosts, isConnected } = this.props;
 
     if (!isLoginDone && !tag) {
       return (
@@ -47,6 +54,9 @@ class PostsContainer extends PureComponent {
       <PostsView
         handleOnScrollStart={this._handleOnScrollStart}
         currentAccountUsername={currentAccount && currentAccount.username}
+        setFeedPosts={this._setFeedPosts}
+        feedPosts={feedPosts}
+        isConnected={isConnected}
         {...this.props}
       />
     );
@@ -60,6 +70,8 @@ const mapStateToProps = state => ({
   isLoginDone: state.application.isLoginDone,
   isCollapsePostButtonOpen: state.ui.isCollapsePostButton,
   nsfw: state.application.nsfw,
+  feedPosts: state.posts.feedPosts,
+  isConnected: state.application.isConnected,
 });
 
 export default connect(mapStateToProps)(PostsContainer);

@@ -1,6 +1,8 @@
 import React, { Component } from 'react';
+import { Alert } from 'react-native';
 import { connect } from 'react-redux';
 import get from 'lodash/get';
+import { injectIntl } from 'react-intl';
 
 // Actions and Services
 import { getActivities, markActivityAsRead } from '../../../providers/esteem/esteem';
@@ -25,9 +27,9 @@ class NotificationContainer extends Component {
   }
 
   componentDidMount() {
-    const { username } = this.props;
+    const { username, isConnected } = this.props;
 
-    if (username) {
+    if (username && isConnected) {
       this._getAvtivities(username);
     }
   }
@@ -114,16 +116,25 @@ class NotificationContainer extends Component {
   };
 
   _readAllNotification = () => {
-    const { username, dispatch } = this.props;
+    const { username, dispatch, intl, isConnected } = this.props;
     const { notifications } = this.state;
+
+    if (!isConnected) return;
 
     this.setState({ isNotificationRefreshing: true });
 
-    markActivityAsRead(username).then(result => {
-      dispatch(updateUnreadActivityCount(result.unread));
-      const updatedNotifications = notifications.map(item => ({ ...item, read: 1 }));
-      this.setState({ notifications: updatedNotifications, isNotificationRefreshing: false });
-    });
+    markActivityAsRead(username)
+      .then(result => {
+        dispatch(updateUnreadActivityCount(result.unread));
+        const updatedNotifications = notifications.map(item => ({ ...item, read: 1 }));
+        this.setState({ notifications: updatedNotifications, isNotificationRefreshing: false });
+      })
+      .catch(() => {
+        Alert.alert(
+          intl.formatMessage({ id: 'alert.error' }),
+          intl.formatMessage({ d: 'alert.unknow_error' }),
+        );
+      });
   };
 
   _handleOnPressLogin = () => {
@@ -159,9 +170,10 @@ class NotificationContainer extends Component {
 const mapStateToProps = state => ({
   isLoggedIn: state.application.isLoggedIn,
   isDarkTheme: state.application.isDarkTheme,
+  isConnected: state.application.isConnected,
 
   username: state.account.currentAccount.name,
   activeBottomTab: state.ui.activeBottomTab,
 });
 
-export default connect(mapStateToProps)(NotificationContainer);
+export default injectIntl(connect(mapStateToProps)(NotificationContainer));
