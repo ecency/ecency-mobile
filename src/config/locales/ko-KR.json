@@ -203,7 +203,9 @@
     "no_internet": "인터넷 연결을 확인하세요!",
     "confirm": "확인",
     "removed": "삭제되었습니다",
-    "same_user": "이 사용자는 목록에 이미 추가되었습니다"
+    "same_user": "이 사용자는 목록에 이미 추가되었습니다",
+    "unknow_error": "An error occurred",
+    "error": "Error"
   },
   "post": {
     "reblog_alert": "정말 리블로그 하시겠습니까?",
