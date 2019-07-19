@@ -29,6 +29,8 @@ class PointsView extends Component {
   constructor(props) {
     super(props);
     this.state = {};
+
+    this.dropdownRef = React.createRef();
   }
 
   // Component Functions
@@ -70,6 +72,10 @@ class PointsView extends Component {
     return <Text style={styles.subText}>{intl.formatMessage({ id: 'points.no_activity' })}</Text>;
   };
 
+  _showDropdown = () => {
+    this.dropdownRef.current.show();
+  };
+
   render() {
     const {
       claimPoints,
@@ -84,8 +90,12 @@ class PointsView extends Component {
         <LineBreak height={12} />
         <ScrollView style={styles.scrollContainer} refreshControl={this.refreshControl()}>
           <View style={styles.pointsWrapper}>
-            <Text style={styles.pointText}>{get(userPoints, 'points')}</Text>
+            <Text onPress={this._showDropdown} style={styles.pointText}>
+              {get(userPoints, 'points')}
+            </Text>
             <DropdownButton
+              dropdownRowWrapper={styles.dropdownRowStyle}
+              dropdownRef={this.dropdownRef}
               isHasChildIcon
               iconName="arrow-drop-down"
               options={['Transfer', 'Promote']}
