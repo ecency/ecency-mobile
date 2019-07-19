@@ -12,7 +12,7 @@ export default EStyleSheet.create({
     textAlignVertical: 'center',
     textAlign: 'center',
     fontWeight: 'normal',
-    color: '$primaryLightBackground',
+    color: '$primaryDarkGray',
   },
   line: {
     width: 14,

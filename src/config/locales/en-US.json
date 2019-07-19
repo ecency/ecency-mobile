@@ -260,7 +260,8 @@
     "reblog": "reblog",
     "reply": "reply",
     "share": "share",
-    "bookmarks": "add to bookmarks"
+    "bookmarks": "add to bookmarks",
+    "promote": "promote"
   },
   "deep_link": {
     "no_existing_user": "No existing user",
