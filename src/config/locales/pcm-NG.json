@@ -203,7 +203,9 @@
     "no_internet": "Connection no dey!",
     "confirm": "Confam",
     "removed": "E don remove",
-    "same_user": "This user already added to list"
+    "same_user": "This user already added to list",
+    "unknow_error": "An error occurred",
+    "error": "Error"
   },
   "post": {
     "reblog_alert": "You sure say you wan reblog am?",
