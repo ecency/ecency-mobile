@@ -203,7 +203,9 @@
     "no_internet": "Niste konektovani na internet!",
     "confirm": "Confirm",
     "removed": "Removed",
-    "same_user": "This user already added to list"
+    "same_user": "This user already added to list",
+    "unknow_error": "An error occurred",
+    "error": "Error"
   },
   "post": {
     "reblog_alert": "Da li ste sigurni da želite da podelite?",
