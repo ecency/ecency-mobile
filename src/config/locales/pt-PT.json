@@ -203,7 +203,9 @@
     "no_internet": "Sem ligação!",
     "confirm": "Confirmar",
     "removed": "Removido",
-    "same_user": "Este usuário já foi adicionado à lista"
+    "same_user": "Este usuário já foi adicionado à lista",
+    "unknow_error": "An error occurred",
+    "error": "Error"
   },
   "post": {
     "reblog_alert": "Tem certeza de que deseja reblogar?",
