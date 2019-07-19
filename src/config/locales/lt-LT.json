@@ -203,7 +203,9 @@
     "no_internet": "Nėra ryšio!",
     "confirm": "Patvirtinti",
     "removed": "Removed",
-    "same_user": "This user already added to list"
+    "same_user": "This user already added to list",
+    "unknow_error": "An error occurred",
+    "error": "Error"
   },
   "post": {
     "reblog_alert": "Ar tikrai norite dalintis?",

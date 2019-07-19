@@ -14,7 +14,6 @@ import { Profile } from './profile';
 import { SearchResult } from './searchResult';
 import { Settings } from './settings';
 import { Voters } from './voters';
-import RootComponent from './root';
 import SteemConnect from './steem-connect/steemConnect';
 import Transfer from './transfer';
 import Promote from './promote/screen/promoteScreen';
@@ -34,7 +33,6 @@ export {
   Post,
   Profile,
   Promote,
-  RootComponent,
   SearchResult,
   Settings,
   SteemConnect,

@@ -108,13 +108,27 @@ class LoginContainer extends PureComponent {
   };
 
   _getAccountsWithUsername = async username => {
-    const validUsers = await lookupAccounts(username);
-    return validUsers;
+    const { intl, isConnected } = this.props;
+
+    if (isConnected) return null;
+
+    try {
+      const validUsers = await lookupAccounts(username);
+
+      return validUsers;
+    } catch (error) {
+      Alert.alert(
+        intl.formatMessage({ id: 'alert.error' }),
+        intl.formatMessage({ id: 'alert.unknow_error' }),
+      );
+    }
   };
 
   _handleSignUp = () => {
+    const { intl } = this.props;
+
     Linking.openURL('https://signup.steemit.com/?ref=esteem').catch(err =>
-      alert('An error occurred', err),
+      Alert.alert(intl.formatMessage({ id: 'alert.error' }), err.message),
     );
   };
 
@@ -137,6 +151,7 @@ const mapStateToProps = state => ({
   account: state.accounts,
   notificationDetails: state.application.notificationDetails,
   notificationSettings: state.application.isNotificationOpen,
+  isConnected: state.application.isConnected,
 });
 
 export default injectIntl(connect(mapStateToProps)(LoginContainer));
