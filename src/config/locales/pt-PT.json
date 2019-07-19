@@ -204,8 +204,8 @@
     "confirm": "Confirmar",
     "removed": "Removido",
     "same_user": "Este usuário já foi adicionado à lista",
-    "unknow_error": "An error occurred",
-    "error": "Error"
+    "unknow_error": "Ocorreu um erro",
+    "error": "Erro"
   },
   "post": {
     "reblog_alert": "Tem certeza de que deseja reblogar?",
