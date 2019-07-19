@@ -203,7 +203,9 @@
     "no_internet": "संपर्क नहीं",
     "confirm": "पुष्टी करें",
     "removed": "Removed",
-    "same_user": "This user already added to list"
+    "same_user": "This user already added to list",
+    "unknow_error": "An error occurred",
+    "error": "Error"
   },
   "post": {
     "reblog_alert": "क्या आप सच में पुनः प्रसारित करना चाहते हैं?",
