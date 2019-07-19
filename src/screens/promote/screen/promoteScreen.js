@@ -42,6 +42,7 @@ class PointsScreen extends PureComponent {
       isSCModalOpen: false,
       SCPath: '',
       permlinkSuggestions: [],
+      isValid: false,
     };
 
     this.startActionSheet = React.createRef();
@@ -52,13 +53,17 @@ class PointsScreen extends PureComponent {
   // Component Functions
 
   _handleOnPermlinkChange = async text => {
-    searchPath(text).then(res => {
-      this.setState({ permlinkSuggestions: res && res.length > 10 ? res.slice(0, 7) : res });
-    });
+    if (text && text.length > 0) {
+      searchPath(text).then(res => {
+        this.setState({ permlinkSuggestions: res && res.length > 10 ? res.slice(0, 7) : res });
+      });
+    } else {
+      await this.setState({ permlinkSuggestions: [], isValid: false });
+    }
 
-    if (!text || (text && text.length < 1)) this.setState({ permlinkSuggestions: [] });
+    // if (!text || (text && text.length < 1))
 
-    this.setState({ permlink: text });
+    this.setState({ permlink: text, isValid: false });
   };
 
   _renderDescription = text => <Text style={styles.description}>{text}</Text>;
@@ -74,8 +79,9 @@ class PointsScreen extends PureComponent {
       defaultText={currentAccountName}
       selectedOptionIndex={accounts.findIndex(item => item.username === currentAccountName)}
       onSelect={(index, value) => {
-        this.setState({ selectedUser: value });
-        this._getUserBalance(value);
+        this.setState({ selectedUser: value }, () => {
+          this._getUserBalance(value);
+        });
       }}
     />
   );
@@ -91,16 +97,12 @@ class PointsScreen extends PureComponent {
       });
   };
 
-  _promote = async (promote, currentAccount, getUserDataWithUsername) => {
+  _promote = async (promote, currentAccount, getUserDataWithUsername, navigationParams) => {
     const { day, permlink, selectedUser } = this.state;
-    let _author;
-    let _permlink;
 
-    const seperatedPermlink = permlink.split('/');
-    if (seperatedPermlink && seperatedPermlink.length > 0) {
-      _author = seperatedPermlink[0];
-      _permlink = seperatedPermlink[1];
-    }
+    const seperatedPermlink = permlink ? permlink.split('/') : get(navigationParams, 'permlink');
+    const _author = get(seperatedPermlink, '[0]');
+    const _permlink = get(seperatedPermlink, '[1]');
 
     if (get(currentAccount, 'local.authType') === 'steemConnect') {
       // const user = selectedUser;
@@ -148,6 +150,7 @@ class PointsScreen extends PureComponent {
       isSCModalOpen,
       permlinkSuggestions,
       permlink,
+      isValid,
     } = this.state;
 
     return (
@@ -160,6 +163,7 @@ class PointsScreen extends PureComponent {
           promote,
           currentAccount,
           getUserDataWithUsername,
+          navigationParams,
         }) => (
           <Fragment>
             <BasicHeader title={intl.formatMessage({ id: 'promote.title' })} />
@@ -195,7 +199,7 @@ class PointsScreen extends PureComponent {
                           <TextInput
                             style={styles.input}
                             onChangeText={text => this._handleOnPermlinkChange(text)}
-                            value={permlink}
+                            value={permlink || get(navigationParams, 'permlink', '')}
                             placeholder={intl.formatMessage({ id: 'promote.permlink' })}
                             placeholderTextColor="#c1c5c7"
                             autoCapitalize="none"
@@ -205,7 +209,11 @@ class PointsScreen extends PureComponent {
                           <TouchableOpacity
                             key={item}
                             onPress={() =>
-                              this.setState({ permlink: item, permlinkSuggestions: [] })
+                              this.setState({
+                                permlink: item,
+                                isValid: true,
+                                permlinkSuggestions: [],
+                              })
                             }
                           >
                             <Text style={styles.autocomplateItemText}>{item}</Text>
@@ -230,14 +238,17 @@ class PointsScreen extends PureComponent {
                     values={[1, 2, 3, 7, 14]}
                     LRpadding={50}
                     activeValue={day}
-                    handleOnValueChange={day => this.setState({ day })}
+                    handleOnValueChange={_day => this.setState({ day: _day })}
                     single
                   />
                 </View>
                 <View style={styles.bottomContent}>
                   <MainButton
                     style={styles.button}
-                    isDisable={isLoading}
+                    isDisable={
+                      (!permlink ? !get(navigationParams, 'permlink') : permlink) &&
+                      (isLoading || !isValid)
+                    }
                     onPress={() => this.startActionSheet.current.show()}
                     isLoading={isLoading}
                   >
@@ -258,9 +269,8 @@ class PointsScreen extends PureComponent {
               cancelButtonIndex={1}
               destructiveButtonIndex={0}
               onPress={index => {
-                index === 0
-                  ? this._promote(promote, currentAccount, getUserDataWithUsername)
-                  : null;
+                index === 0 &&
+                  this._promote(promote, currentAccount, getUserDataWithUsername, navigationParams);
               }}
             />
             <Modal
