@@ -1,25 +1,28 @@
 import React, { Component } from 'react';
 import { injectIntl } from 'react-intl';
-import { View, Text, ImageBackground } from 'react-native';
+import { View, Text } from 'react-native';
 
 // Components
 import { BasicHeader } from '../../../components/basicHeader';
-import { BoostItemsList } from '../../../components/boostItemsList';
 import { MainButton } from '../../../components/mainButton';
+import { Icon } from '../../../components/icon';
 
 // Styles
 import globalStyles from '../../../globalStyles';
 import styles from './boostScreenStyles';
 
-const SIDE_MENU_BACKGROUND = require('../../../assets/side_menu_background.png');
-
 const BOOST_DATA = [
-  { name: '100 ESTM', color: '#fff', price: '1$', description: 'For beginner users' },
-  { name: '200 ESTM', color: '#fff', price: '2$', description: 'awesome point' },
-  { name: '500 ESTM', color: '#fff', price: '5$', description: 'awesome point' },
-  { name: '1000 ESTM', color: '#fff', price: '10$', description: 'awesome point' },
-  { name: '5000 ESTM', color: '#fff', price: '50$', description: 'Most using' },
-  { name: '10000 ESTM', color: '#fff', price: '100$', description: 'Popular choice' },
+  {
+    name: '10000 ESTM',
+    priceText: '100$',
+    price: 100,
+    description: 'BEST DEAL!',
+  },
+  { name: '5000 ESTM', priceText: '50.00$', price: 50, description: 'POPULAR' },
+  { name: '1000 ESTM', priceText: '10.00$', price: 10, description: '' },
+  { name: '500 ESTM', priceText: '5.00$', price: 5, description: '' },
+  { name: '200 ESTM', priceText: '2.00$', price: 2, description: '' },
+  { name: '100 ESTM', priceText: '1.00$', price: 1, description: '' },
 ];
 
 class BoostScreen extends Component {
@@ -50,32 +53,38 @@ class BoostScreen extends Component {
             id: 'boost.title',
           })}
         />
-        <ImageBackground source={SIDE_MENU_BACKGROUND} style={styles.descriptionWrapper}>
-          <Text style={styles.title}>{BOOST_DATA[selectedBoost].name}</Text>
-          <Text style={styles.description}>{BOOST_DATA[selectedBoost].description}</Text>
-        </ImageBackground>
 
-        <View style={styles.wrapper}>
-          <BoostItemsList
-            items={BOOST_DATA}
-            handleOnPlaceSelect={item => console.log(item)}
-            selectedSlide={4}
-            onSnapToItem={item => this.setState({ selectedBoost: item })}
-          />
-        </View>
-        <View style={styles.button}>
-          <MainButton
-            onPress={() => alert(selectedBoost)}
-            iconName="rocket"
-            iconType="MaterialCommunityIcons"
-            iconColor="white"
-            text={intl.formatMessage({
-              id: 'boost.buy',
-            })}
-            isDisable={false}
-            isLoading={false}
-          />
-        </View>
+        {BOOST_DATA.map(item => (
+          <View style={styles.boostLine}>
+            {item.description && (
+              <View style={styles.descriptionWrapper}>
+                <Text>{item.description}</Text>
+              </View>
+            )}
+
+            <MainButton
+              style={styles.button}
+              onPress={() => alert(selectedBoost)}
+              height={50}
+              text={intl.formatMessage({
+                id: 'boost.buy',
+              })}
+              isDisable={false}
+              isLoading={false}
+            >
+              <View style={styles.buttonContent}>
+                <Text style={styles.buttonText}>{item.name}</Text>
+                <View style={styles.buttonIconWrapper}>
+                  <Icon name="add" iconType="MaterialIcons" color="#357ce6" size={23} />
+                </View>
+              </View>
+            </MainButton>
+
+            <View style={styles.priceWrapper}>
+              <Text>{item.priceText}</Text>
+            </View>
+          </View>
+        ))}
       </View>
     );
   }

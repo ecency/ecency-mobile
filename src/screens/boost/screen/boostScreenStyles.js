@@ -5,30 +5,41 @@ export default EStyleSheet.create({
     flex: 1,
     position: 'absolute',
     top: '$deviceHeight / 3',
-    // backgroundColor: '$primaryBlue',
   },
-  descriptionWrapper: {
-    height: '$deviceHeight / 3.5',
-    flexDirection: 'column',
+  boostLine: {
+    flexDirection: 'row',
+    justifyContent: 'space-between',
     alignItems: 'center',
   },
-  title: {
-    color: '$white',
-    fontSize: 26,
-    marginTop: 24,
-    justifyContent: 'center',
-    fontWeight: 'bold',
-  },
-  description: {
-    color: '$white',
-    fontSize: 18,
-    marginTop: 24,
-    justifyContent: 'center',
-  },
   button: {
-    marginTop: 150,
-    marginVertical: 8,
+    marginVertical: 12,
     alignSelf: 'center',
-    paddingHorizontal: 24,
+    paddingHorizontal: 18,
+    minWidth: '$deviceWidth / 2.4',
+  },
+  buttonContent: {
+    flexDirection: 'row',
+  },
+  buttonText: {
+    color: '$pureWhite',
+    fontSize: 14,
+    fontWeight: 'bold',
+    alignSelf: 'center',
+    width: 100,
+  },
+  buttonIconWrapper: {
+    backgroundColor: '$pureWhite',
+    borderRadius: 20,
+    width: 24,
+    height: 24,
+  },
+  priceWrapper: {
+    alignItems: 'center',
+    justifyContent: 'center',
+    alignSelf: 'center',
+  },
+  descriptionWrapper: {
+    backgroundColor: '#c10000',
+    width: '$deviceWidth / 3',
   },
 });
