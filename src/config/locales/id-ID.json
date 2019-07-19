@@ -203,7 +203,9 @@
     "no_internet": "Tidak ada koneksi!",
     "confirm": "Konfirmasi",
     "removed": "Hapus",
-    "same_user": "This user already added to list"
+    "same_user": "This user already added to list",
+    "unknow_error": "An error occurred",
+    "error": "Error"
   },
   "post": {
     "reblog_alert": "Anda yakin ingin menerbitkan ulang?",

@@ -6,7 +6,6 @@ import {
   UPDATE_UNREAD_ACTIVITY_COUNT,
   REMOVE_OTHER_ACCOUNT,
   LOGOUT_FAIL,
-  SET_PIN_CODE,
   SET_GLOBAL_PROPS,
 } from '../constants/constants';
 
@@ -17,7 +16,6 @@ const initialState = {
   hasError: false,
   errorMessage: null,
   isLogingOut: false,
-  pin: null,
 };
 
 export default function(state = initialState, action) {
@@ -84,12 +82,6 @@ export default function(state = initialState, action) {
       return {
         ...state,
         isLogingOut: true,
-      };
-
-    case SET_PIN_CODE:
-      return {
-        ...state,
-        pin: action.payload,
       };
 
     default:

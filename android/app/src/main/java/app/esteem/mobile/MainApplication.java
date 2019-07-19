@@ -4,6 +4,7 @@ import android.app.Application;
 
 import com.facebook.react.ReactApplication;
 import com.dooboolab.RNIap.RNIapPackage;
+import com.reactnativecommunity.netinfo.NetInfoPackage;
 import com.thebylito.navigationbarcolor.NavigationBarColorPackage;
 import com.bugsnag.BugsnagReactNative;
 import com.apsl.versionnumber.RNVersionNumberPackage;
@@ -47,6 +48,7 @@ public class MainApplication extends Application implements ReactApplication {
       return Arrays.<ReactPackage>asList(
           new MainReactPackage(),
             new RNIapPackage(),
+            new NetInfoPackage(),
             new NavigationBarColorPackage(),
             BugsnagReactNative.getPackage(),
             new RNVersionNumberPackage(),

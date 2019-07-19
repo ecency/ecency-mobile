@@ -1,6 +1,7 @@
 import React from 'react';
-import { View } from 'react-native';
-import { Logo } from '../../../components';
+import { View, Image } from 'react-native';
+
+import LOGO from '../../../assets/launch_screen.png';
 
 const LaunchScreen = () => (
   <View
@@ -8,10 +9,13 @@ const LaunchScreen = () => (
       flex: 1,
       justifyContent: 'center',
       alignItems: 'center',
-      marginBottom: 80,
     }}
   >
-    <Logo style={{ width: 105, height: 110 }} />
+    <Image
+      source={LOGO}
+      style={{ flex: 1, justifyContent: 'center', alignItems: 'center' }}
+      resizeMode="contain"
+    />
   </View>
 );
 

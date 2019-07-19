@@ -203,7 +203,9 @@
     "no_internet": "Không có kết nối!",
     "confirm": "Xác nhận",
     "removed": "Đã xóa",
-    "same_user": "Người dùng này đã được thêm vào danh sách"
+    "same_user": "Người dùng này đã được thêm vào danh sách",
+    "unknow_error": "An error occurred",
+    "error": "Error"
   },
   "post": {
     "reblog_alert": "Bạn có chắc chắn muốn đăng lại không?",

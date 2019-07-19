@@ -203,7 +203,9 @@
     "no_internet": "No connection!",
     "confirm": "Confirm",
     "removed": "Removed",
-    "same_user": "This user already added to list"
+    "same_user": "This user already added to list",
+    "unknow_error": "An error occurred",
+    "error": "Error"
   },
   "post": {
     "reblog_alert": "Weet je zeker dat je het wilt delen?",

@@ -203,7 +203,9 @@
     "no_internet": "No internet connection",
     "confirm": "Подтвердить",
     "removed": "Удалено",
-    "same_user": "Этот пользователь уже добавлен в список"
+    "same_user": "Этот пользователь уже добавлен в список",
+    "unknow_error": "An error occurred",
+    "error": "Error"
   },
   "post": {
     "reblog_alert": "Вы уверены, что хотите сделать репост?",

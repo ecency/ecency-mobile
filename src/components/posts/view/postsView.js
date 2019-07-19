@@ -22,7 +22,7 @@ class PostsView extends Component {
     super(props);
 
     this.state = {
-      posts: [],
+      posts: props.feedPosts,
       startAuthor: '',
       startPermlink: '',
       refreshing: false,
@@ -44,14 +44,25 @@ class PostsView extends Component {
   }
 
   componentDidMount() {
-    this._loadPosts();
+    const { isConnected } = this.props;
+
+    if (isConnected) {
+      this._loadPosts();
+    } else {
+      this.setState({
+        refreshing: false,
+        isPostsLoading: false,
+        isLoading: false,
+      });
+    }
   }
 
   componentWillReceiveProps(nextProps) {
     const { currentAccountUsername, changeForceLoadPostState } = this.props;
 
     if (
-      (currentAccountUsername !== nextProps.currentAccountUsername &&
+      (currentAccountUsername &&
+        currentAccountUsername !== nextProps.currentAccountUsername &&
         nextProps.currentAccountUsername) ||
       nextProps.forceLoadPost
     ) {
@@ -83,14 +94,42 @@ class PostsView extends Component {
   };
 
   _loadPosts = () => {
-    const { getFor, tag, currentAccountUsername, pageType, nsfw } = this.props;
-    const { posts, startAuthor, startPermlink, refreshing, selectedFilterIndex } = this.state;
+    const {
+      getFor,
+      tag,
+      currentAccountUsername,
+      pageType,
+      nsfw,
+      setFeedPosts,
+      isConnected,
+    } = this.props;
+    const {
+      posts,
+      startAuthor,
+      startPermlink,
+      refreshing,
+      selectedFilterIndex,
+      isLoading,
+    } = this.state;
     const filter =
       pageType === 'posts'
         ? POPULAR_FILTERS[selectedFilterIndex].toLowerCase()
         : PROFILE_FILTERS[selectedFilterIndex].toLowerCase();
     let options;
     let newPosts = [];
+
+    if (!isConnected) {
+      this.setState({
+        refreshing: false,
+        isPostsLoading: false,
+        isLoading: false,
+      });
+      return null;
+    }
+
+    if (isLoading) {
+      return null;
+    }
 
     this.setState({ isLoading: true });
     if (tag || filter === 'feed' || filter === 'blog' || getFor === 'blog') {
@@ -139,6 +178,7 @@ class PostsView extends Component {
               }
             }
 
+            setFeedPosts(_posts);
             if (refreshing && newPosts.length > 0) {
               this.setState({
                 posts: _posts,
@@ -154,6 +194,7 @@ class PostsView extends Component {
             this.setState({
               refreshing: false,
               isPostsLoading: false,
+              isLoading: false,
             });
           }
         } else if (result.length === 0) {
@@ -284,8 +325,8 @@ class PostsView extends Component {
             initialNumToRender={10}
             ListFooterComponent={this._renderFooter}
             onScrollBeginDrag={() => this._handleOnScrollStart()}
-            refreshControl={(
-<RefreshControl
+            refreshControl={
+              <RefreshControl
                 refreshing={refreshing}
                 onRefresh={this._handleOnRefreshPosts}
                 progressBackgroundColor="#357CE6"
@@ -293,7 +334,7 @@ class PostsView extends Component {
                 titleColor="#fff"
                 colors={['#fff']}
               />
-)}
+            }
             ref={ref => {
               this.flatList = ref;
             }}

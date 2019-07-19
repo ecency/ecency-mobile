@@ -1,5 +1,9 @@
 import React, { PureComponent } from 'react';
 import { withNavigation } from 'react-navigation';
+import { Alert } from 'react-native';
+import { injectIntl } from 'react-intl';
+import { connect } from 'react-redux';
+
 // Services and Actions
 import { getLeaderboard } from '../../../providers/esteem/esteem';
 
@@ -26,7 +30,11 @@ class LeaderboardContainer extends PureComponent {
 
   // Component Life Cycle Functions
   componentDidMount() {
-    this._fetchLeaderBoard();
+    const { isConnected } = this.props;
+
+    if (isConnected) {
+      this._fetchLeaderBoard();
+    }
   }
 
   _handleOnUserPress = username => {
@@ -41,9 +49,21 @@ class LeaderboardContainer extends PureComponent {
   };
 
   _fetchLeaderBoard = async () => {
+    const { intl, isConnected } = this.props;
+    let users;
+
+    if (!isConnected) return;
+
     this.setState({ refreshing: true });
 
-    const users = await getLeaderboard();
+    try {
+      users = await getLeaderboard();
+    } catch (error) {
+      Alert.alert(
+        intl.formatMessage({ id: 'alert.error' }),
+        intl.formatMessage({ id: 'alert.unknow_error' }),
+      );
+    }
 
     this.setState({ users, refreshing: false });
   };
@@ -62,4 +82,8 @@ class LeaderboardContainer extends PureComponent {
   }
 }
 
-export default withNavigation(LeaderboardContainer);
+const mapStateToProps = state => ({
+  isConnected: state.application.isConnected,
+});
+
+export default injectIntl(withNavigation(connect(mapStateToProps)(LeaderboardContainer)));

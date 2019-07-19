@@ -154,6 +154,7 @@ configurations.all {
 
 dependencies {
     implementation project(':react-native-iap')
+    implementation project(':@react-native-community_netinfo')
     implementation project(':react-native-navigation-bar-color')
     implementation project(':bugsnag-react-native')
     implementation project(':react-native-version-number')
