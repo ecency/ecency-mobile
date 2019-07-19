@@ -203,7 +203,9 @@
     "no_internet": "Tiada sambungan!",
     "confirm": "Muktamat",
     "removed": "Buang",
-    "same_user": "Pengguna telah ditambah ke dalam senarai"
+    "same_user": "Pengguna telah ditambah ke dalam senarai",
+    "unknow_error": "An error occurred",
+    "error": "Error"
   },
   "post": {
     "reblog_alert": "Adakah anda ingin menulang siar?",
