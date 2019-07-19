@@ -203,7 +203,9 @@
     "no_internet": "Nincs kapcsolat!",
     "confirm": "Megerősítés",
     "removed": "Eltávolítva",
-    "same_user": "Ez a felhasználó már szerepel a listán"
+    "same_user": "Ez a felhasználó már szerepel a listán",
+    "unknow_error": "An error occurred",
+    "error": "Error"
   },
   "post": {
     "reblog_alert": "Biztos, hogy megosztod?",
