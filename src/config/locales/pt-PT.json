@@ -306,5 +306,12 @@
     "incoming_funds": "Fundos recebidos",
     "sc_power_down_error": "Steem conecta setWithdrawVestingRoute ainda não implementado.",
     "estimated_weekly": "Estimado Semanalmente"
+  },
+  "promote": {
+    "title": "Promover",
+    "days": "dias",
+    "user": "Utilizador",
+    "permlink": "Permlink",
+    "information": "Tem certeza que deseja transferir para promover?"
   }
 }

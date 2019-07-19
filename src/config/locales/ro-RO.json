@@ -306,5 +306,12 @@
     "incoming_funds": "Fondurile Primite",
     "sc_power_down_error": "Steem connect setWithdrawVestingRoute not implemented yet.",
     "estimated_weekly": "Estimated Weekly"
+  },
+  "promote": {
+    "title": "Promote",
+    "days": "days",
+    "user": "User",
+    "permlink": "Permlink",
+    "information": "Are you sure to transfer to promote?"
   }
 }
