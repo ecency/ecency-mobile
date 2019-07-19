@@ -203,7 +203,9 @@
     "no_internet": "Nu există conexiune!",
     "confirm": "Confirmă",
     "removed": "Şters",
-    "same_user": "Utilizator adăugat deja la listă"
+    "same_user": "Utilizator adăugat deja la listă",
+    "unknow_error": "An error occurred",
+    "error": "Error"
   },
   "post": {
     "reblog_alert": "Ești sigur că vrei să redistribui?",
