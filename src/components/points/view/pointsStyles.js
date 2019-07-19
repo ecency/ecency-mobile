@@ -15,15 +15,13 @@ export default EStyleSheet.create({
     alignSelf: 'center',
     flex: 1,
   },
-  dropdownWrapper: {
-    flex: 1,
-  },
   dropdownRowText: {
     fontSize: 14,
     color: '$primaryDarkGray',
+    textAlign: 'center',
   },
-  dropdownStyle: {
-    minWidth: '$deviceWidth * 0.7',
+  dropdownRowStyle: {
+    marginLeft: 0,
   },
   dropdownButtonStyle: {
     justifyContent: 'center',
