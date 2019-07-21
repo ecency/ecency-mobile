@@ -204,8 +204,8 @@
     "confirm": "Megerősítés",
     "removed": "Eltávolítva",
     "same_user": "Ez a felhasználó már szerepel a listán",
-    "unknow_error": "An error occurred",
-    "error": "Error"
+    "unknow_error": "Hiba történt",
+    "error": "Hiba"
   },
   "post": {
     "reblog_alert": "Biztos, hogy megosztod?",
@@ -311,8 +311,8 @@
   },
   "promote": {
     "title": "Promote",
-    "days": "days",
-    "user": "User",
+    "days": "nap",
+    "user": "Felhasználó",
     "permlink": "Permlink",
     "information": "Are you sure to transfer to promote?"
   }
