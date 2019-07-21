@@ -1,5 +1,6 @@
 import React, { Component } from 'react';
 import { connect } from 'react-redux';
+import * as RNIap from 'react-native-iap';
 // import { Alert } from 'react-native';
 import { injectIntl } from 'react-intl';
 
@@ -28,6 +29,16 @@ class BoostContainer extends Component {
   }
 
   // Component Life Cycle Functions
+  async componentDidMount() {
+    try {
+      await RNIap.prepare();
+      const products = await RNIap.getProducts();
+      // this.setState({ items });
+      console.log(products);
+    } catch (err) {
+      console.warn(err);
+    }
+  }
 
   // Component Functions
 

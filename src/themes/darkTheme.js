@@ -16,6 +16,7 @@ export default {
   $primaryDarkGray: '#c1c5c7',
   $primaryLightGray: '#f6f6f6',
   $primaryRed: '#e63535',
+  $companyRed: '#c10000',
   $primaryBlack: '#c1c5c7',
   $primaryDarkText: '#526d91',
 
