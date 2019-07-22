@@ -152,6 +152,7 @@ class TransferContainer extends Component {
       })
       .catch(err => {
         dispatch(toastNotification(err.message));
+        navigation.goBack();
       });
   };
 
