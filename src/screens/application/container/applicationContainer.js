@@ -140,6 +140,7 @@ class ApplicationContainer extends Component {
 
   componentWillUnmount() {
     const { isIos } = this.state;
+    const { isPinCodeOpen: _isPinCodeOpen } = this.props;
 
     if (!isIos) BackHandler.removeEventListener('hardwareBackPress', this._onBackPress);
 
@@ -149,6 +150,10 @@ class ApplicationContainer extends Component {
     Linking.removeEventListener('url', this._handleOpenURL);
 
     AppState.removeEventListener('change', this._handleAppStateChange);
+
+    if (_isPinCodeOpen) {
+      clearTimeout(this._pinCodeTimer);
+    }
 
     this.netListener();
   }
@@ -244,6 +249,7 @@ class ApplicationContainer extends Component {
 
   _handleAppStateChange = nextAppState => {
     const { appState } = this.state;
+    const { isPinCodeOpen: _isPinCodeOpen } = this.props;
 
     getExistUser().then(isExistUser => {
       if (isExistUser) {
@@ -252,7 +258,9 @@ class ApplicationContainer extends Component {
         }
 
         if (appState.match(/inactive|background/) && nextAppState === 'active') {
-          clearTimeout(this._pinCodeTimer);
+          if (_isPinCodeOpen) {
+            clearTimeout(this._pinCodeTimer);
+          }
         }
       }
     });
