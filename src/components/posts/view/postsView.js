@@ -22,7 +22,7 @@ class PostsView extends Component {
     super(props);
 
     this.state = {
-      posts: props.feedPosts,
+      posts: props.isConnected ? [] : props.feedPosts,
       startAuthor: '',
       startPermlink: '',
       refreshing: false,

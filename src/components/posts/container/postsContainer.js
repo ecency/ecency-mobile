@@ -53,7 +53,7 @@ class PostsContainer extends PureComponent {
     return (
       <PostsView
         handleOnScrollStart={this._handleOnScrollStart}
-        currentAccountUsername={currentAccount && currentAccount.username}
+        currentAccountUsername={currentAccount && (currentAccount.username || currentAccount.name)}
         setFeedPosts={this._setFeedPosts}
         feedPosts={feedPosts}
         isConnected={isConnected}
