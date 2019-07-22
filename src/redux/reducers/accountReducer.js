@@ -45,7 +45,9 @@ export default function(state = initialState, action) {
     case ADD_OTHER_ACCOUNT:
       return {
         ...state,
-        otherAccounts: [...state.otherAccounts, action.payload],
+        otherAccounts: state.otherAccounts.some(item => item.username === action.payload.username)
+          ? [...state.otherAccounts]
+          : [...state.otherAccounts, action.payload],
         isFetching: false,
         hasError: false,
         errorMessage: null,
