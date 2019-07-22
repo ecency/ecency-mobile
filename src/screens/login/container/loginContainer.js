@@ -47,7 +47,7 @@ class LoginContainer extends PureComponent {
   // Component Functions
 
   _handleOnPressLogin = (username, password) => {
-    const { dispatch, intl } = this.props;
+    const { dispatch, intl, isPinCodeOpen, navigation } = this.props;
 
     this.setState({ isLoading: true });
 
@@ -56,10 +56,16 @@ class LoginContainer extends PureComponent {
         if (result) {
           dispatch(updateCurrentAccount({ ...result }));
           dispatch(addOtherAccount({ username: result.name }));
-          dispatch(openPinCodeModal({ navigateTo: ROUTES.DRAWER.MAIN }));
           dispatch(loginAction(true));
           userActivity(result.name, 20);
           this._setPushToken(result.name);
+          if (isPinCodeOpen) {
+            dispatch(openPinCodeModal({ navigateTo: ROUTES.DRAWER.MAIN }));
+          } else {
+            navigation.navigate({
+              routeName: ROUTES.DRAWER.MAIN,
+            });
+          }
         }
       })
       .catch(err => {
@@ -152,6 +158,7 @@ const mapStateToProps = state => ({
   notificationDetails: state.application.notificationDetails,
   notificationSettings: state.application.isNotificationOpen,
   isConnected: state.application.isConnected,
+  isPinCodeOpen: state.application.isPinCodeOpen,
 });
 
 export default injectIntl(connect(mapStateToProps)(LoginContainer));
