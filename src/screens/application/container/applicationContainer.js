@@ -562,7 +562,9 @@ class ApplicationContainer extends Component {
   };
 
   _switchAccount = async targetAccountUsername => {
-    const { dispatch } = this.props;
+    const { dispatch, isConnected } = this.props;
+
+    if (!isConnected) return;
 
     const accountData = await switchAccount(targetAccountUsername);
 
