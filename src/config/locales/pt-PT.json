@@ -206,7 +206,8 @@
     "removed": "Removido",
     "same_user": "Este usuário já foi adicionado à lista",
     "unknow_error": "Ocorreu um erro",
-    "error": "Erro"
+    "error": "Erro",
+    "fetch_error": "Fetching data from server failed, please try again or notify us at info@esteem.app"
   },
   "post": {
     "reblog_alert": "Tem certeza de que deseja reblogar?",
