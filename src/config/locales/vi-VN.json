@@ -105,6 +105,7 @@
       "transfers": "Những phần chuyển khoản"
     },
     "pincode": "Mã PIN",
+    "reset_pin": "Reset Pin Code",
     "reset": "Thiết lập lại",
     "nsfw_content": "Nội dung NSFW (nội dung không phù hợp để xem trong môi trường làm việc hoặc gần trẻ em)",
     "send_feedback": "Gửi phản hồi",
