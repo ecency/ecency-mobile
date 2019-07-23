@@ -7,7 +7,7 @@ import {
 const initialState = {
   activeBottomTab: 'HomeTabbar',
   isCollapsePostButton: false,
-  toastNotifcaion: '',
+  toastNotification: '',
 };
 
 export default function(state = initialState, action) {
