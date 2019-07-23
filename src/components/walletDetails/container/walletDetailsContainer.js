@@ -27,7 +27,7 @@ class WalletContainer extends PureComponent {
 
   // Component Functions
   _navigate = async (transferType, fundType) => {
-    const { dispatch, walletData } = this.props;
+    const { dispatch, walletData, isPinCodeOpen, navigation } = this.props;
     let balance;
 
     switch (fundType) {
@@ -47,12 +47,19 @@ class WalletContainer extends PureComponent {
         break;
     }
 
-    dispatch(
-      openPinCodeModal({
-        navigateTo: ROUTES.SCREENS.TRANSFER,
-        navigateParams: { transferType, fundType, balance },
-      }),
-    );
+    if (isPinCodeOpen) {
+      dispatch(
+        openPinCodeModal({
+          navigateTo: ROUTES.SCREENS.TRANSFER,
+          navigateParams: { transferType, fundType, balance },
+        }),
+      );
+    } else {
+      navigation.navigate({
+        routeName: ROUTES.SCREENS.TRANSFER,
+        params: { transferType, fundType, balance },
+      });
+    }
   };
 
   render() {
@@ -69,4 +76,8 @@ class WalletContainer extends PureComponent {
   }
 }
 
-export default connect()(withNavigation(WalletContainer));
+const mapStateToProps = state => ({
+  isPinCodeOpen: state.application.isPinCodeOpen,
+});
+
+export default connect(mapStateToProps)(withNavigation(WalletContainer));

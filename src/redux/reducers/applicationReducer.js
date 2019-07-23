@@ -23,6 +23,7 @@ import {
   SET_NSFW,
   SET_UPVOTE_PERCENT,
   SET_PIN_CODE,
+  IS_PIN_CODE_OPEN,
 } from '../constants/constants';
 
 const initialState = {
@@ -55,6 +56,7 @@ const initialState = {
   upvotePercent: 1,
   nsfw: 'Always show',
   pin: null,
+  isPinCodeOpen: true,
 };
 
 export default function(state = initialState, action) {
@@ -174,6 +176,10 @@ export default function(state = initialState, action) {
     case IS_DARK_THEME:
       return Object.assign({}, state, {
         isDarkTheme: action.payload,
+      });
+    case IS_PIN_CODE_OPEN:
+      return Object.assign({}, state, {
+        isPinCodeOpen: action.payload,
       });
     case SET_UPVOTE_PERCENT:
       return Object.assign({}, state, {
