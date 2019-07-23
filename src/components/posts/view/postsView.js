@@ -22,7 +22,7 @@ class PostsView extends Component {
     super(props);
 
     this.state = {
-      posts: props.feedPosts,
+      posts: props.isConnected ? [] : props.feedPosts,
       startAuthor: '',
       startPermlink: '',
       refreshing: false,
@@ -178,7 +178,10 @@ class PostsView extends Component {
               }
             }
 
-            setFeedPosts(_posts);
+            if (posts.length < 5) {
+              setFeedPosts(_posts);
+            }
+
             if (refreshing && newPosts.length > 0) {
               this.setState({
                 posts: _posts,
