@@ -105,6 +105,7 @@
       "transfers": "Pervedimai"
     },
     "pincode": "Pincode",
+    "reset_pin": "Reset Pin Code",
     "reset": "Atstatyti",
     "nsfw_content": "NSFW Turinys",
     "send_feedback": "Siųsti Atsiliepimus",

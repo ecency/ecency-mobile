@@ -105,6 +105,7 @@
       "transfers": "Transfers"
     },
     "pincode": "PIN kod",
+    "reset_pin": "Reset Pin Code",
     "reset": "Resetuj",
     "nsfw_content": "NSFW sadržaj",
     "send_feedback": "Pošalji Povratnu Informaciju",
