@@ -105,6 +105,7 @@
       "transfers": "Átutalások"
     },
     "pincode": "PIN kód",
+    "reset_pin": "Reset Pin Code",
     "reset": "Visszaállítás",
     "nsfw_content": "NSFW tartalom",
     "send_feedback": "Visszajelzés küldése",

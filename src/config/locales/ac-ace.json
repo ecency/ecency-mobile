@@ -105,6 +105,7 @@
       "transfers": "Kirèm"
     },
     "pincode": "Kode PIN",
+    "reset_pin": "Reset Pin Code",
     "reset": "Atôe ulang",
     "nsfw_content": "Konten urëung chik",
     "send_feedback": "Send Feedback",
