@@ -204,8 +204,8 @@
     "confirm": "Xác nhận",
     "removed": "Đã xóa",
     "same_user": "Người dùng này đã được thêm vào danh sách",
-    "unknow_error": "An error occurred",
-    "error": "Error"
+    "unknow_error": "Đã xảy ra lỗi",
+    "error": "Lỗi"
   },
   "post": {
     "reblog_alert": "Bạn có chắc chắn muốn đăng lại không?",
@@ -310,10 +310,10 @@
     "estimated_weekly": "Dự kiến hàng tuần"
   },
   "promote": {
-    "title": "Promote",
-    "days": "days",
-    "user": "User",
-    "permlink": "Permlink",
-    "information": "Are you sure to transfer to promote?"
+    "title": "Quảng bá",
+    "days": "những ngày",
+    "user": "Người dùng",
+    "permlink": "Đường dẫn thân thiện với người dùng",
+    "information": "Bạn có chắc chắn chuyển tiền để quảng bá?"
   }
 }
