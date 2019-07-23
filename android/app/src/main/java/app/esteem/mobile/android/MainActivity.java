@@ -1,4 +1,4 @@
-package app.esteem.mobile;
+package app.esteem.mobile.android;
 
 import com.facebook.react.ReactActivity;
 

@@ -110,7 +110,7 @@ android {
     }
 
     defaultConfig {
-        applicationId "app.esteem.mobile"
+        applicationId "app.esteem.mobile.android"
         minSdkVersion rootProject.ext.minSdkVersion
         targetSdkVersion rootProject.ext.targetSdkVersion
         versionCode versionMajor * 10000 + versionMinor * 100 + versionPatch

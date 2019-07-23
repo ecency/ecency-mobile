@@ -5,7 +5,7 @@ import get from 'lodash/get';
 
 import { getServer } from '../../realm/realm';
 import { getUnreadActivityCount } from '../esteem/esteem';
-import { userActivity, transfer } from '../esteem/ePoint';
+import { userActivity } from '../esteem/ePoint';
 
 // Utils
 import { decryptKey } from '../../utils/crypto';
@@ -537,7 +537,6 @@ export const transferToken = (currentAccount, pin, data) => {
         .transfer(args, privateKey)
         .then(result => {
           if (result) {
-            transfer(get(data, 'from'), get(data, 'destination'), get(data, 'ammount'));
             resolve(result);
           }
         })

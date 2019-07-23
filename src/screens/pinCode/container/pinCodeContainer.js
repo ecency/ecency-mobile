@@ -4,6 +4,7 @@ import { connect } from 'react-redux';
 import { injectIntl } from 'react-intl';
 import Config from 'react-native-config';
 import { NavigationActions } from 'react-navigation';
+import get from 'lodash/get';
 
 // Actions & Services
 import {
@@ -41,8 +42,8 @@ class PinCodeContainer extends Component {
       isExistUser: null,
       informationText: '',
       pinCode: null,
-      isOldPinVerified: false,
-      oldPinCode: null,
+      isOldPinVerified: get(props.pinCodeParams, 'isOldPinVerified', false),
+      oldPinCode: get(props.pinCodeParams, 'oldPinCode', null),
     };
   }
 
@@ -86,7 +87,7 @@ class PinCodeContainer extends Component {
       const {
         currentAccount,
         dispatch,
-        pinCodeParams: { navigateTo, navigateParams, accessToken },
+        pinCodeParams: { navigateTo, navigateParams, accessToken, callback },
         intl,
       } = this.props;
       const { isOldPinVerified, oldPinCode } = this.state;
@@ -107,6 +108,7 @@ class PinCodeContainer extends Component {
           dispatch(updateCurrentAccount({ ..._currentAccount }));
           this._savePinCode(pin);
 
+          if (callback) callback(pin, oldPinCode);
           dispatch(closePinCodeModal());
           if (navigateTo) {
             const navigateAction = NavigationActions.navigate({
@@ -150,8 +152,9 @@ class PinCodeContainer extends Component {
       const {
         currentAccount,
         dispatch,
-        pinCodeParams: { navigateTo, navigateParams, accessToken },
+        pinCodeParams: { navigateTo, navigateParams, accessToken, callback },
       } = this.props;
+      const { oldPinCode } = this.state;
 
       const pinData = {
         pinCode: pin,
@@ -168,6 +171,7 @@ class PinCodeContainer extends Component {
 
           setExistUser(true).then(() => {
             this._savePinCode(pin);
+            if (callback) callback(pin, oldPinCode);
             dispatch(closePinCodeModal());
             if (navigateTo) {
               const navigateAction = NavigationActions.navigate({
@@ -188,9 +192,10 @@ class PinCodeContainer extends Component {
       const {
         currentAccount,
         dispatch,
-        pinCodeParams: { navigateTo, navigateParams, accessToken },
+        pinCodeParams: { navigateTo, navigateParams, accessToken, callback },
         intl,
       } = this.props;
+      const { oldPinCode } = this.state;
 
       // If the user is exist, we are just checking to pin and navigating to home screen
       const pinData = {
@@ -208,6 +213,7 @@ class PinCodeContainer extends Component {
           [_currentAccount.local] = realmData;
           dispatch(updateCurrentAccount({ ..._currentAccount }));
           dispatch(closePinCodeModal());
+          if (callback) callback(pin, oldPinCode);
           if (navigateTo) {
             const navigateAction = NavigationActions.navigate({
               routeName: navigateTo,
