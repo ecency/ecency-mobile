@@ -1,5 +1,6 @@
 import React, { PureComponent, Fragment } from 'react';
 import { connect } from 'react-redux';
+import get from 'lodash/get';
 
 // Component
 import PostsView from '../view/postsView';
@@ -53,7 +54,9 @@ class PostsContainer extends PureComponent {
     return (
       <PostsView
         handleOnScrollStart={this._handleOnScrollStart}
-        currentAccountUsername={currentAccount && (currentAccount.username || currentAccount.name)}
+        currentAccountUsername={
+          currentAccount && (get(currentAccount, 'username') || get(currentAccount, 'name'))
+        }
         setFeedPosts={this._setFeedPosts}
         feedPosts={feedPosts}
         isConnected={isConnected}
