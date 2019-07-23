@@ -47,6 +47,7 @@ const settingsSchema = {
   properties: {
     currency: { type: 'string', default: null },
     isDarkTheme: { type: 'bool', default: false },
+    isPinCodeOpen: { type: 'bool', default: true },
     isDefaultFooter: { type: 'bool', default: true },
     language: { type: 'string', default: null },
     notification: { type: 'bool', default: true },
@@ -82,7 +83,7 @@ const authSchema = {
 const realm = new Realm({
   path: 'esteem.realm',
   schema: [userSchema, authSchema, draftSchema, settingsSchema, applicationSchema, scAccounts],
-  schemaVersion: 2,
+  schemaVersion: 3,
   migration,
 });
 
@@ -374,6 +375,31 @@ export const getPinCode = () =>
 
 // SETTINGS
 
+export const getPinCodeOpen = () =>
+  new Promise((resolve, reject) => {
+    try {
+      if (settings[0]) {
+        resolve(settings[0].isPinCodeOpen);
+      } else {
+        resolve(false);
+      }
+    } catch (error) {
+      reject(error);
+    }
+  });
+
+export const setPinCodeOpen = status =>
+  new Promise((resolve, reject) => {
+    try {
+      realm.write(() => {
+        settings[0].isPinCodeOpen = status;
+        resolve(true);
+      });
+    } catch (error) {
+      reject(error);
+    }
+  });
+
 export const setTheme = isDarkTheme =>
   new Promise((resolve, reject) => {
     try {
@@ -381,6 +407,19 @@ export const setTheme = isDarkTheme =>
         settings[0].isDarkTheme = isDarkTheme;
         resolve(true);
       });
+    } catch (error) {
+      reject(error);
+    }
+  });
+
+export const getTheme = () =>
+  new Promise((resolve, reject) => {
+    try {
+      if (settings[0]) {
+        resolve(settings[0].isDarkTheme);
+      } else {
+        resolve(false);
+      }
     } catch (error) {
       reject(error);
     }
@@ -443,19 +482,6 @@ export const setNsfw = nsfw =>
         settings[0].nsfw = nsfw;
         resolve(true);
       });
-    } catch (error) {
-      reject(error);
-    }
-  });
-
-export const getTheme = () =>
-  new Promise((resolve, reject) => {
-    try {
-      if (settings[0]) {
-        resolve(settings[0].isDarkTheme);
-      } else {
-        resolve(false);
-      }
     } catch (error) {
       reject(error);
     }

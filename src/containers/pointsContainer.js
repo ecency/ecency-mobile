@@ -73,7 +73,7 @@ class PointsContainer extends Component {
   // Component Functions
 
   _handleOnPressTransfer = index => {
-    const { dispatch } = this.props;
+    const { dispatch, isPinCodeOpen, navigation } = this.props;
     const { balance } = this.state;
     let navigateTo;
     let navigateParams;
@@ -99,12 +99,19 @@ class PointsContainer extends Component {
         break;
     }
 
-    dispatch(
-      openPinCodeModal({
-        navigateTo,
-        navigateParams,
-      }),
-    );
+    if (isPinCodeOpen) {
+      dispatch(
+        openPinCodeModal({
+          navigateTo,
+          navigateParams,
+        }),
+      );
+    } else {
+      navigation.navigate({
+        routeName: navigateTo,
+        params: navigateParams,
+      });
+    }
   };
 
   _groomUserActivities = userActivities =>
@@ -232,6 +239,12 @@ class PointsContainer extends Component {
         refreshing,
         userActivities,
         userPoints,
+        handleOnPressTransfer: this._handleOnPressTransfer,
+        balance,
+        getUserBalance: this._getUserBalance,
+        promote: this._promote,
+        getAccount,
+        getUserDataWithUsername,
       })
     );
   }
@@ -244,7 +257,8 @@ const mapStateToProps = state => ({
   isConnected: state.application.isConnected,
   accounts: state.account.otherAccounts,
   currentAccount: state.account.currentAccount,
-  pinCode: state.application.pin,
+  pinCode: state.account.pin,
+  isPinCodeOpen: state.application.isPinCodeOpen,
 });
 
 export default withNavigation(connect(mapStateToProps)(injectIntl(PointsContainer)));

@@ -5,6 +5,7 @@ import AppCenter from 'appcenter';
 import Push from 'appcenter-push';
 import { Client } from 'dsteem';
 import VersionNumber from 'react-native-version-number';
+import Config from 'react-native-config';
 
 // Realm
 import {
@@ -15,6 +16,7 @@ import {
   setLanguage as setLanguage2DB,
   setNsfw as setNsfw2DB,
   setTheme,
+  setPinCodeOpen,
 } from '../../../realm/realm';
 
 // Services and Actions
@@ -27,10 +29,14 @@ import {
   isDefaultFooter,
   openPinCodeModal,
   setNsfw,
+  isPinCodeOpen,
+  setPinCode as savePinCode,
 } from '../../../redux/actions/applicationActions';
 import { toastNotification } from '../../../redux/actions/uiAction';
 import { setPushToken, getNodes } from '../../../providers/esteem/esteem';
 import { checkClient } from '../../../providers/steem/dsteem';
+import { updatePinCode } from '../../../providers/steem/auth';
+import { updateCurrentAccount } from '../../../redux/actions/accountAction';
 // Middleware
 
 // Constants
@@ -39,6 +45,7 @@ import { VALUE as LANGUAGE_VALUE } from '../../../constants/options/language';
 
 // Utilities
 import { sendEmail } from '../../../utils/sendEmail';
+import { encryptKey, decryptKey } from '../../../utils/crypto';
 
 // Component
 import SettingsScreen from '../screen/settingsScreen';
@@ -165,6 +172,25 @@ class SettingsContainer extends Component {
         dispatch(isDefaultFooter(action));
         // setDefaultFooter(action);
         break;
+
+      case 'pincode':
+        if (action) {
+          dispatch(
+            openPinCodeModal({
+              callback: () => this._setDefaultPinCode(action),
+              isReset: true,
+              isOldPinVerified: true,
+              oldPinCode: Config.DEFAULT_PIN,
+            }),
+          );
+        } else {
+          dispatch(
+            openPinCodeModal({
+              callback: () => this._setDefaultPinCode(action),
+            }),
+          );
+        }
+        break;
       default:
         break;
     }
@@ -207,7 +233,7 @@ class SettingsContainer extends Component {
   _handleButtonPress = actionType => {
     const { dispatch } = this.props;
     switch (actionType) {
-      case 'pincode':
+      case 'reset_pin':
         dispatch(openPinCodeModal({ isReset: true }));
         break;
 
@@ -285,6 +311,34 @@ class SettingsContainer extends Component {
     }
   };
 
+  _setDefaultPinCode = action => {
+    const { dispatch, username, currentAccount, pinCode } = this.props;
+
+    if (!action) {
+      const oldPinCode = decryptKey(pinCode, Config.PIN_KEY);
+      const pinData = {
+        pinCode: Config.DEFAULT_PIN,
+        username,
+        oldPinCode,
+      };
+      updatePinCode(pinData).then(response => {
+        const _currentAccount = currentAccount;
+        _currentAccount.local = response;
+
+        dispatch(updateCurrentAccount({ ..._currentAccount }));
+
+        const encryptedPin = encryptKey(Config.DEFAULT_PIN, Config.PIN_KEY);
+        dispatch(savePinCode(encryptedPin));
+
+        setPinCodeOpen(action);
+        dispatch(isPinCodeOpen(action));
+      });
+    } else {
+      setPinCodeOpen(action);
+      dispatch(isPinCodeOpen(action));
+    }
+  };
+
   render() {
     const { serverList, isNotificationMenuOpen } = this.state;
 
@@ -302,6 +356,8 @@ class SettingsContainer extends Component {
 
 const mapStateToProps = state => ({
   isDarkTheme: state.application.isDarkTheme,
+  isPinCodeOpen: state.application.isPinCodeOpen,
+  pinCode: state.application.pin,
   isDefaultFooter: state.application.isDefaultFooter,
   isLoggedIn: state.application.isLoggedIn,
   isNotificationSettingsOpen: state.application.isNotificationOpen,
@@ -316,7 +372,9 @@ const mapStateToProps = state => ({
   selectedApi: state.application.api,
   selectedCurrency: state.application.currency,
   selectedLanguage: state.application.language,
+
   username: state.account.currentAccount && state.account.currentAccount.name,
+  currentAccount: state.account.currentAccount,
 });
 
 export default connect(mapStateToProps)(SettingsContainer);

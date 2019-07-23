@@ -10,6 +10,7 @@ import { connect } from 'react-redux';
 import { addLocaleData } from 'react-intl';
 import { NavigationActions } from 'react-navigation';
 import { bindActionCreators } from 'redux';
+import EStyleSheet from 'react-native-extended-stylesheet';
 
 // Languages
 import en from 'react-intl/locale-data/en';
@@ -69,7 +70,14 @@ import {
   setUpvotePercent,
   setNsfw,
   isDefaultFooter,
+  isPinCodeOpen,
+  setPinCode as savePinCode,
 } from '../../../redux/actions/applicationActions';
+
+import { encryptKey } from '../../../utils/crypto';
+
+import darkTheme from '../../../themes/darkTheme';
+import lightTheme from '../../../themes/lightTheme';
 
 addLocaleData([...en, ...ru, ...de, ...id, ...it, ...hu, ...tr, ...ko, ...pt, ...lt, ...fa]);
 
@@ -83,6 +91,11 @@ class ApplicationContainer extends Component {
       isThemeReady: false,
       appState: AppState.currentState,
     };
+  }
+
+  componentWillMount() {
+    const { isDarkTheme: _isDarkTheme } = this.props;
+    EStyleSheet.build(_isDarkTheme ? darkTheme : lightTheme);
   }
 
   componentDidMount = () => {
@@ -127,6 +140,7 @@ class ApplicationContainer extends Component {
 
   componentWillUnmount() {
     const { isIos } = this.state;
+    const { isPinCodeOpen: _isPinCodeOpen } = this.props;
 
     if (!isIos) BackHandler.removeEventListener('hardwareBackPress', this._onBackPress);
 
@@ -136,6 +150,10 @@ class ApplicationContainer extends Component {
     Linking.removeEventListener('url', this._handleOpenURL);
 
     AppState.removeEventListener('change', this._handleAppStateChange);
+
+    if (_isPinCodeOpen) {
+      clearTimeout(this._pinCodeTimer);
+    }
 
     this.netListener();
   }
@@ -231,6 +249,7 @@ class ApplicationContainer extends Component {
 
   _handleAppStateChange = nextAppState => {
     const { appState } = this.state;
+    const { isPinCodeOpen: _isPinCodeOpen } = this.props;
 
     getExistUser().then(isExistUser => {
       if (isExistUser) {
@@ -239,7 +258,9 @@ class ApplicationContainer extends Component {
         }
 
         if (appState.match(/inactive|background/) && nextAppState === 'active') {
-          clearTimeout(this._pinCodeTimer);
+          if (_isPinCodeOpen) {
+            clearTimeout(this._pinCodeTimer);
+          }
         }
       }
     });
@@ -248,11 +269,13 @@ class ApplicationContainer extends Component {
   };
 
   _startPinCodeTimer = () => {
-    const { dispatch } = this.props;
+    const { dispatch, isPinCodeOpen: _isPinCodeOpen } = this.props;
 
-    this._pinCodeTimer = setTimeout(() => {
-      dispatch(openPinCodeModal());
-    }, 1 * 60 * 1000);
+    if (_isPinCodeOpen) {
+      this._pinCodeTimer = setTimeout(() => {
+        dispatch(openPinCodeModal());
+      }, 1 * 60 * 1000);
+    }
   };
 
   _fetchApp = async () => {
@@ -347,7 +370,7 @@ class ApplicationContainer extends Component {
   };
 
   _getUserDataFromRealm = async () => {
-    const { dispatch, pinCode } = this.props;
+    const { dispatch, pinCode, isPinCodeOpen: _isPinCodeOpen } = this.props;
     let realmData = [];
     let currentUsername;
 
@@ -406,8 +429,11 @@ class ApplicationContainer extends Component {
         }),
       );
       // If in dev mode pin code does not show
-      if (!isExistUser || !pinCode) {
+      if ((!isExistUser || !pinCode) && _isPinCodeOpen) {
         dispatch(openPinCodeModal());
+      } else if (!_isPinCodeOpen) {
+        const encryptedPin = encryptKey(Config.DEFAULT_PIN, Config.PIN_KEY);
+        dispatch(savePinCode(encryptedPin));
       }
 
       dispatch(activeApplication());
@@ -449,6 +475,7 @@ class ApplicationContainer extends Component {
 
     if (settings) {
       if (settings.isDarkTheme !== '') dispatch(isDarkTheme(settings.isDarkTheme));
+      if (settings.isPinCodeOpen !== '') dispatch(isPinCodeOpen(settings.isPinCodeOpen));
       if (settings.language !== '') dispatch(setLanguage(settings.language));
       if (settings.server !== '') dispatch(setApi(settings.server));
       if (settings.upvotePercent !== '') {
@@ -535,7 +562,9 @@ class ApplicationContainer extends Component {
   };
 
   _switchAccount = async targetAccountUsername => {
-    const { dispatch } = this.props;
+    const { dispatch, isConnected } = this.props;
+
+    if (!isConnected) return;
 
     const accountData = await switchAccount(targetAccountUsername);
 
@@ -580,6 +609,7 @@ export default connect(
     isDarkTheme: state.application.isDarkTheme,
     selectedLanguage: state.application.language,
     notificationSettings: state.application.isNotificationOpen,
+    isPinCodeOpen: state.application.isPinCodeOpen,
     isLogingOut: state.application.isLogingOut,
     isLoggedIn: state.application.isLoggedIn,
     isConnected: state.application.isConnected,
