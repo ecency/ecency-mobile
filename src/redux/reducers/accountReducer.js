@@ -1,3 +1,5 @@
+import get from 'lodash/get';
+
 import {
   FETCH_ACCOUNT_FAIL,
   FETCHING_ACCOUNT,
@@ -45,7 +47,9 @@ export default function(state = initialState, action) {
     case ADD_OTHER_ACCOUNT:
       return {
         ...state,
-        otherAccounts: state.otherAccounts.some(item => item.username === action.payload.username)
+        otherAccounts: state.otherAccounts.some(
+          ({ username }) => username === action.payload.username,
+        )
           ? [...state.otherAccounts]
           : [...state.otherAccounts, action.payload],
         isFetching: false,
