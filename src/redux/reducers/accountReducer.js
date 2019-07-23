@@ -48,7 +48,7 @@ export default function(state = initialState, action) {
       return {
         ...state,
         otherAccounts: state.otherAccounts.some(
-          ({ username }) => username === action.payload.username,
+          ({ username }) => username === get(action.payload, 'username'),
         )
           ? [...state.otherAccounts]
           : [...state.otherAccounts, action.payload],
