@@ -206,7 +206,8 @@
     "removed": "Đã xóa",
     "same_user": "Người dùng này đã được thêm vào danh sách",
     "unknow_error": "Đã xảy ra lỗi",
-    "error": "Lỗi"
+    "error": "Lỗi",
+    "fetch_error": "Fetching data from server failed, please try again or notify us at info@esteem.app"
   },
   "post": {
     "reblog_alert": "Bạn có chắc chắn muốn đăng lại không?",
