@@ -28,59 +28,114 @@ import BoostScreen from '../screen/boostScreen';
  *
  */
 
+const ITEM_SKUS = Platform.select({
+  ios: ['099points', '199points', '499points', '999points', '4999points', '9999points'],
+  android: ['099points', '199points', '499points', '999points', '4999points', '9999points'],
+});
+
+const BOOST_DATA = Platform.select({
+  ios: [
+    {
+      id: '099points',
+      name: '10000 ESTM',
+      priceText: '100$',
+      price: 100,
+      description: 'BEST DEAL!',
+    },
+    { id: '199points', name: '5000 ESTM', quantity: 500, price: 50, description: 'POPULAR' },
+    { id: '499points', name: '1000 ESTM', quantity: 10000, price: 10, description: '' },
+    { id: '999points', name: '500 ESTM', quantity: 500, price: 5, description: '' },
+    { id: '4999points', name: '200 ESTM', quantity: 200, price: 2, description: '' },
+    { id: '9999points', name: '100 ESTM', quantity: 100, price: 1, description: '' },
+  ],
+  android: [
+    {
+      id: '099points',
+      name: '10000 ESTM',
+      priceText: '100$',
+      price: 100,
+      description: 'BEST DEAL!',
+    },
+    { id: '199points', name: '5000 ESTM', quantity: 500, price: 50, description: 'POPULAR' },
+    { id: '499points', name: '1000 ESTM', quantity: 10000, price: 10, description: '' },
+    { id: '999points', name: '500 ESTM', quantity: 500, price: 5, description: '' },
+    { id: '4999points', name: '200 ESTM', quantity: 200, price: 2, description: '' },
+    { id: '9999points', name: '100 ESTM', quantity: 100, price: 1, description: '' },
+  ],
+});
+
 class BoostContainer extends Component {
   constructor(props) {
     super(props);
-    this.state = {};
+    this.state = {
+      receipt: '',
+      // productList: '',
+    };
   }
 
   // Component Life Cycle Functions
   async componentDidMount() {
-    try {
-      const itemSkus = Platform.select({
-        ios: ['app.esteem.mobile.ios.099_points'],
-        android: ['com.example.099points'],
-      });
-      // await RNIap.prepare();
-      const products = await RNIap.getProducts([
-        '099points',
-        '199points',
-        '499points',
-        '999points',
-        '4999points',
-        '9999points',
-      ]);
-      // this.setState({ items });
-      console.log(products);
-    } catch (err) {
-      console.warn(err);
-    }
-
-    this.purchaseUpdateSubscription = purchaseUpdatedListener((purchase: ProductPurchase) => {
-      console.log('purchaseUpdatedListener', purchase);
-      const receipt = purchase.transactionReceipt;
-      if (receipt) {
-        alert('done');
-      }
-    });
-
-    this.purchaseErrorSubscription = purchaseErrorListener((error: PurchaseError) => {
-      console.warn('purchaseErrorListener', error);
-    });
+    this._getItems();
   }
 
-  // Component Functions
-
-  _purchase = async sku => {
+  _getAvailablePurchases = async () => {
     try {
-      await RNIap.requestPurchase('099points', false);
+      const purchases = await RNIap.getAvailablePurchases();
+      console.info('Available purchases :: ', purchases);
+      if (purchases && purchases.length > 0) {
+        this.setState({
+          receipt: purchases[0].transactionReceipt,
+        });
+      }
+    } catch (err) {
+      console.warn(err.code, err.message);
+      Alert.alert(err.message);
+    }
+  };
+
+  _getItems = async () => {
+    try {
+      console.log(ITEM_SKUS);
+      const products = await RNIap.getProducts(ITEM_SKUS);
+      // const products = await RNIap.getSubscriptions(itemSkus);
+      console.log('Products', products);
+      // this.setState({ productList: products });
     } catch (err) {
       console.warn(err.code, err.message);
     }
   };
 
+  // Component Functions
+
+  _buyItem = async sku => {
+    try {
+      RNIap.requestPurchase(sku);
+    } catch (err) {
+      console.warn(err.code, err.message);
+    }
+  };
+
+  // _buyItem = async sku => {
+  //   console.info('buyItem', sku);
+  //   // const purchase = await RNIap.buyProduct(sku);
+  //   // const products = await RNIap.buySubscription(sku);
+  //   // const purchase = await RNIap.buyProductWithoutFinishTransaction(sku);
+  //   try {
+  //     const purchase = await RNIap.buyProduct(sku);
+  //     // console.log('purchase', purchase);
+  //     // await RNIap.consumePurchaseAndroid(purchase.purchaseToken);
+  //     this.setState({ receipt: purchase.transactionReceipt }, () => this.goNext());
+  //   } catch (err) {
+  //     console.warn(err.code, err.message);
+  //     const subscription = RNIap.addAdditionalSuccessPurchaseListenerIOS(async purchase => {
+  //       this.setState({ receipt: purchase.transactionReceipt }, () => this.goNext());
+  //       subscription.remove();
+  //     });
+  //   }
+  // };
+
   render() {
-    return <BoostScreen purchase={this._purchase} />;
+    return <BoostScreen boostData={BOOST_DATA} buyItem={this._buyItem} />;
   }
 }
 

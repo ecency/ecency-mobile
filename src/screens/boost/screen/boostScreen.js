@@ -12,21 +12,6 @@ import { Icon } from '../../../components/icon';
 import globalStyles from '../../../globalStyles';
 import styles from './boostScreenStyles';
 
-const BOOST_DATA = [
-  {
-    id: 0,
-    name: '10000 ESTM',
-    priceText: '100$',
-    price: 100,
-    description: 'BEST DEAL!',
-  },
-  { id: 1, name: '5000 ESTM', quantity: 500, price: 50, description: 'POPULAR' },
-  { id: 2, name: '1000 ESTM', quantity: 10000, price: 10, description: '' },
-  { id: 3, name: '500 ESTM', quantity: 500, price: 5, description: '' },
-  { id: 4, name: '200 ESTM', quantity: 200, price: 2, description: '' },
-  { id: 5, name: '100 ESTM', quantity: 100, price: 1, description: '' },
-];
-
 class BoostScreen extends PureComponent {
   /* Props
    * ------------------------------------------------
@@ -45,7 +30,7 @@ class BoostScreen extends PureComponent {
   // Component Functions
 
   render() {
-    const { intl, purchase } = this.props;
+    const { intl, buyItem, boostData } = this.props;
     const { selectedBoost } = this.state;
 
     return (
@@ -56,7 +41,7 @@ class BoostScreen extends PureComponent {
           })}
         />
 
-        {BOOST_DATA.map(item => (
+        {boostData.map(item => (
           <View style={styles.boostLine} key={get(item, 'id')}>
             {!!get(item, 'description', null) && (
               <View style={styles.descriptionWrapper}>
@@ -69,7 +54,7 @@ class BoostScreen extends PureComponent {
             <View style={styles.buttonWrapper}>
               <MainButton
                 style={styles.button}
-                onPress={() => purchase()}
+                onPress={() => buyItem(item.id)}
                 height={50}
                 text={intl.formatMessage({
                   id: 'boost.buy',
