@@ -105,6 +105,7 @@
       "transfers": "Transferuri"
     },
     "pincode": "Pincode",
+    "reset_pin": "Reset Pin Code",
     "reset": "Resetare",
     "nsfw_content": "Conținut NSFW",
     "send_feedback": "Trimite Feedback",

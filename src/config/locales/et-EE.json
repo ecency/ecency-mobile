@@ -105,6 +105,7 @@
       "transfers": "Ülekanded"
     },
     "pincode": "Pincode",
+    "reset_pin": "Reset Pin Code",
     "reset": "Algseisundi Taastamine",
     "nsfw_content": "Avalikuks Vaatamiseks Mitte Kõlblik Materjal",
     "send_feedback": "Saada Tagasisidet",

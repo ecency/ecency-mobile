@@ -105,6 +105,7 @@
       "transfers": "Transferts"
     },
     "pincode": "Pincode",
+    "reset_pin": "Reset Pin Code",
     "reset": "Réinitialiser",
     "nsfw_content": "Contenu NSFW",
     "send_feedback": "Envoyer une suggestion",

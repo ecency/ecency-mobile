@@ -105,6 +105,7 @@
       "transfers": "Переводы"
     },
     "pincode": "Пинкод",
+    "reset_pin": "Reset Pin Code",
     "reset": "Сбросить",
     "nsfw_content": "Ненормативное",
     "send_feedback": "Отправить отзыв",
