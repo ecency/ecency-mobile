@@ -212,7 +212,7 @@
   "post": {
     "reblog_alert": "Möchtest du diesen Beitrag wirklich teilen?",
     "removed_hint": "The post was removed by",
-    "copy_link": "Copy Link"
+    "copy_link": "Link kopieren"
   },
   "drafts": {
     "title": "Entwürfe",
