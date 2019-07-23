@@ -2,11 +2,8 @@
 
 iOS ![iOS](https://build.appcenter.ms/v0.1/apps/ef80aa2a-d4e1-4f43-a4f8-be12ea72ba9b/branches/master/badge)
   Android ![Android](https://build.appcenter.ms/v0.1/apps/12aace32-b58a-49da-bf85-5477f89ae16e/branches/master/badge)
-  
-### Production 🚀
-[IOS](https://itunes.apple.com/cy/app/esteem-v2/id1451896376?l=tr&mt=8)
 
-[ANDROID](https://play.google.com/store/apps/details?id=app.esteem.mobile)
+![images](https://esteem.app/images/07.png)
 
 ## Open Beta 🔥
 [IOS](https://install.appcenter.ms/orgs/esteem.app/apps/esteem-1/distribution_groups/beta_testers)

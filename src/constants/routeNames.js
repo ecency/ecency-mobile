@@ -19,6 +19,7 @@ export default {
     BOOKMARKS: `Bookmarks${SCREEN_SUFFIX}`,
     SEARCH_RESULT: `SearchResult${SCREEN_SUFFIX}`,
     TRANSFER: `Transfer${SCREEN_SUFFIX}`,
+    PROMOTE: `Promote${SCREEN_SUFFIX}`,
   },
   DRAWER: {
     MAIN: `Main${DRAWER_SUFFIX}`,

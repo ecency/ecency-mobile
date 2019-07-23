@@ -203,7 +203,9 @@
     "no_internet": "Nincs kapcsolat!",
     "confirm": "Megerősítés",
     "removed": "Eltávolítva",
-    "same_user": "Ez a felhasználó már szerepel a listán"
+    "same_user": "Ez a felhasználó már szerepel a listán",
+    "unknow_error": "Hiba történt",
+    "error": "Hiba"
   },
   "post": {
     "reblog_alert": "Biztos, hogy megosztod?",
@@ -306,5 +308,12 @@
     "incoming_funds": "Bejövő tőke",
     "sc_power_down_error": "Steem connect setWithdrawVestingRoute not implemented yet.",
     "estimated_weekly": "Heti Becslés"
+  },
+  "promote": {
+    "title": "Promote",
+    "days": "nap",
+    "user": "Felhasználó",
+    "permlink": "Permlink",
+    "information": "Are you sure to transfer to promote?"
   }
 }

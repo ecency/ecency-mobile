@@ -95,7 +95,7 @@ class UpvoteContainer extends PureComponent {
 const mapStateToProps = state => ({
   isLoggedIn: state.application.isLoggedIn,
   upvotePercent: state.application.upvotePercent,
-  pinCode: state.account.pin,
+  pinCode: state.application.pin,
   currentAccount: state.account.currentAccount,
   globalProps: state.account.globalProps,
 });

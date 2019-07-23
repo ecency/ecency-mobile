@@ -40,6 +40,10 @@ class SearchModalContainer extends PureComponent {
   };
 
   _handleOnChangeSearchInput = text => {
+    const { isConnected } = this.props;
+
+    if (!isConnected) return;
+
     if (text && text !== '@' && text !== '#') {
       if (text[0] === '@') {
         lookupAccounts(text.substr(1)).then(res => {
@@ -139,6 +143,7 @@ class SearchModalContainer extends PureComponent {
 
 const mapStateToProps = state => ({
   username: state.account.currentAccount.name,
+  isConnected: state.application.isConnected,
 });
 
 export default connect(mapStateToProps)(withNavigation(SearchModalContainer));

@@ -3,6 +3,7 @@ import { Alert } from 'react-native';
 import { connect } from 'react-redux';
 import { injectIntl } from 'react-intl';
 import Config from 'react-native-config';
+import { NavigationActions } from 'react-navigation';
 
 // Actions & Services
 import {
@@ -10,7 +11,12 @@ import {
   verifyPinCode,
   updatePinCode,
 } from '../../../providers/steem/auth';
-import { closePinCodeModal, login, logoutDone } from '../../../redux/actions/applicationActions';
+import {
+  closePinCodeModal,
+  login,
+  logoutDone,
+  setPinCode as savePinCode,
+} from '../../../redux/actions/applicationActions';
 import {
   getExistUser,
   setExistUser,
@@ -19,11 +25,7 @@ import {
   removePinCode,
   setAuthStatus,
 } from '../../../realm/realm';
-import {
-  updateCurrentAccount,
-  setPinCode as savePinCode,
-  removeOtherAccount,
-} from '../../../redux/actions/accountAction';
+import { updateCurrentAccount, removeOtherAccount } from '../../../redux/actions/accountAction';
 import { getUser } from '../../../providers/steem/dsteem';
 
 // Utils
@@ -85,7 +87,6 @@ class PinCodeContainer extends Component {
         currentAccount,
         dispatch,
         pinCodeParams: { navigateTo, navigateParams, accessToken },
-        navigation,
         intl,
       } = this.props;
       const { isOldPinVerified, oldPinCode } = this.state;
@@ -108,7 +109,12 @@ class PinCodeContainer extends Component {
 
           dispatch(closePinCodeModal());
           if (navigateTo) {
-            navigation.navigate(navigateTo, navigateParams);
+            const navigateAction = NavigationActions.navigate({
+              routeName: navigateTo,
+              params: navigateParams,
+              action: NavigationActions.navigate({ routeName: navigateTo }),
+            });
+            dispatch(navigateAction);
           }
           resolve();
         });
@@ -145,7 +151,6 @@ class PinCodeContainer extends Component {
         currentAccount,
         dispatch,
         pinCodeParams: { navigateTo, navigateParams, accessToken },
-        navigation,
       } = this.props;
 
       const pinData = {
@@ -165,7 +170,12 @@ class PinCodeContainer extends Component {
             this._savePinCode(pin);
             dispatch(closePinCodeModal());
             if (navigateTo) {
-              navigation.navigate(navigateTo, navigateParams);
+              const navigateAction = NavigationActions.navigate({
+                routeName: navigateTo,
+                params: navigateParams,
+                action: NavigationActions.navigate({ routeName: navigateTo }),
+              });
+              dispatch(navigateAction);
             }
             resolve();
           });
@@ -179,7 +189,6 @@ class PinCodeContainer extends Component {
         currentAccount,
         dispatch,
         pinCodeParams: { navigateTo, navigateParams, accessToken },
-        navigation,
         intl,
       } = this.props;
 
@@ -200,7 +209,12 @@ class PinCodeContainer extends Component {
           dispatch(updateCurrentAccount({ ..._currentAccount }));
           dispatch(closePinCodeModal());
           if (navigateTo) {
-            navigation.navigate(navigateTo, navigateParams);
+            const navigateAction = NavigationActions.navigate({
+              routeName: navigateTo,
+              params: navigateParams,
+              action: NavigationActions.navigate({ routeName: navigateTo }),
+            });
+            dispatch(navigateAction);
           }
         })
         .catch(err => {
@@ -348,7 +362,7 @@ class PinCodeContainer extends Component {
 
 const mapStateToProps = state => ({
   currentAccount: state.account.currentAccount,
-  applicationPinCode: state.account.pin,
+  applicationPinCode: state.application.pin,
   otherAccounts: state.account.otherAccounts,
   pinCodeParams: state.application.pinCodeNavigation,
 });

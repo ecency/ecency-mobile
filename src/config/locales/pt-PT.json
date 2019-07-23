@@ -203,7 +203,9 @@
     "no_internet": "Sem ligação!",
     "confirm": "Confirmar",
     "removed": "Removido",
-    "same_user": "Este usuário já foi adicionado à lista"
+    "same_user": "Este usuário já foi adicionado à lista",
+    "unknow_error": "Ocorreu um erro",
+    "error": "Erro"
   },
   "post": {
     "reblog_alert": "Tem certeza de que deseja reblogar?",
@@ -306,5 +308,12 @@
     "incoming_funds": "Fundos recebidos",
     "sc_power_down_error": "Steem conecta setWithdrawVestingRoute ainda não implementado.",
     "estimated_weekly": "Estimado Semanalmente"
+  },
+  "promote": {
+    "title": "Promover",
+    "days": "dias",
+    "user": "Utilizador",
+    "permlink": "Permlink",
+    "information": "Tem certeza que deseja transferir para promover?"
   }
 }

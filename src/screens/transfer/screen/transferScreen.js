@@ -16,6 +16,7 @@ import { Icon } from '../../../components/icon';
 import { Modal } from '../../../components/modal';
 
 import styles from './transferStyles';
+
 /* Props
  * ------------------------------------------------
  *   @prop { type }    name                - Description....

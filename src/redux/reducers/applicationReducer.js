@@ -22,6 +22,7 @@ import {
   SET_LANGUAGE,
   SET_NSFW,
   SET_UPVOTE_PERCENT,
+  SET_PIN_CODE,
 } from '../constants/constants';
 
 const initialState = {
@@ -32,7 +33,7 @@ const initialState = {
     currencySymbol: '$',
   },
   isActive: false,
-  isConnected: true, // internet connectivity
+  isConnected: null, // internet connectivity
   isDarkTheme: false,
   isDefaultFooter: true,
   isLoggedIn: false, // Has any logged in user.
@@ -53,6 +54,7 @@ const initialState = {
   },
   upvotePercent: 1,
   nsfw: 'Always show',
+  pin: null,
 };
 
 export default function(state = initialState, action) {
@@ -185,6 +187,11 @@ export default function(state = initialState, action) {
       return Object.assign({}, state, {
         isDefaultFooter: action.payload,
       });
+    case SET_PIN_CODE:
+      return {
+        ...state,
+        pin: action.payload,
+      };
     default:
       return state;
   }

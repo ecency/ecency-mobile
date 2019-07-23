@@ -255,6 +255,10 @@ class ProfileContainer extends Component {
   };
 
   _loadProfile = async (selectedUser = null) => {
+    const { isConnected } = this.props;
+
+    if (!isConnected) return;
+
     const user = await getUser(selectedUser);
 
     this._fetchProfile(selectedUser);
@@ -397,13 +401,14 @@ const mapStateToProps = state => ({
   isLoggedIn: state.application.isLoggedIn,
   isDarkTheme: state.application.isDarkTheme,
   currency: state.application.currency,
+  isConnected: state.application.isConnected,
 
   // Ui
   activeBottomTab: state.ui.activeBottomTab,
 
   // Account
   currentAccount: state.account.currentAccount,
-  pinCode: state.account.pin,
+  pinCode: state.application.pin,
 });
 
 export default connect(mapStateToProps)(withNavigation(ProfileContainer));
