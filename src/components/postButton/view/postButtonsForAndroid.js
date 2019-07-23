@@ -1,7 +1,7 @@
 import React, { Component } from 'react';
 import { Animated, Easing, View } from 'react-native';
 import { connect } from 'react-redux';
-import { withNavigation } from 'react-navigation';
+import { NavigationActions } from 'react-navigation';
 
 // Components
 import SubPostButton from './subPostButtonView';
@@ -95,14 +95,13 @@ class PostButtonsForAndroid extends Component {
   };
 
   _handleSubButtonPress = (route, action) => {
-    const { navigation } = this.props;
-
-    navigation.navigate({
+    const { dispatch } = this.props;
+    const navigateAction = NavigationActions.navigate({
       routeName: route,
-      params: {
-        action,
-      },
+      params: { action },
+      action: NavigationActions.navigate({ routeName: route }),
     });
+    dispatch(navigateAction);
   };
 
   render() {
@@ -177,4 +176,4 @@ const mapStateToProps = state => ({
   isCollapsePostButtonOpen: state.ui.isCollapsePostButton,
 });
 
-export default connect(mapStateToProps)(withNavigation(PostButtonsForAndroid));
+export default connect(mapStateToProps)(PostButtonsForAndroid);
