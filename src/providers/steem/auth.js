@@ -154,31 +154,32 @@ export const setUserDataWithPinCode = async data => {
   }
 };
 
-export const updatePinCode = async data => {
-  try {
+export const updatePinCode = data =>
+  new Promise((resolve, reject) => {
     let currentUser = null;
-    await setPinCode(data.pinCode);
-    const users = await getUserData();
-    if (users && users.length > 0) {
-      users.forEach(async userData => {
-        if (userData.authType === AUTH_TYPE.MASTER_KEY) {
-          data.password = decryptKey(userData.masterKey, data.oldPinCode);
-        } else if (userData.authType === AUTH_TYPE.STEEM_CONNECT) {
-          data.accessToken = decryptKey(userData.accessToken, data.oldPinCode);
-        }
-        const updatedUserData = getUpdatedUserData(userData, data);
-        await updateUserData(updatedUserData);
-        if (userData.username === data.username) {
-          currentUser = updatedUserData;
+    try {
+      setPinCode(data.pinCode);
+      getUserData().then(users => {
+        if (users && users.length > 0) {
+          users.forEach(userData => {
+            if (userData.authType === AUTH_TYPE.MASTER_KEY) {
+              data.password = decryptKey(userData.masterKey, data.oldPinCode);
+            } else if (userData.authType === AUTH_TYPE.STEEM_CONNECT) {
+              data.accessToken = decryptKey(userData.accessToken, data.oldPinCode);
+            }
+            const updatedUserData = getUpdatedUserData(userData, data);
+            updateUserData(updatedUserData);
+            if (userData.username === data.username) {
+              currentUser = updatedUserData;
+            }
+            resolve(currentUser);
+          });
         }
       });
-      return currentUser;
+    } catch (error) {
+      reject(error.message);
     }
-    return false;
-  } catch (error) {
-    return Promise.reject(new Error('auth.unknow_error'));
-  }
-};
+  });
 
 export const verifyPinCode = async data => {
   const pinHash = await getPinCode();
