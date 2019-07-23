@@ -105,6 +105,7 @@
       "transfers": "تراکنش ها"
     },
     "pincode": "Pincode",
+    "reset_pin": "Reset Pin Code",
     "reset": "راه اندازی مجدد",
     "nsfw_content": "محتوای نامناسب برای کودکان",
     "send_feedback": "ارسال پیشنهادات و انتقادات",

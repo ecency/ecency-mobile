@@ -105,6 +105,7 @@
       "transfers": "Transfers"
     },
     "pincode": "Pincode",
+    "reset_pin": "Reset Pin Code",
     "reset": "Tun bere",
     "nsfw_content": "NSFW Content",
     "send_feedback": "Send Feedback",
