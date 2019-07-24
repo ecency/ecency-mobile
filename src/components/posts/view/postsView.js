@@ -212,7 +212,7 @@ class PostsView extends Component {
             //       }
             //     }
             //   });
-            _posts = promotedPosts;
+            // _posts = promotedPosts;
 
             if (posts.length < 5) {
               setFeedPosts(_posts);
