@@ -105,6 +105,7 @@
       "transfers": "Pindah"
     },
     "pincode": "Pincode",
+    "reset_pin": "Reset Pin Code",
     "reset": "Tetapkan semula",
     "nsfw_content": "Kandungan NSFW",
     "send_feedback": "Hantar Maklum Balas",
