@@ -105,7 +105,7 @@
       "transfers": "Transferências"
     },
     "pincode": "Código PIN",
-    "reset_pin": "Reset Pin Code",
+    "reset_pin": "Redefinir o código Pin",
     "reset": "Reiniciar",
     "nsfw_content": "Conteúdo NSFW",
     "send_feedback": "Enviar feedback",
@@ -206,12 +206,13 @@
     "removed": "Removido",
     "same_user": "Este usuário já foi adicionado à lista",
     "unknow_error": "Ocorreu um erro",
-    "error": "Erro"
+    "error": "Erro",
+    "fetch_error": "Falha ao buscar dados do servidor, por favor tente novamente ou nos informe no info@esteem.app"
   },
   "post": {
     "reblog_alert": "Tem certeza de que deseja reblogar?",
     "removed_hint": "O post foi removido por",
-    "copy_link": "Copy Link"
+    "copy_link": "Copiar link"
   },
   "drafts": {
     "title": "Rascunhos",
