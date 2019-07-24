@@ -1,6 +1,6 @@
 apply plugin: "com.android.application"
-apply plugin: 'com.bugsnag.android.gradle'
 apply from: project(':react-native-config').projectDir.getPath() + "/dotenv.gradle"
+apply plugin: 'com.bugsnag.android.gradle'
 
 import com.android.build.OutputFile
 
@@ -116,6 +116,7 @@ android {
         versionCode versionMajor * 10000 + versionMinor * 100 + versionPatch
         versionName "${versionMajor}.${versionMinor}.${versionPatch}"
         vectorDrawables.useSupportLibrary = true
+        resValue "string", "build_config_package", "app.esteem.mobile.android"
     }
     splits {
         abi {
