@@ -9,7 +9,6 @@ import { PostCardPlaceHolder } from '../../basicUIElements';
 // Actions
 import { isCollapsePostButton } from '../../../redux/actions/uiAction';
 import { setFeedPosts } from '../../../redux/actions/postsAction';
-import { getPromotePosts } from '../../../providers/esteem/esteem';
 /*
  *            Props Name        Description                                     Value
  *@props -->  props name here   description here                                Value Type Here
@@ -20,24 +19,13 @@ class PostsContainer extends PureComponent {
   constructor(props) {
     super(props);
     this.state = {
-      promotePosts: [],
+      promotedPosts: [],
     };
   }
 
   // Component Life Cycle Functions
 
-  componentDidMount() {
-    this._getPromotePosts();
-  }
-
   // Component Functions
-
-  _getPromotePosts = () => {
-    getPromotePosts().then(res => {
-      this.setState({ promotePosts: res });
-      console.log(res);
-    });
-  };
 
   _handleOnScrollStart = () => {
     const { dispatch, isCollapsePostButtonOpen } = this.props;
@@ -55,7 +43,7 @@ class PostsContainer extends PureComponent {
 
   render() {
     const { currentAccount, isLoginDone, tag, feedPosts, isConnected } = this.props;
-    const { promotePosts } = this.state;
+    const { promotedPosts } = this.state;
 
     if (!isLoginDone && !tag) {
       return (
@@ -68,7 +56,7 @@ class PostsContainer extends PureComponent {
 
     return (
       <PostsView
-        promotePosts={promotePosts}
+        promotedPosts={promotedPosts}
         handleOnScrollStart={this._handleOnScrollStart}
         currentAccountUsername={
           currentAccount && (get(currentAccount, 'username') || get(currentAccount, 'name'))
