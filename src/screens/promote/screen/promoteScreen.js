@@ -53,17 +53,28 @@ class PointsScreen extends PureComponent {
   // Component Functions
 
   _handleOnPermlinkChange = async text => {
+    this.setState({ permlink: text, isValid: false });
+
+    if (this.timer) {
+      clearTimeout(this.timer);
+    }
+
+    if (text.trim().length < 3) {
+      this.setState({ permlinkSuggestions: [] });
+      return;
+    }
+
     if (text && text.length > 0) {
-      searchPath(text).then(res => {
-        this.setState({ permlinkSuggestions: res && res.length > 10 ? res.slice(0, 7) : res });
-      });
+      this.timer = setTimeout(
+        () =>
+          searchPath(text).then(res => {
+            this.setState({ permlinkSuggestions: res && res.length > 10 ? res.slice(0, 7) : res });
+          }),
+        500,
+      );
     } else {
       await this.setState({ permlinkSuggestions: [], isValid: false });
     }
-
-    // if (!text || (text && text.length < 1))
-
-    this.setState({ permlink: text, isValid: false });
   };
 
   _renderDescription = text => <Text style={styles.description}>{text}</Text>;
@@ -99,14 +110,13 @@ class PointsScreen extends PureComponent {
 
   _promote = async (promote, currentAccount, getUserDataWithUsername, navigationParams) => {
     const { day, permlink, selectedUser } = this.state;
+    const fullPermlink = permlink || get(navigationParams, 'permlink');
 
-    const seperatedPermlink = permlink ? permlink.split('/') : get(navigationParams, 'permlink');
+    const seperatedPermlink = fullPermlink.split('/');
     const _author = get(seperatedPermlink, '[0]');
     const _permlink = get(seperatedPermlink, '[1]');
 
     if (get(currentAccount, 'local.authType') === 'steemConnect') {
-      // const user = selectedUser;
-
       const json = JSON.stringify({
         user: selectedUser,
         _author,
