@@ -299,23 +299,23 @@
     "delegate": "Delegieren",
     "power_down": "Power-Down",
     "account": "Konto",
-    "destination_accounts": "Destination Account(s)",
-    "amount_information": "Drag the slider to adjust to amount",
-    "save": "Save",
-    "percent": "Percentage",
-    "percent_information": "Percentage of power down to this account",
-    "auto_vests": "Automatically power up to the target account",
+    "destination_accounts": "Ziel-Konto\/Konten",
+    "amount_information": "Ziehe den Slider, um den Wert zu definieren",
+    "save": "Speichern",
+    "percent": "Prozent",
+    "percent_information": "Prozentsatz des Power-Down auf dieses Konto",
+    "auto_vests": "Automatisches Power-Up des Zielkontos",
     "stop": "Stop",
-    "stop_information": "Are you sure to stop?",
-    "incoming_funds": "Incoming Funds",
+    "stop_information": "Möchtest du wirklich abbrechen?",
+    "incoming_funds": "Eingehend",
     "sc_power_down_error": "Steem connect setWithdrawVestingRoute not implemented yet.",
-    "estimated_weekly": "Estimated Weekly"
+    "estimated_weekly": "Geschätzt wöchentlich"
   },
   "promote": {
-    "title": "Promote",
-    "days": "days",
-    "user": "User",
-    "permlink": "Permlink",
+    "title": "Bewerben",
+    "days": "Tage",
+    "user": "Benutzer",
+    "permlink": "Permalink",
     "information": "Are you sure to transfer to promote?"
   }
 }
