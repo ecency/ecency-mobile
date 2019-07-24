@@ -76,7 +76,7 @@ class PostsView extends Component {
           isLoading: false,
           isPostsLoading: false,
           isHideImage: false,
-          selectedFilterIndex: 1,
+          selectedFilterIndex: get(nextProps, 'selectedOptionIndex', 0),
           isNoPost: false,
         },
         () => {
