@@ -105,6 +105,7 @@
       "transfers": "Transferler"
     },
     "pincode": "Pinkod",
+    "reset_pin": "Reset Pin Code",
     "reset": "Sifirla",
     "nsfw_content": "NSFW İçeriği",
     "send_feedback": "Geri Bildirim Gönder",

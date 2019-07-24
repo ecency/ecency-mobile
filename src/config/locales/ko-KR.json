@@ -105,6 +105,7 @@
       "transfers": "송금"
     },
     "pincode": "PIN 코드",
+    "reset_pin": "Reset Pin Code",
     "reset": "초기화",
     "nsfw_content": "NSFW 콘텐츠",
     "send_feedback": "피드백 보내기",
