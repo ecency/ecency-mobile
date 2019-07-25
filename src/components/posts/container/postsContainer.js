@@ -18,7 +18,9 @@ import { setFeedPosts } from '../../../redux/actions/postsAction';
 class PostsContainer extends PureComponent {
   constructor(props) {
     super(props);
-    this.state = {};
+    this.state = {
+      promotedPosts: [],
+    };
   }
 
   // Component Life Cycle Functions
@@ -41,6 +43,7 @@ class PostsContainer extends PureComponent {
 
   render() {
     const { currentAccount, isLoginDone, tag, feedPosts, isConnected } = this.props;
+    const { promotedPosts } = this.state;
 
     if (!isLoginDone && !tag) {
       return (
@@ -53,6 +56,7 @@ class PostsContainer extends PureComponent {
 
     return (
       <PostsView
+        promotedPosts={promotedPosts}
         handleOnScrollStart={this._handleOnScrollStart}
         currentAccountUsername={
           currentAccount && (get(currentAccount, 'username') || get(currentAccount, 'name'))
