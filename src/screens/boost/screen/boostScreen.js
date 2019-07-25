@@ -42,7 +42,7 @@ class BoostScreen extends PureComponent {
         />
 
         {boostData.map(item => (
-          <View style={styles.boostLine} key={get(item, 'id')}>
+          <View style={styles.boostLine} key={get(item, 'productId')}>
             {!!get(item, 'description', null) && (
               <View style={styles.descriptionWrapper}>
                 <Fragment>
@@ -54,7 +54,7 @@ class BoostScreen extends PureComponent {
             <View style={styles.buttonWrapper}>
               <MainButton
                 style={styles.button}
-                onPress={() => buyItem(item.id)}
+                onPress={() => buyItem(item.productId)}
                 height={50}
                 text={intl.formatMessage({
                   id: 'boost.buy',
@@ -63,7 +63,7 @@ class BoostScreen extends PureComponent {
                 isLoading={false}
               >
                 <View style={styles.buttonContent}>
-                  <Text style={styles.buttonText}>{get(item, 'name')}</Text>
+                  <Text style={styles.buttonText}>{get(item, 'title')}</Text>
                   <View style={styles.buttonIconWrapper}>
                     <Icon name="add" iconType="MaterialIcons" color="#357ce6" size={23} />
                   </View>
