@@ -69,11 +69,13 @@ class BoostContainer extends Component {
     super(props);
     this.state = {
       receipt: '',
-      // productList: '',
+      productList: [],
     };
   }
 
   // Component Life Cycle Functions
+
+  // Component Functions
   async componentDidMount() {
     this._getItems();
   }
@@ -99,13 +101,11 @@ class BoostContainer extends Component {
       const products = await RNIap.getProducts(ITEM_SKUS);
       // const products = await RNIap.getSubscriptions(itemSkus);
       console.log('Products', products);
-      // this.setState({ productList: products });
+      this.setState({ productList: products });
     } catch (err) {
       console.warn(err.code, err.message);
     }
   };
-
-  // Component Functions
 
   _buyItem = async sku => {
     try {
@@ -135,7 +135,9 @@ class BoostContainer extends Component {
   // };
 
   render() {
-    return <BoostScreen boostData={BOOST_DATA} buyItem={this._buyItem} />;
+    const { productList } = this.state;
+
+    return <BoostScreen boostData={productList} buyItem={this._buyItem} />;
   }
 }
 
