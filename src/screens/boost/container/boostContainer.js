@@ -1,6 +1,6 @@
 import React, { Component } from 'react';
 import { connect } from 'react-redux';
-import { Platform } from 'react-native';
+import { Platform, Alert } from 'react-native';
 import RNIap, {
   purchaseErrorListener,
   purchaseUpdatedListener,
@@ -31,37 +31,6 @@ import BoostScreen from '../screen/boostScreen';
 const ITEM_SKUS = Platform.select({
   ios: ['099points', '199points', '499points', '999points', '4999points', '9999points'],
   android: ['099points', '199points', '499points', '999points', '4999points', '9999points'],
-});
-
-const BOOST_DATA = Platform.select({
-  ios: [
-    {
-      id: '099points',
-      name: '10000 ESTM',
-      priceText: '100$',
-      price: 100,
-      description: 'BEST DEAL!',
-    },
-    { id: '199points', name: '5000 ESTM', quantity: 500, price: 50, description: 'POPULAR' },
-    { id: '499points', name: '1000 ESTM', quantity: 10000, price: 10, description: '' },
-    { id: '999points', name: '500 ESTM', quantity: 500, price: 5, description: '' },
-    { id: '4999points', name: '200 ESTM', quantity: 200, price: 2, description: '' },
-    { id: '9999points', name: '100 ESTM', quantity: 100, price: 1, description: '' },
-  ],
-  android: [
-    {
-      id: '099points',
-      name: '10000 ESTM',
-      priceText: '100$',
-      price: 100,
-      description: 'BEST DEAL!',
-    },
-    { id: '199points', name: '5000 ESTM', quantity: 500, price: 50, description: 'POPULAR' },
-    { id: '499points', name: '1000 ESTM', quantity: 10000, price: 10, description: '' },
-    { id: '999points', name: '500 ESTM', quantity: 500, price: 5, description: '' },
-    { id: '4999points', name: '200 ESTM', quantity: 200, price: 2, description: '' },
-    { id: '9999points', name: '100 ESTM', quantity: 100, price: 1, description: '' },
-  ],
 });
 
 class BoostContainer extends Component {
@@ -97,10 +66,9 @@ class BoostContainer extends Component {
 
   _getItems = async () => {
     try {
-      console.log(ITEM_SKUS);
       const products = await RNIap.getProducts(ITEM_SKUS);
-      // const products = await RNIap.getSubscriptions(itemSkus);
       console.log('Products', products);
+      products.sort((a, b) => parseFloat(a.price) - parseFloat(b.price)).reverse();
       this.setState({ productList: products });
     } catch (err) {
       console.warn(err.code, err.message);

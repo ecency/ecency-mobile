@@ -12,6 +12,8 @@ import { Icon } from '../../../components/icon';
 import globalStyles from '../../../globalStyles';
 import styles from './boostScreenStyles';
 
+const DEALS = { '9999points': 'BEST DEAL!', '4999points': 'POPULAR!' };
+
 class BoostScreen extends PureComponent {
   /* Props
    * ------------------------------------------------
@@ -28,6 +30,24 @@ class BoostScreen extends PureComponent {
   // Component Life Cycles
 
   // Component Functions
+  _renderDeal = item => {
+    if (DEALS[item.productId]) {
+      return (
+        <View style={styles.descriptionWrapper}>
+          <Fragment>
+            <Text style={styles.description}>{DEALS[item.productId]}</Text>
+            <View style={styles.triangle} />
+          </Fragment>
+        </View>
+      );
+    }
+  };
+
+  _getTitle = title => {
+    const lastIndex = title.lastIndexOf(' ');
+
+    return title.substring(0, lastIndex);
+  };
 
   render() {
     const { intl, buyItem, boostData } = this.props;
@@ -43,14 +63,7 @@ class BoostScreen extends PureComponent {
 
         {boostData.map(item => (
           <View style={styles.boostLine} key={get(item, 'productId')}>
-            {!!get(item, 'description', null) && (
-              <View style={styles.descriptionWrapper}>
-                <Fragment>
-                  <Text style={styles.description}>{get(item, 'description')}</Text>
-                  <View style={styles.triangle} />
-                </Fragment>
-              </View>
-            )}
+            {this._renderDeal(item)}
             <View style={styles.buttonWrapper}>
               <MainButton
                 style={styles.button}
@@ -63,7 +76,7 @@ class BoostScreen extends PureComponent {
                 isLoading={false}
               >
                 <View style={styles.buttonContent}>
-                  <Text style={styles.buttonText}>{get(item, 'title')}</Text>
+                  <Text style={styles.buttonText}>{this._getTitle(get(item, 'title'))}</Text>
                   <View style={styles.buttonIconWrapper}>
                     <Icon name="add" iconType="MaterialIcons" color="#357ce6" size={23} />
                   </View>
@@ -72,7 +85,7 @@ class BoostScreen extends PureComponent {
             </View>
 
             <View style={styles.priceWrapper}>
-              <Text style={styles.priceText}>{`$${get(item, 'price', 0).toFixed(2)}`}</Text>
+              <Text style={styles.priceText}>{get(item, 'localizedPrice', 0)}</Text>
             </View>
           </View>
         ))}
