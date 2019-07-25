@@ -13,7 +13,7 @@ import { getReputation } from './reputation';
 export const parsePosts = (posts, currentUserName) =>
   !posts ? null : posts.map(post => parsePost(post, currentUserName));
 
-export const parsePost = (post, currentUserName) => {
+export const parsePost = (post, currentUserName, isPromoted) => {
   if (!post) {
     return null;
   }
@@ -21,7 +21,7 @@ export const parsePost = (post, currentUserName) => {
   if (currentUserName === post.author) {
     post.markdownBody = post.body;
   }
-
+  post.is_promoted = isPromoted;
   post.json_metadata = JSON.parse(post.json_metadata);
   post.image = postImage(post.json_metadata, post.body);
   post.vote_count = post.active_votes.length;

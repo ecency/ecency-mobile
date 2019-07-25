@@ -1,4 +1,5 @@
 import React, { Component } from 'react';
+import get from 'lodash/get';
 import { TouchableOpacity, Text, View } from 'react-native';
 import FastImage from 'react-native-fast-image';
 import { injectIntl } from 'react-intl';
@@ -71,22 +72,24 @@ class PostCardView extends Component {
     const { content, isHideImage, fetchPost, isNsfwPost, isHideReblogOption } = this.props;
 
     const _image = this._getPostImage(content, isNsfwPost);
-    const reblogedBy = content.reblogged_by && content.reblogged_by[0];
+    const reblogedBy = get(content, 'reblogged_by') && content.reblogged_by[0];
 
     return (
       <View style={styles.post}>
         <View style={styles.bodyHeader}>
           <PostHeaderDescription
             // date={intl.formatRelative(content.created)}
-            date={getTimeFromNow(content.created)}
+            date={getTimeFromNow(get(content, 'created'))}
             isHideImage={isHideImage}
-            name={content.author}
+            name={get(content, 'author')}
             profileOnPress={this._handleOnUserPress}
-            reputation={content.author_reputation}
+            reputation={get(content, 'author_reputation')}
             size={32}
             tag={content.category}
             reblogedBy={reblogedBy}
+            isPromoted={get(content, 'is_promoted')}
           />
+          {/* <Text>{get(content, 'is_promoted') && 'promoted'}</Text> */}
           <View style={styles.dropdownWrapper}>
             <PostDropdown
               isHideReblogOption={isHideReblogOption}
@@ -121,12 +124,12 @@ class PostCardView extends Component {
                 iconType="MaterialIcons"
                 name="people"
               />
-              <Text style={styles.comment}>{content.vote_count}</Text>
+              <Text style={styles.comment}>{get(content, 'vote_count', 0)}</Text>
             </TouchableOpacity>
           </View>
           <View style={styles.commentButton}>
             <Icon style={[styles.commentIcon]} iconType="MaterialIcons" name="comment" />
-            <Text style={styles.comment}>{content.children}</Text>
+            <Text style={styles.comment}>{get(content, 'children')}</Text>
           </View>
         </View>
       </View>

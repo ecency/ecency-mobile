@@ -1,4 +1,4 @@
-import React, { PureComponent } from 'react';
+import React, { PureComponent, Fragment } from 'react';
 import { View, Text, TouchableOpacity } from 'react-native';
 import { withNavigation } from 'react-navigation';
 
@@ -61,42 +61,56 @@ class PostHeaderDescription extends PureComponent {
       tag,
       tagOnPress,
       isShowOwnerIndicator,
+      isPromoted,
     } = this.props;
     const { reblogedBy } = this.state;
 
     const _reputationText = `(${reputation})`;
 
     return (
-      <View style={styles.container}>
-        <TouchableOpacity
-          style={styles.avatarNameWrapper}
-          onPress={() => this._handleOnUserPress(name)}
-        >
-          {!isHideImage && (
-            <UserAvatar
-              style={[styles.avatar, { width: size, height: size, borderRadius: size / 2 }]}
-              disableSize
-              username={name}
-              defaultSource={DEFAULT_IMAGE}
-              noAction
+      <View>
+        <View style={styles.container}>
+          <TouchableOpacity
+            style={styles.avatarNameWrapper}
+            onPress={() => this._handleOnUserPress(name)}
+          >
+            {!isHideImage && (
+              <UserAvatar
+                style={[styles.avatar, { width: size, height: size, borderRadius: size / 2 }]}
+                disableSize
+                username={name}
+                defaultSource={DEFAULT_IMAGE}
+                noAction
+              />
+            )}
+            <Text style={styles.name}>{name}</Text>
+            <Text style={styles.reputation}>{_reputationText}</Text>
+          </TouchableOpacity>
+          {!!tag && (
+            <TouchableOpacity onPress={() => tagOnPress && tagOnPress()}>
+              <Tag isPostCardTag isPin value={tag} />
+            </TouchableOpacity>
+          )}
+          <Text style={styles.date}>{date}</Text>
+          {isShowOwnerIndicator && (
+            <Icon style={styles.ownerIndicator} name="stars" iconType="MaterialIcons" />
+          )}
+          {/* {!!reblogedBy && (
+            // <TextWithIcon text={reblogedBy} iconType="MaterialIcons" iconName="repeat" />
+            <Icon style={styles.reblogedIcon} name="repeat" iconType="MaterialIcons" />
+          )} */}
+        </View>
+        <View style={styles.subLine}>
+          {!!reblogedBy && (
+            <TextWithIcon
+              text={`rebloged by ${reblogedBy}`}
+              iconType="MaterialIcons"
+              iconName="repeat"
             />
           )}
-          <Text style={styles.name}>{name}</Text>
-          <Text style={styles.reputation}>{_reputationText}</Text>
-        </TouchableOpacity>
-        {!!tag && (
-          <TouchableOpacity onPress={() => tagOnPress && tagOnPress()}>
-            <Tag isPostCardTag isPin value={tag} />
-          </TouchableOpacity>
-        )}
-        <Text style={styles.date}>{date}</Text>
-        {isShowOwnerIndicator && (
-          <Icon style={styles.ownerIndicator} name="stars" iconType="MaterialIcons" />
-        )}
-        {!!reblogedBy && (
-          // <TextWithIcon text={reblogedBy} iconType="MaterialIcons" iconName="repeat" />
-          <Icon style={styles.reblogedIcon} name="repeat" iconType="MaterialIcons" />
-        )}
+          {/* {isPromoted && <Text>sponsored</Text>} */}
+          {isPromoted && <Text style={styles.sponsoredText}>sponsored</Text>}
+        </View>
       </View>
     );
   }
