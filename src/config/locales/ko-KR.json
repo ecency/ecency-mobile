@@ -105,7 +105,7 @@
       "transfers": "송금"
     },
     "pincode": "PIN 코드",
-    "reset_pin": "Reset Pin Code",
+    "reset_pin": "핀코드 리셋",
     "reset": "초기화",
     "nsfw_content": "NSFW 콘텐츠",
     "send_feedback": "피드백 보내기",
@@ -205,9 +205,9 @@
     "confirm": "확인",
     "removed": "삭제되었습니다",
     "same_user": "이 사용자는 목록에 이미 추가되었습니다",
-    "unknow_error": "An error occurred",
-    "error": "Error",
-    "fetch_error": "Fetching data from server failed, please try again or notify us at info@esteem.app"
+    "unknow_error": "오류가 발생했습니다",
+    "error": "오류",
+    "fetch_error": "서버에서 데이터를 가져오는데 실패했습니다. 다시 시도해보시거나 info@esteem.app로 문의해주세요."
   },
   "post": {
     "reblog_alert": "정말 리블로그 하시겠습니까?",
@@ -312,10 +312,10 @@
     "estimated_weekly": "주간 예상 수량"
   },
   "promote": {
-    "title": "Promote",
-    "days": "days",
-    "user": "User",
+    "title": "홍보",
+    "days": "일",
+    "user": "사용자",
     "permlink": "Permlink",
-    "information": "Are you sure to transfer to promote?"
+    "information": "홍보를 위해 송금하시겠습니까?"
   }
 }
