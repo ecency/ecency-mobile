@@ -257,7 +257,7 @@ const mapStateToProps = state => ({
   isConnected: state.application.isConnected,
   accounts: state.account.otherAccounts,
   currentAccount: state.account.currentAccount,
-  pinCode: state.account.pin,
+  pinCode: state.application.pin,
   isPinCodeOpen: state.application.isPinCodeOpen,
 });
 

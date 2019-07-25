@@ -1,5 +1,5 @@
 import { Alert } from 'react-native';
-import ePointApi from '../../config/ePoint';
+import ePointApi from '../../config/api';
 
 export const userActivity = (us, ty, bl = '', tx = '') =>
   new Promise(resolve => {
