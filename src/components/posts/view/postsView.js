@@ -101,7 +101,7 @@ class PostsView extends Component {
       res &&
         res.length > 0 &&
         res.map(async item => {
-          const post = await getPost(item.author, item.permlink, currentAccountUsername);
+          const post = await getPost(item.author, item.permlink, currentAccountUsername, true);
           promotedPosts.push(post);
         });
 
@@ -138,6 +138,7 @@ class PostsView extends Component {
         : PROFILE_FILTERS[selectedFilterIndex].toLowerCase();
     let options;
     let newPosts = [];
+    const limit = promotedPosts ? (promotedPosts.length >= 3 ? 9 : 6) : 3;
 
     if (!isConnected) {
       this.setState({
@@ -156,16 +157,16 @@ class PostsView extends Component {
     if (tag || filter === 'feed' || filter === 'blog' || getFor === 'blog') {
       options = {
         tag,
-        limit: 3,
+        limit,
       };
     } else if (filter === 'reblogs') {
       options = {
         tag,
-        limit: 3,
+        limit,
       };
     } else {
       options = {
-        limit: 3,
+        limit,
       };
     }
 
@@ -200,20 +201,6 @@ class PostsView extends Component {
               }
             }
 
-            // result &&
-            //   result.length > 0 &&
-            //   result.map((item, i) => {
-            //     if ([3, 6, 9].includes(i)) {
-            //       const ix = i / 3 - 1;
-            //       if (promotedPosts[ix] !== undefined) {
-            //         const p = promotedPosts[ix];
-
-            //         _posts.push(p);
-            //       }
-            //     }
-            //   });
-            // _posts = promotedPosts;
-
             if (posts.length < 5) {
               setFeedPosts(_posts);
             }
@@ -223,6 +210,12 @@ class PostsView extends Component {
                 posts: _posts,
               });
             } else if (!refreshing) {
+              if (!startAuthor) {
+                promotedPosts.map((promotedItem, i) => {
+                  _posts.splice((i + 1) * 3, i * 3, promotedItem);
+                });
+              }
+
               this.setState({
                 posts: _posts,
                 startAuthor: result[result.length - 1] && result[result.length - 1].author,
