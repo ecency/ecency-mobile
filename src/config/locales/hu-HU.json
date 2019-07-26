@@ -105,7 +105,7 @@
       "transfers": "Átutalások"
     },
     "pincode": "PIN kód",
-    "reset_pin": "Reset Pin Code",
+    "reset_pin": "Pin kód beállítása",
     "reset": "Visszaállítás",
     "nsfw_content": "NSFW tartalom",
     "send_feedback": "Visszajelzés küldése",
@@ -206,7 +206,8 @@
     "removed": "Eltávolítva",
     "same_user": "Ez a felhasználó már szerepel a listán",
     "unknow_error": "Hiba történt",
-    "error": "Hiba"
+    "error": "Hiba",
+    "fetch_error": "Fetching data from server failed, please try again or notify us at info@esteem.app"
   },
   "post": {
     "reblog_alert": "Biztos, hogy megosztod?",

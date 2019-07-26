@@ -206,7 +206,8 @@
     "removed": "Removed",
     "same_user": "This user already added to list",
     "unknow_error": "An error occurred",
-    "error": "Error"
+    "error": "Error",
+    "fetch_error": "Fetching data from server failed, please try again or notify us at info@esteem.app"
   },
   "post": {
     "reblog_alert": "Da li ste sigurni da želite da podelite?",
