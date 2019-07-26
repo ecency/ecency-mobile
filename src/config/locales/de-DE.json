@@ -54,7 +54,7 @@
     "no_activity": "Keine Aktivität hier!",
     "outgoing_transfer_description": "",
     "incoming_transfer_description": "",
-    "post_desc": "You can earn point by posting regularly. Posting gives you 15 points.",
+    "post_desc": "Du kannst eSteem Punkte für das regelmäßige Posten erhalten. Posten bringt dir 15 eSteem Punkte.",
     "comment_desc": "Jeder Kommentar, den du machst, hilft dir, dein Publikum zu vergrößern und Freundschaften zu schließen. Dies bringt dir auch 5 eSteem Punkte ein.",
     "checkin_desc": "Wenn du dich in der eSteem-App anmeldest, bekommst du 0,25 eSteem Punkte und bleibst mit deinen Freunden in Kontakt.",
     "vote_desc": "Mit dem Voting belohnst du andere Blogger und zeigst Ihnen deine Anerkennung, verdienst aber auch 0,01x eSteem Punkte für dein Stimm-Gewicht.\n",
@@ -185,7 +185,7 @@
     "claim_reward_balance_ok": "Belohnung abgeholt",
     "fail": "Fehlgeschlagen!",
     "move": "Verschieben",
-    "move_question": "Are you sure to move to drafts?",
+    "move_question": "Bist du sicher, dass du zu Entwürfen wechseln möchtest?",
     "success_shared": "Dein Beitrag wurde erfolgreich erstellt",
     "success_moved": "Erfolgreich in Entwürfe verschoben",
     "permission_denied": "Berechtigung verweigert",
@@ -204,14 +204,14 @@
     "no_internet": "Keine Verbindung!",
     "confirm": "Bestätigen",
     "removed": "Entfernt",
-    "same_user": "This user already added to list",
+    "same_user": "Dieser User ist bereits in der Liste eingetragen.",
     "unknow_error": "Es ist ein Fehler aufgetreten",
     "error": "Fehler",
-    "fetch_error": "Fetching data from server failed, please try again or notify us at info@esteem.app"
+    "fetch_error": "Das Abrufen der Daten vom Server ist fehlgeschlagen. Bitte versuche es nochmal oder informiere uns unter info@esteem.app"
   },
   "post": {
     "reblog_alert": "Möchtest du diesen Beitrag wirklich teilen?",
-    "removed_hint": "The post was removed by",
+    "removed_hint": "Der Beitrag wurde entfernt von",
     "copy_link": "Link kopieren"
   },
   "drafts": {
@@ -282,13 +282,13 @@
     "to": "zu",
     "amount": "Betrag",
     "memo": "Memo",
-    "information": "Are you sure to transfer to funds?",
+    "information": "Bist du sicher, dass du Geld überweisen willst?",
     "amount_desc": "Kontostand",
     "memo_desc": "Dieses Memo ist öffentlich",
     "to_placeholder": "Benutzername",
     "memo_placeholder": "Hier dein Memo eingeben",
     "transfer_token": "Überweisen",
-    "points": "Points Transfer",
+    "points": "Punkte-Übertragung",
     "transfer_to_saving": "Zum Sparkonto überweisen",
     "powerUp": "Power Up",
     "withdraw_to_saving": "Withdraw To Saving",
@@ -308,7 +308,7 @@
     "stop": "Stop",
     "stop_information": "Möchtest du wirklich abbrechen?",
     "incoming_funds": "Eingehend",
-    "sc_power_down_error": "Steem connect setWithdrawVestingRoute not implemented yet.",
+    "sc_power_down_error": "Steem connect setWithdrawVestingRoute noch nicht implementiert.",
     "estimated_weekly": "Geschätzt wöchentlich"
   },
   "promote": {
@@ -316,6 +316,6 @@
     "days": "Tage",
     "user": "Benutzer",
     "permlink": "Permalink",
-    "information": "Are you sure to transfer to promote?"
+    "information": "Bist du sicher, dass du Geld für das Promoten überweisen willst?"
   }
 }
