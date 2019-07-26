@@ -7,20 +7,22 @@ export default EStyleSheet.create({
   },
   subLine: {
     marginTop: 5,
-    marginHorizontal: 3,
     flexDirection: 'row',
-    alignItems: 'center',
     justifyContent: 'space-between',
     width: '$deviceWidth - 30',
+    // justifyContent: 'flex-end',
+    flex: 1,
+  },
+  sponsoredWrapper: {
+    justifyContent: 'flex-end',
+    marginRight: 10,
     flex: 1,
   },
   sponsoredText: {
     fontSize: 10,
     color: '$primaryDarkGray',
-    // alignItems: 'flex-end',
-    // alignItems: 'flex-end',
-    // justifyContent: 'flex-end',
-    // alignItems: 'center',
+    textAlign: 'right',
+    alignItems: 'stretch',
     alignSelf: 'flex-end',
   },
   avatar: {
