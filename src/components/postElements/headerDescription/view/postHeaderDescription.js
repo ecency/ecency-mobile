@@ -95,11 +95,8 @@ class PostHeaderDescription extends PureComponent {
           {isShowOwnerIndicator && (
             <Icon style={styles.ownerIndicator} name="stars" iconType="MaterialIcons" />
           )}
-          {/* {!!reblogedBy && (
-            // <TextWithIcon text={reblogedBy} iconType="MaterialIcons" iconName="repeat" />
-            <Icon style={styles.reblogedIcon} name="repeat" iconType="MaterialIcons" />
-          )} */}
         </View>
+
         <View style={styles.subLine}>
           {!!reblogedBy && (
             <TextWithIcon
@@ -108,8 +105,11 @@ class PostHeaderDescription extends PureComponent {
               iconName="repeat"
             />
           )}
-          {/* {isPromoted && <Text>sponsored</Text>} */}
-          {isPromoted && <Text style={styles.sponsoredText}>sponsored</Text>}
+          {isPromoted && (
+            <View style={styles.sponsoredWrapper}>
+              <Text style={styles.sponsoredText}>sponsored</Text>
+            </View>
+          )}
         </View>
       </View>
     );
