@@ -5,26 +5,6 @@ export default EStyleSheet.create({
     flexDirection: 'row',
     alignItems: 'center',
   },
-  subLine: {
-    marginTop: 5,
-    flexDirection: 'row',
-    justifyContent: 'space-between',
-    width: '$deviceWidth - 30',
-    // justifyContent: 'flex-end',
-    flex: 1,
-  },
-  sponsoredWrapper: {
-    justifyContent: 'flex-end',
-    marginRight: 10,
-    flex: 1,
-  },
-  sponsoredText: {
-    fontSize: 10,
-    color: '$primaryDarkGray',
-    textAlign: 'right',
-    alignItems: 'stretch',
-    alignSelf: 'flex-end',
-  },
   avatar: {
     borderColor: '$borderColor',
     borderWidth: 1,

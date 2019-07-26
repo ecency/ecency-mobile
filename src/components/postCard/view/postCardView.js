@@ -11,6 +11,7 @@ import { getTimeFromNow } from '../../../utils/time';
 import { PostHeaderDescription } from '../../postElements';
 import { PostDropdown } from '../../postDropdown';
 import { Icon } from '../../icon';
+import { TextWithIcon } from '../../basicUIElements';
 
 // STEEM
 import { Upvote } from '../../upvote';
@@ -31,10 +32,21 @@ class PostCardView extends Component {
   constructor(props) {
     super(props);
 
-    this.state = {};
+    this.state = {
+      reblogedBy: get(props.content, 'reblogged_by[0]', null),
+    };
   }
 
   // Component Lifecycle Functions
+  componentWillReceiveProps(nextProps) {
+    const { content } = this.props;
+    const reblogedBy = get(content, 'reblogged_by[0]', null);
+    const _reblogedBy = get(nextProps.content, 'reblogged_by[0]', null);
+
+    if (reblogedBy !== _reblogedBy && !_reblogedBy) {
+      this.setState({ reblogedBy });
+    }
+  }
 
   // Component Functions
 
@@ -70,9 +82,8 @@ class PostCardView extends Component {
 
   render() {
     const { content, isHideImage, fetchPost, isNsfwPost, isHideReblogOption } = this.props;
-
+    const { reblogedBy } = this.state;
     const _image = this._getPostImage(content, isNsfwPost);
-    const reblogedBy = get(content, 'reblogged_by') && content.reblogged_by[0];
 
     return (
       <View style={styles.post}>
@@ -89,7 +100,6 @@ class PostCardView extends Component {
             reblogedBy={reblogedBy}
             isPromoted={get(content, 'is_promoted')}
           />
-          {/* <Text>{get(content, 'is_promoted') && 'promoted'}</Text> */}
           <View style={styles.dropdownWrapper}>
             <PostDropdown
               isHideReblogOption={isHideReblogOption}
@@ -111,6 +121,14 @@ class PostCardView extends Component {
               <Text style={styles.summary}>{content.summary}</Text>
             </View>
           </TouchableOpacity>
+
+          {!!reblogedBy && (
+            <TextWithIcon
+              text={`rebloged by ${reblogedBy}`}
+              iconType="MaterialIcons"
+              iconName="repeat"
+            />
+          )}
         </View>
         <View style={styles.bodyFooter}>
           <View style={styles.leftFooterWrapper}>

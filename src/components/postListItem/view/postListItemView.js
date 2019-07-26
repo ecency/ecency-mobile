@@ -80,6 +80,7 @@ class PostListItemView extends Component {
             </TouchableOpacity>
           </View>
         </View>
+
         <ActionSheet
           ref={o => (this.ActionSheet = o)}
           options={[

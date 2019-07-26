@@ -1,4 +1,4 @@
-import React, { PureComponent, Fragment } from 'react';
+import React, { PureComponent } from 'react';
 import { View, Text, TouchableOpacity } from 'react-native';
 import { withNavigation } from 'react-navigation';
 
@@ -17,19 +17,10 @@ const DEFAULT_IMAGE = require('../../../../assets/esteem.png');
 class PostHeaderDescription extends PureComponent {
   constructor(props) {
     super(props);
-    this.state = {
-      reblogedBy: props.reblogedBy || null,
-    };
+    this.state = {};
   }
 
   // Component Life Cycles
-  componentWillReceiveProps(nextProps) {
-    const { reblogedBy } = this.props;
-
-    if (reblogedBy !== nextProps.reblogedBy && !nextProps.reblogedBy) {
-      this.setState({ reblogedBy });
-    }
-  }
 
   // Component Functions
   _handleOnUserPress = username => {
@@ -63,8 +54,6 @@ class PostHeaderDescription extends PureComponent {
       isShowOwnerIndicator,
       isPromoted,
     } = this.props;
-    const { reblogedBy } = this.state;
-
     const _reputationText = `(${reputation})`;
 
     return (
@@ -91,24 +80,9 @@ class PostHeaderDescription extends PureComponent {
               <Tag isPostCardTag isPin value={tag} />
             </TouchableOpacity>
           )}
-          <Text style={styles.date}>{date}</Text>
+          <Text style={styles.date}>{isPromoted ? 'sponsored' : date}</Text>
           {isShowOwnerIndicator && (
             <Icon style={styles.ownerIndicator} name="stars" iconType="MaterialIcons" />
-          )}
-        </View>
-
-        <View style={styles.subLine}>
-          {!!reblogedBy && (
-            <TextWithIcon
-              text={`rebloged by ${reblogedBy}`}
-              iconType="MaterialIcons"
-              iconName="repeat"
-            />
-          )}
-          {isPromoted && (
-            <View style={styles.sponsoredWrapper}>
-              <Text style={styles.sponsoredText}>sponsored</Text>
-            </View>
           )}
         </View>
       </View>
