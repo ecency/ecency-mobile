@@ -20,6 +20,7 @@ export default {
     SEARCH_RESULT: `SearchResult${SCREEN_SUFFIX}`,
     TRANSFER: `Transfer${SCREEN_SUFFIX}`,
     BOOST: `Boost${SCREEN_SUFFIX}`,
+    BOOST_POST: `BoostPost${SCREEN_SUFFIX}`,
     PROMOTE: `Promote${SCREEN_SUFFIX}`,
   },
   DRAWER: {

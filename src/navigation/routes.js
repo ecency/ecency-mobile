@@ -23,6 +23,7 @@ import {
   Transfer,
   Boost,
   Promote,
+  BoostPost,
 } from '../screens';
 
 // Components
@@ -115,6 +116,12 @@ const stackNavigatior = createStackNavigator(
     },
     [ROUTES.SCREENS.PROMOTE]: {
       screen: Promote,
+      navigationOptions: {
+        header: () => null,
+      },
+    },
+    [ROUTES.SCREENS.BOOST_POST]: {
+      screen: BoostPost,
       navigationOptions: {
         header: () => null,
       },

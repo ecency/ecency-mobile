@@ -72,7 +72,7 @@ class PointsContainer extends Component {
 
   // Component Functions
 
-  _handleOnPressTransfer = index => {
+  _handleOnDropdownSelected = index => {
     const { dispatch, isPinCodeOpen, navigation } = this.props;
     const { balance } = this.state;
     let navigateTo;
@@ -90,6 +90,13 @@ class PointsContainer extends Component {
 
       case 1:
         navigateTo = ROUTES.SCREENS.PROMOTE;
+        navigateParams = {
+          balance,
+        };
+        break;
+
+      case 2:
+        navigateTo = ROUTES.SCREENS.BOOST_POST;
         navigateParams = {
           balance,
         };
@@ -239,7 +246,7 @@ class PointsContainer extends Component {
         refreshing,
         userActivities,
         userPoints,
-        handleOnPressTransfer: this._handleOnPressTransfer,
+        handleOnDropdownSelected: this._handleOnDropdownSelected,
         balance,
         getUserBalance: this._getUserBalance,
         promote: this._promote,

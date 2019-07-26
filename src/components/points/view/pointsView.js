@@ -84,7 +84,7 @@ class PointsView extends Component {
       isClaiming,
       userActivities,
       userPoints,
-      handleOnPressTransfer,
+      handleOnDropdownSelected,
       navigation,
       intl,
     } = this.props;
@@ -106,7 +106,7 @@ class PointsView extends Component {
               options={['Transfer', 'Promote', 'Boost']}
               noHighlight
               dropdownButtonStyle={styles.dropdownButtonStyle}
-              onSelect={handleOnPressTransfer}
+              onSelect={handleOnDropdownSelected}
               rowTextStyle={styles.dropdownRowText}
               dropdownStyle={styles.dropdownStyle}
             />
