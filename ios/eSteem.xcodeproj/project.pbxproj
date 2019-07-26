@@ -5,6 +5,7 @@
 	};
 	objectVersion = 46;
 	objects = {
+
 /* Begin PBXBuildFile section */
 		00C302E51ABCBA2D00DB3ED1 /* libRCTActionSheet.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 00C302AC1ABCB8CE00DB3ED1 /* libRCTActionSheet.a */; };
 		00C302E71ABCBA2D00DB3ED1 /* libRCTGeolocation.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 00C302BA1ABCB90400DB3ED1 /* libRCTGeolocation.a */; };
@@ -49,6 +50,7 @@
 		52615D71201B87DDA8329977 /* libPods-eSteem.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 909313DD53B247C48F583FD4 /* libPods-eSteem.a */; };
 		555B95755FD74950AAAD68E9 /* RobotoMono-Regular.ttf in Resources */ = {isa = PBXBuildFile; fileRef = 044930AF6BF7488DA7F02A8F /* RobotoMono-Regular.ttf */; };
 		589BED6E22A5CE2C002DF1C5 /* libBugsnagReactNative.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 589BED6D22A5CE2C002DF1C5 /* libBugsnagReactNative.a */; };
+		58EFDD3422EB228C0024083D /* StoreKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 58EFDD3322EB228C0024083D /* StoreKit.framework */; };
 		5FA7E43947714B96866CAE94 /* Roboto-medium.ttf in Resources */ = {isa = PBXBuildFile; fileRef = F3D23ACB36194C40BFB26B7A /* Roboto-medium.ttf */; };
 		6E4C52029EBF42989F818B8A /* libRNViewOverflow.a in Frameworks */ = {isa = PBXBuildFile; fileRef = BBFAB592DFA5475CBA7E7567 /* libRNViewOverflow.a */; };
 		7429574AA9E24BDCB4EF596F /* libAppCenterReactNativeCrashes.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 433413DEC10A40BBA49C187D /* libAppCenterReactNativeCrashes.a */; };
@@ -515,6 +517,7 @@
 		4E0DAB59CCF2448F8E106212 /* libz.tbd */ = {isa = PBXFileReference; explicitFileType = undefined; fileEncoding = 9; includeInIndex = 0; lastKnownFileType = "sourcecode.text-based-dylib-definition"; name = libz.tbd; path = usr/lib/libz.tbd; sourceTree = SDKROOT; };
 		5781B02C94A842A6A5F5D701 /* AppCenterReactNativeCrashes.xcodeproj */ = {isa = PBXFileReference; explicitFileType = undefined; fileEncoding = 9; includeInIndex = 0; lastKnownFileType = "wrapper.pb-project"; name = AppCenterReactNativeCrashes.xcodeproj; path = "../node_modules/appcenter-crashes/ios/AppCenterReactNativeCrashes.xcodeproj"; sourceTree = "<group>"; };
 		589BED6D22A5CE2C002DF1C5 /* libBugsnagReactNative.a */ = {isa = PBXFileReference; explicitFileType = archive.ar; path = libBugsnagReactNative.a; sourceTree = BUILT_PRODUCTS_DIR; };
+		58EFDD3322EB228C0024083D /* StoreKit.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = StoreKit.framework; path = System/Library/Frameworks/StoreKit.framework; sourceTree = SDKROOT; };
 		5E91572D1DD0AC6500FF2AA8 /* RCTAnimation.xcodeproj */ = {isa = PBXFileReference; lastKnownFileType = "wrapper.pb-project"; name = RCTAnimation.xcodeproj; path = "../node_modules/react-native/Libraries/NativeAnimation/RCTAnimation.xcodeproj"; sourceTree = "<group>"; };
 		60FC401F76F74AB5BCE41DD2 /* Sansation_Bold.ttf */ = {isa = PBXFileReference; explicitFileType = undefined; fileEncoding = 9; includeInIndex = 0; lastKnownFileType = unknown; name = Sansation_Bold.ttf; path = ../src/assets/Fonts/Sansation_Bold.ttf; sourceTree = "<group>"; };
 		617E4B90481842DBB13C3A11 /* AppCenter-Config.plist */ = {isa = PBXFileReference; explicitFileType = undefined; fileEncoding = 4; includeInIndex = 0; lastKnownFileType = text.plist.xml; name = "AppCenter-Config.plist"; path = "eSteem/AppCenter-Config.plist"; sourceTree = "<group>"; };
@@ -592,6 +595,7 @@
 				832341BD1AAA6AB300B99B32 /* libRCTText.a in Frameworks */,
 				00C302EA1ABCBA2D00DB3ED1 /* libRCTVibration.a in Frameworks */,
 				139FDEF61B0652A700C62182 /* libRCTWebSocket.a in Frameworks */,
+				58EFDD3422EB228C0024083D /* StoreKit.framework in Frameworks */,
 				0545E65831584C559F6E9D6E /* libAppCenterReactNative.a in Frameworks */,
 				9EFDC6DF5A774C34A89FAD33 /* libAppCenterReactNativeAnalytics.a in Frameworks */,
 				7429574AA9E24BDCB4EF596F /* libAppCenterReactNativeCrashes.a in Frameworks */,
@@ -844,6 +848,7 @@
 		2D16E6871FA4F8E400B85C8A /* Frameworks */ = {
 			isa = PBXGroup;
 			children = (
+				58EFDD3322EB228C0024083D /* StoreKit.framework */,
 				589BED6D22A5CE2C002DF1C5 /* libBugsnagReactNative.a */,
 				ED297162215061F000B7C4FE /* JavaScriptCore.framework */,
 				ED2971642150620600B7C4FE /* JavaScriptCore.framework */,
@@ -1112,6 +1117,9 @@
 						ProvisioningStyle = Manual;
 						SystemCapabilities = {
 							com.apple.BackgroundModes = {
+								enabled = 1;
+							};
+							com.apple.InAppPurchase = {
 								enabled = 1;
 							};
 							com.apple.Push = {
