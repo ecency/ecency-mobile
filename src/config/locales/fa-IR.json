@@ -206,7 +206,8 @@
     "removed": "حذف شد",
     "same_user": "این کاربر قبلا به لیست اضافه شده است",
     "unknow_error": "An error occurred",
-    "error": "Error"
+    "error": "Error",
+    "fetch_error": "Fetching data from server failed, please try again or notify us at info@esteem.app"
   },
   "post": {
     "reblog_alert": "آیا مطمئن هستید که می‌خواهید به اشتراک بگذارید؟",
