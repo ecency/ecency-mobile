@@ -306,7 +306,11 @@
     "title": "Promote",
     "days": "days",
     "user": "User",
-    "permlink": "Permlink",
+    "permlink": "Post",
+    "permlinkPlaceholder": "author/permlink",
     "information": "Are you sure to transfer to promote?"
+  },
+  "boostPost": {
+    "title": "Boost"
   }
 }

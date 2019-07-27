@@ -1137,7 +1137,7 @@ export const boost = (currentAccount, pinCode, point, permlink, author) => {
   const pin = getDigitPinCode(pinCode);
   const key = getActiveKey(get(currentAccount, 'local'), pin);
 
-  if (key) {
+  if (key && point) {
     const privateKey = PrivateKey.fromString(key);
     const user = get(currentAccount, 'name');
 
@@ -1147,7 +1147,7 @@ export const boost = (currentAccount, pinCode, point, permlink, author) => {
         user,
         author,
         permlink,
-        amount: `${point} POINT`,
+        amount: `${point.toFixed(3)} POINT`,
       }),
       required_auths: [user],
       required_posting_auths: [],

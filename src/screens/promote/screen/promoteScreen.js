@@ -186,7 +186,7 @@ class PointsScreen extends PureComponent {
                       this._renderDropdown(accounts, selectedUser || currentAccountName)
                     }
                   />
-                  <Text style={styles.balanceText}>{`${balance || _balance} eSteem Points`}</Text>
+                  <Text style={styles.balanceText}>{`${balance || _balance} ESTM`}</Text>
                   <Fragment>
                     <View style={styles.autocomplateLineContainer}>
                       <View style={styles.autocomplateLabelContainer}>

@@ -10,7 +10,7 @@ export default EStyleSheet.create({
     fontSize: 14,
     color: '$primaryDarkGray',
     alignSelf: 'center',
-    marginLeft: 70,
+    marginLeft: 20,
     marginBottom: 10,
   },
   topContent: {

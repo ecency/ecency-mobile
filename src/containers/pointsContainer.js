@@ -8,7 +8,7 @@ import { withNavigation } from 'react-navigation';
 // Services and Actions
 import { getUser, getUserPoints, claim } from '../providers/esteem/ePoint';
 import { openPinCodeModal } from '../redux/actions/applicationActions';
-import { promote, getAccount } from '../providers/steem/dsteem';
+import { promote, getAccount, boost } from '../providers/steem/dsteem';
 import { getUserDataWithUsername } from '../realm/realm';
 import { toastNotification } from '../redux/actions/uiAction';
 
@@ -212,6 +212,33 @@ class PointsContainer extends Component {
       });
   };
 
+  _boost = async (point, permlink, author, user) => {
+    const { currentAccount, pinCode, dispatch, intl, navigation } = this.props;
+    this.setState({ isLoading: true });
+
+    await boost(user || currentAccount, pinCode, point, permlink, author)
+      .then(() => {
+        this.setState({ isLoading: false });
+        navigation.goBack();
+        dispatch(toastNotification(intl.formatMessage({ id: 'alert.successful' })));
+      })
+      .catch(error => {
+        Alert.alert(
+          `Fetching data from server failed, please try again or notify us at info@esteem.app \n${error.message.substr(
+            0,
+            20,
+          )}`,
+        );
+      });
+  };
+
+  _getESTMPrice = points => {
+    const { globalProps } = this.props;
+    const { base, quote } = globalProps;
+
+    return points * 0.01 * (base / quote);
+  };
+
   render() {
     const {
       balance,
@@ -247,6 +274,8 @@ class PointsContainer extends Component {
         userActivities,
         userPoints,
         handleOnDropdownSelected: this._handleOnDropdownSelected,
+        getESTMPrice: this._getESTMPrice,
+        boost: this._boost,
         balance,
         getUserBalance: this._getUserBalance,
         promote: this._promote,
@@ -266,6 +295,7 @@ const mapStateToProps = state => ({
   currentAccount: state.account.currentAccount,
   pinCode: state.application.pin,
   isPinCodeOpen: state.application.isPinCodeOpen,
+  globalProps: state.account.globalProps,
 });
 
 export default withNavigation(connect(mapStateToProps)(injectIntl(PointsContainer)));
