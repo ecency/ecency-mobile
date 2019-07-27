@@ -1,10 +1,9 @@
 import React, { Component, Fragment } from 'react';
-import { IntlProvider } from 'react-intl';
 import { StatusBar, Platform, View } from 'react-native';
 import EStyleSheet from 'react-native-extended-stylesheet';
+import { connect } from 'react-redux';
+
 import { ReduxNavigation } from '../../../navigation/reduxNavigation';
-import { flattenMessages } from '../../../utils/flattenMessages';
-import messages from '../../../config/locales';
 
 // Services
 import { toastNotification as toastNotificationAction } from '../../../redux/actions/uiAction';
@@ -12,8 +11,6 @@ import { toastNotification as toastNotificationAction } from '../../../redux/act
 // Components
 import { NoInternetConnection } from '../../../components/basicUIElements';
 import { ToastNotification } from '../../../components/toastNotification';
-import { Modal } from '../../../components';
-import { PinCode } from '../../pinCode';
 import PostButtonForAndroid from '../../../components/postButton/view/postButtonsForAndroid';
 
 // Themes (Styles)
@@ -47,14 +44,7 @@ class ApplicationScreen extends Component {
   };
 
   render() {
-    const {
-      isConnected,
-      isDarkTheme,
-      locale,
-      toastNotification,
-      isReady,
-      isPinCodeReqiure,
-    } = this.props;
+    const { isConnected, isDarkTheme, toastNotification, isReady } = this.props;
     const { isShowToastNotification } = this.state;
     const barStyle = isDarkTheme ? 'light-content' : 'dark-content';
     const barColor = isDarkTheme ? '#1e2835' : '#fff';
@@ -66,21 +56,10 @@ class ApplicationScreen extends Component {
         ) : (
           <StatusBar barStyle={barStyle} backgroundColor={barColor} />
         )}
-
-        <IntlProvider locale={locale} messages={flattenMessages(messages[locale])}>
-          <Fragment>
-            {!isConnected && <NoInternetConnection />}
-            <ReduxNavigation />
-            <Modal
-              isOpen={isPinCodeReqiure}
-              isFullScreen
-              swipeToClose={false}
-              backButtonClose={false}
-            >
-              <PinCode setWrappedComponentState={this._setWrappedComponentState} />
-            </Modal>
-          </Fragment>
-        </IntlProvider>
+        <Fragment>
+          {!isConnected && <NoInternetConnection />}
+          <ReduxNavigation />
+        </Fragment>
         {Platform.OS === 'android' && <PostButtonForAndroid />}
 
         {isShowToastNotification && (
@@ -95,4 +74,4 @@ class ApplicationScreen extends Component {
   }
 }
 
-export default ApplicationScreen;
+export default connect()(ApplicationScreen);

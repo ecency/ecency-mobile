@@ -2,6 +2,7 @@ import React, { PureComponent } from 'react';
 import { View, WebView, Alert } from 'react-native';
 import { connect } from 'react-redux';
 import { injectIntl } from 'react-intl';
+import { withNavigation } from 'react-navigation';
 
 import { loginWithSC2 } from '../../providers/steem/auth';
 import { steemConnectOptions } from './config';
@@ -23,7 +24,7 @@ class SteemConnect extends PureComponent {
 
   _onNavigationStateChange = event => {
     let code;
-    const { dispatch, handleOnModalClose, intl } = this.props;
+    const { dispatch, handleOnModalClose, intl, isPinCodeOpen, navigation } = this.props;
     const { isLoading } = this.state;
     if (event.url.indexOf('?code=') > -1) {
       this.webview.stopLoading();
@@ -42,12 +43,20 @@ class SteemConnect extends PureComponent {
               dispatch(updateCurrentAccount({ ...result }));
               dispatch(addOtherAccount({ username: result.name }));
               dispatch(loginAction(true));
-              dispatch(
-                openPinCodeModal({
-                  accessToken: result.accessToken,
-                  navigateTo: ROUTES.DRAWER.MAIN,
-                }),
-              );
+
+              if (isPinCodeOpen) {
+                dispatch(
+                  openPinCodeModal({
+                    accessToken: result.accessToken,
+                    navigateTo: ROUTES.DRAWER.MAIN,
+                  }),
+                );
+              } else {
+                navigation.navigate({
+                  routeName: ROUTES.DRAWER.MAIN,
+                  params: { accessToken: result.accessToken },
+                });
+              }
             } else {
               // TODO: Error alert (Toast Message)
             }
@@ -86,4 +95,8 @@ class SteemConnect extends PureComponent {
   }
 }
 
-export default injectIntl(connect()(SteemConnect));
+const mapStateToProps = state => ({
+  isPinCodeOpen: state.application.isPinCodeOpen,
+});
+
+export default injectIntl(connect(mapStateToProps)(withNavigation(SteemConnect)));

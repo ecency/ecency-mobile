@@ -1,22 +1,22 @@
-import React, { Component } from "react";
-import { Alert } from "react-native";
-import { connect } from "react-redux";
-import get from "lodash/get";
-import { injectIntl } from "react-intl";
-import { withNavigation } from "react-navigation";
+import { Component } from 'react';
+import { Alert } from 'react-native';
+import { connect } from 'react-redux';
+import get from 'lodash/get';
+import { injectIntl } from 'react-intl';
+import { withNavigation } from 'react-navigation';
 
 // Services and Actions
-import { getUser, getUserPoints, claim } from "../providers/esteem/ePoint";
-import { openPinCodeModal } from "../redux/actions/applicationActions";
-import { promote, getAccount } from "../providers/steem/dsteem";
-import { getUserDataWithUsername } from "../realm/realm";
-import { toastNotification } from "../redux/actions/uiAction";
+import { getUser, getUserPoints, claim } from '../providers/esteem/ePoint';
+import { openPinCodeModal } from '../redux/actions/applicationActions';
+import { promote, getAccount } from '../providers/steem/dsteem';
+import { getUserDataWithUsername } from '../realm/realm';
+import { toastNotification } from '../redux/actions/uiAction';
 
 // Constant
-import POINTS from "../constants/options/points";
+import POINTS from '../constants/options/points';
 
 // Constants
-import ROUTES from "../constants/routeNames";
+import ROUTES from '../constants/routeNames';
 
 /*
  *            Props Name        Description                                     Value
@@ -32,7 +32,7 @@ class PointsContainer extends Component {
       userActivities: null,
       refreshing: false,
       isClaiming: false,
-      isLoading: true
+      isLoading: true,
     };
   }
 
@@ -42,10 +42,7 @@ class PointsContainer extends Component {
 
     if (isConnected) {
       this._fetchuserPointActivities(username);
-      this.fetchInterval = setInterval(
-        this._fetchuserPointActivities,
-        6 * 60 * 1000
-      );
+      this.fetchInterval = setInterval(this._fetchuserPointActivities, 6 * 60 * 1000);
     }
   }
 
@@ -54,8 +51,7 @@ class PointsContainer extends Component {
 
     if (
       nextProps.isConnected &&
-      ((nextProps.activeBottomTab === ROUTES.TABBAR.POINTS &&
-        nextProps.username) ||
+      ((nextProps.activeBottomTab === ROUTES.TABBAR.POINTS && nextProps.username) ||
         (nextProps.username !== username && nextProps.username))
     ) {
       this._fetchuserPointActivities(nextProps.username);
@@ -69,7 +65,7 @@ class PointsContainer extends Component {
   // Component Functions
 
   _handleOnPressTransfer = index => {
-    const { dispatch } = this.props;
+    const { dispatch, isPinCodeOpen, navigation } = this.props;
     const { balance } = this.state;
     let navigateTo;
     let navigateParams;
@@ -78,16 +74,16 @@ class PointsContainer extends Component {
       case 0:
         navigateTo = ROUTES.SCREENS.TRANSFER;
         navigateParams = {
-          transferType: "points",
-          fundType: "POINT",
-          balance
+          transferType: 'points',
+          fundType: 'POINT',
+          balance,
         };
         break;
 
       case 1:
         navigateTo = ROUTES.SCREENS.PROMOTE;
         navigateParams = {
-          balance
+          balance,
         };
         break;
 
@@ -95,20 +91,27 @@ class PointsContainer extends Component {
         break;
     }
 
-    dispatch(
-      openPinCodeModal({
-        navigateTo,
-        navigateParams
-      })
-    );
+    if (isPinCodeOpen) {
+      dispatch(
+        openPinCodeModal({
+          navigateTo,
+          navigateParams,
+        }),
+      );
+    } else {
+      navigation.navigate({
+        routeName: navigateTo,
+        params: navigateParams,
+      });
+    }
   };
 
   _groomUserActivities = userActivities =>
     userActivities.map(item => ({
       ...item,
-      icon: get(POINTS[get(item, "type")], "icon"),
-      iconType: get(POINTS[get(item, "type")], "iconType"),
-      textKey: get(POINTS[get(item, "type")], "textKey")
+      icon: get(POINTS[get(item, 'type')], 'icon'),
+      iconType: get(POINTS[get(item, 'type')], 'iconType'),
+      textKey: get(POINTS[get(item, 'type')], 'textKey'),
     }));
 
   _fetchuserPointActivities = async username => {
@@ -117,7 +120,7 @@ class PointsContainer extends Component {
 
     await getUser(username)
       .then(userPoints => {
-        const balance = Math.round(get(userPoints, "points") * 1000) / 1000;
+        const balance = Math.round(get(userPoints, 'points') * 1000) / 1000;
         this.setState({ userPoints, balance });
       })
       .catch(err => {
@@ -128,7 +131,7 @@ class PointsContainer extends Component {
       .then(userActivities => {
         if (Object.entries(userActivities).length !== 0) {
           this.setState({
-            userActivities: this._groomUserActivities(userActivities)
+            userActivities: this._groomUserActivities(userActivities),
           });
         }
       })
@@ -138,14 +141,14 @@ class PointsContainer extends Component {
 
     this.setState({
       refreshing: false,
-      isLoading: false
+      isLoading: false,
     });
   };
 
   _getUserBalance = async username => {
     await getUser(username)
       .then(userPoints => {
-        const balance = Math.round(get(userPoints, "points") * 1000) / 1000;
+        const balance = Math.round(get(userPoints, 'points') * 1000) / 1000;
         return balance;
       })
       .catch(err => {
@@ -166,8 +169,8 @@ class PointsContainer extends Component {
         Alert.alert(
           `Fetching data from server failed, please try again or notify us at info@esteem.app \n${error.message.substr(
             0,
-            20
-          )}`
+            20,
+          )}`,
         );
       });
 
@@ -181,17 +184,15 @@ class PointsContainer extends Component {
     await promote(user || currentAccount, pinCode, duration, permlink, author)
       .then(() => {
         this.setState({ isLoading: false });
-        dispatch(
-          toastNotification(intl.formatMessage({ id: "alert.successful" }))
-        );
+        dispatch(toastNotification(intl.formatMessage({ id: 'alert.successful' })));
         navigation.goBack();
       })
       .catch(error => {
         Alert.alert(
           `Fetching data from server failed, please try again or notify us at info@esteem.app \n${error.message.substr(
             0,
-            20
-          )}`
+            20,
+          )}`,
         );
       });
   };
@@ -204,7 +205,7 @@ class PointsContainer extends Component {
       refreshing,
       userActivities,
       userPoints,
-      balance
+      balance,
     } = this.state;
     const { children, accounts, currentAccount } = this.props;
 
@@ -227,7 +228,7 @@ class PointsContainer extends Component {
         getUserBalance: this._getUserBalance,
         promote: this._promote,
         getAccount,
-        getUserDataWithUsername
+        getUserDataWithUsername,
       })
     );
   }
@@ -240,9 +241,8 @@ const mapStateToProps = state => ({
   isConnected: state.application.isConnected,
   accounts: state.account.otherAccounts,
   currentAccount: state.account.currentAccount,
-  pinCode: state.account.pin
+  pinCode: state.account.pin,
+  isPinCodeOpen: state.application.isPinCodeOpen,
 });
 
-export default withNavigation(
-  connect(mapStateToProps)(injectIntl(PointsContainer))
-);
+export default withNavigation(connect(mapStateToProps)(injectIntl(PointsContainer)));

@@ -23,22 +23,6 @@ export const userActivity = (us, ty, bl = '', tx = '') =>
       });
   });
 
-export const transfer = (sender, receiver, amount) =>
-  new Promise(resolve => {
-    ePointApi
-      .post('/transfer', {
-        se: sender,
-        re: receiver,
-        am: amount,
-      })
-      .then(res => {
-        resolve(res.data);
-      })
-      .catch(error => {
-        Alert.alert('Error', error.message);
-      });
-  });
-
 export const getUser = username =>
   new Promise(resolve => {
     ePointApi

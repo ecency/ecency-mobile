@@ -105,6 +105,7 @@
       "transfers": "Những phần chuyển khoản"
     },
     "pincode": "Mã PIN",
+    "reset_pin": "Reset Pin Code",
     "reset": "Thiết lập lại",
     "nsfw_content": "Nội dung NSFW (nội dung không phù hợp để xem trong môi trường làm việc hoặc gần trẻ em)",
     "send_feedback": "Gửi phản hồi",
@@ -205,7 +206,8 @@
     "removed": "Đã xóa",
     "same_user": "Người dùng này đã được thêm vào danh sách",
     "unknow_error": "Đã xảy ra lỗi",
-    "error": "Lỗi"
+    "error": "Lỗi",
+    "fetch_error": "Fetching data from server failed, please try again or notify us at info@esteem.app"
   },
   "post": {
     "reblog_alert": "Bạn có chắc chắn muốn đăng lại không?",

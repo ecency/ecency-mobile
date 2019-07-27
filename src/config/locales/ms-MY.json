@@ -105,6 +105,7 @@
       "transfers": "Pindah"
     },
     "pincode": "Pincode",
+    "reset_pin": "Reset Pin Code",
     "reset": "Tetapkan semula",
     "nsfw_content": "Kandungan NSFW",
     "send_feedback": "Hantar Maklum Balas",
@@ -205,7 +206,8 @@
     "removed": "Buang",
     "same_user": "Pengguna telah ditambah ke dalam senarai",
     "unknow_error": "An error occurred",
-    "error": "Error"
+    "error": "Error",
+    "fetch_error": "Fetching data from server failed, please try again or notify us at info@esteem.app"
   },
   "post": {
     "reblog_alert": "Adakah anda ingin menulang siar?",

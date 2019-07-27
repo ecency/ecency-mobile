@@ -105,6 +105,7 @@
       "transfers": "Köçürmə"
     },
     "pincode": "PIN kod",
+    "reset_pin": "Reset Pin Code",
     "reset": "Sıfırla",
     "nsfw_content": "NSFW Məzmunu",
     "send_feedback": "Əks Əlaqə Göndər",
@@ -205,7 +206,8 @@
     "removed": "Removed",
     "same_user": "This user already added to list",
     "unknow_error": "An error occurred",
-    "error": "Error"
+    "error": "Error",
+    "fetch_error": "Fetching data from server failed, please try again or notify us at info@esteem.app"
   },
   "post": {
     "reblog_alert": "Təkrar paylaşmaq istədiyinizə əminsiniz?",

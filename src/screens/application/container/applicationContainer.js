@@ -7,22 +7,10 @@ import get from 'lodash/get';
 import AppCenter from 'appcenter';
 import changeNavigationBarColor from 'react-native-navigation-bar-color';
 import { connect } from 'react-redux';
-import { addLocaleData } from 'react-intl';
+import { injectIntl } from 'react-intl';
 import { NavigationActions } from 'react-navigation';
 import { bindActionCreators } from 'redux';
-
-// Languages
-import en from 'react-intl/locale-data/en';
-import id from 'react-intl/locale-data/id';
-import ru from 'react-intl/locale-data/ru';
-import de from 'react-intl/locale-data/de';
-import it from 'react-intl/locale-data/it';
-import hu from 'react-intl/locale-data/hu';
-import tr from 'react-intl/locale-data/tr';
-import ko from 'react-intl/locale-data/ko';
-import lt from 'react-intl/locale-data/lt';
-import pt from 'react-intl/locale-data/pt';
-import fa from 'react-intl/locale-data/fa';
+import EStyleSheet from 'react-native-extended-stylesheet';
 
 // Constants
 import AUTH_TYPE from '../../../constants/authType';
@@ -69,9 +57,14 @@ import {
   setUpvotePercent,
   setNsfw,
   isDefaultFooter,
+  isPinCodeOpen,
+  setPinCode as savePinCode,
 } from '../../../redux/actions/applicationActions';
 
-addLocaleData([...en, ...ru, ...de, ...id, ...it, ...hu, ...tr, ...ko, ...pt, ...lt, ...fa]);
+import { encryptKey } from '../../../utils/crypto';
+
+import darkTheme from '../../../themes/darkTheme';
+import lightTheme from '../../../themes/lightTheme';
 
 class ApplicationContainer extends Component {
   constructor(props) {
@@ -83,6 +76,11 @@ class ApplicationContainer extends Component {
       isThemeReady: false,
       appState: AppState.currentState,
     };
+  }
+
+  componentWillMount() {
+    const { isDarkTheme: _isDarkTheme } = this.props;
+    EStyleSheet.build(_isDarkTheme ? darkTheme : lightTheme);
   }
 
   componentDidMount = () => {
@@ -127,6 +125,7 @@ class ApplicationContainer extends Component {
 
   componentWillUnmount() {
     const { isIos } = this.state;
+    const { isPinCodeOpen: _isPinCodeOpen } = this.props;
 
     if (!isIos) BackHandler.removeEventListener('hardwareBackPress', this._onBackPress);
 
@@ -136,6 +135,10 @@ class ApplicationContainer extends Component {
     Linking.removeEventListener('url', this._handleOpenURL);
 
     AppState.removeEventListener('change', this._handleAppStateChange);
+
+    if (_isPinCodeOpen) {
+      clearTimeout(this._pinCodeTimer);
+    }
 
     this.netListener();
   }
@@ -190,11 +193,11 @@ class ApplicationContainer extends Component {
           if (get(result, 'title')) {
             content = result;
           } else {
-            this._handleAlert('No existing post');
+            this._handleAlert('deep_link.no_existing_post');
           }
         })
         .catch(() => {
-          this._handleAlert('No existing post');
+          this._handleAlert('deep_link.no_existing_post');
         });
 
       routeName = ROUTES.SCREENS.POST;
@@ -203,7 +206,7 @@ class ApplicationContainer extends Component {
       profile = await getUser(author);
 
       if (!profile) {
-        this._handleAlert('No existing user');
+        this._handleAlert('deep_link.no_existing_user');
         return;
       }
 
@@ -225,12 +228,18 @@ class ApplicationContainer extends Component {
     }
   };
 
-  _handleAlert = (title = null, text = null) => {
-    Alert.alert(title, text);
+  _handleAlert = (text = null, title = null) => {
+    const { intl } = this.props;
+
+    Alert.alert(
+      intl.formatMessage({ id: title || 'alert.warning' }),
+      intl.formatMessage({ id: text || 'alert.unknow_error' }),
+    );
   };
 
   _handleAppStateChange = nextAppState => {
     const { appState } = this.state;
+    const { isPinCodeOpen: _isPinCodeOpen } = this.props;
 
     getExistUser().then(isExistUser => {
       if (isExistUser) {
@@ -239,7 +248,9 @@ class ApplicationContainer extends Component {
         }
 
         if (appState.match(/inactive|background/) && nextAppState === 'active') {
-          clearTimeout(this._pinCodeTimer);
+          if (_isPinCodeOpen) {
+            clearTimeout(this._pinCodeTimer);
+          }
         }
       }
     });
@@ -248,11 +259,13 @@ class ApplicationContainer extends Component {
   };
 
   _startPinCodeTimer = () => {
-    const { dispatch } = this.props;
+    const { dispatch, isPinCodeOpen: _isPinCodeOpen } = this.props;
 
-    this._pinCodeTimer = setTimeout(() => {
-      dispatch(openPinCodeModal());
-    }, 1 * 60 * 1000);
+    if (_isPinCodeOpen) {
+      this._pinCodeTimer = setTimeout(() => {
+        dispatch(openPinCodeModal());
+      }, 1 * 60 * 1000);
+    }
   };
 
   _fetchApp = async () => {
@@ -322,10 +335,6 @@ class ApplicationContainer extends Component {
     if (isConnected !== status) {
       dispatch(setConnectivityStatus(status));
     }
-
-    // TODO: solve this work arround
-    // NetInfo.isConnected.removeEventListener('connectionChange', this._handleConntectionChange);
-    // NetInfo.isConnected.addEventListener('connectionChange', this._handleConntectionChange);
   };
 
   _onBackPress = () => {
@@ -347,7 +356,7 @@ class ApplicationContainer extends Component {
   };
 
   _getUserDataFromRealm = async () => {
-    const { dispatch, pinCode } = this.props;
+    const { dispatch, pinCode, isPinCodeOpen: _isPinCodeOpen } = this.props;
     let realmData = [];
     let currentUsername;
 
@@ -406,8 +415,11 @@ class ApplicationContainer extends Component {
         }),
       );
       // If in dev mode pin code does not show
-      if (!isExistUser || !pinCode) {
+      if ((!isExistUser || !pinCode) && _isPinCodeOpen) {
         dispatch(openPinCodeModal());
+      } else if (!_isPinCodeOpen) {
+        const encryptedPin = encryptKey(Config.DEFAULT_PIN, Config.PIN_KEY);
+        dispatch(savePinCode(encryptedPin));
       }
 
       dispatch(activeApplication());
@@ -424,7 +436,7 @@ class ApplicationContainer extends Component {
   };
 
   _fetchUserDataFromDsteem = async realmObject => {
-    const { dispatch } = this.props;
+    const { dispatch, intl } = this.props;
 
     await getUser(realmObject.username)
       .then(accountData => {
@@ -435,9 +447,9 @@ class ApplicationContainer extends Component {
         this._connectNotificationServer(accountData.name);
       })
       .catch(err => {
+        this._handleAlert();
         Alert.alert(
-          `Fetching data from server failed, please try again or notify us at info@esteem.app 
-            \n${err.message.substr(0, 20)}`,
+          `${intl.formatMessage({ id: 'alert.fetch_error' })} \n${err.message.substr(0, 20)}`,
         );
       });
   };
@@ -449,6 +461,7 @@ class ApplicationContainer extends Component {
 
     if (settings) {
       if (settings.isDarkTheme !== '') dispatch(isDarkTheme(settings.isDarkTheme));
+      if (settings.isPinCodeOpen !== '') dispatch(isPinCodeOpen(settings.isPinCodeOpen));
       if (settings.language !== '') dispatch(setLanguage(settings.language));
       if (settings.server !== '') dispatch(setApi(settings.server));
       if (settings.upvotePercent !== '') {
@@ -488,6 +501,7 @@ class ApplicationContainer extends Component {
       otherAccounts,
       currentAccount: { name, local },
       dispatch,
+      intl,
     } = this.props;
 
     removeUserData(name)
@@ -516,8 +530,7 @@ class ApplicationContainer extends Component {
       })
       .catch(err => {
         Alert.alert(
-          `Fetching data from server failed, please try again or notify us at info@esteem.app 
-          \n${err.substr(0, 20)}`,
+          `${intl.formatMessage({ id: 'alert.fetch_error' })} \n${err.message.substr(0, 20)}`,
         );
       });
   };
@@ -535,7 +548,9 @@ class ApplicationContainer extends Component {
   };
 
   _switchAccount = async targetAccountUsername => {
-    const { dispatch } = this.props;
+    const { dispatch, isConnected } = this.props;
+
+    if (!isConnected) return;
 
     const accountData = await switchAccount(targetAccountUsername);
 
@@ -580,6 +595,7 @@ export default connect(
     isDarkTheme: state.application.isDarkTheme,
     selectedLanguage: state.application.language,
     notificationSettings: state.application.isNotificationOpen,
+    isPinCodeOpen: state.application.isPinCodeOpen,
     isLogingOut: state.application.isLogingOut,
     isLoggedIn: state.application.isLoggedIn,
     isConnected: state.application.isConnected,
@@ -602,4 +618,4 @@ export default connect(
       ...bindActionCreators({ fetchGlobalProperties }, dispatch),
     },
   }),
-)(ApplicationContainer);
+)(injectIntl(ApplicationContainer));
