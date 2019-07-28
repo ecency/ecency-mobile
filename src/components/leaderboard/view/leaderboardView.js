@@ -21,16 +21,16 @@ class LeaderboardView extends PureComponent {
 
     return (
       <UserListItem
-        key={item._id}
+        key={get(item, '_id')}
         index={index}
-        username={item._id}
-        description={item.created}
+        username={get(item, '_id')}
+        description={get(item, 'created')}
         isHasRightItem
         isClickable
         isBlackRightColor
-        rightText={item.count}
+        rightText={get(item, 'count')}
         itemIndex={index + 1}
-        handleOnPress={() => handleOnUserPress(item._id)}
+        handleOnPress={() => handleOnUserPress(get(item, '_id'))}
       />
     );
   };

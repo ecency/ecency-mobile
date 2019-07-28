@@ -1,9 +1,10 @@
 import React, { PureComponent } from 'react';
 import { View, Text, TouchableOpacity } from 'react-native';
 import { withNavigation } from 'react-navigation';
+import { injectIntl } from 'react-intl';
 
 // Components
-import { Tag, TextWithIcon } from '../../../basicUIElements';
+import { Tag } from '../../../basicUIElements';
 import { Icon } from '../../../icon';
 import { UserAvatar } from '../../../userAvatar';
 // Styles
@@ -15,11 +16,6 @@ import { default as ROUTES } from '../../../../constants/routeNames';
 const DEFAULT_IMAGE = require('../../../../assets/esteem.png');
 
 class PostHeaderDescription extends PureComponent {
-  constructor(props) {
-    super(props);
-    this.state = {};
-  }
-
   // Component Life Cycles
 
   // Component Functions
@@ -53,6 +49,7 @@ class PostHeaderDescription extends PureComponent {
       tagOnPress,
       isShowOwnerIndicator,
       isPromoted,
+      intl,
     } = this.props;
     const _reputationText = `(${reputation})`;
 
@@ -80,7 +77,9 @@ class PostHeaderDescription extends PureComponent {
               <Tag isPostCardTag isPin value={tag} />
             </TouchableOpacity>
           )}
-          <Text style={styles.date}>{isPromoted ? 'sponsored' : date}</Text>
+          <Text style={styles.date}>
+            {isPromoted ? intl.formatMessage({ id: 'post.sponsored' }) : date}
+          </Text>
           {isShowOwnerIndicator && (
             <Icon style={styles.ownerIndicator} name="stars" iconType="MaterialIcons" />
           )}
@@ -90,4 +89,4 @@ class PostHeaderDescription extends PureComponent {
   }
 }
 
-export default withNavigation(PostHeaderDescription);
+export default withNavigation(injectIntl(PostHeaderDescription));
