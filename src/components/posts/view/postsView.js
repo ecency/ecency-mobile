@@ -1,5 +1,3 @@
-/* eslint-disable no-unused-expressions */
-/* eslint-disable array-callback-return */
 import React, { Component, Fragment } from 'react';
 import { FlatList, View, ActivityIndicator, RefreshControl } from 'react-native';
 import { injectIntl } from 'react-intl';
@@ -179,7 +177,6 @@ class PostsView extends Component {
       .then(result => {
         if (result.length > 0) {
           let _posts = result;
-          console.log(promotedPosts);
 
           if (filter === 'reblogs') {
             for (let i = _posts.length - 1; i >= 0; i--) {

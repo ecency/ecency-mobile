@@ -33,18 +33,18 @@ class PostCardView extends Component {
     super(props);
 
     this.state = {
-      reblogedBy: get(props.content, 'reblogged_by[0]', null),
+      rebloggedBy: get(props.content, 'reblogged_by[0]', null),
     };
   }
 
   // Component Lifecycle Functions
   componentWillReceiveProps(nextProps) {
     const { content } = this.props;
-    const reblogedBy = get(content, 'reblogged_by[0]', null);
-    const _reblogedBy = get(nextProps.content, 'reblogged_by[0]', null);
+    const rebloggedBy = get(content, 'reblogged_by[0]', null);
+    const _rebloggedBy = get(nextProps.content, 'reblogged_by[0]', null);
 
-    if (reblogedBy !== _reblogedBy && !_reblogedBy) {
-      this.setState({ reblogedBy });
+    if (rebloggedBy !== _rebloggedBy && !_rebloggedBy) {
+      this.setState({ rebloggedBy });
     }
   }
 
@@ -81,8 +81,8 @@ class PostCardView extends Component {
   };
 
   render() {
-    const { content, isHideImage, fetchPost, isNsfwPost, isHideReblogOption } = this.props;
-    const { reblogedBy } = this.state;
+    const { content, isHideImage, fetchPost, isNsfwPost, isHideReblogOption, intl } = this.props;
+    const { rebloggedBy } = this.state;
     const _image = this._getPostImage(content, isNsfwPost);
 
     return (
@@ -97,7 +97,7 @@ class PostCardView extends Component {
             reputation={get(content, 'author_reputation')}
             size={32}
             tag={content.category}
-            reblogedBy={reblogedBy}
+            rebloggedBy={rebloggedBy}
             isPromoted={get(content, 'is_promoted')}
           />
           <View style={styles.dropdownWrapper}>
@@ -111,7 +111,7 @@ class PostCardView extends Component {
         <View style={styles.postBodyWrapper}>
           <TouchableOpacity
             style={[{ flexDirection: 'column' }]}
-            onPress={() => this._handleOnContentPress()}
+            onPress={this._handleOnContentPress}
           >
             {!isHideImage && (
               <FastImage source={_image} style={styles.thumbnail} defaultSource={DEFAULT_IMAGE} />
@@ -122,9 +122,9 @@ class PostCardView extends Component {
             </View>
           </TouchableOpacity>
 
-          {!!reblogedBy && (
+          {!!rebloggedBy && (
             <TextWithIcon
-              text={`rebloged by ${reblogedBy}`}
+              text={`${intl.formatMessage({ id: 'post.reblogged' })} ${rebloggedBy}`}
               iconType="MaterialIcons"
               iconName="repeat"
             />
@@ -133,10 +133,7 @@ class PostCardView extends Component {
         <View style={styles.bodyFooter}>
           <View style={styles.leftFooterWrapper}>
             <Upvote fetchPost={fetchPost} isShowPayoutValue content={content} />
-            <TouchableOpacity
-              style={styles.commentButton}
-              onPress={() => this._handleOnVotersPress()}
-            >
+            <TouchableOpacity style={styles.commentButton} onPress={this._handleOnVotersPress}>
               <Icon
                 style={[styles.commentIcon, { marginLeft: 25 }]}
                 iconType="MaterialIcons"

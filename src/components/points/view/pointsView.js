@@ -103,7 +103,11 @@ class PointsView extends Component {
               dropdownRef={this.dropdownRef}
               isHasChildIcon
               iconName="arrow-drop-down"
-              options={['Transfer', 'Promote', 'Boost']}
+              options={[
+                intl.formatMessage({ id: 'points.dropdown_transfer' }),
+                intl.formatMessage({ id: 'points.dropdown_promote' }),
+                intl.formatMessage({ id: 'points.dropdown_boost' }),
+              ]}
               noHighlight
               dropdownButtonStyle={styles.dropdownButtonStyle}
               onSelect={handleOnDropdownSelected}
