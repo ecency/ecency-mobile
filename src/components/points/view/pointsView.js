@@ -3,6 +3,7 @@ import { Text, View, FlatList, ScrollView, RefreshControl, TouchableOpacity } fr
 import { injectIntl } from 'react-intl';
 import { Popover, PopoverController } from 'react-native-modal-popover';
 import { get } from 'lodash';
+import { withNavigation } from 'react-navigation';
 
 // Components
 import { LineBreak, WalletLineItem, ListPlaceHolder } from '../../basicUIElements';
@@ -16,6 +17,7 @@ import { getTimeFromNow } from '../../../utils/time';
 
 // Constants
 import POINTS, { POINTS_KEYS } from '../../../constants/options/points';
+import { default as ROUTES } from '../../../constants/routeNames';
 
 // Styles
 import styles from './pointsStyles';
@@ -29,6 +31,8 @@ class PointsView extends Component {
   constructor(props) {
     super(props);
     this.state = {};
+
+    this.dropdownRef = React.createRef();
   }
 
   // Component Functions
@@ -70,49 +74,67 @@ class PointsView extends Component {
     return <Text style={styles.subText}>{intl.formatMessage({ id: 'points.no_activity' })}</Text>;
   };
 
+  _showDropdown = () => {
+    this.dropdownRef.current.show();
+  };
+
   render() {
     const {
       claimPoints,
       isClaiming,
       userActivities,
       userPoints,
-      handleOnPressTransfer,
+      handleOnDropdownSelected,
+      navigation,
+      intl,
     } = this.props;
+    const unclaimedPoints = get(userPoints, 'unclaimed_points', 0);
 
     return (
       <Fragment>
         <LineBreak height={12} />
         <ScrollView style={styles.scrollContainer} refreshControl={this.refreshControl()}>
           <View style={styles.pointsWrapper}>
-            <Text style={styles.pointText}>{get(userPoints, 'points')}</Text>
+            <Text onPress={this._showDropdown} style={styles.pointText}>
+              {get(userPoints, 'points')}
+            </Text>
             <DropdownButton
+              dropdownRowWrapper={styles.dropdownRowStyle}
+              dropdownRef={this.dropdownRef}
               isHasChildIcon
               iconName="arrow-drop-down"
-              options={['Transfer', 'Promote']}
+              options={[
+                intl.formatMessage({ id: 'points.dropdown_transfer' }),
+                intl.formatMessage({ id: 'points.dropdown_promote' }),
+                intl.formatMessage({ id: 'points.dropdown_boost' }),
+              ]}
               noHighlight
               dropdownButtonStyle={styles.dropdownButtonStyle}
-              onSelect={handleOnPressTransfer}
+              onSelect={handleOnDropdownSelected}
               rowTextStyle={styles.dropdownRowText}
               dropdownStyle={styles.dropdownStyle}
             />
           </View>
-          <Text style={styles.subText}>eSteem Points</Text>
-          {get(userPoints, 'unclaimed_points') > 0 && (
-            <MainButton
-              isLoading={isClaiming}
-              isDisable={isClaiming}
-              style={styles.mainButton}
-              height={50}
-              onPress={() => claimPoints()}
-            >
-              <View style={styles.mainButtonWrapper}>
-                <Text style={styles.unclaimedText}>{get(userPoints, 'unclaimed_points')}</Text>
-                <View style={styles.mainIconWrapper}>
-                  <Icon name="add" iconType="MaterialIcons" color="#357ce6" size={23} />
-                </View>
+          <Text style={styles.subText}>{intl.formatMessage({ id: 'points.esteemPoints' })}</Text>
+
+          <MainButton
+            isLoading={isClaiming}
+            isDisable={isClaiming}
+            style={styles.mainButton}
+            height={50}
+            onPress={() =>
+              unclaimedPoints > 0 ? claimPoints() : navigation.navigate(ROUTES.SCREENS.BOOST)
+            }
+          >
+            <View style={styles.mainButtonWrapper}>
+              <Text style={styles.unclaimedText}>
+                {unclaimedPoints > 0 ? unclaimedPoints : intl.formatMessage({ id: 'boost.buy' })}
+              </Text>
+              <View style={styles.mainIconWrapper}>
+                <Icon name="add" iconType="MaterialIcons" color="#357ce6" size={23} />
               </View>
-            </MainButton>
-          )}
+            </View>
+          </MainButton>
 
           <View style={styles.iconsWrapper}>
             <FlatList
@@ -151,9 +173,7 @@ class PointsView extends Component {
                         contentStyle={styles.popoverDetails}
                         arrowStyle={styles.arrow}
                         visible={popoverVisible}
-                        onClose={() => {
-                          closePopover();
-                        }}
+                        onClose={() => closePopover()}
                         fromRect={popoverAnchorRect}
                         placement="top"
                         supportedOrientations={['portrait', 'landscape']}
@@ -200,4 +220,4 @@ class PointsView extends Component {
   }
 }
 
-export default injectIntl(PointsView);
+export default withNavigation(injectIntl(PointsView));

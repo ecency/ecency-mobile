@@ -17,9 +17,22 @@ import styles from './dropdownButtonStyles';
  *
  */
 
-const renderDropdownRow = (rowData, rowID, highlighted, rowTextStyle, noHighlight) => (
+const renderDropdownRow = (
+  rowData,
+  rowID,
+  highlighted,
+  rowTextStyle,
+  noHighlight,
+  dropdownRowWrapper,
+) => (
   <TouchableHighlight style={styles.rowWrapper} underlayColor="#E9F2FC">
-    <View style={[styles.dropdownRow, !noHighlight && highlighted && styles.highlightedRow]}>
+    <View
+      style={[
+        styles.dropdownRow,
+        dropdownRowWrapper,
+        !noHighlight && highlighted && styles.highlightedRow,
+      ]}
+    >
       <Text
         style={[
           rowTextStyle || styles.rowText,
@@ -50,9 +63,12 @@ const DropdownButtonView = ({
   style,
   noHighlight,
   isLoading,
+  dropdownRef,
+  dropdownRowWrapper,
 }) => (
   <View style={[styles.container, dropdownButtonStyle]}>
     <ModalDropdown
+      ref={dropdownRef}
       style={[!style ? styles.button : style]}
       textStyle={[textStyle || styles.buttonText]}
       dropdownStyle={[styles.dropdown, dropdownStyle, { height: 35 * (options.length + 1) }]}
@@ -64,7 +80,14 @@ const DropdownButtonView = ({
       defaultValue={defaultText}
       renderSeparator={() => null}
       renderRow={(rowData, rowID, highlighted) =>
-        renderDropdownRow(rowData, rowID, highlighted, rowTextStyle, noHighlight)
+        renderDropdownRow(
+          rowData,
+          rowID,
+          highlighted,
+          rowTextStyle,
+          noHighlight,
+          dropdownRowWrapper,
+        )
       }
     >
       {isHasChildIcon && !isLoading ? (

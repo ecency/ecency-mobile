@@ -4,13 +4,14 @@ import android.app.Application;
 
 import com.facebook.react.ReactApplication;
 import com.reactnativecommunity.netinfo.NetInfoPackage;
+import com.reactnative.ivpusic.imagepicker.PickerPackage;
+import com.dylanvann.fastimage.FastImageViewPackage;
+import com.dooboolab.RNIap.RNIapPackage;
 import com.thebylito.navigationbarcolor.NavigationBarColorPackage;
 import com.bugsnag.BugsnagReactNative;
 import com.apsl.versionnumber.RNVersionNumberPackage;
 import com.microsoft.codepush.react.CodePush;
 import io.realm.react.RealmReactPackage;
-import com.dylanvann.fastimage.FastImageViewPackage;
-import com.reactnative.ivpusic.imagepicker.PickerPackage;
 import com.microsoft.appcenter.reactnative.push.AppCenterReactNativePushPackage;
 import com.entria.views.RNViewOverflowPackage;
 import com.oblador.vectoricons.VectorIconsPackage;
@@ -23,7 +24,6 @@ import com.facebook.react.ReactNativeHost;
 import com.facebook.react.ReactPackage;
 import com.facebook.react.shell.MainReactPackage;
 import com.facebook.soloader.SoLoader;
-import com.facebook.react.BuildConfig;
 
 import java.util.Arrays;
 import java.util.List;
@@ -47,13 +47,14 @@ public class MainApplication extends Application implements ReactApplication {
       return Arrays.<ReactPackage>asList(
           new MainReactPackage(),
             new NetInfoPackage(),
+            new PickerPackage(),
+            new FastImageViewPackage(),
+            new RNIapPackage(),
             new NavigationBarColorPackage(),
             BugsnagReactNative.getPackage(),
             new RNVersionNumberPackage(),
             new CodePush(getResources().getString(R.string.reactNativeCodePush_androidDeploymentKey), getApplicationContext(), BuildConfig.DEBUG),
             new RealmReactPackage(),
-            new FastImageViewPackage(),
-            new PickerPackage(),
             new AppCenterReactNativePushPackage(MainApplication.this),
             new RNViewOverflowPackage(),
             new VectorIconsPackage(),

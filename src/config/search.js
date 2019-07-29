@@ -7,6 +7,7 @@ const search = axios.create({
     Authorization: Config.SEARCH_API_TOKEN,
     'Content-Type': 'application/json',
   },
+  // timeout: 500,
 });
 
 export default search;

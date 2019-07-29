@@ -1,4 +1,5 @@
 import React, { Component } from 'react';
+import get from 'lodash/get';
 import { TouchableOpacity, Text, View } from 'react-native';
 import FastImage from 'react-native-fast-image';
 import { injectIntl } from 'react-intl';
@@ -10,6 +11,7 @@ import { getTimeFromNow } from '../../../utils/time';
 import { PostHeaderDescription } from '../../postElements';
 import { PostDropdown } from '../../postDropdown';
 import { Icon } from '../../icon';
+import { TextWithIcon } from '../../basicUIElements';
 
 // STEEM
 import { Upvote } from '../../upvote';
@@ -30,10 +32,21 @@ class PostCardView extends Component {
   constructor(props) {
     super(props);
 
-    this.state = {};
+    this.state = {
+      rebloggedBy: get(props.content, 'reblogged_by[0]', null),
+    };
   }
 
   // Component Lifecycle Functions
+  componentWillReceiveProps(nextProps) {
+    const { content } = this.props;
+    const rebloggedBy = get(content, 'reblogged_by[0]', null);
+    const _rebloggedBy = get(nextProps.content, 'reblogged_by[0]', null);
+
+    if (rebloggedBy !== _rebloggedBy && !_rebloggedBy) {
+      this.setState({ rebloggedBy });
+    }
+  }
 
   // Component Functions
 
@@ -68,24 +81,24 @@ class PostCardView extends Component {
   };
 
   render() {
-    const { content, isHideImage, fetchPost, isNsfwPost, isHideReblogOption } = this.props;
-
+    const { content, isHideImage, fetchPost, isNsfwPost, isHideReblogOption, intl } = this.props;
+    const { rebloggedBy } = this.state;
     const _image = this._getPostImage(content, isNsfwPost);
-    const reblogedBy = content.reblogged_by && content.reblogged_by[0];
 
     return (
       <View style={styles.post}>
         <View style={styles.bodyHeader}>
           <PostHeaderDescription
             // date={intl.formatRelative(content.created)}
-            date={getTimeFromNow(content.created)}
+            date={getTimeFromNow(get(content, 'created'))}
             isHideImage={isHideImage}
-            name={content.author}
+            name={get(content, 'author')}
             profileOnPress={this._handleOnUserPress}
-            reputation={content.author_reputation}
+            reputation={get(content, 'author_reputation')}
             size={32}
             tag={content.category}
-            reblogedBy={reblogedBy}
+            rebloggedBy={rebloggedBy}
+            isPromoted={get(content, 'is_promoted')}
           />
           <View style={styles.dropdownWrapper}>
             <PostDropdown
@@ -98,7 +111,7 @@ class PostCardView extends Component {
         <View style={styles.postBodyWrapper}>
           <TouchableOpacity
             style={[{ flexDirection: 'column' }]}
-            onPress={() => this._handleOnContentPress()}
+            onPress={this._handleOnContentPress}
           >
             {!isHideImage && (
               <FastImage source={_image} style={styles.thumbnail} defaultSource={DEFAULT_IMAGE} />
@@ -108,25 +121,30 @@ class PostCardView extends Component {
               <Text style={styles.summary}>{content.summary}</Text>
             </View>
           </TouchableOpacity>
+
+          {!!rebloggedBy && (
+            <TextWithIcon
+              text={`${intl.formatMessage({ id: 'post.reblogged' })} ${rebloggedBy}`}
+              iconType="MaterialIcons"
+              iconName="repeat"
+            />
+          )}
         </View>
         <View style={styles.bodyFooter}>
           <View style={styles.leftFooterWrapper}>
             <Upvote fetchPost={fetchPost} isShowPayoutValue content={content} />
-            <TouchableOpacity
-              style={styles.commentButton}
-              onPress={() => this._handleOnVotersPress()}
-            >
+            <TouchableOpacity style={styles.commentButton} onPress={this._handleOnVotersPress}>
               <Icon
                 style={[styles.commentIcon, { marginLeft: 25 }]}
                 iconType="MaterialIcons"
                 name="people"
               />
-              <Text style={styles.comment}>{content.vote_count}</Text>
+              <Text style={styles.comment}>{get(content, 'vote_count', 0)}</Text>
             </TouchableOpacity>
           </View>
           <View style={styles.commentButton}>
             <Icon style={[styles.commentIcon]} iconType="MaterialIcons" name="comment" />
-            <Text style={styles.comment}>{content.children}</Text>
+            <Text style={styles.comment}>{get(content, 'children')}</Text>
           </View>
         </View>
       </View>

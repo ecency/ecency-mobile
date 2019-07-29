@@ -349,11 +349,11 @@ export const getRepliesByLastUpdate = async query => {
  * @param permlink post permlink
  * @param currentUserName active accounts username
  */
-export const getPost = async (author, permlink, currentUserName = null) => {
+export const getPost = async (author, permlink, currentUserName = null, isPromoted = false) => {
   try {
     const post = await client.database.call('get_content', [author, permlink]);
 
-    return post ? await parsePost(post, currentUserName) : null;
+    return post ? await parsePost(post, currentUserName, isPromoted) : null;
   } catch (error) {
     return error;
   }
@@ -1137,7 +1137,7 @@ export const boost = (currentAccount, pinCode, point, permlink, author) => {
   const pin = getDigitPinCode(pinCode);
   const key = getActiveKey(get(currentAccount, 'local'), pin);
 
-  if (key) {
+  if (key && point) {
     const privateKey = PrivateKey.fromString(key);
     const user = get(currentAccount, 'name');
 
@@ -1147,7 +1147,7 @@ export const boost = (currentAccount, pinCode, point, permlink, author) => {
         user,
         author,
         permlink,
-        amount: `${point} POINT`,
+        amount: `${point.toFixed(3)} POINT`,
       }),
       required_auths: [user],
       required_posting_auths: [],
