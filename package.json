@@ -1,6 +1,6 @@
 {
   "name": "eSteem",
-  "version": "2.2.0",
+  "version": "2.1.2",
   "private": true,
   "rnpm": {
     "assets": [
@@ -8,6 +8,7 @@
     ]
   },
   "scripts": {
+    "version": "./version-ios.sh",
     "postversion": "react-native-version",
     "start": "node node_modules/react-native/local-cli/cli.js start",
     "eject": "node node_modules/react-native/local-cli/cli.js eject",
