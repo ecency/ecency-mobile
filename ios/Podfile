@@ -48,6 +48,8 @@ target 'eSteem' do
 
   pod 'react-native-netinfo', :path => '../node_modules/@react-native-community/netinfo'
 
+  pod 'react-native-fast-image', :path => '../node_modules/react-native-fast-image'
+
   target 'eSteemTests' do
     inherit! :search_paths
     # Pods for testing
