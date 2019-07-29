@@ -33,6 +33,7 @@
   },
   "points": {
     "post": "Göndəriş",
+    "esteemPoints": "eSteem Points",
     "comment": "Rəy",
     "checkin": "Check-in",
     "vote": "Səs ver",
@@ -60,7 +61,10 @@
     "vote_desc": "Səs verərək digər yaradıcılara da mükafat verə və minnətdarlığınızı göstərə bilərsiniz, beləcə 0.01 x səsvermə ağırlıq xal qazanarsınız.",
     "reblog_desc": "  Bəyəndiyiniz göndərişləri dostlarınızla paylaşın və 1 xal qazanın.",
     "login_desc": "eSteem tətbiqinə giriş etdikdə avtomatik olaraqq 100 xal qazanma haqqı əldə edirsiniz.",
-    "checkin_extra_desc": "Tətbiqin davamlı istifadəsi sizə daha 10 xal qazanma şansı verər, daha çox fəal olun və daha çox qazanın."
+    "checkin_extra_desc": "Tətbiqin davamlı istifadəsi sizə daha 10 xal qazanma şansı verər, daha çox fəal olun və daha çox qazanın.",
+    "dropdown_transfer": "Transfer",
+    "dropdown_promote": "Promote",
+    "dropdown_boost": "Boost"
   },
   "messages": {
     "comingsoon": "Mesajlar tezliklə gəlir!"
@@ -212,7 +216,9 @@
   "post": {
     "reblog_alert": "Təkrar paylaşmaq istədiyinizə əminsiniz?",
     "removed_hint": "The post was removed by",
-    "copy_link": "Copy Link"
+    "copy_link": "Copy Link",
+    "reblogged": "reblogged by",
+    "sponsored": "sponsored"
   },
   "drafts": {
     "title": "Qaralamalar",
@@ -261,7 +267,8 @@
     "reblog": "təkrar paylaş",
     "reply": "cavabla",
     "share": "paylaş",
-    "bookmarks": "əlfəcinlərə əlavə et"
+    "bookmarks": "əlfəcinlərə əlavə et",
+    "promote": "promote"
   },
   "deep_link": {
     "no_existing_user": "Heç bir istifadəçi yoxdur",
@@ -293,29 +300,22 @@
     "powerUp": "Gücü artır",
     "withdraw_to_saving": "Withdraw To Saving",
     "steemconnect_title": "Steemconnect Köçürməsi",
-    "next": "NEXT",
-    "withdraw_steem": "Withdraw Steem",
-    "withdraw_sbd": "Withdraw Steem Dollar",
-    "delegate": "Delegate",
-    "power_down": "Power Down",
-    "account": "Account",
-    "destination_accounts": "Destination Account(s)",
-    "amount_information": "Drag the slider to adjust to amount",
-    "save": "Save",
-    "percent": "Percentage",
-    "percent_information": "Percentage of power down to this account",
-    "auto_vests": "Automatically power up to the target account",
-    "stop": "Stop",
-    "stop_information": "Are you sure to stop?",
-    "incoming_funds": "Incoming Funds",
-    "sc_power_down_error": "Steem connect setWithdrawVestingRoute not implemented yet.",
-    "estimated_weekly": "Estimated Weekly"
+    "next": "NEXT"
+  },
+  "boost": {
+    "title": "Get eSteem Points",
+    "buy": "GET ESTM",
+    "next": "NEXT"
   },
   "promote": {
     "title": "Promote",
     "days": "days",
     "user": "User",
-    "permlink": "Permlink",
+    "permlink": "Post",
+    "permlinkPlaceholder": "author/permlink",
     "information": "Are you sure to transfer to promote?"
+  },
+  "boostPost": {
+    "title": "Boost"
   }
 }

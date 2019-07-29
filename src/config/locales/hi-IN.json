@@ -33,6 +33,7 @@
   },
   "points": {
     "post": "लेख",
+    "esteemPoints": "eSteem Points",
     "comment": "टिप्पणी",
     "checkin": "Check-in",
     "vote": "वोट",
@@ -60,7 +61,10 @@
     "vote_desc": "मतदान करके आप अन्य रचनाकारों को इनाम देते हैं और अपनी प्रशंसा दिखाते हैं, लेकिन 0.01 x वोट वेट अंक भी अर्जित करते हैं।",
     "reblog_desc": "  जिस पोस्ट को आप पसंद करते हैं उसे पुनर्प्रेशण करें और १ अंक पाएँ|",
     "login_desc": "जब आप इस्टीम में लॉगिन करते हैं तो आप १०० अंकों के स्वतः दावेदार हो जाते हैं|",
-    "checkin_extra_desc": "आपको अतिरिक्त मौका मिलता है १० अंक प्राप्त करने का अगर एप्प को लगातार उपयोग करते हैं, अधिक से अधिक समय तक एप्प में सक्रिय रहें|"
+    "checkin_extra_desc": "आपको अतिरिक्त मौका मिलता है १० अंक प्राप्त करने का अगर एप्प को लगातार उपयोग करते हैं, अधिक से अधिक समय तक एप्प में सक्रिय रहें|",
+    "dropdown_transfer": "Transfer",
+    "dropdown_promote": "Promote",
+    "dropdown_boost": "Boost"
   },
   "messages": {
     "comingsoon": "सन्देश सुविधा जल्द आ रही है!"
@@ -212,7 +216,9 @@
   "post": {
     "reblog_alert": "क्या आप सच में पुनः प्रसारित करना चाहते हैं?",
     "removed_hint": "The post was removed by",
-    "copy_link": "Copy Link"
+    "copy_link": "Copy Link",
+    "reblogged": "reblogged by",
+    "sponsored": "sponsored"
   },
   "drafts": {
     "title": "प्रारूप",
@@ -261,7 +267,8 @@
     "reblog": "रीब्लॉग करें",
     "reply": "जवाब दें",
     "share": "साझा करें",
-    "bookmarks": "पृष्ठ स्मृति में जोड़ें"
+    "bookmarks": "पृष्ठ स्मृति में जोड़ें",
+    "promote": "promote"
   },
   "deep_link": {
     "no_existing_user": "कोई विद्यमान उपयोगकर्ता नहीं",
@@ -293,29 +300,22 @@
     "powerUp": "स्टीम क्षमता बढ़ाएं",
     "withdraw_to_saving": "Withdraw To Saving",
     "steemconnect_title": "स्टीमकनेक्ट स्थान्तरण",
-    "next": "NEXT",
-    "withdraw_steem": "Withdraw Steem",
-    "withdraw_sbd": "Withdraw Steem Dollar",
-    "delegate": "Delegate",
-    "power_down": "Power Down",
-    "account": "Account",
-    "destination_accounts": "Destination Account(s)",
-    "amount_information": "Drag the slider to adjust to amount",
-    "save": "Save",
-    "percent": "Percentage",
-    "percent_information": "Percentage of power down to this account",
-    "auto_vests": "Automatically power up to the target account",
-    "stop": "Stop",
-    "stop_information": "Are you sure to stop?",
-    "incoming_funds": "Incoming Funds",
-    "sc_power_down_error": "Steem connect setWithdrawVestingRoute not implemented yet.",
-    "estimated_weekly": "Estimated Weekly"
+    "next": "NEXT"
+  },
+  "boost": {
+    "title": "Get eSteem Points",
+    "buy": "GET ESTM",
+    "next": "NEXT"
   },
   "promote": {
     "title": "Promote",
     "days": "days",
     "user": "User",
-    "permlink": "Permlink",
+    "permlink": "Post",
+    "permlinkPlaceholder": "author/permlink",
     "information": "Are you sure to transfer to promote?"
+  },
+  "boostPost": {
+    "title": "Boost"
   }
 }
