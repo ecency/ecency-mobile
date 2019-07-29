@@ -33,6 +33,7 @@
   },
   "points": {
     "post": "Пост",
+    "esteemPoints": "eSteem Points",
     "comment": "Комментарий",
     "checkin": "Чекин",
     "vote": "Голос",
@@ -60,7 +61,10 @@
     "vote_desc": "Голосуя вы награждаете других и высказываете своё уважение, а также получаете процент баллов в зависимости от силы голоса.",
     "reblog_desc": "Делитесь постами с друзьями и получайте по 1 баллу.",
     "login_desc": "Когда вы логинитесь в приложения eSteem, вы автоматически получаете 100 баллов.",
-    "checkin_extra_desc": "Постоянное использование приложения даёт вам дополнительный шанс получить 10 баллов. Чем больше активности, тем больше награда."
+    "checkin_extra_desc": "Постоянное использование приложения даёт вам дополнительный шанс получить 10 баллов. Чем больше активности, тем больше награда.",
+    "dropdown_transfer": "Transfer",
+    "dropdown_promote": "Promote",
+    "dropdown_boost": "Boost"
   },
   "messages": {
     "comingsoon": "Здесь будут сообщения!"
@@ -212,7 +216,9 @@
   "post": {
     "reblog_alert": "Вы уверены, что хотите сделать репост?",
     "removed_hint": "Сообщение удалено",
-    "copy_link": "Копировать ссылку"
+    "copy_link": "Копировать ссылку",
+    "reblogged": "reblogged by",
+    "sponsored": "sponsored"
   },
   "drafts": {
     "title": "Черновики",
@@ -261,7 +267,8 @@
     "reblog": "репост",
     "reply": "ответить",
     "share": "поделиться",
-    "bookmarks": "добавить в закладки"
+    "bookmarks": "добавить в закладки",
+    "promote": "promote"
   },
   "deep_link": {
     "no_existing_user": "Несуществующий пользователь",
@@ -293,29 +300,22 @@
     "powerUp": "Увеличение силы",
     "withdraw_to_saving": "Снять в сейф",
     "steemconnect_title": "Перевод Steemconnect",
-    "next": "ДАЛЕЕ",
-    "withdraw_steem": "Вывести Steem",
-    "withdraw_sbd": "Вывести Steem Dollar",
-    "delegate": "Делегировать",
-    "power_down": "Понижение Силы",
-    "account": "Aккаунт",
-    "destination_accounts": "Аккаунт(ы) получателя",
-    "amount_information": "Drag the slider to adjust to amount",
-    "save": "Сохранить",
-    "percent": "Проценты",
-    "percent_information": "Процент понижения Силы в этот аккаунт",
-    "auto_vests": "Автоматически переводить в Силу на целевой аккаунт",
-    "stop": "Остановить",
-    "stop_information": "Вы уверены, что хотите остановить?",
-    "incoming_funds": "Входящие средства",
-    "sc_power_down_error": "Steem connect setWithdrawVestingRoute not implemented yet.",
-    "estimated_weekly": "Estimated Weekly"
+    "next": "ДАЛЕЕ"
+  },
+  "boost": {
+    "title": "Get eSteem Points",
+    "buy": "GET ESTM",
+    "next": "NEXT"
   },
   "promote": {
     "title": "Promote",
     "days": "days",
     "user": "User",
-    "permlink": "Permlink",
+    "permlink": "Post",
+    "permlinkPlaceholder": "author/permlink",
     "information": "Are you sure to transfer to promote?"
+  },
+  "boostPost": {
+    "title": "Boost"
   }
 }
