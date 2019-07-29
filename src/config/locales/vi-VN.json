@@ -207,7 +207,7 @@
     "same_user": "Người dùng này đã được thêm vào danh sách",
     "unknow_error": "Đã xảy ra lỗi",
     "error": "Lỗi",
-    "fetch_error": "Fetching data from server failed, please try again or notify us at info@esteem.app"
+    "fetch_error": "Tìm nạp dữ liệu từ máy chủ không thành công, xin vui lòng thử lại hoặc thông báo cho chúng tôi tại địa chỉ info@esteem.app"
   },
   "post": {
     "reblog_alert": "Bạn có chắc chắn muốn đăng lại không?",
