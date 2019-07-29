@@ -33,6 +33,7 @@
   },
   "points": {
     "post": "포스팅",
+    "esteemPoints": "eSteem Points",
     "comment": "댓글",
     "checkin": "체크인",
     "vote": "투표",
@@ -60,7 +61,10 @@
     "vote_desc": "보팅을 통해 글 작성자에게 보상을 제공하고 감사 표시를 할 수 있습니다. 또한, 보팅 시 보팅 가중치에 0.01을 곱한 포인트가 지급됩니다.",
     "reblog_desc": "좋아하는 글을 친구에게 공유하고 1 포인트를 획득하세요.",
     "login_desc": "eSteem 앱에 최초 로그인 시 100 포인트가 자동 지급됩니다.",
-    "checkin_extra_desc": "꾸준히 앱을 이용한 사용자는 10 포인트 이상의 추가 포인트를 획득할 수 있는 기회가 제공되며 더 열심히 이용할수록 더 많은 포인트를 획득할 수 있습니다."
+    "checkin_extra_desc": "꾸준히 앱을 이용한 사용자는 10 포인트 이상의 추가 포인트를 획득할 수 있는 기회가 제공되며 더 열심히 이용할수록 더 많은 포인트를 획득할 수 있습니다.",
+    "dropdown_transfer": "Transfer",
+    "dropdown_promote": "Promote",
+    "dropdown_boost": "Boost"
   },
   "messages": {
     "comingsoon": "메시지 기능은 곧 출시될 예정입니다!"
@@ -212,7 +216,9 @@
   "post": {
     "reblog_alert": "정말 리블로그 하시겠습니까?",
     "removed_hint": "포스팅이 삭제되었습니다",
-    "copy_link": "링크 복사"
+    "copy_link": "링크 복사",
+    "reblogged": "reblogged by",
+    "sponsored": "sponsored"
   },
   "drafts": {
     "title": "임시 보관함",
@@ -261,7 +267,8 @@
     "reblog": "리블로그",
     "reply": "댓글",
     "share": "공유",
-    "bookmarks": "즐겨찾기에 추가"
+    "bookmarks": "즐겨찾기에 추가",
+    "promote": "promote"
   },
   "deep_link": {
     "no_existing_user": "존재하지 않는 사용자입니다",
@@ -293,29 +300,22 @@
     "powerUp": "파워업",
     "withdraw_to_saving": "안전 금고로 출금",
     "steemconnect_title": "Steemconnect 송금",
-    "next": "다음",
-    "withdraw_steem": "스팀 출금",
-    "withdraw_sbd": "스팀 달러 출금",
-    "delegate": "임대",
-    "power_down": "파워 다운",
-    "account": "계정",
-    "destination_accounts": "대상 계정",
-    "amount_information": "슬라이드를 드래그해서 수량을 설정할 수 있습니다",
-    "save": "저장",
-    "percent": "비율",
-    "percent_information": "이 계정에 대한 파워 다운 비율",
-    "auto_vests": "대상 계정에 자동으로 파워 업 하기",
-    "stop": "중지",
-    "stop_information": "중지하시겠습니까?",
-    "incoming_funds": "입금 예정 스팀",
-    "sc_power_down_error": "steemconnect setWithdrawVestingRoute는 아직 구현되지 않았습니다.",
-    "estimated_weekly": "주간 예상 수량"
+    "next": "다음"
+  },
+  "boost": {
+    "title": "Get eSteem Points",
+    "buy": "GET ESTM",
+    "next": "NEXT"
   },
   "promote": {
     "title": "홍보",
     "days": "일",
     "user": "사용자",
-    "permlink": "Permlink",
+    "permlink": "Post",
+    "permlinkPlaceholder": "author/permlink",
     "information": "홍보를 위해 송금하시겠습니까?"
+  },
+  "boostPost": {
+    "title": "Boost"
   }
 }
