@@ -33,6 +33,7 @@
   },
   "points": {
     "post": "Postare",
+    "esteemPoints": "eSteem Points",
     "comment": "Comentariu",
     "checkin": "Logare",
     "vote": "Vot",
@@ -60,7 +61,10 @@
     "vote_desc": "Votând oferi recompense altor creatori de conținut și le arăți aprecierea ta. De asemenea, câștigi 0.01 din valoarea votului în puncte.",
     "reblog_desc": "  Distribuie postările care îți plac pentru prietenii tăi și câștigă 1 punct.",
     "login_desc": "Când te autentifici în aplicația eSteem câștigi 100 de puncte automat.",
-    "checkin_extra_desc": "Utilizarea constantă a aplicației îți oferă șanse în plus pentru câștigarea a 10 puncte. Fii cât mai activ și câștigă mai mult."
+    "checkin_extra_desc": "Utilizarea constantă a aplicației îți oferă șanse în plus pentru câștigarea a 10 puncte. Fii cât mai activ și câștigă mai mult.",
+    "dropdown_transfer": "Transfer",
+    "dropdown_promote": "Promote",
+    "dropdown_boost": "Boost"
   },
   "messages": {
     "comingsoon": "Funcția mesaje va fi disponibilă in curând!"
@@ -212,7 +216,9 @@
   "post": {
     "reblog_alert": "Ești sigur că vrei să redistribui?",
     "removed_hint": "Postarea a fost eliminată de către",
-    "copy_link": "Copiere link"
+    "copy_link": "Copiere link",
+    "reblogged": "reblogged by",
+    "sponsored": "sponsored"
   },
   "drafts": {
     "title": "Schițe",
@@ -261,7 +267,8 @@
     "reblog": "reblog",
     "reply": "răspunde",
     "share": "distribuire",
-    "bookmarks": "adaugă la bookmarks"
+    "bookmarks": "adaugă la bookmarks",
+    "promote": "promote"
   },
   "deep_link": {
     "no_existing_user": "Utilizator inexistent",
@@ -293,29 +300,22 @@
     "powerUp": "Power Up",
     "withdraw_to_saving": "Retrage la economii",
     "steemconnect_title": "Transfer Steemconnect",
-    "next": "URMĂTORUL",
-    "withdraw_steem": "Retrage Steem",
-    "withdraw_sbd": "Retrage Steem Dolar",
-    "delegate": "Delegare",
-    "power_down": "Power Down",
-    "account": "Cont",
-    "destination_accounts": "Cont(uri) de Destinație",
-    "amount_information": "Drag the slider to adjust to amount",
-    "save": "Salvează",
-    "percent": "Procentaj",
-    "percent_information": "Procentul de power down la acest cont",
-    "auto_vests": "Power up automat contul ţintă",
-    "stop": "Oprește",
-    "stop_information": "Ești sigur că vrei să te oprești?",
-    "incoming_funds": "Fondurile Primite",
-    "sc_power_down_error": "Steem connect setWithdrawVestingRoute not implemented yet.",
-    "estimated_weekly": "Estimated Weekly"
+    "next": "URMĂTORUL"
+  },
+  "boost": {
+    "title": "Get eSteem Points",
+    "buy": "GET ESTM",
+    "next": "NEXT"
   },
   "promote": {
     "title": "Promote",
     "days": "days",
     "user": "User",
-    "permlink": "Permlink",
+    "permlink": "Post",
+    "permlinkPlaceholder": "author/permlink",
     "information": "Are you sure to transfer to promote?"
+  },
+  "boostPost": {
+    "title": "Boost"
   }
 }

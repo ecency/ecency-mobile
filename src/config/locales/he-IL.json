@@ -18,7 +18,7 @@
     "follow": "עקב\\ה אחרייך",
     "unfollow": "הפסיק\\ה לעקוב אחרייך",
     "ignore": "התעלם\\ה ממך",
-    "reblog": "שיתף\/ה את הפוסט שלך",
+    "reblog": "שיתף/ה את הפוסט שלך",
     "transfer": "סטים מועבר",
     "comingsoon": "מאפיין לוח התוצאות יוצא להשקה בקרוב!",
     "notification": "התראות",
@@ -33,6 +33,7 @@
   },
   "points": {
     "post": "פוסט",
+    "esteemPoints": "eSteem Points",
     "comment": "תגובה",
     "checkin": "Check-in",
     "vote": "Vote",
@@ -60,7 +61,10 @@
     "vote_desc": "By voting you give reward to other creators and show your appreciation but also earn 0.01 x vote weight points.",
     "reblog_desc": "  Share what post you like with your friends and earn 1 points.",
     "login_desc": "When you login into eSteem app you are entitled to earn 100 points automatically.",
-    "checkin_extra_desc": "Consistent use of app gives you extra chances to earn more 10 points, be more active and earn more."
+    "checkin_extra_desc": "Consistent use of app gives you extra chances to earn more 10 points, be more active and earn more.",
+    "dropdown_transfer": "Transfer",
+    "dropdown_promote": "Promote",
+    "dropdown_boost": "Boost"
   },
   "messages": {
     "comingsoon": "אפשרות ההודעות יוצאת בקרוב!"
@@ -97,19 +101,19 @@
     "dark_theme": "ערכת נושא כהה",
     "push_notification": "התראות דחיפה",
     "notification": {
-      "follow": "עקוב\/י",
-      "vote": "הצבע\/י",
-      "comment": "תגיב\/י",
+      "follow": "עקוב/י",
+      "vote": "הצבע/י",
+      "comment": "תגיב/י",
       "mention": "איזכור",
-      "reblog": "שתף\/י",
+      "reblog": "שתף/י",
       "transfers": "העברות"
     },
     "pincode": "קוד PIN",
     "reset_pin": "Reset Pin Code",
     "reset": "אתחל",
     "nsfw_content": "תוכן NSFW",
-    "send_feedback": "שלח\/י משוב",
-    "send": "שלח\/י",
+    "send_feedback": "שלח/י משוב",
+    "send": "שלח/י",
     "default_footer": "ברירת מחדל תחתונה",
     "nsfw": {
       "always_show": "הצג תמיד",
@@ -147,8 +151,8 @@
     "schedules": "לוחות זמנים",
     "gallery": "גלריה",
     "settings": "הגדרות",
-    "add_account": "הוסף\/י חשבון",
-    "logout": "התנתק\/י",
+    "add_account": "הוסף/י חשבון",
+    "logout": "התנתק/י",
     "cancel": "ביטול",
     "logout_text": "האם את\\ה בטוח\\ה שברצונך להתנתק?"
   },
@@ -185,7 +189,7 @@
     "claim_reward_balance_ok": "תגמול יתרה נתקבלה",
     "fail": "נכשל!",
     "move": "הזזה",
-    "move_question": "את\/ה בטוח\/ה להעביר לטיוטות?",
+    "move_question": "את/ה בטוח/ה להעביר לטיוטות?",
     "success_shared": "הפוסט שלך שותף בהצלחה",
     "success_moved": "הועבר לטיוטות",
     "permission_denied": "הרשאה נדחתה",
@@ -196,7 +200,7 @@
     "invalid_pincode": "קוד PIN לא תקין, אנא בדוק ונסה שנית.",
     "remove_alert": "האם בוודאות ברצונך להסיר?",
     "clear_alert": "האם את\\ה בטוח\\ה שברצונך למחוק?",
-    "clear_user_alert": "האם את\/ה בטוח\/ה שברצונך למחוק את כל נתוני המשתמש?",
+    "clear_user_alert": "האם את/ה בטוח/ה שברצונך למחוק את כל נתוני המשתמש?",
     "clear": "ריק",
     "cancel": "בטל\\י",
     "delete": "מחק\\י",
@@ -210,9 +214,11 @@
     "fetch_error": "Fetching data from server failed, please try again or notify us at info@esteem.app"
   },
   "post": {
-    "reblog_alert": "האם את\\ה בטוח\/ה רוצה לשתף ?",
+    "reblog_alert": "האם את\\ה בטוח/ה רוצה לשתף ?",
     "removed_hint": "The post was removed by",
-    "copy_link": "Copy Link"
+    "copy_link": "Copy Link",
+    "reblogged": "reblogged by",
+    "sponsored": "sponsored"
   },
   "drafts": {
     "title": "טיוטות",
@@ -245,7 +251,7 @@
   "auth": {
     "invalid_pin": "קוד PIN לא תקין, אנא בדק\\י ונסה\\י שנית",
     "invalid_username": "שם משתמש לא תקין, אנא בדוק\\י ונסה\\י שנית",
-    "already_logged": "הינך כבר מחובר\\ת למערכת, אנא נסה\/י להוסיף חשבון אחר",
+    "already_logged": "הינך כבר מחובר\\ת למערכת, אנא נסה/י להוסיף חשבון אחר",
     "invalid_credentials": "פרטים אינם תקינים, אנא בדק\\י ונסה\\י שנית",
     "unknow_error": "תקלה לא מזוהה, אנא איתנו צור קשר בsupport@esteem.app"
   },
@@ -258,10 +264,11 @@
   },
   "post_dropdown": {
     "copy": "העתק קישור",
-    "reblog": "שתף\/י שוב",
+    "reblog": "שתף/י שוב",
     "reply": "השב",
     "share": "שתף\\י",
-    "bookmarks": "הוסף\\י לסימניות"
+    "bookmarks": "הוסף\\י לסימניות",
+    "promote": "promote"
   },
   "deep_link": {
     "no_existing_user": "המשתמש אינו קיים",
@@ -293,29 +300,22 @@
     "powerUp": "Power Up",
     "withdraw_to_saving": "Withdraw To Saving",
     "steemconnect_title": "Steemconnect Transfer",
-    "next": "NEXT",
-    "withdraw_steem": "Withdraw Steem",
-    "withdraw_sbd": "Withdraw Steem Dollar",
-    "delegate": "Delegate",
-    "power_down": "Power Down",
-    "account": "Account",
-    "destination_accounts": "Destination Account(s)",
-    "amount_information": "Drag the slider to adjust to amount",
-    "save": "Save",
-    "percent": "Percentage",
-    "percent_information": "Percentage of power down to this account",
-    "auto_vests": "Automatically power up to the target account",
-    "stop": "Stop",
-    "stop_information": "Are you sure to stop?",
-    "incoming_funds": "Incoming Funds",
-    "sc_power_down_error": "Steem connect setWithdrawVestingRoute not implemented yet.",
-    "estimated_weekly": "Estimated Weekly"
+    "next": "NEXT"
+  },
+  "boost": {
+    "title": "Get eSteem Points",
+    "buy": "GET ESTM",
+    "next": "NEXT"
   },
   "promote": {
     "title": "Promote",
     "days": "days",
     "user": "User",
-    "permlink": "Permlink",
+    "permlink": "Post",
+    "permlinkPlaceholder": "author/permlink",
     "information": "Are you sure to transfer to promote?"
+  },
+  "boostPost": {
+    "title": "Boost"
   }
 }

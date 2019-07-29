@@ -33,6 +33,7 @@
   },
   "points": {
     "post": "پست",
+    "esteemPoints": "eSteem Points",
     "comment": "نظر",
     "checkin": "حاضری زدن",
     "vote": "رأی",
@@ -60,7 +61,10 @@
     "vote_desc": "شما با رای دادن به آثار دیگران قدردانی خود را نشان میدهید و علاوه بر آن به میزان (0.01 ×میزان رای شما ) امتیاز دریافت می کنید.",
     "reblog_desc": "  پست های مورد علاقه خود را با دوستانتان به اشتراک بگذارید و 1 امتیاز دریافت کنید.",
     "login_desc": "زمانی که شما توسط اپ eSteem وارد حساب کاربری خود شوید به صورت اتوماتیک 100 امتیاز دریافت خواهید کرد.",
-    "checkin_extra_desc": "استفاده مداوم از این اپ به شما شانس دریافت 10 امتیاز دیگر را می دهد، بیشتر فعال باشید و امتیازات بیشتری دریافت کنید."
+    "checkin_extra_desc": "استفاده مداوم از این اپ به شما شانس دریافت 10 امتیاز دیگر را می دهد، بیشتر فعال باشید و امتیازات بیشتری دریافت کنید.",
+    "dropdown_transfer": "Transfer",
+    "dropdown_promote": "Promote",
+    "dropdown_boost": "Boost"
   },
   "messages": {
     "comingsoon": "قابلیت ارسال پیام به زودی ارائه خواهد شد!"
@@ -212,7 +216,9 @@
   "post": {
     "reblog_alert": "آیا مطمئن هستید که می‌خواهید به اشتراک بگذارید؟",
     "removed_hint": "این پست حذف شده است توسط",
-    "copy_link": "کپی لینک"
+    "copy_link": "کپی لینک",
+    "reblogged": "reblogged by",
+    "sponsored": "sponsored"
   },
   "drafts": {
     "title": "پیشنویس ها",
@@ -261,7 +267,8 @@
     "reblog": "اشتراک گذاری",
     "reply": "پاسخ دادن",
     "share": "درمیان گذاری",
-    "bookmarks": "اضافه کردن به صفحات مورد علاقه"
+    "bookmarks": "اضافه کردن به صفحات مورد علاقه",
+    "promote": "promote"
   },
   "deep_link": {
     "no_existing_user": "کاربری موجود نیست",
@@ -293,29 +300,22 @@
     "powerUp": "بالا بردن قدرت",
     "withdraw_to_saving": "برداشت و انتقال به پس انداز",
     "steemconnect_title": "انتقال Steemconnect",
-    "next": "بعدی",
-    "withdraw_steem": "برداشت استیم",
-    "withdraw_sbd": "برداشت دلار استیم",
-    "delegate": "اجاره",
-    "power_down": "کم کردن قدرت",
-    "account": "حساب کاربری",
-    "destination_accounts": "اجاره داده شده به حساب (های) کاربری",
-    "amount_information": "کشیدن لغزنده برای تنظیم مقدار",
-    "save": "ذخیره",
-    "percent": "درصد",
-    "percent_information": "درصد کاهش قدرت برای این حساب کاربری",
-    "auto_vests": "به صورت خودکار حساب کاربری مورد نظر را افزایش قدرت بده",
-    "stop": "توقف",
-    "stop_information": "آیا مطمئن هستید که میخواهید عملیات را متوقف کنید؟",
-    "incoming_funds": "وجوه دریافتی",
-    "sc_power_down_error": "Steem connect setWithdrawVestingRoute not implemented yet.",
-    "estimated_weekly": "برآورد هفتگی"
+    "next": "بعدی"
+  },
+  "boost": {
+    "title": "Get eSteem Points",
+    "buy": "GET ESTM",
+    "next": "NEXT"
   },
   "promote": {
     "title": "Promote",
     "days": "days",
     "user": "User",
-    "permlink": "Permlink",
+    "permlink": "Post",
+    "permlinkPlaceholder": "author/permlink",
     "information": "Are you sure to transfer to promote?"
+  },
+  "boostPost": {
+    "title": "Boost"
   }
 }

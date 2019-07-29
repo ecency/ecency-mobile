@@ -33,6 +33,7 @@
   },
   "points": {
     "post": "Publicar",
+    "esteemPoints": "eSteem Points",
     "comment": "Comentário",
     "checkin": "Registo de entrada",
     "vote": "Votar",
@@ -60,7 +61,10 @@
     "vote_desc": "Ao votar, recompensa outros criadores e mostra seu apreço, mas também ganha 0,01 x pontos de peso de voto.",
     "reblog_desc": "  Compartilhe o post que gosta com seus amigos e ganhe 1 ponto.",
     "login_desc": "Quando entrar no aplicativo eSteem, você tem o direito de ganhar 100 pontos automaticamente.",
-    "checkin_extra_desc": "O uso consistente do aplicativo dá mais chances para ganhar mais 10 pontos, seja mais ativo e ganhar mais."
+    "checkin_extra_desc": "O uso consistente do aplicativo dá mais chances para ganhar mais 10 pontos, seja mais ativo e ganhar mais.",
+    "dropdown_transfer": "Transfer",
+    "dropdown_promote": "Promote",
+    "dropdown_boost": "Boost"
   },
   "messages": {
     "comingsoon": "Recurso de mensagens chega em breve!"
@@ -212,7 +216,9 @@
   "post": {
     "reblog_alert": "Tem certeza de que deseja reblogar?",
     "removed_hint": "O post foi removido por",
-    "copy_link": "Copiar link"
+    "copy_link": "Copiar link",
+    "reblogged": "reblogged by",
+    "sponsored": "sponsored"
   },
   "drafts": {
     "title": "Rascunhos",
@@ -261,7 +267,8 @@
     "reblog": "reblogar",
     "reply": "responder",
     "share": "partilhar",
-    "bookmarks": "adicionar aos marcadores"
+    "bookmarks": "adicionar aos marcadores",
+    "promote": "promote"
   },
   "deep_link": {
     "no_existing_user": "Usuário não existe",
@@ -293,29 +300,22 @@
     "powerUp": "Carregar Poder",
     "withdraw_to_saving": "Levantar das poupanças",
     "steemconnect_title": "Transferência por Steemconnect",
-    "next": "SEGUINTE",
-    "withdraw_steem": "Levantar Steem",
-    "withdraw_sbd": "Levantar Steem Dólar",
-    "delegate": "Delegar",
-    "power_down": "Decarregar Poder",
-    "account": "Conta",
-    "destination_accounts": "Conta(s) de destino",
-    "amount_information": "Arraste o controle deslizante para ajustar a quantidade",
-    "save": "Guardar",
-    "percent": "Percentagem",
-    "percent_information": "Percentagem de Descarga de Poder para esta conta",
-    "auto_vests": "Carregar Poder automaticamente para a conta alvo",
-    "stop": "Parar",
-    "stop_information": "Tem certeza que deseja parar?",
-    "incoming_funds": "Fundos recebidos",
-    "sc_power_down_error": "Steem conecta setWithdrawVestingRoute ainda não implementado.",
-    "estimated_weekly": "Estimado Semanalmente"
+    "next": "SEGUINTE"
+  },
+  "boost": {
+    "title": "Get eSteem Points",
+    "buy": "GET ESTM",
+    "next": "NEXT"
   },
   "promote": {
     "title": "Promover",
     "days": "dias",
     "user": "Utilizador",
-    "permlink": "Permlink",
+    "permlink": "Post",
+    "permlinkPlaceholder": "author/permlink",
     "information": "Tem certeza que deseja transferir para promover?"
+  },
+  "boostPost": {
+    "title": "Boost"
   }
 }
