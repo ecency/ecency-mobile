@@ -33,6 +33,7 @@
   },
   "points": {
     "post": "Bài đăng",
+    "esteemPoints": "eSteem Points",
     "comment": "Câu bình luận",
     "checkin": "Đăng ký vào",
     "vote": "Bình chọn",
@@ -60,7 +61,10 @@
     "vote_desc": "Bằng cách bình chọn, bạn không chỉ trao phần thưởng cho những người sáng tạo nội dung và thể hiện sự đánh giá cao của bạn mà còn kiếm được 0,01 x điểm số bình chọn.",
     "reblog_desc": "  Chia sẻ bài viết nào bạn thích với bạn bè của bạn và kiếm được 1 điểm.",
     "login_desc": "Khi bạn đăng nhập vào ứng dụng eSteem, tự động bạn có được 100 điểm thưởng.",
-    "checkin_extra_desc": "Việc sử dụng ứng dụng lâu dài sẽ cho bạn thêm nhiều cơ hội kiếm thêm 10 điểm thưởng, hãy tích cực hơn và kiếm thêm nhiều điểm thưởng hơn."
+    "checkin_extra_desc": "Việc sử dụng ứng dụng lâu dài sẽ cho bạn thêm nhiều cơ hội kiếm thêm 10 điểm thưởng, hãy tích cực hơn và kiếm thêm nhiều điểm thưởng hơn.",
+    "dropdown_transfer": "Transfer",
+    "dropdown_promote": "Promote",
+    "dropdown_boost": "Boost"
   },
   "messages": {
     "comingsoon": "Tính năng tin nhắn sẽ được cập nhật sớm!"
@@ -212,7 +216,9 @@
   "post": {
     "reblog_alert": "Bạn có chắc chắn muốn đăng lại không?",
     "removed_hint": "Bài viết đã bị xóa bởi",
-    "copy_link": "Sao chép liên kết"
+    "copy_link": "Sao chép liên kết",
+    "reblogged": "reblogged by",
+    "sponsored": "sponsored"
   },
   "drafts": {
     "title": "Bản nháp",
@@ -261,7 +267,8 @@
     "reblog": "đăng lại",
     "reply": "trả lời",
     "share": "chia sẻ",
-    "bookmarks": "thêm vào dấu trang"
+    "bookmarks": "thêm vào dấu trang",
+    "promote": "promote"
   },
   "deep_link": {
     "no_existing_user": "Không có người dùng hiện tại",
@@ -293,29 +300,22 @@
     "powerUp": "Tăng lên",
     "withdraw_to_saving": "Rút về phần tiết kiệm",
     "steemconnect_title": "Chuyển khoản Steemconnect",
-    "next": "KẾ TIẾP",
-    "withdraw_steem": "Rút Steem",
-    "withdraw_sbd": "Rút đô la Steem",
-    "delegate": "Ủy thác",
-    "power_down": "Giảm xuống",
-    "account": "Tài khoản",
-    "destination_accounts": "(Những) tài khoản mục tiêu",
-    "amount_information": "Kéo thanh trượt để điều chỉnh số lượng",
-    "save": "Lưu lại",
-    "percent": "Tỷ lệ phần trăm",
-    "percent_information": "Tỷ lệ phần trăm sự giảm nguồn tiền của tài khoản này",
-    "auto_vests": "Tự động tăng nguồn tiền cho tài khoản đích",
-    "stop": "Dừng lại",
-    "stop_information": "Bạn có chắn muốn dừng lại?",
-    "incoming_funds": "Các quỹ sắp có",
-    "sc_power_down_error": "Kết nối Steem để thiết lập LệnhRútCổphần chưa được triển khai.",
-    "estimated_weekly": "Dự kiến hàng tuần"
+    "next": "KẾ TIẾP"
+  },
+  "boost": {
+    "title": "Get eSteem Points",
+    "buy": "GET ESTM",
+    "next": "NEXT"
   },
   "promote": {
     "title": "Quảng bá",
     "days": "những ngày",
     "user": "Người dùng",
-    "permlink": "Đường dẫn thân thiện với người dùng",
+    "permlink": "Post",
+    "permlinkPlaceholder": "author/permlink",
     "information": "Bạn có chắc chắn chuyển tiền để quảng bá?"
+  },
+  "boostPost": {
+    "title": "Boost"
   }
 }
