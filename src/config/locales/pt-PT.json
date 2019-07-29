@@ -33,7 +33,7 @@
   },
   "points": {
     "post": "Publicar",
-    "esteemPoints": "eSteem Points",
+    "esteemPoints": "eSteem Pontos",
     "comment": "Comentário",
     "checkin": "Registo de entrada",
     "vote": "Votar",
@@ -62,9 +62,9 @@
     "reblog_desc": "  Compartilhe o post que gosta com seus amigos e ganhe 1 ponto.",
     "login_desc": "Quando entrar no aplicativo eSteem, você tem o direito de ganhar 100 pontos automaticamente.",
     "checkin_extra_desc": "O uso consistente do aplicativo dá mais chances para ganhar mais 10 pontos, seja mais ativo e ganhar mais.",
-    "dropdown_transfer": "Transfer",
-    "dropdown_promote": "Promote",
-    "dropdown_boost": "Boost"
+    "dropdown_transfer": "Transferir",
+    "dropdown_promote": "Promover",
+    "dropdown_boost": "Reforçar"
   },
   "messages": {
     "comingsoon": "Recurso de mensagens chega em breve!"
@@ -217,8 +217,8 @@
     "reblog_alert": "Tem certeza de que deseja reblogar?",
     "removed_hint": "O post foi removido por",
     "copy_link": "Copiar link",
-    "reblogged": "reblogged by",
-    "sponsored": "sponsored"
+    "reblogged": "repostado por",
+    "sponsored": "patrocinado"
   },
   "drafts": {
     "title": "Rascunhos",
@@ -268,7 +268,7 @@
     "reply": "responder",
     "share": "partilhar",
     "bookmarks": "adicionar aos marcadores",
-    "promote": "promote"
+    "promote": "promover"
   },
   "deep_link": {
     "no_existing_user": "Usuário não existe",
@@ -303,19 +303,19 @@
     "next": "SEGUINTE"
   },
   "boost": {
-    "title": "Get eSteem Points",
-    "buy": "GET ESTM",
-    "next": "NEXT"
+    "title": "Obter Pontos eSteem",
+    "buy": "OBTER ESTM",
+    "next": "SEGUINTE"
   },
   "promote": {
     "title": "Promover",
     "days": "dias",
     "user": "Utilizador",
-    "permlink": "Post",
-    "permlinkPlaceholder": "author/permlink",
+    "permlink": "Publicar",
+    "permlinkPlaceholder": "autor/permlink",
     "information": "Tem certeza que deseja transferir para promover?"
   },
   "boostPost": {
-    "title": "Boost"
+    "title": "Reforçar"
   }
 }
