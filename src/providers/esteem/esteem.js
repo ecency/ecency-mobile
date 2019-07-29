@@ -309,3 +309,5 @@ export const getSCAccessToken = code =>
   new Promise(resolve => {
     api.post('/sc-token-refresh', { code }).then(resp => resolve(resp.data));
   });
+
+export const getPromotePosts = () => api.get(`/promoted-posts`).then(resp => resp.data);

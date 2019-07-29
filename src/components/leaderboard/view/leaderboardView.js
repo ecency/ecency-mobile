@@ -1,6 +1,7 @@
 import React, { PureComponent } from 'react';
 import { View, FlatList, Text } from 'react-native';
 import { injectIntl } from 'react-intl';
+import get from 'lodash/get';
 
 // Components
 import { UserListItem, ListPlaceHolder } from '../../basicUIElements';
@@ -20,15 +21,16 @@ class LeaderboardView extends PureComponent {
 
     return (
       <UserListItem
+        key={get(item, '_id')}
         index={index}
-        username={item._id}
-        description={item.created}
+        username={get(item, '_id')}
+        description={get(item, 'created')}
         isHasRightItem
         isClickable
         isBlackRightColor
-        rightText={item.count}
+        rightText={get(item, 'count')}
         itemIndex={index + 1}
-        handleOnPress={() => handleOnUserPress(item._id)}
+        handleOnPress={() => handleOnUserPress(get(item, '_id'))}
       />
     );
   };
@@ -49,7 +51,7 @@ class LeaderboardView extends PureComponent {
           <FlatList
             data={users}
             refreshing={refreshing}
-            keyExtractor={item => item.voter}
+            keyExtractor={item => get(item, '_id', Math.random()).toString()}
             removeClippedSubviews={false}
             onRefresh={() => fetchLeaderBoard()}
             renderItem={({ item, index }) => this._renderItem(item, index)}

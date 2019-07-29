@@ -4,7 +4,7 @@ import { Text, View, WebView, ScrollView, TouchableOpacity, Alert } from 'react-
 import get from 'lodash/get';
 import ActionSheet from 'react-native-actionsheet';
 import Autocomplete from 'react-native-autocomplete-input';
-import { ScaleSlider, TextInput } from '../../../components';
+import { Icon, TextInput } from '../../../components';
 import { steemConnectOptions } from '../../../constants/steemConnectOptions';
 
 // Container
@@ -21,12 +21,12 @@ import { MainButton } from '../../../components/mainButton';
 import { DropdownButton } from '../../../components/dropdownButton';
 import { Modal } from '../../../components/modal';
 
-import { PROMOTE_PRICING, PROMOTE_DAYS } from '../../../constants/options/points';
+// import { PROMOTE_PRICING, PROMOTE_DAYS } from '../../../constants/options/points';
 
 // Styles
-import styles from './promoteStyles';
+import styles from './boostPostStyles';
 
-class PointsScreen extends PureComponent {
+class BoostPostScreen extends PureComponent {
   /* Props
    * ------------------------------------------------
    *   @prop { type }    name                - Description....
@@ -38,11 +38,12 @@ class PointsScreen extends PureComponent {
       permlink: '',
       selectedUser: '',
       balance: '',
-      day: 1,
+      factor: 0,
       isSCModalOpen: false,
       SCPath: '',
       permlinkSuggestions: [],
       isValid: false,
+      calculatedESTM: 150,
     };
 
     this.startActionSheet = React.createRef();
@@ -108,23 +109,24 @@ class PointsScreen extends PureComponent {
       });
   };
 
-  _promote = async (promote, currentAccount, getUserDataWithUsername, navigationParams) => {
-    const { day, permlink, selectedUser } = this.state;
+  _boost = async (boost, currentAccount, getUserDataWithUsername, navigationParams) => {
+    const { factor, permlink, selectedUser } = this.state;
     const fullPermlink = permlink || get(navigationParams, 'permlink');
 
     const seperatedPermlink = fullPermlink.split('/');
     const _author = get(seperatedPermlink, '[0]');
     const _permlink = get(seperatedPermlink, '[1]');
+    const amount = 150 + 50 * factor;
 
     if (get(currentAccount, 'local.authType') === 'steemConnect') {
       const json = JSON.stringify({
         user: selectedUser,
         _author,
         _permlink,
-        duration: day,
+        amount,
       });
 
-      const uri = `sign/custom-json?authority=active&required_auths=%5B%22${selectedUser}%22%5D&required_posting_auths=%5B%5D&id=esteem_promote&json=${encodeURIComponent(
+      const uri = `sign/custom-json?authority=active&required_auths=%5B%22${selectedUser}%22%5D&required_posting_auths=%5B%5D&id=esteem_boost&json=${encodeURIComponent(
         json,
       )}`;
 
@@ -132,7 +134,7 @@ class PointsScreen extends PureComponent {
         isSCModalOpen: true,
         SCPath: uri,
       });
-    } else if (promote) {
+    } else if (boost) {
       let userFromRealm;
 
       if (selectedUser) {
@@ -146,7 +148,7 @@ class PointsScreen extends PureComponent {
           }
         : currentAccount;
 
-      promote(day, _permlink, _author, user);
+      if (amount && _permlink) boost(amount, _permlink, _author, user);
     }
   };
 
@@ -155,13 +157,15 @@ class PointsScreen extends PureComponent {
     const {
       selectedUser,
       balance,
-      day,
+      factor,
       SCPath,
       isSCModalOpen,
       permlinkSuggestions,
       permlink,
       isValid,
     } = this.state;
+
+    const calculatedESTM = 150 + 50 * factor;
 
     return (
       <PointsContainer>
@@ -170,13 +174,14 @@ class PointsScreen extends PureComponent {
           accounts,
           currentAccountName,
           balance: _balance,
-          promote,
           currentAccount,
           getUserDataWithUsername,
           navigationParams,
+          getESTMPrice,
+          boost,
         }) => (
           <Fragment>
-            <BasicHeader title={intl.formatMessage({ id: 'promote.title' })} />
+            <BasicHeader title={intl.formatMessage({ id: 'boostPost.title' })} />
             <View style={styles.container}>
               <ScrollView>
                 <View style={styles.middleContent}>
@@ -210,7 +215,7 @@ class PointsScreen extends PureComponent {
                             style={styles.input}
                             onChangeText={text => this._handleOnPermlinkChange(text)}
                             value={permlink || get(navigationParams, 'permlink', '')}
-                            placeholder={intl.formatMessage({ id: 'promote.permlink' })}
+                            placeholder={intl.formatMessage({ id: 'promote.permlinkPlaceholder' })}
                             placeholderTextColor="#c1c5c7"
                             autoCapitalize="none"
                           />
@@ -235,23 +240,54 @@ class PointsScreen extends PureComponent {
 
                   <View style={styles.total}>
                     <Text style={styles.day}>
-                      {`${day} ${intl.formatMessage({
-                        id: 'promote.days',
-                      })} `}
+                      {`${getESTMPrice(calculatedESTM).toFixed(3)} $ `}
                     </Text>
-                    <Text style={styles.price}>
-                      {`${get(PROMOTE_PRICING[PROMOTE_DAYS.indexOf(day)], 'price')} eSteem points`}
-                    </Text>
+                    <Text style={styles.price}>{`${calculatedESTM} ESTM`}</Text>
                   </View>
 
-                  <ScaleSlider
-                    values={[1, 2, 3, 7, 14]}
-                    LRpadding={50}
-                    activeValue={day}
-                    handleOnValueChange={_day => this.setState({ day: _day })}
-                    single
-                  />
+                  <View
+                    style={{
+                      justifyContent: 'center',
+                      alignItems: 'center',
+                      flexDirection: 'row',
+                    }}
+                  >
+                    <MainButton
+                      style={{ width: 55, height: 55, justifyContent: 'center' }}
+                      isDisable={!(_balance / 50 > factor + 4)}
+                      onPress={() =>
+                        this.setState({
+                          factor: _balance / 50 > factor + 4 ? factor + 1 : factor,
+                        })
+                      }
+                    >
+                      <Icon
+                        size={24}
+                        style={{ color: 'white' }}
+                        iconType="MaterialIcons"
+                        name="add"
+                      />
+                    </MainButton>
+
+                    <MainButton
+                      style={{ width: 55, height: 55, justifyContent: 'center' }}
+                      isDisable={!(calculatedESTM > 150)}
+                      onPress={() =>
+                        this.setState({
+                          factor: calculatedESTM > 150 ? factor - 1 : factor,
+                        })
+                      }
+                    >
+                      <Icon
+                        size={24}
+                        style={{ color: 'white' }}
+                        iconType="MaterialCommunityIcons"
+                        name="minus"
+                      />
+                    </MainButton>
+                  </View>
                 </View>
+
                 <View style={styles.bottomContent}>
                   <MainButton
                     style={styles.button}
@@ -280,9 +316,10 @@ class PointsScreen extends PureComponent {
               destructiveButtonIndex={0}
               onPress={index => {
                 index === 0 &&
-                  this._promote(promote, currentAccount, getUserDataWithUsername, navigationParams);
+                  this._boost(boost, currentAccount, getUserDataWithUsername, navigationParams);
               }}
             />
+
             <Modal
               isOpen={isSCModalOpen}
               isFullScreen
@@ -299,4 +336,4 @@ class PointsScreen extends PureComponent {
   }
 }
 
-export default injectIntl(PointsScreen);
+export default injectIntl(BoostPostScreen);

@@ -4,6 +4,7 @@ import { withNavigation } from 'react-navigation';
 import { Share } from 'react-native';
 import ActionSheet from 'react-native-actionsheet';
 import { injectIntl } from 'react-intl';
+import get from 'lodash/get';
 
 // Services and Actions
 import { reblog } from '../../../providers/steem/dsteem';
@@ -57,7 +58,7 @@ class PostDropdownContainer extends PureComponent {
 
     switch (item) {
       case 'COPY LINK':
-        await writeToClipboard(getPostUrl(content.url));
+        await writeToClipboard(getPostUrl(get(content, 'url')));
         this.alertTimer = setTimeout(() => {
           dispatch(
             toastNotification(
@@ -78,8 +79,9 @@ class PostDropdownContainer extends PureComponent {
         break;
 
       case 'REPLY':
-        this._replyNavigation();
+        this._redirectToReply();
         break;
+
       case 'SHARE':
         this.shareTimer = setTimeout(() => {
           this._share();
@@ -91,6 +93,10 @@ class PostDropdownContainer extends PureComponent {
         this._addToBookmarks();
         break;
 
+      case 'PROMOTE':
+        this._redirectToPromote();
+        break;
+
       default:
         break;
     }
@@ -98,7 +104,7 @@ class PostDropdownContainer extends PureComponent {
 
   _share = () => {
     const { content } = this.props;
-    const postUrl = getPostUrl(content.url);
+    const postUrl = getPostUrl(get(content, 'url'));
 
     Share.share({
       message: `${content.title} ${postUrl}`,
@@ -107,6 +113,7 @@ class PostDropdownContainer extends PureComponent {
 
   _addToBookmarks = () => {
     const { content, currentAccount, dispatch, intl } = this.props;
+
     addBookmark(currentAccount.name, content.author, content.permlink)
       .then(() => {
         dispatch(
@@ -157,7 +164,7 @@ class PostDropdownContainer extends PureComponent {
     }
   };
 
-  _replyNavigation = () => {
+  _redirectToReply = () => {
     const { content, fetchPost, isLoggedIn, navigation } = this.props;
 
     if (isLoggedIn) {
@@ -167,6 +174,19 @@ class PostDropdownContainer extends PureComponent {
           isReply: true,
           post: content,
           fetchPost,
+        },
+      });
+    }
+  };
+
+  _redirectToPromote = () => {
+    const { content, isLoggedIn, navigation } = this.props;
+
+    if (isLoggedIn) {
+      navigation.navigate({
+        routeName: ROUTES.SCREENS.PROMOTE,
+        params: {
+          permlink: `${get(content, 'author')}/${get(content, 'permlink')}`,
         },
       });
     }

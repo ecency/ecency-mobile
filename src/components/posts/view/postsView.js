@@ -5,7 +5,8 @@ import { withNavigation } from 'react-navigation';
 import get from 'lodash/get';
 
 // STEEM
-import { getPostsSummary } from '../../../providers/steem/dsteem';
+import { getPostsSummary, getPost } from '../../../providers/steem/dsteem';
+import { getPromotePosts } from '../../../providers/esteem/esteem';
 
 // COMPONENTS
 import { PostCard } from '../../postCard';
@@ -31,6 +32,7 @@ class PostsView extends Component {
       isHideImage: false,
       selectedFilterIndex: get(props, 'selectedOptionIndex', 0),
       isNoPost: false,
+      promotedPosts: [],
     };
   }
 
@@ -43,10 +45,11 @@ class PostsView extends Component {
     });
   }
 
-  componentDidMount() {
+  async componentDidMount() {
     const { isConnected } = this.props;
 
     if (isConnected) {
+      await this._getPromotePosts();
       this._loadPosts();
     } else {
       this.setState({
@@ -89,11 +92,26 @@ class PostsView extends Component {
     }
   }
 
+  _getPromotePosts = async () => {
+    const { currentAccountUsername } = this.props;
+    await getPromotePosts().then(async res => {
+      const promotedPosts = [];
+      res &&
+        res.length > 0 &&
+        res.map(async item => {
+          const post = await getPost(item.author, item.permlink, currentAccountUsername, true);
+          promotedPosts.push(post);
+        });
+
+      await this.setState({ promotedPosts });
+    });
+  };
+
   _scrollToTop = () => {
     if (this.flatList) this.flatList.scrollToOffset({ x: 0, y: 0, animated: true });
   };
 
-  _loadPosts = () => {
+  _loadPosts = async () => {
     const {
       getFor,
       tag,
@@ -110,6 +128,7 @@ class PostsView extends Component {
       refreshing,
       selectedFilterIndex,
       isLoading,
+      promotedPosts,
     } = this.state;
     const filter =
       pageType === 'posts'
@@ -117,6 +136,7 @@ class PostsView extends Component {
         : PROFILE_FILTERS[selectedFilterIndex].toLowerCase();
     let options;
     let newPosts = [];
+    const limit = promotedPosts ? (promotedPosts.length >= 3 ? 9 : 6) : 3;
 
     if (!isConnected) {
       this.setState({
@@ -135,16 +155,16 @@ class PostsView extends Component {
     if (tag || filter === 'feed' || filter === 'blog' || getFor === 'blog') {
       options = {
         tag,
-        limit: 3,
+        limit,
       };
     } else if (filter === 'reblogs') {
       options = {
         tag,
-        limit: 3,
+        limit,
       };
     } else {
       options = {
-        limit: 3,
+        limit,
       };
     }
 
@@ -187,6 +207,12 @@ class PostsView extends Component {
                 posts: _posts,
               });
             } else if (!refreshing) {
+              if (!startAuthor) {
+                promotedPosts.map((promotedItem, i) => {
+                  _posts.splice((i + 1) * 3, i * 3, promotedItem);
+                });
+              }
+
               this.setState({
                 posts: _posts,
                 startAuthor: result[result.length - 1] && result[result.length - 1].author,

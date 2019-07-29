@@ -37,7 +37,7 @@ class PointsScreen extends PureComponent {
         {isLoggedIn ? (
           <PointsContainer>
             {({
-              handleOnPressTransfer,
+              handleOnDropdownSelected,
               claimPoints,
               fetchUserActivity,
               isClaiming,
@@ -56,7 +56,7 @@ class PointsScreen extends PureComponent {
                 refreshing={refreshing}
                 userActivities={userActivities}
                 userPoints={userPoints}
-                handleOnPressTransfer={handleOnPressTransfer}
+                handleOnDropdownSelected={handleOnDropdownSelected}
               />
             )}
           </PointsContainer>

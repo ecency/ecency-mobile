@@ -45,7 +45,7 @@ class MainButton extends Component {
   };
 
   _getBody = () => {
-    const { isLoading, text, secondText, iconColor, iconName, source } = this.props;
+    const { isLoading, text, secondText, iconColor, iconName, source, iconType } = this.props;
 
     if (isLoading) {
       this._getIndicator();
@@ -57,7 +57,12 @@ class MainButton extends Component {
           {source ? (
             <Image source={source} style={styles.image} resizeMode="contain" />
           ) : (
-            <Icon iconType="MaterialIcons" color={iconColor} name={iconName} style={styles.icon} />
+            <Icon
+              iconType={iconType || 'MaterialIcons'}
+              color={iconColor}
+              name={iconName}
+              style={styles.icon}
+            />
           )}
           <Text style={styles.text}>
             {text}
@@ -67,7 +72,14 @@ class MainButton extends Component {
       );
     }
 
-    return <Icon iconType="MaterialIcons" color={iconColor} name={iconName} style={styles.icon} />;
+    return (
+      <Icon
+        iconType={iconType || 'MaterialIcons'}
+        color={iconColor}
+        name={iconName}
+        style={styles.icon}
+      />
+    );
   };
 
   _getIndicator = () => <ActivityIndicator color="white" style={styles.activityIndicator} />;

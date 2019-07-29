@@ -8,7 +8,7 @@ import { withNavigation } from 'react-navigation';
 // Services and Actions
 import { getUser, getUserPoints, claim } from '../providers/esteem/ePoint';
 import { openPinCodeModal } from '../redux/actions/applicationActions';
-import { promote, getAccount } from '../providers/steem/dsteem';
+import { promote, getAccount, boost } from '../providers/steem/dsteem';
 import { getUserDataWithUsername } from '../realm/realm';
 import { toastNotification } from '../redux/actions/uiAction';
 
@@ -33,28 +33,36 @@ class PointsContainer extends Component {
       refreshing: false,
       isClaiming: false,
       isLoading: true,
+      navigationParams: {},
     };
   }
 
   // Component Life Cycle Functions
   componentDidMount() {
-    const { username, isConnected } = this.props;
+    const { username, isConnected, navigation } = this.props;
 
     if (isConnected) {
       this._fetchuserPointActivities(username);
       this.fetchInterval = setInterval(this._fetchuserPointActivities, 6 * 60 * 1000);
     }
+
+    if (get(navigation, 'state.params', null)) {
+      const navigationParams = get(navigation, 'state.params');
+
+      this.setState({ navigationParams });
+    }
   }
 
   componentWillReceiveProps(nextProps) {
     const { username } = this.props;
+    const _username = get(nextProps, 'username');
 
     if (
       nextProps.isConnected &&
-      ((nextProps.activeBottomTab === ROUTES.TABBAR.POINTS && nextProps.username) ||
-        (nextProps.username !== username && nextProps.username))
+      ((nextProps.activeBottomTab === ROUTES.TABBAR.POINTS && _username) ||
+        (_username !== username && _username))
     ) {
-      this._fetchuserPointActivities(nextProps.username);
+      this._fetchuserPointActivities(_username);
     }
   }
 
@@ -64,7 +72,7 @@ class PointsContainer extends Component {
 
   // Component Functions
 
-  _handleOnPressTransfer = index => {
+  _handleOnDropdownSelected = index => {
     const { dispatch, isPinCodeOpen, navigation } = this.props;
     const { balance } = this.state;
     let navigateTo;
@@ -82,6 +90,13 @@ class PointsContainer extends Component {
 
       case 1:
         navigateTo = ROUTES.SCREENS.PROMOTE;
+        navigateParams = {
+          balance,
+        };
+        break;
+
+      case 2:
+        navigateTo = ROUTES.SCREENS.BOOST_POST;
         navigateParams = {
           balance,
         };
@@ -184,8 +199,8 @@ class PointsContainer extends Component {
     await promote(user || currentAccount, pinCode, duration, permlink, author)
       .then(() => {
         this.setState({ isLoading: false });
-        dispatch(toastNotification(intl.formatMessage({ id: 'alert.successful' })));
         navigation.goBack();
+        dispatch(toastNotification(intl.formatMessage({ id: 'alert.successful' })));
       })
       .catch(error => {
         Alert.alert(
@@ -197,15 +212,43 @@ class PointsContainer extends Component {
       });
   };
 
+  _boost = async (point, permlink, author, user) => {
+    const { currentAccount, pinCode, dispatch, intl, navigation } = this.props;
+    this.setState({ isLoading: true });
+
+    await boost(user || currentAccount, pinCode, point, permlink, author)
+      .then(() => {
+        this.setState({ isLoading: false });
+        navigation.goBack();
+        dispatch(toastNotification(intl.formatMessage({ id: 'alert.successful' })));
+      })
+      .catch(error => {
+        Alert.alert(
+          `Fetching data from server failed, please try again or notify us at info@esteem.app \n${error.message.substr(
+            0,
+            20,
+          )}`,
+        );
+      });
+  };
+
+  _getESTMPrice = points => {
+    const { globalProps } = this.props;
+    const { base, quote } = globalProps;
+
+    return points * 0.01 * (base / quote);
+  };
+
   render() {
     const {
+      balance,
       isClaiming,
       isDarkTheme,
       isLoading,
+      navigationParams,
       refreshing,
       userActivities,
       userPoints,
-      balance,
     } = this.state;
     const { children, accounts, currentAccount } = this.props;
 
@@ -213,17 +256,26 @@ class PointsContainer extends Component {
       children &&
       children({
         accounts,
+        balance,
+        claimPoints: this._claimPoints,
         currentAccount,
         currentAccountName: currentAccount.name,
-        claimPoints: this._claimPoints,
         fetchUserActivity: this._fetchuserPointActivities,
+        getAccount,
+        getUserBalance: this._getUserBalance,
+        getUserDataWithUsername,
+        handleOnPressTransfer: this._handleOnPressTransfer,
         isClaiming,
         isDarkTheme,
         isLoading,
+        navigationParams,
+        promote: this._promote,
         refreshing,
         userActivities,
         userPoints,
-        handleOnPressTransfer: this._handleOnPressTransfer,
+        handleOnDropdownSelected: this._handleOnDropdownSelected,
+        getESTMPrice: this._getESTMPrice,
+        boost: this._boost,
         balance,
         getUserBalance: this._getUserBalance,
         promote: this._promote,
@@ -241,8 +293,9 @@ const mapStateToProps = state => ({
   isConnected: state.application.isConnected,
   accounts: state.account.otherAccounts,
   currentAccount: state.account.currentAccount,
-  pinCode: state.account.pin,
+  pinCode: state.application.pin,
   isPinCodeOpen: state.application.isPinCodeOpen,
+  globalProps: state.account.globalProps,
 });
 
 export default withNavigation(connect(mapStateToProps)(injectIntl(PointsContainer)));
