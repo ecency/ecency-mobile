@@ -33,6 +33,7 @@
   },
   "points": {
     "post": "Bejegyzés",
+    "esteemPoints": "eSteem Points",
     "comment": "Hozzászólás",
     "checkin": "Bejelentkezés",
     "vote": "Szavazás",
@@ -60,7 +61,10 @@
     "vote_desc": "Szavazás által megjutalmazol más alkotókat és elismerésed fejezed ki, de kaphatsz 0,01 x a szavazás értékéből.",
     "reblog_desc": "  Ossz meg a barátaiddal pármilyen bejegyzést, ami tetszik és nyerj 1 pontot.",
     "login_desc": "Minden eSteem bejelentkezés alkalmával automatikusan 100 pontra vagy jogosult.",
-    "checkin_extra_desc": "Az alkalmazás következetes használata extra esélyt kínál arra, hogy több 10 pontot nyerj, légy aktívabb és nyerj többet."
+    "checkin_extra_desc": "Az alkalmazás következetes használata extra esélyt kínál arra, hogy több 10 pontot nyerj, légy aktívabb és nyerj többet.",
+    "dropdown_transfer": "Transfer",
+    "dropdown_promote": "Promote",
+    "dropdown_boost": "Boost"
   },
   "messages": {
     "comingsoon": "Üzenetek funkció hamarosan érkezik!"
@@ -212,7 +216,9 @@
   "post": {
     "reblog_alert": "Biztos, hogy megosztod?",
     "removed_hint": "A bejegyzést eltávolította",
-    "copy_link": "Link másolása"
+    "copy_link": "Link másolása",
+    "reblogged": "reblogged by",
+    "sponsored": "sponsored"
   },
   "drafts": {
     "title": "Piszkozatok",
@@ -261,7 +267,8 @@
     "reblog": "megosztás",
     "reply": "válasz",
     "share": "megosztás",
-    "bookmarks": "hozzáadás a könyvjelzőkhöz"
+    "bookmarks": "hozzáadás a könyvjelzőkhöz",
+    "promote": "promote"
   },
   "deep_link": {
     "no_existing_user": "Nem létező felhasználó",
@@ -293,29 +300,22 @@
     "powerUp": "Power Up",
     "withdraw_to_saving": "Átutalás A Megtakarításokhoz",
     "steemconnect_title": "Steemconnect átutalás",
-    "next": "KÖVETKEZŐ",
-    "withdraw_steem": "Steem Visszavonás",
-    "withdraw_sbd": "Steem Dollár Visszavonás",
-    "delegate": "Delegálás",
-    "power_down": "Power Down",
-    "account": "Fiók",
-    "destination_accounts": "Cél Fiók(ok)",
-    "amount_information": "A csúszka húzásával állítsd be a mennyiséget",
-    "save": "Mentés",
-    "percent": "Százalék",
-    "percent_information": "Power Down százaléka ennek a fióknak",
-    "auto_vests": "Automatikus power up a megadott fióknak",
-    "stop": "Megállítás",
-    "stop_information": "Bistos megállítod?",
-    "incoming_funds": "Bejövő tőke",
-    "sc_power_down_error": "Steem connect setWithdrawVestingRoute not implemented yet.",
-    "estimated_weekly": "Heti Becslés"
+    "next": "KÖVETKEZŐ"
+  },
+  "boost": {
+    "title": "Get eSteem Points",
+    "buy": "GET ESTM",
+    "next": "NEXT"
   },
   "promote": {
     "title": "Promote",
     "days": "nap",
     "user": "Felhasználó",
-    "permlink": "Permlink",
+    "permlink": "Post",
+    "permlinkPlaceholder": "author/permlink",
     "information": "Are you sure to transfer to promote?"
+  },
+  "boostPost": {
+    "title": "Boost"
   }
 }
