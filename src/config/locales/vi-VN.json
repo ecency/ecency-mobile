@@ -303,19 +303,19 @@
     "next": "KẾ TIẾP"
   },
   "boost": {
-    "title": "Get eSteem Points",
-    "buy": "GET ESTM",
-    "next": "NEXT"
+    "title": "Được Các Điểm eSteem",
+    "buy": "ĐƯỢC ESTM",
+    "next": "KẾ TIẾP"
   },
   "promote": {
     "title": "Quảng bá",
     "days": "những ngày",
     "user": "Người dùng",
-    "permlink": "Post",
-    "permlinkPlaceholder": "author/permlink",
+    "permlink": "Bài đăng",
+    "permlinkPlaceholder": "tác giả/đường dẫn về nội dung",
     "information": "Bạn có chắc chắn chuyển tiền để quảng bá?"
   },
   "boostPost": {
-    "title": "Boost"
+    "title": "Tăng tốc"
   }
 }
