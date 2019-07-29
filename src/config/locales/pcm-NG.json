@@ -33,6 +33,7 @@
   },
   "points": {
     "post": "Tori",
+    "esteemPoints": "eSteem Points",
     "comment": "Comments",
     "checkin": "Enter",
     "vote": "Vote",
@@ -60,7 +61,10 @@
     "vote_desc": "If you vote, you dey give reward to other people and e show say you like their work. e go also help you get 0.01 × vote weight point.",
     "reblog_desc": "  Share post wey you like with your paddi make you get 1 point.",
     "login_desc": "When you login enter eSteem app ehn, 100 point don dey ground for you.",
-    "checkin_extra_desc": "If you dey use the app wella, you go get the chance to get 10 point. So dey active so that you go earn more."
+    "checkin_extra_desc": "If you dey use the app wella, you go get the chance to get 10 point. So dey active so that you go earn more.",
+    "dropdown_transfer": "Transfer",
+    "dropdown_promote": "Promote",
+    "dropdown_boost": "Boost"
   },
   "messages": {
     "comingsoon": "Option for messages go soon come!"
@@ -212,7 +216,9 @@
   "post": {
     "reblog_alert": "You sure say you wan reblog am?",
     "removed_hint": "The post don komot by",
-    "copy_link": "Copy Link"
+    "copy_link": "Copy Link",
+    "reblogged": "reblogged by",
+    "sponsored": "sponsored"
   },
   "drafts": {
     "title": "Draft",
@@ -261,7 +267,8 @@
     "reblog": "reblog am",
     "reply": "reply am",
     "share": "share am",
-    "bookmarks": "add am to bookmark"
+    "bookmarks": "add am to bookmark",
+    "promote": "promote"
   },
   "deep_link": {
     "no_existing_user": "The person no exist",
@@ -293,29 +300,22 @@
     "powerUp": "Power Up",
     "withdraw_to_saving": "Withdraw To Saving",
     "steemconnect_title": "Transfer with steemconnect",
-    "next": "NEXT",
-    "withdraw_steem": "Withdraw Steem",
-    "withdraw_sbd": "Withdraw Steem Dollar",
-    "delegate": "Delegate",
-    "power_down": "Power Down",
-    "account": "Account",
-    "destination_accounts": "Destination Account(s)",
-    "amount_information": "Drag the slider to adjust to amount",
-    "save": "Save",
-    "percent": "Percentage",
-    "percent_information": "Percentage of power down to this account",
-    "auto_vests": "Automatically power up to the target account",
-    "stop": "Stop",
-    "stop_information": "Are you sure to stop?",
-    "incoming_funds": "Incoming Funds",
-    "sc_power_down_error": "Steem connect setWithdrawVestingRoute not implemented yet.",
-    "estimated_weekly": "Estimated Weekly"
+    "next": "NEXT"
+  },
+  "boost": {
+    "title": "Get eSteem Points",
+    "buy": "GET ESTM",
+    "next": "NEXT"
   },
   "promote": {
     "title": "Promote",
     "days": "days",
     "user": "User",
-    "permlink": "Permlink",
+    "permlink": "Post",
+    "permlinkPlaceholder": "author/permlink",
     "information": "Are you sure to transfer to promote?"
+  },
+  "boostPost": {
+    "title": "Boost"
   }
 }
