@@ -70,8 +70,6 @@ class PointsContainer extends Component {
     clearInterval(this.fetchInterval);
   }
 
-  // componentDidMount( ) {}
-
   // Component Functions
 
   _handleOnDropdownSelected = index => {
