@@ -70,9 +70,11 @@ class PointsContainer extends Component {
     clearInterval(this.fetchInterval);
   }
 
+  // componentDidMount( ) {}
+
   // Component Functions
 
-  _handleOnDropdownSelected = index => {
+  _navigation = index => {
     const { dispatch, isPinCodeOpen, navigation } = this.props;
     const { balance } = this.state;
     let navigateTo;
@@ -120,6 +122,8 @@ class PointsContainer extends Component {
       });
     }
   };
+
+  _handleOnDropdownSelected = index => this._navigation(index);
 
   _groomUserActivities = userActivities =>
     userActivities.map(item => ({
