@@ -74,7 +74,7 @@ class PointsContainer extends Component {
 
   // Component Functions
 
-  _navigation = index => {
+  _handleOnDropdownSelected = index => {
     const { dispatch, isPinCodeOpen, navigation } = this.props;
     const { balance } = this.state;
     let navigateTo;
@@ -122,8 +122,6 @@ class PointsContainer extends Component {
       });
     }
   };
-
-  _handleOnDropdownSelected = index => this._navigation(index);
 
   _groomUserActivities = userActivities =>
     userActivities.map(item => ({
