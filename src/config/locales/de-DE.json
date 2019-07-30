@@ -305,13 +305,13 @@
   "boost": {
     "title": "Erhalte eSteem Punkte",
     "buy": "GET ESTM",
-    "next": "NEXT"
+    "next": "WEITER"
   },
   "promote": {
     "title": "Bewerben",
     "days": "Tage",
     "user": "Benutzer",
-    "permlink": "Post",
+    "permlink": "Beitrag",
     "permlinkPlaceholder": "author/permlink",
     "information": "Bist du sicher, dass du Geld für das Promoten überweisen willst?"
   },
