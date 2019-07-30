@@ -11,7 +11,6 @@ import { toastNotification as toastNotificationAction } from '../../../redux/act
 // Components
 import { NoInternetConnection } from '../../../components/basicUIElements';
 import { ToastNotification } from '../../../components/toastNotification';
-import PostButtonForAndroid from '../../../components/postButton/view/postButtonsForAndroid';
 
 // Themes (Styles)
 import darkTheme from '../../../themes/darkTheme';
@@ -60,7 +59,6 @@ class ApplicationScreen extends Component {
           {!isConnected && <NoInternetConnection />}
           <ReduxNavigation />
         </Fragment>
-        {Platform.OS === 'android' && <PostButtonForAndroid />}
 
         {isShowToastNotification && (
           <ToastNotification
