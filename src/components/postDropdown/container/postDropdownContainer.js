@@ -10,6 +10,7 @@ import get from 'lodash/get';
 import { reblog } from '../../../providers/steem/dsteem';
 import { addBookmark } from '../../../providers/esteem/esteem';
 import { toastNotification } from '../../../redux/actions/uiAction';
+import { openPinCodeModal } from '../../../redux/actions/applicationActions';
 
 // Constants
 import OPTIONS from '../../../constants/options/post';
@@ -94,7 +95,11 @@ class PostDropdownContainer extends PureComponent {
         break;
 
       case 'PROMOTE':
-        this._redirectToPromote();
+        this._redirectToPromote(ROUTES.SCREENS.PROMOTE, 1);
+        break;
+
+      case 'BOOST':
+        this._redirectToPromote(ROUTES.SCREENS.BOOST_POST, 2);
         break;
 
       default:
@@ -179,15 +184,24 @@ class PostDropdownContainer extends PureComponent {
     }
   };
 
-  _redirectToPromote = () => {
-    const { content, isLoggedIn, navigation } = this.props;
+  _redirectToPromote = (routeName, from) => {
+    const { content, isLoggedIn, navigation, dispatch, isPinCodeOpen } = this.props;
+    const params = {
+      from,
+      permlink: `${get(content, 'author')}/${get(content, 'permlink')}`,
+    };
 
-    if (isLoggedIn) {
+    if (isPinCodeOpen) {
+      dispatch(
+        openPinCodeModal({
+          navigateTo: routeName,
+          navigateParams: params,
+        }),
+      );
+    } else if (isLoggedIn) {
       navigation.navigate({
-        routeName: ROUTES.SCREENS.PROMOTE,
-        params: {
-          permlink: `${get(content, 'author')}/${get(content, 'permlink')}`,
-        },
+        routeName,
+        params,
       });
     }
   };
@@ -227,6 +241,7 @@ const mapStateToProps = state => ({
   isLoggedIn: state.application.isLoggedIn,
   currentAccount: state.account.currentAccount,
   pinCode: state.application.pin,
+  isPinCodeOpen: state.application.isPinCodeOpen,
 });
 
 export default withNavigation(connect(mapStateToProps)(injectIntl(PostDropdownContainer)));
