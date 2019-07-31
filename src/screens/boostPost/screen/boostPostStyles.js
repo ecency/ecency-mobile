@@ -150,13 +150,23 @@ export default EStyleSheet.create({
     justifyContent: 'center',
     alignItems: 'center',
   },
-  day: {
+  price: {
     fontSize: 22,
     color: '$primaryBlue',
     fontWeight: 'bold',
   },
-  price: {
+  esteem: {
     fontSize: 15,
     color: '$primaryBlue',
+  },
+  quickButtons: {
+    width: 55,
+    height: 55,
+    justifyContent: 'center',
+  },
+  quickButtonsWrapper: {
+    justifyContent: 'center',
+    alignItems: 'center',
+    flexDirection: 'row',
   },
 });
