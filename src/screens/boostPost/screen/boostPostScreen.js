@@ -207,7 +207,7 @@ class BoostPostScreen extends PureComponent {
                       data={permlinkSuggestions}
                       listContainerStyle={styles.autocomplateListContainer}
                       listStyle={styles.autocomplateList}
-                      onChangeText={text => this._handleOnPermlinkChange(text)}
+                      onChangeText={this._handleOnPermlinkChange}
                       renderTextInput={() => (
                         <TextInput
                           style={styles.input}
