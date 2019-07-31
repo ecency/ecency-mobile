@@ -268,7 +268,8 @@
     "reply": "Antworten",
     "share": "Teilen",
     "bookmarks": "Lesezeichen hinzufügen",
-    "promote": "Promote"
+    "promote": "Promote",
+    "boost": "Boost"
   },
   "deep_link": {
     "no_existing_user": "Kein vorhandener Benutzer",

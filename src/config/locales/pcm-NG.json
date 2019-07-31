@@ -268,7 +268,8 @@
     "reply": "reply am",
     "share": "share am",
     "bookmarks": "add am to bookmark",
-    "promote": "promote"
+    "promote": "promote",
+    "boost": "boost"
   },
   "deep_link": {
     "no_existing_user": "The person no exist",
