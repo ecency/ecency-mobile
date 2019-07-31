@@ -268,7 +268,8 @@
     "reply": "الرد",
     "share": "شارك",
     "bookmarks": "إضافة إلى الإشارات المرجعية",
-    "promote": "promote"
+    "promote": "promote",
+    "boost": "boost"
   },
   "deep_link": {
     "no_existing_user": "لا يوجد أي مستخدم حاليا",
