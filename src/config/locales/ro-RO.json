@@ -268,7 +268,8 @@
     "reply": "răspunde",
     "share": "distribuire",
     "bookmarks": "adaugă la bookmarks",
-    "promote": "promote"
+    "promote": "promote",
+    "boost": "boost"
   },
   "deep_link": {
     "no_existing_user": "Utilizator inexistent",
