@@ -268,7 +268,8 @@
     "reply": "Membalas",
     "share": "kongsi",
     "bookmarks": "tambah ke tanda halaman",
-    "promote": "promote"
+    "promote": "promote",
+    "boost": "boost"
   },
   "deep_link": {
     "no_existing_user": "Pengguna tidak wujud",
