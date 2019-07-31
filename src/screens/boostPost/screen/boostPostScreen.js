@@ -43,7 +43,6 @@ class BoostPostScreen extends PureComponent {
       SCPath: '',
       permlinkSuggestions: [],
       isValid: false,
-      calculatedESTM: 150,
     };
 
     this.startActionSheet = React.createRef();
@@ -192,85 +191,60 @@ class BoostPostScreen extends PureComponent {
                     }
                   />
                   <Text style={styles.balanceText}>{`${balance || _balance} ESTM`}</Text>
-                  <Fragment>
-                    <View style={styles.autocomplateLineContainer}>
-                      <View style={styles.autocomplateLabelContainer}>
-                        {
-                          <Text style={styles.autocomplateLabelText}>
-                            {intl.formatMessage({ id: 'promote.permlink' })}
-                          </Text>
-                        }
-                      </View>
-
-                      <Autocomplete
-                        autoCapitalize="none"
-                        autoCorrect={false}
-                        inputContainerStyle={styles.autocomplate}
-                        data={permlinkSuggestions}
-                        listContainerStyle={styles.autocomplateListContainer}
-                        listStyle={styles.autocomplateList}
-                        onChangeText={text => this._handleOnPermlinkChange(text)}
-                        renderTextInput={() => (
-                          <TextInput
-                            style={styles.input}
-                            onChangeText={text => this._handleOnPermlinkChange(text)}
-                            value={permlink || get(navigationParams, 'permlink', '')}
-                            placeholder={intl.formatMessage({ id: 'promote.permlinkPlaceholder' })}
-                            placeholderTextColor="#c1c5c7"
-                            autoCapitalize="none"
-                          />
-                        )}
-                        renderItem={({ item }) => (
-                          <TouchableOpacity
-                            key={item}
-                            onPress={() =>
-                              this.setState({
-                                permlink: item,
-                                isValid: true,
-                                permlinkSuggestions: [],
-                              })
-                            }
-                          >
-                            <Text style={styles.autocomplateItemText}>{item}</Text>
-                          </TouchableOpacity>
-                        )}
-                      />
+                  <View style={styles.autocomplateLineContainer}>
+                    <View style={styles.autocomplateLabelContainer}>
+                      {
+                        <Text style={styles.autocomplateLabelText}>
+                          {intl.formatMessage({ id: 'promote.permlink' })}
+                        </Text>
+                      }
                     </View>
-                  </Fragment>
 
-                  <View style={styles.total}>
-                    <Text style={styles.day}>
-                      {`${getESTMPrice(calculatedESTM).toFixed(3)} $ `}
-                    </Text>
-                    <Text style={styles.price}>{`${calculatedESTM} ESTM`}</Text>
+                    <Autocomplete
+                      autoCapitalize="none"
+                      autoCorrect={false}
+                      inputContainerStyle={styles.autocomplate}
+                      data={permlinkSuggestions}
+                      listContainerStyle={styles.autocomplateListContainer}
+                      listStyle={styles.autocomplateList}
+                      onChangeText={this._handleOnPermlinkChange}
+                      renderTextInput={() => (
+                        <TextInput
+                          style={styles.input}
+                          onChangeText={text => this._handleOnPermlinkChange(text)}
+                          value={permlink || get(navigationParams, 'permlink', '')}
+                          placeholder={intl.formatMessage({ id: 'promote.permlinkPlaceholder' })}
+                          placeholderTextColor="#c1c5c7"
+                          autoCapitalize="none"
+                        />
+                      )}
+                      renderItem={({ item }) => (
+                        <TouchableOpacity
+                          key={item}
+                          onPress={() =>
+                            this.setState({
+                              permlink: item,
+                              isValid: true,
+                              permlinkSuggestions: [],
+                            })
+                          }
+                        >
+                          <Text style={styles.autocomplateItemText}>{item}</Text>
+                        </TouchableOpacity>
+                      )}
+                    />
                   </View>
 
-                  <View
-                    style={{
-                      justifyContent: 'center',
-                      alignItems: 'center',
-                      flexDirection: 'row',
-                    }}
-                  >
-                    <MainButton
-                      style={{ width: 55, height: 55, justifyContent: 'center' }}
-                      isDisable={!(_balance / 50 > factor + 4)}
-                      onPress={() =>
-                        this.setState({
-                          factor: _balance / 50 > factor + 4 ? factor + 1 : factor,
-                        })
-                      }
-                    >
-                      <Icon
-                        size={24}
-                        style={{ color: 'white' }}
-                        iconType="MaterialIcons"
-                        name="add"
-                      />
-                    </MainButton>
+                  <View style={styles.total}>
+                    <Text style={styles.price}>
+                      {`${getESTMPrice(calculatedESTM).toFixed(3)} $ `}
+                    </Text>
+                    <Text style={styles.esteem}>{`${calculatedESTM} ESTM`}</Text>
+                  </View>
 
+                  <View style={styles.quickButtonsWrapper}>
                     <MainButton
-                      style={{ width: 55, height: 55, justifyContent: 'center' }}
+                      style={styles.quickButtons}
                       isDisable={!(calculatedESTM > 150)}
                       onPress={() =>
                         this.setState({
@@ -283,6 +257,23 @@ class BoostPostScreen extends PureComponent {
                         style={{ color: 'white' }}
                         iconType="MaterialCommunityIcons"
                         name="minus"
+                      />
+                    </MainButton>
+
+                    <MainButton
+                      style={styles.quickButtons}
+                      isDisable={!(_balance / 50 > factor + 4)}
+                      onPress={() =>
+                        this.setState({
+                          factor: _balance / 50 > factor + 4 ? factor + 1 : factor,
+                        })
+                      }
+                    >
+                      <Icon
+                        size={24}
+                        style={{ color: 'white' }}
+                        iconType="MaterialIcons"
+                        name="add"
                       />
                     </MainButton>
                   </View>
