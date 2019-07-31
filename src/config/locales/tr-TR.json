@@ -33,6 +33,7 @@
   },
   "points": {
     "post": "Gönderi",
+    "esteemPoints": "eSteem Points",
     "comment": "Yorum",
     "checkin": "Check-in",
     "vote": "Vote",
@@ -60,7 +61,10 @@
     "vote_desc": "By voting you give reward to other creators and show your appreciation but also earn 0.01 x vote weight points.",
     "reblog_desc": "  Share what post you like with your friends and earn 1 points.",
     "login_desc": "When you login into eSteem app you are entitled to earn 100 points automatically.",
-    "checkin_extra_desc": "Consistent use of app gives you extra chances to earn more 10 points, be more active and earn more."
+    "checkin_extra_desc": "Consistent use of app gives you extra chances to earn more 10 points, be more active and earn more.",
+    "dropdown_transfer": "Transfer",
+    "dropdown_promote": "Promote",
+    "dropdown_boost": "Boost"
   },
   "messages": {
     "comingsoon": "Mesajlar yakinda burada!"
@@ -212,7 +216,9 @@
   "post": {
     "reblog_alert": "Reblog yapma istediginize emin misiniz?",
     "removed_hint": "The post was removed by",
-    "copy_link": "Copy Link"
+    "copy_link": "Copy Link",
+    "reblogged": "reblogged by",
+    "sponsored": "sponsored"
   },
   "drafts": {
     "title": "Taslaklar",
@@ -261,7 +267,8 @@
     "reblog": "Reblog",
     "reply": "cevapla",
     "share": "paylaş",
-    "bookmarks": "yer imlerine ekle"
+    "bookmarks": "yer imlerine ekle",
+    "promote": "promote"
   },
   "deep_link": {
     "no_existing_user": "Kullanici Bulunamadi",
@@ -293,29 +300,22 @@
     "powerUp": "Güç yükselt",
     "withdraw_to_saving": "Withdraw To Saving",
     "steemconnect_title": "Steemconnect Aktarımı",
-    "next": "NEXT",
-    "withdraw_steem": "Withdraw Steem",
-    "withdraw_sbd": "Withdraw Steem Dollar",
-    "delegate": "Delegate",
-    "power_down": "Power Down",
-    "account": "Account",
-    "destination_accounts": "Destination Account(s)",
-    "amount_information": "Drag the slider to adjust to amount",
-    "save": "Save",
-    "percent": "Percentage",
-    "percent_information": "Percentage of power down to this account",
-    "auto_vests": "Automatically power up to the target account",
-    "stop": "Stop",
-    "stop_information": "Are you sure to stop?",
-    "incoming_funds": "Incoming Funds",
-    "sc_power_down_error": "Steem connect setWithdrawVestingRoute not implemented yet.",
-    "estimated_weekly": "Estimated Weekly"
+    "next": "NEXT"
+  },
+  "boost": {
+    "title": "Get eSteem Points",
+    "buy": "GET ESTM",
+    "next": "NEXT"
   },
   "promote": {
     "title": "Promote",
     "days": "days",
     "user": "User",
-    "permlink": "Permlink",
+    "permlink": "Post",
+    "permlinkPlaceholder": "author/permlink",
     "information": "Are you sure to transfer to promote?"
+  },
+  "boostPost": {
+    "title": "Boost"
   }
 }

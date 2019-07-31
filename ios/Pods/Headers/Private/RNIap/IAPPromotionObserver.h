@@ -1,0 +1,1 @@
+../../../../../node_modules/react-native-iap/ios/IAPPromotionObserver.h

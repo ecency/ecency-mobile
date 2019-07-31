@@ -32,21 +32,17 @@ target 'eSteem' do
 
   pod 'CodePush', :path => '../node_modules/react-native-code-push'
 
-
-
   pod 'react-native-version-number', :path => '../node_modules/react-native-version-number'
 
   pod 'BugsnagReactNative', :path => '../node_modules/bugsnag-react-native'
 
-  pod 'RNIap', :path => '../node_modules/react-native-iap'
-
-
-
-  pod 'RNFastImage', :path => '../node_modules/react-native-fast-image'
-
   pod 'RNImageCropPicker', :path => '../node_modules/react-native-image-crop-picker'
 
   pod 'react-native-netinfo', :path => '../node_modules/@react-native-community/netinfo'
+
+  pod 'RNIap', :path => '../node_modules/react-native-iap'
+
+  pod 'react-native-fast-image', :path => '../node_modules/react-native-fast-image'
 
   target 'eSteemTests' do
     inherit! :search_paths

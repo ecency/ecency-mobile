@@ -33,6 +33,7 @@
   },
   "points": {
     "post": "Beitrag",
+    "esteemPoints": "eSteem Punkte",
     "comment": "Kommentar",
     "checkin": "Einloggen",
     "vote": "Vote",
@@ -60,7 +61,10 @@
     "vote_desc": "Mit dem Voting belohnst du andere Blogger und zeigst Ihnen deine Anerkennung, verdienst aber auch 0,01x eSteem Punkte für dein Stimm-Gewicht.\n",
     "reblog_desc": "Teile einen Beitrag, den du magst mit deinen Freunden und erhalte 1 eSteem Punkt.",
     "login_desc": "Wenn du dich bei der eSteem App anmeldest, hast du Anspruch darauf, dass du automatisch 100 eSteem Punkte erhältst.",
-    "checkin_extra_desc": "Die konsequente Nutzung der eSteem App gibt dir zusätzliche Chancen, weitere 10 eSteem Punkte zu verdienen. Sei aktiv und verdiene mehr Punkte."
+    "checkin_extra_desc": "Die konsequente Nutzung der eSteem App gibt dir zusätzliche Chancen, weitere 10 eSteem Punkte zu verdienen. Sei aktiv und verdiene mehr Punkte.",
+    "dropdown_transfer": "Überweisen",
+    "dropdown_promote": "Bewerben",
+    "dropdown_boost": "Boost"
   },
   "messages": {
     "comingsoon": "Nachrichten-Feature ist bald verfügbar!"
@@ -212,7 +216,9 @@
   "post": {
     "reblog_alert": "Möchtest du diesen Beitrag wirklich teilen?",
     "removed_hint": "Der Beitrag wurde entfernt von",
-    "copy_link": "Link kopieren"
+    "copy_link": "Link kopieren",
+    "reblogged": "rebloggt von",
+    "sponsored": "Gesponsert"
   },
   "drafts": {
     "title": "Entwürfe",
@@ -261,7 +267,8 @@
     "reblog": "Reblog",
     "reply": "Antworten",
     "share": "Teilen",
-    "bookmarks": "Lesezeichen hinzufügen"
+    "bookmarks": "Lesezeichen hinzufügen",
+    "promote": "Promote"
   },
   "deep_link": {
     "no_existing_user": "Kein vorhandener Benutzer",
@@ -293,29 +300,22 @@
     "powerUp": "Power Up",
     "withdraw_to_saving": "Auszahlung in den Tresor",
     "steemconnect_title": "Steemconnect Überweisung",
-    "next": "WEITER",
-    "withdraw_steem": "Steem auszahlen",
-    "withdraw_sbd": "Steem-Dollar auszahlen",
-    "delegate": "Delegieren",
-    "power_down": "Power-Down",
-    "account": "Konto",
-    "destination_accounts": "Ziel-Konto\/Konten",
-    "amount_information": "Ziehe den Slider, um den Wert zu definieren",
-    "save": "Speichern",
-    "percent": "Prozent",
-    "percent_information": "Prozentsatz des Power-Down auf dieses Konto",
-    "auto_vests": "Automatisches Power-Up des Zielkontos",
-    "stop": "Stop",
-    "stop_information": "Möchtest du wirklich abbrechen?",
-    "incoming_funds": "Eingehend",
-    "sc_power_down_error": "Steem connect setWithdrawVestingRoute noch nicht implementiert.",
-    "estimated_weekly": "Geschätzt wöchentlich"
+    "next": "WEITER"
+  },
+  "boost": {
+    "title": "Erhalte eSteem Punkte",
+    "buy": "GET ESTM",
+    "next": "WEITER"
   },
   "promote": {
     "title": "Bewerben",
     "days": "Tage",
     "user": "Benutzer",
-    "permlink": "Permalink",
+    "permlink": "Beitrag",
+    "permlinkPlaceholder": "author/permlink",
     "information": "Bist du sicher, dass du Geld für das Promoten überweisen willst?"
+  },
+  "boostPost": {
+    "title": "Boost"
   }
 }
