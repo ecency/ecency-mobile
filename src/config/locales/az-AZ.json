@@ -268,7 +268,8 @@
     "reply": "cavabla",
     "share": "paylaş",
     "bookmarks": "əlfəcinlərə əlavə et",
-    "promote": "promote"
+    "promote": "promote",
+    "boost": "boost"
   },
   "deep_link": {
     "no_existing_user": "Heç bir istifadəçi yoxdur",
