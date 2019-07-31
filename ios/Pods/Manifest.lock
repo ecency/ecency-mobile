@@ -95,7 +95,9 @@ PODS:
     - React/Core
     - React/fishhook
     - React/RCTBlob
-  - RNImageCropPicker (0.21.3):
+  - RNIap (3.3.0):
+    - React
+  - RNImageCropPicker (0.24.1):
     - QBImagePickerController
     - React/Core
     - RSKImageCropper
@@ -129,6 +131,7 @@ DEPENDENCIES:
   - React/RCTNetwork (from `../node_modules/react-native`)
   - React/RCTText (from `../node_modules/react-native`)
   - React/RCTWebSocket (from `../node_modules/react-native`)
+  - RNIap (from `../node_modules/react-native-iap`)
   - RNImageCropPicker (from `../node_modules/react-native-image-crop-picker`)
   - yoga (from `../node_modules/react-native/ReactCommon/yoga`)
 
@@ -161,6 +164,8 @@ EXTERNAL SOURCES:
     :path: "../node_modules/@react-native-community/netinfo"
   react-native-version-number:
     :path: "../node_modules/react-native-version-number"
+  RNIap:
+    :path: "../node_modules/react-native-iap"
   RNImageCropPicker:
     :path: "../node_modules/react-native-image-crop-picker"
   yoga:
@@ -181,11 +186,12 @@ SPEC CHECKSUMS:
   react-native-fast-image: 6d50167ad4d68b59640ceead8c2bc4e58d91d8bd
   react-native-netinfo: 0da34082d2cec3100c9b5073bb217e35f1142bdd
   react-native-version-number: b415bbec6a13f2df62bf978e85bc0d699462f37f
-  RNImageCropPicker: 754299983d07c450aec0834c0efe0ed114131ff3
+  RNIap: ee89b7442f32161016fe213a3434ee1fc19c1a80
+  RNImageCropPicker: 6134b66a3d5bc13e2895a97c630a4254006902b4
   RSKImageCropper: 98296ad26b41753f796b6898d015509598f13d97
   SDWebImage: 3f3f0c02f09798048c47a5ed0a13f17b063572d8
   yoga: 92b2102c3d373d1a790db4ab761d2b0ffc634f64
 
-PODFILE CHECKSUM: 267f815120314e87d634e05d416d999a4cadc134
+PODFILE CHECKSUM: 88a2b7d9ae1d1f455784f33483316a2254fed44a
 
-COCOAPODS: 1.6.1
+COCOAPODS: 1.7.5
