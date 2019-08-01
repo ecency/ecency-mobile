@@ -20,6 +20,7 @@ export default EStyleSheet.create({
     flexDirection: 'row',
     justifyContent: 'space-between',
     alignSelf: 'flex-end',
+    marginTop: 10,
   },
   iconButton: {
     fontSize: 25,
