@@ -1,5 +1,5 @@
 import React, { PureComponent } from 'react';
-import { TouchableOpacity, SafeAreaView } from 'react-native';
+import { TouchableOpacity, SafeAreaView, View, Dimensions } from 'react-native';
 import { connect } from 'react-redux';
 import ViewOverflow from 'react-native-view-overflow';
 
@@ -10,6 +10,7 @@ import { updateActiveBottomTab } from '../../../redux/actions/uiAction';
 import ROUTES from '../../../constants/routeNames';
 
 // Components
+import TabBar from './tabbar';
 
 // Styles
 import styles from './bottomTabBarStyles';
@@ -71,27 +72,23 @@ class BottomTabBarView extends PureComponent {
     } = this.props;
 
     return (
-      <SafeAreaView style={styles.safeArea}>
-        <ViewOverflow style={styles.wrapper}>
-          {routes.map((route, idx) => (
-            <ViewOverflow
-              key={route.key}
-              style={{
-                flex: 1,
-                alignItems: 'center',
-              }}
-            >
-              <TouchableOpacity onPress={() => this._jumpTo(route)}>
-                {renderIcon({
-                  route,
-                  focused: index === idx,
-                  tintColor: index === idx ? activeTintColor : inactiveTintColor,
-                })}
-              </TouchableOpacity>
-            </ViewOverflow>
-          ))}
-        </ViewOverflow>
-      </SafeAreaView>
+      <View
+        style={{
+          position: 'absolute',
+          bottom: 0,
+          left: 0,
+          zIndex: 99999,
+          width: Dimensions.get('window').width,
+        }}
+      >
+        <TabBar
+          itemList={routes}
+          renderIcon={renderIcon}
+          onPress={this._jumpTo}
+          activeTintColor={activeTintColor}
+          inactiveTintColor={inactiveTintColor}
+        />
+      </View>
     );
   }
 }

@@ -16,13 +16,7 @@ const BaseNavigator = createBottomTabNavigator(
       screen: Home,
       navigationOptions: () => ({
         tabBarIcon: ({ tintColor }) => (
-          <Icon
-            iconType="MaterialIcons"
-            style={{ padding: 15 }}
-            name="view-day"
-            color={tintColor}
-            size={26}
-          />
+          <Icon iconType="MaterialIcons" name="view-day" color={tintColor} size={26} />
         ),
       }),
     },
@@ -37,7 +31,6 @@ const BaseNavigator = createBottomTabNavigator(
             name="notifications"
             color={tintColor}
             size={26}
-            style={{ padding: 15 }}
           />
         ),
       }),
@@ -45,20 +38,16 @@ const BaseNavigator = createBottomTabNavigator(
     [ROUTES.TABBAR.POSTBUTTON]: {
       screen: () => null,
       navigationOptions: {
-        tabBarIcon: <PostButton />,
+        tabBarIcon: ({ tintColor }) => (
+          <Icon iconType="MaterialCommunityIcons" name="pencil" color={tintColor} size={26} />
+        ),
       },
     },
     [ROUTES.TABBAR.POINTS]: {
       screen: Points,
       navigationOptions: () => ({
         tabBarIcon: ({ tintColor }) => (
-          <Icon
-            iconType="MaterialCommunityIcons"
-            style={{ padding: 15 }}
-            name="gift"
-            color={tintColor}
-            size={26}
-          />
+          <Icon iconType="MaterialCommunityIcons" name="gift" color={tintColor} size={26} />
         ),
       }),
     },
@@ -66,13 +55,7 @@ const BaseNavigator = createBottomTabNavigator(
       screen: Profile,
       navigationOptions: () => ({
         tabBarIcon: ({ tintColor }) => (
-          <Icon
-            iconType="MaterialIcons"
-            style={{ padding: 15 }}
-            name="credit-card"
-            color={tintColor}
-            size={26}
-          />
+          <Icon iconType="MaterialIcons" name="credit-card" color={tintColor} size={26} />
         ),
       }),
     },
