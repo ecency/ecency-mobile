@@ -419,6 +419,7 @@ class EditorContainer extends Component {
         parent_permlink: parentPermlink,
         permlink,
         json_metadata: jsonMetadata,
+        parent_author: parentAuthor,
       } = post;
 
       let newBody = body;
@@ -442,7 +443,7 @@ class EditorContainer extends Component {
       await postContent(
         currentAccount,
         pinCode,
-        '',
+        parentAuthor,
         parentPermlink,
         permlink,
         title,
