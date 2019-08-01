@@ -18,6 +18,7 @@ import ProfileSummaryPlaceHolder from './view/placeHolder/profileSummaryPlaceHol
 import WalletDetailsPlaceHolder from './view/placeHolder/walletDetailsPlaceHolder';
 import WalletUnclaimedPlaceHolder from './view/placeHolder/walletUnclaimedPlaceHolder';
 import ListPlaceHolder from './view/placeHolder/listPlaceHolderView';
+import BoostPlaceHolder from './view/placeHolder/boostPlaceHolderView';
 
 export {
   Card,
@@ -26,6 +27,7 @@ export {
   LineBreak,
   ListItemPlaceHolder,
   ListPlaceHolder,
+  BoostPlaceHolder,
   NoInternetConnection,
   NoPost,
   PostCardPlaceHolder,

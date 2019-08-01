@@ -39,6 +39,7 @@ class BoostContainer extends Component {
     this.state = {
       receipt: '',
       productList: [],
+      isLoading: true,
     };
   }
 
@@ -67,11 +68,11 @@ class BoostContainer extends Component {
   _getItems = async () => {
     try {
       const products = await RNIap.getProducts(ITEM_SKUS);
-      console.log('Products', products);
       products.sort((a, b) => parseFloat(a.price) - parseFloat(b.price)).reverse();
-      this.setState({ productList: products });
+      await this.setState({ productList: products });
+      this.setState({ isLoading: false });
     } catch (err) {
-      console.warn(err.code, err.message);
+      this.setState({ isLoading: false });
     }
   };
 
@@ -103,9 +104,25 @@ class BoostContainer extends Component {
   // };
 
   render() {
-    const { productList } = this.state;
+    const { productList, isLoading } = this.state;
+    const _freeEstm = { productId: 0, title: 'free esteem', localizedPrice: null };
 
-    return <BoostScreen boostData={productList} buyItem={this._buyItem} />;
+    return <BoostScreen productList={productList} buyItem={this._buyItem} isLoading={isLoading} />;
+
+    //     currency: "TRY"
+    // description: "Get $0,99 worth of ESTM to boost experience"
+    // discounts: []
+    // introductoryPrice: ""
+    // introductoryPriceNumberOfPeriodsIOS: ""
+    // introductoryPricePaymentModeIOS: ""
+    // introductoryPriceSubscriptionPeriodIOS: ""
+    // localizedPrice: "₺6,99"
+    // price: "6.99"
+    // productId: "099points"
+    // subscriptionPeriodNumberIOS: "0"
+    // subscriptionPeriodUnitIOS: "DAY"
+    // title: "100 ESTM"
+    // type: "Do not use this. It returned sub only before"
   }
 }
 
