@@ -268,7 +268,8 @@
     "reply": "se idahun",
     "share": "pin pelu",
     "bookmarks": "add to bookmarks",
-    "promote": "promote"
+    "promote": "promote",
+    "boost": "boost"
   },
   "deep_link": {
     "no_existing_user": "A ko ri oruko yi",

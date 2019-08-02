@@ -268,7 +268,8 @@
     "reply": "responder",
     "share": "compartir",
     "bookmarks": "añadir a favoritos",
-    "promote": "promote"
+    "promote": "promote",
+    "boost": "boost"
   },
   "deep_link": {
     "no_existing_user": "Usuario no existe",

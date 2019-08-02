@@ -268,7 +268,8 @@
     "reply": "cevapla",
     "share": "paylaş",
     "bookmarks": "yer imlerine ekle",
-    "promote": "promote"
+    "promote": "promote",
+    "boost": "boost"
   },
   "deep_link": {
     "no_existing_user": "Kullanici Bulunamadi",
