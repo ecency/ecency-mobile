@@ -268,7 +268,8 @@
     "reply": "válasz",
     "share": "megosztás",
     "bookmarks": "hozzáadás a könyvjelzőkhöz",
-    "promote": "promote"
+    "promote": "promote",
+    "boost": "boost"
   },
   "deep_link": {
     "no_existing_user": "Nem létező felhasználó",

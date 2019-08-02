@@ -268,7 +268,8 @@
     "reply": "odgovori",
     "share": "podeli",
     "bookmarks": "dodaj u obeleživače",
-    "promote": "promote"
+    "promote": "promote",
+    "boost": "boost"
   },
   "deep_link": {
     "no_existing_user": "Nema postojećih korisnika",
