@@ -14,9 +14,9 @@
             buildForArchiving = "YES">
             <BuildableReference
                BuildableIdentifier = "primary"
-               BlueprintIdentifier = "0745200E60DC80C9A0A48B7E6C1518D7"
-               BuildableName = "libBugsnagReactNative.a"
-               BlueprintName = "BugsnagReactNative"
+               BlueprintIdentifier = "FD9911868EF2AB049F2D780B31F926C9"
+               BuildableName = "libRNIap.a"
+               BlueprintName = "RNIap"
                ReferencedContainer = "container:Pods.xcodeproj">
             </BuildableReference>
          </BuildActionEntry>
