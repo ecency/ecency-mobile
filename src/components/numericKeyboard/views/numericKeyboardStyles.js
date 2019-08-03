@@ -8,15 +8,12 @@ export default EStyleSheet.create({
     width: '$deviceWidth / 1.8',
   },
   buttonGroup: {
-    flex: 1,
     flexDirection: 'row',
     flexWrap: 'wrap',
     justifyContent: 'space-between',
-    marginBottom: 30,
   },
   lastButtonGroup: {
     width: '63%',
-    flex: 1,
     flexDirection: 'row',
     justifyContent: 'space-between',
     alignSelf: 'flex-end',
