@@ -24,6 +24,7 @@ import {
   Boost,
   Promote,
   BoostPost,
+  FreeEstm,
 } from '../screens';
 
 // Components
@@ -122,6 +123,12 @@ const stackNavigatior = createStackNavigator(
     },
     [ROUTES.SCREENS.BOOST_POST]: {
       screen: BoostPost,
+      navigationOptions: {
+        header: () => null,
+      },
+    },
+    [ROUTES.SCREENS.FREE_ESTM]: {
+      screen: FreeEstm,
       navigationOptions: {
         header: () => null,
       },

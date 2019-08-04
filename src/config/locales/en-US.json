@@ -308,6 +308,9 @@
     "buy": "GET ESTM",
     "next": "NEXT"
   },
+  "free_estm": {
+    "title": "Free ESTM"
+  },
   "promote": {
     "title": "Promote",
     "days": "days",
