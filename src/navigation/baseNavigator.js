@@ -7,7 +7,7 @@ import ROUTES from '../constants/routeNames';
 // Components
 import { Icon, IconContainer } from '../components/icon';
 import { Home, Notification, Profile, Points } from '../screens';
-import { PostButton } from '../components/postButton';
+import { PostButton } from '../components';
 import { BottomTabBar } from '../components/bottomTabBar';
 
 const BaseNavigator = createBottomTabNavigator(
@@ -44,9 +44,9 @@ const BaseNavigator = createBottomTabNavigator(
     },
     [ROUTES.TABBAR.POSTBUTTON]: {
       screen: () => null,
-      navigationOptions: () => ({
+      navigationOptions: {
         tabBarIcon: <PostButton />,
-      }),
+      },
     },
     [ROUTES.TABBAR.POINTS]: {
       screen: Points,
