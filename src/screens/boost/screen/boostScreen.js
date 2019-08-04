@@ -51,7 +51,7 @@ class BoostScreen extends PureComponent {
   };
 
   render() {
-    const { intl, buyItem, productList, isLoading } = this.props;
+    const { intl, buyItem, productList, isLoading, isProccesing } = this.props;
     const { selectedBoost } = this.state;
 
     return (
@@ -76,11 +76,11 @@ class BoostScreen extends PureComponent {
                   text={intl.formatMessage({
                     id: 'boost.buy',
                   })}
-                  isDisable={false}
+                  isDisable={isProccesing}
                   isLoading={false}
                 >
                   <View style={styles.buttonContent}>
-                    <Text style={styles.buttonText}>{this._getTitle(get(item, 'title'))}</Text>
+                    <Text style={styles.buttonText}>{get(item, 'title', '').toUpperCase()}</Text>
                     <View style={styles.buttonIconWrapper}>
                       <Icon name="add" iconType="MaterialIcons" color="#357ce6" size={23} />
                     </View>

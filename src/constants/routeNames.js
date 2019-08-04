@@ -22,6 +22,7 @@ export default {
     BOOST: `Boost${SCREEN_SUFFIX}`,
     BOOST_POST: `BoostPost${SCREEN_SUFFIX}`,
     PROMOTE: `Promote${SCREEN_SUFFIX}`,
+    FREE_ESTM: `FreeEstm${SCREEN_SUFFIX}`,
   },
   DRAWER: {
     MAIN: `Main${DRAWER_SUFFIX}`,
