@@ -122,12 +122,11 @@ class BoostContainer extends Component {
 
   render() {
     const { productList, isLoading, isProccesing } = this.state;
-    // const FREE_ESTM = { productId: 'freePoints', title: 'free estm' };
+    const FREE_ESTM = { productId: 'freePoints', title: 'free estm' };
 
     return (
       <BoostScreen
-        // productList={[...productList, FREE_ESTM]}
-        productList={productList}
+        productList={[...productList, FREE_ESTM]}
         buyItem={this._buyItem}
         isLoading={isLoading}
         isProccesing={isProccesing}

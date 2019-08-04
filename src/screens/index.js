@@ -18,6 +18,7 @@ import BoostPost from './boostPost/screen/boostPostScreen';
 import Promote from './promote/screen/promoteScreen';
 import SteemConnect from './steem-connect/steemConnect';
 import Transfer from './transfer';
+import FreeEstm from './freeEstm/screen/freeEstmScreen';
 
 export {
   Bookmarks,
@@ -37,6 +38,7 @@ export {
   Promote,
   SearchResult,
   Settings,
+  FreeEstm,
   SteemConnect,
   Transfer,
   Voters,
