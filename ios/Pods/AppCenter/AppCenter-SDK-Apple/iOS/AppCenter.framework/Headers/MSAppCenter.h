@@ -1,3 +1,6 @@
+// Copyright (c) Microsoft Corporation. All rights reserved.
+// Licensed under the MIT License.
+
 #import <Foundation/Foundation.h>
 
 #import "MSConstants.h"
@@ -73,6 +76,13 @@
  * @return YES if configured, NO otherwise.
  */
 + (BOOL)isConfigured;
+
+/**
+ * Check whether app is running in App Center Test Cloud.
+ *
+ * @return true if running in App Center Test Cloud, false otherwise.
+ */
++ (BOOL)isRunningInAppCenterTestCloud;
 
 /**
  * Change the base URL (schema + authority + port only) used to communicate with the backend.

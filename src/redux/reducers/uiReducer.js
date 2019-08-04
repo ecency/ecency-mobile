@@ -1,12 +1,7 @@
-import {
-  UPDATE_ACTIVE_BOTTOM_TAB,
-  IS_COLLAPSE_POST_BUTTON,
-  TOAST_NOTIFICATION,
-} from '../constants/constants';
+import { UPDATE_ACTIVE_BOTTOM_TAB, TOAST_NOTIFICATION } from '../constants/constants';
 
 const initialState = {
   activeBottomTab: 'HomeTabbar',
-  isCollapsePostButton: false,
   toastNotification: '',
 };
 
@@ -16,12 +11,6 @@ export default function(state = initialState, action) {
       return {
         ...state,
         activeBottomTab: action.payload,
-      };
-
-    case IS_COLLAPSE_POST_BUTTON:
-      return {
-        ...state,
-        isCollapsePostButton: action.payload,
       };
 
     case TOAST_NOTIFICATION:

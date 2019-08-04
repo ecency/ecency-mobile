@@ -9,6 +9,7 @@ import Modal from './modal';
 import { TextInput } from './textInput';
 import ScaleSlider from './scaleSlider/scaleSliderView';
 import UserListItem from './basicUIElements/view/userListItem/userListItem';
+import PostButton from './postButton/postButtonView';
 
 export {
   CircularButton,
@@ -24,4 +25,5 @@ export {
   TextButton,
   TextInput,
   UserListItem,
+  PostButton,
 };
