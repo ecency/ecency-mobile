@@ -20,8 +20,15 @@ const BoostPlaceHolder = ({ isDarkTheme }) => {
         <View style={styles.line}>
           <Placeholder.Box color={color} width={90} height={40} animate="fade" />
           <View style={styles.paragraphWrapper}>
-            <Placeholder.Box color={color} width={120} radius={20} height={40} animate="fade" />
+            <Placeholder.Box color={color} width={140} radius={25} height={50} animate="fade" />
           </View>
+          <Placeholder.Box
+            style={styles.rightBox}
+            color={color}
+            width={20}
+            height={10}
+            animate="fade"
+          />
         </View>
       </View>,
     );

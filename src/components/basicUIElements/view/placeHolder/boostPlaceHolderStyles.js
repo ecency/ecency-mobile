@@ -9,10 +9,16 @@ export default EStyleSheet.create({
     flexDirection: 'column',
   },
   paragraphWrapper: {
-    marginLeft: 50,
+    marginLeft: 30,
   },
   line: {
     flexDirection: 'row',
     marginVertical: 10,
+    alignContent: 'center',
+    alignItems: 'center',
+    justifyContent: 'space-between',
+  },
+  rightBox: {
+    marginRight: 20,
   },
 });
