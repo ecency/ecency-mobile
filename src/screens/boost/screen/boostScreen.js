@@ -62,7 +62,7 @@ class BoostScreen extends PureComponent {
           })}
         />
 
-        {true ? (
+        {isLoading ? (
           <BoostPlaceHolder />
         ) : (
           productList.map(item => (

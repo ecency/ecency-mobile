@@ -6,10 +6,13 @@ export default EStyleSheet.create({
     borderColor: '$primaryLightBackground',
     marginRight: 0,
     marginLeft: 0,
-    flex: 1,
-    flexDirection: 'row',
+    flexDirection: 'column',
   },
   paragraphWrapper: {
     marginLeft: 50,
+  },
+  line: {
+    flexDirection: 'row',
+    marginVertical: 10,
   },
 });
