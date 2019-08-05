@@ -20,7 +20,7 @@
     "ignore": "mengabaikan anda",
     "reblog": "menampilkan kembali post anda",
     "transfer": "steem ditransfer",
-    "comingsoon": "Fungsi papan peringkat akan segera hadir!",
+    "comingsoon": "Feature is coming soon!",
     "notification": "Pemberitahuan",
     "leaderboard": "Papan Peringkat",
     "epoint": "Poin",
@@ -121,11 +121,12 @@
       "always_warn": "Selalu memperingatkan"
     },
     "feedback_success": "Email berhasil dibuka",
-    "feedback_fail": "Klien email tidak bisa dibuka"
+    "feedback_fail": "Klien email tidak bisa dibuka",
+    "server_fail": "Server not available"
   },
   "voters": {
     "voters_info": "Info Pemilih",
-    "no_user": "Pengguna tidak ditemukan."
+    "no_user": "User is not found."
   },
   "login": {
     "signin": "Masuk",
@@ -190,7 +191,7 @@
     "fail": "Gagal!",
     "move": "Pindahkan",
     "move_question": "Apakah Anda yakin untuk pindah ke konsep?",
-    "success_shared": "Tulisan anda berhasil dibagikan",
+    "success_shared": "Your post successfully shared",
     "success_moved": "Pindah ke konsep",
     "permission_denied": "Izin ditolak",
     "permission_text": "Silakan buka pengaturan telepon dan ubah izin untuk aplikasi eSteem.",
@@ -211,10 +212,12 @@
     "same_user": "This user already added to list",
     "unknow_error": "An error occurred",
     "error": "Error",
-    "fetch_error": "Fetching data from server failed, please try again or notify us at info@esteem.app"
+    "fetch_error": "Fetching data failed, please try again or notify us at info@esteem.app",
+    "connection_fail": "Connection Failed!",
+    "connection_success": "Successfully connected!"
   },
   "post": {
-    "reblog_alert": "Anda yakin ingin menerbitkan ulang?",
+    "reblog_alert": "Are you sure, you want to reblog?",
     "removed_hint": "Pos dihapus oleh",
     "copy_link": "Copy Link",
     "reblogged": "reblogged by",
@@ -290,7 +293,7 @@
     "to": "Kepada",
     "amount": "Jumlah",
     "memo": "Memo",
-    "information": "Apakah Anda yakin untuk mentransfer dana ke?",
+    "information": "Are you sure to transfer funds?",
     "amount_desc": "Keseimbangan",
     "memo_desc": "Memo ini bersifat publik",
     "to_placeholder": "Nama Pengguna",
@@ -314,7 +317,7 @@
     "user": "User",
     "permlink": "Post",
     "permlinkPlaceholder": "author/permlink",
-    "information": "Are you sure to transfer to promote?"
+    "information": "Are you sure to promote?"
   },
   "boostPost": {
     "title": "Boost"
