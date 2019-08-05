@@ -20,7 +20,7 @@
     "ignore": "आपको अनदेखा किया",
     "reblog": "आपका पोस्ट को पुनः प्रसारित किया",
     "transfer": "steem स्थानांतरण",
-    "comingsoon": "अधिनायक पटल सुविधा जल्द आने वाली है!",
+    "comingsoon": "Feature is coming soon!",
     "notification": "अधिसूचनाएं",
     "leaderboard": "अधिनायकपटल",
     "epoint": "अंक",
@@ -121,11 +121,12 @@
       "always_warn": "हमेशा चेतावनी देते हैं"
     },
     "feedback_success": "ईमेल सफलतापूर्वक खुला",
-    "feedback_fail": "ईमेल क्लाइंट नहीं खोल सका"
+    "feedback_fail": "ईमेल क्लाइंट नहीं खोल सका",
+    "server_fail": "Server not available"
   },
   "voters": {
     "voters_info": "मतदाताओं की जानकारी",
-    "no_user": "कोई उपयोगकर्ता नहीं मिला|"
+    "no_user": "User is not found."
   },
   "login": {
     "signin": "अंदर आएं",
@@ -190,7 +191,7 @@
     "fail": "असफल!",
     "move": "हटाना",
     "move_question": "क्या आप ड्राफ्ट में जाना सुनिश्चित करते हैं?",
-    "success_shared": "आपका पोस्ट सफलतापूर्ण साझा हो गया",
+    "success_shared": "Your post successfully shared",
     "success_moved": "ड्राफ्ट में ले जाया गया",
     "permission_denied": "अनुमोदन अस्वीकृत हुवा",
     "permission_text": "कृपया, अपने फ़ोन समायोजन में जाएँ और इस्टीम एप्प की अनुमोदन बदलें|",
@@ -211,10 +212,12 @@
     "same_user": "This user already added to list",
     "unknow_error": "An error occurred",
     "error": "Error",
-    "fetch_error": "Fetching data from server failed, please try again or notify us at info@esteem.app"
+    "fetch_error": "Fetching data failed, please try again or notify us at info@esteem.app",
+    "connection_fail": "Connection Failed!",
+    "connection_success": "Successfully connected!"
   },
   "post": {
-    "reblog_alert": "क्या आप सच में पुनः प्रसारित करना चाहते हैं?",
+    "reblog_alert": "Are you sure, you want to reblog?",
     "removed_hint": "The post was removed by",
     "copy_link": "Copy Link",
     "reblogged": "reblogged by",
@@ -290,7 +293,7 @@
     "to": "को",
     "amount": "रकम",
     "memo": "ज्ञापन",
-    "information": "क्या आप रकम स्थान्तरित करना चाहते हैं?",
+    "information": "Are you sure to transfer funds?",
     "amount_desc": "शेष रकम",
     "memo_desc": "यह ज्ञापन सार्वजनिक है",
     "to_placeholder": "प्रयोक्ता नाम",
@@ -314,7 +317,7 @@
     "user": "User",
     "permlink": "Post",
     "permlinkPlaceholder": "author/permlink",
-    "information": "Are you sure to transfer to promote?"
+    "information": "Are you sure to promote?"
   },
   "boostPost": {
     "title": "Boost"
