@@ -121,7 +121,8 @@
       "always_warn": "Always warn"
     },
     "feedback_success": "Email successfully open",
-    "feedback_fail": "Email client could not open"
+    "feedback_fail": "Email client could not open",
+    "server_fail": "Server not available"
   },
   "voters": {
     "voters_info": "Voters Info",
@@ -211,7 +212,9 @@
     "same_user": "This user already added to list",
     "unknow_error": "An error occurred",
     "error": "Error",
-    "fetch_error": "Fetching data failed, please try again or notify us at info@esteem.app"
+    "fetch_error": "Fetching data failed, please try again or notify us at info@esteem.app",
+    "connection_fail": "Connection Failed!",
+    "connection_success": "Successfully connected!"
   },
   "post": {
     "reblog_alert": "Are you sure, you want to reblog?",
