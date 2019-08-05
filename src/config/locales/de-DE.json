@@ -20,7 +20,7 @@
     "ignore": "ignoriert dich",
     "reblog": "hat deinen Beitrag geteilt",
     "transfer": "transferierte Steem",
-    "comingsoon": "Ranglisten-Feature kommt bald!",
+    "comingsoon": "Feature is coming soon!",
     "notification": "Benachrichtigungen",
     "leaderboard": "Rangliste",
     "epoint": "eSteem Punkte",
@@ -121,11 +121,12 @@
       "always_warn": "Immer warnen"
     },
     "feedback_success": "E-Mail erfolgreich geöffnet",
-    "feedback_fail": "E-Mail Client konnte nicht geöffnet werden"
+    "feedback_fail": "E-Mail Client konnte nicht geöffnet werden",
+    "server_fail": "Server not available"
   },
   "voters": {
     "voters_info": "Voter-Informationen",
-    "no_user": "Benutzer nicht gefunden."
+    "no_user": "User is not found."
   },
   "login": {
     "signin": "Anmelden",
@@ -190,7 +191,7 @@
     "fail": "Fehlgeschlagen!",
     "move": "Verschieben",
     "move_question": "Bist du sicher, dass du zu Entwürfen wechseln möchtest?",
-    "success_shared": "Dein Beitrag wurde erfolgreich erstellt",
+    "success_shared": "Your post successfully shared",
     "success_moved": "Erfolgreich in Entwürfe verschoben",
     "permission_denied": "Berechtigung verweigert",
     "permission_text": "Bitte gehe zu den Telefoneinstellungen und ändere die Berechtigungen der eSteem-App.",
@@ -211,10 +212,12 @@
     "same_user": "Dieser User ist bereits in der Liste eingetragen.",
     "unknow_error": "Es ist ein Fehler aufgetreten",
     "error": "Fehler",
-    "fetch_error": "Das Abrufen der Daten vom Server ist fehlgeschlagen. Bitte versuche es nochmal oder informiere uns unter info@esteem.app"
+    "fetch_error": "Fetching data failed, please try again or notify us at info@esteem.app",
+    "connection_fail": "Connection Failed!",
+    "connection_success": "Successfully connected!"
   },
   "post": {
-    "reblog_alert": "Möchtest du diesen Beitrag wirklich teilen?",
+    "reblog_alert": "Are you sure, you want to reblog?",
     "removed_hint": "Der Beitrag wurde entfernt von",
     "copy_link": "Link kopieren",
     "reblogged": "rebloggt von",
@@ -290,7 +293,7 @@
     "to": "zu",
     "amount": "Betrag",
     "memo": "Memo",
-    "information": "Bist du sicher, dass du Geld überweisen willst?",
+    "information": "Are you sure to transfer funds?",
     "amount_desc": "Kontostand",
     "memo_desc": "Dieses Memo ist öffentlich",
     "to_placeholder": "Benutzername",
@@ -314,7 +317,7 @@
     "user": "Benutzer",
     "permlink": "Beitrag",
     "permlinkPlaceholder": "author/permlink",
-    "information": "Bist du sicher, dass du Geld für das Promoten überweisen willst?"
+    "information": "Are you sure to promote?"
   },
   "boostPost": {
     "title": "Boost"
