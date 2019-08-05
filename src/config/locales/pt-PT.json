@@ -212,12 +212,12 @@
     "same_user": "Este usuário já foi adicionado à lista",
     "unknow_error": "Ocorreu um erro",
     "error": "Erro",
-    "fetch_error": "Fetching data failed, please try again or notify us at info@esteem.app",
-    "connection_fail": "Connection Failed!",
-    "connection_success": "Successfully connected!"
+    "fetch_error": "Falha ao buscar dados, por favor tente novamente ou nos informe no info@esteem.app",
+    "connection_fail": "Falha na conexão!",
+    "connection_success": "Conectado com sucesso!"
   },
   "post": {
-    "reblog_alert": "Are you sure, you want to reblog?",
+    "reblog_alert": "Tem certeza de que deseja reblogar?",
     "removed_hint": "O post foi removido por",
     "copy_link": "Copiar link",
     "reblogged": "repostado por",
@@ -293,7 +293,7 @@
     "to": "Para",
     "amount": "Quantia",
     "memo": "Memo",
-    "information": "Are you sure to transfer funds?",
+    "information": "Tem certeza que deseja transferir fundos?",
     "amount_desc": "Balanço",
     "memo_desc": "Este memo é público",
     "to_placeholder": "Utilizador",
@@ -317,7 +317,7 @@
     "user": "Utilizador",
     "permlink": "Publicar",
     "permlinkPlaceholder": "autor/permlink",
-    "information": "Are you sure to promote?"
+    "information": "Tem certeza que quer promover?"
   },
   "boostPost": {
     "title": "Reforçar"
