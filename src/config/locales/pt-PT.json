@@ -20,7 +20,7 @@
     "ignore": "ignorou você",
     "reblog": "reblogou o seu post",
     "transfer": "steem transferido",
-    "comingsoon": "Quadro de Líderes em Breve!",
+    "comingsoon": "Feature is coming soon!",
     "notification": "Notificações",
     "leaderboard": "Quadro de Liderança",
     "epoint": "Pontos",
@@ -121,11 +121,12 @@
       "always_warn": "Avisar sempre"
     },
     "feedback_success": "Email aberto com sucesso",
-    "feedback_fail": "Não se pôde abrir o cliente de e-mail"
+    "feedback_fail": "Não se pôde abrir o cliente de e-mail",
+    "server_fail": "Server not available"
   },
   "voters": {
     "voters_info": "Informação de eleitores",
-    "no_user": "Nenhum usuário encontrado."
+    "no_user": "User is not found."
   },
   "login": {
     "signin": "Iniciar sessão",
@@ -190,7 +191,7 @@
     "fail": "Falha!",
     "move": "Mover",
     "move_question": "Tem certeza que deseja mover para rascunhos?",
-    "success_shared": "Seu post partilhado com sucesso",
+    "success_shared": "Your post successfully shared",
     "success_moved": "Movido para Rascunhos",
     "permission_denied": "Permissão negada",
     "permission_text": "Por favor, vá para configurações de telefone e alterar as permissões da app Steem.",
@@ -211,10 +212,12 @@
     "same_user": "Este usuário já foi adicionado à lista",
     "unknow_error": "Ocorreu um erro",
     "error": "Erro",
-    "fetch_error": "Falha ao buscar dados do servidor, por favor tente novamente ou nos informe no info@esteem.app"
+    "fetch_error": "Fetching data failed, please try again or notify us at info@esteem.app",
+    "connection_fail": "Connection Failed!",
+    "connection_success": "Successfully connected!"
   },
   "post": {
-    "reblog_alert": "Tem certeza de que deseja reblogar?",
+    "reblog_alert": "Are you sure, you want to reblog?",
     "removed_hint": "O post foi removido por",
     "copy_link": "Copiar link",
     "reblogged": "repostado por",
@@ -290,7 +293,7 @@
     "to": "Para",
     "amount": "Quantia",
     "memo": "Memo",
-    "information": "Tem certeza que deseja transferir para fundos?",
+    "information": "Are you sure to transfer funds?",
     "amount_desc": "Balanço",
     "memo_desc": "Este memo é público",
     "to_placeholder": "Utilizador",
@@ -314,7 +317,7 @@
     "user": "Utilizador",
     "permlink": "Publicar",
     "permlinkPlaceholder": "autor/permlink",
-    "information": "Tem certeza que deseja transferir para promover?"
+    "information": "Are you sure to promote?"
   },
   "boostPost": {
     "title": "Reforçar"

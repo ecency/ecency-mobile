@@ -20,7 +20,7 @@
     "ignore": "mellőzött téged",
     "reblog": "megosztotta a bejegyzésed",
     "transfer": "átutalt steem",
-    "comingsoon": "Ranglista funkció hamarosan érkezik!",
+    "comingsoon": "Feature is coming soon!",
     "notification": "Értesítések",
     "leaderboard": "Ranglista",
     "epoint": "Pontok",
@@ -121,11 +121,12 @@
       "always_warn": "Mindig figyelmeztess"
     },
     "feedback_success": "Email sikeresen megnyitva",
-    "feedback_fail": "A levelezőprogram nem nyitható meg"
+    "feedback_fail": "A levelezőprogram nem nyitható meg",
+    "server_fail": "Server not available"
   },
   "voters": {
     "voters_info": "Infó a szavazókról",
-    "no_user": "A felahsználó nem található."
+    "no_user": "User is not found."
   },
   "login": {
     "signin": "Bejelentkezés",
@@ -190,7 +191,7 @@
     "fail": "Sikertelen!",
     "move": "Áthelyezés",
     "move_question": "Biztos, hogy áthelyezed a piszkozatokhoz?",
-    "success_shared": "A bejegyzésed sikeresen megosztva",
+    "success_shared": "Your post successfully shared",
     "success_moved": "Áthelyezve a vázlatokhoz",
     "permission_denied": "Engedély megtagadva",
     "permission_text": "Kérjük menj a telefon beállításokhoz és változtass az eSteem app engedélyezésein.",
@@ -211,10 +212,12 @@
     "same_user": "Ez a felhasználó már szerepel a listán",
     "unknow_error": "Hiba történt",
     "error": "Hiba",
-    "fetch_error": "Fetching data from server failed, please try again or notify us at info@esteem.app"
+    "fetch_error": "Fetching data failed, please try again or notify us at info@esteem.app",
+    "connection_fail": "Connection Failed!",
+    "connection_success": "Successfully connected!"
   },
   "post": {
-    "reblog_alert": "Biztos, hogy megosztod?",
+    "reblog_alert": "Are you sure, you want to reblog?",
     "removed_hint": "A bejegyzést eltávolította",
     "copy_link": "Link másolása",
     "reblogged": "reblogged by",
@@ -290,7 +293,7 @@
     "to": "Címzett",
     "amount": "Összeg",
     "memo": "Üzenet",
-    "information": "Bistoz átutalod a megtakarításokhoz?",
+    "information": "Are you sure to transfer funds?",
     "amount_desc": "Egyenleg",
     "memo_desc": "Ez az üzenet nyilvános",
     "to_placeholder": "Felhasználónév",
@@ -314,7 +317,7 @@
     "user": "Felhasználó",
     "permlink": "Post",
     "permlinkPlaceholder": "author/permlink",
-    "information": "Are you sure to transfer to promote?"
+    "information": "Are you sure to promote?"
   },
   "boostPost": {
     "title": "Boost"

@@ -20,7 +20,7 @@
     "ignore": "님이 당신을 차단했습니다",
     "reblog": "님이 당신 글을 리블로그했습니다",
     "transfer": "스팀 송금",
-    "comingsoon": "순위표 기능은 곧 출시될 예정입니다!",
+    "comingsoon": "Feature is coming soon!",
     "notification": "알림",
     "leaderboard": "순위표",
     "epoint": "포인트",
@@ -121,11 +121,12 @@
       "always_warn": "항상 경고 표시하기"
     },
     "feedback_success": "이메일 클라이언트가 성공적으로 열렸습니다",
-    "feedback_fail": "이메일 클라이언트를 열지 못했습니다"
+    "feedback_fail": "이메일 클라이언트를 열지 못했습니다",
+    "server_fail": "Server not available"
   },
   "voters": {
     "voters_info": "투표자 정보",
-    "no_user": "투표한 사용자가 없습니다"
+    "no_user": "User is not found."
   },
   "login": {
     "signin": "로그인",
@@ -190,7 +191,7 @@
     "fail": "실패!",
     "move": "이동",
     "move_question": "임시 보관함으로 이동하시겠습니까?",
-    "success_shared": "글을 성공적으로 공유했습니다",
+    "success_shared": "Your post successfully shared",
     "success_moved": "임시 보관함으로 이동했습니다",
     "permission_denied": "권한이 없습니다",
     "permission_text": "휴대폰 설정으로 이동하여 eSteem 앱 알림 설정을 변경해주세요",
@@ -211,10 +212,12 @@
     "same_user": "이 사용자는 목록에 이미 추가되었습니다",
     "unknow_error": "오류가 발생했습니다",
     "error": "오류",
-    "fetch_error": "서버에서 데이터를 가져오는데 실패했습니다. 다시 시도해보시거나 info@esteem.app로 문의해주세요."
+    "fetch_error": "Fetching data failed, please try again or notify us at info@esteem.app",
+    "connection_fail": "Connection Failed!",
+    "connection_success": "Successfully connected!"
   },
   "post": {
-    "reblog_alert": "정말 리블로그 하시겠습니까?",
+    "reblog_alert": "Are you sure, you want to reblog?",
     "removed_hint": "포스팅이 삭제되었습니다",
     "copy_link": "링크 복사",
     "reblogged": "reblogged by",
@@ -289,7 +292,7 @@
     "to": "받는 사람",
     "amount": "수량",
     "memo": "메모",
-    "information": "자금을 송금하시겠습니까?",
+    "information": "Are you sure to transfer funds?",
     "amount_desc": "잔액",
     "memo_desc": "이 메모는 누구나 볼 수 있습니다",
     "to_placeholder": "사용자 이름",
@@ -313,7 +316,7 @@
     "user": "사용자",
     "permlink": "Post",
     "permlinkPlaceholder": "author/permlink",
-    "information": "홍보를 위해 송금하시겠습니까?"
+    "information": "Are you sure to promote?"
   },
   "boostPost": {
     "title": "Boost"

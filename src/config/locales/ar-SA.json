@@ -20,7 +20,7 @@
     "ignore": "قام بتجاهلك",
     "reblog": "إعادة تدوين مشاركتك",
     "transfer": "نقل steem",
-    "comingsoon": "ميزة المتصدرين تأتي قريباً!",
+    "comingsoon": "Feature is coming soon!",
     "notification": "الإشعارات",
     "leaderboard": "المتصدرين",
     "epoint": "نقاط",
@@ -121,11 +121,12 @@
       "always_warn": "التحذير دوماً"
     },
     "feedback_success": "تم فتح البريد الإلكتروني بنجاح",
-    "feedback_fail": "لا يمكن فتح عميل البريد الإلكتروني"
+    "feedback_fail": "لا يمكن فتح عميل البريد الإلكتروني",
+    "server_fail": "Server not available"
   },
   "voters": {
     "voters_info": "معلومات عن المصوتين",
-    "no_user": "لم يتم العثور على المستخدم."
+    "no_user": "User is not found."
   },
   "login": {
     "signin": "تسجيل الدخول",
@@ -190,7 +191,7 @@
     "fail": "فشل!",
     "move": "نقل",
     "move_question": "هل أنت متأكد من نقل إلى المسودات؟",
-    "success_shared": "مشاركتك تمت مشاركتها بنجاح",
+    "success_shared": "Your post successfully shared",
     "success_moved": "تم النقل إلى المسودات",
     "permission_denied": "طلب الإذن مرفوض",
     "permission_text": "يرجى الانتقال إلى إعدادات الهاتف وتغيير أذونات تطبيق eSteem.",
@@ -211,10 +212,12 @@
     "same_user": "This user already added to list",
     "unknow_error": "An error occurred",
     "error": "Error",
-    "fetch_error": "Fetching data from server failed, please try again or notify us at info@esteem.app"
+    "fetch_error": "Fetching data failed, please try again or notify us at info@esteem.app",
+    "connection_fail": "Connection Failed!",
+    "connection_success": "Successfully connected!"
   },
   "post": {
-    "reblog_alert": "هل أنت متأكد من رغبتك في إعادة التدوين؟",
+    "reblog_alert": "Are you sure, you want to reblog?",
     "removed_hint": "تمت إزالة المنشور بواسطة",
     "copy_link": "Copy Link",
     "reblogged": "reblogged by",
@@ -290,7 +293,7 @@
     "to": "إلى",
     "amount": "كمية",
     "memo": "مذكرة",
-    "information": "هل أنت متأكد من التحويل إلى الأموال؟",
+    "information": "Are you sure to transfer funds?",
     "amount_desc": "الرصيد",
     "memo_desc": "هذه المذكرة عامة",
     "to_placeholder": "إسم المستخدم",
@@ -314,7 +317,7 @@
     "user": "User",
     "permlink": "Post",
     "permlinkPlaceholder": "author/permlink",
-    "information": "Are you sure to transfer to promote?"
+    "information": "Are you sure to promote?"
   },
   "boostPost": {
     "title": "Boost"
