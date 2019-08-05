@@ -1,6 +1,7 @@
 import React, { Component } from 'react';
 import { connect } from 'react-redux';
 import { Platform, Alert } from 'react-native';
+import { withNavigation } from 'react-navigation';
 import RNIap, { purchaseErrorListener, purchaseUpdatedListener } from 'react-native-iap';
 import { injectIntl } from 'react-intl';
 
@@ -9,6 +10,7 @@ import { purchaseOrder } from '../../../providers/esteem/esteem';
 import bugsnag from '../../../config/bugsnag';
 
 // Utilities
+import { default as ROUTES } from '../../../constants/routeNames';
 
 // Component
 import BoostScreen from '../screen/boostScreen';
@@ -23,6 +25,8 @@ class BoostContainer extends Component {
     super(props);
     this.state = {
       productList: [],
+      isLoading: true,
+      isProccesing: false,
     };
   }
 
@@ -80,6 +84,7 @@ class BoostContainer extends Component {
 
     this.purchaseErrorSubscription = purchaseErrorListener(error => {
       Alert.alert('Warning', error);
+      bugsnag.notify(error);
     });
   };
 
@@ -87,28 +92,57 @@ class BoostContainer extends Component {
     try {
       const products = await RNIap.getProducts(ITEM_SKUS);
       products.sort((a, b) => parseFloat(a.price) - parseFloat(b.price)).reverse();
-      this.setState({ productList: products });
+      await this.setState({ productList: products });
     } catch (err) {
       bugsnag.notify(err);
+      Alert.alert(
+        `Fetching data from server failed, please try again or notify us at info@esteem.app \n${err.message.substr(
+          0,
+          20,
+        )}`,
+      );
     }
+
+    await this.setState({ isLoading: false });
   };
 
   _buyItem = async sku => {
-    try {
-      RNIap.requestPurchase(sku, false);
-    } catch (err) {
-      bugsnag.notify(err, report => {
-        report.metadata = {
-          sku,
-        };
+    const { navigation } = this.props;
+
+    await this.setState({ isProccesing: true });
+
+    if (sku !== 'freePoints') {
+      try {
+        await RNIap.requestPurchase(sku, false);
+      } catch (err) {
+        bugsnag.notify(err, report => {
+          report.metadata = {
+            sku,
+          };
+        });
+      }
+    } else {
+      navigation.navigate({
+        routeName: ROUTES.SCREENS.FREE_ESTM,
       });
     }
+
+    this.setState({ isProccesing: false });
   };
 
   render() {
-    const { productList } = this.state;
+    const { productList, isLoading, isProccesing } = this.state;
+    // const FREE_ESTM = { productId: 'freePoints', title: 'free estm' };
 
-    return <BoostScreen boostData={productList} buyItem={this._buyItem} />;
+    return (
+      <BoostScreen
+        // productList={[...productList, FREE_ESTM]}
+        productList={productList}
+        buyItem={this._buyItem}
+        isLoading={isLoading}
+        isProccesing={isProccesing}
+      />
+    );
   }
 }
 
@@ -116,4 +150,4 @@ const mapStateToProps = state => ({
   currentAccount: state.account.currentAccount,
 });
 
-export default injectIntl(connect(mapStateToProps)(BoostContainer));
+export default withNavigation(injectIntl(connect(mapStateToProps)(BoostContainer)));
