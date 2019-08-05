@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <Scheme
-   LastUpgradeVersion = "0930"
+   LastUpgradeVersion = "1100"
    version = "1.3">
    <BuildAction
       parallelizeBuildables = "YES"
@@ -14,7 +14,7 @@
             buildForArchiving = "YES">
             <BuildableReference
                BuildableIdentifier = "primary"
-               BlueprintIdentifier = "66641B93FAF80FF325B2D7B4AD85056F"
+               BlueprintIdentifier = "ED2506AE7DE35D654F61254441EA7155"
                BuildableName = "boost-for-react-native"
                BlueprintName = "boost-for-react-native"
                ReferencedContainer = "container:Pods.xcodeproj">

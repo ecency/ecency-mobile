@@ -84,21 +84,13 @@ const realm = new Realm({
   path: 'esteem.realm',
   schema: [userSchema, authSchema, draftSchema, settingsSchema, applicationSchema, scAccounts],
   schemaVersion: 3,
-  migration,
+  migration: (oldRealm, newRealm) => {
+    if (oldRealm.schemaVersion < 3 && newRealm.schemaVersion > 2) {
+      const newObjects = newRealm.objects(SETTINGS_SCHEMA);
+      newObjects[0].isPinCodeOpen = true;
+    }
+  },
 });
-
-const migration = (oldRealm, newRealm) => {
-  // EXAMPLE
-  // // only apply this change if upgrading to schemaVersion 1
-  // if (oldRealm.schemaVersion < 1) {
-  //   const oldObjects = oldRealm.objects('Person');
-  //   const newObjects = newRealm.objects('Person');
-  //   // loop through all objects and set the name property in the new schema
-  //   for (let i = 0; i < oldObjects.length; i++) {
-  //     newObjects[i].name = `${oldObjects[i].firstName} ${oldObjects[i].lastName}`;
-  //   }
-  // }
-};
 
 const settings = realm.objects(SETTINGS_SCHEMA);
 
