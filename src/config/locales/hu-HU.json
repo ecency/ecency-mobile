@@ -126,7 +126,7 @@
   },
   "voters": {
     "voters_info": "Infó a szavazókról",
-    "no_user": "User is not found."
+    "no_user": "A felhasználó nem található."
   },
   "login": {
     "signin": "Bejelentkezés",
@@ -191,7 +191,7 @@
     "fail": "Sikertelen!",
     "move": "Áthelyezés",
     "move_question": "Biztos, hogy áthelyezed a piszkozatokhoz?",
-    "success_shared": "Your post successfully shared",
+    "success_shared": "A bejegyzésed sikeresen megosztva",
     "success_moved": "Áthelyezve a vázlatokhoz",
     "permission_denied": "Engedély megtagadva",
     "permission_text": "Kérjük menj a telefon beállításokhoz és változtass az eSteem app engedélyezésein.",
