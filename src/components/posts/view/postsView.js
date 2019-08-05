@@ -280,13 +280,6 @@ class PostsView extends Component {
     this.setState({ isHideImage: !isHideImage });
   };
 
-  _handleOnScrollStart = () => {
-    const { handleOnScrollStart, handleOnScroll } = this.props;
-    handleOnScrollStart();
-
-    if (handleOnScroll) handleOnScroll();
-  };
-
   _handleOnPressLogin = () => {
     const { navigation } = this.props;
     navigation.navigate(ROUTES.SCREENS.LOGIN);
@@ -353,7 +346,6 @@ class PostsView extends Component {
             onEndThreshold={0}
             initialNumToRender={10}
             ListFooterComponent={this._renderFooter}
-            onScrollBeginDrag={() => this._handleOnScrollStart()}
             refreshControl={
               <RefreshControl
                 refreshing={refreshing}
