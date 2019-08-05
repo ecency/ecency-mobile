@@ -20,7 +20,7 @@
     "ignore": "jus ignoravo",
     "reblog": "pasidalino jūsų įrašu",
     "transfer": "pervestas steem",
-    "comingsoon": "Lyderių lentelė jau greitai!",
+    "comingsoon": "Feature is coming soon!",
     "notification": "Pranešimai",
     "leaderboard": "Lyderiai",
     "epoint": "Taškai",
@@ -121,11 +121,12 @@
       "always_warn": "Visada įspėti"
     },
     "feedback_success": "El. laiškas sėkmingai atidarytas",
-    "feedback_fail": "El. pašto atidaryti nepavyko"
+    "feedback_fail": "El. pašto atidaryti nepavyko",
+    "server_fail": "Server not available"
   },
   "voters": {
     "voters_info": "Balsuotojo Informacija",
-    "no_user": "Nerastas joks vartotojas."
+    "no_user": "User is not found."
   },
   "login": {
     "signin": "Prisijungti",
@@ -190,7 +191,7 @@
     "fail": "Nepavyko!",
     "move": "Perkelti",
     "move_question": "Ar tikrai norite perkelti į ruošinius?",
-    "success_shared": "Jūsų įrašas sėkmingai pasidalintas",
+    "success_shared": "Your post successfully shared",
     "success_moved": "Perkelta į ruošinius",
     "permission_denied": "Leidimas nesuteiktas",
     "permission_text": "Prašome telefono nustatymuose pakeisti eSteem programėlės leidimus.",
@@ -211,10 +212,12 @@
     "same_user": "This user already added to list",
     "unknow_error": "An error occurred",
     "error": "Error",
-    "fetch_error": "Fetching data from server failed, please try again or notify us at info@esteem.app"
+    "fetch_error": "Fetching data failed, please try again or notify us at info@esteem.app",
+    "connection_fail": "Connection Failed!",
+    "connection_success": "Successfully connected!"
   },
   "post": {
-    "reblog_alert": "Ar tikrai norite dalintis?",
+    "reblog_alert": "Are you sure, you want to reblog?",
     "removed_hint": "The post was removed by",
     "copy_link": "Copy Link",
     "reblogged": "reblogged by",
@@ -290,7 +293,7 @@
     "to": "Į",
     "amount": "Kiekis",
     "memo": "Atmintinė",
-    "information": "Ar tikrai norite persiųsti lėšas?",
+    "information": "Are you sure to transfer funds?",
     "amount_desc": "Likutis",
     "memo_desc": "Ši atmintinė yra vieša",
     "to_placeholder": "Vartotojo vardas",
@@ -314,7 +317,7 @@
     "user": "User",
     "permlink": "Post",
     "permlinkPlaceholder": "author/permlink",
-    "information": "Are you sure to transfer to promote?"
+    "information": "Are you sure to promote?"
   },
   "boostPost": {
     "title": "Boost"
