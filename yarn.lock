@@ -7670,10 +7670,10 @@ react-native-fast-image@^4.0.14:
   dependencies:
     prop-types "^15.5.10"
 
-react-native-iap@^3.3.0:
-  version "3.3.0"
-  resolved "https://registry.yarnpkg.com/react-native-iap/-/react-native-iap-3.3.0.tgz#e8aae960072dffb926dad52cb2215e1edbb00caf"
-  integrity sha512-C/e/LjiYKgWJuPr1LTr3Tt5Bl4nwcb4WLbUF5QbMAXqsWKpyHd8qocqdww0bsBd3gCqtWoexFKPeKQ9ZqQVHYg==
+react-native-iap@^3.3.8:
+  version "3.3.8"
+  resolved "https://registry.yarnpkg.com/react-native-iap/-/react-native-iap-3.3.8.tgz#4db012e60f4fd8473122fb48d79adb498befc7fa"
+  integrity sha512-AP+8VqXcAs48GUmqJPgRWcVpuCT2dWJMm6LQQPNw8B3jYV8BOTgpOQ4Q0Um92u04z2C9nAubyvjR+3tPbxSZag==
   dependencies:
     dooboolab-welcome "^1.1.0"
 

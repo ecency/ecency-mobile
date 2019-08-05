@@ -4,12 +4,9 @@ import { Platform, Alert } from 'react-native';
 import RNIap, { purchaseErrorListener, purchaseUpdatedListener } from 'react-native-iap';
 import { injectIntl } from 'react-intl';
 
-// import { toastNotification } from '../../../redux/actions/uiAction';
-
-// Middleware
-
-// Constants
-// import { default as ROUTES } from '../../../constants/routeNames';
+// Services
+import { purchaseOrder } from '../../../providers/esteem/esteem';
+import bugsnag from '../../../config/bugsnag';
 
 // Utilities
 
@@ -49,17 +46,35 @@ class BoostContainer extends Component {
   // Component Functions
 
   _purchaseUpdatedListener = () => {
+    const {
+      currentAccount: { name },
+    } = this.props;
+
     this.purchaseUpdateSubscription = purchaseUpdatedListener(purchase => {
-      console.log('purchaseUpdatedListener', purchase);
       const receipt = purchase.transactionReceipt;
       if (receipt) {
-        // yourAPI.deliverOrDownloadFancyInAppPurchase(receipt).then(deliveryResult => {
-        //   if (Platform.OS === 'ios') {
-        //     RNIap.finishTransactionIOS(purchase.transactionId);
-        //   } else if (Platform.OS === 'android') {
-        //     RNIap.consumePurchaseAndroid(purchase.purchaseToken);
-        //   }
-        // });
+        const data = {
+          platform: Platform.OS === 'android' ? 'play_store' : 'app_store',
+          product: purchase.productId,
+          receipt: Platform.OS === 'android' ? purchase.purchaseToken : purchase.transactionReceipt,
+          user: name,
+        };
+
+        purchaseOrder(data)
+          .then(() => {
+            if (Platform.OS === 'ios') {
+              RNIap.finishTransactionIOS(purchase.transactionId);
+            } else if (Platform.OS === 'android') {
+              RNIap.consumePurchaseAndroid(purchase.purchaseToken);
+            }
+          })
+          .catch(err =>
+            bugsnag.notify(err, report => {
+              report.metadata = {
+                data,
+              };
+            }),
+          );
       }
     });
 
@@ -71,19 +86,22 @@ class BoostContainer extends Component {
   _getItems = async () => {
     try {
       const products = await RNIap.getProducts(ITEM_SKUS);
-      console.log('Products', products);
       products.sort((a, b) => parseFloat(a.price) - parseFloat(b.price)).reverse();
       this.setState({ productList: products });
     } catch (err) {
-      console.warn(err.code, err.message);
+      bugsnag.notify(err);
     }
   };
 
   _buyItem = async sku => {
     try {
-      RNIap.requestPurchase(sku);
+      RNIap.requestPurchase(sku, false);
     } catch (err) {
-      console.warn(err.code, err.message);
+      bugsnag.notify(err, report => {
+        report.metadata = {
+          sku,
+        };
+      });
     }
   };
 
