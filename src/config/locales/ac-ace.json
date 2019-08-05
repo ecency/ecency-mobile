@@ -20,7 +20,7 @@
     "ignore": "hanapeureumeun dröen",
     "reblog": "postingan dröen ka di reblog",
     "transfer": "steem kalhëuh meukirèm",
-    "comingsoon": "Papeun ranking akan seugeura lheuh!",
+    "comingsoon": "Feature is coming soon!",
     "notification": "Bithé",
     "leaderboard": "Papeun Rangking",
     "epoint": "Points",
@@ -121,11 +121,12 @@
       "always_warn": "Sabë pëuingat"
     },
     "feedback_success": "Email successfully open",
-    "feedback_fail": "Email client could not open"
+    "feedback_fail": "Email client could not open",
+    "server_fail": "Server not available"
   },
   "voters": {
     "voters_info": "Info ureueng galak",
-    "no_user": "Hana meuteumë pengguna."
+    "no_user": "User is not found."
   },
   "login": {
     "signin": "Tamoëng",
@@ -190,7 +191,7 @@
     "fail": "Gagai!",
     "move": "Pinah",
     "move_question": "Peu neuyakin neuk pinah lam draft?",
-    "success_shared": "Tulisan droen kalhëuh dibagi",
+    "success_shared": "Your post successfully shared",
     "success_moved": "Klaheuh na lam draft",
     "permission_denied": "Hana izin",
     "permission_text": "Tulông kaloen bak aturan telepon dan gantoe izin app eSteem.",
@@ -211,10 +212,12 @@
     "same_user": "This user already added to list",
     "unknow_error": "An error occurred",
     "error": "Error",
-    "fetch_error": "Fetching data from server failed, please try again or notify us at info@esteem.app"
+    "fetch_error": "Fetching data failed, please try again or notify us at info@esteem.app",
+    "connection_fail": "Connection Failed!",
+    "connection_success": "Successfully connected!"
   },
   "post": {
-    "reblog_alert": "Peu yakin neuh, neu neuk reblog?",
+    "reblog_alert": "Are you sure, you want to reblog?",
     "removed_hint": "The post was removed by",
     "copy_link": "Copy Link",
     "reblogged": "reblogged by",
@@ -290,7 +293,7 @@
     "to": "To",
     "amount": "Amount",
     "memo": "Memo",
-    "information": "Are you sure to transfer to funds?",
+    "information": "Are you sure to transfer funds?",
     "amount_desc": "Balance",
     "memo_desc": "This memo is public",
     "to_placeholder": "Username",
@@ -314,7 +317,7 @@
     "user": "User",
     "permlink": "Post",
     "permlinkPlaceholder": "author/permlink",
-    "information": "Are you sure to transfer to promote?"
+    "information": "Are you sure to promote?"
   },
   "boostPost": {
     "title": "Boost"
