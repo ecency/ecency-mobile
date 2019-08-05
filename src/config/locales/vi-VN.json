@@ -268,7 +268,8 @@
     "reply": "trả lời",
     "share": "chia sẻ",
     "bookmarks": "thêm vào dấu trang",
-    "promote": "quảng bá"
+    "promote": "quảng bá",
+    "boost": "boost"
   },
   "deep_link": {
     "no_existing_user": "Không có người dùng hiện tại",

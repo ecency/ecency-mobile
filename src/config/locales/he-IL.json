@@ -268,7 +268,8 @@
     "reply": "השב",
     "share": "שתף\\י",
     "bookmarks": "הוסף\\י לסימניות",
-    "promote": "promote"
+    "promote": "promote",
+    "boost": "boost"
   },
   "deep_link": {
     "no_existing_user": "המשתמש אינו קיים",

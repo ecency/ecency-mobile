@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <Scheme
-   LastUpgradeVersion = "0930"
+   LastUpgradeVersion = "1100"
    version = "1.3">
    <BuildAction
       parallelizeBuildables = "YES"
@@ -14,7 +14,7 @@
             buildForArchiving = "YES">
             <BuildableReference
                BuildableIdentifier = "primary"
-               BlueprintIdentifier = "DF470A1028ED32C9E70DBDAA805F8802"
+               BlueprintIdentifier = "A4F685BE3CAC127BDCE4E0DBBD88D191"
                BuildableName = "libFolly.a"
                BlueprintName = "Folly"
                ReferencedContainer = "container:Pods.xcodeproj">

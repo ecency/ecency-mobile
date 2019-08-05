@@ -268,7 +268,8 @@
     "reply": "atsakymas",
     "share": "dalintis",
     "bookmarks": "pridėti į žymes",
-    "promote": "promote"
+    "promote": "promote",
+    "boost": "boost"
   },
   "deep_link": {
     "no_existing_user": "Nėra tokio vartotojo",

@@ -7,7 +7,6 @@ import PostsView from '../view/postsView';
 import { PostCardPlaceHolder } from '../../basicUIElements';
 
 // Actions
-import { isCollapsePostButton } from '../../../redux/actions/uiAction';
 import { setFeedPosts } from '../../../redux/actions/postsAction';
 /*
  *            Props Name        Description                                     Value
@@ -26,14 +25,6 @@ class PostsContainer extends PureComponent {
   // Component Life Cycle Functions
 
   // Component Functions
-
-  _handleOnScrollStart = () => {
-    const { dispatch, isCollapsePostButtonOpen } = this.props;
-
-    if (isCollapsePostButtonOpen) {
-      dispatch(isCollapsePostButton(false));
-    }
-  };
 
   _setFeedPosts = posts => {
     const { dispatch } = this.props;
@@ -75,7 +66,6 @@ const mapStateToProps = state => ({
   isDarkTheme: state.application.isDarkTheme,
   isLoggedIn: state.application.isLoggedIn,
   isLoginDone: state.application.isLoginDone,
-  isCollapsePostButtonOpen: state.ui.isCollapsePostButton,
   nsfw: state.application.nsfw,
   feedPosts: state.posts.feedPosts,
   isConnected: state.application.isConnected,

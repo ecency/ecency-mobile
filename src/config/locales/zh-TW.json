@@ -268,7 +268,8 @@
     "reply": "回覆",
     "share": "分享",
     "bookmarks": "add to bookmarks",
-    "promote": "promote"
+    "promote": "promote",
+    "boost": "boost"
   },
   "deep_link": {
     "no_existing_user": "No existing user",
