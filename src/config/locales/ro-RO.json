@@ -20,7 +20,7 @@
     "ignore": "te-a ignorat",
     "reblog": "a redistribuit postarea ta",
     "transfer": "steem transferat",
-    "comingsoon": "Clasamentul va fi disponibil în curând!",
+    "comingsoon": "Feature is coming soon!",
     "notification": "Notificări",
     "leaderboard": "Clasament",
     "epoint": "Puncte",
@@ -121,11 +121,12 @@
       "always_warn": "Avertizează întotdeauna"
     },
     "feedback_success": "E-mail deschis cu succes",
-    "feedback_fail": "Email-ul nu a putut fi accesat"
+    "feedback_fail": "Email-ul nu a putut fi accesat",
+    "server_fail": "Server not available"
   },
   "voters": {
     "voters_info": "Detalii votanți",
-    "no_user": "Nu s-a găsit nici un utilizator."
+    "no_user": "User is not found."
   },
   "login": {
     "signin": "Loghează-te",
@@ -190,7 +191,7 @@
     "fail": "Eșuat!",
     "move": "Mută",
     "move_question": "Esti sigur că vrei să muți la schițe?",
-    "success_shared": "Postarea ta a fost distribuită cu succes",
+    "success_shared": "Your post successfully shared",
     "success_moved": "Mutat la schițe",
     "permission_denied": "Permisiune respinsă",
     "permission_text": "Te rugăm să mergi în setările telefonului și să schimbi permisiunile aplicației eSteem.",
@@ -211,10 +212,12 @@
     "same_user": "Utilizator adăugat deja la listă",
     "unknow_error": "An error occurred",
     "error": "Error",
-    "fetch_error": "Fetching data from server failed, please try again or notify us at info@esteem.app"
+    "fetch_error": "Fetching data failed, please try again or notify us at info@esteem.app",
+    "connection_fail": "Connection Failed!",
+    "connection_success": "Successfully connected!"
   },
   "post": {
-    "reblog_alert": "Ești sigur că vrei să redistribui?",
+    "reblog_alert": "Are you sure, you want to reblog?",
     "removed_hint": "Postarea a fost eliminată de către",
     "copy_link": "Copiere link",
     "reblogged": "reblogged by",
@@ -290,7 +293,7 @@
     "to": "Către",
     "amount": "Sumă",
     "memo": "Notă",
-    "information": "Ești sigur că vrei să transferi la fonduri?",
+    "information": "Are you sure to transfer funds?",
     "amount_desc": "Sold",
     "memo_desc": "Această notă este publică",
     "to_placeholder": "Nume de utilizator",
@@ -314,7 +317,7 @@
     "user": "User",
     "permlink": "Post",
     "permlinkPlaceholder": "author/permlink",
-    "information": "Are you sure to transfer to promote?"
+    "information": "Are you sure to promote?"
   },
   "boostPost": {
     "title": "Boost"
