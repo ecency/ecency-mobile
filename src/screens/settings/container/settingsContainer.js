@@ -118,7 +118,8 @@ class SettingsContainer extends Component {
       isError = true;
       dispatch(toastNotification('Connection Failed!'));
     } finally {
-      if (!isError) dispatch(toastNotification('Succesfuly connected!'));
+      //TODO: move toast messages to locale files
+      if (!isError) dispatch(toastNotification('Successfully connected!'));
     }
 
     if (!isError) {
