@@ -268,7 +268,8 @@
     "reply": "پاسخ دادن",
     "share": "درمیان گذاری",
     "bookmarks": "اضافه کردن به صفحات مورد علاقه",
-    "promote": "promote"
+    "promote": "promote",
+    "boost": "boost"
   },
   "deep_link": {
     "no_existing_user": "کاربری موجود نیست",

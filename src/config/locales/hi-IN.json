@@ -268,7 +268,8 @@
     "reply": "जवाब दें",
     "share": "साझा करें",
     "bookmarks": "पृष्ठ स्मृति में जोड़ें",
-    "promote": "promote"
+    "promote": "promote",
+    "boost": "boost"
   },
   "deep_link": {
     "no_existing_user": "कोई विद्यमान उपयोगकर्ता नहीं",

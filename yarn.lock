@@ -1301,10 +1301,10 @@
     xcode "^2.0.0"
     xmldoc "^0.4.0"
 
-"@react-native-community/netinfo@3.2.1":
-  version "3.2.1"
-  resolved "https://registry.yarnpkg.com/@react-native-community/netinfo/-/netinfo-3.2.1.tgz#cd073b81a4b978f7f55f1a960a0b56c462813e02"
-  integrity sha512-A2qANOnlRDVe+8kMbKMwy3/0bOlOA2+y8DyWg2Rv2KHICIfin+oxixbG0ewAOLQdLkSEyyumZXRmIVl7VI/KJg==
+"@react-native-community/netinfo@^4.1.3":
+  version "4.1.3"
+  resolved "https://registry.yarnpkg.com/@react-native-community/netinfo/-/netinfo-4.1.3.tgz#77571619eb90ff59777a85a913fc30acd30b6020"
+  integrity sha512-c9ppXNFpKkXiKFJhik9Lzw62dosm+cAIvHl6OOGXp2D+1GlliIP+nMMtNapdppPoilRc33f4/GosqnL70viH9Q==
 
 "@samverschueren/stream-to-observable@^0.3.0":
   version "0.3.0"
@@ -1569,46 +1569,45 @@ anymatch@^2.0.0:
     micromatch "^3.1.4"
     normalize-path "^2.1.1"
 
-appcenter-analytics@^1.10.0:
-  version "1.13.0"
-  resolved "https://registry.yarnpkg.com/appcenter-analytics/-/appcenter-analytics-1.13.0.tgz#c9ffd6cb103c418425ab6967086a4d085069e4cd"
-  integrity sha512-FTfNXiT/CnXGHqCcqPmP97zmXVq0o+zvTIlpJjFeIJB2N6Cufk3RYohJATjJ40Hc2x1DoBxJ59K3vu4vAtViIA==
+appcenter-analytics@^2.2.0:
+  version "2.2.0"
+  resolved "https://registry.yarnpkg.com/appcenter-analytics/-/appcenter-analytics-2.2.0.tgz#54f1d1c0488e0ab62744c48877b0e7227f0c7e0e"
+  integrity sha512-hrFLlNtvhb3c/LXI0AOJR62cr41lsKbNzgESjHU48eU500H79+qKq3CJhCR4TMBdmM/gh+882jTn+4yu5B24LQ==
   dependencies:
-    appcenter "1.13.0"
+    appcenter "2.2.0"
 
-appcenter-crashes@^1.10.0:
-  version "1.13.0"
-  resolved "https://registry.yarnpkg.com/appcenter-crashes/-/appcenter-crashes-1.13.0.tgz#c9a5257f71e9c8055494322d4b514e28715debfc"
-  integrity sha512-HlKPbFUgHgWtHjhpZjAKOJnOdLWTzCXKKQ1dWPGlB6M/QA+ssL5gKap1cymPBBwvaL1FwOvWlKW0egVRn6cBTQ==
+appcenter-crashes@^2.2.0:
+  version "2.2.0"
+  resolved "https://registry.yarnpkg.com/appcenter-crashes/-/appcenter-crashes-2.2.0.tgz#dddd2e510192ecb6b38ae4d2a633521de33fafda"
+  integrity sha512-pGszIV1634AtzaRmi0W/Db3Tc/hmouvJmcmmGl2buKF6HEks2fW4wiil1IwAILq+cgoCbqsHODCcCebUhvifDQ==
   dependencies:
-    appcenter "1.13.0"
+    appcenter "2.2.0"
 
-appcenter-link-scripts@1.13.0:
-  version "1.13.0"
-  resolved "https://registry.yarnpkg.com/appcenter-link-scripts/-/appcenter-link-scripts-1.13.0.tgz#5ddd2143df97c055d1d04d97cd59facec367f368"
-  integrity sha512-+09PdeTzPPJyaVAblF8q/p9xhw9IlzN66vWvU/8F71rnxXuNKswuztl7OxTHJevVXCASmpeZNWlekVrXeEyxvg==
+appcenter-link-scripts@2.2.0:
+  version "2.2.0"
+  resolved "https://registry.yarnpkg.com/appcenter-link-scripts/-/appcenter-link-scripts-2.2.0.tgz#1f348bfcd0e92b5d04268d0cac23c0018428afc1"
+  integrity sha512-CB3GUXLqdnUF37qzm/6P/CY1Tg7sJ3a253rdTnLlnIwJCKWmV2+Hyl4xQw5yPVTzpvee2gc+ZAMsRKzL2ajK0w==
   dependencies:
     debug "^2.2.0"
     glob "^5.0.15"
-    inquirer "6.2.0"
     mkdirp "^0.5.1"
     plist "^3.0.1"
     which "^1.2.11"
     xcode "^2.0.0"
 
-appcenter-push@^1.10.0:
-  version "1.13.0"
-  resolved "https://registry.yarnpkg.com/appcenter-push/-/appcenter-push-1.13.0.tgz#7678cac2b94b62b2f465a976e5ce5f3d8d68f584"
-  integrity sha512-fYusNN/yJBpFwmCwHizh/6JDw6jYrOpRNmhqSoUJlw1RyFq6KFodWmp+qoOHpoSIXRIQ2ePrrH1wMPyKCoFY+w==
+appcenter-push@^2.2.0:
+  version "2.2.0"
+  resolved "https://registry.yarnpkg.com/appcenter-push/-/appcenter-push-2.2.0.tgz#6bd13fd040cd45e912a941a651b0d28381b67477"
+  integrity sha512-p4gQiCn1eJygoH76chakn0lA+9VCMey4/p1QemGU4o+LxoM9bM/HKCGllA7M/RaSXkVMa5/s3Hrfw48ahTygPA==
   dependencies:
-    appcenter "1.13.0"
+    appcenter "2.2.0"
 
-appcenter@1.13.0, appcenter@^1.10.0:
-  version "1.13.0"
-  resolved "https://registry.yarnpkg.com/appcenter/-/appcenter-1.13.0.tgz#b4bfc38bcdb9d69f20086ad69198d8993d6edb94"
-  integrity sha512-YHWrLPlA7ZBH5Tz8vN6Eux0wjdA8nNRfwGL7IANjx0yv7OvIMftn9SC0/g2CWdVV752dL6a8Rt/rWXN8yeOfdQ==
+appcenter@2.2.0, appcenter@^2.2.0:
+  version "2.2.0"
+  resolved "https://registry.yarnpkg.com/appcenter/-/appcenter-2.2.0.tgz#77d2c8d486bda52d1ee43156607437981aba2105"
+  integrity sha512-X8M4ITBh6U79mg+EHlqcjtv1ZojUbpxo9xO+uYCvsy/GO6Oq639mzkJKsRn7O8KrZk/CUmG96H+eY860/Ll+yQ==
   dependencies:
-    appcenter-link-scripts "1.13.0"
+    appcenter-link-scripts "2.2.0"
 
 aproba@^1.0.3:
   version "1.2.0"
@@ -3693,7 +3692,7 @@ external-editor@^2.0.4:
     iconv-lite "^0.4.17"
     tmp "^0.0.33"
 
-external-editor@^3.0.0, external-editor@^3.0.3:
+external-editor@^3.0.3:
   version "3.0.3"
   resolved "https://registry.yarnpkg.com/external-editor/-/external-editor-3.0.3.tgz#5866db29a97826dbe4bf3afd24070ead9ea43a27"
   integrity sha512-bn71H9+qWoOQKyZDo25mOMVpSmXROAsTJVVVYzrrtol3d4y+AsKjf4Iwl2Q+IuT0kFSQ1qo166UuIwqYq7mGnA==
@@ -4614,25 +4613,6 @@ inquirer@1.1.2:
     rx "^4.1.0"
     string-width "^1.0.1"
     strip-ansi "^3.0.0"
-    through "^2.3.6"
-
-inquirer@6.2.0:
-  version "6.2.0"
-  resolved "https://registry.yarnpkg.com/inquirer/-/inquirer-6.2.0.tgz#51adcd776f661369dc1e894859c2560a224abdd8"
-  integrity sha512-QIEQG4YyQ2UYZGDC4srMZ7BjHOmNk1lR2JQj5UknBapklm6WHA+VVH7N+sUdX3A7NeCfGF8o4X1S3Ao7nAcIeg==
-  dependencies:
-    ansi-escapes "^3.0.0"
-    chalk "^2.0.0"
-    cli-cursor "^2.1.0"
-    cli-width "^2.0.0"
-    external-editor "^3.0.0"
-    figures "^2.0.0"
-    lodash "^4.17.10"
-    mute-stream "0.0.7"
-    run-async "^2.2.0"
-    rxjs "^6.1.0"
-    string-width "^2.1.0"
-    strip-ansi "^4.0.0"
     through "^2.3.6"
 
 inquirer@^3.0.6:
@@ -5899,7 +5879,7 @@ lodash.uniq@^4.5.0:
   resolved "https://registry.yarnpkg.com/lodash.uniq/-/lodash.uniq-4.5.0.tgz#d0225373aeb652adc1bc82e4945339a842754773"
   integrity sha1-0CJTc662Uq3BvILklFM5qEJ1R3M=
 
-lodash@^4.0.0, lodash@^4.17.10, lodash@^4.17.11, lodash@^4.17.13, lodash@^4.17.4, lodash@^4.17.5, lodash@^4.3.0, lodash@^4.6.1:
+lodash@^4.0.0, lodash@^4.17.11, lodash@^4.17.13, lodash@^4.17.4, lodash@^4.17.5, lodash@^4.3.0, lodash@^4.6.1:
   version "4.17.13"
   resolved "https://registry.yarnpkg.com/lodash/-/lodash-4.17.13.tgz#0bdc3a6adc873d2f4e0c4bac285df91b64fc7b93"
   integrity sha512-vm3/XWXfWtRua0FkUyEHBZy8kCPjErNBT9fJx8Zvs+U6zjqPbTUOpkaoum3O5uiA8sm+yNMHXfYkTUHFoMxFNA==
@@ -8451,7 +8431,7 @@ rx@^4.1.0:
   resolved "https://registry.yarnpkg.com/rx/-/rx-4.1.0.tgz#a5f13ff79ef3b740fe30aa803fb09f98805d4782"
   integrity sha1-pfE/957zt0D+MKqAP7CfmIBdR4I=
 
-rxjs@^6.1.0, rxjs@^6.3.3, rxjs@^6.4.0:
+rxjs@^6.3.3, rxjs@^6.4.0:
   version "6.5.2"
   resolved "https://registry.yarnpkg.com/rxjs/-/rxjs-6.5.2.tgz#2e35ce815cd46d84d02a209fb4e5921e051dbec7"
   integrity sha512-HUb7j3kvb7p7eCUHE3FqjoDsC1xfZQ4AHFWfTKSpZ+sAhhz5X1WX0ZuUqWbzB2QhSLp3DoLUG+hMdEDKqWo2Zg==

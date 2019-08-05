@@ -268,7 +268,8 @@
     "reply": "댓글",
     "share": "공유",
     "bookmarks": "즐겨찾기에 추가",
-    "promote": "promote"
+    "promote": "promote",
+    "boost": "boost"
   },
   "deep_link": {
     "no_existing_user": "존재하지 않는 사용자입니다",

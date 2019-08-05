@@ -1,1 +1,1 @@
-export default ['copy', 'reblog', 'reply', 'share', 'bookmarks', 'promote'];
+export default ['copy', 'reblog', 'reply', 'share', 'bookmarks', 'promote', 'boost'];
