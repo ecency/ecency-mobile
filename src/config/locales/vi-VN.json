@@ -20,7 +20,7 @@
     "ignore": "đã bỏ qua bạn",
     "reblog": "đã đăng lại bài viết của bạn",
     "transfer": "steem được chuyển khoản",
-    "comingsoon": "Sắp có tính năng bảng xếp hạng!",
+    "comingsoon": "Feature is coming soon!",
     "notification": "Thông báo",
     "leaderboard": "Bảng xếp hạng",
     "epoint": "Các điểm thưởng",
@@ -121,11 +121,12 @@
       "always_warn": "Luôn cảnh báo"
     },
     "feedback_success": "Email đã được mở thành công",
-    "feedback_fail": "Email mà khách hàng không thể mở"
+    "feedback_fail": "Email mà khách hàng không thể mở",
+    "server_fail": "Server not available"
   },
   "voters": {
     "voters_info": "Thông tin người bình chọn",
-    "no_user": "Không tìm thấy người dùng nào."
+    "no_user": "User is not found."
   },
   "login": {
     "signin": "Đăng nhập",
@@ -190,7 +191,7 @@
     "fail": "Thất bại!",
     "move": "Di chuyển",
     "move_question": "Bạn có chắc chắn để chuyển đến những bản dự thảo?",
-    "success_shared": "Bài viết của bạn đã được chia sẻ thành công",
+    "success_shared": "Your post successfully shared",
     "success_moved": "Được chuyển đến bản dự thảo",
     "permission_denied": "Quyền truy cập bị từ chối",
     "permission_text": "Vui lòng mở cài đặt điện thoại và thay đổi quyền truy cập cho ứng dụng eSteem.",
@@ -211,10 +212,12 @@
     "same_user": "Người dùng này đã được thêm vào danh sách",
     "unknow_error": "Đã xảy ra lỗi",
     "error": "Lỗi",
-    "fetch_error": "Tìm nạp dữ liệu từ máy chủ không thành công, xin vui lòng thử lại hoặc thông báo cho chúng tôi tại địa chỉ info@esteem.app"
+    "fetch_error": "Fetching data failed, please try again or notify us at info@esteem.app",
+    "connection_fail": "Connection Failed!",
+    "connection_success": "Successfully connected!"
   },
   "post": {
-    "reblog_alert": "Bạn có chắc chắn muốn đăng lại không?",
+    "reblog_alert": "Are you sure, you want to reblog?",
     "removed_hint": "Bài viết đã bị xóa bởi",
     "copy_link": "Sao chép liên kết",
     "reblogged": "đã được đăng lại bởi",
@@ -290,7 +293,7 @@
     "to": "Đến",
     "amount": "Số lượng",
     "memo": "Bản ghi nhớ",
-    "information": "Bạn có chắc chắn chuyển tiền?",
+    "information": "Are you sure to transfer funds?",
     "amount_desc": "Số dư",
     "memo_desc": "Bản ghi nhớ này được công khai",
     "to_placeholder": "Tên người dùng",
@@ -314,7 +317,7 @@
     "user": "Người dùng",
     "permlink": "Bài đăng",
     "permlinkPlaceholder": "tác giả/đường dẫn về nội dung",
-    "information": "Bạn có chắc chắn chuyển tiền để quảng bá?"
+    "information": "Are you sure to promote?"
   },
   "boostPost": {
     "title": "Tăng tốc"
