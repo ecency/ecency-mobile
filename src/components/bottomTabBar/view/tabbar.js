@@ -91,7 +91,7 @@ export default class TabBar extends Component {
             y="0px"
             width="100%"
             height="100"
-            viewBox="0 0 661 156"
+            viewBox="0 0 661 136"
             space="preserve"
           >
             <AnimatedPath
@@ -146,6 +146,10 @@ const styles = StyleSheet.create({
     flex: 1,
     overflow: 'hidden',
   },
+  content: {
+    borderColor: 'red',
+    borderWidth: 1,
+  },
   subContent: {
     flexDirection: 'row',
     marginLeft: 19,
@@ -167,6 +171,6 @@ const styles = StyleSheet.create({
     height: 45,
   },
   circle: {
-    bottom: 28,
+    bottom: 23,
   },
 });
