@@ -62,7 +62,7 @@
     "reblog_desc": "  Partagez les publication que vous aimez avec vos amis et gagnez 1 point.",
     "login_desc": "Lorsque vous vous connectez sur l'application eSteem, vous avez le droit de gagner 100 points automatiquement.",
     "checkin_extra_desc": "Consistent use of app gives you extra chances to earn more 10 points, be more active and earn more.",
-    "dropdown_transfer": "Transfer",
+    "dropdown_transfer": "Gift",
     "dropdown_promote": "Promote",
     "dropdown_boost": "Boost"
   },
@@ -299,7 +299,7 @@
     "to_placeholder": "Nom d'utilisateur",
     "memo_placeholder": "Entrez vos notes ici",
     "transfer_token": "Transfer",
-    "points": "Points Transfer",
+    "points": "Gift ESTM to someone",
     "transfer_to_saving": "Transfer To Saving",
     "powerUp": "Power Up",
     "withdraw_to_saving": "Withdraw To Saving",
