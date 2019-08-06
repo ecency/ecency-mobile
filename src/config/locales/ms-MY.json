@@ -20,7 +20,7 @@
     "ignore": "abaikan anda",
     "reblog": "ulang siar pos anda",
     "transfer": "Pindahkan Steem",
-    "comingsoon": "Papan Pendahulu akan datang tidak lama lagi!",
+    "comingsoon": "Feature is coming soon!",
     "notification": "Pemberitahuan",
     "leaderboard": "Papan Pendahulu",
     "epoint": "Mata ganjaran",
@@ -121,11 +121,12 @@
       "always_warn": "Beri amaran dahulu"
     },
     "feedback_success": "E-mel berjaya dibuka",
-    "feedback_fail": "Klien e-mel tidak dapat dibuka"
+    "feedback_fail": "Klien e-mel tidak dapat dibuka",
+    "server_fail": "Server not available"
   },
   "voters": {
     "voters_info": "Info pengundi",
-    "no_user": "Pengguna tidak wujud."
+    "no_user": "User is not found."
   },
   "login": {
     "signin": "Log masuk",
@@ -190,7 +191,7 @@
     "fail": "Gagal!",
     "move": "Pindah",
     "move_question": "Adakah anda pasti hendak mengalih ke Draf?",
-    "success_shared": "Pos anda berjaya disiarkan",
+    "success_shared": "Your post successfully shared",
     "success_moved": "Pindah kepada Draf",
     "permission_denied": "Tidak dibenarkan",
     "permission_text": "Sila pergi ke tetapan telefon dan mengubah keizinan keyakinan eSteem app.",
@@ -211,10 +212,12 @@
     "same_user": "Pengguna telah ditambah ke dalam senarai",
     "unknow_error": "An error occurred",
     "error": "Error",
-    "fetch_error": "Fetching data from server failed, please try again or notify us at info@esteem.app"
+    "fetch_error": "Fetching data failed, please try again or notify us at info@esteem.app",
+    "connection_fail": "Connection Failed!",
+    "connection_success": "Successfully connected!"
   },
   "post": {
-    "reblog_alert": "Adakah anda ingin menulang siar?",
+    "reblog_alert": "Are you sure, you want to reblog?",
     "removed_hint": "Pos tersebut dipadamkan oleh",
     "copy_link": "Salin pautan",
     "reblogged": "reblogged by",
@@ -268,7 +271,8 @@
     "reply": "Membalas",
     "share": "kongsi",
     "bookmarks": "tambah ke tanda halaman",
-    "promote": "promote"
+    "promote": "promote",
+    "boost": "boost"
   },
   "deep_link": {
     "no_existing_user": "Pengguna tidak wujud",
@@ -289,7 +293,7 @@
     "to": "Kepada",
     "amount": "Jumlah",
     "memo": "Memo",
-    "information": "Adakah awda pasti hendak memindahkan dana?",
+    "information": "Are you sure to transfer funds?",
     "amount_desc": "Baki",
     "memo_desc": "Memo ini adalah umum",
     "to_placeholder": "Nama Pengguna",
@@ -313,7 +317,7 @@
     "user": "User",
     "permlink": "Post",
     "permlinkPlaceholder": "author/permlink",
-    "information": "Are you sure to transfer to promote?"
+    "information": "Are you sure to promote?"
   },
   "boostPost": {
     "title": "Boost"

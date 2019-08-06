@@ -321,9 +321,9 @@ export const getPostsSummary = async (by, query, currentUserName, filterNsfw) =>
 
 export const getUserComments = async query => {
   try {
-    let comments = await client.database.getDiscussions('comments', query);
-    comments = await parseComments(comments);
-    return comments;
+    const comments = await client.database.getDiscussions('comments', query);
+    const groomedComments = await parseComments(comments);
+    return groomedComments;
   } catch (error) {
     return error;
   }
@@ -331,13 +331,13 @@ export const getUserComments = async query => {
 
 export const getRepliesByLastUpdate = async query => {
   try {
-    let replies = await client.database.call('get_replies_by_last_update', [
+    const replies = await client.database.call('get_replies_by_last_update', [
       query.start_author,
       query.start_permlink,
       query.limit,
     ]);
-    replies = await parseComments(replies);
-    return replies;
+    const groomedComments = await parseComments(replies);
+    return groomedComments;
   } catch (error) {
     return error;
   }
@@ -405,15 +405,11 @@ export const deleteComment = (currentAccount, pin, permlink) => {
   }
 };
 
-const wait = ms => new Promise(r => setTimeout(r, ms));
-
 export const getComments = async (author, permlink, currentUserName = null) => {
   try {
     const comments = await client.database.call('get_content_replies', [author, permlink]);
 
     const groomedComments = await parseComments(comments, currentUserName);
-    // WORK ARROUND
-    await wait(comments && comments.length * 30);
 
     return comments ? groomedComments : null;
   } catch (error) {

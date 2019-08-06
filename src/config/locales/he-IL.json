@@ -20,7 +20,7 @@
     "ignore": "התעלם\\ה ממך",
     "reblog": "שיתף/ה את הפוסט שלך",
     "transfer": "סטים מועבר",
-    "comingsoon": "מאפיין לוח התוצאות יוצא להשקה בקרוב!",
+    "comingsoon": "Feature is coming soon!",
     "notification": "התראות",
     "leaderboard": "לוח תוצאות",
     "epoint": "נקודות",
@@ -121,11 +121,12 @@
       "always_warn": "הזהר תמיד"
     },
     "feedback_success": "האימייל נפתח בהצלחה",
-    "feedback_fail": "דואר הלקוח אינו יכול להיפתח"
+    "feedback_fail": "דואר הלקוח אינו יכול להיפתח",
+    "server_fail": "Server not available"
   },
   "voters": {
     "voters_info": "פרטי המצביעים",
-    "no_user": "לא נמצא משתמש\\ת."
+    "no_user": "User is not found."
   },
   "login": {
     "signin": "התחבר\\י",
@@ -190,7 +191,7 @@
     "fail": "נכשל!",
     "move": "הזזה",
     "move_question": "את/ה בטוח/ה להעביר לטיוטות?",
-    "success_shared": "הפוסט שלך שותף בהצלחה",
+    "success_shared": "Your post successfully shared",
     "success_moved": "הועבר לטיוטות",
     "permission_denied": "הרשאה נדחתה",
     "permission_text": "אנא, שנה את ההרשאות לאפליקציית ה eSteem, דרך ההגדרות בטלפון.",
@@ -211,10 +212,12 @@
     "same_user": "This user already added to list",
     "unknow_error": "An error occurred",
     "error": "Error",
-    "fetch_error": "Fetching data from server failed, please try again or notify us at info@esteem.app"
+    "fetch_error": "Fetching data failed, please try again or notify us at info@esteem.app",
+    "connection_fail": "Connection Failed!",
+    "connection_success": "Successfully connected!"
   },
   "post": {
-    "reblog_alert": "האם את\\ה בטוח/ה רוצה לשתף ?",
+    "reblog_alert": "Are you sure, you want to reblog?",
     "removed_hint": "The post was removed by",
     "copy_link": "Copy Link",
     "reblogged": "reblogged by",
@@ -268,7 +271,8 @@
     "reply": "השב",
     "share": "שתף\\י",
     "bookmarks": "הוסף\\י לסימניות",
-    "promote": "promote"
+    "promote": "promote",
+    "boost": "boost"
   },
   "deep_link": {
     "no_existing_user": "המשתמש אינו קיים",
@@ -289,7 +293,7 @@
     "to": "To",
     "amount": "Amount",
     "memo": "Memo",
-    "information": "Are you sure to transfer to funds?",
+    "information": "Are you sure to transfer funds?",
     "amount_desc": "Balance",
     "memo_desc": "This memo is public",
     "to_placeholder": "Username",
@@ -313,7 +317,7 @@
     "user": "User",
     "permlink": "Post",
     "permlinkPlaceholder": "author/permlink",
-    "information": "Are you sure to transfer to promote?"
+    "information": "Are you sure to promote?"
   },
   "boostPost": {
     "title": "Boost"

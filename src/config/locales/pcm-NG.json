@@ -20,7 +20,7 @@
     "ignore": "don dey ignore you",
     "reblog": "reblog your tori",
     "transfer": "steem you dem transfer",
-    "comingsoon": "Leaderboard dey come soon!",
+    "comingsoon": "Feature is coming soon!",
     "notification": "Alerts",
     "leaderboard": "Leaderboard",
     "epoint": "Points",
@@ -121,11 +121,12 @@
       "always_warn": "Warn everytime"
     },
     "feedback_success": "Email don open successfully",
-    "feedback_fail": "Email no gree open"
+    "feedback_fail": "Email no gree open",
+    "server_fail": "Server not available"
   },
   "voters": {
     "voters_info": "People Wey Vote informate",
-    "no_user": "E no see any person."
+    "no_user": "User is not found."
   },
   "login": {
     "signin": "Login for here",
@@ -190,7 +191,7 @@
     "fail": "E Fail oo!",
     "move": "Move",
     "move_question": "You sure say you won move am go draft?",
-    "success_shared": "Your post don share finish",
+    "success_shared": "Your post successfully shared",
     "success_moved": "E don move go draft",
     "permission_denied": "E no gree do",
     "permission_text": "Abeg go your phone settings go change eSteem app permissions. ",
@@ -211,10 +212,12 @@
     "same_user": "This user already added to list",
     "unknow_error": "An error occurred",
     "error": "Error",
-    "fetch_error": "Fetching data from server failed, please try again or notify us at info@esteem.app"
+    "fetch_error": "Fetching data failed, please try again or notify us at info@esteem.app",
+    "connection_fail": "Connection Failed!",
+    "connection_success": "Successfully connected!"
   },
   "post": {
-    "reblog_alert": "You sure say you wan reblog am?",
+    "reblog_alert": "Are you sure, you want to reblog?",
     "removed_hint": "The post don komot by",
     "copy_link": "Copy Link",
     "reblogged": "reblogged by",
@@ -268,7 +271,8 @@
     "reply": "reply am",
     "share": "share am",
     "bookmarks": "add am to bookmark",
-    "promote": "promote"
+    "promote": "promote",
+    "boost": "boost"
   },
   "deep_link": {
     "no_existing_user": "The person no exist",
@@ -289,7 +293,7 @@
     "to": "To",
     "amount": "Amount",
     "memo": "Memo",
-    "information": "You sure say you won transfer the money?",
+    "information": "Are you sure to transfer funds?",
     "amount_desc": "Balance",
     "memo_desc": "Na everybody go see this memo",
     "to_placeholder": "Guy-name",
@@ -313,7 +317,7 @@
     "user": "User",
     "permlink": "Post",
     "permlinkPlaceholder": "author/permlink",
-    "information": "Are you sure to transfer to promote?"
+    "information": "Are you sure to promote?"
   },
   "boostPost": {
     "title": "Boost"

@@ -311,3 +311,5 @@ export const getSCAccessToken = code =>
   });
 
 export const getPromotePosts = () => api.get(`/promoted-posts`).then(resp => resp.data);
+
+export const purchaseOrder = data => api.post('/purchase-order', data).then(resp => resp.data);

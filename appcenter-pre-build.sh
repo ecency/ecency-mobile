@@ -30,3 +30,5 @@ printf "\n.env created with contents:\n"
 cat .env
 printf "\nEND OF .env\n"
 
+npx jetify
+

@@ -7,6 +7,7 @@ import get from 'lodash/get';
 import { BasicHeader } from '../../../components/basicHeader';
 import { MainButton } from '../../../components/mainButton';
 import { Icon } from '../../../components/icon';
+import { BoostPlaceHolder } from '../../../components/basicUIElements';
 
 // Styles
 import globalStyles from '../../../globalStyles';
@@ -50,7 +51,7 @@ class BoostScreen extends PureComponent {
   };
 
   render() {
-    const { intl, buyItem, boostData } = this.props;
+    const { intl, buyItem, productList, isLoading, isProccesing } = this.props;
     const { selectedBoost } = this.state;
 
     return (
@@ -61,34 +62,40 @@ class BoostScreen extends PureComponent {
           })}
         />
 
-        {boostData.map(item => (
-          <View style={styles.boostLine} key={get(item, 'productId')}>
-            {this._renderDeal(item)}
-            <View style={styles.buttonWrapper}>
-              <MainButton
-                style={styles.button}
-                onPress={() => buyItem(item.productId)}
-                height={50}
-                text={intl.formatMessage({
-                  id: 'boost.buy',
-                })}
-                isDisable={false}
-                isLoading={false}
-              >
-                <View style={styles.buttonContent}>
-                  <Text style={styles.buttonText}>{this._getTitle(get(item, 'title'))}</Text>
-                  <View style={styles.buttonIconWrapper}>
-                    <Icon name="add" iconType="MaterialIcons" color="#357ce6" size={23} />
+        {isLoading ? (
+          <BoostPlaceHolder />
+        ) : (
+          productList.map(item => (
+            <View style={styles.boostLine} key={get(item, 'productId')}>
+              {this._renderDeal(item)}
+              <View style={styles.buttonWrapper}>
+                <MainButton
+                  style={styles.button}
+                  onPress={() => buyItem(item.productId)}
+                  height={50}
+                  text={intl.formatMessage({
+                    id: 'boost.buy',
+                  })}
+                  isDisable={isProccesing}
+                  isLoading={false}
+                >
+                  <View style={styles.buttonContent}>
+                    <Text style={styles.buttonText}>{get(item, 'title', '').toUpperCase()}</Text>
+                    <View style={styles.buttonIconWrapper}>
+                      <Icon name="add" iconType="MaterialIcons" color="#357ce6" size={23} />
+                    </View>
                   </View>
-                </View>
-              </MainButton>
-            </View>
+                </MainButton>
+              </View>
 
-            <View style={styles.priceWrapper}>
-              <Text style={styles.priceText}>{get(item, 'localizedPrice', 0)}</Text>
+              <View style={styles.priceWrapper}>
+                {get(item, 'localizedPrice', null) && (
+                  <Text style={styles.priceText}>{get(item, 'localizedPrice', 0)}</Text>
+                )}
+              </View>
             </View>
-          </View>
-        ))}
+          ))
+        )}
       </View>
     );
   }

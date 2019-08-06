@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <Scheme
-   LastUpgradeVersion = "0930"
+   LastUpgradeVersion = "1100"
    version = "1.3">
    <BuildAction
       parallelizeBuildables = "YES"
@@ -14,7 +14,7 @@
             buildForArchiving = "YES">
             <BuildableReference
                BuildableIdentifier = "primary"
-               BlueprintIdentifier = "29FC2A0EC130F2F2AF7AC9AE94A583B4"
+               BlueprintIdentifier = "D0EFEFB685D97280256C559792236873"
                BuildableName = "libglog.a"
                BlueprintName = "glog"
                ReferencedContainer = "container:Pods.xcodeproj">
