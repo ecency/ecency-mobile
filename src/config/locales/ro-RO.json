@@ -62,7 +62,7 @@
     "reblog_desc": "  Distribuie postările care îți plac pentru prietenii tăi și câștigă 1 punct.",
     "login_desc": "Când te autentifici în aplicația eSteem câștigi 100 de puncte automat.",
     "checkin_extra_desc": "Utilizarea constantă a aplicației îți oferă șanse în plus pentru câștigarea a 10 puncte. Fii cât mai activ și câștigă mai mult.",
-    "dropdown_transfer": "Transfer",
+    "dropdown_transfer": "Gift",
     "dropdown_promote": "Promote",
     "dropdown_boost": "Boost"
   },
@@ -299,7 +299,7 @@
     "to_placeholder": "Nume de utilizator",
     "memo_placeholder": "Introdu comentariul tău aici",
     "transfer_token": "Transfer",
-    "points": "Transfer Puncte",
+    "points": "Gift ESTM to someone",
     "transfer_to_saving": "Tranferă la economii",
     "powerUp": "Power Up",
     "withdraw_to_saving": "Retrage la economii",
