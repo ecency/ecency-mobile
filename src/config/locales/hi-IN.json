@@ -62,7 +62,7 @@
     "reblog_desc": "  जिस पोस्ट को आप पसंद करते हैं उसे पुनर्प्रेशण करें और १ अंक पाएँ|",
     "login_desc": "जब आप इस्टीम में लॉगिन करते हैं तो आप १०० अंकों के स्वतः दावेदार हो जाते हैं|",
     "checkin_extra_desc": "आपको अतिरिक्त मौका मिलता है १० अंक प्राप्त करने का अगर एप्प को लगातार उपयोग करते हैं, अधिक से अधिक समय तक एप्प में सक्रिय रहें|",
-    "dropdown_transfer": "Transfer",
+    "dropdown_transfer": "Gift",
     "dropdown_promote": "Promote",
     "dropdown_boost": "Boost"
   },
@@ -299,7 +299,7 @@
     "to_placeholder": "प्रयोक्ता नाम",
     "memo_placeholder": "अपनी टिप्पणी यहाँ लिखें",
     "transfer_token": "Transfer",
-    "points": "Points Transfer",
+    "points": "Gift ESTM to someone",
     "transfer_to_saving": "Transfer To Saving",
     "powerUp": "स्टीम क्षमता बढ़ाएं",
     "withdraw_to_saving": "Withdraw To Saving",
