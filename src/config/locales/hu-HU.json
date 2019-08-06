@@ -20,7 +20,7 @@
     "ignore": "mellőzött téged",
     "reblog": "megosztotta a bejegyzésed",
     "transfer": "átutalt steem",
-    "comingsoon": "Ranglista funkció hamarosan érkezik!",
+    "comingsoon": "A funkció hamarosan érkezik!",
     "notification": "Értesítések",
     "leaderboard": "Ranglista",
     "epoint": "Pontok",
@@ -121,11 +121,12 @@
       "always_warn": "Mindig figyelmeztess"
     },
     "feedback_success": "Email sikeresen megnyitva",
-    "feedback_fail": "A levelezőprogram nem nyitható meg"
+    "feedback_fail": "A levelezőprogram nem nyitható meg",
+    "server_fail": "A szerver nem elérhető"
   },
   "voters": {
     "voters_info": "Infó a szavazókról",
-    "no_user": "A felahsználó nem található."
+    "no_user": "A felhasználó nem található."
   },
   "login": {
     "signin": "Bejelentkezés",
@@ -211,13 +212,15 @@
     "same_user": "Ez a felhasználó már szerepel a listán",
     "unknow_error": "Hiba történt",
     "error": "Hiba",
-    "fetch_error": "Fetching data from server failed, please try again or notify us at info@esteem.app"
+    "fetch_error": "Fetching data failed, please try again or notify us at info@esteem.app",
+    "connection_fail": "Sikertelen kapcsolat!",
+    "connection_success": "Successfully connected!"
   },
   "post": {
     "reblog_alert": "Biztos, hogy megosztod?",
     "removed_hint": "A bejegyzést eltávolította",
     "copy_link": "Link másolása",
-    "reblogged": "reblogged by",
+    "reblogged": "megosztva általa",
     "sponsored": "sponsored"
   },
   "drafts": {
@@ -268,7 +271,8 @@
     "reply": "válasz",
     "share": "megosztás",
     "bookmarks": "hozzáadás a könyvjelzőkhöz",
-    "promote": "promote"
+    "promote": "promote",
+    "boost": "boost"
   },
   "deep_link": {
     "no_existing_user": "Nem létező felhasználó",
@@ -289,7 +293,7 @@
     "to": "Címzett",
     "amount": "Összeg",
     "memo": "Üzenet",
-    "information": "Bistoz átutalod a megtakarításokhoz?",
+    "information": "Are you sure to transfer funds?",
     "amount_desc": "Egyenleg",
     "memo_desc": "Ez az üzenet nyilvános",
     "to_placeholder": "Felhasználónév",
@@ -305,7 +309,7 @@
   "boost": {
     "title": "Get eSteem Points",
     "buy": "GET ESTM",
-    "next": "NEXT"
+    "next": "KÖVETKEZŐ"
   },
   "promote": {
     "title": "Promote",
@@ -313,7 +317,7 @@
     "user": "Felhasználó",
     "permlink": "Post",
     "permlinkPlaceholder": "author/permlink",
-    "information": "Are you sure to transfer to promote?"
+    "information": "Are you sure to promote?"
   },
   "boostPost": {
     "title": "Boost"

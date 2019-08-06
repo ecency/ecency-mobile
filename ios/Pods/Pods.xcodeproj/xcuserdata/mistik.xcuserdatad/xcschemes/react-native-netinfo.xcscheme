@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <Scheme
-   LastUpgradeVersion = "0930"
+   LastUpgradeVersion = "1100"
    version = "1.3">
    <BuildAction
       parallelizeBuildables = "YES"
@@ -14,7 +14,7 @@
             buildForArchiving = "YES">
             <BuildableReference
                BuildableIdentifier = "primary"
-               BlueprintIdentifier = "90AF781B2B92EC525D0BD7D9005DCDD2"
+               BlueprintIdentifier = "EC577C5CB1DC59A7464ECEF266A75B42"
                BuildableName = "libreact-native-netinfo.a"
                BlueprintName = "react-native-netinfo"
                ReferencedContainer = "container:Pods.xcodeproj">

@@ -103,7 +103,7 @@ class SettingsContainer extends Component {
   };
 
   _changeApi = async action => {
-    const { dispatch, selectedApi } = this.props;
+    const { dispatch, selectedApi, intl } = this.props;
     const { serverList } = this.state;
     const server = serverList[action];
     let serverResp;
@@ -116,9 +116,10 @@ class SettingsContainer extends Component {
       serverResp = await client.database.getDynamicGlobalProperties();
     } catch (e) {
       isError = true;
-      dispatch(toastNotification('Connection Failed!'));
+      dispatch(toastNotification(intl.formatMessage({ id: 'alert.connection_fail' })));
     } finally {
-      if (!isError) dispatch(toastNotification('Succesfuly connected!'));
+      if (!isError)
+        dispatch(toastNotification(intl.formatMessage({ id: 'alert.connection_success' })));
     }
 
     if (!isError) {
@@ -127,7 +128,7 @@ class SettingsContainer extends Component {
       const isAlive = localTime - serverTime < 15000;
 
       if (!isAlive) {
-        dispatch(toastNotification('Server not available'));
+        dispatch(toastNotification(intl.formatMessage({ id: 'alert.server_fail' })));
         isError = true;
 
         return;

@@ -20,7 +20,7 @@
     "ignore": "seni engelledi",
     "reblog": "senin postunu paylaştı",
     "transfer": "transfer edilen steem",
-    "comingsoon": "Liderler tablosu yakında burada!",
+    "comingsoon": "Feature is coming soon!",
     "notification": "Bildirimler",
     "leaderboard": "Liderler Tablosu",
     "epoint": "Puanlar",
@@ -121,11 +121,12 @@
       "always_warn": "Her zaman uyar"
     },
     "feedback_success": "E-posta başarıyla açıldı",
-    "feedback_fail": "E-posta istemcisi açılamadı"
+    "feedback_fail": "E-posta istemcisi açılamadı",
+    "server_fail": "Server not available"
   },
   "voters": {
     "voters_info": "Oy Verenler",
-    "no_user": "Kullanıcı bulunamadı."
+    "no_user": "User is not found."
   },
   "login": {
     "signin": "Giriş",
@@ -190,7 +191,7 @@
     "fail": "Başarısız!",
     "move": "Taşı",
     "move_question": "Taslaklara taşıyacağınızdan emin misiniz?",
-    "success_shared": "Gönderin başarıyla paylaşıldı",
+    "success_shared": "Your post successfully shared",
     "success_moved": "Taslağa taşındı",
     "permission_denied": "İzin reddedildi",
     "permission_text": "Lütfen telefon ayarlarına gidin ve eSteem'in izinlerini açın.",
@@ -211,10 +212,12 @@
     "same_user": "This user already added to list",
     "unknow_error": "An error occurred",
     "error": "Error",
-    "fetch_error": "Fetching data from server failed, please try again or notify us at info@esteem.app"
+    "fetch_error": "Fetching data failed, please try again or notify us at info@esteem.app",
+    "connection_fail": "Connection Failed!",
+    "connection_success": "Successfully connected!"
   },
   "post": {
-    "reblog_alert": "Reblog yapma istediginize emin misiniz?",
+    "reblog_alert": "Are you sure, you want to reblog?",
     "removed_hint": "The post was removed by",
     "copy_link": "Copy Link",
     "reblogged": "reblogged by",
@@ -268,7 +271,8 @@
     "reply": "cevapla",
     "share": "paylaş",
     "bookmarks": "yer imlerine ekle",
-    "promote": "promote"
+    "promote": "promote",
+    "boost": "boost"
   },
   "deep_link": {
     "no_existing_user": "Kullanici Bulunamadi",
@@ -289,7 +293,7 @@
     "to": "Kime",
     "amount": "Miktar",
     "memo": "Notlar",
-    "information": "Fonlara transfer etmek istediğinize emin misin?",
+    "information": "Are you sure to transfer funds?",
     "amount_desc": "Bakiye",
     "memo_desc": "Bu not herkese açık",
     "to_placeholder": "Kullanıcı Adı",
@@ -313,7 +317,7 @@
     "user": "User",
     "permlink": "Post",
     "permlinkPlaceholder": "author/permlink",
-    "information": "Are you sure to transfer to promote?"
+    "information": "Are you sure to promote?"
   },
   "boostPost": {
     "title": "Boost"

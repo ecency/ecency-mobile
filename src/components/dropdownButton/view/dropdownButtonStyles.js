@@ -19,11 +19,11 @@ export default EStyleSheet.create({
     paddingTop: 10,
     paddingBottom: 10,
     minWidth: '$deviceWidth / 2',
-    borderColor: '$primaryGrayBackground',
+    borderColor: '$primaryWhiteLightBackground',
     borderRadius: 5,
     shadowOpacity: 0.3,
     shadowColor: '$shadowColor',
-    backgroundColor: '$primaryBackgroundColor',
+    backgroundColor: '$primaryLightBackground',
     maxHeight: '$deviceHeight / 2',
   },
   iconWrapper: {

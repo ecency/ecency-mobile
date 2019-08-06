@@ -20,7 +20,7 @@
     "ignore": "te ignorira",
     "reblog": "je podijelio tvoju objavu",
     "transfer": "transfered steem",
-    "comingsoon": "Rang lista dolazi uskoro!",
+    "comingsoon": "Feature is coming soon!",
     "notification": "Obavijesti",
     "leaderboard": "Rang lista",
     "epoint": "Points",
@@ -121,11 +121,12 @@
       "always_warn": "Always warn"
     },
     "feedback_success": "Email successfully open",
-    "feedback_fail": "Email client could not open"
+    "feedback_fail": "Email client could not open",
+    "server_fail": "Server not available"
   },
   "voters": {
     "voters_info": "Informacije o glasačima",
-    "no_user": "Nije pronađen nijedan korisnik."
+    "no_user": "User is not found."
   },
   "login": {
     "signin": "Prijavite se",
@@ -190,7 +191,7 @@
     "fail": "Nije uspjelo!",
     "move": "Move",
     "move_question": "Are you sure to move to drafts?",
-    "success_shared": "Vaša objava je uspješno podijeljena",
+    "success_shared": "Your post successfully shared",
     "success_moved": "Moved to draft",
     "permission_denied": "Dopuštenje odbijeno",
     "permission_text": "Molim vas, idite na postavke uređaja i promijenite dozvole za eSteem aplikaciju.",
@@ -211,10 +212,12 @@
     "same_user": "This user already added to list",
     "unknow_error": "An error occurred",
     "error": "Error",
-    "fetch_error": "Fetching data from server failed, please try again or notify us at info@esteem.app"
+    "fetch_error": "Fetching data failed, please try again or notify us at info@esteem.app",
+    "connection_fail": "Connection Failed!",
+    "connection_success": "Successfully connected!"
   },
   "post": {
-    "reblog_alert": "Jeste li sigurni da želite ponovo podijeliti objavu na svom profilu?",
+    "reblog_alert": "Are you sure, you want to reblog?",
     "removed_hint": "The post was removed by",
     "copy_link": "Copy Link",
     "reblogged": "reblogged by",
@@ -268,7 +271,8 @@
     "reply": "odgovor",
     "share": "podijeli",
     "bookmarks": "add to bookmarks",
-    "promote": "promote"
+    "promote": "promote",
+    "boost": "boost"
   },
   "deep_link": {
     "no_existing_user": "Ne postojeći korisnik",
@@ -289,7 +293,7 @@
     "to": "To",
     "amount": "Amount",
     "memo": "Memo",
-    "information": "Are you sure to transfer to funds?",
+    "information": "Are you sure to transfer funds?",
     "amount_desc": "Balance",
     "memo_desc": "This memo is public",
     "to_placeholder": "Username",
@@ -313,7 +317,7 @@
     "user": "User",
     "permlink": "Post",
     "permlinkPlaceholder": "author/permlink",
-    "information": "Are you sure to transfer to promote?"
+    "information": "Are you sure to promote?"
   },
   "boostPost": {
     "title": "Boost"
