@@ -62,7 +62,7 @@
     "reblog_desc": "Делитесь постами с друзьями и получайте по 1 баллу.",
     "login_desc": "Когда вы логинитесь в приложения eSteem, вы автоматически получаете 100 баллов.",
     "checkin_extra_desc": "Постоянное использование приложения даёт вам дополнительный шанс получить 10 баллов. Чем больше активности, тем больше награда.",
-    "dropdown_transfer": "Transfer",
+    "dropdown_transfer": "Gift",
     "dropdown_promote": "Promote",
     "dropdown_boost": "Boost"
   },
@@ -299,7 +299,7 @@
     "to_placeholder": "Пользователь",
     "memo_placeholder": "Введите свою заметку",
     "transfer_token": "Перевод",
-    "points": "Передача баллов",
+    "points": "Gift ESTM to someone",
     "transfer_to_saving": "Перевести в сейф",
     "powerUp": "Увеличение силы",
     "withdraw_to_saving": "Снять в сейф",
