@@ -20,7 +20,7 @@
     "ignore": "mellőzött téged",
     "reblog": "megosztotta a bejegyzésed",
     "transfer": "átutalt steem",
-    "comingsoon": "Feature is coming soon!",
+    "comingsoon": "A funkció hamarosan érkezik!",
     "notification": "Értesítések",
     "leaderboard": "Ranglista",
     "epoint": "Pontok",
@@ -122,7 +122,7 @@
     },
     "feedback_success": "Email sikeresen megnyitva",
     "feedback_fail": "A levelezőprogram nem nyitható meg",
-    "server_fail": "Server not available"
+    "server_fail": "A szerver nem elérhető"
   },
   "voters": {
     "voters_info": "Infó a szavazókról",
@@ -213,14 +213,14 @@
     "unknow_error": "Hiba történt",
     "error": "Hiba",
     "fetch_error": "Fetching data failed, please try again or notify us at info@esteem.app",
-    "connection_fail": "Connection Failed!",
+    "connection_fail": "Sikertelen kapcsolat!",
     "connection_success": "Successfully connected!"
   },
   "post": {
-    "reblog_alert": "Are you sure, you want to reblog?",
+    "reblog_alert": "Biztos, hogy megosztod?",
     "removed_hint": "A bejegyzést eltávolította",
     "copy_link": "Link másolása",
-    "reblogged": "reblogged by",
+    "reblogged": "megosztva általa",
     "sponsored": "sponsored"
   },
   "drafts": {
@@ -309,7 +309,7 @@
   "boost": {
     "title": "Get eSteem Points",
     "buy": "GET ESTM",
-    "next": "NEXT"
+    "next": "KÖVETKEZŐ"
   },
   "promote": {
     "title": "Promote",
