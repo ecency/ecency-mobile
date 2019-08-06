@@ -102,7 +102,7 @@ const postImage = (metaData, body) => {
 };
 
 export const parseComments = async (comments, currentUserName) => {
-  const _comments = await comments.map(async comment => {
+  const pArray = comments.map(async comment => {
     const activeVotes = await getActiveVotes(get(comment, 'author'), get(comment, 'permlink'));
 
     comment.pending_payout_value = parseFloat(
@@ -120,11 +120,12 @@ export const parseComments = async (comments, currentUserName) => {
     } else {
       comment.is_voted = false;
     }
-
-    return _comments;
+    return comment;
   });
 
-  return comments;
+  const _comments = await Promise.all(pArray);
+
+  return _comments;
 };
 
 const isVoted = (activeVotes, currentUserName) =>
