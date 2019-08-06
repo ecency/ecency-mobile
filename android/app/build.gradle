@@ -154,6 +154,7 @@ configurations.all {
 }
 
 dependencies {
+    implementation project(':react-native-svg')
     implementation project(':@react-native-community_netinfo')
     implementation project(':react-native-image-crop-picker')
     implementation project(':react-native-fast-image')
