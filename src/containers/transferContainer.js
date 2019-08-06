@@ -60,7 +60,7 @@ class TransferContainer extends Component {
         case 'SBD':
           balance = account[0].sbd_balance.replace(fundType, '');
           break;
-        case 'POINT':
+        case 'ESTM':
           balance = navigation.getParam('balance', '');
           break;
         case 'SAVING_STEEM':
