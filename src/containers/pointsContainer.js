@@ -83,7 +83,7 @@ class PointsContainer extends Component {
         navigateTo = ROUTES.SCREENS.TRANSFER;
         navigateParams = {
           transferType: 'points',
-          fundType: 'POINT',
+          fundType: 'ESTM',
           balance,
         };
         break;
