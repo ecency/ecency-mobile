@@ -10,6 +10,7 @@ import { TextInput } from './textInput';
 import ScaleSlider from './scaleSlider/scaleSliderView';
 import UserListItem from './basicUIElements/view/userListItem/userListItem';
 import PostButton from './postButton/postButtonView';
+import SpinGame from './spinGame/view/spinGameView';
 
 export {
   CircularButton,
@@ -17,6 +18,7 @@ export {
   Icon,
   IconButton,
   Logo,
+  SpinGame,
   Modal,
   NumericKeyboard,
   PinAnimatedInput,
