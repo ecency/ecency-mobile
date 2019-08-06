@@ -62,7 +62,7 @@
     "reblog_desc": "좋아하는 글을 친구에게 공유하고 1 포인트를 획득하세요.",
     "login_desc": "eSteem 앱에 최초 로그인 시 100 포인트가 자동 지급됩니다.",
     "checkin_extra_desc": "꾸준히 앱을 이용한 사용자는 10 포인트 이상의 추가 포인트를 획득할 수 있는 기회가 제공되며 더 열심히 이용할수록 더 많은 포인트를 획득할 수 있습니다.",
-    "dropdown_transfer": "전송",
+    "dropdown_transfer": "Gift",
     "dropdown_promote": "홍보",
     "dropdown_boost": "후원"
   },
@@ -299,7 +299,7 @@
     "to_placeholder": "사용자 이름",
     "memo_placeholder": "메모 내용을 입력하세요",
     "transfer_token": "전송",
-    "points": "포인트 전송",
+    "points": "Gift ESTM to someone",
     "transfer_to_saving": "안전 금고로 전송",
     "powerUp": "파워업",
     "withdraw_to_saving": "안전 금고로 출금",
