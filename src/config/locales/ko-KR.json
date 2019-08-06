@@ -20,7 +20,7 @@
     "ignore": "님이 당신을 차단했습니다",
     "reblog": "님이 당신 글을 리블로그했습니다",
     "transfer": "스팀 전송",
-    "comingsoon": "Feature is coming soon!",
+    "comingsoon": "이 기능은 준비중입니다!",
     "notification": "알림",
     "leaderboard": "순위표",
     "epoint": "포인트",
@@ -122,11 +122,11 @@
     },
     "feedback_success": "이메일 클라이언트가 성공적으로 열렸습니다",
     "feedback_fail": "이메일 클라이언트를 열지 못했습니다",
-    "server_fail": "Server not available"
+    "server_fail": "서버를 이용할 수 없습니다."
   },
   "voters": {
     "voters_info": "투표자 정보",
-    "no_user": "User is not found."
+    "no_user": "사용자를 찾을 수 없습니다."
   },
   "login": {
     "signin": "로그인",
@@ -191,7 +191,7 @@
     "fail": "실패!",
     "move": "이동",
     "move_question": "임시 보관함으로 이동하시겠습니까?",
-    "success_shared": "Your post successfully shared",
+    "success_shared": "글을 성공적으로 공유했습니다",
     "success_moved": "임시 보관함으로 이동했습니다",
     "permission_denied": "권한이 없습니다",
     "permission_text": "휴대폰 설정으로 이동하여 eSteem 앱 알림 설정을 변경해주세요",
@@ -212,7 +212,7 @@
     "same_user": "이 사용자는 목록에 이미 추가되었습니다",
     "unknow_error": "오류가 발생했습니다",
     "error": "오류",
-    "fetch_error": "Fetching data failed, please try again or notify us at info@esteem.app",
+    "fetch_error": "서버에서 데이터를 가져오는데 실패했습니다. 다시 시도해보시거나 info@esteem.app로 문의해주세요.",
     "connection_fail": "연결 실패!",
     "connection_success": "성공적으로 연결되었습니다"
   },
