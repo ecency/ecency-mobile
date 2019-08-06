@@ -213,15 +213,15 @@
     "unknow_error": "오류가 발생했습니다",
     "error": "오류",
     "fetch_error": "Fetching data failed, please try again or notify us at info@esteem.app",
-    "connection_fail": "Connection Failed!",
-    "connection_success": "Successfully connected!"
+    "connection_fail": "연결 실패!",
+    "connection_success": "성공적으로 연결되었습니다"
   },
   "post": {
     "reblog_alert": "리블로그 하시겠습니까?",
     "removed_hint": "포스팅이 삭제되었습니다",
     "copy_link": "링크 복사",
-    "reblogged": "reblogged by",
-    "sponsored": "sponsored"
+    "reblogged": "리블로그됨",
+    "sponsored": "후원받음"
   },
   "drafts": {
     "title": "임시 보관함",
@@ -271,8 +271,8 @@
     "reply": "댓글",
     "share": "공유",
     "bookmarks": "즐겨찾기에 추가",
-    "promote": "promote",
-    "boost": "boost"
+    "promote": "홍보",
+    "boost": "후원"
   },
   "deep_link": {
     "no_existing_user": "존재하지 않는 사용자입니다",
@@ -307,19 +307,19 @@
     "next": "다음"
   },
   "boost": {
-    "title": "Get eSteem Points",
-    "buy": "GET ESTM",
-    "next": "NEXT"
+    "title": "eSteem 포인트 구매",
+    "buy": "ESTM 구매",
+    "next": "다음"
   },
   "promote": {
     "title": "홍보",
     "days": "일",
     "user": "사용자",
-    "permlink": "Post",
-    "permlinkPlaceholder": "author/permlink",
+    "permlink": "글 주소",
+    "permlinkPlaceholder": "저자/permlink",
     "information": "홍보하시겠습니까?"
   },
   "boostPost": {
-    "title": "Boost"
+    "title": "후원"
   }
 }
