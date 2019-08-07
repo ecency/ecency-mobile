@@ -62,7 +62,7 @@
     "reblog_desc": "  Bagikan pos yang Anda sukai dengan teman dan dapatkan 1 poin.",
     "login_desc": "Saat Anda masuk ke aplikasi eSteem, Anda berhak mendapatkan 100 poin secara otomatis.",
     "checkin_extra_desc": "Penggunaan aplikasi yang konsisten memberi Anda peluang ekstra untuk mendapatkan lebih banyak 10 poin, menjadi lebih aktif dan menghasilkan lebih banyak.",
-    "dropdown_transfer": "Transfer",
+    "dropdown_transfer": "Gift",
     "dropdown_promote": "Promote",
     "dropdown_boost": "Boost"
   },
@@ -299,7 +299,7 @@
     "to_placeholder": "Nama Pengguna",
     "memo_placeholder": "Masukan catatan anda disini",
     "transfer_token": "Transfer",
-    "points": "Points Transfer",
+    "points": "Gift ESTM to someone",
     "transfer_to_saving": "Transfer To Saving",
     "powerUp": "Power Up",
     "withdraw_to_saving": "Withdraw To Saving",

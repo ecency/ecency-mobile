@@ -62,7 +62,7 @@
     "reblog_desc": "  Pasidalink su draugais įrašais kurie tau patinka ir gauk po 1 tašką už pasidalinimą.",
     "login_desc": "Kai jūs pirma kartą prisijungiate prie eSteem, jūs automatiškai būsite apdovanotas 100 taškų.",
     "checkin_extra_desc": "Reguliarus programos naudojimasis suteikia jums papildomą šansą gauti dar 10 taškų. Kuo aktyvesnis esi, tuo daugiau taškų surinksi.",
-    "dropdown_transfer": "Transfer",
+    "dropdown_transfer": "Gift",
     "dropdown_promote": "Promote",
     "dropdown_boost": "Boost"
   },
@@ -299,7 +299,7 @@
     "to_placeholder": "Vartotojo vardas",
     "memo_placeholder": "Įveskite savo užrašus čia",
     "transfer_token": "Transfer",
-    "points": "Points Transfer",
+    "points": "Gift ESTM to someone",
     "transfer_to_saving": "Transfer To Saving",
     "powerUp": "Power Up",
     "withdraw_to_saving": "Withdraw To Saving",
