@@ -62,7 +62,7 @@
     "reblog_desc": "  شارك ما تنشره مع أصدقائك واربح 1 نقطة.",
     "login_desc": "عند تسجيل الدخول إلى تطبيق eSteem ، يحق لك كسب 100 نقطة تلقائيًا.",
     "checkin_extra_desc": "يمنحك الاستخدام المستمر للتطبيق فرصًا إضافية لكسب 10 نقاط إضافية ، وتكون أكثر نشاطًا وكسب المزيد.",
-    "dropdown_transfer": "Transfer",
+    "dropdown_transfer": "Gift",
     "dropdown_promote": "Promote",
     "dropdown_boost": "Boost"
   },
@@ -299,7 +299,7 @@
     "to_placeholder": "إسم المستخدم",
     "memo_placeholder": "أدخل ملاحظاتك هنا",
     "transfer_token": "Transfer",
-    "points": "Points Transfer",
+    "points": "Gift ESTM to someone",
     "transfer_to_saving": "Transfer To Saving",
     "powerUp": "رفع الطاقة",
     "withdraw_to_saving": "Withdraw To Saving",

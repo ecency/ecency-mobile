@@ -62,7 +62,7 @@
     "reblog_desc": "  Chia sẻ bài viết nào bạn thích với bạn bè của bạn và kiếm được 1 điểm.",
     "login_desc": "Khi bạn đăng nhập vào ứng dụng eSteem, tự động bạn có được 100 điểm thưởng.",
     "checkin_extra_desc": "Việc sử dụng ứng dụng lâu dài sẽ cho bạn thêm nhiều cơ hội kiếm thêm 10 điểm thưởng, hãy tích cực hơn và kiếm thêm nhiều điểm thưởng hơn.",
-    "dropdown_transfer": "Chuyển khoản",
+    "dropdown_transfer": "Gift",
     "dropdown_promote": "Quảng bá",
     "dropdown_boost": "Tăng tốc"
   },
@@ -298,7 +298,7 @@
     "to_placeholder": "Tên người dùng",
     "memo_placeholder": "Nhập ghi chú của bạn vào đây",
     "transfer_token": "Chuyển khoản",
-    "points": "Chuyển điểm",
+    "points": "Gift ESTM to someone",
     "transfer_to_saving": "Chuyển đến phần tiết kiệm",
     "powerUp": "Tăng lên",
     "withdraw_to_saving": "Rút về phần tiết kiệm",
