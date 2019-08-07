@@ -62,7 +62,7 @@
     "reblog_desc": "  Share post wey you like with your paddi make you get 1 point.",
     "login_desc": "When you login enter eSteem app ehn, 100 point don dey ground for you.",
     "checkin_extra_desc": "If you dey use the app wella, you go get the chance to get 10 point. So dey active so that you go earn more.",
-    "dropdown_transfer": "Transfer",
+    "dropdown_transfer": "Gift",
     "dropdown_promote": "Promote",
     "dropdown_boost": "Boost"
   },
@@ -299,7 +299,7 @@
     "to_placeholder": "Guy-name",
     "memo_placeholder": "Write your note for here",
     "transfer_token": "Transfer",
-    "points": "Points Transfer",
+    "points": "Gift ESTM to someone",
     "transfer_to_saving": "Transfer To Saving",
     "powerUp": "Power Up",
     "withdraw_to_saving": "Withdraw To Saving",

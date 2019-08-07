@@ -62,7 +62,7 @@
     "reblog_desc": "  پست های مورد علاقه خود را با دوستانتان به اشتراک بگذارید و 1 امتیاز دریافت کنید.",
     "login_desc": "زمانی که شما توسط اپ eSteem وارد حساب کاربری خود شوید به صورت اتوماتیک 100 امتیاز دریافت خواهید کرد.",
     "checkin_extra_desc": "استفاده مداوم از این اپ به شما شانس دریافت 10 امتیاز دیگر را می دهد، بیشتر فعال باشید و امتیازات بیشتری دریافت کنید.",
-    "dropdown_transfer": "Transfer",
+    "dropdown_transfer": "Gift",
     "dropdown_promote": "Promote",
     "dropdown_boost": "Boost"
   },
@@ -299,7 +299,7 @@
     "to_placeholder": "نام کاربری",
     "memo_placeholder": "یادداشت های خود را در اینجا وارد کنید",
     "transfer_token": "انتقال",
-    "points": "انتقال امتیاز ها",
+    "points": "Gift ESTM to someone",
     "transfer_to_saving": "انتقال به پس انداز",
     "powerUp": "بالا بردن قدرت",
     "withdraw_to_saving": "برداشت و انتقال به پس انداز",
