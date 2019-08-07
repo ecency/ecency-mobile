@@ -62,7 +62,7 @@
     "reblog_desc": "Mengulang siar post yang anda sukai kepada kawan, anda juga memgumpul 1 mata.",
     "login_desc": "Apabila anda log masuk eSteem, anda akan diberi 100 mata secara otomatik.",
     "checkin_extra_desc": "Pengguna app dengan konsisten, anda mungkin akan dapat 10 mata secara percuma. Lebih memgguna, lebih ganjaran.",
-    "dropdown_transfer": "Transfer",
+    "dropdown_transfer": "Gift",
     "dropdown_promote": "Promote",
     "dropdown_boost": "Boost"
   },
@@ -299,7 +299,7 @@
     "to_placeholder": "Nama Pengguna",
     "memo_placeholder": "Masukkan catatan anda di sini",
     "transfer_token": "Pindah",
-    "points": "Pindahan mata ganjaran",
+    "points": "Gift ESTM to someone",
     "transfer_to_saving": "Pindah kepada simpanan",
     "powerUp": "Mengekuasai",
     "withdraw_to_saving": "Keluarkan kepada penyimpanan",

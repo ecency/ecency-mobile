@@ -62,7 +62,7 @@
     "reblog_desc": "  Jaga oma lemmik postitusi oma sõpradega ja teeni 1 punkt.",
     "login_desc": "Kui sa logid eSteem äppi sisse, teenid sa automaatselt 100 punkti.",
     "checkin_extra_desc": "Konstantne äppi kasutamine annab sulle võimaluse teenida 10 lisapunkti, olles aktiivsem teenid sa rohkem punkte.",
-    "dropdown_transfer": "Transfer",
+    "dropdown_transfer": "Gift",
     "dropdown_promote": "Promote",
     "dropdown_boost": "Boost"
   },
@@ -299,7 +299,7 @@
     "to_placeholder": "Username",
     "memo_placeholder": "Enter your notes here",
     "transfer_token": "Transfer",
-    "points": "Points Transfer",
+    "points": "Gift ESTM to someone",
     "transfer_to_saving": "Transfer To Saving",
     "powerUp": "Power Up",
     "withdraw_to_saving": "Withdraw To Saving",

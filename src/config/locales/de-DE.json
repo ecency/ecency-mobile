@@ -62,7 +62,7 @@
     "reblog_desc": "Teile einen Beitrag, den du magst mit deinen Freunden und erhalte 1 eSteem Punkt.",
     "login_desc": "Wenn du dich bei der eSteem App anmeldest, hast du Anspruch darauf, dass du automatisch 100 eSteem Punkte erhältst.",
     "checkin_extra_desc": "Die konsequente Nutzung der eSteem App gibt dir zusätzliche Chancen, weitere 10 eSteem Punkte zu verdienen. Sei aktiv und verdiene mehr Punkte.",
-    "dropdown_transfer": "Überweisen",
+    "dropdown_transfer": "Gift",
     "dropdown_promote": "Bewerben",
     "dropdown_boost": "Boost"
   },
@@ -299,7 +299,7 @@
     "to_placeholder": "Benutzername",
     "memo_placeholder": "Hier dein Memo eingeben",
     "transfer_token": "Überweisen",
-    "points": "Punkte-Übertragung",
+    "points": "Gift ESTM to someone",
     "transfer_to_saving": "Zum Sparkonto überweisen",
     "powerUp": "Power Up",
     "withdraw_to_saving": "Auszahlung in den Tresor",
