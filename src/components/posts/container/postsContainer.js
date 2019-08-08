@@ -8,6 +8,8 @@ import { PostCardPlaceHolder } from '../../basicUIElements';
 
 // Actions
 import { setFeedPosts } from '../../../redux/actions/postsAction';
+import { hidePostsThumbnails } from '../../../redux/actions/uiAction';
+
 /*
  *            Props Name        Description                                     Value
  *@props -->  props name here   description here                                Value Type Here
@@ -32,8 +34,14 @@ class PostsContainer extends PureComponent {
     dispatch(setFeedPosts(posts));
   };
 
+  _handleImagesHide = () => {
+    const { dispatch, isHideImages } = this.props;
+
+    dispatch(hidePostsThumbnails(!isHideImages));
+  };
+
   render() {
-    const { currentAccount, isLoginDone, tag, feedPosts, isConnected } = this.props;
+    const { currentAccount, isLoginDone, tag, feedPosts, isConnected, isHideImages } = this.props;
     const { promotedPosts } = this.state;
 
     if (!isLoginDone && !tag) {
@@ -48,7 +56,10 @@ class PostsContainer extends PureComponent {
     return (
       <PostsView
         promotedPosts={promotedPosts}
+        hidePostsThumbnails={hidePostsThumbnails}
         handleOnScrollStart={this._handleOnScrollStart}
+        hanldeImagesHide={this._handleImagesHide}
+        isHideImage={isHideImages}
         currentAccountUsername={
           currentAccount && (get(currentAccount, 'username') || get(currentAccount, 'name'))
         }
@@ -69,6 +80,7 @@ const mapStateToProps = state => ({
   nsfw: state.application.nsfw,
   feedPosts: state.posts.feedPosts,
   isConnected: state.application.isConnected,
+  isHideImages: state.ui.hidePostsThumbnails,
 });
 
 export default connect(mapStateToProps)(PostsContainer);
