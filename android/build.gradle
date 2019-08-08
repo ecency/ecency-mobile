@@ -65,5 +65,6 @@ subprojects {project ->
         versionMajor = npmVersion[0]
         versionMinor = npmVersion[1]
         versionPatch = npmVersion[2]
+        buildNum = Integer.valueOf(System.env.BUILD_NUMBER ?: 1)
     }
 }
