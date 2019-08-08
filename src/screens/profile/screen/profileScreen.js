@@ -210,7 +210,6 @@ class ProfileScreen extends PureComponent {
                 handleOnScroll={this._handleOnScroll}
                 forceLoadPost={forceLoadPost}
                 changeForceLoadPostState={changeForceLoadPostState}
-                isHideReblogOption
               />
             </View>
             <View

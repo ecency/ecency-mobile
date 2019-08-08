@@ -4,7 +4,7 @@ import { Platform, Alert } from 'react-native';
 import { withNavigation } from 'react-navigation';
 import RNIap, { purchaseErrorListener, purchaseUpdatedListener } from 'react-native-iap';
 import { injectIntl } from 'react-intl';
-
+import get from 'lodash/get';
 // Services
 import { purchaseOrder } from '../../../providers/esteem/esteem';
 import bugsnag from '../../../config/bugsnag';
@@ -55,21 +55,23 @@ class BoostContainer extends Component {
     } = this.props;
 
     this.purchaseUpdateSubscription = purchaseUpdatedListener(purchase => {
-      const receipt = purchase.transactionReceipt;
+      const receipt = get(purchase, 'transactionReceipt');
+      const token = get(purchase, 'purchaseToken');
+
       if (receipt) {
         const data = {
           platform: Platform.OS === 'android' ? 'play_store' : 'app_store',
-          product: purchase.productId,
-          receipt: Platform.OS === 'android' ? purchase.purchaseToken : purchase.transactionReceipt,
+          product: get(purchase, 'productId'),
+          receipt: Platform.OS === 'android' ? token : receipt,
           user: name,
         };
 
         purchaseOrder(data)
           .then(() => {
             if (Platform.OS === 'ios') {
-              RNIap.finishTransactionIOS(purchase.transactionId);
+              RNIap.finishTransactionIOS(get(purchase, 'transactionId'));
             } else if (Platform.OS === 'android') {
-              RNIap.consumePurchaseAndroid(purchase.purchaseToken);
+              RNIap.consumePurchaseAndroid(token);
             }
           })
           .catch(err =>
@@ -83,23 +85,24 @@ class BoostContainer extends Component {
     });
 
     this.purchaseErrorSubscription = purchaseErrorListener(error => {
-      Alert.alert('Warning', error);
-      bugsnag.notify(error);
+      if (get(error, 'responseCode') !== 2) {
+        Alert.alert('Warning', error);
+        bugsnag.notify(error);
+      }
     });
   };
 
   _getItems = async () => {
     try {
       const products = await RNIap.getProducts(ITEM_SKUS);
+
       products.sort((a, b) => parseFloat(a.price) - parseFloat(b.price)).reverse();
       await this.setState({ productList: products });
     } catch (err) {
       bugsnag.notify(err);
       Alert.alert(
-        `Fetching data from server failed, please try again or notify us at info@esteem.app \n${err.message.substr(
-          0,
-          20,
-        )}`,
+        `Fetching data from server failed, please try again or notify us at info@esteem.app
+          ${err.message.substr(0, 20)}`,
       );
     }
 

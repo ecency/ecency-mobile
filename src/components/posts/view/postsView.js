@@ -1,3 +1,4 @@
+/* eslint-disable react/jsx-wrap-multilines */
 import React, { Component, Fragment } from 'react';
 import { FlatList, View, ActivityIndicator, RefreshControl } from 'react-native';
 import { injectIntl } from 'react-intl';
@@ -296,7 +297,6 @@ class PostsView extends Component {
       isLoginDone,
       tag,
       isDarkTheme,
-      isHideReblogOption,
     } = this.props;
 
     return (
@@ -331,12 +331,7 @@ class PostsView extends Component {
             data={posts}
             showsVerticalScrollIndicator={false}
             renderItem={({ item }) => (
-              <PostCard
-                isHideReblogOption={isHideReblogOption}
-                isRefresh={refreshing}
-                content={item}
-                isHideImage={isHideImage}
-              />
+              <PostCard isRefresh={refreshing} content={item} isHideImage={isHideImage} />
             )}
             keyExtractor={(post, index) => index.toString()}
             onEndReached={() => this._loadPosts()}
