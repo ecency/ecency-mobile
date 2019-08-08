@@ -11,6 +11,7 @@ import { injectIntl } from 'react-intl';
 import { NavigationActions } from 'react-navigation';
 import { bindActionCreators } from 'redux';
 import EStyleSheet from 'react-native-extended-stylesheet';
+import forEach from 'lodash/forEach';
 
 // Constants
 import AUTH_TYPE from '../../../constants/authType';
@@ -170,22 +171,35 @@ class ApplicationContainer extends Component {
     let content;
     let profile;
     const { currentAccount, dispatch } = this.props;
+    const { isIos } = this.state;
 
-    if (
-      url.indexOf('esteem') > -1 ||
-      url.indexOf('steemit') > -1 ||
-      url.indexOf('busy') > -1 ||
-      url.indexOf('steempeak') > -1
-    ) {
-      url = url.substring(url.indexOf('@'), url.length);
-      const routeParams = url.indexOf('/') > -1 ? url.split('/') : [url];
+    const mapObj = {
+      esteem: '',
+      'steemit.com/': '',
+      'busy.org/': '',
+      'steempeak.com/': '',
+    };
 
-      [, permlink] = routeParams;
-      author =
-        routeParams && routeParams.length > 0 && routeParams[0].indexOf('@') > -1
-          ? routeParams[0].replace('@', '')
-          : routeParams[0];
+    let formattedUrl = url
+      .split('//')
+      .pop()
+      .replace(/steemit.com\/|busy.org\/|steempeak.com\//gi, matched => {
+        return mapObj[matched];
+      });
+
+    // TODO: WORKAROUND
+    if (isIos && url.indexOf('esteem://') > -1) {
+      formattedUrl = `@${formattedUrl}`;
     }
+
+    const routeParams = formattedUrl.indexOf('/') > -1 ? formattedUrl.split('/') : [formattedUrl];
+
+    forEach(routeParams, (value, index) => {
+      if (value.indexOf('@') > -1) {
+        author = value.replace('@', '');
+        permlink = routeParams[index + 1];
+      }
+    });
 
     if (author && permlink) {
       await getPost(author, permlink, currentAccount.name)
