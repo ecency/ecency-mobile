@@ -90,7 +90,7 @@ apply from: "../../node_modules/react-native-code-push/android/codepush.gradle"
  * Upload all the APKs to the Play Store and people will download
  * the correct one based on the CPU architecture of their device.
  */
-def enableSeparateBuildPerCPUArchitecture = true
+def enableSeparateBuildPerCPUArchitecture = false
 
 /**
  * Run Proguard to shrink the Java bytecode in release builds.
@@ -116,6 +116,9 @@ android {
         versionCode versionMajor * 10000 + versionMinor * 100 + versionPatch
         versionName "2.2.0"
         vectorDrawables.useSupportLibrary = true
+        ndk {
+            abiFilters "armeabi-v7a", "x86"
+        }
         resValue "string", "build_config_package", "app.esteem.mobile.android"
     }
     splits {
