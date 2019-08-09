@@ -316,9 +316,11 @@ class PostsView extends Component {
 
   _handleOnScroll = event => {
     const { scrollOffsetY } = this.state;
+    const { handleOnScroll } = this.props;
     const currentOffset = event.nativeEvent.contentOffset.y;
-    this.setState({ scrollOffsetY: currentOffset });
 
+    if (handleOnScroll) handleOnScroll();
+    this.setState({ scrollOffsetY: currentOffset });
     this.setState({ isShowFilterBar: scrollOffsetY > currentOffset || scrollOffsetY <= 0 });
   };
 
