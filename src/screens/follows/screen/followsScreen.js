@@ -34,19 +34,6 @@ class FollowsScreen extends PureComponent {
     return <UserListItem index={index} username={username} />;
   };
 
-  _renderFooter = () => {
-    const { isLoading } = this.props;
-
-    if (isLoading) {
-      return (
-        <View style={styles.flatlistFooter}>
-          <ActivityIndicator animating size="large" />
-        </View>
-      );
-    }
-    return null;
-  };
-
   render() {
     const { loadMore, data, isFollowing, count, handleSearch, intl } = this.props;
     const title = intl.formatMessage({
@@ -70,7 +57,6 @@ class FollowsScreen extends PureComponent {
               })}
             </Text>
           }
-          // ListFooterComponent={this._renderFooter}
         />
       </View>
     );
