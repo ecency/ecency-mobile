@@ -207,7 +207,7 @@ class ProfileScreen extends PureComponent {
                 getFor="blog"
                 tag={username}
                 key={username}
-                handleOnScroll={this._handleOnScroll}
+                handleOnScroll={isSummaryOpen ? this._handleOnScroll : null}
                 forceLoadPost={forceLoadPost}
                 changeForceLoadPostState={changeForceLoadPostState}
               />
@@ -225,7 +225,7 @@ class ProfileScreen extends PureComponent {
               style={styles.commentsTabBar}
             >
               {comments && comments.length > 0 ? (
-                <ScrollView>
+                <ScrollView onScroll={this._handleOnScroll}>
                   <Comments isProfilePreview comments={comments} fetchPost={getReplies} />
                 </ScrollView>
               ) : (
@@ -253,6 +253,7 @@ class ProfileScreen extends PureComponent {
                 <Wallet
                   setEstimatedWalletValue={this._setEstimatedWalletValue}
                   selectedUser={selectedUser}
+                  handleOnScroll={isSummaryOpen ? this._handleOnScroll : null}
                 />
               ) : (
                 <WalletDetailsPlaceHolder />

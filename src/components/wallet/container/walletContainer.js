@@ -137,7 +137,7 @@ class WalletContainer extends Component {
   };
 
   render() {
-    const { currentAccount, selectedUser, isDarkTheme } = this.props;
+    const { currentAccount, selectedUser, isDarkTheme, handleOnScroll } = this.props;
     const { walletData, isClaiming, isRefreshing } = this.state;
 
     return (
@@ -150,6 +150,7 @@ class WalletContainer extends Component {
         handleOnWalletRefresh={this._handleOnWalletRefresh}
         isRefreshing={isRefreshing}
         isDarkTheme={isDarkTheme}
+        handleOnScroll={handleOnScroll}
       />
     );
   }
