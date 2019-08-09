@@ -95,7 +95,7 @@ PODS:
     - React/Core
     - React/fishhook
     - React/RCTBlob
-  - RNIap (3.3.0):
+  - RNIap (3.3.8):
     - React
   - RNImageCropPicker (0.24.1):
     - QBImagePickerController
@@ -186,7 +186,7 @@ SPEC CHECKSUMS:
   react-native-fast-image: 6d50167ad4d68b59640ceead8c2bc4e58d91d8bd
   react-native-netinfo: e2c8a843bb18ab6c3f1e6cbead694491b36e3ffd
   react-native-version-number: b415bbec6a13f2df62bf978e85bc0d699462f37f
-  RNIap: ee89b7442f32161016fe213a3434ee1fc19c1a80
+  RNIap: 63fbc0423584d18a1da1230c5711449d97a192ad
   RNImageCropPicker: 6134b66a3d5bc13e2895a97c630a4254006902b4
   RSKImageCropper: 98296ad26b41753f796b6898d015509598f13d97
   SDWebImage: 3f3f0c02f09798048c47a5ed0a13f17b063572d8
