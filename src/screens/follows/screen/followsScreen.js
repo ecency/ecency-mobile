@@ -70,7 +70,6 @@ class FollowsScreen extends PureComponent {
               })}
             </Text>
           }
-          // ListFooterComponent={this._renderFooter}
         />
       </View>
     );
