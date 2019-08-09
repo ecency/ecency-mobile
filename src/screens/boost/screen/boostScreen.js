@@ -57,6 +57,7 @@ class BoostScreen extends PureComponent {
     return (
       <View style={globalStyles.container}>
         <BasicHeader
+          disabled={isProccesing}
           title={intl.formatMessage({
             id: 'boost.title',
           })}
