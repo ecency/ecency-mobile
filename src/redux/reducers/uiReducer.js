@@ -1,8 +1,13 @@
-import { UPDATE_ACTIVE_BOTTOM_TAB, TOAST_NOTIFICATION } from '../constants/constants';
+import {
+  UPDATE_ACTIVE_BOTTOM_TAB,
+  TOAST_NOTIFICATION,
+  HIDE_POSTS_THUMBNAILS,
+} from '../constants/constants';
 
 const initialState = {
   activeBottomTab: 'HomeTabbar',
   toastNotification: '',
+  hidePostsThumbnails: false,
 };
 
 export default function(state = initialState, action) {
@@ -18,6 +23,13 @@ export default function(state = initialState, action) {
         ...state,
         toastNotification: action.payload,
       };
+
+    case HIDE_POSTS_THUMBNAILS:
+      return {
+        ...state,
+        hidePostsThumbnails: action.payload,
+      };
+
     default:
       return state;
   }

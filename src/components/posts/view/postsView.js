@@ -4,7 +4,6 @@ import { FlatList, View, ActivityIndicator, RefreshControl } from 'react-native'
 import { injectIntl } from 'react-intl';
 import { withNavigation } from 'react-navigation';
 import get from 'lodash/get';
-
 // STEEM
 import { getPostsSummary, getPost } from '../../../providers/steem/dsteem';
 import { getPromotePosts } from '../../../providers/esteem/esteem';
@@ -30,7 +29,6 @@ class PostsView extends Component {
       refreshing: false,
       isLoading: false,
       isPostsLoading: true,
-      isHideImage: false,
       selectedFilterIndex: get(props, 'selectedOptionIndex', 0),
       isNoPost: false,
       promotedPosts: [],
@@ -79,7 +77,6 @@ class PostsView extends Component {
           refreshing: false,
           isLoading: false,
           isPostsLoading: false,
-          isHideImage: false,
           selectedFilterIndex: get(nextProps, 'selectedOptionIndex', 0),
           isNoPost: false,
         },
@@ -275,19 +272,13 @@ class PostsView extends Component {
     this._loadPosts();
   };
 
-  _onRightIconPress = () => {
-    const { isHideImage } = this.state;
-
-    this.setState({ isHideImage: !isHideImage });
-  };
-
   _handleOnPressLogin = () => {
     const { navigation } = this.props;
     navigation.navigate(ROUTES.SCREENS.LOGIN);
   };
 
   render() {
-    const { refreshing, posts, isPostsLoading, isHideImage, isNoPost } = this.state;
+    const { refreshing, posts, isPostsLoading, isNoPost } = this.state;
     const {
       filterOptions,
       selectedOptionIndex,
@@ -297,6 +288,8 @@ class PostsView extends Component {
       isLoginDone,
       tag,
       isDarkTheme,
+      isHideImage,
+      hanldeImagesHide,
     } = this.props;
 
     return (
@@ -310,7 +303,7 @@ class PostsView extends Component {
             rightIconName="view-module"
             rightIconType="MaterialIcons"
             onDropdownSelect={this._handleOnDropdownSelect}
-            onRightIconPress={this._onRightIconPress}
+            onRightIconPress={hanldeImagesHide}
           />
         )}
         <Fragment>

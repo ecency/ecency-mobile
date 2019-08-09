@@ -284,6 +284,7 @@ class BoostPostScreen extends PureComponent {
                     style={styles.button}
                     isDisable={
                       (!permlink ? !get(navigationParams, 'permlink') : permlink) &&
+                      _balance < 150 &&
                       (isLoading || !isValid)
                     }
                     onPress={() => this.startActionSheet.current.show()}
