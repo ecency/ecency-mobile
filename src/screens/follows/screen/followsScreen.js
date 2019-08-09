@@ -1,3 +1,4 @@
+/* eslint-disable react/jsx-wrap-multilines */
 import React, { PureComponent } from 'react';
 import { View, Text, FlatList, ActivityIndicator } from 'react-native';
 import { injectIntl } from 'react-intl';
@@ -51,28 +52,26 @@ class FollowsScreen extends PureComponent {
     const title = intl.formatMessage({
       id: !isFollowing ? 'profile.follower' : 'profile.following',
     });
-
     const headerTitle = `${title} (${count})`;
 
     return (
       <View style={styles.container}>
         <BasicHeader title={headerTitle} isHasSearch handleOnSearch={handleSearch} />
-        {data && data.length > 0 ? (
-          <FlatList
-            data={data}
-            keyExtractor={(item, index) => index.toString()}
-            onEndReached={() => loadMore()}
-            removeClippedSubviews={false}
-            renderItem={({ item, index }) => this._renderItem(item, index)}
-            // ListFooterComponent={this._renderFooter}
-          />
-        ) : (
-          <Text style={styles.text}>
-            {intl.formatMessage({
-              id: 'voters.no_user',
-            })}
-          </Text>
-        )}
+        <FlatList
+          data={data}
+          keyExtractor={(item, index) => index.toString()}
+          onEndReached={() => loadMore()}
+          removeClippedSubviews={false}
+          renderItem={({ item, index }) => this._renderItem(item, index)}
+          ListEmptyComponent={
+            <Text style={styles.text}>
+              {intl.formatMessage({
+                id: 'voters.no_user',
+              })}
+            </Text>
+          }
+          // ListFooterComponent={this._renderFooter}
+        />
       </View>
     );
   }

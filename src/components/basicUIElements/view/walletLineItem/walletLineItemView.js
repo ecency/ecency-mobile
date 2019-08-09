@@ -27,7 +27,6 @@ const WalletLineItem = ({
   isHasdropdown,
   dropdownOptions,
   onDropdownSelect,
-  dropdownStyle,
 }) => (
   <GrayWrapper isGray={index && index % 2 !== 0}>
     <View style={[styles.container, fitContent && styles.fitContent, style]}>

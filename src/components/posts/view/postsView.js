@@ -28,10 +28,11 @@ class PostsView extends Component {
       startPermlink: '',
       refreshing: false,
       isLoading: false,
-      isPostsLoading: true,
+      isShowFilterBar: true,
       selectedFilterIndex: get(props, 'selectedOptionIndex', 0),
       isNoPost: false,
       promotedPosts: [],
+      scrollOffsetY: 0,
     };
   }
 
@@ -45,15 +46,14 @@ class PostsView extends Component {
   }
 
   async componentDidMount() {
-    const { isConnected } = this.props;
+    const { isConnected, pageType } = this.props;
 
     if (isConnected) {
-      await this._getPromotePosts();
+      if (pageType !== 'profiles') await this._getPromotePosts();
       this._loadPosts();
     } else {
       this.setState({
         refreshing: false,
-        isPostsLoading: false,
         isLoading: false,
       });
     }
@@ -76,7 +76,6 @@ class PostsView extends Component {
           startPermlink: '',
           refreshing: false,
           isLoading: false,
-          isPostsLoading: false,
           selectedFilterIndex: get(nextProps, 'selectedOptionIndex', 0),
           isNoPost: false,
         },
@@ -92,14 +91,16 @@ class PostsView extends Component {
 
   _getPromotePosts = async () => {
     const { currentAccountUsername } = this.props;
+
     await getPromotePosts().then(async res => {
       const promotedPosts = [];
-      res &&
-        res.length > 0 &&
-        res.map(async item => {
+
+      if (res && res.length) {
+        res.forEach(async item => {
           const post = await getPost(item.author, item.permlink, currentAccountUsername, true);
           promotedPosts.push(post);
         });
+      }
 
       await this.setState({ promotedPosts });
     });
@@ -139,7 +140,6 @@ class PostsView extends Component {
     if (!isConnected) {
       this.setState({
         refreshing: false,
-        isPostsLoading: false,
         isLoading: false,
       });
       return null;
@@ -220,7 +220,6 @@ class PostsView extends Component {
 
             this.setState({
               refreshing: false,
-              isPostsLoading: false,
               isLoading: false,
             });
           }
@@ -231,7 +230,6 @@ class PostsView extends Component {
       .catch(() => {
         this.setState({
           refreshing: false,
-          isPostsLoading: false,
         });
       });
   };
@@ -262,7 +260,6 @@ class PostsView extends Component {
 
   _handleOnDropdownSelect = async index => {
     await this.setState({
-      isPostsLoading: true,
       selectedFilterIndex: index,
       posts: [],
       startAuthor: '',
@@ -277,16 +274,59 @@ class PostsView extends Component {
     navigation.navigate(ROUTES.SCREENS.LOGIN);
   };
 
+  _renderEmptyContent = () => {
+    const { intl, getFor, isLoginDone, isLoggedIn, tag } = this.props;
+    const { isNoPost } = this.state;
+
+    if (getFor === 'feed' && isLoginDone && !isLoggedIn) {
+      return (
+        <NoPost
+          imageStyle={styles.noImage}
+          isButtonText
+          defaultText={intl.formatMessage({
+            id: 'profile.login_to_see',
+          })}
+          handleOnButtonPress={this._handleOnPressLogin}
+        />
+      );
+    }
+
+    if (isNoPost) {
+      return (
+        <NoPost
+          imageStyle={styles.noImage}
+          name={tag}
+          text={intl.formatMessage({
+            id: 'profile.havent_posted',
+          })}
+          defaultText={intl.formatMessage({
+            id: 'profile.login_to_see',
+          })}
+        />
+      );
+    }
+
+    return (
+      <Fragment>
+        <PostCardPlaceHolder />
+        <PostCardPlaceHolder />
+      </Fragment>
+    );
+  };
+
+  _handleOnScroll = event => {
+    const { scrollOffsetY } = this.state;
+    const currentOffset = event.nativeEvent.contentOffset.y;
+    this.setState({ scrollOffsetY: currentOffset });
+
+    this.setState({ isShowFilterBar: scrollOffsetY > currentOffset || scrollOffsetY <= 0 });
+  };
+
   render() {
-    const { refreshing, posts, isPostsLoading, isNoPost } = this.state;
+    const { refreshing, posts, isShowFilterBar } = this.state;
     const {
       filterOptions,
       selectedOptionIndex,
-      intl,
-      isLoggedIn,
-      getFor,
-      isLoginDone,
-      tag,
       isDarkTheme,
       isHideImage,
       hanldeImagesHide,
@@ -294,7 +334,7 @@ class PostsView extends Component {
 
     return (
       <View style={styles.container}>
-        {filterOptions && (
+        {filterOptions && isShowFilterBar && (
           <FilterBar
             dropdownIconName="arrow-drop-down"
             options={filterOptions}
@@ -306,67 +346,42 @@ class PostsView extends Component {
             onRightIconPress={hanldeImagesHide}
           />
         )}
-        <Fragment>
-          {getFor === 'feed' && isLoginDone && !isLoggedIn && (
-            <NoPost
-              imageStyle={styles.noImage}
-              isButtonText
-              defaultText={intl.formatMessage({
-                id: 'profile.login_to_see',
-              })}
-              handleOnButtonPress={this._handleOnPressLogin}
-            />
+
+        <FlatList
+          data={posts}
+          showsVerticalScrollIndicator={false}
+          renderItem={({ item }) => (
+            <PostCard isRefresh={refreshing} content={item} isHideImage={isHideImage} />
           )}
-        </Fragment>
-
-        {posts && posts.length > 0 && !isPostsLoading && (
-          <FlatList
-            data={posts}
-            showsVerticalScrollIndicator={false}
-            renderItem={({ item }) => (
-              <PostCard isRefresh={refreshing} content={item} isHideImage={isHideImage} />
-            )}
-            keyExtractor={(post, index) => index.toString()}
-            onEndReached={() => this._loadPosts()}
-            removeClippedSubviews
-            refreshing={refreshing}
-            onRefresh={() => this._handleOnRefreshPosts()}
-            onEndThreshold={0}
-            initialNumToRender={10}
-            ListFooterComponent={this._renderFooter}
-            refreshControl={
-              <RefreshControl
-                refreshing={refreshing}
-                onRefresh={this._handleOnRefreshPosts}
-                progressBackgroundColor="#357CE6"
-                tintColor={!isDarkTheme ? '#357ce6' : '#96c0ff'}
-                titleColor="#fff"
-                colors={['#fff']}
-              />
-            }
-            ref={ref => {
-              this.flatList = ref;
-            }}
-          />
-        )}
-
-        {isNoPost ? (
-          <NoPost
-            imageStyle={styles.noImage}
-            name={tag}
-            text={intl.formatMessage({
-              id: 'profile.havent_posted',
-            })}
-            defaultText={intl.formatMessage({
-              id: 'profile.login_to_see',
-            })}
-          />
-        ) : (
-          <Fragment>
-            <PostCardPlaceHolder />
-            <PostCardPlaceHolder />
-          </Fragment>
-        )}
+          keyExtractor={content => content.permlink}
+          onEndReached={() => this._loadPosts()}
+          removeClippedSubviews
+          refreshing={refreshing}
+          onRefresh={() => this._handleOnRefreshPosts()}
+          onEndThreshold={0}
+          initialNumToRender={10}
+          ListFooterComponent={this._renderFooter}
+          onScroll={this._handleOnScroll}
+          ListEmptyComponent={
+            <Fragment>
+              <PostCardPlaceHolder />
+              <PostCardPlaceHolder />
+            </Fragment>
+          }
+          refreshControl={
+            <RefreshControl
+              refreshing={refreshing}
+              onRefresh={this._handleOnRefreshPosts}
+              progressBackgroundColor="#357CE6"
+              tintColor={!isDarkTheme ? '#357ce6' : '#96c0ff'}
+              titleColor="#fff"
+              colors={['#fff']}
+            />
+          }
+          ref={ref => {
+            this.flatList = ref;
+          }}
+        />
       </View>
     );
   }
