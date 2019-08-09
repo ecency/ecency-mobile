@@ -237,7 +237,7 @@ class BoostPostScreen extends PureComponent {
 
                   <View style={styles.total}>
                     <Text style={styles.price}>
-                      {`${getESTMPrice(calculatedESTM).toFixed(3)} $ `}
+                      {` $${getESTMPrice(calculatedESTM).toFixed(3)} ~ `}
                     </Text>
                     <Text style={styles.esteem}>{`${calculatedESTM} ESTM`}</Text>
                   </View>
