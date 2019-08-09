@@ -50,19 +50,6 @@ class SearchResultScreen extends PureComponent {
           >
             <Posts pageType="posts" tag={tag} />
           </View>
-          {/* <View
-              tabLabel={intl.formatMessage({
-                id: 'search.comments',
-              })}
-              style={styles.tabbarItem}
-            >
-              <Posts
-                filterOptions={POPULAR_FILTERS}
-                getFor={POPULAR_FILTERS[0].toLowerCase()}
-                selectedOptionIndex={0}
-                pageType="posts"
-              />
-            </Fragment> */}
         </ScrollableTabView>
       </View>
     );

@@ -1,10 +1,9 @@
-import React, { PureComponent, Fragment } from 'react';
+import React, { PureComponent } from 'react';
 import { connect } from 'react-redux';
 import get from 'lodash/get';
 
 // Component
 import PostsView from '../view/postsView';
-import { PostCardPlaceHolder } from '../../basicUIElements';
 
 // Actions
 import { setFeedPosts } from '../../../redux/actions/postsAction';
@@ -41,32 +40,40 @@ class PostsContainer extends PureComponent {
   };
 
   render() {
-    const { currentAccount, isLoginDone, tag, feedPosts, isConnected, isHideImages } = this.props;
+    const {
+      changeForceLoadPostState,
+      currentAccount,
+      feedPosts,
+      filterOptions,
+      forceLoadPost,
+      getFor,
+      handleOnScroll,
+      isConnected,
+      isHideImages,
+      pageType,
+      selectedOptionIndex,
+      tag,
+    } = this.props;
     const { promotedPosts } = this.state;
-
-    if (!isLoginDone && !tag) {
-      return (
-        <Fragment>
-          <PostCardPlaceHolder />
-          <PostCardPlaceHolder />
-        </Fragment>
-      );
-    }
 
     return (
       <PostsView
-        promotedPosts={promotedPosts}
-        hidePostsThumbnails={hidePostsThumbnails}
-        handleOnScrollStart={this._handleOnScrollStart}
-        hanldeImagesHide={this._handleImagesHide}
-        isHideImage={isHideImages}
-        currentAccountUsername={
-          currentAccount && (get(currentAccount, 'username') || get(currentAccount, 'name'))
-        }
-        setFeedPosts={this._setFeedPosts}
+        changeForceLoadPostState={changeForceLoadPostState}
+        currentAccountUsername={get(currentAccount, 'name', '')}
         feedPosts={feedPosts}
+        filterOptions={filterOptions}
+        forceLoadPost={forceLoadPost}
+        getFor={getFor}
+        handleOnScroll={handleOnScroll}
+        hanldeImagesHide={this._handleImagesHide}
+        hidePostsThumbnails={hidePostsThumbnails}
         isConnected={isConnected}
-        {...this.props}
+        isHideImage={isHideImages}
+        pageType={pageType}
+        promotedPosts={promotedPosts}
+        selectedOptionIndex={selectedOptionIndex}
+        setFeedPosts={this._setFeedPosts}
+        tag={tag}
       />
     );
   }
