@@ -140,6 +140,7 @@ class PointsView extends Component {
             <FlatList
               style={styles.iconsList}
               data={POINTS_KEYS}
+              keyExtractor={item => get(item, 'type', Math.random()).toString()}
               horizontal
               renderItem={({ item }) => (
                 <PopoverController key={get(item, 'type')}>
@@ -192,27 +193,24 @@ class PointsView extends Component {
           </View>
 
           <View style={styles.listWrapper}>
-            {!userActivities ? (
-              this._renderLoading()
-            ) : (
-              <FlatList
-                data={userActivities}
-                keyExtractor={item => item.id.toString()}
-                renderItem={({ item, index }) => (
-                  <WalletLineItem
-                    index={index + 1}
-                    text={this._getTranslation(get(item, 'textKey'))}
-                    description={getTimeFromNow(get(item, 'created'))}
-                    isCircleIcon
-                    isThin
-                    isBlackText
-                    iconName={get(item, 'icon')}
-                    iconType={get(item, 'iconType')}
-                    rightText={`${get(item, 'amount')} ESTM`}
-                  />
-                )}
-              />
-            )}
+            <FlatList
+              data={userActivities}
+              keyExtractor={item => item.id.toString()}
+              ListEmptyComponent={this._renderLoading()}
+              renderItem={({ item, index }) => (
+                <WalletLineItem
+                  index={index + 1}
+                  text={this._getTranslation(get(item, 'textKey'))}
+                  description={getTimeFromNow(get(item, 'created'))}
+                  isCircleIcon
+                  isThin
+                  isBlackText
+                  iconName={get(item, 'icon')}
+                  iconType={get(item, 'iconType')}
+                  rightText={`${get(item, 'amount')} ESTM`}
+                />
+              )}
+            />
           </View>
         </ScrollView>
       </Fragment>

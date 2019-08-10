@@ -45,18 +45,15 @@ class LeaderboardView extends PureComponent {
             id: 'notification.leaderboard_title',
           })}
         </Text>
-        {!users ? (
-          <ListPlaceHolder />
-        ) : (
-          <FlatList
-            data={users}
-            refreshing={refreshing}
-            keyExtractor={item => get(item, '_id', Math.random()).toString()}
-            removeClippedSubviews={false}
-            onRefresh={() => fetchLeaderBoard()}
-            renderItem={({ item, index }) => this._renderItem(item, index)}
-          />
-        )}
+        <FlatList
+          data={users}
+          refreshing={refreshing}
+          keyExtractor={item => get(item, '_id', Math.random()).toString()}
+          removeClippedSubviews={false}
+          ListEmptyComponent={<ListPlaceHolder />}
+          onRefresh={() => fetchLeaderBoard()}
+          renderItem={({ item, index }) => this._renderItem(item, index)}
+        />
       </View>
     );
   }
