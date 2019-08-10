@@ -1,3 +1,4 @@
+/* eslint-disable react/jsx-wrap-multilines */
 import React, { Component } from 'react';
 import { injectIntl } from 'react-intl';
 import { View, FlatList, Text } from 'react-native';
@@ -66,37 +67,38 @@ class DraftsScreen extends Component {
     );
   };
 
-  _getTabItem = (data, type) => {
+  _renderEmptyContent = () => {
     const { isLoading, intl } = this.props;
-    const isNoItem = (data && data.length === 0) || !data;
+
+    if (isLoading) {
+      return (
+        <View>
+          <PostCardPlaceHolder />
+          <PostCardPlaceHolder />
+        </View>
+      );
+    }
 
     return (
-      <View style={globalStyles.lightContainer}>
-        {isNoItem && !isLoading && (
-          <Text style={globalStyles.hintText}>
-            {intl.formatMessage({
-              id: 'drafts.empty_list',
-            })}
-          </Text>
-        )}
-        {isLoading ? (
-          <View>
-            <PostCardPlaceHolder />
-            <PostCardPlaceHolder />
-          </View>
-        ) : (
-          !isNoItem && (
-            <FlatList
-              data={data}
-              keyExtractor={item => item._id}
-              removeClippedSubviews={false}
-              renderItem={({ item }) => this._renderItem(item, type)}
-            />
-          )
-        )}
-      </View>
+      <Text style={globalStyles.hintText}>
+        {intl.formatMessage({
+          id: 'drafts.empty_list',
+        })}
+      </Text>
     );
   };
+
+  _getTabItem = (data, type) => (
+    <View style={globalStyles.lightContainer}>
+      <FlatList
+        data={data}
+        keyExtractor={item => item._id}
+        removeClippedSubviews={false}
+        renderItem={({ item }) => this._renderItem(item, type)}
+        ListEmptyComponent={this._renderEmptyContent()}
+      />
+    </View>
+  );
 
   render() {
     const { drafts, schedules, intl, moveScheduleToDraft } = this.props;

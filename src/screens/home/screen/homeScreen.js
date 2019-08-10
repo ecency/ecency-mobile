@@ -52,7 +52,6 @@ class HomeScreen extends PureComponent {
                 getFor={PROFILE_FILTERS[1].toLowerCase()}
                 tag={tag || currentAccount.name}
                 selectedOptionIndex={1}
-                pageType="profiles"
               />
             </View>
             <View
