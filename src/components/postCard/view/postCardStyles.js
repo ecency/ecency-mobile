@@ -15,12 +15,7 @@ export default EStyleSheet.create({
     padding: 0,
     margin: 0,
     flexDirection: 'row',
-  },
-  comment: {
-    alignSelf: 'center',
-    fontSize: 10,
-    marginLeft: 3,
-    color: '$iconColor',
+    alignSelf: 'flex-end',
   },
   commentIcon: {
     alignSelf: 'flex-start',
@@ -28,6 +23,7 @@ export default EStyleSheet.create({
     color: '$iconColor',
     margin: 0,
     width: 20,
+    marginLeft: 25,
   },
   postBodyWrapper: {
     marginHorizontal: 9,
@@ -60,7 +56,6 @@ export default EStyleSheet.create({
     backgroundColor: '$primaryBackgroundColor',
     flexDirection: 'row',
     margin: 16,
-    justifyContent: 'space-between',
   },
   bodyHeader: {
     backgroundColor: '$primaryBackgroundColor',
@@ -70,7 +65,14 @@ export default EStyleSheet.create({
     marginBottom: 12,
   },
   leftFooterWrapper: {
+    flex: 1,
     flexDirection: 'row',
+    justifyContent: 'flex-start',
+  },
+  rightFooterWrapper: {
+    flex: 1,
+    flexDirection: 'row',
+    justifyContent: 'flex-end',
   },
   dropdownWrapper: {
     position: 'absolute',
