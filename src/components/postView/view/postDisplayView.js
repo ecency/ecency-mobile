@@ -85,7 +85,7 @@ class PostDisplayView extends PureComponent {
             iconType="MaterialIcons"
             isClickable
             onPress={() => handleOnVotersPress && handleOnVotersPress(get(post, 'active_votes'))}
-            text={get(post, 'vote_count')}
+            text={get(post, 'vote_count', 0)}
             textMarginLeft={20}
           />
           <TextWithIcon
@@ -93,7 +93,15 @@ class PostDisplayView extends PureComponent {
             iconStyle={styles.barIcons}
             iconType="MaterialIcons"
             isClickable
-            text={get(post, 'children')}
+            text={get(post, 'children', 0)}
+            textMarginLeft={20}
+          />
+          <TextWithIcon
+            iconName="repeat"
+            iconStyle={styles.barIcons}
+            iconType="MaterialIcons"
+            isClickable
+            text={get(post, 'reblogCount', 0)}
             textMarginLeft={20}
           />
           <View style={styles.stickyRightWrapper}>

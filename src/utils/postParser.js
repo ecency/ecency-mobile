@@ -6,14 +6,21 @@ import { postBodySummary, renderPostBody } from '@esteemapp/esteem-render-helper
 
 // Dsteem
 import { getActiveVotes } from '../providers/steem/dsteem';
+import { getPostReblogs } from '../providers/esteem/esteem';
 
 // Utils
 import { getReputation } from './reputation';
 
-export const parsePosts = (posts, currentUserName) =>
-  !posts ? null : posts.map(post => parsePost(post, currentUserName));
+export const parsePosts = async (posts, currentUserName) => {
+  if (posts) {
+    const promises = posts.map(post => parsePost(post, currentUserName));
+    const formattedPosts = await Promise.all(promises);
+    return formattedPosts;
+  }
+  return null;
+};
 
-export const parsePost = (post, currentUserName, isPromoted) => {
+export const parsePost = async (post, currentUserName, isPromoted) => {
   if (!post) {
     return null;
   }
@@ -59,6 +66,9 @@ export const parsePost = (post, currentUserName, isPromoted) => {
       value.avatar = `https://steemitimages.com/u/${value.voter}/avatar/small`;
     });
   }
+
+  const postReblogs = await getPostReblogs(post);
+  post.reblogCount = postReblogs.length;
 
   return post;
 };

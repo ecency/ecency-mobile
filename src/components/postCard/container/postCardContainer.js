@@ -2,7 +2,7 @@ import React, { PureComponent } from 'react';
 import { withNavigation } from 'react-navigation';
 import { connect } from 'react-redux';
 
-// Dsteem
+// Services
 import { getPost } from '../../../providers/steem/dsteem';
 
 import PostCardView from '../view/postCardView';
