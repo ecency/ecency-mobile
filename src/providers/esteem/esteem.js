@@ -131,7 +131,10 @@ export const addFavorite = (currentUsername, targetUsername) =>
 export const removeFavorite = (currentUsername, targetUsername) =>
   api.delete(`/favoriteUser/${currentUsername}/${targetUsername}`);
 
-export const getLeaderboard = () => api.get('/leaderboard').then(resp => resp.data);
+export const getLeaderboard = duration =>
+  api.get('/leaderboard', { params: { duration } }).then(resp => {
+    return resp.data;
+  });
 
 export const getActivities = data =>
   new Promise((resolve, reject) => {
