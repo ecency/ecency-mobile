@@ -10,7 +10,6 @@ import { getTimeFromNow } from '../../../utils/time';
 // Components
 import { PostHeaderDescription } from '../../postElements';
 import { PostDropdown } from '../../postDropdown';
-import { Icon } from '../../icon';
 import { TextWithIcon } from '../../basicUIElements';
 
 // STEEM
@@ -130,17 +129,30 @@ class PostCardView extends Component {
           <View style={styles.leftFooterWrapper}>
             <Upvote fetchPost={fetchPost} isShowPayoutValue content={content} />
             <TouchableOpacity style={styles.commentButton} onPress={this._handleOnVotersPress}>
-              <Icon
-                style={[styles.commentIcon, { marginLeft: 25 }]}
+              <TextWithIcon
+                iconName="people"
+                iconStyle={styles.commentIcon}
                 iconType="MaterialIcons"
-                name="people"
+                isClickable
+                text={get(content, 'vote_count', 0)}
               />
-              <Text style={styles.comment}>{get(content, 'vote_count', 0)}</Text>
             </TouchableOpacity>
           </View>
-          <View style={styles.commentButton}>
-            <Icon style={[styles.commentIcon]} iconType="MaterialIcons" name="comment" />
-            <Text style={styles.comment}>{get(content, 'children')}</Text>
+          <View style={styles.rightFooterWrapper}>
+            <TextWithIcon
+              iconName="repeat"
+              iconStyle={styles.commentIcon}
+              iconType="MaterialIcons"
+              isClickable
+              text={get(content, 'reblogCount', 0)}
+            />
+            <TextWithIcon
+              iconName="comment"
+              iconStyle={styles.commentIcon}
+              iconType="MaterialIcons"
+              isClickable
+              text={get(content, 'vote_count', 0)}
+            />
           </View>
         </View>
       </View>

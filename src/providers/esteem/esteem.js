@@ -3,6 +3,7 @@ import searchApi from '../../config/search';
 import imageApi from '../../config/imageApi';
 import serverList from '../../config/serverListApi';
 import { jsonStringify } from '../../utils/jsonUtils';
+import bugsnag from '../../config/bugsnag';
 
 export const getCurrencyRate = currency =>
   api.get(`/currencyRate/${currency.toUpperCase()}/steem`).then(resp => resp.data);
@@ -313,3 +314,9 @@ export const getSCAccessToken = code =>
 export const getPromotePosts = () => api.get(`/promoted-posts`).then(resp => resp.data);
 
 export const purchaseOrder = data => api.post('/purchase-order', data).then(resp => resp.data);
+
+export const getPostReblogs = data =>
+  api
+    .get(`/post-reblogs/${data.author}/${data.permlink}`)
+    .then(resp => resp.data)
+    .catch(error => bugsnag.notify(error));
