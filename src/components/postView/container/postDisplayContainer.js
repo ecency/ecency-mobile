@@ -51,6 +51,18 @@ class PostDisplayContainer extends Component {
     });
   };
 
+  _handleOnReblogsPress = reblogs => {
+    const { navigation, post } = this.props;
+
+    navigation.navigate({
+      routeName: ROUTES.SCREENS.REBLOGS,
+      params: {
+        reblogs,
+      },
+      key: post.permlink + Math.random(),
+    });
+  };
+
   _handleOnReplyPress = () => {
     const { post, navigation } = this.props;
 
@@ -123,6 +135,7 @@ class PostDisplayContainer extends Component {
         handleOnRemovePress={this._handleDeleteComment}
         handleOnReplyPress={this._handleOnReplyPress}
         handleOnVotersPress={this._handleOnVotersPress}
+        handleOnReblogsPress={this._handleOnReblogsPress}
         isLoggedIn={isLoggedIn}
         isNewPost={isNewPost}
         isPostUnavailable={isPostUnavailable}

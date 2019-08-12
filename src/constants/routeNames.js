@@ -23,6 +23,7 @@ export default {
     BOOST_POST: `BoostPost${SCREEN_SUFFIX}`,
     PROMOTE: `Promote${SCREEN_SUFFIX}`,
     FREE_ESTM: `FreeEstm${SCREEN_SUFFIX}`,
+    REBLOGS: `Reblogs${SCREEN_SUFFIX}`,
   },
   DRAWER: {
     MAIN: `Main${DRAWER_SUFFIX}`,
