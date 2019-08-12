@@ -31,6 +31,11 @@
     "this_month": "Diesen Monat",
     "older_then": "Älter als ein Monat"
   },
+  "leaderboard": {
+    "daily": "Daily",
+    "weekly": "Weekly",
+    "monthly": "Monthly"
+  },
   "points": {
     "post": "Beitrag",
     "esteemPoints": "eSteem Punkte",
