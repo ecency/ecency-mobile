@@ -69,6 +69,18 @@ class PostCardContainer extends PureComponent {
     });
   };
 
+  _handleOnReblogsPress = reblogs => {
+    const { navigation, content } = this.props;
+
+    navigation.navigate({
+      routeName: ROUTES.SCREENS.REBLOGS,
+      params: {
+        reblogs,
+      },
+      key: content.permlink,
+    });
+  };
+
   _fetchPost = async () => {
     const { currentAccount, content } = this.props;
 
@@ -92,6 +104,7 @@ class PostCardContainer extends PureComponent {
         handleOnUserPress={this._handleOnUserPress}
         handleOnContentPress={this._handleOnContentPress}
         handleOnVotersPress={this._handleOnVotersPress}
+        handleOnReblogsPress={this._handleOnReblogsPress}
         fetchPost={this._fetchPost}
         content={_content || content}
         isHideImage={isHideImage}

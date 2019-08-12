@@ -54,13 +54,15 @@ class PostDisplayContainer extends Component {
   _handleOnReblogsPress = reblogs => {
     const { navigation, post } = this.props;
 
-    navigation.navigate({
-      routeName: ROUTES.SCREENS.REBLOGS,
-      params: {
-        reblogs,
-      },
-      key: post.permlink + Math.random(),
-    });
+    if (reblogs.length > 0) {
+      navigation.navigate({
+        routeName: ROUTES.SCREENS.REBLOGS,
+        params: {
+          reblogs,
+        },
+        key: post.permlink + Math.random(),
+      });
+    }
   };
 
   _handleOnReplyPress = () => {

@@ -69,6 +69,14 @@ class PostCardView extends Component {
     handleOnVotersPress(content.active_votes);
   };
 
+  _handleOnReblogsPress = () => {
+    const { handleOnReblogsPress, content } = this.props;
+
+    if (content.reblogs.length > 0) {
+      handleOnReblogsPress(content.reblogs);
+    }
+  };
+
   _getPostImage = (content, isNsfwPost) => {
     if (content && content.image) {
       if (isNsfwPost && content.nsfw) {
@@ -135,6 +143,7 @@ class PostCardView extends Component {
                 iconType="MaterialIcons"
                 isClickable
                 text={get(content, 'vote_count', 0)}
+                onPress={this._handleOnVotersPress}
               />
             </TouchableOpacity>
           </View>
@@ -145,6 +154,7 @@ class PostCardView extends Component {
               iconType="MaterialIcons"
               isClickable
               text={get(content, 'reblogCount', 0)}
+              onPress={this._handleOnReblogsPress}
             />
             <TextWithIcon
               iconName="comment"
