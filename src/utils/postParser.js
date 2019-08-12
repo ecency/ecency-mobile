@@ -68,7 +68,7 @@ export const parsePost = async (post, currentUserName, isPromoted) => {
   }
 
   post.reblogs = await getPostReblogs(post);
-  post.reblogCount = post.reblogs.length;
+  post.reblogCount = get(post, 'reblogs', []).length;
 
   return post;
 };

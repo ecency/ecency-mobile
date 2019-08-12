@@ -66,14 +66,14 @@ class PostCardView extends Component {
   _handleOnVotersPress = () => {
     const { handleOnVotersPress, content } = this.props;
 
-    handleOnVotersPress(content.active_votes);
+    handleOnVotersPress(get(content, 'active_votes'));
   };
 
   _handleOnReblogsPress = () => {
     const { handleOnReblogsPress, content } = this.props;
 
     if (content.reblogs.length > 0) {
-      handleOnReblogsPress(content.reblogs);
+      handleOnReblogsPress(get(content, 'reblogs'));
     }
   };
 

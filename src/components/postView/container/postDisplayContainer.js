@@ -47,7 +47,7 @@ class PostDisplayContainer extends Component {
         activeVotes,
       },
       // TODO: make unic
-      key: post.permlink + Math.random(),
+      key: post.permlink + activeVotes.length,
     });
   };
 
@@ -60,7 +60,7 @@ class PostDisplayContainer extends Component {
         params: {
           reblogs,
         },
-        key: post.permlink + Math.random(),
+        key: post.permlink + reblogs.length,
       });
     }
   };
