@@ -31,6 +31,11 @@
     "this_month": "Tháng này",
     "older_then": "Cách đây hơn 1 tháng"
   },
+  "leaderboard": {
+    "daily": "Daily",
+    "weekly": "Weekly",
+    "monthly": "Monthly"
+  },
   "points": {
     "post": "Bài đăng",
     "esteemPoints": "các Điểm eSteem",
