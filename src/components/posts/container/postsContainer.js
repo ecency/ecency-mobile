@@ -53,6 +53,10 @@ class PostsContainer extends PureComponent {
       pageType,
       selectedOptionIndex,
       tag,
+      isLoginDone,
+      isLoggedIn,
+      isDarkTheme,
+      nsfw,
     } = this.props;
     const { promotedPosts } = this.state;
 
@@ -74,6 +78,10 @@ class PostsContainer extends PureComponent {
         selectedOptionIndex={selectedOptionIndex}
         setFeedPosts={this._setFeedPosts}
         tag={tag}
+        isLoginDone={isLoginDone}
+        isLoggedIn={isLoggedIn}
+        isDarkTheme={isDarkTheme}
+        nsfw={nsfw}
       />
     );
   }
