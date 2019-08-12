@@ -45,9 +45,9 @@ class LeaderboardView extends PureComponent {
       <Fragment>
         <FilterBar
           dropdownIconName="arrow-drop-down"
-          options={VALUE}
+          options={VALUE.map(val => intl.formatMessage({ id: `leaderboard.${val}` }))}
           selectedOptionIndex={0}
-          defaultText={VALUE[0]}
+          defaultText={intl.formatMessage({ id: `leaderboard.${VALUE[0]}` })}
           onDropdownSelect={selectedIndex => fetchLeaderBoard(FILTER_OPTIONS[selectedIndex])}
         />
 
