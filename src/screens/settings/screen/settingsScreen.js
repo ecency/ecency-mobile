@@ -1,5 +1,6 @@
+/* eslint-disable react/jsx-wrap-multilines */
 import React, { PureComponent, Fragment } from 'react';
-import { ScrollView, View } from 'react-native';
+import { ScrollView, View, RefreshControl } from 'react-native';
 import { injectIntl } from 'react-intl';
 
 // Utils
@@ -31,7 +32,7 @@ class SettingsScreen extends PureComponent {
   // Component Life Cycles
 
   // Component Functions
-
+  // TODO: REFACTOR ME !
   render() {
     const {
       handleOnChange,
@@ -53,6 +54,7 @@ class SettingsScreen extends PureComponent {
       transfersNotification,
       voteNotification,
       handleOnButtonPress,
+      isLoading,
     } = this.props;
 
     return (
@@ -63,7 +65,18 @@ class SettingsScreen extends PureComponent {
           })}
         />
 
-        <ScrollView style={styles.container}>
+        <ScrollView
+          style={styles.container}
+          refreshControl={
+            <RefreshControl
+              refreshing={isLoading}
+              progressBackgroundColor="#357CE6"
+              tintColor={!isDarkTheme ? '#357ce6' : '#96c0ff'}
+              titleColor="#fff"
+              colors={['#fff']}
+            />
+          }
+        >
           <View style={styles.settingsCard}>
             <SettingsItem
               title={intl.formatMessage({

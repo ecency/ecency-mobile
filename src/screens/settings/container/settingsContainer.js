@@ -63,6 +63,7 @@ class SettingsContainer extends Component {
     this.state = {
       serverList: [],
       isNotificationMenuOpen: props.isNotificationSettingsOpen,
+      isLoading: false,
     };
   }
 
@@ -114,6 +115,8 @@ class SettingsContainer extends Component {
 
     dispatch(setApi(server));
 
+    this.setState({ isLoading: true });
+
     try {
       serverResp = await client.database.getDynamicGlobalProperties();
     } catch (e) {
@@ -144,6 +147,7 @@ class SettingsContainer extends Component {
       checkClient();
     }
 
+    this.setState({ isLoading: false });
     dispatch(toastNotification(intl.formatMessage({ id: alertMessage })));
   };
 
@@ -345,7 +349,7 @@ class SettingsContainer extends Component {
   };
 
   render() {
-    const { serverList, isNotificationMenuOpen } = this.state;
+    const { serverList, isNotificationMenuOpen, isLoading } = this.state;
 
     return (
       <SettingsScreen
@@ -353,6 +357,7 @@ class SettingsContainer extends Component {
         handleOnChange={this._handleOnChange}
         isNotificationMenuOpen={isNotificationMenuOpen}
         handleOnButtonPress={this._handleButtonPress}
+        isLoading={isLoading}
         {...this.props}
       />
     );
