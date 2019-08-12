@@ -31,6 +31,11 @@
     "this_month": "Ovaj mesec",
     "older_then": "Stariji od mesec dana"
   },
+  "leaderboard": {
+    "daily": "Daily",
+    "weekly": "Weekly",
+    "monthly": "Monthly"
+  },
   "points": {
     "post": "Post",
     "esteemPoints": "eSteem Points",
