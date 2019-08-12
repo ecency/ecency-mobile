@@ -31,6 +31,11 @@
     "this_month": "Šį mėnesį",
     "older_then": "Senesni nei vieno mėnesio"
   },
+  "leaderboard": {
+    "daily": "Daily",
+    "weekly": "Weekly",
+    "monthly": "Monthly"
+  },
   "points": {
     "post": "Įrašas",
     "esteemPoints": "eSteem Points",
