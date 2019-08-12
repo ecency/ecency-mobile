@@ -31,6 +31,11 @@
     "this_month": "This Month",
     "older_then": "E don pass one month"
   },
+  "leaderboard": {
+    "daily": "Daily",
+    "weekly": "Weekly",
+    "monthly": "Monthly"
+  },
   "points": {
     "post": "Tori",
     "esteemPoints": "eSteem Points",
