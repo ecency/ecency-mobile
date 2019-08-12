@@ -31,6 +31,11 @@
     "this_month": "این ماه",
     "older_then": "قدیمی تر از 1 ماه"
   },
+  "leaderboard": {
+    "daily": "Daily",
+    "weekly": "Weekly",
+    "monthly": "Monthly"
+  },
   "points": {
     "post": "پست",
     "esteemPoints": "eSteem Points",
