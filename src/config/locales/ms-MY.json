@@ -31,6 +31,11 @@
     "this_month": "Bulan Ini",
     "older_then": "Lebih dari sebulan"
   },
+  "leaderboard": {
+    "daily": "Daily",
+    "weekly": "Weekly",
+    "monthly": "Monthly"
+  },
   "points": {
     "post": "Hantar",
     "esteemPoints": "eSteem Points",
