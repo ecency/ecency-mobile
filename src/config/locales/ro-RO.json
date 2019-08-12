@@ -31,6 +31,11 @@
     "this_month": "Luna Aceasta",
     "older_then": "Mai vechi de o lună"
   },
+  "leaderboard": {
+    "daily": "Daily",
+    "weekly": "Weekly",
+    "monthly": "Monthly"
+  },
   "points": {
     "post": "Postare",
     "esteemPoints": "eSteem Points",
