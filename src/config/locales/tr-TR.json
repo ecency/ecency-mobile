@@ -24,12 +24,17 @@
     "notification": "Bildirimler",
     "leaderboard": "Liderler Tablosu",
     "epoint": "Puanlar",
-    "leaderboard_title": "Günlük lider kullanıcılar",
+    "leaderboard_title": "Top Users",
     "recent": "Geçen",
     "yesterday": "Dün",
     "this_week": "Bu Hafta",
     "this_month": "Bu Ay",
     "older_then": "Bir Aydan Daha Önce"
+  },
+  "leaderboard": {
+    "daily": "Daily",
+    "weekly": "Weekly",
+    "monthly": "Monthly"
   },
   "points": {
     "post": "Gönderi",

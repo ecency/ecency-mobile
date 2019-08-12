@@ -24,12 +24,17 @@
     "notification": "Уведомления",
     "leaderboard": "Лидеры",
     "epoint": "Баллы",
-    "leaderboard_title": "Доска Лидерства",
+    "leaderboard_title": "Top Users",
     "recent": "Недавно",
     "yesterday": "Вчера",
     "this_week": "На неделе",
     "this_month": "В этом месяце",
     "older_then": "Давно"
+  },
+  "leaderboard": {
+    "daily": "Daily",
+    "weekly": "Weekly",
+    "monthly": "Monthly"
   },
   "points": {
     "post": "Пост",
