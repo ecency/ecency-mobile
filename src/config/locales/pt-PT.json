@@ -24,7 +24,7 @@
     "notification": "Notificações",
     "leaderboard": "Quadro de Liderança",
     "epoint": "Pontos",
-    "leaderboard_title": "Top Users",
+    "leaderboard_title": "Top Usuários",
     "recent": "Recente",
     "yesterday": "Ontem",
     "this_week": "Esta Semana",
@@ -32,9 +32,9 @@
     "older_then": "Com mais de um mês"
   },
   "leaderboard": {
-    "daily": "Daily",
-    "weekly": "Weekly",
-    "monthly": "Monthly"
+    "daily": "Diariamente",
+    "weekly": "Semanalmente",
+    "monthly": "Mensalmente"
   },
   "points": {
     "post": "Publicar",
