@@ -44,7 +44,7 @@ const VotersScreen = ({ navigation }) => {
             defaultText={intl.formatMessage({ id: `voters_dropdown.${filterOptions[0]}` })}
             onDropdownSelect={handleOnVotersDropdownSelect}
           />
-          <VotersDisplay key={Math.random()} votes={filterResult || data} />
+          <VotersDisplay votes={filterResult || data} />
         </View>
       )}
     </AccountListContainer>
