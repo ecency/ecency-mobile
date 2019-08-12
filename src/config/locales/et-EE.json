@@ -24,12 +24,17 @@
     "notification": "Teavitused",
     "leaderboard": "Edetabel",
     "epoint": "Punktid",
-    "leaderboard_title": "Päeva Parim Kasutaja",
+    "leaderboard_title": "Top Users",
     "recent": "Hiljutised",
     "yesterday": "Eile",
     "this_week": "See Nädal",
     "this_month": "See Kuu",
     "older_then": "Vanem Kui Kuu"
+  },
+  "leaderboard": {
+    "daily": "Daily",
+    "weekly": "Weekly",
+    "monthly": "Monthly"
   },
   "points": {
     "post": "Postitus",

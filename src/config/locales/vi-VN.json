@@ -24,12 +24,17 @@
     "notification": "Thông báo",
     "leaderboard": "Bảng xếp hạng",
     "epoint": "Các điểm thưởng",
-    "leaderboard_title": "Người dùng tiêu biểu hàng ngày",
+    "leaderboard_title": "Top Users",
     "recent": "Gần đây",
     "yesterday": "Hôm qua",
     "this_week": "Tuần này",
     "this_month": "Tháng này",
     "older_then": "Cách đây hơn 1 tháng"
+  },
+  "leaderboard": {
+    "daily": "Daily",
+    "weekly": "Weekly",
+    "monthly": "Monthly"
   },
   "points": {
     "post": "Bài đăng",

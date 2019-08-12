@@ -24,12 +24,17 @@
     "notification": "Notifications",
     "leaderboard": "Leaderboard",
     "epoint": "Stika",
-    "leaderboard_title": "Daily Top User",
+    "leaderboard_title": "Top Users",
     "recent": "Aftumist",
     "yesterday": "Fairnindag",
     "this_week": "So dagawiko",
     "this_month": "So menoþs",
     "older_then": "Fairnizo þau Aina Menoþ"
+  },
+  "leaderboard": {
+    "daily": "Daily",
+    "weekly": "Weekly",
+    "monthly": "Monthly"
   },
   "points": {
     "post": "Waurd",
