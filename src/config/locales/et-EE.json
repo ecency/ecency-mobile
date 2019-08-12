@@ -31,6 +31,11 @@
     "this_month": "See Kuu",
     "older_then": "Vanem Kui Kuu"
   },
+  "leaderboard": {
+    "daily": "Daily",
+    "weekly": "Weekly",
+    "monthly": "Monthly"
+  },
   "points": {
     "post": "Postitus",
     "esteemPoints": "eSteem Points",
