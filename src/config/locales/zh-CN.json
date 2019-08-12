@@ -24,12 +24,17 @@
     "notification": "通知",
     "leaderboard": "排行榜",
     "epoint": "Points",
-    "leaderboard_title": "每日最高排名用户",
+    "leaderboard_title": "Top Users",
     "recent": "最近",
     "yesterday": "昨天",
     "this_week": "本周",
     "this_month": "本月",
     "older_then": "一个月前"
+  },
+  "leaderboard": {
+    "daily": "Daily",
+    "weekly": "Weekly",
+    "monthly": "Monthly"
   },
   "points": {
     "post": "Post",

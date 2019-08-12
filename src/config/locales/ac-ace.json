@@ -24,12 +24,17 @@
     "notification": "Bithé",
     "leaderboard": "Papeun Rangking",
     "epoint": "Points",
-    "leaderboard_title": "Ureung Palèng Lè pakek",
+    "leaderboard_title": "Top Users",
     "recent": "Ataban nyoë",
     "yesterday": "Baroë",
     "this_week": "Peukan Nyoë",
     "this_month": "Buleuën Nyoë",
     "older_then": "Leubéh Lam Sibulëun"
+  },
+  "leaderboard": {
+    "daily": "Daily",
+    "weekly": "Weekly",
+    "monthly": "Monthly"
   },
   "points": {
     "post": "Post",

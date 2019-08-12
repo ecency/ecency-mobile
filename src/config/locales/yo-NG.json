@@ -24,12 +24,17 @@
     "notification": "Awon Akiyesi",
     "leaderboard": "Ate asiwaju",
     "epoint": "Points",
-    "leaderboard_title": "Olori ojumo",
+    "leaderboard_title": "Top Users",
     "recent": "Ai pe",
     "yesterday": "Ana",
     "this_week": "Ose yi",
     "this_month": "Osu yi",
     "older_then": "Ti koja osu kan"
+  },
+  "leaderboard": {
+    "daily": "Daily",
+    "weekly": "Weekly",
+    "monthly": "Monthly"
   },
   "points": {
     "post": "Post",

@@ -24,12 +24,17 @@
     "notification": "התראות",
     "leaderboard": "לוח תוצאות",
     "epoint": "נקודות",
-    "leaderboard_title": "המשתמשים המובילים היום",
+    "leaderboard_title": "Top Users",
     "recent": "לאחרונה",
     "yesterday": "אתמול",
     "this_week": "השבוע",
     "this_month": "החודש הזה",
     "older_then": "ישן יותר מחודש"
+  },
+  "leaderboard": {
+    "daily": "Daily",
+    "weekly": "Weekly",
+    "monthly": "Monthly"
   },
   "points": {
     "post": "פוסט",

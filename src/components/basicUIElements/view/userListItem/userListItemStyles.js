@@ -47,6 +47,7 @@ export default EStyleSheet.create({
   rightWrapper: {
     textAlign: 'center',
     alignItems: 'center',
+    width: 80,
   },
   text: {
     color: '$iconColor',
@@ -67,5 +68,8 @@ export default EStyleSheet.create({
     color: '$primaryDarkGray',
     fontSize: 10,
     marginRight: 17,
+  },
+  middleWrapper: {
+    marginRight: 30,
   },
 });

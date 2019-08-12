@@ -24,12 +24,17 @@
     "notification": "Notificações",
     "leaderboard": "Quadro de Liderança",
     "epoint": "Pontos",
-    "leaderboard_title": "Usuário do Topo Hoje",
+    "leaderboard_title": "Top Users",
     "recent": "Recente",
     "yesterday": "Ontem",
     "this_week": "Esta Semana",
     "this_month": "Este Mês",
     "older_then": "Com mais de um mês"
+  },
+  "leaderboard": {
+    "daily": "Daily",
+    "weekly": "Weekly",
+    "monthly": "Monthly"
   },
   "points": {
     "post": "Publicar",

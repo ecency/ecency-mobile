@@ -24,12 +24,17 @@
     "notification": "Notificaties",
     "leaderboard": "Scorebord",
     "epoint": "Points",
-    "leaderboard_title": "Dagelijkse Topgebruiker",
+    "leaderboard_title": "Top Users",
     "recent": "Recent(e)",
     "yesterday": "Gisteren",
     "this_week": "Deze week",
     "this_month": "Deze maand",
     "older_then": "Ouder dan een maand"
+  },
+  "leaderboard": {
+    "daily": "Daily",
+    "weekly": "Weekly",
+    "monthly": "Monthly"
   },
   "points": {
     "post": "Post",
