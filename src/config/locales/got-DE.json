@@ -31,6 +31,11 @@
     "this_month": "So menoþs",
     "older_then": "Fairnizo þau Aina Menoþ"
   },
+  "leaderboard": {
+    "daily": "Daily",
+    "weekly": "Weekly",
+    "monthly": "Monthly"
+  },
   "points": {
     "post": "Waurd",
     "esteemPoints": "eSteem Points",
