@@ -24,12 +24,17 @@
     "notification": "اطلاعیه ها",
     "leaderboard": "جدول رده بندی",
     "epoint": "امتیازها",
-    "leaderboard_title": "بهترین کاربران روز",
+    "leaderboard_title": "Top Users",
     "recent": "اخیر",
     "yesterday": "دیروز",
     "this_week": "این هفته",
     "this_month": "این ماه",
     "older_then": "قدیمی تر از 1 ماه"
+  },
+  "leaderboard": {
+    "daily": "Daily",
+    "weekly": "Weekly",
+    "monthly": "Monthly"
   },
   "points": {
     "post": "پست",

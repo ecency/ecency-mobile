@@ -5,12 +5,29 @@ export default EStyleSheet.create({
     flex: 1,
     padding: 8,
   },
-  text: {
+  title: {
     color: '$primaryDarkGray',
     fontSize: 14,
     fontWeight: 'bold',
     marginLeft: 20,
     fontFamily: '$primaryFont',
     paddingBottom: 10,
+    flexGrow: 1,
+  },
+  rewardText: {
+    color: '$primaryBlue',
+  },
+  columnTitleWrapper: {
+    flexDirection: 'row',
+    marginTop: 10,
+    justifyContent: 'flex-end',
+  },
+  columnTitle: {
+    color: '$primaryDarkGray',
+    fontSize: 12,
+    fontWeight: 'bold',
+    marginRight: 40,
+    marginBottom: 10,
+    fontFamily: '$primaryFont',
   },
 });

@@ -24,12 +24,17 @@
     "notification": "الإشعارات",
     "leaderboard": "المتصدرين",
     "epoint": "نقاط",
-    "leaderboard_title": "أفضل مستخدم يومي",
+    "leaderboard_title": "Top Users",
     "recent": "الأخيرة",
     "yesterday": "يوم أمس",
     "this_week": "هذا الأسبوع",
     "this_month": "هذا الشهر",
     "older_then": "أقدم من شهر"
+  },
+  "leaderboard": {
+    "daily": "Daily",
+    "weekly": "Weekly",
+    "monthly": "Monthly"
   },
   "points": {
     "post": "منشور",
