@@ -31,6 +31,11 @@
     "this_month": "Bulan ini",
     "older_then": "Lebih Lama Dari Sebulan"
   },
+  "leaderboard": {
+    "daily": "Daily",
+    "weekly": "Weekly",
+    "monthly": "Monthly"
+  },
   "points": {
     "post": "Kiriman",
     "esteemPoints": "eSteem Points",
