@@ -24,12 +24,17 @@
     "notification": "Pranešimai",
     "leaderboard": "Lyderiai",
     "epoint": "Taškai",
-    "leaderboard_title": "Dienos Top Vartotojas",
+    "leaderboard_title": "Top Users",
     "recent": "Naujausi",
     "yesterday": "Vakar",
     "this_week": "Šią savaitę",
     "this_month": "Šį mėnesį",
     "older_then": "Senesni nei vieno mėnesio"
+  },
+  "leaderboard": {
+    "daily": "Daily",
+    "weekly": "Weekly",
+    "monthly": "Monthly"
   },
   "points": {
     "post": "Įrašas",

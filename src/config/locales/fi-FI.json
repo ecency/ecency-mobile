@@ -24,12 +24,17 @@
     "notification": "Notifications",
     "leaderboard": "Leaderboard",
     "epoint": "Points",
-    "leaderboard_title": "Daily Top User",
+    "leaderboard_title": "Top Users",
     "recent": "Viimeisimmät",
     "yesterday": "Eilen",
     "this_week": "Tällä viikolla",
     "this_month": "Tässä kuussa",
     "older_then": "Kuukautta vanhempi"
+  },
+  "leaderboard": {
+    "daily": "Daily",
+    "weekly": "Weekly",
+    "monthly": "Monthly"
   },
   "points": {
     "post": "Post",

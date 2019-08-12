@@ -24,12 +24,17 @@
     "notification": "Értesítések",
     "leaderboard": "Ranglista",
     "epoint": "Pontok",
-    "leaderboard_title": "Napi Top Felhasználók",
+    "leaderboard_title": "Top Users",
     "recent": "Friss",
     "yesterday": "Tegnap",
     "this_week": "Ezen a héten",
     "this_month": "Ebben a hónapban",
     "older_then": "Egy Hónapnál Régebbi"
+  },
+  "leaderboard": {
+    "daily": "Daily",
+    "weekly": "Weekly",
+    "monthly": "Monthly"
   },
   "points": {
     "post": "Bejegyzés",

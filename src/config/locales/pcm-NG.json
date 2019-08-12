@@ -24,12 +24,17 @@
     "notification": "Alerts",
     "leaderboard": "Leaderboard",
     "epoint": "Points",
-    "leaderboard_title": "People Wey Dey Top Today",
+    "leaderboard_title": "Top Users",
     "recent": "Latest",
     "yesterday": "Yesterday",
     "this_week": "This Week",
     "this_month": "This Month",
     "older_then": "E don pass one month"
+  },
+  "leaderboard": {
+    "daily": "Daily",
+    "weekly": "Weekly",
+    "monthly": "Monthly"
   },
   "points": {
     "post": "Tori",

@@ -24,12 +24,17 @@
     "notification": "Pemberitahuan",
     "leaderboard": "Papan Pendahulu",
     "epoint": "Mata ganjaran",
-    "leaderboard_title": "Pengguna tertinggi harian",
+    "leaderboard_title": "Top Users",
     "recent": "Terbaru",
     "yesterday": "Semalam",
     "this_week": "Minggu ini",
     "this_month": "Bulan Ini",
     "older_then": "Lebih dari sebulan"
+  },
+  "leaderboard": {
+    "daily": "Daily",
+    "weekly": "Weekly",
+    "monthly": "Monthly"
   },
   "points": {
     "post": "Hantar",
