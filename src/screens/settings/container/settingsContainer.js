@@ -6,6 +6,7 @@ import Push from 'appcenter-push';
 import { Client } from 'dsteem';
 import VersionNumber from 'react-native-version-number';
 import Config from 'react-native-config';
+import { injectIntl } from 'react-intl';
 
 // Realm
 import {
@@ -108,6 +109,7 @@ class SettingsContainer extends Component {
     const server = serverList[action];
     let serverResp;
     let isError = false;
+    let alertMessage;
     const client = new Client(server, { timeout: 3000 });
 
     dispatch(setApi(server));
@@ -116,10 +118,9 @@ class SettingsContainer extends Component {
       serverResp = await client.database.getDynamicGlobalProperties();
     } catch (e) {
       isError = true;
-      dispatch(toastNotification(intl.formatMessage({ id: 'alert.connection_fail' })));
+      alertMessage = 'alert.connection_fail';
     } finally {
-      if (!isError)
-        dispatch(toastNotification(intl.formatMessage({ id: 'alert.connection_success' })));
+      if (!isError) alertMessage = 'alert.connection_success';
     }
 
     if (!isError) {
@@ -128,7 +129,8 @@ class SettingsContainer extends Component {
       const isAlive = localTime - serverTime < 15000;
 
       if (!isAlive) {
-        dispatch(toastNotification(intl.formatMessage({ id: 'alert.server_fail' })));
+        alertMessage = 'settings.server_fail';
+
         isError = true;
 
         return;
@@ -141,6 +143,8 @@ class SettingsContainer extends Component {
       await setServer(server);
       checkClient();
     }
+
+    dispatch(toastNotification(intl.formatMessage({ id: alertMessage })));
   };
 
   _currencyChange = action => {
@@ -378,4 +382,4 @@ const mapStateToProps = state => ({
   currentAccount: state.account.currentAccount,
 });
 
-export default connect(mapStateToProps)(SettingsContainer);
+export default injectIntl(connect(mapStateToProps)(SettingsContainer));
