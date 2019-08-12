@@ -19,6 +19,7 @@ export const getDrafts = data =>
         resolve(res.data);
       })
       .catch(error => {
+        bugsnag.notify(error);
         reject(error);
       });
   });
@@ -35,6 +36,7 @@ export const removeDraft = (username, id) =>
         resolve(res.data);
       })
       .catch(error => {
+        bugsnag.notify(error);
         reject(error);
       });
   });
@@ -54,6 +56,7 @@ export const addDraft = data =>
         resolve(drafts.pop());
       })
       .catch(error => {
+        bugsnag.notify(error);
         reject(error);
       });
   });
@@ -76,6 +79,7 @@ export const updateDraft = data =>
         resolve(res.data);
       })
       .catch(error => {
+        bugsnag.notify(error);
         reject(error);
       });
   });
@@ -132,7 +136,15 @@ export const addFavorite = (currentUsername, targetUsername) =>
 export const removeFavorite = (currentUsername, targetUsername) =>
   api.delete(`/favoriteUser/${currentUsername}/${targetUsername}`);
 
-export const getLeaderboard = () => api.get('/leaderboard').then(resp => resp.data);
+export const getLeaderboard = duration =>
+  api
+    .get('/leaderboard', { params: { duration } })
+    .then(resp => {
+      return resp.data;
+    })
+    .catch(error => {
+      bugsnag.notify(error);
+    });
 
 export const getActivities = data =>
   new Promise((resolve, reject) => {
@@ -173,6 +185,7 @@ export const getActivities = data =>
         resolve(res.data);
       })
       .catch(error => {
+        bugsnag.notify(error);
         reject(error);
       });
   });
@@ -185,6 +198,7 @@ export const getUnreadActivityCount = data =>
         resolve(res.data ? res.data.count : 0);
       })
       .catch(error => {
+        bugsnag.notify(error);
         reject(error);
       });
   });
@@ -197,6 +211,7 @@ export const markActivityAsRead = (user, id = null) =>
         resolve(res.data);
       })
       .catch(error => {
+        bugsnag.notify(error);
         reject(error);
       });
   });
@@ -209,6 +224,7 @@ export const setPushToken = data =>
         resolve(res.data);
       })
       .catch(error => {
+        bugsnag.notify(error);
         reject(error);
       });
   });
@@ -223,6 +239,7 @@ export const search = data =>
         resolve(res.data);
       })
       .catch(error => {
+        bugsnag.notify(error);
         reject(error);
       });
   });
@@ -237,6 +254,7 @@ export const searchPath = q =>
         resolve(res.data);
       })
       .catch(error => {
+        bugsnag.notify(error);
         reject(error);
       });
   });
