@@ -31,6 +31,11 @@
     "this_month": "В этом месяце",
     "older_then": "Давно"
   },
+  "leaderboard": {
+    "daily": "Daily",
+    "weekly": "Weekly",
+    "monthly": "Monthly"
+  },
   "points": {
     "post": "Пост",
     "esteemPoints": "eSteem Points",
