@@ -24,12 +24,17 @@
     "notification": "Obavijesti",
     "leaderboard": "Rang lista",
     "epoint": "Points",
-    "leaderboard_title": "Dnevni top korisnik",
+    "leaderboard_title": "Top Users",
     "recent": "Nedavno",
     "yesterday": "Jučer",
     "this_week": "Ovog Tjedna",
     "this_month": "Ovaj Mjesec",
     "older_then": "Starije od mjesec dana"
+  },
+  "leaderboard": {
+    "daily": "Daily",
+    "weekly": "Weekly",
+    "monthly": "Monthly"
   },
   "points": {
     "post": "Post",

@@ -24,12 +24,17 @@
     "notification": "Pemberitahuan",
     "leaderboard": "Papan Peringkat",
     "epoint": "Poin",
-    "leaderboard_title": "Pengguna harian paling atas",
+    "leaderboard_title": "Top Users",
     "recent": "Baru digunakan",
     "yesterday": "Kemarin",
     "this_week": "Minggu ini",
     "this_month": "Bulan ini",
     "older_then": "Lebih Lama Dari Sebulan"
+  },
+  "leaderboard": {
+    "daily": "Daily",
+    "weekly": "Weekly",
+    "monthly": "Monthly"
   },
   "points": {
     "post": "Kiriman",

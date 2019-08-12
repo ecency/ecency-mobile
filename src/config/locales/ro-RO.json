@@ -24,12 +24,17 @@
     "notification": "Notificări",
     "leaderboard": "Clasament",
     "epoint": "Puncte",
-    "leaderboard_title": "Utilizatori de Top Zilnic",
+    "leaderboard_title": "Top Users",
     "recent": "Recent",
     "yesterday": "Ieri",
     "this_week": "Săptămâna aceasta",
     "this_month": "Luna Aceasta",
     "older_then": "Mai vechi de o lună"
+  },
+  "leaderboard": {
+    "daily": "Daily",
+    "weekly": "Weekly",
+    "monthly": "Monthly"
   },
   "points": {
     "post": "Postare",

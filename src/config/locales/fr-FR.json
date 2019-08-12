@@ -24,12 +24,17 @@
     "notification": "Notifications",
     "leaderboard": "Classement",
     "epoint": "Points",
-    "leaderboard_title": "Top des utilisateurs du jour",
+    "leaderboard_title": "Top Users",
     "recent": "Récent",
     "yesterday": "Hier",
     "this_week": "Cette semaine",
     "this_month": "Ce mois",
     "older_then": "Vieux de plus de 1 mois"
+  },
+  "leaderboard": {
+    "daily": "Daily",
+    "weekly": "Weekly",
+    "monthly": "Monthly"
   },
   "points": {
     "post": "Post",

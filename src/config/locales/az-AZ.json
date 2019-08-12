@@ -24,12 +24,17 @@
     "notification": "Bildirişlər",
     "leaderboard": "Liderlər cədvəli",
     "epoint": "Xallar",
-    "leaderboard_title": "Günlük Liderlər",
+    "leaderboard_title": "Top Users",
     "recent": "Təzəlikcə",
     "yesterday": "Dünən",
     "this_week": "Bu Həftə",
     "this_month": "Bu Ay",
     "older_then": "Bir Aydan Köhnə"
+  },
+  "leaderboard": {
+    "daily": "Daily",
+    "weekly": "Weekly",
+    "monthly": "Monthly"
   },
   "points": {
     "post": "Göndəriş",

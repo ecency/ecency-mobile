@@ -24,12 +24,17 @@
     "notification": "Benachrichtigungen",
     "leaderboard": "Rangliste",
     "epoint": "eSteem Punkte",
-    "leaderboard_title": "Tägliche Top-User",
+    "leaderboard_title": "Top Users",
     "recent": "Vor kurzem",
     "yesterday": "Gestern",
     "this_week": "Diese Woche",
     "this_month": "Diesen Monat",
     "older_then": "Älter als ein Monat"
+  },
+  "leaderboard": {
+    "daily": "Daily",
+    "weekly": "Weekly",
+    "monthly": "Monthly"
   },
   "points": {
     "post": "Beitrag",
