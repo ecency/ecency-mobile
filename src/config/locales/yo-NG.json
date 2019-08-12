@@ -31,6 +31,11 @@
     "this_month": "Osu yi",
     "older_then": "Ti koja osu kan"
   },
+  "leaderboard": {
+    "daily": "Daily",
+    "weekly": "Weekly",
+    "monthly": "Monthly"
+  },
   "points": {
     "post": "Post",
     "esteemPoints": "eSteem Points",
