@@ -2,6 +2,8 @@ import { PureComponent } from 'react';
 
 import { isBefore } from '../utils/time';
 
+import ROUTES from '../constants/routeNames';
+
 class AccountListContainer extends PureComponent {
   /* Props
    * ------------------------------------------------
@@ -54,6 +56,18 @@ class AccountListContainer extends PureComponent {
     this.setState({ filterResult: _data });
   };
 
+  _handleOnUserPress = username => {
+    const { navigation } = this.props;
+
+    navigation.navigate({
+      routeName: ROUTES.SCREENS.PROFILE,
+      params: {
+        username,
+      },
+      key: username,
+    });
+  };
+
   render() {
     const { data, filterResult } = this.state;
     const { children } = this.props;
@@ -65,6 +79,7 @@ class AccountListContainer extends PureComponent {
         filterResult,
         handleOnVotersDropdownSelect: this._handleOnVotersDropdownSelect,
         handleSearch: this._handleSearch,
+        handleOnUserPress: this._handleOnUserPress,
       })
     );
   }

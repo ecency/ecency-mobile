@@ -24,6 +24,7 @@ import {
   Boost,
   Promote,
   BoostPost,
+  Reblogs,
 } from '../screens';
 
 // Components
@@ -122,6 +123,12 @@ const stackNavigatior = createStackNavigator(
     },
     [ROUTES.SCREENS.BOOST_POST]: {
       screen: BoostPost,
+      navigationOptions: {
+        header: () => null,
+      },
+    },
+    [ROUTES.SCREENS.REBLOGS]: {
+      screen: Reblogs,
       navigationOptions: {
         header: () => null,
       },
