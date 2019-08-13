@@ -67,6 +67,14 @@ import { encryptKey } from '../../../utils/crypto';
 import darkTheme from '../../../themes/darkTheme';
 import lightTheme from '../../../themes/lightTheme';
 
+// Workaround
+let previousAppState = 'background';
+export const setPreviousAppState = () => {
+  setTimeout(() => {
+    previousAppState = AppState.currentState;
+  }, 2000);
+};
+
 class ApplicationContainer extends Component {
   constructor(props) {
     super(props);
@@ -98,6 +106,7 @@ class ApplicationContainer extends Component {
     });
 
     AppState.addEventListener('change', this._handleAppStateChange);
+    setPreviousAppState();
 
     this._createPushListener();
   };
@@ -268,7 +277,7 @@ class ApplicationContainer extends Component {
         }
       }
     });
-
+    setPreviousAppState();
     this.setState({ appState: nextAppState });
   };
 
@@ -303,75 +312,84 @@ class ApplicationContainer extends Component {
 
     Push.setListener({
       onPushNotificationReceived(pushNotification) {
-        const push = get(pushNotification, 'customProperties');
-        const type = get(push, 'type', '');
-        const permlink1 = get(push, 'permlink1', '');
-        const permlink2 = get(push, 'permlink2', '');
-        const permlink3 = get(push, 'permlink3', '');
-        const parentPermlink1 = get(push, 'parent_permlink1', '');
-        const parentPermlink2 = get(push, 'parent_permlink2', '');
-        const parentPermlink3 = get(push, 'parent_permlink3', '');
+        if (previousAppState !== 'active') {
+          const push = get(pushNotification, 'customProperties');
+          const type = get(push, 'type', '');
+          const permlink1 = get(push, 'permlink1', '');
+          const permlink2 = get(push, 'permlink2', '');
+          const permlink3 = get(push, 'permlink3', '');
+          const parentPermlink1 = get(push, 'parent_permlink1', '');
+          const parentPermlink2 = get(push, 'parent_permlink2', '');
+          const parentPermlink3 = get(push, 'parent_permlink3', '');
 
-        const fullParentPermlink = `${parentPermlink1}${parentPermlink2}${parentPermlink3}`;
-        const fullPermlink = `${permlink1}${permlink2}${permlink3}`;
+          const fullParentPermlink = `${parentPermlink1}${parentPermlink2}${parentPermlink3}`;
+          const fullPermlink = `${permlink1}${permlink2}${permlink3}`;
 
-        switch (type) {
-          case 'vote':
-          case 'unvote':
-          case 'mention':
-            params = {
-              author: get(push, 'source', ''),
-              permlink: fullPermlink,
-            };
-            key = fullPermlink;
-            routeName = ROUTES.SCREENS.POST;
-            break;
+          switch (type) {
+            case 'vote':
+            case 'unvote':
+              params = {
+                author: get(push, 'target', ''),
+                permlink: fullPermlink,
+              };
+              key = fullPermlink;
+              routeName = ROUTES.SCREENS.POST;
+              break;
+            case 'mention':
+              params = {
+                author: get(push, 'source', ''),
+                permlink: fullPermlink,
+              };
+              key = fullPermlink;
+              routeName = ROUTES.SCREENS.POST;
+              break;
 
-          case 'follow':
-          case 'unfollow':
-          case 'ignore':
-            params = {
-              username: get(push, 'source', ''),
-            };
-            key = get(push, 'source', '');
-            routeName = ROUTES.SCREENS.PROFILE;
-            break;
+            case 'follow':
+            case 'unfollow':
+            case 'ignore':
+              params = {
+                username: get(push, 'source', ''),
+              };
+              key = get(push, 'source', '');
+              routeName = ROUTES.SCREENS.PROFILE;
+              break;
 
-          case 'reblog':
-            params = {
-              author: get(push, 'target', ''),
-              permlink: fullPermlink,
-            };
-            key = fullPermlink;
-            routeName = ROUTES.SCREENS.POST;
-            break;
+            case 'reblog':
+              params = {
+                author: get(push, 'target', ''),
+                permlink: fullPermlink,
+              };
+              key = fullPermlink;
+              routeName = ROUTES.SCREENS.POST;
+              break;
 
-          case 'reply':
-            params = {
-              author: get(push, 'source', ''),
-              permlink: fullPermlink,
-              isHasParentPost: fullParentPermlink,
-            };
-            key = fullPermlink;
-            routeName = ROUTES.SCREENS.POST;
-            break;
+            case 'reply':
+              params = {
+                author: get(push, 'source', ''),
+                permlink: fullPermlink,
+                isHasParentPost: fullParentPermlink,
+              };
+              key = fullPermlink;
+              routeName = ROUTES.SCREENS.POST;
+              break;
 
-          case 'transfer':
-            routeName = ROUTES.TABBAR.PROFILE;
-            params = { activePage: 2 };
-            break;
+            case 'transfer':
+              routeName = ROUTES.TABBAR.PROFILE;
+              params = { activePage: 2 };
+              break;
 
-          default:
-            break;
+            default:
+              break;
+          }
+
+          const navigateAction = NavigationActions.navigate({
+            routeName,
+            params,
+            key,
+            action: NavigationActions.navigate({ routeName }),
+          });
+          dispatch(navigateAction);
         }
-
-        const navigateAction = NavigationActions.navigate({
-          routeName,
-          params,
-          key,
-          action: NavigationActions.navigate({ routeName }),
-        });
-        dispatch(navigateAction);
       },
     });
   };
