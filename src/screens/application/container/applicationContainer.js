@@ -476,6 +476,7 @@ class ApplicationContainer extends Component {
       return realmObject[0];
     }
 
+    dispatch(updateCurrentAccount({}));
     dispatch(activeApplication());
     dispatch(isLoginDone());
 
