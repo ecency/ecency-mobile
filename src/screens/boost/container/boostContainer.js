@@ -85,7 +85,7 @@ class BoostContainer extends Component {
     });
 
     this.purchaseErrorSubscription = purchaseErrorListener(error => {
-      if (get(error, 'responseCode') !== 2) {
+      if (get(error, 'responseCode') !== '2') {
         Alert.alert('Warning', error);
         bugsnag.notify(error);
       }
