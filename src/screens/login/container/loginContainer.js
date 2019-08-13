@@ -51,7 +51,7 @@ class LoginContainer extends PureComponent {
 
     this.setState({ isLoading: true });
 
-    login(username, password)
+    login(username, password, isPinCodeOpen)
       .then(result => {
         if (result) {
           dispatch(updateCurrentAccount({ ...result }));
