@@ -328,11 +328,11 @@
     "title": "Reforçar"
   },
   "voters_dropdown": {
-    "rewards": "REWARDS",
-    "percent": "PERCENT",
-    "time": "TIME"
+    "rewards": "RECOMPENSAS",
+    "percent": "PERCENTAGEM",
+    "time": "TEMPO"
   },
   "reblog": {
-    "title": "Reblog Info"
+    "title": "Info. de Reblog"
   }
 }
