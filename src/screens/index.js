@@ -13,11 +13,12 @@ import { Post } from './post';
 import { Profile } from './profile';
 import { SearchResult } from './searchResult';
 import { Settings } from './settings';
-import { Voters } from './voters';
+import Voters from './voters';
 import BoostPost from './boostPost/screen/boostPostScreen';
 import Promote from './promote/screen/promoteScreen';
 import SteemConnect from './steem-connect/steemConnect';
 import Transfer from './transfer';
+import Reblogs from './reblogs';
 
 export {
   Bookmarks,
@@ -40,4 +41,5 @@ export {
   SteemConnect,
   Transfer,
   Voters,
+  Reblogs,
 };
