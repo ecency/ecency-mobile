@@ -51,8 +51,10 @@ class CommentsContainer extends Component {
 
   // Component Functions
 
-  _shortComments = sortOrder => {
+  _shortComments = (sortOrder, comments) => {
     const { comments: parent } = this.state;
+
+    const sortedComments = comments || parent;
 
     const allPayout = c =>
       parseFloat(get(c, 'pending_payout_value').split(' ')[0]) +
@@ -116,23 +118,31 @@ class CommentsContainer extends Component {
       },
     };
 
-    parent.sort(sortOrders[sortOrder]);
+    sortedComments.sort(sortOrders[sortOrder]);
 
-    return parent;
+    return sortedComments;
   };
 
   _getComments = async () => {
     const {
       author,
       permlink,
+      selectedFilter,
       currentAccount: { name },
     } = this.props;
 
     await getComments(author, permlink, name)
       .then(comments => {
-        this.setState({
-          comments,
-        });
+        if (selectedFilter && selectedFilter !== 'TRENDING') {
+          const sortComments = this._shortComments(selectedFilter, comments);
+          this.setState({
+            comments: sortComments,
+          });
+        } else {
+          this.setState({
+            comments,
+          });
+        }
       })
       .catch(() => {});
   };
