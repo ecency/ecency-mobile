@@ -115,6 +115,12 @@ export const parseComments = async (comments, currentUserName) => {
   const pArray = comments.map(async comment => {
     const activeVotes = await getActiveVotes(get(comment, 'author'), get(comment, 'permlink'));
 
+    if (comment.body.includes('Posted using [Partiko')) {
+      comment.body = comment.body
+        .split('\n')
+        .filter(item => item.includes('Posted using [Partiko') === false)
+        .join('\n');
+    }
     comment.pending_payout_value = parseFloat(
       get(comment, 'pending_payout_value') ? get(comment, 'pending_payout_value') : 0,
     ).toFixed(3);
