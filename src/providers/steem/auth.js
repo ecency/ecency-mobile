@@ -85,6 +85,7 @@ export const login = async (username, password, isPinCodeOpen) => {
       const updatedUserData = await getUpdatedUserData(userData, resData);
 
       account.local = updatedUserData;
+      account.local.avatar = avatar;
     }
 
     const authData = {
@@ -94,7 +95,7 @@ export const login = async (username, password, isPinCodeOpen) => {
     await setAuthStatus(authData);
 
     // Save user data to Realm DB
-    await setUserData(userData);
+    await setUserData(account.local);
     await updateCurrentUsername(account.name);
     return { ...account, password };
   }
