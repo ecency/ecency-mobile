@@ -70,8 +70,9 @@ import lightTheme from '../../../themes/lightTheme';
 // Workaround
 let previousAppState = 'background';
 export const setPreviousAppState = () => {
-  setTimeout(() => {
+  const appStateTimeout = setTimeout(() => {
     previousAppState = AppState.currentState;
+    clearTimeout(appStateTimeout);
   }, 2000);
 };
 
@@ -494,6 +495,7 @@ class ApplicationContainer extends Component {
       return realmObject[0];
     }
 
+    dispatch(updateCurrentAccount({}));
     dispatch(activeApplication());
     dispatch(isLoginDone());
 

@@ -1,5 +1,6 @@
 import * as dsteem from 'dsteem';
 import sha256 from 'crypto-js/sha256';
+import Config from 'react-native-config';
 
 import { getUser } from './dsteem';
 import {
@@ -21,7 +22,7 @@ import { getSCAccessToken } from '../esteem/esteem';
 // Constants
 import AUTH_TYPE from '../../constants/authType';
 
-export const login = async (username, password) => {
+export const login = async (username, password, isPinCodeOpen) => {
   let loginFlag = false;
   let avatar = '';
   let authType = '';
@@ -74,7 +75,18 @@ export const login = async (username, password) => {
       accessToken: '',
     };
 
-    account.local = userData;
+    if (isPinCodeOpen) {
+      account.local = userData;
+    } else {
+      const resData = {
+        pinCode: Config.DEFAULT_PIN,
+        password,
+      };
+      const updatedUserData = await getUpdatedUserData(userData, resData);
+
+      account.local = updatedUserData;
+      account.local.avatar = avatar;
+    }
 
     const authData = {
       isLoggedIn: true,
@@ -83,7 +95,7 @@ export const login = async (username, password) => {
     await setAuthStatus(authData);
 
     // Save user data to Realm DB
-    await setUserData(userData);
+    await setUserData(account.local);
     await updateCurrentUsername(account.name);
     return { ...account, password };
   }
