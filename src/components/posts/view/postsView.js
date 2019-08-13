@@ -364,12 +364,7 @@ class PostsView extends Component {
           initialNumToRender={10}
           ListFooterComponent={this._renderFooter}
           onScroll={this._handleOnScroll}
-          ListEmptyComponent={
-            <Fragment>
-              <PostCardPlaceHolder />
-              <PostCardPlaceHolder />
-            </Fragment>
-          }
+          ListEmptyComponent={this._renderEmptyContent}
           refreshControl={
             <RefreshControl
               refreshing={refreshing}

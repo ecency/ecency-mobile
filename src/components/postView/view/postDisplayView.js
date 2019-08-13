@@ -71,6 +71,7 @@ class PostDisplayView extends PureComponent {
       handleOnEditPress,
       handleOnReplyPress,
       handleOnVotersPress,
+      handleOnReblogsPress,
       isLoggedIn,
       post,
     } = this.props;
@@ -101,6 +102,7 @@ class PostDisplayView extends PureComponent {
             iconStyle={styles.barIcons}
             iconType="MaterialIcons"
             isClickable
+            onPress={() => handleOnReblogsPress && handleOnReblogsPress(get(post, 'reblogs'))}
             text={get(post, 'reblogCount', 0)}
             textMarginLeft={20}
           />
