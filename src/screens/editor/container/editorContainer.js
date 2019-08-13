@@ -415,7 +415,7 @@ class EditorContainer extends Component {
       this.setState({ isPostSending: true });
       const { tags, body, title } = fields;
       const {
-        body: oldBody,
+        markdownBody: oldBody,
         parent_permlink: parentPermlink,
         permlink,
         json_metadata: jsonMetadata,
