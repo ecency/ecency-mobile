@@ -70,8 +70,9 @@ import lightTheme from '../../../themes/lightTheme';
 // Workaround
 let previousAppState = 'background';
 export const setPreviousAppState = () => {
-  setTimeout(() => {
+  const appStateTimeout = setTimeout(() => {
     previousAppState = AppState.currentState;
+    clearTimeout(appStateTimeout);
   }, 2000);
 };
 
