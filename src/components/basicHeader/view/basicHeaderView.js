@@ -150,7 +150,6 @@ class BasicHeaderView extends Component {
 
             {rightIconName && !isHasSearch && (
               <IconButton
-                style={styles.rightIcon}
                 size={25}
                 onPress={() => handleRightIconPress()}
                 iconStyle={styles.rightIcon}
@@ -173,7 +172,6 @@ class BasicHeaderView extends Component {
 
             {isHasSearch && (
               <IconButton
-                style={styles.rightIcon}
                 size={22}
                 onPress={() => this._handleSearchButtonPress()}
                 iconStyle={styles.rightIcon}
