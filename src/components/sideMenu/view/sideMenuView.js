@@ -109,7 +109,6 @@ class SideMenuView extends Component {
                   username={currentAccount.username}
                   size="xl"
                   style={styles.userAvatar}
-                  noAction
                 />
                 <View style={styles.userInfoWrapper}>
                   {currentAccount.display_name && (
