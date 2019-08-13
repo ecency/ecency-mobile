@@ -93,9 +93,8 @@ class EditorScreen extends Component {
     saveDraftToDB(fields);
   };
 
-  _saveCurrentDraft = () => {
+  _saveCurrentDraft = fields => {
     const { saveCurrentDraft } = this.props;
-    const { fields } = this.state;
 
     if (this.changeTimer) {
       clearTimeout(this.changeTimer);
@@ -149,12 +148,12 @@ class EditorScreen extends Component {
       get(fields, 'tags') !== get(_fields, 'tags')
     ) {
       handleFormChanged();
+      this._saveCurrentDraft(fields);
     }
 
     this.setState({ fields });
 
     this._handleIsFormValid();
-    this._saveCurrentDraft();
   };
 
   _handleOnTagAdded = async tags => {
