@@ -326,5 +326,13 @@
   },
   "boostPost": {
     "title": "Reforçar"
+  },
+  "voters_dropdown": {
+    "rewards": "REWARDS",
+    "percent": "PERCENT",
+    "time": "TIME"
+  },
+  "reblog": {
+    "title": "Reblog Info"
   }
 }
