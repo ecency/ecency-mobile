@@ -68,7 +68,7 @@
     "login_desc": "Minden eSteem bejelentkezés alkalmával automatikusan 100 pontra vagy jogosult.",
     "checkin_extra_desc": "Az alkalmazás következetes használata extra esélyt kínál arra, hogy több 10 pontot nyerj, légy aktívabb és nyerj többet.",
     "dropdown_transfer": "Ajándék",
-    "dropdown_promote": "Promote",
+    "dropdown_promote": "Promoválás",
     "dropdown_boost": "Boost"
   },
   "messages": {
@@ -217,7 +217,7 @@
     "same_user": "Ez a felhasználó már szerepel a listán",
     "unknow_error": "Hiba történt",
     "error": "Hiba",
-    "fetch_error": "Fetching data failed, please try again or notify us at info@esteem.app",
+    "fetch_error": "Sikertelen adatbetöltés, kérjük próbáld meg újra vagy írj nekünk ide info@esteem.app",
     "connection_fail": "Sikertelen kapcsolat!",
     "connection_success": "A kapcsolat sikerült!"
   },
@@ -276,7 +276,7 @@
     "reply": "válasz",
     "share": "megosztás",
     "bookmarks": "hozzáadás a könyvjelzőkhöz",
-    "promote": "promote",
+    "promote": "promoválás",
     "boost": "boost"
   },
   "deep_link": {
@@ -321,7 +321,7 @@
     "next": "KÖVETKEZŐ"
   },
   "promote": {
-    "title": "Promote",
+    "title": "Promoválás",
     "days": "nap",
     "user": "Felhasználó",
     "permlink": "Bejegyzés",
@@ -332,9 +332,9 @@
     "title": "Boost"
   },
   "voters_dropdown": {
-    "rewards": "REWARDS",
-    "percent": "PERCENT",
-    "time": "TIME"
+    "rewards": "JUTALMAK",
+    "percent": "SZÁZALÉK",
+    "time": "IDŐ"
   },
   "reblog": {
     "title": "Reblog Info"
