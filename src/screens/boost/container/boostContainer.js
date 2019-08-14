@@ -52,6 +52,7 @@ class BoostContainer extends Component {
   _purchaseUpdatedListener = () => {
     const {
       currentAccount: { name },
+      intl,
     } = this.props;
 
     this.purchaseUpdateSubscription = purchaseUpdatedListener(purchase => {
@@ -85,8 +86,13 @@ class BoostContainer extends Component {
     });
 
     this.purchaseErrorSubscription = purchaseErrorListener(error => {
-      if (get(error, 'responseCode') !== 2) {
-        Alert.alert('Warning', error);
+      if (get(error, 'responseCode') !== '2') {
+        Alert.alert(
+          intl.formatMessage({
+            id: 'alert.warning',
+          }),
+          error,
+        );
         bugsnag.notify(error);
       }
     });
