@@ -309,7 +309,11 @@
     "powerUp": "Carregar Poder",
     "withdraw_to_saving": "Levantar das poupanças",
     "steemconnect_title": "Transferência por Steemconnect",
-    "next": "SEGUINTE"
+    "next": "SEGUINTE",
+    "delegate": "Delegate",
+    "power_down": "Power Down",
+    "withdraw_steem": "Withdraw Steem",
+    "withdraw_sbd": "Withdraw Steem Dollar"
   },
   "boost": {
     "title": "Obter Pontos eSteem",
