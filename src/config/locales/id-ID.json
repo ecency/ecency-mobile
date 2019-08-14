@@ -321,19 +321,19 @@
     "next": "LANJUT"
   },
   "promote": {
-    "title": "Promote",
-    "days": "days",
-    "user": "User",
-    "permlink": "Post",
-    "permlinkPlaceholder": "author/permlink",
-    "information": "Are you sure to promote?"
+    "title": "Promosikan",
+    "days": "hari",
+    "user": "Pengguna",
+    "permlink": "Posting",
+    "permlinkPlaceholder": "penulis/tautkan",
+    "information": "Anda yakin akan promosikan?"
   },
   "boostPost": {
-    "title": "Boost"
+    "title": "Meningkatkan"
   },
   "voters_dropdown": {
-    "rewards": "REWARDS",
-    "percent": "PERCENT",
+    "rewards": "PENGHARGAAN",
+    "percent": "PERSEN",
     "time": "TIME"
   },
   "reblog": {
