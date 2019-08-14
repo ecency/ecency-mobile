@@ -309,7 +309,11 @@
     "powerUp": "بالا بردن قدرت",
     "withdraw_to_saving": "برداشت و انتقال به پس انداز",
     "steemconnect_title": "انتقال Steemconnect",
-    "next": "بعدی"
+    "next": "بعدی",
+    "delegate": "Delegate",
+    "power_down": "Power Down",
+    "withdraw_steem": "Withdraw Steem",
+    "withdraw_sbd": "Withdraw Steem Dollar"
   },
   "boost": {
     "title": "Get eSteem Points",
