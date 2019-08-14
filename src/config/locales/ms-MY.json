@@ -309,7 +309,11 @@
     "powerUp": "Mengekuasai",
     "withdraw_to_saving": "Keluarkan kepada penyimpanan",
     "steemconnect_title": "Steemconnect Transfer",
-    "next": "SETERUSNYA"
+    "next": "SETERUSNYA",
+    "delegate": "Delegate",
+    "power_down": "Power Down",
+    "withdraw_steem": "Withdraw Steem",
+    "withdraw_sbd": "Withdraw Steem Dollar"
   },
   "boost": {
     "title": "Get eSteem Points",
@@ -326,5 +330,13 @@
   },
   "boostPost": {
     "title": "Boost"
+  },
+  "voters_dropdown": {
+    "rewards": "REWARDS",
+    "percent": "PERCENT",
+    "time": "TIME"
+  },
+  "reblog": {
+    "title": "Reblog Info"
   }
 }
