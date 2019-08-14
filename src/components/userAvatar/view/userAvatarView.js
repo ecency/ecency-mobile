@@ -26,15 +26,17 @@ class UserAvatarView extends Component {
 
   // Component Functions
   _handleOnAvatarPress = username => {
-    const { dispatch } = this.props;
+    const { dispatch, currentUsername } = this.props;
+
+    const routeName = currentUsername === username ? ROUTES.TABBAR.PROFILE : ROUTES.SCREENS.PROFILE;
 
     const navigateAction = NavigationActions.navigate({
-      routeName: ROUTES.SCREENS.PROFILE,
+      routeName,
       params: {
         username,
       },
       key: username,
-      action: NavigationActions.navigate({ routeName: ROUTES.SCREENS.PROFILE }),
+      action: NavigationActions.navigate({ routeName }),
     });
     dispatch(navigateAction);
   };
@@ -70,4 +72,8 @@ class UserAvatarView extends Component {
   }
 }
 
-export default connect()(UserAvatarView);
+const mapStateToProps = state => ({
+  currentUsername: state.account.currentAccount.name,
+});
+
+export default connect(mapStateToProps)(UserAvatarView);
