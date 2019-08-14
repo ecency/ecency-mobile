@@ -309,7 +309,11 @@
     "powerUp": "Power Up",
     "withdraw_to_saving": "Átutalás A Megtakarításokhoz",
     "steemconnect_title": "Steemconnect átutalás",
-    "next": "KÖVETKEZŐ"
+    "next": "KÖVETKEZŐ",
+    "delegate": "Delegate",
+    "power_down": "Power Down",
+    "withdraw_steem": "Withdraw Steem",
+    "withdraw_sbd": "Withdraw Steem Dollar"
   },
   "boost": {
     "title": "Get eSteem Points",
