@@ -309,7 +309,11 @@
     "powerUp": "Power Up",
     "withdraw_to_saving": "Auszahlung in den Tresor",
     "steemconnect_title": "Steemconnect Überweisung",
-    "next": "WEITER"
+    "next": "WEITER",
+    "delegate": "Delegate",
+    "power_down": "Power Down",
+    "withdraw_steem": "Withdraw Steem",
+    "withdraw_sbd": "Withdraw Steem Dollar"
   },
   "boost": {
     "title": "Erhalte eSteem Punkte",
