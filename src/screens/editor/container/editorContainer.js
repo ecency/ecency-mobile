@@ -269,7 +269,7 @@ class EditorContainer extends Component {
   };
 
   _saveCurrentDraft = async fields => {
-    const { draftId, isReply, isEdit } = this.state;
+    const { draftId, isReply, isEdit, isPostSending } = this.state;
 
     if (!draftId && !isEdit) {
       const { currentAccount } = this.props;
@@ -279,11 +279,12 @@ class EditorContainer extends Component {
         ...fields,
         tags: fields.tags && fields.tags.length > 0 ? fields.tags.toString() : '',
       };
-
-      if (isReply && draftField.body) {
-        await AsyncStorage.setItem('temp-reply', draftField.body);
-      } else {
-        setDraftPost(draftField, username);
+      if (!isPostSending) {
+        if (isReply && draftField.body) {
+          await AsyncStorage.setItem('temp-reply', draftField.body);
+        } else {
+          setDraftPost(draftField, username);
+        }
       }
     }
   };
@@ -451,6 +452,7 @@ class EditorContainer extends Component {
         jsonMeta,
       )
         .then(() => {
+          AsyncStorage.setItem('temp-reply', '');
           this._handleSubmitSuccess();
         })
         .catch(error => {
@@ -468,7 +470,10 @@ class EditorContainer extends Component {
       }),
       error.message || error.toString(),
     );
-    this.setState({ isPostSending: false });
+    this.stateTimer = setTimeout(() => {
+      this.setState({ isPostSending: false });
+      clearTimeout(this.stateTimer);
+    }, 500);
   };
 
   _handleSubmitSuccess = () => {
@@ -479,7 +484,10 @@ class EditorContainer extends Component {
       navigation.state.params.fetchPost();
     }
 
-    this.setState({ isPostSending: false });
+    this.stateTimer = setTimeout(() => {
+      this.setState({ isPostSending: false });
+      clearTimeout(this.stateTimer);
+    }, 500);
   };
 
   _handleOnBackPress = () => {
