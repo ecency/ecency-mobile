@@ -24,7 +24,7 @@
     "notification": "Értesítések",
     "leaderboard": "Ranglista",
     "epoint": "Pontok",
-    "leaderboard_title": "Top Users",
+    "leaderboard_title": "Top Felhasználók",
     "recent": "Friss",
     "yesterday": "Tegnap",
     "this_week": "Ezen a héten",
@@ -32,9 +32,9 @@
     "older_then": "Egy Hónapnál Régebbi"
   },
   "leaderboard": {
-    "daily": "Daily",
-    "weekly": "Weekly",
-    "monthly": "Monthly"
+    "daily": "Napi",
+    "weekly": "Heti",
+    "monthly": "Havi"
   },
   "points": {
     "post": "Bejegyzés",
@@ -219,14 +219,14 @@
     "error": "Hiba",
     "fetch_error": "Fetching data failed, please try again or notify us at info@esteem.app",
     "connection_fail": "Sikertelen kapcsolat!",
-    "connection_success": "Successfully connected!"
+    "connection_success": "A kapcsolat sikerült!"
   },
   "post": {
     "reblog_alert": "Biztos, hogy megosztod?",
     "removed_hint": "A bejegyzést eltávolította",
     "copy_link": "Link másolása",
     "reblogged": "megosztva általa",
-    "sponsored": "sponsored"
+    "sponsored": "szponzorált"
   },
   "drafts": {
     "title": "Piszkozatok",
@@ -310,10 +310,10 @@
     "withdraw_to_saving": "Átutalás A Megtakarításokhoz",
     "steemconnect_title": "Steemconnect átutalás",
     "next": "KÖVETKEZŐ",
-    "delegate": "Delegate",
+    "delegate": "Delegálás",
     "power_down": "Power Down",
-    "withdraw_steem": "Withdraw Steem",
-    "withdraw_sbd": "Withdraw Steem Dollar"
+    "withdraw_steem": "Steem Visszavonás",
+    "withdraw_sbd": "Steem Dollár Visszavonás"
   },
   "boost": {
     "title": "Get eSteem Points",
@@ -324,7 +324,7 @@
     "title": "Promote",
     "days": "nap",
     "user": "Felhasználó",
-    "permlink": "Post",
+    "permlink": "Bejegyzés",
     "permlinkPlaceholder": "author/permlink",
     "information": "Are you sure to promote?"
   },
