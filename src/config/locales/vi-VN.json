@@ -309,7 +309,11 @@
     "powerUp": "Tăng lên",
     "withdraw_to_saving": "Rút về phần tiết kiệm",
     "steemconnect_title": "Chuyển khoản Steemconnect",
-    "next": "KẾ TIẾP"
+    "next": "KẾ TIẾP",
+    "delegate": "Delegate",
+    "power_down": "Power Down",
+    "withdraw_steem": "Withdraw Steem",
+    "withdraw_sbd": "Withdraw Steem Dollar"
   },
   "boost": {
     "title": "Được Các Điểm eSteem",
