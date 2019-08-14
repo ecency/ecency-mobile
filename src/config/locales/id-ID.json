@@ -214,19 +214,19 @@
     "no_internet": "Tidak ada koneksi!",
     "confirm": "Konfirmasi",
     "removed": "Hapus",
-    "same_user": "This user already added to list",
-    "unknow_error": "An error occurred",
+    "same_user": "Pengguna ini sudah ditambahkan ke daftar",
+    "unknow_error": "Terjadi kesalahan",
     "error": "Error",
-    "fetch_error": "Fetching data failed, please try again or notify us at info@esteem.app",
-    "connection_fail": "Connection Failed!",
-    "connection_success": "Successfully connected!"
+    "fetch_error": "Gagal mengambil data, silakan coba lagi atau beri tahu kami di info@esteem.app",
+    "connection_fail": "Koneksi gagal!",
+    "connection_success": "Berhasil terhubung!"
   },
   "post": {
-    "reblog_alert": "Are you sure, you want to reblog?",
+    "reblog_alert": "Anda yakin, anda ingin me-reblog?",
     "removed_hint": "Pos dihapus oleh",
     "copy_link": "Copy Link",
-    "reblogged": "reblogged by",
-    "sponsored": "sponsored"
+    "reblogged": "direblog Oleh",
+    "sponsored": "disponsori"
   },
   "drafts": {
     "title": "Konsep",
@@ -276,8 +276,8 @@
     "reply": "balas",
     "share": "bagikan",
     "bookmarks": "tambah ke penanda",
-    "promote": "promote",
-    "boost": "boost"
+    "promote": "promosikan",
+    "boost": "menaikkan"
   },
   "deep_link": {
     "no_existing_user": "Tidak ada pengguna yang ada",
@@ -298,7 +298,7 @@
     "to": "Kepada",
     "amount": "Jumlah",
     "memo": "Memo",
-    "information": "Are you sure to transfer funds?",
+    "information": "Anda yakin mentransfer dana?",
     "amount_desc": "Keseimbangan",
     "memo_desc": "Memo ini bersifat publik",
     "to_placeholder": "Nama Pengguna",
