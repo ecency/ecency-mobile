@@ -309,7 +309,11 @@
     "powerUp": "Увеличение силы",
     "withdraw_to_saving": "Снять в сейф",
     "steemconnect_title": "Перевод Steemconnect",
-    "next": "ДАЛЕЕ"
+    "next": "ДАЛЕЕ",
+    "delegate": "Delegate",
+    "power_down": "Power Down",
+    "withdraw_steem": "Withdraw Steem",
+    "withdraw_sbd": "Withdraw Steem Dollar"
   },
   "boost": {
     "title": "Get eSteem Points",
