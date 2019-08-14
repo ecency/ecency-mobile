@@ -20,11 +20,11 @@
     "ignore": "mengabaikan anda",
     "reblog": "menampilkan kembali post anda",
     "transfer": "steem ditransfer",
-    "comingsoon": "Feature is coming soon!",
+    "comingsoon": "Fitur akan segera hadir!",
     "notification": "Pemberitahuan",
     "leaderboard": "Papan Peringkat",
     "epoint": "Poin",
-    "leaderboard_title": "Top Users",
+    "leaderboard_title": "Pengguna Teratas",
     "recent": "Baru digunakan",
     "yesterday": "Kemarin",
     "this_week": "Minggu ini",
@@ -32,13 +32,13 @@
     "older_then": "Lebih Lama Dari Sebulan"
   },
   "leaderboard": {
-    "daily": "Daily",
-    "weekly": "Weekly",
-    "monthly": "Monthly"
+    "daily": "Harian",
+    "weekly": "Mingguan",
+    "monthly": "Bulanan"
   },
   "points": {
     "post": "Kiriman",
-    "esteemPoints": "eSteem Points",
+    "esteemPoints": "eSteem Poin",
     "comment": "Komentar",
     "checkin": "Masuk",
     "vote": "Beri suara",
