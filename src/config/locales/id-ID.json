@@ -304,21 +304,21 @@
     "to_placeholder": "Nama Pengguna",
     "memo_placeholder": "Masukan catatan anda disini",
     "transfer_token": "Transfer",
-    "points": "Gift ESTM to someone",
-    "transfer_to_saving": "Transfer To Saving",
+    "points": "Hadiah ESTM kepada seseorang",
+    "transfer_to_saving": "Transfer untuk menyimpan",
     "powerUp": "Power Up",
-    "withdraw_to_saving": "Withdraw To Saving",
+    "withdraw_to_saving": "Tarik untuk menyimpan",
     "steemconnect_title": "Steemconnect Transfer",
     "next": "LANJUT",
-    "delegate": "Delegate",
-    "power_down": "Power Down",
+    "delegate": "Delegasikan",
+    "power_down": "Menurunkan daya",
     "withdraw_steem": "Withdraw Steem",
-    "withdraw_sbd": "Withdraw Steem Dollar"
+    "withdraw_sbd": "Tarik Steem Dollar"
   },
   "boost": {
-    "title": "Get eSteem Points",
-    "buy": "GET ESTM",
-    "next": "NEXT"
+    "title": "Dapatkan poin eSteem",
+    "buy": "DAPATKAN ESTM",
+    "next": "LANJUT"
   },
   "promote": {
     "title": "Promote",
