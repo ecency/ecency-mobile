@@ -44,12 +44,12 @@
     "vote": "Beri suara",
     "reblog": "Menampilkan kembali",
     "login": "Masuk",
-    "incoming_transfer_title": "Incoming transfer",
-    "outgoing_transfer_title": "Outgoing transfer",
+    "incoming_transfer_title": "Transfer masuk",
+    "outgoing_transfer_title": "Transfer keluar",
     "checkin_extra": "Bonus",
-    "delegation": "Delegation",
-    "delegation_title": "Delegation reward",
-    "delegation_desc": "You can earn 1 point per day for each 100sp delegation",
+    "delegation": "Delegasi",
+    "delegation_title": "Hadiah delegasi",
+    "delegation_desc": "Anda bisa mendapatkan 1 poin per hari untuk setiap delegasi 100SP",
     "post_title": "Poin untuk kiriman",
     "comment_title": "Poin untuk komentar",
     "vote_title": "Poin untuk suara",
@@ -67,9 +67,9 @@
     "reblog_desc": "  Bagikan pos yang Anda sukai dengan teman dan dapatkan 1 poin.",
     "login_desc": "Saat Anda masuk ke aplikasi eSteem, Anda berhak mendapatkan 100 poin secara otomatis.",
     "checkin_extra_desc": "Penggunaan aplikasi yang konsisten memberi Anda peluang ekstra untuk mendapatkan lebih banyak 10 poin, menjadi lebih aktif dan menghasilkan lebih banyak.",
-    "dropdown_transfer": "Gift",
-    "dropdown_promote": "Promote",
-    "dropdown_boost": "Boost"
+    "dropdown_transfer": "Hadiah",
+    "dropdown_promote": "Promosikan",
+    "dropdown_boost": "Meningkatkan"
   },
   "messages": {
     "comingsoon": "Fungsi pesan akan segera hadir!"
@@ -114,7 +114,7 @@
       "transfers": "Transfer"
     },
     "pincode": "Kode PIN",
-    "reset_pin": "Reset Pin Code",
+    "reset_pin": "Setel Ulang Kode Pin",
     "reset": "Setel Ulang",
     "nsfw_content": "Konten NSFW",
     "send_feedback": "Kirim Umpan balik",
@@ -127,11 +127,11 @@
     },
     "feedback_success": "Email berhasil dibuka",
     "feedback_fail": "Klien email tidak bisa dibuka",
-    "server_fail": "Server not available"
+    "server_fail": "Server tidak tersedia"
   },
   "voters": {
     "voters_info": "Info Pemilih",
-    "no_user": "User is not found."
+    "no_user": "Pengguna tidak ditemukan."
   },
   "login": {
     "signin": "Masuk",
@@ -196,7 +196,7 @@
     "fail": "Gagal!",
     "move": "Pindahkan",
     "move_question": "Apakah Anda yakin untuk pindah ke konsep?",
-    "success_shared": "Your post successfully shared",
+    "success_shared": "Postingan anda berhasil dibagikan",
     "success_moved": "Pindah ke konsep",
     "permission_denied": "Izin ditolak",
     "permission_text": "Silakan buka pengaturan telepon dan ubah izin untuk aplikasi eSteem.",
