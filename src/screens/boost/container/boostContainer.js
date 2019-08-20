@@ -91,9 +91,8 @@ class BoostContainer extends Component {
           intl.formatMessage({
             id: 'alert.warning',
           }),
-          error,
+          error.debugMessage,
         );
-        bugsnag.notify(error);
       }
     });
   };
