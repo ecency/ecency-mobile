@@ -20,11 +20,11 @@
     "ignore": "mengabaikan anda",
     "reblog": "menampilkan kembali post anda",
     "transfer": "steem ditransfer",
-    "comingsoon": "Feature is coming soon!",
+    "comingsoon": "Fitur akan segera hadir!",
     "notification": "Pemberitahuan",
     "leaderboard": "Papan Peringkat",
     "epoint": "Poin",
-    "leaderboard_title": "Top Users",
+    "leaderboard_title": "Pengguna Teratas",
     "recent": "Baru digunakan",
     "yesterday": "Kemarin",
     "this_week": "Minggu ini",
@@ -32,24 +32,24 @@
     "older_then": "Lebih Lama Dari Sebulan"
   },
   "leaderboard": {
-    "daily": "Daily",
-    "weekly": "Weekly",
-    "monthly": "Monthly"
+    "daily": "Harian",
+    "weekly": "Mingguan",
+    "monthly": "Bulanan"
   },
   "points": {
     "post": "Kiriman",
-    "esteemPoints": "eSteem Points",
+    "esteemPoints": "eSteem Poin",
     "comment": "Komentar",
     "checkin": "Masuk",
     "vote": "Beri suara",
     "reblog": "Menampilkan kembali",
     "login": "Masuk",
-    "incoming_transfer_title": "Incoming transfer",
-    "outgoing_transfer_title": "Outgoing transfer",
+    "incoming_transfer_title": "Transfer masuk",
+    "outgoing_transfer_title": "Transfer keluar",
     "checkin_extra": "Bonus",
-    "delegation": "Delegation",
-    "delegation_title": "Delegation reward",
-    "delegation_desc": "You can earn 1 point per day for each 100sp delegation",
+    "delegation": "Delegasi",
+    "delegation_title": "Hadiah delegasi",
+    "delegation_desc": "Anda bisa mendapatkan 1 poin per hari untuk setiap delegasi 100SP",
     "post_title": "Poin untuk kiriman",
     "comment_title": "Poin untuk komentar",
     "vote_title": "Poin untuk suara",
@@ -67,9 +67,9 @@
     "reblog_desc": "  Bagikan pos yang Anda sukai dengan teman dan dapatkan 1 poin.",
     "login_desc": "Saat Anda masuk ke aplikasi eSteem, Anda berhak mendapatkan 100 poin secara otomatis.",
     "checkin_extra_desc": "Penggunaan aplikasi yang konsisten memberi Anda peluang ekstra untuk mendapatkan lebih banyak 10 poin, menjadi lebih aktif dan menghasilkan lebih banyak.",
-    "dropdown_transfer": "Gift",
-    "dropdown_promote": "Promote",
-    "dropdown_boost": "Boost"
+    "dropdown_transfer": "Hadiah",
+    "dropdown_promote": "Promosikan",
+    "dropdown_boost": "Meningkatkan"
   },
   "messages": {
     "comingsoon": "Fungsi pesan akan segera hadir!"
@@ -114,7 +114,7 @@
       "transfers": "Transfer"
     },
     "pincode": "Kode PIN",
-    "reset_pin": "Reset Pin Code",
+    "reset_pin": "Setel Ulang Kode Pin",
     "reset": "Setel Ulang",
     "nsfw_content": "Konten NSFW",
     "send_feedback": "Kirim Umpan balik",
@@ -127,11 +127,11 @@
     },
     "feedback_success": "Email berhasil dibuka",
     "feedback_fail": "Klien email tidak bisa dibuka",
-    "server_fail": "Server not available"
+    "server_fail": "Server tidak tersedia"
   },
   "voters": {
     "voters_info": "Info Pemilih",
-    "no_user": "User is not found."
+    "no_user": "Pengguna tidak ditemukan."
   },
   "login": {
     "signin": "Masuk",
@@ -196,7 +196,7 @@
     "fail": "Gagal!",
     "move": "Pindahkan",
     "move_question": "Apakah Anda yakin untuk pindah ke konsep?",
-    "success_shared": "Your post successfully shared",
+    "success_shared": "Postingan anda berhasil dibagikan",
     "success_moved": "Pindah ke konsep",
     "permission_denied": "Izin ditolak",
     "permission_text": "Silakan buka pengaturan telepon dan ubah izin untuk aplikasi eSteem.",
@@ -214,19 +214,19 @@
     "no_internet": "Tidak ada koneksi!",
     "confirm": "Konfirmasi",
     "removed": "Hapus",
-    "same_user": "This user already added to list",
-    "unknow_error": "An error occurred",
+    "same_user": "Pengguna ini sudah ditambahkan ke daftar",
+    "unknow_error": "Terjadi kesalahan",
     "error": "Error",
-    "fetch_error": "Fetching data failed, please try again or notify us at info@esteem.app",
-    "connection_fail": "Connection Failed!",
-    "connection_success": "Successfully connected!"
+    "fetch_error": "Gagal mengambil data, silakan coba lagi atau beri tahu kami di info@esteem.app",
+    "connection_fail": "Koneksi gagal!",
+    "connection_success": "Berhasil terhubung!"
   },
   "post": {
-    "reblog_alert": "Are you sure, you want to reblog?",
+    "reblog_alert": "Anda yakin, anda ingin me-reblog?",
     "removed_hint": "Pos dihapus oleh",
     "copy_link": "Copy Link",
-    "reblogged": "reblogged by",
-    "sponsored": "sponsored"
+    "reblogged": "direblog Oleh",
+    "sponsored": "disponsori"
   },
   "drafts": {
     "title": "Konsep",
@@ -276,8 +276,8 @@
     "reply": "balas",
     "share": "bagikan",
     "bookmarks": "tambah ke penanda",
-    "promote": "promote",
-    "boost": "boost"
+    "promote": "promosikan",
+    "boost": "menaikkan"
   },
   "deep_link": {
     "no_existing_user": "Tidak ada pengguna yang ada",
@@ -298,43 +298,43 @@
     "to": "Kepada",
     "amount": "Jumlah",
     "memo": "Memo",
-    "information": "Are you sure to transfer funds?",
+    "information": "Anda yakin mentransfer dana?",
     "amount_desc": "Keseimbangan",
     "memo_desc": "Memo ini bersifat publik",
     "to_placeholder": "Nama Pengguna",
     "memo_placeholder": "Masukan catatan anda disini",
     "transfer_token": "Transfer",
-    "points": "Gift ESTM to someone",
-    "transfer_to_saving": "Transfer To Saving",
+    "points": "Hadiah ESTM kepada seseorang",
+    "transfer_to_saving": "Transfer untuk menyimpan",
     "powerUp": "Power Up",
-    "withdraw_to_saving": "Withdraw To Saving",
+    "withdraw_to_saving": "Tarik untuk menyimpan",
     "steemconnect_title": "Steemconnect Transfer",
     "next": "LANJUT",
-    "delegate": "Delegate",
-    "power_down": "Power Down",
+    "delegate": "Delegasikan",
+    "power_down": "Menurunkan daya",
     "withdraw_steem": "Withdraw Steem",
-    "withdraw_sbd": "Withdraw Steem Dollar"
+    "withdraw_sbd": "Tarik Steem Dollar"
   },
   "boost": {
-    "title": "Get eSteem Points",
-    "buy": "GET ESTM",
-    "next": "NEXT"
+    "title": "Dapatkan poin eSteem",
+    "buy": "DAPATKAN ESTM",
+    "next": "LANJUT"
   },
   "promote": {
-    "title": "Promote",
-    "days": "days",
-    "user": "User",
-    "permlink": "Post",
-    "permlinkPlaceholder": "author/permlink",
-    "information": "Are you sure to promote?"
+    "title": "Promosikan",
+    "days": "hari",
+    "user": "Pengguna",
+    "permlink": "Posting",
+    "permlinkPlaceholder": "penulis/tautkan",
+    "information": "Anda yakin akan promosikan?"
   },
   "boostPost": {
-    "title": "Boost"
+    "title": "Meningkatkan"
   },
   "voters_dropdown": {
-    "rewards": "REWARDS",
-    "percent": "PERCENT",
-    "time": "TIME"
+    "rewards": "PENGHARGAAN",
+    "percent": "PERSEN",
+    "time": "WAKTU"
   },
   "reblog": {
     "title": "Reblog Info"

@@ -32,9 +32,9 @@
     "older_then": "1 달 이상"
   },
   "leaderboard": {
-    "daily": "Daily",
-    "weekly": "Weekly",
-    "monthly": "Monthly"
+    "daily": "일간",
+    "weekly": "주간",
+    "monthly": "월간"
   },
   "points": {
     "post": "포스팅",
@@ -309,10 +309,10 @@
     "withdraw_to_saving": "안전 금고로 출금",
     "steemconnect_title": "Steemconnect 전송",
     "next": "다음",
-    "delegate": "Delegate",
-    "power_down": "Power Down",
-    "withdraw_steem": "Withdraw Steem",
-    "withdraw_sbd": "Withdraw Steem Dollar"
+    "delegate": "임대",
+    "power_down": "파워 다운",
+    "withdraw_steem": "스팀 출금",
+    "withdraw_sbd": "스팀 달러 출금"
   },
   "boost": {
     "title": "eSteem 포인트 구매",
@@ -331,7 +331,7 @@
     "title": "후원"
   },
   "voters_dropdown": {
-    "rewards": "REWARDS",
+    "rewards": "보상",
     "percent": "PERCENT",
     "time": "TIME"
   },

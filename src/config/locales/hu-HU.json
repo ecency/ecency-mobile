@@ -24,7 +24,7 @@
     "notification": "Értesítések",
     "leaderboard": "Ranglista",
     "epoint": "Pontok",
-    "leaderboard_title": "Top Users",
+    "leaderboard_title": "Top Felhasználók",
     "recent": "Friss",
     "yesterday": "Tegnap",
     "this_week": "Ezen a héten",
@@ -32,9 +32,9 @@
     "older_then": "Egy Hónapnál Régebbi"
   },
   "leaderboard": {
-    "daily": "Daily",
-    "weekly": "Weekly",
-    "monthly": "Monthly"
+    "daily": "Napi",
+    "weekly": "Heti",
+    "monthly": "Havi"
   },
   "points": {
     "post": "Bejegyzés",
@@ -68,7 +68,7 @@
     "login_desc": "Minden eSteem bejelentkezés alkalmával automatikusan 100 pontra vagy jogosult.",
     "checkin_extra_desc": "Az alkalmazás következetes használata extra esélyt kínál arra, hogy több 10 pontot nyerj, légy aktívabb és nyerj többet.",
     "dropdown_transfer": "Ajándék",
-    "dropdown_promote": "Promote",
+    "dropdown_promote": "Promoválás",
     "dropdown_boost": "Boost"
   },
   "messages": {
@@ -217,16 +217,16 @@
     "same_user": "Ez a felhasználó már szerepel a listán",
     "unknow_error": "Hiba történt",
     "error": "Hiba",
-    "fetch_error": "Fetching data failed, please try again or notify us at info@esteem.app",
+    "fetch_error": "Sikertelen adatbetöltés, kérjük próbáld meg újra vagy írj nekünk ide info@esteem.app",
     "connection_fail": "Sikertelen kapcsolat!",
-    "connection_success": "Successfully connected!"
+    "connection_success": "A kapcsolat sikerült!"
   },
   "post": {
     "reblog_alert": "Biztos, hogy megosztod?",
     "removed_hint": "A bejegyzést eltávolította",
     "copy_link": "Link másolása",
     "reblogged": "megosztva általa",
-    "sponsored": "sponsored"
+    "sponsored": "szponzorált"
   },
   "drafts": {
     "title": "Piszkozatok",
@@ -276,7 +276,7 @@
     "reply": "válasz",
     "share": "megosztás",
     "bookmarks": "hozzáadás a könyvjelzőkhöz",
-    "promote": "promote",
+    "promote": "promoválás",
     "boost": "boost"
   },
   "deep_link": {
@@ -310,10 +310,10 @@
     "withdraw_to_saving": "Átutalás A Megtakarításokhoz",
     "steemconnect_title": "Steemconnect átutalás",
     "next": "KÖVETKEZŐ",
-    "delegate": "Delegate",
+    "delegate": "Delegálás",
     "power_down": "Power Down",
-    "withdraw_steem": "Withdraw Steem",
-    "withdraw_sbd": "Withdraw Steem Dollar"
+    "withdraw_steem": "Steem Visszavonás",
+    "withdraw_sbd": "Steem Dollár Visszavonás"
   },
   "boost": {
     "title": "Get eSteem Points",
@@ -321,10 +321,10 @@
     "next": "KÖVETKEZŐ"
   },
   "promote": {
-    "title": "Promote",
+    "title": "Promoválás",
     "days": "nap",
     "user": "Felhasználó",
-    "permlink": "Post",
+    "permlink": "Bejegyzés",
     "permlinkPlaceholder": "author/permlink",
     "information": "Are you sure to promote?"
   },
@@ -332,9 +332,9 @@
     "title": "Boost"
   },
   "voters_dropdown": {
-    "rewards": "REWARDS",
-    "percent": "PERCENT",
-    "time": "TIME"
+    "rewards": "JUTALMAK",
+    "percent": "SZÁZALÉK",
+    "time": "IDŐ"
   },
   "reblog": {
     "title": "Reblog Info"
