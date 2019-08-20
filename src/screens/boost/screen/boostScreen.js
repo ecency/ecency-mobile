@@ -45,9 +45,15 @@ class BoostScreen extends PureComponent {
   };
 
   _getTitle = title => {
-    const lastIndex = title.lastIndexOf(' ');
+    const _title = title && title.toLowerCase();
 
-    return title.substring(0, lastIndex);
+    if (_title) {
+      if (title.includes('(ESTEEM)')) return title.replace('(ESTEEM)', '');
+
+      return title.toUpperCase();
+    }
+
+    return '';
   };
 
   render() {
@@ -81,7 +87,7 @@ class BoostScreen extends PureComponent {
                   isLoading={false}
                 >
                   <View style={styles.buttonContent}>
-                    <Text style={styles.buttonText}>{get(item, 'title', '').toUpperCase()}</Text>
+                    <Text style={styles.buttonText}>{this._getTitle(get(item, 'title', ''))}</Text>
                     <View style={styles.buttonIconWrapper}>
                       <Icon name="add" iconType="MaterialIcons" color="#357ce6" size={23} />
                     </View>
