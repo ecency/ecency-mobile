@@ -1,10 +1,10 @@
-import { PureComponent } from 'react';
+import { Component } from 'react';
 
 import { isBefore } from '../utils/time';
 
 import ROUTES from '../constants/routeNames';
 
-class AccountListContainer extends PureComponent {
+class AccountListContainer extends Component {
   /* Props
    * ------------------------------------------------
    *   @prop { type }    name                - Description....
@@ -15,6 +15,7 @@ class AccountListContainer extends PureComponent {
     this.state = {
       data: props.data,
       filterResult: null,
+      filterIndex: '0',
     };
   }
 
@@ -23,7 +24,7 @@ class AccountListContainer extends PureComponent {
   // Component Functions
 
   _handleSearch = (searchText, key) => {
-    const { data } = this.state;
+    const { data, filterIndex } = this.state;
 
     const newData = data.filter(item => {
       const itemName = item[key].toUpperCase();
@@ -32,12 +33,16 @@ class AccountListContainer extends PureComponent {
       return itemName.indexOf(_text) > -1;
     });
 
-    this.setState({ filterResult: newData });
+    if (filterIndex !== '0') {
+      this._handleOnVotersDropdownSelect(filterIndex, '', newData);
+    } else {
+      this.setState({ filterResult: newData });
+    }
   };
 
-  _handleOnVotersDropdownSelect = index => {
+  _handleOnVotersDropdownSelect = (index, text, oldData) => {
     const { data } = this.state;
-    const _data = data;
+    const _data = Object.assign([], oldData || data);
 
     switch (index) {
       case '0':
@@ -53,7 +58,7 @@ class AccountListContainer extends PureComponent {
         break;
     }
 
-    this.setState({ filterResult: _data });
+    this.setState({ filterResult: _data, filterIndex: index });
   };
 
   _handleOnUserPress = username => {
