@@ -53,7 +53,12 @@ class UpvoteContainer extends PureComponent {
     } = this.props;
 
     const author = get(content, 'author');
-    const isVoted = get(content, 'is_voted');
+    const isVoted = get(content, 'is_voted')
+      ? parseInt(get(content, 'is_voted'), 10) / 10000
+      : false;
+    const isDownVoted = get(content, 'is_down_voted')
+      ? (parseInt(get(content, 'is_down_voted', false), 10) / 10000) * -1
+      : false;
     const totalPayout = get(content, 'total_payout');
     const isDecinedPayout = get(content, 'is_declined_payout');
     const permlink = get(content, 'permlink');
@@ -80,6 +85,7 @@ class UpvoteContainer extends PureComponent {
         isLoggedIn={isLoggedIn}
         isShowPayoutValue={isShowPayoutValue}
         isVoted={isVoted}
+        isDownVoted={isDownVoted}
         payoutDate={payoutDate}
         pendingPayout={pendingPayout}
         permlink={permlink}

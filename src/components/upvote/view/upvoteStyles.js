@@ -48,8 +48,8 @@ export default EStyleSheet.create({
     marginLeft: 8,
   },
   percent: {
-    width: 40,
     color: '$primaryDarkGray',
+    marginRight: 5,
   },
   slider: {
     flex: 1,
