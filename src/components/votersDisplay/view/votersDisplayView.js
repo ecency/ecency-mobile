@@ -1,4 +1,4 @@
-import React, { PureComponent } from 'react';
+import React, { Component } from 'react';
 import { View, FlatList, Text } from 'react-native';
 import { injectIntl } from 'react-intl';
 
@@ -8,10 +8,9 @@ import { getTimeFromNow } from '../../../utils/time';
 // Components
 import { UserListItem } from '../../basicUIElements';
 // Styles
-// eslint-disable-next-line
 import styles from './votersDisplayStyles';
 
-class VotersDisplayView extends PureComponent {
+class VotersDisplayView extends Component {
   /* Props
    * ------------------------------------------------
    *   @prop { type }    name                - Description....
