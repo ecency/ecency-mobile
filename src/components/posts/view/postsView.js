@@ -1,9 +1,9 @@
-/* eslint-disable react/jsx-wrap-multilines */
 import React, { Component, Fragment } from 'react';
 import { FlatList, View, ActivityIndicator, RefreshControl } from 'react-native';
 import { injectIntl } from 'react-intl';
 import { withNavigation } from 'react-navigation';
 import get from 'lodash/get';
+
 // STEEM
 import { getPostsSummary, getPost } from '../../../providers/steem/dsteem';
 import { getPromotePosts } from '../../../providers/esteem/esteem';
@@ -50,7 +50,7 @@ class PostsView extends Component {
     const { isConnected, pageType } = this.props;
 
     if (isConnected) {
-      if (pageType !== 'profiles') await this._getPromotePosts();
+      // if (pageType !== 'profiles') await this._getPromotePosts();
       this._loadPosts();
     } else {
       this.setState({
@@ -92,18 +92,31 @@ class PostsView extends Component {
 
   _getPromotePosts = async () => {
     const { currentAccountUsername } = this.props;
+    let promotedPosts = [];
 
     await getPromotePosts().then(async res => {
-      const promotedPosts = [];
-
       if (res && res.length) {
-        res.forEach(async item => {
-          const post = await getPost(item.author, item.permlink, currentAccountUsername, true);
-          promotedPosts.push(post);
-        });
-      }
+        // promotedPosts = await Promise.all(res);
 
-      await this.setState({ promotedPosts });
+        // await res.forEach(async item => {
+        //   const post = await getPost(
+        //     get(item, 'author'),
+        //     get(item, 'permlink'),
+        //     currentAccountUsername,
+        //     true,
+        //   );
+        //   promotedPosts.push(post);
+        // });
+
+        const state = res.reduce(async (a, o) => {
+          return await getPost(get(a, 'author'), get(a, 'permlink'), currentAccountUsername, true);
+        }, {});
+
+        this.setState({ promotedPosts: state });
+        // if (promotedPosts) {
+        // }
+        // }
+      }
     });
   };
 
@@ -236,11 +249,15 @@ class PostsView extends Component {
   };
 
   _handleOnRefreshPosts = () => {
+    const { pageType } = this.props;
+
     this.setState(
       {
         refreshing: true,
       },
-      () => {
+      async () => {
+        if (pageType !== 'profiles') await this._getPromotePosts();
+
         this._loadPosts();
       },
     );
@@ -345,7 +362,7 @@ class PostsView extends Component {
       selectedOptionIndex,
       isDarkTheme,
       isHideImage,
-      hanldeImagesHide,
+      handleImagesHide,
     } = this.props;
 
     return (
@@ -359,7 +376,7 @@ class PostsView extends Component {
             rightIconName="view-module"
             rightIconType="MaterialIcons"
             onDropdownSelect={this._handleOnDropdownSelect}
-            onRightIconPress={hanldeImagesHide}
+            onRightIconPress={handleImagesHide}
           />
         )}
 
@@ -369,7 +386,7 @@ class PostsView extends Component {
           renderItem={({ item }) => (
             <PostCard isRefresh={refreshing} content={item} isHideImage={isHideImage} />
           )}
-          keyExtractor={content => content.permlink}
+          keyExtractor={(content, i) => `${get(content, 'permlink', '')}${i.toString()}`}
           onEndReached={() => this._loadPosts()}
           removeClippedSubviews
           refreshing={refreshing}
