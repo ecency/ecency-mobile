@@ -42,8 +42,10 @@ export const parsePost = async (post, currentUserName, isPromoted) => {
 
   if (currentUserName) {
     post.is_voted = isVoted(post.active_votes, currentUserName);
+    post.is_down_voted = isDownVoted(post.active_votes, currentUserName);
   } else {
     post.is_voted = false;
+    post.is_down_voted = false;
   }
 
   const totalPayout =
@@ -133,8 +135,10 @@ export const parseComments = async (comments, currentUserName) => {
 
     if (currentUserName && activeVotes && activeVotes.length > 0) {
       comment.is_voted = isVoted(activeVotes, currentUserName);
+      comment.is_down_voted = isDownVoted(comment.active_votes, currentUserName);
     } else {
       comment.is_voted = false;
+      comment.is_down_voted = false;
     }
     return comment;
   });
@@ -144,5 +148,22 @@ export const parseComments = async (comments, currentUserName) => {
   return _comments;
 };
 
-const isVoted = (activeVotes, currentUserName) =>
-  activeVotes.some(v => v.voter === currentUserName && v.percent > 0);
+const isVoted = (activeVotes, currentUserName) => {
+  const result = activeVotes.find(
+    element => element.voter === currentUserName && element.percent > 0,
+  );
+  if (result) {
+    return result.percent;
+  }
+  return false;
+};
+
+const isDownVoted = (activeVotes, currentUserName) => {
+  const result = activeVotes.find(
+    element => element.voter === currentUserName && element.percent < 0,
+  );
+  if (result) {
+    return result.percent;
+  }
+  return false;
+};
