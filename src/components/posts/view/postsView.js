@@ -202,7 +202,6 @@ class PostsView extends Component {
             if (posts.length < 5) {
               setFeedPosts(_posts);
             }
-            // const postW = [..._posts];
 
             if (promotedPosts && promotedPosts.length > 0) {
               promotedPosts.forEach((promotedItem, i) => {
