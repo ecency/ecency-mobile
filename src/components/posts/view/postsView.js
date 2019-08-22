@@ -1,3 +1,4 @@
+/* eslint-disable react/jsx-wrap-multilines */
 import React, { Component, Fragment } from 'react';
 import { FlatList, View, ActivityIndicator, RefreshControl } from 'react-native';
 import { injectIntl } from 'react-intl';
@@ -50,7 +51,7 @@ class PostsView extends Component {
     const { isConnected, pageType } = this.props;
 
     if (isConnected) {
-      // if (pageType !== 'profiles') await this._getPromotePosts();
+      if (pageType !== 'profiles') await this._getPromotePosts();
       this._loadPosts();
     } else {
       this.setState({
@@ -92,30 +93,18 @@ class PostsView extends Component {
 
   _getPromotePosts = async () => {
     const { currentAccountUsername } = this.props;
-    let promotedPosts = [];
 
     await getPromotePosts().then(async res => {
       if (res && res.length) {
-        // promotedPosts = await Promise.all(res);
+        const promotedPosts = await Promise.all(
+          res.map(item =>
+            getPost(get(item, 'author'), get(item, 'permlink'), currentAccountUsername, true).then(
+              post => post,
+            ),
+          ),
+        );
 
-        // await res.forEach(async item => {
-        //   const post = await getPost(
-        //     get(item, 'author'),
-        //     get(item, 'permlink'),
-        //     currentAccountUsername,
-        //     true,
-        //   );
-        //   promotedPosts.push(post);
-        // });
-
-        const state = res.reduce(async (a, o) => {
-          return await getPost(get(a, 'author'), get(a, 'permlink'), currentAccountUsername, true);
-        }, {});
-
-        this.setState({ promotedPosts: state });
-        // if (promotedPosts) {
-        // }
-        // }
+        this.setState({ promotedPosts });
       }
     });
   };
@@ -149,7 +138,7 @@ class PostsView extends Component {
         : PROFILE_FILTERS[selectedFilterIndex].toLowerCase();
     let options;
     let newPosts = [];
-    const limit = promotedPosts ? (promotedPosts.length >= 3 ? 9 : 6) : 3;
+    const limit = 9;
 
     if (!isConnected) {
       this.setState({
@@ -213,18 +202,19 @@ class PostsView extends Component {
             if (posts.length < 5) {
               setFeedPosts(_posts);
             }
+            // const postW = [..._posts];
 
-            if (refreshing && newPosts.length > 0) {
+            if (promotedPosts && promotedPosts.length > 0) {
+              promotedPosts.forEach((promotedItem, i) => {
+                _posts.splice((i + 1) * 3, i * 3, promotedItem);
+              });
+            }
+
+            if (refreshing) {
               this.setState({
                 posts: _posts,
               });
             } else if (!refreshing) {
-              if (!startAuthor) {
-                promotedPosts.map((promotedItem, i) => {
-                  _posts.splice((i + 1) * 3, i * 3, promotedItem);
-                });
-              }
-
               this.setState({
                 posts: _posts,
                 startAuthor: result[result.length - 1] && result[result.length - 1].author,
@@ -366,7 +356,7 @@ class PostsView extends Component {
     } = this.props;
 
     return (
-      <View style={styles.container}>
+      <View style={styles.container} key={posts && posts.length}>
         {filterOptions && isShowFilterBar && (
           <FilterBar
             dropdownIconName="arrow-drop-down"
