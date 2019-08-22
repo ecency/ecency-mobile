@@ -355,7 +355,7 @@ class PostsView extends Component {
     } = this.props;
 
     return (
-      <View style={styles.container} key={posts && posts.length}>
+      <View style={styles.container}>
         {filterOptions && isShowFilterBar && (
           <FilterBar
             dropdownIconName="arrow-drop-down"

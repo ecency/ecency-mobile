@@ -93,7 +93,7 @@ class PostCardView extends Component {
     const _image = this._getPostImage(content, isNsfwPost);
 
     return (
-      <View key={content.permlink} style={styles.post}>
+      <View style={styles.post}>
         <View style={styles.bodyHeader}>
           <PostHeaderDescription
             // date={intl.formatRelative(content.created)}
