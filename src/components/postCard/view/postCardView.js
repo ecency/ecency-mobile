@@ -93,7 +93,7 @@ class PostCardView extends Component {
     const _image = this._getPostImage(content, isNsfwPost);
 
     return (
-      <View style={styles.post}>
+      <View key={content.permlink} style={styles.post}>
         <View style={styles.bodyHeader}>
           <PostHeaderDescription
             // date={intl.formatRelative(content.created)}
@@ -161,7 +161,7 @@ class PostCardView extends Component {
               iconStyle={styles.commentIcon}
               iconType="MaterialIcons"
               isClickable
-              text={get(content, 'vote_count', 0)}
+              text={get(content, 'children', 0)}
             />
           </View>
         </View>
