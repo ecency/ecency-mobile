@@ -74,6 +74,7 @@ class BoostContainer extends Component {
             } else if (Platform.OS === 'android') {
               RNIap.consumePurchaseAndroid(token);
             }
+            this.setState({ isProccesing: false });
           })
           .catch(err =>
             bugsnag.notify(err, report => {
@@ -94,6 +95,7 @@ class BoostContainer extends Component {
           error.debugMessage,
         );
       }
+      this.setState({ isProccesing: false });
     });
   };
 
@@ -121,7 +123,7 @@ class BoostContainer extends Component {
 
     if (sku !== 'freePoints') {
       try {
-        await RNIap.requestPurchase(sku, false);
+        RNIap.requestPurchase(sku, false);
       } catch (err) {
         bugsnag.notify(err, report => {
           report.metadata = {
@@ -134,8 +136,6 @@ class BoostContainer extends Component {
         routeName: ROUTES.SCREENS.FREE_ESTM,
       });
     }
-
-    this.setState({ isProccesing: false });
   };
 
   render() {
