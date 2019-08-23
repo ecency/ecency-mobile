@@ -64,6 +64,7 @@ export default EStyleSheet.create({
     alignSelf: 'center',
     fontWeight: '500',
     fontSize: 14,
+    flex: 1,
   },
   buttonText: {
     fontSize: 18,
