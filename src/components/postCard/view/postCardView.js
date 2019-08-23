@@ -161,7 +161,7 @@ class PostCardView extends Component {
               iconStyle={styles.commentIcon}
               iconType="MaterialIcons"
               isClickable
-              text={get(content, 'vote_count', 0)}
+              text={get(content, 'children', 0)}
             />
           </View>
         </View>

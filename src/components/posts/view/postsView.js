@@ -4,6 +4,7 @@ import { FlatList, View, ActivityIndicator, RefreshControl } from 'react-native'
 import { injectIntl } from 'react-intl';
 import { withNavigation } from 'react-navigation';
 import get from 'lodash/get';
+
 // STEEM
 import { getPostsSummary, getPost } from '../../../providers/steem/dsteem';
 import { getPromotePosts } from '../../../providers/esteem/esteem';
@@ -94,16 +95,17 @@ class PostsView extends Component {
     const { currentAccountUsername } = this.props;
 
     await getPromotePosts().then(async res => {
-      const promotedPosts = [];
-
       if (res && res.length) {
-        res.forEach(async item => {
-          const post = await getPost(item.author, item.permlink, currentAccountUsername, true);
-          promotedPosts.push(post);
-        });
-      }
+        const promotedPosts = await Promise.all(
+          res.map(item =>
+            getPost(get(item, 'author'), get(item, 'permlink'), currentAccountUsername, true).then(
+              post => post,
+            ),
+          ),
+        );
 
-      await this.setState({ promotedPosts });
+        this.setState({ promotedPosts });
+      }
     });
   };
 
@@ -136,7 +138,7 @@ class PostsView extends Component {
         : PROFILE_FILTERS[selectedFilterIndex].toLowerCase();
     let options;
     let newPosts = [];
-    const limit = promotedPosts ? (promotedPosts.length >= 3 ? 9 : 6) : 3;
+    const limit = 9;
 
     if (!isConnected) {
       this.setState({
@@ -201,17 +203,17 @@ class PostsView extends Component {
               setFeedPosts(_posts);
             }
 
-            if (refreshing && newPosts.length > 0) {
+            if (promotedPosts && promotedPosts.length > 0) {
+              promotedPosts.forEach((promotedItem, i) => {
+                _posts.splice((i + 1) * 3, i * 3, promotedItem);
+              });
+            }
+
+            if (refreshing) {
               this.setState({
                 posts: _posts,
               });
             } else if (!refreshing) {
-              if (!startAuthor) {
-                promotedPosts.map((promotedItem, i) => {
-                  _posts.splice((i + 1) * 3, i * 3, promotedItem);
-                });
-              }
-
               this.setState({
                 posts: _posts,
                 startAuthor: result[result.length - 1] && result[result.length - 1].author,
@@ -236,11 +238,15 @@ class PostsView extends Component {
   };
 
   _handleOnRefreshPosts = () => {
+    const { pageType } = this.props;
+
     this.setState(
       {
         refreshing: true,
       },
-      () => {
+      async () => {
+        if (pageType !== 'profiles') await this._getPromotePosts();
+
         this._loadPosts();
       },
     );
@@ -345,7 +351,7 @@ class PostsView extends Component {
       selectedOptionIndex,
       isDarkTheme,
       isHideImage,
-      hanldeImagesHide,
+      handleImagesHide,
     } = this.props;
 
     return (
@@ -359,7 +365,7 @@ class PostsView extends Component {
             rightIconName="view-module"
             rightIconType="MaterialIcons"
             onDropdownSelect={this._handleOnDropdownSelect}
-            onRightIconPress={hanldeImagesHide}
+            onRightIconPress={handleImagesHide}
           />
         )}
 
@@ -369,7 +375,7 @@ class PostsView extends Component {
           renderItem={({ item }) => (
             <PostCard isRefresh={refreshing} content={item} isHideImage={isHideImage} />
           )}
-          keyExtractor={content => content.permlink}
+          keyExtractor={(content, i) => `${get(content, 'permlink', '')}${i.toString()}`}
           onEndReached={() => this._loadPosts()}
           removeClippedSubviews
           refreshing={refreshing}
