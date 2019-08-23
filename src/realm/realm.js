@@ -193,10 +193,7 @@ export const updateUserData = userData =>
 export const removeUserData = username =>
   new Promise((resolve, reject) => {
     try {
-      const account = Object.assign(
-        [],
-        Array.from(realm.objects(USER_SCHEMA).filtered('username = $0', username)),
-      );
+      const account = Array.from(realm.objects(USER_SCHEMA).filtered('username = $0', username));
       if (convertToArray(account).length > 0) {
         realm.write(() => {
           realm.delete(account);
