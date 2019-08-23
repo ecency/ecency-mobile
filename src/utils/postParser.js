@@ -150,7 +150,7 @@ export const parseComments = async (comments, currentUserName) => {
 
 const isVoted = (activeVotes, currentUserName) => {
   const result = activeVotes.find(
-    element => element.voter === currentUserName && element.percent > 0,
+    element => get(element, 'voter') === currentUserName && get(element, 'percent', 0) > 0,
   );
   if (result) {
     return result.percent;
