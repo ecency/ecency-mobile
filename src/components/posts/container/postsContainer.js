@@ -69,7 +69,7 @@ class PostsContainer extends PureComponent {
         forceLoadPost={forceLoadPost}
         getFor={getFor}
         handleOnScroll={handleOnScroll}
-        hanldeImagesHide={this._handleImagesHide}
+        handleImagesHide={this._handleImagesHide}
         hidePostsThumbnails={hidePostsThumbnails}
         isConnected={isConnected}
         isHideImage={isHideImages}
