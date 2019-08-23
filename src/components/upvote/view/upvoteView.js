@@ -224,7 +224,7 @@ class UpvoteView extends Component {
     const _percent = `${downvote ? '-' : ''}${(sliderValue * 100).toFixed(0)}%`;
     const _amount = `$${amount}`;
     const _totalPayout = totalPayout || '0.000';
-    const _sliderColor = downvote ? '#ec8b88' : '#357ce6';
+    const sliderColor = downvote ? '#ec8b88' : '#357ce6';
 
     return (
       <PopoverController>
@@ -249,20 +249,12 @@ class UpvoteView extends Component {
                       isShow={!isVoting}
                     />
                   </View>
-                ) : isDownVoted ? (
-                  <Icon
-                    size={20}
-                    style={[styles.upvoteIcon, { color: '#ec8b88' }]}
-                    active={!isLoggedIn}
-                    iconType="AntDesign"
-                    name="downcircle"
-                  />
                 ) : (
                   <Icon
-                    style={[styles.upvoteIcon]}
+                    style={[styles.upvoteIcon, isDownVoted && { color: '#ec8b88' }]}
                     active={!isLoggedIn}
-                    iconType={iconType}
-                    name={iconName}
+                    iconType={isDownVoted ? 'AntDesign' : iconType}
+                    name={isDownVoted ? 'downcircle' : iconName}
                   />
                 )}
               </Fragment>
@@ -342,7 +334,7 @@ class UpvoteView extends Component {
                     <Text style={styles.amount}>{_amount}</Text>
                     <Slider
                       style={styles.slider}
-                      minimumTrackTintColor={_sliderColor}
+                      minimumTrackTintColor={sliderColor}
                       trackStyle={styles.track}
                       thumbStyle={styles.thumb}
                       thumbTintColor="#007ee5"
