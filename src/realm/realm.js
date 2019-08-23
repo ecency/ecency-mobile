@@ -114,11 +114,17 @@ if (Array.from(settings).length <= 0) {
   });
 }
 
+export const convertToArray = realmObjectsArray => {
+  const copyOfJsonArray = Array.from(realmObjectsArray);
+  const jsonArray = JSON.parse(JSON.stringify(copyOfJsonArray));
+  return jsonArray;
+};
+
 // TODO: This is getting ALL user data, we should change this method with getUserDataWithUsername
 export const getUserData = () =>
   new Promise((resolve, reject) => {
     try {
-      const user = Array.from(realm.objects(USER_SCHEMA));
+      const user = convertToArray(realm.objects(USER_SCHEMA));
       resolve(user);
     } catch (error) {
       reject(error);
@@ -137,7 +143,7 @@ export const getSelectedUser = username =>
 
 export const getUserDataWithUsername = username => {
   try {
-    const user = Array.from(realm.objects(USER_SCHEMA).filtered('username = $0', username));
+    const user = convertToArray(realm.objects(USER_SCHEMA).filtered('username = $0', username));
     return user;
   } catch (error) {
     return error;
@@ -167,7 +173,7 @@ export const updateUserData = userData =>
     try {
       const account = realm.objects(USER_SCHEMA).filtered('username = $0', userData.username);
 
-      if (Array.from(account).length > 0) {
+      if (convertToArray(account).length > 0) {
         realm.write(() => {
           account[0].masterKey = userData.masterKey;
           account[0].activeKey = userData.activeKey;
@@ -187,11 +193,8 @@ export const updateUserData = userData =>
 export const removeUserData = username =>
   new Promise((resolve, reject) => {
     try {
-      const account = Object.assign(
-        [],
-        realm.objects(USER_SCHEMA).filtered('username = $0', username),
-      );
-      if (Array.from(account).length > 0) {
+      const account = Array.from(realm.objects(USER_SCHEMA).filtered('username = $0', username));
+      if (convertToArray(account).length > 0) {
         realm.write(() => {
           realm.delete(account);
           resolve();
@@ -242,7 +245,7 @@ export const setDraftPost = (fields, username) =>
       const draft = realm.objects(DRAFT_SCHEMA).filtered('username = $0', username);
 
       realm.write(() => {
-        if (Array.from(draft).length > 0) {
+        if (convertToArray(draft).length > 0) {
           draft[0].title = fields.title;
           draft[0].tags = fields.tags;
           draft[0].body = fields.body;
@@ -265,7 +268,7 @@ export const setDraftPost = (fields, username) =>
 export const getDraftPost = username =>
   new Promise((resolve, reject) => {
     try {
-      const draft = Array.from(realm.objects(DRAFT_SCHEMA).filtered('username = $0', username));
+      const draft = convertToArray(realm.objects(DRAFT_SCHEMA).filtered('username = $0', username));
       resolve(draft[0]);
     } catch (error) {
       reject(error);
@@ -291,7 +294,7 @@ export const setAuthStatus = authStatus =>
     try {
       const auth = realm.objects(AUTH_SCHEMA);
       realm.write(() => {
-        if (Array.from(auth).length > 0) {
+        if (convertToArray(auth).length > 0) {
           auth[0].isLoggedIn = authStatus.isLoggedIn;
           resolve(auth[0]);
         } else {
@@ -309,7 +312,7 @@ export const updateCurrentUsername = username =>
     try {
       const auth = realm.objects(AUTH_SCHEMA);
       realm.write(() => {
-        if (Array.from(auth).length > 0) {
+        if (convertToArray(auth).length > 0) {
           auth[0].currentUsername = username;
           resolve(auth[0]);
         } else {
@@ -616,7 +619,7 @@ export const setPushTokenSaved = pushTokenSaved =>
     try {
       const application = realm.objects(APPLICATION_SCHEMA);
       realm.write(() => {
-        if (Array.from(application).length > 0) {
+        if (convertToArray(application).length > 0) {
           application[0].isPushTokenSaved = pushTokenSaved;
           resolve(application[0]);
         } else {
@@ -655,7 +658,7 @@ export const setExistUser = existUser =>
     try {
       const application = realm.objects(APPLICATION_SCHEMA);
       realm.write(() => {
-        if (Array.from(application).length > 0) {
+        if (convertToArray(application).length > 0) {
           application[0].isExistUser = existUser;
           resolve(application[0]);
         } else {
@@ -678,7 +681,7 @@ export const setSCAccount = data =>
       const date = new Date();
       date.setSeconds(date.getSeconds() + data.expires_in);
       realm.write(() => {
-        if (Array.from(scAccount).length > 0) {
+        if (convertToArray(scAccount).length > 0) {
           scAccount[0].refreshToken = data.refresh_token;
           scAccount[0].expireDate = date.toString();
           resolve();
@@ -702,7 +705,7 @@ export const getSCAccount = username =>
   new Promise((resolve, reject) => {
     try {
       const scAccount = realm.objects(SC_ACCOUNTS).filtered('username = $0', username);
-      if (Array.from(scAccount).length > 0) {
+      if (convertToArray(scAccount).length > 0) {
         resolve(scAccount[0]);
       } else {
         resolve(false);
@@ -717,7 +720,7 @@ export const removeSCAccount = username =>
     try {
       const scAccount = realm.objects(SC_ACCOUNTS).filtered('username = $0', username);
 
-      if (Array.from(scAccount).length > 0) {
+      if (convertToArray(scAccount).length > 0) {
         realm.write(() => {
           realm.delete(scAccount);
           resolve();
