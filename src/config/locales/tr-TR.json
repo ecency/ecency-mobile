@@ -20,11 +20,11 @@
     "ignore": "seni engelledi",
     "reblog": "senin postunu paylaştı",
     "transfer": "transfer edilen steem",
-    "comingsoon": "Feature is coming soon!",
+    "comingsoon": "Bu özellik yakında çıkacak!",
     "notification": "Bildirimler",
     "leaderboard": "Liderler Tablosu",
     "epoint": "Puanlar",
-    "leaderboard_title": "Top Users",
+    "leaderboard_title": "En İyi Kullanıcılar",
     "recent": "Geçen",
     "yesterday": "Dün",
     "this_week": "Bu Hafta",
@@ -32,9 +32,9 @@
     "older_then": "Bir Aydan Daha Önce"
   },
   "leaderboard": {
-    "daily": "Daily",
-    "weekly": "Weekly",
-    "monthly": "Monthly"
+    "daily": "Günlük",
+    "weekly": "Haftalık",
+    "monthly": "Aylık"
   },
   "points": {
     "post": "Gönderi",
@@ -43,7 +43,7 @@
     "checkin": "Check-in",
     "vote": "Vote",
     "reblog": "Reblog",
-    "login": "Login",
+    "login": "Giriş yap",
     "incoming_transfer_title": "Incoming transfer",
     "outgoing_transfer_title": "Outgoing transfer",
     "checkin_extra": "Bonus",
