@@ -138,7 +138,7 @@ class PostsView extends Component {
         : PROFILE_FILTERS[selectedFilterIndex].toLowerCase();
     let options;
     let newPosts = [];
-    const limit = 10;
+    const limit = 11;
 
     if (!isConnected) {
       this.setState({
