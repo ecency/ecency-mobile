@@ -187,6 +187,9 @@ class PostBody extends PureComponent {
           </TouchableOpacity>
         );
       },
+      br: (htmlAttribs, children, passProps) => {
+        return <Text {...passProps}>{'\n'}</Text>;
+      },
     };
 
     return (
