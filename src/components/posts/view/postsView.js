@@ -138,7 +138,7 @@ class PostsView extends Component {
         : PROFILE_FILTERS[selectedFilterIndex].toLowerCase();
     let options;
     let newPosts = [];
-    const limit = 9;
+    const limit = 10;
 
     if (!isConnected) {
       this.setState({
@@ -205,9 +205,22 @@ class PostsView extends Component {
 
             if (promotedPosts && promotedPosts.length > 0) {
               promotedPosts.forEach((promotedItem, i) => {
-                _posts.splice((i + 1) * 3, i * 3, promotedItem);
+                if (get(_posts, [(i + 1) * 3], {}).permlink !== promotedItem.permlink) {
+                  _posts.splice((i + 1) * 3, i * 3, promotedItem);
+                }
               });
             }
+
+            // if (promotedPosts && promotedPosts.length > 0) {
+            //   if (refreshing) {
+            //     _posts = _posts.filter((item, i) => !item.is_promoted);
+            //     promotedPosts.forEach((promotedItem, i) => {
+            //       _posts.splice((i + 1) * 3, i * 3, promotedItem);
+            //     });
+            //   } else if (_posts.length < 11) {
+            //     _posts.push(promotedPosts[_posts.length % 3]);
+            //   }
+            // }
 
             if (refreshing) {
               this.setState({
