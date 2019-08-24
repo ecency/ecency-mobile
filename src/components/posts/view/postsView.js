@@ -203,24 +203,17 @@ class PostsView extends Component {
               setFeedPosts(_posts);
             }
 
+            if (refreshing) {
+              _posts = _posts.filter(item => !item.is_promoted);
+            }
+
             if (promotedPosts && promotedPosts.length > 0) {
               promotedPosts.forEach((promotedItem, i) => {
                 if (get(_posts, [(i + 1) * 3], {}).permlink !== promotedItem.permlink) {
-                  _posts.splice((i + 1) * 3, i * 3, promotedItem);
+                  if (_posts[i * 3]) _posts.splice((i + 1) * 3, i * 3, promotedItem);
                 }
               });
             }
-
-            // if (promotedPosts && promotedPosts.length > 0) {
-            //   if (refreshing) {
-            //     _posts = _posts.filter((item, i) => !item.is_promoted);
-            //     promotedPosts.forEach((promotedItem, i) => {
-            //       _posts.splice((i + 1) * 3, i * 3, promotedItem);
-            //     });
-            //   } else if (_posts.length < 11) {
-            //     _posts.push(promotedPosts[_posts.length % 3]);
-            //   }
-            // }
 
             if (refreshing) {
               this.setState({
