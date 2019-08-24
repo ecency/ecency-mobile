@@ -20,11 +20,11 @@
     "ignore": "ignoriert dich",
     "reblog": "hat deinen Beitrag geteilt",
     "transfer": "transferierte Steem",
-    "comingsoon": "Feature is coming soon!",
+    "comingsoon": "Diese Funktion kommt bald!",
     "notification": "Benachrichtigungen",
     "leaderboard": "Rangliste",
     "epoint": "eSteem Punkte",
-    "leaderboard_title": "Top Users",
+    "leaderboard_title": "Top-Benutzer",
     "recent": "Vor kurzem",
     "yesterday": "Gestern",
     "this_week": "Diese Woche",
@@ -32,9 +32,9 @@
     "older_then": "Älter als ein Monat"
   },
   "leaderboard": {
-    "daily": "Daily",
-    "weekly": "Weekly",
-    "monthly": "Monthly"
+    "daily": "Täglich",
+    "weekly": "Wöchentlich",
+    "monthly": "Monatlich"
   },
   "points": {
     "post": "Beitrag",
@@ -67,7 +67,7 @@
     "reblog_desc": "Teile einen Beitrag, den du magst mit deinen Freunden und erhalte 1 eSteem Punkt.",
     "login_desc": "Wenn du dich bei der eSteem App anmeldest, hast du Anspruch darauf, dass du automatisch 100 eSteem Punkte erhältst.",
     "checkin_extra_desc": "Die konsequente Nutzung der eSteem App gibt dir zusätzliche Chancen, weitere 10 eSteem Punkte zu verdienen. Sei aktiv und verdiene mehr Punkte.",
-    "dropdown_transfer": "Gift",
+    "dropdown_transfer": "Geschenk",
     "dropdown_promote": "Bewerben",
     "dropdown_boost": "Boost"
   },
@@ -127,11 +127,11 @@
     },
     "feedback_success": "E-Mail erfolgreich geöffnet",
     "feedback_fail": "E-Mail Client konnte nicht geöffnet werden",
-    "server_fail": "Server not available"
+    "server_fail": "Server nicht verfügbar"
   },
   "voters": {
     "voters_info": "Voter-Informationen",
-    "no_user": "User is not found."
+    "no_user": "Benutzer wurde nicht gefunden."
   },
   "login": {
     "signin": "Anmelden",
@@ -196,7 +196,7 @@
     "fail": "Fehlgeschlagen!",
     "move": "Verschieben",
     "move_question": "Bist du sicher, dass du zu Entwürfen wechseln möchtest?",
-    "success_shared": "Your post successfully shared",
+    "success_shared": "Dein Beitrag wurde erfolgreich geteilt",
     "success_moved": "Erfolgreich in Entwürfe verschoben",
     "permission_denied": "Berechtigung verweigert",
     "permission_text": "Bitte gehe zu den Telefoneinstellungen und ändere die Berechtigungen der eSteem-App.",
@@ -218,7 +218,7 @@
     "unknow_error": "Es ist ein Fehler aufgetreten",
     "error": "Fehler",
     "fetch_error": "Fetching data failed, please try again or notify us at info@esteem.app",
-    "connection_fail": "Connection Failed!",
+    "connection_fail": "Verbindung fehlgeschlagen!",
     "connection_success": "Successfully connected!"
   },
   "post": {
