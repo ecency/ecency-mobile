@@ -219,14 +219,14 @@
     "error": "Fehler",
     "fetch_error": "Fetching data failed, please try again or notify us at info@esteem.app",
     "connection_fail": "Verbindung fehlgeschlagen!",
-    "connection_success": "Successfully connected!"
+    "connection_success": "Erfolgreich verbunden!"
   },
   "post": {
-    "reblog_alert": "Are you sure, you want to reblog?",
+    "reblog_alert": "Möchtest du diesen Beitrag wirklich teilen?",
     "removed_hint": "Der Beitrag wurde entfernt von",
     "copy_link": "Link kopieren",
     "reblogged": "rebloggt von",
-    "sponsored": "SPONSORED"
+    "sponsored": "Gesponsert"
   },
   "drafts": {
     "title": "Entwürfe",
@@ -298,26 +298,26 @@
     "to": "zu",
     "amount": "Betrag",
     "memo": "Memo",
-    "information": "Are you sure to transfer funds?",
+    "information": "Bist du sicher, dass du Geld überweisen willst?",
     "amount_desc": "Kontostand",
     "memo_desc": "Dieses Memo ist öffentlich",
     "to_placeholder": "Benutzername",
     "memo_placeholder": "Hier dein Memo eingeben",
     "transfer_token": "Überweisen",
-    "points": "Gift ESTM to someone",
+    "points": "Verschenke ESTM zu jemanden",
     "transfer_to_saving": "Zum Sparkonto überweisen",
     "powerUp": "Power Up",
     "withdraw_to_saving": "Auszahlung in den Tresor",
     "steemconnect_title": "Steemconnect Überweisung",
     "next": "WEITER",
-    "delegate": "Delegate",
-    "power_down": "Power Down",
-    "withdraw_steem": "Withdraw Steem",
-    "withdraw_sbd": "Withdraw Steem Dollar"
+    "delegate": "Delegieren",
+    "power_down": "Power-Down",
+    "withdraw_steem": "Steem auszahlen",
+    "withdraw_sbd": "Steem-Dollar auszahlen"
   },
   "boost": {
     "title": "Erhalte eSteem Punkte",
-    "buy": "GET ESTM",
+    "buy": "ESTM kaufen",
     "next": "WEITER"
   },
   "promote": {
@@ -326,15 +326,15 @@
     "user": "Benutzer",
     "permlink": "Beitrag",
     "permlinkPlaceholder": "author/permlink",
-    "information": "Are you sure to promote?"
+    "information": "Bist du sicher, das du promoten möchtest?"
   },
   "boostPost": {
     "title": "Boost"
   },
   "voters_dropdown": {
-    "rewards": "REWARDS",
-    "percent": "PERCENT",
-    "time": "TIME"
+    "rewards": "BELOHNUNGEN",
+    "percent": "PROZENT",
+    "time": "ZEIT"
   },
   "reblog": {
     "title": "Reblog Info"
