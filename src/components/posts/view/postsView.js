@@ -138,7 +138,7 @@ class PostsView extends Component {
         : PROFILE_FILTERS[selectedFilterIndex].toLowerCase();
     let options;
     let newPosts = [];
-    const limit = 11;
+    const limit = 3;
 
     if (!isConnected) {
       this.setState({
@@ -203,17 +203,32 @@ class PostsView extends Component {
               setFeedPosts(_posts);
             }
 
-            if (refreshing) {
-              _posts = _posts.filter(item => !item.is_promoted);
-            }
-
+            // Promoted post start
             if (promotedPosts && promotedPosts.length > 0) {
-              promotedPosts.forEach((promotedItem, i) => {
-                if (get(_posts, [(i + 1) * 3], {}).permlink !== promotedItem.permlink) {
-                  if (_posts[i * 3]) _posts.splice((i + 1) * 3, i * 3, promotedItem);
+              const insert = (arr, index, newItem) => [
+                ...arr.slice(0, index),
+
+                newItem,
+
+                ...arr.slice(index),
+              ];
+
+              if (refreshing) {
+                _posts = _posts.filter(item => !item.is_promoted);
+              }
+
+              _posts.map((d, i) => {
+                if ([3, 6, 9].includes(i)) {
+                  const ix = i / 3 - 1;
+                  if (promotedPosts[ix] !== undefined) {
+                    if (get(_posts, [i], {}).permlink !== promotedPosts[ix].permlink) {
+                      _posts = insert(_posts, i, promotedPosts[ix]);
+                    }
+                  }
                 }
               });
             }
+            // Promoted post end
 
             if (refreshing) {
               this.setState({
