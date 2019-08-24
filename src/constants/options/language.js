@@ -9,6 +9,9 @@ export default [
   'Russian',
   'Turkish',
   'Persian',
+  'Azerbaijani',
+  'Romanian',
+  'Vietnamese',
 ];
 
 export const VALUE = [
@@ -22,4 +25,7 @@ export const VALUE = [
   'ru-RU',
   'tr-TR',
   'fa-IR',
+  'az-AZ',
+  'ro-RO',
+  'vi-VN',
 ];
