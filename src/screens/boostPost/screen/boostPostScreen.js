@@ -104,7 +104,7 @@ class BoostPostScreen extends PureComponent {
         this.setState({ balance });
       })
       .catch(err => {
-        Alert.alert(err);
+        Alert.alert(err.message || err.toString());
       });
   };
 
