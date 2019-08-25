@@ -69,7 +69,8 @@
     "checkin_extra_desc": "Penggunaan aplikasi yang konsisten memberi Anda peluang ekstra untuk mendapatkan lebih banyak 10 poin, menjadi lebih aktif dan menghasilkan lebih banyak.",
     "dropdown_transfer": "Hadiah",
     "dropdown_promote": "Promosikan",
-    "dropdown_boost": "Meningkatkan"
+    "dropdown_boost": "Meningkatkan",
+    "from": "From"
   },
   "messages": {
     "comingsoon": "Fungsi pesan akan segera hadir!"
