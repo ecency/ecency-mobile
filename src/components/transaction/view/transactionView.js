@@ -85,7 +85,7 @@ class TransactionView extends PureComponent {
                   {(get(transactionData, 'details') || get(transactionData, 'memo')) && (
                     <WalletLineItem
                       key={index.toString()}
-                      text={get(transactionData, 'details', 'pipi')}
+                      text={get(transactionData, 'details', '')}
                       isBlackText
                       isThin
                       description={get(transactionData, 'memo')}
