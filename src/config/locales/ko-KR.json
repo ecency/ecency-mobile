@@ -69,7 +69,8 @@
     "checkin_extra_desc": "꾸준히 앱을 이용한 사용자는 10 포인트 이상의 추가 포인트를 획득할 수 있는 기회가 제공되며 더 열심히 이용할수록 더 많은 포인트를 획득할 수 있습니다.",
     "dropdown_transfer": "선물하기",
     "dropdown_promote": "홍보",
-    "dropdown_boost": "후원"
+    "dropdown_boost": "후원",
+    "from": "From"
   },
   "messages": {
     "comingsoon": "메시지 기능은 곧 출시될 예정입니다!"
