@@ -69,7 +69,8 @@
     "checkin_extra_desc": "Konstantne äppi kasutamine annab sulle võimaluse teenida 10 lisapunkti, olles aktiivsem teenid sa rohkem punkte.",
     "dropdown_transfer": "Gift",
     "dropdown_promote": "Promote",
-    "dropdown_boost": "Boost"
+    "dropdown_boost": "Boost",
+    "from": "From"
   },
   "messages": {
     "comingsoon": "Sõnumite funktsionaalus ei ole veel valimis!"
