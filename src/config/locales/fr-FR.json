@@ -55,7 +55,7 @@
     "vote_title": "Points pour vos votes",
     "reblog_title": "Points pour vos reblog",
     "login_title": "Points pour vos connexions",
-    "checkin_title": "Points for usage",
+    "checkin_title": "Points for heartbeat",
     "checkin_extra_title": "Bonus d'utilisation",
     "no_activity": "Aucune activité ici !",
     "outgoing_transfer_description": "",
