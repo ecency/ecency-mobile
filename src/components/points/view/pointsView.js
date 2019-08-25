@@ -1,3 +1,4 @@
+/* eslint-disable react/jsx-wrap-multilines */
 import React, { Component, Fragment } from 'react';
 import { Text, View, FlatList, ScrollView, RefreshControl, TouchableOpacity } from 'react-native';
 import { injectIntl } from 'react-intl';
@@ -11,6 +12,7 @@ import { IconButton } from '../../iconButton';
 import { Icon } from '../../icon';
 import { MainButton } from '../../mainButton';
 import { DropdownButton } from '../../dropdownButton';
+import { CollapsibleCard } from '../../collapsibleCard';
 
 // Utils
 import { getTimeFromNow } from '../../../utils/time';
@@ -198,17 +200,33 @@ class PointsView extends Component {
               keyExtractor={item => item.id.toString()}
               ListEmptyComponent={this._renderLoading()}
               renderItem={({ item, index }) => (
-                <WalletLineItem
-                  index={index + 1}
-                  text={this._getTranslation(get(item, 'textKey'))}
-                  description={getTimeFromNow(get(item, 'created'))}
-                  isCircleIcon
-                  isThin
-                  isBlackText
-                  iconName={get(item, 'icon')}
-                  iconType={get(item, 'iconType')}
-                  rightText={`${get(item, 'amount')} ESTM`}
-                />
+                <CollapsibleCard
+                  noBorder
+                  noContainer
+                  key={item.id.toString()}
+                  titleComponent={
+                    <WalletLineItem
+                      index={index + 1}
+                      text={this._getTranslation(get(item, 'textKey'))}
+                      description={getTimeFromNow(get(item, 'created'))}
+                      isCircleIcon
+                      isThin
+                      isBlackText
+                      iconName={get(item, 'icon')}
+                      iconType={get(item, 'iconType')}
+                      rightText={`${get(item, 'amount')} ESTM`}
+                    />
+                  }
+                >
+                  {(get(item, 'memo') || get(item, 'sender')) && (
+                    <WalletLineItem
+                      isBlackText
+                      isThin
+                      text={`${intl.formatMessage({ id: 'points.from' })} ${get(item, 'sender')}`}
+                      description={get(item, 'memo')}
+                    />
+                  )}
+                </CollapsibleCard>
               )}
             />
           </View>
