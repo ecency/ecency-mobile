@@ -55,7 +55,7 @@
     "vote_title": "Point for vote",
     "reblog_title": "Point for reblog",
     "login_title": "Point for login",
-    "checkin_title": "Point for use",
+    "checkin_title": "Points for heartbeat",
     "checkin_extra_title": "Awoof for using",
     "no_activity": "Nothing happen here!",
     "outgoing_transfer_description": "",
