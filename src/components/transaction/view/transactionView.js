@@ -56,7 +56,7 @@ class TransactionView extends PureComponent {
               const transactionData = groomingTransactionData(item, steemPerMVests, formatNumber);
               if (transactionData.length === 0) return null;
 
-              const value = transactionData.value.split(' ');
+              const value = transactionData.value.trim().split(' ');
 
               return (
                 <CollapsibleCard
@@ -85,7 +85,7 @@ class TransactionView extends PureComponent {
                   {(get(transactionData, 'details') || get(transactionData, 'memo')) && (
                     <WalletLineItem
                       key={index.toString()}
-                      text={get(transactionData, 'details', 'pipi')}
+                      text={get(transactionData, 'details')}
                       isBlackText
                       isThin
                       description={get(transactionData, 'memo')}
