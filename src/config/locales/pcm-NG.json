@@ -69,7 +69,8 @@
     "checkin_extra_desc": "If you dey use the app wella, you go get the chance to get 10 point. So dey active so that you go earn more.",
     "dropdown_transfer": "Gift",
     "dropdown_promote": "Promote",
-    "dropdown_boost": "Boost"
+    "dropdown_boost": "Boost",
+    "from": "From"
   },
   "messages": {
     "comingsoon": "Option for messages go soon come!"
