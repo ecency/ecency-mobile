@@ -189,10 +189,6 @@ class PostsView extends Component {
           if (_posts.length > 0) {
             if (posts.length > 0) {
               if (refreshing) {
-                // TODO: make sure post is not duplicated, because checking with `includes` might re-add post
-                // if there was change in post object from blockchain
-                // newPosts = _posts.filter(post => posts.includes(post));
-                // _posts = [...newPosts, ...posts];
                 _posts = unionWith(_posts, posts, isEqual);
               } else {
                 _posts.shift();
