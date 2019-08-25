@@ -55,7 +55,7 @@
     "vote_title": "वोट के लिए अंक",
     "reblog_title": "पुनर्प्रेशण के लिए अंक",
     "login_title": "लॉगिन के लिए अंक",
-    "checkin_title": "उपयोग के लिए अंक",
+    "checkin_title": "Points for heartbeat",
     "checkin_extra_title": "उपयोग बोनस",
     "no_activity": "यहां कोई गतिविधि नहीं!",
     "outgoing_transfer_description": "",
