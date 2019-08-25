@@ -276,11 +276,6 @@ class PointsContainer extends Component {
         handleOnDropdownSelected: this._handleOnDropdownSelected,
         getESTMPrice: this._getESTMPrice,
         boost: this._boost,
-        balance,
-        getUserBalance: this._getUserBalance,
-        promote: this._promote,
-        getAccount,
-        getUserDataWithUsername,
       })
     );
   }
