@@ -55,7 +55,7 @@
     "vote_title": "투표 포인트",
     "reblog_title": "리블로그 포인트",
     "login_title": "로그인 포인트",
-    "checkin_title": "체크인 포인트",
+    "checkin_title": "Points for heartbeat",
     "checkin_extra_title": "체크인 보너스",
     "no_activity": "아직 포인트 관련 활동이 없습니다",
     "outgoing_transfer_description": "",
