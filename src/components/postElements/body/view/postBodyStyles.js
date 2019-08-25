@@ -65,14 +65,7 @@ export default EStyleSheet.create({
     alignItems: 'center',
     justifyContent: 'center',
   },
-  postImage: {
-    marginTop: 10,
-    minHeight: 216,
-    width: '100%',
-  },
-  commentImage: {
-    marginTop: 10,
-    minHeight: 80,
-    width: '100%',
+  img: {
+    alignSelf: 'center',
   },
 });
