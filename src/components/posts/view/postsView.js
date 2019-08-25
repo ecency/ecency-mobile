@@ -3,7 +3,7 @@ import React, { Component, Fragment } from 'react';
 import { FlatList, View, ActivityIndicator, RefreshControl } from 'react-native';
 import { injectIntl } from 'react-intl';
 import { withNavigation } from 'react-navigation';
-import get from 'lodash/get';
+import { get, isEqual, unionWith } from 'lodash';
 
 // STEEM
 import { getPostsSummary, getPost } from '../../../providers/steem/dsteem';
@@ -137,7 +137,7 @@ class PostsView extends Component {
         ? POPULAR_FILTERS[selectedFilterIndex].toLowerCase()
         : PROFILE_FILTERS[selectedFilterIndex].toLowerCase();
     let options;
-    let newPosts = [];
+    const newPosts = [];
     const limit = 3;
 
     if (!isConnected) {
@@ -191,8 +191,9 @@ class PostsView extends Component {
               if (refreshing) {
                 // TODO: make sure post is not duplicated, because checking with `includes` might re-add post
                 // if there was change in post object from blockchain
-                newPosts = _posts.filter(post => posts.includes(post));
-                _posts = [...newPosts, ...posts];
+                // newPosts = _posts.filter(post => posts.includes(post));
+                // _posts = [...newPosts, ...posts];
+                _posts = unionWith(_posts, posts, isEqual);
               } else {
                 _posts.shift();
                 _posts = [...posts, ..._posts];
@@ -393,9 +394,11 @@ class PostsView extends Component {
         <FlatList
           data={posts}
           showsVerticalScrollIndicator={false}
-          renderItem={({ item }) => (
-            <PostCard isRefresh={refreshing} content={item} isHideImage={isHideImage} />
-          )}
+          renderItem={({ item }) =>
+            get(item, 'author', null) && (
+              <PostCard isRefresh={refreshing} content={item} isHideImage={isHideImage} />
+            )
+          }
           keyExtractor={(content, i) => `${get(content, 'permlink', '')}${i.toString()}`}
           onEndReached={() => this._loadPosts()}
           removeClippedSubviews

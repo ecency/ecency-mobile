@@ -1,6 +1,7 @@
 import React, { PureComponent } from 'react';
 import { withNavigation } from 'react-navigation';
 import { connect } from 'react-redux';
+import get from 'lodash/get';
 
 // Services
 import { getPost } from '../../../providers/steem/dsteem';
@@ -24,21 +25,21 @@ class PostCardContainer extends PureComponent {
   }
 
   componentWillReceiveProps(nextProps) {
-    if (nextProps.isRefresh) {
+    if (get(nextProps, 'isRefresh')) {
       this._fetchPost();
     }
   }
 
   _handleOnUserPress = () => {
     const { navigation, currentAccount, content } = this.props;
-    if (content && currentAccount.name !== content.author) {
+    if (content && get(currentAccount, 'name') !== get(content, 'author')) {
       navigation.navigate({
         routeName: ROUTES.SCREENS.PROFILE,
         params: {
-          username: content.author,
-          reputation: content.author_reputation,
+          username: get(content, 'author'),
+          reputation: get(content, 'author_reputation'),
         },
-        key: content.author,
+        key: get(content, 'author'),
       });
     }
   };
@@ -52,7 +53,7 @@ class PostCardContainer extends PureComponent {
         params: {
           content,
         },
-        key: content.permlink,
+        key: get(content, 'permlink'),
       });
     }
   };
@@ -65,7 +66,7 @@ class PostCardContainer extends PureComponent {
       params: {
         activeVotes,
       },
-      key: content.permlink,
+      key: get(content, 'permlink'),
     });
   };
 
@@ -77,14 +78,14 @@ class PostCardContainer extends PureComponent {
       params: {
         reblogs,
       },
-      key: content.permlink,
+      key: get(content, 'permlink', get(content, 'author', '')),
     });
   };
 
   _fetchPost = async () => {
     const { currentAccount, content } = this.props;
 
-    await getPost(content.author, content.permlink, currentAccount.username)
+    await getPost(get(content, 'author'), get(content, 'permlink'), get(currentAccount, 'username'))
       .then(result => {
         if (result) {
           this.setState({ _content: result });
