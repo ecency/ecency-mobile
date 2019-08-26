@@ -56,7 +56,7 @@ class TransactionView extends PureComponent {
               const transactionData = groomingTransactionData(item, steemPerMVests, formatNumber);
               if (transactionData.length === 0) return null;
 
-              const value = transactionData.value.split(' ');
+              const value = transactionData.value.trim().split(' ');
 
               return (
                 <CollapsibleCard
