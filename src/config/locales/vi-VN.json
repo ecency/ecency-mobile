@@ -70,7 +70,8 @@
     "dropdown_transfer": "Gift",
     "dropdown_promote": "Quảng bá",
     "dropdown_boost": "Tăng tốc",
-    "from": "From"
+    "from": "From",
+    "to": "To"
   },
   "messages": {
     "comingsoon": "Tính năng tin nhắn sẽ được cập nhật sớm!"

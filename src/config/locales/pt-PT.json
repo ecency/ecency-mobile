@@ -70,7 +70,8 @@
     "dropdown_transfer": "Presente",
     "dropdown_promote": "Promover",
     "dropdown_boost": "Reforçar",
-    "from": "From"
+    "from": "From",
+    "to": "To"
   },
   "messages": {
     "comingsoon": "Recurso de mensagens chega em breve!"

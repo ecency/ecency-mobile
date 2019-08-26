@@ -70,7 +70,8 @@
     "dropdown_transfer": "선물하기",
     "dropdown_promote": "홍보",
     "dropdown_boost": "후원",
-    "from": "From"
+    "from": "From",
+    "to": "To"
   },
   "messages": {
     "comingsoon": "메시지 기능은 곧 출시될 예정입니다!"
