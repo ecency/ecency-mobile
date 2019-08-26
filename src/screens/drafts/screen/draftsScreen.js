@@ -4,7 +4,7 @@ import { injectIntl } from 'react-intl';
 import { View, FlatList, Text } from 'react-native';
 import ScrollableTabView from 'react-native-scrollable-tab-view';
 import ActionSheet from 'react-native-actionsheet';
-import postBodySummary from '@esteemapp/esteem-render-helpers/src/post-body-summary';
+import { postBodySummary } from '@esteemapp/esteem-render-helpers';
 
 // Utils
 import { catchDraftImage } from '../../../utils/image';
