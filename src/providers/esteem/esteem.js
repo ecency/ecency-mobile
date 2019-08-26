@@ -322,7 +322,23 @@ export const uploadImage = file => {
 //     });
 // });
 
-export const getNodes = () => serverList.get().then(resp => resp.data.nodes);
+export const getNodes = () =>
+  serverList
+    .get()
+    .then(
+      resp =>
+        resp.data.nodes || [
+          'https://rpc.esteem.app',
+          'https://api.steemit.com',
+          'https://steemd.previx.io',
+          'https://anyx.io',
+          'https://rpc.buildteam.io',
+          'https://rpc.steemviz.com',
+          'https://api.steem.house',
+          'https://steemd.pevo.science',
+          'https://steemd.minnowsupportproject.org',
+        ],
+    );
 
 export const getSCAccessToken = code =>
   new Promise(resolve => {

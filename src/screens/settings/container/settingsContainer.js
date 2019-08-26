@@ -73,7 +73,21 @@ class SettingsContainer extends Component {
       .then(resp => {
         this.setState({ serverList: resp });
       })
-      .catch(() => {});
+      .catch(() =>
+        this.setState({
+          serverList: [
+            'https://rpc.esteem.app',
+            'https://api.steemit.com',
+            'https://steemd.previx.io',
+            'https://anyx.io',
+            'https://rpc.buildteam.io',
+            'https://rpc.steemviz.com',
+            'https://api.steem.house',
+            'https://steemd.pevo.science',
+            'https://steemd.minnowsupportproject.org',
+          ],
+        }),
+      );
   }
 
   // Component Functions
