@@ -62,7 +62,7 @@ export default EStyleSheet.create({
     opacity: 0.7,
   },
   barIconButton: {
-    marginLeft: 16,
+    marginLeft: 0,
   },
   stickyRightWrapper: {
     flexGrow: 1,
