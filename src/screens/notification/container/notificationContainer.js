@@ -124,9 +124,9 @@ class NotificationContainer extends Component {
     this.setState({ isNotificationRefreshing: true });
 
     markActivityAsRead(username)
-      .then(result => {
-        dispatch(updateUnreadActivityCount(result.unread));
+      .then(() => {
         const updatedNotifications = notifications.map(item => ({ ...item, read: 1 }));
+        dispatch(updateUnreadActivityCount(0));
         this.setState({ notifications: updatedNotifications, isNotificationRefreshing: false });
       })
       .catch(() => {
