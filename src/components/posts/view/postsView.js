@@ -340,26 +340,13 @@ class PostsView extends Component {
   };
 
   _handleOnScroll = event => {
-    const { scrollOffsetY, isShowFilterBar, lockFilterBar } = this.state;
+    const { scrollOffsetY } = this.state;
     const { handleOnScroll } = this.props;
     const currentOffset = event.nativeEvent.contentOffset.y;
 
-    // WORKAROUND
-    const _showFilterBar = scrollOffsetY > currentOffset || scrollOffsetY <= 0;
-    const _lockFilterBar = isShowFilterBar !== _showFilterBar;
-
     if (handleOnScroll) handleOnScroll();
     this.setState({ scrollOffsetY: currentOffset });
-    this.setState({
-      isShowFilterBar: lockFilterBar ? isShowFilterBar : _showFilterBar,
-      lockFilterBar: lockFilterBar || _lockFilterBar,
-    });
-
-    if (_lockFilterBar) {
-      setTimeout(() => {
-        this.setState({ lockFilterBar: false });
-      }, 1000);
-    }
+    this.setState({ isShowFilterBar: scrollOffsetY > currentOffset || scrollOffsetY <= 0 });
   };
 
   render() {
@@ -403,7 +390,7 @@ class PostsView extends Component {
           onEndThreshold={0}
           initialNumToRender={10}
           ListFooterComponent={this._renderFooter}
-          onScroll={this._handleOnScroll}
+          onScrollEndDrag={this._handleOnScroll}
           ListEmptyComponent={this._renderEmptyContent}
           refreshControl={
             <RefreshControl
