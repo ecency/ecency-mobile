@@ -139,7 +139,7 @@ class PointsContainer extends Component {
         this.setState({ userPoints, balance });
       })
       .catch(err => {
-        Alert.alert(err.message);
+        Alert.alert(get(err, 'message', 'Error'));
       });
 
     await getUserPoints(username)
@@ -151,7 +151,7 @@ class PointsContainer extends Component {
         }
       })
       .catch(err => {
-        Alert.alert(err.message || err.toString());
+        if (err) Alert.alert(get(err, 'message') || err.toString());
       });
 
     this.setState({
@@ -167,7 +167,7 @@ class PointsContainer extends Component {
         return balance;
       })
       .catch(err => {
-        Alert.alert(err.message || err.toString());
+        if (err) Alert.alert(get(err, 'message') || err.toString());
       });
   };
 
@@ -181,12 +181,14 @@ class PointsContainer extends Component {
         this._fetchuserPointActivities(username);
       })
       .catch(error => {
-        Alert.alert(
-          `Fetching data from server failed, please try again or notify us at info@esteem.app \n${error.message.substr(
-            0,
-            20,
-          )}`,
-        );
+        if (error) {
+          Alert.alert(
+            `Fetching data from server failed, please try again or notify us at info@esteem.app \n${error.message.substr(
+              0,
+              20,
+            )}`,
+          );
+        }
       });
 
     this.setState({ isClaiming: false });
@@ -203,12 +205,14 @@ class PointsContainer extends Component {
         dispatch(toastNotification(intl.formatMessage({ id: 'alert.successful' })));
       })
       .catch(error => {
-        Alert.alert(
-          `Fetching data from server failed, please try again or notify us at info@esteem.app \n${error.message.substr(
-            0,
-            20,
-          )}`,
-        );
+        if (error) {
+          Alert.alert(
+            `Fetching data from server failed, please try again or notify us at info@esteem.app \n${error.message.substr(
+              0,
+              20,
+            )}`,
+          );
+        }
       });
   };
 
@@ -223,12 +227,14 @@ class PointsContainer extends Component {
         dispatch(toastNotification(intl.formatMessage({ id: 'alert.successful' })));
       })
       .catch(error => {
-        Alert.alert(
-          `Fetching data from server failed, please try again or notify us at info@esteem.app \n${error.message.substr(
-            0,
-            20,
-          )}`,
-        );
+        if (error) {
+          Alert.alert(
+            `Fetching data from server failed, please try again or notify us at info@esteem.app \n${error.message.substr(
+              0,
+              20,
+            )}`,
+          );
+        }
       });
   };
 
