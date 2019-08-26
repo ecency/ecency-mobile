@@ -55,7 +55,7 @@
     "vote_title": "Pontos para votar",
     "reblog_title": "Pontos para reblog",
     "login_title": "Pontos por Login",
-    "checkin_title": "Pontos para uso",
+    "checkin_title": "Points for heartbeat",
     "checkin_extra_title": "Uso do Bonús",
     "no_activity": "Nenhuma atividade aqui!",
     "outgoing_transfer_description": "",
@@ -69,7 +69,8 @@
     "checkin_extra_desc": "O uso consistente do aplicativo dá mais chances para ganhar mais 10 pontos, seja mais ativo e ganhar mais.",
     "dropdown_transfer": "Presente",
     "dropdown_promote": "Promover",
-    "dropdown_boost": "Reforçar"
+    "dropdown_boost": "Reforçar",
+    "from": "From"
   },
   "messages": {
     "comingsoon": "Recurso de mensagens chega em breve!"

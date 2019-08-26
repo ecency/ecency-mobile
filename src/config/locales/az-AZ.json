@@ -55,7 +55,7 @@
     "vote_title": "Səsvermə üçün xal",
     "reblog_title": "Təkrar paylaşmaq üçün xal",
     "login_title": "Giriş etmək üçün xal",
-    "checkin_title": "İstifadə üçün xal",
+    "checkin_title": "Points for heartbeat",
     "checkin_extra_title": "İstifadə bonusu",
     "no_activity": "Fəaliyyət yoxdur!",
     "outgoing_transfer_description": "",
@@ -69,7 +69,8 @@
     "checkin_extra_desc": "Tətbiqin davamlı istifadəsi sizə daha 10 xal qazanma şansı verər, daha çox fəal olun və daha çox qazanın.",
     "dropdown_transfer": "Gift",
     "dropdown_promote": "Promote",
-    "dropdown_boost": "Boost"
+    "dropdown_boost": "Boost",
+    "from": "From"
   },
   "messages": {
     "comingsoon": "Mesajlar tezliklə gəlir!"

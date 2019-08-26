@@ -55,7 +55,7 @@
     "vote_title": "Point for vote",
     "reblog_title": "Point for reblog",
     "login_title": "Point for login",
-    "checkin_title": "Point for use",
+    "checkin_title": "Points for heartbeat",
     "checkin_extra_title": "Awoof for using",
     "no_activity": "Nothing happen here!",
     "outgoing_transfer_description": "",
@@ -69,7 +69,8 @@
     "checkin_extra_desc": "If you dey use the app wella, you go get the chance to get 10 point. So dey active so that you go earn more.",
     "dropdown_transfer": "Gift",
     "dropdown_promote": "Promote",
-    "dropdown_boost": "Boost"
+    "dropdown_boost": "Boost",
+    "from": "From"
   },
   "messages": {
     "comingsoon": "Option for messages go soon come!"

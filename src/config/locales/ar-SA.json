@@ -55,7 +55,7 @@
     "vote_title": "نقاط للتصويت",
     "reblog_title": "نقاط لإعادة النشر",
     "login_title": "نقاط لتسجيل الدخول",
-    "checkin_title": "نقاط للاستخدام",
+    "checkin_title": "Points for heartbeat",
     "checkin_extra_title": "مكافأة الاستخدام",
     "no_activity": "لا يوجد نشاط هنا!",
     "outgoing_transfer_description": "",
@@ -69,7 +69,8 @@
     "checkin_extra_desc": "يمنحك الاستخدام المستمر للتطبيق فرصًا إضافية لكسب 10 نقاط إضافية ، وتكون أكثر نشاطًا وكسب المزيد.",
     "dropdown_transfer": "Gift",
     "dropdown_promote": "Promote",
-    "dropdown_boost": "Boost"
+    "dropdown_boost": "Boost",
+    "from": "From"
   },
   "messages": {
     "comingsoon": "ميزة الرسائل سوف تأتي قريباً!"

@@ -55,7 +55,7 @@
     "vote_title": "Szavazási pontok",
     "reblog_title": "Megosztási pontok",
     "login_title": "Bejelentkezés pontok",
-    "checkin_title": "Használati pontok",
+    "checkin_title": "Points for heartbeat",
     "checkin_extra_title": "Használati bónusz",
     "no_activity": "Itt nincs tevékenység!",
     "outgoing_transfer_description": "",
@@ -69,7 +69,8 @@
     "checkin_extra_desc": "Az alkalmazás következetes használata extra esélyt kínál arra, hogy több 10 pontot nyerj, légy aktívabb és nyerj többet.",
     "dropdown_transfer": "Ajándék",
     "dropdown_promote": "Promoválás",
-    "dropdown_boost": "Boost"
+    "dropdown_boost": "Boost",
+    "from": "From"
   },
   "messages": {
     "comingsoon": "Üzenetek funkció hamarosan érkezik!"
