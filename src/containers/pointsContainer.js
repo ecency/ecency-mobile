@@ -151,7 +151,7 @@ class PointsContainer extends Component {
         }
       })
       .catch(err => {
-        Alert.alert(err);
+        Alert.alert(err.message || err.toString());
       });
 
     this.setState({
@@ -167,7 +167,7 @@ class PointsContainer extends Component {
         return balance;
       })
       .catch(err => {
-        Alert.alert(err);
+        Alert.alert(err.message || err.toString());
       });
   };
 
