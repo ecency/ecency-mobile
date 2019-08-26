@@ -55,7 +55,7 @@
     "vote_title": "Mata ganjaran -> vote_title",
     "reblog_title": "Mata ganjaran -> reblog_title",
     "login_title": "Mata ganjaran log masuk",
-    "checkin_title": "Mata ganjaran kegunaan",
+    "checkin_title": "Points for heartbeat",
     "checkin_extra_title": "Bonus kegunaan",
     "no_activity": "Tiada aktiviti di sini!",
     "outgoing_transfer_description": "",
@@ -69,7 +69,8 @@
     "checkin_extra_desc": "Pengguna app dengan konsisten, anda mungkin akan dapat 10 mata secara percuma. Lebih memgguna, lebih ganjaran.",
     "dropdown_transfer": "Gift",
     "dropdown_promote": "Promote",
-    "dropdown_boost": "Boost"
+    "dropdown_boost": "Boost",
+    "from": "From"
   },
   "messages": {
     "comingsoon": "Ciri-ciri mesej yang akan datang tidak lama lagi!"

@@ -55,7 +55,7 @@
     "vote_title": "Taškai už balsą",
     "reblog_title": "Taškai už pasidalinimą",
     "login_title": "Taškai už prisijungimą",
-    "checkin_title": "Taškai už naudojimąsi",
+    "checkin_title": "Points for heartbeat",
     "checkin_extra_title": "Naudojimosi bonusas",
     "no_activity": "Jokios veiklos čia!",
     "outgoing_transfer_description": "",
@@ -69,7 +69,8 @@
     "checkin_extra_desc": "Reguliarus programos naudojimasis suteikia jums papildomą šansą gauti dar 10 taškų. Kuo aktyvesnis esi, tuo daugiau taškų surinksi.",
     "dropdown_transfer": "Gift",
     "dropdown_promote": "Promote",
-    "dropdown_boost": "Boost"
+    "dropdown_boost": "Boost",
+    "from": "From"
   },
   "messages": {
     "comingsoon": "Žinučių funkcija jau greitai!"

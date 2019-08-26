@@ -55,7 +55,7 @@
     "vote_title": "Баллы за голос",
     "reblog_title": "Баллы за репост",
     "login_title": "Баллы за логин",
-    "checkin_title": "Баллы за пользование",
+    "checkin_title": "Points for heartbeat",
     "checkin_extra_title": "Бонус за использование",
     "no_activity": "Здесь пусто!",
     "outgoing_transfer_description": "",
@@ -69,7 +69,8 @@
     "checkin_extra_desc": "Постоянное использование приложения даёт вам дополнительный шанс получить 10 баллов. Чем больше активности, тем больше награда.",
     "dropdown_transfer": "Gift",
     "dropdown_promote": "Promote",
-    "dropdown_boost": "Boost"
+    "dropdown_boost": "Boost",
+    "from": "From"
   },
   "messages": {
     "comingsoon": "Здесь будут сообщения!"
