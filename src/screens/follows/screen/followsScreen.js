@@ -1,6 +1,6 @@
 /* eslint-disable react/jsx-wrap-multilines */
 import React, { PureComponent } from 'react';
-import { View, Text, FlatList } from 'react-native';
+import { View, Text, FlatList, ActivityIndicator } from 'react-native';
 import { injectIntl } from 'react-intl';
 
 // Constants
@@ -35,7 +35,7 @@ class FollowsScreen extends PureComponent {
   };
 
   render() {
-    const { loadMore, data, isFollowing, count, handleSearch, intl } = this.props;
+    const { loadMore, data, isFollowing, count, handleSearch, intl, isLoading } = this.props;
     const title = intl.formatMessage({
       id: !isFollowing ? 'profile.follower' : 'profile.following',
     });
@@ -51,11 +51,15 @@ class FollowsScreen extends PureComponent {
           removeClippedSubviews={false}
           renderItem={({ item, index }) => this._renderItem(item, index)}
           ListEmptyComponent={
-            <Text style={styles.text}>
-              {intl.formatMessage({
-                id: 'voters.no_user',
-              })}
-            </Text>
+            isLoading ? (
+              <ActivityIndicator />
+            ) : (
+              <Text style={styles.text}>
+                {intl.formatMessage({
+                  id: 'voters.no_user',
+                })}
+              </Text>
+            )
           }
         />
       </View>

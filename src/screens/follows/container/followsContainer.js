@@ -81,28 +81,38 @@ class FollowsContainer extends Component {
   };
 
   _handleSearch = async text => {
-    const { count, users, username, isFollowingPress } = this.state;
-    let newData;
+    const { users, username, isFollowingPress } = this.state;
 
-    if (count !== users.length) {
-      newData = users.filter(item => {
-        const itemName = isFollowingPress
-          ? get(item, 'following').toUpperCase()
-          : get(item, 'follower').toUpperCase();
-        const _text = text.toUpperCase();
+    const newData = users.filter(item => {
+      const itemName = isFollowingPress
+        ? get(item, 'following', '').toUpperCase()
+        : get(item, 'follower', '').toUpperCase();
+      const _text = text.toUpperCase();
 
-        return itemName.indexOf(_text) > -1;
-      });
+      return itemName.indexOf(_text) > -1;
+    });
+
+    if (this.timer) {
+      clearTimeout(this.timer);
     }
 
     if (!newData || newData.length < 1) {
-      const followSearch = await getFollowSearch(username, text);
-      newData = followSearch || {};
+      this.setState({ isLoading: true });
+
+      this.timer = setTimeout(
+        () =>
+          getFollowSearch(username, text).then(res => {
+            this.setState({
+              filterResult: res || [],
+              isLoading: false,
+            });
+          }),
+        500,
+      );
     }
 
     this.setState({
       filterResult: newData,
-      isLoading: false,
     });
   };
 

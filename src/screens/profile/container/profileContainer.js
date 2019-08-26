@@ -202,7 +202,7 @@ class ProfileContainer extends Component {
         {
           error,
         },
-        () => alert(error),
+        () => alert(error.message || error.toString()),
       );
     } else {
       this._fetchProfile(username, true);

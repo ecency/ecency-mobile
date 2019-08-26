@@ -514,7 +514,6 @@ class ApplicationContainer extends Component {
         this._connectNotificationServer(accountData.name);
       })
       .catch(err => {
-        this._handleAlert();
         Alert.alert(
           `${intl.formatMessage({ id: 'alert.fetch_error' })} \n${err.message.substr(0, 20)}`,
         );

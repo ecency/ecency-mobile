@@ -56,7 +56,7 @@ export default {
     point: 1,
   },
   10: {
-    icon: 'star-border',
+    icon: 'favorite-border',
     textKey: 'points.checkin_title',
     nameKey: 'points.checkin',
     descriptionKey: 'points.checkin_desc',
