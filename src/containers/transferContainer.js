@@ -167,7 +167,7 @@ class TransferContainer extends Component {
     };
 
     setWithdrawVestingRoute(currentAccount, pinCode, data).catch(err => {
-      alert(err);
+      alert(err.message || err.toString());
     });
   };
 
