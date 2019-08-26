@@ -70,7 +70,8 @@
     "dropdown_transfer": "Hadiah",
     "dropdown_promote": "Promosikan",
     "dropdown_boost": "Meningkatkan",
-    "from": "From"
+    "from": "From",
+    "to": "To"
   },
   "messages": {
     "comingsoon": "Fungsi pesan akan segera hadir!"

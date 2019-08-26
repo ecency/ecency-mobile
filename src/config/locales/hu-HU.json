@@ -70,7 +70,8 @@
     "dropdown_transfer": "Ajándék",
     "dropdown_promote": "Promoválás",
     "dropdown_boost": "Boost",
-    "from": "From"
+    "from": "Tőle",
+    "to": "Címzett"
   },
   "messages": {
     "comingsoon": "Üzenetek funkció hamarosan érkezik!"
@@ -299,7 +300,7 @@
     "to": "Címzett",
     "amount": "Összeg",
     "memo": "Üzenet",
-    "information": "Are you sure to transfer funds?",
+    "information": "Bistoz átutalod?",
     "amount_desc": "Egyenleg",
     "memo_desc": "Ez az üzenet nyilvános",
     "to_placeholder": "Felhasználónév",
@@ -338,6 +339,6 @@
     "time": "IDŐ"
   },
   "reblog": {
-    "title": "Reblog Info"
+    "title": "Megosztás info"
   }
 }
