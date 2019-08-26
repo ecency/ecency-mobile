@@ -236,6 +236,7 @@ class EditorScreen extends Component {
             uploadedImage={uploadedImage}
             initialFields={this._initialFields}
             isReply={isReply}
+            isLoading={isPostSending || isUploading}
           />
         </PostForm>
       </View>
