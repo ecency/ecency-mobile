@@ -69,7 +69,7 @@ class PowerDownView extends Component {
         return res;
       })
       .catch(e => {
-        alert(e);
+        alert(e.message || e.toString());
       });
   };
 

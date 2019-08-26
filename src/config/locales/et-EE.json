@@ -55,7 +55,7 @@
     "vote_title": "Punktid hääletustest",
     "reblog_title": "Punktid taaspostitustest",
     "login_title": "Punktid sisselogimisest",
-    "checkin_title": "Punktid kasutamisest",
+    "checkin_title": "Points for heartbeat",
     "checkin_extra_title": "Kasutusboonus",
     "no_activity": "Siin on vaikus!",
     "outgoing_transfer_description": "",
@@ -69,7 +69,8 @@
     "checkin_extra_desc": "Konstantne äppi kasutamine annab sulle võimaluse teenida 10 lisapunkti, olles aktiivsem teenid sa rohkem punkte.",
     "dropdown_transfer": "Gift",
     "dropdown_promote": "Promote",
-    "dropdown_boost": "Boost"
+    "dropdown_boost": "Boost",
+    "from": "From"
   },
   "messages": {
     "comingsoon": "Sõnumite funktsionaalus ei ole veel valimis!"

@@ -207,7 +207,7 @@ class EditorContainer extends Component {
           intl.formatMessage({
             id: 'alert.fail',
           }),
-          error,
+          error.message || error.toString(),
         );
         this.setState({ isUploading: false });
       });

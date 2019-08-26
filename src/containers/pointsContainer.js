@@ -151,7 +151,7 @@ class PointsContainer extends Component {
         }
       })
       .catch(err => {
-        Alert.alert(err);
+        Alert.alert(err.message || err.toString());
       });
 
     this.setState({
@@ -167,7 +167,7 @@ class PointsContainer extends Component {
         return balance;
       })
       .catch(err => {
-        Alert.alert(err);
+        Alert.alert(err.message || err.toString());
       });
   };
 
@@ -276,11 +276,6 @@ class PointsContainer extends Component {
         handleOnDropdownSelected: this._handleOnDropdownSelected,
         getESTMPrice: this._getESTMPrice,
         boost: this._boost,
-        balance,
-        getUserBalance: this._getUserBalance,
-        promote: this._promote,
-        getAccount,
-        getUserDataWithUsername,
       })
     );
   }
