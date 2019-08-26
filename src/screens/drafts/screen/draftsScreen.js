@@ -42,7 +42,6 @@ class DraftsScreen extends Component {
     const tags = item.tags ? item.tags.split(/[ ,]+/) : [];
     const tag = tags[0] || '';
     const image = catchDraftImage(item.body);
-    item.last_update = item.created;
     const summary = postBodySummary({ item, last_update: item.created }, 100);
     const isSchedules = type === 'schedules';
 
