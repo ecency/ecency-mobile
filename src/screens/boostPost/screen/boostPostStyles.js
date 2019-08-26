@@ -73,6 +73,7 @@ export default EStyleSheet.create({
     padding: 10,
     justifyContent: 'center',
     color: '$primaryBlack',
+    maxWidth: '$deviceWidth / 2.9',
   },
   textarea: {
     borderWidth: 1,
