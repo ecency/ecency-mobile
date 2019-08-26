@@ -222,7 +222,12 @@ class PointsView extends Component {
                     <WalletLineItem
                       isBlackText
                       isThin
-                      text={`${intl.formatMessage({ id: 'points.from' })} ${get(item, 'sender')}`}
+                      text={
+                        get(item, 'sender')
+                          ? `${intl.formatMessage({ id: 'points.from' })} @${get(item, 'sender')}`
+                          : get(item, 'receiver') &&
+                            `${intl.formatMessage({ id: 'points.to' })} @${get(item, 'receiver')}`
+                      }
                       description={get(item, 'memo')}
                     />
                   )}
