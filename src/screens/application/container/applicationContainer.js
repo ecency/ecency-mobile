@@ -61,6 +61,7 @@ import {
   isPinCodeOpen,
   setPinCode as savePinCode,
 } from '../../../redux/actions/applicationActions';
+import { updateActiveBottomTab } from '../../../redux/actions/uiAction';
 
 import { encryptKey } from '../../../utils/crypto';
 
@@ -553,12 +554,18 @@ class ApplicationContainer extends Component {
   };
 
   _connectNotificationServer = username => {
-    const { dispatch, unreadActivityCount } = this.props;
     const ws = new WebSocket(`${Config.ACTIVITY_WEBSOCKET_URL}?user=${username}`);
 
     ws.onmessage = () => {
-      // a message was received
+      const { activeBottomTab, unreadActivityCount, dispatch } = this.props;
+
       dispatch(updateUnreadActivityCount(unreadActivityCount + 1));
+
+      // Workaround
+      if (activeBottomTab === ROUTES.TABBAR.NOTIFICATION) {
+        dispatch(updateActiveBottomTab(''));
+        dispatch(updateActiveBottomTab(ROUTES.TABBAR.NOTIFICATION));
+      }
     };
   };
 
@@ -677,6 +684,7 @@ export default connect(
 
     // UI
     toastNotification: state.ui.toastNotification,
+    activeBottomTab: state.ui.activeBottomTab,
   }),
   dispatch => ({
     dispatch,
