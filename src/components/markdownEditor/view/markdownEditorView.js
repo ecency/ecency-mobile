@@ -199,7 +199,7 @@ export default class MarkdownEditorView extends Component {
   };
 
   render() {
-    const { handleOpenImagePicker, intl, isPreviewActive, isReply } = this.props;
+    const { handleOpenImagePicker, intl, isPreviewActive, isReply, isLoading } = this.props;
     const { text, selection } = this.state;
 
     return (
@@ -223,6 +223,7 @@ export default class MarkdownEditorView extends Component {
             underlineColorAndroid="transparent"
             value={text}
             innerRef={this.inputRef}
+            editable={!isLoading}
           />
         ) : (
           this._renderPreview()
