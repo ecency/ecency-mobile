@@ -43,8 +43,8 @@ class PostContainer extends Component {
     } else if (author && permlink) {
       this._loadPost(author, permlink);
       this.setState({ author });
-      if (isHasParentPost) this.setState({ isHasParentPost });
     }
+    if (isHasParentPost) this.setState({ isHasParentPost });
   }
 
   componentWillReceiveProps(nextProps) {
