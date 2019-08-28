@@ -217,7 +217,9 @@ class ApplicationContainer extends Component {
       await getPost(author, permlink, currentAccount.name)
         .then(result => {
           content = result;
-          isHasParentPost = get(result, 'parent_permlink');
+          if (get(result, 'parent_permlink') && get(result, 'parent_author')) {
+            isHasParentPost = true;
+          }
         })
         .catch(() => {
           this._handleAlert('deep_link.no_existing_post');
