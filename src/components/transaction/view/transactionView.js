@@ -78,7 +78,7 @@ class TransactionView extends PureComponent {
                       isBlackText
                       iconName={transactionData.icon}
                       iconType="MaterialIcons"
-                      rightText={`${Math.round(value[0] * 1000) / 1000} ${value[1]}`}
+                      rightText={transactionData.value.trim()}
                     />
                   }
                 >
