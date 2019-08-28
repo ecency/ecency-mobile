@@ -152,6 +152,7 @@ class PostDisplayView extends PureComponent {
       author,
       intl,
       handleOnRemovePress,
+      handleOnVotersPress,
     } = this.props;
     const { postHeight, scrollHeight, isLoadedComments } = this.state;
 
@@ -211,6 +212,7 @@ class PostDisplayView extends PureComponent {
               permlink={post.permlink}
               commentCount={post.children}
               fetchPost={fetchPost}
+              handleOnVotersPress={handleOnVotersPress}
             />
           )}
         </ScrollView>
