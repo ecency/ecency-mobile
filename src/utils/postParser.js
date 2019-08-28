@@ -48,26 +48,7 @@ export const parsePost = async (post, currentUserName, isPromoted) => {
     post.is_down_voted = false;
   }
 
-  const totalPayout =
-    parseFloat(post.pending_payout_value) +
-    parseFloat(post.total_payout_value) +
-    parseFloat(post.curator_payout_value);
-
-  post.total_payout = totalPayout.toFixed(3);
-
-  const voteRshares = post.active_votes.reduce((a, b) => a + parseFloat(b.rshares), 0);
-  const ratio = totalPayout / voteRshares;
-
-  if (!isEmpty(post.active_votes)) {
-    forEach(post.active_votes, value => {
-      post.vote_perecent = value.voter === currentUserName ? value.percent : null;
-      value.value = (value.rshares * ratio).toFixed(3);
-      value.reputation = getReputation(get(value, 'reputation'));
-      value.percent /= 100;
-      value.is_down_vote = Math.sign(value.percent) < 0;
-      value.avatar = `https://steemitimages.com/u/${value.voter}/avatar/small`;
-    });
-  }
+  post.active_votes = parseActiveVotes(post, currentUserName);
 
   post.reblogs = await getPostReblogs(post);
   post.reblogCount = get(post, 'reblogs', []).length;
@@ -140,6 +121,9 @@ export const parseComments = async (comments, currentUserName) => {
       comment.is_voted = false;
       comment.is_down_voted = false;
     }
+
+    comment.active_votes = parseActiveVotes(comment, currentUserName);
+
     return comment;
   });
 
@@ -166,4 +150,29 @@ const isDownVoted = (activeVotes, currentUserName) => {
     return result.percent;
   }
   return false;
+};
+
+const parseActiveVotes = (post, currentUserName) => {
+  const totalPayout =
+    parseFloat(post.pending_payout_value) +
+    parseFloat(post.total_payout_value) +
+    parseFloat(post.curator_payout_value);
+
+  post.total_payout = totalPayout.toFixed(3);
+
+  const voteRshares = post.active_votes.reduce((a, b) => a + parseFloat(b.rshares), 0);
+  const ratio = totalPayout / voteRshares;
+
+  if (!isEmpty(post.active_votes)) {
+    forEach(post.active_votes, value => {
+      post.vote_perecent = value.voter === currentUserName ? value.percent : null;
+      value.value = (value.rshares * ratio).toFixed(3);
+      value.reputation = getReputation(get(value, 'reputation'));
+      value.percent /= 100;
+      value.is_down_vote = Math.sign(value.percent) < 0;
+      value.avatar = `https://steemitimages.com/u/${value.voter}/avatar/small`;
+    });
+  }
+
+  return post.active_votes;
 };

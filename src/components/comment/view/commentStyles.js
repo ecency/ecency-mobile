@@ -41,7 +41,7 @@ export default EStyleSheet.create({
     alignSelf: 'center',
     justifyContent: 'center',
     alignItems: 'center',
-    fontSize: 10,
+    fontSize: 12,
     color: '$iconColor',
   },
   voteCountWrapper: {

@@ -53,6 +53,7 @@ class CommentsView extends PureComponent {
       marginLeft,
       handleDeleteComment,
       handleCommentCopyAction,
+      handleOnVotersPress,
       intl,
     } = this.props;
     const { selectedComment } = this.state;
@@ -75,6 +76,7 @@ class CommentsView extends PureComponent {
               handleOnEditPress={handleOnEditPress}
               handleOnReplyPress={handleOnReplyPress}
               handleOnUserPress={handleOnUserPress}
+              handleOnVotersPress={handleOnVotersPress}
               isLoggedIn={isLoggedIn}
               isShowMoreButton={commentNumber === 1 && get(item, 'children') > 0}
               voteCount={get(item, 'vote_count')}
