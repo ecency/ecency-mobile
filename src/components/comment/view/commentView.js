@@ -1,7 +1,8 @@
 import React, { PureComponent, Fragment } from 'react';
-import { View, Text, TouchableWithoutFeedback } from 'react-native';
+import { View, TouchableWithoutFeedback } from 'react-native';
 import ActionSheet from 'react-native-actionsheet';
 import { injectIntl } from 'react-intl';
+import get from 'lodash/get';
 
 import { getTimeFromNow } from '../../../utils/time';
 // Constants
@@ -51,6 +52,7 @@ class CommentView extends PureComponent {
       handleOnLongPress,
       handleOnReplyPress,
       handleOnUserPress,
+      handleOnVotersPress,
       isLoggedIn,
       isShowComments,
       isShowMoreButton,
@@ -84,15 +86,23 @@ class CommentView extends PureComponent {
               {isLoggedIn && (
                 <Fragment>
                   <Upvote isShowPayoutValue content={comment} />
-                  <IconButton
-                    size={18}
-                    iconStyle={styles.leftIcon}
+                  <TextWithIcon
+                    iconName="people"
+                    iconSize={20}
+                    wrapperStyle={styles.leftButton}
                     iconType="MaterialIcons"
-                    name="people"
+                    isClickable
+                    onPress={() =>
+                      handleOnVotersPress &&
+                      voteCount > 0 &&
+                      handleOnVotersPress(get(comment, 'active_votes'))
+                    }
+                    text={voteCount}
+                    textMarginLeft={20}
+                    textStyle={styles.voteCountText}
                   />
-                  <Text style={styles.voteCountText}>{voteCount}</Text>
                   <IconButton
-                    size={18}
+                    size={20}
                     iconStyle={styles.leftIcon}
                     style={styles.leftButton}
                     name="reply"
@@ -102,7 +112,7 @@ class CommentView extends PureComponent {
                   {currentAccountUsername === comment.author && (
                     <Fragment>
                       <IconButton
-                        size={18}
+                        size={20}
                         iconStyle={styles.leftIcon}
                         style={styles.leftButton}
                         name="create"
@@ -112,7 +122,7 @@ class CommentView extends PureComponent {
                       {!comment.children && !voteCount && (
                         <Fragment>
                           <IconButton
-                            size={18}
+                            size={20}
                             iconStyle={styles.leftIcon}
                             style={styles.leftButton}
                             name="delete-forever"
