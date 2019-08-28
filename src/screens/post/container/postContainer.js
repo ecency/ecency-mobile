@@ -96,8 +96,9 @@ class PostContainer extends Component {
       author,
     } = this.state;
 
-    if (isHasParentPost && post)
+    if (isHasParentPost && post && get(post, 'parent_author') && get(post, 'parent_permlink')) {
       this._loadPost(get(post, 'parent_author'), get(post, 'parent_permlink'), true);
+    }
 
     return (
       <PostScreen
