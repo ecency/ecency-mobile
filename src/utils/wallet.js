@@ -51,7 +51,7 @@ export const groomingTransactionData = (transaction, steemPerMVests, formatNumbe
       }).replace(',', '.');
 
       result.value = `${sbdPayout > 0 ? `${sbdPayout} SBD` : ''} ${
-        steemPayout > 0 ? `${steemPayout} steemPayout` : ''
+        steemPayout > 0 ? `${steemPayout} STEEM` : ''
       } ${vestingPayout > 0 ? `${vestingPayout} SP` : ''}`;
 
       result.details = author && permlink ? `@${author}/${permlink}` : null;
