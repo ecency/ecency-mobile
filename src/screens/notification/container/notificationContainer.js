@@ -1,7 +1,7 @@
 import React, { Component } from 'react';
 import { Alert } from 'react-native';
 import { connect } from 'react-redux';
-import get from 'lodash/get';
+import { get, some, isEmpty } from 'lodash';
 import { injectIntl } from 'react-intl';
 
 // Actions and Services
@@ -87,7 +87,7 @@ class NotificationContainer extends Component {
       dispatch(updateUnreadActivityCount(result.unread));
     });
 
-    if (permlink) {
+    if (permlink && author) {
       routeName = ROUTES.SCREENS.POST;
       key = permlink;
       params = {
