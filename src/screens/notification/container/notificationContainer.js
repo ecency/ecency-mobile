@@ -134,6 +134,7 @@ class NotificationContainer extends Component {
           intl.formatMessage({ id: 'alert.error' }),
           intl.formatMessage({ d: 'alert.unknow_error' }),
         );
+        this.setState({ isNotificationRefreshing: false });
       });
   };
 

@@ -9,7 +9,7 @@ import { injectIntl } from 'react-intl';
 import { Comment } from '../../comment';
 
 // Styles
-// import styles from './commentStyles';
+import styles from './commentStyles';
 
 class CommentsView extends PureComponent {
   /* Props
@@ -61,6 +61,7 @@ class CommentsView extends PureComponent {
     return (
       <Fragment>
         <FlatList
+          style={styles.list}
           data={comments}
           keyExtractor={this._keyExtractor}
           renderItem={({ item }) => (
