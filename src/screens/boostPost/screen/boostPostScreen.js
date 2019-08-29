@@ -117,12 +117,25 @@ class BoostPostScreen extends PureComponent {
     const _permlink = get(seperatedPermlink, '[1]');
     const amount = 150 + 50 * factor;
 
-    if (get(currentAccount, 'local.authType') === 'steemConnect') {
+    let userFromRealm;
+
+    if (selectedUser) {
+      userFromRealm = await getUserDataWithUsername(selectedUser);
+    }
+
+    const user = userFromRealm
+      ? {
+          name: selectedUser,
+          local: userFromRealm[0],
+        }
+      : currentAccount;
+
+    if (get(user, 'local.authType') === 'steemConnect') {
       const json = JSON.stringify({
-        user: selectedUser,
+        user: get(user, 'name'),
         author: _author,
         permlink: _permlink,
-        amount,
+        amount: `${amount.toFixed(3)} POINT`,
       });
 
       const uri = `sign/custom-json?authority=active&required_auths=%5B%22${selectedUser}%22%5D&required_posting_auths=%5B%5D&id=esteem_boost&json=${encodeURIComponent(
@@ -134,20 +147,7 @@ class BoostPostScreen extends PureComponent {
         SCPath: uri,
       });
     } else if (boost) {
-      let userFromRealm;
-
-      if (selectedUser) {
-        userFromRealm = await getUserDataWithUsername(selectedUser);
-      }
-
-      const user = userFromRealm
-        ? {
-            name: selectedUser,
-            local: userFromRealm[0],
-          }
-        : currentAccount;
-
-      if (amount && _permlink) boost(amount, _permlink, _author, user);
+      boost(amount, _permlink, _author, user);
     }
   };
 
@@ -262,10 +262,10 @@ class BoostPostScreen extends PureComponent {
 
                     <MainButton
                       style={styles.quickButtons}
-                      isDisable={!(_balance / 50 > factor + 4)}
+                      isDisable={!((balance || _balance) / 50 > factor + 4)}
                       onPress={() =>
                         this.setState({
-                          factor: _balance / 50 > factor + 4 ? factor + 1 : factor,
+                          factor: (balance || _balance) / 50 > factor + 4 ? factor + 1 : factor,
                         })
                       }
                     >
@@ -283,9 +283,11 @@ class BoostPostScreen extends PureComponent {
                   <MainButton
                     style={styles.button}
                     isDisable={
-                      (!permlink ? !get(navigationParams, 'permlink') : permlink) &&
-                      _balance < 150 &&
-                      (isLoading || !isValid)
+                      !(
+                        (get(navigationParams, 'permlink') || permlink) &&
+                        (balance || _balance) > 150 &&
+                        (!isLoading || isValid)
+                      )
                     }
                     onPress={() => this.startActionSheet.current.show()}
                     isLoading={isLoading}
@@ -307,7 +309,7 @@ class BoostPostScreen extends PureComponent {
               cancelButtonIndex={1}
               destructiveButtonIndex={0}
               onPress={index => {
-                index === 0 &&
+                if (index === 0)
                   this._boost(boost, currentAccount, getUserDataWithUsername, navigationParams);
               }}
             />
