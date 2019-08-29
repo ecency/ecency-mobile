@@ -171,9 +171,9 @@ export const updatePinCode = data =>
     let currentUser = null;
     try {
       setPinCode(data.pinCode);
-      getUserData().then(users => {
+      getUserData().then(async users => {
         if (users && users.length > 0) {
-          users.forEach(userData => {
+          await users.forEach(userData => {
             if (userData.authType === AUTH_TYPE.MASTER_KEY) {
               data.password = decryptKey(userData.masterKey, data.oldPinCode);
             } else if (userData.authType === AUTH_TYPE.STEEM_CONNECT) {
@@ -184,8 +184,8 @@ export const updatePinCode = data =>
             if (userData.username === data.username) {
               currentUser = updatedUserData;
             }
-            resolve(currentUser);
           });
+          resolve(currentUser);
         }
       });
     } catch (error) {
