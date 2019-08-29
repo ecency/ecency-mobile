@@ -228,12 +228,8 @@ class PointsContainer extends Component {
       })
       .catch(error => {
         if (error) {
-          Alert.alert(
-            `Fetching data from server failed, please try again or notify us at info@esteem.app \n${error.message.substr(
-              0,
-              20,
-            )}`,
-          );
+          this.setState({ isLoading: false });
+          dispatch(toastNotification(intl.formatMessage({ id: 'alert.fail' })));
         }
       });
   };
