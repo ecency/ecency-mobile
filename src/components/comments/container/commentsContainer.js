@@ -129,22 +129,28 @@ class CommentsContainer extends Component {
       permlink,
       selectedFilter,
       currentAccount: { name },
+      isOwnProfile,
+      fetchPost,
     } = this.props;
 
-    await getComments(author, permlink, name)
-      .then(comments => {
-        if (selectedFilter && selectedFilter !== 'TRENDING') {
-          const sortComments = this._shortComments(selectedFilter, comments);
-          this.setState({
-            comments: sortComments,
-          });
-        } else {
-          this.setState({
-            comments,
-          });
-        }
-      })
-      .catch(() => {});
+    if (isOwnProfile) {
+      fetchPost();
+    } else {
+      await getComments(author, permlink, name)
+        .then(comments => {
+          if (selectedFilter && selectedFilter !== 'TRENDING') {
+            const sortComments = this._shortComments(selectedFilter, comments);
+            this.setState({
+              comments: sortComments,
+            });
+          } else {
+            this.setState({
+              comments,
+            });
+          }
+        })
+        .catch(() => {});
+    }
   };
 
   _handleOnReplyPress = item => {
@@ -175,10 +181,17 @@ class CommentsContainer extends Component {
   };
 
   _handleDeleteComment = permlink => {
-    const { currentAccount, pinCode } = this.props;
+    const { currentAccount, pinCode, comments } = this.props;
+    const { comments: _comments } = this.state;
+    let filteredComments;
 
     deleteComment(currentAccount, pinCode, permlink).then(() => {
-      this._getComments();
+      if (_comments.length > 0) {
+        filteredComments = _comments.filter(item => item.permlink !== permlink);
+      } else {
+        filteredComments = comments.filter(item => item.permlink !== permlink);
+      }
+      this.setState({ comments: filteredComments });
     });
   };
 
@@ -240,7 +253,7 @@ class CommentsContainer extends Component {
         isShowMoreButton={isShowMoreButton}
         commentNumber={commentNumber || 1}
         commentCount={commentCount}
-        comments={_comments || comments}
+        comments={_comments.length > 0 ? _comments : comments}
         currentAccountUsername={currentAccount.name}
         handleOnEditPress={this._handleOnEditPress}
         handleOnReplyPress={this._handleOnReplyPress}
@@ -248,7 +261,6 @@ class CommentsContainer extends Component {
         fetchPost={fetchPost}
         handleDeleteComment={this._handleDeleteComment}
         handleOnPressCommentMenu={this._handleOnPressCommentMenu}
-        {...this.props}
       />
     );
   }

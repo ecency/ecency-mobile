@@ -373,7 +373,7 @@ export const deleteComment = (currentAccount, pin, permlink) => {
   const key = getAnyPrivateKey(currentAccount.local, digitPinCode);
 
   if (currentAccount.local.authType === AUTH_TYPE.STEEM_CONNECT) {
-    const token = decryptKey(currentAccount.accessToken, pin);
+    const token = decryptKey(currentAccount.local.accessToken, digitPinCode);
     const api = steemConnect.Initialize({
       accessToken: token,
     });

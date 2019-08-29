@@ -1,4 +1,4 @@
-import React, { PureComponent, Fragment } from 'react';
+import React, { Component, Fragment } from 'react';
 import { FlatList } from 'react-native';
 import ActionSheet from 'react-native-actionsheet';
 import get from 'lodash/get';
@@ -11,7 +11,7 @@ import { Comment } from '../../comment';
 // Styles
 import styles from './commentStyles';
 
-class CommentsView extends PureComponent {
+class CommentsView extends Component {
   /* Props
    * ------------------------------------------------
    *   @prop { type }    name                - Description....
