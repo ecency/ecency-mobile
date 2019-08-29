@@ -52,7 +52,7 @@ class CommentsView extends PureComponent {
       isShowSubComments,
       marginLeft,
       handleDeleteComment,
-      handleCommentCopyAction,
+      handleOnPressCommentMenu,
       handleOnVotersPress,
       intl,
     } = this.props;
@@ -95,12 +95,15 @@ class CommentsView extends PureComponent {
               id: 'post.copy_link',
             }),
             intl.formatMessage({
+              id: 'post.open_thread',
+            }),
+            intl.formatMessage({
               id: 'alert.cancel',
             }),
           ]}
           title={get(selectedComment, 'summary')}
-          cancelButtonIndex={1}
-          onPress={index => handleCommentCopyAction(index, selectedComment)}
+          cancelButtonIndex={2}
+          onPress={index => handleOnPressCommentMenu(index, selectedComment)}
         />
       </Fragment>
     );
