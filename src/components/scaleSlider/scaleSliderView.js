@@ -58,7 +58,7 @@ export default class ScaleSliderView extends Component {
 
     return (
       <View>
-        <View style={[styles.column, { marginLeft: LRpadding, marginRight: LRpadding }]}>
+        <View style={[styles.column, { marginLeft: LRpadding - 10, marginRight: LRpadding - 10 }]}>
           {this._renderScale()}
         </View>
         <View style={styles.container}>
