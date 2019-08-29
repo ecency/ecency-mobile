@@ -37,7 +37,7 @@ class SteemConnect extends PureComponent {
       if (!isLoading) {
         this.setState({ isLoading: true });
         handleOnModalClose();
-        loginWithSC2(code[1])
+        loginWithSC2(code[1], isPinCodeOpen)
           .then(result => {
             if (result) {
               dispatch(updateCurrentAccount({ ...result }));
