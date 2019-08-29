@@ -182,8 +182,8 @@ class CommentsContainer extends Component {
     });
   };
 
-  _handleCommentCopyAction = (index, selectedComment) => {
-    const { dispatch, intl } = this.props;
+  _handleOnPressCommentMenu = (index, selectedComment) => {
+    const { dispatch, intl, navigation } = this.props;
 
     switch (index) {
       case 0:
@@ -195,6 +195,17 @@ class CommentsContainer extends Component {
               }),
             ),
           );
+        });
+        break;
+      case 1:
+        navigation.navigate({
+          routeName: ROUTES.SCREENS.POST,
+          key: get(selectedComment, 'permlink'),
+          params: {
+            author: get(selectedComment, 'author'),
+            permlink: get(selectedComment, 'permlink'),
+            isHasParentPost: get(selectedComment, 'parent_permlink'),
+          },
         });
         break;
 
@@ -236,7 +247,7 @@ class CommentsContainer extends Component {
         isLoggedIn={isLoggedIn}
         fetchPost={fetchPost}
         handleDeleteComment={this._handleDeleteComment}
-        handleCommentCopyAction={this._handleCommentCopyAction}
+        handleOnPressCommentMenu={this._handleOnPressCommentMenu}
         {...this.props}
       />
     );
