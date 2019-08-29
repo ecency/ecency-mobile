@@ -113,13 +113,26 @@ class PointsScreen extends PureComponent {
     const fullPermlink = permlink || get(navigationParams, 'permlink');
 
     const seperatedPermlink = fullPermlink.split('/');
-    const author = get(seperatedPermlink, '[0]');
+    const _author = get(seperatedPermlink, '[0]');
     const _permlink = get(seperatedPermlink, '[1]');
 
-    if (get(currentAccount, 'local.authType') === 'steemConnect') {
+    let userFromRealm;
+
+    if (selectedUser) {
+      userFromRealm = await getUserDataWithUsername(selectedUser);
+    }
+
+    const user = userFromRealm
+      ? {
+          name: selectedUser,
+          local: userFromRealm[0],
+        }
+      : currentAccount;
+
+    if (get(user, 'local.authType') === 'steemConnect') {
       const json = JSON.stringify({
-        user: selectedUser,
-        author,
+        user: get(user, 'name'),
+        author: _author,
         permlink: _permlink,
         duration: day,
       });
@@ -133,20 +146,7 @@ class PointsScreen extends PureComponent {
         SCPath: uri,
       });
     } else if (promote) {
-      let userFromRealm;
-
-      if (selectedUser) {
-        userFromRealm = await getUserDataWithUsername(selectedUser);
-      }
-
-      const user = userFromRealm
-        ? {
-            name: selectedUser,
-            local: userFromRealm[0],
-          }
-        : currentAccount;
-
-      promote(day, _permlink, author, user);
+      promote(day, _permlink, _author, user);
     }
   };
 
