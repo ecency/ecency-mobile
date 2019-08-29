@@ -231,7 +231,7 @@ class TransferView extends Component {
             <View style={styles.bottomContent}>
               <MainButton
                 style={styles.button}
-                isDisable={!(amount && isUsernameValid)}
+                isDisable={!(amount >= 0.001 && isUsernameValid)}
                 onPress={() => this.ActionSheet.show()}
                 isLoading={isTransfering}
               >
