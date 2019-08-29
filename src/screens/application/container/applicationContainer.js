@@ -11,7 +11,7 @@ import { injectIntl } from 'react-intl';
 import { NavigationActions } from 'react-navigation';
 import { bindActionCreators } from 'redux';
 import EStyleSheet from 'react-native-extended-stylesheet';
-import forEach from 'lodash/forEach';
+import { forEach, isEmpty, some } from 'lodash';
 
 // Constants
 import AUTH_TYPE from '../../../constants/authType';
@@ -384,13 +384,15 @@ class ApplicationContainer extends Component {
               break;
           }
 
-          const navigateAction = NavigationActions.navigate({
-            routeName,
-            params,
-            key,
-            action: NavigationActions.navigate({ routeName }),
-          });
-          dispatch(navigateAction);
+          if (!some(params, isEmpty)) {
+            const navigateAction = NavigationActions.navigate({
+              routeName,
+              params,
+              key,
+              action: NavigationActions.navigate({ routeName }),
+            });
+            dispatch(navigateAction);
+          }
         }
       },
     });
