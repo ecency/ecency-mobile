@@ -120,8 +120,8 @@ class BoostPostScreen extends PureComponent {
     if (get(currentAccount, 'local.authType') === 'steemConnect') {
       const json = JSON.stringify({
         user: selectedUser,
-        _author,
-        _permlink,
+        author: _author,
+        permlink: _permlink,
         amount,
       });
 

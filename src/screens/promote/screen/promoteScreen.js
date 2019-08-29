@@ -113,14 +113,14 @@ class PointsScreen extends PureComponent {
     const fullPermlink = permlink || get(navigationParams, 'permlink');
 
     const seperatedPermlink = fullPermlink.split('/');
-    const _author = get(seperatedPermlink, '[0]');
+    const author = get(seperatedPermlink, '[0]');
     const _permlink = get(seperatedPermlink, '[1]');
 
     if (get(currentAccount, 'local.authType') === 'steemConnect') {
       const json = JSON.stringify({
         user: selectedUser,
-        _author,
-        _permlink,
+        author,
+        permlink: _permlink,
         duration: day,
       });
 
@@ -146,7 +146,7 @@ class PointsScreen extends PureComponent {
           }
         : currentAccount;
 
-      promote(day, _permlink, _author, user);
+      promote(day, _permlink, author, user);
     }
   };
 
