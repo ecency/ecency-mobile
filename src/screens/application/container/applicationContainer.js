@@ -341,6 +341,7 @@ class ApplicationContainer extends Component {
               params = {
                 author: get(push, 'source', ''),
                 permlink: fullPermlink,
+                isHasParentPost: true,
               };
               key = fullPermlink;
               routeName = ROUTES.SCREENS.POST;
