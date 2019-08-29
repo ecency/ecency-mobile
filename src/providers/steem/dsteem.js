@@ -489,6 +489,10 @@ const _vote = async (currentAccount, pin, author, permlink, weight) => {
           resolve(result);
         })
         .catch(err => {
+          if (err.jse_info && err.jse_info.code === 4030100) {
+            err.message =
+              'We noticed that your device has incorrect date or time. Please fix Date & Time or Set Automatically and try again.';
+          }
           reject(err);
         });
     });
