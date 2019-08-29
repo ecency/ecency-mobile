@@ -102,16 +102,17 @@ export const login = async (username, password, isPinCodeOpen) => {
   return Promise.reject(new Error('auth.invalid_credentials'));
 };
 
-export const loginWithSC2 = async code => {
+export const loginWithSC2 = async (code, isPinCodeOpen) => {
   const scTokens = await getSCAccessToken(code);
   await steemConnect.setAccessToken(scTokens.access_token);
-  const account = await steemConnect.me();
+  const scAccount = await steemConnect.me();
+  const account = await getUser(scAccount.account.name);
   let avatar = '';
 
-  return new Promise((resolve, reject) => {
+  return new Promise(async (resolve, reject) => {
     let jsonMetadata;
     try {
-      jsonMetadata = JSON.parse(account.account.json_metadata) || '';
+      jsonMetadata = JSON.parse(account.json_metadata) || '';
       if (Object.keys(jsonMetadata).length !== 0) {
         avatar = jsonMetadata.profile.profile_image || '';
       }
@@ -119,30 +120,43 @@ export const loginWithSC2 = async code => {
       jsonMetadata = '';
     }
     const userData = {
-      username: account.account.name,
+      username: account.name,
       avatar,
       authType: AUTH_TYPE.STEEM_CONNECT,
       masterKey: '',
       postingKey: '',
       activeKey: '',
       memoKey: '',
-      accessToken: '',
+      accessToken: scTokens.access_token,
     };
 
-    if (isLoggedInUser(account.account.name)) {
+    if (isPinCodeOpen) {
+      account.local = userData;
+    } else {
+      const resData = {
+        pinCode: Config.DEFAULT_PIN,
+        accessToken: scTokens.access_token,
+      };
+      const updatedUserData = await getUpdatedUserData(userData, resData);
+
+      account.local = updatedUserData;
+      account.local.avatar = avatar;
+    }
+
+    if (isLoggedInUser(account.name)) {
       reject(new Error('auth.already_logged'));
     }
 
-    setUserData(userData)
+    setUserData(account.local)
       .then(async () => {
-        updateCurrentUsername(account.account.name);
+        updateCurrentUsername(account.name);
         const authData = {
           isLoggedIn: true,
-          currentUsername: account.account.name,
+          currentUsername: account.name,
         };
         await setAuthStatus(authData);
         await setSCAccount(scTokens);
-        resolve({ ...account.account, accessToken: scTokens.access_token });
+        resolve({ ...account, accessToken: scTokens.access_token });
       })
       .catch(() => {
         reject(new Error('auth.unknow_error'));
