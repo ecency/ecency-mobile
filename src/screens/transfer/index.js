@@ -42,6 +42,7 @@ const Transfer = ({ navigation }) => (
               handleOnModalClose={handleOnModalClose}
               accountType={accountType}
               currentAccountName={currentAccountName}
+              selectedAccount={selectedAccount}
             />
           );
         case 'delegate':
