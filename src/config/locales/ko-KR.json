@@ -228,7 +228,8 @@
     "removed_hint": "포스팅이 삭제되었습니다",
     "copy_link": "링크 복사",
     "reblogged": "리블로그됨",
-    "sponsored": "투표 후원받음"
+    "sponsored": "투표 후원받음",
+    "open_thread": "Open Thread"
   },
   "drafts": {
     "title": "임시 보관함",
