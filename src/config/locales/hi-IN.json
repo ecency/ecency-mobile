@@ -133,7 +133,7 @@
   },
   "voters": {
     "voters_info": "मतदाताओं की जानकारी",
-    "no_user": "User is not found."
+    "no_user": "उपयोगकर्ता नहीं मिला।"
   },
   "login": {
     "signin": "अंदर आएं",
@@ -181,7 +181,7 @@
     "reply_placeholder": "ऊपर वाली पोस्ट के बारें में आप क्या लिखना चाहेंगे?",
     "publish": "प्रकाशित करें",
     "reply": "जबाब दें",
-    "open_gallery": "Open Gallery",
+    "open_gallery": "गैलरी खोलें",
     "capture_photo": "फोटो खीचें"
   },
   "pincode": {
@@ -192,13 +192,13 @@
   },
   "alert": {
     "success": "सफल!",
-    "successful": "Successful",
+    "successful": "सफल",
     "allRead": "सभी सूचनाओं को पढ़ लिया चिन्हित करें",
     "claim_reward_balance_ok": "इनाम की राशी ले चुके",
     "fail": "असफल!",
     "move": "हटाना",
     "move_question": "क्या आप ड्राफ्ट में जाना सुनिश्चित करते हैं?",
-    "success_shared": "Your post successfully shared",
+    "success_shared": "आपकी पोस्ट सफलतापूर्वक साझा की गई",
     "success_moved": "ड्राफ्ट में ले जाया गया",
     "permission_denied": "अनुमोदन अस्वीकृत हुवा",
     "permission_text": "कृपया, अपने फ़ोन समायोजन में जाएँ और इस्टीम एप्प की अनुमोदन बदलें|",
@@ -215,17 +215,17 @@
     "copied": "प्रतिलिपि हो गयी!",
     "no_internet": "संपर्क नहीं",
     "confirm": "पुष्टी करें",
-    "removed": "Removed",
-    "same_user": "This user already added to list",
-    "unknow_error": "An error occurred",
-    "error": "Error",
-    "fetch_error": "Fetching data failed, please try again or notify us at info@esteem.app",
-    "connection_fail": "Connection Failed!",
-    "connection_success": "Successfully connected!"
+    "removed": "हटा दिया",
+    "same_user": "इस उपयोगकर्ता को पहले ही सूची में जोड़ दिया",
+    "unknow_error": "एक त्रुटि पाई गई",
+    "error": "त्रुटि",
+    "fetch_error": "डेटा प्राप्त करना विफल रहा, कृपया पुनः प्रयास करें या हमें info@esteem.app पर सूचित करें",
+    "connection_fail": "कनेक्ट करना विफल रहा",
+    "connection_success": "सफलतापूर्वक जुड़ा हुआ है!"
   },
   "post": {
-    "reblog_alert": "Are you sure, you want to reblog?",
-    "removed_hint": "The post was removed by",
+    "reblog_alert": "क्या आप निश्चित हैं, आप इसे हटाना चाहते हैं?",
+    "removed_hint": "के द्वारा पोस्ट को हटा दिया गया था",
     "copy_link": "Copy Link",
     "reblogged": "reblogged by",
     "sponsored": "SPONSORED",
