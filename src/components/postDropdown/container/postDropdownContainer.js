@@ -112,14 +112,14 @@ class PostDropdownContainer extends PureComponent {
     const postUrl = getPostUrl(get(content, 'url'));
 
     Share.share({
-      message: `${content.title} ${postUrl}`,
+      message: `${get(content, 'title')} ${postUrl}`,
     });
   };
 
   _addToBookmarks = () => {
     const { content, currentAccount, dispatch, intl } = this.props;
 
-    addBookmark(currentAccount.name, content.author, content.permlink)
+    addBookmark(get(currentAccount, 'name'), get(content, 'author'), get(content, 'permlink'))
       .then(() => {
         dispatch(
           toastNotification(
@@ -143,7 +143,7 @@ class PostDropdownContainer extends PureComponent {
   _reblog = () => {
     const { content, currentAccount, dispatch, intl, isLoggedIn, pinCode } = this.props;
     if (isLoggedIn) {
-      reblog(currentAccount, pinCode, content.author, content.permlink)
+      reblog(currentAccount, pinCode, content.author, get(content, 'permlink', ''))
         .then(() => {
           dispatch(
             toastNotification(
@@ -154,7 +154,7 @@ class PostDropdownContainer extends PureComponent {
           );
         })
         .catch(error => {
-          if (error.jse_shortmsg && String(error.jse_shortmsg).indexOf('has already reblogged')) {
+          if (String(get(error, 'jse_shortmsg', '')).indexOf('has already reblogged')) {
             dispatch(
               toastNotification(
                 intl.formatMessage({
