@@ -228,7 +228,8 @@
     "removed_hint": "Сообщение удалено",
     "copy_link": "Копировать ссылку",
     "reblogged": "reblogged by",
-    "sponsored": "SPONSORED"
+    "sponsored": "SPONSORED",
+    "open_thread": "Open Thread"
   },
   "drafts": {
     "title": "Черновики",
