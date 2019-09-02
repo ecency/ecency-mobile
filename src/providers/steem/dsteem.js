@@ -990,6 +990,10 @@ const _postContent = async (
           resolve(result);
         })
         .catch(error => {
+          if (get(error, 'jse_info.code') === 4030100) {
+            error.message =
+              'We noticed that your device has incorrect date or time. Please fix Date & Time or Set Automatically and try again.';
+          }
           reject(error);
         });
     });
