@@ -228,7 +228,7 @@
     "removed_hint": "A bejegyzést eltávolította",
     "copy_link": "Link másolása",
     "reblogged": "megosztva általa",
-    "sponsored": "SPONSORED",
+    "sponsored": "KIEMELT",
     "open_thread": "Open Thread"
   },
   "drafts": {
@@ -307,7 +307,7 @@
     "to_placeholder": "Felhasználónév",
     "memo_placeholder": "Megjegyzés ide",
     "transfer_token": "Átutalás",
-    "points": "Gift ESTM to someone",
+    "points": "Ajándékozz ESTM-t valakinek",
     "transfer_to_saving": "Átutalás a megtakarításokhoz",
     "powerUp": "Power Up",
     "withdraw_to_saving": "Átutalás A Megtakarításokhoz",
@@ -319,8 +319,8 @@
     "withdraw_sbd": "Steem Dollár Visszavonás"
   },
   "boost": {
-    "title": "Get eSteem Points",
-    "buy": "GET ESTM",
+    "title": "Szerezz eSteem pontokat",
+    "buy": "Vásárolj ESTM-t",
     "next": "KÖVETKEZŐ"
   },
   "promote": {
@@ -329,7 +329,7 @@
     "user": "Felhasználó",
     "permlink": "Bejegyzés",
     "permlinkPlaceholder": "author/permlink",
-    "information": "Are you sure to promote?"
+    "information": "Bistos promoválod?"
   },
   "boostPost": {
     "title": "Boost"
