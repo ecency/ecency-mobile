@@ -24,7 +24,7 @@
     "notification": "Notificări",
     "leaderboard": "Clasament",
     "epoint": "Puncte",
-    "leaderboard_title": "Top Users",
+    "leaderboard_title": "Top utilizatori",
     "recent": "Recent",
     "yesterday": "Ieri",
     "this_week": "Săptămâna aceasta",
@@ -198,7 +198,7 @@
     "fail": "Eșuat!",
     "move": "Mută",
     "move_question": "Esti sigur că vrei să muți la schițe?",
-    "success_shared": "Your post successfully shared",
+    "success_shared": "Postarea ta a fost distribuită cu succes",
     "success_moved": "Mutat la schițe",
     "permission_denied": "Permisiune respinsă",
     "permission_text": "Te rugăm să mergi în setările telefonului și să schimbi permisiunile aplicației eSteem.",
@@ -217,11 +217,11 @@
     "confirm": "Confirmă",
     "removed": "Şters",
     "same_user": "Utilizator adăugat deja la listă",
-    "unknow_error": "An error occurred",
+    "unknow_error": "A intervenit o eroare",
     "error": "Eroare",
     "fetch_error": "Fetching data failed, please try again or notify us at info@esteem.app",
     "connection_fail": "Connectare Eșuată!",
-    "connection_success": "Successfully connected!"
+    "connection_success": "Conectat cu succes!"
   },
   "post": {
     "reblog_alert": "Are you sure, you want to reblog?",
@@ -325,7 +325,7 @@
   },
   "promote": {
     "title": "Promovează",
-    "days": "days",
+    "days": "zile",
     "user": "Utilizator",
     "permlink": "Postare",
     "permlinkPlaceholder": "autor/permlink",
@@ -335,8 +335,8 @@
     "title": "Boost"
   },
   "voters_dropdown": {
-    "rewards": "REWARDS",
-    "percent": "PERCENT",
+    "rewards": "RECOMPENSE",
+    "percent": "PROCENT",
     "time": "TIME"
   },
   "reblog": {
