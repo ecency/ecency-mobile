@@ -55,8 +55,17 @@ class CommentsView extends Component {
       handleOnPressCommentMenu,
       handleOnVotersPress,
       intl,
+      isOwnProfile,
     } = this.props;
     const { selectedComment } = this.state;
+
+    const menuItems = isOwnProfile
+      ? [
+          intl.formatMessage({ id: 'post.copy_link' }),
+          intl.formatMessage({ id: 'post.open_thread' }),
+          intl.formatMessage({ id: 'alert.cancel' }),
+        ]
+      : [intl.formatMessage({ id: 'post.copy_link' }), intl.formatMessage({ id: 'alert.cancel' })];
 
     return (
       <Fragment>
@@ -90,19 +99,9 @@ class CommentsView extends Component {
         />
         <ActionSheet
           ref={this.commentMenu}
-          options={[
-            intl.formatMessage({
-              id: 'post.copy_link',
-            }),
-            intl.formatMessage({
-              id: 'post.open_thread',
-            }),
-            intl.formatMessage({
-              id: 'alert.cancel',
-            }),
-          ]}
+          options={menuItems}
           title={get(selectedComment, 'summary')}
-          cancelButtonIndex={2}
+          cancelButtonIndex={isOwnProfile ? 2 : 1}
           onPress={index => handleOnPressCommentMenu(index, selectedComment)}
         />
       </Fragment>
