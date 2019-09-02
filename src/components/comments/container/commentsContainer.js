@@ -196,7 +196,7 @@ class CommentsContainer extends Component {
   };
 
   _handleOnPressCommentMenu = (index, selectedComment) => {
-    const { dispatch, intl, navigation } = this.props;
+    const { dispatch, intl, navigation, isOwnProfile } = this.props;
 
     switch (index) {
       case 0:
@@ -211,6 +211,7 @@ class CommentsContainer extends Component {
         });
         break;
       case 1:
+      case isOwnProfile:
         navigation.navigate({
           routeName: ROUTES.SCREENS.POST,
           key: get(selectedComment, 'permlink'),
@@ -241,6 +242,7 @@ class CommentsContainer extends Component {
       selectedFilter,
       mainAuthor,
       selectedPermlink: _selectedPermlink,
+      isOwnProfile,
     } = this.props;
 
     return (
@@ -261,6 +263,7 @@ class CommentsContainer extends Component {
         fetchPost={fetchPost}
         handleDeleteComment={this._handleDeleteComment}
         handleOnPressCommentMenu={this._handleOnPressCommentMenu}
+        isOwnProfile={isOwnProfile}
       />
     );
   }
