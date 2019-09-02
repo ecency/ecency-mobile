@@ -162,8 +162,8 @@ export const groomingWalletData = async (user, globalProps) => {
 
   const { transfer_history: transferHistory } = accounts ? accounts[user.name] : [];
   walletData.transactions = transferHistory
-    .slice(Math.max(transferHistory.length - 20, 0))
-    .reverse();
+    ? transferHistory.slice(Math.max(transferHistory.length - 20, 0)).reverse()
+    : [];
 
   return walletData;
 };
