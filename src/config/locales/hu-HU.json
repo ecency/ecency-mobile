@@ -228,7 +228,7 @@
     "removed_hint": "A bejegyzést eltávolította",
     "copy_link": "Link másolása",
     "reblogged": "megosztva általa",
-    "sponsored": "SPONSORED",
+    "sponsored": "KIEMELT",
     "open_thread": "Open Thread"
   },
   "drafts": {
@@ -319,7 +319,7 @@
     "withdraw_sbd": "Steem Dollár Visszavonás"
   },
   "boost": {
-    "title": "Get eSteem Points",
+    "title": "Szerezz eSteem pontokat",
     "buy": "GET ESTM",
     "next": "KÖVETKEZŐ"
   },
