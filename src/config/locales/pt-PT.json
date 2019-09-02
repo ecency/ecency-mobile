@@ -228,7 +228,8 @@
     "removed_hint": "O post foi removido por",
     "copy_link": "Copiar link",
     "reblogged": "repostado por",
-    "sponsored": "SPONSORED"
+    "sponsored": "Promovido",
+    "open_thread": "Tópico aberto"
   },
   "drafts": {
     "title": "Rascunhos",

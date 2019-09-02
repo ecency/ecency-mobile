@@ -228,7 +228,8 @@
     "removed_hint": "Bài viết đã bị xóa bởi",
     "copy_link": "Sao chép liên kết",
     "reblogged": "đã được đăng lại bởi",
-    "sponsored": "SPONSORED"
+    "sponsored": "SPONSORED",
+    "open_thread": "Open Thread"
   },
   "drafts": {
     "title": "Bản nháp",
