@@ -299,6 +299,7 @@
   "transfer": {
     "from": "से",
     "to": "को",
+    "amount_information": "Drag the slider to adjust the amount",
     "amount": "रकम",
     "memo": "ज्ञापन",
     "information": "Are you sure to transfer funds?",
