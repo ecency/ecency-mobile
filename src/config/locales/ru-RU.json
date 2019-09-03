@@ -299,6 +299,7 @@
   "transfer": {
     "from": "От",
     "to": "Кому",
+    "amount_information": "Drag the slider to adjust the amount",
     "amount": "Сумма",
     "memo": "Примечание",
     "information": "Are you sure to transfer funds?",
