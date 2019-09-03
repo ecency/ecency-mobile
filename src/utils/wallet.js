@@ -160,10 +160,10 @@ export const groomingWalletData = async (user, globalProps) => {
   const timeDiff = Math.abs(parseDate(user.next_vesting_withdrawal) - new Date());
   walletData.nextVestingWithdrawal = Math.ceil(timeDiff / (1000 * 3600 * 24));
 
-  const { transfer_history: transferHistory } = accounts[user.name];
+  const { transfer_history: transferHistory } = get(accounts, user.name, []);
   walletData.transactions = transferHistory
-    .slice(Math.max(transferHistory.length - 20, 0))
-    .reverse();
+    ? transferHistory.slice(Math.max(transferHistory.length - 20, 0)).reverse()
+    : [];
 
   return walletData;
 };
