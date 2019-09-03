@@ -225,7 +225,7 @@ class PowerDownView extends Component {
           <ScrollView>
             <View style={styles.middleContent}>
               <TransferFormItem
-                label={intl.formatMessage({ id: 'transfer.account' })}
+                label={intl.formatMessage({ id: 'transfer.from' })}
                 rightComponent={() => this._renderDropdown(accounts, currentAccountName)}
               />
               <TransferFormItem
