@@ -299,6 +299,7 @@
   "transfer": {
     "from": "De la",
     "to": "Către",
+    "amount_information": "Drag the slider to adjust the amount",
     "amount": "Sumă",
     "memo": "Notă",
     "information": "Are you sure to transfer funds?",
