@@ -299,6 +299,7 @@
   "transfer": {
     "from": "Gönderen",
     "to": "Kime",
+    "amount_information": "Drag the slider to adjust the amount",
     "amount": "Miktar",
     "memo": "Notlar",
     "information": "Are you sure to transfer funds?",
