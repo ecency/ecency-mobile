@@ -299,6 +299,7 @@
   "transfer": {
     "from": "Von",
     "to": "zu",
+    "amount_information": "Drag the slider to adjust the amount",
     "amount": "Betrag",
     "memo": "Memo",
     "information": "Bist du sicher, dass du Geld überweisen willst?",

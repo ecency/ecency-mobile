@@ -299,6 +299,7 @@
   "transfer": {
     "from": "De",
     "to": "Para",
+    "amount_information": "Drag the slider to adjust the amount",
     "amount": "Quantia",
     "memo": "Memo",
     "information": "Tem certeza que deseja transferir fundos?",

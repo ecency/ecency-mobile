@@ -299,6 +299,7 @@
   "transfer": {
     "from": "Feladó",
     "to": "Címzett",
+    "amount_information": "Drag the slider to adjust the amount",
     "amount": "Összeg",
     "memo": "Üzenet",
     "information": "Bistoz átutalod?",
