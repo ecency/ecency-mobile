@@ -17,7 +17,7 @@ const Application = () => (
       isDarkTheme,
       isRenderRequire,
       isThemeReady,
-      isPinCodeReqiure,
+      isPinCodeRequire,
     }) => {
       if (!isReady || !isRenderRequire || !isThemeReady) {
         return <Launch />;
@@ -25,7 +25,7 @@ const Application = () => (
       return (
         <Fragment>
           <Modal
-            isOpen={isPinCodeReqiure}
+            isOpen={isPinCodeRequire}
             isFullScreen
             swipeToClose={false}
             backButtonClose={false}

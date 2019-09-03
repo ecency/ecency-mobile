@@ -121,7 +121,12 @@ class SettingsScreen extends PureComponent {
               actionType="api"
               options={serverList.map(serverName => groomingServerName(serverName))}
               selectedOptionIndex={serverList.indexOf(selectedApi)}
-              defaultText={groomingServerName(selectedApi)}
+              defaultText={
+                groomingServerName(selectedApi) ||
+                intl.formatMessage({
+                  id: 'alert.checking',
+                })
+              }
               handleOnChange={handleOnChange}
             />
             <SettingsItem
