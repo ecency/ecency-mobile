@@ -299,6 +299,7 @@
   "transfer": {
     "from": "Từ",
     "to": "Đến",
+    "amount_information": "Drag the slider to adjust the amount",
     "amount": "Số lượng",
     "memo": "Bản ghi nhớ",
     "information": "Are you sure to transfer funds?",
