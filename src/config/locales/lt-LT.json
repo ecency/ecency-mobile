@@ -299,6 +299,7 @@
   "transfer": {
     "from": "Nuo",
     "to": "Į",
+    "amount_information": "Drag the slider to adjust the amount",
     "amount": "Kiekis",
     "memo": "Atmintinė",
     "information": "Are you sure to transfer funds?",
