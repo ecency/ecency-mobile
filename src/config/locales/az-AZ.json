@@ -299,6 +299,7 @@
   "transfer": {
     "from": "Buradan",
     "to": "Buraya",
+    "amount_information": "Drag the slider to adjust the amount",
     "amount": "Məbləğ",
     "memo": "Qeyd",
     "information": "Are you sure to transfer funds?",

@@ -299,6 +299,7 @@
   "transfer": {
     "from": "Dari",
     "to": "Kepada",
+    "amount_information": "Drag the slider to adjust the amount",
     "amount": "Jumlah",
     "memo": "Memo",
     "information": "Anda yakin mentransfer dana?",

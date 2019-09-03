@@ -299,6 +299,7 @@
   "transfer": {
     "from": "از",
     "to": "به",
+    "amount_information": "Drag the slider to adjust the amount",
     "amount": "مقدار",
     "memo": "یادداشت",
     "information": "Are you sure to transfer funds?",

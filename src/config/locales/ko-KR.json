@@ -298,6 +298,7 @@
   },
   "transfer": {
     "to": "받는 사람",
+    "amount_information": "Drag the slider to adjust the amount",
     "amount": "수량",
     "memo": "메모",
     "information": "자금을 전송하시겠습니까?",
