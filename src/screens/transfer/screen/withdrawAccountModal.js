@@ -71,7 +71,7 @@ class WithdrawAccountModal extends Component {
       <View style={styles.modalContainer}>
         <UserAvatar username={account} size="xl" style={styles.avatar} noAction />
         <TransferFormItem
-          label={intl.formatMessage({ id: 'transfer.account' })}
+          label={intl.formatMessage({ id: 'transfer.from' })}
           rightComponent={() =>
             this._renderInput(
               intl.formatMessage({ id: 'transfer.to_placeholder' }),
