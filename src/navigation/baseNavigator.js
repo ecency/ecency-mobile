@@ -55,7 +55,7 @@ const BaseNavigator = createBottomTabNavigator(
           <Icon
             iconType="MaterialCommunityIcons"
             style={{ padding: 15 }}
-            name="gift"
+            name="gift-outline"
             color={tintColor}
             size={26}
           />
