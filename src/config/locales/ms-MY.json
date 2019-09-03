@@ -299,6 +299,7 @@
   "transfer": {
     "from": "Daripada",
     "to": "Kepada",
+    "amount_information": "Drag the slider to adjust the amount",
     "amount": "Jumlah",
     "memo": "Memo",
     "information": "Are you sure to transfer funds?",
