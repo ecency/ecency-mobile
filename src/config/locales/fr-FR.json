@@ -299,6 +299,7 @@
   "transfer": {
     "from": "De",
     "to": "À",
+    "amount_information": "Drag the slider to adjust the amount",
     "amount": "Montant",
     "memo": "Mémo",
     "information": "Are you sure to transfer funds?",
