@@ -221,7 +221,8 @@
     "error": "Hiba",
     "fetch_error": "Sikertelen adatbetöltés, kérjük próbáld meg újra vagy írj nekünk ide info@esteem.app",
     "connection_fail": "Sikertelen kapcsolat!",
-    "connection_success": "A kapcsolat sikerült!"
+    "connection_success": "A kapcsolat sikerült!",
+    "checking": "Cheking..."
   },
   "post": {
     "reblog_alert": "Biztos, hogy megosztod?",
