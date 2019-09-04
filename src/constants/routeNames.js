@@ -24,6 +24,7 @@ export default {
     PROMOTE: `Promote${SCREEN_SUFFIX}`,
     FREE_ESTM: `FreeEstm${SCREEN_SUFFIX}`,
     REBLOGS: `Reblogs${SCREEN_SUFFIX}`,
+    PROFILE_EDIT: `ProfileEdit${SCREEN_SUFFIX}`,
   },
   DRAWER: {
     MAIN: `Main${DRAWER_SUFFIX}`,

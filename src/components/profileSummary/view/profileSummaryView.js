@@ -67,6 +67,7 @@ class ProfileSummaryView extends PureComponent {
       handleFollowUnfollowUser,
       handleOnFavoritePress,
       handleOnFollowsPress,
+      handleOnPressProfileEdit,
       handleUIChange,
       hoursRC,
       hoursVP,
@@ -184,7 +185,7 @@ class ProfileSummaryView extends PureComponent {
               </TouchableOpacity>
             </Fragment>
           </View>
-          {isLoggedIn && !isOwnProfile && (
+          {isLoggedIn && !isOwnProfile ? (
             <View style={styles.rightIcons}>
               <IconButton
                 backgroundColor="transparent"
@@ -221,6 +222,19 @@ class ProfileSummaryView extends PureComponent {
                 />
               )}
             </View>
+          ) : (
+            isOwnProfile && (
+              <Fragment>
+                <IconButton
+                  backgroundColor="transparent"
+                  color="#c1c5c7"
+                  iconType="MaterialCommunityIcons"
+                  name="pencil"
+                  onPress={handleOnPressProfileEdit}
+                  size={20}
+                />
+              </Fragment>
+            )
           )}
         </View>
       </Fragment>
