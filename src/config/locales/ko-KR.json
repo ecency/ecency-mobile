@@ -221,7 +221,8 @@
     "error": "오류",
     "fetch_error": "서버에서 데이터를 가져오는데 실패했습니다. 다시 시도해보시거나 info@esteem.app로 문의해주세요.",
     "connection_fail": "연결 실패!",
-    "connection_success": "성공적으로 연결되었습니다"
+    "connection_success": "성공적으로 연결되었습니다",
+    "checking": "Cheking..."
   },
   "post": {
     "reblog_alert": "리블로그 하시겠습니까?",

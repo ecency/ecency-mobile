@@ -69,7 +69,7 @@
     "checkin_extra_desc": "Az alkalmazás következetes használata extra esélyt kínál arra, hogy több 10 pontot nyerj, légy aktívabb és nyerj többet.",
     "dropdown_transfer": "Ajándék",
     "dropdown_promote": "Promoválás",
-    "dropdown_boost": "Boost",
+    "dropdown_boost": "Kiemelés",
     "from": "Tőle",
     "to": "Címzett"
   },
@@ -221,7 +221,8 @@
     "error": "Hiba",
     "fetch_error": "Sikertelen adatbetöltés, kérjük próbáld meg újra vagy írj nekünk ide info@esteem.app",
     "connection_fail": "Sikertelen kapcsolat!",
-    "connection_success": "A kapcsolat sikerült!"
+    "connection_success": "A kapcsolat sikerült!",
+    "checking": "Ellenőrzés..."
   },
   "post": {
     "reblog_alert": "Biztos, hogy megosztod?",
@@ -229,7 +230,7 @@
     "copy_link": "Link másolása",
     "reblogged": "megosztva általa",
     "sponsored": "KIEMELT",
-    "open_thread": "Open Thread"
+    "open_thread": "Bejegyzés megnyitása"
   },
   "drafts": {
     "title": "Piszkozatok",
@@ -280,7 +281,7 @@
     "share": "megosztás",
     "bookmarks": "hozzáadás a könyvjelzőkhöz",
     "promote": "promoválás",
-    "boost": "boost"
+    "boost": "kiemelés"
   },
   "deep_link": {
     "no_existing_user": "Nem létező felhasználó",
@@ -299,7 +300,7 @@
   "transfer": {
     "from": "Feladó",
     "to": "Címzett",
-    "amount_information": "Drag the slider to adjust the amount",
+    "amount_information": "A csúszka húzásával állítsd be a mennyiséget",
     "amount": "Összeg",
     "memo": "Üzenet",
     "information": "Bistoz átutalod?",
@@ -329,11 +330,11 @@
     "days": "nap",
     "user": "Felhasználó",
     "permlink": "Bejegyzés",
-    "permlinkPlaceholder": "author/permlink",
+    "permlinkPlaceholder": "szerző/permlink",
     "information": "Bistos promoválod?"
   },
   "boostPost": {
-    "title": "Boost"
+    "title": "Kiemelés"
   },
   "voters_dropdown": {
     "rewards": "JUTALMAK",

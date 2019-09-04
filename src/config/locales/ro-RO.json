@@ -221,7 +221,8 @@
     "error": "Eroare",
     "fetch_error": "Fetching data failed, please try again or notify us at info@esteem.app",
     "connection_fail": "Connectare Eșuată!",
-    "connection_success": "Conectat cu succes!"
+    "connection_success": "Conectat cu succes!",
+    "checking": "Cheking..."
   },
   "post": {
     "reblog_alert": "Are you sure, you want to reblog?",

@@ -221,7 +221,8 @@
     "error": "Fehler",
     "fetch_error": "Das Abrufen der Daten vom Server ist fehlgeschlagen. Bitte versuche es nochmal oder informiere uns unter info@esteem.app",
     "connection_fail": "Verbindung fehlgeschlagen!",
-    "connection_success": "Erfolgreich verbunden!"
+    "connection_success": "Erfolgreich verbunden!",
+    "checking": "Cheking..."
   },
   "post": {
     "reblog_alert": "Möchtest du diesen Beitrag wirklich teilen?",
