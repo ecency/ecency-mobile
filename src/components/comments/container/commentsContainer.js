@@ -198,33 +198,26 @@ class CommentsContainer extends Component {
   _handleOnPressCommentMenu = (index, selectedComment) => {
     const { dispatch, intl, navigation, isOwnProfile } = this.props;
 
-    switch (index) {
-      case 0:
-        writeToClipboard(`https://steemit.com${get(selectedComment, 'url')}`).then(() => {
-          dispatch(
-            toastNotification(
-              intl.formatMessage({
-                id: 'alert.copied',
-              }),
-            ),
-          );
-        });
-        break;
-      case 1:
-      case isOwnProfile:
-        navigation.navigate({
-          routeName: ROUTES.SCREENS.POST,
-          key: get(selectedComment, 'permlink'),
-          params: {
-            author: get(selectedComment, 'author'),
-            permlink: get(selectedComment, 'permlink'),
-            isHasParentPost: get(selectedComment, 'parent_permlink'),
-          },
-        });
-        break;
-
-      default:
-        break;
+    if (index === 0) {
+      writeToClipboard(`https://steemit.com${get(selectedComment, 'url')}`).then(() => {
+        dispatch(
+          toastNotification(
+            intl.formatMessage({
+              id: 'alert.copied',
+            }),
+          ),
+        );
+      });
+    } else if (index === 1 && isOwnProfile) {
+      navigation.navigate({
+        routeName: ROUTES.SCREENS.POST,
+        key: get(selectedComment, 'permlink'),
+        params: {
+          author: get(selectedComment, 'author'),
+          permlink: get(selectedComment, 'permlink'),
+          isHasParentPost: get(selectedComment, 'parent_permlink'),
+        },
+      });
     }
   };
 
