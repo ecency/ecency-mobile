@@ -221,7 +221,8 @@
     "error": "Erro",
     "fetch_error": "Falha ao buscar dados, por favor tente novamente ou nos informe no info@esteem.app",
     "connection_fail": "Falha na conexão!",
-    "connection_success": "Conectado com sucesso!"
+    "connection_success": "Conectado com sucesso!",
+    "checking": "Checando..."
   },
   "post": {
     "reblog_alert": "Tem certeza de que deseja reblogar?",
@@ -299,7 +300,7 @@
   "transfer": {
     "from": "De",
     "to": "Para",
-    "amount_information": "Drag the slider to adjust the amount",
+    "amount_information": "Arraste o controle deslizante para ajustar a quantia",
     "amount": "Quantia",
     "memo": "Memo",
     "information": "Tem certeza que deseja transferir fundos?",
