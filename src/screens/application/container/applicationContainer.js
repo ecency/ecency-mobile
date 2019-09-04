@@ -114,9 +114,19 @@ class ApplicationContainer extends Component {
   };
 
   componentWillReceiveProps(nextProps) {
-    const { isDarkTheme: _isDarkTheme, selectedLanguage, isLogingOut, isConnected } = this.props;
+    const {
+      isDarkTheme: _isDarkTheme,
+      selectedLanguage,
+      isLogingOut,
+      isConnected,
+      api,
+    } = this.props;
 
-    if (_isDarkTheme !== nextProps.isDarkTheme || selectedLanguage !== nextProps.selectedLanguage) {
+    if (
+      _isDarkTheme !== nextProps.isDarkTheme ||
+      selectedLanguage !== nextProps.selectedLanguage ||
+      (api !== nextProps.api && nextProps.api)
+    ) {
       this.setState({ isRenderRequire: false }, () => this.setState({ isRenderRequire: true }));
       if (nextProps.isDarkTheme) {
         changeNavigationBarColor('#1e2835');
@@ -645,7 +655,7 @@ class ApplicationContainer extends Component {
       toastNotification,
       isDarkTheme: _isDarkTheme,
       children,
-      isPinCodeReqiure,
+      isPinCodeRequire,
     } = this.props;
     const { isRenderRequire, isReady, isThemeReady } = this.state;
 
@@ -657,7 +667,7 @@ class ApplicationContainer extends Component {
         isReady,
         isRenderRequire,
         isThemeReady,
-        isPinCodeReqiure,
+        isPinCodeRequire,
         isDarkTheme: _isDarkTheme,
         locale: selectedLanguage,
       })
@@ -676,8 +686,9 @@ export default connect(
     isLoggedIn: state.application.isLoggedIn,
     isConnected: state.application.isConnected,
     nav: state.nav.routes,
-    isPinCodeReqiure: state.application.isPinCodeReqiure,
+    isPinCodeRequire: state.application.isPinCodeRequire,
     isActiveApp: state.application.isActive,
+    api: state.application.api,
 
     // Account
     unreadActivityCount: state.account.currentAccount.unread_activity_count,
