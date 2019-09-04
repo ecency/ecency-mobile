@@ -138,9 +138,10 @@ class BoostPostScreen extends PureComponent {
         amount: `${amount.toFixed(3)} POINT`,
       });
 
-      const uri = `sign/custom-json?authority=active&required_auths=%5B%22${selectedUser}%22%5D&required_posting_auths=%5B%5D&id=esteem_boost&json=${encodeURIComponent(
-        json,
-      )}`;
+      const uri = `sign/custom-json?authority=active&required_auths=%5B%22${get(
+        user,
+        'name',
+      )}%22%5D&required_posting_auths=%5B%5D&id=esteem_boost&json=${encodeURIComponent(json)}`;
 
       this.setState({
         isSCModalOpen: true,
