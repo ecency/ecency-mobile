@@ -221,7 +221,8 @@
     "error": "Erro",
     "fetch_error": "Falha ao buscar dados, por favor tente novamente ou nos informe no info@esteem.app",
     "connection_fail": "Falha na conexão!",
-    "connection_success": "Conectado com sucesso!"
+    "connection_success": "Conectado com sucesso!",
+    "checking": "Cheking..."
   },
   "post": {
     "reblog_alert": "Tem certeza de que deseja reblogar?",
