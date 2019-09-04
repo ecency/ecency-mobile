@@ -137,9 +137,10 @@ class PointsScreen extends PureComponent {
         duration: day,
       });
 
-      const uri = `sign/custom-json?authority=active&required_auths=%5B%22${selectedUser}%22%5D&required_posting_auths=%5B%5D&id=esteem_promote&json=${encodeURIComponent(
-        json,
-      )}`;
+      const uri = `sign/custom-json?authority=active&required_auths=%5B%22${get(
+        user,
+        'name',
+      )}%22%5D&required_posting_auths=%5B%5D&id=esteem_promote&json=${encodeURIComponent(json)}`;
 
       this.setState({
         isSCModalOpen: true,
