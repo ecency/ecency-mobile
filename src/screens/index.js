@@ -19,6 +19,7 @@ import Promote from './promote/screen/promoteScreen';
 import SteemConnect from './steem-connect/steemConnect';
 import Transfer from './transfer';
 import Reblogs from './reblogs';
+import ProfileEdit from './profileEdit/screen/profileEditScreen';
 
 export {
   Bookmarks,
@@ -35,11 +36,12 @@ export {
   Points,
   Post,
   Profile,
+  ProfileEdit,
   Promote,
+  Reblogs,
   SearchResult,
   Settings,
   SteemConnect,
   Transfer,
   Voters,
-  Reblogs,
 };

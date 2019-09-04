@@ -9,6 +9,8 @@ import { default as ROUTES } from '../constants/routeNames';
 // Screens
 import {
   Bookmarks,
+  Boost,
+  BoostPost,
   Drafts,
   Editor,
   Follows,
@@ -16,15 +18,14 @@ import {
   PinCode,
   Post,
   Profile,
+  ProfileEdit,
+  Promote,
+  Reblogs,
+  SearchResult,
   Settings,
   SteemConnect,
-  Voters,
-  SearchResult,
   Transfer,
-  Boost,
-  Promote,
-  BoostPost,
-  Reblogs,
+  Voters,
 } from '../screens';
 
 // Components
@@ -51,6 +52,12 @@ const stackNavigatior = createStackNavigator(
     },
     [ROUTES.SCREENS.PROFILE]: {
       screen: Profile,
+      navigationOptions: {
+        header: () => null,
+      },
+    },
+    [ROUTES.SCREENS.PROFILE_EDIT]: {
+      screen: ProfileEdit,
       navigationOptions: {
         header: () => null,
       },

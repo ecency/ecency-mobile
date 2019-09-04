@@ -62,15 +62,19 @@ class ProfileScreen extends PureComponent {
   render() {
     const {
       about,
+      activePage,
+      changeForceLoadPostState,
       comments,
       currency,
       follows,
+      forceLoadPost,
       getReplies,
       handleFollowUnfollowUser,
       handleMuteUnmuteUser,
       handleOnBackPress,
       handleOnFavoritePress,
       handleOnFollowsPress,
+      handleOnPressProfileEdit,
       intl,
       isDarkTheme,
       isFavorite,
@@ -83,9 +87,6 @@ class ProfileScreen extends PureComponent {
       selectedQuickProfile,
       selectedUser,
       username,
-      activePage,
-      forceLoadPost,
-      changeForceLoadPostState,
     } = this.props;
 
     const {
@@ -175,6 +176,7 @@ class ProfileScreen extends PureComponent {
                 location={location}
                 percentRC={resourceCredits}
                 percentVP={votingPower}
+                handleOnPressProfileEdit={handleOnPressProfileEdit}
               />
             </CollapsibleCard>
           )}
