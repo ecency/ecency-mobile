@@ -222,7 +222,7 @@
     "fetch_error": "Sikertelen adatbetöltés, kérjük próbáld meg újra vagy írj nekünk ide info@esteem.app",
     "connection_fail": "Sikertelen kapcsolat!",
     "connection_success": "A kapcsolat sikerült!",
-    "checking": "Cheking..."
+    "checking": "Ellenőrzés..."
   },
   "post": {
     "reblog_alert": "Biztos, hogy megosztod?",
