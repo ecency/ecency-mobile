@@ -9,7 +9,7 @@ import { IconButton } from '../iconButton';
 // Styles
 import styles from './avatarHeaderStyles';
 
-const TooltipView = ({ username, name, reputation, navigation }) => (
+const AvatarHeader = ({ username, name, reputation, navigation, avatarUrl }) => (
   <LinearGradient
     start={{ x: 0, y: 0 }}
     end={{ x: 1, y: 0 }}
@@ -25,7 +25,15 @@ const TooltipView = ({ username, name, reputation, navigation }) => (
         size={25}
       />
       <View style={styles.wrapper}>
-        <UserAvatar noAction size="xl" username={username} />
+        <UserAvatar noAction size="xl" username={username} avatarUrl={avatarUrl} />
+        <IconButton
+          iconStyle={styles.addIcon}
+          style={styles.addButton}
+          iconType="MaterialCommunityIcons"
+          name="plus"
+          onPress={() => alert('upload')}
+          size={15}
+        />
         <View style={styles.textWrapper}>
           <Text style={styles.name}>{name}</Text>
           <Text style={styles.username}>{`@${username} (${reputation})`}</Text>
@@ -35,4 +43,4 @@ const TooltipView = ({ username, name, reputation, navigation }) => (
   </LinearGradient>
 );
 
-export default withNavigation(TooltipView);
+export default withNavigation(AvatarHeader);

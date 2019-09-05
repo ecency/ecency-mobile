@@ -4,8 +4,7 @@ export default EStyleSheet.create({
   wrapper: {
     borderTopLeftRadius: 8,
     borderTopRightRadius: 8,
-    marginHorizontal: 30,
-    marginVertical: 10,
+    marginTop: 16,
     flexDirection: 'row',
     backgroundColor: '$primaryGray',
     height: 60,
