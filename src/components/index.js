@@ -10,6 +10,7 @@ import { TextInput } from './textInput';
 import ScaleSlider from './scaleSlider/scaleSliderView';
 import UserListItem from './basicUIElements/view/userListItem/userListItem';
 import PostButton from './postButton/postButtonView';
+import ProfileEditForm from './profileEditForm/profileEditFormView';
 
 export {
   CircularButton,
@@ -20,10 +21,11 @@ export {
   Modal,
   NumericKeyboard,
   PinAnimatedInput,
+  PostButton,
+  ProfileEditForm,
   ScaleSlider,
   SideMenu,
   TextButton,
   TextInput,
   UserListItem,
-  PostButton,
 };

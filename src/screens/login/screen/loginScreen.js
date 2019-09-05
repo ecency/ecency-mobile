@@ -102,7 +102,7 @@ class LoginScreen extends PureComponent {
               onKeyboardWillShow={() => this.setState({ keyboardIsOpen: true })}
               onKeyboardWillHide={() => this.setState({ keyboardIsOpen: false })}
               enableAutoAutomaticScroll={Platform.OS === 'ios'}
-              contentContainerStyle={{ flexGrow: 1 }}
+              contentContainerStyle={styles.formWrapper}
             >
               <FormInput
                 rightIconName="at"

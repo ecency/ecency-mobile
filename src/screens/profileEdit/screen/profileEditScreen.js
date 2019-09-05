@@ -5,6 +5,7 @@ import get from 'lodash/get';
 import { ProfileEditContainer } from '../../../containers';
 
 import AvatarHeader from '../../../components/avatarHeader/avatarHeaderView';
+import ProfileEditForm from '../../../components/profileEditForm/profileEditFormView';
 
 class ProfileEditScreen extends PureComponent {
   /* Props
@@ -30,6 +31,15 @@ class ProfileEditScreen extends PureComponent {
               username={get(currentAccount, 'name')}
               name={get(currentAccount, 'about.profile.name')}
               reputation={get(currentAccount, 'reputation')}
+              avatarUrl={null}
+            />
+            <ProfileEditForm
+              about={get(currentAccount, 'about.profile.about')}
+              name={get(currentAccount, 'about.profile.name')}
+              location="location"
+              website="website"
+              coverUrl={get(currentAccount, 'reputation')}
+              avatarUrl={null}
             />
           </Fragment>
         )}

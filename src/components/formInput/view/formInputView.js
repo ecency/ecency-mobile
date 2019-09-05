@@ -30,17 +30,10 @@ class FormInputView extends Component {
       value: '',
       inputBorderColor: '#c1c5c7',
       isValid: true,
-      formInputWidth: '99%',
     };
   }
 
   // Component Life Cycles
-  componentWillMount() {
-    setTimeout(() => {
-      this.setState({ formInputWidth: '100%' });
-    }, 100);
-  }
-
   componentWillReceiveProps(nextProps) {
     const { isValid } = this.props;
 
@@ -65,7 +58,7 @@ class FormInputView extends Component {
   };
 
   render() {
-    const { inputBorderColor, isValid, value, formInputWidth } = this.state;
+    const { inputBorderColor, isValid, value } = this.state;
     const {
       placeholder,
       type,
@@ -75,6 +68,8 @@ class FormInputView extends Component {
       rightIconName,
       secureTextEntry,
       iconType,
+      wrapperStyle,
+      height,
     } = this.props;
     return (
       <View
@@ -83,6 +78,7 @@ class FormInputView extends Component {
           {
             borderBottomColor: isValid ? inputBorderColor : 'red',
           },
+          wrapperStyle,
         ]}
       >
         {isFirstImage && value && value.length > 2 ? (
@@ -97,19 +93,21 @@ class FormInputView extends Component {
             />
           </View>
         ) : (
-          <Icon iconType={iconType || 'MaterialIcons'} name={rightIconName} style={styles.icon} />
+          rightIconName && (
+            <Icon iconType={iconType || 'MaterialIcons'} name={rightIconName} style={styles.icon} />
+          )
         )}
         <View style={styles.textInput}>
           <TextInput
             onFocus={() => this._handleOnFocus()}
             autoCapitalize="none"
             secureTextEntry={secureTextEntry}
+            height={height}
             placeholder={placeholder}
             editable={isEditable || true}
             textContentType={type}
             onChangeText={val => this._handleOnChange(val)}
             value={value}
-            style={{ width: formInputWidth }}
           />
         </View>
 
