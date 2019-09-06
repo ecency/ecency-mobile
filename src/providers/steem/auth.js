@@ -1,6 +1,7 @@
 import * as dsteem from 'dsteem';
 import sha256 from 'crypto-js/sha256';
 import Config from 'react-native-config';
+import get from 'lodash/get';
 
 import { getUser } from './dsteem';
 import {
@@ -169,6 +170,16 @@ export const setUserDataWithPinCode = async data => {
     const result = getUserDataWithUsername(data.username);
     const userData = result[0];
 
+    if (!data.password) {
+      const publicKey =
+        get(userData, 'masterKey') ||
+        get(userData, 'activeKey') ||
+        get(userData, 'memoKey') ||
+        get(userData, 'postingKey');
+
+      data.password = decryptKey(publicKey, data.pinCode);
+    }
+
     const updatedUserData = getUpdatedUserData(userData, data);
 
     await setPinCode(data.pinCode);
@@ -188,8 +199,19 @@ export const updatePinCode = data =>
       getUserData().then(async users => {
         if (users && users.length > 0) {
           await users.forEach(userData => {
-            if (userData.authType === AUTH_TYPE.MASTER_KEY) {
-              data.password = decryptKey(userData.masterKey, data.oldPinCode);
+            if (
+              userData.authType === AUTH_TYPE.MASTER_KEY ||
+              userData.authType === AUTH_TYPE.ACTIVE_KEY ||
+              userData.authType === AUTH_TYPE.MEMO_KEY ||
+              userData.authType === AUTH_TYPE.POSTING_KEY
+            ) {
+              const publicKey =
+                get(userData, 'masterKey') ||
+                get(userData, 'activeKey') ||
+                get(userData, 'memoKey') ||
+                get(userData, 'postingKey');
+
+              data.password = decryptKey(publicKey, data.oldPinCode);
             } else if (userData.authType === AUTH_TYPE.STEEM_CONNECT) {
               data.accessToken = decryptKey(userData.accessToken, data.oldPinCode);
             }
