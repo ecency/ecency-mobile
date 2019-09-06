@@ -169,6 +169,13 @@ export const setUserDataWithPinCode = async data => {
     const result = getUserDataWithUsername(data.username);
     const userData = result[0];
 
+    if (!data.password) {
+      const publicKey =
+        userData.masterKey || userData.activeKey || userData.memoKey || userData.postingKey;
+
+      data.password = decryptKey(publicKey, data.pinCode);
+    }
+
     const updatedUserData = getUpdatedUserData(userData, data);
 
     await setPinCode(data.pinCode);
@@ -188,8 +195,16 @@ export const updatePinCode = data =>
       getUserData().then(async users => {
         if (users && users.length > 0) {
           await users.forEach(userData => {
-            if (userData.authType === AUTH_TYPE.MASTER_KEY) {
-              data.password = decryptKey(userData.masterKey, data.oldPinCode);
+            if (
+              userData.authType === AUTH_TYPE.MASTER_KEY ||
+              userData.authType === AUTH_TYPE.ACTIVE_KEY ||
+              userData.authType === AUTH_TYPE.MEMO_KEY ||
+              userData.authType === AUTH_TYPE.POSTING_KEY
+            ) {
+              const publicKey =
+                userData.masterKey || userData.activeKey || userData.memoKey || userData.postingKey;
+
+              data.password = decryptKey(publicKey, data.oldPinCode);
             } else if (userData.authType === AUTH_TYPE.STEEM_CONNECT) {
               data.accessToken = decryptKey(userData.accessToken, data.oldPinCode);
             }
@@ -321,3 +336,9 @@ const isLoggedInUser = username => {
   }
   return false;
 };
+
+// "U2FsdGVkX19mj+Gzu0cINSiOFf8E1dvxB2jD4PX1y6ZHBRdlkXOlI2ykYm0iaQ1QPD1JY7TiczdTjAioEpuWh8YhGh00XZzL6kwDOiuHefg="
+// "U2FsdGVkX19hclmluBCenB+n0yB7rdlSztiyh41AqaHQB9VmAnRngOhHE/yqFp5fzP9OiiduJwkFv/WtMjFqOjjtnBHGlkrnlusoibxuDy0="
+
+// "U2FsdGVkX1+f/My5yx5Ys2gFIe+S/scGYA6M2SyoPEv+UyDNUbVX1IA3dmP8EHy8/qwCz1HZ0A5Y6KkizAisR0qxOlyv1bRfubbIGlAjBmY="
+// "U2FsdGVkX19pNwJxV+Wy9HNYqD1mFv4PNbkDYyIgTgaZVAJW6ayxxhEOwSYayWWALsr6rQkkTPUz0LgLj2QeAm2hIeIHntHx2kQ2aK8akU4="
