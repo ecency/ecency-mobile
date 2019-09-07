@@ -21,12 +21,13 @@ class ProfileEditContainer extends Component {
   _handleOnSave = () => {};
 
   render() {
-    const { children, currentAccount } = this.props;
+    const { children, currentAccount, isDarkTheme } = this.props;
 
     return (
       children &&
       children({
         currentAccount,
+        isDarkTheme,
       })
     );
   }
@@ -34,6 +35,7 @@ class ProfileEditContainer extends Component {
 
 const mapStateToProps = state => ({
   currentAccount: state.account.currentAccount,
+  isDarkTheme: state.application.isDarkTheme,
 });
 
 export default connect(mapStateToProps)(ProfileEditContainer);

@@ -27,7 +27,7 @@ class FormInputView extends Component {
     super(props);
 
     this.state = {
-      value: '',
+      value: props.value || '',
       inputBorderColor: '#c1c5c7',
       isValid: true,
     };
