@@ -3,6 +3,33 @@ import { connect } from 'react-redux';
 
 // import ROUTES from '../constants/routeNames';
 
+const FORM_DATA = [
+  {
+    valueKey: 'name',
+    type: 'text',
+    label: 'display_name',
+    placeholder: '',
+  },
+  {
+    valueKey: 'about',
+    type: 'text',
+    label: 'about',
+    placeholder: '',
+  },
+  {
+    valueKey: 'location',
+    type: 'text',
+    label: 'location',
+    placeholder: '',
+  },
+  {
+    valueKey: 'website',
+    type: 'text',
+    label: 'website',
+    placeholder: '',
+  },
+];
+
 class ProfileEditContainer extends Component {
   /* Props
    * ------------------------------------------------
@@ -28,6 +55,7 @@ class ProfileEditContainer extends Component {
       children({
         currentAccount,
         isDarkTheme,
+        formData: FORM_DATA,
       })
     );
   }
