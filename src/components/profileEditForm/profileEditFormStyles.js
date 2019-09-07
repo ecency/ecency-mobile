@@ -43,4 +43,27 @@ export default EStyleSheet.create({
     bottom: 0,
     right: 10,
   },
+
+  saveButton: {
+    backgroundColor: '$primaryBlue',
+    width: 55,
+    height: 55,
+    borderRadius: 55 / 2,
+    position: 'absolute',
+    top: -25,
+    right: 10,
+    zIndex: 999,
+    borderWidth: 2,
+    borderColor: '$white',
+  },
+  saveIcon: {
+    color: '$white',
+    textAlign: 'center',
+  },
+
+  input: {
+    fontSize: 14,
+    color: '$primaryDarkText',
+    alignSelf: 'flex-start',
+  },
 });

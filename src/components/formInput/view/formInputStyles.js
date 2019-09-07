@@ -20,7 +20,6 @@ export default EStyleSheet.create({
   textInput: {
     flex: 0.7,
     flexDirection: 'row',
-    justifyContent: 'center',
   },
   icon: {
     flex: 0.15,
