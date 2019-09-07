@@ -70,6 +70,7 @@ class FormInputView extends Component {
       iconType,
       wrapperStyle,
       height,
+      inputStyle,
     } = this.props;
     return (
       <View
@@ -99,6 +100,7 @@ class FormInputView extends Component {
         )}
         <View style={styles.textInput}>
           <TextInput
+            style={inputStyle}
             onFocus={() => this._handleOnFocus()}
             autoCapitalize="none"
             secureTextEntry={secureTextEntry}
