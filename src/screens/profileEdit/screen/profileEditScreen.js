@@ -25,21 +25,22 @@ class ProfileEditScreen extends PureComponent {
   render() {
     return (
       <ProfileEditContainer>
-        {({ currentAccount }) => (
+        {({ currentAccount, isDarkTheme }) => (
           <Fragment>
             <AvatarHeader
               username={get(currentAccount, 'name')}
               name={get(currentAccount, 'about.profile.name')}
               reputation={get(currentAccount, 'reputation')}
-              avatarUrl={null}
+              avatarUrl={get(currentAccount, 'avatar')}
             />
             <ProfileEditForm
+              isDarkTheme={isDarkTheme}
               about={get(currentAccount, 'about.profile.about')}
-              name={get(currentAccount, 'about.profile.name')}
-              location="location"
-              website="website"
-              coverUrl={get(currentAccount, 'reputation')}
-              avatarUrl={null}
+              name={get(currentAccount, 'about.profile.profile.name')}
+              location={get(currentAccount, 'about.profile.profile.location')}
+              website={get(currentAccount, 'about.profile.profile.website')}
+              coverUrl={get(currentAccount, 'about.profile.cover_image')}
+              avatarUrl={get(currentAccount, 'avatar')}
             />
           </Fragment>
         )}
