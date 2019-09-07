@@ -2,6 +2,7 @@ import React from 'react';
 import { withNavigation } from 'react-navigation';
 import { View, TouchableOpacity, Image, Text, Platform } from 'react-native';
 import { KeyboardAwareScrollView } from 'react-native-keyboard-aware-scroll-view';
+import { injectIntl } from 'react-intl';
 
 // Images
 import LIGHT_COVER_IMAGE from '../../assets/default_cover_image.png';
@@ -13,15 +14,7 @@ import { IconButton } from '../iconButton';
 // Styles
 import styles from './profileEditFormStyles';
 
-const ProfileEditFormView = ({
-  avatarUrl,
-  coverUrl,
-  name,
-  about,
-  location,
-  website,
-  isDarkTheme,
-}) => (
+const ProfileEditFormView = ({ avatarUrl, coverUrl, isDarkTheme, formData, intl, ...props }) => (
   <View style={styles.container}>
     <IconButton
       iconStyle={styles.saveIcon}
@@ -35,36 +28,6 @@ const ProfileEditFormView = ({
       enableAutoAutomaticScroll={Platform.OS === 'ios'}
       contentContainerStyle={{ flexGrow: 1 }}
     >
-      <View style={styles.formItem}>
-        <Text style={styles.label}>Profile picture URL</Text>
-        <FormInput
-          wrapperStyle={styles.formStyle}
-          isValid
-          height={30}
-          onChange={value => console.log('changed')}
-          placeholder="profile picture url"
-          isEditable
-          type="text"
-          value={avatarUrl}
-          inputStyle={styles.input}
-        />
-      </View>
-
-      <View style={styles.formItem}>
-        <Text style={styles.label}>Cover image URL</Text>
-        <FormInput
-          wrapperStyle={styles.formStyle}
-          isValid
-          height={30}
-          onChange={value => console.log('changed')}
-          placeholder="Cover image URL"
-          isEditable
-          type="text"
-          value={coverUrl}
-          inputStyle={styles.input}
-        />
-      </View>
-
       <TouchableOpacity style={styles.coverImgWrapper} onPress={() => alert('upload')}>
         <Image
           style={styles.coverImg}
@@ -82,21 +45,27 @@ const ProfileEditFormView = ({
         />
       </TouchableOpacity>
 
-      <View style={styles.formItem}>
-        <Text style={styles.label}>Display Name</Text>
-        <FormInput
-          wrapperStyle={styles.formStyle}
-          isValid
-          height={30}
-          onChange={value => console.log('changed')}
-          placeholder="Display name"
-          isEditable
-          type="text"
-          value={name}
-          inputStyle={styles.input}
-        />
-      </View>
-
+      {formData.map(item => (
+        <View style={styles.formItem}>
+          <Text style={styles.label}>
+            {intl.formatMessage({
+              id: `profile.edit.${item.label}`,
+            })}
+          </Text>
+          <FormInput
+            wrapperStyle={styles.formStyle}
+            isValid
+            height={30}
+            onChange={value => console.log(value, item.valueKey)}
+            placeholder={item.placeholder}
+            isEditable
+            type={item.type}
+            value={props[item.valueKey]}
+            inputStyle={styles.input}
+          />
+        </View>
+      ))}
+      {/*
       <View style={styles.formItem}>
         <Text style={styles.label}>About</Text>
         <FormInput
@@ -140,13 +109,9 @@ const ProfileEditFormView = ({
           value={website}
           inputStyle={styles.input}
         />
-      </View>
+</View> */}
     </KeyboardAwareScrollView>
   </View>
 );
 
-export default withNavigation(ProfileEditFormView);
-
-// placeholder={intl.formatMessage({
-//   id: 'login.username',
-// })}
+export default injectIntl(withNavigation(ProfileEditFormView));
