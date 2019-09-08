@@ -9,9 +9,10 @@ export default EStyleSheet.create({
     justifyContent: 'space-between',
     width: '$deviceWidth',
     height: 50,
-    shadowOpacity: 0.2,
+    shadowOpacity: 0.1,
     shadowOffset: {
-      height: 1.5,
+      width: 0,
+      height: -3,
     },
     elevation: 3,
   },
