@@ -23,8 +23,6 @@ class HomeScreen extends PureComponent {
   render() {
     const { currentAccount, intl, isLoggedIn } = this.props;
 
-    let tag;
-
     return (
       <Fragment>
         <Header />
@@ -50,7 +48,7 @@ class HomeScreen extends PureComponent {
               <Posts
                 filterOptions={PROFILE_FILTERS}
                 getFor={PROFILE_FILTERS[1].toLowerCase()}
-                tag={tag || currentAccount.name}
+                tag={currentAccount.name}
                 selectedOptionIndex={1}
               />
             </View>
