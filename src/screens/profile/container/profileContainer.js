@@ -344,9 +344,14 @@ class ProfileContainer extends Component {
   };
 
   _handleOnPressProfileEdit = () => {
-    const { navigation } = this.props;
+    const { navigation, currentAccount } = this.props;
 
-    navigation.navigate(ROUTES.SCREENS.PROFILE_EDIT);
+    navigation.navigate({
+      routeName: ROUTES.SCREENS.PROFILE_EDIT,
+      params: {
+        fetchUser: () => this.setState({ user: currentAccount }),
+      },
+    });
   };
 
   render() {

@@ -8,8 +8,7 @@ import { withNavigation } from 'react-navigation';
 
 import { uploadImage } from '../providers/esteem/esteem';
 
-import { profileUpdate, getUser } from '../providers/steem/dsteem';
-import { getUserDataWithUsername } from '../realm/realm';
+import { profileUpdate } from '../providers/steem/dsteem';
 import { updateCurrentAccount } from '../redux/actions/accountAction';
 
 // import ROUTES from '../constants/routeNames';
@@ -169,6 +168,7 @@ class ProfileEditContainer extends Component {
 
         dispatch(updateCurrentAccount(_currentAccount));
 
+        navigation.state.params.fetchUser();
         navigation.goBack();
       })
       .catch(error => {
