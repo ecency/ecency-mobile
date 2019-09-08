@@ -4,8 +4,14 @@ import { connect } from 'react-redux';
 import { injectIntl } from 'react-intl';
 import ImagePicker from 'react-native-image-crop-picker';
 import get from 'lodash/get';
+import { withNavigation } from 'react-navigation';
 
 import { uploadImage } from '../providers/esteem/esteem';
+
+import { profileUpdate, getUser } from '../providers/steem/dsteem';
+import { getUserDataWithUsername } from '../realm/realm';
+import { updateCurrentAccount } from '../redux/actions/accountAction';
+
 // import ROUTES from '../constants/routeNames';
 
 const FORM_DATA = [
@@ -44,7 +50,7 @@ class ProfileEditContainer extends Component {
   constructor(props) {
     super(props);
     this.state = {
-      isUploading: false,
+      isLoading: false,
       about: get(props.currentAccount, 'about.profile.about'),
       name: get(props.currentAccount, 'about.profile.name'),
       location: get(props.currentAccount, 'about.profile.location'),
@@ -61,15 +67,17 @@ class ProfileEditContainer extends Component {
   _handleOnSave = () => {};
 
   _handleOnItemChange = (val, item) => {
-    console.log(val, item);
+    this.setState({ [item]: val });
   };
 
   _uploadImage = (media, action) => {
     const { intl } = this.props;
+
+    this.setState({ isLoading: true });
     uploadImage(media)
       .then(res => {
         if (res.data && res.data.url) {
-          this.setState({ [action]: res.data.url, isUploading: false });
+          this.setState({ [action]: res.data.url, isLoading: false });
         }
       })
       .catch(error => {
@@ -81,7 +89,7 @@ class ProfileEditContainer extends Component {
             error.message || error.toString(),
           );
         }
-        this.setState({ isUploading: false });
+        this.setState({ isLoading: false });
       });
   };
 
@@ -118,7 +126,7 @@ class ProfileEditContainer extends Component {
   };
 
   _handleMediaOnSelected = (media, action) => {
-    this.setState({ isUploading: true }, () => {
+    this.setState({ isLoading: true }, () => {
       this._uploadImage(media, action);
     });
   };
@@ -138,25 +146,58 @@ class ProfileEditContainer extends Component {
     }
   };
 
+  _handleOnSubmit = async () => {
+    const { currentAccount, pinCode, dispatch, navigation } = this.props;
+    const { name, location, website, about, coverUrl, avatarUrl } = this.state;
+
+    await this.setState({ isLoading: true });
+
+    const params = {
+      profile_image: avatarUrl,
+      cover_image: coverUrl,
+      name,
+      website,
+      about,
+      location,
+    };
+
+    await profileUpdate(params, pinCode, currentAccount)
+      .then(async () => {
+        const _currentAccount = { ...currentAccount };
+        _currentAccount.about.profile = { ...params };
+        _currentAccount.display_name = name;
+
+        dispatch(updateCurrentAccount(_currentAccount));
+
+        navigation.goBack();
+      })
+      .catch(error => {
+        Alert.alert(error);
+      });
+
+    this.setState({ isLoading: false });
+  };
+
   render() {
     const { children, currentAccount, isDarkTheme } = this.props;
-    const { isUploading, name, location, website, about, coverUrl, avatarUrl } = this.state;
+    const { isLoading, name, location, website, about, coverUrl, avatarUrl } = this.state;
 
     return (
       children &&
       children({
+        about,
+        avatarUrl,
+        coverUrl,
         currentAccount,
-        isDarkTheme,
         formData: FORM_DATA,
-        isUploading,
         handleMediaAction: this._handleMediaAction,
         handleOnItemChange: this._handleOnItemChange,
-        name,
+        handleOnSubmit: this._handleOnSubmit,
+        isDarkTheme,
+        isLoading,
         location,
+        name,
         website,
-        about,
-        coverUrl,
-        avatarUrl,
       })
     );
   }
@@ -165,6 +206,7 @@ class ProfileEditContainer extends Component {
 const mapStateToProps = state => ({
   currentAccount: state.account.currentAccount,
   isDarkTheme: state.application.isDarkTheme,
+  pinCode: state.application.pin,
 });
 
-export default connect(mapStateToProps)(injectIntl(ProfileEditContainer));
+export default connect(mapStateToProps)(injectIntl(withNavigation(ProfileEditContainer)));

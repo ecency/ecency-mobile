@@ -49,6 +49,8 @@ class ProfileEditScreen extends PureComponent {
           about,
           avatarUrl,
           coverUrl,
+          isLoading,
+          handleOnSubmit,
         }) => (
           <Fragment>
             <AvatarHeader
@@ -68,6 +70,8 @@ class ProfileEditScreen extends PureComponent {
               coverUrl={coverUrl}
               showImageUploadActions={() => this._showImageUploadActions('coverUrl')}
               handleOnItemChange={handleOnItemChange}
+              isLoading={isLoading}
+              handleOnSubmit={handleOnSubmit}
             />
             <ActionSheet
               ref={this.galleryRef}

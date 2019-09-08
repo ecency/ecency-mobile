@@ -15,12 +15,15 @@ import { IconButton } from '../iconButton';
 import styles from './profileEditFormStyles';
 
 const ProfileEditFormView = ({
+  avatarUrl,
   coverUrl,
   isDarkTheme,
   formData,
   intl,
   handleOnItemChange,
   showImageUploadActions,
+  isLoading,
+  handleOnSubmit,
   ...props
 }) => (
   <View style={styles.container}>
@@ -29,8 +32,9 @@ const ProfileEditFormView = ({
       style={styles.saveButton}
       iconType="MaterialIcons"
       name="save"
-      onPress={() => alert('asd')}
+      onPress={handleOnSubmit}
       size={30}
+      isLoading={isLoading}
     />
     <KeyboardAwareScrollView
       enableAutoAutomaticScroll={Platform.OS === 'ios'}
