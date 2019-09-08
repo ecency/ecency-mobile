@@ -46,8 +46,8 @@ class UserAvatarView extends Component {
     const imageSize = size === 'xl' ? 'large' : 'small';
     let _size;
     const _avatar = username
-      ? { uri: `https://steemitimages.com/u/${username}/avatar/${imageSize}` }
-      : avatarUrl || DEFAULT_IMAGE;
+      ? { uri: avatarUrl || `https://steemitimages.com/u/${username}/avatar/${imageSize}` }
+      : DEFAULT_IMAGE;
 
     if (!disableSize) {
       _size = 32;

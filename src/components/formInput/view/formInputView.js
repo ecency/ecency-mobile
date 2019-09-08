@@ -1,12 +1,11 @@
 import React, { Component } from 'react';
 import { View } from 'react-native';
 import FastImage from 'react-native-fast-image';
-import { Icon } from '../../icon';
-
-// Constants
 
 // Components
 import { TextInput } from '../../textInput';
+import { Icon } from '../../icon';
+
 // Styles
 import styles from './formInputStyles';
 
@@ -19,16 +18,13 @@ class FormInputView extends Component {
    *   @prop { boolean }    isEditable        - Can permission edit.
    *   @prop { boolean }    isValid           - This delegate input valit or not.
    *   @prop { boolean }    secureTextEntry   - For hiding password value.
-   *
-   *
-   *
    */
   constructor(props) {
     super(props);
 
     this.state = {
       value: props.value || '',
-      inputBorderColor: '#c1c5c7',
+      inputBorderColor: '#e7e7e7',
       isValid: true,
     };
   }
@@ -47,14 +43,11 @@ class FormInputView extends Component {
     const { onChange } = this.props;
 
     this.setState({ value });
-    onChange && onChange(value);
+    if (onChange) onChange(value);
   };
 
   _handleOnFocus = () => {
-    const { inputBorderColor } = this.state;
-    if (inputBorderColor !== '#357ce6') {
-      this.setState({ inputBorderColor: '#357ce6' });
-    }
+    this.setState({ inputBorderColor: '#357ce6' });
   };
 
   render() {
@@ -101,7 +94,8 @@ class FormInputView extends Component {
         <View style={styles.textInput}>
           <TextInput
             style={inputStyle}
-            onFocus={() => this._handleOnFocus()}
+            onFocus={() => this.setState({ inputBorderColor: '#357ce6' })}
+            onBlur={() => this.setState({ inputBorderColor: '#e7e7e7' })}
             autoCapitalize="none"
             secureTextEntry={secureTextEntry}
             height={height}

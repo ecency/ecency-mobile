@@ -14,21 +14,29 @@ import { IconButton } from '../iconButton';
 // Styles
 import styles from './profileEditFormStyles';
 
-const ProfileEditFormView = ({ avatarUrl, coverUrl, isDarkTheme, formData, intl, ...props }) => (
+const ProfileEditFormView = ({
+  coverUrl,
+  isDarkTheme,
+  formData,
+  intl,
+  handleOnItemChange,
+  showImageUploadActions,
+  ...props
+}) => (
   <View style={styles.container}>
     <IconButton
       iconStyle={styles.saveIcon}
       style={styles.saveButton}
       iconType="MaterialIcons"
       name="save"
-      onPress={() => alert('upload')}
+      onPress={() => alert('asd')}
       size={30}
     />
     <KeyboardAwareScrollView
       enableAutoAutomaticScroll={Platform.OS === 'ios'}
       contentContainerStyle={{ flexGrow: 1 }}
     >
-      <TouchableOpacity style={styles.coverImgWrapper} onPress={() => alert('upload')}>
+      <TouchableOpacity style={styles.coverImgWrapper} onPress={showImageUploadActions}>
         <Image
           style={styles.coverImg}
           source={{ uri: `https://steemitimages.com/400x0/${coverUrl}` }}
@@ -40,7 +48,7 @@ const ProfileEditFormView = ({ avatarUrl, coverUrl, isDarkTheme, formData, intl,
           style={styles.addButton}
           iconType="MaterialCommunityIcons"
           name="plus"
-          onPress={() => alert('upload')}
+          onPress={showImageUploadActions}
           size={15}
         />
       </TouchableOpacity>
@@ -56,7 +64,7 @@ const ProfileEditFormView = ({ avatarUrl, coverUrl, isDarkTheme, formData, intl,
             wrapperStyle={styles.formStyle}
             isValid
             height={30}
-            onChange={value => console.log(value, item.valueKey)}
+            onChange={value => handleOnItemChange(value, item.valueKey)}
             placeholder={item.placeholder}
             isEditable
             type={item.type}
@@ -65,51 +73,6 @@ const ProfileEditFormView = ({ avatarUrl, coverUrl, isDarkTheme, formData, intl,
           />
         </View>
       ))}
-      {/*
-      <View style={styles.formItem}>
-        <Text style={styles.label}>About</Text>
-        <FormInput
-          wrapperStyle={styles.formStyle}
-          isValid
-          height={30}
-          onChange={value => console.log('changed')}
-          placeholder="About"
-          isEditable
-          type="text"
-          value={about}
-          inputStyle={styles.input}
-        />
-      </View>
-
-      <View style={styles.formItem}>
-        <Text style={styles.label}>Location</Text>
-        <FormInput
-          wrapperStyle={styles.formStyle}
-          isValid
-          height={30}
-          onChange={value => console.log('changed')}
-          placeholder="Location"
-          isEditable
-          type="text"
-          value={location}
-          inputStyle={styles.input}
-        />
-      </View>
-
-      <View style={styles.formItem}>
-        <Text style={styles.label}>Website</Text>
-        <FormInput
-          wrapperStyle={styles.formStyle}
-          isValid
-          height={30}
-          onChange={value => console.log('changed')}
-          placeholder="Website"
-          isEditable
-          type="text"
-          value={website}
-          inputStyle={styles.input}
-        />
-</View> */}
     </KeyboardAwareScrollView>
   </View>
 );
