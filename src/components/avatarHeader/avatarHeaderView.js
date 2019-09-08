@@ -9,7 +9,14 @@ import { IconButton } from '../iconButton';
 // Styles
 import styles from './avatarHeaderStyles';
 
-const AvatarHeader = ({ username, name, reputation, navigation, avatarUrl }) => (
+const AvatarHeader = ({
+  username,
+  name,
+  reputation,
+  navigation,
+  avatarUrl,
+  showImageUploadActions,
+}) => (
   <LinearGradient
     start={{ x: 0, y: 0 }}
     end={{ x: 1, y: 0 }}
@@ -25,13 +32,19 @@ const AvatarHeader = ({ username, name, reputation, navigation, avatarUrl }) => 
         size={25}
       />
       <View style={styles.wrapper}>
-        <UserAvatar noAction size="xl" username={username} avatarUrl={avatarUrl} />
+        <UserAvatar
+          key={avatarUrl || username}
+          noAction
+          size="xl"
+          username={username}
+          avatarUrl={avatarUrl}
+        />
         <IconButton
           iconStyle={styles.addIcon}
           style={styles.addButton}
           iconType="MaterialCommunityIcons"
           name="plus"
-          onPress={() => alert('upload')}
+          onPress={() => showImageUploadActions()}
           size={15}
         />
         <View style={styles.textWrapper}>

@@ -65,5 +65,7 @@ export default EStyleSheet.create({
     fontSize: 14,
     color: '$primaryDarkText',
     alignSelf: 'flex-start',
+    width: '100%',
+    height: 30,
   },
 });

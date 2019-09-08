@@ -42,7 +42,6 @@ class EditorContainer extends Component {
       autoFocusText: false,
       draftId: null,
       draftPost: null,
-      isCameraOrPickerOpen: false,
       isDraftSaved: false,
       isDraftSaving: false,
       isEdit: false,
@@ -141,8 +140,6 @@ class EditorContainer extends Component {
   };
 
   _handleRoutingAction = routingAction => {
-    this.setState({ isCameraOrPickerOpen: true });
-
     if (routingAction === 'camera') {
       this._handleOpenCamera();
     } else if (routingAction === 'image') {
@@ -175,7 +172,7 @@ class EditorContainer extends Component {
   };
 
   _handleMediaOnSelected = media => {
-    this.setState({ isCameraOrPickerOpen: false, isUploading: true }, () => {
+    this.setState({ isUploading: true }, () => {
       this._uploadImage(media);
     });
     // For new image api
@@ -189,33 +186,27 @@ class EditorContainer extends Component {
   _uploadImage = media => {
     const { intl } = this.props;
 
-    const file = {
-      uri: media.path,
-      type: media.mime,
-      name: media.filename || `IMG_${Math.random()}.JPG`,
-      size: media.size,
-    };
-
-    uploadImage(file)
+    uploadImage(media)
       .then(res => {
         if (res.data && res.data.url) {
           this.setState({ uploadedImage: res.data, isUploading: false });
         }
       })
       .catch(error => {
-        Alert.alert(
-          intl.formatMessage({
-            id: 'alert.fail',
-          }),
-          error.message || error.toString(),
-        );
+        if (error) {
+          Alert.alert(
+            intl.formatMessage({
+              id: 'alert.fail',
+            }),
+            error.message || error.toString(),
+          );
+        }
         this.setState({ isUploading: false });
       });
   };
 
   _handleMediaOnSelectFailure = error => {
     const { intl } = this.props;
-    this.setState({ isCameraOrPickerOpen: false });
 
     if (get(error, 'code') === 'E_PERMISSION_MISSING') {
       Alert.alert(
@@ -567,7 +558,6 @@ class EditorContainer extends Component {
     const {
       autoFocusText,
       draftPost,
-      isCameraOrPickerOpen,
       isDraftSaved,
       isDraftSaving,
       isEdit,
@@ -589,7 +579,6 @@ class EditorContainer extends Component {
         handleOnImagePicker={this._handleRoutingAction}
         handleOnSubmit={this._handleSubmit}
         initialEditor={this._initialEditor}
-        isCameraOrPickerOpen={isCameraOrPickerOpen}
         isDarkTheme={isDarkTheme}
         isDraftSaved={isDraftSaved}
         isDraftSaving={isDraftSaving}
