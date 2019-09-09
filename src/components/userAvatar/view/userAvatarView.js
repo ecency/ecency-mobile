@@ -59,9 +59,10 @@ class UserAvatarView extends Component {
     const _avatar = username
       ? {
           uri:
-            avatarUrl || name === username
+            avatarUrl ||
+            (name === username
               ? avatar
-              : `https://steemitimages.com/u/${username}/avatar/${imageSize}`,
+              : `https://steemitimages.com/u/${username}/avatar/${imageSize}`),
         }
       : DEFAULT_IMAGE;
 

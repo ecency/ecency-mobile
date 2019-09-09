@@ -162,9 +162,8 @@ class ProfileEditContainer extends Component {
 
     await profileUpdate(params, pinCode, currentAccount)
       .then(async () => {
-        const _currentAccount = { ...currentAccount };
+        const _currentAccount = { ...currentAccount, display_name: name, avatar: avatarUrl };
         _currentAccount.about.profile = { ...params };
-        _currentAccount.display_name = name;
 
         dispatch(updateCurrentAccount(_currentAccount));
 
