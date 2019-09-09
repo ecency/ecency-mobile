@@ -171,7 +171,7 @@ class ProfileEditContainer extends Component {
         navigation.goBack();
       })
       .catch(error => {
-        Alert.alert(error);
+        Alert.alert(get(error, 'message'));
       });
 
     this.setState({ isLoading: false });
