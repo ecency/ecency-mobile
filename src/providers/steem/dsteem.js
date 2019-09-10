@@ -373,7 +373,7 @@ export const deleteComment = (currentAccount, pin, permlink) => {
   const key = getAnyPrivateKey(currentAccount.local, digitPinCode);
 
   if (currentAccount.local.authType === AUTH_TYPE.STEEM_CONNECT) {
-    const token = decryptKey(currentAccount.accessToken, pin);
+    const token = decryptKey(currentAccount.local.accessToken, digitPinCode);
     const api = steemConnect.Initialize({
       accessToken: token,
     });
@@ -489,6 +489,10 @@ const _vote = async (currentAccount, pin, author, permlink, weight) => {
           resolve(result);
         })
         .catch(err => {
+          if (get(err, 'jse_info.code') === 4030100) {
+            err.message =
+              'We noticed that your device has incorrect date or time. Please fix Date & Time or Set Automatically and try again.';
+          }
           reject(err);
         });
     });
@@ -986,6 +990,10 @@ const _postContent = async (
           resolve(result);
         })
         .catch(error => {
+          if (get(error, 'jse_info.code') === 4030100) {
+            error.message =
+              'We noticed that your device has incorrect date or time. Please fix Date & Time or Set Automatically and try again.';
+          }
           reject(error);
         });
     });

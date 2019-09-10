@@ -226,7 +226,12 @@ class ProfileScreen extends PureComponent {
             >
               {comments && comments.length > 0 ? (
                 <ScrollView onScroll={this._handleOnScroll}>
-                  <Comments isProfilePreview comments={comments} fetchPost={getReplies} />
+                  <Comments
+                    isProfilePreview
+                    comments={comments}
+                    fetchPost={getReplies}
+                    isOwnProfile={!isReverseHeader}
+                  />
                 </ScrollView>
               ) : (
                 <NoPost

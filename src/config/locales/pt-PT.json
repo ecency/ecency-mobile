@@ -55,7 +55,7 @@
     "vote_title": "Pontos para votar",
     "reblog_title": "Pontos para reblog",
     "login_title": "Pontos por Login",
-    "checkin_title": "Points for heartbeat",
+    "checkin_title": "Pontos por pulsação",
     "checkin_extra_title": "Uso do Bonús",
     "no_activity": "Nenhuma atividade aqui!",
     "outgoing_transfer_description": "",
@@ -70,8 +70,8 @@
     "dropdown_transfer": "Presente",
     "dropdown_promote": "Promover",
     "dropdown_boost": "Reforçar",
-    "from": "From",
-    "to": "To"
+    "from": "De",
+    "to": "Para"
   },
   "messages": {
     "comingsoon": "Recurso de mensagens chega em breve!"
@@ -221,14 +221,16 @@
     "error": "Erro",
     "fetch_error": "Falha ao buscar dados, por favor tente novamente ou nos informe no info@esteem.app",
     "connection_fail": "Falha na conexão!",
-    "connection_success": "Conectado com sucesso!"
+    "connection_success": "Conectado com sucesso!",
+    "checking": "Checando..."
   },
   "post": {
     "reblog_alert": "Tem certeza de que deseja reblogar?",
     "removed_hint": "O post foi removido por",
     "copy_link": "Copiar link",
     "reblogged": "repostado por",
-    "sponsored": "SPONSORED"
+    "sponsored": "Promovido",
+    "open_thread": "Tópico aberto"
   },
   "drafts": {
     "title": "Rascunhos",
@@ -298,6 +300,7 @@
   "transfer": {
     "from": "De",
     "to": "Para",
+    "amount_information": "Arraste o controle deslizante para ajustar a quantia",
     "amount": "Quantia",
     "memo": "Memo",
     "information": "Tem certeza que deseja transferir fundos?",

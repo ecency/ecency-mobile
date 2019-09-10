@@ -221,14 +221,16 @@
     "error": "Error",
     "fetch_error": "Fetching data failed, please try again or notify us at info@esteem.app",
     "connection_fail": "Connection Failed!",
-    "connection_success": "Successfully connected!"
+    "connection_success": "Successfully connected!",
+    "checking": "Cheking..."
   },
   "post": {
     "reblog_alert": "Are you sure, you want to reblog?",
     "removed_hint": "The post was removed by",
     "copy_link": "Copy Link",
     "reblogged": "reblogged by",
-    "sponsored": "SPONSORED"
+    "sponsored": "SPONSORED",
+    "open_thread": "Open Thread"
   },
   "drafts": {
     "title": "Brouillons",
@@ -298,6 +300,7 @@
   "transfer": {
     "from": "De",
     "to": "À",
+    "amount_information": "Drag the slider to adjust the amount",
     "amount": "Montant",
     "memo": "Mémo",
     "information": "Are you sure to transfer funds?",

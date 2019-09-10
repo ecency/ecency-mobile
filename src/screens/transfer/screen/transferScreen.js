@@ -2,6 +2,7 @@ import React, { Fragment, Component } from 'react';
 import { Text, View, WebView, ScrollView, TouchableOpacity } from 'react-native';
 import ActionSheet from 'react-native-actionsheet';
 import { injectIntl } from 'react-intl';
+import get from 'lodash/get';
 
 import { steemConnectOptions } from '../../../constants/steemConnectOptions';
 import AUTH_TYPE from '../../../constants/authType';
@@ -133,6 +134,7 @@ class TransferView extends Component {
       fundType,
       transferType,
       currentAccountName,
+      selectedAccount,
     } = this.props;
     const {
       destination,
@@ -147,14 +149,15 @@ class TransferView extends Component {
 
     if (transferType === 'points') {
       const json = JSON.stringify({
-        sender: accounts[0].username,
+        sender: get(selectedAccount, 'name'),
         receiver: destination,
         amount: `${Number(amount).toFixed(3)} ${fundType}`,
         memo,
       });
-      path = `sign/custom-json?required_auths=%5B%22${
-        accounts[0].username
-      }%22%5D&required_posting_auths=%5B%5D&id=esteem_point_transfer&json=${encodeURIComponent(
+      path = `sign/custom-json?authority=active&required_auths=%5B%22${get(
+        selectedAccount,
+        'name',
+      )}%22%5D&required_posting_auths=%5B%5D&id=esteem_point_transfer&json=${encodeURIComponent(
         json,
       )}`;
     } else {
@@ -231,7 +234,7 @@ class TransferView extends Component {
             <View style={styles.bottomContent}>
               <MainButton
                 style={styles.button}
-                isDisable={!(amount && isUsernameValid)}
+                isDisable={!(amount >= 0.001 && isUsernameValid)}
                 onPress={() => this.ActionSheet.show()}
                 isLoading={isTransfering}
               >
@@ -253,15 +256,17 @@ class TransferView extends Component {
             index === 0 ? this._handleTransferAction() : null;
           }}
         />
-        <Modal
-          isOpen={steemConnectTransfer}
-          isFullScreen
-          isCloseButton
-          handleOnModalClose={handleOnModalClose}
-          title={intl.formatMessage({ id: 'transfer.steemconnect_title' })}
-        >
-          <WebView source={{ uri: `${steemConnectOptions.base_url}${path}` }} />
-        </Modal>
+        {path && (
+          <Modal
+            isOpen={steemConnectTransfer}
+            isFullScreen
+            isCloseButton
+            handleOnModalClose={handleOnModalClose}
+            title={intl.formatMessage({ id: 'transfer.steemconnect_title' })}
+          >
+            <WebView source={{ uri: `${steemConnectOptions.base_url}${path}` }} />
+          </Modal>
+        )}
       </Fragment>
     );
   }

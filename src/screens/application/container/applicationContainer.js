@@ -11,7 +11,7 @@ import { injectIntl } from 'react-intl';
 import { NavigationActions } from 'react-navigation';
 import { bindActionCreators } from 'redux';
 import EStyleSheet from 'react-native-extended-stylesheet';
-import forEach from 'lodash/forEach';
+import { forEach, isEmpty, some } from 'lodash';
 
 // Constants
 import AUTH_TYPE from '../../../constants/authType';
@@ -61,6 +61,7 @@ import {
   isPinCodeOpen,
   setPinCode as savePinCode,
 } from '../../../redux/actions/applicationActions';
+import { updateActiveBottomTab } from '../../../redux/actions/uiAction';
 
 import { encryptKey } from '../../../utils/crypto';
 
@@ -113,9 +114,19 @@ class ApplicationContainer extends Component {
   };
 
   componentWillReceiveProps(nextProps) {
-    const { isDarkTheme: _isDarkTheme, selectedLanguage, isLogingOut, isConnected } = this.props;
+    const {
+      isDarkTheme: _isDarkTheme,
+      selectedLanguage,
+      isLogingOut,
+      isConnected,
+      api,
+    } = this.props;
 
-    if (_isDarkTheme !== nextProps.isDarkTheme || selectedLanguage !== nextProps.selectedLanguage) {
+    if (
+      _isDarkTheme !== nextProps.isDarkTheme ||
+      selectedLanguage !== nextProps.selectedLanguage ||
+      (api !== nextProps.api && nextProps.api)
+    ) {
       this.setState({ isRenderRequire: false }, () => this.setState({ isRenderRequire: true }));
       if (nextProps.isDarkTheme) {
         changeNavigationBarColor('#1e2835');
@@ -180,6 +191,7 @@ class ApplicationContainer extends Component {
     let params;
     let content;
     let profile;
+    let isHasParentPost = false;
     const { currentAccount, dispatch } = this.props;
     const { isIos } = this.state;
 
@@ -214,10 +226,9 @@ class ApplicationContainer extends Component {
     if (author && permlink) {
       await getPost(author, permlink, currentAccount.name)
         .then(result => {
-          if (get(result, 'title')) {
-            content = result;
-          } else {
-            this._handleAlert('deep_link.no_existing_post');
+          content = result;
+          if (get(result, 'parent_permlink') && get(result, 'parent_author')) {
+            isHasParentPost = true;
           }
         })
         .catch(() => {
@@ -225,7 +236,7 @@ class ApplicationContainer extends Component {
         });
 
       routeName = ROUTES.SCREENS.POST;
-      params = { content };
+      params = { content, isHasParentPost };
     } else if (author) {
       profile = await getUser(author);
 
@@ -340,6 +351,7 @@ class ApplicationContainer extends Component {
               params = {
                 author: get(push, 'source', ''),
                 permlink: fullPermlink,
+                isHasParentPost: true,
               };
               key = fullPermlink;
               routeName = ROUTES.SCREENS.POST;
@@ -383,13 +395,15 @@ class ApplicationContainer extends Component {
               break;
           }
 
-          const navigateAction = NavigationActions.navigate({
-            routeName,
-            params,
-            key,
-            action: NavigationActions.navigate({ routeName }),
-          });
-          dispatch(navigateAction);
+          if (!some(params, isEmpty)) {
+            const navigateAction = NavigationActions.navigate({
+              routeName,
+              params,
+              key,
+              action: NavigationActions.navigate({ routeName }),
+            });
+            dispatch(navigateAction);
+          }
         }
       },
     });
@@ -553,12 +567,18 @@ class ApplicationContainer extends Component {
   };
 
   _connectNotificationServer = username => {
-    const { dispatch, unreadActivityCount } = this.props;
     const ws = new WebSocket(`${Config.ACTIVITY_WEBSOCKET_URL}?user=${username}`);
 
     ws.onmessage = () => {
-      // a message was received
+      const { activeBottomTab, unreadActivityCount, dispatch } = this.props;
+
       dispatch(updateUnreadActivityCount(unreadActivityCount + 1));
+
+      // Workaround
+      if (activeBottomTab === ROUTES.TABBAR.NOTIFICATION) {
+        dispatch(updateActiveBottomTab(''));
+        dispatch(updateActiveBottomTab(ROUTES.TABBAR.NOTIFICATION));
+      }
     };
   };
 
@@ -635,7 +655,7 @@ class ApplicationContainer extends Component {
       toastNotification,
       isDarkTheme: _isDarkTheme,
       children,
-      isPinCodeReqiure,
+      isPinCodeRequire,
     } = this.props;
     const { isRenderRequire, isReady, isThemeReady } = this.state;
 
@@ -647,7 +667,7 @@ class ApplicationContainer extends Component {
         isReady,
         isRenderRequire,
         isThemeReady,
-        isPinCodeReqiure,
+        isPinCodeRequire,
         isDarkTheme: _isDarkTheme,
         locale: selectedLanguage,
       })
@@ -666,8 +686,9 @@ export default connect(
     isLoggedIn: state.application.isLoggedIn,
     isConnected: state.application.isConnected,
     nav: state.nav.routes,
-    isPinCodeReqiure: state.application.isPinCodeReqiure,
+    isPinCodeRequire: state.application.isPinCodeRequire,
     isActiveApp: state.application.isActive,
+    api: state.application.api,
 
     // Account
     unreadActivityCount: state.account.currentAccount.unread_activity_count,
@@ -677,6 +698,7 @@ export default connect(
 
     // UI
     toastNotification: state.ui.toastNotification,
+    activeBottomTab: state.ui.activeBottomTab,
   }),
   dispatch => ({
     dispatch,

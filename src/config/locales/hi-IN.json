@@ -20,11 +20,11 @@
     "ignore": "आपको अनदेखा किया",
     "reblog": "आपका पोस्ट को पुनः प्रसारित किया",
     "transfer": "steem स्थानांतरण",
-    "comingsoon": "Feature is coming soon!",
+    "comingsoon": "Feature जल्दी ही आ रहा है",
     "notification": "अधिसूचनाएं",
     "leaderboard": "अधिनायकपटल",
     "epoint": "अंक",
-    "leaderboard_title": "Top Users",
+    "leaderboard_title": "शीर्ष उपयोगकर्ता",
     "recent": "ताजा",
     "yesterday": "बीता कल",
     "this_week": "इस सप्ताह",
@@ -32,24 +32,24 @@
     "older_then": "एक महीना से अधिक पुराना"
   },
   "leaderboard": {
-    "daily": "Daily",
-    "weekly": "Weekly",
-    "monthly": "Monthly"
+    "daily": "रोजाना",
+    "weekly": "साप्ताहिक",
+    "monthly": "मासिक"
   },
   "points": {
     "post": "लेख",
-    "esteemPoints": "eSteem Points",
+    "esteemPoints": "eSteem अंक",
     "comment": "टिप्पणी",
-    "checkin": "Check-in",
+    "checkin": "चेक इन",
     "vote": "वोट",
     "reblog": "पुनर्प्रेशण",
     "login": "लॉग इन करें",
-    "incoming_transfer_title": "Incoming transfer",
-    "outgoing_transfer_title": "Outgoing transfer",
+    "incoming_transfer_title": "आने वाली फाइल स्थानांतरण",
+    "outgoing_transfer_title": "जाने वाली फाइल स्थानांतरण",
     "checkin_extra": "बोनस",
-    "delegation": "Delegation",
-    "delegation_title": "Delegation reward",
-    "delegation_desc": "You can earn 1 point per day for each 100sp delegation",
+    "delegation": "प्रतिनिधि मंडल",
+    "delegation_title": "प्रतिनिधि मंडल ईनाम",
+    "delegation_desc": "आप प्रत्येक 100sp प्रतिनिधिमंडल के लिए प्रति दिन 1 अंक कमा सकते हैं",
     "post_title": "पद के लिए अंक",
     "comment_title": "टिप्पणी के लिए अंक",
     "vote_title": "वोट के लिए अंक",
@@ -67,11 +67,11 @@
     "reblog_desc": "  जिस पोस्ट को आप पसंद करते हैं उसे पुनर्प्रेशण करें और १ अंक पाएँ|",
     "login_desc": "जब आप इस्टीम में लॉगिन करते हैं तो आप १०० अंकों के स्वतः दावेदार हो जाते हैं|",
     "checkin_extra_desc": "आपको अतिरिक्त मौका मिलता है १० अंक प्राप्त करने का अगर एप्प को लगातार उपयोग करते हैं, अधिक से अधिक समय तक एप्प में सक्रिय रहें|",
-    "dropdown_transfer": "Gift",
-    "dropdown_promote": "Promote",
-    "dropdown_boost": "Boost",
-    "from": "From",
-    "to": "To"
+    "dropdown_transfer": "उपहार",
+    "dropdown_promote": "बढ़ावा देना",
+    "dropdown_boost": "बूस्ट",
+    "from": "से",
+    "to": "को"
   },
   "messages": {
     "comingsoon": "सन्देश सुविधा जल्द आ रही है!"
@@ -116,7 +116,7 @@
       "transfers": "स्थानांतरण"
     },
     "pincode": "Pincode",
-    "reset_pin": "Reset Pin Code",
+    "reset_pin": "पिन कोड रीसेट करें",
     "reset": "पुनः नियोजन",
     "nsfw_content": "NSFW सामग्री",
     "send_feedback": "प्रतिक्रिया भेजें",
@@ -129,11 +129,11 @@
     },
     "feedback_success": "ईमेल सफलतापूर्वक खुला",
     "feedback_fail": "ईमेल क्लाइंट नहीं खोल सका",
-    "server_fail": "Server not available"
+    "server_fail": "Server उपलब्ध नहीं है"
   },
   "voters": {
     "voters_info": "मतदाताओं की जानकारी",
-    "no_user": "User is not found."
+    "no_user": "उपयोगकर्ता नहीं मिला।"
   },
   "login": {
     "signin": "अंदर आएं",
@@ -181,7 +181,7 @@
     "reply_placeholder": "ऊपर वाली पोस्ट के बारें में आप क्या लिखना चाहेंगे?",
     "publish": "प्रकाशित करें",
     "reply": "जबाब दें",
-    "open_gallery": "Open Gallery",
+    "open_gallery": "गैलरी खोलें",
     "capture_photo": "फोटो खीचें"
   },
   "pincode": {
@@ -192,13 +192,13 @@
   },
   "alert": {
     "success": "सफल!",
-    "successful": "Successful",
+    "successful": "सफल",
     "allRead": "सभी सूचनाओं को पढ़ लिया चिन्हित करें",
     "claim_reward_balance_ok": "इनाम की राशी ले चुके",
     "fail": "असफल!",
     "move": "हटाना",
     "move_question": "क्या आप ड्राफ्ट में जाना सुनिश्चित करते हैं?",
-    "success_shared": "Your post successfully shared",
+    "success_shared": "आपकी पोस्ट सफलतापूर्वक साझा की गई",
     "success_moved": "ड्राफ्ट में ले जाया गया",
     "permission_denied": "अनुमोदन अस्वीकृत हुवा",
     "permission_text": "कृपया, अपने फ़ोन समायोजन में जाएँ और इस्टीम एप्प की अनुमोदन बदलें|",
@@ -215,20 +215,22 @@
     "copied": "प्रतिलिपि हो गयी!",
     "no_internet": "संपर्क नहीं",
     "confirm": "पुष्टी करें",
-    "removed": "Removed",
-    "same_user": "This user already added to list",
-    "unknow_error": "An error occurred",
-    "error": "Error",
-    "fetch_error": "Fetching data failed, please try again or notify us at info@esteem.app",
-    "connection_fail": "Connection Failed!",
-    "connection_success": "Successfully connected!"
+    "removed": "हटा दिया",
+    "same_user": "इस उपयोगकर्ता को पहले ही सूची में जोड़ दिया",
+    "unknow_error": "एक त्रुटि पाई गई",
+    "error": "त्रुटि",
+    "fetch_error": "डेटा प्राप्त करना विफल रहा, कृपया पुनः प्रयास करें या हमें info@esteem.app पर सूचित करें",
+    "connection_fail": "कनेक्ट करना विफल रहा",
+    "connection_success": "सफलतापूर्वक जुड़ा हुआ है!",
+    "checking": "Cheking..."
   },
   "post": {
-    "reblog_alert": "Are you sure, you want to reblog?",
-    "removed_hint": "The post was removed by",
-    "copy_link": "Copy Link",
+    "reblog_alert": "क्या आप निश्चित हैं, आप इसे हटाना चाहते हैं?",
+    "removed_hint": "के द्वारा पोस्ट को हटा दिया गया था",
+    "copy_link": "लिंक कॉपी करें",
     "reblogged": "reblogged by",
-    "sponsored": "SPONSORED"
+    "sponsored": "SPONSORED",
+    "open_thread": "Open Thread"
   },
   "drafts": {
     "title": "प्रारूप",
@@ -298,6 +300,7 @@
   "transfer": {
     "from": "से",
     "to": "को",
+    "amount_information": "Drag the slider to adjust the amount",
     "amount": "रकम",
     "memo": "ज्ञापन",
     "information": "Are you sure to transfer funds?",

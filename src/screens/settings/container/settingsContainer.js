@@ -73,7 +73,21 @@ class SettingsContainer extends Component {
       .then(resp => {
         this.setState({ serverList: resp });
       })
-      .catch(() => {});
+      .catch(() =>
+        this.setState({
+          serverList: [
+            'https://rpc.esteem.app',
+            'https://api.steemit.com',
+            'https://steemd.previx.io',
+            'https://anyx.io',
+            'https://rpc.buildteam.io',
+            'https://rpc.steemviz.com',
+            'https://api.steem.house',
+            'https://steemd.pevo.science',
+            'https://steemd.minnowsupportproject.org',
+          ],
+        }),
+      );
   }
 
   // Component Functions
@@ -112,8 +126,7 @@ class SettingsContainer extends Component {
     let isError = false;
     let alertMessage;
     const client = new Client(server, { timeout: 3000 });
-
-    dispatch(setApi(server));
+    dispatch(setApi(''));
 
     this.setState({ isLoading: true });
 
@@ -123,7 +136,9 @@ class SettingsContainer extends Component {
       isError = true;
       alertMessage = 'alert.connection_fail';
     } finally {
-      if (!isError) alertMessage = 'alert.connection_success';
+      if (!isError) {
+        alertMessage = 'alert.connection_success';
+      }
     }
 
     if (!isError) {
@@ -144,6 +159,7 @@ class SettingsContainer extends Component {
       dispatch(setApi(selectedApi));
     } else {
       await setServer(server);
+      dispatch(setApi(server));
       checkClient();
     }
 
