@@ -221,14 +221,16 @@
     "error": "Lỗi",
     "fetch_error": "Fetching data failed, please try again or notify us at info@esteem.app",
     "connection_fail": "Connection Failed!",
-    "connection_success": "Successfully connected!"
+    "connection_success": "Successfully connected!",
+    "checking": "Cheking..."
   },
   "post": {
     "reblog_alert": "Are you sure, you want to reblog?",
     "removed_hint": "Bài viết đã bị xóa bởi",
     "copy_link": "Sao chép liên kết",
     "reblogged": "đã được đăng lại bởi",
-    "sponsored": "SPONSORED"
+    "sponsored": "SPONSORED",
+    "open_thread": "Open Thread"
   },
   "drafts": {
     "title": "Bản nháp",
@@ -297,6 +299,7 @@
   },
   "transfer": {
     "to": "Đến",
+    "amount_information": "Drag the slider to adjust the amount",
     "amount": "Số lượng",
     "memo": "Bản ghi nhớ",
     "information": "Are you sure to transfer funds?",

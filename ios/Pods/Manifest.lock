@@ -1,18 +1,18 @@
 PODS:
-  - AppCenter/Analytics (2.2.0):
+  - AppCenter/Analytics (2.3.0):
     - AppCenter/Core
-  - AppCenter/Core (2.2.0)
-  - AppCenter/Crashes (2.2.0):
+  - AppCenter/Core (2.3.0)
+  - AppCenter/Crashes (2.3.0):
     - AppCenter/Core
-  - AppCenter/Push (2.2.0):
+  - AppCenter/Push (2.3.0):
     - AppCenter/Core
-  - AppCenterReactNativeShared (2.2.0):
-    - AppCenter/Core (= 2.2.0)
+  - AppCenterReactNativeShared (2.3.0):
+    - AppCenter/Core (= 2.3.0)
   - boost-for-react-native (1.63.0)
-  - BugsnagReactNative (2.21.0):
-    - BugsnagReactNative/Core (= 2.21.0)
+  - BugsnagReactNative (2.23.0):
+    - BugsnagReactNative/Core (= 2.23.0)
     - React
-  - BugsnagReactNative/Core (2.21.0):
+  - BugsnagReactNative/Core (2.23.0):
     - React
   - CodePush (1000.0.0):
     - CodePush/Base64 (= 1000.0.0)
@@ -43,7 +43,7 @@ PODS:
     - React
     - SDWebImage/Core
     - SDWebImage/GIF
-  - react-native-netinfo (4.1.3):
+  - react-native-netinfo (4.1.5):
     - React
   - react-native-version-number (0.3.6):
     - React
@@ -95,7 +95,7 @@ PODS:
     - React/Core
     - React/fishhook
     - React/RCTBlob
-  - RNIap (3.3.8):
+  - RNIap (3.4.1):
     - React
   - RNImageCropPicker (0.24.1):
     - QBImagePickerController
@@ -109,10 +109,10 @@ PODS:
   - yoga (0.59.8.React)
 
 DEPENDENCIES:
-  - AppCenter/Analytics (~> 2.2.0)
-  - AppCenter/Crashes (~> 2.2.0)
-  - AppCenter/Push (~> 2.2.0)
-  - AppCenterReactNativeShared (~> 2.2.0)
+  - AppCenter/Analytics (~> 2.3.0)
+  - AppCenter/Crashes (~> 2.3.0)
+  - AppCenter/Push (~> 2.3.0)
+  - AppCenterReactNativeShared (~> 2.3.0)
   - BugsnagReactNative (from `../node_modules/bugsnag-react-native`)
   - CodePush (from `../node_modules/react-native-code-push`)
   - DoubleConversion (from `../node_modules/react-native/third-party-podspecs/DoubleConversion.podspec`)
@@ -172,10 +172,10 @@ EXTERNAL SOURCES:
     :path: "../node_modules/react-native/ReactCommon/yoga"
 
 SPEC CHECKSUMS:
-  AppCenter: c809e69d93218b9861b4f8e54ded8dcf4d2131e7
-  AppCenterReactNativeShared: 5751a607a8aa06ebf19b48bf9d92bf3a75dab04e
+  AppCenter: 9784d2fc998c9bd0b8fbaf4fb9ed69526d12ce1a
+  AppCenterReactNativeShared: 7ac481cba7f926848a7be76dca4dcb2692df3b06
   boost-for-react-native: 39c7adb57c4e60d6c5479dd8623128eb5b3f0f2c
-  BugsnagReactNative: 9f273f292378a016977f578e4467cf84b7182b07
+  BugsnagReactNative: a469858d1040621a04247bb4ec15ca18dceabfd6
   CodePush: a503ca0caee269e68d8faaafe4414990ec282520
   DoubleConversion: bb338842f62ab1d708ceb63ec3d999f0f3d98ecd
   FLAnimatedImage: 4a0b56255d9b05f18b6dd7ee06871be5d3b89e31
@@ -184,14 +184,14 @@ SPEC CHECKSUMS:
   QBImagePickerController: d54cf93db6decf26baf6ed3472f336ef35cae022
   React: 76e6aa2b87d05eb6cccb6926d72685c9a07df152
   react-native-fast-image: 6d50167ad4d68b59640ceead8c2bc4e58d91d8bd
-  react-native-netinfo: e2c8a843bb18ab6c3f1e6cbead694491b36e3ffd
+  react-native-netinfo: 0e563248a4b9a99c33ec29bd03c2d50767db22a6
   react-native-version-number: b415bbec6a13f2df62bf978e85bc0d699462f37f
-  RNIap: 63fbc0423584d18a1da1230c5711449d97a192ad
+  RNIap: 8104f5fb44555f163531ca9c6200b7b405a44f1c
   RNImageCropPicker: 6134b66a3d5bc13e2895a97c630a4254006902b4
   RSKImageCropper: 98296ad26b41753f796b6898d015509598f13d97
   SDWebImage: 3f3f0c02f09798048c47a5ed0a13f17b063572d8
   yoga: 92b2102c3d373d1a790db4ab761d2b0ffc634f64
 
-PODFILE CHECKSUM: afb8c6a227837e2a901eaed832d5bb66c6fd9cec
+PODFILE CHECKSUM: 0e644f6a56d015441b78d265a6c615ed194b94f0
 
 COCOAPODS: 1.7.5

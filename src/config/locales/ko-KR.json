@@ -24,7 +24,7 @@
     "notification": "알림",
     "leaderboard": "순위표",
     "epoint": "포인트",
-    "leaderboard_title": "Top Users",
+    "leaderboard_title": "우수 사용자",
     "recent": "최근",
     "yesterday": "어제",
     "this_week": "이번 주",
@@ -70,8 +70,8 @@
     "dropdown_transfer": "선물하기",
     "dropdown_promote": "홍보",
     "dropdown_boost": "후원",
-    "from": "From",
-    "to": "To"
+    "from": "보낸 사람",
+    "to": "받는 사람"
   },
   "messages": {
     "comingsoon": "메시지 기능은 곧 출시될 예정입니다!"
@@ -221,14 +221,16 @@
     "error": "오류",
     "fetch_error": "서버에서 데이터를 가져오는데 실패했습니다. 다시 시도해보시거나 info@esteem.app로 문의해주세요.",
     "connection_fail": "연결 실패!",
-    "connection_success": "성공적으로 연결되었습니다"
+    "connection_success": "성공적으로 연결되었습니다",
+    "checking": "Cheking..."
   },
   "post": {
     "reblog_alert": "리블로그 하시겠습니까?",
     "removed_hint": "포스팅이 삭제되었습니다",
     "copy_link": "링크 복사",
     "reblogged": "리블로그됨",
-    "sponsored": "SPONSORED"
+    "sponsored": "투표 후원받음",
+    "open_thread": "Open Thread"
   },
   "drafts": {
     "title": "임시 보관함",
@@ -297,6 +299,7 @@
   },
   "transfer": {
     "to": "받는 사람",
+    "amount_information": "Drag the slider to adjust the amount",
     "amount": "수량",
     "memo": "메모",
     "information": "자금을 전송하시겠습니까?",
@@ -334,10 +337,10 @@
   },
   "voters_dropdown": {
     "rewards": "보상",
-    "percent": "PERCENT",
-    "time": "TIME"
+    "percent": "비율",
+    "time": "시간"
   },
   "reblog": {
-    "title": "Reblog Info"
+    "title": "리블로그 정보"
   }
 }

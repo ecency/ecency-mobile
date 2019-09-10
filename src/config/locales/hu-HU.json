@@ -69,7 +69,7 @@
     "checkin_extra_desc": "Az alkalmazás következetes használata extra esélyt kínál arra, hogy több 10 pontot nyerj, légy aktívabb és nyerj többet.",
     "dropdown_transfer": "Ajándék",
     "dropdown_promote": "Promoválás",
-    "dropdown_boost": "Boost",
+    "dropdown_boost": "Kiemelés",
     "from": "Tőle",
     "to": "Címzett"
   },
@@ -221,14 +221,16 @@
     "error": "Hiba",
     "fetch_error": "Sikertelen adatbetöltés, kérjük próbáld meg újra vagy írj nekünk ide info@esteem.app",
     "connection_fail": "Sikertelen kapcsolat!",
-    "connection_success": "A kapcsolat sikerült!"
+    "connection_success": "A kapcsolat sikerült!",
+    "checking": "Ellenőrzés..."
   },
   "post": {
     "reblog_alert": "Biztos, hogy megosztod?",
     "removed_hint": "A bejegyzést eltávolította",
     "copy_link": "Link másolása",
     "reblogged": "megosztva általa",
-    "sponsored": "SPONSORED"
+    "sponsored": "KIEMELT",
+    "open_thread": "Bejegyzés megnyitása"
   },
   "drafts": {
     "title": "Piszkozatok",
@@ -279,7 +281,7 @@
     "share": "megosztás",
     "bookmarks": "hozzáadás a könyvjelzőkhöz",
     "promote": "promoválás",
-    "boost": "boost"
+    "boost": "kiemelés"
   },
   "deep_link": {
     "no_existing_user": "Nem létező felhasználó",
@@ -298,6 +300,7 @@
   "transfer": {
     "from": "Feladó",
     "to": "Címzett",
+    "amount_information": "A csúszka húzásával állítsd be a mennyiséget",
     "amount": "Összeg",
     "memo": "Üzenet",
     "information": "Bistoz átutalod?",
@@ -306,7 +309,7 @@
     "to_placeholder": "Felhasználónév",
     "memo_placeholder": "Megjegyzés ide",
     "transfer_token": "Átutalás",
-    "points": "Gift ESTM to someone",
+    "points": "Ajándékozz ESTM-t valakinek",
     "transfer_to_saving": "Átutalás a megtakarításokhoz",
     "powerUp": "Power Up",
     "withdraw_to_saving": "Átutalás A Megtakarításokhoz",
@@ -318,8 +321,8 @@
     "withdraw_sbd": "Steem Dollár Visszavonás"
   },
   "boost": {
-    "title": "Get eSteem Points",
-    "buy": "GET ESTM",
+    "title": "Szerezz eSteem pontokat",
+    "buy": "Vásárolj ESTM-t",
     "next": "KÖVETKEZŐ"
   },
   "promote": {
@@ -327,11 +330,11 @@
     "days": "nap",
     "user": "Felhasználó",
     "permlink": "Bejegyzés",
-    "permlinkPlaceholder": "author/permlink",
-    "information": "Are you sure to promote?"
+    "permlinkPlaceholder": "szerző/permlink",
+    "information": "Bistos promoválod?"
   },
   "boostPost": {
-    "title": "Boost"
+    "title": "Kiemelés"
   },
   "voters_dropdown": {
     "rewards": "JUTALMAK",

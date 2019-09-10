@@ -221,14 +221,16 @@
     "error": "Fehler",
     "fetch_error": "Das Abrufen der Daten vom Server ist fehlgeschlagen. Bitte versuche es nochmal oder informiere uns unter info@esteem.app",
     "connection_fail": "Verbindung fehlgeschlagen!",
-    "connection_success": "Erfolgreich verbunden!"
+    "connection_success": "Erfolgreich verbunden!",
+    "checking": "Cheking..."
   },
   "post": {
     "reblog_alert": "Möchtest du diesen Beitrag wirklich teilen?",
     "removed_hint": "Der Beitrag wurde entfernt von",
     "copy_link": "Link kopieren",
     "reblogged": "rebloggt von",
-    "sponsored": "Gesponsert"
+    "sponsored": "Gesponsert",
+    "open_thread": "Open Thread"
   },
   "drafts": {
     "title": "Entwürfe",
@@ -298,6 +300,7 @@
   "transfer": {
     "from": "Von",
     "to": "zu",
+    "amount_information": "Drag the slider to adjust the amount",
     "amount": "Betrag",
     "memo": "Memo",
     "information": "Bist du sicher, dass du Geld überweisen willst?",

@@ -116,36 +116,37 @@ class PointsScreen extends PureComponent {
     const _author = get(seperatedPermlink, '[0]');
     const _permlink = get(seperatedPermlink, '[1]');
 
-    if (get(currentAccount, 'local.authType') === 'steemConnect') {
+    let userFromRealm;
+
+    if (selectedUser) {
+      userFromRealm = await getUserDataWithUsername(selectedUser);
+    }
+
+    const user = userFromRealm
+      ? {
+          name: selectedUser,
+          local: userFromRealm[0],
+        }
+      : currentAccount;
+
+    if (get(user, 'local.authType') === 'steemConnect') {
       const json = JSON.stringify({
-        user: selectedUser,
-        _author,
-        _permlink,
+        user: get(user, 'name'),
+        author: _author,
+        permlink: _permlink,
         duration: day,
       });
 
-      const uri = `sign/custom-json?authority=active&required_auths=%5B%22${selectedUser}%22%5D&required_posting_auths=%5B%5D&id=esteem_promote&json=${encodeURIComponent(
-        json,
-      )}`;
+      const uri = `sign/custom-json?authority=active&required_auths=%5B%22${get(
+        user,
+        'name',
+      )}%22%5D&required_posting_auths=%5B%5D&id=esteem_promote&json=${encodeURIComponent(json)}`;
 
       this.setState({
         isSCModalOpen: true,
         SCPath: uri,
       });
     } else if (promote) {
-      let userFromRealm;
-
-      if (selectedUser) {
-        userFromRealm = await getUserDataWithUsername(selectedUser);
-      }
-
-      const user = userFromRealm
-        ? {
-            name: selectedUser,
-            local: userFromRealm[0],
-          }
-        : currentAccount;
-
       promote(day, _permlink, _author, user);
     }
   };

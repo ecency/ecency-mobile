@@ -42,7 +42,7 @@ class DraftsScreen extends Component {
     const tags = item.tags ? item.tags.split(/[ ,]+/) : [];
     const tag = tags[0] || '';
     const image = catchDraftImage(item.body);
-    const summary = postBodySummary(item, 100);
+    const summary = postBodySummary({ item, last_update: item.created }, 100);
     const isSchedules = type === 'schedules';
 
     return (

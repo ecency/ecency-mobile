@@ -221,14 +221,16 @@
     "error": "Error",
     "fetch_error": "Fetching data failed, please try again or notify us at info@esteem.app",
     "connection_fail": "Connection Failed!",
-    "connection_success": "Successfully connected!"
+    "connection_success": "Successfully connected!",
+    "checking": "Cheking..."
   },
   "post": {
     "reblog_alert": "Are you sure, you want to reblog?",
     "removed_hint": "این پست حذف شده است توسط",
     "copy_link": "کپی لینک",
     "reblogged": "reblogged by",
-    "sponsored": "SPONSORED"
+    "sponsored": "SPONSORED",
+    "open_thread": "Open Thread"
   },
   "drafts": {
     "title": "پیشنویس ها",
@@ -298,6 +300,7 @@
   "transfer": {
     "from": "از",
     "to": "به",
+    "amount_information": "Drag the slider to adjust the amount",
     "amount": "مقدار",
     "memo": "یادداشت",
     "information": "Are you sure to transfer funds?",
