@@ -1,6 +1,6 @@
-import sc2 from 'steemconnect';
+import steemconnect from 'steemconnect';
 
-const api = sc2.Initialize({
+const api = new steemconnect.Client({
   app: 'esteem-app',
   callbackURL: 'http://127.0.0.1:3415',
 });
