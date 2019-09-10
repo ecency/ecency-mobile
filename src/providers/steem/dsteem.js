@@ -1169,7 +1169,20 @@ export const profileUpdate = async (params, pin, currentAccount) => {
   const key = getActiveKey(get(currentAccount, 'local'), digitPinCode);
 
   if (get(currentAccount, 'local.authType') === AUTH_TYPE.STEEM_CONNECT) {
-    return Promise.reject(new Error('Steem connect profile update not implemented yet.'));
+    const token = decryptKey(get(currentAccount, 'local.accessToken'), digitPinCode);
+    const api = steemConnect.Initialize({
+      accessToken: token,
+    });
+
+    const _params = {
+      account: get(currentAccount, 'name'),
+      memo_key: get(currentAccount, 'memo_key'),
+      json_metadata: jsonStringify(params),
+    };
+
+    const opArray = [['account_update', _params]];
+
+    return api.broadcast(opArray).then(resp => resp.result);
   }
 
   if (key) {
