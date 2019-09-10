@@ -17,13 +17,13 @@ import styles from './profileEditFormStyles';
 const ProfileEditFormView = ({
   avatarUrl,
   coverUrl,
-  isDarkTheme,
   formData,
-  intl,
   handleOnItemChange,
-  showImageUploadActions,
-  isLoading,
   handleOnSubmit,
+  intl,
+  isDarkTheme,
+  isLoading,
+  showImageUploadActions,
   ...props
 }) => (
   <View style={styles.container}>
@@ -58,7 +58,7 @@ const ProfileEditFormView = ({
       </TouchableOpacity>
 
       {formData.map(item => (
-        <View style={styles.formItem}>
+        <View style={styles.formItem} key={item.valueKey}>
           <Text style={styles.label}>
             {intl.formatMessage({
               id: `profile.edit.${item.label}`,
@@ -71,7 +71,7 @@ const ProfileEditFormView = ({
             onChange={value => handleOnItemChange(value, item.valueKey)}
             placeholder={item.placeholder}
             isEditable
-            type={item.type}
+            type="none"
             value={props[item.valueKey]}
             inputStyle={styles.input}
           />

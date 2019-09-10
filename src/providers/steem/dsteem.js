@@ -1,6 +1,6 @@
 /* eslint-disable camelcase */
 import { Client, PrivateKey } from 'dsteem';
-import steemConnect from 'steemconnect';
+import steemconnect from 'steemconnect';
 import Config from 'react-native-config';
 import get from 'lodash/get';
 
@@ -232,8 +232,8 @@ export const ignoreUser = async (currentAccount, pin, data) => {
   const key = getAnyPrivateKey(currentAccount.local, digitPinCode);
 
   if (currentAccount.local.authType === AUTH_TYPE.STEEM_CONNECT) {
-    const token = decryptKey(get(currentAccount, 'local.accessToken'), digitPinCode);
-    const api = steemConnect.Initialize({
+    const token = decryptKey(currentAccount.local.accessToken, digitPinCode);
+    const api = new Steemconnect.Client({
       accessToken: token,
     });
 
@@ -374,8 +374,8 @@ export const deleteComment = (currentAccount, pin, permlink) => {
   const key = getAnyPrivateKey(currentAccount.local, digitPinCode);
 
   if (currentAccount.local.authType === AUTH_TYPE.STEEM_CONNECT) {
-    const token = decryptKey(get(currentAccount, 'local.accessToken'), digitPinCode);
-    const api = steemConnect.Initialize({
+    const token = decryptKey(currentAccount.local.accessToken, digitPinCode);
+    const api = new steemconnect.Client({
       accessToken: token,
     });
 
@@ -454,8 +454,8 @@ const _vote = async (currentAccount, pin, author, permlink, weight) => {
   const key = getAnyPrivateKey(currentAccount.local, digitPinCode);
 
   if (currentAccount.local.authType === AUTH_TYPE.STEEM_CONNECT) {
-    const token = decryptKey(get(currentAccount, 'local.accessToken'), digitPinCode);
-    const api = steemConnect.Initialize({
+    const token = decryptKey(currentAccount.local.accessToken, digitPinCode);
+    const api = new steemconnect.Client({
       accessToken: token,
     });
 
@@ -755,7 +755,7 @@ export const followUser = async (currentAccount, pin, data) => {
 
   if (currentAccount.local.authType === AUTH_TYPE.STEEM_CONNECT) {
     const token = decryptKey(get(currentAccount, 'local.accessToken'), digitPinCode);
-    const api = steemConnect.Initialize({
+    const api = new steemconnect.Client({
       accessToken: token,
     });
 
@@ -798,8 +798,8 @@ export const unfollowUser = async (currentAccount, pin, data) => {
   const key = getAnyPrivateKey(currentAccount.local, digitPinCode);
 
   if (currentAccount.local.authType === AUTH_TYPE.STEEM_CONNECT) {
-    const token = decryptKey(get(currentAccount, 'local.accessToken'), digitPinCode);
-    const api = steemConnect.Initialize({
+    const token = decryptKey(currentAccount.local.accessToken, digitPinCode);
+    const api = new steemconnect.Client({
       accessToken: token,
     });
 
@@ -911,7 +911,7 @@ const _postContent = async (
 
   if (account.local.authType === AUTH_TYPE.STEEM_CONNECT) {
     const token = decryptKey(account.local.accessToken, digitPinCode);
-    const api = steemConnect.Initialize({
+    const api = new steemconnect.Client({
       accessToken: token,
     });
 
@@ -1017,7 +1017,7 @@ const _reblog = async (account, pinCode, author, permlink) => {
 
   if (account.local.authType === AUTH_TYPE.STEEM_CONNECT) {
     const token = decryptKey(account.local.accessToken, pin);
-    const api = steemConnect.Initialize({
+    const api = new steemconnect.Client({
       accessToken: token,
     });
 
@@ -1056,7 +1056,7 @@ export const claimRewardBalance = (account, pinCode, rewardSteem, rewardSbd, rew
 
   if (account.local.authType === AUTH_TYPE.STEEM_CONNECT) {
     const token = decryptKey(get(account, 'local.accessToken'), pin);
-    const api = steemConnect.Initialize({
+    const api = new steemconnect.Client({
       accessToken: token,
     });
 
@@ -1170,7 +1170,7 @@ export const profileUpdate = async (params, pin, currentAccount) => {
 
   if (get(currentAccount, 'local.authType') === AUTH_TYPE.STEEM_CONNECT) {
     const token = decryptKey(get(currentAccount, 'local.accessToken'), digitPinCode);
-    const api = steemConnect.Initialize({
+    const api = new steemconnect.Client({
       accessToken: token,
     });
 
@@ -1182,7 +1182,10 @@ export const profileUpdate = async (params, pin, currentAccount) => {
 
     const opArray = [['account_update', _params]];
 
-    return api.broadcast(opArray).then(resp => resp.result);
+    return api
+      .broadcast(opArray)
+      .then(resp => resp.result)
+      .catch(error => console.log(error));
   }
 
   if (key) {
