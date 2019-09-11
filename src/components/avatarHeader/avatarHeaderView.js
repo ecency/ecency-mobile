@@ -44,7 +44,7 @@ const AvatarHeader = ({
           style={styles.addButton}
           iconType="MaterialCommunityIcons"
           name="plus"
-          onPress={() => showImageUploadActions()}
+          onPress={showImageUploadActions}
           size={15}
         />
         <View style={styles.textWrapper}>
