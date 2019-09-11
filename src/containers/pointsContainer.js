@@ -259,13 +259,16 @@ class PointsContainer extends Component {
       children({
         accounts,
         balance,
+        boost: this._boost,
         claimPoints: this._claimPoints,
         currentAccount,
         currentAccountName: currentAccount.name,
         fetchUserActivity: this._fetchuserPointActivities,
         getAccount,
+        getESTMPrice: this._getESTMPrice,
         getUserBalance: this._getUserBalance,
         getUserDataWithUsername,
+        handleOnDropdownSelected: this._handleOnDropdownSelected,
         handleOnPressTransfer: this._handleOnPressTransfer,
         isClaiming,
         isDarkTheme,
@@ -275,9 +278,6 @@ class PointsContainer extends Component {
         refreshing,
         userActivities,
         userPoints,
-        handleOnDropdownSelected: this._handleOnDropdownSelected,
-        getESTMPrice: this._getESTMPrice,
-        boost: this._boost,
       })
     );
   }

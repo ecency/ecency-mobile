@@ -13,6 +13,7 @@ import { PointsContainer } from '../../../containers';
 // Services and Actions
 import { getUser } from '../../../providers/esteem/ePoint';
 import { searchPath } from '../../../providers/esteem/esteem';
+import { isPostAvailable } from '../../../providers/steem/dsteem';
 
 // Components
 import { BasicHeader } from '../../../components/basicHeader';
@@ -20,8 +21,6 @@ import { TransferFormItem } from '../../../components/transferFormItem';
 import { MainButton } from '../../../components/mainButton';
 import { DropdownButton } from '../../../components/dropdownButton';
 import { Modal } from '../../../components/modal';
-
-// import { PROMOTE_PRICING, PROMOTE_DAYS } from '../../../constants/options/points';
 
 // Styles
 import styles from './boostPostStyles';
@@ -109,6 +108,7 @@ class BoostPostScreen extends PureComponent {
   };
 
   _boost = async (boost, currentAccount, getUserDataWithUsername, navigationParams) => {
+    const { intl } = this.props;
     const { factor, permlink, selectedUser } = this.state;
     const fullPermlink = permlink || get(navigationParams, 'permlink');
 
@@ -116,6 +116,12 @@ class BoostPostScreen extends PureComponent {
     const _author = get(seperatedPermlink, '[0]');
     const _permlink = get(seperatedPermlink, '[1]');
     const amount = 150 + 50 * factor;
+    const _isPostAvailable = await isPostAvailable(_author, _permlink);
+
+    if (!_isPostAvailable) {
+      Alert.alert(intl.formatMessage({ id: 'alert.not_existing_post' }));
+      return;
+    }
 
     let userFromRealm;
 
@@ -284,11 +290,9 @@ class BoostPostScreen extends PureComponent {
                   <MainButton
                     style={styles.button}
                     isDisable={
-                      !(
-                        (get(navigationParams, 'permlink') || permlink) &&
-                        (balance || _balance) > 150 &&
-                        (!isLoading || isValid)
-                      )
+                      (!permlink ? !get(navigationParams, 'permlink') : permlink) &&
+                      (balance || _balance) > 150 &&
+                      (isLoading || !isValid)
                     }
                     onPress={() => this.startActionSheet.current.show()}
                     isLoading={isLoading}

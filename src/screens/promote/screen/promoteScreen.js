@@ -13,6 +13,7 @@ import { PointsContainer } from '../../../containers';
 // Services and Actions
 import { getUser } from '../../../providers/esteem/ePoint';
 import { searchPath } from '../../../providers/esteem/esteem';
+import { isPostAvailable } from '../../../providers/steem/dsteem';
 
 // Components
 import { BasicHeader } from '../../../components/basicHeader';
@@ -109,12 +110,19 @@ class PointsScreen extends PureComponent {
   };
 
   _promote = async (promote, currentAccount, getUserDataWithUsername, navigationParams) => {
+    const { intl } = this.props;
     const { day, permlink, selectedUser } = this.state;
     const fullPermlink = permlink || get(navigationParams, 'permlink');
 
     const seperatedPermlink = fullPermlink.split('/');
     const _author = get(seperatedPermlink, '[0]');
     const _permlink = get(seperatedPermlink, '[1]');
+    const _isPostAvailable = await isPostAvailable(_author, _permlink);
+
+    if (!_isPostAvailable) {
+      Alert.alert(intl.formatMessage({ id: 'alert.not_existing_post' }));
+      return;
+    }
 
     let userFromRealm;
 
@@ -280,7 +288,7 @@ class PointsScreen extends PureComponent {
               cancelButtonIndex={1}
               destructiveButtonIndex={0}
               onPress={index => {
-                index === 0 &&
+                if (index === 0)
                   this._promote(promote, currentAccount, getUserDataWithUsername, navigationParams);
               }}
             />
