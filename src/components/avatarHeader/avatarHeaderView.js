@@ -28,7 +28,7 @@ const AvatarHeader = ({
         iconStyle={styles.backIcon}
         iconType="MaterialIcons"
         name="arrow-back"
-        onPress={() => navigation.goBack()}
+        onPress={navigation.goBack}
         size={25}
       />
       <View style={styles.wrapper}>
