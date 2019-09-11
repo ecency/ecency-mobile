@@ -1,7 +1,6 @@
 import React, { PureComponent } from 'react';
-import { TouchableOpacity, SafeAreaView } from 'react-native';
+import { TouchableOpacity, SafeAreaView, View } from 'react-native';
 import { connect } from 'react-redux';
-import ViewOverflow from 'react-native-view-overflow';
 
 // Services and Actions
 import { updateActiveBottomTab } from '../../../redux/actions/uiAction';
@@ -72,9 +71,9 @@ class BottomTabBarView extends PureComponent {
 
     return (
       <SafeAreaView style={styles.safeArea}>
-        <ViewOverflow style={styles.wrapper}>
+        <View style={styles.wrapper}>
           {routes.map((route, idx) => (
-            <ViewOverflow
+            <View
               key={route.key}
               style={{
                 flex: 1,
@@ -88,9 +87,9 @@ class BottomTabBarView extends PureComponent {
                   tintColor: index === idx ? activeTintColor : inactiveTintColor,
                 })}
               </TouchableOpacity>
-            </ViewOverflow>
+            </View>
           ))}
-        </ViewOverflow>
+        </View>
       </SafeAreaView>
     );
   }

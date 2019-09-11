@@ -1,0 +1,197 @@
+PODS:
+  - AppCenter/Analytics (2.3.0):
+    - AppCenter/Core
+  - AppCenter/Core (2.3.0)
+  - AppCenter/Crashes (2.3.0):
+    - AppCenter/Core
+  - AppCenter/Push (2.3.0):
+    - AppCenter/Core
+  - AppCenterReactNativeShared (2.3.0):
+    - AppCenter/Core (= 2.3.0)
+  - boost-for-react-native (1.63.0)
+  - BugsnagReactNative (2.23.0):
+    - BugsnagReactNative/Core (= 2.23.0)
+    - React
+  - BugsnagReactNative/Core (2.23.0):
+    - React
+  - CodePush (1000.0.0):
+    - CodePush/Base64 (= 1000.0.0)
+    - CodePush/Core (= 1000.0.0)
+    - CodePush/JWT (= 1000.0.0)
+    - CodePush/SSZipArchive (= 1000.0.0)
+    - React
+  - CodePush/Base64 (1000.0.0):
+    - React
+  - CodePush/Core (1000.0.0):
+    - React
+  - CodePush/JWT (1000.0.0):
+    - React
+  - CodePush/SSZipArchive (1000.0.0):
+    - React
+  - DoubleConversion (1.1.6)
+  - FLAnimatedImage (1.0.12)
+  - Folly (2018.10.22.00):
+    - boost-for-react-native
+    - DoubleConversion
+    - glog
+  - glog (0.3.5)
+  - QBImagePickerController (3.4.0)
+  - React (0.59.8):
+    - React/Core (= 0.59.8)
+  - react-native-fast-image (4.0.14):
+    - FLAnimatedImage
+    - React
+    - SDWebImage/Core
+    - SDWebImage/GIF
+  - react-native-netinfo (4.1.5):
+    - React
+  - react-native-version-number (0.3.6):
+    - React
+  - React/Core (0.59.8):
+    - yoga (= 0.59.8.React)
+  - React/CxxBridge (0.59.8):
+    - Folly (= 2018.10.22.00)
+    - React/Core
+    - React/cxxreact
+    - React/jsiexecutor
+  - React/cxxreact (0.59.8):
+    - boost-for-react-native (= 1.63.0)
+    - DoubleConversion
+    - Folly (= 2018.10.22.00)
+    - glog
+    - React/jsinspector
+  - React/DevSupport (0.59.8):
+    - React/Core
+    - React/RCTWebSocket
+  - React/fishhook (0.59.8)
+  - React/jsi (0.59.8):
+    - DoubleConversion
+    - Folly (= 2018.10.22.00)
+    - glog
+  - React/jsiexecutor (0.59.8):
+    - DoubleConversion
+    - Folly (= 2018.10.22.00)
+    - glog
+    - React/cxxreact
+    - React/jsi
+  - React/jsinspector (0.59.8)
+  - React/RCTActionSheet (0.59.8):
+    - React/Core
+  - React/RCTAnimation (0.59.8):
+    - React/Core
+  - React/RCTBlob (0.59.8):
+    - React/Core
+  - React/RCTCameraRoll (0.59.8):
+    - React/Core
+    - React/RCTImage
+  - React/RCTImage (0.59.8):
+    - React/Core
+    - React/RCTNetwork
+  - React/RCTNetwork (0.59.8):
+    - React/Core
+  - React/RCTText (0.59.8):
+    - React/Core
+  - React/RCTWebSocket (0.59.8):
+    - React/Core
+    - React/fishhook
+    - React/RCTBlob
+  - RNIap (3.4.1):
+    - React
+  - RNImageCropPicker (0.24.1):
+    - QBImagePickerController
+    - React/Core
+    - RSKImageCropper
+  - RSKImageCropper (2.2.1)
+  - SDWebImage/Core (4.4.6)
+  - SDWebImage/GIF (4.4.6):
+    - FLAnimatedImage (~> 1.0)
+    - SDWebImage/Core
+  - yoga (0.59.8.React)
+
+DEPENDENCIES:
+  - AppCenter/Analytics (~> 2.3.0)
+  - AppCenter/Crashes (~> 2.3.0)
+  - AppCenter/Push (~> 2.3.0)
+  - AppCenterReactNativeShared (~> 2.3.0)
+  - BugsnagReactNative (from `../node_modules/bugsnag-react-native`)
+  - CodePush (from `../node_modules/react-native-code-push`)
+  - DoubleConversion (from `../node_modules/react-native/third-party-podspecs/DoubleConversion.podspec`)
+  - Folly (from `../node_modules/react-native/third-party-podspecs/Folly.podspec`)
+  - glog (from `../node_modules/react-native/third-party-podspecs/glog.podspec`)
+  - react-native-fast-image (from `../node_modules/react-native-fast-image`)
+  - "react-native-netinfo (from `../node_modules/@react-native-community/netinfo`)"
+  - react-native-version-number (from `../node_modules/react-native-version-number`)
+  - React/Core (from `../node_modules/react-native`)
+  - React/CxxBridge (from `../node_modules/react-native`)
+  - React/DevSupport (from `../node_modules/react-native`)
+  - React/RCTActionSheet (from `../node_modules/react-native`)
+  - React/RCTAnimation (from `../node_modules/react-native`)
+  - React/RCTCameraRoll (from `../node_modules/react-native`)
+  - React/RCTImage (from `../node_modules/react-native`)
+  - React/RCTNetwork (from `../node_modules/react-native`)
+  - React/RCTText (from `../node_modules/react-native`)
+  - React/RCTWebSocket (from `../node_modules/react-native`)
+  - RNIap (from `../node_modules/react-native-iap`)
+  - RNImageCropPicker (from `../node_modules/react-native-image-crop-picker`)
+  - yoga (from `../node_modules/react-native/ReactCommon/yoga`)
+
+SPEC REPOS:
+  https://github.com/cocoapods/specs.git:
+    - AppCenter
+    - AppCenterReactNativeShared
+    - boost-for-react-native
+    - FLAnimatedImage
+    - QBImagePickerController
+    - RSKImageCropper
+    - SDWebImage
+
+EXTERNAL SOURCES:
+  BugsnagReactNative:
+    :path: "../node_modules/bugsnag-react-native"
+  CodePush:
+    :path: "../node_modules/react-native-code-push"
+  DoubleConversion:
+    :podspec: "../node_modules/react-native/third-party-podspecs/DoubleConversion.podspec"
+  Folly:
+    :podspec: "../node_modules/react-native/third-party-podspecs/Folly.podspec"
+  glog:
+    :podspec: "../node_modules/react-native/third-party-podspecs/glog.podspec"
+  React:
+    :path: "../node_modules/react-native"
+  react-native-fast-image:
+    :path: "../node_modules/react-native-fast-image"
+  react-native-netinfo:
+    :path: "../node_modules/@react-native-community/netinfo"
+  react-native-version-number:
+    :path: "../node_modules/react-native-version-number"
+  RNIap:
+    :path: "../node_modules/react-native-iap"
+  RNImageCropPicker:
+    :path: "../node_modules/react-native-image-crop-picker"
+  yoga:
+    :path: "../node_modules/react-native/ReactCommon/yoga"
+
+SPEC CHECKSUMS:
+  AppCenter: 9784d2fc998c9bd0b8fbaf4fb9ed69526d12ce1a
+  AppCenterReactNativeShared: 7ac481cba7f926848a7be76dca4dcb2692df3b06
+  boost-for-react-native: 39c7adb57c4e60d6c5479dd8623128eb5b3f0f2c
+  BugsnagReactNative: a469858d1040621a04247bb4ec15ca18dceabfd6
+  CodePush: a503ca0caee269e68d8faaafe4414990ec282520
+  DoubleConversion: bb338842f62ab1d708ceb63ec3d999f0f3d98ecd
+  FLAnimatedImage: 4a0b56255d9b05f18b6dd7ee06871be5d3b89e31
+  Folly: de497beb10f102453a1afa9edbf8cf8a251890de
+  glog: aefd1eb5dda2ab95ba0938556f34b98e2da3a60d
+  QBImagePickerController: d54cf93db6decf26baf6ed3472f336ef35cae022
+  React: 76e6aa2b87d05eb6cccb6926d72685c9a07df152
+  react-native-fast-image: 6d50167ad4d68b59640ceead8c2bc4e58d91d8bd
+  react-native-netinfo: 0e563248a4b9a99c33ec29bd03c2d50767db22a6
+  react-native-version-number: b415bbec6a13f2df62bf978e85bc0d699462f37f
+  RNIap: 8104f5fb44555f163531ca9c6200b7b405a44f1c
+  RNImageCropPicker: 6134b66a3d5bc13e2895a97c630a4254006902b4
+  RSKImageCropper: 98296ad26b41753f796b6898d015509598f13d97
+  SDWebImage: 3f3f0c02f09798048c47a5ed0a13f17b063572d8
+  yoga: 92b2102c3d373d1a790db4ab761d2b0ffc634f64
+
+PODFILE CHECKSUM: 0e644f6a56d015441b78d265a6c615ed194b94f0
+
+COCOAPODS: 1.7.5
