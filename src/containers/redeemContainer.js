@@ -5,19 +5,9 @@ import get from 'lodash/get';
 import { injectIntl } from 'react-intl';
 import { withNavigation } from 'react-navigation';
 
-// Services and Actions
-// import { getUser, getUserPoints, claim } from '../providers/esteem/ePoint';
-// import { openPinCodeModal } from '../redux/actions/applicationActions';
 import { promote, boost, isPostAvailable } from '../providers/steem/dsteem';
 import { toastNotification } from '../redux/actions/uiAction';
-import { searchPath } from '../providers/esteem/esteem';
 import { getUserDataWithUsername } from '../realm/realm';
-
-// // Constant
-// import POINTS from '../constants/options/points';
-
-// // Constants
-// import ROUTES from '../constants/routeNames';
 
 /*
  *            Props Name        Description                                     Value
@@ -32,20 +22,10 @@ class RedeemContainer extends Component {
       isLoading: false,
       isSCModalOpen: false,
       SCPath: '',
-      navigationParams: {},
     };
   }
 
   // Component Life Cycle Functions
-  componentDidMount() {
-    const { navigation, username } = this.props;
-
-    if (get(navigation, 'state.params', null)) {
-      const navigationParams = get(navigation, 'state.params');
-
-      this.setState({ navigationParams });
-    }
-  }
 
   // Component Functions
 
