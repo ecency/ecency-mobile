@@ -6,7 +6,12 @@ import { jsonStringify } from '../../utils/jsonUtils';
 import bugsnag from '../../config/bugsnag';
 
 export const getCurrencyRate = currency =>
-  api.get(`/currencyRate/${currency.toUpperCase()}/steem`).then(resp => resp.data);
+  api
+    .get(`/currencyRate/${currency.toUpperCase()}/steem`)
+    .then(resp => resp.data)
+    .catch(err => {
+      console.log('err :', err);
+    });
 
 /**
  * @params username
