@@ -32,6 +32,7 @@
 		588A5058232A3A4C00FC1361 /* Sansation_Regular.ttf in Resources */ = {isa = PBXBuildFile; fileRef = 588A5052232A3A4C00FC1361 /* Sansation_Regular.ttf */; };
 		588A5059232A3A4C00FC1361 /* Roboto.ttf in Resources */ = {isa = PBXBuildFile; fileRef = 588A5053232A3A4C00FC1361 /* Roboto.ttf */; };
 		588A505A232A3A4C00FC1361 /* Roboto-medium.ttf in Resources */ = {isa = PBXBuildFile; fileRef = 588A5054232A3A4C00FC1361 /* Roboto-medium.ttf */; };
+		588A506D232A497C00FC1361 /* libReactNativeConfig.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 588A506A232A497100FC1361 /* libReactNativeConfig.a */; };
 		60B4658C6F794BF28A644ADC /* FontAwesome5_Solid.ttf in Resources */ = {isa = PBXBuildFile; fileRef = 4EB466C53BAE4EDC904357B3 /* FontAwesome5_Solid.ttf */; };
 		78102C2BBA0F7D6D7A4CF82E /* libPods-eSteem-tvOS.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 1A086937F570A874806667E5 /* libPods-eSteem-tvOS.a */; };
 		8A865CFDCD1C4F4885488F9D /* MaterialCommunityIcons.ttf in Resources */ = {isa = PBXBuildFile; fileRef = 22F5F05A06E142C2B41A4D38 /* MaterialCommunityIcons.ttf */; };
@@ -67,6 +68,20 @@
 			proxyType = 2;
 			remoteGlobalIDString = F60690131CA2766F0003FB26;
 			remoteInfo = RealmReact;
+		};
+		588A5069232A497100FC1361 /* PBXContainerItemProxy */ = {
+			isa = PBXContainerItemProxy;
+			containerPortal = 588A5064232A497100FC1361 /* ReactNativeConfig.xcodeproj */;
+			proxyType = 2;
+			remoteGlobalIDString = EB2648DF1C7BE17A00B8F155;
+			remoteInfo = ReactNativeConfig;
+		};
+		588A506B232A497100FC1361 /* PBXContainerItemProxy */ = {
+			isa = PBXContainerItemProxy;
+			containerPortal = 588A5064232A497100FC1361 /* ReactNativeConfig.xcodeproj */;
+			proxyType = 2;
+			remoteGlobalIDString = 3DF7F6AC203AA09B00D0EAB7;
+			remoteInfo = "ReactNativeConfig-tvOS";
 		};
 /* End PBXContainerItemProxy section */
 
@@ -107,6 +122,7 @@
 		588A5052232A3A4C00FC1361 /* Sansation_Regular.ttf */ = {isa = PBXFileReference; lastKnownFileType = file; name = Sansation_Regular.ttf; path = ../src/assets/Fonts/Sansation_Regular.ttf; sourceTree = "<group>"; };
 		588A5053232A3A4C00FC1361 /* Roboto.ttf */ = {isa = PBXFileReference; lastKnownFileType = file; name = Roboto.ttf; path = ../src/assets/Fonts/Roboto.ttf; sourceTree = "<group>"; };
 		588A5054232A3A4C00FC1361 /* Roboto-medium.ttf */ = {isa = PBXFileReference; lastKnownFileType = file; name = "Roboto-medium.ttf"; path = "../src/assets/Fonts/Roboto-medium.ttf"; sourceTree = "<group>"; };
+		588A5064232A497100FC1361 /* ReactNativeConfig.xcodeproj */ = {isa = PBXFileReference; lastKnownFileType = "wrapper.pb-project"; name = ReactNativeConfig.xcodeproj; path = "../node_modules/react-native-config/ios/ReactNativeConfig.xcodeproj"; sourceTree = "<group>"; };
 		66105A62F5ECBAF0451C9146 /* libPods-eSteemTests.a */ = {isa = PBXFileReference; explicitFileType = archive.ar; includeInIndex = 0; path = "libPods-eSteemTests.a"; sourceTree = BUILT_PRODUCTS_DIR; };
 		675510A52B6CB0D0F3389EE3 /* libPods-eSteem-tvOSTests.a */ = {isa = PBXFileReference; explicitFileType = archive.ar; includeInIndex = 0; path = "libPods-eSteem-tvOSTests.a"; sourceTree = BUILT_PRODUCTS_DIR; };
 		6D935B44FB5A4CF3BF4D01DF /* Ionicons.ttf */ = {isa = PBXFileReference; explicitFileType = undefined; fileEncoding = 9; includeInIndex = 0; lastKnownFileType = unknown; name = Ionicons.ttf; path = "../node_modules/react-native-vector-icons/Fonts/Ionicons.ttf"; sourceTree = "<group>"; };
@@ -139,6 +155,7 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				588A506D232A497C00FC1361 /* libReactNativeConfig.a in Frameworks */,
 				58190B582329808D000EA0E1 /* libRealmReact.a in Frameworks */,
 				3752342F3D1539BDD003B4EB /* libPods-eSteem.a in Frameworks */,
 				58190B3C23294814000EA0E1 /* StoreKit.framework in Frameworks */,
@@ -263,9 +280,19 @@
 			name = Products;
 			sourceTree = "<group>";
 		};
+		588A5065232A497100FC1361 /* Products */ = {
+			isa = PBXGroup;
+			children = (
+				588A506A232A497100FC1361 /* libReactNativeConfig.a */,
+				588A506C232A497100FC1361 /* libReactNativeConfig-tvOS.a */,
+			);
+			name = Products;
+			sourceTree = "<group>";
+		};
 		832341AE1AAA6A7D00B99B32 /* Libraries */ = {
 			isa = PBXGroup;
 			children = (
+				588A5064232A497100FC1361 /* ReactNativeConfig.xcodeproj */,
 				58190B512329807B000EA0E1 /* RealmReact.xcodeproj */,
 			);
 			name = Libraries;
@@ -430,6 +457,10 @@
 			projectDirPath = "";
 			projectReferences = (
 				{
+					ProductGroup = 588A5065232A497100FC1361 /* Products */;
+					ProjectRef = 588A5064232A497100FC1361 /* ReactNativeConfig.xcodeproj */;
+				},
+				{
 					ProductGroup = 58190B522329807B000EA0E1 /* Products */;
 					ProjectRef = 58190B512329807B000EA0E1 /* RealmReact.xcodeproj */;
 				},
@@ -450,6 +481,20 @@
 			fileType = archive.ar;
 			path = libRealmReact.a;
 			remoteRef = 58190B562329807B000EA0E1 /* PBXContainerItemProxy */;
+			sourceTree = BUILT_PRODUCTS_DIR;
+		};
+		588A506A232A497100FC1361 /* libReactNativeConfig.a */ = {
+			isa = PBXReferenceProxy;
+			fileType = archive.ar;
+			path = libReactNativeConfig.a;
+			remoteRef = 588A5069232A497100FC1361 /* PBXContainerItemProxy */;
+			sourceTree = BUILT_PRODUCTS_DIR;
+		};
+		588A506C232A497100FC1361 /* libReactNativeConfig-tvOS.a */ = {
+			isa = PBXReferenceProxy;
+			fileType = archive.ar;
+			path = "libReactNativeConfig-tvOS.a";
+			remoteRef = 588A506B232A497100FC1361 /* PBXContainerItemProxy */;
 			sourceTree = BUILT_PRODUCTS_DIR;
 		};
 /* End PBXReferenceProxy section */
