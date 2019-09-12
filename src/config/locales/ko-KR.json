@@ -298,6 +298,7 @@
     "age": "작성일"
   },
   "transfer": {
+    "from": "보낸 사람",
     "to": "받는 사람",
     "amount_information": "Drag the slider to adjust the amount",
     "amount": "수량",
