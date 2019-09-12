@@ -131,7 +131,7 @@ class ApplicationContainer extends Component {
       if (nextProps.isDarkTheme) {
         changeNavigationBarColor('#1e2835');
       } else {
-        changeNavigationBarColor('#FFFFFF');
+        changeNavigationBarColor('#FFFFFF', true);
       }
     }
 
