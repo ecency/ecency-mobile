@@ -28,7 +28,7 @@ const AvatarHeader = ({
         iconStyle={styles.backIcon}
         iconType="MaterialIcons"
         name="arrow-back"
-        onPress={() => navigation.goBack()}
+        onPress={navigation.goBack}
         size={25}
       />
       <View style={styles.wrapper}>
@@ -44,7 +44,7 @@ const AvatarHeader = ({
           style={styles.addButton}
           iconType="MaterialCommunityIcons"
           name="plus"
-          onPress={() => showImageUploadActions()}
+          onPress={showImageUploadActions}
           size={15}
         />
         <View style={styles.textWrapper}>
