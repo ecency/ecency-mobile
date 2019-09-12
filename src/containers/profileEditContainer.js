@@ -63,8 +63,6 @@ class ProfileEditContainer extends Component {
 
   // Component Functions
 
-  _handleOnSave = () => {};
-
   _handleOnItemChange = (val, item) => {
     this.setState({ [item]: val });
   };
@@ -146,7 +144,7 @@ class ProfileEditContainer extends Component {
   };
 
   _handleOnSubmit = async () => {
-    const { currentAccount, pinCode, dispatch, navigation } = this.props;
+    const { currentAccount, pinCode, dispatch, navigation, intl } = this.props;
     const { name, location, website, about, coverUrl, avatarUrl } = this.state;
 
     await this.setState({ isLoading: true });
@@ -171,7 +169,12 @@ class ProfileEditContainer extends Component {
         navigation.goBack();
       })
       .catch(error => {
-        Alert.alert(get(error, 'message'));
+        Alert.alert(
+          intl.formatMessage({
+            id: 'alert.fail',
+          }),
+          get(error, 'message', error.toString()),
+        );
       });
 
     this.setState({ isLoading: false });

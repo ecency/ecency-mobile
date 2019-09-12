@@ -48,7 +48,7 @@ const AvatarHeader = ({
           size={15}
         />
         <View style={styles.textWrapper}>
-          <Text style={styles.name}>{name}</Text>
+          {!!name && <Text style={styles.name}>{name}</Text>}
           <Text style={styles.username}>{`@${username} (${reputation})`}</Text>
         </View>
       </View>

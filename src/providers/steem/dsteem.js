@@ -233,7 +233,7 @@ export const ignoreUser = async (currentAccount, pin, data) => {
 
   if (currentAccount.local.authType === AUTH_TYPE.STEEM_CONNECT) {
     const token = decryptKey(currentAccount.local.accessToken, digitPinCode);
-    const api = new Steemconnect.Client({
+    const api = new steemconnect.Client({
       accessToken: token,
     });
 
