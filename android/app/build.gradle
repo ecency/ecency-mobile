@@ -1,4 +1,6 @@
 apply plugin: "com.android.application"
+apply from: project(':react-native-config').projectDir.getPath() + "/dotenv.gradle"
+apply plugin: 'com.bugsnag.android.gradle'
 
 import com.android.build.OutputFile
 
@@ -81,6 +83,7 @@ project.ext.react = [
 ]
 
 apply from: "../../node_modules/react-native/react.gradle"
+apply from: "../../node_modules/react-native-code-push/android/codepush.gradle"
 
 /**
  * Set this to true to create two separate APKs instead of one:
@@ -127,12 +130,19 @@ android {
         targetCompatibility JavaVersion.VERSION_1_8
     }
 
+    lintOptions {
+        checkReleaseBuilds false
+    }
+
     defaultConfig {
-        applicationId "com.esteem"
+        applicationId "app.esteem.mobile.android"
         minSdkVersion rootProject.ext.minSdkVersion
         targetSdkVersion rootProject.ext.targetSdkVersion
-        versionCode 1
-        versionName "1.0"
+        versionCode versionMajor * 10000 + versionMinor * 100 + versionPatch
+        versionName "2.2.1"
+        resValue "string", "build_config_package", "app.esteem.mobile.android"
+        // react-native-image-crop-picker
+        vectorDrawables.useSupportLibrary = true
     }
     splits {
         abi {
@@ -190,6 +200,7 @@ android {
 dependencies {
     implementation fileTree(dir: "libs", include: ["*.jar"])
     implementation "com.facebook.react:react-native:+"  // From node_modules
+    implementation project(':react-native-code-push')
 
     if (enableHermes) {
       def hermesPath = "../../node_modules/hermesvm/android/";
