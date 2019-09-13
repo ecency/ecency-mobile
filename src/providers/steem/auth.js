@@ -128,7 +128,7 @@ export const loginWithSC2 = async (code, isPinCodeOpen) => {
       postingKey: '',
       activeKey: '',
       memoKey: '',
-      accessToken: scTokens.access_token,
+      accessToken: '',
     };
 
     if (isPinCodeOpen) {
@@ -177,7 +177,9 @@ export const setUserDataWithPinCode = async data => {
         get(userData, 'memoKey') ||
         get(userData, 'postingKey');
 
-      data.password = decryptKey(publicKey, data.pinCode);
+      if (publicKey) {
+        data.password = decryptKey(publicKey, data.pinCode);
+      }
     }
 
     const updatedUserData = getUpdatedUserData(userData, data);
