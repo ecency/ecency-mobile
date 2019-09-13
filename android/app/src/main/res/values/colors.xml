@@ -1,0 +1,5 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <item name="splashBackground" type="color">#ffffff</item>
+    <item name="notification_icon" type="color">#ffffff</item>
+</resources>
