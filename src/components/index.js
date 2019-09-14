@@ -10,6 +10,8 @@ import { TextInput } from './textInput';
 import ScaleSlider from './scaleSlider/scaleSliderView';
 import UserListItem from './basicUIElements/view/userListItem/userListItem';
 import PostButton from './postButton/postButtonView';
+import Promote from './promote/promoteView';
+import PostBoost from './postBoost/postBoostView';
 
 export {
   CircularButton,
@@ -26,4 +28,6 @@ export {
   TextInput,
   UserListItem,
   PostButton,
+  Promote,
+  PostBoost,
 };
