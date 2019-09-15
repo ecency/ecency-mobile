@@ -97,7 +97,13 @@
     "days": "д",
     "day": "д",
     "steem_dollars": "Доллары Steem",
-    "savings": "Сейф"
+    "savings": "Сейф",
+    "edit": {
+      "display_name": "Display Name",
+      "about": "About",
+      "location": "Location",
+      "website": "Website"
+    }
   },
   "settings": {
     "settings": "Настройки",
