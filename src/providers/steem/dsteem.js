@@ -1,3 +1,4 @@
+/* eslint-disable camelcase */
 import { Client, PrivateKey } from 'dsteem';
 import steemconnect from 'steemconnect';
 import Config from 'react-native-config';
@@ -1165,6 +1166,63 @@ export const boost = (currentAccount, pinCode, point, permlink, author) => {
   }
 
   return Promise.reject(new Error('Something went wrong!'));
+};
+
+export const profileUpdate = async (params, pin, currentAccount) => {
+  const digitPinCode = getDigitPinCode(pin);
+  const key = getActiveKey(get(currentAccount, 'local'), digitPinCode);
+
+  if (get(currentAccount, 'local.authType') === AUTH_TYPE.STEEM_CONNECT) {
+    const token = decryptKey(get(currentAccount, 'local.accessToken'), digitPinCode);
+    const api = new steemconnect.Client({
+      accessToken: token,
+    });
+
+    const _params = {
+      account: get(currentAccount, 'name'),
+      memo_key: get(currentAccount, 'memo_key'),
+      json_metadata: jsonStringify(params),
+    };
+
+    const opArray = [['account_update', _params]];
+
+    return api
+      .broadcast(opArray)
+      .then(resp => resp.result)
+      .catch(error => console.log(error));
+  }
+
+  if (key) {
+    const opArray = [
+      [
+        'account_update',
+        {
+          account: get(currentAccount, 'name'),
+          memo_key: get(currentAccount, 'memo_key'),
+          json_metadata: jsonStringify({ profile: params }),
+        },
+      ],
+    ];
+
+    const privateKey = PrivateKey.fromString(key);
+
+    return new Promise((resolve, reject) => {
+      client.broadcast
+        .sendOperations(opArray, privateKey)
+        .then(result => {
+          resolve(result);
+        })
+        .catch(error => {
+          if (get(error, 'jse_info.code') === 4030100) {
+            error.message =
+              'We noticed that your device has incorrect date or time. Please fix Date & Time or Set Automatically and try again.';
+          }
+          reject(error);
+        });
+    });
+  }
+
+  return Promise.reject(new Error('You dont have permission!'));
 };
 
 // HELPERS

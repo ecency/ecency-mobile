@@ -34,19 +34,20 @@ class HeaderView extends Component {
 
   render() {
     const {
+      avatarUrl,
       displayName,
       handleOnPressBackButton,
       handleOpenDrawer,
       intl,
+      isDarkTheme,
       isLoggedIn,
       isLoginDone,
       isReverse,
       reputation,
       username,
-      isDarkTheme,
     } = this.props;
     const { isSearchModalOpen } = this.state;
-    let gredientColor = isDarkTheme ? ['#081c36', '#43638e'] : ['#2d5aa0', '#357ce6'];
+    let gredientColor;
 
     if (isReverse) {
       gredientColor = isDarkTheme ? ['#43638e', '#081c36'] : ['#357ce6', '#2d5aa0'];

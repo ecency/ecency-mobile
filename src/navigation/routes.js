@@ -18,6 +18,7 @@ import {
   PinCode,
   Post,
   Profile,
+  ProfileEdit,
   Reblogs,
   Redeem,
   SearchResult,
@@ -51,6 +52,12 @@ const stackNavigatior = createStackNavigator(
     },
     [ROUTES.SCREENS.PROFILE]: {
       screen: Profile,
+      navigationOptions: {
+        header: () => null,
+      },
+    },
+    [ROUTES.SCREENS.PROFILE_EDIT]: {
+      screen: ProfileEdit,
       navigationOptions: {
         header: () => null,
       },
