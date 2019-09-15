@@ -6,6 +6,9 @@ import FastImage from 'react-native-fast-image';
 import { TextInput } from '../../textInput';
 import { Icon } from '../../icon';
 
+// Utils
+import { getResizedAvatar } from '../../../utils/image';
+
 // Styles
 import styles from './formInputStyles';
 
@@ -80,7 +83,7 @@ class FormInputView extends Component {
             <FastImage
               style={styles.firstImage}
               source={{
-                uri: `https://steemitimages.com/u/${value}/avatar/small`,
+                uri: getResizedAvatar(value),
                 priority: FastImage.priority.high,
               }}
               resizeMode={FastImage.resizeMode.cover}

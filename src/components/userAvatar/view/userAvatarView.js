@@ -9,6 +9,9 @@ import styles from './userAvatarStyles';
 // Constants
 import ROUTES from '../../../constants/routeNames';
 
+// Utils
+import { getResizedAvatar } from '../../../utils/image';
+
 const DEFAULT_IMAGE = require('../../../assets/avatar_default.png');
 
 /* Props
@@ -58,11 +61,7 @@ class UserAvatarView extends Component {
     let _size;
     const _avatar = username
       ? {
-          uri:
-            avatarUrl ||
-            (name === username
-              ? avatar
-              : `https://steemitimages.com/u/${username}/avatar/${imageSize}`),
+          uri: avatarUrl || (name === username ? avatar : getResizedAvatar(username, imageSize)),
         }
       : DEFAULT_IMAGE;
 
