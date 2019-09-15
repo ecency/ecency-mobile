@@ -97,7 +97,13 @@
     "days": "päivää",
     "day": "päivä",
     "steem_dollars": "Steem dollarit",
-    "savings": "Säästöt"
+    "savings": "Säästöt",
+    "edit": {
+      "display_name": "Display Name",
+      "about": "About",
+      "location": "Location",
+      "website": "Website"
+    }
   },
   "settings": {
     "settings": "Asetukset",
