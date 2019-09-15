@@ -97,7 +97,13 @@
     "days": "napok",
     "day": "nap",
     "steem_dollars": "Steem Dollár",
-    "savings": "Megtakarítások"
+    "savings": "Megtakarítások",
+    "edit": {
+      "display_name": "Display Name",
+      "about": "About",
+      "location": "Location",
+      "website": "Website"
+    }
   },
   "settings": {
     "settings": "Beállítások",
