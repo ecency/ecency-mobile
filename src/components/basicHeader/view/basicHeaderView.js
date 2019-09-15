@@ -100,7 +100,7 @@ class BasicHeaderView extends Component {
             <IconButton
               iconStyle={[styles.backIcon, isModalHeader && styles.closeIcon]}
               iconType="MaterialIcons"
-              name={isModalHeader ? 'arrow-back' : 'arrow-back'}
+              name="arrow-back"
               onPress={() => (isModalHeader ? handleOnPressClose() : handleOnPressBackButton())}
               disabled={disabled}
             />

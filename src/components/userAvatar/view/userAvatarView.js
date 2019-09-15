@@ -26,9 +26,12 @@ class UserAvatarView extends Component {
 
   // Component Functions
   _handleOnAvatarPress = username => {
-    const { dispatch, currentUsername } = this.props;
+    const {
+      dispatch,
+      currentUsername: { name },
+    } = this.props;
 
-    const routeName = currentUsername === username ? ROUTES.TABBAR.PROFILE : ROUTES.SCREENS.PROFILE;
+    const routeName = name === username ? ROUTES.TABBAR.PROFILE : ROUTES.SCREENS.PROFILE;
 
     const navigateAction = NavigationActions.navigate({
       routeName,
@@ -42,11 +45,25 @@ class UserAvatarView extends Component {
   };
 
   render() {
-    const { username, size, style, disableSize, noAction } = this.props;
+    const {
+      username,
+      size,
+      style,
+      disableSize,
+      noAction,
+      avatarUrl,
+      currentUsername: { name, avatar },
+    } = this.props;
     const imageSize = size === 'xl' ? 'large' : 'small';
     let _size;
     const _avatar = username
-      ? { uri: `https://steemitimages.com/u/${username}/avatar/${imageSize}` }
+      ? {
+          uri:
+            avatarUrl ||
+            (name === username
+              ? avatar
+              : `https://steemitimages.com/u/${username}/avatar/${imageSize}`),
+        }
       : DEFAULT_IMAGE;
 
     if (!disableSize) {
@@ -73,7 +90,7 @@ class UserAvatarView extends Component {
 }
 
 const mapStateToProps = state => ({
-  currentUsername: state.account.currentAccount.name,
+  currentUsername: state.account.currentAccount,
 });
 
 export default connect(mapStateToProps)(UserAvatarView);

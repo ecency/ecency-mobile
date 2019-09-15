@@ -343,6 +343,17 @@ class ProfileContainer extends Component {
     this.setState({ forceLoadPost: value });
   };
 
+  _handleOnPressProfileEdit = () => {
+    const { navigation, currentAccount } = this.props;
+
+    navigation.navigate({
+      routeName: ROUTES.SCREENS.PROFILE_EDIT,
+      params: {
+        fetchUser: () => this.setState({ user: currentAccount }),
+      },
+    });
+  };
+
   render() {
     const {
       avatar,
@@ -368,16 +379,19 @@ class ProfileContainer extends Component {
         about={get(user, 'about.profile')}
         activePage={activePage}
         avatar={avatar}
+        changeForceLoadPostState={this._changeForceLoadPostState}
         comments={comments}
         currency={currency}
         error={error}
         follows={follows}
+        forceLoadPost={forceLoadPost}
         getReplies={() => this._getReplies(username)}
         handleFollowUnfollowUser={this._handleFollowUnfollowUser}
         handleMuteUnmuteUser={this._handleMuteUnmuteUser}
         handleOnBackPress={this._handleOnBackPress}
         handleOnFavoritePress={this._handleOnFavoritePress}
         handleOnFollowsPress={this._handleFollowsPress}
+        handleOnPressProfileEdit={this._handleOnPressProfileEdit}
         isDarkTheme={isDarkTheme}
         isFavorite={isFavorite}
         isFollowing={isFollowing}
@@ -389,8 +403,6 @@ class ProfileContainer extends Component {
         selectedQuickProfile={selectedQuickProfile}
         selectedUser={user}
         username={username}
-        forceLoadPost={forceLoadPost}
-        changeForceLoadPostState={this._changeForceLoadPostState}
       />
     );
   }

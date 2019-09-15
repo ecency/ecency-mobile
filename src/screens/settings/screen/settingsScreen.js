@@ -86,15 +86,6 @@ class SettingsScreen extends PureComponent {
             />
             <SettingsItem
               title={intl.formatMessage({
-                id: 'settings.dark_theme',
-              })}
-              type="toggle"
-              actionType="theme"
-              isOn={isDarkTheme}
-              handleOnChange={handleOnChange}
-            />
-            <SettingsItem
-              title={intl.formatMessage({
                 id: 'settings.currency',
               })}
               type="dropdown"
@@ -141,6 +132,15 @@ class SettingsScreen extends PureComponent {
                 }),
               )}
               selectedOptionIndex={parseInt(nsfw, 10)}
+              handleOnChange={handleOnChange}
+            />
+            <SettingsItem
+              title={intl.formatMessage({
+                id: 'settings.dark_theme',
+              })}
+              type="toggle"
+              actionType="theme"
+              isOn={isDarkTheme}
               handleOnChange={handleOnChange}
             />
             {!!isLoggedIn && (

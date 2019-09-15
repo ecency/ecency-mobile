@@ -63,3 +63,12 @@ export const catchDraftImage = body => {
   }
   return null;
 };
+
+export const getResizedImage = (url, size) => {
+  if (!url) return '';
+  const _size = size || 400;
+
+  if (url.includes('img.esteem')) return `https://img.esteem.ws/${_size}x0/${url}`;
+
+  return `https://steemitimages.com/${size}x0/${url}`;
+};

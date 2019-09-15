@@ -3,15 +3,16 @@ import { FormInput } from './formInput';
 import { NumericKeyboard } from './numericKeyboard';
 import { PinAnimatedInput } from './pinAnimatedInput';
 import { SideMenu } from './sideMenu';
+import { TextInput } from './textInput';
 import Icon from './icon';
 import Logo from './logo/logo';
 import Modal from './modal';
-import { TextInput } from './textInput';
+import PostBoost from './postBoost/postBoostView';
+import PostButton from './postButton/postButtonView';
+import ProfileEditForm from './profileEditForm/profileEditFormView';
+import Promote from './promote/promoteView';
 import ScaleSlider from './scaleSlider/scaleSliderView';
 import UserListItem from './basicUIElements/view/userListItem/userListItem';
-import PostButton from './postButton/postButtonView';
-import Promote from './promote/promoteView';
-import PostBoost from './postBoost/postBoostView';
 
 export {
   CircularButton,
@@ -22,12 +23,13 @@ export {
   Modal,
   NumericKeyboard,
   PinAnimatedInput,
+  PostButton,
+  ProfileEditForm,
   ScaleSlider,
   SideMenu,
   TextButton,
   TextInput,
   UserListItem,
-  PostButton,
   Promote,
   PostBoost,
 };

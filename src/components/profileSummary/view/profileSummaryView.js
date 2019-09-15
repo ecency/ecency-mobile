@@ -21,6 +21,7 @@ import { DropdownButton } from '../../dropdownButton';
 
 // Utils
 import { makeCountFriendly } from '../../../utils/formatter';
+import { getResizedImage } from '../../../utils/image';
 
 // Styles
 import styles from './profileSummaryStyles';
@@ -67,6 +68,7 @@ class ProfileSummaryView extends PureComponent {
       handleFollowUnfollowUser,
       handleOnFavoritePress,
       handleOnFollowsPress,
+      handleOnPressProfileEdit,
       handleUIChange,
       hoursRC,
       hoursVP,
@@ -94,7 +96,7 @@ class ProfileSummaryView extends PureComponent {
     const isColumn = rowLength && DEVICE_WIDTH / rowLength <= 7.3;
 
     const followButtonIcon = !isFollowing ? 'account-plus' : 'account-minus';
-    const coverImageUrl = `https://steemitimages.com/400x0/${coverImage}`;
+    const coverImageUrl = getResizedImage(coverImage, 400);
 
     dropdownOpions.push(!isMuted ? 'MUTE' : 'UNMUTE');
 
@@ -184,7 +186,7 @@ class ProfileSummaryView extends PureComponent {
               </TouchableOpacity>
             </Fragment>
           </View>
-          {isLoggedIn && !isOwnProfile && (
+          {isLoggedIn && !isOwnProfile ? (
             <View style={styles.rightIcons}>
               <IconButton
                 backgroundColor="transparent"
@@ -221,6 +223,19 @@ class ProfileSummaryView extends PureComponent {
                 />
               )}
             </View>
+          ) : (
+            isOwnProfile && (
+              <Fragment>
+                <IconButton
+                  backgroundColor="transparent"
+                  color="#c1c5c7"
+                  iconType="MaterialCommunityIcons"
+                  name="pencil"
+                  onPress={handleOnPressProfileEdit}
+                  size={20}
+                />
+              </Fragment>
+            )
           )}
         </View>
       </Fragment>
