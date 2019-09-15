@@ -97,7 +97,13 @@
     "days": "gün",
     "day": "gün",
     "steem_dollars": "Steem Dollar",
-    "savings": "Yığımlar"
+    "savings": "Yığımlar",
+    "edit": {
+      "display_name": "Display Name",
+      "about": "About",
+      "location": "Location",
+      "website": "Website"
+    }
   },
   "settings": {
     "settings": "Tənzimləmələr",

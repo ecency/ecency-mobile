@@ -97,7 +97,13 @@
     "days": "ngày",
     "day": "ngày",
     "steem_dollars": "Steem Dollars",
-    "savings": "Tiết kiệm"
+    "savings": "Tiết kiệm",
+    "edit": {
+      "display_name": "Display Name",
+      "about": "About",
+      "location": "Location",
+      "website": "Website"
+    }
   },
   "settings": {
     "settings": "Cài đặt",

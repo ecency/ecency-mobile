@@ -97,7 +97,13 @@
     "days": "أيام",
     "day": "يوم",
     "steem_dollars": "ستيم دولار",
-    "savings": "مدخرات"
+    "savings": "مدخرات",
+    "edit": {
+      "display_name": "Display Name",
+      "about": "About",
+      "location": "Location",
+      "website": "Website"
+    }
   },
   "settings": {
     "settings": "إعدادات",

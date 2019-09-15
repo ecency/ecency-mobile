@@ -97,7 +97,13 @@
     "days": "hari",
     "day": "hari",
     "steem_dollars": "Steem Dollars",
-    "savings": "Simpanan"
+    "savings": "Simpanan",
+    "edit": {
+      "display_name": "Display Name",
+      "about": "About",
+      "location": "Location",
+      "website": "Website"
+    }
   },
   "settings": {
     "settings": "Tetapan",

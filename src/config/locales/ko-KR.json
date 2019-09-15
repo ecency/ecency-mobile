@@ -97,7 +97,13 @@
     "days": "일",
     "day": "일",
     "steem_dollars": "스팀 달러",
-    "savings": "안전 금고"
+    "savings": "안전 금고",
+    "edit": {
+      "display_name": "Display Name",
+      "about": "About",
+      "location": "Location",
+      "website": "Website"
+    }
   },
   "settings": {
     "settings": "설정",
