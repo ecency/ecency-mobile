@@ -222,7 +222,8 @@
     "fetch_error": "Sikertelen adatbetöltés, kérjük próbáld meg újra vagy írj nekünk ide info@esteem.app",
     "connection_fail": "Sikertelen kapcsolat!",
     "connection_success": "A kapcsolat sikerült!",
-    "checking": "Ellenőrzés..."
+    "checking": "Ellenőrzés...",
+    "not_existing_post": "The post does not exist! Please check permlink and author."
   },
   "post": {
     "reblog_alert": "Biztos, hogy megosztod?",
@@ -269,7 +270,7 @@
   },
   "payout": {
     "potential_payout": "Lehetséges Kifizetés",
-    "promoted": "Támogatott",
+    "promoted": "Promovált",
     "author_payout": "Szerzői Kifizetés",
     "curation_payout": "Kurátori Kifizetés",
     "payout_date": "Kifizetés"
