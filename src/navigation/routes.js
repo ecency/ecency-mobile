@@ -19,8 +19,8 @@ import {
   Post,
   Profile,
   ProfileEdit,
-  Promote,
   Reblogs,
+  Redeem,
   SearchResult,
   Settings,
   SteemConnect,
@@ -122,14 +122,8 @@ const stackNavigatior = createStackNavigator(
         header: () => null,
       },
     },
-    [ROUTES.SCREENS.PROMOTE]: {
-      screen: Promote,
-      navigationOptions: {
-        header: () => null,
-      },
-    },
-    [ROUTES.SCREENS.BOOST_POST]: {
-      screen: BoostPost,
+    [ROUTES.SCREENS.REDEEM]: {
+      screen: Redeem,
       navigationOptions: {
         header: () => null,
       },

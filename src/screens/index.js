@@ -14,17 +14,15 @@ import { Profile } from './profile';
 import { SearchResult } from './searchResult';
 import { Settings } from './settings';
 import Voters from './voters';
-import BoostPost from './boostPost/screen/boostPostScreen';
-import Promote from './promote/screen/promoteScreen';
 import SteemConnect from './steem-connect/steemConnect';
 import Transfer from './transfer';
 import Reblogs from './reblogs';
 import ProfileEdit from './profileEdit/screen/profileEditScreen';
+import Redeem from './redeem/screen/redeemScreen';
 
 export {
   Bookmarks,
   Boost,
-  BoostPost,
   Drafts,
   Editor,
   Follows,
@@ -37,11 +35,11 @@ export {
   Post,
   Profile,
   ProfileEdit,
-  Promote,
   Reblogs,
   SearchResult,
   Settings,
   SteemConnect,
   Transfer,
   Voters,
+  Redeem,
 };

@@ -1,5 +1,6 @@
 import PointsContainer from './pointsContainer';
-import TransferContainer from './transferContainer';
 import ProfileEditContainer from './profileEditContainer';
+import RedeemContainer from './redeemContainer';
+import TransferContainer from './transferContainer';
 
-export { PointsContainer, TransferContainer, ProfileEditContainer };
+export { PointsContainer, ProfileEditContainer, RedeemContainer, TransferContainer };

@@ -344,12 +344,6 @@ export const getRepliesByLastUpdate = async query => {
   }
 };
 
-/**
- * @method getUser get user data
- * @param user post author
- * @param permlink post permlink
- * @param currentUserName active accounts username
- */
 export const getPost = async (author, permlink, currentUserName = null, isPromoted = false) => {
   try {
     const post = await client.database.call('get_content', [author, permlink]);
@@ -357,6 +351,16 @@ export const getPost = async (author, permlink, currentUserName = null, isPromot
     return post ? await parsePost(post, currentUserName, isPromoted) : null;
   } catch (error) {
     return error;
+  }
+};
+
+export const isPostAvailable = async (author, permlink) => {
+  try {
+    const post = await client.database.call('get_content', [author, permlink]);
+
+    return get(post, 'id', 0) !== 0;
+  } catch (error) {
+    return false;
   }
 };
 
