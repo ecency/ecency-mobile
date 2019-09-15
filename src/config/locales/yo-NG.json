@@ -97,7 +97,13 @@
     "days": "awon ojo",
     "day": "ojo",
     "steem_dollars": "Dollar ti steem",
-    "savings": "Ipamo"
+    "savings": "Ipamo",
+    "edit": {
+      "display_name": "Display Name",
+      "about": "About",
+      "location": "Location",
+      "website": "Website"
+    }
   },
   "settings": {
     "settings": "Eto",
