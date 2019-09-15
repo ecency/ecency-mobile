@@ -11,6 +11,10 @@ import DARK_COVER_IMAGE from '../../assets/dark_cover_image.png';
 // Components
 import { FormInput } from '../formInput';
 import { IconButton } from '../iconButton';
+
+// Utils
+import { getResizedImage } from '../../utils/image';
+
 // Styles
 import styles from './profileEditFormStyles';
 
@@ -43,7 +47,7 @@ const ProfileEditFormView = ({
       <TouchableOpacity style={styles.coverImgWrapper} onPress={showImageUploadActions}>
         <Image
           style={styles.coverImg}
-          source={{ uri: `https://steemitimages.com/400x0/${coverUrl}` }}
+          source={{ uri: getResizedImage(coverUrl, 400) }}
           defaultSource={isDarkTheme ? DARK_COVER_IMAGE : LIGHT_COVER_IMAGE}
         />
 
