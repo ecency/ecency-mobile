@@ -99,9 +99,9 @@
     "steem_dollars": "Steem Dólares",
     "savings": "Poupanças",
     "edit": {
-      "display_name": "Display Name",
-      "about": "About",
-      "location": "Location",
+      "display_name": "Nome a Exibir",
+      "about": "Sobre",
+      "location": "Localização",
       "website": "Website"
     }
   },
