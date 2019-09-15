@@ -97,7 +97,13 @@
     "days": "dagen",
     "day": "dag",
     "steem_dollars": "Steem Dollars",
-    "savings": "Spaarrekening"
+    "savings": "Spaarrekening",
+    "edit": {
+      "display_name": "Display Name",
+      "about": "About",
+      "location": "Location",
+      "website": "Website"
+    }
   },
   "settings": {
     "settings": "Instellingen",

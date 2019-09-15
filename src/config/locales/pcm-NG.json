@@ -97,7 +97,13 @@
     "days": "days",
     "day": "day",
     "steem_dollars": "Steem Dollars",
-    "savings": "Savings"
+    "savings": "Savings",
+    "edit": {
+      "display_name": "Display Name",
+      "about": "About",
+      "location": "Location",
+      "website": "Website"
+    }
   },
   "settings": {
     "settings": "Settings",

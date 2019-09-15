@@ -97,7 +97,13 @@
     "days": "días",
     "day": "día",
     "steem_dollars": "Steem Dólares",
-    "savings": "Ahorros"
+    "savings": "Ahorros",
+    "edit": {
+      "display_name": "Display Name",
+      "about": "About",
+      "location": "Location",
+      "website": "Website"
+    }
   },
   "settings": {
     "settings": "Ajustes",

@@ -97,7 +97,13 @@
     "days": "ימים",
     "day": "יום",
     "steem_dollars": "דולר Steem",
-    "savings": "חסכונות"
+    "savings": "חסכונות",
+    "edit": {
+      "display_name": "Display Name",
+      "about": "About",
+      "location": "Location",
+      "website": "Website"
+    }
   },
   "settings": {
     "settings": "הגדרות",

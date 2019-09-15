@@ -97,7 +97,13 @@
     "days": "hari",
     "day": "hari",
     "steem_dollars": "Steem Dollars",
-    "savings": "Tabungan"
+    "savings": "Tabungan",
+    "edit": {
+      "display_name": "Display Name",
+      "about": "About",
+      "location": "Location",
+      "website": "Website"
+    }
   },
   "settings": {
     "settings": "Pengaturan",

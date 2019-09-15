@@ -97,7 +97,13 @@
     "days": "दिनों",
     "day": "दिन",
     "steem_dollars": "स्टीम डॉलर्स",
-    "savings": "बचत"
+    "savings": "बचत",
+    "edit": {
+      "display_name": "Display Name",
+      "about": "About",
+      "location": "Location",
+      "website": "Website"
+    }
   },
   "settings": {
     "settings": "समायोजन",
