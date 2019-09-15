@@ -55,7 +55,7 @@
     "vote_title": "Szavazási pontok",
     "reblog_title": "Megosztási pontok",
     "login_title": "Bejelentkezés pontok",
-    "checkin_title": "Points for heartbeat",
+    "checkin_title": "Életjel pontok",
     "checkin_extra_title": "Használati bónusz",
     "no_activity": "Itt nincs tevékenység!",
     "outgoing_transfer_description": "",
@@ -99,10 +99,10 @@
     "steem_dollars": "Steem Dollár",
     "savings": "Megtakarítások",
     "edit": {
-      "display_name": "Display Name",
-      "about": "About",
-      "location": "Location",
-      "website": "Website"
+      "display_name": "Megjelenítendő név",
+      "about": "Rólunk",
+      "location": "Tartózkodási hely",
+      "website": "Weboldal"
     }
   },
   "settings": {
@@ -229,7 +229,7 @@
     "connection_fail": "Sikertelen kapcsolat!",
     "connection_success": "A kapcsolat sikerült!",
     "checking": "Ellenőrzés...",
-    "not_existing_post": "The post does not exist! Please check permlink and author."
+    "not_existing_post": "A bejegyzés nem létezik! Kérjük ellenőrizd a linket és a szerzőt."
   },
   "post": {
     "reblog_alert": "Biztos, hogy megosztod?",
