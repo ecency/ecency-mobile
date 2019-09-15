@@ -97,7 +97,13 @@
     "days": "dani",
     "day": "dan",
     "steem_dollars": "Steem Dolari",
-    "savings": "Štednja"
+    "savings": "Štednja",
+    "edit": {
+      "display_name": "Display Name",
+      "about": "About",
+      "location": "Location",
+      "website": "Website"
+    }
   },
   "settings": {
     "settings": "Postavke",
