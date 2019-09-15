@@ -64,11 +64,16 @@ export const catchDraftImage = body => {
   return null;
 };
 
-export const getResizedImage = (url, size) => {
+export const getResizedImage = (url, size = 400) => {
   if (!url) return '';
-  const _size = size || 400;
 
-  if (url.includes('img.esteem')) return `https://img.esteem.ws/${_size}x0/${url}`;
+  if (url.includes('img.esteem')) return `https://img.esteem.ws/${size}x0/${url}`;
 
   return `https://steemitimages.com/${size}x0/${url}`;
+};
+
+export const getResizedAvatar = (author, sizeString = 'small') => {
+  if (!author) return '';
+
+  return `https://steemitimages.com/u/${author}/avatar/${sizeString}`;
 };
