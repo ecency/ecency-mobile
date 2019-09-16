@@ -1,6 +1,7 @@
 import React, { PureComponent, Fragment } from 'react';
 import { View, ScrollView } from 'react-native';
 import { injectIntl } from 'react-intl';
+import get from 'lodash/get';
 
 // Components
 import ScrollableTabView from 'react-native-scrollable-tab-view';
@@ -96,10 +97,6 @@ class ProfileScreen extends PureComponent {
       oldEstimatedWalletValue,
     } = this.state;
 
-    let _about;
-    let coverImage;
-    let location;
-    let website;
     let votingPower;
     let resourceCredits;
     let fullInHourVP;
@@ -111,13 +108,6 @@ class ProfileScreen extends PureComponent {
       resourceCredits = getRcPower(selectedUser).toFixed(1);
       fullInHourVP = Math.ceil((100 - votingPower) * 0.833333);
       fullInHourRC = Math.ceil((100 - resourceCredits) * 0.833333);
-    }
-
-    if (about) {
-      _about = about.about;
-      coverImage = about.cover_image;
-      ({ location } = about);
-      ({ website } = about);
     }
 
     if (estimatedWalletValue) {
@@ -140,7 +130,7 @@ class ProfileScreen extends PureComponent {
             <ProfileSummaryPlaceHolder />
           ) : (
             <CollapsibleCard
-              title={_about}
+              title={get(about, 'about')}
               isTitleCenter
               defaultTitle={intl.formatMessage({
                 id: 'profile.details',
@@ -153,8 +143,8 @@ class ProfileScreen extends PureComponent {
               // locked={!isLoggedIn}
             >
               <ProfileSummary
-                coverImage={coverImage}
-                date={getFormatedCreatedDate(selectedUser && selectedUser.created)}
+                date={getFormatedCreatedDate(get(selectedUser, 'created'))}
+                about={about}
                 followerCount={follows.follower_count}
                 followingCount={follows.following_count}
                 handleFollowUnfollowUser={handleFollowUnfollowUser}
@@ -172,8 +162,6 @@ class ProfileScreen extends PureComponent {
                 isMuted={isMuted}
                 isOwnProfile={!isReverseHeader}
                 isProfileLoading={isProfileLoading}
-                link={website}
-                location={location}
                 percentRC={resourceCredits}
                 percentVP={votingPower}
                 handleOnPressProfileEdit={handleOnPressProfileEdit}

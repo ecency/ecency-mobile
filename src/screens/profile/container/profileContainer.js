@@ -28,11 +28,7 @@ import ProfileScreen from '../screen/profileScreen';
 class ProfileContainer extends Component {
   constructor(props) {
     super(props);
-    const isReverseHeader = !!(
-      props.navigation.state &&
-      props.navigation.state.params &&
-      props.navigation.state.username
-    );
+    const isReverseHeader = get(props, 'navigation.state.username', false);
 
     this.state = {
       comments: [],
@@ -69,8 +65,6 @@ class ProfileContainer extends Component {
 
         this.setState({ selectedQuickProfile });
       }
-
-      this.setState({ isReverseHeader: true });
     } else {
       this._loadProfile(currentAccount.name);
     }
@@ -79,21 +73,18 @@ class ProfileContainer extends Component {
   componentWillReceiveProps(nextProps) {
     const { activeBottomTab, currentAccount, isLoggedIn, navigation } = this.props;
     const currentUsername =
-      get(currentAccount, 'name') !== nextProps.currentAccount.name &&
-      nextProps.currentAccount.name;
-
+      get(currentAccount, 'name') !== get(nextProps, 'currentAccount.name') &&
+      get(nextProps, 'currentAccount.name');
     if (isLoggedIn && !nextProps.isLoggedIn) {
       navigation.navigate(ROUTES.SCREENS.LOGIN);
       return;
     }
-
     if (
       (activeBottomTab !== get(nextProps, 'activeBottomTab') &&
         get(nextProps, 'activeBottomTab') === ROUTES.TABBAR.PROFILE) ||
       currentUsername
     ) {
       this._loadProfile(currentAccount.name);
-      this.setState({ forceLoadPost: true });
     }
   }
 
