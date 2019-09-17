@@ -1,7 +1,8 @@
 import React, { Component } from 'react';
 import { connect } from 'react-redux';
 import { withNavigation } from 'react-navigation';
-import get from 'lodash/get';
+import { get, has } from 'lodash';
+import { Alert } from 'react-native';
 
 // Providers
 import {
@@ -28,49 +29,52 @@ import ProfileScreen from '../screen/profileScreen';
 class ProfileContainer extends Component {
   constructor(props) {
     super(props);
-    const isReverseHeader = get(props, 'navigation.state.username', false);
 
     this.state = {
       comments: [],
       follows: {},
+      forceLoadPost: false,
       isFavorite: false,
       isFollowing: false,
       isMuted: false,
       isProfileLoading: false,
       isReady: false,
-      isReverseHeader,
+      isReverseHeader: has(props, 'navigation.state.params.username'),
       user: null,
-      selectedQuickProfile: null,
-      forceLoadPost: false,
+      quickProfile: {
+        reputation: get(props, 'navigation.state.params.reputation', ''),
+        name: get(props, 'navigation.state.params.username', ''),
+      },
     };
   }
 
-  componentDidMount = () => {
-    const { navigation, isLoggedIn, currentAccount } = this.props;
-    const selectedUser = get(navigation.state, 'params');
+  componentDidMount() {
+    const {
+      navigation,
+      isConnected,
+      isLoggedIn,
+      currentAccount: { name: currentAccountUsername },
+    } = this.props;
+    const username = get(navigation, 'state.params.username');
+    let targetUsername = currentAccountUsername;
 
-    if (!isLoggedIn && !selectedUser) {
+    if (!isConnected) return;
+
+    if (!isLoggedIn && !username) {
       navigation.navigate(ROUTES.SCREENS.LOGIN);
       return;
     }
 
-    if (get(selectedUser, 'username', false) && selectedUser.username !== currentAccount.name) {
-      this._loadProfile(selectedUser.username);
-
-      if (selectedUser.username) {
-        const selectedQuickProfile = {
-          reputation: selectedUser.reputation,
-          name: selectedUser.username,
-        };
-
-        this.setState({ selectedQuickProfile });
-      }
-    } else {
-      this._loadProfile(currentAccount.name);
+    if (username && username !== currentAccountUsername) {
+      targetUsername = username;
     }
-  };
+
+    this._loadProfile(targetUsername);
+  }
 
   componentWillReceiveProps(nextProps) {
+    if (nextProps.isConnected) return;
+
     const { activeBottomTab, currentAccount, isLoggedIn, navigation } = this.props;
     const currentUsername =
       get(currentAccount, 'name') !== get(nextProps, 'currentAccount.name') &&
@@ -79,12 +83,13 @@ class ProfileContainer extends Component {
       navigation.navigate(ROUTES.SCREENS.LOGIN);
       return;
     }
+
     if (
       (activeBottomTab !== get(nextProps, 'activeBottomTab') &&
         get(nextProps, 'activeBottomTab') === ROUTES.TABBAR.PROFILE) ||
       currentUsername
     ) {
-      this._loadProfile(currentAccount.name);
+      this._loadProfile(currentUsername);
     }
   }
 
@@ -193,7 +198,7 @@ class ProfileContainer extends Component {
         {
           error,
         },
-        () => alert(error.message || error.toString()),
+        () => Alert.alert(get(error, 'message') || error.toString()),
       );
     } else {
       this._fetchProfile(username, true);
@@ -226,10 +231,6 @@ class ProfileContainer extends Component {
         follows = null;
       }
 
-      /**
-       * This follow code totally a work arround
-       * Ceated for server response delay.
-       */
       if (isProfileAction && (isFollowing === _isFollowing && isMuted === _isMuted)) {
         this._fetchProfile(_username, true);
       } else {
@@ -245,32 +246,27 @@ class ProfileContainer extends Component {
     }
   };
 
-  _loadProfile = async (selectedUser = null) => {
-    const { isConnected } = this.props;
+  _loadProfile = async (username = null) => {
+    let user;
 
-    if (!isConnected) return;
-
-    const user = await getUser(selectedUser);
-
-    this._fetchProfile(selectedUser);
+    try {
+      user = await getUser(username);
+      this._fetchProfile(username);
+    } catch (error) {
+      this._profileActionDone(error);
+    }
 
     this.setState(prevState => ({
-      selectedQuickProfile: {
-        ...prevState.selectedQuickProfile,
-        display_name: user.display_name,
-        reputation: user.reputation,
+      quickProfile: {
+        ...prevState.quickProfile,
+        display_name: get(user, 'display_name'),
+        reputation: get(user, 'reputation'),
       },
+      user,
+      username,
     }));
 
-    this.setState(
-      {
-        user,
-        username: selectedUser,
-      },
-      () => {
-        this._getReplies(selectedUser);
-      },
-    );
+    this._getReplies(username);
   };
 
   _handleFollowsPress = async isFollowingPress => {
@@ -357,7 +353,7 @@ class ProfileContainer extends Component {
       isProfileLoading,
       isReady,
       isReverseHeader,
-      selectedQuickProfile,
+      quickProfile,
       user,
       username,
       forceLoadPost,
@@ -391,7 +387,7 @@ class ProfileContainer extends Component {
         isProfileLoading={isProfileLoading}
         isReady={isReady}
         isReverseHeader={isReverseHeader}
-        selectedQuickProfile={selectedQuickProfile}
+        quickProfile={quickProfile}
         selectedUser={user}
         username={username}
       />

@@ -85,7 +85,7 @@ class ProfileScreen extends PureComponent {
       isProfileLoading,
       isReady,
       isReverseHeader,
-      selectedQuickProfile,
+      quickProfile,
       selectedUser,
       username,
     } = this.props;
@@ -120,8 +120,8 @@ class ProfileScreen extends PureComponent {
     return (
       <Fragment>
         <Header
-          key={selectedQuickProfile && selectedQuickProfile.name}
-          selectedUser={selectedQuickProfile}
+          key={quickProfile && quickProfile.name}
+          selectedUser={quickProfile}
           isReverse={isReverseHeader}
           handleOnBackPress={handleOnBackPress}
         />
