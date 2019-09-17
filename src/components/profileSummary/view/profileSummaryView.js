@@ -89,7 +89,7 @@ class ProfileSummaryView extends PureComponent {
     const votingPowerText = `Voting power: ${percentVP}% ${votingPowerHoursText || ''}`;
     const rcPowerHoursText = hoursRC && `• Full in ${hoursRC} hours`;
     const rcPowerText = `RCs: ${percentRC}% ${rcPowerHoursText || ''}`;
-    const link = '';
+    const link = get(about, 'website', '');
     const location = get(about, 'location', '');
 
     const ABOUT_DATA = [
@@ -110,18 +110,17 @@ class ProfileSummaryView extends PureComponent {
     return (
       <Fragment>
         <View style={[isColumn ? styles.textWithIconWrapperColumn : styles.textWithIconWrapper]}>
-          {ABOUT_DATA.map(
-            item =>
-              has(item, 'text') && (
-                <TextWithIcon
-                  isClickable={get(item, 'onPress')}
-                  onPress={get(item, 'onPress')}
-                  text={item.text}
-                  iconSize={14}
-                  iconName={item.icon}
-                  iconType="MaterialCommunityIcons"
-                />
-              ),
+          {ABOUT_DATA.map(item =>
+            get(item, 'text', null) ? (
+              <TextWithIcon
+                isClickable={get(item, 'onPress')}
+                onPress={get(item, 'onPress')}
+                text={item.text}
+                iconSize={14}
+                iconName={item.icon}
+                iconType="MaterialCommunityIcons"
+              />
+            ) : null,
           )}
         </View>
         <Image
