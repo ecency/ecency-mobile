@@ -39,7 +39,7 @@ class ProfileContainer extends Component {
       isMuted: false,
       isProfileLoading: false,
       isReady: false,
-      isReverseHeader: has(props, 'navigation.state.params.username'),
+      isOwnProfile: !has(props, 'navigation.state.params.username'),
       user: null,
       quickProfile: {
         reputation: get(props, 'navigation.state.params.reputation', ''),
@@ -49,6 +49,8 @@ class ProfileContainer extends Component {
   }
 
   componentDidMount() {
+    if (!isConnected) return;
+
     const {
       navigation,
       isConnected,
@@ -56,16 +58,15 @@ class ProfileContainer extends Component {
       currentAccount: { name: currentAccountUsername },
     } = this.props;
     const username = get(navigation, 'state.params.username');
+    const { isOwnProfile } = this.state;
     let targetUsername = currentAccountUsername;
-
-    if (!isConnected) return;
 
     if (!isLoggedIn && !username) {
       navigation.navigate(ROUTES.SCREENS.LOGIN);
       return;
     }
 
-    if (username && username !== currentAccountUsername) {
+    if (!isOwnProfile) {
       targetUsername = username;
     }
 
@@ -73,55 +74,78 @@ class ProfileContainer extends Component {
   }
 
   componentWillReceiveProps(nextProps) {
-    if (nextProps.isConnected) return;
+    if (!nextProps.isConnected) return;
 
-    const { activeBottomTab, currentAccount, isLoggedIn, navigation } = this.props;
-    const currentUsername =
-      get(currentAccount, 'name') !== get(nextProps, 'currentAccount.name') &&
-      get(nextProps, 'currentAccount.name');
+    const { isLoggedIn, navigation } = this.props;
+    const { isOwnProfile } = this.state;
+
     if (isLoggedIn && !nextProps.isLoggedIn) {
       navigation.navigate(ROUTES.SCREENS.LOGIN);
       return;
     }
 
-    if (
-      (activeBottomTab !== get(nextProps, 'activeBottomTab') &&
-        get(nextProps, 'activeBottomTab') === ROUTES.TABBAR.PROFILE) ||
-      currentUsername
-    ) {
-      this._loadProfile(currentUsername);
+    if (isOwnProfile) {
+      const { user } = this.state;
+      const { activeBottomTab, currentAccount } = this.props;
+
+      const currentUsername =
+        get(currentAccount, 'name') !== get(nextProps, 'currentAccount.name') &&
+        get(nextProps, 'currentAccount.name');
+      const isActiveTabChanged =
+        activeBottomTab !== get(nextProps, 'activeBottomTab') &&
+        get(nextProps, 'activeBottomTab') === ROUTES.TABBAR.PROFILE;
+
+      if ((isActiveTabChanged && user) || currentUsername) {
+        this._loadProfile(currentUsername);
+      }
     }
   }
 
   _getReplies = async user => {
-    const { isReverseHeader } = this.state;
-    if (isReverseHeader) {
-      await getUserComments({ start_author: user, limit: 10 }).then(result => {
-        this.setState({
-          comments: result,
-        });
-      });
+    const { isOwnProfile } = this.state;
+    let repliesAction;
+
+    if (!isOwnProfile) {
+      repliesAction = getUserComments;
     } else {
-      await getRepliesByLastUpdate({ start_author: user, limit: 10 }).then(result => {
-        this.setState({
-          comments: result,
-        });
-      });
+      repliesAction = getRepliesByLastUpdate;
     }
+
+    await repliesAction({ start_author: user, limit: 10 }).then(result => {
+      this.setState({
+        comments: result,
+      });
+    });
   };
 
   _handleFollowUnfollowUser = async isFollowAction => {
-    const { isFollowing } = this.state;
+    const { isFollowing, username } = this.state;
+    const { currentAccount, pinCode } = this.props;
+    const follower = get(currentAccount, 'name', '');
+    const following = username;
+
+    let followAction;
 
     this.setState({
       isProfileLoading: true,
     });
 
     if (isFollowAction && !isFollowing) {
-      this._followUser();
+      followAction = followUser;
     } else {
-      this._unfollowUser();
+      followAction = unfollowUser;
     }
+
+    followAction(currentAccount, pinCode, {
+      follower,
+      following,
+    })
+      .then(() => {
+        this._profileActionDone();
+      })
+      .catch(err => {
+        this._profileActionDone(err);
+      });
   };
 
   _handleMuteUnmuteUser = isMuteAction => {
@@ -132,44 +156,8 @@ class ProfileContainer extends Component {
     if (isMuteAction) {
       this._muteUser();
     } else {
-      this._unfollowUser();
+      this._handleFollowUnfollowUser();
     }
-  };
-
-  _unfollowUser = () => {
-    const { username } = this.state;
-    const { currentAccount, pinCode } = this.props;
-    const follower = currentAccount.name;
-    const following = username;
-
-    unfollowUser(currentAccount, pinCode, {
-      follower,
-      following,
-    })
-      .then(() => {
-        this._profileActionDone();
-      })
-      .catch(err => {
-        this._profileActionDone(err);
-      });
-  };
-
-  _followUser = () => {
-    const { username } = this.state;
-    const { currentAccount, pinCode } = this.props;
-    const follower = currentAccount.name;
-    const following = username;
-
-    followUser(currentAccount, pinCode, {
-      follower,
-      following,
-    })
-      .then(() => {
-        this._profileActionDone();
-      })
-      .catch(err => {
-        this._profileActionDone(err);
-      });
   };
 
   _muteUser = () => {
@@ -206,16 +194,16 @@ class ProfileContainer extends Component {
   };
 
   _fetchProfile = async (username = null, isProfileAction = false) => {
-    const { username: _username, isFollowing, isMuted } = this.state;
+    const { username: _username, isFollowing, isMuted, isOwnProfile } = this.state;
 
     if (username) {
-      const { isLoggedIn, currentAccount } = this.props;
+      const { currentAccount } = this.props;
       let _isFollowing;
       let _isMuted;
       let isFavorite;
       let follows;
 
-      if (isLoggedIn && currentAccount.name !== username) {
+      if (!isOwnProfile) {
         _isFollowing = await getIsFollowing(username, currentAccount.name);
 
         _isMuted = _isFollowing ? false : await getIsMuted(username, currentAccount.name);
@@ -272,13 +260,7 @@ class ProfileContainer extends Component {
   _handleFollowsPress = async isFollowingPress => {
     const { navigation } = this.props;
     const { username, follows } = this.state;
-    let count;
-
-    if (!isFollowingPress) {
-      count = follows.follower_count;
-    } else {
-      count = follows.following_count;
-    }
+    const count = get(follows, !isFollowingPress ? 'follower_count' : 'following_count');
 
     navigation.navigate({
       routeName: ROUTES.SCREENS.FOLLOWS,
@@ -291,30 +273,20 @@ class ProfileContainer extends Component {
     });
   };
 
-  _addFavorite = () => {
+  _handleOnFavoritePress = (isFavorite = false) => {
     const { currentAccount } = this.props;
     const { username } = this.state;
+    let favoriteAction;
 
-    addFavorite(currentAccount.name, username).then(() => {
-      this.setState({ isFavorite: true });
-    });
-  };
-
-  _removeFavorite = () => {
-    const { currentAccount } = this.props;
-    const { username } = this.state;
-
-    removeFavorite(currentAccount.name, username).then(() => {
-      this.setState({ isFavorite: false });
-    });
-  };
-
-  _handleOnFavoritePress = isFavorite => {
     if (isFavorite) {
-      this._removeFavorite();
+      favoriteAction = removeFavorite;
     } else {
-      this._addFavorite();
+      favoriteAction = addFavorite;
     }
+
+    favoriteAction(currentAccount.name, username).then(() => {
+      this.setState({ isFavorite: !isFavorite });
+    });
   };
 
   _handleOnBackPress = () => {
@@ -347,18 +319,18 @@ class ProfileContainer extends Component {
       comments,
       error,
       follows,
+      forceLoadPost,
       isFavorite,
       isFollowing,
       isMuted,
+      isOwnProfile,
       isProfileLoading,
       isReady,
-      isReverseHeader,
       quickProfile,
       user,
       username,
-      forceLoadPost,
     } = this.state;
-    const { isDarkTheme, isLoggedIn, currency, navigation } = this.props;
+    const { currency, isDarkTheme, isLoggedIn, navigation } = this.props;
     const activePage = get(navigation.state.params, 'state', 0);
 
     return (
@@ -384,9 +356,9 @@ class ProfileContainer extends Component {
         isFollowing={isFollowing}
         isLoggedIn={isLoggedIn}
         isMuted={isMuted}
+        isOwnProfile={isOwnProfile}
         isProfileLoading={isProfileLoading}
         isReady={isReady}
-        isReverseHeader={isReverseHeader}
         quickProfile={quickProfile}
         selectedUser={user}
         username={username}
@@ -396,18 +368,13 @@ class ProfileContainer extends Component {
 }
 
 const mapStateToProps = state => ({
-  // Applicaiton
-  isLoggedIn: state.application.isLoggedIn,
-  isDarkTheme: state.application.isDarkTheme,
   currency: state.application.currency,
   isConnected: state.application.isConnected,
-
-  // Ui
-  activeBottomTab: state.ui.activeBottomTab,
-
-  // Account
-  currentAccount: state.account.currentAccount,
+  isDarkTheme: state.application.isDarkTheme,
+  isLoggedIn: state.application.isLoggedIn,
   pinCode: state.application.pin,
+  activeBottomTab: state.ui.activeBottomTab,
+  currentAccount: state.account.currentAccount,
 });
 
 export default connect(mapStateToProps)(withNavigation(ProfileContainer));

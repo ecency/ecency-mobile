@@ -84,7 +84,7 @@ class ProfileScreen extends PureComponent {
       isMuted,
       isProfileLoading,
       isReady,
-      isReverseHeader,
+      isOwnProfile,
       quickProfile,
       selectedUser,
       username,
@@ -122,7 +122,7 @@ class ProfileScreen extends PureComponent {
         <Header
           key={quickProfile && quickProfile.name}
           selectedUser={quickProfile}
-          isReverse={isReverseHeader}
+          isReverse={!isOwnProfile}
           handleOnBackPress={handleOnBackPress}
         />
         <View style={styles.container}>
@@ -160,7 +160,7 @@ class ProfileScreen extends PureComponent {
                 isFollowing={isFollowing}
                 isLoggedIn={isLoggedIn}
                 isMuted={isMuted}
-                isOwnProfile={!isReverseHeader}
+                isOwnProfile={isOwnProfile}
                 isProfileLoading={isProfileLoading}
                 percentRC={resourceCredits}
                 percentVP={votingPower}
@@ -204,7 +204,7 @@ class ProfileScreen extends PureComponent {
             </View>
             <View
               tabLabel={
-                isReverseHeader
+                !isOwnProfile
                   ? intl.formatMessage({
                       id: 'profile.comments',
                     })
@@ -220,7 +220,7 @@ class ProfileScreen extends PureComponent {
                     isProfilePreview
                     comments={comments}
                     fetchPost={getReplies}
-                    isOwnProfile={!isReverseHeader}
+                    isOwnProfile={isOwnProfile}
                   />
                 </ScrollView>
               ) : (
