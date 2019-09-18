@@ -47,7 +47,7 @@ export default EStyleSheet.create({
     marginRight: 24,
     flex: 1,
   },
-  searhItems: {
+  searchItems: {
     marginHorizontal: 30,
     marginVertical: 10,
     flexDirection: 'row',
