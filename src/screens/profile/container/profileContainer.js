@@ -49,8 +49,6 @@ class ProfileContainer extends Component {
   }
 
   componentDidMount() {
-    if (!isConnected) return;
-
     const {
       navigation,
       isConnected,
@@ -60,6 +58,8 @@ class ProfileContainer extends Component {
     const username = get(navigation, 'state.params.username');
     const { isOwnProfile } = this.state;
     let targetUsername = currentAccountUsername;
+
+    if (!isConnected) return;
 
     if (!isLoggedIn && !username) {
       navigation.navigate(ROUTES.SCREENS.LOGIN);
