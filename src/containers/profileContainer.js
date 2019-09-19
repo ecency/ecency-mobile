@@ -21,6 +21,9 @@ import {
 // Esteem providers
 import { getIsFavorite, addFavorite, removeFavorite } from '../providers/esteem/esteem';
 
+// Utilitites
+import { getRcPower, getVotingPower } from '../utils/manaBar';
+
 // Constants
 import { default as ROUTES } from '../constants/routeNames';
 
@@ -327,9 +330,19 @@ class ProfileContainer extends Component {
       quickProfile,
       user,
       username,
+      selectedUser,
     } = this.state;
     const { currency, isDarkTheme, isLoggedIn, navigation, children } = this.props;
     const activePage = get(navigation.state.params, 'state', 0);
+    const { currencyRate, currencySymbol } = currency;
+
+    let votingPower;
+    let resourceCredits;
+
+    if (selectedUser) {
+      votingPower = getVotingPower(selectedUser).toFixed(1);
+      resourceCredits = getRcPower(selectedUser).toFixed(1);
+    }
 
     return (
       children &&
@@ -337,9 +350,14 @@ class ProfileContainer extends Component {
         about: get(user, 'about.profile'),
         activePage,
         avatar,
+        setEstimatedWalletValue: this._setEstimatedWalletValue,
         changeForceLoadPostState: this._changeForceLoadPostState,
         comments,
         currency,
+        currencyRate,
+        currencySymbol,
+        votingPower,
+        resourceCredits,
         error,
         follows,
         forceLoadPost,
