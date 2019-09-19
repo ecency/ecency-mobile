@@ -97,7 +97,7 @@ class ProfileContainer extends Component {
         get(nextProps, 'activeBottomTab') === ROUTES.TABBAR.PROFILE;
 
       if ((isActiveTabChanged && user) || currentUsername) {
-        this._loadProfile(currentUsername);
+        this._loadProfile(get(nextProps, 'currentAccount.name'));
       }
     }
   }
