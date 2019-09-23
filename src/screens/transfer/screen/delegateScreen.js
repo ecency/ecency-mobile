@@ -10,14 +10,16 @@ import AUTH_TYPE from '../../../constants/authType';
 import { steemConnectOptions } from '../../../constants/steemConnectOptions';
 
 // Components
-import { BasicHeader } from '../../../components/basicHeader';
-import { TransferFormItem } from '../../../components/transferFormItem';
-import { DropdownButton } from '../../../components/dropdownButton';
-import { TextInput } from '../../../components/textInput';
-import { MainButton } from '../../../components/mainButton';
-import { UserAvatar } from '../../../components/userAvatar';
-import { Icon } from '../../../components/icon';
-import { Modal } from '../../../components/modal';
+import {
+  BasicHeader,
+  TransferFormItem,
+  DropdownButton,
+  TextInput,
+  MainButton,
+  UserAvatar,
+  Icon,
+  Modal,
+} from '../../../components';
 
 import parseToken from '../../../utils/parseToken';
 import { isEmptyDate } from '../../../utils/time';

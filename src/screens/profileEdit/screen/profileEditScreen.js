@@ -5,8 +5,7 @@ import ActionSheet from 'react-native-actionsheet';
 
 import { ProfileEditContainer } from '../../../containers';
 
-import AvatarHeader from '../../../components/avatarHeader/avatarHeaderView';
-import ProfileEditForm from '../../../components/profileEditForm/profileEditFormView';
+import { AvatarHeader, ProfileEditForm } from '../../../components';
 
 class ProfileEditScreen extends PureComponent {
   /* Props
