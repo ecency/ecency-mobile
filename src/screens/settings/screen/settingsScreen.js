@@ -12,9 +12,7 @@ import CURRENCY, { VALUE as CURRENCY_VALUE } from '../../../constants/options/cu
 import NSFW from '../../../constants/options/nsfw';
 
 // Components
-import { BasicHeader } from '../../../components/basicHeader';
-import { SettingsItem } from '../../../components/settingsItem';
-import { CollapsibleCard } from '../../../components/collapsibleCard';
+import { BasicHeader, SettingsItem, CollapsibleCard } from '../../../components';
 
 // Styles
 import styles from './settingsStyles';

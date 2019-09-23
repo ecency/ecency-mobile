@@ -5,8 +5,7 @@ import { useIntl } from 'react-intl';
 // Constants
 
 // Components
-import { BasicHeader } from '../../../components/basicHeader';
-import { UserListItem } from '../../../components/basicUIElements';
+import { BasicHeader, UserListItem } from '../../../components';
 
 import AccountListContainer from '../../../containers/accountListContainer';
 

@@ -4,9 +4,7 @@ import ScrollableTabView from 'react-native-scrollable-tab-view';
 import { injectIntl } from 'react-intl';
 
 // Components
-import { TabBar } from '../../../components/tabBar';
-import { Posts } from '../../../components/posts';
-import SearchInput from '../../../components/searchInput';
+import { SearchInput, Posts, TabBar } from '../../../components';
 
 // Styles
 import styles from './searchResultStyles';

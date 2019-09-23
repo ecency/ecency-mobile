@@ -5,13 +5,7 @@ import ScrollableTabView from 'react-native-scrollable-tab-view';
 import ActionSheet from 'react-native-actionsheet';
 
 // Components
-import { BasicHeader } from '../../../components/basicHeader';
-import {
-  PostCardPlaceHolder,
-  UserListItem,
-  WalletDetailsPlaceHolder,
-} from '../../../components/basicUIElements';
-import { TabBar } from '../../../components/tabBar';
+import { UserListItem, WalletDetailsPlaceHolder, BasicHeader, TabBar } from '../../../components';
 
 // Styles
 import globalStyles from '../../../globalStyles';
