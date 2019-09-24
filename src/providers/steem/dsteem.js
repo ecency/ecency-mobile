@@ -1,5 +1,5 @@
 import { Client, PrivateKey } from 'dsteem';
-import steemConnect from 'steemconnect';
+import steemconnect from 'steemconnect';
 import Config from 'react-native-config';
 import get from 'lodash/get';
 
@@ -232,7 +232,7 @@ export const ignoreUser = async (currentAccount, pin, data) => {
 
   if (currentAccount.local.authType === AUTH_TYPE.STEEM_CONNECT) {
     const token = decryptKey(currentAccount.local.accessToken, digitPinCode);
-    const api = steemConnect.Initialize({
+    const api = new steemconnect.Client({
       accessToken: token,
     });
 
@@ -343,12 +343,6 @@ export const getRepliesByLastUpdate = async query => {
   }
 };
 
-/**
- * @method getUser get user data
- * @param user post author
- * @param permlink post permlink
- * @param currentUserName active accounts username
- */
 export const getPost = async (author, permlink, currentUserName = null, isPromoted = false) => {
   try {
     const post = await client.database.call('get_content', [author, permlink]);
@@ -356,6 +350,16 @@ export const getPost = async (author, permlink, currentUserName = null, isPromot
     return post ? await parsePost(post, currentUserName, isPromoted) : null;
   } catch (error) {
     return error;
+  }
+};
+
+export const isPostAvailable = async (author, permlink) => {
+  try {
+    const post = await client.database.call('get_content', [author, permlink]);
+
+    return get(post, 'id', 0) !== 0;
+  } catch (error) {
+    return false;
   }
 };
 
@@ -374,7 +378,7 @@ export const deleteComment = (currentAccount, pin, permlink) => {
 
   if (currentAccount.local.authType === AUTH_TYPE.STEEM_CONNECT) {
     const token = decryptKey(currentAccount.local.accessToken, digitPinCode);
-    const api = steemConnect.Initialize({
+    const api = new steemconnect.Client({
       accessToken: token,
     });
 
@@ -454,7 +458,7 @@ const _vote = async (currentAccount, pin, author, permlink, weight) => {
 
   if (currentAccount.local.authType === AUTH_TYPE.STEEM_CONNECT) {
     const token = decryptKey(currentAccount.local.accessToken, digitPinCode);
-    const api = steemConnect.Initialize({
+    const api = new steemconnect.Client({
       accessToken: token,
     });
 
@@ -754,7 +758,7 @@ export const followUser = async (currentAccount, pin, data) => {
 
   if (currentAccount.local.authType === AUTH_TYPE.STEEM_CONNECT) {
     const token = decryptKey(get(currentAccount, 'local.accessToken'), digitPinCode);
-    const api = steemConnect.Initialize({
+    const api = new steemconnect.Client({
       accessToken: token,
     });
 
@@ -798,7 +802,7 @@ export const unfollowUser = async (currentAccount, pin, data) => {
 
   if (currentAccount.local.authType === AUTH_TYPE.STEEM_CONNECT) {
     const token = decryptKey(currentAccount.local.accessToken, digitPinCode);
-    const api = steemConnect.Initialize({
+    const api = new steemconnect.Client({
       accessToken: token,
     });
 
@@ -910,7 +914,7 @@ const _postContent = async (
 
   if (account.local.authType === AUTH_TYPE.STEEM_CONNECT) {
     const token = decryptKey(account.local.accessToken, digitPinCode);
-    const api = steemConnect.Initialize({
+    const api = new steemconnect.Client({
       accessToken: token,
     });
 
@@ -1016,7 +1020,7 @@ const _reblog = async (account, pinCode, author, permlink) => {
 
   if (account.local.authType === AUTH_TYPE.STEEM_CONNECT) {
     const token = decryptKey(account.local.accessToken, pin);
-    const api = steemConnect.Initialize({
+    const api = new steemconnect.Client({
       accessToken: token,
     });
 
@@ -1055,7 +1059,7 @@ export const claimRewardBalance = (account, pinCode, rewardSteem, rewardSbd, rew
 
   if (account.local.authType === AUTH_TYPE.STEEM_CONNECT) {
     const token = decryptKey(get(account, 'local.accessToken'), pin);
-    const api = steemConnect.Initialize({
+    const api = new steemconnect.Client({
       accessToken: token,
     });
 
