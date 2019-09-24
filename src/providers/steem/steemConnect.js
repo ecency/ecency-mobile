@@ -90,7 +90,7 @@ export const prepareBeneficiaries = post => {
           beneficiaries: [
             {
               account: 'esteemapp',
-              weight: 1000, // 10%
+              weight: 300, // 3%
             },
           ],
         },
