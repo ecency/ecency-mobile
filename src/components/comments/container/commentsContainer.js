@@ -199,7 +199,7 @@ class CommentsContainer extends Component {
     const { dispatch, intl, navigation, isOwnProfile } = this.props;
 
     if (index === 0) {
-      writeToClipboard(`https://steemit.com${get(selectedComment, 'url')}`).then(() => {
+      writeToClipboard(`https://esteem.app${get(selectedComment, 'url')}`).then(() => {
         dispatch(
           toastNotification(
             intl.formatMessage({
