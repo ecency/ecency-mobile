@@ -1,5 +1,5 @@
 export const getPostUrl = url => {
-  const BASE_URL = 'https://steemit.com';
+  const BASE_URL = 'https://esteem.app';
 
   return BASE_URL + url;
 };
