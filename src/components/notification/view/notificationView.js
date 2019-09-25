@@ -8,7 +8,7 @@ import { injectIntl } from 'react-intl';
 // Components
 import { ContainerHeader } from '../../containerHeader';
 import { FilterBar } from '../../filterBar';
-import NotificationLine from '../../notificationLine';
+import { NotificationLine } from '../..';
 import { ListPlaceHolder } from '../../basicUIElements';
 
 // Utils

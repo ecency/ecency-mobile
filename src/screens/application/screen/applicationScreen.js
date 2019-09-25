@@ -9,8 +9,7 @@ import { ReduxNavigation } from '../../../navigation/reduxNavigation';
 import { toastNotification as toastNotificationAction } from '../../../redux/actions/uiAction';
 
 // Components
-import { NoInternetConnection } from '../../../components/basicUIElements';
-import { ToastNotification } from '../../../components/toastNotification';
+import { ToastNotification, NoInternetConnection } from '../../../components';
 
 // Themes (Styles)
 import darkTheme from '../../../themes/darkTheme';
