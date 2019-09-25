@@ -51,8 +51,10 @@ class CommentsContainer extends Component {
 
   // Component Functions
 
-  _shortComments = sortOrder => {
+  _shortComments = (sortOrder, comments) => {
     const { comments: parent } = this.state;
+
+    const sortedComments = comments || parent;
 
     const allPayout = c =>
       parseFloat(get(c, 'pending_payout_value').split(' ')[0]) +
@@ -116,25 +118,39 @@ class CommentsContainer extends Component {
       },
     };
 
-    parent.sort(sortOrders[sortOrder]);
+    sortedComments.sort(sortOrders[sortOrder]);
 
-    return parent;
+    return sortedComments;
   };
 
   _getComments = async () => {
     const {
       author,
       permlink,
+      selectedFilter,
       currentAccount: { name },
+      isOwnProfile,
+      fetchPost,
     } = this.props;
 
-    await getComments(author, permlink, name)
-      .then(comments => {
-        this.setState({
-          comments,
-        });
-      })
-      .catch(() => {});
+    if (isOwnProfile) {
+      fetchPost();
+    } else {
+      await getComments(author, permlink, name)
+        .then(comments => {
+          if (selectedFilter && selectedFilter !== 'TRENDING') {
+            const sortComments = this._shortComments(selectedFilter, comments);
+            this.setState({
+              comments: sortComments,
+            });
+          } else {
+            this.setState({
+              comments,
+            });
+          }
+        })
+        .catch(() => {});
+    }
   };
 
   _handleOnReplyPress = item => {
@@ -165,31 +181,43 @@ class CommentsContainer extends Component {
   };
 
   _handleDeleteComment = permlink => {
-    const { currentAccount, pinCode } = this.props;
+    const { currentAccount, pinCode, comments } = this.props;
+    const { comments: _comments } = this.state;
+    let filteredComments;
 
     deleteComment(currentAccount, pinCode, permlink).then(() => {
-      this._getComments();
+      if (_comments.length > 0) {
+        filteredComments = _comments.filter(item => item.permlink !== permlink);
+      } else {
+        filteredComments = comments.filter(item => item.permlink !== permlink);
+      }
+      this.setState({ comments: filteredComments });
     });
   };
 
-  _handleCommentCopyAction = (index, selectedComment) => {
-    const { dispatch, intl } = this.props;
+  _handleOnPressCommentMenu = (index, selectedComment) => {
+    const { dispatch, intl, navigation, isOwnProfile } = this.props;
 
-    switch (index) {
-      case 0:
-        writeToClipboard(`https://steemit.com${get(selectedComment, 'url')}`).then(() => {
-          dispatch(
-            toastNotification(
-              intl.formatMessage({
-                id: 'alert.copied',
-              }),
-            ),
-          );
-        });
-        break;
-
-      default:
-        break;
+    if (index === 0) {
+      writeToClipboard(`https://esteem.app${get(selectedComment, 'url')}`).then(() => {
+        dispatch(
+          toastNotification(
+            intl.formatMessage({
+              id: 'alert.copied',
+            }),
+          ),
+        );
+      });
+    } else if (index === 1 && isOwnProfile) {
+      navigation.navigate({
+        routeName: ROUTES.SCREENS.POST,
+        key: get(selectedComment, 'permlink'),
+        params: {
+          author: get(selectedComment, 'author'),
+          permlink: get(selectedComment, 'permlink'),
+          isHasParentPost: get(selectedComment, 'parent_permlink'),
+        },
+      });
     }
   };
 
@@ -207,6 +235,7 @@ class CommentsContainer extends Component {
       selectedFilter,
       mainAuthor,
       selectedPermlink: _selectedPermlink,
+      isOwnProfile,
     } = this.props;
 
     return (
@@ -219,15 +248,15 @@ class CommentsContainer extends Component {
         isShowMoreButton={isShowMoreButton}
         commentNumber={commentNumber || 1}
         commentCount={commentCount}
-        comments={_comments || comments}
+        comments={_comments.length > 0 ? _comments : comments}
         currentAccountUsername={currentAccount.name}
         handleOnEditPress={this._handleOnEditPress}
         handleOnReplyPress={this._handleOnReplyPress}
         isLoggedIn={isLoggedIn}
         fetchPost={fetchPost}
         handleDeleteComment={this._handleDeleteComment}
-        handleCommentCopyAction={this._handleCommentCopyAction}
-        {...this.props}
+        handleOnPressCommentMenu={this._handleOnPressCommentMenu}
+        isOwnProfile={isOwnProfile}
       />
     );
   }

@@ -37,7 +37,7 @@ export default EStyleSheet.create({
     color: '$primaryBlack',
     width: 172,
   },
-  autocomplate: {
+  autocomplete: {
     borderWidth: 0,
     borderColor: '$borderColor',
     borderRadius: 8,
@@ -46,33 +46,34 @@ export default EStyleSheet.create({
     width: 172,
     marginRight: 33,
   },
-  autocomplateLineContainer: {
+  autocompleteLineContainer: {
     flexDirection: 'row',
     paddingHorizontal: 20,
     zIndex: 999,
   },
-  autocomplateLabelText: {
+  autocompleteLabelText: {
     color: '$primaryBlack',
     fontWeight: '600',
   },
-  autocomplateListContainer: {
+  autocompleteListContainer: {
     backgroundColor: '$primaryWhiteLightBackground',
     width: 172,
     zIndex: 999,
   },
-  autocomplateItemText: {
+  autocompleteItemText: {
     color: '$primaryBlack',
     padding: 3,
   },
-  autocomplateList: {
+  autocompleteList: {
     zIndex: 999,
     backgroundColor: '$primaryWhiteLightBackground',
   },
-  autocomplateLabelContainer: {
+  autocompleteLabelContainer: {
     flex: 1,
     padding: 10,
     justifyContent: 'center',
     color: '$primaryBlack',
+    maxWidth: '$deviceWidth / 2.9',
   },
   textarea: {
     borderWidth: 1,

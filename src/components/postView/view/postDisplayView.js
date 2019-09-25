@@ -1,5 +1,5 @@
 import React, { PureComponent, Fragment } from 'react';
-import { View, Text, ScrollView, Dimensions } from 'react-native';
+import { View, Text, ScrollView, Dimensions, SafeAreaView } from 'react-native';
 import { injectIntl } from 'react-intl';
 import get from 'lodash/get';
 import ActionSheet from 'react-native-actionsheet';
@@ -71,64 +71,76 @@ class PostDisplayView extends PureComponent {
       handleOnEditPress,
       handleOnReplyPress,
       handleOnVotersPress,
+      handleOnReblogsPress,
       isLoggedIn,
       post,
     } = this.props;
 
     return (
-      <StickyBar isFixedFooter={isFixedFooter}>
-        <View style={styles.stickyWrapper}>
-          <Upvote fetchPost={fetchPost} isShowPayoutValue content={post} />
-          <TextWithIcon
-            iconName="people"
-            iconStyle={styles.barIcons}
-            iconType="MaterialIcons"
-            isClickable
-            onPress={() => handleOnVotersPress && handleOnVotersPress(get(post, 'active_votes'))}
-            text={get(post, 'vote_count')}
-            textMarginLeft={20}
-          />
-          <TextWithIcon
-            iconName="comment"
-            iconStyle={styles.barIcons}
-            iconType="MaterialIcons"
-            isClickable
-            text={get(post, 'children')}
-            textMarginLeft={20}
-          />
-          <View style={styles.stickyRightWrapper}>
-            {get(currentAccount, 'name') === get(post, 'author') && (
-              <Fragment>
-                {!get(post, 'children') && !get(post, 'vote_count') && (
+      <SafeAreaView>
+        <StickyBar isFixedFooter={isFixedFooter}>
+          <View style={styles.stickyWrapper}>
+            <Upvote fetchPost={fetchPost} isShowPayoutValue content={post} />
+            <TextWithIcon
+              iconName="people"
+              iconStyle={styles.barIcons}
+              iconType="MaterialIcons"
+              isClickable
+              onPress={() => handleOnVotersPress && handleOnVotersPress(get(post, 'active_votes'))}
+              text={get(post, 'vote_count', 0)}
+              textMarginLeft={20}
+            />
+            <TextWithIcon
+              iconName="comment"
+              iconStyle={styles.barIcons}
+              iconType="MaterialIcons"
+              isClickable
+              text={get(post, 'children', 0)}
+              textMarginLeft={20}
+            />
+            <TextWithIcon
+              iconName="repeat"
+              iconStyle={styles.barIcons}
+              iconType="MaterialIcons"
+              isClickable
+              onPress={() => handleOnReblogsPress && handleOnReblogsPress(get(post, 'reblogs'))}
+              text={get(post, 'reblogCount', 0)}
+              textMarginLeft={20}
+            />
+            <View style={styles.stickyRightWrapper}>
+              {get(currentAccount, 'name') === get(post, 'author') && (
+                <Fragment>
+                  {!get(post, 'children') && !get(post, 'vote_count') && (
+                    <IconButton
+                      iconStyle={styles.barIconRight}
+                      iconType="MaterialIcons"
+                      name="delete-forever"
+                      onPress={() => this.ActionSheet.show()}
+                      style={styles.barIconButton}
+                    />
+                  )}
                   <IconButton
                     iconStyle={styles.barIconRight}
                     iconType="MaterialIcons"
-                    name="delete-forever"
-                    onPress={() => this.ActionSheet.show()}
+                    name="create"
+                    onPress={() => handleOnEditPress && handleOnEditPress()}
                     style={styles.barIconButton}
                   />
-                )}
+                </Fragment>
+              )}
+              {isLoggedIn && (
                 <IconButton
                   iconStyle={styles.barIconRight}
                   iconType="MaterialIcons"
-                  name="create"
-                  onPress={() => handleOnEditPress && handleOnEditPress()}
+                  name="reply"
+                  onPress={() => handleOnReplyPress && handleOnReplyPress()}
                   style={styles.barIconButton}
                 />
-              </Fragment>
-            )}
-            {isLoggedIn && (
-              <IconButton
-                iconStyle={styles.barIconRight}
-                iconType="MaterialIcons"
-                name="reply"
-                onPress={() => handleOnReplyPress && handleOnReplyPress()}
-                style={styles.barIconButton}
-              />
-            )}
+              )}
+            </View>
           </View>
-        </View>
-      </StickyBar>
+        </StickyBar>
+      </SafeAreaView>
     );
   };
 
@@ -142,6 +154,7 @@ class PostDisplayView extends PureComponent {
       author,
       intl,
       handleOnRemovePress,
+      handleOnVotersPress,
     } = this.props;
     const { postHeight, scrollHeight, isLoadedComments } = this.state;
 
@@ -201,6 +214,7 @@ class PostDisplayView extends PureComponent {
               permlink={post.permlink}
               commentCount={post.children}
               fetchPost={fetchPost}
+              handleOnVotersPress={handleOnVotersPress}
             />
           )}
         </ScrollView>

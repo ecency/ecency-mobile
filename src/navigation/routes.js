@@ -9,22 +9,23 @@ import { default as ROUTES } from '../constants/routeNames';
 // Screens
 import {
   Bookmarks,
+  Boost,
   Drafts,
   Editor,
   Follows,
+  FreeEstm,
   Login,
   PinCode,
   Post,
   Profile,
+  ProfileEdit,
+  Reblogs,
+  Redeem,
+  SearchResult,
   Settings,
   SteemConnect,
-  Voters,
-  SearchResult,
   Transfer,
-  Boost,
-  Promote,
-  BoostPost,
-  FreeEstm,
+  Voters,
 } from '../screens';
 
 // Components
@@ -41,7 +42,7 @@ const mainNavigation = createDrawerNavigator(
   },
 );
 
-const stackNavigatior = createStackNavigator(
+const stackNavigator = createStackNavigator(
   {
     [ROUTES.DRAWER.MAIN]: {
       screen: mainNavigation,
@@ -51,6 +52,12 @@ const stackNavigatior = createStackNavigator(
     },
     [ROUTES.SCREENS.PROFILE]: {
       screen: Profile,
+      navigationOptions: {
+        header: () => null,
+      },
+    },
+    [ROUTES.SCREENS.PROFILE_EDIT]: {
+      screen: ProfileEdit,
       navigationOptions: {
         header: () => null,
       },
@@ -115,14 +122,14 @@ const stackNavigatior = createStackNavigator(
         header: () => null,
       },
     },
-    [ROUTES.SCREENS.PROMOTE]: {
-      screen: Promote,
+    [ROUTES.SCREENS.REDEEM]: {
+      screen: Redeem,
       navigationOptions: {
         header: () => null,
       },
     },
-    [ROUTES.SCREENS.BOOST_POST]: {
-      screen: BoostPost,
+    [ROUTES.SCREENS.REBLOGS]: {
+      screen: Reblogs,
       navigationOptions: {
         header: () => null,
       },
@@ -140,7 +147,7 @@ const stackNavigatior = createStackNavigator(
 );
 
 export default createSwitchNavigator({
-  stackNavigatior,
+  stackNavigator,
   [ROUTES.SCREENS.LOGIN]: { screen: Login },
   [ROUTES.SCREENS.PINCODE]: { screen: PinCode },
   [ROUTES.SCREENS.STEEM_CONNECT]: { screen: SteemConnect },

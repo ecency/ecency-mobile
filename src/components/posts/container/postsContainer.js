@@ -1,13 +1,14 @@
-import React, { PureComponent, Fragment } from 'react';
+import React, { PureComponent } from 'react';
 import { connect } from 'react-redux';
 import get from 'lodash/get';
 
 // Component
 import PostsView from '../view/postsView';
-import { PostCardPlaceHolder } from '../../basicUIElements';
 
 // Actions
 import { setFeedPosts } from '../../../redux/actions/postsAction';
+import { hidePostsThumbnails } from '../../../redux/actions/uiAction';
+
 /*
  *            Props Name        Description                                     Value
  *@props -->  props name here   description here                                Value Type Here
@@ -32,30 +33,55 @@ class PostsContainer extends PureComponent {
     dispatch(setFeedPosts(posts));
   };
 
-  render() {
-    const { currentAccount, isLoginDone, tag, feedPosts, isConnected } = this.props;
-    const { promotedPosts } = this.state;
+  _handleImagesHide = () => {
+    const { dispatch, isHideImages } = this.props;
 
-    if (!isLoginDone && !tag) {
-      return (
-        <Fragment>
-          <PostCardPlaceHolder />
-          <PostCardPlaceHolder />
-        </Fragment>
-      );
-    }
+    dispatch(hidePostsThumbnails(!isHideImages));
+  };
+
+  render() {
+    const {
+      changeForceLoadPostState,
+      currentAccount,
+      feedPosts,
+      filterOptions,
+      forceLoadPost,
+      getFor,
+      handleOnScroll,
+      isConnected,
+      isHideImages,
+      pageType,
+      selectedOptionIndex,
+      tag,
+      isLoginDone,
+      isLoggedIn,
+      isDarkTheme,
+      nsfw,
+    } = this.props;
+    const { promotedPosts } = this.state;
 
     return (
       <PostsView
-        promotedPosts={promotedPosts}
-        handleOnScrollStart={this._handleOnScrollStart}
-        currentAccountUsername={
-          currentAccount && (get(currentAccount, 'username') || get(currentAccount, 'name'))
-        }
-        setFeedPosts={this._setFeedPosts}
+        changeForceLoadPostState={changeForceLoadPostState}
+        currentAccountUsername={get(currentAccount, 'name', '')}
         feedPosts={feedPosts}
+        filterOptions={filterOptions}
+        forceLoadPost={forceLoadPost}
+        getFor={getFor}
+        handleOnScroll={handleOnScroll}
+        handleImagesHide={this._handleImagesHide}
+        hidePostsThumbnails={hidePostsThumbnails}
         isConnected={isConnected}
-        {...this.props}
+        isHideImage={isHideImages}
+        pageType={pageType}
+        promotedPosts={promotedPosts}
+        selectedOptionIndex={selectedOptionIndex}
+        setFeedPosts={this._setFeedPosts}
+        tag={tag}
+        isLoginDone={isLoginDone}
+        isLoggedIn={isLoggedIn}
+        isDarkTheme={isDarkTheme}
+        nsfw={nsfw}
       />
     );
   }
@@ -69,6 +95,7 @@ const mapStateToProps = state => ({
   nsfw: state.application.nsfw,
   feedPosts: state.posts.feedPosts,
   isConnected: state.application.isConnected,
+  isHideImages: state.ui.hidePostsThumbnails,
 });
 
 export default connect(mapStateToProps)(PostsContainer);

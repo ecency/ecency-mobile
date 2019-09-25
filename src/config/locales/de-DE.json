@@ -20,16 +20,21 @@
     "ignore": "ignoriert dich",
     "reblog": "hat deinen Beitrag geteilt",
     "transfer": "transferierte Steem",
-    "comingsoon": "Ranglisten-Feature kommt bald!",
+    "comingsoon": "Diese Funktion kommt bald!",
     "notification": "Benachrichtigungen",
     "leaderboard": "Rangliste",
     "epoint": "eSteem Punkte",
-    "leaderboard_title": "Tägliche Top-User",
+    "leaderboard_title": "Top-Benutzer",
     "recent": "Vor kurzem",
     "yesterday": "Gestern",
     "this_week": "Diese Woche",
     "this_month": "Diesen Monat",
     "older_then": "Älter als ein Monat"
+  },
+  "leaderboard": {
+    "daily": "Täglich",
+    "weekly": "Wöchentlich",
+    "monthly": "Monatlich"
   },
   "points": {
     "post": "Beitrag",
@@ -50,7 +55,7 @@
     "vote_title": "Punkte für einen Vote",
     "reblog_title": "Punkte für einen ReBlog",
     "login_title": "Punkte für den Login",
-    "checkin_title": "Punkte für die Nutzung",
+    "checkin_title": "Points for heartbeat",
     "checkin_extra_title": "Nutzungs-Bonus",
     "no_activity": "Keine Aktivität hier!",
     "outgoing_transfer_description": "",
@@ -62,9 +67,11 @@
     "reblog_desc": "Teile einen Beitrag, den du magst mit deinen Freunden und erhalte 1 eSteem Punkt.",
     "login_desc": "Wenn du dich bei der eSteem App anmeldest, hast du Anspruch darauf, dass du automatisch 100 eSteem Punkte erhältst.",
     "checkin_extra_desc": "Die konsequente Nutzung der eSteem App gibt dir zusätzliche Chancen, weitere 10 eSteem Punkte zu verdienen. Sei aktiv und verdiene mehr Punkte.",
-    "dropdown_transfer": "Überweisen",
+    "dropdown_transfer": "Geschenk",
     "dropdown_promote": "Bewerben",
-    "dropdown_boost": "Boost"
+    "dropdown_boost": "Boost",
+    "from": "From",
+    "to": "To"
   },
   "messages": {
     "comingsoon": "Nachrichten-Feature ist bald verfügbar!"
@@ -90,7 +97,13 @@
     "days": "Tagen",
     "day": "Tag",
     "steem_dollars": "Steem-Dollar",
-    "savings": "Gesichert"
+    "savings": "Gesichert",
+    "edit": {
+      "display_name": "Display Name",
+      "about": "About",
+      "location": "Location",
+      "website": "Website"
+    }
   },
   "settings": {
     "settings": "Einstellungen",
@@ -121,11 +134,12 @@
       "always_warn": "Immer warnen"
     },
     "feedback_success": "E-Mail erfolgreich geöffnet",
-    "feedback_fail": "E-Mail Client konnte nicht geöffnet werden"
+    "feedback_fail": "E-Mail Client konnte nicht geöffnet werden",
+    "server_fail": "Server nicht verfügbar"
   },
   "voters": {
     "voters_info": "Voter-Informationen",
-    "no_user": "Benutzer nicht gefunden."
+    "no_user": "Benutzer wurde nicht gefunden."
   },
   "login": {
     "signin": "Anmelden",
@@ -190,7 +204,7 @@
     "fail": "Fehlgeschlagen!",
     "move": "Verschieben",
     "move_question": "Bist du sicher, dass du zu Entwürfen wechseln möchtest?",
-    "success_shared": "Dein Beitrag wurde erfolgreich erstellt",
+    "success_shared": "Dein Beitrag wurde erfolgreich geteilt",
     "success_moved": "Erfolgreich in Entwürfe verschoben",
     "permission_denied": "Berechtigung verweigert",
     "permission_text": "Bitte gehe zu den Telefoneinstellungen und ändere die Berechtigungen der eSteem-App.",
@@ -211,14 +225,19 @@
     "same_user": "Dieser User ist bereits in der Liste eingetragen.",
     "unknow_error": "Es ist ein Fehler aufgetreten",
     "error": "Fehler",
-    "fetch_error": "Das Abrufen der Daten vom Server ist fehlgeschlagen. Bitte versuche es nochmal oder informiere uns unter info@esteem.app"
+    "fetch_error": "Das Abrufen der Daten vom Server ist fehlgeschlagen. Bitte versuche es nochmal oder informiere uns unter info@esteem.app",
+    "connection_fail": "Verbindung fehlgeschlagen!",
+    "connection_success": "Erfolgreich verbunden!",
+    "checking": "Cheking...",
+    "not_existing_post": "The post does not exist! Please check permlink and author."
   },
   "post": {
     "reblog_alert": "Möchtest du diesen Beitrag wirklich teilen?",
     "removed_hint": "Der Beitrag wurde entfernt von",
     "copy_link": "Link kopieren",
     "reblogged": "rebloggt von",
-    "sponsored": "Gesponsert"
+    "sponsored": "Gesponsert",
+    "open_thread": "Open Thread"
   },
   "drafts": {
     "title": "Entwürfe",
@@ -288,6 +307,7 @@
   "transfer": {
     "from": "Von",
     "to": "zu",
+    "amount_information": "Drag the slider to adjust the amount",
     "amount": "Betrag",
     "memo": "Memo",
     "information": "Bist du sicher, dass du Geld überweisen willst?",
@@ -296,16 +316,20 @@
     "to_placeholder": "Benutzername",
     "memo_placeholder": "Hier dein Memo eingeben",
     "transfer_token": "Überweisen",
-    "points": "Punkte-Übertragung",
+    "points": "Verschenke ESTM zu jemanden",
     "transfer_to_saving": "Zum Sparkonto überweisen",
     "powerUp": "Power Up",
     "withdraw_to_saving": "Auszahlung in den Tresor",
     "steemconnect_title": "Steemconnect Überweisung",
-    "next": "WEITER"
+    "next": "WEITER",
+    "delegate": "Delegieren",
+    "power_down": "Power-Down",
+    "withdraw_steem": "Steem auszahlen",
+    "withdraw_sbd": "Steem-Dollar auszahlen"
   },
   "boost": {
     "title": "Erhalte eSteem Punkte",
-    "buy": "GET ESTM",
+    "buy": "ESTM kaufen",
     "next": "WEITER"
   },
   "promote": {
@@ -314,9 +338,17 @@
     "user": "Benutzer",
     "permlink": "Beitrag",
     "permlinkPlaceholder": "author/permlink",
-    "information": "Bist du sicher, dass du Geld für das Promoten überweisen willst?"
+    "information": "Bist du sicher, das du promoten möchtest?"
   },
   "boostPost": {
     "title": "Boost"
+  },
+  "voters_dropdown": {
+    "rewards": "BELOHNUNGEN",
+    "percent": "PROZENT",
+    "time": "ZEIT"
+  },
+  "reblog": {
+    "title": "Reblog Info"
   }
 }

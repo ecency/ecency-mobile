@@ -4,10 +4,10 @@ import { View, Text } from 'react-native';
 import get from 'lodash/get';
 
 // Components
-import { BasicHeader } from '../../../components/basicHeader';
-import { MainButton } from '../../../components/mainButton';
-import { Icon } from '../../../components/icon';
-import { BoostPlaceHolder } from '../../../components/basicUIElements';
+import { BasicHeader, Icon, MainButton, BoostPlaceHolder } from '../../../components';
+
+// Container
+import { InAppPurchaseContainer } from '../../../containers';
 
 // Styles
 import globalStyles from '../../../globalStyles';
@@ -23,9 +23,7 @@ class BoostScreen extends PureComponent {
 
   constructor(props) {
     super(props);
-    this.state = {
-      selectedBoost: 0,
-    };
+    this.state = {};
   }
 
   // Component Life Cycles
@@ -42,61 +40,71 @@ class BoostScreen extends PureComponent {
         </View>
       );
     }
+
+    return null;
   };
 
   _getTitle = title => {
-    const lastIndex = title.lastIndexOf(' ');
+    let _title = title.toUpperCase();
 
-    return title.substring(0, lastIndex);
+    if (_title.includes('(ESTEEM)')) {
+      _title = _title.replace('(ESTEEM)', '');
+    }
+
+    return _title;
   };
 
   render() {
-    const { intl, buyItem, productList, isLoading, isProccesing } = this.props;
-    const { selectedBoost } = this.state;
+    const { intl } = this.props;
 
     return (
-      <View style={globalStyles.container}>
-        <BasicHeader
-          title={intl.formatMessage({
-            id: 'boost.title',
-          })}
-        />
+      <InAppPurchaseContainer>
+        {({ buyItem, productList, isLoading, isProcessing }) => (
+          <View style={globalStyles.container}>
+            <BasicHeader
+              disabled={isProcessing}
+              title={intl.formatMessage({
+                id: 'boost.title',
+              })}
+            />
 
-        {isLoading ? (
-          <BoostPlaceHolder />
-        ) : (
-          productList.map(item => (
-            <View style={styles.boostLine} key={get(item, 'productId')}>
-              {this._renderDeal(item)}
-              <View style={styles.buttonWrapper}>
-                <MainButton
-                  style={styles.button}
-                  onPress={() => buyItem(item.productId)}
-                  height={50}
-                  text={intl.formatMessage({
-                    id: 'boost.buy',
-                  })}
-                  isDisable={isProccesing}
-                  isLoading={false}
-                >
-                  <View style={styles.buttonContent}>
-                    <Text style={styles.buttonText}>{get(item, 'title', '').toUpperCase()}</Text>
-                    <View style={styles.buttonIconWrapper}>
-                      <Icon name="add" iconType="MaterialIcons" color="#357ce6" size={23} />
-                    </View>
+            {isLoading ? (
+              <BoostPlaceHolder />
+            ) : (
+              productList.map(item => (
+                <View style={styles.boostLine} key={get(item, 'productId')}>
+                  {this._renderDeal(item)}
+                  <View style={styles.buttonWrapper}>
+                    <MainButton
+                      style={styles.button}
+                      onPress={() => buyItem(item.productId)}
+                      height={50}
+                      text={intl.formatMessage({
+                        id: 'boost.buy',
+                      })}
+                      isDisable={isProcessing}
+                      isLoading={false}
+                    >
+                      <View style={styles.buttonContent}>
+                        <Text style={styles.buttonText}>{this._getTitle(get(item, 'title'))}</Text>
+                        <View style={styles.buttonIconWrapper}>
+                          <Icon name="add" iconType="MaterialIcons" color="#357ce6" size={23} />
+                        </View>
+                      </View>
+                    </MainButton>
                   </View>
-                </MainButton>
-              </View>
 
-              <View style={styles.priceWrapper}>
-                {get(item, 'localizedPrice', null) && (
-                  <Text style={styles.priceText}>{get(item, 'localizedPrice', 0)}</Text>
-                )}
-              </View>
-            </View>
-          ))
+                  <View style={styles.priceWrapper}>
+                    {get(item, 'localizedPrice', null) && (
+                      <Text style={styles.priceText}>{get(item, 'localizedPrice', 0)}</Text>
+                    )}
+                  </View>
+                </View>
+              ))
+            )}
+          </View>
         )}
-      </View>
+      </InAppPurchaseContainer>
     );
   }
 }

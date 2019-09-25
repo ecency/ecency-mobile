@@ -8,6 +8,7 @@ import {
   ActivityIndicator,
   Linking,
 } from 'react-native';
+import get from 'lodash/get';
 
 // Constants
 import LIGHT_COVER_IMAGE from '../../../assets/default_cover_image.png';
@@ -21,6 +22,7 @@ import { DropdownButton } from '../../dropdownButton';
 
 // Utils
 import { makeCountFriendly } from '../../../utils/formatter';
+import { getResizedImage } from '../../../utils/image';
 
 // Styles
 import styles from './profileSummaryStyles';
@@ -44,7 +46,7 @@ class ProfileSummaryView extends PureComponent {
 
   // Component Functions
   _handleOnPressLink = url => {
-    Linking.openURL(url);
+    if (url) Linking.openURL(url);
   };
 
   _handleOnDropdownSelect = index => {
@@ -60,13 +62,14 @@ class ProfileSummaryView extends PureComponent {
   render() {
     const { isShowPercentText } = this.state;
     const {
-      coverImage,
       date,
+      about,
       followerCount,
       followingCount,
       handleFollowUnfollowUser,
       handleOnFavoritePress,
       handleOnFollowsPress,
+      handleOnPressProfileEdit,
       handleUIChange,
       hoursRC,
       hoursVP,
@@ -78,54 +81,47 @@ class ProfileSummaryView extends PureComponent {
       isMuted,
       isOwnProfile,
       isProfileLoading,
-      link,
-      location,
       percentRC,
       percentVP,
     } = this.props;
-    const dropdownOpions = [];
+    const dropdownOptions = [];
     const votingPowerHoursText = hoursVP && `• Full in ${hoursVP} hours`;
     const votingPowerText = `Voting power: ${percentVP}% ${votingPowerHoursText || ''}`;
     const rcPowerHoursText = hoursRC && `• Full in ${hoursRC} hours`;
     const rcPowerText = `RCs: ${percentRC}% ${rcPowerHoursText || ''}`;
+    const link = get(about, 'website', '');
+    const location = get(about, 'location', '');
+
+    const ABOUT_DATA = [
+      { id: 1, text: date, icon: 'calendar' },
+      { id: 2, text: link, icon: 'earth', onPress: () => this._handleOnPressLink(link) },
+      { id: 3, text: location, icon: 'near-me' },
+    ];
 
     const rowLength =
       (location ? location.length : 0) + (link ? link.length : 0) + (date ? date.length : 0);
     const isColumn = rowLength && DEVICE_WIDTH / rowLength <= 7.3;
 
     const followButtonIcon = !isFollowing ? 'account-plus' : 'account-minus';
-    const coverImageUrl = `https://steemitimages.com/400x0/${coverImage}`;
+    const coverImageUrl = getResizedImage(get(about, 'cover_image'), 400);
 
-    dropdownOpions.push(!isMuted ? 'MUTE' : 'UNMUTE');
+    dropdownOptions.push(!isMuted ? 'MUTE' : 'UNMUTE');
 
     return (
       <Fragment>
         <View style={[isColumn ? styles.textWithIconWrapperColumn : styles.textWithIconWrapper]}>
-          {!!location && (
-            <TextWithIcon
-              text={location}
-              iconName="near-me"
-              iconType="MaterialIcons"
-              iconSize={14}
-            />
-          )}
-          {!!link && (
-            <TextWithIcon
-              isClickable
-              onPress={() => this._handleOnPressLink(link)}
-              text={link}
-              iconSize={14}
-              iconName="earth"
-              iconType="MaterialCommunityIcons"
-            />
-          )}
-          {!!date && (
-            <TextWithIcon
-              text={date}
-              iconName="calendar"
-              iconType="MaterialCommunityIcons"
-              iconSize={14}
-            />
+          {ABOUT_DATA.map(item =>
+            get(item, 'text', null) ? (
+              <TextWithIcon
+                isClickable={get(item, 'onPress')}
+                onPress={get(item, 'onPress')}
+                key={get(item, 'id')}
+                text={item.text}
+                iconSize={14}
+                iconName={item.icon}
+                iconType="MaterialCommunityIcons"
+              />
+            ) : null,
           )}
         </View>
         <Image
@@ -184,7 +180,7 @@ class ProfileSummaryView extends PureComponent {
               </TouchableOpacity>
             </Fragment>
           </View>
-          {isLoggedIn && !isOwnProfile && (
+          {isLoggedIn && !isOwnProfile ? (
             <View style={styles.rightIcons}>
               <IconButton
                 backgroundColor="transparent"
@@ -217,10 +213,23 @@ class ProfileSummaryView extends PureComponent {
                   isHasChildIcon
                   noHighlight
                   onSelect={this._handleOnDropdownSelect}
-                  options={dropdownOpions}
+                  options={dropdownOptions}
                 />
               )}
             </View>
+          ) : (
+            isOwnProfile && (
+              <Fragment>
+                <IconButton
+                  backgroundColor="transparent"
+                  color="#c1c5c7"
+                  iconType="MaterialCommunityIcons"
+                  name="pencil"
+                  onPress={handleOnPressProfileEdit}
+                  size={20}
+                />
+              </Fragment>
+            )
           )}
         </View>
       </Fragment>

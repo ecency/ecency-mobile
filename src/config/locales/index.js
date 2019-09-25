@@ -10,6 +10,9 @@ export default {
   'lt-LT': require('./lt-LT.json'),
   'pt-PT': require('./pt-PT.json'),
   'fa-IR': require('./fa-IR.json'),
+  'az-AZ': require('./az-AZ.json'),
+  'ro-RO': require('./ro-RO.json'),
+  'vi-VN': require('./vi-VN.json'),
 };
 
 export const locales = [
@@ -24,4 +27,7 @@ export const locales = [
   { id: 'lt-LT', name: 'Lithuanian' },
   { id: 'pt-PT', name: 'Porteguese' },
   { id: 'fa-IR', name: 'Persian' },
+  { id: 'az-AZ', name: 'Azerbaijani' },
+  { id: 'ro-RO', name: 'Romanian' },
+  { id: 'vi-VN', name: 'Vietnamese' },
 ];

@@ -20,16 +20,21 @@
     "ignore": "abaikan anda",
     "reblog": "ulang siar pos anda",
     "transfer": "Pindahkan Steem",
-    "comingsoon": "Papan Pendahulu akan datang tidak lama lagi!",
+    "comingsoon": "Feature is coming soon!",
     "notification": "Pemberitahuan",
     "leaderboard": "Papan Pendahulu",
     "epoint": "Mata ganjaran",
-    "leaderboard_title": "Pengguna tertinggi harian",
+    "leaderboard_title": "Top Users",
     "recent": "Terbaru",
     "yesterday": "Semalam",
     "this_week": "Minggu ini",
     "this_month": "Bulan Ini",
     "older_then": "Lebih dari sebulan"
+  },
+  "leaderboard": {
+    "daily": "Daily",
+    "weekly": "Weekly",
+    "monthly": "Monthly"
   },
   "points": {
     "post": "Hantar",
@@ -50,7 +55,7 @@
     "vote_title": "Mata ganjaran -> vote_title",
     "reblog_title": "Mata ganjaran -> reblog_title",
     "login_title": "Mata ganjaran log masuk",
-    "checkin_title": "Mata ganjaran kegunaan",
+    "checkin_title": "Points for heartbeat",
     "checkin_extra_title": "Bonus kegunaan",
     "no_activity": "Tiada aktiviti di sini!",
     "outgoing_transfer_description": "",
@@ -62,9 +67,11 @@
     "reblog_desc": "Mengulang siar post yang anda sukai kepada kawan, anda juga memgumpul 1 mata.",
     "login_desc": "Apabila anda log masuk eSteem, anda akan diberi 100 mata secara otomatik.",
     "checkin_extra_desc": "Pengguna app dengan konsisten, anda mungkin akan dapat 10 mata secara percuma. Lebih memgguna, lebih ganjaran.",
-    "dropdown_transfer": "Transfer",
+    "dropdown_transfer": "Gift",
     "dropdown_promote": "Promote",
-    "dropdown_boost": "Boost"
+    "dropdown_boost": "Boost",
+    "from": "From",
+    "to": "To"
   },
   "messages": {
     "comingsoon": "Ciri-ciri mesej yang akan datang tidak lama lagi!"
@@ -90,7 +97,13 @@
     "days": "hari",
     "day": "hari",
     "steem_dollars": "Steem Dollars",
-    "savings": "Simpanan"
+    "savings": "Simpanan",
+    "edit": {
+      "display_name": "Display Name",
+      "about": "About",
+      "location": "Location",
+      "website": "Website"
+    }
   },
   "settings": {
     "settings": "Tetapan",
@@ -121,11 +134,12 @@
       "always_warn": "Beri amaran dahulu"
     },
     "feedback_success": "E-mel berjaya dibuka",
-    "feedback_fail": "Klien e-mel tidak dapat dibuka"
+    "feedback_fail": "Klien e-mel tidak dapat dibuka",
+    "server_fail": "Server not available"
   },
   "voters": {
     "voters_info": "Info pengundi",
-    "no_user": "Pengguna tidak wujud."
+    "no_user": "User is not found."
   },
   "login": {
     "signin": "Log masuk",
@@ -190,7 +204,7 @@
     "fail": "Gagal!",
     "move": "Pindah",
     "move_question": "Adakah anda pasti hendak mengalih ke Draf?",
-    "success_shared": "Pos anda berjaya disiarkan",
+    "success_shared": "Your post successfully shared",
     "success_moved": "Pindah kepada Draf",
     "permission_denied": "Tidak dibenarkan",
     "permission_text": "Sila pergi ke tetapan telefon dan mengubah keizinan keyakinan eSteem app.",
@@ -211,14 +225,19 @@
     "same_user": "Pengguna telah ditambah ke dalam senarai",
     "unknow_error": "An error occurred",
     "error": "Error",
-    "fetch_error": "Fetching data from server failed, please try again or notify us at info@esteem.app"
+    "fetch_error": "Fetching data failed, please try again or notify us at info@esteem.app",
+    "connection_fail": "Connection Failed!",
+    "connection_success": "Successfully connected!",
+    "checking": "Cheking...",
+    "not_existing_post": "The post does not exist! Please check permlink and author."
   },
   "post": {
-    "reblog_alert": "Adakah anda ingin menulang siar?",
+    "reblog_alert": "Are you sure, you want to reblog?",
     "removed_hint": "Pos tersebut dipadamkan oleh",
     "copy_link": "Salin pautan",
     "reblogged": "reblogged by",
-    "sponsored": "sponsored"
+    "sponsored": "SPONSORED",
+    "open_thread": "Open Thread"
   },
   "drafts": {
     "title": "Draf",
@@ -288,20 +307,25 @@
   "transfer": {
     "from": "Daripada",
     "to": "Kepada",
+    "amount_information": "Drag the slider to adjust the amount",
     "amount": "Jumlah",
     "memo": "Memo",
-    "information": "Adakah awda pasti hendak memindahkan dana?",
+    "information": "Are you sure to transfer funds?",
     "amount_desc": "Baki",
     "memo_desc": "Memo ini adalah umum",
     "to_placeholder": "Nama Pengguna",
     "memo_placeholder": "Masukkan catatan anda di sini",
     "transfer_token": "Pindah",
-    "points": "Pindahan mata ganjaran",
+    "points": "Gift ESTM to someone",
     "transfer_to_saving": "Pindah kepada simpanan",
     "powerUp": "Mengekuasai",
     "withdraw_to_saving": "Keluarkan kepada penyimpanan",
     "steemconnect_title": "Steemconnect Transfer",
-    "next": "SETERUSNYA"
+    "next": "SETERUSNYA",
+    "delegate": "Delegate",
+    "power_down": "Power Down",
+    "withdraw_steem": "Withdraw Steem",
+    "withdraw_sbd": "Withdraw Steem Dollar"
   },
   "boost": {
     "title": "Get eSteem Points",
@@ -314,9 +338,17 @@
     "user": "User",
     "permlink": "Post",
     "permlinkPlaceholder": "author/permlink",
-    "information": "Are you sure to transfer to promote?"
+    "information": "Are you sure to promote?"
   },
   "boostPost": {
     "title": "Boost"
+  },
+  "voters_dropdown": {
+    "rewards": "REWARDS",
+    "percent": "PERCENT",
+    "time": "TIME"
+  },
+  "reblog": {
+    "title": "Reblog Info"
   }
 }

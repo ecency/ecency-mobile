@@ -20,20 +20,25 @@
     "ignore": "te-a ignorat",
     "reblog": "a redistribuit postarea ta",
     "transfer": "steem transferat",
-    "comingsoon": "Clasamentul va fi disponibil în curând!",
+    "comingsoon": "Feature is coming soon!",
     "notification": "Notificări",
     "leaderboard": "Clasament",
     "epoint": "Puncte",
-    "leaderboard_title": "Utilizatori de Top Zilnic",
+    "leaderboard_title": "Top utilizatori",
     "recent": "Recent",
     "yesterday": "Ieri",
     "this_week": "Săptămâna aceasta",
     "this_month": "Luna Aceasta",
     "older_then": "Mai vechi de o lună"
   },
+  "leaderboard": {
+    "daily": "Zilnic",
+    "weekly": "Săptămânal",
+    "monthly": "Lunar"
+  },
   "points": {
     "post": "Postare",
-    "esteemPoints": "eSteem Points",
+    "esteemPoints": "Puncte eSteem",
     "comment": "Comentariu",
     "checkin": "Logare",
     "vote": "Vot",
@@ -50,7 +55,7 @@
     "vote_title": "Puncte pentru vot",
     "reblog_title": "Puncte pentru reblog",
     "login_title": "Puncte pentru autentificare",
-    "checkin_title": "Puncte pentru utilizare",
+    "checkin_title": "Points for heartbeat",
     "checkin_extra_title": "Bonus de utilizare",
     "no_activity": "Nici o activitate aici!",
     "outgoing_transfer_description": "",
@@ -62,9 +67,11 @@
     "reblog_desc": "  Distribuie postările care îți plac pentru prietenii tăi și câștigă 1 punct.",
     "login_desc": "Când te autentifici în aplicația eSteem câștigi 100 de puncte automat.",
     "checkin_extra_desc": "Utilizarea constantă a aplicației îți oferă șanse în plus pentru câștigarea a 10 puncte. Fii cât mai activ și câștigă mai mult.",
-    "dropdown_transfer": "Transfer",
-    "dropdown_promote": "Promote",
-    "dropdown_boost": "Boost"
+    "dropdown_transfer": "Cadou",
+    "dropdown_promote": "Promovează",
+    "dropdown_boost": "Boost",
+    "from": "De la",
+    "to": "Pentru"
   },
   "messages": {
     "comingsoon": "Funcția mesaje va fi disponibilă in curând!"
@@ -90,7 +97,13 @@
     "days": "zile",
     "day": "zi",
     "steem_dollars": "Steem Dolari",
-    "savings": "Economii"
+    "savings": "Economii",
+    "edit": {
+      "display_name": "Display Name",
+      "about": "About",
+      "location": "Location",
+      "website": "Website"
+    }
   },
   "settings": {
     "settings": "Setări",
@@ -109,7 +122,7 @@
       "transfers": "Transferuri"
     },
     "pincode": "Pincode",
-    "reset_pin": "Reset Pin Code",
+    "reset_pin": "Resetare Cod Pin",
     "reset": "Resetare",
     "nsfw_content": "Conținut NSFW",
     "send_feedback": "Trimite Feedback",
@@ -121,11 +134,12 @@
       "always_warn": "Avertizează întotdeauna"
     },
     "feedback_success": "E-mail deschis cu succes",
-    "feedback_fail": "Email-ul nu a putut fi accesat"
+    "feedback_fail": "Email-ul nu a putut fi accesat",
+    "server_fail": "Serverul este indisponibil"
   },
   "voters": {
     "voters_info": "Detalii votanți",
-    "no_user": "Nu s-a găsit nici un utilizator."
+    "no_user": "Utilizatorul nu a fost găsit."
   },
   "login": {
     "signin": "Loghează-te",
@@ -209,16 +223,21 @@
     "confirm": "Confirmă",
     "removed": "Şters",
     "same_user": "Utilizator adăugat deja la listă",
-    "unknow_error": "An error occurred",
-    "error": "Error",
-    "fetch_error": "Fetching data from server failed, please try again or notify us at info@esteem.app"
+    "unknow_error": "A intervenit o eroare",
+    "error": "Eroare",
+    "fetch_error": "Fetching data failed, please try again or notify us at info@esteem.app",
+    "connection_fail": "Connectare Eșuată!",
+    "connection_success": "Conectat cu succes!",
+    "checking": "Cheking...",
+    "not_existing_post": "The post does not exist! Please check permlink and author."
   },
   "post": {
-    "reblog_alert": "Ești sigur că vrei să redistribui?",
+    "reblog_alert": "Are you sure, you want to reblog?",
     "removed_hint": "Postarea a fost eliminată de către",
     "copy_link": "Copiere link",
-    "reblogged": "reblogged by",
-    "sponsored": "sponsored"
+    "reblogged": "redistribuit de",
+    "sponsored": "SPONSORED",
+    "open_thread": "Open Thread"
   },
   "drafts": {
     "title": "Schițe",
@@ -268,7 +287,7 @@
     "reply": "răspunde",
     "share": "distribuire",
     "bookmarks": "adaugă la bookmarks",
-    "promote": "promote",
+    "promote": "promovează",
     "boost": "boost"
   },
   "deep_link": {
@@ -288,35 +307,48 @@
   "transfer": {
     "from": "De la",
     "to": "Către",
+    "amount_information": "Drag the slider to adjust the amount",
     "amount": "Sumă",
     "memo": "Notă",
-    "information": "Ești sigur că vrei să transferi la fonduri?",
+    "information": "Are you sure to transfer funds?",
     "amount_desc": "Sold",
     "memo_desc": "Această notă este publică",
     "to_placeholder": "Nume de utilizator",
     "memo_placeholder": "Introdu comentariul tău aici",
     "transfer_token": "Transfer",
-    "points": "Transfer Puncte",
+    "points": "Gift ESTM to someone",
     "transfer_to_saving": "Tranferă la economii",
     "powerUp": "Power Up",
     "withdraw_to_saving": "Retrage la economii",
     "steemconnect_title": "Transfer Steemconnect",
-    "next": "URMĂTORUL"
+    "next": "URMĂTORUL",
+    "delegate": "Delegare",
+    "power_down": "Power Down",
+    "withdraw_steem": "Retrage Steem",
+    "withdraw_sbd": "Retrage Steem Dolar"
   },
   "boost": {
     "title": "Get eSteem Points",
     "buy": "GET ESTM",
-    "next": "NEXT"
+    "next": "URMĂTORUL"
   },
   "promote": {
-    "title": "Promote",
-    "days": "days",
-    "user": "User",
-    "permlink": "Post",
-    "permlinkPlaceholder": "author/permlink",
-    "information": "Are you sure to transfer to promote?"
+    "title": "Promovează",
+    "days": "zile",
+    "user": "Utilizator",
+    "permlink": "Postare",
+    "permlinkPlaceholder": "autor/permlink",
+    "information": "Are you sure to promote?"
   },
   "boostPost": {
     "title": "Boost"
+  },
+  "voters_dropdown": {
+    "rewards": "RECOMPENSE",
+    "percent": "PROCENT",
+    "time": "TIME"
+  },
+  "reblog": {
+    "title": "Reblog Info"
   }
 }

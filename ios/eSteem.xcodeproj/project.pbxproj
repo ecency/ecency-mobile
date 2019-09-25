@@ -82,6 +82,7 @@
 		EDFF927300154818B0BF6EA4 /* libAppCenterReactNativePush.a in Frameworks */ = {isa = PBXBuildFile; fileRef = D0E465F10CD4424E9B80CFD3 /* libAppCenterReactNativePush.a */; };
 		F02CA133DF337C8C8FF1753C /* libPods-eSteem-tvOSTests.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 38204CFB05512D7FC94CF03D /* libPods-eSteem-tvOSTests.a */; };
 		FA64A93BC95743E58F77F404 /* FontAwesome5_Solid.ttf in Resources */ = {isa = PBXBuildFile; fileRef = 2DEB48DE97FD4A7585118CB4 /* FontAwesome5_Solid.ttf */; };
+		06625C4421A949818C7F02C9 /* Fontisto.ttf in Resources */ = {isa = PBXBuildFile; fileRef = C2DEBF9FC196418CA61B9CA9 /* Fontisto.ttf */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -563,6 +564,7 @@
 		F202583F54E7475B0E1F9020 /* Pods-eSteem.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-eSteem.debug.xcconfig"; path = "Target Support Files/Pods-eSteem/Pods-eSteem.debug.xcconfig"; sourceTree = "<group>"; };
 		F3D23ACB36194C40BFB26B7A /* Roboto-medium.ttf */ = {isa = PBXFileReference; explicitFileType = undefined; fileEncoding = 9; includeInIndex = 0; lastKnownFileType = unknown; name = "Roboto-medium.ttf"; path = "../src/assets/Fonts/Roboto-medium.ttf"; sourceTree = "<group>"; };
 		F81DF68DDD5447119FDA7F5F /* EvilIcons.ttf */ = {isa = PBXFileReference; explicitFileType = undefined; fileEncoding = 9; includeInIndex = 0; lastKnownFileType = unknown; name = EvilIcons.ttf; path = ../src/assets/Fonts/EvilIcons.ttf; sourceTree = "<group>"; };
+		C2DEBF9FC196418CA61B9CA9 /* Fontisto.ttf */ = {isa = PBXFileReference; name = "Fontisto.ttf"; path = "../node_modules/react-native-vector-icons/Fonts/Fontisto.ttf"; sourceTree = "<group>"; fileEncoding = undefined; lastKnownFileType = unknown; explicitFileType = undefined; includeInIndex = 0; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -990,6 +992,7 @@
 				9A6F7F46844C4CAF9A9ABBDD /* Roboto.ttf */,
 				434B140115EF4DE49D4CD6BA /* rubicon-icon-font.ttf */,
 				F3D23ACB36194C40BFB26B7A /* Roboto-medium.ttf */,
+				C2DEBF9FC196418CA61B9CA9 /* Fontisto.ttf */,
 			);
 			name = Resources;
 			sourceTree = "<group>";
@@ -1661,6 +1664,7 @@
 				C872C215BA9C4FFF97A12F81 /* Roboto.ttf in Resources */,
 				CF34742E37F4471D813F00E4 /* rubicon-icon-font.ttf in Resources */,
 				5FA7E43947714B96866CAE94 /* Roboto-medium.ttf in Resources */,
+				06625C4421A949818C7F02C9 /* Fontisto.ttf in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -1961,7 +1965,7 @@
 				CODE_SIGN_ENTITLEMENTS = eSteem/eSteem.entitlements;
 				CODE_SIGN_IDENTITY = "iPhone Developer";
 				CODE_SIGN_STYLE = Manual;
-				CURRENT_PROJECT_VERSION = 3;
+				CURRENT_PROJECT_VERSION = 7;
 				DEAD_CODE_STRIPPING = NO;
 				DEVELOPMENT_TEAM = 75B6RXTKGT;
 				GCC_NO_COMMON_BLOCKS = NO;
@@ -2004,7 +2008,7 @@
 				CODE_SIGN_ENTITLEMENTS = eSteem/eSteem.entitlements;
 				CODE_SIGN_IDENTITY = "iPhone Distribution";
 				CODE_SIGN_STYLE = Manual;
-				CURRENT_PROJECT_VERSION = 3;
+				CURRENT_PROJECT_VERSION = 7;
 				DEVELOPMENT_TEAM = 75B6RXTKGT;
 				GCC_NO_COMMON_BLOCKS = NO;
 				HEADER_SEARCH_PATHS = (

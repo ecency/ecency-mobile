@@ -20,16 +20,21 @@
     "ignore": "đã bỏ qua bạn",
     "reblog": "đã đăng lại bài viết của bạn",
     "transfer": "steem được chuyển khoản",
-    "comingsoon": "Sắp có tính năng bảng xếp hạng!",
+    "comingsoon": "Feature is coming soon!",
     "notification": "Thông báo",
     "leaderboard": "Bảng xếp hạng",
     "epoint": "Các điểm thưởng",
-    "leaderboard_title": "Người dùng tiêu biểu hàng ngày",
+    "leaderboard_title": "Top Users",
     "recent": "Gần đây",
     "yesterday": "Hôm qua",
     "this_week": "Tuần này",
     "this_month": "Tháng này",
     "older_then": "Cách đây hơn 1 tháng"
+  },
+  "leaderboard": {
+    "daily": "Daily",
+    "weekly": "Weekly",
+    "monthly": "Monthly"
   },
   "points": {
     "post": "Bài đăng",
@@ -50,7 +55,7 @@
     "vote_title": "Các điểm cho bình chọn",
     "reblog_title": "Các điểm cho đăng lại bài viết",
     "login_title": "Các điểm thưởng cho đăng nhập",
-    "checkin_title": "Các điểm thưởng cho việc sử dụng",
+    "checkin_title": "Points for heartbeat",
     "checkin_extra_title": "Phần thưởng cho việc sử dụng",
     "no_activity": "Không có hoạt động nào ở đây!",
     "outgoing_transfer_description": "",
@@ -62,9 +67,11 @@
     "reblog_desc": "  Chia sẻ bài viết nào bạn thích với bạn bè của bạn và kiếm được 1 điểm.",
     "login_desc": "Khi bạn đăng nhập vào ứng dụng eSteem, tự động bạn có được 100 điểm thưởng.",
     "checkin_extra_desc": "Việc sử dụng ứng dụng lâu dài sẽ cho bạn thêm nhiều cơ hội kiếm thêm 10 điểm thưởng, hãy tích cực hơn và kiếm thêm nhiều điểm thưởng hơn.",
-    "dropdown_transfer": "Chuyển khoản",
+    "dropdown_transfer": "Gift",
     "dropdown_promote": "Quảng bá",
-    "dropdown_boost": "Tăng tốc"
+    "dropdown_boost": "Tăng tốc",
+    "from": "From",
+    "to": "To"
   },
   "messages": {
     "comingsoon": "Tính năng tin nhắn sẽ được cập nhật sớm!"
@@ -90,7 +97,13 @@
     "days": "ngày",
     "day": "ngày",
     "steem_dollars": "Steem Dollars",
-    "savings": "Tiết kiệm"
+    "savings": "Tiết kiệm",
+    "edit": {
+      "display_name": "Display Name",
+      "about": "About",
+      "location": "Location",
+      "website": "Website"
+    }
   },
   "settings": {
     "settings": "Cài đặt",
@@ -121,11 +134,12 @@
       "always_warn": "Luôn cảnh báo"
     },
     "feedback_success": "Email đã được mở thành công",
-    "feedback_fail": "Email mà khách hàng không thể mở"
+    "feedback_fail": "Email mà khách hàng không thể mở",
+    "server_fail": "Server not available"
   },
   "voters": {
     "voters_info": "Thông tin người bình chọn",
-    "no_user": "Không tìm thấy người dùng nào."
+    "no_user": "User is not found."
   },
   "login": {
     "signin": "Đăng nhập",
@@ -190,7 +204,7 @@
     "fail": "Thất bại!",
     "move": "Di chuyển",
     "move_question": "Bạn có chắc chắn để chuyển đến những bản dự thảo?",
-    "success_shared": "Bài viết của bạn đã được chia sẻ thành công",
+    "success_shared": "Your post successfully shared",
     "success_moved": "Được chuyển đến bản dự thảo",
     "permission_denied": "Quyền truy cập bị từ chối",
     "permission_text": "Vui lòng mở cài đặt điện thoại và thay đổi quyền truy cập cho ứng dụng eSteem.",
@@ -211,14 +225,19 @@
     "same_user": "Người dùng này đã được thêm vào danh sách",
     "unknow_error": "Đã xảy ra lỗi",
     "error": "Lỗi",
-    "fetch_error": "Tìm nạp dữ liệu từ máy chủ không thành công, xin vui lòng thử lại hoặc thông báo cho chúng tôi tại địa chỉ info@esteem.app"
+    "fetch_error": "Fetching data failed, please try again or notify us at info@esteem.app",
+    "connection_fail": "Connection Failed!",
+    "connection_success": "Successfully connected!",
+    "checking": "Cheking...",
+    "not_existing_post": "The post does not exist! Please check permlink and author."
   },
   "post": {
-    "reblog_alert": "Bạn có chắc chắn muốn đăng lại không?",
+    "reblog_alert": "Are you sure, you want to reblog?",
     "removed_hint": "Bài viết đã bị xóa bởi",
     "copy_link": "Sao chép liên kết",
     "reblogged": "đã được đăng lại bởi",
-    "sponsored": "được tài trợ"
+    "sponsored": "SPONSORED",
+    "open_thread": "Open Thread"
   },
   "drafts": {
     "title": "Bản nháp",
@@ -286,21 +305,27 @@
     "age": "tuổi"
   },
   "transfer": {
+    "from": "Từ",
     "to": "Đến",
+    "amount_information": "Drag the slider to adjust the amount",
     "amount": "Số lượng",
     "memo": "Bản ghi nhớ",
-    "information": "Bạn có chắc chắn chuyển tiền?",
+    "information": "Are you sure to transfer funds?",
     "amount_desc": "Số dư",
     "memo_desc": "Bản ghi nhớ này được công khai",
     "to_placeholder": "Tên người dùng",
     "memo_placeholder": "Nhập ghi chú của bạn vào đây",
     "transfer_token": "Chuyển khoản",
-    "points": "Chuyển điểm",
+    "points": "Gift ESTM to someone",
     "transfer_to_saving": "Chuyển đến phần tiết kiệm",
     "powerUp": "Tăng lên",
     "withdraw_to_saving": "Rút về phần tiết kiệm",
     "steemconnect_title": "Chuyển khoản Steemconnect",
-    "next": "KẾ TIẾP"
+    "next": "KẾ TIẾP",
+    "delegate": "Delegate",
+    "power_down": "Power Down",
+    "withdraw_steem": "Withdraw Steem",
+    "withdraw_sbd": "Withdraw Steem Dollar"
   },
   "boost": {
     "title": "Được Các Điểm eSteem",
@@ -313,9 +338,17 @@
     "user": "Người dùng",
     "permlink": "Bài đăng",
     "permlinkPlaceholder": "tác giả/đường dẫn về nội dung",
-    "information": "Bạn có chắc chắn chuyển tiền để quảng bá?"
+    "information": "Are you sure to promote?"
   },
   "boostPost": {
     "title": "Tăng tốc"
+  },
+  "voters_dropdown": {
+    "rewards": "REWARDS",
+    "percent": "PERCENT",
+    "time": "TIME"
+  },
+  "reblog": {
+    "title": "Reblog Info"
   }
 }

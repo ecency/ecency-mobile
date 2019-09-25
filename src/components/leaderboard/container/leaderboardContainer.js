@@ -48,7 +48,7 @@ class LeaderboardContainer extends PureComponent {
     });
   };
 
-  _fetchLeaderBoard = async () => {
+  _fetchLeaderBoard = async selectedFilter => {
     const { intl, isConnected } = this.props;
     let users;
 
@@ -57,7 +57,7 @@ class LeaderboardContainer extends PureComponent {
     this.setState({ refreshing: true });
 
     try {
-      users = await getLeaderboard();
+      users = await getLeaderboard(selectedFilter);
     } catch (error) {
       Alert.alert(
         intl.formatMessage({ id: 'alert.error' }),

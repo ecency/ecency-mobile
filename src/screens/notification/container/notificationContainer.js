@@ -1,7 +1,7 @@
 import React, { Component } from 'react';
 import { Alert } from 'react-native';
 import { connect } from 'react-redux';
-import get from 'lodash/get';
+import { get, some, isEmpty } from 'lodash';
 import { injectIntl } from 'react-intl';
 
 // Actions and Services
@@ -87,13 +87,13 @@ class NotificationContainer extends Component {
       dispatch(updateUnreadActivityCount(result.unread));
     });
 
-    if (permlink) {
+    if (permlink && author) {
       routeName = ROUTES.SCREENS.POST;
       key = permlink;
       params = {
         author,
         permlink,
-        isHasParentPost: get(data, 'parent_permlink'),
+        isHasParentPost: get(data, 'parent_permlink') || get(data, 'type') === 'mention',
       };
     } else if (type === 'follow') {
       routeName = ROUTES.SCREENS.PROFILE;
@@ -124,9 +124,9 @@ class NotificationContainer extends Component {
     this.setState({ isNotificationRefreshing: true });
 
     markActivityAsRead(username)
-      .then(result => {
-        dispatch(updateUnreadActivityCount(result.unread));
+      .then(() => {
         const updatedNotifications = notifications.map(item => ({ ...item, read: 1 }));
+        dispatch(updateUnreadActivityCount(0));
         this.setState({ notifications: updatedNotifications, isNotificationRefreshing: false });
       })
       .catch(() => {
@@ -134,6 +134,7 @@ class NotificationContainer extends Component {
           intl.formatMessage({ id: 'alert.error' }),
           intl.formatMessage({ d: 'alert.unknow_error' }),
         );
+        this.setState({ isNotificationRefreshing: false });
       });
   };
 

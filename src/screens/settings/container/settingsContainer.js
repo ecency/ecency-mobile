@@ -6,6 +6,7 @@ import Push from 'appcenter-push';
 import { Client } from 'dsteem';
 import VersionNumber from 'react-native-version-number';
 import Config from 'react-native-config';
+import { injectIntl } from 'react-intl';
 
 // Realm
 import {
@@ -62,6 +63,7 @@ class SettingsContainer extends Component {
     this.state = {
       serverList: [],
       isNotificationMenuOpen: props.isNotificationSettingsOpen,
+      isLoading: false,
     };
   }
 
@@ -71,7 +73,21 @@ class SettingsContainer extends Component {
       .then(resp => {
         this.setState({ serverList: resp });
       })
-      .catch(() => {});
+      .catch(() =>
+        this.setState({
+          serverList: [
+            'https://rpc.esteem.app',
+            'https://api.steemit.com',
+            'https://steemd.previx.io',
+            'https://anyx.io',
+            'https://rpc.buildteam.io',
+            'https://rpc.steemviz.com',
+            'https://api.steem.house',
+            'https://steemd.pevo.science',
+            'https://steemd.minnowsupportproject.org',
+          ],
+        }),
+      );
   }
 
   // Component Functions
@@ -103,22 +119,26 @@ class SettingsContainer extends Component {
   };
 
   _changeApi = async action => {
-    const { dispatch, selectedApi } = this.props;
+    const { dispatch, selectedApi, intl } = this.props;
     const { serverList } = this.state;
     const server = serverList[action];
     let serverResp;
     let isError = false;
+    let alertMessage;
     const client = new Client(server, { timeout: 3000 });
+    dispatch(setApi(''));
 
-    dispatch(setApi(server));
+    this.setState({ isLoading: true });
 
     try {
       serverResp = await client.database.getDynamicGlobalProperties();
     } catch (e) {
       isError = true;
-      dispatch(toastNotification('Connection Failed!'));
+      alertMessage = 'alert.connection_fail';
     } finally {
-      if (!isError) dispatch(toastNotification('Succesfuly connected!'));
+      if (!isError) {
+        alertMessage = 'alert.connection_success';
+      }
     }
 
     if (!isError) {
@@ -127,7 +147,8 @@ class SettingsContainer extends Component {
       const isAlive = localTime - serverTime < 15000;
 
       if (!isAlive) {
-        dispatch(toastNotification('Server not available'));
+        alertMessage = 'settings.server_fail';
+
         isError = true;
 
         return;
@@ -138,8 +159,12 @@ class SettingsContainer extends Component {
       dispatch(setApi(selectedApi));
     } else {
       await setServer(server);
+      dispatch(setApi(server));
       checkClient();
     }
+
+    this.setState({ isLoading: false });
+    dispatch(toastNotification(intl.formatMessage({ id: alertMessage })));
   };
 
   _currencyChange = action => {
@@ -340,7 +365,7 @@ class SettingsContainer extends Component {
   };
 
   render() {
-    const { serverList, isNotificationMenuOpen } = this.state;
+    const { serverList, isNotificationMenuOpen, isLoading } = this.state;
 
     return (
       <SettingsScreen
@@ -348,6 +373,7 @@ class SettingsContainer extends Component {
         handleOnChange={this._handleOnChange}
         isNotificationMenuOpen={isNotificationMenuOpen}
         handleOnButtonPress={this._handleButtonPress}
+        isLoading={isLoading}
         {...this.props}
       />
     );
@@ -377,4 +403,4 @@ const mapStateToProps = state => ({
   currentAccount: state.account.currentAccount,
 });
 
-export default connect(mapStateToProps)(SettingsContainer);
+export default injectIntl(connect(mapStateToProps)(SettingsContainer));

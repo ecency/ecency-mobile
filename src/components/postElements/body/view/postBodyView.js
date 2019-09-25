@@ -2,8 +2,6 @@ import React, { PureComponent, Fragment } from 'react';
 import { Dimensions, Linking, Alert, TouchableOpacity, Text } from 'react-native';
 import { withNavigation } from 'react-navigation';
 import { injectIntl } from 'react-intl';
-import FastImage from 'react-native-fast-image';
-import { proxifyImageSrc } from '@esteemapp/esteem-render-helpers';
 
 import HTML from 'react-native-render-html';
 import { getParentsTagsRecursively } from 'react-native-render-html/src/HTMLUtils';
@@ -13,7 +11,6 @@ import styles from './postBodyStyles';
 
 // Constants
 import { default as ROUTES } from '../../../../constants/routeNames';
-import DEFAULT_IMAGE from '../../../../assets/no_image.png';
 // Components
 
 const WIDTH = Dimensions.get('window').width;
@@ -153,18 +150,6 @@ class PostBody extends PureComponent {
       : { width: WIDTH, height: 216 };
 
     const _customRenderer = {
-      img: (htmlAttribs, children, convertedCSSStyles, passProps) => (
-        <FastImage
-          key={passProps.key}
-          defaultSource={DEFAULT_IMAGE}
-          source={{
-            uri: proxifyImageSrc(htmlAttribs.src, _initialDimensions.width, 0),
-            priority: FastImage.priority.normal,
-          }}
-          style={isComment ? styles.commentImage : styles.postImage}
-          resizeMode={FastImage.resizeMode.contain}
-        />
-      ),
       a: (htmlAttribs, children, convertedCSSStyles, passProps) => {
         if (passProps.parentWrapper === 'Text') {
           return (
@@ -186,6 +171,9 @@ class PostBody extends PureComponent {
             {children}
           </TouchableOpacity>
         );
+      },
+      br: (htmlAttribs, children, passProps) => {
+        return <Text {...passProps}>{'\n'}</Text>;
       },
     };
 
