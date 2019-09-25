@@ -5,10 +5,10 @@
     "comment_benefactor_reward": "コメント寄与者報酬",
     "claim_reward_balance": "報酬残高の請求",
     "transfer": "送金",
-    "transfer_to_vesting": "Transfer To Vesting",
+    "transfer_to_vesting": "パワーアップ",
     "transfer_from_savings": "貯蓄口座から振替",
     "withdraw_vesting": "パワーダウン",
-    "fill_order": "Fill Order"
+    "fill_order": "注文の入力"
   },
   "notification": {
     "vote": "あなたの投稿をいいねしました",
@@ -204,7 +204,7 @@
     "fail": "失敗！",
     "move": "移動",
     "move_question": "本当に下書きへ移動しますか？",
-    "success_shared": "Your post successfully shared",
+    "success_shared": "投稿の共有に成功しました",
     "success_moved": "下書きへ移動",
     "permission_denied": "アクセスが拒否されました",
     "permission_text": "本体の設定から eSteem アプリの権限を変更してください。",
@@ -229,7 +229,7 @@
     "connection_fail": "接続に失敗しました！",
     "connection_success": "接続に成功しました！",
     "checking": "確認中...",
-    "not_existing_post": "The post does not exist! Please check permlink and author."
+    "not_existing_post": "投稿は存在しません！パーマリンクと投稿者を確認してください。"
   },
   "post": {
     "reblog_alert": "本当にリブログしますか？",
@@ -319,8 +319,8 @@
     "points": "ESTMを贈る",
     "transfer_to_saving": "貯蓄口座に送金",
     "powerUp": "パワーアップ",
-    "withdraw_to_saving": "Withdraw To Saving",
-    "steemconnect_title": "Steemconnect Transfer",
+    "withdraw_to_saving": "貯蓄口座に引き出す",
+    "steemconnect_title": "Steemconnect 送金",
     "next": "次へ",
     "delegate": "デリゲーション",
     "power_down": "パワーダウン",
@@ -337,7 +337,7 @@
     "days": "日間",
     "user": "ユーザー",
     "permlink": "投稿",
-    "permlinkPlaceholder": "author/permlink",
+    "permlinkPlaceholder": "投稿者/パーマリンク",
     "information": "本当にプロモートしますか？"
   },
   "boostPost": {
