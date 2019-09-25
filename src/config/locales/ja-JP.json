@@ -100,9 +100,9 @@
     "savings": "貯蓄口座",
     "edit": {
       "display_name": "表示名",
-      "about": "About",
-      "location": "Location",
-      "website": "Website"
+      "about": "このアプリについて",
+      "location": "場所",
+      "website": "ウェブサイト"
     }
   },
   "settings": {
