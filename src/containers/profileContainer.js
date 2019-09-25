@@ -339,9 +339,9 @@ class ProfileContainer extends Component {
     let votingPower;
     let resourceCredits;
 
-    if (selectedUser) {
-      votingPower = getVotingPower(selectedUser).toFixed(1);
-      resourceCredits = getRcPower(selectedUser).toFixed(1);
+    if (user) {
+      votingPower = getVotingPower(user).toFixed(1);
+      resourceCredits = getRcPower(user).toFixed(1);
     }
 
     return (
