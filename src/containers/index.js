@@ -3,6 +3,7 @@ import ProfileEditContainer from './profileEditContainer';
 import RedeemContainer from './redeemContainer';
 import TransferContainer from './transferContainer';
 import ProfileContainer from './profileContainer';
+import InAppPurchaseContainer from './inAppPurchaseContainer';
 
 export {
   PointsContainer,
@@ -10,4 +11,5 @@ export {
   RedeemContainer,
   TransferContainer,
   ProfileContainer,
+  InAppPurchaseContainer,
 };
