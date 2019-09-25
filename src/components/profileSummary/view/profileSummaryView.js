@@ -93,9 +93,9 @@ class ProfileSummaryView extends PureComponent {
     const location = get(about, 'location', '');
 
     const ABOUT_DATA = [
-      { text: date, icon: 'calendar' },
-      { text: link, icon: 'earth', onPress: () => this._handleOnPressLink(link) },
-      { text: location, icon: 'near-me' },
+      { id: 1, text: date, icon: 'calendar' },
+      { id: 2, text: link, icon: 'earth', onPress: () => this._handleOnPressLink(link) },
+      { id: 3, text: location, icon: 'near-me' },
     ];
 
     const rowLength =
@@ -115,6 +115,7 @@ class ProfileSummaryView extends PureComponent {
               <TextWithIcon
                 isClickable={get(item, 'onPress')}
                 onPress={get(item, 'onPress')}
+                key={get(item, 'id')}
                 text={item.text}
                 iconSize={14}
                 iconName={item.icon}

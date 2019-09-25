@@ -97,7 +97,13 @@
     "days": "uroë-uroë",
     "day": "uroë",
     "steem_dollars": "Steem Dollars",
-    "savings": "Keunëubah"
+    "savings": "Keunëubah",
+    "edit": {
+      "display_name": "Display Name",
+      "about": "About",
+      "location": "Location",
+      "website": "Website"
+    }
   },
   "settings": {
     "settings": "Peungaturan",

@@ -97,7 +97,13 @@
     "days": "päeva",
     "day": "päev",
     "steem_dollars": "Steem Dollar",
-    "savings": "Säästud"
+    "savings": "Säästud",
+    "edit": {
+      "display_name": "Display Name",
+      "about": "About",
+      "location": "Location",
+      "website": "Website"
+    }
   },
   "settings": {
     "settings": "Seaded",

@@ -97,7 +97,13 @@
     "days": "zile",
     "day": "zi",
     "steem_dollars": "Steem Dolari",
-    "savings": "Economii"
+    "savings": "Economii",
+    "edit": {
+      "display_name": "Display Name",
+      "about": "About",
+      "location": "Location",
+      "website": "Website"
+    }
   },
   "settings": {
     "settings": "Setări",
