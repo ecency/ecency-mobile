@@ -13,6 +13,7 @@ import ProfileEditForm from './profileEditForm/profileEditFormView';
 import Promote from './promote/promoteView';
 import ScaleSlider from './scaleSlider/scaleSliderView';
 import UserListItem from './basicUIElements/view/userListItem/userListItem';
+import Profile from './profile/profileView';
 
 export {
   CircularButton,
@@ -24,6 +25,7 @@ export {
   NumericKeyboard,
   PinAnimatedInput,
   PostButton,
+  Profile,
   ProfileEditForm,
   ScaleSlider,
   SideMenu,
