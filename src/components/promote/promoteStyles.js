@@ -42,7 +42,6 @@ export default EStyleSheet.create({
     borderColor: '$borderColor',
     borderRadius: 8,
     padding: 2,
-    color: '$primaryBlack',
     width: 172,
     marginRight: 33,
   },
@@ -73,6 +72,7 @@ export default EStyleSheet.create({
     padding: 10,
     justifyContent: 'center',
     color: '$primaryBlack',
+    maxWidth: '$deviceWidth / 2.9',
   },
   textarea: {
     borderWidth: 1,

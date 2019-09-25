@@ -95,11 +95,11 @@ class PostDropdownContainer extends PureComponent {
         break;
 
       case 'PROMOTE':
-        this._redirectToPromote(ROUTES.SCREENS.PROMOTE, 1);
+        this._redirectToPromote(ROUTES.SCREENS.REDEEM, 1, 'promote');
         break;
 
       case 'BOOST':
-        this._redirectToPromote(ROUTES.SCREENS.BOOST_POST, 2);
+        this._redirectToPromote(ROUTES.SCREENS.REDEEM, 2, 'boost');
         break;
 
       default:
@@ -112,14 +112,14 @@ class PostDropdownContainer extends PureComponent {
     const postUrl = getPostUrl(get(content, 'url'));
 
     Share.share({
-      message: `${content.title} ${postUrl}`,
+      message: `${get(content, 'title')} ${postUrl}`,
     });
   };
 
   _addToBookmarks = () => {
     const { content, currentAccount, dispatch, intl } = this.props;
 
-    addBookmark(currentAccount.name, content.author, content.permlink)
+    addBookmark(get(currentAccount, 'name'), get(content, 'author'), get(content, 'permlink'))
       .then(() => {
         dispatch(
           toastNotification(
@@ -143,7 +143,7 @@ class PostDropdownContainer extends PureComponent {
   _reblog = () => {
     const { content, currentAccount, dispatch, intl, isLoggedIn, pinCode } = this.props;
     if (isLoggedIn) {
-      reblog(currentAccount, pinCode, content.author, content.permlink)
+      reblog(currentAccount, pinCode, content.author, get(content, 'permlink', ''))
         .then(() => {
           dispatch(
             toastNotification(
@@ -154,7 +154,7 @@ class PostDropdownContainer extends PureComponent {
           );
         })
         .catch(error => {
-          if (error.jse_shortmsg && String(error.jse_shortmsg).indexOf('has already reblogged')) {
+          if (String(get(error, 'jse_shortmsg', '')).indexOf('has already reblogged')) {
             dispatch(
               toastNotification(
                 intl.formatMessage({
@@ -184,11 +184,12 @@ class PostDropdownContainer extends PureComponent {
     }
   };
 
-  _redirectToPromote = (routeName, from) => {
+  _redirectToPromote = (routeName, from, redeemType) => {
     const { content, isLoggedIn, navigation, dispatch, isPinCodeOpen } = this.props;
     const params = {
       from,
       permlink: `${get(content, 'author')}/${get(content, 'permlink')}`,
+      redeemType,
     };
 
     if (isPinCodeOpen) {
@@ -207,10 +208,14 @@ class PostDropdownContainer extends PureComponent {
   };
 
   render() {
-    const { intl, currentAccount, content, isHideReblogOption } = this.props;
+    const {
+      intl,
+      currentAccount: { name },
+      content,
+    } = this.props;
     let _OPTIONS = OPTIONS;
 
-    if ((content && content.author === currentAccount.name) || isHideReblogOption) {
+    if ((content && content.author === name) || get(content, 'reblogged_by[0]', null) === name) {
       _OPTIONS = OPTIONS.filter(item => item !== 'reblog');
     }
 

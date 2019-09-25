@@ -1,4 +1,8 @@
-import { TOAST_NOTIFICATION, UPDATE_ACTIVE_BOTTOM_TAB } from '../constants/constants';
+import {
+  TOAST_NOTIFICATION,
+  UPDATE_ACTIVE_BOTTOM_TAB,
+  HIDE_POSTS_THUMBNAILS,
+} from '../constants/constants';
 
 export const updateActiveBottomTab = payload => ({
   payload,
@@ -8,4 +12,9 @@ export const updateActiveBottomTab = payload => ({
 export const toastNotification = payload => ({
   payload,
   type: TOAST_NOTIFICATION,
+});
+
+export const hidePostsThumbnails = payload => ({
+  payload,
+  type: HIDE_POSTS_THUMBNAILS,
 });

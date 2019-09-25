@@ -1,6 +1,7 @@
 import { Component } from 'react';
 import { connect } from 'react-redux';
 import { injectIntl } from 'react-intl';
+import get from 'lodash/get';
 
 // Services and Actions
 import {
@@ -17,6 +18,7 @@ import {
 } from '../providers/steem/dsteem';
 import { toastNotification } from '../redux/actions/uiAction';
 import { getUserDataWithUsername } from '../realm/realm';
+import { getUser } from '../providers/esteem/ePoint';
 
 // Utils
 import { countDecimals } from '../utils/number';
@@ -47,11 +49,21 @@ class TransferContainer extends Component {
 
   // Component Functions
 
+  _getUserPointsBalance = async username => {
+    await getUser(username)
+      .then(userPoints => {
+        const balance = Math.round(get(userPoints, 'points') * 1000) / 1000;
+        this.setState({ balance });
+      })
+      .catch(err => {
+        if (err) alert(get(err, 'message') || err.toString());
+      });
+  };
+
   fetchBalance = username => {
-    const { navigation } = this.props;
     const { fundType } = this.state;
 
-    getAccount(username).then(account => {
+    getAccount(username).then(async account => {
       let balance;
       switch (fundType) {
         case 'STEEM':
@@ -60,8 +72,8 @@ class TransferContainer extends Component {
         case 'SBD':
           balance = account[0].sbd_balance.replace(fundType, '');
           break;
-        case 'POINT':
-          balance = navigation.getParam('balance', '');
+        case 'ESTM':
+          this._getUserPointsBalance(username);
           break;
         case 'SAVING_STEEM':
           this.setState({ fundType: 'STEEM' });
@@ -73,13 +85,20 @@ class TransferContainer extends Component {
           break;
         case 'STEEM_POWER':
           balance = account[0].balance.replace(fundType, '');
-          this.setState({ selectedAccount: account[0] });
           break;
         default:
           break;
       }
 
-      this.setState({ balance: Number(balance) });
+      const local = await getUserDataWithUsername(username);
+
+      if (balance) {
+        this.setState({ balance: Number(balance) });
+      }
+
+      this.setState({
+        selectedAccount: { ...account[0], local: local[0] },
+      });
     });
   };
 
@@ -167,7 +186,7 @@ class TransferContainer extends Component {
     };
 
     setWithdrawVestingRoute(currentAccount, pinCode, data).catch(err => {
-      alert(err);
+      alert(err.message || err.toString());
     });
   };
 
@@ -195,8 +214,8 @@ class TransferContainer extends Component {
         getAccountsWithUsername: this._getAccountsWithUsername,
         transferToAccount: this._transferToAccount,
         handleOnModalClose: this._handleOnModalClose,
-        accountType: currentAccount.local.authType,
-        currentAccountName: currentAccount.name,
+        accountType: get(selectedAccount || currentAccount, 'local.authType'),
+        currentAccountName: get(currentAccount, 'name'),
         setWithdrawVestingRoute: this._setWithdrawVestingRoute,
       })
     );

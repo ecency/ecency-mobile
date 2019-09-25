@@ -4,11 +4,7 @@ import ScrollableTabView from 'react-native-scrollable-tab-view';
 import { injectIntl } from 'react-intl';
 
 // Components
-import { TabBar } from '../../../components/tabBar';
-import { Notification } from '../../../components/notification';
-import { Header } from '../../../components/header';
-import { NoPost } from '../../../components/basicUIElements';
-import { LeaderBoard } from '../../../components/leaderboard';
+import { TabBar, LeaderBoard, Notification, Header, NoPost } from '../../../components';
 
 // Styles
 import styles from './notificationStyles';

@@ -3,6 +3,7 @@ import { Alert, Linking, Platform } from 'react-native';
 import { connect } from 'react-redux';
 import { injectIntl } from 'react-intl';
 import AppCenter from 'appcenter';
+import Config from 'react-native-config';
 
 // Services and Actions
 import { login } from '../../../providers/steem/auth';
@@ -13,9 +14,14 @@ import {
   addOtherAccount,
   updateCurrentAccount,
 } from '../../../redux/actions/accountAction';
-import { login as loginAction, openPinCodeModal } from '../../../redux/actions/applicationActions';
+import {
+  login as loginAction,
+  openPinCodeModal,
+  setPinCode,
+} from '../../../redux/actions/applicationActions';
 import { setPushTokenSaved } from '../../../realm/realm';
 import { setPushToken } from '../../../providers/esteem/esteem';
+import { encryptKey } from '../../../utils/crypto';
 
 // Middleware
 
@@ -51,7 +57,7 @@ class LoginContainer extends PureComponent {
 
     this.setState({ isLoading: true });
 
-    login(username, password)
+    login(username, password, isPinCodeOpen)
       .then(result => {
         if (result) {
           dispatch(updateCurrentAccount({ ...result }));
@@ -62,6 +68,8 @@ class LoginContainer extends PureComponent {
           if (isPinCodeOpen) {
             dispatch(openPinCodeModal({ navigateTo: ROUTES.DRAWER.MAIN }));
           } else {
+            const encryptedPin = encryptKey(Config.DEFAULT_PIN, Config.PIN_KEY);
+            dispatch(setPinCode(encryptedPin));
             navigation.navigate({
               routeName: ROUTES.DRAWER.MAIN,
             });

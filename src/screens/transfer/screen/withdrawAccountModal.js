@@ -6,11 +6,7 @@ import { injectIntl } from 'react-intl';
 // Constants
 
 // Components
-import { TransferFormItem } from '../../../components/transferFormItem';
-import CheckBox from '../../../components/checkbox';
-import { MainButton } from '../../../components/mainButton';
-import { TextInput } from '../../../components/textInput';
-import { UserAvatar } from '../../../components/userAvatar';
+import { CheckBox, TransferFormItem, MainButton, TextInput, UserAvatar } from '../../../components';
 
 // Styles
 import styles from './transferStyles';
@@ -71,7 +67,7 @@ class WithdrawAccountModal extends Component {
       <View style={styles.modalContainer}>
         <UserAvatar username={account} size="xl" style={styles.avatar} noAction />
         <TransferFormItem
-          label={intl.formatMessage({ id: 'transfer.account' })}
+          label={intl.formatMessage({ id: 'transfer.from' })}
           rightComponent={() =>
             this._renderInput(
               intl.formatMessage({ id: 'transfer.to_placeholder' }),

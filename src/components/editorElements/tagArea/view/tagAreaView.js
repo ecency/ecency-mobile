@@ -19,7 +19,7 @@ export default class TagAreaView extends Component {
     this.state = {
       currentText: '',
       chips: props.draftChips || [' '],
-      chipsCount: props.chipsCount || 5,
+      chipsCount: props.chipsCount || 7,
       activeChip: 0,
     };
   }
@@ -102,7 +102,7 @@ export default class TagAreaView extends Component {
         <ScrollView horizontal style={styles.tagWrapper}>
           {chips.map(
             (chip, i) =>
-              i < 5 && (
+              i < 7 && (
                 <Chip
                   key={i}
                   refs={input => {

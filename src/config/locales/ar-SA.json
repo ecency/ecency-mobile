@@ -20,16 +20,21 @@
     "ignore": "قام بتجاهلك",
     "reblog": "إعادة تدوين مشاركتك",
     "transfer": "نقل steem",
-    "comingsoon": "ميزة المتصدرين تأتي قريباً!",
+    "comingsoon": "Feature is coming soon!",
     "notification": "الإشعارات",
     "leaderboard": "المتصدرين",
     "epoint": "نقاط",
-    "leaderboard_title": "أفضل مستخدم يومي",
+    "leaderboard_title": "Top Users",
     "recent": "الأخيرة",
     "yesterday": "يوم أمس",
     "this_week": "هذا الأسبوع",
     "this_month": "هذا الشهر",
     "older_then": "أقدم من شهر"
+  },
+  "leaderboard": {
+    "daily": "Daily",
+    "weekly": "Weekly",
+    "monthly": "Monthly"
   },
   "points": {
     "post": "منشور",
@@ -50,7 +55,7 @@
     "vote_title": "نقاط للتصويت",
     "reblog_title": "نقاط لإعادة النشر",
     "login_title": "نقاط لتسجيل الدخول",
-    "checkin_title": "نقاط للاستخدام",
+    "checkin_title": "Points for heartbeat",
     "checkin_extra_title": "مكافأة الاستخدام",
     "no_activity": "لا يوجد نشاط هنا!",
     "outgoing_transfer_description": "",
@@ -62,9 +67,11 @@
     "reblog_desc": "  شارك ما تنشره مع أصدقائك واربح 1 نقطة.",
     "login_desc": "عند تسجيل الدخول إلى تطبيق eSteem ، يحق لك كسب 100 نقطة تلقائيًا.",
     "checkin_extra_desc": "يمنحك الاستخدام المستمر للتطبيق فرصًا إضافية لكسب 10 نقاط إضافية ، وتكون أكثر نشاطًا وكسب المزيد.",
-    "dropdown_transfer": "Transfer",
+    "dropdown_transfer": "Gift",
     "dropdown_promote": "Promote",
-    "dropdown_boost": "Boost"
+    "dropdown_boost": "Boost",
+    "from": "From",
+    "to": "To"
   },
   "messages": {
     "comingsoon": "ميزة الرسائل سوف تأتي قريباً!"
@@ -90,7 +97,13 @@
     "days": "أيام",
     "day": "يوم",
     "steem_dollars": "ستيم دولار",
-    "savings": "مدخرات"
+    "savings": "مدخرات",
+    "edit": {
+      "display_name": "Display Name",
+      "about": "About",
+      "location": "Location",
+      "website": "Website"
+    }
   },
   "settings": {
     "settings": "إعدادات",
@@ -121,11 +134,12 @@
       "always_warn": "التحذير دوماً"
     },
     "feedback_success": "تم فتح البريد الإلكتروني بنجاح",
-    "feedback_fail": "لا يمكن فتح عميل البريد الإلكتروني"
+    "feedback_fail": "لا يمكن فتح عميل البريد الإلكتروني",
+    "server_fail": "Server not available"
   },
   "voters": {
     "voters_info": "معلومات عن المصوتين",
-    "no_user": "لم يتم العثور على المستخدم."
+    "no_user": "User is not found."
   },
   "login": {
     "signin": "تسجيل الدخول",
@@ -190,7 +204,7 @@
     "fail": "فشل!",
     "move": "نقل",
     "move_question": "هل أنت متأكد من نقل إلى المسودات؟",
-    "success_shared": "مشاركتك تمت مشاركتها بنجاح",
+    "success_shared": "Your post successfully shared",
     "success_moved": "تم النقل إلى المسودات",
     "permission_denied": "طلب الإذن مرفوض",
     "permission_text": "يرجى الانتقال إلى إعدادات الهاتف وتغيير أذونات تطبيق eSteem.",
@@ -211,14 +225,19 @@
     "same_user": "This user already added to list",
     "unknow_error": "An error occurred",
     "error": "Error",
-    "fetch_error": "Fetching data from server failed, please try again or notify us at info@esteem.app"
+    "fetch_error": "Fetching data failed, please try again or notify us at info@esteem.app",
+    "connection_fail": "Connection Failed!",
+    "connection_success": "Successfully connected!",
+    "checking": "Cheking...",
+    "not_existing_post": "The post does not exist! Please check permlink and author."
   },
   "post": {
-    "reblog_alert": "هل أنت متأكد من رغبتك في إعادة التدوين؟",
+    "reblog_alert": "Are you sure, you want to reblog?",
     "removed_hint": "تمت إزالة المنشور بواسطة",
     "copy_link": "Copy Link",
     "reblogged": "reblogged by",
-    "sponsored": "sponsored"
+    "sponsored": "SPONSORED",
+    "open_thread": "Open Thread"
   },
   "drafts": {
     "title": "المسودات",
@@ -288,20 +307,25 @@
   "transfer": {
     "from": "من",
     "to": "إلى",
+    "amount_information": "Drag the slider to adjust the amount",
     "amount": "كمية",
     "memo": "مذكرة",
-    "information": "هل أنت متأكد من التحويل إلى الأموال؟",
+    "information": "Are you sure to transfer funds?",
     "amount_desc": "الرصيد",
     "memo_desc": "هذه المذكرة عامة",
     "to_placeholder": "إسم المستخدم",
     "memo_placeholder": "أدخل ملاحظاتك هنا",
     "transfer_token": "Transfer",
-    "points": "Points Transfer",
+    "points": "Gift ESTM to someone",
     "transfer_to_saving": "Transfer To Saving",
     "powerUp": "رفع الطاقة",
     "withdraw_to_saving": "Withdraw To Saving",
     "steemconnect_title": "نقل Steemconnect",
-    "next": "التالي"
+    "next": "التالي",
+    "delegate": "Delegate",
+    "power_down": "Power Down",
+    "withdraw_steem": "Withdraw Steem",
+    "withdraw_sbd": "Withdraw Steem Dollar"
   },
   "boost": {
     "title": "Get eSteem Points",
@@ -314,9 +338,17 @@
     "user": "User",
     "permlink": "Post",
     "permlinkPlaceholder": "author/permlink",
-    "information": "Are you sure to transfer to promote?"
+    "information": "Are you sure to promote?"
   },
   "boostPost": {
     "title": "Boost"
+  },
+  "voters_dropdown": {
+    "rewards": "REWARDS",
+    "percent": "PERCENT",
+    "time": "TIME"
+  },
+  "reblog": {
+    "title": "Reblog Info"
   }
 }

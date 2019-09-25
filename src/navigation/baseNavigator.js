@@ -7,8 +7,7 @@ import ROUTES from '../constants/routeNames';
 // Components
 import { Icon, IconContainer } from '../components/icon';
 import { Home, Notification, Profile, Points } from '../screens';
-import { PostButton } from '../components';
-import { BottomTabBar } from '../components/bottomTabBar';
+import { PostButton, BottomTabBar } from '../components';
 
 const BaseNavigator = createBottomTabNavigator(
   {
@@ -55,7 +54,7 @@ const BaseNavigator = createBottomTabNavigator(
           <Icon
             iconType="MaterialCommunityIcons"
             style={{ padding: 15 }}
-            name="gift"
+            name="gift-outline"
             color={tintColor}
             size={26}
           />

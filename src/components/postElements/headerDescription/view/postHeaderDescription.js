@@ -74,7 +74,7 @@ class PostHeaderDescription extends PureComponent {
           </TouchableOpacity>
           {!!tag && (
             <TouchableOpacity onPress={() => tagOnPress && tagOnPress()}>
-              <Tag isPostCardTag isPin value={tag} />
+              <Tag isPostCardTag={!isPromoted} isPin value={tag} />
             </TouchableOpacity>
           )}
           <Text style={styles.date}>

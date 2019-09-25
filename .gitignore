@@ -57,6 +57,7 @@ buck-out/
 
 config.js	
 !src/screens/steem-connect/config.js
+google-services.json
 keystore/
 .env
 package-lock.json

@@ -67,6 +67,7 @@ class BasicHeaderView extends Component {
 
   render() {
     const {
+      disabled,
       dropdownComponent,
       handleOnPressBackButton,
       handleOnPressClose,
@@ -83,10 +84,10 @@ class BasicHeaderView extends Component {
       isLoading,
       isLoggedIn,
       isModalHeader,
-      rightButtonText,
       isPreviewActive,
       isReply,
       quickTitle,
+      rightButtonText,
       rightIconName,
       title,
     } = this.props;
@@ -99,8 +100,9 @@ class BasicHeaderView extends Component {
             <IconButton
               iconStyle={[styles.backIcon, isModalHeader && styles.closeIcon]}
               iconType="MaterialIcons"
-              name={isModalHeader ? 'arrow-back' : 'arrow-back'}
+              name="arrow-back"
               onPress={() => (isModalHeader ? handleOnPressClose() : handleOnPressBackButton())}
+              disabled={disabled}
             />
             {isHasIcons && !isReply && (
               <View>
@@ -148,7 +150,6 @@ class BasicHeaderView extends Component {
 
             {rightIconName && !isHasSearch && (
               <IconButton
-                style={styles.rightIcon}
                 size={25}
                 onPress={() => handleRightIconPress()}
                 iconStyle={styles.rightIcon}
@@ -171,7 +172,6 @@ class BasicHeaderView extends Component {
 
             {isHasSearch && (
               <IconButton
-                style={styles.rightIcon}
                 size={22}
                 onPress={() => this._handleSearchButtonPress()}
                 iconStyle={styles.rightIcon}

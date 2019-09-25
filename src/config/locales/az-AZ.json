@@ -20,16 +20,21 @@
     "ignore": "səni əngəllədi",
     "reblog": "göndərişini paylaşdı",
     "transfer": "köçürülmüş steem",
-    "comingsoon": "Liderlər Cədvəli tezliklə gəlir!",
+    "comingsoon": "Feature is coming soon!",
     "notification": "Bildirişlər",
     "leaderboard": "Liderlər cədvəli",
     "epoint": "Xallar",
-    "leaderboard_title": "Günlük Liderlər",
+    "leaderboard_title": "Top Users",
     "recent": "Təzəlikcə",
     "yesterday": "Dünən",
     "this_week": "Bu Həftə",
     "this_month": "Bu Ay",
     "older_then": "Bir Aydan Köhnə"
+  },
+  "leaderboard": {
+    "daily": "Daily",
+    "weekly": "Weekly",
+    "monthly": "Monthly"
   },
   "points": {
     "post": "Göndəriş",
@@ -50,7 +55,7 @@
     "vote_title": "Səsvermə üçün xal",
     "reblog_title": "Təkrar paylaşmaq üçün xal",
     "login_title": "Giriş etmək üçün xal",
-    "checkin_title": "İstifadə üçün xal",
+    "checkin_title": "Points for heartbeat",
     "checkin_extra_title": "İstifadə bonusu",
     "no_activity": "Fəaliyyət yoxdur!",
     "outgoing_transfer_description": "",
@@ -62,9 +67,11 @@
     "reblog_desc": "  Bəyəndiyiniz göndərişləri dostlarınızla paylaşın və 1 xal qazanın.",
     "login_desc": "eSteem tətbiqinə giriş etdikdə avtomatik olaraqq 100 xal qazanma haqqı əldə edirsiniz.",
     "checkin_extra_desc": "Tətbiqin davamlı istifadəsi sizə daha 10 xal qazanma şansı verər, daha çox fəal olun və daha çox qazanın.",
-    "dropdown_transfer": "Transfer",
+    "dropdown_transfer": "Gift",
     "dropdown_promote": "Promote",
-    "dropdown_boost": "Boost"
+    "dropdown_boost": "Boost",
+    "from": "From",
+    "to": "To"
   },
   "messages": {
     "comingsoon": "Mesajlar tezliklə gəlir!"
@@ -90,7 +97,13 @@
     "days": "gün",
     "day": "gün",
     "steem_dollars": "Steem Dollar",
-    "savings": "Yığımlar"
+    "savings": "Yığımlar",
+    "edit": {
+      "display_name": "Display Name",
+      "about": "About",
+      "location": "Location",
+      "website": "Website"
+    }
   },
   "settings": {
     "settings": "Tənzimləmələr",
@@ -121,11 +134,12 @@
       "always_warn": "Həmişə xəbərdar et"
     },
     "feedback_success": "E-poçt uğurla açıldı",
-    "feedback_fail": "E-poçt sifarişçisi açıla bilmədi"
+    "feedback_fail": "E-poçt sifarişçisi açıla bilmədi",
+    "server_fail": "Server not available"
   },
   "voters": {
     "voters_info": "Səsverənlər",
-    "no_user": "İstifadəçi tapılmadı."
+    "no_user": "User is not found."
   },
   "login": {
     "signin": "Daxil ol",
@@ -190,7 +204,7 @@
     "fail": "Uğursuz!",
     "move": "Köçürt",
     "move_question": "Qaralamalara köçürtmək istədiyinizə əminsiniz?",
-    "success_shared": "Göndərişin uğurla paylaşıldı",
+    "success_shared": "Your post successfully shared",
     "success_moved": "Qaralamalara köçürüldü",
     "permission_denied": "İcazə verilmədi",
     "permission_text": "Zəhmət olmasa telefon tənzimləmələrinə gedərək eSteem tətbiq icazələrini dəyişdirin.",
@@ -211,14 +225,19 @@
     "same_user": "This user already added to list",
     "unknow_error": "An error occurred",
     "error": "Error",
-    "fetch_error": "Fetching data from server failed, please try again or notify us at info@esteem.app"
+    "fetch_error": "Fetching data failed, please try again or notify us at info@esteem.app",
+    "connection_fail": "Connection Failed!",
+    "connection_success": "Successfully connected!",
+    "checking": "Cheking...",
+    "not_existing_post": "The post does not exist! Please check permlink and author."
   },
   "post": {
-    "reblog_alert": "Təkrar paylaşmaq istədiyinizə əminsiniz?",
+    "reblog_alert": "Are you sure, you want to reblog?",
     "removed_hint": "The post was removed by",
     "copy_link": "Copy Link",
     "reblogged": "reblogged by",
-    "sponsored": "sponsored"
+    "sponsored": "SPONSORED",
+    "open_thread": "Open Thread"
   },
   "drafts": {
     "title": "Qaralamalar",
@@ -288,20 +307,25 @@
   "transfer": {
     "from": "Buradan",
     "to": "Buraya",
+    "amount_information": "Drag the slider to adjust the amount",
     "amount": "Məbləğ",
     "memo": "Qeyd",
-    "information": "Fondlara köçürmə olduğuna əminsiniz?",
+    "information": "Are you sure to transfer funds?",
     "amount_desc": "Balans",
     "memo_desc": "Bu qeyd ictimaidir",
     "to_placeholder": "İstifadəçi adı",
     "memo_placeholder": "Qeydlərinizi buraya daxil edin",
     "transfer_token": "Transfer",
-    "points": "Points Transfer",
+    "points": "Gift ESTM to someone",
     "transfer_to_saving": "Transfer To Saving",
     "powerUp": "Gücü artır",
     "withdraw_to_saving": "Withdraw To Saving",
     "steemconnect_title": "Steemconnect Köçürməsi",
-    "next": "NEXT"
+    "next": "NEXT",
+    "delegate": "Delegate",
+    "power_down": "Power Down",
+    "withdraw_steem": "Withdraw Steem",
+    "withdraw_sbd": "Withdraw Steem Dollar"
   },
   "boost": {
     "title": "Get eSteem Points",
@@ -314,9 +338,17 @@
     "user": "User",
     "permlink": "Post",
     "permlinkPlaceholder": "author/permlink",
-    "information": "Are you sure to transfer to promote?"
+    "information": "Are you sure to promote?"
   },
   "boostPost": {
     "title": "Boost"
+  },
+  "voters_dropdown": {
+    "rewards": "REWARDS",
+    "percent": "PERCENT",
+    "time": "TIME"
+  },
+  "reblog": {
+    "title": "Reblog Info"
   }
 }

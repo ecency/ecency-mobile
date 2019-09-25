@@ -1,5 +1,6 @@
+/* eslint-disable react/jsx-wrap-multilines */
 import React, { PureComponent, Fragment } from 'react';
-import { ScrollView, View } from 'react-native';
+import { ScrollView, View, RefreshControl } from 'react-native';
 import { injectIntl } from 'react-intl';
 
 // Utils
@@ -11,9 +12,7 @@ import CURRENCY, { VALUE as CURRENCY_VALUE } from '../../../constants/options/cu
 import NSFW from '../../../constants/options/nsfw';
 
 // Components
-import { BasicHeader } from '../../../components/basicHeader';
-import { SettingsItem } from '../../../components/settingsItem';
-import { CollapsibleCard } from '../../../components/collapsibleCard';
+import { BasicHeader, SettingsItem, CollapsibleCard } from '../../../components';
 
 // Styles
 import styles from './settingsStyles';
@@ -31,7 +30,7 @@ class SettingsScreen extends PureComponent {
   // Component Life Cycles
 
   // Component Functions
-
+  // TODO: REFACTOR ME !
   render() {
     const {
       handleOnChange,
@@ -53,6 +52,7 @@ class SettingsScreen extends PureComponent {
       transfersNotification,
       voteNotification,
       handleOnButtonPress,
+      isLoading,
     } = this.props;
 
     return (
@@ -63,22 +63,24 @@ class SettingsScreen extends PureComponent {
           })}
         />
 
-        <ScrollView style={styles.container}>
+        <ScrollView
+          style={styles.container}
+          refreshControl={
+            <RefreshControl
+              refreshing={isLoading}
+              progressBackgroundColor="#357CE6"
+              tintColor={!isDarkTheme ? '#357ce6' : '#96c0ff'}
+              titleColor="#fff"
+              colors={['#fff']}
+            />
+          }
+        >
           <View style={styles.settingsCard}>
             <SettingsItem
               title={intl.formatMessage({
                 id: 'settings.general',
               })}
               titleStyle={styles.cardTitle}
-            />
-            <SettingsItem
-              title={intl.formatMessage({
-                id: 'settings.dark_theme',
-              })}
-              type="toggle"
-              actionType="theme"
-              isOn={isDarkTheme}
-              handleOnChange={handleOnChange}
             />
             <SettingsItem
               title={intl.formatMessage({
@@ -108,7 +110,12 @@ class SettingsScreen extends PureComponent {
               actionType="api"
               options={serverList.map(serverName => groomingServerName(serverName))}
               selectedOptionIndex={serverList.indexOf(selectedApi)}
-              defaultText={groomingServerName(selectedApi)}
+              defaultText={
+                groomingServerName(selectedApi) ||
+                intl.formatMessage({
+                  id: 'alert.checking',
+                })
+              }
               handleOnChange={handleOnChange}
             />
             <SettingsItem
@@ -123,6 +130,15 @@ class SettingsScreen extends PureComponent {
                 }),
               )}
               selectedOptionIndex={parseInt(nsfw, 10)}
+              handleOnChange={handleOnChange}
+            />
+            <SettingsItem
+              title={intl.formatMessage({
+                id: 'settings.dark_theme',
+              })}
+              type="toggle"
+              actionType="theme"
+              isOn={isDarkTheme}
               handleOnChange={handleOnChange}
             />
             {!!isLoggedIn && (

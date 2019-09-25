@@ -4,9 +4,7 @@ import ScrollableTabView from 'react-native-scrollable-tab-view';
 import { injectIntl } from 'react-intl';
 
 // Components
-import { TabBar } from '../../../components/tabBar';
-import { Posts } from '../../../components/posts';
-import SearchInput from '../../../components/searchInput';
+import { SearchInput, Posts, TabBar } from '../../../components';
 
 // Styles
 import styles from './searchResultStyles';
@@ -50,19 +48,6 @@ class SearchResultScreen extends PureComponent {
           >
             <Posts pageType="posts" tag={tag} />
           </View>
-          {/* <View
-              tabLabel={intl.formatMessage({
-                id: 'search.comments',
-              })}
-              style={styles.tabbarItem}
-            >
-              <Posts
-                filterOptions={POPULAR_FILTERS}
-                getFor={POPULAR_FILTERS[0].toLowerCase()}
-                selectedOptionIndex={0}
-                pageType="posts"
-              />
-            </Fragment> */}
         </ScrollableTabView>
       </View>
     );

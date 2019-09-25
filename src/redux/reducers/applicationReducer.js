@@ -41,7 +41,7 @@ const initialState = {
   isLoginDone: false,
   isLogingOut: false,
   isNotificationOpen: true,
-  isPinCodeReqiure: false,
+  isPinCodeRequire: false,
   pinCodeNavigation: {},
   language: 'en-US',
   loading: false, // It is lock to all screen and shows loading animation.
@@ -89,13 +89,13 @@ export default function(state = initialState, action) {
     case OPEN_PIN_CODE_MODAL:
       return {
         ...state,
-        isPinCodeReqiure: true,
+        isPinCodeRequire: true,
         pinCodeNavigation: action.payload || {},
       };
     case CLOSE_PIN_CODE_MODAL:
       return {
         ...state,
-        isPinCodeReqiure: false,
+        isPinCodeRequire: false,
       };
     case ACTIVE_APPLICATION:
       return {

@@ -20,16 +20,21 @@
     "ignore": "игнорирует",
     "reblog": "сделал репост",
     "transfer": "отправлено Steem",
-    "comingsoon": "Доска Лидерства будет здесь!",
+    "comingsoon": "Feature is coming soon!",
     "notification": "Уведомления",
     "leaderboard": "Лидеры",
     "epoint": "Баллы",
-    "leaderboard_title": "Доска Лидерства",
+    "leaderboard_title": "Top Users",
     "recent": "Недавно",
     "yesterday": "Вчера",
     "this_week": "На неделе",
     "this_month": "В этом месяце",
     "older_then": "Давно"
+  },
+  "leaderboard": {
+    "daily": "Daily",
+    "weekly": "Weekly",
+    "monthly": "Monthly"
   },
   "points": {
     "post": "Пост",
@@ -50,7 +55,7 @@
     "vote_title": "Баллы за голос",
     "reblog_title": "Баллы за репост",
     "login_title": "Баллы за логин",
-    "checkin_title": "Баллы за пользование",
+    "checkin_title": "Points for heartbeat",
     "checkin_extra_title": "Бонус за использование",
     "no_activity": "Здесь пусто!",
     "outgoing_transfer_description": "",
@@ -62,9 +67,11 @@
     "reblog_desc": "Делитесь постами с друзьями и получайте по 1 баллу.",
     "login_desc": "Когда вы логинитесь в приложения eSteem, вы автоматически получаете 100 баллов.",
     "checkin_extra_desc": "Постоянное использование приложения даёт вам дополнительный шанс получить 10 баллов. Чем больше активности, тем больше награда.",
-    "dropdown_transfer": "Transfer",
+    "dropdown_transfer": "Gift",
     "dropdown_promote": "Promote",
-    "dropdown_boost": "Boost"
+    "dropdown_boost": "Boost",
+    "from": "From",
+    "to": "To"
   },
   "messages": {
     "comingsoon": "Здесь будут сообщения!"
@@ -90,7 +97,13 @@
     "days": "д",
     "day": "д",
     "steem_dollars": "Доллары Steem",
-    "savings": "Сейф"
+    "savings": "Сейф",
+    "edit": {
+      "display_name": "Display Name",
+      "about": "About",
+      "location": "Location",
+      "website": "Website"
+    }
   },
   "settings": {
     "settings": "Настройки",
@@ -121,11 +134,12 @@
       "always_warn": "Предупреждать"
     },
     "feedback_success": "Письмо успешно отправлено",
-    "feedback_fail": "Не удалось отправить письмо"
+    "feedback_fail": "Не удалось отправить письмо",
+    "server_fail": "Server not available"
   },
   "voters": {
     "voters_info": "Детали голосов",
-    "no_user": "Пользователь не найден"
+    "no_user": "User is not found."
   },
   "login": {
     "signin": "Войти",
@@ -190,7 +204,7 @@
     "fail": "Не вышло!",
     "move": "Переместить",
     "move_question": "Вы уверены, что хотите переместить в черновики?",
-    "success_shared": "Ваш пост отправлен",
+    "success_shared": "Your post successfully shared",
     "success_moved": "Перемещён в черновики",
     "permission_denied": "Не достаточно разрешений",
     "permission_text": "Пожалуйста перейдите в настройки телефона и выдайте разрешения для eSteem",
@@ -211,14 +225,19 @@
     "same_user": "Этот пользователь уже добавлен в список",
     "unknow_error": "An error occurred",
     "error": "Error",
-    "fetch_error": "Fetching data from server failed, please try again or notify us at info@esteem.app"
+    "fetch_error": "Fetching data failed, please try again or notify us at info@esteem.app",
+    "connection_fail": "Connection Failed!",
+    "connection_success": "Successfully connected!",
+    "checking": "Cheking...",
+    "not_existing_post": "The post does not exist! Please check permlink and author."
   },
   "post": {
-    "reblog_alert": "Вы уверены, что хотите сделать репост?",
+    "reblog_alert": "Are you sure, you want to reblog?",
     "removed_hint": "Сообщение удалено",
     "copy_link": "Копировать ссылку",
     "reblogged": "reblogged by",
-    "sponsored": "sponsored"
+    "sponsored": "SPONSORED",
+    "open_thread": "Open Thread"
   },
   "drafts": {
     "title": "Черновики",
@@ -288,20 +307,25 @@
   "transfer": {
     "from": "От",
     "to": "Кому",
+    "amount_information": "Drag the slider to adjust the amount",
     "amount": "Сумма",
     "memo": "Примечание",
-    "information": "Вы уверены, что хотите перевести средства?",
+    "information": "Are you sure to transfer funds?",
     "amount_desc": "Баланс",
     "memo_desc": "Эта заметка публична",
     "to_placeholder": "Пользователь",
     "memo_placeholder": "Введите свою заметку",
     "transfer_token": "Перевод",
-    "points": "Передача баллов",
+    "points": "Gift ESTM to someone",
     "transfer_to_saving": "Перевести в сейф",
     "powerUp": "Увеличение силы",
     "withdraw_to_saving": "Снять в сейф",
     "steemconnect_title": "Перевод Steemconnect",
-    "next": "ДАЛЕЕ"
+    "next": "ДАЛЕЕ",
+    "delegate": "Delegate",
+    "power_down": "Power Down",
+    "withdraw_steem": "Withdraw Steem",
+    "withdraw_sbd": "Withdraw Steem Dollar"
   },
   "boost": {
     "title": "Get eSteem Points",
@@ -314,9 +338,17 @@
     "user": "User",
     "permlink": "Post",
     "permlinkPlaceholder": "author/permlink",
-    "information": "Are you sure to transfer to promote?"
+    "information": "Are you sure to promote?"
   },
   "boostPost": {
     "title": "Boost"
+  },
+  "voters_dropdown": {
+    "rewards": "REWARDS",
+    "percent": "PERCENT",
+    "time": "TIME"
+  },
+  "reblog": {
+    "title": "Reblog Info"
   }
 }
