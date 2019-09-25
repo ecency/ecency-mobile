@@ -97,7 +97,13 @@
     "days": "d.",
     "day": "d.",
     "steem_dollars": "Steem Dollars",
-    "savings": "Santaupos"
+    "savings": "Santaupos",
+    "edit": {
+      "display_name": "Display Name",
+      "about": "About",
+      "location": "Location",
+      "website": "Website"
+    }
   },
   "settings": {
     "settings": "Nustatymai",

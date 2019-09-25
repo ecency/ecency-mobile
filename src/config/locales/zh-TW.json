@@ -97,7 +97,13 @@
     "days": "天",
     "day": "天",
     "steem_dollars": "Steem Dollars",
-    "savings": "儲蓄"
+    "savings": "儲蓄",
+    "edit": {
+      "display_name": "Display Name",
+      "about": "About",
+      "location": "Location",
+      "website": "Website"
+    }
   },
   "settings": {
     "settings": "設定",
