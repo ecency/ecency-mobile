@@ -11,10 +11,7 @@ import { catchDraftImage } from '../../../utils/image';
 import { getFormatedCreatedDate } from '../../../utils/time';
 
 // Components
-import { BasicHeader } from '../../../components/basicHeader';
-import { PostListItem } from '../../../components/postListItem';
-import { PostCardPlaceHolder } from '../../../components/basicUIElements';
-import { TabBar } from '../../../components/tabBar';
+import { BasicHeader, TabBar, PostListItem, PostCardPlaceHolder } from '../../../components';
 
 // Styles
 import globalStyles from '../../../globalStyles';

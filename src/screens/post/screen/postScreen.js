@@ -3,9 +3,7 @@ import React, { PureComponent, Fragment } from 'react';
 // Constants
 
 // Components
-import { BasicHeader } from '../../../components/basicHeader';
-import { PostDisplay } from '../../../components/postView';
-import { PostDropdown } from '../../../components/postDropdown';
+import { BasicHeader, PostDisplay, PostDropdown } from '../../../components';
 
 class PostScreen extends PureComponent {
   /* Props

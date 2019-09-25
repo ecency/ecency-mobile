@@ -4,10 +4,7 @@ import { View, Text } from 'react-native';
 import get from 'lodash/get';
 
 // Components
-import { BasicHeader } from '../../../components/basicHeader';
-import { MainButton } from '../../../components/mainButton';
-import { Icon } from '../../../components/icon';
-import { BoostPlaceHolder } from '../../../components/basicUIElements';
+import { BasicHeader, Icon, MainButton, BoostPlaceHolder } from '../../../components';
 
 // Styles
 import globalStyles from '../../../globalStyles';

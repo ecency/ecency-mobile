@@ -8,7 +8,7 @@ import {
   ActivityIndicator,
   Linking,
 } from 'react-native';
-import { get, has } from 'lodash';
+import get from 'lodash/get';
 
 // Constants
 import LIGHT_COVER_IMAGE from '../../../assets/default_cover_image.png';

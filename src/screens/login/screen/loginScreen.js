@@ -8,13 +8,15 @@ import { injectIntl } from 'react-intl';
 import SteemConnect from '../../steem-connect/steemConnect';
 
 // Internal Components
-import { FormInput } from '../../../components/formInput';
-import { InformationArea } from '../../../components/informationArea';
-import { LoginHeader } from '../../../components/loginHeader';
-import { MainButton } from '../../../components/mainButton';
-import { Modal } from '../../../components';
-import { TabBar } from '../../../components/tabBar';
-import { TextButton } from '../../../components/buttons';
+import {
+  FormInput,
+  InformationArea,
+  LoginHeader,
+  MainButton,
+  Modal,
+  TabBar,
+  TextButton,
+} from '../../../components';
 
 // Constants
 import { default as ROUTES } from '../../../constants/routeNames';

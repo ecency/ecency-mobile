@@ -4,8 +4,7 @@ import FastImage from 'react-native-fast-image';
 import { get, has } from 'lodash';
 
 // Components
-import { Modal } from '../..';
-import SearchInput from '../../searchInput';
+import { Modal, SearchInput } from '../..';
 
 // Styles
 import styles from './searchModalStyles';

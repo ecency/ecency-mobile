@@ -2,7 +2,7 @@ import React, { PureComponent } from 'react';
 import { Text, TouchableOpacity, View } from 'react-native';
 
 import { NumericKeyboard, PinAnimatedInput } from '../../../components';
-import { UserAvatar } from '../../../components/userAvatar';
+import { UserAvatar } from '../../../components';
 
 import styles from './pinCodeStyles';
 
