@@ -1,6 +1,7 @@
 import React, { PureComponent, Fragment } from 'react';
 import { injectIntl } from 'react-intl';
-import { Text, View, WebView, ScrollView, TouchableOpacity, Alert } from 'react-native';
+import { Text, View, ScrollView, TouchableOpacity, Alert } from 'react-native';
+import { WebView } from 'react-native-webview';
 import get from 'lodash/get';
 import ActionSheet from 'react-native-actionsheet';
 import Autocomplete from 'react-native-autocomplete-input';

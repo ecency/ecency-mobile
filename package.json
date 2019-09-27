@@ -66,6 +66,7 @@
     "react-native-vector-icons": "^6.6.0",
     "react-native-version": "^3.1.0",
     "react-native-version-number": "^0.3.5",
+    "react-native-webview": "^7.2.7",
     "react-navigation": "^2.18.3",
     "react-navigation-redux-helpers": "^2.0.8",
     "react-redux": "^5.0.7",
