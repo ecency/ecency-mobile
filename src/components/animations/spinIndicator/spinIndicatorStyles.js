@@ -6,7 +6,6 @@ export default StyleSheet.create({
     alignItems: 'center',
     position: 'absolute',
   },
-
   layer: {
     ...StyleSheet.absoluteFillObject,
     justifyContent: 'center',

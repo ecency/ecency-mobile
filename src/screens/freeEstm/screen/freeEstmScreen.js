@@ -8,7 +8,7 @@ import { PointsContainer } from '../../../containers';
 // Components
 import { BasicHeader } from '../../../components/basicHeader';
 import { BoostIndicatorAnimation, MainButton } from '../../../components';
-
+import TagCloud from './tagCloud';
 // Styles
 import styles from './freeEstmStyles';
 
@@ -54,6 +54,33 @@ class FreeEstmScreen extends PureComponent {
                 )}
               </View>
               <View style={styles.spinnerWrapper}>
+                <View style={{ position: 'absolute', left: -110, top: 20 }}>
+                  {!isSpinning && (
+                    <TagCloud
+                      tagList={[
+                        { title: '110 ESTM', point: 3 },
+                        { title: '130 ESTM', point: 2 },
+                        { title: '30 ESTM', point: 1 },
+                        { title: '1 ESTM', point: 0 },
+                        { title: '200 ESTM', point: 3 },
+                        { title: '80 ESTM', point: 1 },
+                        { title: '1 ESTM', point: 2 },
+                        { title: '10 ESTM', point: 0 },
+                        { title: '20 ESTM', point: 0 },
+                        { title: '110 ESTM', point: 1 },
+                        { title: '110 ESTM', point: 1 },
+                        { title: '30 ESTM', point: 2 },
+                        { title: '50 ESTM', point: 1 },
+                        { title: '1 ESTM', point: 0 },
+                        { title: '90 ESTM', point: 2 },
+                        { title: '120 ESTM', point: 2 },
+                        { title: '500 ESTM', point: 3 },
+                        { title: '1000 ESTM', point: 5 },
+                        { title: '2000 ESTM', point: 4 },
+                      ]}
+                    />
+                  )}
+                </View>
                 <BoostIndicatorAnimation isSpinning={isSpinning} />
                 <View style={{ flex: 1 }}>
                   {!isSpinning && (

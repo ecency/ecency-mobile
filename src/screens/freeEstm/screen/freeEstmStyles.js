@@ -8,7 +8,6 @@ export default EStyleSheet.create({
   },
   textWrapper: {
     flex: 0.2,
-    backgroundColor: '$primaryBackgroundColor',
     justifyContent: 'center',
     alignItems: 'center',
   },
