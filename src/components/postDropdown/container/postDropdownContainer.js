@@ -95,11 +95,11 @@ class PostDropdownContainer extends PureComponent {
         break;
 
       case 'PROMOTE':
-        this._redirectToPromote(ROUTES.SCREENS.PROMOTE, 1);
+        this._redirectToPromote(ROUTES.SCREENS.REDEEM, 1, 'promote');
         break;
 
       case 'BOOST':
-        this._redirectToPromote(ROUTES.SCREENS.BOOST_POST, 2);
+        this._redirectToPromote(ROUTES.SCREENS.REDEEM, 2, 'boost');
         break;
 
       default:
@@ -184,11 +184,12 @@ class PostDropdownContainer extends PureComponent {
     }
   };
 
-  _redirectToPromote = (routeName, from) => {
+  _redirectToPromote = (routeName, from, redeemType) => {
     const { content, isLoggedIn, navigation, dispatch, isPinCodeOpen } = this.props;
     const params = {
       from,
       permlink: `${get(content, 'author')}/${get(content, 'permlink')}`,
+      redeemType,
     };
 
     if (isPinCodeOpen) {

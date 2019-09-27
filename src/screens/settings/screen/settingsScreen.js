@@ -12,9 +12,7 @@ import CURRENCY, { VALUE as CURRENCY_VALUE } from '../../../constants/options/cu
 import NSFW from '../../../constants/options/nsfw';
 
 // Components
-import { BasicHeader } from '../../../components/basicHeader';
-import { SettingsItem } from '../../../components/settingsItem';
-import { CollapsibleCard } from '../../../components/collapsibleCard';
+import { BasicHeader, SettingsItem, CollapsibleCard } from '../../../components';
 
 // Styles
 import styles from './settingsStyles';
@@ -86,15 +84,6 @@ class SettingsScreen extends PureComponent {
             />
             <SettingsItem
               title={intl.formatMessage({
-                id: 'settings.dark_theme',
-              })}
-              type="toggle"
-              actionType="theme"
-              isOn={isDarkTheme}
-              handleOnChange={handleOnChange}
-            />
-            <SettingsItem
-              title={intl.formatMessage({
                 id: 'settings.currency',
               })}
               type="dropdown"
@@ -141,6 +130,15 @@ class SettingsScreen extends PureComponent {
                 }),
               )}
               selectedOptionIndex={parseInt(nsfw, 10)}
+              handleOnChange={handleOnChange}
+            />
+            <SettingsItem
+              title={intl.formatMessage({
+                id: 'settings.dark_theme',
+              })}
+              type="toggle"
+              actionType="theme"
+              isOn={isDarkTheme}
               handleOnChange={handleOnChange}
             />
             {!!isLoggedIn && (

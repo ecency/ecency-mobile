@@ -305,7 +305,14 @@ export const getImages = username => api.get(`api/images/${username}`).then(resp
 
 export const addMyImage = (user, url) => api.post('/image', { username: user, image_url: url });
 
-export const uploadImage = file => {
+export const uploadImage = media => {
+  const file = {
+    uri: media.path,
+    type: media.mime,
+    name: media.filename || `IMG_${Math.random()}.JPG`,
+    size: media.size,
+  };
+
   const fData = new FormData();
   fData.append('postimage', file);
 

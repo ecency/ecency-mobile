@@ -1,12 +1,7 @@
 import React, { PureComponent } from 'react';
 import { withNavigation } from 'react-navigation';
 import { connect } from 'react-redux';
-
-// Services and Actions
-
-// Middleware
-
-// Constants
+import { get, has } from 'lodash';
 
 // Component
 import HeaderView from '../view/headerView';
@@ -30,7 +25,7 @@ class HeaderContainer extends PureComponent {
   _handleOpenDrawer = () => {
     const { navigation } = this.props;
 
-    if (navigation && navigation.openDrawer && typeof navigation.openDrawer === 'function') {
+    if (has(navigation, 'openDrawer') && typeof get(navigation, 'openDrawer') === 'function') {
       navigation.openDrawer();
     }
   };
@@ -52,19 +47,11 @@ class HeaderContainer extends PureComponent {
       isLoginDone,
       isDarkTheme,
     } = this.props;
-    let displayName;
-    let username;
-    let reputation;
+    const _user = isReverse && selectedUser ? selectedUser : currentAccount;
 
-    if (isReverse && selectedUser) {
-      displayName = selectedUser.display_name;
-      username = selectedUser.name;
-      reputation = selectedUser.reputation;
-    } else if (!isReverse) {
-      displayName = currentAccount.display_name;
-      username = currentAccount.name;
-      reputation = currentAccount.reputation;
-    }
+    const displayName = get(_user, 'display_name');
+    const username = get(_user, 'name');
+    const reputation = get(_user, 'reputation');
 
     return (
       <HeaderView

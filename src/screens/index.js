@@ -10,20 +10,19 @@ import { Notification } from './notification';
 import { PinCode } from './pinCode';
 import { Points } from './points';
 import { Post } from './post';
-import { Profile } from './profile';
 import { SearchResult } from './searchResult';
 import { Settings } from './settings';
-import Voters from './voters';
-import BoostPost from './boostPost/screen/boostPostScreen';
-import Promote from './promote/screen/promoteScreen';
+import Profile from './profile/screen/profileScreen';
+import ProfileEdit from './profileEdit/screen/profileEditScreen';
+import Reblogs from './reblogs';
+import Redeem from './redeem/screen/redeemScreen';
 import SteemConnect from './steem-connect/steemConnect';
 import Transfer from './transfer';
-import Reblogs from './reblogs';
+import Voters from './voters';
 
 export {
   Bookmarks,
   Boost,
-  BoostPost,
   Drafts,
   Editor,
   Follows,
@@ -35,11 +34,12 @@ export {
   Points,
   Post,
   Profile,
-  Promote,
+  ProfileEdit,
+  Reblogs,
+  Redeem,
   SearchResult,
   Settings,
   SteemConnect,
   Transfer,
   Voters,
-  Reblogs,
 };

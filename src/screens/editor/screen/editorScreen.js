@@ -7,9 +7,14 @@ import get from 'lodash/get';
 import { getWordsCount } from '../../../utils/editor';
 
 // Components
-import { BasicHeader } from '../../../components/basicHeader';
-import { TitleArea, TagArea, TextArea, SummaryArea } from '../../../components/editorElements';
-import { PostForm } from '../../../components/postForm';
+import {
+  BasicHeader,
+  TitleArea,
+  TagArea,
+  TextArea,
+  SummaryArea,
+  PostForm,
+} from '../../../components';
 
 // Styles
 import globalStyles from '../../../globalStyles';

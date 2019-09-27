@@ -8,15 +8,17 @@ import get from 'lodash/get';
 import { getWithdrawRoutes } from '../../../providers/steem/dsteem';
 import AUTH_TYPE from '../../../constants/authType';
 
-import { BasicHeader } from '../../../components/basicHeader';
-import { TransferFormItem } from '../../../components/transferFormItem';
-import { MainButton } from '../../../components/mainButton';
-import { DropdownButton } from '../../../components/dropdownButton';
-import { Modal } from '../../../components/modal';
-import { SquareButton } from '../../../components/buttons';
-import InformationBox from '../../../components/informationBox';
-import { Icon } from '../../../components/icon';
-import { IconButton } from '../../../components/iconButton';
+import {
+  BasicHeader,
+  TransferFormItem,
+  MainButton,
+  DropdownButton,
+  Modal,
+  SquareButton,
+  InformationBox,
+  Icon,
+  IconButton,
+} from '../../../components';
 import WithdrawAccountModal from './withdrawAccountModal';
 
 import parseToken from '../../../utils/parseToken';
