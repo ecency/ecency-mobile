@@ -1,4 +1,5 @@
-import PulseAnimation from './pulse/pulseAnimation';
+import { PulseAnimation } from './pulse/pulseAnimation';
+import { SpinIndicator } from './spinIndicator/spinIndicator';
+import { BoostIndicatorAnimation } from './boostIndicator/boostIndicatorAnimation';
 
-export { PulseAnimation };
-export default PulseAnimation;
+export { PulseAnimation, SpinIndicator, BoostIndicatorAnimation };
