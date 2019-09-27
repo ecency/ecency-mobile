@@ -37,8 +37,6 @@ class SpinIndicator extends PureComponent {
           rotate: progress.interpolate({
             inputRange: [0, 1],
             outputRange: [`${initStart + 30 + 15}deg`, `${2 * (360 + initStart)}deg`],
-
-            //            outputRange: [`${0 + 30 + 15}deg`, `${2 * 360 + 30 + 15}deg`],
           }),
         },
       ],
