@@ -36,7 +36,7 @@ class CommentsContainer extends Component {
     this._getComments();
   }
 
-  componentWillReceiveProps(nextProps) {
+  UNSAFE_componentWillReceiveProps(nextProps) {
     const { commentCount, selectedFilter } = this.props;
 
     if (nextProps.commentCount > commentCount) {

@@ -61,7 +61,7 @@ class PostsView extends Component {
     }
   }
 
-  componentWillReceiveProps(nextProps) {
+  UNSAFE_componentWillReceiveProps(nextProps) {
     const { currentAccountUsername, changeForceLoadPostState } = this.props;
 
     if (

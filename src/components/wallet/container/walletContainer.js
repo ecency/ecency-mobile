@@ -38,7 +38,7 @@ class WalletContainer extends Component {
     this._getWalletData(selectedUser);
   }
 
-  componentWillReceiveProps(nextProps) {
+  UNSAFE_componentWillReceiveProps(nextProps) {
     const { selectedUser } = this.props;
 
     if (selectedUser.name !== nextProps.selectedUser.name) {

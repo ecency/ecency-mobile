@@ -25,7 +25,7 @@ class BottomTabBarView extends PureComponent {
   }
 
   // Component Life Cycles
-  componentWillUpdate(nextProps) {
+  UNSAFE_componentWillUpdate(nextProps) {
     const {
       navigation: {
         state: { index, routes },
