@@ -10,6 +10,7 @@ import { getPostReblogs } from '../providers/esteem/esteem';
 
 // Utils
 import { getReputation } from './reputation';
+import { getResizedImage, getResizedAvatar } from './image';
 
 export const parsePosts = async (posts, currentUserName) => {
   if (posts) {
@@ -33,7 +34,7 @@ export const parsePost = async (post, currentUserName, isPromoted) => {
   post.image = postImage(post.json_metadata, post.body);
   post.vote_count = post.active_votes.length;
   post.author_reputation = getReputation(post.author_reputation);
-  post.avatar = `https://steemitimages.com/u/${post.author}/avatar/small`;
+  post.avatar = getResizedAvatar(get(post, 'author'));
   post.active_votes.sort((a, b) => b.rshares - a.rshares);
 
   post.body = renderPostBody(post);
@@ -89,7 +90,7 @@ const postImage = (metaData, body) => {
   }
 
   if (imageLink) {
-    return `https://steemitimages.com/600x0/${imageLink}`;
+    return getResizedImage(imageLink, 600);
   }
   return '';
 };
@@ -108,7 +109,7 @@ export const parseComments = async (comments, currentUserName) => {
       get(comment, 'pending_payout_value') ? get(comment, 'pending_payout_value') : 0,
     ).toFixed(3);
     comment.author_reputation = getReputation(get(comment, 'author_reputation'));
-    comment.avatar = `https://steemitimages.com/u/${get(comment, 'author')}/avatar/small`;
+    comment.avatar = getResizedAvatar(get(comment, 'author'));
     comment.markdownBody = get(comment, 'body');
     comment.body = renderPostBody(comment);
     comment.active_votes = activeVotes;
@@ -170,7 +171,7 @@ const parseActiveVotes = (post, currentUserName) => {
       value.reputation = getReputation(get(value, 'reputation'));
       value.percent /= 100;
       value.is_down_vote = Math.sign(value.percent) < 0;
-      value.avatar = `https://steemitimages.com/u/${value.voter}/avatar/small`;
+      value.avatar = getResizedAvatar(get(value, 'voter'));
     });
   }
 

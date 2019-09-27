@@ -139,7 +139,7 @@ android {
         minSdkVersion rootProject.ext.minSdkVersion
         targetSdkVersion rootProject.ext.targetSdkVersion
         versionCode versionMajor * 10000 + versionMinor * 100 + versionPatch
-        versionName "2.2.1"
+        versionName "2.2.2"
         resValue "string", "build_config_package", "app.esteem.mobile.android"
         // react-native-image-crop-picker
         vectorDrawables.useSupportLibrary = true

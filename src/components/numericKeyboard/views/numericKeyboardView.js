@@ -1,7 +1,8 @@
 import React from 'react';
 import { View } from 'react-native';
 import times from 'lodash/times';
-import { CircularButton, IconButton } from '../../buttons';
+import { CircularButton } from '../../buttons';
+import { IconButton } from '../../iconButton';
 
 import styles from './numericKeyboardStyles';
 
@@ -26,11 +27,11 @@ const NumericKeyboard = ({ onPress }) => (
         onPress={value => onPress && onPress(value)}
       />
       <IconButton
-        handleOnPress={() => onPress && onPress('clear')}
+        onPress={() => onPress && onPress('clear')}
         isCircle
         buttonStyle={styles.buttonWithoutBorder}
         style={styles.iconButton}
-        name="backspace"
+        name="ios-backspace"
       />
     </View>
   </View>

@@ -1,6 +1,6 @@
 {
   "name": "eSteem",
-  "version": "2.2.1",
+  "version": "2.2.2",
   "private": true,
   "rnpm": {
     "assets": [
@@ -56,7 +56,7 @@
     "react-native-image-crop-picker": "^0.25.2",
     "react-native-keyboard-aware-scroll-view": "^0.8.0",
     "react-native-linear-gradient": "^2.4.2",
-    "react-native-modal-dropdown": "^0.6.2",
+    "react-native-modal-dropdown": "^0.7.0",
     "react-native-modal-popover": "0.0.12",
     "react-native-navigation-bar-color": "^0.1.0",
     "react-native-render-html": "^4.1.2",

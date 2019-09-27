@@ -97,7 +97,13 @@
     "days": "Tagen",
     "day": "Tag",
     "steem_dollars": "Steem-Dollar",
-    "savings": "Gesichert"
+    "savings": "Gesichert",
+    "edit": {
+      "display_name": "Display Name",
+      "about": "About",
+      "location": "Location",
+      "website": "Website"
+    }
   },
   "settings": {
     "settings": "Einstellungen",
@@ -222,7 +228,8 @@
     "fetch_error": "Das Abrufen der Daten vom Server ist fehlgeschlagen. Bitte versuche es nochmal oder informiere uns unter info@esteem.app",
     "connection_fail": "Verbindung fehlgeschlagen!",
     "connection_success": "Erfolgreich verbunden!",
-    "checking": "Cheking..."
+    "checking": "Cheking...",
+    "not_existing_post": "The post does not exist! Please check permlink and author."
   },
   "post": {
     "reblog_alert": "Möchtest du diesen Beitrag wirklich teilen?",

@@ -7,14 +7,16 @@ import get from 'lodash/get';
 import { steemConnectOptions } from '../../../constants/steemConnectOptions';
 import AUTH_TYPE from '../../../constants/authType';
 
-import { BasicHeader } from '../../../components/basicHeader';
-import { TextInput } from '../../../components/textInput';
-import { TransferFormItem } from '../../../components/transferFormItem';
-import { MainButton } from '../../../components/mainButton';
-import { DropdownButton } from '../../../components/dropdownButton';
-import { UserAvatar } from '../../../components/userAvatar';
-import { Icon } from '../../../components/icon';
-import { Modal } from '../../../components/modal';
+import {
+  BasicHeader,
+  TextInput,
+  TransferFormItem,
+  MainButton,
+  DropdownButton,
+  UserAvatar,
+  Icon,
+  Modal,
+} from '../../../components';
 
 import styles from './transferStyles';
 

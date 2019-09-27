@@ -1,13 +1,10 @@
 import React, { PureComponent } from 'react';
 import { View, Text, FlatList, TouchableOpacity, SafeAreaView } from 'react-native';
-
 import FastImage from 'react-native-fast-image';
-
-// Constants
+import { get, has } from 'lodash';
 
 // Components
-import { Modal } from '../..';
-import SearchInput from '../../searchInput';
+import { Modal, SearchInput } from '../..';
 
 // Styles
 import styles from './searchModalStyles';
@@ -40,7 +37,7 @@ class SearchModalView extends PureComponent {
     return (
       <Modal
         isOpen={isOpen}
-        handleOnModalClose={() => handleOnClose()}
+        handleOnModalClose={handleOnClose}
         isFullScreen
         swipeToClose
         isTransparent
@@ -53,12 +50,14 @@ class SearchModalView extends PureComponent {
           />
           <View style={styles.body}>
             <FlatList
-              data={searchResults.data}
+              data={get(searchResults, 'data', [])}
               showsVerticalScrollIndicator={false}
               renderItem={({ item }) => (
                 // TODO: Make it quick ui component
-                <TouchableOpacity onPress={() => handleOnPressListItem(searchResults.type, item)}>
-                  <View style={styles.searhItems}>
+                <TouchableOpacity
+                  onPress={() => handleOnPressListItem(get(searchResults, 'type'), item)}
+                >
+                  <View style={styles.searchItems}>
                     <View style={styles.searchItemImageWrapper}>
                       {item.image && (
                         <FastImage
@@ -70,12 +69,12 @@ class SearchModalView extends PureComponent {
                       )}
                     </View>
                     <View style={styles.searchItemTextWrapper}>
-                      {item.text && <Text style={styles.searchItemText}>{item.text}</Text>}
+                      {has(item, 'text') && <Text style={styles.searchItemText}>{item.text}</Text>}
                     </View>
                   </View>
                 </TouchableOpacity>
               )}
-              keyExtractor={(post, index) => index.toString()}
+              keyExtractor={(item, index) => get(item, 'id', index).toString()}
               removeClippedSubviews
               onEndThreshold={0}
               initialNumToRender={20}

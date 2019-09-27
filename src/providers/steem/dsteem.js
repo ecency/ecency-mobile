@@ -1,7 +1,8 @@
+/* eslint-disable camelcase */
 import { Client, PrivateKey } from 'dsteem';
 import steemconnect from 'steemconnect';
 import Config from 'react-native-config';
-import get from 'lodash/get';
+import { get, has } from 'lodash';
 
 import { getServer } from '../../realm/realm';
 import { getUnreadActivityCount } from '../esteem/esteem';
@@ -117,45 +118,44 @@ export const getState = async path => {
 export const getUser = async user => {
   try {
     const account = await client.database.getAccounts([user]);
+    const _account = { ...account[0] };
+    let unreadActivityCount;
 
     if (account && account.length < 1) return null;
 
-    // get global properties to calculate Steem Power
     const globalProperties = await client.database.getDynamicGlobalProperties();
     const rcPower = await client.call('rc_api', 'find_rc_accounts', { accounts: [user] });
-    let unreadActivityCount;
     try {
       unreadActivityCount = await getUnreadActivityCount({ user });
     } catch (error) {
       unreadActivityCount = 0;
     }
 
-    account[0].reputation = getReputation(account[0].reputation);
-    account[0].username = account[0].name;
-    account[0].unread_activity_count = unreadActivityCount;
-    account[0].rc_manabar = rcPower.rc_accounts[0].rc_manabar;
-    account[0].steem_power = await vestToSteem(
-      account[0].vesting_shares,
+    _account.reputation = getReputation(_account.reputation);
+    _account.username = _account.name;
+    _account.unread_activity_count = unreadActivityCount;
+    _account.rc_manabar = rcPower.rc_accounts[0].rc_manabar;
+    _account.steem_power = await vestToSteem(
+      _account.vesting_shares,
       globalProperties.total_vesting_shares,
       globalProperties.total_vesting_fund_steem,
     );
-    account[0].received_steem_power = await vestToSteem(
-      get(account[0], 'received_vesting_shares'),
+    _account.received_steem_power = await vestToSteem(
+      get(_account, 'received_vesting_shares'),
       get(globalProperties, 'total_vesting_shares'),
       get(globalProperties, 'total_vesting_fund_steem'),
     );
-    account[0].delegated_steem_power = await vestToSteem(
-      get(account[0], 'delegated_vesting_shares'),
+    _account.delegated_steem_power = await vestToSteem(
+      get(_account, 'delegated_vesting_shares'),
       get(globalProperties, 'total_vesting_shares'),
       get(globalProperties, 'total_vesting_fund_steem'),
     );
 
-    account[0].about =
-      get(account[0], 'json_metadata') && JSON.parse(get(account[0], 'json_metadata'));
-    account[0].avatar = getAvatar(get(account[0], 'about'));
-    account[0].display_name = getName(get(account[0], 'about'));
+    _account.about = has(_account, 'json_metadata') && JSON.parse(get(_account, 'json_metadata'));
+    _account.avatar = getAvatar(get(_account, 'about'));
+    _account.display_name = getName(get(_account, 'about'));
 
-    return account[0];
+    return _account;
   } catch (error) {
     return Promise.reject(error);
   }
@@ -343,12 +343,6 @@ export const getRepliesByLastUpdate = async query => {
   }
 };
 
-/**
- * @method getUser get user data
- * @param user post author
- * @param permlink post permlink
- * @param currentUserName active accounts username
- */
 export const getPost = async (author, permlink, currentUserName = null, isPromoted = false) => {
   try {
     const post = await client.database.call('get_content', [author, permlink]);
@@ -356,6 +350,16 @@ export const getPost = async (author, permlink, currentUserName = null, isPromot
     return post ? await parsePost(post, currentUserName, isPromoted) : null;
   } catch (error) {
     return error;
+  }
+};
+
+export const isPostAvailable = async (author, permlink) => {
+  try {
+    const post = await client.database.call('get_content', [author, permlink]);
+
+    return get(post, 'id', 0) !== 0;
+  } catch (error) {
+    return false;
   }
 };
 
@@ -1161,6 +1165,63 @@ export const boost = (currentAccount, pinCode, point, permlink, author) => {
   }
 
   return Promise.reject(new Error('Something went wrong!'));
+};
+
+export const profileUpdate = async (params, pin, currentAccount) => {
+  const digitPinCode = getDigitPinCode(pin);
+  const key = getActiveKey(get(currentAccount, 'local'), digitPinCode);
+
+  if (get(currentAccount, 'local.authType') === AUTH_TYPE.STEEM_CONNECT) {
+    const token = decryptKey(get(currentAccount, 'local.accessToken'), digitPinCode);
+    const api = new steemconnect.Client({
+      accessToken: token,
+    });
+
+    const _params = {
+      account: get(currentAccount, 'name'),
+      memo_key: get(currentAccount, 'memo_key'),
+      json_metadata: jsonStringify(params),
+    };
+
+    const opArray = [['account_update', _params]];
+
+    return api
+      .broadcast(opArray)
+      .then(resp => resp.result)
+      .catch(error => console.log(error));
+  }
+
+  if (key) {
+    const opArray = [
+      [
+        'account_update',
+        {
+          account: get(currentAccount, 'name'),
+          memo_key: get(currentAccount, 'memo_key'),
+          json_metadata: jsonStringify({ profile: params }),
+        },
+      ],
+    ];
+
+    const privateKey = PrivateKey.fromString(key);
+
+    return new Promise((resolve, reject) => {
+      client.broadcast
+        .sendOperations(opArray, privateKey)
+        .then(result => {
+          resolve(result);
+        })
+        .catch(error => {
+          if (get(error, 'jse_info.code') === 4030100) {
+            error.message =
+              'We noticed that your device has incorrect date or time. Please fix Date & Time or Set Automatically and try again.';
+          }
+          reject(error);
+        });
+    });
+  }
+
+  return Promise.reject(new Error('You dont have permission!'));
 };
 
 // HELPERS

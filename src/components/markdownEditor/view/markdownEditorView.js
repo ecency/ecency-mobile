@@ -63,9 +63,9 @@ export default class MarkdownEditorView extends Component {
 
   componentDidUpdate(prevProps, prevState) {
     const { text } = this.state;
-    const { isFormValid, handleIsFormValid } = this.props;
+    const { handleIsFormValid } = this.props;
 
-    if (prevState.text !== text && !isFormValid) {
+    if (prevState.text !== text) {
       const nextText = text.replace(prevState.text, '');
 
       if (nextText && nextText.length > 0) {
@@ -81,14 +81,6 @@ export default class MarkdownEditorView extends Component {
   // Component functions
   _changeText = input => {
     const { onChange, handleOnTextChange, handleIsValid, componentID } = this.props;
-    const { textUpdated } = this.state;
-
-    if (textUpdated) {
-      this.setState({
-        textUpdated: false,
-      });
-      return;
-    }
 
     this.setState({ text: input });
 

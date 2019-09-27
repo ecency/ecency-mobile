@@ -97,7 +97,13 @@
     "days": "días",
     "day": "día",
     "steem_dollars": "Steem Dólares",
-    "savings": "Ahorros"
+    "savings": "Ahorros",
+    "edit": {
+      "display_name": "Display Name",
+      "about": "About",
+      "location": "Location",
+      "website": "Website"
+    }
   },
   "settings": {
     "settings": "Ajustes",
@@ -222,7 +228,8 @@
     "fetch_error": "Fetching data failed, please try again or notify us at info@esteem.app",
     "connection_fail": "Connection Failed!",
     "connection_success": "Successfully connected!",
-    "checking": "Cheking..."
+    "checking": "Cheking...",
+    "not_existing_post": "The post does not exist! Please check permlink and author."
   },
   "post": {
     "reblog_alert": "Are you sure, you want to reblog?",

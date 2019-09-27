@@ -131,7 +131,7 @@ class ApplicationContainer extends Component {
       if (nextProps.isDarkTheme) {
         changeNavigationBarColor('#1e2835');
       } else {
-        changeNavigationBarColor('#FFFFFF');
+        changeNavigationBarColor('#FFFFFF', true);
       }
     }
 
@@ -487,13 +487,6 @@ class ApplicationContainer extends Component {
       const isExistUser = await getExistUser();
 
       realmObject[0].name = currentUsername;
-      dispatch(
-        updateCurrentAccount({
-          name: realmObject[0].username,
-          avatar: realmObject[0].avatar,
-          authType: realmObject[0].authType,
-        }),
-      );
       // If in dev mode pin code does not show
       if ((!isExistUser || !pinCode) && _isPinCodeOpen) {
         dispatch(openPinCodeModal());
