@@ -330,7 +330,6 @@ class ProfileContainer extends Component {
       quickProfile,
       user,
       username,
-      selectedUser,
     } = this.state;
     const { currency, isDarkTheme, isLoggedIn, navigation, children } = this.props;
     const activePage = get(navigation.state.params, 'state', 0);
