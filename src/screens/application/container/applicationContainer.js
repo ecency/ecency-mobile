@@ -113,7 +113,7 @@ class ApplicationContainer extends Component {
     this._createPushListener();
   };
 
-  componentWillReceiveProps(nextProps) {
+  UNSAFE_componentWillReceiveProps(nextProps) {
     const {
       isDarkTheme: _isDarkTheme,
       selectedLanguage,

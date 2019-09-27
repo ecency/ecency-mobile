@@ -32,7 +32,7 @@ class CollapsibleCardView extends PureComponent {
     };
   }
 
-  componentWillReceiveProps(nextProps) {
+  UNSAFE_componentWillReceiveProps(nextProps) {
     const { isExpanded, moreHeight, locked } = this.props;
     const { expanded } = this.state;
 

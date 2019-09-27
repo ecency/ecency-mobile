@@ -30,7 +30,7 @@ class PostDisplayContainer extends Component {
   }
 
   // Component Life Cycle Functions
-  componentWillReceiveProps(nextProps) {
+  UNSAFE_componentWillReceiveProps(nextProps) {
     const { isFetchPost } = this.props;
     if (isFetchPost !== nextProps.isFetchPost && nextProps.isFetchPost) {
       this._fetchPost();
