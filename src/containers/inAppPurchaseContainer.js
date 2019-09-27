@@ -119,9 +119,9 @@ class BoostContainer extends Component {
   _buyItem = async sku => {
     const { navigation } = this.props;
 
-    await this.setState({ isProcessing: true });
-
     if (sku !== 'freePoints') {
+      await this.setState({ isProcessing: true });
+
       try {
         RNIap.requestPurchase(sku, false);
       } catch (err) {

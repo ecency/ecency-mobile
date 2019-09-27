@@ -1,5 +1,6 @@
 import { AvatarHeader } from './avatarHeader';
 import { BasicHeader } from './basicHeader';
+import { BoostIndicatorAnimation } from './animations';
 import { BottomTabBar } from './bottomTabBar';
 import { CheckBox } from './checkbox';
 import { CircularButton, TextButton, SquareButton } from './buttons';
@@ -36,6 +37,7 @@ import { SearchInput } from './searchInput';
 import { SearchModal } from './searchModal';
 import { SettingsItem } from './settingsItem';
 import { SideMenu } from './sideMenu';
+import { SpinIndicator } from './animations';
 import { SummaryArea, TagArea, TextArea, TitleArea } from './editorElements';
 import { TabBar } from './tabBar';
 import { TextInput } from './textInput';
@@ -46,7 +48,6 @@ import { Upvote } from './upvote';
 import { UserAvatar } from './userAvatar';
 import Logo from './logo/logo';
 import PostButton from './postButton/postButtonView';
-import SpinGame from './spinGame/view/spinGameView';
 import ProfileEditForm from './profileEditForm/profileEditFormView';
 import ScaleSlider from './scaleSlider/scaleSliderView';
 
@@ -98,6 +99,7 @@ export {
   ListPlaceHolder,
   BoostPlaceHolder,
   NoInternetConnection,
+  BoostIndicatorAnimation,
   NoPost,
   PostCardPlaceHolder,
   PostPlaceHolder,
@@ -132,7 +134,7 @@ export {
   LeaderBoard,
   LoginHeader,
   Logo,
-  SpinGame,
+  SpinIndicator,
   MainButton,
   MarkdownEditor,
   Modal,
