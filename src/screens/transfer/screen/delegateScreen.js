@@ -1,5 +1,6 @@
 import React, { Component, Fragment } from 'react';
-import { View, Text, WebView } from 'react-native';
+import { View, Text } from 'react-native';
+import { WebView } from 'react-native-webview';
 import { injectIntl } from 'react-intl';
 import Slider from 'react-native-slider';
 import get from 'lodash/get';
