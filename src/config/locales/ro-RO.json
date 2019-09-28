@@ -228,7 +228,7 @@
     "fetch_error": "Fetching data failed, please try again or notify us at info@esteem.app",
     "connection_fail": "Connectare Eșuată!",
     "connection_success": "Conectat cu succes!",
-    "checking": "Cheking...",
+    "checking": "Checking...",
     "not_existing_post": "The post does not exist! Please check permlink and author."
   },
   "post": {
@@ -236,7 +236,7 @@
     "removed_hint": "Postarea a fost eliminată de către",
     "copy_link": "Copiere link",
     "reblogged": "redistribuit de",
-    "sponsored": "SPONSORED",
+    "sponsored": "SPONSORIZAT",
     "open_thread": "Open Thread"
   },
   "drafts": {
@@ -307,10 +307,10 @@
   "transfer": {
     "from": "De la",
     "to": "Către",
-    "amount_information": "Drag the slider to adjust the amount",
+    "amount_information": "Trage glisorul pentru a ajusta cantitatea",
     "amount": "Sumă",
     "memo": "Notă",
-    "information": "Are you sure to transfer funds?",
+    "information": "Ești sigur că vrei să transferi fonduri?",
     "amount_desc": "Sold",
     "memo_desc": "Această notă este publică",
     "to_placeholder": "Nume de utilizator",
@@ -328,7 +328,7 @@
     "withdraw_sbd": "Retrage Steem Dolar"
   },
   "boost": {
-    "title": "Get eSteem Points",
+    "title": "Câștigă puncte eSteem",
     "buy": "GET ESTM",
     "next": "URMĂTORUL"
   },
