@@ -228,7 +228,7 @@
     "fetch_error": "Gagal mengambil data, silakan coba lagi atau beri tahu kami di info@esteem.app",
     "connection_fail": "Koneksi gagal!",
     "connection_success": "Berhasil terhubung!",
-    "checking": "Cheking...",
+    "checking": "Checking...",
     "not_existing_post": "The post does not exist! Please check permlink and author."
   },
   "post": {
