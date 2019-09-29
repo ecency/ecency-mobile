@@ -1,5 +1,4 @@
 import { Bookmarks } from './bookmarks';
-import { Boost } from './boost';
 import { Drafts } from './drafts';
 import { Editor } from './editor';
 import { Follows } from './follows';
@@ -12,6 +11,7 @@ import { Points } from './points';
 import { Post } from './post';
 import { SearchResult } from './searchResult';
 import { Settings } from './settings';
+import Boost from './boost/screen/boostScreen';
 import Profile from './profile/screen/profileScreen';
 import ProfileEdit from './profileEdit/screen/profileEditScreen';
 import Reblogs from './reblogs';
