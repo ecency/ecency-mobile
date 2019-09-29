@@ -58,6 +58,7 @@ class SpinIndicator extends PureComponent {
     const containerStyle = {
       width: !animating ? 300 : size,
       height: !animating ? 300 : size / 2,
+      position: 'absolute',
       overflow: 'hidden',
     };
 
