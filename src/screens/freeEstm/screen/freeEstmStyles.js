@@ -23,5 +23,15 @@ export default EStyleSheet.create({
   },
   spinnerWrapper: {
     flex: 1,
+    marginTop: 10,
+  },
+  backgroundTags: {
+    position: 'absolute',
+    width: '$deviceWidth',
+    height: 320,
+    left: -120,
+    top: -8,
+    right: 0,
+    zIndex: 999,
   },
 });

@@ -13,7 +13,7 @@ const BoostIndicatorAnimation = ({ isSpinning }) => {
         size={230}
         animationDuration={2400}
         color={!isSpinning ? '#f2f2f2' : '#1a509a'}
-        breadth={17}
+        breadth={12}
         animating={isSpinning}
         initStart={0}
       />
@@ -21,7 +21,7 @@ const BoostIndicatorAnimation = ({ isSpinning }) => {
         size={180}
         animationDuration={2000}
         color={!isSpinning ? '#f2f2f2' : '#357ce6'}
-        breadth={17}
+        breadth={12}
         animating={isSpinning}
         initStart={20}
       />
@@ -29,7 +29,7 @@ const BoostIndicatorAnimation = ({ isSpinning }) => {
         size={130}
         animationDuration={1700}
         color={!isSpinning ? '#f2f2f2' : '#4da1f1'}
-        breadth={17}
+        breadth={12}
         animating={isSpinning}
         initStart={40}
       />
