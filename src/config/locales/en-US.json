@@ -333,7 +333,10 @@
     "next": "NEXT"
   },
   "free_estm": {
-    "title": "Free ESTM"
+    "title": "Free ESTM",
+    "button": "SPIN & WIN",
+    "get_spin": "5 SPIN",
+    "timer_text": "Next free spin in"
   },
   "promote": {
     "title": "Promote",
