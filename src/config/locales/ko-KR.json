@@ -99,10 +99,10 @@
     "steem_dollars": "스팀 달러",
     "savings": "안전 금고",
     "edit": {
-      "display_name": "Display Name",
-      "about": "About",
-      "location": "Location",
-      "website": "Website"
+      "display_name": "이름",
+      "about": "소개",
+      "location": "위치",
+      "website": "웹사이트"
     }
   },
   "settings": {
@@ -228,8 +228,8 @@
     "fetch_error": "서버에서 데이터를 가져오는데 실패했습니다. 다시 시도해보시거나 info@esteem.app로 문의해주세요.",
     "connection_fail": "연결 실패!",
     "connection_success": "성공적으로 연결되었습니다",
-    "checking": "Checking...",
-    "not_existing_post": "The post does not exist! Please check permlink and author."
+    "checking": "확인 중...",
+    "not_existing_post": "글이 존재하지 않습니다! permlink와 저자를 확인해주세요."
   },
   "post": {
     "reblog_alert": "리블로그 하시겠습니까?",
