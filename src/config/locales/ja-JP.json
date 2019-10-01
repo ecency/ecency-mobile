@@ -228,7 +228,7 @@
     "fetch_error": "データを取得できませんでした。もう一度やり直すか info@esteem.app に連絡してください",
     "connection_fail": "接続に失敗しました！",
     "connection_success": "接続に成功しました！",
-    "checking": "Checking...",
+    "checking": "確認中...",
     "not_existing_post": "投稿は存在しません！パーマリンクと投稿者を確認してください。"
   },
   "post": {
