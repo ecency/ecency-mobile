@@ -103,7 +103,15 @@ class ProfileSummaryView extends PureComponent {
     const isColumn = rowLength && DEVICE_WIDTH / rowLength <= 7.3;
 
     const followButtonIcon = !isFollowing ? 'account-plus' : 'account-minus';
-    const coverImageUrl = getResizedImage(get(about, 'cover_image'), 400);
+    let coverImageUrl = getResizedImage(get(about, 'cover_image'), 400);
+
+    if (!coverImageUrl) {
+      coverImageUrl = isDarkTheme
+        ? require('../../../assets/dark_cover_image.png')
+        : require('../../../assets/default_cover_image.png');
+    } else {
+      coverImageUrl = { uri: coverImageUrl };
+    }
 
     dropdownOptions.push(!isMuted ? 'MUTE' : 'UNMUTE');
 
@@ -126,7 +134,7 @@ class ProfileSummaryView extends PureComponent {
         </View>
         <Image
           style={styles.longImage}
-          source={{ uri: coverImageUrl }}
+          source={coverImageUrl}
           defaultSource={isDarkTheme ? DARK_COVER_IMAGE : LIGHT_COVER_IMAGE}
         />
         <TouchableOpacity
