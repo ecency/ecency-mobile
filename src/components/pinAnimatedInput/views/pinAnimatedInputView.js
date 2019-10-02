@@ -22,7 +22,7 @@ class PinAnimatedInput extends PureComponent {
     this.dots[3] = new Animated.Value(0);
   }
 
-  componentWillReceiveProps(nextProps) {
+  UNSAFE_componentWillReceiveProps(nextProps) {
     const { loading } = this.props;
     if (loading !== nextProps.loading) {
       if (nextProps.loading) {

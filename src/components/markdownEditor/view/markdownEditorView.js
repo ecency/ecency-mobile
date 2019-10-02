@@ -32,7 +32,7 @@ export default class MarkdownEditorView extends Component {
   }
 
   // Lifecycle functions
-  componentWillReceiveProps(nextProps) {
+  UNSAFE_componentWillReceiveProps(nextProps) {
     const { draftBody, uploadedImage, isPreviewActive } = this.props;
     if (!nextProps.isPreviewActive && isPreviewActive) {
       this.setState({

@@ -74,7 +74,7 @@ class ProfileContainer extends Component {
     this._loadProfile(targetUsername);
   }
 
-  componentWillReceiveProps(nextProps) {
+  UNSAFE_componentWillReceiveProps(nextProps) {
     if (!nextProps.isConnected) return;
 
     const { isLoggedIn, navigation } = this.props;

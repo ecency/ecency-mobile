@@ -53,7 +53,7 @@ class PointsContainer extends Component {
     }
   }
 
-  componentWillReceiveProps(nextProps) {
+  UNSAFE_componentWillReceiveProps(nextProps) {
     const { username } = this.props;
     const _username = get(nextProps, 'username');
 

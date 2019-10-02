@@ -36,7 +36,7 @@ class SideMenuView extends Component {
 
   // Component Life Cycles
 
-  componentWillReceiveProps(nextProps) {
+  UNSAFE_componentWillReceiveProps(nextProps) {
     const { isLoggedIn, accounts } = this.props;
     const { isAddAccountIconActive } = this.state;
 

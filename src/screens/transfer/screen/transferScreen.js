@@ -1,5 +1,6 @@
 import React, { Fragment, Component } from 'react';
-import { Text, View, WebView, ScrollView, TouchableOpacity } from 'react-native';
+import { Text, View, ScrollView, TouchableOpacity } from 'react-native';
+import { WebView } from 'react-native-webview';
 import ActionSheet from 'react-native-actionsheet';
 import { injectIntl } from 'react-intl';
 import get from 'lodash/get';

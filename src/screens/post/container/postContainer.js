@@ -47,7 +47,7 @@ class PostContainer extends Component {
     if (isHasParentPost) this.setState({ isHasParentPost });
   }
 
-  componentWillReceiveProps(nextProps) {
+  UNSAFE_componentWillReceiveProps(nextProps) {
     const { navigation } = this.props;
     const { isFetch: nextIsFetch } = get(nextProps, 'navigation.state.params');
 

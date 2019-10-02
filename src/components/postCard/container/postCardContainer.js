@@ -24,7 +24,7 @@ class PostCardContainer extends PureComponent {
     };
   }
 
-  componentWillReceiveProps(nextProps) {
+  UNSAFE_componentWillReceiveProps(nextProps) {
     if (get(nextProps, 'isRefresh')) {
       this._fetchPost();
     }

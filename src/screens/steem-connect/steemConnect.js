@@ -1,5 +1,6 @@
 import React, { PureComponent } from 'react';
-import { View, WebView, Alert } from 'react-native';
+import { View, Alert } from 'react-native';
+import { WebView } from 'react-native-webview';
 import { connect } from 'react-redux';
 import { injectIntl } from 'react-intl';
 import { withNavigation } from 'react-navigation';

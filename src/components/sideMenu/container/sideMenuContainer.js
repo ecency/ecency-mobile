@@ -30,7 +30,7 @@ class SideMenuContainer extends Component {
 
   // Component Life Cycle Functions
 
-  componentWillReceiveProps(nextProps) {
+  UNSAFE_componentWillReceiveProps(nextProps) {
     const { isLoggedIn } = this.props;
 
     if (isLoggedIn) {

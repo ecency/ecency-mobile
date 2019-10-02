@@ -47,7 +47,7 @@ class UpvoteView extends Component {
     this._calculateEstimatedAmount();
   }
 
-  componentWillReceiveProps(nextProps) {
+  UNSAFE_componentWillReceiveProps(nextProps) {
     const { isVoted, upvotePercent } = this.props;
     const { isVoted: localIsVoted } = this.state;
 
