@@ -229,7 +229,8 @@
     "connection_fail": "Verbindung fehlgeschlagen!",
     "connection_success": "Erfolgreich verbunden!",
     "checking": "Checking...",
-    "not_existing_post": "The post does not exist! Please check permlink and author."
+    "not_existing_post": "The post does not exist! Please check permlink and author.",
+    "google_play_version": "We noticed that your device has old version of Google Play. Please update Google Play services and try again!"
   },
   "post": {
     "reblog_alert": "Möchtest du diesen Beitrag wirklich teilen?",

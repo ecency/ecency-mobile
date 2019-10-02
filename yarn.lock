@@ -3287,7 +3287,7 @@ domutils@^1.5.1:
     dom-serializer "0"
     domelementtype "1"
 
-dooboolab-welcome@^1.1.0:
+dooboolab-welcome@^1.1.0
   version "1.1.1"
   resolved "https://registry.yarnpkg.com/dooboolab-welcome/-/dooboolab-welcome-1.1.1.tgz#ca2184f6e1f568865d707a6ce3bda7e003550f54"
   integrity sha512-tQ/9NBCGnalHwKOBjDqTD4t4wQpDfSSbxQGctzkzaLHR3AhN0wCBkIs05JciVtvl/jfLZ+DgAndktAMk3Bu7Vw==
@@ -7763,7 +7763,7 @@ react-native-iap@^3.3.8:
   resolved "https://registry.yarnpkg.com/react-native-iap/-/react-native-iap-3.4.6.tgz#68d94e1d5a9d4d65439869e440792204697b1825"
   integrity sha512-1GaeglPA+PGILUPYiEGZ+0HcSssmwHmt3e1gjkkLtMN/DgGxOcxMMraQIE3IwAT56hk2h0rEuNLT0Xw3XYs+Og==
   dependencies:
-    dooboolab-welcome "^1.1.0"
+    dooboolab-welcome "^1.1.1"
 
 react-native-image-crop-picker@^0.25.2:
   version "0.25.2"

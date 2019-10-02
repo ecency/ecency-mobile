@@ -87,7 +87,16 @@ class BoostContainer extends Component {
     });
 
     this.purchaseErrorSubscription = purchaseErrorListener(error => {
-      if (get(error, 'responseCode') !== '2') {
+      if (get(error, 'responseCode') === '3' && Platform.OS === 'android') {
+        Alert.alert(
+          intl.formatMessage({
+            id: 'alert.warning',
+          }),
+          intl.formatMessage({
+            id: 'alert.google_play_version',
+          }),
+        );
+      } else if (get(error, 'responseCode') !== '2') {
         Alert.alert(
           intl.formatMessage({
             id: 'alert.warning',
