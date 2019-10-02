@@ -228,7 +228,7 @@
     "fetch_error": "डेटा प्राप्त करना विफल रहा, कृपया पुनः प्रयास करें या हमें info@esteem.app पर सूचित करें",
     "connection_fail": "कनेक्ट करना विफल रहा",
     "connection_success": "सफलतापूर्वक जुड़ा हुआ है!",
-    "checking": "Cheking...",
+    "checking": "Checking...",
     "not_existing_post": "The post does not exist! Please check permlink and author."
   },
   "post": {
