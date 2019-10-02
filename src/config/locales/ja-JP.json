@@ -229,7 +229,8 @@
     "connection_fail": "接続に失敗しました！",
     "connection_success": "接続に成功しました！",
     "checking": "確認中...",
-    "not_existing_post": "投稿は存在しません！パーマリンクと投稿者を確認してください。"
+    "not_existing_post": "投稿は存在しません！パーマリンクと投稿者を確認してください。",
+    "google_play_version": "We noticed that your device has old version of Google Play. Please update Google Play services and try again!"
   },
   "post": {
     "reblog_alert": "本当にリブログしますか？",

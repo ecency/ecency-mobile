@@ -229,7 +229,8 @@
     "connection_fail": "Sikertelen kapcsolat!",
     "connection_success": "A kapcsolat sikerült!",
     "checking": "Ellenőrzés folyamatban...",
-    "not_existing_post": "A bejegyzés nem létezik! Kérjük ellenőrizd a linket és a szerzőt."
+    "not_existing_post": "A bejegyzés nem létezik! Kérjük ellenőrizd a linket és a szerzőt.",
+    "google_play_version": "We noticed that your device has old version of Google Play. Please update Google Play services and try again!"
   },
   "post": {
     "reblog_alert": "Biztos, hogy megosztod?",

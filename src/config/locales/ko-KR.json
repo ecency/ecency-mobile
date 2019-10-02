@@ -229,7 +229,8 @@
     "connection_fail": "연결 실패!",
     "connection_success": "성공적으로 연결되었습니다",
     "checking": "확인 중...",
-    "not_existing_post": "글이 존재하지 않습니다! permlink와 저자를 확인해주세요."
+    "not_existing_post": "글이 존재하지 않습니다! permlink와 저자를 확인해주세요.",
+    "google_play_version": "We noticed that your device has old version of Google Play. Please update Google Play services and try again!"
   },
   "post": {
     "reblog_alert": "리블로그 하시겠습니까?",
