@@ -229,7 +229,8 @@
     "connection_fail": "कनेक्ट करना विफल रहा",
     "connection_success": "सफलतापूर्वक जुड़ा हुआ है!",
     "checking": "Checking...",
-    "not_existing_post": "The post does not exist! Please check permlink and author."
+    "not_existing_post": "The post does not exist! Please check permlink and author.",
+    "google_play_version": "We noticed that your device has old version of Google Play. Please update Google Play services and try again!"
   },
   "post": {
     "reblog_alert": "क्या आप निश्चित हैं, आप इसे हटाना चाहते हैं?",
