@@ -1,5 +1,15 @@
+import InAppPurchaseContainer from './inAppPurchaseContainer';
 import PointsContainer from './pointsContainer';
-import TransferContainer from './transferContainer';
+import ProfileContainer from './profileContainer';
+import ProfileEditContainer from './profileEditContainer';
 import RedeemContainer from './redeemContainer';
+import TransferContainer from './transferContainer';
 
-export { PointsContainer, TransferContainer, RedeemContainer };
+export {
+  InAppPurchaseContainer,
+  PointsContainer,
+  ProfileContainer,
+  ProfileEditContainer,
+  RedeemContainer,
+  TransferContainer,
+};

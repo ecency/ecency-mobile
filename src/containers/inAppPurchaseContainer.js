@@ -1,3 +1,4 @@
+/* eslint-disable no-unused-vars */
 import React, { Component } from 'react';
 import { connect } from 'react-redux';
 import { Platform, Alert } from 'react-native';
@@ -5,15 +6,13 @@ import { withNavigation } from 'react-navigation';
 import RNIap, { purchaseErrorListener, purchaseUpdatedListener } from 'react-native-iap';
 import { injectIntl } from 'react-intl';
 import get from 'lodash/get';
+
 // Services
-import { purchaseOrder } from '../../../providers/esteem/esteem';
-import bugsnag from '../../../config/bugsnag';
+import bugsnag from '../config/bugsnag';
+import { purchaseOrder } from '../providers/esteem/esteem';
 
 // Utilities
-import { default as ROUTES } from '../../../constants/routeNames';
-
-// Component
-import BoostScreen from '../screen/boostScreen';
+import { default as ROUTES } from '../constants/routeNames';
 
 const ITEM_SKUS = Platform.select({
   ios: ['099points', '199points', '499points', '999points', '4999points', '9999points'],
@@ -26,7 +25,7 @@ class BoostContainer extends Component {
     this.state = {
       productList: [],
       isLoading: true,
-      isProccesing: false,
+      isProcessing: false,
     };
   }
 
@@ -41,6 +40,7 @@ class BoostContainer extends Component {
       this.purchaseUpdateSubscription.remove();
       this.purchaseUpdateSubscription = null;
     }
+
     if (this.purchaseErrorSubscription) {
       this.purchaseErrorSubscription.remove();
       this.purchaseErrorSubscription = null;
@@ -74,7 +74,7 @@ class BoostContainer extends Component {
             } else if (Platform.OS === 'android') {
               RNIap.consumePurchaseAndroid(token);
             }
-            this.setState({ isProccesing: false });
+            this.setState({ isProcessing: false });
           })
           .catch(err =>
             bugsnag.notify(err, report => {
@@ -104,7 +104,7 @@ class BoostContainer extends Component {
           error.debugMessage,
         );
       }
-      this.setState({ isProccesing: false });
+      this.setState({ isProcessing: false });
     });
   };
 
@@ -128,7 +128,7 @@ class BoostContainer extends Component {
   _buyItem = async sku => {
     const { navigation } = this.props;
 
-    await this.setState({ isProccesing: true });
+    await this.setState({ isProcessing: true });
 
     if (sku !== 'freePoints') {
       try {
@@ -148,17 +148,19 @@ class BoostContainer extends Component {
   };
 
   render() {
-    const { productList, isLoading, isProccesing } = this.state;
+    const { children } = this.props;
+    const { productList, isLoading, isProcessing } = this.state;
     // const FREE_ESTM = { productId: 'freePoints', title: 'free estm' };
 
     return (
-      <BoostScreen
-        // productList={[...productList, FREE_ESTM]}
-        productList={productList}
-        buyItem={this._buyItem}
-        isLoading={isLoading}
-        isProccesing={isProccesing}
-      />
+      children &&
+      children({
+        // productList: [...productList, FREE_ESTM],
+        productList,
+        buyItem: this._buyItem,
+        isLoading,
+        isProcessing,
+      })
     );
   }
 }

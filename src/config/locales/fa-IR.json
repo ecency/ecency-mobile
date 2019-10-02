@@ -97,7 +97,13 @@
     "days": "روزها",
     "day": "روز",
     "steem_dollars": "دلار استیم",
-    "savings": "پس انداز"
+    "savings": "پس انداز",
+    "edit": {
+      "display_name": "Display Name",
+      "about": "About",
+      "location": "Location",
+      "website": "Website"
+    }
   },
   "settings": {
     "settings": "تنظیمات",
@@ -222,7 +228,8 @@
     "fetch_error": "Fetching data failed, please try again or notify us at info@esteem.app",
     "connection_fail": "Connection Failed!",
     "connection_success": "Successfully connected!",
-    "checking": "Cheking..."
+    "checking": "Checking...",
+    "not_existing_post": "The post does not exist! Please check permlink and author."
   },
   "post": {
     "reblog_alert": "Are you sure, you want to reblog?",

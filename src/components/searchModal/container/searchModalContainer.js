@@ -1,17 +1,17 @@
 import React, { PureComponent } from 'react';
 import { withNavigation } from 'react-navigation';
 import { connect } from 'react-redux';
+import get from 'lodash/get';
 
 // Services and Actions
 import { search } from '../../../providers/esteem/esteem';
 import { lookupAccounts, getTrendingTags } from '../../../providers/steem/dsteem';
 
-// Middleware
-
 // Constants
 import { default as ROUTES } from '../../../constants/routeNames';
 
 // Utilities
+import { getResizedAvatar } from '../../../utils/image';
 
 // Component
 import SearchModalView from '../view/searchModalView';
@@ -41,41 +41,45 @@ class SearchModalContainer extends PureComponent {
 
   _handleOnChangeSearchInput = text => {
     const { isConnected } = this.props;
-
+    if (text && text.length < 2) return;
+    if (this.timer) {
+      clearTimeout(this.timer);
+    }
     if (!isConnected) return;
-
-    if (text && text !== '@' && text !== '#') {
-      if (text[0] === '@') {
-        lookupAccounts(text.substr(1)).then(res => {
-          const users = res.map(item => ({
-            image: `https://steemitimages.com/u/${item}/avatar/small`,
-            text: item,
-            ...item,
-          }));
-          this.setState({ searchResults: { type: 'user', data: users } });
-        });
-      } else if (text[0] === '#') {
-        getTrendingTags(text.substr(1)).then(res => {
-          const tags = res.map(item => ({
-            text: `#${item.name}`,
-            ...item,
-          }));
-
-          this.setState({ searchResults: { type: 'tag', data: tags } });
-        });
-      } else {
-        search({ q: text }).then(res => {
-          res.results = res.results
-            .filter(item => item.title !== '')
-            .map(item => ({
-              image: item.img_url || `https://steemitimages.com/u/${item.author}/avatar/small`,
-              text: item.title,
+    this.timer = setTimeout(() => {
+      if (text && text !== '@' && text !== '#') {
+        if (text[0] === '@') {
+          lookupAccounts(text.substr(1)).then(res => {
+            const users = res.map(item => ({
+              image: getResizedAvatar(item),
+              text: item,
               ...item,
             }));
-          this.setState({ searchResults: { type: 'content', data: res.results } });
-        });
+            this.setState({ searchResults: { type: 'user', data: users } });
+          });
+        } else if (text[0] === '#') {
+          getTrendingTags(text.substr(1)).then(res => {
+            const tags = res.map(item => ({
+              text: `#${get(item, 'name', '')}`,
+              ...item,
+            }));
+
+            this.setState({ searchResults: { type: 'tag', data: tags } });
+          });
+        } else {
+          search({ q: text }).then(res => {
+            res.results = res.results
+              .filter(item => item.title !== '')
+              .map(item => ({
+                image: item.img_url || getResizedAvatar(get(item, 'author')),
+                text: item.title,
+                ...item,
+              }));
+            this.setState({ searchResults: { type: 'content', data: get(res, 'results', []) } });
+          });
+        }
       }
-    }
+    }, 500);
   };
 
   _handleOnPressListItem = (type, item) => {
@@ -89,24 +93,24 @@ class SearchModalContainer extends PureComponent {
 
     switch (type) {
       case 'user':
-        routeName = item.text === username ? ROUTES.TABBAR.PROFILE : ROUTES.SCREENS.PROFILE;
+        routeName = get(item, 'text') === username ? ROUTES.TABBAR.PROFILE : ROUTES.SCREENS.PROFILE;
         params = {
-          username: item.text,
+          username: get(item, 'text'),
         };
         key = item.text;
         break;
       case 'content':
         routeName = ROUTES.SCREENS.POST;
         params = {
-          author: item.author,
-          permlink: item.permlink,
+          author: get(item, 'author'),
+          permlink: get(item, 'permlink'),
         };
-        key = item.permlink;
+        key = get(item, 'permlink');
         break;
       case 'tag':
         routeName = ROUTES.SCREENS.SEARCH_RESULT;
         params = {
-          tag: item.text.substr(1),
+          tag: get(item, 'text', '').substr(1),
         };
         break;
 
@@ -129,13 +133,13 @@ class SearchModalContainer extends PureComponent {
 
     return (
       <SearchModalView
-        searchResults={searchResults}
         handleCloseButton={this._handleCloseButton}
         handleOnChangeSearchInput={this._handleOnChangeSearchInput}
+        handleOnClose={handleOnClose}
         handleOnPressListItem={this._handleOnPressListItem}
         isOpen={isOpen}
-        handleOnClose={handleOnClose}
         placeholder={placeholder}
+        searchResults={searchResults}
       />
     );
   }
