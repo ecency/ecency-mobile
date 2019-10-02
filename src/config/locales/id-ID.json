@@ -19,7 +19,7 @@
     "unfollow": "berhenti mengikuti anda",
     "ignore": "mengabaikan anda",
     "reblog": "menampilkan kembali post anda",
-    "transfer": "steem ditransfer",
+    "transfer": "transfer steem",
     "comingsoon": "Fitur akan segera hadir!",
     "notification": "Pemberitahuan",
     "leaderboard": "Papan Peringkat",
@@ -70,8 +70,8 @@
     "dropdown_transfer": "Hadiah",
     "dropdown_promote": "Promosikan",
     "dropdown_boost": "Meningkatkan",
-    "from": "From",
-    "to": "To"
+    "from": "Dari",
+    "to": "Kepada"
   },
   "messages": {
     "comingsoon": "Fungsi pesan akan segera hadir!"
@@ -97,7 +97,13 @@
     "days": "hari",
     "day": "hari",
     "steem_dollars": "Steem Dollars",
-    "savings": "Tabungan"
+    "savings": "Tabungan",
+    "edit": {
+      "display_name": "Display Name",
+      "about": "About",
+      "location": "Location",
+      "website": "Website"
+    }
   },
   "settings": {
     "settings": "Pengaturan",
@@ -222,15 +228,16 @@
     "fetch_error": "Gagal mengambil data, silakan coba lagi atau beri tahu kami di info@esteem.app",
     "connection_fail": "Koneksi gagal!",
     "connection_success": "Berhasil terhubung!",
-    "checking": "Cheking..."
+    "checking": "Checking...",
+    "not_existing_post": "The post does not exist! Please check permlink and author."
   },
   "post": {
     "reblog_alert": "Anda yakin, anda ingin me-reblog?",
     "removed_hint": "Pos dihapus oleh",
     "copy_link": "Copy Link",
     "reblogged": "direblog Oleh",
-    "sponsored": "SPONSORED",
-    "open_thread": "Open Thread"
+    "sponsored": "DISPONSORI",
+    "open_thread": "Buka Thread"
   },
   "drafts": {
     "title": "Konsep",
@@ -300,7 +307,7 @@
   "transfer": {
     "from": "Dari",
     "to": "Kepada",
-    "amount_information": "Drag the slider to adjust the amount",
+    "amount_information": "Seret penggeser untuk menyesuaikan jumlahnya",
     "amount": "Jumlah",
     "memo": "Memo",
     "information": "Anda yakin mentransfer dana?",

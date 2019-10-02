@@ -8,13 +8,15 @@ import { injectIntl } from 'react-intl';
 import SteemConnect from '../../steem-connect/steemConnect';
 
 // Internal Components
-import { FormInput } from '../../../components/formInput';
-import { InformationArea } from '../../../components/informationArea';
-import { LoginHeader } from '../../../components/loginHeader';
-import { MainButton } from '../../../components/mainButton';
-import { Modal } from '../../../components';
-import { TabBar } from '../../../components/tabBar';
-import { TextButton } from '../../../components/buttons';
+import {
+  FormInput,
+  InformationArea,
+  LoginHeader,
+  MainButton,
+  Modal,
+  TabBar,
+  TextButton,
+} from '../../../components';
 
 // Constants
 import { default as ROUTES } from '../../../constants/routeNames';
@@ -102,7 +104,7 @@ class LoginScreen extends PureComponent {
               onKeyboardWillShow={() => this.setState({ keyboardIsOpen: true })}
               onKeyboardWillHide={() => this.setState({ keyboardIsOpen: false })}
               enableAutoAutomaticScroll={Platform.OS === 'ios'}
-              contentContainerStyle={{ flexGrow: 1 }}
+              contentContainerStyle={styles.formWrapper}
             >
               <FormInput
                 rightIconName="at"

@@ -4,9 +4,7 @@ import ScrollableTabView from 'react-native-scrollable-tab-view';
 import { injectIntl } from 'react-intl';
 
 // Components
-import { TabBar } from '../../../components/tabBar';
-import { Posts } from '../../../components/posts';
-import { Header } from '../../../components/header';
+import { TabBar, Posts, Header } from '../../../components';
 
 // Styles
 import styles from './homeStyles';
@@ -22,8 +20,6 @@ class HomeScreen extends PureComponent {
 
   render() {
     const { currentAccount, intl, isLoggedIn } = this.props;
-
-    let tag;
 
     return (
       <Fragment>
@@ -50,7 +46,7 @@ class HomeScreen extends PureComponent {
               <Posts
                 filterOptions={PROFILE_FILTERS}
                 getFor={PROFILE_FILTERS[1].toLowerCase()}
-                tag={tag || currentAccount.name}
+                tag={currentAccount.name}
                 selectedOptionIndex={1}
               />
             </View>

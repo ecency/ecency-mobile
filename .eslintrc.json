@@ -33,6 +33,7 @@
     "react/prop-types": 0,
     "import/no-named-default": "off",
     "no-param-reassign": "off",
-    "no-case-declarations": "off"
+    "no-case-declarations": "off",
+    "no-cycle": "off"
   }
 }

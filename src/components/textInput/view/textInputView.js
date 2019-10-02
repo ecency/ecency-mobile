@@ -5,9 +5,9 @@ import { connect } from 'react-redux';
 // Styles
 import styles from './textInputStyles';
 
-const TextInputView = ({ isDarkTheme, innerRef, ...props }) => (
+const TextInputView = ({ isDarkTheme, innerRef, height, ...props }) => (
   <TextInput
-    style={styles.input}
+    style={[styles.input, { minHeight: height }]}
     ref={innerRef}
     keyboardAppearance={isDarkTheme ? 'dark' : 'light'}
     {...props}

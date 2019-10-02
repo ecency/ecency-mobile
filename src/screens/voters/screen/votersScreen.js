@@ -5,9 +5,7 @@ import { useIntl } from 'react-intl';
 // Constants
 
 // Components
-import { BasicHeader } from '../../../components/basicHeader';
-import { FilterBar } from '../../../components/filterBar';
-import { VotersDisplay } from '../../../components/votersDisplay';
+import { BasicHeader, FilterBar, VotersDisplay } from '../../../components';
 
 import AccountListContainer from '../../../containers/accountListContainer';
 
