@@ -3122,12 +3122,10 @@ domutils@^1.5.1:
     dom-serializer "0"
     domelementtype "1"
 
-dooboolab-welcome@^1.1.0:
-  version "1.1.0"
-  resolved "https://registry.yarnpkg.com/dooboolab-welcome/-/dooboolab-welcome-1.1.0.tgz#4a0aa9d2cbc4e2b1008bf7683bc056b41caa3d0d"
-  integrity sha512-K9TKEeefzDXZiUyLZG+bIr8cy9UoYIfFMseowp/o3czVl7TfkVm3gQpeB85w+TO8xeqzWHiIcEelZbBgt5WUwQ==
-  dependencies:
-    chalk "^2.4.1"
+dooboolab-welcome@^1.1.1:
+  version "1.1.1"
+  resolved "https://registry.yarnpkg.com/dooboolab-welcome/-/dooboolab-welcome-1.1.1.tgz#ca2184f6e1f568865d707a6ce3bda7e003550f54"
+  integrity sha512-tQ/9NBCGnalHwKOBjDqTD4t4wQpDfSSbxQGctzkzaLHR3AhN0wCBkIs05JciVtvl/jfLZ+DgAndktAMk3Bu7Vw==
 
 dottie@^2.0.0:
   version "2.0.1"
@@ -7697,12 +7695,12 @@ react-native-fast-image@^4.0.14:
   dependencies:
     prop-types "^15.5.10"
 
-react-native-iap@^3.3.8:
-  version "3.4.1"
-  resolved "https://registry.yarnpkg.com/react-native-iap/-/react-native-iap-3.4.1.tgz#3ca7a60d5970e33e0a259eebcc9b5ae8a8f871fc"
-  integrity sha512-+3wecPmEuqlg3NXDI+/sZ6H20yUtaoxZkOlavr8tBGux/jLp76ekCTaJlOqkZQWu5DR9BiU/lSwkux55ZZ7rNw==
+react-native-iap@^3.5.2:
+  version "3.5.2"
+  resolved "https://registry.yarnpkg.com/react-native-iap/-/react-native-iap-3.5.2.tgz#8e5bdd0fb67df02921638044655433c164a0eb14"
+  integrity sha512-T/L5rfCOWQx4RdhnmqbLbTREFx837Kl25CJiM4G/zliTnXMlsC7ebQpUQ0aIQltMiS9jRXIBhDY2uSKFUQHR+A==
   dependencies:
-    dooboolab-welcome "^1.1.0"
+    dooboolab-welcome "^1.1.1"
 
 react-native-image-crop-picker@^0.24.1:
   version "0.24.1"
