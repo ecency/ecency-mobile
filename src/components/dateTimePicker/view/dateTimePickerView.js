@@ -1,3 +1,4 @@
+/* eslint-disable react/jsx-wrap-multilines */
 import React, { PureComponent } from 'react';
 import DatePicker from 'react-native-datepicker';
 import moment from 'moment';

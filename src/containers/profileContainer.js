@@ -330,7 +330,6 @@ class ProfileContainer extends Component {
       quickProfile,
       user,
       username,
-      selectedUser,
     } = this.state;
     const { currency, isDarkTheme, isLoggedIn, navigation, children } = this.props;
     const activePage = get(navigation.state.params, 'state', 0);
@@ -339,9 +338,9 @@ class ProfileContainer extends Component {
     let votingPower;
     let resourceCredits;
 
-    if (selectedUser) {
-      votingPower = getVotingPower(selectedUser).toFixed(1);
-      resourceCredits = getRcPower(selectedUser).toFixed(1);
+    if (user) {
+      votingPower = getVotingPower(user).toFixed(1);
+      resourceCredits = getRcPower(user).toFixed(1);
     }
 
     return (

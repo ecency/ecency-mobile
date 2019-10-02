@@ -105,19 +105,11 @@ class BasicHeaderView extends Component {
               disabled={disabled}
             />
             {isHasIcons && !isReply && (
-              <View>
-                {!isDraftSaving ? (
-                  <IconButton
-                    iconStyle={[styles.saveIcon, isDraftSaved && styles.savedIcon]}
-                    iconType="MaterialIcons"
-                    name="save"
-                    size={25}
-                    onPress={() => handleOnSaveButtonPress && handleOnSaveButtonPress()}
-                  />
-                ) : (
-                  <ActivityIndicator style={styles.textButtonWrapper} />
-                )}
-              </View>
+              <DateTimePicker
+                type="date-time"
+                onSubmit={this._handleDatePickerChange}
+                disabled={!isFormValid}
+              />
             )}
 
             {!isInputVisible && (
@@ -184,11 +176,19 @@ class BasicHeaderView extends Component {
           {isHasIcons && (
             <Fragment>
               {!isReply && (
-                <DateTimePicker
-                  type="date-time"
-                  onSubmit={this._handleDatePickerChange}
-                  disabled={!isFormValid}
-                />
+                <Fragment>
+                  {!isDraftSaving ? (
+                    <IconButton
+                      iconStyle={[styles.saveIcon, isDraftSaved && styles.savedIcon]}
+                      iconType="MaterialIcons"
+                      name="save"
+                      size={25}
+                      onPress={() => handleOnSaveButtonPress && handleOnSaveButtonPress()}
+                    />
+                  ) : (
+                    <ActivityIndicator style={styles.textButtonWrapper} />
+                  )}
+                </Fragment>
               )}
               <IconButton
                 style={styles.iconButton}
