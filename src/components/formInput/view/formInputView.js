@@ -33,7 +33,7 @@ class FormInputView extends Component {
   }
 
   // Component Life Cycles
-  componentWillReceiveProps(nextProps) {
+  UNSAFE_componentWillReceiveProps(nextProps) {
     const { isValid } = this.props;
 
     if (nextProps.isValid !== isValid) {
