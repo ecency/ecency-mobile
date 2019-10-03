@@ -76,7 +76,7 @@ export const gameStatusCheck = (username, type) =>
 export const gameClaim = (username, type, key) =>
   new Promise((resolve, reject) => {
     ePointApi
-      .post(`/game/${username}`, { params: { type, key } })
+      .post(`/game/${username}?type=${type}`, { key })
       .then(res => {
         resolve(res.data);
       })
