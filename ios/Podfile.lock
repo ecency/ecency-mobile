@@ -23,20 +23,28 @@ PODS:
     - AppCenter/Core
   - AppCenterReactNativeShared (2.3.0):
     - AppCenter/Core (= 2.3.0)
-  - Base64 (1.1.2)
   - boost-for-react-native (1.63.0)
-  - BugsnagReactNative (2.23.1):
-    - BugsnagReactNative/Core (= 2.23.1)
+  - BugsnagReactNative (2.23.2):
+    - BugsnagReactNative/Core (= 2.23.2)
     - React
-  - BugsnagReactNative/Core (2.23.1):
+  - BugsnagReactNative/Core (2.23.2):
     - React
   - BVLinearGradient (2.5.6):
     - React
-  - CodePush (5.7.0):
-    - Base64 (~> 1.1)
-    - JWT (~> 3.0.0-beta.7)
+  - CodePush (1000.0.0):
+    - CodePush/Base64 (= 1000.0.0)
+    - CodePush/Core (= 1000.0.0)
+    - CodePush/JWT (= 1000.0.0)
+    - CodePush/SSZipArchive (= 1000.0.0)
     - React
-    - SSZipArchive (~> 2.1)
+  - CodePush/Base64 (1000.0.0):
+    - React
+  - CodePush/Core (1000.0.0):
+    - React
+  - CodePush/JWT (1000.0.0):
+    - React
+  - CodePush/SSZipArchive (1000.0.0):
+    - React
   - DoubleConversion (1.1.6)
   - FLAnimatedImage (1.0.12)
   - Folly (2018.10.22.00):
@@ -49,8 +57,6 @@ PODS:
     - DoubleConversion
     - glog
   - glog (0.3.5)
-  - JWT (3.0.0-beta.11):
-    - Base64 (~> 1.1.2)
   - QBImagePickerController (3.4.0)
   - React (0.60.5):
     - React-Core (= 0.60.5)
@@ -102,11 +108,11 @@ PODS:
     - React
     - SDWebImage/Core
     - SDWebImage/GIF
-  - react-native-netinfo (4.2.1):
+  - react-native-netinfo (4.3.0):
     - React
   - react-native-version-number (0.3.6):
     - React
-  - react-native-webview (7.2.7):
+  - react-native-webview (7.4.0):
     - React
   - React-RCTActionSheet (0.60.5):
     - React-Core (= 0.60.5)
@@ -131,7 +137,7 @@ PODS:
     - React-Core (= 0.60.5)
   - React-RCTWebSocket (0.60.5):
     - React-Core (= 0.60.5)
-  - RNIap (3.4.6):
+  - RNIap (3.5.8):
     - React
   - RNImageCropPicker (0.25.2):
     - QBImagePickerController
@@ -145,7 +151,6 @@ PODS:
   - SDWebImage/GIF (4.4.7):
     - FLAnimatedImage (~> 1.0)
     - SDWebImage/Core
-  - SSZipArchive (2.2.2)
   - yoga (0.60.5.React)
 
 DEPENDENCIES:
@@ -189,14 +194,11 @@ SPEC REPOS:
   https://github.com/cocoapods/specs.git:
     - AppCenter
     - AppCenterReactNativeShared
-    - Base64
     - boost-for-react-native
     - FLAnimatedImage
-    - JWT
     - QBImagePickerController
     - RSKImageCropper
     - SDWebImage
-    - SSZipArchive
 
 EXTERNAL SOURCES:
   appcenter:
@@ -277,16 +279,14 @@ SPEC CHECKSUMS:
   appcenter-crashes: 47c9257ce4c9a7625face00f77908e69fa459394
   appcenter-push: 9c9408354d19580d433586a72de514b0c09329b2
   AppCenterReactNativeShared: 7ac481cba7f926848a7be76dca4dcb2692df3b06
-  Base64: cecfb41a004124895a7bcee567a89bae5a89d49b
   boost-for-react-native: 39c7adb57c4e60d6c5479dd8623128eb5b3f0f2c
-  BugsnagReactNative: c6d12b6ea33c10db071c063b47c3b7f60ff75883
+  BugsnagReactNative: 0a24a1dd2cac88862d67b938f809bec8274130a9
   BVLinearGradient: e3aad03778a456d77928f594a649e96995f1c872
-  CodePush: d2e54ad42df82a8db65b2d23d8191b950ba945e1
+  CodePush: a503ca0caee269e68d8faaafe4414990ec282520
   DoubleConversion: 5805e889d232975c086db112ece9ed034df7a0b2
   FLAnimatedImage: 4a0b56255d9b05f18b6dd7ee06871be5d3b89e31
   Folly: 30e7936e1c45c08d884aa59369ed951a8e68cf51
   glog: 1f3da668190260b06b429bb211bfbee5cd790c28
-  JWT: 05028b9624591bba9681bb57df2c5f95fa258bad
   QBImagePickerController: d54cf93db6decf26baf6ed3472f336ef35cae022
   React: 53c53c4d99097af47cf60594b8706b4e3321e722
   React-Core: ba421f6b4f4cbe2fb17c0b6fc675f87622e78a64
@@ -296,9 +296,9 @@ SPEC CHECKSUMS:
   React-jsiexecutor: 90ad2f9db09513fc763bc757fdc3c4ff8bde2a30
   React-jsinspector: e08662d1bf5b129a3d556eb9ea343a3f40353ae4
   react-native-fast-image: 6d50167ad4d68b59640ceead8c2bc4e58d91d8bd
-  react-native-netinfo: aeb1752abb78a9c15cdcea067a6c95d596dcfc45
+  react-native-netinfo: 09681d744eb8a3ca04cb0404fb8c2537f71d3e58
   react-native-version-number: b415bbec6a13f2df62bf978e85bc0d699462f37f
-  react-native-webview: d143130e6993ea015098add115c19a765a7e1422
+  react-native-webview: 7d04624efcf7ef5cf26df3a9194ff2c2af5a53c5
   React-RCTActionSheet: b0f1ea83f4bf75fb966eae9bfc47b78c8d3efd90
   React-RCTAnimation: 359ba1b5690b1e87cc173558a78e82d35919333e
   React-RCTBlob: 5e2b55f76e9a1c7ae52b826923502ddc3238df24
@@ -309,12 +309,11 @@ SPEC CHECKSUMS:
   React-RCTText: b074d89033583d4f2eb5faf7ea2db3a13c7553a2
   React-RCTVibration: 2105b2e0e2b66a6408fc69a46c8a7fb5b2fdade0
   React-RCTWebSocket: cd932a16b7214898b6b7f788c8bddb3637246ac4
-  RNIap: 72d12cee50f543d3e9278c954a22fbce2aee57bb
+  RNIap: 3730f7f44e1ad0aa13c2566b3d8b02dfd089e744
   RNImageCropPicker: f675353bbe18f66113a39b319c0aeb36655a6e4c
   RNVectorIcons: 0bb4def82230be1333ddaeee9fcba45f0b288ed4
   RSKImageCropper: a446db0e8444a036b34f3c43db01b2373baa4b2a
   SDWebImage: c10d14a8883ebd89664f02a422006f66a85c0c5d
-  SSZipArchive: fa16b8cc4cdeceb698e5e5d9f67e9558532fbf23
   yoga: 312528f5bbbba37b4dcea5ef00e8b4033fdd9411
 
 PODFILE CHECKSUM: f3c7c49b8130d7496b050b2bfdbca4e71193397d

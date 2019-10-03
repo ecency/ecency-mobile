@@ -14,9 +14,9 @@
             buildForArchiving = "YES">
             <BuildableReference
                BuildableIdentifier = "primary"
-               BlueprintIdentifier = "CCAFCDBA3C5E0DEB28ED2F04E87FF92F"
-               BuildableName = "libappcenter.a"
-               BlueprintName = "appcenter"
+               BlueprintIdentifier = "A3282A5B2437E609EEB85861D7ECE717"
+               BuildableName = "AppCenter"
+               BlueprintName = "AppCenter"
                ReferencedContainer = "container:Pods.xcodeproj">
             </BuildableReference>
          </BuildActionEntry>
