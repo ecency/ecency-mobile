@@ -1,5 +1,5 @@
 import React, { PureComponent, Fragment } from 'react';
-import { View, ScrollView } from 'react-native';
+import { View, ScrollView, SafeAreaView } from 'react-native';
 import { injectIntl } from 'react-intl';
 import get from 'lodash/get';
 import ScrollableTabView from 'react-native-scrollable-tab-view';
@@ -99,7 +99,7 @@ class ProfileView extends PureComponent {
           isReverse={!isOwnProfile}
           handleOnBackPress={handleOnBackPress}
         />
-        <View style={styles.container}>
+        <SafeAreaView style={styles.container}>
           {!isReady ? (
             <ProfileSummaryPlaceHolder />
           ) : (
@@ -229,7 +229,7 @@ class ProfileView extends PureComponent {
               )}
             </View>
           </ScrollableTabView>
-        </View>
+        </SafeAreaView>
       </Fragment>
     );
   }
