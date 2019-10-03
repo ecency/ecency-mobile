@@ -7,9 +7,14 @@ import get from 'lodash/get';
 import { getWordsCount } from '../../../utils/editor';
 
 // Components
-import { BasicHeader } from '../../../components/basicHeader';
-import { TitleArea, TagArea, TextArea, SummaryArea } from '../../../components/editorElements';
-import { PostForm } from '../../../components/postForm';
+import {
+  BasicHeader,
+  TitleArea,
+  TagArea,
+  TextArea,
+  SummaryArea,
+  PostForm,
+} from '../../../components';
 
 // Styles
 import globalStyles from '../../../globalStyles';
@@ -37,7 +42,7 @@ class EditorScreen extends Component {
   }
 
   // Component Life Cycles
-  componentWillReceiveProps = async nextProps => {
+  UNSAFE_componentWillReceiveProps = async nextProps => {
     const { draftPost, isUploading } = this.props;
 
     if (nextProps.draftPost && draftPost !== nextProps.draftPost) {
@@ -93,9 +98,8 @@ class EditorScreen extends Component {
     saveDraftToDB(fields);
   };
 
-  _saveCurrentDraft = () => {
+  _saveCurrentDraft = fields => {
     const { saveCurrentDraft } = this.props;
-    const { fields } = this.state;
 
     if (this.changeTimer) {
       clearTimeout(this.changeTimer);
@@ -149,12 +153,12 @@ class EditorScreen extends Component {
       get(fields, 'tags') !== get(_fields, 'tags')
     ) {
       handleFormChanged();
+      this._saveCurrentDraft(fields);
     }
 
     this.setState({ fields });
 
     this._handleIsFormValid();
-    this._saveCurrentDraft();
   };
 
   _handleOnTagAdded = async tags => {
@@ -237,6 +241,7 @@ class EditorScreen extends Component {
             uploadedImage={uploadedImage}
             initialFields={this._initialFields}
             isReply={isReply}
+            isLoading={isPostSending || isUploading}
           />
         </PostForm>
       </View>

@@ -1,3 +1,3 @@
-import NotificationLineView from './view/notificationLineView';
+import NotificationLine from './view/notificationLineView';
 
-export default NotificationLineView;
+export { NotificationLine };

@@ -1,12 +1,14 @@
 import React, { Component } from 'react';
 import { View } from 'react-native';
 import FastImage from 'react-native-fast-image';
-import { Icon } from '../../icon';
-
-// Constants
 
 // Components
 import { TextInput } from '../../textInput';
+import { Icon } from '../../icon';
+
+// Utils
+import { getResizedAvatar } from '../../../utils/image';
+
 // Styles
 import styles from './formInputStyles';
 
@@ -19,29 +21,19 @@ class FormInputView extends Component {
    *   @prop { boolean }    isEditable        - Can permission edit.
    *   @prop { boolean }    isValid           - This delegate input valit or not.
    *   @prop { boolean }    secureTextEntry   - For hiding password value.
-   *
-   *
-   *
    */
   constructor(props) {
     super(props);
 
     this.state = {
-      value: '',
-      inputBorderColor: '#c1c5c7',
+      value: props.value || '',
+      inputBorderColor: '#e7e7e7',
       isValid: true,
-      formInputWidth: '99%',
     };
   }
 
   // Component Life Cycles
-  componentWillMount() {
-    setTimeout(() => {
-      this.setState({ formInputWidth: '100%' });
-    }, 100);
-  }
-
-  componentWillReceiveProps(nextProps) {
+  UNSAFE_componentWillReceiveProps(nextProps) {
     const { isValid } = this.props;
 
     if (nextProps.isValid !== isValid) {
@@ -54,18 +46,15 @@ class FormInputView extends Component {
     const { onChange } = this.props;
 
     this.setState({ value });
-    onChange && onChange(value);
+    if (onChange) onChange(value);
   };
 
   _handleOnFocus = () => {
-    const { inputBorderColor } = this.state;
-    if (inputBorderColor !== '#357ce6') {
-      this.setState({ inputBorderColor: '#357ce6' });
-    }
+    this.setState({ inputBorderColor: '#357ce6' });
   };
 
   render() {
-    const { inputBorderColor, isValid, value, formInputWidth } = this.state;
+    const { inputBorderColor, isValid, value } = this.state;
     const {
       placeholder,
       type,
@@ -75,6 +64,9 @@ class FormInputView extends Component {
       rightIconName,
       secureTextEntry,
       iconType,
+      wrapperStyle,
+      height,
+      inputStyle,
     } = this.props;
     return (
       <View
@@ -83,6 +75,7 @@ class FormInputView extends Component {
           {
             borderBottomColor: isValid ? inputBorderColor : 'red',
           },
+          wrapperStyle,
         ]}
       >
         {isFirstImage && value && value.length > 2 ? (
@@ -90,26 +83,30 @@ class FormInputView extends Component {
             <FastImage
               style={styles.firstImage}
               source={{
-                uri: `https://steemitimages.com/u/${value}/avatar/small`,
+                uri: getResizedAvatar(value),
                 priority: FastImage.priority.high,
               }}
               resizeMode={FastImage.resizeMode.cover}
             />
           </View>
         ) : (
-          <Icon iconType={iconType || 'MaterialIcons'} name={rightIconName} style={styles.icon} />
+          rightIconName && (
+            <Icon iconType={iconType || 'MaterialIcons'} name={rightIconName} style={styles.icon} />
+          )
         )}
         <View style={styles.textInput}>
           <TextInput
-            onFocus={() => this._handleOnFocus()}
+            style={inputStyle}
+            onFocus={() => this.setState({ inputBorderColor: '#357ce6' })}
+            onBlur={() => this.setState({ inputBorderColor: '#e7e7e7' })}
             autoCapitalize="none"
             secureTextEntry={secureTextEntry}
+            height={height}
             placeholder={placeholder}
             editable={isEditable || true}
             textContentType={type}
-            onChangeText={val => this._handleOnChange(val)}
+            onChangeText={this._handleOnChange}
             value={value}
-            style={{ width: formInputWidth }}
           />
         </View>
 

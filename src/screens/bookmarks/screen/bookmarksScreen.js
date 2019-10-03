@@ -5,13 +5,7 @@ import ScrollableTabView from 'react-native-scrollable-tab-view';
 import ActionSheet from 'react-native-actionsheet';
 
 // Components
-import { BasicHeader } from '../../../components/basicHeader';
-import {
-  PostCardPlaceHolder,
-  UserListItem,
-  WalletDetailsPlaceHolder,
-} from '../../../components/basicUIElements';
-import { TabBar } from '../../../components/tabBar';
+import { UserListItem, WalletDetailsPlaceHolder, BasicHeader, TabBar } from '../../../components';
 
 // Styles
 import globalStyles from '../../../globalStyles';
@@ -57,38 +51,38 @@ class BookmarksScreen extends Component {
     }
   };
 
-  _getTabItem = (data, type) => {
+  _renderEmptyContent = () => {
     const { isLoading, intl } = this.props;
-    const isNoItem = (data && data.length === 0) || !data;
-    const placeHolder =
-      type === 'bookmarks' ? <PostCardPlaceHolder /> : <WalletDetailsPlaceHolder />;
+
+    if (isLoading) {
+      return <WalletDetailsPlaceHolder />;
+    }
+
+    return (
+      <Text style={globalStyles.hintText}>
+        {intl.formatMessage({
+          id: 'bookmarks.empty_list',
+        })}
+      </Text>
+    );
+  };
+
+  _getTabItem = (data, type) => {
     const isFavorites = type === 'favorites';
 
     return (
       <View style={styles.container}>
-        {isNoItem && !isLoading && (
-          <Text style={globalStyles.hintText}>
-            {intl.formatMessage({
-              id: 'bookmarks.empty_list',
-            })}
-          </Text>
-        )}
-        {isLoading ? (
-          <View>{placeHolder}</View>
-        ) : (
-          !isNoItem && (
-            <FlatList
-              data={data.map(item =>
-                item._id !== data[item._id] && isFavorites
-                  ? item.account !== data[item.account] && item
-                  : item,
-              )}
-              keyExtractor={item => item._id}
-              removeClippedSubviews={false}
-              renderItem={({ item, index }) => this._renderItem(item, index, type)}
-            />
-          )
-        )}
+        <FlatList
+          data={data.map(item =>
+            item._id !== data[item._id] && isFavorites
+              ? item.account !== data[item.account] && item
+              : item,
+          )}
+          keyExtractor={item => item._id}
+          removeClippedSubviews={false}
+          renderItem={({ item, index }) => this._renderItem(item, index, type)}
+          ListEmptyComponent={this._renderEmptyContent()}
+        />
       </View>
     );
   };

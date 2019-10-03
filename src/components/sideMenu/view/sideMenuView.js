@@ -6,7 +6,7 @@ import ActionSheet from 'react-native-actionsheet';
 import VersionNumber from 'react-native-version-number';
 
 // Components
-import { IconButton } from '../../buttons';
+import { IconButton } from '../../iconButton';
 import { Icon } from '../../icon';
 import { UserAvatar } from '../../userAvatar';
 
@@ -36,7 +36,7 @@ class SideMenuView extends Component {
 
   // Component Life Cycles
 
-  componentWillReceiveProps(nextProps) {
+  UNSAFE_componentWillReceiveProps(nextProps) {
     const { isLoggedIn, accounts } = this.props;
     const { isAddAccountIconActive } = this.state;
 
@@ -109,7 +109,6 @@ class SideMenuView extends Component {
                   username={currentAccount.username}
                   size="xl"
                   style={styles.userAvatar}
-                  noAction
                 />
                 <View style={styles.userInfoWrapper}>
                   {currentAccount.display_name && (
@@ -122,13 +121,13 @@ class SideMenuView extends Component {
 
                 <View style={styles.userInfoWrapper}>
                   <IconButton
-                    name={isAddAccountIconActive ? 'arrow-dropup' : 'add-circle-outline'}
+                    name={isAddAccountIconActive ? 'arrow-dropup' : 'ios-add-circle-outline'}
                     androidName={
                       isAddAccountIconActive ? 'md-arrow-dropup' : 'ios-add-circle-outline'
                     }
                     color="white"
                     size={20}
-                    handleOnPress={() => this._handleOnPressAddAccountIcon()}
+                    onPress={this._handleOnPressAddAccountIcon}
                     style={styles.addAccountIcon}
                   />
                 </View>

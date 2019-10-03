@@ -24,12 +24,17 @@
     "notification": "알림",
     "leaderboard": "순위표",
     "epoint": "포인트",
-    "leaderboard_title": "일별 상위 사용자",
+    "leaderboard_title": "우수 사용자",
     "recent": "최근",
     "yesterday": "어제",
     "this_week": "이번 주",
     "this_month": "이번 달",
     "older_then": "1 달 이상"
+  },
+  "leaderboard": {
+    "daily": "일간",
+    "weekly": "주간",
+    "monthly": "월간"
   },
   "points": {
     "post": "포스팅",
@@ -62,9 +67,11 @@
     "reblog_desc": "좋아하는 글을 친구에게 공유하고 1 포인트를 획득하세요.",
     "login_desc": "eSteem 앱에 최초 로그인 시 100 포인트가 자동 지급됩니다.",
     "checkin_extra_desc": "꾸준히 앱을 이용한 사용자는 10 포인트 이상의 추가 포인트를 획득할 수 있는 기회가 제공되며 더 열심히 이용할수록 더 많은 포인트를 획득할 수 있습니다.",
-    "dropdown_transfer": "전송",
+    "dropdown_transfer": "선물하기",
     "dropdown_promote": "홍보",
-    "dropdown_boost": "후원"
+    "dropdown_boost": "후원",
+    "from": "보낸 사람",
+    "to": "받는 사람"
   },
   "messages": {
     "comingsoon": "메시지 기능은 곧 출시될 예정입니다!"
@@ -90,7 +97,13 @@
     "days": "일",
     "day": "일",
     "steem_dollars": "스팀 달러",
-    "savings": "안전 금고"
+    "savings": "안전 금고",
+    "edit": {
+      "display_name": "이름",
+      "about": "소개",
+      "location": "위치",
+      "website": "웹사이트"
+    }
   },
   "settings": {
     "settings": "설정",
@@ -214,14 +227,18 @@
     "error": "오류",
     "fetch_error": "서버에서 데이터를 가져오는데 실패했습니다. 다시 시도해보시거나 info@esteem.app로 문의해주세요.",
     "connection_fail": "연결 실패!",
-    "connection_success": "성공적으로 연결되었습니다"
+    "connection_success": "성공적으로 연결되었습니다",
+    "checking": "확인 중...",
+    "not_existing_post": "글이 존재하지 않습니다! permlink와 저자를 확인해주세요.",
+    "google_play_version": "We noticed that your device has old version of Google Play. Please update Google Play services and try again!"
   },
   "post": {
     "reblog_alert": "리블로그 하시겠습니까?",
     "removed_hint": "포스팅이 삭제되었습니다",
     "copy_link": "링크 복사",
     "reblogged": "리블로그됨",
-    "sponsored": "후원받음"
+    "sponsored": "투표 후원받음",
+    "open_thread": "스레드 열기"
   },
   "drafts": {
     "title": "임시 보관함",
@@ -289,7 +306,9 @@
     "age": "작성일"
   },
   "transfer": {
+    "from": "보낸 사람",
     "to": "받는 사람",
+    "amount_information": "슬라이드를 드래그해서 수량을 설정할 수 있습니다",
     "amount": "수량",
     "memo": "메모",
     "information": "자금을 전송하시겠습니까?",
@@ -298,12 +317,16 @@
     "to_placeholder": "사용자 이름",
     "memo_placeholder": "메모 내용을 입력하세요",
     "transfer_token": "전송",
-    "points": "포인트 전송",
+    "points": "ESTM 선물하기",
     "transfer_to_saving": "안전 금고로 전송",
     "powerUp": "파워업",
     "withdraw_to_saving": "안전 금고로 출금",
     "steemconnect_title": "Steemconnect 전송",
-    "next": "다음"
+    "next": "다음",
+    "delegate": "임대",
+    "power_down": "파워 다운",
+    "withdraw_steem": "스팀 출금",
+    "withdraw_sbd": "스팀 달러 출금"
   },
   "boost": {
     "title": "eSteem 포인트 구매",
@@ -320,5 +343,13 @@
   },
   "boostPost": {
     "title": "후원"
+  },
+  "voters_dropdown": {
+    "rewards": "보상",
+    "percent": "비율",
+    "time": "시간"
+  },
+  "reblog": {
+    "title": "리블로그 정보"
   }
 }

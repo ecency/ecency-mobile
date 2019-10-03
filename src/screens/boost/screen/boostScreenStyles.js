@@ -14,7 +14,6 @@ export default EStyleSheet.create({
   button: {
     marginVertical: 12,
     paddingHorizontal: 18,
-    // alignSelf: 'flex-start',
   },
   buttonContent: {
     flexDirection: 'row',
@@ -60,7 +59,7 @@ export default EStyleSheet.create({
   },
   description: {
     fontSize: 10,
-    color: '$white',
+    color: '$pureWhite',
     fontWeight: 'bold',
   },
   triangle: {

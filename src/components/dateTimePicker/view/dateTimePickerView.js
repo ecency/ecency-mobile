@@ -1,3 +1,4 @@
+/* eslint-disable react/jsx-wrap-multilines */
 import React, { PureComponent } from 'react';
 import DatePicker from 'react-native-datepicker';
 import moment from 'moment';
@@ -40,7 +41,7 @@ class DateTimePickerView extends PureComponent {
     }
 
     if (date && _value) {
-      const formatedDateTime = new Date(`${date} ${_value}`).toISOString();
+      const formatedDateTime = moment(`${date} ${_value}`, 'YYYY-MM-DD HH:mm').toISOString();
       onSubmit(formatedDateTime);
       this._initState();
     }
@@ -55,11 +56,11 @@ class DateTimePickerView extends PureComponent {
 
     if (type === 'date-time') {
       _type = date ? 'time' : 'date';
-      _format = date ? 'HH:MM' : 'YYYY-MM-DD';
+      _format = date ? 'HH:mm' : 'YYYY-MM-DD';
       _minDate = date ? null : moment().format('YYYY-MM-DD');
     } else {
       _type = type;
-      _format = type === 'date' ? 'YYYY-MM-DD' : 'HH:MM';
+      _format = type === 'date' ? 'YYYY-MM-DD' : 'HH:mm';
       _minDate = type === 'date' ? moment().format('YYYY-MM-DD') : null;
     }
 

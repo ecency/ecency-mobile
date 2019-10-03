@@ -8,7 +8,7 @@ import { withNavigation } from 'react-navigation';
 // Services and Actions
 import { getUser, getUserPoints, claim } from '../providers/esteem/ePoint';
 import { openPinCodeModal } from '../redux/actions/applicationActions';
-import { promote, getAccount, boost } from '../providers/steem/dsteem';
+import { getAccount, boost } from '../providers/steem/dsteem';
 import { getUserDataWithUsername } from '../realm/realm';
 import { toastNotification } from '../redux/actions/uiAction';
 
@@ -53,7 +53,7 @@ class PointsContainer extends Component {
     }
   }
 
-  componentWillReceiveProps(nextProps) {
+  UNSAFE_componentWillReceiveProps(nextProps) {
     const { username } = this.props;
     const _username = get(nextProps, 'username');
 
@@ -89,16 +89,18 @@ class PointsContainer extends Component {
         break;
 
       case 1:
-        navigateTo = ROUTES.SCREENS.PROMOTE;
+        navigateTo = ROUTES.SCREENS.REDEEM;
         navigateParams = {
           balance,
+          redeemType: 'promote',
         };
         break;
 
       case 2:
-        navigateTo = ROUTES.SCREENS.BOOST_POST;
+        navigateTo = ROUTES.SCREENS.REDEEM;
         navigateParams = {
           balance,
+          redeemType: 'boost',
         };
         break;
 
@@ -139,7 +141,7 @@ class PointsContainer extends Component {
         this.setState({ userPoints, balance });
       })
       .catch(err => {
-        Alert.alert(err.message);
+        Alert.alert(get(err, 'message', 'Error'));
       });
 
     await getUserPoints(username)
@@ -151,7 +153,7 @@ class PointsContainer extends Component {
         }
       })
       .catch(err => {
-        Alert.alert(err);
+        if (err) Alert.alert(get(err, 'message') || err.toString());
       });
 
     this.setState({
@@ -167,7 +169,7 @@ class PointsContainer extends Component {
         return balance;
       })
       .catch(err => {
-        Alert.alert(err);
+        if (err) Alert.alert(get(err, 'message') || err.toString());
       });
   };
 
@@ -181,35 +183,17 @@ class PointsContainer extends Component {
         this._fetchuserPointActivities(username);
       })
       .catch(error => {
-        Alert.alert(
-          `Fetching data from server failed, please try again or notify us at info@esteem.app \n${error.message.substr(
-            0,
-            20,
-          )}`,
-        );
+        if (error) {
+          Alert.alert(
+            `Fetching data from server failed, please try again or notify us at info@esteem.app \n${error.message.substr(
+              0,
+              20,
+            )}`,
+          );
+        }
       });
 
     this.setState({ isClaiming: false });
-  };
-
-  _promote = async (duration, permlink, author, user) => {
-    const { currentAccount, pinCode, dispatch, intl, navigation } = this.props;
-    this.setState({ isLoading: true });
-
-    await promote(user || currentAccount, pinCode, duration, permlink, author)
-      .then(() => {
-        this.setState({ isLoading: false });
-        navigation.goBack();
-        dispatch(toastNotification(intl.formatMessage({ id: 'alert.successful' })));
-      })
-      .catch(error => {
-        Alert.alert(
-          `Fetching data from server failed, please try again or notify us at info@esteem.app \n${error.message.substr(
-            0,
-            20,
-          )}`,
-        );
-      });
   };
 
   _boost = async (point, permlink, author, user) => {
@@ -223,12 +207,10 @@ class PointsContainer extends Component {
         dispatch(toastNotification(intl.formatMessage({ id: 'alert.successful' })));
       })
       .catch(error => {
-        Alert.alert(
-          `Fetching data from server failed, please try again or notify us at info@esteem.app \n${error.message.substr(
-            0,
-            20,
-          )}`,
-        );
+        if (error) {
+          this.setState({ isLoading: false });
+          dispatch(toastNotification(intl.formatMessage({ id: 'alert.fail' })));
+        }
       });
   };
 
@@ -257,30 +239,25 @@ class PointsContainer extends Component {
       children({
         accounts,
         balance,
+        boost: this._boost,
         claimPoints: this._claimPoints,
         currentAccount,
         currentAccountName: currentAccount.name,
         fetchUserActivity: this._fetchuserPointActivities,
         getAccount,
+        getESTMPrice: this._getESTMPrice,
         getUserBalance: this._getUserBalance,
         getUserDataWithUsername,
+        handleOnDropdownSelected: this._handleOnDropdownSelected,
         handleOnPressTransfer: this._handleOnPressTransfer,
         isClaiming,
         isDarkTheme,
         isLoading,
         navigationParams,
-        promote: this._promote,
         refreshing,
         userActivities,
         userPoints,
-        handleOnDropdownSelected: this._handleOnDropdownSelected,
-        getESTMPrice: this._getESTMPrice,
-        boost: this._boost,
-        balance,
-        getUserBalance: this._getUserBalance,
-        promote: this._promote,
-        getAccount,
-        getUserDataWithUsername,
+        redeemType: get(navigationParams, 'redeemType'),
       })
     );
   }

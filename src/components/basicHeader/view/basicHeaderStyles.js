@@ -19,7 +19,7 @@ export default EStyleSheet.create({
   saveIcon: {
     fontSize: 20,
     color: '$iconColor',
-    marginLeft: 15,
+    width: 50,
   },
   savedIcon: {
     color: '#a1c982',
@@ -36,7 +36,6 @@ export default EStyleSheet.create({
   quickTitle: {
     fontSize: 10,
     color: '$iconColor',
-    marginLeft: 24,
     alignSelf: 'center',
   },
   rightIcon: {

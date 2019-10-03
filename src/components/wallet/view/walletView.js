@@ -1,3 +1,4 @@
+/* eslint-disable react/jsx-wrap-multilines */
 import React, { PureComponent, Fragment } from 'react';
 import { View, Text, ScrollView, RefreshControl } from 'react-native';
 import { injectIntl } from 'react-intl';
@@ -53,10 +54,13 @@ class WalletView extends PureComponent {
       selectedUsername,
       walletData,
       isDarkTheme,
+      handleOnScroll,
     } = this.props;
 
     return (
       <ScrollView
+        onScroll={handleOnScroll && handleOnScroll}
+        style={styles.scrollView}
         refreshControl={
           <RefreshControl
             refreshing={isRefreshing}
@@ -67,7 +71,6 @@ class WalletView extends PureComponent {
             colors={['#fff']}
           />
         }
-        style={styles.scrollView}
       >
         {!walletData ? (
           <Fragment>

@@ -6,14 +6,22 @@ import { postBodySummary, renderPostBody } from '@esteemapp/esteem-render-helper
 
 // Dsteem
 import { getActiveVotes } from '../providers/steem/dsteem';
+import { getPostReblogs } from '../providers/esteem/esteem';
 
 // Utils
 import { getReputation } from './reputation';
+import { getResizedImage, getResizedAvatar } from './image';
 
-export const parsePosts = (posts, currentUserName) =>
-  !posts ? null : posts.map(post => parsePost(post, currentUserName));
+export const parsePosts = async (posts, currentUserName) => {
+  if (posts) {
+    const promises = posts.map(post => parsePost(post, currentUserName));
+    const formattedPosts = await Promise.all(promises);
+    return formattedPosts;
+  }
+  return null;
+};
 
-export const parsePost = (post, currentUserName, isPromoted) => {
+export const parsePost = async (post, currentUserName, isPromoted) => {
   if (!post) {
     return null;
   }
@@ -26,7 +34,7 @@ export const parsePost = (post, currentUserName, isPromoted) => {
   post.image = postImage(post.json_metadata, post.body);
   post.vote_count = post.active_votes.length;
   post.author_reputation = getReputation(post.author_reputation);
-  post.avatar = `https://steemitimages.com/u/${post.author}/avatar/small`;
+  post.avatar = getResizedAvatar(get(post, 'author'));
   post.active_votes.sort((a, b) => b.rshares - a.rshares);
 
   post.body = renderPostBody(post);
@@ -35,30 +43,16 @@ export const parsePost = (post, currentUserName, isPromoted) => {
 
   if (currentUserName) {
     post.is_voted = isVoted(post.active_votes, currentUserName);
+    post.is_down_voted = isDownVoted(post.active_votes, currentUserName);
   } else {
     post.is_voted = false;
+    post.is_down_voted = false;
   }
 
-  const totalPayout =
-    parseFloat(post.pending_payout_value) +
-    parseFloat(post.total_payout_value) +
-    parseFloat(post.curator_payout_value);
+  post.active_votes = parseActiveVotes(post, currentUserName);
 
-  post.total_payout = totalPayout.toFixed(3);
-
-  const voteRshares = post.active_votes.reduce((a, b) => a + parseFloat(b.rshares), 0);
-  const ratio = totalPayout / voteRshares;
-
-  if (!isEmpty(post.active_votes)) {
-    forEach(post.active_votes, value => {
-      post.vote_perecent = value.voter === currentUserName ? value.percent : null;
-      value.value = (value.rshares * ratio).toFixed(3);
-      value.reputation = getReputation(get(value, 'reputation'));
-      value.percent /= 100;
-      value.is_down_vote = Math.sign(value.percent) < 0;
-      value.avatar = `https://steemitimages.com/u/${value.voter}/avatar/small`;
-    });
-  }
+  post.reblogs = await getPostReblogs(post);
+  post.reblogCount = get(post, 'reblogs', []).length;
 
   return post;
 };
@@ -96,7 +90,7 @@ const postImage = (metaData, body) => {
   }
 
   if (imageLink) {
-    return `https://steemitimages.com/600x0/${imageLink}`;
+    return getResizedImage(imageLink, 600);
   }
   return '';
 };
@@ -105,11 +99,17 @@ export const parseComments = async (comments, currentUserName) => {
   const pArray = comments.map(async comment => {
     const activeVotes = await getActiveVotes(get(comment, 'author'), get(comment, 'permlink'));
 
+    if (comment.body.includes('Posted using [Partiko')) {
+      comment.body = comment.body
+        .split('\n')
+        .filter(item => item.includes('Posted using [Partiko') === false)
+        .join('\n');
+    }
     comment.pending_payout_value = parseFloat(
       get(comment, 'pending_payout_value') ? get(comment, 'pending_payout_value') : 0,
     ).toFixed(3);
     comment.author_reputation = getReputation(get(comment, 'author_reputation'));
-    comment.avatar = `https://steemitimages.com/u/${get(comment, 'author')}/avatar/small`;
+    comment.avatar = getResizedAvatar(get(comment, 'author'));
     comment.markdownBody = get(comment, 'body');
     comment.body = renderPostBody(comment);
     comment.active_votes = activeVotes;
@@ -117,9 +117,14 @@ export const parseComments = async (comments, currentUserName) => {
 
     if (currentUserName && activeVotes && activeVotes.length > 0) {
       comment.is_voted = isVoted(activeVotes, currentUserName);
+      comment.is_down_voted = isDownVoted(comment.active_votes, currentUserName);
     } else {
       comment.is_voted = false;
+      comment.is_down_voted = false;
     }
+
+    comment.active_votes = parseActiveVotes(comment, currentUserName);
+
     return comment;
   });
 
@@ -128,5 +133,47 @@ export const parseComments = async (comments, currentUserName) => {
   return _comments;
 };
 
-const isVoted = (activeVotes, currentUserName) =>
-  activeVotes.some(v => v.voter === currentUserName && v.percent > 0);
+const isVoted = (activeVotes, currentUserName) => {
+  const result = activeVotes.find(
+    element => get(element, 'voter') === currentUserName && get(element, 'percent', 0) > 0,
+  );
+  if (result) {
+    return result.percent;
+  }
+  return false;
+};
+
+const isDownVoted = (activeVotes, currentUserName) => {
+  const result = activeVotes.find(
+    element => get(element, 'voter') === currentUserName && get(element, 'percent') < 0,
+  );
+  if (result) {
+    return result.percent;
+  }
+  return false;
+};
+
+const parseActiveVotes = (post, currentUserName) => {
+  const totalPayout =
+    parseFloat(post.pending_payout_value) +
+    parseFloat(post.total_payout_value) +
+    parseFloat(post.curator_payout_value);
+
+  post.total_payout = totalPayout.toFixed(3);
+
+  const voteRshares = post.active_votes.reduce((a, b) => a + parseFloat(b.rshares), 0);
+  const ratio = totalPayout / voteRshares;
+
+  if (!isEmpty(post.active_votes)) {
+    forEach(post.active_votes, value => {
+      post.vote_perecent = value.voter === currentUserName ? value.percent : null;
+      value.value = (value.rshares * ratio).toFixed(3);
+      value.reputation = getReputation(get(value, 'reputation'));
+      value.percent /= 100;
+      value.is_down_vote = Math.sign(value.percent) < 0;
+      value.avatar = getResizedAvatar(get(value, 'voter'));
+    });
+  }
+
+  return post.active_votes;
+};

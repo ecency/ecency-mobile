@@ -1,1 +1,3 @@
-export { default } from './view/informationBox';
+import InformationBox from './view/informationBoxView';
+
+export { InformationBox };

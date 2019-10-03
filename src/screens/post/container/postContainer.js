@@ -43,11 +43,11 @@ class PostContainer extends Component {
     } else if (author && permlink) {
       this._loadPost(author, permlink);
       this.setState({ author });
-      if (isHasParentPost) this.setState({ isHasParentPost });
     }
+    if (isHasParentPost) this.setState({ isHasParentPost });
   }
 
-  componentWillReceiveProps(nextProps) {
+  UNSAFE_componentWillReceiveProps(nextProps) {
     const { navigation } = this.props;
     const { isFetch: nextIsFetch } = get(nextProps, 'navigation.state.params');
 
@@ -96,8 +96,9 @@ class PostContainer extends Component {
       author,
     } = this.state;
 
-    if (isHasParentPost && post)
+    if (isHasParentPost && post && get(post, 'parent_author') && get(post, 'parent_permlink')) {
       this._loadPost(get(post, 'parent_author'), get(post, 'parent_permlink'), true);
+    }
 
     return (
       <PostScreen

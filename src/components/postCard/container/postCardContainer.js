@@ -1,8 +1,9 @@
 import React, { PureComponent } from 'react';
 import { withNavigation } from 'react-navigation';
 import { connect } from 'react-redux';
+import get from 'lodash/get';
 
-// Dsteem
+// Services
 import { getPost } from '../../../providers/steem/dsteem';
 
 import PostCardView from '../view/postCardView';
@@ -23,22 +24,22 @@ class PostCardContainer extends PureComponent {
     };
   }
 
-  componentWillReceiveProps(nextProps) {
-    if (nextProps.isRefresh) {
+  UNSAFE_componentWillReceiveProps(nextProps) {
+    if (get(nextProps, 'isRefresh')) {
       this._fetchPost();
     }
   }
 
   _handleOnUserPress = () => {
     const { navigation, currentAccount, content } = this.props;
-    if (content && currentAccount.name !== content.author) {
+    if (content && get(currentAccount, 'name') !== get(content, 'author')) {
       navigation.navigate({
         routeName: ROUTES.SCREENS.PROFILE,
         params: {
-          username: content.author,
-          reputation: content.author_reputation,
+          username: get(content, 'author'),
+          reputation: get(content, 'author_reputation'),
         },
-        key: content.author,
+        key: get(content, 'author'),
       });
     }
   };
@@ -52,7 +53,7 @@ class PostCardContainer extends PureComponent {
         params: {
           content,
         },
-        key: content.permlink,
+        key: get(content, 'permlink'),
       });
     }
   };
@@ -65,14 +66,26 @@ class PostCardContainer extends PureComponent {
       params: {
         activeVotes,
       },
-      key: content.permlink,
+      key: get(content, 'permlink'),
+    });
+  };
+
+  _handleOnReblogsPress = reblogs => {
+    const { navigation, content } = this.props;
+
+    navigation.navigate({
+      routeName: ROUTES.SCREENS.REBLOGS,
+      params: {
+        reblogs,
+      },
+      key: get(content, 'permlink', get(content, 'author', '')),
     });
   };
 
   _fetchPost = async () => {
     const { currentAccount, content } = this.props;
 
-    await getPost(content.author, content.permlink, currentAccount.username)
+    await getPost(get(content, 'author'), get(content, 'permlink'), get(currentAccount, 'username'))
       .then(result => {
         if (result) {
           this.setState({ _content: result });
@@ -82,7 +95,7 @@ class PostCardContainer extends PureComponent {
   };
 
   render() {
-    const { content, isHideImage, nsfw, isHideReblogOption } = this.props;
+    const { content, isHideImage, nsfw } = this.props;
     const { _content } = this.state;
 
     const isNsfwPost = nsfw === '1';
@@ -92,11 +105,11 @@ class PostCardContainer extends PureComponent {
         handleOnUserPress={this._handleOnUserPress}
         handleOnContentPress={this._handleOnContentPress}
         handleOnVotersPress={this._handleOnVotersPress}
+        handleOnReblogsPress={this._handleOnReblogsPress}
         fetchPost={this._fetchPost}
         content={_content || content}
         isHideImage={isHideImage}
         isNsfwPost={isNsfwPost}
-        isHideReblogOption={isHideReblogOption}
       />
     );
   }

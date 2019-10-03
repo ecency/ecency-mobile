@@ -21,7 +21,6 @@ export default EStyleSheet.create({
     borderRadius: 7,
     borderWidth: 0,
     top: 12,
-    zIndex: 999,
   },
   container: {
     justifyContent: 'center',
@@ -39,7 +38,6 @@ export default EStyleSheet.create({
     borderRadius: 17,
     backgroundColor: '$white',
     borderWidth: 1,
-    position: 'absolute',
     borderColor: '$primaryBlue',
   },
   selected: {

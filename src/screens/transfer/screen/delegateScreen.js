@@ -1,5 +1,6 @@
 import React, { Component, Fragment } from 'react';
-import { View, Text, WebView } from 'react-native';
+import { View, Text } from 'react-native';
+import { WebView } from 'react-native-webview';
 import { injectIntl } from 'react-intl';
 import Slider from 'react-native-slider';
 import get from 'lodash/get';
@@ -10,14 +11,16 @@ import AUTH_TYPE from '../../../constants/authType';
 import { steemConnectOptions } from '../../../constants/steemConnectOptions';
 
 // Components
-import { BasicHeader } from '../../../components/basicHeader';
-import { TransferFormItem } from '../../../components/transferFormItem';
-import { DropdownButton } from '../../../components/dropdownButton';
-import { TextInput } from '../../../components/textInput';
-import { MainButton } from '../../../components/mainButton';
-import { UserAvatar } from '../../../components/userAvatar';
-import { Icon } from '../../../components/icon';
-import { Modal } from '../../../components/modal';
+import {
+  BasicHeader,
+  TransferFormItem,
+  DropdownButton,
+  TextInput,
+  MainButton,
+  UserAvatar,
+  Icon,
+  Modal,
+} from '../../../components';
 
 import parseToken from '../../../utils/parseToken';
 import { isEmptyDate } from '../../../utils/time';
@@ -161,7 +164,7 @@ class DelegateScreen extends Component {
           </View>
           <View style={styles.middleContent}>
             <TransferFormItem
-              label={intl.formatMessage({ id: 'transfer.account' })}
+              label={intl.formatMessage({ id: 'transfer.from' })}
               rightComponent={() => this._renderDropdown(accounts, currentAccountName)}
             />
             <TransferFormItem

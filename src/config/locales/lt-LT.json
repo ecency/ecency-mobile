@@ -24,12 +24,17 @@
     "notification": "Pranešimai",
     "leaderboard": "Lyderiai",
     "epoint": "Taškai",
-    "leaderboard_title": "Dienos Top Vartotojas",
+    "leaderboard_title": "Top Users",
     "recent": "Naujausi",
     "yesterday": "Vakar",
     "this_week": "Šią savaitę",
     "this_month": "Šį mėnesį",
     "older_then": "Senesni nei vieno mėnesio"
+  },
+  "leaderboard": {
+    "daily": "Daily",
+    "weekly": "Weekly",
+    "monthly": "Monthly"
   },
   "points": {
     "post": "Įrašas",
@@ -50,7 +55,7 @@
     "vote_title": "Taškai už balsą",
     "reblog_title": "Taškai už pasidalinimą",
     "login_title": "Taškai už prisijungimą",
-    "checkin_title": "Taškai už naudojimąsi",
+    "checkin_title": "Points for heartbeat",
     "checkin_extra_title": "Naudojimosi bonusas",
     "no_activity": "Jokios veiklos čia!",
     "outgoing_transfer_description": "",
@@ -62,9 +67,11 @@
     "reblog_desc": "  Pasidalink su draugais įrašais kurie tau patinka ir gauk po 1 tašką už pasidalinimą.",
     "login_desc": "Kai jūs pirma kartą prisijungiate prie eSteem, jūs automatiškai būsite apdovanotas 100 taškų.",
     "checkin_extra_desc": "Reguliarus programos naudojimasis suteikia jums papildomą šansą gauti dar 10 taškų. Kuo aktyvesnis esi, tuo daugiau taškų surinksi.",
-    "dropdown_transfer": "Transfer",
+    "dropdown_transfer": "Gift",
     "dropdown_promote": "Promote",
-    "dropdown_boost": "Boost"
+    "dropdown_boost": "Boost",
+    "from": "From",
+    "to": "To"
   },
   "messages": {
     "comingsoon": "Žinučių funkcija jau greitai!"
@@ -90,7 +97,13 @@
     "days": "d.",
     "day": "d.",
     "steem_dollars": "Steem Dollars",
-    "savings": "Santaupos"
+    "savings": "Santaupos",
+    "edit": {
+      "display_name": "Display Name",
+      "about": "About",
+      "location": "Location",
+      "website": "Website"
+    }
   },
   "settings": {
     "settings": "Nustatymai",
@@ -214,14 +227,18 @@
     "error": "Error",
     "fetch_error": "Fetching data failed, please try again or notify us at info@esteem.app",
     "connection_fail": "Connection Failed!",
-    "connection_success": "Successfully connected!"
+    "connection_success": "Successfully connected!",
+    "checking": "Checking...",
+    "not_existing_post": "The post does not exist! Please check permlink and author.",
+    "google_play_version": "We noticed that your device has old version of Google Play. Please update Google Play services and try again!"
   },
   "post": {
     "reblog_alert": "Are you sure, you want to reblog?",
     "removed_hint": "The post was removed by",
     "copy_link": "Copy Link",
     "reblogged": "reblogged by",
-    "sponsored": "sponsored"
+    "sponsored": "SPONSORED",
+    "open_thread": "Open Thread"
   },
   "drafts": {
     "title": "Ruošiniai",
@@ -291,6 +308,7 @@
   "transfer": {
     "from": "Nuo",
     "to": "Į",
+    "amount_information": "Drag the slider to adjust the amount",
     "amount": "Kiekis",
     "memo": "Atmintinė",
     "information": "Are you sure to transfer funds?",
@@ -299,12 +317,16 @@
     "to_placeholder": "Vartotojo vardas",
     "memo_placeholder": "Įveskite savo užrašus čia",
     "transfer_token": "Transfer",
-    "points": "Points Transfer",
+    "points": "Gift ESTM to someone",
     "transfer_to_saving": "Transfer To Saving",
     "powerUp": "Power Up",
     "withdraw_to_saving": "Withdraw To Saving",
     "steemconnect_title": "Steemconnect Pervedimas",
-    "next": "TOLIAU"
+    "next": "TOLIAU",
+    "delegate": "Delegate",
+    "power_down": "Power Down",
+    "withdraw_steem": "Withdraw Steem",
+    "withdraw_sbd": "Withdraw Steem Dollar"
   },
   "boost": {
     "title": "Get eSteem Points",
@@ -321,5 +343,13 @@
   },
   "boostPost": {
     "title": "Boost"
+  },
+  "voters_dropdown": {
+    "rewards": "REWARDS",
+    "percent": "PERCENT",
+    "time": "TIME"
+  },
+  "reblog": {
+    "title": "Reblog Info"
   }
 }

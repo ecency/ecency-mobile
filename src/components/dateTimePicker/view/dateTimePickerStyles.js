@@ -35,5 +35,6 @@ export default EStyleSheet.create({
   },
   picker: {
     width: 50,
+    marginLeft: 20,
   },
 });

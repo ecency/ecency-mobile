@@ -65,7 +65,7 @@ export const makeOptions = (author, permlink, operationType) => {
     permlink,
     max_accepted_payout: '1000000.000 SBD',
     percent_steem_dollars: 10000,
-    extensions: [[0, { beneficiaries: [{ account: 'esteemapp', weight: 1000 }] }]],
+    extensions: [[0, { beneficiaries: [{ account: 'esteemapp', weight: 300 }] }]],
   };
 
   switch (operationType) {

@@ -28,7 +28,7 @@ class MainButton extends Component {
   }
 
   // Component Life Cycles
-  componentWillReceiveProps(nextProps) {
+  UNSAFE_componentWillReceiveProps(nextProps) {
     const { isLoading, isDisable } = this.props;
     if (nextProps.isLoading !== isLoading || nextProps.isDisable !== isDisable) {
       this.setState({

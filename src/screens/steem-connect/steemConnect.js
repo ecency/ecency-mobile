@@ -1,11 +1,12 @@
 import React, { PureComponent } from 'react';
-import { View, WebView, Alert } from 'react-native';
+import { View, Alert } from 'react-native';
+import { WebView } from 'react-native-webview';
 import { connect } from 'react-redux';
 import { injectIntl } from 'react-intl';
 import { withNavigation } from 'react-navigation';
 
 import { loginWithSC2 } from '../../providers/steem/auth';
-import { steemConnectOptions } from './config';
+import { steemConnectOptions } from '../../constants/steemConnectOptions';
 
 // Actions
 import { addOtherAccount, updateCurrentAccount } from '../../redux/actions/accountAction';
@@ -37,7 +38,7 @@ class SteemConnect extends PureComponent {
       if (!isLoading) {
         this.setState({ isLoading: true });
         handleOnModalClose();
-        loginWithSC2(code[1])
+        loginWithSC2(code[1], isPinCodeOpen)
           .then(result => {
             if (result) {
               dispatch(updateCurrentAccount({ ...result }));
@@ -79,7 +80,7 @@ class SteemConnect extends PureComponent {
       <View style={{ flex: 1 }}>
         <WebView
           source={{
-            uri: `${steemConnectOptions.base_url}?client_id=${
+            uri: `${steemConnectOptions.base_url}oauth2/authorize?client_id=${
               steemConnectOptions.client_id
             }&redirect_uri=${encodeURIComponent(
               steemConnectOptions.redirect_uri,

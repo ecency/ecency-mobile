@@ -24,12 +24,17 @@
     "notification": "Notificações",
     "leaderboard": "Quadro de Liderança",
     "epoint": "Pontos",
-    "leaderboard_title": "Usuário do Topo Hoje",
+    "leaderboard_title": "Top Usuários",
     "recent": "Recente",
     "yesterday": "Ontem",
     "this_week": "Esta Semana",
     "this_month": "Este Mês",
     "older_then": "Com mais de um mês"
+  },
+  "leaderboard": {
+    "daily": "Diariamente",
+    "weekly": "Semanalmente",
+    "monthly": "Mensalmente"
   },
   "points": {
     "post": "Publicar",
@@ -50,7 +55,7 @@
     "vote_title": "Pontos para votar",
     "reblog_title": "Pontos para reblog",
     "login_title": "Pontos por Login",
-    "checkin_title": "Pontos para uso",
+    "checkin_title": "Pontos por pulsação",
     "checkin_extra_title": "Uso do Bonús",
     "no_activity": "Nenhuma atividade aqui!",
     "outgoing_transfer_description": "",
@@ -62,9 +67,11 @@
     "reblog_desc": "  Compartilhe o post que gosta com seus amigos e ganhe 1 ponto.",
     "login_desc": "Quando entrar no aplicativo eSteem, você tem o direito de ganhar 100 pontos automaticamente.",
     "checkin_extra_desc": "O uso consistente do aplicativo dá mais chances para ganhar mais 10 pontos, seja mais ativo e ganhar mais.",
-    "dropdown_transfer": "Transferir",
+    "dropdown_transfer": "Presente",
     "dropdown_promote": "Promover",
-    "dropdown_boost": "Reforçar"
+    "dropdown_boost": "Reforçar",
+    "from": "De",
+    "to": "Para"
   },
   "messages": {
     "comingsoon": "Recurso de mensagens chega em breve!"
@@ -90,7 +97,13 @@
     "days": "dias",
     "day": "dia",
     "steem_dollars": "Steem Dólares",
-    "savings": "Poupanças"
+    "savings": "Poupanças",
+    "edit": {
+      "display_name": "Nome a Exibir",
+      "about": "Sobre",
+      "location": "Localização",
+      "website": "Website"
+    }
   },
   "settings": {
     "settings": "Configurações",
@@ -214,14 +227,18 @@
     "error": "Erro",
     "fetch_error": "Falha ao buscar dados, por favor tente novamente ou nos informe no info@esteem.app",
     "connection_fail": "Falha na conexão!",
-    "connection_success": "Conectado com sucesso!"
+    "connection_success": "Conectado com sucesso!",
+    "checking": "A verificar...",
+    "not_existing_post": "The post does not exist! Please check permlink and author.",
+    "google_play_version": "Notamos que seu dispositivo tem versão antiga do Google Play. Por favor, atualize o Google Play Services e tente novamente!"
   },
   "post": {
     "reblog_alert": "Tem certeza de que deseja reblogar?",
     "removed_hint": "O post foi removido por",
     "copy_link": "Copiar link",
     "reblogged": "repostado por",
-    "sponsored": "patrocinado"
+    "sponsored": "Promovido",
+    "open_thread": "Tópico aberto"
   },
   "drafts": {
     "title": "Rascunhos",
@@ -291,6 +308,7 @@
   "transfer": {
     "from": "De",
     "to": "Para",
+    "amount_information": "Arraste o controle deslizante para ajustar a quantia",
     "amount": "Quantia",
     "memo": "Memo",
     "information": "Tem certeza que deseja transferir fundos?",
@@ -299,12 +317,16 @@
     "to_placeholder": "Utilizador",
     "memo_placeholder": "Insira aqui as suas notas",
     "transfer_token": "Transferir",
-    "points": "Transferência de Pontos",
+    "points": "Presente ESTM para alguém",
     "transfer_to_saving": "Transferir para Poupanças",
     "powerUp": "Carregar Poder",
     "withdraw_to_saving": "Levantar das poupanças",
     "steemconnect_title": "Transferência por Steemconnect",
-    "next": "SEGUINTE"
+    "next": "SEGUINTE",
+    "delegate": "Delegar",
+    "power_down": "Decarregar Poder",
+    "withdraw_steem": "Levantar Steem",
+    "withdraw_sbd": "Levantar Steem Dólar"
   },
   "boost": {
     "title": "Obter Pontos eSteem",
@@ -321,5 +343,13 @@
   },
   "boostPost": {
     "title": "Reforçar"
+  },
+  "voters_dropdown": {
+    "rewards": "RECOMPENSAS",
+    "percent": "PERCENTAGEM",
+    "time": "TEMPO"
+  },
+  "reblog": {
+    "title": "Info. de Reblog"
   }
 }
