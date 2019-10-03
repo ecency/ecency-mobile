@@ -13,14 +13,14 @@ build/
 !default.mode2v3
 *.perspectivev3
 !default.perspectivev3
-!xcuserdata
+xcuserdata
 *.xccheckout
 *.moved-aside
 DerivedData
 *.hmap
 *.ipa
-!*.xcuserstate
-!project.xcworkspace
+*.xcuserstate
+project.xcworkspace
 
 # Android/IntelliJ
 #
@@ -63,3 +63,6 @@ keystore/
 package-lock.json
 my-release-key.keystore
 gradle.properties
+
+# CocoaPods
+/ios/Pods/

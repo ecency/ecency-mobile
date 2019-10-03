@@ -18,7 +18,7 @@ import Reblogs from './reblogs';
 import Redeem from './redeem/screen/redeemScreen';
 import SteemConnect from './steem-connect/steemConnect';
 import Transfer from './transfer';
-import FreeEstm from './freeEstm/screen/freeEstmScreen';
+import SpinGame from './spinGame/screen/spinGameScreen';
 import Voters from './voters';
 
 export {
@@ -40,7 +40,7 @@ export {
   Redeem,
   SearchResult,
   Settings,
-  FreeEstm,
+  SpinGame,
   SteemConnect,
   Transfer,
   Voters,

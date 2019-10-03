@@ -60,3 +60,27 @@ export const claim = username =>
         reject(error);
       });
   });
+
+export const gameStatusCheck = (username, type) =>
+  new Promise((resolve, reject) => {
+    ePointApi
+      .get(`/game/${username}`, { params: { type } })
+      .then(res => {
+        resolve(res.data);
+      })
+      .catch(error => {
+        reject(error);
+      });
+  });
+
+export const gameClaim = (username, type, key) =>
+  new Promise((resolve, reject) => {
+    ePointApi
+      .post(`/game/${username}`, { params: { type, key } })
+      .then(res => {
+        resolve(res.data);
+      })
+      .catch(error => {
+        reject(error);
+      });
+  });

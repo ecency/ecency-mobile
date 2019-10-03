@@ -19,7 +19,7 @@ const ITEM_SKUS = Platform.select({
   android: ['099points', '199points', '499points', '999points', '4999points', '9999points'],
 });
 
-class BoostContainer extends Component {
+class InAppPurchaseContainer extends Component {
   constructor(props) {
     super(props);
     this.state = {
@@ -87,7 +87,16 @@ class BoostContainer extends Component {
     });
 
     this.purchaseErrorSubscription = purchaseErrorListener(error => {
-      if (get(error, 'responseCode') !== '2') {
+      if (get(error, 'responseCode') === '3' && Platform.OS === 'android') {
+        Alert.alert(
+          intl.formatMessage({
+            id: 'alert.warning',
+          }),
+          intl.formatMessage({
+            id: 'alert.google_play_version',
+          }),
+        );
+      } else if (get(error, 'responseCode') !== '2') {
         Alert.alert(
           intl.formatMessage({
             id: 'alert.warning',
@@ -133,7 +142,7 @@ class BoostContainer extends Component {
       }
     } else {
       navigation.navigate({
-        routeName: ROUTES.SCREENS.FREE_ESTM,
+        routeName: ROUTES.SCREENS.SPIN_GAME,
       });
     }
   };
@@ -159,4 +168,4 @@ const mapStateToProps = state => ({
   currentAccount: state.account.currentAccount,
 });
 
-export default withNavigation(injectIntl(connect(mapStateToProps)(BoostContainer)));
+export default withNavigation(injectIntl(connect(mapStateToProps)(InAppPurchaseContainer)));

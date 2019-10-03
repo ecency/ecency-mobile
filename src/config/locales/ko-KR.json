@@ -55,7 +55,7 @@
     "vote_title": "투표 포인트",
     "reblog_title": "리블로그 포인트",
     "login_title": "로그인 포인트",
-    "checkin_title": "Points for heartbeat",
+    "checkin_title": "체크인 포인트",
     "checkin_extra_title": "체크인 보너스",
     "no_activity": "아직 포인트 관련 활동이 없습니다",
     "outgoing_transfer_description": "",
@@ -99,10 +99,10 @@
     "steem_dollars": "스팀 달러",
     "savings": "안전 금고",
     "edit": {
-      "display_name": "Display Name",
-      "about": "About",
-      "location": "Location",
-      "website": "Website"
+      "display_name": "이름",
+      "about": "소개",
+      "location": "위치",
+      "website": "웹사이트"
     }
   },
   "settings": {
@@ -228,8 +228,9 @@
     "fetch_error": "서버에서 데이터를 가져오는데 실패했습니다. 다시 시도해보시거나 info@esteem.app로 문의해주세요.",
     "connection_fail": "연결 실패!",
     "connection_success": "성공적으로 연결되었습니다",
-    "checking": "Cheking...",
-    "not_existing_post": "The post does not exist! Please check permlink and author."
+    "checking": "확인 중...",
+    "not_existing_post": "글이 존재하지 않습니다! permlink와 저자를 확인해주세요.",
+    "google_play_version": "We noticed that your device has old version of Google Play. Please update Google Play services and try again!"
   },
   "post": {
     "reblog_alert": "리블로그 하시겠습니까?",
@@ -237,7 +238,7 @@
     "copy_link": "링크 복사",
     "reblogged": "리블로그됨",
     "sponsored": "투표 후원받음",
-    "open_thread": "Open Thread"
+    "open_thread": "스레드 열기"
   },
   "drafts": {
     "title": "임시 보관함",
@@ -307,7 +308,7 @@
   "transfer": {
     "from": "보낸 사람",
     "to": "받는 사람",
-    "amount_information": "Drag the slider to adjust the amount",
+    "amount_information": "슬라이드를 드래그해서 수량을 설정할 수 있습니다",
     "amount": "수량",
     "memo": "메모",
     "information": "자금을 전송하시겠습니까?",

@@ -228,8 +228,9 @@
     "fetch_error": "डेटा प्राप्त करना विफल रहा, कृपया पुनः प्रयास करें या हमें info@esteem.app पर सूचित करें",
     "connection_fail": "कनेक्ट करना विफल रहा",
     "connection_success": "सफलतापूर्वक जुड़ा हुआ है!",
-    "checking": "Cheking...",
-    "not_existing_post": "The post does not exist! Please check permlink and author."
+    "checking": "Checking...",
+    "not_existing_post": "The post does not exist! Please check permlink and author.",
+    "google_play_version": "We noticed that your device has old version of Google Play. Please update Google Play services and try again!"
   },
   "post": {
     "reblog_alert": "क्या आप निश्चित हैं, आप इसे हटाना चाहते हैं?",

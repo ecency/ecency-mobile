@@ -28,7 +28,7 @@ class ApplicationScreen extends Component {
     EStyleSheet.build(isDarkTheme ? darkTheme : lightTheme);
   }
 
-  componentWillReceiveProps(nextProps) {
+  UNSAFE_componentWillReceiveProps(nextProps) {
     const { toastNotification } = this.props;
     if (nextProps.toastNotification && nextProps.toastNotification !== toastNotification) {
       this.setState({ isShowToastNotification: true });

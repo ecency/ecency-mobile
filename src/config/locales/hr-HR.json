@@ -228,8 +228,9 @@
     "fetch_error": "Fetching data failed, please try again or notify us at info@esteem.app",
     "connection_fail": "Connection Failed!",
     "connection_success": "Successfully connected!",
-    "checking": "Cheking...",
-    "not_existing_post": "The post does not exist! Please check permlink and author."
+    "checking": "Checking...",
+    "not_existing_post": "The post does not exist! Please check permlink and author.",
+    "google_play_version": "We noticed that your device has old version of Google Play. Please update Google Play services and try again!"
   },
   "post": {
     "reblog_alert": "Are you sure, you want to reblog?",
