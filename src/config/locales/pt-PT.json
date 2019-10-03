@@ -230,7 +230,7 @@
     "connection_success": "Conectado com sucesso!",
     "checking": "A verificar...",
     "not_existing_post": "The post does not exist! Please check permlink and author.",
-    "google_play_version": "We noticed that your device has old version of Google Play. Please update Google Play services and try again!"
+    "google_play_version": "Notamos que seu dispositivo tem versão antiga do Google Play. Por favor, atualize o Google Play Services e tente novamente!"
   },
   "post": {
     "reblog_alert": "Tem certeza de que deseja reblogar?",
