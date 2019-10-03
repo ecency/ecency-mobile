@@ -47,7 +47,7 @@
     "react-native": "0.60.5",
     "react-native-actionsheet": "^2.4.2",
     "react-native-autocomplete-input": "^4.1.0",
-    "react-native-code-push": "^5.7.0",
+    "react-native-code-push": "esteemapp/react-native-code-push",
     "react-native-config": "^0.11.5",
     "react-native-datepicker": "^1.7.2",
     "react-native-extended-stylesheet": "^0.10.0",
