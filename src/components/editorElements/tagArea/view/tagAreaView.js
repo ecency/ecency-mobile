@@ -25,7 +25,7 @@ export default class TagAreaView extends Component {
   }
 
   // Component Life Cycles
-  componentWillReceiveProps(nextProps) {
+  UNSAFE_componentWillReceiveProps(nextProps) {
     const { draftChips, isRemoveTag } = this.props;
 
     if (nextProps.draftChips && nextProps.draftChips !== draftChips) {

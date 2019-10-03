@@ -34,7 +34,7 @@ class NotificationContainer extends Component {
     }
   }
 
-  componentWillReceiveProps(nextProps) {
+  UNSAFE_componentWillReceiveProps(nextProps) {
     const { selectedFilter } = this.state;
     const { username } = this.props;
 

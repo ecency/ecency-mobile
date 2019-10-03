@@ -6,7 +6,12 @@ import { jsonStringify } from '../../utils/jsonUtils';
 import bugsnag from '../../config/bugsnag';
 
 export const getCurrencyRate = currency =>
-  api.get(`/currencyRate/${currency.toUpperCase()}/steem`).then(resp => resp.data);
+  api
+    .get(`/currencyRate/${currency.toUpperCase()}/steem`)
+    .then(resp => resp.data)
+    .catch(err => {
+      console.log('err :', err);
+    });
 
 /**
  * @params username
@@ -352,7 +357,7 @@ export const getSCAccessToken = code =>
     api.post('/sc-token-refresh', { code }).then(resp => resolve(resp.data));
   });
 
-export const getPromotePosts = () => api.get(`/promoted-posts`).then(resp => resp.data);
+export const getPromotePosts = () => api.get('/promoted-posts').then(resp => resp.data);
 
 export const purchaseOrder = data => api.post('/purchase-order', data).then(resp => resp.data);
 

@@ -13,7 +13,7 @@ import {
   Drafts,
   Editor,
   Follows,
-  FreeEstm,
+  SpinGame,
   Login,
   PinCode,
   Post,
@@ -134,8 +134,8 @@ const stackNavigator = createStackNavigator(
         header: () => null,
       },
     },
-    [ROUTES.SCREENS.FREE_ESTM]: {
-      screen: FreeEstm,
+    [ROUTES.SCREENS.SPIN_GAME]: {
+      screen: SpinGame,
       navigationOptions: {
         header: () => null,
       },

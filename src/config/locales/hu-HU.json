@@ -68,8 +68,8 @@
     "login_desc": "Minden eSteem bejelentkezés alkalmával automatikusan 100 pontra vagy jogosult.",
     "checkin_extra_desc": "Az alkalmazás következetes használata extra esélyt kínál arra, hogy több 10 pontot nyerj, légy aktívabb és nyerj többet.",
     "dropdown_transfer": "Ajándék",
-    "dropdown_promote": "Promoválás",
-    "dropdown_boost": "Kiemelés",
+    "dropdown_promote": "Hirdetés",
+    "dropdown_boost": "Felpörgetés",
     "from": "Tőle",
     "to": "Címzett"
   },
@@ -228,15 +228,16 @@
     "fetch_error": "Sikertelen adatbetöltés, kérjük próbáld meg újra vagy írj nekünk ide info@esteem.app",
     "connection_fail": "Sikertelen kapcsolat!",
     "connection_success": "A kapcsolat sikerült!",
-    "checking": "Ellenőrzés...",
-    "not_existing_post": "A bejegyzés nem létezik! Kérjük ellenőrizd a linket és a szerzőt."
+    "checking": "Ellenőrzés folyamatban...",
+    "not_existing_post": "A bejegyzés nem létezik! Kérjük ellenőrizd a linket és a szerzőt.",
+    "google_play_version": "We noticed that your device has old version of Google Play. Please update Google Play services and try again!"
   },
   "post": {
     "reblog_alert": "Biztos, hogy megosztod?",
     "removed_hint": "A bejegyzést eltávolította",
     "copy_link": "Link másolása",
     "reblogged": "megosztva általa",
-    "sponsored": "KIEMELT",
+    "sponsored": "TÁMOGATOTT",
     "open_thread": "Bejegyzés megnyitása"
   },
   "drafts": {
@@ -276,7 +277,7 @@
   },
   "payout": {
     "potential_payout": "Lehetséges Kifizetés",
-    "promoted": "Promovált",
+    "promoted": "Hirdetett",
     "author_payout": "Szerzői Kifizetés",
     "curation_payout": "Kurátori Kifizetés",
     "payout_date": "Kifizetés"
@@ -287,8 +288,8 @@
     "reply": "válasz",
     "share": "megosztás",
     "bookmarks": "hozzáadás a könyvjelzőkhöz",
-    "promote": "promoválás",
-    "boost": "kiemelés"
+    "promote": "hirdetés",
+    "boost": "felpörgetés"
   },
   "deep_link": {
     "no_existing_user": "Nem létező felhasználó",
@@ -333,15 +334,15 @@
     "next": "KÖVETKEZŐ"
   },
   "promote": {
-    "title": "Promoválás",
+    "title": "Hirdetés",
     "days": "nap",
     "user": "Felhasználó",
     "permlink": "Bejegyzés",
     "permlinkPlaceholder": "szerző/permlink",
-    "information": "Bistos promoválod?"
+    "information": "Bistos hirdeted?"
   },
   "boostPost": {
-    "title": "Kiemelés"
+    "title": "Felpörgetés"
   },
   "voters_dropdown": {
     "rewards": "JUTALMAK",

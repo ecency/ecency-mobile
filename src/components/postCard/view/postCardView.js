@@ -37,7 +37,7 @@ class PostCardView extends Component {
   }
 
   // Component Lifecycle Functions
-  componentWillReceiveProps(nextProps) {
+  UNSAFE_componentWillReceiveProps(nextProps) {
     const { content } = this.props;
     const rebloggedBy = get(content, 'reblogged_by[0]', null);
     const _rebloggedBy = get(nextProps.content, 'reblogged_by[0]', null);
