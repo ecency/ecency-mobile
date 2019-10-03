@@ -71,7 +71,7 @@ class BottomTabBarView extends PureComponent {
     } = this.props;
 
     return (
-      <View
+      <SafeAreaView
         style={{
           position: 'absolute',
           bottom: 0,
@@ -81,13 +81,31 @@ class BottomTabBarView extends PureComponent {
         }}
       >
         <TabBar
-          itemList={routes}
-          renderIcon={renderIcon}
-          onPress={this._jumpTo}
+          selectedIndex={0}
+          circleBackgroundColor="#357ce6"
+          backgroundColor="#f6f6f6"
+          onChange={index => this._jumpTo(routes[index])}
           activeTintColor={activeTintColor}
           inactiveTintColor={inactiveTintColor}
-        />
-      </View>
+        >
+          {routes.map(route => (
+            <TabBar.Item
+              icon={renderIcon({
+                route,
+                focused: false,
+                tintColor: inactiveTintColor,
+              })}
+              selectedIcon={renderIcon({
+                route,
+                focused: true,
+                tintColor: activeTintColor,
+              })}
+              key={route}
+              disabled={route.routeName === ROUTES.TABBAR.POSTBUTTON}
+            />
+          ))}
+        </TabBar>
+      </SafeAreaView>
     );
   }
 }

@@ -37,22 +37,14 @@ const BaseNavigator = createBottomTabNavigator(
     [ROUTES.TABBAR.POSTBUTTON]: {
       screen: () => null,
       navigationOptions: {
-        tabBarIcon: ({ tintColor }) => (
-          <Icon iconType="MaterialCommunityIcons" name="pencil" color={tintColor} size={26} />
-        ),
+        tabBarIcon: ({ tintColor }) => <PostButton />,
       },
     },
     [ROUTES.TABBAR.POINTS]: {
       screen: Points,
       navigationOptions: () => ({
         tabBarIcon: ({ tintColor }) => (
-          <Icon
-            iconType="MaterialCommunityIcons"
-            style={{ padding: 15 }}
-            name="gift-outline"
-            color={tintColor}
-            size={26}
-          />
+          <Icon iconType="MaterialCommunityIcons" name="gift-outline" color={tintColor} size={26} />
         ),
       }),
     },
@@ -69,7 +61,7 @@ const BaseNavigator = createBottomTabNavigator(
     tabBarComponent: props => <BottomTabBar {...props} />,
     tabBarOptions: {
       showLabel: false,
-      activeTintColor: '#357ce6',
+      activeTintColor: '#f6f6f6',
       inactiveTintColor: '#c1c5c7',
       style: {},
       tabStyle: {},

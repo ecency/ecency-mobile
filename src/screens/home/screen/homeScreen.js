@@ -1,5 +1,5 @@
 import React, { PureComponent, Fragment } from 'react';
-import { View } from 'react-native';
+import { View, SafeAreaView } from 'react-native';
 import ScrollableTabView from 'react-native-scrollable-tab-view';
 import { injectIntl } from 'react-intl';
 
@@ -24,7 +24,7 @@ class HomeScreen extends PureComponent {
     return (
       <Fragment>
         <Header />
-        <View style={styles.container}>
+        <SafeAreaView style={styles.container}>
           <ScrollableTabView
             style={globalStyles.tabView}
             activeTab={!isLoggedIn ? 1 : 0}
@@ -64,7 +64,7 @@ class HomeScreen extends PureComponent {
               />
             </View>
           </ScrollableTabView>
-        </View>
+        </SafeAreaView>
       </Fragment>
     );
   }
