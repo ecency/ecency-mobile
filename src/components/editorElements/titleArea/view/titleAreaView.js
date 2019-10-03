@@ -24,7 +24,7 @@ export default class TitleAreaView extends Component {
   }
 
   // Component Life Cycles
-  componentWillReceiveProps = nextProps => {
+  UNSAFE_componentWillReceiveProps = nextProps => {
     const { text } = this.state;
     if (nextProps.value !== text) {
       this.setState({ text: nextProps.value });

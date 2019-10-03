@@ -30,11 +30,15 @@ class UpvoteView extends Component {
   constructor(props) {
     super(props);
     this.state = {
-      sliderValue: get(props, 'upvotePercent', 1),
+      sliderValue:
+        get(props, 'isVoted', false) ||
+        get(props, 'isDownVoted', 1) ||
+        get(props, 'upvotePercent', 1),
       isVoting: false,
       isVoted: get(props, 'isVoted', false),
       amount: '0.00000',
       isShowDetails: false,
+      downvote: get(props, 'isDownVoted', false),
     };
   }
 
@@ -43,7 +47,7 @@ class UpvoteView extends Component {
     this._calculateEstimatedAmount();
   }
 
-  componentWillReceiveProps(nextProps) {
+  UNSAFE_componentWillReceiveProps(nextProps) {
     const { isVoted, upvotePercent } = this.props;
     const { isVoted: localIsVoted } = this.state;
 
@@ -52,7 +56,12 @@ class UpvoteView extends Component {
     }
 
     if (upvotePercent !== get(nextProps, 'upvotePercent')) {
-      this.setState({ sliderValue: get(nextProps, 'upvotePercent') });
+      this.setState({
+        sliderValue:
+          get(nextProps, 'isVoted', false) ||
+          get(nextProps, 'isDownVoted', 1) ||
+          get(nextProps, 'upvotePercent', 1),
+      });
     }
   }
 
@@ -80,7 +89,7 @@ class UpvoteView extends Component {
     }
   };
 
-  _upvoteContent = async () => {
+  _upvoteContent = closePopover => {
     const {
       author,
       currentAccount,
@@ -89,40 +98,95 @@ class UpvoteView extends Component {
       permlink,
       pinCode,
     } = this.props;
-    const { sliderValue } = this.state;
+    const { sliderValue, downvote } = this.state;
 
-    this.setState(
-      {
-        isVoting: true,
-      },
-      () => {
-        handleSetUpvotePercent(sliderValue);
-      },
-    );
+    if (!downvote) {
+      closePopover();
+      this.setState(
+        {
+          isVoting: true,
+        },
+        () => {
+          handleSetUpvotePercent(sliderValue);
+        },
+      );
 
-    const weight = sliderValue ? (sliderValue * 100).toFixed(0) * 100 : 0;
+      const weight = sliderValue ? (sliderValue * 100).toFixed(0) * 100 : 0;
 
-    vote(currentAccount, pinCode, author, permlink, weight)
-      .then(() => {
-        this.setState(
-          {
-            isVoted: !!sliderValue,
+      vote(currentAccount, pinCode, author, permlink, weight)
+        .then(() => {
+          this.setState(
+            {
+              isVoted: !!sliderValue,
+              isVoting: false,
+            },
+            () => {
+              if (fetchPost) {
+                fetchPost();
+              }
+            },
+          );
+        })
+        .catch(err => {
+          Alert.alert('Failed!', err.message);
+          this.setState({
+            isVoted: false,
             isVoting: false,
-          },
-          () => {
-            if (fetchPost) {
-              fetchPost();
-            }
-          },
-        );
-      })
-      .catch(err => {
-        Alert.alert('Failed!', err.message);
-        this.setState({
-          isVoted: false,
-          isVoting: false,
+          });
         });
-      });
+    } else {
+      this.setState({ sliderValue: 1, downvote: false });
+    }
+  };
+
+  _downvoteContent = closePopover => {
+    const {
+      author,
+      currentAccount,
+      fetchPost,
+      handleSetUpvotePercent,
+      permlink,
+      pinCode,
+    } = this.props;
+    const { sliderValue, downvote } = this.state;
+
+    if (downvote) {
+      closePopover();
+      this.setState(
+        {
+          isVoting: true,
+        },
+        () => {
+          handleSetUpvotePercent(sliderValue);
+        },
+      );
+
+      const weight = sliderValue ? (sliderValue * 100).toFixed(0) * 100 * -1 : 0;
+
+      vote(currentAccount, pinCode, author, permlink, weight)
+        .then(() => {
+          this.setState(
+            {
+              isVoted: !!sliderValue,
+              isVoting: false,
+            },
+            () => {
+              if (fetchPost) {
+                fetchPost();
+              }
+            },
+          );
+        })
+        .catch(err => {
+          Alert.alert('Failed!', err.message);
+          this.setState({
+            isVoted: false,
+            isVoting: false,
+          });
+        });
+    } else {
+      this.setState({ sliderValue: 1, downvote: true });
+    }
   };
 
   _handleOnPopoverClose = () => {
@@ -145,8 +209,9 @@ class UpvoteView extends Component {
       curationPayout,
       payoutDate,
       intl,
+      isDownVoted,
     } = this.props;
-    const { isVoting, amount, sliderValue, isVoted, isShowDetails } = this.state;
+    const { isVoting, amount, sliderValue, isVoted, isShowDetails, downvote } = this.state;
 
     let iconName = 'ios-arrow-dropup';
     let iconType;
@@ -156,9 +221,10 @@ class UpvoteView extends Component {
       iconType = 'AntDesign';
     }
 
-    const _percent = `${(sliderValue * 100).toFixed(0)}%`;
+    const _percent = `${downvote ? '-' : ''}${(sliderValue * 100).toFixed(0)}%`;
     const _amount = `$${amount}`;
     const _totalPayout = totalPayout || '0.000';
+    const sliderColor = downvote ? '#ec8b88' : '#357ce6';
 
     return (
       <PopoverController>
@@ -185,10 +251,10 @@ class UpvoteView extends Component {
                   </View>
                 ) : (
                   <Icon
-                    style={[styles.upvoteIcon]}
+                    style={[styles.upvoteIcon, isDownVoted && { color: '#ec8b88' }]}
                     active={!isLoggedIn}
-                    iconType={iconType}
-                    name={iconName}
+                    iconType={isDownVoted ? 'AntDesign' : iconType}
+                    name={isDownVoted ? 'downcircle' : iconName}
                   />
                 )}
               </Fragment>
@@ -253,8 +319,7 @@ class UpvoteView extends Component {
                   <Fragment>
                     <TouchableOpacity
                       onPress={() => {
-                        closePopover();
-                        this._upvoteContent();
+                        this._upvoteContent(closePopover);
                       }}
                       style={styles.upvoteButton}
                     >
@@ -269,7 +334,7 @@ class UpvoteView extends Component {
                     <Text style={styles.amount}>{_amount}</Text>
                     <Slider
                       style={styles.slider}
-                      minimumTrackTintColor="#357ce6"
+                      minimumTrackTintColor={sliderColor}
                       trackStyle={styles.track}
                       thumbStyle={styles.thumb}
                       thumbTintColor="#007ee5"
@@ -281,6 +346,18 @@ class UpvoteView extends Component {
                       }}
                     />
                     <Text style={styles.percent}>{_percent}</Text>
+                    <TouchableOpacity
+                      onPress={() => this._downvoteContent(closePopover)}
+                      style={styles.upvoteButton}
+                    >
+                      <Icon
+                        size={20}
+                        style={[styles.upvoteIcon, { color: '#ec8b88' }]}
+                        active={!isLoggedIn}
+                        iconType="AntDesign"
+                        name="downcircle"
+                      />
+                    </TouchableOpacity>
                   </Fragment>
                 )}
               </View>

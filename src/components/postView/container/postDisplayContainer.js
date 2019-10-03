@@ -30,7 +30,7 @@ class PostDisplayContainer extends Component {
   }
 
   // Component Life Cycle Functions
-  componentWillReceiveProps(nextProps) {
+  UNSAFE_componentWillReceiveProps(nextProps) {
     const { isFetchPost } = this.props;
     if (isFetchPost !== nextProps.isFetchPost && nextProps.isFetchPost) {
       this._fetchPost();
@@ -47,8 +47,22 @@ class PostDisplayContainer extends Component {
         activeVotes,
       },
       // TODO: make unic
-      key: post.permlink + Math.random(),
+      key: post.permlink + activeVotes.length,
     });
+  };
+
+  _handleOnReblogsPress = reblogs => {
+    const { navigation, post } = this.props;
+
+    if (reblogs.length > 0) {
+      navigation.navigate({
+        routeName: ROUTES.SCREENS.REBLOGS,
+        params: {
+          reblogs,
+        },
+        key: post.permlink + reblogs.length,
+      });
+    }
   };
 
   _handleOnReplyPress = () => {
@@ -123,6 +137,7 @@ class PostDisplayContainer extends Component {
         handleOnRemovePress={this._handleDeleteComment}
         handleOnReplyPress={this._handleOnReplyPress}
         handleOnVotersPress={this._handleOnVotersPress}
+        handleOnReblogsPress={this._handleOnReblogsPress}
         isLoggedIn={isLoggedIn}
         isNewPost={isNewPost}
         isPostUnavailable={isPostUnavailable}

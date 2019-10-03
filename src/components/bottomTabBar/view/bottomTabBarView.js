@@ -1,7 +1,6 @@
 import React, { PureComponent } from 'react';
 import { TouchableOpacity, SafeAreaView, View, Dimensions } from 'react-native';
 import { connect } from 'react-redux';
-import ViewOverflow from 'react-native-view-overflow';
 
 // Services and Actions
 import { updateActiveBottomTab } from '../../../redux/actions/uiAction';
@@ -27,7 +26,7 @@ class BottomTabBarView extends PureComponent {
   }
 
   // Component Life Cycles
-  componentWillUpdate(nextProps) {
+  UNSAFE_componentWillUpdate(nextProps) {
     const {
       navigation: {
         state: { index, routes },

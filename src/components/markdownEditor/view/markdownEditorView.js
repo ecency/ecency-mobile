@@ -32,7 +32,7 @@ export default class MarkdownEditorView extends Component {
   }
 
   // Lifecycle functions
-  componentWillReceiveProps(nextProps) {
+  UNSAFE_componentWillReceiveProps(nextProps) {
     const { draftBody, uploadedImage, isPreviewActive } = this.props;
     if (!nextProps.isPreviewActive && isPreviewActive) {
       this.setState({
@@ -63,9 +63,9 @@ export default class MarkdownEditorView extends Component {
 
   componentDidUpdate(prevProps, prevState) {
     const { text } = this.state;
-    const { isFormValid, handleIsFormValid } = this.props;
+    const { handleIsFormValid } = this.props;
 
-    if (prevState.text !== text && !isFormValid) {
+    if (prevState.text !== text) {
       const nextText = text.replace(prevState.text, '');
 
       if (nextText && nextText.length > 0) {
@@ -81,14 +81,6 @@ export default class MarkdownEditorView extends Component {
   // Component functions
   _changeText = input => {
     const { onChange, handleOnTextChange, handleIsValid, componentID } = this.props;
-    const { textUpdated } = this.state;
-
-    if (textUpdated) {
-      this.setState({
-        textUpdated: false,
-      });
-      return;
-    }
 
     this.setState({ text: input });
 
@@ -199,7 +191,7 @@ export default class MarkdownEditorView extends Component {
   };
 
   render() {
-    const { handleOpenImagePicker, intl, isPreviewActive, isReply } = this.props;
+    const { handleOpenImagePicker, intl, isPreviewActive, isReply, isLoading } = this.props;
     const { text, selection } = this.state;
 
     return (
@@ -223,6 +215,7 @@ export default class MarkdownEditorView extends Component {
             underlineColorAndroid="transparent"
             value={text}
             innerRef={this.inputRef}
+            editable={!isLoading}
           />
         ) : (
           this._renderPreview()

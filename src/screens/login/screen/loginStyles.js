@@ -34,4 +34,9 @@ export default EStyleSheet.create({
   cancelButton: {
     marginRight: 10,
   },
+  formWrapper: {
+    flexGrow: 1,
+    marginHorizontal: 30,
+    marginVertical: 10,
+  },
 });

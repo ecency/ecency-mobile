@@ -23,7 +23,7 @@ class NotificationLineView extends PureComponent {
   }
 
   // Component Life Cycles
-  componentWillReceiveProps(nextProps) {
+  UNSAFE_componentWillReceiveProps(nextProps) {
     const { notification } = this.props;
 
     if (notification.read !== nextProps.notification.read) {

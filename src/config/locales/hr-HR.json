@@ -24,12 +24,17 @@
     "notification": "Obavijesti",
     "leaderboard": "Rang lista",
     "epoint": "Points",
-    "leaderboard_title": "Dnevni top korisnik",
+    "leaderboard_title": "Top Users",
     "recent": "Nedavno",
     "yesterday": "Jučer",
     "this_week": "Ovog Tjedna",
     "this_month": "Ovaj Mjesec",
     "older_then": "Starije od mjesec dana"
+  },
+  "leaderboard": {
+    "daily": "Daily",
+    "weekly": "Weekly",
+    "monthly": "Monthly"
   },
   "points": {
     "post": "Post",
@@ -50,7 +55,7 @@
     "vote_title": "Points for vote",
     "reblog_title": "Points for reblog",
     "login_title": "Points for login",
-    "checkin_title": "Points for usage",
+    "checkin_title": "Points for heartbeat",
     "checkin_extra_title": "Usage bonus",
     "no_activity": "No activity here!",
     "outgoing_transfer_description": "",
@@ -62,9 +67,11 @@
     "reblog_desc": "  Share what post you like with your friends and earn 1 points.",
     "login_desc": "When you login into eSteem app you are entitled to earn 100 points automatically.",
     "checkin_extra_desc": "Consistent use of app gives you extra chances to earn more 10 points, be more active and earn more.",
-    "dropdown_transfer": "Transfer",
+    "dropdown_transfer": "Gift",
     "dropdown_promote": "Promote",
-    "dropdown_boost": "Boost"
+    "dropdown_boost": "Boost",
+    "from": "From",
+    "to": "To"
   },
   "messages": {
     "comingsoon": "Značajka poruka dolazi uskoro!"
@@ -90,7 +97,13 @@
     "days": "dani",
     "day": "dan",
     "steem_dollars": "Steem Dolari",
-    "savings": "Štednja"
+    "savings": "Štednja",
+    "edit": {
+      "display_name": "Display Name",
+      "about": "About",
+      "location": "Location",
+      "website": "Website"
+    }
   },
   "settings": {
     "settings": "Postavke",
@@ -214,14 +227,18 @@
     "error": "Error",
     "fetch_error": "Fetching data failed, please try again or notify us at info@esteem.app",
     "connection_fail": "Connection Failed!",
-    "connection_success": "Successfully connected!"
+    "connection_success": "Successfully connected!",
+    "checking": "Checking...",
+    "not_existing_post": "The post does not exist! Please check permlink and author.",
+    "google_play_version": "We noticed that your device has old version of Google Play. Please update Google Play services and try again!"
   },
   "post": {
     "reblog_alert": "Are you sure, you want to reblog?",
     "removed_hint": "The post was removed by",
     "copy_link": "Copy Link",
     "reblogged": "reblogged by",
-    "sponsored": "sponsored"
+    "sponsored": "SPONSORED",
+    "open_thread": "Open Thread"
   },
   "drafts": {
     "title": "Skice",
@@ -291,6 +308,7 @@
   "transfer": {
     "from": "From",
     "to": "To",
+    "amount_information": "Drag the slider to adjust the amount",
     "amount": "Amount",
     "memo": "Memo",
     "information": "Are you sure to transfer funds?",
@@ -299,12 +317,16 @@
     "to_placeholder": "Username",
     "memo_placeholder": "Enter your notes here",
     "transfer_token": "Transfer",
-    "points": "Points Transfer",
+    "points": "Gift ESTM to someone",
     "transfer_to_saving": "Transfer To Saving",
     "powerUp": "Power Up",
     "withdraw_to_saving": "Withdraw To Saving",
     "steemconnect_title": "Steemconnect Transfer",
-    "next": "NEXT"
+    "next": "NEXT",
+    "delegate": "Delegate",
+    "power_down": "Power Down",
+    "withdraw_steem": "Withdraw Steem",
+    "withdraw_sbd": "Withdraw Steem Dollar"
   },
   "boost": {
     "title": "Get eSteem Points",
@@ -321,5 +343,13 @@
   },
   "boostPost": {
     "title": "Boost"
+  },
+  "voters_dropdown": {
+    "rewards": "REWARDS",
+    "percent": "PERCENT",
+    "time": "TIME"
+  },
+  "reblog": {
+    "title": "Reblog Info"
   }
 }

@@ -10,7 +10,6 @@ import { getTimeFromNow } from '../../../utils/time';
 // Components
 import { PostHeaderDescription } from '../../postElements';
 import { PostDropdown } from '../../postDropdown';
-import { Icon } from '../../icon';
 import { TextWithIcon } from '../../basicUIElements';
 
 // STEEM
@@ -38,7 +37,7 @@ class PostCardView extends Component {
   }
 
   // Component Lifecycle Functions
-  componentWillReceiveProps(nextProps) {
+  UNSAFE_componentWillReceiveProps(nextProps) {
     const { content } = this.props;
     const rebloggedBy = get(content, 'reblogged_by[0]', null);
     const _rebloggedBy = get(nextProps.content, 'reblogged_by[0]', null);
@@ -67,7 +66,15 @@ class PostCardView extends Component {
   _handleOnVotersPress = () => {
     const { handleOnVotersPress, content } = this.props;
 
-    handleOnVotersPress(content.active_votes);
+    handleOnVotersPress(get(content, 'active_votes'));
+  };
+
+  _handleOnReblogsPress = () => {
+    const { handleOnReblogsPress, content } = this.props;
+
+    if (content.reblogs.length > 0) {
+      handleOnReblogsPress(get(content, 'reblogs'));
+    }
   };
 
   _getPostImage = (content, isNsfwPost) => {
@@ -81,7 +88,7 @@ class PostCardView extends Component {
   };
 
   render() {
-    const { content, isHideImage, fetchPost, isNsfwPost, isHideReblogOption, intl } = this.props;
+    const { content, isHideImage, fetchPost, isNsfwPost, intl } = this.props;
     const { rebloggedBy } = this.state;
     const _image = this._getPostImage(content, isNsfwPost);
 
@@ -101,11 +108,7 @@ class PostCardView extends Component {
             isPromoted={get(content, 'is_promoted')}
           />
           <View style={styles.dropdownWrapper}>
-            <PostDropdown
-              isHideReblogOption={isHideReblogOption}
-              content={content}
-              fetchPost={fetchPost}
-            />
+            <PostDropdown content={content} fetchPost={fetchPost} />
           </View>
         </View>
         <View style={styles.postBodyWrapper}>
@@ -134,17 +137,32 @@ class PostCardView extends Component {
           <View style={styles.leftFooterWrapper}>
             <Upvote fetchPost={fetchPost} isShowPayoutValue content={content} />
             <TouchableOpacity style={styles.commentButton} onPress={this._handleOnVotersPress}>
-              <Icon
-                style={[styles.commentIcon, { marginLeft: 25 }]}
+              <TextWithIcon
+                iconName="people"
+                iconStyle={styles.commentIcon}
                 iconType="MaterialIcons"
-                name="people"
+                isClickable
+                text={get(content, 'vote_count', 0)}
+                onPress={this._handleOnVotersPress}
               />
-              <Text style={styles.comment}>{get(content, 'vote_count', 0)}</Text>
             </TouchableOpacity>
           </View>
-          <View style={styles.commentButton}>
-            <Icon style={[styles.commentIcon]} iconType="MaterialIcons" name="comment" />
-            <Text style={styles.comment}>{get(content, 'children')}</Text>
+          <View style={styles.rightFooterWrapper}>
+            <TextWithIcon
+              iconName="repeat"
+              iconStyle={styles.commentIcon}
+              iconType="MaterialIcons"
+              isClickable
+              text={get(content, 'reblogCount', 0)}
+              onPress={this._handleOnReblogsPress}
+            />
+            <TextWithIcon
+              iconName="comment"
+              iconStyle={styles.commentIcon}
+              iconType="MaterialIcons"
+              isClickable
+              text={get(content, 'children', 0)}
+            />
           </View>
         </View>
       </View>

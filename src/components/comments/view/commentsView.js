@@ -1,4 +1,4 @@
-import React, { PureComponent, Fragment } from 'react';
+import React, { Component, Fragment } from 'react';
 import { FlatList } from 'react-native';
 import ActionSheet from 'react-native-actionsheet';
 import get from 'lodash/get';
@@ -9,9 +9,9 @@ import { injectIntl } from 'react-intl';
 import { Comment } from '../../comment';
 
 // Styles
-// import styles from './commentStyles';
+import styles from './commentStyles';
 
-class CommentsView extends PureComponent {
+class CommentsView extends Component {
   /* Props
    * ------------------------------------------------
    *   @prop { type }    name                - Description....
@@ -52,14 +52,25 @@ class CommentsView extends PureComponent {
       isShowSubComments,
       marginLeft,
       handleDeleteComment,
-      handleCommentCopyAction,
+      handleOnPressCommentMenu,
+      handleOnVotersPress,
       intl,
+      isOwnProfile,
     } = this.props;
     const { selectedComment } = this.state;
+
+    const menuItems = isOwnProfile
+      ? [
+          intl.formatMessage({ id: 'post.copy_link' }),
+          intl.formatMessage({ id: 'post.open_thread' }),
+          intl.formatMessage({ id: 'alert.cancel' }),
+        ]
+      : [intl.formatMessage({ id: 'post.copy_link' }), intl.formatMessage({ id: 'alert.cancel' })];
 
     return (
       <Fragment>
         <FlatList
+          style={styles.list}
           data={comments}
           keyExtractor={this._keyExtractor}
           renderItem={({ item }) => (
@@ -75,6 +86,7 @@ class CommentsView extends PureComponent {
               handleOnEditPress={handleOnEditPress}
               handleOnReplyPress={handleOnReplyPress}
               handleOnUserPress={handleOnUserPress}
+              handleOnVotersPress={handleOnVotersPress}
               isLoggedIn={isLoggedIn}
               isShowMoreButton={commentNumber === 1 && get(item, 'children') > 0}
               voteCount={get(item, 'vote_count')}
@@ -87,17 +99,10 @@ class CommentsView extends PureComponent {
         />
         <ActionSheet
           ref={this.commentMenu}
-          options={[
-            intl.formatMessage({
-              id: 'post.copy_link',
-            }),
-            intl.formatMessage({
-              id: 'alert.cancel',
-            }),
-          ]}
+          options={menuItems}
           title={get(selectedComment, 'summary')}
-          cancelButtonIndex={1}
-          onPress={index => handleCommentCopyAction(index, selectedComment)}
+          cancelButtonIndex={isOwnProfile ? 2 : 1}
+          onPress={index => handleOnPressCommentMenu(index, selectedComment)}
         />
       </Fragment>
     );

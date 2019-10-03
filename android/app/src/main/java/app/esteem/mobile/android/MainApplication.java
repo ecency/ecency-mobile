@@ -1,43 +1,22 @@
 package app.esteem.mobile.android;
 
 import android.app.Application;
+import android.util.Log;
 
+import com.facebook.react.PackageList;
+import com.facebook.hermes.reactexecutor.HermesExecutorFactory;
+import com.facebook.react.bridge.JavaScriptExecutorFactory;
 import com.facebook.react.ReactApplication;
-import com.horcrux.svg.SvgPackage;
-import com.reactnativecommunity.netinfo.NetInfoPackage;
-import com.reactnative.ivpusic.imagepicker.PickerPackage;
-import com.dylanvann.fastimage.FastImageViewPackage;
-import com.dooboolab.RNIap.RNIapPackage;
-import com.thebylito.navigationbarcolor.NavigationBarColorPackage;
-import com.bugsnag.BugsnagReactNative;
-import com.apsl.versionnumber.RNVersionNumberPackage;
-import com.microsoft.codepush.react.CodePush;
-import io.realm.react.RealmReactPackage;
-import com.microsoft.appcenter.reactnative.push.AppCenterReactNativePushPackage;
-import com.entria.views.RNViewOverflowPackage;
-import com.oblador.vectoricons.VectorIconsPackage;
-import com.BV.LinearGradient.LinearGradientPackage;
-import com.lugg.ReactNativeConfig.ReactNativeConfigPackage;
-import com.microsoft.appcenter.reactnative.crashes.AppCenterReactNativeCrashesPackage;
-import com.microsoft.appcenter.reactnative.analytics.AppCenterReactNativeAnalyticsPackage;
-import com.microsoft.appcenter.reactnative.appcenter.AppCenterReactNativePackage;
 import com.facebook.react.ReactNativeHost;
 import com.facebook.react.ReactPackage;
-import com.facebook.react.shell.MainReactPackage;
 import com.facebook.soloader.SoLoader;
+import com.microsoft.codepush.react.CodePush;
 
-import java.util.Arrays;
 import java.util.List;
 
 public class MainApplication extends Application implements ReactApplication {
 
   private final ReactNativeHost mReactNativeHost = new ReactNativeHost(this) {
-
-        @Override
-        protected String getJSBundleFile() {
-        return CodePush.getJSBundleFile();
-        }
-    
     @Override
     public boolean getUseDeveloperSupport() {
       return BuildConfig.DEBUG;
@@ -45,27 +24,12 @@ public class MainApplication extends Application implements ReactApplication {
 
     @Override
     protected List<ReactPackage> getPackages() {
-      return Arrays.<ReactPackage>asList(
-          new MainReactPackage(),
-            new SvgPackage(),
-            new NetInfoPackage(),
-            new PickerPackage(),
-            new FastImageViewPackage(),
-            new RNIapPackage(),
-            new NavigationBarColorPackage(),
-            BugsnagReactNative.getPackage(),
-            new RNVersionNumberPackage(),
-            new CodePush(getResources().getString(R.string.reactNativeCodePush_androidDeploymentKey), getApplicationContext(), BuildConfig.DEBUG),
-            new RealmReactPackage(),
-            new AppCenterReactNativePushPackage(MainApplication.this),
-            new RNViewOverflowPackage(),
-            new VectorIconsPackage(),
-            new LinearGradientPackage(),
-            new ReactNativeConfigPackage(),
-            new AppCenterReactNativeCrashesPackage(MainApplication.this, getResources().getString(R.string.appCenterCrashes_whenToSendCrashes)),
-            new AppCenterReactNativeAnalyticsPackage(MainApplication.this, getResources().getString(R.string.appCenterAnalytics_whenToEnableAnalytics)),
-            new AppCenterReactNativePackage(MainApplication.this)
-      );
+      @SuppressWarnings("UnnecessaryLocalVariable")
+      List<ReactPackage> packages = new PackageList(this).getPackages();
+      // Packages that cannot be autolinked yet can be added manually here, for example:
+      // packages.add(new MyReactNativePackage());
+      packages.add(new CodePush("hvFLmwFbA1yko829EQO_apTfdlCKSybps-jnWV", MainApplication.this, BuildConfig.DEBUG));
+      return packages;
     }
 
     @Override

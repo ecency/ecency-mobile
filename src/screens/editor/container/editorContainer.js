@@ -42,7 +42,6 @@ class EditorContainer extends Component {
       autoFocusText: false,
       draftId: null,
       draftPost: null,
-      isCameraOrPickerOpen: false,
       isDraftSaved: false,
       isDraftSaving: false,
       isEdit: false,
@@ -141,8 +140,6 @@ class EditorContainer extends Component {
   };
 
   _handleRoutingAction = routingAction => {
-    this.setState({ isCameraOrPickerOpen: true });
-
     if (routingAction === 'camera') {
       this._handleOpenCamera();
     } else if (routingAction === 'image') {
@@ -175,7 +172,7 @@ class EditorContainer extends Component {
   };
 
   _handleMediaOnSelected = media => {
-    this.setState({ isCameraOrPickerOpen: false, isUploading: true }, () => {
+    this.setState({ isUploading: true }, () => {
       this._uploadImage(media);
     });
     // For new image api
@@ -189,33 +186,27 @@ class EditorContainer extends Component {
   _uploadImage = media => {
     const { intl } = this.props;
 
-    const file = {
-      uri: media.path,
-      type: media.mime,
-      name: media.filename || `IMG_${Math.random()}.JPG`,
-      size: media.size,
-    };
-
-    uploadImage(file)
+    uploadImage(media)
       .then(res => {
         if (res.data && res.data.url) {
           this.setState({ uploadedImage: res.data, isUploading: false });
         }
       })
       .catch(error => {
-        Alert.alert(
-          intl.formatMessage({
-            id: 'alert.fail',
-          }),
-          error,
-        );
+        if (error) {
+          Alert.alert(
+            intl.formatMessage({
+              id: 'alert.fail',
+            }),
+            error.message || error.toString(),
+          );
+        }
         this.setState({ isUploading: false });
       });
   };
 
   _handleMediaOnSelectFailure = error => {
     const { intl } = this.props;
-    this.setState({ isCameraOrPickerOpen: false });
 
     if (get(error, 'code') === 'E_PERMISSION_MISSING') {
       Alert.alert(
@@ -269,7 +260,7 @@ class EditorContainer extends Component {
   };
 
   _saveCurrentDraft = async fields => {
-    const { draftId, isReply, isEdit } = this.state;
+    const { draftId, isReply, isEdit, isPostSending } = this.state;
 
     if (!draftId && !isEdit) {
       const { currentAccount } = this.props;
@@ -279,11 +270,12 @@ class EditorContainer extends Component {
         ...fields,
         tags: fields.tags && fields.tags.length > 0 ? fields.tags.toString() : '',
       };
-
-      if (isReply && draftField.body) {
-        await AsyncStorage.setItem('temp-reply', draftField.body);
-      } else {
-        setDraftPost(draftField, username);
+      if (!isPostSending) {
+        if (isReply && draftField.body) {
+          await AsyncStorage.setItem('temp-reply', draftField.body);
+        } else {
+          setDraftPost(draftField, username);
+        }
       }
     }
   };
@@ -415,7 +407,7 @@ class EditorContainer extends Component {
       this.setState({ isPostSending: true });
       const { tags, body, title } = fields;
       const {
-        body: oldBody,
+        markdownBody: oldBody,
         parent_permlink: parentPermlink,
         permlink,
         json_metadata: jsonMetadata,
@@ -451,6 +443,7 @@ class EditorContainer extends Component {
         jsonMeta,
       )
         .then(() => {
+          AsyncStorage.setItem('temp-reply', '');
           this._handleSubmitSuccess();
         })
         .catch(error => {
@@ -468,7 +461,10 @@ class EditorContainer extends Component {
       }),
       error.message || error.toString(),
     );
-    this.setState({ isPostSending: false });
+    this.stateTimer = setTimeout(() => {
+      this.setState({ isPostSending: false });
+      clearTimeout(this.stateTimer);
+    }, 500);
   };
 
   _handleSubmitSuccess = () => {
@@ -479,7 +475,10 @@ class EditorContainer extends Component {
       navigation.state.params.fetchPost();
     }
 
-    this.setState({ isPostSending: false });
+    this.stateTimer = setTimeout(() => {
+      this.setState({ isPostSending: false });
+      clearTimeout(this.stateTimer);
+    }, 500);
   };
 
   _handleOnBackPress = () => {
@@ -559,7 +558,6 @@ class EditorContainer extends Component {
     const {
       autoFocusText,
       draftPost,
-      isCameraOrPickerOpen,
       isDraftSaved,
       isDraftSaving,
       isEdit,
@@ -581,7 +579,6 @@ class EditorContainer extends Component {
         handleOnImagePicker={this._handleRoutingAction}
         handleOnSubmit={this._handleSubmit}
         initialEditor={this._initialEditor}
-        isCameraOrPickerOpen={isCameraOrPickerOpen}
         isDarkTheme={isDarkTheme}
         isDraftSaved={isDraftSaved}
         isDraftSaving={isDraftSaving}

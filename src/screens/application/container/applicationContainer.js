@@ -11,6 +11,7 @@ import { injectIntl } from 'react-intl';
 import { NavigationActions } from 'react-navigation';
 import { bindActionCreators } from 'redux';
 import EStyleSheet from 'react-native-extended-stylesheet';
+import { forEach, isEmpty, some } from 'lodash';
 
 // Constants
 import AUTH_TYPE from '../../../constants/authType';
@@ -60,11 +61,21 @@ import {
   isPinCodeOpen,
   setPinCode as savePinCode,
 } from '../../../redux/actions/applicationActions';
+import { updateActiveBottomTab } from '../../../redux/actions/uiAction';
 
 import { encryptKey } from '../../../utils/crypto';
 
 import darkTheme from '../../../themes/darkTheme';
 import lightTheme from '../../../themes/lightTheme';
+
+// Workaround
+let previousAppState = 'background';
+export const setPreviousAppState = () => {
+  const appStateTimeout = setTimeout(() => {
+    previousAppState = AppState.currentState;
+    clearTimeout(appStateTimeout);
+  }, 2000);
+};
 
 class ApplicationContainer extends Component {
   constructor(props) {
@@ -97,19 +108,30 @@ class ApplicationContainer extends Component {
     });
 
     AppState.addEventListener('change', this._handleAppStateChange);
+    setPreviousAppState();
 
     this._createPushListener();
   };
 
-  componentWillReceiveProps(nextProps) {
-    const { isDarkTheme: _isDarkTheme, selectedLanguage, isLogingOut, isConnected } = this.props;
+  UNSAFE_componentWillReceiveProps(nextProps) {
+    const {
+      isDarkTheme: _isDarkTheme,
+      selectedLanguage,
+      isLogingOut,
+      isConnected,
+      api,
+    } = this.props;
 
-    if (_isDarkTheme !== nextProps.isDarkTheme || selectedLanguage !== nextProps.selectedLanguage) {
+    if (
+      _isDarkTheme !== nextProps.isDarkTheme ||
+      selectedLanguage !== nextProps.selectedLanguage ||
+      (api !== nextProps.api && nextProps.api)
+    ) {
       this.setState({ isRenderRequire: false }, () => this.setState({ isRenderRequire: true }));
       if (nextProps.isDarkTheme) {
         changeNavigationBarColor('#1e2835');
       } else {
-        changeNavigationBarColor('#FFFFFF');
+        changeNavigationBarColor('#FFFFFF', true);
       }
     }
 
@@ -169,31 +191,44 @@ class ApplicationContainer extends Component {
     let params;
     let content;
     let profile;
+    let isHasParentPost = false;
     const { currentAccount, dispatch } = this.props;
+    const { isIos } = this.state;
 
-    if (
-      url.indexOf('esteem') > -1 ||
-      url.indexOf('steemit') > -1 ||
-      url.indexOf('busy') > -1 ||
-      url.indexOf('steempeak') > -1
-    ) {
-      url = url.substring(url.indexOf('@'), url.length);
-      const routeParams = url.indexOf('/') > -1 ? url.split('/') : [url];
+    const mapObj = {
+      esteem: '',
+      'steemit.com/': '',
+      'busy.org/': '',
+      'steempeak.com/': '',
+    };
 
-      [, permlink] = routeParams;
-      author =
-        routeParams && routeParams.length > 0 && routeParams[0].indexOf('@') > -1
-          ? routeParams[0].replace('@', '')
-          : routeParams[0];
+    let formattedUrl = url
+      .split('//')
+      .pop()
+      .replace(/steemit.com\/|busy.org\/|steempeak.com\//gi, matched => {
+        return mapObj[matched];
+      });
+
+    // TODO: WORKAROUND
+    if (isIos && url.indexOf('esteem://') > -1) {
+      formattedUrl = `@${formattedUrl}`;
     }
+
+    const routeParams = formattedUrl.indexOf('/') > -1 ? formattedUrl.split('/') : [formattedUrl];
+
+    forEach(routeParams, (value, index) => {
+      if (value.indexOf('@') > -1) {
+        author = value.replace('@', '');
+        permlink = routeParams[index + 1];
+      }
+    });
 
     if (author && permlink) {
       await getPost(author, permlink, currentAccount.name)
         .then(result => {
-          if (get(result, 'title')) {
-            content = result;
-          } else {
-            this._handleAlert('deep_link.no_existing_post');
+          content = result;
+          if (get(result, 'parent_permlink') && get(result, 'parent_author')) {
+            isHasParentPost = true;
           }
         })
         .catch(() => {
@@ -201,7 +236,7 @@ class ApplicationContainer extends Component {
         });
 
       routeName = ROUTES.SCREENS.POST;
-      params = { content };
+      params = { content, isHasParentPost };
     } else if (author) {
       profile = await getUser(author);
 
@@ -254,7 +289,7 @@ class ApplicationContainer extends Component {
         }
       }
     });
-
+    setPreviousAppState();
     this.setState({ appState: nextAppState });
   };
 
@@ -289,42 +324,87 @@ class ApplicationContainer extends Component {
 
     Push.setListener({
       onPushNotificationReceived(pushNotification) {
-        const push = get(pushNotification, 'customProperties');
-        const permlink1 = get(push, 'permlink1');
-        const permlink2 = get(push, 'permlink2');
-        const permlink3 = get(push, 'permlink3');
-        const parentPermlink1 = get(push, 'parent_permlink1');
-        const parentPermlink2 = get(push, 'parent_permlink2');
-        const parentPermlink3 = get(push, 'parent_permlink3');
+        if (previousAppState !== 'active') {
+          const push = get(pushNotification, 'customProperties');
+          const type = get(push, 'type', '');
+          const permlink1 = get(push, 'permlink1', '');
+          const permlink2 = get(push, 'permlink2', '');
+          const permlink3 = get(push, 'permlink3', '');
+          const parentPermlink1 = get(push, 'parent_permlink1', '');
+          const parentPermlink2 = get(push, 'parent_permlink2', '');
+          const parentPermlink3 = get(push, 'parent_permlink3', '');
 
-        if (parentPermlink1 || permlink1) {
           const fullParentPermlink = `${parentPermlink1}${parentPermlink2}${parentPermlink3}`;
           const fullPermlink = `${permlink1}${permlink2}${permlink3}`;
 
-          params = {
-            author: parentPermlink1 ? get(push, 'parent_author') : get(push, 'target'),
-            permlink: parentPermlink1 ? fullParentPermlink : fullPermlink,
-          };
-          key = parentPermlink1 ? fullParentPermlink : fullPermlink;
-          routeName = ROUTES.SCREENS.POST;
-        } else {
-          params = {
-            username: push.source,
-          };
-          key = push.source;
-          routeName = ROUTES.SCREENS.PROFILE;
-        }
+          switch (type) {
+            case 'vote':
+            case 'unvote':
+              params = {
+                author: get(push, 'target', ''),
+                permlink: fullPermlink,
+              };
+              key = fullPermlink;
+              routeName = ROUTES.SCREENS.POST;
+              break;
+            case 'mention':
+              params = {
+                author: get(push, 'source', ''),
+                permlink: fullPermlink,
+                isHasParentPost: true,
+              };
+              key = fullPermlink;
+              routeName = ROUTES.SCREENS.POST;
+              break;
 
-        this.pushNavigationTimeout = setTimeout(() => {
-          clearTimeout(this.pushNavigationTimeout);
-          const navigateAction = NavigationActions.navigate({
-            routeName,
-            params,
-            key,
-            action: NavigationActions.navigate({ routeName }),
-          });
-          dispatch(navigateAction);
-        }, 4000);
+            case 'follow':
+            case 'unfollow':
+            case 'ignore':
+              params = {
+                username: get(push, 'source', ''),
+              };
+              key = get(push, 'source', '');
+              routeName = ROUTES.SCREENS.PROFILE;
+              break;
+
+            case 'reblog':
+              params = {
+                author: get(push, 'target', ''),
+                permlink: fullPermlink,
+              };
+              key = fullPermlink;
+              routeName = ROUTES.SCREENS.POST;
+              break;
+
+            case 'reply':
+              params = {
+                author: get(push, 'source', ''),
+                permlink: fullPermlink,
+                isHasParentPost: fullParentPermlink,
+              };
+              key = fullPermlink;
+              routeName = ROUTES.SCREENS.POST;
+              break;
+
+            case 'transfer':
+              routeName = ROUTES.TABBAR.PROFILE;
+              params = { activePage: 2 };
+              break;
+
+            default:
+              break;
+          }
+
+          if (!some(params, isEmpty)) {
+            const navigateAction = NavigationActions.navigate({
+              routeName,
+              params,
+              key,
+              action: NavigationActions.navigate({ routeName }),
+            });
+            dispatch(navigateAction);
+          }
+        }
       },
     });
   };
@@ -407,13 +487,6 @@ class ApplicationContainer extends Component {
       const isExistUser = await getExistUser();
 
       realmObject[0].name = currentUsername;
-      dispatch(
-        updateCurrentAccount({
-          name: realmObject[0].username,
-          avatar: realmObject[0].avatar,
-          authType: realmObject[0].authType,
-        }),
-      );
       // If in dev mode pin code does not show
       if ((!isExistUser || !pinCode) && _isPinCodeOpen) {
         dispatch(openPinCodeModal());
@@ -429,6 +502,7 @@ class ApplicationContainer extends Component {
       return realmObject[0];
     }
 
+    dispatch(updateCurrentAccount({}));
     dispatch(activeApplication());
     dispatch(isLoginDone());
 
@@ -447,7 +521,6 @@ class ApplicationContainer extends Component {
         this._connectNotificationServer(accountData.name);
       })
       .catch(err => {
-        this._handleAlert();
         Alert.alert(
           `${intl.formatMessage({ id: 'alert.fetch_error' })} \n${err.message.substr(0, 20)}`,
         );
@@ -487,12 +560,18 @@ class ApplicationContainer extends Component {
   };
 
   _connectNotificationServer = username => {
-    const { dispatch, unreadActivityCount } = this.props;
     const ws = new WebSocket(`${Config.ACTIVITY_WEBSOCKET_URL}?user=${username}`);
 
     ws.onmessage = () => {
-      // a message was received
+      const { activeBottomTab, unreadActivityCount, dispatch } = this.props;
+
       dispatch(updateUnreadActivityCount(unreadActivityCount + 1));
+
+      // Workaround
+      if (activeBottomTab === ROUTES.TABBAR.NOTIFICATION) {
+        dispatch(updateActiveBottomTab(''));
+        dispatch(updateActiveBottomTab(ROUTES.TABBAR.NOTIFICATION));
+      }
     };
   };
 
@@ -569,7 +648,7 @@ class ApplicationContainer extends Component {
       toastNotification,
       isDarkTheme: _isDarkTheme,
       children,
-      isPinCodeReqiure,
+      isPinCodeRequire,
     } = this.props;
     const { isRenderRequire, isReady, isThemeReady } = this.state;
 
@@ -581,7 +660,7 @@ class ApplicationContainer extends Component {
         isReady,
         isRenderRequire,
         isThemeReady,
-        isPinCodeReqiure,
+        isPinCodeRequire,
         isDarkTheme: _isDarkTheme,
         locale: selectedLanguage,
       })
@@ -600,8 +679,9 @@ export default connect(
     isLoggedIn: state.application.isLoggedIn,
     isConnected: state.application.isConnected,
     nav: state.nav.routes,
-    isPinCodeReqiure: state.application.isPinCodeReqiure,
+    isPinCodeRequire: state.application.isPinCodeRequire,
     isActiveApp: state.application.isActive,
+    api: state.application.api,
 
     // Account
     unreadActivityCount: state.account.currentAccount.unread_activity_count,
@@ -611,6 +691,7 @@ export default connect(
 
     // UI
     toastNotification: state.ui.toastNotification,
+    activeBottomTab: state.ui.activeBottomTab,
   }),
   dispatch => ({
     dispatch,

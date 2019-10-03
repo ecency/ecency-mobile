@@ -1,5 +1,7 @@
 import * as dsteem from 'dsteem';
 import sha256 from 'crypto-js/sha256';
+import Config from 'react-native-config';
+import get from 'lodash/get';
 
 import { getUser } from './dsteem';
 import {
@@ -21,7 +23,7 @@ import { getSCAccessToken } from '../esteem/esteem';
 // Constants
 import AUTH_TYPE from '../../constants/authType';
 
-export const login = async (username, password) => {
+export const login = async (username, password, isPinCodeOpen) => {
   let loginFlag = false;
   let avatar = '';
   let authType = '';
@@ -74,7 +76,18 @@ export const login = async (username, password) => {
       accessToken: '',
     };
 
-    account.local = userData;
+    if (isPinCodeOpen) {
+      account.local = userData;
+    } else {
+      const resData = {
+        pinCode: Config.DEFAULT_PIN,
+        password,
+      };
+      const updatedUserData = await getUpdatedUserData(userData, resData);
+
+      account.local = updatedUserData;
+      account.local.avatar = avatar;
+    }
 
     const authData = {
       isLoggedIn: true,
@@ -83,23 +96,24 @@ export const login = async (username, password) => {
     await setAuthStatus(authData);
 
     // Save user data to Realm DB
-    await setUserData(userData);
+    await setUserData(account.local);
     await updateCurrentUsername(account.name);
     return { ...account, password };
   }
   return Promise.reject(new Error('auth.invalid_credentials'));
 };
 
-export const loginWithSC2 = async code => {
+export const loginWithSC2 = async (code, isPinCodeOpen) => {
   const scTokens = await getSCAccessToken(code);
   await steemConnect.setAccessToken(scTokens.access_token);
-  const account = await steemConnect.me();
+  const scAccount = await steemConnect.me();
+  const account = await getUser(scAccount.account.name);
   let avatar = '';
 
-  return new Promise((resolve, reject) => {
+  return new Promise(async (resolve, reject) => {
     let jsonMetadata;
     try {
-      jsonMetadata = JSON.parse(account.account.json_metadata) || '';
+      jsonMetadata = JSON.parse(account.json_metadata) || '';
       if (Object.keys(jsonMetadata).length !== 0) {
         avatar = jsonMetadata.profile.profile_image || '';
       }
@@ -107,7 +121,7 @@ export const loginWithSC2 = async code => {
       jsonMetadata = '';
     }
     const userData = {
-      username: account.account.name,
+      username: account.name,
       avatar,
       authType: AUTH_TYPE.STEEM_CONNECT,
       masterKey: '',
@@ -117,20 +131,33 @@ export const loginWithSC2 = async code => {
       accessToken: '',
     };
 
-    if (isLoggedInUser(account.account.name)) {
+    if (isPinCodeOpen) {
+      account.local = userData;
+    } else {
+      const resData = {
+        pinCode: Config.DEFAULT_PIN,
+        accessToken: scTokens.access_token,
+      };
+      const updatedUserData = await getUpdatedUserData(userData, resData);
+
+      account.local = updatedUserData;
+      account.local.avatar = avatar;
+    }
+
+    if (isLoggedInUser(account.name)) {
       reject(new Error('auth.already_logged'));
     }
 
-    setUserData(userData)
+    setUserData(account.local)
       .then(async () => {
-        updateCurrentUsername(account.account.name);
+        updateCurrentUsername(account.name);
         const authData = {
           isLoggedIn: true,
-          currentUsername: account.account.name,
+          currentUsername: account.name,
         };
         await setAuthStatus(authData);
         await setSCAccount(scTokens);
-        resolve({ ...account.account, accessToken: scTokens.access_token });
+        resolve({ ...account, accessToken: scTokens.access_token });
       })
       .catch(() => {
         reject(new Error('auth.unknow_error'));
@@ -142,6 +169,18 @@ export const setUserDataWithPinCode = async data => {
   try {
     const result = getUserDataWithUsername(data.username);
     const userData = result[0];
+
+    if (!data.password) {
+      const publicKey =
+        get(userData, 'masterKey') ||
+        get(userData, 'activeKey') ||
+        get(userData, 'memoKey') ||
+        get(userData, 'postingKey');
+
+      if (publicKey) {
+        data.password = decryptKey(publicKey, data.pinCode);
+      }
+    }
 
     const updatedUserData = getUpdatedUserData(userData, data);
 
@@ -159,11 +198,22 @@ export const updatePinCode = data =>
     let currentUser = null;
     try {
       setPinCode(data.pinCode);
-      getUserData().then(users => {
+      getUserData().then(async users => {
         if (users && users.length > 0) {
-          users.forEach(userData => {
-            if (userData.authType === AUTH_TYPE.MASTER_KEY) {
-              data.password = decryptKey(userData.masterKey, data.oldPinCode);
+          await users.forEach(userData => {
+            if (
+              userData.authType === AUTH_TYPE.MASTER_KEY ||
+              userData.authType === AUTH_TYPE.ACTIVE_KEY ||
+              userData.authType === AUTH_TYPE.MEMO_KEY ||
+              userData.authType === AUTH_TYPE.POSTING_KEY
+            ) {
+              const publicKey =
+                get(userData, 'masterKey') ||
+                get(userData, 'activeKey') ||
+                get(userData, 'memoKey') ||
+                get(userData, 'postingKey');
+
+              data.password = decryptKey(publicKey, data.oldPinCode);
             } else if (userData.authType === AUTH_TYPE.STEEM_CONNECT) {
               data.accessToken = decryptKey(userData.accessToken, data.oldPinCode);
             }
@@ -172,8 +222,8 @@ export const updatePinCode = data =>
             if (userData.username === data.username) {
               currentUser = updatedUserData;
             }
-            resolve(currentUser);
           });
+          resolve(currentUser);
         }
       });
     } catch (error) {

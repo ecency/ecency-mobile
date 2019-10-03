@@ -1,4 +1,4 @@
-import React, { PureComponent } from 'react';
+import React, { Component } from 'react';
 import { withNavigation } from 'react-navigation';
 
 // Constants
@@ -13,12 +13,7 @@ import VotersDisplayView from '../view/votersDisplayView';
  *
  */
 
-class VotersDisplayContainer extends PureComponent {
-  constructor(props) {
-    super(props);
-    this.state = {};
-  }
-
+class VotersDisplayContainer extends Component {
   _handleOnUserPress = username => {
     const { navigation } = this.props;
 

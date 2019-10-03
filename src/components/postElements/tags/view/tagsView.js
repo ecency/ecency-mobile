@@ -27,7 +27,9 @@ class TagsView extends PureComponent {
           data={tags}
           horizontal
           renderItem={({ item, index }) => (
-            <Tag key={index} value={item} isPin={index === 0} onPress={handleOnTagPress} />
+            <View style={index === 0 && styles.firstTag}>
+              <Tag key={index} value={item} isPin={index === 0} onPress={handleOnTagPress} />
+            </View>
           )}
           keyExtractor={item => item}
         />

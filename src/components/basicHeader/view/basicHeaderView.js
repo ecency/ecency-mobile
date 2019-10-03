@@ -67,6 +67,7 @@ class BasicHeaderView extends Component {
 
   render() {
     const {
+      disabled,
       dropdownComponent,
       handleOnPressBackButton,
       handleOnPressClose,
@@ -83,10 +84,10 @@ class BasicHeaderView extends Component {
       isLoading,
       isLoggedIn,
       isModalHeader,
-      rightButtonText,
       isPreviewActive,
       isReply,
       quickTitle,
+      rightButtonText,
       rightIconName,
       title,
     } = this.props;
@@ -99,23 +100,16 @@ class BasicHeaderView extends Component {
             <IconButton
               iconStyle={[styles.backIcon, isModalHeader && styles.closeIcon]}
               iconType="MaterialIcons"
-              name={isModalHeader ? 'arrow-back' : 'arrow-back'}
+              name="arrow-back"
               onPress={() => (isModalHeader ? handleOnPressClose() : handleOnPressBackButton())}
+              disabled={disabled}
             />
             {isHasIcons && !isReply && (
-              <View>
-                {!isDraftSaving ? (
-                  <IconButton
-                    iconStyle={[styles.saveIcon, isDraftSaved && styles.savedIcon]}
-                    iconType="MaterialIcons"
-                    name="save"
-                    size={25}
-                    onPress={() => handleOnSaveButtonPress && handleOnSaveButtonPress()}
-                  />
-                ) : (
-                  <ActivityIndicator style={styles.textButtonWrapper} />
-                )}
-              </View>
+              <DateTimePicker
+                type="date-time"
+                onSubmit={this._handleDatePickerChange}
+                disabled={!isFormValid}
+              />
             )}
 
             {!isInputVisible && (
@@ -148,7 +142,6 @@ class BasicHeaderView extends Component {
 
             {rightIconName && !isHasSearch && (
               <IconButton
-                style={styles.rightIcon}
                 size={25}
                 onPress={() => handleRightIconPress()}
                 iconStyle={styles.rightIcon}
@@ -171,7 +164,6 @@ class BasicHeaderView extends Component {
 
             {isHasSearch && (
               <IconButton
-                style={styles.rightIcon}
                 size={22}
                 onPress={() => this._handleSearchButtonPress()}
                 iconStyle={styles.rightIcon}
@@ -184,11 +176,19 @@ class BasicHeaderView extends Component {
           {isHasIcons && (
             <Fragment>
               {!isReply && (
-                <DateTimePicker
-                  type="date-time"
-                  onSubmit={this._handleDatePickerChange}
-                  disabled={!isFormValid}
-                />
+                <Fragment>
+                  {!isDraftSaving ? (
+                    <IconButton
+                      iconStyle={[styles.saveIcon, isDraftSaved && styles.savedIcon]}
+                      iconType="MaterialIcons"
+                      name="save"
+                      size={25}
+                      onPress={() => handleOnSaveButtonPress && handleOnSaveButtonPress()}
+                    />
+                  ) : (
+                    <ActivityIndicator style={styles.textButtonWrapper} />
+                  )}
+                </Fragment>
               )}
               <IconButton
                 style={styles.iconButton}

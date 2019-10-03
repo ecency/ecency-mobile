@@ -6,9 +6,7 @@ import { View } from 'react-native';
 import { PointsContainer } from '../../../containers';
 
 // Components
-import { Header } from '../../../components/header';
-import { NoPost } from '../../../components/basicUIElements';
-import { Points } from '../../../components/points';
+import { Header, Points, NoPost } from '../../../components';
 
 // Styles
 import styles from './pointsStyles';
