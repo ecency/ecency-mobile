@@ -14,11 +14,6 @@ import { purchaseOrder } from '../providers/esteem/esteem';
 // Utilities
 import { default as ROUTES } from '../constants/routeNames';
 
-const ITEM_SKUS = Platform.select({
-  ios: ['099points', '199points', '499points', '999points', '4999points', '9999points'],
-  android: ['099points', '199points', '499points', '999points', '4999points', '9999points'],
-});
-
 class InAppPurchaseContainer extends Component {
   constructor(props) {
     super(props);
@@ -109,8 +104,10 @@ class InAppPurchaseContainer extends Component {
   };
 
   _getItems = async () => {
+    const { skus } = this.props;
+
     try {
-      const products = await RNIap.getProducts(ITEM_SKUS);
+      const products = await RNIap.getProducts(skus);
 
       products.sort((a, b) => parseFloat(a.price) - parseFloat(b.price)).reverse();
       await this.setState({ productList: products });
@@ -159,6 +156,8 @@ class InAppPurchaseContainer extends Component {
         buyItem: this._buyItem,
         isLoading,
         isProcessing,
+        getItems: this._getItems,
+        spinProduct: productList.filter(item => item.productId === '499spins'),
       })
     );
   }

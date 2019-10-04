@@ -1,5 +1,5 @@
 import React, { Fragment } from 'react';
-import { View, Text } from 'react-native';
+import { View, Text, Platform } from 'react-native';
 import get from 'lodash/get';
 import { useIntl } from 'react-intl';
 
@@ -14,6 +14,10 @@ import globalStyles from '../../../globalStyles';
 import styles from './boostScreenStyles';
 
 const DEALS = { '9999points': 'BEST DEAL!', '4999points': 'POPULAR!' };
+const ITEM_SKUS = Platform.select({
+  ios: ['099points', '199points', '499points', '999points', '4999points', '9999points'],
+  android: ['099points', '199points', '499points', '999points', '4999points', '9999points'],
+});
 
 const _renderDeal = item => {
   if (DEALS[item.productId]) {
@@ -44,7 +48,7 @@ const BoostScreen = () => {
   const intl = useIntl();
 
   return (
-    <InAppPurchaseContainer>
+    <InAppPurchaseContainer skus={ITEM_SKUS}>
       {({ buyItem, productList, isLoading, isProcessing }) => (
         <View style={globalStyles.container}>
           <BasicHeader

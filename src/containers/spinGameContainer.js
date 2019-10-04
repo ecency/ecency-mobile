@@ -15,6 +15,7 @@ class RedeemContainer extends Component {
       score: 0,
       nextDate: null,
       gameRight: 1,
+      isLoading: true,
     };
   }
 
@@ -26,7 +27,9 @@ class RedeemContainer extends Component {
     await gameStatusCheck(username, 'spin')
       .then(res => {
         this.setState({
-          gameRight: get(res, 'status') !== 3 ? 1 : get(res, 'status') !== 18 ? 5 : 0,
+          gameRight: get(res, 'remaining', 0),
+          nextDate: get(res, 'next_date', null),
+          isLoading: false,
         });
       })
       .catch(err => {
@@ -70,22 +73,18 @@ class RedeemContainer extends Component {
     }
   };
 
-  _spin = () => {
-    this._startGame('spin');
-  };
-
   render() {
     const { children } = this.props;
-    const { score, gameRight, nextDate } = this.state;
+    const { score, gameRight, nextDate, isLoading } = this.state;
 
     return (
       children &&
       children({
         score,
-        spin: () => this._startGame('spin'),
         startGame: this._startGame,
         gameRight,
         nextDate,
+        isLoading,
       })
     );
   }
