@@ -117,10 +117,7 @@ class SideMenuView extends Component {
 
                 <View style={styles.userInfoWrapper}>
                   <IconButton
-                    name={isAddAccountIconActive ? 'arrow-dropup' : 'ios-add-circle-outline'}
-                    androidName={
-                      isAddAccountIconActive ? 'md-arrow-dropup' : 'ios-add-circle-outline'
-                    }
+                    name={isAddAccountIconActive ? 'ios-arrow-dropup' : 'ios-add-circle-outline'}
                     color="white"
                     size={20}
                     onPress={this._handleOnPressAddAccountIcon}
