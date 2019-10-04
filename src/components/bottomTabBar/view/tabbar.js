@@ -1,11 +1,4 @@
-import {
-  StyleSheet,
-  View,
-  TouchableHighlight,
-  Animated,
-  Dimensions,
-  SafeAreaView,
-} from 'react-native';
+import { StyleSheet, View, TouchableHighlight, Animated, Dimensions } from 'react-native';
 import React, { Component } from 'react';
 import Svg, { Circle, Path } from 'react-native-svg';
 
@@ -56,6 +49,14 @@ export default class TabBar extends Component {
         pathX: parseInt(a.value, 10),
       });
     });
+  }
+
+  componentDidUpdate(prevProps) {
+    const { selectedIndex } = this.props;
+
+    if (prevProps.selectedIndex !== selectedIndex) {
+      this._onPress(selectedIndex);
+    }
   }
 
   _onPress = (i, disabled) => {

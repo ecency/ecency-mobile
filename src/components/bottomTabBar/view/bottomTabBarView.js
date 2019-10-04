@@ -71,20 +71,12 @@ class BottomTabBarView extends PureComponent {
     } = this.props;
 
     return (
-      <SafeAreaView
-        style={{
-          position: 'absolute',
-          bottom: 0,
-          left: 0,
-          zIndex: 99999,
-          width: Dimensions.get('window').width,
-        }}
-      >
+      <SafeAreaView style={styles.wrapper}>
         <TabBar
-          selectedIndex={0}
+          selectedIndex={index}
           circleBackgroundColor="#357ce6"
           backgroundColor="#f6f6f6"
-          onChange={index => this._jumpTo(routes[index])}
+          onChange={i => this._jumpTo(routes[i])}
           activeTintColor={activeTintColor}
           inactiveTintColor={inactiveTintColor}
         >
