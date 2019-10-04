@@ -12,7 +12,7 @@ import { UserAvatar } from '../../userAvatar';
 
 // Constants
 import { default as MENU } from '../../../constants/sideMenuItems';
-import PackageJson from '../../../../package.json';
+// import PackageJson from '../../../../package.json';
 
 // Styles
 import styles from './sideMenuStyles';
@@ -88,7 +88,7 @@ class SideMenuView extends Component {
   render() {
     const { currentAccount, isLoggedIn, intl, handleLogout } = this.props;
     const { menuItems, isAddAccountIconActive } = this.state;
-    const { version } = PackageJson;
+    // const { version } = PackageJson;
     const { buildVersion } = VersionNumber;
 
     return (
@@ -169,7 +169,7 @@ class SideMenuView extends Component {
             )}
           />
         </View>
-        <Text style={styles.versionText}>{`v${version}, ${buildVersion}`}</Text>
+        {/* <Text style={styles.versionText}>{`v${version}, ${buildVersion}`}</Text> */}
         <ActionSheet
           ref={o => (this.ActionSheet = o)}
           options={[

@@ -1,8 +1,8 @@
 import getSlug from 'speakingurl';
 import { diff_match_patch as diffMatchPatch } from 'diff-match-patch';
-import PackageJson from '../../../../package.json';
+// import PackageJson from '../../../../package.json';
 
-const { version } = PackageJson;
+// const { version } = PackageJson;
 
 export const getWordsCount = text =>
   text && typeof text === 'string' ? text.replace(/^\s+|\s+$/g, '').split(/\s+/).length : 0;
@@ -90,7 +90,7 @@ export const makeOptions = (author, permlink, operationType) => {
 
 export const makeJsonMetadataReply = tags => ({
   tags,
-  app: `esteem/${version}-mobile`,
+  // app: `esteem/${version}-mobile`,
   format: 'markdown+html',
   community: 'esteem.app',
 });
@@ -98,7 +98,7 @@ export const makeJsonMetadataReply = tags => ({
 export const makeJsonMetadata = (meta, tags) =>
   Object.assign({}, meta, {
     tags,
-    app: `esteem/${version}-mobile`,
+    // app: `esteem/${version}-mobile`,
     format: 'markdown+html',
     community: 'esteem.app',
   });
