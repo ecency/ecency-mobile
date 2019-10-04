@@ -105,11 +105,7 @@ class SideMenuView extends Component {
           >
             {isLoggedIn && (
               <View style={styles.headerContentWrapper}>
-                <UserAvatar
-                  username={currentAccount.username}
-                  size="xl"
-                  style={styles.userAvatar}
-                />
+                <UserAvatar username={currentAccount.name} size="xl" style={styles.userAvatar} />
                 <View style={styles.userInfoWrapper}>
                   {currentAccount.display_name && (
                     <Text numberOfLines={1} ellipsizeMode="tail" style={styles.username}>
