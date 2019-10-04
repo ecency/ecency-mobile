@@ -1,7 +1,7 @@
 import React, { PureComponent } from 'react';
 
 // Container
-import { SpinGameContainer } from '../../../containers';
+import { SpinGameContainer, InAppPurchaseContainer } from '../../../containers';
 
 import { SpinGame } from '../../../components';
 
@@ -19,8 +19,21 @@ class FreeEstmScreen extends PureComponent {
   render() {
     return (
       <SpinGameContainer>
-        {({ spin, score, gameRight, nextDate }) => (
-          <SpinGame score={score} spin={spin} gameRight={gameRight} nextDate={nextDate} />
+        {({ startGame, score, gameRight, nextDate, isLoading }) => (
+          <InAppPurchaseContainer skus={['499spins']}>
+            {({ buyItem, getItems, spinProduct }) => (
+              <SpinGame
+                buyItem={buyItem}
+                isLoading={isLoading}
+                score={score}
+                startGames={startGame}
+                gameRight={gameRight}
+                nextDate={nextDate}
+                getItems={getItems}
+                spinProduct={spinProduct[0]}
+              />
+            )}
+          </InAppPurchaseContainer>
         )}
       </SpinGameContainer>
     );

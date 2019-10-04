@@ -1,6 +1,7 @@
 import React, { PureComponent, Fragment } from 'react';
 import { injectIntl } from 'react-intl';
 import { Image, Text, View } from 'react-native';
+import get from 'lodash/get';
 
 // Components
 import { BoostIndicatorAnimation, MainButton, Icon, BasicHeader } from '..';
@@ -23,9 +24,14 @@ class SpinGameView extends PureComponent {
     };
   }
 
+  componentDidMount() {
+    const { getItems } = this.props;
+    getItems(['499spins']);
+  }
+
   _handleOnSpinPress = () => {
-    const { spin } = this.props;
-    spin();
+    const { startGame } = this.props;
+    startGame('spin');
 
     this.setState({
       isSpinning: true,
@@ -41,7 +47,7 @@ class SpinGameView extends PureComponent {
   };
 
   render() {
-    const { intl, gameRight, score } = this.props;
+    const { intl, gameRight, score, isLoading, spinProduct } = this.props;
     const { isSpinning } = this.state;
 
     return (
@@ -49,7 +55,7 @@ class SpinGameView extends PureComponent {
         <BasicHeader title={intl.formatMessage({ id: 'free_estm.title' })} />
         <View style={styles.container}>
           <View style={styles.textWrapper}>
-            {!isSpinning && (
+            {!isSpinning && !isLoading && (
               <Fragment>
                 <Text style={styles.count}>{gameRight}</Text>
                 <Text style={styles.countDesc}>Spin Left</Text>
@@ -57,7 +63,7 @@ class SpinGameView extends PureComponent {
             )}
           </View>
           <View style={styles.spinnerWrapper}>
-            {!isSpinning && gameRight > 0 && (
+            {!isSpinning && !isLoading && gameRight > 0 && (
               <Image source={ESTM_TAGS} style={styles.backgroundTags} />
             )}
             <BoostIndicatorAnimation key={gameRight} isSpinning={isSpinning} />
@@ -72,24 +78,32 @@ class SpinGameView extends PureComponent {
             )}
 
             <View style={{ flex: 1 }}>
-              {!isSpinning && (
-                <MainButton
-                  style={styles.button}
-                  onPress={gameRight > 0 ? this._handleOnSpinPress : this._buySpinRight}
-                >
-                  <View style={styles.buttonContent}>
-                    <Text style={styles.buttonText}>
-                      {intl.formatMessage({
-                        id: gameRight > 0 ? 'free_estm.button' : 'free_estm.get_spin',
-                      })}
-                    </Text>
-                    {gameRight <= 0 && (
-                      <View style={styles.buttonIconWrapper}>
-                        <Icon name="add" iconType="MaterialIcons" color="#357ce6" size={23} />
-                      </View>
+              {!isSpinning && !isLoading && (
+                <Fragment>
+                  <MainButton
+                    style={styles.button}
+                    onPress={gameRight > 0 ? this._handleOnSpinPress : this._buySpinRight}
+                  >
+                    <View style={styles.buttonContent}>
+                      <Text style={styles.buttonText}>
+                        {intl.formatMessage({
+                          id: gameRight > 0 ? 'free_estm.button' : 'free_estm.get_spin',
+                        })}
+                      </Text>
+                      {gameRight <= 0 && (
+                        <View style={styles.buttonIconWrapper}>
+                          <Icon name="add" iconType="MaterialIcons" color="#357ce6" size={23} />
+                        </View>
+                      )}
+                    </View>
+                  </MainButton>
+
+                  <View style={styles.priceWrapper}>
+                    {get(spinProduct, 'localizedPrice', null) && (
+                      <Text style={styles.priceText}>{get(spinProduct, 'localizedPrice', 0)}</Text>
                     )}
                   </View>
-                </MainButton>
+                </Fragment>
               )}
             </View>
           </View>
