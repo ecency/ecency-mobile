@@ -11,6 +11,7 @@ import { Points } from './points';
 import { Post } from './post';
 import { SearchResult } from './searchResult';
 import { Settings } from './settings';
+import { SpinGame } from './spinGame/screen/spinGameScreen';
 import Boost from './boost/screen/boostScreen';
 import Profile from './profile/screen/profileScreen';
 import ProfileEdit from './profileEdit/screen/profileEditScreen';
@@ -18,7 +19,6 @@ import Reblogs from './reblogs';
 import Redeem from './redeem/screen/redeemScreen';
 import SteemConnect from './steem-connect/steemConnect';
 import Transfer from './transfer';
-import SpinGame from './spinGame/screen/spinGameScreen';
 import Voters from './voters';
 
 export {

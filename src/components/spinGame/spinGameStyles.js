@@ -29,40 +29,11 @@ export default EStyleSheet.create({
     position: 'absolute',
     width: '$deviceWidth',
     height: 320,
-    left: -120,
-    top: -8,
+    left: -150,
+    top: 20,
     right: 0,
     zIndex: 999,
   },
-  buttonContent: {
-    flexDirection: 'row',
-  },
-  buttonWrapper: {
-    minWidth: '$deviceWidth / 2.4',
-    flexDirection: 'row',
-    justifyContent: 'flex-end',
-    flex: 1,
-  },
-  buttonText: {
-    color: '$pureWhite',
-    fontSize: 14,
-    fontWeight: 'bold',
-    alignSelf: 'center',
-    minWidth: 70,
-    textAlign: 'center',
-  },
-  buttonIconWrapper: {
-    backgroundColor: '$pureWhite',
-    borderRadius: 20,
-    width: 24,
-    height: 24,
-  },
-  button: {
-    marginVertical: 12,
-    paddingHorizontal: 18,
-    marginTop: 50,
-  },
-
   descriptionWrapper: {
     backgroundColor: '$primaryDarkBlue',
     width: 75,
@@ -94,5 +65,20 @@ export default EStyleSheet.create({
     transform: [{ rotate: '-90deg' }],
     position: 'absolute',
     left: -22,
+  },
+  productWrapper: {
+    flex: 0.8,
+    alignItems: 'center',
+  },
+  spinButton: {
+    width: 150,
+    justifyContent: 'center',
+    alignItems: 'center',
+  },
+  nextDate: {
+    marginTop: 50,
+    color: '$primaryDarkGray',
+    fontSize: 16,
+    fontWeight: '600',
   },
 });
