@@ -48,6 +48,7 @@ class InAppPurchaseContainer extends Component {
     const {
       currentAccount: { name },
       intl,
+      fetchData,
     } = this.props;
 
     this.purchaseUpdateSubscription = purchaseUpdatedListener(purchase => {
@@ -70,6 +71,10 @@ class InAppPurchaseContainer extends Component {
               RNIap.consumePurchaseAndroid(token);
             }
             this.setState({ isProcessing: false });
+
+            if (fetchData) {
+              fetchData();
+            }
           })
           .catch(err =>
             bugsnag.notify(err, report => {
@@ -157,7 +162,7 @@ class InAppPurchaseContainer extends Component {
         isLoading,
         isProcessing,
         getItems: this._getItems,
-        spinProduct: productList.filter(item => item.productId === '499spins'),
+        spinProduct: productList.filter(item => item.productId.includes('spins')),
       })
     );
   }

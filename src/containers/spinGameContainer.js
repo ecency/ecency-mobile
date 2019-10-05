@@ -22,6 +22,11 @@ class RedeemContainer extends Component {
   // Component Life Cycle Functions
 
   async componentDidMount() {
+    this._statusCheck();
+  }
+
+  // Component Functions
+  _statusCheck = async () => {
     const { username } = this.props;
 
     await gameStatusCheck(username, 'spin')
@@ -37,9 +42,7 @@ class RedeemContainer extends Component {
           Alert.alert(get(err, 'message') || err.toString());
         }
       });
-  }
-
-  // Component Functions
+  };
 
   _startGame = async type => {
     const { username } = this.props;
