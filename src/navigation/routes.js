@@ -1,11 +1,9 @@
-import {
-  createDrawerNavigator,
-  createSwitchNavigator,
-  createStackNavigator,
-} from 'react-navigation';
-import { BaseNavigator } from './baseNavigator';
-import { default as ROUTES } from '../constants/routeNames';
+import { createSwitchNavigator } from 'react-navigation';
+import { createDrawerNavigator } from 'react-navigation-drawer';
+import { createStackNavigator } from 'react-navigation-stack';
 
+import { BaseNavigator } from './baseNavigator';
+import ROUTES from '../constants/routeNames';
 // Screens
 import {
   Bookmarks,

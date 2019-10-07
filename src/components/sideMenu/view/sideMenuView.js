@@ -11,8 +11,7 @@ import { Icon } from '../../icon';
 import { UserAvatar } from '../../userAvatar';
 
 // Constants
-import { default as MENU } from '../../../constants/sideMenuItems';
-import PackageJson from '../../../../package.json';
+import MENU from '../../../constants/sideMenuItems';
 
 // Styles
 import styles from './sideMenuStyles';
@@ -88,8 +87,7 @@ class SideMenuView extends Component {
   render() {
     const { currentAccount, isLoggedIn, intl, handleLogout } = this.props;
     const { menuItems, isAddAccountIconActive } = this.state;
-    const { version } = PackageJson;
-    const { buildVersion } = VersionNumber;
+    const { buildVersion, appVersion } = VersionNumber;
 
     return (
       <View style={styles.container}>
@@ -105,11 +103,7 @@ class SideMenuView extends Component {
           >
             {isLoggedIn && (
               <View style={styles.headerContentWrapper}>
-                <UserAvatar
-                  username={currentAccount.username}
-                  size="xl"
-                  style={styles.userAvatar}
-                />
+                <UserAvatar username={currentAccount.name} size="xl" style={styles.userAvatar} />
                 <View style={styles.userInfoWrapper}>
                   {currentAccount.display_name && (
                     <Text numberOfLines={1} ellipsizeMode="tail" style={styles.username}>
@@ -121,10 +115,7 @@ class SideMenuView extends Component {
 
                 <View style={styles.userInfoWrapper}>
                   <IconButton
-                    name={isAddAccountIconActive ? 'arrow-dropup' : 'ios-add-circle-outline'}
-                    androidName={
-                      isAddAccountIconActive ? 'md-arrow-dropup' : 'ios-add-circle-outline'
-                    }
+                    name={isAddAccountIconActive ? 'ios-arrow-dropup' : 'ios-add-circle-outline'}
                     color="white"
                     size={20}
                     onPress={this._handleOnPressAddAccountIcon}
@@ -173,7 +164,7 @@ class SideMenuView extends Component {
             )}
           />
         </View>
-        <Text style={styles.versionText}>{`v${version}, ${buildVersion}`}</Text>
+        <Text style={styles.versionText}>{`v${appVersion}, ${buildVersion}`}</Text>
         <ActionSheet
           ref={o => (this.ActionSheet = o)}
           options={[

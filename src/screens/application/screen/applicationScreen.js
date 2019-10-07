@@ -2,8 +2,9 @@ import React, { Component, Fragment } from 'react';
 import { StatusBar, Platform, View } from 'react-native';
 import EStyleSheet from 'react-native-extended-stylesheet';
 import { connect } from 'react-redux';
+import { createAppContainer } from 'react-navigation';
 
-import { ReduxNavigation } from '../../../navigation/reduxNavigation';
+import AppNavitation from '../../../navigation/routes';
 
 // Services
 import { toastNotification as toastNotificationAction } from '../../../redux/actions/uiAction';
@@ -14,6 +15,8 @@ import { ToastNotification, NoInternetConnection } from '../../../components';
 // Themes (Styles)
 import darkTheme from '../../../themes/darkTheme';
 import lightTheme from '../../../themes/lightTheme';
+
+const Navigation = createAppContainer(AppNavitation);
 
 class ApplicationScreen extends Component {
   constructor(props) {
@@ -56,7 +59,7 @@ class ApplicationScreen extends Component {
         )}
         <Fragment>
           {!isConnected && <NoInternetConnection />}
-          <ReduxNavigation />
+          <Navigation />
         </Fragment>
 
         {isShowToastNotification && (

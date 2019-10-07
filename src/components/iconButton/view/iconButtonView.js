@@ -1,5 +1,5 @@
 import React, { Fragment } from 'react';
-import { TouchableHighlight, ActivityIndicator } from 'react-native';
+import { TouchableOpacity, ActivityIndicator } from 'react-native';
 import { Icon } from '../../icon';
 
 import styles from './iconButtonStyles';
@@ -25,7 +25,7 @@ const IconButton = ({
   isLoading,
 }) => (
   <Fragment>
-    <TouchableHighlight
+    <TouchableOpacity
       style={[styles.iconButton, style]}
       onPress={() => !isLoading && onPress && onPress()}
       underlayColor={backgroundColor || 'white'}
@@ -49,7 +49,7 @@ const IconButton = ({
       ) : (
         <ActivityIndicator color="white" style={styles.activityIndicator} />
       )}
-    </TouchableHighlight>
+    </TouchableOpacity>
   </Fragment>
 );
 
