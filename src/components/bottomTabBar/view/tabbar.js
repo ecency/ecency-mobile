@@ -1,11 +1,11 @@
-import { StyleSheet, View, TouchableHighlight, Animated, Dimensions } from 'react-native';
+import { View, TouchableHighlight, Animated } from 'react-native';
 import React, { Component } from 'react';
 import Svg, { Circle, Path } from 'react-native-svg';
 
 const AnimatedCircle = Animated.createAnimatedComponent(Circle);
 const AnimatedPath = Animated.createAnimatedComponent(Path);
 
-const deviceWidth = Dimensions.get('window').width;
+import styles from './bottomTabBarStyles';
 
 export default class TabBar extends Component {
   constructor(props) {
@@ -162,23 +162,3 @@ const TabBarItem = ({ icon, selectedIcon, index, selected, onPress, showIcon, di
 };
 
 TabBar.Item = TabBarItem;
-
-const styles = StyleSheet.create({
-  subContent: {
-    flexDirection: 'row',
-    zIndex: 1,
-    position: 'absolute',
-    bottom: 0,
-    marginHorizontal: 19,
-    justifyContent: 'space-between',
-  },
-  navItem: {
-    alignItems: 'center',
-    zIndex: 0,
-    padding: 20,
-    width: (deviceWidth - 38) / 5,
-  },
-  circle: {
-    bottom: 25,
-  },
-});
