@@ -25,6 +25,10 @@ export default EStyleSheet.create({
   buttonWithoutBorder: {
     borderWidth: 0,
     backgroundColor: '$primaryWhiteLightBackground',
+    width: '$deviceWidth / 7',
+    height: '$deviceWidth / 7',
+    alignItems: 'center',
+    justifyContent: 'center',
   },
   button: {
     borderColor: 'rgba(53, 124, 230, 0.2)',

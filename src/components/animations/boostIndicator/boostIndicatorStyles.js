@@ -5,6 +5,7 @@ export default EStyleSheet.create({
     backgroundColor: '$primaryBackgroundColor',
     justifyContent: 'center',
     alignItems: 'center',
+    width: '$deviceWidth',
     flex: 1,
   },
 });
