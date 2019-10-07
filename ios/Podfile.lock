@@ -108,11 +108,11 @@ PODS:
     - React
     - SDWebImage/Core
     - SDWebImage/GIF
-  - react-native-netinfo (4.3.0):
+  - react-native-netinfo (4.4.0):
     - React
   - react-native-version-number (0.3.6):
     - React
-  - react-native-webview (7.4.0):
+  - react-native-webview (7.4.1):
     - React
   - React-RCTActionSheet (0.60.5):
     - React-Core (= 0.60.5)
@@ -137,14 +137,20 @@ PODS:
     - React-Core (= 0.60.5)
   - React-RCTWebSocket (0.60.5):
     - React-Core (= 0.60.5)
-  - RNIap (3.5.8):
+  - RNGestureHandler (1.4.1):
     - React
-  - RNImageCropPicker (0.25.2):
+  - RNIap (3.5.9):
+    - React
+  - RNImageCropPicker (0.25.3):
     - QBImagePickerController
     - React-Core
     - React-RCTImage
     - RSKImageCropper
-  - RNSVG (9.6.2):
+  - RNReanimated (1.3.0):
+    - React
+  - RNScreens (1.0.0-alpha.23):
+    - React
+  - RNSVG (9.11.1):
     - React
   - RNVectorIcons (6.6.0):
     - React
@@ -187,8 +193,11 @@ DEPENDENCIES:
   - React-RCTText (from `../node_modules/react-native/Libraries/Text`)
   - React-RCTVibration (from `../node_modules/react-native/Libraries/Vibration`)
   - React-RCTWebSocket (from `../node_modules/react-native/Libraries/WebSocket`)
+  - RNGestureHandler (from `../node_modules/react-native-gesture-handler`)
   - RNIap (from `../node_modules/react-native-iap`)
   - RNImageCropPicker (from `../node_modules/react-native-image-crop-picker`)
+  - RNReanimated (from `../node_modules/react-native-reanimated`)
+  - RNScreens (from `../node_modules/react-native-screens`)
   - RNSVG (from `../node_modules/react-native-svg`)
   - RNVectorIcons (from `../node_modules/react-native-vector-icons`)
   - yoga (from `../node_modules/react-native/ReactCommon/yoga`)
@@ -266,10 +275,16 @@ EXTERNAL SOURCES:
     :path: "../node_modules/react-native/Libraries/Vibration"
   React-RCTWebSocket:
     :path: "../node_modules/react-native/Libraries/WebSocket"
+  RNGestureHandler:
+    :path: "../node_modules/react-native-gesture-handler"
   RNIap:
     :path: "../node_modules/react-native-iap"
   RNImageCropPicker:
     :path: "../node_modules/react-native-image-crop-picker"
+  RNReanimated:
+    :path: "../node_modules/react-native-reanimated"
+  RNScreens:
+    :path: "../node_modules/react-native-screens"
   RNSVG:
     :path: "../node_modules/react-native-svg"
   RNVectorIcons:
@@ -301,9 +316,9 @@ SPEC CHECKSUMS:
   React-jsiexecutor: 90ad2f9db09513fc763bc757fdc3c4ff8bde2a30
   React-jsinspector: e08662d1bf5b129a3d556eb9ea343a3f40353ae4
   react-native-fast-image: 6d50167ad4d68b59640ceead8c2bc4e58d91d8bd
-  react-native-netinfo: 09681d744eb8a3ca04cb0404fb8c2537f71d3e58
+  react-native-netinfo: 6bb847e64f45a2d69c6173741111cfd95c669301
   react-native-version-number: b415bbec6a13f2df62bf978e85bc0d699462f37f
-  react-native-webview: 7d04624efcf7ef5cf26df3a9194ff2c2af5a53c5
+  react-native-webview: e800df5dd1a0f3555fd543ebf7d881a9014851f2
   React-RCTActionSheet: b0f1ea83f4bf75fb966eae9bfc47b78c8d3efd90
   React-RCTAnimation: 359ba1b5690b1e87cc173558a78e82d35919333e
   React-RCTBlob: 5e2b55f76e9a1c7ae52b826923502ddc3238df24
@@ -314,9 +329,12 @@ SPEC CHECKSUMS:
   React-RCTText: b074d89033583d4f2eb5faf7ea2db3a13c7553a2
   React-RCTVibration: 2105b2e0e2b66a6408fc69a46c8a7fb5b2fdade0
   React-RCTWebSocket: cd932a16b7214898b6b7f788c8bddb3637246ac4
-  RNIap: 3730f7f44e1ad0aa13c2566b3d8b02dfd089e744
-  RNImageCropPicker: f675353bbe18f66113a39b319c0aeb36655a6e4c
-  RNSVG: ff9b094e39dd4a437ebe17d1c7ceed286e75f426
+  RNGestureHandler: 4cb47a93019c1a201df2644413a0a1569a51c8aa
+  RNIap: 9e69c8d9ecfdd1f0882363366e85d2e1683ecc89
+  RNImageCropPicker: bfb3ea9c8622f290532e2fe63f369e0d5a52f597
+  RNReanimated: 6abbbae2e5e72609d85aabd92a982a94566885f1
+  RNScreens: f28b48b8345f2f5f39ed6195518291515032a788
+  RNSVG: be27aa7c58819f97399388ae53d7fa0572f32c7f
   RNVectorIcons: 0bb4def82230be1333ddaeee9fcba45f0b288ed4
   RSKImageCropper: a446db0e8444a036b34f3c43db01b2373baa4b2a
   SDWebImage: c10d14a8883ebd89664f02a422006f66a85c0c5d
