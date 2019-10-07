@@ -26,9 +26,7 @@ const SpinGameView = ({
   const _handleOnSpinPress = () => {
     startGame('spin');
 
-    this.setState({
-      isSpinning: true,
-    });
+    setIsSpinning(true);
 
     this.spinTimeout = setTimeout(() => {
       clearTimeout(this.spinTimeout);
