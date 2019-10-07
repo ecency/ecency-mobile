@@ -21,7 +21,7 @@ class RedeemContainer extends Component {
 
   // Component Life Cycle Functions
 
-  async componentDidMount() {
+  componentDidMount() {
     this._statusCheck();
   }
 
@@ -61,10 +61,13 @@ class RedeemContainer extends Component {
     if (get(gameStatus, 'status') !== 18) {
       await gameClaim(username, type, get(gameStatus, 'key'))
         .then(res => {
-          this.setState({
-            gameRight: get(gameStatus, 'status') !== 3 ? 0 : 5,
-            score: get(res, 'score'),
-          });
+          this.setState(
+            {
+              gameRight: get(gameStatus, 'status') !== 3 ? 0 : 5,
+              score: get(res, 'score'),
+            },
+            () => this._statusCheck(),
+          );
         })
         .catch(err => {
           if (err) {

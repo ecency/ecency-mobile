@@ -14,6 +14,7 @@ const persistConfig = {
   storage: AsyncStorage,
   // Blacklist (Don't Save Specific Reducers)
   blacklist: ['nav', 'application'],
+  timeout: 0,
 };
 
 // Middleware: Redux Persist Persisted Reducer

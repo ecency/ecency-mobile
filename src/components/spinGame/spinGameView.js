@@ -84,7 +84,7 @@ const SpinGameView = ({
                   ))}
                   <Text style={styles.nextDate}>{`${intl.formatMessage({
                     id: 'free_estm.timer_text',
-                  })} ${moment(moment(nextDate).diff(moment())).format('H:m')}`}</Text>
+                  })} ${moment.utc(moment(nextDate).diff(new Date())).format('H:m')}`}</Text>
                 </Fragment>
               )}
             </Fragment>

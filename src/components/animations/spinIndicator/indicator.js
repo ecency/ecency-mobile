@@ -22,10 +22,10 @@ export default class Indicator extends PureComponent {
     }
   }
 
-  componentWillReceiveProps(nextProps) {
+  componentDidUpdate(prevProps) {
     const { animating } = this.props;
 
-    if (animating !== nextProps.animating) {
+    if (animating !== prevProps.animating) {
       if (animating) {
         this._stopAnimation();
       } else {

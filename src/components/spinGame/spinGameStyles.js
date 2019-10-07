@@ -19,6 +19,7 @@ export default EStyleSheet.create({
   countDesc: {
     color: '$primaryDarkGray',
     fontSize: 16,
+    marginTop: 5,
     fontWeight: '700',
   },
   spinnerWrapper: {
@@ -29,10 +30,10 @@ export default EStyleSheet.create({
     position: 'absolute',
     width: '$deviceWidth',
     height: 320,
-    left: -170,
-    top: 40,
+    left: 0,
+    top: 16,
     right: 0,
-    zIndex: 999,
+    zIndex: 998,
   },
   descriptionWrapper: {
     backgroundColor: '$primaryDarkBlue',
@@ -43,8 +44,8 @@ export default EStyleSheet.create({
     borderTopRightRadius: 0,
     borderBottomRightRadius: 0,
     position: 'absolute',
-    top: '$deviceHeight / 6',
-    left: '$deviceWidth / 1.87',
+    top: '$deviceHeight / 5',
+    right: 0,
   },
   description: {
     fontSize: 10,
@@ -68,6 +69,7 @@ export default EStyleSheet.create({
   },
   productWrapper: {
     flex: 0.8,
+    zIndex: 998,
     alignItems: 'center',
   },
   spinButton: {

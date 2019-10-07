@@ -135,7 +135,7 @@ class CommentsContainer extends Component {
 
     if (isOwnProfile) {
       fetchPost();
-    } else {
+    } else if (author && permlink) {
       await getComments(author, permlink, name)
         .then(comments => {
           if (selectedFilter && selectedFilter !== 'TRENDING') {

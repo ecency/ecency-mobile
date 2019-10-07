@@ -29,9 +29,10 @@ const NumericKeyboard = ({ onPress }) => (
       <IconButton
         onPress={() => onPress && onPress('clear')}
         isCircle
-        buttonStyle={styles.buttonWithoutBorder}
-        style={styles.iconButton}
-        name="ios-backspace"
+        style={styles.buttonWithoutBorder}
+        iconStyle={styles.iconButton}
+        name="backspace"
+        iconType="MaterialIcons"
       />
     </View>
   </View>
