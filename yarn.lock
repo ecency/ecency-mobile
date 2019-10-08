@@ -1098,7 +1098,7 @@
     exec-sh "^0.3.2"
     minimist "^1.2.0"
 
-"@esteemapp/esteem-render-helpers@^1.1.0":
+"@esteemapp/esteem-render-helpers@^1.2.2":
   version "1.2.2"
   resolved "https://registry.yarnpkg.com/@esteemapp/esteem-render-helpers/-/esteem-render-helpers-1.2.2.tgz#11ebb57c97f599c04137da150d976f09ab5d7c76"
   integrity sha512-rj5p+81yEhis0gJ6cSL8AMGo0VKmLMc4edRPh+bnEjZSpn+AUfsqvo2YAEekPT+v49b7uh5WdQqrHLXFGhdG2Q==
