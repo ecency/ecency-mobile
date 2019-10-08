@@ -9,7 +9,7 @@ export default EStyleSheet.create({
     position: 'absolute',
     bottom: 0,
     left: 0,
-    zIndex: 99999,
+    zIndex: 999,
   },
   subContent: {
     flexDirection: 'row',
