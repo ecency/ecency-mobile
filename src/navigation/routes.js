@@ -8,10 +8,10 @@ import ROUTES from '../constants/routeNames';
 import {
   Bookmarks,
   Boost,
-  BoostPost,
   Drafts,
   Editor,
   Follows,
+  SpinGame,
   Login,
   PinCode,
   Post,
@@ -40,7 +40,7 @@ const mainNavigation = createDrawerNavigator(
   },
 );
 
-const stackNavigatior = createStackNavigator(
+const stackNavigator = createStackNavigator(
   {
     [ROUTES.DRAWER.MAIN]: {
       screen: mainNavigation,
@@ -132,6 +132,12 @@ const stackNavigatior = createStackNavigator(
         header: () => null,
       },
     },
+    [ROUTES.SCREENS.SPIN_GAME]: {
+      screen: SpinGame,
+      navigationOptions: {
+        header: () => null,
+      },
+    },
   },
   {
     headerMode: 'none',
@@ -139,7 +145,7 @@ const stackNavigatior = createStackNavigator(
 );
 
 export default createSwitchNavigator({
-  stackNavigatior,
+  stackNavigator,
   [ROUTES.SCREENS.LOGIN]: { screen: Login },
   [ROUTES.SCREENS.PINCODE]: { screen: PinCode },
   [ROUTES.SCREENS.STEEM_CONNECT]: { screen: SteemConnect },

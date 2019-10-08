@@ -1,10 +1,11 @@
 import EStyleSheet from 'react-native-extended-stylesheet';
 
 export default EStyleSheet.create({
-  wrapper: {
+  buttonWrapper: {
+    minWidth: '$deviceWidth / 2.4',
+    flexDirection: 'row',
+    justifyContent: 'flex-end',
     flex: 1,
-    position: 'absolute',
-    top: '$deviceHeight / 3',
   },
   boostLine: {
     flexDirection: 'row',
@@ -14,15 +15,11 @@ export default EStyleSheet.create({
   button: {
     marginVertical: 12,
     paddingHorizontal: 18,
+    justifyContent: 'center',
+    alignItems: 'center',
   },
   buttonContent: {
     flexDirection: 'row',
-  },
-  buttonWrapper: {
-    minWidth: '$deviceWidth / 2.4',
-    flexDirection: 'row',
-    justifyContent: 'flex-end',
-    flex: 1,
   },
   buttonText: {
     color: '$pureWhite',

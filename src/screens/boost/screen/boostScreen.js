@@ -1,34 +1,21 @@
-import React, { Fragment } from 'react';
-import { View, Text } from 'react-native';
+import React from 'react';
+import { View, Platform } from 'react-native';
 import get from 'lodash/get';
 import { useIntl } from 'react-intl';
 
 // Components
-import { BasicHeader, Icon, MainButton, BoostPlaceHolder } from '../../../components';
+import { BasicHeader, BoostPlaceHolder, ProductItemLine } from '../../../components';
 
 // Container
 import { InAppPurchaseContainer } from '../../../containers';
 
 // Styles
 import globalStyles from '../../../globalStyles';
-import styles from './boostScreenStyles';
 
-const DEALS = { '9999points': 'BEST DEAL!', '4999points': 'POPULAR!' };
-
-const _renderDeal = item => {
-  if (DEALS[item.productId]) {
-    return (
-      <View style={styles.descriptionWrapper}>
-        <Fragment>
-          <Text style={styles.description}>{DEALS[item.productId]}</Text>
-          <View style={styles.triangle} />
-        </Fragment>
-      </View>
-    );
-  }
-
-  return null;
-};
+const ITEM_SKUS = Platform.select({
+  ios: ['099points', '199points', '499points', '999points', '4999points', '9999points'],
+  android: ['099points', '199points', '499points', '999points', '4999points', '9999points'],
+});
 
 const _getTitle = title => {
   let _title = title.toUpperCase();
@@ -44,7 +31,7 @@ const BoostScreen = () => {
   const intl = useIntl();
 
   return (
-    <InAppPurchaseContainer>
+    <InAppPurchaseContainer skus={ITEM_SKUS}>
       {({ buyItem, productList, isLoading, isProcessing }) => (
         <View style={globalStyles.container}>
           <BasicHeader
@@ -57,35 +44,14 @@ const BoostScreen = () => {
           {isLoading ? (
             <BoostPlaceHolder />
           ) : (
-            productList.map(item => (
-              <View style={styles.boostLine} key={get(item, 'productId')}>
-                {_renderDeal(item)}
-                <View style={styles.buttonWrapper}>
-                  <MainButton
-                    style={styles.button}
-                    onPress={() => buyItem(item.productId)}
-                    height={50}
-                    text={intl.formatMessage({
-                      id: 'boost.buy',
-                    })}
-                    isDisable={isProcessing}
-                    isLoading={false}
-                  >
-                    <View style={styles.buttonContent}>
-                      <Text style={styles.buttonText}>{_getTitle(get(item, 'title'))}</Text>
-                      <View style={styles.buttonIconWrapper}>
-                        <Icon name="add" iconType="MaterialIcons" color="#357ce6" size={23} />
-                      </View>
-                    </View>
-                  </MainButton>
-                </View>
-
-                <View style={styles.priceWrapper}>
-                  {get(item, 'localizedPrice', null) && (
-                    <Text style={styles.priceText}>{get(item, 'localizedPrice', 0)}</Text>
-                  )}
-                </View>
-              </View>
+            productList.map(product => (
+              <ProductItemLine
+                isLoading={isLoading}
+                disabled={isProcessing}
+                product={product}
+                title={_getTitle(get(product, 'title'))}
+                handleOnButtonPress={id => buyItem(id)}
+              />
             ))
           )}
         </View>

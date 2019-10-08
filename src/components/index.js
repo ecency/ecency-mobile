@@ -1,5 +1,6 @@
 import { AvatarHeader } from './avatarHeader';
 import { BasicHeader } from './basicHeader';
+import { BoostIndicatorAnimation } from './animations';
 import { BottomTabBar } from './bottomTabBar';
 import { CheckBox } from './checkbox';
 import { CircularButton, TextButton, SquareButton } from './buttons';
@@ -36,6 +37,7 @@ import { SearchInput } from './searchInput';
 import { SearchModal } from './searchModal';
 import { SettingsItem } from './settingsItem';
 import { SideMenu } from './sideMenu';
+import { SpinIndicator } from './animations';
 import { SummaryArea, TagArea, TextArea, TitleArea } from './editorElements';
 import { TabBar } from './tabBar';
 import { TextInput } from './textInput';
@@ -48,6 +50,7 @@ import Logo from './logo/logo';
 import PostButton from './postButton/postButtonView';
 import ProfileEditForm from './profileEditForm/profileEditFormView';
 import ScaleSlider from './scaleSlider/scaleSliderView';
+import { ProductItemLine } from './productItemLine/productItemLineView';
 
 // View
 import { Comment } from './comment';
@@ -64,6 +67,7 @@ import { WalletDetails } from './walletDetails';
 import PostBoost from './postBoost/postBoostView';
 import Profile from './profile/profileView';
 import Promote from './promote/promoteView';
+import { SpinGame } from './spinGame/spinGameView';
 
 // Basic UI Elements
 import {
@@ -89,30 +93,14 @@ import {
 } from './basicUIElements';
 
 export {
-  Card,
-  Chip,
-  GrayWrapper,
-  LineBreak,
-  ListItemPlaceHolder,
-  ListPlaceHolder,
-  BoostPlaceHolder,
-  NoInternetConnection,
-  NoPost,
-  PostCardPlaceHolder,
-  PostPlaceHolder,
-  ProfileSummaryPlaceHolder,
-  StickyBar,
-  Tag,
-  TextWithIcon,
-  UserListItem,
-  WalletDetailsPlaceHolder,
-  WalletLineItem,
-  WalletUnclaimedPlaceHolder,
   AvatarHeader,
   BasicHeader,
-  InformationBox,
+  BoostIndicatorAnimation,
+  BoostPlaceHolder,
   BottomTabBar,
+  Card,
   CheckBox,
+  Chip,
   CircularButton,
   CollapsibleCard,
   Comment,
@@ -124,16 +112,23 @@ export {
   FilterBar,
   FormatedCurrency,
   FormInput,
+  GrayWrapper,
   Header,
   Icon,
   IconButton,
   InformationArea,
+  InformationBox,
   LeaderBoard,
+  LineBreak,
+  ListItemPlaceHolder,
+  ListPlaceHolder,
   LoginHeader,
   Logo,
   MainButton,
   MarkdownEditor,
   Modal,
+  NoInternetConnection,
+  NoPost,
   Notification,
   NotificationLine,
   NumericKeyboard,
@@ -145,15 +140,19 @@ export {
   PostBoost,
   PostButton,
   PostCard,
+  PostCardPlaceHolder,
   PostDisplay,
   PostDropdown,
   PostForm,
   PostHeaderDescription,
   PostListItem,
+  PostPlaceHolder,
   Posts,
+  ProductItemLine,
   Profile,
   ProfileEditForm,
   ProfileSummary,
+  ProfileSummaryPlaceHolder,
   Promote,
   PulseAnimation,
   ScaleSlider,
@@ -161,14 +160,19 @@ export {
   SearchModal,
   SettingsItem,
   SideMenu,
+  SpinGame,
+  SpinIndicator,
   SquareButton,
+  StickyBar,
   SummaryArea,
   TabBar,
+  Tag,
   TagArea,
   Tags,
   TextArea,
   TextButton,
   TextInput,
+  TextWithIcon,
   TitleArea,
   ToastNotification,
   ToggleSwitch,
@@ -176,7 +180,11 @@ export {
   TransferFormItem,
   Upvote,
   UserAvatar,
+  UserListItem,
   VotersDisplay,
   Wallet,
   WalletDetails,
+  WalletDetailsPlaceHolder,
+  WalletLineItem,
+  WalletUnclaimedPlaceHolder,
 };

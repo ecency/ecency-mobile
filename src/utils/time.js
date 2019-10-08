@@ -12,15 +12,21 @@ const THIS_MONTH = moment()
   .startOf('day');
 
 export const getTimeFromNow = (value, isWithoutUtc) => {
-  if (!value) return null;
+  if (!value) {
+    return null;
+  }
 
-  if (isWithoutUtc) return moment(value).fromNow();
+  if (isWithoutUtc) {
+    return moment(value).fromNow();
+  }
 
   return moment.utc(value).fromNow();
 };
 
 export const getFormatedCreatedDate = value => {
-  if (!value) return null;
+  if (!value) {
+    return null;
+  }
 
   return moment(value).format('DD MMM, YYYY');
 };
@@ -36,7 +42,9 @@ export const isThisWeek = value => moment(value).isSameOrAfter(THIS_WEEK);
 export const isThisMonth = value => moment(value).isSameOrAfter(THIS_MONTH);
 
 export const isEmptyContentDate = value => {
-  if (!value) return false;
+  if (!value) {
+    return false;
+  }
 
   return parseInt(value.split('-')[0], 10) < 1980;
 };

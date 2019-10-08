@@ -14,12 +14,7 @@ import { purchaseOrder } from '../providers/esteem/esteem';
 // Utilities
 import { default as ROUTES } from '../constants/routeNames';
 
-const ITEM_SKUS = Platform.select({
-  ios: ['099points', '199points', '499points', '999points', '4999points', '9999points'],
-  android: ['099points', '199points', '499points', '999points', '4999points', '9999points'],
-});
-
-class BoostContainer extends Component {
+class InAppPurchaseContainer extends Component {
   constructor(props) {
     super(props);
     this.state = {
@@ -53,6 +48,7 @@ class BoostContainer extends Component {
     const {
       currentAccount: { name },
       intl,
+      fetchData,
     } = this.props;
 
     this.purchaseUpdateSubscription = purchaseUpdatedListener(purchase => {
@@ -75,6 +71,10 @@ class BoostContainer extends Component {
               RNIap.consumePurchaseAndroid(token);
             }
             this.setState({ isProcessing: false });
+
+            if (fetchData) {
+              fetchData();
+            }
           })
           .catch(err =>
             bugsnag.notify(err, report => {
@@ -109,8 +109,10 @@ class BoostContainer extends Component {
   };
 
   _getItems = async () => {
+    const { skus } = this.props;
+
     try {
-      const products = await RNIap.getProducts(ITEM_SKUS);
+      const products = await RNIap.getProducts(skus);
 
       products.sort((a, b) => parseFloat(a.price) - parseFloat(b.price)).reverse();
       await this.setState({ productList: products });
@@ -128,9 +130,9 @@ class BoostContainer extends Component {
   _buyItem = async sku => {
     const { navigation } = this.props;
 
-    await this.setState({ isProcessing: true });
-
     if (sku !== 'freePoints') {
+      await this.setState({ isProcessing: true });
+
       try {
         RNIap.requestPurchase(sku, false);
       } catch (err) {
@@ -142,7 +144,7 @@ class BoostContainer extends Component {
       }
     } else {
       navigation.navigate({
-        routeName: ROUTES.SCREENS.FREE_ESTM,
+        routeName: ROUTES.SCREENS.SPIN_GAME,
       });
     }
   };
@@ -150,16 +152,17 @@ class BoostContainer extends Component {
   render() {
     const { children } = this.props;
     const { productList, isLoading, isProcessing } = this.state;
-    // const FREE_ESTM = { productId: 'freePoints', title: 'free estm' };
+    const FREE_ESTM = { productId: 'freePoints', title: 'free estm' };
 
     return (
       children &&
       children({
-        // productList: [...productList, FREE_ESTM],
-        productList,
+        productList: [...productList, FREE_ESTM],
         buyItem: this._buyItem,
         isLoading,
         isProcessing,
+        getItems: this._getItems,
+        spinProduct: productList.filter(item => item.productId.includes('spins')),
       })
     );
   }
@@ -169,4 +172,4 @@ const mapStateToProps = state => ({
   currentAccount: state.account.currentAccount,
 });
 
-export default withNavigation(injectIntl(connect(mapStateToProps)(BoostContainer)));
+export default withNavigation(injectIntl(connect(mapStateToProps)(InAppPurchaseContainer)));
