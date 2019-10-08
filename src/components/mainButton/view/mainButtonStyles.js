@@ -26,7 +26,7 @@ export default EStyleSheet.create({
     alignSelf: 'center',
     fontSize: 14,
     paddingLeft: 10,
-    paddingRight: 20,
+    paddingRight: 10,
   },
   secondText: {
     fontWeight: 'bold',

@@ -41,7 +41,9 @@ class MainButton extends Component {
   _handleOnPress = () => {
     const { onPress } = this.props;
 
-    if (onPress) onPress();
+    if (onPress) {
+      onPress();
+    }
   };
 
   _getBody = () => {
@@ -57,12 +59,14 @@ class MainButton extends Component {
           {source ? (
             <Image source={source} style={styles.image} resizeMode="contain" />
           ) : (
-            <Icon
-              iconType={iconType || 'MaterialIcons'}
-              color={iconColor}
-              name={iconName}
-              style={styles.icon}
-            />
+            iconName && (
+              <Icon
+                iconType={iconType || 'MaterialIcons'}
+                color={iconColor}
+                name={iconName}
+                style={styles.icon}
+              />
+            )
           )}
           <Text style={styles.text}>
             {text}
@@ -92,7 +96,7 @@ class MainButton extends Component {
       <View style={wrapperStyle}>
         <TouchableOpacity
           disabled={isLoading || isDisable}
-          onPress={() => this._handleOnPress()}
+          onPress={this._handleOnPress}
           style={[
             styles.touchable,
             isDisable && styles.disableTouchable,

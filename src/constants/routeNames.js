@@ -10,7 +10,7 @@ export default {
     DRAFTS: `Drafts${SCREEN_SUFFIX}`,
     EDITOR: `Editor${SCREEN_SUFFIX}`,
     FOLLOWS: `Follows${SCREEN_SUFFIX}`,
-    FREE_ESTM: `FreeEstm${SCREEN_SUFFIX}`,
+    SPIN_GAME: `SpinGame${SCREEN_SUFFIX}`,
     HOME: `Home${SCREEN_SUFFIX}`,
     LOGIN: `Login${SCREEN_SUFFIX}`,
     PINCODE: `PinCode${SCREEN_SUFFIX}`,

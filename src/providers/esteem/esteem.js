@@ -357,7 +357,7 @@ export const getSCAccessToken = code =>
     api.post('/sc-token-refresh', { code }).then(resp => resolve(resp.data));
   });
 
-export const getPromotePosts = () => api.get(`/promoted-posts`).then(resp => resp.data);
+export const getPromotePosts = () => api.get('/promoted-posts').then(resp => resp.data);
 
 export const purchaseOrder = data => api.post('/purchase-order', data).then(resp => resp.data);
 
