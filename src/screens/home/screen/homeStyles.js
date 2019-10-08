@@ -5,7 +5,7 @@ export default EStyleSheet.create({
     justifyContent: 'center',
     alignItems: 'center',
     flex: 1,
-    backgroundColor: '$primaryBackgroundColor',
+    backgroundColor: '$primaryLightBackground',
   },
   buttonContainer: {
     width: '50%',

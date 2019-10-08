@@ -1,6 +1,7 @@
-import React, { PureComponent } from 'react';
-import { TouchableOpacity, SafeAreaView, View } from 'react-native';
-import { connect } from 'react-redux';
+import React, { useEffect } from 'react';
+import { SafeAreaView } from 'react-native';
+import { useDispatch } from 'react-redux';
+import get from 'lodash/get';
 
 // Services and Actions
 import { updateActiveBottomTab } from '../../../redux/actions/uiAction';
@@ -9,90 +10,70 @@ import { updateActiveBottomTab } from '../../../redux/actions/uiAction';
 import ROUTES from '../../../constants/routeNames';
 
 // Components
+import TabBar from './tabbar';
 
 // Styles
 import styles from './bottomTabBarStyles';
 
-class BottomTabBarView extends PureComponent {
-  /* Props
-   * ------------------------------------------------
-   *   @prop { type }    name                - Description....
-   */
+const _jumpTo = (route, index, routes, jumpTo) => {
+  const _routeName = routes[index].routeName;
 
-  constructor(props) {
-    super(props);
-    this.state = {};
+  if (
+    !!route &&
+    !!get(route, 'params') &&
+    !!get(route, 'params.scrollToTop') &&
+    _routeName === ROUTES.TABBAR.HOME
+  ) {
+    route.params.scrollToTop();
   }
 
-  // Component Life Cycles
-  UNSAFE_componentWillUpdate(nextProps) {
-    const {
-      navigation: {
-        state: { index, routes },
-      },
-      dispatch,
-    } = nextProps;
+  jumpTo(route.key);
+};
 
+const BottomTabBarView = ({
+  navigation: {
+    state: { index, routes },
+  },
+  activeTintColor,
+  inactiveTintColor,
+  renderIcon,
+  jumpTo,
+}) => {
+  const dispatch = useDispatch();
+
+  useEffect(() => {
     dispatch(updateActiveBottomTab(routes[index].routeName));
-  }
+  }, [dispatch, routes, index]);
 
-  // Component Functions
-  _jumpTo = route => {
-    const {
-      jumpTo,
-      navigation: {
-        state: { index, routes },
-      },
-    } = this.props;
+  return (
+    <SafeAreaView style={styles.wrapper}>
+      <TabBar
+        selectedIndex={index}
+        circleBackgroundColor="#357ce6"
+        backgroundColor="#f6f6f6"
+        onChange={i => _jumpTo(routes[i], index, routes, jumpTo)}
+        activeTintColor={activeTintColor}
+        inactiveTintColor={inactiveTintColor}
+      >
+        {routes.map(route => (
+          <TabBar.Item
+            icon={renderIcon({
+              route,
+              focused: false,
+              tintColor: inactiveTintColor,
+            })}
+            selectedIcon={renderIcon({
+              route,
+              focused: true,
+              tintColor: activeTintColor,
+            })}
+            key={route}
+            disabled={route.routeName === ROUTES.TABBAR.POSTBUTTON}
+          />
+        ))}
+      </TabBar>
+    </SafeAreaView>
+  );
+};
 
-    const _routeName = routes[index].routeName;
-
-    if (
-      !!route &&
-      !!route.params &&
-      !!route.params.scrollToTop &&
-      _routeName === ROUTES.TABBAR.HOME
-    ) {
-      route.params.scrollToTop();
-    }
-
-    jumpTo(route.key);
-  };
-
-  render() {
-    const {
-      navigation: {
-        state: { index, routes },
-      },
-      activeTintColor,
-      inactiveTintColor,
-      renderIcon,
-    } = this.props;
-
-    return (
-      <SafeAreaView style={styles.safeArea}>
-        <View style={styles.wrapper}>
-          {routes.map((route, idx) => (
-            <View
-              key={route.key}
-              style={{
-                flex: 1,
-                alignItems: 'center',
-              }}
-            >
-              <TouchableOpacity onPress={() => this._jumpTo(route)}>
-                {renderIcon({
-                  route,
-                  focused: index === idx,
-                  tintColor: index === idx ? activeTintColor : inactiveTintColor,
-                })}
-              </TouchableOpacity>
-            </View>
-          ))}
-        </View>
-      </SafeAreaView>
-    );
-  }
-}
-
-export default connect()(BottomTabBarView);
+export default BottomTabBarView;
