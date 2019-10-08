@@ -1,6 +1,7 @@
 import React, { useEffect } from 'react';
-import { TouchableOpacity, SafeAreaView, View, Dimensions } from 'react-native';
+import { SafeAreaView } from 'react-native';
 import { useDispatch } from 'react-redux';
+import get from 'lodash/get';
 
 // Services and Actions
 import { updateActiveBottomTab } from '../../../redux/actions/uiAction';
@@ -19,8 +20,8 @@ const _jumpTo = (route, index, routes, jumpTo) => {
 
   if (
     !!route &&
-    !!route.params &&
-    !!route.params.scrollToTop &&
+    !!get(route, 'params') &&
+    !!get(route, 'params.scrollToTop') &&
     _routeName === ROUTES.TABBAR.HOME
   ) {
     route.params.scrollToTop();
