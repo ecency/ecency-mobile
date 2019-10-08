@@ -15,13 +15,7 @@ const BaseNavigator = createBottomTabNavigator(
       screen: Home,
       navigationOptions: () => ({
         tabBarIcon: ({ tintColor }) => (
-          <Icon
-            iconType="MaterialIcons"
-            style={{ padding: 15 }}
-            name="view-day"
-            color={tintColor}
-            size={26}
-          />
+          <Icon iconType="MaterialIcons" name="view-day" color={tintColor} size={26} />
         ),
       }),
     },
@@ -36,7 +30,6 @@ const BaseNavigator = createBottomTabNavigator(
             name="notifications"
             color={tintColor}
             size={26}
-            style={{ padding: 15 }}
           />
         ),
       }),
@@ -44,20 +37,14 @@ const BaseNavigator = createBottomTabNavigator(
     [ROUTES.TABBAR.POSTBUTTON]: {
       screen: () => null,
       navigationOptions: {
-        tabBarIcon: <PostButton />,
+        tabBarIcon: ({ tintColor }) => <PostButton />,
       },
     },
     [ROUTES.TABBAR.POINTS]: {
       screen: Points,
       navigationOptions: () => ({
         tabBarIcon: ({ tintColor }) => (
-          <Icon
-            iconType="MaterialCommunityIcons"
-            style={{ padding: 15 }}
-            name="gift-outline"
-            color={tintColor}
-            size={26}
-          />
+          <Icon iconType="MaterialCommunityIcons" name="gift-outline" color={tintColor} size={26} />
         ),
       }),
     },
@@ -65,13 +52,7 @@ const BaseNavigator = createBottomTabNavigator(
       screen: Profile,
       navigationOptions: () => ({
         tabBarIcon: ({ tintColor }) => (
-          <Icon
-            iconType="MaterialIcons"
-            style={{ padding: 15 }}
-            name="credit-card"
-            color={tintColor}
-            size={26}
-          />
+          <Icon iconType="MaterialIcons" name="credit-card" color={tintColor} size={26} />
         ),
       }),
     },
@@ -80,7 +61,7 @@ const BaseNavigator = createBottomTabNavigator(
     tabBarComponent: props => <BottomTabBar {...props} />,
     tabBarOptions: {
       showLabel: false,
-      activeTintColor: '#357ce6',
+      activeTintColor: '#f6f6f6',
       inactiveTintColor: '#c1c5c7',
       style: {},
       tabStyle: {},

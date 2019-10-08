@@ -1,6 +1,6 @@
-import React, { PureComponent } from 'react';
+import React, { PureComponent, Fragment } from 'react';
 import { injectIntl } from 'react-intl';
-import { View } from 'react-native';
+import { View, SafeAreaView } from 'react-native';
 
 // Containers
 import { PointsContainer } from '../../../containers';
@@ -30,45 +30,47 @@ class PointsScreen extends PureComponent {
     const { intl, isLoggedIn, handleLoginPress } = this.props;
 
     return (
-      <View style={styles.container}>
+      <Fragment>
         <Header />
-        {isLoggedIn ? (
-          <PointsContainer>
-            {({
-              handleOnDropdownSelected,
-              claimPoints,
-              fetchUserActivity,
-              isClaiming,
-              isDarkTheme,
-              isLoading,
-              refreshing,
-              userActivities,
-              userPoints,
-            }) => (
-              <Points
-                claimPoints={claimPoints}
-                fetchUserActivity={fetchUserActivity}
-                isClaiming={isClaiming}
-                isDarkTheme={isDarkTheme}
-                isLoading={isLoading}
-                refreshing={refreshing}
-                userActivities={userActivities}
-                userPoints={userPoints}
-                handleOnDropdownSelected={handleOnDropdownSelected}
-              />
-            )}
-          </PointsContainer>
-        ) : (
-          <NoPost
-            style={styles.noPostContainer}
-            isButtonText
-            defaultText={intl.formatMessage({
-              id: 'profile.login_to_see',
-            })}
-            handleOnButtonPress={handleLoginPress}
-          />
-        )}
-      </View>
+        <SafeAreaView style={styles.container}>
+          {isLoggedIn ? (
+            <PointsContainer>
+              {({
+                handleOnDropdownSelected,
+                claimPoints,
+                fetchUserActivity,
+                isClaiming,
+                isDarkTheme,
+                isLoading,
+                refreshing,
+                userActivities,
+                userPoints,
+              }) => (
+                <Points
+                  claimPoints={claimPoints}
+                  fetchUserActivity={fetchUserActivity}
+                  isClaiming={isClaiming}
+                  isDarkTheme={isDarkTheme}
+                  isLoading={isLoading}
+                  refreshing={refreshing}
+                  userActivities={userActivities}
+                  userPoints={userPoints}
+                  handleOnDropdownSelected={handleOnDropdownSelected}
+                />
+              )}
+            </PointsContainer>
+          ) : (
+            <NoPost
+              style={styles.noPostContainer}
+              isButtonText
+              defaultText={intl.formatMessage({
+                id: 'profile.login_to_see',
+              })}
+              handleOnButtonPress={handleLoginPress}
+            />
+          )}
+        </SafeAreaView>
+      </Fragment>
     );
   }
 }
