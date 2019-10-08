@@ -191,7 +191,6 @@ class ApplicationContainer extends Component {
     let params;
     let content;
     let profile;
-    let isHasParentPost = false;
     const { currentAccount, dispatch } = this.props;
     const { isIos } = this.state;
 
@@ -227,16 +226,13 @@ class ApplicationContainer extends Component {
       await getPost(author, permlink, currentAccount.name)
         .then(result => {
           content = result;
-          if (get(result, 'parent_permlink') && get(result, 'parent_author')) {
-            isHasParentPost = true;
-          }
         })
         .catch(() => {
           this._handleAlert('deep_link.no_existing_post');
         });
 
       routeName = ROUTES.SCREENS.POST;
-      params = { content, isHasParentPost };
+      params = { content };
     } else if (author) {
       profile = await getUser(author);
 
@@ -351,7 +347,6 @@ class ApplicationContainer extends Component {
               params = {
                 author: get(push, 'source', ''),
                 permlink: fullPermlink,
-                isHasParentPost: true,
               };
               key = fullPermlink;
               routeName = ROUTES.SCREENS.POST;
@@ -380,7 +375,6 @@ class ApplicationContainer extends Component {
               params = {
                 author: get(push, 'source', ''),
                 permlink: fullPermlink,
-                isHasParentPost: fullParentPermlink,
               };
               key = fullPermlink;
               routeName = ROUTES.SCREENS.POST;
