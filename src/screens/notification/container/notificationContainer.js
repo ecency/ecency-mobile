@@ -93,7 +93,6 @@ class NotificationContainer extends Component {
       params = {
         author,
         permlink,
-        isHasParentPost: get(data, 'parent_permlink') || get(data, 'type') === 'mention',
       };
     } else if (type === 'follow') {
       routeName = ROUTES.SCREENS.PROFILE;
