@@ -42,8 +42,8 @@ class PointsContainer extends Component {
     const { username, isConnected, navigation } = this.props;
 
     if (isConnected) {
-      this._fetchuserPointActivities(username);
-      this.fetchInterval = setInterval(this._fetchuserPointActivities, 6 * 60 * 1000);
+      this._fetchUserPointActivities(username);
+      this.fetchInterval = setInterval(this._fetchUserPointActivities, 6 * 60 * 1000);
     }
 
     if (get(navigation, 'state.params', null)) {
@@ -62,7 +62,7 @@ class PointsContainer extends Component {
       ((nextProps.activeBottomTab === ROUTES.TABBAR.POINTS && _username) ||
         (_username !== username && _username))
     ) {
-      this._fetchuserPointActivities(_username);
+      this._fetchUserPointActivities(_username);
     }
   }
 
@@ -131,8 +131,10 @@ class PointsContainer extends Component {
       textKey: get(POINTS[get(item, 'type')], 'textKey'),
     }));
 
-  _fetchuserPointActivities = async username => {
-    if (!username) return;
+  _fetchUserPointActivities = async username => {
+    if (!username) {
+      return;
+    }
     this.setState({ refreshing: true });
 
     await getUser(username)
@@ -153,7 +155,9 @@ class PointsContainer extends Component {
         }
       })
       .catch(err => {
-        if (err) Alert.alert(get(err, 'message') || err.toString());
+        if (err) {
+          Alert.alert(get(err, 'message') || err.toString());
+        }
       });
 
     this.setState({
@@ -169,7 +173,9 @@ class PointsContainer extends Component {
         return balance;
       })
       .catch(err => {
-        if (err) Alert.alert(get(err, 'message') || err.toString());
+        if (err) {
+          Alert.alert(get(err, 'message') || err.toString());
+        }
       });
   };
 
@@ -180,7 +186,7 @@ class PointsContainer extends Component {
 
     await claim(username)
       .then(() => {
-        this._fetchuserPointActivities(username);
+        this._fetchUserPointActivities(username);
       })
       .catch(error => {
         if (error) {
@@ -243,7 +249,7 @@ class PointsContainer extends Component {
         claimPoints: this._claimPoints,
         currentAccount,
         currentAccountName: currentAccount.name,
-        fetchUserActivity: this._fetchuserPointActivities,
+        fetchUserActivity: this._fetchUserPointActivities,
         getAccount,
         getESTMPrice: this._getESTMPrice,
         getUserBalance: this._getUserBalance,
