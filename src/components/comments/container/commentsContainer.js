@@ -215,7 +215,6 @@ class CommentsContainer extends Component {
         params: {
           author: get(selectedComment, 'author'),
           permlink: get(selectedComment, 'permlink'),
-          isHasParentPost: get(selectedComment, 'parent_permlink'),
         },
       });
     }

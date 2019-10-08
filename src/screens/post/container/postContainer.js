@@ -22,7 +22,6 @@ class PostContainer extends Component {
       post: null,
       error: null,
       isNewPost: false,
-      isHasParentPost: false,
       parentPost: null,
       isPostUnavailable: false,
     };
@@ -31,10 +30,7 @@ class PostContainer extends Component {
   // Component Life Cycle Functions
   componentDidMount() {
     const { navigation } = this.props;
-    const { content, permlink, author, isNewPost, isHasParentPost } = get(
-      navigation,
-      'state.params',
-    );
+    const { content, permlink, author, isNewPost } = get(navigation, 'state.params');
 
     if (isNewPost) this.setState({ isNewPost });
 
@@ -44,7 +40,6 @@ class PostContainer extends Component {
       this._loadPost(author, permlink);
       this.setState({ author });
     }
-    if (isHasParentPost) this.setState({ isHasParentPost });
   }
 
   UNSAFE_componentWillReceiveProps(nextProps) {
@@ -86,17 +81,15 @@ class PostContainer extends Component {
 
   render() {
     const { currentAccount, isLoggedIn } = this.props;
-    const {
-      error,
-      isNewPost,
-      parentPost,
-      post,
-      isHasParentPost,
-      isPostUnavailable,
-      author,
-    } = this.state;
+    const { error, isNewPost, parentPost, post, isPostUnavailable, author } = this.state;
 
-    if (isHasParentPost && post && get(post, 'parent_author') && get(post, 'parent_permlink')) {
+    if (
+      !parentPost &&
+      post &&
+      get(post, 'depth') > 0 &&
+      get(post, 'parent_author') &&
+      get(post, 'parent_permlink')
+    ) {
       this._loadPost(get(post, 'parent_author'), get(post, 'parent_permlink'), true);
     }
 
