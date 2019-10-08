@@ -333,6 +333,13 @@
     "buy": "ESTM を手に入れる",
     "next": "次へ"
   },
+  "free_estm": {
+    "title": "Free ESTM",
+    "button": "SPIN & WIN",
+    "get_spin": "5 SPINS",
+    "spin_right": "Spin Left",
+    "timer_text": "Next free spin in"
+  },
   "promote": {
     "title": "プロモート",
     "days": "日間",
