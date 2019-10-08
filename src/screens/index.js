@@ -11,6 +11,7 @@ import { Points } from './points';
 import { Post } from './post';
 import { SearchResult } from './searchResult';
 import { Settings } from './settings';
+import { SpinGame } from './spinGame/screen/spinGameScreen';
 import Boost from './boost/screen/boostScreen';
 import Profile from './profile/screen/profileScreen';
 import ProfileEdit from './profileEdit/screen/profileEditScreen';
@@ -39,6 +40,7 @@ export {
   Redeem,
   SearchResult,
   Settings,
+  SpinGame,
   SteemConnect,
   Transfer,
   Voters,

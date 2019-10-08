@@ -14,7 +14,7 @@ const styles = StyleSheet.create({
   },
 });
 
-export default class PulseAnimation extends Component {
+class PulseAnimation extends Component {
   static defaultProps = {
     color: 'blue',
     diameter: 400,
@@ -151,3 +151,5 @@ export default class PulseAnimation extends Component {
     );
   }
 }
+
+export { PulseAnimation };
