@@ -18,7 +18,6 @@ buildscript {
         minSdkVersion = 16
         compileSdkVersion = 28
         targetSdkVersion = 28
-        supportLibVersion = "28.0.0"
         googlePlayServicesVisionVersion = "17.0.2"
         googlePlayServicesVersion = "16.+"
         firebaseVersion = "17.3.4"
@@ -28,7 +27,7 @@ buildscript {
         jcenter()
     }
     dependencies {
-        classpath('com.android.tools.build:gradle:3.5.1')
+        classpath("com.android.tools.build:gradle:3.4.2")
 
         classpath 'com.google.gms:google-services:4.0.2'
         classpath 'com.bugsnag:bugsnag-android-gradle-plugin:4.+'
@@ -50,10 +49,10 @@ allprojects {
         }
         // react-native-image-crop-picker
         maven { url 'https://maven.google.com' }
-        maven { url "https://jitpack.io" }
 
         google()
         jcenter()
+        maven { url "https://jitpack.io" }
     }
 }
 

@@ -4,9 +4,7 @@
   "summary": "React Native In App Purchase Module.",
   "homepage": "https://github.com/dooboolab/react-native-iap",
   "license": "MIT",
-  "authors": {
-    "name": "dooboolab"
-  },
+  "authors": "dooboolab",
   "platforms": {
     "ios": "9.0"
   },
