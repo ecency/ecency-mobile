@@ -2,6 +2,7 @@ platform :ios, '9.0'
 require_relative '../node_modules/@react-native-community/cli-platform-ios/native_modules'
 
 target 'eSteem' do
+
   # Pods for eSteem
   pod 'React', :path => '../node_modules/react-native/'
   pod 'React-Core', :path => '../node_modules/react-native/React'
