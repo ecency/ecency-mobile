@@ -5,13 +5,16 @@
   "homepage": "https://github.com/APSL/react-native-version-number",
   "license": "MIT",
   "authors": {
-    "Alvaro Medina Ballester <amedina@apsl.net>": "Alvaro Medina Ballester <amedina@apsl.net>"
+    "{\"name\"=>\"Alvaro Medina Ballester\", \"email\"=>\"amedina@apsl.net\"}": {
+      "name": "Alvaro Medina Ballester",
+      "email": "amedina@apsl.net"
+    }
   },
   "platforms": {
     "ios": "7.0"
   },
   "source": {
-    "git": "https://github.com/APSL/react-native-version-number.git.git",
+    "git": "git+https://github.com/APSL/react-native-version-number.git.git",
     "tag": "v0.3.6"
   },
   "source_files": "ios/*.{h,m}",
