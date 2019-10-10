@@ -91,10 +91,10 @@ export default class TabBar extends Component {
     const { selectedIndex, showIcon, pathX, circleRadius } = this.state;
 
     return (
-      <View style={[styles.container, style]}>
+      <View style={style}>
         <View style={styles.subContent}>
           {children.map((route, i) => {
-            let element = React.cloneElement(route, {
+            const element = React.cloneElement(route, {
               selected: selectedIndex === i,
               onPress: this._onPress,
               key: i,
