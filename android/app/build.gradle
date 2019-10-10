@@ -193,8 +193,6 @@ android {
         pickFirst '**/x86/libc++_shared.so'
         pickFirst '**/arm64-v8a/libc++_shared.so'
         pickFirst '**/x86_64/libc++_shared.so'
-        pickFirst '**/x86/libjsc.so'
-        pickFirst '**/armeabi-v7a/libjsc.so'
     }
 }
 
@@ -205,13 +203,14 @@ dependencies {
     implementation 'androidx.appcompat:appcompat:1.1.0-rc01'
     implementation 'androidx.swiperefreshlayout:swiperefreshlayout:1.1.0-alpha02'
     implementation 'com.android.support:multidex:1.0.3'
+    implementation project(':@react-native-community_viewpager')
 
     if (enableHermes) {
-      def hermesPath = "../../node_modules/hermesvm/android/";
-      debugImplementation files(hermesPath + "hermes-debug.aar")
-      releaseImplementation files(hermesPath + "hermes-release.aar")
+        def hermesPath = "../../node_modules/hermes-engine/android/";
+        debugImplementation files(hermesPath + "hermes-debug.aar")
+        releaseImplementation files(hermesPath + "hermes-release.aar")
     } else {
-      implementation jscFlavor
+        implementation jscFlavor
     }
 }
 
