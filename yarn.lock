@@ -7665,9 +7665,9 @@ react-native-code-push@esteemapp/react-native-code-push:
     semver "^5.6.0"
     xcode "1.0.0"
 
-"react-native-config@https://github.com/luggit/react-native-config.git":
+react-native-config@luggit/react-native-config#master:
   version "0.11.7"
-  resolved "https://github.com/luggit/react-native-config.git#89a602bf8be3808838403a97afaf915caeec76c2"
+  resolved "https://codeload.github.com/luggit/react-native-config/tar.gz/89a602bf8be3808838403a97afaf915caeec76c2"
 
 react-native-datepicker@^1.7.2:
   version "1.7.2"
