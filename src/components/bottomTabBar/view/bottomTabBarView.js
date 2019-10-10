@@ -18,12 +18,7 @@ import styles from './bottomTabBarStyles';
 const _jumpTo = (route, index, routes, jumpTo) => {
   const _routeName = routes[index].routeName;
 
-  if (
-    !!route &&
-    !!get(route, 'params') &&
-    !!get(route, 'params.scrollToTop') &&
-    _routeName === ROUTES.TABBAR.HOME
-  ) {
+  if (!!get(route, 'params.scrollToTop') && _routeName === ROUTES.TABBAR.HOME) {
     route.params.scrollToTop();
   }
 
@@ -68,7 +63,7 @@ const BottomTabBarView = ({
               tintColor: activeTintColor,
             })}
             key={route}
-            disabled={route.routeName === ROUTES.TABBAR.POSTBUTTON}
+            disabled={route.routeName === ROUTES.TABBAR.POST_BUTTON}
           />
         ))}
       </TabBar>

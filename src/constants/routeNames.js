@@ -32,7 +32,7 @@ export default {
     HOME: `Home${TABBAR_SUFFIX}`,
     NOTIFICATION: `Notification${TABBAR_SUFFIX}`,
     POINTS: `Points${TABBAR_SUFFIX}`,
-    POSTBUTTON: `PostButton${TABBAR_SUFFIX}`,
+    POST_BUTTON: `PostButton${TABBAR_SUFFIX}`,
     PROFILE: `Profile${TABBAR_SUFFIX}`,
   },
   MODAL: {
