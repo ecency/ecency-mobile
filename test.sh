@@ -1,22 +1,29 @@
-echo "Create podspec for realm"
-cat > ./node_modules/realm/realm.podspec << ENDOFFILE
-require 'json'
+// scripts/Clear.sh
+#!/bin/bash
 
-package = JSON.parse(File.read(File.join(__dir__, 'package.json')))
+echo "rm -rf ios/build..."
+rm -rf ios/build
 
-Pod::Spec.new do |s|
-  s.name         = package['name']
-  s.version      = package['version']
-  s.summary      = package['description']
-  s.license      = package['license']
+echo "rm -rf android/app/build..."
+rm -rf android/app/build
 
-  s.authors      = package['author']
-  s.homepage     = package['homepage']
-  s.platform     = :ios, "7.0"
+echo "Removed all Xcode derived data..."
+rm -rf ~/Library/Developer/Xcode/DerivedData
 
-  s.source       = { :git => "https://github.com/realm/realm-js.git", :tag => "#{s.version}" }
-  s.source_files  = "ios/*.{h,m}"
+echo "rm -rf lib... (for Flow)"
+rm -rf lib
 
-  s.dependency 'React'
-end
-ENDOFFILE
+echo "watchman watch-del-all..."
+watchman watch-del-all
+
+echo "rm -rf node_modules..."
+rm -rf node_modules
+
+echo "npm install..."
+npm install
+
+echo "rm -rf $TMPDIR/react-*..."
+rm -rf $TMPDIR/react-*
+
+echo "rm -rf $TMPDIR/haste-map-react-native-packager-*..."
+rm -rf $TMPDIR/haste-map-react-native-packager-*
