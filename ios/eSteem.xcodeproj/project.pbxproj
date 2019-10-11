@@ -896,7 +896,7 @@
 				DEVELOPMENT_TEAM = 75B6RXTKGT;
 				HEADER_SEARCH_PATHS = (
 					"$(inherited)",
-					"\"${PODS_ROOT}/Headers/Public\"",
+					"\"${PODS_ROOT}/Headers/Public\"/**",
 					"\"${PODS_ROOT}/Headers/Public/BVLinearGradient\"",
 					"\"${PODS_ROOT}/Headers/Public/BugsnagReactNative\"",
 					"\"${PODS_ROOT}/Headers/Public/CodePush\"",
@@ -964,7 +964,7 @@
 				DEVELOPMENT_TEAM = 75B6RXTKGT;
 				HEADER_SEARCH_PATHS = (
 					"$(inherited)",
-					"\"${PODS_ROOT}/Headers/Public\"",
+					"\"${PODS_ROOT}/Headers/Public\"/**",
 					"\"${PODS_ROOT}/Headers/Public/BVLinearGradient\"",
 					"\"${PODS_ROOT}/Headers/Public/BugsnagReactNative\"",
 					"\"${PODS_ROOT}/Headers/Public/CodePush\"",
