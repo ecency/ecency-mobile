@@ -16,12 +16,6 @@ rm -rf lib
 echo "watchman watch-del-all..."
 watchman watch-del-all
 
-echo "rm -rf node_modules..."
-rm -rf node_modules
-
-echo "npm install..."
-npm install
-
 echo "rm -rf $TMPDIR/react-*..."
 rm -rf $TMPDIR/react-*
 
