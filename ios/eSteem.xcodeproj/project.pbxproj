@@ -896,7 +896,7 @@
 				DEVELOPMENT_TEAM = 75B6RXTKGT;
 				HEADER_SEARCH_PATHS = (
 					"$(inherited)",
-					"\"${PODS_ROOT}/Headers/Public\"/**",
+					"$(SRCROOT)/../../../../ios/Pods/Headers/Public/**",
 					"\"${PODS_ROOT}/Headers/Public/BVLinearGradient\"",
 					"\"${PODS_ROOT}/Headers/Public/BugsnagReactNative\"",
 					"\"${PODS_ROOT}/Headers/Public/CodePush\"",
@@ -936,7 +936,6 @@
 					"\"${PODS_ROOT}/Headers/Public/react-native-version-number\"",
 					"\"${PODS_ROOT}/Headers/Public/react-native-webview\"",
 					"\"$(PODS_ROOT)/Headers/Private/React-Core\"",
-					"\"$(PODS_ROOT)/Headers/Public/React-Core\"",
 				);
 				INFOPLIST_FILE = eSteem/Info.plist;
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks";
@@ -965,7 +964,7 @@
 				DEVELOPMENT_TEAM = 75B6RXTKGT;
 				HEADER_SEARCH_PATHS = (
 					"$(inherited)",
-					"\"${PODS_ROOT}/Headers/Public\"/**",
+					"$(SRCROOT)/../../../../ios/Pods/Headers/Public/**",
 					"\"${PODS_ROOT}/Headers/Public/BVLinearGradient\"",
 					"\"${PODS_ROOT}/Headers/Public/BugsnagReactNative\"",
 					"\"${PODS_ROOT}/Headers/Public/CodePush\"",
@@ -1005,7 +1004,6 @@
 					"\"${PODS_ROOT}/Headers/Public/react-native-version-number\"",
 					"\"${PODS_ROOT}/Headers/Public/react-native-webview\"",
 					"\"$(PODS_ROOT)/Headers/Private/React-Core\"",
-					"\"$(PODS_ROOT)/Headers/Public/React-Core\"",
 				);
 				INFOPLIST_FILE = eSteem/Info.plist;
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks";
