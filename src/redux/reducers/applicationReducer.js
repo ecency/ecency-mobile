@@ -30,7 +30,7 @@ const initialState = {
   api: 'api.steemit.com',
   currency: {
     currency: 'usd',
-    currecyRate: 1,
+    currencyRate: 1,
     currencySymbol: '$',
   },
   isActive: false,

@@ -231,7 +231,6 @@ class UpvoteView extends Component {
         {({ openPopover, closePopover, popoverVisible, setPopoverAnchor, popoverAnchorRect }) => (
           <Fragment>
             <TouchableOpacity
-              start
               ref={setPopoverAnchor}
               onPress={openPopover}
               style={styles.upvoteButton}
