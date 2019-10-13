@@ -51,7 +51,9 @@ class PostsView extends Component {
     const { isConnected, pageType } = this.props;
 
     if (isConnected) {
-      if (pageType !== 'profiles') await this._getPromotePosts();
+      if (pageType !== 'profiles') {
+        await this._getPromotePosts();
+      }
       this._loadPosts();
     } else {
       this.setState({
@@ -110,7 +112,9 @@ class PostsView extends Component {
   };
 
   _scrollToTop = () => {
-    if (this.flatList) this.flatList.scrollToOffset({ x: 0, y: 0, animated: true });
+    if (this.flatList) {
+      this.flatList.scrollToOffset({ x: 0, y: 0, animated: true });
+    }
   };
 
   _loadPosts = async () => {
@@ -263,7 +267,9 @@ class PostsView extends Component {
         refreshing: true,
       },
       async () => {
-        if (pageType !== 'profiles') await this._getPromotePosts();
+        if (pageType !== 'profiles') {
+          await this._getPromotePosts();
+        }
 
         this._loadPosts();
       },
@@ -344,7 +350,9 @@ class PostsView extends Component {
     const { handleOnScroll } = this.props;
     const currentOffset = event.nativeEvent.contentOffset.y;
 
-    if (handleOnScroll) handleOnScroll();
+    if (handleOnScroll) {
+      handleOnScroll();
+    }
     this.setState({ scrollOffsetY: currentOffset });
     this.setState({ isShowFilterBar: scrollOffsetY > currentOffset || scrollOffsetY <= 0 });
   };
