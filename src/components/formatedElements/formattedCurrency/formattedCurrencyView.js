@@ -6,7 +6,7 @@ const FormattedCurrency = ({ value, fixAt = 3, currency }) => {
   const valueInCurrency = value * currencyRate;
   const toFixedValue = valueInCurrency.toFixed(fixAt);
 
-  return <Fragment key="result-val">{`${currencySymbol} ${toFixedValue}`}</Fragment>;
+  return <Fragment key={toFixedValue.toString()}>{`${currencySymbol} ${toFixedValue}`}</Fragment>;
 };
 
 const mapStateToProps = state => ({
