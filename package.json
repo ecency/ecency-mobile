@@ -19,8 +19,7 @@
     "lint:fix": "eslint src/ --fix",
     "format": "prettier --write 'src/**/*.{js,jsx}' && yarn lint:fix --fix",
     "lint-staged": "lint-staged",
-    "clear": "watchman watch-del-all && rm -rf $TMPDIR/react-native-packager-cache-* && rm -rf $TMPDIR/metro-bundler-cache-* && rm -rf node_modules/ && yarn install && yarn start -- --reset-cache",
-    "postinstall": "jetifier -r"
+    "clear": "watchman watch-del-all && rm -rf $TMPDIR/react-native-packager-cache-* && rm -rf $TMPDIR/metro-bundler-cache-* && rm -rf node_modules/ && yarn && yarn start -- --reset-cache"
   },
   "dependencies": {
     "@babel/runtime": "^7.5.5",
@@ -49,7 +48,7 @@
     "react-native-actionsheet": "^2.4.2",
     "react-native-autocomplete-input": "^4.1.0",
     "react-native-code-push": "esteemapp/react-native-code-push",
-    "react-native-config": "^0.11.5",
+    "react-native-config": "luggit/react-native-config#master",
     "react-native-datepicker": "^1.7.2",
     "react-native-extended-stylesheet": "^0.10.0",
     "react-native-fast-image": "^4.0.14",
@@ -78,7 +77,7 @@
     "react-navigation-stack": "^1.9.3",
     "react-navigation-tabs": "^2.5.5",
     "react-redux": "^7.1.1",
-    "realm": "^3.0.0",
+    "realm": "^3.2.0",
     "redux": "^4.0.4",
     "redux-persist": "^6.0.0",
     "redux-promise": "^0.6.0",

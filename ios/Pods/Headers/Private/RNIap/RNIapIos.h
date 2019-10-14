@@ -1,1 +1,0 @@
-../../../../../node_modules/react-native-iap/ios/RNIapIos.h
