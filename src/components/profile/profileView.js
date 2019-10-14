@@ -82,6 +82,7 @@ class ProfileView extends PureComponent {
       selectedUser,
       username,
       votingPower,
+      isHideImage,
     } = this.props;
 
     const {
@@ -195,6 +196,7 @@ class ProfileView extends PureComponent {
                     comments={comments}
                     fetchPost={getReplies}
                     isOwnProfile={isOwnProfile}
+                    isHideImage={isHideImage}
                   />
                 </ScrollView>
               ) : (
