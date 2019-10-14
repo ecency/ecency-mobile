@@ -46,6 +46,7 @@ const BoostScreen = () => {
           ) : (
             productList.map(product => (
               <ProductItemLine
+                key={get(product, 'title')}
                 isLoading={isLoading}
                 disabled={isProcessing}
                 product={product}

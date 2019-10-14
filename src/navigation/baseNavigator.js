@@ -34,7 +34,7 @@ const BaseNavigator = createBottomTabNavigator(
         ),
       }),
     },
-    [ROUTES.TABBAR.POSTBUTTON]: {
+    [ROUTES.TABBAR.POST_BUTTON]: {
       screen: () => null,
       navigationOptions: {
         tabBarIcon: ({ tintColor }) => <PostButton />,
