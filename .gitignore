@@ -55,6 +55,9 @@ buck-out/
 # Bundle artifact
 *.jsbundle
 
+# CocoaPods
+/ios/Pods/
+
 config.js	
 !src/screens/steem-connect/config.js
 google-services.json
@@ -63,6 +66,3 @@ keystore/
 package-lock.json
 my-release-key.keystore
 gradle.properties
-
-# CocoaPods
-/ios/Pods/

@@ -32,3 +32,5 @@ printf "\nEND OF .env\n"
 
 npx jetify
 
+cd ios && pod install && cd ..
+
