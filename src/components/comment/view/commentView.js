@@ -60,6 +60,7 @@ class CommentView extends PureComponent {
       voteCount,
       intl,
       mainAuthor = { mainAuthor },
+      isHideImage,
     } = this.props;
     const { isShowSubComments, isPressedShowButton } = this.state;
 
@@ -74,6 +75,7 @@ class CommentView extends PureComponent {
             size={avatarSize || 24}
             currentAccountUsername={currentAccountUsername}
             isShowOwnerIndicator={mainAuthor === comment.author}
+            isHideImage={isHideImage}
           />
           <View style={[{ marginLeft: marginLeft || 29 }, styles.bodyWrapper]}>
             <PostBody

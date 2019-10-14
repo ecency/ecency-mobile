@@ -27,6 +27,7 @@ const ProfileScreen = () => (
       isDarkTheme,
       isFavorite,
       isFollowing,
+      isHideImage,
       isLoggedIn,
       isMuted,
       isOwnProfile,
@@ -72,6 +73,7 @@ const ProfileScreen = () => (
         setEstimatedWalletValue={setEstimatedWalletValue}
         username={username}
         votingPower={votingPower}
+        isHideImage={isHideImage}
       />
     )}
   </ProfileContainer>

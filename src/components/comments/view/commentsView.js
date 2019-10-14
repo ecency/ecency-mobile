@@ -56,6 +56,7 @@ class CommentsView extends Component {
       handleOnVotersPress,
       intl,
       isOwnProfile,
+      isHideImage,
     } = this.props;
     const { selectedComment } = this.state;
 
@@ -87,6 +88,7 @@ class CommentsView extends Component {
               handleOnReplyPress={handleOnReplyPress}
               handleOnUserPress={handleOnUserPress}
               handleOnVotersPress={handleOnVotersPress}
+              isHideImage={isHideImage}
               isLoggedIn={isLoggedIn}
               isShowMoreButton={commentNumber === 1 && get(item, 'children') > 0}
               voteCount={get(item, 'vote_count')}
