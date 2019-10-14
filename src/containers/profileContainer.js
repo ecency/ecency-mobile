@@ -331,7 +331,7 @@ class ProfileContainer extends Component {
       user,
       username,
     } = this.state;
-    const { currency, isDarkTheme, isLoggedIn, navigation, children } = this.props;
+    const { currency, isDarkTheme, isLoggedIn, navigation, children, isHideImage } = this.props;
     const activePage = get(navigation.state.params, 'state', 0);
     const { currencyRate, currencySymbol } = currency;
 
@@ -370,6 +370,7 @@ class ProfileContainer extends Component {
         isDarkTheme,
         isFavorite,
         isFollowing,
+        isHideImage,
         isLoggedIn,
         isMuted,
         isOwnProfile,
@@ -390,6 +391,7 @@ const mapStateToProps = state => ({
   pinCode: state.application.pin,
   activeBottomTab: state.ui.activeBottomTab,
   currentAccount: state.account.currentAccount,
+  isHideImage: state.ui.hidePostsThumbnails,
 });
 
 export default connect(mapStateToProps)(withNavigation(ProfileContainer));
