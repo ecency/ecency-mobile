@@ -235,6 +235,7 @@ class CommentsContainer extends Component {
       mainAuthor,
       selectedPermlink: _selectedPermlink,
       isOwnProfile,
+      isHideImage,
     } = this.props;
 
     return (
@@ -256,6 +257,7 @@ class CommentsContainer extends Component {
         handleDeleteComment={this._handleDeleteComment}
         handleOnPressCommentMenu={this._handleOnPressCommentMenu}
         isOwnProfile={isOwnProfile}
+        isHideImage={isHideImage}
       />
     );
   }
