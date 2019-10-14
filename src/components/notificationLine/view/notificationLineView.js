@@ -54,6 +54,11 @@ class NotificationLineView extends PureComponent {
 
     if (notification.weight) {
       const _percent = `${parseFloat((notification.weight / 100).toFixed(2))}% `;
+      if (notification.weight < 0) {
+        _title = formatMessage({
+          id: 'notification.unvote',
+        });
+      }
 
       _title = _percent + _title;
     }
