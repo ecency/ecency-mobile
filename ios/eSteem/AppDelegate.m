@@ -12,6 +12,7 @@
 #import <AppCenterReactNativeCrashes.h>
 #import <AppCenterReactNativePush.h>
 #import <CodePush/CodePush.h>
+#import <BugsnagReactNative/BugsnagReactNative.h>
 
 #import <React/RCTBridge.h>
 #import <React/RCTBundleURLProvider.h>
@@ -33,6 +34,7 @@
   [AppCenterReactNative register];
   [AppCenterReactNativeAnalytics registerWithInitiallyEnabled:true];
   [AppCenterReactNativeCrashes registerWithAutomaticProcessing];
+  [BugsnagReactNative start];
   RCTBridge *bridge = [[RCTBridge alloc] initWithDelegate:self launchOptions:launchOptions];
   RCTRootView *rootView = [[RCTRootView alloc] initWithBridge:bridge
                                                    moduleName:@"eSteem"
