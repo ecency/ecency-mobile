@@ -1,3 +1,4 @@
+/* eslint-disable curly */
 import { Component } from 'react';
 import { Platform, BackHandler, Alert, Linking, AppState } from 'react-native';
 import NetInfo from '@react-native-community/netinfo';
@@ -12,6 +13,10 @@ import { NavigationActions } from 'react-navigation';
 import { bindActionCreators } from 'redux';
 import EStyleSheet from 'react-native-extended-stylesheet';
 import { forEach, isEmpty, some } from 'lodash';
+import {
+  initialMode as nativeThemeInitialMode,
+  eventEmitter as nativeThemeEventEmitter,
+} from 'react-native-dark-mode';
 
 // Constants
 import AUTH_TYPE from '../../../constants/authType';
@@ -96,7 +101,6 @@ class ApplicationContainer extends Component {
 
   componentDidMount = () => {
     const { isIos } = this.state;
-
     this._setNetworkListener();
 
     if (!isIos) BackHandler.addEventListener('hardwareBackPress', this._onBackPress);
@@ -111,6 +115,14 @@ class ApplicationContainer extends Component {
     setPreviousAppState();
 
     this._createPushListener();
+
+    if (nativeThemeEventEmitter) {
+      nativeThemeEventEmitter.on('currentModeChanged', newMode => {
+        const { dispatch } = this.props;
+
+        dispatch(isDarkTheme(newMode === 'dark'));
+      });
+    }
   };
 
   UNSAFE_componentWillReceiveProps(nextProps) {
@@ -527,7 +539,8 @@ class ApplicationContainer extends Component {
     const settings = await getSettings();
 
     if (settings) {
-      if (settings.isDarkTheme !== '') dispatch(isDarkTheme(settings.isDarkTheme));
+      if (settings.isDarkTheme !== '')
+        dispatch(isDarkTheme(nativeThemeInitialMode || settings.isDarkTheme));
       if (settings.isPinCodeOpen !== '') dispatch(isPinCodeOpen(settings.isPinCodeOpen));
       if (settings.language !== '') dispatch(setLanguage(settings.language));
       if (settings.server !== '') dispatch(setApi(settings.server));
