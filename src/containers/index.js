@@ -1,3 +1,4 @@
+import DarkThemeContainer from './darkThemeContainer';
 import InAppPurchaseContainer from './inAppPurchaseContainer';
 import PointsContainer from './pointsContainer';
 import ProfileContainer from './profileContainer';
@@ -7,6 +8,7 @@ import SpinGameContainer from './spinGameContainer';
 import TransferContainer from './transferContainer';
 
 export {
+  DarkThemeContainer,
   InAppPurchaseContainer,
   PointsContainer,
   ProfileContainer,

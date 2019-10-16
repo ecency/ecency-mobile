@@ -9,6 +9,9 @@ import { updateActiveBottomTab } from '../../../redux/actions/uiAction';
 // Constants
 import ROUTES from '../../../constants/routeNames';
 
+// Container
+import { DarkThemeContainer } from '../../../containers';
+
 // Components
 import TabBar from './tabbar';
 
@@ -38,36 +41,40 @@ const BottomTabBarView = ({
 
   useEffect(() => {
     dispatch(updateActiveBottomTab(routes[index].routeName));
-  }, [dispatch, routes, index]);
+  }, [dispatch, index, routes]);
 
   return (
-    <SafeAreaView style={styles.wrapper}>
-      <TabBar
-        selectedIndex={index}
-        circleBackgroundColor="#357ce6"
-        backgroundColor="#f6f6f6"
-        onChange={i => _jumpTo(routes[i], index, routes, jumpTo)}
-        activeTintColor={activeTintColor}
-        inactiveTintColor={inactiveTintColor}
-      >
-        {routes.map(route => (
-          <TabBar.Item
-            icon={renderIcon({
-              route,
-              focused: false,
-              tintColor: inactiveTintColor,
-            })}
-            selectedIcon={renderIcon({
-              route,
-              focused: true,
-              tintColor: activeTintColor,
-            })}
-            key={route}
-            disabled={route.routeName === ROUTES.TABBAR.POST_BUTTON}
-          />
-        ))}
-      </TabBar>
-    </SafeAreaView>
+    <DarkThemeContainer>
+      {({ isDarkTheme }) => (
+        <SafeAreaView style={styles.wrapper}>
+          <TabBar
+            selectedIndex={index}
+            circleBackgroundColor="#357ce6"
+            backgroundColor={isDarkTheme ? '#2e3d51' : '#f6f6f6'}
+            onChange={i => _jumpTo(routes[i], index, routes, jumpTo)}
+            activeTintColor={activeTintColor}
+            inactiveTintColor={inactiveTintColor}
+          >
+            {routes.map(route => (
+              <TabBar.Item
+                icon={renderIcon({
+                  route,
+                  focused: false,
+                  tintColor: inactiveTintColor,
+                })}
+                selectedIcon={renderIcon({
+                  route,
+                  focused: true,
+                  tintColor: activeTintColor,
+                })}
+                key={route}
+                disabled={route.routeName === ROUTES.TABBAR.POST_BUTTON}
+              />
+            ))}
+          </TabBar>
+        </SafeAreaView>
+      )}
+    </DarkThemeContainer>
   );
 };
 
