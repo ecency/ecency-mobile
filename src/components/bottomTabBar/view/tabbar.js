@@ -36,7 +36,6 @@ export default class TabBar extends Component {
       circleRadius: new Animated.Value(91 + selectedIndex * value),
       pathD: new Animated.Value(selectedIndex * value),
       pathX: selectedIndex * value,
-      showIcon: true,
       animateConstant: value,
     };
 
@@ -72,15 +71,16 @@ export default class TabBar extends Component {
   _move = index => {
     const { animateConstant, pathD, circleRadius } = this.state;
 
-    this.setState({
-      selectedIndex: index,
-      showIcon: false,
-    });
+    this.setState({ selectedIndex: '' });
 
     Animated.timing(pathD, {
       toValue: 0 + index * animateConstant,
       duration: 450,
-    }).start(() => this.setState({ showIcon: true }));
+    }).start(() => {
+      setTimeout(() => {
+        this.setState({ selectedIndex: index });
+      }, 350);
+    });
     Animated.timing(circleRadius, {
       toValue: 91 + index * animateConstant,
     }).start();
@@ -88,20 +88,19 @@ export default class TabBar extends Component {
 
   render() {
     const { children, backgroundColor, circleBackgroundColor, style } = this.props;
-    const { selectedIndex, showIcon, pathX, circleRadius } = this.state;
+    const { selectedIndex, pathX, circleRadius } = this.state;
 
     return (
       <View style={style}>
         <View style={styles.subContent}>
           {children.map((route, i) => {
-            const element = React.cloneElement(route, {
+            return React.cloneElement(route, {
               selected: selectedIndex === i,
               onPress: this._onPress,
               key: i,
               index: i,
-              showIcon,
+              showIcon: true,
             });
-            return element;
           })}
         </View>
 
@@ -148,8 +147,10 @@ const TabBarItem = ({ icon, selectedIcon, index, selected, onPress, showIcon, di
         </TouchableHighlight>
       );
     }
+
     return <View style={styles.navItem} />;
   }
+
   return (
     <TouchableHighlight
       underlayColor={'transparent'}
