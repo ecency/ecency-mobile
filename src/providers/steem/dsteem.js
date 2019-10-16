@@ -494,8 +494,11 @@ const _vote = async (currentAccount, pin, author, permlink, weight) => {
         })
         .catch(err => {
           if (get(err, 'jse_info.code') === 4030100) {
-            err.message =
-              'We noticed that your device has incorrect date or time. Please fix Date & Time or Set Automatically and try again.';
+            err.message = `Your device time; ${
+              err.jse_info.stack[0].data['trx.expiration']
+            } \n Current time; ${
+              err.jse_info.stack[0].data.now
+            } \n \n We noticed that your device has incorrect date or time. Please fix Date & Time or Set Automatically and try again.`;
           }
           reject(err);
         });
@@ -995,8 +998,11 @@ const _postContent = async (
         })
         .catch(error => {
           if (get(error, 'jse_info.code') === 4030100) {
-            error.message =
-              'We noticed that your device has incorrect date or time. Please fix Date & Time or Set Automatically and try again.';
+            error.message = `Your device time; ${
+              error.jse_info.stack[0].data['trx.expiration']
+            } \n Current time; ${
+              error.jse_info.stack[0].data.now
+            } \n \n We noticed that your device has incorrect date or time. Please fix Date & Time or Set Automatically and try again.`;
           }
           reject(error);
         });
@@ -1213,8 +1219,11 @@ export const profileUpdate = async (params, pin, currentAccount) => {
         })
         .catch(error => {
           if (get(error, 'jse_info.code') === 4030100) {
-            error.message =
-              'We noticed that your device has incorrect date or time. Please fix Date & Time or Set Automatically and try again.';
+            error.message = `Your device time; ${
+              error.jse_info.stack[0].data['trx.expiration']
+            } \n Current time; ${
+              error.jse_info.stack[0].data.now
+            } \n \n We noticed that your device has incorrect date or time. Please fix Date & Time or Set Automatically and try again.`;
           }
           reject(error);
         });
