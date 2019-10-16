@@ -314,7 +314,7 @@ export const uploadImage = media => {
   };
 
   const fData = new FormData();
-  fData.append('postimage', file);
+  fData.append('file', file);
 
   return imageApi.post('', fData);
 };
