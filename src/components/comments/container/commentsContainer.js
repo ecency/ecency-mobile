@@ -248,6 +248,7 @@ class CommentsContainer extends Component {
       selectedPermlink: _selectedPermlink,
       isOwnProfile,
       isHideImage,
+      isShowSubComments,
     } = this.props;
 
     return (
@@ -271,6 +272,7 @@ class CommentsContainer extends Component {
         isOwnProfile={isOwnProfile}
         isHideImage={isHideImage}
         handleOnVotersPress={this._handleOnVotersPress}
+        isShowSubComments={isShowSubComments}
       />
     );
   }
