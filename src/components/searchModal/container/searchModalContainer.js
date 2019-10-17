@@ -8,10 +8,11 @@ import { search } from '../../../providers/esteem/esteem';
 import { lookupAccounts, getTrendingTags } from '../../../providers/steem/dsteem';
 
 // Constants
-import { default as ROUTES } from '../../../constants/routeNames';
+import ROUTES from '../../../constants/routeNames';
 
 // Utilities
 import { getResizedAvatar } from '../../../utils/image';
+import postUrlParser from '../../../utils/postUrlParser';
 
 // Component
 import SearchModalView from '../view/searchModalView';
@@ -40,46 +41,61 @@ class SearchModalContainer extends PureComponent {
   };
 
   _handleOnChangeSearchInput = text => {
-    const { isConnected } = this.props;
+    const { isConnected, navigation, handleOnClose } = this.props;
+
     if (text && text.length < 2) return;
     if (this.timer) {
       clearTimeout(this.timer);
     }
     if (!isConnected) return;
-    this.timer = setTimeout(() => {
-      if (text && text !== '@' && text !== '#') {
-        if (text[0] === '@') {
-          lookupAccounts(text.substr(1)).then(res => {
-            const users = res.map(item => ({
-              image: getResizedAvatar(item),
-              text: item,
-              ...item,
-            }));
-            this.setState({ searchResults: { type: 'user', data: users } });
-          });
-        } else if (text[0] === '#') {
-          getTrendingTags(text.substr(1)).then(res => {
-            const tags = res.map(item => ({
-              text: `#${get(item, 'name', '')}`,
-              ...item,
-            }));
+    if (text && text !== '@' && text !== '#') {
+      if (text[0] === '@') {
+        lookupAccounts(text.substr(1)).then(res => {
+          const users = res.map(item => ({
+            image: getResizedAvatar(item),
+            text: item,
+            ...item,
+          }));
+          this.setState({ searchResults: { type: 'user', data: users } });
+        });
+      } else if (text[0] === '#') {
+        getTrendingTags(text.substr(1)).then(res => {
+          const tags = res.map(item => ({
+            text: `#${get(item, 'name', '')}`,
+            ...item,
+          }));
 
-            this.setState({ searchResults: { type: 'tag', data: tags } });
-          });
-        } else {
-          search({ q: text }).then(res => {
-            res.results = res.results
-              .filter(item => item.title !== '')
-              .map(item => ({
-                image: item.img_url || getResizedAvatar(get(item, 'author')),
-                text: item.title,
-                ...item,
-              }));
-            this.setState({ searchResults: { type: 'content', data: get(res, 'results', []) } });
+          this.setState({ searchResults: { type: 'tag', data: tags } });
+        });
+      } else if (text.includes('https')) {
+        console.log('test :');
+        console.log('postUrlParser(text) :', postUrlParser(text));
+        const { author, permlink } = postUrlParser(text);
+        console.log('author, permlink :', author, permlink);
+        if (author && permlink) {
+          handleOnClose();
+          navigation.navigate({
+            routeName: ROUTES.SCREENS.POST,
+            params: {
+              author,
+              permlink,
+            },
+            key: permlink,
           });
         }
+      } else {
+        search({ q: text }).then(res => {
+          res.results = res.results
+            .filter(item => item.title !== '')
+            .map(item => ({
+              image: item.img_url || getResizedAvatar(get(item, 'author')),
+              text: item.title,
+              ...item,
+            }));
+          this.setState({ searchResults: { type: 'content', data: get(res, 'results', []) } });
+        });
       }
-    }, 500);
+    }
   };
 
   _handleOnPressListItem = (type, item) => {
