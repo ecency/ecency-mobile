@@ -68,20 +68,26 @@ class SearchModalContainer extends PureComponent {
           this.setState({ searchResults: { type: 'tag', data: tags } });
         });
       } else if (text.includes('https')) {
-        console.log('test :');
-        console.log('postUrlParser(text) :', postUrlParser(text));
         const { author, permlink } = postUrlParser(text);
-        console.log('author, permlink :', author, permlink);
-        if (author && permlink) {
+        if (author) {
           handleOnClose();
-          navigation.navigate({
-            routeName: ROUTES.SCREENS.POST,
-            params: {
-              author,
-              permlink,
-            },
-            key: permlink,
-          });
+          if (permlink) {
+            navigation.navigate({
+              routeName: ROUTES.SCREENS.POST,
+              params: {
+                author,
+                permlink,
+              },
+              key: permlink,
+            });
+          } else {
+            navigation.navigate({
+              routeName: ROUTES.SCREENS.PROFILE,
+              params: {
+                username: author,
+              },
+            });
+          }
         }
       } else {
         search({ q: text }).then(res => {
