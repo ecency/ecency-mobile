@@ -1,14 +1,21 @@
 export default url => {
   const parseCatAuthorPermlink = u => {
-    const r = /^https?:\/\/(.*)\/(.*)\/(@[\w.\d-]+)\/(.*)/i;
-    const match = u.match(r);
-    if (match && match.length === 5) {
+    const postRegex = /^https?:\/\/(.*)\/(.*)\/(@[\w.\d-]+)\/(.*)/i;
+    const postMatch = u.match(postRegex);
+    if (postMatch && postMatch.length === 5) {
       return {
-        author: match[3].replace('@', ''),
-        permlink: match[4],
+        author: postMatch[3].replace('@', ''),
+        permlink: postMatch[4],
       };
     }
-
+    const authorRegex = /^https?:\/\/(.*)\/(.*)\/(@[\w.\d-]+)/i;
+    const authorMatch = u.match(authorRegex);
+    if (authorMatch && authorMatch.length === 4) {
+      return {
+        author: authorMatch[3].replace('@', ''),
+        permlink: null,
+      };
+    }
     return null;
   };
 
@@ -19,6 +26,14 @@ export default url => {
       return {
         author: match[2].replace('@', ''),
         permlink: match[3],
+      };
+    }
+    const authorRegex = /^https?:\/\/(.*)\/(@[\w.\d-]+)/i;
+    const authorMatch = u.match(authorRegex);
+    if (authorMatch && authorMatch.length === 3) {
+      return {
+        author: authorMatch[2].replace('@', ''),
+        permlink: null,
       };
     }
 
