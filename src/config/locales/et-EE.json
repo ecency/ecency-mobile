@@ -19,17 +19,16 @@
     "unfollow": "enam ei jälgi sind",
     "ignore": "ignoreeris sind",
     "reblog": "taaspostitas sinu postituse",
-    "transfer": "saatis steem'i",
-    "comingsoon": "Feature is coming soon!",
+    "transfer": "transferred",
     "notification": "Teavitused",
     "leaderboard": "Edetabel",
     "epoint": "Punktid",
-    "leaderboard_title": "Top Users",
+    "leaderboard_title": "Tippkasutajad",
     "recent": "Hiljutised",
     "yesterday": "Eile",
-    "this_week": "See Nädal",
-    "this_month": "See Kuu",
-    "older_then": "Vanem Kui Kuu"
+    "this_week": "Sel nädalal",
+    "this_month": "Sel kuul",
+    "older_then": "Vanem kui kuu"
   },
   "leaderboard": {
     "daily": "Daily",
@@ -38,7 +37,7 @@
   },
   "points": {
     "post": "Postitus",
-    "esteemPoints": "eSteem Points",
+    "esteemPoints": "eSteem punktid",
     "comment": "Kommentaar",
     "checkin": "Kasutus",
     "vote": "Hääletus",
@@ -67,11 +66,11 @@
     "reblog_desc": "  Jaga oma lemmik postitusi oma sõpradega ja teeni 1 punkt.",
     "login_desc": "Kui sa logid eSteem äppi sisse, teenid sa automaatselt 100 punkti.",
     "checkin_extra_desc": "Konstantne äppi kasutamine annab sulle võimaluse teenida 10 lisapunkti, olles aktiivsem teenid sa rohkem punkte.",
-    "dropdown_transfer": "Gift",
-    "dropdown_promote": "Promote",
-    "dropdown_boost": "Boost",
-    "from": "From",
-    "to": "To"
+    "dropdown_transfer": "Kingi",
+    "dropdown_promote": "Reklaami",
+    "dropdown_boost": "Võimenda",
+    "from": "Kellelt",
+    "to": "Kellele"
   },
   "messages": {
     "comingsoon": "Sõnumite funktsionaalus ei ole veel valimis!"
@@ -139,7 +138,7 @@
   },
   "voters": {
     "voters_info": "Hääletaja info",
-    "no_user": "User is not found."
+    "no_user": "Kasutajat ei leitud."
   },
   "login": {
     "signin": "Logi sisse",
@@ -150,7 +149,7 @@
     "description": "Kasutaja paroolid hoitakse lokaalselt nutiseadmes. Välja logides see kustutatakse!",
     "cancel": "tühista",
     "login": "LOGI SISSE",
-    "steemconnect_description": "If you don't want to keep your password encrypted and saved on your device, you can use Steemconnect.",
+    "steemconnect_description": "Kui sa ei soovi hoida oma parooli krüpteerituna ja salvestatuna oma seadmes, kasuta Steemconnecti.",
     "steemconnect_fee_description": "Steemconnect may charge some fees from your reward transactions"
   },
   "home": {
@@ -171,7 +170,7 @@
     "logout_text": "Oled kindel, et soovid välja logida?"
   },
   "header": {
-    "title": "Login to customize your feed",
+    "title": "Logi sisse, et kohandada oma voogu",
     "search": "Otsi..."
   },
   "basic_header": {
@@ -203,42 +202,42 @@
     "claim_reward_balance_ok": "Tasu jääk nõutud",
     "fail": "Ebaõnnestumine!",
     "move": "Liiguta",
-    "move_question": "Are you sure to move to drafts?",
-    "success_shared": "Your post successfully shared",
-    "success_moved": "Moved to draft",
+    "move_question": "Oled sa kindel, et soovid mustanditesse teisaldada?",
+    "success_shared": "Postitus edukalt jagatud",
+    "success_moved": "Teisaldatud mustanditesse",
     "permission_denied": "Juurdepääs keelatud",
     "permission_text": "Palun mine telefoni Seadetesse ja muuda eSteem rakenduse õigusi.",
     "success_rebloged": "Rebloged!",
-    "already_rebloged": "You have already reblogged!",
-    "warning": "Warning",
+    "already_rebloged": "Sa oled seda juba jaganud!",
+    "warning": "Hoiatus",
     "invalid_pincode": "Invalid pin code, please check and try again.",
     "remove_alert": "Are you sure want to remove?",
     "clear_alert": "Are you sure you want to clear?",
     "clear_user_alert": "Are you sure you want to clear all user data?",
     "clear": "Clear",
-    "cancel": "Cancel",
-    "delete": "Delete",
-    "copied": "Copied!",
-    "no_internet": "No connection!",
-    "confirm": "Confirm",
-    "removed": "Removed",
-    "same_user": "This user already added to list",
-    "unknow_error": "An error occurred",
-    "error": "Error",
-    "fetch_error": "Fetching data failed, please try again or notify us at info@esteem.app",
-    "connection_fail": "Connection Failed!",
-    "connection_success": "Successfully connected!",
+    "cancel": "Tühista",
+    "delete": "Kustuta",
+    "copied": "Kopeeritud!",
+    "no_internet": "Ühendus puudub!",
+    "confirm": "Kinnita",
+    "removed": "Eemaldatud",
+    "same_user": "See konto on juba nimekirja lisatud",
+    "unknow_error": "Ilmnes tõrge",
+    "error": "Tõrge",
+    "fetch_error": "Info kätte saamine ebaõnnestus, palun proovi uuesti või anna meile veast teada, saates kirja info@esteem.app",
+    "connection_fail": "Ühendus nurjus!",
+    "connection_success": "Edukalt ühendatud!",
     "checking": "Checking...",
     "not_existing_post": "The post does not exist! Please check permlink and author.",
     "google_play_version": "We noticed that your device has old version of Google Play. Please update Google Play services and try again!"
   },
   "post": {
-    "reblog_alert": "Are you sure, you want to reblog?",
-    "removed_hint": "The post was removed by",
-    "copy_link": "Copy Link",
-    "reblogged": "reblogged by",
-    "sponsored": "SPONSORED",
-    "open_thread": "Open Thread"
+    "reblog_alert": "Oled sa kindel, et soovid seda jagada?",
+    "removed_hint": "Postitus eemaldatud kasutaja %s poolt.",
+    "copy_link": "Kopeeri aadress",
+    "reblogged": "jagatud %s poolt",
+    "sponsored": "SPONSOREERITUD",
+    "open_thread": "Avatud lõim"
   },
   "drafts": {
     "title": "Drafts",
@@ -288,40 +287,40 @@
     "reply": "reply",
     "share": "share",
     "bookmarks": "add to bookmarks",
-    "promote": "promote",
-    "boost": "boost"
+    "promote": "reklaami",
+    "boost": "võimenda"
   },
   "deep_link": {
-    "no_existing_user": "No existing user",
-    "no_existing_post": "No existing post"
+    "no_existing_user": "Kasutaja ei eksisteeri",
+    "no_existing_post": "Postitus ei eksisteeri"
   },
   "search": {
-    "posts": "Posts",
-    "comments": "Comments"
+    "posts": "Postitused",
+    "comments": "Kommentaarid"
   },
   "comment_filter": {
-    "trending": "trending",
-    "reputation": "reputation",
-    "votes": "votes",
-    "age": "age"
+    "trending": "populaarne",
+    "reputation": "maine",
+    "votes": "hääled",
+    "age": "vanus"
   },
   "transfer": {
-    "from": "From",
-    "to": "To",
+    "from": "Kellelt",
+    "to": "Kellele",
     "amount_information": "Drag the slider to adjust the amount",
     "amount": "Amount",
-    "memo": "Memo",
-    "information": "Are you sure to transfer funds?",
-    "amount_desc": "Balance",
-    "memo_desc": "This memo is public",
-    "to_placeholder": "Username",
+    "memo": "Märge",
+    "information": "Oled kindel, et soovid raha üle kanda?",
+    "amount_desc": "Saldo",
+    "memo_desc": "See märge on avalik",
+    "to_placeholder": "Kasutajanimi",
     "memo_placeholder": "Enter your notes here",
-    "transfer_token": "Transfer",
-    "points": "Gift ESTM to someone",
-    "transfer_to_saving": "Transfer To Saving",
-    "powerUp": "Power Up",
+    "transfer_token": "Ülekanne",
+    "points": "Kingi kellelegi ESTMi",
+    "transfer_to_saving": "Kanna säästudesse",
+    "powerUp": "Lisa võimsust",
     "withdraw_to_saving": "Withdraw To Saving",
-    "steemconnect_title": "Steemconnect Transfer",
+    "steemconnect_title": "Steemconnecti ülekanne",
     "next": "NEXT",
     "delegate": "Delegate",
     "power_down": "Power Down",
