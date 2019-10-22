@@ -335,10 +335,10 @@
   },
   "free_estm": {
     "title": "Безкоштовні ESTM",
-    "button": "SPIN & WIN",
-    "get_spin": "5 SPINS",
-    "spin_right": "Spin Left",
-    "timer_text": "Наступний безкоштовний відкат"
+    "button": "Обертай та Вигравай",
+    "get_spin": "5 Обертів",
+    "spin_right": "Оберни ліворуч",
+    "timer_text": "Наступне обертання буде безкоштовним"
   },
   "promote": {
     "title": "Просувати",
