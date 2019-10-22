@@ -16,6 +16,7 @@ import { getReputation } from '../../utils/reputation';
 import parseToken from '../../utils/parseToken';
 import filterNsfwPost from '../../utils/filterNsfwPost';
 import { jsonStringify } from '../../utils/jsonUtils';
+import { getDsteemDateErrorMessage } from '../../utils/dsteemUtils';
 
 // Constant
 import AUTH_TYPE from '../../constants/authType';
@@ -494,8 +495,7 @@ const _vote = async (currentAccount, pin, author, permlink, weight) => {
         })
         .catch(err => {
           if (get(err, 'jse_info.code') === 4030100) {
-            err.message =
-              'We noticed that your device has incorrect date or time. Please fix Date & Time or Set Automatically and try again.';
+            err.message = getDsteemDateErrorMessage(err);
           }
           reject(err);
         });
@@ -995,8 +995,7 @@ const _postContent = async (
         })
         .catch(error => {
           if (get(error, 'jse_info.code') === 4030100) {
-            error.message =
-              'We noticed that your device has incorrect date or time. Please fix Date & Time or Set Automatically and try again.';
+            error.message = getDsteemDateErrorMessage(error);
           }
           reject(error);
         });
@@ -1213,8 +1212,7 @@ export const profileUpdate = async (params, pin, currentAccount) => {
         })
         .catch(error => {
           if (get(error, 'jse_info.code') === 4030100) {
-            error.message =
-              'We noticed that your device has incorrect date or time. Please fix Date & Time or Set Automatically and try again.';
+            error.message = getDsteemDateErrorMessage(error);
           }
           reject(error);
         });
