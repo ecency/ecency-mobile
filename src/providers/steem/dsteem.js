@@ -16,6 +16,7 @@ import { getReputation } from '../../utils/reputation';
 import parseToken from '../../utils/parseToken';
 import filterNsfwPost from '../../utils/filterNsfwPost';
 import { jsonStringify } from '../../utils/jsonUtils';
+import { getDateErrorMessage } from '../../utils/dsteemUtils';
 
 // Constant
 import AUTH_TYPE from '../../constants/authType';
@@ -494,11 +495,10 @@ const _vote = async (currentAccount, pin, author, permlink, weight) => {
         })
         .catch(err => {
           if (get(err, 'jse_info.code') === 4030100) {
-            err.message = `Your device time; ${
-              err.jse_info.stack[0].data['trx.expiration']
-            } \n Current time; ${
-              err.jse_info.stack[0].data.now
-            } \n \n We noticed that your device has incorrect date or time. Please fix Date & Time or Set Automatically and try again.`;
+            err.message = getDateErrorMessage(
+              err.jse_info.stack[0].data['trx.expiration'],
+              err.jse_info.stack[0].data.now,
+            );
           }
           reject(err);
         });
@@ -998,11 +998,10 @@ const _postContent = async (
         })
         .catch(error => {
           if (get(error, 'jse_info.code') === 4030100) {
-            error.message = `Your device time; ${
-              error.jse_info.stack[0].data['trx.expiration']
-            } \n Current time; ${
-              error.jse_info.stack[0].data.now
-            } \n \n We noticed that your device has incorrect date or time. Please fix Date & Time or Set Automatically and try again.`;
+            error.message = getDateErrorMessage(
+              error.jse_info.stack[0].data['trx.expiration'],
+              error.jse_info.stack[0].data.now,
+            );
           }
           reject(error);
         });
@@ -1219,11 +1218,10 @@ export const profileUpdate = async (params, pin, currentAccount) => {
         })
         .catch(error => {
           if (get(error, 'jse_info.code') === 4030100) {
-            error.message = `Your device time; ${
-              error.jse_info.stack[0].data['trx.expiration']
-            } \n Current time; ${
-              error.jse_info.stack[0].data.now
-            } \n \n We noticed that your device has incorrect date or time. Please fix Date & Time or Set Automatically and try again.`;
+            error.message = getDateErrorMessage(
+              error.jse_info.stack[0].data['trx.expiration'],
+              error.jse_info.stack[0].data.now,
+            );
           }
           reject(error);
         });
