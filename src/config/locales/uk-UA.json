@@ -19,7 +19,7 @@
     "unfollow": "підписався(-лась) на вас",
     "ignore": "ігнорував тебе",
     "reblog": "рестімнув ваш допис",
-    "transfer": "transferred",
+    "transfer": "відправлено",
     "notification": "Сповіщення",
     "leaderboard": "Дошка лідерів",
     "epoint": "Бали",
@@ -360,9 +360,9 @@
   },
   "dsteem": {
     "date_error": {
-      "device_time": "Your device time;",
-      "current_time": "Current time;",
-      "information": "We noticed that your device has incorrect date or time. Please fix Date & Time or Set Automatically and try again."
+      "device_time": "Час вашого пристрою;",
+      "current_time": "Поточний час;",
+      "information": "Ми помітили, що ваш пристрій має неправильну дату чи час. Виправте дату та час або встановіть Автоматично та повторіть спробу."
     }
   }
 }
