@@ -19,12 +19,11 @@
     "unfollow": "səni izləməkdən imtina etdi",
     "ignore": "səni əngəllədi",
     "reblog": "göndərişini paylaşdı",
-    "transfer": "köçürülmüş steem",
-    "comingsoon": "Feature is coming soon!",
+    "transfer": "transferred",
     "notification": "Bildirişlər",
     "leaderboard": "Liderlər cədvəli",
     "epoint": "Xallar",
-    "leaderboard_title": "Top Users",
+    "leaderboard_title": "Ən Yaxşı İstifadəçilər",
     "recent": "Təzəlikcə",
     "yesterday": "Dünən",
     "this_week": "Bu Həftə",
@@ -32,13 +31,13 @@
     "older_then": "Bir Aydan Köhnə"
   },
   "leaderboard": {
-    "daily": "Daily",
-    "weekly": "Weekly",
-    "monthly": "Monthly"
+    "daily": "Günlük",
+    "weekly": "Həftəlik",
+    "monthly": "Aylıq"
   },
   "points": {
     "post": "Göndəriş",
-    "esteemPoints": "eSteem Points",
+    "esteemPoints": "eSteem Xalı",
     "comment": "Rəy",
     "checkin": "Check-in",
     "vote": "Səs ver",
@@ -135,7 +134,7 @@
     },
     "feedback_success": "E-poçt uğurla açıldı",
     "feedback_fail": "E-poçt sifarişçisi açıla bilmədi",
-    "server_fail": "Server not available"
+    "server_fail": "Server mövcud deyil"
   },
   "voters": {
     "voters_info": "Səsverənlər",
@@ -187,7 +186,7 @@
     "reply_placeholder": "Yuxarıdakı göndəriş haqqında nə yazmaq istəyirsən?",
     "publish": "Dərc et",
     "reply": "Cavabla",
-    "open_gallery": "Open Gallery",
+    "open_gallery": "Qalereyanı Aç",
     "capture_photo": "Foto çək"
   },
   "pincode": {
@@ -198,7 +197,7 @@
   },
   "alert": {
     "success": "Uğurlu!",
-    "successful": "Successful",
+    "successful": "Uğurlu",
     "allRead": "Bütün bildirişləri oxunmuş kimi işarələ",
     "claim_reward_balance_ok": "Mükafat alındı",
     "fail": "Uğursuz!",
