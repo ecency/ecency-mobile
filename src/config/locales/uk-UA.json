@@ -357,5 +357,12 @@
   },
   "reblog": {
     "title": "Рестім інформація"
+  },
+  "dsteem": {
+    "date_error": {
+      "device_time": "Your device time;",
+      "current_time": "Current time;",
+      "information": "We noticed that your device has incorrect date or time. Please fix Date & Time or Set Automatically and try again."
+    }
   }
 }
