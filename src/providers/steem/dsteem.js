@@ -16,7 +16,7 @@ import { getReputation } from '../../utils/reputation';
 import parseToken from '../../utils/parseToken';
 import filterNsfwPost from '../../utils/filterNsfwPost';
 import { jsonStringify } from '../../utils/jsonUtils';
-import { getDateErrorMessage } from '../../utils/dsteemUtils';
+import { getDsteemDateErrorMessage } from '../../utils/dsteemUtils';
 
 // Constant
 import AUTH_TYPE from '../../constants/authType';
@@ -495,10 +495,7 @@ const _vote = async (currentAccount, pin, author, permlink, weight) => {
         })
         .catch(err => {
           if (get(err, 'jse_info.code') === 4030100) {
-            err.message = getDateErrorMessage(
-              err.jse_info.stack[0].data['trx.expiration'],
-              err.jse_info.stack[0].data.now,
-            );
+            err.message = getDsteemDateErrorMessage(err);
           }
           reject(err);
         });
@@ -998,10 +995,7 @@ const _postContent = async (
         })
         .catch(error => {
           if (get(error, 'jse_info.code') === 4030100) {
-            error.message = getDateErrorMessage(
-              error.jse_info.stack[0].data['trx.expiration'],
-              error.jse_info.stack[0].data.now,
-            );
+            error.message = getDsteemDateErrorMessage(error);
           }
           reject(error);
         });
@@ -1218,10 +1212,7 @@ export const profileUpdate = async (params, pin, currentAccount) => {
         })
         .catch(error => {
           if (get(error, 'jse_info.code') === 4030100) {
-            error.message = getDateErrorMessage(
-              error.jse_info.stack[0].data['trx.expiration'],
-              error.jse_info.stack[0].data.now,
-            );
+            error.message = getDsteemDateErrorMessage(error);
           }
           reject(error);
         });
