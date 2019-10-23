@@ -5,7 +5,7 @@ import get from 'lodash/get';
 
 // Services and Actions
 import { search } from '../../../providers/esteem/esteem';
-import { lookupAccounts, getTrendingTags } from '../../../providers/steem/dsteem';
+import { lookupAccounts, getTrendingTags, getPurePost } from '../../../providers/steem/dsteem';
 
 // Constants
 import ROUTES from '../../../constants/routeNames';
@@ -41,7 +41,7 @@ class SearchModalContainer extends PureComponent {
   };
 
   _handleOnChangeSearchInput = text => {
-    const { isConnected, navigation, handleOnClose } = this.props;
+    const { isConnected } = this.props;
 
     if (text && text.length < 2) return;
     if (this.timer) {
@@ -68,38 +68,53 @@ class SearchModalContainer extends PureComponent {
           this.setState({ searchResults: { type: 'tag', data: tags } });
         });
       } else if (text.includes('https')) {
-        const { author, permlink } = postUrlParser(text);
-        if (author) {
-          handleOnClose();
-          if (permlink) {
-            navigation.navigate({
-              routeName: ROUTES.SCREENS.POST,
-              params: {
-                author,
-                permlink,
-              },
-              key: permlink,
-            });
-          } else {
-            navigation.navigate({
-              routeName: ROUTES.SCREENS.PROFILE,
-              params: {
-                username: author,
-              },
-            });
+        const postUrl = postUrlParser(text.replace(/\s/g, ''));
+
+        if (postUrl) {
+          const { author, permlink } = postUrl;
+
+          if (author) {
+            if (permlink) {
+              getPurePost(author, permlink).then(post => {
+                if (post.id !== 0) {
+                  const result = {};
+                  const metadata = JSON.parse(get(post, 'json_metadata', ''));
+                  if (get(metadata, 'image', false) && metadata.image.length > 0) {
+                    result.image = metadata.image[0];
+                  } else {
+                    result.image = getResizedAvatar(author);
+                  }
+                  result.author = author;
+                  result.text = post.title;
+                  result.permlink = permlink;
+                  this.setState({ searchResults: { type: 'content', data: [result] } });
+                } else {
+                  this.setState({ searchResults: { type: 'content', data: [] } });
+                }
+              });
+            } else {
+              lookupAccounts(author).then(res => {
+                const users = res.map(item => ({
+                  image: getResizedAvatar(item),
+                  text: item,
+                  ...item,
+                }));
+                this.setState({ searchResults: { type: 'user', data: users } });
+              });
+            }
           }
+        } else {
+          search({ q: text }).then(res => {
+            res.results = res.results
+              .filter(item => item.title !== '')
+              .map(item => ({
+                image: item.img_url || getResizedAvatar(get(item, 'author')),
+                text: item.title,
+                ...item,
+              }));
+            this.setState({ searchResults: { type: 'content', data: get(res, 'results', []) } });
+          });
         }
-      } else {
-        search({ q: text }).then(res => {
-          res.results = res.results
-            .filter(item => item.title !== '')
-            .map(item => ({
-              image: item.img_url || getResizedAvatar(get(item, 'author')),
-              text: item.title,
-              ...item,
-            }));
-          this.setState({ searchResults: { type: 'content', data: get(res, 'results', []) } });
-        });
       }
     }
   };
