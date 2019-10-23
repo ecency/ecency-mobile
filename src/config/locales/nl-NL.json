@@ -19,8 +19,7 @@
     "unfollow": "ontvolgt je",
     "ignore": "heeft je genegeerd",
     "reblog": "deelde je bericht",
-    "transfer": "transfered steem",
-    "comingsoon": "Feature is coming soon!",
+    "transfer": "transferred",
     "notification": "Notificaties",
     "leaderboard": "Scorebord",
     "epoint": "Points",
@@ -358,5 +357,12 @@
   },
   "reblog": {
     "title": "Reblog Info"
+  },
+  "dsteem": {
+    "date_error": {
+      "device_time": "Your device time;",
+      "current_time": "Current time;",
+      "information": "We noticed that your device has incorrect date or time. Please fix Date & Time or Set Automatically and try again."
+    }
   }
 }

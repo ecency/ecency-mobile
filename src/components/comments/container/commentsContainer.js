@@ -166,6 +166,18 @@ class CommentsContainer extends Component {
     });
   };
 
+  _handleOnVotersPress = activeVotes => {
+    const { navigation, content } = this.props;
+
+    navigation.navigate({
+      routeName: ROUTES.SCREENS.VOTERS,
+      params: {
+        activeVotes,
+      },
+      key: get(content, 'permlink'),
+    });
+  };
+
   _handleOnEditPress = item => {
     const { navigation } = this.props;
 
@@ -236,6 +248,7 @@ class CommentsContainer extends Component {
       selectedPermlink: _selectedPermlink,
       isOwnProfile,
       isHideImage,
+      isShowSubComments,
     } = this.props;
 
     return (
@@ -258,6 +271,8 @@ class CommentsContainer extends Component {
         handleOnPressCommentMenu={this._handleOnPressCommentMenu}
         isOwnProfile={isOwnProfile}
         isHideImage={isHideImage}
+        handleOnVotersPress={this._handleOnVotersPress}
+        isShowSubComments={isShowSubComments}
       />
     );
   }
