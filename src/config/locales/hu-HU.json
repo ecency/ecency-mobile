@@ -19,8 +19,7 @@
     "unfollow": "már nem követ téged",
     "ignore": "mellőzött téged",
     "reblog": "megosztotta a bejegyzésed",
-    "transfer": "átutalt steem",
-    "comingsoon": "A funkció hamarosan érkezik!",
+    "transfer": "transferred",
     "notification": "Értesítések",
     "leaderboard": "Ranglista",
     "epoint": "Pontok",
@@ -358,5 +357,12 @@
   },
   "reblog": {
     "title": "Megosztás info"
+  },
+  "dsteem": {
+    "date_error": {
+      "device_time": "Your device time;",
+      "current_time": "Current time;",
+      "information": "We noticed that your device has incorrect date or time. Please fix Date & Time or Set Automatically and try again."
+    }
   }
 }

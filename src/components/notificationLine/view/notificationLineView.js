@@ -1,7 +1,7 @@
-import React, { PureComponent } from 'react';
+import React, { useState, useEffect } from 'react';
 import { View, Text, Image, TouchableHighlight } from 'react-native';
-import { injectIntl } from 'react-intl';
-// Constants
+import { useIntl } from 'react-intl';
+import get from 'lodash/get';
 
 // Components
 import { UserAvatar } from '../../userAvatar';
@@ -9,92 +9,69 @@ import { UserAvatar } from '../../userAvatar';
 // Styles
 import styles from './notificationLineStyles';
 
-class NotificationLineView extends PureComponent {
-  /* Props
-   * ------------------------------------------------
-   *   @prop { type }    name                - Description....
-   */
+const NotificationLineView = ({ notification, handleOnPressNotification }) => {
+  const [isRead, setIsRead] = useState(notification.read);
+  const intl = useIntl();
+  let _title;
+  let titleExtra = '';
 
-  constructor(props) {
-    super(props);
-    this.state = {
-      isRead: props.notification.read,
-    };
-  }
-
-  // Component Life Cycles
-  UNSAFE_componentWillReceiveProps(nextProps) {
-    const { notification } = this.props;
-
-    if (notification.read !== nextProps.notification.read) {
-      this.setState({ isRead: nextProps.notification.read });
-    }
-  }
+  useEffect(() => {
+    setIsRead(notification.read);
+  }, [notification]);
 
   // Component Functions
-  _handleOnNotificationPress = () => {
-    const { handleOnPressNotification, notification } = this.props;
-    const { isRead } = this.state;
-
-    if (!isRead) this.setState({ isRead: true });
+  const _handleOnNotificationPress = () => {
+    if (!isRead) {
+      setIsRead(true);
+    }
 
     handleOnPressNotification(notification);
   };
 
-  render() {
-    const {
-      notification,
-      intl: { formatMessage },
-    } = this.props;
-    const { isRead } = this.state;
+  if (notification.type === 'transfer') {
+    titleExtra = notification.amount;
+  } else if (notification.weight) {
+    const _percent = `${parseFloat((notification.weight / 100).toFixed(2))}% `;
 
-    let _title = formatMessage({
-      id: `notification.${notification.type}`,
-    });
+    titleExtra = _percent;
+  }
 
-    if (notification.weight) {
-      const _percent = `${parseFloat((notification.weight / 100).toFixed(2))}% `;
-      if (notification.weight < 0) {
-        _title = formatMessage({
-          id: 'notification.unvote',
-        });
-      }
+  _title = `${titleExtra} ${intl.formatMessage({
+    id: `notification.${notification.type}`,
+  })}`;
 
-      _title = _percent + _title;
-    }
-
-    return (
-      <TouchableHighlight onPress={() => this._handleOnNotificationPress()}>
-        <View
-          key={Math.random()}
-          style={[styles.notificationWrapper, !isRead && styles.isNewNotification]}
-        >
-          <UserAvatar
-            username={notification.source}
-            style={[styles.avatar, !notification.avatar && styles.hasNoAvatar]}
-          />
-          <View style={styles.body}>
-            <View style={styles.titleWrapper}>
-              <Text style={styles.name}>{notification.source} </Text>
-              <Text style={styles.title}>{_title}</Text>
-            </View>
-            {notification.description && (
-              <Text numberOfLines={1} style={styles.description}>
-                {notification.description}
-              </Text>
-            )}
+  return (
+    <TouchableHighlight onPress={_handleOnNotificationPress}>
+      <View
+        key={`${get(notification, 'id')}${_title}`}
+        style={[styles.notificationWrapper, !isRead && styles.isNewNotification]}
+      >
+        <UserAvatar
+          username={notification.source}
+          style={[styles.avatar, !notification.avatar && styles.hasNoAvatar]}
+        />
+        <View style={styles.body}>
+          <View style={styles.titleWrapper}>
+            <Text style={styles.name}>{notification.source} </Text>
+            <Text style={styles.title}>{_title}</Text>
           </View>
-          {notification.image && (
-            <Image
-              style={styles.image}
-              source={{ uri: notification.image }}
-              defaultSource={require('../../../assets/no_image.png')}
-            />
+          {notification.description && (
+            <Text numberOfLines={1} style={styles.description}>
+              {notification.description}
+            </Text>
           )}
         </View>
-      </TouchableHighlight>
-    );
-  }
-}
 
-export default injectIntl(NotificationLineView);
+        {get(notification, 'image', null) && (
+          <Image
+            style={styles.image}
+            source={{ uri: notification.image }}
+            defaultSource={require('../../../assets/no_image.png')}
+          />
+        )}
+      </View>
+    </TouchableHighlight>
+  );
+};
+
+export default NotificationLineView;

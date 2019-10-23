@@ -105,9 +105,7 @@ export const parseComments = async (comments, currentUserName) => {
         .filter(item => item.includes('Posted using [Partiko') === false)
         .join('\n');
     }
-    comment.pending_payout_value = parseFloat(
-      get(comment, 'pending_payout_value') ? get(comment, 'pending_payout_value') : 0,
-    ).toFixed(3);
+    comment.pending_payout_value = parseFloat(get(comment, 'pending_payout_value', 0)).toFixed(3);
     comment.author_reputation = getReputation(get(comment, 'author_reputation'));
     comment.avatar = getResizedAvatar(get(comment, 'author'));
     comment.markdownBody = get(comment, 'body');
@@ -162,7 +160,7 @@ const parseActiveVotes = (post, currentUserName) => {
   post.total_payout = totalPayout.toFixed(3);
 
   const voteRshares = post.active_votes.reduce((a, b) => a + parseFloat(b.rshares), 0);
-  const ratio = totalPayout / voteRshares;
+  const ratio = totalPayout / voteRshares || 0;
 
   if (!isEmpty(post.active_votes)) {
     forEach(post.active_votes, value => {

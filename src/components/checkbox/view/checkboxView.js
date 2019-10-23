@@ -1,45 +1,34 @@
-import React, { Component } from 'react';
+import React, { useState } from 'react';
 import { View, TouchableOpacity } from 'react-native';
 
 import styles from './checkboxStyles';
 
-class CheckBoxView extends Component {
-  constructor(props) {
-    super(props);
-    this.state = { isCheck: false };
-  }
+const CheckBoxView = ({ clicked, value, isChecked, style, locked }) => {
+  const [isCheck, setIsCheck] = useState(false);
 
-  _checkClicked = async () => {
-    const { clicked, value } = this.props;
+  const _checkClicked = () => {
+    setIsCheck(!isCheck);
 
-    await this.setState(prevState => ({
-      isCheck: !prevState.isCheck,
-    }));
-
-    const { isCheck } = this.state;
-
-    if (clicked) clicked(value, isCheck);
+    if (clicked) {
+      clicked(value, !isCheck);
+    }
   };
 
-  render() {
-    const { style, isChecked, locked } = this.props;
-    const { isCheck } = this.state;
-
-    if (locked) {
-      return (
-        <View style={styles.bigSquare}>
-          <View style={[styles.smallSquare, isChecked && styles.checked]} />
-        </View>
-      );
-    }
+  if (locked) {
     return (
-      <TouchableOpacity onPress={this._checkClicked} style={style}>
-        <View style={styles.bigSquare}>
-          <View style={[styles.smallSquare, isCheck && styles.checked]} />
-        </View>
-      </TouchableOpacity>
+      <View style={styles.bigSquare}>
+        <View style={[styles.smallSquare, isChecked && styles.checked]} />
+      </View>
     );
   }
-}
+
+  return (
+    <TouchableOpacity onPress={_checkClicked} style={style}>
+      <View style={styles.bigSquare}>
+        <View style={[styles.smallSquare, isCheck && styles.checked]} />
+      </View>
+    </TouchableOpacity>
+  );
+};
 
 export default CheckBoxView;
