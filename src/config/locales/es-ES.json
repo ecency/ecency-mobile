@@ -19,7 +19,7 @@
     "unfollow": "dejó de seguirte",
     "ignore": "te ignoró",
     "reblog": "reblogueó tu publicación",
-    "transfer": "transferred",
+    "transfer": "transferido",
     "notification": "Notificaciones",
     "leaderboard": "Tabla de posiciones",
     "epoint": "Puntos",
@@ -98,10 +98,10 @@
     "steem_dollars": "Steem Dólares",
     "savings": "Ahorros",
     "edit": {
-      "display_name": "Display Name",
-      "about": "About",
-      "location": "Location",
-      "website": "Website"
+      "display_name": "Nombre para mostrar",
+      "about": "Acerca de",
+      "location": "Localización",
+      "website": "Página web"
     }
   },
   "settings": {
@@ -125,20 +125,20 @@
     "reset": "Reiniciar",
     "nsfw_content": "Contenido NSFW",
     "send_feedback": "Enviar comentarios",
-    "send": "Send",
-    "default_footer": "Default Footer",
+    "send": "Enviar",
+    "default_footer": "Pie de página predeterminado",
     "nsfw": {
-      "always_show": "Always show",
-      "always_hide": "Always hide",
-      "always_warn": "Always warn"
+      "always_show": "Mostrar siempre",
+      "always_hide": "Ocultar siempre",
+      "always_warn": "Advertir siempre"
     },
-    "feedback_success": "Email successfully open",
-    "feedback_fail": "Email client could not open",
-    "server_fail": "Server not available"
+    "feedback_success": "Correo electrónico abierto con éxito",
+    "feedback_fail": "Ocurrió un error al intentar abrir el cliente del correo electrónico",
+    "server_fail": "Servidor no disponible"
   },
   "voters": {
     "voters_info": "Información de votantes",
-    "no_user": "User is not found."
+    "no_user": "No se ha encontrado al usuario."
   },
   "login": {
     "signin": "Iniciar sesión",
@@ -150,7 +150,7 @@
     "cancel": "cancelar",
     "login": "ACCEDER",
     "steemconnect_description": "Si no desea mantener su contraseña encriptada y guardada en su dispositivo, puede usar Steemconnect.",
-    "steemconnect_fee_description": "Steemconnect may charge some fees from your reward transactions"
+    "steemconnect_fee_description": "Steemconnect puede cobrar algunas comisiones de las transacciones de tus recompensas"
   },
   "home": {
     "feed": "Inicio",
@@ -186,7 +186,7 @@
     "reply_placeholder": "Qué te gustaría escribir acerca de la publicación de encima?",
     "publish": "Publicar",
     "reply": "Responder",
-    "open_gallery": "Open Gallery",
+    "open_gallery": "Abrir galería",
     "capture_photo": "Capturar foto"
   },
   "pincode": {
@@ -197,14 +197,14 @@
   },
   "alert": {
     "success": "Conseguido!",
-    "successful": "Successful",
+    "successful": "Éxito",
     "allRead": "Marcar todas las notificaciones como leídas",
     "claim_reward_balance_ok": "Recompensa de balance reclamada",
     "fail": "Falló!",
-    "move": "Move",
-    "move_question": "Are you sure to move to drafts?",
-    "success_shared": "Your post successfully shared",
-    "success_moved": "Moved to draft",
+    "move": "Mover",
+    "move_question": "¿Está seguro de moverlo a borradores?",
+    "success_shared": "Tu publicación ha sido compartida éxitosamente",
+    "success_moved": "Movido a borradores",
     "permission_denied": "Permiso dengado",
     "permission_text": "Por favor, ir a ajustes del teléfono y cambiar los permisos de la aplicación de eSteem.",
     "success_rebloged": "¡Reblogueado!",
@@ -213,31 +213,31 @@
     "invalid_pincode": "Invalid pin code, please check and try again.",
     "remove_alert": "Está seguro que quiere borrar?",
     "clear_alert": "¿Está seguro de que desea eliminar?",
-    "clear_user_alert": "Are you sure you want to clear all user data?",
+    "clear_user_alert": "¿Estás seguro de querer borrar toda la información del usuario?",
     "clear": "Limpiar",
     "cancel": "Cancelar",
     "delete": "Borrar",
     "copied": "Copiado!",
     "no_internet": "Sin conexión!",
-    "confirm": "Confirm",
-    "removed": "Removed",
-    "same_user": "This user already added to list",
-    "unknow_error": "An error occurred",
+    "confirm": "Confirmar",
+    "removed": "Eliminado",
+    "same_user": "Este usuario ya ha sido añadido a la lista",
+    "unknow_error": "Ocurrió un error",
     "error": "Error",
-    "fetch_error": "Fetching data failed, please try again or notify us at info@esteem.app",
-    "connection_fail": "Connection Failed!",
-    "connection_success": "Successfully connected!",
-    "checking": "Checking...",
-    "not_existing_post": "The post does not exist! Please check permlink and author.",
-    "google_play_version": "We noticed that your device has old version of Google Play. Please update Google Play services and try again!"
+    "fetch_error": "Error al obtener los datos, por favor inténtalo de nuevo o notifíquenos en info@esteem.app",
+    "connection_fail": "¡Error de conexión!",
+    "connection_success": "¡Conectado con éxito!",
+    "checking": "Comprobando...",
+    "not_existing_post": "¡La publicación no existe! Por favor comprueba el permalink y el autor.",
+    "google_play_version": "Notamos que tu dispositivo tiene una versión antigua de Google Play. ¡Por favor actualiza los servicios de Google Play e inténtalo de nuevo!"
   },
   "post": {
-    "reblog_alert": "Are you sure, you want to reblog?",
-    "removed_hint": "The post was removed by",
-    "copy_link": "Copy Link",
-    "reblogged": "reblogged by",
-    "sponsored": "SPONSORED",
-    "open_thread": "Open Thread"
+    "reblog_alert": "¿Estás seguro de querer rebloguear?",
+    "removed_hint": "Esta publicación ha sido removida por",
+    "copy_link": "Copiar enlace",
+    "reblogged": "reblogueado por",
+    "sponsored": "PATROCINADO",
+    "open_thread": "Hilo abierto"
   },
   "drafts": {
     "title": "Borradores",
@@ -246,7 +246,7 @@
     "deleted": "Borrador eliminado"
   },
   "schedules": {
-    "title": "Schedules",
+    "title": "Programados",
     "empty_list": "Nada aquí",
     "deleted": "Publicación programada eliminada",
     "move": "Mover a borradores",
@@ -287,64 +287,64 @@
     "reply": "responder",
     "share": "compartir",
     "bookmarks": "añadir a favoritos",
-    "promote": "promote",
-    "boost": "boost"
+    "promote": "promocionar",
+    "boost": "impulsar"
   },
   "deep_link": {
     "no_existing_user": "Usuario no existe",
     "no_existing_post": "Publicación no existe"
   },
   "search": {
-    "posts": "Posts",
-    "comments": "Comments"
+    "posts": "Publicaciones",
+    "comments": "Comentarios"
   },
   "comment_filter": {
-    "trending": "trending",
-    "reputation": "reputation",
-    "votes": "votes",
-    "age": "age"
+    "trending": "tendencia",
+    "reputation": "reputación",
+    "votes": "votos",
+    "age": "fecha de creación"
   },
   "transfer": {
-    "from": "From",
-    "to": "To",
-    "amount_information": "Drag the slider to adjust the amount",
-    "amount": "Amount",
+    "from": "Desde",
+    "to": "Para",
+    "amount_information": "Arrastra el deslizador para ajustar la cantidad",
+    "amount": "Cantidad",
     "memo": "Memo",
-    "information": "Are you sure to transfer funds?",
+    "information": "¿Está seguro de transferir los fondos?",
     "amount_desc": "Balance",
-    "memo_desc": "This memo is public",
-    "to_placeholder": "Username",
-    "memo_placeholder": "Enter your notes here",
-    "transfer_token": "Transfer",
-    "points": "Gift ESTM to someone",
-    "transfer_to_saving": "Transfer To Saving",
-    "powerUp": "Power Up",
-    "withdraw_to_saving": "Withdraw To Saving",
-    "steemconnect_title": "Steemconnect Transfer",
-    "next": "NEXT",
-    "delegate": "Delegate",
-    "power_down": "Power Down",
-    "withdraw_steem": "Withdraw Steem",
-    "withdraw_sbd": "Withdraw Steem Dollar"
+    "memo_desc": "Este memo es público",
+    "to_placeholder": "Nombre de usuario",
+    "memo_placeholder": "Escribe tus notas aquí",
+    "transfer_token": "Transferir",
+    "points": "Regalar ESTM a alguien",
+    "transfer_to_saving": "Transferir a Ahorros",
+    "powerUp": "Hacer Power Up",
+    "withdraw_to_saving": "Retirar a Ahorros",
+    "steemconnect_title": "Transferencia Steemconnect",
+    "next": "SIGUIENTE",
+    "delegate": "Delegar",
+    "power_down": "Hacer Power Down",
+    "withdraw_steem": "Retirar Steem",
+    "withdraw_sbd": "Retirar Steem Dollar"
   },
   "boost": {
-    "title": "Get eSteem Points",
-    "buy": "GET ESTM",
-    "next": "NEXT"
+    "title": "Obtener puntos eSteem",
+    "buy": "OBTENER ESTM",
+    "next": "SIGUIENTE"
   },
   "free_estm": {
-    "title": "Free ESTM",
-    "button": "SPIN & WIN",
-    "get_spin": "5 SPINS",
-    "spin_right": "Spin Left",
-    "timer_text": "Next free spin in"
+    "title": "ESTM Gratuitos",
+    "button": "GIRA Y GANA",
+    "get_spin": "5 GIROS",
+    "spin_right": "Girar a la izquierda",
+    "timer_text": "Siguiente giro gratuito en"
   },
   "promote": {
-    "title": "Promote",
-    "days": "days",
-    "user": "User",
-    "permlink": "Post",
-    "permlinkPlaceholder": "author/permlink",
+    "title": "Promocionar",
+    "days": "días",
+    "user": "Usuario",
+    "permlink": "Publicación",
+    "permlinkPlaceholder": "autor/permalink",
     "information": "Are you sure to promote?"
   },
   "boostPost": {
@@ -360,9 +360,9 @@
   },
   "dsteem": {
     "date_error": {
-      "device_time": "Your device time;",
-      "current_time": "Current time;",
-      "information": "We noticed that your device has incorrect date or time. Please fix Date & Time or Set Automatically and try again."
+      "device_time": "Fecha de tu dispositivo:",
+      "current_time": "Fecha actual:",
+      "information": "Notamos que tu dispositivo tiene una fecha o hora incorrectas. Por favor corrige la fecha y hora o establezca automáticamente dichas opciones e inténtelo de nuevo."
     }
   }
 }
