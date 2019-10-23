@@ -19,7 +19,7 @@
     "unfollow": "deixou de seguir você",
     "ignore": "ignorou você",
     "reblog": "reblogou o seu post",
-    "transfer": "transferred",
+    "transfer": "transferido",
     "notification": "Notificações",
     "leaderboard": "Quadro de Liderança",
     "epoint": "Pontos",
@@ -228,7 +228,7 @@
     "connection_fail": "Falha na conexão!",
     "connection_success": "Conectado com sucesso!",
     "checking": "A verificar...",
-    "not_existing_post": "The post does not exist! Please check permlink and author.",
+    "not_existing_post": "Este post não existe! Por favor, verifique o permlink e o autor.",
     "google_play_version": "Notamos que seu dispositivo tem versão antiga do Google Play. Por favor, atualize o Google Play Services e tente novamente!"
   },
   "post": {
@@ -333,11 +333,11 @@
     "next": "SEGUINTE"
   },
   "free_estm": {
-    "title": "Free ESTM",
-    "button": "SPIN & WIN",
-    "get_spin": "5 SPINS",
-    "spin_right": "Spin Left",
-    "timer_text": "Next free spin in"
+    "title": "ESTM Grátis",
+    "button": "RODE & GANHE",
+    "get_spin": "5 RODADAS",
+    "spin_right": "Rodar á Esquerda",
+    "timer_text": "Próxima rodada grátis em"
   },
   "promote": {
     "title": "Promover",
@@ -360,9 +360,9 @@
   },
   "dsteem": {
     "date_error": {
-      "device_time": "Your device time;",
-      "current_time": "Current time;",
-      "information": "We noticed that your device has incorrect date or time. Please fix Date & Time or Set Automatically and try again."
+      "device_time": "Tempo do seu dispositivo;",
+      "current_time": "Tempo atual;",
+      "information": "Notamos que seu dispositivo tem data ou hora incorretas. Por favor, corrija a data e hora ou defina automaticamente e tente novamente."
     }
   }
 }
