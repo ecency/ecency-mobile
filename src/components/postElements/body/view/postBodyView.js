@@ -2,6 +2,7 @@ import React, { PureComponent, Fragment } from 'react';
 import { Dimensions, Linking, Alert, TouchableOpacity, Text } from 'react-native';
 import { withNavigation } from 'react-navigation';
 import { injectIntl } from 'react-intl';
+import AutoHeightWebView from 'react-native-autoheight-webview';
 
 import HTML from 'react-native-render-html';
 import { getParentsTagsRecursively } from 'react-native-render-html/src/HTMLUtils';
@@ -142,12 +143,22 @@ class PostBody extends PureComponent {
       return node.data.replace(/<[^>]*>/g, '');
     }
   };
+  handleWebViewNavigationStateChange = newNavState => {
+    console.log('newNavState :', newNavState);
+    return newNavState;
+  };
 
   render() {
     const { body, isComment, textSelectable = true } = this.props;
     const _initialDimensions = isComment
       ? { width: WIDTH - 50, height: 80 }
       : { width: WIDTH, height: 216 };
+    const jsCode = `
+    document.querySelector('a').addEventListener("click", function() {  
+        alert('Hello Web')
+    }); 
+    true;
+    `;
 
     const _customRenderer = {
       a: (htmlAttribs, children, convertedCSSStyles, passProps) => {
@@ -177,8 +188,18 @@ class PostBody extends PureComponent {
       },
     };
 
+    const test = body.replace(/<a/g, '<a href');
+    console.log('test :', test);
     return (
       <Fragment>
+        <AutoHeightWebView
+          style={{ width: Dimensions.get('window').width - 15, marginTop: 35 }}
+          source={{
+            html: test,
+          }}
+          onShouldStartLoadWithRequest={this.handleWebViewNavigationStateChange}
+          injectedJavaScript={jsCode}
+        />
         <HTML
           html={body}
           onLinkPress={(evt, href, hrefatr) => this._handleOnLinkPress(evt, href, hrefatr)}

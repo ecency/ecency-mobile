@@ -7653,6 +7653,13 @@ react-native-autocomplete-input@^4.1.0:
   resolved "https://registry.yarnpkg.com/react-native-autocomplete-input/-/react-native-autocomplete-input-4.1.0.tgz#979ece28d891b245ecb967b6d31f1f924445b8ab"
   integrity sha512-Yn4GulZ9F6tde74UUGZHdVFeYWVuL7+EbUZy6kt+QHrzMc5B4OuRop1FT4RyWLpvbySW/vvqYgj9LAmlzkuEqA==
 
+react-native-autoheight-webview@^1.2.2:
+  version "1.2.2"
+  resolved "https://registry.yarnpkg.com/react-native-autoheight-webview/-/react-native-autoheight-webview-1.2.2.tgz#5b65fdad47f552cd154fc9dd916aebc69492cc24"
+  integrity sha512-Did1IBXxY3fmGyGn7ioT3Osu9Uk7H+4M/rc6bal83cwEjxsX0lUDhzXOMNJh4D6Wh5eRne2r7zPz52tKjeLv8g==
+  dependencies:
+    prop-types "^15.7.2"
+
 react-native-code-push@esteemapp/react-native-code-push:
   version "1000.0.0-beta"
   resolved "https://codeload.github.com/esteemapp/react-native-code-push/tar.gz/c07b7023c1212dc5d9231a0526a869d2501cb221"
