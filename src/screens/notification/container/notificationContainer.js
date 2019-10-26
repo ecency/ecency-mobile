@@ -151,13 +151,12 @@ class NotificationContainer extends Component {
 
   render() {
     const { isLoggedIn } = this.props;
-    const { notifications, isNotificationRefreshing, isDarkTheme } = this.state;
+    const { notifications, isNotificationRefreshing } = this.state;
 
     return (
       <NotificationScreen
         getActivities={this._getAvtivities}
         notifications={notifications}
-        isDarkTheme={isDarkTheme}
         navigateToNotificationRoute={this._navigateToNotificationRoute}
         readAllNotification={this._readAllNotification}
         handleLoginPress={this._handleOnPressLogin}
@@ -171,7 +170,6 @@ class NotificationContainer extends Component {
 
 const mapStateToProps = state => ({
   isLoggedIn: state.application.isLoggedIn,
-  isDarkTheme: state.application.isDarkTheme,
   isConnected: state.application.isConnected,
 
   username: state.account.currentAccount.name,
