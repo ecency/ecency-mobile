@@ -10,6 +10,7 @@ import { CollapsibleCard } from '../../collapsibleCard';
 import { WalletDetails } from '../../walletDetails';
 import { Transaction } from '../../transaction';
 import { WalletDetailsPlaceHolder } from '../../basicUIElements';
+import { ThemeContainer } from '../../../containers';
 
 // Styles
 import styles from './walletStyles';
@@ -53,7 +54,6 @@ class WalletView extends PureComponent {
       isRefreshing,
       selectedUsername,
       walletData,
-      isDarkTheme,
       handleOnScroll,
     } = this.props;
 
@@ -62,14 +62,18 @@ class WalletView extends PureComponent {
         onScroll={handleOnScroll && handleOnScroll}
         style={styles.scrollView}
         refreshControl={
-          <RefreshControl
-            refreshing={isRefreshing}
-            onRefresh={handleOnWalletRefresh}
-            progressBackgroundColor="#357CE6"
-            tintColor={!isDarkTheme ? '#357ce6' : '#96c0ff'}
-            titleColor="#fff"
-            colors={['#fff']}
-          />
+          <ThemeContainer>
+            {isDarkTheme => (
+              <RefreshControl
+                refreshing={isRefreshing}
+                onRefresh={handleOnWalletRefresh}
+                progressBackgroundColor="#357CE6"
+                tintColor={!isDarkTheme ? '#357ce6' : '#96c0ff'}
+                titleColor="#fff"
+                colors={['#fff']}
+              />
+            )}
+          </ThemeContainer>
         }
       >
         {!walletData ? (
