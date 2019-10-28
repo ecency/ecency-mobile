@@ -1,4 +1,3 @@
-import DarkThemeContainer from './darkThemeContainer';
 import InAppPurchaseContainer from './inAppPurchaseContainer';
 import PointsContainer from './pointsContainer';
 import ProfileContainer from './profileContainer';
@@ -9,7 +8,6 @@ import TransferContainer from './transferContainer';
 import ThemeContainer from './themeContainer';
 
 export {
-  DarkThemeContainer,
   InAppPurchaseContainer,
   PointsContainer,
   ProfileContainer,
