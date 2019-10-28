@@ -6,6 +6,7 @@ import ProfileEditContainer from './profileEditContainer';
 import RedeemContainer from './redeemContainer';
 import SpinGameContainer from './spinGameContainer';
 import TransferContainer from './transferContainer';
+import ThemeContainer from './themeContainer';
 
 export {
   DarkThemeContainer,
@@ -16,4 +17,5 @@ export {
   RedeemContainer,
   SpinGameContainer,
   TransferContainer,
+  ThemeContainer,
 };
