@@ -49,6 +49,7 @@
     "react-native-autocomplete-input": "^4.1.0",
     "react-native-code-push": "esteemapp/react-native-code-push",
     "react-native-config": "luggit/react-native-config#master",
+    "react-native-dark-mode": "^0.1.2",
     "react-native-datepicker": "^1.7.2",
     "react-native-extended-stylesheet": "^0.10.0",
     "react-native-fast-image": "^4.0.14",

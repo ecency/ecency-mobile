@@ -1,5 +1,4 @@
-import VotersDisplayView from './view/votersDisplayView';
-import VotersDisplay from './container/votersDisplayContainer';
+import VotersDisplay from './view/votersDisplayView';
 
-export { VotersDisplay, VotersDisplayView };
+export { VotersDisplay };
 export default VotersDisplay;
