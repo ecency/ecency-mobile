@@ -32,7 +32,9 @@ const MarkdownEditorView = ({
   uploadedImage,
 }) => {
   const [text, setText] = useState(draftBody || '');
+  const [textChanged, setTextChanged] = useState(false);
   const [selection, setSelection] = useState({ start: 0, end: 0 });
+  const [selectionArray, setSelectionArray] = useState(false); // Workaround for android selection
 
   const [newSelection, setNewSelection] = useState(null);
 
@@ -75,6 +77,11 @@ const MarkdownEditorView = ({
 
   const _changeText = input => {
     setText(input);
+    setTextChanged(true);
+    setSelectionArray([]);
+    setTimeout(() => {
+      setTextChanged(false);
+    }, 100);
 
     if (onChange) {
       onChange(input);
@@ -89,13 +96,34 @@ const MarkdownEditorView = ({
     }
   };
 
-  const _handleOnSelectionChange = event => {
+  const _handleOnSelectionChange = async event => {
+    if (textChanged) {
+      if (selectionArray.length > 0) {
+        return;
+      }
+      selectionArray.push(event.nativeEvent.selection);
+      setSelectionArray(selectionArray);
+    }
     if (newSelection) {
-      setSelection(newSelection);
-      setNewSelection(null);
+      setTimeout(() => {
+        setNewSelection(null);
+      }, 100);
       return;
     }
-    setSelection(event.nativeEvent.selection);
+    if (
+      selection.start === event.nativeEvent.selection.start &&
+      selection.end === event.nativeEvent.selection.end
+    ) {
+      return;
+    }
+    await setSelection(event.nativeEvent.selection);
+  };
+
+  const _getSelection = () => {
+    if (selection.start > text.length || selection.end > text.length) {
+      return { start: text.length, end: text.length };
+    }
+    return selection;
   };
 
   const _renderPreview = () => (
@@ -112,7 +140,9 @@ const MarkdownEditorView = ({
         iconStyle={styles.icon}
         iconType={item.iconType}
         name={item.icon}
-        onPress={() => item.onPress({ text, selection, setText, setNewSelection, item })}
+        onPress={() =>
+          item.onPress({ text, selection, setText, setNewSelection, setSelection, item })
+        }
       />
     </View>
   );
@@ -134,7 +164,9 @@ const MarkdownEditorView = ({
           iconStyle={styles.icon}
           iconType="FontAwesome"
           name="link"
-          onPress={() => Formats[9].onPress({ text, selection, setText, setNewSelection })}
+          onPress={() =>
+            Formats[9].onPress({ text, selection, setText, setNewSelection, setSelection })
+          }
         />
         <IconButton
           onPress={() => galleryRef.current.show()}
@@ -180,7 +212,7 @@ const MarkdownEditorView = ({
             id: isReply ? 'editor.reply_placeholder' : 'editor.default_placeholder',
           })}
           placeholderTextColor="#c1c5c7"
-          selection={selection}
+          selection={_getSelection()}
           selectionColor="#357ce6"
           style={styles.textWrapper}
           underlineColorAndroid="transparent"
@@ -231,68 +263,3 @@ const MarkdownEditorView = ({
 };
 
 export default MarkdownEditorView;
-// class MarkdownEditorView extends Component {
-//   constructor(props) {
-//     super(props);
-//     this.state = {
-//       text: props.draftBody || '',
-//       selection: { start: 0, end: 0 },
-//       textUpdated: false,
-//       newSelection: null,
-//     };
-
-//     this.inputRef = React.createRef();
-//     this.galleryRef = React.createRef();
-//     this.clearRef = React.createRef();
-//   }
-
-//   // Lifecycle functions
-//   UNSAFE_componentWillReceiveProps(nextProps) {
-//     const { draftBody, uploadedImage, isPreviewActive } = this.props;
-//     if (!nextProps.isPreviewActive && isPreviewActive) {
-//       this.setState({
-//         selection: { start: 0, end: 0 },
-//       });
-//     }
-//     if (nextProps.draftBody && draftBody !== nextProps.draftBody) {
-//       this.setState({
-//         text: nextProps.draftBody,
-//       });
-//     }
-
-//     if (
-//       nextProps.uploadedImage &&
-//       nextProps.uploadedImage.url &&
-//       nextProps.uploadedImage !== uploadedImage
-//     ) {
-//       applyImageLink({
-//         getState: this._getState,
-//         setState: async (state, callback) => {
-//           await this.setState(state, callback);
-//         },
-//         item: { url: nextProps.uploadedImage.url, text: nextProps.uploadedImage.hash },
-//         isImage: !!nextProps.uploadedImage,
-//       });
-//     }
-//   }
-
-//   componentDidUpdate(prevProps, prevState) {
-//     const { text } = this.state;
-//     const { handleIsFormValid } = this.props;
-
-//     if (prevState.text !== text) {
-//       const nextText = text.replace(prevState.text, '');
-
-//       if (nextText && nextText.length > 0) {
-//         this._changeText(text);
-
-//         if (handleIsFormValid) {
-//           handleIsFormValid(text);
-//         }
-//       }
-//     }
-//   }
-
-//   // Component functions
-
-// }
