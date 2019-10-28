@@ -13,6 +13,8 @@ import { PostBody } from '../../postElements';
 import { StickyBar } from '../../basicUIElements';
 import { TextInput } from '../../textInput';
 
+import { ThemeContainer } from '../../../containers';
+
 // Styles
 import styles from './markdownEditorStyles';
 
@@ -201,22 +203,26 @@ export default class MarkdownEditorView extends Component {
         behavior={Platform.OS === 'ios' ? 'padding' : null}
       >
         {!isPreviewActive ? (
-          <TextInput
-            multiline
-            onChangeText={this._changeText}
-            onSelectionChange={this._handleOnSelectionChange}
-            placeholder={intl.formatMessage({
-              id: isReply ? 'editor.reply_placeholder' : 'editor.default_placeholder',
-            })}
-            placeholderTextColor="#c1c5c7"
-            selection={selection}
-            selectionColor="#357ce6"
-            style={styles.textWrapper}
-            underlineColorAndroid="transparent"
-            value={text}
-            innerRef={this.inputRef}
-            editable={!isLoading}
-          />
+          <ThemeContainer>
+            {({ isDarkTheme }) => (
+              <TextInput
+                multiline
+                onChangeText={this._changeText}
+                onSelectionChange={this._handleOnSelectionChange}
+                placeholder={intl.formatMessage({
+                  id: isReply ? 'editor.reply_placeholder' : 'editor.default_placeholder',
+                })}
+                placeholderTextColor={isDarkTheme ? '#526d91' : '#c1c5c7'}
+                selection={selection}
+                selectionColor="#357ce6"
+                style={styles.textWrapper}
+                underlineColorAndroid="transparent"
+                value={text}
+                innerRef={this.inputRef}
+                editable={!isLoading}
+              />
+            )}
+          </ThemeContainer>
         ) : (
           this._renderPreview()
         )}

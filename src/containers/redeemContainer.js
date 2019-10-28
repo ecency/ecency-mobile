@@ -140,7 +140,6 @@ class RedeemContainer extends Component {
 
 const mapStateToProps = state => ({
   username: state.account.currentAccount.name,
-  isDarkTheme: state.application.isDarkTheme,
   activeBottomTab: state.ui.activeBottomTab,
   isConnected: state.application.isConnected,
   accounts: state.account.otherAccounts,
