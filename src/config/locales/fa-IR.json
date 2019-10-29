@@ -19,8 +19,7 @@
     "unfollow": "شما را دنبال نمیکند",
     "ignore": "شما را نادیده گرفته",
     "reblog": "مطلب شما را به اشتراک گذاشت",
-    "transfer": "steem منتقل شده",
-    "comingsoon": "Feature is coming soon!",
+    "transfer": "transferred",
     "notification": "اطلاعیه ها",
     "leaderboard": "جدول رده بندی",
     "epoint": "امتیازها",
@@ -358,5 +357,12 @@
   },
   "reblog": {
     "title": "Reblog Info"
+  },
+  "dsteem": {
+    "date_error": {
+      "device_time": "Your device time;",
+      "current_time": "Current time;",
+      "information": "We noticed that your device has incorrect date or time. Please fix Date & Time or Set Automatically and try again."
+    }
   }
 }

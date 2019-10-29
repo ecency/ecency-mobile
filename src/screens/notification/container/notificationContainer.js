@@ -1,7 +1,7 @@
 import React, { Component } from 'react';
 import { Alert } from 'react-native';
 import { connect } from 'react-redux';
-import { get, some, isEmpty } from 'lodash';
+import get from 'lodash/get';
 import { injectIntl } from 'react-intl';
 
 // Actions and Services
@@ -118,7 +118,9 @@ class NotificationContainer extends Component {
     const { username, dispatch, intl, isConnected } = this.props;
     const { notifications } = this.state;
 
-    if (!isConnected) return;
+    if (!isConnected) {
+      return;
+    }
 
     this.setState({ isNotificationRefreshing: true });
 

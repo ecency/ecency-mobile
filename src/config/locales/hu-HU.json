@@ -19,8 +19,7 @@
     "unfollow": "már nem követ téged",
     "ignore": "mellőzött téged",
     "reblog": "megosztotta a bejegyzésed",
-    "transfer": "átutalt steem",
-    "comingsoon": "A funkció hamarosan érkezik!",
+    "transfer": "átutalva",
     "notification": "Értesítések",
     "leaderboard": "Ranglista",
     "epoint": "Pontok",
@@ -335,9 +334,9 @@
   },
   "free_estm": {
     "title": "Free ESTM",
-    "button": "SPIN & WIN",
-    "get_spin": "5 SPINS",
-    "spin_right": "Spin Left",
+    "button": "PÖRGESS ÉS NYERJ",
+    "get_spin": "5 PÖRGETÉS",
+    "spin_right": "Pörgesd balra",
     "timer_text": "Next free spin in"
   },
   "promote": {
@@ -358,5 +357,12 @@
   },
   "reblog": {
     "title": "Megosztás info"
+  },
+  "dsteem": {
+    "date_error": {
+      "device_time": "Your device time;",
+      "current_time": "Pontos idő;",
+      "information": "We noticed that your device has incorrect date or time. Please fix Date & Time or Set Automatically and try again."
+    }
   }
 }

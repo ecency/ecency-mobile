@@ -19,8 +19,7 @@
     "unfollow": "a anulat urmărirea",
     "ignore": "te-a ignorat",
     "reblog": "a redistribuit postarea ta",
-    "transfer": "steem transferat",
-    "comingsoon": "Feature is coming soon!",
+    "transfer": "transferred",
     "notification": "Notificări",
     "leaderboard": "Clasament",
     "epoint": "Puncte",
@@ -358,5 +357,12 @@
   },
   "reblog": {
     "title": "Reblog Info"
+  },
+  "dsteem": {
+    "date_error": {
+      "device_time": "Your device time;",
+      "current_time": "Current time;",
+      "information": "We noticed that your device has incorrect date or time. Please fix Date & Time or Set Automatically and try again."
+    }
   }
 }
