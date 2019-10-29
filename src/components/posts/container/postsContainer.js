@@ -55,7 +55,6 @@ class PostsContainer extends PureComponent {
       tag,
       isLoginDone,
       isLoggedIn,
-      isDarkTheme,
       nsfw,
     } = this.props;
     const { promotedPosts } = this.state;
@@ -80,7 +79,6 @@ class PostsContainer extends PureComponent {
         tag={tag}
         isLoginDone={isLoginDone}
         isLoggedIn={isLoggedIn}
-        isDarkTheme={isDarkTheme}
         nsfw={nsfw}
       />
     );
@@ -89,7 +87,6 @@ class PostsContainer extends PureComponent {
 
 const mapStateToProps = state => ({
   currentAccount: state.account.currentAccount,
-  isDarkTheme: state.application.isDarkTheme,
   isLoggedIn: state.application.isLoggedIn,
   isLoginDone: state.application.isLoginDone,
   nsfw: state.application.nsfw,
