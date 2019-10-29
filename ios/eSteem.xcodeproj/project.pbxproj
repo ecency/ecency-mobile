@@ -25,6 +25,7 @@
 		54D038BB7E4B4CA0805EF769 /* Entypo.ttf in Resources */ = {isa = PBXBuildFile; fileRef = 93B182C6FFA44610AB188D7C /* Entypo.ttf */; };
 		58190B3C23294814000EA0E1 /* StoreKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 58190B3B23294814000EA0E1 /* StoreKit.framework */; };
 		58190B582329808D000EA0E1 /* libRealmReact.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 58190B572329807B000EA0E1 /* libRealmReact.a */; };
+		588019272355C26C008397D1 /* AppCenter-Config.plist in Resources */ = {isa = PBXBuildFile; fileRef = 588019232355C26B008397D1 /* AppCenter-Config.plist */; };
 		588A5055232A3A4C00FC1361 /* Sansation_Bold.ttf in Resources */ = {isa = PBXBuildFile; fileRef = 588A504E232A3A4B00FC1361 /* Sansation_Bold.ttf */; };
 		588A5056232A3A4C00FC1361 /* RobotoMono-Regular.ttf in Resources */ = {isa = PBXBuildFile; fileRef = 588A5050232A3A4B00FC1361 /* RobotoMono-Regular.ttf */; };
 		588A5057232A3A4C00FC1361 /* rubicon-icon-font.ttf in Resources */ = {isa = PBXBuildFile; fileRef = 588A5051232A3A4B00FC1361 /* rubicon-icon-font.ttf */; };
@@ -117,6 +118,7 @@
 		58190B3D23294823000EA0E1 /* eSteem.entitlements */ = {isa = PBXFileReference; lastKnownFileType = text.plist.entitlements; name = eSteem.entitlements; path = eSteem/eSteem.entitlements; sourceTree = "<group>"; };
 		58190B4723294D1D000EA0E1 /* libreact-native-config.a */ = {isa = PBXFileReference; explicitFileType = archive.ar; path = "libreact-native-config.a"; sourceTree = BUILT_PRODUCTS_DIR; };
 		58190B512329807B000EA0E1 /* RealmReact.xcodeproj */ = {isa = PBXFileReference; lastKnownFileType = "wrapper.pb-project"; name = RealmReact.xcodeproj; path = "../node_modules/realm/react-native/ios/RealmReact.xcodeproj"; sourceTree = "<group>"; };
+		588019232355C26B008397D1 /* AppCenter-Config.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.xml; path = "AppCenter-Config.plist"; sourceTree = "<group>"; };
 		588A504E232A3A4B00FC1361 /* Sansation_Bold.ttf */ = {isa = PBXFileReference; lastKnownFileType = file; name = Sansation_Bold.ttf; path = ../src/assets/Fonts/Sansation_Bold.ttf; sourceTree = "<group>"; };
 		588A5050232A3A4B00FC1361 /* RobotoMono-Regular.ttf */ = {isa = PBXFileReference; lastKnownFileType = file; name = "RobotoMono-Regular.ttf"; path = "../src/assets/Fonts/RobotoMono-Regular.ttf"; sourceTree = "<group>"; };
 		588A5051232A3A4B00FC1361 /* rubicon-icon-font.ttf */ = {isa = PBXFileReference; lastKnownFileType = file; name = "rubicon-icon-font.ttf"; path = "../src/assets/Fonts/rubicon-icon-font.ttf"; sourceTree = "<group>"; };
@@ -304,6 +306,7 @@
 		83CBB9F61A601CBA00E9B192 = {
 			isa = PBXGroup;
 			children = (
+				588019232355C26B008397D1 /* AppCenter-Config.plist */,
 				13B07FAE1A68108700A75B9A /* eSteem */,
 				832341AE1AAA6A7D00B99B32 /* Libraries */,
 				00E356EF1AD99517003FC87E /* eSteemTests */,
@@ -547,6 +550,7 @@
 				588A5055232A3A4C00FC1361 /* Sansation_Bold.ttf in Resources */,
 				588A5057232A3A4C00FC1361 /* rubicon-icon-font.ttf in Resources */,
 				FF8A4FE00E5942D78C309A85 /* Foundation.ttf in Resources */,
+				588019272355C26C008397D1 /* AppCenter-Config.plist in Resources */,
 				17680F34EC3E4996905493C6 /* Ionicons.ttf in Resources */,
 				588A5058232A3A4C00FC1361 /* Sansation_Regular.ttf in Resources */,
 				8A865CFDCD1C4F4885488F9D /* MaterialCommunityIcons.ttf in Resources */,
@@ -948,6 +952,7 @@
 					"\"$(PODS_ROOT)/Headers/Private/React-Core\"",
 				);
 				INFOPLIST_FILE = eSteem/Info.plist;
+				IPHONEOS_DEPLOYMENT_TARGET = 9.0;
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks";
 				OTHER_LDFLAGS = (
 					"$(inherited)",
@@ -957,9 +962,7 @@
 				PRODUCT_BUNDLE_IDENTIFIER = app.esteem.mobile.ios;
 				PRODUCT_NAME = eSteem;
 				PROVISIONING_PROFILE_SPECIFIER = dev;
-				SWIFT_OBJC_BRIDGING_HEADER = "eSteem-Bridging-Header.h";
-				SWIFT_OPTIMIZATION_LEVEL = "-Onone";
-				SWIFT_VERSION = 5.0;
+				TARGETED_DEVICE_FAMILY = "1,2";
 				VERSIONING_SYSTEM = "apple-generic";
 			};
 			name = Debug;
@@ -1020,6 +1023,7 @@
 					"\"$(PODS_ROOT)/Headers/Private/React-Core\"",
 				);
 				INFOPLIST_FILE = eSteem/Info.plist;
+				IPHONEOS_DEPLOYMENT_TARGET = 9.0;
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks";
 				OTHER_LDFLAGS = (
 					"$(inherited)",
@@ -1029,8 +1033,7 @@
 				PRODUCT_BUNDLE_IDENTIFIER = app.esteem.mobile.ios;
 				PRODUCT_NAME = eSteem;
 				PROVISIONING_PROFILE_SPECIFIER = prod;
-				SWIFT_OBJC_BRIDGING_HEADER = "eSteem-Bridging-Header.h";
-				SWIFT_VERSION = 5.0;
+				TARGETED_DEVICE_FAMILY = "1,2";
 				VERSIONING_SYSTEM = "apple-generic";
 			};
 			name = Release;
@@ -1195,6 +1198,7 @@
 				MTL_ENABLE_DEBUG_INFO = YES;
 				ONLY_ACTIVE_ARCH = YES;
 				SDKROOT = iphoneos;
+				SWIFT_VERSION = 4.0;
 			};
 			name = Debug;
 		};
@@ -1240,6 +1244,7 @@
 				IPHONEOS_DEPLOYMENT_TARGET = 9.0;
 				MTL_ENABLE_DEBUG_INFO = NO;
 				SDKROOT = iphoneos;
+				SWIFT_VERSION = 4.0;
 				VALIDATE_PRODUCT = YES;
 			};
 			name = Release;

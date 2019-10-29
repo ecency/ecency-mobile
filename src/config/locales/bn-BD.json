@@ -19,8 +19,7 @@
     "unfollow": "আপনাকে অননুসরণ করেছে",
     "ignore": "আপনাকে উপেক্ষা করেছে",
     "reblog": "reblogged your post",
-    "transfer": "transfered steem",
-    "comingsoon": "Feature is coming soon!",
+    "transfer": "transferred",
     "notification": "Notifications",
     "leaderboard": "Leaderboard",
     "epoint": "Points",
@@ -358,5 +357,12 @@
   },
   "reblog": {
     "title": "Reblog Info"
+  },
+  "dsteem": {
+    "date_error": {
+      "device_time": "Your device time;",
+      "current_time": "Current time;",
+      "information": "We noticed that your device has incorrect date or time. Please fix Date & Time or Set Automatically and try again."
+    }
   }
 }

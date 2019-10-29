@@ -19,8 +19,7 @@
     "unfollow": "folgt dir nicht mehr",
     "ignore": "ignoriert dich",
     "reblog": "hat deinen Beitrag geteilt",
-    "transfer": "transferierte Steem",
-    "comingsoon": "Diese Funktion kommt bald!",
+    "transfer": "transferred",
     "notification": "Benachrichtigungen",
     "leaderboard": "Rangliste",
     "epoint": "eSteem Punkte",
@@ -358,5 +357,12 @@
   },
   "reblog": {
     "title": "Reblog Info"
+  },
+  "dsteem": {
+    "date_error": {
+      "device_time": "Your device time;",
+      "current_time": "Current time;",
+      "information": "We noticed that your device has incorrect date or time. Please fix Date & Time or Set Automatically and try again."
+    }
   }
 }
