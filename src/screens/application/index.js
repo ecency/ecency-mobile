@@ -19,9 +19,10 @@ const Application = () => (
       isThemeReady,
       isPinCodeRequire,
     }) => {
-      if (!isReady || !isRenderRequire || !isThemeReady) {
+      if (true || !isReady || !isRenderRequire || !isThemeReady) {
         return <Launch />;
       }
+
       return (
         <Fragment>
           <Modal
