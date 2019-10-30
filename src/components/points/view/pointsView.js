@@ -13,6 +13,7 @@ import { Icon } from '../../icon';
 import { MainButton } from '../../mainButton';
 import { DropdownButton } from '../../dropdownButton';
 import { CollapsibleCard } from '../../collapsibleCard';
+import { ThemeContainer } from '../../../containers';
 
 // Utils
 import { getTimeFromNow } from '../../../utils/time';
@@ -40,17 +41,21 @@ class PointsView extends Component {
   // Component Functions
 
   refreshControl = () => {
-    const { fetchUserActivity, refreshing, isDarkTheme } = this.props;
+    const { fetchUserActivity, refreshing } = this.props;
 
     return (
-      <RefreshControl
-        refreshing={refreshing}
-        onRefresh={fetchUserActivity}
-        progressBackgroundColor="#357CE6"
-        tintColor={!isDarkTheme ? '#357ce6' : '#96c0ff'}
-        titleColor="#fff"
-        colors={['#fff']}
-      />
+      <ThemeContainer>
+        {isDarkTheme => (
+          <RefreshControl
+            refreshing={refreshing}
+            onRefresh={fetchUserActivity}
+            progressBackgroundColor="#357CE6"
+            tintColor={!isDarkTheme ? '#357ce6' : '#96c0ff'}
+            titleColor="#fff"
+            colors={['#fff']}
+          />
+        )}
+      </ThemeContainer>
     );
   };
 

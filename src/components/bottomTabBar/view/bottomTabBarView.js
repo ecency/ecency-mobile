@@ -10,7 +10,7 @@ import { updateActiveBottomTab } from '../../../redux/actions/uiAction';
 import ROUTES from '../../../constants/routeNames';
 
 // Container
-import { DarkThemeContainer } from '../../../containers';
+import { ThemeContainer } from '../../../containers';
 
 // Components
 import TabBar from './tabbar';
@@ -44,7 +44,7 @@ const BottomTabBarView = ({
   }, [dispatch, index, routes]);
 
   return (
-    <DarkThemeContainer>
+    <ThemeContainer>
       {({ isDarkTheme }) => (
         <SafeAreaView style={styles.wrapper}>
           <TabBar
@@ -74,7 +74,7 @@ const BottomTabBarView = ({
           </TabBar>
         </SafeAreaView>
       )}
-    </DarkThemeContainer>
+    </ThemeContainer>
   );
 };
 
