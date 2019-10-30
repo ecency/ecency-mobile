@@ -1,6 +1,6 @@
 import { replaceBetween } from './utils';
 
-export default async ({ text, selection, setText, setNewSelection, setSelection, item }) => {
+export default async ({ text, selection, setTextAndSelection, item }) => {
   let newText;
   let newSelection;
 
@@ -32,7 +32,5 @@ export default async ({ text, selection, setText, setNewSelection, setSelection,
     newSelection = { start: selection.start + 3, end: selection.start + 3 };
   }
 
-  await setText(newText);
-  await setNewSelection(newSelection);
-  await setSelection(newSelection);
+  setTextAndSelection({ text: newText, selection: newSelection });
 };
