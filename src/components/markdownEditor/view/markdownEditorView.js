@@ -34,27 +34,43 @@ const MarkdownEditorView = ({
   uploadedImage,
 }) => {
   const [text, setText] = useState(draftBody || '');
-  const [textChanged, setTextChanged] = useState(false);
   const [selection, setSelection] = useState({ start: 0, end: 0 });
-  const [selectionArray, setSelectionArray] = useState(false); // Workaround for android selection
-
-  const [newSelection, setNewSelection] = useState(null);
+  const [editable, setEditable] = useState(null);
 
   const inputRef = useRef(null);
   const galleryRef = useRef(null);
   const clearRef = useRef(null);
 
   useEffect(() => {
-    setSelection({ start: 0, end: 0 });
+    if (!isPreviewActive) {
+      _setTextAndSelection({ selection: { start: 0, end: 0 }, text });
+    }
   }, [isPreviewActive]);
+
+  useEffect(() => {
+    if (text === '' && draftBody !== '') {
+      _setTextAndSelection({ selection: { start: 0, end: 0 }, text: draftBody });
+    }
+  }, [draftBody]);
+
+  useEffect(() => {
+    if (editable === null) {
+      // workaround for android context menu issue
+      setEditable(false);
+      setTimeout(() => {
+        setEditable(!isLoading);
+      }, 100);
+    } else {
+      setEditable(!isLoading);
+    }
+  }, [isLoading]);
 
   useEffect(() => {
     if (uploadedImage && uploadedImage.url) {
       applyImageLink({
         text,
         selection,
-        setText,
-        setNewSelection,
+        setTextAndSelection: _setTextAndSelection,
         item: { url: uploadedImage.url, text: uploadedImage.hash },
         isImage: !!uploadedImage,
       });
@@ -79,11 +95,6 @@ const MarkdownEditorView = ({
 
   const _changeText = input => {
     setText(input);
-    setTextChanged(true);
-    setSelectionArray([]);
-    setTimeout(() => {
-      setTextChanged(false);
-    }, 100);
 
     if (onChange) {
       onChange(input);
@@ -99,33 +110,21 @@ const MarkdownEditorView = ({
   };
 
   const _handleOnSelectionChange = async event => {
-    if (textChanged) {
-      if (selectionArray.length > 0) {
-        return;
-      }
-      selectionArray.push(event.nativeEvent.selection);
-      setSelectionArray(selectionArray);
-    }
-    if (newSelection) {
-      setTimeout(() => {
-        setNewSelection(null);
-      }, 100);
-      return;
-    }
-    if (
-      selection.start === event.nativeEvent.selection.start &&
-      selection.end === event.nativeEvent.selection.end
-    ) {
-      return;
-    }
-    await setSelection(event.nativeEvent.selection);
+    setSelection(event.nativeEvent.selection);
   };
 
-  const _getSelection = () => {
-    if (selection.start > text.length || selection.end > text.length) {
-      return { start: text.length, end: text.length };
-    }
-    return selection;
+  const _setTextAndSelection = ({ selection: _selection, text: _text }) => {
+    inputRef.current.setNativeProps({
+      text: _text,
+    });
+    // Workaround for iOS selection update issue
+    setTimeout(() => {
+      inputRef.current.setNativeProps({
+        selection: _selection,
+      });
+      setSelection(_selection);
+    }, 200);
+    _changeText(_text);
   };
 
   const _renderPreview = () => (
@@ -143,7 +142,7 @@ const MarkdownEditorView = ({
         iconType={item.iconType}
         name={item.icon}
         onPress={() =>
-          item.onPress({ text, selection, setText, setNewSelection, setSelection, item })
+          item.onPress({ text, selection, setTextAndSelection: _setTextAndSelection, item })
         }
       />
     </View>
@@ -167,7 +166,7 @@ const MarkdownEditorView = ({
           iconType="FontAwesome"
           name="link"
           onPress={() =>
-            Formats[9].onPress({ text, selection, setText, setNewSelection, setSelection })
+            Formats[9].onPress({ text, selection, setTextAndSelection: _setTextAndSelection })
           }
         />
         <IconButton
@@ -196,6 +195,7 @@ const MarkdownEditorView = ({
     if (index === 0) {
       initialFields();
       setText('');
+      _setTextAndSelection({ text: '', selection: { start: 0, end: 0 } });
     }
   };
 
@@ -216,13 +216,12 @@ const MarkdownEditorView = ({
                 id: isReply ? 'editor.reply_placeholder' : 'editor.default_placeholder',
               })}
               placeholderTextColor={isDarkTheme ? '#526d91' : '#c1c5c7'}
-              selection={_getSelection()}
               selectionColor="#357ce6"
               style={styles.textWrapper}
               underlineColorAndroid="transparent"
-              value={text}
               innerRef={inputRef}
-              editable={!isLoading}
+              editable={editable}
+              contextMenuHidden={false}
             />
           )}
         </ThemeContainer>
