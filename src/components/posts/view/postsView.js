@@ -14,6 +14,7 @@ import { PostCard } from '../../postCard';
 import { FilterBar } from '../../filterBar';
 import { PostCardPlaceHolder, NoPost } from '../../basicUIElements';
 import { POPULAR_FILTERS, PROFILE_FILTERS } from '../../../constants/options/filters';
+import { ThemeContainer } from '../../../containers';
 
 // Styles
 import styles from './postsStyles';
@@ -141,7 +142,6 @@ class PostsView extends Component {
         ? POPULAR_FILTERS[selectedFilterIndex].toLowerCase()
         : PROFILE_FILTERS[selectedFilterIndex].toLowerCase();
     let options;
-    const newPosts = [];
     const limit = 3;
 
     if (!isConnected) {
@@ -362,7 +362,6 @@ class PostsView extends Component {
     const {
       filterOptions,
       selectedOptionIndex,
-      isDarkTheme,
       isHideImage,
       handleImagesHide,
     } = this.props;
@@ -401,14 +400,18 @@ class PostsView extends Component {
           onScrollEndDrag={this._handleOnScroll}
           ListEmptyComponent={this._renderEmptyContent}
           refreshControl={
-            <RefreshControl
-              refreshing={refreshing}
-              onRefresh={this._handleOnRefreshPosts}
-              progressBackgroundColor="#357CE6"
-              tintColor={!isDarkTheme ? '#357ce6' : '#96c0ff'}
-              titleColor="#fff"
-              colors={['#fff']}
-            />
+            <ThemeContainer>
+              {({ isDarkTheme }) => (
+                <RefreshControl
+                  refreshing={refreshing}
+                  onRefresh={this._handleOnRefreshPosts}
+                  progressBackgroundColor="#357CE6"
+                  tintColor={!isDarkTheme ? '#357ce6' : '#96c0ff'}
+                  titleColor="#fff"
+                  colors={['#fff']}
+                />
+              )}
+            </ThemeContainer>
           }
           ref={ref => {
             this.flatList = ref;
