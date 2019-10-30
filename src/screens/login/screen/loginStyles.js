@@ -39,4 +39,7 @@ export default EStyleSheet.create({
     marginHorizontal: 30,
     marginVertical: 10,
   },
+  input: {
+    color: '$primaryDarkText',
+  },
 });
