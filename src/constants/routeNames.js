@@ -11,7 +11,7 @@ export default {
     EDITOR: `Editor${SCREEN_SUFFIX}`,
     FOLLOWS: `Follows${SCREEN_SUFFIX}`,
     SPIN_GAME: `SpinGame${SCREEN_SUFFIX}`,
-    HOME: `Home${SCREEN_SUFFIX}`,
+    FEED: `Feed${SCREEN_SUFFIX}`,
     LOGIN: `Login${SCREEN_SUFFIX}`,
     PINCODE: `PinCode${SCREEN_SUFFIX}`,
     POST: `Post${SCREEN_SUFFIX}`,
@@ -29,7 +29,7 @@ export default {
     MAIN: `Main${DRAWER_SUFFIX}`,
   },
   TABBAR: {
-    HOME: `Home${TABBAR_SUFFIX}`,
+    FEED: `Feed${TABBAR_SUFFIX}`,
     NOTIFICATION: `Notification${TABBAR_SUFFIX}`,
     POINTS: `Points${TABBAR_SUFFIX}`,
     POST_BUTTON: `PostButton${TABBAR_SUFFIX}`,

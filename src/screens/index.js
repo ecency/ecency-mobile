@@ -2,7 +2,7 @@ import { Bookmarks } from './bookmarks';
 import { Drafts } from './drafts';
 import { Editor } from './editor';
 import { Follows } from './follows';
-import { Home } from './home';
+import { Feed } from './feed';
 import { Launch } from './launch';
 import { Login } from './login';
 import { Notification } from './notification';
@@ -27,7 +27,7 @@ export {
   Drafts,
   Editor,
   Follows,
-  Home,
+  Feed,
   Launch,
   Login,
   Notification,
