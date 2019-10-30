@@ -13,7 +13,6 @@ import { getPromotePosts } from '../../../providers/esteem/esteem';
 import { PostCard } from '../../postCard';
 import { FilterBar } from '../../filterBar';
 import { PostCardPlaceHolder, NoPost } from '../../basicUIElements';
-import { POPULAR_FILTERS, PROFILE_FILTERS } from '../../../constants/options/filters';
 import { ThemeContainer } from '../../../containers';
 
 // Styles
@@ -37,15 +36,6 @@ class PostsView extends Component {
       scrollOffsetY: 0,
       lockFilterBar: false,
     };
-  }
-
-  // Component Functions
-  componentWillMount() {
-    const { navigation } = this.props;
-
-    navigation.setParams({
-      scrollToTop: this._scrollToTop,
-    });
   }
 
   async componentDidMount() {
@@ -97,25 +87,24 @@ class PostsView extends Component {
   _getPromotePosts = async () => {
     const { currentAccountUsername } = this.props;
 
-    await getPromotePosts().then(async res => {
-      if (res && res.length) {
-        const promotedPosts = await Promise.all(
-          res.map(item =>
-            getPost(get(item, 'author'), get(item, 'permlink'), currentAccountUsername, true).then(
-              post => post,
+    await getPromotePosts()
+      .then(async res => {
+        if (res && res.length) {
+          const promotedPosts = await Promise.all(
+            res.map(item =>
+              getPost(
+                get(item, 'author'),
+                get(item, 'permlink'),
+                currentAccountUsername,
+                true,
+              ).then(post => post),
             ),
-          ),
-        );
+          );
 
-        this.setState({ promotedPosts });
-      }
-    });
-  };
-
-  _scrollToTop = () => {
-    if (this.flatList) {
-      this.flatList.scrollToOffset({ x: 0, y: 0, animated: true });
-    }
+          this.setState({ promotedPosts });
+        }
+      })
+      .catch(() => {});
   };
 
   _loadPosts = async () => {
@@ -123,10 +112,10 @@ class PostsView extends Component {
       getFor,
       tag,
       currentAccountUsername,
-      pageType,
       nsfw,
       setFeedPosts,
       isConnected,
+      filterOptions,
     } = this.props;
     const {
       posts,
@@ -137,10 +126,7 @@ class PostsView extends Component {
       isLoading,
       promotedPosts,
     } = this.state;
-    const filter =
-      pageType === 'posts'
-        ? POPULAR_FILTERS[selectedFilterIndex].toLowerCase()
-        : PROFILE_FILTERS[selectedFilterIndex].toLowerCase();
+    const filter = filterOptions[selectedFilterIndex].toLowerCase();
     let options;
     const limit = 3;
 
@@ -157,12 +143,7 @@ class PostsView extends Component {
     }
 
     this.setState({ isLoading: true });
-    if (tag || filter === 'feed' || filter === 'blog' || getFor === 'blog') {
-      options = {
-        tag,
-        limit,
-      };
-    } else if (filter === 'reblogs') {
+    if (filter === 'feed' || filter === 'blog' || getFor === 'blog' || filter === 'reblogs') {
       options = {
         tag,
         limit,
@@ -359,12 +340,7 @@ class PostsView extends Component {
 
   render() {
     const { refreshing, posts, isShowFilterBar } = this.state;
-    const {
-      filterOptions,
-      selectedOptionIndex,
-      isHideImage,
-      handleImagesHide,
-    } = this.props;
+    const { filterOptions, selectedOptionIndex, isHideImage, handleImagesHide } = this.props;
 
     return (
       <View style={styles.container}>
@@ -413,9 +389,6 @@ class PostsView extends Component {
               )}
             </ThemeContainer>
           }
-          ref={ref => {
-            this.flatList = ref;
-          }}
         />
       </View>
     );

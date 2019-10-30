@@ -6,13 +6,13 @@ import ROUTES from '../constants/routeNames';
 
 // Components
 import { Icon, IconContainer } from '../components/icon';
-import { Home, Notification, Profile, Points } from '../screens';
+import { Feed, Notification, Profile, Points } from '../screens';
 import { PostButton, BottomTabBar } from '../components';
 
 const BaseNavigator = createBottomTabNavigator(
   {
-    [ROUTES.TABBAR.HOME]: {
-      screen: Home,
+    [ROUTES.TABBAR.FEED]: {
+      screen: Feed,
       navigationOptions: () => ({
         tabBarIcon: ({ tintColor }) => (
           <Icon iconType="MaterialIcons" name="view-day" color={tintColor} size={26} />
