@@ -1,10 +1,10 @@
-import React, { PureComponent } from 'react';
+import React, { Component } from 'react';
 import { Animated, Easing, View } from 'react-native';
 
 // Styles
 import styles from './pinAnimatedInputStyles';
 
-class PinAnimatedInput extends PureComponent {
+class PinAnimatedInput extends Component {
   /* Props
    *
    *   @prop { string }    pin            - Description.
