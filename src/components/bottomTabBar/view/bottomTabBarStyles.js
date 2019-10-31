@@ -16,7 +16,7 @@ export default EStyleSheet.create({
     zIndex: 1,
     position: 'absolute',
     bottom: 0,
-    marginHorizontal: 19,
+    marginHorizontal: 20,
     justifyContent: 'space-between',
   },
   navItem: {
