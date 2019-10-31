@@ -25,7 +25,6 @@ const PointsScreen = ({ isLoggedIn, handleLoginPress }) => {
               claimPoints,
               fetchUserActivity,
               isClaiming,
-              isDarkTheme,
               isLoading,
               refreshing,
               userActivities,
@@ -35,7 +34,6 @@ const PointsScreen = ({ isLoggedIn, handleLoginPress }) => {
                 claimPoints={claimPoints}
                 fetchUserActivity={fetchUserActivity}
                 isClaiming={isClaiming}
-                isDarkTheme={isDarkTheme}
                 isLoading={isLoading}
                 refreshing={refreshing}
                 userActivities={userActivities}

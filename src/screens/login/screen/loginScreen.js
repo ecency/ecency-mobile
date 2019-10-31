@@ -119,6 +119,7 @@ class LoginScreen extends PureComponent {
                 type="username"
                 isFirstImage
                 value={username}
+                inputStyle={styles.input}
               />
               <FormInput
                 rightIconName="lock"
@@ -131,6 +132,7 @@ class LoginScreen extends PureComponent {
                 isEditable
                 secureTextEntry
                 type="password"
+                inputStyle={styles.input}
               />
               <InformationArea
                 description={intl.formatMessage({
