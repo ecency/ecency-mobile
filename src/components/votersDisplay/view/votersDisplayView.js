@@ -31,7 +31,7 @@ const VotersDisplayView = ({ votes, navigation }) => {
   const _renderItem = (item, index) => {
     const value = `$ ${item.value}`;
     const percent = `${item.percent}%`;
-    console.log(item);
+
     return (
       <UserListItem
         index={index}
