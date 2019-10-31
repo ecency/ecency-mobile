@@ -15,6 +15,7 @@ import { FilterBar } from '../../filterBar';
 import { PostCardPlaceHolder, NoPost } from '../../basicUIElements';
 import { POPULAR_FILTERS, PROFILE_FILTERS } from '../../../constants/options/filters';
 import { ThemeContainer } from '../../../containers';
+import bugsnag from '../../../config/bugsnag';
 
 // Styles
 import styles from './postsStyles';
@@ -97,19 +98,24 @@ class PostsView extends Component {
   _getPromotePosts = async () => {
     const { currentAccountUsername } = this.props;
 
-    await getPromotePosts().then(async res => {
-      if (res && res.length) {
-        const promotedPosts = await Promise.all(
-          res.map(item =>
-            getPost(get(item, 'author'), get(item, 'permlink'), currentAccountUsername, true).then(
-              post => post,
+    await getPromotePosts()
+      .then(async res => {
+        if (res && res.length) {
+          const promotedPosts = await Promise.all(
+            res.map(item =>
+              getPost(
+                get(item, 'author'),
+                get(item, 'permlink'),
+                currentAccountUsername,
+                true,
+              ).then(post => post),
             ),
-          ),
-        );
+          );
 
-        this.setState({ promotedPosts });
-      }
-    });
+          this.setState({ promotedPosts });
+        }
+      })
+      .catch(err => bugsnag.notify(err));
   };
 
   _scrollToTop = () => {
@@ -359,12 +365,7 @@ class PostsView extends Component {
 
   render() {
     const { refreshing, posts, isShowFilterBar } = this.state;
-    const {
-      filterOptions,
-      selectedOptionIndex,
-      isHideImage,
-      handleImagesHide,
-    } = this.props;
+    const { filterOptions, selectedOptionIndex, isHideImage, handleImagesHide } = this.props;
 
     return (
       <View style={styles.container}>
