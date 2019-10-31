@@ -25,13 +25,14 @@ export const parsePost = async (post, currentUserName, isPromoted) => {
   if (!post) {
     return null;
   }
-
+  const activeVotes = await getActiveVotes(get(post, 'author'), get(post, 'permlink'));
   if (currentUserName === post.author) {
     post.markdownBody = post.body;
   }
   post.is_promoted = isPromoted;
   post.json_metadata = JSON.parse(post.json_metadata);
   post.image = postImage(post.json_metadata, post.body);
+  post.active_votes = activeVotes;
   post.vote_count = post.active_votes.length;
   post.author_reputation = getReputation(post.author_reputation);
   post.avatar = getResizedAvatar(get(post, 'author'));
