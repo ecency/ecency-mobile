@@ -1,48 +1,50 @@
-import React, { PureComponent, Fragment } from 'react';
+import React from 'react';
 import { Dimensions, Linking, Alert, TouchableOpacity, Text } from 'react-native';
 import { withNavigation } from 'react-navigation';
-import { injectIntl } from 'react-intl';
-
+import { useIntl, injectIntl } from 'react-intl';
 import HTML from 'react-native-render-html';
 import { getParentsTagsRecursively } from 'react-native-render-html/src/HTMLUtils';
+
+// Constants
+import { default as ROUTES } from '../../../../constants/routeNames';
 
 // Styles
 import styles from './postBodyStyles';
 
-// Constants
-import { default as ROUTES } from '../../../../constants/routeNames';
-// Components
-
 const WIDTH = Dimensions.get('window').width;
 
-class PostBody extends PureComponent {
-  // Component Life Cycles
+const PostBody = ({
+  navigation,
+  body,
+  isComment,
+  textSelectable = true,
+  handleOnUserPress,
+  handleOnPostPress,
+}) => {
+  const intl = useIntl();
 
-  // Component Functions
-
-  _handleOnLinkPress = (href, hrefatr) => {
-    const { handleOnUserPress, handleOnPostPress } = this.props;
-
-    if (hrefatr.class === 'markdown-author-link') {
+  const _handleOnLinkPress = (href, hrefAtr) => {
+    if (hrefAtr.class === 'markdown-author-link') {
       if (!handleOnUserPress) {
-        this._handleOnUserPress(hrefatr['data-author']);
+        _handleOnUserPress(hrefAtr['data-author']);
       } else {
-        handleOnUserPress(hrefatr['data-author']);
+        handleOnUserPress(hrefAtr['data-author']);
       }
-    } else if (hrefatr.class === 'markdown-post-link') {
+    } else if (hrefAtr.class === 'markdown-post-link') {
       if (!handleOnPostPress) {
-        this._handleOnPostPress(hrefatr['data-permlink'], hrefatr['data-author']);
+        _handleOnPostPress(hrefAtr['data-permlink'], hrefAtr['data-author']);
       } else {
-        handleOnPostPress(hrefatr['data-permlink']);
+        handleOnPostPress(hrefAtr['data-permlink']);
       }
     } else {
-      this._handleBrowserLink(href);
+      _handleBrowserLink(href);
     }
   };
 
-  _handleBrowserLink = async url => {
-    if (!url) return;
-    const { intl } = this.props;
+  const _handleBrowserLink = async url => {
+    if (!url) {
+      return;
+    }
 
     Linking.canOpenURL(url).then(supported => {
       if (supported) {
@@ -53,9 +55,7 @@ class PostBody extends PureComponent {
     });
   };
 
-  _handleOnPostPress = (permlink, author) => {
-    const { navigation } = this.props;
-
+  const _handleOnPostPress = (permlink, author) => {
     if (permlink) {
       navigation.navigate({
         routeName: ROUTES.SCREENS.POST,
@@ -68,9 +68,7 @@ class PostBody extends PureComponent {
     }
   };
 
-  _handleOnUserPress = username => {
-    const { navigation } = this.props;
-
+  const _handleOnUserPress = username => {
     if (username) {
       navigation.navigate({
         routeName: ROUTES.SCREENS.PROFILE,
@@ -80,33 +78,35 @@ class PostBody extends PureComponent {
         key: username,
       });
     } else {
-      Alert.alert('Opps!', 'Wrong link :(');
+      Alert.alert('Opss!', 'Wrong link.');
     }
   };
 
-  _hasParentTag = (node, name) => {
-    if (!node.parent) return false;
-    if (node.name === name) return true;
-    return this._hasParentTag(node.parent, name);
+  const _hasParentTag = (node, name) => {
+    if (!node.parent) {
+      return false;
+    }
+
+    if (node.name === name) {
+      return true;
+    }
+
+    return _hasParentTag(node.parent, name);
   };
 
-  _alterNode = (node, isComment) => {
+  const _alterNode = (node, isComment) => {
     if (isComment) {
       if (node.name === 'img') {
         node.attribs.style = `max-width: ${WIDTH - 50}px; height: 100px; width: ${WIDTH -
           50}px; text-align: center;`;
       }
-      //  else if (node.name === 'iframe') {
-      //   node.attribs.style = `max-width: ${WIDTH}px; left: -30px`;
-      //   node.attribs.height = 216;
-      // }
     } else if (node.name === 'a') {
       node.attribs.style = 'text-decoration: underline';
     }
 
     if (node.name === 'img') {
       node.attribs.style = 'text-align: center;';
-      if (this._hasParentTag(node, 'td')) {
+      if (_hasParentTag(node, 'td')) {
         node.attribs.style = `max-width: ${WIDTH / 2 - 20}px; `;
       }
     }
@@ -132,7 +132,7 @@ class PostBody extends PureComponent {
     }
   };
 
-  _alterData = node => {
+  const _alterData = node => {
     if (
       node.type === 'text' &&
       node.data.includes('markdown-author-link') &&
@@ -143,61 +143,56 @@ class PostBody extends PureComponent {
     }
   };
 
-  render() {
-    const { body, isComment, textSelectable = true } = this.props;
-    const _initialDimensions = isComment
-      ? { width: WIDTH - 50, height: 80 }
-      : { width: WIDTH, height: 216 };
+  const _initialDimensions = isComment
+    ? { width: WIDTH - 50, height: 80 }
+    : { width: WIDTH, height: 216 };
 
-    const _customRenderer = {
-      a: (htmlAttribs, children, convertedCSSStyles, passProps) => {
-        if (passProps.parentWrapper === 'Text') {
-          return (
-            <Text
-              key={passProps.key}
-              {...htmlAttribs}
-              onPress={() => this._handleOnLinkPress(htmlAttribs['data-href'], htmlAttribs)}
-            >
-              {children}
-            </Text>
-          );
-        }
+  const _customRenderer = {
+    a: (htmlAttribs, children, convertedCSSStyles, passProps) => {
+      if (passProps.parentWrapper === 'Text') {
         return (
-          <TouchableOpacity
+          <Text
             key={passProps.key}
             {...htmlAttribs}
-            onPress={() => this._handleOnLinkPress(htmlAttribs['data-href'], htmlAttribs)}
+            onPress={() => _handleOnLinkPress(htmlAttribs['data-href'], htmlAttribs)}
           >
             {children}
-          </TouchableOpacity>
+          </Text>
         );
-      },
-      br: (htmlAttribs, children, passProps) => {
-        return <Text {...passProps}>{'\n'}</Text>;
-      },
-    };
+      }
+      return (
+        <TouchableOpacity
+          key={passProps.key}
+          {...htmlAttribs}
+          onPress={() => _handleOnLinkPress(htmlAttribs['data-href'], htmlAttribs)}
+        >
+          {children}
+        </TouchableOpacity>
+      );
+    },
+    br: (htmlAttribs, children, passProps) => {
+      return <Text {...passProps}>{'\n'}</Text>;
+    },
+  };
 
-    return (
-      <Fragment>
-        <HTML
-          html={body}
-          onLinkPress={(evt, href, hrefatr) => this._handleOnLinkPress(evt, href, hrefatr)}
-          containerStyle={isComment ? styles.commentContainer : styles.container}
-          textSelectable={textSelectable}
-          tagsStyles={isComment ? { img: { height: 120 } } : styles}
-          ignoredTags={['script']}
-          debug={false}
-          staticContentMaxWidth={WIDTH - 33}
-          imagesInitialDimensions={_initialDimensions}
-          baseFontStyle={styles.text}
-          imagesMaxWidth={isComment ? WIDTH - 50 : WIDTH}
-          alterNode={e => this._alterNode(e, isComment)}
-          alterData={e => this._alterData(e)}
-          renderers={_customRenderer}
-        />
-      </Fragment>
-    );
-  }
-}
+  return (
+    <HTML
+      html={body}
+      onLinkPress={(evt, href, hrefAtr) => _handleOnLinkPress(evt, href, hrefAtr)}
+      containerStyle={isComment ? styles.commentContainer : styles.container}
+      textSelectable={textSelectable}
+      tagsStyles={isComment ? { img: { height: 120 } } : styles}
+      ignoredTags={['script']}
+      debug={false}
+      staticContentMaxWidth={WIDTH - 33}
+      imagesInitialDimensions={_initialDimensions}
+      baseFontStyle={styles.text}
+      imagesMaxWidth={isComment ? WIDTH - 50 : WIDTH}
+      alterNode={e => _alterNode(e, isComment)}
+      alterData={e => _alterData(e)}
+      renderers={_customRenderer}
+    />
+  );
+};
 
 export default injectIntl(withNavigation(PostBody));

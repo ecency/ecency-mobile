@@ -34,7 +34,6 @@ class HeaderView extends Component {
 
   render() {
     const {
-      avatarUrl,
       displayName,
       handleOnPressBackButton,
       handleOpenDrawer,
