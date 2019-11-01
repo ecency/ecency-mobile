@@ -236,21 +236,23 @@ class SettingsContainer extends Component {
     dispatch(changeNotificationSettings({ action, type: actionType }));
     setNotificationSettings({ action, type: actionType });
 
-    if (actionType === 'notification') {
-      await Push.setEnabled(action);
-      this._setPushToken(action ? [1, 2, 3, 4, 5, 6] : notifyTypes);
-    } else {
-      Object.keys(notificationDetails).map(item => {
-        const notificationType = item.replace('Notification', '');
+    Object.keys(notificationDetails).map(item => {
+      const notificationType = item.replace('Notification', '');
 
-        if (notificationType === actionType.replace('notification.', '')) {
-          if (action) {
-            notifyTypes.push(notifyTypesConst[notificationType]);
-          }
-        } else if (notificationDetails[item]) {
+      if (notificationType === actionType.replace('notification.', '')) {
+        if (action) {
           notifyTypes.push(notifyTypesConst[notificationType]);
         }
-      });
+      } else if (notificationDetails[item]) {
+        notifyTypes.push(notifyTypesConst[notificationType]);
+      }
+    });
+    notifyTypes.sort();
+
+    if (actionType === 'notification') {
+      await Push.setEnabled(action);
+      this._setPushToken(action ? notifyTypes : []);
+    } else {
       this._setPushToken(notifyTypes);
     }
   };
@@ -286,21 +288,25 @@ class SettingsContainer extends Component {
   };
 
   _setPushToken = async notifyTypes => {
-    const { isNotificationSettingsOpen, isLoggedIn, username } = this.props;
+    const { isLoggedIn, otherAccounts = [] } = this.props;
 
     if (isLoggedIn) {
       const token = await AppCenter.getInstallId();
 
       getExistUser().then(isExistUser => {
         if (isExistUser) {
-          const data = {
-            username,
-            token,
-            system: Platform.OS,
-            allows_notify: Number(isNotificationSettingsOpen),
-            notify_types: notifyTypes,
-          };
-          setPushToken(data);
+          otherAccounts.forEach(item => {
+            const { isNotificationSettingsOpen } = this.props;
+
+            const data = {
+              username: item.username,
+              token,
+              system: Platform.OS,
+              allows_notify: Number(isNotificationSettingsOpen),
+              notify_types: notifyTypes,
+            };
+            setPushToken(data);
+          });
         }
       });
     }
@@ -401,6 +407,7 @@ const mapStateToProps = state => ({
 
   username: state.account.currentAccount && state.account.currentAccount.name,
   currentAccount: state.account.currentAccount,
+  otherAccounts: state.account.otherAccounts,
 });
 
 export default injectIntl(connect(mapStateToProps)(SettingsContainer));

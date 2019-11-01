@@ -359,12 +359,7 @@ class PostsView extends Component {
 
   render() {
     const { refreshing, posts, isShowFilterBar } = this.state;
-    const {
-      filterOptions,
-      selectedOptionIndex,
-      isHideImage,
-      handleImagesHide,
-    } = this.props;
+    const { filterOptions, selectedOptionIndex, isHideImage, handleImagesHide } = this.props;
 
     return (
       <View style={styles.container}>
