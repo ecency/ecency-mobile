@@ -10,6 +10,7 @@ import { ContainerHeader } from '../../containerHeader';
 import { FilterBar } from '../../filterBar';
 import { NotificationLine } from '../..';
 import { ListPlaceHolder } from '../../basicUIElements';
+import { ThemeContainer } from '../../../containers';
 
 // Utils
 import { isToday, isYesterday, isThisWeek, isThisMonth } from '../../../utils/time';
@@ -149,12 +150,7 @@ class NotificationView extends PureComponent {
   );
 
   render() {
-    const {
-      readAllNotification,
-      getActivities,
-      isNotificationRefreshing,
-      isDarkTheme,
-    } = this.props;
+    const { readAllNotification, getActivities, isNotificationRefreshing } = this.props;
     const { filters, selectedFilter } = this.state;
     const _notifications = this._getNotificationsArrays();
 
@@ -178,13 +174,17 @@ class NotificationView extends PureComponent {
           ListFooterComponent={this._renderFooterLoading}
           ListEmptyComponent={<ListPlaceHolder />}
           refreshControl={
-            <RefreshControl
-              refreshing={isNotificationRefreshing}
-              progressBackgroundColor="#357CE6"
-              tintColor={!isDarkTheme ? '#357ce6' : '#96c0ff'}
-              titleColor="#fff"
-              colors={['#fff']}
-            />
+            <ThemeContainer>
+              {({ isDarkTheme }) => (
+                <RefreshControl
+                  refreshing={isNotificationRefreshing}
+                  progressBackgroundColor="#357CE6"
+                  tintColor={!isDarkTheme ? '#357ce6' : '#96c0ff'}
+                  titleColor="#fff"
+                  colors={['#fff']}
+                />
+              )}
+            </ThemeContainer>
           }
           renderItem={({ item, index }) => (
             <Fragment>

@@ -1,24 +1,34 @@
-import React, { Component } from 'react';
-import { View, FlatList, Text } from 'react-native';
-import { injectIntl } from 'react-intl';
+import React from 'react';
+import { SafeAreaView, FlatList, Text } from 'react-native';
+import { withNavigation } from 'react-navigation';
+import { useIntl } from 'react-intl';
 
 // Utils
 import { getTimeFromNow } from '../../../utils/time';
 
 // Components
 import { UserListItem } from '../../basicUIElements';
+
+// Constants
+import ROUTES from '../../../constants/routeNames';
+
 // Styles
 import styles from './votersDisplayStyles';
 
-class VotersDisplayView extends Component {
-  /* Props
-   * ------------------------------------------------
-   *   @prop { type }    name                - Description....
-   */
+const VotersDisplayView = ({ votes, navigation }) => {
+  const intl = useIntl();
 
-  // Component Functions
-  _renderItem = (item, index) => {
-    const { handleOnUserPress } = this.props;
+  const _handleOnUserPress = username => {
+    navigation.navigate({
+      routeName: ROUTES.SCREENS.PROFILE,
+      params: {
+        username,
+      },
+      key: username,
+    });
+  };
+
+  const _renderItem = (item, index) => {
     const value = `$ ${item.value}`;
     const percent = `${item.percent}%`;
 
@@ -30,35 +40,31 @@ class VotersDisplayView extends Component {
         isHasRightItem
         isRightColor={item.is_down_vote}
         rightText={value}
-        handleOnPress={() => handleOnUserPress(item.voter)}
+        handleOnPress={() => _handleOnUserPress(item.voter)}
         isClickable
         subRightText={percent}
       />
     );
   };
 
-  render() {
-    const { votes, intl } = this.props;
+  return (
+    <SafeAreaView style={styles.container}>
+      {votes && votes.length > 0 ? (
+        <FlatList
+          data={votes}
+          keyExtractor={item => item.voter}
+          removeClippedSubviews={false}
+          renderItem={({ item, index }) => _renderItem(item, index)}
+        />
+      ) : (
+        <Text style={styles.text}>
+          {intl.formatMessage({
+            id: 'voters.no_user',
+          })}
+        </Text>
+      )}
+    </SafeAreaView>
+  );
+};
 
-    return (
-      <View style={styles.container}>
-        {votes.length > 0 ? (
-          <FlatList
-            data={votes}
-            keyExtractor={item => item.voter}
-            removeClippedSubviews={false}
-            renderItem={({ item, index }) => this._renderItem(item, index)}
-          />
-        ) : (
-          <Text style={styles.text}>
-            {intl.formatMessage({
-              id: 'voters.no_user',
-            })}
-          </Text>
-        )}
-      </View>
-    );
-  }
-}
-
-export default injectIntl(VotersDisplayView);
+export default withNavigation(VotersDisplayView);

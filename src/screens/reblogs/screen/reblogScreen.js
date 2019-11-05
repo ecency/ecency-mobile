@@ -1,12 +1,12 @@
 import React from 'react';
-import { View, FlatList } from 'react-native';
+import { View, FlatList, SafeAreaView } from 'react-native';
 import { useIntl } from 'react-intl';
-
-// Constants
+import get from 'lodash/get';
 
 // Components
 import { BasicHeader, UserListItem } from '../../../components';
 
+// Container
 import AccountListContainer from '../../../containers/accountListContainer';
 
 // Utils
@@ -31,13 +31,12 @@ const ReblogScreen = ({ navigation }) => {
     id: 'reblog.title',
   });
 
-  const activeVotes =
-    navigation.state && navigation.state.params && navigation.state.params.reblogs;
+  const activeVotes = get(navigation, 'state.params.reblogs');
 
   return (
     <AccountListContainer data={activeVotes} navigation={navigation}>
       {({ data, filterResult, handleSearch, handleOnUserPress }) => (
-        <View style={globalStyles.container}>
+        <SafeAreaView style={globalStyles.container}>
           <BasicHeader
             title={`${headerTitle} (${data && data.length})`}
             isHasSearch
@@ -49,7 +48,7 @@ const ReblogScreen = ({ navigation }) => {
             removeClippedSubviews={false}
             renderItem={({ item, index }) => renderUserListItem(item, index, handleOnUserPress)}
           />
-        </View>
+        </SafeAreaView>
       )}
     </AccountListContainer>
   );

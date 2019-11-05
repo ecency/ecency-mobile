@@ -1,8 +1,7 @@
 import React from 'react';
-import { View } from 'react-native';
+import { SafeAreaView } from 'react-native';
 import { useIntl } from 'react-intl';
-
-// Constants
+import get from 'lodash/get';
 
 // Components
 import { BasicHeader, FilterBar, VotersDisplay } from '../../../components';
@@ -20,13 +19,12 @@ const VotersScreen = ({ navigation }) => {
     id: 'voters.voters_info',
   });
 
-  const activeVotes =
-    navigation.state && navigation.state.params && navigation.state.params.activeVotes;
+  const activeVotes = get(navigation, 'state.params.activeVotes');
 
   return (
     <AccountListContainer data={activeVotes}>
       {({ data, filterResult, handleOnVotersDropdownSelect, handleSearch }) => (
-        <View style={globalStyles.container}>
+        <SafeAreaView style={globalStyles.container}>
           <BasicHeader
             title={`${headerTitle} (${data && data.length})`}
             isHasSearch
@@ -43,7 +41,7 @@ const VotersScreen = ({ navigation }) => {
             onDropdownSelect={handleOnVotersDropdownSelect}
           />
           <VotersDisplay votes={filterResult || data} />
-        </View>
+        </SafeAreaView>
       )}
     </AccountListContainer>
   );
