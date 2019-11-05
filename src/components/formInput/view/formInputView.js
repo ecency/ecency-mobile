@@ -5,6 +5,7 @@ import FastImage from 'react-native-fast-image';
 // Components
 import { TextInput } from '../../textInput';
 import { Icon } from '../../icon';
+import { ThemeContainer } from '../../../containers';
 
 // Utils
 import { getResizedAvatar } from '../../../utils/image';
@@ -68,6 +69,7 @@ class FormInputView extends Component {
       height,
       inputStyle,
     } = this.props;
+
     return (
       <View
         style={[
@@ -95,19 +97,24 @@ class FormInputView extends Component {
           )
         )}
         <View style={styles.textInput}>
-          <TextInput
-            style={inputStyle}
-            onFocus={() => this.setState({ inputBorderColor: '#357ce6' })}
-            onBlur={() => this.setState({ inputBorderColor: '#e7e7e7' })}
-            autoCapitalize="none"
-            secureTextEntry={secureTextEntry}
-            height={height}
-            placeholder={placeholder}
-            editable={isEditable || true}
-            textContentType={type}
-            onChangeText={this._handleOnChange}
-            value={value}
-          />
+          <ThemeContainer>
+            {({ isDarkTheme }) => (
+              <TextInput
+                style={inputStyle}
+                onFocus={() => this.setState({ inputBorderColor: '#357ce6' })}
+                onBlur={() => this.setState({ inputBorderColor: '#e7e7e7' })}
+                autoCapitalize="none"
+                secureTextEntry={secureTextEntry}
+                height={height}
+                placeholder={placeholder}
+                editable={isEditable || true}
+                textContentType={type}
+                onChangeText={this._handleOnChange}
+                value={value}
+                placeholderTextColor={isDarkTheme ? '#526d91' : '#788187'}
+              />
+            )}
+          </ThemeContainer>
         </View>
 
         {value && value.length > 0 ? (

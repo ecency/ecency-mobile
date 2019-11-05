@@ -137,7 +137,7 @@ class WalletContainer extends Component {
   };
 
   render() {
-    const { currentAccount, selectedUser, isDarkTheme, handleOnScroll } = this.props;
+    const { currentAccount, selectedUser, handleOnScroll } = this.props;
     const { walletData, isClaiming, isRefreshing } = this.state;
 
     return (
@@ -149,7 +149,6 @@ class WalletContainer extends Component {
         isClaiming={isClaiming}
         handleOnWalletRefresh={this._handleOnWalletRefresh}
         isRefreshing={isRefreshing}
-        isDarkTheme={isDarkTheme}
         handleOnScroll={handleOnScroll}
       />
     );
@@ -159,7 +158,6 @@ class WalletContainer extends Component {
 const mapStateToProps = state => ({
   currentAccount: state.account.currentAccount,
   pinCode: state.application.pin,
-  isDarkTheme: state.application.isDarkTheme,
   globalProps: state.account.globalProps,
 });
 

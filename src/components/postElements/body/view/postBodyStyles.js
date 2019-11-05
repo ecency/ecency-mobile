@@ -2,7 +2,7 @@ import EStyleSheet from 'react-native-extended-stylesheet';
 
 export default EStyleSheet.create({
   text: {
-    fontSize: 14,
+    fontSize: 16,
     color: '$primaryBlack',
     fontFamily: '$primaryFont',
   },

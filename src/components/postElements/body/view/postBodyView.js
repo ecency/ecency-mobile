@@ -1,49 +1,52 @@
-import React, { PureComponent, Fragment } from 'react';
+import React, { Fragment } from 'react';
 import { Dimensions, Linking, Alert, TouchableOpacity, Text } from 'react-native';
 import { withNavigation } from 'react-navigation';
-import { injectIntl } from 'react-intl';
-import AutoHeightWebView from 'react-native-autoheight-webview';
-
+import { useIntl, injectIntl } from 'react-intl';
 import HTML from 'react-native-render-html';
 import { getParentsTagsRecursively } from 'react-native-render-html/src/HTMLUtils';
+import AutoHeightWebView from 'react-native-autoheight-webview';
+import EStyleSheet from 'react-native-extended-stylesheet';
+
+// Constants
+import { default as ROUTES } from '../../../../constants/routeNames';
 
 // Styles
 import styles from './postBodyStyles';
 
-// Constants
-import { default as ROUTES } from '../../../../constants/routeNames';
-// Components
-
 const WIDTH = Dimensions.get('window').width;
 
-class PostBody extends PureComponent {
-  // Component Life Cycles
+const PostBody = ({
+  navigation,
+  body,
+  isComment,
+  textSelectable = true,
+  handleOnUserPress,
+  handleOnPostPress,
+}) => {
+  const intl = useIntl();
 
-  // Component Functions
-
-  _handleOnLinkPress = (href, hrefatr) => {
-    const { handleOnUserPress, handleOnPostPress } = this.props;
-
-    if (hrefatr.class === 'markdown-author-link') {
+  const _handleOnLinkPress = (href, hrefAtr) => {
+    if (hrefAtr.class === 'markdown-author-link') {
       if (!handleOnUserPress) {
-        this._handleOnUserPress(hrefatr['data-author']);
+        _handleOnUserPress(hrefAtr['data-author']);
       } else {
-        handleOnUserPress(hrefatr['data-author']);
+        handleOnUserPress(hrefAtr['data-author']);
       }
-    } else if (hrefatr.class === 'markdown-post-link') {
+    } else if (hrefAtr.class === 'markdown-post-link') {
       if (!handleOnPostPress) {
-        this._handleOnPostPress(hrefatr['data-permlink'], hrefatr['data-author']);
+        _handleOnPostPress(hrefAtr['data-permlink'], hrefAtr['data-author']);
       } else {
-        handleOnPostPress(hrefatr['data-permlink']);
+        handleOnPostPress(hrefAtr['data-permlink']);
       }
     } else {
-      this._handleBrowserLink(href);
+      _handleBrowserLink(href);
     }
   };
 
-  _handleBrowserLink = async url => {
-    if (!url) return;
-    const { intl } = this.props;
+  const _handleBrowserLink = async url => {
+    if (!url) {
+      return;
+    }
 
     Linking.canOpenURL(url).then(supported => {
       if (supported) {
@@ -54,9 +57,7 @@ class PostBody extends PureComponent {
     });
   };
 
-  _handleOnPostPress = (permlink, author) => {
-    const { navigation } = this.props;
-
+  const _handleOnPostPress = (permlink, author) => {
     if (permlink) {
       navigation.navigate({
         routeName: ROUTES.SCREENS.POST,
@@ -69,9 +70,7 @@ class PostBody extends PureComponent {
     }
   };
 
-  _handleOnUserPress = username => {
-    const { navigation } = this.props;
-
+  const _handleOnUserPress = username => {
     if (username) {
       navigation.navigate({
         routeName: ROUTES.SCREENS.PROFILE,
@@ -81,33 +80,35 @@ class PostBody extends PureComponent {
         key: username,
       });
     } else {
-      Alert.alert('Opps!', 'Wrong link :(');
+      Alert.alert('Opss!', 'Wrong link.');
     }
   };
 
-  _hasParentTag = (node, name) => {
-    if (!node.parent) return false;
-    if (node.name === name) return true;
-    return this._hasParentTag(node.parent, name);
+  const _hasParentTag = (node, name) => {
+    if (!node.parent) {
+      return false;
+    }
+
+    if (node.name === name) {
+      return true;
+    }
+
+    return _hasParentTag(node.parent, name);
   };
 
-  _alterNode = (node, isComment) => {
+  const _alterNode = (node, isComment) => {
     if (isComment) {
       if (node.name === 'img') {
         node.attribs.style = `max-width: ${WIDTH - 50}px; height: 100px; width: ${WIDTH -
           50}px; text-align: center;`;
       }
-      //  else if (node.name === 'iframe') {
-      //   node.attribs.style = `max-width: ${WIDTH}px; left: -30px`;
-      //   node.attribs.height = 216;
-      // }
     } else if (node.name === 'a') {
       node.attribs.style = 'text-decoration: underline';
     }
 
     if (node.name === 'img') {
       node.attribs.style = 'text-align: center;';
-      if (this._hasParentTag(node, 'td')) {
+      if (_hasParentTag(node, 'td')) {
         node.attribs.style = `max-width: ${WIDTH / 2 - 20}px; `;
       }
     }
@@ -133,7 +134,7 @@ class PostBody extends PureComponent {
     }
   };
 
-  _alterData = node => {
+  const _alterData = node => {
     if (
       node.type === 'text' &&
       node.data.includes('markdown-author-link') &&
@@ -143,82 +144,184 @@ class PostBody extends PureComponent {
       return node.data.replace(/<[^>]*>/g, '');
     }
   };
-  handleWebViewNavigationStateChange = newNavState => {
+  const handleWebViewNavigationStateChange = newNavState => {
     console.log('newNavState :', newNavState);
+    if (newNavState.navigationType === 'click') {
+      return false;
+    }
     return newNavState;
   };
 
-  render() {
-    const { body, isComment, textSelectable = true } = this.props;
-    const _initialDimensions = isComment
-      ? { width: WIDTH - 50, height: 80 }
-      : { width: WIDTH, height: 216 };
-    const jsCode = `
-    document.querySelector('a').addEventListener("click", function() {  
-        alert('Hello Web')
-    }); 
-    true;
-    `;
+  const _initialDimensions = isComment
+    ? { width: WIDTH - 50, height: 80 }
+    : { width: WIDTH, height: 216 };
 
-    const _customRenderer = {
-      a: (htmlAttribs, children, convertedCSSStyles, passProps) => {
-        if (passProps.parentWrapper === 'Text') {
-          return (
-            <Text
-              key={passProps.key}
-              {...htmlAttribs}
-              onPress={() => this._handleOnLinkPress(htmlAttribs['data-href'], htmlAttribs)}
-            >
-              {children}
-            </Text>
-          );
-        }
+  const _customRenderer = {
+    a: (htmlAttribs, children, convertedCSSStyles, passProps) => {
+      if (passProps.parentWrapper === 'Text') {
         return (
-          <TouchableOpacity
+          <Text
             key={passProps.key}
             {...htmlAttribs}
-            onPress={() => this._handleOnLinkPress(htmlAttribs['data-href'], htmlAttribs)}
+            onPress={() => _handleOnLinkPress(htmlAttribs['data-href'], htmlAttribs)}
           >
             {children}
-          </TouchableOpacity>
+          </Text>
         );
-      },
-      br: (htmlAttribs, children, passProps) => {
-        return <Text {...passProps}>{'\n'}</Text>;
-      },
-    };
+      }
+      return (
+        <TouchableOpacity
+          key={passProps.key}
+          {...htmlAttribs}
+          onPress={() => _handleOnLinkPress(htmlAttribs['data-href'], htmlAttribs)}
+        >
+          {children}
+        </TouchableOpacity>
+      );
+    },
+    br: (htmlAttribs, children, passProps) => {
+      return <Text {...passProps}>{'\n'}</Text>;
+    },
+  };
+  const test = body.replace(/<a/g, '<a target="_blank"');
+  // console.log('test :', test);
+  const runFirst = `
+      document.addEventListener('click', function(event) {
+        let el = event.target;
+        // A element can be wrapped with inline element. Look parent elements.
+        // alert(el.tagName.toString())
+        while (el.tagName !== 'A') {
+          if (!el.parentNode) {
+            break;
+          }
+          el = el.parentNode;
+        }
+        window.ReactNativeWebView.postMessage('"Hello!"')
+        window.ReactNativeWebView.postMessage('1')
+        if (!el || el.tagName !== 'A') {
 
-    const test = body.replace(/<a/g, '<a href');
-    console.log('test :', test);
-    return (
-      <Fragment>
-        <AutoHeightWebView
-          style={{ width: Dimensions.get('window').width - 15, marginTop: 35 }}
-          source={{
-            html: test,
-          }}
-          onShouldStartLoadWithRequest={this.handleWebViewNavigationStateChange}
-          injectedJavaScript={jsCode}
-        />
-        <HTML
-          html={body}
-          onLinkPress={(evt, href, hrefatr) => this._handleOnLinkPress(evt, href, hrefatr)}
-          containerStyle={isComment ? styles.commentContainer : styles.container}
-          textSelectable={textSelectable}
-          tagsStyles={isComment ? { img: { height: 120 } } : styles}
-          ignoredTags={['script']}
-          debug={false}
-          staticContentMaxWidth={WIDTH - 33}
-          imagesInitialDimensions={_initialDimensions}
-          baseFontStyle={styles.text}
-          imagesMaxWidth={isComment ? WIDTH - 50 : WIDTH}
-          alterNode={e => this._alterNode(e, isComment)}
-          alterData={e => this._alterData(e)}
-          renderers={_customRenderer}
-        />
-      </Fragment>
-    );
+          // window.ReactNativeWebView.postMessage(!el)
+          // window.ReactNativeWebView.postMessage(el.tagName)
+          return;
+        }
+        window.ReactNativeWebView.postMessage('2')
+        if (el.getAttribute('target') === '_external') {
+          const href = el.getAttribute('href');
+          shell.openExternal(href);
+          event.preventDefault();
+          return true;
+        }
+        window.ReactNativeWebView.postMessage('3')
+        if (el.classList.contains('markdown-external-link')) {
+          const href = el.getAttribute('data-href');
+          shell.openExternal(href);
+          event.preventDefault();
+          return true;
+        }
+        window.ReactNativeWebView.postMessage('4')
+        const author = el.getAttribute('data-author').toString();
+        window.ReactNativeWebView.postMessage(JSON.stringify(author))
+      })
+      true; // note: this is required, or you'll sometimes get silent failures
+    `;
+  // console.log('body :', body);
+  // EStyleSheet.value('$contentWidth')
+  const customStyle = `
+  * {
+    color: ${EStyleSheet.value('$primaryBlack')};
+    font-family: Roboto, sans-serif;
   }
-}
+  body {
+    color: ${EStyleSheet.value('$primaryBlack')};
+  }
+  a {
+    color: ${EStyleSheet.value('$primaryBlue')};
+    cursor: pointer;
+  }
+  img {
+    max-width: 100%;
+    margin-bottom: 30px;
+    align-self: 'center';
+  }
+  center {
+    text-align: 'center';
+    align-items: 'center';
+    justify-content: 'center';
+  }
+  th {
+    flex: 1;
+    justify-content: 'center';
+    font-weight: 'bold';
+    color: ${EStyleSheet.value('$primaryBlack')};
+    font-size: 14;
+    padding: 5;
+  }
+  tr {
+    background-color: ${EStyleSheet.value('$darkIconColor')};
+    flex-direction: 'row';
+  }
+  td: {
+    border-width: 0.5;
+    border-color: ${EStyleSheet.value('$tableBorderColor')};
+    flex: 1;
+    padding: 10;
+    background-color: ${EStyleSheet.value('$tableTrColor')};
+  }
+  blockquote: {
+    border-left-width: 5;
+    border-color: ${EStyleSheet.value('$darkIconColor')};
+    padding-left: 5;
+  }
+  code: {
+    background-color: ${EStyleSheet.value('$darkIconColor')};
+    font-family: ${EStyleSheet.value('$editorFont')};
+  }
+  center: {
+    text-align: 'center';
+    align-items: 'center';
+    justify-content: 'center';
+  }`;
+  console.log('EStyleSheet.value', EStyleSheet.value('$primaryBlack'));
+  console.log('customStyle :', customStyle);
+  return (
+    <Fragment>
+      <AutoHeightWebView
+        style={{ maxWidth: Dimensions.get('window').width - 15, marginTop: 35 }}
+        source={{
+          html: test,
+        }}
+        // javaScriptEnabled={false}
+        customStyle={customStyle}
+        onMessage={m => console.log('message :', m.nativeEvent.data)}
+        // onShouldStartLoadWithRequest={handleWebViewNavigationStateChange}
+        customScript={runFirst}
+      />
+      <HTML
+        html={body}
+        onLinkPress={(evt, href, hrefAtr) => _handleOnLinkPress(evt, href, hrefAtr)}
+        containerStyle={isComment ? styles.commentContainer : styles.container}
+        textSelectable={textSelectable}
+        tagsStyles={isComment ? { img: { height: 120 } } : styles}
+        ignoredTags={['script']}
+        debug={false}
+        staticContentMaxWidth={WIDTH - 33}
+        imagesInitialDimensions={_initialDimensions}
+        baseFontStyle={styles.text}
+        imagesMaxWidth={isComment ? WIDTH - 50 : WIDTH}
+        alterNode={e => _alterNode(e, isComment)}
+        alterData={e => _alterData(e)}
+        renderers={_customRenderer}
+      />
+    </Fragment>
+  );
+};
 
-export default injectIntl(withNavigation(PostBody));
+const areEqual = (prevProps, nextProps) => {
+  // console.log('prevProps, nextProps :', prevProps, nextProps);
+  if (prevProps.body !== nextProps.body) {
+    return true;
+  }
+  return false;
+};
+
+export default React.memo(injectIntl(withNavigation(PostBody)), areEqual);

@@ -231,7 +231,6 @@ class PointsContainer extends Component {
     const {
       balance,
       isClaiming,
-      isDarkTheme,
       isLoading,
       navigationParams,
       refreshing,
@@ -257,7 +256,6 @@ class PointsContainer extends Component {
         handleOnDropdownSelected: this._handleOnDropdownSelected,
         handleOnPressTransfer: this._handleOnPressTransfer,
         isClaiming,
-        isDarkTheme,
         isLoading,
         navigationParams,
         refreshing,
@@ -271,7 +269,6 @@ class PointsContainer extends Component {
 
 const mapStateToProps = state => ({
   username: state.account.currentAccount.name,
-  isDarkTheme: state.application.isDarkTheme,
   activeBottomTab: state.ui.activeBottomTab,
   isConnected: state.application.isConnected,
   accounts: state.account.otherAccounts,
