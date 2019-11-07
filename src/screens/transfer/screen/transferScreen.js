@@ -31,10 +31,10 @@ class TransferView extends Component {
     super(props);
     this.state = {
       from: props.currentAccountName,
-      destination: '',
+      destination: props.transferType === 'powerUp' ? props.currentAccountName : '',
       amount: '',
       memo: '',
-      isUsernameValid: false,
+      isUsernameValid: props.transferType === 'powerUp' && props.currentAccountName ? true : false,
       steemConnectTransfer: false,
       isTransfering: false,
     };
@@ -217,22 +217,26 @@ class TransferView extends Component {
                   </TouchableOpacity>
                 )}
               />
-              <TransferFormItem
-                label={intl.formatMessage({ id: 'transfer.memo' })}
-                rightComponent={() =>
-                  this._renderInput(
-                    intl.formatMessage({ id: 'transfer.memo_placeholder' }),
-                    'memo',
-                    'default',
-                    true,
-                  )
-                }
-              />
-              <TransferFormItem
-                rightComponent={() =>
-                  this._renderDescription(intl.formatMessage({ id: 'transfer.memo_desc' }))
-                }
-              />
+              {transferType !== 'powerUp' && (
+                <TransferFormItem
+                  label={intl.formatMessage({ id: 'transfer.memo' })}
+                  rightComponent={() =>
+                    this._renderInput({
+                      placeholder: intl.formatMessage({ id: 'transfer.memo_placeholder' }),
+                      state: 'memo',
+                      keyboardType: 'default',
+                      isTextArea: true,
+                    })
+                  }
+                />
+              )}
+              {transferType !== 'powerUp' && (
+                <TransferFormItem
+                  rightComponent={() =>
+                    this._renderDescription(intl.formatMessage({ id: 'transfer.memo_desc' }))
+                  }
+                />
+              )}
             </View>
             <View style={styles.bottomContent}>
               <MainButton
