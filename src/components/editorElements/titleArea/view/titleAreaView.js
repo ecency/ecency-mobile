@@ -48,7 +48,7 @@ export default class TitleAreaView extends Component {
     const { text, height } = this.state;
 
     return (
-      <View style={globalStyles.containerHorizontal16}>
+      <View style={[globalStyles.containerHorizontal16, { height: Math.max(35, height) }]}>
         <TextInput
           style={[styles.textInput, { height: Math.max(35, height) }]}
           placeholderTextColor="#c1c5c7"
