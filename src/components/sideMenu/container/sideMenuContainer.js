@@ -73,8 +73,8 @@ class SideMenuContainer extends Component {
     const { dispatch, currentAccount, navigation } = this.props;
 
     if (anchor !== currentAccount.name) {
-      switchAccount(anchor).then(accountData => {
-        const realmData = getUserDataWithUsername(anchor);
+      switchAccount(anchor).then(async accountData => {
+        const realmData = await getUserDataWithUsername(anchor);
         const _currentAccount = accountData;
 
         _currentAccount.username = _currentAccount.name;
