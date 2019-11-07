@@ -61,7 +61,9 @@ class UserAvatarView extends Component {
     let _size;
     const _avatar = username
       ? {
-          uri: avatarUrl || (name === username ? avatar : getResizedAvatar(username, imageSize)),
+          uri:
+            avatarUrl ||
+            (name === username && avatar ? avatar : getResizedAvatar(username, imageSize)),
         }
       : DEFAULT_IMAGE;
 
