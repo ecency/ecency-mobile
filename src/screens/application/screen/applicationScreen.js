@@ -5,6 +5,7 @@ import { connect } from 'react-redux';
 import { createAppContainer } from 'react-navigation';
 
 import AppNavitation from '../../../navigation/routes';
+import NavigationService from '../../../navigation/service';
 
 // Services
 import { toastNotification as toastNotificationAction } from '../../../redux/actions/uiAction';
@@ -59,7 +60,11 @@ class ApplicationScreen extends Component {
         )}
         <Fragment>
           {!isConnected && <NoInternetConnection />}
-          <Navigation />
+          <Navigation
+            ref={navigatorRef => {
+              NavigationService.setTopLevelNavigator(navigatorRef);
+            }}
+          />
         </Fragment>
 
         {isShowToastNotification && (

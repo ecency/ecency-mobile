@@ -3,10 +3,10 @@ import { Alert } from 'react-native';
 import { connect } from 'react-redux';
 import { injectIntl } from 'react-intl';
 import Config from 'react-native-config';
-import { NavigationActions } from 'react-navigation';
 import get from 'lodash/get';
 
 // Actions & Services
+import NavigationService from '../../../navigation/service';
 import {
   setUserDataWithPinCode,
   verifyPinCode,
@@ -111,12 +111,10 @@ class PinCodeContainer extends Component {
           if (callback) callback(pin, oldPinCode);
           dispatch(closePinCodeModal());
           if (navigateTo) {
-            const navigateAction = NavigationActions.navigate({
+            NavigationService.navigate({
               routeName: navigateTo,
               params: navigateParams,
-              action: NavigationActions.navigate({ routeName: navigateTo }),
             });
-            dispatch(navigateAction);
           }
           resolve();
         });
@@ -174,12 +172,10 @@ class PinCodeContainer extends Component {
             if (callback) callback(pin, oldPinCode);
             dispatch(closePinCodeModal());
             if (navigateTo) {
-              const navigateAction = NavigationActions.navigate({
+              NavigationService.navigate({
                 routeName: navigateTo,
                 params: navigateParams,
-                action: NavigationActions.navigate({ routeName: navigateTo }),
               });
-              dispatch(navigateAction);
             }
             resolve();
           });
@@ -215,12 +211,10 @@ class PinCodeContainer extends Component {
           dispatch(closePinCodeModal());
           if (callback) callback(pin, oldPinCode);
           if (navigateTo) {
-            const navigateAction = NavigationActions.navigate({
+            NavigationService.navigate({
               routeName: navigateTo,
               params: navigateParams,
-              action: NavigationActions.navigate({ routeName: navigateTo }),
             });
-            dispatch(navigateAction);
           }
         })
         .catch(err => {

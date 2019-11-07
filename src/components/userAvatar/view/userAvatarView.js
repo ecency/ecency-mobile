@@ -1,10 +1,10 @@
 import React, { Component } from 'react';
 import { TouchableOpacity } from 'react-native';
 import { connect } from 'react-redux';
-import { NavigationActions } from 'react-navigation';
 
 import FastImage from 'react-native-fast-image';
 import styles from './userAvatarStyles';
+import NavigationService from '../../../navigation/service';
 
 // Constants
 import ROUTES from '../../../constants/routeNames';
@@ -30,21 +30,18 @@ class UserAvatarView extends Component {
   // Component Functions
   _handleOnAvatarPress = username => {
     const {
-      dispatch,
       currentUsername: { name },
     } = this.props;
 
     const routeName = name === username ? ROUTES.TABBAR.PROFILE : ROUTES.SCREENS.PROFILE;
 
-    const navigateAction = NavigationActions.navigate({
-      routeName,
+    NavigationService.navigate({
+      routeName: routeName,
       params: {
         username,
       },
       key: username,
-      action: NavigationActions.navigate({ routeName }),
     });
-    dispatch(navigateAction);
   };
 
   render() {
