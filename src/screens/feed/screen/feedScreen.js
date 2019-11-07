@@ -11,7 +11,12 @@ import { AccountContainer } from '../../../containers';
 // Styles
 import styles from './feedStyles';
 
-import { POPULAR_FILTERS, PROFILE_FILTERS } from '../../../constants/options/filters';
+import {
+  POPULAR_FILTERS,
+  PROFILE_FILTERS,
+  PROFILE_FILTERS_VALUE,
+  POPULAR_FILTERS_VALUE,
+} from '../../../constants/options/filters';
 
 const FeedScreen = () => {
   return (
@@ -22,9 +27,11 @@ const FeedScreen = () => {
           <SafeAreaView style={styles.container}>
             <Posts
               filterOptions={[...PROFILE_FILTERS, ...POPULAR_FILTERS]}
+              filterOptionsValue={[...PROFILE_FILTERS_VALUE, ...POPULAR_FILTERS_VALUE]}
               getFor={isLoggedIn ? 'feed' : 'trending'}
               selectedOptionIndex={isLoggedIn ? 1 : 2}
               tag={get(currentAccount, 'name')}
+              customOption="HOT"
             />
           </SafeAreaView>
         </Fragment>
