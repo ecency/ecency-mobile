@@ -38,6 +38,8 @@ const PostsView = ({
   navigation,
   changeForceLoadPostState,
   forceLoadPost,
+  filterOptionsValue,
+  customOption,
 }) => {
   const [posts, setPosts] = useState(isConnected ? [] : feedPosts);
   const [startAuthor, setStartAuthor] = useState('');
@@ -100,9 +102,16 @@ const PostsView = ({
 
   useEffect(() => {
     if (!startAuthor && !startPermlink) {
-      _loadPosts(filterOptions[selectedFilterIndex].toLowerCase());
+      _loadPosts(filterOptionsValue[selectedFilterIndex]);
     }
-  }, [_loadPosts, filterOptions, selectedFilterIndex, startAuthor, startPermlink]);
+  }, [
+    _loadPosts,
+    filterOptions,
+    filterOptionsValue,
+    selectedFilterIndex,
+    startAuthor,
+    startPermlink,
+  ]);
 
   const _handleOnDropdownSelect = async index => {
     setSelectedFilterIndex(index);
@@ -135,11 +144,15 @@ const PostsView = ({
 
   const _loadPosts = useCallback(
     async type => {
+      if (isLoading) {
+        return;
+      } else {
+        setIsLoading(true);
+      }
+
       const filter =
         type ||
-        (filterOptions &&
-          filterOptions.length > 0 &&
-          filterOptions[selectedFilterIndex].toLowerCase());
+        (filterOptions && filterOptions.length > 0 && filterOptionsValue[selectedFilterIndex]);
       let options;
       const limit = 3;
 
@@ -149,11 +162,6 @@ const PostsView = ({
         return null;
       }
 
-      // if (isLoading) {
-      //   return null;
-      // }
-
-      setIsLoading(true);
       if (filter === 'feed' || filter === 'blog' || getFor === 'blog' || filter === 'reblogs') {
         options = {
           tag,
@@ -243,8 +251,10 @@ const PostsView = ({
     [
       currentAccountUsername,
       filterOptions,
+      filterOptionsValue,
       getFor,
       isConnected,
+      isLoading,
       nsfw,
       posts,
       promotedPosts,
@@ -342,6 +352,7 @@ const PostsView = ({
           rightIconType="MaterialIcons"
           onDropdownSelect={_handleOnDropdownSelect}
           onRightIconPress={handleImagesHide}
+          customOption={customOption}
         />
       )}
 

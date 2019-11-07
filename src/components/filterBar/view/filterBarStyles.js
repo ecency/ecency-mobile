@@ -12,8 +12,14 @@ export default EStyleSheet.create({
     },
     zIndex: 99,
   },
+  dropdownWrapper: {
+    flexDirection: 'row',
+    justifyContent: 'center',
+    alignItems: 'center',
+  },
   filterBarWrapper: {
     flexDirection: 'row',
+    alignItems: 'center',
     justifyContent: 'space-between',
   },
   rightIconWrapper: {
