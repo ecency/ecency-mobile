@@ -1,5 +1,6 @@
 import Realm from 'realm';
 import sha256 from 'crypto-js/sha256';
+import { AsyncStorage } from 'react-native';
 
 // CONSTANTS
 const USER_SCHEMA = 'user';
@@ -119,6 +120,41 @@ export const convertToArray = realmObjectsArray => {
   const jsonArray = JSON.parse(JSON.stringify(copyOfJsonArray));
   return jsonArray;
 };
+
+export const getAllData = () => {
+  try {
+    const users = convertToArray(realm.objects(USER_SCHEMA));
+    const scAccount = convertToArray(realm.objects(SC_ACCOUNTS));
+    const draft = convertToArray(realm.objects(DRAFT_SCHEMA));
+    const auth =
+      convertToArray(realm.objects(AUTH_SCHEMA)).length === 1
+        ? convertToArray(realm.objects(AUTH_SCHEMA))[0]
+        : convertToArray(realm.objects(AUTH_SCHEMA));
+    const setting =
+      convertToArray(realm.objects(SETTINGS_SCHEMA)).length === 1
+        ? convertToArray(realm.objects(SETTINGS_SCHEMA))[0]
+        : convertToArray(realm.objects(SETTINGS_SCHEMA));
+    const application =
+      convertToArray(realm.objects(APPLICATION_SCHEMA)).length === 1
+        ? convertToArray(realm.objects(APPLICATION_SCHEMA))[0]
+        : convertToArray(realm.objects(APPLICATION_SCHEMA));
+
+    const data = [
+      [USER_SCHEMA, JSON.stringify(users)],
+      [SC_ACCOUNTS, JSON.stringify(scAccount)],
+      [AUTH_SCHEMA, JSON.stringify(auth)],
+      [DRAFT_SCHEMA, JSON.stringify(draft)],
+      [SETTINGS_SCHEMA, JSON.stringify(setting)],
+      [APPLICATION_SCHEMA, JSON.stringify(application)],
+    ];
+    AsyncStorage.multiSet(data);
+    return true;
+  } catch (error) {
+    return false;
+  }
+};
+
+getAllData();
 
 // TODO: This is getting ALL user data, we should change this method with getUserDataWithUsername
 export const getUserData = () =>
