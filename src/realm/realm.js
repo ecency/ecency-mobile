@@ -141,6 +141,7 @@ export const setItemToStorage = async (key, data) => {
 export const getAllData = async () => {
   try {
     const keys = await AsyncStorage.getAllKeys();
+
     const isMigrated = [
       USER_SCHEMA,
       SC_ACCOUNTS,
@@ -151,30 +152,31 @@ export const getAllData = async () => {
     ].some(el => keys.includes(el));
     if (!isMigrated) {
       const users = convertToArray(realm.objects(USER_SCHEMA));
-      AsyncStorage.setItem(USER_SCHEMA, JSON.stringify(users));
       const scAccount = convertToArray(realm.objects(SC_ACCOUNTS));
-      AsyncStorage.setItem(SC_ACCOUNTS, JSON.stringify(scAccount));
+      const draft = convertToArray(realm.objects(DRAFT_SCHEMA));
       const auth =
         convertToArray(realm.objects(AUTH_SCHEMA)).length === 1
           ? convertToArray(realm.objects(AUTH_SCHEMA))[0]
           : convertToArray(realm.objects(AUTH_SCHEMA));
-      AsyncStorage.setItem(AUTH_SCHEMA, JSON.stringify(auth));
-      const draft = convertToArray(realm.objects(DRAFT_SCHEMA));
-      AsyncStorage.setItem(DRAFT_SCHEMA, JSON.stringify(draft));
       const setting =
         convertToArray(realm.objects(SETTINGS_SCHEMA)).length === 1
           ? convertToArray(realm.objects(SETTINGS_SCHEMA))[0]
           : convertToArray(realm.objects(SETTINGS_SCHEMA));
-      AsyncStorage.setItem(SETTINGS_SCHEMA, JSON.stringify(setting));
       const application =
         convertToArray(realm.objects(APPLICATION_SCHEMA)).length === 1
           ? convertToArray(realm.objects(APPLICATION_SCHEMA))[0]
           : convertToArray(realm.objects(APPLICATION_SCHEMA));
-      AsyncStorage.setItem(APPLICATION_SCHEMA, JSON.stringify(application));
-    }
 
-    // AsyncStorage.setItem('temp-reply', '');
-    // AsyncStorage.getItem('temp-reply');
+      const data = [
+        [USER_SCHEMA, JSON.stringify(users)],
+        [SC_ACCOUNTS, JSON.stringify(scAccount)],
+        [AUTH_SCHEMA, JSON.stringify(auth)],
+        [DRAFT_SCHEMA, JSON.stringify(draft)],
+        [SETTINGS_SCHEMA, JSON.stringify(setting)],
+        [APPLICATION_SCHEMA, JSON.stringify(application)],
+      ];
+      AsyncStorage.multiSet(data);
+    }
   } catch (error) {
     return error;
   }
@@ -203,13 +205,13 @@ export const getUserDataWithUsername = async username => {
 };
 
 export const setUserData = async userData => {
-  console.log('userData 111 :', userData);
   try {
-    const account = getUserDataWithUsername(userData.username);
+    const account = await getUserDataWithUsername(userData.username);
+    const user = await getItemFromStorage(USER_SCHEMA);
 
     if (account.length === 0) {
-      account.push(userData);
-      await setItemToStorage(USER_SCHEMA, account);
+      user.push(userData);
+      await setItemToStorage(USER_SCHEMA, user);
     }
     return userData;
   } catch (error) {
@@ -218,7 +220,6 @@ export const setUserData = async userData => {
 };
 
 export const updateUserData = async userData => {
-  console.log('userData 222 :', userData);
   try {
     let account = await getItemFromStorage(USER_SCHEMA);
 
@@ -238,13 +239,10 @@ export const updateUserData = async userData => {
 export const removeUserData = async username => {
   try {
     let account = await getItemFromStorage(USER_SCHEMA);
-    console.log('account :', account);
 
     if (account.some(e => e.username === username)) {
       account = account.filter(item => item.username !== username);
-      console.log('account :', account);
       await setItemToStorage(USER_SCHEMA, account);
-      console.log('return :');
       return true;
     }
     return new Error('Could not remove selected user');
@@ -323,69 +321,67 @@ export const setAuthStatus = async authStatus => {
   }
 };
 
-export const updateCurrentUsername = username =>
-  new Promise((resolve, reject) => {
-    try {
-      const auth = realm.objects(AUTH_SCHEMA);
-      realm.write(() => {
-        if (convertToArray(auth).length > 0) {
-          auth[0].currentUsername = username;
-          resolve(auth[0]);
-        } else {
-          const authData = {
-            isLoggedIn: false,
-            pinCode: '',
-            currentUsername: username,
-          };
-          realm.create(AUTH_SCHEMA, { ...authData });
-          resolve(authData);
-        }
-      });
-    } catch (error) {
-      reject(error);
+export const updateCurrentUsername = async username => {
+  try {
+    const auth = await getItemFromStorage(AUTH_SCHEMA);
+
+    if (auth) {
+      auth.currentUsername = username;
+      await setItemToStorage(AUTH_SCHEMA, auth);
+      return auth;
     }
-  });
+    const authData = {
+      isLoggedIn: false,
+      pinCode: '',
+      currentUsername: username,
+    };
 
-export const setPinCode = pinCode =>
-  new Promise((resolve, reject) => {
-    try {
-      const auth = realm.objects(AUTH_SCHEMA);
-      const pinHash = sha256(pinCode);
+    await setItemToStorage(AUTH_SCHEMA, { ...authData });
+    return authData;
+  } catch (error) {
+    return error;
+  }
+};
 
-      realm.write(() => {
-        auth[0].pinCode = pinHash.toString();
-        resolve(auth[0]);
-      });
-    } catch (error) {
-      reject(error);
+export const setPinCode = async pinCode => {
+  try {
+    const auth = await getItemFromStorage(AUTH_SCHEMA);
+    const pinHash = sha256(pinCode);
+
+    auth.pinCode = pinHash.toString();
+    await setItemToStorage(AUTH_SCHEMA, auth);
+
+    return auth;
+  } catch (error) {
+    return error;
+  }
+};
+
+export const removePinCode = async () => {
+  try {
+    const auth = await getItemFromStorage(AUTH_SCHEMA);
+
+    auth.pinCode = '';
+    await setItemToStorage(AUTH_SCHEMA, auth);
+
+    return auth;
+  } catch (error) {
+    return error;
+  }
+};
+
+export const getPinCode = async () => {
+  try {
+    const auth = await getItemFromStorage(AUTH_SCHEMA);
+
+    if (auth) {
+      return auth.pinCode;
     }
-  });
-
-export const removePinCode = () =>
-  new Promise((resolve, reject) => {
-    try {
-      const auth = realm.objects(AUTH_SCHEMA);
-
-      realm.write(() => {
-        auth[0].pinCode = '';
-        resolve(auth[0]);
-      });
-    } catch (error) {
-      reject(error);
-    }
-  });
-
-export const getPinCode = () =>
-  new Promise((resolve, reject) => {
-    try {
-      const auth = realm.objects(AUTH_SCHEMA);
-      if (auth[0]) {
-        resolve(auth[0].pinCode);
-      }
-    } catch (error) {
-      reject(error);
-    }
-  });
+    return '';
+  } catch (error) {
+    return error;
+  }
+};
 
 // SETTINGS
 
@@ -401,29 +397,31 @@ export const getPinCodeOpen = async () => {
   }
 };
 
-export const setPinCodeOpen = status =>
-  new Promise((resolve, reject) => {
-    try {
-      realm.write(() => {
-        settings[0].isPinCodeOpen = status;
-        resolve(true);
-      });
-    } catch (error) {
-      reject(error);
-    }
-  });
+export const setPinCodeOpen = async status => {
+  try {
+    const setting = await getItemFromStorage(SETTINGS_SCHEMA);
 
-export const setTheme = isDarkTheme =>
-  new Promise((resolve, reject) => {
-    try {
-      realm.write(() => {
-        settings[0].isDarkTheme = isDarkTheme;
-        resolve(true);
-      });
-    } catch (error) {
-      reject(error);
-    }
-  });
+    setting.isPinCodeOpen = status;
+    await setItemToStorage(SETTINGS_SCHEMA, setting);
+
+    return true;
+  } catch (error) {
+    return error;
+  }
+};
+
+export const setTheme = async isDarkTheme => {
+  try {
+    const setting = await getItemFromStorage(SETTINGS_SCHEMA);
+
+    setting.isDarkTheme = isDarkTheme;
+    await setItemToStorage(SETTINGS_SCHEMA, setting);
+
+    return true;
+  } catch (error) {
+    return error;
+  }
+};
 
 export const getTheme = async () => {
   try {
@@ -437,29 +435,31 @@ export const getTheme = async () => {
   }
 };
 
-export const setDefaultFooter = isDefaultFooter =>
-  new Promise((resolve, reject) => {
-    try {
-      realm.write(() => {
-        settings[0].isDefaultFooter = isDefaultFooter;
-        resolve(true);
-      });
-    } catch (error) {
-      reject(error);
-    }
-  });
+export const setDefaultFooter = async isDefaultFooter => {
+  try {
+    const setting = await getItemFromStorage(SETTINGS_SCHEMA);
 
-export const setUpvotePercent = percent =>
-  new Promise((resolve, reject) => {
-    try {
-      realm.write(() => {
-        settings[0].upvotePercent = percent;
-        resolve(true);
-      });
-    } catch (error) {
-      reject(error);
-    }
-  });
+    setting.isDefaultFooter = isDefaultFooter;
+    await setItemToStorage(SETTINGS_SCHEMA, setting);
+
+    return true;
+  } catch (error) {
+    return error;
+  }
+};
+
+export const setUpvotePercent = async percent => {
+  try {
+    const setting = await getItemFromStorage(SETTINGS_SCHEMA);
+
+    setting.upvotePercent = percent;
+    await setItemToStorage(SETTINGS_SCHEMA, setting);
+
+    return true;
+  } catch (error) {
+    return error;
+  }
+};
 
 export const getUpvotePercent = async () => {
   try {
@@ -485,89 +485,94 @@ export const getNsfw = async () => {
   }
 };
 
-export const setNsfw = nsfw =>
-  new Promise((resolve, reject) => {
-    try {
-      realm.write(() => {
-        settings[0].nsfw = nsfw;
-        resolve(true);
-      });
-    } catch (error) {
-      reject(error);
-    }
-  });
+export const setNsfw = async nsfw => {
+  try {
+    const setting = await getItemFromStorage(SETTINGS_SCHEMA);
 
-export const setLanguage = selectedLanguage =>
-  new Promise((resolve, reject) => {
-    try {
-      realm.write(() => {
-        settings[0].language = selectedLanguage;
-        resolve(true);
-      });
-    } catch (error) {
-      reject(error);
-    }
-  });
+    setting.nsfw = nsfw;
+    await setItemToStorage(SETTINGS_SCHEMA, setting);
 
-export const setServer = selectedServer =>
-  new Promise((resolve, reject) => {
-    try {
-      realm.write(() => {
-        settings[0].server = selectedServer;
-        resolve(true);
-      });
-    } catch (error) {
-      reject(error);
-    }
-  });
+    return true;
+  } catch (error) {
+    return error;
+  }
+};
 
-export const setNotificationSettings = ({ type, action }) =>
-  new Promise((resolve, reject) => {
-    try {
-      realm.write(() => {
-        switch (type) {
-          case 'notification.follow':
-            settings[0].followNotification = action;
-            break;
-          case 'notification.vote':
-            settings[0].voteNotification = action;
-            break;
-          case 'notification.comment':
-            settings[0].commentNotification = action;
-            break;
-          case 'notification.mention':
-            settings[0].mentionNotification = action;
-            break;
-          case 'notification.reblog':
-            settings[0].reblogNotification = action;
-            break;
-          case 'notification.transfers':
-            settings[0].transfersNotification = action;
-            break;
-          case 'notification':
-            settings[0].notification = action;
-            break;
-          default:
-            break;
-        }
-        resolve(true);
-      });
-    } catch (error) {
-      reject(error);
-    }
-  });
+export const setLanguage = async selectedLanguage => {
+  try {
+    const setting = await getItemFromStorage(SETTINGS_SCHEMA);
 
-export const setCurrency = currencyProps =>
-  new Promise((resolve, reject) => {
-    try {
-      realm.write(() => {
-        settings[0].currency = currencyProps;
-        resolve(true);
-      });
-    } catch (error) {
-      reject(error);
+    setting.language = selectedLanguage;
+    await setItemToStorage(SETTINGS_SCHEMA, setting);
+
+    return true;
+  } catch (error) {
+    return error;
+  }
+};
+
+export const setServer = async selectedServer => {
+  try {
+    const setting = await getItemFromStorage(SETTINGS_SCHEMA);
+
+    setting.server = selectedServer;
+    await setItemToStorage(SETTINGS_SCHEMA, setting);
+
+    return true;
+  } catch (error) {
+    return error;
+  }
+};
+
+export const setNotificationSettings = async ({ type, action }) => {
+  try {
+    const setting = await getItemFromStorage(SETTINGS_SCHEMA);
+
+    switch (type) {
+      case 'notification.follow':
+        setting.followNotification = action;
+        break;
+      case 'notification.vote':
+        setting.voteNotification = action;
+        break;
+      case 'notification.comment':
+        setting.commentNotification = action;
+        break;
+      case 'notification.mention':
+        setting.mentionNotification = action;
+        break;
+      case 'notification.reblog':
+        setting.reblogNotification = action;
+        break;
+      case 'notification.transfers':
+        setting.transfersNotification = action;
+        break;
+      case 'notification':
+        setting.notification = action;
+        break;
+      default:
+        break;
     }
-  });
+
+    await setItemToStorage(SETTINGS_SCHEMA, setting);
+    return true;
+  } catch (error) {
+    return error;
+  }
+};
+
+export const setCurrency = async currencyProps => {
+  try {
+    const setting = await getItemFromStorage(SETTINGS_SCHEMA);
+
+    setting.currency = currencyProps;
+    await setItemToStorage(SETTINGS_SCHEMA, setting);
+
+    return true;
+  } catch (error) {
+    return error;
+  }
+};
 
 export const getLanguage = async () => {
   try {
@@ -622,26 +627,23 @@ export const getPushTokenSaved = async () => {
   }
 };
 
-export const setPushTokenSaved = pushTokenSaved =>
-  new Promise((resolve, reject) => {
-    try {
-      const application = realm.objects(APPLICATION_SCHEMA);
-      realm.write(() => {
-        if (convertToArray(application).length > 0) {
-          application[0].isPushTokenSaved = pushTokenSaved;
-          resolve(application[0]);
-        } else {
-          const applicationData = {
-            pushTokenSaved: false,
-          };
-          realm.create(APPLICATION_SCHEMA, { ...applicationData });
-          resolve(applicationData);
-        }
-      });
-    } catch (error) {
-      reject(error);
+export const setPushTokenSaved = async pushTokenSaved => {
+  try {
+    const application = await getItemFromStorage(APPLICATION_SCHEMA);
+    if (application) {
+      application.isPushTokenSaved = pushTokenSaved;
+      await setItemToStorage(APPLICATION_SCHEMA, application);
+      return application;
     }
-  });
+    const applicationData = {
+      pushTokenSaved: false,
+    };
+    await setItemToStorage(APPLICATION_SCHEMA, { ...applicationData });
+    return applicationData;
+  } catch (error) {
+    return error;
+  }
+};
 
 export const getExistUser = async () => {
   try {
@@ -659,53 +661,50 @@ export const getExistUser = async () => {
   }
 };
 
-export const setExistUser = existUser =>
-  new Promise((resolve, reject) => {
-    try {
-      const application = realm.objects(APPLICATION_SCHEMA);
-      realm.write(() => {
-        if (convertToArray(application).length > 0) {
-          application[0].isExistUser = existUser;
-          resolve(application[0]);
-        } else {
-          const applicationData = {
-            existUser: false,
-          };
-          realm.create(APPLICATION_SCHEMA, { ...applicationData });
-          resolve(applicationData);
-        }
-      });
-    } catch (error) {
-      reject(error);
+export const setExistUser = async existUser => {
+  try {
+    const application = await getItemFromStorage(APPLICATION_SCHEMA);
+    if (application) {
+      application.isExistUser = existUser;
+      await setItemToStorage(APPLICATION_SCHEMA, application);
+      return application;
     }
-  });
+    const applicationData = {
+      existUser: false,
+    };
+    await setItemToStorage(APPLICATION_SCHEMA, { ...applicationData });
+    return applicationData;
+  } catch (error) {
+    return error;
+  }
+};
 
-export const setSCAccount = data =>
-  new Promise((resolve, reject) => {
-    try {
-      const scAccount = realm.objects(SC_ACCOUNTS).filtered('username = $0', data.username);
-      const date = new Date();
-      date.setSeconds(date.getSeconds() + data.expires_in);
-      realm.write(() => {
-        if (convertToArray(scAccount).length > 0) {
-          scAccount[0].refreshToken = data.refresh_token;
-          scAccount[0].expireDate = date.toString();
-          resolve();
-        } else {
-          const account = {
-            username: data.username,
-            accessToken: data.access_token,
-            refreshToken: data.refresh_token,
-            expireDate: date.toString(),
-          };
-          realm.create(SC_ACCOUNTS, { ...account });
-          resolve();
-        }
-      });
-    } catch (error) {
-      reject(error);
+export const setSCAccount = async data => {
+  try {
+    let scAccount = await getItemFromStorage(SC_ACCOUNTS);
+    const date = new Date();
+    date.setSeconds(date.getSeconds() + data.expires_in);
+    if (scAccount.some(e => e.username === data.username)) {
+      scAccount = scAccount.map(item =>
+        item.username === data.username
+          ? { ...item, refreshToken: data.refresh_token, expireDate: date.toString() }
+          : item,
+      );
+    } else {
+      const account = {
+        username: data.username,
+        accessToken: data.access_token,
+        refreshToken: data.refresh_token,
+        expireDate: date.toString(),
+      };
+      scAccount.push(account);
     }
-  });
+    await setItemToStorage(SC_ACCOUNTS, scAccount);
+    return scAccount;
+  } catch (error) {
+    return error;
+  }
+};
 
 export const getSCAccount = async username => {
   try {
@@ -720,20 +719,19 @@ export const getSCAccount = async username => {
   }
 };
 
-export const removeSCAccount = username =>
-  new Promise((resolve, reject) => {
-    try {
-      const scAccount = realm.objects(SC_ACCOUNTS).filtered('username = $0', username);
+export const removeSCAccount = async username => {
+  try {
+    let scAccount = await getItemFromStorage(SC_ACCOUNTS);
 
-      if (convertToArray(scAccount).length > 0) {
-        realm.write(() => {
-          realm.delete(scAccount);
-          resolve();
-        });
-      } else {
-        reject(new Error('Could not remove selected user'));
-      }
-    } catch (error) {
-      reject(error);
+    if (scAccount.some(e => e.username === username)) {
+      scAccount = scAccount.filter(item => item.username !== username);
+
+      await setItemToStorage(SC_ACCOUNTS, scAccount);
+
+      return true;
     }
-  });
+    return new Error('Could not remove selected user');
+  } catch (error) {
+    return error;
+  }
+};
