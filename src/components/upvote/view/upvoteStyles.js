@@ -9,8 +9,9 @@ export default EStyleSheet.create({
   },
   upvoteIcon: {
     alignSelf: 'center',
-    fontSize: 20,
+    fontSize: 24,
     color: '$primaryBlue',
+    marginRight: 5,
   },
   popoverSlider: {
     flexDirection: 'row',
