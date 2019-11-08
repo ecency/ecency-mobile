@@ -1,6 +1,6 @@
 {
   "name": "eSteem",
-  "version": "2.2.2",
+  "version": "2.2.3",
   "private": true,
   "rnpm": {
     "assets": [
@@ -44,7 +44,7 @@
     "moment": "^2.22.2",
     "react": "16.8.3",
     "react-intl": "^3.1.6",
-    "react-native": "0.59.8",
+    "react-native": "0.59.9",
     "react-native-actionsheet": "^2.4.2",
     "react-native-autocomplete-input": "^4.1.0",
     "react-native-code-push": "esteemapp/react-native-code-push",
