@@ -281,7 +281,6 @@ export const switchAccount = username =>
       .then(account => {
         updateCurrentUsername(username)
           .then(() => {
-            console.log('updateCurrentUsername :', username);
             resolve(account);
           })
           .catch(() => {
