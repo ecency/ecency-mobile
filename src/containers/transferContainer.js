@@ -107,7 +107,7 @@ class TransferContainer extends Component {
     return validUsers;
   };
 
-  _transferToAccount = (from, destination, amount, memo) => {
+  _transferToAccount = async (from, destination, amount, memo) => {
     const { pinCode, navigation, dispatch, intl } = this.props;
     let { currentAccount } = this.props;
     const { selectedAccount } = this.state;
@@ -160,7 +160,7 @@ class TransferContainer extends Component {
         break;
     }
     if (!currentAccount.local) {
-      const realmData = getUserDataWithUsername(currentAccount.name);
+      const realmData = await getUserDataWithUsername(currentAccount.name);
       currentAccount.local = realmData[0];
     }
 
