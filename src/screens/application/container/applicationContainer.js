@@ -38,6 +38,7 @@ import {
 import { getUser, getPost } from '../../../providers/steem/dsteem';
 import { switchAccount } from '../../../providers/steem/auth';
 import { setPushToken } from '../../../providers/esteem/esteem';
+import NavigationService from '../../../navigation/service';
 
 // Actions
 import {
@@ -260,13 +261,11 @@ class ApplicationContainer extends Component {
     if (routeName && (profile || content)) {
       this.navigationTimeout = setTimeout(() => {
         clearTimeout(this.navigationTimeout);
-        const navigateAction = NavigationActions.navigate({
+        NavigationService.navigate({
           routeName,
           params,
           key: permlink || author,
-          action: NavigationActions.navigate({ routeName }),
         });
-        dispatch(navigateAction);
       }, 2000);
     }
   };
@@ -402,13 +401,11 @@ class ApplicationContainer extends Component {
           }
 
           if (!some(params, isEmpty)) {
-            const navigateAction = NavigationActions.navigate({
+            NavigationService.navigate({
               routeName,
               params,
               key,
-              action: NavigationActions.navigate({ routeName }),
             });
-            dispatch(navigateAction);
           }
         }
       },
