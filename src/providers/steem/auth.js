@@ -279,7 +279,6 @@ export const switchAccount = username =>
   new Promise((resolve, reject) => {
     getUser(username)
       .then(account => {
-        console.log('account 2 :', account);
         updateCurrentUsername(username)
           .then(() => {
             console.log('updateCurrentUsername :', username);
