@@ -32,11 +32,16 @@ class SideMenuView extends Component {
     this.state = {
       menuItems: props.isLoggedIn ? MENU.AUTH_MENU_ITEMS : MENU.NO_AUTH_MENU_ITEMS,
       isAddAccountIconActive: false,
-      storageT: 'R'
+      storageT: 'R',
     };
   }
 
   // Component Life Cycles
+  componentDidMount() {
+    getStorageType().then(item => {
+      this.setState({ storageT: item });
+    });
+  }
 
   componentWillReceiveProps(nextProps) {
     const { isLoggedIn, accounts } = this.props;
@@ -50,11 +55,7 @@ class SideMenuView extends Component {
       this.setState({ menuItems: nextProps.accounts });
     }
   }
-  componentDidMount() {
-    getStorageType().then(item => {
-      this.setState({ storageT: item });
-    })
-  }
+
   // Component Functions
 
   _handleOnPressAddAccountIcon = () => {
