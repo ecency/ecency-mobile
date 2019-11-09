@@ -102,7 +102,9 @@ const PostsView = ({
 
   useEffect(() => {
     if (!startAuthor && !startPermlink) {
-      _loadPosts(filterOptionsValue[selectedFilterIndex]);
+      _loadPosts(
+        filterOptions && filterOptions.length > 0 && filterOptionsValue[selectedFilterIndex],
+      );
     }
   }, [
     _loadPosts,
