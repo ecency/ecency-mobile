@@ -210,6 +210,7 @@ const MarkdownEditorView = ({
           {({ isDarkTheme }) => (
             <TextInput
               multiline
+              autoCorrect={false}
               onChangeText={_changeText}
               onSelectionChange={_handleOnSelectionChange}
               placeholder={intl.formatMessage({
