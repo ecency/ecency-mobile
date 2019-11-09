@@ -41,7 +41,11 @@ const FilterBarView = ({
               onSelect={onDropdownSelect}
               selectedOptionIndex={selectedOptionIndex}
             />
-            {customOption && <Tag value={customOption} isPin onPress={() => onDropdownSelect(3)} />}
+            <View style={styles.customOptionWrapper}>
+              {customOption && (
+                <Tag value={customOption} isPin onPress={() => onDropdownSelect(3)} />
+              )}
+            </View>
           </View>
 
           {rightIconName && (

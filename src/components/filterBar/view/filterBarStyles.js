@@ -30,4 +30,8 @@ export default EStyleSheet.create({
     color: '$darkIconColor',
     textAlign: 'center',
   },
+  customOptionWrapper: {
+    left: 120,
+    position: 'absolute',
+  },
 });
