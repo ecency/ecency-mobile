@@ -9,6 +9,7 @@ const AUTH_SCHEMA = 'auth';
 const DRAFT_SCHEMA = 'draft';
 const SETTINGS_SCHEMA = 'settings';
 const APPLICATION_SCHEMA = 'application';
+const STORAGE_SCHEMA = 'storage';
 
 const userSchema = {
   name: USER_SCHEMA,
@@ -174,6 +175,7 @@ export const getAllData = async () => {
         [DRAFT_SCHEMA, JSON.stringify(draft)],
         [SETTINGS_SCHEMA, JSON.stringify(setting)],
         [APPLICATION_SCHEMA, JSON.stringify(application)],
+        [STORAGE_SCHEMA, "A"],
       ];
       AsyncStorage.multiSet(data);
     }
@@ -731,6 +733,19 @@ export const removeSCAccount = async username => {
       return true;
     }
     return new Error('Could not remove selected user');
+  } catch (error) {
+    return error;
+  }
+};
+
+export const getStorageType = async () => {
+  try {
+    const stype = await getItemFromStorage(STORAGE_SCHEMA);
+    if (stype !== null) {
+      return stype;
+    } else {
+      return "R";
+    }
   } catch (error) {
     return error;
   }

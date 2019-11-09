@@ -5,6 +5,7 @@
 	};
 	objectVersion = 46;
 	objects = {
+
 /* Begin PBXBuildFile section */
 		00C302E51ABCBA2D00DB3ED1 /* libRCTActionSheet.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 00C302AC1ABCB8CE00DB3ED1 /* libRCTActionSheet.a */; };
 		00C302E71ABCBA2D00DB3ED1 /* libRCTGeolocation.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 00C302BA1ABCB90400DB3ED1 /* libRCTGeolocation.a */; };
@@ -13,6 +14,7 @@
 		00C302EA1ABCBA2D00DB3ED1 /* libRCTVibration.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 00C302E41ABCB9EE00DB3ED1 /* libRCTVibration.a */; };
 		00E356F31AD99517003FC87E /* eSteemTests.m in Sources */ = {isa = PBXBuildFile; fileRef = 00E356F21AD99517003FC87E /* eSteemTests.m */; };
 		0545E65831584C559F6E9D6E /* libAppCenterReactNative.a in Frameworks */ = {isa = PBXBuildFile; fileRef = F0500976E24B42A4A079A051 /* libAppCenterReactNative.a */; };
+		06625C4421A949818C7F02C9 /* Fontisto.ttf in Resources */ = {isa = PBXBuildFile; fileRef = C2DEBF9FC196418CA61B9CA9 /* Fontisto.ttf */; };
 		0805AB3BCD294E3681C7EAE4 /* Octicons.ttf in Resources */ = {isa = PBXBuildFile; fileRef = 6D37F7E2845F42099DED229F /* Octicons.ttf */; };
 		11D1A2F320CAFA9E000508D9 /* libRCTAnimation.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 5E9157331DD0AC6500FF2AA8 /* libRCTAnimation.a */; };
 		133E29F31AD74F7200F7D852 /* libRCTLinking.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 78C398B91ACF4ADC00677621 /* libRCTLinking.a */; };
@@ -82,7 +84,6 @@
 		EDFF927300154818B0BF6EA4 /* libAppCenterReactNativePush.a in Frameworks */ = {isa = PBXBuildFile; fileRef = D0E465F10CD4424E9B80CFD3 /* libAppCenterReactNativePush.a */; };
 		F02CA133DF337C8C8FF1753C /* libPods-eSteem-tvOSTests.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 38204CFB05512D7FC94CF03D /* libPods-eSteem-tvOSTests.a */; };
 		FA64A93BC95743E58F77F404 /* FontAwesome5_Solid.ttf in Resources */ = {isa = PBXBuildFile; fileRef = 2DEB48DE97FD4A7585118CB4 /* FontAwesome5_Solid.ttf */; };
-		06625C4421A949818C7F02C9 /* Fontisto.ttf in Resources */ = {isa = PBXBuildFile; fileRef = C2DEBF9FC196418CA61B9CA9 /* Fontisto.ttf */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -547,6 +548,7 @@
 		BD8B4C7EF97244C180A440A1 /* RealmReact.xcodeproj */ = {isa = PBXFileReference; explicitFileType = undefined; fileEncoding = 9; includeInIndex = 0; lastKnownFileType = "wrapper.pb-project"; name = RealmReact.xcodeproj; path = "../node_modules/realm/react-native/ios/RealmReact.xcodeproj"; sourceTree = "<group>"; };
 		BE0C6BC92B6E4781AFB8ED5E /* libReactNativeConfig.a */ = {isa = PBXFileReference; explicitFileType = undefined; fileEncoding = 9; includeInIndex = 0; lastKnownFileType = archive.ar; path = libReactNativeConfig.a; sourceTree = "<group>"; };
 		C1AC2A99CB0143E580183824 /* RNViewOverflow.xcodeproj */ = {isa = PBXFileReference; explicitFileType = undefined; fileEncoding = 9; includeInIndex = 0; lastKnownFileType = "wrapper.pb-project"; name = RNViewOverflow.xcodeproj; path = "../node_modules/react-native-view-overflow/ios/RNViewOverflow.xcodeproj"; sourceTree = "<group>"; };
+		C2DEBF9FC196418CA61B9CA9 /* Fontisto.ttf */ = {isa = PBXFileReference; explicitFileType = undefined; fileEncoding = 9; includeInIndex = 0; lastKnownFileType = unknown; name = Fontisto.ttf; path = "../node_modules/react-native-vector-icons/Fonts/Fontisto.ttf"; sourceTree = "<group>"; };
 		C4AAE17725FA492995205C78 /* MaterialIcons.ttf */ = {isa = PBXFileReference; explicitFileType = undefined; fileEncoding = 9; includeInIndex = 0; lastKnownFileType = unknown; name = MaterialIcons.ttf; path = ../src/assets/Fonts/MaterialIcons.ttf; sourceTree = "<group>"; };
 		C652914077353DAB703AE96F /* Pods-eSteem-tvOS.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-eSteem-tvOS.debug.xcconfig"; path = "Target Support Files/Pods-eSteem-tvOS/Pods-eSteem-tvOS.debug.xcconfig"; sourceTree = "<group>"; };
 		C829CE26BBB14D309C5121A5 /* AntDesign.ttf */ = {isa = PBXFileReference; explicitFileType = undefined; fileEncoding = 9; includeInIndex = 0; lastKnownFileType = unknown; name = AntDesign.ttf; path = "../node_modules/react-native-vector-icons/Fonts/AntDesign.ttf"; sourceTree = "<group>"; };
@@ -564,7 +566,6 @@
 		F202583F54E7475B0E1F9020 /* Pods-eSteem.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-eSteem.debug.xcconfig"; path = "Target Support Files/Pods-eSteem/Pods-eSteem.debug.xcconfig"; sourceTree = "<group>"; };
 		F3D23ACB36194C40BFB26B7A /* Roboto-medium.ttf */ = {isa = PBXFileReference; explicitFileType = undefined; fileEncoding = 9; includeInIndex = 0; lastKnownFileType = unknown; name = "Roboto-medium.ttf"; path = "../src/assets/Fonts/Roboto-medium.ttf"; sourceTree = "<group>"; };
 		F81DF68DDD5447119FDA7F5F /* EvilIcons.ttf */ = {isa = PBXFileReference; explicitFileType = undefined; fileEncoding = 9; includeInIndex = 0; lastKnownFileType = unknown; name = EvilIcons.ttf; path = ../src/assets/Fonts/EvilIcons.ttf; sourceTree = "<group>"; };
-		C2DEBF9FC196418CA61B9CA9 /* Fontisto.ttf */ = {isa = PBXFileReference; name = "Fontisto.ttf"; path = "../node_modules/react-native-vector-icons/Fonts/Fontisto.ttf"; sourceTree = "<group>"; fileEncoding = undefined; lastKnownFileType = unknown; explicitFileType = undefined; includeInIndex = 0; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -1965,7 +1966,7 @@
 				CODE_SIGN_ENTITLEMENTS = eSteem/eSteem.entitlements;
 				CODE_SIGN_IDENTITY = "iPhone Developer";
 				CODE_SIGN_STYLE = Manual;
-				CURRENT_PROJECT_VERSION = 9;
+				CURRENT_PROJECT_VERSION = 2251;
 				DEAD_CODE_STRIPPING = NO;
 				DEVELOPMENT_TEAM = 75B6RXTKGT;
 				GCC_NO_COMMON_BLOCKS = NO;
@@ -2008,7 +2009,7 @@
 				CODE_SIGN_ENTITLEMENTS = eSteem/eSteem.entitlements;
 				CODE_SIGN_IDENTITY = "iPhone Distribution";
 				CODE_SIGN_STYLE = Manual;
-				CURRENT_PROJECT_VERSION = 9;
+				CURRENT_PROJECT_VERSION = 2251;
 				DEVELOPMENT_TEAM = 75B6RXTKGT;
 				GCC_NO_COMMON_BLOCKS = NO;
 				HEADER_SEARCH_PATHS = (
