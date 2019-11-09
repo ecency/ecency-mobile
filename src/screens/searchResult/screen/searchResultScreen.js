@@ -10,6 +10,13 @@ import { SearchInput, Posts, TabBar } from '../../../components';
 import styles from './searchResultStyles';
 import globalStyles from '../../../globalStyles';
 
+import {
+  POPULAR_FILTERS,
+  PROFILE_FILTERS,
+  PROFILE_FILTERS_VALUE,
+  POPULAR_FILTERS_VALUE,
+} from '../../../constants/options/filters';
+
 class SearchResultScreen extends PureComponent {
   constructor(props) {
     super(props);
@@ -46,7 +53,12 @@ class SearchResultScreen extends PureComponent {
             })}
             style={styles.tabbarItem}
           >
-            <Posts pageType="posts" tag={tag} />
+            <Posts
+              key={tag}
+              filterOptions={POPULAR_FILTERS}
+              filterOptionsValue={POPULAR_FILTERS_VALUE}
+              tag={tag}
+            />
           </View>
         </ScrollableTabView>
       </View>
