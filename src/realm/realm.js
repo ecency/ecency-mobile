@@ -9,6 +9,7 @@ const AUTH_SCHEMA = 'auth';
 const DRAFT_SCHEMA = 'draft';
 const SETTINGS_SCHEMA = 'settings';
 const APPLICATION_SCHEMA = 'application';
+const STORAGE_SCHEMA = 'storage';
 
 const userSchema = {
   name: USER_SCHEMA,
@@ -174,6 +175,7 @@ export const getAllData = async () => {
         [DRAFT_SCHEMA, JSON.stringify(draft)],
         [SETTINGS_SCHEMA, JSON.stringify(setting)],
         [APPLICATION_SCHEMA, JSON.stringify(application)],
+        [STORAGE_SCHEMA, 'A'],
       ];
       AsyncStorage.multiSet(data);
     }
@@ -388,8 +390,8 @@ export const getPinCode = async () => {
 export const getPinCodeOpen = async () => {
   try {
     const setting = await getItemFromStorage(SETTINGS_SCHEMA);
-    if (setting[0]) {
-      return setting[0].isPinCodeOpen;
+    if (setting) {
+      return setting.isPinCodeOpen;
     }
     return false;
   } catch (error) {
@@ -426,8 +428,8 @@ export const setTheme = async isDarkTheme => {
 export const getTheme = async () => {
   try {
     const setting = await getItemFromStorage(SETTINGS_SCHEMA);
-    if (setting[0]) {
-      return setting[0].isDarkTheme;
+    if (setting) {
+      return setting.isDarkTheme;
     }
     return false;
   } catch (error) {
@@ -464,8 +466,8 @@ export const setUpvotePercent = async percent => {
 export const getUpvotePercent = async () => {
   try {
     const setting = await getItemFromStorage(SETTINGS_SCHEMA);
-    if (setting[0]) {
-      return setting[0].upvotePercent;
+    if (setting) {
+      return setting.upvotePercent;
     }
     return false;
   } catch (error) {
@@ -476,8 +478,8 @@ export const getUpvotePercent = async () => {
 export const getNsfw = async () => {
   try {
     const setting = await getItemFromStorage(SETTINGS_SCHEMA);
-    if (setting[0]) {
-      return setting[0].nsfw;
+    if (setting) {
+      return setting.nsfw;
     }
     return false;
   } catch (error) {
@@ -577,8 +579,8 @@ export const setCurrency = async currencyProps => {
 export const getLanguage = async () => {
   try {
     const setting = await getItemFromStorage(SETTINGS_SCHEMA);
-    if (setting[0]) {
-      return setting[0].language;
+    if (setting) {
+      return setting.language;
     }
     return false;
   } catch (error) {
@@ -589,8 +591,8 @@ export const getLanguage = async () => {
 export const getServer = async () => {
   try {
     const setting = await getItemFromStorage(SETTINGS_SCHEMA);
-    if (setting[0]) {
-      return setting[0].server;
+    if (setting) {
+      return setting.server;
     }
     return false;
   } catch (error) {
@@ -731,6 +733,18 @@ export const removeSCAccount = async username => {
       return true;
     }
     return new Error('Could not remove selected user');
+  } catch (error) {
+    return error;
+  }
+};
+
+export const getStorageType = async () => {
+  try {
+    const storageType = await AsyncStorage.getItem(STORAGE_SCHEMA);
+    if (storageType !== null) {
+      return storageType;
+    }
+    return 'R';
   } catch (error) {
     return error;
   }

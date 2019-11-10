@@ -32,7 +32,7 @@ export const login = async (username, password, isPinCodeOpen) => {
   if (!account) {
     return Promise.reject(new Error('auth.invalid_username'));
   }
-  if (isLoggedInUser(username)) {
+  if (await isLoggedInUser(username)) {
     return Promise.reject(new Error('auth.already_logged'));
   }
   // Public keys of user
@@ -144,7 +144,7 @@ export const loginWithSC2 = async (code, isPinCodeOpen) => {
       account.local.avatar = avatar;
     }
 
-    if (isLoggedInUser(account.name)) {
+    if (await isLoggedInUser(account.name)) {
       reject(new Error('auth.already_logged'));
     }
 
@@ -167,7 +167,7 @@ export const loginWithSC2 = async (code, isPinCodeOpen) => {
 
 export const setUserDataWithPinCode = async data => {
   try {
-    const result = getUserDataWithUsername(data.username);
+    const result = await getUserDataWithUsername(data.username);
     const userData = result[0];
 
     if (!data.password) {
@@ -234,7 +234,7 @@ export const updatePinCode = data =>
 export const verifyPinCode = async data => {
   const pinHash = await getPinCode();
 
-  const result = getUserDataWithUsername(data.username);
+  const result = await getUserDataWithUsername(data.username);
   const userData = result[0];
 
   // This is migration for new pin structure, it will remove v2.2
@@ -338,8 +338,8 @@ export const getUpdatedUserData = (userData, data) => {
   };
 };
 
-const isLoggedInUser = username => {
-  const result = getUserDataWithUsername(username);
+const isLoggedInUser = async username => {
+  const result = await getUserDataWithUsername(username);
   if (result.length > 0) {
     return true;
   }
