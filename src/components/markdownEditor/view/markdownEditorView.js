@@ -1,11 +1,11 @@
-import React, { Component } from 'react';
+import React, { useState, useRef, useEffect } from 'react';
 import { View, KeyboardAvoidingView, FlatList, Text, Platform, ScrollView } from 'react-native';
 import ActionSheet from 'react-native-actionsheet';
 import { renderPostBody } from '@esteemapp/esteem-render-helpers';
 
 // Utils
-import applyImageLink from './formats/applyWebLinkFormat';
 import Formats from './formats/formats';
+import applyImageLink from './formats/applyWebLinkFormat';
 
 // Components
 import { IconButton } from '../../iconButton';
@@ -18,73 +18,83 @@ import { ThemeContainer } from '../../../containers';
 // Styles
 import styles from './markdownEditorStyles';
 
-export default class MarkdownEditorView extends Component {
-  constructor(props) {
-    super(props);
-    this.state = {
-      text: props.draftBody || '',
-      selection: { start: 0, end: 0 },
-      textUpdated: false,
-      newSelection: null,
-    };
+const MarkdownEditorView = ({
+  draftBody,
+  handleIsFormValid,
+  handleOpenImagePicker,
+  intl,
+  isPreviewActive,
+  isReply,
+  isLoading,
+  initialFields,
+  onChange,
+  handleOnTextChange,
+  handleIsValid,
+  componentID,
+  uploadedImage,
+}) => {
+  const [text, setText] = useState(draftBody || '');
+  const [selection, setSelection] = useState({ start: 0, end: 0 });
+  const [editable, setEditable] = useState(null);
 
-    this.inputRef = React.createRef();
-    this.galleryRef = React.createRef();
-    this.clearRef = React.createRef();
-  }
+  const inputRef = useRef(null);
+  const galleryRef = useRef(null);
+  const clearRef = useRef(null);
 
-  // Lifecycle functions
-  UNSAFE_componentWillReceiveProps(nextProps) {
-    const { draftBody, uploadedImage, isPreviewActive } = this.props;
-    if (!nextProps.isPreviewActive && isPreviewActive) {
-      this.setState({
-        selection: { start: 0, end: 0 },
-      });
+  useEffect(() => {
+    if (!isPreviewActive) {
+      _setTextAndSelection({ selection: { start: 0, end: 0 }, text });
     }
-    if (nextProps.draftBody && draftBody !== nextProps.draftBody) {
-      this.setState({
-        text: nextProps.draftBody,
-      });
-    }
+  }, [isPreviewActive]);
 
-    if (
-      nextProps.uploadedImage &&
-      nextProps.uploadedImage.url &&
-      nextProps.uploadedImage !== uploadedImage
-    ) {
+  useEffect(() => {
+    if (text === '' && draftBody !== '') {
+      _setTextAndSelection({ selection: { start: 0, end: 0 }, text: draftBody });
+    }
+  }, [draftBody]);
+
+  useEffect(() => {
+    if (editable === null) {
+      // workaround for android context menu issue
+      setEditable(false);
+      setTimeout(() => {
+        setEditable(!isLoading);
+      }, 100);
+    } else {
+      setEditable(!isLoading);
+    }
+  }, [isLoading]);
+
+  useEffect(() => {
+    if (uploadedImage && uploadedImage.url) {
       applyImageLink({
-        getState: this._getState,
-        setState: async (state, callback) => {
-          await this.setState(state, callback);
-        },
-        item: { url: nextProps.uploadedImage.url, text: nextProps.uploadedImage.hash },
-        isImage: !!nextProps.uploadedImage,
+        text,
+        selection,
+        setTextAndSelection: _setTextAndSelection,
+        item: { url: uploadedImage.url, text: uploadedImage.hash },
+        isImage: !!uploadedImage,
       });
     }
-  }
+  }, [uploadedImage]);
 
-  componentDidUpdate(prevProps, prevState) {
-    const { text } = this.state;
-    const { handleIsFormValid } = this.props;
+  useEffect(() => {
+    setText(draftBody);
+  }, [draftBody]);
 
-    if (prevState.text !== text) {
-      const nextText = text.replace(prevState.text, '');
+  useEffect(() => {
+    const nextText = text.replace(text, '');
 
-      if (nextText && nextText.length > 0) {
-        this._changeText(text);
+    if (nextText && nextText.length > 0) {
+      _changeText(text);
 
-        if (handleIsFormValid) {
-          handleIsFormValid(text);
-        }
+      if (handleIsFormValid) {
+        handleIsFormValid(text);
       }
     }
-  }
+  }, [text]);
 
-  // Component functions
-  _changeText = input => {
-    const { onChange, handleOnTextChange, handleIsValid, componentID } = this.props;
-
-    this.setState({ text: input });
+  const _changeText = input => {
+    setText(input);
 
     if (onChange) {
       onChange(input);
@@ -99,36 +109,31 @@ export default class MarkdownEditorView extends Component {
     }
   };
 
-  _handleOnSelectionChange = event => {
-    const { newSelection } = this.state;
+  const _handleOnSelectionChange = async event => {
+    setSelection(event.nativeEvent.selection);
+  };
 
-    if (newSelection) {
-      this.setState({
-        selection: newSelection,
-        newSelection: null,
-      });
-      return;
-    }
-    this.setState({
-      selection: event.nativeEvent.selection,
+  const _setTextAndSelection = ({ selection: _selection, text: _text }) => {
+    inputRef.current.setNativeProps({
+      text: _text,
     });
+    // Workaround for iOS selection update issue
+    setTimeout(() => {
+      inputRef.current.setNativeProps({
+        selection: _selection,
+      });
+      setSelection(_selection);
+    }, 200);
+    _changeText(_text);
   };
 
-  _getState = () => {
-    return this.state;
-  };
+  const _renderPreview = () => (
+    <ScrollView style={styles.previewContainer}>
+      {text ? <PostBody body={renderPostBody(text)} /> : <Text>...</Text>}
+    </ScrollView>
+  );
 
-  _renderPreview = () => {
-    const { text } = this.state;
-
-    return (
-      <ScrollView style={styles.previewContainer}>
-        {text ? <PostBody body={renderPostBody(text)} /> : <Text>...</Text>}
-      </ScrollView>
-    );
-  };
-
-  _renderMarkupButton = ({ item, getState, setState }) => (
+  const _renderMarkupButton = ({ item }) => (
     <View style={styles.buttonWrapper}>
       <IconButton
         size={20}
@@ -136,20 +141,20 @@ export default class MarkdownEditorView extends Component {
         iconStyle={styles.icon}
         iconType={item.iconType}
         name={item.icon}
-        onPress={() => item.onPress({ getState, setState, item })}
+        onPress={() =>
+          item.onPress({ text, selection, setTextAndSelection: _setTextAndSelection, item })
+        }
       />
     </View>
   );
 
-  _renderEditorButtons = ({ getState, setState }) => (
+  const _renderEditorButtons = () => (
     <StickyBar>
       <View style={styles.leftButtonsWrapper}>
         <FlatList
           data={Formats}
           keyboardShouldPersistTaps="always"
-          renderItem={({ item, index }) =>
-            index !== 9 && this._renderMarkupButton({ item, getState, setState })
-          }
+          renderItem={({ item, index }) => index !== 9 && _renderMarkupButton({ item })}
           horizontal
         />
       </View>
@@ -160,10 +165,12 @@ export default class MarkdownEditorView extends Component {
           iconStyle={styles.icon}
           iconType="FontAwesome"
           name="link"
-          onPress={() => Formats[9].onPress({ getState, setState })}
+          onPress={() =>
+            Formats[9].onPress({ text, selection, setTextAndSelection: _setTextAndSelection })
+          }
         />
         <IconButton
-          onPress={() => this.galleryRef.current.show()}
+          onPress={() => galleryRef.current.show()}
           style={styles.rightIcons}
           size={20}
           iconStyle={styles.icon}
@@ -172,7 +179,7 @@ export default class MarkdownEditorView extends Component {
         />
         <View style={styles.clearButtonWrapper}>
           <IconButton
-            onPress={() => this.clearRef.current.show()}
+            onPress={() => clearRef.current.show()}
             size={20}
             iconStyle={styles.clearIcon}
             iconType="FontAwesome"
@@ -184,91 +191,81 @@ export default class MarkdownEditorView extends Component {
     </StickyBar>
   );
 
-  _handleClear = () => {
-    const { initialFields } = this.props;
-
-    initialFields();
-
-    this.setState({ text: '' });
+  const _handleClear = index => {
+    if (index === 0) {
+      initialFields();
+      setText('');
+      _setTextAndSelection({ text: '', selection: { start: 0, end: 0 } });
+    }
   };
 
-  render() {
-    const { handleOpenImagePicker, intl, isPreviewActive, isReply, isLoading } = this.props;
-    const { text, selection } = this.state;
+  return (
+    <KeyboardAvoidingView
+      style={styles.container}
+      keyboardVerticalOffset={Platform.select({ ios: 0, android: 25 })}
+      behavior={Platform.OS === 'ios' ? 'padding' : null}
+    >
+      {!isPreviewActive ? (
+        <ThemeContainer>
+          {({ isDarkTheme }) => (
+            <TextInput
+              multiline
+              autoCorrect={false}
+              onChangeText={_changeText}
+              onSelectionChange={_handleOnSelectionChange}
+              placeholder={intl.formatMessage({
+                id: isReply ? 'editor.reply_placeholder' : 'editor.default_placeholder',
+              })}
+              placeholderTextColor={isDarkTheme ? '#526d91' : '#c1c5c7'}
+              selectionColor="#357ce6"
+              style={styles.textWrapper}
+              underlineColorAndroid="transparent"
+              innerRef={inputRef}
+              editable={editable}
+              contextMenuHidden={false}
+            />
+          )}
+        </ThemeContainer>
+      ) : (
+        _renderPreview()
+      )}
+      {!isPreviewActive && _renderEditorButtons()}
+      <ActionSheet
+        ref={galleryRef}
+        options={[
+          intl.formatMessage({
+            id: 'editor.open_gallery',
+          }),
+          intl.formatMessage({
+            id: 'editor.capture_photo',
+          }),
+          intl.formatMessage({
+            id: 'alert.cancel',
+          }),
+        ]}
+        cancelButtonIndex={2}
+        onPress={index => {
+          handleOpenImagePicker(index === 0 ? 'image' : index === 1 && 'camera');
+        }}
+      />
+      <ActionSheet
+        ref={clearRef}
+        title={intl.formatMessage({
+          id: 'alert.clear_alert',
+        })}
+        options={[
+          intl.formatMessage({
+            id: 'alert.clear',
+          }),
+          intl.formatMessage({
+            id: 'alert.cancel',
+          }),
+        ]}
+        cancelButtonIndex={1}
+        onPress={_handleClear}
+      />
+    </KeyboardAvoidingView>
+  );
+};
 
-    return (
-      <KeyboardAvoidingView
-        style={styles.container}
-        keyboardVerticalOffset={Platform.select({ ios: 0, android: 25 })}
-        behavior={Platform.OS === 'ios' ? 'padding' : null}
-      >
-        {!isPreviewActive ? (
-          <ThemeContainer>
-            {({ isDarkTheme }) => (
-              <TextInput
-                multiline
-                onChangeText={this._changeText}
-                onSelectionChange={this._handleOnSelectionChange}
-                placeholder={intl.formatMessage({
-                  id: isReply ? 'editor.reply_placeholder' : 'editor.default_placeholder',
-                })}
-                placeholderTextColor={isDarkTheme ? '#526d91' : '#c1c5c7'}
-                selection={selection}
-                selectionColor="#357ce6"
-                style={styles.textWrapper}
-                underlineColorAndroid="transparent"
-                value={text}
-                innerRef={this.inputRef}
-                editable={!isLoading}
-              />
-            )}
-          </ThemeContainer>
-        ) : (
-          this._renderPreview()
-        )}
-        {!isPreviewActive &&
-          this._renderEditorButtons({
-            getState: this._getState,
-            setState: (state, callback) => {
-              this.inputRef.current.focus();
-              this.setState(state, callback);
-            },
-          })}
-        <ActionSheet
-          ref={this.galleryRef}
-          options={[
-            intl.formatMessage({
-              id: 'editor.open_gallery',
-            }),
-            intl.formatMessage({
-              id: 'editor.capture_photo',
-            }),
-            intl.formatMessage({
-              id: 'alert.cancel',
-            }),
-          ]}
-          cancelButtonIndex={2}
-          onPress={index => {
-            handleOpenImagePicker(index === 0 ? 'image' : index === 1 && 'camera');
-          }}
-        />
-        <ActionSheet
-          ref={this.clearRef}
-          title={intl.formatMessage({
-            id: 'alert.clear_alert',
-          })}
-          options={[
-            intl.formatMessage({
-              id: 'alert.clear',
-            }),
-            intl.formatMessage({
-              id: 'alert.cancel',
-            }),
-          ]}
-          cancelButtonIndex={1}
-          onPress={index => index === 0 && this._handleClear()}
-        />
-      </KeyboardAvoidingView>
-    );
-  }
-}
+export default MarkdownEditorView;
