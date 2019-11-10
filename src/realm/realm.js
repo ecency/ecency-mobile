@@ -199,8 +199,11 @@ export const getUserData = async () => {
 export const getUserDataWithUsername = async username => {
   try {
     const user = await getItemFromStorage(USER_SCHEMA);
-    const userObj = user.filter(u => u.username === username);
-    return userObj;
+    if (user) {
+      const userObj = user.filter(u => u.username === username);
+      return userObj;
+    }
+    return [];
   } catch (error) {
     return error;
   }
@@ -209,7 +212,7 @@ export const getUserDataWithUsername = async username => {
 export const setUserData = async userData => {
   try {
     const account = await getUserDataWithUsername(userData.username);
-    const user = await getItemFromStorage(USER_SCHEMA);
+    const user = (await getItemFromStorage(USER_SCHEMA)) || [];
 
     if (account.length === 0) {
       user.push(userData);
@@ -607,7 +610,23 @@ export const getSettings = async () => {
     if (setting) {
       return setting;
     }
-    return false;
+    const settingData = {
+      language: '',
+      isDarkTheme: false,
+      currency: '',
+      notification: true,
+      server: '',
+      upvotePercent: '1',
+      nsfw: '0',
+      followNotification: true,
+      voteNotification: true,
+      commentNotification: true,
+      mentionNotification: true,
+      reblogNotification: true,
+      transfersNotification: true,
+    };
+    await setItemToStorage(SETTINGS_SCHEMA, settingData);
+    return settingData;
   } catch (error) {
     return error;
   }
