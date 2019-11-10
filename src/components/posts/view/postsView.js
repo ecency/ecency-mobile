@@ -376,27 +376,27 @@ class PostsView extends Component {
           />
         )}
 
-        <FlatList
-          data={posts}
-          showsVerticalScrollIndicator={false}
-          renderItem={({ item }) =>
-            get(item, 'author', null) && (
-              <PostCard isRefresh={refreshing} content={item} isHideImage={isHideImage} />
-            )
-          }
-          keyExtractor={(content, i) => `${get(content, 'permlink', '')}${i.toString()}`}
-          onEndReached={() => this._loadPosts()}
-          removeClippedSubviews
-          refreshing={refreshing}
-          onRefresh={() => this._handleOnRefreshPosts()}
-          onEndThreshold={0}
-          initialNumToRender={10}
-          ListFooterComponent={this._renderFooter}
-          onScrollEndDrag={this._handleOnScroll}
-          ListEmptyComponent={this._renderEmptyContent}
-          refreshControl={
-            <ThemeContainer>
-              {({ isDarkTheme }) => (
+        <ThemeContainer>
+          {({ isDarkTheme }) => (
+            <FlatList
+              data={posts}
+              showsVerticalScrollIndicator={false}
+              renderItem={({ item }) =>
+                get(item, 'author', null) && (
+                  <PostCard isRefresh={refreshing} content={item} isHideImage={isHideImage} />
+                )
+              }
+              keyExtractor={(content, i) => `${get(content, 'permlink', '')}${i.toString()}`}
+              onEndReached={() => this._loadPosts()}
+              removeClippedSubviews
+              refreshing={refreshing}
+              onRefresh={() => this._handleOnRefreshPosts()}
+              onEndThreshold={0}
+              initialNumToRender={10}
+              ListFooterComponent={this._renderFooter}
+              onScrollEndDrag={this._handleOnScroll}
+              ListEmptyComponent={this._renderEmptyContent}
+              refreshControl={
                 <RefreshControl
                   refreshing={refreshing}
                   onRefresh={this._handleOnRefreshPosts}
@@ -405,13 +405,13 @@ class PostsView extends Component {
                   titleColor="#fff"
                   colors={['#fff']}
                 />
-              )}
-            </ThemeContainer>
-          }
-          ref={ref => {
-            this.flatList = ref;
-          }}
-        />
+              }
+              ref={ref => {
+                this.flatList = ref;
+              }}
+            />
+          )}
+        </ThemeContainer>
       </View>
     );
   }

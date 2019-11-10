@@ -40,22 +40,18 @@ class PointsView extends Component {
 
   // Component Functions
 
-  refreshControl = () => {
+  refreshControl = ({ isDarkTheme }) => {
     const { fetchUserActivity, refreshing } = this.props;
 
     return (
-      <ThemeContainer>
-        {isDarkTheme => (
-          <RefreshControl
-            refreshing={refreshing}
-            onRefresh={fetchUserActivity}
-            progressBackgroundColor="#357CE6"
-            tintColor={!isDarkTheme ? '#357ce6' : '#96c0ff'}
-            titleColor="#fff"
-            colors={['#fff']}
-          />
-        )}
-      </ThemeContainer>
+      <RefreshControl
+        refreshing={refreshing}
+        onRefresh={fetchUserActivity}
+        progressBackgroundColor="#357CE6"
+        tintColor={!isDarkTheme ? '#357ce6' : '#96c0ff'}
+        titleColor="#fff"
+        colors={['#fff']}
+      />
     );
   };
 
@@ -100,147 +96,166 @@ class PointsView extends Component {
     return (
       <Fragment>
         <LineBreak height={12} />
-        <ScrollView style={styles.scrollContainer} refreshControl={this.refreshControl()}>
-          <View style={styles.pointsWrapper}>
-            <Text onPress={this._showDropdown} style={styles.pointText}>
-              {get(userPoints, 'points')}
-            </Text>
-            <DropdownButton
-              dropdownRowWrapper={styles.dropdownRowStyle}
-              dropdownRef={this.dropdownRef}
-              isHasChildIcon
-              iconName="arrow-drop-down"
-              options={[
-                intl.formatMessage({ id: 'points.dropdown_transfer' }),
-                intl.formatMessage({ id: 'points.dropdown_promote' }),
-                intl.formatMessage({ id: 'points.dropdown_boost' }),
-              ]}
-              noHighlight
-              dropdownButtonStyle={styles.dropdownButtonStyle}
-              onSelect={handleOnDropdownSelected}
-              rowTextStyle={styles.dropdownRowText}
-              dropdownStyle={styles.dropdownStyle}
-            />
-          </View>
-          <Text style={styles.subText}>{intl.formatMessage({ id: 'points.esteemPoints' })}</Text>
-
-          <MainButton
-            isLoading={isClaiming}
-            isDisable={isClaiming}
-            style={styles.mainButton}
-            height={50}
-            onPress={() =>
-              unclaimedPoints > 0 ? claimPoints() : navigation.navigate(ROUTES.SCREENS.BOOST)
-            }
-          >
-            <View style={styles.mainButtonWrapper}>
-              <Text style={styles.unclaimedText}>
-                {unclaimedPoints > 0 ? unclaimedPoints : intl.formatMessage({ id: 'boost.buy' })}
-              </Text>
-              <View style={styles.mainIconWrapper}>
-                <Icon name="add" iconType="MaterialIcons" color="#357ce6" size={23} />
+        <ThemeContainer>
+          {isDarkTheme => (
+            <ScrollView
+              style={styles.scrollContainer}
+              refreshControl={this.refreshControl({ isDarkTheme })}
+            >
+              <View style={styles.pointsWrapper}>
+                <Text onPress={this._showDropdown} style={styles.pointText}>
+                  {get(userPoints, 'points')}
+                </Text>
+                <DropdownButton
+                  dropdownRowWrapper={styles.dropdownRowStyle}
+                  dropdownRef={this.dropdownRef}
+                  isHasChildIcon
+                  iconName="arrow-drop-down"
+                  options={[
+                    intl.formatMessage({ id: 'points.dropdown_transfer' }),
+                    intl.formatMessage({ id: 'points.dropdown_promote' }),
+                    intl.formatMessage({ id: 'points.dropdown_boost' }),
+                  ]}
+                  noHighlight
+                  dropdownButtonStyle={styles.dropdownButtonStyle}
+                  onSelect={handleOnDropdownSelected}
+                  rowTextStyle={styles.dropdownRowText}
+                  dropdownStyle={styles.dropdownStyle}
+                />
               </View>
-            </View>
-          </MainButton>
+              <Text style={styles.subText}>
+                {intl.formatMessage({ id: 'points.esteemPoints' })}
+              </Text>
 
-          <View style={styles.iconsWrapper}>
-            <FlatList
-              style={styles.iconsList}
-              data={POINTS_KEYS}
-              keyExtractor={item => get(item, 'type', Math.random()).toString()}
-              horizontal
-              renderItem={({ item }) => (
-                <PopoverController key={get(item, 'type')}>
-                  {({
-                    openPopover,
-                    closePopover,
-                    popoverVisible,
-                    setPopoverAnchor,
-                    popoverAnchorRect,
-                  }) => (
-                    <View styles={styles.iconWrapper} key={get(item, 'type')}>
-                      <View style={styles.iconWrapper}>
-                        <TouchableOpacity ref={setPopoverAnchor} onPress={openPopover}>
-                          <IconButton
-                            iconStyle={styles.icon}
-                            style={styles.iconButton}
-                            iconType={get(POINTS[get(item, 'type')], 'iconType')}
-                            name={get(POINTS[get(item, 'type')], 'icon')}
-                            badgeCount={get(POINTS[get(item, 'type')], 'point')}
-                            badgeStyle={styles.badge}
-                            badgeTextStyle={styles.badgeText}
-                            disabled
-                          />
-                        </TouchableOpacity>
-                      </View>
-                      <Text style={styles.subText}>
-                        {this._getTranslation(get(POINTS[get(item, 'type')], 'nameKey'))}
-                      </Text>
-                      <Popover
-                        backgroundStyle={styles.overlay}
-                        contentStyle={styles.popoverDetails}
-                        arrowStyle={styles.arrow}
-                        visible={popoverVisible}
-                        onClose={() => closePopover()}
-                        fromRect={popoverAnchorRect}
-                        placement="top"
-                        supportedOrientations={['portrait', 'landscape']}
-                      >
-                        <View style={styles.popoverWrapper}>
-                          <Text style={styles.popoverText}>
-                            {this._getTranslation(get(POINTS[get(item, 'type')], 'descriptionKey'))}
+              <MainButton
+                isLoading={isClaiming}
+                isDisable={isClaiming}
+                style={styles.mainButton}
+                height={50}
+                onPress={() =>
+                  unclaimedPoints > 0 ? claimPoints() : navigation.navigate(ROUTES.SCREENS.BOOST)
+                }
+              >
+                <View style={styles.mainButtonWrapper}>
+                  <Text style={styles.unclaimedText}>
+                    {unclaimedPoints > 0
+                      ? unclaimedPoints
+                      : intl.formatMessage({ id: 'boost.buy' })}
+                  </Text>
+                  <View style={styles.mainIconWrapper}>
+                    <Icon name="add" iconType="MaterialIcons" color="#357ce6" size={23} />
+                  </View>
+                </View>
+              </MainButton>
+
+              <View style={styles.iconsWrapper}>
+                <FlatList
+                  style={styles.iconsList}
+                  data={POINTS_KEYS}
+                  keyExtractor={item => get(item, 'type', Math.random()).toString()}
+                  horizontal
+                  renderItem={({ item }) => (
+                    <PopoverController key={get(item, 'type')}>
+                      {({
+                        openPopover,
+                        closePopover,
+                        popoverVisible,
+                        setPopoverAnchor,
+                        popoverAnchorRect,
+                      }) => (
+                        <View styles={styles.iconWrapper} key={get(item, 'type')}>
+                          <View style={styles.iconWrapper}>
+                            <TouchableOpacity ref={setPopoverAnchor} onPress={openPopover}>
+                              <IconButton
+                                iconStyle={styles.icon}
+                                style={styles.iconButton}
+                                iconType={get(POINTS[get(item, 'type')], 'iconType')}
+                                name={get(POINTS[get(item, 'type')], 'icon')}
+                                badgeCount={get(POINTS[get(item, 'type')], 'point')}
+                                badgeStyle={styles.badge}
+                                badgeTextStyle={styles.badgeText}
+                                disabled
+                              />
+                            </TouchableOpacity>
+                          </View>
+                          <Text style={styles.subText}>
+                            {this._getTranslation(get(POINTS[get(item, 'type')], 'nameKey'))}
                           </Text>
+                          <Popover
+                            backgroundStyle={styles.overlay}
+                            contentStyle={styles.popoverDetails}
+                            arrowStyle={styles.arrow}
+                            visible={popoverVisible}
+                            onClose={() => closePopover()}
+                            fromRect={popoverAnchorRect}
+                            placement="top"
+                            supportedOrientations={['portrait', 'landscape']}
+                          >
+                            <View style={styles.popoverWrapper}>
+                              <Text style={styles.popoverText}>
+                                {this._getTranslation(
+                                  get(POINTS[get(item, 'type')], 'descriptionKey'),
+                                )}
+                              </Text>
+                            </View>
+                          </Popover>
                         </View>
-                      </Popover>
-                    </View>
+                      )}
+                    </PopoverController>
                   )}
-                </PopoverController>
-              )}
-            />
-          </View>
+                />
+              </View>
 
-          <View style={styles.listWrapper}>
-            <FlatList
-              data={userActivities}
-              keyExtractor={item => item.id.toString()}
-              ListEmptyComponent={this._renderLoading()}
-              renderItem={({ item, index }) => (
-                <CollapsibleCard
-                  noBorder
-                  noContainer
-                  key={item.id.toString()}
-                  titleComponent={
-                    <WalletLineItem
-                      index={index + 1}
-                      text={this._getTranslation(get(item, 'textKey'))}
-                      description={getTimeFromNow(get(item, 'created'))}
-                      isCircleIcon
-                      isThin
-                      isBlackText
-                      iconName={get(item, 'icon')}
-                      iconType={get(item, 'iconType')}
-                      rightText={`${get(item, 'amount')} ESTM`}
-                    />
-                  }
-                >
-                  {(get(item, 'memo') || get(item, 'sender')) && (
-                    <WalletLineItem
-                      isBlackText
-                      isThin
-                      text={
-                        get(item, 'sender')
-                          ? `${intl.formatMessage({ id: 'points.from' })} @${get(item, 'sender')}`
-                          : get(item, 'receiver') &&
-                            `${intl.formatMessage({ id: 'points.to' })} @${get(item, 'receiver')}`
+              <View style={styles.listWrapper}>
+                <FlatList
+                  data={userActivities}
+                  keyExtractor={item => item.id.toString()}
+                  ListEmptyComponent={this._renderLoading()}
+                  renderItem={({ item, index }) => (
+                    <CollapsibleCard
+                      noBorder
+                      noContainer
+                      key={item.id.toString()}
+                      titleComponent={
+                        <WalletLineItem
+                          index={index + 1}
+                          text={this._getTranslation(get(item, 'textKey'))}
+                          description={getTimeFromNow(get(item, 'created'))}
+                          isCircleIcon
+                          isThin
+                          isBlackText
+                          iconName={get(item, 'icon')}
+                          iconType={get(item, 'iconType')}
+                          rightText={`${get(item, 'amount')} ESTM`}
+                        />
                       }
-                      description={get(item, 'memo')}
-                    />
+                    >
+                      {(get(item, 'memo') || get(item, 'sender')) && (
+                        <WalletLineItem
+                          isBlackText
+                          isThin
+                          text={
+                            get(item, 'sender')
+                              ? `${intl.formatMessage({ id: 'points.from' })} @${get(
+                                  item,
+                                  'sender',
+                                )}`
+                              : get(item, 'receiver') &&
+                                `${intl.formatMessage({ id: 'points.to' })} @${get(
+                                  item,
+                                  'receiver',
+                                )}`
+                          }
+                          description={get(item, 'memo')}
+                        />
+                      )}
+                    </CollapsibleCard>
                   )}
-                </CollapsibleCard>
-              )}
-            />
-          </View>
-        </ScrollView>
+                />
+              </View>
+            </ScrollView>
+          )}
+        </ThemeContainer>
       </Fragment>
     );
   }
