@@ -88,7 +88,7 @@ const HeaderView = ({
             style={styles.backButton}
             iconStyle={styles.backIcon}
             name="md-arrow-back"
-            onPress={() => handleOnPressBackButton()}
+            onPress={handleOnPressBackButton}
           />
         </View>
       ) : (
