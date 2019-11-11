@@ -12,8 +12,14 @@ export default EStyleSheet.create({
     },
     zIndex: 99,
   },
+  dropdownWrapper: {
+    flexDirection: 'row',
+    justifyContent: 'center',
+    alignItems: 'center',
+  },
   filterBarWrapper: {
     flexDirection: 'row',
+    alignItems: 'center',
     justifyContent: 'space-between',
   },
   rightIconWrapper: {
@@ -23,5 +29,9 @@ export default EStyleSheet.create({
   rightIcon: {
     color: '$darkIconColor',
     textAlign: 'center',
+  },
+  customOptionWrapper: {
+    left: 120,
+    position: 'absolute',
   },
 });
