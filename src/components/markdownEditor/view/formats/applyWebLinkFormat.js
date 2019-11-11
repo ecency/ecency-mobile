@@ -3,8 +3,7 @@ import { isStringWebLink, replaceBetween } from './utils';
 export const writeUrlTextHere = 'https://example.com';
 export const writeTextHereString = 'Text here';
 
-export default async ({ getState, item, setState, isImage = null }) => {
-  const { selection, text } = getState();
+export default async ({ text, selection, setTextAndSelection, item, isImage = null }) => {
   const imagePrefix = isImage ? '!' : '';
   const itemText = item ? item.text : writeTextHereString;
   const itemUrl = item ? item.url : writeUrlTextHere;
@@ -41,7 +40,5 @@ export default async ({ getState, item, setState, isImage = null }) => {
     }
   }
 
-  await setState({ text: newText, textUpdated: true }, async () => {
-    await setState({ newSelection });
-  });
+  setTextAndSelection({ text: newText, selection: newSelection });
 };
