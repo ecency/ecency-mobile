@@ -6,9 +6,9 @@ export default EStyleSheet.create({
     borderTopRightRadius: 8,
     marginTop: 16,
     flexDirection: 'row',
-    backgroundColor: '$primaryLightBackground',
     height: 60,
     borderBottomWidth: 2,
+    backgroundColor: '$primaryWhiteLightBackground',
   },
   firstImage: {
     width: 24,

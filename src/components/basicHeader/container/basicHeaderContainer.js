@@ -26,13 +26,15 @@ class BasicHeaderContainer extends Component {
 
     if (isNewPost) {
       navigation.navigate({
-        routeName: ROUTES.SCREENS.HOME,
+        routeName: ROUTES.SCREENS.FEED,
       });
     } else {
       navigation.goBack();
     }
 
-    if (handleOnBackPress) handleOnBackPress();
+    if (handleOnBackPress) {
+      handleOnBackPress();
+    }
   };
 
   render() {

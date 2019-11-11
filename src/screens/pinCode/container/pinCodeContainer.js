@@ -108,7 +108,9 @@ class PinCodeContainer extends Component {
           dispatch(updateCurrentAccount({ ..._currentAccount }));
           this._savePinCode(pin);
 
-          if (callback) callback(pin, oldPinCode);
+          if (callback) {
+            callback(pin, oldPinCode);
+          }
           dispatch(closePinCodeModal());
           if (navigateTo) {
             NavigationService.navigate({
@@ -169,7 +171,9 @@ class PinCodeContainer extends Component {
 
           setExistUser(true).then(() => {
             this._savePinCode(pin);
-            if (callback) callback(pin, oldPinCode);
+            if (callback) {
+              callback(pin, oldPinCode);
+            }
             dispatch(closePinCodeModal());
             if (navigateTo) {
               NavigationService.navigate({
@@ -193,7 +197,7 @@ class PinCodeContainer extends Component {
       } = this.props;
       const { oldPinCode } = this.state;
 
-      // If the user is exist, we are just checking to pin and navigating to home screen
+      // If the user is exist, we are just checking to pin and navigating to feed screen
       const pinData = {
         pinCode: pin,
         password: currentAccount ? currentAccount.password : '',
@@ -209,7 +213,9 @@ class PinCodeContainer extends Component {
           [_currentAccount.local] = realmData;
           dispatch(updateCurrentAccount({ ..._currentAccount }));
           dispatch(closePinCodeModal());
-          if (callback) callback(pin, oldPinCode);
+          if (callback) {
+            callback(pin, oldPinCode);
+          }
           if (navigateTo) {
             NavigationService.navigate({
               routeName: navigateTo,

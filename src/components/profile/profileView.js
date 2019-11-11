@@ -15,7 +15,7 @@ import { TabBar } from '../tabBar';
 import { Wallet } from '../wallet';
 
 // Constants
-import { PROFILE_FILTERS } from '../../constants/options/filters';
+import { PROFILE_FILTERS, PROFILE_FILTERS_VALUE } from '../../constants/options/filters';
 
 // Utils
 import { getFormatedCreatedDate } from '../../utils/time';
@@ -38,13 +38,17 @@ class ProfileView extends PureComponent {
   _handleOnScroll = () => {
     const { isSummaryOpen } = this.state;
 
-    if (isSummaryOpen) this.setState({ isSummaryOpen: false });
+    if (isSummaryOpen) {
+      this.setState({ isSummaryOpen: false });
+    }
   };
 
   _handleOnSummaryExpanded = () => {
     const { isSummaryOpen } = this.state;
 
-    if (!isSummaryOpen) this.setState({ isSummaryOpen: true });
+    if (!isSummaryOpen) {
+      this.setState({ isSummaryOpen: true });
+    }
   };
 
   _handleUIChange = height => {
@@ -156,7 +160,9 @@ class ProfileView extends PureComponent {
                   estimatedWalletValue: 0,
                   oldEstimatedWalletValue: estimatedWalletValue,
                 });
-              } else this.setState({ estimatedWalletValue: oldEstimatedWalletValue });
+              } else {
+                this.setState({ estimatedWalletValue: oldEstimatedWalletValue });
+              }
             }}
           >
             <View
@@ -167,6 +173,7 @@ class ProfileView extends PureComponent {
             >
               <Posts
                 filterOptions={PROFILE_FILTERS}
+                filterOptionsValue={PROFILE_FILTERS_VALUE}
                 selectedOptionIndex={0}
                 pageType="profiles"
                 getFor="blog"
