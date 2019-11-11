@@ -207,21 +207,20 @@ class PinCodeContainer extends Component {
       verifyPinCode(pinData)
         .then(() => {
           this._savePinCode(pin);
-          const realmData = getUserDataWithUsername(currentAccount.name);
-          const _currentAccount = currentAccount;
-          _currentAccount.username = _currentAccount.name;
-          [_currentAccount.local] = realmData;
-          dispatch(updateCurrentAccount({ ..._currentAccount }));
-          dispatch(closePinCodeModal());
-          if (callback) {
-            callback(pin, oldPinCode);
-          }
-          if (navigateTo) {
-            NavigationService.navigate({
-              routeName: navigateTo,
-              params: navigateParams,
-            });
-          }
+          getUserDataWithUsername(currentAccount.name).then(realmData => {
+            const _currentAccount = currentAccount;
+            _currentAccount.username = _currentAccount.name;
+            [_currentAccount.local] = realmData;
+            dispatch(updateCurrentAccount({ ..._currentAccount }));
+            dispatch(closePinCodeModal());
+            if (callback) callback(pin, oldPinCode);
+            if (navigateTo) {
+              NavigationService.navigate({
+                routeName: navigateTo,
+                params: navigateParams,
+              });
+            }
+          });
         })
         .catch(err => {
           Alert.alert(
@@ -246,7 +245,7 @@ class PinCodeContainer extends Component {
     const { intl, currentAccount, applicationPinCode } = this.props;
     const { isExistUser, pinCode } = this.state;
 
-    const realmData = getUserDataWithUsername(currentAccount.name);
+    const realmData = await getUserDataWithUsername(currentAccount.name);
     const userData = realmData[0];
 
     // For exist users
