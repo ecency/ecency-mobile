@@ -165,17 +165,17 @@ class NotificationView extends PureComponent {
           rightIconType="MaterialIcons"
           onRightIconPress={readAllNotification}
         />
-        <FlatList
-          data={_notifications}
-          refreshing={isNotificationRefreshing}
-          onRefresh={() => getActivities()}
-          keyExtractor={item => item.title}
-          onEndReached={() => getActivities(null, selectedFilter, true)}
-          ListFooterComponent={this._renderFooterLoading}
-          ListEmptyComponent={<ListPlaceHolder />}
-          refreshControl={
-            <ThemeContainer>
-              {({ isDarkTheme }) => (
+        <ThemeContainer>
+          {({ isDarkTheme }) => (
+            <FlatList
+              data={_notifications}
+              refreshing={isNotificationRefreshing}
+              onRefresh={() => getActivities()}
+              keyExtractor={item => item.title}
+              onEndReached={() => getActivities(null, selectedFilter, true)}
+              ListFooterComponent={this._renderFooterLoading}
+              ListEmptyComponent={<ListPlaceHolder />}
+              refreshControl={
                 <RefreshControl
                   refreshing={isNotificationRefreshing}
                   progressBackgroundColor="#357CE6"
@@ -183,21 +183,21 @@ class NotificationView extends PureComponent {
                   titleColor="#fff"
                   colors={['#fff']}
                 />
+              }
+              renderItem={({ item, index }) => (
+                <Fragment>
+                  <ContainerHeader
+                    hasSeperator={index !== 0}
+                    isBoldTitle
+                    title={item.title}
+                    key={item.title}
+                  />
+                  {this._renderList(item.notifications)}
+                </Fragment>
               )}
-            </ThemeContainer>
-          }
-          renderItem={({ item, index }) => (
-            <Fragment>
-              <ContainerHeader
-                hasSeperator={index !== 0}
-                isBoldTitle
-                title={item.title}
-                key={item.title}
-              />
-              {this._renderList(item.notifications)}
-            </Fragment>
+            />
           )}
-        />
+        </ThemeContainer>
       </View>
     );
   }

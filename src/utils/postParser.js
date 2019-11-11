@@ -165,7 +165,7 @@ const parseActiveVotes = (post, currentUserName) => {
 
   if (!isEmpty(post.active_votes)) {
     forEach(post.active_votes, value => {
-      post.vote_perecent = value.voter === currentUserName ? value.percent : null;
+      post.vote_percent = value.voter === currentUserName ? value.percent : null;
       value.value = (value.rshares * ratio).toFixed(3);
       value.reputation = getReputation(get(value, 'reputation'));
       value.percent /= 100;

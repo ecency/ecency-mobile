@@ -38,6 +38,7 @@ import {
 import { getUser, getPost } from '../../../providers/steem/dsteem';
 import { switchAccount } from '../../../providers/steem/auth';
 import { setPushToken } from '../../../providers/esteem/esteem';
+import NavigationService from '../../../navigation/service';
 
 // Actions
 import {
@@ -260,13 +261,11 @@ class ApplicationContainer extends Component {
     if (routeName && (profile || content)) {
       this.navigationTimeout = setTimeout(() => {
         clearTimeout(this.navigationTimeout);
-        const navigateAction = NavigationActions.navigate({
+        NavigationService.navigate({
           routeName,
           params,
           key: permlink || author,
-          action: NavigationActions.navigate({ routeName }),
         });
-        dispatch(navigateAction);
       }, 2000);
     }
   };
@@ -402,13 +401,11 @@ class ApplicationContainer extends Component {
           }
 
           if (!some(params, isEmpty)) {
-            const navigateAction = NavigationActions.navigate({
+            NavigationService.navigate({
               routeName,
               params,
               key,
-              action: NavigationActions.navigate({ routeName }),
             });
-            dispatch(navigateAction);
           }
         }
       },
@@ -444,43 +441,41 @@ class ApplicationContainer extends Component {
   _getUserDataFromRealm = async () => {
     const { dispatch, pinCode, isPinCodeOpen: _isPinCodeOpen } = this.props;
     let realmData = [];
-    let currentUsername;
 
-    await getAuthStatus().then(res => {
-      ({ currentUsername } = res);
+    const res = await getAuthStatus();
+    const { currentUsername } = res;
 
-      if (res) {
-        getUserData().then(async userData => {
-          if (userData.length > 0) {
-            realmData = userData;
-            userData.forEach((accountData, index) => {
-              if (
-                !accountData.accessToken &&
-                !accountData.masterKey &&
-                !accountData.postingKey &&
-                !accountData.activeKey &&
-                !accountData.memoKey
-              ) {
-                realmData.splice(index, 1);
-                if (realmData.length === 0) {
-                  dispatch(login(false));
-                  dispatch(logoutDone());
-                  removePinCode();
-                  setAuthStatus({ isLoggedIn: false });
-                  setExistUser(false);
-                  if (accountData.authType === AUTH_TYPE.STEEM_CONNECT) {
-                    removeSCAccount(accountData.username);
-                  }
-                }
-                removeUserData(accountData.username);
-              } else {
-                dispatch(addOtherAccount({ username: accountData.username }));
+    if (res) {
+      const userData = await getUserData();
+
+      if (userData.length > 0) {
+        realmData = userData;
+        userData.forEach((accountData, index) => {
+          if (
+            !accountData.accessToken &&
+            !accountData.masterKey &&
+            !accountData.postingKey &&
+            !accountData.activeKey &&
+            !accountData.memoKey
+          ) {
+            realmData.splice(index, 1);
+            if (realmData.length === 0) {
+              dispatch(login(false));
+              dispatch(logoutDone());
+              removePinCode();
+              setAuthStatus({ isLoggedIn: false });
+              setExistUser(false);
+              if (accountData.authType === AUTH_TYPE.STEEM_CONNECT) {
+                removeSCAccount(accountData.username);
               }
-            });
+            }
+            removeUserData(accountData.username);
+          } else {
+            dispatch(addOtherAccount({ username: accountData.username }));
           }
         });
       }
-    });
+    }
 
     if (realmData.length > 0) {
       const realmObject = realmData.filter(data => data.username === currentUsername);
