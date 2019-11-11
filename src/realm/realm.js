@@ -1,4 +1,3 @@
-import Realm from 'realm';
 import sha256 from 'crypto-js/sha256';
 import { AsyncStorage } from 'react-native';
 
@@ -9,117 +8,7 @@ const AUTH_SCHEMA = 'auth';
 const DRAFT_SCHEMA = 'draft';
 const SETTINGS_SCHEMA = 'settings';
 const APPLICATION_SCHEMA = 'application';
-
-const userSchema = {
-  name: USER_SCHEMA,
-  properties: {
-    username: { type: 'string' },
-    avatar: { type: 'string' },
-    authType: { type: 'string' },
-    postingKey: { type: 'string' },
-    activeKey: { type: 'string' },
-    memoKey: { type: 'string' },
-    masterKey: { type: 'string' },
-    accessToken: { type: 'string' },
-  },
-};
-
-const scAccounts = {
-  name: SC_ACCOUNTS,
-  properties: {
-    username: { type: 'string', default: null },
-    refreshToken: { type: 'string', default: null },
-    expireDate: { type: 'string', default: null },
-  },
-};
-
-const draftSchema = {
-  name: DRAFT_SCHEMA,
-  properties: {
-    title: { type: 'string' },
-    tags: { type: 'string' },
-    body: { type: 'string' },
-    username: { type: 'string' },
-  },
-};
-
-const settingsSchema = {
-  name: SETTINGS_SCHEMA,
-  properties: {
-    currency: { type: 'string', default: null },
-    isDarkTheme: { type: 'bool', default: false },
-    isPinCodeOpen: { type: 'bool', default: true },
-    isDefaultFooter: { type: 'bool', default: true },
-    language: { type: 'string', default: null },
-    notification: { type: 'bool', default: true },
-    nsfw: { type: 'string', default: null },
-    server: { type: 'string', default: null },
-    upvotePercent: { type: 'string', default: null },
-    followNotification: { type: 'bool', default: true },
-    voteNotification: { type: 'bool', default: true },
-    commentNotification: { type: 'bool', default: true },
-    mentionNotification: { type: 'bool', default: true },
-    reblogNotification: { type: 'bool', default: true },
-    transfersNotification: { type: 'bool', default: true },
-  },
-};
-
-const applicationSchema = {
-  name: APPLICATION_SCHEMA,
-  properties: {
-    isPushTokenSaved: { type: 'bool', default: false },
-    isExistUser: { type: 'bool', default: false },
-  },
-};
-
-const authSchema = {
-  name: AUTH_SCHEMA,
-  properties: {
-    isLoggedIn: { type: 'bool', default: false },
-    pinCode: { type: 'string' },
-    currentUsername: { type: 'string' },
-  },
-};
-
-const realm = new Realm({
-  path: 'esteem.realm',
-  schema: [userSchema, authSchema, draftSchema, settingsSchema, applicationSchema, scAccounts],
-  schemaVersion: 3,
-  migration: (oldRealm, newRealm) => {
-    if (oldRealm.schemaVersion < 3 && newRealm.schemaVersion > 2) {
-      const newObjects = newRealm.objects(SETTINGS_SCHEMA);
-      newObjects[0].isPinCodeOpen = true;
-    }
-  },
-});
-
-const settings = realm.objects(SETTINGS_SCHEMA);
-
-if (Array.from(settings).length <= 0) {
-  realm.write(() => {
-    realm.create(SETTINGS_SCHEMA, {
-      language: '',
-      isDarkTheme: false,
-      currency: '',
-      notification: true,
-      server: '',
-      upvotePercent: '1',
-      nsfw: '0',
-      followNotification: true,
-      voteNotification: true,
-      commentNotification: true,
-      mentionNotification: true,
-      reblogNotification: true,
-      transfersNotification: true,
-    });
-  });
-}
-
-export const convertToArray = realmObjectsArray => {
-  const copyOfJsonArray = Array.from(realmObjectsArray);
-  const jsonArray = JSON.parse(JSON.stringify(copyOfJsonArray));
-  return jsonArray;
-};
+const STORAGE_SCHEMA = 'storage';
 
 export const getItemFromStorage = async key => {
   const data = await AsyncStorage.getItem(key);
@@ -138,52 +27,6 @@ export const setItemToStorage = async (key, data) => {
   return false;
 };
 
-export const getAllData = async () => {
-  try {
-    const keys = await AsyncStorage.getAllKeys();
-
-    const isMigrated = [
-      USER_SCHEMA,
-      SC_ACCOUNTS,
-      AUTH_SCHEMA,
-      DRAFT_SCHEMA,
-      SETTINGS_SCHEMA,
-      APPLICATION_SCHEMA,
-    ].some(el => keys.includes(el));
-    if (!isMigrated) {
-      const users = convertToArray(realm.objects(USER_SCHEMA));
-      const scAccount = convertToArray(realm.objects(SC_ACCOUNTS));
-      const draft = convertToArray(realm.objects(DRAFT_SCHEMA));
-      const auth =
-        convertToArray(realm.objects(AUTH_SCHEMA)).length === 1
-          ? convertToArray(realm.objects(AUTH_SCHEMA))[0]
-          : convertToArray(realm.objects(AUTH_SCHEMA));
-      const setting =
-        convertToArray(realm.objects(SETTINGS_SCHEMA)).length === 1
-          ? convertToArray(realm.objects(SETTINGS_SCHEMA))[0]
-          : convertToArray(realm.objects(SETTINGS_SCHEMA));
-      const application =
-        convertToArray(realm.objects(APPLICATION_SCHEMA)).length === 1
-          ? convertToArray(realm.objects(APPLICATION_SCHEMA))[0]
-          : convertToArray(realm.objects(APPLICATION_SCHEMA));
-
-      const data = [
-        [USER_SCHEMA, JSON.stringify(users)],
-        [SC_ACCOUNTS, JSON.stringify(scAccount)],
-        [AUTH_SCHEMA, JSON.stringify(auth)],
-        [DRAFT_SCHEMA, JSON.stringify(draft)],
-        [SETTINGS_SCHEMA, JSON.stringify(setting)],
-        [APPLICATION_SCHEMA, JSON.stringify(application)],
-      ];
-      AsyncStorage.multiSet(data);
-    }
-  } catch (error) {
-    return error;
-  }
-};
-
-getAllData();
-
 // TODO: This is getting ALL user data, we should change this method with getUserDataWithUsername
 export const getUserData = async () => {
   try {
@@ -197,8 +40,11 @@ export const getUserData = async () => {
 export const getUserDataWithUsername = async username => {
   try {
     const user = await getItemFromStorage(USER_SCHEMA);
-    const userObj = user.filter(u => u.username === username);
-    return userObj;
+    if (user) {
+      const userObj = user.filter(u => u.username === username);
+      return userObj;
+    }
+    return [];
   } catch (error) {
     return error;
   }
@@ -207,7 +53,7 @@ export const getUserDataWithUsername = async username => {
 export const setUserData = async userData => {
   try {
     const account = await getUserDataWithUsername(userData.username);
-    const user = await getItemFromStorage(USER_SCHEMA);
+    const user = (await getItemFromStorage(USER_SCHEMA)) || [];
 
     if (account.length === 0) {
       user.push(userData);
@@ -388,8 +234,8 @@ export const getPinCode = async () => {
 export const getPinCodeOpen = async () => {
   try {
     const setting = await getItemFromStorage(SETTINGS_SCHEMA);
-    if (setting[0]) {
-      return setting[0].isPinCodeOpen;
+    if (setting) {
+      return setting.isPinCodeOpen;
     }
     return false;
   } catch (error) {
@@ -426,8 +272,8 @@ export const setTheme = async isDarkTheme => {
 export const getTheme = async () => {
   try {
     const setting = await getItemFromStorage(SETTINGS_SCHEMA);
-    if (setting[0]) {
-      return setting[0].isDarkTheme;
+    if (setting) {
+      return setting.isDarkTheme;
     }
     return false;
   } catch (error) {
@@ -464,8 +310,8 @@ export const setUpvotePercent = async percent => {
 export const getUpvotePercent = async () => {
   try {
     const setting = await getItemFromStorage(SETTINGS_SCHEMA);
-    if (setting[0]) {
-      return setting[0].upvotePercent;
+    if (setting) {
+      return setting.upvotePercent;
     }
     return false;
   } catch (error) {
@@ -476,8 +322,8 @@ export const getUpvotePercent = async () => {
 export const getNsfw = async () => {
   try {
     const setting = await getItemFromStorage(SETTINGS_SCHEMA);
-    if (setting[0]) {
-      return setting[0].nsfw;
+    if (setting) {
+      return setting.nsfw;
     }
     return false;
   } catch (error) {
@@ -577,8 +423,8 @@ export const setCurrency = async currencyProps => {
 export const getLanguage = async () => {
   try {
     const setting = await getItemFromStorage(SETTINGS_SCHEMA);
-    if (setting[0]) {
-      return setting[0].language;
+    if (setting) {
+      return setting.language;
     }
     return false;
   } catch (error) {
@@ -589,8 +435,8 @@ export const getLanguage = async () => {
 export const getServer = async () => {
   try {
     const setting = await getItemFromStorage(SETTINGS_SCHEMA);
-    if (setting[0]) {
-      return setting[0].server;
+    if (setting) {
+      return setting.server;
     }
     return false;
   } catch (error) {
@@ -605,7 +451,23 @@ export const getSettings = async () => {
     if (setting) {
       return setting;
     }
-    return false;
+    const settingData = {
+      language: '',
+      isDarkTheme: false,
+      currency: '',
+      notification: true,
+      server: '',
+      upvotePercent: '1',
+      nsfw: '0',
+      followNotification: true,
+      voteNotification: true,
+      commentNotification: true,
+      mentionNotification: true,
+      reblogNotification: true,
+      transfersNotification: true,
+    };
+    await setItemToStorage(SETTINGS_SCHEMA, settingData);
+    return settingData;
   } catch (error) {
     return error;
   }
@@ -710,7 +572,7 @@ export const getSCAccount = async username => {
   try {
     const scAccountStr = await getItemFromStorage(SC_ACCOUNTS);
     const scAccount = scAccountStr.filter(u => u.username === username);
-    if (convertToArray(scAccount).length > 0) {
+    if (scAccount.length > 0) {
       return scAccount[0];
     }
     return false;
@@ -731,6 +593,18 @@ export const removeSCAccount = async username => {
       return true;
     }
     return new Error('Could not remove selected user');
+  } catch (error) {
+    return error;
+  }
+};
+
+export const getStorageType = async () => {
+  try {
+    const storageType = await AsyncStorage.getItem(STORAGE_SCHEMA);
+    if (storageType !== null) {
+      return storageType;
+    }
+    return 'R';
   } catch (error) {
     return error;
   }
