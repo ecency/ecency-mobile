@@ -44,7 +44,7 @@ export const login = async (username, password, isPinCodeOpen) => {
     activeKey: get(account, 'active.key_auths', []).map(x => x[0])[0],
     memoKey: get(account, 'memo_key', ''),
     ownerKey: get(account, 'owner.key_auths', []).map(x => x[0])[0],
-    postingKey: get(account, 'posting.key_auths').map(x => x[0])[0],
+    postingKey: get(account, 'posting.key_auths', []).map(x => x[0])[0],
   };
 
   // // Set private keys of user
