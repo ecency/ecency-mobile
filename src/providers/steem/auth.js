@@ -331,26 +331,26 @@ export const getUpdatedUserData = (userData, data) => {
     authType: get(userData, 'authType', ''),
     accessToken:
       get(userData, 'authType', '') === AUTH_TYPE.STEEM_CONNECT
-        ? encryptKey(data.accessToken, get(data, 'pinCod'))
+        ? encryptKey(data.accessToken, get(data, 'pinCode'))
         : '',
     masterKey:
       get(userData, 'authType', '') === AUTH_TYPE.MASTER_KEY
-        ? encryptKey(data.password, get(data, 'pinCod'))
+        ? encryptKey(data.password, get(data, 'pinCode'))
         : '',
     postingKey:
       get(userData, 'authType', '') === AUTH_TYPE.MASTER_KEY ||
       get(userData, 'authType', '') === AUTH_TYPE.POSTING_KEY
-        ? encryptKey(get(privateKeys, 'postingKey', '').toString(), get(data, 'pinCod'))
+        ? encryptKey(get(privateKeys, 'postingKey', '').toString(), get(data, 'pinCode'))
         : '',
     activeKey:
       get(userData, 'authType', '') === AUTH_TYPE.MASTER_KEY ||
       get(userData, 'authType', '') === AUTH_TYPE.ACTIVE_KEY
-        ? encryptKey(get(privateKeys, 'activeKey', '').toString(), get(data, 'pinCod'))
+        ? encryptKey(get(privateKeys, 'activeKey', '').toString(), get(data, 'pinCode'))
         : '',
     memoKey:
       get(userData, 'authType', '') === AUTH_TYPE.MASTER_KEY ||
       get(userData, 'authType', '') === AUTH_TYPE.MEMO_KEY
-        ? encryptKey(get(privateKeys, 'memoKey', '').toString(), get(data, 'pinCod'))
+        ? encryptKey(get(privateKeys, 'memoKey', '').toString(), get(data, 'pinCode'))
         : '',
   };
 };
