@@ -58,12 +58,12 @@ class WalletView extends PureComponent {
     } = this.props;
 
     return (
-      <ScrollView
-        onScroll={handleOnScroll && handleOnScroll}
-        style={styles.scrollView}
-        refreshControl={
-          <ThemeContainer>
-            {isDarkTheme => (
+      <ThemeContainer>
+        {isDarkTheme => (
+          <ScrollView
+            onScroll={handleOnScroll && handleOnScroll}
+            style={styles.scrollView}
+            refreshControl={
               <RefreshControl
                 refreshing={isRefreshing}
                 onRefresh={handleOnWalletRefresh}
@@ -72,62 +72,62 @@ class WalletView extends PureComponent {
                 titleColor="#fff"
                 colors={['#fff']}
               />
-            )}
-          </ThemeContainer>
-        }
-      >
-        {!walletData ? (
-          <Fragment>
-            <WalletDetailsPlaceHolder />
-          </Fragment>
-        ) : (
-          <Fragment>
-            {walletData.hasUnclaimedRewards && (
-              <CollapsibleCard
-                titleColor="#788187"
-                isBoldTitle
-                defaultTitle={intl.formatMessage({
-                  id: 'profile.unclaimed_rewards',
-                })}
-                expanded
-              >
-                {currentAccountUsername === selectedUsername ? (
-                  <MainButton
-                    isLoading={isClaiming}
-                    isDisable={isClaiming}
-                    style={styles.mainButton}
-                    height={50}
-                    onPress={() => claimRewardBalance()}
+            }
+          >
+            {!walletData ? (
+              <Fragment>
+                <WalletDetailsPlaceHolder />
+              </Fragment>
+            ) : (
+              <Fragment>
+                {walletData.hasUnclaimedRewards && (
+                  <CollapsibleCard
+                    titleColor="#788187"
+                    isBoldTitle
+                    defaultTitle={intl.formatMessage({
+                      id: 'profile.unclaimed_rewards',
+                    })}
+                    expanded
                   >
-                    <View style={styles.mainButtonWrapper}>
-                      {this._getUnclaimedText(walletData)}
-                      <View style={styles.mainIconWrapper}>
-                        <Icon name="add" iconType="MaterialIcons" color="#357ce6" size={23} />
-                      </View>
-                    </View>
-                  </MainButton>
-                ) : (
-                  this._getUnclaimedText(walletData, true)
+                    {currentAccountUsername === selectedUsername ? (
+                      <MainButton
+                        isLoading={isClaiming}
+                        isDisable={isClaiming}
+                        style={styles.mainButton}
+                        height={50}
+                        onPress={() => claimRewardBalance()}
+                      >
+                        <View style={styles.mainButtonWrapper}>
+                          {this._getUnclaimedText(walletData)}
+                          <View style={styles.mainIconWrapper}>
+                            <Icon name="add" iconType="MaterialIcons" color="#357ce6" size={23} />
+                          </View>
+                        </View>
+                      </MainButton>
+                    ) : (
+                      this._getUnclaimedText(walletData, true)
+                    )}
+                  </CollapsibleCard>
                 )}
-              </CollapsibleCard>
+                <CollapsibleCard
+                  titleColor="#788187"
+                  title={intl.formatMessage({
+                    id: 'profile.wallet_details',
+                  })}
+                  expanded
+                >
+                  <WalletDetails
+                    intl={intl}
+                    walletData={walletData}
+                    isShowDropdowns={currentAccountUsername === selectedUsername}
+                  />
+                </CollapsibleCard>
+                <Transaction walletData={walletData} />
+              </Fragment>
             )}
-            <CollapsibleCard
-              titleColor="#788187"
-              title={intl.formatMessage({
-                id: 'profile.wallet_details',
-              })}
-              expanded
-            >
-              <WalletDetails
-                intl={intl}
-                walletData={walletData}
-                isShowDropdowns={currentAccountUsername === selectedUsername}
-              />
-            </CollapsibleCard>
-            <Transaction walletData={walletData} />
-          </Fragment>
+          </ScrollView>
         )}
-      </ScrollView>
+      </ThemeContainer>
     );
   }
 }
