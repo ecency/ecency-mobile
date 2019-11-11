@@ -7,7 +7,7 @@ export default EStyleSheet.create({
     width: '$deviceWidth',
     backgroundColor: '$primaryBackgroundColor',
     flex: 1,
-    maxHeight: Platform.OS === 'ios' ? 95 : 80,
+    maxHeight: Platform.OS === 'ios' ? 105 : 80,
   },
   containerReverse: {
     justifyContent: 'space-between',
@@ -33,8 +33,7 @@ export default EStyleSheet.create({
   titleWrapper: {
     flexDirection: 'column',
     justifyContent: 'center',
-    marginLeft: 8,
-    marginRight: 8,
+    marginHorizontal: 8,
   },
   title: {
     fontSize: 14,

@@ -1,3 +1,4 @@
+import AccountContainer from './accountContainer';
 import InAppPurchaseContainer from './inAppPurchaseContainer';
 import PointsContainer from './pointsContainer';
 import ProfileContainer from './profileContainer';
@@ -8,6 +9,7 @@ import TransferContainer from './transferContainer';
 import ThemeContainer from './themeContainer';
 
 export {
+  AccountContainer,
   InAppPurchaseContainer,
   PointsContainer,
   ProfileContainer,
