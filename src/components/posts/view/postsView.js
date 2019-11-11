@@ -343,42 +343,42 @@ const PostsView = ({
   };
 
   return (
-    <View style={styles.container}>
-      {filterOptions && isShowFilterBar && (
-        <FilterBar
-          dropdownIconName="arrow-drop-down"
-          options={filterOptions}
-          selectedOptionIndex={selectedOptionIndex}
-          defaultText={filterOptions[selectedOptionIndex]}
-          rightIconName="view-module"
-          rightIconType="MaterialIcons"
-          onDropdownSelect={_handleOnDropdownSelect}
-          onRightIconPress={handleImagesHide}
-          customOption={customOption}
-        />
-      )}
+    <ThemeContainer>
+      {({ isDarkTheme }) => (
+        <View style={styles.container}>
+          {filterOptions && isShowFilterBar && (
+            <FilterBar
+              dropdownIconName="arrow-drop-down"
+              options={filterOptions}
+              selectedOptionIndex={selectedOptionIndex}
+              defaultText={filterOptions[selectedOptionIndex]}
+              rightIconName="view-module"
+              rightIconType="MaterialIcons"
+              onDropdownSelect={_handleOnDropdownSelect}
+              onRightIconPress={handleImagesHide}
+              customOption={customOption}
+            />
+          )}
 
-      <FlatList
-        data={posts}
-        showsVerticalScrollIndicator={false}
-        renderItem={({ item }) =>
-          get(item, 'author', null) && (
-            <PostCard isRefresh={refreshing} content={item} isHideImage={isHideImage} />
-          )
-        }
-        keyExtractor={(content, i) => `${get(content, 'permlink', '')}${i.toString()}`}
-        onEndReached={_loadPosts}
-        removeClippedSubviews
-        refreshing={refreshing}
-        onRefresh={_handleOnRefreshPosts}
-        onEndThreshold={0}
-        initialNumToRender={10}
-        ListFooterComponent={_renderFooter}
-        onScrollEndDrag={_handleOnScroll}
-        ListEmptyComponent={_renderEmptyContent}
-        refreshControl={
-          <ThemeContainer>
-            {({ isDarkTheme }) => (
+          <FlatList
+            data={posts}
+            showsVerticalScrollIndicator={false}
+            renderItem={({ item }) =>
+              get(item, 'author', null) && (
+                <PostCard isRefresh={refreshing} content={item} isHideImage={isHideImage} />
+              )
+            }
+            keyExtractor={(content, i) => `${get(content, 'permlink', '')}${i.toString()}`}
+            onEndReached={_loadPosts}
+            removeClippedSubviews
+            refreshing={refreshing}
+            onRefresh={_handleOnRefreshPosts}
+            onEndThreshold={0}
+            initialNumToRender={10}
+            ListFooterComponent={_renderFooter}
+            onScrollEndDrag={_handleOnScroll}
+            ListEmptyComponent={_renderEmptyContent}
+            refreshControl={
               <RefreshControl
                 refreshing={refreshing}
                 onRefresh={_handleOnRefreshPosts}
@@ -387,11 +387,11 @@ const PostsView = ({
                 titleColor="#fff"
                 colors={['#fff']}
               />
-            )}
-          </ThemeContainer>
-        }
-      />
-    </View>
+            }
+          />
+        </View>
+      )}
+    </ThemeContainer>
   );
 };
 
