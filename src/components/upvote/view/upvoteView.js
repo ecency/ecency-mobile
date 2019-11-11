@@ -249,12 +249,14 @@ class UpvoteView extends Component {
                     />
                   </View>
                 ) : (
-                  <Icon
-                    style={[styles.upvoteIcon, isDownVoted && { color: '#ec8b88' }]}
-                    active={!isLoggedIn}
-                    iconType={isDownVoted ? 'AntDesign' : iconType}
-                    name={isDownVoted ? 'downcircle' : iconName}
-                  />
+                  <View hitSlop={{ top: 10, bottom: 10, left: 10, right: 5 }}>
+                    <Icon
+                      style={[styles.upvoteIcon, isDownVoted && { color: '#ec8b88' }]}
+                      active={!isLoggedIn}
+                      iconType={isDownVoted ? 'AntDesign' : iconType}
+                      name={isDownVoted ? 'downcircle' : iconName}
+                    />
+                  </View>
                 )}
               </Fragment>
             </TouchableOpacity>
