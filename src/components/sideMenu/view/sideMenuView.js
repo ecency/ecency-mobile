@@ -4,6 +4,7 @@ import { injectIntl } from 'react-intl';
 import LinearGradient from 'react-native-linear-gradient';
 import ActionSheet from 'react-native-actionsheet';
 import VersionNumber from 'react-native-version-number';
+import { getStorageType } from '../../../realm/realm';
 
 // Components
 import { IconButton } from '../../buttons';
@@ -31,10 +32,16 @@ class SideMenuView extends Component {
     this.state = {
       menuItems: props.isLoggedIn ? MENU.AUTH_MENU_ITEMS : MENU.NO_AUTH_MENU_ITEMS,
       isAddAccountIconActive: false,
+      storageT: 'R',
     };
   }
 
   // Component Life Cycles
+  componentDidMount() {
+    getStorageType().then(item => {
+      this.setState({ storageT: item });
+    });
+  }
 
   componentWillReceiveProps(nextProps) {
     const { isLoggedIn, accounts } = this.props;
@@ -87,7 +94,7 @@ class SideMenuView extends Component {
 
   render() {
     const { currentAccount, isLoggedIn, intl, handleLogout } = this.props;
-    const { menuItems, isAddAccountIconActive } = this.state;
+    const { menuItems, isAddAccountIconActive, storageT } = this.state;
     const { version } = PackageJson;
     const { buildVersion } = VersionNumber;
 
@@ -169,7 +176,7 @@ class SideMenuView extends Component {
             )}
           />
         </View>
-        <Text style={styles.versionText}>{`v${version}, ${buildVersion}`}</Text>
+        <Text style={styles.versionText}>{`v${version}, ${buildVersion}${storageT}`}</Text>
         <ActionSheet
           ref={o => (this.ActionSheet = o)}
           options={[
