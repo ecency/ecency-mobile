@@ -328,8 +328,8 @@ class UpvoteView extends Component {
                         size={20}
                         style={[styles.upvoteIcon, { color: '#007ee5' }]}
                         active={!isLoggedIn}
-                        iconType={iconType}
-                        name={iconName}
+                        iconType="AntDesign"
+                        name="upcircleo"
                       />
                     </TouchableOpacity>
                     <Text style={styles.amount}>{_amount}</Text>
@@ -356,7 +356,7 @@ class UpvoteView extends Component {
                         style={[styles.upvoteIcon, { color: '#ec8b88' }]}
                         active={!isLoggedIn}
                         iconType="AntDesign"
-                        name="downcircle"
+                        name="downcircleo"
                       />
                     </TouchableOpacity>
                   </Fragment>
