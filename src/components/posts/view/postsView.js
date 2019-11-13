@@ -51,6 +51,9 @@ const PostsView = ({
   const [isNoPost, setIsNoPost] = useState(false);
   const [promotedPosts, setPromotedPosts] = useState([]);
   const [scrollOffsetY, setScrollOffsetY] = useState(0);
+  const [selectedFilterValue, setSelectedFilterValue] = useState(
+    filterOptionsValue && filterOptionsValue[selectedFilterIndex],
+  );
   const intl = useIntl();
 
   useEffect(() => {
@@ -62,8 +65,6 @@ const PostsView = ({
       };
       fetchPromotePost();
       _loadPosts();
-      setRefreshing(false);
-      setIsLoading(false);
     }
   }, [
     _getPromotePosts,
@@ -81,8 +82,6 @@ const PostsView = ({
       setPosts([]);
       setStartAuthor('');
       setStartPermlink('');
-      setRefreshing(false);
-      setIsLoading(false);
       setSelectedFilterIndex(selectedOptionIndex || 0);
       setIsNoPost(false);
 
@@ -102,20 +101,21 @@ const PostsView = ({
 
   useEffect(() => {
     if (!startAuthor && !startPermlink) {
-      _loadPosts(
-        filterOptions && filterOptions.length > 0 && filterOptionsValue[selectedFilterIndex],
-      );
+      _loadPosts(selectedFilterValue);
     }
   }, [
     _loadPosts,
     filterOptions,
     filterOptionsValue,
-    selectedFilterIndex,
+    selectedFilterValue,
     startAuthor,
     startPermlink,
   ]);
 
   const _handleOnDropdownSelect = async index => {
+    if (filterOptions && filterOptions.length > 0) {
+      await setSelectedFilterValue(filterOptionsValue[index]);
+    }
     setSelectedFilterIndex(index);
     setPosts([]);
     setStartPermlink('');
@@ -145,24 +145,25 @@ const PostsView = ({
   }, [currentAccountUsername]);
 
   const _loadPosts = useCallback(
-    async type => {
-      if (isLoading) {
+    type => {
+      if (
+        isLoading ||
+        !isConnected ||
+        (!isLoggedIn && type === 'feed') ||
+        (!isLoggedIn && type === 'blog')
+      ) {
         return;
-      } else {
-        setIsLoading(true);
       }
 
-      const filter =
-        type ||
-        (filterOptions && filterOptions.length > 0 && filterOptionsValue[selectedFilterIndex]);
-      let options;
-      const limit = 3;
-
-      if (!isConnected) {
+      if (!isConnected && (refreshing || isLoading)) {
         setRefreshing(false);
         setIsLoading(false);
-        return null;
+        return;
       }
+
+      const filter = type || selectedFilterValue;
+      let options;
+      const limit = 3;
 
       if (filter === 'feed' || filter === 'blog' || getFor === 'blog' || filter === 'reblogs') {
         options = {
@@ -202,7 +203,7 @@ const PostsView = ({
                 }
               }
 
-              if (posts.length < 5) {
+              if (posts.length < 5 && pageType !== 'profiles') {
                 setFeedPosts(_posts);
               }
 
@@ -233,8 +234,7 @@ const PostsView = ({
               }
               // Promoted post end
 
-              if (refreshing) {
-              } else if (!refreshing) {
+              if (!refreshing) {
                 setStartAuthor(result[result.length - 1] && result[result.length - 1].author);
                 setStartPermlink(result[result.length - 1] && result[result.length - 1].permlink);
               }
@@ -252,16 +252,16 @@ const PostsView = ({
     },
     [
       currentAccountUsername,
-      filterOptions,
-      filterOptionsValue,
       getFor,
       isConnected,
       isLoading,
+      isLoggedIn,
       nsfw,
+      pageType,
       posts,
       promotedPosts,
       refreshing,
-      selectedFilterIndex,
+      selectedFilterValue,
       setFeedPosts,
       startAuthor,
       startPermlink,
@@ -295,7 +295,7 @@ const PostsView = ({
   };
 
   const _renderEmptyContent = () => {
-    if (getFor === 'feed' && isLoginDone && !isLoggedIn) {
+    if ((selectedFilterValue === 'feed' || selectedFilterValue === 'blog') && !isLoggedIn) {
       return (
         <NoPost
           imageStyle={styles.noImage}
@@ -324,10 +324,10 @@ const PostsView = ({
     }
 
     return (
-      <Fragment>
+      <View style={styles.placeholderWrapper}>
         <PostCardPlaceHolder />
         <PostCardPlaceHolder />
-      </Fragment>
+      </View>
     );
   };
 
@@ -369,7 +369,7 @@ const PostsView = ({
               )
             }
             keyExtractor={(content, i) => `${get(content, 'permlink', '')}${i.toString()}`}
-            onEndReached={_loadPosts}
+            onEndReached={() => _loadPosts()}
             removeClippedSubviews
             refreshing={refreshing}
             onRefresh={_handleOnRefreshPosts}
