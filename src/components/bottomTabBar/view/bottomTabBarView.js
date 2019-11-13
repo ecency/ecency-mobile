@@ -21,7 +21,7 @@ import styles from './bottomTabBarStyles';
 const _jumpTo = (route, index, routes, jumpTo) => {
   const _routeName = routes[index].routeName;
 
-  if (!!get(route, 'params.scrollToTop') && _routeName === ROUTES.TABBAR.HOME) {
+  if (!!get(route, 'params.scrollToTop') && _routeName === ROUTES.TABBAR.FEED) {
     route.params.scrollToTop();
   }
 
