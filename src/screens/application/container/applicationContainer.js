@@ -634,7 +634,7 @@ class ApplicationContainer extends Component {
 
     const accountData = await switchAccount(targetAccountUsername);
 
-    const realmData = getUserDataWithUsername(targetAccountUsername);
+    const realmData = await getUserDataWithUsername(targetAccountUsername);
     const _currentAccount = accountData;
     _currentAccount.username = accountData.name;
     [_currentAccount.local] = realmData;

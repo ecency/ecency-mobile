@@ -15,5 +15,6 @@ export default EStyleSheet.create({
   input: {
     flex: 1,
     minHeight: 50,
+    backgroundColor: '$primaryWhiteLightBackground',
   },
 });

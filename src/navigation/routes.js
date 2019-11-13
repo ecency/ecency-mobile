@@ -31,7 +31,7 @@ import { SideMenu } from '../components';
 
 const mainNavigation = createDrawerNavigator(
   {
-    [ROUTES.SCREENS.HOME]: {
+    [ROUTES.SCREENS.FEED]: {
       screen: BaseNavigator,
     },
   },
