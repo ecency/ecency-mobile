@@ -1,7 +1,6 @@
 import EStyleSheet from 'react-native-extended-stylesheet';
 
 export default EStyleSheet.create({
-  view: {},
   codeBlock: {
     fontFamily: 'Courier',
     fontWeight: '500',
