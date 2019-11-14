@@ -1,4 +1,4 @@
-import React, { useState, useRef, useEffect, useCallback } from 'react';
+import React, { useState, useRef, useEffect } from 'react';
 import { View, KeyboardAvoidingView, FlatList, Text, Platform, ScrollView } from 'react-native';
 import ActionSheet from 'react-native-actionsheet';
 import { renderPostBody } from '@esteemapp/esteem-render-helpers';
@@ -45,13 +45,13 @@ const MarkdownEditorView = ({
     if (!isPreviewActive) {
       _setTextAndSelection({ selection: { start: 0, end: 0 }, text });
     }
-  }, [_setTextAndSelection, isPreviewActive, text]);
+  }, [isPreviewActive]);
 
   useEffect(() => {
     if (text === '' && draftBody !== '') {
       _setTextAndSelection({ selection: { start: 0, end: 0 }, text: draftBody });
     }
-  }, [_setTextAndSelection, draftBody, text]);
+  }, [draftBody]);
 
   useEffect(() => {
     if (editable === null) {
@@ -63,7 +63,7 @@ const MarkdownEditorView = ({
     } else {
       setEditable(!isLoading);
     }
-  }, [editable, isLoading]);
+  }, [isLoading]);
 
   useEffect(() => {
     if (uploadedImage && uploadedImage.url) {
@@ -75,7 +75,7 @@ const MarkdownEditorView = ({
         isImage: !!uploadedImage,
       });
     }
-  }, [_setTextAndSelection, selection, text, uploadedImage]);
+  }, [uploadedImage]);
 
   useEffect(() => {
     setText(draftBody);
@@ -91,47 +91,41 @@ const MarkdownEditorView = ({
         handleIsFormValid(text);
       }
     }
-  }, [_changeText, handleIsFormValid, text]);
+  }, [text]);
 
-  const _changeText = useCallback(
-    input => {
-      setText(input);
+  const _changeText = input => {
+    setText(input);
 
-      if (onChange) {
-        onChange(input);
-      }
+    if (onChange) {
+      onChange(input);
+    }
 
-      if (handleIsValid) {
-        handleIsValid(componentID, !!(input && input.length));
-      }
+    if (handleIsValid) {
+      handleIsValid(componentID, !!(input && input.length));
+    }
 
-      if (handleOnTextChange) {
-        handleOnTextChange(input);
-      }
-    },
-    [componentID, handleIsValid, handleOnTextChange, onChange],
-  );
+    if (handleOnTextChange) {
+      handleOnTextChange(input);
+    }
+  };
 
   const _handleOnSelectionChange = async event => {
     setSelection(event.nativeEvent.selection);
   };
 
-  const _setTextAndSelection = useCallback(
-    ({ selection: _selection, text: _text }) => {
+  const _setTextAndSelection = ({ selection: _selection, text: _text }) => {
+    inputRef.current.setNativeProps({
+      text: _text,
+    });
+    // Workaround for iOS selection update issue
+    setTimeout(() => {
       inputRef.current.setNativeProps({
-        text: _text,
+        selection: _selection,
       });
-      // Workaround for iOS selection update issue
-      setTimeout(() => {
-        inputRef.current.setNativeProps({
-          selection: _selection,
-        });
-        setSelection(_selection);
-      }, 200);
-      _changeText(_text);
-    },
-    [_changeText],
-  );
+      setSelection(_selection);
+    }, 200);
+    _changeText(_text);
+  };
 
   const _renderPreview = () => (
     <ScrollView style={styles.previewContainer}>
