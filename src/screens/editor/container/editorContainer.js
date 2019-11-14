@@ -96,9 +96,9 @@ class EditorContainer extends Component {
         this.setState({
           isEdit,
           draftPost: {
-            title: post.title,
-            body: post.markdownBody,
-            tags: post.json_metadata.tags,
+            title: get(post, 'title', ''),
+            body: get(post, 'markdownBody', ''),
+            tags: get(post, 'json_metadata.tags', []),
           },
         });
       }
@@ -129,9 +129,9 @@ class EditorContainer extends Component {
         if (result) {
           this.setState({
             draftPost: {
-              body: result.body,
-              title: result.title,
-              tags: result.tags.split(','),
+              body: get(result, 'body', ''),
+              title: get(result, 'title', ''),
+              tags: get(result, 'tags', '').split(','),
             },
           });
         }
