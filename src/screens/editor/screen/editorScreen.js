@@ -14,6 +14,7 @@ import {
   TextArea,
   SummaryArea,
   PostForm,
+  MarkdownEditor,
 } from '../../../components';
 
 // Styles
@@ -73,7 +74,9 @@ class EditorScreen extends Component {
       isRemoveTag: true,
     });
 
-    if (initialEditor) initialEditor();
+    if (initialEditor) {
+      initialEditor();
+    }
   };
 
   _handleOnPressPreviewButton = () => {
@@ -229,7 +232,7 @@ class EditorScreen extends Component {
               intl={intl}
             />
           )}
-          <TextArea
+          <MarkdownEditor
             componentID="body"
             draftBody={fields && fields.body}
             handleOnTextChange={this._setWordsCount}
