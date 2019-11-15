@@ -60,4 +60,7 @@ export default EStyleSheet.create({
     paddingHorizontal: 16,
     paddingVertical: 5,
   },
+  scrollContentContainer: {
+    paddingBottom: 60,
+  },
 });
