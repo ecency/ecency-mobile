@@ -73,6 +73,7 @@ class WalletView extends PureComponent {
                 colors={['#fff']}
               />
             }
+            contentContainerStyle={styles.scrollContentContainer}
           >
             {!walletData ? (
               <Fragment>

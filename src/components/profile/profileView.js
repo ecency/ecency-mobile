@@ -197,7 +197,10 @@ class ProfileView extends PureComponent {
               style={styles.commentsTabBar}
             >
               {comments && comments.length > 0 ? (
-                <ScrollView onScroll={this._handleOnScroll}>
+                <ScrollView
+                  onScroll={this._handleOnScroll}
+                  contentContainerStyle={styles.scrollContentContainer}
+                >
                   <Comments
                     isProfilePreview
                     comments={comments}

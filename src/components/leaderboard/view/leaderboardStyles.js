@@ -30,4 +30,7 @@ export default EStyleSheet.create({
     marginBottom: 10,
     fontFamily: '$primaryFont',
   },
+  listContentContainer: {
+    paddingBottom: 60,
+  },
 });
