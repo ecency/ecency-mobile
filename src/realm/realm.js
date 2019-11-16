@@ -155,18 +155,21 @@ export const getAllData = async () => {
       const users = convertToArray(realm.objects(USER_SCHEMA));
       const scAccount = convertToArray(realm.objects(SC_ACCOUNTS));
       const draft = convertToArray(realm.objects(DRAFT_SCHEMA));
-      const auth =
+      let auth =
         convertToArray(realm.objects(AUTH_SCHEMA)).length === 1
           ? convertToArray(realm.objects(AUTH_SCHEMA))[0]
           : convertToArray(realm.objects(AUTH_SCHEMA));
-      const setting =
+      auth = auth.length === 0 ? {} : auth;
+      let setting =
         convertToArray(realm.objects(SETTINGS_SCHEMA)).length === 1
           ? convertToArray(realm.objects(SETTINGS_SCHEMA))[0]
           : convertToArray(realm.objects(SETTINGS_SCHEMA));
-      const application =
+      setting = setting.length === 0 ? {} : setting;
+      let application =
         convertToArray(realm.objects(APPLICATION_SCHEMA)).length === 1
           ? convertToArray(realm.objects(APPLICATION_SCHEMA))[0]
           : convertToArray(realm.objects(APPLICATION_SCHEMA));
+      application = application.length === 0 ? {} : application;
 
       const data = [
         [USER_SCHEMA, JSON.stringify(users)],
