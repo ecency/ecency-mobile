@@ -1,6 +1,7 @@
 import React, { Fragment } from 'react';
 import { useIntl } from 'react-intl';
 import { SafeAreaView } from 'react-native';
+import get from 'lodash/get';
 
 // Containers
 import { PointsContainer } from '../../../containers';
@@ -22,7 +23,7 @@ const PointsScreen = ({ isLoggedIn, handleLoginPress }) => {
           <PointsContainer>
             {({
               handleOnDropdownSelected,
-              claimPoints,
+              claim,
               fetchUserActivity,
               isClaiming,
               isLoading,
@@ -31,14 +32,22 @@ const PointsScreen = ({ isLoggedIn, handleLoginPress }) => {
               userPoints,
             }) => (
               <Points
-                claimPoints={claimPoints}
+                claim={claim}
                 fetchUserActivity={fetchUserActivity}
                 isClaiming={isClaiming}
                 isLoading={isLoading}
                 refreshing={refreshing}
                 userActivities={userActivities}
                 userPoints={userPoints}
+                unclaimedBalance={get(userPoints, 'unclaimed_points', 0)}
+                userBalance={get(userPoints, 'points')}
                 handleOnDropdownSelected={handleOnDropdownSelected}
+                type="estm"
+                dropdownOptions={[
+                  intl.formatMessage({ id: 'points.dropdown_transfer' }),
+                  intl.formatMessage({ id: 'points.dropdown_promote' }),
+                  intl.formatMessage({ id: 'points.dropdown_boost' }),
+                ]}
               />
             )}
           </PointsContainer>
@@ -58,3 +67,38 @@ const PointsScreen = ({ isLoggedIn, handleLoginPress }) => {
 };
 
 export default PointsScreen;
+
+// const viewStyle = () => {
+//   return {
+//     flex: 1,
+//     justifyContent: 'center',
+//     alignItems: 'center',
+//   };
+// };
+
+// <Swiper loop={false} showsPagination={false} index={1}>
+// <View style={viewStyle()}>
+//   <Points
+//     claimPoints={claimPoints}
+//     fetchUserActivity={fetchUserActivity}
+//     isClaiming={isClaiming}
+//     isLoading={isLoading}
+//     refreshing={refreshing}
+//     userActivities={userActivities}
+//     userPoints={userPoints}
+//     handleOnDropdownSelected={handleOnDropdownSelected}
+//   />
+// </View>
+// <View style={viewStyle()}>
+//   <Points
+//     claimPoints={claimPoints}
+//     fetchUserActivity={fetchUserActivity}
+//     isClaiming={isClaiming}
+//     isLoading={isLoading}
+//     refreshing={refreshing}
+//     userActivities={userActivities}
+//     userPoints={userPoints}
+//     handleOnDropdownSelected={handleOnDropdownSelected}
+//   />
+// </View>
+// </Swiper>

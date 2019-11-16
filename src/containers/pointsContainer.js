@@ -245,7 +245,7 @@ class PointsContainer extends Component {
         accounts,
         balance,
         boost: this._boost,
-        claimPoints: this._claimPoints,
+        claim: this._claimPoints,
         currentAccount,
         currentAccountName: currentAccount.name,
         fetchUserActivity: this._fetchUserPointActivities,
