@@ -7,6 +7,7 @@ import RedeemContainer from './redeemContainer';
 import SpinGameContainer from './spinGameContainer';
 import TransferContainer from './transferContainer';
 import ThemeContainer from './themeContainer';
+import SteemWalletContainer from './steemWalletContainer';
 
 export {
   AccountContainer,
@@ -18,4 +19,5 @@ export {
   SpinGameContainer,
   TransferContainer,
   ThemeContainer,
+  SteemWalletContainer,
 };
