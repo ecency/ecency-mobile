@@ -101,6 +101,7 @@ class PointsView extends Component {
             <ScrollView
               style={styles.scrollContainer}
               refreshControl={this.refreshControl({ isDarkTheme })}
+              contentContainerStyle={styles.scrollContentContainer}
             >
               <View style={styles.pointsWrapper}>
                 <Text onPress={this._showDropdown} style={styles.pointText}>

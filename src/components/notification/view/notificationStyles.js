@@ -18,4 +18,7 @@ export default EStyleSheet.create({
     justifyContent: 'center',
     flex: 1,
   },
+  listContentContainer: {
+    paddingBottom: 60,
+  },
 });
