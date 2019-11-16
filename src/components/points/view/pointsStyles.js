@@ -52,7 +52,7 @@ export default EStyleSheet.create({
     width: 36,
     height: 36,
     borderRadius: 36 / 2,
-    backgroundColor: '$primaryGrayBackground',
+    backgroundColor: '$primaryLightBackground',
     justifyContent: 'center',
     alignItems: 'center',
   },
@@ -119,6 +119,7 @@ export default EStyleSheet.create({
   },
   scrollContainer: {
     flex: 1,
+    backgroundColor: '$primaryBackgroundColor',
   },
   scrollContentContainer: {
     paddingBottom: 60,
