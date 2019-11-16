@@ -1,7 +1,7 @@
 /* eslint-disable react/jsx-wrap-multilines */
-import React, { PureComponent, Fragment } from 'react';
+import React, { Fragment } from 'react';
 import { View, Text, ScrollView, RefreshControl } from 'react-native';
-import { injectIntl } from 'react-intl';
+import { useIntl } from 'react-intl';
 
 // Components
 import { Icon } from '../../icon';
@@ -10,27 +10,15 @@ import { CollapsibleCard } from '../../collapsibleCard';
 import { WalletDetails } from '../../walletDetails';
 import { Transaction } from '../../transaction';
 import { WalletDetailsPlaceHolder } from '../../basicUIElements';
-import { ThemeContainer } from '../../../containers';
+import { ThemeContainer, SteemWalletContainer } from '../../../containers';
 
 // Styles
 import styles from './walletStyles';
 
-class WalletView extends PureComponent {
-  /* Props
-   * ------------------------------------------------
-   *   @prop { type }    name                - Description....
-   */
+const WalletView = ({ setEstimatedWalletValue, selectedUser, handleOnScroll }) => {
+  const intl = useIntl();
 
-  constructor(props) {
-    super(props);
-    this.state = {};
-  }
-
-  // Component Life Cycles
-
-  // Component Functions
-
-  _getUnclaimedText = (walletData, isPreview) => (
+  const _getUnclaimedText = (walletData, isPreview) => (
     <Text style={[isPreview ? styles.unclaimedTextPreview : styles.unclaimedText]}>
       {walletData.rewardSteemBalance
         ? `${Math.round(walletData.rewardSteemBalance * 1000) / 1000} STEEM`
@@ -44,93 +32,95 @@ class WalletView extends PureComponent {
     </Text>
   );
 
-  render() {
-    const {
-      isClaiming,
-      claimRewardBalance,
-      currentAccountUsername,
-      handleOnWalletRefresh,
-      intl,
-      isRefreshing,
-      selectedUsername,
-      walletData,
-      handleOnScroll,
-    } = this.props;
-
-    return (
-      <ThemeContainer>
-        {isDarkTheme => (
-          <ScrollView
-            onScroll={handleOnScroll && handleOnScroll}
-            style={styles.scrollView}
-            refreshControl={
-              <RefreshControl
-                refreshing={isRefreshing}
-                onRefresh={handleOnWalletRefresh}
-                progressBackgroundColor="#357CE6"
-                tintColor={!isDarkTheme ? '#357ce6' : '#96c0ff'}
-                titleColor="#fff"
-                colors={['#fff']}
-              />
-            }
-            contentContainerStyle={styles.scrollContentContainer}
-          >
-            {!walletData ? (
-              <Fragment>
-                <WalletDetailsPlaceHolder />
-              </Fragment>
-            ) : (
-              <Fragment>
-                {walletData.hasUnclaimedRewards && (
+  return (
+    <SteemWalletContainer
+      setEstimatedWalletValue={setEstimatedWalletValue}
+      selectedUser={selectedUser}
+      handleOnScroll={handleOnScroll}
+    >
+      {({
+        isClaiming,
+        claimRewardBalance,
+        currentAccountUsername,
+        handleOnWalletRefresh,
+        refreshing,
+        selectedUsername,
+        walletData,
+      }) => (
+        <ThemeContainer>
+          {isDarkTheme => (
+            <ScrollView
+              onScroll={handleOnScroll && handleOnScroll}
+              style={styles.scrollView}
+              refreshControl={
+                <RefreshControl
+                  refreshing={refreshing}
+                  onRefresh={handleOnWalletRefresh}
+                  progressBackgroundColor="#357CE6"
+                  tintColor={!isDarkTheme ? '#357ce6' : '#96c0ff'}
+                  titleColor="#fff"
+                  colors={['#fff']}
+                />
+              }
+              contentContainerStyle={styles.scrollContentContainer}
+            >
+              {!walletData ? (
+                <Fragment>
+                  <WalletDetailsPlaceHolder />
+                </Fragment>
+              ) : (
+                <Fragment>
+                  {walletData.hasUnclaimedRewards && (
+                    <CollapsibleCard
+                      titleColor="#788187"
+                      isBoldTitle
+                      defaultTitle={intl.formatMessage({
+                        id: 'profile.unclaimed_rewards',
+                      })}
+                      expanded
+                    >
+                      {currentAccountUsername === selectedUsername ? (
+                        <MainButton
+                          isLoading={isClaiming}
+                          isDisable={isClaiming}
+                          style={styles.mainButton}
+                          height={50}
+                          onPress={() => claimRewardBalance()}
+                        >
+                          <View style={styles.mainButtonWrapper}>
+                            {_getUnclaimedText(walletData)}
+                            <View style={styles.mainIconWrapper}>
+                              <Icon name="add" iconType="MaterialIcons" color="#357ce6" size={23} />
+                            </View>
+                          </View>
+                        </MainButton>
+                      ) : (
+                        _getUnclaimedText(walletData, true)
+                      )}
+                    </CollapsibleCard>
+                  )}
                   <CollapsibleCard
                     titleColor="#788187"
-                    isBoldTitle
-                    defaultTitle={intl.formatMessage({
-                      id: 'profile.unclaimed_rewards',
+                    title={intl.formatMessage({
+                      id: 'profile.wallet_details',
                     })}
                     expanded
                   >
-                    {currentAccountUsername === selectedUsername ? (
-                      <MainButton
-                        isLoading={isClaiming}
-                        isDisable={isClaiming}
-                        style={styles.mainButton}
-                        height={50}
-                        onPress={() => claimRewardBalance()}
-                      >
-                        <View style={styles.mainButtonWrapper}>
-                          {this._getUnclaimedText(walletData)}
-                          <View style={styles.mainIconWrapper}>
-                            <Icon name="add" iconType="MaterialIcons" color="#357ce6" size={23} />
-                          </View>
-                        </View>
-                      </MainButton>
-                    ) : (
-                      this._getUnclaimedText(walletData, true)
-                    )}
+                    <WalletDetails
+                      intl={intl}
+                      walletData={walletData}
+                      isShowDropdowns={currentAccountUsername === selectedUsername}
+                    />
                   </CollapsibleCard>
-                )}
-                <CollapsibleCard
-                  titleColor="#788187"
-                  title={intl.formatMessage({
-                    id: 'profile.wallet_details',
-                  })}
-                  expanded
-                >
-                  <WalletDetails
-                    intl={intl}
-                    walletData={walletData}
-                    isShowDropdowns={currentAccountUsername === selectedUsername}
-                  />
-                </CollapsibleCard>
-                <Transaction walletData={walletData} />
-              </Fragment>
-            )}
-          </ScrollView>
-        )}
-      </ThemeContainer>
-    );
-  }
-}
+                  <Transaction walletData={walletData} />
+                </Fragment>
+              )}
+            </ScrollView>
+          )}
+        </ThemeContainer>
+      )}
+    </SteemWalletContainer>
+  );
+};
 
-export default injectIntl(WalletView);
+export default WalletView;
