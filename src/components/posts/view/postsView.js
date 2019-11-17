@@ -160,6 +160,7 @@ const PostsView = ({
         setIsLoading(false);
         return;
       }
+      setIsLoading(true);
 
       const filter = type || selectedFilterValue;
       let options;

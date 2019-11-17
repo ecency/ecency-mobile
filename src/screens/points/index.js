@@ -1,5 +1,4 @@
-import PointsScreen from './screen/pointsScreen';
-import Points from './container/pointsContainer';
+import Points from './screen/pointsScreen';
 
-export { PointsScreen, Points };
+export { Points };
 export default Points;
