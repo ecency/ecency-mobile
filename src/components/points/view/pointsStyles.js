@@ -41,9 +41,6 @@ export default EStyleSheet.create({
     fontSize: 24,
     color: '$primaryDarkText',
   },
-  listWrapper: {
-    marginHorizontal: 8,
-  },
   mainButton: {
     marginVertical: 8,
     alignSelf: 'center',

@@ -8,6 +8,9 @@ export default EStyleSheet.create({
   defaultContainer: {
     flex: 1,
   },
+  listWrapper: {
+    paddingHorizontal: 8,
+  },
   text: {
     fontFamily: '$primaryFont',
     letterSpacing: '$primaryLatterSpacing',

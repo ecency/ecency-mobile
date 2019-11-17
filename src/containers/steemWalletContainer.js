@@ -20,6 +20,7 @@ const WalletContainer = ({
   pinCode,
   selectedUser,
   setEstimatedWalletValue,
+  steemPerMVests,
 }) => {
   const [isClaiming, setIsClaiming] = useState(false);
   const [refreshing, setRefreshing] = useState(false);
@@ -137,6 +138,7 @@ const WalletContainer = ({
       refreshing: refreshing,
       selectedUsername: get(selectedUser, 'name', ''),
       walletData: walletData,
+      steemPerMVests,
     })
   );
 };
@@ -145,6 +147,7 @@ const mapStateToProps = state => ({
   currentAccount: state.account.currentAccount,
   pinCode: state.application.pin,
   globalProps: state.account.globalProps,
+  steemPerMVests: state.account.globalProps.steemPerMVests,
 });
 
 export default connect(mapStateToProps)(WalletContainer);

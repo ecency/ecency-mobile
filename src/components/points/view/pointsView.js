@@ -1,17 +1,25 @@
 /* eslint-disable react/jsx-wrap-multilines */
 import React, { useRef, Fragment } from 'react';
-import { Text, View, FlatList, ScrollView, RefreshControl, TouchableOpacity } from 'react-native';
+import { Text, View, FlatList, ScrollView, RefreshControl } from 'react-native';
 import { useIntl } from 'react-intl';
 import { get } from 'lodash';
 import { withNavigation } from 'react-navigation';
 
 // Components
 import { LineBreak, WalletLineItem, ListPlaceHolder } from '../../basicUIElements';
-import { Icon, MainButton, DropdownButton, CollapsibleCard, HorizontalIconList } from '../..';
+import {
+  Icon,
+  MainButton,
+  DropdownButton,
+  CollapsibleCard,
+  HorizontalIconList,
+  Transaction,
+} from '../..';
 import { ThemeContainer } from '../../../containers';
 
 // Utils
 import { getTimeFromNow } from '../../../utils/time';
+import { groomingPointsTransactionData } from '../../../utils/wallet';
 
 // Constants
 import POINTS, { POINTS_KEYS } from '../../../constants/options/points';
@@ -19,7 +27,6 @@ import { default as ROUTES } from '../../../constants/routeNames';
 
 // Styles
 import styles from './pointsStyles';
-//     dropdownRef = React.createRef();
 
 const PointsView = ({
   fetchUserActivity,
@@ -34,6 +41,7 @@ const PointsView = ({
   userBalance,
   dropdownOptions,
   type = '',
+  showIconList,
 }) => {
   const intl = useIntl();
   const dropdownRef = useRef();
@@ -118,49 +126,13 @@ const PointsView = ({
           </View>
         </MainButton>
 
-        <HorizontalIconList options={POINTS} optionsKeys={POINTS_KEYS} />
+        {showIconList && <HorizontalIconList options={POINTS} optionsKeys={POINTS_KEYS} />}
 
-        <View style={styles.listWrapper}>
-          <FlatList
-            data={userActivities}
-            keyExtractor={item => get(item, 'created').toString()}
-            ListEmptyComponent={_renderLoading()}
-            renderItem={({ item, index }) => (
-              <CollapsibleCard
-                key={item.id.toString()}
-                noBorder
-                noContainer
-                titleComponent={
-                  <WalletLineItem
-                    index={index + 1}
-                    text={_getTranslation(get(item, 'textKey'))}
-                    description={getTimeFromNow(get(item, 'created'))}
-                    isCircleIcon
-                    isThin
-                    isBlackText
-                    iconName={get(item, 'icon')}
-                    iconType={get(item, 'iconType')}
-                    rightText={`${get(item, 'amount')} ${type.toUpperCase()}`}
-                  />
-                }
-              >
-                {(get(item, 'memo') || get(item, 'sender')) && (
-                  <WalletLineItem
-                    isBlackText
-                    isThin
-                    text={
-                      get(item, 'sender')
-                        ? `${intl.formatMessage({ id: 'points.from' })} @${get(item, 'sender')}`
-                        : get(item, 'receiver') &&
-                          `${intl.formatMessage({ id: 'points.to' })} @${get(item, 'receiver')}`
-                    }
-                    description={get(item, 'memo')}
-                  />
-                )}
-              </CollapsibleCard>
-            )}
-          />
-        </View>
+        <Transaction
+          type="points"
+          transactions={userActivities}
+          groomingTransactionData={item => groomingPointsTransactionData(item)}
+        />
       </ScrollView>
     </Fragment>
   );
