@@ -13,7 +13,4 @@ export default EStyleSheet.create({
     color: '#788187',
     fontWeight: 'bold',
   },
-  noPostContainer: {
-    flex: 1,
-  },
 });

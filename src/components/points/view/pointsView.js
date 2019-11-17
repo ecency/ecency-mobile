@@ -2,17 +2,12 @@
 import React, { useRef, Fragment } from 'react';
 import { Text, View, FlatList, ScrollView, RefreshControl, TouchableOpacity } from 'react-native';
 import { useIntl } from 'react-intl';
-import { Popover, PopoverController } from 'react-native-modal-popover';
 import { get } from 'lodash';
 import { withNavigation } from 'react-navigation';
 
 // Components
 import { LineBreak, WalletLineItem, ListPlaceHolder } from '../../basicUIElements';
-import { IconButton } from '../../iconButton';
-import { Icon } from '../../icon';
-import { MainButton } from '../../mainButton';
-import { DropdownButton } from '../../dropdownButton';
-import { CollapsibleCard } from '../../collapsibleCard';
+import { Icon, MainButton, DropdownButton, CollapsibleCard, HorizontalIconList } from '../..';
 import { ThemeContainer } from '../../../containers';
 
 // Utils
@@ -30,7 +25,7 @@ const PointsView = ({
   fetchUserActivity,
   refreshing,
   isLoading,
-  claimPoints,
+  claim,
   isClaiming,
   userActivities,
   handleOnDropdownSelected,
@@ -110,7 +105,7 @@ const PointsView = ({
           style={styles.mainButton}
           height={50}
           onPress={() =>
-            unclaimedBalance > 0 ? claimPoints() : navigation.navigate(ROUTES.SCREENS.BOOST)
+            unclaimedBalance > 0 ? claim() : navigation.navigate(ROUTES.SCREENS.BOOST)
           }
         >
           <View style={styles.mainButtonWrapper}>
@@ -123,61 +118,7 @@ const PointsView = ({
           </View>
         </MainButton>
 
-        <View style={styles.iconsWrapper}>
-          <FlatList
-            style={styles.iconsList}
-            data={POINTS_KEYS}
-            keyExtractor={item => get(item, 'type', Math.random()).toString()}
-            horizontal
-            renderItem={({ item }) => (
-              <PopoverController key={get(item, 'type')}>
-                {({
-                  openPopover,
-                  closePopover,
-                  popoverVisible,
-                  setPopoverAnchor,
-                  popoverAnchorRect,
-                }) => (
-                  <View styles={styles.iconWrapper} key={get(item, 'type')}>
-                    <View style={styles.iconWrapper}>
-                      <TouchableOpacity ref={setPopoverAnchor} onPress={openPopover}>
-                        <IconButton
-                          iconStyle={styles.icon}
-                          style={styles.iconButton}
-                          iconType={get(POINTS[get(item, 'type')], 'iconType')}
-                          name={get(POINTS[get(item, 'type')], 'icon')}
-                          badgeCount={get(POINTS[get(item, 'type')], 'point')}
-                          badgeStyle={styles.badge}
-                          badgeTextStyle={styles.badgeText}
-                          disabled
-                        />
-                      </TouchableOpacity>
-                    </View>
-                    <Text style={styles.subText}>
-                      {_getTranslation(get(POINTS[get(item, 'type')], 'nameKey'))}
-                    </Text>
-                    <Popover
-                      backgroundStyle={styles.overlay}
-                      contentStyle={styles.popoverDetails}
-                      arrowStyle={styles.arrow}
-                      visible={popoverVisible}
-                      onClose={() => closePopover()}
-                      fromRect={popoverAnchorRect}
-                      placement="top"
-                      supportedOrientations={['portrait', 'landscape']}
-                    >
-                      <View style={styles.popoverWrapper}>
-                        <Text style={styles.popoverText}>
-                          {_getTranslation(get(POINTS[get(item, 'type')], 'descriptionKey'))}
-                        </Text>
-                      </View>
-                    </Popover>
-                  </View>
-                )}
-              </PopoverController>
-            )}
-          />
-        </View>
+        <HorizontalIconList options={POINTS} optionsKeys={POINTS_KEYS} />
 
         <View style={styles.listWrapper}>
           <FlatList

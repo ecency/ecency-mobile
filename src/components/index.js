@@ -51,6 +51,7 @@ import PostButton from './postButton/postButtonView';
 import ProfileEditForm from './profileEditForm/profileEditFormView';
 import ScaleSlider from './scaleSlider/scaleSliderView';
 import { ProductItemLine } from './productItemLine/productItemLineView';
+import { HorizontalIconList } from './horizontalIconList/horizontalIconListView';
 
 // View
 import { Comment } from './comment';
@@ -187,4 +188,5 @@ export {
   WalletDetailsPlaceHolder,
   WalletLineItem,
   WalletUnclaimedPlaceHolder,
+  HorizontalIconList,
 };

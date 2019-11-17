@@ -237,7 +237,7 @@ class PointsContainer extends Component {
       userActivities,
       userPoints,
     } = this.state;
-    const { children, accounts, currentAccount } = this.props;
+    const { children, accounts, currentAccount, user } = this.props;
 
     return (
       children &&
@@ -262,12 +262,14 @@ class PointsContainer extends Component {
         userActivities,
         userPoints,
         redeemType: get(navigationParams, 'redeemType'),
+        user,
       })
     );
   }
 }
 
 const mapStateToProps = state => ({
+  user: state.account.currentAccount,
   username: state.account.currentAccount.name,
   activeBottomTab: state.ui.activeBottomTab,
   isConnected: state.application.isConnected,

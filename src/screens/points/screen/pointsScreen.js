@@ -4,63 +4,56 @@ import { SafeAreaView } from 'react-native';
 import get from 'lodash/get';
 
 // Containers
-import { PointsContainer } from '../../../containers';
+import { PointsContainer, LoggedInContainer } from '../../../containers';
 
 // Components
-import { Header, Points, NoPost } from '../../../components';
+import { Header, Points } from '../../../components';
 
 // Styles
 import styles from './pointsStyles';
 
-const PointsScreen = ({ isLoggedIn, handleLoginPress }) => {
+const PointsScreen = () => {
   const intl = useIntl();
 
   return (
     <Fragment>
       <Header />
       <SafeAreaView style={styles.container}>
-        {isLoggedIn ? (
-          <PointsContainer>
-            {({
-              handleOnDropdownSelected,
-              claim,
-              fetchUserActivity,
-              isClaiming,
-              isLoading,
-              refreshing,
-              userActivities,
-              userPoints,
-            }) => (
-              <Points
-                claim={claim}
-                fetchUserActivity={fetchUserActivity}
-                isClaiming={isClaiming}
-                isLoading={isLoading}
-                refreshing={refreshing}
-                userActivities={userActivities}
-                userPoints={userPoints}
-                unclaimedBalance={get(userPoints, 'unclaimed_points', 0)}
-                userBalance={get(userPoints, 'points')}
-                handleOnDropdownSelected={handleOnDropdownSelected}
-                type="estm"
-                dropdownOptions={[
-                  intl.formatMessage({ id: 'points.dropdown_transfer' }),
-                  intl.formatMessage({ id: 'points.dropdown_promote' }),
-                  intl.formatMessage({ id: 'points.dropdown_boost' }),
-                ]}
-              />
-            )}
-          </PointsContainer>
-        ) : (
-          <NoPost
-            style={styles.noPostContainer}
-            isButtonText
-            defaultText={intl.formatMessage({
-              id: 'profile.login_to_see',
-            })}
-            handleOnButtonPress={handleLoginPress}
-          />
-        )}
+        <LoggedInContainer>
+          {() => (
+            <PointsContainer>
+              {({
+                handleOnDropdownSelected,
+                claim,
+                fetchUserActivity,
+                isClaiming,
+                isLoading,
+                refreshing,
+                userActivities,
+                userPoints,
+              }) => (
+                <Points
+                  claim={claim}
+                  fetchUserActivity={fetchUserActivity}
+                  isClaiming={isClaiming}
+                  isLoading={isLoading}
+                  refreshing={refreshing}
+                  userActivities={userActivities}
+                  userPoints={userPoints}
+                  unclaimedBalance={get(userPoints, 'unclaimed_points', 0)}
+                  userBalance={get(userPoints, 'points')}
+                  handleOnDropdownSelected={handleOnDropdownSelected}
+                  type="estm"
+                  dropdownOptions={[
+                    intl.formatMessage({ id: 'points.dropdown_transfer' }),
+                    intl.formatMessage({ id: 'points.dropdown_promote' }),
+                    intl.formatMessage({ id: 'points.dropdown_boost' }),
+                  ]}
+                />
+              )}
+            </PointsContainer>
+          )}
+        </LoggedInContainer>
       </SafeAreaView>
     </Fragment>
   );
