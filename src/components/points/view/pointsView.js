@@ -123,7 +123,7 @@ const PointsView = ({
         <View style={styles.listWrapper}>
           <FlatList
             data={userActivities}
-            keyExtractor={item => item.id.toString()}
+            keyExtractor={item => get(item, 'created').toString()}
             ListEmptyComponent={_renderLoading()}
             renderItem={({ item, index }) => (
               <CollapsibleCard
