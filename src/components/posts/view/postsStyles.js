@@ -32,4 +32,7 @@ export default EStyleSheet.create({
     width: 193,
     height: 189,
   },
+  placeholderWrapper: {
+    flex: 1,
+  },
 });
