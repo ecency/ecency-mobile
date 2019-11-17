@@ -33,6 +33,7 @@ const PointsScreen = () => {
                 userPoints,
               }) => (
                 <Points
+                  showIconList
                   claim={claim}
                   fetchUserActivity={fetchUserActivity}
                   isClaiming={isClaiming}
