@@ -1,8 +1,8 @@
-import { Component } from 'react';
+import React, { useState, useEffect, useCallback } from 'react';
 import { Alert } from 'react-native';
-import { connect } from 'react-redux';
+import { connect, useDispatch } from 'react-redux';
 import get from 'lodash/get';
-import { injectIntl } from 'react-intl';
+import { useIntl } from 'react-intl';
 import { withNavigation } from 'react-navigation';
 
 // Services and Actions
@@ -24,57 +24,58 @@ import ROUTES from '../constants/routeNames';
  *
  */
 
-class PointsContainer extends Component {
-  constructor(props) {
-    super(props);
-    this.state = {
-      userPoints: {},
-      userActivities: null,
-      refreshing: false,
-      isClaiming: false,
-      isLoading: true,
-      navigationParams: {},
-    };
-  }
+const PointsContainer = ({
+  username,
+  isConnected,
+  navigation,
+  children,
+  accounts,
+  currentAccount,
+  user,
+  activeBottomTab,
+  isPinCodeOpen,
+  globalProps,
+  pinCode,
+}) => {
+  const [userPoints, setUserPoints] = useState({});
+  const [userActivities, setUserActivities] = useState(null);
+  const [refreshing, setRefreshing] = useState(false);
+  const [isClaiming, setIsClaiming] = useState(false);
+  const [isLoading, setIsLoading] = useState(true);
+  const [navigationParams, setNavigationParams] = useState({});
+  const [balance, setBalance] = useState(0);
+  const intl = useIntl();
+  const dispatch = useDispatch();
+  const fetchInterval = useCallback(() => setInterval(_fetchUserPointActivities, 6 * 60 * 1000), [
+    _fetchUserPointActivities,
+  ]);
 
-  // Component Life Cycle Functions
-  componentDidMount() {
-    const { username, isConnected, navigation } = this.props;
-
+  useEffect(() => {
     if (isConnected) {
-      this._fetchUserPointActivities(username);
-      this.fetchInterval = setInterval(this._fetchUserPointActivities, 6 * 60 * 1000);
+      _fetchUserPointActivities(username);
+      fetchInterval();
     }
 
     if (get(navigation, 'state.params', null)) {
-      const navigationParams = get(navigation, 'state.params');
+      const _navigationParams = get(navigation, 'state.params');
 
-      this.setState({ navigationParams });
+      setNavigationParams(_navigationParams);
     }
-  }
+  }, [_fetchUserPointActivities, fetchInterval, isConnected, navigation, username]);
 
-  UNSAFE_componentWillReceiveProps(nextProps) {
-    const { username } = this.props;
-    const _username = get(nextProps, 'username');
-
-    if (
-      nextProps.isConnected &&
-      ((nextProps.activeBottomTab === ROUTES.TABBAR.POINTS && _username) ||
-        (_username !== username && _username))
-    ) {
-      this._fetchUserPointActivities(_username);
+  useEffect(() => {
+    if (isConnected && activeBottomTab === ROUTES.TABBAR.POINTS && username) {
+      _fetchUserPointActivities(username);
     }
-  }
+  }, [isConnected, username, _fetchUserPointActivities, activeBottomTab]);
 
-  componentWillUnmount() {
-    clearInterval(this.fetchInterval);
-  }
+  useEffect(() => {
+    return clearInterval(fetchInterval);
+  });
 
   // Component Functions
 
-  _handleOnDropdownSelected = index => {
-    const { dispatch, isPinCodeOpen, navigation } = this.props;
-    const { balance } = this.state;
+  const _handleOnDropdownSelected = index => {
     let navigateTo;
     let navigateParams;
 
@@ -123,35 +124,34 @@ class PointsContainer extends Component {
     }
   };
 
-  _groomUserActivities = userActivities =>
-    userActivities.map(item => ({
+  const _groomUserActivities = _userActivities =>
+    _userActivities.map(item => ({
       ...item,
       icon: get(POINTS[get(item, 'type')], 'icon'),
       iconType: get(POINTS[get(item, 'type')], 'iconType'),
       textKey: get(POINTS[get(item, 'type')], 'textKey'),
     }));
 
-  _fetchUserPointActivities = async username => {
-    if (!username) {
+  const _fetchUserPointActivities = useCallback(async _username => {
+    if (!_username) {
       return;
     }
-    this.setState({ refreshing: true });
+    setRefreshing(true);
 
-    await getUser(username)
+    await getUser(_username)
       .then(userPoints => {
-        const balance = Math.round(get(userPoints, 'points') * 1000) / 1000;
-        this.setState({ userPoints, balance });
+        const _balance = Math.round(get(userPoints, 'points') * 1000) / 1000;
+        setUserPoints(userPoints);
+        setBalance(_balance);
       })
       .catch(err => {
         Alert.alert(get(err, 'message', 'Error'));
       });
 
-    await getUserPoints(username)
+    await getUserPoints(_username)
       .then(userActivities => {
         if (Object.entries(userActivities).length !== 0) {
-          this.setState({
-            userActivities: this._groomUserActivities(userActivities),
-          });
+          setUserActivities(_groomUserActivities(userActivities));
         }
       })
       .catch(err => {
@@ -160,17 +160,15 @@ class PointsContainer extends Component {
         }
       });
 
-    this.setState({
-      refreshing: false,
-      isLoading: false,
-    });
-  };
+    setRefreshing(false);
+    setIsLoading(false);
+  }, []);
 
-  _getUserBalance = async username => {
-    await getUser(username)
-      .then(userPoints => {
-        const balance = Math.round(get(userPoints, 'points') * 1000) / 1000;
-        return balance;
+  const _getUserBalance = async _username => {
+    await getUser(_username)
+      .then(_userPoints => {
+        const _balance = Math.round(get(_userPoints, 'points') * 1000) / 1000;
+        return _balance;
       })
       .catch(err => {
         if (err) {
@@ -179,14 +177,12 @@ class PointsContainer extends Component {
       });
   };
 
-  _claimPoints = async () => {
-    const { username } = this.props;
-
-    this.setState({ isClaiming: true });
+  const _claimPoints = async () => {
+    setIsClaiming(true);
 
     await claim(username)
       .then(() => {
-        this._fetchUserPointActivities(username);
+        _fetchUserPointActivities(username);
       })
       .catch(error => {
         if (error) {
@@ -199,74 +195,58 @@ class PointsContainer extends Component {
         }
       });
 
-    this.setState({ isClaiming: false });
+    setIsClaiming(false);
   };
 
-  _boost = async (point, permlink, author, user) => {
-    const { currentAccount, pinCode, dispatch, intl, navigation } = this.props;
-    this.setState({ isLoading: true });
+  const _boost = async (point, permlink, author, _user) => {
+    setIsLoading(true);
 
-    await boost(user || currentAccount, pinCode, point, permlink, author)
+    await boost(_user || currentAccount, pinCode, point, permlink, author)
       .then(() => {
-        this.setState({ isLoading: false });
+        setIsLoading(false);
         navigation.goBack();
         dispatch(toastNotification(intl.formatMessage({ id: 'alert.successful' })));
       })
       .catch(error => {
         if (error) {
-          this.setState({ isLoading: false });
+          setIsLoading(false);
           dispatch(toastNotification(intl.formatMessage({ id: 'alert.fail' })));
         }
       });
   };
 
-  _getESTMPrice = points => {
-    const { globalProps } = this.props;
+  const _getESTMPrice = points => {
     const { base, quote } = globalProps;
 
     return points * 0.01 * (base / quote);
   };
 
-  render() {
-    const {
+  return (
+    children &&
+    children({
+      accounts,
       balance,
+      boost: _boost,
+      claim: _claimPoints,
+      currentAccount,
+      currentAccountName: currentAccount.name,
+      fetchUserActivity: _fetchUserPointActivities,
+      getAccount,
+      getESTMPrice: _getESTMPrice,
+      getUserBalance: _getUserBalance,
+      getUserDataWithUsername,
+      handleOnDropdownSelected: _handleOnDropdownSelected,
       isClaiming,
       isLoading,
       navigationParams,
       refreshing,
       userActivities,
       userPoints,
-    } = this.state;
-    const { children, accounts, currentAccount, user } = this.props;
-
-    return (
-      children &&
-      children({
-        accounts,
-        balance,
-        boost: this._boost,
-        claim: this._claimPoints,
-        currentAccount,
-        currentAccountName: currentAccount.name,
-        fetchUserActivity: this._fetchUserPointActivities,
-        getAccount,
-        getESTMPrice: this._getESTMPrice,
-        getUserBalance: this._getUserBalance,
-        getUserDataWithUsername,
-        handleOnDropdownSelected: this._handleOnDropdownSelected,
-        handleOnPressTransfer: this._handleOnPressTransfer,
-        isClaiming,
-        isLoading,
-        navigationParams,
-        refreshing,
-        userActivities,
-        userPoints,
-        redeemType: get(navigationParams, 'redeemType'),
-        user,
-      })
-    );
-  }
-}
+      redeemType: get(navigationParams, 'redeemType'),
+      user,
+    })
+  );
+};
 
 const mapStateToProps = state => ({
   user: state.account.currentAccount,
@@ -280,4 +260,4 @@ const mapStateToProps = state => ({
   globalProps: state.account.globalProps,
 });
 
-export default withNavigation(connect(mapStateToProps)(injectIntl(PointsContainer)));
+export default withNavigation(connect(mapStateToProps)(PointsContainer));
