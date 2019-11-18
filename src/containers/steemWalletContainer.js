@@ -9,7 +9,7 @@ import { toastNotification } from '../redux/actions/uiAction';
 import { getAccount, claimRewardBalance } from '../providers/steem/dsteem';
 
 // Utils
-import { groomingWalletData } from '../utils/wallet';
+import { groomingWalletData, groomingTransactionData } from '../utils/wallet';
 import parseToken from '../utils/parseToken';
 
 const WalletContainer = ({
@@ -25,6 +25,7 @@ const WalletContainer = ({
   const [isClaiming, setIsClaiming] = useState(false);
   const [refreshing, setRefreshing] = useState(false);
   const [walletData, setWalletData] = useState(null);
+  const [userActivities, setUserActivities] = useState(null);
   const intl = useIntl();
   const dispatch = useDispatch();
 
@@ -43,9 +44,14 @@ const WalletContainer = ({
       const _walletData = await groomingWalletData(_selectedUser, globalProps);
 
       setWalletData(_walletData);
+      setUserActivities(
+        get(_walletData, 'transactions', []).map(item =>
+          groomingTransactionData(item, steemPerMVests, intl.formatNumber),
+        ),
+      );
       setEstimatedWalletValue(_walletData.estimatedValue);
     },
-    [globalProps, setEstimatedWalletValue],
+    [globalProps, intl.formatNumber, setEstimatedWalletValue, steemPerMVests],
   );
 
   const _isHasUnclaimedRewards = account => {
@@ -139,6 +145,7 @@ const WalletContainer = ({
       selectedUsername: get(selectedUser, 'name', ''),
       walletData: walletData,
       steemPerMVests,
+      userActivities,
     })
   );
 };

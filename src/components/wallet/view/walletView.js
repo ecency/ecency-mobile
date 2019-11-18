@@ -2,7 +2,6 @@
 import React, { Fragment } from 'react';
 import { View, Text, ScrollView, RefreshControl } from 'react-native';
 import { useIntl } from 'react-intl';
-import get from 'lodash/get';
 
 // Components
 import { Icon } from '../../icon';
@@ -12,8 +11,6 @@ import { WalletDetails } from '../../walletDetails';
 import { Transaction } from '../../transaction';
 import { WalletDetailsPlaceHolder, Card } from '../../basicUIElements';
 import { ThemeContainer, SteemWalletContainer } from '../../../containers';
-
-import { groomingTransactionData } from '../../../utils/wallet';
 
 // Styles
 import styles from './walletStyles';
@@ -50,6 +47,7 @@ const WalletView = ({ setEstimatedWalletValue, selectedUser, handleOnScroll }) =
         selectedUsername,
         walletData,
         steemPerMVests,
+        userActivities,
       }) => (
         <ThemeContainer>
           {isDarkTheme => (
@@ -117,13 +115,7 @@ const WalletView = ({ setEstimatedWalletValue, selectedUser, handleOnScroll }) =
                     />
                   </CollapsibleCard>
                   <Card>
-                    <Transaction
-                      type="wallet"
-                      groomingTransactionData={item =>
-                        groomingTransactionData(item, steemPerMVests, intl.formatNumber)
-                      }
-                      transactions={get(walletData, 'transactions')}
-                    />
+                    <Transaction type="wallet" transactions={userActivities} />
                   </Card>
                 </Fragment>
               )}

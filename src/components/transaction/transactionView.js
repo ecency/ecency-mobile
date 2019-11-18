@@ -14,7 +14,7 @@ import { CollapsibleCard } from '..';
 
 import globalStyles from '../../globalStyles';
 
-const TransactionView = ({ transactions, groomingTransactionData, type }) => {
+const TransactionView = ({ transactions, type }) => {
   const intl = useIntl();
 
   const _renderLoading = () => {
@@ -28,38 +28,36 @@ const TransactionView = ({ transactions, groomingTransactionData, type }) => {
   };
 
   const _renderItem = (item, index) => {
-    const transactionData = groomingTransactionData(item);
-
     return (
       <CollapsibleCard
-        key={transactionData.created.toString()}
+        key={item.created.toString()}
         noBorder
         noContainer
         titleComponent={
           <WalletLineItem
-            key={transactionData.created.toString()}
+            key={item.created.toString()}
             index={index + 1}
             text={intl.formatMessage({
-              id: `${type}.${get(transactionData, 'textKey')}`,
+              id: `${type}.${get(item, 'textKey')}`,
             })}
-            description={getTimeFromNow(get(transactionData, 'created'))}
+            description={getTimeFromNow(get(item, 'created'))}
             isCircleIcon
             isThin
             circleIconColor="white"
             isBlackText
-            iconName={get(transactionData, 'icon')}
-            iconType={get(transactionData, 'iconType')}
-            rightText={get(transactionData, 'value', '').trim()}
+            iconName={get(item, 'icon')}
+            iconType={get(item, 'iconType')}
+            rightText={get(item, 'value', '').trim()}
           />
         }
       >
-        {(get(transactionData, 'details') || get(transactionData, 'memo')) && (
+        {(get(item, 'details') || get(item, 'memo')) && (
           <WalletLineItem
             key={index.toString()}
-            text={get(transactionData, 'details', '')}
+            text={get(item, 'details', '')}
             isBlackText
             isThin
-            description={get(transactionData, 'memo')}
+            description={get(item, 'memo')}
           />
         )}
       </CollapsibleCard>

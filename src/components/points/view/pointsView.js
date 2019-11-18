@@ -1,24 +1,16 @@
 /* eslint-disable react/jsx-wrap-multilines */
-import React, { useRef, Fragment } from 'react';
-import { Text, View, FlatList, ScrollView, RefreshControl } from 'react-native';
+import React, { useRef, Fragment, useEffect } from 'react';
+import { Text, View, ScrollView, RefreshControl } from 'react-native';
 import { useIntl } from 'react-intl';
 import { get } from 'lodash';
 import { withNavigation } from 'react-navigation';
 
 // Components
-import { LineBreak, WalletLineItem, ListPlaceHolder } from '../../basicUIElements';
-import {
-  Icon,
-  MainButton,
-  DropdownButton,
-  CollapsibleCard,
-  HorizontalIconList,
-  Transaction,
-} from '../..';
+import { LineBreak } from '../../basicUIElements';
+import { Icon, MainButton, DropdownButton, HorizontalIconList, Transaction } from '../..';
 import { ThemeContainer } from '../../../containers';
 
 // Utils
-import { getTimeFromNow } from '../../../utils/time';
 import { groomingPointsTransactionData } from '../../../utils/wallet';
 
 // Constants
@@ -41,53 +33,39 @@ const PointsView = ({
   userBalance,
   dropdownOptions,
   type = '',
+  componentDidUpdate,
   showIconList,
+  currentIndex,
+  index,
 }) => {
   const intl = useIntl();
   const dropdownRef = useRef();
-  const refreshControl = () => (
-    <ThemeContainer>
-      {isDarkTheme => (
-        <RefreshControl
-          refreshing={refreshing}
-          onRefresh={fetchUserActivity}
-          progressBackgroundColor="#357CE6"
-          tintColor={!isDarkTheme ? '#357ce6' : '#96c0ff'}
-          titleColor="#fff"
-          colors={['#fff']}
-        />
-      )}
-    </ThemeContainer>
-  );
 
-  const _getTranslation = id => {
-    let translation;
-
-    try {
-      translation = intl.formatMessage({ id });
-    } catch (error) {
-      translation = '';
+  useEffect(() => {
+    if (index === currentIndex) {
+      componentDidUpdate();
     }
+  }, [componentDidUpdate, currentIndex, index]);
 
-    return translation;
-  };
-
-  const _renderLoading = () => {
-    if (isLoading) {
-      return <ListPlaceHolder />;
-    }
-
-    return <Text style={styles.subText}>{intl.formatMessage({ id: 'points.no_activity' })}</Text>;
-  };
+  // const refreshControl = () => (
+  //   <ThemeContainer>
+  //     {isDarkTheme => (
+  //       <RefreshControl
+  //         refreshing={refreshing}
+  //         onRefresh={fetchUserActivity}
+  //         progressBackgroundColor="#357CE6"
+  //         tintColor={!isDarkTheme ? '#357ce6' : '#96c0ff'}
+  //         titleColor="#fff"
+  //         colors={['#fff']}
+  //       />
+  //     )}
+  //   </ThemeContainer>
+  // );
 
   return (
     <Fragment>
       <LineBreak height={12} />
-      <ScrollView
-        style={styles.scrollContainer}
-        refreshControl={() => refreshControl()}
-        contentContainerStyle={styles.scrollContentContainer}
-      >
+      <View style={styles.scrollContainer} contentContainerStyle={styles.scrollContentContainer}>
         <View style={styles.pointsWrapper}>
           <Text onPress={() => dropdownRef.current.show()} style={styles.pointText}>
             {userBalance}
@@ -127,13 +105,7 @@ const PointsView = ({
         </MainButton>
 
         {showIconList && <HorizontalIconList options={POINTS} optionsKeys={POINTS_KEYS} />}
-
-        <Transaction
-          type="points"
-          transactions={userActivities}
-          groomingTransactionData={item => groomingPointsTransactionData(item)}
-        />
-      </ScrollView>
+      </View>
     </Fragment>
   );
 };
