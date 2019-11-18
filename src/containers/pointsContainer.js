@@ -18,6 +18,9 @@ import POINTS from '../constants/options/points';
 // Constants
 import ROUTES from '../constants/routeNames';
 
+// Utils
+import { groomingPointsTransactionData } from '../utils/wallet';
+
 /*
  *            Props Name        Description                                     Value
  *@props -->  props name here   description here                                Value Type Here
@@ -64,7 +67,7 @@ const PointsContainer = ({
   }, [_fetchUserPointActivities, fetchInterval, isConnected, navigation, username]);
 
   useEffect(() => {
-    if (isConnected && activeBottomTab === ROUTES.TABBAR.POINTS && username) {
+    if (isConnected && activeBottomTab === ROUTES.TABBAR.WALLET && username) {
       _fetchUserPointActivities(username);
     }
   }, [isConnected, username, _fetchUserPointActivities, activeBottomTab]);
@@ -125,12 +128,14 @@ const PointsContainer = ({
   };
 
   const _groomUserActivities = _userActivities =>
-    _userActivities.map(item => ({
-      ...item,
-      icon: get(POINTS[get(item, 'type')], 'icon'),
-      iconType: get(POINTS[get(item, 'type')], 'iconType'),
-      textKey: get(POINTS[get(item, 'type')], 'textKey'),
-    }));
+    _userActivities.map(item =>
+      groomingPointsTransactionData({
+        ...item,
+        icon: get(POINTS[get(item, 'type')], 'icon'),
+        iconType: get(POINTS[get(item, 'type')], 'iconType'),
+        textKey: get(POINTS[get(item, 'type')], 'textKey'),
+      }),
+    );
 
   const _fetchUserPointActivities = useCallback(async _username => {
     if (!_username) {
@@ -244,6 +249,11 @@ const PointsContainer = ({
       userPoints,
       redeemType: get(navigationParams, 'redeemType'),
       user,
+      dropdownOptions: [
+        intl.formatMessage({ id: 'points.dropdown_transfer' }),
+        intl.formatMessage({ id: 'points.dropdown_promote' }),
+        intl.formatMessage({ id: 'points.dropdown_boost' }),
+      ],
     })
   );
 };
