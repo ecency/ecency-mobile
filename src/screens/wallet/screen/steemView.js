@@ -39,6 +39,7 @@ const SteeemView = ({ handleOnSelected, index, currentIndex }) => (
               type="steem"
               dropdownOptions={[]}
               currentIndex={currentIndex}
+              showIconList={false}
             />
           )}
         </SteemWalletContainer>
