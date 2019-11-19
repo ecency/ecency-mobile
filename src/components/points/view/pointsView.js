@@ -83,7 +83,7 @@ const PointsView = ({
             dropdownStyle={styles.dropdownStyle}
           />
         </View>
-        <Text style={styles.subText}>{intl.formatMessage({ id: 'points.esteemPoints' })}</Text>
+        <Text style={styles.subText}>{intl.formatMessage({ id: `wallet.${type}.title` })}</Text>
 
         <MainButton
           isLoading={isClaiming}
@@ -96,7 +96,9 @@ const PointsView = ({
         >
           <View style={styles.mainButtonWrapper}>
             <Text style={styles.unclaimedText}>
-              {unclaimedBalance > 0 ? unclaimedBalance : intl.formatMessage({ id: 'boost.buy' })}
+              {unclaimedBalance > 0
+                ? unclaimedBalance
+                : intl.formatMessage({ id: `wallet.${type}.buy` })}
             </Text>
             <View style={styles.mainIconWrapper}>
               <Icon name="add" iconType="MaterialIcons" color="#357ce6" size={23} />

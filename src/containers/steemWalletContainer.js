@@ -11,6 +11,7 @@ import { getAccount, claimRewardBalance } from '../providers/steem/dsteem';
 // Utils
 import { groomingWalletData, groomingTransactionData } from '../utils/wallet';
 import parseToken from '../utils/parseToken';
+import { vestsToSp } from '../utils/conversions';
 
 const WalletContainer = ({
   children,
@@ -23,6 +24,7 @@ const WalletContainer = ({
   steemPerMVests,
 }) => {
   const [isClaiming, setIsClaiming] = useState(false);
+  const [isLoading, setIsLoading] = useState(true);
   const [refreshing, setRefreshing] = useState(false);
   const [walletData, setWalletData] = useState(null);
   const [userActivities, setUserActivities] = useState(null);
@@ -44,12 +46,13 @@ const WalletContainer = ({
       const _walletData = await groomingWalletData(_selectedUser, globalProps);
 
       setWalletData(_walletData);
+      setIsLoading(false);
       setUserActivities(
         get(_walletData, 'transactions', []).map(item =>
           groomingTransactionData(item, steemPerMVests, intl.formatNumber),
         ),
       );
-      setEstimatedWalletValue(_walletData.estimatedValue);
+      setEstimatedWalletValue && setEstimatedWalletValue(_walletData.estimatedValue);
     },
     [globalProps, intl.formatNumber, setEstimatedWalletValue, steemPerMVests],
   );
@@ -134,6 +137,19 @@ const WalletContainer = ({
       });
   };
 
+  const sbdBalance = useCallback(Math.round(get(walletData, 'sbdBalance') * 1000) / 1000, [
+    walletData,
+  ]);
+  const spBalance = useCallback(
+    Math.round(
+      vestsToSp(get(walletData, 'vestingShares', 1), get(walletData, 'steemPerMVests', 1)) * 1000,
+    ) / 1000,
+    [walletData],
+  );
+  const steemBalance = useCallback(Math.round(get(walletData, 'balance', 1) * 1000) / 1000, [
+    walletData,
+  ]);
+
   return (
     children &&
     children({
@@ -143,9 +159,13 @@ const WalletContainer = ({
       isClaiming: isClaiming,
       refreshing: refreshing,
       selectedUsername: get(selectedUser, 'name', ''),
-      walletData: walletData,
+      isLoading,
+      walletData,
       steemPerMVests,
       userActivities,
+      steemBalance,
+      spBalance,
+      sbdBalance,
     })
   );
 };

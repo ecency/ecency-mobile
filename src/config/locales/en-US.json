@@ -8,7 +8,15 @@
     "transfer_to_vesting": "Transfer To Vesting",
     "transfer_from_savings": "Transfer From Savings",
     "withdraw_vesting": "Power Down",
-    "fill_order": "Fill Order"
+    "fill_order": "Fill Order",
+    "estm": {
+      "title": "eSteem Points",
+      "buy": "GET ESTM"
+    },
+    "steem": {
+      "title": "STEEM",
+      "buy": "GET STEEM"
+    }
   },
   "notification": {
     "vote": "likes your post",
@@ -37,7 +45,6 @@
   },
   "points": {
     "post": "Post",
-    "esteemPoints": "eSteem Points",
     "comment": "Comment",
     "checkin": "Check-in",
     "vote": "Vote",
