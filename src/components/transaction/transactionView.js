@@ -23,7 +23,7 @@ const TransactionView = ({ transactions, type }) => {
     }
 
     return (
-      <Text style={globalStyles.subText}>{intl.formatMessage({ id: 'points.no_activity' })}</Text>
+      <Text style={globalStyles.subText}>{intl.formatMessage({ id: 'wallet.no_activity' })}</Text>
     );
   };
 
@@ -38,7 +38,7 @@ const TransactionView = ({ transactions, type }) => {
             key={item.created.toString()}
             index={index + 1}
             text={intl.formatMessage({
-              id: `${type}.${get(item, 'textKey')}`,
+              id: `wallet.${get(item, 'textKey')}`,
             })}
             description={getTimeFromNow(get(item, 'created'))}
             isCircleIcon
