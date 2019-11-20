@@ -1,17 +1,13 @@
 /* eslint-disable react/jsx-wrap-multilines */
 import React, { useRef, Fragment, useEffect } from 'react';
-import { Text, View, ScrollView, RefreshControl } from 'react-native';
+import { Text, View } from 'react-native';
 import { useIntl } from 'react-intl';
-import { get } from 'lodash';
 import { withNavigation } from 'react-navigation';
+import get from 'lodash/get';
 
 // Components
 import { LineBreak } from '../../basicUIElements';
-import { Icon, MainButton, DropdownButton, HorizontalIconList, Transaction } from '../..';
-import { ThemeContainer } from '../../../containers';
-
-// Utils
-import { groomingPointsTransactionData } from '../../../utils/wallet';
+import { Icon, MainButton, DropdownButton, HorizontalIconList, WalletLineItem } from '../..';
 
 // Constants
 import POINTS, { POINTS_KEYS } from '../../../constants/options/points';
@@ -31,11 +27,14 @@ const PointsView = ({
   navigation,
   unclaimedBalance,
   userBalance,
-  dropdownOptions,
   type = '',
   componentDidUpdate,
   showIconList,
   currentIndex,
+  userSecondBalance,
+  secondBalanceName,
+  valueDescriptions,
+  showBuyButton,
   index,
 }) => {
   const intl = useIntl();
@@ -47,65 +46,79 @@ const PointsView = ({
     }
   }, [componentDidUpdate, currentIndex, index]);
 
-  // const refreshControl = () => (
-  //   <ThemeContainer>
-  //     {isDarkTheme => (
-  //       <RefreshControl
-  //         refreshing={refreshing}
-  //         onRefresh={fetchUserActivity}
-  //         progressBackgroundColor="#357CE6"
-  //         tintColor={!isDarkTheme ? '#357ce6' : '#96c0ff'}
-  //         titleColor="#fff"
-  //         colors={['#fff']}
-  //       />
-  //     )}
-  //   </ThemeContainer>
-  // );
+  // onPress={() => dropdownRef.current.show()}
+  const _getBalanceItem = (balance, options, key) =>
+    balance !== undefined && (
+      <View style={styles.balanceWrapper}>
+        <Text style={styles.balanceText}>{balance}</Text>
+        <DropdownButton
+          dropdownRowWrapper={styles.dropdownRowStyle}
+          dropdownRef={dropdownRef}
+          isHasChildIcon
+          iconName="arrow-drop-down"
+          options={options.map(itemKey => intl.formatMessage({ id: `wallet.${itemKey}` }))}
+          noHighlight
+          dropdownButtonStyle={styles.dropdownButtonStyle}
+          onSelect={handleOnDropdownSelected}
+          rowTextStyle={styles.dropdownRowText}
+          dropdownStyle={styles.dropdownStyle}
+          iconStyle={styles.dropdownIconStyle}
+        />
+        <Text style={styles.subText}>{intl.formatMessage({ id: `wallet.${key}.title` })}</Text>
+      </View>
+    );
 
   return (
     <Fragment>
       <LineBreak height={12} />
       <View style={styles.scrollContainer} contentContainerStyle={styles.scrollContentContainer}>
-        <View style={styles.pointsWrapper}>
-          <Text onPress={() => dropdownRef.current.show()} style={styles.pointText}>
-            {userBalance}
-          </Text>
-          <DropdownButton
-            dropdownRowWrapper={styles.dropdownRowStyle}
-            dropdownRef={dropdownRef}
-            isHasChildIcon
-            iconName="arrow-drop-down"
-            options={dropdownOptions}
-            noHighlight
-            dropdownButtonStyle={styles.dropdownButtonStyle}
-            onSelect={handleOnDropdownSelected}
-            rowTextStyle={styles.dropdownRowText}
-            dropdownStyle={styles.dropdownStyle}
-          />
-        </View>
-        <Text style={styles.subText}>{intl.formatMessage({ id: `wallet.${type}.title` })}</Text>
+        {userBalance.map(item =>
+          _getBalanceItem(
+            get(item, 'balance', 0),
+            get(item, 'options', []),
+            get(item, 'nameKey', 'estm'),
+          ),
+        )}
 
-        <MainButton
-          isLoading={isClaiming}
-          isDisable={isClaiming}
-          style={styles.mainButton}
-          height={50}
-          onPress={() =>
-            unclaimedBalance > 0 ? claim() : navigation.navigate(ROUTES.SCREENS.BOOST)
-          }
-        >
-          <View style={styles.mainButtonWrapper}>
-            <Text style={styles.unclaimedText}>
-              {unclaimedBalance > 0
-                ? unclaimedBalance
-                : intl.formatMessage({ id: `wallet.${type}.buy` })}
-            </Text>
-            <View style={styles.mainIconWrapper}>
-              <Icon name="add" iconType="MaterialIcons" color="#357ce6" size={23} />
+        {(showBuyButton || (!showBuyButton && !!unclaimedBalance)) && (
+          <MainButton
+            isLoading={isClaiming}
+            isDisable={isClaiming}
+            style={styles.mainButton}
+            height={50}
+            onPress={() =>
+              unclaimedBalance > 0 ? claim() : navigation.navigate(ROUTES.SCREENS.BOOST)
+            }
+          >
+            <View style={styles.mainButtonWrapper}>
+              <Text style={styles.unclaimedText}>
+                {unclaimedBalance > 0
+                  ? unclaimedBalance
+                  : intl.formatMessage({ id: `wallet.${type}.buy` })}
+              </Text>
+              <View style={styles.mainIconWrapper}>
+                <Icon name="add" iconType="MaterialIcons" color="#357ce6" size={23} />
+              </View>
             </View>
-          </View>
-        </MainButton>
+          </MainButton>
+        )}
 
+        {/* {valueDescriptions && } */}
+        {valueDescriptions &&
+          valueDescriptions.map(item => (
+            <WalletLineItem
+              fitContent
+              style={styles.valueDescriptions}
+              text={intl.formatMessage({ id: `wallet.${get(item, 'textKey')}` })}
+              description={
+                get(item, 'subTextKey') &&
+                intl.formatMessage({ id: `wallet.${get(item, 'subTextKey')}` })
+              }
+              rightText={get(item, 'value')}
+              isBlackText
+              isThin
+            />
+          ))}
         {showIconList && <HorizontalIconList options={POINTS} optionsKeys={POINTS_KEYS} />}
       </View>
     </Fragment>
@@ -113,3 +126,18 @@ const PointsView = ({
 };
 
 export default withNavigation(PointsView);
+
+// const refreshControl = () => (
+//   <ThemeContainer>
+//     {isDarkTheme => (
+//       <RefreshControl
+//         refreshing={refreshing}
+//         onRefresh={fetchUserActivity}
+//         progressBackgroundColor="#357CE6"
+//         tintColor={!isDarkTheme ? '#357ce6' : '#96c0ff'}
+//         titleColor="#fff"
+//         colors={['#fff']}
+//       />
+//     )}
+//   </ThemeContainer>
+// );

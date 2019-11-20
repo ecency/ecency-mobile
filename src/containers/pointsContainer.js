@@ -249,11 +249,7 @@ const PointsContainer = ({
       userPoints,
       redeemType: get(navigationParams, 'redeemType'),
       user,
-      dropdownOptions: [
-        intl.formatMessage({ id: 'wallet.dropdown_transfer' }),
-        intl.formatMessage({ id: 'wallet.dropdown_promote' }),
-        intl.formatMessage({ id: 'wallet.dropdown_boost' }),
-      ],
+      dropdownOptions: ['dropdown_transfer', 'dropdown_promote', 'dropdown_boost'],
     })
   );
 };
