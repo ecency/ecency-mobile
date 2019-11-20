@@ -14,6 +14,7 @@ export default EStyleSheet.create({
     paddingBottom: 0, // On android side, textinput has default padding
     paddingHorizontal: 16,
     color: '$primaryBlack',
+    backgroundColor: '$primaryBackgroundColor',
     fontFamily: '$editorFont',
     textAlignVertical: 'top',
   },

@@ -213,12 +213,16 @@ class UpvoteView extends Component {
     } = this.props;
     const { isVoting, amount, sliderValue, isVoted, isShowDetails, downvote } = this.state;
 
-    let iconName = 'ios-arrow-dropup';
-    let iconType;
+    let iconName = 'upcircleo';
+    let iconType = 'AntDesign';
+    let downVoteIconName = 'downcircleo';
 
     if (isVoted) {
       iconName = 'upcircle';
-      iconType = 'AntDesign';
+    }
+
+    if (isDownVoted) {
+      downVoteIconName = 'downcircle';
     }
 
     const _percent = `${downvote ? '-' : ''}${(sliderValue * 100).toFixed(0)}%`;
@@ -253,8 +257,8 @@ class UpvoteView extends Component {
                     <Icon
                       style={[styles.upvoteIcon, isDownVoted && { color: '#ec8b88' }]}
                       active={!isLoggedIn}
-                      iconType={isDownVoted ? 'AntDesign' : iconType}
-                      name={isDownVoted ? 'downcircle' : iconName}
+                      iconType={iconType}
+                      name={isDownVoted ? downVoteIconName : iconName}
                     />
                   </View>
                 )}
@@ -328,7 +332,7 @@ class UpvoteView extends Component {
                         size={20}
                         style={[styles.upvoteIcon, { color: '#007ee5' }]}
                         active={!isLoggedIn}
-                        iconType={iconType}
+                        iconType="AntDesign"
                         name={iconName}
                       />
                     </TouchableOpacity>
@@ -356,7 +360,7 @@ class UpvoteView extends Component {
                         style={[styles.upvoteIcon, { color: '#ec8b88' }]}
                         active={!isLoggedIn}
                         iconType="AntDesign"
-                        name="downcircle"
+                        name={downVoteIconName}
                       />
                     </TouchableOpacity>
                   </Fragment>

@@ -38,4 +38,7 @@ export default EStyleSheet.create({
   scrollView: {
     backgroundColor: '$primaryLightBackground',
   },
+  scrollContentContainer: {
+    paddingBottom: 60,
+  },
 });

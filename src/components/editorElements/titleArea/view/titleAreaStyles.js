@@ -8,5 +8,6 @@ export default EStyleSheet.create({
     fontFamily: '$editorFont',
     textAlignVertical: 'top',
     paddingVertical: 0,
+    backgroundColor: '$primaryBackgroundColor',
   },
 });

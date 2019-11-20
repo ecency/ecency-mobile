@@ -175,6 +175,7 @@ class NotificationView extends PureComponent {
               onEndReached={() => getActivities(null, selectedFilter, true)}
               ListFooterComponent={this._renderFooterLoading}
               ListEmptyComponent={<ListPlaceHolder />}
+              contentContainerStyle={styles.listContentContainer}
               refreshControl={
                 <RefreshControl
                   refreshing={isNotificationRefreshing}
