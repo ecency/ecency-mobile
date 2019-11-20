@@ -245,39 +245,50 @@ class PinCodeContainer extends Component {
     const { intl, currentAccount, applicationPinCode } = this.props;
     const { isExistUser, pinCode } = this.state;
 
-    const realmData = await getUserDataWithUsername(currentAccount.name);
-    const userData = realmData[0];
+    try {
+      const realmData = await getUserDataWithUsername(currentAccount.name);
+      const userData = realmData[0];
 
-    // For exist users
-    if (isReset) {
-      await this._resetPinCode(pin);
-      return true;
-    }
-    if (isExistUser) {
-      if (!userData.accessToken && !userData.masterKey && applicationPinCode) {
-        const verifiedPin = decryptKey(applicationPinCode, Config.PIN_KEY);
-        if (verifiedPin === pin) {
-          await this._setFirstPinCode(pin);
-        } else {
-          Alert.alert(
-            intl.formatMessage({
-              id: 'alert.warning',
-            }),
-            intl.formatMessage({
-              id: 'alert.invalid_pincode',
-            }),
-          );
-        }
-      } else {
-        await this._verifyPinCode(pin);
+      // For exist users
+      if (isReset) {
+        await this._resetPinCode(pin);
+        return true;
       }
-      return true;
-    }
+      if (isExistUser) {
+        if (!userData.accessToken && !userData.masterKey && applicationPinCode) {
+          const verifiedPin = decryptKey(applicationPinCode, Config.PIN_KEY);
+          if (verifiedPin === pin) {
+            await this._setFirstPinCode(pin);
+          } else {
+            Alert.alert(
+              intl.formatMessage({
+                id: 'alert.warning',
+              }),
+              intl.formatMessage({
+                id: 'alert.invalid_pincode',
+              }),
+            );
+          }
+        } else {
+          await this._verifyPinCode(pin);
+        }
+        return true;
+      }
 
-    // For new users
-    if (pinCode === pin) {
-      await this._setFirstPinCode(pin);
-      return true;
+      // For new users
+      if (pinCode === pin) {
+        await this._setFirstPinCode(pin);
+        return true;
+      }
+    } catch (error) {
+      Alert.alert(
+        intl.formatMessage({
+          id: 'alert.warning',
+        }),
+        intl.formatMessage({
+          id: error.message,
+        }),
+      );
     }
 
     if (!pinCode) {
