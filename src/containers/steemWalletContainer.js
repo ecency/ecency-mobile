@@ -13,6 +13,12 @@ import { groomingWalletData, groomingTransactionData } from '../utils/wallet';
 import parseToken from '../utils/parseToken';
 import { vestsToSp } from '../utils/conversions';
 
+const STEEM_DROPDOWN = ['transfer_token', 'transfer_to_saving', 'powerUp'];
+const SBD_DROPDOWN = ['transfer_token', 'transfer_to_saving'];
+const SAVING_STEEM_DROPDOWN = ['withdraw_steem'];
+const SAVING_SBD_DROPDOWN = ['withdraw_sbd'];
+const STEEM_POWER_DROPDOWN = ['delegate', 'power_down'];
+
 const WalletContainer = ({
   children,
   currentAccount,
@@ -28,6 +34,11 @@ const WalletContainer = ({
   const [refreshing, setRefreshing] = useState(false);
   const [walletData, setWalletData] = useState(null);
   const [userActivities, setUserActivities] = useState(null);
+  const [sbdBalance, setSbdBalance] = useState(0);
+  const [steemBalance, setSteemBalance] = useState(0);
+  const [spBalance, setSpBalance] = useState(0);
+  const [steemSavingBalance, setSteemSavingBalance] = useState(0);
+  const [estimatedValue, setEstimatedValue] = useState(0);
   const intl = useIntl();
   const dispatch = useDispatch();
 
@@ -38,6 +49,18 @@ const WalletContainer = ({
   useEffect(() => {
     _getWalletData(selectedUser);
   }, [_getWalletData, selectedUser]);
+
+  useEffect(() => {
+    setSbdBalance(Math.round(get(walletData, 'sbdBalance', 0) * 1000) / 1000);
+    setSteemBalance(Math.round(get(walletData, 'balance', 0) * 1000) / 1000);
+    setSteemSavingBalance(Math.round(get(walletData, 'savingBalance', 0) * 1000) / 1000);
+    setSpBalance(
+      Math.round(
+        vestsToSp(get(walletData, 'vestingShares', 0), get(walletData, 'steemPerMVests', 0)) * 1000,
+      ) / 1000,
+    );
+    setEstimatedValue(get(walletData, 'estimatedValue', 0));
+  }, [walletData]);
 
   // Components functions
 
@@ -137,19 +160,6 @@ const WalletContainer = ({
       });
   };
 
-  const sbdBalance = useCallback(Math.round(get(walletData, 'sbdBalance') * 1000) / 1000, [
-    walletData,
-  ]);
-  const spBalance = useCallback(
-    Math.round(
-      vestsToSp(get(walletData, 'vestingShares', 1), get(walletData, 'steemPerMVests', 1)) * 1000,
-    ) / 1000,
-    [walletData],
-  );
-  const steemBalance = useCallback(Math.round(get(walletData, 'balance', 1) * 1000) / 1000, [
-    walletData,
-  ]);
-
   return (
     children &&
     children({
@@ -166,6 +176,13 @@ const WalletContainer = ({
       steemBalance,
       spBalance,
       sbdBalance,
+      steemSavingBalance,
+      estimatedValue,
+      steemDropdown: STEEM_DROPDOWN,
+      sbdDropdown: SBD_DROPDOWN,
+      savingSteemDropdown: SAVING_STEEM_DROPDOWN,
+      savingSbdDropdown: SAVING_SBD_DROPDOWN,
+      steemPowerDropdown: STEEM_POWER_DROPDOWN,
     })
   );
 };

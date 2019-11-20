@@ -1,7 +1,7 @@
 import EStyleSheet from 'react-native-extended-stylesheet';
 
 export default EStyleSheet.create({
-  pointText: {
+  balanceText: {
     color: '$primaryBlue',
     fontSize: 26,
     marginTop: 24,
@@ -9,11 +9,10 @@ export default EStyleSheet.create({
     alignSelf: 'center',
     fontWeight: 'bold',
   },
-  pointsWrapper: {
-    flexDirection: 'row',
+  balanceWrapper: {
+    flexDirection: 'column',
     justifyContent: 'center',
     alignSelf: 'center',
-    flex: 1,
   },
   dropdownRowText: {
     fontSize: 14,
@@ -72,5 +71,10 @@ export default EStyleSheet.create({
   },
   scrollContentContainer: {
     paddingBottom: 60,
+  },
+  valueDescriptions: {
+    marginLeft: -30,
+    marginTop: 20,
+    marginBottom: -10,
   },
 });

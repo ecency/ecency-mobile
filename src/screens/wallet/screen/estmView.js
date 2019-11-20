@@ -32,11 +32,13 @@ const EstmView = ({ handleOnSelected, index, currentIndex }) => (
           refreshing={refreshing}
           userActivities={userActivities}
           unclaimedBalance={get(userPoints, 'unclaimed_points', 0)}
-          userBalance={get(userPoints, 'points')}
+          userBalance={[
+            { balance: get(userPoints, 'points'), nameKey: 'estm', options: dropdownOptions },
+          ]}
           handleOnDropdownSelected={handleOnDropdownSelected}
           type="estm"
-          dropdownOptions={dropdownOptions}
           currentIndex={currentIndex}
+          showBuyButton
         />
       )}
     </PointsContainer>

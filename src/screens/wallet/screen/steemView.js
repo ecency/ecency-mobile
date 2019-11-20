@@ -2,8 +2,9 @@ import React from 'react';
 import get from 'lodash/get';
 import { View } from 'react-native';
 
-import { Points } from '../../../components';
+import { Points, FormatedCurrency } from '../../../components';
 import { SteemWalletContainer, AccountContainer } from '../../../containers';
+import { navigate } from '../../../navigation/service';
 
 import globalStyles from '../../../globalStyles';
 
@@ -22,6 +23,9 @@ const SteeemView = ({ handleOnSelected, index, currentIndex }) => (
             userActivities,
             steemBalance,
             isLoading,
+            steemSavingBalance,
+            estimatedValue,
+            steemDropdown,
           }) => (
             <Points
               componentDidUpdate={() => handleOnSelected(userActivities, 'steem')}
@@ -34,12 +38,23 @@ const SteeemView = ({ handleOnSelected, index, currentIndex }) => (
               refreshing={refreshing}
               userActivities={userActivities}
               unclaimedBalance={0}
-              userBalance={steemBalance}
-              handleOnDropdownSelected={null}
+              userBalance={[
+                { balance: steemBalance, nameKey: 'steem', options: steemDropdown },
+                { balance: steemSavingBalance, nameKey: 'saving', options: [] },
+              ]}
+              handleOnDropdownSelected={selectedIndex => {
+                navigate({ routeName: steemDropdown[selectedIndex], params: 'STEEM' });
+              }}
               type="steem"
-              dropdownOptions={[]}
               currentIndex={currentIndex}
               showIconList={false}
+              valueDescriptions={[
+                {
+                  textKey: 'estimated_value',
+                  value: <FormatedCurrency isApproximate value={estimatedValue} />,
+                  subTextKey: 'estimated_value_desc',
+                },
+              ]}
             />
           )}
         </SteemWalletContainer>

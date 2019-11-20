@@ -43,9 +43,33 @@
     "dropdown_boost": "Boost",
     "from": "From",
     "to": "To",
+    "estimated_value_desc": "*determined by purchase value",
+    "estimated_value": "Estimated value",
+    "amount_information": "Drag the slider to adjust the amount",
+    "amount": "Amount",
+    "memo": "Memo",
+    "information": "Are you sure to transfer funds?",
+    "amount_desc": "Balance",
+    "memo_desc": "This memo is public",
+    "to_placeholder": "Username",
+    "memo_placeholder": "Enter your notes here",
+    "transfer_token": "Transfer",
+    "points": "Gift ESTM to someone",
+    "transfer_to_saving": "Transfer To Saving",
+    "powerUp": "Power Up",
+    "withdraw_to_saving": "Withdraw To Saving",
+    "steemconnect_title": "Steemconnect Transfer",
+    "next": "NEXT",
+    "delegate": "Delegate",
+    "power_down": "Power Down",
+    "withdraw_steem": "Withdraw Steem",
+    "withdraw_sbd": "Withdraw Steem Dollar",
     "estm": {
       "title": "eSteem Points",
       "buy": "GET ESTM"
+    },
+    "saving": {
+      "title": "STEEM Savings"
     },
     "steem": {
       "title": "STEEM",
