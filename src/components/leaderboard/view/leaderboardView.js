@@ -70,6 +70,7 @@ class LeaderboardView extends PureComponent {
             ListEmptyComponent={<ListPlaceHolder />}
             onRefresh={() => fetchLeaderBoard()}
             renderItem={({ item, index }) => this._renderItem(item, index)}
+            contentContainerStyle={styles.listContentContainer}
           />
         </View>
       </Fragment>

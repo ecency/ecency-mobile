@@ -119,8 +119,9 @@ export default EStyleSheet.create({
   },
   scrollContainer: {
     flex: 1,
-    backgroundColor: '$primaryBackgroundColor',
-    marginBottom: 60,
+  },
+  scrollContentContainer: {
+    paddingBottom: 60,
   },
   popoverDetails: {
     flexDirection: 'row',
