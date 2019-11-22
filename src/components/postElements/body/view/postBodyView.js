@@ -1,16 +1,16 @@
-import React, {Fragment} from 'react';
-import {Dimensions, Linking, Alert} from 'react-native';
-import {withNavigation} from 'react-navigation';
-import {useIntl, injectIntl} from 'react-intl';
+import React, { Fragment } from 'react';
+import { Dimensions, Linking, Alert } from 'react-native';
+import { withNavigation } from 'react-navigation';
+import { useIntl, injectIntl } from 'react-intl';
 import AutoHeightWebView from 'react-native-autoheight-webview';
 import EStyleSheet from 'react-native-extended-stylesheet';
 import get from 'lodash/get';
 
 import script from './config.js';
-import {PostPlaceHolder, ListItemPlaceHolder} from '../../../basicUIElements';
+import { PostPlaceHolder, CommentPlaceHolder } from '../../../basicUIElements';
 
 // Constants
-import {default as ROUTES} from '../../../../constants/routeNames';
+import { default as ROUTES } from '../../../../constants/routeNames';
 
 const WIDTH = Dimensions.get('window').width;
 
@@ -32,16 +32,7 @@ const PostBody = ({
     try {
       const data = JSON.parse(get(event, 'nativeEvent.data'));
 
-      const {
-        type,
-        href,
-        author,
-        category,
-        permlink,
-        tag,
-        proposal,
-        videoHref,
-      } = data;
+      const { type, href, author, category, permlink, tag, proposal, videoHref } = data;
 
       switch (type) {
         case '_external':
@@ -95,7 +86,7 @@ const PostBody = ({
         if (supported) {
           Linking.openURL(url);
         } else {
-          Alert.alert(intl.formatMessage({id: 'alert.failed_to_open'}));
+          Alert.alert(intl.formatMessage({ id: 'alert.failed_to_open' }));
         }
       });
     }
@@ -137,6 +128,8 @@ const PostBody = ({
   }
   body {
     color: ${EStyleSheet.value('$primaryBlack')};
+    display: flex;
+    align-items: center;
   }
   a {
     color: ${EStyleSheet.value('$primaryBlue')};
@@ -218,14 +211,14 @@ const PostBody = ({
         source={{
           html: test,
         }}
-        style={{width: WIDTH - 32}}
+        style={{ width: isComment ? WIDTH - 61 : WIDTH - 32 }}
         customStyle={customStyle}
         onMessage={_handleOnLinkPress}
-        renderLoading={() =>
-          isComment ? <ListItemPlaceHolder /> : <PostPlaceHolder />
-        }
         customScript={script.toString()}
+        renderLoading={() => (isComment ? <CommentPlaceHolder /> : <PostPlaceHolder />)}
         startInLoadingState={true}
+        onShouldStartLoadWithRequest={false}
+        scrollEnabled={false}
       />
     </Fragment>
   );
