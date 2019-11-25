@@ -54,11 +54,11 @@ class PostDropdownContainer extends PureComponent {
   };
 
   // Component Functions
-  _handleOnDropdownSelect = async (index, item) => {
+  _handleOnDropdownSelect = async index => {
     const { content, dispatch, intl } = this.props;
 
-    switch (item) {
-      case 'COPY LINK':
+    switch (OPTIONS[index]) {
+      case 'copy':
         await writeToClipboard(getPostUrl(get(content, 'url')));
         this.alertTimer = setTimeout(() => {
           dispatch(
@@ -72,33 +72,33 @@ class PostDropdownContainer extends PureComponent {
         }, 300);
         break;
 
-      case 'REBLOG':
+      case 'reblog':
         this.actionSheetTimer = setTimeout(() => {
           this.ActionSheet.show();
           this.actionSheetTimer = 0;
         }, 100);
         break;
 
-      case 'REPLY':
+      case 'reply':
         this._redirectToReply();
         break;
 
-      case 'SHARE':
+      case 'share':
         this.shareTimer = setTimeout(() => {
           this._share();
           this.shareTimer = 0;
         }, 500);
         break;
 
-      case 'ADD TO BOOKMARKS':
+      case 'bookmarks':
         this._addToBookmarks();
         break;
 
-      case 'PROMOTE':
+      case 'promote':
         this._redirectToPromote(ROUTES.SCREENS.REDEEM, 1, 'promote');
         break;
 
-      case 'BOOST':
+      case 'boost':
         this._redirectToPromote(ROUTES.SCREENS.REDEEM, 2, 'boost');
         break;
 
