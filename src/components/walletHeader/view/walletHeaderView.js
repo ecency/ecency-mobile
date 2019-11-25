@@ -14,9 +14,9 @@ import POINTS, { POINTS_KEYS } from '../../../constants/options/points';
 import { default as ROUTES } from '../../../constants/routeNames';
 
 // Styles
-import styles from './pointsStyles';
+import styles from './walletHeaderStyles';
 
-const PointsView = ({
+const WalletHeaderView = ({
   fetchUserActivity,
   refreshing,
   isLoading,
@@ -59,7 +59,7 @@ const PointsView = ({
           options={options.map(itemKey => intl.formatMessage({ id: `wallet.${itemKey}` }))}
           noHighlight
           dropdownButtonStyle={styles.dropdownButtonStyle}
-          onSelect={handleOnDropdownSelected}
+          onSelect={selectedIndex => handleOnDropdownSelected(options[selectedIndex])}
           rowTextStyle={styles.dropdownRowText}
           dropdownStyle={styles.dropdownStyle}
           iconStyle={styles.dropdownIconStyle}
@@ -80,7 +80,7 @@ const PointsView = ({
           ),
         )}
 
-        {(showBuyButton || (!showBuyButton && !!unclaimedBalance)) && (
+        {showBuyButton && (
           <MainButton
             isLoading={isClaiming}
             isDisable={isClaiming}
@@ -125,7 +125,7 @@ const PointsView = ({
   );
 };
 
-export default withNavigation(PointsView);
+export default withNavigation(WalletHeaderView);
 
 // const refreshControl = () => (
 //   <ThemeContainer>

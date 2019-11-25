@@ -1,10 +1,8 @@
 import React from 'react';
-import get from 'lodash/get';
 import { View } from 'react-native';
 
-import { Points, FormatedCurrency } from '../../../components';
+import { WalletHeader, FormatedCurrency } from '../../../components';
 import { SteemWalletContainer, AccountContainer } from '../../../containers';
-import { navigate } from '../../../navigation/service';
 
 import globalStyles from '../../../globalStyles';
 
@@ -18,19 +16,18 @@ const SteeemView = ({ handleOnSelected, index, currentIndex }) => (
             claimRewardBalance,
             handleOnWalletRefresh,
             refreshing,
-            walletData,
-            steemPerMVests,
             userActivities,
             steemBalance,
             isLoading,
             steemSavingBalance,
             estimatedValue,
             steemDropdown,
+            savingSteemDropdown,
+            navigate,
           }) => (
-            <Points
+            <WalletHeader
               componentDidUpdate={() => handleOnSelected(userActivities, 'steem')}
               index={index}
-              showIconList
               claim={claimRewardBalance}
               fetchUserActivity={handleOnWalletRefresh}
               isClaiming={isClaiming}
@@ -40,11 +37,9 @@ const SteeemView = ({ handleOnSelected, index, currentIndex }) => (
               unclaimedBalance={0}
               userBalance={[
                 { balance: steemBalance, nameKey: 'steem', options: steemDropdown },
-                { balance: steemSavingBalance, nameKey: 'saving', options: [] },
+                { balance: steemSavingBalance, nameKey: 'saving', options: savingSteemDropdown },
               ]}
-              handleOnDropdownSelected={selectedIndex => {
-                navigate({ routeName: steemDropdown[selectedIndex], params: 'STEEM' });
-              }}
+              handleOnDropdownSelected={option => navigate(option, 'STEEM')}
               type="steem"
               currentIndex={currentIndex}
               showIconList={false}

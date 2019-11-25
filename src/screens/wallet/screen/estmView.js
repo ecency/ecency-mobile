@@ -2,7 +2,7 @@ import React from 'react';
 import get from 'lodash/get';
 import { View } from 'react-native';
 
-import { Points } from '../../../components';
+import { WalletHeader } from '../../../components';
 import { PointsContainer } from '../../../containers';
 
 import globalStyles from '../../../globalStyles';
@@ -21,7 +21,7 @@ const EstmView = ({ handleOnSelected, index, currentIndex }) => (
         userPoints,
         dropdownOptions,
       }) => (
-        <Points
+        <WalletHeader
           componentDidUpdate={() => handleOnSelected(userActivities, 'estm')}
           index={index}
           showIconList

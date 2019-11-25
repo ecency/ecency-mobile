@@ -8,10 +8,17 @@ import { toastNotification } from '../redux/actions/uiAction';
 // Dsteem
 import { getAccount, claimRewardBalance } from '../providers/steem/dsteem';
 
+// Actions
+import { openPinCodeModal } from '../redux/actions/applicationActions';
+
 // Utils
 import { groomingWalletData, groomingTransactionData } from '../utils/wallet';
 import parseToken from '../utils/parseToken';
 import { vestsToSp } from '../utils/conversions';
+import { navigate } from '../navigation/service';
+
+// Constants
+import ROUTES from '../constants/routeNames';
 
 const STEEM_DROPDOWN = ['transfer_token', 'transfer_to_saving', 'powerUp'];
 const SBD_DROPDOWN = ['transfer_token', 'transfer_to_saving'];
@@ -28,6 +35,7 @@ const WalletContainer = ({
   selectedUser,
   setEstimatedWalletValue,
   steemPerMVests,
+  isPinCodeOpen,
 }) => {
   const [isClaiming, setIsClaiming] = useState(false);
   const [isLoading, setIsLoading] = useState(true);
@@ -39,6 +47,7 @@ const WalletContainer = ({
   const [spBalance, setSpBalance] = useState(0);
   const [steemSavingBalance, setSteemSavingBalance] = useState(0);
   const [estimatedValue, setEstimatedValue] = useState(0);
+  const [unclaimedBalance, setUnclaimedBalance] = useState('');
   const intl = useIntl();
   const dispatch = useDispatch();
 
@@ -60,6 +69,23 @@ const WalletContainer = ({
       ) / 1000,
     );
     setEstimatedValue(get(walletData, 'estimatedValue', 0));
+    setUnclaimedBalance(
+      `${
+        get(walletData, 'rewardSteemBalance', 0)
+          ? `${Math.round(get(walletData, 'rewardSteemBalance', 0) * 1000) / 1000} STEEM`
+          : ''
+      }
+    ${
+      get(walletData, 'rewardSbdBalance', 0)
+        ? ` ${Math.round(get(walletData, 'rewardSbdBalance', 0) * 1000) / 1000} SBD`
+        : ''
+    }
+      ${
+        get(walletData, 'rewardVestingSteem', 0)
+          ? ` ${Math.round(get(walletData, 'rewardVestingSteem', 0) * 1000) / 1000} SP`
+          : ''
+      }`,
+    );
   }, [walletData]);
 
   // Components functions
@@ -160,6 +186,41 @@ const WalletContainer = ({
       });
   };
 
+  const _navigate = async (transferType, fundType) => {
+    let balance;
+
+    switch (fundType) {
+      case 'STEEM':
+        balance = Math.round(walletData.balance * 1000) / 1000;
+        break;
+      case 'SBD':
+        balance = Math.round(walletData.sbdBalance * 1000) / 1000;
+        break;
+      case 'SAVING_STEEM':
+        balance = Math.round(walletData.savingBalance * 1000) / 1000;
+        break;
+      case 'SAVING_SBD':
+        balance = Math.round(walletData.savingBalanceSbd * 1000) / 1000;
+        break;
+      default:
+        break;
+    }
+
+    if (isPinCodeOpen) {
+      dispatch(
+        openPinCodeModal({
+          navigateTo: ROUTES.SCREENS.TRANSFER,
+          navigateParams: { transferType, fundType, balance },
+        }),
+      );
+    } else {
+      navigate({
+        routeName: ROUTES.SCREENS.TRANSFER,
+        params: { transferType, fundType, balance },
+      });
+    }
+  };
+
   return (
     children &&
     children({
@@ -178,11 +239,13 @@ const WalletContainer = ({
       sbdBalance,
       steemSavingBalance,
       estimatedValue,
+      navigate: _navigate,
       steemDropdown: STEEM_DROPDOWN,
       sbdDropdown: SBD_DROPDOWN,
       savingSteemDropdown: SAVING_STEEM_DROPDOWN,
       savingSbdDropdown: SAVING_SBD_DROPDOWN,
       steemPowerDropdown: STEEM_POWER_DROPDOWN,
+      unclaimedBalance: unclaimedBalance.trim(),
     })
   );
 };
@@ -192,6 +255,7 @@ const mapStateToProps = state => ({
   pinCode: state.application.pin,
   globalProps: state.account.globalProps,
   steemPerMVests: state.account.globalProps.steemPerMVests,
+  isPinCodeOpen: state.application.isPinCodeOpen,
 });
 
 export default connect(mapStateToProps)(WalletContainer);
