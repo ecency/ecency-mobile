@@ -74,6 +74,9 @@
     "steem": {
       "title": "STEEM",
       "buy": "GET STEEM"
+    },
+    "steem_power": {
+      "title": "STEEM POWER"
     }
   },
   "notification": {
@@ -350,6 +353,13 @@
     "powerUp": "Power Up",
     "withdraw_to_saving": "Withdraw To Saving",
     "steemconnect_title": "Steemconnect Transfer",
+    "estimated_weekly": "Estimated Weekly",
+    "destination_accounts": "Destination Accounts",
+    "stop_information": "Are you sure want to stop?",
+    "percent": "Percent",
+    "auto_vests": "Auto Vests",
+    "save": "SAVE",
+    "percent_information": "Percent info",
     "next": "NEXT",
     "delegate": "Delegate",
     "power_down": "Power Down",

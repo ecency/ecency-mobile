@@ -59,7 +59,7 @@ import { Comments } from './comments';
 import { CommentsDisplay } from './commentsDisplay';
 import { LeaderBoard } from './leaderboard';
 import { Notification } from './notification';
-import { Points } from './points';
+import { WalletHeader } from './walletHeader';
 import { Posts } from './posts';
 import { Transaction } from './transaction';
 import { VotersDisplay } from './votersDisplay';
@@ -136,7 +136,7 @@ export {
   ParentPost,
   PercentBar,
   PinAnimatedInput,
-  Points,
+  WalletHeader,
   PostBody,
   PostBoost,
   PostButton,

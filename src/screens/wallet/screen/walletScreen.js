@@ -9,9 +9,10 @@ import { LoggedInContainer } from '../../../containers';
 import { Header, Transaction } from '../../../components';
 import EstmView from './estmView';
 import SteemView from './steemView';
+import SpView from './spView';
 
 // Styles
-import styles from './pointsStyles';
+import globalStyles from '../../../globalStyles';
 
 const WalletScreen = () => {
   const [selectedUserActivities, setSelectedUserActivities] = useState(null);
@@ -26,7 +27,7 @@ const WalletScreen = () => {
   return (
     <Fragment>
       <Header />
-      <SafeAreaView style={styles.container}>
+      <SafeAreaView style={globalStyles.defaultContainer}>
         <LoggedInContainer>
           {() => (
             <>
@@ -43,6 +44,11 @@ const WalletScreen = () => {
                 />
                 <SteemView
                   index={1}
+                  handleOnSelected={_handleSwipeItemChange}
+                  currentIndex={currentIndex}
+                />
+                <SpView
+                  index={2}
                   handleOnSelected={_handleSwipeItemChange}
                   currentIndex={currentIndex}
                 />

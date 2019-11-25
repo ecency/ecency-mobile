@@ -7,6 +7,7 @@ export default EStyleSheet.create({
   },
   defaultContainer: {
     flex: 1,
+    backgroundColor: '$primaryLightBackground',
   },
   listWrapper: {
     paddingHorizontal: 8,
