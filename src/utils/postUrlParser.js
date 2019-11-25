@@ -39,6 +39,9 @@ export default url => {
 
     return null;
   };
+  if (url.startsWith('esteem://')) {
+    url = url.replace('esteem://', 'https://esteem.app/');
+  }
 
   if (
     ['https://esteem.app', 'https://steemit.com', 'https://steempeak.com'].some(x =>

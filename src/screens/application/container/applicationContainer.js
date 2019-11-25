@@ -21,6 +21,7 @@ import {
 // Constants
 import AUTH_TYPE from '../../../constants/authType';
 import ROUTES from '../../../constants/routeNames';
+import postUrlParser from '../../../utils/postUrlParser';
 
 // Services
 import {
@@ -198,75 +199,37 @@ class ApplicationContainer extends Component {
   _handleDeepLink = async url => {
     if (!url) return;
 
-    let author;
-    let permlink;
     let routeName;
     let params;
     let content;
     let profile;
-    const { currentAccount, dispatch } = this.props;
-    const { isIos } = this.state;
+    const { currentAccount } = this.props;
 
-    const mapObj = {
-      esteem: '',
-      'steemit.com/': '',
-      'busy.org/': '',
-      'steempeak.com/': '',
-    };
+    const postUrl = postUrlParser(url);
+    const { author, permlink } = postUrl;
 
-    let formattedUrl = url
-      .split('//')
-      .pop()
-      .replace(/steemit.com\/|busy.org\/|steempeak.com\//gi, matched => {
-        return mapObj[matched];
-      });
-
-    // TODO: WORKAROUND
-    if (isIos && url.indexOf('esteem://') > -1) {
-      formattedUrl = `@${formattedUrl}`;
-    }
-
-    const routeParams = formattedUrl.indexOf('/') > -1 ? formattedUrl.split('/') : [formattedUrl];
-
-    forEach(routeParams, (value, index) => {
-      if (value.indexOf('@') > -1) {
-        author = value.replace('@', '');
-        permlink = routeParams[index + 1];
+    try {
+      if (author) {
+        if (permlink) {
+          content = await getPost(author, permlink, currentAccount.name);
+          routeName = ROUTES.SCREENS.POST;
+          params = { content };
+        } else {
+          profile = await getUser(author);
+          routeName = ROUTES.SCREENS.PROFILE;
+          params = { username: get(profile, 'name'), reputation: get(profile, 'reputation') };
+        }
       }
-    });
-
-    if (author && permlink) {
-      await getPost(author, permlink, currentAccount.name)
-        .then(result => {
-          content = result;
-        })
-        .catch(() => {
-          this._handleAlert('deep_link.no_existing_post');
-        });
-
-      routeName = ROUTES.SCREENS.POST;
-      params = { content };
-    } else if (author) {
-      profile = await getUser(author);
-
-      if (!profile) {
-        this._handleAlert('deep_link.no_existing_user');
-        return;
-      }
-
-      routeName = ROUTES.SCREENS.PROFILE;
-      params = { username: get(profile, 'name'), reputation: get(profile, 'reputation') };
+    } catch (error) {
+      this._handleAlert('deep_link.no_existing_user');
     }
 
     if (routeName && (profile || content)) {
-      this.navigationTimeout = setTimeout(() => {
-        clearTimeout(this.navigationTimeout);
-        NavigationService.navigate({
-          routeName,
-          params,
-          key: permlink || author,
-        });
-      }, 2000);
+      NavigationService.navigate({
+        routeName,
+        params,
+        key: permlink || author,
+      });
     }
   };
 
