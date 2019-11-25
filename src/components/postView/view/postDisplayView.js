@@ -162,7 +162,9 @@ class PostDisplayView extends PureComponent {
     const isGetComment = scrollHeight + 300 > postHeight;
     const formatedTime = post && getTimeFromNow(post.created);
 
-    if (isGetComment && !isLoadedComments) this.setState({ isLoadedComments: true });
+    if (isGetComment && !isLoadedComments) {
+      this.setState({ isLoadedComments: true });
+    }
 
     if (isPostUnavailable) {
       return (

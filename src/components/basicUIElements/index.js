@@ -19,10 +19,12 @@ import WalletDetailsPlaceHolder from './view/placeHolder/walletDetailsPlaceHolde
 import WalletUnclaimedPlaceHolder from './view/placeHolder/walletUnclaimedPlaceHolder';
 import ListPlaceHolder from './view/placeHolder/listPlaceHolderView';
 import BoostPlaceHolder from './view/placeHolder/boostPlaceHolderView';
+import CommentPlaceHolder from './view/placeHolder/commentPlaceHolderView';
 
 export {
   Card,
   Chip,
+  CommentPlaceHolder,
   GrayWrapper,
   LineBreak,
   ListItemPlaceHolder,
