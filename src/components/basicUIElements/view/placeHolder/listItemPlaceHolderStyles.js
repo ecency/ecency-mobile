@@ -16,4 +16,7 @@ export default EStyleSheet.create({
     marginTop: 3,
     flex: 1,
   },
+  paragraphWithoutMargin: {
+    flex: 1,
+  },
 });
