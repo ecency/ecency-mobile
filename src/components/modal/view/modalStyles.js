@@ -20,9 +20,10 @@ export default EStyleSheet.create({
     justifyContent: 'center',
   },
   headerTitle: {
-    color: '$iconColor',
+    color: '$primaryBlack',
     alignSelf: 'center',
-    fontSize: 24,
+    textAlign: 'center',
+    fontSize: 20,
     marginLeft: 16,
     flexGrow: 1,
     fontWeight: '500',
@@ -34,7 +35,7 @@ export default EStyleSheet.create({
   },
   closeIcon: {
     fontSize: 24,
-    color: '$iconColor',
+    color: '$primaryBlack',
   },
   safeArea: {
     backgroundColor: '$primaryBackgroundColor',

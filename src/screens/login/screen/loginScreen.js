@@ -190,7 +190,7 @@ class LoginScreen extends PureComponent {
           isFullScreen
           isCloseButton
           handleOnModalClose={this._handleOnModalToggle}
-          title="Steemconnect Login"
+          title="Sign in"
         >
           <SteemConnect handleOnModalClose={this._handleOnModalToggle} />
         </Modal>
