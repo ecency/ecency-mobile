@@ -16,13 +16,13 @@ import globalStyles from '../../../globalStyles';
 
 const WalletScreen = () => {
   const [selectedUserActivities, setSelectedUserActivities] = useState(null);
-  const [selectedType, setSelectedType] = useState('points');
+  const [isLoading, setIsLoading] = useState('points');
   const [currentIndex, setCurrentIndex] = useState(0);
   const [refreshing, setRefreshing] = useState(false);
 
-  const _handleSwipeItemChange = (userActivities, type, xx) => {
+  const _handleSwipeItemChange = (userActivities, _isLoading) => {
     setSelectedUserActivities(userActivities);
-    setSelectedType(type);
+    setIsLoading(_isLoading);
   };
 
   return (
@@ -63,6 +63,7 @@ const WalletScreen = () => {
                 transactions={selectedUserActivities}
                 refreshing={refreshing}
                 setRefreshing={setRefreshing}
+                isLoading={isLoading}
               />
             </>
           )}
