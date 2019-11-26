@@ -21,11 +21,11 @@ export default EStyleSheet.create({
   },
   headerTitle: {
     color: '$primaryBlack',
+    flexGrow: 1,
     alignSelf: 'center',
     textAlign: 'center',
     fontSize: 20,
-    marginLeft: 16,
-    flexGrow: 1,
+    marginLeft: 50,
     fontWeight: '500',
   },
   closeButton: {
