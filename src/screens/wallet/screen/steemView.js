@@ -16,7 +16,7 @@ const SteeemView = ({ handleOnSelected, index, currentIndex }) => (
             claimRewardBalance,
             handleOnWalletRefresh,
             refreshing,
-            userActivities,
+            transferHistory,
             steemBalance,
             isLoading,
             steemSavingBalance,
@@ -26,14 +26,13 @@ const SteeemView = ({ handleOnSelected, index, currentIndex }) => (
             navigate,
           }) => (
             <WalletHeader
-              componentDidUpdate={() => handleOnSelected(userActivities, 'steem')}
+              componentDidUpdate={() => handleOnSelected(transferHistory, isLoading)}
               index={index}
               claim={claimRewardBalance}
               fetchUserActivity={handleOnWalletRefresh}
               isClaiming={isClaiming}
               isLoading={isLoading}
               refreshing={refreshing}
-              userActivities={userActivities}
               unclaimedBalance={0}
               userBalance={[
                 { balance: steemBalance, nameKey: 'steem', options: steemDropdown },

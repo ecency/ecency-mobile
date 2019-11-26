@@ -42,7 +42,7 @@ const WalletContainer = ({
   const [isLoading, setIsLoading] = useState(true);
   const [refreshing, setRefreshing] = useState(false);
   const [walletData, setWalletData] = useState(null);
-  const [userActivities, setUserActivities] = useState(null);
+  const [userActivities, setUserActivities] = useState([]);
   const [sbdBalance, setSbdBalance] = useState(0);
   const [steemBalance, setSteemBalance] = useState(0);
   const [spBalance, setSpBalance] = useState(0);
@@ -50,6 +50,7 @@ const WalletContainer = ({
   const [estimatedValue, setEstimatedValue] = useState(0);
   const [unclaimedBalance, setUnclaimedBalance] = useState('');
   const [estimatedAmount, setEstimatedAmount] = useState(0);
+  const [transferHistory, setTransferHistory] = useState([]);
   const intl = useIntl();
   const dispatch = useDispatch();
 
@@ -66,6 +67,12 @@ const WalletContainer = ({
   }, [_getWalletData, selectedUser]);
 
   useEffect(() => {
+    setTransferHistory(
+      userActivities.filter(
+        item =>
+          get(item, 'textKey') === 'transfer' || get(item, 'textKey') === 'transfer_to_vesting',
+      ),
+    );
     setSbdBalance(Math.round(get(walletData, 'sbdBalance', 0) * 1000) / 1000);
     setSteemBalance(Math.round(get(walletData, 'balance', 0) * 1000) / 1000);
     setSteemSavingBalance(Math.round(get(walletData, 'savingBalance', 0) * 1000) / 1000);
@@ -92,7 +99,7 @@ const WalletContainer = ({
           : ''
       }`,
     );
-  }, [walletData]);
+  }, [userActivities, walletData]);
 
   // Components functions
 
@@ -240,6 +247,7 @@ const WalletContainer = ({
       walletData,
       steemPerMVests,
       userActivities,
+      transferHistory,
       steemBalance,
       spBalance,
       sbdBalance,

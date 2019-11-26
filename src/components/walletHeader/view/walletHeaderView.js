@@ -17,12 +17,8 @@ import { default as ROUTES } from '../../../constants/routeNames';
 import styles from './walletHeaderStyles';
 
 const WalletHeaderView = ({
-  fetchUserActivity,
-  refreshing,
-  isLoading,
   claim,
   isClaiming,
-  userActivities,
   handleOnDropdownSelected,
   navigation,
   unclaimedBalance,
@@ -31,8 +27,6 @@ const WalletHeaderView = ({
   componentDidUpdate,
   showIconList,
   currentIndex,
-  userSecondBalance,
-  secondBalanceName,
   valueDescriptions,
   showBuyButton,
   index,

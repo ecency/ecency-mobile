@@ -22,7 +22,7 @@ const EstmView = ({ handleOnSelected, index, currentIndex }) => (
         dropdownOptions,
       }) => (
         <WalletHeader
-          componentDidUpdate={() => handleOnSelected(userActivities, 'estm', fetchUserActivity)}
+          componentDidUpdate={() => handleOnSelected(userActivities, isLoading, fetchUserActivity)}
           index={index}
           showIconList
           claim={claim}

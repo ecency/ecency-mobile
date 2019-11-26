@@ -26,7 +26,7 @@ const SpView = ({ handleOnSelected, index, currentIndex }) => (
             estimatedAmount,
           }) => (
             <WalletHeader
-              componentDidUpdate={() => handleOnSelected(userActivities, 'steem_power')}
+              componentDidUpdate={() => handleOnSelected(userActivities, isLoading)}
               index={index}
               claim={claimRewardBalance}
               fetchUserActivity={handleOnWalletRefresh}

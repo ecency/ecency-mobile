@@ -15,16 +15,16 @@ import { ThemeContainer } from '../../containers';
 
 import globalStyles from '../../globalStyles';
 
-const TransactionView = ({ transactions, type, refreshing, setRefreshing }) => {
+const TransactionView = ({ transactions, type, refreshing, setRefreshing, isLoading }) => {
   const intl = useIntl();
 
   const _renderLoading = () => {
-    if (isEmpty(transactions)) {
+    if (isLoading) {
       return <ListPlaceHolder />;
     }
 
     return (
-      <Text style={globalStyles.subText}>{intl.formatMessage({ id: 'wallet.no_activity' })}</Text>
+      <Text style={globalStyles.subTitle}>{intl.formatMessage({ id: 'wallet.no_activity' })}</Text>
     );
   };
 
