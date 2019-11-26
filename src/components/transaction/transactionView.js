@@ -1,7 +1,7 @@
 /* eslint-disable react/jsx-wrap-multilines */
 import React from 'react';
 import { useIntl } from 'react-intl';
-import { View, Text, FlatList } from 'react-native';
+import { View, Text, FlatList, RefreshControl } from 'react-native';
 import get from 'lodash/get';
 import isEmpty from 'lodash/isEmpty';
 
@@ -11,10 +11,11 @@ import { getTimeFromNow } from '../../utils/time';
 // Components
 import { WalletLineItem, ListPlaceHolder } from '../basicUIElements';
 import { CollapsibleCard } from '..';
+import { ThemeContainer } from '../../containers';
 
 import globalStyles from '../../globalStyles';
 
-const TransactionView = ({ transactions, type }) => {
+const TransactionView = ({ transactions, type, refreshing, setRefreshing }) => {
   const intl = useIntl();
 
   const _renderLoading = () => {
@@ -26,6 +27,21 @@ const TransactionView = ({ transactions, type }) => {
       <Text style={globalStyles.subText}>{intl.formatMessage({ id: 'wallet.no_activity' })}</Text>
     );
   };
+
+  const refreshControl = () => (
+    <ThemeContainer>
+      {isDarkTheme => (
+        <RefreshControl
+          refreshing={refreshing}
+          onRefresh={() => setRefreshing(true)}
+          progressBackgroundColor="#357CE6"
+          tintColor={!isDarkTheme ? '#357ce6' : '#96c0ff'}
+          titleColor="#fff"
+          colors={['#fff']}
+        />
+      )}
+    </ThemeContainer>
+  );
 
   const _renderItem = (item, index) => {
     return (
@@ -69,6 +85,8 @@ const TransactionView = ({ transactions, type }) => {
       <FlatList
         data={transactions}
         ListEmptyComponent={_renderLoading()}
+        onRefresh={refreshControl}
+        refreshing={refreshing}
         renderItem={({ item, index }) => _renderItem(item, index)}
       />
     </View>

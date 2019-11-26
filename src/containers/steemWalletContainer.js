@@ -16,6 +16,7 @@ import { groomingWalletData, groomingTransactionData } from '../utils/wallet';
 import parseToken from '../utils/parseToken';
 import { vestsToSp } from '../utils/conversions';
 import { navigate } from '../navigation/service';
+import { getEstimatedAmount } from '../utils/vote';
 
 // Constants
 import ROUTES from '../constants/routeNames';
@@ -48,8 +49,13 @@ const WalletContainer = ({
   const [steemSavingBalance, setSteemSavingBalance] = useState(0);
   const [estimatedValue, setEstimatedValue] = useState(0);
   const [unclaimedBalance, setUnclaimedBalance] = useState('');
+  const [estimatedAmount, setEstimatedAmount] = useState(0);
   const intl = useIntl();
   const dispatch = useDispatch();
+
+  useEffect(() => {
+    setEstimatedAmount(getEstimatedAmount(currentAccount, globalProps));
+  }, [currentAccount, globalProps]);
 
   useEffect(() => {
     _getWalletData(selectedUser);
@@ -138,7 +144,7 @@ const WalletContainer = ({
       })
       .then(() => getAccount(currentAccount.name))
       .then(account => {
-        _getWalletData(account && account[0]);
+        _getWalletData(selectedUser);
         if (isHasUnclaimedRewards) {
           dispatch(
             toastNotification(
@@ -150,7 +156,7 @@ const WalletContainer = ({
         }
       })
       .then(account => {
-        _getWalletData(account && account[0]);
+        _getWalletData(selectedUser);
         setIsClaiming(false);
       })
       .catch(() => {
@@ -171,7 +177,7 @@ const WalletContainer = ({
 
     getAccount(selectedUser.name)
       .then(account => {
-        _getWalletData(account && account[0]);
+        _getWalletData(selectedUser);
         setRefreshing(false);
       })
       .catch(() => {
@@ -245,7 +251,8 @@ const WalletContainer = ({
       savingSteemDropdown: SAVING_STEEM_DROPDOWN,
       savingSbdDropdown: SAVING_SBD_DROPDOWN,
       steemPowerDropdown: STEEM_POWER_DROPDOWN,
-      unclaimedBalance: unclaimedBalance.trim(),
+      unclaimedBalance: unclaimedBalance && unclaimedBalance.trim(),
+      estimatedAmount,
     })
   );
 };

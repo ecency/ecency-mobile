@@ -8,6 +8,7 @@ import get from 'lodash/get';
 // Utils
 import parseToken from '../../../utils/parseToken';
 import { vestsToRshares } from '../../../utils/conversions';
+import { getEstimatedAmount } from '../../../utils/vote';
 
 // Components
 import { Icon } from '../../icon';
@@ -71,20 +72,9 @@ class UpvoteView extends Component {
 
     if (currentAccount && Object.entries(currentAccount).length !== 0) {
       const { sliderValue } = this.state;
-      const { fundRecentClaims, fundRewardBalance, base, quote } = globalProps;
-
-      const votingPower = currentAccount.voting_power;
-      const totalVests =
-        parseToken(get(currentAccount, 'vesting_shares')) +
-        parseToken(get(currentAccount, 'received_vesting_shares')) -
-        parseToken(get(currentAccount, 'delegated_vesting_shares'));
-      const votePct = sliderValue * 10000;
-
-      const rShares = vestsToRshares(totalVests, votingPower, votePct);
-      const estimated = (rShares / fundRecentClaims) * fundRewardBalance * (base / quote);
 
       this.setState({
-        amount: estimated.toFixed(5),
+        amount: getEstimatedAmount(currentAccount, globalProps, sliderValue),
       });
     }
   };

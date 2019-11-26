@@ -86,13 +86,11 @@ const WalletHeaderView = ({
             isDisable={isClaiming}
             style={styles.mainButton}
             height={50}
-            onPress={() =>
-              unclaimedBalance > 0 ? claim() : navigation.navigate(ROUTES.SCREENS.BOOST)
-            }
+            onPress={() => (unclaimedBalance ? claim() : navigation.navigate(ROUTES.SCREENS.BOOST))}
           >
             <View style={styles.mainButtonWrapper}>
               <Text style={styles.unclaimedText}>
-                {unclaimedBalance > 0
+                {unclaimedBalance
                   ? unclaimedBalance
                   : intl.formatMessage({ id: `wallet.${type}.buy` })}
               </Text>
@@ -126,18 +124,3 @@ const WalletHeaderView = ({
 };
 
 export default withNavigation(WalletHeaderView);
-
-// const refreshControl = () => (
-//   <ThemeContainer>
-//     {isDarkTheme => (
-//       <RefreshControl
-//         refreshing={refreshing}
-//         onRefresh={fetchUserActivity}
-//         progressBackgroundColor="#357CE6"
-//         tintColor={!isDarkTheme ? '#357ce6' : '#96c0ff'}
-//         titleColor="#fff"
-//         colors={['#fff']}
-//       />
-//     )}
-//   </ThemeContainer>
-// );
