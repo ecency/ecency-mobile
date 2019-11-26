@@ -45,6 +45,7 @@
     "to": "To",
     "estimated_value_desc": "*determined by purchase value",
     "estimated_value": "Estimated value",
+    "estimated_amount": "Vote value",
     "amount_information": "Drag the slider to adjust the amount",
     "amount": "Amount",
     "memo": "Memo",

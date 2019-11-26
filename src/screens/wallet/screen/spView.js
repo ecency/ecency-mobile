@@ -19,12 +19,11 @@ const SpView = ({ handleOnSelected, index, currentIndex }) => (
             userActivities,
             spBalance,
             isLoading,
-            steemSavingBalance,
             estimatedValue,
             steemPowerDropdown,
-            savingSteemDropdown,
             unclaimedBalance,
             navigate,
+            estimatedAmount,
           }) => (
             <WalletHeader
               componentDidUpdate={() => handleOnSelected(userActivities, 'steem_power')}
@@ -50,8 +49,8 @@ const SpView = ({ handleOnSelected, index, currentIndex }) => (
                   value: <FormatedCurrency isApproximate value={estimatedValue} />,
                 },
                 {
-                  textKey: 'estimated_value',
-                  value: <FormatedCurrency isApproximate value={estimatedValue} />,
+                  textKey: 'estimated_amount',
+                  value: <FormatedCurrency isApproximate value={estimatedAmount} />,
                 },
               ]}
             />

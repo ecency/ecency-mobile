@@ -22,7 +22,7 @@ const EstmView = ({ handleOnSelected, index, currentIndex }) => (
         dropdownOptions,
       }) => (
         <WalletHeader
-          componentDidUpdate={() => handleOnSelected(userActivities, 'estm')}
+          componentDidUpdate={() => handleOnSelected(userActivities, 'estm', fetchUserActivity)}
           index={index}
           showIconList
           claim={claim}
@@ -31,7 +31,9 @@ const EstmView = ({ handleOnSelected, index, currentIndex }) => (
           isLoading={isLoading}
           refreshing={refreshing}
           userActivities={userActivities}
-          unclaimedBalance={get(userPoints, 'unclaimed_points', 0)}
+          unclaimedBalance={
+            get(userPoints, 'unclaimed_points') > 0 && get(userPoints, 'unclaimed_points')
+          }
           userBalance={[
             { balance: get(userPoints, 'points'), nameKey: 'estm', options: dropdownOptions },
           ]}

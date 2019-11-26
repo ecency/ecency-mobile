@@ -18,8 +18,9 @@ const WalletScreen = () => {
   const [selectedUserActivities, setSelectedUserActivities] = useState(null);
   const [selectedType, setSelectedType] = useState('points');
   const [currentIndex, setCurrentIndex] = useState(0);
+  const [refreshing, setRefreshing] = useState(false);
 
-  const _handleSwipeItemChange = (userActivities, type) => {
+  const _handleSwipeItemChange = (userActivities, type, xx) => {
     setSelectedUserActivities(userActivities);
     setSelectedType(type);
   };
@@ -40,21 +41,29 @@ const WalletScreen = () => {
                 <EstmView
                   index={0}
                   handleOnSelected={_handleSwipeItemChange}
+                  refreshing={refreshing}
                   currentIndex={currentIndex}
                 />
                 <SteemView
                   index={1}
                   handleOnSelected={_handleSwipeItemChange}
+                  refreshing={refreshing}
                   currentIndex={currentIndex}
                 />
                 <SpView
                   index={2}
+                  refreshing={refreshing}
                   handleOnSelected={_handleSwipeItemChange}
                   currentIndex={currentIndex}
                 />
               </Swiper>
 
-              <Transaction type="wallet" transactions={selectedUserActivities} />
+              <Transaction
+                type="wallet"
+                transactions={selectedUserActivities}
+                refreshing={refreshing}
+                setRefreshing={setRefreshing}
+              />
             </>
           )}
         </LoggedInContainer>
