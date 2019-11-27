@@ -27,7 +27,7 @@ class CommentsDisplayView extends PureComponent {
   // Component Life Cycles
 
   // Component Functions
-  _handleOnDropdownSelect = (option, ind) => {
+  _handleOnDropdownSelect = (option, index) => {
     this.setState({ selectedFilter: option, selectedOptionIndex: ind });
   };
 
