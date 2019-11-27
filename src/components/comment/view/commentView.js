@@ -80,6 +80,7 @@ class CommentView extends PureComponent {
           <View style={[{ marginLeft: marginLeft || 29 }, styles.bodyWrapper]}>
             <PostBody
               isComment
+              commentDepth={comment.depth}
               handleOnUserPress={handleOnUserPress}
               body={comment.body}
               textSelectable={false}
