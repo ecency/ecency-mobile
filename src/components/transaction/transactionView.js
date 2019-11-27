@@ -3,7 +3,6 @@ import React from 'react';
 import { useIntl } from 'react-intl';
 import { View, Text, FlatList, RefreshControl } from 'react-native';
 import get from 'lodash/get';
-import isEmpty from 'lodash/isEmpty';
 
 // Utilities
 import { getTimeFromNow } from '../../utils/time';
@@ -24,7 +23,7 @@ const TransactionView = ({ transactions, type, refreshing, setRefreshing, isLoad
     }
 
     return (
-      <Text style={globalStyles.subTitle}>{intl.formatMessage({ id: 'wallet.no_activity' })}</Text>
+      <Text style={globalStyles.hintText}>{intl.formatMessage({ id: 'wallet.no_activity' })}</Text>
     );
   };
 
@@ -84,6 +83,7 @@ const TransactionView = ({ transactions, type, refreshing, setRefreshing, isLoad
     <View style={globalStyles.listWrapper}>
       <FlatList
         data={transactions}
+        style={globalStyles.tabBarBottom}
         ListEmptyComponent={_renderLoading()}
         onRefresh={refreshControl}
         refreshing={refreshing}

@@ -43,7 +43,7 @@
     "dropdown_boost": "Boost",
     "from": "From",
     "to": "To",
-    "estimated_value_desc": "*determined by purchase value",
+    "estimated_value_desc": "Determined by purchase value",
     "estimated_value": "Estimated value",
     "estimated_amount": "Vote value",
     "amount_information": "Drag the slider to adjust the amount",

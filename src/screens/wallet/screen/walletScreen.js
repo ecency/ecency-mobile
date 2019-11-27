@@ -1,6 +1,6 @@
 import React, { Fragment, useState } from 'react';
 import Swiper from 'react-native-swiper';
-import { SafeAreaView } from 'react-native';
+import { SafeAreaView, View } from 'react-native';
 
 // Containers
 import { LoggedInContainer } from '../../../containers';
@@ -57,7 +57,6 @@ const WalletScreen = () => {
                   currentIndex={currentIndex}
                 />
               </Swiper>
-
               <Transaction
                 type="wallet"
                 transactions={selectedUserActivities}
