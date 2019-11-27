@@ -43,7 +43,6 @@ class NotificationView extends PureComponent {
   // Component Functions
 
   _handleOnDropdownSelect = async index => {
-    console.log(index);
     const { getActivities, changeSelectedFilter } = this.props;
     const { filters } = this.state;
 
