@@ -39,7 +39,6 @@ const PostsView = ({
   changeForceLoadPostState,
   forceLoadPost,
   filterOptionsValue,
-  customOption,
 }) => {
   const [posts, setPosts] = useState(isConnected ? [] : feedPosts);
   const [startAuthor, setStartAuthor] = useState('');
@@ -141,7 +140,7 @@ const PostsView = ({
           setPromotedPosts(_promotedPosts);
         }
       })
-      .catch(() => {});
+      .catch(() => { });
   }, [currentAccountUsername]);
 
   const _loadPosts = useCallback(
@@ -350,13 +349,12 @@ const PostsView = ({
             <FilterBar
               dropdownIconName="arrow-drop-down"
               options={filterOptions}
-              selectedOptionIndex={selectedOptionIndex}
+              selectedOptionIndex={selectedFilterIndex}
               defaultText={filterOptions[selectedOptionIndex]}
               rightIconName="view-module"
               rightIconType="MaterialIcons"
               onDropdownSelect={_handleOnDropdownSelect}
               onRightIconPress={handleImagesHide}
-              customOption={customOption}
             />
           )}
 

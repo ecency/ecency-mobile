@@ -28,15 +28,13 @@ class NotificationView extends PureComponent {
     this.state = {
       // TODO: Remove filters from local state.
       filters: [
-        { key: 'activities', value: 'ALL ACTIVITIES' },
-        { key: 'votes', value: 'VOTES' },
+        { key: 'activities', value: 'ALL' },
         { key: 'replies', value: 'REPLIES' },
         { key: 'mentions', value: 'MENTIONS' },
-        { key: 'follows', value: 'FOLLOWS' },
         { key: 'reblogs', value: 'REBLOGS' },
-        { key: 'transfers', value: 'TRANSFERS' },
       ],
       selectedFilter: null,
+      selectedIndex: 0,
     };
   }
 
@@ -45,11 +43,12 @@ class NotificationView extends PureComponent {
   // Component Functions
 
   _handleOnDropdownSelect = async index => {
+    console.log(index);
     const { getActivities, changeSelectedFilter } = this.props;
     const { filters } = this.state;
 
-    this.setState({ selectedFilter: filters[index].key });
-    await changeSelectedFilter(filters[index].key);
+    this.setState({ selectedFilter: filters[index].key, selectedIndex: index });
+    await changeSelectedFilter(filters[index].key, index);
     getActivities(null, filters[index].key, false);
   };
 
@@ -151,7 +150,7 @@ class NotificationView extends PureComponent {
 
   render() {
     const { readAllNotification, getActivities, isNotificationRefreshing } = this.props;
-    const { filters, selectedFilter } = this.state;
+    const { filters, selectedFilter, selectedIndex } = this.state;
     const _notifications = this._getNotificationsArrays();
 
     return (
@@ -159,10 +158,11 @@ class NotificationView extends PureComponent {
         <FilterBar
           dropdownIconName="arrow-drop-down"
           options={filters.map(item => item.value)}
-          defaultText="ALL ACTIVITIES"
+          defaultText="ALL"
           onDropdownSelect={this._handleOnDropdownSelect}
           rightIconName="check"
           rightIconType="MaterialIcons"
+          selectedOptionIndex={selectedIndex}
           onRightIconPress={readAllNotification}
         />
         <ThemeContainer>
