@@ -66,7 +66,7 @@ const PostBody = ({
         default:
           break;
       }
-    } catch (error) {}
+    } catch (error) { }
   };
 
   const _handleTagPress = tag => {
