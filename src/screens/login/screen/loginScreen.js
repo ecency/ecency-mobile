@@ -190,7 +190,9 @@ class LoginScreen extends PureComponent {
           isFullScreen
           isCloseButton
           handleOnModalClose={this._handleOnModalToggle}
-          title="Sign in"
+          title={intl.formatMessage({
+            id: 'login.signin',
+          })}
         >
           <SteemConnect handleOnModalClose={this._handleOnModalToggle} />
         </Modal>
