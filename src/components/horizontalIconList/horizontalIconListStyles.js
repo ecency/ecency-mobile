@@ -2,8 +2,8 @@ import EStyleSheet from 'react-native-extended-stylesheet';
 
 export default EStyleSheet.create({
   iconsWrapper: {
-    marginVertical: 24,
-    marginHorizontal: 32,
+    marginVertical: 10,
+    marginHorizontal: 0,
     justifyContent: 'center',
     alignSelf: 'center',
     flexDirection: 'row',
@@ -51,28 +51,5 @@ export default EStyleSheet.create({
     fontSize: 8,
     color: '$white',
     fontWeight: '600',
-  },
-  popoverDetails: {
-    flexDirection: 'row',
-    height: 130,
-    width: '$deviceWidth / 2',
-    borderRadius: 20,
-    paddingHorizontal: 26,
-    backgroundColor: '$primaryBackgroundColor',
-  },
-  arrow: {
-    borderTopColor: '$primaryBackgroundColor',
-  },
-  popoverWrapper: {
-    flex: 1,
-    flexDirection: 'row',
-    justifyContent: 'space-between',
-    alignItems: 'center',
-  },
-  overlay: {
-    backgroundColor: '#403c4449',
-  },
-  popoverText: {
-    color: '$primaryDarkText',
   },
 });

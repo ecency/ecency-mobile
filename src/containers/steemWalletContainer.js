@@ -67,12 +67,11 @@ const WalletContainer = ({
   }, [_getWalletData, selectedUser]);
 
   useEffect(() => {
-    setTransferHistory(
-      userActivities.filter(
-        item =>
-          get(item, 'textKey') === 'transfer' || get(item, 'textKey') === 'transfer_to_vesting',
-      ),
+    const _transferHistory = userActivities.filter(
+      item => get(item, 'textKey') === 'transfer' || get(item, 'textKey') === 'transfer_to_vesting',
     );
+
+    setTransferHistory(_transferHistory);
     setSbdBalance(Math.round(get(walletData, 'sbdBalance', 0) * 1000) / 1000);
     setSteemBalance(Math.round(get(walletData, 'balance', 0) * 1000) / 1000);
     setSteemSavingBalance(Math.round(get(walletData, 'savingBalance', 0) * 1000) / 1000);

@@ -46,7 +46,6 @@ const WalletView = ({ setEstimatedWalletValue, selectedUser, handleOnScroll }) =
         refreshing,
         selectedUsername,
         walletData,
-        steemPerMVests,
         userActivities,
       }) => (
         <ThemeContainer>
@@ -115,7 +114,11 @@ const WalletView = ({ setEstimatedWalletValue, selectedUser, handleOnScroll }) =
                     />
                   </CollapsibleCard>
                   <Card>
-                    <Transaction type="wallet" transactions={userActivities} />
+                    <Transaction
+                      refreshing={refreshing}
+                      type="wallet"
+                      transactions={userActivities}
+                    />
                   </Card>
                 </Fragment>
               )}

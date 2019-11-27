@@ -76,4 +76,7 @@ export default EStyleSheet.create({
     justifyContent: 'center',
     alignItems: 'center',
   },
+  tabBarBottom: {
+    marginBottom: 60,
+  },
 });

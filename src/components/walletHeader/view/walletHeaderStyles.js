@@ -65,7 +65,7 @@ export default EStyleSheet.create({
     height: 24,
   },
   scrollContainer: {
-    flex: 1,
+    flex: 0.935,
     width: '100%',
     backgroundColor: '$primaryBackgroundColor',
   },

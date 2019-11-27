@@ -6,7 +6,6 @@ import { withNavigation } from 'react-navigation';
 import get from 'lodash/get';
 
 // Components
-import { LineBreak } from '../../basicUIElements';
 import { Icon, MainButton, DropdownButton, HorizontalIconList, WalletLineItem } from '../..';
 
 // Constants
@@ -40,7 +39,6 @@ const WalletHeaderView = ({
     }
   }, [componentDidUpdate, currentIndex, index]);
 
-  // onPress={() => dropdownRef.current.show()}
   const _getBalanceItem = (balance, options, key) =>
     balance !== undefined && (
       <View style={styles.balanceWrapper}>
@@ -64,7 +62,6 @@ const WalletHeaderView = ({
 
   return (
     <Fragment>
-      <LineBreak height={12} />
       <View style={styles.scrollContainer} contentContainerStyle={styles.scrollContentContainer}>
         {userBalance.map(item =>
           _getBalanceItem(
@@ -95,18 +92,18 @@ const WalletHeaderView = ({
           </MainButton>
         )}
 
-        {/* {valueDescriptions && } */}
         {valueDescriptions &&
           valueDescriptions.map(item => (
             <WalletLineItem
               fitContent
               style={styles.valueDescriptions}
               text={intl.formatMessage({ id: `wallet.${get(item, 'textKey')}` })}
-              description={
+              hintDescription={
                 get(item, 'subTextKey') &&
                 intl.formatMessage({ id: `wallet.${get(item, 'subTextKey')}` })
               }
               rightText={get(item, 'value')}
+              hintIconName={get(item, 'subTextKey') && 'ios-information-circle-outline'}
               isBlackText
               isThin
             />

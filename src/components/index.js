@@ -52,6 +52,7 @@ import ProfileEditForm from './profileEditForm/profileEditFormView';
 import ScaleSlider from './scaleSlider/scaleSliderView';
 import { ProductItemLine } from './productItemLine/productItemLineView';
 import { HorizontalIconList } from './horizontalIconList/horizontalIconListView';
+import { PopoverWrapper } from './popoverWrapper/popoverWrapperView';
 
 // View
 import { Comment } from './comment';
@@ -189,4 +190,5 @@ export {
   WalletLineItem,
   WalletUnclaimedPlaceHolder,
   HorizontalIconList,
+  PopoverWrapper,
 };
