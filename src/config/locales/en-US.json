@@ -31,9 +31,9 @@
     "older_then": "Older Than A Month"
   },
   "leaderboard": {
-    "daily": "Daily",
-    "weekly": "Weekly",
-    "monthly": "Monthly"
+    "daily": "DAILY",
+    "weekly": "WEEKLY",
+    "monthly": "MONTHLY"
   },
   "points": {
     "post": "Post",
@@ -299,10 +299,12 @@
     "comments": "Comments"
   },
   "comment_filter": {
-    "trending": "trending",
-    "reputation": "reputation",
-    "votes": "votes",
-    "age": "age"
+    "trending": "TRENDING",
+    "reputation": "REP",
+    "votes": "VOTE",
+    "age": "AGE",
+    "top": "TOP",
+    "time": "TIME"
   },
   "transfer": {
     "from": "From",

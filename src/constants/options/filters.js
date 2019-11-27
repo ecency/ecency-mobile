@@ -1,5 +1,5 @@
-export const POPULAR_FILTERS = ['TRENDING', 'NEW', 'PROMOTED'];
-export const POPULAR_FILTERS_VALUE = ['trending', 'created', 'promoted'];
+export const POPULAR_FILTERS = ['FEED', 'TOP', 'HOT', 'NEW'];
+export const POPULAR_FILTERS_VALUE = ['feed', 'trending', 'hot', 'created'];
 
 export const PROFILE_FILTERS = ['BLOG', 'FEED'];
 export const PROFILE_FILTERS_VALUE = ['blog', 'feed'];

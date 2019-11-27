@@ -1,4 +1,5 @@
 import EStyleSheet from 'react-native-extended-stylesheet';
+import { relative } from 'path';
 
 export default EStyleSheet.create({
   container: {
@@ -30,8 +31,22 @@ export default EStyleSheet.create({
     color: '$darkIconColor',
     textAlign: 'center',
   },
-  customOptionWrapper: {
-    left: 120,
+  buttonGroup: {
     position: 'absolute',
+    borderWidth: 0,
+    left: 0,
+    backgroundColor: 'transparent',
+    height: 30,
   },
+  innerBorder: {
+    width: 0,
+  },
+  buttons: {
+    borderRadius: 50,
+    width: 70,
+    marginRight: 5
+  },
+  buttonText: {
+    fontSize: 12
+  }
 });

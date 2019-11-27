@@ -5,7 +5,7 @@ import { injectIntl } from 'react-intl';
 // Components
 import { FilterBar } from '../../filterBar';
 import { Comments } from '../../comments';
-import COMMENT_FILTER from '../../../constants/options/comment';
+import COMMENT_FILTER, { VALUE } from '../../../constants/options/comment';
 
 // Styles
 import styles from './commentDisplayStyles';
@@ -20,14 +20,15 @@ class CommentsDisplayView extends PureComponent {
     super(props);
     this.state = {
       selectedFilter: null,
+      selectedOptionIndex: 0,
     };
   }
 
   // Component Life Cycles
 
   // Component Functions
-  _handleOnDropdownSelect = (index, option) => {
-    this.setState({ selectedFilter: option });
+  _handleOnDropdownSelect = (option, ind) => {
+    this.setState({ selectedFilter: option, selectedOptionIndex: ind });
   };
 
   render() {
@@ -40,21 +41,17 @@ class CommentsDisplayView extends PureComponent {
       mainAuthor,
       handleOnVotersPress,
     } = this.props;
-    const { selectedFilter } = this.state;
-
+    const { selectedFilter, selectedOptionIndex } = this.state;
     return (
       <Fragment>
         {commentCount > 0 && (
           <Fragment>
             <FilterBar
               dropdownIconName="arrow-drop-down"
-              options={COMMENT_FILTER.map(item =>
-                intl.formatMessage({ id: `comment_filter.${item}` }).toUpperCase(),
-              )}
-              defaultText={intl
-                .formatMessage({ id: `comment_filter.${COMMENT_FILTER[0]}` })
-                .toUpperCase()}
-              onDropdownSelect={this._handleOnDropdownSelect}
+              options={VALUE.map(val => intl.formatMessage({ id: `comment_filter.${val}` }))}
+              defaultText={intl.formatMessage({ id: `comment_filter.${VALUE[0]}` })}
+              onDropdownSelect={selectedIndex => this._handleOnDropdownSelect(COMMENT_FILTER[selectedIndex], selectedIndex)}
+              selectedOptionIndex={selectedOptionIndex}
             />
             <View style={styles.commentWrapper}>
               <Comments
