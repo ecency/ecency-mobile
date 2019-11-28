@@ -8,40 +8,12 @@
     "transfer_to_vesting": "Pindah kepada laburan hak",
     "transfer_from_savings": "Pindah kepada simpanan",
     "withdraw_vesting": "Power Down",
-    "fill_order": "Mengisi pesanan"
-  },
-  "notification": {
-    "vote": "menyukai pos anda",
-    "unvote": "tarik balik undian pos untuk anda",
-    "reply": "balas pos anda",
-    "mention": "menyebut anda dalam",
-    "follow": "mengikuti anda",
-    "unfollow": "berhenti mengikuti anda",
-    "ignore": "abaikan anda",
-    "reblog": "ulang siar pos anda",
-    "transfer": "transferred",
-    "notification": "Pemberitahuan",
-    "leaderboard": "Papan Pendahulu",
-    "epoint": "Mata ganjaran",
-    "leaderboard_title": "Top Users",
-    "recent": "Terbaru",
-    "yesterday": "Semalam",
-    "this_week": "Minggu ini",
-    "this_month": "Bulan Ini",
-    "older_then": "Lebih dari sebulan"
-  },
-  "leaderboard": {
-    "daily": "Daily",
-    "weekly": "Weekly",
-    "monthly": "Monthly"
-  },
-  "points": {
+    "fill_order": "Mengisi pesanan",
     "post": "Hantar",
-    "esteemPoints": "eSteem Points",
     "comment": "Komen",
     "checkin": "CheckIn",
     "vote": "Vote",
-    "reblog": "Ulang siar",
+    "reblog": "Reblog",
     "login": "Log Masuk",
     "incoming_transfer_title": "Pindahan masuk",
     "outgoing_transfer_title": "Pindahan keluar",
@@ -69,8 +41,69 @@
     "dropdown_transfer": "Gift",
     "dropdown_promote": "Promote",
     "dropdown_boost": "Boost",
-    "from": "From",
-    "to": "To"
+    "from": "Daripada",
+    "to": "Kepada",
+    "estimated_value_desc": "Determined by purchase value",
+    "estimated_value": "Estimated value",
+    "estimated_amount": "Vote value",
+    "amount_information": "Drag the slider to adjust the amount",
+    "amount": "Jumlah",
+    "memo": "Memo",
+    "information": "Are you sure to transfer funds?",
+    "amount_desc": "Baki",
+    "memo_desc": "Memo ini adalah umum",
+    "to_placeholder": "Nama Pengguna",
+    "memo_placeholder": "Masukkan catatan anda di sini",
+    "transfer_token": "Pindah",
+    "points": "Gift ESTM to someone",
+    "transfer_to_saving": "Pindah kepada simpanan",
+    "powerUp": "Mengekuasai",
+    "withdraw_to_saving": "Keluarkan kepada penyimpanan",
+    "steemconnect_title": "Steemconnect Transfer",
+    "next": "SETERUSNYA",
+    "delegate": "Delegate",
+    "power_down": "Power Down",
+    "withdraw_steem": "Withdraw Steem",
+    "withdraw_sbd": "Withdraw Steem Dollar",
+    "estm": {
+      "title": "eSteem Points",
+      "buy": "GET ESTM"
+    },
+    "saving": {
+      "title": "STEEM Savings"
+    },
+    "steem": {
+      "title": "STEEM",
+      "buy": "GET STEEM"
+    },
+    "steem_power": {
+      "title": "STEEM POWER"
+    }
+  },
+  "notification": {
+    "vote": "menyukai pos anda",
+    "unvote": "tarik balik undian pos untuk anda",
+    "reply": "balas pos anda",
+    "mention": "menyebut anda dalam",
+    "follow": "mengikuti anda",
+    "unfollow": "berhenti mengikuti anda",
+    "ignore": "abaikan anda",
+    "reblog": "ulang siar pos anda",
+    "transfer": "transferred",
+    "notification": "Pemberitahuan",
+    "leaderboard": "Papan Pendahulu",
+    "epoint": "Mata ganjaran",
+    "leaderboard_title": "Top Users",
+    "recent": "Terbaru",
+    "yesterday": "Semalam",
+    "this_week": "Minggu ini",
+    "this_month": "Bulan Ini",
+    "older_then": "Lebih dari sebulan"
+  },
+  "leaderboard": {
+    "daily": "Daily",
+    "weekly": "Weekly",
+    "monthly": "Monthly"
   },
   "messages": {
     "comingsoon": "Ciri-ciri mesej yang akan datang tidak lama lagi!"
@@ -321,6 +354,13 @@
     "powerUp": "Mengekuasai",
     "withdraw_to_saving": "Keluarkan kepada penyimpanan",
     "steemconnect_title": "Steemconnect Transfer",
+    "estimated_weekly": "Estimated Weekly",
+    "destination_accounts": "Destination Accounts",
+    "stop_information": "Are you sure want to stop?",
+    "percent": "Percent",
+    "auto_vests": "Auto Vests",
+    "save": "SAVE",
+    "percent_information": "Percent info",
     "next": "SETERUSNYA",
     "delegate": "Delegate",
     "power_down": "Power Down",
