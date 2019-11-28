@@ -8,12 +8,39 @@
     "transfer_to_vesting": "Pindah kepada laburan hak",
     "transfer_from_savings": "Pindah kepada simpanan",
     "withdraw_vesting": "Power Down",
-    "fill_order": "Mengisi pesanan",
+    "fill_order": "Mengisi pesanan"
+  },
+  "notification": {
+    "vote": "menyukai pos anda",
+    "unvote": "tarik balik undian pos untuk anda",
+    "reply": "balas pos anda",
+    "mention": "menyebut anda dalam",
+    "follow": "mengikuti anda",
+    "unfollow": "berhenti mengikuti anda",
+    "ignore": "abaikan anda",
+    "reblog": "ulang siar pos anda",
+    "transfer": "transferred",
+    "notification": "Pemberitahuan",
+    "leaderboard": "Papan Pendahulu",
+    "epoint": "Mata ganjaran",
+    "leaderboard_title": "Top Users",
+    "recent": "Terbaru",
+    "yesterday": "Semalam",
+    "this_week": "Minggu ini",
+    "this_month": "Bulan Ini",
+    "older_then": "Lebih dari sebulan"
+  },
+  "leaderboard": {
+    "daily": "DAILY",
+    "weekly": "WEEKLY",
+    "monthly": "MONTHLY"
+  },
+  "points": {
     "post": "Hantar",
     "comment": "Komen",
     "checkin": "CheckIn",
     "vote": "Vote",
-    "reblog": "Reblog",
+    "reblog": "Ulang siar",
     "login": "Log Masuk",
     "incoming_transfer_title": "Pindahan masuk",
     "outgoing_transfer_title": "Pindahan keluar",
@@ -41,8 +68,8 @@
     "dropdown_transfer": "Gift",
     "dropdown_promote": "Promote",
     "dropdown_boost": "Boost",
-    "from": "Daripada",
-    "to": "Kepada",
+    "from": "From",
+    "to": "To",
     "estimated_value_desc": "Determined by purchase value",
     "estimated_value": "Estimated value",
     "estimated_amount": "Vote value",
@@ -79,31 +106,6 @@
     "steem_power": {
       "title": "STEEM POWER"
     }
-  },
-  "notification": {
-    "vote": "menyukai pos anda",
-    "unvote": "tarik balik undian pos untuk anda",
-    "reply": "balas pos anda",
-    "mention": "menyebut anda dalam",
-    "follow": "mengikuti anda",
-    "unfollow": "berhenti mengikuti anda",
-    "ignore": "abaikan anda",
-    "reblog": "ulang siar pos anda",
-    "transfer": "transferred",
-    "notification": "Pemberitahuan",
-    "leaderboard": "Papan Pendahulu",
-    "epoint": "Mata ganjaran",
-    "leaderboard_title": "Top Users",
-    "recent": "Terbaru",
-    "yesterday": "Semalam",
-    "this_week": "Minggu ini",
-    "this_month": "Bulan Ini",
-    "older_then": "Lebih dari sebulan"
-  },
-  "leaderboard": {
-    "daily": "Daily",
-    "weekly": "Weekly",
-    "monthly": "Monthly"
   },
   "messages": {
     "comingsoon": "Ciri-ciri mesej yang akan datang tidak lama lagi!"
@@ -332,10 +334,12 @@
     "comments": "Komen"
   },
   "comment_filter": {
-    "trending": "tending",
-    "reputation": "reputasi",
-    "votes": "vote",
-    "age": "usia"
+    "trending": "TOP",
+    "reputation": "REPUTATION",
+    "votes": "VOTE",
+    "age": "AGE",
+    "top": "TOP",
+    "time": "TIME"
   },
   "transfer": {
     "from": "Daripada",
