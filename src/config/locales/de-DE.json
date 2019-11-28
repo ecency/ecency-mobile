@@ -8,40 +8,12 @@
     "transfer_to_vesting": "Zum Steem-Konto überweisen",
     "transfer_from_savings": "Überweisung aus dem Sparkonto",
     "withdraw_vesting": "Power-Down",
-    "fill_order": "Order ausgeführt"
-  },
-  "notification": {
-    "vote": "gefällt dein Beitrag",
-    "unvote": "gefällt dein Beitrag nicht",
-    "reply": "antwortete auf deinen Beitrag",
-    "mention": "hat dich erwähnt",
-    "follow": "folgt dir jetzt",
-    "unfollow": "folgt dir nicht mehr",
-    "ignore": "ignoriert dich",
-    "reblog": "hat deinen Beitrag geteilt",
-    "transfer": "transferred",
-    "notification": "Benachrichtigungen",
-    "leaderboard": "Rangliste",
-    "epoint": "eSteem Punkte",
-    "leaderboard_title": "Top-Benutzer",
-    "recent": "Vor kurzem",
-    "yesterday": "Gestern",
-    "this_week": "Diese Woche",
-    "this_month": "Diesen Monat",
-    "older_then": "Älter als ein Monat"
-  },
-  "leaderboard": {
-    "daily": "Täglich",
-    "weekly": "Wöchentlich",
-    "monthly": "Monatlich"
-  },
-  "points": {
+    "fill_order": "Order ausgeführt",
     "post": "Beitrag",
-    "esteemPoints": "eSteem Punkte",
     "comment": "Kommentar",
     "checkin": "Einloggen",
     "vote": "Vote",
-    "reblog": "Teilen",
+    "reblog": "Reblog",
     "login": "Einloggen",
     "incoming_transfer_title": "Eingehende Überweisung",
     "outgoing_transfer_title": "Ausgehende Überweisung",
@@ -70,7 +42,68 @@
     "dropdown_promote": "Bewerben",
     "dropdown_boost": "Boost",
     "from": "Von",
-    "to": "zu"
+    "to": "zu",
+    "estimated_value_desc": "Determined by purchase value",
+    "estimated_value": "Estimated value",
+    "estimated_amount": "Vote value",
+    "amount_information": "Ziehe den Slider, um den Wert zu definieren",
+    "amount": "Betrag",
+    "memo": "Memo",
+    "information": "Bist du sicher, dass du Geld überweisen willst?",
+    "amount_desc": "Kontostand",
+    "memo_desc": "Dieses Memo ist öffentlich",
+    "to_placeholder": "Benutzername",
+    "memo_placeholder": "Hier dein Memo eingeben",
+    "transfer_token": "Überweisen",
+    "points": "Verschenke ESTM zu jemanden",
+    "transfer_to_saving": "Zum Sparkonto überweisen",
+    "powerUp": "Power Up",
+    "withdraw_to_saving": "Auszahlung in den Tresor",
+    "steemconnect_title": "Steemconnect Überweisung",
+    "next": "WEITER",
+    "delegate": "Delegieren",
+    "power_down": "Power-Down",
+    "withdraw_steem": "Steem auszahlen",
+    "withdraw_sbd": "Steem-Dollar auszahlen",
+    "estm": {
+      "title": "eSteem Punkte",
+      "buy": "ESTM kaufen"
+    },
+    "saving": {
+      "title": "STEEM Savings"
+    },
+    "steem": {
+      "title": "STEEM",
+      "buy": "GET STEEM"
+    },
+    "steem_power": {
+      "title": "STEEM POWER"
+    }
+  },
+  "notification": {
+    "vote": "gefällt dein Beitrag",
+    "unvote": "gefällt dein Beitrag nicht",
+    "reply": "antwortete auf deinen Beitrag",
+    "mention": "hat dich erwähnt",
+    "follow": "folgt dir jetzt",
+    "unfollow": "folgt dir nicht mehr",
+    "ignore": "ignoriert dich",
+    "reblog": "hat deinen Beitrag geteilt",
+    "transfer": "transferred",
+    "notification": "Benachrichtigungen",
+    "leaderboard": "Rangliste",
+    "epoint": "eSteem Punkte",
+    "leaderboard_title": "Top-Benutzer",
+    "recent": "Vor kurzem",
+    "yesterday": "Gestern",
+    "this_week": "Diese Woche",
+    "this_month": "Diesen Monat",
+    "older_then": "Älter als ein Monat"
+  },
+  "leaderboard": {
+    "daily": "Täglich",
+    "weekly": "Wöchentlich",
+    "monthly": "Monatlich"
   },
   "messages": {
     "comingsoon": "Nachrichten-Feature ist bald verfügbar!"
@@ -321,6 +354,13 @@
     "powerUp": "Power Up",
     "withdraw_to_saving": "Auszahlung in den Tresor",
     "steemconnect_title": "Steemconnect Überweisung",
+    "estimated_weekly": "Estimated Weekly",
+    "destination_accounts": "Destination Accounts",
+    "stop_information": "Are you sure want to stop?",
+    "percent": "Percent",
+    "auto_vests": "Auto Vests",
+    "save": "SAVE",
+    "percent_information": "Percent info",
     "next": "WEITER",
     "delegate": "Delegieren",
     "power_down": "Power-Down",
