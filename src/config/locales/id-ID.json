@@ -8,39 +8,12 @@
     "transfer_to_vesting": "Transfer ke vesting",
     "transfer_from_savings": "Transfer Dari Tabungan",
     "withdraw_vesting": "Turunkan Daya Kekuatan",
-    "fill_order": "Isi pesanan"
-  },
-  "notification": {
-    "vote": "menyukai posting anda",
-    "unvote": "membatalkan suara posting anda",
-    "reply": "membalas posting anda",
-    "mention": "menyebut anda",
-    "follow": "mengikuti anda",
-    "unfollow": "berhenti mengikuti anda",
-    "ignore": "mengabaikan anda",
-    "reblog": "menampilkan kembali post anda",
-    "transfer": "transferred",
-    "notification": "Pemberitahuan",
-    "leaderboard": "Papan Peringkat",
-    "epoint": "Poin",
-    "leaderboard_title": "Pengguna Teratas",
-    "recent": "Baru digunakan",
-    "yesterday": "Kemarin",
-    "this_week": "Minggu ini",
-    "this_month": "Bulan ini",
-    "older_then": "Lebih Lama Dari Sebulan"
-  },
-  "leaderboard": {
-    "daily": "DAILY",
-    "weekly": "WEEKLY",
-    "monthly": "MONTHLY"
-  },
-  "points": {
+    "fill_order": "Isi pesanan",
     "post": "Kiriman",
     "comment": "Komentar",
     "checkin": "Masuk",
-    "vote": "Beri suara",
-    "reblog": "Menampilkan kembali",
+    "vote": "Berikan dukungan suara",
+    "reblog": "Reblog",
     "login": "Masuk",
     "incoming_transfer_title": "Transfer masuk",
     "outgoing_transfer_title": "Transfer keluar",
@@ -106,6 +79,31 @@
     "steem_power": {
       "title": "STEEM POWER"
     }
+  },
+  "notification": {
+    "vote": "menyukai posting anda",
+    "unvote": "membatalkan suara posting anda",
+    "reply": "membalas posting anda",
+    "mention": "menyebut anda",
+    "follow": "mengikuti anda",
+    "unfollow": "berhenti mengikuti anda",
+    "ignore": "mengabaikan anda",
+    "reblog": "menampilkan kembali post anda",
+    "transfer": "transferred",
+    "notification": "Pemberitahuan",
+    "leaderboard": "Papan Peringkat",
+    "epoint": "Poin",
+    "leaderboard_title": "Pengguna Teratas",
+    "recent": "Baru digunakan",
+    "yesterday": "Kemarin",
+    "this_week": "Minggu ini",
+    "this_month": "Bulan ini",
+    "older_then": "Lebih Lama Dari Sebulan"
+  },
+  "leaderboard": {
+    "daily": "DAILY",
+    "weekly": "WEEKLY",
+    "monthly": "MONTHLY"
   },
   "messages": {
     "comingsoon": "Fungsi pesan akan segera hadir!"
