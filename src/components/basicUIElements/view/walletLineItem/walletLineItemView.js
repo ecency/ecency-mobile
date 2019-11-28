@@ -2,9 +2,7 @@ import React from 'react';
 import { View, Text } from 'react-native';
 
 // Components
-import GrayWrapper from '../grayWrapper/grayWrapperView';
-import { Icon } from '../../../icon';
-import { DropdownButton } from '../../../dropdownButton';
+import { DropdownButton, PopoverWrapper, Icon, GrayWrapper } from '../../..';
 
 // Styles
 import styles from './walletLineItemStyles';
@@ -27,6 +25,8 @@ const WalletLineItem = ({
   isHasdropdown,
   dropdownOptions,
   onDropdownSelect,
+  hintIconName,
+  hintDescription,
 }) => (
   <GrayWrapper isGray={index && index % 2 !== 0}>
     <View style={[styles.container, fitContent && styles.fitContent, style]}>
@@ -44,7 +44,7 @@ const WalletLineItem = ({
         )}
         <View>
           {!!text && (
-            <View>
+            <View style={styles.textWrapper}>
               <Text
                 style={[
                   styles.text,
@@ -58,6 +58,15 @@ const WalletLineItem = ({
               >
                 {text}
               </Text>
+              {!!hintIconName && (
+                <PopoverWrapper text={hintDescription}>
+                  <Icon
+                    style={[styles.hintIcon, styles.icon]}
+                    name={hintIconName}
+                    iconType={iconType}
+                  />
+                </PopoverWrapper>
+              )}
             </View>
           )}
           {!!description && (

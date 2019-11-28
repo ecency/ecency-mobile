@@ -38,7 +38,7 @@ import {
 import { getUser, getPost } from '../../../providers/steem/dsteem';
 import { switchAccount } from '../../../providers/steem/auth';
 import { setPushToken } from '../../../providers/esteem/esteem';
-import NavigationService from '../../../navigation/service';
+import { navigate } from '../../../navigation/service';
 
 // Actions
 import {
@@ -261,7 +261,7 @@ class ApplicationContainer extends Component {
     if (routeName && (profile || content)) {
       this.navigationTimeout = setTimeout(() => {
         clearTimeout(this.navigationTimeout);
-        NavigationService.navigate({
+        navigate({
           routeName,
           params,
           key: permlink || author,
@@ -401,7 +401,7 @@ class ApplicationContainer extends Component {
           }
 
           if (!some(params, isEmpty)) {
-            NavigationService.navigate({
+            navigate({
               routeName,
               params,
               key,
