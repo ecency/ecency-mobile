@@ -8,36 +8,8 @@
     "transfer_to_vesting": "Átutalás A Veting-be",
     "transfer_from_savings": "Átutalás a megtakarításokhoz",
     "withdraw_vesting": "Power Down",
-    "fill_order": "Megrendelés Kitöltése"
-  },
-  "notification": {
-    "vote": "kedvencelte a bejegyzésed",
-    "unvote": "visszavonta a bejegyzésedre adott szavazatát",
-    "reply": "válaszolt a bejegyzésedre",
-    "mention": "megemlített téged",
-    "follow": "követ téged",
-    "unfollow": "már nem követ téged",
-    "ignore": "mellőzött téged",
-    "reblog": "megosztotta a bejegyzésed",
-    "transfer": "átutalva",
-    "notification": "Értesítések",
-    "leaderboard": "Ranglista",
-    "epoint": "Pontok",
-    "leaderboard_title": "Top Felhasználók",
-    "recent": "Friss",
-    "yesterday": "Tegnap",
-    "this_week": "Ezen a héten",
-    "this_month": "Ebben a hónapban",
-    "older_then": "Egy Hónapnál Régebbi"
-  },
-  "leaderboard": {
-    "daily": "Napi",
-    "weekly": "Heti",
-    "monthly": "Havi"
-  },
-  "points": {
+    "fill_order": "Megrendelés Kitöltése",
     "post": "Bejegyzés",
-    "esteemPoints": "eSteem Pontok",
     "comment": "Hozzászólás",
     "checkin": "Bejelentkezés",
     "vote": "Szavazás",
@@ -69,8 +41,69 @@
     "dropdown_transfer": "Ajándék",
     "dropdown_promote": "Hirdetés",
     "dropdown_boost": "Felpörgetés",
-    "from": "Tőle",
-    "to": "Címzett"
+    "from": "Feladó",
+    "to": "Címzett",
+    "estimated_value_desc": "Determined by purchase value",
+    "estimated_value": "Estimated value",
+    "estimated_amount": "Vote value",
+    "amount_information": "A csúszka húzásával állítsd be a mennyiséget",
+    "amount": "Összeg",
+    "memo": "Üzenet",
+    "information": "Bistoz átutalod?",
+    "amount_desc": "Egyenleg",
+    "memo_desc": "Ez az üzenet nyilvános",
+    "to_placeholder": "Felhasználónév",
+    "memo_placeholder": "Megjegyzés ide",
+    "transfer_token": "Átutalás",
+    "points": "Ajándékozz ESTM-t valakinek",
+    "transfer_to_saving": "Átutalás a megtakarításokhoz",
+    "powerUp": "Power Up",
+    "withdraw_to_saving": "Átutalás A Megtakarításokhoz",
+    "steemconnect_title": "Steemconnect átutalás",
+    "next": "KÖVETKEZŐ",
+    "delegate": "Delegálás",
+    "power_down": "Power Down",
+    "withdraw_steem": "Steem Visszavonás",
+    "withdraw_sbd": "Steem Dollár Visszavonás",
+    "estm": {
+      "title": "eSteem Pontok",
+      "buy": "Vásárolj ESTM-t"
+    },
+    "saving": {
+      "title": "STEEM Savings"
+    },
+    "steem": {
+      "title": "STEEM",
+      "buy": "GET STEEM"
+    },
+    "steem_power": {
+      "title": "STEEM POWER"
+    }
+  },
+  "notification": {
+    "vote": "kedvencelte a bejegyzésed",
+    "unvote": "visszavonta a bejegyzésedre adott szavazatát",
+    "reply": "válaszolt a bejegyzésedre",
+    "mention": "megemlített téged",
+    "follow": "követ téged",
+    "unfollow": "már nem követ téged",
+    "ignore": "mellőzött téged",
+    "reblog": "megosztotta a bejegyzésed",
+    "transfer": "átutalva",
+    "notification": "Értesítések",
+    "leaderboard": "Ranglista",
+    "epoint": "Pontok",
+    "leaderboard_title": "Top Felhasználók",
+    "recent": "Friss",
+    "yesterday": "Tegnap",
+    "this_week": "Ezen a héten",
+    "this_month": "Ebben a hónapban",
+    "older_then": "Egy Hónapnál Régebbi"
+  },
+  "leaderboard": {
+    "daily": "Napi",
+    "weekly": "Heti",
+    "monthly": "Havi"
   },
   "messages": {
     "comingsoon": "Üzenetek funkció hamarosan érkezik!"
@@ -321,6 +354,13 @@
     "powerUp": "Power Up",
     "withdraw_to_saving": "Átutalás A Megtakarításokhoz",
     "steemconnect_title": "Steemconnect átutalás",
+    "estimated_weekly": "Estimated Weekly",
+    "destination_accounts": "Destination Accounts",
+    "stop_information": "Are you sure want to stop?",
+    "percent": "Percent",
+    "auto_vests": "Auto Vests",
+    "save": "SAVE",
+    "percent_information": "Percent info",
     "next": "KÖVETKEZŐ",
     "delegate": "Delegálás",
     "power_down": "Power Down",
