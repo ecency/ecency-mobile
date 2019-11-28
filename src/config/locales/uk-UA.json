@@ -8,39 +8,12 @@
     "transfer_to_vesting": "Підвищення сили голосу",
     "transfer_from_savings": "Переказ із заощаджень",
     "withdraw_vesting": "Зменшення Сили голосу",
-    "fill_order": "Заповніть замовлення"
-  },
-  "notification": {
-    "vote": "сподобалася ваша публікація",
-    "unvote": "проголосував(-ла) за ваш допис",
-    "reply": "відповів(-ла) на ваш допис",
-    "mention": "згадав (-ла) вас",
-    "follow": "підписався(-лась) на вас",
-    "unfollow": "підписався(-лась) на вас",
-    "ignore": "ігнорував тебе",
-    "reblog": "рестімнув ваш допис",
-    "transfer": "відправлено",
-    "notification": "Сповіщення",
-    "leaderboard": "Дошка лідерів",
-    "epoint": "Бали",
-    "leaderboard_title": "Топ користувачів",
-    "recent": "Останні",
-    "yesterday": "Вчора",
-    "this_week": "Цього тижня",
-    "this_month": "Цього місяця",
-    "older_then": "Понад місяць"
-  },
-  "leaderboard": {
-    "daily": "DAILY",
-    "weekly": "WEEKLY",
-    "monthly": "MONTHLY"
-  },
-  "points": {
+    "fill_order": "Заповніть замовлення",
     "post": "Допис",
     "comment": "Коментувати",
     "checkin": "Зареєструвати",
     "vote": "Проголосувати",
-    "reblog": "Рестімнути",
+    "reblog": "Рестім",
     "login": "Логін",
     "incoming_transfer_title": "Вхідний переказ",
     "outgoing_transfer_title": "Вихідний переказ",
@@ -106,6 +79,31 @@
     "steem_power": {
       "title": "STEEM POWER"
     }
+  },
+  "notification": {
+    "vote": "сподобалася ваша публікація",
+    "unvote": "проголосував(-ла) за ваш допис",
+    "reply": "відповів(-ла) на ваш допис",
+    "mention": "згадав (-ла) вас",
+    "follow": "підписався(-лась) на вас",
+    "unfollow": "підписався(-лась) на вас",
+    "ignore": "ігнорував тебе",
+    "reblog": "рестімнув ваш допис",
+    "transfer": "відправлено",
+    "notification": "Сповіщення",
+    "leaderboard": "Дошка лідерів",
+    "epoint": "Бали",
+    "leaderboard_title": "Топ користувачів",
+    "recent": "Останні",
+    "yesterday": "Вчора",
+    "this_week": "Цього тижня",
+    "this_month": "Цього місяця",
+    "older_then": "Понад місяць"
+  },
+  "leaderboard": {
+    "daily": "DAILY",
+    "weekly": "WEEKLY",
+    "monthly": "MONTHLY"
   },
   "messages": {
     "comingsoon": "Функція повідомлень незабаром стане доступною!"

@@ -8,34 +8,7 @@
     "transfer_to_vesting": "Transfer To Vesting",
     "transfer_from_savings": "Transfer From Savings",
     "withdraw_vesting": "Power Down",
-    "fill_order": "Fill Order"
-  },
-  "notification": {
-    "vote": "likes your post",
-    "unvote": "unvoted your post",
-    "reply": "replied to your post",
-    "mention": "mentioned you",
-    "follow": "followed you",
-    "unfollow": "unfollowed you",
-    "ignore": "ignored you",
-    "reblog": "reblogged your post",
-    "transfer": "transferred",
-    "notification": "Notifications",
-    "leaderboard": "Leaderboard",
-    "epoint": "Points",
-    "leaderboard_title": "Top Users",
-    "recent": "Recent",
-    "yesterday": "Yesterday",
-    "this_week": "This Week",
-    "this_month": "This Month",
-    "older_then": "This Week"
-  },
-  "leaderboard": {
-    "daily": "DAILY",
-    "weekly": "WEEKLY",
-    "monthly": "MONTHLY"
-  },
-  "points": {
+    "fill_order": "Fill Order",
     "post": "Post",
     "comment": "Comment",
     "checkin": "Check-in",
@@ -106,6 +79,31 @@
     "steem_power": {
       "title": "STEEM POWER"
     }
+  },
+  "notification": {
+    "vote": "likes your post",
+    "unvote": "unvoted your post",
+    "reply": "replied to your post",
+    "mention": "mentioned you",
+    "follow": "followed you",
+    "unfollow": "unfollowed you",
+    "ignore": "ignored you",
+    "reblog": "reblogged your post",
+    "transfer": "transferred",
+    "notification": "Notifications",
+    "leaderboard": "Leaderboard",
+    "epoint": "Points",
+    "leaderboard_title": "Top Users",
+    "recent": "Recent",
+    "yesterday": "Yesterday",
+    "this_week": "This Week",
+    "this_month": "This Month",
+    "older_then": "This Week"
+  },
+  "leaderboard": {
+    "daily": "DAILY",
+    "weekly": "WEEKLY",
+    "monthly": "MONTHLY"
   },
   "messages": {
     "comingsoon": "விரைவில் வரும் செய்திகளை அம்சம்!"

@@ -8,39 +8,12 @@
     "transfer_to_vesting": "Transferir a Sp (Vesting)",
     "transfer_from_savings": "Transferir desde ahorros",
     "withdraw_vesting": "Power down",
-    "fill_order": "Completar orden"
-  },
-  "notification": {
-    "vote": "le gusta tu publicación",
-    "unvote": "quitó su voto de tu publicación",
-    "reply": "contestó tu publicación",
-    "mention": "te mencionó",
-    "follow": "te siguió",
-    "unfollow": "dejó de seguirte",
-    "ignore": "te ignoró",
-    "reblog": "reblogueó tu publicación",
-    "transfer": "transferido",
-    "notification": "Notificaciones",
-    "leaderboard": "Tabla de posiciones",
-    "epoint": "Puntos",
-    "leaderboard_title": "Mejores usuarios",
-    "recent": "Reciente",
-    "yesterday": "Ayer",
-    "this_week": "Esta semana",
-    "this_month": "Este mes",
-    "older_then": "Más de un mes"
-  },
-  "leaderboard": {
-    "daily": "DAILY",
-    "weekly": "WEEKLY",
-    "monthly": "MONTHLY"
-  },
-  "points": {
+    "fill_order": "Completar orden",
     "post": "Publicar",
-    "comment": "Comentar",
+    "comment": "Comentario",
     "checkin": "Registrarse",
-    "vote": "Votar",
-    "reblog": "Rebloguear",
+    "vote": "Voto",
+    "reblog": "Reblogueo",
     "login": "Iniciar sesión",
     "incoming_transfer_title": "Transferencia entrante",
     "outgoing_transfer_title": "Transferencia enviada",
@@ -68,8 +41,8 @@
     "dropdown_transfer": "Regalar",
     "dropdown_promote": "Promocionar",
     "dropdown_boost": "Impulsar",
-    "from": "De",
-    "to": "A",
+    "from": "Desde",
+    "to": "Para",
     "estimated_value_desc": "Determined by purchase value",
     "estimated_value": "Estimated value",
     "estimated_amount": "Vote value",
@@ -106,6 +79,31 @@
     "steem_power": {
       "title": "STEEM POWER"
     }
+  },
+  "notification": {
+    "vote": "le gusta tu publicación",
+    "unvote": "quitó su voto de tu publicación",
+    "reply": "contestó tu publicación",
+    "mention": "te mencionó",
+    "follow": "te siguió",
+    "unfollow": "dejó de seguirte",
+    "ignore": "te ignoró",
+    "reblog": "reblogueó tu publicación",
+    "transfer": "transferido",
+    "notification": "Notificaciones",
+    "leaderboard": "Tabla de posiciones",
+    "epoint": "Puntos",
+    "leaderboard_title": "Mejores usuarios",
+    "recent": "Reciente",
+    "yesterday": "Ayer",
+    "this_week": "Esta semana",
+    "this_month": "Este mes",
+    "older_then": "Más de un mes"
+  },
+  "leaderboard": {
+    "daily": "DAILY",
+    "weekly": "WEEKLY",
+    "monthly": "MONTHLY"
   },
   "messages": {
     "comingsoon": "Pronto mensajería instantánea!"

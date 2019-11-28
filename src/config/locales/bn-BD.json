@@ -8,34 +8,7 @@
     "transfer_to_vesting": "Vesting কাছে হস্তান্তর",
     "transfer_from_savings": "সঞ্চয় থেকে স্থানান্তর করুন",
     "withdraw_vesting": "ক্ষমতা হ্রাস করুন",
-    "fill_order": "অর্ডার পূরণ করুন"
-  },
-  "notification": {
-    "vote": "আপনার পোস্ট পছন্দ করেছে",
-    "unvote": "পোস্টের ভোট মুছে ফেলেছে",
-    "reply": "পোস্টে জবাব দিয়েছে",
-    "mention": "আপনাকে উল্লেখ করেছে",
-    "follow": "আপনাকে অনুসরণ করেছে",
-    "unfollow": "আপনাকে অননুসরণ করেছে",
-    "ignore": "আপনাকে উপেক্ষা করেছে",
-    "reblog": "reblogged your post",
-    "transfer": "transferred",
-    "notification": "Notifications",
-    "leaderboard": "Leaderboard",
-    "epoint": "Points",
-    "leaderboard_title": "Top Users",
-    "recent": "Recent",
-    "yesterday": "Yesterday",
-    "this_week": "This Week",
-    "this_month": "This Month",
-    "older_then": "Older Than A Month"
-  },
-  "leaderboard": {
-    "daily": "DAILY",
-    "weekly": "WEEKLY",
-    "monthly": "MONTHLY"
-  },
-  "points": {
+    "fill_order": "অর্ডার পূরণ করুন",
     "post": "Post",
     "comment": "Comment",
     "checkin": "Check-in",
@@ -106,6 +79,31 @@
     "steem_power": {
       "title": "STEEM POWER"
     }
+  },
+  "notification": {
+    "vote": "আপনার পোস্ট পছন্দ করেছে",
+    "unvote": "পোস্টের ভোট মুছে ফেলেছে",
+    "reply": "পোস্টে জবাব দিয়েছে",
+    "mention": "আপনাকে উল্লেখ করেছে",
+    "follow": "আপনাকে অনুসরণ করেছে",
+    "unfollow": "আপনাকে অননুসরণ করেছে",
+    "ignore": "আপনাকে উপেক্ষা করেছে",
+    "reblog": "reblogged your post",
+    "transfer": "transferred",
+    "notification": "Notifications",
+    "leaderboard": "Leaderboard",
+    "epoint": "Points",
+    "leaderboard_title": "Top Users",
+    "recent": "Recent",
+    "yesterday": "Yesterday",
+    "this_week": "This Week",
+    "this_month": "This Month",
+    "older_then": "Older Than A Month"
+  },
+  "leaderboard": {
+    "daily": "DAILY",
+    "weekly": "WEEKLY",
+    "monthly": "MONTHLY"
   },
   "messages": {
     "comingsoon": "Messages feature is coming soon!"

@@ -8,36 +8,9 @@
     "transfer_to_vesting": "Transferir para vesting",
     "transfer_from_savings": "Transferir da Poupança",
     "withdraw_vesting": "Decarregar Poder",
-    "fill_order": "Preencher pedido"
-  },
-  "notification": {
-    "vote": "gosta do seu post",
-    "unvote": "retirou voto do seu post",
-    "reply": "respondeu ao seu post",
-    "mention": "mencionou voçê",
-    "follow": "seguiu você",
-    "unfollow": "deixou de seguir você",
-    "ignore": "ignorou você",
-    "reblog": "reblogou o seu post",
-    "transfer": "transferido",
-    "notification": "Notificações",
-    "leaderboard": "Quadro de Liderança",
-    "epoint": "Pontos",
-    "leaderboard_title": "Top Usuários",
-    "recent": "Recente",
-    "yesterday": "Ontem",
-    "this_week": "Esta Semana",
-    "this_month": "Este Mês",
-    "older_then": "Com mais de um mês"
-  },
-  "leaderboard": {
-    "daily": "DAILY",
-    "weekly": "WEEKLY",
-    "monthly": "MONTHLY"
-  },
-  "points": {
+    "fill_order": "Preencher pedido",
     "post": "Publicar",
-    "comment": "Comentário",
+    "comment": "Comentar",
     "checkin": "Registo de entrada",
     "vote": "Votar",
     "reblog": "Republicar",
@@ -106,6 +79,31 @@
     "steem_power": {
       "title": "STEEM POWER"
     }
+  },
+  "notification": {
+    "vote": "gosta do seu post",
+    "unvote": "retirou voto do seu post",
+    "reply": "respondeu ao seu post",
+    "mention": "mencionou voçê",
+    "follow": "seguiu você",
+    "unfollow": "deixou de seguir você",
+    "ignore": "ignorou você",
+    "reblog": "reblogou o seu post",
+    "transfer": "transferido",
+    "notification": "Notificações",
+    "leaderboard": "Quadro de Liderança",
+    "epoint": "Pontos",
+    "leaderboard_title": "Top Usuários",
+    "recent": "Recente",
+    "yesterday": "Ontem",
+    "this_week": "Esta Semana",
+    "this_month": "Este Mês",
+    "older_then": "Com mais de um mês"
+  },
+  "leaderboard": {
+    "daily": "DAILY",
+    "weekly": "WEEKLY",
+    "monthly": "MONTHLY"
   },
   "messages": {
     "comingsoon": "Recurso de mensagens chega em breve!"

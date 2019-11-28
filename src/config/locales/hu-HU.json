@@ -8,34 +8,7 @@
     "transfer_to_vesting": "Átutalás A Veting-be",
     "transfer_from_savings": "Átutalás a megtakarításokhoz",
     "withdraw_vesting": "Power Down",
-    "fill_order": "Megrendelés Kitöltése"
-  },
-  "notification": {
-    "vote": "kedvencelte a bejegyzésed",
-    "unvote": "visszavonta a bejegyzésedre adott szavazatát",
-    "reply": "válaszolt a bejegyzésedre",
-    "mention": "megemlített téged",
-    "follow": "követ téged",
-    "unfollow": "már nem követ téged",
-    "ignore": "mellőzött téged",
-    "reblog": "megosztotta a bejegyzésed",
-    "transfer": "átutalva",
-    "notification": "Értesítések",
-    "leaderboard": "Ranglista",
-    "epoint": "Pontok",
-    "leaderboard_title": "Top Felhasználók",
-    "recent": "Friss",
-    "yesterday": "Tegnap",
-    "this_week": "Ezen a héten",
-    "this_month": "Ebben a hónapban",
-    "older_then": "Egy Hónapnál Régebbi"
-  },
-  "leaderboard": {
-    "daily": "DAILY",
-    "weekly": "WEEKLY",
-    "monthly": "MONTHLY"
-  },
-  "points": {
+    "fill_order": "Megrendelés Kitöltése",
     "post": "Bejegyzés",
     "comment": "Hozzászólás",
     "checkin": "Bejelentkezés",
@@ -68,7 +41,7 @@
     "dropdown_transfer": "Ajándék",
     "dropdown_promote": "Hirdetés",
     "dropdown_boost": "Felpörgetés",
-    "from": "Tőle",
+    "from": "Feladó",
     "to": "Címzett",
     "estimated_value_desc": "Determined by purchase value",
     "estimated_value": "Estimated value",
@@ -106,6 +79,31 @@
     "steem_power": {
       "title": "STEEM POWER"
     }
+  },
+  "notification": {
+    "vote": "kedvencelte a bejegyzésed",
+    "unvote": "visszavonta a bejegyzésedre adott szavazatát",
+    "reply": "válaszolt a bejegyzésedre",
+    "mention": "megemlített téged",
+    "follow": "követ téged",
+    "unfollow": "már nem követ téged",
+    "ignore": "mellőzött téged",
+    "reblog": "megosztotta a bejegyzésed",
+    "transfer": "átutalva",
+    "notification": "Értesítések",
+    "leaderboard": "Ranglista",
+    "epoint": "Pontok",
+    "leaderboard_title": "Top Felhasználók",
+    "recent": "Friss",
+    "yesterday": "Tegnap",
+    "this_week": "Ezen a héten",
+    "this_month": "Ebben a hónapban",
+    "older_then": "Egy Hónapnál Régebbi"
+  },
+  "leaderboard": {
+    "daily": "DAILY",
+    "weekly": "WEEKLY",
+    "monthly": "MONTHLY"
   },
   "messages": {
     "comingsoon": "Üzenetek funkció hamarosan érkezik!"
