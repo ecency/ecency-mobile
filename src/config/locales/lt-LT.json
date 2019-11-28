@@ -8,12 +8,39 @@
     "transfer_to_vesting": "Pervesti į Investicijas",
     "transfer_from_savings": "Išsiimti Iš Santaupų",
     "withdraw_vesting": "Mažinti Galią",
-    "fill_order": "Užpildyti",
+    "fill_order": "Užpildyti"
+  },
+  "notification": {
+    "vote": "mėgsta jūsų įrašą",
+    "unvote": "nebemėgsta jūsų įrašo",
+    "reply": "atsakė į jūsų įrašą",
+    "mention": "paminėjo jus",
+    "follow": "jus seka",
+    "unfollow": "jūsų nebeseka",
+    "ignore": "jus ignoravo",
+    "reblog": "pasidalino jūsų įrašu",
+    "transfer": "transferred",
+    "notification": "Pranešimai",
+    "leaderboard": "Lyderiai",
+    "epoint": "Taškai",
+    "leaderboard_title": "Top Users",
+    "recent": "Naujausi",
+    "yesterday": "Vakar",
+    "this_week": "Šią savaitę",
+    "this_month": "Šį mėnesį",
+    "older_then": "Senesni nei vieno mėnesio"
+  },
+  "leaderboard": {
+    "daily": "DAILY",
+    "weekly": "WEEKLY",
+    "monthly": "MONTHLY"
+  },
+  "points": {
     "post": "Įrašas",
-    "comment": "Komentarai",
+    "comment": "Komentaras",
     "checkin": "Check-in",
-    "vote": "Balsai",
-    "reblog": "Pasidalinimai",
+    "vote": "Balsas",
+    "reblog": "Pasidalinimas",
     "login": "Prisijungimas",
     "incoming_transfer_title": "Incoming transfer",
     "outgoing_transfer_title": "Outgoing transfer",
@@ -41,8 +68,8 @@
     "dropdown_transfer": "Gift",
     "dropdown_promote": "Promote",
     "dropdown_boost": "Boost",
-    "from": "Nuo",
-    "to": "Į",
+    "from": "From",
+    "to": "To",
     "estimated_value_desc": "Determined by purchase value",
     "estimated_value": "Estimated value",
     "estimated_amount": "Vote value",
@@ -79,31 +106,6 @@
     "steem_power": {
       "title": "STEEM POWER"
     }
-  },
-  "notification": {
-    "vote": "mėgsta jūsų įrašą",
-    "unvote": "nebemėgsta jūsų įrašo",
-    "reply": "atsakė į jūsų įrašą",
-    "mention": "paminėjo jus",
-    "follow": "jus seka",
-    "unfollow": "jūsų nebeseka",
-    "ignore": "jus ignoravo",
-    "reblog": "pasidalino jūsų įrašu",
-    "transfer": "transferred",
-    "notification": "Pranešimai",
-    "leaderboard": "Lyderiai",
-    "epoint": "Taškai",
-    "leaderboard_title": "Top Users",
-    "recent": "Naujausi",
-    "yesterday": "Vakar",
-    "this_week": "Šią savaitę",
-    "this_month": "Šį mėnesį",
-    "older_then": "Senesni nei vieno mėnesio"
-  },
-  "leaderboard": {
-    "daily": "Daily",
-    "weekly": "Weekly",
-    "monthly": "Monthly"
   },
   "messages": {
     "comingsoon": "Žinučių funkcija jau greitai!"
@@ -332,10 +334,12 @@
     "comments": "Komentarai"
   },
   "comment_filter": {
-    "trending": "populiariausi",
-    "reputation": "reputacija",
-    "votes": "balsai",
-    "age": "laikas"
+    "trending": "TOP",
+    "reputation": "REPUTATION",
+    "votes": "VOTE",
+    "age": "AGE",
+    "top": "TOP",
+    "time": "TIME"
   },
   "transfer": {
     "from": "Nuo",
