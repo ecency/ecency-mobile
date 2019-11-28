@@ -8,19 +8,46 @@
     "transfer_to_vesting": "Transferir a Sp (Vesting)",
     "transfer_from_savings": "Transferir desde ahorros",
     "withdraw_vesting": "Power down",
-    "fill_order": "Completar orden",
+    "fill_order": "Completar orden"
+  },
+  "notification": {
+    "vote": "le gusta tu publicación",
+    "unvote": "quitó su voto de tu publicación",
+    "reply": "contestó tu publicación",
+    "mention": "te mencionó",
+    "follow": "te siguió",
+    "unfollow": "dejó de seguirte",
+    "ignore": "te ignoró",
+    "reblog": "reblogueó tu publicación",
+    "transfer": "transferido",
+    "notification": "Notificaciones",
+    "leaderboard": "Tabla de posiciones",
+    "epoint": "Puntos",
+    "leaderboard_title": "Mejores usuarios",
+    "recent": "Reciente",
+    "yesterday": "Ayer",
+    "this_week": "Esta semana",
+    "this_month": "Este mes",
+    "older_then": "Más de un mes"
+  },
+  "leaderboard": {
+    "daily": "DAILY",
+    "weekly": "WEEKLY",
+    "monthly": "MONTHLY"
+  },
+  "points": {
     "post": "Publicar",
-    "comment": "Comentario",
+    "comment": "Comentar",
     "checkin": "Registrarse",
-    "vote": "Voto",
-    "reblog": "Reblogueo",
+    "vote": "Votar",
+    "reblog": "Rebloguear",
     "login": "Iniciar sesión",
     "incoming_transfer_title": "Transferencia entrante",
     "outgoing_transfer_title": "Transferencia enviada",
     "checkin_extra": "Bono",
     "delegation": "Delegación",
     "delegation_title": "Recompensa por delegación",
-    "delegation_desc": "Gana ESTM cada día por una delegación",
+    "delegation_desc": "Earn ESTM everyday for delegation",
     "post_title": "Puntos por publicar",
     "comment_title": "Puntos por comentar",
     "vote_title": "Puntos por votar",
@@ -31,21 +58,21 @@
     "no_activity": "¡No hay actividad aquí!",
     "outgoing_transfer_description": "",
     "incoming_transfer_description": "",
-    "post_desc": "Puedes ganar puntos publicando regularmente. Hacer una publicación te da hasta 15 puntos.",
-    "comment_desc": "Cada comentario que hagas ayuda a hacer crecer tu audiencia y a hacer amigos, pero también te da hasta 5 puntos.",
+    "post_desc": "You can earn point by posting regularly. Posting gives you upto 15 points.",
+    "comment_desc": "Each comment you make helps you to grow your audience and make friendship but also earns you upto 5 points.",
     "checkin_desc": "Estar conectado en eSteem te da 0.25 puntos y te ayuda a estar conectado con tus amigos.",
-    "vote_desc": "Al votar das recompensas a otros creadores y muestras tu aprecio, pero también generas de vuelta hasta 0.01 puntos * por el peso de tu voto.",
-    "reblog_desc": "Comparte una publicación que te guste con tus amigos y gana hasta 1 puntos.",
+    "vote_desc": "By voting you give reward to other creators and show your appreciation but also earn back upto 0.01 x vote weight points.",
+    "reblog_desc": "Share what post you like with your friends and earn upto 1 points.",
     "login_desc": "Cuando inicies sesión en eSteem tienes derecho a recibir 100 puntos automáticamente.",
     "checkin_extra_desc": "El uso constante de la aplicación te otorga más posibilidades de generar más de 10 puntos, se más activo y gana más.",
     "dropdown_transfer": "Regalar",
     "dropdown_promote": "Promocionar",
     "dropdown_boost": "Impulsar",
-    "from": "Desde",
-    "to": "Para",
-    "estimated_value_desc": "Determinado por el valor de compra",
-    "estimated_value": "Valor estimado",
-    "estimated_amount": "Valor del voto",
+    "from": "De",
+    "to": "A",
+    "estimated_value_desc": "Determined by purchase value",
+    "estimated_value": "Estimated value",
+    "estimated_amount": "Vote value",
     "amount_information": "Arrastra el deslizador para ajustar la cantidad",
     "amount": "Cantidad",
     "memo": "Memo",
@@ -70,40 +97,15 @@
       "buy": "OBTENER ESTM"
     },
     "saving": {
-      "title": "Ahorros en STEEM"
+      "title": "STEEM Savings"
     },
     "steem": {
       "title": "STEEM",
-      "buy": "OBTENER STEEM"
+      "buy": "GET STEEM"
     },
     "steem_power": {
       "title": "STEEM POWER"
     }
-  },
-  "notification": {
-    "vote": "le gusta tu publicación",
-    "unvote": "quitó su voto de tu publicación",
-    "reply": "contestó tu publicación",
-    "mention": "te mencionó",
-    "follow": "te siguió",
-    "unfollow": "dejó de seguirte",
-    "ignore": "te ignoró",
-    "reblog": "reblogueó tu publicación",
-    "transfer": "transferido",
-    "notification": "Notificaciones",
-    "leaderboard": "Tabla de posiciones",
-    "epoint": "Puntos",
-    "leaderboard_title": "Mejores usuarios",
-    "recent": "Reciente",
-    "yesterday": "Ayer",
-    "this_week": "Esta semana",
-    "this_month": "Este mes",
-    "older_then": "Más de un mes"
-  },
-  "leaderboard": {
-    "daily": "Diariamente",
-    "weekly": "Semanalmente",
-    "monthly": "Mensualmente"
   },
   "messages": {
     "comingsoon": "Pronto mensajería instantánea!"
@@ -332,10 +334,12 @@
     "comments": "Comentarios"
   },
   "comment_filter": {
-    "trending": "tendencia",
-    "reputation": "reputación",
-    "votes": "votos",
-    "age": "fecha de creación"
+    "trending": "TOP",
+    "reputation": "REPUTATION",
+    "votes": "VOTE",
+    "age": "AGE",
+    "top": "TOP",
+    "time": "TIEMPO"
   },
   "transfer": {
     "from": "Desde",
