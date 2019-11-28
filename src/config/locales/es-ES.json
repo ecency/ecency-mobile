@@ -74,7 +74,7 @@
     },
     "steem": {
       "title": "STEEM",
-      "buy": "GET STEEM"
+      "buy": "OBTENER STEEM"
     },
     "steem_power": {
       "title": "STEEM POWER"
@@ -354,13 +354,13 @@
     "powerUp": "Hacer Power Up",
     "withdraw_to_saving": "Retirar a Ahorros",
     "steemconnect_title": "Transferencia Steemconnect",
-    "estimated_weekly": "Estimated Weekly",
-    "destination_accounts": "Destination Accounts",
-    "stop_information": "Are you sure want to stop?",
-    "percent": "Percent",
+    "estimated_weekly": "Estimado Semana",
+    "destination_accounts": "Cuentas destino",
+    "stop_information": "¿Estás seguro de detener?",
+    "percent": "Porcentaje",
     "auto_vests": "Auto Vests",
-    "save": "SAVE",
-    "percent_information": "Percent info",
+    "save": "GUARDAR",
+    "percent_information": "Información del porcentaje",
     "next": "SIGUIENTE",
     "delegate": "Delegar",
     "power_down": "Hacer Power Down",
