@@ -8,7 +8,34 @@
     "transfer_to_vesting": "Prenesi u Vesting",
     "transfer_from_savings": "Prebaci sa štednje",
     "withdraw_vesting": "Smanji Moć",
-    "fill_order": "Ispuni Nalog",
+    "fill_order": "Ispuni Nalog"
+  },
+  "notification": {
+    "vote": "se sviđa vaša objava",
+    "unvote": "je odglasao vašu objavu",
+    "reply": "je odgovorio na vašu objavu",
+    "mention": "te spomenuo/la",
+    "follow": "te prati",
+    "unfollow": "te prestao/la pratiti",
+    "ignore": "te ignorira",
+    "reblog": "je podijelio tvoju objavu",
+    "transfer": "transferred",
+    "notification": "Obavijesti",
+    "leaderboard": "Rang lista",
+    "epoint": "Points",
+    "leaderboard_title": "Top Users",
+    "recent": "Nedavno",
+    "yesterday": "Jučer",
+    "this_week": "Ovog Tjedna",
+    "this_month": "Ovaj Mjesec",
+    "older_then": "Starije od mjesec dana"
+  },
+  "leaderboard": {
+    "daily": "DAILY",
+    "weekly": "WEEKLY",
+    "monthly": "MONTHLY"
+  },
+  "points": {
     "post": "Post",
     "comment": "Comment",
     "checkin": "Check-in",
@@ -79,31 +106,6 @@
     "steem_power": {
       "title": "STEEM POWER"
     }
-  },
-  "notification": {
-    "vote": "se sviđa vaša objava",
-    "unvote": "je odglasao vašu objavu",
-    "reply": "je odgovorio na vašu objavu",
-    "mention": "te spomenuo/la",
-    "follow": "te prati",
-    "unfollow": "te prestao/la pratiti",
-    "ignore": "te ignorira",
-    "reblog": "je podijelio tvoju objavu",
-    "transfer": "transferred",
-    "notification": "Obavijesti",
-    "leaderboard": "Rang lista",
-    "epoint": "Points",
-    "leaderboard_title": "Top Users",
-    "recent": "Nedavno",
-    "yesterday": "Jučer",
-    "this_week": "Ovog Tjedna",
-    "this_month": "Ovaj Mjesec",
-    "older_then": "Starije od mjesec dana"
-  },
-  "leaderboard": {
-    "daily": "Daily",
-    "weekly": "Weekly",
-    "monthly": "Monthly"
   },
   "messages": {
     "comingsoon": "Značajka poruka dolazi uskoro!"
@@ -332,10 +334,12 @@
     "comments": "Comments"
   },
   "comment_filter": {
-    "trending": "trending",
-    "reputation": "reputation",
-    "votes": "votes",
-    "age": "age"
+    "trending": "TOP",
+    "reputation": "REPUTATION",
+    "votes": "VOTE",
+    "age": "AGE",
+    "top": "TOP",
+    "time": "TIME"
   },
   "transfer": {
     "from": "From",
