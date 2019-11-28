@@ -1794,45 +1794,45 @@ anymatch@^2.0.0:
     micromatch "^3.1.4"
     normalize-path "^2.1.1"
 
-appcenter-analytics@2.4.0:
-  version "2.4.0"
-  resolved "https://registry.yarnpkg.com/appcenter-analytics/-/appcenter-analytics-2.4.0.tgz#2b20047a72e2e469890359ab3ae26b791c4e1921"
-  integrity sha512-Rf9GLE7fOuNP95jW5eRgDgTBtvofW9KMJ+ckxAgVrd3sEEq2n+6lKe7SLvrl5FNuS3IMgO8RuR/0Iuf08w2tPA==
+appcenter-analytics@^2.6.0:
+  version "2.6.0"
+  resolved "https://registry.yarnpkg.com/appcenter-analytics/-/appcenter-analytics-2.6.0.tgz#3e497cfcd92efec9afed66560dc447014e556ac9"
+  integrity sha512-OxFFO1DFiFs5Ds1BJAVs8MjaP4t+U232VWoSxh3osLkdi02us9F80kdvBoFTW1Z78HbMtNxlof+bWUcpDksR5A==
   dependencies:
-    appcenter "2.4.0"
+    appcenter "2.6.0"
 
-appcenter-crashes@2.4.0:
-  version "2.4.0"
-  resolved "https://registry.yarnpkg.com/appcenter-crashes/-/appcenter-crashes-2.4.0.tgz#95d1e4f8c50b760411d211061f2e323c57c2a09d"
-  integrity sha512-B1GCIzn4Kf5c0+P7iSwqzW5CnaOQifMV2s6yz4GapC8bOA2xVdrX8SfJjiKV48F1ZpHCURxa7P1XvAvApx5NJg==
+appcenter-crashes@^2.6.0:
+  version "2.6.0"
+  resolved "https://registry.yarnpkg.com/appcenter-crashes/-/appcenter-crashes-2.6.0.tgz#a129067572e05ac044ea990573b13017345320fa"
+  integrity sha512-tPgCpaMMQr6HQQGUqgWksHGKbzKRgWEhUkm6gjdLbdsP6sW7rPfRaVHQMlmUY63JRElsl6o3+VBt22du1U1XdQ==
   dependencies:
-    appcenter "2.4.0"
+    appcenter "2.6.0"
 
-appcenter-link-scripts@2.4.0:
-  version "2.4.0"
-  resolved "https://registry.yarnpkg.com/appcenter-link-scripts/-/appcenter-link-scripts-2.4.0.tgz#2db2f3c7f701a7c901dd0b9e419600ecb59002af"
-  integrity sha512-83uH2hb2C2ORp9yqipKaA3uR4yt2w+0x5Tyli6ukvqTrKm1hBJwL+I4lM2TD4jOrfkycgiRtVmPPIwQyFZkp6g==
+appcenter-link-scripts@2.6.0:
+  version "2.6.0"
+  resolved "https://registry.yarnpkg.com/appcenter-link-scripts/-/appcenter-link-scripts-2.6.0.tgz#becf08ac55b69b4d09f134e6b2d85b95100cabc2"
+  integrity sha512-lmlvy/prJWlzGSnrzuZTXI398El4+nx+SSLXjpGYhPkJv9aFbs+1nF0WP5qqcJeBkdc8XJIWhicWvNy5lkU1LQ==
   dependencies:
-    debug "2.2.0"
+    debug "4.1.1"
     glob "5.0.15"
     mkdirp "0.5.1"
     plist "3.0.1"
     which "1.2.11"
     xcode "2.0.0"
 
-appcenter-push@2.4.0:
-  version "2.4.0"
-  resolved "https://registry.yarnpkg.com/appcenter-push/-/appcenter-push-2.4.0.tgz#9eb5305647eec01692583902f555c864ff1743ee"
-  integrity sha512-L+MRzEOEkyV8/NAVUPkwdMXJPJywE74ln39wyZpTJQ+rWtaAd3X3BsRem2sy8OBxjvWT251ILUDT611D6hZw2A==
+appcenter-push@^2.6.0:
+  version "2.6.0"
+  resolved "https://registry.yarnpkg.com/appcenter-push/-/appcenter-push-2.6.0.tgz#b5a366b0d11f56ef5a953ab612477a94c93dea0b"
+  integrity sha512-kX/ITO8TI0nJ4Fd4NKFzxWWkBTrCodpBs5C0ieYEsZOABCB4BpnFHLT1xcfCQ8HJ3XJSpyu4PmZeZpKYGMGJbw==
   dependencies:
-    appcenter "2.4.0"
+    appcenter "2.6.0"
 
-appcenter@2.4.0:
-  version "2.4.0"
-  resolved "https://registry.yarnpkg.com/appcenter/-/appcenter-2.4.0.tgz#9e8737d2edbecbec139e20402bc85670900d84fa"
-  integrity sha512-BV9/b9lH8mkg4O6NMXRFZ2PzTTt8GXnIWTSOZRTJBJxUOm4XgsguQ/yfdWckZeUTwsnA8u4aE0C/pKzNaw9d3A==
+appcenter@2.6.0, appcenter@^2.6.0:
+  version "2.6.0"
+  resolved "https://registry.yarnpkg.com/appcenter/-/appcenter-2.6.0.tgz#999137c85d84f9584f2fe2660ca57b52541f1dc0"
+  integrity sha512-Ud4lGIOKxgmACNJLE6Koie2Gl1BksgY/ZwxlaN/WEgpnOoDTGFORSt1yNcX79SCuPcZ9g2JE2djeeXBKMSh+5A==
   dependencies:
-    appcenter-link-scripts "2.4.0"
+    appcenter-link-scripts "2.6.0"
 
 aproba@^1.0.3:
   version "1.2.0"
@@ -2947,13 +2947,6 @@ debounce@^1.2.0:
   resolved "https://registry.yarnpkg.com/debounce/-/debounce-1.2.0.tgz#44a540abc0ea9943018dc0eaa95cce87f65cd131"
   integrity sha512-mYtLl1xfZLi1m4RtQYlZgJUNQjl4ZxVnHzIR8nLLgi4q1YT8o/WM+MK/f8yfcc9s5Ir5zRaPZyZU6xs1Syoocg==
 
-debug@2.2.0:
-  version "2.2.0"
-  resolved "https://registry.yarnpkg.com/debug/-/debug-2.2.0.tgz#f87057e995b1a1f6ae6a4960664137bc56f039da"
-  integrity sha1-+HBX6ZWxofauaklgZkE3vFbwOdo=
-  dependencies:
-    ms "0.7.1"
-
 debug@2.6.9, debug@^2.2.0, debug@^2.3.3, debug@^2.6.8, debug@^2.6.9:
   version "2.6.9"
   resolved "https://registry.yarnpkg.com/debug/-/debug-2.6.9.tgz#5d128515df134ff327e90a4c93f4e077a536341f"
@@ -2968,7 +2961,7 @@ debug@3.1.0, debug@=3.1.0:
   dependencies:
     ms "2.0.0"
 
-debug@4, debug@^4.0.1, debug@^4.1.0, debug@^4.1.1:
+debug@4, debug@4.1.1, debug@^4.0.1, debug@^4.1.0, debug@^4.1.1:
   version "4.1.1"
   resolved "https://registry.yarnpkg.com/debug/-/debug-4.1.1.tgz#3b72260255109c6b589cee050f1d516139664791"
   integrity sha512-pYAIzeRo8J6KPEaJ0VWOh5Pzkbw/RetuzehGM7QRRX5he4fPHx2rdKMB256ehJCkX+XRQm16eZLqLNS8RSZXZw==
@@ -6406,11 +6399,6 @@ morgan@^1.9.0:
     depd "~1.1.2"
     on-finished "~2.3.0"
     on-headers "~1.0.1"
-
-ms@0.7.1:
-  version "0.7.1"
-  resolved "https://registry.yarnpkg.com/ms/-/ms-0.7.1.tgz#9cd13c03adbff25b65effde7ce864ee952017098"
-  integrity sha1-nNE8A62/8ltl7/3nzoZO6VIBcJg=
 
 ms@2.0.0:
   version "2.0.0"
