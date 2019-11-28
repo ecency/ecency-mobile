@@ -20,11 +20,12 @@ export default EStyleSheet.create({
     justifyContent: 'center',
   },
   headerTitle: {
-    color: '$iconColor',
-    alignSelf: 'center',
-    fontSize: 24,
-    marginLeft: 16,
+    color: '$primaryBlack',
     flexGrow: 1,
+    alignSelf: 'center',
+    textAlign: 'center',
+    fontSize: 20,
+    marginLeft: 50,
     fontWeight: '500',
   },
   closeButton: {
@@ -34,7 +35,7 @@ export default EStyleSheet.create({
   },
   closeIcon: {
     fontSize: 24,
-    color: '$iconColor',
+    color: '$primaryBlack',
   },
   safeArea: {
     backgroundColor: '$primaryBackgroundColor',

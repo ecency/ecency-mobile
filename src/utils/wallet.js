@@ -159,7 +159,7 @@ export const groomingWalletData = async (user, globalProps) => {
 
   walletData.showPowerDown = user.next_vesting_withdrawal !== '1969-12-31T23:59:59';
   const timeDiff = Math.abs(parseDate(user.next_vesting_withdrawal) - new Date());
-  walletData.nextVestingWithdrawal = Math.ceil(timeDiff / (1000 * 3600 * 24));
+  walletData.nextVestingWithdrawal = Math.floor(timeDiff / (1000 * 3600 * 24));
 
   const { transfer_history: transferHistory } = get(accounts, user.name, []);
   walletData.transactions = transferHistory
