@@ -8,12 +8,39 @@
     "transfer_to_vesting": "Transfer ke vesting",
     "transfer_from_savings": "Transfer Dari Tabungan",
     "withdraw_vesting": "Turunkan Daya Kekuatan",
-    "fill_order": "Isi pesanan",
+    "fill_order": "Isi pesanan"
+  },
+  "notification": {
+    "vote": "menyukai posting anda",
+    "unvote": "membatalkan suara posting anda",
+    "reply": "membalas posting anda",
+    "mention": "menyebut anda",
+    "follow": "mengikuti anda",
+    "unfollow": "berhenti mengikuti anda",
+    "ignore": "mengabaikan anda",
+    "reblog": "menampilkan kembali post anda",
+    "transfer": "transferred",
+    "notification": "Pemberitahuan",
+    "leaderboard": "Papan Peringkat",
+    "epoint": "Poin",
+    "leaderboard_title": "Pengguna Teratas",
+    "recent": "Baru digunakan",
+    "yesterday": "Kemarin",
+    "this_week": "Minggu ini",
+    "this_month": "Bulan ini",
+    "older_then": "Lebih Lama Dari Sebulan"
+  },
+  "leaderboard": {
+    "daily": "DAILY",
+    "weekly": "WEEKLY",
+    "monthly": "MONTHLY"
+  },
+  "points": {
     "post": "Kiriman",
     "comment": "Komentar",
     "checkin": "Masuk",
-    "vote": "Berikan dukungan suara",
-    "reblog": "Reblog",
+    "vote": "Beri suara",
+    "reblog": "Menampilkan kembali",
     "login": "Masuk",
     "incoming_transfer_title": "Transfer masuk",
     "outgoing_transfer_title": "Transfer keluar",
@@ -79,31 +106,6 @@
     "steem_power": {
       "title": "STEEM POWER"
     }
-  },
-  "notification": {
-    "vote": "menyukai posting anda",
-    "unvote": "membatalkan suara posting anda",
-    "reply": "membalas posting anda",
-    "mention": "menyebut anda",
-    "follow": "mengikuti anda",
-    "unfollow": "berhenti mengikuti anda",
-    "ignore": "mengabaikan anda",
-    "reblog": "menampilkan kembali post anda",
-    "transfer": "transferred",
-    "notification": "Pemberitahuan",
-    "leaderboard": "Papan Peringkat",
-    "epoint": "Poin",
-    "leaderboard_title": "Pengguna Teratas",
-    "recent": "Baru digunakan",
-    "yesterday": "Kemarin",
-    "this_week": "Minggu ini",
-    "this_month": "Bulan ini",
-    "older_then": "Lebih Lama Dari Sebulan"
-  },
-  "leaderboard": {
-    "daily": "Harian",
-    "weekly": "Mingguan",
-    "monthly": "Bulanan"
   },
   "messages": {
     "comingsoon": "Fungsi pesan akan segera hadir!"
@@ -332,10 +334,12 @@
     "comments": "Komentar"
   },
   "comment_filter": {
-    "trending": "Trending",
-    "reputation": "reputasi",
-    "votes": "berikan suara",
-    "age": "usia"
+    "trending": "TOP",
+    "reputation": "REPUTATION",
+    "votes": "VOTE",
+    "age": "AGE",
+    "top": "TOP",
+    "time": "WAKTU"
   },
   "transfer": {
     "from": "Dari",
