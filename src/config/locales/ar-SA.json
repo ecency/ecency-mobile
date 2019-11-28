@@ -8,12 +8,39 @@
     "transfer_to_vesting": "نقل إلى الاستحقاق",
     "transfer_from_savings": "النقل الى المدخرات",
     "withdraw_vesting": "سحب الطاقة",
-    "fill_order": "ملئ الطلب",
+    "fill_order": "ملئ الطلب"
+  },
+  "notification": {
+    "vote": "الإعجابات على منشورك",
+    "unvote": "إزالة التصويت على منشورك",
+    "reply": "قام بالرد على مشاركتك",
+    "mention": "قام بذكرك",
+    "follow": "قام بمتابعتك",
+    "unfollow": "قام بإلغاء متابعتك",
+    "ignore": "قام بتجاهلك",
+    "reblog": "إعادة تدوين مشاركتك",
+    "transfer": "transferred",
+    "notification": "الإشعارات",
+    "leaderboard": "المتصدرين",
+    "epoint": "نقاط",
+    "leaderboard_title": "Top Users",
+    "recent": "الأخيرة",
+    "yesterday": "يوم أمس",
+    "this_week": "هذا الأسبوع",
+    "this_month": "هذا الشهر",
+    "older_then": "أقدم من شهر"
+  },
+  "leaderboard": {
+    "daily": "DAILY",
+    "weekly": "WEEKLY",
+    "monthly": "MONTHLY"
+  },
+  "points": {
     "post": "منشور",
     "comment": "تعليق",
     "checkin": "تحقق في",
-    "vote": "تصويت",
-    "reblog": "إعادة النشر",
+    "vote": "صوت",
+    "reblog": "إعادة التدوين",
     "login": "تسجيل الدخول",
     "incoming_transfer_title": "Incoming transfer",
     "outgoing_transfer_title": "Outgoing transfer",
@@ -41,8 +68,8 @@
     "dropdown_transfer": "Gift",
     "dropdown_promote": "Promote",
     "dropdown_boost": "Boost",
-    "from": "من",
-    "to": "إلى",
+    "from": "From",
+    "to": "To",
     "estimated_value_desc": "Determined by purchase value",
     "estimated_value": "Estimated value",
     "estimated_amount": "Vote value",
@@ -79,31 +106,6 @@
     "steem_power": {
       "title": "STEEM POWER"
     }
-  },
-  "notification": {
-    "vote": "الإعجابات على منشورك",
-    "unvote": "إزالة التصويت على منشورك",
-    "reply": "قام بالرد على مشاركتك",
-    "mention": "قام بذكرك",
-    "follow": "قام بمتابعتك",
-    "unfollow": "قام بإلغاء متابعتك",
-    "ignore": "قام بتجاهلك",
-    "reblog": "إعادة تدوين مشاركتك",
-    "transfer": "transferred",
-    "notification": "الإشعارات",
-    "leaderboard": "المتصدرين",
-    "epoint": "نقاط",
-    "leaderboard_title": "Top Users",
-    "recent": "الأخيرة",
-    "yesterday": "يوم أمس",
-    "this_week": "هذا الأسبوع",
-    "this_month": "هذا الشهر",
-    "older_then": "أقدم من شهر"
-  },
-  "leaderboard": {
-    "daily": "Daily",
-    "weekly": "Weekly",
-    "monthly": "Monthly"
   },
   "messages": {
     "comingsoon": "ميزة الرسائل سوف تأتي قريباً!"
@@ -332,10 +334,12 @@
     "comments": "التعليقات"
   },
   "comment_filter": {
-    "trending": "الشائع",
-    "reputation": "السمعة",
-    "votes": "الأصوات",
-    "age": "العمر"
+    "trending": "TOP",
+    "reputation": "REPUTATION",
+    "votes": "VOTE",
+    "age": "AGE",
+    "top": "TOP",
+    "time": "TIME"
   },
   "transfer": {
     "from": "من",
