@@ -8,7 +8,34 @@
     "transfer_to_vesting": "Traferimento per investimento",
     "transfer_from_savings": "Trasferisci Dai Risparmi",
     "withdraw_vesting": "Power Down",
-    "fill_order": "Completa L' Ordine",
+    "fill_order": "Completa L' Ordine"
+  },
+  "notification": {
+    "vote": "ha messo mi piace al tuo post",
+    "unvote": "non piace il tuo post",
+    "reply": "ha risposto al tuo post",
+    "mention": "ti ha menzionato",
+    "follow": "ha iniziato a seguirti",
+    "unfollow": "non ti segue più",
+    "ignore": "ti ha ignorato",
+    "reblog": "ha ripostato il tuo post",
+    "transfer": "transferred",
+    "notification": "Notifiche",
+    "leaderboard": "Classifica",
+    "epoint": "Points",
+    "leaderboard_title": "Top Users",
+    "recent": "Recenti",
+    "yesterday": "Ieri",
+    "this_week": "Questa settimana",
+    "this_month": "Questo Mese",
+    "older_then": "Più Di Un Mese Fa"
+  },
+  "leaderboard": {
+    "daily": "DAILY",
+    "weekly": "WEEKLY",
+    "monthly": "MONTHLY"
+  },
+  "points": {
     "post": "Post",
     "comment": "Comment",
     "checkin": "Check-in",
@@ -79,31 +106,6 @@
     "steem_power": {
       "title": "STEEM POWER"
     }
-  },
-  "notification": {
-    "vote": "ha messo mi piace al tuo post",
-    "unvote": "non piace il tuo post",
-    "reply": "ha risposto al tuo post",
-    "mention": "ti ha menzionato",
-    "follow": "ha iniziato a seguirti",
-    "unfollow": "non ti segue più",
-    "ignore": "ti ha ignorato",
-    "reblog": "ha ripostato il tuo post",
-    "transfer": "transferred",
-    "notification": "Notifiche",
-    "leaderboard": "Classifica",
-    "epoint": "Points",
-    "leaderboard_title": "Top Users",
-    "recent": "Recenti",
-    "yesterday": "Ieri",
-    "this_week": "Questa settimana",
-    "this_month": "Questo Mese",
-    "older_then": "Più Di Un Mese Fa"
-  },
-  "leaderboard": {
-    "daily": "Daily",
-    "weekly": "Weekly",
-    "monthly": "Monthly"
   },
   "messages": {
     "comingsoon": "La feature per i messaggi sta per arrivare!"
@@ -332,10 +334,12 @@
     "comments": "Comments"
   },
   "comment_filter": {
-    "trending": "trending",
-    "reputation": "reputation",
-    "votes": "votes",
-    "age": "age"
+    "trending": "TOP",
+    "reputation": "REPUTATION",
+    "votes": "VOTE",
+    "age": "AGE",
+    "top": "TOP",
+    "time": "TIME"
   },
   "transfer": {
     "from": "From",
