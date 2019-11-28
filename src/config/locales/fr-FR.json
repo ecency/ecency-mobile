@@ -8,37 +8,9 @@
     "transfer_to_vesting": "Transfer To Vesting",
     "transfer_from_savings": "Transférer depuis mes Économies",
     "withdraw_vesting": "Diminuer son influence",
-    "fill_order": "Remplir l’ordre"
-  },
-  "notification": {
-    "vote": "ont aimés votre post",
-    "unvote": "a retiré son vote sur votre publication",
-    "reply": "a répondu à votre post",
-    "mention": "vous a mentionné",
-    "follow": "vous a suivi",
-    "unfollow": "ne vous suit plus",
-    "ignore": "vous a ignoré",
-    "reblog": "a reblogué votre post",
-    "transfer": "transferred",
-    "notification": "Notifications",
-    "leaderboard": "Classement",
-    "epoint": "Points",
-    "leaderboard_title": "Top Users",
-    "recent": "Récent",
-    "yesterday": "Hier",
-    "this_week": "Cette semaine",
-    "this_month": "Ce mois",
-    "older_then": "Vieux de plus de 1 mois"
-  },
-  "leaderboard": {
-    "daily": "Daily",
-    "weekly": "Weekly",
-    "monthly": "Monthly"
-  },
-  "points": {
+    "fill_order": "Remplir l’ordre",
     "post": "Post",
-    "esteemPoints": "eSteem Points",
-    "comment": "Comment",
+    "comment": "Commentaire",
     "checkin": "Check-in",
     "vote": "Vote",
     "reblog": "Reblog",
@@ -69,8 +41,69 @@
     "dropdown_transfer": "Gift",
     "dropdown_promote": "Promote",
     "dropdown_boost": "Boost",
-    "from": "From",
-    "to": "To"
+    "from": "De",
+    "to": "À",
+    "estimated_value_desc": "Determined by purchase value",
+    "estimated_value": "Estimated value",
+    "estimated_amount": "Vote value",
+    "amount_information": "Drag the slider to adjust the amount",
+    "amount": "Montant",
+    "memo": "Mémo",
+    "information": "Are you sure to transfer funds?",
+    "amount_desc": "Solde",
+    "memo_desc": "Ce mémo est public",
+    "to_placeholder": "Nom d'utilisateur",
+    "memo_placeholder": "Entrez vos notes ici",
+    "transfer_token": "Transférer",
+    "points": "Gift ESTM to someone",
+    "transfer_to_saving": "Transfer To Saving",
+    "powerUp": "Power Up",
+    "withdraw_to_saving": "Withdraw To Saving",
+    "steemconnect_title": "Transfert Steemconnect",
+    "next": "NEXT",
+    "delegate": "Delegate",
+    "power_down": "Diminuer son influence",
+    "withdraw_steem": "Withdraw Steem",
+    "withdraw_sbd": "Withdraw Steem Dollar",
+    "estm": {
+      "title": "eSteem Points",
+      "buy": "GET ESTM"
+    },
+    "saving": {
+      "title": "STEEM Savings"
+    },
+    "steem": {
+      "title": "STEEM",
+      "buy": "GET STEEM"
+    },
+    "steem_power": {
+      "title": "STEEM POWER"
+    }
+  },
+  "notification": {
+    "vote": "ont aimés votre post",
+    "unvote": "a retiré son vote sur votre publication",
+    "reply": "a répondu à votre post",
+    "mention": "vous a mentionné",
+    "follow": "vous a suivi",
+    "unfollow": "ne vous suit plus",
+    "ignore": "vous a ignoré",
+    "reblog": "a reblogué votre post",
+    "transfer": "transferred",
+    "notification": "Notifications",
+    "leaderboard": "Classement",
+    "epoint": "Points",
+    "leaderboard_title": "Top Users",
+    "recent": "Récent",
+    "yesterday": "Hier",
+    "this_week": "Cette semaine",
+    "this_month": "Ce mois",
+    "older_then": "Vieux de plus de 1 mois"
+  },
+  "leaderboard": {
+    "daily": "Daily",
+    "weekly": "Weekly",
+    "monthly": "Monthly"
   },
   "messages": {
     "comingsoon": "La fonctionnalité Messages arrive bientôt !"
@@ -321,6 +354,13 @@
     "powerUp": "Power Up",
     "withdraw_to_saving": "Withdraw To Saving",
     "steemconnect_title": "Transfert Steemconnect",
+    "estimated_weekly": "Estimated Weekly",
+    "destination_accounts": "Destination Accounts",
+    "stop_information": "Are you sure want to stop?",
+    "percent": "Percent",
+    "auto_vests": "Auto Vests",
+    "save": "SAVE",
+    "percent_information": "Percent info",
     "next": "NEXT",
     "delegate": "Delegate",
     "power_down": "Power Down",
