@@ -54,7 +54,6 @@
     "react-native-config": "luggit/react-native-config#master",
     "react-native-dark-mode": "^0.1.2",
     "react-native-datepicker": "^1.7.2",
-    "react-native-elements": "^1.2.7",
     "react-native-extended-stylesheet": "^0.10.0",
     "react-native-fast-image": "^4.0.14",
     "react-native-gesture-handler": "^1.4.1",
