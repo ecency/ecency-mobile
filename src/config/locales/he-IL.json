@@ -8,39 +8,12 @@
     "transfer_to_vesting": "העבר לVesting",
     "transfer_from_savings": "העבר מחסכונות",
     "withdraw_vesting": "המרת כוח הסטים ליתרה נזילה",
-    "fill_order": "מלא הזמנה"
-  },
-  "notification": {
-    "vote": "אוהב\\ת את הפוסט שלך",
-    "unvote": "ביטל\\ה את הצבעתו\\ה לפוסט שלך",
-    "reply": "הגיב\\ה לפוסט שלך",
-    "mention": "הזכיר\\ה אותך",
-    "follow": "עקב\\ה אחרייך",
-    "unfollow": "הפסיק\\ה לעקוב אחרייך",
-    "ignore": "התעלם\\ה ממך",
-    "reblog": "שיתף/ה את הפוסט שלך",
-    "transfer": "transferred",
-    "notification": "התראות",
-    "leaderboard": "לוח תוצאות",
-    "epoint": "נקודות",
-    "leaderboard_title": "Top Users",
-    "recent": "לאחרונה",
-    "yesterday": "אתמול",
-    "this_week": "השבוע",
-    "this_month": "החודש הזה",
-    "older_then": "ישן יותר מחודש"
-  },
-  "leaderboard": {
-    "daily": "DAILY",
-    "weekly": "WEEKLY",
-    "monthly": "MONTHLY"
-  },
-  "points": {
+    "fill_order": "מלא הזמנה",
     "post": "פוסט",
-    "comment": "תגובה",
+    "comment": "תגיב/י",
     "checkin": "Check-in",
-    "vote": "Vote",
-    "reblog": "Reblog",
+    "vote": "הצבע/י",
+    "reblog": "שתף/י",
     "login": "Login",
     "incoming_transfer_title": "Incoming transfer",
     "outgoing_transfer_title": "Outgoing transfer",
@@ -106,6 +79,31 @@
     "steem_power": {
       "title": "STEEM POWER"
     }
+  },
+  "notification": {
+    "vote": "אוהב\\ת את הפוסט שלך",
+    "unvote": "ביטל\\ה את הצבעתו\\ה לפוסט שלך",
+    "reply": "הגיב\\ה לפוסט שלך",
+    "mention": "הזכיר\\ה אותך",
+    "follow": "עקב\\ה אחרייך",
+    "unfollow": "הפסיק\\ה לעקוב אחרייך",
+    "ignore": "התעלם\\ה ממך",
+    "reblog": "שיתף/ה את הפוסט שלך",
+    "transfer": "transferred",
+    "notification": "התראות",
+    "leaderboard": "לוח תוצאות",
+    "epoint": "נקודות",
+    "leaderboard_title": "Top Users",
+    "recent": "לאחרונה",
+    "yesterday": "אתמול",
+    "this_week": "השבוע",
+    "this_month": "החודש הזה",
+    "older_then": "ישן יותר מחודש"
+  },
+  "leaderboard": {
+    "daily": "DAILY",
+    "weekly": "WEEKLY",
+    "monthly": "MONTHLY"
   },
   "messages": {
     "comingsoon": "אפשרות ההודעות יוצאת בקרוב!"
