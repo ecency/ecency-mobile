@@ -8,12 +8,39 @@
     "transfer_to_vesting": "Transfer la vesting",
     "transfer_from_savings": "Transfer de la economii",
     "withdraw_vesting": "Power Down",
-    "fill_order": "Completează ordinul",
+    "fill_order": "Completează ordinul"
+  },
+  "notification": {
+    "vote": "a votat postul tău",
+    "unvote": "a votat postul tău",
+    "reply": "a răspuns la postul tău",
+    "mention": "te-a menționat",
+    "follow": "te urmărește",
+    "unfollow": "a anulat urmărirea",
+    "ignore": "te-a ignorat",
+    "reblog": "a redistribuit postarea ta",
+    "transfer": "transferred",
+    "notification": "Notificări",
+    "leaderboard": "Clasament",
+    "epoint": "Puncte",
+    "leaderboard_title": "Top utilizatori",
+    "recent": "Recent",
+    "yesterday": "Ieri",
+    "this_week": "Săptămâna aceasta",
+    "this_month": "Luna Aceasta",
+    "older_then": "Mai vechi de o lună"
+  },
+  "leaderboard": {
+    "daily": "DAILY",
+    "weekly": "WEEKLY",
+    "monthly": "MONTHLY"
+  },
+  "points": {
     "post": "Postare",
-    "comment": "Comentarii",
+    "comment": "Comentariu",
     "checkin": "Logare",
     "vote": "Vot",
-    "reblog": "Reblog",
+    "reblog": "Redistribuire",
     "login": "Autentificare",
     "incoming_transfer_title": "Transfer în așteptare",
     "outgoing_transfer_title": "Transfer în curs",
@@ -42,7 +69,7 @@
     "dropdown_promote": "Promovează",
     "dropdown_boost": "Boost",
     "from": "De la",
-    "to": "Către",
+    "to": "Pentru",
     "estimated_value_desc": "Determined by purchase value",
     "estimated_value": "Estimated value",
     "estimated_amount": "Vote value",
@@ -79,31 +106,6 @@
     "steem_power": {
       "title": "STEEM POWER"
     }
-  },
-  "notification": {
-    "vote": "a votat postul tău",
-    "unvote": "a votat postul tău",
-    "reply": "a răspuns la postul tău",
-    "mention": "te-a menționat",
-    "follow": "te urmărește",
-    "unfollow": "a anulat urmărirea",
-    "ignore": "te-a ignorat",
-    "reblog": "a redistribuit postarea ta",
-    "transfer": "transferred",
-    "notification": "Notificări",
-    "leaderboard": "Clasament",
-    "epoint": "Puncte",
-    "leaderboard_title": "Top utilizatori",
-    "recent": "Recent",
-    "yesterday": "Ieri",
-    "this_week": "Săptămâna aceasta",
-    "this_month": "Luna Aceasta",
-    "older_then": "Mai vechi de o lună"
-  },
-  "leaderboard": {
-    "daily": "Zilnic",
-    "weekly": "Săptămânal",
-    "monthly": "Lunar"
   },
   "messages": {
     "comingsoon": "Funcția mesaje va fi disponibilă in curând!"
@@ -332,10 +334,12 @@
     "comments": "Comentarii"
   },
   "comment_filter": {
-    "trending": "trenduri",
-    "reputation": "reputație",
-    "votes": "voturi",
-    "age": "vechime"
+    "trending": "TOP",
+    "reputation": "REPUTATION",
+    "votes": "VOTE",
+    "age": "AGE",
+    "top": "TOP",
+    "time": "TIME"
   },
   "transfer": {
     "from": "De la",
