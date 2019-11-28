@@ -8,34 +8,7 @@
     "transfer_to_vesting": "Overschrijven naar Vesting",
     "transfer_from_savings": "Overschrijven van spaarrekening",
     "withdraw_vesting": "Power down",
-    "fill_order": "Vul bestelling"
-  },
-  "notification": {
-    "vote": "vindt je bericht leuk",
-    "unvote": "vindt je bericht niet meer leuk",
-    "reply": "heeft op je artikel gereageerd",
-    "mention": "noemde je",
-    "follow": "volgt je",
-    "unfollow": "ontvolgt je",
-    "ignore": "heeft je genegeerd",
-    "reblog": "deelde je bericht",
-    "transfer": "transferred",
-    "notification": "Notificaties",
-    "leaderboard": "Scorebord",
-    "epoint": "Points",
-    "leaderboard_title": "Top Users",
-    "recent": "Recent(e)",
-    "yesterday": "Gisteren",
-    "this_week": "Deze week",
-    "this_month": "Deze maand",
-    "older_then": "Ouder dan een maand"
-  },
-  "leaderboard": {
-    "daily": "DAILY",
-    "weekly": "WEEKLY",
-    "monthly": "MONTHLY"
-  },
-  "points": {
+    "fill_order": "Vul bestelling",
     "post": "Post",
     "comment": "Comment",
     "checkin": "Check-in",
@@ -106,6 +79,31 @@
     "steem_power": {
       "title": "STEEM POWER"
     }
+  },
+  "notification": {
+    "vote": "vindt je bericht leuk",
+    "unvote": "vindt je bericht niet meer leuk",
+    "reply": "heeft op je artikel gereageerd",
+    "mention": "noemde je",
+    "follow": "volgt je",
+    "unfollow": "ontvolgt je",
+    "ignore": "heeft je genegeerd",
+    "reblog": "deelde je bericht",
+    "transfer": "transferred",
+    "notification": "Notificaties",
+    "leaderboard": "Scorebord",
+    "epoint": "Points",
+    "leaderboard_title": "Top Users",
+    "recent": "Recent(e)",
+    "yesterday": "Gisteren",
+    "this_week": "Deze week",
+    "this_month": "Deze maand",
+    "older_then": "Ouder dan een maand"
+  },
+  "leaderboard": {
+    "daily": "DAILY",
+    "weekly": "WEEKLY",
+    "monthly": "MONTHLY"
   },
   "messages": {
     "comingsoon": "Berichtfunctie komt binnenkort!"
