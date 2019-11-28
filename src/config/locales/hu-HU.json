@@ -31,13 +31,12 @@
     "older_then": "Egy Hónapnál Régebbi"
   },
   "leaderboard": {
-    "daily": "Napi",
-    "weekly": "Heti",
-    "monthly": "Havi"
+    "daily": "DAILY",
+    "weekly": "WEEKLY",
+    "monthly": "MONTHLY"
   },
   "points": {
     "post": "Bejegyzés",
-    "esteemPoints": "eSteem Pontok",
     "comment": "Hozzászólás",
     "checkin": "Bejelentkezés",
     "vote": "Szavazás",
@@ -70,7 +69,43 @@
     "dropdown_promote": "Hirdetés",
     "dropdown_boost": "Felpörgetés",
     "from": "Tőle",
-    "to": "Címzett"
+    "to": "Címzett",
+    "estimated_value_desc": "Determined by purchase value",
+    "estimated_value": "Estimated value",
+    "estimated_amount": "Vote value",
+    "amount_information": "A csúszka húzásával állítsd be a mennyiséget",
+    "amount": "Összeg",
+    "memo": "Üzenet",
+    "information": "Bistoz átutalod?",
+    "amount_desc": "Egyenleg",
+    "memo_desc": "Ez az üzenet nyilvános",
+    "to_placeholder": "Felhasználónév",
+    "memo_placeholder": "Megjegyzés ide",
+    "transfer_token": "Átutalás",
+    "points": "Ajándékozz ESTM-t valakinek",
+    "transfer_to_saving": "Átutalás a megtakarításokhoz",
+    "powerUp": "Power Up",
+    "withdraw_to_saving": "Átutalás A Megtakarításokhoz",
+    "steemconnect_title": "Steemconnect átutalás",
+    "next": "KÖVETKEZŐ",
+    "delegate": "Delegálás",
+    "power_down": "Power Down",
+    "withdraw_steem": "Steem Visszavonás",
+    "withdraw_sbd": "Steem Dollár Visszavonás",
+    "estm": {
+      "title": "eSteem Pontok",
+      "buy": "Vásárolj ESTM-t"
+    },
+    "saving": {
+      "title": "STEEM Savings"
+    },
+    "steem": {
+      "title": "STEEM",
+      "buy": "GET STEEM"
+    },
+    "steem_power": {
+      "title": "STEEM POWER"
+    }
   },
   "messages": {
     "comingsoon": "Üzenetek funkció hamarosan érkezik!"
@@ -299,10 +334,12 @@
     "comments": "Hozzászólások"
   },
   "comment_filter": {
-    "trending": "népszerű",
-    "reputation": "reputáció",
-    "votes": "szavazatok",
-    "age": "időrend"
+    "trending": "TOP",
+    "reputation": "REPUTATION",
+    "votes": "VOTE",
+    "age": "AGE",
+    "top": "TOP",
+    "time": "IDŐ"
   },
   "transfer": {
     "from": "Feladó",
@@ -321,6 +358,13 @@
     "powerUp": "Power Up",
     "withdraw_to_saving": "Átutalás A Megtakarításokhoz",
     "steemconnect_title": "Steemconnect átutalás",
+    "estimated_weekly": "Estimated Weekly",
+    "destination_accounts": "Destination Accounts",
+    "stop_information": "Are you sure want to stop?",
+    "percent": "Percent",
+    "auto_vests": "Auto Vests",
+    "save": "SAVE",
+    "percent_information": "Percent info",
     "next": "KÖVETKEZŐ",
     "delegate": "Delegálás",
     "power_down": "Power Down",

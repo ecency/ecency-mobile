@@ -31,13 +31,12 @@
     "older_then": "एक महीना से अधिक पुराना"
   },
   "leaderboard": {
-    "daily": "रोजाना",
-    "weekly": "साप्ताहिक",
-    "monthly": "मासिक"
+    "daily": "DAILY",
+    "weekly": "WEEKLY",
+    "monthly": "MONTHLY"
   },
   "points": {
     "post": "लेख",
-    "esteemPoints": "eSteem अंक",
     "comment": "टिप्पणी",
     "checkin": "चेक इन",
     "vote": "वोट",
@@ -70,7 +69,43 @@
     "dropdown_promote": "बढ़ावा देना",
     "dropdown_boost": "बूस्ट",
     "from": "से",
-    "to": "को"
+    "to": "को",
+    "estimated_value_desc": "Determined by purchase value",
+    "estimated_value": "Estimated value",
+    "estimated_amount": "Vote value",
+    "amount_information": "Drag the slider to adjust the amount",
+    "amount": "रकम",
+    "memo": "ज्ञापन",
+    "information": "Are you sure to transfer funds?",
+    "amount_desc": "शेष रकम",
+    "memo_desc": "यह ज्ञापन सार्वजनिक है",
+    "to_placeholder": "प्रयोक्ता नाम",
+    "memo_placeholder": "अपनी टिप्पणी यहाँ लिखें",
+    "transfer_token": "स्थानांतरण",
+    "points": "Gift ESTM to someone",
+    "transfer_to_saving": "Transfer To Saving",
+    "powerUp": "स्टीम क्षमता बढ़ाएं",
+    "withdraw_to_saving": "Withdraw To Saving",
+    "steemconnect_title": "स्टीमकनेक्ट स्थान्तरण",
+    "next": "NEXT",
+    "delegate": "Delegate",
+    "power_down": "शक्तिक्षय करें",
+    "withdraw_steem": "Withdraw Steem",
+    "withdraw_sbd": "Withdraw Steem Dollar",
+    "estm": {
+      "title": "eSteem अंक",
+      "buy": "GET ESTM"
+    },
+    "saving": {
+      "title": "STEEM Savings"
+    },
+    "steem": {
+      "title": "STEEM",
+      "buy": "GET STEEM"
+    },
+    "steem_power": {
+      "title": "STEEM POWER"
+    }
   },
   "messages": {
     "comingsoon": "सन्देश सुविधा जल्द आ रही है!"
@@ -299,10 +334,12 @@
     "comments": "टिप्पणियाँ"
   },
   "comment_filter": {
-    "trending": "प्रचलित",
-    "reputation": "प्रतिष्ठा",
-    "votes": "मत",
-    "age": "उम्र"
+    "trending": "TOP",
+    "reputation": "REPUTATION",
+    "votes": "VOTE",
+    "age": "AGE",
+    "top": "TOP",
+    "time": "TIME"
   },
   "transfer": {
     "from": "से",
@@ -321,6 +358,13 @@
     "powerUp": "स्टीम क्षमता बढ़ाएं",
     "withdraw_to_saving": "Withdraw To Saving",
     "steemconnect_title": "स्टीमकनेक्ट स्थान्तरण",
+    "estimated_weekly": "Estimated Weekly",
+    "destination_accounts": "Destination Accounts",
+    "stop_information": "Are you sure want to stop?",
+    "percent": "Percent",
+    "auto_vests": "Auto Vests",
+    "save": "SAVE",
+    "percent_information": "Percent info",
     "next": "NEXT",
     "delegate": "Delegate",
     "power_down": "Power Down",

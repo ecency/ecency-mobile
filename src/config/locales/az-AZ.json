@@ -31,13 +31,12 @@
     "older_then": "Bir Aydan Köhnə"
   },
   "leaderboard": {
-    "daily": "Günlük",
-    "weekly": "Həftəlik",
-    "monthly": "Aylıq"
+    "daily": "DAILY",
+    "weekly": "WEEKLY",
+    "monthly": "MONTHLY"
   },
   "points": {
     "post": "Göndəriş",
-    "esteemPoints": "eSteem Xalı",
     "comment": "Rəy",
     "checkin": "Check-in",
     "vote": "Səs ver",
@@ -70,7 +69,43 @@
     "dropdown_promote": "Promote",
     "dropdown_boost": "Boost",
     "from": "From",
-    "to": "To"
+    "to": "To",
+    "estimated_value_desc": "Determined by purchase value",
+    "estimated_value": "Estimated value",
+    "estimated_amount": "Vote value",
+    "amount_information": "Drag the slider to adjust the amount",
+    "amount": "Məbləğ",
+    "memo": "Qeyd",
+    "information": "Are you sure to transfer funds?",
+    "amount_desc": "Balans",
+    "memo_desc": "Bu qeyd ictimaidir",
+    "to_placeholder": "İstifadəçi adı",
+    "memo_placeholder": "Qeydlərinizi buraya daxil edin",
+    "transfer_token": "Köçürmə",
+    "points": "Gift ESTM to someone",
+    "transfer_to_saving": "Transfer To Saving",
+    "powerUp": "Gücü artır",
+    "withdraw_to_saving": "Withdraw To Saving",
+    "steemconnect_title": "Steemconnect Köçürməsi",
+    "next": "NEXT",
+    "delegate": "Delegate",
+    "power_down": "Gücün Enməsi",
+    "withdraw_steem": "Withdraw Steem",
+    "withdraw_sbd": "Withdraw Steem Dollar",
+    "estm": {
+      "title": "eSteem Xalı",
+      "buy": "GET ESTM"
+    },
+    "saving": {
+      "title": "STEEM Savings"
+    },
+    "steem": {
+      "title": "STEEM",
+      "buy": "GET STEEM"
+    },
+    "steem_power": {
+      "title": "STEEM POWER"
+    }
   },
   "messages": {
     "comingsoon": "Mesajlar tezliklə gəlir!"
@@ -299,10 +334,12 @@
     "comments": "Rəylər"
   },
   "comment_filter": {
-    "trending": "trend",
-    "reputation": "nüfuz",
-    "votes": "səslər",
-    "age": "yaş"
+    "trending": "TOP",
+    "reputation": "REPUTATION",
+    "votes": "VOTE",
+    "age": "AGE",
+    "top": "TOP",
+    "time": "TIME"
   },
   "transfer": {
     "from": "Buradan",
@@ -321,6 +358,13 @@
     "powerUp": "Gücü artır",
     "withdraw_to_saving": "Withdraw To Saving",
     "steemconnect_title": "Steemconnect Köçürməsi",
+    "estimated_weekly": "Estimated Weekly",
+    "destination_accounts": "Destination Accounts",
+    "stop_information": "Are you sure want to stop?",
+    "percent": "Percent",
+    "auto_vests": "Auto Vests",
+    "save": "SAVE",
+    "percent_information": "Percent info",
     "next": "NEXT",
     "delegate": "Delegate",
     "power_down": "Power Down",

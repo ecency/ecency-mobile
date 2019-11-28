@@ -31,13 +31,12 @@
     "older_then": "1 달 이상"
   },
   "leaderboard": {
-    "daily": "일간",
-    "weekly": "주간",
-    "monthly": "월간"
+    "daily": "DAILY",
+    "weekly": "WEEKLY",
+    "monthly": "MONTHLY"
   },
   "points": {
     "post": "포스팅",
-    "esteemPoints": "eSteem 포인트",
     "comment": "댓글",
     "checkin": "체크인",
     "vote": "투표",
@@ -70,7 +69,43 @@
     "dropdown_promote": "홍보",
     "dropdown_boost": "후원",
     "from": "보낸 사람",
-    "to": "받는 사람"
+    "to": "받는 사람",
+    "estimated_value_desc": "Determined by purchase value",
+    "estimated_value": "Estimated value",
+    "estimated_amount": "Vote value",
+    "amount_information": "슬라이드를 드래그해서 수량을 설정할 수 있습니다",
+    "amount": "수량",
+    "memo": "메모",
+    "information": "자금을 전송하시겠습니까?",
+    "amount_desc": "잔액",
+    "memo_desc": "이 메모는 누구나 볼 수 있습니다",
+    "to_placeholder": "사용자 이름",
+    "memo_placeholder": "메모 내용을 입력하세요",
+    "transfer_token": "전송",
+    "points": "ESTM 선물하기",
+    "transfer_to_saving": "안전 금고로 전송",
+    "powerUp": "파워업",
+    "withdraw_to_saving": "안전 금고로 출금",
+    "steemconnect_title": "Steemconnect 전송",
+    "next": "다음",
+    "delegate": "임대",
+    "power_down": "파워 다운",
+    "withdraw_steem": "스팀 출금",
+    "withdraw_sbd": "스팀 달러 출금",
+    "estm": {
+      "title": "eSteem 포인트",
+      "buy": "ESTM 구매"
+    },
+    "saving": {
+      "title": "STEEM Savings"
+    },
+    "steem": {
+      "title": "STEEM",
+      "buy": "GET STEEM"
+    },
+    "steem_power": {
+      "title": "STEEM POWER"
+    }
   },
   "messages": {
     "comingsoon": "메시지 기능은 곧 출시될 예정입니다!"
@@ -299,10 +334,12 @@
     "comments": "작성한 댓글"
   },
   "comment_filter": {
-    "trending": "대세 글",
-    "reputation": "평판",
-    "votes": "투표 수",
-    "age": "작성일"
+    "trending": "TOP",
+    "reputation": "REPUTATION",
+    "votes": "VOTE",
+    "age": "AGE",
+    "top": "TOP",
+    "time": "시간"
   },
   "transfer": {
     "from": "보낸 사람",
@@ -321,6 +358,13 @@
     "powerUp": "파워업",
     "withdraw_to_saving": "안전 금고로 출금",
     "steemconnect_title": "Steemconnect 전송",
+    "estimated_weekly": "Estimated Weekly",
+    "destination_accounts": "Destination Accounts",
+    "stop_information": "Are you sure want to stop?",
+    "percent": "Percent",
+    "auto_vests": "Auto Vests",
+    "save": "SAVE",
+    "percent_information": "Percent info",
     "next": "다음",
     "delegate": "임대",
     "power_down": "파워 다운",
