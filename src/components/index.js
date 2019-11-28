@@ -51,6 +51,8 @@ import PostButton from './postButton/postButtonView';
 import ProfileEditForm from './profileEditForm/profileEditFormView';
 import ScaleSlider from './scaleSlider/scaleSliderView';
 import { ProductItemLine } from './productItemLine/productItemLineView';
+import { HorizontalIconList } from './horizontalIconList/horizontalIconListView';
+import { PopoverWrapper } from './popoverWrapper/popoverWrapperView';
 
 // View
 import { Comment } from './comment';
@@ -58,7 +60,7 @@ import { Comments } from './comments';
 import { CommentsDisplay } from './commentsDisplay';
 import { LeaderBoard } from './leaderboard';
 import { Notification } from './notification';
-import { Points } from './points';
+import { WalletHeader } from './walletHeader';
 import { Posts } from './posts';
 import { Transaction } from './transaction';
 import { VotersDisplay } from './votersDisplay';
@@ -135,7 +137,7 @@ export {
   ParentPost,
   PercentBar,
   PinAnimatedInput,
-  Points,
+  WalletHeader,
   PostBody,
   PostBoost,
   PostButton,
@@ -187,4 +189,6 @@ export {
   WalletDetailsPlaceHolder,
   WalletLineItem,
   WalletUnclaimedPlaceHolder,
+  HorizontalIconList,
+  PopoverWrapper,
 };

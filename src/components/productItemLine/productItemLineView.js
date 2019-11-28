@@ -1,7 +1,6 @@
 import React from 'react';
 import { View, Text } from 'react-native';
 import get from 'lodash/get';
-import { useIntl } from 'react-intl';
 
 // Components
 import { MainButton, Icon } from '..';
@@ -12,10 +11,8 @@ import styles from './productItemLineStyles';
 const DEALS = { '9999points': 'BEST DEAL!', '4999points': 'POPULAR!' };
 
 const ProductItemLineView = ({ disabled, handleOnButtonPress, product, title }) => {
-  const intl = useIntl();
-
   return (
-    <View style={styles.boostLine} key={get(product, 'productId')}>
+    <View style={styles.boostLine} key={get(product, 'productId').toString()}>
       {_renderDeal(product)}
       <View style={styles.buttonWrapper}>
         <MainButton

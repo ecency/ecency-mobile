@@ -2,6 +2,7 @@ import get from 'lodash/get';
 import parseDate from './parseDate';
 import parseToken from './parseToken';
 import { vestsToSp } from './conversions';
+import ss from 'react-intl';
 import { getState, getFeedHistory } from '../providers/steem/dsteem';
 
 export const groomingTransactionData = (transaction, steemPerMVests, formatNumber) => {
@@ -9,16 +10,16 @@ export const groomingTransactionData = (transaction, steemPerMVests, formatNumbe
     return [];
   }
 
-  const result = {};
+  let result = { iconType: 'MaterialIcons' };
 
-  [result.opName] = transaction[1].op;
+  [result.textKey] = transaction[1].op;
   const opData = transaction[1].op[1];
   const { timestamp } = transaction[1];
 
-  result.transDate = timestamp;
+  result.created = timestamp;
   result.icon = 'local-activity';
 
-  switch (result.opName) {
+  switch (result.textKey) {
     case 'curation_reward':
       const { reward } = opData;
       const { comment_author: commentAuthor, comment_permlink: commentPermlink } = opData;
@@ -55,7 +56,7 @@ export const groomingTransactionData = (transaction, steemPerMVests, formatNumbe
       } ${vestingPayout > 0 ? `${vestingPayout} SP` : ''}`;
 
       result.details = author && permlink ? `@${author}/${permlink}` : null;
-      if (result.opName === 'comment_benefactor_reward') {
+      if (result.textKey === 'comment_benefactor_reward') {
         result.icon = 'comment';
       }
       break;
@@ -166,4 +167,19 @@ export const groomingWalletData = async (user, globalProps) => {
     : [];
 
   return walletData;
+};
+
+export const groomingPointsTransactionData = transaction => {
+  if (!transaction) {
+    return null;
+  }
+  let result = { ...transaction };
+
+  result.details = get(transaction, 'sender')
+    ? `from @${get(transaction, 'sender')}`
+    : get(transaction, 'receiver') && `to @${get(transaction, 'receiver')}`;
+
+  result.value = `${get(transaction, 'amount')} ESTM`;
+
+  return result;
 };

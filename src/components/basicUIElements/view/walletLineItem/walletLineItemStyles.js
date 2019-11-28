@@ -9,6 +9,9 @@ export default EStyleSheet.create({
   fitContent: {
     marginVertical: 0,
   },
+  textWrapper: {
+    flexDirection: 'row',
+  },
   iconTextWrapper: {
     flexDirection: 'row',
     alignSelf: 'center',
@@ -35,6 +38,7 @@ export default EStyleSheet.create({
   text: {
     fontFamily: '$primaryFont',
     color: '$primaryBlack',
+    alignSelf: 'center',
     fontSize: 16,
     marginLeft: 8,
   },
@@ -46,6 +50,7 @@ export default EStyleSheet.create({
     marginLeft: 8,
     fontFamily: '$primaryFont',
     color: '$iconColor',
+    width: '100%',
   },
   onlyText: {
     marginLeft: 40,
@@ -83,5 +88,10 @@ export default EStyleSheet.create({
   },
   dropdownStyle: {
     minWidth: '$deviceWidth * 0.7',
+  },
+  hintIcon: {
+    marginLeft: 10,
+    justifyContent: 'center',
+    alignItems: 'center',
   },
 });

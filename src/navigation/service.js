@@ -16,7 +16,4 @@ const navigate = navigationProps => {
 
 // add other navigation functions that you need and export them
 
-export default {
-  navigate,
-  setTopLevelNavigator,
-};
+export { navigate, setTopLevelNavigator };
