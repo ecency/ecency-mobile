@@ -8,36 +8,8 @@
     "transfer_to_vesting": "Prenesi u Vesting",
     "transfer_from_savings": "Prebaci sa štednje",
     "withdraw_vesting": "Smanji Moć",
-    "fill_order": "Ispuni Nalog"
-  },
-  "notification": {
-    "vote": "se sviđa vaša objava",
-    "unvote": "je odglasao vašu objavu",
-    "reply": "je odgovorio na vašu objavu",
-    "mention": "te spomenuo/la",
-    "follow": "te prati",
-    "unfollow": "te prestao/la pratiti",
-    "ignore": "te ignorira",
-    "reblog": "je podijelio tvoju objavu",
-    "transfer": "transferred",
-    "notification": "Obavijesti",
-    "leaderboard": "Rang lista",
-    "epoint": "Points",
-    "leaderboard_title": "Top Users",
-    "recent": "Nedavno",
-    "yesterday": "Jučer",
-    "this_week": "Ovog Tjedna",
-    "this_month": "Ovaj Mjesec",
-    "older_then": "Starije od mjesec dana"
-  },
-  "leaderboard": {
-    "daily": "Daily",
-    "weekly": "Weekly",
-    "monthly": "Monthly"
-  },
-  "points": {
+    "fill_order": "Ispuni Nalog",
     "post": "Post",
-    "esteemPoints": "eSteem Points",
     "comment": "Comment",
     "checkin": "Check-in",
     "vote": "Vote",
@@ -70,7 +42,68 @@
     "dropdown_promote": "Promote",
     "dropdown_boost": "Boost",
     "from": "From",
-    "to": "To"
+    "to": "To",
+    "estimated_value_desc": "Determined by purchase value",
+    "estimated_value": "Estimated value",
+    "estimated_amount": "Vote value",
+    "amount_information": "Drag the slider to adjust the amount",
+    "amount": "Amount",
+    "memo": "Memo",
+    "information": "Are you sure to transfer funds?",
+    "amount_desc": "Balance",
+    "memo_desc": "This memo is public",
+    "to_placeholder": "Korisničko ime",
+    "memo_placeholder": "Enter your notes here",
+    "transfer_token": "Pošalji",
+    "points": "Gift ESTM to someone",
+    "transfer_to_saving": "Transfer To Saving",
+    "powerUp": "Power Up",
+    "withdraw_to_saving": "Withdraw To Saving",
+    "steemconnect_title": "Steemconnect Transfer",
+    "next": "NEXT",
+    "delegate": "Delegate",
+    "power_down": "Smanji Moć",
+    "withdraw_steem": "Withdraw Steem",
+    "withdraw_sbd": "Withdraw Steem Dollar",
+    "estm": {
+      "title": "eSteem Points",
+      "buy": "GET ESTM"
+    },
+    "saving": {
+      "title": "STEEM Savings"
+    },
+    "steem": {
+      "title": "STEEM",
+      "buy": "GET STEEM"
+    },
+    "steem_power": {
+      "title": "STEEM POWER"
+    }
+  },
+  "notification": {
+    "vote": "se sviđa vaša objava",
+    "unvote": "je odglasao vašu objavu",
+    "reply": "je odgovorio na vašu objavu",
+    "mention": "te spomenuo/la",
+    "follow": "te prati",
+    "unfollow": "te prestao/la pratiti",
+    "ignore": "te ignorira",
+    "reblog": "je podijelio tvoju objavu",
+    "transfer": "transferred",
+    "notification": "Obavijesti",
+    "leaderboard": "Rang lista",
+    "epoint": "Points",
+    "leaderboard_title": "Top Users",
+    "recent": "Nedavno",
+    "yesterday": "Jučer",
+    "this_week": "Ovog Tjedna",
+    "this_month": "Ovaj Mjesec",
+    "older_then": "Starije od mjesec dana"
+  },
+  "leaderboard": {
+    "daily": "Daily",
+    "weekly": "Weekly",
+    "monthly": "Monthly"
   },
   "messages": {
     "comingsoon": "Značajka poruka dolazi uskoro!"
@@ -321,6 +354,13 @@
     "powerUp": "Power Up",
     "withdraw_to_saving": "Withdraw To Saving",
     "steemconnect_title": "Steemconnect Transfer",
+    "estimated_weekly": "Estimated Weekly",
+    "destination_accounts": "Destination Accounts",
+    "stop_information": "Are you sure want to stop?",
+    "percent": "Percent",
+    "auto_vests": "Auto Vests",
+    "save": "SAVE",
+    "percent_information": "Percent info",
     "next": "NEXT",
     "delegate": "Delegate",
     "power_down": "Power Down",
