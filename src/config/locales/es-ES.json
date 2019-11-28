@@ -43,9 +43,9 @@
     "dropdown_boost": "Impulsar",
     "from": "Desde",
     "to": "Para",
-    "estimated_value_desc": "Determined by purchase value",
-    "estimated_value": "Estimated value",
-    "estimated_amount": "Vote value",
+    "estimated_value_desc": "Determinado por el valor de compra",
+    "estimated_value": "Valor estimado",
+    "estimated_amount": "Valor del voto",
     "amount_information": "Arrastra el deslizador para ajustar la cantidad",
     "amount": "Cantidad",
     "memo": "Memo",
@@ -70,7 +70,7 @@
       "buy": "OBTENER ESTM"
     },
     "saving": {
-      "title": "STEEM Savings"
+      "title": "Ahorros en STEEM"
     },
     "steem": {
       "title": "STEEM",
