@@ -8,7 +8,34 @@
     "transfer_to_vesting": "파워 업",
     "transfer_from_savings": "안전 금고로 전송",
     "withdraw_vesting": "파워 다운",
-    "fill_order": "체결 주문",
+    "fill_order": "체결 주문"
+  },
+  "notification": {
+    "vote": "님이 당신 글을 좋아합니다",
+    "unvote": "님이 당신 글에 대한 투표를 취소했습니다",
+    "reply": "님이 당신 글에 댓글을 남겼습니다",
+    "mention": "님이 당신을 언급했습니다",
+    "follow": "님이 팔로우를 시작했습니다",
+    "unfollow": "님이 팔로우를 취소했습니다",
+    "ignore": "님이 당신을 차단했습니다",
+    "reblog": "님이 당신 글을 리블로그했습니다",
+    "transfer": "transferred",
+    "notification": "알림",
+    "leaderboard": "순위표",
+    "epoint": "포인트",
+    "leaderboard_title": "우수 사용자",
+    "recent": "최근",
+    "yesterday": "어제",
+    "this_week": "이번 주",
+    "this_month": "이번 달",
+    "older_then": "1 달 이상"
+  },
+  "leaderboard": {
+    "daily": "DAILY",
+    "weekly": "WEEKLY",
+    "monthly": "MONTHLY"
+  },
+  "points": {
     "post": "포스팅",
     "comment": "댓글",
     "checkin": "체크인",
@@ -79,31 +106,6 @@
     "steem_power": {
       "title": "STEEM POWER"
     }
-  },
-  "notification": {
-    "vote": "님이 당신 글을 좋아합니다",
-    "unvote": "님이 당신 글에 대한 투표를 취소했습니다",
-    "reply": "님이 당신 글에 댓글을 남겼습니다",
-    "mention": "님이 당신을 언급했습니다",
-    "follow": "님이 팔로우를 시작했습니다",
-    "unfollow": "님이 팔로우를 취소했습니다",
-    "ignore": "님이 당신을 차단했습니다",
-    "reblog": "님이 당신 글을 리블로그했습니다",
-    "transfer": "transferred",
-    "notification": "알림",
-    "leaderboard": "순위표",
-    "epoint": "포인트",
-    "leaderboard_title": "우수 사용자",
-    "recent": "최근",
-    "yesterday": "어제",
-    "this_week": "이번 주",
-    "this_month": "이번 달",
-    "older_then": "1 달 이상"
-  },
-  "leaderboard": {
-    "daily": "일간",
-    "weekly": "주간",
-    "monthly": "월간"
   },
   "messages": {
     "comingsoon": "메시지 기능은 곧 출시될 예정입니다!"
@@ -332,10 +334,12 @@
     "comments": "작성한 댓글"
   },
   "comment_filter": {
-    "trending": "대세 글",
-    "reputation": "평판",
-    "votes": "투표 수",
-    "age": "작성일"
+    "trending": "TOP",
+    "reputation": "REPUTATION",
+    "votes": "VOTE",
+    "age": "AGE",
+    "top": "TOP",
+    "time": "시간"
   },
   "transfer": {
     "from": "보낸 사람",
