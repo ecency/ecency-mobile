@@ -8,34 +8,7 @@
     "transfer_to_vesting": "انتقال برای سرمایه گذاری",
     "transfer_from_savings": "انتقال از پس انداز",
     "withdraw_vesting": "کم کردن قدرت",
-    "fill_order": "سفارش"
-  },
-  "notification": {
-    "vote": "مطلب شما را پسند کرد",
-    "unvote": "رأی‌ خود را پس گرفت",
-    "reply": "به مطلب شما پاسخ داد",
-    "mention": "شما را خطاب کرد",
-    "follow": "شما را دنبال میکند",
-    "unfollow": "شما را دنبال نمیکند",
-    "ignore": "شما را نادیده گرفته",
-    "reblog": "مطلب شما را به اشتراک گذاشت",
-    "transfer": "transferred",
-    "notification": "اطلاعیه ها",
-    "leaderboard": "جدول رده بندی",
-    "epoint": "امتیازها",
-    "leaderboard_title": "Top Users",
-    "recent": "اخیر",
-    "yesterday": "دیروز",
-    "this_week": "این هفته",
-    "this_month": "این ماه",
-    "older_then": "قدیمی تر از 1 ماه"
-  },
-  "leaderboard": {
-    "daily": "DAILY",
-    "weekly": "WEEKLY",
-    "monthly": "MONTHLY"
-  },
-  "points": {
+    "fill_order": "سفارش",
     "post": "پست",
     "comment": "نظر",
     "checkin": "حاضری زدن",
@@ -68,8 +41,8 @@
     "dropdown_transfer": "Gift",
     "dropdown_promote": "Promote",
     "dropdown_boost": "Boost",
-    "from": "From",
-    "to": "To",
+    "from": "از",
+    "to": "به",
     "estimated_value_desc": "Determined by purchase value",
     "estimated_value": "Estimated value",
     "estimated_amount": "Vote value",
@@ -106,6 +79,31 @@
     "steem_power": {
       "title": "STEEM POWER"
     }
+  },
+  "notification": {
+    "vote": "مطلب شما را پسند کرد",
+    "unvote": "رأی‌ خود را پس گرفت",
+    "reply": "به مطلب شما پاسخ داد",
+    "mention": "شما را خطاب کرد",
+    "follow": "شما را دنبال میکند",
+    "unfollow": "شما را دنبال نمیکند",
+    "ignore": "شما را نادیده گرفته",
+    "reblog": "مطلب شما را به اشتراک گذاشت",
+    "transfer": "transferred",
+    "notification": "اطلاعیه ها",
+    "leaderboard": "جدول رده بندی",
+    "epoint": "امتیازها",
+    "leaderboard_title": "Top Users",
+    "recent": "اخیر",
+    "yesterday": "دیروز",
+    "this_week": "این هفته",
+    "this_month": "این ماه",
+    "older_then": "قدیمی تر از 1 ماه"
+  },
+  "leaderboard": {
+    "daily": "DAILY",
+    "weekly": "WEEKLY",
+    "monthly": "MONTHLY"
   },
   "messages": {
     "comingsoon": "قابلیت ارسال پیام به زودی ارائه خواهد شد!"
