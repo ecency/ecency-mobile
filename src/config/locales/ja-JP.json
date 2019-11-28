@@ -8,34 +8,7 @@
     "transfer_to_vesting": "パワーアップ",
     "transfer_from_savings": "貯蓄口座から振替",
     "withdraw_vesting": "パワーダウン",
-    "fill_order": "注文の入力"
-  },
-  "notification": {
-    "vote": "あなたの投稿をいいねしました",
-    "unvote": "あなたの投稿をダウンヴォートしました",
-    "reply": "あなたの投稿に返信しました",
-    "mention": "あなたを話題にしました",
-    "follow": "あなたをフォローしました",
-    "unfollow": "あなたをフォロー解除しました",
-    "ignore": "あなたをミュートしました",
-    "reblog": "あなたの投稿をリブログしました",
-    "transfer": "transferred",
-    "notification": "通知",
-    "leaderboard": "ランキング",
-    "epoint": "ポイント",
-    "leaderboard_title": "トップユーザー",
-    "recent": "最新",
-    "yesterday": "昨日",
-    "this_week": "今週",
-    "this_month": "今月",
-    "older_then": "1ヶ月以上前"
-  },
-  "leaderboard": {
-    "daily": "DAILY",
-    "weekly": "WEEKLY",
-    "monthly": "MONTHLY"
-  },
-  "points": {
+    "fill_order": "注文の入力",
     "post": "投稿",
     "comment": "コメント",
     "checkin": "チェックイン",
@@ -106,6 +79,31 @@
     "steem_power": {
       "title": "STEEM POWER"
     }
+  },
+  "notification": {
+    "vote": "あなたの投稿をいいねしました",
+    "unvote": "あなたの投稿をダウンヴォートしました",
+    "reply": "あなたの投稿に返信しました",
+    "mention": "あなたを話題にしました",
+    "follow": "あなたをフォローしました",
+    "unfollow": "あなたをフォロー解除しました",
+    "ignore": "あなたをミュートしました",
+    "reblog": "あなたの投稿をリブログしました",
+    "transfer": "transferred",
+    "notification": "通知",
+    "leaderboard": "ランキング",
+    "epoint": "ポイント",
+    "leaderboard_title": "トップユーザー",
+    "recent": "最新",
+    "yesterday": "昨日",
+    "this_week": "今週",
+    "this_month": "今月",
+    "older_then": "1ヶ月以上前"
+  },
+  "leaderboard": {
+    "daily": "DAILY",
+    "weekly": "WEEKLY",
+    "monthly": "MONTHLY"
   },
   "messages": {
     "comingsoon": "メッセージ機能は近日公開予定です！"
