@@ -17,6 +17,7 @@ const WIDTH = Dimensions.get('window').width;
 const PostBody = ({
   navigation,
   body,
+  commentDepth,
   isComment,
   textSelectable = true,
   handleOnUserPress,
@@ -66,7 +67,7 @@ const PostBody = ({
         default:
           break;
       }
-    } catch (error) {}
+    } catch (error) { }
   };
 
   const _handleTagPress = tag => {
@@ -208,10 +209,8 @@ const PostBody = ({
   return (
     <Fragment>
       <AutoHeightWebView
-        source={{
-          html: test,
-        }}
-        style={{ width: isComment ? WIDTH - 61 : WIDTH - 32 }}
+        source={{ html: test }}
+        style={{ width: isComment ? WIDTH - (32 + 29 * commentDepth) : WIDTH - 32 }}
         customStyle={customStyle}
         onMessage={_handleOnLinkPress}
         customScript={script.toString()}
