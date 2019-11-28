@@ -8,12 +8,39 @@
     "transfer_to_vesting": "Ülekanne Vestimiseks",
     "transfer_from_savings": "Ülekanne Säästudest",
     "withdraw_vesting": "Väljaluülitus",
-    "fill_order": "Täida Tellimus",
+    "fill_order": "Täida Tellimus"
+  },
+  "notification": {
+    "vote": "saatis sulle hääle",
+    "unvote": "eemaldas hääle su postituselt",
+    "reply": "vastas su postitusele",
+    "mention": "mainis sind",
+    "follow": "hakkas sind jälgima",
+    "unfollow": "enam ei jälgi sind",
+    "ignore": "ignoreeris sind",
+    "reblog": "taaspostitas sinu postituse",
+    "transfer": "transferred",
+    "notification": "Teavitused",
+    "leaderboard": "Edetabel",
+    "epoint": "Punktid",
+    "leaderboard_title": "Tippkasutajad",
+    "recent": "Hiljutised",
+    "yesterday": "Eile",
+    "this_week": "Sel nädalal",
+    "this_month": "Sel kuul",
+    "older_then": "Vanem kui kuu"
+  },
+  "leaderboard": {
+    "daily": "DAILY",
+    "weekly": "WEEKLY",
+    "monthly": "MONTHLY"
+  },
+  "points": {
     "post": "Postitus",
-    "comment": "Kommenteeri",
+    "comment": "Kommentaar",
     "checkin": "Kasutus",
-    "vote": "Hääleta",
-    "reblog": "Taaspostita",
+    "vote": "Hääletus",
+    "reblog": "Taaspostitus",
     "login": "Sisselogimine",
     "incoming_transfer_title": "Incoming transfer",
     "outgoing_transfer_title": "Outgoing transfer",
@@ -39,10 +66,10 @@
     "login_desc": "Kui sa logid eSteem äppi sisse, teenid sa automaatselt 100 punkti.",
     "checkin_extra_desc": "Konstantne äppi kasutamine annab sulle võimaluse teenida 10 lisapunkti, olles aktiivsem teenid sa rohkem punkte.",
     "dropdown_transfer": "Kingi",
-    "dropdown_promote": "Promote",
+    "dropdown_promote": "Reklaami",
     "dropdown_boost": "Võimenda",
-    "from": "Kellelt",
-    "to": "Kellele",
+    "from": "Saatja",
+    "to": "Saaja",
     "estimated_value_desc": "Determined by purchase value",
     "estimated_value": "Estimated value",
     "estimated_amount": "Vote value",
@@ -79,31 +106,6 @@
     "steem_power": {
       "title": "STEEM POWER"
     }
-  },
-  "notification": {
-    "vote": "saatis sulle hääle",
-    "unvote": "eemaldas hääle su postituselt",
-    "reply": "vastas su postitusele",
-    "mention": "mainis sind",
-    "follow": "hakkas sind jälgima",
-    "unfollow": "enam ei jälgi sind",
-    "ignore": "ignoreeris sind",
-    "reblog": "taaspostitas sinu postituse",
-    "transfer": "transferred",
-    "notification": "Teavitused",
-    "leaderboard": "Edetabel",
-    "epoint": "Punktid",
-    "leaderboard_title": "Tippkasutajad",
-    "recent": "Hiljutised",
-    "yesterday": "Eile",
-    "this_week": "Sel nädalal",
-    "this_month": "Sel kuul",
-    "older_then": "Vanem kui kuu"
-  },
-  "leaderboard": {
-    "daily": "Daily",
-    "weekly": "Weekly",
-    "monthly": "Monthly"
   },
   "messages": {
     "comingsoon": "Sõnumite funktsionaalus ei ole veel valimis!"
@@ -332,10 +334,12 @@
     "comments": "Kommentaarid"
   },
   "comment_filter": {
-    "trending": "populaarne",
-    "reputation": "maine",
-    "votes": "hääled",
-    "age": "vanus"
+    "trending": "TOP",
+    "reputation": "REPUTATION",
+    "votes": "VOTE",
+    "age": "AGE",
+    "top": "TOP",
+    "time": "TIME"
   },
   "transfer": {
     "from": "Kellelt",
