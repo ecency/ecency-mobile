@@ -8,12 +8,39 @@
     "transfer_to_vesting": "Перевод в Силу",
     "transfer_from_savings": "Перевод из сейфа",
     "withdraw_vesting": "Понижение силы",
-    "fill_order": "Заполнить ордер",
+    "fill_order": "Заполнить ордер"
+  },
+  "notification": {
+    "vote": "нравится ваш пост",
+    "unvote": "снял свой голос",
+    "reply": "ответил",
+    "mention": "упомянул вас",
+    "follow": "подписан",
+    "unfollow": "отписан",
+    "ignore": "игнорирует",
+    "reblog": "сделал репост",
+    "transfer": "transferred",
+    "notification": "Уведомления",
+    "leaderboard": "Лидеры",
+    "epoint": "Баллы",
+    "leaderboard_title": "Top Users",
+    "recent": "Недавно",
+    "yesterday": "Вчера",
+    "this_week": "На неделе",
+    "this_month": "В этом месяце",
+    "older_then": "Давно"
+  },
+  "leaderboard": {
+    "daily": "DAILY",
+    "weekly": "WEEKLY",
+    "monthly": "MONTHLY"
+  },
+  "points": {
     "post": "Пост",
-    "comment": "Комментарии",
+    "comment": "Комментарий",
     "checkin": "Чекин",
-    "vote": "Голоса",
-    "reblog": "Репосты",
+    "vote": "Голос",
+    "reblog": "Репост",
     "login": "Логин",
     "incoming_transfer_title": "Входящий перевод",
     "outgoing_transfer_title": "Исходящий перевод",
@@ -41,8 +68,8 @@
     "dropdown_transfer": "Gift",
     "dropdown_promote": "Promote",
     "dropdown_boost": "Boost",
-    "from": "От",
-    "to": "Кому",
+    "from": "From",
+    "to": "To",
     "estimated_value_desc": "Determined by purchase value",
     "estimated_value": "Estimated value",
     "estimated_amount": "Vote value",
@@ -79,31 +106,6 @@
     "steem_power": {
       "title": "STEEM POWER"
     }
-  },
-  "notification": {
-    "vote": "нравится ваш пост",
-    "unvote": "снял свой голос",
-    "reply": "ответил",
-    "mention": "упомянул вас",
-    "follow": "подписан",
-    "unfollow": "отписан",
-    "ignore": "игнорирует",
-    "reblog": "сделал репост",
-    "transfer": "transferred",
-    "notification": "Уведомления",
-    "leaderboard": "Лидеры",
-    "epoint": "Баллы",
-    "leaderboard_title": "Top Users",
-    "recent": "Недавно",
-    "yesterday": "Вчера",
-    "this_week": "На неделе",
-    "this_month": "В этом месяце",
-    "older_then": "Давно"
-  },
-  "leaderboard": {
-    "daily": "Daily",
-    "weekly": "Weekly",
-    "monthly": "Monthly"
   },
   "messages": {
     "comingsoon": "Здесь будут сообщения!"
@@ -332,10 +334,12 @@
     "comments": "Комментарии"
   },
   "comment_filter": {
-    "trending": "популярное",
-    "reputation": "репутация",
-    "votes": "голоса",
-    "age": "время"
+    "trending": "TOP",
+    "reputation": "REPUTATION",
+    "votes": "VOTE",
+    "age": "AGE",
+    "top": "TOP",
+    "time": "TIME"
   },
   "transfer": {
     "from": "От",
