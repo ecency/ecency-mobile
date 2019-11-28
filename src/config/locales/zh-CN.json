@@ -8,34 +8,7 @@
     "transfer_to_vesting": "转账到 Steem Power",
     "transfer_from_savings": "从储蓄中转账",
     "withdraw_vesting": "Power Down",
-    "fill_order": "交付订单"
-  },
-  "notification": {
-    "vote": "赞了您的帖子",
-    "unvote": "取消点赞您的帖子",
-    "reply": "回复了您的帖子",
-    "mention": "提到了您",
-    "follow": "关注了您",
-    "unfollow": "取消关注了您",
-    "ignore": "忽视了您",
-    "reblog": "转发了您的帖子",
-    "transfer": "transferred",
-    "notification": "通知",
-    "leaderboard": "排行榜",
-    "epoint": "Points",
-    "leaderboard_title": "Top Users",
-    "recent": "最近",
-    "yesterday": "昨天",
-    "this_week": "本周",
-    "this_month": "本月",
-    "older_then": "一个月前"
-  },
-  "leaderboard": {
-    "daily": "DAILY",
-    "weekly": "WEEKLY",
-    "monthly": "MONTHLY"
-  },
-  "points": {
+    "fill_order": "交付订单",
     "post": "Post",
     "comment": "Comment",
     "checkin": "Check-in",
@@ -106,6 +79,31 @@
     "steem_power": {
       "title": "STEEM POWER"
     }
+  },
+  "notification": {
+    "vote": "赞了您的帖子",
+    "unvote": "取消点赞您的帖子",
+    "reply": "回复了您的帖子",
+    "mention": "提到了您",
+    "follow": "关注了您",
+    "unfollow": "取消关注了您",
+    "ignore": "忽视了您",
+    "reblog": "转发了您的帖子",
+    "transfer": "transferred",
+    "notification": "通知",
+    "leaderboard": "排行榜",
+    "epoint": "Points",
+    "leaderboard_title": "Top Users",
+    "recent": "最近",
+    "yesterday": "昨天",
+    "this_week": "本周",
+    "this_month": "本月",
+    "older_then": "一个月前"
+  },
+  "leaderboard": {
+    "daily": "DAILY",
+    "weekly": "WEEKLY",
+    "monthly": "MONTHLY"
   },
   "messages": {
     "comingsoon": "即将推出消息功能！"
