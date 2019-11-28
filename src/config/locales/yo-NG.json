@@ -8,34 +8,7 @@
     "transfer_to_vesting": "Fise afikun eto re",
     "transfer_from_savings": "Fi ranse si ipamo",
     "withdraw_vesting": "Din agbara ku",
-    "fill_order": "Gba latira"
-  },
-  "notification": {
-    "vote": "fe ohun ti o ko",
-    "unvote": "yo ibo re kuro",
-    "reply": "dahun si oro re",
-    "mention": "da oruko re",
-    "follow": "ti n ba o lo",
-    "unfollow": "ko ba o lo mo",
-    "ignore": "ti ko eti ikun",
-    "reblog": "ti se eda oro re",
-    "transfer": "transferred",
-    "notification": "Awon Akiyesi",
-    "leaderboard": "Ate asiwaju",
-    "epoint": "Points",
-    "leaderboard_title": "Top Users",
-    "recent": "Ai pe",
-    "yesterday": "Ana",
-    "this_week": "Ose yi",
-    "this_month": "Osu yi",
-    "older_then": "Ti koja osu kan"
-  },
-  "leaderboard": {
-    "daily": "DAILY",
-    "weekly": "WEEKLY",
-    "monthly": "MONTHLY"
-  },
-  "points": {
+    "fill_order": "Gba latira",
     "post": "Post",
     "comment": "Comment",
     "checkin": "Check-in",
@@ -106,6 +79,31 @@
     "steem_power": {
       "title": "STEEM POWER"
     }
+  },
+  "notification": {
+    "vote": "fe ohun ti o ko",
+    "unvote": "yo ibo re kuro",
+    "reply": "dahun si oro re",
+    "mention": "da oruko re",
+    "follow": "ti n ba o lo",
+    "unfollow": "ko ba o lo mo",
+    "ignore": "ti ko eti ikun",
+    "reblog": "ti se eda oro re",
+    "transfer": "transferred",
+    "notification": "Awon Akiyesi",
+    "leaderboard": "Ate asiwaju",
+    "epoint": "Points",
+    "leaderboard_title": "Top Users",
+    "recent": "Ai pe",
+    "yesterday": "Ana",
+    "this_week": "Ose yi",
+    "this_month": "Osu yi",
+    "older_then": "Ti koja osu kan"
+  },
+  "leaderboard": {
+    "daily": "DAILY",
+    "weekly": "WEEKLY",
+    "monthly": "MONTHLY"
   },
   "messages": {
     "comingsoon": "Eto sise ateranse nbo lona!"
