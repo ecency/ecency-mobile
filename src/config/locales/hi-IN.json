@@ -8,36 +8,8 @@
     "transfer_to_vesting": "अधिकार निधान में स्थानांतरण करें",
     "transfer_from_savings": "बचत से स्थानांतरण करें",
     "withdraw_vesting": "शक्तिक्षय करें",
-    "fill_order": "क्रम पूरा करें"
-  },
-  "notification": {
-    "vote": "आपकी पोस्ट को पसंद करता है",
-    "unvote": "आपके पोस्ट को पसंद किया",
-    "reply": "आपके पोस्ट में जबाब दिया",
-    "mention": "आपका उल्लेख किया",
-    "follow": "आपके साथ जुड़ा",
-    "unfollow": "आपका साथ छोड़ा",
-    "ignore": "आपको अनदेखा किया",
-    "reblog": "आपका पोस्ट को पुनः प्रसारित किया",
-    "transfer": "transferred",
-    "notification": "अधिसूचनाएं",
-    "leaderboard": "अधिनायकपटल",
-    "epoint": "अंक",
-    "leaderboard_title": "शीर्ष उपयोगकर्ता",
-    "recent": "ताजा",
-    "yesterday": "बीता कल",
-    "this_week": "इस सप्ताह",
-    "this_month": "इस महीने",
-    "older_then": "एक महीना से अधिक पुराना"
-  },
-  "leaderboard": {
-    "daily": "रोजाना",
-    "weekly": "साप्ताहिक",
-    "monthly": "मासिक"
-  },
-  "points": {
+    "fill_order": "क्रम पूरा करें",
     "post": "लेख",
-    "esteemPoints": "eSteem अंक",
     "comment": "टिप्पणी",
     "checkin": "चेक इन",
     "vote": "वोट",
@@ -67,10 +39,71 @@
     "login_desc": "जब आप इस्टीम में लॉगिन करते हैं तो आप १०० अंकों के स्वतः दावेदार हो जाते हैं|",
     "checkin_extra_desc": "आपको अतिरिक्त मौका मिलता है १० अंक प्राप्त करने का अगर एप्प को लगातार उपयोग करते हैं, अधिक से अधिक समय तक एप्प में सक्रिय रहें|",
     "dropdown_transfer": "उपहार",
-    "dropdown_promote": "बढ़ावा देना",
+    "dropdown_promote": "Promote",
     "dropdown_boost": "बूस्ट",
     "from": "से",
-    "to": "को"
+    "to": "को",
+    "estimated_value_desc": "Determined by purchase value",
+    "estimated_value": "Estimated value",
+    "estimated_amount": "Vote value",
+    "amount_information": "Drag the slider to adjust the amount",
+    "amount": "रकम",
+    "memo": "ज्ञापन",
+    "information": "Are you sure to transfer funds?",
+    "amount_desc": "शेष रकम",
+    "memo_desc": "यह ज्ञापन सार्वजनिक है",
+    "to_placeholder": "प्रयोक्ता नाम",
+    "memo_placeholder": "अपनी टिप्पणी यहाँ लिखें",
+    "transfer_token": "स्थानांतरण",
+    "points": "Gift ESTM to someone",
+    "transfer_to_saving": "Transfer To Saving",
+    "powerUp": "स्टीम क्षमता बढ़ाएं",
+    "withdraw_to_saving": "Withdraw To Saving",
+    "steemconnect_title": "स्टीमकनेक्ट स्थान्तरण",
+    "next": "NEXT",
+    "delegate": "Delegate",
+    "power_down": "शक्तिक्षय करें",
+    "withdraw_steem": "Withdraw Steem",
+    "withdraw_sbd": "Withdraw Steem Dollar",
+    "estm": {
+      "title": "eSteem अंक",
+      "buy": "GET ESTM"
+    },
+    "saving": {
+      "title": "STEEM Savings"
+    },
+    "steem": {
+      "title": "STEEM",
+      "buy": "GET STEEM"
+    },
+    "steem_power": {
+      "title": "STEEM POWER"
+    }
+  },
+  "notification": {
+    "vote": "आपकी पोस्ट को पसंद करता है",
+    "unvote": "आपके पोस्ट को पसंद किया",
+    "reply": "आपके पोस्ट में जबाब दिया",
+    "mention": "आपका उल्लेख किया",
+    "follow": "आपके साथ जुड़ा",
+    "unfollow": "आपका साथ छोड़ा",
+    "ignore": "आपको अनदेखा किया",
+    "reblog": "आपका पोस्ट को पुनः प्रसारित किया",
+    "transfer": "transferred",
+    "notification": "अधिसूचनाएं",
+    "leaderboard": "अधिनायकपटल",
+    "epoint": "अंक",
+    "leaderboard_title": "शीर्ष उपयोगकर्ता",
+    "recent": "ताजा",
+    "yesterday": "बीता कल",
+    "this_week": "इस सप्ताह",
+    "this_month": "इस महीने",
+    "older_then": "एक महीना से अधिक पुराना"
+  },
+  "leaderboard": {
+    "daily": "रोजाना",
+    "weekly": "साप्ताहिक",
+    "monthly": "मासिक"
   },
   "messages": {
     "comingsoon": "सन्देश सुविधा जल्द आ रही है!"
@@ -321,6 +354,13 @@
     "powerUp": "स्टीम क्षमता बढ़ाएं",
     "withdraw_to_saving": "Withdraw To Saving",
     "steemconnect_title": "स्टीमकनेक्ट स्थान्तरण",
+    "estimated_weekly": "Estimated Weekly",
+    "destination_accounts": "Destination Accounts",
+    "stop_information": "Are you sure want to stop?",
+    "percent": "Percent",
+    "auto_vests": "Auto Vests",
+    "save": "SAVE",
+    "percent_information": "Percent info",
     "next": "NEXT",
     "delegate": "Delegate",
     "power_down": "Power Down",
