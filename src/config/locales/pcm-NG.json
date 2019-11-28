@@ -8,9 +8,36 @@
     "transfer_to_vesting": "Transfer go vesting",
     "transfer_from_savings": "Transfer Komot From Savings",
     "withdraw_vesting": "Power Down",
-    "fill_order": "Fill Order",
+    "fill_order": "Fill Order"
+  },
+  "notification": {
+    "vote": "like you tori",
+    "unvote": "no upvote this post again",
+    "reply": "reply your tori",
+    "mention": "holla you",
+    "follow": "don dey follow you",
+    "unfollow": "no follow you again",
+    "ignore": "don dey ignore you",
+    "reblog": "reblog your tori",
+    "transfer": "transferred",
+    "notification": "Alerts",
+    "leaderboard": "Leaderboard",
+    "epoint": "Points",
+    "leaderboard_title": "Top Users",
+    "recent": "Latest",
+    "yesterday": "Yesterday",
+    "this_week": "This Week",
+    "this_month": "This Month",
+    "older_then": "E don pass one month"
+  },
+  "leaderboard": {
+    "daily": "DAILY",
+    "weekly": "WEEKLY",
+    "monthly": "MONTHLY"
+  },
+  "points": {
     "post": "Tori",
-    "comment": "Comment",
+    "comment": "Comments",
     "checkin": "Enter",
     "vote": "Vote",
     "reblog": "Reblog am",
@@ -79,31 +106,6 @@
     "steem_power": {
       "title": "STEEM POWER"
     }
-  },
-  "notification": {
-    "vote": "like you tori",
-    "unvote": "no upvote this post again",
-    "reply": "reply your tori",
-    "mention": "holla you",
-    "follow": "don dey follow you",
-    "unfollow": "no follow you again",
-    "ignore": "don dey ignore you",
-    "reblog": "reblog your tori",
-    "transfer": "transferred",
-    "notification": "Alerts",
-    "leaderboard": "Leaderboard",
-    "epoint": "Points",
-    "leaderboard_title": "Top Users",
-    "recent": "Latest",
-    "yesterday": "Yesterday",
-    "this_week": "This Week",
-    "this_month": "This Month",
-    "older_then": "E don pass one month"
-  },
-  "leaderboard": {
-    "daily": "Daily",
-    "weekly": "Weekly",
-    "monthly": "Monthly"
   },
   "messages": {
     "comingsoon": "Option for messages go soon come!"
@@ -332,10 +334,12 @@
     "comments": "Comments"
   },
   "comment_filter": {
-    "trending": "wey dey reign",
-    "reputation": "reputation",
-    "votes": "votes",
-    "age": "age"
+    "trending": "TOP",
+    "reputation": "REPUTATION",
+    "votes": "VOTE",
+    "age": "AGE",
+    "top": "TOP",
+    "time": "TIME"
   },
   "transfer": {
     "from": "From",
