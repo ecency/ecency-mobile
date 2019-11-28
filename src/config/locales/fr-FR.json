@@ -8,36 +8,9 @@
     "transfer_to_vesting": "Transfer To Vesting",
     "transfer_from_savings": "Transférer depuis mes Économies",
     "withdraw_vesting": "Diminuer son influence",
-    "fill_order": "Remplir l’ordre"
-  },
-  "notification": {
-    "vote": "ont aimés votre post",
-    "unvote": "a retiré son vote sur votre publication",
-    "reply": "a répondu à votre post",
-    "mention": "vous a mentionné",
-    "follow": "vous a suivi",
-    "unfollow": "ne vous suit plus",
-    "ignore": "vous a ignoré",
-    "reblog": "a reblogué votre post",
-    "transfer": "transferred",
-    "notification": "Notifications",
-    "leaderboard": "Classement",
-    "epoint": "Points",
-    "leaderboard_title": "Top Users",
-    "recent": "Récent",
-    "yesterday": "Hier",
-    "this_week": "Cette semaine",
-    "this_month": "Ce mois",
-    "older_then": "Vieux de plus de 1 mois"
-  },
-  "leaderboard": {
-    "daily": "DAILY",
-    "weekly": "WEEKLY",
-    "monthly": "MONTHLY"
-  },
-  "points": {
+    "fill_order": "Remplir l’ordre",
     "post": "Post",
-    "comment": "Comment",
+    "comment": "Commentaire",
     "checkin": "Check-in",
     "vote": "Vote",
     "reblog": "Reblog",
@@ -68,8 +41,8 @@
     "dropdown_transfer": "Gift",
     "dropdown_promote": "Promote",
     "dropdown_boost": "Boost",
-    "from": "From",
-    "to": "To",
+    "from": "De",
+    "to": "À",
     "estimated_value_desc": "Determined by purchase value",
     "estimated_value": "Estimated value",
     "estimated_amount": "Vote value",
@@ -106,6 +79,31 @@
     "steem_power": {
       "title": "STEEM POWER"
     }
+  },
+  "notification": {
+    "vote": "ont aimés votre post",
+    "unvote": "a retiré son vote sur votre publication",
+    "reply": "a répondu à votre post",
+    "mention": "vous a mentionné",
+    "follow": "vous a suivi",
+    "unfollow": "ne vous suit plus",
+    "ignore": "vous a ignoré",
+    "reblog": "a reblogué votre post",
+    "transfer": "transferred",
+    "notification": "Notifications",
+    "leaderboard": "Classement",
+    "epoint": "Points",
+    "leaderboard_title": "Top Users",
+    "recent": "Récent",
+    "yesterday": "Hier",
+    "this_week": "Cette semaine",
+    "this_month": "Ce mois",
+    "older_then": "Vieux de plus de 1 mois"
+  },
+  "leaderboard": {
+    "daily": "DAILY",
+    "weekly": "WEEKLY",
+    "monthly": "MONTHLY"
   },
   "messages": {
     "comingsoon": "La fonctionnalité Messages arrive bientôt !"
