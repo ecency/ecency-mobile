@@ -6,7 +6,7 @@ import Config from 'react-native-config';
 import get from 'lodash/get';
 
 // Actions & Services
-import NavigationService from '../../../navigation/service';
+import { navigate } from '../../../navigation/service';
 import {
   setUserDataWithPinCode,
   verifyPinCode,
@@ -113,7 +113,7 @@ class PinCodeContainer extends Component {
           }
           dispatch(closePinCodeModal());
           if (navigateTo) {
-            NavigationService.navigate({
+            navigate({
               routeName: navigateTo,
               params: navigateParams,
             });
@@ -176,7 +176,7 @@ class PinCodeContainer extends Component {
             }
             dispatch(closePinCodeModal());
             if (navigateTo) {
-              NavigationService.navigate({
+              navigate({
                 routeName: navigateTo,
                 params: navigateParams,
               });
@@ -213,9 +213,11 @@ class PinCodeContainer extends Component {
             [_currentAccount.local] = realmData;
             dispatch(updateCurrentAccount({ ..._currentAccount }));
             dispatch(closePinCodeModal());
-            if (callback) callback(pin, oldPinCode);
+            if (callback) {
+              callback(pin, oldPinCode);
+            }
             if (navigateTo) {
-              NavigationService.navigate({
+              navigate({
                 routeName: navigateTo,
                 params: navigateParams,
               });
