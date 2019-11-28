@@ -8,12 +8,39 @@
     "transfer_to_vesting": "Yetkiye Transfer Talep Et",
     "transfer_from_savings": "Tasarruflardan Transfer",
     "withdraw_vesting": "Güç Düşürme",
-    "fill_order": "Gerçekleşen emir",
+    "fill_order": "Gerçekleşen emir"
+  },
+  "notification": {
+    "vote": "beğendi",
+    "unvote": "gonderini aşaği yönde oyladı",
+    "reply": "gönderine cevap verdi",
+    "mention": "seni etiketledi",
+    "follow": "seni takip etti",
+    "unfollow": "seni takipetmeyi bıraktı",
+    "ignore": "seni engelledi",
+    "reblog": "senin postunu paylaştı",
+    "transfer": "transferred",
+    "notification": "Bildirimler",
+    "leaderboard": "Liderler Tablosu",
+    "epoint": "Puanlar",
+    "leaderboard_title": "En İyi Kullanıcılar",
+    "recent": "Geçen",
+    "yesterday": "Dün",
+    "this_week": "Bu Hafta",
+    "this_month": "Bu Ay",
+    "older_then": "Bir Aydan Daha Önce"
+  },
+  "leaderboard": {
+    "daily": "DAILY",
+    "weekly": "WEEKLY",
+    "monthly": "MONTHLY"
+  },
+  "points": {
     "post": "Gönderi",
     "comment": "Yorum",
     "checkin": "Check-in",
-    "vote": "Oy",
-    "reblog": "Yeniden yayınla",
+    "vote": "Vote",
+    "reblog": "Reblog",
     "login": "Giriş yap",
     "incoming_transfer_title": "Incoming transfer",
     "outgoing_transfer_title": "Outgoing transfer",
@@ -41,8 +68,8 @@
     "dropdown_transfer": "Gift",
     "dropdown_promote": "Promote",
     "dropdown_boost": "Boost",
-    "from": "Gönderen",
-    "to": "Kime",
+    "from": "From",
+    "to": "To",
     "estimated_value_desc": "Determined by purchase value",
     "estimated_value": "Estimated value",
     "estimated_amount": "Vote value",
@@ -79,31 +106,6 @@
     "steem_power": {
       "title": "STEEM POWER"
     }
-  },
-  "notification": {
-    "vote": "beğendi",
-    "unvote": "gonderini aşaği yönde oyladı",
-    "reply": "gönderine cevap verdi",
-    "mention": "seni etiketledi",
-    "follow": "seni takip etti",
-    "unfollow": "seni takipetmeyi bıraktı",
-    "ignore": "seni engelledi",
-    "reblog": "senin postunu paylaştı",
-    "transfer": "transferred",
-    "notification": "Bildirimler",
-    "leaderboard": "Liderler Tablosu",
-    "epoint": "Puanlar",
-    "leaderboard_title": "En İyi Kullanıcılar",
-    "recent": "Geçen",
-    "yesterday": "Dün",
-    "this_week": "Bu Hafta",
-    "this_month": "Bu Ay",
-    "older_then": "Bir Aydan Daha Önce"
-  },
-  "leaderboard": {
-    "daily": "Günlük",
-    "weekly": "Haftalık",
-    "monthly": "Aylık"
   },
   "messages": {
     "comingsoon": "Mesajlar yakinda burada!"
@@ -332,10 +334,12 @@
     "comments": "Yorumlar"
   },
   "comment_filter": {
-    "trending": "öne çıkanlar",
-    "reputation": "itibar",
-    "votes": "oylar",
-    "age": "yaş"
+    "trending": "TOP",
+    "reputation": "REPUTATION",
+    "votes": "VOTE",
+    "age": "AGE",
+    "top": "TOP",
+    "time": "TIME"
   },
   "transfer": {
     "from": "Gönderen",
