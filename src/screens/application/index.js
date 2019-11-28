@@ -11,7 +11,7 @@ const Application = () => {
   const [showAnimation, setShowAnimation] = useState(process.env.NODE_ENV !== 'development');
 
   useEffect(() => {
-    if (!showAnimation) {
+    if (showAnimation) {
       setTimeout(() => {
         setShowAnimation(false);
       }, 2000);
