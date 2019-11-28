@@ -25,6 +25,7 @@ class LeaderboardContainer extends PureComponent {
     this.state = {
       users: null,
       refreshing: false,
+      selectedIndex: 0,
     };
   }
 
@@ -48,13 +49,19 @@ class LeaderboardContainer extends PureComponent {
     });
   };
 
-  _fetchLeaderBoard = async selectedFilter => {
+  _fetchLeaderBoard = async (selectedFilter, index) => {
     const { intl, isConnected } = this.props;
+    const { selectedIndex } = this.state;
+
+    if (index == undefined) {
+      index = selectedIndex;
+    }
     let users;
 
+    console.log(index);
     if (!isConnected) return;
 
-    this.setState({ refreshing: true });
+    this.setState({ refreshing: true, selectedIndex: index });
 
     try {
       users = await getLeaderboard(selectedFilter);
@@ -69,7 +76,7 @@ class LeaderboardContainer extends PureComponent {
   };
 
   render() {
-    const { users, refreshing } = this.state;
+    const { users, refreshing, selectedIndex } = this.state;
 
     return (
       <LeaderboardView
@@ -77,6 +84,7 @@ class LeaderboardContainer extends PureComponent {
         refreshing={refreshing}
         fetchLeaderBoard={this._fetchLeaderBoard}
         handleOnUserPress={this._handleOnUserPress}
+        selectedIndex={selectedIndex}
       />
     );
   }
