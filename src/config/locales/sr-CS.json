@@ -8,34 +8,7 @@
     "transfer_to_vesting": "Premestite u vesting",
     "transfer_from_savings": "Premestite iz ušteđevine",
     "withdraw_vesting": "Power Down",
-    "fill_order": "Popunite nalog"
-  },
-  "notification": {
-    "vote": "se sviđa vaš post",
-    "unvote": "je uklonio glas sa tvog posta",
-    "reply": "je odgovorio na vaš post",
-    "mention": "vas je spomenuo",
-    "follow": "vas je zapratio",
-    "unfollow": "vas ne prati više",
-    "ignore": "vas je ignorisao",
-    "reblog": "je podelio vaš post",
-    "transfer": "transferred",
-    "notification": "Obaveštenja",
-    "leaderboard": "Rang lista",
-    "epoint": "Points",
-    "leaderboard_title": "Top Users",
-    "recent": "Nedavno",
-    "yesterday": "Juče",
-    "this_week": "Ove nedelje",
-    "this_month": "Ovaj mesec",
-    "older_then": "Stariji od mesec dana"
-  },
-  "leaderboard": {
-    "daily": "DAILY",
-    "weekly": "WEEKLY",
-    "monthly": "MONTHLY"
-  },
-  "points": {
+    "fill_order": "Popunite nalog",
     "post": "Post",
     "comment": "Comment",
     "checkin": "Check-in",
@@ -106,6 +79,31 @@
     "steem_power": {
       "title": "STEEM POWER"
     }
+  },
+  "notification": {
+    "vote": "se sviđa vaš post",
+    "unvote": "je uklonio glas sa tvog posta",
+    "reply": "je odgovorio na vaš post",
+    "mention": "vas je spomenuo",
+    "follow": "vas je zapratio",
+    "unfollow": "vas ne prati više",
+    "ignore": "vas je ignorisao",
+    "reblog": "je podelio vaš post",
+    "transfer": "transferred",
+    "notification": "Obaveštenja",
+    "leaderboard": "Rang lista",
+    "epoint": "Points",
+    "leaderboard_title": "Top Users",
+    "recent": "Nedavno",
+    "yesterday": "Juče",
+    "this_week": "Ove nedelje",
+    "this_month": "Ovaj mesec",
+    "older_then": "Stariji od mesec dana"
+  },
+  "leaderboard": {
+    "daily": "DAILY",
+    "weekly": "WEEKLY",
+    "monthly": "MONTHLY"
   },
   "messages": {
     "comingsoon": "Slanje poruka će uskoro biti u funkciji!"
