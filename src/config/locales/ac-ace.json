@@ -8,11 +8,38 @@
     "transfer_to_vesting": "Kirèm Keu Vesting",
     "transfer_from_savings": "Kirém keu kubah",
     "withdraw_vesting": "Peukureueng Teunaga",
-    "fill_order": "Pasöe Puesanan",
+    "fill_order": "Pasöe Puesanan"
+  },
+  "notification": {
+    "vote": "galak post dröen",
+    "unvote": "hana galak post dröen",
+    "reply": "balah keu post dröen",
+    "mention": "seubut dröen",
+    "follow": "ikot dröen",
+    "unfollow": "piyôh ikut dröen",
+    "ignore": "hanapeureumeun dröen",
+    "reblog": "postingan dröen ka di reblog",
+    "transfer": "transferred",
+    "notification": "Bithé",
+    "leaderboard": "Papeun Rangking",
+    "epoint": "Points",
+    "leaderboard_title": "Top Users",
+    "recent": "Ataban nyoë",
+    "yesterday": "Baroë",
+    "this_week": "Peukan Nyoë",
+    "this_month": "Buleuën Nyoë",
+    "older_then": "Leubéh Lam Sibulëun"
+  },
+  "leaderboard": {
+    "daily": "DAILY",
+    "weekly": "WEEKLY",
+    "monthly": "MONTHLY"
+  },
+  "points": {
     "post": "Post",
-    "comment": "Komentar",
+    "comment": "Comment",
     "checkin": "Check-in",
-    "vote": "Pilèh",
+    "vote": "Vote",
     "reblog": "Reblog",
     "login": "Login",
     "incoming_transfer_title": "Incoming transfer",
@@ -79,31 +106,6 @@
     "steem_power": {
       "title": "STEEM POWER"
     }
-  },
-  "notification": {
-    "vote": "galak post dröen",
-    "unvote": "hana galak post dröen",
-    "reply": "balah keu post dröen",
-    "mention": "seubut dröen",
-    "follow": "ikot dröen",
-    "unfollow": "piyôh ikut dröen",
-    "ignore": "hanapeureumeun dröen",
-    "reblog": "postingan dröen ka di reblog",
-    "transfer": "transferred",
-    "notification": "Bithé",
-    "leaderboard": "Papeun Rangking",
-    "epoint": "Points",
-    "leaderboard_title": "Top Users",
-    "recent": "Ataban nyoë",
-    "yesterday": "Baroë",
-    "this_week": "Peukan Nyoë",
-    "this_month": "Buleuën Nyoë",
-    "older_then": "Leubéh Lam Sibulëun"
-  },
-  "leaderboard": {
-    "daily": "Daily",
-    "weekly": "Weekly",
-    "monthly": "Monthly"
   },
   "messages": {
     "comingsoon": "Fitur peusan seugeura lheuh!"
@@ -332,10 +334,12 @@
     "comments": "Komentar-komentar"
   },
   "comment_filter": {
-    "trending": "mëucuhu",
-    "reputation": "reputasi",
-    "votes": "pilèh-pilèh",
-    "age": "umuë"
+    "trending": "TOP",
+    "reputation": "REPUTATION",
+    "votes": "VOTE",
+    "age": "AGE",
+    "top": "TOP",
+    "time": "TIME"
   },
   "transfer": {
     "from": "From",
