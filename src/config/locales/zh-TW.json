@@ -8,36 +8,8 @@
     "transfer_to_vesting": "轉賬到Steem Power",
     "transfer_from_savings": "轉到儲蓄",
     "withdraw_vesting": "Power Down",
-    "fill_order": "填寫訂單"
-  },
-  "notification": {
-    "vote": "贊了您的帖子",
-    "unvote": "取消點讚您的帖子",
-    "reply": "回復了您的帖子",
-    "mention": "提到了您",
-    "follow": "關注了您",
-    "unfollow": "取消關注了您",
-    "ignore": "忽略了您",
-    "reblog": "轉發了您的帖子",
-    "transfer": "transferred",
-    "notification": "通知",
-    "leaderboard": "排行榜",
-    "epoint": "Points",
-    "leaderboard_title": "Top Users",
-    "recent": "最新",
-    "yesterday": "昨天",
-    "this_week": "本週",
-    "this_month": "本月",
-    "older_then": "一個月前"
-  },
-  "leaderboard": {
-    "daily": "Daily",
-    "weekly": "Weekly",
-    "monthly": "Monthly"
-  },
-  "points": {
+    "fill_order": "填寫訂單",
     "post": "Post",
-    "esteemPoints": "eSteem Points",
     "comment": "Comment",
     "checkin": "Check-in",
     "vote": "Vote",
@@ -70,7 +42,68 @@
     "dropdown_promote": "Promote",
     "dropdown_boost": "Boost",
     "from": "From",
-    "to": "To"
+    "to": "To",
+    "estimated_value_desc": "Determined by purchase value",
+    "estimated_value": "Estimated value",
+    "estimated_amount": "Vote value",
+    "amount_information": "Drag the slider to adjust the amount",
+    "amount": "Amount",
+    "memo": "Memo",
+    "information": "Are you sure to transfer funds?",
+    "amount_desc": "Balance",
+    "memo_desc": "This memo is public",
+    "to_placeholder": "使用者名稱",
+    "memo_placeholder": "Enter your notes here",
+    "transfer_token": "轉賬",
+    "points": "Gift ESTM to someone",
+    "transfer_to_saving": "Transfer To Saving",
+    "powerUp": "Power Up",
+    "withdraw_to_saving": "Withdraw To Saving",
+    "steemconnect_title": "Steemconnect Transfer",
+    "next": "NEXT",
+    "delegate": "Delegate",
+    "power_down": "Power Down",
+    "withdraw_steem": "Withdraw Steem",
+    "withdraw_sbd": "Withdraw Steem Dollar",
+    "estm": {
+      "title": "eSteem Points",
+      "buy": "GET ESTM"
+    },
+    "saving": {
+      "title": "STEEM Savings"
+    },
+    "steem": {
+      "title": "STEEM",
+      "buy": "GET STEEM"
+    },
+    "steem_power": {
+      "title": "STEEM POWER"
+    }
+  },
+  "notification": {
+    "vote": "贊了您的帖子",
+    "unvote": "取消點讚您的帖子",
+    "reply": "回復了您的帖子",
+    "mention": "提到了您",
+    "follow": "關注了您",
+    "unfollow": "取消關注了您",
+    "ignore": "忽略了您",
+    "reblog": "轉發了您的帖子",
+    "transfer": "transferred",
+    "notification": "通知",
+    "leaderboard": "排行榜",
+    "epoint": "Points",
+    "leaderboard_title": "Top Users",
+    "recent": "最新",
+    "yesterday": "昨天",
+    "this_week": "本週",
+    "this_month": "本月",
+    "older_then": "一個月前"
+  },
+  "leaderboard": {
+    "daily": "Daily",
+    "weekly": "Weekly",
+    "monthly": "Monthly"
   },
   "messages": {
     "comingsoon": "即將推出消息功能！"
@@ -321,6 +354,13 @@
     "powerUp": "Power Up",
     "withdraw_to_saving": "Withdraw To Saving",
     "steemconnect_title": "Steemconnect Transfer",
+    "estimated_weekly": "Estimated Weekly",
+    "destination_accounts": "Destination Accounts",
+    "stop_information": "Are you sure want to stop?",
+    "percent": "Percent",
+    "auto_vests": "Auto Vests",
+    "save": "SAVE",
+    "percent_information": "Percent info",
     "next": "NEXT",
     "delegate": "Delegate",
     "power_down": "Power Down",
