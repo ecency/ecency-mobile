@@ -23,6 +23,7 @@ class NotificationContainer extends Component {
       isNotificationRefreshing: false,
       selectedFilter: 'activities',
       endOfNotification: false,
+      selectedIndex: 0,
     };
   }
 
@@ -145,8 +146,8 @@ class NotificationContainer extends Component {
     navigation.navigate(ROUTES.SCREENS.LOGIN);
   };
 
-  _changeSelectedFilter = async value => {
-    await this.setState({ selectedFilter: value, endOfNotification: false });
+  _changeSelectedFilter = async (value, ind) => {
+    await this.setState({ selectedFilter: value, endOfNotification: false, selectedIndex: ind });
   };
 
   render() {
