@@ -8,36 +8,8 @@
     "transfer_to_vesting": "Chuyển đến Vesting",
     "transfer_from_savings": "Chuyển từ tiết kiệm",
     "withdraw_vesting": "Power Down",
-    "fill_order": "Điền đơn hàng"
-  },
-  "notification": {
-    "vote": "thích bài đăng của bạn",
-    "unvote": "đã unvote bài viết của bạn",
-    "reply": "đã trả lời bài đăng của bạn",
-    "mention": "đã nhắc đến bạn",
-    "follow": "đã theo dõi bạn",
-    "unfollow": "đã bỏ theo dõi bạn",
-    "ignore": "đã bỏ qua bạn",
-    "reblog": "đã đăng lại bài viết của bạn",
-    "transfer": "transferred",
-    "notification": "Thông báo",
-    "leaderboard": "Bảng xếp hạng",
-    "epoint": "Các điểm thưởng",
-    "leaderboard_title": "Top Users",
-    "recent": "Gần đây",
-    "yesterday": "Hôm qua",
-    "this_week": "Tuần này",
-    "this_month": "Tháng này",
-    "older_then": "Cách đây hơn 1 tháng"
-  },
-  "leaderboard": {
-    "daily": "Daily",
-    "weekly": "Weekly",
-    "monthly": "Monthly"
-  },
-  "points": {
+    "fill_order": "Điền đơn hàng",
     "post": "Bài đăng",
-    "esteemPoints": "các Điểm eSteem",
     "comment": "Câu bình luận",
     "checkin": "Đăng ký vào",
     "vote": "Bình chọn",
@@ -69,8 +41,69 @@
     "dropdown_transfer": "Gift",
     "dropdown_promote": "Quảng bá",
     "dropdown_boost": "Tăng tốc",
-    "from": "From",
-    "to": "To"
+    "from": "Từ",
+    "to": "Đến",
+    "estimated_value_desc": "Determined by purchase value",
+    "estimated_value": "Estimated value",
+    "estimated_amount": "Vote value",
+    "amount_information": "Drag the slider to adjust the amount",
+    "amount": "Số lượng",
+    "memo": "Bản ghi nhớ",
+    "information": "Are you sure to transfer funds?",
+    "amount_desc": "Số dư",
+    "memo_desc": "Bản ghi nhớ này được công khai",
+    "to_placeholder": "Tên người dùng",
+    "memo_placeholder": "Nhập ghi chú của bạn vào đây",
+    "transfer_token": "Chuyển cho",
+    "points": "Gift ESTM to someone",
+    "transfer_to_saving": "Chuyển đến phần tiết kiệm",
+    "powerUp": "Tăng lên",
+    "withdraw_to_saving": "Rút về phần tiết kiệm",
+    "steemconnect_title": "Chuyển khoản Steemconnect",
+    "next": "KẾ TIẾP",
+    "delegate": "Delegate",
+    "power_down": "Power Down",
+    "withdraw_steem": "Withdraw Steem",
+    "withdraw_sbd": "Withdraw Steem Dollar",
+    "estm": {
+      "title": "các Điểm eSteem",
+      "buy": "ĐƯỢC ESTM"
+    },
+    "saving": {
+      "title": "STEEM Savings"
+    },
+    "steem": {
+      "title": "STEEM",
+      "buy": "GET STEEM"
+    },
+    "steem_power": {
+      "title": "STEEM POWER"
+    }
+  },
+  "notification": {
+    "vote": "thích bài đăng của bạn",
+    "unvote": "đã unvote bài viết của bạn",
+    "reply": "đã trả lời bài đăng của bạn",
+    "mention": "đã nhắc đến bạn",
+    "follow": "đã theo dõi bạn",
+    "unfollow": "đã bỏ theo dõi bạn",
+    "ignore": "đã bỏ qua bạn",
+    "reblog": "đã đăng lại bài viết của bạn",
+    "transfer": "transferred",
+    "notification": "Thông báo",
+    "leaderboard": "Bảng xếp hạng",
+    "epoint": "Các điểm thưởng",
+    "leaderboard_title": "Top Users",
+    "recent": "Gần đây",
+    "yesterday": "Hôm qua",
+    "this_week": "Tuần này",
+    "this_month": "Tháng này",
+    "older_then": "Cách đây hơn 1 tháng"
+  },
+  "leaderboard": {
+    "daily": "Daily",
+    "weekly": "Weekly",
+    "monthly": "Monthly"
   },
   "messages": {
     "comingsoon": "Tính năng tin nhắn sẽ được cập nhật sớm!"
@@ -321,6 +354,13 @@
     "powerUp": "Tăng lên",
     "withdraw_to_saving": "Rút về phần tiết kiệm",
     "steemconnect_title": "Chuyển khoản Steemconnect",
+    "estimated_weekly": "Estimated Weekly",
+    "destination_accounts": "Destination Accounts",
+    "stop_information": "Are you sure want to stop?",
+    "percent": "Percent",
+    "auto_vests": "Auto Vests",
+    "save": "SAVE",
+    "percent_information": "Percent info",
     "next": "KẾ TIẾP",
     "delegate": "Delegate",
     "power_down": "Power Down",
