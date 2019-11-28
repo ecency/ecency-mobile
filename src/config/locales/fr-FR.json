@@ -31,13 +31,12 @@
     "older_then": "Vieux de plus de 1 mois"
   },
   "leaderboard": {
-    "daily": "Daily",
-    "weekly": "Weekly",
-    "monthly": "Monthly"
+    "daily": "DAILY",
+    "weekly": "WEEKLY",
+    "monthly": "MONTHLY"
   },
   "points": {
     "post": "Post",
-    "esteemPoints": "eSteem Points",
     "comment": "Comment",
     "checkin": "Check-in",
     "vote": "Vote",
@@ -70,7 +69,43 @@
     "dropdown_promote": "Promote",
     "dropdown_boost": "Boost",
     "from": "From",
-    "to": "To"
+    "to": "To",
+    "estimated_value_desc": "Determined by purchase value",
+    "estimated_value": "Estimated value",
+    "estimated_amount": "Vote value",
+    "amount_information": "Drag the slider to adjust the amount",
+    "amount": "Montant",
+    "memo": "Mémo",
+    "information": "Are you sure to transfer funds?",
+    "amount_desc": "Solde",
+    "memo_desc": "Ce mémo est public",
+    "to_placeholder": "Nom d'utilisateur",
+    "memo_placeholder": "Entrez vos notes ici",
+    "transfer_token": "Transférer",
+    "points": "Gift ESTM to someone",
+    "transfer_to_saving": "Transfer To Saving",
+    "powerUp": "Power Up",
+    "withdraw_to_saving": "Withdraw To Saving",
+    "steemconnect_title": "Transfert Steemconnect",
+    "next": "NEXT",
+    "delegate": "Delegate",
+    "power_down": "Diminuer son influence",
+    "withdraw_steem": "Withdraw Steem",
+    "withdraw_sbd": "Withdraw Steem Dollar",
+    "estm": {
+      "title": "eSteem Points",
+      "buy": "GET ESTM"
+    },
+    "saving": {
+      "title": "STEEM Savings"
+    },
+    "steem": {
+      "title": "STEEM",
+      "buy": "GET STEEM"
+    },
+    "steem_power": {
+      "title": "STEEM POWER"
+    }
   },
   "messages": {
     "comingsoon": "La fonctionnalité Messages arrive bientôt !"
@@ -299,10 +334,12 @@
     "comments": "Commentaires"
   },
   "comment_filter": {
-    "trending": "tendances",
-    "reputation": "réputation",
-    "votes": "votes",
-    "age": "âge"
+    "trending": "TOP",
+    "reputation": "REPUTATION",
+    "votes": "VOTE",
+    "age": "AGE",
+    "top": "TOP",
+    "time": "TIME"
   },
   "transfer": {
     "from": "De",
@@ -321,6 +358,13 @@
     "powerUp": "Power Up",
     "withdraw_to_saving": "Withdraw To Saving",
     "steemconnect_title": "Transfert Steemconnect",
+    "estimated_weekly": "Estimated Weekly",
+    "destination_accounts": "Destination Accounts",
+    "stop_information": "Are you sure want to stop?",
+    "percent": "Percent",
+    "auto_vests": "Auto Vests",
+    "save": "SAVE",
+    "percent_information": "Percent info",
     "next": "NEXT",
     "delegate": "Delegate",
     "power_down": "Power Down",

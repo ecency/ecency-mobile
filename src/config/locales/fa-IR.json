@@ -31,13 +31,12 @@
     "older_then": "قدیمی تر از 1 ماه"
   },
   "leaderboard": {
-    "daily": "Daily",
-    "weekly": "Weekly",
-    "monthly": "Monthly"
+    "daily": "DAILY",
+    "weekly": "WEEKLY",
+    "monthly": "MONTHLY"
   },
   "points": {
     "post": "پست",
-    "esteemPoints": "eSteem Points",
     "comment": "نظر",
     "checkin": "حاضری زدن",
     "vote": "رأی",
@@ -70,7 +69,43 @@
     "dropdown_promote": "Promote",
     "dropdown_boost": "Boost",
     "from": "From",
-    "to": "To"
+    "to": "To",
+    "estimated_value_desc": "Determined by purchase value",
+    "estimated_value": "Estimated value",
+    "estimated_amount": "Vote value",
+    "amount_information": "Drag the slider to adjust the amount",
+    "amount": "مقدار",
+    "memo": "یادداشت",
+    "information": "Are you sure to transfer funds?",
+    "amount_desc": "موجودی",
+    "memo_desc": "این یادداشت عمومی است",
+    "to_placeholder": "نام کاربری",
+    "memo_placeholder": "یادداشت های خود را در اینجا وارد کنید",
+    "transfer_token": "انتقال دادن",
+    "points": "Gift ESTM to someone",
+    "transfer_to_saving": "انتقال به پس انداز",
+    "powerUp": "بالا بردن قدرت",
+    "withdraw_to_saving": "برداشت و انتقال به پس انداز",
+    "steemconnect_title": "انتقال Steemconnect",
+    "next": "بعدی",
+    "delegate": "Delegate",
+    "power_down": "کم کردن قدرت",
+    "withdraw_steem": "Withdraw Steem",
+    "withdraw_sbd": "Withdraw Steem Dollar",
+    "estm": {
+      "title": "eSteem Points",
+      "buy": "GET ESTM"
+    },
+    "saving": {
+      "title": "STEEM Savings"
+    },
+    "steem": {
+      "title": "STEEM",
+      "buy": "GET STEEM"
+    },
+    "steem_power": {
+      "title": "STEEM POWER"
+    }
   },
   "messages": {
     "comingsoon": "قابلیت ارسال پیام به زودی ارائه خواهد شد!"
@@ -299,10 +334,12 @@
     "comments": "نظرات"
   },
   "comment_filter": {
-    "trending": "پرطرفدار",
-    "reputation": "شهرت",
-    "votes": "رأی‌ ها",
-    "age": "سن"
+    "trending": "TOP",
+    "reputation": "REPUTATION",
+    "votes": "VOTE",
+    "age": "AGE",
+    "top": "TOP",
+    "time": "TIME"
   },
   "transfer": {
     "from": "از",
@@ -321,6 +358,13 @@
     "powerUp": "بالا بردن قدرت",
     "withdraw_to_saving": "برداشت و انتقال به پس انداز",
     "steemconnect_title": "انتقال Steemconnect",
+    "estimated_weekly": "Estimated Weekly",
+    "destination_accounts": "Destination Accounts",
+    "stop_information": "Are you sure want to stop?",
+    "percent": "Percent",
+    "auto_vests": "Auto Vests",
+    "save": "SAVE",
+    "percent_information": "Percent info",
     "next": "بعدی",
     "delegate": "Delegate",
     "power_down": "Power Down",

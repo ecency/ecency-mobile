@@ -31,13 +31,12 @@
     "older_then": "Vanem kui kuu"
   },
   "leaderboard": {
-    "daily": "Daily",
-    "weekly": "Weekly",
-    "monthly": "Monthly"
+    "daily": "DAILY",
+    "weekly": "WEEKLY",
+    "monthly": "MONTHLY"
   },
   "points": {
     "post": "Postitus",
-    "esteemPoints": "eSteem punktid",
     "comment": "Kommentaar",
     "checkin": "Kasutus",
     "vote": "Hääletus",
@@ -70,7 +69,43 @@
     "dropdown_promote": "Reklaami",
     "dropdown_boost": "Võimenda",
     "from": "Saatja",
-    "to": "Saaja"
+    "to": "Saaja",
+    "estimated_value_desc": "Determined by purchase value",
+    "estimated_value": "Estimated value",
+    "estimated_amount": "Vote value",
+    "amount_information": "Drag the slider to adjust the amount",
+    "amount": "Amount",
+    "memo": "Märge",
+    "information": "Oled kindel, et soovid raha üle kanda?",
+    "amount_desc": "Saldo",
+    "memo_desc": "See märge on avalik",
+    "to_placeholder": "Kasutajanimi",
+    "memo_placeholder": "Enter your notes here",
+    "transfer_token": "Ülekanne",
+    "points": "Kingi kellelegi ESTMi",
+    "transfer_to_saving": "Kanna säästudesse",
+    "powerUp": "Lisa võimsust",
+    "withdraw_to_saving": "Withdraw To Saving",
+    "steemconnect_title": "Steemconnecti ülekanne",
+    "next": "NEXT",
+    "delegate": "Delegate",
+    "power_down": "Väljaluülitus",
+    "withdraw_steem": "Withdraw Steem",
+    "withdraw_sbd": "Withdraw Steem Dollar",
+    "estm": {
+      "title": "eSteem punktid",
+      "buy": "GET ESTM"
+    },
+    "saving": {
+      "title": "STEEM Savings"
+    },
+    "steem": {
+      "title": "STEEM",
+      "buy": "GET STEEM"
+    },
+    "steem_power": {
+      "title": "STEEM POWER"
+    }
   },
   "messages": {
     "comingsoon": "Sõnumite funktsionaalus ei ole veel valimis!"
@@ -299,10 +334,12 @@
     "comments": "Kommentaarid"
   },
   "comment_filter": {
-    "trending": "populaarne",
-    "reputation": "maine",
-    "votes": "hääled",
-    "age": "vanus"
+    "trending": "TOP",
+    "reputation": "REPUTATION",
+    "votes": "VOTE",
+    "age": "AGE",
+    "top": "TOP",
+    "time": "TIME"
   },
   "transfer": {
     "from": "Kellelt",
@@ -321,6 +358,13 @@
     "powerUp": "Lisa võimsust",
     "withdraw_to_saving": "Withdraw To Saving",
     "steemconnect_title": "Steemconnecti ülekanne",
+    "estimated_weekly": "Estimated Weekly",
+    "destination_accounts": "Destination Accounts",
+    "stop_information": "Are you sure want to stop?",
+    "percent": "Percent",
+    "auto_vests": "Auto Vests",
+    "save": "SAVE",
+    "percent_information": "Percent info",
     "next": "NEXT",
     "delegate": "Delegate",
     "power_down": "Power Down",

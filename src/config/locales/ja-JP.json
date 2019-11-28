@@ -31,13 +31,12 @@
     "older_then": "1ヶ月以上前"
   },
   "leaderboard": {
-    "daily": "日間",
-    "weekly": "週間",
-    "monthly": "月間"
+    "daily": "DAILY",
+    "weekly": "WEEKLY",
+    "monthly": "MONTHLY"
   },
   "points": {
     "post": "投稿",
-    "esteemPoints": "eSteem ポイント",
     "comment": "コメント",
     "checkin": "チェックイン",
     "vote": "ヴォート",
@@ -70,7 +69,43 @@
     "dropdown_promote": "プロモート",
     "dropdown_boost": "ブースト",
     "from": "差出人",
-    "to": "受取人"
+    "to": "受取人",
+    "estimated_value_desc": "Determined by purchase value",
+    "estimated_value": "Estimated value",
+    "estimated_amount": "Vote value",
+    "amount_information": "スライドして金額を設定",
+    "amount": "金額",
+    "memo": "メモ",
+    "information": "本当に送金しますか？",
+    "amount_desc": "残高",
+    "memo_desc": "このメモは公開されます",
+    "to_placeholder": "ユーザー名",
+    "memo_placeholder": "ここに内容を入力してください",
+    "transfer_token": "送金",
+    "points": "ESTMを贈る",
+    "transfer_to_saving": "貯蓄口座に送金",
+    "powerUp": "パワーアップ",
+    "withdraw_to_saving": "貯蓄口座に引き出す",
+    "steemconnect_title": "Steemconnect 送金",
+    "next": "次へ",
+    "delegate": "デリゲーション",
+    "power_down": "パワーダウン",
+    "withdraw_steem": "Steem を引き出す",
+    "withdraw_sbd": "Steem Dollar を引き出す",
+    "estm": {
+      "title": "eSteem ポイント",
+      "buy": "ESTM を手に入れる"
+    },
+    "saving": {
+      "title": "STEEM Savings"
+    },
+    "steem": {
+      "title": "STEEM",
+      "buy": "GET STEEM"
+    },
+    "steem_power": {
+      "title": "STEEM POWER"
+    }
   },
   "messages": {
     "comingsoon": "メッセージ機能は近日公開予定です！"
@@ -299,10 +334,12 @@
     "comments": "コメント"
   },
   "comment_filter": {
-    "trending": "トレンド",
-    "reputation": "評判",
-    "votes": "ヴォート",
-    "age": "新着順"
+    "trending": "TOP",
+    "reputation": "REPUTATION",
+    "votes": "VOTE",
+    "age": "AGE",
+    "top": "TOP",
+    "time": "時間"
   },
   "transfer": {
     "from": "差出人",
@@ -321,6 +358,13 @@
     "powerUp": "パワーアップ",
     "withdraw_to_saving": "貯蓄口座に引き出す",
     "steemconnect_title": "Steemconnect 送金",
+    "estimated_weekly": "Estimated Weekly",
+    "destination_accounts": "Destination Accounts",
+    "stop_information": "Are you sure want to stop?",
+    "percent": "Percent",
+    "auto_vests": "Auto Vests",
+    "save": "SAVE",
+    "percent_information": "Percent info",
     "next": "次へ",
     "delegate": "デリゲーション",
     "power_down": "パワーダウン",

@@ -31,13 +31,12 @@
     "older_then": "Cách đây hơn 1 tháng"
   },
   "leaderboard": {
-    "daily": "Daily",
-    "weekly": "Weekly",
-    "monthly": "Monthly"
+    "daily": "DAILY",
+    "weekly": "WEEKLY",
+    "monthly": "MONTHLY"
   },
   "points": {
     "post": "Bài đăng",
-    "esteemPoints": "các Điểm eSteem",
     "comment": "Câu bình luận",
     "checkin": "Đăng ký vào",
     "vote": "Bình chọn",
@@ -70,7 +69,43 @@
     "dropdown_promote": "Quảng bá",
     "dropdown_boost": "Tăng tốc",
     "from": "From",
-    "to": "To"
+    "to": "To",
+    "estimated_value_desc": "Determined by purchase value",
+    "estimated_value": "Estimated value",
+    "estimated_amount": "Vote value",
+    "amount_information": "Drag the slider to adjust the amount",
+    "amount": "Số lượng",
+    "memo": "Bản ghi nhớ",
+    "information": "Are you sure to transfer funds?",
+    "amount_desc": "Số dư",
+    "memo_desc": "Bản ghi nhớ này được công khai",
+    "to_placeholder": "Tên người dùng",
+    "memo_placeholder": "Nhập ghi chú của bạn vào đây",
+    "transfer_token": "Chuyển cho",
+    "points": "Gift ESTM to someone",
+    "transfer_to_saving": "Chuyển đến phần tiết kiệm",
+    "powerUp": "Tăng lên",
+    "withdraw_to_saving": "Rút về phần tiết kiệm",
+    "steemconnect_title": "Chuyển khoản Steemconnect",
+    "next": "KẾ TIẾP",
+    "delegate": "Delegate",
+    "power_down": "Power Down",
+    "withdraw_steem": "Withdraw Steem",
+    "withdraw_sbd": "Withdraw Steem Dollar",
+    "estm": {
+      "title": "các Điểm eSteem",
+      "buy": "ĐƯỢC ESTM"
+    },
+    "saving": {
+      "title": "STEEM Savings"
+    },
+    "steem": {
+      "title": "STEEM",
+      "buy": "GET STEEM"
+    },
+    "steem_power": {
+      "title": "STEEM POWER"
+    }
   },
   "messages": {
     "comingsoon": "Tính năng tin nhắn sẽ được cập nhật sớm!"
@@ -299,10 +334,12 @@
     "comments": "Các lời bình luận"
   },
   "comment_filter": {
-    "trending": "đang thịnh hành",
-    "reputation": "uy tín",
-    "votes": "những bình chọn",
-    "age": "tuổi"
+    "trending": "TOP",
+    "reputation": "REPUTATION",
+    "votes": "VOTE",
+    "age": "AGE",
+    "top": "TOP",
+    "time": "TIME"
   },
   "transfer": {
     "from": "Từ",
@@ -321,6 +358,13 @@
     "powerUp": "Tăng lên",
     "withdraw_to_saving": "Rút về phần tiết kiệm",
     "steemconnect_title": "Chuyển khoản Steemconnect",
+    "estimated_weekly": "Estimated Weekly",
+    "destination_accounts": "Destination Accounts",
+    "stop_information": "Are you sure want to stop?",
+    "percent": "Percent",
+    "auto_vests": "Auto Vests",
+    "save": "SAVE",
+    "percent_information": "Percent info",
     "next": "KẾ TIẾP",
     "delegate": "Delegate",
     "power_down": "Power Down",

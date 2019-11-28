@@ -31,13 +31,12 @@
     "older_then": "Понад місяць"
   },
   "leaderboard": {
-    "daily": "Щоденно",
-    "weekly": "Щотижня",
-    "monthly": "Щомісяця"
+    "daily": "DAILY",
+    "weekly": "WEEKLY",
+    "monthly": "MONTHLY"
   },
   "points": {
     "post": "Допис",
-    "esteemPoints": "eSteem Бали",
     "comment": "Коментувати",
     "checkin": "Зареєструвати",
     "vote": "Проголосувати",
@@ -48,7 +47,7 @@
     "checkin_extra": "Бонус",
     "delegation": "Делегування",
     "delegation_title": "Винагорода за делегацію",
-    "delegation_desc": "Заробляйте ESTM кожного дня за ваші делегування",
+    "delegation_desc": "Earn ESTM everyday for delegation",
     "post_title": "Бали за допис",
     "comment_title": "Бали за коментар",
     "vote_title": "Бали за голос",
@@ -59,18 +58,54 @@
     "no_activity": "Тут немає жодної активності!",
     "outgoing_transfer_description": "",
     "incoming_transfer_description": "",
-    "post_desc": "Ви можете заробити очки, регулярно публікуючи повідомлення. Повідомлення дає 15 балів.",
-    "comment_desc": "Кожен зроблений вами коментар допомагає вам розширити свою аудиторію та зав'язати дружбу, але також заробляє 5 балів.",
+    "post_desc": "You can earn point by posting regularly. Posting gives you upto 15 points.",
+    "comment_desc": "Each comment you make helps you to grow your audience and make friendship but also earns you upto 5 points.",
     "checkin_desc": "Увійшовши в додаток eSteem, ви отримаєте 0,25 бала та допоможете залишатися на зв’язку зі своїми друзями.",
-    "vote_desc": "Голосуючи, ви винагороджуєте інших авторів і показуєте своє схвалення, а також отримуєте бали у кількості 0,01 x Сила голосу.",
-    "reblog_desc": "Діліться з друзями постами, що вам подобаються та отримуйте 1 бал.",
+    "vote_desc": "By voting you give reward to other creators and show your appreciation but also earn back upto 0.01 x vote weight points.",
+    "reblog_desc": "Share what post you like with your friends and earn upto 1 points.",
     "login_desc": "При авторизації в додатку eSteem вам автоматично нараховується 100 балів.",
     "checkin_extra_desc": "Регулярне використання додатку дає вам шанс отримати ще 10 бонусних балів. Більше активності - більше винагород.",
     "dropdown_transfer": "Подарунок",
     "dropdown_promote": "Просувати",
     "dropdown_boost": "Підсилити",
     "from": "Від",
-    "to": "Кому"
+    "to": "Кому",
+    "estimated_value_desc": "Determined by purchase value",
+    "estimated_value": "Estimated value",
+    "estimated_amount": "Vote value",
+    "amount_information": "Перетягніть повзунок, щоб відрегулювати суму",
+    "amount": "Сума",
+    "memo": "Примітка",
+    "information": "Ви впевнені, що хочете перерахувати кошти?",
+    "amount_desc": "Баланс",
+    "memo_desc": "Ця примітка є публічною",
+    "to_placeholder": "Ім'я користувача",
+    "memo_placeholder": "Введіть сюди свої примітки",
+    "transfer_token": "Переказ",
+    "points": "Подарувати комусь ESTM",
+    "transfer_to_saving": "Перевести до Заощаджень",
+    "powerUp": "Збільшення Силу Голосу",
+    "withdraw_to_saving": "Вивести на збереження",
+    "steemconnect_title": "Передача Steemconnect",
+    "next": "НАСТУПНА",
+    "delegate": "Делегувати",
+    "power_down": "Зменшення Сили голосу",
+    "withdraw_steem": "Вивести Steem",
+    "withdraw_sbd": "Вивести Стім долар",
+    "estm": {
+      "title": "eSteem Бали",
+      "buy": "Отримати ESTM"
+    },
+    "saving": {
+      "title": "STEEM Savings"
+    },
+    "steem": {
+      "title": "STEEM",
+      "buy": "GET STEEM"
+    },
+    "steem_power": {
+      "title": "STEEM POWER"
+    }
   },
   "messages": {
     "comingsoon": "Функція повідомлень незабаром стане доступною!"
@@ -299,10 +334,12 @@
     "comments": "Коментарі"
   },
   "comment_filter": {
-    "trending": "популярне",
-    "reputation": "репутація",
-    "votes": "голоси",
-    "age": "вік"
+    "trending": "TOP",
+    "reputation": "REPUTATION",
+    "votes": "VOTE",
+    "age": "AGE",
+    "top": "TOP",
+    "time": "ЧАС"
   },
   "transfer": {
     "from": "Від",
@@ -321,6 +358,13 @@
     "powerUp": "Збільшення Силу Голосу",
     "withdraw_to_saving": "Вивести на збереження",
     "steemconnect_title": "Передача Steemconnect",
+    "estimated_weekly": "Estimated Weekly",
+    "destination_accounts": "Destination Accounts",
+    "stop_information": "Are you sure want to stop?",
+    "percent": "Percent",
+    "auto_vests": "Auto Vests",
+    "save": "SAVE",
+    "percent_information": "Percent info",
     "next": "НАСТУПНА",
     "delegate": "Делегувати",
     "power_down": "Зменшення Сили голосу",
