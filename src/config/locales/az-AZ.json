@@ -8,12 +8,39 @@
     "transfer_to_vesting": "Hüquqa Köçürmə",
     "transfer_from_savings": "Yığımlardan Köçür",
     "withdraw_vesting": "Gücün Enməsi",
-    "fill_order": "Sifarişi Doldur",
+    "fill_order": "Sifarişi Doldur"
+  },
+  "notification": {
+    "vote": "göndərişini bəyəndi",
+    "unvote": "verdiyi səsi götürdü",
+    "reply": "göndərişə cavab verdi",
+    "mention": "adını çəkdi",
+    "follow": "səni izlədi",
+    "unfollow": "səni izləməkdən imtina etdi",
+    "ignore": "səni əngəllədi",
+    "reblog": "göndərişini paylaşdı",
+    "transfer": "transferred",
+    "notification": "Bildirişlər",
+    "leaderboard": "Liderlər cədvəli",
+    "epoint": "Xallar",
+    "leaderboard_title": "Ən Yaxşı İstifadəçilər",
+    "recent": "Təzəlikcə",
+    "yesterday": "Dünən",
+    "this_week": "Bu Həftə",
+    "this_month": "Bu Ay",
+    "older_then": "Bir Aydan Köhnə"
+  },
+  "leaderboard": {
+    "daily": "DAILY",
+    "weekly": "WEEKLY",
+    "monthly": "MONTHLY"
+  },
+  "points": {
     "post": "Göndəriş",
     "comment": "Rəy",
     "checkin": "Check-in",
-    "vote": "Səsvermə",
-    "reblog": "Paylaşma",
+    "vote": "Səs ver",
+    "reblog": "Təkrar paylaş",
     "login": "Giriş et",
     "incoming_transfer_title": "Incoming transfer",
     "outgoing_transfer_title": "Outgoing transfer",
@@ -41,8 +68,8 @@
     "dropdown_transfer": "Gift",
     "dropdown_promote": "Promote",
     "dropdown_boost": "Boost",
-    "from": "Buradan",
-    "to": "Buraya",
+    "from": "From",
+    "to": "To",
     "estimated_value_desc": "Determined by purchase value",
     "estimated_value": "Estimated value",
     "estimated_amount": "Vote value",
@@ -79,31 +106,6 @@
     "steem_power": {
       "title": "STEEM POWER"
     }
-  },
-  "notification": {
-    "vote": "göndərişini bəyəndi",
-    "unvote": "verdiyi səsi götürdü",
-    "reply": "göndərişə cavab verdi",
-    "mention": "adını çəkdi",
-    "follow": "səni izlədi",
-    "unfollow": "səni izləməkdən imtina etdi",
-    "ignore": "səni əngəllədi",
-    "reblog": "göndərişini paylaşdı",
-    "transfer": "transferred",
-    "notification": "Bildirişlər",
-    "leaderboard": "Liderlər cədvəli",
-    "epoint": "Xallar",
-    "leaderboard_title": "Ən Yaxşı İstifadəçilər",
-    "recent": "Təzəlikcə",
-    "yesterday": "Dünən",
-    "this_week": "Bu Həftə",
-    "this_month": "Bu Ay",
-    "older_then": "Bir Aydan Köhnə"
-  },
-  "leaderboard": {
-    "daily": "Günlük",
-    "weekly": "Həftəlik",
-    "monthly": "Aylıq"
   },
   "messages": {
     "comingsoon": "Mesajlar tezliklə gəlir!"
@@ -332,10 +334,12 @@
     "comments": "Rəylər"
   },
   "comment_filter": {
-    "trending": "trend",
-    "reputation": "nüfuz",
-    "votes": "səslər",
-    "age": "yaş"
+    "trending": "TOP",
+    "reputation": "REPUTATION",
+    "votes": "VOTE",
+    "age": "AGE",
+    "top": "TOP",
+    "time": "TIME"
   },
   "transfer": {
     "from": "Buradan",
