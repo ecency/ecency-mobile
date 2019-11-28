@@ -8,7 +8,34 @@
     "transfer_to_vesting": "Chuyển đến Vesting",
     "transfer_from_savings": "Chuyển từ tiết kiệm",
     "withdraw_vesting": "Power Down",
-    "fill_order": "Điền đơn hàng",
+    "fill_order": "Điền đơn hàng"
+  },
+  "notification": {
+    "vote": "thích bài đăng của bạn",
+    "unvote": "đã unvote bài viết của bạn",
+    "reply": "đã trả lời bài đăng của bạn",
+    "mention": "đã nhắc đến bạn",
+    "follow": "đã theo dõi bạn",
+    "unfollow": "đã bỏ theo dõi bạn",
+    "ignore": "đã bỏ qua bạn",
+    "reblog": "đã đăng lại bài viết của bạn",
+    "transfer": "transferred",
+    "notification": "Thông báo",
+    "leaderboard": "Bảng xếp hạng",
+    "epoint": "Các điểm thưởng",
+    "leaderboard_title": "Top Users",
+    "recent": "Gần đây",
+    "yesterday": "Hôm qua",
+    "this_week": "Tuần này",
+    "this_month": "Tháng này",
+    "older_then": "Cách đây hơn 1 tháng"
+  },
+  "leaderboard": {
+    "daily": "DAILY",
+    "weekly": "WEEKLY",
+    "monthly": "MONTHLY"
+  },
+  "points": {
     "post": "Bài đăng",
     "comment": "Câu bình luận",
     "checkin": "Đăng ký vào",
@@ -41,8 +68,8 @@
     "dropdown_transfer": "Gift",
     "dropdown_promote": "Quảng bá",
     "dropdown_boost": "Tăng tốc",
-    "from": "Từ",
-    "to": "Đến",
+    "from": "From",
+    "to": "To",
     "estimated_value_desc": "Determined by purchase value",
     "estimated_value": "Estimated value",
     "estimated_amount": "Vote value",
@@ -79,31 +106,6 @@
     "steem_power": {
       "title": "STEEM POWER"
     }
-  },
-  "notification": {
-    "vote": "thích bài đăng của bạn",
-    "unvote": "đã unvote bài viết của bạn",
-    "reply": "đã trả lời bài đăng của bạn",
-    "mention": "đã nhắc đến bạn",
-    "follow": "đã theo dõi bạn",
-    "unfollow": "đã bỏ theo dõi bạn",
-    "ignore": "đã bỏ qua bạn",
-    "reblog": "đã đăng lại bài viết của bạn",
-    "transfer": "transferred",
-    "notification": "Thông báo",
-    "leaderboard": "Bảng xếp hạng",
-    "epoint": "Các điểm thưởng",
-    "leaderboard_title": "Top Users",
-    "recent": "Gần đây",
-    "yesterday": "Hôm qua",
-    "this_week": "Tuần này",
-    "this_month": "Tháng này",
-    "older_then": "Cách đây hơn 1 tháng"
-  },
-  "leaderboard": {
-    "daily": "Daily",
-    "weekly": "Weekly",
-    "monthly": "Monthly"
   },
   "messages": {
     "comingsoon": "Tính năng tin nhắn sẽ được cập nhật sớm!"
@@ -332,10 +334,12 @@
     "comments": "Các lời bình luận"
   },
   "comment_filter": {
-    "trending": "đang thịnh hành",
-    "reputation": "uy tín",
-    "votes": "những bình chọn",
-    "age": "tuổi"
+    "trending": "TOP",
+    "reputation": "REPUTATION",
+    "votes": "VOTE",
+    "age": "AGE",
+    "top": "TOP",
+    "time": "TIME"
   },
   "transfer": {
     "from": "Từ",
