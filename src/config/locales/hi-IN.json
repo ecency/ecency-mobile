@@ -8,7 +8,34 @@
     "transfer_to_vesting": "अधिकार निधान में स्थानांतरण करें",
     "transfer_from_savings": "बचत से स्थानांतरण करें",
     "withdraw_vesting": "शक्तिक्षय करें",
-    "fill_order": "क्रम पूरा करें",
+    "fill_order": "क्रम पूरा करें"
+  },
+  "notification": {
+    "vote": "आपकी पोस्ट को पसंद करता है",
+    "unvote": "आपके पोस्ट को पसंद किया",
+    "reply": "आपके पोस्ट में जबाब दिया",
+    "mention": "आपका उल्लेख किया",
+    "follow": "आपके साथ जुड़ा",
+    "unfollow": "आपका साथ छोड़ा",
+    "ignore": "आपको अनदेखा किया",
+    "reblog": "आपका पोस्ट को पुनः प्रसारित किया",
+    "transfer": "transferred",
+    "notification": "अधिसूचनाएं",
+    "leaderboard": "अधिनायकपटल",
+    "epoint": "अंक",
+    "leaderboard_title": "शीर्ष उपयोगकर्ता",
+    "recent": "ताजा",
+    "yesterday": "बीता कल",
+    "this_week": "इस सप्ताह",
+    "this_month": "इस महीने",
+    "older_then": "एक महीना से अधिक पुराना"
+  },
+  "leaderboard": {
+    "daily": "DAILY",
+    "weekly": "WEEKLY",
+    "monthly": "MONTHLY"
+  },
+  "points": {
     "post": "लेख",
     "comment": "टिप्पणी",
     "checkin": "चेक इन",
@@ -39,7 +66,7 @@
     "login_desc": "जब आप इस्टीम में लॉगिन करते हैं तो आप १०० अंकों के स्वतः दावेदार हो जाते हैं|",
     "checkin_extra_desc": "आपको अतिरिक्त मौका मिलता है १० अंक प्राप्त करने का अगर एप्प को लगातार उपयोग करते हैं, अधिक से अधिक समय तक एप्प में सक्रिय रहें|",
     "dropdown_transfer": "उपहार",
-    "dropdown_promote": "Promote",
+    "dropdown_promote": "बढ़ावा देना",
     "dropdown_boost": "बूस्ट",
     "from": "से",
     "to": "को",
@@ -79,31 +106,6 @@
     "steem_power": {
       "title": "STEEM POWER"
     }
-  },
-  "notification": {
-    "vote": "आपकी पोस्ट को पसंद करता है",
-    "unvote": "आपके पोस्ट को पसंद किया",
-    "reply": "आपके पोस्ट में जबाब दिया",
-    "mention": "आपका उल्लेख किया",
-    "follow": "आपके साथ जुड़ा",
-    "unfollow": "आपका साथ छोड़ा",
-    "ignore": "आपको अनदेखा किया",
-    "reblog": "आपका पोस्ट को पुनः प्रसारित किया",
-    "transfer": "transferred",
-    "notification": "अधिसूचनाएं",
-    "leaderboard": "अधिनायकपटल",
-    "epoint": "अंक",
-    "leaderboard_title": "शीर्ष उपयोगकर्ता",
-    "recent": "ताजा",
-    "yesterday": "बीता कल",
-    "this_week": "इस सप्ताह",
-    "this_month": "इस महीने",
-    "older_then": "एक महीना से अधिक पुराना"
-  },
-  "leaderboard": {
-    "daily": "रोजाना",
-    "weekly": "साप्ताहिक",
-    "monthly": "मासिक"
   },
   "messages": {
     "comingsoon": "सन्देश सुविधा जल्द आ रही है!"
@@ -332,10 +334,12 @@
     "comments": "टिप्पणियाँ"
   },
   "comment_filter": {
-    "trending": "प्रचलित",
-    "reputation": "प्रतिष्ठा",
-    "votes": "मत",
-    "age": "उम्र"
+    "trending": "TOP",
+    "reputation": "REPUTATION",
+    "votes": "VOTE",
+    "age": "AGE",
+    "top": "TOP",
+    "time": "TIME"
   },
   "transfer": {
     "from": "से",
