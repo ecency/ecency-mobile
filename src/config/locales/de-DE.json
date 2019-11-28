@@ -8,12 +8,39 @@
     "transfer_to_vesting": "Zum Steem-Konto überweisen",
     "transfer_from_savings": "Überweisung aus dem Sparkonto",
     "withdraw_vesting": "Power-Down",
-    "fill_order": "Order ausgeführt",
+    "fill_order": "Order ausgeführt"
+  },
+  "notification": {
+    "vote": "gefällt dein Beitrag",
+    "unvote": "gefällt dein Beitrag nicht",
+    "reply": "antwortete auf deinen Beitrag",
+    "mention": "hat dich erwähnt",
+    "follow": "folgt dir jetzt",
+    "unfollow": "folgt dir nicht mehr",
+    "ignore": "ignoriert dich",
+    "reblog": "hat deinen Beitrag geteilt",
+    "transfer": "transferred",
+    "notification": "Benachrichtigungen",
+    "leaderboard": "Rangliste",
+    "epoint": "eSteem Punkte",
+    "leaderboard_title": "Top-Benutzer",
+    "recent": "Vor kurzem",
+    "yesterday": "Gestern",
+    "this_week": "Diese Woche",
+    "this_month": "Diesen Monat",
+    "older_then": "Älter als ein Monat"
+  },
+  "leaderboard": {
+    "daily": "DAILY",
+    "weekly": "WEEKLY",
+    "monthly": "MONTHLY"
+  },
+  "points": {
     "post": "Beitrag",
     "comment": "Kommentar",
     "checkin": "Einloggen",
     "vote": "Vote",
-    "reblog": "Reblog",
+    "reblog": "Teilen",
     "login": "Einloggen",
     "incoming_transfer_title": "Eingehende Überweisung",
     "outgoing_transfer_title": "Ausgehende Überweisung",
@@ -79,31 +106,6 @@
     "steem_power": {
       "title": "STEEM POWER"
     }
-  },
-  "notification": {
-    "vote": "gefällt dein Beitrag",
-    "unvote": "gefällt dein Beitrag nicht",
-    "reply": "antwortete auf deinen Beitrag",
-    "mention": "hat dich erwähnt",
-    "follow": "folgt dir jetzt",
-    "unfollow": "folgt dir nicht mehr",
-    "ignore": "ignoriert dich",
-    "reblog": "hat deinen Beitrag geteilt",
-    "transfer": "transferred",
-    "notification": "Benachrichtigungen",
-    "leaderboard": "Rangliste",
-    "epoint": "eSteem Punkte",
-    "leaderboard_title": "Top-Benutzer",
-    "recent": "Vor kurzem",
-    "yesterday": "Gestern",
-    "this_week": "Diese Woche",
-    "this_month": "Diesen Monat",
-    "older_then": "Älter als ein Monat"
-  },
-  "leaderboard": {
-    "daily": "Täglich",
-    "weekly": "Wöchentlich",
-    "monthly": "Monatlich"
   },
   "messages": {
     "comingsoon": "Nachrichten-Feature ist bald verfügbar!"
@@ -332,10 +334,12 @@
     "comments": "Kommentare"
   },
   "comment_filter": {
-    "trending": "im Trend",
-    "reputation": "ruf",
-    "votes": "stimmen",
-    "age": "alter"
+    "trending": "TOP",
+    "reputation": "REPUTATION",
+    "votes": "VOTE",
+    "age": "AGE",
+    "top": "TOP",
+    "time": "ZEIT"
   },
   "transfer": {
     "from": "Von",
