@@ -8,37 +8,9 @@
     "transfer_to_vesting": "Transfer go vesting",
     "transfer_from_savings": "Transfer Komot From Savings",
     "withdraw_vesting": "Power Down",
-    "fill_order": "Fill Order"
-  },
-  "notification": {
-    "vote": "like you tori",
-    "unvote": "no upvote this post again",
-    "reply": "reply your tori",
-    "mention": "holla you",
-    "follow": "don dey follow you",
-    "unfollow": "no follow you again",
-    "ignore": "don dey ignore you",
-    "reblog": "reblog your tori",
-    "transfer": "transferred",
-    "notification": "Alerts",
-    "leaderboard": "Leaderboard",
-    "epoint": "Points",
-    "leaderboard_title": "Top Users",
-    "recent": "Latest",
-    "yesterday": "Yesterday",
-    "this_week": "This Week",
-    "this_month": "This Month",
-    "older_then": "E don pass one month"
-  },
-  "leaderboard": {
-    "daily": "Daily",
-    "weekly": "Weekly",
-    "monthly": "Monthly"
-  },
-  "points": {
+    "fill_order": "Fill Order",
     "post": "Tori",
-    "esteemPoints": "eSteem Points",
-    "comment": "Comments",
+    "comment": "Comment",
     "checkin": "Enter",
     "vote": "Vote",
     "reblog": "Reblog am",
@@ -70,7 +42,68 @@
     "dropdown_promote": "Promote",
     "dropdown_boost": "Boost",
     "from": "From",
-    "to": "To"
+    "to": "To",
+    "estimated_value_desc": "Determined by purchase value",
+    "estimated_value": "Estimated value",
+    "estimated_amount": "Vote value",
+    "amount_information": "Drag the slider to adjust the amount",
+    "amount": "Amount",
+    "memo": "Memo",
+    "information": "Are you sure to transfer funds?",
+    "amount_desc": "Balance",
+    "memo_desc": "Na everybody go see this memo",
+    "to_placeholder": "Guy-name",
+    "memo_placeholder": "Write your note for here",
+    "transfer_token": "Transfer",
+    "points": "Gift ESTM to someone",
+    "transfer_to_saving": "Transfer To Saving",
+    "powerUp": "Power Up",
+    "withdraw_to_saving": "Withdraw To Saving",
+    "steemconnect_title": "Transfer with steemconnect",
+    "next": "NEXT",
+    "delegate": "Delegate",
+    "power_down": "Power Down",
+    "withdraw_steem": "Withdraw Steem",
+    "withdraw_sbd": "Withdraw Steem Dollar",
+    "estm": {
+      "title": "eSteem Points",
+      "buy": "GET ESTM"
+    },
+    "saving": {
+      "title": "STEEM Savings"
+    },
+    "steem": {
+      "title": "STEEM",
+      "buy": "GET STEEM"
+    },
+    "steem_power": {
+      "title": "STEEM POWER"
+    }
+  },
+  "notification": {
+    "vote": "like you tori",
+    "unvote": "no upvote this post again",
+    "reply": "reply your tori",
+    "mention": "holla you",
+    "follow": "don dey follow you",
+    "unfollow": "no follow you again",
+    "ignore": "don dey ignore you",
+    "reblog": "reblog your tori",
+    "transfer": "transferred",
+    "notification": "Alerts",
+    "leaderboard": "Leaderboard",
+    "epoint": "Points",
+    "leaderboard_title": "Top Users",
+    "recent": "Latest",
+    "yesterday": "Yesterday",
+    "this_week": "This Week",
+    "this_month": "This Month",
+    "older_then": "E don pass one month"
+  },
+  "leaderboard": {
+    "daily": "Daily",
+    "weekly": "Weekly",
+    "monthly": "Monthly"
   },
   "messages": {
     "comingsoon": "Option for messages go soon come!"
@@ -321,6 +354,13 @@
     "powerUp": "Power Up",
     "withdraw_to_saving": "Withdraw To Saving",
     "steemconnect_title": "Transfer with steemconnect",
+    "estimated_weekly": "Estimated Weekly",
+    "destination_accounts": "Destination Accounts",
+    "stop_information": "Are you sure want to stop?",
+    "percent": "Percent",
+    "auto_vests": "Auto Vests",
+    "save": "SAVE",
+    "percent_information": "Percent info",
     "next": "NEXT",
     "delegate": "Delegate",
     "power_down": "Power Down",
