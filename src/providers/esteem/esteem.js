@@ -4,10 +4,10 @@ import imageApi from '../../config/imageApi';
 import serverList from '../../config/serverListApi';
 import { jsonStringify } from '../../utils/jsonUtils';
 import bugsnag from '../../config/bugsnag';
-
+//market-data/currency-rate/USD/estm
 export const getCurrencyRate = currency =>
   api
-    .get(`/currencyRate/${currency.toUpperCase()}/steem`)
+    .get(`/market-data/currency-rate/${currency.toUpperCase()}/steem`)
     .then(resp => resp.data)
     .catch(err => {
       console.log('err :', err);
