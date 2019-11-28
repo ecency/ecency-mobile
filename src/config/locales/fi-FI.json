@@ -8,7 +8,34 @@
     "transfer_to_vesting": "Transfer To Vesting",
     "transfer_from_savings": "Transfer From Savings",
     "withdraw_vesting": "Power Down",
-    "fill_order": "Fill Order",
+    "fill_order": "Fill Order"
+  },
+  "notification": {
+    "vote": "tykkää julkaisustasi",
+    "unvote": "unvoted your post",
+    "reply": "vastasi julkaisuusi",
+    "mention": "mainitsi sinut",
+    "follow": "seurasi sinua",
+    "unfollow": "lopetti seuraamisesi",
+    "ignore": "ignored you",
+    "reblog": "reblogged your post",
+    "transfer": "transferred",
+    "notification": "Notifications",
+    "leaderboard": "Leaderboard",
+    "epoint": "Points",
+    "leaderboard_title": "Top Users",
+    "recent": "Viimeisimmät",
+    "yesterday": "Eilen",
+    "this_week": "Tällä viikolla",
+    "this_month": "Tässä kuussa",
+    "older_then": "Kuukautta vanhempi"
+  },
+  "leaderboard": {
+    "daily": "DAILY",
+    "weekly": "WEEKLY",
+    "monthly": "MONTHLY"
+  },
+  "points": {
     "post": "Post",
     "comment": "Comment",
     "checkin": "Check-in",
@@ -79,31 +106,6 @@
     "steem_power": {
       "title": "STEEM POWER"
     }
-  },
-  "notification": {
-    "vote": "tykkää julkaisustasi",
-    "unvote": "unvoted your post",
-    "reply": "vastasi julkaisuusi",
-    "mention": "mainitsi sinut",
-    "follow": "seurasi sinua",
-    "unfollow": "lopetti seuraamisesi",
-    "ignore": "ignored you",
-    "reblog": "reblogged your post",
-    "transfer": "transferred",
-    "notification": "Notifications",
-    "leaderboard": "Leaderboard",
-    "epoint": "Points",
-    "leaderboard_title": "Top Users",
-    "recent": "Viimeisimmät",
-    "yesterday": "Eilen",
-    "this_week": "Tällä viikolla",
-    "this_month": "Tässä kuussa",
-    "older_then": "Kuukautta vanhempi"
-  },
-  "leaderboard": {
-    "daily": "Daily",
-    "weekly": "Weekly",
-    "monthly": "Monthly"
   },
   "messages": {
     "comingsoon": "Messages feature is coming soon!"
@@ -332,10 +334,12 @@
     "comments": "Comments"
   },
   "comment_filter": {
-    "trending": "trending",
-    "reputation": "reputation",
-    "votes": "votes",
-    "age": "age"
+    "trending": "TOP",
+    "reputation": "REPUTATION",
+    "votes": "VOTE",
+    "age": "AGE",
+    "top": "TOP",
+    "time": "TIME"
   },
   "transfer": {
     "from": "From",
