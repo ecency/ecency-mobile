@@ -8,40 +8,12 @@
     "transfer_to_vesting": "Transfer la vesting",
     "transfer_from_savings": "Transfer de la economii",
     "withdraw_vesting": "Power Down",
-    "fill_order": "Completează ordinul"
-  },
-  "notification": {
-    "vote": "a votat postul tău",
-    "unvote": "a votat postul tău",
-    "reply": "a răspuns la postul tău",
-    "mention": "te-a menționat",
-    "follow": "te urmărește",
-    "unfollow": "a anulat urmărirea",
-    "ignore": "te-a ignorat",
-    "reblog": "a redistribuit postarea ta",
-    "transfer": "transferred",
-    "notification": "Notificări",
-    "leaderboard": "Clasament",
-    "epoint": "Puncte",
-    "leaderboard_title": "Top utilizatori",
-    "recent": "Recent",
-    "yesterday": "Ieri",
-    "this_week": "Săptămâna aceasta",
-    "this_month": "Luna Aceasta",
-    "older_then": "Mai vechi de o lună"
-  },
-  "leaderboard": {
-    "daily": "Zilnic",
-    "weekly": "Săptămânal",
-    "monthly": "Lunar"
-  },
-  "points": {
+    "fill_order": "Completează ordinul",
     "post": "Postare",
-    "esteemPoints": "Puncte eSteem",
-    "comment": "Comentariu",
+    "comment": "Comentarii",
     "checkin": "Logare",
     "vote": "Vot",
-    "reblog": "Redistribuire",
+    "reblog": "Reblog",
     "login": "Autentificare",
     "incoming_transfer_title": "Transfer în așteptare",
     "outgoing_transfer_title": "Transfer în curs",
@@ -70,7 +42,68 @@
     "dropdown_promote": "Promovează",
     "dropdown_boost": "Boost",
     "from": "De la",
-    "to": "Pentru"
+    "to": "Către",
+    "estimated_value_desc": "Determined by purchase value",
+    "estimated_value": "Estimated value",
+    "estimated_amount": "Vote value",
+    "amount_information": "Trage glisorul pentru a ajusta cantitatea",
+    "amount": "Sumă",
+    "memo": "Notă",
+    "information": "Ești sigur că vrei să transferi fonduri?",
+    "amount_desc": "Sold",
+    "memo_desc": "Această notă este publică",
+    "to_placeholder": "Nume utilizator",
+    "memo_placeholder": "Introdu comentariul tău aici",
+    "transfer_token": "Transfer",
+    "points": "Gift ESTM to someone",
+    "transfer_to_saving": "Tranferă la economii",
+    "powerUp": "Power Up",
+    "withdraw_to_saving": "Retrage la economii",
+    "steemconnect_title": "Transfer Steemconnect",
+    "next": "URMĂTORUL",
+    "delegate": "Delegare",
+    "power_down": "Power Down",
+    "withdraw_steem": "Retrage Steem",
+    "withdraw_sbd": "Retrage Steem Dolar",
+    "estm": {
+      "title": "Puncte eSteem",
+      "buy": "GET ESTM"
+    },
+    "saving": {
+      "title": "STEEM Savings"
+    },
+    "steem": {
+      "title": "STEEM",
+      "buy": "GET STEEM"
+    },
+    "steem_power": {
+      "title": "STEEM POWER"
+    }
+  },
+  "notification": {
+    "vote": "a votat postul tău",
+    "unvote": "a votat postul tău",
+    "reply": "a răspuns la postul tău",
+    "mention": "te-a menționat",
+    "follow": "te urmărește",
+    "unfollow": "a anulat urmărirea",
+    "ignore": "te-a ignorat",
+    "reblog": "a redistribuit postarea ta",
+    "transfer": "transferred",
+    "notification": "Notificări",
+    "leaderboard": "Clasament",
+    "epoint": "Puncte",
+    "leaderboard_title": "Top utilizatori",
+    "recent": "Recent",
+    "yesterday": "Ieri",
+    "this_week": "Săptămâna aceasta",
+    "this_month": "Luna Aceasta",
+    "older_then": "Mai vechi de o lună"
+  },
+  "leaderboard": {
+    "daily": "Zilnic",
+    "weekly": "Săptămânal",
+    "monthly": "Lunar"
   },
   "messages": {
     "comingsoon": "Funcția mesaje va fi disponibilă in curând!"
@@ -321,6 +354,13 @@
     "powerUp": "Power Up",
     "withdraw_to_saving": "Retrage la economii",
     "steemconnect_title": "Transfer Steemconnect",
+    "estimated_weekly": "Estimated Weekly",
+    "destination_accounts": "Destination Accounts",
+    "stop_information": "Are you sure want to stop?",
+    "percent": "Percent",
+    "auto_vests": "Auto Vests",
+    "save": "SAVE",
+    "percent_information": "Percent info",
     "next": "URMĂTORUL",
     "delegate": "Delegare",
     "power_down": "Power Down",
