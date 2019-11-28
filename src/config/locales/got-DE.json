@@ -8,39 +8,12 @@
     "transfer_to_vesting": "Transfer To Vesting",
     "transfer_from_savings": "Transfer From Savings",
     "withdraw_vesting": "Power Down",
-    "fill_order": "Fill Order"
-  },
-  "notification": {
-    "vote": "galeikaiþ þein waurd",
-    "unvote": "usnam stibna þeinis waurdis",
-    "reply": "andhof þeinamma waurda",
-    "mention": "haihait þuk",
-    "follow": "afarlaistida þuk",
-    "unfollow": "unlaistida þuk",
-    "ignore": "ignored you",
-    "reblog": "aftrablaugida þein waurd",
-    "transfer": "transferred",
-    "notification": "Notifications",
-    "leaderboard": "Leaderboard",
-    "epoint": "Stika",
-    "leaderboard_title": "Top Users",
-    "recent": "Aftumist",
-    "yesterday": "Fairnindag",
-    "this_week": "So dagawiko",
-    "this_month": "So menoþs",
-    "older_then": "Fairnizo þau Aina Menoþ"
-  },
-  "leaderboard": {
-    "daily": "DAILY",
-    "weekly": "WEEKLY",
-    "monthly": "MONTHLY"
-  },
-  "points": {
+    "fill_order": "Fill Order",
     "post": "Waurd",
-    "comment": "Gawaurdei",
+    "comment": "Qiþ waiht",
     "checkin": "Check-in",
     "vote": "Gif stibna",
-    "reblog": "Aftrablaug",
+    "reblog": "Aftrablaugei",
     "login": "Atgagg",
     "incoming_transfer_title": "Incoming transfer",
     "outgoing_transfer_title": "Outgoing transfer",
@@ -106,6 +79,31 @@
     "steem_power": {
       "title": "STEEM POWER"
     }
+  },
+  "notification": {
+    "vote": "galeikaiþ þein waurd",
+    "unvote": "usnam stibna þeinis waurdis",
+    "reply": "andhof þeinamma waurda",
+    "mention": "haihait þuk",
+    "follow": "afarlaistida þuk",
+    "unfollow": "unlaistida þuk",
+    "ignore": "ignored you",
+    "reblog": "aftrablaugida þein waurd",
+    "transfer": "transferred",
+    "notification": "Notifications",
+    "leaderboard": "Leaderboard",
+    "epoint": "Stika",
+    "leaderboard_title": "Top Users",
+    "recent": "Aftumist",
+    "yesterday": "Fairnindag",
+    "this_week": "So dagawiko",
+    "this_month": "So menoþs",
+    "older_then": "Fairnizo þau Aina Menoþ"
+  },
+  "leaderboard": {
+    "daily": "DAILY",
+    "weekly": "WEEKLY",
+    "monthly": "MONTHLY"
   },
   "messages": {
     "comingsoon": "Waurdamahts sprauto qimiþ!"

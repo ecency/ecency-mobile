@@ -8,38 +8,11 @@
     "transfer_to_vesting": "Kirèm Keu Vesting",
     "transfer_from_savings": "Kirém keu kubah",
     "withdraw_vesting": "Peukureueng Teunaga",
-    "fill_order": "Pasöe Puesanan"
-  },
-  "notification": {
-    "vote": "galak post dröen",
-    "unvote": "hana galak post dröen",
-    "reply": "balah keu post dröen",
-    "mention": "seubut dröen",
-    "follow": "ikot dröen",
-    "unfollow": "piyôh ikut dröen",
-    "ignore": "hanapeureumeun dröen",
-    "reblog": "postingan dröen ka di reblog",
-    "transfer": "transferred",
-    "notification": "Bithé",
-    "leaderboard": "Papeun Rangking",
-    "epoint": "Points",
-    "leaderboard_title": "Top Users",
-    "recent": "Ataban nyoë",
-    "yesterday": "Baroë",
-    "this_week": "Peukan Nyoë",
-    "this_month": "Buleuën Nyoë",
-    "older_then": "Leubéh Lam Sibulëun"
-  },
-  "leaderboard": {
-    "daily": "DAILY",
-    "weekly": "WEEKLY",
-    "monthly": "MONTHLY"
-  },
-  "points": {
+    "fill_order": "Pasöe Puesanan",
     "post": "Post",
-    "comment": "Comment",
+    "comment": "Komentar",
     "checkin": "Check-in",
-    "vote": "Vote",
+    "vote": "Pilèh",
     "reblog": "Reblog",
     "login": "Login",
     "incoming_transfer_title": "Incoming transfer",
@@ -106,6 +79,31 @@
     "steem_power": {
       "title": "STEEM POWER"
     }
+  },
+  "notification": {
+    "vote": "galak post dröen",
+    "unvote": "hana galak post dröen",
+    "reply": "balah keu post dröen",
+    "mention": "seubut dröen",
+    "follow": "ikot dröen",
+    "unfollow": "piyôh ikut dröen",
+    "ignore": "hanapeureumeun dröen",
+    "reblog": "postingan dröen ka di reblog",
+    "transfer": "transferred",
+    "notification": "Bithé",
+    "leaderboard": "Papeun Rangking",
+    "epoint": "Points",
+    "leaderboard_title": "Top Users",
+    "recent": "Ataban nyoë",
+    "yesterday": "Baroë",
+    "this_week": "Peukan Nyoë",
+    "this_month": "Buleuën Nyoë",
+    "older_then": "Leubéh Lam Sibulëun"
+  },
+  "leaderboard": {
+    "daily": "DAILY",
+    "weekly": "WEEKLY",
+    "monthly": "MONTHLY"
   },
   "messages": {
     "comingsoon": "Fitur peusan seugeura lheuh!"
