@@ -2,7 +2,7 @@
   "wallet": {
     "curation_reward": "Recompensa de curación",
     "author_reward": "Recompensa de autor",
-    "comment_benefactor_reward": "Recompensa de comentario benefactor",
+    "comment_benefactor_reward": "Recompensas de benefactor del comentario",
     "claim_reward_balance": "Reclamar balance de recompensa",
     "transfer": "Transferir",
     "transfer_to_vesting": "Transferir a Sp (Vesting)",
@@ -48,7 +48,7 @@
     "checkin_extra": "Bono",
     "delegation": "Delegación",
     "delegation_title": "Recompensa por delegación",
-    "delegation_desc": "Puedes ganar 1 punto por día por cada delegación de 100SP",
+    "delegation_desc": "Gana ESTM cada día por una delegación",
     "post_title": "Puntos por publicar",
     "comment_title": "Puntos por comentar",
     "vote_title": "Puntos por votar",
@@ -59,11 +59,11 @@
     "no_activity": "¡No hay actividad aquí!",
     "outgoing_transfer_description": "",
     "incoming_transfer_description": "",
-    "post_desc": "Puedes ganar puntos publicando regularmente. Publicar te da 15 puntos.",
-    "comment_desc": "Cada comentario que hagas te ayuda a hacer crecer tu audiencia y a hacer amistades, pero también te da 5 puntos.",
+    "post_desc": "You can earn point by posting regularly. Posting gives you upto 15 points.",
+    "comment_desc": "Each comment you make helps you to grow your audience and make friendship but also earns you upto 5 points.",
     "checkin_desc": "Estar conectado en eSteem te da 0.25 puntos y te ayuda a estar conectado con tus amigos.",
-    "vote_desc": "Al votar das recompensas a otros creadores y muestras tu aprecio, pero también te da 0,01 puntos x valor de voto.",
-    "reblog_desc": "  Comparte una publicación que te guste con tus amigos y gana 1 puntos.",
+    "vote_desc": "By voting you give reward to other creators and show your appreciation but also earn back upto 0.01 x vote weight points.",
+    "reblog_desc": "Share what post you like with your friends and earn upto 1 points.",
     "login_desc": "Cuando inicies sesión en eSteem tienes derecho a recibir 100 puntos automáticamente.",
     "checkin_extra_desc": "El uso constante de la aplicación te otorga más posibilidades de generar más de 10 puntos, se más activo y gana más.",
     "dropdown_transfer": "Regalar",
@@ -123,7 +123,7 @@
     "pincode": "Pincode",
     "reset_pin": "Reiniciar código pin",
     "reset": "Reiniciar",
-    "nsfw_content": "Contenido NSFW",
+    "nsfw_content": "NSFW",
     "send_feedback": "Enviar comentarios",
     "send": "Enviar",
     "default_footer": "Pie de página predeterminado",
@@ -345,18 +345,18 @@
     "user": "Usuario",
     "permlink": "Publicación",
     "permlinkPlaceholder": "autor/permalink",
-    "information": "Are you sure to promote?"
+    "information": "¿Seguro de que desea promocionar?"
   },
   "boostPost": {
-    "title": "Boost"
+    "title": "Impulsar"
   },
   "voters_dropdown": {
-    "rewards": "REWARDS",
-    "percent": "PERCENT",
-    "time": "TIME"
+    "rewards": "RECOMPENSAS",
+    "percent": "PORCENTAJE",
+    "time": "TIEMPO"
   },
   "reblog": {
-    "title": "Reblog Info"
+    "title": "Rebloguear información"
   },
   "dsteem": {
     "date_error": {
