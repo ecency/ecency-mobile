@@ -69,12 +69,19 @@
       "title": "eSteem Бали",
       "buy": "Отримати ESTM"
     },
-    "saving": {
+    "savingsteem": {
       "title": "STEEM Savings"
+    },
+    "savingsbd": {
+      "title": "SBD Savings"
     },
     "steem": {
       "title": "STEEM",
       "buy": "GET STEEM"
+    },
+    "sbd": {
+      "title": "SBD",
+      "buy": "GET SBD"
     },
     "steem_power": {
       "title": "STEEM POWER"
@@ -101,9 +108,9 @@
     "older_then": "Понад місяць"
   },
   "leaderboard": {
-    "daily": "DAILY",
-    "weekly": "WEEKLY",
-    "monthly": "MONTHLY"
+    "daily": "ЩОДЕННО",
+    "weekly": "ЩОТИЖНЯ",
+    "monthly": "ЩОМІСЯЦЯ"
   },
   "messages": {
     "comingsoon": "Функція повідомлень незабаром стане доступною!"
@@ -332,11 +339,11 @@
     "comments": "Коментарі"
   },
   "comment_filter": {
-    "trending": "TOP",
-    "reputation": "REPUTATION",
-    "votes": "VOTE",
-    "age": "AGE",
-    "top": "TOP",
+    "trending": "ТОП",
+    "reputation": "РЕПУТАЦІЯ",
+    "votes": "ГОЛОСУВАТИ",
+    "age": "ВІК",
+    "top": "ТОП",
     "time": "ЧАС"
   },
   "transfer": {

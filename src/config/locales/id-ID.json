@@ -69,12 +69,19 @@
       "title": "eSteem Poin",
       "buy": "DAPATKAN ESTM"
     },
-    "saving": {
+    "savingsteem": {
       "title": "STEEM Savings"
+    },
+    "savingsbd": {
+      "title": "SBD Savings"
     },
     "steem": {
       "title": "STEEM",
       "buy": "GET STEEM"
+    },
+    "sbd": {
+      "title": "SBD",
+      "buy": "GET SBD"
     },
     "steem_power": {
       "title": "STEEM POWER"
