@@ -50,7 +50,9 @@ class CommentsDisplayView extends PureComponent {
               dropdownIconName="arrow-drop-down"
               options={VALUE.map(val => intl.formatMessage({ id: `comment_filter.${val}` }))}
               defaultText={intl.formatMessage({ id: `comment_filter.${VALUE[0]}` })}
-              onDropdownSelect={selectedIndex => this._handleOnDropdownSelect(COMMENT_FILTER[selectedIndex], selectedIndex)}
+              onDropdownSelect={selectedIndex =>
+                this._handleOnDropdownSelect(COMMENT_FILTER[selectedIndex], selectedIndex)
+              }
               selectedOptionIndex={selectedOptionIndex}
             />
             <View style={styles.commentWrapper}>

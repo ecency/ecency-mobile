@@ -51,7 +51,9 @@ class CollapsibleCardView extends PureComponent {
 
   // Component Functions
   _initContentHeight = event => {
-    if (this.anime.contentHeight > 0) return;
+    if (this.anime.contentHeight > 0) {
+      return;
+    }
     this.anime.contentHeight = event.nativeEvent.layout.height;
     this.anime.height.setValue(this.anime.expanded ? this._getMaxValue() : this._getMinValue());
   };
@@ -72,7 +74,9 @@ class CollapsibleCardView extends PureComponent {
       expanded: this.anime.expanded,
     });
 
-    if (handleOnExpanded && this.anime.expanded) handleOnExpanded();
+    if (handleOnExpanded && this.anime.expanded) {
+      handleOnExpanded();
+    }
   };
 
   render() {

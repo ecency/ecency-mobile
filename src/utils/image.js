@@ -38,17 +38,23 @@ export const catchEntryImage = (entry, width = 0, height = 0) => {
   // try to extract images by regex
   const imgReg2 = /(http(s?):)([/|.|\w|\s|-])*\.(?:jpe?g|gif|png)/gim;
   const m = entry.body.match(imgReg2);
-  if (m) return proxifyImageSrc(m[0], width, height);
+  if (m) {
+    return proxifyImageSrc(m[0], width, height);
+  }
 
   // If no image specified in json metadata, try extract first image href from entry body
   let imgReg = /<img.+src=(?:"|')(.+?)(?:"|')(.*)>/;
   let bodyMatch = entry.body.match(imgReg);
-  if (bodyMatch) return proxifyImageSrc(bodyMatch[1], width, height);
+  if (bodyMatch) {
+    return proxifyImageSrc(bodyMatch[1], width, height);
+  }
 
   // If there is no <img> tag, check from markdown img tag ![](image.png)
   imgReg = /(?:!\[(.*?)\]\((.*?)\))/;
   bodyMatch = imgReg.exec(entry.body);
-  if (bodyMatch) return proxifyImageSrc(bodyMatch[2], width, height);
+  if (bodyMatch) {
+    return proxifyImageSrc(bodyMatch[2], width, height);
+  }
 
   return null;
 };
@@ -65,15 +71,21 @@ export const catchDraftImage = body => {
 };
 
 export const getResizedImage = (url, size = 400) => {
-  if (!url) return '';
+  if (!url) {
+    return '';
+  }
 
-  if (url.includes('img.esteem')) return `https://img.esteem.ws/${size}x0/${url}`;
+  if (url.includes('img.esteem')) {
+    return `https://img.esteem.ws/${size}x0/${url}`;
+  }
 
   return `https://steemitimages.com/${size}x0/${url}`;
 };
 
 export const getResizedAvatar = (author, sizeString = 'small') => {
-  if (!author) return '';
+  if (!author) {
+    return '';
+  }
 
   return `https://steemitimages.com/u/${author}/avatar/${sizeString}`;
 };

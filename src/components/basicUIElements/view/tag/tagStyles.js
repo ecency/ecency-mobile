@@ -22,10 +22,10 @@ export default EStyleSheet.create({
     borderRadius: 50,
   },
   isFilter: {
-    backgroundColor: 'transparent'
+    backgroundColor: 'transparent',
   },
   isFilterTextUnPin: {
-    color: '$primaryDarkBlue',
+    color: '$primaryDarkGray',
     fontSize: 14,
   },
   isFilterTextPin: {
