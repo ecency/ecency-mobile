@@ -59,7 +59,9 @@ class LeaderboardContainer extends PureComponent {
     let users;
 
     console.log(index);
-    if (!isConnected) return;
+    if (!isConnected) {
+      return;
+    }
 
     this.setState({ refreshing: true, selectedIndex: index });
 

@@ -8,7 +8,9 @@ export const getWordsCount = text =>
 const permlinkRnd = () => (Math.random() + 1).toString(16).substring(2);
 
 export const generatePermlink = (title, random = false) => {
-  if (!title) return '';
+  if (!title) {
+    return '';
+  }
 
   const slug = getSlug(title);
   let perm = slug && slug.toString();
@@ -36,7 +38,9 @@ export const generatePermlink = (title, random = false) => {
 };
 
 export const generateReplyPermlink = toAuthor => {
-  if (!toAuthor) return '';
+  if (!toAuthor) {
+    return '';
+  }
 
   const t = new Date(Date.now());
 
@@ -54,7 +58,9 @@ export const generateReplyPermlink = toAuthor => {
 };
 
 export const makeOptions = (author, permlink, operationType) => {
-  if (!author || !permlink) return {};
+  if (!author || !permlink) {
+    return {};
+  }
 
   const a = {
     allow_curation_rewards: true,
@@ -154,7 +160,9 @@ export const extractMetadata = body => {
 };
 
 export const createPatch = (text1, text2) => {
-  if (!text1 && text1 === '') return undefined;
+  if (!text1 && text1 === '') {
+    return undefined;
+  }
 
   const dmp = new diffMatchPatch();
   const patches = dmp.patch_make(text1, text2);

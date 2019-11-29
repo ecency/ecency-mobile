@@ -47,7 +47,9 @@ class LeaderboardView extends PureComponent {
           options={VALUE.map(val => intl.formatMessage({ id: `leaderboard.${val}` }))}
           selectedOptionIndex={selectedIndex}
           defaultText={intl.formatMessage({ id: `leaderboard.${VALUE[0]}` })}
-          onDropdownSelect={selectedIndex => fetchLeaderBoard(FILTER_OPTIONS[selectedIndex], selectedIndex)}
+          onDropdownSelect={selectedIndex =>
+            fetchLeaderBoard(FILTER_OPTIONS[selectedIndex], selectedIndex)
+          }
         />
 
         <View style={styles.container}>

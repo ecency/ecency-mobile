@@ -52,7 +52,9 @@ class FollowsContainer extends Component {
     let _startWith;
     const { username, users, isFollowingPress, startWith, count } = this.state;
 
-    if ((users && count < 100) || (users && count === users.length + 1)) return;
+    if ((users && count < 100) || (users && count === users.length + 1)) {
+      return;
+    }
 
     const name = username || _username;
     const isFollowing = isFollowingPress || _isFollowingPress;
@@ -71,7 +73,9 @@ class FollowsContainer extends Component {
       });
     }
 
-    if (!_username) _users.shift();
+    if (!_username) {
+      _users.shift();
+    }
 
     this.setState({
       users: !_username ? [...users, ..._users] : _users,

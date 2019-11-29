@@ -60,7 +60,9 @@ class ProfileContainer extends Component {
     const { isOwnProfile } = this.state;
     let targetUsername = currentAccountUsername;
 
-    if (!isConnected) return;
+    if (!isConnected) {
+      return;
+    }
 
     if (!isLoggedIn && !username) {
       navigation.navigate(ROUTES.SCREENS.LOGIN);
@@ -75,7 +77,9 @@ class ProfileContainer extends Component {
   }
 
   UNSAFE_componentWillReceiveProps(nextProps) {
-    if (!nextProps.isConnected) return;
+    if (!nextProps.isConnected) {
+      return;
+    }
 
     const { isLoggedIn, navigation } = this.props;
     const { isOwnProfile } = this.state;

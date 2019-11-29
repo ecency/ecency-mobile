@@ -43,11 +43,15 @@ class SearchModalContainer extends PureComponent {
   _handleOnChangeSearchInput = text => {
     const { isConnected } = this.props;
 
-    if (text && text.length < 2) return;
+    if (text && text.length < 2) {
+      return;
+    }
     if (this.timer) {
       clearTimeout(this.timer);
     }
-    if (!isConnected) return;
+    if (!isConnected) {
+      return;
+    }
     if (text && text !== '@' && text !== '#') {
       if (text[0] === '@') {
         lookupAccounts(text.substr(1)).then(res => {
