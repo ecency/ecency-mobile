@@ -56,7 +56,9 @@ class TransferContainer extends Component {
         this.setState({ balance });
       })
       .catch(err => {
-        if (err) alert(get(err, 'message') || err.toString());
+        if (err) {
+          alert(get(err, 'message') || err.toString());
+        }
       });
   };
 

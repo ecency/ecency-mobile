@@ -122,7 +122,9 @@ export const getUser = async user => {
     const _account = { ...account[0] };
     let unreadActivityCount;
 
-    if (account && account.length < 1) return null;
+    if (account && account.length < 1) {
+      return null;
+    }
 
     const globalProperties = await client.database.getDynamicGlobalProperties();
     const rcPower = await client.call('rc_api', 'find_rc_accounts', { accounts: [user] });

@@ -43,7 +43,9 @@ class ToastNotification extends Component {
     const { onHide } = this.props;
 
     Animated.timing(animatedValue, { toValue: 0.0, duration: 350 }).start(() => {
-      if (onHide) onHide();
+      if (onHide) {
+        onHide();
+      }
     });
 
     if (this.closeTimer) {

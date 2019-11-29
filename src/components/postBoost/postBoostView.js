@@ -252,7 +252,11 @@ class BoostPostScreen extends PureComponent {
           cancelButtonIndex={1}
           destructiveButtonIndex={0}
           onPress={index => {
-            if (index === 0) if (index === 0) this._handleOnSubmit();
+            if (index === 0) {
+              if (index === 0) {
+                this._handleOnSubmit();
+              }
+            }
           }}
         />
 

@@ -80,7 +80,9 @@ class ToggleSwitchView extends PureComponent {
 
     // For debounce
     setTimeout(() => {
-      if (onToggle) onToggle(!isOn);
+      if (onToggle) {
+        onToggle(!isOn);
+      }
     }, 300);
   };
 

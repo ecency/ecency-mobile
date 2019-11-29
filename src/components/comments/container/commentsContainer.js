@@ -85,8 +85,12 @@ class CommentsContainer extends Component {
         const keyA = get(a, 'author_reputation');
         const keyB = get(b, 'author_reputation');
 
-        if (keyA > keyB) return -1;
-        if (keyA < keyB) return 1;
+        if (keyA > keyB) {
+          return -1;
+        }
+        if (keyA < keyB) {
+          return 1;
+        }
 
         return 0;
       },
@@ -94,8 +98,12 @@ class CommentsContainer extends Component {
         const keyA = a.net_votes;
         const keyB = b.net_votes;
 
-        if (keyA > keyB) return -1;
-        if (keyA < keyB) return 1;
+        if (keyA > keyB) {
+          return -1;
+        }
+        if (keyA < keyB) {
+          return 1;
+        }
 
         return 0;
       },
@@ -111,8 +119,12 @@ class CommentsContainer extends Component {
         const keyA = Date.parse(get(a, 'created'));
         const keyB = Date.parse(get(b, 'created'));
 
-        if (keyA > keyB) return -1;
-        if (keyA < keyB) return 1;
+        if (keyA > keyB) {
+          return -1;
+        }
+        if (keyA < keyB) {
+          return 1;
+        }
 
         return 0;
       },
@@ -149,7 +161,7 @@ class CommentsContainer extends Component {
             });
           }
         })
-        .catch(() => { });
+        .catch(() => {});
     }
   };
 

@@ -39,7 +39,9 @@ class PercentBarView extends PureComponent {
   _getText = (textColor, text, isTop, isRender) => {
     const { isShowText } = this.props;
 
-    if (!isShowText) return null;
+    if (!isShowText) {
+      return null;
+    }
 
     if (isTop === isRender && text) {
       return (

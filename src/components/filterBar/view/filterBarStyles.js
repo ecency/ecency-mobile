@@ -16,7 +16,7 @@ export default EStyleSheet.create({
     flexDirection: 'row',
     justifyContent: 'center',
     alignItems: 'center',
-    left: 15
+    left: 15,
   },
   filterBarWrapper: {
     flexDirection: 'row',
@@ -30,5 +30,5 @@ export default EStyleSheet.create({
   rightIcon: {
     color: '$darkIconColor',
     textAlign: 'center',
-  }
+  },
 });
