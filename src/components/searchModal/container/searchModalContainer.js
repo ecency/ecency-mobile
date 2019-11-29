@@ -99,37 +99,45 @@ const SearchModalContainer = ({
               });
             }
           } else if (feedType) {
-            handleOnClose();
-            setSearchResults({});
+            // handleOnClose();
+            // setSearchResults({});
             if (tag) {
-              navigation.navigate({
-                routeName: ROUTES.SCREENS.SEARCH_RESULT,
-                params: {
-                  tag: tag,
-                  filter: feedType,
-                },
+              setSearchResults({
+                type: 'feedType',
+                data: [{ text: `#${tag}`, tag, filter: feedType }],
               });
+              // navigation.navigate({
+              //   routeName: ROUTES.SCREENS.SEARCH_RESULT,
+              //   params: {
+              //     tag: tag,
+              //     filter: feedType,
+              //   },
+              // });
             } else {
-              navigation.navigate({
-                routeName: ROUTES.SCREENS.SEARCH_RESULT,
-                params: {
-                  filter: feedType,
-                },
+              setSearchResults({
+                type: 'feedType',
+                data: [{ text: `#${feedType}`, filter: feedType }],
               });
+              // navigation.navigate({
+              //   routeName: ROUTES.SCREENS.SEARCH_RESULT,
+              //   params: {
+              //     filter: feedType,
+              //   },
+              // });
             }
           }
-        } else {
-          search({ q: text }).then(res => {
-            res.results = res.results
-              .filter(item => item.title !== '')
-              .map(item => ({
-                image: item.img_url || getResizedAvatar(get(item, 'author')),
-                text: item.title,
-                ...item,
-              }));
-            setSearchResults({ type: 'content', data: get(res, 'results', []) });
-          });
         }
+      } else {
+        search({ q: text }).then(res => {
+          res.results = res.results
+            .filter(item => item.title !== '')
+            .map(item => ({
+              image: item.img_url || getResizedAvatar(get(item, 'author')),
+              text: item.title,
+              ...item,
+            }));
+          setSearchResults({ type: 'content', data: get(res, 'results', []) });
+        });
       }
     }
   };
@@ -163,6 +171,20 @@ const SearchModalContainer = ({
         params = {
           tag: get(item, 'text', '').substr(1),
         };
+        break;
+
+      case 'feedType':
+        routeName = ROUTES.SCREENS.SEARCH_RESULT;
+        if (get(item, 'tag', false)) {
+          params = {
+            tag: get(item, 'tag', ''),
+            filter: get(item, 'filter', ''),
+          };
+        } else {
+          params = {
+            filter: get(item, 'filter', ''),
+          };
+        }
         break;
 
       default:
