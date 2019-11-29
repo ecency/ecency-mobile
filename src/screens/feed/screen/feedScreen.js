@@ -29,7 +29,7 @@ const FeedScreen = () => {
               filterOptions={[...POPULAR_FILTERS]}
               filterOptionsValue={[...POPULAR_FILTERS_VALUE]}
               getFor={isLoggedIn ? 'feed' : 'trending'}
-              selectedOptionIndex={isLoggedIn ? 1 : 2}
+              selectedOptionIndex={isLoggedIn ? 0 : 2}
               tag={get(currentAccount, 'name')}
             />
           </SafeAreaView>

@@ -25,7 +25,7 @@ export default EStyleSheet.create({
     backgroundColor: 'transparent'
   },
   isFilterTextUnPin: {
-    color: '$primaryDarkBlue',
+    color: '$primaryDarkGray',
     fontSize: 14,
   },
   isFilterTextPin: {
