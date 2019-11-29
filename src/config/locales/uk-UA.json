@@ -101,9 +101,9 @@
     "older_then": "Понад місяць"
   },
   "leaderboard": {
-    "daily": "DAILY",
-    "weekly": "WEEKLY",
-    "monthly": "MONTHLY"
+    "daily": "ЩОДЕННО",
+    "weekly": "ЩОТИЖНЯ",
+    "monthly": "ЩОМІСЯЦЯ"
   },
   "messages": {
     "comingsoon": "Функція повідомлень незабаром стане доступною!"
@@ -332,11 +332,11 @@
     "comments": "Коментарі"
   },
   "comment_filter": {
-    "trending": "TOP",
-    "reputation": "REPUTATION",
-    "votes": "VOTE",
-    "age": "AGE",
-    "top": "TOP",
+    "trending": "ТОП",
+    "reputation": "РЕПУТАЦІЯ",
+    "votes": "ГОЛОСУВАТИ",
+    "age": "ВІК",
+    "top": "ТОП",
     "time": "ЧАС"
   },
   "transfer": {
