@@ -140,7 +140,7 @@ const PostsView = ({
           setPromotedPosts(_promotedPosts);
         }
       })
-      .catch(() => { });
+      .catch(() => {});
   }, [currentAccountUsername]);
 
   const _loadPosts = useCallback(

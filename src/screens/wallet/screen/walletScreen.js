@@ -10,6 +10,7 @@ import { Header, Transaction } from '../../../components';
 import EstmView from './estmView';
 import SteemView from './steemView';
 import SpView from './spView';
+import SbdView from './sbdView';
 
 // Styles
 import globalStyles from '../../../globalStyles';
@@ -50,8 +51,14 @@ const WalletScreen = () => {
                   refreshing={refreshing}
                   currentIndex={currentIndex}
                 />
-                <SpView
+                <SbdView
                   index={2}
+                  handleOnSelected={_handleSwipeItemChange}
+                  refreshing={refreshing}
+                  currentIndex={currentIndex}
+                />
+                <SpView
+                  index={3}
                   refreshing={refreshing}
                   handleOnSelected={_handleSwipeItemChange}
                   currentIndex={currentIndex}

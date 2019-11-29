@@ -85,7 +85,9 @@ class NotificationView extends PureComponent {
   _getNotificationsArrays = () => {
     const { notifications, intl } = this.props;
 
-    if (!notifications && notifications.length < 1) return null;
+    if (!notifications && notifications.length < 1) {
+      return null;
+    }
 
     const notificationArray = [
       {
@@ -130,13 +132,21 @@ class NotificationView extends PureComponent {
   };
 
   _getTimeListIndex = timestamp => {
-    if (isToday(timestamp)) return 0;
+    if (isToday(timestamp)) {
+      return 0;
+    }
 
-    if (isYesterday(timestamp)) return 1;
+    if (isYesterday(timestamp)) {
+      return 1;
+    }
 
-    if (isThisWeek(timestamp)) return 2;
+    if (isThisWeek(timestamp)) {
+      return 2;
+    }
 
-    if (isThisMonth(timestamp)) return 3;
+    if (isThisMonth(timestamp)) {
+      return 3;
+    }
 
     return 4;
   };

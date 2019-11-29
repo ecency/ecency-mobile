@@ -6,7 +6,7 @@ import { SteemWalletContainer, AccountContainer } from '../../../containers';
 
 import globalStyles from '../../../globalStyles';
 
-const SteemView = ({ handleOnSelected, index, currentIndex }) => (
+const SbdView = ({ handleOnSelected, index, currentIndex }) => (
   <View style={globalStyles.swipeItemWrapper}>
     <AccountContainer>
       {({ currentAccount }) => (
@@ -17,12 +17,12 @@ const SteemView = ({ handleOnSelected, index, currentIndex }) => (
             handleOnWalletRefresh,
             refreshing,
             transferHistory,
-            steemBalance,
+            sbdBalance,
             isLoading,
-            steemSavingBalance,
+            sbdSavingBalance,
             estimatedValue,
-            steemDropdown,
-            savingSteemDropdown,
+            sbdDropdown,
+            savingSbdDropdown,
             navigate,
           }) => (
             <WalletHeader
@@ -35,15 +35,11 @@ const SteemView = ({ handleOnSelected, index, currentIndex }) => (
               refreshing={refreshing}
               unclaimedBalance={0}
               userBalance={[
-                { balance: steemBalance, nameKey: 'steem', options: steemDropdown },
-                {
-                  balance: steemSavingBalance,
-                  nameKey: 'savingsteem',
-                  options: savingSteemDropdown,
-                },
+                { balance: sbdBalance, nameKey: 'sbd', options: sbdDropdown },
+                { balance: sbdSavingBalance, nameKey: 'savingsbd', options: savingSbdDropdown },
               ]}
-              handleOnDropdownSelected={option => navigate(option, 'STEEM')}
-              type="steem"
+              handleOnDropdownSelected={option => navigate(option, 'SBD')}
+              type="sbd"
               currentIndex={currentIndex}
               showIconList={false}
               valueDescriptions={[
@@ -61,4 +57,4 @@ const SteemView = ({ handleOnSelected, index, currentIndex }) => (
   </View>
 );
 
-export default SteemView;
+export default SbdView;

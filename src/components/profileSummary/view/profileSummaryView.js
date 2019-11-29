@@ -46,7 +46,9 @@ class ProfileSummaryView extends PureComponent {
 
   // Component Functions
   _handleOnPressLink = url => {
-    if (url) Linking.openURL(url);
+    if (url) {
+      Linking.openURL(url);
+    }
   };
 
   _handleOnDropdownSelect = index => {

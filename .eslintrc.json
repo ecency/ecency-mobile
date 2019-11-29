@@ -13,20 +13,43 @@
     "jest": true,
     "react-native/react-native": true
   },
-  "plugins": ["react", "react-native", "jsx-a11y", "import", "prettier", "jest", "eslint-comments"],
+  "plugins": [
+    "react",
+    "react-native",
+    "jsx-a11y",
+    "import",
+    "prettier",
+    "jest",
+    "eslint-comments"
+  ],
   "rules": {
     "react/jsx-filename-extension": [
       2,
       {
-        "extensions": [".js", ".jsx"]
+        "extensions": [
+          ".js",
+          ".jsx"
+        ]
       }
     ],
-    "max-len": ["error", 100],
-    "react/forbid-prop-types": [0],
+    "max-len": [
+      "error",
+      100
+    ],
+    "react/forbid-prop-types": [
+      0
+    ],
     "no-underscore-dangle": 0,
-    "react/require-default-props": [0],
-    "global-require": [0],
-    "func-names": ["error", "as-needed"],
+    "react/require-default-props": [
+      0
+    ],
+    "global-require": [
+      0
+    ],
+    "func-names": [
+      "error",
+      "as-needed"
+    ],
     "linebreak-style": 0,
     "no-use-before-define": "off",
     "import/prefer-default-export": "off",
