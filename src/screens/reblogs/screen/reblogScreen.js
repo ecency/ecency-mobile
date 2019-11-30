@@ -1,5 +1,5 @@
 import React from 'react';
-import { View, FlatList, SafeAreaView } from 'react-native';
+import { FlatList, SafeAreaView } from 'react-native';
 import { useIntl } from 'react-intl';
 import get from 'lodash/get';
 

@@ -89,7 +89,7 @@ class TabBar extends PureComponent {
 
       return arr.fill(0).reduce(
         (pre, cur, idx) => {
-          idx == 0 ? pre.inputRange.push(cur) : pre.inputRange.push(pre.inputRange[idx - 1] + 0.5);
+          idx === 0 ? pre.inputRange.push(cur) : pre.inputRange.push(pre.inputRange[idx - 1] + 0.5);
           idx % 2 ? pre.outputRange.push(defaultScale) : pre.outputRange.push(1);
           return pre;
         },

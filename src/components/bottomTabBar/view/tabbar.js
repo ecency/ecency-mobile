@@ -142,7 +142,7 @@ const TabBarItem = ({ icon, selectedIcon, index, selected, onPress, showIcon, di
   if (selected) {
     if (showIcon) {
       return (
-        <TouchableHighlight style={styles.navItem}>
+        <TouchableHighlight underlayColor={'transparent'} style={styles.navItem}>
           <View style={styles.circle}>{selectedIcon || icon}</View>
         </TouchableHighlight>
       );

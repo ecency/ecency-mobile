@@ -104,10 +104,7 @@ class SideMenuView extends Component {
           colors={['#357ce6', '#2d5aa0']}
           style={styles.headerView}
         >
-          <ImageBackground
-            source={SIDE_MENU_BACKGROUND}
-            style={{ width: '100%', height: '100%', flexDirection: 'row' }}
-          >
+          <ImageBackground source={SIDE_MENU_BACKGROUND} style={styles.imageBackground}>
             {isLoggedIn && (
               <View style={styles.headerContentWrapper}>
                 <UserAvatar username={currentAccount.name} size="xl" style={styles.userAvatar} />

@@ -69,4 +69,8 @@ export default EStyleSheet.create({
     flexDirection: 'row',
     justifyContent: 'flex-end',
   },
+  noPostImage: {
+    height: 200,
+    width: 300,
+  },
 });

@@ -77,6 +77,6 @@ export default EStyleSheet.create({
     alignItems: 'center',
   },
   tabBarBottom: {
-    paddingBottom: 60
+    paddingBottom: 60,
   },
 });

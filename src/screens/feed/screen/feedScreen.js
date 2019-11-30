@@ -11,10 +11,7 @@ import { AccountContainer } from '../../../containers';
 // Styles
 import styles from './feedStyles';
 
-import {
-  POPULAR_FILTERS,
-  POPULAR_FILTERS_VALUE,
-} from '../../../constants/options/filters';
+import { POPULAR_FILTERS, POPULAR_FILTERS_VALUE } from '../../../constants/options/filters';
 
 const FeedScreen = () => {
   return (

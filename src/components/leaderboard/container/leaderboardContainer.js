@@ -53,7 +53,7 @@ class LeaderboardContainer extends PureComponent {
     const { intl, isConnected } = this.props;
     const { selectedIndex } = this.state;
 
-    if (index == undefined) {
+    if (index === undefined) {
       index = selectedIndex;
     }
     let users;

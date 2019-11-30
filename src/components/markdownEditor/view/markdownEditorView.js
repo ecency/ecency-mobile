@@ -93,6 +93,7 @@ const MarkdownEditorView = ({
     }
   }, [_changeText, handleIsFormValid, text]);
 
+  // eslint-disable-next-line react-hooks/exhaustive-deps
   const _changeText = useCallback(input => {
     setText(input);
 
@@ -113,6 +114,7 @@ const MarkdownEditorView = ({
     setSelection(event.nativeEvent.selection);
   };
 
+  // eslint-disable-next-line react-hooks/exhaustive-deps
   const _setTextAndSelection = useCallback(({ selection: _selection, text: _text }) => {
     inputRef.current.setNativeProps({
       text: _text,
@@ -227,8 +229,8 @@ const MarkdownEditorView = ({
           )}
         </ThemeContainer>
       ) : (
-          _renderPreview()
-        )}
+        _renderPreview()
+      )}
       {!isPreviewActive && _renderEditorButtons()}
       <ActionSheet
         ref={galleryRef}

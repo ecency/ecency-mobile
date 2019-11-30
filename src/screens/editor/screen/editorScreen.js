@@ -11,7 +11,6 @@ import {
   BasicHeader,
   TitleArea,
   TagArea,
-  TextArea,
   SummaryArea,
   PostForm,
   MarkdownEditor,
