@@ -174,6 +174,7 @@ export default EStyleSheet.create({
     flexDirection: 'column',
     justifyContent: 'center',
     alignItems: 'center',
+    backgroundColor: '$primaryBackgroundColor',
   },
   checkView: {
     flexDirection: 'row',

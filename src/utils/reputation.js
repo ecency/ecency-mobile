@@ -1,5 +1,7 @@
 export const getReputation = reputation => {
-  if (reputation === null) return reputation;
+  if (reputation === null) {
+    return reputation;
+  }
 
   let _reputation = String(parseInt(reputation, 10));
 
@@ -13,7 +15,9 @@ export const getReputation = reputation => {
   let out = n + (log - parseInt(log, 10));
 
   // eslint-disable-next-line no-restricted-globals
-  if (isNaN(out)) out = 0;
+  if (isNaN(out)) {
+    out = 0;
+  }
 
   out = Math.max(out - 9, 0);
   out *= neg ? -1 : 1;

@@ -6,7 +6,7 @@ import ROUTES from '../constants/routeNames';
 
 // Components
 import { Icon, IconContainer } from '../components/icon';
-import { Feed, Notification, Profile, Points } from '../screens';
+import { Feed, Notification, Profile, Wallet } from '../screens';
 import { PostButton, BottomTabBar } from '../components';
 
 const BaseNavigator = createBottomTabNavigator(
@@ -40,11 +40,11 @@ const BaseNavigator = createBottomTabNavigator(
         tabBarIcon: ({ tintColor }) => <PostButton />,
       },
     },
-    [ROUTES.TABBAR.POINTS]: {
-      screen: Points,
+    [ROUTES.TABBAR.WALLET]: {
+      screen: Wallet,
       navigationOptions: () => ({
         tabBarIcon: ({ tintColor }) => (
-          <Icon iconType="MaterialCommunityIcons" name="gift-outline" color={tintColor} size={26} />
+          <Icon iconType="MaterialCommunityIcons" name="wallet" color={tintColor} size={26} />
         ),
       }),
     },

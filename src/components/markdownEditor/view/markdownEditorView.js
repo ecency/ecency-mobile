@@ -45,13 +45,13 @@ const MarkdownEditorView = ({
     if (!isPreviewActive) {
       _setTextAndSelection({ selection: { start: 0, end: 0 }, text });
     }
-  }, [isPreviewActive]);
+  }, [_setTextAndSelection, isPreviewActive, text]);
 
   useEffect(() => {
     if (text === '' && draftBody !== '') {
       _setTextAndSelection({ selection: { start: 0, end: 0 }, text: draftBody });
     }
-  }, [draftBody]);
+  }, [_setTextAndSelection, draftBody, text]);
 
   useEffect(() => {
     if (editable === null) {
@@ -63,7 +63,7 @@ const MarkdownEditorView = ({
     } else {
       setEditable(!isLoading);
     }
-  }, [isLoading]);
+  }, [editable, isLoading]);
 
   useEffect(() => {
     if (uploadedImage && uploadedImage.url) {
@@ -75,7 +75,7 @@ const MarkdownEditorView = ({
         isImage: !!uploadedImage,
       });
     }
-  }, [uploadedImage]);
+  }, [_setTextAndSelection, selection, text, uploadedImage]);
 
   useEffect(() => {
     setText(draftBody);
@@ -91,9 +91,9 @@ const MarkdownEditorView = ({
         handleIsFormValid(text);
       }
     }
-  }, [text]);
+  }, [_changeText, handleIsFormValid, text]);
 
-  const _changeText = input => {
+  const _changeText = useCallback(input => {
     setText(input);
 
     if (onChange) {
@@ -107,13 +107,13 @@ const MarkdownEditorView = ({
     if (handleOnTextChange) {
       handleOnTextChange(input);
     }
-  };
+  });
 
   const _handleOnSelectionChange = async event => {
     setSelection(event.nativeEvent.selection);
   };
 
-  const _setTextAndSelection = ({ selection: _selection, text: _text }) => {
+  const _setTextAndSelection = useCallback(({ selection: _selection, text: _text }) => {
     inputRef.current.setNativeProps({
       text: _text,
     });
@@ -125,7 +125,7 @@ const MarkdownEditorView = ({
       setSelection(_selection);
     }, 200);
     _changeText(_text);
-  };
+  });
 
   const _renderPreview = () => (
     <ScrollView style={styles.previewContainer}>

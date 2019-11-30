@@ -7,7 +7,7 @@ import { Launch } from './launch';
 import { Login } from './login';
 import { Notification } from './notification';
 import { PinCode } from './pinCode';
-import { Points } from './points';
+import { Wallet } from './wallet';
 import { Post } from './post';
 import { SearchResult } from './searchResult';
 import { Settings } from './settings';
@@ -32,7 +32,7 @@ export {
   Login,
   Notification,
   PinCode,
-  Points,
+  Wallet,
   Post,
   Profile,
   ProfileEdit,

@@ -64,7 +64,7 @@ class CommentsContainer extends Component {
     const absNegative = a => a.net_rshares < 0;
 
     const sortOrders = {
-      TRENDING: (a, b) => {
+      trending: (a, b) => {
         if (absNegative(a)) {
           return 1;
         }
@@ -81,25 +81,33 @@ class CommentsContainer extends Component {
 
         return 0;
       },
-      REPUTATION: (a, b) => {
+      reputation: (a, b) => {
         const keyA = get(a, 'author_reputation');
         const keyB = get(b, 'author_reputation');
 
-        if (keyA > keyB) return -1;
-        if (keyA < keyB) return 1;
+        if (keyA > keyB) {
+          return -1;
+        }
+        if (keyA < keyB) {
+          return 1;
+        }
 
         return 0;
       },
-      VOTES: (a, b) => {
+      votes: (a, b) => {
         const keyA = a.net_votes;
         const keyB = b.net_votes;
 
-        if (keyA > keyB) return -1;
-        if (keyA < keyB) return 1;
+        if (keyA > keyB) {
+          return -1;
+        }
+        if (keyA < keyB) {
+          return 1;
+        }
 
         return 0;
       },
-      AGE: (a, b) => {
+      age: (a, b) => {
         if (absNegative(a)) {
           return 1;
         }
@@ -111,8 +119,12 @@ class CommentsContainer extends Component {
         const keyA = Date.parse(get(a, 'created'));
         const keyB = Date.parse(get(b, 'created'));
 
-        if (keyA > keyB) return -1;
-        if (keyA < keyB) return 1;
+        if (keyA > keyB) {
+          return -1;
+        }
+        if (keyA < keyB) {
+          return 1;
+        }
 
         return 0;
       },
@@ -138,7 +150,7 @@ class CommentsContainer extends Component {
     } else if (author && permlink) {
       await getComments(author, permlink, name)
         .then(comments => {
-          if (selectedFilter && selectedFilter !== 'TRENDING') {
+          if (selectedFilter && selectedFilter !== 'trending') {
             const sortComments = this._shortComments(selectedFilter, comments);
             this.setState({
               comments: sortComments,

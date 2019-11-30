@@ -7,6 +7,12 @@ export default EStyleSheet.create({
   },
   defaultContainer: {
     flex: 1,
+    backgroundColor: '$primaryLightBackground',
+  },
+  listWrapper: {
+    paddingHorizontal: 8,
+    backgroundColor: '$primaryBackgroundColor',
+    flex: 1.7,
   },
   text: {
     fontFamily: '$primaryFont',
@@ -64,5 +70,13 @@ export default EStyleSheet.create({
   tabView: {
     alignSelf: 'center',
     backgroundColor: '$primaryBackgroundColor',
+  },
+  swipeItemWrapper: {
+    flex: 1,
+    justifyContent: 'center',
+    alignItems: 'center',
+  },
+  tabBarBottom: {
+    marginBottom: 60,
   },
 });

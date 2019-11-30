@@ -1,5 +1,4 @@
-import TransactionView from './view/transactionView';
-import Transaction from './container/transactionContainer';
+import Transaction from './transactionView';
 
-export { TransactionView, Transaction };
+export { Transaction };
 export default Transaction;

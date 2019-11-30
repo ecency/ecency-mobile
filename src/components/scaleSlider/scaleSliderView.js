@@ -25,7 +25,9 @@ export default class ScaleSliderView extends Component {
       activeIndex: index,
     });
 
-    if (handleOnValueChange) handleOnValueChange(values[index]);
+    if (handleOnValueChange) {
+      handleOnValueChange(values[index]);
+    }
   };
 
   _renderItem = (value, index, activeIndex) => {

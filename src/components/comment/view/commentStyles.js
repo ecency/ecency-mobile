@@ -36,6 +36,7 @@ export default EStyleSheet.create({
     alignSelf: 'flex-end',
     position: 'absolute',
     right: 0,
+    bottom: -10,
   },
   voteCountText: {
     alignSelf: 'center',

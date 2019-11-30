@@ -91,7 +91,9 @@ class PostListItemView extends Component {
           cancelButtonIndex={1}
           destructiveButtonIndex={0}
           onPress={index => {
-            if (index === 0) handleOnRemoveItem(id);
+            if (index === 0) {
+              handleOnRemoveItem(id);
+            }
           }}
         />
       </Fragment>

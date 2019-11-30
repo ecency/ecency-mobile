@@ -39,16 +39,17 @@ class LeaderboardView extends PureComponent {
   };
 
   render() {
-    const { users, intl, fetchLeaderBoard, refreshing } = this.props;
-
+    const { users, intl, fetchLeaderBoard, refreshing, selectedIndex } = this.props;
     return (
       <Fragment>
         <FilterBar
           dropdownIconName="arrow-drop-down"
           options={VALUE.map(val => intl.formatMessage({ id: `leaderboard.${val}` }))}
-          selectedOptionIndex={0}
+          selectedOptionIndex={selectedIndex}
           defaultText={intl.formatMessage({ id: `leaderboard.${VALUE[0]}` })}
-          onDropdownSelect={selectedIndex => fetchLeaderBoard(FILTER_OPTIONS[selectedIndex])}
+          onDropdownSelect={selectedIndex =>
+            fetchLeaderBoard(FILTER_OPTIONS[selectedIndex], selectedIndex)
+          }
         />
 
         <View style={styles.container}>

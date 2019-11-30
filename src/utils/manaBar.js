@@ -18,7 +18,9 @@ export const getVotingPower = account => {
 
   let currentMana = Number(manabar.current_mana) + (elapsed * maxMana) / PERIOD;
 
-  if (currentMana > maxMana) currentMana = maxMana;
+  if (currentMana > maxMana) {
+    currentMana = maxMana;
+  }
 
   return (currentMana * 100) / maxMana;
 };
@@ -38,7 +40,9 @@ export const getRcPower = account => {
 
   let currentMana = Number(manabar.current_mana) + (elapsed * maxMana) / PERIOD;
 
-  if (currentMana > maxMana) currentMana = maxMana;
+  if (currentMana > maxMana) {
+    currentMana = maxMana;
+  }
 
   return (currentMana * 100) / maxMana;
 };
