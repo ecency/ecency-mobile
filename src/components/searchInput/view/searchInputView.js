@@ -27,7 +27,7 @@ const SearchInputView = ({
     <Icon style={styles.icon} iconType="FontAwesome" name="search" size={15} />
     <TextInput
       style={styles.input}
-      onChangeText={text => onChangeText(text)}
+      onChangeText={text => onChangeText && onChangeText(text)}
       placeholder={placeholder}
       placeholderTextColor="#c1c5c7"
       autoCapitalize="none"
