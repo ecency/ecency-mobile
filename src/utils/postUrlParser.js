@@ -1,49 +1,72 @@
+const parseCatAuthorPermlink = u => {
+  const postRegex = /^https?:\/\/(.*)\/(.*)\/(@[\w.\d-]+)\/(.*)/i;
+  const postMatch = u.match(postRegex);
+
+  if (postMatch && postMatch.length === 5) {
+    return {
+      author: postMatch[3].replace('@', ''),
+      permlink: postMatch[4],
+    };
+  }
+  const authorRegex = /^https?:\/\/(.*)\/(.*)\/(@[\w.\d-]+)/i;
+  const authorMatch = u.match(authorRegex);
+  if (authorMatch && authorMatch.length === 4) {
+    return {
+      author: authorMatch[3].replace('@', ''),
+      permlink: null,
+    };
+  }
+  return null;
+};
+
+const parseAuthorPermlink = u => {
+  const r = /^https?:\/\/(.*)\/(@[\w.\d-]+)\/(.*)/i;
+  const match = u.match(r);
+
+  if (match && match.length === 4) {
+    return {
+      author: match[2].replace('@', ''),
+      permlink: match[3],
+    };
+  }
+  const authorRegex = /^https?:\/\/(.*)\/(@[\w.\d-]+)/i;
+  const authorMatch = u.match(authorRegex);
+  if (authorMatch && authorMatch.length === 3) {
+    return {
+      author: authorMatch[2].replace('@', ''),
+      permlink: null,
+    };
+  }
+
+  return null;
+};
+
 export default url => {
-  const parseCatAuthorPermlink = u => {
-    const postRegex = /^https?:\/\/(.*)\/(.*)\/(@[\w.\d-]+)\/(.*)/i;
-    const postMatch = u.match(postRegex);
-    if (postMatch && postMatch.length === 5) {
-      return {
-        author: postMatch[3].replace('@', ''),
-        permlink: postMatch[4],
-      };
-    }
-    const authorRegex = /^https?:\/\/(.*)\/(.*)\/(@[\w.\d-]+)/i;
-    const authorMatch = u.match(authorRegex);
-    if (authorMatch && authorMatch.length === 4) {
-      return {
-        author: authorMatch[3].replace('@', ''),
-        permlink: null,
-      };
-    }
-    return null;
-  };
+  if (url.startsWith('esteem://')) {
+    url = url.replace('esteem://', 'https://esteem.app/');
+  }
 
-  const parseAuthorPermlink = u => {
-    const r = /^https?:\/\/(.*)\/(@[\w.\d-]+)\/(.*)/i;
-    const match = u.match(r);
-    if (match && match.length === 4) {
-      return {
-        author: match[2].replace('@', ''),
-        permlink: match[3],
-      };
-    }
-    const authorRegex = /^https?:\/\/(.*)\/(@[\w.\d-]+)/i;
-    const authorMatch = u.match(authorRegex);
-    if (authorMatch && authorMatch.length === 3) {
-      return {
-        author: authorMatch[2].replace('@', ''),
-        permlink: null,
-      };
-    }
+  const feedMatch = url.match(/^https:\/\/([\w-\.]*)\/([\w-]*)\/?([\w-]*)\/?$/);
 
-    return null;
-  };
+  if (feedMatch) {
+    if (feedMatch[3]) {
+      return {
+        feedType: feedMatch[2],
+        tag: feedMatch[3],
+      };
+    }
+    return {
+      feedType: feedMatch[2],
+    };
+  }
 
   if (
-    ['https://esteem.app', 'https://steemit.com', 'https://steempeak.com'].some(x =>
-      url.startsWith(x),
-    )
+    [
+      'https://estm.to',
+      'https://esteem.app',
+      'https://steemit.com',
+      'https://steempeak.com',
+    ].some(x => url.startsWith(x))
   ) {
     return parseCatAuthorPermlink(url);
   }
@@ -62,7 +85,7 @@ export default url => {
   }
 
   // For non urls with category like esteem/@good-karma/esteem-london-presentation-e3105ba6637ed
-  match = url.match(/^[/]?([\w.\d-]+)\/(@[\w.\d-]+)\/(.*)/);
+  match = url.match(/([\w.\d-]+)\/(@[\w.\d-]+)\/(.*)/);
   if (match && match.length === 4) {
     return {
       category: match[1],

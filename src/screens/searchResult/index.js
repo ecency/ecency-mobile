@@ -1,5 +1,4 @@
-import SearchResultScreen from './screen/searchResultScreen';
-import SearchResult from './container/searchResultContainer';
+import SearchResult from './screen/searchResultScreen';
 
-export { SearchResultScreen, SearchResult };
+export { SearchResult };
 export default SearchResult;
