@@ -44,7 +44,7 @@ const BaseNavigator = createBottomTabNavigator(
       screen: Wallet,
       navigationOptions: () => ({
         tabBarIcon: ({ tintColor }) => (
-          <Icon iconType="MaterialCommunityIcons" name="wallet" color={tintColor} size={26} />
+          <Icon iconType="MaterialIcons" name="account-balance-wallet" color={tintColor} size={26} />
         ),
       }),
     },

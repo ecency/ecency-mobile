@@ -24,33 +24,33 @@ const IconButton = ({
   style,
   isLoading,
 }) => (
-  <Fragment>
-    <TouchableOpacity
-      style={[styles.iconButton, style]}
-      onPress={() => !isLoading && onPress && onPress()}
-      underlayColor={backgroundColor || 'white'}
-      disabled={disabled}
-    >
-      {!isLoading ? (
-        <Icon
-          style={[
-            color && { color },
-            backgroundColor && { backgroundColor },
-            styles.icon,
-            iconStyle && iconStyle,
-          ]}
-          badgeTextStyle={badgeTextStyle}
-          name={name}
-          badgeStyle={badgeStyle}
-          size={size}
-          iconType={iconType}
-          badgeCount={badgeCount}
-        />
-      ) : (
-        <ActivityIndicator color="white" style={styles.activityIndicator} />
-      )}
-    </TouchableOpacity>
-  </Fragment>
-);
+    <Fragment>
+      <TouchableOpacity
+        style={[styles.iconButton, style]}
+        onPress={() => !isLoading && onPress && onPress()}
+        underlayColor={backgroundColor || 'white'}
+        disabled={disabled}
+      >
+        {!isLoading ? (
+          <Icon
+            style={[
+              color && { color },
+              backgroundColor && { backgroundColor },
+              styles.icon,
+              iconStyle && iconStyle,
+            ]}
+            badgeTextStyle={badgeTextStyle}
+            name={name}
+            badgeStyle={badgeStyle}
+            size={size}
+            iconType={iconType}
+            badgeCount={badgeCount}
+          />
+        ) : (
+            <ActivityIndicator color="white" style={styles.activityIndicator} />
+          )}
+      </TouchableOpacity>
+    </Fragment>
+  );
 
 export default IconButton;
