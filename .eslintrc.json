@@ -2,6 +2,7 @@
   "parser": "babel-eslint",
   "extends": [
     "airbnb",
+    "prettier",
     "plugin:prettier/recommended",
     "plugin:eslint-comments/recommended",
     "plugin:import/errors",
@@ -16,6 +17,7 @@
   "plugins": [
     "react",
     "react-native",
+    "react-hooks",
     "jsx-a11y",
     "import",
     "prettier",
@@ -26,30 +28,15 @@
     "react/jsx-filename-extension": [
       2,
       {
-        "extensions": [
-          ".js",
-          ".jsx"
-        ]
+        "extensions": [".js", ".jsx"]
       }
     ],
-    "max-len": [
-      "error",
-      100
-    ],
-    "react/forbid-prop-types": [
-      0
-    ],
+    "max-len": ["error", 100],
+    "react/forbid-prop-types": [0],
     "no-underscore-dangle": 0,
-    "react/require-default-props": [
-      0
-    ],
-    "global-require": [
-      0
-    ],
-    "func-names": [
-      "error",
-      "as-needed"
-    ],
+    "react/require-default-props": [0],
+    "global-require": [0],
+    "func-names": ["error", "as-needed"],
     "linebreak-style": 0,
     "no-use-before-define": "off",
     "import/prefer-default-export": "off",
@@ -57,6 +44,14 @@
     "import/no-named-default": "off",
     "no-param-reassign": "off",
     "no-case-declarations": "off",
-    "no-cycle": "off"
+    "no-cycle": "off",
+    "react-hooks/rules-of-hooks": "error",
+    "react-hooks/exhaustive-deps": "warn",
+    "import/no-extraneous-dependencies": [
+      "error",
+      {
+        "devDependencies": true
+      }
+    ]
   }
 }

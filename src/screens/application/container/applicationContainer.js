@@ -12,7 +12,7 @@ import { injectIntl } from 'react-intl';
 import { NavigationActions } from 'react-navigation';
 import { bindActionCreators } from 'redux';
 import EStyleSheet from 'react-native-extended-stylesheet';
-import { forEach, isEmpty, some } from 'lodash';
+import { isEmpty, some } from 'lodash';
 import {
   initialMode as nativeThemeInitialMode,
   eventEmitter as nativeThemeEventEmitter,
@@ -524,6 +524,7 @@ class ApplicationContainer extends Component {
   };
 
   _connectNotificationServer = username => {
+    /*eslint no-undef: "warn"*/
     const ws = new WebSocket(`${Config.ACTIVITY_WEBSOCKET_URL}?user=${username}`);
 
     ws.onmessage = () => {

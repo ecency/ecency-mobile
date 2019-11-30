@@ -42,7 +42,7 @@ const ProfileEditFormView = ({
     />
     <KeyboardAwareScrollView
       enableAutoAutomaticScroll={Platform.OS === 'ios'}
-      contentContainerStyle={{ flexGrow: 1 }}
+      contentContainerStyle={styles.contentContainer}
     >
       <TouchableOpacity style={styles.coverImgWrapper} onPress={showImageUploadActions}>
         <Image

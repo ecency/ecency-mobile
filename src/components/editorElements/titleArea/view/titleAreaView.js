@@ -63,7 +63,7 @@ export default class TitleAreaView extends Component {
             this.setState({ height: event.nativeEvent.contentSize.height });
           }}
           autoFocus={autoFocus}
-          onChangeText={text => this._handleOnChange(text)}
+          onChangeText={textT => this._handleOnChange(textT)}
           value={text}
         />
       </View>

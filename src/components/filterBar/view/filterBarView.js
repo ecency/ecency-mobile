@@ -1,9 +1,6 @@
 import React from 'react';
-import { View, Text, TouchableOpacity } from 'react-native';
+import { View, TouchableOpacity } from 'react-native';
 import { Icon } from '../../icon';
-
-// External Components
-import { DropdownButton } from '../../dropdownButton';
 
 // Components
 import { LineBreak, Tag } from '../../basicUIElements';
@@ -17,8 +14,6 @@ import styles from './filterBarStyles';
  */
 
 const FilterBarView = ({
-  defaultText,
-  dropdownIconName,
   iconSize,
   isHide,
   onDropdownSelect,
@@ -37,7 +32,7 @@ const FilterBarView = ({
               <Tag
                 value={item}
                 isFilter
-                isPin={index == selectedOptionIndex}
+                isPin={index === selectedOptionIndex}
                 onPress={() => onDropdownSelect(index)}
               />
             ))}
