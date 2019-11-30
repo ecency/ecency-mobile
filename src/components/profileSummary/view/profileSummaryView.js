@@ -105,7 +105,7 @@ class ProfileSummaryView extends PureComponent {
     const isColumn = rowLength && DEVICE_WIDTH / rowLength <= 7.3;
 
     const followButtonIcon = !isFollowing ? 'account-plus' : 'account-minus';
-    let coverImageUrl = getResizedImage(get(about, 'cover_image'), 400);
+    let coverImageUrl = getResizedImage(get(about, 'cover_image'), 640);
 
     if (!coverImageUrl) {
       coverImageUrl = isDarkTheme

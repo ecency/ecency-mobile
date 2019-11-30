@@ -70,19 +70,23 @@ export const catchDraftImage = body => {
   return null;
 };
 
-export const getResizedImage = (url, size = 400) => {
+export const getResizedImage = (url, size = 640) => {
   if (!url) {
     return '';
   }
 
-  if (url.includes('img.esteem')) {
+  if (url.includes('img.esteem.ws')) {
     return `https://img.esteem.ws/${size}x0/${url}`;
+  }
+
+  if (url.includes('img.esteem.app')) {
+    return `https://img.esteem.app/${size}x0/${url}`;
   }
 
   return `https://steemitimages.com/${size}x0/${url}`;
 };
 
-export const getResizedAvatar = (author, sizeString = 'small') => {
+export const getResizedAvatar = (author, sizeString = 'medium') => {
   if (!author) {
     return '';
   }
