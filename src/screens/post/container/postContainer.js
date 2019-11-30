@@ -32,7 +32,9 @@ class PostContainer extends Component {
     const { navigation } = this.props;
     const { content, permlink, author, isNewPost } = get(navigation, 'state.params');
 
-    if (isNewPost) this.setState({ isNewPost });
+    if (isNewPost) {
+      this.setState({ isNewPost });
+    }
 
     if (content) {
       this.setState({ post: content });

@@ -1,5 +1,4 @@
-import WalletView from './view/walletView';
-import Wallet from './container/walletContainer';
+import Wallet from './view/walletView';
 
-export { WalletView, Wallet };
+export { Wallet };
 export default Wallet;

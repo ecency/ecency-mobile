@@ -39,7 +39,7 @@ class TagContainer extends PureComponent {
   };
 
   render() {
-    const { isPin, value, isPostCardTag } = this.props;
+    const { isPin, value, isPostCardTag, isFilter } = this.props;
 
     return (
       <TagView
@@ -47,6 +47,7 @@ class TagContainer extends PureComponent {
         value={value}
         isPostCardTag={isPostCardTag}
         onPress={this._handleOnTagPress}
+        isFilter={isFilter}
       />
     );
   }

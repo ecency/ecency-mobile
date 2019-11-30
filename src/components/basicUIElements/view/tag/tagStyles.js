@@ -21,4 +21,14 @@ export default EStyleSheet.create({
     backgroundColor: '$iconColor',
     borderRadius: 50,
   },
+  isFilter: {
+    backgroundColor: 'transparent',
+  },
+  isFilterTextUnPin: {
+    color: '$primaryDarkGray',
+    fontSize: 14,
+  },
+  isFilterTextPin: {
+    fontSize: 14,
+  },
 });

@@ -26,12 +26,11 @@ const FeedScreen = () => {
           <Header />
           <SafeAreaView style={styles.container}>
             <Posts
-              filterOptions={[...PROFILE_FILTERS, ...POPULAR_FILTERS]}
-              filterOptionsValue={[...PROFILE_FILTERS_VALUE, ...POPULAR_FILTERS_VALUE]}
+              filterOptions={[...POPULAR_FILTERS]}
+              filterOptionsValue={[...POPULAR_FILTERS_VALUE]}
               getFor={isLoggedIn ? 'feed' : 'trending'}
-              selectedOptionIndex={isLoggedIn ? 1 : 2}
+              selectedOptionIndex={isLoggedIn ? 0 : 2}
               tag={get(currentAccount, 'name')}
-              customOption="HOT"
             />
           </SafeAreaView>
         </Fragment>

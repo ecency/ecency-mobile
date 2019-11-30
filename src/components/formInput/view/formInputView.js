@@ -47,7 +47,9 @@ class FormInputView extends Component {
     const { onChange } = this.props;
 
     this.setState({ value });
-    if (onChange) onChange(value);
+    if (onChange) {
+      onChange(value);
+    }
   };
 
   _handleOnFocus = () => {

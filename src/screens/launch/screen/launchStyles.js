@@ -6,9 +6,11 @@ export default EStyleSheet.create({
     justifyContent: 'center',
     alignItems: 'center',
     backgroundColor: '$pureWhite',
+    zIndex: 999,
   },
   darkContainer: {
     flex: 1,
+    zIndex: 999,
     justifyContent: 'center',
     alignItems: 'center',
     backgroundColor: '#1e2835',

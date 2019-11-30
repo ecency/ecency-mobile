@@ -8,13 +8,15 @@ import { Modal } from '../../components';
 import { PinCode } from '../pinCode';
 
 const Application = () => {
-  const [showAnimation, setShowAnimation] = useState(true);
+  const [showAnimation, setShowAnimation] = useState(process.env.NODE_ENV !== 'development');
 
   useEffect(() => {
-    setTimeout(() => {
-      setShowAnimation(false);
-    }, 500);
-  }, []);
+    if (showAnimation) {
+      setTimeout(() => {
+        setShowAnimation(false);
+      }, 2000);
+    }
+  }, [showAnimation]);
 
   return (
     <ApplicationContainer>

@@ -31,7 +31,7 @@ export default {
   TABBAR: {
     FEED: `Feed${TABBAR_SUFFIX}`,
     NOTIFICATION: `Notification${TABBAR_SUFFIX}`,
-    POINTS: `Points${TABBAR_SUFFIX}`,
+    WALLET: `Wallet${TABBAR_SUFFIX}`,
     POST_BUTTON: `PostButton${TABBAR_SUFFIX}`,
     PROFILE: `Profile${TABBAR_SUFFIX}`,
   },

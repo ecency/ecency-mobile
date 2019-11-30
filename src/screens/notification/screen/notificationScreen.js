@@ -4,7 +4,8 @@ import ScrollableTabView from 'react-native-scrollable-tab-view';
 import { injectIntl } from 'react-intl';
 
 // Components
-import { TabBar, LeaderBoard, Notification, Header, NoPost } from '../../../components';
+import { TabBar, LeaderBoard, Notification, Header } from '../../../components';
+import { LoggedInContainer } from '../../../containers';
 
 // Styles
 import styles from './notificationStyles';
@@ -23,8 +24,6 @@ class NotificationScreen extends PureComponent {
       intl,
       navigateToNotificationRoute,
       readAllNotification,
-      handleLoginPress,
-      isLoggedIn,
       isNotificationRefreshing,
       changeSelectedFilter,
     } = this.props;
@@ -45,24 +44,18 @@ class NotificationScreen extends PureComponent {
               })}
               style={styles.tabbarItem}
             >
-              {isLoggedIn ? (
-                <Notification
-                  getActivities={getActivities}
-                  notifications={notifications}
-                  navigateToNotificationRoute={navigateToNotificationRoute}
-                  readAllNotification={readAllNotification}
-                  isNotificationRefreshing={isNotificationRefreshing}
-                  changeSelectedFilter={changeSelectedFilter}
-                />
-              ) : (
-                <NoPost
-                  isButtonText
-                  defaultText={intl.formatMessage({
-                    id: 'profile.login_to_see',
-                  })}
-                  handleOnButtonPress={handleLoginPress}
-                />
-              )}
+              <LoggedInContainer>
+                {() => (
+                  <Notification
+                    getActivities={getActivities}
+                    notifications={notifications}
+                    navigateToNotificationRoute={navigateToNotificationRoute}
+                    readAllNotification={readAllNotification}
+                    isNotificationRefreshing={isNotificationRefreshing}
+                    changeSelectedFilter={changeSelectedFilter}
+                  />
+                )}
+              </LoggedInContainer>
             </View>
             <View
               tabLabel={intl.formatMessage({

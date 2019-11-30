@@ -4,7 +4,7 @@ import { connect } from 'react-redux';
 
 import FastImage from 'react-native-fast-image';
 import styles from './userAvatarStyles';
-import NavigationService from '../../../navigation/service';
+import { navigate } from '../../../navigation/service';
 
 // Constants
 import ROUTES from '../../../constants/routeNames';
@@ -35,7 +35,7 @@ class UserAvatarView extends Component {
 
     const routeName = name === username ? ROUTES.TABBAR.PROFILE : ROUTES.SCREENS.PROFILE;
 
-    NavigationService.navigate({
+    navigate({
       routeName: routeName,
       params: {
         username,

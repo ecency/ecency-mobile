@@ -25,7 +25,7 @@ export default EStyleSheet.create({
     alignContent: 'center',
     alignItems: 'center',
     marginTop: 10,
-    marginBottom: 40,
+    marginBottom: 60,
     borderColor: '$borderColor',
   },
   noImage: {
