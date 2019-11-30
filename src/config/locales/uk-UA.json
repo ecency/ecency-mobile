@@ -70,10 +70,10 @@
       "buy": "Отримати ESTM"
     },
     "savingsteem": {
-      "title": "STEEM Savings"
+      "title": "STEEM заощадження"
     },
     "savingsbd": {
-      "title": "SBD Savings"
+      "title": "SBD заощадження"
     },
     "steem": {
       "title": "STEEM",
@@ -81,7 +81,7 @@
     },
     "sbd": {
       "title": "SBD",
-      "buy": "GET SBD"
+      "buy": "Отримати SBD"
     },
     "steem_power": {
       "title": "STEEM POWER"
