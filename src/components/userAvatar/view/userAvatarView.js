@@ -54,7 +54,7 @@ class UserAvatarView extends Component {
       avatarUrl,
       currentUsername: { name, avatar },
     } = this.props;
-    const imageSize = size === 'xl' ? 'large' : 'small';
+    const imageSize = size === 'xl' ? 'large' : 'medium';
     let _size;
     const _avatar = username
       ? {
