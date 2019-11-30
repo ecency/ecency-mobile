@@ -1,4 +1,4 @@
-import React, { useState, useRef, useEffect } from 'react';
+import React, { useState, useRef, useEffect, useCallback } from 'react';
 import { View, KeyboardAvoidingView, FlatList, Text, Platform, ScrollView } from 'react-native';
 import ActionSheet from 'react-native-actionsheet';
 import { renderPostBody } from '@esteemapp/esteem-render-helpers';
@@ -227,8 +227,8 @@ const MarkdownEditorView = ({
           )}
         </ThemeContainer>
       ) : (
-        _renderPreview()
-      )}
+          _renderPreview()
+        )}
       {!isPreviewActive && _renderEditorButtons()}
       <ActionSheet
         ref={galleryRef}

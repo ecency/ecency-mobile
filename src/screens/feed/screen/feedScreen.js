@@ -13,8 +13,6 @@ import styles from './feedStyles';
 
 import {
   POPULAR_FILTERS,
-  PROFILE_FILTERS,
-  PROFILE_FILTERS_VALUE,
   POPULAR_FILTERS_VALUE,
 } from '../../../constants/options/filters';
 
