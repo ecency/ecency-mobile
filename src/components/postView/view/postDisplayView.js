@@ -169,7 +169,7 @@ class PostDisplayView extends PureComponent {
     if (isPostUnavailable) {
       return (
         <NoPost
-          imageStyle={{ height: 200, width: 300 }}
+          imageStyle={styles.noPostImage}
           defaultText={`${intl.formatMessage({
             id: 'post.removed_hint',
           })} ${author}`}

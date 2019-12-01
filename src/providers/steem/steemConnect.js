@@ -4,10 +4,10 @@ import steemConnect from './steemConnectAPI';
  * @method to upvote/unvote a content
  * @param {*} vote
  */
-export const vote = vote =>
+export const vote = voteObj =>
   new Promise((resolve, reject) => {
     steemConnect
-      .vote(vote.voter, vote.author, vote.permlink, vote.weight)
+      .vote(voteObj.voter, voteObj.author, voteObj.permlink, voteObj.weight)
       .then(result => {
         resolve(result);
       })
@@ -20,17 +20,17 @@ export const vote = vote =>
  * @method to submit a comment/reply
  * @param {*} comment
  */
-export const comment = comment =>
+export const comment = commentObj =>
   new Promise((resolve, reject) => {
     steemConnect
       .comment(
-        comment.parentAuthor,
-        comment.parentPermlink,
-        comment.author,
-        comment.permlink,
-        comment.title,
-        comment.body,
-        comment.jsonMetadata,
+        commentObj.parentAuthor,
+        commentObj.parentPermlink,
+        commentObj.author,
+        commentObj.permlink,
+        commentObj.title,
+        commentObj.body,
+        commentObj.jsonMetadata,
       )
       .then(result => {
         resolve(result);
@@ -40,7 +40,7 @@ export const comment = comment =>
       });
   });
 
-export const post = post => {
+export const post = postObj => {
   // Create empty array for the operations
   const operations = [];
 
@@ -49,17 +49,17 @@ export const post = post => {
     'comment',
     {
       parent_author: '', // Since it is a post, parent author is empty
-      parent_permlink: post.tags[0], // Parent permlink will be the 0th index in the tags array
-      author: post.author, // Author is the current logged in username
-      permlink: post.permlink, // Permlink of the post
-      title: post.title, // Title of the post
-      body: post.description, // Description of the post
-      json_metadata: post.json_metadata, // JSON string with the tags, app, and format
+      parent_permlink: postObj.tags[0], // Parent permlink will be the 0th index in the tags array
+      author: postObj.author, // Author is the current logged in username
+      permlink: postObj.permlink, // Permlink of the post
+      title: postObj.title, // Title of the post
+      body: postObj.description, // Description of the post
+      json_metadata: postObj.json_metadata, // JSON string with the tags, app, and format
     },
   ];
   operations.push(commentOp);
 
-  const commentOptionsConfig = prepareBeneficiaries(post);
+  const commentOptionsConfig = prepareBeneficiaries(postObj);
 
   operations.push(commentOptionsConfig);
 
@@ -75,10 +75,10 @@ export const post = post => {
   });
 };
 
-export const prepareBeneficiaries = post => {
+export const prepareBeneficiaries = postObj => {
   const beneficiariesObject = {
-    author: post.author,
-    permlink: post.permlink,
+    author: postObj.author,
+    permlink: postObj.permlink,
     allow_votes: true,
     allow_curation_rewards: true,
     max_accepted_payout: '1000000.000 SBD',

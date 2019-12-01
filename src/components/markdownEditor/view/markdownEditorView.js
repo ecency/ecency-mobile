@@ -1,4 +1,4 @@
-import React, { useState, useRef, useEffect } from 'react';
+import React, { useState, useRef, useEffect, useCallback } from 'react';
 import { View, KeyboardAvoidingView, FlatList, Text, Platform, ScrollView } from 'react-native';
 import ActionSheet from 'react-native-actionsheet';
 import { renderPostBody } from '@esteemapp/esteem-render-helpers';
@@ -93,6 +93,7 @@ const MarkdownEditorView = ({
     }
   }, [_changeText, handleIsFormValid, text]);
 
+  // eslint-disable-next-line react-hooks/exhaustive-deps
   const _changeText = useCallback(input => {
     setText(input);
 
@@ -113,6 +114,7 @@ const MarkdownEditorView = ({
     setSelection(event.nativeEvent.selection);
   };
 
+  // eslint-disable-next-line react-hooks/exhaustive-deps
   const _setTextAndSelection = useCallback(({ selection: _selection, text: _text }) => {
     inputRef.current.setNativeProps({
       text: _text,

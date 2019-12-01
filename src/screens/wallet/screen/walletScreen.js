@@ -1,6 +1,6 @@
 import React, { Fragment, useState } from 'react';
 import Swiper from 'react-native-swiper';
-import { SafeAreaView, View } from 'react-native';
+import { SafeAreaView } from 'react-native';
 
 // Containers
 import { LoggedInContainer } from '../../../containers';
