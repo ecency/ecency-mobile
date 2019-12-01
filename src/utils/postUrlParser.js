@@ -61,12 +61,9 @@ export default url => {
   }
 
   if (
-    [
-      'https://estm.to',
-      'https://esteem.app',
-      'https://steemit.com',
-      'https://steempeak.com',
-    ].some(x => url.startsWith(x))
+    ['https://estm.to', 'https://esteem.app', 'https://steemit.com', 'https://steempeak.com'].some(
+      x => url.startsWith(x),
+    )
   ) {
     return parseCatAuthorPermlink(url);
   }

@@ -2,7 +2,6 @@ import get from 'lodash/get';
 import parseDate from './parseDate';
 import parseToken from './parseToken';
 import { vestsToSp } from './conversions';
-import ss from 'react-intl';
 import { getState, getFeedHistory } from '../providers/steem/dsteem';
 
 export const groomingTransactionData = (transaction, steemPerMVests, formatNumber) => {
