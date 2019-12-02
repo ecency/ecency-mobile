@@ -39,6 +39,7 @@ const PostsView = ({
   changeForceLoadPostState,
   forceLoadPost,
   filterOptionsValue,
+  feedUsername,
 }) => {
   const [posts, setPosts] = useState(isConnected ? [] : feedPosts);
   const [startAuthor, setStartAuthor] = useState('');
@@ -162,12 +163,20 @@ const PostsView = ({
       setIsLoading(true);
 
       const filter = type || selectedFilterValue;
+      let options;
       const limit = 3;
 
-      const options = {
-        tag,
-        limit,
-      };
+      if (filter === 'feed' || filter === 'blog' || getFor === 'blog' || filter === 'reblogs') {
+        options = {
+          tag: feedUsername,
+          limit,
+        };
+      } else {
+        options = {
+          tag,
+          limit,
+        };
+      }
 
       if (startAuthor && startPermlink && !refreshing) {
         options.start_author = startAuthor;
