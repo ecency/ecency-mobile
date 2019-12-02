@@ -38,7 +38,7 @@ import {
 } from '../../../realm/realm';
 import { getUser, getPost } from '../../../providers/steem/dsteem';
 import { switchAccount } from '../../../providers/steem/auth';
-import { setPushToken } from '../../../providers/esteem/esteem';
+import { setPushToken, markActivityAsRead } from '../../../providers/esteem/esteem';
 import { navigate } from '../../../navigation/service';
 
 // Actions
@@ -306,6 +306,13 @@ class ApplicationContainer extends Component {
 
           const fullParentPermlink = `${parentPermlink1}${parentPermlink2}${parentPermlink3}`;
           const fullPermlink = `${permlink1}${permlink2}${permlink3}`;
+
+          const username = get(push, 'target', '');
+          const activity_id = get(push, 'id', '');
+
+          markActivityAsRead(username, activity_id).then(result => {
+            dispatch(updateUnreadActivityCount(result.unread));
+          });
 
           switch (type) {
             case 'vote':
