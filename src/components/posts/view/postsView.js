@@ -162,19 +162,12 @@ const PostsView = ({
       setIsLoading(true);
 
       const filter = type || selectedFilterValue;
-      let options;
       const limit = 3;
 
-      if (filter === 'feed' || filter === 'blog' || getFor === 'blog' || filter === 'reblogs') {
-        options = {
-          tag,
-          limit,
-        };
-      } else {
-        options = {
-          limit,
-        };
-      }
+      const options = {
+        tag,
+        limit,
+      };
 
       if (startAuthor && startPermlink && !refreshing) {
         options.start_author = startAuthor;
