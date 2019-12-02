@@ -52,17 +52,12 @@ class SearchModalView extends PureComponent {
             {get(searchResults, 'data', []).length < 1 && (
               <View style={styles.searchItems}>
                 <View style={styles.searchItemTextWrapper}>
-                  <Text style={styles.searchItemText} />
-                  <Text style={styles.searchItemText}>
+                  <Text style={styles.searchItemTextGap}>
                     Start typing to find what you are looking for...
                   </Text>
-                  <Text style={styles.searchItemText} />
-                  <Text style={styles.searchItemText} />
-                  <Text style={styles.searchItemText}>@usernames</Text>
-                  <Text style={styles.searchItemText} />
-                  <Text style={styles.searchItemText}>#tags</Text>
-                  <Text style={styles.searchItemText} />
-                  <Text style={styles.searchItemText}>anything else</Text>
+                  <Text style={styles.searchItemTextGap}>@usernames</Text>
+                  <Text style={styles.searchItemTextGap}>#tags</Text>
+                  <Text style={styles.searchItemTextGap}>anything else</Text>
                 </View>
               </View>
             )}

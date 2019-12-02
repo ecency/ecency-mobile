@@ -57,7 +57,12 @@ export default EStyleSheet.create({
     flex: 1,
   },
   searchItemTextWrapper: {
-    flex: 7,
+    flex: 10,
+  },
+  searchItemTextGap: {
+    paddingTop: 15,
+    color: '$pureWhite',
+    marginLeft: 10,
   },
   searchItemImage: {
     width: 40,
