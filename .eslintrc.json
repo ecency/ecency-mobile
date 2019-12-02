@@ -7,7 +7,8 @@
     "plugin:eslint-comments/recommended",
     "plugin:import/errors",
     "plugin:import/warnings",
-    "plugin:jest/recommended"
+    "plugin:jest/recommended",
+    "@react-native-community"
   ],
   "env": {
     "browser": true,
@@ -46,7 +47,7 @@
     "no-case-declarations": "off",
     "no-cycle": "off",
     "react-hooks/rules-of-hooks": "error",
-    "react-hooks/exhaustive-deps": "warn",
+    "react-hooks/exhaustive-deps": "off",
     "import/no-extraneous-dependencies": [
       "error",
       {
