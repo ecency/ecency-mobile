@@ -25,6 +25,7 @@ const PostsContainer = ({
   tag,
   nsfw,
   filterOptionsValue,
+  feedUsername,
 }) => {
   const dispatch = useDispatch();
 
@@ -59,6 +60,7 @@ const PostsContainer = ({
           setFeedPosts={_setFeedPosts}
           tag={tag}
           filterOptionsValue={filterOptionsValue}
+          feedUsername={feedUsername}
         />
       )}
     </AccountContainer>
