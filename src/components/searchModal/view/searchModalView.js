@@ -49,6 +49,18 @@ class SearchModalView extends PureComponent {
             placeholder={placeholder}
           />
           <View style={styles.body}>
+            {get(searchResults, 'data', []).length < 1 && (
+              <View style={styles.searchItems}>
+                <View style={styles.searchItemTextWrapper}>
+                  <Text style={styles.searchItemTextGap}>
+                    Start typing to find what you are looking for...
+                  </Text>
+                  <Text style={styles.searchItemTextGap}>@usernames</Text>
+                  <Text style={styles.searchItemTextGap}>#tags</Text>
+                  <Text style={styles.searchItemTextGap}>anything else</Text>
+                </View>
+              </View>
+            )}
             <FlatList
               data={get(searchResults, 'data', [])}
               showsVerticalScrollIndicator={false}
