@@ -258,3 +258,4 @@ const SettingsScreen = ({
   );
 };
 export default injectIntl(SettingsScreen);
+/* eslint-enable */
