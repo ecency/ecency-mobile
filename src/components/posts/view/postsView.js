@@ -39,6 +39,7 @@ const PostsView = ({
   changeForceLoadPostState,
   forceLoadPost,
   filterOptionsValue,
+  feedUsername,
 }) => {
   const [posts, setPosts] = useState(isConnected ? [] : feedPosts);
   const [startAuthor, setStartAuthor] = useState('');
@@ -167,11 +168,12 @@ const PostsView = ({
 
       if (filter === 'feed' || filter === 'blog' || getFor === 'blog' || filter === 'reblogs') {
         options = {
-          tag,
+          tag: feedUsername,
           limit,
         };
       } else {
         options = {
+          tag,
           limit,
         };
       }
