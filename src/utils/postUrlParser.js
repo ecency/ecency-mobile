@@ -46,6 +46,7 @@ export default url => {
     url = url.replace('esteem://', 'https://esteem.app/');
   }
 
+  // eslint-disable-next-line no-useless-escape
   const feedMatch = url.match(/^https:\/\/([\w-\.]*)\/([\w-]*)\/?([\w-]*)\/?$/);
 
   if (feedMatch) {

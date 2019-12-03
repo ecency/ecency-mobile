@@ -1,3 +1,4 @@
+/* eslint-disable react/no-unused-state */
 import React, { Fragment, Component } from 'react';
 import { Text, View, ScrollView, Alert } from 'react-native';
 import ActionSheet from 'react-native-actionsheet';
@@ -366,3 +367,4 @@ class PowerDownView extends Component {
 }
 
 export default injectIntl(PowerDownView);
+/* eslint-enable */

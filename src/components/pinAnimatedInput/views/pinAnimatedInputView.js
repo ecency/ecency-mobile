@@ -1,3 +1,4 @@
+/* eslint-disable react/no-array-index-key */
 import React, { Component } from 'react';
 import { Animated, Easing, View } from 'react-native';
 
@@ -20,17 +21,6 @@ class PinAnimatedInput extends Component {
     this.dots[1] = new Animated.Value(0);
     this.dots[2] = new Animated.Value(0);
     this.dots[3] = new Animated.Value(0);
-  }
-
-  UNSAFE_componentWillReceiveProps(nextProps) {
-    const { loading } = this.props;
-    if (loading !== nextProps.loading) {
-      if (nextProps.loading) {
-        this._startLoadingAnimation();
-      } else {
-        this._stopLoadingAnimation();
-      }
-    }
   }
 
   _startLoadingAnimation = () => {
@@ -57,6 +47,17 @@ class PinAnimatedInput extends Component {
       this.dots[index].stopAnimation();
     });
   };
+
+  UNSAFE_componentWillReceiveProps(nextProps) {
+    const { loading } = this.props;
+    if (loading !== nextProps.loading) {
+      if (nextProps.loading) {
+        this._startLoadingAnimation();
+      } else {
+        this._stopLoadingAnimation();
+      }
+    }
+  }
 
   render() {
     const { pin } = this.props;
@@ -88,3 +89,4 @@ class PinAnimatedInput extends Component {
 }
 
 export default PinAnimatedInput;
+/* eslint-enable */

@@ -33,15 +33,6 @@ class FormInputView extends Component {
     };
   }
 
-  // Component Life Cycles
-  UNSAFE_componentWillReceiveProps(nextProps) {
-    const { isValid } = this.props;
-
-    if (nextProps.isValid !== isValid) {
-      this.setState({ isValid: nextProps.isValid });
-    }
-  }
-
   // Component Functions
   _handleOnChange = value => {
     const { onChange } = this.props;
@@ -55,6 +46,15 @@ class FormInputView extends Component {
   _handleOnFocus = () => {
     this.setState({ inputBorderColor: '#357ce6' });
   };
+
+  // Component Life Cycles
+  UNSAFE_componentWillReceiveProps(nextProps) {
+    const { isValid } = this.props;
+
+    if (nextProps.isValid !== isValid) {
+      this.setState({ isValid: nextProps.isValid });
+    }
+  }
 
   render() {
     const { inputBorderColor, isValid, value } = this.state;

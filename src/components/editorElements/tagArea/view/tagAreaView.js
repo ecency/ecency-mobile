@@ -24,22 +24,6 @@ export default class TagAreaView extends Component {
     };
   }
 
-  // Component Life Cycles
-  UNSAFE_componentWillReceiveProps(nextProps) {
-    const { draftChips, isRemoveTag } = this.props;
-
-    if (nextProps.draftChips && nextProps.draftChips !== draftChips) {
-      const _chips = [...nextProps.draftChips, ' '];
-      this.setState({
-        chips: _chips,
-      });
-    }
-
-    if (isRemoveTag !== nextProps.isRemoveTag && nextProps.isRemoveTag) {
-      this.setState({ chips: [' '], currentText: '' });
-    }
-  }
-
   // Component Functions
   _handleOnChange = (text, i) => {
     this.setState({ currentText: text.replace(/\s/g, '').replace(/,/g, '') });
@@ -96,6 +80,22 @@ export default class TagAreaView extends Component {
     }
   };
 
+  // Component Life Cycles
+  UNSAFE_componentWillReceiveProps(nextProps) {
+    const { draftChips, isRemoveTag } = this.props;
+
+    if (nextProps.draftChips && nextProps.draftChips !== draftChips) {
+      const _chips = [...nextProps.draftChips, ' '];
+      this.setState({
+        chips: _chips,
+      });
+    }
+
+    if (isRemoveTag !== nextProps.isRemoveTag && nextProps.isRemoveTag) {
+      this.setState({ chips: [' '], currentText: '' });
+    }
+  }
+
   render() {
     const { isPreviewActive } = this.props;
     const { chips, activeChip, currentText } = this.state;
@@ -107,6 +107,7 @@ export default class TagAreaView extends Component {
             (chip, i) =>
               i < 7 && (
                 <Chip
+                  // eslint-disable-next-line react/no-array-index-key
                   key={i}
                   refs={input => {
                     this.inputs[i] = input;

@@ -399,3 +399,4 @@ const mapStateToProps = state => ({
 });
 
 export default connect(mapStateToProps)(withNavigation(ProfileContainer));
+/* eslint-enable */

@@ -397,3 +397,4 @@ const PostsView = ({
 };
 
 export default withNavigation(PostsView);
+/* eslint-enable */

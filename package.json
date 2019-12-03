@@ -95,6 +95,7 @@
     "@babel/core": "^7.6.2",
     "@babel/runtime": "^7.6.2",
     "@react-native-community/eslint-config": "^0.0.5",
+    "@typescript-eslint/parser": "^2.10.0",
     "babel-eslint": "^10.0.1",
     "babel-jest": "^24.9.0",
     "babel-preset-react-native": "~5.0.2",
