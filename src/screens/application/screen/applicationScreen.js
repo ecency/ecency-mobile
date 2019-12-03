@@ -27,7 +27,13 @@ class ApplicationScreen extends Component {
     };
   }
 
-  componentWillMount() {
+  _handleOnHideToastNotification = () => {
+    const { dispatch } = this.props;
+    dispatch(toastNotificationAction(''));
+    this.setState({ isShowToastNotification: false });
+  };
+
+  UNSAFE_componentWillMount() {
     const { isDarkTheme } = this.props;
     EStyleSheet.build(isDarkTheme ? darkTheme : lightTheme);
   }
@@ -38,12 +44,6 @@ class ApplicationScreen extends Component {
       this.setState({ isShowToastNotification: true });
     }
   }
-
-  _handleOnHideToastNotification = () => {
-    const { dispatch } = this.props;
-    dispatch(toastNotificationAction(''));
-    this.setState({ isShowToastNotification: false });
-  };
 
   render() {
     const { isConnected, isDarkTheme, toastNotification, isReady } = this.props;

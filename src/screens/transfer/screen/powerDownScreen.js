@@ -48,13 +48,6 @@ class PowerDownView extends Component {
     this.stopActionSheet = React.createRef();
   }
 
-  // Component Life Cycles
-  componentWillMount() {
-    const { currentAccountName } = this.props;
-
-    this._fetchRoutes(currentAccountName);
-  }
-
   // Component Functions
 
   _fetchRoutes = username => {
@@ -188,6 +181,13 @@ class PowerDownView extends Component {
       );
     }
   };
+
+  // Component Life Cycles
+  UNSAFE_componentWillMount() {
+    const { currentAccountName } = this.props;
+
+    this._fetchRoutes(currentAccountName);
+  }
 
   render() {
     const {
