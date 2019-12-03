@@ -24,12 +24,6 @@ class PostCardContainer extends PureComponent {
     };
   }
 
-  UNSAFE_componentWillReceiveProps(nextProps) {
-    if (get(nextProps, 'isRefresh')) {
-      this._fetchPost();
-    }
-  }
-
   _handleOnUserPress = () => {
     const { navigation, currentAccount, content } = this.props;
     if (content && get(currentAccount, 'name') !== get(content, 'author')) {
@@ -93,6 +87,12 @@ class PostCardContainer extends PureComponent {
       })
       .catch(() => {});
   };
+
+  UNSAFE_componentWillReceiveProps(nextProps) {
+    if (get(nextProps, 'isRefresh')) {
+      this._fetchPost();
+    }
+  }
 
   render() {
     const { content, isHideImage, nsfw } = this.props;

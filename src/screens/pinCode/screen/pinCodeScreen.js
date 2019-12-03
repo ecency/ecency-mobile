@@ -3,8 +3,7 @@ import { useIntl } from 'react-intl';
 
 import { Text, TouchableOpacity, View } from 'react-native';
 
-import { NumericKeyboard, PinAnimatedInput } from '../../../components';
-import { UserAvatar } from '../../../components';
+import { NumericKeyboard, PinAnimatedInput, UserAvatar } from '../../../components';
 
 import styles from './pinCodeStyles';
 

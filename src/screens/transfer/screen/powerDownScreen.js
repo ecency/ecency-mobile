@@ -1,3 +1,4 @@
+/* eslint-disable react/no-unused-state */
 import React, { Fragment, Component } from 'react';
 import { Text, View, ScrollView, Alert } from 'react-native';
 import ActionSheet from 'react-native-actionsheet';
@@ -46,13 +47,6 @@ class PowerDownView extends Component {
 
     this.startActionSheet = React.createRef();
     this.stopActionSheet = React.createRef();
-  }
-
-  // Component Life Cycles
-  componentWillMount() {
-    const { currentAccountName } = this.props;
-
-    this._fetchRoutes(currentAccountName);
   }
 
   // Component Functions
@@ -188,6 +182,13 @@ class PowerDownView extends Component {
       );
     }
   };
+
+  // Component Life Cycles
+  UNSAFE_componentWillMount() {
+    const { currentAccountName } = this.props;
+
+    this._fetchRoutes(currentAccountName);
+  }
 
   render() {
     const {
@@ -366,3 +367,4 @@ class PowerDownView extends Component {
 }
 
 export default injectIntl(PowerDownView);
+/* eslint-enable */

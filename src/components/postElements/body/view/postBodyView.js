@@ -6,7 +6,7 @@ import AutoHeightWebView from 'react-native-autoheight-webview';
 import EStyleSheet from 'react-native-extended-stylesheet';
 import get from 'lodash/get';
 
-import script from './config.js';
+import script from './config';
 import { PostPlaceHolder, CommentPlaceHolder } from '../../../basicUIElements';
 
 // Constants

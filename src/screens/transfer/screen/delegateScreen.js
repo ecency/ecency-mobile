@@ -149,6 +149,7 @@ class DelegateScreen extends Component {
         parseToken(get(selectedAccount, 'delegated_vesting_shares'));
     }
     const fixedAmount = `${amount.toFixed(6)} VESTS`;
+    // eslint-disable-next-line max-len
     const path = `sign/delegate-vesting-shares?delegator=${from}&delegatee=${destination}&vesting_shares=${encodeURIComponent(
       fixedAmount,
     )}`;
