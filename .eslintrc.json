@@ -5,15 +5,18 @@
     "prettier",
     "plugin:prettier/recommended",
     "plugin:eslint-comments/recommended",
+    "eslint:recommended",
     "plugin:import/errors",
     "plugin:import/warnings",
     "plugin:jest/recommended",
-    "@react-native-community"
+    "@react-native-community",
+    "plugin:import/typescript"
   ],
   "env": {
     "browser": true,
     "jest": true,
-    "react-native/react-native": true
+    "react-native/react-native": true,
+    "node": true
   },
   "plugins": [
     "react",
@@ -32,7 +35,7 @@
         "extensions": [".js", ".jsx"]
       }
     ],
-    "max-len": ["error", 100],
+    "max-len": ["warn", 100],
     "react/forbid-prop-types": [0],
     "no-underscore-dangle": 0,
     "react/require-default-props": [0],
@@ -45,14 +48,16 @@
     "import/no-named-default": "off",
     "no-param-reassign": "off",
     "no-case-declarations": "off",
-    "no-cycle": "off",
+    "import/no-cycle": "off",
     "react-hooks/rules-of-hooks": "error",
     "react-hooks/exhaustive-deps": "off",
+    "react/destructuring-assignment": [1, "always"],
     "import/no-extraneous-dependencies": [
       "error",
       {
         "devDependencies": true
       }
-    ]
+    ],
+    "import/no-unresolved": "off"
   }
 }

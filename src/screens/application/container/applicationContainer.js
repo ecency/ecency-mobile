@@ -96,11 +96,6 @@ class ApplicationContainer extends Component {
     };
   }
 
-  componentWillMount() {
-    const { isDarkTheme: _isDarkTheme } = this.props;
-    EStyleSheet.build(_isDarkTheme ? darkTheme : lightTheme);
-  }
-
   componentDidMount = () => {
     const { isIos } = this.state;
     this._setNetworkListener();
@@ -126,38 +121,6 @@ class ApplicationContainer extends Component {
       });
     }
   };
-
-  UNSAFE_componentWillReceiveProps(nextProps) {
-    const {
-      isDarkTheme: _isDarkTheme,
-      selectedLanguage,
-      isLogingOut,
-      isConnected,
-      api,
-    } = this.props;
-
-    if (
-      _isDarkTheme !== nextProps.isDarkTheme ||
-      selectedLanguage !== nextProps.selectedLanguage ||
-      (api !== nextProps.api && nextProps.api)
-    ) {
-      this.setState({ isRenderRequire: false }, () => this.setState({ isRenderRequire: true }));
-      if (nextProps.isDarkTheme) {
-        changeNavigationBarColor('#1e2835');
-      } else {
-        changeNavigationBarColor('#FFFFFF', true);
-      }
-    }
-
-    if (isLogingOut !== nextProps.isLogingOut && nextProps.isLogingOut) {
-      this._logout();
-    }
-
-    if (isConnected !== null && isConnected !== nextProps.isConnected && nextProps.isConnected) {
-      this._fetchApp();
-      this.globalInterval = setInterval(this._refreshGlobalProps, 180000);
-    }
-  }
 
   componentWillUnmount() {
     const { isIos } = this.state;
@@ -531,7 +494,7 @@ class ApplicationContainer extends Component {
   };
 
   _connectNotificationServer = username => {
-    /*eslint no-undef: "warn"*/
+    /* eslint no-undef: "warn" */
     const ws = new WebSocket(`${Config.ACTIVITY_WEBSOCKET_URL}?user=${username}`);
 
     ws.onmessage = () => {
@@ -613,6 +576,43 @@ class ApplicationContainer extends Component {
     dispatch(updateCurrentAccount(_currentAccount));
   };
 
+  UNSAFE_componentWillReceiveProps(nextProps) {
+    const {
+      isDarkTheme: _isDarkTheme,
+      selectedLanguage,
+      isLogingOut,
+      isConnected,
+      api,
+    } = this.props;
+
+    if (
+      _isDarkTheme !== nextProps.isDarkTheme ||
+      selectedLanguage !== nextProps.selectedLanguage ||
+      (api !== nextProps.api && nextProps.api)
+    ) {
+      this.setState({ isRenderRequire: false }, () => this.setState({ isRenderRequire: true }));
+      if (nextProps.isDarkTheme) {
+        changeNavigationBarColor('#1e2835');
+      } else {
+        changeNavigationBarColor('#FFFFFF', true);
+      }
+    }
+
+    if (isLogingOut !== nextProps.isLogingOut && nextProps.isLogingOut) {
+      this._logout();
+    }
+
+    if (isConnected !== null && isConnected !== nextProps.isConnected && nextProps.isConnected) {
+      this._fetchApp();
+      this.globalInterval = setInterval(this._refreshGlobalProps, 180000);
+    }
+  }
+
+  UNSAFE_componentWillMount() {
+    const { isDarkTheme: _isDarkTheme } = this.props;
+    EStyleSheet.build(_isDarkTheme ? darkTheme : lightTheme);
+  }
+
   render() {
     const {
       selectedLanguage,
@@ -672,3 +672,4 @@ export default connect(
     },
   }),
 )(injectIntl(ApplicationContainer));
+/* eslint-enable */

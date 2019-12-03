@@ -1,3 +1,4 @@
+/* eslint-disable react/no-unused-state */
 import React, { Component } from 'react';
 import { Alert } from 'react-native';
 import { connect } from 'react-redux';
@@ -32,20 +33,6 @@ class NotificationContainer extends Component {
 
     if (username && isConnected) {
       this._getAvtivities(username);
-    }
-  }
-
-  UNSAFE_componentWillReceiveProps(nextProps) {
-    const { selectedFilter } = this.state;
-    const { username } = this.props;
-
-    if (
-      (nextProps.activeBottomTab === ROUTES.TABBAR.NOTIFICATION && nextProps.username) ||
-      (nextProps.username !== username && nextProps.username)
-    ) {
-      this.setState({ endOfNotification: false }, () =>
-        this._getAvtivities(nextProps.username, selectedFilter),
-      );
     }
   }
 
@@ -150,6 +137,20 @@ class NotificationContainer extends Component {
     await this.setState({ selectedFilter: value, endOfNotification: false, selectedIndex: ind });
   };
 
+  UNSAFE_componentWillReceiveProps(nextProps) {
+    const { selectedFilter } = this.state;
+    const { username } = this.props;
+
+    if (
+      (nextProps.activeBottomTab === ROUTES.TABBAR.NOTIFICATION && nextProps.username) ||
+      (nextProps.username !== username && nextProps.username)
+    ) {
+      this.setState({ endOfNotification: false }, () =>
+        this._getAvtivities(nextProps.username, selectedFilter),
+      );
+    }
+  }
+
   render() {
     const { isLoggedIn } = this.props;
     const { notifications, isNotificationRefreshing } = this.state;
@@ -178,3 +179,4 @@ const mapStateToProps = state => ({
 });
 
 export default injectIntl(connect(mapStateToProps)(NotificationContainer));
+/* eslint-enable */

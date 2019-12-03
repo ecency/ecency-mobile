@@ -28,9 +28,6 @@ class ToggleSwitchView extends PureComponent {
   }
 
   // Component Life Cycles
-  componentWillMount() {
-    this.setState({ duration: 0 });
-  }
 
   componentDidMount() {
     this.setState({ duration: 300 });
@@ -95,6 +92,10 @@ class ToggleSwitchView extends PureComponent {
       duration,
     }).start();
   };
+
+  UNSAFE_componentWillMount() {
+    this.setState({ duration: 0 });
+  }
 
   render() {
     this._triggerAnimation();

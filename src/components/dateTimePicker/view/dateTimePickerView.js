@@ -105,3 +105,4 @@ DateTimePickerView.defaultProps = {
 };
 
 export default injectIntl(DateTimePickerView);
+/* eslint-enable */

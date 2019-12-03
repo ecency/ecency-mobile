@@ -27,16 +27,6 @@ class MainButton extends Component {
     };
   }
 
-  // Component Life Cycles
-  UNSAFE_componentWillReceiveProps(nextProps) {
-    const { isLoading, isDisable } = this.props;
-    if (nextProps.isLoading !== isLoading || nextProps.isDisable !== isDisable) {
-      this.setState({
-        isDisable: !nextProps.isLoading && nextProps.isDisable,
-      });
-    }
-  }
-
   // Component Functions
   _handleOnPress = () => {
     const { onPress } = this.props;
@@ -87,6 +77,16 @@ class MainButton extends Component {
   };
 
   _getIndicator = () => <ActivityIndicator color="white" style={styles.activityIndicator} />;
+
+  // Component Life Cycles
+  UNSAFE_componentWillReceiveProps(nextProps) {
+    const { isLoading, isDisable } = this.props;
+    if (nextProps.isLoading !== isLoading || nextProps.isDisable !== isDisable) {
+      this.setState({
+        isDisable: !nextProps.isLoading && nextProps.isDisable,
+      });
+    }
+  }
 
   render() {
     const { wrapperStyle, children, height, style, isLoading } = this.props;

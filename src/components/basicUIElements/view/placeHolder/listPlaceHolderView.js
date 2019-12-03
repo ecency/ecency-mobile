@@ -18,3 +18,4 @@ const ListPlaceHolderView = () => {
   return <Fragment>{listElements}</Fragment>;
 };
 export default ListPlaceHolderView;
+/* eslint-enable */
