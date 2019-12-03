@@ -1,3 +1,4 @@
+/* eslint-disable react/no-this-in-sfc */
 import React, { useState, Fragment } from 'react';
 import { Image, Text, View } from 'react-native';
 import moment from 'moment';
@@ -98,3 +99,4 @@ const SpinGameView = ({
 };
 
 export { SpinGameView as SpinGame };
+/* eslint-enable */

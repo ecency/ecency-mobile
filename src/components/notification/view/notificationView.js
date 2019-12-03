@@ -214,3 +214,4 @@ class NotificationView extends PureComponent {
 }
 
 export default injectIntl(NotificationView);
+/* eslint-enable */

@@ -131,3 +131,4 @@ const WalletView = ({ setEstimatedWalletValue, selectedUser, handleOnScroll }) =
 };
 
 export default WalletView;
+/* eslint-enable */

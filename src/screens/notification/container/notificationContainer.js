@@ -1,3 +1,4 @@
+/* eslint-disable react/no-unused-state */
 import React, { Component } from 'react';
 import { Alert } from 'react-native';
 import { connect } from 'react-redux';
@@ -178,3 +179,4 @@ const mapStateToProps = state => ({
 });
 
 export default injectIntl(connect(mapStateToProps)(NotificationContainer));
+/* eslint-enable */

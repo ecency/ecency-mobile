@@ -113,3 +113,4 @@ const WalletHeaderView = ({
 };
 
 export default withNavigation(WalletHeaderView);
+/* eslint-enable */

@@ -97,6 +97,7 @@ export default class TabBar extends Component {
             return React.cloneElement(route, {
               selected: selectedIndex === i,
               onPress: this._onPress,
+              // eslint-disable-next-line react/no-array-index-key
               key: i,
               index: i,
               showIcon: true,
@@ -126,6 +127,7 @@ export default class TabBar extends Component {
               pathX}.941653,71.4462087 ${31 + pathX}.454074,80.6628108 Z`}
           />
           <AnimatedCircle
+            // eslint-disable-next-line no-return-assign
             ref={ref => (this._myCircle = ref)}
             fill={circleBackgroundColor}
             cx={circleRadius}

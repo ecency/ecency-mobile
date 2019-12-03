@@ -29,14 +29,6 @@ class PostDisplayContainer extends Component {
     this.state = {};
   }
 
-  // Component Life Cycle Functions
-  UNSAFE_componentWillReceiveProps(nextProps) {
-    const { isFetchPost } = this.props;
-    if (isFetchPost !== nextProps.isFetchPost && nextProps.isFetchPost) {
-      this._fetchPost();
-    }
-  }
-
   // Component Functions
   _handleOnVotersPress = activeVotes => {
     const { navigation, post } = this.props;
@@ -118,6 +110,14 @@ class PostDisplayContainer extends Component {
       fetchPost(post.author, post.permlink);
     }
   };
+
+  // Component Life Cycle Functions
+  UNSAFE_componentWillReceiveProps(nextProps) {
+    const { isFetchPost } = this.props;
+    if (isFetchPost !== nextProps.isFetchPost && nextProps.isFetchPost) {
+      this._fetchPost();
+    }
+  }
 
   render() {
     const {
