@@ -96,11 +96,6 @@ class ApplicationContainer extends Component {
     };
   }
 
-  componentWillMount() {
-    const { isDarkTheme: _isDarkTheme } = this.props;
-    EStyleSheet.build(_isDarkTheme ? darkTheme : lightTheme);
-  }
-
   componentDidMount = () => {
     const { isIos } = this.state;
     this._setNetworkListener();
@@ -611,6 +606,11 @@ class ApplicationContainer extends Component {
       this._fetchApp();
       this.globalInterval = setInterval(this._refreshGlobalProps, 180000);
     }
+  }
+
+  UNSAFE_componentWillMount() {
+    const { isDarkTheme: _isDarkTheme } = this.props;
+    EStyleSheet.build(_isDarkTheme ? darkTheme : lightTheme);
   }
 
   render() {
