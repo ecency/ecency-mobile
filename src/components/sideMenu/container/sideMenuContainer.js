@@ -30,14 +30,6 @@ class SideMenuContainer extends Component {
 
   // Component Life Cycle Functions
 
-  UNSAFE_componentWillReceiveProps(nextProps) {
-    const { isLoggedIn } = this.props;
-
-    if (isLoggedIn) {
-      this._createUserList(nextProps.otherAccounts);
-    }
-  }
-
   _createUserList = otherAccounts => {
     const { currentAccount } = this.props;
 
@@ -91,6 +83,14 @@ class SideMenuContainer extends Component {
 
     dispatch(logout());
   };
+
+  UNSAFE_componentWillReceiveProps(nextProps) {
+    const { isLoggedIn } = this.props;
+
+    if (isLoggedIn) {
+      this._createUserList(nextProps.otherAccounts);
+    }
+  }
 
   render() {
     const { currentAccount, isLoggedIn } = this.props;

@@ -7670,10 +7670,10 @@ react-native-safe-modules@^1.0.0:
   dependencies:
     debounce "^1.2.0"
 
-react-native-screens@^2.0.0-alpha.15:
-  version "2.0.0-alpha.15"
-  resolved "https://registry.yarnpkg.com/react-native-screens/-/react-native-screens-2.0.0-alpha.15.tgz#40ee432d5f9b6169494a8fd6997add1a8c4b41b3"
-  integrity sha512-Nn4PRFSKLkP0MTXwqOIhMypJ7GMhcU+AZgFJd0DFQhNyU5sLNlKGEzQS6jRY+4MtHJnDXoMOr/o2l9WrI/O3Mg==
+react-native-screens@^2.0.0-alpha.16:
+  version "2.0.0-alpha.16"
+  resolved "https://registry.yarnpkg.com/react-native-screens/-/react-native-screens-2.0.0-alpha.16.tgz#4675c0e9b8cbd6b9321bfd3881b5939d61aba72b"
+  integrity sha512-CGa0LT+AksCgttrVfM3cp8VWxUz6xcInj+qCUY1Nvd2HQh4gP3WQtH3SDWvMC3pFy3CbK0CbXZz7UcZsG3pzwQ==
   dependencies:
     debounce "^1.2.0"
 

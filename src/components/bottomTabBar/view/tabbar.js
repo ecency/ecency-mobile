@@ -2,10 +2,10 @@ import { View, TouchableHighlight, Animated } from 'react-native';
 import React, { Component } from 'react';
 import Svg, { Circle, Path } from 'react-native-svg';
 
+import styles from './bottomTabBarStyles';
+
 const AnimatedCircle = Animated.createAnimatedComponent(Circle);
 const AnimatedPath = Animated.createAnimatedComponent(Path);
-
-import styles from './bottomTabBarStyles';
 
 export default class TabBar extends Component {
   constructor(props) {
@@ -32,7 +32,7 @@ export default class TabBar extends Component {
     }
 
     this.state = {
-      selectedIndex: selectedIndex,
+      selectedIndex,
       circleRadius: new Animated.Value(91 + selectedIndex * value),
       pathD: new Animated.Value(selectedIndex * value),
       pathX: selectedIndex * value,
@@ -142,7 +142,7 @@ const TabBarItem = ({ icon, selectedIcon, index, selected, onPress, showIcon, di
   if (selected) {
     if (showIcon) {
       return (
-        <TouchableHighlight underlayColor={'transparent'} style={styles.navItem}>
+        <TouchableHighlight underlayColor="transparent" style={styles.navItem}>
           <View style={styles.circle}>{selectedIcon || icon}</View>
         </TouchableHighlight>
       );
@@ -153,7 +153,7 @@ const TabBarItem = ({ icon, selectedIcon, index, selected, onPress, showIcon, di
 
   return (
     <TouchableHighlight
-      underlayColor={'transparent'}
+      underlayColor="transparent"
       style={styles.navItem}
       onPress={() => onPress(index, disabled)}
     >

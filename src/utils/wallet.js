@@ -9,7 +9,7 @@ export const groomingTransactionData = (transaction, steemPerMVests, formatNumbe
     return [];
   }
 
-  let result = { iconType: 'MaterialIcons' };
+  const result = { iconType: 'MaterialIcons' };
 
   [result.textKey] = transaction[1].op;
   const opData = transaction[1].op[1];
@@ -172,7 +172,7 @@ export const groomingPointsTransactionData = transaction => {
   if (!transaction) {
     return null;
   }
-  let result = { ...transaction };
+  const result = { ...transaction };
 
   result.details = get(transaction, 'sender')
     ? `from @${get(transaction, 'sender')}`

@@ -1,7 +1,7 @@
 import React, { useState, useEffect, useCallback } from 'react';
-import { connect } from 'react-redux';
+import { connect, useDispatch } from 'react-redux';
 import { useIntl } from 'react-intl';
-import { useDispatch } from 'react-redux';
+
 import get from 'lodash/get';
 import { toastNotification } from '../redux/actions/uiAction';
 
@@ -239,8 +239,8 @@ const WalletContainer = ({
       claimRewardBalance: _claimRewardBalance,
       currentAccountUsername: currentAccount.name,
       handleOnWalletRefresh: _handleOnWalletRefresh,
-      isClaiming: isClaiming,
-      refreshing: refreshing,
+      isClaiming,
+      refreshing,
       selectedUsername: get(selectedUser, 'name', ''),
       isLoading,
       walletData,

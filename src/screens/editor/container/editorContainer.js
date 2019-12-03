@@ -311,7 +311,7 @@ class EditorContainer extends Component {
 
       const author = currentAccount.name;
       const options = makeOptions(author, permlink);
-      const parentPermlink = fields.tags[0];
+      const parentPermlink = fields.tags[0] || 'hive-125125';
 
       if (scheduleDate) {
         await this._setScheduledPost({

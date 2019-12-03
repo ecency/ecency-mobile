@@ -48,11 +48,19 @@
     "no-cycle": "off",
     "react-hooks/rules-of-hooks": "error",
     "react-hooks/exhaustive-deps": "off",
+    "react/destructuring-assignment": [1, "always"],
     "import/no-extraneous-dependencies": [
       "error",
       {
         "devDependencies": true
       }
     ]
+  },
+  "settings": {
+    "import/resolver": {
+      "node": {
+        "extensions": [".js", ".jsx"]
+      }
+    }
   }
 }

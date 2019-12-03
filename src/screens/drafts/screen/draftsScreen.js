@@ -161,3 +161,4 @@ class DraftsScreen extends Component {
 }
 
 export default injectIntl(DraftsScreen);
+/* eslint-enable */

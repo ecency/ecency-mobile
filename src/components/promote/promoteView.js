@@ -143,11 +143,9 @@ class PromoteView extends PureComponent {
               <Fragment>
                 <View style={styles.autocomplateLineContainer}>
                   <View style={styles.autocomplateLabelContainer}>
-                    {
-                      <Text style={styles.autocomplateLabelText}>
-                        {intl.formatMessage({ id: 'promote.permlink' })}
-                      </Text>
-                    }
+                    <Text style={styles.autocomplateLabelText}>
+                      {intl.formatMessage({ id: 'promote.permlink' })}
+                    </Text>
                   </View>
 
                   <Autocomplete

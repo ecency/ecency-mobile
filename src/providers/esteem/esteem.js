@@ -4,7 +4,7 @@ import imageApi from '../../config/imageApi';
 import serverList from '../../config/serverListApi';
 import { jsonStringify } from '../../utils/jsonUtils';
 import bugsnag from '../../config/bugsnag';
-//market-data/currency-rate/USD/estm
+// market-data/currency-rate/USD/estm
 export const getCurrencyRate = currency =>
   api
     .get(`/market-data/currency-rate/${currency.toUpperCase()}/steem`)
@@ -347,8 +347,6 @@ export const getNodes = () =>
           'https://rpc.buildteam.io',
           'https://rpc.steemviz.com',
           'https://api.steem.house',
-          'https://steemd.pevo.science',
-          'https://steemd.minnowsupportproject.org',
         ],
     );
 
