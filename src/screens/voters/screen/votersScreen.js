@@ -23,7 +23,7 @@ const VotersScreen = ({ navigation }) => {
 
   return (
     <AccountListContainer data={activeVotes}>
-      {({ data, filterResult, handleOnVotersDropdownSelect, handleSearch }) => (
+      {({ data, filterResult, filterIndex, handleOnVotersDropdownSelect, handleSearch }) => (
         <SafeAreaView style={globalStyles.container}>
           <BasicHeader
             title={`${headerTitle} (${data && data.length})`}
@@ -37,7 +37,10 @@ const VotersScreen = ({ navigation }) => {
                 id: `voters_dropdown.${item}`,
               }),
             )}
-            defaultText={intl.formatMessage({ id: `voters_dropdown.${filterOptions[0]}` })}
+            defaultText={intl.formatMessage({
+              id: `voters_dropdown.${filterOptions[filterIndex]}`,
+            })}
+            selectedOptionIndex={filterIndex}
             onDropdownSelect={handleOnVotersDropdownSelect}
           />
           <VotersDisplay votes={filterResult || data} />
