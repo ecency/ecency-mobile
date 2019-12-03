@@ -45,13 +45,13 @@ const MarkdownEditorView = ({
     if (!isPreviewActive) {
       _setTextAndSelection({ selection: { start: 0, end: 0 }, text });
     }
-  }, [_setTextAndSelection, isPreviewActive, text]);
+  }, [isPreviewActive]);
 
   useEffect(() => {
     if (text === '' && draftBody !== '') {
       _setTextAndSelection({ selection: { start: 0, end: 0 }, text: draftBody });
     }
-  }, [_setTextAndSelection, draftBody, text]);
+  }, [draftBody]);
 
   useEffect(() => {
     if (editable === null) {
@@ -63,7 +63,7 @@ const MarkdownEditorView = ({
     } else {
       setEditable(!isLoading);
     }
-  }, [editable, isLoading]);
+  }, [isLoading]);
 
   useEffect(() => {
     if (uploadedImage && uploadedImage.url) {
@@ -75,7 +75,7 @@ const MarkdownEditorView = ({
         isImage: !!uploadedImage,
       });
     }
-  }, [_setTextAndSelection, selection, text, uploadedImage]);
+  }, [uploadedImage]);
 
   useEffect(() => {
     setText(draftBody);
@@ -91,7 +91,7 @@ const MarkdownEditorView = ({
         handleIsFormValid(text);
       }
     }
-  }, [_changeText, handleIsFormValid, text]);
+  }, [text]);
 
   // eslint-disable-next-line react-hooks/exhaustive-deps
   const _changeText = useCallback(input => {
