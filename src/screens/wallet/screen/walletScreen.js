@@ -1,6 +1,6 @@
 import React, { Fragment, useState } from 'react';
 import Swiper from 'react-native-swiper';
-import { SafeAreaView, Animated, ScrollView, Text } from 'react-native';
+import { SafeAreaView, Animated, ScrollView } from 'react-native';
 
 // Containers
 import { LoggedInContainer } from '../../../containers';
@@ -18,7 +18,6 @@ import styles from './walletScreenStyles';
 
 const HEADER_EXPANDED_HEIGHT = 260;
 const HEADER_COLLAPSED_HEIGHT = 20;
-const WALLETS = ['ESTM', 'STEEM', 'SBD', 'SP'];
 
 const WalletScreen = () => {
   const [selectedUserActivities, setSelectedUserActivities] = useState(null);
@@ -26,7 +25,6 @@ const WalletScreen = () => {
   const [currentIndex, setCurrentIndex] = useState(0);
   const [refreshing, setRefreshing] = useState(false);
   const [scrollY] = useState(new Animated.Value(0));
-  const [isScroll, setScroll] = useState(false);
 
   const _handleSwipeItemChange = (userActivities, _isLoading) => {
     setSelectedUserActivities(userActivities);
