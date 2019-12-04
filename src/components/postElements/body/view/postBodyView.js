@@ -120,7 +120,7 @@ const PostBody = ({
     }
   };
 
-  const test = body.replace(/<a/g, '<a target="_blank"');
+  const html = body.replace(/<a/g, '<a target="_blank"');
   const customStyle = `
   * {
     color: ${EStyleSheet.value('$primaryBlack')};
@@ -209,7 +209,7 @@ const PostBody = ({
   return (
     <Fragment>
       <AutoHeightWebView
-        source={{ html: test }}
+        source={{ html }}
         style={{ width: isComment ? WIDTH - (32 + 29 * commentDepth) : WIDTH - 32 }}
         customStyle={customStyle}
         onMessage={_handleOnLinkPress}
