@@ -1,5 +1,6 @@
 import EStyleSheet from 'react-native-extended-stylesheet';
 import { Dimensions } from 'react-native';
+import scalePx from '../../../utils/scalePx';
 
 const deviceWidth = Dimensions.get('window').width;
 
@@ -16,16 +17,17 @@ export default EStyleSheet.create({
     zIndex: 1,
     position: 'absolute',
     bottom: 0,
-    marginHorizontal: 20,
+    marginHorizontal: scalePx(20),
     justifyContent: 'space-between',
   },
   navItem: {
     alignItems: 'center',
     zIndex: 0,
-    padding: 20,
-    width: (deviceWidth - 38) / 5,
+    paddingVertical: scalePx(8),
+    paddingHorizontal: scalePx(10),
+    width: (deviceWidth - scalePx(38)) / 5,
   },
   circle: {
-    bottom: 25,
+    bottom: scalePx(25),
   },
 });

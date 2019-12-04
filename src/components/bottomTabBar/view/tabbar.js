@@ -1,6 +1,8 @@
-import { View, TouchableHighlight, Animated } from 'react-native';
 import React, { Component } from 'react';
+import { View, TouchableHighlight, Animated } from 'react-native';
 import Svg, { Circle, Path } from 'react-native-svg';
+
+import scalePx from '../../../utils/scalePx';
 
 const AnimatedCircle = Animated.createAnimatedComponent(Circle);
 const AnimatedPath = Animated.createAnimatedComponent(Path);
@@ -110,8 +112,8 @@ export default class TabBar extends Component {
           x="0px"
           y="0px"
           width="100%"
-          height="100"
-          viewBox="0 0 661 136"
+          height={scalePx(100)}
+          viewBox="0 0 661 100"
           space="preserve"
         >
           <AnimatedPath

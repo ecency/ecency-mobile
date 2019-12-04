@@ -3,6 +3,7 @@ import { createBottomTabNavigator } from 'react-navigation-tabs';
 
 // Constants
 import ROUTES from '../constants/routeNames';
+import scalePx from '../utils/scalePx';
 
 // Components
 import { Icon, IconContainer } from '../components/icon';
@@ -15,7 +16,7 @@ const BaseNavigator = createBottomTabNavigator(
       screen: Feed,
       navigationOptions: () => ({
         tabBarIcon: ({ tintColor }) => (
-          <Icon iconType="MaterialIcons" name="view-day" color={tintColor} size={26} />
+          <Icon iconType="MaterialIcons" name="view-day" color={tintColor} size={scalePx(26)} />
         ),
       }),
     },
@@ -29,7 +30,7 @@ const BaseNavigator = createBottomTabNavigator(
             iconType="MaterialIcons"
             name="notifications"
             color={tintColor}
-            size={26}
+            size={scalePx(26)}
           />
         ),
       }),
@@ -48,7 +49,7 @@ const BaseNavigator = createBottomTabNavigator(
             iconType="MaterialIcons"
             name="account-balance-wallet"
             color={tintColor}
-            size={26}
+            size={scalePx(26)}
           />
         ),
       }),
@@ -57,7 +58,7 @@ const BaseNavigator = createBottomTabNavigator(
       screen: Profile,
       navigationOptions: () => ({
         tabBarIcon: ({ tintColor }) => (
-          <Icon iconType="MaterialIcons" name="person-outline" color={tintColor} size={26} />
+          <Icon iconType="MaterialIcons" name="person-outline" color={tintColor} size={scalePx(26)} />
         ),
       }),
     },
