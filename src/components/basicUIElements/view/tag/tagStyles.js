@@ -17,6 +17,7 @@ export default EStyleSheet.create({
     paddingHorizontal: Platform.OS === 'android' ? 20 : 10,
     justifyContent: 'center',
     marginRight: 8,
+    marginLeft: 8,
     height: 22,
     backgroundColor: '$iconColor',
     borderRadius: 50,
@@ -26,9 +27,9 @@ export default EStyleSheet.create({
   },
   isFilterTextUnPin: {
     color: '$primaryDarkGray',
-    fontSize: 14,
+    fontSize: 12,
   },
   isFilterTextPin: {
-    fontSize: 14,
+    fontSize: 12,
   },
 });
