@@ -22,7 +22,8 @@ export default EStyleSheet.create({
   navItem: {
     alignItems: 'center',
     zIndex: 0,
-    padding: 20,
+    paddingBottom: 20,
+    paddingRight: 3,
     width: (deviceWidth - 38) / 5,
   },
   circle: {
