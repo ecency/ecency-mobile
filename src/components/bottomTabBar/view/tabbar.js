@@ -1,8 +1,10 @@
-import { View, TouchableHighlight, Animated } from 'react-native';
 import React, { Component } from 'react';
+import { View, TouchableHighlight, Animated } from 'react-native';
 import Svg, { Circle, Path } from 'react-native-svg';
 
+import scalePx from '../../../utils/scalePx';
 import styles from './bottomTabBarStyles';
+
 
 const AnimatedCircle = Animated.createAnimatedComponent(Circle);
 const AnimatedPath = Animated.createAnimatedComponent(Path);
@@ -111,8 +113,8 @@ export default class TabBar extends Component {
           x="0px"
           y="0px"
           width="100%"
-          height="100"
-          viewBox="0 0 661 136"
+          height={scalePx(100)}
+          viewBox="0 0 661 100"
           space="preserve"
         >
           <AnimatedPath
@@ -147,9 +149,7 @@ const TabBarItem = ({ icon, selectedIcon, index, selected, onPress, showIcon, di
         <TouchableHighlight
           underlayColor="transparent"
           style={[
-            styles.navItem,
-            (index === 0 || index === 1) && styles.navItem2,
-            (index === 3 || index === 4) && styles.navItem3,
+            styles.navItem
           ]}
         >
           <View style={styles.circle}>{selectedIcon || icon}</View>

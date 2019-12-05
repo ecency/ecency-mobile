@@ -5,6 +5,7 @@ import { Icon } from '../icon';
 
 // Constant
 import { default as ROUTES } from '../../constants/routeNames';
+import scalePx from '../../utils/scalePx';
 
 const PostButtonView = ({ navigation }) => (
   <TouchableOpacity
@@ -15,7 +16,7 @@ const PostButtonView = ({ navigation }) => (
     }
     activeOpacity={1}
   >
-    <Icon iconType="MaterialCommunityIcons" name="pencil" color="#c1c5c7" size={26} />
+    <Icon iconType="MaterialCommunityIcons" name="pencil" color="#c1c5c7" size={scalePx(26)} />
   </TouchableOpacity>
 );
 
