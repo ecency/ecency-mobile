@@ -1,4 +1,16 @@
-export default `document.addEventListener('click', function(event) {
+export default `
+const images = document.getElementsByTagName("IMG");
+for (i = 0; i < images.length; i++) {
+  const result = {
+    type: 'image',
+    href: images[i].getAttribute("src") || ''
+  }
+  const resultStr = JSON.stringify(JSON.stringify(result)); // workaround
+  const message = 'window.ReactNativeWebView.postMessage(' + resultStr + ')';
+  images[i].setAttribute("onClick", message);
+}
+
+document.addEventListener('click', function(event) {
   let el = event.target;
   // A element can be wrapped with inline element. Look parent elements.
   while (el.tagName !== 'A') {
@@ -8,8 +20,6 @@ export default `document.addEventListener('click', function(event) {
     el = el.parentNode;
   }
   if (!el || el.tagName !== 'A') {
-    window.ReactNativeWebView.postMessage('4');
-    if (el.tagName) window.ReactNativeWebView.postMessage(el.tagName);
     return;
   }
   if (el.getAttribute('target') === '_external') {
@@ -99,7 +109,6 @@ export default `document.addEventListener('click', function(event) {
       return false;
     }
   }
-  window.ReactNativeWebView.postMessage('4');
   const author = el.getAttribute('data-author').toString();
   window.ReactNativeWebView.postMessage(JSON.stringify(author));
 })

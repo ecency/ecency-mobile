@@ -1,10 +1,11 @@
-import React, { Fragment } from 'react';
-import { Dimensions, Linking, Alert } from 'react-native';
+import React, { Fragment, useState } from 'react';
+import { Dimensions, Linking, Alert, Modal } from 'react-native';
 import { withNavigation } from 'react-navigation';
 import { useIntl, injectIntl } from 'react-intl';
 import AutoHeightWebView from 'react-native-autoheight-webview';
 import EStyleSheet from 'react-native-extended-stylesheet';
 import get from 'lodash/get';
+import ImageViewer from 'react-native-image-zoom-viewer';
 
 import script from './config.js';
 import { PostPlaceHolder, CommentPlaceHolder } from '../../../basicUIElements';
@@ -19,10 +20,11 @@ const PostBody = ({
   body,
   commentDepth,
   isComment,
-  textSelectable = true,
   handleOnUserPress,
   handleOnPostPress,
 }) => {
+  const [isImageModalOpen, setIsImageModalOpen] = useState(false);
+  const [postImages, setPostImages] = useState([]);
   const intl = useIntl();
 
   const _handleOnLinkPress = event => {
@@ -62,6 +64,10 @@ const PostBody = ({
         case 'markdown-proposal-link':
           break;
         case 'markdown-video-link':
+          break;
+        case 'image':
+          setPostImages([{ url: href }]);
+          setIsImageModalOpen(true);
           break;
 
         default:
@@ -208,6 +214,13 @@ const PostBody = ({
   `;
   return (
     <Fragment>
+      <Modal visible={isImageModalOpen} transparent={true}>
+        <ImageViewer
+          imageUrls={postImages}
+          enableSwipeDown
+          onCancel={() => setIsImageModalOpen(false)}
+        />
+      </Modal>
       <AutoHeightWebView
         source={{ html: test }}
         style={{ width: isComment ? WIDTH - (32 + 29 * commentDepth) : WIDTH - 32 }}
