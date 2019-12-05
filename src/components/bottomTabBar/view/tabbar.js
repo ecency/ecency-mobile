@@ -39,6 +39,7 @@ export default class TabBar extends Component {
       pathD: new Animated.Value(selectedIndex * value),
       pathX: selectedIndex * value,
       animateConstant: value,
+      animating: false,
     };
 
     this.state.circleRadius.addListener(circleRadius => {
@@ -73,24 +74,28 @@ export default class TabBar extends Component {
   _move = index => {
     const { animateConstant, pathD, circleRadius } = this.state;
 
-    this.setState({ selectedIndex: '' });
-
+    this.setState({ selectedIndex: index, animating: true });
     Animated.timing(pathD, {
       toValue: 0 + index * animateConstant,
-      duration: 450,
-    }).start(() => {
-      setTimeout(() => {
-        this.setState({ selectedIndex: index });
-      }, 350);
-    });
+      duration: 350,
+    }).start();
     Animated.timing(circleRadius, {
       toValue: 91 + index * animateConstant,
-    }).start();
+      duration: 350,
+    }).start(() => {
+      if (this.state.animating) {
+        setTimeout(() => {
+          if (this.state.animating) {
+            this.setState({ animating: false });
+          }
+        }, 350);
+      }
+    });
   };
 
   render() {
     const { children, backgroundColor, circleBackgroundColor, style } = this.props;
-    const { selectedIndex, pathX, circleRadius } = this.state;
+    const { selectedIndex, pathX, circleRadius, animating } = this.state;
 
     return (
       <View style={style}>
@@ -102,6 +107,7 @@ export default class TabBar extends Component {
               key: i,
               index: i,
               showIcon: true,
+              animating,
             });
           })}
         </View>
@@ -140,8 +146,20 @@ export default class TabBar extends Component {
   }
 }
 
-const TabBarItem = ({ icon, selectedIcon, index, selected, onPress, showIcon, disabled }) => {
+const TabBarItem = ({
+  icon,
+  selectedIcon,
+  index,
+  selected,
+  onPress,
+  showIcon,
+  disabled,
+  animating,
+}) => {
   if (selected) {
+    if (animating) {
+      return <View style={styles.navItem} />;
+    }
     if (showIcon) {
       return (
         <TouchableHighlight underlayColor={'transparent'} style={styles.navItem}>
