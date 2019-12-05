@@ -169,7 +169,7 @@ class NotificationView extends PureComponent {
           options={filters.map(item => item.value)}
           defaultText="ALL"
           onDropdownSelect={this._handleOnDropdownSelect}
-          rightIconName="check"
+          rightIconName="playlist-add-check"
           rightIconType="MaterialIcons"
           selectedOptionIndex={selectedIndex}
           onRightIconPress={readAllNotification}
