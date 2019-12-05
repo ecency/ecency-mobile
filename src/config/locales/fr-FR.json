@@ -108,9 +108,9 @@
     "older_then": "Vieux de plus de 1 mois"
   },
   "leaderboard": {
-    "daily": "DAILY",
-    "weekly": "WEEKLY",
-    "monthly": "MONTHLY"
+    "daily": "QUOTIDIEN",
+    "weekly": "HEBDOMADAIRE",
+    "monthly": "MENSUEL"
   },
   "messages": {
     "comingsoon": "La fonctionnalité Messages arrive bientôt !"
@@ -138,9 +138,9 @@
     "steem_dollars": "Steem Dollars",
     "savings": "Économies",
     "edit": {
-      "display_name": "Display Name",
-      "about": "About",
-      "location": "Location",
+      "display_name": "Nom d'affichage",
+      "about": "À propos",
+      "location": "Localisation",
       "website": "Website"
     }
   },
@@ -366,9 +366,9 @@
     "estimated_weekly": "Estimated Weekly",
     "destination_accounts": "Destination Accounts",
     "stop_information": "Are you sure want to stop?",
-    "percent": "Percent",
+    "percent": "Pourcentage",
     "auto_vests": "Auto Vests",
-    "save": "SAVE",
+    "save": "SAUVEGARDER",
     "percent_information": "Percent info",
     "next": "NEXT",
     "delegate": "Delegate",
@@ -410,7 +410,7 @@
   "dsteem": {
     "date_error": {
       "device_time": "Your device time;",
-      "current_time": "Current time;",
+      "current_time": "Heure actuelle;",
       "information": "We noticed that your device has incorrect date or time. Please fix Date & Time or Set Automatically and try again."
     }
   }
