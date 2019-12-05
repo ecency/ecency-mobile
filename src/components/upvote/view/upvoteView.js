@@ -48,24 +48,6 @@ class UpvoteView extends Component {
     this._calculateEstimatedAmount();
   }
 
-  UNSAFE_componentWillReceiveProps(nextProps) {
-    const { isVoted, upvotePercent } = this.props;
-    const { isVoted: localIsVoted } = this.state;
-
-    if (isVoted !== get(nextProps, 'isVoted') && localIsVoted !== get(nextProps, 'isVoted')) {
-      this.setState({ isVoted: get(nextProps, 'isVoted') });
-    }
-
-    if (upvotePercent !== get(nextProps, 'upvotePercent')) {
-      this.setState({
-        sliderValue:
-          get(nextProps, 'isVoted', false) ||
-          get(nextProps, 'isDownVoted', 1) ||
-          get(nextProps, 'upvotePercent', 1),
-      });
-    }
-  }
-
   // Component Functions
   _calculateEstimatedAmount = async () => {
     const { currentAccount, globalProps } = this.props;
@@ -187,6 +169,24 @@ class UpvoteView extends Component {
     }, 300);
   };
 
+  UNSAFE_componentWillReceiveProps(nextProps) {
+    const { isVoted, upvotePercent } = this.props;
+    const { isVoted: localIsVoted } = this.state;
+
+    if (isVoted !== get(nextProps, 'isVoted') && localIsVoted !== get(nextProps, 'isVoted')) {
+      this.setState({ isVoted: get(nextProps, 'isVoted') });
+    }
+
+    if (upvotePercent !== get(nextProps, 'upvotePercent')) {
+      this.setState({
+        sliderValue:
+          get(nextProps, 'isVoted', false) ||
+          get(nextProps, 'isDownVoted', 1) ||
+          get(nextProps, 'upvotePercent', 1),
+      });
+    }
+  }
+
   render() {
     const {
       isDecinedPayout,
@@ -204,7 +204,7 @@ class UpvoteView extends Component {
     const { isVoting, amount, sliderValue, isVoted, isShowDetails, downvote } = this.state;
 
     let iconName = 'upcircleo';
-    let iconType = 'AntDesign';
+    const iconType = 'AntDesign';
     let downVoteIconName = 'downcircleo';
 
     if (isVoted) {

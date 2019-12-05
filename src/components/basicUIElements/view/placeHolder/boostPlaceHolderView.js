@@ -51,3 +51,4 @@ const BoostPlaceHolder = () => {
 };
 
 export default BoostPlaceHolder;
+/* eslint-enable */

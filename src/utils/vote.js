@@ -1,5 +1,5 @@
-import parseToken from './parseToken';
 import get from 'lodash/get';
+import parseToken from './parseToken';
 import { vestsToRshares } from './conversions';
 
 export const getEstimatedAmount = (account, globalProps, value = 100) => {

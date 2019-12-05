@@ -32,3 +32,4 @@ class ExampleView extends Component {
 }
 
 export default ExampleView;
+/* eslint-enable */

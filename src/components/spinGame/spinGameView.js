@@ -1,3 +1,4 @@
+/* eslint-disable react/no-this-in-sfc */
 import React, { useState, Fragment } from 'react';
 import { Image, Text, View } from 'react-native';
 import moment from 'moment';
@@ -82,9 +83,11 @@ const SpinGameView = ({
                       handleOnButtonPress={id => buyItem(id)}
                     />
                   ))}
-                  <Text style={styles.nextDate}>{`${intl.formatMessage({
-                    id: 'free_estm.timer_text',
-                  })} ${moment.utc(moment(nextDate).diff(new Date())).format('H:m')}`}</Text>
+                  <Text style={styles.nextDate}>
+                    {`${intl.formatMessage({
+                      id: 'free_estm.timer_text',
+                    })} ${moment.utc(moment(nextDate).diff(new Date())).format('H:m')}`}
+                  </Text>
                 </Fragment>
               )}
             </Fragment>
@@ -96,3 +99,4 @@ const SpinGameView = ({
 };
 
 export { SpinGameView as SpinGame };
+/* eslint-enable */

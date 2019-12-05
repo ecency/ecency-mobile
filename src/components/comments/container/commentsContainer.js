@@ -36,19 +36,6 @@ class CommentsContainer extends Component {
     this._getComments();
   }
 
-  UNSAFE_componentWillReceiveProps(nextProps) {
-    const { commentCount, selectedFilter } = this.props;
-
-    if (nextProps.commentCount > commentCount) {
-      this._getComments();
-    }
-
-    if (selectedFilter !== get(nextProps, 'selectedFilter') && get(nextProps, 'selectedFilter')) {
-      const shortedComments = this._shortComments(get(nextProps, 'selectedFilter'));
-      this.setState({ comments: shortedComments });
-    }
-  }
-
   // Component Functions
 
   _shortComments = (sortOrder, comments) => {
@@ -243,6 +230,19 @@ class CommentsContainer extends Component {
       });
     }
   };
+
+  UNSAFE_componentWillReceiveProps(nextProps) {
+    const { commentCount, selectedFilter } = this.props;
+
+    if (nextProps.commentCount > commentCount) {
+      this._getComments();
+    }
+
+    if (selectedFilter !== get(nextProps, 'selectedFilter') && get(nextProps, 'selectedFilter')) {
+      const shortedComments = this._shortComments(get(nextProps, 'selectedFilter'));
+      this.setState({ comments: shortedComments });
+    }
+  }
 
   render() {
     const { comments: _comments, selectedPermlink } = this.state;

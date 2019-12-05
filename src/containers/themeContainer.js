@@ -16,3 +16,4 @@ const mapStateToProps = state => ({
 });
 
 export default connect(mapStateToProps)(ThemeContainer);
+/* eslint-enable */

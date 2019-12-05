@@ -1,3 +1,4 @@
+/* eslint-disable array-callback-return */
 export default (posts, option) => {
   const updatedPosts = [];
   if (option === '1') {
@@ -18,3 +19,4 @@ export default (posts, option) => {
     return updatedPosts;
   }
 };
+/* eslint-enable */

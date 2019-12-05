@@ -44,17 +44,6 @@ class PostContainer extends Component {
     }
   }
 
-  UNSAFE_componentWillReceiveProps(nextProps) {
-    const { navigation } = this.props;
-    const { isFetch: nextIsFetch } = get(nextProps, 'navigation.state.params');
-
-    if (nextIsFetch) {
-      const { author, permlink } = get(navigation, 'state.params');
-
-      this._loadPost(author, permlink);
-    }
-  }
-
   // Component Functions
 
   _loadPost = async (author = null, permlink = null, isParentPost = false) => {
@@ -80,6 +69,17 @@ class PostContainer extends Component {
         this.setState({ error: err });
       });
   };
+
+  UNSAFE_componentWillReceiveProps(nextProps) {
+    const { navigation } = this.props;
+    const { isFetch: nextIsFetch } = get(nextProps, 'navigation.state.params');
+
+    if (nextIsFetch) {
+      const { author, permlink } = get(navigation, 'state.params');
+
+      this._loadPost(author, permlink);
+    }
+  }
 
   render() {
     const { currentAccount, isLoggedIn } = this.props;

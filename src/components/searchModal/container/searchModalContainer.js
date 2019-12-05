@@ -76,7 +76,7 @@ const SearchModalContainer = ({
                   const result = {};
                   const metadata = JSON.parse(get(post, 'json_metadata', ''));
                   if (get(metadata, 'image', false) && metadata.image.length > 0) {
-                    result.image = metadata.image[0];
+                    [result.image] = metadata.image;
                   } else {
                     result.image = getResizedAvatar(author);
                   }
