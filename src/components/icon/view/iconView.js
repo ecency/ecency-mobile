@@ -1,7 +1,5 @@
 import React, { PureComponent, Fragment } from 'react';
-
 import { Platform, View, Text } from 'react-native';
-
 import Ionicons from 'react-native-vector-icons/Ionicons';
 import MaterialCommunityIcons from 'react-native-vector-icons/MaterialCommunityIcons';
 import SimpleLineIcons from 'react-native-vector-icons/SimpleLineIcons';
