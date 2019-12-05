@@ -36,7 +36,7 @@ class UserAvatarView extends Component {
     const routeName = name === username ? ROUTES.TABBAR.PROFILE : ROUTES.SCREENS.PROFILE;
 
     navigate({
-      routeName: routeName,
+      routeName,
       params: {
         username,
       },

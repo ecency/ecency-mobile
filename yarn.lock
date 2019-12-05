@@ -7670,10 +7670,10 @@ react-native-safe-modules@^1.0.0:
   dependencies:
     debounce "^1.2.0"
 
-react-native-screens@^2.0.0-alpha.15:
-  version "2.0.0-alpha.15"
-  resolved "https://registry.yarnpkg.com/react-native-screens/-/react-native-screens-2.0.0-alpha.15.tgz#40ee432d5f9b6169494a8fd6997add1a8c4b41b3"
-  integrity sha512-Nn4PRFSKLkP0MTXwqOIhMypJ7GMhcU+AZgFJd0DFQhNyU5sLNlKGEzQS6jRY+4MtHJnDXoMOr/o2l9WrI/O3Mg==
+react-native-screens@^2.0.0-alpha.16:
+  version "2.0.0-alpha.16"
+  resolved "https://registry.yarnpkg.com/react-native-screens/-/react-native-screens-2.0.0-alpha.16.tgz#4675c0e9b8cbd6b9321bfd3881b5939d61aba72b"
+  integrity sha512-CGa0LT+AksCgttrVfM3cp8VWxUz6xcInj+qCUY1Nvd2HQh4gP3WQtH3SDWvMC3pFy3CbK0CbXZz7UcZsG3pzwQ==
   dependencies:
     debounce "^1.2.0"
 
@@ -7713,10 +7713,10 @@ react-native-swiper@^1.6.0-rc.3:
   dependencies:
     prop-types "^15.5.10"
 
-react-native-tab-view@^2.9.0:
-  version "2.10.0"
-  resolved "https://registry.yarnpkg.com/react-native-tab-view/-/react-native-tab-view-2.10.0.tgz#5e249e5650502010013449ffd4e5edc18a95364b"
-  integrity sha512-qgexVz5eO4yaFjdkmn/sURXgVvaBo6pZD/q1eoca96SbPVbaH3WzVhF3bRUfeTHwZkXwznFTpS3JURqIFU8vQA==
+react-native-tab-view@^2.11.0:
+  version "2.11.0"
+  resolved "https://registry.yarnpkg.com/react-native-tab-view/-/react-native-tab-view-2.11.0.tgz#2e57d1f617ccc88c7f452708804f3409f880b700"
+  integrity sha512-vqetlxGO7A8bnqvXcB50MWpRZAImXFrDGz1WCQKdCqe03Ey3ZzENe7yLuWrtBJYlepGfOLAsmCXv+wW82Yfm1w==
 
 react-native-vector-icons@^6.6.0:
   version "6.6.0"
@@ -7813,15 +7813,15 @@ react-navigation-stack@^1.9.3:
   dependencies:
     prop-types "^15.7.2"
 
-react-navigation-tabs@^2.5.5:
-  version "2.5.5"
-  resolved "https://registry.yarnpkg.com/react-navigation-tabs/-/react-navigation-tabs-2.5.5.tgz#f651355b140b35ef5753aac434da5e1943abdd26"
-  integrity sha512-oIL5V4agCxcqbWNZzF1h/cm1bxKXNUeGrWaRQEEnuN3TXTEj1SVRz33CnKYg30pVvgF5L2p28sOk15Z4Ao01NQ==
+react-navigation-tabs@^2.6.2:
+  version "2.6.2"
+  resolved "https://registry.yarnpkg.com/react-navigation-tabs/-/react-navigation-tabs-2.6.2.tgz#6611f3bbc5fcbc004a96a457e1dbe8d957d09ef5"
+  integrity sha512-b7Bwio3pOyb2dJOsfICm1eXUCekULO63VitLlkslsuwB5v5qXD9u+TkuSGADPiAybRH3Fts4cQX/xA5WGsIsfg==
   dependencies:
     hoist-non-react-statics "^3.3.0"
     react-lifecycles-compat "^3.0.4"
     react-native-safe-area-view "^0.14.6"
-    react-native-tab-view "^2.9.0"
+    react-native-tab-view "^2.11.0"
 
 react-navigation@^4.0.10:
   version "4.0.10"

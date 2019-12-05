@@ -173,3 +173,4 @@ const mapStateToProps = state => ({
 });
 
 export default withNavigation(injectIntl(connect(mapStateToProps)(InAppPurchaseContainer)));
+/* eslint-enable */

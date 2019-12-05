@@ -15,6 +15,8 @@ const styles = StyleSheet.create({
 });
 
 class PulseAnimation extends Component {
+  mounted = true;
+
   static defaultProps = {
     color: 'blue',
     diameter: 400,
@@ -32,8 +34,6 @@ class PulseAnimation extends Component {
       alignItems: 'center',
     },
   };
-
-  mounted = true;
 
   constructor(props) {
     super(props);
@@ -97,6 +97,7 @@ class PulseAnimation extends Component {
 
   updatePulse = () => {
     if (this.mounted) {
+      // eslint-disable-next-line react/no-access-state-in-setstate
       const pulses = this.state.pulses.map((p, i) => {
         const { maxDiameter } = this.state;
         const newDiameter = p.diameter > maxDiameter ? 0 : p.diameter + 2;

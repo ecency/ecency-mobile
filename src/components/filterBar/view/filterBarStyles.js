@@ -1,4 +1,7 @@
 import EStyleSheet from 'react-native-extended-stylesheet';
+import { Dimensions } from 'react-native';
+
+const deviceWidth = Dimensions.get('window').width;
 
 export default EStyleSheet.create({
   container: {
@@ -14,9 +17,10 @@ export default EStyleSheet.create({
   },
   dropdownWrapper: {
     flexDirection: 'row',
-    justifyContent: 'center',
+    justifyContent: 'space-around',
     alignItems: 'center',
-    left: 15,
+    left: 5,
+    flex: 6,
   },
   filterBarWrapper: {
     flexDirection: 'row',
@@ -24,7 +28,8 @@ export default EStyleSheet.create({
     justifyContent: 'space-between',
   },
   rightIconWrapper: {
-    marginRight: 16,
+    flex: 1,
+    marginRight: 5,
     alignSelf: 'center',
   },
   rightIcon: {

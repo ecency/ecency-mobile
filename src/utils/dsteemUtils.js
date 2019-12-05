@@ -1,8 +1,9 @@
 import createIntl from './createIntl';
+
 export const getDsteemDateErrorMessage = error => {
   const intl = createIntl();
   const trxTime = error.jse_info.stack[0].data['trx.expiration'];
-  const now = error.jse_info.stack[0].data.now;
+  const { now } = error.jse_info.stack[0].data;
 
   return `${intl.formatMessage({
     id: 'dsteem.date_error.device_time',

@@ -5,6 +5,7 @@ import get from 'lodash/get';
 import { postBodySummary, renderPostBody } from '@esteemapp/esteem-render-helpers';
 
 // Dsteem
+// eslint-disable-next-line import/no-cycle
 import { getActiveVotes } from '../providers/steem/dsteem';
 import { getPostReblogs } from '../providers/esteem/esteem';
 

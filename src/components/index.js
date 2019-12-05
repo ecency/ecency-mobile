@@ -1,6 +1,6 @@
 import { AvatarHeader } from './avatarHeader';
 import { BasicHeader } from './basicHeader';
-import { BoostIndicatorAnimation } from './animations';
+import { BoostIndicatorAnimation, PulseAnimation, SpinIndicator } from './animations';
 import { BottomTabBar } from './bottomTabBar';
 import { CheckBox } from './checkbox';
 import { CircularButton, TextButton, SquareButton } from './buttons';
@@ -32,13 +32,13 @@ import { PostForm } from './postForm';
 import { PostHeaderDescription, PostBody, Tags } from './postElements';
 import { PostListItem } from './postListItem';
 import { ProfileSummary } from './profileSummary';
-import { PulseAnimation } from './animations';
+
 import { SearchInput } from './searchInput';
 import { SearchModal } from './searchModal';
 import { SettingsItem } from './settingsItem';
 import { SideMenu } from './sideMenu';
-import { SpinIndicator } from './animations';
-import { SummaryArea, TagArea, TextArea, TitleArea } from './editorElements';
+
+import { SummaryArea, TagArea, TitleArea } from './editorElements';
 import { TabBar } from './tabBar';
 import { TextInput } from './textInput';
 import { ToastNotification } from './toastNotification';
@@ -171,7 +171,6 @@ export {
   Tag,
   TagArea,
   Tags,
-  TextArea,
   TextButton,
   TextInput,
   TextWithIcon,

@@ -145,11 +145,9 @@ class BoostPostScreen extends PureComponent {
               <Text style={styles.balanceText}>{`${balance || _balance} ESTM`}</Text>
               <View style={styles.autocompleteLineContainer}>
                 <View style={styles.autocompleteLabelContainer}>
-                  {
-                    <Text style={styles.autocompleteLabelText}>
-                      {intl.formatMessage({ id: 'promote.permlink' })}
-                    </Text>
-                  }
+                  <Text style={styles.autocompleteLabelText}>
+                    {intl.formatMessage({ id: 'promote.permlink' })}
+                  </Text>
                 </View>
 
                 <Autocomplete

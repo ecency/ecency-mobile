@@ -81,9 +81,7 @@ const WalletHeaderView = ({
           >
             <View style={styles.mainButtonWrapper}>
               <Text style={styles.unclaimedText}>
-                {unclaimedBalance
-                  ? unclaimedBalance
-                  : intl.formatMessage({ id: `wallet.${type}.buy` })}
+                {unclaimedBalance || intl.formatMessage({ id: `wallet.${type}.buy` })}
               </Text>
               <View style={styles.mainIconWrapper}>
                 <Icon name="add" iconType="MaterialIcons" color="#357ce6" size={23} />
@@ -115,3 +113,4 @@ const WalletHeaderView = ({
 };
 
 export default withNavigation(WalletHeaderView);
+/* eslint-enable */

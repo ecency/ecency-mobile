@@ -54,67 +54,6 @@ class EditorContainer extends Component {
     };
   }
 
-  // Component Life Cycle Functions
-
-  componentWillMount() {
-    const { currentAccount, navigation } = this.props;
-    const username = currentAccount && currentAccount.name ? currentAccount.name : '';
-    let isReply;
-    let isEdit;
-    let post;
-    let _draft;
-
-    if (navigation.state && navigation.state.params) {
-      const navigationParams = navigation.state.params;
-
-      if (navigationParams.draft) {
-        _draft = navigationParams.draft;
-
-        this.setState({
-          draftPost: {
-            title: _draft.title,
-            body: _draft.body,
-            tags: _draft.tags.includes(' ') ? _draft.tags.split(' ') : _draft.tags.split(','),
-          },
-          draftId: _draft._id,
-          isDraft: true,
-        });
-      }
-
-      if (navigationParams.post) {
-        ({ post } = navigationParams);
-        this.setState({ post });
-      }
-
-      if (navigationParams.isReply) {
-        ({ isReply } = navigationParams);
-        this.setState({ isReply });
-      }
-
-      if (navigationParams.isEdit) {
-        ({ isEdit } = navigationParams);
-        this.setState({
-          isEdit,
-          draftPost: {
-            title: get(post, 'title', ''),
-            body: get(post, 'markdownBody', ''),
-            tags: get(post, 'json_metadata.tags', []),
-          },
-        });
-      }
-
-      if (navigationParams.action) {
-        this._handleRoutingAction(navigationParams.action);
-      }
-    } else {
-      this.setState({ autoFocusText: true });
-    }
-
-    if (!isEdit && !_draft) {
-      this._getDraft(username, isReply);
-    }
-  }
-
   _getDraft = async (username, isReply) => {
     if (isReply) {
       const draftReply = await AsyncStorage.getItem('temp-reply');
@@ -311,7 +250,7 @@ class EditorContainer extends Component {
 
       const author = currentAccount.name;
       const options = makeOptions(author, permlink);
-      const parentPermlink = fields.tags[0];
+      const parentPermlink = fields.tags[0] || 'hive-125125';
 
       if (scheduleDate) {
         await this._setScheduledPost({
@@ -552,6 +491,66 @@ class EditorContainer extends Component {
 
     this.setState({ uploadedImage: null });
   };
+
+  // Component Life Cycle Functions
+  UNSAFE_componentWillMount() {
+    const { currentAccount, navigation } = this.props;
+    const username = currentAccount && currentAccount.name ? currentAccount.name : '';
+    let isReply;
+    let isEdit;
+    let post;
+    let _draft;
+
+    if (navigation.state && navigation.state.params) {
+      const navigationParams = navigation.state.params;
+
+      if (navigationParams.draft) {
+        _draft = navigationParams.draft;
+
+        this.setState({
+          draftPost: {
+            title: _draft.title,
+            body: _draft.body,
+            tags: _draft.tags.includes(' ') ? _draft.tags.split(' ') : _draft.tags.split(','),
+          },
+          draftId: _draft._id,
+          isDraft: true,
+        });
+      }
+
+      if (navigationParams.post) {
+        ({ post } = navigationParams);
+        this.setState({ post });
+      }
+
+      if (navigationParams.isReply) {
+        ({ isReply } = navigationParams);
+        this.setState({ isReply });
+      }
+
+      if (navigationParams.isEdit) {
+        ({ isEdit } = navigationParams);
+        this.setState({
+          isEdit,
+          draftPost: {
+            title: get(post, 'title', ''),
+            body: get(post, 'markdownBody', ''),
+            tags: get(post, 'json_metadata.tags', []),
+          },
+        });
+      }
+
+      if (navigationParams.action) {
+        this._handleRoutingAction(navigationParams.action);
+      }
+    } else {
+      this.setState({ autoFocusText: true });
+    }
+
+    if (!isEdit && !_draft) {
+      this._getDraft(username, isReply);
+    }
+  }
 
   render() {
     const { isLoggedIn, isDarkTheme } = this.props;

@@ -43,3 +43,4 @@ const WalletDetailsPlaceHolder = () => (
 );
 
 export default WalletDetailsPlaceHolder;
+/* eslint-enable */
