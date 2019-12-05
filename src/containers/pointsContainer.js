@@ -82,34 +82,27 @@ const PointsContainer = ({
     let navigateTo;
     let navigateParams;
 
-    switch (Number(index)) {
-      case 0:
-        navigateTo = ROUTES.SCREENS.TRANSFER;
-        navigateParams = {
-          transferType: 'points',
-          fundType: 'ESTM',
-          balance,
-        };
-        break;
-
-      case 1:
-        navigateTo = ROUTES.SCREENS.REDEEM;
-        navigateParams = {
-          balance,
-          redeemType: 'promote',
-        };
-        break;
-
-      case 2:
-        navigateTo = ROUTES.SCREENS.REDEEM;
-        navigateParams = {
-          balance,
-          redeemType: 'boost',
-        };
-        break;
-
-      default:
-        break;
+    if (index === 'dropdown_transfer') {
+      navigateTo = ROUTES.SCREENS.TRANSFER;
+      navigateParams = {
+        transferType: 'points',
+        fundType: 'ESTM',
+        balance,
+      };
+    }
+    if (index === 'dropdown_promote') {
+      navigateTo = ROUTES.SCREENS.REDEEM;
+      navigateParams = {
+        balance,
+        redeemType: 'promote',
+      };
+    }
+    if (index === 'dropdown_boost') {
+      navigateTo = ROUTES.SCREENS.REDEEM;
+      navigateParams = {
+        balance,
+        redeemType: 'boost',
+      };
     }
 
     if (isPinCodeOpen) {

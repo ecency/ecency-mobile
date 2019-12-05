@@ -221,12 +221,12 @@ class TransferView extends Component {
                 <TransferFormItem
                   label={intl.formatMessage({ id: 'transfer.memo' })}
                   rightComponent={() =>
-                    this._renderInput({
-                      placeholder: intl.formatMessage({ id: 'transfer.memo_placeholder' }),
-                      state: 'memo',
-                      keyboardType: 'default',
-                      isTextArea: true,
-                    })
+                    this._renderInput(
+                      intl.formatMessage({ id: 'transfer.memo_placeholder' }),
+                      'memo',
+                      'default',
+                      true,
+                    )
                   }
                 />
               )}

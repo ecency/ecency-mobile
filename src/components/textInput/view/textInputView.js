@@ -10,9 +10,9 @@ const TextInputView = ({ innerRef, height, style, ...props }) => (
   <ThemeContainer>
     {({ isDarkTheme }) => (
       <TextInput
+        {...props}
         ref={innerRef}
         keyboardAppearance={isDarkTheme ? 'dark' : 'light'}
-        {...props}
         style={[styles.input, { minHeight: height }, style]}
       />
     )}
