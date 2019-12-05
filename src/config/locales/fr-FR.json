@@ -9,17 +9,17 @@
     "transfer_from_savings": "Transférer depuis mes Économies",
     "withdraw_vesting": "Diminuer son influence",
     "fill_order": "Remplir l’ordre",
-    "post": "Post",
+    "post": "Publier",
     "comment": "Commentaire",
     "checkin": "Check-in",
     "vote": "Vote",
     "reblog": "Reblog",
     "login": "Connexion",
-    "incoming_transfer_title": "Incoming transfer",
-    "outgoing_transfer_title": "Outgoing transfer",
+    "incoming_transfer_title": "Transfert entrant",
+    "outgoing_transfer_title": "Transfert sortant",
     "checkin_extra": "Bonus",
-    "delegation": "Delegation",
-    "delegation_title": "Delegation reward",
+    "delegation": "Délégation",
+    "delegation_title": "Récompense de délégation",
     "delegation_desc": "Gagnez des ESTM tous les jours pour les délégations",
     "post_title": "Points pour vos publications",
     "comment_title": "Points pour vos commentaires",
@@ -37,10 +37,10 @@
     "vote_desc": "By voting you give reward to other creators and show your appreciation but also earn back upto 0.01 x vote weight points.",
     "reblog_desc": "Partagez les publication que vous aimez avec vos amis et gagnez jusqu'a 1 point.",
     "login_desc": "Lorsque vous vous connectez sur l'application eSteem, vous avez le droit de gagner 100 points automatiquement.",
-    "checkin_extra_desc": "Consistent use of app gives you extra chances to earn more 10 points, be more active and earn more.",
+    "checkin_extra_desc": "Une utilisation regulière de l'application vous donne des chances supplémentaires de gagner plus de 10 points, soyez plus actif et gagnez plus.",
     "dropdown_transfer": "Cadeau",
-    "dropdown_promote": "Promote",
-    "dropdown_boost": "Boost",
+    "dropdown_promote": "Promouvoir",
+    "dropdown_boost": "Accélérer",
     "from": "De",
     "to": "À",
     "estimated_value_desc": "Déterminé par la valeur d'achat",
@@ -61,12 +61,12 @@
     "withdraw_to_saving": "Withdraw To Saving",
     "steemconnect_title": "Transfert Steemconnect",
     "next": "SUIVANT",
-    "delegate": "Delegate",
+    "delegate": "Déléguer",
     "power_down": "Diminuer son influence",
     "withdraw_steem": "Withdraw Steem",
     "withdraw_sbd": "Withdraw Steem Dollar",
     "estm": {
-      "title": "eSteem Points",
+      "title": "points eSteem",
       "buy": "GET ESTM"
     },
     "savingsteem": {
@@ -161,7 +161,7 @@
       "transfers": "Transferts"
     },
     "pincode": "Pincode",
-    "reset_pin": "Reset Pin Code",
+    "reset_pin": "Réinitialisez le Code Pin",
     "reset": "Réinitialiser",
     "nsfw_content": "NSFW",
     "send_feedback": "Envoyer une suggestion",
@@ -174,11 +174,11 @@
     },
     "feedback_success": "E-mail ouvert avec succès",
     "feedback_fail": "Le client e-mail n'a pas pu être ouvert",
-    "server_fail": "Server not available"
+    "server_fail": "Serveur indisponible"
   },
   "voters": {
     "voters_info": "Info des votants",
-    "no_user": "User is not found."
+    "no_user": "L'utilisateur n'a pas été trouvé."
   },
   "login": {
     "signin": "Se connecter",
@@ -226,7 +226,7 @@
     "reply_placeholder": "Qu'aimeriez-vous écrire à propos de l'article ci-dessus ?",
     "publish": "Publier",
     "reply": "Répondre",
-    "open_gallery": "Open Gallery",
+    "open_gallery": "Ouvrir la galerie",
     "capture_photo": "Prendre une photo"
   },
   "pincode": {
@@ -243,7 +243,7 @@
     "fail": "Échec !",
     "move": "Déplacer",
     "move_question": "Êtes-vous sûr de vouloir déplacer vers Broullions ?",
-    "success_shared": "Your post successfully shared",
+    "success_shared": "Votre publication à été partagée avec succès",
     "success_moved": "Déplacé vers Brouillons",
     "permission_denied": "Autorisation refusée",
     "permission_text": "S'il vous plaît, allez dans les Paramètres de votre téléphone et changez les permissions pour l’application eSteem.",
@@ -260,23 +260,23 @@
     "copied": "Copié !",
     "no_internet": "Pas de connexion !",
     "confirm": "Valider",
-    "removed": "Removed",
-    "same_user": "This user already added to list",
-    "unknow_error": "An error occurred",
-    "error": "Error",
+    "removed": "Retiré",
+    "same_user": "Cet utilisateur a déjà été ajouté à la liste",
+    "unknow_error": "Une erreur est survenue",
+    "error": "Erreur",
     "fetch_error": "Fetching data failed, please try again or notify us at info@esteem.app",
-    "connection_fail": "Connection Failed!",
-    "connection_success": "Successfully connected!",
+    "connection_fail": "Échec de la connexion !",
+    "connection_success": "Connexion réussie!",
     "checking": "Vérification...",
     "not_existing_post": "The post does not exist! Please check permlink and author.",
     "google_play_version": "Nous avons remarqué que votre appareil possède une ancienne version de Google Play. Veuillez mettre à jour les services Google Play et réessayez!"
   },
   "post": {
-    "reblog_alert": "Are you sure, you want to reblog?",
-    "removed_hint": "The post was removed by",
-    "copy_link": "Copy Link",
-    "reblogged": "reblogged by",
-    "sponsored": "SPONSORED",
+    "reblog_alert": "Êtes-vous sûr de vouloir rebloguer ?",
+    "removed_hint": "Ce post à été supprimé par",
+    "copy_link": "Copier le Lien",
+    "reblogged": "reblogué par",
+    "sponsored": "SPONSORISÉ",
     "open_thread": "Open Thread"
   },
   "drafts": {
@@ -327,8 +327,8 @@
     "reply": "répondre",
     "share": "partager",
     "bookmarks": "ajouter aux signets",
-    "promote": "promote",
-    "boost": "boost"
+    "promote": "promouvoir",
+    "boost": "accélérer"
   },
   "deep_link": {
     "no_existing_user": "Utilisateur inexistant",
@@ -371,7 +371,7 @@
     "save": "SAUVEGARDER",
     "percent_information": "Percent info",
     "next": "SUIVANT",
-    "delegate": "Delegate",
+    "delegate": "Déléguer",
     "power_down": "Power Down",
     "withdraw_steem": "Withdraw Steem",
     "withdraw_sbd": "Withdraw Steem Dollar"
@@ -389,10 +389,10 @@
     "timer_text": "Prochain tour gratuit dans"
   },
   "promote": {
-    "title": "Promote",
+    "title": "Promouvoir",
     "days": "jours",
     "user": "Utilisateur",
-    "permlink": "Post",
+    "permlink": "Publier",
     "permlinkPlaceholder": "author/permlink",
     "information": "Êtes-vous sûr de vouloir promouvoir?"
   },
