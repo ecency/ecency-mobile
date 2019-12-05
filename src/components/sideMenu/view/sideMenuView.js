@@ -42,19 +42,6 @@ class SideMenuView extends Component {
     });
   }
 
-  UNSAFE_componentWillReceiveProps(nextProps) {
-    const { isLoggedIn, accounts } = this.props;
-    const { isAddAccountIconActive } = this.state;
-
-    if (isLoggedIn !== nextProps.isLoggedIn) {
-      this._setMenuItems(nextProps.isLoggedIn);
-    }
-
-    if (accounts !== nextProps.accounts && isAddAccountIconActive) {
-      this.setState({ menuItems: nextProps.accounts });
-    }
-  }
-
   // Component Functions
 
   _handleOnPressAddAccountIcon = () => {
@@ -90,6 +77,19 @@ class SideMenuView extends Component {
       switchAccount(item.username);
     }
   };
+
+  UNSAFE_componentWillReceiveProps(nextProps) {
+    const { isLoggedIn, accounts } = this.props;
+    const { isAddAccountIconActive } = this.state;
+
+    if (isLoggedIn !== nextProps.isLoggedIn) {
+      this._setMenuItems(nextProps.isLoggedIn);
+    }
+
+    if (accounts !== nextProps.accounts && isAddAccountIconActive) {
+      this.setState({ menuItems: nextProps.accounts });
+    }
+  }
 
   render() {
     const { currentAccount, isLoggedIn, intl, handleLogout } = this.props;

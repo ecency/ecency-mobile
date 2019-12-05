@@ -7,9 +7,9 @@ const FormattedCurrency = ({ value, fixAt = 3, currency, isApproximate = false }
   const toFixedValue = valueInCurrency.toFixed(fixAt);
 
   return (
-    <Fragment key={toFixedValue.toString()}>{`${
-      isApproximate ? '~' : ''
-    }${currencySymbol} ${toFixedValue}`}</Fragment>
+    <Fragment key={toFixedValue.toString()}>
+      {`${isApproximate ? '~' : ''}${currencySymbol} ${toFixedValue}`}
+    </Fragment>
   );
 };
 

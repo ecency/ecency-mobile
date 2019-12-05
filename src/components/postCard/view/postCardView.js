@@ -36,17 +36,6 @@ class PostCardView extends Component {
     };
   }
 
-  // Component Lifecycle Functions
-  UNSAFE_componentWillReceiveProps(nextProps) {
-    const { content } = this.props;
-    const rebloggedBy = get(content, 'reblogged_by[0]', null);
-    const _rebloggedBy = get(nextProps.content, 'reblogged_by[0]', null);
-
-    if (rebloggedBy !== _rebloggedBy && !_rebloggedBy) {
-      this.setState({ rebloggedBy });
-    }
-  }
-
   // Component Functions
 
   _handleOnUserPress = () => {
@@ -86,6 +75,17 @@ class PostCardView extends Component {
     }
     return DEFAULT_IMAGE;
   };
+
+  // Component Lifecycle Functions
+  UNSAFE_componentWillReceiveProps(nextProps) {
+    const { content } = this.props;
+    const rebloggedBy = get(content, 'reblogged_by[0]', null);
+    const _rebloggedBy = get(nextProps.content, 'reblogged_by[0]', null);
+
+    if (rebloggedBy !== _rebloggedBy && !_rebloggedBy) {
+      this.setState({ rebloggedBy });
+    }
+  }
 
   render() {
     const { content, isHideImage, fetchPost, isNsfwPost, intl } = this.props;

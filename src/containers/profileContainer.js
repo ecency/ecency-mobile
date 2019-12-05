@@ -76,36 +76,6 @@ class ProfileContainer extends Component {
     this._loadProfile(targetUsername);
   }
 
-  UNSAFE_componentWillReceiveProps(nextProps) {
-    if (!nextProps.isConnected) {
-      return;
-    }
-
-    const { isLoggedIn, navigation } = this.props;
-    const { isOwnProfile } = this.state;
-
-    if (isLoggedIn && !nextProps.isLoggedIn) {
-      navigation.navigate(ROUTES.SCREENS.LOGIN);
-      return;
-    }
-
-    if (isOwnProfile) {
-      const { user } = this.state;
-      const { activeBottomTab, currentAccount } = this.props;
-
-      const currentUsername =
-        get(currentAccount, 'name') !== get(nextProps, 'currentAccount.name') &&
-        get(nextProps, 'currentAccount.name');
-      const isActiveTabChanged =
-        activeBottomTab !== get(nextProps, 'activeBottomTab') &&
-        get(nextProps, 'activeBottomTab') === ROUTES.TABBAR.PROFILE;
-
-      if ((isActiveTabChanged && user) || currentUsername) {
-        this._loadProfile(get(nextProps, 'currentAccount.name'));
-      }
-    }
-  }
-
   _getReplies = async user => {
     const { isOwnProfile } = this.state;
     let repliesAction;
@@ -318,6 +288,36 @@ class ProfileContainer extends Component {
     });
   };
 
+  UNSAFE_componentWillReceiveProps(nextProps) {
+    if (!nextProps.isConnected) {
+      return;
+    }
+
+    const { isLoggedIn, navigation } = this.props;
+    const { isOwnProfile } = this.state;
+
+    if (isLoggedIn && !nextProps.isLoggedIn) {
+      navigation.navigate(ROUTES.SCREENS.LOGIN);
+      return;
+    }
+
+    if (isOwnProfile) {
+      const { user } = this.state;
+      const { activeBottomTab, currentAccount } = this.props;
+
+      const currentUsername =
+        get(currentAccount, 'name') !== get(nextProps, 'currentAccount.name') &&
+        get(nextProps, 'currentAccount.name');
+      const isActiveTabChanged =
+        activeBottomTab !== get(nextProps, 'activeBottomTab') &&
+        get(nextProps, 'activeBottomTab') === ROUTES.TABBAR.PROFILE;
+
+      if ((isActiveTabChanged && user) || currentUsername) {
+        this._loadProfile(get(nextProps, 'currentAccount.name'));
+      }
+    }
+  }
+
   render() {
     const {
       avatar,
@@ -399,3 +399,4 @@ const mapStateToProps = state => ({
 });
 
 export default connect(mapStateToProps)(withNavigation(ProfileContainer));
+/* eslint-enable */

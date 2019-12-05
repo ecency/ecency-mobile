@@ -94,3 +94,4 @@ const TransactionView = ({ transactions, type, refreshing, setRefreshing, isLoad
 };
 
 export default TransactionView;
+/* eslint-enable */

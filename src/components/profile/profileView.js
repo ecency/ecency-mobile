@@ -177,7 +177,7 @@ class ProfileView extends PureComponent {
                 selectedOptionIndex={0}
                 pageType="profiles"
                 getFor="blog"
-                tag={username}
+                feedUsername={username}
                 key={username}
                 handleOnScroll={isSummaryOpen ? this._handleOnScroll : null}
                 forceLoadPost={forceLoadPost}
