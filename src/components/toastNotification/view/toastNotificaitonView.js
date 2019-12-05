@@ -17,11 +17,6 @@ class ToastNotification extends Component {
     };
   }
 
-  // Component Life Cycles
-  componentWillMount() {
-    this._showToast();
-  }
-
   // Component Functions
   _showToast() {
     const { duration } = this.props;
@@ -51,6 +46,11 @@ class ToastNotification extends Component {
     if (this.closeTimer) {
       clearTimeout(this.closeTimer);
     }
+  }
+
+  // Component Life Cycles
+  UNSAFE_componentWillMount() {
+    this._showToast();
   }
 
   render() {

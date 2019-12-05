@@ -34,7 +34,7 @@ class TransferView extends Component {
       destination: props.transferType === 'powerUp' ? props.currentAccountName : '',
       amount: '',
       memo: '',
-      isUsernameValid: props.transferType === 'powerUp' && props.currentAccountName ? true : false,
+      isUsernameValid: !!(props.transferType === 'powerUp' && props.currentAccountName),
       steemConnectTransfer: false,
       isTransfering: false,
     };

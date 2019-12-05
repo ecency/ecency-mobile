@@ -67,3 +67,4 @@ class FollowsScreen extends PureComponent {
 }
 
 export default injectIntl(FollowsScreen);
+/* eslint-enable */

@@ -166,8 +166,9 @@ class EditorScreen extends Component {
   _handleOnTagAdded = async tags => {
     const { fields: _fields } = this.state;
     const _tags = tags.filter(tag => tag && tag !== ' ');
+    const __tags = _tags.map(t => t.toLowerCase());
 
-    const fields = { ..._fields, tags: [..._tags] };
+    const fields = { ..._fields, tags: [...__tags] };
     await this.setState({ fields, isRemoveTag: false });
 
     this._handleFormUpdate();

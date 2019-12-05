@@ -10,7 +10,7 @@ import { SearchInput, Posts, TabBar } from '../../../components';
 import styles from './searchResultStyles';
 import globalStyles from '../../../globalStyles';
 
-import { POPULAR_FILTERS, POPULAR_FILTERS_VALUE } from '../../../constants/options/filters';
+import { GLOBAL_POST_FILTERS, GLOBAL_POST_FILTERS_VALUE } from '../../../constants/options/filters';
 
 const SearchResultScreen = ({ navigation }) => {
   const tag = navigation.getParam('tag', '');
@@ -33,7 +33,7 @@ const SearchResultScreen = ({ navigation }) => {
 
   const _getSelectedIndex = () => {
     if (filter) {
-      const selectedIndex = POPULAR_FILTERS_VALUE.indexOf(filter);
+      const selectedIndex = GLOBAL_POST_FILTERS_VALUE.indexOf(filter);
       if (selectedIndex > 0) {
         return selectedIndex;
       }
@@ -54,8 +54,8 @@ const SearchResultScreen = ({ navigation }) => {
         <View tabLabel={intl.formatMessage({ id: 'search.posts' })} style={styles.tabbarItem}>
           <Posts
             key={tag}
-            filterOptions={POPULAR_FILTERS}
-            filterOptionsValue={POPULAR_FILTERS_VALUE}
+            filterOptions={GLOBAL_POST_FILTERS}
+            filterOptionsValue={GLOBAL_POST_FILTERS_VALUE}
             selectedOptionIndex={_getSelectedIndex()}
             tag={tag}
           />
