@@ -217,7 +217,7 @@ class TransferView extends Component {
                   </TouchableOpacity>
                 )}
               />
-              {transferType !== 'powerUp' && (
+              {(transferType === 'points' || transferType === 'transfer_token') && (
                 <TransferFormItem
                   label={intl.formatMessage({ id: 'transfer.memo' })}
                   rightComponent={() =>
@@ -230,7 +230,7 @@ class TransferView extends Component {
                   }
                 />
               )}
-              {transferType !== 'powerUp' && (
+              {(transferType === 'points' || transferType === 'transfer_token') && (
                 <TransferFormItem
                   rightComponent={() =>
                     this._renderDescription(intl.formatMessage({ id: 'transfer.memo_desc' }))
