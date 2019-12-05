@@ -14,13 +14,13 @@
     "checkin": "Check-in",
     "vote": "Vote",
     "reblog": "Reblog",
-    "login": "Login",
+    "login": "Connexion",
     "incoming_transfer_title": "Incoming transfer",
     "outgoing_transfer_title": "Outgoing transfer",
     "checkin_extra": "Bonus",
     "delegation": "Delegation",
     "delegation_title": "Delegation reward",
-    "delegation_desc": "Earn ESTM everyday for delegation",
+    "delegation_desc": "Gagnez des ESTM tous les jours pour les délégations",
     "post_title": "Points pour vos publications",
     "comment_title": "Points pour vos commentaires",
     "vote_title": "Points pour vos votes",
@@ -31,25 +31,25 @@
     "no_activity": "Aucune activité ici !",
     "outgoing_transfer_description": "",
     "incoming_transfer_description": "",
-    "post_desc": "You can earn point by posting regularly. Posting gives you upto 15 points.",
-    "comment_desc": "Each comment you make helps you to grow your audience and make friendship but also earns you upto 5 points.",
+    "post_desc": "Vous pouvez gagner des points en publiant régulièrement. Publier vous donne jusqu'a 15 points.",
+    "comment_desc": "Chaque commentaire que vous faites vous aide à agrandir votre audience et à créer de l'amitié, mais vous donne également 5 points.",
     "checkin_desc": "Checking in on eSteem app gives you 0.25 points and helps you stay connected with your friends.",
     "vote_desc": "By voting you give reward to other creators and show your appreciation but also earn back upto 0.01 x vote weight points.",
-    "reblog_desc": "Share what post you like with your friends and earn upto 1 points.",
+    "reblog_desc": "Partagez les publication que vous aimez avec vos amis et gagnez jusqu'a 1 point.",
     "login_desc": "Lorsque vous vous connectez sur l'application eSteem, vous avez le droit de gagner 100 points automatiquement.",
     "checkin_extra_desc": "Consistent use of app gives you extra chances to earn more 10 points, be more active and earn more.",
-    "dropdown_transfer": "Gift",
+    "dropdown_transfer": "Cadeau",
     "dropdown_promote": "Promote",
     "dropdown_boost": "Boost",
     "from": "De",
     "to": "À",
-    "estimated_value_desc": "Determined by purchase value",
-    "estimated_value": "Estimated value",
-    "estimated_amount": "Vote value",
-    "amount_information": "Drag the slider to adjust the amount",
+    "estimated_value_desc": "Déterminé par la valeur d'achat",
+    "estimated_value": "Valeur estimée",
+    "estimated_amount": "Valeur de vote",
+    "amount_information": "Faites glisser le curseur pour ajuster le montant",
     "amount": "Montant",
     "memo": "Mémo",
-    "information": "Are you sure to transfer funds?",
+    "information": "Êtes-vous sûr de vouloir transférer les fonds ?",
     "amount_desc": "Solde",
     "memo_desc": "Ce mémo est public",
     "to_placeholder": "Nom d'utilisateur",
@@ -60,7 +60,7 @@
     "powerUp": "Power Up",
     "withdraw_to_saving": "Withdraw To Saving",
     "steemconnect_title": "Transfert Steemconnect",
-    "next": "NEXT",
+    "next": "SUIVANT",
     "delegate": "Delegate",
     "power_down": "Diminuer son influence",
     "withdraw_steem": "Withdraw Steem",
@@ -96,11 +96,11 @@
     "unfollow": "ne vous suit plus",
     "ignore": "vous a ignoré",
     "reblog": "a reblogué votre post",
-    "transfer": "transferred",
+    "transfer": "transféré",
     "notification": "Notifications",
     "leaderboard": "Classement",
     "epoint": "Points",
-    "leaderboard_title": "Top Users",
+    "leaderboard_title": "Top utilisateurs",
     "recent": "Récent",
     "yesterday": "Hier",
     "this_week": "Cette semaine",
@@ -141,7 +141,7 @@
       "display_name": "Nom d'affichage",
       "about": "À propos",
       "location": "Localisation",
-      "website": "Website"
+      "website": "Site Web"
     }
   },
   "settings": {
@@ -267,9 +267,9 @@
     "fetch_error": "Fetching data failed, please try again or notify us at info@esteem.app",
     "connection_fail": "Connection Failed!",
     "connection_success": "Successfully connected!",
-    "checking": "Checking...",
+    "checking": "Vérification...",
     "not_existing_post": "The post does not exist! Please check permlink and author.",
-    "google_play_version": "We noticed that your device has old version of Google Play. Please update Google Play services and try again!"
+    "google_play_version": "Nous avons remarqué que votre appareil possède une ancienne version de Google Play. Veuillez mettre à jour les services Google Play et réessayez!"
   },
   "post": {
     "reblog_alert": "Are you sure, you want to reblog?",
@@ -340,37 +340,37 @@
   },
   "comment_filter": {
     "trending": "TOP",
-    "reputation": "REPUTATION",
+    "reputation": "RÉPUTATION",
     "votes": "VOTE",
     "age": "AGE",
     "top": "TOP",
-    "time": "TIME"
+    "time": "HEURE"
   },
   "transfer": {
     "from": "De",
     "to": "À",
-    "amount_information": "Drag the slider to adjust the amount",
+    "amount_information": "Faites glisser le curseur pour ajuster le montant",
     "amount": "Montant",
     "memo": "Mémo",
-    "information": "Are you sure to transfer funds?",
+    "information": "Êtes-vous sûr de vouloir transférer les fonds ?",
     "amount_desc": "Solde",
     "memo_desc": "Ce mémo est public",
     "to_placeholder": "Nom d'utilisateur",
     "memo_placeholder": "Entrez vos notes ici",
-    "transfer_token": "Transfer",
+    "transfer_token": "Transférer",
     "points": "Gift ESTM to someone",
     "transfer_to_saving": "Transfer To Saving",
     "powerUp": "Power Up",
     "withdraw_to_saving": "Withdraw To Saving",
     "steemconnect_title": "Transfert Steemconnect",
-    "estimated_weekly": "Estimated Weekly",
+    "estimated_weekly": "Évalué chaque semaine",
     "destination_accounts": "Destination Accounts",
-    "stop_information": "Are you sure want to stop?",
+    "stop_information": "Êtes-vous sûr de vouloir arrêter ?",
     "percent": "Pourcentage",
     "auto_vests": "Auto Vests",
     "save": "SAUVEGARDER",
     "percent_information": "Percent info",
-    "next": "NEXT",
+    "next": "SUIVANT",
     "delegate": "Delegate",
     "power_down": "Power Down",
     "withdraw_steem": "Withdraw Steem",
@@ -379,39 +379,39 @@
   "boost": {
     "title": "Get eSteem Points",
     "buy": "GET ESTM",
-    "next": "NEXT"
+    "next": "SUIVANT"
   },
   "free_estm": {
     "title": "Free ESTM",
-    "button": "SPIN & WIN",
-    "get_spin": "5 SPINS",
+    "button": "TOURNER & GAGNER",
+    "get_spin": "5 TOURS",
     "spin_right": "Spin Left",
-    "timer_text": "Next free spin in"
+    "timer_text": "Prochain tour gratuit dans"
   },
   "promote": {
     "title": "Promote",
-    "days": "days",
-    "user": "User",
+    "days": "jours",
+    "user": "Utilisateur",
     "permlink": "Post",
     "permlinkPlaceholder": "author/permlink",
-    "information": "Are you sure to promote?"
+    "information": "Êtes-vous sûr de vouloir promouvoir?"
   },
   "boostPost": {
     "title": "Boost"
   },
   "voters_dropdown": {
-    "rewards": "REWARDS",
+    "rewards": "RÉCOMPENSES",
     "percent": "PERCENT",
-    "time": "TIME"
+    "time": "HEURE"
   },
   "reblog": {
     "title": "Reblog Info"
   },
   "dsteem": {
     "date_error": {
-      "device_time": "Your device time;",
+      "device_time": "Heure de votre appareil;",
       "current_time": "Heure actuelle;",
-      "information": "We noticed that your device has incorrect date or time. Please fix Date & Time or Set Automatically and try again."
+      "information": "Nous avons remarqué que votre appareil a une date ou une heure incorrectes. Veuillez corriger la date et l'heure ou définir automatiquement puis réessayer."
     }
   }
 }
