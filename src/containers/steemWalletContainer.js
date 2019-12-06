@@ -201,21 +201,17 @@ const WalletContainer = ({
   const _navigate = async (transferType, fundType) => {
     let balance;
 
-    switch (fundType) {
-      case 'STEEM':
-        balance = Math.round(walletData.balance * 1000) / 1000;
-        break;
-      case 'SBD':
-        balance = Math.round(walletData.sbdBalance * 1000) / 1000;
-        break;
-      case 'SAVING_STEEM':
-        balance = Math.round(walletData.savingBalance * 1000) / 1000;
-        break;
-      case 'SAVING_SBD':
-        balance = Math.round(walletData.savingBalanceSbd * 1000) / 1000;
-        break;
-      default:
-        break;
+    if (transferType === 'transfer_token' && fundType === 'STEEM') {
+      balance = Math.round(walletData.balance * 1000) / 1000;
+    }
+    if (transferType === 'transfer_token' && fundType === 'SBD') {
+      balance = Math.round(walletData.sbdBalance * 1000) / 1000;
+    }
+    if (transferType === 'withdraw_steem' && fundType === 'STEEM') {
+      balance = Math.round(walletData.savingBalance * 1000) / 1000;
+    }
+    if (transferType === 'withdraw_sbd' && fundType === 'SBD') {
+      balance = Math.round(walletData.savingBalanceSbd * 1000) / 1000;
     }
 
     if (isPinCodeOpen) {
