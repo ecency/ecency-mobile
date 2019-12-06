@@ -374,7 +374,9 @@
     "delegate": "Delegate",
     "power_down": "Power Down",
     "withdraw_steem": "Withdraw Steem",
-    "withdraw_sbd": "Withdraw Steem Dollar"
+    "withdraw_sbd": "Withdraw Steem Dollar",
+    "incoming_funds": "Incoming Funds",
+    "stop": "Stop"
   },
   "boost": {
     "title": "Get eSteem Points",
