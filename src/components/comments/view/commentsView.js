@@ -57,6 +57,7 @@ class CommentsView extends Component {
       intl,
       isOwnProfile,
       isHideImage,
+      hasManyComments,
     } = this.props;
     const { selectedComment } = this.state;
 
@@ -67,6 +68,9 @@ class CommentsView extends Component {
           intl.formatMessage({ id: 'alert.cancel' }),
         ]
       : [intl.formatMessage({ id: 'post.copy_link' }), intl.formatMessage({ id: 'alert.cancel' })];
+
+    // TODO:
+    if (hasManyComments) return null;
 
     return (
       <Fragment>
