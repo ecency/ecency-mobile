@@ -63,7 +63,7 @@ class CommentView extends PureComponent {
       isHideImage,
     } = this.props;
     const { isShowSubComments, isPressedShowButton } = this.state;
-
+    console.log(commentNumber);
     return (
       <TouchableWithoutFeedback onLongPress={handleOnLongPress}>
         <View>
@@ -170,7 +170,7 @@ class CommentView extends PureComponent {
             {isShowSubComments && commentNumber > 0 && (
               <Comments
                 isShowComments={isShowComments}
-                commentNumber={commentNumber && commentNumber * 2}
+                commentNumber={commentNumber + 1}
                 marginLeft={20}
                 isShowSubComments={isShowSubComments}
                 avatarSize={avatarSize || 16}
@@ -178,6 +178,7 @@ class CommentView extends PureComponent {
                 permlink={comment.permlink}
                 commentCount={comment.children}
                 isShowMoreButton={false}
+                hasManyComments={commentNumber === 5 && get(comment, 'children') > 0}
                 fetchPost={fetchPost}
                 mainAuthor={mainAuthor}
               />

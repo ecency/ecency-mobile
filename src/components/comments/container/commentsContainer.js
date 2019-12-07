@@ -261,11 +261,13 @@ class CommentsContainer extends Component {
       isOwnProfile,
       isHideImage,
       isShowSubComments,
+      hasManyComments,
     } = this.props;
 
     return (
       <CommentsView
         key={selectedFilter}
+        hasManyComments={hasManyComments}
         selectedFilter={selectedFilter}
         selectedPermlink={_selectedPermlink || selectedPermlink}
         author={author}
