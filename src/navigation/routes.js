@@ -24,6 +24,7 @@ import {
   SteemConnect,
   Transfer,
   Voters,
+  Comments,
 } from '../screens';
 
 // Components
@@ -134,6 +135,12 @@ const stackNavigator = createStackNavigator(
     },
     [ROUTES.SCREENS.SPIN_GAME]: {
       screen: SpinGame,
+      navigationOptions: {
+        header: () => null,
+      },
+    },
+    [ROUTES.SCREENS.COMMENTS]: {
+      screen: Comments,
       navigationOptions: {
         header: () => null,
       },

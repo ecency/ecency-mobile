@@ -1,17 +1,18 @@
 import { Bookmarks } from './bookmarks';
+import { Comments } from './comments/screen/commentsScreen';
 import { Drafts } from './drafts';
 import { Editor } from './editor';
-import { Follows } from './follows';
 import { Feed } from './feed';
+import { Follows } from './follows';
 import { Launch } from './launch';
 import { Login } from './login';
 import { Notification } from './notification';
 import { PinCode } from './pinCode';
-import { Wallet } from './wallet';
 import { Post } from './post';
 import { SearchResult } from './searchResult';
 import { Settings } from './settings';
 import { SpinGame } from './spinGame/screen/spinGameScreen';
+import { Wallet } from './wallet';
 import Boost from './boost/screen/boostScreen';
 import Profile from './profile/screen/profileScreen';
 import ProfileEdit from './profileEdit/screen/profileEditScreen';
@@ -24,15 +25,15 @@ import Voters from './voters';
 export {
   Bookmarks,
   Boost,
+  Comments,
   Drafts,
   Editor,
-  Follows,
   Feed,
+  Follows,
   Launch,
   Login,
   Notification,
   PinCode,
-  Wallet,
   Post,
   Profile,
   ProfileEdit,
@@ -44,4 +45,5 @@ export {
   SteemConnect,
   Transfer,
   Voters,
+  Wallet,
 };
