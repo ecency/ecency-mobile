@@ -262,12 +262,15 @@ class CommentsContainer extends Component {
       isHideImage,
       isShowSubComments,
       hasManyComments,
+      showAllComments,
+      hideManyCommentsButton,
     } = this.props;
 
     return (
       <CommentsView
         key={selectedFilter}
         hasManyComments={hasManyComments}
+        hideManyCommentsButton={hideManyCommentsButton}
         selectedFilter={selectedFilter}
         selectedPermlink={_selectedPermlink || selectedPermlink}
         author={author}
@@ -287,6 +290,7 @@ class CommentsContainer extends Component {
         isHideImage={isHideImage}
         handleOnVotersPress={this._handleOnVotersPress}
         isShowSubComments={isShowSubComments}
+        showAllComments={showAllComments}
       />
     );
   }
