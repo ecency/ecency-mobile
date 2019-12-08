@@ -48,6 +48,9 @@ const WalletContainer = ({
   const [spBalance, setSpBalance] = useState(0);
   const [steemSavingBalance, setSteemSavingBalance] = useState(0);
   const [estimatedValue, setEstimatedValue] = useState(0);
+  const [estimatedSteemValue, setEstimatedSteemValue] = useState(0);
+  const [estimatedSbdValue, setEstimatedSbdValue] = useState(0);
+  const [estimatedSpValue, setEstimatedSpValue] = useState(0);
   const [unclaimedBalance, setUnclaimedBalance] = useState('');
   const [estimatedAmount, setEstimatedAmount] = useState(0);
   const [transferHistory, setTransferHistory] = useState([]);
@@ -81,6 +84,10 @@ const WalletContainer = ({
       ) / 1000,
     );
     setEstimatedValue(get(walletData, 'estimatedValue', 0));
+    setEstimatedSteemValue(get(walletData, 'estimatedSteemValue', 0));
+    setEstimatedSbdValue(get(walletData, 'estimatedSbdValue', 0));
+    setEstimatedSpValue(get(walletData, 'estimatedSpValue', 0));
+
     setUnclaimedBalance(
       `${
         get(walletData, 'rewardSteemBalance', 0)
@@ -248,6 +255,9 @@ const WalletContainer = ({
       sbdBalance,
       steemSavingBalance,
       estimatedValue,
+      estimatedSteemValue,
+      estimatedSbdValue,
+      estimatedSpValue,
       navigate: _navigate,
       steemDropdown: STEEM_DROPDOWN,
       sbdDropdown: SBD_DROPDOWN,

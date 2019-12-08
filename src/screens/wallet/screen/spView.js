@@ -19,7 +19,7 @@ const SpView = ({ handleOnSelected, index, currentIndex }) => (
             userActivities,
             spBalance,
             isLoading,
-            estimatedValue,
+            estimatedSpValue,
             steemPowerDropdown,
             unclaimedBalance,
             navigate,
@@ -46,7 +46,7 @@ const SpView = ({ handleOnSelected, index, currentIndex }) => (
               valueDescriptions={[
                 {
                   textKey: 'estimated_value',
-                  value: <FormatedCurrency isApproximate value={estimatedValue} />,
+                  value: <FormatedCurrency isApproximate value={estimatedSpValue} />,
                 },
                 {
                   textKey: 'estimated_amount',

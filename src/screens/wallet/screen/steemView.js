@@ -20,7 +20,7 @@ const SteemView = ({ handleOnSelected, index, currentIndex }) => (
             steemBalance,
             isLoading,
             steemSavingBalance,
-            estimatedValue,
+            estimatedSteemValue,
             steemDropdown,
             savingSteemDropdown,
             navigate,
@@ -49,7 +49,7 @@ const SteemView = ({ handleOnSelected, index, currentIndex }) => (
               valueDescriptions={[
                 {
                   textKey: 'estimated_value',
-                  value: <FormatedCurrency isApproximate value={estimatedValue} />,
+                  value: <FormatedCurrency isApproximate value={estimatedSteemValue} />,
                   subTextKey: 'estimated_value_desc',
                 },
               ]}

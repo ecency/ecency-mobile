@@ -3,6 +3,7 @@ import parseDate from './parseDate';
 import parseToken from './parseToken';
 import { vestsToSp } from './conversions';
 import { getState, getFeedHistory } from '../providers/steem/dsteem';
+import { getCurrencyTokenRate } from '../providers/esteem/esteem';
 
 export const groomingTransactionData = (transaction, steemPerMVests, formatNumber) => {
   if (!transaction || !steemPerMVests) {
@@ -155,6 +156,14 @@ export const groomingWalletData = async (user, globalProps) => {
   const totalSbd = walletData.sbdBalance + walletData.savingBalanceSbd;
 
   walletData.estimatedValue = totalSteem * pricePerSteem + totalSbd;
+
+  const ppSbd = await getCurrencyTokenRate('usd', 'sbd');
+  const ppSteem = await getCurrencyTokenRate('usd', 'steem');
+
+  walletData.estimatedSteemValue = (walletData.balance + walletData.savingBalance) * ppSteem;
+  walletData.estimatedSbdValue = totalSbd * ppSbd;
+  walletData.estimatedSpValue =
+    vestsToSp(walletData.vestingSharesTotal, walletData.steemPerMVests) * ppSteem;
 
   walletData.showPowerDown = user.next_vesting_withdrawal !== '1969-12-31T23:59:59';
   const timeDiff = Math.abs(parseDate(user.next_vesting_withdrawal) - new Date());
