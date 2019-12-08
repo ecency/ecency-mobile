@@ -13,6 +13,14 @@ export const getCurrencyRate = currency =>
       console.log('err :', err);
     });
 
+export const getCurrencyTokenRate = (currency, token) =>
+  api
+    .get(`/market-data/currency-rate/${currency.toUpperCase()}/${token}`)
+    .then(resp => resp.data)
+    .catch(err => {
+      console.log('err :', err);
+    });
+
 /**
  * @params username
  */
