@@ -71,7 +71,20 @@ class UpvoteContainer extends PureComponent {
         ? get(content, 'cashout_time')
         : get(content, 'last_payout'),
     );
-
+    const beneficiaries = [];
+    const beneficiary = get(content, 'beneficiaries');
+    if (beneficiaries) {
+      beneficiary.forEach(key => {
+        beneficiaries.push(
+          get(key, 'account') + ': ' + (parseFloat(get(key, 'weight')) / 100).toFixed(2) + '%',
+        );
+      });
+    }
+    const minimumAmountForPayout = 0.02;
+    let warnZeroPayout = false;
+    if (pendingPayout > 0 && pendingPayout < minimumAmountForPayout) {
+      warnZeroPayout = true;
+    }
     return (
       <UpvoteView
         author={author}
@@ -93,6 +106,8 @@ class UpvoteContainer extends PureComponent {
         promotedPayout={promotedPayout}
         totalPayout={totalPayout}
         upvotePercent={upvotePercent}
+        beneficiaries={beneficiaries}
+        warnZeroPayout={warnZeroPayout}
       />
     );
   }
