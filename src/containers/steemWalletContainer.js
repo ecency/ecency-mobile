@@ -37,6 +37,7 @@ const WalletContainer = ({
   setEstimatedWalletValue,
   steemPerMVests,
   isPinCodeOpen,
+  currency,
 }) => {
   const [isClaiming, setIsClaiming] = useState(false);
   const [isLoading, setIsLoading] = useState(true);
@@ -111,7 +112,7 @@ const WalletContainer = ({
 
   const _getWalletData = useCallback(
     async _selectedUser => {
-      const _walletData = await groomingWalletData(_selectedUser, globalProps);
+      const _walletData = await groomingWalletData(_selectedUser, globalProps, currency);
 
       setWalletData(_walletData);
       setIsLoading(false);
@@ -278,6 +279,7 @@ const mapStateToProps = state => ({
   currentAccount: state.account.currentAccount,
   pinCode: state.application.pin,
   globalProps: state.account.globalProps,
+  currency: state.application.currency.currency,
   steemPerMVests: state.account.globalProps.steemPerMVests,
   isPinCodeOpen: state.application.isPinCodeOpen,
 });

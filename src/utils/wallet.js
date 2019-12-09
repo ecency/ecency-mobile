@@ -112,7 +112,7 @@ export const groomingTransactionData = (transaction, steemPerMVests, formatNumbe
   return result;
 };
 
-export const groomingWalletData = async (user, globalProps) => {
+export const groomingWalletData = async (user, globalProps, userCurrency) => {
   const walletData = {};
 
   if (!user) {
@@ -157,7 +157,6 @@ export const groomingWalletData = async (user, globalProps) => {
   const totalSbd = walletData.sbdBalance + walletData.savingBalanceSbd;
 
   walletData.estimatedValue = totalSteem * pricePerSteem + totalSbd;
-  const userCurrency = await getCurrency();
 
   const ppSbd = await getCurrencyTokenRate(userCurrency, 'sbd');
   const ppSteem = await getCurrencyTokenRate(userCurrency, 'steem');
