@@ -4,7 +4,6 @@ import parseToken from './parseToken';
 import { vestsToSp } from './conversions';
 import { getState, getFeedHistory } from '../providers/steem/dsteem';
 import { getCurrencyTokenRate } from '../providers/esteem/esteem';
-import { getCurrency } from '../realm/realm';
 
 export const groomingTransactionData = (transaction, steemPerMVests, formatNumber) => {
   if (!transaction || !steemPerMVests) {
