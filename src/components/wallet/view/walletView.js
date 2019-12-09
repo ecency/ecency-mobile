@@ -109,13 +109,6 @@ const WalletView = ({ setEstimatedWalletValue, selectedUser, handleOnScroll }) =
                   >
                     <WalletDetails intl={intl} walletData={walletData} isShowDropdowns={false} />
                   </CollapsibleCard>
-                  <Card>
-                    <Transaction
-                      refreshing={refreshing}
-                      type="wallet"
-                      transactions={userActivities}
-                    />
-                  </Card>
                 </Fragment>
               )}
             </ScrollView>
