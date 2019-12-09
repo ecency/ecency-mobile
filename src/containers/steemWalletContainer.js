@@ -47,6 +47,7 @@ const WalletContainer = ({
   const [steemBalance, setSteemBalance] = useState(0);
   const [spBalance, setSpBalance] = useState(0);
   const [steemSavingBalance, setSteemSavingBalance] = useState(0);
+  const [sbdSavingBalance, setSbdSavingBalance] = useState(0);
   const [estimatedValue, setEstimatedValue] = useState(0);
   const [estimatedSteemValue, setEstimatedSteemValue] = useState(0);
   const [estimatedSbdValue, setEstimatedSbdValue] = useState(0);
@@ -71,13 +72,30 @@ const WalletContainer = ({
 
   useEffect(() => {
     const _transferHistory = userActivities.filter(
-      item => get(item, 'textKey') === 'transfer' || get(item, 'textKey') === 'transfer_to_vesting',
+      item =>
+        get(item, 'textKey') === 'transfer' ||
+        get(item, 'textKey') === 'transfer_to_vesting' ||
+        get(item, 'textKey') === 'transfer_to_savings' ||
+        get(item, 'textKey') === 'withdraw_vesting' ||
+        get(item, 'textKey') === 'transfer_from_savings' ||
+        get(item, 'textKey') === 'convert' ||
+        get(item, 'textKey') === 'escrow_transfer' ||
+        get(item, 'textKey') === 'escrow_dispute' ||
+        get(item, 'textKey') === 'escrow_release' ||
+        get(item, 'textKey') === 'escrow_approve' ||
+        get(item, 'textKey') === 'cancel_transfer_from_savings' ||
+        get(item, 'textKey') === 'delegate_vesting_shares' ||
+        get(item, 'textKey') === 'fill_convert_request' ||
+        get(item, 'textKey') === 'fill_transfer_from_savings' ||
+        get(item, 'textKey') === 'fill_vesting_withdraw' ||
+        get(item, 'textKey') === 'fill_order',
     );
 
     setTransferHistory(_transferHistory);
     setSbdBalance(Math.round(get(walletData, 'sbdBalance', 0) * 1000) / 1000);
     setSteemBalance(Math.round(get(walletData, 'balance', 0) * 1000) / 1000);
     setSteemSavingBalance(Math.round(get(walletData, 'savingBalance', 0) * 1000) / 1000);
+    setSbdSavingBalance(Math.round(get(walletData, 'savingBalanceSbd', 0) * 1000) / 1000);
     setSpBalance(
       Math.round(
         vestsToSp(get(walletData, 'vestingShares', 0), get(walletData, 'steemPerMVests', 0)) * 1000,
@@ -258,6 +276,7 @@ const WalletContainer = ({
       spBalance,
       sbdBalance,
       steemSavingBalance,
+      sbdSavingBalance,
       estimatedValue,
       estimatedSteemValue,
       estimatedSbdValue,

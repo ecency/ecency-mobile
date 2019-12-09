@@ -20,6 +20,8 @@ export const groomingTransactionData = (transaction, steemPerMVests, formatNumbe
   result.created = timestamp;
   result.icon = 'local-activity';
 
+  //TODO: Format other wallet related operations
+
   switch (result.textKey) {
     case 'curation_reward':
       const { reward } = opData;
@@ -81,6 +83,8 @@ export const groomingTransactionData = (transaction, steemPerMVests, formatNumbe
       } ${rewardVests > 0 ? `${rewardVests} SP` : ''}`;
       break;
     case 'transfer':
+    case 'transfer_to_savings':
+    case 'transfer_from_savings':
     case 'transfer_to_vesting':
       const { amount, memo, from, to } = opData;
 

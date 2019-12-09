@@ -116,3 +116,4 @@ const WalletScreen = () => {
 };
 
 export default WalletScreen;
+/* eslint-enable */
