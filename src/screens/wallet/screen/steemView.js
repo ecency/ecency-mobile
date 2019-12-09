@@ -6,7 +6,7 @@ import { SteemWalletContainer, AccountContainer } from '../../../containers';
 
 import globalStyles from '../../../globalStyles';
 
-const SteemView = ({ handleOnSelected, index, currentIndex }) => (
+const SteemView = ({ handleOnSelected, index, currentIndex, refreshing: reload }) => (
   <View style={globalStyles.swipeItemWrapper}>
     <AccountContainer>
       {({ currentAccount }) => (
@@ -30,6 +30,7 @@ const SteemView = ({ handleOnSelected, index, currentIndex }) => (
               index={index}
               claim={claimRewardBalance}
               fetchUserActivity={handleOnWalletRefresh}
+              reload={reload}
               isClaiming={isClaiming}
               isLoading={isLoading}
               refreshing={refreshing}

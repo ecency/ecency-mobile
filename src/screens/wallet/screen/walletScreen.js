@@ -1,6 +1,7 @@
+/* eslint-disable react/jsx-wrap-multilines */
 import React, { Fragment, useState } from 'react';
 import Swiper from 'react-native-swiper';
-import { SafeAreaView, Animated, ScrollView } from 'react-native';
+import { SafeAreaView, Animated, ScrollView, RefreshControl } from 'react-native';
 
 // Containers
 import { LoggedInContainer } from '../../../containers';
@@ -21,7 +22,7 @@ const HEADER_COLLAPSED_HEIGHT = 20;
 
 const WalletScreen = () => {
   const [selectedUserActivities, setSelectedUserActivities] = useState(null);
-  const [isLoading, setIsLoading] = useState('points');
+  const [isLoading, setIsLoading] = useState(false);
   const [currentIndex, setCurrentIndex] = useState(0);
   const [refreshing, setRefreshing] = useState(false);
   const [scrollY] = useState(new Animated.Value(0));
@@ -29,6 +30,7 @@ const WalletScreen = () => {
   const _handleSwipeItemChange = (userActivities, _isLoading) => {
     setSelectedUserActivities(userActivities);
     setIsLoading(_isLoading);
+    setRefreshing(false);
   };
 
   const headerHeight = scrollY.interpolate({
@@ -79,6 +81,13 @@ const WalletScreen = () => {
               </Animated.View>
               <ScrollView
                 contentContainerStyle={styles.scrollContainer}
+                refreshControl={
+                  <RefreshControl
+                    refreshing={refreshing}
+                    tintColor={!true ? '#357ce6' : '#96c0ff'}
+                    onRefresh={() => setRefreshing(true)}
+                  />
+                }
                 onScroll={Animated.event([
                   {
                     nativeEvent: {
@@ -93,7 +102,7 @@ const WalletScreen = () => {
                 <Transaction
                   type="wallet"
                   transactions={selectedUserActivities}
-                  refreshing={refreshing}
+                  refreshing={false}
                   setRefreshing={setRefreshing}
                   isLoading={isLoading}
                 />

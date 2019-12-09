@@ -130,7 +130,7 @@ const PointsContainer = ({
       }),
     );
 
-  const _fetchUserPointActivities = useCallback(async _username => {
+  const _fetchUserPointActivities = useCallback(async (_username = username) => {
     if (!_username) {
       return;
     }
