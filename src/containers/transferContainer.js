@@ -127,7 +127,7 @@ class TransferContainer extends Component {
     }
 
     data.amount = `${data.amount} ${fundType}`;
-    console.log(transferType);
+
     switch (transferType) {
       case 'transfer_token':
         func = transferToken;
