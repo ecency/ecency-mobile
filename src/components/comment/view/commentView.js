@@ -1,7 +1,7 @@
-import React, { PureComponent, Fragment } from 'react';
+import React, { Fragment, useState, useRef } from 'react';
 import { View, TouchableWithoutFeedback } from 'react-native';
 import ActionSheet from 'react-native-actionsheet';
-import { injectIntl } from 'react-intl';
+import { useIntl } from 'react-intl';
 import get from 'lodash/get';
 
 import { getTimeFromNow } from '../../../utils/time';
@@ -17,176 +17,162 @@ import { TextWithIcon } from '../../basicUIElements';
 // Styles
 import styles from './commentStyles';
 
-class CommentView extends PureComponent {
-  /* Props
-   * ------------------------------------------------
-   *   @prop { type }    name                - Description....
-   */
-
-  constructor(props) {
-    super(props);
-    this.state = {
-      isShowSubComments: props.isShowSubComments || false,
-      isPressedShowButton: false,
-    };
-  }
-
-  // Component Life Cycles
-  // Component Functions
-
-  _showSubCommentsToggle = () => {
-    const { isShowSubComments } = this.state;
-
-    this.setState({ isShowSubComments: !isShowSubComments, isPressedShowButton: true });
+const CommentView = ({
+  avatarSize,
+  comment,
+  commentNumber,
+  currentAccountUsername,
+  fetchPost,
+  handleDeleteComment,
+  handleOnEditPress,
+  handleOnLongPress,
+  handleOnReplyPress,
+  handleOnUserPress,
+  handleOnVotersPress,
+  isLoggedIn,
+  isShowComments,
+  isShowMoreButton,
+  marginLeft,
+  voteCount,
+  mainAuthor = { mainAuthor },
+  isHideImage,
+  showAllComments,
+  isShowSubComments,
+  hideManyCommentsButton,
+}) => {
+  const [_isShowSubComments, setIsShowSubComments] = useState(isShowSubComments || false);
+  const [isPressedShowButton, setIsPressedShowButton] = useState(false);
+  const intl = useIntl();
+  const actionSheet = useRef(null);
+  const _showSubCommentsToggle = () => {
+    setIsShowSubComments(!_isShowSubComments);
+    setIsPressedShowButton(true);
   };
 
-  render() {
-    const {
-      avatarSize,
-      comment,
-      commentNumber,
-      currentAccountUsername,
-      fetchPost,
-      handleDeleteComment,
-      handleOnEditPress,
-      handleOnLongPress,
-      handleOnReplyPress,
-      handleOnUserPress,
-      handleOnVotersPress,
-      isLoggedIn,
-      isShowComments,
-      isShowMoreButton,
-      marginLeft,
-      voteCount,
-      intl,
-      mainAuthor = { mainAuthor },
-      isHideImage,
-    } = this.props;
-    const { isShowSubComments, isPressedShowButton } = this.state;
-
-    return (
-      <TouchableWithoutFeedback onLongPress={handleOnLongPress}>
-        <View>
-          <PostHeaderDescription
-            key={comment.permlink}
-            date={getTimeFromNow(comment.created)}
-            name={comment.author}
-            reputation={comment.author_reputation}
-            size={avatarSize || 24}
-            currentAccountUsername={currentAccountUsername}
-            isShowOwnerIndicator={mainAuthor === comment.author}
-            isHideImage={isHideImage}
+  return (
+    <TouchableWithoutFeedback onLongPress={handleOnLongPress}>
+      <View>
+        <PostHeaderDescription
+          key={comment.permlink}
+          date={getTimeFromNow(comment.created)}
+          name={comment.author}
+          reputation={comment.author_reputation}
+          size={avatarSize || 24}
+          currentAccountUsername={currentAccountUsername}
+          isShowOwnerIndicator={mainAuthor === comment.author}
+          isHideImage={isHideImage}
+        />
+        <View style={[{ marginLeft: marginLeft || 29 }, styles.bodyWrapper]}>
+          <PostBody
+            isComment
+            commentDepth={comment.depth}
+            handleOnUserPress={handleOnUserPress}
+            body={comment.body}
+            textSelectable={false}
           />
-          <View style={[{ marginLeft: marginLeft || 29 }, styles.bodyWrapper]}>
-            <PostBody
-              isComment
-              commentDepth={comment.depth}
-              handleOnUserPress={handleOnUserPress}
-              body={comment.body}
-              textSelectable={false}
-            />
-            <View style={styles.footerWrapper}>
-              {isLoggedIn && (
-                <Fragment>
-                  <Upvote isShowPayoutValue content={comment} />
-                  <TextWithIcon
-                    iconName="people"
-                    iconSize={20}
-                    wrapperStyle={styles.leftButton}
-                    iconType="MaterialIcons"
-                    isClickable
-                    onPress={() =>
-                      handleOnVotersPress &&
-                      voteCount > 0 &&
-                      handleOnVotersPress(get(comment, 'active_votes'))
-                    }
-                    text={voteCount}
-                    textMarginLeft={20}
-                    textStyle={styles.voteCountText}
-                  />
-                  <IconButton
-                    size={20}
-                    iconStyle={styles.leftIcon}
-                    style={styles.leftButton}
-                    name="reply"
-                    onPress={() => handleOnReplyPress && handleOnReplyPress(comment)}
-                    iconType="MaterialIcons"
-                  />
-                  {currentAccountUsername === comment.author && (
-                    <Fragment>
-                      <IconButton
-                        size={20}
-                        iconStyle={styles.leftIcon}
-                        style={styles.leftButton}
-                        name="create"
-                        onPress={() => handleOnEditPress && handleOnEditPress(comment)}
-                        iconType="MaterialIcons"
-                      />
-                      {!comment.children && !voteCount && (
-                        <Fragment>
-                          <IconButton
-                            size={20}
-                            iconStyle={styles.leftIcon}
-                            style={styles.leftButton}
-                            name="delete-forever"
-                            onPress={() => this.ActionSheet.show()}
-                            iconType="MaterialIcons"
-                          />
-                          <ActionSheet
-                            ref={o => (this.ActionSheet = o)}
-                            options={[
-                              intl.formatMessage({ id: 'alert.delete' }),
-                              intl.formatMessage({ id: 'alert.cancel' }),
-                            ]}
-                            title={intl.formatMessage({ id: 'alert.delete' })}
-                            destructiveButtonIndex={0}
-                            cancelButtonIndex={1}
-                            onPress={index => {
-                              index === 0 ? handleDeleteComment(comment.permlink) : null;
-                            }}
-                          />
-                        </Fragment>
-                      )}
-                    </Fragment>
-                  )}
-                </Fragment>
-              )}
-              {isShowMoreButton && (
-                <View style={styles.rightButtonWrapper}>
-                  <TextWithIcon
-                    wrapperStyle={styles.rightButton}
-                    iconName={isShowSubComments ? 'keyboard-arrow-up' : 'keyboard-arrow-down'}
-                    textStyle={!isPressedShowButton && styles.moreText}
-                    iconType="MaterialIcons"
-                    isClickable
-                    iconStyle={styles.iconStyle}
-                    iconSize={16}
-                    onPress={() => this._showSubCommentsToggle()}
-                    text={!isPressedShowButton ? `${comment.children} more replies` : ''}
-                  />
-                </View>
-              )}
-            </View>
-            {isShowSubComments && commentNumber > 0 && (
-              <Comments
-                isShowComments={isShowComments}
-                commentNumber={commentNumber && commentNumber * 2}
-                marginLeft={20}
-                isShowSubComments={isShowSubComments}
-                avatarSize={avatarSize || 16}
-                author={comment.author}
-                permlink={comment.permlink}
-                commentCount={comment.children}
-                isShowMoreButton={false}
-                fetchPost={fetchPost}
-                mainAuthor={mainAuthor}
-              />
+          <View style={styles.footerWrapper}>
+            {isLoggedIn && (
+              <Fragment>
+                <Upvote isShowPayoutValue content={comment} />
+                <TextWithIcon
+                  iconName="people"
+                  iconSize={20}
+                  wrapperStyle={styles.leftButton}
+                  iconType="MaterialIcons"
+                  isClickable
+                  onPress={() =>
+                    handleOnVotersPress &&
+                    voteCount > 0 &&
+                    handleOnVotersPress(get(comment, 'active_votes'))
+                  }
+                  text={voteCount}
+                  textMarginLeft={20}
+                  textStyle={styles.voteCountText}
+                />
+                <IconButton
+                  size={20}
+                  iconStyle={styles.leftIcon}
+                  style={styles.leftButton}
+                  name="reply"
+                  onPress={() => handleOnReplyPress && handleOnReplyPress(comment)}
+                  iconType="MaterialIcons"
+                />
+                {currentAccountUsername === comment.author && (
+                  <Fragment>
+                    <IconButton
+                      size={20}
+                      iconStyle={styles.leftIcon}
+                      style={styles.leftButton}
+                      name="create"
+                      onPress={() => handleOnEditPress && handleOnEditPress(comment)}
+                      iconType="MaterialIcons"
+                    />
+                    {!comment.children && !voteCount && (
+                      <Fragment>
+                        <IconButton
+                          size={20}
+                          iconStyle={styles.leftIcon}
+                          style={styles.leftButton}
+                          name="delete-forever"
+                          onPress={() => actionSheet.current.show()}
+                          iconType="MaterialIcons"
+                        />
+                        <ActionSheet
+                          ref={actionSheet}
+                          options={[
+                            intl.formatMessage({ id: 'alert.delete' }),
+                            intl.formatMessage({ id: 'alert.cancel' }),
+                          ]}
+                          title={intl.formatMessage({ id: 'alert.delete' })}
+                          destructiveButtonIndex={0}
+                          cancelButtonIndex={1}
+                          onPress={index => {
+                            index === 0 ? handleDeleteComment(comment.permlink) : null;
+                          }}
+                        />
+                      </Fragment>
+                    )}
+                  </Fragment>
+                )}
+              </Fragment>
+            )}
+            {!showAllComments && isShowMoreButton && (
+              <View style={styles.rightButtonWrapper}>
+                <TextWithIcon
+                  wrapperStyle={styles.rightButton}
+                  iconName={_isShowSubComments ? 'keyboard-arrow-up' : 'keyboard-arrow-down'}
+                  textStyle={!isPressedShowButton && styles.moreText}
+                  iconType="MaterialIcons"
+                  isClickable
+                  iconStyle={styles.iconStyle}
+                  iconSize={16}
+                  onPress={() => _showSubCommentsToggle()}
+                  text={!isPressedShowButton ? `${comment.children} more replies` : ''}
+                />
+              </View>
             )}
           </View>
+          {_isShowSubComments && commentNumber > 0 && (
+            <Comments
+              isShowComments={isShowComments}
+              commentNumber={commentNumber + 1}
+              marginLeft={20}
+              isShowSubComments={true}
+              avatarSize={avatarSize || 16}
+              author={comment.author}
+              permlink={comment.permlink}
+              commentCount={comment.children}
+              isShowMoreButton={false}
+              hasManyComments={commentNumber === 5 && get(comment, 'children') > 0}
+              fetchPost={fetchPost}
+              hideManyCommentsButton={hideManyCommentsButton}
+              mainAuthor={mainAuthor}
+            />
+          )}
         </View>
-      </TouchableWithoutFeedback>
-    );
-  }
-}
+      </View>
+    </TouchableWithoutFeedback>
+  );
+};
 
-export default injectIntl(CommentView);
+export default CommentView;
