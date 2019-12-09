@@ -277,7 +277,10 @@
     "copy_link": "Copy Link",
     "reblogged": "reblogged by",
     "sponsored": "SPONSORED",
-    "open_thread": "Open Thread"
+    "open_thread": "Open Thread",
+    "save_to_local": "Save to the album",
+    "image_saved": "Image Saved to Photo Gallery",
+    "image_saved_error": "Error Saving Image"
   },
   "drafts": {
     "title": "Drafts",

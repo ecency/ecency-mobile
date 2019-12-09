@@ -1,5 +1,6 @@
 import React, { Fragment, useState } from 'react';
 import { Dimensions, Linking, Alert, Modal } from 'react-native';
+import CameraRoll from '@react-native-community/cameraroll';
 import { withNavigation } from 'react-navigation';
 import { useIntl, injectIntl } from 'react-intl';
 import AutoHeightWebView from 'react-native-autoheight-webview';
@@ -126,6 +127,23 @@ const PostBody = ({
     }
   };
 
+  const _saveImage = uri => {
+    CameraRoll.saveToCameraRoll(uri)
+      .then(() => {
+        Alert.alert(
+          intl.formatMessage({ id: 'alert.success' }),
+          intl.formatMessage({ id: 'post.image_saved' }),
+          [{ text: 'OK' }],
+          { cancelable: false },
+        );
+      })
+      .catch(error => {
+        Alert.alert(intl.formatMessage({ id: 'post.image_saved_error' }), error, [{ text: 'OK' }], {
+          cancelable: false,
+        });
+      });
+  };
+
   const html = body.replace(/<a/g, '<a target="_blank"');
   const customStyle = `
   * {
@@ -219,6 +237,11 @@ const PostBody = ({
           imageUrls={postImages}
           enableSwipeDown
           onCancel={() => setIsImageModalOpen(false)}
+          onSave={uri => _saveImage(uri)}
+          menuContext={{
+            saveToLocal: intl.formatMessage({ id: 'post.save_to_local' }),
+            cancel: intl.formatMessage({ id: 'alert.cancel' }),
+          }}
         />
       </Modal>
       <AutoHeightWebView
