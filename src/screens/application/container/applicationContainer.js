@@ -485,7 +485,7 @@ class ApplicationContainer extends Component {
       }
       if (settings.nsfw !== '') dispatch(setNsfw(settings.nsfw));
 
-      if (isConnected) {
+      if (settings.currency !== '') {
         dispatch(setCurrency(settings.currency !== '' ? settings.currency : 'usd'));
       }
 
