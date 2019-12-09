@@ -4,6 +4,7 @@ import parseToken from './parseToken';
 import { vestsToSp } from './conversions';
 import { getState, getFeedHistory } from '../providers/steem/dsteem';
 import { getCurrencyTokenRate } from '../providers/esteem/esteem';
+import { getCurrency } from '../realm/realm';
 
 export const groomingTransactionData = (transaction, steemPerMVests, formatNumber) => {
   if (!transaction || !steemPerMVests) {
@@ -156,9 +157,10 @@ export const groomingWalletData = async (user, globalProps) => {
   const totalSbd = walletData.sbdBalance + walletData.savingBalanceSbd;
 
   walletData.estimatedValue = totalSteem * pricePerSteem + totalSbd;
+  const userCurrency = await getCurrency();
 
-  const ppSbd = await getCurrencyTokenRate('usd', 'sbd');
-  const ppSteem = await getCurrencyTokenRate('usd', 'steem');
+  const ppSbd = await getCurrencyTokenRate(userCurrency, 'sbd');
+  const ppSteem = await getCurrencyTokenRate(userCurrency, 'steem');
 
   walletData.estimatedSteemValue = (walletData.balance + walletData.savingBalance) * ppSteem;
   walletData.estimatedSbdValue = totalSbd * ppSbd;

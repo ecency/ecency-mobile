@@ -5,12 +5,16 @@ import serverList from '../../config/serverListApi';
 import { jsonStringify } from '../../utils/jsonUtils';
 import bugsnag from '../../config/bugsnag';
 // market-data/currency-rate/USD/estm
+
+// SBD=$1 for post values
 export const getCurrencyRate = currency =>
   api
-    .get(`/market-data/currency-rate/${currency.toUpperCase()}/steem`)
+    .get(`/market-data/currency-rate/${currency.toUpperCase()}/sbd?fixed=1`)
     .then(resp => resp.data)
     .catch(err => {
       console.log('err :', err);
+      //TODO: save currency rate of offline values
+      return 1;
     });
 
 export const getCurrencyTokenRate = (currency, token) =>

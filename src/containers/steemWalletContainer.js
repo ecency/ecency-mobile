@@ -121,6 +121,9 @@ const WalletContainer = ({
         ),
       );
       setEstimatedWalletValue && setEstimatedWalletValue(_walletData.estimatedValue);
+      setEstimatedSbdValue && setEstimatedSbdValue(_walletData.estimatedSbdValue);
+      setEstimatedSteemValue && setEstimatedSteemValue(_walletData.estimatedSteemValue);
+      setEstimatedSpValue && setEstimatedSpValue(_walletData.estimatedSpValue);
     },
     [globalProps, intl.formatNumber, setEstimatedWalletValue, steemPerMVests],
   );

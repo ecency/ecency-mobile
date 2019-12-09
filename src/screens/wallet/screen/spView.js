@@ -1,7 +1,7 @@
 import React from 'react';
 import { View } from 'react-native';
 
-import { WalletHeader, FormatedCurrency } from '../../../components';
+import { WalletHeader, FormattedCurrency } from '../../../components';
 import { SteemWalletContainer, AccountContainer } from '../../../containers';
 
 import globalStyles from '../../../globalStyles';
@@ -46,11 +46,11 @@ const SpView = ({ handleOnSelected, index, currentIndex }) => (
               valueDescriptions={[
                 {
                   textKey: 'estimated_value',
-                  value: <FormatedCurrency isApproximate value={estimatedSpValue} />,
+                  value: <FormattedCurrency isApproximate value={estimatedSpValue} />,
                 },
                 {
                   textKey: 'estimated_amount',
-                  value: <FormatedCurrency isApproximate value={estimatedAmount} />,
+                  value: <FormattedCurrency isApproximate value={estimatedAmount} />,
                 },
               ]}
             />
