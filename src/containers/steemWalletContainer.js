@@ -189,6 +189,7 @@ const WalletContainer = ({
   };
 
   const _handleOnWalletRefresh = () => {
+    if (refreshing) return;
     setRefreshing(true);
 
     getAccount(selectedUser.name)
