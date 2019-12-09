@@ -49,7 +49,7 @@ const SteemView = ({ handleOnSelected, index, currentIndex }) => (
               valueDescriptions={[
                 {
                   textKey: 'estimated_value',
-                  value: <FormattedCurrency isApproximate value={estimatedSteemValue} />,
+                  value: <FormattedCurrency isApproximate isToken value={estimatedSteemValue} />,
                   subTextKey: 'estimated_value_desc',
                 },
               ]}

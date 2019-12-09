@@ -45,7 +45,7 @@ const SbdView = ({ handleOnSelected, index, currentIndex }) => (
               valueDescriptions={[
                 {
                   textKey: 'estimated_value',
-                  value: <FormattedCurrency isApproximate value={estimatedSbdValue} />,
+                  value: <FormattedCurrency isApproximate isToken value={estimatedSbdValue} />,
                   subTextKey: 'estimated_value_desc',
                 },
               ]}
