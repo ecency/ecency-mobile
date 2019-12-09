@@ -24,6 +24,7 @@ export default {
     STEEM_CONNECT: `SteemConnect${SCREEN_SUFFIX}`,
     TRANSFER: `Transfer${SCREEN_SUFFIX}`,
     VOTERS: `Voters${SCREEN_SUFFIX}`,
+    COMMENTS: `Comments${SCREEN_SUFFIX}`,
   },
   DRAWER: {
     MAIN: `Main${DRAWER_SUFFIX}`,
