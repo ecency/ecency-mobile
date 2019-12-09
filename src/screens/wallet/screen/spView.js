@@ -46,7 +46,7 @@ const SpView = ({ handleOnSelected, index, currentIndex }) => (
               valueDescriptions={[
                 {
                   textKey: 'estimated_value',
-                  value: <FormattedCurrency isApproximate value={estimatedSpValue} />,
+                  value: <FormattedCurrency isApproximate isToken value={estimatedSpValue} />,
                 },
                 {
                   textKey: 'estimated_amount',
