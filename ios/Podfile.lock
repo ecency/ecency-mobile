@@ -24,10 +24,10 @@ PODS:
   - AppCenterReactNativeShared (2.6.0):
     - AppCenter/Core (= 2.5.1)
   - boost-for-react-native (1.63.0)
-  - BugsnagReactNative (2.23.2):
-    - BugsnagReactNative/Core (= 2.23.2)
+  - BugsnagReactNative (2.23.3):
+    - BugsnagReactNative/Core (= 2.23.3)
     - React
-  - BugsnagReactNative/Core (2.23.2):
+  - BugsnagReactNative/Core (2.23.3):
     - React
   - BVLinearGradient (2.5.6):
     - React
@@ -294,7 +294,7 @@ PODS:
     - RSKImageCropper
   - RNReanimated (1.3.0):
     - React
-  - RNScreens (2.0.0-alpha.15):
+  - RNScreens (2.0.0-alpha.16):
     - React
   - RNSVG (9.11.1):
     - React
@@ -473,7 +473,7 @@ SPEC CHECKSUMS:
   appcenter-push: d5a64c593578762f773ac40b76a2e6965911e45c
   AppCenterReactNativeShared: d5e360f8a4cb5126d29e31ab98051d2f070ba631
   boost-for-react-native: 39c7adb57c4e60d6c5479dd8623128eb5b3f0f2c
-  BugsnagReactNative: 0a24a1dd2cac88862d67b938f809bec8274130a9
+  BugsnagReactNative: 34f9500e304c2667ce7a3e76037d91e41eca2ffe
   BVLinearGradient: e3aad03778a456d77928f594a649e96995f1c872
   CodePush: a503ca0caee269e68d8faaafe4414990ec282520
   DoubleConversion: 5805e889d232975c086db112ece9ed034df7a0b2
@@ -514,7 +514,7 @@ SPEC CHECKSUMS:
   RNIap: b4c77c8bc4501203f4b743126a05da23f10f40b4
   RNImageCropPicker: bfb3ea9c8622f290532e2fe63f369e0d5a52f597
   RNReanimated: 6abbbae2e5e72609d85aabd92a982a94566885f1
-  RNScreens: 055721f56f831d17a20d84b613dc0ca9a50e3fcd
+  RNScreens: 6f748645b4037f2579b363862754dd458d8ce376
   RNSVG: be27aa7c58819f97399388ae53d7fa0572f32c7f
   RNVectorIcons: 0bb4def82230be1333ddaeee9fcba45f0b288ed4
   RSKImageCropper: a446db0e8444a036b34f3c43db01b2373baa4b2a
