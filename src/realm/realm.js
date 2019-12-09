@@ -423,6 +423,8 @@ export const getCurrency = async () => {
   try {
     const setting = await getItemFromStorage(SETTINGS_SCHEMA);
     if (setting) {
+      console.log(setting);
+      console.log('ugur');
       return setting.currency;
     }
     return false;
