@@ -65,6 +65,17 @@
     "power_down": "Power Down",
     "withdraw_steem": "Withdraw Steem",
     "withdraw_sbd": "Withdraw Steem Dollar",
+    "transfer_to_savings": "Transfer To Savings",
+    "convert": "Convert",
+    "escrow_transfer": "Escrow Transfer",
+    "escrow_dispute": "Escrow Dispute",
+    "escrow_release": "Escrow Release",
+    "escrow_approve": "Escrow Approve",
+    "cancel_transfer_from_savings": "Cancel Transfer from Savings",
+    "delegate_vesting_shares": "Delegation",
+    "fill_convert_request": "Convert request executed",
+    "fill_transfer_from_savings": "From Savings executed",
+    "fill_vesting_withdraw": "Power Down executed",
     "estm": {
       "title": "eSteem Points",
       "buy": "GET ESTM"

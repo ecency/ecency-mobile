@@ -127,7 +127,7 @@ class TransferContainer extends Component {
     }
 
     data.amount = `${data.amount} ${fundType}`;
-
+    console.log(transferType);
     switch (transferType) {
       case 'transfer_token':
         func = transferToken;
@@ -138,7 +138,11 @@ class TransferContainer extends Component {
       case 'powerUp':
         func = transferToVesting;
         break;
-      case 'withdraw_to_saving':
+      case 'withdraw_steem':
+        func = transferFromSavings;
+        data.requestId = new Date().getTime() >>> 0;
+        break;
+      case 'withdraw_sbd':
         func = transferFromSavings;
         data.requestId = new Date().getTime() >>> 0;
         break;
