@@ -1,5 +1,4 @@
-import CommentsDisplayView from './view/commentsDisplayView';
-import CommentsDisplay from './container/commentsDisplayContainer';
+import CommentsDisplay from './view/commentsDisplayView';
 
-export { CommentsDisplayView, CommentsDisplay };
+export { CommentsDisplay };
 export default CommentsDisplay;
