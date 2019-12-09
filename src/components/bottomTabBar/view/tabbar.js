@@ -5,7 +5,6 @@ import Svg, { Circle, Path } from 'react-native-svg';
 import scalePx from '../../../utils/scalePx';
 import styles from './bottomTabBarStyles';
 
-
 const AnimatedCircle = Animated.createAnimatedComponent(Circle);
 const AnimatedPath = Animated.createAnimatedComponent(Path);
 
@@ -164,12 +163,7 @@ const TabBarItem = ({
     }
     if (showIcon) {
       return (
-        <TouchableHighlight
-          underlayColor="transparent"
-          style={[
-            styles.navItem
-          ]}
-        >
+        <TouchableHighlight underlayColor="transparent" style={[styles.navItem]}>
           <View style={styles.circle}>{selectedIcon || icon}</View>
         </TouchableHighlight>
       );
