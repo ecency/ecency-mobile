@@ -330,7 +330,10 @@
     "promoted": "Продвижение",
     "author_payout": "Автору",
     "curation_payout": "Кураторам",
-    "payout_date": "Выплата"
+    "payout_date": "Выплата",
+    "beneficiaries": "Beneficiaries",
+    "warn_zero_payout": "Amount must reach $0.02 for payout",
+    "breakdown": "Breakdown"
   },
   "post_dropdown": {
     "copy": "копировать ссылку",
