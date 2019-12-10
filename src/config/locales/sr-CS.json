@@ -330,7 +330,10 @@
     "promoted": "Promovisano",
     "author_payout": "Isplata autoru",
     "curation_payout": "Isplata glasačima",
-    "payout_date": "Isplata"
+    "payout_date": "Isplata",
+    "beneficiaries": "Beneficiaries",
+    "warn_zero_payout": "Amount must reach $0.02 for payout",
+    "breakdown": "Breakdown"
   },
   "post_dropdown": {
     "copy": "kopiraj link",
