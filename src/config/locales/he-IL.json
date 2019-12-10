@@ -330,7 +330,10 @@
     "promoted": "מקודמים",
     "author_payout": "תשלום הסופר",
     "curation_payout": "תשלום אוצרות התוכן",
-    "payout_date": "תשלום"
+    "payout_date": "תשלום",
+    "beneficiaries": "Beneficiaries",
+    "warn_zero_payout": "Amount must reach $0.02 for payout",
+    "breakdown": "Breakdown"
   },
   "post_dropdown": {
     "copy": "העתק קישור",
