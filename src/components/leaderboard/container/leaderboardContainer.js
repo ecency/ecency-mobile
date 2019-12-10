@@ -58,7 +58,6 @@ class LeaderboardContainer extends PureComponent {
     }
     let users;
 
-    console.log(index);
     if (!isConnected) {
       return;
     }

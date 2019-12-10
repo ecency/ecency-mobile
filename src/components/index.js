@@ -9,7 +9,7 @@ import { ContainerHeader } from './containerHeader';
 import { DateTimePicker } from './dateTimePicker';
 import { DropdownButton } from './dropdownButton';
 import { FilterBar } from './filterBar';
-import { FormatedCurrency } from './formatedElements';
+import { FormattedCurrency } from './formatedElements';
 import { FormInput } from './formInput';
 import { Header } from './header';
 import { Icon } from './icon';
@@ -112,7 +112,7 @@ export {
   DateTimePicker,
   DropdownButton,
   FilterBar,
-  FormatedCurrency,
+  FormattedCurrency,
   FormInput,
   GrayWrapper,
   Header,

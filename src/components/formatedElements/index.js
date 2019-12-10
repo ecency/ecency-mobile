@@ -1,3 +1,3 @@
-import FormatedCurrency from './formattedCurrency/formattedCurrencyView';
+import FormattedCurrency from './formattedCurrency/formattedCurrencyView';
 
-export { FormatedCurrency };
+export { FormattedCurrency };

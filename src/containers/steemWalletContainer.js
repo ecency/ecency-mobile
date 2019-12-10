@@ -37,6 +37,7 @@ const WalletContainer = ({
   setEstimatedWalletValue,
   steemPerMVests,
   isPinCodeOpen,
+  currency,
 }) => {
   const [isClaiming, setIsClaiming] = useState(false);
   const [isLoading, setIsLoading] = useState(true);
@@ -47,7 +48,11 @@ const WalletContainer = ({
   const [steemBalance, setSteemBalance] = useState(0);
   const [spBalance, setSpBalance] = useState(0);
   const [steemSavingBalance, setSteemSavingBalance] = useState(0);
+  const [sbdSavingBalance, setSbdSavingBalance] = useState(0);
   const [estimatedValue, setEstimatedValue] = useState(0);
+  const [estimatedSteemValue, setEstimatedSteemValue] = useState(0);
+  const [estimatedSbdValue, setEstimatedSbdValue] = useState(0);
+  const [estimatedSpValue, setEstimatedSpValue] = useState(0);
   const [unclaimedBalance, setUnclaimedBalance] = useState('');
   const [estimatedAmount, setEstimatedAmount] = useState(0);
   const [transferHistory, setTransferHistory] = useState([]);
@@ -68,19 +73,40 @@ const WalletContainer = ({
 
   useEffect(() => {
     const _transferHistory = userActivities.filter(
-      item => get(item, 'textKey') === 'transfer' || get(item, 'textKey') === 'transfer_to_vesting',
+      item =>
+        get(item, 'textKey') === 'transfer' ||
+        get(item, 'textKey') === 'transfer_to_vesting' ||
+        get(item, 'textKey') === 'transfer_to_savings' ||
+        get(item, 'textKey') === 'withdraw_vesting' ||
+        get(item, 'textKey') === 'transfer_from_savings' ||
+        get(item, 'textKey') === 'convert' ||
+        get(item, 'textKey') === 'escrow_transfer' ||
+        get(item, 'textKey') === 'escrow_dispute' ||
+        get(item, 'textKey') === 'escrow_release' ||
+        get(item, 'textKey') === 'escrow_approve' ||
+        get(item, 'textKey') === 'cancel_transfer_from_savings' ||
+        get(item, 'textKey') === 'delegate_vesting_shares' ||
+        get(item, 'textKey') === 'fill_convert_request' ||
+        get(item, 'textKey') === 'fill_transfer_from_savings' ||
+        get(item, 'textKey') === 'fill_vesting_withdraw' ||
+        get(item, 'textKey') === 'fill_order',
     );
 
     setTransferHistory(_transferHistory);
     setSbdBalance(Math.round(get(walletData, 'sbdBalance', 0) * 1000) / 1000);
     setSteemBalance(Math.round(get(walletData, 'balance', 0) * 1000) / 1000);
     setSteemSavingBalance(Math.round(get(walletData, 'savingBalance', 0) * 1000) / 1000);
+    setSbdSavingBalance(Math.round(get(walletData, 'savingBalanceSbd', 0) * 1000) / 1000);
     setSpBalance(
       Math.round(
         vestsToSp(get(walletData, 'vestingShares', 0), get(walletData, 'steemPerMVests', 0)) * 1000,
       ) / 1000,
     );
     setEstimatedValue(get(walletData, 'estimatedValue', 0));
+    setEstimatedSteemValue(get(walletData, 'estimatedSteemValue', 0));
+    setEstimatedSbdValue(get(walletData, 'estimatedSbdValue', 0));
+    setEstimatedSpValue(get(walletData, 'estimatedSpValue', 0));
+
     setUnclaimedBalance(
       `${
         get(walletData, 'rewardSteemBalance', 0)
@@ -104,7 +130,7 @@ const WalletContainer = ({
 
   const _getWalletData = useCallback(
     async _selectedUser => {
-      const _walletData = await groomingWalletData(_selectedUser, globalProps);
+      const _walletData = await groomingWalletData(_selectedUser, globalProps, currency);
 
       setWalletData(_walletData);
       setIsLoading(false);
@@ -114,6 +140,9 @@ const WalletContainer = ({
         ),
       );
       setEstimatedWalletValue && setEstimatedWalletValue(_walletData.estimatedValue);
+      setEstimatedSbdValue && setEstimatedSbdValue(_walletData.estimatedSbdValue);
+      setEstimatedSteemValue && setEstimatedSteemValue(_walletData.estimatedSteemValue);
+      setEstimatedSpValue && setEstimatedSpValue(_walletData.estimatedSpValue);
     },
     [globalProps, intl.formatNumber, setEstimatedWalletValue, steemPerMVests],
   );
@@ -179,6 +208,7 @@ const WalletContainer = ({
   };
 
   const _handleOnWalletRefresh = () => {
+    if (refreshing) return;
     setRefreshing(true);
 
     getAccount(selectedUser.name)
@@ -201,21 +231,17 @@ const WalletContainer = ({
   const _navigate = async (transferType, fundType) => {
     let balance;
 
-    switch (fundType) {
-      case 'STEEM':
-        balance = Math.round(walletData.balance * 1000) / 1000;
-        break;
-      case 'SBD':
-        balance = Math.round(walletData.sbdBalance * 1000) / 1000;
-        break;
-      case 'SAVING_STEEM':
-        balance = Math.round(walletData.savingBalance * 1000) / 1000;
-        break;
-      case 'SAVING_SBD':
-        balance = Math.round(walletData.savingBalanceSbd * 1000) / 1000;
-        break;
-      default:
-        break;
+    if (transferType === 'transfer_token' && fundType === 'STEEM') {
+      balance = Math.round(walletData.balance * 1000) / 1000;
+    }
+    if (transferType === 'transfer_token' && fundType === 'SBD') {
+      balance = Math.round(walletData.sbdBalance * 1000) / 1000;
+    }
+    if (transferType === 'withdraw_steem' && fundType === 'STEEM') {
+      balance = Math.round(walletData.savingBalance * 1000) / 1000;
+    }
+    if (transferType === 'withdraw_sbd' && fundType === 'SBD') {
+      balance = Math.round(walletData.savingBalanceSbd * 1000) / 1000;
     }
 
     if (isPinCodeOpen) {
@@ -251,7 +277,11 @@ const WalletContainer = ({
       spBalance,
       sbdBalance,
       steemSavingBalance,
+      sbdSavingBalance,
       estimatedValue,
+      estimatedSteemValue,
+      estimatedSbdValue,
+      estimatedSpValue,
       navigate: _navigate,
       steemDropdown: STEEM_DROPDOWN,
       sbdDropdown: SBD_DROPDOWN,
@@ -268,6 +298,7 @@ const mapStateToProps = state => ({
   currentAccount: state.account.currentAccount,
   pinCode: state.application.pin,
   globalProps: state.account.globalProps,
+  currency: state.application.currency.currency,
   steemPerMVests: state.account.globalProps.steemPerMVests,
   isPinCodeOpen: state.application.isPinCodeOpen,
 });
