@@ -330,7 +330,10 @@
     "promoted": "E don promote",
     "author_payout": "Payment For Person Wey Write",
     "curation_payout": "Payment For Post Wey You Upvote",
-    "payout_date": "Payment"
+    "payout_date": "Payment",
+    "beneficiaries": "Beneficiaries",
+    "warn_zero_payout": "Amount must reach $0.02 for payout",
+    "breakdown": "Breakdown"
   },
   "post_dropdown": {
     "copy": "copy the link",
