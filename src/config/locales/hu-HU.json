@@ -44,7 +44,7 @@
     "from": "Feladó",
     "to": "Címzett",
     "estimated_value_desc": "Determined by purchase value",
-    "estimated_value": "Estimated value",
+    "estimated_value": "Becsült érték",
     "estimated_amount": "Vote value",
     "amount_information": "A csúszka húzásával állítsd be a mennyiséget",
     "amount": "Összeg",
@@ -66,7 +66,7 @@
     "withdraw_steem": "Steem Visszavonás",
     "withdraw_sbd": "Steem Dollár Visszavonás",
     "transfer_to_savings": "Transfer To Savings",
-    "convert": "Convert",
+    "convert": "Konvertálás",
     "escrow_transfer": "Escrow Transfer",
     "escrow_dispute": "Escrow Dispute",
     "escrow_release": "Escrow Release",
@@ -119,8 +119,8 @@
     "older_then": "Egy Hónapnál Régebbi"
   },
   "leaderboard": {
-    "daily": "DAILY",
-    "weekly": "WEEKLY",
+    "daily": "NAPI",
+    "weekly": "HETI",
     "monthly": "MONTHLY"
   },
   "messages": {
