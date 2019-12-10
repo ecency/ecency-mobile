@@ -221,13 +221,31 @@ export const groomingWalletData = async (user, globalProps, userCurrency) => {
   const timeDiff = Math.abs(parseDate(user.next_vesting_withdrawal) - new Date());
   walletData.nextVestingWithdrawal = Math.floor(timeDiff / (1000 * 3600 * 24));
 
-  const { transfer_history: transferHistory } = get(accounts, user.name, []);
-  walletData.transactions = transferHistory
-    ? transferHistory.slice(Math.max(transferHistory.length - 20, 0)).reverse()
-    : [];
+  const { transfer_history: transferHistory, other_history: transferVHistory } = get(
+    accounts,
+    user.name,
+    [],
+  );
+  const rh = transferHistory ? transferHistory.slice(Math.max(transferHistory.length - 50, 0)) : [];
+
+  rh.push(...transferVHistory);
+
+  rh.sort(compare);
+
+  walletData.transactions = rh;
 
   return walletData;
 };
+
+function compare(a, b) {
+  if (a[1].block < b[1].block) {
+    return 1;
+  }
+  if (a[1].block > b[1].block) {
+    return -1;
+  }
+  return 0;
+}
 
 export const groomingPointsTransactionData = transaction => {
   if (!transaction) {
