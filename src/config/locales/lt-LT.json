@@ -330,7 +330,10 @@
     "promoted": "Reklama",
     "author_payout": "Autoriaus Užmokestis",
     "curation_payout": "Kuracijos Užmokestis",
-    "payout_date": "Užmokestis"
+    "payout_date": "Užmokestis",
+    "beneficiaries": "Beneficiaries",
+    "warn_zero_payout": "Amount must reach $0.02 for payout",
+    "breakdown": "Breakdown"
   },
   "post_dropdown": {
     "copy": "kopijuoti nuorodą",
