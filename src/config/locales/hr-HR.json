@@ -330,7 +330,10 @@
     "promoted": "Promovirano",
     "author_payout": "Autorova isplata",
     "curation_payout": "Kuracijska isplata",
-    "payout_date": "Isplata"
+    "payout_date": "Isplata",
+    "beneficiaries": "Beneficiaries",
+    "warn_zero_payout": "Amount must reach $0.02 for payout",
+    "breakdown": "Breakdown"
   },
   "post_dropdown": {
     "copy": "kopiraj link",
