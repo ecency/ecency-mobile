@@ -330,7 +330,10 @@
     "promoted": "홍보비",
     "author_payout": "저자 보상",
     "curation_payout": "큐레이션 보상",
-    "payout_date": "보상"
+    "payout_date": "보상",
+    "beneficiaries": "Beneficiaries",
+    "warn_zero_payout": "Amount must reach $0.02 for payout",
+    "breakdown": "Breakdown"
   },
   "post_dropdown": {
     "copy": "링크 복사",
