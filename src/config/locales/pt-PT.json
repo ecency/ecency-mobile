@@ -330,7 +330,10 @@
     "promoted": "Promovidos",
     "author_payout": "Pagamento do Autor",
     "curation_payout": "Pagamento de Curadoria",
-    "payout_date": "Pagamento"
+    "payout_date": "Pagamento",
+    "beneficiaries": "Beneficiaries",
+    "warn_zero_payout": "Amount must reach $0.02 for payout",
+    "breakdown": "Breakdown"
   },
   "post_dropdown": {
     "copy": "copiar ligação",
