@@ -221,18 +221,18 @@ export const groomingWalletData = async (user, globalProps, userCurrency) => {
   const timeDiff = Math.abs(parseDate(user.next_vesting_withdrawal) - new Date());
   walletData.nextVestingWithdrawal = Math.floor(timeDiff / (1000 * 3600 * 24));
 
-  const { transfer_history: transferHistory, other_history: transferVHistory } = get(
+  const { transfer_history: transferHistory, other_history: virtualHistory } = get(
     accounts,
     user.name,
     [],
   );
-  const rh = transferHistory ? transferHistory.slice(Math.max(transferHistory.length - 50, 0)) : [];
+  const realHistory = transferHistory
+    ? transferHistory.slice(Math.max(transferHistory.length - 50, 0))
+    : [];
+  realHistory.push(...virtualHistory); //concat
+  realHistory.sort(compare); //sort desc
 
-  rh.push(...transferVHistory);
-
-  rh.sort(compare);
-
-  walletData.transactions = rh;
+  walletData.transactions = realHistory;
 
   return walletData;
 };
