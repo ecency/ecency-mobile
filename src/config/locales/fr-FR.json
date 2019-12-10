@@ -330,7 +330,10 @@
     "promoted": "Promu",
     "author_payout": "Gain de l'Auteur",
     "curation_payout": "Gain de la Curation",
-    "payout_date": "Gain"
+    "payout_date": "Gain",
+    "beneficiaries": "Beneficiaries",
+    "warn_zero_payout": "Amount must reach $0.02 for payout",
+    "breakdown": "Breakdown"
   },
   "post_dropdown": {
     "copy": "copier le lien",
