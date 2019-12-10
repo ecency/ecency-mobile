@@ -330,7 +330,10 @@
     "promoted": "पदोन्नत",
     "author_payout": "लेखक भुगतान",
     "curation_payout": "अध्यक्ष्ता इनाम",
-    "payout_date": "भुगतान"
+    "payout_date": "भुगतान",
+    "beneficiaries": "Beneficiaries",
+    "warn_zero_payout": "Amount must reach $0.02 for payout",
+    "breakdown": "Breakdown"
   },
   "post_dropdown": {
     "copy": "लिंक कापी करें",
