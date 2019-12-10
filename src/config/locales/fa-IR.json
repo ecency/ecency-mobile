@@ -330,7 +330,10 @@
     "promoted": "ارتقا داده شده",
     "author_payout": "پاداش نویسنده",
     "curation_payout": "پاداش مشارکت",
-    "payout_date": "پرداخت"
+    "payout_date": "پرداخت",
+    "beneficiaries": "Beneficiaries",
+    "warn_zero_payout": "Amount must reach $0.02 for payout",
+    "breakdown": "Breakdown"
   },
   "post_dropdown": {
     "copy": "کپی لینک",
