@@ -330,7 +330,10 @@
     "promoted": "プロモート",
     "author_payout": "投稿者支払額",
     "curation_payout": "キュレーション支払額",
-    "payout_date": "支払額"
+    "payout_date": "支払額",
+    "beneficiaries": "Beneficiaries",
+    "warn_zero_payout": "Amount must reach $0.02 for payout",
+    "breakdown": "Breakdown"
   },
   "post_dropdown": {
     "copy": "リンクをコピー",
