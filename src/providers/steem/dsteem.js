@@ -70,6 +70,7 @@ export const fetchGlobalProps = async () => {
     (parseToken(get(globalDynamic, 'total_vesting_fund_steem')) /
       parseToken(get(globalDynamic, 'total_vesting_shares'))) *
     1e6;
+  const sbdPrintRate = get(globalDynamic, 'sbd_print_rate');
   const base = parseToken(get(feedHistory, 'current_median_history.base'));
   const quote = parseToken(get(feedHistory, 'current_median_history.quote'));
   const fundRecentClaims = get(rewardFund, 'recent_claims');
@@ -80,6 +81,7 @@ export const fetchGlobalProps = async () => {
     quote,
     fundRecentClaims,
     fundRewardBalance,
+    sbdPrintRate,
   };
 
   return globalProps;

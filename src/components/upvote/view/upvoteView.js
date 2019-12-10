@@ -200,9 +200,11 @@ class UpvoteView extends Component {
       payoutDate,
       intl,
       isDownVoted,
+      beneficiaries,
+      warnZeroPayout,
+      breakdownPayout,
     } = this.props;
     const { isVoting, amount, sliderValue, isVoted, isShowDetails, downvote } = this.state;
-
     let iconName = 'upcircleo';
     const iconType = 'AntDesign';
     let downVoteIconName = 'downcircleo';
@@ -284,31 +286,60 @@ class UpvoteView extends Component {
               <View style={styles.popoverWrapper}>
                 {isShowDetails ? (
                   <View>
-                    <Text style={styles.detailsText}>
-                      {`${intl.formatMessage({
-                        id: 'payout.promoted',
-                      })} ${promotedPayout > 0 ? '~' : ''}$${promotedPayout}`}
-                    </Text>
-                    <Text style={styles.detailsText}>
-                      {`${intl.formatMessage({
-                        id: 'payout.potential_payout',
-                      })} ${pendingPayout > 0 ? '~' : ''}$${pendingPayout}`}
-                    </Text>
-                    <Text style={styles.detailsText}>
-                      {`${intl.formatMessage({
-                        id: 'payout.author_payout',
-                      })} ${authorPayout > 0 ? '~' : ''}$${authorPayout}`}
-                    </Text>
-                    <Text style={styles.detailsText}>
-                      {`${intl.formatMessage({
-                        id: 'payout.curation_payout',
-                      })} ${curationPayout > 0 ? '~' : ''}$${curationPayout}`}
-                    </Text>
+                    {promotedPayout > 0 && (
+                      <Text style={styles.detailsText}>
+                        {`${intl.formatMessage({
+                          id: 'payout.promoted',
+                        })} ${'~'}$${promotedPayout}`}
+                      </Text>
+                    )}
+                    {pendingPayout > 0 && (
+                      <Text style={styles.detailsText}>
+                        {`${intl.formatMessage({
+                          id: 'payout.potential_payout',
+                        })} ${'~'}$${pendingPayout}`}
+                      </Text>
+                    )}
+                    {authorPayout > 0 && (
+                      <Text style={styles.detailsText}>
+                        {`${intl.formatMessage({
+                          id: 'payout.author_payout',
+                        })} ${'~'}$${authorPayout}`}
+                      </Text>
+                    )}
+                    {curationPayout > 0 && (
+                      <Text style={styles.detailsText}>
+                        {`${intl.formatMessage({
+                          id: 'payout.curation_payout',
+                        })} ${'~'}$${curationPayout}`}
+                      </Text>
+                    )}
+                    {breakdownPayout && pendingPayout > 0 && (
+                      <Text style={styles.detailsText}>
+                        {`${intl.formatMessage({
+                          id: 'payout.breakdown',
+                        })} ${breakdownPayout}`}
+                      </Text>
+                    )}
+                    {beneficiaries.length > 0 && (
+                      <Text style={styles.detailsText}>
+                        {`${intl.formatMessage({
+                          id: 'payout.beneficiaries',
+                        })} ${beneficiaries}`}
+                      </Text>
+                    )}
                     <Text style={styles.detailsText}>
                       {`${intl.formatMessage({
                         id: 'payout.payout_date',
                       })} ${payoutDate}`}
                     </Text>
+                    {warnZeroPayout && (
+                      <Text style={styles.detailsText}>
+                        {`${intl.formatMessage({
+                          id: 'payout.warn_zero_payout',
+                        })}`}
+                      </Text>
+                    )}
                   </View>
                 ) : (
                   <Fragment>
