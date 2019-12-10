@@ -187,7 +187,7 @@ export const groomingWalletData = async (user, globalProps, userCurrency) => {
   walletData.vestingSharesReceived = parseToken(user.received_vesting_shares);
   walletData.vestingSharesTotal =
     walletData.vestingShares - walletData.vestingSharesDelegated + walletData.vestingSharesReceived;
-
+  walletData.vestingSharesOwned = walletData.vestingShares - walletData.vestingSharesDelegated;
   walletData.sbdBalance = parseToken(user.sbd_balance);
   walletData.savingBalance = parseToken(user.savings_balance);
   walletData.savingBalanceSbd = parseToken(user.savings_sbd_balance);
@@ -215,7 +215,7 @@ export const groomingWalletData = async (user, globalProps, userCurrency) => {
   walletData.estimatedSteemValue = (walletData.balance + walletData.savingBalance) * ppSteem;
   walletData.estimatedSbdValue = totalSbd * ppSbd;
   walletData.estimatedSpValue =
-    vestsToSp(walletData.vestingSharesTotal, walletData.steemPerMVests) * ppSteem;
+    vestsToSp(walletData.vestingSharesOwned, walletData.steemPerMVests) * ppSteem;
 
   walletData.showPowerDown = user.next_vesting_withdrawal !== '1969-12-31T23:59:59';
   const timeDiff = Math.abs(parseDate(user.next_vesting_withdrawal) - new Date());
