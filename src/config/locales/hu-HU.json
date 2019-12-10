@@ -330,7 +330,10 @@
     "promoted": "Hirdetett",
     "author_payout": "Szerzői Kifizetés",
     "curation_payout": "Kurátori Kifizetés",
-    "payout_date": "Kifizetés"
+    "payout_date": "Kifizetés",
+    "beneficiaries": "Beneficiaries",
+    "warn_zero_payout": "Amount must reach $0.02 for payout",
+    "breakdown": "Breakdown"
   },
   "post_dropdown": {
     "copy": "link másolása",
