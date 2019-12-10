@@ -85,6 +85,25 @@ class UpvoteContainer extends PureComponent {
     if (pendingPayout > 0 && pendingPayout < minimumAmountForPayout) {
       warnZeroPayout = true;
     }
+    const { base, quote, sbdPrintRate } = globalProps;
+    const SBD_PRINT_RATE_MAX = 10000;
+    const percent_steem_dollars = get(content, 'percent_steem_dollars') / 20000;
+    const pending_payout_sbd = pendingPayout * percent_steem_dollars;
+    const price_per_steem = base / quote;
+
+    const pending_payout_sp = (pendingPayout - pending_payout_sbd) / price_per_steem;
+    const pending_payout_printed_sbd = pending_payout_sbd * (sbdPrintRate / SBD_PRINT_RATE_MAX);
+    const pending_payout_printed_steem =
+      (pending_payout_sbd - pending_payout_printed_sbd) / price_per_steem;
+
+    const breakdownPayout =
+      pending_payout_printed_sbd.toFixed(3) +
+      ' SBD, ' +
+      pending_payout_printed_steem.toFixed(3) +
+      ' STEEM, ' +
+      pending_payout_sp.toFixed(3) +
+      ' SP';
+
     return (
       <UpvoteView
         author={author}
@@ -108,6 +127,7 @@ class UpvoteContainer extends PureComponent {
         upvotePercent={upvotePercent}
         beneficiaries={beneficiaries}
         warnZeroPayout={warnZeroPayout}
+        breakdownPayout={breakdownPayout}
       />
     );
   }

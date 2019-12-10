@@ -202,9 +202,9 @@ class UpvoteView extends Component {
       isDownVoted,
       beneficiaries,
       warnZeroPayout,
+      breakdownPayout,
     } = this.props;
     const { isVoting, amount, sliderValue, isVoted, isShowDetails, downvote } = this.state;
-    console.log('pendingPayout', pendingPayout);
     let iconName = 'upcircleo';
     const iconType = 'AntDesign';
     let downVoteIconName = 'downcircleo';
@@ -312,6 +312,13 @@ class UpvoteView extends Component {
                         {`${intl.formatMessage({
                           id: 'payout.curation_payout',
                         })} ${'~'}$${curationPayout}`}
+                      </Text>
+                    )}
+                    {breakdownPayout && pendingPayout > 0 && (
+                      <Text style={styles.detailsText}>
+                        {`${intl.formatMessage({
+                          id: 'payout.breakdown',
+                        })} ${breakdownPayout}`}
                       </Text>
                     )}
                     {beneficiaries.length > 0 && (
