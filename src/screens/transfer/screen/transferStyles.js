@@ -28,6 +28,7 @@ export default EStyleSheet.create({
     padding: 10,
     color: '$primaryBlack',
     width: 172,
+    minHeight: 35,
   },
   textarea: {
     borderWidth: 1,

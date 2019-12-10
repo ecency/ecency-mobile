@@ -21,7 +21,7 @@ export default {
     nameKey: 'wallet.delegation',
     descriptionKey: 'wallet.delegation_desc',
     iconType: 'MaterialIcons',
-    point: 1,
+    point: 5,
   },
   100: {
     icon: 'pencil',

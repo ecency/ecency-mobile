@@ -1,12 +1,12 @@
 import React from 'react';
 import { View } from 'react-native';
 
-import { WalletHeader, FormatedCurrency } from '../../../components';
+import { WalletHeader, FormattedCurrency } from '../../../components';
 import { SteemWalletContainer, AccountContainer } from '../../../containers';
 
 import globalStyles from '../../../globalStyles';
 
-const SbdView = ({ handleOnSelected, index, currentIndex }) => (
+const SbdView = ({ handleOnSelected, index, currentIndex, refreshing: reload }) => (
   <View style={globalStyles.swipeItemWrapper}>
     <AccountContainer>
       {({ currentAccount }) => (
@@ -20,7 +20,7 @@ const SbdView = ({ handleOnSelected, index, currentIndex }) => (
             sbdBalance,
             isLoading,
             sbdSavingBalance,
-            estimatedValue,
+            estimatedSbdValue,
             sbdDropdown,
             savingSbdDropdown,
             navigate,
@@ -29,6 +29,7 @@ const SbdView = ({ handleOnSelected, index, currentIndex }) => (
               componentDidUpdate={() => handleOnSelected(transferHistory, isLoading)}
               index={index}
               claim={claimRewardBalance}
+              reload={reload}
               fetchUserActivity={handleOnWalletRefresh}
               isClaiming={isClaiming}
               isLoading={isLoading}
@@ -45,7 +46,7 @@ const SbdView = ({ handleOnSelected, index, currentIndex }) => (
               valueDescriptions={[
                 {
                   textKey: 'estimated_value',
-                  value: <FormatedCurrency isApproximate value={estimatedValue} />,
+                  value: <FormattedCurrency isApproximate isToken value={estimatedSbdValue} />,
                   subTextKey: 'estimated_value_desc',
                 },
               ]}

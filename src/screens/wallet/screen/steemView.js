@@ -1,12 +1,12 @@
 import React from 'react';
 import { View } from 'react-native';
 
-import { WalletHeader, FormatedCurrency } from '../../../components';
+import { WalletHeader, FormattedCurrency } from '../../../components';
 import { SteemWalletContainer, AccountContainer } from '../../../containers';
 
 import globalStyles from '../../../globalStyles';
 
-const SteemView = ({ handleOnSelected, index, currentIndex }) => (
+const SteemView = ({ handleOnSelected, index, currentIndex, refreshing: reload }) => (
   <View style={globalStyles.swipeItemWrapper}>
     <AccountContainer>
       {({ currentAccount }) => (
@@ -20,7 +20,7 @@ const SteemView = ({ handleOnSelected, index, currentIndex }) => (
             steemBalance,
             isLoading,
             steemSavingBalance,
-            estimatedValue,
+            estimatedSteemValue,
             steemDropdown,
             savingSteemDropdown,
             navigate,
@@ -30,6 +30,7 @@ const SteemView = ({ handleOnSelected, index, currentIndex }) => (
               index={index}
               claim={claimRewardBalance}
               fetchUserActivity={handleOnWalletRefresh}
+              reload={reload}
               isClaiming={isClaiming}
               isLoading={isLoading}
               refreshing={refreshing}
@@ -49,7 +50,7 @@ const SteemView = ({ handleOnSelected, index, currentIndex }) => (
               valueDescriptions={[
                 {
                   textKey: 'estimated_value',
-                  value: <FormatedCurrency isApproximate value={estimatedValue} />,
+                  value: <FormattedCurrency isApproximate isToken value={estimatedSteemValue} />,
                   subTextKey: 'estimated_value_desc',
                 },
               ]}
