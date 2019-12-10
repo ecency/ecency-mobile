@@ -330,7 +330,10 @@
     "promoted": "Kalhëuh Promosi",
     "author_payout": "Dibayëu Keupö",
     "curation_payout": "Dibayëu këukurasi",
-    "payout_date": "Dibayëu"
+    "payout_date": "Dibayëu",
+    "beneficiaries": "Beneficiaries",
+    "warn_zero_payout": "Amount must reach $0.02 for payout",
+    "breakdown": "Breakdown"
   },
   "post_dropdown": {
     "copy": "copy link",
