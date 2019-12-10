@@ -330,7 +330,10 @@
     "promoted": "Sponsorizzati",
     "author_payout": "Ricompensa Autore",
     "curation_payout": "Ricompensa Curatore",
-    "payout_date": "Pagamento"
+    "payout_date": "Pagamento",
+    "beneficiaries": "Beneficiaries",
+    "warn_zero_payout": "Amount must reach $0.02 for payout",
+    "breakdown": "Breakdown"
   },
   "post_dropdown": {
     "copy": "copia il link",
