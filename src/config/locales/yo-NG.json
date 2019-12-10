@@ -330,7 +330,10 @@
     "promoted": "Itanka",
     "author_payout": "Owo ti oluko oro nreti",
     "curation_payout": "Isanwojade ti o n reti lati ibi idibo",
-    "payout_date": "Isanwo jade"
+    "payout_date": "Isanwo jade",
+    "beneficiaries": "Beneficiaries",
+    "warn_zero_payout": "Amount must reach $0.02 for payout",
+    "breakdown": "Breakdown"
   },
   "post_dropdown": {
     "copy": "se eda link",
