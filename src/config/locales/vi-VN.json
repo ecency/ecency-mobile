@@ -330,7 +330,10 @@
     "promoted": "Đã quảng bá",
     "author_payout": "Thanh toán cho tác giả",
     "curation_payout": "Thanh toán curation",
-    "payout_date": "Thanh toán"
+    "payout_date": "Thanh toán",
+    "beneficiaries": "Beneficiaries",
+    "warn_zero_payout": "Amount must reach $0.02 for payout",
+    "breakdown": "Breakdown"
   },
   "post_dropdown": {
     "copy": "sao chép liên kết",
