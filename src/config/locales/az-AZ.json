@@ -330,7 +330,10 @@
     "promoted": "Tanıdılan",
     "author_payout": "Müəllif Ödənişi",
     "curation_payout": "Kurator Ödənişi",
-    "payout_date": "Ödəniş"
+    "payout_date": "Ödəniş",
+    "beneficiaries": "Beneficiaries",
+    "warn_zero_payout": "Amount must reach $0.02 for payout",
+    "breakdown": "Breakdown"
   },
   "post_dropdown": {
     "copy": "bağlantını kopyala",
