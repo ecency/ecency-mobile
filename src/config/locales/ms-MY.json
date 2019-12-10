@@ -330,7 +330,10 @@
     "promoted": "Digalakkan",
     "author_payout": "Ganjaran Penulis",
     "curation_payout": "Ganjaran kurasi",
-    "payout_date": "Pembayaran"
+    "payout_date": "Pembayaran",
+    "beneficiaries": "Beneficiaries",
+    "warn_zero_payout": "Amount must reach $0.02 for payout",
+    "breakdown": "Breakdown"
   },
   "post_dropdown": {
     "copy": "salin pautan",
