@@ -55,6 +55,7 @@ const WalletContainer = ({
   const [estimatedSpValue, setEstimatedSpValue] = useState(0);
   const [unclaimedBalance, setUnclaimedBalance] = useState('');
   const [estimatedAmount, setEstimatedAmount] = useState(0);
+  const [delegationsAmount, setDelegationsAmount] = useState(0);
   const [transferHistory, setTransferHistory] = useState([]);
   const intl = useIntl();
   const dispatch = useDispatch();
@@ -143,6 +144,13 @@ const WalletContainer = ({
       setEstimatedSbdValue && setEstimatedSbdValue(_walletData.estimatedSbdValue);
       setEstimatedSteemValue && setEstimatedSteemValue(_walletData.estimatedSteemValue);
       setEstimatedSpValue && setEstimatedSpValue(_walletData.estimatedSpValue);
+      setDelegationsAmount &&
+        setDelegationsAmount(
+          vestsToSp(
+            _walletData.vestingSharesReceived - _walletData.vestingSharesDelegated,
+            steemPerMVests,
+          ).toFixed(3),
+        );
     },
     [globalProps, intl.formatNumber, setEstimatedWalletValue, steemPerMVests],
   );
@@ -282,6 +290,7 @@ const WalletContainer = ({
       estimatedSteemValue,
       estimatedSbdValue,
       estimatedSpValue,
+      delegationsAmount,
       navigate: _navigate,
       steemDropdown: STEEM_DROPDOWN,
       sbdDropdown: SBD_DROPDOWN,
