@@ -330,7 +330,10 @@
     "promoted": "贊助",
     "author_payout": "作者收益",
     "curation_payout": "投票收益",
-    "payout_date": "收益时间"
+    "payout_date": "收益时间",
+    "beneficiaries": "Beneficiaries",
+    "warn_zero_payout": "Amount must reach $0.02 for payout",
+    "breakdown": "Breakdown"
   },
   "post_dropdown": {
     "copy": "複製連結",
