@@ -330,7 +330,10 @@
     "promoted": "Beworben",
     "author_payout": "Autoren-Auszahlung",
     "curation_payout": "Kuratoren-Auszahlung",
-    "payout_date": "Auszahlung"
+    "payout_date": "Auszahlung",
+    "beneficiaries": "Beneficiaries",
+    "warn_zero_payout": "Amount must reach $0.02 for payout",
+    "breakdown": "Breakdown"
   },
   "post_dropdown": {
     "copy": "Link kopieren",
