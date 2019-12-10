@@ -330,7 +330,10 @@
     "promoted": "Sponsor Ödemeleri",
     "author_payout": "Yazar Ödemeleri",
     "curation_payout": "Küratör Ödemeleri",
-    "payout_date": "Ödeme"
+    "payout_date": "Ödeme",
+    "beneficiaries": "Beneficiaries",
+    "warn_zero_payout": "Amount must reach $0.02 for payout",
+    "breakdown": "Breakdown"
   },
   "post_dropdown": {
     "copy": "kopyala",
