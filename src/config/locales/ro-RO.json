@@ -330,7 +330,10 @@
     "promoted": "Promovat",
     "author_payout": "Plata autorului",
     "curation_payout": "Plată de curare",
-    "payout_date": "Plată"
+    "payout_date": "Plată",
+    "beneficiaries": "Beneficiaries",
+    "warn_zero_payout": "Amount must reach $0.02 for payout",
+    "breakdown": "Breakdown"
   },
   "post_dropdown": {
     "copy": "copiază link",
