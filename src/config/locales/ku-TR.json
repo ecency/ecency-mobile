@@ -135,19 +135,19 @@
     "comments": "Şîrove",
     "replies": "Bersiv",
     "wallet": "Cizdan",
-    "wallet_details": "Wallet Details",
-    "unclaimed_rewards": "Unclaimed Rewards",
+    "wallet_details": "Hurgiliyên Cizdan",
+    "unclaimed_rewards": "Xelatên Bêxwedî",
     "full_in": "Full in",
-    "hours": "hours",
-    "voting_power": "Voting power",
-    "login_to_see": "Login to see",
-    "havent_commented": "haven't commented anything yet",
-    "havent_posted": "haven't posted anything yet",
-    "steem_power": "Steem Power",
+    "hours": "demjimêr",
+    "voting_power": "Hêza dengdanê",
+    "login_to_see": "Têkevê û bibîne",
+    "havent_commented": "hîna şîrove nehatiye kirin",
+    "havent_posted": "heta niha ti tişt parve nebûye",
+    "steem_power": "Hêza Steemê",
     "next_power_text": "Next power down is in",
     "days": "days",
     "day": "day",
-    "steem_dollars": "Steem Dollars",
+    "steem_dollars": "Dolarên Steemê",
     "savings": "Savings",
     "edit": {
       "display_name": "Display Name",
@@ -157,8 +157,8 @@
     }
   },
   "settings": {
-    "settings": "Settings",
-    "general": "General",
+    "settings": "Sazkarî",
+    "general": "Giştî",
     "currency": "Currency",
     "language": "Ziman",
     "server": "Server",
@@ -206,23 +206,23 @@
   },
   "home": {
     "feed": "Feed",
-    "popular": "Popular"
+    "popular": "Populer"
   },
   "side_menu": {
-    "profile": "Profile",
+    "profile": "Profîl",
     "bookmarks": "Bookmarks",
-    "favorites": "Favorites",
-    "drafts": "Drafts",
+    "favorites": "Bijardeyên min",
+    "drafts": "Reşnivîs",
     "schedules": "Schedules",
-    "gallery": "Gallery",
-    "settings": "Settings",
-    "add_account": "Add Account",
-    "logout": "Logout",
-    "cancel": "Cancel",
-    "logout_text": "Are you sure you want to logout?"
+    "gallery": "Pêşangeh",
+    "settings": "Sazkarî",
+    "add_account": "Hesab Tevlî Bike",
+    "logout": "Derkeve",
+    "cancel": "Betal",
+    "logout_text": "Bi rastî jî tu dixwazî derkevî?"
   },
   "header": {
-    "title": "Login to customize your feed",
+    "title": "Têkevê û herika xwe kesane bike",
     "search": "Lêgerîn..."
   },
   "basic_header": {
@@ -245,7 +245,7 @@
     "enter_text": "Enter pin to unlock",
     "set_new": "Set new pin",
     "write_again": "Dîsa binivîsîne",
-    "forgot_text": "Oh, I forgot it..."
+    "forgot_text": "Wey, Min ji bîr kir..."
   },
   "alert": {
     "success": "Success!",
