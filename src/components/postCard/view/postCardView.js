@@ -138,9 +138,9 @@ class PostCardView extends Component {
             <Upvote fetchPost={fetchPost} isShowPayoutValue content={content} />
             <TouchableOpacity style={styles.commentButton} onPress={this._handleOnVotersPress}>
               <TextWithIcon
-                iconName="people"
+                iconName="heart-outline"
                 iconStyle={styles.commentIcon}
-                iconType="MaterialIcons"
+                iconType="MaterialCommunityIcons"
                 isClickable
                 text={get(content, 'vote_count', 0)}
                 onPress={this._handleOnVotersPress}
@@ -157,9 +157,9 @@ class PostCardView extends Component {
               onPress={this._handleOnReblogsPress}
             />
             <TextWithIcon
-              iconName="comment"
+              iconName="comment-outline"
               iconStyle={styles.commentIcon}
-              iconType="MaterialIcons"
+              iconType="MaterialCommunityIcons"
               isClickable
               text={get(content, 'children', 0)}
             />

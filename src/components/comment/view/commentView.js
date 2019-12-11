@@ -90,10 +90,10 @@ class CommentView extends PureComponent {
                 <Fragment>
                   <Upvote isShowPayoutValue content={comment} />
                   <TextWithIcon
-                    iconName="people"
+                    iconName="heart-outline"
                     iconSize={20}
                     wrapperStyle={styles.leftButton}
-                    iconType="MaterialIcons"
+                    iconType="MaterialCommunityIcons"
                     isClickable
                     onPress={() =>
                       handleOnVotersPress &&
@@ -108,9 +108,9 @@ class CommentView extends PureComponent {
                     size={20}
                     iconStyle={styles.leftIcon}
                     style={styles.leftButton}
-                    name="reply"
+                    name="comment-outline"
                     onPress={() => handleOnReplyPress && handleOnReplyPress(comment)}
-                    iconType="MaterialIcons"
+                    iconType="MaterialCommunityIcons"
                   />
                   {currentAccountUsername === comment.author && (
                     <Fragment>
