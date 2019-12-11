@@ -172,24 +172,25 @@ export const groomingWalletData = async (user, globalProps, userCurrency) => {
 
   const state = await getState(`/@${get(user, 'name')}/transfers`);
   const { accounts } = state;
+  const userdata = get(accounts, get(user, 'name'), '');
 
   // TODO: move them to utils these so big for a lifecycle function
-  walletData.rewardSteemBalance = parseToken(user.reward_steem_balance);
-  walletData.rewardSbdBalance = parseToken(user.reward_sbd_balance);
-  walletData.rewardVestingSteem = parseToken(user.reward_vesting_steem);
+  walletData.rewardSteemBalance = parseToken(userdata.reward_steem_balance);
+  walletData.rewardSbdBalance = parseToken(userdata.reward_sbd_balance);
+  walletData.rewardVestingSteem = parseToken(userdata.reward_vesting_steem);
   walletData.hasUnclaimedRewards =
     walletData.rewardSteemBalance > 0 ||
     walletData.rewardSbdBalance > 0 ||
     walletData.rewardVestingSteem > 0;
-  walletData.balance = parseToken(user.balance);
-  walletData.vestingShares = parseToken(user.vesting_shares);
-  walletData.vestingSharesDelegated = parseToken(user.delegated_vesting_shares);
-  walletData.vestingSharesReceived = parseToken(user.received_vesting_shares);
+  walletData.balance = parseToken(userdata.balance);
+  walletData.vestingShares = parseToken(userdata.vesting_shares);
+  walletData.vestingSharesDelegated = parseToken(userdata.delegated_vesting_shares);
+  walletData.vestingSharesReceived = parseToken(userdata.received_vesting_shares);
   walletData.vestingSharesTotal =
     walletData.vestingShares - walletData.vestingSharesDelegated + walletData.vestingSharesReceived;
-  walletData.sbdBalance = parseToken(user.sbd_balance);
-  walletData.savingBalance = parseToken(user.savings_balance);
-  walletData.savingBalanceSbd = parseToken(user.savings_sbd_balance);
+  walletData.sbdBalance = parseToken(userdata.sbd_balance);
+  walletData.savingBalance = parseToken(userdata.savings_balance);
+  walletData.savingBalanceSbd = parseToken(userdata.savings_sbd_balance);
 
   const feedHistory = await getFeedHistory();
   const base = parseToken(feedHistory.current_median_history.base);
