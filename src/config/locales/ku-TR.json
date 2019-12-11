@@ -100,9 +100,9 @@
     }
   },
   "notification": {
-    "vote": "likes your post",
+    "vote": "şandiya te ecibandin",
     "unvote": "unvoted your post",
-    "reply": "replied to your post",
+    "reply": "bersiv da şandiya te",
     "mention": "mentioned you",
     "follow": "followed you",
     "unfollow": "unfollowed you",
@@ -226,25 +226,25 @@
     "search": "Lêgerîn..."
   },
   "basic_header": {
-    "publish": "Publish",
-    "search": "Search",
-    "update": "Update",
-    "reply": "Reply"
+    "publish": "Biweşîne",
+    "search": "Lêgerîn",
+    "update": "Hildemîne",
+    "reply": "Bibersivîne"
   },
   "editor": {
-    "title": "Title",
-    "tags": "tags",
-    "default_placeholder": "What would you like to write about today?",
-    "reply_placeholder": "What would you like to write about above post?",
-    "publish": "Publish",
-    "reply": "Reply",
-    "open_gallery": "Open Gallery",
-    "capture_photo": "Capture a photo"
+    "title": "Sernav",
+    "tags": "etîket",
+    "default_placeholder": "Îro tu dixwazî li ser çi binivîsînî?",
+    "reply_placeholder": "Tu dixwazî li ser nivîsa jorîn çi binivîsînî?",
+    "publish": "Biweşîne",
+    "reply": "Bibersivîne",
+    "open_gallery": "Pêşangehê Veke",
+    "capture_photo": "Wêneyekî bigire"
   },
   "pincode": {
     "enter_text": "Enter pin to unlock",
     "set_new": "Set new pin",
-    "write_again": "Write again",
+    "write_again": "Dîsa binivîsîne",
     "forgot_text": "Oh, I forgot it..."
   },
   "alert": {
@@ -264,15 +264,15 @@
     "warning": "Warning",
     "invalid_pincode": "Invalid pin code, please check and try again.",
     "remove_alert": "Are you sure want to remove?",
-    "clear_alert": "Are you sure you want to clear?",
-    "clear_user_alert": "Are you sure you want to clear all user data?",
-    "clear": "Clear",
-    "cancel": "Cancel",
-    "delete": "Delete",
-    "copied": "Copied!",
-    "no_internet": "No connection!",
-    "confirm": "Confirm",
-    "removed": "Removed",
+    "clear_alert": "Bi rastî jî tu dixwazî paqij bike?",
+    "clear_user_alert": "Tu dixwazî hemû daneyên bikarhêner paqij bike?",
+    "clear": "Paqij bike",
+    "cancel": "Betal",
+    "delete": "Jê bibe",
+    "copied": "Kopî bû!",
+    "no_internet": "Girêdan tine ye!",
+    "confirm": "Bipejirîne",
+    "removed": "Hate rakirin",
     "same_user": "This user already added to list",
     "unknow_error": "An error occurred",
     "error": "Error",
