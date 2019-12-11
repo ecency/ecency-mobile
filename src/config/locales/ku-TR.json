@@ -248,11 +248,11 @@
     "forgot_text": "Wey, Min ji bîr kir..."
   },
   "alert": {
-    "success": "Success!",
-    "successful": "Successful",
-    "allRead": "Marked all notifications as read",
+    "success": "Serketî!",
+    "successful": "Serketî",
+    "allRead": "Hemû danezanan wekî xwendî nîşan bike",
     "claim_reward_balance_ok": "Reward balance claimed",
-    "fail": "Fail!",
+    "fail": "Biserneket!",
     "move": "Move",
     "move_question": "Are you sure to move to drafts?",
     "success_shared": "Your post successfully shared",
