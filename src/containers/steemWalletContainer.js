@@ -55,6 +55,7 @@ const WalletContainer = ({
   const [estimatedSpValue, setEstimatedSpValue] = useState(0);
   const [unclaimedBalance, setUnclaimedBalance] = useState('');
   const [estimatedAmount, setEstimatedAmount] = useState(0);
+  const [delegationsAmount, setDelegationsAmount] = useState(0);
   const [transferHistory, setTransferHistory] = useState([]);
   const intl = useIntl();
   const dispatch = useDispatch();
@@ -62,10 +63,6 @@ const WalletContainer = ({
   useEffect(() => {
     setEstimatedAmount(getEstimatedAmount(currentAccount, globalProps));
   }, [currentAccount, globalProps]);
-
-  useEffect(() => {
-    _getWalletData(selectedUser);
-  }, [_getWalletData, selectedUser]);
 
   useEffect(() => {
     _getWalletData(selectedUser);
@@ -106,6 +103,12 @@ const WalletContainer = ({
     setEstimatedSteemValue(get(walletData, 'estimatedSteemValue', 0));
     setEstimatedSbdValue(get(walletData, 'estimatedSbdValue', 0));
     setEstimatedSpValue(get(walletData, 'estimatedSpValue', 0));
+    setDelegationsAmount(
+      vestsToSp(
+        get(walletData, 'vestingSharesReceived', 0) - get(walletData, 'vestingSharesDelegated', 0),
+        get(walletData, 'steemPerMVests', 0),
+      ).toFixed(3),
+    );
 
     setUnclaimedBalance(
       `${
@@ -140,9 +143,6 @@ const WalletContainer = ({
         ),
       );
       setEstimatedWalletValue && setEstimatedWalletValue(_walletData.estimatedValue);
-      setEstimatedSbdValue && setEstimatedSbdValue(_walletData.estimatedSbdValue);
-      setEstimatedSteemValue && setEstimatedSteemValue(_walletData.estimatedSteemValue);
-      setEstimatedSpValue && setEstimatedSpValue(_walletData.estimatedSpValue);
     },
     [globalProps, intl.formatNumber, setEstimatedWalletValue, steemPerMVests],
   );
@@ -282,6 +282,7 @@ const WalletContainer = ({
       estimatedSteemValue,
       estimatedSbdValue,
       estimatedSpValue,
+      delegationsAmount,
       navigate: _navigate,
       steemDropdown: STEEM_DROPDOWN,
       sbdDropdown: SBD_DROPDOWN,
