@@ -2,12 +2,12 @@
   "wallet": {
     "curation_reward": "Recompensas de Curadoria",
     "author_reward": "Recompensas de Autor",
-    "comment_benefactor_reward": "Recompensa do benificiário do comentário",
+    "comment_benefactor_reward": "Recompensa do benficiário de comentário",
     "claim_reward_balance": "Reclamar o balanço da Recompensa",
     "transfer": "Transferir",
     "transfer_to_vesting": "Transferir para vesting",
     "transfer_from_savings": "Transferir da Poupança",
-    "withdraw_vesting": "Decarregar Poder",
+    "withdraw_vesting": "Descarregar Poder",
     "fill_order": "Preencher pedido",
     "post": "Publicar",
     "comment": "Comentar",
@@ -19,33 +19,34 @@
     "outgoing_transfer_title": "Transferência de saída",
     "checkin_extra": "Bónus",
     "delegation": "Delegação",
+    "delegations": "Delegations",
     "delegation_title": "Recompensa da Delegação",
-    "delegation_desc": "Earn ESTM everyday for delegation",
+    "delegation_desc": "Ganhe ESTM todos os dias para delegação",
     "post_title": "Pontos para postar",
     "comment_title": "Pontos para comentário",
     "vote_title": "Pontos para votar",
-    "reblog_title": "Pontos para reblog",
+    "reblog_title": "Pontos por reblogue",
     "login_title": "Pontos por Login",
     "checkin_title": "Pontos por pulsação",
     "checkin_extra_title": "Uso do Bonús",
-    "no_activity": "No recent activity",
+    "no_activity": "Sem actividade recente",
     "outgoing_transfer_description": "",
     "incoming_transfer_description": "",
-    "post_desc": "You can earn point by posting regularly. Posting gives you upto 15 points.",
-    "comment_desc": "Each comment you make helps you to grow your audience and also earns you upto 5 points.",
-    "checkin_desc": "Checking in regularly gives you 0.25 points.",
-    "vote_desc": "By voting you give reward to other creators and also earn back upto 0.01 x vote weight points.",
-    "reblog_desc": "Share what post you like with your friends and earn points.",
-    "login_desc": "When you login into app first time you earn 100 points.",
-    "checkin_extra_desc": "Consistent use of app gives you extra chances to earn more points, be more active and earn more.",
+    "post_desc": "Você pode ganhar pontos ao postar regularmente. Postar dá até 15 pontos.",
+    "comment_desc": "Cada comentário que você faz ajuda você a aumentar o seu público e também ganha até 5 pontos.",
+    "checkin_desc": "Checar regularmente dá-lhe 0,25 pontos.",
+    "vote_desc": "Ao votar, recompensa outros criadores e mostra seu apreço, mas também ganha 0,01 x pontos de peso de voto.",
+    "reblog_desc": "Compartilhe o post que gosta com seus amigos e ganhe ponto.",
+    "login_desc": "Quando você entrar no app pela primeira vez ganha 100 pontos.",
+    "checkin_extra_desc": "O uso consistente do aplicativo dá mais chances para ganhar mais pontos, seja mais ativo e ganhar mais.",
     "dropdown_transfer": "Presente",
     "dropdown_promote": "Promover",
     "dropdown_boost": "Reforçar",
     "from": "De",
     "to": "Para",
-    "estimated_value_desc": "Determined by purchase value",
-    "estimated_value": "Estimated value",
-    "estimated_amount": "Vote value",
+    "estimated_value_desc": "Determinado por valor de compra",
+    "estimated_value": "Valor estimado",
+    "estimated_amount": "Valor do voto",
     "amount_information": "Arraste o controle deslizante para ajustar a quantia",
     "amount": "Quantia",
     "memo": "Memo",
@@ -62,47 +63,47 @@
     "steemconnect_title": "Transferência por Steemconnect",
     "next": "SEGUINTE",
     "delegate": "Delegar",
-    "power_down": "Decarregar Poder",
+    "power_down": "Descarregar Poder",
     "withdraw_steem": "Levantar Steem",
     "withdraw_sbd": "Levantar Steem Dólar",
-    "transfer_to_savings": "Transfer To Savings",
-    "convert": "Convert",
-    "escrow_transfer": "Escrow Transfer",
-    "escrow_dispute": "Escrow Dispute",
-    "escrow_release": "Escrow Release",
-    "escrow_approve": "Escrow Approve",
-    "cancel_transfer_from_savings": "Cancel Transfer from Savings",
+    "transfer_to_savings": "Transferir para Poupanças",
+    "convert": "Converter",
+    "escrow_transfer": "Transferência do Escrow",
+    "escrow_dispute": "Disputa Escrow",
+    "escrow_release": "Lançamento de Escrow",
+    "escrow_approve": "Aprovar Escrow",
+    "cancel_transfer_from_savings": "Cancela transferência das poupanças",
     "delegate_vesting_shares": "Delegação",
-    "fill_convert_request": "Convert request executed",
-    "fill_transfer_from_savings": "From Savings executed",
-    "fill_vesting_withdraw": "Power Down executed",
+    "fill_convert_request": "Pedido de conversão executado",
+    "fill_transfer_from_savings": "Das Poupanças executadas",
+    "fill_vesting_withdraw": "Poder para baixo executado",
     "estm": {
       "title": "eSteem Pontos",
       "buy": "OBTER ESTM"
     },
     "savingsteem": {
-      "title": "STEEM Savings"
+      "title": "Poupanças STEEM"
     },
     "savingsbd": {
-      "title": "SBD Savings"
+      "title": "Poupança SBD"
     },
     "steem": {
       "title": "STEEM",
-      "buy": "GET STEEM"
+      "buy": "OBTENHA STEEM"
     },
     "sbd": {
       "title": "SBD",
-      "buy": "GET SBD"
+      "buy": "OBTENHA SBD"
     },
     "steem_power": {
-      "title": "STEEM POWER"
+      "title": "PODER STEEM"
     }
   },
   "notification": {
     "vote": "gosta do seu post",
     "unvote": "retirou voto do seu post",
     "reply": "respondeu ao seu post",
-    "mention": "mencionou voçê",
+    "mention": "mencionou você",
     "follow": "seguiu você",
     "unfollow": "deixou de seguir você",
     "ignore": "ignorou você",
@@ -119,9 +120,9 @@
     "older_then": "Com mais de um mês"
   },
   "leaderboard": {
-    "daily": "DAILY",
-    "weekly": "WEEKLY",
-    "monthly": "MONTHLY"
+    "daily": "DIÁRIO",
+    "weekly": "SEMANAL",
+    "monthly": "MENSAL"
   },
   "messages": {
     "comingsoon": "Recurso de mensagens chega em breve!"
@@ -331,9 +332,9 @@
     "author_payout": "Pagamento do Autor",
     "curation_payout": "Pagamento de Curadoria",
     "payout_date": "Pagamento",
-    "beneficiaries": "Beneficiaries",
-    "warn_zero_payout": "Amount must reach $0.02 for payout",
-    "breakdown": "Breakdown"
+    "beneficiaries": "Beneficiários",
+    "warn_zero_payout": "Montante deve chegar a $0.02 para pagamento",
+    "breakdown": "Decomposição"
   },
   "post_dropdown": {
     "copy": "copiar ligação",
@@ -354,9 +355,9 @@
   },
   "comment_filter": {
     "trending": "TOP",
-    "reputation": "REPUTATION",
-    "votes": "VOTE",
-    "age": "AGE",
+    "reputation": "REPUTAÇÃO",
+    "votes": "VOTO",
+    "age": "IDADE",
     "top": "TOP",
     "time": "TEMPO"
   },
@@ -377,20 +378,20 @@
     "powerUp": "Carregar Poder",
     "withdraw_to_saving": "Levantar das poupanças",
     "steemconnect_title": "Transferência por Steemconnect",
-    "estimated_weekly": "Estimated Weekly",
-    "destination_accounts": "Destination Accounts",
-    "stop_information": "Are you sure want to stop?",
-    "percent": "Percent",
+    "estimated_weekly": "Estimativa Semanal",
+    "destination_accounts": "Contas de destino",
+    "stop_information": "Tem certeza que deseja parar?",
+    "percent": "Percentagem",
     "auto_vests": "Auto Vests",
-    "save": "SAVE",
-    "percent_information": "Percent info",
+    "save": "SALVAR",
+    "percent_information": "Info de porcentagem",
     "next": "SEGUINTE",
     "delegate": "Delegar",
     "power_down": "Decarregar Poder",
     "withdraw_steem": "Levantar Steem",
     "withdraw_sbd": "Levantar Steem Dólar",
-    "incoming_funds": "Incoming Funds",
-    "stop": "Stop"
+    "incoming_funds": "Fundos Recebidos",
+    "stop": "Parar"
   },
   "boost": {
     "title": "Obter Pontos eSteem",
