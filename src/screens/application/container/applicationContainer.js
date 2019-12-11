@@ -273,10 +273,6 @@ class ApplicationContainer extends Component {
           const username = get(push, 'target', '');
           const activity_id = get(push, 'id', '');
 
-          markActivityAsRead(username, activity_id).then(result => {
-            dispatch(updateUnreadActivityCount(result.unread));
-          });
-
           switch (type) {
             case 'vote':
             case 'unvote':
@@ -332,6 +328,10 @@ class ApplicationContainer extends Component {
             default:
               break;
           }
+
+          markActivityAsRead(username, activity_id).then(result => {
+            dispatch(updateUnreadActivityCount(result.unread));
+          });
 
           if (!some(params, isEmpty)) {
             navigate({
