@@ -9,7 +9,7 @@
     "transfer_from_savings": "Transfer From Savings",
     "withdraw_vesting": "Power Down",
     "fill_order": "Fill Order",
-    "post": "Post",
+    "post": "Şandî",
     "comment": "Comment",
     "checkin": "Check-in",
     "vote": "Vote",
@@ -78,7 +78,7 @@
     "fill_transfer_from_savings": "From Savings executed",
     "fill_vesting_withdraw": "Power Down executed",
     "estm": {
-      "title": "eSteem Points",
+      "title": "puanên eSteemê",
       "buy": "GET ESTM"
     },
     "savingsteem": {
