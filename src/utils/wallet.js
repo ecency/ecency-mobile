@@ -172,6 +172,9 @@ export const groomingWalletData = async (user, globalProps, userCurrency) => {
 
   const state = await getState(`/@${get(user, 'name')}/transfers`);
   const { accounts } = state;
+  if (!accounts) {
+    return walletData;
+  }
   const userdata = get(accounts, get(user, 'name'), '');
 
   // TODO: move them to utils these so big for a lifecycle function
@@ -217,15 +220,12 @@ export const groomingWalletData = async (user, globalProps, userCurrency) => {
   walletData.estimatedSpValue =
     vestsToSp(walletData.vestingShares, walletData.steemPerMVests) * ppSteem;
 
-  walletData.showPowerDown = user.next_vesting_withdrawal !== '1969-12-31T23:59:59';
-  const timeDiff = Math.abs(parseDate(user.next_vesting_withdrawal) - new Date());
+  walletData.showPowerDown = userdata.next_vesting_withdrawal !== '1969-12-31T23:59:59';
+  const timeDiff = Math.abs(parseDate(userdata.next_vesting_withdrawal) - new Date());
   walletData.nextVestingWithdrawal = Math.round(timeDiff / (1000 * 3600));
 
-  const { transfer_history: transferHistory, other_history: virtualHistory } = get(
-    accounts,
-    user.name,
-    [],
-  );
+  const { transfer_history: transferHistory, other_history: virtualHistory } = userdata;
+
   const realHistory = transferHistory
     ? transferHistory.slice(Math.max(transferHistory.length - 50, 0))
     : [];
