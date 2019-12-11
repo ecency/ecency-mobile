@@ -16,6 +16,7 @@ import globalStyles from '../../globalStyles';
 
 const TransactionView = ({ transactions, type, refreshing, setRefreshing, isLoading }) => {
   const intl = useIntl();
+  const transaction_types = ['ESTM', 'STEEM', 'SBD', 'SP'];
 
   const _renderLoading = () => {
     if (isLoading) {
@@ -44,7 +45,8 @@ const TransactionView = ({ transactions, type, refreshing, setRefreshing, isLoad
 
   const _renderItem = (item, index) => {
     return (
-      Object.keys(item).length > 0 && (
+      Object.keys(item).length > 0 &&
+      item.value.indexOf(transaction_types[type]) > -1 && (
         <CollapsibleCard
           key={item.created.toString()}
           noBorder

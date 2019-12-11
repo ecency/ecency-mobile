@@ -100,7 +100,7 @@ const WalletScreen = () => {
                 scrollEventThrottle={16}
               >
                 <Transaction
-                  type="wallet"
+                  type={currentIndex}
                   transactions={selectedUserActivities}
                   refreshing={false}
                   setRefreshing={setRefreshing}

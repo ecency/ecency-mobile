@@ -1,5 +1,5 @@
 import React from 'react';
-import { View } from 'react-native';
+import { View, Text } from 'react-native';
 
 import { WalletHeader, FormattedCurrency } from '../../../components';
 import { SteemWalletContainer, AccountContainer } from '../../../containers';
@@ -20,6 +20,7 @@ const SpView = ({ handleOnSelected, index, currentIndex, refreshing: reload }) =
             spBalance,
             isLoading,
             estimatedSpValue,
+            delegationsAmount,
             steemPowerDropdown,
             unclaimedBalance,
             navigate,
@@ -45,6 +46,15 @@ const SpView = ({ handleOnSelected, index, currentIndex, refreshing: reload }) =
               currentIndex={currentIndex}
               showIconList={false}
               valueDescriptions={[
+                {
+                  textKey: 'delegations',
+                  value: (
+                    <Text>
+                      {delegationsAmount}
+                      {' SP'}
+                    </Text>
+                  ),
+                },
                 {
                   textKey: 'estimated_value',
                   value: <FormattedCurrency isApproximate isToken value={estimatedSpValue} />,
