@@ -7,7 +7,7 @@
     "transfer": "Transfer",
     "transfer_to_vesting": "Transfer To Vesting",
     "transfer_from_savings": "Transfer From Savings",
-    "withdraw_vesting": "Power Down",
+    "withdraw_vesting": "Kêmkirina Hêzê",
     "fill_order": "Fill Order",
     "post": "Şandî",
     "comment": "Şîrove",
@@ -39,11 +39,11 @@
     "reblog_desc": "Share what post you like with your friends and earn points.",
     "login_desc": "When you login into app first time you earn 100 points.",
     "checkin_extra_desc": "Consistent use of app gives you extra chances to earn more points, be more active and earn more.",
-    "dropdown_transfer": "Gift",
+    "dropdown_transfer": "Diyarî",
     "dropdown_promote": "Promote",
     "dropdown_boost": "Boost",
-    "from": "From",
-    "to": "To",
+    "from": "Ji",
+    "to": "Bo",
     "estimated_value_desc": "Determined by purchase value",
     "estimated_value": "Estimated value",
     "estimated_amount": "Vote value",
@@ -54,7 +54,7 @@
     "amount_desc": "Balance",
     "memo_desc": "This memo is public",
     "to_placeholder": "Navê bikarhêner",
-    "memo_placeholder": "Enter your notes here",
+    "memo_placeholder": "Notên xwe li vir binivîse",
     "transfer_token": "Transfer",
     "points": "Gift ESTM to someone",
     "transfer_to_saving": "Transfer To Saving",
@@ -63,7 +63,7 @@
     "steemconnect_title": "Steemconnect Transfer",
     "next": "NEXT",
     "delegate": "Delegate",
-    "power_down": "Power Down",
+    "power_down": "Kêmkirina Hêzê",
     "withdraw_steem": "Withdraw Steem",
     "withdraw_sbd": "Withdraw Steem Dollar",
     "transfer_to_savings": "Transfer To Savings",
@@ -321,10 +321,10 @@
   },
   "auth": {
     "invalid_pin": "Invalid pin code, please check and try again",
-    "invalid_username": "Invalid username, please check and try again",
-    "already_logged": "You are already logged in, please try to add another account",
+    "invalid_username": "Navê bikarhêner nederbasdar e, kontrol bike û dîsa biceribîne",
+    "already_logged": "Jixwe tu têketî ye, ji kerema xwe tevlîkirina hesabekî din biceribîne",
     "invalid_credentials": "Invalid credentials, please check and try again",
-    "unknow_error": "Unknown error, please contact us at support@esteem.app"
+    "unknow_error": "Çewtiya nenas, ji ser support@esteem.app bi me re têkilî deyne"
   },
   "payout": {
     "potential_payout": "Potential Payout",
@@ -337,10 +337,10 @@
     "breakdown": "Breakdown"
   },
   "post_dropdown": {
-    "copy": "copy link",
+    "copy": "kopî bike",
     "reblog": "reblog",
-    "reply": "reply",
-    "share": "share",
+    "reply": "bibersivîne",
+    "share": "parve bike",
     "bookmarks": "add to bookmarks",
     "promote": "promote",
     "boost": "boost"
@@ -362,17 +362,17 @@
     "time": "TIME"
   },
   "transfer": {
-    "from": "From",
-    "to": "To",
+    "from": "Ji",
+    "to": "Bo",
     "amount_information": "Drag the slider to adjust the amount",
     "amount": "Amount",
     "memo": "Memo",
     "information": "Are you sure to transfer funds?",
     "amount_desc": "Balance",
     "memo_desc": "This memo is public",
-    "to_placeholder": "Username",
-    "memo_placeholder": "Enter your notes here",
-    "transfer_token": "Transfer",
+    "to_placeholder": "Navê bikarhêner",
+    "memo_placeholder": "Notên xwe li vir binivîse",
+    "transfer_token": "Veguheztin",
     "points": "Gift ESTM to someone",
     "transfer_to_saving": "Transfer To Saving",
     "powerUp": "Power Up",
@@ -396,7 +396,7 @@
   "boost": {
     "title": "Get eSteem Points",
     "buy": "GET ESTM",
-    "next": "NEXT"
+    "next": "PÊŞVE"
   },
   "free_estm": {
     "title": "Free ESTM",
@@ -409,7 +409,7 @@
     "title": "Promote",
     "days": "days",
     "user": "User",
-    "permlink": "Post",
+    "permlink": "Şandî",
     "permlinkPlaceholder": "author/permlink",
     "information": "Are you sure to promote?"
   },
