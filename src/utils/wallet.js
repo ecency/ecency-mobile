@@ -5,7 +5,7 @@ import { vestsToSp } from './conversions';
 import { getState, getFeedHistory } from '../providers/steem/dsteem';
 import { getCurrencyTokenRate } from '../providers/esteem/esteem';
 
-export const groomingTransactionData = (transaction, steemPerMVests, formatNumber) => {
+export const groomingTransactionData = (transaction, steemPerMVests) => {
   if (!transaction || !steemPerMVests) {
     return [];
   }
