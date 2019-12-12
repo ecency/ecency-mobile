@@ -89,14 +89,14 @@
     },
     "steem": {
       "title": "STEEM",
-      "buy": "GET STEEM"
+      "buy": "STEEMê BISTÎNE"
     },
     "sbd": {
       "title": "SBD",
-      "buy": "GET SBD"
+      "buy": "SBDê BISTÎNE"
     },
     "steem_power": {
-      "title": "STEEM POWER"
+      "title": "HÊZA STEEMê"
     }
   },
   "notification": {
