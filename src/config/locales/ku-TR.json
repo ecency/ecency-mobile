@@ -383,14 +383,14 @@
     "stop_information": "Are you sure want to stop?",
     "percent": "Percent",
     "auto_vests": "Auto Vests",
-    "save": "SAVE",
-    "percent_information": "Percent info",
+    "save": "TOMAR BIKE",
+    "percent_information": "Agahiya rêjeyê",
     "next": "PÊŞVE",
     "delegate": "Şande",
     "power_down": "Kêmhêz Bike",
     "withdraw_steem": "Withdraw Steem",
     "withdraw_sbd": "Withdraw Steem Dollar",
-    "incoming_funds": "Incoming Funds",
+    "incoming_funds": "Fonên Tên",
     "stop": "Rawestîne"
   },
   "boost": {
@@ -400,9 +400,9 @@
   },
   "free_estm": {
     "title": "ESTM ya Belaş",
-    "button": "SPIN & WIN",
-    "get_spin": "5 SPINS",
-    "spin_right": "Spin Left",
+    "button": "BIZÎVIRÎNE Û QEZENC BIKE",
+    "get_spin": "5 ZÎVIR",
+    "spin_right": "Bizîvirîne Çepê",
     "timer_text": "Next free spin in"
   },
   "promote": {
