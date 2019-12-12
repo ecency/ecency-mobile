@@ -113,6 +113,7 @@ class PostCardView extends Component {
         </View>
         <View style={styles.postBodyWrapper}>
           <TouchableOpacity
+            // eslint-disable-next-line react-native/no-inline-styles
             style={[{ flexDirection: 'column' }]}
             onPress={this._handleOnContentPress}
           >
