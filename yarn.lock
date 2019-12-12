@@ -1115,6 +1115,11 @@
   resolved "https://registry.yarnpkg.com/@esteemapp/react-native-autocomplete-input/-/react-native-autocomplete-input-4.2.1.tgz#a883db553dcc152cf6ac5e6a39bc7e35682286ce"
   integrity sha512-lZFIRoAmFhON69BuoWDbXXBSmjLRM4GDyIbaVwcRPD4y9l9wVgYIpN7MdtgRj66XYhS1ffJZhhMhqlzRC5sFAQ==
 
+"@esteemapp/react-native-multi-slider@^1.1.0":
+  version "1.1.0"
+  resolved "https://registry.yarnpkg.com/@esteemapp/react-native-multi-slider/-/react-native-multi-slider-1.1.0.tgz#16ac1df8518147daa4977cec2503caba1fbd96b5"
+  integrity sha512-NSqnLuyrkO23oTpA2WiL9LrxR84eKYKxBp8OogsjLSmThfyaHJvG87J3GLoy+l/9xXA+BeHS4DF360brZ/lrUA==
+
 "@formatjs/intl-relativetimeformat@^4.1.1":
   version "4.2.0"
   resolved "https://registry.yarnpkg.com/@formatjs/intl-relativetimeformat/-/intl-relativetimeformat-4.2.0.tgz#dc403699eb5755dd19307c93a6541232b14dd721"
@@ -1313,11 +1318,6 @@
     "@types/istanbul-lib-coverage" "^2.0.0"
     "@types/istanbul-reports" "^1.1.1"
     "@types/yargs" "^13.0.0"
-
-"@ptomasroos/react-native-multi-slider@^1.0.0":
-  version "1.0.0"
-  resolved "https://registry.yarnpkg.com/@ptomasroos/react-native-multi-slider/-/react-native-multi-slider-1.0.0.tgz#a4ea27b1320b93a1db9f696c24789695df6c9f30"
-  integrity sha512-NpX22rQLArg9widwMzGf7XsInTDf6mfY/D1XaDVjglNkVphj3NSN37+nF6MofArCxC++1P+jHv0SGWbmJQwy4g==
 
 "@react-native-community/cli-debugger-ui@^3.0.0":
   version "3.0.0"
