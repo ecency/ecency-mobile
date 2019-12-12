@@ -221,25 +221,29 @@ class ProfileView extends PureComponent {
                 />
               )}
             </View>
-            <View
-              tabLabel={
-                estimatedWalletValue
-                  ? `${currencySymbol} ${(estimatedWalletValue * currencyRate).toFixed()}`
-                  : intl.formatMessage({
-                      id: 'profile.wallet',
-                    })
-              }
-            >
-              {selectedUser ? (
-                <Wallet
-                  setEstimatedWalletValue={value => this.setState({ estimatedWalletValue: value })}
-                  selectedUser={selectedUser}
-                  handleOnScroll={isSummaryOpen ? this._handleOnScroll : null}
-                />
-              ) : (
-                <WalletDetailsPlaceHolder />
-              )}
-            </View>
+            {!isOwnProfile && (
+              <View
+                tabLabel={
+                  estimatedWalletValue
+                    ? `${currencySymbol} ${(estimatedWalletValue * currencyRate).toFixed()}`
+                    : intl.formatMessage({
+                        id: 'profile.wallet',
+                      })
+                }
+              >
+                {selectedUser ? (
+                  <Wallet
+                    setEstimatedWalletValue={value =>
+                      this.setState({ estimatedWalletValue: value })
+                    }
+                    selectedUser={selectedUser}
+                    handleOnScroll={isSummaryOpen ? this._handleOnScroll : null}
+                  />
+                ) : (
+                  <WalletDetailsPlaceHolder />
+                )}
+              </View>
+            )}
           </ScrollableTabView>
         </SafeAreaView>
       </Fragment>

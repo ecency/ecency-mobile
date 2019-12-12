@@ -16,11 +16,11 @@ import { PostButton, BottomTabBar, SideMenu } from '../components';
 import {
   Bookmarks,
   Boost,
+  Comments,
   Drafts,
   Editor,
   Feed,
   Follows,
-  SpinGame,
   Login,
   Notification,
   Post,
@@ -30,6 +30,7 @@ import {
   Redeem,
   SearchResult,
   Settings,
+  SpinGame,
   Transfer,
   Voters,
   Wallet,
@@ -121,6 +122,7 @@ const stackNavigator = createStackNavigator(
     [ROUTES.SCREENS.REDEEM]: { screen: Redeem },
     [ROUTES.SCREENS.REBLOGS]: { screen: Reblogs },
     [ROUTES.SCREENS.SPIN_GAME]: { screen: SpinGame },
+    [ROUTES.SCREENS.COMMENTS]: { screen: Comments },
   },
   { headerMode: 'none' },
 );
