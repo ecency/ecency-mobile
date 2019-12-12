@@ -1,5 +1,5 @@
 import React from 'react';
-import { View, Platform } from 'react-native';
+import { View, Platform, ScrollView } from 'react-native';
 import get from 'lodash/get';
 import { useIntl } from 'react-intl';
 
@@ -44,16 +44,18 @@ const BoostScreen = () => {
           {isLoading ? (
             <BoostPlaceHolder />
           ) : (
-            productList.map(product => (
-              <ProductItemLine
-                key={get(product, 'title')}
-                isLoading={isLoading}
-                disabled={isProcessing}
-                product={product}
-                title={_getTitle(get(product, 'title'))}
-                handleOnButtonPress={id => buyItem(id)}
-              />
-            ))
+            <ScrollView>
+              {productList.map(product => (
+                <ProductItemLine
+                  key={get(product, 'title')}
+                  isLoading={isLoading}
+                  disabled={isProcessing}
+                  product={product}
+                  title={_getTitle(get(product, 'title'))}
+                  handleOnButtonPress={id => buyItem(id)}
+                />
+              ))}
+            </ScrollView>
           )}
         </View>
       )}

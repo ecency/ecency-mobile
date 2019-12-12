@@ -3,6 +3,7 @@ import parseDate from './parseDate';
 import parseToken from './parseToken';
 import { vestsToSp } from './conversions';
 import { getState, getFeedHistory } from '../providers/steem/dsteem';
+import { getCurrencyTokenRate } from '../providers/esteem/esteem';
 
 export const groomingTransactionData = (transaction, steemPerMVests, formatNumber) => {
   if (!transaction || !steemPerMVests) {
@@ -17,6 +18,8 @@ export const groomingTransactionData = (transaction, steemPerMVests, formatNumbe
 
   result.created = timestamp;
   result.icon = 'local-activity';
+
+  //TODO: Format other wallet related operations
 
   switch (result.textKey) {
     case 'curation_reward':
@@ -79,6 +82,8 @@ export const groomingTransactionData = (transaction, steemPerMVests, formatNumbe
       } ${rewardVests > 0 ? `${rewardVests} SP` : ''}`;
       break;
     case 'transfer':
+    case 'transfer_to_savings':
+    case 'transfer_from_savings':
     case 'transfer_to_vesting':
       const { amount, memo, from, to } = opData;
 
@@ -104,13 +109,61 @@ export const groomingTransactionData = (transaction, steemPerMVests, formatNumbe
       result.value = `${currentPays} = ${openPays}`;
       result.icon = 'reorder';
       break;
+    case 'escrow_transfer':
+    case 'escrow_dispute':
+    case 'escrow_release':
+    case 'escrow_approve':
+      const { agent, escrow_id } = opData;
+      let { from: frome } = opData;
+      let { to: toe } = opData;
+
+      result.value = `${escrow_id}`;
+      result.icon = 'wb-iridescent';
+      result.details = frome && toe ? `@${frome} to @${toe}` : null;
+      result.memo = agent || null;
+      break;
+    case 'delegate_vesting_shares':
+      const { delegator, delegatee, vesting_shares } = opData;
+
+      result.value = `${vesting_shares}`;
+      result.icon = 'change-history';
+      result.details = delegatee && delegator ? `@${delegator} to @${delegatee}` : null;
+      break;
+    case 'cancel_transfer_from_savings':
+      let { from: from_who, request_id: requestId } = opData;
+
+      result.value = `${0}`;
+      result.icon = 'cancel';
+      result.details = from_who ? `from @${from_who}, id: ${requestId}` : null;
+      break;
+    case 'fill_convert_request':
+      let { owner: who, requestid: requestedId, amount_out: amount_out } = opData;
+
+      result.value = `${amount_out}`;
+      result.icon = 'hourglass-full';
+      result.details = who ? `@${who}, id: ${requestedId}` : null;
+      break;
+    case 'fill_transfer_from_savings':
+      let { from: fillwho, to: fillto, amount: fillamount, request_id: fillrequestId } = opData;
+
+      result.value = `${fillamount}`;
+      result.icon = 'hourglass-full';
+      result.details = fillwho ? `@${fillwho} to @${fillto}, id: ${fillrequestId}` : null;
+      break;
+    case 'fill_vesting_withdraw':
+      let { from_account: pd_who, to_account: pd_to, deposited: deposited } = opData;
+
+      result.value = `${deposited}`;
+      result.icon = 'hourglass-full';
+      result.details = pd_who ? `@${pd_who} to ${pd_to}` : null;
+      break;
     default:
       return [];
   }
   return result;
 };
 
-export const groomingWalletData = async (user, globalProps) => {
+export const groomingWalletData = async (user, globalProps, userCurrency) => {
   const walletData = {};
 
   if (!user) {
@@ -119,25 +172,28 @@ export const groomingWalletData = async (user, globalProps) => {
 
   const state = await getState(`/@${get(user, 'name')}/transfers`);
   const { accounts } = state;
+  if (!accounts) {
+    return walletData;
+  }
+  const userdata = get(accounts, get(user, 'name'), '');
 
   // TODO: move them to utils these so big for a lifecycle function
-  walletData.rewardSteemBalance = parseToken(user.reward_steem_balance);
-  walletData.rewardSbdBalance = parseToken(user.reward_sbd_balance);
-  walletData.rewardVestingSteem = parseToken(user.reward_vesting_steem);
+  walletData.rewardSteemBalance = parseToken(userdata.reward_steem_balance);
+  walletData.rewardSbdBalance = parseToken(userdata.reward_sbd_balance);
+  walletData.rewardVestingSteem = parseToken(userdata.reward_vesting_steem);
   walletData.hasUnclaimedRewards =
     walletData.rewardSteemBalance > 0 ||
     walletData.rewardSbdBalance > 0 ||
     walletData.rewardVestingSteem > 0;
-  walletData.balance = parseToken(user.balance);
-  walletData.vestingShares = parseToken(user.vesting_shares);
-  walletData.vestingSharesDelegated = parseToken(user.delegated_vesting_shares);
-  walletData.vestingSharesReceived = parseToken(user.received_vesting_shares);
+  walletData.balance = parseToken(userdata.balance);
+  walletData.vestingShares = parseToken(userdata.vesting_shares);
+  walletData.vestingSharesDelegated = parseToken(userdata.delegated_vesting_shares);
+  walletData.vestingSharesReceived = parseToken(userdata.received_vesting_shares);
   walletData.vestingSharesTotal =
     walletData.vestingShares - walletData.vestingSharesDelegated + walletData.vestingSharesReceived;
-
-  walletData.sbdBalance = parseToken(user.sbd_balance);
-  walletData.savingBalance = parseToken(user.savings_balance);
-  walletData.savingBalanceSbd = parseToken(user.savings_sbd_balance);
+  walletData.sbdBalance = parseToken(userdata.sbd_balance);
+  walletData.savingBalance = parseToken(userdata.savings_balance);
+  walletData.savingBalanceSbd = parseToken(userdata.savings_sbd_balance);
 
   const feedHistory = await getFeedHistory();
   const base = parseToken(feedHistory.current_median_history.base);
@@ -156,17 +212,40 @@ export const groomingWalletData = async (user, globalProps) => {
 
   walletData.estimatedValue = totalSteem * pricePerSteem + totalSbd;
 
-  walletData.showPowerDown = user.next_vesting_withdrawal !== '1969-12-31T23:59:59';
-  const timeDiff = Math.abs(parseDate(user.next_vesting_withdrawal) - new Date());
-  walletData.nextVestingWithdrawal = Math.floor(timeDiff / (1000 * 3600 * 24));
+  const ppSbd = await getCurrencyTokenRate(userCurrency, 'sbd');
+  const ppSteem = await getCurrencyTokenRate(userCurrency, 'steem');
 
-  const { transfer_history: transferHistory } = get(accounts, user.name, []);
-  walletData.transactions = transferHistory
-    ? transferHistory.slice(Math.max(transferHistory.length - 20, 0)).reverse()
+  walletData.estimatedSteemValue = (walletData.balance + walletData.savingBalance) * ppSteem;
+  walletData.estimatedSbdValue = totalSbd * ppSbd;
+  walletData.estimatedSpValue =
+    vestsToSp(walletData.vestingShares, walletData.steemPerMVests) * ppSteem;
+
+  walletData.showPowerDown = userdata.next_vesting_withdrawal !== '1969-12-31T23:59:59';
+  const timeDiff = Math.abs(parseDate(userdata.next_vesting_withdrawal) - new Date());
+  walletData.nextVestingWithdrawal = Math.round(timeDiff / (1000 * 3600));
+
+  const { transfer_history: transferHistory, other_history: virtualHistory } = userdata;
+
+  const realHistory = transferHistory
+    ? transferHistory.slice(Math.max(transferHistory.length - 50, 0))
     : [];
+  realHistory.push(...virtualHistory); //concat
+  realHistory.sort(compare); //sort desc
+
+  walletData.transactions = realHistory;
 
   return walletData;
 };
+
+function compare(a, b) {
+  if (a[1].block < b[1].block) {
+    return 1;
+  }
+  if (a[1].block > b[1].block) {
+    return -1;
+  }
+  return 0;
+}
 
 export const groomingPointsTransactionData = transaction => {
   if (!transaction) {

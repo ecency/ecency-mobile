@@ -24,6 +24,7 @@ import {
 
 import parseToken from '../../../utils/parseToken';
 import { isEmptyDate } from '../../../utils/time';
+import { vestsToSp } from '../../../utils/conversions';
 
 // Styles
 import styles from './transferStyles';
@@ -131,7 +132,14 @@ class DelegateScreen extends Component {
   _renderInformationText = text => <Text style={styles.amountText}>{text}</Text>;
 
   render() {
-    const { intl, accounts, currentAccountName, selectedAccount, handleOnModalClose } = this.props;
+    const {
+      intl,
+      accounts,
+      currentAccountName,
+      selectedAccount,
+      handleOnModalClose,
+      steemPerMVests,
+    } = this.props;
     const { amount, isTransfering, from, destination, steemConnectTransfer } = this.state;
     let availableVestingShares = 0;
 
@@ -153,6 +161,8 @@ class DelegateScreen extends Component {
     const path = `sign/delegate-vesting-shares?delegator=${from}&delegatee=${destination}&vesting_shares=${encodeURIComponent(
       fixedAmount,
     )}`;
+
+    const spCalculated = vestsToSp(amount, steemPerMVests);
 
     return (
       <Fragment>
@@ -181,6 +191,10 @@ class DelegateScreen extends Component {
             <TransferFormItem
               label={intl.formatMessage({ id: 'transfer.amount' })}
               rightComponent={() => this._renderInformationText(`${amount.toFixed(6)} VESTS`)}
+            />
+
+            <TransferFormItem
+              rightComponent={() => this._renderInformationText(`${spCalculated.toFixed(3)} SP`)}
             />
             <Slider
               style={styles.slider}

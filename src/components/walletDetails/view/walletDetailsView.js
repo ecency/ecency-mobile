@@ -116,7 +116,7 @@ const WalletDetailsView = ({ walletData, intl, navigate, isShowDropdowns }) => {
           text={`${intl.formatMessage({
             id: 'profile.next_power_text',
           })} ${walletData.nextVestingWithdrawal} ${intl.formatMessage({
-            id: 'profile.day',
+            id: 'profile.hours',
           })}`}
           textColor="#788187"
           iconName="ios-information-circle-outline"

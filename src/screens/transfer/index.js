@@ -57,6 +57,7 @@ const Transfer = ({ navigation }) => (
               transferToAccount={transferToAccount}
               accountType={accountType}
               handleOnModalClose={handleOnModalClose}
+              steemPerMVests={steemPerMVests}
             />
           );
         case 'power_down':

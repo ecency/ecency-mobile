@@ -2,7 +2,7 @@ import get from 'lodash/get';
 import parseToken from './parseToken';
 import { vestsToRshares } from './conversions';
 
-export const getEstimatedAmount = (account, globalProps, value = 100) => {
+export const getEstimatedAmount = (account, globalProps, value = 1) => {
   const { fundRecentClaims, fundRewardBalance, base, quote } = globalProps;
   const votingPower = account.voting_power;
   const totalVests =
