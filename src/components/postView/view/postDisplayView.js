@@ -82,20 +82,12 @@ class PostDisplayView extends PureComponent {
           <View style={styles.stickyWrapper}>
             <Upvote fetchPost={fetchPost} isShowPayoutValue content={post} />
             <TextWithIcon
-              iconName="people"
+              iconName="heart-outline"
               iconStyle={styles.barIcons}
-              iconType="MaterialIcons"
+              iconType="MaterialCommunityIcons"
               isClickable
               onPress={() => handleOnVotersPress && handleOnVotersPress(get(post, 'active_votes'))}
               text={get(post, 'vote_count', 0)}
-              textMarginLeft={20}
-            />
-            <TextWithIcon
-              iconName="comment"
-              iconStyle={styles.barIcons}
-              iconType="MaterialIcons"
-              isClickable
-              text={get(post, 'children', 0)}
               textMarginLeft={20}
             />
             <TextWithIcon
@@ -107,6 +99,27 @@ class PostDisplayView extends PureComponent {
               text={get(post, 'reblogCount', 0)}
               textMarginLeft={20}
             />
+            {isLoggedIn && (
+              <TextWithIcon
+                iconName="comment-outline"
+                iconStyle={styles.barIcons}
+                iconType="MaterialCommunityIcons"
+                isClickable
+                text={get(post, 'children', 0)}
+                textMarginLeft={20}
+                onPress={() => handleOnReplyPress && handleOnReplyPress()}
+              />
+            )}
+            {!isLoggedIn && (
+              <TextWithIcon
+                iconName="comment-outline"
+                iconStyle={styles.barIcons}
+                iconType="MaterialCommunityIcons"
+                isClickable
+                text={get(post, 'children', 0)}
+                textMarginLeft={20}
+              />
+            )}
             <View style={styles.stickyRightWrapper}>
               {get(currentAccount, 'name') === get(post, 'author') && (
                 <Fragment>
@@ -127,15 +140,6 @@ class PostDisplayView extends PureComponent {
                     style={styles.barIconButton}
                   />
                 </Fragment>
-              )}
-              {isLoggedIn && (
-                <IconButton
-                  iconStyle={styles.barIconRight}
-                  iconType="MaterialIcons"
-                  name="reply"
-                  onPress={() => handleOnReplyPress && handleOnReplyPress()}
-                  style={styles.barIconButton}
-                />
               )}
             </View>
           </View>
