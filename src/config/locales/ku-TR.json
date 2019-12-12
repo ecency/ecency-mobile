@@ -1,6 +1,6 @@
 {
   "wallet": {
-    "curation_reward": "Curation Reward",
+    "curation_reward": "Xelata Kuratorê",
     "author_reward": "Xelata Nivîskarî",
     "comment_benefactor_reward": "Comment Benefactor Reward",
     "claim_reward_balance": "Claim Reward Balance",
@@ -130,7 +130,7 @@
   "profile": {
     "following": "Şopandin",
     "follower": "Şopîner",
-    "post": "Post",
+    "post": "Şandî",
     "details": "Hûrgiliyên Profîlê",
     "comments": "Şîrove",
     "replies": "Bersiv",
@@ -152,8 +152,8 @@
     "edit": {
       "display_name": "Display Name",
       "about": "Derbar",
-      "location": "Location",
-      "website": "Website"
+      "location": "Cîgeh",
+      "website": "Malper"
     }
   },
   "settings": {
@@ -354,11 +354,11 @@
     "comments": "Şîrove"
   },
   "comment_filter": {
-    "trending": "TOP",
+    "trending": "SEREKE",
     "reputation": "REPUTATION",
-    "votes": "VOTE",
-    "age": "AGE",
-    "top": "TOP",
+    "votes": "DENG",
+    "age": "TEMEN",
+    "top": "SEREKE",
     "time": "DEM"
   },
   "transfer": {
@@ -378,8 +378,8 @@
     "powerUp": "Bihêz Bike",
     "withdraw_to_saving": "Withdraw To Saving",
     "steemconnect_title": "Veguheztina Steemconnectê",
-    "estimated_weekly": "Estimated Weekly",
-    "destination_accounts": "Destination Accounts",
+    "estimated_weekly": "Texmînkirina Heftane",
+    "destination_accounts": "Hesabên Armanc",
     "stop_information": "Are you sure want to stop?",
     "percent": "Percent",
     "auto_vests": "Auto Vests",
@@ -391,7 +391,7 @@
     "withdraw_steem": "Withdraw Steem",
     "withdraw_sbd": "Withdraw Steem Dollar",
     "incoming_funds": "Incoming Funds",
-    "stop": "Stop"
+    "stop": "Rawestîne"
   },
   "boost": {
     "title": "Get eSteem Points",
@@ -399,7 +399,7 @@
     "next": "PÊŞVE"
   },
   "free_estm": {
-    "title": "Free ESTM",
+    "title": "ESTM ya Belaş",
     "button": "SPIN & WIN",
     "get_spin": "5 SPINS",
     "spin_right": "Spin Left",
