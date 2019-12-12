@@ -53,7 +53,7 @@
     "information": "Are you sure to transfer funds?",
     "amount_desc": "Balance",
     "memo_desc": "This memo is public",
-    "to_placeholder": "Username",
+    "to_placeholder": "Navê bikarhêner",
     "memo_placeholder": "Enter your notes here",
     "transfer_token": "Transfer",
     "points": "Gift ESTM to someone",
@@ -177,15 +177,15 @@
     "reset": "Nûsaz bike",
     "nsfw_content": "NSFW",
     "send_feedback": "Paşragihandin Bişîne",
-    "send": "Send",
+    "send": "Bişîne",
     "default_footer": "Default Footer",
     "nsfw": {
-      "always_show": "Always show",
-      "always_hide": "Always hide",
-      "always_warn": "Always warn"
+      "always_show": "Her tim nîşan bide",
+      "always_hide": "Her tim veşêre",
+      "always_warn": "Her tim hişyar bike"
     },
-    "feedback_success": "Email successfully open",
-    "feedback_fail": "Email client could not open",
+    "feedback_success": "Epeyam bi serkeftî vebû",
+    "feedback_fail": "Stînera epeyamê venebû",
     "server_fail": "Server not available"
   },
   "voters": {
@@ -193,14 +193,14 @@
     "no_user": "User is not found."
   },
   "login": {
-    "signin": "Sign in",
-    "signup": "Sign up",
+    "signin": "Têketin",
+    "signup": "Tomar bibe",
     "signin_title": "To get all the benefits of using eSteem",
-    "username": "Username",
-    "password": "Password or WIF",
+    "username": "Navê bikarhêner",
+    "password": "Pêborîn an WIF",
     "description": "User credentials are kept locally on the device. Credentials are removed upon logout!",
-    "cancel": "cancel",
-    "login": "LOGIN",
+    "cancel": "betal",
+    "login": "TÊKETIN",
     "steemconnect_description": "If you don't want to keep your password encrypted and saved on your device, you can use Steemconnect.",
     "steemconnect_fee_description": "Steemconnect may charge some fees from your reward transactions"
   },
