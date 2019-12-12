@@ -133,6 +133,7 @@ class CommentView extends PureComponent {
                             iconType="MaterialIcons"
                           />
                           <ActionSheet
+                            // eslint-disable-next-line no-return-assign
                             ref={o => (this.ActionSheet = o)}
                             options={[
                               intl.formatMessage({ id: 'alert.delete' }),
