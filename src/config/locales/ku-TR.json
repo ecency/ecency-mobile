@@ -48,8 +48,8 @@
     "estimated_value": "Estimated value",
     "estimated_amount": "Vote value",
     "amount_information": "Drag the slider to adjust the amount",
-    "amount": "Amount",
-    "memo": "Memo",
+    "amount": "Pîvan",
+    "memo": "Bîrname",
     "information": "Are you sure to transfer funds?",
     "amount_desc": "Balance",
     "memo_desc": "This memo is public",
@@ -58,11 +58,11 @@
     "transfer_token": "Transfer",
     "points": "Gift ESTM to someone",
     "transfer_to_saving": "Transfer To Saving",
-    "powerUp": "Power Up",
+    "powerUp": "Bihêz Bike",
     "withdraw_to_saving": "Withdraw To Saving",
-    "steemconnect_title": "Steemconnect Transfer",
-    "next": "NEXT",
-    "delegate": "Delegate",
+    "steemconnect_title": "Veguheztina Steemconnectê",
+    "next": "PÊŞVE",
+    "delegate": "Şande",
     "power_down": "Kêmkirina Hêzê",
     "withdraw_steem": "Withdraw Steem",
     "withdraw_sbd": "Withdraw Steem Dollar",
@@ -189,8 +189,8 @@
     "server_fail": "Server not available"
   },
   "voters": {
-    "voters_info": "Voters Info",
-    "no_user": "User is not found."
+    "voters_info": "Agahiya Dengdêran",
+    "no_user": "Bikarhêner nehate dîtin."
   },
   "login": {
     "signin": "Têketin",
@@ -343,15 +343,15 @@
     "share": "parve bike",
     "bookmarks": "add to bookmarks",
     "promote": "promote",
-    "boost": "boost"
+    "boost": "zêde bike"
   },
   "deep_link": {
-    "no_existing_user": "No existing user",
-    "no_existing_post": "No existing post"
+    "no_existing_user": "Bikarhêner tine ye",
+    "no_existing_post": "Şandî tine ye"
   },
   "search": {
-    "posts": "Posts",
-    "comments": "Comments"
+    "posts": "Şandî",
+    "comments": "Şîrove"
   },
   "comment_filter": {
     "trending": "TOP",
@@ -359,14 +359,14 @@
     "votes": "VOTE",
     "age": "AGE",
     "top": "TOP",
-    "time": "TIME"
+    "time": "DEM"
   },
   "transfer": {
     "from": "Ji",
     "to": "Bo",
     "amount_information": "Drag the slider to adjust the amount",
-    "amount": "Amount",
-    "memo": "Memo",
+    "amount": "Pîvan",
+    "memo": "Bîrname",
     "information": "Are you sure to transfer funds?",
     "amount_desc": "Balance",
     "memo_desc": "This memo is public",
@@ -375,9 +375,9 @@
     "transfer_token": "Veguheztin",
     "points": "Gift ESTM to someone",
     "transfer_to_saving": "Transfer To Saving",
-    "powerUp": "Power Up",
+    "powerUp": "Bihêz Bike",
     "withdraw_to_saving": "Withdraw To Saving",
-    "steemconnect_title": "Steemconnect Transfer",
+    "steemconnect_title": "Veguheztina Steemconnectê",
     "estimated_weekly": "Estimated Weekly",
     "destination_accounts": "Destination Accounts",
     "stop_information": "Are you sure want to stop?",
@@ -385,9 +385,9 @@
     "auto_vests": "Auto Vests",
     "save": "SAVE",
     "percent_information": "Percent info",
-    "next": "NEXT",
-    "delegate": "Delegate",
-    "power_down": "Power Down",
+    "next": "PÊŞVE",
+    "delegate": "Şande",
+    "power_down": "Kêmhêz Bike",
     "withdraw_steem": "Withdraw Steem",
     "withdraw_sbd": "Withdraw Steem Dollar",
     "incoming_funds": "Incoming Funds",
@@ -407,19 +407,19 @@
   },
   "promote": {
     "title": "Promote",
-    "days": "days",
-    "user": "User",
+    "days": "roj",
+    "user": "Bikarhêner",
     "permlink": "Şandî",
     "permlinkPlaceholder": "author/permlink",
     "information": "Are you sure to promote?"
   },
   "boostPost": {
-    "title": "Boost"
+    "title": "Zêde bike"
   },
   "voters_dropdown": {
     "rewards": "XELAT",
     "percent": "PERCENT",
-    "time": "TIME"
+    "time": "DEM"
   },
   "reblog": {
     "title": "Reblog Info"
