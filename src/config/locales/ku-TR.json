@@ -1,13 +1,13 @@
 {
   "wallet": {
     "curation_reward": "Xelata Kuratorê",
-    "author_reward": "Xelata Nivîskarî",
+    "author_reward": "Xelata Nivîskêr",
     "comment_benefactor_reward": "Comment Benefactor Reward",
     "claim_reward_balance": "Claim Reward Balance",
-    "transfer": "Transfer",
+    "transfer": "Veguheztin",
     "transfer_to_vesting": "Transfer To Vesting",
     "transfer_from_savings": "Transfer From Savings",
-    "withdraw_vesting": "Kêmkirina Hêzê",
+    "withdraw_vesting": "Kêmhêz Bike",
     "fill_order": "Fill Order",
     "post": "Şandî",
     "comment": "Şîrove",
@@ -63,7 +63,7 @@
     "steemconnect_title": "Veguheztina Steemconnectê",
     "next": "PÊŞVE",
     "delegate": "Şande",
-    "power_down": "Kêmkirina Hêzê",
+    "power_down": "Power Down",
     "withdraw_steem": "Withdraw Steem",
     "withdraw_sbd": "Withdraw Steem Dollar",
     "transfer_to_savings": "Transfer To Savings",
@@ -242,8 +242,8 @@
     "capture_photo": "Wêneyekî bigire"
   },
   "pincode": {
-    "enter_text": "Enter pin to unlock",
-    "set_new": "Set new pin",
+    "enter_text": "Ji bo vekirinê PIN têxîne",
+    "set_new": "PINa nû saz bike",
     "write_again": "Dîsa binivîsîne",
     "forgot_text": "Wey, Min ji bîr kir..."
   },
@@ -259,11 +259,11 @@
     "success_moved": "Veguhezî reşnivîsê bû",
     "permission_denied": "Destûr hate redkirin",
     "permission_text": "Ji kerema xwe, biçe Sazkariyên telefonê û destûrên eSteemê veke.",
-    "success_rebloged": "Rebloged!",
+    "success_rebloged": "Reblog bû!",
     "already_rebloged": "You have already reblogged!",
     "warning": "Hişyarî",
-    "invalid_pincode": "Invalid pin code, please check and try again.",
-    "remove_alert": "Are you sure want to remove?",
+    "invalid_pincode": "Koda PINê nederbasdar e, kontrol bike û dîsa biceribîne.",
+    "remove_alert": "Bi rastî jî tu dixwazî rake?",
     "clear_alert": "Bi rastî jî tu dixwazî paqij bike?",
     "clear_user_alert": "Tu dixwazî hemû daneyên bikarhêner paqij bike?",
     "clear": "Paqij bike",
@@ -317,7 +317,7 @@
     "title": "Bijardeyên min",
     "load_error": "Bijarde bar nebûn",
     "empty_list": "Li vir ti tişt tine ye",
-    "search": "Di bijadreyan de bigere"
+    "search": "Di bijardeyan de bigere"
   },
   "auth": {
     "invalid_pin": "Invalid pin code, please check and try again",
@@ -418,7 +418,7 @@
   },
   "voters_dropdown": {
     "rewards": "XELAT",
-    "percent": "PERCENT",
+    "percent": "JI SEDÎ",
     "time": "DEM"
   },
   "reblog": {
