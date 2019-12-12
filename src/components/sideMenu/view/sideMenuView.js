@@ -1,4 +1,4 @@
-import React, { Component } from 'react';
+import React, { Component, useEffect, useState } from 'react';
 import { View, Text, ImageBackground, FlatList, TouchableOpacity } from 'react-native';
 import { injectIntl } from 'react-intl';
 import LinearGradient from 'react-native-linear-gradient';
@@ -20,53 +20,46 @@ import styles from './sideMenuStyles';
 // Images
 const SIDE_MENU_BACKGROUND = require('../../../assets/side_menu_background.png');
 
-class SideMenuView extends Component {
-  /* Props
-   * ------------------------------------------------
-   *   @prop { type }    name                - Description....
-   */
-
-  constructor(props) {
-    super(props);
-    this.state = {
-      menuItems: props.isLoggedIn ? MENU.AUTH_MENU_ITEMS : MENU.NO_AUTH_MENU_ITEMS,
-      isAddAccountIconActive: false,
-      storageT: 'R',
-    };
-  }
+const SideMenuView = ({
+  currentAccount,
+  isLoggedIn,
+  intl,
+  handleLogout,
+  accounts,
+  switchAccount,
+  navigateToRoute,
+}) => {
+  const [menuItems, setMenuItems] = useState(
+    isLoggedIn ? MENU.AUTH_MENU_ITEMS : MENU.NO_AUTH_MENU_ITEMS,
+  );
+  const [isAddAccountIconActive, setIsAddAccountIconActive] = useState(false);
+  const [storageT, setStorageT] = useState('R');
 
   // Component Life Cycles
-  componentDidMount() {
+  useEffect(() => {
+    let _isMounted = false;
     getStorageType().then(item => {
-      this.setState({ storageT: item });
+      if (!_isMounted) {
+        setStorageT(item);
+      }
     });
-  }
+  }, []);
 
   // Component Functions
 
-  _handleOnPressAddAccountIcon = () => {
-    const { isLoggedIn, accounts } = this.props;
-    const { isAddAccountIconActive } = this.state;
-
+  const _handleOnPressAddAccountIcon = () => {
     if (!isAddAccountIconActive) {
-      this.setState({ menuItems: accounts });
+      setMenuItems(accounts);
     } else {
-      this._setMenuItems(isLoggedIn);
+      setMenuItems(isLoggedIn ? MENU.AUTH_MENU_ITEMS : MENU.NO_AUTH_MENU_ITEMS);
     }
 
-    this.setState({ isAddAccountIconActive: !isAddAccountIconActive });
+    setIsAddAccountIconActive(!isAddAccountIconActive);
   };
 
-  _setMenuItems = isLoggedIn => {
-    this.setState({
-      menuItems: isLoggedIn ? MENU.AUTH_MENU_ITEMS : MENU.NO_AUTH_MENU_ITEMS,
-    });
-  };
-
-  _handleOnMenuItemPress = item => {
-    const { navigateToRoute, switchAccount } = this.props;
-
+  const _handleOnMenuItemPress = item => {
     if (item.id === 'logout') {
+      // eslint-disable-next-line react/no-this-in-sfc
       this.ActionSheet.show();
       return;
     }
@@ -78,113 +71,109 @@ class SideMenuView extends Component {
     }
   };
 
-  UNSAFE_componentWillReceiveProps(nextProps) {
-    const { isLoggedIn, accounts } = this.props;
-    const { isAddAccountIconActive } = this.state;
-
-    if (isLoggedIn !== nextProps.isLoggedIn) {
-      this._setMenuItems(nextProps.isLoggedIn);
+  useEffect(() => {
+    if (isAddAccountIconActive) {
+      setMenuItems(accounts);
     }
 
-    if (accounts !== nextProps.accounts && isAddAccountIconActive) {
-      this.setState({ menuItems: nextProps.accounts });
-    }
-  }
+    setMenuItems(isLoggedIn ? MENU.AUTH_MENU_ITEMS : MENU.NO_AUTH_MENU_ITEMS);
 
-  render() {
-    const { currentAccount, isLoggedIn, intl, handleLogout } = this.props;
-    const { menuItems, isAddAccountIconActive, storageT } = this.state;
-    const { buildVersion, appVersion } = VersionNumber;
+    return () => {};
+  }, []);
 
-    return (
-      <View style={styles.container}>
-        <LinearGradient
-          start={{ x: 0, y: 0 }}
-          end={{ x: 1, y: 0 }}
-          colors={['#357ce6', '#2d5aa0']}
-          style={styles.headerView}
-        >
-          <ImageBackground source={SIDE_MENU_BACKGROUND} style={styles.imageBackground}>
-            {isLoggedIn && (
-              <View style={styles.headerContentWrapper}>
-                <UserAvatar username={currentAccount.name} size="xl" style={styles.userAvatar} />
-                <View style={styles.userInfoWrapper}>
-                  {currentAccount.display_name && (
-                    <Text numberOfLines={1} ellipsizeMode="tail" style={styles.username}>
-                      {currentAccount.display_name}
-                    </Text>
-                  )}
-                  <Text style={styles.usernick}>{`@${currentAccount.name}`}</Text>
-                </View>
+  //UNSAFE_componentWillReceiveProps(nextProps) {}
 
-                <View style={styles.userInfoWrapper}>
-                  <IconButton
-                    name={isAddAccountIconActive ? 'ios-arrow-dropup' : 'ios-add-circle-outline'}
-                    color="white"
-                    size={20}
-                    onPress={this._handleOnPressAddAccountIcon}
-                    style={styles.addAccountIcon}
-                  />
-                </View>
-              </View>
-            )}
-          </ImageBackground>
-        </LinearGradient>
-        <View style={styles.contentView}>
-          <FlatList
-            data={menuItems}
-            keyExtractor={item => item.id}
-            renderItem={item => (
-              <TouchableOpacity
-                style={styles.listItem}
-                onPress={() => {
-                  this._handleOnMenuItemPress(item.item);
-                }}
-              >
-                <View style={styles.itemWrapper}>
-                  {item.item.icon && (
-                    <Icon
-                      iconType="MaterialCommunityIcons"
-                      style={styles.listItemIcon}
-                      name={item.item.icon}
-                    />
-                  )}
-                  {item.item.username && (
-                    <UserAvatar
-                      noAction
-                      username={item.item.username}
-                      style={styles.otherUserAvatar}
-                    />
-                  )}
-                  <Text style={styles.listItemText}>
-                    {isAddAccountIconActive
-                      ? menuItems[menuItems.length - 1].id === item.item.id
-                        ? intl.formatMessage({ id: `side_menu.${item.item.id}` })
-                        : item.item.name
-                      : intl.formatMessage({ id: `side_menu.${item.item.id}` })}
+  const { buildVersion, appVersion } = VersionNumber;
+
+  return (
+    <View style={styles.container}>
+      <LinearGradient
+        start={{ x: 0, y: 0 }}
+        end={{ x: 1, y: 0 }}
+        colors={['#357ce6', '#2d5aa0']}
+        style={styles.headerView}
+      >
+        <ImageBackground source={SIDE_MENU_BACKGROUND} style={styles.imageBackground}>
+          {isLoggedIn && (
+            <View style={styles.headerContentWrapper}>
+              <UserAvatar username={currentAccount.name} size="xl" style={styles.userAvatar} />
+              <View style={styles.userInfoWrapper}>
+                {currentAccount.display_name && (
+                  <Text numberOfLines={1} ellipsizeMode="tail" style={styles.username}>
+                    {currentAccount.display_name}
                   </Text>
-                </View>
-              </TouchableOpacity>
-            )}
-          />
-        </View>
-        <Text style={styles.versionText}>{`v${appVersion}, ${buildVersion}${storageT}`}</Text>
-        <ActionSheet
-          ref={o => (this.ActionSheet = o)}
-          options={[
-            intl.formatMessage({ id: 'side_menu.logout' }),
-            intl.formatMessage({ id: 'side_menu.cancel' }),
-          ]}
-          title={intl.formatMessage({ id: 'side_menu.logout_text' })}
-          cancelButtonIndex={1}
-          destructiveButtonIndex={0}
-          onPress={index => {
-            index === 0 ? handleLogout() : null;
-          }}
+                )}
+                <Text style={styles.usernick}>{`@${currentAccount.name}`}</Text>
+              </View>
+
+              <View style={styles.userInfoWrapper}>
+                <IconButton
+                  name={isAddAccountIconActive ? 'ios-arrow-dropup' : 'ios-add-circle-outline'}
+                  color="white"
+                  size={20}
+                  onPress={_handleOnPressAddAccountIcon}
+                  style={styles.addAccountIcon}
+                />
+              </View>
+            </View>
+          )}
+        </ImageBackground>
+      </LinearGradient>
+      <View style={styles.contentView}>
+        <FlatList
+          data={menuItems}
+          keyExtractor={item => item.id}
+          renderItem={item => (
+            <TouchableOpacity
+              style={styles.listItem}
+              onPress={() => {
+                _handleOnMenuItemPress(item.item);
+              }}
+            >
+              <View style={styles.itemWrapper}>
+                {item.item.icon && (
+                  <Icon
+                    iconType="MaterialCommunityIcons"
+                    style={styles.listItemIcon}
+                    name={item.item.icon}
+                  />
+                )}
+                {item.item.username && (
+                  <UserAvatar
+                    noAction
+                    username={item.item.username}
+                    style={styles.otherUserAvatar}
+                  />
+                )}
+                <Text style={styles.listItemText}>
+                  {isAddAccountIconActive
+                    ? menuItems[menuItems.length - 1].id === item.item.id
+                      ? intl.formatMessage({ id: `side_menu.${item.item.id}` })
+                      : item.item.name
+                    : intl.formatMessage({ id: `side_menu.${item.item.id}` })}
+                </Text>
+              </View>
+            </TouchableOpacity>
+          )}
         />
       </View>
-    );
-  }
-}
+      <Text style={styles.versionText}>{`v${appVersion}, ${buildVersion}${storageT}`}</Text>
+      <ActionSheet
+        // eslint-disable-next-line react/no-this-in-sfc
+        ref={o => (this.ActionSheet = o)}
+        options={[
+          intl.formatMessage({ id: 'side_menu.logout' }),
+          intl.formatMessage({ id: 'side_menu.cancel' }),
+        ]}
+        title={intl.formatMessage({ id: 'side_menu.logout_text' })}
+        cancelButtonIndex={1}
+        destructiveButtonIndex={0}
+        onPress={index => {
+          index === 0 ? handleLogout() : null;
+        }}
+      />
+    </View>
+  );
+};
 
 export default injectIntl(SideMenuView);
