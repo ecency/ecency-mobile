@@ -230,6 +230,7 @@ class PostDisplayView extends PureComponent {
         </ScrollView>
         {post && this._getTabBar(true)}
         <ActionSheet
+          // eslint-disable-next-line no-return-assign
           ref={o => (this.ActionSheet = o)}
           options={[
             intl.formatMessage({ id: 'alert.delete' }),
