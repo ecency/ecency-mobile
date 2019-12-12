@@ -64,6 +64,7 @@ const WalletView = ({ setEstimatedWalletValue, selectedUser, handleOnScroll }) =
                 />
               }
               contentContainerStyle={styles.scrollContentContainer}
+              scrollEventThrottle={16}
             >
               {!walletData ? (
                 <Fragment>
