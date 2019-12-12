@@ -145,7 +145,11 @@ class LoginScreen extends PureComponent {
             <View style={styles.footerButtons}>
               <TextButton
                 style={styles.cancelButton}
-                onPress={() => navigation.navigate(ROUTES.DRAWER.MAIN)}
+                onPress={() =>
+                  navigation.navigate({
+                    routeName: ROUTES.DRAWER.MAIN,
+                  })
+                }
                 text={intl.formatMessage({
                   id: 'login.cancel',
                 })}

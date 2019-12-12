@@ -40,6 +40,7 @@ const BottomTabBarView = ({
   const dispatch = useDispatch();
 
   useEffect(() => {
+    console.log('updateActiveBottomTab', routes[index].routeName);
     dispatch(updateActiveBottomTab(routes[index].routeName));
   }, [dispatch, index, routes]);
 

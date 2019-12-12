@@ -60,7 +60,7 @@
     "react-native-iap": "3.4.15",
     "react-native-image-crop-picker": "^0.25.2",
     "react-native-image-zoom-viewer": "^2.2.27",
-    "react-native-keyboard-aware-scroll-view": "^0.8.0",
+    "react-native-keyboard-aware-scroll-view": "^0.9.1",
     "react-native-linear-gradient": "^2.4.2",
     "react-native-modal-dropdown": "^0.7.0",
     "react-native-modal-popover": "0.0.12",
