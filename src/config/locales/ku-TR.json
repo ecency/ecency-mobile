@@ -254,14 +254,14 @@
     "claim_reward_balance_ok": "Reward balance claimed",
     "fail": "Biserneket!",
     "move": "Move",
-    "move_question": "Are you sure to move to drafts?",
-    "success_shared": "Your post successfully shared",
-    "success_moved": "Moved to draft",
+    "move_question": "Bi rastî jî tu dixwazî reşnivîsan veguhezînî?",
+    "success_shared": "Şandiya te bi serkeftî hate parvekirin",
+    "success_moved": "Veguhezî reşnivîsê bû",
     "permission_denied": "Permission denied",
-    "permission_text": "Please, go to phone Settings and change eSteem app permissions.",
+    "permission_text": "Ji kerema xwe, biçe Sazkariyên telefonê û destûrên eSteemê veke.",
     "success_rebloged": "Rebloged!",
     "already_rebloged": "You have already reblogged!",
-    "warning": "Warning",
+    "warning": "Hişyarî",
     "invalid_pincode": "Invalid pin code, please check and try again.",
     "remove_alert": "Are you sure want to remove?",
     "clear_alert": "Bi rastî jî tu dixwazî paqij bike?",
@@ -278,7 +278,7 @@
     "error": "Error",
     "fetch_error": "Fetching data failed, please try again or notify us at info@esteem.app",
     "connection_fail": "Connection Failed!",
-    "connection_success": "Successfully connected!",
+    "connection_success": "Bi serkeftî hate girêdan!",
     "checking": "Checking...",
     "not_existing_post": "The post does not exist! Please check permlink and author.",
     "google_play_version": "We noticed that your device has old version of Google Play. Please update Google Play services and try again!"
@@ -286,15 +286,15 @@
   "post": {
     "reblog_alert": "Are you sure, you want to reblog?",
     "removed_hint": "The post was removed by",
-    "copy_link": "Copy Link",
+    "copy_link": "Girêdanê kopî bike",
     "reblogged": "reblogged by",
-    "sponsored": "SPONSORED",
-    "open_thread": "Open Thread"
+    "sponsored": "SPONSORKIRÎ",
+    "open_thread": "Mijara Vekirî"
   },
   "drafts": {
-    "title": "Drafts",
-    "load_error": "Could not load drafts",
-    "empty_list": "Nothing here",
+    "title": "Reşnivîs",
+    "load_error": "Reşnivîs bar nebûn",
+    "empty_list": "Li vir ti tişt tine ye",
     "deleted": "Draft deleted"
   },
   "schedules": {
