@@ -1,6 +1,6 @@
-import React, { Component, useEffect, useState } from 'react';
+import React, { Component, useEffect, useState, useRef } from 'react';
 import { View, Text, ImageBackground, FlatList, TouchableOpacity } from 'react-native';
-import { injectIntl } from 'react-intl';
+import { injectIntl, useIntl } from 'react-intl';
 import LinearGradient from 'react-native-linear-gradient';
 import ActionSheet from 'react-native-actionsheet';
 import VersionNumber from 'react-native-version-number';
@@ -23,12 +23,14 @@ const SIDE_MENU_BACKGROUND = require('../../../assets/side_menu_background.png')
 const SideMenuView = ({
   currentAccount,
   isLoggedIn,
-  intl,
   handleLogout,
   accounts,
   switchAccount,
   navigateToRoute,
 }) => {
+  const intl = useIntl();
+  const ActionSheetRef = useRef(null);
+
   const [menuItems, setMenuItems] = useState(
     isLoggedIn ? MENU.AUTH_MENU_ITEMS : MENU.NO_AUTH_MENU_ITEMS,
   );
@@ -43,6 +45,9 @@ const SideMenuView = ({
         setStorageT(item);
       }
     });
+    return () => {
+      _isMounted = true;
+    };
   }, []);
 
   // Component Functions
@@ -59,8 +64,7 @@ const SideMenuView = ({
 
   const _handleOnMenuItemPress = item => {
     if (item.id === 'logout') {
-      // eslint-disable-next-line react/no-this-in-sfc
-      this.ActionSheet.show();
+      ActionSheetRef.current.show();
       return;
     }
 
@@ -75,13 +79,8 @@ const SideMenuView = ({
     if (isAddAccountIconActive) {
       setMenuItems(accounts);
     }
-
     setMenuItems(isLoggedIn ? MENU.AUTH_MENU_ITEMS : MENU.NO_AUTH_MENU_ITEMS);
-
-    return () => {};
-  }, []);
-
-  //UNSAFE_componentWillReceiveProps(nextProps) {}
+  }, [isLoggedIn]);
 
   const { buildVersion, appVersion } = VersionNumber;
 
@@ -159,8 +158,7 @@ const SideMenuView = ({
       </View>
       <Text style={styles.versionText}>{`v${appVersion}, ${buildVersion}${storageT}`}</Text>
       <ActionSheet
-        // eslint-disable-next-line react/no-this-in-sfc
-        ref={o => (this.ActionSheet = o)}
+        ref={ActionSheetRef}
         options={[
           intl.formatMessage({ id: 'side_menu.logout' }),
           intl.formatMessage({ id: 'side_menu.cancel' }),
