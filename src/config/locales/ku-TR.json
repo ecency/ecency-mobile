@@ -295,14 +295,14 @@
     "title": "Reşnivîs",
     "load_error": "Reşnivîs bar nebûn",
     "empty_list": "Li vir ti tişt tine ye",
-    "deleted": "Draft deleted"
+    "deleted": "Reşnivîs hate jêbirin"
   },
   "schedules": {
     "title": "Schedules",
-    "empty_list": "Nothing here",
-    "deleted": "Scheduled post deleted",
-    "move": "Move to drafts",
-    "moved": "Moved to drafts"
+    "empty_list": "Li vir ti tişt tine ye",
+    "deleted": "Şandiya demsazkirî hate jêbirin",
+    "move": "Veguhezîne reşnivîsan",
+    "moved": "Veguhezî reşnivîsan bû"
   },
   "bookmarks": {
     "title": "Bookmarks",
