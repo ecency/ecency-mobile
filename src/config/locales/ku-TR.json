@@ -19,7 +19,7 @@
     "outgoing_transfer_title": "Outgoing transfer",
     "checkin_extra": "Bonus",
     "delegation": "Şande",
-    "delegations": "Delegations",
+    "delegations": "Şande",
     "delegation_title": "Xelata şandeyê",
     "delegation_desc": "Earn ESTM everyday for delegation",
     "post_title": "Puanên ji bo şandiyê",
@@ -46,7 +46,7 @@
     "to": "Bo",
     "estimated_value_desc": "Determined by purchase value",
     "estimated_value": "Estimated value",
-    "estimated_amount": "Vote value",
+    "estimated_amount": "Rêjeya dengan",
     "amount_information": "Drag the slider to adjust the amount",
     "amount": "Pîvan",
     "memo": "Bîrname",
@@ -120,9 +120,9 @@
     "older_then": "Older Than A Month"
   },
   "leaderboard": {
-    "daily": "DAILY",
-    "weekly": "WEEKLY",
-    "monthly": "MONTHLY"
+    "daily": "ROJANE",
+    "weekly": "HEFTANE",
+    "monthly": "MEHANE"
   },
   "messages": {
     "comingsoon": "Di nêz de taybetiya peyaman li vir e!"
@@ -151,7 +151,7 @@
     "savings": "Berhev bike",
     "edit": {
       "display_name": "Display Name",
-      "about": "About",
+      "about": "Derbar",
       "location": "Location",
       "website": "Website"
     }
