@@ -183,7 +183,11 @@ class PostDisplayView extends PureComponent {
 
     return (
       <View style={styles.container}>
-        <ScrollView style={styles.scroll} onScroll={event => this._handleOnScroll(event)}>
+        <ScrollView
+          style={styles.scroll}
+          onScroll={event => this._handleOnScroll(event)}
+          scrollEventThrottle={16}
+        >
           {parentPost && <ParentPost post={parentPost} />}
 
           <View style={styles.header}>
