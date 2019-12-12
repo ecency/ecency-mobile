@@ -276,8 +276,8 @@
     "same_user": "This user already added to list",
     "unknow_error": "Çêwtiyek çêbû",
     "error": "Çewtî",
-    "fetch_error": "Fetching data failed, please try again or notify us at info@esteem.app",
-    "connection_fail": "Connection Failed!",
+    "fetch_error": "Anîna daneyê biserneket, ji kerema xwe dîsa biceribîne an jî ji ser info@esteem.app me agahdar bike",
+    "connection_fail": "Girêdan Biserneket!",
     "connection_success": "Bi serkeftî hate girêdan!",
     "checking": "Checking...",
     "not_existing_post": "The post does not exist! Please check permlink and author.",
@@ -314,10 +314,10 @@
     "add": "Add to bookmarks"
   },
   "favorites": {
-    "title": "Favorites",
-    "load_error": "Could not load favorites",
-    "empty_list": "Nothing here",
-    "search": "Search in favorites"
+    "title": "Bijardeyên min",
+    "load_error": "Bijarde bar nebûn",
+    "empty_list": "Li vir ti tişt tine ye",
+    "search": "Di bijadreyan de bigere"
   },
   "auth": {
     "invalid_pin": "Invalid pin code, please check and try again",
