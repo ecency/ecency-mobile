@@ -430,5 +430,8 @@
       "current_time": "Tempo atual;",
       "information": "Notamos que seu dispositivo tem data ou hora incorretas. Por favor, corrija a data e hora ou defina automaticamente e tente novamente."
     }
+  },
+  "comments": {
+    "title": "Comentários"
   }
 }
