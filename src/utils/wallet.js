@@ -26,9 +26,9 @@ export const groomingTransactionData = (transaction, steemPerMVests, formatNumbe
       const { reward } = opData;
       const { comment_author: commentAuthor, comment_permlink: commentPermlink } = opData;
 
-      result.value = `${formatNumber(vestsToSp(parseToken(reward), steemPerMVests), {
-        minimumFractionDigits: 3,
-      }).replace(',', '.')} SP`;
+      result.value = `${vestsToSp(parseToken(reward), steemPerMVests)
+        .toFixed(3)
+        .replace(',', '.')} SP`;
       result.details = commentAuthor ? `@${commentAuthor}/${commentPermlink}` : null;
       break;
     case 'author_reward':
@@ -41,17 +41,15 @@ export const groomingTransactionData = (transaction, steemPerMVests, formatNumbe
 
       const { author, permlink } = opData;
 
-      sbdPayout = formatNumber(parseToken(sbdPayout), { minimumFractionDigits: 3 }).replace(
-        ',',
-        '.',
-      );
-      steemPayout = formatNumber(parseToken(steemPayout), { minimumFractionDigits: 3 }).replace(
-        ',',
-        '.',
-      );
-      vestingPayout = formatNumber(vestsToSp(parseToken(vestingPayout), steemPerMVests), {
-        minimumFractionDigits: 3,
-      }).replace(',', '.');
+      sbdPayout = parseToken(sbdPayout)
+        .toFixed(3)
+        .replace(',', '.');
+      steemPayout = parseToken(steemPayout)
+        .toFixed(3)
+        .replace(',', '.');
+      vestingPayout = vestsToSp(parseToken(vestingPayout), steemPerMVests)
+        .toFixed(3)
+        .replace(',', '.');
 
       result.value = `${sbdPayout > 0 ? `${sbdPayout} SBD` : ''} ${
         steemPayout > 0 ? `${steemPayout} STEEM` : ''
@@ -65,17 +63,15 @@ export const groomingTransactionData = (transaction, steemPerMVests, formatNumbe
     case 'claim_reward_balance':
       let { reward_sbd: rewardSdb, reward_steem: rewardSteem, reward_vests: rewardVests } = opData;
 
-      rewardSdb = formatNumber(parseToken(rewardSdb), { minimumFractionDigits: 3 }).replace(
-        ',',
-        '.',
-      );
-      rewardSteem = formatNumber(parseToken(rewardSteem), { minimumFractionDigits: 3 }).replace(
-        ',',
-        '.',
-      );
-      rewardVests = formatNumber(vestsToSp(parseToken(rewardVests), steemPerMVests), {
-        minimumFractionDigits: 3,
-      }).replace(',', '.');
+      rewardSdb = parseToken(rewardSdb)
+        .toFixed(3)
+        .replace(',', '.');
+      rewardSteem = parseToken(rewardSteem)
+        .toFixed(3)
+        .replace(',', '.');
+      rewardVests = vestsToSp(parseToken(rewardVests), steemPerMVests)
+        .toFixed(3)
+        .replace(',', '.');
 
       result.value = `${rewardSdb > 0 ? `${rewardSdb} SBD` : ''} ${
         rewardSteem > 0 ? `${rewardSteem} STEEM` : ''
@@ -97,9 +93,9 @@ export const groomingTransactionData = (transaction, steemPerMVests, formatNumbe
       let { vesting_shares: opVestingShares } = opData;
 
       opVestingShares = parseToken(opVestingShares);
-      result.value = `${formatNumber(vestsToSp(opVestingShares, steemPerMVests), {
-        minimumFractionDigits: 3,
-      }).replace(',', '.')} SP`;
+      result.value = `${vestsToSp(opVestingShares, steemPerMVests)
+        .toFixed(3)
+        .replace(',', '.')} SP`;
       result.icon = 'attach-money';
       result.details = acc ? `@${acc}` : null;
       break;
