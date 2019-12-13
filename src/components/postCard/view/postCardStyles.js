@@ -37,6 +37,9 @@ export default EStyleSheet.create({
     borderRadius: 8,
     backgroundColor: '$primaryLightGray',
   },
+  hiddenImages: {
+    flexDirection: 'column',
+  },
   postDescripton: {
     flexDirection: 'column',
     paddingHorizontal: 8,
