@@ -221,7 +221,6 @@ class ApplicationContainer extends Component {
     if (appState.match(/inactive|background/) && nextAppState === 'active') {
       this._refreshGlobalProps();
     }
-    console.log('appState:', appState);
     setPreviousAppState();
     this.setState({ appState: nextAppState });
   };
@@ -366,7 +365,6 @@ class ApplicationContainer extends Component {
 
   _refreshGlobalProps = () => {
     const { actions } = this.props;
-    console.log('fetchGlobalProperties++');
     actions.fetchGlobalProperties();
   };
 
