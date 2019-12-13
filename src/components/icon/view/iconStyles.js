@@ -1,4 +1,5 @@
 import EStyleSheet from 'react-native-extended-stylesheet';
+import scalePx from '../../../utils/scalePx';
 
 export default EStyleSheet.create({
   badge: {
@@ -9,16 +10,15 @@ export default EStyleSheet.create({
   },
   badgeWrapper: {
     position: 'absolute',
-    right: 10,
-    top: 13,
+    right: scalePx(15),
+    top: scalePx(18),
     backgroundColor: '$primaryRed',
     borderWidth: 0,
     justifyContent: 'center',
     alignItems: 'center',
     zIndex: 99,
-    padding: 2,
-    height: 20,
-    minWidth: 20,
-    borderRadius: 20 / 2,
+    height: scalePx(20),
+    minWidth: scalePx(20),
+    borderRadius: scalePx(10),
   },
 });

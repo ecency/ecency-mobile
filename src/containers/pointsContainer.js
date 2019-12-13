@@ -49,14 +49,10 @@ const PointsContainer = ({
   const [balance, setBalance] = useState(0);
   const intl = useIntl();
   const dispatch = useDispatch();
-  const fetchInterval = useCallback(() => setInterval(_fetchUserPointActivities, 6 * 60 * 1000), [
-    _fetchUserPointActivities,
-  ]);
 
   useEffect(() => {
     if (isConnected) {
       _fetchUserPointActivities(username);
-      fetchInterval();
     }
 
     if (get(navigation, 'state.params', null)) {
@@ -64,17 +60,13 @@ const PointsContainer = ({
 
       setNavigationParams(_navigationParams);
     }
-  }, [_fetchUserPointActivities, fetchInterval, isConnected, navigation, username]);
+  }, [_fetchUserPointActivities, isConnected, navigation, username]);
 
   useEffect(() => {
     if (isConnected && activeBottomTab === ROUTES.TABBAR.WALLET && username) {
       _fetchUserPointActivities(username);
     }
   }, [isConnected, username, _fetchUserPointActivities, activeBottomTab]);
-
-  useEffect(() => {
-    return clearInterval(fetchInterval);
-  });
 
   // Component Functions
 
@@ -137,9 +129,9 @@ const PointsContainer = ({
     setRefreshing(true);
 
     await getUser(_username)
-      .then(userPoints => {
-        const _balance = Math.round(get(userPoints, 'points') * 1000) / 1000;
-        setUserPoints(userPoints);
+      .then(userPointsP => {
+        const _balance = Math.round(get(userPointsP, 'points') * 1000) / 1000;
+        setUserPoints(userPointsP);
         setBalance(_balance);
       })
       .catch(err => {
@@ -147,9 +139,9 @@ const PointsContainer = ({
       });
 
     await getUserPoints(_username)
-      .then(userActivities => {
-        if (Object.entries(userActivities).length !== 0) {
-          setUserActivities(_groomUserActivities(userActivities));
+      .then(userActivitiesP => {
+        if (Object.entries(userActivitiesP).length !== 0) {
+          setUserActivities(_groomUserActivities(userActivitiesP));
         }
       })
       .catch(err => {
@@ -185,7 +177,7 @@ const PointsContainer = ({
       .catch(error => {
         if (error) {
           Alert.alert(
-            `Fetching data from server failed, please try again or notify us at info@esteem.app \n${error.message.substr(
+            `Fetching failed, please try again or notify us at info@esteem.app \n${error.message.substr(
               0,
               20,
             )}`,

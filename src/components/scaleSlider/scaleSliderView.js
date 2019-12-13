@@ -1,7 +1,7 @@
 /* eslint-disable react/no-unused-state */
 import React, { Component } from 'react';
 import { View, Dimensions, Text } from 'react-native';
-import MultiSlider from '@ptomasroos/react-native-multi-slider';
+import MultiSlider from '@esteemapp/react-native-multi-slider';
 import get from 'lodash/get';
 
 import styles from './scaleSliderStyles';

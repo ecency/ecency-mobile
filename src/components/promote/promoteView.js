@@ -4,7 +4,7 @@ import { Text, View, ScrollView, TouchableOpacity, Alert } from 'react-native';
 import { WebView } from 'react-native-webview';
 import get from 'lodash/get';
 import ActionSheet from 'react-native-actionsheet';
-import Autocomplete from 'react-native-autocomplete-input';
+import Autocomplete from '@esteemapp/react-native-autocomplete-input';
 import { ScaleSlider, TextInput } from '..';
 import { steemConnectOptions } from '../../constants/steemConnectOptions';
 

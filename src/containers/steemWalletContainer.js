@@ -139,12 +139,12 @@ const WalletContainer = ({
       setIsLoading(false);
       setUserActivities(
         get(_walletData, 'transactions', []).map(item =>
-          groomingTransactionData(item, steemPerMVests, intl.formatNumber),
+          groomingTransactionData(item, steemPerMVests),
         ),
       );
       setEstimatedWalletValue && setEstimatedWalletValue(_walletData.estimatedValue);
     },
-    [globalProps, intl.formatNumber, setEstimatedWalletValue, steemPerMVests],
+    [globalProps, setEstimatedWalletValue, steemPerMVests],
   );
 
   const _isHasUnclaimedRewards = account => {
