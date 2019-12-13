@@ -58,7 +58,12 @@ const BaseNavigator = createBottomTabNavigator(
       screen: Profile,
       navigationOptions: () => ({
         tabBarIcon: ({ tintColor }) => (
-          <Icon iconType="MaterialIcons" name="person" color={tintColor} size={scalePx(26)} />
+          <Icon
+            iconType="MaterialIcons"
+            name="person-outline"
+            color={tintColor}
+            size={scalePx(26)}
+          />
         ),
       }),
     },

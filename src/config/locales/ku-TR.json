@@ -1,13 +1,13 @@
 {
   "wallet": {
-    "curation_reward": "Curation Reward",
-    "author_reward": "Xelata Nivîskarî",
+    "curation_reward": "Xelata Kuratorê",
+    "author_reward": "Xelata Nivîskêr",
     "comment_benefactor_reward": "Comment Benefactor Reward",
     "claim_reward_balance": "Claim Reward Balance",
-    "transfer": "Transfer",
+    "transfer": "Veguheztin",
     "transfer_to_vesting": "Transfer To Vesting",
     "transfer_from_savings": "Transfer From Savings",
-    "withdraw_vesting": "Power Down",
+    "withdraw_vesting": "Kêmhêz Bike",
     "fill_order": "Fill Order",
     "post": "Şandî",
     "comment": "Şîrove",
@@ -19,7 +19,7 @@
     "outgoing_transfer_title": "Outgoing transfer",
     "checkin_extra": "Bonus",
     "delegation": "Şande",
-    "delegations": "Delegations",
+    "delegations": "Şande",
     "delegation_title": "Xelata şandeyê",
     "delegation_desc": "Earn ESTM everyday for delegation",
     "post_title": "Puanên ji bo şandiyê",
@@ -39,30 +39,30 @@
     "reblog_desc": "Share what post you like with your friends and earn points.",
     "login_desc": "When you login into app first time you earn 100 points.",
     "checkin_extra_desc": "Consistent use of app gives you extra chances to earn more points, be more active and earn more.",
-    "dropdown_transfer": "Gift",
+    "dropdown_transfer": "Diyarî",
     "dropdown_promote": "Promote",
-    "dropdown_boost": "Boost",
-    "from": "From",
-    "to": "To",
+    "dropdown_boost": "Zêde bike",
+    "from": "Ji",
+    "to": "Bo",
     "estimated_value_desc": "Determined by purchase value",
     "estimated_value": "Estimated value",
-    "estimated_amount": "Vote value",
+    "estimated_amount": "Rêjeya dengan",
     "amount_information": "Drag the slider to adjust the amount",
-    "amount": "Amount",
-    "memo": "Memo",
+    "amount": "Pîvan",
+    "memo": "Bîrname",
     "information": "Are you sure to transfer funds?",
     "amount_desc": "Balance",
     "memo_desc": "This memo is public",
-    "to_placeholder": "Username",
-    "memo_placeholder": "Enter your notes here",
+    "to_placeholder": "Navê bikarhêner",
+    "memo_placeholder": "Notên xwe li vir binivîse",
     "transfer_token": "Transfer",
     "points": "Gift ESTM to someone",
     "transfer_to_saving": "Transfer To Saving",
-    "powerUp": "Power Up",
+    "powerUp": "Bihêz Bike",
     "withdraw_to_saving": "Withdraw To Saving",
-    "steemconnect_title": "Steemconnect Transfer",
-    "next": "NEXT",
-    "delegate": "Delegate",
+    "steemconnect_title": "Veguheztina Steemconnectê",
+    "next": "PÊŞVE",
+    "delegate": "Şande",
     "power_down": "Power Down",
     "withdraw_steem": "Withdraw Steem",
     "withdraw_sbd": "Withdraw Steem Dollar",
@@ -89,14 +89,14 @@
     },
     "steem": {
       "title": "STEEM",
-      "buy": "GET STEEM"
+      "buy": "STEEMê BISTÎNE"
     },
     "sbd": {
       "title": "SBD",
-      "buy": "GET SBD"
+      "buy": "SBDê BISTÎNE"
     },
     "steem_power": {
-      "title": "STEEM POWER"
+      "title": "HÊZA STEEMê"
     }
   },
   "notification": {
@@ -120,9 +120,9 @@
     "older_then": "Older Than A Month"
   },
   "leaderboard": {
-    "daily": "DAILY",
-    "weekly": "WEEKLY",
-    "monthly": "MONTHLY"
+    "daily": "ROJANE",
+    "weekly": "HEFTANE",
+    "monthly": "MEHANE"
   },
   "messages": {
     "comingsoon": "Di nêz de taybetiya peyaman li vir e!"
@@ -130,7 +130,7 @@
   "profile": {
     "following": "Şopandin",
     "follower": "Şopîner",
-    "post": "Post",
+    "post": "Şandî",
     "details": "Hûrgiliyên Profîlê",
     "comments": "Şîrove",
     "replies": "Bersiv",
@@ -145,15 +145,15 @@
     "havent_posted": "heta niha ti tişt parve nebûye",
     "steem_power": "Hêza Steemê",
     "next_power_text": "Next power down is in",
-    "days": "days",
-    "day": "day",
+    "days": "roj",
+    "day": "roj",
     "steem_dollars": "Dolarên Steemê",
-    "savings": "Savings",
+    "savings": "Berhev bike",
     "edit": {
       "display_name": "Display Name",
-      "about": "About",
-      "location": "Location",
-      "website": "Website"
+      "about": "Derbar",
+      "location": "Cîgeh",
+      "website": "Malper"
     }
   },
   "settings": {
@@ -177,30 +177,30 @@
     "reset": "Nûsaz bike",
     "nsfw_content": "NSFW",
     "send_feedback": "Paşragihandin Bişîne",
-    "send": "Send",
+    "send": "Bişîne",
     "default_footer": "Default Footer",
     "nsfw": {
-      "always_show": "Always show",
-      "always_hide": "Always hide",
-      "always_warn": "Always warn"
+      "always_show": "Her tim nîşan bide",
+      "always_hide": "Her tim veşêre",
+      "always_warn": "Her tim hişyar bike"
     },
-    "feedback_success": "Email successfully open",
-    "feedback_fail": "Email client could not open",
+    "feedback_success": "Epeyam bi serkeftî vebû",
+    "feedback_fail": "Stînera epeyamê venebû",
     "server_fail": "Server not available"
   },
   "voters": {
-    "voters_info": "Voters Info",
-    "no_user": "User is not found."
+    "voters_info": "Agahiya Dengdêran",
+    "no_user": "Bikarhêner nehate dîtin."
   },
   "login": {
-    "signin": "Sign in",
-    "signup": "Sign up",
+    "signin": "Têketin",
+    "signup": "Tomar bibe",
     "signin_title": "To get all the benefits of using eSteem",
-    "username": "Username",
-    "password": "Password or WIF",
+    "username": "Navê bikarhêner",
+    "password": "Pêborîn an WIF",
     "description": "User credentials are kept locally on the device. Credentials are removed upon logout!",
-    "cancel": "cancel",
-    "login": "LOGIN",
+    "cancel": "betal",
+    "login": "TÊKETIN",
     "steemconnect_description": "If you don't want to keep your password encrypted and saved on your device, you can use Steemconnect.",
     "steemconnect_fee_description": "Steemconnect may charge some fees from your reward transactions"
   },
@@ -242,8 +242,8 @@
     "capture_photo": "Wêneyekî bigire"
   },
   "pincode": {
-    "enter_text": "Enter pin to unlock",
-    "set_new": "Set new pin",
+    "enter_text": "Ji bo vekirinê PIN têxîne",
+    "set_new": "PINa nû saz bike",
     "write_again": "Dîsa binivîsîne",
     "forgot_text": "Wey, Min ji bîr kir..."
   },
@@ -253,17 +253,17 @@
     "allRead": "Hemû danezanan wekî xwendî nîşan bike",
     "claim_reward_balance_ok": "Reward balance claimed",
     "fail": "Biserneket!",
-    "move": "Move",
-    "move_question": "Are you sure to move to drafts?",
-    "success_shared": "Your post successfully shared",
-    "success_moved": "Moved to draft",
-    "permission_denied": "Permission denied",
-    "permission_text": "Please, go to phone Settings and change eSteem app permissions.",
-    "success_rebloged": "Rebloged!",
+    "move": "Veguhezîne",
+    "move_question": "Bi rastî jî tu dixwazî reşnivîsan veguhezînî?",
+    "success_shared": "Şandiya te bi serkeftî hate parvekirin",
+    "success_moved": "Veguhezî reşnivîsê bû",
+    "permission_denied": "Destûr hate redkirin",
+    "permission_text": "Ji kerema xwe, biçe Sazkariyên telefonê û destûrên eSteemê veke.",
+    "success_rebloged": "Reblog bû!",
     "already_rebloged": "You have already reblogged!",
-    "warning": "Warning",
-    "invalid_pincode": "Invalid pin code, please check and try again.",
-    "remove_alert": "Are you sure want to remove?",
+    "warning": "Hişyarî",
+    "invalid_pincode": "Koda PINê nederbasdar e, kontrol bike û dîsa biceribîne.",
+    "remove_alert": "Bi rastî jî tu dixwazî rake?",
     "clear_alert": "Bi rastî jî tu dixwazî paqij bike?",
     "clear_user_alert": "Tu dixwazî hemû daneyên bikarhêner paqij bike?",
     "clear": "Paqij bike",
@@ -274,11 +274,11 @@
     "confirm": "Bipejirîne",
     "removed": "Hate rakirin",
     "same_user": "This user already added to list",
-    "unknow_error": "An error occurred",
-    "error": "Error",
-    "fetch_error": "Fetching data failed, please try again or notify us at info@esteem.app",
-    "connection_fail": "Connection Failed!",
-    "connection_success": "Successfully connected!",
+    "unknow_error": "Çêwtiyek çêbû",
+    "error": "Çewtî",
+    "fetch_error": "Anîna daneyê biserneket, ji kerema xwe dîsa biceribîne an jî ji ser info@esteem.app me agahdar bike",
+    "connection_fail": "Girêdan Biserneket!",
+    "connection_success": "Bi serkeftî hate girêdan!",
     "checking": "Checking...",
     "not_existing_post": "The post does not exist! Please check permlink and author.",
     "google_play_version": "We noticed that your device has old version of Google Play. Please update Google Play services and try again!"
@@ -286,45 +286,45 @@
   "post": {
     "reblog_alert": "Are you sure, you want to reblog?",
     "removed_hint": "The post was removed by",
-    "copy_link": "Copy Link",
+    "copy_link": "Girêdanê kopî bike",
     "reblogged": "reblogged by",
-    "sponsored": "SPONSORED",
-    "open_thread": "Open Thread"
+    "sponsored": "SPONSORKIRÎ",
+    "open_thread": "Mijara Vekirî"
   },
   "drafts": {
-    "title": "Drafts",
-    "load_error": "Could not load drafts",
-    "empty_list": "Nothing here",
-    "deleted": "Draft deleted"
+    "title": "Reşnivîs",
+    "load_error": "Reşnivîs bar nebûn",
+    "empty_list": "Li vir ti tişt tine ye",
+    "deleted": "Reşnivîs hate jêbirin"
   },
   "schedules": {
     "title": "Schedules",
-    "empty_list": "Nothing here",
-    "deleted": "Scheduled post deleted",
-    "move": "Move to drafts",
-    "moved": "Moved to drafts"
+    "empty_list": "Li vir ti tişt tine ye",
+    "deleted": "Şandiya demsazkirî hate jêbirin",
+    "move": "Veguhezîne reşnivîsan",
+    "moved": "Veguhezî reşnivîsan bû"
   },
   "bookmarks": {
     "title": "Bookmarks",
     "load_error": "Could not load bookmarks",
-    "empty_list": "Nothing here",
+    "empty_list": "Li vir ti tişt tine ye",
     "deleted": "Bookmark removed",
     "search": "Search in bookmarks",
     "added": "Added to bookmarks",
     "add": "Add to bookmarks"
   },
   "favorites": {
-    "title": "Favorites",
-    "load_error": "Could not load favorites",
-    "empty_list": "Nothing here",
-    "search": "Search in favorites"
+    "title": "Bijardeyên min",
+    "load_error": "Bijarde bar nebûn",
+    "empty_list": "Li vir ti tişt tine ye",
+    "search": "Di bijardeyan de bigere"
   },
   "auth": {
     "invalid_pin": "Invalid pin code, please check and try again",
-    "invalid_username": "Invalid username, please check and try again",
-    "already_logged": "You are already logged in, please try to add another account",
+    "invalid_username": "Navê bikarhêner nederbasdar e, kontrol bike û dîsa biceribîne",
+    "already_logged": "Jixwe tu têketî ye, ji kerema xwe tevlîkirina hesabekî din biceribîne",
     "invalid_credentials": "Invalid credentials, please check and try again",
-    "unknow_error": "Unknown error, please contact us at support@esteem.app"
+    "unknow_error": "Çewtiya nenas, ji ser support@esteem.app bi me re têkilî deyne"
   },
   "payout": {
     "potential_payout": "Potential Payout",
@@ -337,89 +337,89 @@
     "breakdown": "Breakdown"
   },
   "post_dropdown": {
-    "copy": "copy link",
+    "copy": "kopî bike",
     "reblog": "reblog",
-    "reply": "reply",
-    "share": "share",
+    "reply": "bibersivîne",
+    "share": "parve bike",
     "bookmarks": "add to bookmarks",
     "promote": "promote",
-    "boost": "boost"
+    "boost": "zêde bike"
   },
   "deep_link": {
-    "no_existing_user": "No existing user",
-    "no_existing_post": "No existing post"
+    "no_existing_user": "Bikarhêner tine ye",
+    "no_existing_post": "Şandî tine ye"
   },
   "search": {
-    "posts": "Posts",
-    "comments": "Comments"
+    "posts": "Şandî",
+    "comments": "Şîrove"
   },
   "comment_filter": {
-    "trending": "TOP",
+    "trending": "SEREKE",
     "reputation": "REPUTATION",
-    "votes": "VOTE",
-    "age": "AGE",
-    "top": "TOP",
-    "time": "TIME"
+    "votes": "DENG",
+    "age": "TEMEN",
+    "top": "SEREKE",
+    "time": "DEM"
   },
   "transfer": {
-    "from": "From",
-    "to": "To",
+    "from": "Ji",
+    "to": "Bo",
     "amount_information": "Drag the slider to adjust the amount",
-    "amount": "Amount",
-    "memo": "Memo",
+    "amount": "Pîvan",
+    "memo": "Bîrname",
     "information": "Are you sure to transfer funds?",
     "amount_desc": "Balance",
     "memo_desc": "This memo is public",
-    "to_placeholder": "Username",
-    "memo_placeholder": "Enter your notes here",
-    "transfer_token": "Transfer",
+    "to_placeholder": "Navê bikarhêner",
+    "memo_placeholder": "Notên xwe li vir binivîse",
+    "transfer_token": "Veguheztin",
     "points": "Gift ESTM to someone",
     "transfer_to_saving": "Transfer To Saving",
-    "powerUp": "Power Up",
+    "powerUp": "Bihêz Bike",
     "withdraw_to_saving": "Withdraw To Saving",
-    "steemconnect_title": "Steemconnect Transfer",
-    "estimated_weekly": "Estimated Weekly",
-    "destination_accounts": "Destination Accounts",
+    "steemconnect_title": "Veguheztina Steemconnectê",
+    "estimated_weekly": "Texmînkirina Heftane",
+    "destination_accounts": "Hesabên Armanc",
     "stop_information": "Are you sure want to stop?",
     "percent": "Percent",
     "auto_vests": "Auto Vests",
-    "save": "SAVE",
-    "percent_information": "Percent info",
-    "next": "NEXT",
-    "delegate": "Delegate",
-    "power_down": "Power Down",
+    "save": "TOMAR BIKE",
+    "percent_information": "Agahiya rêjeyê",
+    "next": "PÊŞVE",
+    "delegate": "Şande",
+    "power_down": "Kêmhêz Bike",
     "withdraw_steem": "Withdraw Steem",
     "withdraw_sbd": "Withdraw Steem Dollar",
-    "incoming_funds": "Incoming Funds",
-    "stop": "Stop"
+    "incoming_funds": "Fonên Tên",
+    "stop": "Rawestîne"
   },
   "boost": {
     "title": "Get eSteem Points",
     "buy": "GET ESTM",
-    "next": "NEXT"
+    "next": "PÊŞVE"
   },
   "free_estm": {
-    "title": "Free ESTM",
-    "button": "SPIN & WIN",
-    "get_spin": "5 SPINS",
-    "spin_right": "Spin Left",
+    "title": "ESTM ya Belaş",
+    "button": "BIZÎVIRÎNE Û QEZENC BIKE",
+    "get_spin": "5 ZÎVIR",
+    "spin_right": "Bizîvirîne Çepê",
     "timer_text": "Next free spin in"
   },
   "promote": {
     "title": "Promote",
-    "days": "days",
-    "user": "User",
-    "permlink": "Post",
+    "days": "roj",
+    "user": "Bikarhêner",
+    "permlink": "Şandî",
     "permlinkPlaceholder": "author/permlink",
     "information": "Are you sure to promote?"
   },
   "boostPost": {
-    "title": "Boost"
+    "title": "Zêde bike"
   },
   "voters_dropdown": {
-    "rewards": "REWARDS",
-    "percent": "PERCENT",
-    "time": "TIME"
+    "rewards": "XELAT",
+    "percent": "JI SEDÎ",
+    "time": "DEM"
   },
   "reblog": {
     "title": "Reblog Info"
