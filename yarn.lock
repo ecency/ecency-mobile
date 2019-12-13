@@ -7705,13 +7705,6 @@ react-native-safe-modules@^1.0.0:
   dependencies:
     debounce "^1.2.0"
 
-react-native-screens@^2.0.0-alpha.16:
-  version "2.0.0-alpha.18"
-  resolved "https://registry.yarnpkg.com/react-native-screens/-/react-native-screens-2.0.0-alpha.18.tgz#70c116cc96069ad1d930f2984bbec7d66856a1ee"
-  integrity sha512-ML5MVFMWsw7x4GdAA6xWMnFUp37Rk4dpNb5MKrRIPqOTYTS+cN+eyo7UCqICEa6KwYKCtGN6Kq7xrKOtboWPMg==
-  dependencies:
-    debounce "^1.2.0"
-
 react-native-scrollable-tab-view@esteemapp/react-native-scrollable-tab-view:
   version "0.10.0"
   resolved "https://codeload.github.com/esteemapp/react-native-scrollable-tab-view/tar.gz/a86ddabbda728b86eb16656b8e8e71655a38400e"

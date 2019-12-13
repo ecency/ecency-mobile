@@ -1,114 +1,122 @@
-import React, { Component, Fragment } from 'react';
+import React, { useState, Fragment, useRef } from 'react';
 import { FlatList } from 'react-native';
 import ActionSheet from 'react-native-actionsheet';
 import get from 'lodash/get';
-import { injectIntl } from 'react-intl';
+import { useIntl } from 'react-intl';
+import { navigate } from '../../../navigation/service';
 
 // Components
-// eslint-disable-next-line import/no-cycle
-import { Comment } from '../../comment';
+import { Comment, TextButton } from '../..';
+
+// Constants
+import ROUTES from '../../../constants/routeNames';
 
 // Styles
 import styles from './commentStyles';
 
-class CommentsView extends Component {
-  /* Props
-   * ------------------------------------------------
-   *   @prop { type }    name                - Description....
-   */
+const CommentsView = ({
+  avatarSize,
+  commentCount,
+  commentNumber,
+  comments,
+  currentAccountUsername,
+  fetchPost,
+  handleDeleteComment,
+  handleOnEditPress,
+  handleOnPressCommentMenu,
+  handleOnReplyPress,
+  handleOnUserPress,
+  handleOnVotersPress,
+  hasManyComments,
+  isHideImage,
+  isLoggedIn,
+  isOwnProfile,
+  isShowSubComments,
+  mainAuthor,
+  marginLeft,
+  isShowMoreButton,
+  showAllComments,
+  hideManyCommentsButton,
+}) => {
+  const [selectedComment, setSelectedComment] = useState(null);
+  const intl = useIntl();
+  const commentMenu = useRef();
 
-  constructor(props) {
-    super(props);
-    this.state = {
-      selectedComment: null,
-    };
-    this.commentMenu = React.createRef();
-  }
+  const _keyExtractor = item => get(item, 'permlink');
 
-  // Component Life Cycles
-
-  // Component Functions
-
-  _keyExtractor = item => item.permlink;
-
-  _openCommentMenu = item => {
-    this.setState({ selectedComment: item });
-    this.commentMenu.current.show();
+  const _openCommentMenu = item => {
+    setSelectedComment(item);
+    commentMenu.current.show();
   };
 
-  render() {
-    const {
-      mainAuthor,
-      avatarSize,
-      commentCount,
-      commentNumber,
-      comments,
-      currentAccountUsername,
-      fetchPost,
-      handleOnEditPress,
-      handleOnReplyPress,
-      handleOnUserPress,
-      isLoggedIn,
-      isShowSubComments,
-      marginLeft,
-      handleDeleteComment,
-      handleOnPressCommentMenu,
-      handleOnVotersPress,
-      intl,
-      isOwnProfile,
-      isHideImage,
-    } = this.props;
-    const { selectedComment } = this.state;
+  const _readMoreComments = () => {
+    navigate({
+      routeName: ROUTES.SCREENS.COMMENTS,
+      params: { comments, fetchPost, handleOnVotersPress },
+    });
+  };
 
-    const menuItems = isOwnProfile
-      ? [
-          intl.formatMessage({ id: 'post.copy_link' }),
-          intl.formatMessage({ id: 'post.open_thread' }),
-          intl.formatMessage({ id: 'alert.cancel' }),
-        ]
-      : [intl.formatMessage({ id: 'post.copy_link' }), intl.formatMessage({ id: 'alert.cancel' })];
+  const menuItems = isOwnProfile
+    ? [
+        intl.formatMessage({ id: 'post.copy_link' }),
+        intl.formatMessage({ id: 'post.open_thread' }),
+        intl.formatMessage({ id: 'alert.cancel' }),
+      ]
+    : [intl.formatMessage({ id: 'post.copy_link' }), intl.formatMessage({ id: 'alert.cancel' })];
 
+  if (!hideManyCommentsButton && hasManyComments) {
     return (
-      <Fragment>
-        <FlatList
-          style={styles.list}
-          data={comments}
-          keyExtractor={this._keyExtractor}
-          renderItem={({ item }) => (
-            <Comment
-              mainAuthor={mainAuthor}
-              avatarSize={avatarSize}
-              comment={item}
-              commentCount={commentCount || get(item.children)}
-              commentNumber={commentNumber}
-              handleDeleteComment={handleDeleteComment}
-              currentAccountUsername={currentAccountUsername}
-              fetchPost={fetchPost}
-              handleOnEditPress={handleOnEditPress}
-              handleOnReplyPress={handleOnReplyPress}
-              handleOnUserPress={handleOnUserPress}
-              handleOnVotersPress={handleOnVotersPress}
-              isHideImage={isHideImage}
-              isLoggedIn={isLoggedIn}
-              isShowMoreButton={commentNumber === 1 && get(item, 'children') > 0}
-              voteCount={get(item, 'vote_count')}
-              isShowSubComments={isShowSubComments}
-              key={item.permlink}
-              marginLeft={marginLeft}
-              handleOnLongPress={() => this._openCommentMenu(item)}
-            />
-          )}
-        />
-        <ActionSheet
-          ref={this.commentMenu}
-          options={menuItems}
-          title={get(selectedComment, 'summary')}
-          cancelButtonIndex={isOwnProfile ? 2 : 1}
-          onPress={index => handleOnPressCommentMenu(index, selectedComment)}
-        />
-      </Fragment>
+      <TextButton
+        style={styles.moreRepliesButtonWrapper}
+        textStyle={styles.moreRepliesText}
+        onPress={() => _readMoreComments()}
+        text="Read more comments"
+      />
     );
   }
-}
 
-export default injectIntl(CommentsView);
+  return (
+    <Fragment>
+      <FlatList
+        style={styles.list}
+        data={comments}
+        keyExtractor={_keyExtractor}
+        renderItem={({ item }) => (
+          <Comment
+            mainAuthor={mainAuthor}
+            avatarSize={avatarSize}
+            hideManyCommentsButton={hideManyCommentsButton}
+            comment={item}
+            commentCount={commentCount || get(item, 'children')}
+            commentNumber={commentNumber}
+            handleDeleteComment={handleDeleteComment}
+            currentAccountUsername={currentAccountUsername}
+            fetchPost={fetchPost}
+            handleOnEditPress={handleOnEditPress}
+            handleOnReplyPress={handleOnReplyPress}
+            handleOnUserPress={handleOnUserPress}
+            handleOnVotersPress={handleOnVotersPress}
+            isHideImage={isHideImage}
+            isLoggedIn={isLoggedIn}
+            isShowMoreButton={commentNumber === 1 && get(item, 'children') > 0}
+            showAllComments={showAllComments}
+            voteCount={get(item, 'vote_count')}
+            isShowSubComments={isShowSubComments}
+            key={get(item, 'permlink')}
+            marginLeft={marginLeft}
+            handleOnLongPress={() => _openCommentMenu(item)}
+          />
+        )}
+      />
+      <ActionSheet
+        ref={commentMenu}
+        options={menuItems}
+        title={get(selectedComment, 'summary')}
+        cancelButtonIndex={isOwnProfile ? 2 : 1}
+        onPress={index => handleOnPressCommentMenu(index, selectedComment)}
+      />
+    </Fragment>
+  );
+};
+
+export default CommentsView;
