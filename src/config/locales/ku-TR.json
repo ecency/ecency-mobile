@@ -52,7 +52,7 @@
     "memo": "Bîrname",
     "information": "Are you sure to transfer funds?",
     "amount_desc": "Balance",
-    "memo_desc": "This memo is public",
+    "memo_desc": "Ev bîrname gelemper e",
     "to_placeholder": "Navê bikarhêner",
     "memo_placeholder": "Notên xwe li vir binivîse",
     "transfer_token": "Transfer",
@@ -201,7 +201,7 @@
     "description": "User credentials are kept locally on the device. Credentials are removed upon logout!",
     "cancel": "betal",
     "login": "TÊKETIN",
-    "steemconnect_description": "If you don't want to keep your password encrypted and saved on your device, you can use Steemconnect.",
+    "steemconnect_description": "Heke tu bixwazî agahiyên bikarhêner li ser amûra te bi awayekî şîfrekirî neyê hilanin, tu dikarî bi Steemconnect jî têkevî.",
     "steemconnect_fee_description": "Steemconnect may charge some fees from your reward transactions"
   },
   "home": {
@@ -369,7 +369,7 @@
     "memo": "Bîrname",
     "information": "Are you sure to transfer funds?",
     "amount_desc": "Balance",
-    "memo_desc": "This memo is public",
+    "memo_desc": "Ev bîrname gelemper e",
     "to_placeholder": "Navê bikarhêner",
     "memo_placeholder": "Notên xwe li vir binivîse",
     "transfer_token": "Veguheztin",
