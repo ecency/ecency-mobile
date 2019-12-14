@@ -1,4 +1,3 @@
-/* eslint-disable curly */
 import { Component } from 'react';
 import { Platform, BackHandler, Alert, Linking, AppState } from 'react-native';
 import NetInfo from '@react-native-community/netinfo';
@@ -129,7 +128,6 @@ class ApplicationContainer extends Component {
     if (!isIos) BackHandler.removeEventListener('hardwareBackPress', this._onBackPress);
 
     // NetInfo.isConnected.removeEventListener('connectionChange', this._handleConntectionChange);
-    clearInterval(this.globalInterval);
 
     Linking.removeEventListener('url', this._handleOpenURL);
 
@@ -148,9 +146,6 @@ class ApplicationContainer extends Component {
       if (state.isConnected !== isConnected) {
         dispatch(setConnectivityStatus(state.isConnected));
         this._fetchApp();
-        if (!state.isConnected) {
-          clearInterval(this.globalInterval);
-        }
       }
     });
   };
@@ -188,6 +183,7 @@ class ApplicationContainer extends Component {
     }
 
     if (routeName && (profile || content)) {
+      // eslint-disable-next-line no-undef
       NavigationService.navigate({
         routeName,
         params,
@@ -222,6 +218,9 @@ class ApplicationContainer extends Component {
         }
       }
     });
+    if (appState.match(/inactive|background/) && nextAppState === 'active') {
+      this._refreshGlobalProps();
+    }
     setPreviousAppState();
     this.setState({ appState: nextAppState });
   };
@@ -245,7 +244,6 @@ class ApplicationContainer extends Component {
     const { isConnected } = this.props;
     if (isConnected && userRealmObject) {
       await this._fetchUserDataFromDsteem(userRealmObject);
-      this.globalInterval = setInterval(this._refreshGlobalProps, 180000);
     }
   };
 
@@ -263,19 +261,15 @@ class ApplicationContainer extends Component {
           const permlink1 = get(push, 'permlink1', '');
           const permlink2 = get(push, 'permlink2', '');
           const permlink3 = get(push, 'permlink3', '');
-          const parentPermlink1 = get(push, 'parent_permlink1', '');
-          const parentPermlink2 = get(push, 'parent_permlink2', '');
-          const parentPermlink3 = get(push, 'parent_permlink3', '');
+          //const parentPermlink1 = get(push, 'parent_permlink1', '');
+          //const parentPermlink2 = get(push, 'parent_permlink2', '');
+          //const parentPermlink3 = get(push, 'parent_permlink3', '');
 
-          const fullParentPermlink = `${parentPermlink1}${parentPermlink2}${parentPermlink3}`;
+          //const fullParentPermlink = `${parentPermlink1}${parentPermlink2}${parentPermlink3}`;
           const fullPermlink = `${permlink1}${permlink2}${permlink3}`;
 
           const username = get(push, 'target', '');
           const activity_id = get(push, 'id', '');
-
-          markActivityAsRead(username, activity_id).then(result => {
-            dispatch(updateUnreadActivityCount(result.unread));
-          });
 
           switch (type) {
             case 'vote':
@@ -333,6 +327,10 @@ class ApplicationContainer extends Component {
               break;
           }
 
+          markActivityAsRead(username, activity_id).then(result => {
+            dispatch(updateUnreadActivityCount(result.unread));
+          });
+
           if (!some(params, isEmpty)) {
             navigate({
               routeName,
@@ -367,7 +365,6 @@ class ApplicationContainer extends Component {
 
   _refreshGlobalProps = () => {
     const { actions } = this.props;
-
     actions.fetchGlobalProperties();
   };
 
@@ -462,7 +459,7 @@ class ApplicationContainer extends Component {
   };
 
   _getSettings = async () => {
-    const { dispatch, isConnected } = this.props;
+    const { dispatch } = this.props;
 
     const settings = await getSettings();
 
@@ -485,7 +482,7 @@ class ApplicationContainer extends Component {
       }
       if (settings.nsfw !== '') dispatch(setNsfw(settings.nsfw));
 
-      if (isConnected) {
+      if (settings.currency !== '') {
         dispatch(setCurrency(settings.currency !== '' ? settings.currency : 'usd'));
       }
 
@@ -604,7 +601,6 @@ class ApplicationContainer extends Component {
 
     if (isConnected !== null && isConnected !== nextProps.isConnected && nextProps.isConnected) {
       this._fetchApp();
-      this.globalInterval = setInterval(this._refreshGlobalProps, 180000);
     }
   }
 
@@ -672,4 +668,3 @@ export default connect(
     },
   }),
 )(injectIntl(ApplicationContainer));
-/* eslint-enable */

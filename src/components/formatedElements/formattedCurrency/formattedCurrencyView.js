@@ -1,9 +1,15 @@
 import React, { Fragment } from 'react';
 import { connect } from 'react-redux';
 
-const FormattedCurrency = ({ value, fixAt = 3, currency, isApproximate = false }) => {
+const FormattedCurrency = ({
+  value,
+  fixAt = 3,
+  currency,
+  isApproximate = false,
+  isToken = false,
+}) => {
   const { currencyRate, currencySymbol } = currency;
-  const valueInCurrency = value * currencyRate;
+  const valueInCurrency = value * (isToken ? 1 : currencyRate);
   const toFixedValue = valueInCurrency.toFixed(fixAt);
 
   return (

@@ -8,8 +8,7 @@ import { Icon } from '../../icon';
 import { MainButton } from '../../mainButton';
 import { CollapsibleCard } from '../../collapsibleCard';
 import { WalletDetails } from '../../walletDetails';
-import { Transaction } from '../../transaction';
-import { WalletDetailsPlaceHolder, Card } from '../../basicUIElements';
+import { WalletDetailsPlaceHolder } from '../../basicUIElements';
 import { ThemeContainer, SteemWalletContainer } from '../../../containers';
 
 // Styles
@@ -64,6 +63,7 @@ const WalletView = ({ setEstimatedWalletValue, selectedUser, handleOnScroll }) =
                 />
               }
               contentContainerStyle={styles.scrollContentContainer}
+              scrollEventThrottle={16}
             >
               {!walletData ? (
                 <Fragment>
@@ -107,19 +107,8 @@ const WalletView = ({ setEstimatedWalletValue, selectedUser, handleOnScroll }) =
                     })}
                     expanded
                   >
-                    <WalletDetails
-                      intl={intl}
-                      walletData={walletData}
-                      isShowDropdowns={currentAccountUsername === selectedUsername}
-                    />
+                    <WalletDetails intl={intl} walletData={walletData} isShowDropdowns={false} />
                   </CollapsibleCard>
-                  <Card>
-                    <Transaction
-                      refreshing={refreshing}
-                      type="wallet"
-                      transactions={userActivities}
-                    />
-                  </Card>
                 </Fragment>
               )}
             </ScrollView>

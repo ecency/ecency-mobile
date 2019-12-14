@@ -29,6 +29,9 @@ const WalletHeaderView = ({
   valueDescriptions,
   showBuyButton,
   index,
+  fetchUserActivity,
+  reload,
+  refreshing,
 }) => {
   const intl = useIntl();
   const dropdownRef = useRef();
@@ -38,6 +41,18 @@ const WalletHeaderView = ({
       componentDidUpdate();
     }
   }, [componentDidUpdate, currentIndex, index]);
+
+  useEffect(() => {
+    if (reload && fetchUserActivity && index === currentIndex) {
+      fetchUserActivity();
+    }
+  }, [reload, currentIndex, index]);
+
+  useEffect(() => {
+    if (reload && !refreshing && index === currentIndex) {
+      componentDidUpdate();
+    }
+  }, [reload]);
 
   const _getBalanceItem = (balance, options, key) =>
     balance !== undefined && (
