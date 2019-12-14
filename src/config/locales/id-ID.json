@@ -289,7 +289,10 @@
     "copy_link": "Copy Link",
     "reblogged": "direblog Oleh",
     "sponsored": "DISPONSORI",
-    "open_thread": "Buka Thread"
+    "open_thread": "Buka Thread",
+    "save_to_local": "Save to the album",
+    "image_saved": "Image Saved to Photo Gallery",
+    "image_saved_error": "Error Saving Image"
   },
   "drafts": {
     "title": "Konsep",

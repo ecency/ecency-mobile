@@ -289,7 +289,10 @@
     "copy_link": "Kopeeri aadress",
     "reblogged": "jagatud %s poolt",
     "sponsored": "SPONSOREERITUD",
-    "open_thread": "Avatud lõim"
+    "open_thread": "Avatud lõim",
+    "save_to_local": "Save to the album",
+    "image_saved": "Image Saved to Photo Gallery",
+    "image_saved_error": "Error Saving Image"
   },
   "drafts": {
     "title": "Drafts",
