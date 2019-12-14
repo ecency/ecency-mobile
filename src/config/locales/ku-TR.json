@@ -289,7 +289,10 @@
     "copy_link": "Girêdanê kopî bike",
     "reblogged": "reblogged by",
     "sponsored": "SPONSORKIRÎ",
-    "open_thread": "Mijara Vekirî"
+    "open_thread": "Mijara Vekirî",
+    "save_to_local": "Save to the album",
+    "image_saved": "Image Saved to Photo Gallery",
+    "image_saved_error": "Error Saving Image"
   },
   "drafts": {
     "title": "Reşnivîs",
