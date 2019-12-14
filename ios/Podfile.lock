@@ -296,7 +296,7 @@ PODS:
     - RSKImageCropper
   - RNReanimated (1.3.0):
     - React
-  - RNScreens (2.0.0-alpha.16):
+  - RNScreens (2.0.0-alpha.18):
     - React
   - RNSVG (9.11.1):
     - React
@@ -520,7 +520,7 @@ SPEC CHECKSUMS:
   RNIap: b4c77c8bc4501203f4b743126a05da23f10f40b4
   RNImageCropPicker: bfb3ea9c8622f290532e2fe63f369e0d5a52f597
   RNReanimated: 6abbbae2e5e72609d85aabd92a982a94566885f1
-  RNScreens: 6f748645b4037f2579b363862754dd458d8ce376
+  RNScreens: 5a7b407132e42765bb136932d2a84bdb90c3ef33
   RNSVG: be27aa7c58819f97399388ae53d7fa0572f32c7f
   RNVectorIcons: 0bb4def82230be1333ddaeee9fcba45f0b288ed4
   RSKImageCropper: a446db0e8444a036b34f3c43db01b2373baa4b2a

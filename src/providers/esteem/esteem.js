@@ -4,13 +4,23 @@ import imageApi from '../../config/imageApi';
 import serverList from '../../config/serverListApi';
 import { jsonStringify } from '../../utils/jsonUtils';
 import bugsnag from '../../config/bugsnag';
-// market-data/currency-rate/USD/estm
+
 export const getCurrencyRate = currency =>
   api
-    .get(`/market-data/currency-rate/${currency.toUpperCase()}/steem`)
+    .get(`/market-data/currency-rate/${currency}/sbd?fixed=1`)
     .then(resp => resp.data)
     .catch(err => {
-      console.log('err :', err);
+      bugsnag.notify(err);
+      //TODO: save currency rate of offline values
+      return 1;
+    });
+
+export const getCurrencyTokenRate = (currency, token) =>
+  api
+    .get(`/market-data/currency-rate/${currency}/${token}`)
+    .then(resp => resp.data)
+    .catch(err => {
+      bugsnag.notify(err);
     });
 
 /**

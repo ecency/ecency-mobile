@@ -112,10 +112,7 @@ class PostCardView extends Component {
           </View>
         </View>
         <View style={styles.postBodyWrapper}>
-          <TouchableOpacity
-            style={[{ flexDirection: 'column' }]}
-            onPress={this._handleOnContentPress}
-          >
+          <TouchableOpacity style={styles.hiddenImages} onPress={this._handleOnContentPress}>
             {!isHideImage && (
               <FastImage source={_image} style={styles.thumbnail} defaultSource={DEFAULT_IMAGE} />
             )}
@@ -138,9 +135,9 @@ class PostCardView extends Component {
             <Upvote fetchPost={fetchPost} isShowPayoutValue content={content} />
             <TouchableOpacity style={styles.commentButton} onPress={this._handleOnVotersPress}>
               <TextWithIcon
-                iconName="people"
+                iconName="heart-outline"
                 iconStyle={styles.commentIcon}
-                iconType="MaterialIcons"
+                iconType="MaterialCommunityIcons"
                 isClickable
                 text={get(content, 'vote_count', 0)}
                 onPress={this._handleOnVotersPress}
@@ -157,9 +154,9 @@ class PostCardView extends Component {
               onPress={this._handleOnReblogsPress}
             />
             <TextWithIcon
-              iconName="comment"
+              iconName="comment-outline"
               iconStyle={styles.commentIcon}
-              iconType="MaterialIcons"
+              iconType="MaterialCommunityIcons"
               isClickable
               text={get(content, 'children', 0)}
             />

@@ -1,6 +1,6 @@
 export default {
-  'de-DE': require('./de-DE.json'),
   'en-US': require('./en-US.json'),
+  'de-DE': require('./de-DE.json'),
   'hu-HU': require('./hu-HU.json'),
   'id-ID': require('./id-ID.json'),
   'it-IT': require('./it-IT.json'),
@@ -16,8 +16,8 @@ export default {
 };
 
 export const locales = [
-  { id: 'de-DE', name: 'Deutsche' },
   { id: 'en-US', name: 'English' },
+  { id: 'de-DE', name: 'Deutsche' },
   { id: 'hu-HU', name: 'Hungarian' },
   { id: 'id-ID', name: 'Indonesian' },
   { id: 'iT-IT', name: 'Italian' },

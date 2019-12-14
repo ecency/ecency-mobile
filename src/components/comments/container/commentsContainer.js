@@ -137,7 +137,7 @@ class CommentsContainer extends Component {
     } else if (author && permlink) {
       await getComments(author, permlink, name)
         .then(comments => {
-          if (selectedFilter && selectedFilter !== 'trending') {
+          if (selectedFilter) {
             const sortComments = this._shortComments(selectedFilter, comments);
             this.setState({
               comments: sortComments,
