@@ -289,7 +289,10 @@
     "copy_link": "Link másolása",
     "reblogged": "megosztva általa",
     "sponsored": "TÁMOGATOTT",
-    "open_thread": "Bejegyzés megnyitása"
+    "open_thread": "Bejegyzés megnyitása",
+    "save_to_local": "Save to the album",
+    "image_saved": "Image Saved to Photo Gallery",
+    "image_saved_error": "Error Saving Image"
   },
   "drafts": {
     "title": "Piszkozatok",
