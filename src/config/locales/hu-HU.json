@@ -37,7 +37,7 @@
     "checkin_desc": "Rendszeres bejelentkezés 0,25 pontot ér.",
     "vote_desc": "By voting you give reward to other creators and also earn back upto 0.01 x vote weight points.",
     "reblog_desc": "Ossz meg a barátaiddal bármilyen bejegyzést, ami tetszik és nyerj pontokat.",
-    "login_desc": "When you login into app first time you earn 100 points.",
+    "login_desc": "Az alkalmazásba való első bejelentkezéskor 100 pontot kapsz.",
     "checkin_extra_desc": "Az alkalmazás következetes használata extra esélyt kínál arra, hogy több pontot nyerj, légy aktívabb és nyerj többet.",
     "dropdown_transfer": "Ajándék",
     "dropdown_promote": "Hirdetés",
@@ -82,18 +82,18 @@
       "buy": "Vásárolj ESTM-t"
     },
     "savingsteem": {
-      "title": "STEEM Savings"
+      "title": "STEEM Megtakarítások"
     },
     "savingsbd": {
       "title": "SBD Megtakarítás"
     },
     "steem": {
       "title": "STEEM",
-      "buy": "GET STEEM"
+      "buy": "STEEM VÁSÁRLÁS"
     },
     "sbd": {
       "title": "SBD",
-      "buy": "GET SBD"
+      "buy": "SBD VÁSÁRLÁS"
     },
     "steem_power": {
       "title": "STEEM POWER"
@@ -335,8 +335,8 @@
     "author_payout": "Szerzői Kifizetés",
     "curation_payout": "Kurátori Kifizetés",
     "payout_date": "Kifizetés",
-    "beneficiaries": "Beneficiaries",
-    "warn_zero_payout": "Amount must reach $0.02 for payout",
+    "beneficiaries": "Kedvezményezettek",
+    "warn_zero_payout": "Az összegnek el kell érnie a $0.02-t a kifizetéshez",
     "breakdown": "Lebontás"
   },
   "post_dropdown": {
@@ -406,7 +406,7 @@
     "button": "PÖRGESS ÉS NYERJ",
     "get_spin": "5 PÖRGETÉS",
     "spin_right": "Pörgesd balra",
-    "timer_text": "Következő ingyen forgatásig még van"
+    "timer_text": "Következő ingyenes pörgetésig még van"
   },
   "promote": {
     "title": "Hirdetés",
@@ -430,8 +430,8 @@
   "dsteem": {
     "date_error": {
       "device_time": "Készüléked ideje;",
-      "current_time": "Pontos idő;",
-      "information": "Észrevettük, hogy a készülékeeden hibás a dátum vagy az idő. Javítsd ki a dátumot és az időt, vagy válaszd az automatikus beállítást és próbáld újra."
+      "current_time": "Aktuális idő;",
+      "information": "Észrevettük, hogy a készülékeden a dátum vagy az idő hibás. Javítsd ki a dátumot és az időt, vagy válaszd az automatikus beállítást és próbáld újra."
     }
   },
   "comments": {
