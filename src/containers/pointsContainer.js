@@ -49,14 +49,10 @@ const PointsContainer = ({
   const [balance, setBalance] = useState(0);
   const intl = useIntl();
   const dispatch = useDispatch();
-  const fetchInterval = useCallback(() => setInterval(_fetchUserPointActivities, 6 * 60 * 1000), [
-    _fetchUserPointActivities,
-  ]);
 
   useEffect(() => {
     if (isConnected) {
       _fetchUserPointActivities(username);
-      fetchInterval();
     }
 
     if (get(navigation, 'state.params', null)) {
@@ -64,7 +60,7 @@ const PointsContainer = ({
 
       setNavigationParams(_navigationParams);
     }
-  }, [_fetchUserPointActivities, fetchInterval, isConnected, navigation, username]);
+  }, [_fetchUserPointActivities, isConnected, navigation, username]);
 
   useEffect(() => {
     if (isConnected && activeBottomTab === ROUTES.TABBAR.WALLET && username) {
@@ -72,44 +68,33 @@ const PointsContainer = ({
     }
   }, [isConnected, username, _fetchUserPointActivities, activeBottomTab]);
 
-  useEffect(() => {
-    return clearInterval(fetchInterval);
-  });
-
   // Component Functions
 
   const _handleOnDropdownSelected = index => {
     let navigateTo;
     let navigateParams;
 
-    switch (Number(index)) {
-      case 0:
-        navigateTo = ROUTES.SCREENS.TRANSFER;
-        navigateParams = {
-          transferType: 'points',
-          fundType: 'ESTM',
-          balance,
-        };
-        break;
-
-      case 1:
-        navigateTo = ROUTES.SCREENS.REDEEM;
-        navigateParams = {
-          balance,
-          redeemType: 'promote',
-        };
-        break;
-
-      case 2:
-        navigateTo = ROUTES.SCREENS.REDEEM;
-        navigateParams = {
-          balance,
-          redeemType: 'boost',
-        };
-        break;
-
-      default:
-        break;
+    if (index === 'dropdown_transfer') {
+      navigateTo = ROUTES.SCREENS.TRANSFER;
+      navigateParams = {
+        transferType: 'points',
+        fundType: 'ESTM',
+        balance,
+      };
+    }
+    if (index === 'dropdown_promote') {
+      navigateTo = ROUTES.SCREENS.REDEEM;
+      navigateParams = {
+        balance,
+        redeemType: 'promote',
+      };
+    }
+    if (index === 'dropdown_boost') {
+      navigateTo = ROUTES.SCREENS.REDEEM;
+      navigateParams = {
+        balance,
+        redeemType: 'boost',
+      };
     }
 
     if (isPinCodeOpen) {
@@ -137,16 +122,16 @@ const PointsContainer = ({
       }),
     );
 
-  const _fetchUserPointActivities = useCallback(async _username => {
+  const _fetchUserPointActivities = useCallback(async (_username = username) => {
     if (!_username) {
       return;
     }
     setRefreshing(true);
 
     await getUser(_username)
-      .then(userPoints => {
-        const _balance = Math.round(get(userPoints, 'points') * 1000) / 1000;
-        setUserPoints(userPoints);
+      .then(userPointsP => {
+        const _balance = Math.round(get(userPointsP, 'points') * 1000) / 1000;
+        setUserPoints(userPointsP);
         setBalance(_balance);
       })
       .catch(err => {
@@ -154,9 +139,9 @@ const PointsContainer = ({
       });
 
     await getUserPoints(_username)
-      .then(userActivities => {
-        if (Object.entries(userActivities).length !== 0) {
-          setUserActivities(_groomUserActivities(userActivities));
+      .then(userActivitiesP => {
+        if (Object.entries(userActivitiesP).length !== 0) {
+          setUserActivities(_groomUserActivities(userActivitiesP));
         }
       })
       .catch(err => {
@@ -192,7 +177,7 @@ const PointsContainer = ({
       .catch(error => {
         if (error) {
           Alert.alert(
-            `Fetching data from server failed, please try again or notify us at info@esteem.app \n${error.message.substr(
+            `Fetching failed, please try again or notify us at info@esteem.app \n${error.message.substr(
               0,
               20,
             )}`,

@@ -203,12 +203,14 @@ class PowerDownView extends Component {
     const { amount, isTransfering, isOpenWithdrawAccount } = this.state;
     let poweringDownVests = 0;
     let availableVestingShares = 0;
+    let poweringDownFund = 0;
 
     const poweringDown = !isEmptyDate(get(selectedAccount, 'next_vesting_withdrawal'));
     const nextPowerDown = parseDate(get(selectedAccount, 'next_vesting_withdrawal'));
 
     if (poweringDown) {
       poweringDownVests = parseToken(get(selectedAccount, 'vesting_withdraw_rate'));
+      poweringDownFund = vestsToSp(poweringDownVests, steemPerMVests).toFixed(3);
     } else {
       availableVestingShares =
         parseToken(get(selectedAccount, 'vesting_shares')) -
@@ -219,7 +221,6 @@ class PowerDownView extends Component {
 
     const spCalculated = vestsToSp(amount, steemPerMVests);
     const fundPerWeek = Math.round((spCalculated / 13) * 1000) / 1000;
-    const poweringDownFund = vestsToSp(poweringDownVests, steemPerMVests).toFixed(3);
 
     return (
       <Fragment>

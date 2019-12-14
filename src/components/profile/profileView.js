@@ -200,6 +200,7 @@ class ProfileView extends PureComponent {
                 <ScrollView
                   onScroll={this._handleOnScroll}
                   contentContainerStyle={styles.scrollContentContainer}
+                  scrollEventThrottle={16}
                 >
                   <Comments
                     isProfilePreview

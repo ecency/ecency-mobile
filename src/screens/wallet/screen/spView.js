@@ -1,12 +1,12 @@
 import React from 'react';
-import { View } from 'react-native';
+import { View, Text } from 'react-native';
 
-import { WalletHeader, FormatedCurrency } from '../../../components';
+import { WalletHeader, FormattedCurrency } from '../../../components';
 import { SteemWalletContainer, AccountContainer } from '../../../containers';
 
 import globalStyles from '../../../globalStyles';
 
-const SpView = ({ handleOnSelected, index, currentIndex }) => (
+const SpView = ({ handleOnSelected, index, currentIndex, refreshing: reload }) => (
   <View style={globalStyles.swipeItemWrapper}>
     <AccountContainer>
       {({ currentAccount }) => (
@@ -19,7 +19,8 @@ const SpView = ({ handleOnSelected, index, currentIndex }) => (
             userActivities,
             spBalance,
             isLoading,
-            estimatedValue,
+            estimatedSpValue,
+            delegationsAmount,
             steemPowerDropdown,
             unclaimedBalance,
             navigate,
@@ -29,6 +30,7 @@ const SpView = ({ handleOnSelected, index, currentIndex }) => (
               componentDidUpdate={() => handleOnSelected(userActivities, isLoading)}
               index={index}
               claim={claimRewardBalance}
+              reload={reload}
               fetchUserActivity={handleOnWalletRefresh}
               isClaiming={isClaiming}
               isLoading={isLoading}
@@ -45,12 +47,21 @@ const SpView = ({ handleOnSelected, index, currentIndex }) => (
               showIconList={false}
               valueDescriptions={[
                 {
+                  textKey: 'delegations',
+                  value: (
+                    <Text>
+                      {delegationsAmount}
+                      {' SP'}
+                    </Text>
+                  ),
+                },
+                {
                   textKey: 'estimated_value',
-                  value: <FormatedCurrency isApproximate value={estimatedValue} />,
+                  value: <FormattedCurrency isApproximate isToken value={estimatedSpValue} />,
                 },
                 {
                   textKey: 'estimated_amount',
-                  value: <FormatedCurrency isApproximate value={estimatedAmount} />,
+                  value: <FormattedCurrency isApproximate value={estimatedAmount} />,
                 },
               ]}
             />

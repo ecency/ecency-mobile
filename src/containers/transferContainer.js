@@ -34,6 +34,8 @@ class TransferContainer extends Component {
     super(props);
     this.state = {
       fundType: props.navigation.getParam('fundType', ''),
+      balance: props.navigation.getParam('balance', ''),
+      transferType: props.navigation.getParam('transferType', ''),
       selectedAccount: props.currentAccount,
     };
   }
@@ -63,33 +65,28 @@ class TransferContainer extends Component {
   };
 
   fetchBalance = username => {
-    const { fundType } = this.state;
+    const { fundType, transferType } = this.state;
 
     getAccount(username).then(async account => {
       let balance;
-      switch (fundType) {
-        case 'STEEM':
-          balance = account[0].balance.replace(fundType, '');
-          break;
-        case 'SBD':
-          balance = account[0].sbd_balance.replace(fundType, '');
-          break;
-        case 'ESTM':
-          this._getUserPointsBalance(username);
-          break;
-        case 'SAVING_STEEM':
-          this.setState({ fundType: 'STEEM' });
-          balance = account[0].savings_balance.replace(' STEEM', '');
-          break;
-        case 'SAVING_SBD':
-          this.setState({ fundType: 'STEEM DOLLAR' });
-          balance = account[0].savings_sbd_balance.replace(' SBD', '');
-          break;
-        case 'STEEM_POWER':
-          balance = account[0].balance.replace(fundType, '');
-          break;
-        default:
-          break;
+
+      if (transferType === 'transfer_token' && fundType === 'STEEM') {
+        balance = account[0].balance.replace(fundType, '');
+      }
+      if (transferType === 'transfer_token' && fundType === 'SBD') {
+        balance = account[0].sbd_balance.replace(fundType, '');
+      }
+      if (transferType === 'points' && fundType === 'ESTM') {
+        this._getUserPointsBalance(username);
+      }
+      if (transferType === 'transfer_to_saving' && fundType === 'STEEM') {
+        balance = account[0].balance.replace(fundType, '');
+      }
+      if (transferType === 'transfer_to_saving' && fundType === 'SBD') {
+        balance = account[0].sbd_balance.replace(fundType, '');
+      }
+      if (transferType === 'powerUp' && fundType === 'STEEM') {
+        balance = account[0].balance.replace(fundType, '');
       }
 
       const local = await getUserDataWithUsername(username);
@@ -141,7 +138,11 @@ class TransferContainer extends Component {
       case 'powerUp':
         func = transferToVesting;
         break;
-      case 'withdraw_to_saving':
+      case 'withdraw_steem':
+        func = transferFromSavings;
+        data.requestId = new Date().getTime() >>> 0;
+        break;
+      case 'withdraw_sbd':
         func = transferFromSavings;
         data.requestId = new Date().getTime() >>> 0;
         break;

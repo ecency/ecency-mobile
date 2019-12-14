@@ -16,15 +16,15 @@ export default {
     point: 0.1,
   },
   150: {
-    icon: 'local-activity',
+    icon: 'arrow-collapse-all',
     textKey: 'delegation_title',
     nameKey: 'wallet.delegation',
     descriptionKey: 'wallet.delegation_desc',
-    iconType: 'MaterialIcons',
-    point: 1,
+    iconType: 'MaterialCommunityIcons',
+    point: 5,
   },
   100: {
-    icon: 'pencil',
+    icon: 'pencil-outline',
     textKey: 'post_title',
     nameKey: 'wallet.post',
     descriptionKey: 'wallet.post_desc',
@@ -32,7 +32,7 @@ export default {
     point: 15,
   },
   110: {
-    icon: 'comment-text-outline',
+    icon: 'comment-outline',
     textKey: 'comment_title',
     nameKey: 'wallet.comment',
     descriptionKey: 'wallet.comment_desc',
@@ -40,11 +40,11 @@ export default {
     point: 5,
   },
   120: {
-    icon: 'upcircleo',
+    icon: 'chevron-up-circle-outline',
     textKey: 'vote_title',
     nameKey: 'wallet.vote',
     descriptionKey: 'wallet.vote_desc',
-    iconType: 'AntDesign',
+    iconType: 'MaterialCommunityIcons',
     point: 0.3,
   },
   130: {
@@ -56,11 +56,11 @@ export default {
     point: 1,
   },
   10: {
-    icon: 'favorite-border',
+    icon: 'progress-check',
     textKey: 'checkin_title',
     nameKey: 'wallet.checkin',
     descriptionKey: 'wallet.checkin_desc',
-    iconType: 'MaterialIcons',
+    iconType: 'MaterialCommunityIcons',
     point: 0.25,
   },
   20: {

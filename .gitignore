@@ -66,3 +66,4 @@ keystore/
 package-lock.json
 my-release-key.keystore
 gradle.properties
+ios/eSteem.xcworkspace/xcuserdata/f.xcuserdatad/UserInterfaceState.xcuserstate

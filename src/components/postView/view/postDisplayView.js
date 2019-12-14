@@ -82,20 +82,12 @@ class PostDisplayView extends PureComponent {
           <View style={styles.stickyWrapper}>
             <Upvote fetchPost={fetchPost} isShowPayoutValue content={post} />
             <TextWithIcon
-              iconName="people"
+              iconName="heart-outline"
               iconStyle={styles.barIcons}
-              iconType="MaterialIcons"
+              iconType="MaterialCommunityIcons"
               isClickable
               onPress={() => handleOnVotersPress && handleOnVotersPress(get(post, 'active_votes'))}
               text={get(post, 'vote_count', 0)}
-              textMarginLeft={20}
-            />
-            <TextWithIcon
-              iconName="comment"
-              iconStyle={styles.barIcons}
-              iconType="MaterialIcons"
-              isClickable
-              text={get(post, 'children', 0)}
               textMarginLeft={20}
             />
             <TextWithIcon
@@ -107,6 +99,27 @@ class PostDisplayView extends PureComponent {
               text={get(post, 'reblogCount', 0)}
               textMarginLeft={20}
             />
+            {isLoggedIn && (
+              <TextWithIcon
+                iconName="comment-outline"
+                iconStyle={styles.barIcons}
+                iconType="MaterialCommunityIcons"
+                isClickable
+                text={get(post, 'children', 0)}
+                textMarginLeft={20}
+                onPress={() => handleOnReplyPress && handleOnReplyPress()}
+              />
+            )}
+            {!isLoggedIn && (
+              <TextWithIcon
+                iconName="comment-outline"
+                iconStyle={styles.barIcons}
+                iconType="MaterialCommunityIcons"
+                isClickable
+                text={get(post, 'children', 0)}
+                textMarginLeft={20}
+              />
+            )}
             <View style={styles.stickyRightWrapper}>
               {get(currentAccount, 'name') === get(post, 'author') && (
                 <Fragment>
@@ -127,15 +140,6 @@ class PostDisplayView extends PureComponent {
                     style={styles.barIconButton}
                   />
                 </Fragment>
-              )}
-              {isLoggedIn && (
-                <IconButton
-                  iconStyle={styles.barIconRight}
-                  iconType="MaterialIcons"
-                  name="reply"
-                  onPress={() => handleOnReplyPress && handleOnReplyPress()}
-                  style={styles.barIconButton}
-                />
               )}
             </View>
           </View>
@@ -179,7 +183,11 @@ class PostDisplayView extends PureComponent {
 
     return (
       <View style={styles.container}>
-        <ScrollView style={styles.scroll} onScroll={event => this._handleOnScroll(event)}>
+        <ScrollView
+          style={styles.scroll}
+          onScroll={event => this._handleOnScroll(event)}
+          scrollEventThrottle={16}
+        >
           {parentPost && <ParentPost post={parentPost} />}
 
           <View style={styles.header}>
@@ -222,6 +230,7 @@ class PostDisplayView extends PureComponent {
         </ScrollView>
         {post && this._getTabBar(true)}
         <ActionSheet
+          // eslint-disable-next-line no-return-assign
           ref={o => (this.ActionSheet = o)}
           options={[
             intl.formatMessage({ id: 'alert.delete' }),
