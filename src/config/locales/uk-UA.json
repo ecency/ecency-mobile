@@ -289,7 +289,10 @@
     "copy_link": "Скопіювати посилання",
     "reblogged": "рестімнуто",
     "sponsored": "СПОНСОРОВАНО",
-    "open_thread": "Відкрита тема"
+    "open_thread": "Відкрита тема",
+    "save_to_local": "Save to the album",
+    "image_saved": "Image Saved to Photo Gallery",
+    "image_saved_error": "Error Saving Image"
   },
   "drafts": {
     "title": "Чернетки",
