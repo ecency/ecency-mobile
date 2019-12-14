@@ -40,7 +40,7 @@
     "login_desc": "When you login into app first time you earn 100 points.",
     "checkin_extra_desc": "Consistent use of app gives you extra chances to earn more points, be more active and earn more.",
     "dropdown_transfer": "Diyarî",
-    "dropdown_promote": "Promote",
+    "dropdown_promote": "Reklam",
     "dropdown_boost": "Zêde bike",
     "from": "Ji",
     "to": "Bo",
@@ -79,7 +79,7 @@
     "fill_vesting_withdraw": "Power Down executed",
     "estm": {
       "title": "puanên eSteemê",
-      "buy": "GET ESTM"
+      "buy": "ESTMê BISTÎNE"
     },
     "savingsteem": {
       "title": "STEEM Savings"
@@ -394,8 +394,8 @@
     "stop": "Rawestîne"
   },
   "boost": {
-    "title": "Get eSteem Points",
-    "buy": "GET ESTM",
+    "title": "Puanên sSteemê Bistîne",
+    "buy": "ESTMê BISTÎNE",
     "next": "PÊŞVE"
   },
   "free_estm": {
@@ -406,11 +406,11 @@
     "timer_text": "Next free spin in"
   },
   "promote": {
-    "title": "Promote",
+    "title": "Reklam",
     "days": "roj",
     "user": "Bikarhêner",
     "permlink": "Şandî",
-    "permlinkPlaceholder": "author/permlink",
+    "permlinkPlaceholder": "nivîskar/permlink",
     "information": "Tu ji danasînê piştrast î?"
   },
   "boostPost": {
