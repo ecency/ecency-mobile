@@ -74,7 +74,7 @@
     "escrow_approve": "Letéti jóváhagyás",
     "cancel_transfer_from_savings": "Cancel Transfer from Savings",
     "delegate_vesting_shares": "Delegálás",
-    "fill_convert_request": "Convert request executed",
+    "fill_convert_request": "Konvertálási kérés végrehajtva",
     "fill_transfer_from_savings": "From Savings executed",
     "fill_vesting_withdraw": "Power Down végrehajtva",
     "estm": {
@@ -359,7 +359,7 @@
   "comment_filter": {
     "trending": "TOP",
     "reputation": "Reputáció",
-    "votes": "VOTE",
+    "votes": "SZAVAZÁS",
     "age": "RÉGISÉG",
     "top": "TOP",
     "time": "IDŐ"
@@ -381,13 +381,13 @@
     "powerUp": "Power Up",
     "withdraw_to_saving": "Átutalás A Megtakarításokhoz",
     "steemconnect_title": "Steemconnect átutalás",
-    "estimated_weekly": "Estimated Weekly",
+    "estimated_weekly": "Heti becslés",
     "destination_accounts": "Cél Fiókok",
     "stop_information": "Bistos megállítod?",
     "percent": "Százalék",
     "auto_vests": "Auto Vests",
     "save": "MENTÉS",
-    "percent_information": "Percent info",
+    "percent_information": "Százalék információ",
     "next": "KÖVETKEZŐ",
     "delegate": "Delegálás",
     "power_down": "Power Down",
@@ -431,7 +431,7 @@
     "date_error": {
       "device_time": "Készüléked ideje;",
       "current_time": "Pontos idő;",
-      "information": "We noticed that your device has incorrect date or time. Please fix Date & Time or Set Automatically and try again."
+      "information": "Észrevettük, hogy a készülékeeden hibás a dátum vagy az idő. Javítsd ki a dátumot és az időt, vagy válaszd az automatikus beállítást és próbáld újra."
     }
   },
   "comments": {
