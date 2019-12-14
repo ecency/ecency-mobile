@@ -186,7 +186,7 @@
     },
     "feedback_success": "Epeyam bi serkeftî vebû",
     "feedback_fail": "Stînera epeyamê venebû",
-    "server_fail": "Server not available"
+    "server_fail": "Server tine ye"
   },
   "voters": {
     "voters_info": "Agahiya Dengdêran",
@@ -195,7 +195,7 @@
   "login": {
     "signin": "Têketin",
     "signup": "Tomar bibe",
-    "signin_title": "To get all the benefits of using eSteem",
+    "signin_title": "Tevahiya avantajên bikaranîna eSteemê bistîne",
     "username": "Navê bikarhêner",
     "password": "Pêborîn an WIF",
     "description": "User credentials are kept locally on the device. Credentials are removed upon logout!",
@@ -213,7 +213,7 @@
     "bookmarks": "Bookmarks",
     "favorites": "Bijardeyên min",
     "drafts": "Reşnivîs",
-    "schedules": "Schedules",
+    "schedules": "Karûbarên Te",
     "gallery": "Pêşangeh",
     "settings": "Sazkarî",
     "add_account": "Hesab Tevlî Bike",
@@ -251,7 +251,7 @@
     "success": "Serketî!",
     "successful": "Serketî",
     "allRead": "Hemû danezanan wekî xwendî nîşan bike",
-    "claim_reward_balance_ok": "Reward balance claimed",
+    "claim_reward_balance_ok": "Xelat hate stendin",
     "fail": "Biserneket!",
     "move": "Veguhezîne",
     "move_question": "Bi rastî jî tu dixwazî reşnivîsan veguhezînî?",
