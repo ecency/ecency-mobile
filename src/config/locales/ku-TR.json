@@ -306,12 +306,12 @@
   },
   "bookmarks": {
     "title": "Cîhnîşan",
-    "load_error": "Could not load bookmarks",
+    "load_error": "Cîhnîşan nehatin barkirin",
     "empty_list": "Li vir ti tişt tine ye",
-    "deleted": "Bookmark removed",
-    "search": "Search in bookmarks",
-    "added": "Added to bookmarks",
-    "add": "Add to bookmarks"
+    "deleted": "Cîhnîşan hate rakirin",
+    "search": "Di cîhnîşanan de bigere",
+    "added": "Tevlî cîhnîşanan bû",
+    "add": "Tevlî cîhnîşanan bike"
   },
   "favorites": {
     "title": "Bijardeyên min",
@@ -341,7 +341,7 @@
     "reblog": "dîs-weşandin",
     "reply": "bibersivîne",
     "share": "parve bike",
-    "bookmarks": "tevlî cîhnîşanê bike",
+    "bookmarks": "tevlî cîhnîşanan bike",
     "promote": "reklam",
     "boost": "zêde bike"
   },
