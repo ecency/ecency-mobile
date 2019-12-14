@@ -210,7 +210,7 @@
   },
   "side_menu": {
     "profile": "Profîl",
-    "bookmarks": "Bookmarks",
+    "bookmarks": "Cîhnîşan",
     "favorites": "Bijardeyên min",
     "drafts": "Reşnivîs",
     "schedules": "Karûbarên Te",
@@ -305,7 +305,7 @@
     "moved": "Veguhezî reşnivîsan bû"
   },
   "bookmarks": {
-    "title": "Bookmarks",
+    "title": "Cîhnîşan",
     "load_error": "Could not load bookmarks",
     "empty_list": "Li vir ti tişt tine ye",
     "deleted": "Bookmark removed",
