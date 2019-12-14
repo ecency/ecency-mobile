@@ -410,11 +410,22 @@ export const setNotificationSettings = async ({ type, action }) => {
 export const setCurrency = async currencyProps => {
   try {
     const setting = await getItemFromStorage(SETTINGS_SCHEMA);
-
     setting.currency = currencyProps;
     await setItemToStorage(SETTINGS_SCHEMA, setting);
 
     return true;
+  } catch (error) {
+    return error;
+  }
+};
+
+export const getCurrency = async () => {
+  try {
+    const setting = await getItemFromStorage(SETTINGS_SCHEMA);
+    if (setting) {
+      return setting.currency;
+    }
+    return false;
   } catch (error) {
     return error;
   }

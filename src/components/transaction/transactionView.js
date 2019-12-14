@@ -16,6 +16,7 @@ import globalStyles from '../../globalStyles';
 
 const TransactionView = ({ transactions, type, refreshing, setRefreshing, isLoading }) => {
   const intl = useIntl();
+  const transaction_types = ['ESTM', 'STEEM', 'SBD', 'SP'];
 
   const _renderLoading = () => {
     if (isLoading) {
@@ -44,38 +45,41 @@ const TransactionView = ({ transactions, type, refreshing, setRefreshing, isLoad
 
   const _renderItem = (item, index) => {
     return (
-      <CollapsibleCard
-        key={item.created.toString()}
-        noBorder
-        noContainer
-        titleComponent={
-          <WalletLineItem
-            key={item.created.toString()}
-            index={index + 1}
-            text={intl.formatMessage({
-              id: `wallet.${get(item, 'textKey')}`,
-            })}
-            description={getTimeFromNow(get(item, 'created'))}
-            isCircleIcon
-            isThin
-            circleIconColor="white"
-            isBlackText
-            iconName={get(item, 'icon')}
-            iconType={get(item, 'iconType')}
-            rightText={get(item, 'value', '').trim()}
-          />
-        }
-      >
-        {(get(item, 'details') || get(item, 'memo')) && (
-          <WalletLineItem
-            key={index.toString()}
-            text={get(item, 'details', '')}
-            isBlackText
-            isThin
-            description={get(item, 'memo')}
-          />
-        )}
-      </CollapsibleCard>
+      Object.keys(item).length > 0 &&
+      item.value.indexOf(transaction_types[type]) > -1 && (
+        <CollapsibleCard
+          key={item.created.toString()}
+          noBorder
+          noContainer
+          titleComponent={
+            <WalletLineItem
+              key={item.created.toString()}
+              index={index + 1}
+              text={intl.formatMessage({
+                id: `wallet.${get(item, 'textKey')}`,
+              })}
+              description={getTimeFromNow(get(item, 'created'))}
+              isCircleIcon
+              isThin
+              circleIconColor="white"
+              isBlackText
+              iconName={get(item, 'icon')}
+              iconType={get(item, 'iconType')}
+              rightText={get(item, 'value', '').trim()}
+            />
+          }
+        >
+          {(get(item, 'details') || get(item, 'memo')) && (
+            <WalletLineItem
+              key={index.toString()}
+              text={get(item, 'details', '')}
+              isBlackText
+              isThin
+              description={get(item, 'memo')}
+            />
+          )}
+        </CollapsibleCard>
+      )
     );
   };
 

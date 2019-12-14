@@ -6,7 +6,7 @@ const deviceWidth = Dimensions.get('window').width;
 
 export default EStyleSheet.create({
   wrapper: {
-    width: '$deviceWidth',
+    width: deviceWidth,
     position: 'absolute',
     bottom: 0,
     left: 0,
@@ -23,7 +23,7 @@ export default EStyleSheet.create({
   navItem: {
     alignItems: 'center',
     zIndex: 0,
-    paddingVertical: scalePx(8),
+    paddingVertical: scalePx(10),
     paddingHorizontal: scalePx(10),
     width: (deviceWidth - scalePx(38)) / 5,
   },

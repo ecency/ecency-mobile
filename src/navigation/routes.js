@@ -1,19 +1,28 @@
+import React from 'react';
 import { createSwitchNavigator } from 'react-navigation';
+import { createBottomTabNavigator } from 'react-navigation-tabs';
 import { createDrawerNavigator } from 'react-navigation-drawer';
 import { createStackNavigator } from 'react-navigation-stack';
 
-import { BaseNavigator } from './baseNavigator';
+// Constants
 import ROUTES from '../constants/routeNames';
+import scalePx from '../utils/scalePx';
+
+// Components
+import { Icon, IconContainer } from '../components/icon';
+import { PostButton, BottomTabBar, SideMenu } from '../components';
+
 // Screens
 import {
   Bookmarks,
   Boost,
+  Comments,
   Drafts,
   Editor,
+  Feed,
   Follows,
-  SpinGame,
   Login,
-  PinCode,
+  Notification,
   Post,
   Profile,
   ProfileEdit,
@@ -21,139 +30,104 @@ import {
   Redeem,
   SearchResult,
   Settings,
-  SteemConnect,
+  SpinGame,
   Transfer,
   Voters,
-  Comments,
+  Wallet,
 } from '../screens';
 
-// Components
-import { SideMenu } from '../components';
-
-const mainNavigation = createDrawerNavigator(
+const bottomTabNavigator = createBottomTabNavigator(
   {
-    [ROUTES.SCREENS.FEED]: {
-      screen: BaseNavigator,
+    [ROUTES.TABBAR.FEED]: {
+      screen: Feed,
+      navigationOptions: () => ({
+        tabBarIcon: ({ tintColor }) => (
+          <Icon iconType="MaterialIcons" name="view-day" color={tintColor} size={scalePx(26)} />
+        ),
+      }),
+    },
+    [ROUTES.TABBAR.NOTIFICATION]: {
+      screen: Notification,
+      navigationOptions: () => ({
+        tabBarIcon: ({ tintColor }) => (
+          <IconContainer
+            isBadge
+            badgeType="notification"
+            iconType="MaterialIcons"
+            name="notifications"
+            color={tintColor}
+            size={scalePx(26)}
+          />
+        ),
+      }),
+    },
+    [ROUTES.TABBAR.POST_BUTTON]: {
+      screen: () => null,
+      navigationOptions: {
+        tabBarIcon: () => <PostButton />,
+      },
+    },
+    [ROUTES.TABBAR.WALLET]: {
+      screen: Wallet,
+      navigationOptions: () => ({
+        tabBarIcon: ({ tintColor }) => (
+          <Icon
+            iconType="MaterialIcons"
+            name="account-balance-wallet"
+            color={tintColor}
+            size={scalePx(26)}
+          />
+        ),
+      }),
+    },
+    [ROUTES.TABBAR.PROFILE]: {
+      screen: Profile,
+      navigationOptions: () => ({
+        tabBarIcon: ({ tintColor }) => (
+          <Icon iconType="MaterialIcons" name="person" color={tintColor} size={scalePx(26)} />
+        ),
+      }),
     },
   },
   {
-    contentComponent: SideMenu,
+    tabBarComponent: props => <BottomTabBar {...props} />,
+    tabBarOptions: {
+      showLabel: false,
+      activeTintColor: '#f6f6f6',
+      inactiveTintColor: '#c1c5c7',
+    },
   },
+);
+
+const mainNavigation = createDrawerNavigator(
+  { [ROUTES.SCREENS.FEED]: { screen: bottomTabNavigator } },
+  { contentComponent: SideMenu },
 );
 
 const stackNavigator = createStackNavigator(
   {
-    [ROUTES.DRAWER.MAIN]: {
-      screen: mainNavigation,
-      navigationOptions: {
-        header: () => null,
-      },
-    },
-    [ROUTES.SCREENS.PROFILE]: {
-      screen: Profile,
-      navigationOptions: {
-        header: () => null,
-      },
-    },
-    [ROUTES.SCREENS.PROFILE_EDIT]: {
-      screen: ProfileEdit,
-      navigationOptions: {
-        header: () => null,
-      },
-    },
-    [ROUTES.SCREENS.POST]: {
-      screen: Post,
-      navigationOptions: {
-        header: () => null,
-      },
-    },
-    [ROUTES.SCREENS.EDITOR]: {
-      screen: Editor,
-      navigationOptions: {
-        header: () => null,
-      },
-    },
-    [ROUTES.SCREENS.VOTERS]: {
-      screen: Voters,
-      navigationOptions: {
-        header: () => null,
-      },
-    },
-    [ROUTES.SCREENS.FOLLOWS]: {
-      screen: Follows,
-      navigationOptions: {
-        header: () => null,
-      },
-    },
-    [ROUTES.SCREENS.SETTINGS]: {
-      screen: Settings,
-      navigationOptions: {
-        header: () => null,
-      },
-    },
-    [ROUTES.SCREENS.DRAFTS]: {
-      screen: Drafts,
-      navigationOptions: {
-        header: () => null,
-      },
-    },
-    [ROUTES.SCREENS.BOOKMARKS]: {
-      screen: Bookmarks,
-      navigationOptions: {
-        header: () => null,
-      },
-    },
-    [ROUTES.SCREENS.SEARCH_RESULT]: {
-      screen: SearchResult,
-      navigationOptions: {
-        header: () => null,
-      },
-    },
-    [ROUTES.SCREENS.TRANSFER]: {
-      screen: Transfer,
-      navigationOptions: {
-        header: () => null,
-      },
-    },
-    [ROUTES.SCREENS.BOOST]: {
-      screen: Boost,
-      navigationOptions: {
-        header: () => null,
-      },
-    },
-    [ROUTES.SCREENS.REDEEM]: {
-      screen: Redeem,
-      navigationOptions: {
-        header: () => null,
-      },
-    },
-    [ROUTES.SCREENS.REBLOGS]: {
-      screen: Reblogs,
-      navigationOptions: {
-        header: () => null,
-      },
-    },
-    [ROUTES.SCREENS.SPIN_GAME]: {
-      screen: SpinGame,
-      navigationOptions: {
-        header: () => null,
-      },
-    },
-    [ROUTES.SCREENS.COMMENTS]: {
-      screen: Comments,
-      navigationOptions: {
-        header: () => null,
-      },
-    },
+    [ROUTES.DRAWER.MAIN]: { screen: mainNavigation },
+    [ROUTES.SCREENS.PROFILE]: { screen: Profile },
+    [ROUTES.SCREENS.PROFILE_EDIT]: { screen: ProfileEdit },
+    [ROUTES.SCREENS.POST]: { screen: Post },
+    [ROUTES.SCREENS.EDITOR]: { screen: Editor },
+    [ROUTES.SCREENS.VOTERS]: { screen: Voters },
+    [ROUTES.SCREENS.FOLLOWS]: { screen: Follows },
+    [ROUTES.SCREENS.SETTINGS]: { screen: Settings },
+    [ROUTES.SCREENS.DRAFTS]: { screen: Drafts },
+    [ROUTES.SCREENS.BOOKMARKS]: { screen: Bookmarks },
+    [ROUTES.SCREENS.SEARCH_RESULT]: { screen: SearchResult },
+    [ROUTES.SCREENS.TRANSFER]: { screen: Transfer },
+    [ROUTES.SCREENS.BOOST]: { screen: Boost },
+    [ROUTES.SCREENS.REDEEM]: { screen: Redeem },
+    [ROUTES.SCREENS.REBLOGS]: { screen: Reblogs },
+    [ROUTES.SCREENS.SPIN_GAME]: { screen: SpinGame },
+    [ROUTES.SCREENS.COMMENTS]: { screen: Comments },
   },
-  {
-    headerMode: 'none',
-  },
+  { headerMode: 'none' },
 );
 
 export default createSwitchNavigator({
   stackNavigator,
   [ROUTES.SCREENS.LOGIN]: { screen: Login },
-  [ROUTES.SCREENS.PINCODE]: { screen: PinCode },
-  [ROUTES.SCREENS.STEEM_CONNECT]: { screen: SteemConnect },
 });

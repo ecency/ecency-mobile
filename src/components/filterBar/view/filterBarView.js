@@ -30,6 +30,7 @@ const FilterBarView = ({
           <View style={styles.dropdownWrapper}>
             {options.map((item, index) => (
               <Tag
+                key={index.toString()}
                 value={item}
                 isFilter
                 isPin={index === selectedOptionIndex}

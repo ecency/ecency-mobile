@@ -31,10 +31,19 @@ class TransferView extends Component {
     super(props);
     this.state = {
       from: props.currentAccountName,
-      destination: props.transferType === 'powerUp' ? props.currentAccountName : '',
+      destination:
+        props.transferType === 'powerUp' ||
+        props.transferType === 'withdraw_steem' ||
+        props.transferType === 'withdraw_steem'
+          ? props.currentAccountName
+          : '',
       amount: '',
       memo: '',
-      isUsernameValid: !!(props.transferType === 'powerUp' && props.currentAccountName),
+      isUsernameValid: !!(
+        props.transferType === 'powerUp' ||
+        props.transferType === 'withdraw_steem' ||
+        (props.transferType === 'withdraw_steem' && props.currentAccountName)
+      ),
       steemConnectTransfer: false,
       isTransfering: false,
     };
@@ -217,20 +226,20 @@ class TransferView extends Component {
                   </TouchableOpacity>
                 )}
               />
-              {transferType !== 'powerUp' && (
+              {(transferType === 'points' || transferType === 'transfer_token') && (
                 <TransferFormItem
                   label={intl.formatMessage({ id: 'transfer.memo' })}
                   rightComponent={() =>
-                    this._renderInput({
-                      placeholder: intl.formatMessage({ id: 'transfer.memo_placeholder' }),
-                      state: 'memo',
-                      keyboardType: 'default',
-                      isTextArea: true,
-                    })
+                    this._renderInput(
+                      intl.formatMessage({ id: 'transfer.memo_placeholder' }),
+                      'memo',
+                      'default',
+                      true,
+                    )
                   }
                 />
               )}
-              {transferType !== 'powerUp' && (
+              {(transferType === 'points' || transferType === 'transfer_token') && (
                 <TransferFormItem
                   rightComponent={() =>
                     this._renderDescription(intl.formatMessage({ id: 'transfer.memo_desc' }))

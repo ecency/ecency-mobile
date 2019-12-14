@@ -7,7 +7,7 @@ import { PointsContainer } from '../../../containers';
 
 import globalStyles from '../../../globalStyles';
 
-const EstmView = ({ handleOnSelected, index, currentIndex }) => (
+const EstmView = ({ handleOnSelected, index, currentIndex, refreshing: reload }) => (
   <View style={globalStyles.swipeItemWrapper}>
     <PointsContainer>
       {({
@@ -24,6 +24,7 @@ const EstmView = ({ handleOnSelected, index, currentIndex }) => (
         <WalletHeader
           componentDidUpdate={() => handleOnSelected(userActivities, isLoading, fetchUserActivity)}
           index={index}
+          reload={reload}
           showIconList
           claim={claim}
           fetchUserActivity={fetchUserActivity}
