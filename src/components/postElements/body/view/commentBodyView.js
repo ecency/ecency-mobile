@@ -1,9 +1,9 @@
-import React, { Fragment } from 'react';
+import React from 'react';
 import { Dimensions, Linking, Alert, TouchableOpacity, Text } from 'react-native';
-import { withNavigation } from 'react-navigation';
-import { useIntl, injectIntl } from 'react-intl';
+import { useIntl } from 'react-intl';
 import HTML from 'react-native-render-html';
 import { getParentsTagsRecursively } from 'react-native-render-html/src/HTMLUtils';
+import { navigate } from '../../../../navigation/service';
 
 // Constants
 import { default as ROUTES } from '../../../../constants/routeNames';
@@ -13,13 +13,7 @@ import styles from './postBodyStyles';
 
 const WIDTH = Dimensions.get('window').width;
 
-const CommentBody = ({
-  navigation,
-  body,
-  textSelectable = true,
-  handleOnUserPress,
-  handleOnPostPress,
-}) => {
+const CommentBody = ({ body, textSelectable = true, handleOnUserPress, handleOnPostPress }) => {
   const intl = useIntl();
 
   const _handleOnLinkPress = (href, hrefAtr) => {
@@ -56,7 +50,7 @@ const CommentBody = ({
 
   const _handleOnPostPress = (permlink, author) => {
     if (permlink) {
-      navigation.navigate({
+      navigate({
         routeName: ROUTES.SCREENS.POST,
         params: {
           author,
@@ -69,7 +63,7 @@ const CommentBody = ({
 
   const _handleOnUserPress = username => {
     if (username) {
-      navigation.navigate({
+      navigate({
         routeName: ROUTES.SCREENS.PROFILE,
         params: {
           username,
@@ -164,32 +158,25 @@ const CommentBody = ({
   const _initialDimensions = { width: WIDTH - 50, height: 80 };
 
   return (
-    <Fragment>
-      <HTML
-        html={body}
-        onLinkPress={(evt, href, hrefAtr) => _handleOnLinkPress(evt, href, hrefAtr)}
-        containerStyle={styles.commentContainer}
-        textSelectable={textSelectable}
-        tagsStyles={{ img: { height: 120 } }}
-        ignoredTags={['script']}
-        debug={false}
-        staticContentMaxWidth={WIDTH - 33}
-        imagesInitialDimensions={_initialDimensions}
-        baseFontStyle={styles.text}
-        imagesMaxWidth={WIDTH - 50}
-        alterNode={_alterNode}
-        alterData={_alterData}
-        renderers={_customRenderer}
-      />
-    </Fragment>
+    <HTML
+      html={body}
+      onLinkPress={(evt, href, hrefAtr) => _handleOnLinkPress(evt, href, hrefAtr)}
+      containerStyle={styles.commentContainer}
+      textSelectable={textSelectable}
+      tagsStyles={{ img: { height: 120 } }}
+      ignoredTags={['script']}
+      debug={false}
+      staticContentMaxWidth={WIDTH - 33}
+      imagesInitialDimensions={_initialDimensions}
+      baseFontStyle={styles.text}
+      imagesMaxWidth={WIDTH - 50}
+      alterNode={_alterNode}
+      alterData={_alterData}
+      renderers={_customRenderer}
+    />
   );
 };
 
-const areEqual = (prevProps, nextProps) => {
-  if (prevProps.body !== nextProps.body) {
-    return true;
-  }
-  return false;
-};
+const areEqual = (prevProps, nextProps) => prevProps.body !== nextProps.body;
 
-export default React.memo(injectIntl(withNavigation(CommentBody)), areEqual);
+export default React.memo(CommentBody, areEqual);
