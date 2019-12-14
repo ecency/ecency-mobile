@@ -273,7 +273,7 @@
     "no_internet": "Girêdan tine ye!",
     "confirm": "Bipejirîne",
     "removed": "Hate rakirin",
-    "same_user": "This user already added to list",
+    "same_user": "Ev bikarhêner jixwe li lîsteyê hatiye tevlîkirin",
     "unknow_error": "Çêwtiyek çêbû",
     "error": "Çewtî",
     "fetch_error": "Anîna daneyê biserneket, ji kerema xwe dîsa biceribîne an jî ji ser info@esteem.app me agahdar bike",
@@ -284,10 +284,10 @@
     "google_play_version": "We noticed that your device has old version of Google Play. Please update Google Play services and try again!"
   },
   "post": {
-    "reblog_alert": "Are you sure, you want to reblog?",
-    "removed_hint": "The post was removed by",
+    "reblog_alert": "Bi rastî jî tu dixwazî dîs-biweşînî?",
+    "removed_hint": "Şandî hate rakirin ji aliyê",
     "copy_link": "Girêdanê kopî bike",
-    "reblogged": "reblogged by",
+    "reblogged": "dîs-weşandin ji aliyê",
     "sponsored": "SPONSORKIRÎ",
     "open_thread": "Mijara Vekirî",
     "save_to_local": "Save to the album",
@@ -301,7 +301,7 @@
     "deleted": "Reşnivîs hate jêbirin"
   },
   "schedules": {
-    "title": "Schedules",
+    "title": "Demsazkirinên Te",
     "empty_list": "Li vir ti tişt tine ye",
     "deleted": "Şandiya demsazkirî hate jêbirin",
     "move": "Veguhezîne reşnivîsan",
