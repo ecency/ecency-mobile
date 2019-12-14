@@ -260,7 +260,7 @@
     "permission_denied": "Destûr hate redkirin",
     "permission_text": "Ji kerema xwe, biçe Sazkariyên telefonê û destûrên eSteemê veke.",
     "success_rebloged": "Reblog bû!",
-    "already_rebloged": "You have already reblogged!",
+    "already_rebloged": "Jixwe hatiye dîs-weşandin!",
     "warning": "Hişyarî",
     "invalid_pincode": "Koda PINê nederbasdar e, kontrol bike û dîsa biceribîne.",
     "remove_alert": "Bi rastî jî tu dixwazî rake?",
@@ -323,26 +323,26 @@
     "invalid_pin": "Invalid pin code, please check and try again",
     "invalid_username": "Navê bikarhêner nederbasdar e, kontrol bike û dîsa biceribîne",
     "already_logged": "Jixwe tu têketî ye, ji kerema xwe tevlîkirina hesabekî din biceribîne",
-    "invalid_credentials": "Invalid credentials, please check and try again",
+    "invalid_credentials": "Navê bikarhêner nederbasdar e, kontrol bike û dîsa biceribîne",
     "unknow_error": "Çewtiya nenas, ji ser support@esteem.app bi me re têkilî deyne"
   },
   "payout": {
-    "potential_payout": "Potential Payout",
-    "promoted": "Promoted",
-    "author_payout": "Author Payout",
-    "curation_payout": "Curation Payout",
-    "payout_date": "Payout",
+    "potential_payout": "Peredayîna Texmînî",
+    "promoted": "Peredayînên Sponsoriyê",
+    "author_payout": "Peredayîna Nivîskariyê",
+    "curation_payout": "Peredayîna Kuratorê",
+    "payout_date": "Peredayîn",
     "beneficiaries": "Beneficiaries",
     "warn_zero_payout": "Amount must reach $0.02 for payout",
     "breakdown": "Breakdown"
   },
   "post_dropdown": {
     "copy": "kopî bike",
-    "reblog": "reblog",
+    "reblog": "dîs-weşandin",
     "reply": "bibersivîne",
     "share": "parve bike",
-    "bookmarks": "add to bookmarks",
-    "promote": "promote",
+    "bookmarks": "tevlî cîhnîşanê bike",
+    "promote": "reklam",
     "boost": "zêde bike"
   },
   "deep_link": {
@@ -411,7 +411,7 @@
     "user": "Bikarhêner",
     "permlink": "Şandî",
     "permlinkPlaceholder": "author/permlink",
-    "information": "Are you sure to promote?"
+    "information": "Tu ji danasînê piştrast î?"
   },
   "boostPost": {
     "title": "Zêde bike"
@@ -422,7 +422,7 @@
     "time": "DEM"
   },
   "reblog": {
-    "title": "Reblog Info"
+    "title": "Agahiya dîsweşanê"
   },
   "dsteem": {
     "date_error": {
