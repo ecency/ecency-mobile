@@ -30,6 +30,7 @@ export default EStyleSheet.create({
   },
   commentContainer: {
     paddingHorizontal: 0,
+    right: 30,
     marginTop: 10,
   },
   th: {

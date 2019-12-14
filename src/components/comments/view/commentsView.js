@@ -51,8 +51,12 @@ const CommentsView = ({
 
   const _readMoreComments = () => {
     navigate({
-      routeName: ROUTES.SCREENS.COMMENTS,
-      params: { comments, fetchPost, handleOnVotersPress },
+      routeName: ROUTES.SCREENS.POST,
+      key: comments[0].permlink,
+      params: {
+        author: comments[0].author,
+        permlink: comments[0].permlink,
+      },
     });
   };
 
