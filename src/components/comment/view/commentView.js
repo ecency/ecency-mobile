@@ -8,7 +8,7 @@ import { getTimeFromNow } from '../../../utils/time';
 // Constants
 
 // Components
-import { PostBody, PostHeaderDescription } from '../../postElements';
+import { CommentBody, PostHeaderDescription } from '../../postElements';
 import { Upvote } from '../../upvote';
 import { IconButton } from '../../iconButton';
 import { Comments } from '../../comments';
@@ -63,8 +63,7 @@ const CommentView = ({
           isHideImage={isHideImage}
         />
         <View style={[{ marginLeft: marginLeft || 29 }, styles.bodyWrapper]}>
-          <PostBody
-            isComment
+          <CommentBody
             commentDepth={comment.depth}
             handleOnUserPress={handleOnUserPress}
             body={comment.body}
