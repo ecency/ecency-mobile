@@ -1,5 +1,4 @@
 import { Bookmarks } from './bookmarks';
-import { Comments } from './comments/screen/commentsScreen';
 import { Drafts } from './drafts';
 import { Editor } from './editor';
 import { Feed } from './feed';
@@ -25,7 +24,6 @@ import Voters from './voters';
 export {
   Bookmarks,
   Boost,
-  Comments,
   Drafts,
   Editor,
   Feed,

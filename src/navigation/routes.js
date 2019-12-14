@@ -16,7 +16,6 @@ import { PostButton, BottomTabBar, SideMenu } from '../components';
 import {
   Bookmarks,
   Boost,
-  Comments,
   Drafts,
   Editor,
   Feed,
@@ -122,7 +121,6 @@ const stackNavigator = createStackNavigator(
     [ROUTES.SCREENS.REDEEM]: { screen: Redeem },
     [ROUTES.SCREENS.REBLOGS]: { screen: Reblogs },
     [ROUTES.SCREENS.SPIN_GAME]: { screen: SpinGame },
-    [ROUTES.SCREENS.COMMENTS]: { screen: Comments },
   },
   { headerMode: 'none' },
 );

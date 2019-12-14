@@ -1,6 +1,9 @@
 import EStyleSheet from 'react-native-extended-stylesheet';
 
 export default EStyleSheet.create({
+  commentContainer: {
+    marginTop: 10,
+  },
   leftIcon: {
     color: '$iconColor',
   },
@@ -31,6 +34,7 @@ export default EStyleSheet.create({
   footerWrapper: {
     flex: 1,
     flexDirection: 'row',
+    right: 29,
   },
   rightButtonWrapper: {
     alignSelf: 'flex-end',
