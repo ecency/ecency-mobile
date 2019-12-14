@@ -430,5 +430,8 @@
       "current_time": "Pontos idő;",
       "information": "We noticed that your device has incorrect date or time. Please fix Date & Time or Set Automatically and try again."
     }
+  },
+  "comments": {
+    "title": "Hozzászólások"
   }
 }
