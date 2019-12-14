@@ -289,7 +289,10 @@
     "copy_link": "링크 복사",
     "reblogged": "리블로그됨",
     "sponsored": "투표 후원받음",
-    "open_thread": "스레드 열기"
+    "open_thread": "스레드 열기",
+    "save_to_local": "Save to the album",
+    "image_saved": "Image Saved to Photo Gallery",
+    "image_saved_error": "Error Saving Image"
   },
   "drafts": {
     "title": "임시 보관함",

@@ -289,7 +289,10 @@
     "copy_link": "リンクをコピー",
     "reblogged": "リブログしています",
     "sponsored": "PR",
-    "open_thread": "スレッドを開く"
+    "open_thread": "スレッドを開く",
+    "save_to_local": "Save to the album",
+    "image_saved": "Image Saved to Photo Gallery",
+    "image_saved_error": "Error Saving Image"
   },
   "drafts": {
     "title": "下書き",
