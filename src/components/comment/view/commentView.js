@@ -51,7 +51,7 @@ const CommentView = ({
 
   return (
     <TouchableWithoutFeedback onLongPress={handleOnLongPress}>
-      <View>
+      <View style={styles.commentContainer}>
         <PostHeaderDescription
           key={comment.permlink}
           date={getTimeFromNow(comment.created)}
@@ -62,7 +62,7 @@ const CommentView = ({
           isShowOwnerIndicator={mainAuthor === comment.author}
           isHideImage={isHideImage}
         />
-        <View style={[{ marginLeft: marginLeft || 29 }, styles.bodyWrapper]}>
+        <View style={[{ marginLeft: 29 }, styles.bodyWrapper]}>
           <CommentBody
             commentDepth={comment.depth}
             handleOnUserPress={handleOnUserPress}
@@ -85,7 +85,6 @@ const CommentView = ({
                     handleOnVotersPress(get(comment, 'active_votes'))
                   }
                   text={voteCount}
-                  textMarginLeft={20}
                   textStyle={styles.voteCountText}
                 />
                 <IconButton
