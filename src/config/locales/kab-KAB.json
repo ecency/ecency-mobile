@@ -67,7 +67,7 @@
     "withdraw_steem": "Withdraw Steem",
     "withdraw_sbd": "Withdraw Steem Dollar",
     "transfer_to_savings": "Transfer To Savings",
-    "convert": "Convert",
+    "convert": "Beddel",
     "escrow_transfer": "Escrow Transfer",
     "escrow_dispute": "Escrow Dispute",
     "escrow_release": "Escrow Release",
@@ -120,8 +120,8 @@
     "older_then": "Older Than A Month"
   },
   "leaderboard": {
-    "daily": "DAILY",
-    "weekly": "WEEKLY",
+    "daily": "N YAL ASS",
+    "weekly": "N YAL IMURAS",
     "monthly": "MONTHLY"
   },
   "messages": {
