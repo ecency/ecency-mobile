@@ -290,9 +290,9 @@
     "reblogged": "dîs-weşandin ji aliyê",
     "sponsored": "SPONSORKIRÎ",
     "open_thread": "Mijara Vekirî",
-    "save_to_local": "Save to the album",
-    "image_saved": "Image Saved to Photo Gallery",
-    "image_saved_error": "Error Saving Image"
+    "save_to_local": "Li albumê tomar bike",
+    "image_saved": "Wêne li Pêşangeha Wêneyan Hate Tomarkirin",
+    "image_saved_error": "Wêne tomar nebû"
   },
   "drafts": {
     "title": "Reşnivîs",
@@ -335,9 +335,9 @@
     "author_payout": "Peredayîna Nivîskariyê",
     "curation_payout": "Peredayîna Kuratorê",
     "payout_date": "Peredayîn",
-    "beneficiaries": "Beneficiaries",
-    "warn_zero_payout": "Amount must reach $0.02 for payout",
-    "breakdown": "Breakdown"
+    "beneficiaries": "Xwedîmaf",
+    "warn_zero_payout": "Ji bo peredayînê divê rêje bigihêje $0.02an",
+    "breakdown": "Hilweşînê"
   },
   "post_dropdown": {
     "copy": "kopî bike",
@@ -429,9 +429,9 @@
   },
   "dsteem": {
     "date_error": {
-      "device_time": "Your device time;",
-      "current_time": "Current time;",
-      "information": "We noticed that your device has incorrect date or time. Please fix Date & Time or Set Automatically and try again."
+      "device_time": "Dema amûra te;",
+      "current_time": "Dema niha;",
+      "information": "Me ferqkir ku dem û dîroka amûra te çewt e. Ji kerema xwe Dem û Dîrokê serrast bike an jî bi Sazkirina Otomatîkî dîsa biceribîne."
     }
   },
   "comments": {
