@@ -1,14 +1,14 @@
 {
   "wallet": {
     "curation_reward": "Curation Reward",
-    "author_reward": "Author Reward",
+    "author_reward": "Rrbeḥ n umeskar",
     "comment_benefactor_reward": "Comment Benefactor Reward",
     "claim_reward_balance": "Claim Reward Balance",
     "transfer": "Transfer",
     "transfer_to_vesting": "Transfer To Vesting",
     "transfer_from_savings": "Transfer From Savings",
     "withdraw_vesting": "Power Down",
-    "fill_order": "Fill Order",
+    "fill_order": "Ɛemmeṛ anaḍ",
     "post": "Suffeɣ-d",
     "comment": "Awennit",
     "checkin": "Check-in",
@@ -100,12 +100,12 @@
     }
   },
   "notification": {
-    "vote": "likes your post",
+    "vote": "taɛǧeb-asen tsuffeɣt-ik",
     "unvote": "unvoted your post",
-    "reply": "replied to your post",
+    "reply": "yerra-d ɣef tsuffeɣt-ik",
     "mention": "yebder-ik-ik",
-    "follow": "followed you",
-    "unfollow": "unfollowed you",
+    "follow": "yeṭṭafaṛ-ik",
+    "unfollow": "yeḥbes ur k-yeṭṭafaṛ ara",
     "ignore": "ignored you",
     "reblog": "reblogged your post",
     "transfer": "transferred",
