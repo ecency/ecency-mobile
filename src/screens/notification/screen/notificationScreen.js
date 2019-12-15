@@ -11,64 +11,56 @@ import { LoggedInContainer } from '../../../containers';
 import styles from './notificationStyles';
 import globalStyles from '../../../globalStyles';
 
-class NotificationScreen extends PureComponent {
-  constructor(props) {
-    super(props);
-    this.state = {};
-  }
-
-  render() {
-    const {
-      notifications,
-      getActivities,
-      intl,
-      navigateToNotificationRoute,
-      readAllNotification,
-      isNotificationRefreshing,
-      changeSelectedFilter,
-    } = this.props;
-
-    return (
-      <Fragment>
-        <Header />
-        <SafeAreaView style={styles.container}>
-          <ScrollableTabView
-            style={globalStyles.tabView}
-            renderTabBar={() => (
-              <TabBar style={styles.tabbar} tabUnderlineDefaultWidth={100} tabUnderlineScaleX={2} />
-            )}
+const NotificationScreen = ({
+  notifications,
+  getActivities,
+  intl,
+  navigateToNotificationRoute,
+  readAllNotification,
+  isNotificationRefreshing,
+  changeSelectedFilter,
+}) => {
+  return (
+    <Fragment>
+      <Header />
+      <SafeAreaView style={styles.container}>
+        <ScrollableTabView
+          style={globalStyles.tabView}
+          renderTabBar={() => (
+            <TabBar style={styles.tabbar} tabUnderlineDefaultWidth={100} tabUnderlineScaleX={2} />
+          )}
+        >
+          <View
+            tabLabel={intl.formatMessage({
+              id: 'notification.notification',
+            })}
+            style={styles.tabbarItem}
           >
-            <View
-              tabLabel={intl.formatMessage({
-                id: 'notification.notification',
-              })}
-              style={styles.tabbarItem}
-            >
-              <LoggedInContainer>
-                {() => (
-                  <Notification
-                    getActivities={getActivities}
-                    notifications={notifications}
-                    navigateToNotificationRoute={navigateToNotificationRoute}
-                    readAllNotification={readAllNotification}
-                    isNotificationRefreshing={isNotificationRefreshing}
-                    changeSelectedFilter={changeSelectedFilter}
-                  />
-                )}
-              </LoggedInContainer>
-            </View>
-            <View
-              tabLabel={intl.formatMessage({
-                id: 'notification.leaderboard',
-              })}
-              style={styles.tabbarItem}
-            >
-              <LeaderBoard />
-            </View>
-          </ScrollableTabView>
-        </SafeAreaView>
-      </Fragment>
-    );
-  }
-}
+            <LoggedInContainer>
+              {() => (
+                <Notification
+                  getActivities={getActivities}
+                  notifications={notifications}
+                  navigateToNotificationRoute={navigateToNotificationRoute}
+                  readAllNotification={readAllNotification}
+                  isNotificationRefreshing={isNotificationRefreshing}
+                  changeSelectedFilter={changeSelectedFilter}
+                />
+              )}
+            </LoggedInContainer>
+          </View>
+          <View
+            tabLabel={intl.formatMessage({
+              id: 'notification.leaderboard',
+            })}
+            style={styles.tabbarItem}
+          >
+            <LeaderBoard />
+          </View>
+        </ScrollableTabView>
+      </SafeAreaView>
+    </Fragment>
+  );
+};
+
 export default injectIntl(NotificationScreen);
