@@ -255,7 +255,7 @@
     "fail": "Tuccḍa!",
     "move": "Move",
     "move_question": "Are you sure to move to drafts?",
-    "success_shared": "Your post successfully shared",
+    "success_shared": "Tasuffeɣt-ik tattwabḍa",
     "success_moved": "Moved to draft",
     "permission_denied": "Permission denied",
     "permission_text": "Please, go to phone Settings and change eSteem app permissions.",
@@ -297,12 +297,12 @@
   "drafts": {
     "title": "Drafts",
     "load_error": "Could not load drafts",
-    "empty_list": "Nothing here",
+    "empty_list": "Ur yelli kra da",
     "deleted": "Draft deleted"
   },
   "schedules": {
     "title": "Schedules",
-    "empty_list": "Nothing here",
+    "empty_list": "Ur yelli kra da",
     "deleted": "Scheduled post deleted",
     "move": "Move to drafts",
     "moved": "Moved to drafts"
@@ -310,17 +310,17 @@
   "bookmarks": {
     "title": "Bookmarks",
     "load_error": "Could not load bookmarks",
-    "empty_list": "Nothing here",
+    "empty_list": "Ur yelli kra da",
     "deleted": "Bookmark removed",
     "search": "Search in bookmarks",
     "added": "Added to bookmarks",
     "add": "Add to bookmarks"
   },
   "favorites": {
-    "title": "Favorites",
+    "title": "Ismenyifen",
     "load_error": "Could not load favorites",
-    "empty_list": "Nothing here",
-    "search": "Search in favorites"
+    "empty_list": "Ur yelli kra da",
+    "search": "Nadi deg yismenyifen"
   },
   "auth": {
     "invalid_pin": "Invalid PIN code, please check and try again",
