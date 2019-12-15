@@ -45,8 +45,8 @@
     "from": "De la",
     "to": "Către",
     "estimated_value_desc": "Determined by purchase value",
-    "estimated_value": "Estimated value",
-    "estimated_amount": "Vote value",
+    "estimated_value": "Valoare estimată",
+    "estimated_amount": "Valoare vot",
     "amount_information": "Trage glisorul pentru a ajusta cantitatea",
     "amount": "Sumă",
     "memo": "Notă",
@@ -66,8 +66,8 @@
     "power_down": "Power Down",
     "withdraw_steem": "Retrage Steem",
     "withdraw_sbd": "Retrage Steem Dolar",
-    "transfer_to_savings": "Transfer To Savings",
-    "convert": "Convert",
+    "transfer_to_savings": "Transfer la economii",
+    "convert": "Converteşte",
     "escrow_transfer": "Escrow Transfer",
     "escrow_dispute": "Escrow Dispute",
     "escrow_release": "Escrow Release",
@@ -76,7 +76,7 @@
     "delegate_vesting_shares": "Delegare",
     "fill_convert_request": "Convert request executed",
     "fill_transfer_from_savings": "From Savings executed",
-    "fill_vesting_withdraw": "Power Down executed",
+    "fill_vesting_withdraw": "Powed Down executat",
     "estm": {
       "title": "Puncte eSteem",
       "buy": "GET ESTM"
@@ -108,7 +108,7 @@
     "unfollow": "a anulat urmărirea",
     "ignore": "te-a ignorat",
     "reblog": "a redistribuit postarea ta",
-    "transfer": "transferred",
+    "transfer": "transferat",
     "notification": "Notificări",
     "leaderboard": "Clasament",
     "epoint": "Puncte",
@@ -120,8 +120,8 @@
     "older_then": "Mai vechi de o lună"
   },
   "leaderboard": {
-    "daily": "DAILY",
-    "weekly": "WEEKLY",
+    "daily": "ZILNIC",
+    "weekly": "SĂPTĂMÂNAL",
     "monthly": "MONTHLY"
   },
   "messages": {
@@ -151,7 +151,7 @@
     "savings": "Economii",
     "edit": {
       "display_name": "Display Name",
-      "about": "About",
+      "about": "Despre",
       "location": "Location",
       "website": "Website"
     }
@@ -279,7 +279,7 @@
     "fetch_error": "Fetching data failed, please try again or notify us at info@esteem.app",
     "connection_fail": "Connectare Eșuată!",
     "connection_success": "Conectat cu succes!",
-    "checking": "Checking...",
+    "checking": "Verificare în curs...",
     "not_existing_post": "The post does not exist! Please check permlink and author.",
     "google_play_version": "We noticed that your device has old version of Google Play. Please update Google Play services and try again!"
   },
@@ -291,7 +291,7 @@
     "sponsored": "SPONSORIZAT",
     "open_thread": "Open Thread",
     "save_to_local": "Save to the album",
-    "image_saved": "Image Saved to Photo Gallery",
+    "image_saved": "Imagine salvată în Galerie Foto",
     "image_saved_error": "Error Saving Image"
   },
   "drafts": {
@@ -358,7 +358,7 @@
   },
   "comment_filter": {
     "trending": "TOP",
-    "reputation": "REPUTATION",
+    "reputation": "REPUTAȚIE",
     "votes": "VOTE",
     "age": "AGE",
     "top": "TOP",
