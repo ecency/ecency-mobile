@@ -281,7 +281,7 @@
     "connection_success": "Successfully connected!",
     "checking": "Aselken...",
     "not_existing_post": "The post does not exist! Please check permlink and author.",
-    "google_play_version": "We noticed that your device has old version of Google Play. Please update Google Play services and try again!"
+    "google_play_version": "Nger tamawt d akken ibenk-ik ɣur-s lqem aqdim n Google Play. Ttxil-k lqem imeẓla n Google Play tɛerḍeḍ tikelt-nniḍen!"
   },
   "post": {
     "reblog_alert": "Are you sure, you want to reblog?",
@@ -290,9 +290,9 @@
     "reblogged": "reblogged by",
     "sponsored": "SPONSORED",
     "open_thread": "Open Thread",
-    "save_to_local": "Save to the album",
-    "image_saved": "Image Saved to Photo Gallery",
-    "image_saved_error": "Error Saving Image"
+    "save_to_local": "Sekles deg walbum",
+    "image_saved": "Tugna tettwasekles deg usqif n tewlafin",
+    "image_saved_error": "Tuccḍa deg usekles n tugna"
   },
   "drafts": {
     "title": "Drafts",
@@ -335,7 +335,7 @@
     "author_payout": "Author Payout",
     "curation_payout": "Curation Payout",
     "payout_date": "Payout",
-    "beneficiaries": "Beneficiaries",
+    "beneficiaries": "Imesfaydiyen",
     "warn_zero_payout": "Amount must reach $0.02 for payout",
     "breakdown": "Breakdown"
   },
