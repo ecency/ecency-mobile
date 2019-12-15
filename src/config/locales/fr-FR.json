@@ -33,11 +33,11 @@
     "outgoing_transfer_description": "",
     "incoming_transfer_description": "",
     "post_desc": "Vous pouvez gagner des points en publiant régulièrement. Publier vous donne jusqu'a 15 points.",
-    "comment_desc": "Each comment you make helps you to grow your audience and also earns you upto 5 points.",
+    "comment_desc": "Chaque commentaire que vous faites vous aide à agrandir votre audience et vous donne également 5 points.",
     "checkin_desc": "Checking in regularly gives you 0.25 points.",
     "vote_desc": "By voting you give reward to other creators and also earn back upto 0.01 x vote weight points.",
-    "reblog_desc": "Share what post you like with your friends and earn points.",
-    "login_desc": "When you login into app first time you earn 100 points.",
+    "reblog_desc": "Partagez les publication que vous aimez avec vos amis et gagnez des points.",
+    "login_desc": "Lorsque vous vous connectez à l'application pour la première fois, vous gagnez 100 points.",
     "checkin_extra_desc": "Une utilisation regulière de l'application vous donne des chances supplémentaires de gagner plus de points, soyez plus actif et gagnez plus.",
     "dropdown_transfer": "Cadeau",
     "dropdown_promote": "Promouvoir",
@@ -74,7 +74,7 @@
     "escrow_approve": "Escrow Approve",
     "cancel_transfer_from_savings": "Cancel Transfer from Savings",
     "delegate_vesting_shares": "Délégation",
-    "fill_convert_request": "Convert request executed",
+    "fill_convert_request": "Requête de conversion exécutée",
     "fill_transfer_from_savings": "From Savings executed",
     "fill_vesting_withdraw": "Power Down executed",
     "estm": {
@@ -89,11 +89,11 @@
     },
     "steem": {
       "title": "STEEM",
-      "buy": "GET STEEM"
+      "buy": "OBTENIR DES STEEM"
     },
     "sbd": {
       "title": "SBD",
-      "buy": "GET SBD"
+      "buy": "OBETNIR DES SBD"
     },
     "steem_power": {
       "title": "STEEM POWER"
@@ -280,7 +280,7 @@
     "connection_fail": "Échec de la connexion !",
     "connection_success": "Connexion réussie!",
     "checking": "Vérification...",
-    "not_existing_post": "The post does not exist! Please check permlink and author.",
+    "not_existing_post": "Le post n'existe pas ! Veuillez vérifier le lien et l'auteur.",
     "google_play_version": "Nous avons remarqué que votre appareil possède une ancienne version de Google Play. Veuillez mettre à jour les services Google Play et réessayez!"
   },
   "post": {
@@ -335,8 +335,8 @@
     "author_payout": "Gain de l'Auteur",
     "curation_payout": "Gain de la Curation",
     "payout_date": "Gain",
-    "beneficiaries": "Beneficiaries",
-    "warn_zero_payout": "Amount must reach $0.02 for payout",
+    "beneficiaries": "Bénéficiaires",
+    "warn_zero_payout": "Le montant doit atteindre 0,02 $ pour le retrait",
     "breakdown": "Breakdown"
   },
   "post_dropdown": {
@@ -360,7 +360,7 @@
     "trending": "TOP",
     "reputation": "RÉPUTATION",
     "votes": "VOTE",
-    "age": "AGE",
+    "age": "ÂGE",
     "top": "TOP",
     "time": "HEURE"
   },
@@ -382,7 +382,7 @@
     "withdraw_to_saving": "Withdraw To Saving",
     "steemconnect_title": "Transfert Steemconnect",
     "estimated_weekly": "Évalué chaque semaine",
-    "destination_accounts": "Destination Accounts",
+    "destination_accounts": "Comptes destinataires",
     "stop_information": "Êtes-vous sûr de vouloir arrêter ?",
     "percent": "Pourcentage",
     "auto_vests": "Auto Vests",
@@ -394,7 +394,7 @@
     "withdraw_steem": "Withdraw Steem",
     "withdraw_sbd": "Withdraw Steem Dollar",
     "incoming_funds": "Incoming Funds",
-    "stop": "Stop"
+    "stop": "Arrêter"
   },
   "boost": {
     "title": "Get eSteem Points",
@@ -402,7 +402,7 @@
     "next": "SUIVANT"
   },
   "free_estm": {
-    "title": "Free ESTM",
+    "title": "ESTM Gratuit",
     "button": "TOURNER & GAGNER",
     "get_spin": "5 TOURS",
     "spin_right": "Spin Left",
