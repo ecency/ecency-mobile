@@ -36,8 +36,8 @@
     "comment_desc": "Each comment you make helps you to grow your audience and also earns you upto 5 points.",
     "checkin_desc": "Checking in regularly gives you 0.25 points.",
     "vote_desc": "By voting you give reward to other creators and also earn back upto 0.01 x vote weight points.",
-    "reblog_desc": "Share what post you like with your friends and earn points.",
-    "login_desc": "When you login into app first time you earn 100 points.",
+    "reblog_desc": "Bḍu tisuffɣin i ak-iɛeǧben gar yimddukkal-ik trebḥeḍ tineqqiḍin.",
+    "login_desc": "Mi ara teqqneḍ ɣer usnan i tikelt tamenzut, ad trebḥeḍ 100 n tineqqiḍin.",
     "checkin_extra_desc": "Consistent use of app gives you extra chances to earn more points, be more active and earn more.",
     "dropdown_transfer": "Gift",
     "dropdown_promote": "Promote",
@@ -151,9 +151,9 @@
     "savings": "Savings",
     "edit": {
       "display_name": "Display Name",
-      "about": "About",
+      "about": "Ɣef",
       "location": "Location",
-      "website": "Website"
+      "website": "Asmel web"
     }
   },
   "settings": {
