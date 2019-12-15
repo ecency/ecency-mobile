@@ -68,13 +68,13 @@
     "withdraw_sbd": "Withdraw Steem Dollar",
     "transfer_to_savings": "Transfer To Savings",
     "convert": "Veguherîne",
-    "escrow_transfer": "Escrow Transfer",
-    "escrow_dispute": "Escrow Dispute",
-    "escrow_release": "Escrow Release",
-    "escrow_approve": "Escrow Approve",
-    "cancel_transfer_from_savings": "Cancel Transfer from Savings",
+    "escrow_transfer": "Transfera Emanetî",
+    "escrow_dispute": "Gengeşeya Emanetiyê",
+    "escrow_release": "Belavkirina Emanetî",
+    "escrow_approve": "Pejirandina Emanetê",
+    "cancel_transfer_from_savings": "Transfera ji Berhevkirinan Betal Bike",
     "delegate_vesting_shares": "Şande",
-    "fill_convert_request": "Convert request executed",
+    "fill_convert_request": "Daxwaza veguhertinê pêk hat",
     "fill_transfer_from_savings": "From Savings executed",
     "fill_vesting_withdraw": "Power Down executed",
     "estm": {
@@ -82,10 +82,10 @@
       "buy": "ESTMê BISTÎNE"
     },
     "savingsteem": {
-      "title": "STEEM Savings"
+      "title": "Berhevkirinên STEEMê"
     },
     "savingsbd": {
-      "title": "SBD Savings"
+      "title": "Berhevkirinên SBDê"
     },
     "steem": {
       "title": "STEEM",
