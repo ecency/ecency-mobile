@@ -209,32 +209,32 @@
     "popular": "Popular"
   },
   "side_menu": {
-    "profile": "Profile",
+    "profile": "Amaɣnu",
     "bookmarks": "Bookmarks",
-    "favorites": "Favorites",
+    "favorites": "Ismenyifen",
     "drafts": "Drafts",
     "schedules": "Schedules",
     "gallery": "Gallery",
-    "settings": "Settings",
-    "add_account": "Add Account",
-    "logout": "Logout",
-    "cancel": "Cancel",
-    "logout_text": "Are you sure you want to logout?"
+    "settings": "Iɣewwaṛen",
+    "add_account": "Rnu amiḍan",
+    "logout": "Tuffɣa",
+    "cancel": "Sefsex",
+    "logout_text": "Tebɣiḍ s tidet ad teffɣeḍ?"
   },
   "header": {
     "title": "Login to customize your feed",
-    "search": "Search..."
+    "search": "Nadi..."
   },
   "basic_header": {
-    "publish": "Publish",
-    "search": "Search",
+    "publish": "Suffeɣ-d",
+    "search": "Nadi",
     "update": "Update",
-    "reply": "Reply"
+    "reply": "Err"
   },
   "editor": {
-    "title": "Title",
+    "title": "Azwel",
     "tags": "tags",
-    "default_placeholder": "What would you like to write about today?",
+    "default_placeholder": "Ɣef acu tebɣiḍ ad d-taruḍ ass-agi?",
     "reply_placeholder": "What would you like to write about above post?",
     "publish": "Publish",
     "reply": "Reply",
