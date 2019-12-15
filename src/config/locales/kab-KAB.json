@@ -122,7 +122,7 @@
   "leaderboard": {
     "daily": "N YAL ASS",
     "weekly": "N YAL IMURAS",
-    "monthly": "MONTHLY"
+    "monthly": "N YAL AYYUR"
   },
   "messages": {
     "comingsoon": "Messages feature is coming soon!"
@@ -150,9 +150,9 @@
     "steem_dollars": "Steem idulaṛen",
     "savings": "Savings",
     "edit": {
-      "display_name": "Display Name",
+      "display_name": "Isem ara d-yettwaseknen",
       "about": "Ɣef",
-      "location": "Location",
+      "location": "Amḍiq",
       "website": "Asmel web"
     }
   },
@@ -279,7 +279,7 @@
     "fetch_error": "Fetching data failed, please try again or notify us at info@esteem.app",
     "connection_fail": "Connection Failed!",
     "connection_success": "Successfully connected!",
-    "checking": "Checking...",
+    "checking": "Aselken...",
     "not_existing_post": "The post does not exist! Please check permlink and author.",
     "google_play_version": "We noticed that your device has old version of Google Play. Please update Google Play services and try again!"
   },
