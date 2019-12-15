@@ -336,7 +336,7 @@
     "curation_payout": "Curation Payout",
     "payout_date": "Payout",
     "beneficiaries": "Imesfaydiyen",
-    "warn_zero_payout": "Amount must reach $0.02 for payout",
+    "warn_zero_payout": "Tadrimt ilaq ad tewweḍ 0.02$ akken ad tezmer ad tettwajbed",
     "breakdown": "Breakdown"
   },
   "post_dropdown": {
@@ -360,7 +360,7 @@
     "trending": "TOP",
     "reputation": "REPUTATION",
     "votes": "VOTE",
-    "age": "AGE",
+    "age": "Leɛmeṛ",
     "top": "TOP",
     "time": "TIME"
   },
