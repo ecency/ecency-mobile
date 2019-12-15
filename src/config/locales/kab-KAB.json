@@ -236,23 +236,23 @@
     "tags": "tags",
     "default_placeholder": "Ɣef acu tebɣiḍ ad d-taruḍ ass-agi?",
     "reply_placeholder": "What would you like to write about above post?",
-    "publish": "Publish",
-    "reply": "Reply",
+    "publish": "Suffeɣ-d",
+    "reply": "Err",
     "open_gallery": "Open Gallery",
-    "capture_photo": "Capture a photo"
+    "capture_photo": "Ṭṭef-d tawlaft"
   },
   "pincode": {
-    "enter_text": "Enter PIN to unlock",
+    "enter_text": "Sekcem tangalt PIN i tildin",
     "set_new": "Set new PIN",
-    "write_again": "Write again",
-    "forgot_text": "Oh, I forgot it..."
+    "write_again": "Aru-tt i tikelt-nniḍen",
+    "forgot_text": "Uh, ttuɣ-tt..."
   },
   "alert": {
     "success": "Success!",
     "successful": "Successful",
-    "allRead": "Marked all notifications as read",
+    "allRead": "Creḍ meṛṛa tilɣa am akken ttwaɣṛant",
     "claim_reward_balance_ok": "Reward balance claimed",
-    "fail": "Fail!",
+    "fail": "Tuccḍa!",
     "move": "Move",
     "move_question": "Are you sure to move to drafts?",
     "success_shared": "Your post successfully shared",
