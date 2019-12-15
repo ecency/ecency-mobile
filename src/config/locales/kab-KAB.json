@@ -9,12 +9,12 @@
     "transfer_from_savings": "Transfer From Savings",
     "withdraw_vesting": "Power Down",
     "fill_order": "Fill Order",
-    "post": "Post",
-    "comment": "Comment",
+    "post": "Suffeɣ-d",
+    "comment": "Awennit",
     "checkin": "Check-in",
     "vote": "Vote",
     "reblog": "Reblog",
-    "login": "Login",
+    "login": "Qqen",
     "incoming_transfer_title": "Incoming transfer",
     "outgoing_transfer_title": "Outgoing transfer",
     "checkin_extra": "Bonus",
@@ -78,7 +78,7 @@
     "fill_transfer_from_savings": "From Savings executed",
     "fill_vesting_withdraw": "Power Down executed",
     "estm": {
-      "title": "eSteem Points",
+      "title": "tineqqiḍin n eSteem",
       "buy": "GET ESTM"
     },
     "savingsteem": {
@@ -103,20 +103,20 @@
     "vote": "likes your post",
     "unvote": "unvoted your post",
     "reply": "replied to your post",
-    "mention": "mentioned you",
+    "mention": "yebder-ik-ik",
     "follow": "followed you",
     "unfollow": "unfollowed you",
     "ignore": "ignored you",
     "reblog": "reblogged your post",
     "transfer": "transferred",
-    "notification": "Notifications",
+    "notification": "Tilɣa",
     "leaderboard": "Leaderboard",
-    "epoint": "Points",
+    "epoint": "Tineqqiḍin",
     "leaderboard_title": "Top Users",
-    "recent": "Recent",
-    "yesterday": "Yesterday",
-    "this_week": "This Week",
-    "this_month": "This Month",
+    "recent": "Tineggura",
+    "yesterday": "Iḍelli",
+    "this_week": "Imuras-agi",
+    "this_month": "Ayyur-agi",
     "older_then": "Older Than A Month"
   },
   "leaderboard": {
@@ -129,25 +129,25 @@
   },
   "profile": {
     "following": "Following",
-    "follower": "Follower",
-    "post": "Posts",
+    "follower": "Ameḍfaṛ",
+    "post": "Tisuffɣin",
     "details": "Profile Details",
-    "comments": "Comments",
-    "replies": "Replies",
+    "comments": "Iwenniten",
+    "replies": "Tiririyin",
     "wallet": "Wallet",
     "wallet_details": "Wallet Details",
     "unclaimed_rewards": "Unclaimed Rewards",
-    "full_in": "Full in",
-    "hours": "hours",
+    "full_in": "Ummid deg",
+    "hours": "isragen",
     "voting_power": "Voting power",
-    "login_to_see": "Login to see",
+    "login_to_see": "Qqen akken ad teẓreḍ",
     "havent_commented": "haven't commented anything yet",
     "havent_posted": "haven't posted anything yet",
     "steem_power": "Steem Power",
     "next_power_text": "Next power down is in",
-    "days": "days",
-    "day": "day",
-    "steem_dollars": "Steem Dollars",
+    "days": "ussan",
+    "day": "ass",
+    "steem_dollars": "Steem idulaṛen",
     "savings": "Savings",
     "edit": {
       "display_name": "Display Name",
@@ -157,17 +157,17 @@
     }
   },
   "settings": {
-    "settings": "Settings",
-    "general": "General",
+    "settings": "Iɣewwaṛen",
+    "general": "Amatu",
     "currency": "Currency",
-    "language": "Language",
-    "server": "Server",
-    "dark_theme": "Dark Theme",
-    "push_notification": "Push Notification",
+    "language": "Tutlayt",
+    "server": "Aqeddac",
+    "dark_theme": "Asentel aberkan",
+    "push_notification": "Talɣut yettudemmren",
     "notification": {
-      "follow": "Follow",
+      "follow": "Ḍfer",
       "vote": "Vote",
-      "comment": "Comment",
+      "comment": "Awennit",
       "mention": "Mention",
       "reblog": "Reblog",
       "transfers": "Transfers"
@@ -430,11 +430,11 @@
   "dsteem": {
     "date_error": {
       "device_time": "Your device time;",
-      "current_time": "Current time;",
+      "current_time": "Akud amiran;",
       "information": "We noticed that your device has incorrect date or time. Please fix Date & Time or Set Automatically and try again."
     }
   },
   "comments": {
-    "title": "Comments"
+    "title": "Iwenniten"
   }
 }
