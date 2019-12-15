@@ -75,7 +75,7 @@
     "cancel_transfer_from_savings": "Cancel Transfer from Savings",
     "delegate_vesting_shares": "Delegálás",
     "fill_convert_request": "Konvertálási kérés végrehajtva",
-    "fill_transfer_from_savings": "From Savings executed",
+    "fill_transfer_from_savings": "A megtakarításoktól végrehajtva",
     "fill_vesting_withdraw": "Power Down végrehajtva",
     "estm": {
       "title": "eSteem Pontok",
@@ -281,7 +281,7 @@
     "connection_success": "A kapcsolat sikerült!",
     "checking": "Ellenőrzés folyamatban...",
     "not_existing_post": "A bejegyzés nem létezik! Kérjük ellenőrizd a linket és a szerzőt.",
-    "google_play_version": "Észrevettük, hogy a készülékeden a Google Play régi verziója található. Kérjük, frissítsd a Google Play szolgáltatásait és próbáld újra!"
+    "google_play_version": "Észrevettük, hogy a készülékeden a Google Play régi verziója található. Kérjük frissítsd a Google Play szolgáltatásait és próbáld újra!"
   },
   "post": {
     "reblog_alert": "Biztos, hogy megosztod?",
@@ -402,7 +402,7 @@
     "next": "KÖVETKEZŐ"
   },
   "free_estm": {
-    "title": "Free ESTM",
+    "title": "Ingyen ESTM",
     "button": "PÖRGESS ÉS NYERJ",
     "get_spin": "5 PÖRGETÉS",
     "spin_right": "Pörgesd balra",
