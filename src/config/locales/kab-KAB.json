@@ -142,7 +142,7 @@
     "voting_power": "Voting power",
     "login_to_see": "Qqen akken ad teẓreḍ",
     "havent_commented": "ur twennteḍ kra ar tura",
-    "havent_posted": "haven't posted anything yet",
+    "havent_posted": "ur d-tsuffɣeḍ kra ar tura",
     "steem_power": "Steem Power",
     "next_power_text": "Next power down is in",
     "days": "ussan",
@@ -206,13 +206,13 @@
   },
   "home": {
     "feed": "Feed",
-    "popular": "Popular"
+    "popular": "Mucaɛ"
   },
   "side_menu": {
     "profile": "Amaɣnu",
     "bookmarks": "Bookmarks",
     "favorites": "Ismenyifen",
-    "drafts": "Drafts",
+    "drafts": "Tirwayin",
     "schedules": "Schedules",
     "gallery": "Gallery",
     "settings": "Iɣewwaṛen",
@@ -228,7 +228,7 @@
   "basic_header": {
     "publish": "Suffeɣ-d",
     "search": "Nadi",
-    "update": "Update",
+    "update": "Leqqem",
     "reply": "Err"
   },
   "editor": {
