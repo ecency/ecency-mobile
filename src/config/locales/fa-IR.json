@@ -28,6 +28,9 @@
     "reblog_title": "امتیاز برای اشتراک گذاری",
     "login_title": "امتیاز برای ورود به حساب کاربری",
     "checkin_title": "Points for heartbeat",
+    "referral": "Referral",
+    "referral_title": "Referral rewards",
+    "referral_desc": "Invite friends and earn ESTM",
     "checkin_extra_title": "استفاده از پاداش",
     "no_activity": "No recent activity",
     "outgoing_transfer_description": "",
@@ -100,14 +103,14 @@
     }
   },
   "notification": {
-    "vote": "مطلب شما را پسند کرد",
-    "unvote": "رأی‌ خود را پس گرفت",
-    "reply": "به مطلب شما پاسخ داد",
-    "mention": "شما را خطاب کرد",
+    "vote": "voted",
+    "unvote": "unvoted",
+    "reply": "replied to",
+    "mention": "mentioned in",
     "follow": "شما را دنبال میکند",
     "unfollow": "شما را دنبال نمیکند",
     "ignore": "شما را نادیده گرفته",
-    "reblog": "مطلب شما را به اشتراک گذاشت",
+    "reblog": "reblogged",
     "transfer": "transferred",
     "notification": "اطلاعیه ها",
     "leaderboard": "جدول رده بندی",
@@ -117,7 +120,11 @@
     "yesterday": "دیروز",
     "this_week": "این هفته",
     "this_month": "این ماه",
-    "older_then": "قدیمی تر از 1 ماه"
+    "older_then": "قدیمی تر از 1 ماه",
+    "activities": "All",
+    "replies": "پاسخ‌ها",
+    "mentions": "Mentions",
+    "reblogs": "Reblogs"
   },
   "leaderboard": {
     "daily": "DAILY",
@@ -206,7 +213,10 @@
   },
   "home": {
     "feed": "خبرنامه",
-    "popular": "مورد علاقه"
+    "popular": "مورد علاقه",
+    "top": "Top",
+    "hot": "Hot",
+    "new": "New"
   },
   "side_menu": {
     "profile": "نمایه",
