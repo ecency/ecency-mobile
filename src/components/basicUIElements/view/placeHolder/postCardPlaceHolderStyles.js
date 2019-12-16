@@ -10,7 +10,7 @@ export default EStyleSheet.create({
     borderColor: '$primaryLightBackground',
     marginRight: 0,
     marginLeft: 0,
-    marginTop: 10,
+    marginTop: 0,
   },
   textWrapper: {
     flexDirection: 'row',
