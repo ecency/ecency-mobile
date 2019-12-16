@@ -202,7 +202,7 @@ class PostDisplayView extends PureComponent {
                   currentAccountUsername={name}
                   reputation={post.author_reputation}
                   tag={post.category}
-                  size={16}
+                  size={36}
                 />
                 <PostBody body={post.body} />
                 <View style={styles.footer}>

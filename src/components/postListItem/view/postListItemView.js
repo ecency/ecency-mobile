@@ -57,7 +57,7 @@ class PostListItemView extends Component {
               date={isFormatedDate ? created : getTimeFromNow(created, true)}
               name={username}
               reputation={reputation}
-              size={32}
+              size={36}
               tag={mainTag}
             />
             <IconButton
