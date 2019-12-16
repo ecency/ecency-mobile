@@ -70,30 +70,30 @@
     "convert": "Converteşte",
     "escrow_transfer": "Transfer Escrow",
     "escrow_dispute": "Dispută Escrow",
-    "escrow_release": "Escrow Release",
+    "escrow_release": "Eliberare Escrow",
     "escrow_approve": "Aprobare Escrow",
-    "cancel_transfer_from_savings": "Cancel Transfer from Savings",
+    "cancel_transfer_from_savings": "Anulează transferul de la economii",
     "delegate_vesting_shares": "Delegare",
     "fill_convert_request": "Convert request executed",
-    "fill_transfer_from_savings": "From Savings executed",
+    "fill_transfer_from_savings": "Executat de la Economii",
     "fill_vesting_withdraw": "Powed Down executat",
     "estm": {
       "title": "Puncte eSteem",
       "buy": "GET ESTM"
     },
     "savingsteem": {
-      "title": "STEEM Savings"
+      "title": "STEEM Economii"
     },
     "savingsbd": {
-      "title": "SBD Savings"
+      "title": "Economii SBD"
     },
     "steem": {
       "title": "STEEM",
-      "buy": "GET STEEM"
+      "buy": "OBȚINE STEEM"
     },
     "sbd": {
       "title": "SBD",
-      "buy": "GET SBD"
+      "buy": "OBȚINE SBD"
     },
     "steem_power": {
       "title": "STEEM POWER"
@@ -335,7 +335,7 @@
     "author_payout": "Plata autorului",
     "curation_payout": "Plată de curare",
     "payout_date": "Plată",
-    "beneficiaries": "Beneficiaries",
+    "beneficiaries": "Beneficiari",
     "warn_zero_payout": "Suma trebuie sa ajungă la $0.02 să fie plătită",
     "breakdown": "Defalcare"
   },
@@ -359,7 +359,7 @@
   "comment_filter": {
     "trending": "TOP",
     "reputation": "REPUTAȚIE",
-    "votes": "VOTE",
+    "votes": "VOTEAZĂ",
     "age": "VECHIME",
     "top": "TOP",
     "time": "TIME"
@@ -383,7 +383,7 @@
     "steemconnect_title": "Transfer Steemconnect",
     "estimated_weekly": "Estimare Săptămânală",
     "destination_accounts": "Conturi de destinație",
-    "stop_information": "Are you sure want to stop?",
+    "stop_information": "Ești sigur că vrei să te oprești?",
     "percent": "Procent",
     "auto_vests": "Auto Vests",
     "save": "SALVEAZĂ",
@@ -402,7 +402,7 @@
     "next": "URMĂTORUL"
   },
   "free_estm": {
-    "title": "Free ESTM",
+    "title": "ESTM gratuit",
     "button": "SPIN & WIN",
     "get_spin": "5 ROTIRI",
     "spin_right": "Spin Left",
@@ -430,7 +430,7 @@
   "dsteem": {
     "date_error": {
       "device_time": "Your device time;",
-      "current_time": "Current time;",
+      "current_time": "Ora curentă;",
       "information": "We noticed that your device has incorrect date or time. Please fix Date & Time or Set Automatically and try again."
     }
   },
