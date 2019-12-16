@@ -54,7 +54,7 @@ export default EStyleSheet.create({
     alignItems: 'center',
   },
   searchItemImageWrapper: {
-    flex: 1,
+    flex: 2,
   },
   searchItemTextWrapper: {
     flex: 10,
