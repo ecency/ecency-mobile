@@ -28,6 +28,9 @@
     "reblog_title": "Points for reblog",
     "login_title": "Points for login",
     "checkin_title": "Points for heartbeat",
+    "referral": "Referral",
+    "referral_title": "Referral rewards",
+    "referral_desc": "Invite friends and earn ESTM",
     "checkin_extra_title": "Usage bonus",
     "no_activity": "No recent activity",
     "outgoing_transfer_description": "",
@@ -100,14 +103,14 @@
     }
   },
   "notification": {
-    "vote": "fe ohun ti o ko",
-    "unvote": "yo ibo re kuro",
-    "reply": "dahun si oro re",
-    "mention": "da oruko re",
+    "vote": "voted",
+    "unvote": "unvoted",
+    "reply": "replied to",
+    "mention": "mentioned in",
     "follow": "ti n ba o lo",
     "unfollow": "ko ba o lo mo",
     "ignore": "ti ko eti ikun",
-    "reblog": "ti se eda oro re",
+    "reblog": "reblogged",
     "transfer": "transferred",
     "notification": "Awon Akiyesi",
     "leaderboard": "Ate asiwaju",
@@ -117,7 +120,11 @@
     "yesterday": "Ana",
     "this_week": "Ose yi",
     "this_month": "Osu yi",
-    "older_then": "Ti koja osu kan"
+    "older_then": "Ti koja osu kan",
+    "activities": "All",
+    "replies": "Ifesi",
+    "mentions": "Mentions",
+    "reblogs": "Reblogs"
   },
   "leaderboard": {
     "daily": "DAILY",
@@ -206,7 +213,10 @@
   },
   "home": {
     "feed": "Ate gbogbo agbawole",
-    "popular": "Gbajumo"
+    "popular": "Gbajumo",
+    "top": "Top",
+    "hot": "Hot",
+    "new": "New"
   },
   "side_menu": {
     "profile": "Profaili",

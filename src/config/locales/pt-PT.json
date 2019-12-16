@@ -28,6 +28,9 @@
     "reblog_title": "Pontos por reblogue",
     "login_title": "Pontos por Login",
     "checkin_title": "Pontos por pulsação",
+    "referral": "Referral",
+    "referral_title": "Referral rewards",
+    "referral_desc": "Invite friends and earn ESTM",
     "checkin_extra_title": "Uso do Bonús",
     "no_activity": "Sem actividade recente",
     "outgoing_transfer_description": "",
@@ -100,14 +103,14 @@
     }
   },
   "notification": {
-    "vote": "gosta do seu post",
-    "unvote": "retirou voto do seu post",
-    "reply": "respondeu ao seu post",
-    "mention": "mencionou você",
+    "vote": "voted",
+    "unvote": "unvoted",
+    "reply": "replied to",
+    "mention": "mentioned in",
     "follow": "seguiu você",
     "unfollow": "deixou de seguir você",
     "ignore": "ignorou você",
-    "reblog": "reblogou o seu post",
+    "reblog": "reblogged",
     "transfer": "transferido",
     "notification": "Notificações",
     "leaderboard": "Quadro de Liderança",
@@ -117,7 +120,11 @@
     "yesterday": "Ontem",
     "this_week": "Esta Semana",
     "this_month": "Este Mês",
-    "older_then": "Com mais de um mês"
+    "older_then": "Com mais de um mês",
+    "activities": "All",
+    "replies": "Respostas",
+    "mentions": "Mentions",
+    "reblogs": "Reblogs"
   },
   "leaderboard": {
     "daily": "DIÁRIO",
@@ -206,7 +213,10 @@
   },
   "home": {
     "feed": "Conteúdo de notícias",
-    "popular": "Popular"
+    "popular": "Popular",
+    "top": "Top",
+    "hot": "Hot",
+    "new": "New"
   },
   "side_menu": {
     "profile": "Perfil",

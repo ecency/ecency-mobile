@@ -28,6 +28,9 @@
     "reblog_title": "Mata ganjaran -> reblog_title",
     "login_title": "Mata ganjaran log masuk",
     "checkin_title": "Points for heartbeat",
+    "referral": "Referral",
+    "referral_title": "Referral rewards",
+    "referral_desc": "Invite friends and earn ESTM",
     "checkin_extra_title": "Bonus kegunaan",
     "no_activity": "No recent activity",
     "outgoing_transfer_description": "",
@@ -100,14 +103,14 @@
     }
   },
   "notification": {
-    "vote": "menyukai pos anda",
-    "unvote": "tarik balik undian pos untuk anda",
-    "reply": "balas pos anda",
-    "mention": "menyebut anda dalam",
+    "vote": "voted",
+    "unvote": "unvoted",
+    "reply": "replied to",
+    "mention": "mentioned in",
     "follow": "mengikuti anda",
     "unfollow": "berhenti mengikuti anda",
     "ignore": "abaikan anda",
-    "reblog": "ulang siar pos anda",
+    "reblog": "reblogged",
     "transfer": "transferred",
     "notification": "Pemberitahuan",
     "leaderboard": "Papan Pendahulu",
@@ -117,7 +120,11 @@
     "yesterday": "Semalam",
     "this_week": "Minggu ini",
     "this_month": "Bulan Ini",
-    "older_then": "Lebih dari sebulan"
+    "older_then": "Lebih dari sebulan",
+    "activities": "All",
+    "replies": "Balasan",
+    "mentions": "Mentions",
+    "reblogs": "Reblogs"
   },
   "leaderboard": {
     "daily": "DAILY",
@@ -206,7 +213,10 @@
   },
   "home": {
     "feed": "Suapan",
-    "popular": "Terkenal"
+    "popular": "Terkenal",
+    "top": "Top",
+    "hot": "Hot",
+    "new": "New"
   },
   "side_menu": {
     "profile": "Profil",
