@@ -362,7 +362,7 @@
     "votes": "VOTE",
     "age": "Leɛmeṛ",
     "top": "TOP",
-    "time": "TIME"
+    "time": "AKUD"
   },
   "transfer": {
     "from": "Sɣur",
@@ -412,7 +412,7 @@
     "title": "Promote",
     "days": "days",
     "user": "User",
-    "permlink": "Post",
+    "permlink": "Suffeɣ-d",
     "permlinkPlaceholder": "author/permlink",
     "information": "Are you sure to promote?"
   },
@@ -420,9 +420,9 @@
     "title": "Boost"
   },
   "voters_dropdown": {
-    "rewards": "REWARDS",
+    "rewards": "TARRAZIN",
     "percent": "PERCENT",
-    "time": "TIME"
+    "time": "AKUD"
   },
   "reblog": {
     "title": "Reblog Info"
