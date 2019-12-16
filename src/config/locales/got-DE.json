@@ -28,6 +28,9 @@
     "reblog_title": "Stika aftrablauga",
     "login_title": "Stika atgagga",
     "checkin_title": "Points for heartbeat",
+    "referral": "Referral",
+    "referral_title": "Referral rewards",
+    "referral_desc": "Invite friends and earn ESTM",
     "checkin_extra_title": "Brukeinais huzd",
     "no_activity": "No recent activity",
     "outgoing_transfer_description": "",
@@ -100,14 +103,14 @@
     }
   },
   "notification": {
-    "vote": "galeikaiþ þein waurd",
-    "unvote": "usnam stibna þeinis waurdis",
-    "reply": "andhof þeinamma waurda",
-    "mention": "haihait þuk",
+    "vote": "voted",
+    "unvote": "unvoted",
+    "reply": "replied to",
+    "mention": "mentioned in",
     "follow": "afarlaistida þuk",
     "unfollow": "unlaistida þuk",
     "ignore": "ignored you",
-    "reblog": "aftrablaugida þein waurd",
+    "reblog": "reblogged",
     "transfer": "transferred",
     "notification": "Notifications",
     "leaderboard": "Leaderboard",
@@ -117,7 +120,11 @@
     "yesterday": "Fairnindag",
     "this_week": "So dagawiko",
     "this_month": "So menoþs",
-    "older_then": "Fairnizo þau Aina Menoþ"
+    "older_then": "Fairnizo þau Aina Menoþ",
+    "activities": "All",
+    "replies": "Andahafteis",
+    "mentions": "Mentions",
+    "reblogs": "Reblogs"
   },
   "leaderboard": {
     "daily": "DAILY",
@@ -206,7 +213,11 @@
   },
   "home": {
     "feed": "Feed",
-    "popular": "Popular"
+    "popular": "Popular",
+    "top": "Top",
+    "hot": "Hot",
+    "new": "New",
+    "blog": "Blog"
   },
   "side_menu": {
     "profile": "Profile",
@@ -289,7 +300,10 @@
     "copy_link": "Copy Link",
     "reblogged": "reblogged by",
     "sponsored": "SPONSORED",
-    "open_thread": "Open Thread"
+    "open_thread": "Open Thread",
+    "save_to_local": "Save to the album",
+    "image_saved": "Image Saved to Photo Gallery",
+    "image_saved_error": "Error Saving Image"
   },
   "drafts": {
     "title": "Drafts",

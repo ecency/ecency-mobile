@@ -71,18 +71,20 @@ export const catchDraftImage = body => {
 };
 
 export const getResizedImage = (url, size = 640) => {
+  //TODO: implement fallback onError, for steemitimages is down case
+
   if (!url) {
     return '';
   }
-
+  /*
   if (url.includes('img.esteem.ws')) {
-    return `https://img.esteem.ws/${size}x0/${url}`;
+    return `${url.replace('img.esteem.ws/', `img.esteem.ws/${size}/`)}`;
   }
 
   if (url.includes('img.esteem.app')) {
-    return `https://img.esteem.app/${size}x0/${url}`;
+    return `${url.replace('img.esteem.app/', `img.esteem.app/${size}/`)}`;
   }
-
+  */
   return `https://steemitimages.com/${size}x0/${url}`;
 };
 

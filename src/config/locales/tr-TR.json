@@ -28,6 +28,9 @@
     "reblog_title": "Reb günlüğü için puanlar",
     "login_title": "Giriş için puanlar",
     "checkin_title": "Points for heartbeat",
+    "referral": "Referral",
+    "referral_title": "Referral rewards",
+    "referral_desc": "Invite friends and earn ESTM",
     "checkin_extra_title": "Kullanım bonusu",
     "no_activity": "No recent activity",
     "outgoing_transfer_description": "",
@@ -100,14 +103,14 @@
     }
   },
   "notification": {
-    "vote": "beğendi",
-    "unvote": "gonderini aşaği yönde oyladı",
-    "reply": "gönderine cevap verdi",
-    "mention": "seni etiketledi",
+    "vote": "voted",
+    "unvote": "unvoted",
+    "reply": "replied to",
+    "mention": "mentioned in",
     "follow": "seni takip etti",
     "unfollow": "seni takipetmeyi bıraktı",
     "ignore": "seni engelledi",
-    "reblog": "senin postunu paylaştı",
+    "reblog": "reblogged",
     "transfer": "transferred",
     "notification": "Bildirimler",
     "leaderboard": "Liderler Tablosu",
@@ -117,7 +120,11 @@
     "yesterday": "Dün",
     "this_week": "Bu Hafta",
     "this_month": "Bu Ay",
-    "older_then": "Bir Aydan Daha Önce"
+    "older_then": "Bir Aydan Daha Önce",
+    "activities": "All",
+    "replies": "Yorumlar",
+    "mentions": "Mentions",
+    "reblogs": "Reblogs"
   },
   "leaderboard": {
     "daily": "DAILY",
@@ -206,7 +213,11 @@
   },
   "home": {
     "feed": "Akış",
-    "popular": "Popüler"
+    "popular": "Popüler",
+    "top": "Top",
+    "hot": "Hot",
+    "new": "New",
+    "blog": "Blog"
   },
   "side_menu": {
     "profile": "Profil",
@@ -289,7 +300,10 @@
     "copy_link": "Copy Link",
     "reblogged": "reblogged by",
     "sponsored": "SPONSORED",
-    "open_thread": "Open Thread"
+    "open_thread": "Open Thread",
+    "save_to_local": "Save to the album",
+    "image_saved": "Image Saved to Photo Gallery",
+    "image_saved_error": "Error Saving Image"
   },
   "drafts": {
     "title": "Taslaklar",

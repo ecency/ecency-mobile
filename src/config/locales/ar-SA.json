@@ -28,6 +28,9 @@
     "reblog_title": "نقاط لإعادة النشر",
     "login_title": "نقاط لتسجيل الدخول",
     "checkin_title": "Points for heartbeat",
+    "referral": "Referral",
+    "referral_title": "Referral rewards",
+    "referral_desc": "Invite friends and earn ESTM",
     "checkin_extra_title": "مكافأة الاستخدام",
     "no_activity": "No recent activity",
     "outgoing_transfer_description": "",
@@ -100,14 +103,14 @@
     }
   },
   "notification": {
-    "vote": "الإعجابات على منشورك",
-    "unvote": "إزالة التصويت على منشورك",
-    "reply": "قام بالرد على مشاركتك",
-    "mention": "قام بذكرك",
+    "vote": "voted",
+    "unvote": "unvoted",
+    "reply": "replied to",
+    "mention": "mentioned in",
     "follow": "قام بمتابعتك",
     "unfollow": "قام بإلغاء متابعتك",
     "ignore": "قام بتجاهلك",
-    "reblog": "إعادة تدوين مشاركتك",
+    "reblog": "reblogged",
     "transfer": "transferred",
     "notification": "الإشعارات",
     "leaderboard": "المتصدرين",
@@ -117,7 +120,11 @@
     "yesterday": "يوم أمس",
     "this_week": "هذا الأسبوع",
     "this_month": "هذا الشهر",
-    "older_then": "أقدم من شهر"
+    "older_then": "أقدم من شهر",
+    "activities": "All",
+    "replies": "الردود",
+    "mentions": "Mentions",
+    "reblogs": "Reblogs"
   },
   "leaderboard": {
     "daily": "DAILY",
@@ -206,7 +213,11 @@
   },
   "home": {
     "feed": "المستجدات",
-    "popular": "الأكثر شعبية"
+    "popular": "الأكثر شعبية",
+    "top": "Top",
+    "hot": "Hot",
+    "new": "New",
+    "blog": "Blog"
   },
   "side_menu": {
     "profile": "الملف الشّخصي",
@@ -289,7 +300,10 @@
     "copy_link": "Copy Link",
     "reblogged": "reblogged by",
     "sponsored": "SPONSORED",
-    "open_thread": "Open Thread"
+    "open_thread": "Open Thread",
+    "save_to_local": "Save to the album",
+    "image_saved": "Image Saved to Photo Gallery",
+    "image_saved_error": "Error Saving Image"
   },
   "drafts": {
     "title": "المسودات",

@@ -28,6 +28,9 @@
     "reblog_title": "Бали за рестім",
     "login_title": "Бали за авторизацію",
     "checkin_title": "Бали за вподобайки",
+    "referral": "Referral",
+    "referral_title": "Referral rewards",
+    "referral_desc": "Invite friends and earn ESTM",
     "checkin_extra_title": "Бонус за користування",
     "no_activity": "No recent activity",
     "outgoing_transfer_description": "",
@@ -100,14 +103,14 @@
     }
   },
   "notification": {
-    "vote": "сподобалася ваша публікація",
-    "unvote": "проголосував(-ла) за ваш допис",
-    "reply": "відповів(-ла) на ваш допис",
-    "mention": "згадав (-ла) вас",
+    "vote": "voted",
+    "unvote": "unvoted",
+    "reply": "replied to",
+    "mention": "mentioned in",
     "follow": "підписався(-лась) на вас",
     "unfollow": "підписався(-лась) на вас",
     "ignore": "ігнорував тебе",
-    "reblog": "рестімнув ваш допис",
+    "reblog": "reblogged",
     "transfer": "відправлено",
     "notification": "Сповіщення",
     "leaderboard": "Дошка лідерів",
@@ -117,7 +120,11 @@
     "yesterday": "Вчора",
     "this_week": "Цього тижня",
     "this_month": "Цього місяця",
-    "older_then": "Понад місяць"
+    "older_then": "Понад місяць",
+    "activities": "All",
+    "replies": "Відповіді",
+    "mentions": "Mentions",
+    "reblogs": "Reblogs"
   },
   "leaderboard": {
     "daily": "ЩОДЕННО",
@@ -206,7 +213,11 @@
   },
   "home": {
     "feed": "Стрічка",
-    "popular": "Популярне"
+    "popular": "Популярне",
+    "top": "Top",
+    "hot": "Hot",
+    "new": "New",
+    "blog": "Blog"
   },
   "side_menu": {
     "profile": "Профіль",
@@ -289,7 +300,10 @@
     "copy_link": "Скопіювати посилання",
     "reblogged": "рестімнуто",
     "sponsored": "СПОНСОРОВАНО",
-    "open_thread": "Відкрита тема"
+    "open_thread": "Відкрита тема",
+    "save_to_local": "Save to the album",
+    "image_saved": "Image Saved to Photo Gallery",
+    "image_saved_error": "Error Saving Image"
   },
   "drafts": {
     "title": "Чернетки",

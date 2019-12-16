@@ -28,6 +28,9 @@
     "reblog_title": "リブログによるポイント",
     "login_title": "ログインによるポイント",
     "checkin_title": "ハートビートによるポイント",
+    "referral": "Referral",
+    "referral_title": "Referral rewards",
+    "referral_desc": "Invite friends and earn ESTM",
     "checkin_extra_title": "使用ボーナス",
     "no_activity": "No recent activity",
     "outgoing_transfer_description": "",
@@ -100,14 +103,14 @@
     }
   },
   "notification": {
-    "vote": "あなたの投稿をいいねしました",
-    "unvote": "あなたの投稿をダウンヴォートしました",
-    "reply": "あなたの投稿に返信しました",
-    "mention": "あなたを話題にしました",
+    "vote": "voted",
+    "unvote": "unvoted",
+    "reply": "replied to",
+    "mention": "mentioned in",
     "follow": "あなたをフォローしました",
     "unfollow": "あなたをフォロー解除しました",
     "ignore": "あなたをミュートしました",
-    "reblog": "あなたの投稿をリブログしました",
+    "reblog": "reblogged",
     "transfer": "transferred",
     "notification": "通知",
     "leaderboard": "ランキング",
@@ -117,7 +120,11 @@
     "yesterday": "昨日",
     "this_week": "今週",
     "this_month": "今月",
-    "older_then": "1ヶ月以上前"
+    "older_then": "1ヶ月以上前",
+    "activities": "All",
+    "replies": "返信",
+    "mentions": "Mentions",
+    "reblogs": "Reblogs"
   },
   "leaderboard": {
     "daily": "DAILY",
@@ -206,7 +213,11 @@
   },
   "home": {
     "feed": "フィード",
-    "popular": "人気"
+    "popular": "人気",
+    "top": "Top",
+    "hot": "Hot",
+    "new": "New",
+    "blog": "Blog"
   },
   "side_menu": {
     "profile": "プロフィール",
@@ -289,7 +300,10 @@
     "copy_link": "リンクをコピー",
     "reblogged": "リブログしています",
     "sponsored": "PR",
-    "open_thread": "スレッドを開く"
+    "open_thread": "スレッドを開く",
+    "save_to_local": "Save to the album",
+    "image_saved": "Image Saved to Photo Gallery",
+    "image_saved_error": "Error Saving Image"
   },
   "drafts": {
     "title": "下書き",

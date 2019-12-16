@@ -28,6 +28,9 @@
     "reblog_title": "Points for reblog",
     "login_title": "Points for login",
     "checkin_title": "Points for heartbeat",
+    "referral": "Referral",
+    "referral_title": "Referral rewards",
+    "referral_desc": "Invite friends and earn ESTM",
     "checkin_extra_title": "Usage bonus",
     "no_activity": "No recent activity",
     "outgoing_transfer_description": "",
@@ -100,14 +103,14 @@
     }
   },
   "notification": {
-    "vote": "galak post dröen",
-    "unvote": "hana galak post dröen",
-    "reply": "balah keu post dröen",
-    "mention": "seubut dröen",
+    "vote": "voted",
+    "unvote": "unvoted",
+    "reply": "replied to",
+    "mention": "mentioned in",
     "follow": "ikot dröen",
     "unfollow": "piyôh ikut dröen",
     "ignore": "hanapeureumeun dröen",
-    "reblog": "postingan dröen ka di reblog",
+    "reblog": "reblogged",
     "transfer": "transferred",
     "notification": "Bithé",
     "leaderboard": "Papeun Rangking",
@@ -117,7 +120,11 @@
     "yesterday": "Baroë",
     "this_week": "Peukan Nyoë",
     "this_month": "Buleuën Nyoë",
-    "older_then": "Leubéh Lam Sibulëun"
+    "older_then": "Leubéh Lam Sibulëun",
+    "activities": "All",
+    "replies": "Balah",
+    "mentions": "Mentions",
+    "reblogs": "Reblogs"
   },
   "leaderboard": {
     "daily": "DAILY",
@@ -206,7 +213,11 @@
   },
   "home": {
     "feed": "Umpëun",
-    "popular": "Meucuhu"
+    "popular": "Meucuhu",
+    "top": "Top",
+    "hot": "Hot",
+    "new": "New",
+    "blog": "Blog"
   },
   "side_menu": {
     "profile": "Profil",
@@ -289,7 +300,10 @@
     "copy_link": "Copy Link",
     "reblogged": "reblogged by",
     "sponsored": "SPONSORED",
-    "open_thread": "Open Thread"
+    "open_thread": "Open Thread",
+    "save_to_local": "Save to the album",
+    "image_saved": "Image Saved to Photo Gallery",
+    "image_saved_error": "Error Saving Image"
   },
   "drafts": {
     "title": "Konsep",

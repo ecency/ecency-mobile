@@ -21,20 +21,23 @@
     "delegation": "Şande",
     "delegations": "Şande",
     "delegation_title": "Xelata şandeyê",
-    "delegation_desc": "Earn ESTM everyday for delegation",
+    "delegation_desc": "Ji bo şandeyê her roj ESTM qezenc bike",
     "post_title": "Puanên ji bo şandiyê",
     "comment_title": "Puanên ji bo şîroveyê",
     "vote_title": "Puanên ji bo dengdanê",
     "reblog_title": "Puanên ji bo dîs-weşandinê",
     "login_title": "Puanên ji bo têketinê",
     "checkin_title": "Puanên ji bo lêdana dil",
+    "referral": "Referral",
+    "referral_title": "Referral rewards",
+    "referral_desc": "Invite friends and earn ESTM",
     "checkin_extra_title": "Bonusa bikaranînê",
-    "no_activity": "No recent activity",
+    "no_activity": "Çalakiya dawîn tine ye",
     "outgoing_transfer_description": "",
     "incoming_transfer_description": "",
-    "post_desc": "You can earn point by posting regularly. Posting gives you upto 15 points.",
-    "comment_desc": "Each comment you make helps you to grow your audience and also earns you upto 5 points.",
-    "checkin_desc": "Checking in regularly gives you 0.25 points.",
+    "post_desc": "Tu dikarî ji şandina rêkûpêk puanan qezenc bike. Şandin 15 puanan qezencî te dike.",
+    "comment_desc": "Her şîroveya ku tu dike ji bo mezinkirina girseya bînerên te ji te re dibe alîkar û 5 puanan jî dide qezenckirin.",
+    "checkin_desc": "Çavpêxistina bi rêkûpêk 0.25 puanan dide qezenckirin.",
     "vote_desc": "By voting you give reward to other creators and also earn back upto 0.01 x vote weight points.",
     "reblog_desc": "Share what post you like with your friends and earn points.",
     "login_desc": "When you login into app first time you earn 100 points.",
@@ -47,10 +50,10 @@
     "estimated_value_desc": "Determined by purchase value",
     "estimated_value": "Estimated value",
     "estimated_amount": "Rêjeya dengan",
-    "amount_information": "Drag the slider to adjust the amount",
+    "amount_information": "Ji bo sazkirina rêjeyê, pêşekerê biherikîne",
     "amount": "Pîvan",
     "memo": "Bîrname",
-    "information": "Are you sure to transfer funds?",
+    "information": "Tu ji transferkirina pereyan piştrast î?",
     "amount_desc": "Balance",
     "memo_desc": "Ev bîrname gelemper e",
     "to_placeholder": "Navê bikarhêner",
@@ -67,14 +70,14 @@
     "withdraw_steem": "Withdraw Steem",
     "withdraw_sbd": "Withdraw Steem Dollar",
     "transfer_to_savings": "Transfer To Savings",
-    "convert": "Convert",
-    "escrow_transfer": "Escrow Transfer",
-    "escrow_dispute": "Escrow Dispute",
-    "escrow_release": "Escrow Release",
-    "escrow_approve": "Escrow Approve",
-    "cancel_transfer_from_savings": "Cancel Transfer from Savings",
+    "convert": "Veguherîne",
+    "escrow_transfer": "Transfera Emanetî",
+    "escrow_dispute": "Gengeşeya Emanetiyê",
+    "escrow_release": "Belavkirina Emanetî",
+    "escrow_approve": "Pejirandina Emanetê",
+    "cancel_transfer_from_savings": "Transfera ji Berhevkirinan Betal Bike",
     "delegate_vesting_shares": "Şande",
-    "fill_convert_request": "Convert request executed",
+    "fill_convert_request": "Daxwaza veguhertinê pêk hat",
     "fill_transfer_from_savings": "From Savings executed",
     "fill_vesting_withdraw": "Power Down executed",
     "estm": {
@@ -82,10 +85,10 @@
       "buy": "ESTMê BISTÎNE"
     },
     "savingsteem": {
-      "title": "STEEM Savings"
+      "title": "Berhevkirinên STEEMê"
     },
     "savingsbd": {
-      "title": "SBD Savings"
+      "title": "Berhevkirinên SBDê"
     },
     "steem": {
       "title": "STEEM",
@@ -100,15 +103,15 @@
     }
   },
   "notification": {
-    "vote": "şandiya te ecibandin",
-    "unvote": "dengê neyênî da şandiyê",
-    "reply": "bersiv da şandiya te",
-    "mention": "te etîket kir",
+    "vote": "voted",
+    "unvote": "unvoted",
+    "reply": "replied to",
+    "mention": "mentioned in",
     "follow": "te şopand",
     "unfollow": "ji şopa te derket",
     "ignore": "te asteng kir",
-    "reblog": "şandiya te parve kir",
-    "transfer": "transferred",
+    "reblog": "reblogged",
+    "transfer": "hate transferkirin",
     "notification": "Danezan",
     "leaderboard": "Tabloya lîderan",
     "epoint": "Puan",
@@ -117,7 +120,11 @@
     "yesterday": "Doh",
     "this_week": "Ev Hefteya",
     "this_month": "Ev Meha",
-    "older_then": "Zêdetirî Berî Mehekê"
+    "older_then": "Zêdetirî Berî Mehekê",
+    "activities": "All",
+    "replies": "Bersiv",
+    "mentions": "Mentions",
+    "reblogs": "Reblogs"
   },
   "leaderboard": {
     "daily": "ROJANE",
@@ -205,8 +212,12 @@
     "steemconnect_fee_description": "Dibe ku Steemconnect ji dayîna xelatan hinek pereyan bîstine"
   },
   "home": {
-    "feed": "Feed",
-    "popular": "Populer"
+    "feed": "Herik",
+    "popular": "Populer",
+    "top": "Top",
+    "hot": "Hot",
+    "new": "New",
+    "blog": "Blog"
   },
   "side_menu": {
     "profile": "Profîl",
@@ -273,7 +284,7 @@
     "no_internet": "Girêdan tine ye!",
     "confirm": "Bipejirîne",
     "removed": "Hate rakirin",
-    "same_user": "This user already added to list",
+    "same_user": "Ev bikarhêner jixwe li lîsteyê hatiye tevlîkirin",
     "unknow_error": "Çêwtiyek çêbû",
     "error": "Çewtî",
     "fetch_error": "Anîna daneyê biserneket, ji kerema xwe dîsa biceribîne an jî ji ser info@esteem.app me agahdar bike",
@@ -284,12 +295,15 @@
     "google_play_version": "We noticed that your device has old version of Google Play. Please update Google Play services and try again!"
   },
   "post": {
-    "reblog_alert": "Are you sure, you want to reblog?",
-    "removed_hint": "The post was removed by",
+    "reblog_alert": "Bi rastî jî tu dixwazî dîs-biweşînî?",
+    "removed_hint": "Şandî hate rakirin ji aliyê",
     "copy_link": "Girêdanê kopî bike",
-    "reblogged": "reblogged by",
+    "reblogged": "dîs-weşandin ji aliyê",
     "sponsored": "SPONSORKIRÎ",
-    "open_thread": "Mijara Vekirî"
+    "open_thread": "Mijara Vekirî",
+    "save_to_local": "Li albumê tomar bike",
+    "image_saved": "Wêne li Pêşangeha Wêneyan Hate Tomarkirin",
+    "image_saved_error": "Wêne tomar nebû"
   },
   "drafts": {
     "title": "Reşnivîs",
@@ -298,7 +312,7 @@
     "deleted": "Reşnivîs hate jêbirin"
   },
   "schedules": {
-    "title": "Schedules",
+    "title": "Demsazkirinên Te",
     "empty_list": "Li vir ti tişt tine ye",
     "deleted": "Şandiya demsazkirî hate jêbirin",
     "move": "Veguhezîne reşnivîsan",
@@ -332,9 +346,9 @@
     "author_payout": "Peredayîna Nivîskariyê",
     "curation_payout": "Peredayîna Kuratorê",
     "payout_date": "Peredayîn",
-    "beneficiaries": "Beneficiaries",
-    "warn_zero_payout": "Amount must reach $0.02 for payout",
-    "breakdown": "Breakdown"
+    "beneficiaries": "Xwedîmaf",
+    "warn_zero_payout": "Ji bo peredayînê divê rêje bigihêje $0.02an",
+    "breakdown": "Hilweşînê"
   },
   "post_dropdown": {
     "copy": "kopî bike",
@@ -355,7 +369,7 @@
   },
   "comment_filter": {
     "trending": "SEREKE",
-    "reputation": "REPUTATION",
+    "reputation": "NAVDARÎ",
     "votes": "DENG",
     "age": "TEMEN",
     "top": "SEREKE",
@@ -364,10 +378,10 @@
   "transfer": {
     "from": "Ji",
     "to": "Bo",
-    "amount_information": "Drag the slider to adjust the amount",
+    "amount_information": "Ji bo sazkirina rêjeyê, pêşekerê biherikîne",
     "amount": "Pîvan",
     "memo": "Bîrname",
-    "information": "Are you sure to transfer funds?",
+    "information": "Tu ji transferkirina pereyan piştrast î?",
     "amount_desc": "Balance",
     "memo_desc": "Ev bîrname gelemper e",
     "to_placeholder": "Navê bikarhêner",
@@ -380,9 +394,9 @@
     "steemconnect_title": "Veguheztina Steemconnectê",
     "estimated_weekly": "Texmînkirina Heftane",
     "destination_accounts": "Hesabên Armanc",
-    "stop_information": "Are you sure want to stop?",
-    "percent": "Percent",
-    "auto_vests": "Auto Vests",
+    "stop_information": "Tu dixwazî rawestînî?",
+    "percent": "Sede",
+    "auto_vests": "Parastina Otomatîk",
     "save": "TOMAR BIKE",
     "percent_information": "Agahiya rêjeyê",
     "next": "PÊŞVE",
@@ -426,9 +440,9 @@
   },
   "dsteem": {
     "date_error": {
-      "device_time": "Your device time;",
-      "current_time": "Current time;",
-      "information": "We noticed that your device has incorrect date or time. Please fix Date & Time or Set Automatically and try again."
+      "device_time": "Dema amûra te;",
+      "current_time": "Dema niha;",
+      "information": "Me ferqkir ku dem û dîroka amûra te çewt e. Ji kerema xwe Dem û Dîrokê serrast bike an jî bi Sazkirina Otomatîkî dîsa biceribîne."
     }
   },
   "comments": {

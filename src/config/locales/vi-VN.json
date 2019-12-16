@@ -28,6 +28,9 @@
     "reblog_title": "Các điểm cho đăng lại bài viết",
     "login_title": "Các điểm thưởng cho đăng nhập",
     "checkin_title": "Points for heartbeat",
+    "referral": "Referral",
+    "referral_title": "Referral rewards",
+    "referral_desc": "Invite friends and earn ESTM",
     "checkin_extra_title": "Phần thưởng cho việc sử dụng",
     "no_activity": "No recent activity",
     "outgoing_transfer_description": "",
@@ -100,14 +103,14 @@
     }
   },
   "notification": {
-    "vote": "thích bài đăng của bạn",
-    "unvote": "đã unvote bài viết của bạn",
-    "reply": "đã trả lời bài đăng của bạn",
-    "mention": "đã nhắc đến bạn",
+    "vote": "voted",
+    "unvote": "unvoted",
+    "reply": "replied to",
+    "mention": "mentioned in",
     "follow": "đã theo dõi bạn",
     "unfollow": "đã bỏ theo dõi bạn",
     "ignore": "đã bỏ qua bạn",
-    "reblog": "đã đăng lại bài viết của bạn",
+    "reblog": "reblogged",
     "transfer": "transferred",
     "notification": "Thông báo",
     "leaderboard": "Bảng xếp hạng",
@@ -117,7 +120,11 @@
     "yesterday": "Hôm qua",
     "this_week": "Tuần này",
     "this_month": "Tháng này",
-    "older_then": "Cách đây hơn 1 tháng"
+    "older_then": "Cách đây hơn 1 tháng",
+    "activities": "All",
+    "replies": "Trả lời",
+    "mentions": "Mentions",
+    "reblogs": "Reblogs"
   },
   "leaderboard": {
     "daily": "DAILY",
@@ -206,7 +213,11 @@
   },
   "home": {
     "feed": "Nguồn cấp dữ liệu",
-    "popular": "Phổ biến"
+    "popular": "Phổ biến",
+    "top": "Top",
+    "hot": "Hot",
+    "new": "New",
+    "blog": "Blog"
   },
   "side_menu": {
     "profile": "Hồ sơ",
@@ -289,7 +300,10 @@
     "copy_link": "Sao chép liên kết",
     "reblogged": "đã được đăng lại bởi",
     "sponsored": "SPONSORED",
-    "open_thread": "Open Thread"
+    "open_thread": "Open Thread",
+    "save_to_local": "Save to the album",
+    "image_saved": "Image Saved to Photo Gallery",
+    "image_saved_error": "Error Saving Image"
   },
   "drafts": {
     "title": "Bản nháp",
