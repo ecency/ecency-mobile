@@ -110,23 +110,20 @@ const WalletContainer = ({
       ).toFixed(3),
     );
 
-    setUnclaimedBalance(
-      `${
-        get(walletData, 'rewardSteemBalance', 0)
-          ? `${Math.round(get(walletData, 'rewardSteemBalance', 0) * 1000) / 1000} STEEM`
-          : ''
-      }
-    ${
-      get(walletData, 'rewardSbdBalance', 0)
-        ? ` ${Math.round(get(walletData, 'rewardSbdBalance', 0) * 1000) / 1000} SBD`
-        : ''
+    if (
+      get(walletData, 'rewardSteemBalance', 0) ||
+      get(walletData, 'rewardSbdBalance', 0) ||
+      get(walletData, 'rewardVestingSteem', 0)
+    ) {
+      const getBalance = (val, cur) => (val ? Math.round(val * 1000) / 1000 + cur : '');
+
+      setUnclaimedBalance(
+        `${getBalance(get(walletData, 'rewardSteemBalance', 0), ' STEEM')} ${getBalance(
+          get(walletData, 'rewardSbdBalance', 0),
+          ' SBD',
+        )} ${getBalance(get(walletData, 'rewardVestingSteem', 0), ' SP')}`,
+      );
     }
-      ${
-        get(walletData, 'rewardVestingSteem', 0)
-          ? ` ${Math.round(get(walletData, 'rewardVestingSteem', 0) * 1000) / 1000} SP`
-          : ''
-      }`,
-    );
   }, [userActivities, walletData]);
 
   // Components functions
