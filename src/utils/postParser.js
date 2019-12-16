@@ -70,10 +70,9 @@ const postImage = (metaData, body) => {
   const urlRegex = /(http|ftp|https):\/\/([\w_-]+(?:(?:\.[\w_-]+)+))([\w.,@?^=%&:/~+#-]*[\w@?^=%&/~+#-])?/gm;
   const imageRegex = /(http(s?):)([/|.|\w|\s|-])*\.(?:jpg|gif|png)/g;
   let imageLink;
-
   if (metaData && metaData.image && metaData.image[0]) {
     [imageLink] = metaData.image;
-  } else if (body && markdownImageRegex.test(body)) {
+  } else if (!imageLink && body && markdownImageRegex.test(body)) {
     const markdownMatch = body.match(markdownImageRegex);
     if (markdownMatch[0]) {
       const firstMarkdownMatch = markdownMatch[0];
