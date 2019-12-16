@@ -56,7 +56,7 @@ export default EStyleSheet.create({
     color: '$iconColor',
     fontSize: 20,
     marginRight: 5,
-    width: 25,
+    width: 20,
   },
   listItemText: {
     color: '$primaryDarkGray',
