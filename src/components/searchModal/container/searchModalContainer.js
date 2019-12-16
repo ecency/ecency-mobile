@@ -74,7 +74,12 @@ const SearchModalContainer = ({
               getPurePost(author, permlink).then(post => {
                 if (post.id !== 0) {
                   const result = {};
-                  const metadata = JSON.parse(get(post, 'json_metadata', ''));
+                  let metadata = {};
+                  try {
+                    metadata = JSON.parse(get(post, 'json_metadata', ''));
+                  } catch (error) {
+                    metadata = {};
+                  }
                   if (get(metadata, 'image', false) && metadata.image.length > 0) {
                     [result.image] = metadata.image;
                   } else {

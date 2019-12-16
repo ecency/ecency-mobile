@@ -15,7 +15,7 @@ const NotificationLineView = ({ notification, handleOnPressNotification }) => {
   const intl = useIntl();
   let _title;
   let titleExtra = '';
-
+  let _moreinfo = '';
   useEffect(() => {
     setIsRead(notification.read);
   }, [notification]);
@@ -33,13 +33,24 @@ const NotificationLineView = ({ notification, handleOnPressNotification }) => {
     titleExtra = notification.amount;
   } else if (notification.weight) {
     const _percent = `${parseFloat((notification.weight / 100).toFixed(2))}% `;
-
     titleExtra = _percent;
   }
 
   _title = `${titleExtra} ${intl.formatMessage({
     id: `notification.${notification.type}`,
   })}`;
+
+  if (
+    notification.type === 'vote' ||
+    notification.type === 'reblog' ||
+    (notification.type === 'mention' && notification.post)
+  ) {
+    _moreinfo = notification.title || notification.permlink;
+  }
+
+  if (notification.type === 'reply' || (notification.type === 'mention' && !notification.post)) {
+    _moreinfo = notification.parent_title || notification.parent_permlink || notification.permlink;
+  }
 
   return (
     <TouchableHighlight onPress={_handleOnNotificationPress}>
@@ -54,7 +65,10 @@ const NotificationLineView = ({ notification, handleOnPressNotification }) => {
         <View style={styles.body}>
           <View style={styles.titleWrapper}>
             <Text style={styles.name}>{notification.source} </Text>
-            <Text style={styles.title}>{_title}</Text>
+            <Text style={styles.title}>{_title} </Text>
+            <Text style={styles.moreinfo} numberOfLines={1} ellipsizeMode={4}>
+              {_moreinfo}
+            </Text>
           </View>
           {notification.description && (
             <Text numberOfLines={1} style={styles.description}>

@@ -158,7 +158,7 @@ class NotificationView extends PureComponent {
   );
 
   render() {
-    const { readAllNotification, getActivities, isNotificationRefreshing } = this.props;
+    const { readAllNotification, getActivities, isNotificationRefreshing, intl } = this.props;
     const { filters, selectedFilter, selectedIndex } = this.state;
     const _notifications = this._getNotificationsArrays();
 
@@ -166,7 +166,9 @@ class NotificationView extends PureComponent {
       <View style={styles.container}>
         <FilterBar
           dropdownIconName="arrow-drop-down"
-          options={filters.map(item => item.value)}
+          options={filters.map(item =>
+            intl.formatMessage({ id: `notification.${item.key}` }).toUpperCase(),
+          )}
           defaultText="ALL"
           onDropdownSelect={this._handleOnDropdownSelect}
           rightIconName="playlist-add-check"
