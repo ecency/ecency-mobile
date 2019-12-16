@@ -28,6 +28,9 @@
     "reblog_title": "Tineqqiḍin ɣef uɛawed n usuffeɣ",
     "login_title": "Tineqqiḍin ɣef tuqqniwin",
     "checkin_title": "Tineqqiḍin ɣef tyitiwin n wul",
+    "referral": "Referral",
+    "referral_title": "Referral rewards",
+    "referral_desc": "Invite friends and earn ESTM",
     "checkin_extra_title": "Tarrazt n useqdec",
     "no_activity": "No recent activity",
     "outgoing_transfer_description": "",
@@ -100,14 +103,14 @@
     }
   },
   "notification": {
-    "vote": "taɛǧeb-asen tsuffeɣt-ik",
-    "unvote": "unvoted your post",
-    "reply": "yerra-d ɣef tsuffeɣt-ik",
-    "mention": "yebder-ik-ik",
+    "vote": "voted",
+    "unvote": "unvoted",
+    "reply": "replied to",
+    "mention": "mentioned in",
     "follow": "yeṭṭafaṛ-ik",
     "unfollow": "yeḥbes ur k-yeṭṭafaṛ ara",
     "ignore": "yessanef-ik",
-    "reblog": "iɛawed-as asuffeɣ i tsuffeɣt-ik",
+    "reblog": "reblogged",
     "transfer": "transferred",
     "notification": "Tilɣa",
     "leaderboard": "Amyezwer",
@@ -117,7 +120,11 @@
     "yesterday": "Iḍelli",
     "this_week": "Imuras-agi",
     "this_month": "Ayyur-agi",
-    "older_then": "D aqdim ktar n wayyur"
+    "older_then": "D aqdim ktar n wayyur",
+    "activities": "All",
+    "replies": "Tiririyin",
+    "mentions": "Mentions",
+    "reblogs": "Reblogs"
   },
   "leaderboard": {
     "daily": "N YAL ASS",
@@ -206,7 +213,10 @@
   },
   "home": {
     "feed": "Feed",
-    "popular": "Mucaɛ"
+    "popular": "Mucaɛ",
+    "top": "Top",
+    "hot": "Hot",
+    "new": "New"
   },
   "side_menu": {
     "profile": "Amaɣnu",
