@@ -12,8 +12,8 @@
     "post": "Suffeɣ-d",
     "comment": "Awennit",
     "checkin": "Check-in",
-    "vote": "Vote",
-    "reblog": "Reblog",
+    "vote": "Tafrant",
+    "reblog": "Aɛiwed n usuffeɣ",
     "login": "Qqen",
     "incoming_transfer_title": "Incoming transfer",
     "outgoing_transfer_title": "Outgoing transfer",
@@ -166,15 +166,15 @@
     "push_notification": "Talɣut yettudemmren",
     "notification": {
       "follow": "Ḍfer",
-      "vote": "Vote",
+      "vote": "Tafrant",
       "comment": "Awennit",
       "mention": "Abdar",
-      "reblog": "Reblog",
+      "reblog": "Aɛiwed n usuffeɣ",
       "transfers": "Transfers"
     },
     "pincode": "Tangalt PIN",
-    "reset_pin": "Reset Pin Code",
-    "reset": "Reset",
+    "reset_pin": "Aɛawed n tengalt PIN",
+    "reset": "Aɛawed",
     "nsfw_content": "NSFW",
     "send_feedback": "Send Feedback",
     "send": "Azen",
@@ -186,15 +186,15 @@
     },
     "feedback_success": "Email successfully open",
     "feedback_fail": "Email client could not open",
-    "server_fail": "Server not available"
+    "server_fail": "Ulac aqeddac"
   },
   "voters": {
-    "voters_info": "Voters Info",
-    "no_user": "User is not found."
+    "voters_info": "Isallen ɣef yinefranen",
+    "no_user": "Amseqdac ur t-id-nufi ara."
   },
   "login": {
-    "signin": "Sign in",
-    "signup": "Sign up",
+    "signin": "Qqen",
+    "signup": "Jerred",
     "signin_title": "To get all the benefits of using eSteem",
     "username": "Isem n umseqdac",
     "password": "Awal uffir neɣ WIF",
@@ -259,7 +259,7 @@
     "success_moved": "Moved to draft",
     "permission_denied": "Permission denied",
     "permission_text": "Please, go to phone Settings and change eSteem app permissions.",
-    "success_rebloged": "Reblogged!",
+    "success_rebloged": "Tettwasuffeɣ-d tikelt-nniḍen!",
     "already_rebloged": "You have already reblogged!",
     "warning": "Warning",
     "invalid_pincode": "Invalid PIN code, please check and try again.",
