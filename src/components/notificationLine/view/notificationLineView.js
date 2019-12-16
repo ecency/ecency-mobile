@@ -49,7 +49,7 @@ const NotificationLineView = ({ notification, handleOnPressNotification }) => {
   }
 
   if (notification.type === 'reply' || (notification.type === 'mention' && !notification.post)) {
-    _moreinfo = notification.parent_title || notification.permlink;
+    _moreinfo = notification.parent_title || notification.parent_permlink || notification.permlink;
   }
 
   return (
