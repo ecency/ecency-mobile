@@ -42,8 +42,8 @@
     "dropdown_transfer": "Asefk",
     "dropdown_promote": "Promote",
     "dropdown_boost": "Boost",
-    "from": "From",
-    "to": "To",
+    "from": "Sɣur",
+    "to": "I",
     "estimated_value_desc": "Determined by purchase value",
     "estimated_value": "Estimated value",
     "estimated_amount": "Vote value",
@@ -284,11 +284,11 @@
     "google_play_version": "Nger tamawt d akken ibenk-ik ɣur-s lqem aqdim n Google Play. Ttxil-k lqem imeẓla n Google Play tɛerḍeḍ tikelt-nniḍen!"
   },
   "post": {
-    "reblog_alert": "Are you sure, you want to reblog?",
-    "removed_hint": "The post was removed by",
-    "copy_link": "Copy Link",
-    "reblogged": "reblogged by",
-    "sponsored": "SPONSORED",
+    "reblog_alert": "Tebɣiḍ s tidet ad as-tɛawdeḍ asuffeɣ?",
+    "removed_hint": "Tasuffeɣt-agi tettwakkes sɣur",
+    "copy_link": "Nɣel aseɣwen",
+    "reblogged": "tettwasuffeɣ-d tikelt-nniḍen sɣur",
+    "sponsored": "TETTUNEFK-AS TEDRIMT",
     "open_thread": "Open Thread",
     "save_to_local": "Sekles deg walbum",
     "image_saved": "Tugna tettwasekles deg usqif n tewlafin",
@@ -350,11 +350,11 @@
   },
   "deep_link": {
     "no_existing_user": "No existing user",
-    "no_existing_post": "No existing post"
+    "no_existing_post": "Ulac tasuffeɣt"
   },
   "search": {
-    "posts": "Posts",
-    "comments": "Comments"
+    "posts": "Tisuffɣin",
+    "comments": "Iwenniten"
   },
   "comment_filter": {
     "trending": "TOP",
@@ -365,15 +365,15 @@
     "time": "TIME"
   },
   "transfer": {
-    "from": "From",
-    "to": "To",
+    "from": "Sɣur",
+    "to": "I",
     "amount_information": "Drag the slider to adjust the amount",
     "amount": "Amount",
     "memo": "Memo",
     "information": "Are you sure to transfer funds?",
     "amount_desc": "Balance",
     "memo_desc": "This memo is public",
-    "to_placeholder": "Username",
+    "to_placeholder": "Isem n umseqdac",
     "memo_placeholder": "Enter your notes here",
     "transfer_token": "Transfer",
     "points": "Gift ESTM to someone",
