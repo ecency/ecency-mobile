@@ -74,7 +74,7 @@ export const getResizedImage = (url, size = 640) => {
   if (!url) {
     return '';
   }
-
+  /*
   if (url.includes('img.esteem.ws')) {
     return `${url.replace('img.esteem.ws/', `img.esteem.ws/${size}/`)}`;
   }
@@ -82,7 +82,7 @@ export const getResizedImage = (url, size = 640) => {
   if (url.includes('img.esteem.app')) {
     return `${url.replace('img.esteem.app/', `img.esteem.app/${size}/`)}`;
   }
-
+  */
   return `https://steemitimages.com/${size}x0/${url}`;
 };
 
