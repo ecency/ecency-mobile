@@ -28,6 +28,9 @@
     "reblog_title": "Megosztási pontok",
     "login_title": "Bejelentkezés pontok",
     "checkin_title": "Életjel pontok",
+    "referral": "Referral",
+    "referral_title": "Referral rewards",
+    "referral_desc": "Invite friends and earn ESTM",
     "checkin_extra_title": "Használati bónusz",
     "no_activity": "Nincs friss tevékenység",
     "outgoing_transfer_description": "",
@@ -100,14 +103,14 @@
     }
   },
   "notification": {
-    "vote": "kedvencelte a bejegyzésed",
-    "unvote": "visszavonta a bejegyzésedre adott szavazatát",
-    "reply": "válaszolt a bejegyzésedre",
-    "mention": "megemlített téged",
+    "vote": "voted",
+    "unvote": "unvoted",
+    "reply": "replied to",
+    "mention": "mentioned in",
     "follow": "követ téged",
     "unfollow": "már nem követ téged",
     "ignore": "mellőzött téged",
-    "reblog": "megosztotta a bejegyzésed",
+    "reblog": "reblogged",
     "transfer": "átutalva",
     "notification": "Értesítések",
     "leaderboard": "Ranglista",
@@ -117,7 +120,11 @@
     "yesterday": "Tegnap",
     "this_week": "Ezen a héten",
     "this_month": "Ebben a hónapban",
-    "older_then": "Egy Hónapnál Régebbi"
+    "older_then": "Egy Hónapnál Régebbi",
+    "activities": "All",
+    "replies": "Válaszok",
+    "mentions": "Mentions",
+    "reblogs": "Reblogs"
   },
   "leaderboard": {
     "daily": "NAPI",
@@ -206,7 +213,10 @@
   },
   "home": {
     "feed": "Hírfolyam",
-    "popular": "Népszerű"
+    "popular": "Népszerű",
+    "top": "Top",
+    "hot": "Hot",
+    "new": "New"
   },
   "side_menu": {
     "profile": "Profil",
