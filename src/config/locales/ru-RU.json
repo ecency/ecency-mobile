@@ -28,6 +28,9 @@
     "reblog_title": "Баллы за репост",
     "login_title": "Баллы за логин",
     "checkin_title": "Points for heartbeat",
+    "referral": "Referral",
+    "referral_title": "Referral rewards",
+    "referral_desc": "Invite friends and earn ESTM",
     "checkin_extra_title": "Бонус за использование",
     "no_activity": "No recent activity",
     "outgoing_transfer_description": "",
@@ -100,14 +103,14 @@
     }
   },
   "notification": {
-    "vote": "нравится ваш пост",
-    "unvote": "снял свой голос",
-    "reply": "ответил",
-    "mention": "упомянул вас",
+    "vote": "voted",
+    "unvote": "unvoted",
+    "reply": "replied to",
+    "mention": "mentioned in",
     "follow": "подписан",
     "unfollow": "отписан",
     "ignore": "игнорирует",
-    "reblog": "сделал репост",
+    "reblog": "reblogged",
     "transfer": "transferred",
     "notification": "Уведомления",
     "leaderboard": "Лидеры",
@@ -117,7 +120,11 @@
     "yesterday": "Вчера",
     "this_week": "На неделе",
     "this_month": "В этом месяце",
-    "older_then": "Давно"
+    "older_then": "Давно",
+    "activities": "All",
+    "replies": "Ответы",
+    "mentions": "Mentions",
+    "reblogs": "Reblogs"
   },
   "leaderboard": {
     "daily": "DAILY",
@@ -206,7 +213,10 @@
   },
   "home": {
     "feed": "Лента",
-    "popular": "Популярное"
+    "popular": "Популярное",
+    "top": "Top",
+    "hot": "Hot",
+    "new": "New"
   },
   "side_menu": {
     "profile": "Профиль",
