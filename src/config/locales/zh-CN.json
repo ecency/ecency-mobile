@@ -28,6 +28,9 @@
     "reblog_title": "Points for reblog",
     "login_title": "Points for login",
     "checkin_title": "Points for heartbeat",
+    "referral": "Referral",
+    "referral_title": "Referral rewards",
+    "referral_desc": "Invite friends and earn ESTM",
     "checkin_extra_title": "Usage bonus",
     "no_activity": "No recent activity",
     "outgoing_transfer_description": "",
@@ -100,14 +103,14 @@
     }
   },
   "notification": {
-    "vote": "赞了您的帖子",
-    "unvote": "取消点赞您的帖子",
-    "reply": "回复了您的帖子",
-    "mention": "提到了您",
+    "vote": "voted",
+    "unvote": "unvoted",
+    "reply": "replied to",
+    "mention": "mentioned in",
     "follow": "关注了您",
     "unfollow": "取消关注了您",
     "ignore": "忽视了您",
-    "reblog": "转发了您的帖子",
+    "reblog": "reblogged",
     "transfer": "transferred",
     "notification": "通知",
     "leaderboard": "排行榜",
@@ -117,7 +120,11 @@
     "yesterday": "昨天",
     "this_week": "本周",
     "this_month": "本月",
-    "older_then": "一个月前"
+    "older_then": "一个月前",
+    "activities": "All",
+    "replies": "回复",
+    "mentions": "Mentions",
+    "reblogs": "Reblogs"
   },
   "leaderboard": {
     "daily": "DAILY",
@@ -206,7 +213,10 @@
   },
   "home": {
     "feed": "Feed",
-    "popular": "热门"
+    "popular": "热门",
+    "top": "Top",
+    "hot": "Hot",
+    "new": "New"
   },
   "side_menu": {
     "profile": "个人资料",

@@ -28,6 +28,9 @@
     "reblog_title": "Points for reblog",
     "login_title": "Points for login",
     "checkin_title": "Points for heartbeat",
+    "referral": "Referral",
+    "referral_title": "Referral rewards",
+    "referral_desc": "Invite friends and earn ESTM",
     "checkin_extra_title": "Usage bonus",
     "no_activity": "No recent activity",
     "outgoing_transfer_description": "",
@@ -100,14 +103,14 @@
     }
   },
   "notification": {
-    "vote": "se sviđa vaša objava",
-    "unvote": "je odglasao vašu objavu",
-    "reply": "je odgovorio na vašu objavu",
-    "mention": "te spomenuo/la",
+    "vote": "voted",
+    "unvote": "unvoted",
+    "reply": "replied to",
+    "mention": "mentioned in",
     "follow": "te prati",
     "unfollow": "te prestao/la pratiti",
     "ignore": "te ignorira",
-    "reblog": "je podijelio tvoju objavu",
+    "reblog": "reblogged",
     "transfer": "transferred",
     "notification": "Obavijesti",
     "leaderboard": "Rang lista",
@@ -117,7 +120,11 @@
     "yesterday": "Jučer",
     "this_week": "Ovog Tjedna",
     "this_month": "Ovaj Mjesec",
-    "older_then": "Starije od mjesec dana"
+    "older_then": "Starije od mjesec dana",
+    "activities": "All",
+    "replies": "Odgovori",
+    "mentions": "Mentions",
+    "reblogs": "Reblogs"
   },
   "leaderboard": {
     "daily": "DAILY",
@@ -206,7 +213,10 @@
   },
   "home": {
     "feed": "Novosti",
-    "popular": "Popularno"
+    "popular": "Popularno",
+    "top": "Top",
+    "hot": "Hot",
+    "new": "New"
   },
   "side_menu": {
     "profile": "Profil",

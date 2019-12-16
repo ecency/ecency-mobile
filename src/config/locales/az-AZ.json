@@ -28,6 +28,9 @@
     "reblog_title": "Təkrar paylaşmaq üçün xal",
     "login_title": "Giriş etmək üçün xal",
     "checkin_title": "Points for heartbeat",
+    "referral": "Referral",
+    "referral_title": "Referral rewards",
+    "referral_desc": "Invite friends and earn ESTM",
     "checkin_extra_title": "İstifadə bonusu",
     "no_activity": "No recent activity",
     "outgoing_transfer_description": "",
@@ -100,14 +103,14 @@
     }
   },
   "notification": {
-    "vote": "göndərişini bəyəndi",
-    "unvote": "verdiyi səsi götürdü",
-    "reply": "göndərişə cavab verdi",
-    "mention": "adını çəkdi",
+    "vote": "voted",
+    "unvote": "unvoted",
+    "reply": "replied to",
+    "mention": "mentioned in",
     "follow": "səni izlədi",
     "unfollow": "səni izləməkdən imtina etdi",
     "ignore": "səni əngəllədi",
-    "reblog": "göndərişini paylaşdı",
+    "reblog": "reblogged",
     "transfer": "transferred",
     "notification": "Bildirişlər",
     "leaderboard": "Liderlər cədvəli",
@@ -117,7 +120,11 @@
     "yesterday": "Dünən",
     "this_week": "Bu Həftə",
     "this_month": "Bu Ay",
-    "older_then": "Bir Aydan Köhnə"
+    "older_then": "Bir Aydan Köhnə",
+    "activities": "All",
+    "replies": "Cavablar",
+    "mentions": "Mentions",
+    "reblogs": "Reblogs"
   },
   "leaderboard": {
     "daily": "DAILY",
@@ -206,7 +213,10 @@
   },
   "home": {
     "feed": "Axın",
-    "popular": "Məşhur"
+    "popular": "Məşhur",
+    "top": "Top",
+    "hot": "Hot",
+    "new": "New"
   },
   "side_menu": {
     "profile": "Profil",

@@ -28,6 +28,9 @@
     "reblog_title": "Point for reblog",
     "login_title": "Point for login",
     "checkin_title": "Points for heartbeat",
+    "referral": "Referral",
+    "referral_title": "Referral rewards",
+    "referral_desc": "Invite friends and earn ESTM",
     "checkin_extra_title": "Awoof for using",
     "no_activity": "No recent activity",
     "outgoing_transfer_description": "",
@@ -100,14 +103,14 @@
     }
   },
   "notification": {
-    "vote": "like you tori",
-    "unvote": "no upvote this post again",
-    "reply": "reply your tori",
-    "mention": "holla you",
+    "vote": "voted",
+    "unvote": "unvoted",
+    "reply": "replied to",
+    "mention": "mentioned in",
     "follow": "don dey follow you",
     "unfollow": "no follow you again",
     "ignore": "don dey ignore you",
-    "reblog": "reblog your tori",
+    "reblog": "reblogged",
     "transfer": "transferred",
     "notification": "Alerts",
     "leaderboard": "Leaderboard",
@@ -117,7 +120,11 @@
     "yesterday": "Yesterday",
     "this_week": "This Week",
     "this_month": "This Month",
-    "older_then": "E don pass one month"
+    "older_then": "E don pass one month",
+    "activities": "All",
+    "replies": "Replies",
+    "mentions": "Mentions",
+    "reblogs": "Reblogs"
   },
   "leaderboard": {
     "daily": "DAILY",
@@ -206,7 +213,10 @@
   },
   "home": {
     "feed": "Tori",
-    "popular": "Popular"
+    "popular": "Popular",
+    "top": "Top",
+    "hot": "Hot",
+    "new": "New"
   },
   "side_menu": {
     "profile": "Your informate",

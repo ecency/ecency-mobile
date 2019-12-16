@@ -28,6 +28,9 @@
     "reblog_title": "נקודות עבור שיתוף",
     "login_title": "נקודות עבור כניסה",
     "checkin_title": "Points for heartbeat",
+    "referral": "Referral",
+    "referral_title": "Referral rewards",
+    "referral_desc": "Invite friends and earn ESTM",
     "checkin_extra_title": "בונוס שימוש",
     "no_activity": "No recent activity",
     "outgoing_transfer_description": "",
@@ -100,14 +103,14 @@
     }
   },
   "notification": {
-    "vote": "אוהב\\ת את הפוסט שלך",
-    "unvote": "ביטל\\ה את הצבעתו\\ה לפוסט שלך",
-    "reply": "הגיב\\ה לפוסט שלך",
-    "mention": "הזכיר\\ה אותך",
+    "vote": "voted",
+    "unvote": "unvoted",
+    "reply": "replied to",
+    "mention": "mentioned in",
     "follow": "עקב\\ה אחרייך",
     "unfollow": "הפסיק\\ה לעקוב אחרייך",
     "ignore": "התעלם\\ה ממך",
-    "reblog": "שיתף/ה את הפוסט שלך",
+    "reblog": "reblogged",
     "transfer": "transferred",
     "notification": "התראות",
     "leaderboard": "לוח תוצאות",
@@ -117,7 +120,11 @@
     "yesterday": "אתמול",
     "this_week": "השבוע",
     "this_month": "החודש הזה",
-    "older_then": "ישן יותר מחודש"
+    "older_then": "ישן יותר מחודש",
+    "activities": "All",
+    "replies": "תשובות",
+    "mentions": "Mentions",
+    "reblogs": "Reblogs"
   },
   "leaderboard": {
     "daily": "DAILY",
@@ -206,7 +213,10 @@
   },
   "home": {
     "feed": "פיד",
-    "popular": "מקובל"
+    "popular": "מקובל",
+    "top": "Top",
+    "hot": "Hot",
+    "new": "New"
   },
   "side_menu": {
     "profile": "פרופיל",
