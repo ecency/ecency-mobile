@@ -1,5 +1,5 @@
 import React, { Fragment, useState } from 'react';
-import { Dimensions, Linking, Alert, Modal } from 'react-native';
+import { Dimensions, Linking, Alert, Modal, PermissionsAndroid, Platform } from 'react-native';
 import CameraRoll from '@react-native-community/cameraroll';
 import { withNavigation } from 'react-navigation';
 import { useIntl, injectIntl } from 'react-intl';
@@ -7,6 +7,7 @@ import AutoHeightWebView from 'react-native-autoheight-webview';
 import EStyleSheet from 'react-native-extended-stylesheet';
 import get from 'lodash/get';
 import ImageViewer from 'react-native-image-zoom-viewer';
+import RNFetchBlob from 'rn-fetch-blob';
 
 import script from './config';
 import { PostPlaceHolder, CommentPlaceHolder } from '../../../basicUIElements';
@@ -127,21 +128,71 @@ const PostBody = ({
     }
   };
 
-  const _saveImage = uri => {
-    CameraRoll.saveToCameraRoll(uri)
-      .then(() => {
-        Alert.alert(
-          intl.formatMessage({ id: 'alert.success' }),
-          intl.formatMessage({ id: 'post.image_saved' }),
-          [{ text: 'OK' }],
-          { cancelable: false },
-        );
+  const checkAndroidPermission = async () => {
+    try {
+      const permission = PermissionsAndroid.PERMISSIONS.WRITE_EXTERNAL_STORAGE;
+      await PermissionsAndroid.request(permission);
+      Promise.resolve();
+    } catch (error) {
+      Promise.reject(error);
+    }
+  };
+
+  const _downloadImage = async uri => {
+    return RNFetchBlob.config({
+      fileCache: true,
+      appendExt: 'jpg',
+    })
+      .fetch('GET', uri)
+      .then(res => {
+        let status = res.info().status;
+
+        if (status == 200) {
+          return res.path();
+        } else {
+          Promise.reject();
+        }
       })
-      .catch(error => {
-        Alert.alert(intl.formatMessage({ id: 'post.image_saved_error' }), error, [{ text: 'OK' }], {
-          cancelable: false,
-        });
+      .catch(errorMessage => {
+        Promise.reject(errorMessage);
       });
+  };
+
+  const _saveImage = async uri => {
+    try {
+      if (Platform.OS === 'android') {
+        await checkAndroidPermission();
+        uri = `file://${await _downloadImage(uri)}`;
+      }
+      CameraRoll.saveToCameraRoll(uri)
+        .then(res => {
+          Alert.alert(
+            intl.formatMessage({ id: 'alert.success' }),
+            intl.formatMessage({ id: 'post.image_saved' }),
+            [{ text: 'OK' }],
+            { cancelable: false },
+          );
+        })
+        .catch(error => {
+          Alert.alert(
+            intl.formatMessage({ id: 'post.image_saved_error' }),
+            error.message,
+            [{ text: 'OK' }],
+            {
+              cancelable: false,
+            },
+          );
+        });
+    } catch (error) {
+      Alert.alert(
+        intl.formatMessage({ id: 'post.image_saved_error' }),
+        error.message,
+        [{ text: 'OK' }],
+        {
+          cancelable: false,
+        },
+      );
+    }
   };
 
   const html = body.replace(/<a/g, '<a target="_blank"');
