@@ -34,7 +34,7 @@
     "incoming_transfer_description": "",
     "post_desc": "Poți câștiga puncte postând regulat. Fiecare postare îți poate aduce 15 puncte.",
     "comment_desc": "Each comment you make helps you to grow your audience and also earns you upto 5 points.",
-    "checkin_desc": "Checking in regularly gives you 0.25 points.",
+    "checkin_desc": "Logarea regulată îți aduce 0,25 puncte.",
     "vote_desc": "By voting you give reward to other creators and also earn back upto 0.01 x vote weight points.",
     "reblog_desc": "Share what post you like with your friends and earn points.",
     "login_desc": "When you login into app first time you earn 100 points.",
@@ -44,7 +44,7 @@
     "dropdown_boost": "Boost",
     "from": "De la",
     "to": "Către",
-    "estimated_value_desc": "Determined by purchase value",
+    "estimated_value_desc": "Determinat de valoarea de achiziție",
     "estimated_value": "Valoare estimată",
     "estimated_amount": "Valoare vot",
     "amount_information": "Trage glisorul pentru a ajusta cantitatea",
@@ -71,7 +71,7 @@
     "escrow_transfer": "Transfer Escrow",
     "escrow_dispute": "Dispută Escrow",
     "escrow_release": "Escrow Release",
-    "escrow_approve": "Escrow Approve",
+    "escrow_approve": "Aprobare Escrow",
     "cancel_transfer_from_savings": "Cancel Transfer from Savings",
     "delegate_vesting_shares": "Delegare",
     "fill_convert_request": "Convert request executed",
@@ -122,7 +122,7 @@
   "leaderboard": {
     "daily": "ZILNIC",
     "weekly": "SĂPTĂMÂNAL",
-    "monthly": "MONTHLY"
+    "monthly": "LUNAR"
   },
   "messages": {
     "comingsoon": "Funcția mesaje va fi disponibilă in curând!"
@@ -150,9 +150,9 @@
     "steem_dollars": "Steem Dolari",
     "savings": "Economii",
     "edit": {
-      "display_name": "Display Name",
+      "display_name": "Numele afișat",
       "about": "Despre",
-      "location": "Location",
+      "location": "Locație",
       "website": "Website"
     }
   },
@@ -290,9 +290,9 @@
     "reblogged": "redistribuit de",
     "sponsored": "SPONSORIZAT",
     "open_thread": "Open Thread",
-    "save_to_local": "Save to the album",
+    "save_to_local": "Salvare în acest album",
     "image_saved": "Imagine salvată în Galerie Foto",
-    "image_saved_error": "Error Saving Image"
+    "image_saved_error": "Eroare la salvarea imaginii"
   },
   "drafts": {
     "title": "Schițe",
@@ -360,7 +360,7 @@
     "trending": "TOP",
     "reputation": "REPUTAȚIE",
     "votes": "VOTE",
-    "age": "AGE",
+    "age": "VECHIME",
     "top": "TOP",
     "time": "TIME"
   },
@@ -382,12 +382,12 @@
     "withdraw_to_saving": "Retrage la economii",
     "steemconnect_title": "Transfer Steemconnect",
     "estimated_weekly": "Estimare Săptămânală",
-    "destination_accounts": "Destination Accounts",
+    "destination_accounts": "Conturi de destinație",
     "stop_information": "Are you sure want to stop?",
     "percent": "Procent",
     "auto_vests": "Auto Vests",
     "save": "SALVEAZĂ",
-    "percent_information": "Percent info",
+    "percent_information": "Info procent",
     "next": "URMĂTORUL",
     "delegate": "Delegare",
     "power_down": "Power Down",
