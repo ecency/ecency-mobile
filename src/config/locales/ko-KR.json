@@ -28,6 +28,9 @@
     "reblog_title": "리블로그 포인트",
     "login_title": "로그인 포인트",
     "checkin_title": "체크인 포인트",
+    "referral": "Referral",
+    "referral_title": "Referral rewards",
+    "referral_desc": "Invite friends and earn ESTM",
     "checkin_extra_title": "체크인 보너스",
     "no_activity": "No recent activity",
     "outgoing_transfer_description": "",
@@ -100,14 +103,14 @@
     }
   },
   "notification": {
-    "vote": "님이 당신 글을 좋아합니다",
-    "unvote": "님이 당신 글에 대한 투표를 취소했습니다",
-    "reply": "님이 당신 글에 댓글을 남겼습니다",
-    "mention": "님이 당신을 언급했습니다",
+    "vote": "voted",
+    "unvote": "unvoted",
+    "reply": "replied to",
+    "mention": "mentioned in",
     "follow": "님이 팔로우를 시작했습니다",
     "unfollow": "님이 팔로우를 취소했습니다",
     "ignore": "님이 당신을 차단했습니다",
-    "reblog": "님이 당신 글을 리블로그했습니다",
+    "reblog": "reblogged",
     "transfer": "transferred",
     "notification": "알림",
     "leaderboard": "순위표",
@@ -117,7 +120,11 @@
     "yesterday": "어제",
     "this_week": "이번 주",
     "this_month": "이번 달",
-    "older_then": "1 달 이상"
+    "older_then": "1 달 이상",
+    "activities": "All",
+    "replies": "받은 댓글",
+    "mentions": "Mentions",
+    "reblogs": "Reblogs"
   },
   "leaderboard": {
     "daily": "DAILY",
@@ -206,7 +213,10 @@
   },
   "home": {
     "feed": "피드",
-    "popular": "인기 순"
+    "popular": "인기 순",
+    "top": "Top",
+    "hot": "Hot",
+    "new": "New"
   },
   "side_menu": {
     "profile": "프로필",

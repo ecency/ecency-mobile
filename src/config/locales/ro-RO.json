@@ -19,34 +19,37 @@
     "outgoing_transfer_title": "Transfer în curs",
     "checkin_extra": "Bonus",
     "delegation": "Delegare",
-    "delegations": "Delegations",
+    "delegations": "Delegări",
     "delegation_title": "Recompensă delegare",
-    "delegation_desc": "Earn ESTM everyday for delegation",
+    "delegation_desc": "Câștigă ESTM in fiecare zi pentru delegare",
     "post_title": "Puncte pentru postare",
     "comment_title": "Puncte pentru comentariu",
     "vote_title": "Puncte pentru vot",
     "reblog_title": "Puncte pentru reblog",
     "login_title": "Puncte pentru autentificare",
-    "checkin_title": "Points for heartbeat",
+    "checkin_title": "Puncte pentru prezență",
+    "referral": "Referral",
+    "referral_title": "Referral rewards",
+    "referral_desc": "Invite friends and earn ESTM",
     "checkin_extra_title": "Bonus de utilizare",
-    "no_activity": "No recent activity",
+    "no_activity": "Nicio activitate recentă",
     "outgoing_transfer_description": "",
     "incoming_transfer_description": "",
-    "post_desc": "You can earn point by posting regularly. Posting gives you upto 15 points.",
-    "comment_desc": "Each comment you make helps you to grow your audience and also earns you upto 5 points.",
-    "checkin_desc": "Checking in regularly gives you 0.25 points.",
-    "vote_desc": "By voting you give reward to other creators and also earn back upto 0.01 x vote weight points.",
-    "reblog_desc": "Share what post you like with your friends and earn points.",
-    "login_desc": "When you login into app first time you earn 100 points.",
-    "checkin_extra_desc": "Consistent use of app gives you extra chances to earn more points, be more active and earn more.",
+    "post_desc": "Poți câștiga puncte postând regulat. Fiecare postare îți poate aduce 15 puncte.",
+    "comment_desc": "Fiecare comentariu te ajută să îți crești audiența și să îți faci prieteni. De asemenea, câștigi 5 puncte.",
+    "checkin_desc": "Logarea regulată îți aduce 0,25 puncte.",
+    "vote_desc": "Votând oferi recompense altor creatori de conținut și le arăți aprecierea ta. De asemenea, câștigi 0.01 din valoarea votului în puncte.",
+    "reblog_desc": "Distribuie postările care îți plac pentru prietenii tăi și câștigă puncte.",
+    "login_desc": "Când te conectezi la aplicație prima dată câștigi 100 de puncte.",
+    "checkin_extra_desc": "Utilizarea constantă a aplicației îți oferă șanse în plus pentru câștigarea de puncte. Fii cât mai activ și câștigă mai mult.",
     "dropdown_transfer": "Cadou",
     "dropdown_promote": "Promovează",
     "dropdown_boost": "Boost",
     "from": "De la",
     "to": "Către",
-    "estimated_value_desc": "Determined by purchase value",
-    "estimated_value": "Estimated value",
-    "estimated_amount": "Vote value",
+    "estimated_value_desc": "Determinat de valoarea de achiziție",
+    "estimated_value": "Valoare estimată",
+    "estimated_amount": "Valoare vot",
     "amount_information": "Trage glisorul pentru a ajusta cantitatea",
     "amount": "Sumă",
     "memo": "Notă",
@@ -66,49 +69,49 @@
     "power_down": "Power Down",
     "withdraw_steem": "Retrage Steem",
     "withdraw_sbd": "Retrage Steem Dolar",
-    "transfer_to_savings": "Transfer To Savings",
-    "convert": "Convert",
-    "escrow_transfer": "Escrow Transfer",
-    "escrow_dispute": "Escrow Dispute",
-    "escrow_release": "Escrow Release",
-    "escrow_approve": "Escrow Approve",
-    "cancel_transfer_from_savings": "Cancel Transfer from Savings",
+    "transfer_to_savings": "Transfer la economii",
+    "convert": "Converteşte",
+    "escrow_transfer": "Transfer Escrow",
+    "escrow_dispute": "Dispută Escrow",
+    "escrow_release": "Eliberare Escrow",
+    "escrow_approve": "Aprobare Escrow",
+    "cancel_transfer_from_savings": "Anulează transferul de la economii",
     "delegate_vesting_shares": "Delegare",
     "fill_convert_request": "Convert request executed",
-    "fill_transfer_from_savings": "From Savings executed",
-    "fill_vesting_withdraw": "Power Down executed",
+    "fill_transfer_from_savings": "Executat de la Economii",
+    "fill_vesting_withdraw": "Powed Down executat",
     "estm": {
       "title": "Puncte eSteem",
       "buy": "GET ESTM"
     },
     "savingsteem": {
-      "title": "STEEM Savings"
+      "title": "STEEM Economii"
     },
     "savingsbd": {
-      "title": "SBD Savings"
+      "title": "Economii SBD"
     },
     "steem": {
       "title": "STEEM",
-      "buy": "GET STEEM"
+      "buy": "OBȚINE STEEM"
     },
     "sbd": {
       "title": "SBD",
-      "buy": "GET SBD"
+      "buy": "OBȚINE SBD"
     },
     "steem_power": {
       "title": "STEEM POWER"
     }
   },
   "notification": {
-    "vote": "a votat postul tău",
-    "unvote": "a votat postul tău",
-    "reply": "a răspuns la postul tău",
-    "mention": "te-a menționat",
+    "vote": "voted",
+    "unvote": "unvoted",
+    "reply": "replied to",
+    "mention": "mentioned in",
     "follow": "te urmărește",
     "unfollow": "a anulat urmărirea",
     "ignore": "te-a ignorat",
-    "reblog": "a redistribuit postarea ta",
-    "transfer": "transferred",
+    "reblog": "reblogged",
+    "transfer": "transferat",
     "notification": "Notificări",
     "leaderboard": "Clasament",
     "epoint": "Puncte",
@@ -117,12 +120,16 @@
     "yesterday": "Ieri",
     "this_week": "Săptămâna aceasta",
     "this_month": "Luna Aceasta",
-    "older_then": "Mai vechi de o lună"
+    "older_then": "Mai vechi de o lună",
+    "activities": "All",
+    "replies": "Răspunsuri",
+    "mentions": "Mentions",
+    "reblogs": "Reblogs"
   },
   "leaderboard": {
-    "daily": "DAILY",
-    "weekly": "WEEKLY",
-    "monthly": "MONTHLY"
+    "daily": "ZILNIC",
+    "weekly": "SĂPTĂMÂNAL",
+    "monthly": "LUNAR"
   },
   "messages": {
     "comingsoon": "Funcția mesaje va fi disponibilă in curând!"
@@ -150,9 +157,9 @@
     "steem_dollars": "Steem Dolari",
     "savings": "Economii",
     "edit": {
-      "display_name": "Display Name",
-      "about": "About",
-      "location": "Location",
+      "display_name": "Numele afișat",
+      "about": "Despre",
+      "location": "Locație",
       "website": "Website"
     }
   },
@@ -206,7 +213,10 @@
   },
   "home": {
     "feed": "Flux",
-    "popular": "Popular"
+    "popular": "Popular",
+    "top": "Top",
+    "hot": "Hot",
+    "new": "New"
   },
   "side_menu": {
     "profile": "Profil",
@@ -276,23 +286,23 @@
     "same_user": "Utilizator adăugat deja la listă",
     "unknow_error": "A intervenit o eroare",
     "error": "Eroare",
-    "fetch_error": "Fetching data failed, please try again or notify us at info@esteem.app",
+    "fetch_error": "Preluarea datelor a eșuat, încercă din nou sau trimite o notificare la info@esteem.app",
     "connection_fail": "Connectare Eșuată!",
     "connection_success": "Conectat cu succes!",
-    "checking": "Checking...",
-    "not_existing_post": "The post does not exist! Please check permlink and author.",
-    "google_play_version": "We noticed that your device has old version of Google Play. Please update Google Play services and try again!"
+    "checking": "Verificare în curs...",
+    "not_existing_post": "Postarea nu există! Te rugăm să verifici permlink și autorul.",
+    "google_play_version": "Am observat că dispozitivul tău are versiunea veche Google Play. Actualiză serviciile Google Play și încearcă din nou!"
   },
   "post": {
-    "reblog_alert": "Are you sure, you want to reblog?",
+    "reblog_alert": "Ești sigur că vrei să redistribui?",
     "removed_hint": "Postarea a fost eliminată de către",
     "copy_link": "Copiere link",
     "reblogged": "redistribuit de",
     "sponsored": "SPONSORIZAT",
     "open_thread": "Open Thread",
-    "save_to_local": "Save to the album",
-    "image_saved": "Image Saved to Photo Gallery",
-    "image_saved_error": "Error Saving Image"
+    "save_to_local": "Salvare în acest album",
+    "image_saved": "Imagine salvată în Galerie Foto",
+    "image_saved_error": "Eroare la salvarea imaginii"
   },
   "drafts": {
     "title": "Schițe",
@@ -335,9 +345,9 @@
     "author_payout": "Plata autorului",
     "curation_payout": "Plată de curare",
     "payout_date": "Plată",
-    "beneficiaries": "Beneficiaries",
-    "warn_zero_payout": "Amount must reach $0.02 for payout",
-    "breakdown": "Breakdown"
+    "beneficiaries": "Beneficiari",
+    "warn_zero_payout": "Suma trebuie sa ajungă la $0.02 să fie plătită",
+    "breakdown": "Defalcare"
   },
   "post_dropdown": {
     "copy": "copiază link",
@@ -358,9 +368,9 @@
   },
   "comment_filter": {
     "trending": "TOP",
-    "reputation": "REPUTATION",
-    "votes": "VOTE",
-    "age": "AGE",
+    "reputation": "REPUTAȚIE",
+    "votes": "VOTEAZĂ",
+    "age": "VECHIME",
     "top": "TOP",
     "time": "TIME"
   },
@@ -381,20 +391,20 @@
     "powerUp": "Power Up",
     "withdraw_to_saving": "Retrage la economii",
     "steemconnect_title": "Transfer Steemconnect",
-    "estimated_weekly": "Estimated Weekly",
-    "destination_accounts": "Destination Accounts",
-    "stop_information": "Are you sure want to stop?",
-    "percent": "Percent",
+    "estimated_weekly": "Estimare Săptămânală",
+    "destination_accounts": "Conturi de destinație",
+    "stop_information": "Ești sigur că vrei să te oprești?",
+    "percent": "Procent",
     "auto_vests": "Auto Vests",
-    "save": "SAVE",
-    "percent_information": "Percent info",
+    "save": "SALVEAZĂ",
+    "percent_information": "Info procent",
     "next": "URMĂTORUL",
     "delegate": "Delegare",
     "power_down": "Power Down",
     "withdraw_steem": "Retrage Steem",
     "withdraw_sbd": "Retrage Steem Dolar",
-    "incoming_funds": "Incoming Funds",
-    "stop": "Stop"
+    "incoming_funds": "Fonduri Primite",
+    "stop": "Oprește"
   },
   "boost": {
     "title": "Câștigă puncte eSteem",
@@ -402,11 +412,11 @@
     "next": "URMĂTORUL"
   },
   "free_estm": {
-    "title": "Free ESTM",
-    "button": "SPIN & WIN",
-    "get_spin": "5 SPINS",
-    "spin_right": "Spin Left",
-    "timer_text": "Next free spin in"
+    "title": "ESTM gratuit",
+    "button": "ÎNVÂRTE ȘI CÂȘTIGĂ",
+    "get_spin": "5 ROTIRI",
+    "spin_right": "Rorări rămase",
+    "timer_text": "Urmăroarea rotare gratuită în"
   },
   "promote": {
     "title": "Promovează",
@@ -429,8 +439,8 @@
   },
   "dsteem": {
     "date_error": {
-      "device_time": "Your device time;",
-      "current_time": "Current time;",
+      "device_time": "Timpul pe dispozitivul tău;",
+      "current_time": "Ora curentă;",
       "information": "We noticed that your device has incorrect date or time. Please fix Date & Time or Set Automatically and try again."
     }
   },

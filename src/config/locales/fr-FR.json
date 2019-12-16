@@ -28,6 +28,9 @@
     "reblog_title": "Points pour vos reblog",
     "login_title": "Points pour vos connexions",
     "checkin_title": "Points for heartbeat",
+    "referral": "Referral",
+    "referral_title": "Referral rewards",
+    "referral_desc": "Invite friends and earn ESTM",
     "checkin_extra_title": "Bonus d'utilisation",
     "no_activity": "Aucune activité récente",
     "outgoing_transfer_description": "",
@@ -100,14 +103,14 @@
     }
   },
   "notification": {
-    "vote": "ont aimés votre post",
-    "unvote": "a retiré son vote sur votre publication",
-    "reply": "a répondu à votre post",
-    "mention": "vous a mentionné",
+    "vote": "voted",
+    "unvote": "unvoted",
+    "reply": "replied to",
+    "mention": "mentioned in",
     "follow": "vous a suivi",
     "unfollow": "ne vous suit plus",
     "ignore": "vous a ignoré",
-    "reblog": "a reblogué votre post",
+    "reblog": "reblogged",
     "transfer": "transféré",
     "notification": "Notifications",
     "leaderboard": "Classement",
@@ -117,7 +120,11 @@
     "yesterday": "Hier",
     "this_week": "Cette semaine",
     "this_month": "Ce mois",
-    "older_then": "Vieux de plus de 1 mois"
+    "older_then": "Vieux de plus de 1 mois",
+    "activities": "All",
+    "replies": "Réponses",
+    "mentions": "Mentions",
+    "reblogs": "Reblogs"
   },
   "leaderboard": {
     "daily": "QUOTIDIEN",
@@ -206,7 +213,10 @@
   },
   "home": {
     "feed": "Fil d'actualités",
-    "popular": "Populaires"
+    "popular": "Populaires",
+    "top": "Top",
+    "hot": "Hot",
+    "new": "New"
   },
   "side_menu": {
     "profile": "Profil",

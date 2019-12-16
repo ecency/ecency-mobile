@@ -28,6 +28,9 @@
     "reblog_title": "Puanên ji bo dîs-weşandinê",
     "login_title": "Puanên ji bo têketinê",
     "checkin_title": "Puanên ji bo lêdana dil",
+    "referral": "Referral",
+    "referral_title": "Referral rewards",
+    "referral_desc": "Invite friends and earn ESTM",
     "checkin_extra_title": "Bonusa bikaranînê",
     "no_activity": "Çalakiya dawîn tine ye",
     "outgoing_transfer_description": "",
@@ -100,14 +103,14 @@
     }
   },
   "notification": {
-    "vote": "şandiya te ecibandin",
-    "unvote": "dengê neyênî da şandiyê",
-    "reply": "bersiv da şandiya te",
-    "mention": "te etîket kir",
+    "vote": "voted",
+    "unvote": "unvoted",
+    "reply": "replied to",
+    "mention": "mentioned in",
     "follow": "te şopand",
     "unfollow": "ji şopa te derket",
     "ignore": "te asteng kir",
-    "reblog": "şandiya te parve kir",
+    "reblog": "reblogged",
     "transfer": "hate transferkirin",
     "notification": "Danezan",
     "leaderboard": "Tabloya lîderan",
@@ -117,7 +120,11 @@
     "yesterday": "Doh",
     "this_week": "Ev Hefteya",
     "this_month": "Ev Meha",
-    "older_then": "Zêdetirî Berî Mehekê"
+    "older_then": "Zêdetirî Berî Mehekê",
+    "activities": "All",
+    "replies": "Bersiv",
+    "mentions": "Mentions",
+    "reblogs": "Reblogs"
   },
   "leaderboard": {
     "daily": "ROJANE",
@@ -206,7 +213,10 @@
   },
   "home": {
     "feed": "Herik",
-    "popular": "Populer"
+    "popular": "Populer",
+    "top": "Top",
+    "hot": "Hot",
+    "new": "New"
   },
   "side_menu": {
     "profile": "Profîl",

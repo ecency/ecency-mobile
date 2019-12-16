@@ -28,6 +28,9 @@
     "reblog_title": "Punkte für einen ReBlog",
     "login_title": "Punkte für den Login",
     "checkin_title": "Punkte für den Herzschlag",
+    "referral": "Referral",
+    "referral_title": "Referral rewards",
+    "referral_desc": "Invite friends and earn ESTM",
     "checkin_extra_title": "Nutzungs-Bonus",
     "no_activity": "No recent activity",
     "outgoing_transfer_description": "",
@@ -100,14 +103,14 @@
     }
   },
   "notification": {
-    "vote": "gefällt dein Beitrag",
-    "unvote": "gefällt dein Beitrag nicht",
-    "reply": "antwortete auf deinen Beitrag",
-    "mention": "hat dich erwähnt",
+    "vote": "voted",
+    "unvote": "unvoted",
+    "reply": "replied to",
+    "mention": "mentioned in",
     "follow": "folgt dir jetzt",
     "unfollow": "folgt dir nicht mehr",
     "ignore": "ignoriert dich",
-    "reblog": "hat deinen Beitrag geteilt",
+    "reblog": "reblogged",
     "transfer": "transferred",
     "notification": "Benachrichtigungen",
     "leaderboard": "Rangliste",
@@ -117,7 +120,11 @@
     "yesterday": "Gestern",
     "this_week": "Diese Woche",
     "this_month": "Diesen Monat",
-    "older_then": "Älter als ein Monat"
+    "older_then": "Älter als ein Monat",
+    "activities": "All",
+    "replies": "Antworten",
+    "mentions": "Mentions",
+    "reblogs": "Reblogs"
   },
   "leaderboard": {
     "daily": "DAILY",
@@ -206,7 +213,10 @@
   },
   "home": {
     "feed": "Feed",
-    "popular": "Populär"
+    "popular": "Populär",
+    "top": "Top",
+    "hot": "Hot",
+    "new": "New"
   },
   "side_menu": {
     "profile": "Profil",
