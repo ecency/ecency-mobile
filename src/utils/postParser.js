@@ -31,7 +31,11 @@ export const parsePost = async (post, currentUserName, isPromoted) => {
     post.markdownBody = post.body;
   }
   post.is_promoted = isPromoted;
-  post.json_metadata = JSON.parse(post.json_metadata);
+  try {
+    post.json_metadata = JSON.parse(post.json_metadata);
+  } catch (error) {
+    post.json_metadata = {};
+  }
   post.image = postImage(post.json_metadata, post.body);
   post.active_votes = activeVotes;
   post.vote_count = post.active_votes.length;
