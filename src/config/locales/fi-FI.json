@@ -28,6 +28,9 @@
     "reblog_title": "Points for reblog",
     "login_title": "Points for login",
     "checkin_title": "Points for heartbeat",
+    "referral": "Referral",
+    "referral_title": "Referral rewards",
+    "referral_desc": "Invite friends and earn ESTM",
     "checkin_extra_title": "Usage bonus",
     "no_activity": "No recent activity",
     "outgoing_transfer_description": "",
@@ -100,14 +103,14 @@
     }
   },
   "notification": {
-    "vote": "tykkää julkaisustasi",
-    "unvote": "unvoted your post",
-    "reply": "vastasi julkaisuusi",
-    "mention": "mainitsi sinut",
+    "vote": "voted",
+    "unvote": "unvoted",
+    "reply": "replied to",
+    "mention": "mentioned in",
     "follow": "seurasi sinua",
     "unfollow": "lopetti seuraamisesi",
     "ignore": "ignored you",
-    "reblog": "reblogged your post",
+    "reblog": "reblogged",
     "transfer": "transferred",
     "notification": "Notifications",
     "leaderboard": "Leaderboard",
@@ -117,7 +120,11 @@
     "yesterday": "Eilen",
     "this_week": "Tällä viikolla",
     "this_month": "Tässä kuussa",
-    "older_then": "Kuukautta vanhempi"
+    "older_then": "Kuukautta vanhempi",
+    "activities": "All",
+    "replies": "Vastaukset",
+    "mentions": "Mentions",
+    "reblogs": "Reblogs"
   },
   "leaderboard": {
     "daily": "DAILY",
@@ -206,7 +213,10 @@
   },
   "home": {
     "feed": "Syöte",
-    "popular": "Suositut"
+    "popular": "Suositut",
+    "top": "Top",
+    "hot": "Hot",
+    "new": "New"
   },
   "side_menu": {
     "profile": "Profiili",

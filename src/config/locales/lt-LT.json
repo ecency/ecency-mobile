@@ -28,6 +28,9 @@
     "reblog_title": "Taškai už pasidalinimą",
     "login_title": "Taškai už prisijungimą",
     "checkin_title": "Points for heartbeat",
+    "referral": "Referral",
+    "referral_title": "Referral rewards",
+    "referral_desc": "Invite friends and earn ESTM",
     "checkin_extra_title": "Naudojimosi bonusas",
     "no_activity": "No recent activity",
     "outgoing_transfer_description": "",
@@ -100,14 +103,14 @@
     }
   },
   "notification": {
-    "vote": "mėgsta jūsų įrašą",
-    "unvote": "nebemėgsta jūsų įrašo",
-    "reply": "atsakė į jūsų įrašą",
-    "mention": "paminėjo jus",
+    "vote": "voted",
+    "unvote": "unvoted",
+    "reply": "replied to",
+    "mention": "mentioned in",
     "follow": "jus seka",
     "unfollow": "jūsų nebeseka",
     "ignore": "jus ignoravo",
-    "reblog": "pasidalino jūsų įrašu",
+    "reblog": "reblogged",
     "transfer": "transferred",
     "notification": "Pranešimai",
     "leaderboard": "Lyderiai",
@@ -117,7 +120,11 @@
     "yesterday": "Vakar",
     "this_week": "Šią savaitę",
     "this_month": "Šį mėnesį",
-    "older_then": "Senesni nei vieno mėnesio"
+    "older_then": "Senesni nei vieno mėnesio",
+    "activities": "All",
+    "replies": "Atsakymai",
+    "mentions": "Mentions",
+    "reblogs": "Reblogs"
   },
   "leaderboard": {
     "daily": "DAILY",
@@ -206,7 +213,10 @@
   },
   "home": {
     "feed": "Pagrindinis",
-    "popular": "Populiarūs"
+    "popular": "Populiarūs",
+    "top": "Top",
+    "hot": "Hot",
+    "new": "New"
   },
   "side_menu": {
     "profile": "Profilis",

@@ -21,13 +21,16 @@
     "delegation": "Delegálás",
     "delegations": "Delegálások",
     "delegation_title": "Delegálási jutalom",
-    "delegation_desc": "Earn ESTM everyday for delegation",
+    "delegation_desc": "Nyerj ESTM-t naponta delegálásért",
     "post_title": "Bejegyzés pontok",
     "comment_title": "Hozzászólás pontok",
     "vote_title": "Szavazási pontok",
     "reblog_title": "Megosztási pontok",
     "login_title": "Bejelentkezés pontok",
     "checkin_title": "Életjel pontok",
+    "referral": "Referral",
+    "referral_title": "Referral rewards",
+    "referral_desc": "Invite friends and earn ESTM",
     "checkin_extra_title": "Használati bónusz",
     "no_activity": "Nincs friss tevékenység",
     "outgoing_transfer_description": "",
@@ -35,7 +38,7 @@
     "post_desc": "Pontokat szerezhetsz rendszeres blogolással. Egy bejegyzésért akár 15 pontot kaphatsz.",
     "comment_desc": "Minden hozzászólásod segít abban, hogy növeld a táborod és követőket szerezz, továbbá akár 5 pontot is hozhat neked.",
     "checkin_desc": "Rendszeres bejelentkezés 0,25 pontot ér.",
-    "vote_desc": "By voting you give reward to other creators and also earn back upto 0.01 x vote weight points.",
+    "vote_desc": "Szavazás által megjutalmazol más alkotókat és elismerésed fejezed ki, de kaphatsz 0,01 x a szavazás értékéből.",
     "reblog_desc": "Ossz meg a barátaiddal bármilyen bejegyzést, ami tetszik és nyerj pontokat.",
     "login_desc": "Az alkalmazásba való első bejelentkezéskor 100 pontot kapsz.",
     "checkin_extra_desc": "Az alkalmazás következetes használata extra esélyt kínál arra, hogy több pontot nyerj, légy aktívabb és nyerj többet.",
@@ -44,7 +47,7 @@
     "dropdown_boost": "Felpörgetés",
     "from": "Feladó",
     "to": "Címzett",
-    "estimated_value_desc": "Determined by purchase value",
+    "estimated_value_desc": "Vásárlási érték alapján megállapítva",
     "estimated_value": "Becsült érték",
     "estimated_amount": "A szavazat értéke",
     "amount_information": "A csúszka húzásával állítsd be a mennyiséget",
@@ -72,10 +75,10 @@
     "escrow_dispute": "Letéti vita",
     "escrow_release": "Letéti engedély",
     "escrow_approve": "Letéti jóváhagyás",
-    "cancel_transfer_from_savings": "Cancel Transfer from Savings",
+    "cancel_transfer_from_savings": "Töröld az átutalást a megtakarításoktól",
     "delegate_vesting_shares": "Delegálás",
     "fill_convert_request": "Konvertálási kérés végrehajtva",
-    "fill_transfer_from_savings": "From Savings executed",
+    "fill_transfer_from_savings": "A megtakarításoktól végrehajtva",
     "fill_vesting_withdraw": "Power Down végrehajtva",
     "estm": {
       "title": "eSteem Pontok",
@@ -100,14 +103,14 @@
     }
   },
   "notification": {
-    "vote": "kedvencelte a bejegyzésed",
-    "unvote": "visszavonta a bejegyzésedre adott szavazatát",
-    "reply": "válaszolt a bejegyzésedre",
-    "mention": "megemlített téged",
+    "vote": "voted",
+    "unvote": "unvoted",
+    "reply": "replied to",
+    "mention": "mentioned in",
     "follow": "követ téged",
     "unfollow": "már nem követ téged",
     "ignore": "mellőzött téged",
-    "reblog": "megosztotta a bejegyzésed",
+    "reblog": "reblogged",
     "transfer": "átutalva",
     "notification": "Értesítések",
     "leaderboard": "Ranglista",
@@ -117,7 +120,11 @@
     "yesterday": "Tegnap",
     "this_week": "Ezen a héten",
     "this_month": "Ebben a hónapban",
-    "older_then": "Egy Hónapnál Régebbi"
+    "older_then": "Egy Hónapnál Régebbi",
+    "activities": "All",
+    "replies": "Válaszok",
+    "mentions": "Mentions",
+    "reblogs": "Reblogs"
   },
   "leaderboard": {
     "daily": "NAPI",
@@ -206,7 +213,10 @@
   },
   "home": {
     "feed": "Hírfolyam",
-    "popular": "Népszerű"
+    "popular": "Népszerű",
+    "top": "Top",
+    "hot": "Hot",
+    "new": "New"
   },
   "side_menu": {
     "profile": "Profil",
@@ -281,7 +291,7 @@
     "connection_success": "A kapcsolat sikerült!",
     "checking": "Ellenőrzés folyamatban...",
     "not_existing_post": "A bejegyzés nem létezik! Kérjük ellenőrizd a linket és a szerzőt.",
-    "google_play_version": "Észrevettük, hogy a készülékeden a Google Play régi verziója található. Kérjük, frissítsd a Google Play szolgáltatásait és próbáld újra!"
+    "google_play_version": "Észrevettük, hogy a készülékeden a Google Play régi verziója található. Kérjük frissítsd a Google Play szolgáltatásait és próbáld újra!"
   },
   "post": {
     "reblog_alert": "Biztos, hogy megosztod?",
@@ -402,7 +412,7 @@
     "next": "KÖVETKEZŐ"
   },
   "free_estm": {
-    "title": "Free ESTM",
+    "title": "Ingyen ESTM",
     "button": "PÖRGESS ÉS NYERJ",
     "get_spin": "5 PÖRGETÉS",
     "spin_right": "Pörgesd balra",
