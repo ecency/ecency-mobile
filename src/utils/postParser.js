@@ -31,7 +31,11 @@ export const parsePost = async (post, currentUserName, isPromoted) => {
     post.markdownBody = post.body;
   }
   post.is_promoted = isPromoted;
-  post.json_metadata = JSON.parse(post.json_metadata);
+  try {
+    post.json_metadata = JSON.parse(post.json_metadata);
+  } catch (error) {
+    post.json_metadata = {};
+  }
   post.image = postImage(post.json_metadata, post.body);
   post.active_votes = activeVotes;
   post.vote_count = post.active_votes.length;
@@ -66,10 +70,9 @@ const postImage = (metaData, body) => {
   const urlRegex = /(http|ftp|https):\/\/([\w_-]+(?:(?:\.[\w_-]+)+))([\w.,@?^=%&:/~+#-]*[\w@?^=%&/~+#-])?/gm;
   const imageRegex = /(http(s?):)([/|.|\w|\s|-])*\.(?:jpg|gif|png)/g;
   let imageLink;
-
   if (metaData && metaData.image && metaData.image[0]) {
     [imageLink] = metaData.image;
-  } else if (body && markdownImageRegex.test(body)) {
+  } else if (!imageLink && body && markdownImageRegex.test(body)) {
     const markdownMatch = body.match(markdownImageRegex);
     if (markdownMatch[0]) {
       const firstMarkdownMatch = markdownMatch[0];

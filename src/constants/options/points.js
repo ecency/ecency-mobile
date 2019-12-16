@@ -15,6 +15,14 @@ export default {
     iconType: 'MaterialIcons',
     point: 0.1,
   },
+  160: {
+    icon: 'target',
+    textKey: 'referral_title',
+    nameKey: 'wallet.referral',
+    descriptionKey: 'wallet.referral_desc',
+    iconType: 'MaterialCommunityIcons',
+    point: 100,
+  },
   150: {
     icon: 'arrow-collapse-all',
     textKey: 'delegation_title',
@@ -82,6 +90,9 @@ export default {
 };
 
 export const POINTS_KEYS = [
+  {
+    type: 160,
+  },
   {
     type: 150,
   },

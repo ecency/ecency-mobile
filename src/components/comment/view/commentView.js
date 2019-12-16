@@ -57,7 +57,7 @@ const CommentView = ({
           date={getTimeFromNow(comment.created)}
           name={comment.author}
           reputation={comment.author_reputation}
-          size={avatarSize || 24}
+          size={avatarSize || 36}
           currentAccountUsername={currentAccountUsername}
           isShowOwnerIndicator={mainAuthor === comment.author}
           isHideImage={isHideImage}
@@ -156,7 +156,7 @@ const CommentView = ({
               commentNumber={commentNumber + 1}
               marginLeft={20}
               isShowSubComments={true}
-              avatarSize={avatarSize || 16}
+              avatarSize={avatarSize || 24}
               author={comment.author}
               permlink={comment.permlink}
               commentCount={comment.children}

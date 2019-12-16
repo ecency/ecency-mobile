@@ -156,7 +156,15 @@ export const getUser = async user => {
       get(globalProperties, 'total_vesting_fund_steem'),
     );
 
-    _account.about = has(_account, 'json_metadata') && JSON.parse(get(_account, 'json_metadata'));
+    if (has(_account, 'json_metadata')) {
+      try {
+        _account.about = JSON.parse(get(_account, 'json_metadata'));
+      } catch (e) {
+        //alert(e);
+        _account.about = {};
+      }
+    }
+
     _account.avatar = getAvatar(get(_account, 'about'));
     _account.display_name = getName(get(_account, 'about'));
 
