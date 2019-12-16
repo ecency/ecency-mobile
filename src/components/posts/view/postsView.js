@@ -351,7 +351,10 @@ const PostsView = ({
           {filterOptions && isShowFilterBar && (
             <FilterBar
               dropdownIconName="arrow-drop-down"
-              options={filterOptions}
+              //options={filterOptions}
+              options={filterOptions.map(item =>
+                intl.formatMessage({ id: `home.${item.toLowerCase()}` }).toUpperCase(),
+              )}
               selectedOptionIndex={selectedFilterIndex}
               defaultText={filterOptions[selectedOptionIndex]}
               rightIconName="view-module"
