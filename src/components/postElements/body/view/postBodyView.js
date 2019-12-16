@@ -34,7 +34,12 @@ const PostBody = ({
     }
 
     try {
-      const data = JSON.parse(get(event, 'nativeEvent.data'));
+      let data = {};
+      try {
+        data = JSON.parse(get(event, 'nativeEvent.data'));
+      } catch (error) {
+        data = {};
+      }
 
       const { type, href, author, category, permlink, tag, proposal, videoHref } = data;
 
