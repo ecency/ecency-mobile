@@ -216,7 +216,8 @@
     "popular": "인기 순",
     "top": "Top",
     "hot": "Hot",
-    "new": "New"
+    "new": "New",
+    "blog": "Blog"
   },
   "side_menu": {
     "profile": "프로필",
