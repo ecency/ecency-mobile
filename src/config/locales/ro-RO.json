@@ -33,12 +33,12 @@
     "outgoing_transfer_description": "",
     "incoming_transfer_description": "",
     "post_desc": "Poți câștiga puncte postând regulat. Fiecare postare îți poate aduce 15 puncte.",
-    "comment_desc": "Each comment you make helps you to grow your audience and also earns you upto 5 points.",
+    "comment_desc": "Fiecare comentariu te ajută să îți crești audiența și să îți faci prieteni. De asemenea, câștigi 5 puncte.",
     "checkin_desc": "Logarea regulată îți aduce 0,25 puncte.",
-    "vote_desc": "By voting you give reward to other creators and also earn back upto 0.01 x vote weight points.",
-    "reblog_desc": "Share what post you like with your friends and earn points.",
-    "login_desc": "When you login into app first time you earn 100 points.",
-    "checkin_extra_desc": "Consistent use of app gives you extra chances to earn more points, be more active and earn more.",
+    "vote_desc": "Votând oferi recompense altor creatori de conținut și le arăți aprecierea ta. De asemenea, câștigi 0.01 din valoarea votului în puncte.",
+    "reblog_desc": "Distribuie postările care îți plac pentru prietenii tăi și câștigă puncte.",
+    "login_desc": "Când te conectezi la aplicație prima dată câștigi 100 de puncte.",
+    "checkin_extra_desc": "Utilizarea constantă a aplicației îți oferă șanse în plus pentru câștigarea de puncte. Fii cât mai activ și câștigă mai mult.",
     "dropdown_transfer": "Cadou",
     "dropdown_promote": "Promovează",
     "dropdown_boost": "Boost",
@@ -336,7 +336,7 @@
     "curation_payout": "Plată de curare",
     "payout_date": "Plată",
     "beneficiaries": "Beneficiaries",
-    "warn_zero_payout": "Amount must reach $0.02 for payout",
+    "warn_zero_payout": "Suma trebuie sa ajungă la $0.02 să fie plătită",
     "breakdown": "Defalcare"
   },
   "post_dropdown": {
@@ -404,7 +404,7 @@
   "free_estm": {
     "title": "Free ESTM",
     "button": "SPIN & WIN",
-    "get_spin": "5 SPINS",
+    "get_spin": "5 ROTIRI",
     "spin_right": "Spin Left",
     "timer_text": "Next free spin in"
   },
