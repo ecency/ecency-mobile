@@ -28,6 +28,9 @@
     "reblog_title": "Points for reblog",
     "login_title": "Points for login",
     "checkin_title": "Points for heartbeat",
+    "referral": "Referral",
+    "referral_title": "Referral rewards",
+    "referral_desc": "Invite friends and earn ESTM",
     "checkin_extra_title": "Usage bonus",
     "no_activity": "No recent activity",
     "outgoing_transfer_description": "",
@@ -100,14 +103,14 @@
     }
   },
   "notification": {
-    "vote": "আপনার পোস্ট পছন্দ করেছে",
-    "unvote": "পোস্টের ভোট মুছে ফেলেছে",
-    "reply": "পোস্টে জবাব দিয়েছে",
-    "mention": "আপনাকে উল্লেখ করেছে",
+    "vote": "voted",
+    "unvote": "unvoted",
+    "reply": "replied to",
+    "mention": "mentioned in",
     "follow": "আপনাকে অনুসরণ করেছে",
     "unfollow": "আপনাকে অননুসরণ করেছে",
     "ignore": "আপনাকে উপেক্ষা করেছে",
-    "reblog": "reblogged your post",
+    "reblog": "reblogged",
     "transfer": "transferred",
     "notification": "Notifications",
     "leaderboard": "Leaderboard",
@@ -117,7 +120,11 @@
     "yesterday": "Yesterday",
     "this_week": "This Week",
     "this_month": "This Month",
-    "older_then": "Older Than A Month"
+    "older_then": "Older Than A Month",
+    "activities": "All",
+    "replies": "Replies",
+    "mentions": "Mentions",
+    "reblogs": "Reblogs"
   },
   "leaderboard": {
     "daily": "DAILY",
@@ -206,7 +213,10 @@
   },
   "home": {
     "feed": "Feed",
-    "popular": "Popular"
+    "popular": "Popular",
+    "top": "Top",
+    "hot": "Hot",
+    "new": "New"
   },
   "side_menu": {
     "profile": "Profile",
