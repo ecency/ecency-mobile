@@ -1,4 +1,4 @@
-import React, { Component } from 'react';
+import React, { useState, useEffect } from 'react';
 import { View } from 'react-native';
 import FastImage from 'react-native-fast-image';
 
@@ -13,123 +13,107 @@ import { getResizedAvatar } from '../../../utils/image';
 // Styles
 import styles from './formInputStyles';
 
-class FormInputView extends Component {
-  /* Props
-   * ------------------------------------------------
-   *   @prop { string }     placeholder       - Place holder text.
-   *   @prop { string }     type              - Input type.
-   *   @prop { boolean }    isFirstImage      - Render image from steem.
-   *   @prop { boolean }    isEditable        - Can permission edit.
-   *   @prop { boolean }    isValid           - This delegate input valit or not.
-   *   @prop { boolean }    secureTextEntry   - For hiding password value.
-   */
-  constructor(props) {
-    super(props);
+const FormInputView = ({
+  placeholder,
+  type,
+  isFirstImage,
+  isEditable,
+  leftIconName,
+  rightIconName,
+  secureTextEntry,
+  iconType,
+  wrapperStyle,
+  height,
+  inputStyle,
+  onChange,
+  isValid,
+  value,
+}) => {
+  const [_value, setValue] = useState(value || '');
+  const [inputBorderColor, setInputBorderColor] = useState('#e7e7e7');
+  const [_isValid, setIsValid] = useState(true);
 
-    this.state = {
-      value: props.value || '',
-      inputBorderColor: '#e7e7e7',
-      isValid: true,
-    };
-  }
+  const _handleOnChange = text => {
+    setValue(text);
 
-  // Component Functions
-  _handleOnChange = value => {
-    const { onChange } = this.props;
-
-    this.setState({ value });
     if (onChange) {
-      onChange(value);
+      onChange(text);
     }
   };
 
-  _handleOnFocus = () => {
-    this.setState({ inputBorderColor: '#357ce6' });
+  const _handleOnFocus = () => {
+    setInputBorderColor('#357ce6');
   };
 
-  // Component Life Cycles
-  UNSAFE_componentWillReceiveProps(nextProps) {
-    const { isValid } = this.props;
+  // TODO: Workaround for android context (copy/paste) menu, check react-navigation library
+  useEffect(() => {
+    setValue(' ');
+    setTimeout(() => {
+      setValue('');
+    }, 1);
+  }, []);
 
-    if (nextProps.isValid !== isValid) {
-      this.setState({ isValid: nextProps.isValid });
-    }
-  }
+  useEffect(() => {
+    setIsValid(isValid);
+  }, [isValid]);
 
-  render() {
-    const { inputBorderColor, isValid, value } = this.state;
-    const {
-      placeholder,
-      type,
-      isFirstImage,
-      isEditable,
-      leftIconName,
-      rightIconName,
-      secureTextEntry,
-      iconType,
-      wrapperStyle,
-      height,
-      inputStyle,
-    } = this.props;
-
-    return (
-      <View
-        style={[
-          styles.wrapper,
-          {
-            borderBottomColor: isValid ? inputBorderColor : 'red',
-          },
-          wrapperStyle,
-        ]}
-      >
-        {isFirstImage && value && value.length > 2 ? (
-          <View style={{ flex: 0.15 }}>
-            <FastImage
-              style={styles.firstImage}
-              source={{
-                uri: getResizedAvatar(value),
-                priority: FastImage.priority.high,
-              }}
-              resizeMode={FastImage.resizeMode.cover}
-            />
-          </View>
-        ) : (
-          rightIconName && (
-            <Icon iconType={iconType || 'MaterialIcons'} name={rightIconName} style={styles.icon} />
-          )
-        )}
-        <View style={styles.textInput}>
-          <ThemeContainer>
-            {({ isDarkTheme }) => (
-              <TextInput
-                style={inputStyle}
-                onFocus={() => this.setState({ inputBorderColor: '#357ce6' })}
-                onBlur={() => this.setState({ inputBorderColor: '#e7e7e7' })}
-                autoCapitalize="none"
-                secureTextEntry={secureTextEntry}
-                height={height}
-                placeholder={placeholder}
-                editable={isEditable || true}
-                textContentType={type}
-                onChangeText={this._handleOnChange}
-                value={value}
-                placeholderTextColor={isDarkTheme ? '#526d91' : '#788187'}
-              />
-            )}
-          </ThemeContainer>
-        </View>
-
-        {value && value.length > 0 ? (
-          <Icon
-            iconType={iconType || 'MaterialIcons'}
-            onPress={() => this.setState({ value: '' })}
-            name={leftIconName}
-            style={styles.icon}
+  return (
+    <View
+      style={[
+        styles.wrapper,
+        { borderBottomColor: _isValid ? inputBorderColor : 'red' },
+        wrapperStyle,
+      ]}
+    >
+      {isFirstImage && value && value.length > 2 ? (
+        <View style={{ flex: 0.15 }}>
+          <FastImage
+            style={styles.firstImage}
+            source={{
+              uri: getResizedAvatar(value),
+              priority: FastImage.priority.high,
+            }}
+            resizeMode={FastImage.resizeMode.cover}
           />
-        ) : null}
+        </View>
+      ) : (
+        rightIconName && (
+          <Icon iconType={iconType || 'MaterialIcons'} name={rightIconName} style={styles.icon} />
+        )
+      )}
+      <View style={styles.textInput}>
+        <ThemeContainer>
+          {({ isDarkTheme }) => (
+            <TextInput
+              style={inputStyle}
+              onFocus={_handleOnFocus}
+              onBlur={() => setInputBorderColor('#e7e7e7')}
+              autoCapitalize="none"
+              secureTextEntry={secureTextEntry}
+              height={height}
+              placeholder={placeholder}
+              editable={isEditable || true}
+              textContentType={type}
+              onChangeText={_handleOnChange}
+              value={_value}
+              placeholderTextColor={isDarkTheme ? '#526d91' : '#788187'}
+              autoCorrect={false}
+              contextMenuHidden={false}
+            />
+          )}
+        </ThemeContainer>
       </View>
-    );
-  }
-}
+
+      {value && value.length > 0 ? (
+        <Icon
+          iconType={iconType || 'MaterialIcons'}
+          onPress={() => setValue('')}
+          name={leftIconName}
+          style={styles.icon}
+        />
+      ) : null}
+    </View>
+  );
+};
 
 export default FormInputView;
