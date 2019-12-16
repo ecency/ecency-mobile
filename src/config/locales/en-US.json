@@ -120,7 +120,11 @@
     "yesterday": "Yesterday",
     "this_week": "This Week",
     "this_month": "This Month",
-    "older_then": "Older Than A Month"
+    "older_then": "Older Than A Month",
+    "activities": "All",
+    "replies": "Replies",
+    "mentions": "Mentions",
+    "reblogs": "Reblogs"
   },
   "leaderboard": {
     "daily": "DAILY",
@@ -209,7 +213,10 @@
   },
   "home": {
     "feed": "Feed",
-    "popular": "Popular"
+    "popular": "Popular",
+    "top": "Top",
+    "hot": "Hot",
+    "new": "New"
   },
   "side_menu": {
     "profile": "Profile",
