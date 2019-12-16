@@ -71,6 +71,8 @@ export const catchDraftImage = body => {
 };
 
 export const getResizedImage = (url, size = 640) => {
+  //TODO: implement fallback onError, for steemitimages is down case
+
   if (!url) {
     return '';
   }
