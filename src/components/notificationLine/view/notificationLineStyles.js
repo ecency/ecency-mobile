@@ -41,6 +41,10 @@ export default EStyleSheet.create({
   title: {
     color: '$primaryDarkGray',
   },
+  moreinfo: {
+    color: '$primaryBlack',
+    flex: 1,
+  },
   description: {
     color: '$primaryBlack',
     fontSize: 12,
