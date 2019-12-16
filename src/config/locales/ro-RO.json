@@ -29,8 +29,8 @@
     "login_title": "Puncte pentru autentificare",
     "checkin_title": "Puncte pentru prezență",
     "referral": "Referral",
-    "referral_title": "Referral rewards",
-    "referral_desc": "Invite friends and earn ESTM",
+    "referral_title": "Recompensă pentru recomandare",
+    "referral_desc": "Invită-ți prietenii și câștigă ESTM",
     "checkin_extra_title": "Bonus de utilizare",
     "no_activity": "Nicio activitate recentă",
     "outgoing_transfer_description": "",
@@ -103,14 +103,14 @@
     }
   },
   "notification": {
-    "vote": "voted",
-    "unvote": "unvoted",
-    "reply": "replied to",
-    "mention": "mentioned in",
+    "vote": "votat",
+    "unvote": "vot anulat",
+    "reply": "ți-a răspuns",
+    "mention": "te-a menționat în",
     "follow": "te urmărește",
     "unfollow": "a anulat urmărirea",
     "ignore": "te-a ignorat",
-    "reblog": "reblogged",
+    "reblog": "redistribuit",
     "transfer": "transferat",
     "notification": "Notificări",
     "leaderboard": "Clasament",
@@ -121,10 +121,10 @@
     "this_week": "Săptămâna aceasta",
     "this_month": "Luna Aceasta",
     "older_then": "Mai vechi de o lună",
-    "activities": "All",
+    "activities": "Toate",
     "replies": "Răspunsuri",
-    "mentions": "Mentions",
-    "reblogs": "Reblogs"
+    "mentions": "Menționări",
+    "reblogs": "Redistribuiri"
   },
   "leaderboard": {
     "daily": "ZILNIC",
@@ -215,8 +215,8 @@
     "feed": "Flux",
     "popular": "Popular",
     "top": "Top",
-    "hot": "Hot",
-    "new": "New"
+    "hot": "Fierbinte",
+    "new": "Nou"
   },
   "side_menu": {
     "profile": "Profil",
