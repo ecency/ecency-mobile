@@ -442,7 +442,7 @@
     "date_error": {
       "device_time": "Timpul pe dispozitivul tău;",
       "current_time": "Ora curentă;",
-      "information": "We noticed that your device has incorrect date or time. Please fix Date & Time or Set Automatically and try again."
+      "information": "Am observat că dispozitivul tău are data sau ora incorectă. Te rugăm să setezi data și ora sau alege seterea automată și încearcă din nou."
     }
   },
   "comments": {
