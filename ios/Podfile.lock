@@ -296,8 +296,6 @@ PODS:
     - RSKImageCropper
   - RNReanimated (1.3.0):
     - React
-  - RNScreens (2.0.0-alpha.18):
-    - React
   - RNSVG (9.11.1):
     - React
   - RNVectorIcons (6.6.0):
@@ -357,7 +355,6 @@ DEPENDENCIES:
   - RNIap (from `../node_modules/react-native-iap`)
   - RNImageCropPicker (from `../node_modules/react-native-image-crop-picker`)
   - RNReanimated (from `../node_modules/react-native-reanimated`)
-  - RNScreens (from `../node_modules/react-native-screens`)
   - RNSVG (from `../node_modules/react-native-svg`)
   - RNVectorIcons (from `../node_modules/react-native-vector-icons`)
   - Yoga (from `../node_modules/react-native/ReactCommon/yoga`)
@@ -461,8 +458,6 @@ EXTERNAL SOURCES:
     :path: "../node_modules/react-native-image-crop-picker"
   RNReanimated:
     :path: "../node_modules/react-native-reanimated"
-  RNScreens:
-    :path: "../node_modules/react-native-screens"
   RNSVG:
     :path: "../node_modules/react-native-svg"
   RNVectorIcons:
@@ -520,7 +515,6 @@ SPEC CHECKSUMS:
   RNIap: b4c77c8bc4501203f4b743126a05da23f10f40b4
   RNImageCropPicker: bfb3ea9c8622f290532e2fe63f369e0d5a52f597
   RNReanimated: 6abbbae2e5e72609d85aabd92a982a94566885f1
-  RNScreens: 5a7b407132e42765bb136932d2a84bdb90c3ef33
   RNSVG: be27aa7c58819f97399388ae53d7fa0572f32c7f
   RNVectorIcons: 0bb4def82230be1333ddaeee9fcba45f0b288ed4
   RSKImageCropper: a446db0e8444a036b34f3c43db01b2373baa4b2a
