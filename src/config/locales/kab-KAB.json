@@ -296,15 +296,15 @@
   },
   "drafts": {
     "title": "Tirwayin",
-    "load_error": "Could not load drafts",
+    "load_error": "Ur zmirent ara ad ttwasalint trewayin",
     "empty_list": "Ur yelli kra da",
-    "deleted": "Draft deleted"
+    "deleted": "Tarewayt tettwakkes"
   },
   "schedules": {
     "title": "Schedules",
     "empty_list": "Ur yelli kra da",
     "deleted": "Scheduled post deleted",
-    "move": "Move to drafts",
+    "move": "Err ɣer trewayin",
     "moved": "Moved to drafts"
   },
   "bookmarks": {
@@ -318,16 +318,16 @@
   },
   "favorites": {
     "title": "Ismenyifen",
-    "load_error": "Could not load favorites",
+    "load_error": "Ur zmiren ara ad ttwasalin yismenyifen",
     "empty_list": "Ur yelli kra da",
     "search": "Nadi deg yismenyifen"
   },
   "auth": {
-    "invalid_pin": "Invalid PIN code, please check and try again",
-    "invalid_username": "Invalid username, please check and try again",
-    "already_logged": "You are already logged in, please try to add another account",
+    "invalid_pin": "Tangalt PIN mačči d tameɣtut, sefqed tɛerḍeḍ tikelt-nniḍen",
+    "invalid_username": "Isem n umseqdac mačči d ameɣtu, sefqed tɛerḍeḍ tikelt-nniḍen",
+    "already_logged": "Aqla-k teqqneḍ, ɛreḍ ad ternuḍ amiḍan-nniḍen",
     "invalid_credentials": "Invalid credentials, please check and try again",
-    "unknow_error": "Unknown error, please contact us at support@esteem.app"
+    "unknow_error": "Tuccḍa ur nettwassen, ttxil-k nermes-aɣ-d ɣer support@esteem.app"
   },
   "payout": {
     "potential_payout": "Potential Payout",
@@ -340,10 +340,10 @@
     "breakdown": "Breakdown"
   },
   "post_dropdown": {
-    "copy": "copy link",
-    "reblog": "reblog",
-    "reply": "reply",
-    "share": "share",
+    "copy": "nɣel aseɣwen",
+    "reblog": "aɛiwed n usuffeɣ",
+    "reply": "err",
+    "share": "bḍu",
     "bookmarks": "add to bookmarks",
     "promote": "promote",
     "boost": "boost"
