@@ -102,7 +102,7 @@ class PostCardView extends Component {
             name={get(content, 'author')}
             profileOnPress={this._handleOnUserPress}
             reputation={get(content, 'author_reputation')}
-            size={32}
+            size={36}
             tag={content.category}
             rebloggedBy={rebloggedBy}
             isPromoted={get(content, 'is_promoted')}
