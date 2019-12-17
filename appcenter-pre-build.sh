@@ -13,6 +13,14 @@ then
 
     echo "File content:"
     cat $GOOGLE_JSON_FILE
+else
+    echo "Creating and Updating Google Json"
+    touch $GOOGLE_JSON_FILE
+    echo "$GOOGLE_JSON" > $GOOGLE_JSON_FILE
+    sed -i -e 's/\\"/'\"'/g' $GOOGLE_JSON_FILE
+
+    echo "File content:"
+    cat $GOOGLE_JSON_FILE
 fi
 
 printf "google-services json file:\n"
