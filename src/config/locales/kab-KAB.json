@@ -177,7 +177,7 @@
       "comment": "Awennit",
       "mention": "Abdar",
       "reblog": "Aɛiwed n usuffeɣ",
-      "transfers": "Transfers"
+      "transfers": "Iceyyiɛen"
     },
     "pincode": "Tangalt PIN",
     "reset_pin": "Aɛawed n tengalt PIN",
@@ -191,7 +191,7 @@
       "always_hide": "Ffer lebda",
       "always_warn": "Always warn"
     },
-    "feedback_success": "Email successfully open",
+    "feedback_success": "Imayl yeldi mebla ugur",
     "feedback_fail": "Email client could not open",
     "server_fail": "Ulac aqeddac"
   },
@@ -208,7 +208,7 @@
     "description": "User credentials are kept locally on the device. Credentials are removed upon logout!",
     "cancel": "sefsex",
     "login": "TUQQNA",
-    "steemconnect_description": "If you don't want to keep your password encrypted and saved on your device, you can use Steemconnect.",
+    "steemconnect_description": "Ma ur tebɣiḍ ara ad teǧǧeḍ awal-ik uffir yezwel yettwasekles deg yibenk-inek, tzemreḍ ad tesqedceḍ Steemconnect.",
     "steemconnect_fee_description": "Steemconnect may charge some fees from your reward transactions"
   },
   "home": {
@@ -254,7 +254,7 @@
   },
   "pincode": {
     "enter_text": "Sekcem tangalt PIN i tildin",
-    "set_new": "Set new PIN",
+    "set_new": "PIN amaynut",
     "write_again": "Aru-tt i tikelt-nniḍen",
     "forgot_text": "Uh, ttuɣ-tt..."
   },
