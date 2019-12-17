@@ -28,8 +28,8 @@
     "reblog_title": "Puanên ji bo dîs-weşandinê",
     "login_title": "Puanên ji bo têketinê",
     "checkin_title": "Puanên ji bo lêdana dil",
-    "referral": "Referral",
-    "referral_title": "Referral rewards",
+    "referral": "Referans",
+    "referral_title": "Xelatên referansê",
     "referral_desc": "Invite friends and earn ESTM",
     "checkin_extra_title": "Bonusa bikaranînê",
     "no_activity": "Çalakiya dawîn tine ye",
@@ -103,9 +103,9 @@
     }
   },
   "notification": {
-    "vote": "voted",
-    "unvote": "unvoted",
-    "reply": "replied to",
+    "vote": "deng hate dayîn",
+    "unvote": "deng hate rakirin",
+    "reply": "hate bersivandin",
     "mention": "mentioned in",
     "follow": "te şopand",
     "unfollow": "ji şopa te derket",
@@ -121,10 +121,10 @@
     "this_week": "Ev Hefteya",
     "this_month": "Ev Meha",
     "older_then": "Zêdetirî Berî Mehekê",
-    "activities": "All",
+    "activities": "Hemû",
     "replies": "Bersiv",
-    "mentions": "Mentions",
-    "reblogs": "Reblogs"
+    "mentions": "Gotûbêj",
+    "reblogs": "Dîsweşandin"
   },
   "leaderboard": {
     "daily": "ROJANE",
@@ -157,7 +157,7 @@
     "steem_dollars": "Dolarên Steemê",
     "savings": "Berhev bike",
     "edit": {
-      "display_name": "Display Name",
+      "display_name": "Navê Xuyangê",
       "about": "Derbar",
       "location": "Cîgeh",
       "website": "Malper"
@@ -214,9 +214,9 @@
   "home": {
     "feed": "Herik",
     "popular": "Populer",
-    "top": "Top",
-    "hot": "Hot",
-    "new": "New",
+    "top": "Sereke",
+    "hot": "Germ",
+    "new": "Nû",
     "blog": "Blog"
   },
   "side_menu": {
@@ -290,7 +290,7 @@
     "fetch_error": "Anîna daneyê biserneket, ji kerema xwe dîsa biceribîne an jî ji ser info@esteem.app me agahdar bike",
     "connection_fail": "Girêdan Biserneket!",
     "connection_success": "Bi serkeftî hate girêdan!",
-    "checking": "Checking...",
+    "checking": "Tê kontrolkirin...",
     "not_existing_post": "The post does not exist! Please check permlink and author.",
     "google_play_version": "We noticed that your device has old version of Google Play. Please update Google Play services and try again!"
   },
