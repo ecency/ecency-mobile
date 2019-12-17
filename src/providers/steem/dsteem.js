@@ -1123,7 +1123,7 @@ export const transferPoint = (currentAccount, pinCode, data) => {
     return client.broadcast.json(op, privateKey);
   }
 
-  return Promise.reject(new Error('Something went wrong!'));
+  return Promise.reject(new Error('Something went wrong, Active Key required!'));
 };
 
 export const promote = (currentAccount, pinCode, duration, permlink, author) => {
@@ -1149,7 +1149,7 @@ export const promote = (currentAccount, pinCode, duration, permlink, author) => 
     return client.broadcast.json(json, privateKey);
   }
 
-  return Promise.reject(new Error('Something went wrong!'));
+  return Promise.reject(new Error('Something went wrong, Active Key required!'));
 };
 
 export const boost = (currentAccount, pinCode, point, permlink, author) => {
@@ -1175,7 +1175,7 @@ export const boost = (currentAccount, pinCode, point, permlink, author) => {
     return client.broadcast.json(json, privateKey);
   }
 
-  return Promise.reject(new Error('Something went wrong!'));
+  return Promise.reject(new Error('Something went wrong, Active Key required!'));
 };
 
 export const profileUpdate = async (params, pin, currentAccount) => {
