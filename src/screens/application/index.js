@@ -30,10 +30,6 @@ const Application = () => {
         isThemeReady,
         isPinCodeRequire,
       }) => {
-        if (showAnimation || !isReady || !isRenderRequire || !isThemeReady) {
-          return <Launch />;
-        }
-
         return (
           <Fragment>
             <Modal
@@ -51,6 +47,7 @@ const Application = () => {
               isReady={isReady}
               isDarkTheme={isDarkTheme}
             />
+            {(showAnimation || !isReady || !isRenderRequire || !isThemeReady) && <Launch />}
           </Fragment>
         );
       }}
