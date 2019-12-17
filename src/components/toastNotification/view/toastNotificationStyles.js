@@ -24,5 +24,7 @@ export default EStyleSheet.create({
     color: 'white',
     fontWeight: 'bold',
     fontSize: 14,
+    paddingLeft: 10,
+    paddingRight: 10,
   },
 });

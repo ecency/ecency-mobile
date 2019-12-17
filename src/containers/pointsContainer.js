@@ -19,7 +19,7 @@ import POINTS from '../constants/options/points';
 import ROUTES from '../constants/routeNames';
 
 // Utils
-import { groomingPointsTransactionData } from '../utils/wallet';
+import { groomingPointsTransactionData, getPointsEstimate } from '../utils/wallet';
 
 /*
  *            Props Name        Description                                     Value
@@ -39,12 +39,14 @@ const PointsContainer = ({
   isPinCodeOpen,
   globalProps,
   pinCode,
+  currency,
 }) => {
   const [userPoints, setUserPoints] = useState({});
   const [userActivities, setUserActivities] = useState(null);
   const [refreshing, setRefreshing] = useState(false);
   const [isClaiming, setIsClaiming] = useState(false);
   const [isLoading, setIsLoading] = useState(true);
+  const [estimatedEstm, setEstimatedEstm] = useState(0);
   const [navigationParams, setNavigationParams] = useState({});
   const [balance, setBalance] = useState(0);
   const intl = useIntl();
@@ -129,10 +131,11 @@ const PointsContainer = ({
     setRefreshing(true);
 
     await getUser(_username)
-      .then(userPointsP => {
+      .then(async userPointsP => {
         const _balance = Math.round(get(userPointsP, 'points') * 1000) / 1000;
         setUserPoints(userPointsP);
         setBalance(_balance);
+        setEstimatedEstm(await getPointsEstimate(_balance, currency));
       })
       .catch(err => {
         Alert.alert(get(err, 'message', 'Error'));
@@ -232,6 +235,7 @@ const PointsContainer = ({
       refreshing,
       userActivities,
       userPoints,
+      estimatedEstm,
       redeemType: get(navigationParams, 'redeemType'),
       user,
       dropdownOptions: ['dropdown_transfer', 'dropdown_promote', 'dropdown_boost'],
@@ -249,6 +253,7 @@ const mapStateToProps = state => ({
   pinCode: state.application.pin,
   isPinCodeOpen: state.application.isPinCodeOpen,
   globalProps: state.account.globalProps,
+  currency: state.application.currency.currency,
 });
 
 export default withNavigation(connect(mapStateToProps)(PointsContainer));
