@@ -66,7 +66,7 @@ const NotificationLineView = ({ notification, handleOnPressNotification }) => {
           <View style={styles.titleWrapper}>
             <Text style={styles.name}>{notification.source} </Text>
             <Text style={styles.title}>{_title} </Text>
-            <Text style={styles.moreinfo} numberOfLines={1} ellipsizeMode={4}>
+            <Text style={styles.moreinfo} numberOfLines={1} ellipsizeMode="tail">
               {_moreinfo}
             </Text>
           </View>
