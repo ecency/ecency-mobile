@@ -59,7 +59,7 @@
     "to_placeholder": "Nume utilizator",
     "memo_placeholder": "Introdu comentariul tău aici",
     "transfer_token": "Transfer",
-    "points": "Gift ESTM to someone",
+    "points": "Dăruiește ESTM cuiva",
     "transfer_to_saving": "Tranferă la economii",
     "powerUp": "Power Up",
     "withdraw_to_saving": "Retrage la economii",
@@ -82,7 +82,7 @@
     "fill_vesting_withdraw": "Powed Down executat",
     "estm": {
       "title": "Puncte eSteem",
-      "buy": "GET ESTM"
+      "buy": "OBȚINE ESTM"
     },
     "savingsteem": {
       "title": "STEEM Economii"
@@ -300,7 +300,7 @@
     "copy_link": "Copiere link",
     "reblogged": "redistribuit de",
     "sponsored": "SPONSORIZAT",
-    "open_thread": "Open Thread",
+    "open_thread": "Deschide Thread",
     "save_to_local": "Salvare în acest album",
     "image_saved": "Imagine salvată în Galerie Foto",
     "image_saved_error": "Eroare la salvarea imaginii"
@@ -373,7 +373,7 @@
     "votes": "VOTEAZĂ",
     "age": "VECHIME",
     "top": "TOP",
-    "time": "TIME"
+    "time": "TIMP"
   },
   "transfer": {
     "from": "De la",
@@ -387,7 +387,7 @@
     "to_placeholder": "Nume de utilizator",
     "memo_placeholder": "Introdu comentariul tău aici",
     "transfer_token": "Transfer",
-    "points": "Gift ESTM to someone",
+    "points": "Dăruiește ESTM cuiva",
     "transfer_to_saving": "Tranferă la economii",
     "powerUp": "Power Up",
     "withdraw_to_saving": "Retrage la economii",
@@ -409,7 +409,7 @@
   },
   "boost": {
     "title": "Câștigă puncte eSteem",
-    "buy": "GET ESTM",
+    "buy": "OBȚINE ESTM",
     "next": "URMĂTORUL"
   },
   "free_estm": {
@@ -425,7 +425,7 @@
     "user": "Utilizator",
     "permlink": "Postare",
     "permlinkPlaceholder": "autor/permlink",
-    "information": "Are you sure to promote?"
+    "information": "Sigur vrei să promovezi?"
   },
   "boostPost": {
     "title": "Boost"
@@ -433,16 +433,16 @@
   "voters_dropdown": {
     "rewards": "RECOMPENSE",
     "percent": "PROCENT",
-    "time": "TIME"
+    "time": "TIMP"
   },
   "reblog": {
-    "title": "Reblog Info"
+    "title": "Info redistribuire"
   },
   "dsteem": {
     "date_error": {
       "device_time": "Timpul pe dispozitivul tău;",
       "current_time": "Ora curentă;",
-      "information": "We noticed that your device has incorrect date or time. Please fix Date & Time or Set Automatically and try again."
+      "information": "Am observat că dispozitivul tău are data sau ora incorectă. Te rugăm să setezi data și ora sau alege seterea automată și încearcă din nou."
     }
   },
   "comments": {
