@@ -121,7 +121,6 @@ const WalletHeaderView = ({
               isThin
             />
           ))}
-        {showIconList && <HorizontalIconList options={POINTS} optionsKeys={POINTS_KEYS} />}
       </View>
     </Fragment>
   );
