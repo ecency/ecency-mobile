@@ -328,14 +328,14 @@ class ApplicationContainer extends Component {
 
           markActivityAsRead(username, activity_id).then(result => {
             dispatch(updateUnreadActivityCount(result.unread));
-            if (!some(params, isEmpty)) {
-              navigate({
-                routeName,
-                params,
-                key,
-              });
-            }
           });
+          if (!some(params, isEmpty)) {
+            navigate({
+              routeName,
+              params,
+              key,
+            });
+          }
         }
       },
     });
