@@ -7,7 +7,7 @@ import { SafeAreaView, Animated, ScrollView, RefreshControl } from 'react-native
 import { LoggedInContainer } from '../../../containers';
 
 // Components
-import { Header, Transaction } from '../../../components';
+import { Header, Transaction, HorizontalIconList } from '../../../components';
 import EstmView from './estmView';
 import SteemView from './steemView';
 import SpView from './spView';
@@ -16,6 +16,8 @@ import SbdView from './sbdView';
 // Styles
 import globalStyles from '../../../globalStyles';
 import styles from './walletScreenStyles';
+
+import POINTS, { POINTS_KEYS } from '../../../constants/options/points';
 
 const HEADER_EXPANDED_HEIGHT = 260;
 const HEADER_COLLAPSED_HEIGHT = 20;
@@ -99,6 +101,11 @@ const WalletScreen = () => {
                 ])}
                 scrollEventThrottle={16}
               >
+                <SafeAreaView style={styles.header}>
+                  {currentIndex === 0 && (
+                    <HorizontalIconList options={POINTS} optionsKeys={POINTS_KEYS} />
+                  )}
+                </SafeAreaView>
                 <Transaction
                   type={currentIndex}
                   transactions={selectedUserActivities}

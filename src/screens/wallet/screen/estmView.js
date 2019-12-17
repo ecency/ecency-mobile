@@ -2,7 +2,7 @@ import React from 'react';
 import get from 'lodash/get';
 import { View } from 'react-native';
 
-import { WalletHeader } from '../../../components';
+import { WalletHeader, FormattedCurrency } from '../../../components';
 import { PointsContainer } from '../../../containers';
 
 import globalStyles from '../../../globalStyles';
@@ -19,13 +19,13 @@ const EstmView = ({ handleOnSelected, index, currentIndex, refreshing: reload })
         refreshing,
         userActivities,
         userPoints,
+        estimatedEstm,
         dropdownOptions,
       }) => (
         <WalletHeader
           componentDidUpdate={() => handleOnSelected(userActivities, isLoading, fetchUserActivity)}
           index={index}
           reload={reload}
-          showIconList
           claim={claim}
           fetchUserActivity={fetchUserActivity}
           isClaiming={isClaiming}
@@ -42,6 +42,14 @@ const EstmView = ({ handleOnSelected, index, currentIndex, refreshing: reload })
           type="estm"
           currentIndex={currentIndex}
           showBuyButton
+          showIconList={false}
+          valueDescriptions={[
+            {
+              textKey: 'estimated_value',
+              value: <FormattedCurrency isApproximate isToken value={estimatedEstm} />,
+              subTextKey: 'estimated_value_desc',
+            },
+          ]}
         />
       )}
     </PointsContainer>
