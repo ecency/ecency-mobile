@@ -183,8 +183,7 @@ class ApplicationContainer extends Component {
     }
 
     if (routeName && (profile || content)) {
-      // eslint-disable-next-line no-undef
-      NavigationService.navigate({
+      navigate({
         routeName,
         params,
         key: permlink || author,
@@ -329,15 +328,14 @@ class ApplicationContainer extends Component {
 
           markActivityAsRead(username, activity_id).then(result => {
             dispatch(updateUnreadActivityCount(result.unread));
+            if (!some(params, isEmpty)) {
+              navigate({
+                routeName,
+                params,
+                key,
+              });
+            }
           });
-
-          if (!some(params, isEmpty)) {
-            navigate({
-              routeName,
-              params,
-              key,
-            });
-          }
         }
       },
     });
