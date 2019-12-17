@@ -47,7 +47,7 @@
     "dropdown_boost": "ブースト",
     "from": "差出人",
     "to": "受取人",
-    "estimated_value_desc": "Determined by purchase value",
+    "estimated_value_desc": "According to purchase value",
     "estimated_value": "Estimated value",
     "estimated_amount": "Vote value",
     "amount_information": "スライドして金額を設定",
