@@ -9,6 +9,8 @@ export default EStyleSheet.create({
   },
   leftButton: {
     marginLeft: 10,
+    alignItems: 'center',
+    alignSelf: 'center',
   },
   rightButton: {
     backgroundColor: '$iconColor',
