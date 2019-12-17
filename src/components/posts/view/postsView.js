@@ -331,9 +331,7 @@ const PostsView = ({
     );
   };
 
-  const _handleOnScroll = event => {
-    const currentOffset = event.nativeEvent.contentOffset.y;
-
+  const _handleOnScroll = () => {
     if (handleOnScroll) {
       handleOnScroll();
     }
