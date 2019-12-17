@@ -1,8 +1,8 @@
 import React from 'react';
 import { Dimensions, Linking, Alert, TouchableOpacity, Text } from 'react-native';
 import { useIntl } from 'react-intl';
-import HTML from 'react-native-render-html';
-import { getParentsTagsRecursively } from 'react-native-render-html/src/HTMLUtils';
+import HTML from '@esteemapp/react-native-render-html';
+import { getParentsTagsRecursively } from '@esteemapp/react-native-render-html/src/HTMLUtils';
 import { navigate } from '../../../../navigation/service';
 
 // Constants

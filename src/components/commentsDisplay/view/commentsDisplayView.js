@@ -19,7 +19,7 @@ const CommentsDisplayView = ({
   mainAuthor,
   handleOnVotersPress,
 }) => {
-  const [selectedFilter, setSelectedFilter] = useState(null);
+  const [selectedFilter, setSelectedFilter] = useState('trending');
   const [selectedOptionIndex, setSelectedOptionIndex] = useState(0);
 
   const _handleOnDropdownSelect = (option, index) => {

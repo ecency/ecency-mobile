@@ -1120,6 +1120,19 @@
   resolved "https://registry.yarnpkg.com/@esteemapp/react-native-multi-slider/-/react-native-multi-slider-1.1.0.tgz#16ac1df8518147daa4977cec2503caba1fbd96b5"
   integrity sha512-NSqnLuyrkO23oTpA2WiL9LrxR84eKYKxBp8OogsjLSmThfyaHJvG87J3GLoy+l/9xXA+BeHS4DF360brZ/lrUA==
 
+"@esteemapp/react-native-render-html@^4.1.5":
+  version "4.1.5"
+  resolved "https://registry.yarnpkg.com/@esteemapp/react-native-render-html/-/react-native-render-html-4.1.5.tgz#91b52ac67d6890cb07fcebc25352e7b228340e41"
+  integrity sha512-C3C/VswCX+59hyenMjfKmbsz5GzX7VLrFUN6Az3W9NXd/iN8I+1P8S18EAmAHbX4hXCRLbDqqOMxxM7CayHcqQ==
+  dependencies:
+    buffer "^4.5.1"
+    events "^1.1.0"
+    html-entities "^1.2.0"
+    htmlparser2 "^3.10.1"
+    react-native-autoheight-webview "^1.3.4"
+    react-native-lightbox "git+https://github.com/oblador/react-native-lightbox.git"
+    stream "0.0.2"
+
 "@formatjs/intl-relativetimeformat@^4.1.1":
   version "4.2.0"
   resolved "https://registry.yarnpkg.com/@formatjs/intl-relativetimeformat/-/intl-relativetimeformat-4.2.0.tgz#dc403699eb5755dd19307c93a6541232b14dd721"
@@ -3311,6 +3324,11 @@ elliptic@^6.4.1:
     inherits "^2.0.1"
     minimalistic-assert "^1.0.0"
     minimalistic-crypto-utils "^1.0.0"
+
+emitter-component@^1.1.1:
+  version "1.1.1"
+  resolved "https://registry.yarnpkg.com/emitter-component/-/emitter-component-1.1.1.tgz#065e2dbed6959bf470679edabeaf7981d1003ab6"
+  integrity sha1-Bl4tvtaVm/RwZ57avq95gdEAOrY=
 
 emoji-regex@^7.0.1, emoji-regex@^7.0.2:
   version "7.0.3"
@@ -7578,6 +7596,13 @@ react-native-autoheight-webview@^1.2.2:
   dependencies:
     prop-types "^15.7.2"
 
+react-native-autoheight-webview@^1.3.4:
+  version "1.3.4"
+  resolved "https://registry.yarnpkg.com/react-native-autoheight-webview/-/react-native-autoheight-webview-1.3.4.tgz#3fe1060186ce5c7c81a550cb31890da1a8c3dcdc"
+  integrity sha512-swBeCWi0pMckTtlbwkjZTPGjiJgrWweEoH5sjbafEUKbudVNdO2jfdu5OZuEPXOhSlO4iYrRhY0rfzXFh4aXaw==
+  dependencies:
+    prop-types "^15.7.2"
+
 react-native-code-push@esteemapp/react-native-code-push:
   version "1000.0.0-beta"
   resolved "https://codeload.github.com/esteemapp/react-native-code-push/tar.gz/c07b7023c1212dc5d9231a0526a869d2501cb221"
@@ -7644,10 +7669,10 @@ react-native-iap@3.4.15:
   dependencies:
     dooboolab-welcome "^1.1.1"
 
-react-native-image-crop-picker@^0.25.2:
-  version "0.25.3"
-  resolved "https://registry.yarnpkg.com/react-native-image-crop-picker/-/react-native-image-crop-picker-0.25.3.tgz#46ee28b4a0a187240e388bd28a44cf8c274caec6"
-  integrity sha512-jQ416WXEiEQ3w057QOYU++8/mDqYb2A/AGZY/NwR5eKda/z8a4wncWKj7oF9KBAHNKE1TmPrl9Rm0GZ0Jrzp6A==
+react-native-image-crop-picker@^0.26.1:
+  version "0.26.1"
+  resolved "https://registry.yarnpkg.com/react-native-image-crop-picker/-/react-native-image-crop-picker-0.26.1.tgz#3499ff5d4a09c9a9e927eb4f6ff936015ff594f1"
+  integrity sha512-5JdOjQS2V5L/vfb8+jPTUYx4VZPLvhZTyCUjiG0BZCbh+N1L24Kj2C+8EOuWS7xXXHrz5Bpe/eq5lQO1Efc+Yw==
 
 react-native-image-pan-zoom@^2.1.9:
   version "2.1.11"
@@ -7673,6 +7698,12 @@ react-native-keyboard-aware-scroll-view@^0.9.1:
   dependencies:
     prop-types "^15.6.2"
     react-native-iphone-x-helper "^1.0.3"
+
+"react-native-lightbox@git+https://github.com/oblador/react-native-lightbox.git":
+  version "0.8.1"
+  resolved "git+https://github.com/oblador/react-native-lightbox.git#8db37fda32bfe2f4537b992550bd8d0c27f7ca57"
+  dependencies:
+    prop-types "^15.7.2"
 
 react-native-linear-gradient@^2.4.2:
   version "2.5.6"
@@ -7705,16 +7736,6 @@ react-native-reanimated@^1.3.0:
   version "1.3.0"
   resolved "https://registry.yarnpkg.com/react-native-reanimated/-/react-native-reanimated-1.3.0.tgz#581cdb0bd1ff05e7304b116af712ded0c7665ede"
   integrity sha512-KFno6D0q09kx71IDuPa4qeC1t1msALsCMuli3/EN3YDf8XoM2CG53yzhVHMFtmcW0IUCySugHgxQiuT5BzwOPA==
-
-react-native-render-html@^4.1.2:
-  version "4.1.2"
-  resolved "https://registry.yarnpkg.com/react-native-render-html/-/react-native-render-html-4.1.2.tgz#dfd06ac7e87ed68b6421750e88dd7895d284935b"
-  integrity sha512-lIW7GfNCsqOzdv0hxiZms24uC9Hu8hqufMyD4FBjfs8HSc4pUKnvBgOljiqEXmjGhDEJM6oY7QGglAV0hL69bQ==
-  dependencies:
-    buffer "^4.5.1"
-    events "^1.1.0"
-    html-entities "^1.2.0"
-    htmlparser2 "^3.10.1"
 
 react-native-safe-area-view@^0.14.1, react-native-safe-area-view@^0.14.6:
   version "0.14.8"
@@ -8889,6 +8910,13 @@ stream-buffers@~2.2.0:
   version "2.2.0"
   resolved "https://registry.yarnpkg.com/stream-buffers/-/stream-buffers-2.2.0.tgz#91d5f5130d1cef96dcfa7f726945188741d09ee4"
   integrity sha1-kdX1Ew0c75bc+n9yaUUYh0HQnuQ=
+
+stream@0.0.2:
+  version "0.0.2"
+  resolved "https://registry.yarnpkg.com/stream/-/stream-0.0.2.tgz#7f5363f057f6592c5595f00bc80a27f5cec1f0ef"
+  integrity sha1-f1Nj8Ff2WSxVlfALyAon9c7B8O8=
+  dependencies:
+    emitter-component "^1.1.1"
 
 strict-uri-encode@^2.0.0:
   version "2.0.0"
