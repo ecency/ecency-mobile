@@ -257,3 +257,12 @@ export const groomingPointsTransactionData = transaction => {
 
   return result;
 };
+
+export const getPointsEstimate = async (amount, userCurrency) => {
+  if (!amount) {
+    return 0;
+  }
+  const ppEstm = await getCurrencyTokenRate(userCurrency, 'estm');
+
+  return ppEstm * amount;
+};
