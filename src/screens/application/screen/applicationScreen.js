@@ -5,7 +5,7 @@ import { connect } from 'react-redux';
 import { createAppContainer } from 'react-navigation';
 
 import AppNavitation from '../../../navigation/routes';
-import { setTopLevelNavigator } from '../../../navigation/service';
+import { setTopLevelNavigator, navigate } from '../../../navigation/service';
 
 // Services
 import { toastNotification as toastNotificationAction } from '../../../redux/actions/uiAction';
