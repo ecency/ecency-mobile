@@ -291,7 +291,7 @@
     "connection_fail": "Girêdan Biserneket!",
     "connection_success": "Bi serkeftî hate girêdan!",
     "checking": "Tê kontrolkirin...",
-    "not_existing_post": "The post does not exist! Please check permlink and author.",
+    "not_existing_post": "Şandî tine ye! Ji kerema xwe girêdan û nivîskar kontrol bike.",
     "google_play_version": "We noticed that your device has old version of Google Play. Please update Google Play services and try again!"
   },
   "post": {
