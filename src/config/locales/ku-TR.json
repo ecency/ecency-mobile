@@ -28,8 +28,8 @@
     "reblog_title": "Puanên ji bo dîs-weşandinê",
     "login_title": "Puanên ji bo têketinê",
     "checkin_title": "Puanên ji bo lêdana dil",
-    "referral": "Referral",
-    "referral_title": "Referral rewards",
+    "referral": "Referans",
+    "referral_title": "Xelatên referansê",
     "referral_desc": "Invite friends and earn ESTM",
     "checkin_extra_title": "Bonusa bikaranînê",
     "no_activity": "Çalakiya dawîn tine ye",
@@ -40,8 +40,8 @@
     "checkin_desc": "Çavpêxistina bi rêkûpêk 0.25 puanan dide qezenckirin.",
     "vote_desc": "By voting you give reward to other creators and also earn back upto 0.01 x vote weight points.",
     "reblog_desc": "Share what post you like with your friends and earn points.",
-    "login_desc": "When you login into app first time you earn 100 points.",
-    "checkin_extra_desc": "Consistent use of app gives you extra chances to earn more points, be more active and earn more.",
+    "login_desc": "Dema ku tu cara yekem têkeve sepanê tu yê 100 puanan qezenc bikî.",
+    "checkin_extra_desc": "Bikaranîna bi rêkûpêk ya sepanê, şensa bidestxistina zêdetir puanan dide te, pir çalak be pir qezenc bike.",
     "dropdown_transfer": "Diyarî",
     "dropdown_promote": "Reklam",
     "dropdown_boost": "Zêde bike",
@@ -103,14 +103,14 @@
     }
   },
   "notification": {
-    "vote": "voted",
-    "unvote": "unvoted",
-    "reply": "replied to",
+    "vote": "deng hate dayîn",
+    "unvote": "deng hate rakirin",
+    "reply": "hate bersivandin",
     "mention": "mentioned in",
     "follow": "te şopand",
     "unfollow": "ji şopa te derket",
     "ignore": "te asteng kir",
-    "reblog": "reblogged",
+    "reblog": "dîsa hate weşandin",
     "transfer": "hate transferkirin",
     "notification": "Danezan",
     "leaderboard": "Tabloya lîderan",
@@ -121,10 +121,10 @@
     "this_week": "Ev Hefteya",
     "this_month": "Ev Meha",
     "older_then": "Zêdetirî Berî Mehekê",
-    "activities": "All",
+    "activities": "Hemû",
     "replies": "Bersiv",
-    "mentions": "Mentions",
-    "reblogs": "Reblogs"
+    "mentions": "Gotûbêj",
+    "reblogs": "Dîsweşandin"
   },
   "leaderboard": {
     "daily": "ROJANE",
@@ -157,7 +157,7 @@
     "steem_dollars": "Dolarên Steemê",
     "savings": "Berhev bike",
     "edit": {
-      "display_name": "Display Name",
+      "display_name": "Navê Xuyangê",
       "about": "Derbar",
       "location": "Cîgeh",
       "website": "Malper"
@@ -214,9 +214,9 @@
   "home": {
     "feed": "Herik",
     "popular": "Populer",
-    "top": "Top",
-    "hot": "Hot",
-    "new": "New",
+    "top": "Sereke",
+    "hot": "Germ",
+    "new": "Nû",
     "blog": "Blog"
   },
   "side_menu": {
@@ -290,9 +290,9 @@
     "fetch_error": "Anîna daneyê biserneket, ji kerema xwe dîsa biceribîne an jî ji ser info@esteem.app me agahdar bike",
     "connection_fail": "Girêdan Biserneket!",
     "connection_success": "Bi serkeftî hate girêdan!",
-    "checking": "Checking...",
-    "not_existing_post": "The post does not exist! Please check permlink and author.",
-    "google_play_version": "We noticed that your device has old version of Google Play. Please update Google Play services and try again!"
+    "checking": "Tê kontrolkirin...",
+    "not_existing_post": "Şandî tine ye! Ji kerema xwe girêdan û nivîskar kontrol bike.",
+    "google_play_version": "Me ferqkir ku li amûra te, guhertoya kevn a Google Playê sazkirî ye. Ji kerema xwe, xizmetên Google Playê hildemîne û dîsa biceribîne!"
   },
   "post": {
     "reblog_alert": "Bi rastî jî tu dixwazî dîs-biweşînî?",
