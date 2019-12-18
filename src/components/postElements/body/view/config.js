@@ -1,17 +1,17 @@
 export default `
-const images = document.getElementsByTagName("IMG");
+var images = document.getElementsByTagName("IMG");
 for (i = 0; i < images.length; i++) {
-  const result = {
+  var result = {
     type: 'image',
     href: images[i].getAttribute("src") || ''
   }
-  const resultStr = JSON.stringify(JSON.stringify(result)); // workaround
-  const message = 'window.ReactNativeWebView.postMessage(' + resultStr + ')';
+  var resultStr = JSON.stringify(JSON.stringify(result)); // workaround
+  var message = 'window.ReactNativeWebView.postMessage(' + resultStr + ')';
   images[i].setAttribute("onClick", message);
 }
 
 document.addEventListener('click', function(event) {
-  let el = event.target;
+  var el = event.target;
   // A element can be wrapped with inline element. Look parent elements.
   while (el.tagName !== 'A') {
     if (!el.parentNode) {
@@ -23,8 +23,8 @@ document.addEventListener('click', function(event) {
     return;
   }
   if (el.getAttribute('target') === '_external') {
-    const href = el.getAttribute('href');
-    const result = {
+    var href = el.getAttribute('href');
+    var result = {
       type: '_external',
       href
     }
@@ -33,8 +33,8 @@ document.addEventListener('click', function(event) {
     return true;
   }
   if (el.classList.contains('markdown-external-link')) {
-    const href = el.getAttribute('data-href');
-    const result = {
+    var href = el.getAttribute('data-href');
+    var result = {
       type: 'markdown-external-link',
       href
     }
@@ -43,8 +43,8 @@ document.addEventListener('click', function(event) {
     return true;
   }
   if (el.classList.contains('markdown-author-link')) {
-    const author = el.getAttribute('data-author');
-    const result = {
+    var author = el.getAttribute('data-author');
+    var result = {
       type: 'markdown-author-link',
       author,
     }
@@ -53,10 +53,10 @@ document.addEventListener('click', function(event) {
   }
 
   if (el.classList.contains('markdown-post-link')) {
-    let category = el.getAttribute('data-tag');
-    let author = el.getAttribute('data-author');
-    let permlink = el.getAttribute('data-permlink');
-    const result = {
+    var category = el.getAttribute('data-tag');
+    var author = el.getAttribute('data-author');
+    var permlink = el.getAttribute('data-permlink');
+    var result = {
       type: 'markdown-post-link',
       category,
       author,
@@ -66,8 +66,8 @@ document.addEventListener('click', function(event) {
     return false;
   }
   if (el.classList.contains('markdown-tag-link')) {
-    let tag = el.getAttribute('data-tag');
-    const result = {
+    var tag = el.getAttribute('data-tag');
+    var result = {
       type: 'markdown-tag-link',
       tag
     }
@@ -76,7 +76,7 @@ document.addEventListener('click', function(event) {
   }
   if (el.classList.contains('markdown-witnesses-link')) {
     
-    const result = {
+    var result = {
       type: 'markdown-witnesses-link'
     }
     window.ReactNativeWebView.postMessage(JSON.stringify(result));
@@ -84,8 +84,8 @@ document.addEventListener('click', function(event) {
   }
   if (el.classList.contains('markdown-proposal-link')) {
     
-    let proposal = el.getAttribute('data-proposal');
-    const result = {
+    var proposal = el.getAttribute('data-proposal');
+    var result = {
       type: 'markdown-proposal-link',
       proposal
     }
@@ -93,14 +93,14 @@ document.addEventListener('click', function(event) {
     return false;
   }
   if (el.classList.contains('markdown-video-link')) {
-    const embedSrc = '<iframe frameborder="0" allowfullscreen src="' + el.getAttribute('data-embed-src') + '"></iframe>';
+    var embedSrc = '<iframe frameborder="0" allowfullscreen src="' + el.getAttribute('data-embed-src') + '"></iframe>';
     if (embedSrc) {
       el.innerHTML = embedSrc;
       return;
     }
-    const videoHref = el.getAttribute('data-video-href');
+    var videoHref = el.getAttribute('data-video-href');
     if (videoHref) {
-      const result = {
+      var result = {
         type: 'markdown-video-link',
         videoHref
       }
@@ -109,7 +109,7 @@ document.addEventListener('click', function(event) {
       return false;
     }
   }
-  const author = el.getAttribute('data-author').toString();
+  var author = el.getAttribute('data-author').toString();
   window.ReactNativeWebView.postMessage(JSON.stringify(author));
 })
 true;`;
