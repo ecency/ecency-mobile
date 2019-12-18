@@ -40,13 +40,15 @@ const Application = () => {
             >
               <PinCode />
             </Modal>
-            <ApplicationScreen
-              isConnected={isConnected}
-              locale={locale}
-              toastNotification={toastNotification}
-              isReady={isReady}
-              isDarkTheme={isDarkTheme}
-            />
+            {isThemeReady && isRenderRequire && (
+              <ApplicationScreen
+                isConnected={isConnected}
+                locale={locale}
+                toastNotification={toastNotification}
+                isReady={isReady}
+                isDarkTheme={isDarkTheme}
+              />
+            )}
             {(showAnimation || !isReady || !isRenderRequire || !isThemeReady) && <Launch />}
           </Fragment>
         );
