@@ -209,8 +209,6 @@ const PostBody = ({
   }
   body {
     color: ${EStyleSheet.value('$primaryBlack')};
-    display: flex;
-    align-items: center;
   }
   a {
     color: ${EStyleSheet.value('$primaryBlue')};
