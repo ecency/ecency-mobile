@@ -29,7 +29,6 @@ const Application = () => {
         isRenderRequire,
         isThemeReady,
         isPinCodeRequire,
-        incomingNavigationRequest,
       }) => {
         if (showAnimation || !isReady || !isRenderRequire || !isThemeReady) {
           return <Launch />;
@@ -46,7 +45,6 @@ const Application = () => {
               <PinCode />
             </Modal>
             <ApplicationScreen
-              incomingNavigationRequest={incomingNavigationRequest}
               isConnected={isConnected}
               locale={locale}
               toastNotification={toastNotification}

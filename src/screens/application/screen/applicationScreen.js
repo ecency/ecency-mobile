@@ -26,13 +26,6 @@ class ApplicationScreen extends Component {
       isShowToastNotification: false,
     };
   }
-  componentDidMount() {
-    const { incomingNavigationRequest } = this.props;
-
-    if (incomingNavigationRequest) {
-      navigate(incomingNavigationRequest);
-    }
-  }
 
   _handleOnHideToastNotification = () => {
     const { dispatch } = this.props;
