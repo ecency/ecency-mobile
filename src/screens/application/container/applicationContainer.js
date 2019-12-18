@@ -92,6 +92,7 @@ class ApplicationContainer extends Component {
       isIos: Platform.OS !== 'android',
       isThemeReady: false,
       appState: AppState.currentState,
+      incomingNavigationRequest: null,
     };
   }
 
@@ -330,10 +331,12 @@ class ApplicationContainer extends Component {
             dispatch(updateUnreadActivityCount(result.unread));
           });
           if (!some(params, isEmpty)) {
-            navigate({
-              routeName,
-              params,
-              key,
+            this.setState({
+              incomingNavigationRequest: {
+                routeName,
+                params,
+                key,
+              },
             });
           }
         }
@@ -620,7 +623,7 @@ class ApplicationContainer extends Component {
       children,
       isPinCodeRequire,
     } = this.props;
-    const { isRenderRequire, isReady, isThemeReady } = this.state;
+    const { isRenderRequire, isReady, isThemeReady, incomingNavigationRequest } = this.state;
 
     return (
       children &&
@@ -633,6 +636,7 @@ class ApplicationContainer extends Component {
         isPinCodeRequire,
         isDarkTheme: _isDarkTheme,
         locale: selectedLanguage,
+        incomingNavigationRequest,
       })
     );
   }

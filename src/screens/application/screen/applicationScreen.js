@@ -5,7 +5,7 @@ import { connect } from 'react-redux';
 import { createAppContainer } from 'react-navigation';
 
 import AppNavitation from '../../../navigation/routes';
-import { setTopLevelNavigator } from '../../../navigation/service';
+import { setTopLevelNavigator, navigate } from '../../../navigation/service';
 
 // Services
 import { toastNotification as toastNotificationAction } from '../../../redux/actions/uiAction';
@@ -25,6 +25,13 @@ class ApplicationScreen extends Component {
     this.state = {
       isShowToastNotification: false,
     };
+  }
+  componentDidMount() {
+    const { incomingNavigationRequest } = this.props;
+
+    if (incomingNavigationRequest) {
+      navigate(incomingNavigationRequest);
+    }
   }
 
   _handleOnHideToastNotification = () => {
