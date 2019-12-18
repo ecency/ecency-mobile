@@ -110,8 +110,6 @@ class ApplicationContainer extends Component {
     AppState.addEventListener('change', this._handleAppStateChange);
     setPreviousAppState();
 
-    this._createPushListener();
-
     if (nativeThemeEventEmitter) {
       nativeThemeEventEmitter.on('currentModeChanged', newMode => {
         const { dispatch } = this.props;
@@ -119,6 +117,7 @@ class ApplicationContainer extends Component {
         dispatch(isDarkTheme(newMode === 'dark'));
       });
     }
+    this._createPushListener();
   };
 
   componentWillUnmount() {
@@ -235,8 +234,8 @@ class ApplicationContainer extends Component {
   };
 
   _fetchApp = async () => {
-    await this._refreshGlobalProps();
     await this._getSettings();
+    await this._refreshGlobalProps();
     const userRealmObject = await this._getUserDataFromRealm();
     this.setState({ isReady: true });
 
@@ -463,6 +462,7 @@ class ApplicationContainer extends Component {
 
     if (settings) {
       dispatch(isDarkTheme(nativeThemeInitialMode === 'dark' || settings.isDarkTheme));
+      this.setState({ isThemeReady: true });
       if (settings.isPinCodeOpen !== '') dispatch(isPinCodeOpen(settings.isPinCodeOpen));
       if (settings.language !== '') dispatch(setLanguage(settings.language));
       if (settings.server !== '') dispatch(setApi(settings.server));
@@ -483,8 +483,6 @@ class ApplicationContainer extends Component {
       if (settings.currency !== '') {
         dispatch(setCurrency(settings.currency !== '' ? settings.currency : 'usd'));
       }
-
-      this.setState({ isThemeReady: true });
     }
   };
 
