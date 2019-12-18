@@ -464,7 +464,7 @@ export const getSettings = async () => {
     }
     const settingData = {
       language: '',
-      isDarkTheme: false,
+      isDarkTheme: null,
       currency: '',
       notification: true,
       server: '',

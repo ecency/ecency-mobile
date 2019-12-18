@@ -46,11 +46,9 @@ const PostsView = ({
   const [startPermlink, setStartPermlink] = useState('');
   const [refreshing, setRefreshing] = useState(false);
   const [isLoading, setIsLoading] = useState(false);
-  const [isShowFilterBar, setIsShowFilterBar] = useState(true);
   const [selectedFilterIndex, setSelectedFilterIndex] = useState(selectedOptionIndex || 0);
   const [isNoPost, setIsNoPost] = useState(false);
   const [promotedPosts, setPromotedPosts] = useState([]);
-  const [scrollOffsetY, setScrollOffsetY] = useState(0);
   const [selectedFilterValue, setSelectedFilterValue] = useState(
     filterOptionsValue && filterOptionsValue[selectedFilterIndex],
   );
@@ -333,22 +331,17 @@ const PostsView = ({
     );
   };
 
-  const _handleOnScroll = event => {
-    const currentOffset = event.nativeEvent.contentOffset.y;
-
+  const _handleOnScroll = () => {
     if (handleOnScroll) {
       handleOnScroll();
     }
-
-    setScrollOffsetY(currentOffset);
-    setIsShowFilterBar(scrollOffsetY > currentOffset || scrollOffsetY <= 0);
   };
 
   return (
     <ThemeContainer>
       {({ isDarkTheme }) => (
         <View style={styles.container}>
-          {filterOptions && isShowFilterBar && (
+          {filterOptions && (
             <FilterBar
               dropdownIconName="arrow-drop-down"
               //options={filterOptions}

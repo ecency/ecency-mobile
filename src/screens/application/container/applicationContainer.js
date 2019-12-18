@@ -461,7 +461,11 @@ class ApplicationContainer extends Component {
     const settings = await getSettings();
 
     if (settings) {
-      dispatch(isDarkTheme(nativeThemeInitialMode === 'dark' || settings.isDarkTheme));
+      dispatch(
+        isDarkTheme(
+          settings.isDarkTheme === null ? nativeThemeInitialMode === 'dark' : settings.isDarkTheme,
+        ),
+      );
       this.setState({ isThemeReady: true });
       if (settings.isPinCodeOpen !== '') dispatch(isPinCodeOpen(settings.isPinCodeOpen));
       if (settings.language !== '') dispatch(setLanguage(settings.language));
