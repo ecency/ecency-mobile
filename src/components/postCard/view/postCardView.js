@@ -96,7 +96,6 @@ class PostCardView extends Component {
       <View style={styles.post}>
         <View style={styles.bodyHeader}>
           <PostHeaderDescription
-            // date={intl.formatRelative(content.created)}
             date={getTimeFromNow(get(content, 'created'))}
             isHideImage={isHideImage}
             name={get(content, 'author')}
