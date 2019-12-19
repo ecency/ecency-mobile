@@ -1,6 +1,6 @@
 import moment from 'moment';
 
-const TODAY = new Date(); //moment().startOf('day');
+const TODAY = new Date();
 const ONE_DAY = new Date(TODAY.getTime() - 24 * 60 * 60 * 1000);
 const SEVEN_DAY = new Date(TODAY.getTime() - 7 * 24 * 60 * 60 * 1000);
 
@@ -10,10 +10,10 @@ export const getTimeFromNow = (value, isWithoutUtc) => {
   }
 
   if (isWithoutUtc) {
-    return moment(value).fromNow();
+    return moment(value).fromNow(true);
   }
 
-  return moment.utc(value).fromNow();
+  return moment.utc(value).fromNow(true);
 };
 
 export const getFormatedCreatedDate = value => {
@@ -21,7 +21,7 @@ export const getFormatedCreatedDate = value => {
     return null;
   }
 
-  return moment(value).format('DD MMM, YYYY');
+  return new Date(value).toLocaleDateString();
 };
 
 export const isBefore = (a, b) => new Date(b) - new Date(a);
