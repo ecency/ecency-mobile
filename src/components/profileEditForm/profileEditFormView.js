@@ -71,7 +71,7 @@ const ProfileEditFormView = ({
           <FormInput
             wrapperStyle={styles.formStyle}
             isValid
-            height={30}
+            height={40}
             onChange={value => handleOnItemChange(value, item.valueKey)}
             placeholder={item.placeholder}
             isEditable
