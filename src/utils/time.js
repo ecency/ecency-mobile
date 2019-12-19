@@ -1,15 +1,8 @@
 import moment from 'moment';
 
-const TODAY = moment().startOf('day');
-const YESTERDAY = moment()
-  .subtract(1, 'days')
-  .startOf('day');
-const THIS_WEEK = moment()
-  .subtract(7, 'days')
-  .startOf('day');
-const THIS_MONTH = moment()
-  .subtract(1, 'M')
-  .startOf('day');
+const TODAY = new Date(); //moment().startOf('day');
+const ONE_DAY = new Date(TODAY.getTime() - 24 * 60 * 60 * 1000);
+const SEVEN_DAY = new Date(TODAY.getTime() - 7 * 24 * 60 * 60 * 1000);
 
 export const getTimeFromNow = (value, isWithoutUtc) => {
   if (!value) {
@@ -33,13 +26,29 @@ export const getFormatedCreatedDate = value => {
 
 export const isBefore = (a, b) => new Date(b) - new Date(a);
 
-export const isToday = value => moment(value).isSame(TODAY, 'd');
+export const isToday = value => {
+  const day = new Date(value);
+  return TODAY.getDate() === day.getDate() &&
+    TODAY.getMonth() === day.getMonth() &&
+    TODAY.getFullYear() === day.getFullYear()
+    ? 1
+    : 0;
+};
 
-export const isYesterday = value => moment(value).isSame(YESTERDAY, 'd');
+export const isYesterday = value => {
+  const day = new Date(value).getTime();
+  return day < TODAY.getTime() && day > ONE_DAY.getTime();
+};
 
-export const isThisWeek = value => moment(value).isSameOrAfter(THIS_WEEK);
+export const isThisWeek = value => {
+  const day = new Date(value).getTime();
+  return day < TODAY.getTime() && day > SEVEN_DAY.getTime();
+};
 
-export const isThisMonth = value => moment(value).isSameOrAfter(THIS_MONTH);
+export const isThisMonth = value => {
+  const day = new Date(value);
+  return TODAY.getMonth() === day.getMonth() && TODAY.getFullYear() === day.getFullYear() ? 1 : 0;
+};
 
 export const isEmptyContentDate = value => {
   if (!value) {
