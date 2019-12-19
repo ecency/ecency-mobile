@@ -31,7 +31,7 @@ export const getFormatedCreatedDate = value => {
   return moment(value).format('DD MMM, YYYY');
 };
 
-export const isBefore = (a, b) => moment(a).isBefore(b);
+export const isBefore = (a, b) => new Date(b) - new Date(a);
 
 export const isToday = value => moment(value).isSame(TODAY, 'd');
 

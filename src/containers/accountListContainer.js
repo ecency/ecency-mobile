@@ -52,7 +52,7 @@ class AccountListContainer extends Component {
         _data.sort((a, b) => b.percent - a.percent);
         break;
       case 2:
-        _data.sort((a, b) => new Date(b.time) - new Date(a.time));
+        _data.sort((a, b) => isBefore(a.time, b.time));
         break;
       default:
         break;
