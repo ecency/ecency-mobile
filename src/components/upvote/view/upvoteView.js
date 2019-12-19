@@ -1,6 +1,6 @@
 import React, { Component, Fragment } from 'react';
 import { View, TouchableOpacity, Text, Alert } from 'react-native';
-import { injectIntl } from 'react-intl';
+import { injectIntl, FormattedRelativeTime } from 'react-intl';
 import { Popover, PopoverController } from 'react-native-modal-popover';
 import Slider from 'react-native-slider';
 import get from 'lodash/get';
@@ -331,7 +331,12 @@ class UpvoteView extends Component {
                     <Text style={styles.detailsText}>
                       {`${intl.formatMessage({
                         id: 'payout.payout_date',
-                      })} ${payoutDate}`}
+                      })} `}
+                      <FormattedRelativeTime
+                        value={payoutDate.value}
+                        numeric="auto"
+                        unit={payoutDate.unit}
+                      />
                     </Text>
                     {warnZeroPayout && (
                       <Text style={styles.detailsText}>

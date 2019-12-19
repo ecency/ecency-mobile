@@ -210,7 +210,6 @@ class PostDisplayView extends PureComponent {
                   <Text style={styles.footerText}>
                     Posted by
                     <Text style={styles.footerName}>{` ${author || post.author} `}</Text>
-                    {formatedTime}
                   </Text>
                   {/* {isPostEnd && this._getTabBar()} */}
                 </View>
