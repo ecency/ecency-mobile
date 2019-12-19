@@ -1,16 +1,16 @@
 PODS:
-  - appcenter (2.6.0):
+  - appcenter (2.6.1):
     - AppCenterReactNativeShared
     - React
-  - appcenter-analytics (2.6.0):
+  - appcenter-analytics (2.6.1):
     - AppCenter/Analytics
     - AppCenterReactNativeShared
     - React
-  - appcenter-crashes (2.6.0):
+  - appcenter-crashes (2.6.1):
     - AppCenter/Crashes
     - AppCenterReactNativeShared
     - React
-  - appcenter-push (2.6.0):
+  - appcenter-push (2.6.1):
     - AppCenter/Push
     - AppCenterReactNativeShared
     - React
@@ -66,7 +66,7 @@ PODS:
     - glog
   - glog (0.3.5)
   - lottie-ios (3.1.3)
-  - lottie-react-native (3.2.1):
+  - lottie-react-native (3.3.2):
     - lottie-ios (~> 3.1.3)
     - React
   - QBImagePickerController (3.4.0)
@@ -235,18 +235,18 @@ PODS:
   - React-jsinspector (0.61.2)
   - react-native-cameraroll (1.3.0):
     - React
-  - react-native-config (0.11.7):
+  - react-native-config (0.12.0):
     - React
   - react-native-fast-image (4.0.14):
     - FLAnimatedImage
     - React
     - SDWebImage/Core
     - SDWebImage/GIF
-  - react-native-netinfo (4.4.0):
+  - react-native-netinfo (4.7.0):
     - React
   - react-native-version-number (0.3.6):
     - React
-  - react-native-webview (7.5.2):
+  - react-native-webview (7.6.0):
     - React
   - React-RCTActionSheet (0.61.2):
     - React-Core/RCTActionSheetHeaders (= 0.61.2)
@@ -283,11 +283,11 @@ PODS:
     - React-cxxreact (= 0.61.2)
     - React-jsi (= 0.61.2)
     - ReactCommon/jscallinvoker (= 0.61.2)
-  - ReactNativeDarkMode (0.1.2):
+  - ReactNativeDarkMode (0.1.3):
     - React
   - rn-fetch-blob (0.11.2):
     - React-Core
-  - RNGestureHandler (1.4.1):
+  - RNGestureHandler (1.5.2):
     - React
   - RNIap (3.4.15):
     - React
@@ -296,9 +296,9 @@ PODS:
     - React-Core
     - React-RCTImage
     - RSKImageCropper
-  - RNReanimated (1.3.0):
+  - RNReanimated (1.4.0):
     - React
-  - RNSVG (9.11.1):
+  - RNSVG (9.13.6):
     - React
   - RNVectorIcons (6.6.0):
     - React
@@ -472,10 +472,10 @@ EXTERNAL SOURCES:
 
 SPEC CHECKSUMS:
   AppCenter: fddcbac6e4baae3d93a196ceb0bfe0e4ce407dec
-  appcenter: dc687dcf81280ccab1dc938b0b974d265144a802
-  appcenter-analytics: fa8dba207d07733dcbda749d262fde3e7161258d
-  appcenter-crashes: fa97ffec69882486d7183193cc9394473757d1ad
-  appcenter-push: d5a64c593578762f773ac40b76a2e6965911e45c
+  appcenter: f2e241f931e0865a74b3af3928066a1190814be0
+  appcenter-analytics: 42e368870a904af67fd93f043f3efa75ffa772a2
+  appcenter-crashes: bfc5c03a6ddcfa158fcf4217d1724fd52f45d12c
+  appcenter-push: 364163b8df17ec57588f8f14a29184405acb5de8
   AppCenterReactNativeShared: d5e360f8a4cb5126d29e31ab98051d2f070ba631
   boost-for-react-native: 39c7adb57c4e60d6c5479dd8623128eb5b3f0f2c
   BugsnagReactNative: 34f9500e304c2667ce7a3e76037d91e41eca2ffe
@@ -488,7 +488,7 @@ SPEC CHECKSUMS:
   Folly: 30e7936e1c45c08d884aa59369ed951a8e68cf51
   glog: 1f3da668190260b06b429bb211bfbee5cd790c28
   lottie-ios: 496ac5cea1bbf1a7bd1f1f472f3232eb1b8d744b
-  lottie-react-native: b123a79529cc732201091f585c62c89bb4747252
+  lottie-react-native: 2a1a82bb326ae51331a5520de0cf706733c6db69
   QBImagePickerController: d54cf93db6decf26baf6ed3472f336ef35cae022
   RCTRequired: c639d59ed389cfb1f1203f65c2ea946d8ec586e2
   RCTTypeSafety: dc23fb655d6c77667c78e327bf661bc11e3b8aec
@@ -500,11 +500,11 @@ SPEC CHECKSUMS:
   React-jsiexecutor: 8909917ff7d8f21a57e443a866fd8d4560e50c65
   React-jsinspector: 111d7d342b07a904c400592e02a2b958f1098b60
   react-native-cameraroll: 463aff54e37cff27ea76eb792e6f1fa43b876320
-  react-native-config: 8f6b2b9e017f6a5e92a97353c768e19e67294bb1
+  react-native-config: f2c2ae45625a068c35681a16b9bfb1ca58b0adc7
   react-native-fast-image: 6d50167ad4d68b59640ceead8c2bc4e58d91d8bd
-  react-native-netinfo: 6bb847e64f45a2d69c6173741111cfd95c669301
+  react-native-netinfo: ddaca8bbb9e6e914b1a23787ccb879bc642931c9
   react-native-version-number: b415bbec6a13f2df62bf978e85bc0d699462f37f
-  react-native-webview: d1b30cc9128256ec1a9c6d10fb572231bd371337
+  react-native-webview: db4682f1698ab4b17a5e88f951031d203ff8aea8
   React-RCTActionSheet: 89b037c0fb7d2671607cb645760164e7e0c013f6
   React-RCTAnimation: e3cefa93c38c004c318f7ec04b883eb14b8b8235
   React-RCTBlob: d26ac0e313fbf14e7203473fd593ccaaeee8329e
@@ -515,13 +515,13 @@ SPEC CHECKSUMS:
   React-RCTText: e3ef6191cdb627855ff7fe8fa0c1e14094967fb8
   React-RCTVibration: fb54c732fd20405a76598e431aa2f8c2bf527de9
   ReactCommon: 5848032ed2f274fcb40f6b9ec24067787c42d479
-  ReactNativeDarkMode: 315535c6f7a066bc4e8ba60591a63aafa16d5dca
+  ReactNativeDarkMode: bac355fdddfc07de71ceef6a324b99481eb3f1f4
   rn-fetch-blob: f525a73a78df9ed5d35e67ea65e79d53c15255bc
-  RNGestureHandler: 4cb47a93019c1a201df2644413a0a1569a51c8aa
+  RNGestureHandler: 946a7691e41df61e2c4b1884deab41a4cdc3afff
   RNIap: b4c77c8bc4501203f4b743126a05da23f10f40b4
   RNImageCropPicker: e1d8c3381e5b05a1bdcd13ea57a4f1c020a09cef
-  RNReanimated: 6abbbae2e5e72609d85aabd92a982a94566885f1
-  RNSVG: be27aa7c58819f97399388ae53d7fa0572f32c7f
+  RNReanimated: b2ab0b693dddd2339bd2f300e770f6302d2e960c
+  RNSVG: 8ba35cbeb385a52fd960fd28db9d7d18b4c2974f
   RNVectorIcons: 0bb4def82230be1333ddaeee9fcba45f0b288ed4
   RSKImageCropper: a446db0e8444a036b34f3c43db01b2373baa4b2a
   SDWebImage: c10d14a8883ebd89664f02a422006f66a85c0c5d
@@ -529,4 +529,4 @@ SPEC CHECKSUMS:
 
 PODFILE CHECKSUM: d4edbb9c1c57c5484f4893520a7865260cb898d3
 
-COCOAPODS: 1.8.3
+COCOAPODS: 1.8.4
