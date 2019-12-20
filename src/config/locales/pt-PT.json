@@ -28,9 +28,9 @@
     "reblog_title": "Pontos por reblogue",
     "login_title": "Pontos por Login",
     "checkin_title": "Pontos por pulsação",
-    "referral": "Referral",
-    "referral_title": "Referral rewards",
-    "referral_desc": "Invite friends and earn ESTM",
+    "referral": "Recomendação",
+    "referral_title": "Recompensa por recomendação",
+    "referral_desc": "Convide Amigos e Ganhe ESTM",
     "checkin_extra_title": "Uso do Bonús",
     "no_activity": "Sem actividade recente",
     "outgoing_transfer_description": "",
@@ -47,7 +47,7 @@
     "dropdown_boost": "Reforçar",
     "from": "De",
     "to": "Para",
-    "estimated_value_desc": "According to purchase value",
+    "estimated_value_desc": "De acordo com o valor da compra",
     "estimated_value": "Valor estimado",
     "estimated_amount": "Valor do voto",
     "amount_information": "Arraste o controle deslizante para ajustar a quantia",
@@ -103,14 +103,14 @@
     }
   },
   "notification": {
-    "vote": "voted",
-    "unvote": "unvoted",
-    "reply": "replied to",
-    "mention": "mentioned in",
+    "vote": "votou",
+    "unvote": "voto anulado",
+    "reply": "respondeu a",
+    "mention": "mencionado em",
     "follow": "seguiu você",
     "unfollow": "deixou de seguir você",
     "ignore": "ignorou você",
-    "reblog": "reblogged",
+    "reblog": "repostado",
     "transfer": "transferido",
     "notification": "Notificações",
     "leaderboard": "Quadro de Liderança",
@@ -121,10 +121,10 @@
     "this_week": "Esta Semana",
     "this_month": "Este Mês",
     "older_then": "Com mais de um mês",
-    "activities": "All",
+    "activities": "Todos",
     "replies": "Respostas",
-    "mentions": "Mentions",
-    "reblogs": "Reblogs"
+    "mentions": "Menções",
+    "reblogs": "Reposts"
   },
   "leaderboard": {
     "daily": "DIÁRIO",
@@ -214,10 +214,10 @@
   "home": {
     "feed": "Conteúdo de notícias",
     "popular": "Popular",
-    "top": "Top",
-    "hot": "Hot",
-    "new": "New",
-    "blog": "Blog"
+    "top": "Cima",
+    "hot": "Quente",
+    "new": "Novo",
+    "blog": "Blogue"
   },
   "side_menu": {
     "profile": "Perfil",
