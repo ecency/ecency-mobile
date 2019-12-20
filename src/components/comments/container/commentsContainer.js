@@ -1,4 +1,4 @@
-import React, { Component } from 'react';
+import React, { useEffect, useState } from 'react';
 import { withNavigation } from 'react-navigation';
 import { connect } from 'react-redux';
 import { injectIntl } from 'react-intl';
@@ -17,31 +17,44 @@ import ROUTES from '../../../constants/routeNames';
 // Component
 import CommentsView from '../view/commentsView';
 
-/*
- *            Props Name        Description                                     Value
- *@props -->  props name here   description here                                Value Type Here
- *
- */
+const CommentsContainer = ({
+  author,
+  permlink,
+  selectedFilter,
+  currentAccount,
+  isOwnProfile,
+  fetchPost,
+  navigation,
+  content,
+  pinCode,
+  comments,
+  dispatch,
+  intl,
+  isLoggedIn,
+  commentCount,
+  commentNumber,
+  isShowMoreButton,
+  mainAuthor,
+  selectedPermlink,
+  isHideImage,
+  isShowSubComments,
+  hasManyComments,
+  showAllComments,
+  hideManyCommentsButton,
+}) => {
+  const [_comments, setComments] = useState([]);
+  const [_selectedPermlink, setSelectedPermlink] = useState('');
 
-class CommentsContainer extends Component {
-  constructor(props) {
-    super(props);
-    this.state = {
-      comments: [],
-    };
-  }
-
-  // Component Life Cycle Functions
-  componentDidMount() {
-    this._getComments();
-  }
+  useEffect(() => {
+    _getComments();
+  }, []);
 
   // Component Functions
 
-  _shortComments = (sortOrder, comments) => {
-    const { comments: parent } = this.state;
+  const _shortComments = (sortOrder, __comments) => {
+    const parent = _comments;
 
-    const sortedComments = comments || parent;
+    const sortedComments = __comments || parent;
 
     const allPayout = c =>
       parseFloat(get(c, 'pending_payout_value').split(' ')[0]) +
@@ -122,39 +135,26 @@ class CommentsContainer extends Component {
     return sortedComments;
   };
 
-  _getComments = async () => {
-    const {
-      author,
-      permlink,
-      selectedFilter,
-      currentAccount: { name },
-      isOwnProfile,
-      fetchPost,
-    } = this.props;
+  const _getComments = async () => {
+    const { name } = currentAccount;
 
     if (isOwnProfile) {
       fetchPost();
     } else if (author && permlink) {
       await getComments(author, permlink, name)
-        .then(comments => {
+        .then(__comments => {
           if (selectedFilter) {
-            const sortComments = this._shortComments(selectedFilter, comments);
-            this.setState({
-              comments: sortComments,
-            });
+            const sortComments = _shortComments(selectedFilter, __comments);
+            setComments(sortComments);
           } else {
-            this.setState({
-              comments,
-            });
+            setComments(comments);
           }
         })
         .catch(() => {});
     }
   };
 
-  _handleOnReplyPress = item => {
-    const { navigation, fetchPost } = this.props;
-
+  const _handleOnReplyPress = item => {
     navigation.navigate({
       routeName: ROUTES.SCREENS.EDITOR,
       params: {
@@ -165,9 +165,7 @@ class CommentsContainer extends Component {
     });
   };
 
-  _handleOnVotersPress = activeVotes => {
-    const { navigation, content } = this.props;
-
+  const _handleOnVotersPress = activeVotes => {
     navigation.navigate({
       routeName: ROUTES.SCREENS.VOTERS,
       params: {
@@ -177,38 +175,32 @@ class CommentsContainer extends Component {
     });
   };
 
-  _handleOnEditPress = item => {
-    const { navigation } = this.props;
-
+  const _handleOnEditPress = item => {
     navigation.navigate({
       routeName: ROUTES.SCREENS.EDITOR,
       params: {
         isEdit: true,
         isReply: true,
         post: item,
-        fetchPost: this._getComments,
+        fetchPost: _getComments,
       },
     });
   };
 
-  _handleDeleteComment = permlink => {
-    const { currentAccount, pinCode, comments } = this.props;
-    const { comments: _comments } = this.state;
+  const _handleDeleteComment = _permlink => {
     let filteredComments;
 
-    deleteComment(currentAccount, pinCode, permlink).then(() => {
+    deleteComment(currentAccount, pinCode, _permlink).then(() => {
       if (_comments.length > 0) {
         filteredComments = _comments.filter(item => item.permlink !== permlink);
       } else {
         filteredComments = comments.filter(item => item.permlink !== permlink);
       }
-      this.setState({ comments: filteredComments });
+      setComments(filteredComments);
     });
   };
 
-  _handleOnPressCommentMenu = (index, selectedComment) => {
-    const { dispatch, intl, navigation, isOwnProfile } = this.props;
-
+  const _handleOnPressCommentMenu = (index, selectedComment) => {
     if (index === 0) {
       writeToClipboard(`https://esteem.app${get(selectedComment, 'url')}`).then(() => {
         dispatch(
@@ -231,70 +223,40 @@ class CommentsContainer extends Component {
     }
   };
 
-  UNSAFE_componentWillReceiveProps(nextProps) {
-    const { commentCount, selectedFilter } = this.props;
+  useEffect(() => {
+    _getComments();
+    const shortedComments = _shortComments(selectedFilter);
+    setComments(shortedComments);
+  }, [commentCount, selectedFilter]);
 
-    if (nextProps.commentCount > commentCount) {
-      this._getComments();
-    }
-
-    if (selectedFilter !== get(nextProps, 'selectedFilter') && get(nextProps, 'selectedFilter')) {
-      const shortedComments = this._shortComments(get(nextProps, 'selectedFilter'));
-      this.setState({ comments: shortedComments });
-    }
-  }
-
-  render() {
-    const { comments: _comments, selectedPermlink } = this.state;
-    const {
-      isLoggedIn,
-      commentCount,
-      author,
-      currentAccount,
-      commentNumber,
-      comments,
-      fetchPost,
-      isShowMoreButton,
-      selectedFilter,
-      mainAuthor,
-      selectedPermlink: _selectedPermlink,
-      isOwnProfile,
-      isHideImage,
-      isShowSubComments,
-      hasManyComments,
-      showAllComments,
-      hideManyCommentsButton,
-    } = this.props;
-
-    return (
-      <CommentsView
-        key={selectedFilter}
-        hasManyComments={hasManyComments}
-        hideManyCommentsButton={hideManyCommentsButton}
-        selectedFilter={selectedFilter}
-        selectedPermlink={_selectedPermlink || selectedPermlink}
-        author={author}
-        mainAuthor={mainAuthor}
-        isShowMoreButton={isShowMoreButton}
-        commentNumber={commentNumber || 1}
-        commentCount={commentCount}
-        comments={_comments.length > 0 ? _comments : comments}
-        currentAccountUsername={currentAccount.name}
-        handleOnEditPress={this._handleOnEditPress}
-        handleOnReplyPress={this._handleOnReplyPress}
-        isLoggedIn={isLoggedIn}
-        fetchPost={fetchPost}
-        handleDeleteComment={this._handleDeleteComment}
-        handleOnPressCommentMenu={this._handleOnPressCommentMenu}
-        isOwnProfile={isOwnProfile}
-        isHideImage={isHideImage}
-        handleOnVotersPress={this._handleOnVotersPress}
-        isShowSubComments={isShowSubComments}
-        showAllComments={showAllComments}
-      />
-    );
-  }
-}
+  return (
+    <CommentsView
+      key={selectedFilter}
+      hasManyComments={hasManyComments}
+      hideManyCommentsButton={hideManyCommentsButton}
+      selectedFilter={selectedFilter}
+      selectedPermlink={selectedPermlink || _selectedPermlink}
+      author={author}
+      mainAuthor={mainAuthor}
+      isShowMoreButton={isShowMoreButton}
+      commentNumber={commentNumber || 1}
+      commentCount={commentCount}
+      comments={_comments.length > 0 ? _comments : comments}
+      currentAccountUsername={currentAccount.name}
+      handleOnEditPress={_handleOnEditPress}
+      handleOnReplyPress={_handleOnReplyPress}
+      isLoggedIn={isLoggedIn}
+      fetchPost={fetchPost}
+      handleDeleteComment={_handleDeleteComment}
+      handleOnPressCommentMenu={_handleOnPressCommentMenu}
+      isOwnProfile={isOwnProfile}
+      isHideImage={isHideImage}
+      handleOnVotersPress={_handleOnVotersPress}
+      isShowSubComments={isShowSubComments}
+      showAllComments={showAllComments}
+    />
+  );
+};
 
 const mapStateToProps = state => ({
   isLoggedIn: state.application.isLoggedIn,
