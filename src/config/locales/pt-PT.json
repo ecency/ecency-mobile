@@ -28,9 +28,9 @@
     "reblog_title": "Pontos por reblogue",
     "login_title": "Pontos por Login",
     "checkin_title": "Pontos por pulsação",
-    "referral": "Referral",
-    "referral_title": "Referral rewards",
-    "referral_desc": "Invite friends and earn ESTM",
+    "referral": "Recomendação",
+    "referral_title": "Recompensa por recomendação",
+    "referral_desc": "Convide Amigos e Ganhe ESTM",
     "checkin_extra_title": "Uso do Bonús",
     "no_activity": "Sem actividade recente",
     "outgoing_transfer_description": "",
@@ -103,7 +103,7 @@
     }
   },
   "notification": {
-    "vote": "voted",
+    "vote": "votou",
     "unvote": "unvoted",
     "reply": "replied to",
     "mention": "mentioned in",
