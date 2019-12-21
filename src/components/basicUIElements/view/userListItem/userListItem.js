@@ -1,5 +1,6 @@
 import React from 'react';
 import { View, Text, TouchableOpacity } from 'react-native';
+import { FormattedRelativeTime } from 'react-intl';
 import { UserAvatar } from '../../../userAvatar';
 import styles from './userListItemStyles';
 
@@ -31,7 +32,15 @@ const UserListItem = ({
       <UserAvatar noAction={userCanPress} style={styles.avatar} username={username} />
       <View style={styles.userDescription}>
         <Text style={styles.name}>{text || username}</Text>
-        {description && <Text style={styles.date}>{description}</Text>}
+        {description && (
+          <Text style={styles.date}>
+            <FormattedRelativeTime
+              value={description.value}
+              numeric="auto"
+              unit={description.unit}
+            />
+          </Text>
+        )}
       </View>
       {middleText && (
         <View style={styles.middleWrapper}>

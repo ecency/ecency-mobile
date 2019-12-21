@@ -45,7 +45,6 @@ class PostListItemView extends Component {
       handleOnRemoveItem,
       id,
       intl,
-      isFormatedDate,
     } = this.props;
 
     return (
@@ -53,8 +52,7 @@ class PostListItemView extends Component {
         <View style={styles.container}>
           <View style={styles.header}>
             <PostHeaderDescription
-              // date={intl.formatRelative(created)}
-              date={isFormatedDate ? created : getTimeFromNow(created, true)}
+              date={getTimeFromNow(created)}
               name={username}
               reputation={reputation}
               size={36}
