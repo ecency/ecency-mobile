@@ -42,8 +42,6 @@ const CommentsView = ({
   const intl = useIntl();
   const commentMenu = useRef();
 
-  const _keyExtractor = item => get(item, 'permlink');
-
   const _openCommentMenu = item => {
     setSelectedComment(item);
     commentMenu.current.show();
@@ -84,7 +82,6 @@ const CommentsView = ({
       <FlatList
         style={styles.list}
         data={comments}
-        keyExtractor={_keyExtractor}
         renderItem={({ item }) => (
           <Comment
             mainAuthor={mainAuthor}
@@ -111,6 +108,7 @@ const CommentsView = ({
             handleOnLongPress={() => _openCommentMenu(item)}
           />
         )}
+        keyExtractor={item => get(item, 'permlink')}
       />
       <ActionSheet
         ref={commentMenu}
