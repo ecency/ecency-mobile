@@ -37,6 +37,8 @@ const UserListItem = ({
             <FormattedRelativeTime
               value={description.value}
               numeric="auto"
+              // eslint-disable-next-line react/style-prop-object
+              style="short"
               unit={description.unit}
             />
           </Text>

@@ -81,7 +81,13 @@ class PostHeaderDescription extends PureComponent {
             {isPromoted ? (
               intl.formatMessage({ id: 'post.sponsored' })
             ) : (
-              <FormattedRelativeTime value={date.value} numeric="auto" unit={date.unit} />
+              <FormattedRelativeTime
+                value={date.value}
+                // eslint-disable-next-line react/style-prop-object
+                style="short"
+                numeric="auto"
+                unit={date.unit}
+              />
             )}
           </Text>
           {isShowOwnerIndicator && (
