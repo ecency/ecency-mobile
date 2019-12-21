@@ -194,7 +194,7 @@ class ProfileContainer extends Component {
         follows = null;
       }
 
-      if (isProfileAction && (isFollowing === _isFollowing && isMuted === _isMuted)) {
+      if (isProfileAction && isFollowing === _isFollowing && isMuted === _isMuted) {
         this._fetchProfile(_username, true);
       } else {
         this.setState({
