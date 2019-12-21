@@ -335,6 +335,8 @@ class UpvoteView extends Component {
                       <FormattedRelativeTime
                         value={payoutDate.value}
                         numeric="auto"
+                        // eslint-disable-next-line react/style-prop-object
+                        style="short"
                         unit={payoutDate.unit}
                       />
                     </Text>
