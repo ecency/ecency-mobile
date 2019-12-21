@@ -1,4 +1,4 @@
-import React, { Component } from 'react';
+import React, { useState, useRef, useEffect } from 'react';
 import { injectIntl } from 'react-intl';
 import { View, FlatList, Text } from 'react-native';
 import ScrollableTabView from 'react-native-scrollable-tab-view';
@@ -11,32 +11,39 @@ import { UserListItem, WalletDetailsPlaceHolder, BasicHeader, TabBar } from '../
 import globalStyles from '../../../globalStyles';
 import styles from './bookmarksStyles';
 
-class BookmarksScreen extends Component {
-  /* Props
-   * ------------------------------------------------
-   *   @prop { type }    name                - Description....
-   */
+const BookmarksScreen = ({
+  isLoading,
+  intl,
+  handleOnFavoritePress,
+  handleOnBookarkPress,
+  favorites,
+  bookmarks,
+  removeFavorite,
+  removeBookmark,
+}) => {
+  const [selectedItemId, setSelectedItemId] = useState(null);
+  const [activeTab, setActiveTab] = useState(0);
+  const ActionSheetRef = useRef(null);
+  const firstMount = useRef(true);
 
-  constructor(props) {
-    super(props);
-    this.state = {
-      selectedItemId: null,
-      activeTab: 0,
-    };
-  }
+  useEffect(() => {
+    if (firstMount.current) {
+      firstMount.current = false;
+      return;
+    }
+    if (ActionSheetRef.current) {
+      ActionSheetRef.current.show();
+    }
+  }, [selectedItemId]);
 
-  // Component Life Cycles
-
-  // Component Functions
-  _renderItem = (item, index, itemType) => {
-    const { handleOnFavoritePress, handleOnBookarkPress } = this.props;
+  const _renderItem = (item, index, itemType) => {
     const isFavorites = itemType === 'favorites';
     const text = isFavorites ? item.account : `${item.author}/${item.permlink}`;
 
     if (item.author || item.account) {
       return (
         <UserListItem
-          handleOnLongPress={() => this._handleLongPress(isFavorites ? item.account : item._id)}
+          handleOnLongPress={() => _handleLongPress(isFavorites ? item.account : item._id)}
           handleOnPress={() =>
             isFavorites
               ? handleOnFavoritePress(item.account)
@@ -51,9 +58,7 @@ class BookmarksScreen extends Component {
     }
   };
 
-  _renderEmptyContent = () => {
-    const { isLoading, intl } = this.props;
-
+  const _renderEmptyContent = () => {
     if (isLoading) {
       return <WalletDetailsPlaceHolder />;
     }
@@ -67,7 +72,7 @@ class BookmarksScreen extends Component {
     );
   };
 
-  _getTabItem = (data, type) => {
+  const _getTabItem = (data, type) => {
     const isFavorites = type === 'favorites';
 
     return (
@@ -80,78 +85,70 @@ class BookmarksScreen extends Component {
           )}
           keyExtractor={item => item._id}
           removeClippedSubviews={false}
-          renderItem={({ item, index }) => this._renderItem(item, index, type)}
-          ListEmptyComponent={this._renderEmptyContent()}
+          renderItem={({ item, index }) => _renderItem(item, index, type)}
+          ListEmptyComponent={_renderEmptyContent()}
         />
       </View>
     );
   };
-
-  _handleLongPress = selectedItemId => {
-    this.setState({ selectedItemId }, () => {
-      this.ActionSheet.show();
-    });
+  const _handleLongPress = _selectedItemId => {
+    setSelectedItemId(_selectedItemId);
   };
 
-  render() {
-    const { favorites, bookmarks, intl, removeFavorite, removeBookmark } = this.props;
-    const { selectedItemId, activeTab } = this.state;
+  return (
+    <View style={globalStyles.container}>
+      <BasicHeader
+        title={intl.formatMessage({
+          id: 'bookmarks.title',
+        })}
+      />
 
-    return (
-      <View style={globalStyles.container}>
-        <BasicHeader
-          title={intl.formatMessage({
+      <ScrollableTabView
+        onChangeTab={event => setActiveTab(event.i)}
+        style={globalStyles.tabView}
+        renderTabBar={() => (
+          <TabBar
+            style={styles.tabbar}
+            tabUnderlineDefaultWidth={80}
+            tabUnderlineScaleX={2}
+            tabBarPosition="overlayTop"
+          />
+        )}
+      >
+        <View
+          tabLabel={intl.formatMessage({
             id: 'bookmarks.title',
           })}
-        />
-
-        <ScrollableTabView
-          onChangeTab={event => this.setState({ activeTab: event.i })}
-          style={globalStyles.tabView}
-          renderTabBar={() => (
-            <TabBar
-              style={styles.tabbar}
-              tabUnderlineDefaultWidth={80}
-              tabUnderlineScaleX={2}
-              tabBarPosition="overlayTop"
-            />
-          )}
+          style={styles.tabbarItem}
         >
-          <View
-            tabLabel={intl.formatMessage({
-              id: 'bookmarks.title',
-            })}
-            style={styles.tabbarItem}
-          >
-            {this._getTabItem(bookmarks, 'bookmarks')}
-          </View>
-          <View
-            tabLabel={intl.formatMessage({
-              id: 'favorites.title',
-            })}
-            style={styles.tabbarItem}
-          >
-            {this._getTabItem(favorites, 'favorites')}
-          </View>
-        </ScrollableTabView>
-        <ActionSheet
-          ref={o => (this.ActionSheet = o)}
-          options={[
-            intl.formatMessage({ id: 'alert.delete' }),
-            intl.formatMessage({ id: 'alert.cancel' }),
-          ]}
-          title={intl.formatMessage({ id: 'alert.remove_alert' })}
-          cancelButtonIndex={1}
-          destructiveButtonIndex={0}
-          onPress={index => {
-            if (index === 0) {
-              activeTab === 0 ? removeBookmark(selectedItemId) : removeFavorite(selectedItemId);
-            }
-          }}
-        />
-      </View>
-    );
-  }
-}
+          {_getTabItem(bookmarks, 'bookmarks')}
+        </View>
+        <View
+          tabLabel={intl.formatMessage({
+            id: 'favorites.title',
+          })}
+          style={styles.tabbarItem}
+        >
+          {_getTabItem(favorites, 'favorites')}
+        </View>
+      </ScrollableTabView>
+      <ActionSheet
+        ref={ActionSheetRef}
+        options={[
+          intl.formatMessage({ id: 'alert.delete' }),
+          intl.formatMessage({ id: 'alert.cancel' }),
+        ]}
+        title={intl.formatMessage({ id: 'alert.remove_alert' })}
+        cancelButtonIndex={1}
+        destructiveButtonIndex={0}
+        onPress={index => {
+          if (index === 0) {
+            activeTab === 0 ? removeBookmark(selectedItemId) : removeFavorite(selectedItemId);
+          }
+        }}
+      />
+    </View>
+  );
+};
 
 export default injectIntl(BookmarksScreen);
