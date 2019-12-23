@@ -46,7 +46,7 @@ const SearchModalContainer = ({
     }
     if (text && text !== '@' && text !== '#') {
       if (text[0] === '@') {
-        lookupAccounts(text.substr(1)).then(res => {
+        lookupAccounts(text.substr(1).trim()).then(res => {
           const users = res.map(item => ({
             image: getResizedAvatar(item),
             text: item,
@@ -55,7 +55,7 @@ const SearchModalContainer = ({
           setSearchResults({ type: 'user', data: users });
         });
       } else if (text[0] === '#') {
-        getTrendingTags(text.substr(1)).then(res => {
+        getTrendingTags(text.substr(1).trim()).then(res => {
           const tags = res.map(item => ({
             text: `#${get(item, 'name', '')}`,
             ...item,
