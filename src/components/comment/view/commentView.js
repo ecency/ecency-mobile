@@ -68,6 +68,7 @@ const CommentView = ({
             handleOnUserPress={handleOnUserPress}
             body={comment.body}
             created={comment.created}
+            key={`key-${comment.permlink}`}
             textSelectable={false}
           />
           <View style={styles.footerWrapper}>
