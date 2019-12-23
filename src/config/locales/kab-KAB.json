@@ -124,7 +124,8 @@
     "activities": "Akk",
     "replies": "Tiririyin",
     "mentions": "Mentions",
-    "reblogs": "Reblogs"
+    "reblogs": "Reblogs",
+    "noactivity": "No new activity found"
   },
   "leaderboard": {
     "daily": "N YAL ASS",
@@ -148,6 +149,7 @@
     "hours": "isragen",
     "voting_power": "Tazmert n tefrant",
     "login_to_see": "Qqen akken ad teẓreḍ",
+    "follow_people": "Follow some people to fill your feed",
     "havent_commented": "ur twennteḍ kra ar tura",
     "havent_posted": "ur d-tsuffɣeḍ kra ar tura",
     "steem_power": "Tazmert n steem",
