@@ -1,6 +1,6 @@
 /* eslint-disable react/jsx-wrap-multilines */
 import React, { PureComponent, Fragment } from 'react';
-import { View, FlatList, ActivityIndicator, RefreshControl } from 'react-native';
+import { View, FlatList, ActivityIndicator, RefreshControl, Text } from 'react-native';
 import { injectIntl } from 'react-intl';
 
 // Constants
@@ -177,38 +177,46 @@ class NotificationView extends PureComponent {
           onRightIconPress={readAllNotification}
         />
         <ThemeContainer>
-          {({ isDarkTheme }) => (
-            <FlatList
-              data={_notifications}
-              refreshing={isNotificationRefreshing}
-              onRefresh={() => getActivities()}
-              keyExtractor={item => item.title}
-              onEndReached={() => getActivities(null, selectedFilter, true)}
-              ListFooterComponent={this._renderFooterLoading}
-              ListEmptyComponent={<ListPlaceHolder />}
-              contentContainerStyle={styles.listContentContainer}
-              refreshControl={
-                <RefreshControl
-                  refreshing={isNotificationRefreshing}
-                  progressBackgroundColor="#357CE6"
-                  tintColor={!isDarkTheme ? '#357ce6' : '#96c0ff'}
-                  titleColor="#fff"
-                  colors={['#fff']}
-                />
-              }
-              renderItem={({ item, index }) => (
-                <Fragment>
-                  <ContainerHeader
-                    hasSeperator={index !== 0}
-                    isBoldTitle
-                    title={item.title}
-                    key={item.title}
+          {({ isDarkTheme }) =>
+            _notifications && _notifications.length > 0 ? (
+              <FlatList
+                data={_notifications}
+                refreshing={isNotificationRefreshing}
+                onRefresh={() => getActivities()}
+                keyExtractor={item => item.title}
+                onEndReached={() => getActivities(null, selectedFilter, true)}
+                ListFooterComponent={this._renderFooterLoading}
+                ListEmptyComponent={<ListPlaceHolder />}
+                contentContainerStyle={styles.listContentContainer}
+                refreshControl={
+                  <RefreshControl
+                    refreshing={isNotificationRefreshing}
+                    progressBackgroundColor="#357CE6"
+                    tintColor={!isDarkTheme ? '#357ce6' : '#96c0ff'}
+                    titleColor="#fff"
+                    colors={['#fff']}
                   />
-                  {this._renderList(item.notifications)}
-                </Fragment>
-              )}
-            />
-          )}
+                }
+                renderItem={({ item, index }) => (
+                  <Fragment>
+                    <ContainerHeader
+                      hasSeperator={index !== 0}
+                      isBoldTitle
+                      title={item.title}
+                      key={item.title}
+                    />
+                    {this._renderList(item.notifications)}
+                  </Fragment>
+                )}
+              />
+            ) : (
+              <Text style={styles.text}>
+                {intl.formatMessage({
+                  id: 'notification.noactivity',
+                })}
+              </Text>
+            )
+          }
         </ThemeContainer>
       </View>
     );
