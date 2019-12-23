@@ -1,4 +1,4 @@
-import React, { Component } from 'react';
+import React, { useEffect } from 'react';
 import { withNavigation } from 'react-navigation';
 import { connect } from 'react-redux';
 import { injectIntl } from 'react-intl';
@@ -17,22 +17,23 @@ import { default as ROUTES } from '../../../constants/routeNames';
 // Component
 import PostDisplayView from '../view/postDisplayView';
 
-/*
- *            Props Name        Description                                     Value
- *@props -->  props name here   description here                                Value Type Here
- *
- */
-
-class PostDisplayContainer extends Component {
-  constructor(props) {
-    super(props);
-    this.state = {};
-  }
-
+const PostDisplayContainer = ({
+  navigation,
+  post,
+  fetchPost,
+  isFetchPost,
+  currentAccount,
+  pinCode,
+  dispatch,
+  intl,
+  isLoggedIn,
+  isNewPost,
+  parentPost,
+  isPostUnavailable,
+  author,
+}) => {
   // Component Functions
-  _handleOnVotersPress = activeVotes => {
-    const { navigation, post } = this.props;
-
+  const _handleOnVotersPress = activeVotes => {
     navigation.navigate({
       routeName: ROUTES.SCREENS.VOTERS,
       params: {
@@ -43,9 +44,7 @@ class PostDisplayContainer extends Component {
     });
   };
 
-  _handleOnReblogsPress = reblogs => {
-    const { navigation, post } = this.props;
-
+  const _handleOnReblogsPress = reblogs => {
     if (reblogs.length > 0) {
       navigation.navigate({
         routeName: ROUTES.SCREENS.REBLOGS,
@@ -57,22 +56,18 @@ class PostDisplayContainer extends Component {
     }
   };
 
-  _handleOnReplyPress = () => {
-    const { post, navigation } = this.props;
-
+  const _handleOnReplyPress = () => {
     navigation.navigate({
       routeName: ROUTES.SCREENS.EDITOR,
       params: {
         isReply: true,
         post,
-        fetchPost: this._fetchPost,
+        fetchPost: _fetchPost,
       },
     });
   };
 
-  _handleOnEditPress = () => {
-    const { post, navigation } = this.props;
-
+  const _handleOnEditPress = () => {
     if (post) {
       const isReply = post.parent_author;
 
@@ -82,15 +77,13 @@ class PostDisplayContainer extends Component {
           isEdit: true,
           isReply,
           post,
-          fetchPost: this._fetchPost,
+          fetchPost: _fetchPost,
         },
       });
     }
   };
 
-  _handleDeleteComment = permlink => {
-    const { currentAccount, pinCode, navigation, dispatch, intl } = this.props;
-
+  const _handleDeleteComment = permlink => {
     deleteComment(currentAccount, pinCode, permlink).then(() => {
       navigation.goBack();
       dispatch(
@@ -103,52 +96,34 @@ class PostDisplayContainer extends Component {
     });
   };
 
-  _fetchPost = async () => {
-    const { post, fetchPost } = this.props;
-
+  const _fetchPost = async () => {
     if (post) {
       fetchPost(post.author, post.permlink);
     }
   };
 
-  // Component Life Cycle Functions
-  UNSAFE_componentWillReceiveProps(nextProps) {
-    const { isFetchPost } = this.props;
-    if (isFetchPost !== nextProps.isFetchPost && nextProps.isFetchPost) {
-      this._fetchPost();
-    }
-  }
+  useEffect(() => {
+    _fetchPost();
+  }, [isFetchPost]);
 
-  render() {
-    const {
-      currentAccount,
-      isLoggedIn,
-      isNewPost,
-      parentPost,
-      post,
-      isPostUnavailable,
-      author,
-    } = this.props;
-
-    return (
-      <PostDisplayView
-        author={author}
-        currentAccount={currentAccount}
-        fetchPost={this._fetchPost}
-        handleOnEditPress={this._handleOnEditPress}
-        handleOnRemovePress={this._handleDeleteComment}
-        handleOnReplyPress={this._handleOnReplyPress}
-        handleOnVotersPress={this._handleOnVotersPress}
-        handleOnReblogsPress={this._handleOnReblogsPress}
-        isLoggedIn={isLoggedIn}
-        isNewPost={isNewPost}
-        isPostUnavailable={isPostUnavailable}
-        parentPost={parentPost}
-        post={post}
-      />
-    );
-  }
-}
+  return (
+    <PostDisplayView
+      author={author}
+      currentAccount={currentAccount}
+      fetchPost={_fetchPost}
+      handleOnEditPress={_handleOnEditPress}
+      handleOnRemovePress={_handleDeleteComment}
+      handleOnReplyPress={_handleOnReplyPress}
+      handleOnVotersPress={_handleOnVotersPress}
+      handleOnReblogsPress={_handleOnReblogsPress}
+      isLoggedIn={isLoggedIn}
+      isNewPost={isNewPost}
+      isPostUnavailable={isPostUnavailable}
+      parentPost={parentPost}
+      post={post}
+    />
+  );
+};
 
 const mapStateToProps = state => ({
   currentAccount: state.account.currentAccount,

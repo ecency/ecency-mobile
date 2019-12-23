@@ -47,10 +47,12 @@ const FormInputView = ({
 
   // TODO: Workaround for android context (copy/paste) menu, check react-navigation library
   useEffect(() => {
-    setValue(' ');
-    setTimeout(() => {
-      setValue('');
-    }, 1);
+    if (!value) {
+      setValue(' ');
+      setTimeout(() => {
+        setValue(value || '');
+      }, 0);
+    }
   }, []);
 
   useEffect(() => {
