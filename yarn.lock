@@ -1148,6 +1148,13 @@
     react-native-lightbox "git+https://github.com/oblador/react-native-lightbox.git"
     stream "0.0.2"
 
+"@esteemapp/react-native-slider@^0.12.0":
+  version "0.12.0"
+  resolved "https://registry.yarnpkg.com/@esteemapp/react-native-slider/-/react-native-slider-0.12.0.tgz#015d429e22545a176c1c07e7f01ae232302fbab4"
+  integrity sha512-lOnwyBO5Iun0Ou0rWvgA+QjSggfHdHVW488svXxn5O1hZAXnujItQOSJtm4llyclEyjmJVaQMp9+nuvGBdWxIA==
+  dependencies:
+    prop-types "^15.5.6"
+
 "@formatjs/intl-listformat@^1.3.1":
   version "1.3.1"
   resolved "https://registry.yarnpkg.com/@formatjs/intl-listformat/-/intl-listformat-1.3.1.tgz#bb75fe8b1caa7c0df765d45ce32030b6123f5311"
@@ -7697,13 +7704,6 @@ react-native-scrollable-tab-view@esteemapp/react-native-scrollable-tab-view:
     create-react-class "^15.6.2"
     prop-types "^15.6.0"
     react-timer-mixin "^0.13.3"
-
-react-native-slider@^0.11.0:
-  version "0.11.0"
-  resolved "https://registry.yarnpkg.com/react-native-slider/-/react-native-slider-0.11.0.tgz#b68a0bc43c8422b24cd57947cc5ac2bcdb58fadc"
-  integrity sha512-jV9K87eu9uWr0uJIyrSpBLnCKvVlOySC2wynq9TFCdV9oGgjt7Niq8Q1A8R8v+5GHsuBw/s8vEj1AAkkUi+u+w==
-  dependencies:
-    prop-types "^15.5.6"
 
 react-native-snap-carousel@^3.8.0:
   version "3.8.4"

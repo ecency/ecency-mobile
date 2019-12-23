@@ -1,6 +1,6 @@
 import React, { Component } from 'react';
 import { View, Text, TouchableOpacity } from 'react-native';
-import Slider from 'react-native-slider';
+import Slider from '@esteemapp/react-native-slider';
 import { injectIntl } from 'react-intl';
 
 // Constants
