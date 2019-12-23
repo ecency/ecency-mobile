@@ -67,6 +67,7 @@ const CommentView = ({
             commentDepth={comment.depth}
             handleOnUserPress={handleOnUserPress}
             body={comment.body}
+            created={comment.created}
             textSelectable={false}
           />
           <View style={styles.footerWrapper}>
