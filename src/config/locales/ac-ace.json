@@ -124,7 +124,8 @@
     "activities": "All",
     "replies": "Balah",
     "mentions": "Mentions",
-    "reblogs": "Reblogs"
+    "reblogs": "Reblogs",
+    "noactivity": "No new activity found"
   },
   "leaderboard": {
     "daily": "DAILY",
@@ -148,6 +149,7 @@
     "hours": "jëum",
     "voting_power": "Teunaga Galak",
     "login_to_see": "Tamoëng Untuk Kaloën",
+    "follow_people": "Follow some people to fill your feed",
     "havent_commented": "galöem peurnah komentar",
     "havent_posted": "galöem peurnah tumulèh",
     "steem_power": "Teunaga Steem",
