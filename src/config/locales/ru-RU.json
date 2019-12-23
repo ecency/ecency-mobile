@@ -124,7 +124,8 @@
     "activities": "All",
     "replies": "Ответы",
     "mentions": "Mentions",
-    "reblogs": "Reblogs"
+    "reblogs": "Reblogs",
+    "noactivity": "No new activity found"
   },
   "leaderboard": {
     "daily": "DAILY",
@@ -148,6 +149,7 @@
     "hours": "ч",
     "voting_power": "Сила голоса",
     "login_to_see": "Войдите, чтобы увидеть",
+    "follow_people": "Follow some people to fill your feed",
     "havent_commented": "ещё ничего не комментировал",
     "havent_posted": "ещё ничего не написал",
     "steem_power": "Сила голоса",

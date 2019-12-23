@@ -124,7 +124,8 @@
     "activities": "All",
     "replies": "الردود",
     "mentions": "Mentions",
-    "reblogs": "Reblogs"
+    "reblogs": "Reblogs",
+    "noactivity": "No new activity found"
   },
   "leaderboard": {
     "daily": "DAILY",
@@ -148,6 +149,7 @@
     "hours": "ساعات",
     "voting_power": "قوة التصويت",
     "login_to_see": "سَجّل الدخول لكي ترى",
+    "follow_people": "Follow some people to fill your feed",
     "havent_commented": "لم تكن قد علقت أي شيء حتى الآن",
     "havent_posted": "لم تنشر أي شيء حتى الآن",
     "steem_power": "قوة ستيم",

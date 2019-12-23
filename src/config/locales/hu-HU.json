@@ -124,7 +124,8 @@
     "activities": "Összes",
     "replies": "Válaszok",
     "mentions": "Említések",
-    "reblogs": "Megosztások"
+    "reblogs": "Megosztások",
+    "noactivity": "No new activity found"
   },
   "leaderboard": {
     "daily": "NAPI",
@@ -148,6 +149,7 @@
     "hours": "órák",
     "voting_power": "Szavazóerő",
     "login_to_see": "A megtekintéshez jelentkezz be",
+    "follow_people": "Follow some people to fill your feed",
     "havent_commented": "még nem szólt hozzá semmihez",
     "havent_posted": "még nem tett közzé semmit",
     "steem_power": "Steem Power",

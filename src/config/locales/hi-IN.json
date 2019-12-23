@@ -124,7 +124,8 @@
     "activities": "All",
     "replies": "जबाबें",
     "mentions": "Mentions",
-    "reblogs": "Reblogs"
+    "reblogs": "Reblogs",
+    "noactivity": "No new activity found"
   },
   "leaderboard": {
     "daily": "DAILY",
@@ -148,6 +149,7 @@
     "hours": "घंटे",
     "voting_power": "मतदान की क्षमता",
     "login_to_see": "देखने के लिए लॉगिन करें",
+    "follow_people": "Follow some people to fill your feed",
     "havent_commented": "अभी तक कोई टिपण्णी नहीं की है",
     "havent_posted": "अभी तक कोई पोस्ट नहीं की है",
     "steem_power": "स्टीम ताकत",
