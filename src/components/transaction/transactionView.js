@@ -48,12 +48,12 @@ const TransactionView = ({ transactions, type, refreshing, setRefreshing, isLoad
       Object.keys(item).length > 0 &&
       item.value.indexOf(transaction_types[type]) > -1 && (
         <CollapsibleCard
-          key={item.created.toString()}
+          key={`keyh-${item.created.toString()}`}
           noBorder
           noContainer
           titleComponent={
             <WalletLineItem
-              key={item.created.toString()}
+              key={`keyt-${item.created.toString()}`}
               index={index + 1}
               text={intl.formatMessage({
                 id: `wallet.${get(item, 'textKey')}`,
@@ -71,7 +71,7 @@ const TransactionView = ({ transactions, type, refreshing, setRefreshing, isLoad
         >
           {(get(item, 'details') || get(item, 'memo')) && (
             <WalletLineItem
-              key={index.toString()}
+              key={`keyd-${item.created.toString()}`}
               text={get(item, 'details', '')}
               isBlackText
               isThin
@@ -92,6 +92,7 @@ const TransactionView = ({ transactions, type, refreshing, setRefreshing, isLoad
         onRefresh={refreshControl}
         refreshing={refreshing}
         renderItem={({ item, index }) => _renderItem(item, index)}
+        keyExtractor={(item, index) => index.toString()}
       />
     </View>
   );

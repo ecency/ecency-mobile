@@ -54,9 +54,9 @@ const WalletHeaderView = ({
     }
   }, [reload]);
 
-  const _getBalanceItem = (balance, options, key) =>
+  const _getBalanceItem = (balance, options, _key) =>
     balance !== undefined && (
-      <View style={styles.balanceWrapper}>
+      <View style={styles.balanceWrapper} key={balance + _key}>
         <Text style={styles.balanceText}>{balance}</Text>
         <DropdownButton
           dropdownRowWrapper={styles.dropdownRowStyle}
@@ -71,7 +71,7 @@ const WalletHeaderView = ({
           dropdownStyle={styles.dropdownStyle}
           iconStyle={styles.dropdownIconStyle}
         />
-        <Text style={styles.subText}>{intl.formatMessage({ id: `wallet.${key}.title` })}</Text>
+        <Text style={styles.subText}>{intl.formatMessage({ id: `wallet.${_key}.title` })}</Text>
       </View>
     );
 
@@ -106,8 +106,9 @@ const WalletHeaderView = ({
         )}
 
         {valueDescriptions &&
-          valueDescriptions.map(item => (
+          valueDescriptions.map((item, _index) => (
             <WalletLineItem
+              key={`keyl-${_index.toString()}`}
               fitContent
               style={styles.valueDescriptions}
               text={intl.formatMessage({ id: `wallet.${get(item, 'textKey')}` })}
