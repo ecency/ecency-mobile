@@ -7,19 +7,21 @@ export default EStyleSheet.create({
     alignItems: 'center',
   },
   textWrapper: {
-    flex: 0.2,
+    flex: 0.3,
     justifyContent: 'center',
     alignItems: 'center',
   },
   count: {
-    fontSize: 60,
+    fontSize: 50,
     fontWeight: '700',
     color: '$primaryDarkGray',
     height: 60,
+    zIndex: 2,
   },
   countDesc: {
     color: '$primaryDarkGray',
     fontSize: 16,
+    zIndex: 1,
     marginTop: 5,
     fontWeight: '700',
   },
