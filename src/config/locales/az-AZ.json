@@ -124,7 +124,8 @@
     "activities": "All",
     "replies": "Cavablar",
     "mentions": "Mentions",
-    "reblogs": "Reblogs"
+    "reblogs": "Reblogs",
+    "noactivity": "No new activity found"
   },
   "leaderboard": {
     "daily": "DAILY",
@@ -148,6 +149,7 @@
     "hours": "saat",
     "voting_power": "Səsvermə gücü",
     "login_to_see": "Baxmaq üçün giriş et",
+    "follow_people": "Follow some people to fill your feed",
     "havent_commented": "hələ ki, rəy bildirmədi",
     "havent_posted": "hələ ki, göndəriş paylaşmadı",
     "steem_power": "Steem Gücü",
