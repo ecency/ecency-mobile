@@ -124,7 +124,8 @@
     "activities": "All",
     "replies": "Yorumlar",
     "mentions": "Mentions",
-    "reblogs": "Reblogs"
+    "reblogs": "Reblogs",
+    "noactivity": "No new activity found"
   },
   "leaderboard": {
     "daily": "DAILY",
@@ -148,6 +149,7 @@
     "hours": "saat",
     "voting_power": "Oylama güçü",
     "login_to_see": "Giriş yap ve gör!",
+    "follow_people": "Follow some people to fill your feed",
     "havent_commented": "henüz yorum yapmadı",
     "havent_posted": "henüz post paylasmadi",
     "steem_power": "Steem Güçü",
