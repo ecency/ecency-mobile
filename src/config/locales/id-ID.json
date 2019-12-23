@@ -124,7 +124,8 @@
     "activities": "All",
     "replies": "Balasan",
     "mentions": "Mentions",
-    "reblogs": "Reblogs"
+    "reblogs": "Reblogs",
+    "noactivity": "No new activity found"
   },
   "leaderboard": {
     "daily": "DAILY",
@@ -148,6 +149,7 @@
     "hours": "jam",
     "voting_power": "Kekuatan Suara",
     "login_to_see": "Masuk untuk melihat",
+    "follow_people": "Follow some people to fill your feed",
     "havent_commented": "belum berkomentar",
     "havent_posted": "belum pernah mengirimkan sesuatu",
     "steem_power": "Kekuatan Steem",
