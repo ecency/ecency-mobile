@@ -50,7 +50,7 @@ export default EStyleSheet.create({
     marginLeft: 8,
     fontFamily: '$primaryFont',
     color: '$iconColor',
-    width: '100%',
+    maxWidth: '$deviceWidth',
   },
   onlyText: {
     marginLeft: 40,
