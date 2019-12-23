@@ -124,7 +124,8 @@
     "activities": "All",
     "replies": "Odgovori",
     "mentions": "Mentions",
-    "reblogs": "Reblogs"
+    "reblogs": "Reblogs",
+    "noactivity": "No new activity found"
   },
   "leaderboard": {
     "daily": "DAILY",
@@ -148,6 +149,7 @@
     "hours": "sati",
     "voting_power": "Snaga glasa",
     "login_to_see": "Prijavi se da vidiš",
+    "follow_people": "Follow some people to fill your feed",
     "havent_commented": "još nije komentirao/la",
     "havent_posted": "još nije ništa objavio/la",
     "steem_power": "Steem Moć",
