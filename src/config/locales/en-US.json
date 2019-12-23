@@ -124,7 +124,8 @@
     "activities": "All",
     "replies": "Replies",
     "mentions": "Mentions",
-    "reblogs": "Reblogs"
+    "reblogs": "Reblogs",
+    "noactivity": "No new activity found"
   },
   "leaderboard": {
     "daily": "DAILY",
