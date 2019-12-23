@@ -1,4 +1,4 @@
-import React, { PureComponent, Fragment } from 'react';
+import React, { useEffect, useRef, useState, Fragment } from 'react';
 import { View, Text, ScrollView, Dimensions, SafeAreaView } from 'react-native';
 import { injectIntl } from 'react-intl';
 import get from 'lodash/get';
@@ -23,59 +23,48 @@ import styles from './postDisplayStyles';
 
 const HEIGHT = Dimensions.get('window').width;
 
-class PostDisplayView extends PureComponent {
-  /* Props
-   * ------------------------------------------------
-   *   @prop { type }    name                - Description....
-   */
-
-  constructor(props) {
-    super(props);
-    this.state = {
-      postHeight: 0,
-      scrollHeight: 0,
-      isLoadedComments: false,
-    };
-  }
+const PostDisplayView = ({
+  currentAccount,
+  isLoggedIn,
+  isNewPost,
+  fetchPost,
+  handleOnEditPress,
+  handleOnReplyPress,
+  handleOnVotersPress,
+  handleOnReblogsPress,
+  post,
+  intl,
+  parentPost,
+  isPostUnavailable,
+  author,
+  handleOnRemovePress,
+}) => {
+  const [postHeight, setPostHeight] = useState(0);
+  const [scrollHeight, setScrollHeight] = useState(0);
+  const [isLoadedComments, setIsLoadedComments] = useState(false);
+  const actionSheet = useRef(null);
 
   // Component Life Cycles
-  componentDidMount() {
-    const { currentAccount, isLoggedIn, isNewPost } = this.props;
-
+  useEffect(() => {
     if (isLoggedIn && get(currentAccount, 'name') && !isNewPost) {
       userActivity(currentAccount.name, 10);
     }
-  }
+  }, []);
 
   // Component Functions
-  _handleOnScroll = event => {
+  const _handleOnScroll = event => {
     const { y } = event.nativeEvent.contentOffset;
 
-    this.setState({
-      scrollHeight: HEIGHT + y,
-    });
+    setScrollHeight(HEIGHT + y);
   };
 
-  _handleOnPostLayout = event => {
+  const _handleOnPostLayout = event => {
     const { height } = event.nativeEvent.layout;
 
-    this.setState({
-      postHeight: height,
-    });
+    setPostHeight(height);
   };
 
-  _getTabBar = (isFixedFooter = false) => {
-    const {
-      currentAccount,
-      fetchPost,
-      handleOnEditPress,
-      handleOnReplyPress,
-      handleOnVotersPress,
-      handleOnReblogsPress,
-      isLoggedIn,
-      post,
-    } = this.props;
-
+  const _getTabBar = (isFixedFooter = false) => {
     return (
       <SafeAreaView>
         <StickyBar isFixedFooter={isFixedFooter}>
@@ -128,7 +117,7 @@ class PostDisplayView extends PureComponent {
                       iconStyle={styles.barIconRight}
                       iconType="MaterialIcons"
                       name="delete-forever"
-                      onPress={() => this.ActionSheet.show()}
+                      onPress={() => actionSheet.current.show()}
                       style={styles.barIconButton}
                     />
                   )}
@@ -148,100 +137,87 @@ class PostDisplayView extends PureComponent {
     );
   };
 
-  render() {
-    const {
-      post,
-      fetchPost,
-      parentPost,
-      currentAccount: { name },
-      isPostUnavailable,
-      author,
-      intl,
-      handleOnRemovePress,
-      handleOnVotersPress,
-    } = this.props;
-    const { postHeight, scrollHeight, isLoadedComments } = this.state;
+  const { name } = currentAccount;
 
-    // const isPostEnd = scrollHeight > postHeight;
-    const isGetComment = scrollHeight + 300 > postHeight;
-    const formatedTime = post && getTimeFromNow(post.created);
+  // const isPostEnd = scrollHeight > postHeight;
+  const isGetComment = scrollHeight + 300 > postHeight;
+  const formatedTime = post && getTimeFromNow(post.created);
 
-    if (isGetComment && !isLoadedComments) {
-      this.setState({ isLoadedComments: true });
-    }
+  if (isGetComment && !isLoadedComments) {
+    setIsLoadedComments(true);
+  }
 
-    if (isPostUnavailable) {
-      return (
-        <NoPost
-          imageStyle={styles.noPostImage}
-          defaultText={`${intl.formatMessage({
-            id: 'post.removed_hint',
-          })} ${author}`}
-        />
-      );
-    }
-
+  if (isPostUnavailable) {
     return (
-      <View style={styles.container}>
-        <ScrollView
-          style={styles.scroll}
-          onScroll={event => this._handleOnScroll(event)}
-          scrollEventThrottle={16}
-        >
-          {parentPost && <ParentPost post={parentPost} />}
-
-          <View style={styles.header}>
-            {!post ? (
-              <PostPlaceHolder />
-            ) : (
-              <View onLayout={event => this._handleOnPostLayout(event)}>
-                {!!post.title && <Text style={styles.title}>{post.title}</Text>}
-                <PostHeaderDescription
-                  date={formatedTime}
-                  name={author || post.author}
-                  currentAccountUsername={name}
-                  reputation={post.author_reputation}
-                  tag={post.category}
-                  size={36}
-                />
-                <PostBody body={post.body} />
-                <View style={styles.footer}>
-                  <Tags tags={post.json_metadata && post.json_metadata.tags} />
-                  <Text style={styles.footerText}>
-                    Posted by
-                    <Text style={styles.footerName}>{` ${author || post.author} `}</Text>
-                  </Text>
-                  {/* {isPostEnd && this._getTabBar()} */}
-                </View>
-              </View>
-            )}
-          </View>
-          {post && (isGetComment || isLoadedComments) && (
-            <CommentsDisplay
-              author={author || post.author}
-              mainAuthor={author || post.author}
-              permlink={post.permlink}
-              commentCount={post.children}
-              fetchPost={fetchPost}
-              handleOnVotersPress={handleOnVotersPress}
-            />
-          )}
-        </ScrollView>
-        {post && this._getTabBar(true)}
-        <ActionSheet
-          // eslint-disable-next-line no-return-assign
-          ref={o => (this.ActionSheet = o)}
-          options={[
-            intl.formatMessage({ id: 'alert.delete' }),
-            intl.formatMessage({ id: 'alert.cancel' }),
-          ]}
-          title={intl.formatMessage({ id: 'alert.remove_alert' })}
-          cancelButtonIndex={1}
-          onPress={index => (index === 0 ? handleOnRemovePress(get(post, 'permlink')) : null)}
-        />
-      </View>
+      <NoPost
+        imageStyle={styles.noPostImage}
+        defaultText={`${intl.formatMessage({
+          id: 'post.removed_hint',
+        })} ${author}`}
+      />
     );
   }
-}
+
+  return (
+    <View style={styles.container}>
+      <ScrollView
+        style={styles.scroll}
+        onScroll={event => _handleOnScroll(event)}
+        scrollEventThrottle={16}
+      >
+        {parentPost && <ParentPost post={parentPost} />}
+
+        <View style={styles.header}>
+          {!post ? (
+            <PostPlaceHolder />
+          ) : (
+            <View onLayout={event => _handleOnPostLayout(event)}>
+              {!!post.title && <Text style={styles.title}>{post.title}</Text>}
+              <PostHeaderDescription
+                date={formatedTime}
+                name={author || post.author}
+                currentAccountUsername={name}
+                reputation={post.author_reputation}
+                tag={post.category}
+                size={36}
+              />
+              <PostBody body={post.body} />
+              <View style={styles.footer}>
+                <Tags tags={post.json_metadata && post.json_metadata.tags} />
+                <Text style={styles.footerText}>
+                  Posted by
+                  <Text style={styles.footerName}>{` ${author || post.author} `}</Text>
+                  {formatedTime}
+                </Text>
+                {/* {isPostEnd && this._getTabBar()} */}
+              </View>
+            </View>
+          )}
+        </View>
+        {post && (isGetComment || isLoadedComments) && (
+          <CommentsDisplay
+            author={author || post.author}
+            mainAuthor={author || post.author}
+            permlink={post.permlink}
+            commentCount={post.children}
+            fetchPost={fetchPost}
+            handleOnVotersPress={handleOnVotersPress}
+          />
+        )}
+      </ScrollView>
+      {post && _getTabBar(true)}
+      <ActionSheet
+        ref={actionSheet}
+        options={[
+          intl.formatMessage({ id: 'alert.delete' }),
+          intl.formatMessage({ id: 'alert.cancel' }),
+        ]}
+        title={intl.formatMessage({ id: 'alert.remove_alert' })}
+        cancelButtonIndex={1}
+        onPress={index => (index === 0 ? handleOnRemovePress(get(post, 'permlink')) : null)}
+      />
+    </View>
+  );
+};
 
 export default injectIntl(PostDisplayView);
