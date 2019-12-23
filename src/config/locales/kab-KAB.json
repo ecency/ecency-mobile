@@ -194,7 +194,7 @@
       "always_warn": "Always warn"
     },
     "feedback_success": "Imayl yeldi mebla ugur",
-    "feedback_fail": "Email client could not open",
+    "feedback_fail": "Amsaɣ imayl ur yezmir ara ad yettwaldi",
     "server_fail": "Ulac aqeddac"
   },
   "voters": {
@@ -226,7 +226,7 @@
     "bookmarks": "Bookmarks",
     "favorites": "Ismenyifen",
     "drafts": "Tirwayin",
-    "schedules": "Schedules",
+    "schedules": "Isɣiwas",
     "gallery": "Gallery",
     "settings": "Iɣewwaṛen",
     "add_account": "Rnu amiḍan",
@@ -267,11 +267,11 @@
     "claim_reward_balance_ok": "Reward balance claimed",
     "fail": "Tuccḍa!",
     "move": "Move",
-    "move_question": "Are you sure to move to drafts?",
+    "move_question": "Tebɣiḍ s tidet ad terreḍ ɣer trawayin?",
     "success_shared": "Tasuffeɣt-ik tattwabḍa",
-    "success_moved": "Moved to draft",
+    "success_moved": "Yettwarra ɣer trewayt",
     "permission_denied": "Permission denied",
-    "permission_text": "Please, go to phone Settings and change eSteem app permissions.",
+    "permission_text": "Ma ulac aɣilif, ruḥ ɣer yiɣewwaṛen n tilifun tbeddleḍ uragen i usnas eSteem.",
     "success_rebloged": "Tettwasuffeɣ-d tikelt-nniḍen!",
     "already_rebloged": "Tɛawdeḍ-as asuffeɣ yakan!",
     "warning": "Ɣur-k",
@@ -282,7 +282,7 @@
     "clear": "Sfeḍ",
     "cancel": "Sefsex",
     "delete": "Kkes",
-    "copied": "Copied!",
+    "copied": "Yettwanɣel!",
     "no_internet": "Ulac tuqqna!",
     "confirm": "Sentem",
     "removed": "Yettwakkes",
@@ -291,7 +291,7 @@
     "error": "Tuccḍa",
     "fetch_error": "Fetching data failed, please try again or notify us at info@esteem.app",
     "connection_fail": "Tuqqna tecceḍ!",
-    "connection_success": "Successfully connected!",
+    "connection_success": "Teqqneḍ!",
     "checking": "Aselken...",
     "not_existing_post": "Ulac tasuffeɣt, ttxil-k senqed aseɣwen d umeskar.",
     "google_play_version": "Nger tamawt d akken ibenk-ik ɣur-s lqem aqdim n Google Play. Ttxil-k lqem imeẓla n Google Play tɛerḍeḍ tikelt-nniḍen!"
@@ -318,7 +318,7 @@
     "empty_list": "Ur yelli kra da",
     "deleted": "Scheduled post deleted",
     "move": "Err ɣer trewayin",
-    "moved": "Moved to drafts"
+    "moved": "Yettwarra ɣer trewayin"
   },
   "bookmarks": {
     "title": "Bookmarks",
@@ -362,7 +362,7 @@
     "boost": "boost"
   },
   "deep_link": {
-    "no_existing_user": "No existing user",
+    "no_existing_user": "Ulac amseqdac",
     "no_existing_post": "Ulac tasuffeɣt"
   },
   "search": {
