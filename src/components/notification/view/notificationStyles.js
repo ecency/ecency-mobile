@@ -21,4 +21,7 @@ export default EStyleSheet.create({
   listContentContainer: {
     paddingBottom: 60,
   },
+  text: {
+    padding: 10,
+  },
 });

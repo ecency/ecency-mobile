@@ -3,7 +3,7 @@ import React, { Fragment, Component } from 'react';
 import { Text, View, ScrollView, Alert } from 'react-native';
 import ActionSheet from 'react-native-actionsheet';
 import { injectIntl } from 'react-intl';
-import Slider from 'react-native-slider';
+import Slider from '@esteemapp/react-native-slider';
 import get from 'lodash/get';
 
 import { getWithdrawRoutes } from '../../../providers/steem/dsteem';
