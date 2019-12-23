@@ -124,7 +124,8 @@
     "activities": "All",
     "replies": "Відповіді",
     "mentions": "Mentions",
-    "reblogs": "Reblogs"
+    "reblogs": "Reblogs",
+    "noactivity": "No new activity found"
   },
   "leaderboard": {
     "daily": "ЩОДЕННО",
@@ -148,6 +149,7 @@
     "hours": "годин(и)",
     "voting_power": "Сила голосу",
     "login_to_see": "Увійдіть, щоб побачити",
+    "follow_people": "Follow some people to fill your feed",
     "havent_commented": "ще нічого не коментував",
     "havent_posted": "ще нічого не опублікував",
     "steem_power": "Потужність акаунту",
