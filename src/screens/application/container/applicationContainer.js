@@ -99,8 +99,6 @@ class ApplicationContainer extends Component {
     const { isIos } = this.state;
     this._setNetworkListener();
 
-    if (!isIos) BackHandler.addEventListener('hardwareBackPress', this._onBackPress);
-
     Linking.addEventListener('url', this._handleOpenURL);
 
     Linking.getInitialURL().then(url => {
@@ -118,6 +116,8 @@ class ApplicationContainer extends Component {
       });
     }
     this._createPushListener();
+
+    if (!isIos) BackHandler.addEventListener('hardwareBackPress', this._onBackPress);
   };
 
   componentWillUnmount() {

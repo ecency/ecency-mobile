@@ -1,6 +1,5 @@
 import React from 'react';
 import { View, Text, TouchableOpacity } from 'react-native';
-import { FormattedRelativeTime } from 'react-intl';
 import { UserAvatar } from '../../../userAvatar';
 import styles from './userListItemStyles';
 

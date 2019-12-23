@@ -1,5 +1,5 @@
 /* eslint-disable react/no-this-in-sfc */
-import React, { useState, Fragment } from 'react';
+import React, { useState, Fragment, useEffect } from 'react';
 import { Image, Text, View } from 'react-native';
 import moment from 'moment';
 import { useIntl } from 'react-intl';
@@ -23,6 +23,16 @@ const SpinGameView = ({
 }) => {
   const intl = useIntl();
   const [isSpinning, setIsSpinning] = useState(false);
+  const calculateTimeLeft = () => {
+    return moment.utc(moment(nextDate).diff(new Date())).format('H:m:ss');
+  };
+  const [timeLeft, setTimeLeft] = useState(calculateTimeLeft());
+
+  useEffect(() => {
+    setTimeout(() => {
+      setTimeLeft(calculateTimeLeft);
+    }, 3000);
+  });
 
   const _handleOnSpinPress = () => {
     startGame('spin');
@@ -86,7 +96,7 @@ const SpinGameView = ({
                   <Text style={styles.nextDate}>
                     {`${intl.formatMessage({
                       id: 'free_estm.timer_text',
-                    })} ${moment.utc(moment(nextDate).diff(new Date())).format('H:m')}`}
+                    })} ${timeLeft}`}
                   </Text>
                 </Fragment>
               )}

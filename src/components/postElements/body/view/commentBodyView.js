@@ -13,7 +13,13 @@ import styles from './postBodyStyles';
 
 const WIDTH = Dimensions.get('window').width;
 
-const CommentBody = ({ body, textSelectable = true, handleOnUserPress, handleOnPostPress }) => {
+const CommentBody = ({
+  body,
+  textSelectable = true,
+  handleOnUserPress,
+  handleOnPostPress,
+  created,
+}) => {
   const intl = useIntl();
 
   const _handleOnLinkPress = (href, hrefAtr) => {
@@ -160,6 +166,7 @@ const CommentBody = ({ body, textSelectable = true, handleOnUserPress, handleOnP
   return (
     <HTML
       html={body}
+      key={`key-${created.toString()}`}
       onLinkPress={(evt, href, hrefAtr) => _handleOnLinkPress(evt, href, hrefAtr)}
       containerStyle={styles.commentContainer}
       textSelectable={textSelectable}

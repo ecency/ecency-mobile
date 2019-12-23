@@ -46,20 +46,24 @@ const SearchModalContainer = ({
     }
     if (text && text !== '@' && text !== '#') {
       if (text[0] === '@') {
-        lookupAccounts(text.substr(1)).then(res => {
-          const users = res.map(item => ({
-            image: getResizedAvatar(item),
-            text: item,
-            ...item,
-          }));
+        lookupAccounts(text.substr(1).trim()).then(res => {
+          const users = res
+            ? res.map(item => ({
+                image: getResizedAvatar(item),
+                text: item,
+                ...item,
+              }))
+            : [];
           setSearchResults({ type: 'user', data: users });
         });
       } else if (text[0] === '#') {
-        getTrendingTags(text.substr(1)).then(res => {
-          const tags = res.map(item => ({
-            text: `#${get(item, 'name', '')}`,
-            ...item,
-          }));
+        getTrendingTags(text.substr(1).trim()).then(res => {
+          const tags = res
+            ? res.map(item => ({
+                text: `#${get(item, 'name', '')}`,
+                ...item,
+              }))
+            : [];
 
           setSearchResults({ type: 'tag', data: tags });
         });
