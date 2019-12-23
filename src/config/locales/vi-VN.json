@@ -124,7 +124,8 @@
     "activities": "All",
     "replies": "Trả lời",
     "mentions": "Mentions",
-    "reblogs": "Reblogs"
+    "reblogs": "Reblogs",
+    "noactivity": "No new activity found"
   },
   "leaderboard": {
     "daily": "DAILY",
@@ -148,6 +149,7 @@
     "hours": "giờ",
     "voting_power": "Voting power",
     "login_to_see": "Đăng nhập để xem",
+    "follow_people": "Follow some people to fill your feed",
     "havent_commented": "chưa bình luận gì cả",
     "havent_posted": "chưa đăng gì cả",
     "steem_power": "Steem Power",
