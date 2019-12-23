@@ -124,7 +124,8 @@
     "activities": "All",
     "replies": "תשובות",
     "mentions": "Mentions",
-    "reblogs": "Reblogs"
+    "reblogs": "Reblogs",
+    "noactivity": "No new activity found"
   },
   "leaderboard": {
     "daily": "DAILY",
@@ -148,6 +149,7 @@
     "hours": "שעות",
     "voting_power": "כוח הצבעה",
     "login_to_see": "התחבר\\י כדי לראות",
+    "follow_people": "Follow some people to fill your feed",
     "havent_commented": "לא הגיבו עדיין",
     "havent_posted": "לא העלו פוסט עדיין",
     "steem_power": "כוח Steem",
