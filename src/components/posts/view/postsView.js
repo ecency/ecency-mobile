@@ -317,7 +317,7 @@ const PostsView = ({
             id: 'profile.havent_posted',
           })}
           defaultText={intl.formatMessage({
-            id: 'profile.login_to_see',
+            id: selectedFilterValue === 'feed' ? 'profile.follow_people' : 'profile.havent_posted',
           })}
         />
       );
