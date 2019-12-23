@@ -285,7 +285,7 @@ PODS:
     - ReactCommon/jscallinvoker (= 0.61.2)
   - ReactNativeDarkMode (0.1.3):
     - React
-  - rn-fetch-blob (0.11.2):
+  - rn-fetch-blob (0.12.0):
     - React-Core
   - RNGestureHandler (1.5.2):
     - React
@@ -516,7 +516,7 @@ SPEC CHECKSUMS:
   React-RCTVibration: fb54c732fd20405a76598e431aa2f8c2bf527de9
   ReactCommon: 5848032ed2f274fcb40f6b9ec24067787c42d479
   ReactNativeDarkMode: bac355fdddfc07de71ceef6a324b99481eb3f1f4
-  rn-fetch-blob: f525a73a78df9ed5d35e67ea65e79d53c15255bc
+  rn-fetch-blob: f065bb7ab7fb48dd002629f8bdcb0336602d3cba
   RNGestureHandler: 946a7691e41df61e2c4b1884deab41a4cdc3afff
   RNIap: b4c77c8bc4501203f4b743126a05da23f10f40b4
   RNImageCropPicker: e1d8c3381e5b05a1bdcd13ea57a4f1c020a09cef
