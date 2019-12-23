@@ -124,7 +124,8 @@
     "activities": "All",
     "replies": "Atsakymai",
     "mentions": "Mentions",
-    "reblogs": "Reblogs"
+    "reblogs": "Reblogs",
+    "noactivity": "No new activity found"
   },
   "leaderboard": {
     "daily": "DAILY",
@@ -148,6 +149,7 @@
     "hours": "val.",
     "voting_power": "Balsavimo Galia",
     "login_to_see": "Prisijunkite norėdami pamatyti",
+    "follow_people": "Follow some people to fill your feed",
     "havent_commented": "kolkas dar nieko nepakomentavo",
     "havent_posted": "kolkas dar nieko neįkėlė",
     "steem_power": "Steem Power",

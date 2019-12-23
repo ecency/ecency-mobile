@@ -124,7 +124,8 @@
     "activities": "All",
     "replies": "返信",
     "mentions": "Mentions",
-    "reblogs": "Reblogs"
+    "reblogs": "Reblogs",
+    "noactivity": "No new activity found"
   },
   "leaderboard": {
     "daily": "DAILY",
@@ -148,6 +149,7 @@
     "hours": "時間",
     "voting_power": "ヴォート能力",
     "login_to_see": "ログイン",
+    "follow_people": "Follow some people to fill your feed",
     "havent_commented": "まだ何もコメントしていません",
     "havent_posted": "まだ何も投稿していません",
     "steem_power": "Steem Power",

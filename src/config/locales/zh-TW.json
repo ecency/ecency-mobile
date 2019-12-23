@@ -124,7 +124,8 @@
     "activities": "All",
     "replies": "回覆",
     "mentions": "Mentions",
-    "reblogs": "Reblogs"
+    "reblogs": "Reblogs",
+    "noactivity": "No new activity found"
   },
   "leaderboard": {
     "daily": "DAILY",
@@ -148,6 +149,7 @@
     "hours": "小時內充滿",
     "voting_power": "點讚能量",
     "login_to_see": "登錄查看",
+    "follow_people": "Follow some people to fill your feed",
     "havent_commented": "還沒有發表任何評論",
     "havent_posted": "還沒有發佈過任何帖子",
     "steem_power": "Steem Power",

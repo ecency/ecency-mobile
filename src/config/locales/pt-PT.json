@@ -124,7 +124,8 @@
     "activities": "Todos",
     "replies": "Respostas",
     "mentions": "Menções",
-    "reblogs": "Reposts"
+    "reblogs": "Reposts",
+    "noactivity": "No new activity found"
   },
   "leaderboard": {
     "daily": "DIÁRIO",
@@ -148,6 +149,7 @@
     "hours": "horas",
     "voting_power": "Poder de voto",
     "login_to_see": "Login para ver",
+    "follow_people": "Follow some people to fill your feed",
     "havent_commented": "ainda não comentou nada",
     "havent_posted": "ainda não postou nada",
     "steem_power": "Poder Steem",
