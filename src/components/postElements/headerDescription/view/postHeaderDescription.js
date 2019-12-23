@@ -1,7 +1,7 @@
 import React, { PureComponent } from 'react';
 import { View, Text, TouchableOpacity } from 'react-native';
 import { withNavigation } from 'react-navigation';
-import { injectIntl, FormattedRelativeTime } from 'react-intl';
+import { injectIntl } from 'react-intl';
 
 // Components
 import { Tag } from '../../../basicUIElements';
@@ -78,17 +78,7 @@ class PostHeaderDescription extends PureComponent {
             </TouchableOpacity>
           )}
           <Text style={styles.date}>
-            {isPromoted ? (
-              intl.formatMessage({ id: 'post.sponsored' })
-            ) : (
-              <FormattedRelativeTime
-                value={date.value}
-                // eslint-disable-next-line react/style-prop-object
-                style="short"
-                numeric="auto"
-                unit={date.unit}
-              />
-            )}
+            {isPromoted ? intl.formatMessage({ id: 'post.sponsored' }) : date}
           </Text>
           {isShowOwnerIndicator && (
             <Icon style={styles.ownerIndicator} name="stars" iconType="MaterialIcons" />

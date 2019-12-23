@@ -1,3 +1,5 @@
+import moment from 'moment';
+
 const TODAY = new Date();
 const ONE_DAY = new Date(TODAY.getTime() - 24 * 60 * 60 * 1000);
 const SEVEN_DAY = new Date(TODAY.getTime() - 7 * 24 * 60 * 60 * 1000);
@@ -9,7 +11,8 @@ const WEEK = 60 * 60 * 24 * 7;
 const MONTH = 60 * 60 * 24 * 30;
 const YEAR = 60 * 60 * 24 * 365;
 
-export const getTimeFromNow = d => {
+// TODO: once hermes has Intl support, enable native version
+export const getTimeFromNowNative = d => {
   if (!d) {
     return null;
   }
@@ -48,6 +51,17 @@ export const getTimeFromNow = d => {
     return { unit: 'year', value: future ? Math.round(diff / YEAR) : -Math.round(diff / YEAR) };
   }
   return { unit: 'day', value: future ? Math.round(diff / DAY) : -Math.round(diff / DAY) };
+};
+export const getTimeFromNow = (value, isWithoutUtc) => {
+  if (!value) {
+    return null;
+  }
+
+  if (isWithoutUtc) {
+    return moment(value).fromNow(true);
+  }
+
+  return moment.utc(value).fromNow(true);
 };
 
 export const getFormatedCreatedDate = value => {

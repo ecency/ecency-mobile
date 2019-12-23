@@ -32,17 +32,7 @@ const UserListItem = ({
       <UserAvatar noAction={userCanPress} style={styles.avatar} username={username} />
       <View style={styles.userDescription}>
         <Text style={styles.name}>{text || username}</Text>
-        {description && (
-          <Text style={styles.date}>
-            <FormattedRelativeTime
-              value={description.value}
-              numeric="auto"
-              // eslint-disable-next-line react/style-prop-object
-              style="short"
-              unit={description.unit}
-            />
-          </Text>
-        )}
+        {description && <Text style={styles.date}>{description}</Text>}
       </View>
       {middleText && (
         <View style={styles.middleWrapper}>
