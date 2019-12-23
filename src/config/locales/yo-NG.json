@@ -124,7 +124,8 @@
     "activities": "All",
     "replies": "Ifesi",
     "mentions": "Mentions",
-    "reblogs": "Reblogs"
+    "reblogs": "Reblogs",
+    "noactivity": "No new activity found"
   },
   "leaderboard": {
     "daily": "DAILY",
@@ -148,6 +149,7 @@
     "hours": "wakati",
     "voting_power": "Agbara ibo",
     "login_to_see": "Wole lati ri",
+    "follow_people": "Follow some people to fill your feed",
     "havent_commented": "koti si oro iwoye kankan bayi",
     "havent_posted": "oti gbe oro kankan kale",
     "steem_power": "Agbara steem",
