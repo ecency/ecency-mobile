@@ -125,7 +125,7 @@
     "replies": "Respuestas",
     "mentions": "Mentions",
     "reblogs": "Reblogs",
-    "noactivity": "No new activity found"
+    "noactivity": "No se encontró nueva actividad"
   },
   "leaderboard": {
     "daily": "DAILY",
@@ -303,9 +303,9 @@
     "reblogged": "reblogueado por",
     "sponsored": "PATROCINADO",
     "open_thread": "Hilo abierto",
-    "save_to_local": "Save to the album",
-    "image_saved": "Image Saved to Photo Gallery",
-    "image_saved_error": "Error Saving Image"
+    "save_to_local": "Guardar en este álbum",
+    "image_saved": "Imagen salvada en la galería de fotos",
+    "image_saved_error": "Error salvando imagen"
   },
   "drafts": {
     "title": "Borradores",
