@@ -4,6 +4,7 @@ import codePush from 'react-native-code-push';
 import { name as appName } from './app.json';
 import 'core-js';
 import 'intl';
+import 'intl/locale-data/jsonp/en-US';
 
 // set check frequency options
 const codePushOptions = { checkFrequency: codePush.CheckFrequency.ON_APP_START };
