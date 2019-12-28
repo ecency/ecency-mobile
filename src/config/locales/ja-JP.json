@@ -417,8 +417,8 @@
   "free_estm": {
     "title": "無料ESTM",
     "button": "SPIN & WIN",
-    "get_spin": "5 SPINS",
-    "spin_right": "Spin Left",
+    "get_spin": "5 スピン",
+    "spin_right": "残りのスピン",
     "timer_text": "Next free spin in"
   },
   "promote": {
@@ -442,7 +442,7 @@
   },
   "dsteem": {
     "date_error": {
-      "device_time": "Your device time;",
+      "device_time": "あなたのデバイス時刻",
       "current_time": "現在の時刻",
       "information": "あなたのデバイスは時刻が正しくありません。時刻の修正をするか、自動設定に変更してから再度お試し下さい。"
     }
