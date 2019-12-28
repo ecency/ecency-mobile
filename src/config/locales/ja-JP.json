@@ -99,7 +99,7 @@
       "buy": "Steemドル購入"
     },
     "steem_power": {
-      "title": "STEEM POWER"
+      "title": "STEEMパワー"
     }
   },
   "notification": {
@@ -372,7 +372,7 @@
   "comment_filter": {
     "trending": "TOP",
     "reputation": "評価",
-    "votes": "VOTE",
+    "votes": "投票",
     "age": "年齢",
     "top": "TOP",
     "time": "時間"
