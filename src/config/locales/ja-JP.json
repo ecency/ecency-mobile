@@ -218,8 +218,8 @@
     "popular": "人気",
     "top": "Top",
     "hot": "人気",
-    "new": "New",
-    "blog": "Blog"
+    "new": "新着",
+    "blog": "ブログ"
   },
   "side_menu": {
     "profile": "プロフィール",
@@ -371,9 +371,9 @@
   },
   "comment_filter": {
     "trending": "TOP",
-    "reputation": "REPUTATION",
+    "reputation": "評価",
     "votes": "VOTE",
-    "age": "AGE",
+    "age": "年齢",
     "top": "TOP",
     "time": "時間"
   },
@@ -395,11 +395,11 @@
     "withdraw_to_saving": "貯蓄口座に引き出す",
     "steemconnect_title": "Steemconnect 送金",
     "estimated_weekly": "Estimated Weekly",
-    "destination_accounts": "Destination Accounts",
-    "stop_information": "Are you sure want to stop?",
-    "percent": "Percent",
+    "destination_accounts": "送金先口座",
+    "stop_information": "本当に中止してよろしいですか？",
+    "percent": "パーセント",
     "auto_vests": "Auto Vests",
-    "save": "SAVE",
+    "save": "保存",
     "percent_information": "Percent info",
     "next": "次へ",
     "delegate": "デリゲーション",
@@ -407,7 +407,7 @@
     "withdraw_steem": "Steem を引き出す",
     "withdraw_sbd": "Steem Dollar を引き出す",
     "incoming_funds": "Incoming Funds",
-    "stop": "Stop"
+    "stop": "中止"
   },
   "boost": {
     "title": "eSteem ポイントを手に入れる",
@@ -415,7 +415,7 @@
     "next": "次へ"
   },
   "free_estm": {
-    "title": "Free ESTM",
+    "title": "無料ESTM",
     "button": "SPIN & WIN",
     "get_spin": "5 SPINS",
     "spin_right": "Spin Left",
@@ -443,8 +443,8 @@
   "dsteem": {
     "date_error": {
       "device_time": "Your device time;",
-      "current_time": "Current time;",
-      "information": "We noticed that your device has incorrect date or time. Please fix Date & Time or Set Automatically and try again."
+      "current_time": "現在の時刻",
+      "information": "あなたのデバイスは時刻が正しくありません。時刻の修正をするか、自動設定に変更してから再度お試し下さい。"
     }
   },
   "comments": {
