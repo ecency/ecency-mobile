@@ -71,10 +71,10 @@
     "withdraw_sbd": "Steem Dollar を引き出す",
     "transfer_to_savings": "貯蓄口座に送金",
     "convert": "変換",
-    "escrow_transfer": "Escrow Transfer",
-    "escrow_dispute": "Escrow Dispute",
-    "escrow_release": "Escrow Release",
-    "escrow_approve": "Escrow Approve",
+    "escrow_transfer": "エスクロー送金",
+    "escrow_dispute": "エスクロー阻止",
+    "escrow_release": "エスクロー解除",
+    "escrow_approve": "エスクロー承認",
     "cancel_transfer_from_savings": "貯蓄口座からの送金をキャンセル",
     "delegate_vesting_shares": "デリゲーション",
     "fill_convert_request": "変換依頼が完了",
@@ -406,7 +406,7 @@
     "power_down": "パワーダウン",
     "withdraw_steem": "Steem を引き出す",
     "withdraw_sbd": "Steem Dollar を引き出す",
-    "incoming_funds": "Incoming Funds",
+    "incoming_funds": "入ってくる資金",
     "stop": "中止"
   },
   "boost": {
@@ -416,10 +416,10 @@
   },
   "free_estm": {
     "title": "無料ESTM",
-    "button": "SPIN & WIN",
+    "button": "スピン & ウィン",
     "get_spin": "5 スピン",
     "spin_right": "残りのスピン",
-    "timer_text": "Next free spin in"
+    "timer_text": "次の無料スピン"
   },
   "promote": {
     "title": "プロモート",
