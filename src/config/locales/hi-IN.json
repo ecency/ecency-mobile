@@ -65,7 +65,7 @@
     "withdraw_to_saving": "Withdraw To Saving",
     "steemconnect_title": "स्टीमकनेक्ट स्थान्तरण",
     "next": "NEXT",
-    "delegate": "Delegate",
+    "delegate": "कार्यभार सौंपें",
     "power_down": "शक्तिक्षय करें",
     "withdraw_steem": "Withdraw Steem",
     "withdraw_sbd": "Withdraw Steem Dollar",
@@ -255,7 +255,7 @@
     "capture_photo": "फोटो खीचें"
   },
   "pincode": {
-    "enter_text": "Enter pin to unlock",
+    "enter_text": "खोलनें के लिए पिन डालें",
     "set_new": "Set new pin",
     "write_again": "दुबारा लिखें",
     "forgot_text": "ओह! मैं इसे भूल गया..."
@@ -314,7 +314,7 @@
     "deleted": "प्रारूप मिट गया"
   },
   "schedules": {
-    "title": "Schedules",
+    "title": "निर्धारित",
     "empty_list": "कुछ नहीं है",
     "deleted": "निर्धारित लेख हट गया",
     "move": "प्रलेख में भेजें",
@@ -358,8 +358,8 @@
     "reply": "जवाब दें",
     "share": "साझा करें",
     "bookmarks": "पृष्ठ स्मृति में जोड़ें",
-    "promote": "promote",
-    "boost": "boost"
+    "promote": "प्रचार करना",
+    "boost": "प्रोत्साहन"
   },
   "deep_link": {
     "no_existing_user": "कोई विद्यमान उपयोगकर्ता नहीं",
@@ -388,7 +388,7 @@
     "memo_desc": "यह ज्ञापन सार्वजनिक है",
     "to_placeholder": "प्रयोक्ता नाम",
     "memo_placeholder": "अपनी टिप्पणी यहाँ लिखें",
-    "transfer_token": "Transfer",
+    "transfer_token": "स्थानांतरण",
     "points": "Gift ESTM to someone",
     "transfer_to_saving": "Transfer To Saving",
     "powerUp": "स्टीम क्षमता बढ़ाएं",
@@ -402,7 +402,7 @@
     "save": "SAVE",
     "percent_information": "Percent info",
     "next": "NEXT",
-    "delegate": "Delegate",
+    "delegate": "कार्यभार सौंपें",
     "power_down": "Power Down",
     "withdraw_steem": "Withdraw Steem",
     "withdraw_sbd": "Withdraw Steem Dollar",
@@ -423,17 +423,17 @@
   },
   "promote": {
     "title": "Promote",
-    "days": "days",
-    "user": "User",
-    "permlink": "Post",
+    "days": "दिनों",
+    "user": "उपयोगकर्ता",
+    "permlink": "लेख",
     "permlinkPlaceholder": "author/permlink",
     "information": "Are you sure to promote?"
   },
   "boostPost": {
-    "title": "Boost"
+    "title": "प्रोत्साहन"
   },
   "voters_dropdown": {
-    "rewards": "REWARDS",
+    "rewards": "इनाम",
     "percent": "PERCENT",
     "time": "TIME"
   },
