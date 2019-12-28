@@ -38,7 +38,7 @@
     "post_desc": "定期的に投稿することでポイントを獲得できます。投稿すると最高で15ポイントもらえます。",
     "comment_desc": "コメントをすると支持者層が増え、最高5ポイント貰えます。",
     "checkin_desc": "定期的にチェックインすると0.25ポイント貰えます。",
-    "vote_desc": "投票すると報酬を投稿者に与えるだけでなく、最大で投稿比重の0.01倍のポイントを獲得できます。",
+    "vote_desc": "投票すると報酬を投稿者に与えるだけでなく、最大で投票比重の0.01倍のポイントを獲得できます。",
     "reblog_desc": "あなたの好きな投稿を友達と共有することで、ポイントが獲得できます。",
     "login_desc": "初めてアプリにログインするとに100ポイント獲得できます。",
     "checkin_extra_desc": "アプリを一貫して使用し続けると、さらにポイントを獲得するチャンスがあります。積極的に使用してもっとポイントを貰おう。",
@@ -123,14 +123,14 @@
     "older_then": "1ヶ月以上前",
     "activities": "全部",
     "replies": "返信",
-    "mentions": "Mentions",
+    "mentions": "メンション",
     "reblogs": "リブログ",
     "noactivity": "新着アクティビティはありません"
   },
   "leaderboard": {
-    "daily": "DAILY",
-    "weekly": "WEEKLY",
-    "monthly": "MONTHLY"
+    "daily": "日間",
+    "weekly": "週間",
+    "monthly": "月間"
   },
   "messages": {
     "comingsoon": "メッセージ機能は近日公開予定です！"
@@ -149,7 +149,7 @@
     "hours": "時間",
     "voting_power": "ヴォート能力",
     "login_to_see": "ログイン",
-    "follow_people": "Follow some people to fill your feed",
+    "follow_people": "他の人をフォローして自分のフィードに表示しよう",
     "havent_commented": "まだ何もコメントしていません",
     "havent_posted": "まだ何も投稿していません",
     "steem_power": "Steem Power",
@@ -216,7 +216,7 @@
   "home": {
     "feed": "フィード",
     "popular": "人気",
-    "top": "Top",
+    "top": "トップ",
     "hot": "人気",
     "new": "新着",
     "blog": "ブログ"
@@ -370,11 +370,11 @@
     "comments": "コメント"
   },
   "comment_filter": {
-    "trending": "TOP",
+    "trending": "トップ",
     "reputation": "評価",
     "votes": "投票",
     "age": "年齢",
-    "top": "TOP",
+    "top": "トップ",
     "time": "時間"
   },
   "transfer": {
@@ -394,13 +394,13 @@
     "powerUp": "パワーアップ",
     "withdraw_to_saving": "貯蓄口座に引き出す",
     "steemconnect_title": "Steemconnect 送金",
-    "estimated_weekly": "Estimated Weekly",
+    "estimated_weekly": "毎週推定される",
     "destination_accounts": "送金先口座",
     "stop_information": "本当に中止してよろしいですか？",
     "percent": "パーセント",
-    "auto_vests": "Auto Vests",
+    "auto_vests": "自動付与",
     "save": "保存",
-    "percent_information": "Percent info",
+    "percent_information": "パーセント情報",
     "next": "次へ",
     "delegate": "デリゲーション",
     "power_down": "パワーダウン",
