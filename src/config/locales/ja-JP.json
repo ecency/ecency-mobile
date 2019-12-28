@@ -75,24 +75,24 @@
     "escrow_dispute": "Escrow Dispute",
     "escrow_release": "Escrow Release",
     "escrow_approve": "Escrow Approve",
-    "cancel_transfer_from_savings": "Cancel Transfer from Savings",
+    "cancel_transfer_from_savings": "貯蓄口座からの送金をキャンセル",
     "delegate_vesting_shares": "デリゲーション",
-    "fill_convert_request": "Convert request executed",
-    "fill_transfer_from_savings": "From Savings executed",
-    "fill_vesting_withdraw": "Power Down executed",
+    "fill_convert_request": "変換依頼が完了。",
+    "fill_transfer_from_savings": "貯蓄口座からの送金が完了。",
+    "fill_vesting_withdraw": "パワーダウン完了。",
     "estm": {
       "title": "eSteem ポイント",
       "buy": "ESTM を手に入れる"
     },
     "savingsteem": {
-      "title": "STEEM Savings"
+      "title": "STEEM貯蓄口座"
     },
     "savingsbd": {
-      "title": "SBD Savings"
+      "title": "SBD貯蓄口座"
     },
     "steem": {
       "title": "STEEM",
-      "buy": "GET STEEM"
+      "buy": "STEEM購入"
     },
     "sbd": {
       "title": "SBD",
