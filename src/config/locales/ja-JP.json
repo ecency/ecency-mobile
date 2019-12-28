@@ -75,7 +75,7 @@
     "escrow_dispute": "エスクロー阻止",
     "escrow_release": "エスクロー解除",
     "escrow_approve": "エスクロー承認",
-    "cancel_transfer_from_savings": "貯蓄口座からの送金をキャンセル",
+    "cancel_transfer_from_savings": "貯蓄口座からの送金を中止",
     "delegate_vesting_shares": "デリゲーション",
     "fill_convert_request": "変換依頼が完了",
     "fill_transfer_from_savings": "貯蓄口座からの送金が完了",
@@ -85,18 +85,18 @@
       "buy": "ESTM を手に入れる"
     },
     "savingsteem": {
-      "title": "STEEM貯蓄口座"
+      "title": "STEEM 貯蓄口座"
     },
     "savingsbd": {
-      "title": "SBD貯蓄口座"
+      "title": "SBD 貯蓄口座"
     },
     "steem": {
       "title": "STEEM",
-      "buy": "STEEM購入"
+      "buy": "STEEMを購入"
     },
     "sbd": {
       "title": "Steemドル",
-      "buy": "Steemドル購入"
+      "buy": "Steemドルを購入"
     },
     "steem_power": {
       "title": "STEEMパワー"
@@ -348,8 +348,8 @@
     "author_payout": "投稿者支払額",
     "curation_payout": "キュレーション支払額",
     "payout_date": "支払額",
-    "beneficiaries": "相続受取人",
-    "warn_zero_payout": "支払には最低金額$0.02が必要です。",
+    "beneficiaries": "受取人",
+    "warn_zero_payout": "支払には最低金額$0.02が必要です",
     "breakdown": "詳細"
   },
   "post_dropdown": {
