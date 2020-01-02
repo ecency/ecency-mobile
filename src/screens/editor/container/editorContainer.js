@@ -1,9 +1,10 @@
 import React, { Component } from 'react';
 import { connect } from 'react-redux';
 import { injectIntl } from 'react-intl';
-import { Alert, AsyncStorage } from 'react-native';
+import { Alert } from 'react-native';
 import ImagePicker from 'react-native-image-crop-picker';
 import get from 'lodash/get';
+import { AsyncStorage } from '@react-native-community/async-storage';
 
 // Services and Actions
 import { Buffer } from 'buffer';

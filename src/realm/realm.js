@@ -1,5 +1,5 @@
 import sha256 from 'crypto-js/sha256';
-import { AsyncStorage } from 'react-native';
+import { AsyncStorage } from '@react-native-community/async-storage';
 
 // CONSTANTS
 const USER_SCHEMA = 'user';
