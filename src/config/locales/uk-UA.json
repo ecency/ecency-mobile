@@ -72,14 +72,14 @@
     "transfer_to_savings": "Перевести до Заощаджень",
     "convert": "Конвертувати",
     "escrow_transfer": "Передача Ескроу",
-    "escrow_dispute": "Escrow Dispute",
-    "escrow_release": "Escrow Release",
-    "escrow_approve": "Escrow Approve",
-    "cancel_transfer_from_savings": "Cancel Transfer from Savings",
+    "escrow_dispute": "Суперечка щодо Ескроу",
+    "escrow_release": "Реліз Ескроу",
+    "escrow_approve": "Затвердження угоди",
+    "cancel_transfer_from_savings": "Скасувати передачу від Заощаджень",
     "delegate_vesting_shares": "Делегування",
-    "fill_convert_request": "Convert request executed",
-    "fill_transfer_from_savings": "From Savings executed",
-    "fill_vesting_withdraw": "Power Down executed",
+    "fill_convert_request": "Запит на конвертацію виконано",
+    "fill_transfer_from_savings": "Від заощаджень виконано",
+    "fill_vesting_withdraw": "Зниження енергії виконано",
     "estm": {
       "title": "eSteem Бали",
       "buy": "Отримати ESTM"
@@ -92,7 +92,7 @@
     },
     "steem": {
       "title": "STEEM",
-      "buy": "GET STEEM"
+      "buy": "ОТРИМАТИ STEEM"
     },
     "sbd": {
       "title": "SBD",
@@ -103,14 +103,14 @@
     }
   },
   "notification": {
-    "vote": "voted",
-    "unvote": "unvoted",
-    "reply": "replied to",
-    "mention": "mentioned in",
+    "vote": "голоси",
+    "unvote": "відкликав голос",
+    "reply": "відповів вам",
+    "mention": "згадав (-ла) вас",
     "follow": "підписався(-лась) на вас",
     "unfollow": "підписався(-лась) на вас",
     "ignore": "ігнорував тебе",
-    "reblog": "reblogged",
+    "reblog": "рестімнуто",
     "transfer": "відправлено",
     "notification": "Сповіщення",
     "leaderboard": "Дошка лідерів",
@@ -121,11 +121,11 @@
     "this_week": "Цього тижня",
     "this_month": "Цього місяця",
     "older_then": "Понад місяць",
-    "activities": "All",
+    "activities": "Усi",
     "replies": "Відповіді",
-    "mentions": "Mentions",
-    "reblogs": "Reblogs",
-    "noactivity": "No new activity found"
+    "mentions": "Згадування",
+    "reblogs": "Рестіми",
+    "noactivity": "Нову активність не знайдено"
   },
   "leaderboard": {
     "daily": "ЩОДЕННО",
@@ -149,7 +149,7 @@
     "hours": "годин(и)",
     "voting_power": "Сила голосу",
     "login_to_see": "Увійдіть, щоб побачити",
-    "follow_people": "Follow some people to fill your feed",
+    "follow_people": "Стежте за деякими людьми, щоб заповнити вашу стрічку",
     "havent_commented": "ще нічого не коментував",
     "havent_posted": "ще нічого не опублікував",
     "steem_power": "Потужність акаунту",
@@ -216,10 +216,10 @@
   "home": {
     "feed": "Стрічка",
     "popular": "Популярне",
-    "top": "Top",
-    "hot": "Hot",
-    "new": "New",
-    "blog": "Blog"
+    "top": "Топ",
+    "hot": "Актуальне",
+    "new": "Нове",
+    "blog": "Блог"
   },
   "side_menu": {
     "profile": "Профіль",
@@ -303,9 +303,9 @@
     "reblogged": "рестімнуто",
     "sponsored": "СПОНСОРОВАНО",
     "open_thread": "Відкрита тема",
-    "save_to_local": "Save to the album",
-    "image_saved": "Image Saved to Photo Gallery",
-    "image_saved_error": "Error Saving Image"
+    "save_to_local": "Зберегти до альбому",
+    "image_saved": "Зображення збережено до Галереї",
+    "image_saved_error": "Не вдалося зберегти зображення"
   },
   "drafts": {
     "title": "Чернетки",
@@ -348,9 +348,9 @@
     "author_payout": "Авторська винагорода",
     "curation_payout": "Кураторська винагорода",
     "payout_date": "Виплата",
-    "beneficiaries": "Beneficiaries",
-    "warn_zero_payout": "Amount must reach $0.02 for payout",
-    "breakdown": "Breakdown"
+    "beneficiaries": "Отримувачі",
+    "warn_zero_payout": "Сума повинна досягти 0,02 долара за виплату",
+    "breakdown": "Упс... щось Зламалося"
   },
   "post_dropdown": {
     "copy": "копіювати джерело",
