@@ -1,6 +1,7 @@
 export default [
   'English',
   'Bahasa Indonesia',
+  'Bahasa Melayu',
   '한국어',
   'Русский',
   'Türkçe',
@@ -19,6 +20,7 @@ export default [
 export const VALUE = [
   'en-US',
   'id-ID',
+  'ms-MY',
   'ko-KR',
   'ru-RU',
   'tr-TR',
