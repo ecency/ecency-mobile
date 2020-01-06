@@ -23,7 +23,7 @@
   },
   "dependencies": {
     "@babel/runtime": "^7.5.5",
-    "@esteemapp/esteem-render-helpers": "^1.2.8",
+    "@esteemapp/esteem-render-helpers": "^1.2.9",
     "@esteemapp/react-native-autocomplete-input": "^4.2.1",
     "@esteemapp/react-native-multi-slider": "^1.1.0",
     "@esteemapp/react-native-render-html": "^4.1.5",
