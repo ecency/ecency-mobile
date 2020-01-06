@@ -140,6 +140,13 @@ const WalletContainer = ({
         ),
       );
       setEstimatedWalletValue && setEstimatedWalletValue(_walletData.estimatedValue);
+      const getBalance = (val, cur) => (val ? Math.round(val * 1000) / 1000 + cur : '');
+      setUnclaimedBalance(
+        `${getBalance(get(walletData, 'rewardSteemBalance', 0), ' STEEM')} ${getBalance(
+          get(walletData, 'rewardSbdBalance', 0),
+          ' SBD',
+        )} ${getBalance(get(walletData, 'rewardVestingSteem', 0), ' SP')}`,
+      );
     },
     [globalProps, setEstimatedWalletValue, steemPerMVests],
   );
