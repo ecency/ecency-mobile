@@ -5,6 +5,8 @@ export default [
   '한국어',
   'Русский',
   'Türkçe',
+  'Kurdî‎',
+  'Azərbaycanca',
   'Deutsch',
   'Español',
   'Magyar',
@@ -12,7 +14,6 @@ export default [
   'Lietuvių',
   'Português',
   'Fārsi',
-  'Azərbaycanca',
   'Românește',
   'Tiếng Việt',
 ];
@@ -24,6 +25,8 @@ export const VALUE = [
   'ko-KR',
   'ru-RU',
   'tr-TR',
+  'ku-TR',
+  'az-AZ',
   'de-DE',
   'es-ES',
   'hu-HU',
@@ -31,7 +34,6 @@ export const VALUE = [
   'lt-LT',
   'pt-PT',
   'fa-IR',
-  'az-AZ',
   'ro-RO',
   'vi-VN',
 ];

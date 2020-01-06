@@ -15,6 +15,7 @@ export default {
   'az-AZ': require('./az-AZ.json'),
   'ro-RO': require('./ro-RO.json'),
   'ms-MY': require('./ms-MY.json'),
+  'ku-TR': require('./ku-TR.json'),
   'vi-VN': require('./vi-VN.json'),
 };
 
@@ -35,5 +36,6 @@ export const locales = [
   { id: 'az-AZ', name: 'Azerbaijani' },
   { id: 'ro-RO', name: 'Romanian' },
   { id: 'ms-MY', name: 'Malay' },
+  { id: 'ku-TR', name: 'Kurdish' },
   { id: 'vi-VN', name: 'Vietnamese' },
 ];
