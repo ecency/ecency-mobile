@@ -14,6 +14,7 @@ export default {
   'fa-IR': require('./fa-IR.json'),
   'az-AZ': require('./az-AZ.json'),
   'ro-RO': require('./ro-RO.json'),
+  'ms-MY': require('./ms-MY.json'),
   'vi-VN': require('./vi-VN.json'),
 };
 
@@ -33,5 +34,6 @@ export const locales = [
   { id: 'fa-IR', name: 'Persian' },
   { id: 'az-AZ', name: 'Azerbaijani' },
   { id: 'ro-RO', name: 'Romanian' },
+  { id: 'ms-MY', name: 'Malay' },
   { id: 'vi-VN', name: 'Vietnamese' },
 ];
