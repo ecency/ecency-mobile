@@ -119,13 +119,22 @@ const MarkdownEditorView = ({
     inputRef.current.setNativeProps({
       text: _text,
     });
+
     // Workaround for iOS selection update issue
-    setTimeout(() => {
+    const isIos = Platform.OS === 'ios';
+    if (isIos) {
+      setTimeout(() => {
+        inputRef.current.setNativeProps({
+          selection: _selection,
+        });
+        setSelection(_selection);
+      }, 200);
+    } else {
       inputRef.current.setNativeProps({
         selection: _selection,
       });
       setSelection(_selection);
-    }, 200);
+    }
     _changeText(_text);
   });
 
