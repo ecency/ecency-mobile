@@ -4,7 +4,7 @@ import { injectIntl } from 'react-intl';
 import { Alert } from 'react-native';
 import ImagePicker from 'react-native-image-crop-picker';
 import get from 'lodash/get';
-import { AsyncStorage } from '@react-native-community/async-storage';
+import AsyncStorage from '@react-native-community/async-storage';
 
 // Services and Actions
 import { Buffer } from 'buffer';
