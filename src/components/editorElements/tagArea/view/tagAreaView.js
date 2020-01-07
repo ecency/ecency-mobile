@@ -19,13 +19,23 @@ export default class TagAreaView extends Component {
     this.state = {
       currentText: '',
       chips: props.draftChips || [' '],
-      chipsCount: props.chipsCount || 7,
+      chipsCount: props.chipsCount || 10,
       activeChip: 0,
     };
   }
 
   // Component Functions
   _handleOnChange = (text, i) => {
+    if (text.indexOf(' ') > 0) {
+      let ssp = [];
+      ssp = text.split(' ').filter(iii => iii);
+      if (ssp.length > 1) {
+        for (let ii = i; ii < i + ssp.length; ii++) {
+          const element = ssp[ii - i];
+          this._handleTagAdded(ii, element);
+        }
+      }
+    }
     this.setState({ currentText: text.replace(/\s/g, '').replace(/,/g, '') });
 
     if (text.indexOf(' ') > 0 && text) {
@@ -50,9 +60,16 @@ export default class TagAreaView extends Component {
     const _currentText = (currentText && currentText.trim()) || text;
 
     if (_currentText && chips && chips.length < chipsCount) {
-      this.setState({
-        chips: [...chips, _currentText],
-      });
+      if (i !== null && text !== null) {
+        chips[i] = _currentText;
+        this.setState({
+          chips: [...chips],
+        });
+      } else {
+        this.setState({
+          chips: [...chips, _currentText],
+        });
+      }
     }
 
     if (handleTagChanged && chips.length < chipsCount + 1) {
