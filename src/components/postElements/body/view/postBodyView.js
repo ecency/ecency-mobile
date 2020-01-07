@@ -236,29 +236,34 @@ const PostBody = ({
     background-color: ${EStyleSheet.value('$darkIconColor')};
     flex-direction: 'row';
   }
-  td: {
+  td {
     border-width: 0.5;
     border-color: ${EStyleSheet.value('$tableBorderColor')};
     flex: 1;
     padding: 10;
     background-color: ${EStyleSheet.value('$tableTrColor')};
   }
-  blockquote: {
+  blockquote {
     border-left-width: 5;
+    border-left-style: solid;
     border-color: ${EStyleSheet.value('$darkIconColor')};
     padding-left: 5;
   }
-  code: {
+  code {
     background-color: ${EStyleSheet.value('$darkIconColor')};
     font-family: ${EStyleSheet.value('$editorFont')};
   }
-  center: {
+  center {
     text-align: 'center';
     align-items: 'center';
     justify-content: 'center';
   }
   .markdown-video-link {
     max-width: 100%;
+  }
+  iframe {
+    width: 100%;
+    height: 320px;
   }
   .pull-right {
     float: right;
