@@ -18,7 +18,7 @@ export default EStyleSheet.create({
     marginLeft: 12,
   },
   textInput: {
-    flex: 0.7,
+    flex: 1,
     flexDirection: 'row',
   },
   icon: {
