@@ -24,10 +24,10 @@ PODS:
   - AppCenterReactNativeShared (2.6.0):
     - AppCenter/Core (= 2.5.1)
   - boost-for-react-native (1.63.0)
-  - BugsnagReactNative (2.23.3):
-    - BugsnagReactNative/Core (= 2.23.3)
+  - BugsnagReactNative (2.23.4):
+    - BugsnagReactNative/Core (= 2.23.4)
     - React
-  - BugsnagReactNative/Core (2.23.3):
+  - BugsnagReactNative/Core (2.23.4):
     - React
   - BVLinearGradient (2.5.6):
     - React
@@ -242,7 +242,7 @@ PODS:
     - React
     - SDWebImage/Core
     - SDWebImage/GIF
-  - react-native-netinfo (4.7.0):
+  - react-native-netinfo (5.3.2):
     - React
   - react-native-version-number (0.3.6):
     - React
@@ -483,7 +483,7 @@ SPEC CHECKSUMS:
   appcenter-push: 364163b8df17ec57588f8f14a29184405acb5de8
   AppCenterReactNativeShared: d5e360f8a4cb5126d29e31ab98051d2f070ba631
   boost-for-react-native: 39c7adb57c4e60d6c5479dd8623128eb5b3f0f2c
-  BugsnagReactNative: 34f9500e304c2667ce7a3e76037d91e41eca2ffe
+  BugsnagReactNative: bfa11ce45f7ee311962ecda93f190b6ea74329fe
   BVLinearGradient: e3aad03778a456d77928f594a649e96995f1c872
   CodePush: a503ca0caee269e68d8faaafe4414990ec282520
   DoubleConversion: 5805e889d232975c086db112ece9ed034df7a0b2
@@ -507,7 +507,7 @@ SPEC CHECKSUMS:
   react-native-cameraroll: 463aff54e37cff27ea76eb792e6f1fa43b876320
   react-native-config: f2c2ae45625a068c35681a16b9bfb1ca58b0adc7
   react-native-fast-image: 6d50167ad4d68b59640ceead8c2bc4e58d91d8bd
-  react-native-netinfo: ddaca8bbb9e6e914b1a23787ccb879bc642931c9
+  react-native-netinfo: 817823a90f13ced48413875c0820df04c3aae28d
   react-native-version-number: b415bbec6a13f2df62bf978e85bc0d699462f37f
   react-native-webview: db4682f1698ab4b17a5e88f951031d203ff8aea8
   React-RCTActionSheet: 600b4d10e3aea0913b5a92256d2719c0cdd26d76
