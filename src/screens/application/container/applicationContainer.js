@@ -66,6 +66,7 @@ import {
   isDefaultFooter,
   isPinCodeOpen,
   setPinCode as savePinCode,
+  isRenderRequired,
 } from '../../../redux/actions/applicationActions';
 import { updateActiveBottomTab } from '../../../redux/actions/uiAction';
 
@@ -121,6 +122,15 @@ class ApplicationContainer extends Component {
 
     if (!isIos) BackHandler.addEventListener('hardwareBackPress', this._onBackPress);
   };
+
+  componentDidUpdate(prevProps, prevState) {
+    const { isGlobalRenderRequired, dispatch } = this.props;
+
+    if (isGlobalRenderRequired !== prevProps.isGlobalRenderRequired && isGlobalRenderRequired) {
+      this.setState({ isRenderRequire: false }, () => this.setState({ isRenderRequire: true }));
+      dispatch(isRenderRequired(false));
+    }
+  }
 
   componentWillUnmount() {
     const { isIos } = this.state;
@@ -652,6 +662,7 @@ export default connect(
     isPinCodeRequire: state.application.isPinCodeRequire,
     isActiveApp: state.application.isActive,
     api: state.application.api,
+    isGlobalRenderRequired: state.application.isRenderRequired,
 
     // Account
     unreadActivityCount: state.account.currentAccount.unread_activity_count,
