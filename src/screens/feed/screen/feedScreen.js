@@ -16,15 +16,15 @@ import { POPULAR_FILTERS, POPULAR_FILTERS_VALUE } from '../../../constants/optio
 const FeedScreen = () => {
   return (
     <AccountContainer>
-      {({ currentAccount, isLoggedIn }) => (
+      {({ currentAccount }) => (
         <Fragment>
           <Header />
           <SafeAreaView style={styles.container}>
             <Posts
               filterOptions={[...POPULAR_FILTERS]}
               filterOptionsValue={[...POPULAR_FILTERS_VALUE]}
-              getFor={isLoggedIn ? 'feed' : 'trending'}
-              selectedOptionIndex={isLoggedIn ? 0 : 2}
+              getFor={get(currentAccount, 'name', null) ? 'feed' : 'hot'}
+              selectedOptionIndex={get(currentAccount, 'name', null) ? 0 : 2}
               feedUsername={get(currentAccount, 'name')}
             />
           </SafeAreaView>

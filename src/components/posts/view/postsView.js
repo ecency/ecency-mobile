@@ -3,8 +3,9 @@ import React, { useState, useEffect, useCallback } from 'react';
 import { FlatList, View, ActivityIndicator, RefreshControl } from 'react-native';
 import { useIntl } from 'react-intl';
 import { withNavigation } from 'react-navigation';
-import { get, isEqual, unionWith } from 'lodash';
+import get from 'lodash/get';
 
+import { unionWith } from '../../../utils/postParser';
 // STEEM
 import { getPostsSummary, getPost } from '../../../providers/steem/dsteem';
 import { getPromotePosts } from '../../../providers/esteem/esteem';
@@ -196,10 +197,10 @@ const PostsView = ({
             if (_posts.length > 0) {
               if (posts.length > 0) {
                 if (refreshing) {
-                  _posts = unionWith(_posts, posts, isEqual);
+                  _posts = unionWith(_posts, posts, 'permlink');
                 } else {
                   _posts.shift();
-                  _posts = [...posts, ..._posts];
+                  _posts = unionWith(posts, _posts, 'permlink');
                 }
               }
 
@@ -227,6 +228,7 @@ const PostsView = ({
                     if (promotedPosts[ix] !== undefined) {
                       if (get(_posts, [i], {}).permlink !== promotedPosts[ix].permlink) {
                         _posts = insert(_posts, i, promotedPosts[ix]);
+                        //_posts = _posts.splice(i, 0, promotedPosts[ix]); //faster but won't work due to original array changes
                       }
                     }
                   }

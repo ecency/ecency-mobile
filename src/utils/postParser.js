@@ -1,6 +1,6 @@
 import isEmpty from 'lodash/isEmpty';
 import forEach from 'lodash/forEach';
-import get from 'lodash/get';
+import { get, uniqBy } from 'lodash';
 
 import { postBodySummary, renderPostBody } from '@esteemapp/esteem-render-helpers';
 
@@ -179,4 +179,9 @@ const parseActiveVotes = (post, currentUserName) => {
   }
 
   return post.active_votes;
+};
+
+export const unionWith = (array1, array2, matcher) => {
+  let concated = array1.concat(array2);
+  return uniqBy(concated, matcher);
 };

@@ -2,11 +2,11 @@
   "wallet": {
     "curation_reward": "キュレーション報酬",
     "author_reward": "投稿者報酬",
-    "comment_benefactor_reward": "コメント寄与者報酬",
-    "claim_reward_balance": "報酬残高の請求",
+    "comment_benefactor_reward": "Benefactor Reward",
+    "claim_reward_balance": "Claim Reward ",
     "transfer": "送金",
-    "transfer_to_vesting": "パワーアップ",
-    "transfer_from_savings": "貯蓄口座から振替",
+    "transfer_to_vesting": "To Vesting",
+    "transfer_from_savings": "From Savings",
     "withdraw_vesting": "パワーダウン",
     "fill_order": "注文の入力",
     "post": "投稿",
@@ -19,37 +19,37 @@
     "outgoing_transfer_title": "贈与",
     "checkin_extra": "ボーナス",
     "delegation": "デリゲーション",
-    "delegations": "Delegations",
+    "delegations": "委託",
     "delegation_title": "デリゲーション報酬",
-    "delegation_desc": "Earn ESTM everyday for delegation",
+    "delegation_desc": "委託してESTMを毎日貰おう",
     "post_title": "投稿によるポイント",
     "comment_title": "コメントによるポイント",
     "vote_title": "ヴォートによるポイント",
     "reblog_title": "リブログによるポイント",
     "login_title": "ログインによるポイント",
     "checkin_title": "ハートビートによるポイント",
-    "referral": "Referral",
-    "referral_title": "Referral rewards",
-    "referral_desc": "Invite friends and earn ESTM",
+    "referral": "紹介",
+    "referral_title": "紹介の報酬",
+    "referral_desc": "友達を紹介してESTMを貰おう",
     "checkin_extra_title": "使用ボーナス",
-    "no_activity": "No recent activity",
+    "no_activity": "最近のアクティビティがありません",
     "outgoing_transfer_description": "",
     "incoming_transfer_description": "",
-    "post_desc": "You can earn point by posting regularly. Posting gives you upto 15 points.",
-    "comment_desc": "Each comment you make helps you to grow your audience and also earns you upto 5 points.",
-    "checkin_desc": "Checking in regularly gives you 0.25 points.",
-    "vote_desc": "By voting you give reward to other creators and also earn back upto 0.01 x vote weight points.",
-    "reblog_desc": "Share what post you like with your friends and earn points.",
-    "login_desc": "When you login into app first time you earn 100 points.",
-    "checkin_extra_desc": "Consistent use of app gives you extra chances to earn more points, be more active and earn more.",
+    "post_desc": "定期的に投稿することでポイントを獲得できます。投稿すると最高で15ポイントもらえます。",
+    "comment_desc": "コメントをすることで支持層が増え、さらに最高5ポイント貰えます。",
+    "checkin_desc": "定期的にチェックインすると0.25ポイント貰えます。",
+    "vote_desc": "投票することは投稿者に好意を示し報酬を与えるだけでなく、最大で投票比重の0.01倍のポイントを獲得できます。",
+    "reblog_desc": "あなたの好きな投稿を友達と共有することで、ポイントが獲得できます。",
+    "login_desc": "アプリに初めてログインすると100ポイント獲得できます。",
+    "checkin_extra_desc": "アプリを一貫して使用し続けると、さらにポイントを獲得するチャンスがあります。積極的に使用してもっとポイントを貰おう。",
     "dropdown_transfer": "贈る",
     "dropdown_promote": "プロモート",
     "dropdown_boost": "ブースト",
     "from": "差出人",
     "to": "受取人",
-    "estimated_value_desc": "According to purchase value",
-    "estimated_value": "Estimated value",
-    "estimated_amount": "Vote value",
+    "estimated_value_desc": "購入価値によると",
+    "estimated_value": "推定価格",
+    "estimated_amount": "投票価値",
     "amount_information": "スライドして金額を設定",
     "amount": "金額",
     "memo": "メモ",
@@ -60,58 +60,58 @@
     "memo_placeholder": "ここに内容を入力してください",
     "transfer_token": "送金",
     "points": "ESTMを贈る",
-    "transfer_to_saving": "貯蓄口座に送金",
+    "transfer_to_saving": "To Saving",
     "powerUp": "パワーアップ",
-    "withdraw_to_saving": "貯蓄口座に引き出す",
+    "withdraw_to_saving": "Withdraw Saving",
     "steemconnect_title": "Steemconnect 送金",
     "next": "次へ",
     "delegate": "デリゲーション",
     "power_down": "パワーダウン",
     "withdraw_steem": "Steem を引き出す",
-    "withdraw_sbd": "Steem Dollar を引き出す",
-    "transfer_to_savings": "Transfer To Savings",
-    "convert": "Convert",
-    "escrow_transfer": "Escrow Transfer",
-    "escrow_dispute": "Escrow Dispute",
-    "escrow_release": "Escrow Release",
-    "escrow_approve": "Escrow Approve",
-    "cancel_transfer_from_savings": "Cancel Transfer from Savings",
+    "withdraw_sbd": "Withdraw SBD",
+    "transfer_to_savings": "To Savings",
+    "convert": "変換",
+    "escrow_transfer": "エスクロー送金",
+    "escrow_dispute": "エスクロー阻止",
+    "escrow_release": "エスクロー解除",
+    "escrow_approve": "エスクロー承認",
+    "cancel_transfer_from_savings": "Cancel From Savings",
     "delegate_vesting_shares": "デリゲーション",
-    "fill_convert_request": "Convert request executed",
-    "fill_transfer_from_savings": "From Savings executed",
-    "fill_vesting_withdraw": "Power Down executed",
+    "fill_convert_request": "Convert Executed",
+    "fill_transfer_from_savings": "Savings Executed",
+    "fill_vesting_withdraw": "PowerDown executed",
     "estm": {
       "title": "eSteem ポイント",
       "buy": "ESTM を手に入れる"
     },
     "savingsteem": {
-      "title": "STEEM Savings"
+      "title": "STEEM 貯蓄口座"
     },
     "savingsbd": {
-      "title": "SBD Savings"
+      "title": "SBD 貯蓄口座"
     },
     "steem": {
       "title": "STEEM",
-      "buy": "GET STEEM"
+      "buy": "STEEMを購入"
     },
     "sbd": {
-      "title": "SBD",
-      "buy": "GET SBD"
+      "title": "Steemドル",
+      "buy": "Steemドルを購入"
     },
     "steem_power": {
-      "title": "STEEM POWER"
+      "title": "STEEMパワー"
     }
   },
   "notification": {
-    "vote": "voted",
-    "unvote": "unvoted",
-    "reply": "replied to",
-    "mention": "mentioned in",
+    "vote": "投票済み",
+    "unvote": "未投票",
+    "reply": "返信",
+    "mention": "話題にされました",
     "follow": "あなたをフォローしました",
     "unfollow": "あなたをフォロー解除しました",
     "ignore": "あなたをミュートしました",
-    "reblog": "reblogged",
-    "transfer": "transferred",
+    "reblog": "リブログ済み",
+    "transfer": "送金済み",
     "notification": "通知",
     "leaderboard": "ランキング",
     "epoint": "ポイント",
@@ -121,16 +121,16 @@
     "this_week": "今週",
     "this_month": "今月",
     "older_then": "1ヶ月以上前",
-    "activities": "All",
+    "activities": "全部",
     "replies": "返信",
-    "mentions": "Mentions",
-    "reblogs": "Reblogs",
-    "noactivity": "No new activity found"
+    "mentions": "メンション",
+    "reblogs": "リブログ",
+    "noactivity": "新着アクティビティはありません"
   },
   "leaderboard": {
-    "daily": "DAILY",
-    "weekly": "WEEKLY",
-    "monthly": "MONTHLY"
+    "daily": "日間",
+    "weekly": "週間",
+    "monthly": "月間"
   },
   "messages": {
     "comingsoon": "メッセージ機能は近日公開予定です！"
@@ -149,7 +149,7 @@
     "hours": "時間",
     "voting_power": "ヴォート能力",
     "login_to_see": "ログイン",
-    "follow_people": "Follow some people to fill your feed",
+    "follow_people": "他の人をフォローして自分のフィードに表示しよう",
     "havent_commented": "まだ何もコメントしていません",
     "havent_posted": "まだ何も投稿していません",
     "steem_power": "Steem Power",
@@ -184,7 +184,7 @@
     "pincode": "PINコード",
     "reset_pin": "PINコードをリセット",
     "reset": "リセット",
-    "nsfw_content": "NSFW",
+    "nsfw_content": "閲覧注意",
     "send_feedback": "フィードバックを送信する",
     "send": "送信",
     "default_footer": "デフォルトフッター",
@@ -216,10 +216,10 @@
   "home": {
     "feed": "フィード",
     "popular": "人気",
-    "top": "Top",
-    "hot": "Hot",
-    "new": "New",
-    "blog": "Blog"
+    "top": "トップ",
+    "hot": "人気",
+    "new": "新着",
+    "blog": "ブログ"
   },
   "side_menu": {
     "profile": "プロフィール",
@@ -294,7 +294,7 @@
     "connection_success": "接続に成功しました！",
     "checking": "確認中...",
     "not_existing_post": "投稿は存在しません！パーマリンクと投稿者を確認してください。",
-    "google_play_version": "We noticed that your device has old version of Google Play. Please update Google Play services and try again!"
+    "google_play_version": "あなたのデバイスはGoogle Playのバージョンが古いようです。Google Playをアップデートして再度お試しください！"
   },
   "post": {
     "reblog_alert": "本当にリブログしますか？",
@@ -303,9 +303,9 @@
     "reblogged": "リブログしています",
     "sponsored": "PR",
     "open_thread": "スレッドを開く",
-    "save_to_local": "Save to the album",
-    "image_saved": "Image Saved to Photo Gallery",
-    "image_saved_error": "Error Saving Image"
+    "save_to_local": "アルバムに保存",
+    "image_saved": "画像をフォトギャラリーに保存しました",
+    "image_saved_error": "画像の保存時にエラー"
   },
   "drafts": {
     "title": "下書き",
@@ -348,9 +348,9 @@
     "author_payout": "投稿者支払額",
     "curation_payout": "キュレーション支払額",
     "payout_date": "支払額",
-    "beneficiaries": "Beneficiaries",
-    "warn_zero_payout": "Amount must reach $0.02 for payout",
-    "breakdown": "Breakdown"
+    "beneficiaries": "受取人",
+    "warn_zero_payout": "支払には最低金額$0.02が必要です",
+    "breakdown": "詳細"
   },
   "post_dropdown": {
     "copy": "リンクをコピー",
@@ -370,11 +370,11 @@
     "comments": "コメント"
   },
   "comment_filter": {
-    "trending": "TOP",
-    "reputation": "REPUTATION",
-    "votes": "VOTE",
-    "age": "AGE",
-    "top": "TOP",
+    "trending": "トップ",
+    "reputation": "評価",
+    "votes": "投票",
+    "age": "年齢",
+    "top": "トップ",
     "time": "時間"
   },
   "transfer": {
@@ -394,20 +394,20 @@
     "powerUp": "パワーアップ",
     "withdraw_to_saving": "貯蓄口座に引き出す",
     "steemconnect_title": "Steemconnect 送金",
-    "estimated_weekly": "Estimated Weekly",
-    "destination_accounts": "Destination Accounts",
-    "stop_information": "Are you sure want to stop?",
-    "percent": "Percent",
-    "auto_vests": "Auto Vests",
-    "save": "SAVE",
-    "percent_information": "Percent info",
+    "estimated_weekly": "毎週推定される",
+    "destination_accounts": "送金先口座",
+    "stop_information": "本当に中止してよろしいですか？",
+    "percent": "パーセント",
+    "auto_vests": "自動付与",
+    "save": "保存",
+    "percent_information": "パーセント情報",
     "next": "次へ",
     "delegate": "デリゲーション",
     "power_down": "パワーダウン",
     "withdraw_steem": "Steem を引き出す",
     "withdraw_sbd": "Steem Dollar を引き出す",
-    "incoming_funds": "Incoming Funds",
-    "stop": "Stop"
+    "incoming_funds": "入ってくる資金",
+    "stop": "中止"
   },
   "boost": {
     "title": "eSteem ポイントを手に入れる",
@@ -415,11 +415,11 @@
     "next": "次へ"
   },
   "free_estm": {
-    "title": "Free ESTM",
-    "button": "SPIN & WIN",
-    "get_spin": "5 SPINS",
-    "spin_right": "Spin Left",
-    "timer_text": "Next free spin in"
+    "title": "無料 ESTM",
+    "button": "スピン & ウィン",
+    "get_spin": "5 スピン",
+    "spin_right": "残りのスピン",
+    "timer_text": "次の無料スピンまで"
   },
   "promote": {
     "title": "プロモート",
@@ -442,9 +442,9 @@
   },
   "dsteem": {
     "date_error": {
-      "device_time": "Your device time;",
-      "current_time": "Current time;",
-      "information": "We noticed that your device has incorrect date or time. Please fix Date & Time or Set Automatically and try again."
+      "device_time": "あなたのデバイス時刻;",
+      "current_time": "現在の時刻;",
+      "information": "あなたのデバイスは時刻が正しくありません。時刻の修正をするか、自動設定に変更してから再度お試し下さい。"
     }
   },
   "comments": {

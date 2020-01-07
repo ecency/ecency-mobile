@@ -1,5 +1,5 @@
 import React, { useState, Fragment, useRef } from 'react';
-import { FlatList } from 'react-native';
+import { FlatList, RefreshControl, ActivityIndicator } from 'react-native';
 import ActionSheet from 'react-native-actionsheet';
 import get from 'lodash/get';
 import { useIntl } from 'react-intl';

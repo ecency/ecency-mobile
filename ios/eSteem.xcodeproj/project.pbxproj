@@ -238,7 +238,6 @@
 				A387923BE57BA7D0C6C1FACF /* Pods-eSteemTests.debug.xcconfig */,
 				3FCD2A7E1617723964A992ED /* Pods-eSteemTests.release.xcconfig */,
 			);
-			name = Pods;
 			path = Pods;
 			sourceTree = "<group>";
 		};
@@ -299,6 +298,7 @@
 		5898D06F234E104B00E9EE62 /* Recovered References */ = {
 			isa = PBXGroup;
 			children = (
+				C97456BE898C00B5EDA21C2E /* libPods-eSteemTests.a */,
 			);
 			name = "Recovered References";
 			sourceTree = "<group>";
