@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from 'react';
-import { View } from 'react-native';
+import { View, Platform } from 'react-native';
 import FastImage from 'react-native-fast-image';
 
 // Components
@@ -33,6 +33,8 @@ const FormInputView = ({
   const [inputBorderColor, setInputBorderColor] = useState('#e7e7e7');
   const [_isValid, setIsValid] = useState(true);
 
+  const isIos = Platform.OS === 'ios';
+
   const _handleOnChange = text => {
     setValue(text);
 
@@ -47,11 +49,13 @@ const FormInputView = ({
 
   // TODO: Workaround for android context (copy/paste) menu, check react-navigation library
   useEffect(() => {
-    if (!value) {
-      setValue(' ');
-      setTimeout(() => {
-        setValue(value || '');
-      }, 0);
+    if (!isIos) {
+      if (!value) {
+        setValue(' ');
+        setTimeout(() => {
+          setValue(value || '');
+        }, 0);
+      }
     }
   }, []);
 
