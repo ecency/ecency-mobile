@@ -6,7 +6,7 @@ import { getUserDataWithUsername } from '../../../realm/realm';
 import { switchAccount } from '../../../providers/steem/auth';
 import { updateCurrentAccount } from '../../../redux/actions/accountAction';
 
-import { logout } from '../../../redux/actions/applicationActions';
+import { logout, isRenderRequired } from '../../../redux/actions/applicationActions';
 
 // Constanst
 import { default as ROUTES } from '../../../constants/routeNames';
@@ -73,6 +73,7 @@ class SideMenuContainer extends Component {
         _currentAccount.local = realmData[0];
 
         dispatch(updateCurrentAccount(_currentAccount));
+        dispatch(isRenderRequired(true));
         navigation.closeDrawer();
       });
     }

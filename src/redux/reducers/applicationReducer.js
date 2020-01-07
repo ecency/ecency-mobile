@@ -24,6 +24,7 @@ import {
   SET_UPVOTE_PERCENT,
   SET_PIN_CODE,
   IS_PIN_CODE_OPEN,
+  IS_RENDER_REQUIRED,
 } from '../constants/constants';
 
 const initialState = {
@@ -57,6 +58,7 @@ const initialState = {
   nsfw: 'Always show',
   pin: null,
   isPinCodeOpen: true,
+  isRenderRequired: false,
 };
 
 export default function(state = initialState, action) {
@@ -198,6 +200,10 @@ export default function(state = initialState, action) {
         ...state,
         pin: action.payload,
       };
+    case IS_RENDER_REQUIRED:
+      return Object.assign({}, state, {
+        isRenderRequired: action.payload,
+      });
     default:
       return state;
   }

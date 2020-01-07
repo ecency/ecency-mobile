@@ -26,6 +26,7 @@ import {
   SET_UPVOTE_PERCENT,
   SET_PIN_CODE,
   IS_PIN_CODE_OPEN,
+  IS_RENDER_REQUIRED,
 } from '../constants/constants';
 
 export const login = payload => ({
@@ -170,4 +171,9 @@ export const setCurrency = currency => dispatch => {
 export const setPinCode = data => ({
   type: SET_PIN_CODE,
   payload: data,
+});
+
+export const isRenderRequired = payload => ({
+  payload,
+  type: IS_RENDER_REQUIRED,
 });
