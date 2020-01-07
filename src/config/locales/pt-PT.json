@@ -78,8 +78,8 @@
     "cancel_transfer_from_savings": "Cancelar a Poupança",
     "delegate_vesting_shares": "Delegação",
     "fill_convert_request": "Conversão executada",
-    "fill_transfer_from_savings": "Savings Executed",
-    "fill_vesting_withdraw": "PowerDown executed",
+    "fill_transfer_from_savings": "Poupanças executadas",
+    "fill_vesting_withdraw": "PowerDown executado",
     "estm": {
       "title": "eSteem Pontos",
       "buy": "OBTER ESTM"
