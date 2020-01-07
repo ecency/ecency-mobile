@@ -1,4 +1,3 @@
-/* eslint-disable react/jsx-wrap-multilines */
 import React, { useState, useRef, useEffect } from 'react';
 import { injectIntl } from 'react-intl';
 import { View, FlatList, Text } from 'react-native';
@@ -159,4 +158,3 @@ const DraftsScreen = ({
 };
 
 export default injectIntl(DraftsScreen);
-/* eslint-enable */
