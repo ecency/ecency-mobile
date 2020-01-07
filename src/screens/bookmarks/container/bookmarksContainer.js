@@ -1,4 +1,4 @@
-import React, { Component } from 'react';
+import React, { useState, useEffect } from 'react';
 import { connect } from 'react-redux';
 import { Alert } from 'react-native';
 import { injectIntl } from 'react-intl';
@@ -19,107 +19,85 @@ import ROUTES from '../../../constants/routeNames';
 // Component
 import BookmarksScreen from '../screen/bookmarksScreen';
 
-/*
- *            Props Name        Description                                     Value
- *@props -->  props name here   description here                                Value Type Here
- *
- */
+const BookmarksContainer = ({ currentAccount, intl, navigation }) => {
+  const [favorites, setFavorites] = useState([]);
+  const [bookmarks, setBookmarks] = useState([]);
+  const [isLoading, setIsLoading] = useState(false);
 
-class DraftsContainer extends Component {
-  constructor(props) {
-    super(props);
-    this.state = {
-      favorites: [],
-      bookmarks: [],
-      isLoading: false,
-    };
-  }
-
-  // Component Life Cycle Functions
-  componentDidMount() {
-    this._fetchData();
-  }
+  useEffect(() => {
+    _fetchData();
+  }, []);
 
   // Component Functions
 
-  _fetchData = () => {
-    this._getFavorites();
-    this._getBookmarks();
+  const _fetchData = () => {
+    _getBookmarks();
+    _getFavorites();
   };
 
-  _getFavorites = () => {
-    const { currentAccount, intl } = this.props;
-    this.setState({ isLoading: true });
+  const _getFavorites = () => {
+    setIsLoading(true);
 
     getFavorites(currentAccount.name)
       .then(data => {
-        this.setState({ favorites: this._sortData(data), isLoading: false });
+        setFavorites(_sortData(data));
+        setIsLoading(false);
       })
       .catch(() => {
         Alert.alert(intl.formatMessage({ id: 'favorites.load_error' }));
-        this.setState({ isLoading: false });
+        setIsLoading(false);
       });
   };
 
-  _getBookmarks = () => {
-    const { currentAccount, intl } = this.props;
-    this.setState({ isLoading: true });
+  const _getBookmarks = () => {
+    setIsLoading(true);
 
     getBookmarks(currentAccount.name)
       .then(data => {
-        this.setState({ bookmarks: this._sortData(data), isLoading: false });
+        setBookmarks(_sortData(data));
+        setIsLoading(false);
       })
       .catch(() => {
         Alert.alert(intl.formatMessage({ id: 'bookmarks.load_error' }));
-        this.setState({ isLoading: false });
+        setIsLoading(false);
       });
   };
 
-  _removeFavorite = selectedUsername => {
-    const { currentAccount, intl } = this.props;
-
+  const _removeFavorite = selectedUsername => {
     removeFavorite(currentAccount.name, selectedUsername)
       .then(() => {
-        const { favorites } = this.state;
         const newFavorites = [...favorites].filter(fav => fav.account !== selectedUsername);
 
-        this.setState({ favorites: this._sortData(newFavorites) });
+        setFavorites(_sortData(newFavorites));
       })
       .catch(() => {
         Alert.alert(intl.formatMessage({ id: 'alert.fail' }));
       });
   };
 
-  _removeBoomark = id => {
-    const { currentAccount, intl } = this.props;
-
+  const _removeBoomark = id => {
     removeBookmark(currentAccount.name, id)
       .then(() => {
-        const { bookmarks } = this.state;
         const newBookmarks = [...bookmarks].filter(bookmark => bookmark._id !== id);
 
-        this.setState({ bookmarks: this._sortData(newBookmarks) });
+        setBookmarks(_sortData(newBookmarks));
       })
       .catch(() => {
         Alert.alert(intl.formatMessage({ id: 'alert.fail' }));
       });
   };
 
-  _handleOnFavoritePress = username => {
-    const { navigation } = this.props;
-
+  const _handleOnFavoritePress = username => {
     navigation.navigate({
       routeName: ROUTES.SCREENS.PROFILE,
       params: {
         username,
-        fetchData: this._fetchData,
+        fetchData: _fetchData,
       },
     });
   };
 
-  _handleOnBookarkPress = (permlink, author) => {
-    const { navigation } = this.props;
-
+  const _handleOnBookarkPress = (permlink, author) => {
     if (permlink && author) {
       navigation.navigate({
         routeName: ROUTES.SCREENS.POST,
@@ -131,7 +109,7 @@ class DraftsContainer extends Component {
     }
   };
 
-  _sortData = data =>
+  const _sortData = data =>
     data.sort((a, b) => {
       const dateA = new Date(a.created).getTime();
       const dateB = new Date(b.created).getTime();
@@ -139,27 +117,22 @@ class DraftsContainer extends Component {
       return dateB > dateA ? 1 : -1;
     });
 
-  render() {
-    const { isLoading, favorites, bookmarks } = this.state;
-    const { currentAccount } = this.props;
-
-    return (
-      <BookmarksScreen
-        isLoading={isLoading}
-        currentAccount={currentAccount}
-        favorites={favorites}
-        bookmarks={bookmarks}
-        removeFavorite={this._removeFavorite}
-        removeBookmark={this._removeBoomark}
-        handleOnFavoritePress={this._handleOnFavoritePress}
-        handleOnBookarkPress={this._handleOnBookarkPress}
-      />
-    );
-  }
-}
+  return (
+    <BookmarksScreen
+      isLoading={isLoading}
+      currentAccount={currentAccount}
+      favorites={favorites}
+      bookmarks={bookmarks}
+      removeFavorite={_removeFavorite}
+      removeBookmark={_removeBoomark}
+      handleOnFavoritePress={_handleOnFavoritePress}
+      handleOnBookarkPress={_handleOnBookarkPress}
+    />
+  );
+};
 
 const mapStateToProps = state => ({
   currentAccount: state.account.currentAccount,
 });
 
-export default connect(mapStateToProps)(injectIntl(DraftsContainer));
+export default connect(mapStateToProps)(injectIntl(BookmarksContainer));
