@@ -26,7 +26,9 @@ export const getCurrencyTokenRate = (currency, token) =>
 /**
  * @params username
  */
-export const getDrafts = data =>
+export const getDrafts = username => api.get(`/drafts/${username}`).then(resp => resp.data);
+
+/*export const getDrafts = data =>
   new Promise((resolve, reject) => {
     api
       .get(`/drafts/${data}`)
@@ -38,7 +40,7 @@ export const getDrafts = data =>
         reject(error);
       });
   });
-
+*/
 /**
  * @params username
  * @params draftID

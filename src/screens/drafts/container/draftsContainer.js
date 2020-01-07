@@ -1,4 +1,4 @@
-import React, { Component } from 'react';
+import React, { useEffect, useState } from 'react';
 import { connect } from 'react-redux';
 import { Alert } from 'react-native';
 import { injectIntl } from 'react-intl';
@@ -23,91 +23,70 @@ import { default as ROUTES } from '../../../constants/routeNames';
 // Component
 import DraftsScreen from '../screen/draftsScreen';
 
-/*
- *            Props Name        Description                                     Value
- *@props -->  props name here   description here                                Value Type Here
- *
- */
+const DraftsContainer = ({ currentAccount, intl, navigation, dispatch }) => {
+  const [drafts, setDrafts] = useState([]);
+  const [schedules, setSchedules] = useState([]);
+  const [isLoading, setIsLoading] = useState(false);
 
-class DraftsContainer extends Component {
-  constructor(props) {
-    super(props);
-    this.state = {
-      drafts: [],
-      schedules: [],
-      isLoading: false,
-    };
-  }
-
-  // Component Life Cycle Functions
-  componentDidMount() {
-    this._getDrafts();
-    this._getSchedules();
-  }
+  useEffect(() => {
+    _getDrafts();
+    _getSchedules();
+  }, []);
 
   // Component Functions
 
-  _getSchedules = () => {
-    const { currentAccount, intl } = this.props;
-    this.setState({ isLoading: true });
+  const _getSchedules = () => {
+    setIsLoading(true);
 
     getSchedules(currentAccount.name)
       .then(data => {
-        this.setState({ schedules: this._sortData(data, true), isLoading: false });
+        setSchedules(_sortDataS(data));
+        setIsLoading(false);
       })
       .catch(() => {
         Alert.alert(intl.formatMessage({ id: 'drafts.load_error' }));
-        this.setState({ isLoading: false });
+        setIsLoading(false);
       });
   };
 
-  _getDrafts = () => {
-    const { currentAccount, intl } = this.props;
-    this.setState({ isLoading: true });
+  const _getDrafts = () => {
+    setIsLoading(true);
 
     getDrafts(currentAccount.name)
       .then(data => {
-        this.setState({ drafts: this._sortData(data), isLoading: false });
+        setDrafts(_sortData(data));
+        setIsLoading(false);
       })
       .catch(() => {
         Alert.alert(intl.formatMessage({ id: 'drafts.load_error' }));
-        this.setState({ isLoading: false });
+        setIsLoading(false);
       });
   };
 
-  _removeDraft = id => {
-    const { currentAccount, intl } = this.props;
-
+  const _removeDraft = id => {
     removeDraft(currentAccount.name, id)
       .then(() => {
-        const { drafts } = this.state;
         const newDrafts = [...drafts].filter(draft => draft._id !== id);
-
-        this.setState({ drafts: this._sortData(newDrafts) });
+        setDrafts(_sortData(newDrafts));
       })
       .catch(() => {
         Alert.alert(intl.formatMessage({ id: 'alert.fail' }));
       });
   };
 
-  _removeSchedule = id => {
-    const { currentAccount, intl } = this.props;
-
+  const _removeSchedule = id => {
     removeSchedule(currentAccount.name, id)
       .then(res => {
-        const { schedules } = this.state;
         const newSchedules = [...schedules].filter(schedule => schedule._id !== id);
 
-        this.setState({ schedules: this._sortData(newSchedules, true) });
+        setSchedules(_sortDataS(newSchedules));
       })
       .catch(() => {
         Alert.alert(intl.formatMessage({ id: 'alert.fail' }));
       });
   };
 
-  _moveScheduleToDraft = id => {
-    const { currentAccount, dispatch, intl } = this.props;
-
+  const _moveScheduleToDraft = id => {
     moveSchedule(id, currentAccount.name)
       .then(res => {
         dispatch(
@@ -118,54 +97,55 @@ class DraftsContainer extends Component {
           ),
         );
 
-        this._getDrafts();
-        this._getSchedules();
+        _getDrafts();
+        _getSchedules();
       })
       .catch(() => {
         dispatch(toastNotification(intl.formatMessage({ id: 'alert.fail' })));
       });
   };
 
-  _editDraft = id => {
-    const { navigation } = this.props;
-    const { drafts } = this.state;
+  const _editDraft = id => {
     const selectedDraft = drafts.find(draft => draft._id === id);
 
     navigation.navigate({
       routeName: ROUTES.SCREENS.EDITOR,
       params: {
         draft: selectedDraft,
-        fetchPost: this._getDrafts,
+        fetchPost: _getDrafts,
       },
     });
   };
 
-  _sortData = (data, isSchedule) =>
+  const _sortData = data =>
     data.sort((a, b) => {
-      const dateA = new Date(isSchedule ? a.schedule : a.created).getTime();
-      const dateB = new Date(isSchedule ? a.schedule : b.created).getTime();
+      const dateA = new Date(a.created).getTime();
+      const dateB = new Date(b.created).getTime();
 
       return dateB > dateA ? 1 : -1;
     });
 
-  render() {
-    const { isLoading, drafts, schedules } = this.state;
-    const { currentAccount } = this.props;
+  const _sortDataS = data =>
+    data.sort((a, b) => {
+      const dateA = new Date(a.schedule).getTime();
+      const dateB = new Date(b.schedule).getTime();
 
-    return (
-      <DraftsScreen
-        isLoading={isLoading}
-        editDraft={this._editDraft}
-        currentAccount={currentAccount}
-        drafts={drafts}
-        schedules={schedules}
-        removeDraft={this._removeDraft}
-        moveScheduleToDraft={this._moveScheduleToDraft}
-        removeSchedule={this._removeSchedule}
-      />
-    );
-  }
-}
+      return dateB > dateA ? 1 : -1;
+    });
+
+  return (
+    <DraftsScreen
+      isLoading={isLoading}
+      editDraft={_editDraft}
+      currentAccount={currentAccount}
+      drafts={drafts}
+      schedules={schedules}
+      removeDraft={_removeDraft}
+      moveScheduleToDraft={_moveScheduleToDraft}
+      removeSchedule={_removeSchedule}
+    />
+  );
+};
 
 const mapStateToProps = state => ({
   currentAccount: state.account.currentAccount,
