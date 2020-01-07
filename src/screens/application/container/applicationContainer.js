@@ -77,10 +77,12 @@ import lightTheme from '../../../themes/lightTheme';
 // Workaround
 let previousAppState = 'background';
 export const setPreviousAppState = () => {
-  const appStateTimeout = setTimeout(() => {
+  previousAppState = AppState.currentState;
+  /*const appStateTimeout = setTimeout(() => {
+    console.log('current appstate timeout', AppState.currentState);
     previousAppState = AppState.currentState;
     clearTimeout(appStateTimeout);
-  }, 2000);
+  }, 2000);*/
 };
 
 class ApplicationContainer extends Component {
