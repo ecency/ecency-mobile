@@ -263,7 +263,7 @@ const PostBody = ({
   }
   iframe {
     width: 100%;
-    height: 320px;
+    height: 240px;
   }
   .pull-right {
     float: right;
