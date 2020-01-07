@@ -1113,10 +1113,10 @@
     exec-sh "^0.3.2"
     minimist "^1.2.0"
 
-"@esteemapp/esteem-render-helpers@^1.2.8":
-  version "1.2.8"
-  resolved "https://registry.yarnpkg.com/@esteemapp/esteem-render-helpers/-/esteem-render-helpers-1.2.8.tgz#e2cf1a7dee53eb5ad8f9541fd0ed1e1b72f6076c"
-  integrity sha512-0lz1gMHjr19H6fecLMhnG5QPQyGx9tl+Eb2ktzpSk6j0hm9nq9fwUNVurtLCnwzIgvtfrfPzRC7apxNcuLDbnQ==
+"@esteemapp/esteem-render-helpers@^1.2.9":
+  version "1.2.9"
+  resolved "https://registry.yarnpkg.com/@esteemapp/esteem-render-helpers/-/esteem-render-helpers-1.2.9.tgz#b4b6bd7e346e323a8d99bfce84928770443316b1"
+  integrity sha512-mQ/rweQQYiVfMU++SkAILrn8s34PtaKR+5wVmfq1qh1JHDVFLqw0PjIPjw/kNphKo55J4zIooKMNKYfkwmzlfQ==
   dependencies:
     he "^1.2.0"
     path "^0.12.7"
@@ -1366,6 +1366,11 @@
     "@types/istanbul-reports" "^1.1.1"
     "@types/yargs" "^13.0.0"
 
+"@react-native-community/async-storage@^1.7.1":
+  version "1.7.1"
+  resolved "https://registry.yarnpkg.com/@react-native-community/async-storage/-/async-storage-1.7.1.tgz#ef2104d865de61ad91bba66613e57e689ff4e6a1"
+  integrity sha512-/oX/x+EU4xNaqIaC/epVKzO8XghzImPA7l8cLz3USEFmtFiXFjBbTeeIFjjEm/u4/cv38Wi1xMEa10PHIWygRg==
+
 "@react-native-community/cameraroll@^1.3.0":
   version "1.3.0"
   resolved "https://registry.yarnpkg.com/@react-native-community/cameraroll/-/cameraroll-1.3.0.tgz#a340334440f4d08280da839130ef51c931b07483"
@@ -1477,10 +1482,10 @@
     eslint-plugin-react-native "3.6.0"
     prettier "1.16.4"
 
-"@react-native-community/netinfo@^4.1.3":
-  version "4.7.0"
-  resolved "https://registry.yarnpkg.com/@react-native-community/netinfo/-/netinfo-4.7.0.tgz#7482d36836cac69d0a0ae25581f65bc472639930"
-  integrity sha512-a/sDB+AsLEUNmhAUlAaTYeXKyQdFGBUfatqKkX5jluBo2CB3OAuTHfm7rSjcaLB9EmG5iSq3fOTpync2E7EYTA==
+"@react-native-community/netinfo@^5.3.2":
+  version "5.3.2"
+  resolved "https://registry.yarnpkg.com/@react-native-community/netinfo/-/netinfo-5.3.2.tgz#7b6ee417c2a905663e10de176c00eeab09bdd14c"
+  integrity sha512-npNcLAz6iWzwRNh+0tSFMlR+xkpSz9NWzX+5AxW40KE6qEZGWdE3dtGBKsezMdWD2Fh+6Je6P6hgUEF8xuZrbA==
 
 "@react-native-community/viewpager@^2.0.1":
   version "2.0.2"
@@ -2472,10 +2477,10 @@ buffer@^5.2.1:
     base64-js "^1.0.2"
     ieee754 "^1.1.4"
 
-bugsnag-react-native@^2.23.3:
-  version "2.23.3"
-  resolved "https://registry.yarnpkg.com/bugsnag-react-native/-/bugsnag-react-native-2.23.3.tgz#c4116d85b7ed921f59ea395521577f0d60280805"
-  integrity sha512-SPchJq+V0Pwl1PhLlEltyP+5mNzwPomTOJPAaMINiDyg9RsuCPK8onzetJj0PlP5gfULHrjEU7ZRhARh1eMKvw==
+bugsnag-react-native@^2.23.4:
+  version "2.23.4"
+  resolved "https://registry.yarnpkg.com/bugsnag-react-native/-/bugsnag-react-native-2.23.4.tgz#4ea9e877a86488b0c6212b2ee756c597b7194878"
+  integrity sha512-If8gkcQdLCtOppWViF8rN+Ylr3cloLf5kk+hG0cF7uTxYp7O63dd6J5jGIGnMCW/7IKfqcwn4t6sb/WJl6uM7A==
   dependencies:
     iserror "^0.0.2"
     promise "^7"
@@ -7557,10 +7562,10 @@ react-native-config@luggit/react-native-config#master:
   version "0.12.0"
   resolved "https://codeload.github.com/luggit/react-native-config/tar.gz/cf8ab95350a227d1a932fec7a920df562b3e9ae5"
 
-react-native-dark-mode@^0.1.2:
-  version "0.1.3"
-  resolved "https://registry.yarnpkg.com/react-native-dark-mode/-/react-native-dark-mode-0.1.3.tgz#fab664ec4b989f03ce0dc7b77ef58eb3fa4a5753"
-  integrity sha512-fRKOVBWwikLpLwaIikx3A+ifi6aBLKcEo+0sH/4ag02w6MkbsyUPYtSbWKJJoB95frkCL7HiXnd/QZTG9wLgGw==
+react-native-dark-mode@^0.2.1:
+  version "0.2.1"
+  resolved "https://registry.yarnpkg.com/react-native-dark-mode/-/react-native-dark-mode-0.2.1.tgz#10e74ec213c896c7f0a74c37670214a6c24a6623"
+  integrity sha512-/S4xv7t9v8nfndAkmOzvqkACWGlnDv0GQjM9GkK7wt/N0Ecy3BTARuBJ0LOk62NX+MVg/Z6MiJGP2KcYOUIxHw==
   dependencies:
     "@types/events" "*"
     "@types/react" "*"

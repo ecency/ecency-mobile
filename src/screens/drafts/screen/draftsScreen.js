@@ -1,5 +1,4 @@
-/* eslint-disable react/jsx-wrap-multilines */
-import React, { Component } from 'react';
+import React, { useState, useRef, useEffect } from 'react';
 import { injectIntl } from 'react-intl';
 import { View, FlatList, Text } from 'react-native';
 import ScrollableTabView from 'react-native-scrollable-tab-view';
@@ -17,25 +16,34 @@ import { BasicHeader, TabBar, PostListItem, PostCardPlaceHolder } from '../../..
 import globalStyles from '../../../globalStyles';
 import styles from './draftStyles';
 
-class DraftsScreen extends Component {
-  /* Props
-   * ------------------------------------------------
-   *   @prop { type }    name                - Description....
-   */
+const DraftsScreen = ({
+  currentAccount,
+  removeDraft,
+  editDraft,
+  removeSchedule,
+  isLoading,
+  intl,
+  drafts,
+  schedules,
+  moveScheduleToDraft,
+}) => {
+  const [selectedId, setSelectedId] = useState(null);
+  const ActionSheetRef = useRef(null);
+  const firstMount = useRef(true);
 
-  constructor(props) {
-    super(props);
-    this.state = {
-      selectedId: null,
-    };
-  }
-
-  // Component Life Cycles
+  useEffect(() => {
+    if (firstMount.current) {
+      firstMount.current = false;
+      return;
+    }
+    if (ActionSheetRef.current) {
+      ActionSheetRef.current.show();
+    }
+  }, [selectedId]);
 
   // Component Functions
 
-  _renderItem = (item, type) => {
-    const { currentAccount, removeDraft, editDraft, removeSchedule } = this.props;
+  const _renderItem = (item, type) => {
     const tags = item.tags ? item.tags.split(/[ ,]+/) : [];
     const tag = tags[0] || '';
     const image = catchDraftImage(item.body);
@@ -52,11 +60,7 @@ class DraftsScreen extends Component {
         image={image ? { uri: catchDraftImage(item.body) } : null}
         username={currentAccount.name}
         reputation={currentAccount.reputation}
-        handleOnPressItem={() =>
-          isSchedules
-            ? this.setState({ selectedId: item._id }, () => this.ActionSheet.show())
-            : editDraft(item._id)
-        }
+        handleOnPressItem={() => (isSchedules ? setSelectedId(item._id) : editDraft(item._id))}
         handleOnRemoveItem={isSchedules ? removeSchedule : removeDraft}
         id={item._id}
         key={item._id}
@@ -64,9 +68,7 @@ class DraftsScreen extends Component {
     );
   };
 
-  _renderEmptyContent = () => {
-    const { isLoading, intl } = this.props;
-
+  const _renderEmptyContent = () => {
     if (isLoading) {
       return (
         <View>
@@ -85,80 +87,74 @@ class DraftsScreen extends Component {
     );
   };
 
-  _getTabItem = (data, type) => (
+  const _getTabItem = (data, type) => (
     <View style={globalStyles.lightContainer}>
       <FlatList
         data={data}
         keyExtractor={item => item._id}
         removeClippedSubviews={false}
-        renderItem={({ item }) => this._renderItem(item, type)}
-        ListEmptyComponent={this._renderEmptyContent()}
+        renderItem={({ item }) => _renderItem(item, type)}
+        ListEmptyComponent={_renderEmptyContent()}
       />
     </View>
   );
 
-  render() {
-    const { drafts, schedules, intl, moveScheduleToDraft } = this.props;
-    const { selectedId } = this.state;
+  return (
+    <View style={globalStyles.container}>
+      <BasicHeader
+        title={intl.formatMessage({
+          id: 'drafts.title',
+        })}
+      />
 
-    return (
-      <View style={globalStyles.container}>
-        <BasicHeader
-          title={intl.formatMessage({
+      <ScrollableTabView
+        style={globalStyles.tabView}
+        renderTabBar={() => (
+          <TabBar
+            style={styles.tabbar}
+            tabUnderlineDefaultWidth={80}
+            tabUnderlineScaleX={2}
+            tabBarPosition="overlayTop"
+          />
+        )}
+      >
+        <View
+          tabLabel={intl.formatMessage({
             id: 'drafts.title',
           })}
-        />
-
-        <ScrollableTabView
-          style={globalStyles.tabView}
-          renderTabBar={() => (
-            <TabBar
-              style={styles.tabbar}
-              tabUnderlineDefaultWidth={80}
-              tabUnderlineScaleX={2}
-              tabBarPosition="overlayTop"
-            />
-          )}
+          style={styles.tabbarItem}
         >
-          <View
-            tabLabel={intl.formatMessage({
-              id: 'drafts.title',
-            })}
-            style={styles.tabbarItem}
-          >
-            {this._getTabItem(drafts, 'drafts')}
-          </View>
-          <View
-            tabLabel={intl.formatMessage({
-              id: 'schedules.title',
-            })}
-            style={styles.tabbarItem}
-          >
-            {this._getTabItem(schedules, 'schedules')}
-          </View>
-        </ScrollableTabView>
-        <ActionSheet
-          ref={o => (this.ActionSheet = o)}
-          title={intl.formatMessage({
-            id: 'alert.move_question',
+          {_getTabItem(drafts, 'drafts')}
+        </View>
+        <View
+          tabLabel={intl.formatMessage({
+            id: 'schedules.title',
           })}
-          options={[
-            intl.formatMessage({
-              id: 'alert.move',
-            }),
-            intl.formatMessage({
-              id: 'alert.cancel',
-            }),
-          ]}
-          cancelButtonIndex={1}
-          onPress={index => {
-            index === 0 && moveScheduleToDraft(selectedId);
-          }}
-        />
-      </View>
-    );
-  }
-}
+          style={styles.tabbarItem}
+        >
+          {_getTabItem(schedules, 'schedules')}
+        </View>
+      </ScrollableTabView>
+      <ActionSheet
+        ref={ActionSheetRef}
+        title={intl.formatMessage({
+          id: 'alert.move_question',
+        })}
+        options={[
+          intl.formatMessage({
+            id: 'alert.move',
+          }),
+          intl.formatMessage({
+            id: 'alert.cancel',
+          }),
+        ]}
+        cancelButtonIndex={1}
+        onPress={index => {
+          index === 0 && moveScheduleToDraft(selectedId);
+        }}
+      />
+    </View>
+  );
+};
 
 export default injectIntl(DraftsScreen);
-/* eslint-enable */
