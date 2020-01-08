@@ -11,6 +11,7 @@ import {
   BasicHeader,
   TitleArea,
   TagArea,
+  TagInput,
   SummaryArea,
   PostForm,
   MarkdownEditor,
@@ -44,7 +45,6 @@ class EditorScreen extends Component {
   // Component Life Cycles
   UNSAFE_componentWillReceiveProps = async nextProps => {
     const { draftPost, isUploading } = this.props;
-
     if (nextProps.draftPost && draftPost !== nextProps.draftPost) {
       await this.setState(prevState => ({
         fields: {
@@ -147,6 +147,8 @@ class EditorScreen extends Component {
       fields.body = content;
     } else if (componentID === 'title') {
       fields.title = content;
+    } else if (componentID === 'tag-area') {
+      fields.tags = content;
     }
 
     if (
@@ -167,11 +169,11 @@ class EditorScreen extends Component {
     const { fields: _fields } = this.state;
     const _tags = tags.filter(tag => tag && tag !== ' ');
     const __tags = _tags.map(t => t.toLowerCase());
+    const __fields = { ..._fields, tags: [...__tags] };
 
-    const fields = { ..._fields, tags: [...__tags] };
-    await this.setState({ fields, isRemoveTag: false });
-
-    this._handleFormUpdate();
+    this.setState({ fields: __fields, isRemoveTag: false }, () => {
+      this._handleFormUpdate('tag-area', __fields.tags);
+    });
   };
 
   render() {
@@ -222,14 +224,15 @@ class EditorScreen extends Component {
           isPreviewActive={isPreviewActive}
         >
           {isReply && !isEdit && <SummaryArea summary={post.summary} />}
-          {!isReply && <TitleArea value={fields.title} componentID="title" intl={intl} />}
           {!isReply && (
-            <TagArea
-              draftChips={fields.tags.length > 0 ? fields.tags : null}
-              isRemoveTag={isRemoveTag}
+            <TitleArea value={fields.title} componentID="title" intl={intl} autoFocus={true} />
+          )}
+          {!isReply && (
+            <TagInput
+              value={fields.tags}
               componentID="tag-area"
-              handleTagChanged={this._handleOnTagAdded}
               intl={intl}
+              handleTagChanged={this._handleOnTagAdded}
             />
           )}
           <MarkdownEditor
@@ -253,3 +256,12 @@ class EditorScreen extends Component {
 }
 
 export default injectIntl(EditorScreen);
+/*
+<TagArea
+              draftChips={fields.tags.length > 0 ? fields.tags : null}
+              isRemoveTag={isRemoveTag}
+              componentID="tag-area"
+              handleTagChanged={this._handleOnTagAdded}
+              intl={intl}
+            />
+*/
