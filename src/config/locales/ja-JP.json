@@ -5,7 +5,7 @@
     "comment_benefactor_reward": "Benefactor Reward",
     "claim_reward_balance": "報酬を請求 ",
     "transfer": "送金",
-    "transfer_to_vesting": "To Vesting",
+    "transfer_to_vesting": "Vestingに送金",
     "transfer_from_savings": "貯蓄口座からの送金",
     "withdraw_vesting": "パワーダウン",
     "fill_order": "注文の入力",
@@ -77,7 +77,7 @@
     "escrow_approve": "エスクロー承認",
     "cancel_transfer_from_savings": "貯蓄口座からの送金をキャンセル",
     "delegate_vesting_shares": "デリゲーション",
-    "fill_convert_request": "Convert Executed",
+    "fill_convert_request": "変換完了",
     "fill_transfer_from_savings": "貯蓄口座への送金が完了",
     "fill_vesting_withdraw": "パワーダウン完了",
     "estm": {
