@@ -7,7 +7,9 @@ for (i = 0; i < images.length; i++) {
   }
   var resultStr = JSON.stringify(JSON.stringify(result)); // workaround
   var message = 'window.ReactNativeWebView.postMessage(' + resultStr + ')';
-  images[i].setAttribute("onClick", message);
+  if (images[i].getAttribute("class").indexOf("video-thumbnail")<0) {
+    images[i].setAttribute("onClick", message);
+  }
 }
 
 document.addEventListener('click', function(event) {
