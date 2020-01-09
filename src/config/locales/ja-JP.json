@@ -246,13 +246,21 @@
   },
   "editor": {
     "title": "タイトル",
-    "tags": "タグ",
+    "tags": "Tags (separate by space)",
     "default_placeholder": "今日のことについて何か投稿してみませんか？",
     "reply_placeholder": "投稿について何かコメントしてみませんか？",
     "publish": "公開",
     "reply": "返信",
     "open_gallery": "ギャラリーを開く",
-    "capture_photo": "写真を撮る"
+    "capture_photo": "写真を撮る",
+    "limited_tags": "Only 10 tags allowed, remove some",
+    "limited_length": "Maximum length of each tag should be 24",
+    "limited_dash": "Use one dash in each tag",
+    "limited_space": "Use space to separate tags",
+    "limited_lowercase": "Only use lower letters in tag",
+    "limited_characters": "Use only allowed characters in tag",
+    "limited_firstchar": "Tag must start with a letter",
+    "limited_lastchar": "Tag must end with letter or number"
   },
   "pincode": {
     "enter_text": "PIN を入力してロックを解除",
