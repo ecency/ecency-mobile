@@ -246,13 +246,21 @@
   },
   "editor": {
     "title": "Başlık",
-    "tags": "etiketler",
+    "tags": "Tags (separate by space)",
     "default_placeholder": "Bu gün ne hakkında yazmak istersin?",
     "reply_placeholder": "Yukarıdaki yazi hakkinda nasil bir cevap yazmak istersin?",
     "publish": "Yayınla",
     "reply": "Cevapla",
     "open_gallery": "Open Gallery",
-    "capture_photo": "Bir fotoğraf çekin"
+    "capture_photo": "Bir fotoğraf çekin",
+    "limited_tags": "Only 10 tags allowed, remove some",
+    "limited_length": "Maximum length of each tag should be 24",
+    "limited_dash": "Use one dash in each tag",
+    "limited_space": "Use space to separate tags",
+    "limited_lowercase": "Only use lower letters in tag",
+    "limited_characters": "Use only allowed characters in tag",
+    "limited_firstchar": "Tag must start with a letter",
+    "limited_lastchar": "Tag must end with letter or number"
   },
   "pincode": {
     "enter_text": "Açmak için pin kodunu giriniz",
