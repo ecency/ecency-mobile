@@ -246,13 +246,21 @@
   },
   "editor": {
     "title": "Título",
-    "tags": "etiquetas",
+    "tags": "Tags (separate by space)",
     "default_placeholder": "Sobre o que queres escrever hoje?",
     "reply_placeholder": "O que desejava escrever sobre este post em em cima?",
     "publish": "Publicar",
     "reply": "Responder",
     "open_gallery": "Galeria Aberta",
-    "capture_photo": "Capturar uma foto"
+    "capture_photo": "Capturar uma foto",
+    "limited_tags": "Only 10 tags allowed, remove some",
+    "limited_length": "Maximum length of each tag should be 24",
+    "limited_dash": "Use one dash in each tag",
+    "limited_space": "Use space to separate tags",
+    "limited_lowercase": "Only use lower letters in tag",
+    "limited_characters": "Use only allowed characters in tag",
+    "limited_firstchar": "Tag must start with a letter",
+    "limited_lastchar": "Tag must end with letter or number"
   },
   "pincode": {
     "enter_text": "Insira PIN para desbloquear",
