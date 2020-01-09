@@ -41,30 +41,42 @@ const TagInput = ({
         cats.length > 10
           ? Alert.alert(
               intl.formatMessage({ id: 'alert.error' }),
-              'Only 10 tags allowed, remove some',
+              intl.formatMessage({ id: 'editor.limited_tags' }),
             )
           : cats.find(c => c.length > 24)
           ? Alert.alert(
               intl.formatMessage({ id: 'alert.error' }),
-              'Tag maximum length should be 24',
+              intl.formatMessage({ id: 'editor.limited_length' }),
             )
           : cats.find(c => c.split('-').length > 2)
-          ? Alert.alert(intl.formatMessage({ id: 'alert.error' }), 'Use one dash in Tags')
+          ? Alert.alert(
+              intl.formatMessage({ id: 'alert.error' }),
+              intl.formatMessage({ id: 'editor.limited_dash' }),
+            )
           : cats.find(c => c.indexOf(',') >= 0)
-          ? Alert.alert(intl.formatMessage({ id: 'alert.error' }), 'Use space to separate Tags')
+          ? Alert.alert(
+              intl.formatMessage({ id: 'alert.error' }),
+              intl.formatMessage({ id: 'editor.limited_space' }),
+            )
           : cats.find(c => /[A-Z]/.test(c))
-          ? Alert.alert(intl.formatMessage({ id: 'alert.error' }), 'Only use lower letters in Tags')
+          ? Alert.alert(
+              intl.formatMessage({ id: 'alert.error' }),
+              intl.formatMessage({ id: 'editor.limited_lowercase' }),
+            )
           : cats.find(c => !/^[a-z0-9-#]+$/.test(c))
           ? Alert.alert(
               intl.formatMessage({ id: 'alert.error' }),
-              'Use only allowed characters in Tags',
+              intl.formatMessage({ id: 'editor.limited_characters' }),
             )
           : cats.find(c => !/^[a-z-#]/.test(c))
-          ? Alert.alert(intl.formatMessage({ id: 'alert.error' }), 'Tag must start with letter')
+          ? Alert.alert(
+              intl.formatMessage({ id: 'alert.error' }),
+              intl.formatMessage({ id: 'editor.limited_firstchar' }),
+            )
           : cats.find(c => !/[a-z0-9]$/.test(c))
           ? Alert.alert(
               intl.formatMessage({ id: 'alert.error' }),
-              'Tag must end with letter or number',
+              intl.formatMessage({ id: 'editor.limited_lastchar' }),
             )
           : null;
         handleTagChanged([...cats]);
