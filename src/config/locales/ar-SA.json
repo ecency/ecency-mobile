@@ -246,13 +246,21 @@
   },
   "editor": {
     "title": "عنوان",
-    "tags": "العلامات",
+    "tags": "Tags (separate by space)",
     "default_placeholder": "ما الذي تود أن تكتب عنه اليوم؟",
     "reply_placeholder": "ماذا تريد أن تكتب عن المشاركة أعلاه؟",
     "publish": "نشر",
     "reply": "الرد",
     "open_gallery": "فتح معرض الصور",
-    "capture_photo": "إلتقط صورة"
+    "capture_photo": "إلتقط صورة",
+    "limited_tags": "Only 10 tags allowed, remove some",
+    "limited_length": "Maximum length of each tag should be 24",
+    "limited_dash": "Use one dash in each tag",
+    "limited_space": "Use space to separate tags",
+    "limited_lowercase": "Only use lower letters in tag",
+    "limited_characters": "Use only allowed characters in tag",
+    "limited_firstchar": "Tag must start with a letter",
+    "limited_lastchar": "Tag must end with letter or number"
   },
   "pincode": {
     "enter_text": "أدخل الرقم السري للفتح",
