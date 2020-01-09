@@ -260,7 +260,7 @@
     "limited_lowercase": "タグは小文字だけが使えます",
     "limited_characters": "タグは文字だけしか使えません",
     "limited_firstchar": "タグは文字で始まります",
-    "limited_lastchar": "Tag must end with letter or number"
+    "limited_lastchar": "タグの最後は文字か数字のみ"
   },
   "pincode": {
     "enter_text": "PIN を入力してロックを解除",
