@@ -156,7 +156,7 @@ const CommentBody = ({
         </TouchableOpacity>
       );
     },
-    br: (htmlAttribs, children, passProps) => {
+    br: (htmlAttribs, children, convertedCSSStyles, passProps) => {
       return <Text {...passProps}>{'\n'}</Text>;
     },
   };
@@ -166,7 +166,6 @@ const CommentBody = ({
   return (
     <HTML
       html={body}
-      key={`key-${created.toString()}`}
       onLinkPress={(evt, href, hrefAtr) => _handleOnLinkPress(evt, href, hrefAtr)}
       containerStyle={styles.commentContainer}
       textSelectable={textSelectable}

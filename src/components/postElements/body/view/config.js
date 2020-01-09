@@ -7,6 +7,7 @@ for (i = 0; i < images.length; i++) {
   }
   var resultStr = JSON.stringify(JSON.stringify(result)); // workaround
   var message = 'window.ReactNativeWebView.postMessage(' + resultStr + ')';
+      
   images[i].setAttribute("onClick", message);
 }
 

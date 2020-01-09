@@ -38,7 +38,7 @@ import { SearchModal } from './searchModal';
 import { SettingsItem } from './settingsItem';
 import { SideMenu } from './sideMenu';
 
-import { SummaryArea, TagArea, TitleArea } from './editorElements';
+import { SummaryArea, TagArea, TitleArea, TagInput } from './editorElements';
 import { TabBar } from './tabBar';
 import { TextInput } from './textInput';
 import { ToastNotification } from './toastNotification';
@@ -170,6 +170,7 @@ export {
   TabBar,
   Tag,
   TagArea,
+  TagInput,
   Tags,
   TextButton,
   TextInput,

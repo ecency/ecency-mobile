@@ -1,5 +1,5 @@
-import React, { useEffect, useRef, useState, Fragment } from 'react';
-import { View, Text, ScrollView, Dimensions, SafeAreaView } from 'react-native';
+import React, { useCallback, useEffect, useRef, useState, Fragment } from 'react';
+import { View, Text, ScrollView, Dimensions, SafeAreaView, RefreshControl } from 'react-native';
 import { injectIntl } from 'react-intl';
 import get from 'lodash/get';
 import ActionSheet from 'react-native-actionsheet';
@@ -43,6 +43,7 @@ const PostDisplayView = ({
   const [scrollHeight, setScrollHeight] = useState(0);
   const [isLoadedComments, setIsLoadedComments] = useState(false);
   const actionSheet = useRef(null);
+  const [refreshing, setRefreshing] = useState(false);
 
   // Component Life Cycles
   useEffect(() => {
@@ -52,6 +53,11 @@ const PostDisplayView = ({
   }, []);
 
   // Component Functions
+  const onRefresh = useCallback(() => {
+    setRefreshing(true);
+    fetchPost().then(() => setRefreshing(false));
+  }, [refreshing]);
+
   const _handleOnScroll = event => {
     const { y } = event.nativeEvent.contentOffset;
 
@@ -164,6 +170,7 @@ const PostDisplayView = ({
         style={styles.scroll}
         onScroll={event => _handleOnScroll(event)}
         scrollEventThrottle={16}
+        refreshControl={<RefreshControl refreshing={refreshing} onRefresh={onRefresh} />}
       >
         {parentPost && <ParentPost post={parentPost} />}
 
