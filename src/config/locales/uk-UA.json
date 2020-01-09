@@ -255,9 +255,9 @@
     "capture_photo": "Зробити світлину",
     "limited_tags": "Лише 10 тегів дозволено, видаліть деякі",
     "limited_length": "Максимальна довжина кожного тегу має бути 24",
-    "limited_dash": "Use one dash in each tag",
+    "limited_dash": "Використовуйте один тире у кожному тегу",
     "limited_space": "Використовуйте пробіл для розділення тегів",
-    "limited_lowercase": "Only use lower letters in tag",
+    "limited_lowercase": "Використовуйте лише маленькі літери до тегу",
     "limited_characters": "Використовуйте лише дозволені символи в тезі",
     "limited_firstchar": "Тег має починатися з літери",
     "limited_lastchar": "Тег повинен закінчуватися буквою або номером"
