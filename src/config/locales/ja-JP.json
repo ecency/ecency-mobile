@@ -246,7 +246,7 @@
   },
   "editor": {
     "title": "タイトル",
-    "tags": "Tags (separate by space)",
+    "tags": "タグ (スペース区切り)",
     "default_placeholder": "今日のことについて何か投稿してみませんか？",
     "reply_placeholder": "投稿について何かコメントしてみませんか？",
     "publish": "公開",
