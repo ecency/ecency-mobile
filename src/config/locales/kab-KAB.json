@@ -246,13 +246,21 @@
   },
   "editor": {
     "title": "Azwel",
-    "tags": "tags",
+    "tags": "Tags (separate by space)",
     "default_placeholder": "Ɣef acu tebɣiḍ ad d-taruḍ ass-agi?",
     "reply_placeholder": "D acu tebɣiḍ ad d-taruḍ ɣef tsuffeɣt-a n ufella?",
     "publish": "Suffeɣ-d",
     "reply": "Err",
     "open_gallery": "Open Gallery",
-    "capture_photo": "Ṭṭef-d tawlaft"
+    "capture_photo": "Ṭṭef-d tawlaft",
+    "limited_tags": "Only 10 tags allowed, remove some",
+    "limited_length": "Maximum length of each tag should be 24",
+    "limited_dash": "Use one dash in each tag",
+    "limited_space": "Use space to separate tags",
+    "limited_lowercase": "Only use lower letters in tag",
+    "limited_characters": "Use only allowed characters in tag",
+    "limited_firstchar": "Tag must start with a letter",
+    "limited_lastchar": "Tag must end with letter or number"
   },
   "pincode": {
     "enter_text": "Sekcem tangalt PIN i tildin",
