@@ -246,13 +246,21 @@
   },
   "editor": {
     "title": "Sernav",
-    "tags": "etîket",
+    "tags": "Tags (separate by space)",
     "default_placeholder": "Îro tu dixwazî li ser çi binivîsînî?",
     "reply_placeholder": "Tu dixwazî li ser nivîsa jorîn çi binivîsînî?",
     "publish": "Biweşîne",
     "reply": "Bibersivîne",
     "open_gallery": "Pêşangehê Veke",
-    "capture_photo": "Wêneyekî bigire"
+    "capture_photo": "Wêneyekî bigire",
+    "limited_tags": "Only 10 tags allowed, remove some",
+    "limited_length": "Maximum length of each tag should be 24",
+    "limited_dash": "Use one dash in each tag",
+    "limited_space": "Use space to separate tags",
+    "limited_lowercase": "Only use lower letters in tag",
+    "limited_characters": "Use only allowed characters in tag",
+    "limited_firstchar": "Tag must start with a letter",
+    "limited_lastchar": "Tag must end with letter or number"
   },
   "pincode": {
     "enter_text": "Ji bo vekirinê PIN têxîne",
