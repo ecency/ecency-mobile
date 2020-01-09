@@ -246,13 +246,21 @@
   },
   "editor": {
     "title": "शीर्षक",
-    "tags": "लेबलें",
+    "tags": "Tags (separate by space)",
     "default_placeholder": "आज के बारें में आप क्या लिखना चाहेंगे?",
     "reply_placeholder": "ऊपर वाली पोस्ट के बारें में आप क्या लिखना चाहेंगे?",
     "publish": "प्रकाशित करें",
     "reply": "जबाब दें",
     "open_gallery": "गैलरी खोलें",
-    "capture_photo": "फोटो खीचें"
+    "capture_photo": "फोटो खीचें",
+    "limited_tags": "Only 10 tags allowed, remove some",
+    "limited_length": "Maximum length of each tag should be 24",
+    "limited_dash": "Use one dash in each tag",
+    "limited_space": "Use space to separate tags",
+    "limited_lowercase": "Only use lower letters in tag",
+    "limited_characters": "Use only allowed characters in tag",
+    "limited_firstchar": "Tag must start with a letter",
+    "limited_lastchar": "Tag must end with letter or number"
   },
   "pincode": {
     "enter_text": "खोलनें के लिए पिन डालें",
