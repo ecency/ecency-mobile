@@ -256,10 +256,10 @@
     "limited_tags": "Лише 10 тегів дозволено, видаліть деякі",
     "limited_length": "Максимальна довжина кожного тегу має бути 24",
     "limited_dash": "Use one dash in each tag",
-    "limited_space": "Use space to separate tags",
+    "limited_space": "Використовуйте пробіл для розділення тегів",
     "limited_lowercase": "Only use lower letters in tag",
     "limited_characters": "Використовуйте лише дозволені символи в тезі",
-    "limited_firstchar": "Tag must start with a letter",
+    "limited_firstchar": "Тег має починатися з літери",
     "limited_lastchar": "Тег повинен закінчуватися буквою або номером"
   },
   "pincode": {
