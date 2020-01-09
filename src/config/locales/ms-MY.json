@@ -246,13 +246,21 @@
   },
   "editor": {
     "title": "Tajuk",
-    "tags": "tags",
+    "tags": "Tags (separate by space)",
     "default_placeholder": "Apa yang anda ingin mengarang hari ini?",
     "reply_placeholder": "Apa yang ingin anda tulis terhadap pos di atas?",
     "publish": "Terbitkan",
     "reply": "Balas",
     "open_gallery": "Membuka galeri",
-    "capture_photo": "Tangkap gambar"
+    "capture_photo": "Tangkap gambar",
+    "limited_tags": "Only 10 tags allowed, remove some",
+    "limited_length": "Maximum length of each tag should be 24",
+    "limited_dash": "Use one dash in each tag",
+    "limited_space": "Use space to separate tags",
+    "limited_lowercase": "Only use lower letters in tag",
+    "limited_characters": "Use only allowed characters in tag",
+    "limited_firstchar": "Tag must start with a letter",
+    "limited_lastchar": "Tag must end with letter or number"
   },
   "pincode": {
     "enter_text": "Enter pin to unlock",
