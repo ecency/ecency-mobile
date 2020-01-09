@@ -246,21 +246,21 @@
   },
   "editor": {
     "title": "Заголовок",
-    "tags": "Tags (separate by space)",
+    "tags": "Теги (розділені пробілом)",
     "default_placeholder": "Що б ви хотіли написати сьогодні?",
     "reply_placeholder": "Що ви хотіли б написати про вищезгаданий допис?",
     "publish": "Опублікувати",
     "reply": "Відповісти",
     "open_gallery": "Відкрити список світлин",
     "capture_photo": "Зробити світлину",
-    "limited_tags": "Only 10 tags allowed, remove some",
-    "limited_length": "Maximum length of each tag should be 24",
+    "limited_tags": "Лише 10 тегів дозволено, видаліть деякі",
+    "limited_length": "Максимальна довжина кожного тегу має бути 24",
     "limited_dash": "Use one dash in each tag",
     "limited_space": "Use space to separate tags",
     "limited_lowercase": "Only use lower letters in tag",
-    "limited_characters": "Use only allowed characters in tag",
+    "limited_characters": "Використовуйте лише дозволені символи в тезі",
     "limited_firstchar": "Tag must start with a letter",
-    "limited_lastchar": "Tag must end with letter or number"
+    "limited_lastchar": "Тег повинен закінчуватися буквою або номером"
   },
   "pincode": {
     "enter_text": "Enter pin to unlock",
