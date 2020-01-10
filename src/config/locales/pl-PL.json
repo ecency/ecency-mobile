@@ -239,20 +239,20 @@
     "search": "Szukaj..."
   },
   "basic_header": {
-    "publish": "Publish",
-    "search": "Search",
-    "update": "Update",
-    "reply": "Reply"
+    "publish": "Opublikuj",
+    "search": "Szukaj",
+    "update": "Aktualizuj",
+    "reply": "Odpowiedz"
   },
   "editor": {
-    "title": "Title",
+    "title": "Tytuł",
     "tags": "Tags (separate by space)",
-    "default_placeholder": "What would you like to write about today?",
-    "reply_placeholder": "What would you like to write about above post?",
-    "publish": "Publish",
-    "reply": "Reply",
-    "open_gallery": "Open Gallery",
-    "capture_photo": "Capture a photo",
+    "default_placeholder": "Co chciałbyś dziś napisać?",
+    "reply_placeholder": "Co chcesz napisać powyżej wpisu?",
+    "publish": "Opublikuj",
+    "reply": "Odpowiedz",
+    "open_gallery": "Otwórz galerię",
+    "capture_photo": "Zrób zdjęcie",
     "limited_tags": "Only 10 tags allowed, remove some",
     "limited_length": "Maximum length of each tag should be 24",
     "limited_dash": "Use one dash in each tag",
@@ -265,8 +265,8 @@
   "pincode": {
     "enter_text": "Enter pin to unlock",
     "set_new": "Set new pin",
-    "write_again": "Write again",
-    "forgot_text": "Oh, I forgot it..."
+    "write_again": "Napisz ponownie",
+    "forgot_text": "Och, zapomniałem..."
   },
   "alert": {
     "success": "Success!",
@@ -335,17 +335,17 @@
     "deleted": "Bookmark removed",
     "search": "Search in bookmarks",
     "added": "Added to bookmarks",
-    "add": "Add to bookmarks"
+    "add": "Dodaj do zakładek"
   },
   "favorites": {
-    "title": "Favorites",
-    "load_error": "Could not load favorites",
-    "empty_list": "Nothing here",
-    "search": "Search in favorites"
+    "title": "Ulubione",
+    "load_error": "Nie można załadować ulubionych",
+    "empty_list": "Nic tu nie ma",
+    "search": "Szukaj w ulubionych"
   },
   "auth": {
     "invalid_pin": "Invalid pin code, please check and try again",
-    "invalid_username": "Invalid username, please check and try again",
+    "invalid_username": "Nieprawidłowa nazwa użytkownika, sprawdź i spróbuj ponownie",
     "already_logged": "You are already logged in, please try to add another account",
     "invalid_credentials": "Invalid credentials, please check and try again",
     "unknow_error": "Unknown error, please contact us at support@esteem.app"
