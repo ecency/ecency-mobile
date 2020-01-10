@@ -1,7 +1,7 @@
 {
   "wallet": {
-    "curation_reward": "Curation Reward",
-    "author_reward": "Author Reward",
+    "curation_reward": "Wynagrodzenie Kuratora",
+    "author_reward": "Nagroda autora",
     "comment_benefactor_reward": "Benefactor Reward",
     "claim_reward_balance": "Claim Reward ",
     "transfer": "Transfer",
