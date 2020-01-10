@@ -246,13 +246,21 @@
   },
   "editor": {
     "title": "Tiêu đề",
-    "tags": "thẻ",
+    "tags": "Tags (separate by space)",
     "default_placeholder": "Bạn muốn viết về gì hôm nay?",
     "reply_placeholder": "Bạn muốn viết gì về bài viết trên?",
     "publish": "Đăng bài",
     "reply": "Trả lời",
     "open_gallery": "Thư viện mở",
-    "capture_photo": "Chụp ảnh"
+    "capture_photo": "Chụp ảnh",
+    "limited_tags": "Only 10 tags allowed, remove some",
+    "limited_length": "Maximum length of each tag should be 24",
+    "limited_dash": "Use one dash in each tag",
+    "limited_space": "Use space to separate tags",
+    "limited_lowercase": "Only use lower letters in tag",
+    "limited_characters": "Use only allowed characters in tag",
+    "limited_firstchar": "Tag must start with a letter",
+    "limited_lastchar": "Tag must end with letter or number"
   },
   "pincode": {
     "enter_text": "Nhập mã PIN để mở khóa",

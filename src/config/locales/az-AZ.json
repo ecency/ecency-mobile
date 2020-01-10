@@ -246,13 +246,21 @@
   },
   "editor": {
     "title": "Başlıq",
-    "tags": "etiketlər",
+    "tags": "Tags (separate by space)",
     "default_placeholder": "Bugün nə haqqında yazmaq istəyirsən?",
     "reply_placeholder": "Yuxarıdakı göndəriş haqqında nə yazmaq istəyirsən?",
     "publish": "Dərc et",
     "reply": "Cavabla",
     "open_gallery": "Qalereyanı Aç",
-    "capture_photo": "Foto çək"
+    "capture_photo": "Foto çək",
+    "limited_tags": "Only 10 tags allowed, remove some",
+    "limited_length": "Maximum length of each tag should be 24",
+    "limited_dash": "Use one dash in each tag",
+    "limited_space": "Use space to separate tags",
+    "limited_lowercase": "Only use lower letters in tag",
+    "limited_characters": "Use only allowed characters in tag",
+    "limited_firstchar": "Tag must start with a letter",
+    "limited_lastchar": "Tag must end with letter or number"
   },
   "pincode": {
     "enter_text": "Kilidi açmaq üçün PIN-i daxil et",

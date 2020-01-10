@@ -246,13 +246,21 @@
   },
   "editor": {
     "title": "제목",
-    "tags": "태그",
+    "tags": "Tags (separate by space)",
     "default_placeholder": "오늘은 어떤 글을 작성하고 싶으신가요?",
     "reply_placeholder": "어떤 댓글을 남기고 싶으신가요?",
     "publish": "게시하기",
     "reply": "댓글",
     "open_gallery": "갤러리 열기",
-    "capture_photo": "사진 캡처하기"
+    "capture_photo": "사진 캡처하기",
+    "limited_tags": "Only 10 tags allowed, remove some",
+    "limited_length": "Maximum length of each tag should be 24",
+    "limited_dash": "Use one dash in each tag",
+    "limited_space": "Use space to separate tags",
+    "limited_lowercase": "Only use lower letters in tag",
+    "limited_characters": "Use only allowed characters in tag",
+    "limited_firstchar": "Tag must start with a letter",
+    "limited_lastchar": "Tag must end with letter or number"
   },
   "pincode": {
     "enter_text": "잠금을 해제하려면 PIN 코드를 입력해주세요",

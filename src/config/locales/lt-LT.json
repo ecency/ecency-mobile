@@ -246,13 +246,21 @@
   },
   "editor": {
     "title": "Pavadinimas",
-    "tags": "žymos",
+    "tags": "Tags (separate by space)",
     "default_placeholder": "Apie ką norėtumėte rašyti šiandien?",
     "reply_placeholder": "Ką norėtumėte parašyti po įrašu?",
     "publish": "Skelbti",
     "reply": "Atsakyti",
     "open_gallery": "Open Gallery",
-    "capture_photo": "Užfiksuoti nuotrauką"
+    "capture_photo": "Užfiksuoti nuotrauką",
+    "limited_tags": "Only 10 tags allowed, remove some",
+    "limited_length": "Maximum length of each tag should be 24",
+    "limited_dash": "Use one dash in each tag",
+    "limited_space": "Use space to separate tags",
+    "limited_lowercase": "Only use lower letters in tag",
+    "limited_characters": "Use only allowed characters in tag",
+    "limited_firstchar": "Tag must start with a letter",
+    "limited_lastchar": "Tag must end with letter or number"
   },
   "pincode": {
     "enter_text": "Enter pin to unlock",

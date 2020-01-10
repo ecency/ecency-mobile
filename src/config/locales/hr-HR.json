@@ -246,13 +246,21 @@
   },
   "editor": {
     "title": "Naslov",
-    "tags": "oznake",
+    "tags": "Tags (separate by space)",
     "default_placeholder": "O čemu bi ste željeli pisati danas?",
     "reply_placeholder": "Što bi ste željeli napisati iznad vaše objave?",
     "publish": "Objavi",
     "reply": "Odgovor",
     "open_gallery": "Open Gallery",
-    "capture_photo": "Capture a photo"
+    "capture_photo": "Capture a photo",
+    "limited_tags": "Only 10 tags allowed, remove some",
+    "limited_length": "Maximum length of each tag should be 24",
+    "limited_dash": "Use one dash in each tag",
+    "limited_space": "Use space to separate tags",
+    "limited_lowercase": "Only use lower letters in tag",
+    "limited_characters": "Use only allowed characters in tag",
+    "limited_firstchar": "Tag must start with a letter",
+    "limited_lastchar": "Tag must end with letter or number"
   },
   "pincode": {
     "enter_text": "Enter pin to unlock",
