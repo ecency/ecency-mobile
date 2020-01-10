@@ -11,4 +11,9 @@ export default EStyleSheet.create({
     borderBottomWidth: 1,
     borderBottomColor: '$primaryLightGray',
   },
+  warning: {
+    color: '$primaryRed',
+    fontSize: 12,
+    fontFamily: '$editorFont',
+  },
 });
