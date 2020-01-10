@@ -282,6 +282,10 @@ class EditorContainer extends Component {
               ),
             );
 
+            this.setState({ isPostSending: false });
+
+            setDraftPost({ title: '', body: '', tags: '' }, currentAccount.name);
+
             navigation.navigate({
               routeName: ROUTES.SCREENS.POST,
               params: {
@@ -291,10 +295,6 @@ class EditorContainer extends Component {
               },
               key: permlink,
             });
-
-            this.setState({ isPostSending: false });
-
-            setDraftPost({ title: '', body: '', tags: '' }, currentAccount.name);
           })
           .catch(error => {
             this._handleSubmitFailure(error);
@@ -410,12 +410,11 @@ class EditorContainer extends Component {
   _handleSubmitSuccess = () => {
     const { navigation } = this.props;
 
-    if (navigation) {
-      navigation.goBack();
-      navigation.state.params.fetchPost();
-    }
-
     this.stateTimer = setTimeout(() => {
+      if (navigation) {
+        navigation.goBack();
+        navigation.state.params.fetchPost();
+      }
       this.setState({ isPostSending: false });
       clearTimeout(this.stateTimer);
     }, 500);

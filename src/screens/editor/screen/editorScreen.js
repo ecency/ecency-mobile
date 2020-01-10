@@ -131,8 +131,10 @@ class EditorScreen extends Component {
     } else {
       isFormValid =
         get(fields, 'title', '') &&
+        get(fields, 'title', '').length < 255 &&
         (get(fields, 'body', '') || (bodyText && bodyText > 0)) &&
-        get(fields, 'tags', null);
+        get(fields, 'tags', null) &&
+        get(fields, 'tags', null).length < 10;
     }
 
     this.setState({ isFormValid });
@@ -167,10 +169,9 @@ class EditorScreen extends Component {
 
   _handleOnTagAdded = async tags => {
     const { fields: _fields } = this.state;
-    const _tags = tags.filter(tag => tag && tag !== ' ');
+    const _tags = tags; //.filter(tag => tag && tag !== ' ');
     const __tags = _tags.map(t => t.toLowerCase());
     const __fields = { ..._fields, tags: [...__tags] };
-
     this.setState({ fields: __fields, isRemoveTag: false }, () => {
       this._handleFormUpdate('tag-area', __fields.tags);
     });
