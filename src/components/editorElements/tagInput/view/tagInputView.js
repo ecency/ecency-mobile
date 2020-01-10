@@ -12,7 +12,6 @@ import globalStyles from '../../../../globalStyles';
 const TagInput = ({
   value,
   onChange,
-  handleIsValid,
   componentID,
   handleTagChanged,
   intl,
@@ -57,14 +56,11 @@ const TagInput = ({
 
       handleTagChanged([...cats]);
     }
-
-    if (handleIsValid) {
-      handleIsValid(componentID, !!(_text && _text.length));
-    }
   };
   const _handleOnBlur = () => {
+    let cats = [];
     if (onChange) {
-      let cats = text.trim().split(' ');
+      cats = text.trim().split(' ');
       if (handleTagChanged && cats.length > 0) {
         cats.length > 10
           ? (setWarning(intl.formatMessage({ id: 'editor.limited_tags' })), setHeight(60))
@@ -86,10 +82,6 @@ const TagInput = ({
         handleTagChanged([...cats]);
       }
       onChange(text);
-    }
-
-    if (handleIsValid) {
-      handleIsValid(componentID, !!(text && text.length));
     }
   };
   return (
