@@ -402,20 +402,20 @@
     "powerUp": "Zwiększ moc",
     "withdraw_to_saving": "Wypłać Do Oszczędności",
     "steemconnect_title": "Pzelew Steemconnect",
-    "estimated_weekly": "Estimated Weekly",
-    "destination_accounts": "Destination Accounts",
-    "stop_information": "Are you sure want to stop?",
-    "percent": "Percent",
-    "auto_vests": "Auto Vests",
-    "save": "SAVE",
+    "estimated_weekly": "Szacowany tygodniowo",
+    "destination_accounts": "Konto docelowe",
+    "stop_information": "Czy na pewno chcesz zatrzymać?",
+    "percent": "Procent",
+    "auto_vests": "Automatyczne Vests",
+    "save": "ZAPISZ",
     "percent_information": "Percent info",
     "next": "NASTĘPNY",
     "delegate": "Deleguj",
     "power_down": "Zmniejsz moc",
     "withdraw_steem": "Wypłać Steem",
-    "withdraw_sbd": "Withdraw Steem Dollar",
-    "incoming_funds": "Incoming Funds",
-    "stop": "Stop"
+    "withdraw_sbd": "Wypłać Steem Dolar",
+    "incoming_funds": "Fundusze przychodzące",
+    "stop": "Zatrzymaj"
   },
   "boost": {
     "title": "Get eSteem Points",
@@ -423,11 +423,11 @@
     "next": "NEXT"
   },
   "free_estm": {
-    "title": "Free ESTM",
-    "button": "SPIN & WIN",
-    "get_spin": "5 SPINS",
-    "spin_right": "Spin Left",
-    "timer_text": "Next free spin in"
+    "title": "Darmowe ESTM",
+    "button": "ZAKRĘĆ I WYGRAJ",
+    "get_spin": "5 OBROTÓW",
+    "spin_right": "Zostało Obrotów",
+    "timer_text": "Następny darmowy obrót za"
   },
   "promote": {
     "title": "Promote",
@@ -450,9 +450,9 @@
   },
   "dsteem": {
     "date_error": {
-      "device_time": "Your device time;",
-      "current_time": "Current time;",
-      "information": "We noticed that your device has incorrect date or time. Please fix Date & Time or Set Automatically and try again."
+      "device_time": "Czas twojego urządzenia;",
+      "current_time": "Aktualny czas;",
+      "information": "Zauważyliśmy, że Twoje urządzenie ma nieprawidłową datę lub godzinę. Proszę poprawić datę i czas lub ustawić automatycznie i spróbować ponownie."
     }
   },
   "comments": {
