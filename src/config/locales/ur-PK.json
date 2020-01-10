@@ -246,13 +246,21 @@
   },
   "editor": {
     "title": "Title",
-    "tags": "tags",
+    "tags": "Tags (separate by space)",
     "default_placeholder": "What would you like to write about today?",
     "reply_placeholder": "What would you like to write about above post?",
     "publish": "Publish",
     "reply": "Reply",
     "open_gallery": "Open Gallery",
-    "capture_photo": "Capture a photo"
+    "capture_photo": "Capture a photo",
+    "limited_tags": "Only 10 tags allowed, remove some",
+    "limited_length": "Maximum length of each tag should be 24",
+    "limited_dash": "Use one dash in each tag",
+    "limited_space": "Use space to separate tags",
+    "limited_lowercase": "Only use lower letters in tag",
+    "limited_characters": "Use only allowed characters in tag",
+    "limited_firstchar": "Tag must start with a letter",
+    "limited_lastchar": "Tag must end with letter or number"
   },
   "pincode": {
     "enter_text": "Enter PIN to unlock",
