@@ -20,9 +20,7 @@ const ITEM_SKUS = Platform.select({
 const _getTitle = title => {
   let _title = title.toUpperCase();
 
-  if (_title.includes('(ESTEEM)')) {
-    _title = _title.replace('(ESTEEM)', '');
-  }
+  _title = _title.replace(/[^0-9]+/g, '') + ' ESTM';
 
   return _title;
 };
