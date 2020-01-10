@@ -40,42 +40,42 @@ const TagInput = ({
       if (handleTagChanged && cats.length > 0) {
         cats.length > 10
           ? Alert.alert(
-              intl.formatMessage({ id: 'alert.error' }),
+              intl.formatMessage({ id: 'alert.warning' }),
               intl.formatMessage({ id: 'editor.limited_tags' }),
             )
           : cats.find(c => c.length > 24)
           ? Alert.alert(
-              intl.formatMessage({ id: 'alert.error' }),
+              intl.formatMessage({ id: 'alert.warning' }),
               intl.formatMessage({ id: 'editor.limited_length' }),
             )
           : cats.find(c => c.split('-').length > 2)
           ? Alert.alert(
-              intl.formatMessage({ id: 'alert.error' }),
+              intl.formatMessage({ id: 'alert.warning' }),
               intl.formatMessage({ id: 'editor.limited_dash' }),
             )
           : cats.find(c => c.indexOf(',') >= 0)
           ? Alert.alert(
-              intl.formatMessage({ id: 'alert.error' }),
+              intl.formatMessage({ id: 'alert.warning' }),
               intl.formatMessage({ id: 'editor.limited_space' }),
             )
           : cats.find(c => /[A-Z]/.test(c))
           ? Alert.alert(
-              intl.formatMessage({ id: 'alert.error' }),
+              intl.formatMessage({ id: 'alert.warning' }),
               intl.formatMessage({ id: 'editor.limited_lowercase' }),
             )
           : cats.find(c => !/^[a-z0-9-#]+$/.test(c))
           ? Alert.alert(
-              intl.formatMessage({ id: 'alert.error' }),
+              intl.formatMessage({ id: 'alert.warning' }),
               intl.formatMessage({ id: 'editor.limited_characters' }),
             )
           : cats.find(c => !/^[a-z-#]/.test(c))
           ? Alert.alert(
-              intl.formatMessage({ id: 'alert.error' }),
+              intl.formatMessage({ id: 'alert.warning' }),
               intl.formatMessage({ id: 'editor.limited_firstchar' }),
             )
           : cats.find(c => !/[a-z0-9]$/.test(c))
           ? Alert.alert(
-              intl.formatMessage({ id: 'alert.error' }),
+              intl.formatMessage({ id: 'alert.warning' }),
               intl.formatMessage({ id: 'editor.limited_lastchar' }),
             )
           : null;
