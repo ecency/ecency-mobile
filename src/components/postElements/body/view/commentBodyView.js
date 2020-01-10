@@ -217,7 +217,7 @@ const CommentBody = ({
     color: ${EStyleSheet.value('$primaryBlue')};
     cursor: pointer;
     text-decoration: underline;
-    margin-right: 5px;
+    margin-right: 5;
   }
   img {
     align-self: 'center';
