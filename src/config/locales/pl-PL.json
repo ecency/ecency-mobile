@@ -56,7 +56,7 @@
     "information": "Are you sure to transfer funds?",
     "amount_desc": "Balance",
     "memo_desc": "This memo is public",
-    "to_placeholder": "Username",
+    "to_placeholder": "Nazwa użytkownika",
     "memo_placeholder": "Enter your notes here",
     "transfer_token": "Przelew",
     "points": "Gift ESTM to someone",
@@ -198,45 +198,45 @@
     "server_fail": "Serwer niedostępny"
   },
   "voters": {
-    "voters_info": "Voters Info",
-    "no_user": "User is not found."
+    "voters_info": "Informacje o głosujących",
+    "no_user": "Nie znaleziono użytkownika."
   },
   "login": {
-    "signin": "Sign in",
-    "signup": "Sign up",
-    "signin_title": "To get all the benefits of using eSteem",
-    "username": "Username",
-    "password": "Password or WIF",
-    "description": "User credentials are kept locally on the device. Credentials are removed upon logout!",
-    "cancel": "cancel",
-    "login": "LOGIN",
-    "steemconnect_description": "If you don't want to keep your password encrypted and saved on your device, you can use Steemconnect.",
-    "steemconnect_fee_description": "Steemconnect may charge some fees from your reward transactions"
+    "signin": "Zaloguj się",
+    "signup": "Zapisz się",
+    "signin_title": "Aby uzyskać wszystkie korzyści z korzystania z eSteem",
+    "username": "Nazwa użytkownika",
+    "password": "Hasło lub WIF",
+    "description": "Dane użytkownika są trzymane lokalnie na twoim urządzeniu. Po wylogowaniu dane zostają usunięte!",
+    "cancel": "anuluj",
+    "login": "ZALOGUJ SIĘ",
+    "steemconnect_description": "Jeśli nie chcesz zachować swojego hasła zaszyfrowanego i zapisanego na swoim urządzeniu, możesz użyć Steemconnect.",
+    "steemconnect_fee_description": "Steemconnect może pobierać opłaty od transakcji z nagród"
   },
   "home": {
-    "feed": "Feed",
-    "popular": "Popular",
+    "feed": "Strumień",
+    "popular": "Popularne",
     "top": "Top",
     "hot": "Hot",
     "new": "New",
     "blog": "Blog"
   },
   "side_menu": {
-    "profile": "Profile",
-    "bookmarks": "Bookmarks",
-    "favorites": "Favorites",
-    "drafts": "Drafts",
-    "schedules": "Schedules",
-    "gallery": "Gallery",
-    "settings": "Settings",
-    "add_account": "Add Account",
-    "logout": "Logout",
-    "cancel": "Cancel",
-    "logout_text": "Are you sure you want to logout?"
+    "profile": "Profil",
+    "bookmarks": "Zakładki",
+    "favorites": "Ulubione",
+    "drafts": "Szkice",
+    "schedules": "Harmonogramy",
+    "gallery": "Galeria",
+    "settings": "Ustawienia",
+    "add_account": "Dodaj konto",
+    "logout": "Wyloguj",
+    "cancel": "Anuluj",
+    "logout_text": "Czy na pewno chcesz się wylogować?"
   },
   "header": {
-    "title": "Login to customize your feed",
-    "search": "Search..."
+    "title": "Zaloguj się, aby dostosować swój kanał",
+    "search": "Szukaj..."
   },
   "basic_header": {
     "publish": "Publish",
