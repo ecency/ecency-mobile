@@ -228,12 +228,19 @@ class EditorScreen extends Component {
           {!isReply && (
             <TitleArea value={fields.title} componentID="title" intl={intl} autoFocus={true} />
           )}
-          {!isReply && (
+          {!isReply && !isPreviewActive && (
             <TagInput
               value={fields.tags}
               componentID="tag-area"
               intl={intl}
               handleTagChanged={this._handleOnTagAdded}
+            />
+          )}
+          {!isReply && isPreviewActive && (
+            <TagArea
+              draftChips={fields.tags.length > 0 ? fields.tags : null}
+              componentID="tag-area"
+              intl={intl}
             />
           )}
           <MarkdownEditor
@@ -257,12 +264,3 @@ class EditorScreen extends Component {
 }
 
 export default injectIntl(EditorScreen);
-/*
-<TagArea
-              draftChips={fields.tags.length > 0 ? fields.tags : null}
-              isRemoveTag={isRemoveTag}
-              componentID="tag-area"
-              handleTagChanged={this._handleOnTagAdded}
-              intl={intl}
-            />
-*/
