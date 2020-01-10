@@ -131,8 +131,10 @@ class EditorScreen extends Component {
     } else {
       isFormValid =
         get(fields, 'title', '') &&
+        get(fields, 'title', '').length < 255 &&
         (get(fields, 'body', '') || (bodyText && bodyText > 0)) &&
-        get(fields, 'tags', null);
+        get(fields, 'tags', null) &&
+        get(fields, 'tags', null).length < 10;
     }
 
     this.setState({ isFormValid });
