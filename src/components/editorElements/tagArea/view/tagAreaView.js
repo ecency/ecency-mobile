@@ -131,8 +131,8 @@ export default class TagAreaView extends Component {
                   }}
                   isPin={i === 0 && chips[1]}
                   placeholderTextColor="#fff"
-                  removeButton
-                  handleOnRemoveButtonPress={() => this._handleTagRemove(i)}
+                  //removeButton
+                  //handleOnRemoveButtonPress={() => this._handleTagRemove(i)}
                   editable={!isPreviewActive}
                   maxLength={50}
                   placeholder="tags"
