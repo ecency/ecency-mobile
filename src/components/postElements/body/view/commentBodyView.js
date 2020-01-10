@@ -1,8 +1,10 @@
-import React from 'react';
-import { Dimensions, Linking, Alert, TouchableOpacity, Text, View } from 'react-native';
+import React, { Fragment, useState } from 'react';
+import { Dimensions, Linking, Alert, Modal, PermissionsAndroid, Platform } from 'react-native';
 import { useIntl } from 'react-intl';
-import HTML from '@esteemapp/react-native-render-html';
-import { getParentsTagsRecursively } from '@esteemapp/react-native-render-html/src/HTMLUtils';
+import CameraRoll from '@react-native-community/cameraroll';
+import RNFetchBlob from 'rn-fetch-blob';
+import ImageViewer from 'react-native-image-zoom-viewer';
+
 import AutoHeightWebView from 'react-native-autoheight-webview';
 import EStyleSheet from 'react-native-extended-stylesheet';
 import get from 'lodash/get';
@@ -11,12 +13,10 @@ import { navigate } from '../../../../navigation/service';
 // Constants
 import { default as ROUTES } from '../../../../constants/routeNames';
 
-import DEFAULT_IMAGE from '../../../../assets/no_image.png';
 import { CommentPlaceHolder } from '../../../basicUIElements';
 import script from './config';
 
 // Styles
-import styles from './postBodyStyles';
 
 const WIDTH = Dimensions.get('window').width;
 
@@ -28,41 +28,88 @@ const CommentBody = ({
   created,
   commentDepth,
 }) => {
+  const [isImageModalOpen, setIsImageModalOpen] = useState(false);
+  const [postImages, setPostImages] = useState([]);
   const intl = useIntl();
 
-  const _handleOnLinkPress = (href, hrefAtr) => {
-    if (hrefAtr.class === 'markdown-author-link') {
-      if (!handleOnUserPress) {
-        _handleOnUserPress(hrefAtr['data-author']);
-      } else {
-        handleOnUserPress(hrefAtr['data-author']);
-      }
-    } else if (hrefAtr.class === 'markdown-post-link') {
-      if (!handleOnPostPress) {
-        _handleOnPostPress(hrefAtr['data-permlink'], hrefAtr['data-author']);
-      } else {
-        handleOnPostPress(hrefAtr['data-permlink']);
-      }
-    } else {
-      _handleBrowserLink(href);
-    }
-  };
-
-  const _handleBrowserLink = async url => {
-    if (!url) {
+  //new renderer functions
+  const __handleOnLinkPress = event => {
+    if ((!event && !get(event, 'nativeEvent.data'), false)) {
       return;
     }
-
-    Linking.canOpenURL(url).then(supported => {
-      if (supported) {
-        Linking.openURL(url);
-      } else {
-        Alert.alert(intl.formatMessage({ id: 'alert.failed_to_open' }));
+    try {
+      let data = {};
+      try {
+        data = JSON.parse(get(event, 'nativeEvent.data'));
+      } catch (error) {
+        data = {};
       }
-    });
+
+      const { type, href, author, category, permlink, tag, proposal, videoHref } = data;
+
+      switch (type) {
+        case '_external':
+        case 'markdown-external-link':
+          __handleBrowserLink(href);
+          break;
+        case 'markdown-author-link':
+          if (!handleOnUserPress) {
+            __handleOnUserPress(author);
+          } else {
+            handleOnUserPress(author);
+          }
+          break;
+        case 'markdown-post-link':
+          if (!handleOnPostPress) {
+            __handleOnPostPress(permlink, author);
+          } else {
+            handleOnPostPress(permlink, author);
+          }
+          break;
+        case 'markdown-tag-link':
+          __handleTagPress(tag);
+          break;
+        case 'markdown-witnesses-link':
+          break;
+        case 'markdown-proposal-link':
+          break;
+        case 'markdown-video-link':
+          break;
+        case 'image':
+          setPostImages([{ url: href }]);
+          setIsImageModalOpen(true);
+          break;
+
+        default:
+          break;
+      }
+    } catch (error) {}
   };
 
-  const _handleOnPostPress = (permlink, author) => {
+  const __handleTagPress = tag => {
+    if (tag) {
+      navigate({
+        routeName: ROUTES.SCREENS.SEARCH_RESULT,
+        params: {
+          tag,
+        },
+      });
+    }
+  };
+
+  const __handleBrowserLink = async url => {
+    if (url) {
+      Linking.canOpenURL(url).then(supported => {
+        if (supported) {
+          Linking.openURL(url);
+        } else {
+          Alert.alert(intl.formatMessage({ id: 'alert.failed_to_open' }));
+        }
+      });
+    }
+  };
+
+  const __handleOnPostPress = (permlink, author) => {
     if (permlink) {
       navigate({
         routeName: ROUTES.SCREENS.POST,
@@ -75,7 +122,7 @@ const CommentBody = ({
     }
   };
 
-  const _handleOnUserPress = username => {
+  const __handleOnUserPress = username => {
     if (username) {
       navigate({
         routeName: ROUTES.SCREENS.PROFILE,
@@ -89,104 +136,74 @@ const CommentBody = ({
     }
   };
 
-  const _hasParentTag = (node, name) => {
-    if (!node.parent) {
-      return false;
-    }
-
-    if (node.name === name) {
-      return true;
-    }
-
-    return _hasParentTag(node.parent, name);
-  };
-
-  const _alterNode = node => {
-    if (node.name === 'img') {
-      node.attribs.style = 'text-align: center;';
-      if (_hasParentTag(node, 'td')) {
-        node.attribs.style = `max-width: ${WIDTH / 2 - 20}px; `;
-      }
-    }
-
-    if (node.name === 'div' && node.attribs && node.attribs.class) {
-      const _className = node.attribs.class;
-
-      if (_className === 'pull-right') {
-        node.attribs.style = 'text-align: right; align-self: flex-end;';
-      }
-
-      if (_className === 'pull-left') {
-        node.attribs.style = 'text-align: left; align-self: flex-start;';
-      }
-
-      if (_className === 'text-justify') {
-        node.attribs.style = 'text-align: justify; text-justify: inter-word; letter-spacing: 0px;';
-      }
-
-      if (_className === 'phishy') {
-        node.attribs.style = 'color: red';
-      }
+  const checkAndroidPermission = async () => {
+    try {
+      const permission = PermissionsAndroid.PERMISSIONS.WRITE_EXTERNAL_STORAGE;
+      await PermissionsAndroid.request(permission);
+      Promise.resolve();
+    } catch (error) {
+      Promise.reject(error);
     }
   };
 
-  const _alterData = node => {
-    if (
-      node.type === 'text' &&
-      node.data.includes('markdown-author-link') &&
-      node.parent &&
-      getParentsTagsRecursively(node.parent).includes('code')
-    ) {
-      return node.data.replace(/<[^>]*>/g, '');
-    }
+  const _downloadImage = async uri => {
+    return RNFetchBlob.config({
+      fileCache: true,
+      appendExt: 'jpg',
+    })
+      .fetch('GET', uri)
+      .then(res => {
+        let status = res.info().status;
+
+        if (status == 200) {
+          return res.path();
+        } else {
+          Promise.reject();
+        }
+      })
+      .catch(errorMessage => {
+        Promise.reject(errorMessage);
+      });
   };
 
-  const _customRenderer = {
-    a: (htmlAttribs, children, convertedCSSStyles, passProps) => {
-      if (passProps.parentWrapper === 'Text') {
-        return (
-          <Text
-            key={passProps.key}
-            {...htmlAttribs}
-            onPress={() => _handleOnLinkPress(htmlAttribs['data-href'], htmlAttribs)}
-          >
-            {children}
-          </Text>
-        );
+  const _saveImage = async uri => {
+    try {
+      if (Platform.OS === 'android') {
+        await checkAndroidPermission();
+        uri = `file://${await _downloadImage(uri)}`;
       }
-      if (passProps.parentWrapper === 'View') {
-        return (
-          <AutoHeightWebView
-            key={passProps.key}
-            source={{
-              html: passProps.html,
-            }}
-            allowsFullscreenVideo={true}
-            style={{ width: WIDTH - (32 + 29 * 1) }}
-            customScript={script.toString()}
-            startInLoadingState={true}
-            onShouldStartLoadWithRequest={false}
-            scrollEnabled={false}
-          />
-        );
-      }
-      return (
-        <TouchableOpacity
-          key={passProps.key}
-          {...htmlAttribs}
-          onPress={() => _handleOnLinkPress(htmlAttribs['data-href'], htmlAttribs)}
-        >
-          {children}
-        </TouchableOpacity>
+      CameraRoll.saveToCameraRoll(uri)
+        .then(res => {
+          Alert.alert(
+            intl.formatMessage({ id: 'alert.success' }),
+            intl.formatMessage({ id: 'post.image_saved' }),
+            [{ text: 'OK' }],
+            { cancelable: false },
+          );
+        })
+        .catch(error => {
+          Alert.alert(
+            intl.formatMessage({ id: 'post.image_saved_error' }),
+            error.message,
+            [{ text: 'OK' }],
+            {
+              cancelable: false,
+            },
+          );
+        });
+    } catch (error) {
+      Alert.alert(
+        intl.formatMessage({ id: 'post.image_saved_error' }),
+        error.message,
+        [{ text: 'OK' }],
+        {
+          cancelable: false,
+        },
       );
-    },
-    br: (htmlAttribs, children, convertedCSSStyles, passProps) => {
-      return <Text {...passProps}>{'\n'}</Text>;
-    },
+    }
   };
 
-  const _initialDimensions = { width: WIDTH - 50, height: 80 };
-
+  const html = body.replace(/<a/g, '<a target="_blank"');
   const customStyle = `
   * {
     color: ${EStyleSheet.value('$primaryBlack')};
@@ -292,36 +309,35 @@ const CommentBody = ({
   }
   `;
   return (
-    /*<HTML
-      html={body}
-      onLinkPress={(evt, href, hrefAtr) => _handleOnLinkPress(evt, href, hrefAtr)}
-      containerStyle={styles.commentContainer}
-      textSelectable={textSelectable}
-      tagsStyles={{ img: { height: 120 } }}
-      ignoredTags={['script']}
-      debug={false}
-      staticContentMaxWidth={WIDTH - 33}
-      imagesInitialDimensions={_initialDimensions}
-      baseFontStyle={styles.text}
-      imagesMaxWidth={WIDTH - 50}
-      alterNode={_alterNode}
-      alterData={_alterData}
-      renderers={_customRenderer}
-    />*/
-    <AutoHeightWebView
-      key={created.toString()}
-      source={{
-        html: body,
-      }}
-      allowsFullscreenVideo={true}
-      style={{ width: WIDTH - (32 + 29 * commentDepth) }}
-      customStyle={customStyle}
-      renderLoading={() => <CommentPlaceHolder />}
-      customScript={script.toString()}
-      startInLoadingState={true}
-      onShouldStartLoadWithRequest={false}
-      scrollEnabled={false}
-    />
+    <Fragment>
+      <Modal visible={isImageModalOpen} transparent={true}>
+        <ImageViewer
+          imageUrls={postImages}
+          enableSwipeDown
+          onCancel={() => setIsImageModalOpen(false)}
+          onSave={uri => _saveImage(uri)}
+          menuContext={{
+            saveToLocal: intl.formatMessage({ id: 'post.save_to_local' }),
+            cancel: intl.formatMessage({ id: 'alert.cancel' }),
+          }}
+        />
+      </Modal>
+      <AutoHeightWebView
+        key={created.toString()}
+        source={{
+          html: html,
+        }}
+        allowsFullscreenVideo={true}
+        customStyle={customStyle}
+        style={{ width: WIDTH - (32 + 34 * commentDepth) }}
+        onMessage={__handleOnLinkPress}
+        renderLoading={() => <CommentPlaceHolder />}
+        customScript={script.toString()}
+        startInLoadingState={true}
+        onShouldStartLoadWithRequest={false}
+        scrollEnabled={false}
+      />
+    </Fragment>
   );
 };
 
