@@ -20,7 +20,7 @@ const BoostPlaceHolder = () => {
         {({ isDarkTheme }) => {
           const color = isDarkTheme ? '#2e3d51' : '#f5f5f5';
           return (
-            <View style={styles.container} key={i.toString()}>
+            <View style={styles.container} key={'key-' + i.toString()}>
               <View style={styles.line}>
                 <Placeholder.Box color={color} width={90} height={40} animate="fade" />
                 <View style={styles.paragraphWrapper}>
