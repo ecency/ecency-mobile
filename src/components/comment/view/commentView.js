@@ -62,7 +62,7 @@ const CommentView = ({
           isShowOwnerIndicator={mainAuthor === comment.author}
           isHideImage={isHideImage}
         />
-        <View style={[{ marginLeft: 29 }, styles.bodyWrapper]}>
+        <View style={[{ marginLeft: 34 }, styles.bodyWrapper]}>
           <CommentBody
             commentDepth={comment.depth}
             handleOnUserPress={handleOnUserPress}

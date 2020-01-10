@@ -26,7 +26,7 @@ export default EStyleSheet.create({
     marginRight: 2,
   },
   bodyWrapper: {
-    marginTop: -10,
+    marginTop: 0,
   },
   iconStyle: {
     color: '$white',
