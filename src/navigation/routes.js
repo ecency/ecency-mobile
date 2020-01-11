@@ -108,7 +108,13 @@ const stackNavigator = createStackNavigator(
     [ROUTES.DRAWER.MAIN]: { screen: mainNavigation },
     [ROUTES.SCREENS.PROFILE]: { screen: Profile },
     [ROUTES.SCREENS.PROFILE_EDIT]: { screen: ProfileEdit },
-    [ROUTES.SCREENS.POST]: { screen: Post },
+    [ROUTES.SCREENS.POST]: {
+      screen: Post,
+      navigationOptions: {
+        gesturesEnabled: true,
+        gestureResponseDistance: { horizontal: 100 },
+      },
+    },
     [ROUTES.SCREENS.EDITOR]: { screen: Editor },
     [ROUTES.SCREENS.VOTERS]: { screen: Voters },
     [ROUTES.SCREENS.FOLLOWS]: { screen: Follows },
@@ -122,7 +128,9 @@ const stackNavigator = createStackNavigator(
     [ROUTES.SCREENS.REBLOGS]: { screen: Reblogs },
     [ROUTES.SCREENS.SPIN_GAME]: { screen: SpinGame },
   },
-  { headerMode: 'none' },
+  {
+    headerMode: 'none',
+  },
 );
 
 export default createSwitchNavigator({
