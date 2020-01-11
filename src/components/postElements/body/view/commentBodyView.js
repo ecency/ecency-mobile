@@ -216,7 +216,6 @@ const CommentBody = ({
   a {
     color: ${EStyleSheet.value('$primaryBlue')};
     cursor: pointer;
-    margin-right: 5;
   }
   img {
     align-self: 'center';
@@ -279,7 +278,10 @@ const CommentBody = ({
     -webkit-transform: translateX(-50%) translateY(-50%);
     -moz-transform: translateX(-50%) translateY(-50%);
   }
-  
+  b > * {
+    display: inline-block;
+    margin: 2 10;
+  }
   iframe {
     width: 100%;
     height: 240px;
@@ -328,8 +330,8 @@ const CommentBody = ({
           html: html,
         }}
         allowsFullscreenVideo={true}
-        customStyle={customStyle}
         style={{ width: WIDTH - (32 + 34 * commentDepth) }}
+        customStyle={customStyle}
         onMessage={__handleOnLinkPress}
         renderLoading={() => <CommentPlaceHolder />}
         customScript={script.toString()}

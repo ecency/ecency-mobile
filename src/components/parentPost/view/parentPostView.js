@@ -2,6 +2,7 @@ import React from 'react';
 import { View, Text, TouchableOpacity } from 'react-native';
 import { withNavigation } from 'react-navigation';
 import get from 'lodash/get';
+import { postBodySummary } from '@esteemapp/esteem-render-helpers';
 import { default as ROUTES } from '../../../constants/routeNames';
 
 import styles from './parentPostStyles';
@@ -25,7 +26,7 @@ const ParentPost = props => {
         }
       >
         <Text style={styles.title}>{get(post, 'title')}</Text>
-        <Text style={styles.description}>{get(post, 'summary')}</Text>
+        <Text style={styles.description}>{postBodySummary(post, 100)}</Text>
       </TouchableOpacity>
     </View>
   );
