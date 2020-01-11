@@ -51,10 +51,6 @@ export default EStyleSheet.create({
     marginVertical: 12,
     color: '$primaryBlack',
   },
-  summary: {
-    fontSize: 14,
-    color: '$primaryDarkGray',
-  },
   bodyFooter: {
     backgroundColor: '$primaryBackgroundColor',
     flexDirection: 'row',

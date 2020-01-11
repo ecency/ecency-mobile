@@ -3,7 +3,6 @@ import { injectIntl } from 'react-intl';
 import { View, FlatList, Text } from 'react-native';
 import ScrollableTabView from 'react-native-scrollable-tab-view';
 import ActionSheet from 'react-native-actionsheet';
-import { postBodySummary } from '@esteemapp/esteem-render-helpers';
 
 // Utils
 import { catchDraftImage } from '../../../utils/image';
@@ -47,7 +46,6 @@ const DraftsScreen = ({
     const tags = item.tags ? item.tags.split(/[ ,]+/) : [];
     const tag = tags[0] || '';
     const image = catchDraftImage(item.body);
-    const summary = postBodySummary({ item, last_update: item.created }, 100);
     const isSchedules = type === 'schedules';
 
     return (
@@ -56,7 +54,6 @@ const DraftsScreen = ({
         mainTag={tag}
         title={item.title}
         isFormatedDate={isSchedules}
-        summary={summary}
         image={image ? { uri: catchDraftImage(item.body) } : null}
         username={currentAccount.name}
         reputation={currentAccount.reputation}
