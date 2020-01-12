@@ -246,10 +246,13 @@ const PostsView = ({
             }
           } else if (result.length === 0) {
             setIsNoPost(true);
+            setRefreshing(false);
+            setIsLoading(false);
           }
         })
         .catch(() => {
           setRefreshing(false);
+          setIsLoading(false);
         });
     },
     [

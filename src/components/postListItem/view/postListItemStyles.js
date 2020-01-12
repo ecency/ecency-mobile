@@ -39,6 +39,10 @@ export default EStyleSheet.create({
     fontWeight: 'bold',
     color: '$primaryBlack',
   },
+  summary: {
+    fontSize: 13,
+    color: '$primaryDarkText',
+  },
   header: {
     backgroundColor: '$primaryBackgroundColor',
     flexDirection: 'row',
