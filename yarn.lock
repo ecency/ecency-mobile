@@ -1113,10 +1113,10 @@
     exec-sh "^0.3.2"
     minimist "^1.2.0"
 
-"@esteemapp/esteem-render-helpers@^1.3.1":
-  version "1.3.1"
-  resolved "https://registry.yarnpkg.com/@esteemapp/esteem-render-helpers/-/esteem-render-helpers-1.3.1.tgz#aead95afb387e4c04644e14e1d1f4f08c14f21ff"
-  integrity sha512-A05OWpdrzu8wprByogXmh0OLmftI1lpa6HmwZLeegXszO4Lj1VBOUPi/KkaHuzEzkm/FEWy+cnGK1PnsrQ/Iww==
+"@esteemapp/esteem-render-helpers@^1.3.3":
+  version "1.3.3"
+  resolved "https://registry.yarnpkg.com/@esteemapp/esteem-render-helpers/-/esteem-render-helpers-1.3.3.tgz#89dc392bcbd98fd18fd2fccc4bf33fb0b29b560d"
+  integrity sha512-WF8sCyP1R2NN3a+4phmfyTX5EvY4fleuGEWEZcik2Hps2sDUIzUugP1C3TAH+roEZ13VEVTST77THvkDSe1ssw==
   dependencies:
     he "^1.2.0"
     path "^0.12.7"
