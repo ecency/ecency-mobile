@@ -2,7 +2,7 @@ import isEmpty from 'lodash/isEmpty';
 import forEach from 'lodash/forEach';
 import { get, uniqBy } from 'lodash';
 
-import { renderPostBody } from '@esteemapp/esteem-render-helpers';
+import { postBodySummary, renderPostBody } from '@esteemapp/esteem-render-helpers';
 
 // Dsteem
 // eslint-disable-next-line import/no-cycle
@@ -44,6 +44,7 @@ export const parsePost = async (post, currentUserName, isPromoted) => {
   post.active_votes.sort((a, b) => b.rshares - a.rshares);
 
   post.body = renderPostBody(post);
+  post.summary = postBodySummary(post, 150);
   post.is_declined_payout = Number(parseFloat(post.max_accepted_payout)) === 0;
 
   if (currentUserName) {

@@ -117,6 +117,7 @@ class PostCardView extends Component {
             )}
             <View style={[styles.postDescripton]}>
               <Text style={styles.title}>{content.title}</Text>
+              <Text style={styles.summary}>{content.summary}</Text>
             </View>
           </TouchableOpacity>
 

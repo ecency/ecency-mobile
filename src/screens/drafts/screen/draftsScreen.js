@@ -5,6 +5,7 @@ import ScrollableTabView from 'react-native-scrollable-tab-view';
 import ActionSheet from 'react-native-actionsheet';
 
 // Utils
+import { postBodySummary } from '@esteemapp/esteem-render-helpers';
 import { catchDraftImage } from '../../../utils/image';
 import { getFormatedCreatedDate } from '../../../utils/time';
 
@@ -46,6 +47,7 @@ const DraftsScreen = ({
     const tags = item.tags ? item.tags.split(/[ ,]+/) : [];
     const tag = tags[0] || '';
     const image = catchDraftImage(item.body);
+    const summary = postBodySummary({ item, last_update: item.created }, 100);
     const isSchedules = type === 'schedules';
 
     return (
@@ -53,6 +55,7 @@ const DraftsScreen = ({
         created={isSchedules ? getFormatedCreatedDate(item.schedule) : item.created}
         mainTag={tag}
         title={item.title}
+        summary={summary}
         isFormatedDate={isSchedules}
         image={image ? { uri: catchDraftImage(item.body) } : null}
         username={currentAccount.name}

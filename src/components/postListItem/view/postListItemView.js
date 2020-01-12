@@ -19,6 +19,7 @@ import styles from './postListItemStyles';
 
 const PostListItemView = ({
   title,
+  summary,
   mainTag,
   username,
   reputation,
@@ -62,6 +63,7 @@ const PostListItemView = ({
             <FastImage source={image} style={styles.image} defaultSource={DEFAULT_IMAGE} />
             <View style={[styles.postDescripton]}>
               <Text style={styles.title}>{title}</Text>
+              <Text style={styles.summary}>{summary}</Text>
             </View>
           </TouchableOpacity>
         </View>
