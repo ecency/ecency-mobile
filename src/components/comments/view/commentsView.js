@@ -113,7 +113,7 @@ const CommentsView = ({
       <ActionSheet
         ref={commentMenu}
         options={menuItems}
-        title={get(selectedComment, 'author')}
+        title={get(selectedComment, 'summary')}
         cancelButtonIndex={isOwnProfile ? 2 : 1}
         onPress={index => handleOnPressCommentMenu(index, selectedComment)}
       />
