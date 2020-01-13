@@ -195,7 +195,7 @@
     },
     "feedback_success": "Epeyam bi serkeftî vebû",
     "feedback_fail": "Stînera epeyamê venebû",
-    "server_fail": "Server tine ye"
+    "server_fail": "Server ne li berdest e"
   },
   "voters": {
     "voters_info": "Agahiya Dengdêran",
@@ -214,7 +214,7 @@
     "steemconnect_fee_description": "Dibe ku Steemconnect ji dayîna xelatan hinek pereyan bîstine"
   },
   "home": {
-    "feed": "Herik",
+    "feed": "Herk",
     "popular": "Populer",
     "top": "Sereke",
     "hot": "Germ",
@@ -247,8 +247,8 @@
   "editor": {
     "title": "Sernav",
     "tags": "Etîket (bi valahiyan ji hev diqete)",
-    "default_placeholder": "Îro tu dixwazî li ser çi binivîsînî?",
-    "reply_placeholder": "Tu dixwazî li ser nivîsa jorîn çi binivîsînî?",
+    "default_placeholder": "Tu îro dixwazî li ser çi binivîsî?",
+    "reply_placeholder": "Tu dixwazî li ser nivîsa jorîn çi binivîsî?",
     "publish": "Biweşîne",
     "reply": "Bibersivîne",
     "open_gallery": "Pêşangehê Veke",
@@ -265,7 +265,7 @@
   "pincode": {
     "enter_text": "Ji bo vekirinê PIN têxîne",
     "set_new": "PINa nû saz bike",
-    "write_again": "Dîsa binivîsîne",
+    "write_again": "Dîsa binivîse",
     "forgot_text": "Wey, Min ji bîr kir..."
   },
   "alert": {
@@ -344,7 +344,7 @@
     "search": "Di bijardeyan de bigere"
   },
   "auth": {
-    "invalid_pin": "Invalid pin code, please check and try again",
+    "invalid_pin": "Koda PINê nederbasdar e, kontrol bike û dîsa biceribîne",
     "invalid_username": "Navê bikarhêner nederbasdar e, kontrol bike û dîsa biceribîne",
     "already_logged": "Jixwe tu têketî ye, ji kerema xwe tevlîkirina hesabekî din biceribîne",
     "invalid_credentials": "Navê bikarhêner nederbasdar e, kontrol bike û dîsa biceribîne",
