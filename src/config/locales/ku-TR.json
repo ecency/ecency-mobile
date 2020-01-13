@@ -2,7 +2,7 @@
   "wallet": {
     "curation_reward": "Xelata Kuratorê",
     "author_reward": "Xelata Nivîskêr",
-    "comment_benefactor_reward": "Benefactor Reward",
+    "comment_benefactor_reward": "Xelata Xêrxwaziyê",
     "claim_reward_balance": "Claim Reward ",
     "transfer": "Veguheztin",
     "transfer_to_vesting": "To Vesting",
@@ -68,7 +68,7 @@
     "delegate": "Şande",
     "power_down": "Kêmhêz Bike",
     "withdraw_steem": "Withdraw Steem",
-    "withdraw_sbd": "Withdraw SBD",
+    "withdraw_sbd": "SBDê Vekişîne",
     "transfer_to_savings": "To Savings",
     "convert": "Veguherîne",
     "escrow_transfer": "Transfera Emanetî",
@@ -125,7 +125,7 @@
     "replies": "Bersiv",
     "mentions": "Gotûbêj",
     "reblogs": "Dîsweşandin",
-    "noactivity": "No new activity found"
+    "noactivity": "Çalakiya nû nehate dîtin"
   },
   "leaderboard": {
     "daily": "ROJANE",
@@ -149,7 +149,7 @@
     "hours": "demjimêr",
     "voting_power": "Hêza dengdanê",
     "login_to_see": "Têkevê û bibîne",
-    "follow_people": "Follow some people to fill your feed",
+    "follow_people": "Ji bo dagirtina herka xwe, hinek kesan bişopîne",
     "havent_commented": "hîna şîrove nehatiye kirin",
     "havent_posted": "heta niha ti tişt parve nebûye",
     "steem_power": "Hêza Steemê",
@@ -246,14 +246,14 @@
   },
   "editor": {
     "title": "Sernav",
-    "tags": "Tags (separate by space)",
+    "tags": "Etîket (bi valahiyan ji hev diqete)",
     "default_placeholder": "Îro tu dixwazî li ser çi binivîsînî?",
     "reply_placeholder": "Tu dixwazî li ser nivîsa jorîn çi binivîsînî?",
     "publish": "Biweşîne",
     "reply": "Bibersivîne",
     "open_gallery": "Pêşangehê Veke",
     "capture_photo": "Wêneyekî bigire",
-    "limited_tags": "Only 10 tags allowed, remove some",
+    "limited_tags": "Tenê destûra 10 etîketan heye, hineka rake",
     "limited_length": "Maximum length of each tag should be 24",
     "limited_dash": "Use one dash in each tag",
     "limited_space": "Use space to separate tags",
