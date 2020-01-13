@@ -76,7 +76,7 @@ class ProfileContainer extends Component {
     this._loadProfile(targetUsername);
   }
 
-  _getReplies = async user => {
+  _getReplies = async query => {
     const { isOwnProfile } = this.state;
     let repliesAction;
 
@@ -86,7 +86,11 @@ class ProfileContainer extends Component {
       repliesAction = getRepliesByLastUpdate;
     }
 
-    await repliesAction({ start_author: user, limit: 10 }).then(result => {
+    await repliesAction({
+      start_author: query.author,
+      start_permlink: query.permlink,
+      limit: 10,
+    }).then(result => {
       this.setState({
         comments: result,
       });
@@ -229,7 +233,7 @@ class ProfileContainer extends Component {
       username,
     }));
 
-    this._getReplies(username);
+    this._getReplies({ author: username, permlink: undefined });
   };
 
   _handleFollowsPress = async isFollowingPress => {
@@ -364,7 +368,7 @@ class ProfileContainer extends Component {
         error,
         follows,
         forceLoadPost,
-        getReplies: () => this._getReplies(username),
+        getReplies: this._getReplies,
         handleFollowUnfollowUser: this._handleFollowUnfollowUser,
         handleMuteUnmuteUser: this._handleMuteUnmuteUser,
         handleOnBackPress: this._handleOnBackPress,
