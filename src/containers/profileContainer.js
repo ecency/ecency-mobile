@@ -23,6 +23,7 @@ import { getIsFavorite, addFavorite, removeFavorite } from '../providers/esteem/
 
 // Utilitites
 import { getRcPower, getVotingPower } from '../utils/manaBar';
+import { unionWith } from '../utils/postParser';
 
 // Constants
 import { default as ROUTES } from '../constants/routeNames';
@@ -77,7 +78,7 @@ class ProfileContainer extends Component {
   }
 
   _getReplies = async query => {
-    const { isOwnProfile } = this.state;
+    const { isOwnProfile, comments } = this.state;
     let repliesAction;
 
     if (!isOwnProfile) {
@@ -85,16 +86,18 @@ class ProfileContainer extends Component {
     } else {
       repliesAction = getRepliesByLastUpdate;
     }
-
-    await repliesAction({
-      start_author: query.author,
-      start_permlink: query.permlink,
-      limit: 10,
-    }).then(result => {
-      this.setState({
-        comments: result,
+    if (query) {
+      await repliesAction({
+        start_author: query.author,
+        start_permlink: query.permlink,
+        limit: 10,
+      }).then(result => {
+        let _comments = unionWith(comments, result, 'permlink');
+        this.setState({
+          comments: _comments,
+        });
       });
-    });
+    }
   };
 
   _handleFollowUnfollowUser = async isFollowAction => {
