@@ -7573,10 +7573,9 @@ react-native-dark-mode@^0.2.1:
     events "^3.0.0"
     toolkit.ts "^0.0.2"
 
-react-native-datepicker@^1.7.2:
+react-native-datepicker@esteemapp/react-native-datepicker:
   version "1.7.2"
-  resolved "https://registry.yarnpkg.com/react-native-datepicker/-/react-native-datepicker-1.7.2.tgz#58d0822591a0ac9b32aba082650222a0ee29669d"
-  integrity sha1-WNCCJZGgrJsyq6CCZQIioO4pZp0=
+  resolved "https://codeload.github.com/esteemapp/react-native-datepicker/tar.gz/844955f20ede921e6a8b83d95c58167970f9279b"
   dependencies:
     moment "^2.22.0"
 
@@ -7661,7 +7660,7 @@ react-native-modal-dropdown@^0.7.0:
     deprecated-react-native-listview "0.0.5"
     prop-types "^15.6.0"
 
-react-native-modal-popover@0.0.12:
+react-native-modal-popover@^0.0.12:
   version "0.0.12"
   resolved "https://registry.yarnpkg.com/react-native-modal-popover/-/react-native-modal-popover-0.0.12.tgz#5c0b5e9e0323490c3c5867821fc94b6582bfa3dc"
   integrity sha512-uZQsTDcGOI8y/05L/Lb0OMBesJYYRWEc0pj2038a579LnDnJJpKay0kD654cQpA4Ozt3xbu4DMTGwenynBSEFg==
