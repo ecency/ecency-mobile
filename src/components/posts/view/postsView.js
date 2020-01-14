@@ -3,9 +3,8 @@ import React, { useState, useEffect, useCallback } from 'react';
 import { FlatList, View, ActivityIndicator, RefreshControl } from 'react-native';
 import { useIntl } from 'react-intl';
 import { withNavigation } from 'react-navigation';
-import get from 'lodash/get';
+import { get, unionBy } from 'lodash';
 
-import { unionWith } from '../../../utils/postParser';
 // STEEM
 import { getPostsSummary, getPost } from '../../../providers/steem/dsteem';
 import { getPromotePosts } from '../../../providers/esteem/esteem';
@@ -163,7 +162,7 @@ const PostsView = ({
 
       const filter = type || selectedFilterValue;
       let options;
-      const limit = 3;
+      const limit = 6;
 
       if (filter === 'feed' || filter === 'blog' || getFor === 'blog' || filter === 'reblogs') {
         options = {
@@ -197,44 +196,15 @@ const PostsView = ({
             if (_posts.length > 0) {
               if (posts.length > 0) {
                 if (refreshing) {
-                  _posts = unionWith(_posts, posts, 'permlink');
+                  _posts = unionBy(_posts, posts, 'permlink');
                 } else {
-                  _posts.shift();
-                  _posts = unionWith(posts, _posts, 'permlink');
+                  _posts = unionBy(posts, _posts, 'permlink');
                 }
               }
 
               if (posts.length < 5 && pageType !== 'profiles') {
                 setFeedPosts(_posts);
               }
-
-              // Promoted post start
-              if (promotedPosts && promotedPosts.length > 0) {
-                const insert = (arr, index, newItem) => [
-                  ...arr.slice(0, index),
-
-                  newItem,
-
-                  ...arr.slice(index),
-                ];
-
-                if (refreshing) {
-                  _posts = _posts.filter(item => !item.is_promoted);
-                }
-
-                _posts.map((d, i) => {
-                  if ([3, 6, 9].includes(i)) {
-                    const ix = i / 3 - 1;
-                    if (promotedPosts[ix] !== undefined) {
-                      if (get(_posts, [i], {}).permlink !== promotedPosts[ix].permlink) {
-                        _posts = insert(_posts, i, promotedPosts[ix]);
-                        //_posts = _posts.splice(i, 0, promotedPosts[ix]); //faster but won't work due to original array changes
-                      }
-                    }
-                  }
-                });
-              }
-              // Promoted post end
 
               if (!refreshing) {
                 setStartAuthor(result[result.length - 1] && result[result.length - 1].author);
@@ -264,7 +234,7 @@ const PostsView = ({
       nsfw,
       pageType,
       posts,
-      promotedPosts,
+      //promotedPosts,
       refreshing,
       selectedFilterValue,
       setFeedPosts,
@@ -349,7 +319,6 @@ const PostsView = ({
           {filterOptions && (
             <FilterBar
               dropdownIconName="arrow-drop-down"
-              //options={filterOptions}
               options={filterOptions.map(item =>
                 intl.formatMessage({ id: `home.${item.toLowerCase()}` }).toUpperCase(),
               )}
@@ -365,18 +334,43 @@ const PostsView = ({
           <FlatList
             data={posts}
             showsVerticalScrollIndicator={false}
-            renderItem={({ item }) =>
-              get(item, 'author', null) && (
-                <PostCard isRefresh={refreshing} content={item} isHideImage={isHideImage} />
-              )
-            }
-            keyExtractor={(content, i) => `${get(content, 'permlink', '')}${i.toString()}`}
+            renderItem={({ item, index }) => {
+              const e = [];
+              if (index % 3 === 0) {
+                const ix = index / 3 - 1;
+                if (promotedPosts[ix] !== undefined) {
+                  const p = promotedPosts[ix];
+                  if (get(p, 'author', null)) {
+                    e.push(
+                      <PostCard
+                        key={`${p.author}-${p.permlink}-prom`}
+                        isRefresh={refreshing}
+                        content={p}
+                        isHideImage={isHideImage}
+                      />,
+                    );
+                  }
+                }
+              }
+              if (get(item, 'author', null)) {
+                e.push(
+                  <PostCard
+                    key={`${item.author}-${item.permlink}`}
+                    isRefresh={refreshing}
+                    content={item}
+                    isHideImage={isHideImage}
+                  />,
+                );
+              }
+              return e;
+            }}
+            //keyExtractor={(content, i) => `${get(content, 'permlink', '')}${i.toString()}`}
             onEndReached={() => _loadPosts()}
             removeClippedSubviews
             refreshing={refreshing}
             onRefresh={_handleOnRefreshPosts}
-            onEndThreshold={0}
-            initialNumToRender={10}
+            onEndReachedThreshold={0.1}
+            initialNumToRender={4}
             ListFooterComponent={_renderFooter}
             onScrollEndDrag={_handleOnScroll}
             ListEmptyComponent={_renderEmptyContent}

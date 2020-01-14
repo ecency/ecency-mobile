@@ -521,9 +521,6 @@ class ApplicationContainer extends Component {
         dispatch(updateActiveBottomTab(ROUTES.TABBAR.NOTIFICATION));
       }
     };
-    ws.onclose = e => {
-      console.log(e);
-    };
   };
 
   _logout = () => {

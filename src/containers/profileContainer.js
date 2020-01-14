@@ -2,7 +2,7 @@
 import React, { Component } from 'react';
 import { connect } from 'react-redux';
 import { withNavigation } from 'react-navigation';
-import { get, has } from 'lodash';
+import { get, has, unionBy } from 'lodash';
 import { Alert } from 'react-native';
 
 // Providers
@@ -76,8 +76,8 @@ class ProfileContainer extends Component {
     this._loadProfile(targetUsername);
   }
 
-  _getReplies = async user => {
-    const { isOwnProfile } = this.state;
+  _getReplies = async query => {
+    const { isOwnProfile, comments } = this.state;
     let repliesAction;
 
     if (!isOwnProfile) {
@@ -85,12 +85,18 @@ class ProfileContainer extends Component {
     } else {
       repliesAction = getRepliesByLastUpdate;
     }
-
-    await repliesAction({ start_author: user, limit: 10 }).then(result => {
-      this.setState({
-        comments: result,
+    if (query) {
+      await repliesAction({
+        start_author: query.author,
+        start_permlink: query.permlink,
+        limit: 10,
+      }).then(result => {
+        let _comments = unionBy(comments, result, 'permlink');
+        this.setState({
+          comments: _comments,
+        });
       });
-    });
+    }
   };
 
   _handleFollowUnfollowUser = async isFollowAction => {
@@ -229,7 +235,7 @@ class ProfileContainer extends Component {
       username,
     }));
 
-    this._getReplies(username);
+    this._getReplies({ author: username, permlink: undefined });
   };
 
   _handleFollowsPress = async isFollowingPress => {
@@ -364,7 +370,7 @@ class ProfileContainer extends Component {
         error,
         follows,
         forceLoadPost,
-        getReplies: () => this._getReplies(username),
+        getReplies: this._getReplies,
         handleFollowUnfollowUser: this._handleFollowUnfollowUser,
         handleMuteUnmuteUser: this._handleMuteUnmuteUser,
         handleOnBackPress: this._handleOnBackPress,

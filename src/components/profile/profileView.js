@@ -43,6 +43,17 @@ class ProfileView extends PureComponent {
     }
   };
 
+  _loadMoreComments = () => {
+    const { getReplies, comments } = this.props;
+
+    if (comments && comments.length > 0) {
+      getReplies({
+        author: comments[comments.length - 1].author,
+        permlink: comments[comments.length - 1].permlink,
+      });
+    }
+  };
+
   _handleOnSummaryExpanded = () => {
     const { isSummaryOpen } = this.state;
 
@@ -54,6 +65,10 @@ class ProfileView extends PureComponent {
   _handleUIChange = height => {
     this.setState({ collapsibleMoreHeight: height });
   };
+
+  _isCloseToBottom({ layoutMeasurement, contentOffset, contentSize }) {
+    return layoutMeasurement.height + contentOffset.y >= contentSize.height - 20;
+  }
 
   render() {
     const {
@@ -198,9 +213,14 @@ class ProfileView extends PureComponent {
             >
               {comments && comments.length > 0 ? (
                 <ScrollView
-                  onScroll={this._handleOnScroll}
+                  onScroll={({ nativeEvent }) => {
+                    this._handleOnScroll();
+                    if (this._isCloseToBottom(nativeEvent)) {
+                      this._loadMoreComments();
+                    }
+                  }}
                   contentContainerStyle={styles.scrollContentContainer}
-                  scrollEventThrottle={16}
+                  //scrollEventThrottle={16}
                 >
                   <Comments
                     isProfilePreview
