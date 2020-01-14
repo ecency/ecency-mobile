@@ -369,7 +369,7 @@ export const getSCAccessToken = code =>
 
 export const getPromotePosts = () => {
   try {
-    return api.get('/promoted-posts').then(resp => resp.data);
+    return api.get('/promoted-posts?limit=50').then(resp => resp.data);
   } catch (error) {
     return error;
   }
