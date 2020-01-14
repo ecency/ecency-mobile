@@ -97,7 +97,7 @@ const BookmarksContainer = ({ currentAccount, intl, navigation }) => {
     });
   };
 
-  const _handleOnBookarkPress = (permlink, author) => {
+  const _handleOnBookmarkPress = (permlink, author) => {
     if (permlink && author) {
       navigation.navigate({
         routeName: ROUTES.SCREENS.POST,
@@ -126,7 +126,7 @@ const BookmarksContainer = ({ currentAccount, intl, navigation }) => {
       removeFavorite={_removeFavorite}
       removeBookmark={_removeBoomark}
       handleOnFavoritePress={_handleOnFavoritePress}
-      handleOnBookarkPress={_handleOnBookarkPress}
+      handleOnBookmarkPress={_handleOnBookmarkPress}
     />
   );
 };

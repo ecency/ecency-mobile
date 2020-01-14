@@ -1,7 +1,7 @@
 import React, { Component, Fragment } from 'react';
 import { View, TouchableOpacity, Text, Alert } from 'react-native';
 import { injectIntl } from 'react-intl';
-import { Popover, PopoverController } from 'react-native-modal-popover';
+import { Popover, PopoverController } from '@esteemapp/react-native-modal-popover';
 import Slider from '@esteemapp/react-native-slider';
 import get from 'lodash/get';
 
