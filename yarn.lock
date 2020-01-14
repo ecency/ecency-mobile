@@ -7667,15 +7667,6 @@ react-native-modal-dropdown@esteemapp/react-native-modal-dropdown:
     deprecated-react-native-listview "0.0.5"
     prop-types "^15.6.0"
 
-react-native-modal-popover@^0.0.12:
-  version "0.0.12"
-  resolved "https://registry.yarnpkg.com/react-native-modal-popover/-/react-native-modal-popover-0.0.12.tgz#5c0b5e9e0323490c3c5867821fc94b6582bfa3dc"
-  integrity sha512-uZQsTDcGOI8y/05L/Lb0OMBesJYYRWEc0pj2038a579LnDnJJpKay0kD654cQpA4Ozt3xbu4DMTGwenynBSEFg==
-  dependencies:
-    "@types/prop-types" "^15.5.5"
-    lodash.debounce "^4.0.8"
-    prop-types "^15.6.2"
-
 react-native-navigation-bar-color@^0.1.0:
   version "0.1.0"
   resolved "https://registry.yarnpkg.com/react-native-navigation-bar-color/-/react-native-navigation-bar-color-0.1.0.tgz#358be3eb8630dbaf5993ec9cf07b279590984f2e"
