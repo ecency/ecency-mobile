@@ -1130,6 +1130,15 @@
   resolved "https://registry.yarnpkg.com/@esteemapp/react-native-autocomplete-input/-/react-native-autocomplete-input-4.2.1.tgz#a883db553dcc152cf6ac5e6a39bc7e35682286ce"
   integrity sha512-lZFIRoAmFhON69BuoWDbXXBSmjLRM4GDyIbaVwcRPD4y9l9wVgYIpN7MdtgRj66XYhS1ffJZhhMhqlzRC5sFAQ==
 
+"@esteemapp/react-native-modal-popover@^0.0.14":
+  version "0.0.14"
+  resolved "https://registry.yarnpkg.com/@esteemapp/react-native-modal-popover/-/react-native-modal-popover-0.0.14.tgz#b250b938e0b1926103a46d77c4db1a0b4760edf9"
+  integrity sha512-BrFaIksrDy1wbZ69amPR49kdkbT1+EXQhgfjkf9m5brhpGzWwcVJR4+dXUDSU0jQVu2PTIwmvfDD6Ln6zcGSRQ==
+  dependencies:
+    "@types/prop-types" "^15.5.5"
+    lodash.debounce "^4.0.8"
+    prop-types "^15.6.2"
+
 "@esteemapp/react-native-multi-slider@^1.1.0":
   version "1.1.0"
   resolved "https://registry.yarnpkg.com/@esteemapp/react-native-multi-slider/-/react-native-multi-slider-1.1.0.tgz#16ac1df8518147daa4977cec2503caba1fbd96b5"
@@ -7534,10 +7543,9 @@ react-lifecycles-compat@^3.0.4:
   resolved "https://registry.yarnpkg.com/react-lifecycles-compat/-/react-lifecycles-compat-3.0.4.tgz#4f1a273afdfc8f3488a8c516bfda78f872352362"
   integrity sha512-fBASbA6LnOU9dOU2eW7aQ8xmYBSXUIWr+UmF9b1efZBazGNO+rcXT/icdKnYm2pTwcRylVUYwW7H1PHfLekVzA==
 
-react-native-actionsheet@^2.4.2:
+react-native-actionsheet@esteemapp/react-native-actionsheet:
   version "2.4.2"
-  resolved "https://registry.yarnpkg.com/react-native-actionsheet/-/react-native-actionsheet-2.4.2.tgz#6a00dd51a75ef2c8974312130e405af73191500f"
-  integrity sha512-DBoWIvVwuWXuptF4t46pBqkFxaUxS+rsIdHiA05t0n4BdTIDV2R4s9bLEUVOGzb94D7VxIamsXZPA/3mmw+SXg==
+  resolved "https://codeload.github.com/esteemapp/react-native-actionsheet/tar.gz/6cc19973e72bd0e0ba750ce34d42243acff9c109"
 
 react-native-autoheight-webview@^1.3.4:
   version "1.3.4"
@@ -7573,10 +7581,9 @@ react-native-dark-mode@^0.2.1:
     events "^3.0.0"
     toolkit.ts "^0.0.2"
 
-react-native-datepicker@^1.7.2:
+react-native-datepicker@esteemapp/react-native-datepicker:
   version "1.7.2"
-  resolved "https://registry.yarnpkg.com/react-native-datepicker/-/react-native-datepicker-1.7.2.tgz#58d0822591a0ac9b32aba082650222a0ee29669d"
-  integrity sha1-WNCCJZGgrJsyq6CCZQIioO4pZp0=
+  resolved "https://codeload.github.com/esteemapp/react-native-datepicker/tar.gz/844955f20ede921e6a8b83d95c58167970f9279b"
   dependencies:
     moment "^2.22.0"
 
@@ -7653,22 +7660,12 @@ react-native-linear-gradient@^2.4.2:
   resolved "https://registry.yarnpkg.com/react-native-linear-gradient/-/react-native-linear-gradient-2.5.6.tgz#96215cbc5ec7a01247a20890888aa75b834d44a0"
   integrity sha512-HDwEaXcQIuXXCV70O+bK1rizFong3wj+5Q/jSyifKFLg0VWF95xh8XQgfzXwtq0NggL9vNjPKXa016KuFu+VFg==
 
-react-native-modal-dropdown@^0.7.0:
+react-native-modal-dropdown@esteemapp/react-native-modal-dropdown:
   version "0.7.0"
-  resolved "https://registry.yarnpkg.com/react-native-modal-dropdown/-/react-native-modal-dropdown-0.7.0.tgz#d030c4159ff026bedd5c20aa59b146495b860814"
-  integrity sha512-h2UrozBByQhL56XDboj/wjc/5Ny787eLQ++4ql7TecBdbLqbf+tlE62VeXKz30XVMN3iUVYUR/XmM/RIwLIXEg==
+  resolved "https://codeload.github.com/esteemapp/react-native-modal-dropdown/tar.gz/0269a57c8c248f91a3c599ea20ac106f43f27d1b"
   dependencies:
     deprecated-react-native-listview "0.0.5"
     prop-types "^15.6.0"
-
-react-native-modal-popover@0.0.12:
-  version "0.0.12"
-  resolved "https://registry.yarnpkg.com/react-native-modal-popover/-/react-native-modal-popover-0.0.12.tgz#5c0b5e9e0323490c3c5867821fc94b6582bfa3dc"
-  integrity sha512-uZQsTDcGOI8y/05L/Lb0OMBesJYYRWEc0pj2038a579LnDnJJpKay0kD654cQpA4Ozt3xbu4DMTGwenynBSEFg==
-  dependencies:
-    "@types/prop-types" "^15.5.5"
-    lodash.debounce "^4.0.8"
-    prop-types "^15.6.2"
 
 react-native-navigation-bar-color@^0.1.0:
   version "0.1.0"

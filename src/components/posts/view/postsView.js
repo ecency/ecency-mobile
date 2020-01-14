@@ -364,7 +364,7 @@ const PostsView = ({
               }
               return e;
             }}
-            //keyExtractor={(content, i) => `${get(content, 'permlink', '')}${i.toString()}`}
+            keyExtractor={(content, i) => `key-${i.toString()}`}
             onEndReached={() => _loadPosts()}
             removeClippedSubviews
             refreshing={refreshing}

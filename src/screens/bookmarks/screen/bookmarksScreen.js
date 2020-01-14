@@ -15,7 +15,7 @@ const BookmarksScreen = ({
   isLoading,
   intl,
   handleOnFavoritePress,
-  handleOnBookarkPress,
+  handleOnBookmarkPress,
   favorites,
   bookmarks,
   removeFavorite,
@@ -47,7 +47,7 @@ const BookmarksScreen = ({
           handleOnPress={() =>
             isFavorites
               ? handleOnFavoritePress(item.account)
-              : handleOnBookarkPress(item.permlink, item.author)
+              : handleOnBookmarkPress(item.permlink, item.author)
           }
           index={index}
           isClickable

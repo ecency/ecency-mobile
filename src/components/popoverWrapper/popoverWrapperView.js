@@ -1,6 +1,6 @@
 import React, { Fragment } from 'react';
 import { View, Text, TouchableOpacity } from 'react-native';
-import { Popover, PopoverController } from 'react-native-modal-popover';
+import { Popover, PopoverController } from '@esteemapp/react-native-modal-popover';
 
 import styles from './popoverWrapperStyles';
 
