@@ -180,8 +180,3 @@ const parseActiveVotes = (post, currentUserName) => {
 
   return post.active_votes;
 };
-
-export const unionWith = (array1, array2, matcher) => {
-  let concated = array1.concat(array2);
-  return uniqBy(concated, matcher);
-};

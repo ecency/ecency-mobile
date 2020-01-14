@@ -2,7 +2,7 @@
 import React, { Component } from 'react';
 import { connect } from 'react-redux';
 import { withNavigation } from 'react-navigation';
-import { get, has } from 'lodash';
+import { get, has, unionBy } from 'lodash';
 import { Alert } from 'react-native';
 
 // Providers
@@ -23,7 +23,6 @@ import { getIsFavorite, addFavorite, removeFavorite } from '../providers/esteem/
 
 // Utilitites
 import { getRcPower, getVotingPower } from '../utils/manaBar';
-import { unionWith } from '../utils/postParser';
 
 // Constants
 import { default as ROUTES } from '../constants/routeNames';
@@ -92,7 +91,7 @@ class ProfileContainer extends Component {
         start_permlink: query.permlink,
         limit: 10,
       }).then(result => {
-        let _comments = unionWith(comments, result, 'permlink');
+        let _comments = unionBy(comments, result, 'permlink');
         this.setState({
           comments: _comments,
         });
