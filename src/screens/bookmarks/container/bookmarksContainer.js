@@ -109,13 +109,14 @@ const BookmarksContainer = ({ currentAccount, intl, navigation }) => {
     }
   };
 
-  const _sortData = data =>
-    data.sort((a, b) => {
-      const dateA = new Date(a.created).getTime();
-      const dateB = new Date(b.created).getTime();
+  const _sortData = data => {
+    return data.sort((a, b) => {
+      const dateA = a.timestamp;
+      const dateB = b.timestamp;
 
-      return dateB > dateA ? 1 : -1;
+      return dateB - dateA;
     });
+  };
 
   return (
     <BookmarksScreen
