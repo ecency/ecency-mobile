@@ -325,7 +325,7 @@ const PostBody = ({
         style={{ width: isComment ? WIDTH - (32 + 29 * commentDepth) : WIDTH - 32 }}
         customStyle={customStyle}
         onMessage={_handleOnLinkPress}
-        customScript={script.toString()}
+        customScript={script}
         renderLoading={() => (isComment ? <CommentPlaceHolder /> : <PostPlaceHolder />)}
         startInLoadingState={true}
         onShouldStartLoadWithRequest={false}

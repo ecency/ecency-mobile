@@ -5,9 +5,10 @@ for (i = 0; i < images.length; i++) {
     type: 'image',
     href: images[i].getAttribute("src") || ''
   }
-  var resultStr = JSON.stringify(JSON.stringify(result)); // workaround
-  var message = 'window.ReactNativeWebView.postMessage(' + resultStr + ')';
+  // workaround
+  var resultStr = JSON.stringify(JSON.stringify(result));
   
+  var message = 'window.ReactNativeWebView.postMessage(' + resultStr + ')';
   images[i].setAttribute("onClick", message);
 }
 
