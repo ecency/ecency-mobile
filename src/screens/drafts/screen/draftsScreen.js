@@ -108,7 +108,7 @@ const DraftsScreen = ({
       />
 
       <ScrollableTabView
-        style={globalStyles.tabView}
+        style={[globalStyles.tabView, { paddingBottom: 40 }]}
         renderTabBar={() => (
           <TabBar
             style={styles.tabbar}

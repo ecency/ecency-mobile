@@ -105,7 +105,7 @@ const BookmarksScreen = ({
 
       <ScrollableTabView
         onChangeTab={event => setActiveTab(event.i)}
-        style={globalStyles.tabView}
+        style={[globalStyles.tabView, { paddingBottom: 40 }]}
         renderTabBar={() => (
           <TabBar
             style={styles.tabbar}
