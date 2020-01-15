@@ -334,7 +334,7 @@ const CommentBody = ({
         customStyle={customStyle}
         onMessage={__handleOnLinkPress}
         renderLoading={() => <CommentPlaceHolder />}
-        customScript={script.toString()}
+        customScript={script}
         startInLoadingState={true}
         onShouldStartLoadWithRequest={false}
         scrollEnabled={false}
