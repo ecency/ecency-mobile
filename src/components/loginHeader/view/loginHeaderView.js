@@ -36,7 +36,11 @@ class LoginHeaderView extends PureComponent {
               source={require('../../../assets/esteem_logo_transparent.png')}
             />
             <View style={styles.headerButton}>
-              <TextButton onPress={onPress} text={rightButtonText} />
+              <TextButton
+                onPress={onPress}
+                text={rightButtonText}
+                textStyle={{ color: '#357ce6' }}
+              />
             </View>
           </View>
           {!isKeyboardOpen && (
