@@ -831,7 +831,7 @@ export const unfollowUser = async (currentAccount, pin, data) => {
         {
           follower: `${data.follower}`,
           following: `${data.following}`,
-          what: [''],
+          what: [],
         },
       ]),
       required_auths: [],
