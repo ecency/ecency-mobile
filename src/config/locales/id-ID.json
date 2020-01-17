@@ -257,10 +257,10 @@
     "limited_length": "Panjang maksimum setiap tag harus 24",
     "limited_dash": "Gunakan satu tanda hubung di setiap tag",
     "limited_space": "Gunakan spasi untuk memisahkan tag",
-    "limited_lowercase": "Only use lower letters in tag",
-    "limited_characters": "Use only allowed characters in tag",
-    "limited_firstchar": "Tag must start with a letter",
-    "limited_lastchar": "Tag must end with letter or number"
+    "limited_lowercase": "Hanya menggunakan huruf kecil dalam tag",
+    "limited_characters": "Gunakan hanya karakter yang diizinkan dalam tag",
+    "limited_firstchar": "Tag harus dimulai dengan huruf",
+    "limited_lastchar": "Tag harus diakhiri dengan huruf atau angka"
   },
   "pincode": {
     "enter_text": "Masukkan PIN untuk membuka kunci",
@@ -306,9 +306,9 @@
     "fetch_error": "Gagal mengambil data, silakan coba lagi atau beri tahu kami di info@esteem.app",
     "connection_fail": "Koneksi gagal!",
     "connection_success": "Berhasil terhubung!",
-    "checking": "Checking...",
-    "not_existing_post": "The post does not exist! Please check permlink and author.",
-    "google_play_version": "We noticed that your device has old version of Google Play. Please update Google Play services and try again!"
+    "checking": "Mememriksa...",
+    "not_existing_post": "Pos tidak ada! Silakan periksa permlink dan penulis.",
+    "google_play_version": "Kami perhatikan bahwa perangkat Anda memiliki Google Play versi lama. Harap perbarui layanan Google Play dan coba lagi!"
   },
   "post": {
     "reblog_alert": "Anda yakin, anda ingin me-reblog?",
@@ -317,9 +317,9 @@
     "reblogged": "direblog Oleh",
     "sponsored": "DISPONSORI",
     "open_thread": "Buka Thread",
-    "save_to_local": "Save to the album",
-    "image_saved": "Image Saved to Photo Gallery",
-    "image_saved_error": "Error Saving Image"
+    "save_to_local": "Simpan ke album",
+    "image_saved": "Gambar Disimpan ke Galeri Foto",
+    "image_saved_error": "Kesalahan menyimpan gambar"
   },
   "drafts": {
     "title": "Konsep",
@@ -362,8 +362,8 @@
     "author_payout": "Pembayaran pencipta konten",
     "curation_payout": "Pembayaran Kurasi",
     "payout_date": "Pembayaran",
-    "beneficiaries": "Beneficiaries",
-    "warn_zero_payout": "Amount must reach $0.02 for payout",
+    "beneficiaries": "Penerima manfaat",
+    "warn_zero_payout": "Jumlah harus mencapai $ 0,02 untuk pembayaran",
     "breakdown": "Breakdown"
   },
   "post_dropdown": {
