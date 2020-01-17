@@ -4,6 +4,7 @@ import { connect } from 'react-redux';
 import { withNavigation } from 'react-navigation';
 import { get, has, unionBy } from 'lodash';
 import { Alert } from 'react-native';
+import { injectIntl } from 'react-intl';
 
 // Providers
 import {
@@ -23,6 +24,7 @@ import { getIsFavorite, addFavorite, removeFavorite } from '../providers/esteem/
 
 // Utilitites
 import { getRcPower, getVotingPower } from '../utils/manaBar';
+import { toastNotification } from '../redux/actions/uiAction';
 
 // Constants
 import { default as ROUTES } from '../constants/routeNames';
@@ -101,7 +103,7 @@ class ProfileContainer extends Component {
 
   _handleFollowUnfollowUser = async isFollowAction => {
     const { isFollowing, username } = this.state;
-    const { currentAccount, pinCode } = this.props;
+    const { currentAccount, pinCode, dispatch, intl } = this.props;
     const follower = get(currentAccount, 'name', '');
     const following = username;
 
@@ -122,6 +124,13 @@ class ProfileContainer extends Component {
       following,
     })
       .then(() => {
+        dispatch(
+          toastNotification(
+            intl.formatMessage({
+              id: isFollowing ? 'alert.success_unfollow' : 'alert.success_follow',
+            }),
+          ),
+        );
         this._profileActionDone();
       })
       .catch(err => {
@@ -129,11 +138,7 @@ class ProfileContainer extends Component {
       });
   };
 
-  _handleMuteUnmuteUser = isMuteAction => {
-    this.setState({
-      isProfileLoading: true,
-    });
-
+  _handleMuteUnmuteUser = async isMuteAction => {
     if (isMuteAction) {
       this._muteUser();
     } else {
@@ -143,15 +148,26 @@ class ProfileContainer extends Component {
 
   _muteUser = () => {
     const { username } = this.state;
-    const { currentAccount, pinCode } = this.props;
+    const { currentAccount, pinCode, dispatch, intl } = this.props;
     const follower = currentAccount.name;
     const following = username;
+
+    this.setState({
+      isProfileLoading: true,
+    });
 
     ignoreUser(currentAccount, pinCode, {
       follower,
       following,
     })
       .then(() => {
+        dispatch(
+          toastNotification(
+            intl.formatMessage({
+              id: 'alert.success_mute',
+            }),
+          ),
+        );
         this._profileActionDone();
       })
       .catch(err => {
@@ -161,7 +177,9 @@ class ProfileContainer extends Component {
 
   _profileActionDone = (error = null) => {
     const { username } = this.state;
-
+    this.setState({
+      isProfileLoading: false,
+    });
     if (error) {
       this.setState(
         {
@@ -255,9 +273,13 @@ class ProfileContainer extends Component {
   };
 
   _handleOnFavoritePress = (isFavorite = false) => {
-    const { currentAccount } = this.props;
+    const { currentAccount, dispatch, intl } = this.props;
     const { username } = this.state;
     let favoriteAction;
+
+    this.setState({
+      isProfileLoading: true,
+    });
 
     if (isFavorite) {
       favoriteAction = removeFavorite;
@@ -266,7 +288,14 @@ class ProfileContainer extends Component {
     }
 
     favoriteAction(currentAccount.name, username).then(() => {
-      this.setState({ isFavorite: !isFavorite });
+      dispatch(
+        toastNotification(
+          intl.formatMessage({
+            id: isFavorite ? 'alert.success_unfavorite' : 'alert.success_favorite',
+          }),
+        ),
+      );
+      this.setState({ isFavorite: !isFavorite, isProfileLoading: false });
     });
   };
 
@@ -404,5 +433,5 @@ const mapStateToProps = state => ({
   isHideImage: state.ui.hidePostsThumbnails,
 });
 
-export default connect(mapStateToProps)(withNavigation(ProfileContainer));
+export default connect(mapStateToProps)(injectIntl(withNavigation(ProfileContainer)));
 /* eslint-enable */

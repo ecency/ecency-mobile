@@ -1,6 +1,6 @@
 export default `
 var images = document.getElementsByTagName("IMG");
-for (i = 0; i < images.length; i++) {
+for (i = 0; i < images.length; i++) {  
   var result = {
     type: 'image',
     href: images[i].getAttribute("src") || ''
@@ -9,9 +9,10 @@ for (i = 0; i < images.length; i++) {
   var resultStr = JSON.stringify(JSON.stringify(result));
   
   var message = 'window.ReactNativeWebView.postMessage(' + resultStr + ')';
-  images[i].setAttribute("onClick", message);
+  if (!images[i].classList.contains("video-thumbnail") && !images[i].parentNode.classList.contains("markdown-external-link")) {
+    images[i].setAttribute("onClick", message);
+  }
 }
-
 document.addEventListener('click', function(event) {
   var el = event.target;
   // A element can be wrapped with inline element. Look parent elements.

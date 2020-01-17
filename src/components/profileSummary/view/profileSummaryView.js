@@ -56,7 +56,7 @@ class ProfileSummaryView extends PureComponent {
 
     // This funciton should have switch case but now only has one option therefor
     // temporarily I created with if statments
-    if (index === '0' && handleMuteUnmuteUser) {
+    if (index === 0 && handleMuteUnmuteUser) {
       handleMuteUnmuteUser(!isMuted);
     }
   };
@@ -201,18 +201,14 @@ class ProfileSummaryView extends PureComponent {
                 style={[styles.insetIconStyle]}
                 onPress={() => handleOnFavoritePress(isFavorite)}
               />
-              {isProfileLoading ? (
-                <ActivityIndicator style={styles.activityIndicator} />
-              ) : (
-                <IconButton
-                  backgroundColor="transparent"
-                  color="#c1c5c7"
-                  iconType="MaterialCommunityIcons"
-                  name={followButtonIcon}
-                  onPress={() => handleFollowUnfollowUser(!isFollowing)}
-                  size={20}
-                />
-              )}
+              <IconButton
+                backgroundColor="transparent"
+                color="#c1c5c7"
+                iconType="MaterialCommunityIcons"
+                name={followButtonIcon}
+                onPress={() => handleFollowUnfollowUser(!isFollowing)}
+                size={20}
+              />
               {isProfileLoading ? (
                 <ActivityIndicator style={styles.activityIndicator} />
               ) : (
