@@ -62,41 +62,41 @@
     "points": "Hadiah ESTM kepada seseorang",
     "transfer_to_saving": "Untuk Menyimpan",
     "powerUp": "Power Up",
-    "withdraw_to_saving": "Withdraw Saving",
+    "withdraw_to_saving": "Menarik Tabungan",
     "steemconnect_title": "Steemconnect Transfer",
     "next": "LANJUT",
     "delegate": "Delegasikan",
     "power_down": "Turunkan Daya Kekuatan",
     "withdraw_steem": "Withdraw Steem",
-    "withdraw_sbd": "Withdraw SBD",
-    "transfer_to_savings": "To Savings",
-    "convert": "Convert",
-    "escrow_transfer": "Escrow Transfer",
-    "escrow_dispute": "Escrow Dispute",
+    "withdraw_sbd": "Tarik SBD",
+    "transfer_to_savings": "Untuk Tabungan",
+    "convert": "Mengkonversi",
+    "escrow_transfer": "Transfer Escrow",
+    "escrow_dispute": "Sengketa Escrow",
     "escrow_release": "Escrow Release",
-    "escrow_approve": "Escrow Approve",
-    "cancel_transfer_from_savings": "Cancel From Savings",
+    "escrow_approve": "Escrow Menyetujui",
+    "cancel_transfer_from_savings": "Batalkan Dari Tabungan",
     "delegate_vesting_shares": "Delegasi",
-    "fill_convert_request": "Convert Executed",
-    "fill_transfer_from_savings": "Savings Executed",
-    "fill_vesting_withdraw": "PowerDown executed",
+    "fill_convert_request": "Konversi Dieksekusi",
+    "fill_transfer_from_savings": "Tabungan Dieksekusi",
+    "fill_vesting_withdraw": "PowerDown dieksekusi",
     "estm": {
       "title": "eSteem Poin",
       "buy": "DAPATKAN ESTM"
     },
     "savingsteem": {
-      "title": "STEEM Savings"
+      "title": "Tabungan STEEM"
     },
     "savingsbd": {
-      "title": "SBD Savings"
+      "title": "Tabungan SBD"
     },
     "steem": {
       "title": "STEEM",
-      "buy": "GET STEEM"
+      "buy": "DAPATKAN STEEM"
     },
     "sbd": {
       "title": "SBD",
-      "buy": "GET SBD"
+      "buy": "DAPATKAN SBD"
     },
     "steem_power": {
       "title": "STEEM POWER"
