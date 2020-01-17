@@ -143,7 +143,7 @@ class LoginContainer extends PureComponent {
   _handleSignUp = () => {
     const { intl } = this.props;
 
-    Linking.openURL('https://signup.steemit.com/?ref=esteem').catch(err =>
+    Linking.openURL('https://esteem.app/signup').catch(err =>
       Alert.alert(intl.formatMessage({ id: 'alert.error' }), err.message),
     );
   };
