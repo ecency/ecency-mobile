@@ -213,8 +213,8 @@ const MarkdownEditorView = ({
   return (
     <KeyboardAvoidingView
       style={styles.container}
-      keyboardVerticalOffset={Platform.select({ ios: 0, android: 25 })}
-      behavior={Platform.OS === 'ios' ? 'padding' : null}
+      keyboardVerticalOffset={Platform.select({ ios: 0, android: 30 })}
+      behavior={Platform.OS === 'ios' ? 'padding' : 'height'}
     >
       {!isPreviewActive ? (
         <ThemeContainer>
@@ -234,6 +234,7 @@ const MarkdownEditorView = ({
               innerRef={inputRef}
               editable={editable}
               contextMenuHidden={false}
+              autoGrow={false}
             />
           )}
         </ThemeContainer>
