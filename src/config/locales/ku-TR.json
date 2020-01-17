@@ -2,9 +2,9 @@
   "wallet": {
     "curation_reward": "Xelata Kuratorê",
     "author_reward": "Xelata Nivîskêr",
-    "comment_benefactor_reward": "Benefactor Reward",
+    "comment_benefactor_reward": "Xelata Xêrxwaziyê",
     "claim_reward_balance": "Claim Reward ",
-    "transfer": "Veguheztin",
+    "transfer": "Transfer",
     "transfer_to_vesting": "To Vesting",
     "transfer_from_savings": "From Savings",
     "withdraw_vesting": "Kêmhêz Bike",
@@ -15,7 +15,7 @@
     "vote": "Deng",
     "reblog": "Dîs-biweşîne",
     "login": "Têketin",
-    "incoming_transfer_title": "Veguheztina tê",
+    "incoming_transfer_title": "Transfera tê",
     "outgoing_transfer_title": "Transfera derdiçe",
     "checkin_extra": "Bonus",
     "delegation": "Şande",
@@ -63,12 +63,12 @@
     "transfer_to_saving": "To Saving",
     "powerUp": "Bihêz Bike",
     "withdraw_to_saving": "Withdraw Saving",
-    "steemconnect_title": "Veguheztina Steemconnectê",
+    "steemconnect_title": "Transfera Steemconnectê",
     "next": "PÊŞVE",
     "delegate": "Şande",
     "power_down": "Kêmhêz Bike",
     "withdraw_steem": "Withdraw Steem",
-    "withdraw_sbd": "Withdraw SBD",
+    "withdraw_sbd": "SBDê Vekişîne",
     "transfer_to_savings": "To Savings",
     "convert": "Veguherîne",
     "escrow_transfer": "Transfera Emanetî",
@@ -125,7 +125,7 @@
     "replies": "Bersiv",
     "mentions": "Gotûbêj",
     "reblogs": "Dîsweşandin",
-    "noactivity": "No new activity found"
+    "noactivity": "Çalakiya nû nehate dîtin"
   },
   "leaderboard": {
     "daily": "ROJANE",
@@ -149,7 +149,7 @@
     "hours": "demjimêr",
     "voting_power": "Hêza dengdanê",
     "login_to_see": "Têkevê û bibîne",
-    "follow_people": "Follow some people to fill your feed",
+    "follow_people": "Ji bo dagirtina herka xwe, hinek kesan bişopîne",
     "havent_commented": "hîna şîrove nehatiye kirin",
     "havent_posted": "heta niha ti tişt parve nebûye",
     "steem_power": "Hêza Steemê",
@@ -179,7 +179,7 @@
       "comment": "Şîrove",
       "mention": "Gotûbêj",
       "reblog": "Dîs-biweşîne",
-      "transfers": "Veguheztin"
+      "transfers": "Transfer"
     },
     "pincode": "Pincode",
     "reset_pin": "Pîn Koda Nûsazkirinê",
@@ -195,7 +195,7 @@
     },
     "feedback_success": "Epeyam bi serkeftî vebû",
     "feedback_fail": "Stînera epeyamê venebû",
-    "server_fail": "Server tine ye"
+    "server_fail": "Server ne li berdest e"
   },
   "voters": {
     "voters_info": "Agahiya Dengdêran",
@@ -203,7 +203,7 @@
   },
   "login": {
     "signin": "Têketin",
-    "signup": "Tomar bibe",
+    "signup": "JOIN NOW",
     "signin_title": "Tevahiya avantajên bikaranîna eSteemê bistîne",
     "username": "Navê bikarhêner",
     "password": "Pêborîn an WIF",
@@ -214,7 +214,7 @@
     "steemconnect_fee_description": "Dibe ku Steemconnect ji dayîna xelatan hinek pereyan bîstine"
   },
   "home": {
-    "feed": "Herik",
+    "feed": "Herk",
     "popular": "Populer",
     "top": "Sereke",
     "hot": "Germ",
@@ -246,14 +246,14 @@
   },
   "editor": {
     "title": "Sernav",
-    "tags": "Tags (separate by space)",
-    "default_placeholder": "Îro tu dixwazî li ser çi binivîsînî?",
-    "reply_placeholder": "Tu dixwazî li ser nivîsa jorîn çi binivîsînî?",
+    "tags": "Etîket (bi valahiyan ji hev diqete)",
+    "default_placeholder": "Tu îro dixwazî li ser çi binivîsî?",
+    "reply_placeholder": "Tu dixwazî li ser nivîsa jorîn çi binivîsî?",
     "publish": "Biweşîne",
     "reply": "Bibersivîne",
     "open_gallery": "Pêşangehê Veke",
     "capture_photo": "Wêneyekî bigire",
-    "limited_tags": "Only 10 tags allowed, remove some",
+    "limited_tags": "Tenê destûra 10 etîketan heye, hineka rake",
     "limited_length": "Maximum length of each tag should be 24",
     "limited_dash": "Use one dash in each tag",
     "limited_space": "Use space to separate tags",
@@ -265,12 +265,12 @@
   "pincode": {
     "enter_text": "Ji bo vekirinê PIN têxîne",
     "set_new": "PINa nû saz bike",
-    "write_again": "Dîsa binivîsîne",
+    "write_again": "Dîsa binivîse",
     "forgot_text": "Wey, Min ji bîr kir..."
   },
   "alert": {
     "success": "Serketî!",
-    "successful": "Serketî",
+    "successful": "Serkeftî",
     "allRead": "Hemû danezanan wekî xwendî nîşan bike",
     "claim_reward_balance_ok": "Xelat hate stendin",
     "fail": "Biserneket!",
@@ -282,6 +282,12 @@
     "permission_text": "Ji kerema xwe, biçe Sazkariyên telefonê û destûrên eSteemê veke.",
     "success_rebloged": "Reblog bû!",
     "already_rebloged": "Jixwe hatiye dîs-weşandin!",
+    "success_favorite": "Favorite added!",
+    "success_unfavorite": "Favorite removed!",
+    "success_follow": "Follow success!",
+    "success_mute": "Mute success!",
+    "success_unmute": "Unmute success!",
+    "success_unfollow": "Unfollow success!",
     "warning": "Hişyarî",
     "invalid_pincode": "Koda PINê nederbasdar e, kontrol bike û dîsa biceribîne.",
     "remove_alert": "Bi rastî jî tu dixwazî rake?",
@@ -344,7 +350,7 @@
     "search": "Di bijardeyan de bigere"
   },
   "auth": {
-    "invalid_pin": "Invalid pin code, please check and try again",
+    "invalid_pin": "Koda PINê nederbasdar e, kontrol bike û dîsa biceribîne",
     "invalid_username": "Navê bikarhêner nederbasdar e, kontrol bike û dîsa biceribîne",
     "already_logged": "Jixwe tu têketî ye, ji kerema xwe tevlîkirina hesabekî din biceribîne",
     "invalid_credentials": "Navê bikarhêner nederbasdar e, kontrol bike û dîsa biceribîne",
@@ -396,12 +402,12 @@
     "memo_desc": "Ev bîrname gelemper e",
     "to_placeholder": "Navê bikarhêner",
     "memo_placeholder": "Notên xwe li vir binivîse",
-    "transfer_token": "Veguheztin",
+    "transfer_token": "Transfer",
     "points": "Gift ESTM to someone",
     "transfer_to_saving": "Transfer To Saving",
     "powerUp": "Bihêz Bike",
     "withdraw_to_saving": "Withdraw To Saving",
-    "steemconnect_title": "Veguheztina Steemconnectê",
+    "steemconnect_title": "Transfera Steemconnectê",
     "estimated_weekly": "Texmînkirina Heftane",
     "destination_accounts": "Hesabên Armanc",
     "stop_information": "Tu dixwazî rawestînî?",
