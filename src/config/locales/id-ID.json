@@ -128,9 +128,9 @@
     "noactivity": "Tidak ada aktivitas baru yang ditemukan"
   },
   "leaderboard": {
-    "daily": "DAILY",
-    "weekly": "WEEKLY",
-    "monthly": "MONTHLY"
+    "daily": "HARIAN",
+    "weekly": "MINGGUAN",
+    "monthly": "BULANAN"
   },
   "messages": {
     "comingsoon": "Fungsi pesan akan segera hadir!"
@@ -149,7 +149,7 @@
     "hours": "jam",
     "voting_power": "Kekuatan Suara",
     "login_to_see": "Masuk untuk melihat",
-    "follow_people": "Follow some people to fill your feed",
+    "follow_people": "Ikuti beberapa orang untuk mengisi umpan Anda",
     "havent_commented": "belum berkomentar",
     "havent_posted": "belum pernah mengirimkan sesuatu",
     "steem_power": "Kekuatan Steem",
@@ -159,9 +159,9 @@
     "steem_dollars": "Steem Dollars",
     "savings": "Tabungan",
     "edit": {
-      "display_name": "Display Name",
-      "about": "About",
-      "location": "Location",
+      "display_name": "Nama Tampilan",
+      "about": "Tentang",
+      "location": "Lokasi",
       "website": "Website"
     }
   },
@@ -218,7 +218,7 @@
     "popular": "Populer",
     "top": "Top",
     "hot": "Hot",
-    "new": "New",
+    "new": "Baru",
     "blog": "Blog"
   },
   "side_menu": {
@@ -246,17 +246,17 @@
   },
   "editor": {
     "title": "Judul",
-    "tags": "Tags (separate by space)",
+    "tags": "Tag (dipisahkan oleh spasi)",
     "default_placeholder": "Apa yang ingin Anda tulis tentang hari ini?",
     "reply_placeholder": "Apa yang ingin Anda tulis tentang posting di atas?",
     "publish": "Terbitkan",
     "reply": "Balas",
     "open_gallery": "Buka Album",
     "capture_photo": "Ambil Foto",
-    "limited_tags": "Only 10 tags allowed, remove some",
-    "limited_length": "Maximum length of each tag should be 24",
-    "limited_dash": "Use one dash in each tag",
-    "limited_space": "Use space to separate tags",
+    "limited_tags": "Hanya 10 tag yang diizinkan, hapus beberapa",
+    "limited_length": "Panjang maksimum setiap tag harus 24",
+    "limited_dash": "Gunakan satu tanda hubung di setiap tag",
+    "limited_space": "Gunakan spasi untuk memisahkan tag",
     "limited_lowercase": "Only use lower letters in tag",
     "limited_characters": "Use only allowed characters in tag",
     "limited_firstchar": "Tag must start with a letter",
