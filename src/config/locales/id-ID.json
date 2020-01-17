@@ -414,14 +414,14 @@
     "percent": "Persen",
     "auto_vests": "Vests Otomatis",
     "save": "Simpan",
-    "percent_information": "Percent info",
+    "percent_information": "Informasi persen",
     "next": "LANJUT",
     "delegate": "Delegasikan",
     "power_down": "Menurunkan daya",
     "withdraw_steem": "Withdraw Steem",
     "withdraw_sbd": "Tarik Steem Dollar",
-    "incoming_funds": "Incoming Funds",
-    "stop": "Stop"
+    "incoming_funds": "Dana masuk",
+    "stop": "Berhenti"
   },
   "boost": {
     "title": "Dapatkan poin eSteem",
@@ -429,11 +429,11 @@
     "next": "LANJUT"
   },
   "free_estm": {
-    "title": "Free ESTM",
+    "title": "ESTM Gratis",
     "button": "SPIN & WIN",
     "get_spin": "5 SPINS",
-    "spin_right": "Spin Left",
-    "timer_text": "Next free spin in"
+    "spin_right": "Spin tersisa",
+    "timer_text": "Spin gratis berikutnya"
   },
   "promote": {
     "title": "Promosikan",
