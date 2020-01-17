@@ -105,13 +105,13 @@
   "notification": {
     "vote": "voted",
     "unvote": "unvoted",
-    "reply": "replied to",
-    "mention": "mentioned in",
+    "reply": "balas untuk",
+    "mention": "diasebutkan dalam",
     "follow": "mengikuti anda",
     "unfollow": "berhenti mengikuti anda",
     "ignore": "mengabaikan anda",
     "reblog": "reblogged",
-    "transfer": "transferred",
+    "transfer": "ditransfer",
     "notification": "Pemberitahuan",
     "leaderboard": "Papan Peringkat",
     "epoint": "Poin",
@@ -121,11 +121,11 @@
     "this_week": "Minggu ini",
     "this_month": "Bulan ini",
     "older_then": "Lebih Lama Dari Sebulan",
-    "activities": "All",
+    "activities": "Semua",
     "replies": "Balasan",
-    "mentions": "Mentions",
-    "reblogs": "Reblogs",
-    "noactivity": "No new activity found"
+    "mentions": "Menyebutkan",
+    "reblogs": "Menampilkan kembali",
+    "noactivity": "Tidak ada aktivitas baru yang ditemukan"
   },
   "leaderboard": {
     "daily": "DAILY",
@@ -456,9 +456,9 @@
   },
   "dsteem": {
     "date_error": {
-      "device_time": "Your device time;",
-      "current_time": "Current time;",
-      "information": "We noticed that your device has incorrect date or time. Please fix Date & Time or Set Automatically and try again."
+      "device_time": "Waktu perangkat Anda;",
+      "current_time": "Waktu saat ini;",
+      "information": "Kami perhatikan bahwa perangkat Anda memiliki tanggal atau waktu yang salah. Harap perbaiki Tanggal & Waktu atau Setel Secara Otomatis dan coba lagi."
     }
   },
   "comments": {
