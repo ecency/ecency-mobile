@@ -125,7 +125,7 @@
     "replies": "Odpowiedzi",
     "mentions": "Mentions",
     "reblogs": "Reblogs",
-    "noactivity": "No new activity found"
+    "noactivity": "No recent activity"
   },
   "leaderboard": {
     "daily": "DAILY",
@@ -246,9 +246,9 @@
   },
   "editor": {
     "title": "Tytuł",
-    "tags": "Tags (separate by space)",
-    "default_placeholder": "Co chciałbyś dziś napisać?",
-    "reply_placeholder": "Co chcesz napisać powyżej wpisu?",
+    "tags": "Tags (separate with space)",
+    "default_placeholder": "Tell us something...",
+    "reply_placeholder": "Add your reply...",
     "publish": "Opublikuj",
     "reply": "Odpowiedz",
     "open_gallery": "Otwórz galerię",
