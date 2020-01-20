@@ -125,7 +125,7 @@
     "replies": "Cavablar",
     "mentions": "Mentions",
     "reblogs": "Reblogs",
-    "noactivity": "No new activity found"
+    "noactivity": "No recent activity"
   },
   "leaderboard": {
     "daily": "DAILY",
@@ -246,9 +246,9 @@
   },
   "editor": {
     "title": "Başlıq",
-    "tags": "Tags (separate by space)",
-    "default_placeholder": "Bugün nə haqqında yazmaq istəyirsən?",
-    "reply_placeholder": "Yuxarıdakı göndəriş haqqında nə yazmaq istəyirsən?",
+    "tags": "Tags (separate with space)",
+    "default_placeholder": "Tell us something...",
+    "reply_placeholder": "Add your reply...",
     "publish": "Dərc et",
     "reply": "Cavabla",
     "open_gallery": "Qalereyanı Aç",
