@@ -125,7 +125,7 @@
     "replies": "Bersiv",
     "mentions": "Gotûbêj",
     "reblogs": "Dîsweşandin",
-    "noactivity": "Çalakiya nû nehate dîtin"
+    "noactivity": "No recent activity"
   },
   "leaderboard": {
     "daily": "ROJANE",
@@ -246,9 +246,9 @@
   },
   "editor": {
     "title": "Sernav",
-    "tags": "Etîket (bi valahiyan ji hev diqete)",
-    "default_placeholder": "Tu îro dixwazî li ser çi binivîsî?",
-    "reply_placeholder": "Tu dixwazî li ser nivîsa jorîn çi binivîsî?",
+    "tags": "Tags (separate with space)",
+    "default_placeholder": "Tell us something...",
+    "reply_placeholder": "Add your reply...",
     "publish": "Biweşîne",
     "reply": "Bibersivîne",
     "open_gallery": "Pêşangehê Veke",
