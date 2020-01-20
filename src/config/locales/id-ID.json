@@ -125,7 +125,7 @@
     "replies": "Balasan",
     "mentions": "Menyebutkan",
     "reblogs": "Menampilkan kembali",
-    "noactivity": "Tidak ada aktivitas baru yang ditemukan"
+    "noactivity": "No recent activity"
   },
   "leaderboard": {
     "daily": "HARIAN",
@@ -246,9 +246,9 @@
   },
   "editor": {
     "title": "Judul",
-    "tags": "Tag (dipisahkan oleh spasi)",
-    "default_placeholder": "Apa yang ingin Anda tulis tentang hari ini?",
-    "reply_placeholder": "Apa yang ingin Anda tulis tentang posting di atas?",
+    "tags": "Tags (separate with space)",
+    "default_placeholder": "Tell us something...",
+    "reply_placeholder": "Add your reply...",
     "publish": "Terbitkan",
     "reply": "Balas",
     "open_gallery": "Buka Album",
