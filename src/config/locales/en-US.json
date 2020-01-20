@@ -246,9 +246,9 @@
   },
   "editor": {
     "title": "Title",
-    "tags": "Tags (separate by space)",
-    "default_placeholder": "What would you like to write about today?",
-    "reply_placeholder": "What would you like to write about above post?",
+    "tags": "Tags (separate with space)",
+    "default_placeholder": "Tell us something...",
+    "reply_placeholder": "Add your reply...",
     "publish": "Publish",
     "reply": "Reply",
     "open_gallery": "Open Gallery",
