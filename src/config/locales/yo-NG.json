@@ -125,7 +125,7 @@
     "replies": "Ifesi",
     "mentions": "Mentions",
     "reblogs": "Reblogs",
-    "noactivity": "No new activity found"
+    "noactivity": "No recent activity"
   },
   "leaderboard": {
     "daily": "DAILY",
@@ -246,9 +246,9 @@
   },
   "editor": {
     "title": "Akole",
-    "tags": "Tags (separate by space)",
-    "default_placeholder": "Kilo fe kosile loni?",
-    "reply_placeholder": "Kilo fe ko nipe oro akosile towa ni oke?",
+    "tags": "Tags (separate with space)",
+    "default_placeholder": "Tell us something...",
+    "reply_placeholder": "Add your reply...",
     "publish": "Ṣe atẹjade",
     "reply": "Fesi",
     "open_gallery": "Open Gallery",
