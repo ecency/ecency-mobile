@@ -125,7 +125,7 @@
     "replies": "返信",
     "mentions": "メンション",
     "reblogs": "リブログ",
-    "noactivity": "新着アクティビティはありません"
+    "noactivity": "No recent activity"
   },
   "leaderboard": {
     "daily": "日間",
@@ -246,9 +246,9 @@
   },
   "editor": {
     "title": "タイトル",
-    "tags": "タグ (スペース区切り)",
-    "default_placeholder": "今日のことについて何か投稿してみませんか？",
-    "reply_placeholder": "投稿について何かコメントしてみませんか？",
+    "tags": "Tags (separate with space)",
+    "default_placeholder": "Tell us something...",
+    "reply_placeholder": "Add your reply...",
     "publish": "公開",
     "reply": "返信",
     "open_gallery": "ギャラリーを開く",
