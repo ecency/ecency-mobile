@@ -452,7 +452,7 @@ class EditorContainer extends Component {
   _handleDatePickerChange = async (datePickerValue, fields) => {
     const { currentAccount, pinCode, intl } = this.props;
 
-    const params = get(currentAccount, 'json_metadata', '');
+    const json = get(currentAccount, 'json_metadata', '');
 
     let hasPostingPerm = false;
 
@@ -464,7 +464,7 @@ class EditorContainer extends Component {
     if (hasPostingPerm) {
       this._submitPost(fields, datePickerValue);
     } else {
-      await grantPostingPermission(params, pinCode, currentAccount)
+      await grantPostingPermission(json, pinCode, currentAccount)
         .then(() => {
           this._submitPost(fields, datePickerValue);
         })

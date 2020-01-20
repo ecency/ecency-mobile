@@ -203,7 +203,7 @@ const PointsContainer = ({
       .catch(error => {
         if (error) {
           setIsLoading(false);
-          dispatch(toastNotification(intl.formatMessage({ id: 'alert.fail' })));
+          dispatch(toastNotification(intl.formatMessage({ id: 'alert.key_warning' })));
         }
       });
   };
