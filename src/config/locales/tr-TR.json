@@ -125,7 +125,7 @@
     "replies": "Yorumlar",
     "mentions": "Mentions",
     "reblogs": "Reblogs",
-    "noactivity": "No new activity found"
+    "noactivity": "No recent activity"
   },
   "leaderboard": {
     "daily": "DAILY",
@@ -246,9 +246,9 @@
   },
   "editor": {
     "title": "Başlık",
-    "tags": "Tags (separate by space)",
-    "default_placeholder": "Bu gün ne hakkında yazmak istersin?",
-    "reply_placeholder": "Yukarıdaki yazi hakkinda nasil bir cevap yazmak istersin?",
+    "tags": "Tags (separate with space)",
+    "default_placeholder": "Tell us something...",
+    "reply_placeholder": "Add your reply...",
     "publish": "Yayınla",
     "reply": "Cevapla",
     "open_gallery": "Open Gallery",
