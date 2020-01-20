@@ -125,7 +125,7 @@
     "replies": "Réponses",
     "mentions": "Mentions",
     "reblogs": "Reblogs",
-    "noactivity": "No new activity found"
+    "noactivity": "No recent activity"
   },
   "leaderboard": {
     "daily": "QUOTIDIEN",
@@ -246,9 +246,9 @@
   },
   "editor": {
     "title": "Titre",
-    "tags": "Tags (separate by space)",
-    "default_placeholder": "Qu’aimeriez-vous écrire aujourd'hui ?",
-    "reply_placeholder": "Qu'aimeriez-vous écrire à propos de l'article ci-dessus ?",
+    "tags": "Tags (separate with space)",
+    "default_placeholder": "Tell us something...",
+    "reply_placeholder": "Add your reply...",
     "publish": "Publier",
     "reply": "Répondre",
     "open_gallery": "Ouvrir la galerie",
