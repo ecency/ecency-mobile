@@ -125,7 +125,7 @@
     "replies": "Răspunsuri",
     "mentions": "Menționări",
     "reblogs": "Redistribuiri",
-    "noactivity": "No new activity found"
+    "noactivity": "No recent activity"
   },
   "leaderboard": {
     "daily": "ZILNIC",
@@ -246,9 +246,9 @@
   },
   "editor": {
     "title": "Titlu",
-    "tags": "Tags (separate by space)",
-    "default_placeholder": "Despre ce vrei să scrii azi?",
-    "reply_placeholder": "Ce ai vrea să scrii despre postarea respectivă?",
+    "tags": "Tags (separate with space)",
+    "default_placeholder": "Tell us something...",
+    "reply_placeholder": "Add your reply...",
     "publish": "Publică",
     "reply": "Răspunde",
     "open_gallery": "Deschide Galeria",
