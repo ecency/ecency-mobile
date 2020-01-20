@@ -125,7 +125,7 @@
     "replies": "返信",
     "mentions": "メンション",
     "reblogs": "リブログ",
-    "noactivity": "No recent activity"
+    "noactivity": "最近のアクティビティがありません"
   },
   "leaderboard": {
     "daily": "日間",
@@ -246,7 +246,7 @@
   },
   "editor": {
     "title": "タイトル",
-    "tags": "Tags (separate with space)",
+    "tags": "タグ (スペース区切り)",
     "default_placeholder": "Tell us something...",
     "reply_placeholder": "Add your reply...",
     "publish": "公開",
