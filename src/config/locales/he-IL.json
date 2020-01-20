@@ -125,7 +125,7 @@
     "replies": "תשובות",
     "mentions": "Mentions",
     "reblogs": "Reblogs",
-    "noactivity": "No new activity found"
+    "noactivity": "No recent activity"
   },
   "leaderboard": {
     "daily": "DAILY",
@@ -246,9 +246,9 @@
   },
   "editor": {
     "title": "כותרת",
-    "tags": "Tags (separate by space)",
-    "default_placeholder": "על מה תרצה לכתוב, היום?",
-    "reply_placeholder": "מה תרצה לכתוב לגבי הפוסט הנ\"ל?",
+    "tags": "Tags (separate with space)",
+    "default_placeholder": "Tell us something...",
+    "reply_placeholder": "Add your reply...",
     "publish": "פרסם\\י",
     "reply": "השב\\י",
     "open_gallery": "Open Gallery",
