@@ -125,7 +125,7 @@
     "replies": "回复",
     "mentions": "Mentions",
     "reblogs": "Reblogs",
-    "noactivity": "No new activity found"
+    "noactivity": "No recent activity"
   },
   "leaderboard": {
     "daily": "DAILY",
@@ -246,9 +246,9 @@
   },
   "editor": {
     "title": "标题",
-    "tags": "Tags (separate by space)",
-    "default_placeholder": "今天您想要写些什么？",
-    "reply_placeholder": "您想要在帖子上面写些什么？",
+    "tags": "Tags (separate with space)",
+    "default_placeholder": "Tell us something...",
+    "reply_placeholder": "Add your reply...",
     "publish": "发布",
     "reply": "回复",
     "open_gallery": "Open Gallery",
