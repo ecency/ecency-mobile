@@ -125,7 +125,7 @@
     "replies": "Replies",
     "mentions": "Mentions",
     "reblogs": "Reblogs",
-    "noactivity": "No new activity found"
+    "noactivity": "No recent activity"
   },
   "leaderboard": {
     "daily": "DAILY",
@@ -246,9 +246,9 @@
   },
   "editor": {
     "title": "Title",
-    "tags": "Tags (separate by space)",
-    "default_placeholder": "Wetin you go like yan about today?",
-    "reply_placeholder": "Wetin you go like yan about the matter for up",
+    "tags": "Tags (separate with space)",
+    "default_placeholder": "Tell us something...",
+    "reply_placeholder": "Add your reply...",
     "publish": "Post am",
     "reply": "Reply",
     "open_gallery": "Open Picture",
