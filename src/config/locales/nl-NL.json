@@ -125,7 +125,7 @@
     "replies": "Reacties",
     "mentions": "Mentions",
     "reblogs": "Reblogs",
-    "noactivity": "No new activity found"
+    "noactivity": "No recent activity"
   },
   "leaderboard": {
     "daily": "DAILY",
@@ -246,9 +246,9 @@
   },
   "editor": {
     "title": "Titel",
-    "tags": "Tags (separate by space)",
-    "default_placeholder": "Waar zou je vandaag over willen schrijven?",
-    "reply_placeholder": "Wat zou je willen schrijven over bovenstaand bericht?",
+    "tags": "Tags (separate with space)",
+    "default_placeholder": "Tell us something...",
+    "reply_placeholder": "Add your reply...",
     "publish": "Publiceer",
     "reply": "Reageer",
     "open_gallery": "Open Gallery",
