@@ -17,6 +17,7 @@ import { isToday, isYesterday, isThisWeek, isThisMonth } from '../../../utils/ti
 
 // Styles
 import styles from './notificationStyles';
+import globalStyles from '../../../globalStyles';
 
 class NotificationView extends PureComponent {
   /* Props
@@ -210,10 +211,8 @@ class NotificationView extends PureComponent {
                 )}
               />
             ) : (
-              <Text style={styles.text}>
-                {intl.formatMessage({
-                  id: 'notification.noactivity',
-                })}
+              <Text style={globalStyles.hintText}>
+                {intl.formatMessage({ id: 'notification.noactivity' })}
               </Text>
             )
           }
