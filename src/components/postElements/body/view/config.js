@@ -1,7 +1,6 @@
 'use strict';
 
 const customBodyScript = `
-setTimeout(function() { 
 var images = document.getElementsByTagName("IMG");
 for (i = 0; i < images.length; i++) {  
   var result = {
@@ -119,7 +118,6 @@ document.addEventListener('click', function(event) {
   var author = el.getAttribute('data-author').toString();
   window.ReactNativeWebView.postMessage(JSON.stringify(author));
 })
-}, 300);
 true;
 `;
 

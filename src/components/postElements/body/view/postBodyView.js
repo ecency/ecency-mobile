@@ -330,6 +330,8 @@ const PostBody = ({
         startInLoadingState={true}
         onShouldStartLoadWithRequest={false}
         scrollEnabled={false}
+        scalesPageToFit={false}
+        zoomable={false}
       />
     </Fragment>
   );

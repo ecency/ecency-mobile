@@ -326,18 +326,18 @@ const CommentBody = ({
       </Modal>
       <AutoHeightWebView
         key={created.toString()}
-        source={{
-          html: html,
-        }}
+        source={{ html }}
         allowsFullscreenVideo={true}
         style={{ width: WIDTH - (32 + 34 * (commentDepth % 6)) }}
         customStyle={customStyle}
         onMessage={__handleOnLinkPress}
-        renderLoading={() => <CommentPlaceHolder />}
         customScript={customBodyScript}
+        renderLoading={() => <CommentPlaceHolder />}
         startInLoadingState={true}
         onShouldStartLoadWithRequest={false}
         scrollEnabled={false}
+        scalesPageToFit={false}
+        zoomable={false}
       />
     </Fragment>
   );
