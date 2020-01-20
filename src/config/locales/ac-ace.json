@@ -125,7 +125,7 @@
     "replies": "Balah",
     "mentions": "Mentions",
     "reblogs": "Reblogs",
-    "noactivity": "No new activity found"
+    "noactivity": "No recent activity"
   },
   "leaderboard": {
     "daily": "DAILY",
@@ -246,9 +246,9 @@
   },
   "editor": {
     "title": "Judul",
-    "tags": "Tags (separate by space)",
-    "default_placeholder": "Peu galak neu tuleh keu urönyoe?",
-    "reply_placeholder": "Teuntang peu neu neuk tuleh ata diateuh?",
+    "tags": "Tags (separate with space)",
+    "default_placeholder": "Tell us something...",
+    "reply_placeholder": "Add your reply...",
     "publish": "Peudëuh",
     "reply": "Balah",
     "open_gallery": "Open Gallery",
