@@ -125,7 +125,7 @@
     "replies": "जबाबें",
     "mentions": "Mentions",
     "reblogs": "Reblogs",
-    "noactivity": "No new activity found"
+    "noactivity": "No recent activity"
   },
   "leaderboard": {
     "daily": "DAILY",
@@ -246,9 +246,9 @@
   },
   "editor": {
     "title": "शीर्षक",
-    "tags": "Tags (separate by space)",
-    "default_placeholder": "आज के बारें में आप क्या लिखना चाहेंगे?",
-    "reply_placeholder": "ऊपर वाली पोस्ट के बारें में आप क्या लिखना चाहेंगे?",
+    "tags": "Tags (separate with space)",
+    "default_placeholder": "Tell us something...",
+    "reply_placeholder": "Add your reply...",
     "publish": "प्रकाशित करें",
     "reply": "जबाब दें",
     "open_gallery": "गैलरी खोलें",
