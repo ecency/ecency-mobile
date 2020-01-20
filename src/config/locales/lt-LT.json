@@ -125,7 +125,7 @@
     "replies": "Atsakymai",
     "mentions": "Mentions",
     "reblogs": "Reblogs",
-    "noactivity": "No new activity found"
+    "noactivity": "No recent activity"
   },
   "leaderboard": {
     "daily": "DAILY",
@@ -246,9 +246,9 @@
   },
   "editor": {
     "title": "Pavadinimas",
-    "tags": "Tags (separate by space)",
-    "default_placeholder": "Apie ką norėtumėte rašyti šiandien?",
-    "reply_placeholder": "Ką norėtumėte parašyti po įrašu?",
+    "tags": "Tags (separate with space)",
+    "default_placeholder": "Tell us something...",
+    "reply_placeholder": "Add your reply...",
     "publish": "Skelbti",
     "reply": "Atsakyti",
     "open_gallery": "Open Gallery",
