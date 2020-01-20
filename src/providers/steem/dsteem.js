@@ -1178,6 +1178,73 @@ export const boost = (currentAccount, pinCode, point, permlink, author) => {
   return Promise.reject(new Error('Private key permission issue!'));
 };
 
+export const grantPostingPermission = async (params, pin, currentAccount) => {
+  const digitPinCode = getDigitPinCode(pin);
+  const key = getActiveKey(get(currentAccount, 'local'), digitPinCode);
+
+  const newPosting = Object.assign(
+    {},
+    { ...get(currentAccount, 'posting') },
+    {
+      account_auths: [
+        ...get(currentAccount, 'posting.account_auths'),
+        ['esteemapp', get(currentAccount, 'posting.weight_threshold')],
+      ],
+    },
+  );
+  if (get(currentAccount, 'local.authType') === AUTH_TYPE.STEEM_CONNECT) {
+    const token = decryptKey(get(currentAccount, 'local.accessToken'), digitPinCode);
+    const api = new steemconnect.Client({
+      accessToken: token,
+    });
+    const _params = {
+      account: get(currentAccount, 'name'),
+      posting: newPosting,
+      memo_key: get(currentAccount, 'memo_key'),
+      json_metadata: jsonStringify(params),
+    };
+
+    const opArray = [['account_update', _params]];
+
+    return api
+      .broadcast(opArray)
+      .then(resp => resp.result)
+      .catch(error => console.log(error));
+  }
+
+  if (key) {
+    newPosting.account_auths.sort();
+    const opArray = [
+      [
+        'account_update',
+        {
+          account: get(currentAccount, 'name'),
+          memo_key: get(currentAccount, 'memo_key'),
+          json_metadata: jsonStringify(params),
+          posting: newPosting,
+        },
+      ],
+    ];
+    const privateKey = PrivateKey.fromString(key);
+
+    return new Promise((resolve, reject) => {
+      client.broadcast
+        .sendOperations(opArray, privateKey)
+        .then(result => {
+          resolve(result);
+        })
+        .catch(error => {
+          if (get(error, 'jse_info.code') === 4030100) {
+            error.message = getDsteemDateErrorMessage(error);
+          }
+          reject(error);
+        });
+    });
+  }
+
+  return Promise.reject(new Error('Private key permission issue!'));
+};
+
 export const profileUpdate = async (params, pin, currentAccount) => {
   const digitPinCode = getDigitPinCode(pin);
   const key = getActiveKey(get(currentAccount, 'local'), digitPinCode);
