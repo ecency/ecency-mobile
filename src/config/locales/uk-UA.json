@@ -125,7 +125,7 @@
     "replies": "Відповіді",
     "mentions": "Згадування",
     "reblogs": "Рестіми",
-    "noactivity": "Нову активність не знайдено"
+    "noactivity": "No recent activity"
   },
   "leaderboard": {
     "daily": "ЩОДЕННО",
@@ -246,9 +246,9 @@
   },
   "editor": {
     "title": "Заголовок",
-    "tags": "Теги (розділені пробілом)",
-    "default_placeholder": "Що б ви хотіли написати сьогодні?",
-    "reply_placeholder": "Що ви хотіли б написати про вищезгаданий допис?",
+    "tags": "Tags (separate with space)",
+    "default_placeholder": "Tell us something...",
+    "reply_placeholder": "Add your reply...",
     "publish": "Опублікувати",
     "reply": "Відповісти",
     "open_gallery": "Відкрити список світлин",
