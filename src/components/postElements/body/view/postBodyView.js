@@ -9,7 +9,7 @@ import get from 'lodash/get';
 import ImageViewer from 'react-native-image-zoom-viewer';
 import RNFetchBlob from 'rn-fetch-blob';
 
-import script from './config';
+import { customBodyScript } from './config';
 import { PostPlaceHolder, CommentPlaceHolder } from '../../../basicUIElements';
 
 // Constants
@@ -322,10 +322,10 @@ const PostBody = ({
       <AutoHeightWebView
         source={{ html }}
         allowsFullscreenVideo={true}
-        style={{ width: isComment ? WIDTH - (32 + 29 * commentDepth) : WIDTH - 32 }}
+        style={{ width: isComment ? WIDTH - (32 + 34 * (commentDepth % 6)) : WIDTH - 32 }}
         customStyle={customStyle}
         onMessage={_handleOnLinkPress}
-        customScript={script}
+        customScript={customBodyScript}
         renderLoading={() => (isComment ? <CommentPlaceHolder /> : <PostPlaceHolder />)}
         startInLoadingState={true}
         onShouldStartLoadWithRequest={false}

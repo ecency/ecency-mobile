@@ -14,7 +14,7 @@ import { navigate } from '../../../../navigation/service';
 import { default as ROUTES } from '../../../../constants/routeNames';
 
 import { CommentPlaceHolder } from '../../../basicUIElements';
-import script from './config';
+import { customBodyScript } from './config';
 
 // Styles
 
@@ -330,11 +330,11 @@ const CommentBody = ({
           html: html,
         }}
         allowsFullscreenVideo={true}
-        style={{ width: WIDTH - (32 + 34 * commentDepth) }}
+        style={{ width: WIDTH - (32 + 34 * (commentDepth % 6)) }}
         customStyle={customStyle}
         onMessage={__handleOnLinkPress}
         renderLoading={() => <CommentPlaceHolder />}
-        customScript={script}
+        customScript={customBodyScript}
         startInLoadingState={true}
         onShouldStartLoadWithRequest={false}
         scrollEnabled={false}
