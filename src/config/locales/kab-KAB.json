@@ -125,7 +125,7 @@
     "replies": "Tiririyin",
     "mentions": "Mentions",
     "reblogs": "Reblogs",
-    "noactivity": "No new activity found"
+    "noactivity": "No recent activity"
   },
   "leaderboard": {
     "daily": "N YAL ASS",
@@ -246,9 +246,9 @@
   },
   "editor": {
     "title": "Azwel",
-    "tags": "Tags (separate by space)",
-    "default_placeholder": "Ɣef acu tebɣiḍ ad d-taruḍ ass-agi?",
-    "reply_placeholder": "D acu tebɣiḍ ad d-taruḍ ɣef tsuffeɣt-a n ufella?",
+    "tags": "Tags (separate with space)",
+    "default_placeholder": "Tell us something...",
+    "reply_placeholder": "Add your reply...",
     "publish": "Suffeɣ-d",
     "reply": "Err",
     "open_gallery": "Open Gallery",
