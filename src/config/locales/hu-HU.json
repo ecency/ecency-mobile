@@ -125,7 +125,7 @@
     "replies": "Válaszok",
     "mentions": "Említések",
     "reblogs": "Megosztások",
-    "noactivity": "Nincs új aktivitás"
+    "noactivity": "No recent activity"
   },
   "leaderboard": {
     "daily": "NAPI",
@@ -246,9 +246,9 @@
   },
   "editor": {
     "title": "Cím",
-    "tags": "Tags (separate by space)",
-    "default_placeholder": "Miről szeretnél írni ma?",
-    "reply_placeholder": "Mit szeretnél írni a fenti bejegyzésről?",
+    "tags": "Tags (separate with space)",
+    "default_placeholder": "Tell us something...",
+    "reply_placeholder": "Add your reply...",
     "publish": "Közzétesz",
     "reply": "Válasz",
     "open_gallery": "Galéria Megnyitása",
