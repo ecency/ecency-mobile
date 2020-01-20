@@ -125,7 +125,7 @@
     "replies": "پاسخ‌ها",
     "mentions": "Mentions",
     "reblogs": "Reblogs",
-    "noactivity": "No new activity found"
+    "noactivity": "No recent activity"
   },
   "leaderboard": {
     "daily": "DAILY",
@@ -246,9 +246,9 @@
   },
   "editor": {
     "title": "تیتر",
-    "tags": "Tags (separate by space)",
-    "default_placeholder": "امروز می خواهید چه مطلبی بنویسید؟",
-    "reply_placeholder": "در مورد پست فوق، چه چیزی میخواهید بنویسید؟",
+    "tags": "Tags (separate with space)",
+    "default_placeholder": "Tell us something...",
+    "reply_placeholder": "Add your reply...",
     "publish": "نشر",
     "reply": "پاسخ دادن",
     "open_gallery": "باز کردن گالری",
