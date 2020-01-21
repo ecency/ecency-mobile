@@ -102,13 +102,12 @@ const PostBody = ({
         [
           {
             text: 'Cancel',
-            onPress: () => console.log('Cancel Pressed'),
+            onPress: () => {},
             style: 'cancel',
           },
           {
             text: 'OK',
             onPress: () => {
-              console.log('OK Pressed');
               Linking.canOpenURL(url).then(supported => {
                 if (supported) {
                   Linking.openURL(url);
