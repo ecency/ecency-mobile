@@ -1,14 +1,12 @@
 'use strict';
 
 const customBodyScript = `
-setTimeout(function() { 
 var images = document.getElementsByTagName("IMG");
 for (i = 0; i < images.length; i++) {  
   var result = {
     type: 'image',
     href: images[i].getAttribute("src") || ''
   }
-  // workaround
   var resultStr = JSON.stringify(JSON.stringify(result));
   
   var message = 'window.ReactNativeWebView.postMessage(' + resultStr + ')';
@@ -17,9 +15,7 @@ for (i = 0; i < images.length; i++) {
   }
 }
 document.addEventListener('click', function(event) {
-  //event.preventDefault();
   var el = event.target;
-  // A element can be wrapped with inline element. Look parent elements.
   while (el.tagName !== 'A') {
     if (!el.parentNode) {
       break;
@@ -119,7 +115,6 @@ document.addEventListener('click', function(event) {
   var author = el.getAttribute('data-author').toString();
   window.ReactNativeWebView.postMessage(JSON.stringify(author));
 })
-}, 300);
 true;
 `;
 

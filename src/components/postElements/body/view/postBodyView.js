@@ -96,13 +96,29 @@ const PostBody = ({
 
   const _handleBrowserLink = async url => {
     if (url) {
-      Linking.canOpenURL(url).then(supported => {
-        if (supported) {
-          Linking.openURL(url);
-        } else {
-          Alert.alert(intl.formatMessage({ id: 'alert.failed_to_open' }));
-        }
-      });
+      Alert.alert(
+        intl.formatMessage({ id: 'alert.warning' }),
+        intl.formatMessage({ id: 'alert.external_link' }),
+        [
+          {
+            text: 'Cancel',
+            onPress: () => {},
+            style: 'cancel',
+          },
+          {
+            text: 'OK',
+            onPress: () => {
+              Linking.canOpenURL(url).then(supported => {
+                if (supported) {
+                  Linking.openURL(url);
+                } else {
+                  Alert.alert(intl.formatMessage({ id: 'alert.failed_to_open' }));
+                }
+              });
+            },
+          },
+        ],
+      );
     }
   };
 
@@ -330,6 +346,8 @@ const PostBody = ({
         startInLoadingState={true}
         onShouldStartLoadWithRequest={false}
         scrollEnabled={false}
+        scalesPageToFit={false}
+        zoomable={false}
       />
     </Fragment>
   );

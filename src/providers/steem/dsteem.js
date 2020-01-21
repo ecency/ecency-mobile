@@ -281,7 +281,7 @@ export const ignoreUser = async (currentAccount, pin, data) => {
     });
   }
 
-  return Promise.reject(new Error('Private key permission issue!'));
+  return Promise.reject(new Error('Check private key permission!'));
 };
 
 /**
@@ -514,7 +514,7 @@ const _vote = async (currentAccount, pin, author, permlink, weight) => {
     });
   }
 
-  return Promise.reject(new Error('Private key permission issue!'));
+  return Promise.reject(new Error('Check private key permission!'));
 };
 
 /**
@@ -562,7 +562,7 @@ export const transferToken = (currentAccount, pin, data) => {
     });
   }
 
-  return Promise.reject(new Error('Private key permission issue!'));
+  return Promise.reject(new Error('Check private key permission!'));
 };
 
 export const transferToSavings = (currentAccount, pin, data) => {
@@ -596,7 +596,7 @@ export const transferToSavings = (currentAccount, pin, data) => {
     });
   }
 
-  return Promise.reject(new Error('Private key permission issue!'));
+  return Promise.reject(new Error('Check private key permission!'));
 };
 
 export const transferFromSavings = (currentAccount, pin, data) => {
@@ -630,7 +630,7 @@ export const transferFromSavings = (currentAccount, pin, data) => {
     });
   }
 
-  return Promise.reject(new Error('Private key permission issue!'));
+  return Promise.reject(new Error('Check private key permission!'));
 };
 
 export const transferToVesting = (currentAccount, pin, data) => {
@@ -662,7 +662,7 @@ export const transferToVesting = (currentAccount, pin, data) => {
     });
   }
 
-  return Promise.reject(new Error('Private key permission issue!'));
+  return Promise.reject(new Error('Check private key permission!'));
 };
 
 export const withdrawVesting = (currentAccount, pin, data) => {
@@ -693,7 +693,7 @@ export const withdrawVesting = (currentAccount, pin, data) => {
     });
   }
 
-  return Promise.reject(new Error('Private key permission issue!'));
+  return Promise.reject(new Error('Check private key permission!'));
 };
 
 export const delegateVestingShares = (currentAccount, pin, data) => {
@@ -725,7 +725,7 @@ export const delegateVestingShares = (currentAccount, pin, data) => {
     });
   }
 
-  return Promise.reject(new Error('Private key permission issue!'));
+  return Promise.reject(new Error('Check private key permission!'));
 };
 
 export const setWithdrawVestingRoute = (currentAccount, pin, data) => {
@@ -758,7 +758,7 @@ export const setWithdrawVestingRoute = (currentAccount, pin, data) => {
     });
   }
 
-  return Promise.reject(new Error('Private key permission issue!'));
+  return Promise.reject(new Error('Check private key permission!'));
 };
 
 export const getWithdrawRoutes = account =>
@@ -805,7 +805,7 @@ export const followUser = async (currentAccount, pin, data) => {
     });
   }
 
-  return Promise.reject(new Error('Private key permission issue!'));
+  return Promise.reject(new Error('Check private key permission!'));
 };
 
 export const unfollowUser = async (currentAccount, pin, data) => {
@@ -850,7 +850,7 @@ export const unfollowUser = async (currentAccount, pin, data) => {
     });
   }
 
-  return Promise.reject(new Error('Private key permission issue!'));
+  return Promise.reject(new Error('Check private key permission!'));
 };
 
 export const lookupAccounts = async username => {
@@ -1014,7 +1014,7 @@ const _postContent = async (
     });
   }
 
-  return Promise.reject(new Error('Private key permission issue!'));
+  return Promise.reject(new Error('Check private key permission!'));
 };
 
 // Re-blog
@@ -1061,7 +1061,7 @@ const _reblog = async (account, pinCode, author, permlink) => {
     return client.broadcast.json(json, privateKey);
   }
 
-  return Promise.reject(new Error('Private key permission issue!'));
+  return Promise.reject(new Error('Check private key permission!'));
 };
 
 export const claimRewardBalance = (account, pinCode, rewardSteem, rewardSbd, rewardVests) => {
@@ -1095,7 +1095,7 @@ export const claimRewardBalance = (account, pinCode, rewardSteem, rewardSbd, rew
     return client.broadcast.sendOperations(opArray, privateKey);
   }
 
-  return Promise.reject(new Error('Private key permission issue!'));
+  return Promise.reject(new Error('Check private key permission!'));
 };
 
 export const transferPoint = (currentAccount, pinCode, data) => {
@@ -1123,7 +1123,7 @@ export const transferPoint = (currentAccount, pinCode, data) => {
     return client.broadcast.json(op, privateKey);
   }
 
-  return Promise.reject(new Error('Private key permission issue!'));
+  return Promise.reject(new Error('Check private key permission!'));
 };
 
 export const promote = (currentAccount, pinCode, duration, permlink, author) => {
@@ -1149,7 +1149,7 @@ export const promote = (currentAccount, pinCode, duration, permlink, author) => 
     return client.broadcast.json(json, privateKey);
   }
 
-  return Promise.reject(new Error('Private key permission issue!'));
+  return Promise.reject(new Error('Check private key permission!'));
 };
 
 export const boost = (currentAccount, pinCode, point, permlink, author) => {
@@ -1175,7 +1175,74 @@ export const boost = (currentAccount, pinCode, point, permlink, author) => {
     return client.broadcast.json(json, privateKey);
   }
 
-  return Promise.reject(new Error('Private key permission issue!'));
+  return Promise.reject(new Error('Check private key permission!'));
+};
+
+export const grantPostingPermission = async (json, pin, currentAccount) => {
+  const digitPinCode = getDigitPinCode(pin);
+  const key = getActiveKey(get(currentAccount, 'local'), digitPinCode);
+
+  const newPosting = Object.assign(
+    {},
+    { ...get(currentAccount, 'posting') },
+    {
+      account_auths: [
+        ...get(currentAccount, 'posting.account_auths'),
+        ['esteemapp', get(currentAccount, 'posting.weight_threshold')],
+      ],
+    },
+  );
+  newPosting.account_auths.sort();
+  if (get(currentAccount, 'local.authType') === AUTH_TYPE.STEEM_CONNECT) {
+    const token = decryptKey(get(currentAccount, 'local.accessToken'), digitPinCode);
+    const api = new steemconnect.Client({
+      accessToken: token,
+    });
+    const _params = {
+      account: get(currentAccount, 'name'),
+      posting: newPosting,
+      memo_key: get(currentAccount, 'memo_key'),
+      json_metadata: json,
+    };
+
+    const opArray = [['account_update', _params]];
+
+    return api
+      .broadcast(opArray)
+      .then(resp => resp.result)
+      .catch(error => console.log(error));
+  }
+
+  if (key) {
+    const opArray = [
+      [
+        'account_update',
+        {
+          account: get(currentAccount, 'name'),
+          memo_key: get(currentAccount, 'memo_key'),
+          json_metadata: json,
+          posting: newPosting,
+        },
+      ],
+    ];
+    const privateKey = PrivateKey.fromString(key);
+
+    return new Promise((resolve, reject) => {
+      client.broadcast
+        .sendOperations(opArray, privateKey)
+        .then(result => {
+          resolve(result);
+        })
+        .catch(error => {
+          if (get(error, 'jse_info.code') === 4030100) {
+            error.message = getDsteemDateErrorMessage(error);
+          }
+          reject(error);
+        });
+    });
+  }
+
+  return Promise.reject(new Error('Check private key permission!'));
 };
 
 export const profileUpdate = async (params, pin, currentAccount) => {
@@ -1231,7 +1298,7 @@ export const profileUpdate = async (params, pin, currentAccount) => {
     });
   }
 
-  return Promise.reject(new Error('Private key permission issue!'));
+  return Promise.reject(new Error('Check private key permission!'));
 };
 
 // HELPERS
