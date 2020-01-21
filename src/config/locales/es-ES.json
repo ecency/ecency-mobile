@@ -280,6 +280,7 @@
     "success_moved": "Movido a borradores",
     "permission_denied": "Permiso dengado",
     "permission_text": "Por favor, ir a ajustes del teléfono y cambiar los permisos de la aplicación de eSteem.",
+    "key_warning": "Check private key permission!",
     "success_rebloged": "¡Reblogueado!",
     "already_rebloged": "Ya has sido reblogueado!",
     "success_favorite": "Favorite added!",
@@ -303,10 +304,11 @@
     "same_user": "Este usuario ya ha sido añadido a la lista",
     "unknow_error": "Ocurrió un error",
     "error": "Error",
-    "fetch_error": "Error al obtener los datos, por favor inténtalo de nuevo o notifíquenos en info@esteem.app",
+    "fetch_error": "Connection issue, please try again or write to support@esteem.app",
     "connection_fail": "¡Error de conexión!",
     "connection_success": "¡Conectado con éxito!",
     "checking": "Comprobando...",
+    "external_link": "Are you sure, you want to open an external link?",
     "not_existing_post": "¡La publicación no existe! Por favor comprueba el permalink y el autor.",
     "google_play_version": "Notamos que tu dispositivo tiene una versión antigua de Google Play. ¡Por favor actualiza los servicios de Google Play e inténtalo de nuevo!"
   },
@@ -354,7 +356,7 @@
     "invalid_username": "Nombre de usuario inválido, por favor verifique e inténtelo de nuevo",
     "already_logged": "Ya está logueado, por favor intente añadir otra cuenta",
     "invalid_credentials": "Credenciales inválidas, por favor verifique e intente nuevamente",
-    "unknow_error": "Error desconocido, póngase en contacto con nosotros en support@esteem.app"
+    "unknow_error": "Unknown error, please write to support@esteem.app"
   },
   "payout": {
     "potential_payout": "Pago Potencial",
