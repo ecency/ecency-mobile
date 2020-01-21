@@ -280,6 +280,7 @@
     "success_moved": "به پیشنویس ها منتقل شد",
     "permission_denied": "خطای دسترسی",
     "permission_text": "لطفا به تنظیمات تلفن خود رفته و دسترسی eSteem را تغییر دهید.",
+    "key_warning": "Check private key permission!",
     "success_rebloged": "Rebloged!",
     "already_rebloged": "شما قبلا به اشتراک گذاشته اید!",
     "success_favorite": "Favorite added!",
@@ -303,10 +304,11 @@
     "same_user": "این کاربر قبلا به لیست اضافه شده است",
     "unknow_error": "An error occurred",
     "error": "Error",
-    "fetch_error": "Fetching data failed, please try again or notify us at info@esteem.app",
+    "fetch_error": "Connection issue, please try again or write to support@esteem.app",
     "connection_fail": "Connection Failed!",
     "connection_success": "Successfully connected!",
     "checking": "Checking...",
+    "external_link": "Are you sure, you want to open an external link?",
     "not_existing_post": "The post does not exist! Please check permlink and author.",
     "google_play_version": "We noticed that your device has old version of Google Play. Please update Google Play services and try again!"
   },
@@ -354,7 +356,7 @@
     "invalid_username": "نام کاربری نامعتبر، لطفا چک کنید و دوباره امتحان کنید",
     "already_logged": "شما در حال حاظر وارد شده اید، لطفا با یک حساب کاربری دیگر تلاش کنید",
     "invalid_credentials": "اعتبار نامه غیر معتبر، لطفا چک کنید و دوباره تلاش کنید",
-    "unknow_error": "خطای ناشناخته، لطفا با ادرس support@esteem.app با ما تماس بگیرید"
+    "unknow_error": "Unknown error, please write to support@esteem.app"
   },
   "payout": {
     "potential_payout": "پرداخت های بالقوه",
