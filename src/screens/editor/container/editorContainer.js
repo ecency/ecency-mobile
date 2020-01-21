@@ -10,7 +10,7 @@ import AsyncStorage from '@react-native-community/async-storage';
 import { Buffer } from 'buffer';
 import { uploadImage, addDraft, updateDraft, schedule } from '../../../providers/esteem/esteem';
 import { toastNotification } from '../../../redux/actions/uiAction';
-import { postContent, getPurePost } from '../../../providers/steem/dsteem';
+import { postContent, getPurePost, grantPostingPermission } from '../../../providers/steem/dsteem';
 import { setDraftPost, getDraftPost } from '../../../realm/realm';
 
 // Constants
@@ -449,12 +449,38 @@ class EditorContainer extends Component {
     }
   };
 
-  _handleDatePickerChange = (datePickerValue, fields) => {
-    this._submitPost(fields, datePickerValue);
+  _handleDatePickerChange = async (datePickerValue, fields) => {
+    const { currentAccount, pinCode, intl } = this.props;
+
+    const json = get(currentAccount, 'json_metadata', '');
+
+    let hasPostingPerm = false;
+
+    if (currentAccount && currentAccount.posting) {
+      hasPostingPerm =
+        currentAccount.posting.account_auths.filter(x => x[0] === 'esteemapp').length > 0;
+    }
+
+    if (hasPostingPerm) {
+      this._submitPost(fields, datePickerValue);
+    } else {
+      await grantPostingPermission(json, pinCode, currentAccount)
+        .then(() => {
+          this._submitPost(fields, datePickerValue);
+        })
+        .catch(error => {
+          Alert.alert(
+            intl.formatMessage({
+              id: 'alert.fail',
+            }),
+            get(error, 'message', error.toString()),
+          );
+        });
+    }
   };
 
   _setScheduledPost = data => {
-    const { dispatch, intl } = this.props;
+    const { dispatch, intl, currentAccount, navigation } = this.props;
 
     schedule(
       data.author,
@@ -476,6 +502,13 @@ class EditorContainer extends Component {
             }),
           ),
         );
+        setDraftPost({ title: '', body: '', tags: '' }, currentAccount.name);
+        setTimeout(() => {
+          navigation.navigate({
+            routeName: ROUTES.SCREENS.DRAFTS,
+            key: currentAccount.name,
+          });
+        }, 3000);
       })
       .catch(() => {
         this.setState({ isPostSending: false });

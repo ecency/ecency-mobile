@@ -180,7 +180,7 @@ const PointsContainer = ({
       .catch(error => {
         if (error) {
           Alert.alert(
-            `Fetching failed, please try again or notify us at info@esteem.app \n${error.message.substr(
+            `PointsClaim - Connection issue, try again or write to support@esteem.app \n${error.message.substr(
               0,
               20,
             )}`,
@@ -203,7 +203,7 @@ const PointsContainer = ({
       .catch(error => {
         if (error) {
           setIsLoading(false);
-          dispatch(toastNotification(intl.formatMessage({ id: 'alert.fail' })));
+          dispatch(toastNotification(intl.formatMessage({ id: 'alert.key_warning' })));
         }
       });
   };

@@ -36,7 +36,7 @@ const ReblogScreen = ({ navigation }) => {
   return (
     <AccountListContainer data={activeVotes} navigation={navigation}>
       {({ data, filterResult, handleSearch, handleOnUserPress }) => (
-        <SafeAreaView style={globalStyles.container}>
+        <SafeAreaView style={[globalStyles.container, { paddingBottom: 40 }]}>
           <BasicHeader
             title={`${headerTitle} (${data && data.length})`}
             isHasSearch
