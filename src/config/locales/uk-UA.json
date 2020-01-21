@@ -125,7 +125,7 @@
     "replies": "Відповіді",
     "mentions": "Згадування",
     "reblogs": "Рестіми",
-    "noactivity": "Нову активність не знайдено"
+    "noactivity": "No recent activity"
   },
   "leaderboard": {
     "daily": "ЩОДЕННО",
@@ -246,9 +246,9 @@
   },
   "editor": {
     "title": "Заголовок",
-    "tags": "Теги (розділені пробілом)",
-    "default_placeholder": "Що б ви хотіли написати сьогодні?",
-    "reply_placeholder": "Що ви хотіли б написати про вищезгаданий допис?",
+    "tags": "Tags (separate with space)",
+    "default_placeholder": "Tell us something...",
+    "reply_placeholder": "Add your reply...",
     "publish": "Опублікувати",
     "reply": "Відповісти",
     "open_gallery": "Відкрити список світлин",
@@ -280,6 +280,7 @@
     "success_moved": "Переміщено до чернеток",
     "permission_denied": "У доступі відмовлено",
     "permission_text": "Перейдіть у Налаштування телефону та змініть дозволи програми eSteem.",
+    "key_warning": "Check private key permission!",
     "success_rebloged": "Rebloged!",
     "already_rebloged": "Ви вже повторно рестімнули!",
     "success_favorite": "Favorite added!",
@@ -303,10 +304,11 @@
     "same_user": "Цього користувача уже додано до списку",
     "unknow_error": "Виникла помилка",
     "error": "Помилка",
-    "fetch_error": "Не вдалося отримати дані. Повторіть спробу або повідомте нам на пошту info@esteem.app",
+    "fetch_error": "Connection issue, please try again or write to support@esteem.app",
     "connection_fail": "Помилка з’єднання!",
     "connection_success": "Успішне підключення!",
     "checking": "Перевірка...",
+    "external_link": "Are you sure, you want to open an external link?",
     "not_existing_post": "Допису не існує! Будь ласка, перевірте першоджерело та автора.",
     "google_play_version": "Ми помітили, що на вашому пристрої є стара версія Google Play. Оновіть служби Google Play і повторіть спробу!"
   },
@@ -354,7 +356,7 @@
     "invalid_username": "Недійсне ім’я користувача. Перевірте та повторіть спробу",
     "already_logged": "Ви вже ввійшли, спробуйте додати інший обліковий запис",
     "invalid_credentials": "Недійсні облікові дані. Перевірте та повторіть спробу",
-    "unknow_error": "Невідома помилка, зв'яжіться з нами за адресою support@esteem.app"
+    "unknow_error": "Unknown error, please write to support@esteem.app"
   },
   "payout": {
     "potential_payout": "Потенційна виплата",

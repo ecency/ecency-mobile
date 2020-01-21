@@ -68,7 +68,7 @@
     "delegate": "Delegálás",
     "power_down": "Power Down",
     "withdraw_steem": "Steem Visszavonás",
-    "withdraw_sbd": "Withdraw SBD",
+    "withdraw_sbd": "SBD visszavonás",
     "transfer_to_savings": "A megtakarításokhoz",
     "convert": "Konvertálás",
     "escrow_transfer": "Letéti átutalás",
@@ -125,7 +125,7 @@
     "replies": "Válaszok",
     "mentions": "Említések",
     "reblogs": "Megosztások",
-    "noactivity": "Nincs új aktivitás"
+    "noactivity": "No recent activity"
   },
   "leaderboard": {
     "daily": "NAPI",
@@ -246,9 +246,9 @@
   },
   "editor": {
     "title": "Cím",
-    "tags": "Tags (separate by space)",
-    "default_placeholder": "Miről szeretnél írni ma?",
-    "reply_placeholder": "Mit szeretnél írni a fenti bejegyzésről?",
+    "tags": "Tags (separate with space)",
+    "default_placeholder": "Tell us something...",
+    "reply_placeholder": "Add your reply...",
     "publish": "Közzétesz",
     "reply": "Válasz",
     "open_gallery": "Galéria Megnyitása",
@@ -280,10 +280,11 @@
     "success_moved": "Áthelyezve a vázlatokhoz",
     "permission_denied": "Engedély megtagadva",
     "permission_text": "Kérjük menj a telefon beállításokhoz és változtass az eSteem app engedélyezésein.",
+    "key_warning": "Check private key permission!",
     "success_rebloged": "Megosztva!",
     "already_rebloged": "Ezt már megosztottad!",
     "success_favorite": "Kedvencekhez hozzáadva!",
-    "success_unfavorite": "Favorite removed!",
+    "success_unfavorite": "Eltávolítva a kedvencektől!",
     "success_follow": "Follow success!",
     "success_mute": "Mute success!",
     "success_unmute": "Unmute success!",
@@ -303,10 +304,11 @@
     "same_user": "Ez a felhasználó már szerepel a listán",
     "unknow_error": "Hiba történt",
     "error": "Hiba",
-    "fetch_error": "Sikertelen adatbetöltés, kérjük próbáld meg újra vagy írj nekünk ide info@esteem.app",
+    "fetch_error": "Connection issue, please try again or write to support@esteem.app",
     "connection_fail": "Sikertelen kapcsolat!",
     "connection_success": "A kapcsolat sikerült!",
     "checking": "Ellenőrzés folyamatban...",
+    "external_link": "Are you sure, you want to open an external link?",
     "not_existing_post": "A bejegyzés nem létezik! Kérjük ellenőrizd a linket és a szerzőt.",
     "google_play_version": "Észrevettük, hogy a készülékeden a Google Play régi verziója található. Kérjük frissítsd a Google Play szolgáltatásait és próbáld újra!"
   },
@@ -354,7 +356,7 @@
     "invalid_username": "Érvénytelen felhasználónév, kérjük ellenőrizd és próbáld újra",
     "already_logged": "Már be vagy jelentkezve, kérjük próbálj meg hozzáadni egy másik fiókot",
     "invalid_credentials": "Érvénytelen hitelesítő adatok. Kérjük, ellenőrizd és próbáld újra",
-    "unknow_error": "Ismeretlen hiba, kérjük vedd fel velünk a kapcsolatot itt support@esteem.app"
+    "unknow_error": "Unknown error, please write to support@esteem.app"
   },
   "payout": {
     "potential_payout": "Lehetséges Kifizetés",

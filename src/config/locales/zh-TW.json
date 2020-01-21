@@ -125,7 +125,7 @@
     "replies": "回覆",
     "mentions": "Mentions",
     "reblogs": "Reblogs",
-    "noactivity": "No new activity found"
+    "noactivity": "No recent activity"
   },
   "leaderboard": {
     "daily": "DAILY",
@@ -246,9 +246,9 @@
   },
   "editor": {
     "title": "標題",
-    "tags": "Tags (separate by space)",
-    "default_placeholder": "今天您想要寫些什麼？",
-    "reply_placeholder": "您想對上面的帖子寫些什麼？",
+    "tags": "Tags (separate with space)",
+    "default_placeholder": "Tell us something...",
+    "reply_placeholder": "Add your reply...",
     "publish": "發佈",
     "reply": "回覆",
     "open_gallery": "Open Gallery",
@@ -280,6 +280,7 @@
     "success_moved": "Moved to draft",
     "permission_denied": "權限不足",
     "permission_text": "請前往手機「設定」，更改eSteem應用程式權限。",
+    "key_warning": "Check private key permission!",
     "success_rebloged": "已轉發！",
     "already_rebloged": "您已經轉發過了！",
     "success_favorite": "Favorite added!",
@@ -303,10 +304,11 @@
     "same_user": "This user already added to list",
     "unknow_error": "An error occurred",
     "error": "Error",
-    "fetch_error": "Fetching data failed, please try again or notify us at info@esteem.app",
+    "fetch_error": "Connection issue, please try again or write to support@esteem.app",
     "connection_fail": "Connection Failed!",
     "connection_success": "Successfully connected!",
     "checking": "Checking...",
+    "external_link": "Are you sure, you want to open an external link?",
     "not_existing_post": "The post does not exist! Please check permlink and author.",
     "google_play_version": "We noticed that your device has old version of Google Play. Please update Google Play services and try again!"
   },
@@ -354,7 +356,7 @@
     "invalid_username": "無效的使用者名稱，請核對後再試一次。",
     "already_logged": "您已經登錄, 請嘗試添加另一個帳戶",
     "invalid_credentials": "憑證無效，請核對後再試一次。",
-    "unknow_error": "未知錯誤, 請聯繫我們 support@esteem.app"
+    "unknow_error": "Unknown error, please write to support@esteem.app"
   },
   "payout": {
     "potential_payout": "潛在收益",

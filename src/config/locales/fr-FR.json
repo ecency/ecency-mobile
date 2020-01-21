@@ -125,7 +125,7 @@
     "replies": "Réponses",
     "mentions": "Mentions",
     "reblogs": "Reblogs",
-    "noactivity": "No new activity found"
+    "noactivity": "No recent activity"
   },
   "leaderboard": {
     "daily": "QUOTIDIEN",
@@ -246,9 +246,9 @@
   },
   "editor": {
     "title": "Titre",
-    "tags": "Tags (separate by space)",
-    "default_placeholder": "Qu’aimeriez-vous écrire aujourd'hui ?",
-    "reply_placeholder": "Qu'aimeriez-vous écrire à propos de l'article ci-dessus ?",
+    "tags": "Tags (separate with space)",
+    "default_placeholder": "Tell us something...",
+    "reply_placeholder": "Add your reply...",
     "publish": "Publier",
     "reply": "Répondre",
     "open_gallery": "Ouvrir la galerie",
@@ -280,6 +280,7 @@
     "success_moved": "Déplacé vers Brouillons",
     "permission_denied": "Autorisation refusée",
     "permission_text": "S'il vous plaît, allez dans les Paramètres de votre téléphone et changez les permissions pour l’application eSteem.",
+    "key_warning": "Check private key permission!",
     "success_rebloged": "Rebloged!",
     "already_rebloged": "Vous avez déjà reblogué !",
     "success_favorite": "Favorite added!",
@@ -303,10 +304,11 @@
     "same_user": "Cet utilisateur a déjà été ajouté à la liste",
     "unknow_error": "Une erreur est survenue",
     "error": "Erreur",
-    "fetch_error": "Fetching data failed, please try again or notify us at info@esteem.app",
+    "fetch_error": "Connection issue, please try again or write to support@esteem.app",
     "connection_fail": "Échec de la connexion !",
     "connection_success": "Connexion réussie!",
     "checking": "Vérification...",
+    "external_link": "Are you sure, you want to open an external link?",
     "not_existing_post": "Le post n'existe pas ! Veuillez vérifier le lien et l'auteur.",
     "google_play_version": "Nous avons remarqué que votre appareil possède une ancienne version de Google Play. Veuillez mettre à jour les services Google Play et réessayez!"
   },
@@ -354,7 +356,7 @@
     "invalid_username": "Nom d’utilisateur invalide, s’il vous plaît vérifiez et réessayez",
     "already_logged": "Vous êtes déjà connecté, essayez d’ajouter un autre compte",
     "invalid_credentials": "Informations d'identification invalides, veuillez vérifier et réessayer",
-    "unknow_error": "Erreur inconnue, contactez-nous à support@esteem.app"
+    "unknow_error": "Unknown error, please write to support@esteem.app"
   },
   "payout": {
     "potential_payout": "Gain Potentiel",

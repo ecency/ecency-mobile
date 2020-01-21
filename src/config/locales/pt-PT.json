@@ -125,7 +125,7 @@
     "replies": "Respostas",
     "mentions": "Menções",
     "reblogs": "Reposts",
-    "noactivity": "No new activity found"
+    "noactivity": "No recent activity"
   },
   "leaderboard": {
     "daily": "DIÁRIO",
@@ -246,9 +246,9 @@
   },
   "editor": {
     "title": "Título",
-    "tags": "Tags (separadas por espaço)",
-    "default_placeholder": "Sobre o que queres escrever hoje?",
-    "reply_placeholder": "O que desejava escrever sobre este post em em cima?",
+    "tags": "Tags (separate with space)",
+    "default_placeholder": "Tell us something...",
+    "reply_placeholder": "Add your reply...",
     "publish": "Publicar",
     "reply": "Responder",
     "open_gallery": "Galeria Aberta",
@@ -280,6 +280,7 @@
     "success_moved": "Movido para Rascunhos",
     "permission_denied": "Permissão negada",
     "permission_text": "Por favor, vá para configurações de telefone e alterar as permissões da app Steem.",
+    "key_warning": "Check private key permission!",
     "success_rebloged": "Reblogado!",
     "already_rebloged": "Já fez reblogue deste post!",
     "success_favorite": "Favorite added!",
@@ -303,10 +304,11 @@
     "same_user": "Este usuário já foi adicionado à lista",
     "unknow_error": "Ocorreu um erro",
     "error": "Erro",
-    "fetch_error": "Falha ao buscar dados, por favor tente novamente ou nos informe no info@esteem.app",
+    "fetch_error": "Connection issue, please try again or write to support@esteem.app",
     "connection_fail": "Falha na conexão!",
     "connection_success": "Conectado com sucesso!",
     "checking": "A verificar...",
+    "external_link": "Are you sure, you want to open an external link?",
     "not_existing_post": "Este post não existe! Por favor, verifique o permlink e o autor.",
     "google_play_version": "Notamos que seu dispositivo tem versão antiga do Google Play. Por favor, atualize o Google Play Services e tente novamente!"
   },
@@ -354,7 +356,7 @@
     "invalid_username": "Nome de usuário inválido, por favor verifique e tente novamente",
     "already_logged": "Você já está logado, por favor, tente adicionar outra conta",
     "invalid_credentials": "Credenciais inválidas. Por favor, verifique e tente novamente",
-    "unknow_error": "Erro desconhecido, por favor entre em contato conosco em support@esteem.app"
+    "unknow_error": "Unknown error, please write to support@esteem.app"
   },
   "payout": {
     "potential_payout": "Pagamento Potencial",

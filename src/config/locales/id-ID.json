@@ -2,11 +2,11 @@
   "wallet": {
     "curation_reward": "Imbalan kurasi",
     "author_reward": "Imbalan Penulis",
-    "comment_benefactor_reward": "Benefactor Reward",
-    "claim_reward_balance": "Claim Reward ",
+    "comment_benefactor_reward": "Hadiah Benefactor",
+    "claim_reward_balance": "Klaim Hadiah ",
     "transfer": "Transfer",
     "transfer_to_vesting": "To Vesting",
-    "transfer_from_savings": "From Savings",
+    "transfer_from_savings": "Dari Tabungan",
     "withdraw_vesting": "Turunkan Daya Kekuatan",
     "fill_order": "Isi pesanan",
     "post": "Kiriman",
@@ -19,37 +19,37 @@
     "outgoing_transfer_title": "Transfer keluar",
     "checkin_extra": "Bonus",
     "delegation": "Delegasi",
-    "delegations": "Delegations",
+    "delegations": "Delegasi",
     "delegation_title": "Hadiah delegasi",
-    "delegation_desc": "Earn ESTM everyday for delegation",
+    "delegation_desc": "Hasilkan ESTM setiap hari untuk pendelegasian",
     "post_title": "Poin untuk kiriman",
     "comment_title": "Poin untuk komentar",
     "vote_title": "Poin untuk suara",
     "reblog_title": "Poin untuk menampilkan kembali",
     "login_title": "Poin untuk masuk",
     "checkin_title": "Points for heartbeat",
-    "referral": "Referral",
-    "referral_title": "Referral rewards",
-    "referral_desc": "Invite friends and earn ESTM",
+    "referral": "Referensi",
+    "referral_title": "Hadiah referensi",
+    "referral_desc": "Undang teman dan dapatkan ESTM",
     "checkin_extra_title": "Bonus penggunaan",
-    "no_activity": "No recent activity",
+    "no_activity": "Tidak ada aktifitas terakhir",
     "outgoing_transfer_description": "",
     "incoming_transfer_description": "",
-    "post_desc": "You can earn point by posting regularly. Posting gives you upto 15 points.",
-    "comment_desc": "Each comment you make helps you to grow your audience and also earns you upto 5 points.",
-    "checkin_desc": "Checking in regularly gives you 0.25 points.",
-    "vote_desc": "By voting you give reward to other creators and also earn back upto 0.01 x vote weight points.",
-    "reblog_desc": "Share what post you like with your friends and earn points.",
-    "login_desc": "When you login into app first time you earn 100 points.",
-    "checkin_extra_desc": "Consistent use of app gives you extra chances to earn more points, be more active and earn more.",
+    "post_desc": "Anda bisa mendapatkan poin dengan memposting secara teratur. Posting memberi Anda hingga 15 poin.",
+    "comment_desc": "Setiap komentar yang Anda buat membantu Anda untuk menumbuhkan audiens Anda dan juga memberi Anda hingga 5 poin.",
+    "checkin_desc": "Check in secara teratur memberi Anda 0,25 poin.",
+    "vote_desc": "Dengan memberikan suara Anda memberikan hadiah kepada pencipta lain dan juga mendapatkan kembali hingga 0,01 x poin bobot suara.",
+    "reblog_desc": "Bagikan pos yang Anda sukai dengan teman dan dapatkan poin.",
+    "login_desc": "Saat Anda masuk ke aplikasi pertama kali Anda mendapat 100 poin.",
+    "checkin_extra_desc": "Penggunaan aplikasi yang konsisten memberi Anda peluang ekstra untuk mendapatkan lebih banyak poin, lebih aktif dan menghasilkan lebih banyak.",
     "dropdown_transfer": "Hadiah",
     "dropdown_promote": "Promosikan",
     "dropdown_boost": "Meningkatkan",
     "from": "Dari",
     "to": "Kepada",
-    "estimated_value_desc": "According to purchase value",
-    "estimated_value": "Estimated value",
-    "estimated_amount": "Vote value",
+    "estimated_value_desc": "Menurut nilai pembelian",
+    "estimated_value": "Nilai perkiraan",
+    "estimated_amount": "Nilai suara",
     "amount_information": "Seret penggeser untuk menyesuaikan jumlahnya",
     "amount": "Jumlah",
     "memo": "Memo",
@@ -60,43 +60,43 @@
     "memo_placeholder": "Masukan catatan anda disini",
     "transfer_token": "Transfer",
     "points": "Hadiah ESTM kepada seseorang",
-    "transfer_to_saving": "To Saving",
+    "transfer_to_saving": "Untuk Menyimpan",
     "powerUp": "Power Up",
-    "withdraw_to_saving": "Withdraw Saving",
+    "withdraw_to_saving": "Menarik Tabungan",
     "steemconnect_title": "Steemconnect Transfer",
     "next": "LANJUT",
     "delegate": "Delegasikan",
     "power_down": "Turunkan Daya Kekuatan",
     "withdraw_steem": "Withdraw Steem",
-    "withdraw_sbd": "Withdraw SBD",
-    "transfer_to_savings": "To Savings",
-    "convert": "Convert",
-    "escrow_transfer": "Escrow Transfer",
-    "escrow_dispute": "Escrow Dispute",
+    "withdraw_sbd": "Tarik SBD",
+    "transfer_to_savings": "Untuk Tabungan",
+    "convert": "Mengkonversi",
+    "escrow_transfer": "Transfer Escrow",
+    "escrow_dispute": "Sengketa Escrow",
     "escrow_release": "Escrow Release",
-    "escrow_approve": "Escrow Approve",
-    "cancel_transfer_from_savings": "Cancel From Savings",
+    "escrow_approve": "Escrow Menyetujui",
+    "cancel_transfer_from_savings": "Batalkan Dari Tabungan",
     "delegate_vesting_shares": "Delegasi",
-    "fill_convert_request": "Convert Executed",
-    "fill_transfer_from_savings": "Savings Executed",
-    "fill_vesting_withdraw": "PowerDown executed",
+    "fill_convert_request": "Konversi Dieksekusi",
+    "fill_transfer_from_savings": "Tabungan Dieksekusi",
+    "fill_vesting_withdraw": "PowerDown dieksekusi",
     "estm": {
       "title": "eSteem Poin",
       "buy": "DAPATKAN ESTM"
     },
     "savingsteem": {
-      "title": "STEEM Savings"
+      "title": "Tabungan STEEM"
     },
     "savingsbd": {
-      "title": "SBD Savings"
+      "title": "Tabungan SBD"
     },
     "steem": {
       "title": "STEEM",
-      "buy": "GET STEEM"
+      "buy": "DAPATKAN STEEM"
     },
     "sbd": {
       "title": "SBD",
-      "buy": "GET SBD"
+      "buy": "DAPATKAN SBD"
     },
     "steem_power": {
       "title": "STEEM POWER"
@@ -105,13 +105,13 @@
   "notification": {
     "vote": "voted",
     "unvote": "unvoted",
-    "reply": "replied to",
-    "mention": "mentioned in",
+    "reply": "balas untuk",
+    "mention": "diasebutkan dalam",
     "follow": "mengikuti anda",
     "unfollow": "berhenti mengikuti anda",
     "ignore": "mengabaikan anda",
     "reblog": "reblogged",
-    "transfer": "transferred",
+    "transfer": "ditransfer",
     "notification": "Pemberitahuan",
     "leaderboard": "Papan Peringkat",
     "epoint": "Poin",
@@ -121,16 +121,16 @@
     "this_week": "Minggu ini",
     "this_month": "Bulan ini",
     "older_then": "Lebih Lama Dari Sebulan",
-    "activities": "All",
+    "activities": "Semua",
     "replies": "Balasan",
-    "mentions": "Mentions",
-    "reblogs": "Reblogs",
-    "noactivity": "No new activity found"
+    "mentions": "Menyebutkan",
+    "reblogs": "Menampilkan kembali",
+    "noactivity": "No recent activity"
   },
   "leaderboard": {
-    "daily": "DAILY",
-    "weekly": "WEEKLY",
-    "monthly": "MONTHLY"
+    "daily": "HARIAN",
+    "weekly": "MINGGUAN",
+    "monthly": "BULANAN"
   },
   "messages": {
     "comingsoon": "Fungsi pesan akan segera hadir!"
@@ -149,7 +149,7 @@
     "hours": "jam",
     "voting_power": "Kekuatan Suara",
     "login_to_see": "Masuk untuk melihat",
-    "follow_people": "Follow some people to fill your feed",
+    "follow_people": "Ikuti beberapa orang untuk mengisi umpan Anda",
     "havent_commented": "belum berkomentar",
     "havent_posted": "belum pernah mengirimkan sesuatu",
     "steem_power": "Kekuatan Steem",
@@ -159,9 +159,9 @@
     "steem_dollars": "Steem Dollars",
     "savings": "Tabungan",
     "edit": {
-      "display_name": "Display Name",
-      "about": "About",
-      "location": "Location",
+      "display_name": "Nama Tampilan",
+      "about": "Tentang",
+      "location": "Lokasi",
       "website": "Website"
     }
   },
@@ -203,7 +203,7 @@
   },
   "login": {
     "signin": "Masuk",
-    "signup": "JOIN NOW",
+    "signup": "GABUNG SEKARANG",
     "signin_title": "Untuk mendapatkan semua manfaat dari menggunakan eSteem",
     "username": "Nama Pengguna",
     "password": "Kata sandi atau WIF",
@@ -218,7 +218,7 @@
     "popular": "Populer",
     "top": "Top",
     "hot": "Hot",
-    "new": "New",
+    "new": "Baru",
     "blog": "Blog"
   },
   "side_menu": {
@@ -246,21 +246,21 @@
   },
   "editor": {
     "title": "Judul",
-    "tags": "Tags (separate by space)",
-    "default_placeholder": "Apa yang ingin Anda tulis tentang hari ini?",
-    "reply_placeholder": "Apa yang ingin Anda tulis tentang posting di atas?",
+    "tags": "Tags (separate with space)",
+    "default_placeholder": "Tell us something...",
+    "reply_placeholder": "Add your reply...",
     "publish": "Terbitkan",
     "reply": "Balas",
     "open_gallery": "Buka Album",
     "capture_photo": "Ambil Foto",
-    "limited_tags": "Only 10 tags allowed, remove some",
-    "limited_length": "Maximum length of each tag should be 24",
-    "limited_dash": "Use one dash in each tag",
-    "limited_space": "Use space to separate tags",
-    "limited_lowercase": "Only use lower letters in tag",
-    "limited_characters": "Use only allowed characters in tag",
-    "limited_firstchar": "Tag must start with a letter",
-    "limited_lastchar": "Tag must end with letter or number"
+    "limited_tags": "Hanya 10 tag yang diizinkan, hapus beberapa",
+    "limited_length": "Panjang maksimum setiap tag harus 24",
+    "limited_dash": "Gunakan satu tanda hubung di setiap tag",
+    "limited_space": "Gunakan spasi untuk memisahkan tag",
+    "limited_lowercase": "Hanya menggunakan huruf kecil dalam tag",
+    "limited_characters": "Gunakan hanya karakter yang diizinkan dalam tag",
+    "limited_firstchar": "Tag harus dimulai dengan huruf",
+    "limited_lastchar": "Tag harus diakhiri dengan huruf atau angka"
   },
   "pincode": {
     "enter_text": "Masukkan PIN untuk membuka kunci",
@@ -280,14 +280,15 @@
     "success_moved": "Pindah ke konsep",
     "permission_denied": "Izin ditolak",
     "permission_text": "Silakan buka pengaturan telepon dan ubah izin untuk aplikasi eSteem.",
+    "key_warning": "Check private key permission!",
     "success_rebloged": "Rebloged!",
     "already_rebloged": "Anda telah menampilkan kembali blog ini!",
-    "success_favorite": "Favorite added!",
-    "success_unfavorite": "Favorite removed!",
-    "success_follow": "Follow success!",
-    "success_mute": "Mute success!",
-    "success_unmute": "Unmute success!",
-    "success_unfollow": "Unfollow success!",
+    "success_favorite": "Favorit ditambahkan!",
+    "success_unfavorite": "Favorit dihapus!",
+    "success_follow": "Ikuti kesuksesan!",
+    "success_mute": "Bisukan kesuksesan!",
+    "success_unmute": "Suarakan kesuksesan!",
+    "success_unfollow": "Berhenti mengikuti kesuksesan!",
     "warning": "Peringatan",
     "invalid_pincode": "Invalid pin code, please check and try again.",
     "remove_alert": "Yakin ingin menghapus?",
@@ -303,12 +304,13 @@
     "same_user": "Pengguna ini sudah ditambahkan ke daftar",
     "unknow_error": "Terjadi kesalahan",
     "error": "Error",
-    "fetch_error": "Gagal mengambil data, silakan coba lagi atau beri tahu kami di info@esteem.app",
+    "fetch_error": "Connection issue, please try again or write to support@esteem.app",
     "connection_fail": "Koneksi gagal!",
     "connection_success": "Berhasil terhubung!",
-    "checking": "Checking...",
-    "not_existing_post": "The post does not exist! Please check permlink and author.",
-    "google_play_version": "We noticed that your device has old version of Google Play. Please update Google Play services and try again!"
+    "checking": "Mememriksa...",
+    "external_link": "Are you sure, you want to open an external link?",
+    "not_existing_post": "Pos tidak ada! Silakan periksa permlink dan penulis.",
+    "google_play_version": "Kami perhatikan bahwa perangkat Anda memiliki Google Play versi lama. Harap perbarui layanan Google Play dan coba lagi!"
   },
   "post": {
     "reblog_alert": "Anda yakin, anda ingin me-reblog?",
@@ -317,9 +319,9 @@
     "reblogged": "direblog Oleh",
     "sponsored": "DISPONSORI",
     "open_thread": "Buka Thread",
-    "save_to_local": "Save to the album",
-    "image_saved": "Image Saved to Photo Gallery",
-    "image_saved_error": "Error Saving Image"
+    "save_to_local": "Simpan ke album",
+    "image_saved": "Gambar Disimpan ke Galeri Foto",
+    "image_saved_error": "Kesalahan menyimpan gambar"
   },
   "drafts": {
     "title": "Konsep",
@@ -354,7 +356,7 @@
     "invalid_username": "Nama pengguna tidak valid, silakan periksa dan coba lagi",
     "already_logged": "Anda sudah masuk, coba tambahkan akun lain",
     "invalid_credentials": "Kredensial tidak valid, silakan periksa dan coba lagi",
-    "unknow_error": "Kesalahan tidak dikenal, silakan hubungi kami di support@esteem.app"
+    "unknow_error": "Unknown error, please write to support@esteem.app"
   },
   "payout": {
     "potential_payout": "Potensi pembayaran",
@@ -362,9 +364,9 @@
     "author_payout": "Pembayaran pencipta konten",
     "curation_payout": "Pembayaran Kurasi",
     "payout_date": "Pembayaran",
-    "beneficiaries": "Beneficiaries",
-    "warn_zero_payout": "Amount must reach $0.02 for payout",
-    "breakdown": "Breakdown"
+    "beneficiaries": "Penerima manfaat",
+    "warn_zero_payout": "Jumlah harus mencapai $ 0,02 untuk pembayaran",
+    "breakdown": "Kerusakan"
   },
   "post_dropdown": {
     "copy": "salin tautan",
@@ -385,9 +387,9 @@
   },
   "comment_filter": {
     "trending": "TOP",
-    "reputation": "REPUTATION",
+    "reputation": "REPUTASI",
     "votes": "VOTE",
-    "age": "AGE",
+    "age": "USIA",
     "top": "TOP",
     "time": "WAKTU"
   },
@@ -408,20 +410,20 @@
     "powerUp": "Power Up",
     "withdraw_to_saving": "Tarik untuk menyimpan",
     "steemconnect_title": "Steemconnect Transfer",
-    "estimated_weekly": "Estimated Weekly",
-    "destination_accounts": "Destination Accounts",
-    "stop_information": "Are you sure want to stop?",
-    "percent": "Percent",
-    "auto_vests": "Auto Vests",
-    "save": "SAVE",
-    "percent_information": "Percent info",
+    "estimated_weekly": "Estimasi Mingguan",
+    "destination_accounts": "Akun Tujuan",
+    "stop_information": "Anda yakin ingin berhenti?",
+    "percent": "Persen",
+    "auto_vests": "Vests Otomatis",
+    "save": "Simpan",
+    "percent_information": "Informasi persen",
     "next": "LANJUT",
     "delegate": "Delegasikan",
     "power_down": "Menurunkan daya",
     "withdraw_steem": "Withdraw Steem",
     "withdraw_sbd": "Tarik Steem Dollar",
-    "incoming_funds": "Incoming Funds",
-    "stop": "Stop"
+    "incoming_funds": "Dana masuk",
+    "stop": "Berhenti"
   },
   "boost": {
     "title": "Dapatkan poin eSteem",
@@ -429,11 +431,11 @@
     "next": "LANJUT"
   },
   "free_estm": {
-    "title": "Free ESTM",
+    "title": "ESTM Gratis",
     "button": "SPIN & WIN",
     "get_spin": "5 SPINS",
-    "spin_right": "Spin Left",
-    "timer_text": "Next free spin in"
+    "spin_right": "Spin tersisa",
+    "timer_text": "Spin gratis berikutnya"
   },
   "promote": {
     "title": "Promosikan",
@@ -456,9 +458,9 @@
   },
   "dsteem": {
     "date_error": {
-      "device_time": "Your device time;",
-      "current_time": "Current time;",
-      "information": "We noticed that your device has incorrect date or time. Please fix Date & Time or Set Automatically and try again."
+      "device_time": "Waktu perangkat Anda;",
+      "current_time": "Waktu saat ini;",
+      "information": "Kami perhatikan bahwa perangkat Anda memiliki tanggal atau waktu yang salah. Harap perbaiki Tanggal & Waktu atau Setel Secara Otomatis dan coba lagi."
     }
   },
   "comments": {
