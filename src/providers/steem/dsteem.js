@@ -1192,6 +1192,7 @@ export const grantPostingPermission = async (json, pin, currentAccount) => {
       ],
     },
   );
+  newPosting.account_auths.sort();
   if (get(currentAccount, 'local.authType') === AUTH_TYPE.STEEM_CONNECT) {
     const token = decryptKey(get(currentAccount, 'local.accessToken'), digitPinCode);
     const api = new steemconnect.Client({
@@ -1213,7 +1214,6 @@ export const grantPostingPermission = async (json, pin, currentAccount) => {
   }
 
   if (key) {
-    newPosting.account_auths.sort();
     const opArray = [
       [
         'account_update',
