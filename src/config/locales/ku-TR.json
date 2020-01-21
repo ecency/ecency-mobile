@@ -125,7 +125,7 @@
     "replies": "Bersiv",
     "mentions": "Gotûbêj",
     "reblogs": "Dîsweşandin",
-    "noactivity": "Çalakiya nû nehate dîtin"
+    "noactivity": "No recent activity"
   },
   "leaderboard": {
     "daily": "ROJANE",
@@ -246,9 +246,9 @@
   },
   "editor": {
     "title": "Sernav",
-    "tags": "Etîket (bi valahiyan ji hev diqete)",
-    "default_placeholder": "Tu îro dixwazî li ser çi binivîsî?",
-    "reply_placeholder": "Tu dixwazî li ser nivîsa jorîn çi binivîsî?",
+    "tags": "Tags (separate with space)",
+    "default_placeholder": "Tell us something...",
+    "reply_placeholder": "Add your reply...",
     "publish": "Biweşîne",
     "reply": "Bibersivîne",
     "open_gallery": "Pêşangehê Veke",
@@ -280,6 +280,7 @@
     "success_moved": "Veguhezî reşnivîsê bû",
     "permission_denied": "Destûr hate redkirin",
     "permission_text": "Ji kerema xwe, biçe Sazkariyên telefonê û destûrên eSteemê veke.",
+    "key_warning": "Check private key permission!",
     "success_rebloged": "Reblog bû!",
     "already_rebloged": "Jixwe hatiye dîs-weşandin!",
     "success_favorite": "Favorite added!",
@@ -303,10 +304,11 @@
     "same_user": "Ev bikarhêner jixwe li lîsteyê hatiye tevlîkirin",
     "unknow_error": "Çêwtiyek çêbû",
     "error": "Çewtî",
-    "fetch_error": "Anîna daneyê biserneket, ji kerema xwe dîsa biceribîne an jî ji ser info@esteem.app me agahdar bike",
+    "fetch_error": "Connection issue, please try again or write to support@esteem.app",
     "connection_fail": "Girêdan Biserneket!",
     "connection_success": "Bi serkeftî hate girêdan!",
     "checking": "Tê kontrolkirin...",
+    "external_link": "Are you sure, you want to open an external link?",
     "not_existing_post": "Şandî tine ye! Ji kerema xwe girêdan û nivîskar kontrol bike.",
     "google_play_version": "Me ferqkir ku li amûra te, guhertoya kevn a Google Playê sazkirî ye. Ji kerema xwe, xizmetên Google Playê hildemîne û dîsa biceribîne!"
   },
@@ -354,7 +356,7 @@
     "invalid_username": "Navê bikarhêner nederbasdar e, kontrol bike û dîsa biceribîne",
     "already_logged": "Jixwe tu têketî ye, ji kerema xwe tevlîkirina hesabekî din biceribîne",
     "invalid_credentials": "Navê bikarhêner nederbasdar e, kontrol bike û dîsa biceribîne",
-    "unknow_error": "Çewtiya nenas, ji ser support@esteem.app bi me re têkilî deyne"
+    "unknow_error": "Unknown error, please write to support@esteem.app"
   },
   "payout": {
     "potential_payout": "Peredayîna Texmînî",

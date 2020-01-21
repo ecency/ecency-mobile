@@ -125,7 +125,7 @@
     "replies": "Atsakymai",
     "mentions": "Mentions",
     "reblogs": "Reblogs",
-    "noactivity": "No new activity found"
+    "noactivity": "No recent activity"
   },
   "leaderboard": {
     "daily": "DAILY",
@@ -246,9 +246,9 @@
   },
   "editor": {
     "title": "Pavadinimas",
-    "tags": "Tags (separate by space)",
-    "default_placeholder": "Apie ką norėtumėte rašyti šiandien?",
-    "reply_placeholder": "Ką norėtumėte parašyti po įrašu?",
+    "tags": "Tags (separate with space)",
+    "default_placeholder": "Tell us something...",
+    "reply_placeholder": "Add your reply...",
     "publish": "Skelbti",
     "reply": "Atsakyti",
     "open_gallery": "Open Gallery",
@@ -280,6 +280,7 @@
     "success_moved": "Perkelta į ruošinius",
     "permission_denied": "Leidimas nesuteiktas",
     "permission_text": "Prašome telefono nustatymuose pakeisti eSteem programėlės leidimus.",
+    "key_warning": "Check private key permission!",
     "success_rebloged": "Rebloged!",
     "already_rebloged": "Jūs tai jau pasidalinote!",
     "success_favorite": "Favorite added!",
@@ -303,10 +304,11 @@
     "same_user": "This user already added to list",
     "unknow_error": "An error occurred",
     "error": "Error",
-    "fetch_error": "Fetching data failed, please try again or notify us at info@esteem.app",
+    "fetch_error": "Connection issue, please try again or write to support@esteem.app",
     "connection_fail": "Connection Failed!",
     "connection_success": "Successfully connected!",
     "checking": "Checking...",
+    "external_link": "Are you sure, you want to open an external link?",
     "not_existing_post": "The post does not exist! Please check permlink and author.",
     "google_play_version": "We noticed that your device has old version of Google Play. Please update Google Play services and try again!"
   },
@@ -354,7 +356,7 @@
     "invalid_username": "Neteisingas naudotojo vardas, patikrinkite ir bandykite dar kartą",
     "already_logged": "Jūs jau prisijungę, bandykite pridėti kitą paskyrą",
     "invalid_credentials": "Neteisingi duomenys, patikrinkite ir bandykite dar kartą",
-    "unknow_error": "Nežinoma klaida, susisiekite su mumis adresu support@esteem.app"
+    "unknow_error": "Unknown error, please write to support@esteem.app"
   },
   "payout": {
     "potential_payout": "Potencialus užmokestis",

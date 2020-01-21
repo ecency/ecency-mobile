@@ -125,7 +125,7 @@
     "replies": "返信",
     "mentions": "メンション",
     "reblogs": "リブログ",
-    "noactivity": "新着アクティビティはありません"
+    "noactivity": "最近のアクティビティがありません"
   },
   "leaderboard": {
     "daily": "日間",
@@ -203,7 +203,7 @@
   },
   "login": {
     "signin": "ログイン",
-    "signup": "JOIN NOW",
+    "signup": "今すぐ参加",
     "signin_title": "eSteem の素晴らしさを満喫しよう",
     "username": "ユーザー名",
     "password": "パスワードまたは WIF",
@@ -247,8 +247,8 @@
   "editor": {
     "title": "タイトル",
     "tags": "タグ (スペース区切り)",
-    "default_placeholder": "今日のことについて何か投稿してみませんか？",
-    "reply_placeholder": "投稿について何かコメントしてみませんか？",
+    "default_placeholder": "何か教えて...",
+    "reply_placeholder": "返信を追加する...",
     "publish": "公開",
     "reply": "返信",
     "open_gallery": "ギャラリーを開く",
@@ -280,14 +280,15 @@
     "success_moved": "下書きへ移動",
     "permission_denied": "アクセスが拒否されました",
     "permission_text": "本体の設定から eSteem アプリの権限を変更してください。",
+    "key_warning": "Check private key permission!",
     "success_rebloged": "リブログしました！",
     "already_rebloged": "既にリブログしています！",
-    "success_favorite": "Favorite added!",
-    "success_unfavorite": "Favorite removed!",
-    "success_follow": "Follow success!",
-    "success_mute": "Mute success!",
-    "success_unmute": "Unmute success!",
-    "success_unfollow": "Unfollow success!",
+    "success_favorite": "お気に入りに追加しました！",
+    "success_unfavorite": "お気に入りから削除しました！",
+    "success_follow": "フォロー成功！",
+    "success_mute": "ミュート成功！",
+    "success_unmute": "ミュート解除成功！",
+    "success_unfollow": "フォロー解除成功！",
     "warning": "警告",
     "invalid_pincode": "PINコードが間違っています。もう一度確認してやり直してください。",
     "remove_alert": "本当に削除しますか？",
@@ -303,10 +304,11 @@
     "same_user": "このユーザーは既にリストに追加されています",
     "unknow_error": "エラーが発生しました",
     "error": "エラー",
-    "fetch_error": "データを取得できませんでした。もう一度やり直すか info@esteem.app に連絡してください",
+    "fetch_error": "Connection issue, please try again or write to support@esteem.app",
     "connection_fail": "接続に失敗しました！",
     "connection_success": "接続に成功しました！",
     "checking": "確認中...",
+    "external_link": "Are you sure, you want to open an external link?",
     "not_existing_post": "投稿は存在しません！パーマリンクと投稿者を確認してください。",
     "google_play_version": "あなたのデバイスはGoogle Playのバージョンが古いようです。Google Playをアップデートして再度お試しください！"
   },
@@ -354,7 +356,7 @@
     "invalid_username": "ユーザー名が間違っています。もう一度確認してやり直してください",
     "already_logged": "既にログインしています。他のアカウントを追加してください",
     "invalid_credentials": "ログイン情報が間違っています。もう一度確認してやり直してください",
-    "unknow_error": "不明なエラー。support@esteem.app に連絡してください"
+    "unknow_error": "Unknown error, please write to support@esteem.app"
   },
   "payout": {
     "potential_payout": "見込み支払額",

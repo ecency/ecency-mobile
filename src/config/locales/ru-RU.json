@@ -125,7 +125,7 @@
     "replies": "Ответы",
     "mentions": "Mentions",
     "reblogs": "Reblogs",
-    "noactivity": "No new activity found"
+    "noactivity": "No recent activity"
   },
   "leaderboard": {
     "daily": "DAILY",
@@ -246,9 +246,9 @@
   },
   "editor": {
     "title": "Заголовок",
-    "tags": "Tags (separate by space)",
-    "default_placeholder": "О чём вы хотите написать сегодня?",
-    "reply_placeholder": "Напишите ваш комментарий",
+    "tags": "Tags (separate with space)",
+    "default_placeholder": "Tell us something...",
+    "reply_placeholder": "Add your reply...",
     "publish": "Написать",
     "reply": "Ответить",
     "open_gallery": "Перейти в галерею",
@@ -280,6 +280,7 @@
     "success_moved": "Перемещён в черновики",
     "permission_denied": "Не достаточно разрешений",
     "permission_text": "Пожалуйста перейдите в настройки телефона и выдайте разрешения для eSteem",
+    "key_warning": "Check private key permission!",
     "success_rebloged": "Репостнуто!",
     "already_rebloged": "Вы уже делились этим постом!",
     "success_favorite": "Favorite added!",
@@ -303,10 +304,11 @@
     "same_user": "Этот пользователь уже добавлен в список",
     "unknow_error": "An error occurred",
     "error": "Error",
-    "fetch_error": "Fetching data failed, please try again or notify us at info@esteem.app",
+    "fetch_error": "Connection issue, please try again or write to support@esteem.app",
     "connection_fail": "Connection Failed!",
     "connection_success": "Successfully connected!",
     "checking": "Checking...",
+    "external_link": "Are you sure, you want to open an external link?",
     "not_existing_post": "The post does not exist! Please check permlink and author.",
     "google_play_version": "We noticed that your device has old version of Google Play. Please update Google Play services and try again!"
   },
@@ -354,7 +356,7 @@
     "invalid_username": "Неверный пин, попробуйте снова",
     "already_logged": "Вы уже вошли, пожалуйста, попробуйте добавить другой аккаунт",
     "invalid_credentials": "Некорректные данные, пожалуйста, проверьте и повторите снова",
-    "unknow_error": "Неизвестная ошибка, пожалуйста, напишите на support@esteem.app"
+    "unknow_error": "Unknown error, please write to support@esteem.app"
   },
   "payout": {
     "potential_payout": "Потенциальная выплата",

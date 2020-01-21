@@ -125,7 +125,7 @@
     "replies": "Vastused",
     "mentions": "Mentions",
     "reblogs": "Reblogs",
-    "noactivity": "No new activity found"
+    "noactivity": "No recent activity"
   },
   "leaderboard": {
     "daily": "DAILY",
@@ -246,9 +246,9 @@
   },
   "editor": {
     "title": "Pealkiri",
-    "tags": "Tags (separate by space)",
-    "default_placeholder": "Millest sooviksid sa täna kirjutada?",
-    "reply_placeholder": "Mida sooviksid sa ülaloleva postituse kohta kirjutada?",
+    "tags": "Tags (separate with space)",
+    "default_placeholder": "Tell us something...",
+    "reply_placeholder": "Add your reply...",
     "publish": "Avalda",
     "reply": "Vasta",
     "open_gallery": "Ava Galerii",
@@ -280,6 +280,7 @@
     "success_moved": "Teisaldatud mustanditesse",
     "permission_denied": "Juurdepääs keelatud",
     "permission_text": "Palun mine telefoni Seadetesse ja muuda eSteem rakenduse õigusi.",
+    "key_warning": "Check private key permission!",
     "success_rebloged": "Rebloged!",
     "already_rebloged": "Sa oled seda juba jaganud!",
     "success_favorite": "Favorite added!",
@@ -303,10 +304,11 @@
     "same_user": "See konto on juba nimekirja lisatud",
     "unknow_error": "Ilmnes tõrge",
     "error": "Tõrge",
-    "fetch_error": "Info kätte saamine ebaõnnestus, palun proovi uuesti või anna meile veast teada, saates kirja info@esteem.app",
+    "fetch_error": "Connection issue, please try again or write to support@esteem.app",
     "connection_fail": "Ühendus nurjus!",
     "connection_success": "Edukalt ühendatud!",
     "checking": "Checking...",
+    "external_link": "Are you sure, you want to open an external link?",
     "not_existing_post": "The post does not exist! Please check permlink and author.",
     "google_play_version": "We noticed that your device has old version of Google Play. Please update Google Play services and try again!"
   },
@@ -354,7 +356,7 @@
     "invalid_username": "Invalid username, please check and try again",
     "already_logged": "You are already logged in, please try to add another account",
     "invalid_credentials": "Invalid credentials, please check and try again",
-    "unknow_error": "Unknown error, please contact us at support@esteem.app"
+    "unknow_error": "Unknown error, please write to support@esteem.app"
   },
   "payout": {
     "potential_payout": "Potential Payout",

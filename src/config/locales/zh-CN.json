@@ -125,7 +125,7 @@
     "replies": "回复",
     "mentions": "Mentions",
     "reblogs": "Reblogs",
-    "noactivity": "No new activity found"
+    "noactivity": "No recent activity"
   },
   "leaderboard": {
     "daily": "DAILY",
@@ -246,9 +246,9 @@
   },
   "editor": {
     "title": "标题",
-    "tags": "Tags (separate by space)",
-    "default_placeholder": "今天您想要写些什么？",
-    "reply_placeholder": "您想要在帖子上面写些什么？",
+    "tags": "Tags (separate with space)",
+    "default_placeholder": "Tell us something...",
+    "reply_placeholder": "Add your reply...",
     "publish": "发布",
     "reply": "回复",
     "open_gallery": "Open Gallery",
@@ -280,6 +280,7 @@
     "success_moved": "Moved to draft",
     "permission_denied": "无权限",
     "permission_text": "请前往手机设置更改 eSteem 应用程序权限。",
+    "key_warning": "Check private key permission!",
     "success_rebloged": "Rebloged!",
     "already_rebloged": "您已经转发！",
     "success_favorite": "Favorite added!",
@@ -303,10 +304,11 @@
     "same_user": "This user already added to list",
     "unknow_error": "An error occurred",
     "error": "Error",
-    "fetch_error": "Fetching data failed, please try again or notify us at info@esteem.app",
+    "fetch_error": "Connection issue, please try again or write to support@esteem.app",
     "connection_fail": "Connection Failed!",
     "connection_success": "Successfully connected!",
     "checking": "Checking...",
+    "external_link": "Are you sure, you want to open an external link?",
     "not_existing_post": "The post does not exist! Please check permlink and author.",
     "google_play_version": "We noticed that your device has old version of Google Play. Please update Google Play services and try again!"
   },
@@ -354,7 +356,7 @@
     "invalid_username": "无效用户名，请检查后重试。",
     "already_logged": "您已登录，请尝试添加其他账户。",
     "invalid_credentials": "无效凭证，请检查后重试。",
-    "unknow_error": "未知错误，请通过 support@esteem.app 与我们联系。"
+    "unknow_error": "Unknown error, please write to support@esteem.app"
   },
   "payout": {
     "potential_payout": "Potential Payout",

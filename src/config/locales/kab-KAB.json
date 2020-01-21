@@ -125,7 +125,7 @@
     "replies": "Tiririyin",
     "mentions": "Mentions",
     "reblogs": "Reblogs",
-    "noactivity": "No new activity found"
+    "noactivity": "No recent activity"
   },
   "leaderboard": {
     "daily": "N YAL ASS",
@@ -246,9 +246,9 @@
   },
   "editor": {
     "title": "Azwel",
-    "tags": "Tags (separate by space)",
-    "default_placeholder": "Ɣef acu tebɣiḍ ad d-taruḍ ass-agi?",
-    "reply_placeholder": "D acu tebɣiḍ ad d-taruḍ ɣef tsuffeɣt-a n ufella?",
+    "tags": "Tags (separate with space)",
+    "default_placeholder": "Tell us something...",
+    "reply_placeholder": "Add your reply...",
     "publish": "Suffeɣ-d",
     "reply": "Err",
     "open_gallery": "Open Gallery",
@@ -280,6 +280,7 @@
     "success_moved": "Yettwarra ɣer trewayt",
     "permission_denied": "Permission denied",
     "permission_text": "Ma ulac aɣilif, ruḥ ɣer yiɣewwaṛen n tilifun tbeddleḍ uragen i usnas eSteem.",
+    "key_warning": "Check private key permission!",
     "success_rebloged": "Tettwasuffeɣ-d tikelt-nniḍen!",
     "already_rebloged": "Tɛawdeḍ-as asuffeɣ yakan!",
     "success_favorite": "Favorite added!",
@@ -303,10 +304,11 @@
     "same_user": "Amseqdac-agi yettwarna yakan ɣer tebdart",
     "unknow_error": "Tella-d tuccḍa",
     "error": "Tuccḍa",
-    "fetch_error": "Fetching data failed, please try again or notify us at info@esteem.app",
+    "fetch_error": "Connection issue, please try again or write to support@esteem.app",
     "connection_fail": "Tuqqna tecceḍ!",
     "connection_success": "Teqqneḍ!",
     "checking": "Aselken...",
+    "external_link": "Are you sure, you want to open an external link?",
     "not_existing_post": "Ulac tasuffeɣt, ttxil-k senqed aseɣwen d umeskar.",
     "google_play_version": "Nger tamawt d akken ibenk-ik ɣur-s lqem aqdim n Google Play. Ttxil-k lqem imeẓla n Google Play tɛerḍeḍ tikelt-nniḍen!"
   },
@@ -354,7 +356,7 @@
     "invalid_username": "Isem n umseqdac mačči d ameɣtu, sefqed tɛerḍeḍ tikelt-nniḍen",
     "already_logged": "Aqla-k teqqneḍ, ɛreḍ ad ternuḍ amiḍan-nniḍen",
     "invalid_credentials": "Invalid credentials, please check and try again",
-    "unknow_error": "Tuccḍa ur nettwassen, ttxil-k nermes-aɣ-d ɣer support@esteem.app"
+    "unknow_error": "Unknown error, please write to support@esteem.app"
   },
   "payout": {
     "potential_payout": "Potential Payout",

@@ -125,7 +125,7 @@
     "replies": "받은 댓글",
     "mentions": "Mentions",
     "reblogs": "Reblogs",
-    "noactivity": "No new activity found"
+    "noactivity": "No recent activity"
   },
   "leaderboard": {
     "daily": "DAILY",
@@ -246,9 +246,9 @@
   },
   "editor": {
     "title": "제목",
-    "tags": "Tags (separate by space)",
-    "default_placeholder": "오늘은 어떤 글을 작성하고 싶으신가요?",
-    "reply_placeholder": "어떤 댓글을 남기고 싶으신가요?",
+    "tags": "Tags (separate with space)",
+    "default_placeholder": "Tell us something...",
+    "reply_placeholder": "Add your reply...",
     "publish": "게시하기",
     "reply": "댓글",
     "open_gallery": "갤러리 열기",
@@ -280,6 +280,7 @@
     "success_moved": "임시 보관함으로 이동했습니다",
     "permission_denied": "권한이 없습니다",
     "permission_text": "휴대폰 설정으로 이동하여 eSteem 앱 알림 설정을 변경해주세요",
+    "key_warning": "Check private key permission!",
     "success_rebloged": "리블로그 완료!",
     "already_rebloged": "이미 리블로그했습니다!",
     "success_favorite": "Favorite added!",
@@ -303,10 +304,11 @@
     "same_user": "이 사용자는 목록에 이미 추가되었습니다",
     "unknow_error": "오류가 발생했습니다",
     "error": "오류",
-    "fetch_error": "서버에서 데이터를 가져오는데 실패했습니다. 다시 시도해보시거나 info@esteem.app로 문의해주세요.",
+    "fetch_error": "Connection issue, please try again or write to support@esteem.app",
     "connection_fail": "연결 실패!",
     "connection_success": "성공적으로 연결되었습니다",
     "checking": "확인 중...",
+    "external_link": "Are you sure, you want to open an external link?",
     "not_existing_post": "글이 존재하지 않습니다! permlink와 저자를 확인해주세요.",
     "google_play_version": "기기에 설치된 앱이 구 버전인 것 같습니다. 구글 플레이에서 업데이트된 앱을 다운로드받은 후 다시 시도해보세요!"
   },
@@ -354,7 +356,7 @@
     "invalid_username": "올바르지 않은 사용자 이름입니다. 확인 후 다시 시도해주세요",
     "already_logged": "이미 로그인되었습니다. 다른 계정을 이용해 시도해주세요",
     "invalid_credentials": "올바르지 않은 비밀번호입니다. 확인 후 다시 시도해주세요",
-    "unknow_error": "알 수 없는 오류입니다. support@esteem.app 로 문의바랍니다"
+    "unknow_error": "Unknown error, please write to support@esteem.app"
   },
   "payout": {
     "potential_payout": "예상 보상 금액",

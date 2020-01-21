@@ -125,7 +125,7 @@
     "replies": "Andahafteis",
     "mentions": "Mentions",
     "reblogs": "Reblogs",
-    "noactivity": "No new activity found"
+    "noactivity": "No recent activity"
   },
   "leaderboard": {
     "daily": "DAILY",
@@ -246,9 +246,9 @@
   },
   "editor": {
     "title": "Ufarmeli",
-    "tags": "Tags (separate by space)",
-    "default_placeholder": "Hwa wileis meljan bi himma daga?",
-    "reply_placeholder": "Hwa wileis meljan bi ufaro waurd?",
+    "tags": "Tags (separate with space)",
+    "default_placeholder": "Tell us something...",
+    "reply_placeholder": "Add your reply...",
     "publish": "Usmerei",
     "reply": "Andhafei",
     "open_gallery": "Open Gallery",
@@ -280,6 +280,7 @@
     "success_moved": "Moved to draft",
     "permission_denied": "Permission denied",
     "permission_text": "Please, go to phone Settings and change eSteem app permissions.",
+    "key_warning": "Check private key permission!",
     "success_rebloged": "Aftrablaugiþ!",
     "already_rebloged": "You have already reblogged!",
     "success_favorite": "Favorite added!",
@@ -303,10 +304,11 @@
     "same_user": "This user already added to list",
     "unknow_error": "An error occurred",
     "error": "Error",
-    "fetch_error": "Fetching data failed, please try again or notify us at info@esteem.app",
+    "fetch_error": "Connection issue, please try again or write to support@esteem.app",
     "connection_fail": "Connection Failed!",
     "connection_success": "Successfully connected!",
     "checking": "Checking...",
+    "external_link": "Are you sure, you want to open an external link?",
     "not_existing_post": "The post does not exist! Please check permlink and author.",
     "google_play_version": "We noticed that your device has old version of Google Play. Please update Google Play services and try again!"
   },
@@ -354,7 +356,7 @@
     "invalid_username": "Invalid username, please check and try again",
     "already_logged": "You are already logged in, please try to add another account",
     "invalid_credentials": "Invalid credentials, please check and try again",
-    "unknow_error": "Unknown error, please contact us at support@esteem.app"
+    "unknow_error": "Unknown error, please write to support@esteem.app"
   },
   "payout": {
     "potential_payout": "Potential Payout",

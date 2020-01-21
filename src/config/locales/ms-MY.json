@@ -125,7 +125,7 @@
     "replies": "Balasan",
     "mentions": "Mentions",
     "reblogs": "Reblogs",
-    "noactivity": "No new activity found"
+    "noactivity": "No recent activity"
   },
   "leaderboard": {
     "daily": "DAILY",
@@ -246,9 +246,9 @@
   },
   "editor": {
     "title": "Tajuk",
-    "tags": "Tags (separate by space)",
-    "default_placeholder": "Apa yang anda ingin mengarang hari ini?",
-    "reply_placeholder": "Apa yang ingin anda tulis terhadap pos di atas?",
+    "tags": "Tags (separate with space)",
+    "default_placeholder": "Tell us something...",
+    "reply_placeholder": "Add your reply...",
     "publish": "Terbitkan",
     "reply": "Balas",
     "open_gallery": "Membuka galeri",
@@ -280,6 +280,7 @@
     "success_moved": "Pindah kepada Draf",
     "permission_denied": "Tidak dibenarkan",
     "permission_text": "Sila pergi ke tetapan telefon dan mengubah keizinan keyakinan eSteem app.",
+    "key_warning": "Check private key permission!",
     "success_rebloged": "Rebloged!",
     "already_rebloged": "Anda telah diulang siar!",
     "success_favorite": "Favorite added!",
@@ -303,10 +304,11 @@
     "same_user": "Pengguna telah ditambah ke dalam senarai",
     "unknow_error": "An error occurred",
     "error": "Error",
-    "fetch_error": "Fetching data failed, please try again or notify us at info@esteem.app",
+    "fetch_error": "Connection issue, please try again or write to support@esteem.app",
     "connection_fail": "Connection Failed!",
     "connection_success": "Successfully connected!",
     "checking": "Checking...",
+    "external_link": "Are you sure, you want to open an external link?",
     "not_existing_post": "The post does not exist! Please check permlink and author.",
     "google_play_version": "We noticed that your device has old version of Google Play. Please update Google Play services and try again!"
   },
@@ -354,7 +356,7 @@
     "invalid_username": "Kod PIN tidah sah, sila semak dan cuba lagi",
     "already_logged": "Anda telah daftar masuk, sila cuba dengan nama pengguna lain",
     "invalid_credentials": "Kredensi tidah sah, sila semak dan cuba lagi",
-    "unknow_error": "Ralat tidak diketahui, sila hubungi kita di support@esteem.app"
+    "unknow_error": "Unknown error, please write to support@esteem.app"
   },
   "payout": {
     "potential_payout": "Potensi Ganjaran",
