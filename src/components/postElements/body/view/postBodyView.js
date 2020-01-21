@@ -96,13 +96,30 @@ const PostBody = ({
 
   const _handleBrowserLink = async url => {
     if (url) {
-      Linking.canOpenURL(url).then(supported => {
-        if (supported) {
-          Linking.openURL(url);
-        } else {
-          Alert.alert(intl.formatMessage({ id: 'alert.failed_to_open' }));
-        }
-      });
+      Alert.alert(
+        intl.formatMessage({ id: 'alert.warning' }),
+        intl.formatMessage({ id: 'alert.external_link' }),
+        [
+          {
+            text: 'Cancel',
+            onPress: () => console.log('Cancel Pressed'),
+            style: 'cancel',
+          },
+          {
+            text: 'OK',
+            onPress: () => {
+              console.log('OK Pressed');
+              Linking.canOpenURL(url).then(supported => {
+                if (supported) {
+                  Linking.openURL(url);
+                } else {
+                  Alert.alert(intl.formatMessage({ id: 'alert.failed_to_open' }));
+                }
+              });
+            },
+          },
+        ],
+      );
     }
   };
 
