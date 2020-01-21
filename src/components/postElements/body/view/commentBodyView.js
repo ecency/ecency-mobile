@@ -14,7 +14,7 @@ import { navigate } from '../../../../navigation/service';
 import { default as ROUTES } from '../../../../constants/routeNames';
 
 import { CommentPlaceHolder } from '../../../basicUIElements';
-import { customBodyScript } from './config';
+import { customCommentScript } from './config';
 
 // Styles
 
@@ -328,7 +328,7 @@ const CommentBody = ({
   `;
   return (
     <Fragment>
-      <Modal visible={isImageModalOpen} transparent={true}>
+      <Modal key={`mkey-${created.toString()}`} visible={isImageModalOpen} transparent={true}>
         <ImageViewer
           imageUrls={postImages}
           enableSwipeDown
@@ -341,13 +341,13 @@ const CommentBody = ({
         />
       </Modal>
       <AutoHeightWebView
-        key={created.toString()}
+        key={`akey-${created.toString()}`}
         source={{ html }}
         allowsFullscreenVideo={true}
         style={{ width: WIDTH - (32 + 34 * (commentDepth % 6)) }}
         customStyle={customStyle}
         onMessage={__handleOnLinkPress}
-        customScript={customBodyScript}
+        customScript={customCommentScript}
         renderLoading={() => <CommentPlaceHolder />}
         startInLoadingState={true}
         onShouldStartLoadWithRequest={false}
