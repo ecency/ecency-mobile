@@ -280,6 +280,7 @@
     "success_moved": "Qaralamalara köçürüldü",
     "permission_denied": "İcazə verilmədi",
     "permission_text": "Zəhmət olmasa telefon tənzimləmələrinə gedərək eSteem tətbiq icazələrini dəyişdirin.",
+    "key_warning": "Check private key permission!",
     "success_rebloged": "Təkrar paylaşıldı!",
     "already_rebloged": "Artıq təkrar paylaşdınız!",
     "success_favorite": "Favorite added!",
@@ -303,10 +304,11 @@
     "same_user": "This user already added to list",
     "unknow_error": "An error occurred",
     "error": "Error",
-    "fetch_error": "Fetching data failed, please try again or notify us at info@esteem.app",
+    "fetch_error": "Connection issue, please try again or write to support@esteem.app",
     "connection_fail": "Connection Failed!",
     "connection_success": "Successfully connected!",
     "checking": "Checking...",
+    "external_link": "Are you sure, you want to open an external link?",
     "not_existing_post": "The post does not exist! Please check permlink and author.",
     "google_play_version": "We noticed that your device has old version of Google Play. Please update Google Play services and try again!"
   },
@@ -354,7 +356,7 @@
     "invalid_username": "Etibarsız istifadəçi adı, zəhmət olmasa yoxlayıb yenidən sınayın",
     "already_logged": "Artıq giriş etdiniz, zəhmət olmasa başqa bir hesab əlavə edin",
     "invalid_credentials": "Etibarsız kimlik məlumatları, zəhmət olmasa yoxlayıb yenidən sınayın",
-    "unknow_error": "Bilinməyən xəta, zəhmət olmasa support@esteem.app vasitəsilə bizimlə əlaqə saxlayın"
+    "unknow_error": "Unknown error, please write to support@esteem.app"
   },
   "payout": {
     "potential_payout": "Mümkün Ola Biləcək Ödəniş",
