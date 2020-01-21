@@ -356,7 +356,7 @@
     "invalid_username": "ユーザー名が間違っています。もう一度確認してやり直してください",
     "already_logged": "既にログインしています。他のアカウントを追加してください",
     "invalid_credentials": "ログイン情報が間違っています。もう一度確認してやり直してください",
-    "unknow_error": "Unknown error, please write to support@esteem.app"
+    "unknow_error": "不明なエラー、support@esteem.appに連絡してください"
   },
   "payout": {
     "potential_payout": "見込み支払額",
