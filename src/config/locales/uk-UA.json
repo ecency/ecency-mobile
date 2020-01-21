@@ -125,7 +125,7 @@
     "replies": "Відповіді",
     "mentions": "Згадування",
     "reblogs": "Рестіми",
-    "noactivity": "No recent activity"
+    "noactivity": "Жодної активності"
   },
   "leaderboard": {
     "daily": "ЩОДЕННО",
@@ -203,7 +203,7 @@
   },
   "login": {
     "signin": "Увійти",
-    "signup": "JOIN NOW",
+    "signup": "УВІЙТИ ЗАРАЗ",
     "signin_title": "Щоб отримати всі переваги використовуйте eSteem",
     "username": "Ім'я користувача",
     "password": "Пароль або WIF (приватний ключ)",
@@ -246,8 +246,8 @@
   },
   "editor": {
     "title": "Заголовок",
-    "tags": "Tags (separate with space)",
-    "default_placeholder": "Tell us something...",
+    "tags": "Теги (розділяються пробілом)",
+    "default_placeholder": "Розкажіть нам щось...",
     "reply_placeholder": "Add your reply...",
     "publish": "Опублікувати",
     "reply": "Відповісти",
