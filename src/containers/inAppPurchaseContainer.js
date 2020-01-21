@@ -119,7 +119,7 @@ class InAppPurchaseContainer extends Component {
     } catch (err) {
       bugsnag.notify(err);
       Alert.alert(
-        `Fetching data from server failed, please try again or notify us at info@esteem.app
+        `InApp - Connection issue, try again or write to support@esteem.app
           ${err.message.substr(0, 20)}`,
       );
     }
