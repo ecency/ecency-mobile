@@ -45,7 +45,7 @@ const CommentBody = ({
         data = {};
       }
 
-      const { type, href, author, category, permlink, tag, proposal, videoHref } = data;
+      const { type, href, images, author, category, permlink, tag, proposal, videoHref } = data;
 
       switch (type) {
         case '_external':
@@ -76,7 +76,7 @@ const CommentBody = ({
         case 'markdown-video-link':
           break;
         case 'image':
-          setPostImages([{ url: href }]);
+          setPostImages(images);
           setIsImageModalOpen(true);
           break;
 
@@ -225,6 +225,12 @@ const CommentBody = ({
     color: ${EStyleSheet.value('$primaryBlack')};
     font-family: Roboto, sans-serif;
     max-width: 100%;
+    -webkit-touch-callout: none;
+    -webkit-user-select: none;
+    -khtml-user-select: none;
+    -moz-user-select: none;
+    -ms-user-select: none;
+    user-select: none;
   }
   body {
     color: ${EStyleSheet.value('$primaryBlack')};
@@ -333,6 +339,7 @@ const CommentBody = ({
           imageUrls={postImages}
           enableSwipeDown
           onCancel={() => setIsImageModalOpen(false)}
+          onClick={() => setIsImageModalOpen(false)}
           onSave={uri => _saveImage(uri)}
           menuContext={{
             saveToLocal: intl.formatMessage({ id: 'post.save_to_local' }),
