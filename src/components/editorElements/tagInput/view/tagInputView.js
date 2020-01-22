@@ -8,6 +8,7 @@ import { TextInput } from '../../../textInput';
 // Styles
 import styles from './tagInputStyles';
 import globalStyles from '../../../../globalStyles';
+import { ThemeContainer } from '../../../../containers';
 
 const TagInput = ({
   value,
@@ -86,24 +87,28 @@ const TagInput = ({
   };
   return (
     <View style={[globalStyles.containerHorizontal16, { height: Math.max(35, height) }]}>
-      <TextInput
-        style={[styles.textInput, { height: Math.max(35, height) }]}
-        placeholderTextColor="#c1c5c7"
-        editable={!isPreviewActive}
-        maxLength={100}
-        placeholder={intl.formatMessage({
-          id: 'editor.tags',
-        })}
-        multiline
-        numberOfLines={2}
-        onContentSizeChange={event => {
-          setHeight(event.nativeEvent.contentSize.height);
-        }}
-        autoFocus={autoFocus}
-        onChangeText={textT => _handleOnChange(textT)}
-        onBlur={() => _handleOnBlur()}
-        value={text}
-      />
+      <ThemeContainer>
+        {({ isDarkTheme }) => (
+          <TextInput
+            style={[styles.textInput, { height: Math.max(35, height) }]}
+            placeholderTextColor={isDarkTheme ? '#526d91' : '#c1c5c7'}
+            editable={!isPreviewActive}
+            maxLength={100}
+            placeholder={intl.formatMessage({
+              id: 'editor.tags',
+            })}
+            multiline
+            numberOfLines={2}
+            onContentSizeChange={event => {
+              setHeight(event.nativeEvent.contentSize.height);
+            }}
+            autoFocus={autoFocus}
+            onChangeText={textT => _handleOnChange(textT)}
+            onBlur={() => _handleOnBlur()}
+            value={text}
+          />
+        )}
+      </ThemeContainer>
       {warning && <Text style={styles.warning}>{warning}</Text>}
     </View>
   );

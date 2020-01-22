@@ -240,6 +240,10 @@ const PostBody = ({
     align-items: 'center';
     justify-content: 'center';
   }
+  table {
+    table-layout: fixed;
+    width: 100%;
+  }
   th {
     flex: 1;
     justify-content: 'center';
@@ -263,6 +267,7 @@ const PostBody = ({
     border-left-width: 5;
     border-left-style: solid;
     border-color: ${EStyleSheet.value('$darkIconColor')};
+    margin-left: 5;
     padding-left: 5;
   }
   code {
