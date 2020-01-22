@@ -1,72 +1,17 @@
 import EStyleSheet from 'react-native-extended-stylesheet';
 
 export default EStyleSheet.create({
-  text: {
-    fontSize: 16,
-    color: '$primaryBlack',
-    fontFamily: '$primaryFont',
-  },
-  container: {
-    paddingHorizontal: 0,
-    marginTop: 10,
-  },
-  a: {
-    color: '$primaryBlue',
-    fontFamily: '$primaryFont',
-  },
-  h4: {
-    fontSize: 15,
-    marginHorizontal: 10,
-    marginVertical: 5,
-  },
-  h1: {
-    fontSize: 30,
-  },
-  h2: {
-    fontSize: 25,
-  },
-  h3: {
-    fontSize: 20,
-  },
-  commentContainer: {
-    paddingHorizontal: 0,
-    right: 30,
-    marginTop: 10,
-  },
-  th: {
-    flex: 1,
+  revealButton: {
+    backgroundColor: '$iconColor',
+    height: 22,
     justifyContent: 'center',
-    fontWeight: 'bold',
-    color: '$primaryBlack',
-    fontSize: 14,
-    padding: 5,
-  },
-  tr: {
-    backgroundColor: '$darkIconColor',
-    flexDirection: 'row',
-  },
-  td: {
-    borderWidth: 0.5,
-    borderColor: '$tableBorderColor',
-    flex: 1,
-    padding: 10,
-    backgroundColor: '$tableTrColor',
-  },
-  blockquote: {
-    borderLeftWidth: 5,
-    borderColor: '$darkIconColor',
-    paddingLeft: 5,
-  },
-  code: {
-    backgroundColor: '$darkIconColor',
-    fontFamily: '$editorFont',
-  },
-  center: {
-    textAlign: 'center',
     alignItems: 'center',
-    justifyContent: 'center',
+    borderRadius: 20,
+    minWidth: 40,
+    maxWidth: 170,
   },
-  img: {
-    alignSelf: 'center',
+  revealText: {
+    color: '$white',
+    fontSize: 14,
   },
 });

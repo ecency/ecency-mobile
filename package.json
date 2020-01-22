@@ -10,8 +10,7 @@
   "scripts": {
     "version": "./version-ios.sh",
     "postversion": "react-native-version",
-    "start": "node node_modules/react-native/local-cli/cli.js start",
-    "eject": "node node_modules/react-native/local-cli/cli.js eject",
+    "start": "react-native start",
     "android": "react-native run-android",
     "ios": "react-native run-ios",
     "test": "node node_modules/jest/bin/jest.js --watch",

@@ -1,9 +1,16 @@
 const customBodyScript = `
 var images = document.getElementsByTagName("IMG");
+var imageUrls = [];
+for (var k = 0; k < images.length; k++) {  
+  var src = images[k].getAttribute("src") || '';
+  if (src) {
+    imageUrls.push({url: src});
+  }
+}
 for (var i = 0; i < images.length; i++) {  
   var result = {
     type: 'image',
-    href: images[i].getAttribute("src") || ''
+    images: imageUrls
   };
   var resultStr = JSON.stringify(JSON.stringify(result));
   var message = 'window.ReactNativeWebView.postMessage(' + resultStr + ')';
@@ -111,18 +118,26 @@ true;
 
 const customCommentScript = `
 var images = document.getElementsByTagName("IMG");
+var imageUrls = [];
+for (var k = 0; k < images.length; k++) {  
+  var src = images[k].getAttribute("src") || '';
+  if (src) {
+    imageUrls.push({url: src});
+  }
+}
 for (var i = 0; i < images.length; i++) {  
   var result = {
     type: 'image',
-    href: images[i].getAttribute("src") || ''
+    images: imageUrls
   };
   var resultStr = JSON.stringify(JSON.stringify(result));
   var message = 'window.ReactNativeWebView.postMessage(' + resultStr + ')';
   if (!images[i].classList.contains("video-thumbnail") && !images[i].parentNode.classList.contains("markdown-external-link")) {
-    images[i].setAttribute("onClick", message);
+    images[i].setAttribute("onTouchStart", message);
   }
 }
 document.addEventListener('touchstart', function(event) {
+  event.preventDefault();
   var el = event.target;
   while (el.tagName !== 'A') {
     if (!el.parentNode) {

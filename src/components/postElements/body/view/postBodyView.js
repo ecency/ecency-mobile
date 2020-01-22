@@ -42,7 +42,7 @@ const PostBody = ({
         data = {};
       }
 
-      const { type, href, author, category, permlink, tag, proposal, videoHref } = data;
+      const { type, href, images, author, category, permlink, tag, proposal, videoHref } = data;
 
       switch (type) {
         case '_external':
@@ -73,7 +73,7 @@ const PostBody = ({
         case 'markdown-video-link':
           break;
         case 'image':
-          setPostImages([{ url: href }]);
+          setPostImages(images);
           setIsImageModalOpen(true);
           break;
 
@@ -328,6 +328,7 @@ const PostBody = ({
           imageUrls={postImages}
           enableSwipeDown
           onCancel={() => setIsImageModalOpen(false)}
+          onClick={() => setIsImageModalOpen(false)}
           onSave={uri => _saveImage(uri)}
           menuContext={{
             saveToLocal: intl.formatMessage({ id: 'post.save_to_local' }),

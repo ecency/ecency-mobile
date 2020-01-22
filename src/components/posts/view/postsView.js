@@ -202,7 +202,7 @@ const PostsView = ({
                 }
               }
 
-              if (posts.length < 5 && pageType !== 'profiles') {
+              if (posts.length < 7 && pageType !== 'profiles') {
                 setFeedPosts(_posts);
               }
 
@@ -340,7 +340,10 @@ const PostsView = ({
                 const ix = index / 3 - 1;
                 if (promotedPosts[ix] !== undefined) {
                   const p = promotedPosts[ix];
-                  if (get(p, 'author', null)) {
+                  if (
+                    get(p, 'author', null) &&
+                    posts.filter(x => x.permlink === p.permlink).length <= 0
+                  ) {
                     e.push(
                       <PostCard
                         key={`${p.author}-${p.permlink}-prom`}
