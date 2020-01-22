@@ -239,13 +239,26 @@ const CommentBody = ({
     -moz-user-select: none;
     -ms-user-select: none;
     user-select: none;
+
+    overflow-wrap: break-word;
+    word-wrap: break-word;
+
+    -ms-word-break: break-all;
+    word-break: break-all;
+    word-break: break-word;
+
+    -ms-hyphens: auto;
+    -moz-hyphens: auto;
+    -webkit-hyphens: auto;
+    hyphens: auto;
+
   }
   body {
     color: ${EStyleSheet.value('$primaryBlack')};
   }
   a {
     color: ${EStyleSheet.value('$primaryBlue')};
-    cursor: pointer;
+    cursor: pointer; 
   }
   img {
     align-self: 'center';
@@ -338,7 +351,6 @@ const CommentBody = ({
     display: inline;
     color: red;
   }
-
   .text-justify {
     text-align: justify;
     text-justify: inter-word;
