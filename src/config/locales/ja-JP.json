@@ -465,8 +465,8 @@
   },
   "comments": {
     "title": "コメント",
-    "reveal_comment": "Reveal comment",
-    "read_more": "Read more comments",
-    "more_replies": "more replies"
+    "reveal_comment": "コメントを表示",
+    "read_more": "もっとコメントを読む",
+    "more_replies": "返信をもっと表示"
   }
 }
