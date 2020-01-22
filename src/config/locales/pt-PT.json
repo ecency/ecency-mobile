@@ -464,6 +464,9 @@
     }
   },
   "comments": {
-    "title": "Comentários"
+    "title": "Comentários",
+    "reveal_comment": "Reveal comment",
+    "read_more": "Read more comments",
+    "more_replies": "more replies"
   }
 }
