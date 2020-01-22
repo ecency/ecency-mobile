@@ -4,6 +4,7 @@ import { View } from 'react-native';
 
 // Components
 import { TextInput } from '../../../textInput';
+import { ThemeContainer } from '../../../../containers';
 
 // Styles
 import styles from './titleAreaStyles';
@@ -49,23 +50,27 @@ export default class TitleAreaView extends Component {
 
     return (
       <View style={[globalStyles.containerHorizontal16, { height: Math.max(35, height) }]}>
-        <TextInput
-          style={[styles.textInput, { height: Math.max(35, height) }]}
-          placeholderTextColor="#c1c5c7"
-          editable={!isPreviewActive}
-          maxLength={250}
-          placeholder={intl.formatMessage({
-            id: 'editor.title',
-          })}
-          multiline
-          numberOfLines={4}
-          onContentSizeChange={event => {
-            this.setState({ height: event.nativeEvent.contentSize.height });
-          }}
-          autoFocus={autoFocus}
-          onChangeText={textT => this._handleOnChange(textT)}
-          value={text}
-        />
+        <ThemeContainer>
+          {({ isDarkTheme }) => (
+            <TextInput
+              style={[styles.textInput, { height: Math.max(35, height) }]}
+              placeholderTextColor={isDarkTheme ? '#526d91' : '#c1c5c7'}
+              editable={!isPreviewActive}
+              maxLength={250}
+              placeholder={intl.formatMessage({
+                id: 'editor.title',
+              })}
+              multiline
+              numberOfLines={4}
+              onContentSizeChange={event => {
+                this.setState({ height: event.nativeEvent.contentSize.height });
+              }}
+              autoFocus={autoFocus}
+              onChangeText={textT => this._handleOnChange(textT)}
+              value={text}
+            />
+          )}
+        </ThemeContainer>
       </View>
     );
   }
