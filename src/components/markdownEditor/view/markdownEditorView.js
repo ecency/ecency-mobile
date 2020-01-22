@@ -213,7 +213,7 @@ const MarkdownEditorView = ({
   return (
     <KeyboardAvoidingView
       style={styles.container}
-      keyboardVerticalOffset={Platform.select({ ios: 0, android: 40 })}
+      keyboardVerticalOffset={Platform.select({ ios: 0, android: 30 })}
       behavior={Platform.OS === 'ios' ? 'padding' : 'height'}
     >
       {!isPreviewActive ? (

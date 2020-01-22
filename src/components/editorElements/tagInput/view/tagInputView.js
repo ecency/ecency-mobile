@@ -21,7 +21,6 @@ const TagInput = ({
 }) => {
   const [text, setText] = useState('');
   const [warning, setWarning] = useState(null);
-  const [height, setHeight] = useState(0);
 
   useEffect(() => {
     if (typeof value === 'string') {
@@ -38,21 +37,21 @@ const TagInput = ({
     let cats = _text.split(' ');
     if (handleTagChanged && cats.length > 0) {
       cats.length > 10
-        ? (setWarning(intl.formatMessage({ id: 'editor.limited_tags' })), setHeight(60))
+        ? setWarning(intl.formatMessage({ id: 'editor.limited_tags' }))
         : cats.find(c => c.length > 24)
-        ? (setWarning(intl.formatMessage({ id: 'editor.limited_length' })), setHeight(60))
+        ? setWarning(intl.formatMessage({ id: 'editor.limited_length' }))
         : cats.find(c => c.split('-').length > 2)
-        ? (setWarning(intl.formatMessage({ id: 'editor.limited_dash' })), setHeight(60))
+        ? setWarning(intl.formatMessage({ id: 'editor.limited_dash' }))
         : cats.find(c => c.indexOf(',') >= 0)
-        ? (setWarning(intl.formatMessage({ id: 'editor.limited_space' })), setHeight(60))
+        ? setWarning(intl.formatMessage({ id: 'editor.limited_space' }))
         : cats.find(c => /[A-Z]/.test(c))
-        ? (setWarning(intl.formatMessage({ id: 'editor.limited_lowercase' })), setHeight(60))
+        ? setWarning(intl.formatMessage({ id: 'editor.limited_lowercase' }))
         : cats.find(c => !/^[a-z0-9-#]+$/.test(c))
-        ? (setWarning(intl.formatMessage({ id: 'editor.limited_characters' })), setHeight(60))
+        ? setWarning(intl.formatMessage({ id: 'editor.limited_characters' }))
         : cats.find(c => !/^[a-z-#]/.test(c))
-        ? (setWarning(intl.formatMessage({ id: 'editor.limited_firstchar' })), setHeight(60))
+        ? setWarning(intl.formatMessage({ id: 'editor.limited_firstchar' }))
         : cats.find(c => !/[a-z0-9]$/.test(c))
-        ? (setWarning(intl.formatMessage({ id: 'editor.limited_lastchar' })), setHeight(60))
+        ? setWarning(intl.formatMessage({ id: 'editor.limited_lastchar' }))
         : setWarning(null);
 
       handleTagChanged([...cats]);
@@ -64,21 +63,21 @@ const TagInput = ({
       cats = text.trim().split(' ');
       if (handleTagChanged && cats.length > 0) {
         cats.length > 10
-          ? (setWarning(intl.formatMessage({ id: 'editor.limited_tags' })), setHeight(60))
+          ? setWarning(intl.formatMessage({ id: 'editor.limited_tags' }))
           : cats.find(c => c.length > 24)
-          ? (setWarning(intl.formatMessage({ id: 'editor.limited_length' })), setHeight(60))
+          ? setWarning(intl.formatMessage({ id: 'editor.limited_length' }))
           : cats.find(c => c.split('-').length > 2)
-          ? (setWarning(intl.formatMessage({ id: 'editor.limited_dash' })), setHeight(60))
+          ? setWarning(intl.formatMessage({ id: 'editor.limited_dash' }))
           : cats.find(c => c.indexOf(',') >= 0)
-          ? (setWarning(intl.formatMessage({ id: 'editor.limited_space' })), setHeight(60))
+          ? setWarning(intl.formatMessage({ id: 'editor.limited_space' }))
           : cats.find(c => /[A-Z]/.test(c))
-          ? (setWarning(intl.formatMessage({ id: 'editor.limited_lowercase' })), setHeight(60))
+          ? setWarning(intl.formatMessage({ id: 'editor.limited_lowercase' }))
           : cats.find(c => !/^[a-z0-9-#]+$/.test(c))
-          ? (setWarning(intl.formatMessage({ id: 'editor.limited_characters' })), setHeight(60))
+          ? setWarning(intl.formatMessage({ id: 'editor.limited_characters' }))
           : cats.find(c => !/^[a-z-#]/.test(c))
-          ? (setWarning(intl.formatMessage({ id: 'editor.limited_firstchar' })), setHeight(60))
+          ? setWarning(intl.formatMessage({ id: 'editor.limited_firstchar' }))
           : cats.find(c => !/[a-z0-9]$/.test(c))
-          ? (setWarning(intl.formatMessage({ id: 'editor.limited_lastchar' })), setHeight(60))
+          ? setWarning(intl.formatMessage({ id: 'editor.limited_lastchar' }))
           : setWarning(null);
         handleTagChanged([...cats]);
       }
@@ -86,11 +85,11 @@ const TagInput = ({
     }
   };
   return (
-    <View style={[globalStyles.containerHorizontal16, { height: Math.max(35, height) }]}>
+    <View style={[globalStyles.containerHorizontal16, styles.container]}>
       <ThemeContainer>
         {({ isDarkTheme }) => (
           <TextInput
-            style={[styles.textInput, { height: Math.max(35, height) }]}
+            style={styles.textInput}
             placeholderTextColor={isDarkTheme ? '#526d91' : '#c1c5c7'}
             editable={!isPreviewActive}
             maxLength={100}
@@ -98,10 +97,6 @@ const TagInput = ({
               id: 'editor.tags',
             })}
             multiline
-            numberOfLines={2}
-            onContentSizeChange={event => {
-              setHeight(event.nativeEvent.contentSize.height);
-            }}
             autoFocus={autoFocus}
             onChangeText={textT => _handleOnChange(textT)}
             onBlur={() => _handleOnBlur()}
