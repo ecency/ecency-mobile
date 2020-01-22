@@ -65,6 +65,7 @@ const CommentView = ({
         <View style={[{ marginLeft: 34 }, styles.bodyWrapper]}>
           <CommentBody
             commentDepth={comment.depth}
+            reputation={comment.author_reputation}
             handleOnUserPress={handleOnUserPress}
             body={comment.body}
             created={comment.created}
@@ -147,7 +148,11 @@ const CommentView = ({
                   iconStyle={styles.iconStyle}
                   iconSize={16}
                   onPress={() => _showSubCommentsToggle()}
-                  text={!isPressedShowButton ? `${comment.children} more replies` : ''}
+                  text={
+                    !isPressedShowButton
+                      ? `${comment.children} ${intl.formatMessage({ id: 'comments.more_replies' })}`
+                      : ''
+                  }
                 />
               </View>
             )}
