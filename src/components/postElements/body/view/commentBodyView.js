@@ -16,7 +16,10 @@ import { default as ROUTES } from '../../../../constants/routeNames';
 import { CommentPlaceHolder } from '../../../basicUIElements';
 import { customCommentScript } from './config';
 
+import { TextButton } from '../../..';
+
 // Styles
+import styles from './postBodyStyles';
 
 const WIDTH = Dimensions.get('window').width;
 
@@ -27,11 +30,16 @@ const CommentBody = ({
   handleOnPostPress,
   created,
   commentDepth,
+  reputation,
 }) => {
   const [isImageModalOpen, setIsImageModalOpen] = useState(false);
   const [postImages, setPostImages] = useState([]);
+  const [revealComment, setRevealComment] = useState(reputation > 0);
   const intl = useIntl();
 
+  const _showLowComment = () => {
+    setRevealComment(true);
+  };
   //new renderer functions
   const __handleOnLinkPress = event => {
     if ((!event && !get(event, 'nativeEvent.data'), false)) {
@@ -347,21 +355,30 @@ const CommentBody = ({
           }}
         />
       </Modal>
-      <AutoHeightWebView
-        key={`akey-${created.toString()}`}
-        source={{ html }}
-        allowsFullscreenVideo={true}
-        style={{ width: WIDTH - (32 + 34 * (commentDepth % 6)) }}
-        customStyle={customStyle}
-        onMessage={__handleOnLinkPress}
-        customScript={customCommentScript}
-        renderLoading={() => <CommentPlaceHolder />}
-        startInLoadingState={true}
-        onShouldStartLoadWithRequest={false}
-        scrollEnabled={false}
-        scalesPageToFit={false}
-        zoomable={false}
-      />
+      {revealComment ? (
+        <AutoHeightWebView
+          key={`akey-${created.toString()}`}
+          source={{ html }}
+          allowsFullscreenVideo={true}
+          style={{ width: WIDTH - (32 + 34 * (commentDepth % 6)) }}
+          customStyle={customStyle}
+          onMessage={__handleOnLinkPress}
+          customScript={customCommentScript}
+          renderLoading={() => <CommentPlaceHolder />}
+          startInLoadingState={true}
+          onShouldStartLoadWithRequest={false}
+          scrollEnabled={false}
+          scalesPageToFit={false}
+          zoomable={false}
+        />
+      ) : (
+        <TextButton
+          style={styles.revealButton}
+          textStyle={styles.revealText}
+          onPress={() => _showLowComment()}
+          text={intl.formatMessage({ id: 'comments.reveal_comment' })}
+        />
+      )}
     </Fragment>
   );
 };
