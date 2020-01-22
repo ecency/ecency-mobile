@@ -39,6 +39,12 @@
             <action android:name="android.intent.action.VIEW" />
             <category android:name="android.intent.category.DEFAULT" />
             <category android:name="android.intent.category.BROWSABLE" />
+            <data android:scheme="https" android:host="esteem.app" />
+        </intent-filter>
+        <intent-filter android:label="eSteem">
+            <action android:name="android.intent.action.VIEW" />
+            <category android:name="android.intent.category.DEFAULT" />
+            <category android:name="android.intent.category.BROWSABLE" />
             <data android:scheme="https" android:host="steemit.com" />
         </intent-filter>
         <intent-filter android:label="eSteem">
