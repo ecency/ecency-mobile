@@ -137,6 +137,7 @@ for (var i = 0; i < images.length; i++) {
   }
 }
 document.addEventListener('touchstart', function(event) {
+  event.preventDefault();
   var el = event.target;
   while (el.tagName !== 'A') {
     if (!el.parentNode) {
@@ -228,7 +229,7 @@ document.addEventListener('touchstart', function(event) {
       return false;
     }
   }
-}, { passive: false });
+});
 true;
 `;
 

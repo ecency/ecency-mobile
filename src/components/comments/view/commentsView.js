@@ -72,7 +72,7 @@ const CommentsView = ({
         style={styles.moreRepliesButtonWrapper}
         textStyle={styles.moreRepliesText}
         onPress={() => _readMoreComments()}
-        text="Read more comments"
+        text={intl.formatMessage({ id: 'comments.read_more' })}
       />
     );
   }
