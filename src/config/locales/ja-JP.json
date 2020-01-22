@@ -280,7 +280,7 @@
     "success_moved": "下書きへ移動",
     "permission_denied": "アクセスが拒否されました",
     "permission_text": "本体の設定から eSteem アプリの権限を変更してください。",
-    "key_warning": "Check private key permission!",
+    "key_warning": "プライベートキーのパーミッションを確認してください！",
     "success_rebloged": "リブログしました！",
     "already_rebloged": "既にリブログしています！",
     "success_favorite": "お気に入りに追加しました！",
@@ -304,11 +304,11 @@
     "same_user": "このユーザーは既にリストに追加されています",
     "unknow_error": "エラーが発生しました",
     "error": "エラー",
-    "fetch_error": "Connection issue, please try again or write to support@esteem.app",
+    "fetch_error": "接続に問題があります、再度お試しいただくかsupport@esteem.appに連絡してください",
     "connection_fail": "接続に失敗しました！",
     "connection_success": "接続に成功しました！",
     "checking": "確認中...",
-    "external_link": "Are you sure, you want to open an external link?",
+    "external_link": "この外部リンクを本当に表示しますか？",
     "not_existing_post": "投稿は存在しません！パーマリンクと投稿者を確認してください。",
     "google_play_version": "あなたのデバイスはGoogle Playのバージョンが古いようです。Google Playをアップデートして再度お試しください！"
   },
@@ -356,7 +356,7 @@
     "invalid_username": "ユーザー名が間違っています。もう一度確認してやり直してください",
     "already_logged": "既にログインしています。他のアカウントを追加してください",
     "invalid_credentials": "ログイン情報が間違っています。もう一度確認してやり直してください",
-    "unknow_error": "Unknown error, please write to support@esteem.app"
+    "unknow_error": "不明なエラー、support@esteem.appに連絡してください"
   },
   "payout": {
     "potential_payout": "見込み支払額",
@@ -464,6 +464,9 @@
     }
   },
   "comments": {
-    "title": "コメント"
+    "title": "コメント",
+    "reveal_comment": "Reveal comment",
+    "read_more": "Read more comments",
+    "more_replies": "more replies"
   }
 }
