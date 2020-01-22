@@ -214,7 +214,7 @@ const CommentsContainer = ({
           ),
         );
       });
-    } else if (index === 1 && isOwnProfile) {
+    } else if (index === 1) {
       navigation.navigate({
         routeName: ROUTES.SCREENS.POST,
         key: get(selectedComment, 'permlink'),

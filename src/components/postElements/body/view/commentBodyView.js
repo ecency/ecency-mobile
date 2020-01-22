@@ -256,6 +256,10 @@ const CommentBody = ({
     align-items: 'center';
     justify-content: 'center';
   }
+  table {
+    table-layout: fixed;
+    width: 100%;
+  }
   th {
     flex: 1;
     justify-content: 'center';
