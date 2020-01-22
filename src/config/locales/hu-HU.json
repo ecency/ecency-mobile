@@ -125,7 +125,7 @@
     "replies": "Válaszok",
     "mentions": "Említések",
     "reblogs": "Megosztások",
-    "noactivity": "No recent activity"
+    "noactivity": "Nincs friss tevékenység"
   },
   "leaderboard": {
     "daily": "NAPI",
@@ -203,7 +203,7 @@
   },
   "login": {
     "signin": "Bejelentkezés",
-    "signup": "JOIN NOW",
+    "signup": "CSATLAKOZZ MOST",
     "signin_title": "Jelentkezz be ahhoz, hogy minden előnyben részesülj",
     "username": "Felhasználónév",
     "password": "Jelszó vagy a WIF",
@@ -253,7 +253,7 @@
     "reply": "Válasz",
     "open_gallery": "Galéria Megnyitása",
     "capture_photo": "Készíts egy fotót",
-    "limited_tags": "Only 10 tags allowed, remove some",
+    "limited_tags": "Csak 10 címke engedélyezett, törölj néhányat",
     "limited_length": "Maximum length of each tag should be 24",
     "limited_dash": "Use one dash in each tag",
     "limited_space": "Use space to separate tags",
@@ -285,8 +285,8 @@
     "already_rebloged": "Ezt már megosztottad!",
     "success_favorite": "Kedvencekhez hozzáadva!",
     "success_unfavorite": "Eltávolítva a kedvencektől!",
-    "success_follow": "Follow success!",
-    "success_mute": "Mute success!",
+    "success_follow": "Sikeres követés!",
+    "success_mute": "Sikeres némítás!",
     "success_unmute": "Unmute success!",
     "success_unfollow": "Unfollow success!",
     "warning": "Figyelmeztetés",
