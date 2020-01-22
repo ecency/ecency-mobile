@@ -464,6 +464,9 @@
     }
   },
   "comments": {
-    "title": "작성한 댓글"
+    "title": "작성한 댓글",
+    "reveal_comment": "Reveal comment",
+    "read_more": "Read more comments",
+    "more_replies": "more replies"
   }
 }

@@ -125,7 +125,7 @@
     "replies": "Відповіді",
     "mentions": "Згадування",
     "reblogs": "Рестіми",
-    "noactivity": "No recent activity"
+    "noactivity": "Жодної активності"
   },
   "leaderboard": {
     "daily": "ЩОДЕННО",
@@ -203,7 +203,7 @@
   },
   "login": {
     "signin": "Увійти",
-    "signup": "JOIN NOW",
+    "signup": "УВІЙТИ ЗАРАЗ",
     "signin_title": "Щоб отримати всі переваги використовуйте eSteem",
     "username": "Ім'я користувача",
     "password": "Пароль або WIF (приватний ключ)",
@@ -246,9 +246,9 @@
   },
   "editor": {
     "title": "Заголовок",
-    "tags": "Tags (separate with space)",
-    "default_placeholder": "Tell us something...",
-    "reply_placeholder": "Add your reply...",
+    "tags": "Теги (розділяються пробілом)",
+    "default_placeholder": "Розкажіть нам щось...",
+    "reply_placeholder": "Додати відповідь...",
     "publish": "Опублікувати",
     "reply": "Відповісти",
     "open_gallery": "Відкрити список світлин",
@@ -280,15 +280,15 @@
     "success_moved": "Переміщено до чернеток",
     "permission_denied": "У доступі відмовлено",
     "permission_text": "Перейдіть у Налаштування телефону та змініть дозволи програми eSteem.",
-    "key_warning": "Check private key permission!",
+    "key_warning": "Перевірте права доступу до закритого ключа!",
     "success_rebloged": "Rebloged!",
     "already_rebloged": "Ви вже повторно рестімнули!",
-    "success_favorite": "Favorite added!",
-    "success_unfavorite": "Favorite removed!",
-    "success_follow": "Follow success!",
-    "success_mute": "Mute success!",
-    "success_unmute": "Unmute success!",
-    "success_unfollow": "Unfollow success!",
+    "success_favorite": "До улюблених додано!",
+    "success_unfavorite": "З улюблених видалено!",
+    "success_follow": "Успішно підписалися!",
+    "success_mute": "Успішно почали ігнорувати!",
+    "success_unmute": "Успішно припинили ігнорувати!",
+    "success_unfollow": "Успішно відписалися!",
     "warning": "Увага",
     "invalid_pincode": "Invalid pin code, please check and try again.",
     "remove_alert": "Are you sure want to remove?",
@@ -304,11 +304,11 @@
     "same_user": "Цього користувача уже додано до списку",
     "unknow_error": "Виникла помилка",
     "error": "Помилка",
-    "fetch_error": "Connection issue, please try again or write to support@esteem.app",
+    "fetch_error": "Проблеми з підключенням, спробуйте ще раз або напишіть на support@esteem.app",
     "connection_fail": "Помилка з’єднання!",
     "connection_success": "Успішне підключення!",
     "checking": "Перевірка...",
-    "external_link": "Are you sure, you want to open an external link?",
+    "external_link": "Ви впевнені, що хочете відкрити зовнішнє джерело?",
     "not_existing_post": "Допису не існує! Будь ласка, перевірте першоджерело та автора.",
     "google_play_version": "Ми помітили, що на вашому пристрої є стара версія Google Play. Оновіть служби Google Play і повторіть спробу!"
   },
@@ -356,7 +356,7 @@
     "invalid_username": "Недійсне ім’я користувача. Перевірте та повторіть спробу",
     "already_logged": "Ви вже ввійшли, спробуйте додати інший обліковий запис",
     "invalid_credentials": "Недійсні облікові дані. Перевірте та повторіть спробу",
-    "unknow_error": "Unknown error, please write to support@esteem.app"
+    "unknow_error": "Невідома помилка, будь ласка, напишіть на support@esteem.app"
   },
   "payout": {
     "potential_payout": "Потенційна виплата",
@@ -464,6 +464,9 @@
     }
   },
   "comments": {
-    "title": "Коментарі"
+    "title": "Коментарі",
+    "reveal_comment": "Reveal comment",
+    "read_more": "Read more comments",
+    "more_replies": "more replies"
   }
 }
