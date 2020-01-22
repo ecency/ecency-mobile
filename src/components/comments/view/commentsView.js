@@ -58,13 +58,11 @@ const CommentsView = ({
     });
   };
 
-  const menuItems = isOwnProfile
-    ? [
-        intl.formatMessage({ id: 'post.copy_link' }),
-        intl.formatMessage({ id: 'post.open_thread' }),
-        intl.formatMessage({ id: 'alert.cancel' }),
-      ]
-    : [intl.formatMessage({ id: 'post.copy_link' }), intl.formatMessage({ id: 'alert.cancel' })];
+  const menuItems = [
+    intl.formatMessage({ id: 'post.copy_link' }),
+    intl.formatMessage({ id: 'post.open_thread' }),
+    intl.formatMessage({ id: 'alert.cancel' }),
+  ];
 
   if (!hideManyCommentsButton && hasManyComments) {
     return (
@@ -114,7 +112,7 @@ const CommentsView = ({
         ref={commentMenu}
         options={menuItems}
         title={get(selectedComment, 'summary')}
-        cancelButtonIndex={isOwnProfile ? 2 : 1}
+        cancelButtonIndex={2}
         onPress={index => handleOnPressCommentMenu(index, selectedComment)}
       />
     </Fragment>
