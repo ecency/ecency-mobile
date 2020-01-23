@@ -111,7 +111,7 @@ def enableProguardInReleaseBuilds = false
  * give correct results when using with locales other than en-US.  Note that
  * this variant is about 6MiB larger per architecture than default.
  */
-def jscFlavor = 'org.webkit:android-jsc-intl:+'
+def jscFlavor = 'org.webkit:android-jsc:+'
 
 /**
  * Whether to enable the Hermes VM.
@@ -143,7 +143,7 @@ android {
         minSdkVersion rootProject.ext.minSdkVersion
         targetSdkVersion rootProject.ext.targetSdkVersion
         versionCode versionMajor * 10000 + versionMinor * 100 + versionPatch
-        versionName "2.2.3"
+        versionName "2.2.4"
         resValue "string", "build_config_package", "app.esteem.mobile.android"
         multiDexEnabled true
         // react-native-image-crop-picker
@@ -198,6 +198,7 @@ android {
         pickFirst '**/x86/libc++_shared.so'
         pickFirst '**/arm64-v8a/libc++_shared.so'
         pickFirst '**/x86_64/libc++_shared.so'
+        exclude '**/libjscexecutor.so'
     }
 }
 
