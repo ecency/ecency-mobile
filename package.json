@@ -1,6 +1,6 @@
 {
   "name": "eSteem",
-  "version": "2.2.3",
+  "version": "2.2.4",
   "private": true,
   "rnpm": {
     "assets": [
@@ -44,6 +44,7 @@
     "diff-match-patch": "^1.0.4",
     "dsteem": "esteemapp/dsteem",
     "intl": "^1.2.5",
+    "jsc-android": "^241213.1.0",
     "lodash": "^4.17.13",
     "lottie-ios": "3.1.3",
     "lottie-react-native": "^3.2.1",
