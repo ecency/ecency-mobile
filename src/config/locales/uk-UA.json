@@ -5,7 +5,7 @@
     "comment_benefactor_reward": "Винагорода бенефіціару",
     "claim_reward_balance": "Отримати винагороду ",
     "transfer": "Переказ",
-    "transfer_to_vesting": "Підвищення сили",
+    "transfer_to_vesting": "В Силу Голосу",
     "transfer_from_savings": "Із заощаджень",
     "withdraw_vesting": "Зменшення Сили Голосу",
     "fill_order": "Заповніть Замовлення",
@@ -79,7 +79,7 @@
     "delegate_vesting_shares": "Делегування",
     "fill_convert_request": "Конвертація виконана",
     "fill_transfer_from_savings": "Зняття заощаджень виконано",
-    "fill_vesting_withdraw": "Зниження енергії виконано",
+    "fill_vesting_withdraw": "Зниження Сили виконано",
     "estm": {
       "title": "eSteem Бали",
       "buy": "Отримати ESTM"
@@ -248,7 +248,7 @@
     "title": "Заголовок",
     "tags": "Теги (розділяються пробілом)",
     "default_placeholder": "Розкажіть нам щось...",
-    "reply_placeholder": "Додати відповідь...",
+    "reply_placeholder": "Додайте свою відповідь...",
     "publish": "Опублікувати",
     "reply": "Відповісти",
     "open_gallery": "Відкрити список світлин",
