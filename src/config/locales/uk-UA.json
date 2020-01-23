@@ -2,7 +2,7 @@
   "wallet": {
     "curation_reward": "Кураторська Винагорода",
     "author_reward": "Авторська Винагорода",
-    "comment_benefactor_reward": "Нагорода за Благодійність",
+    "comment_benefactor_reward": "Винагорода бенефіціару",
     "claim_reward_balance": "Отримати винагороду ",
     "transfer": "Переказ",
     "transfer_to_vesting": "Підвищення сили",
@@ -466,7 +466,7 @@
   "comments": {
     "title": "Коментарі",
     "reveal_comment": "Показати коментар",
-    "read_more": "Read more comments",
-    "more_replies": "more replies"
+    "read_more": "Читати більше коментарів",
+    "more_replies": "більше відповідей"
   }
 }
