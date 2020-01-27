@@ -197,8 +197,8 @@ class BasicHeaderView extends Component {
                 size={25}
                 onPress={() => handleOnPressPreviewButton()}
                 iconStyle={styles.rightIcon}
-                iconType="MaterialIcons"
-                name={isPreviewActive ? 'remove-red-eye' : 'remove-red-eye'}
+                iconType="MaterialCommunityIcons"
+                name={isPreviewActive ? 'eye-off' : 'eye'}
               />
               {!isLoading ? (
                 <TextButton
