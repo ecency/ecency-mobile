@@ -304,11 +304,11 @@
     "same_user": "Ev bikarhêner berê li lîsteyê hatiye zêdekirin",
     "unknow_error": "Çêwtiyek çêbû",
     "error": "Çewtî",
-    "fetch_error": "Connection issue, please try again or write to support@esteem.app",
+    "fetch_error": "Pirsgirêka girêdanê, ji kerema xwe dîsa biceribîne an jî ji support@esteem.app re binivîse",
     "connection_fail": "Girêdan Biserneket!",
     "connection_success": "Bi serkevtî hate girêdan!",
     "checking": "Tê kontrolkirin...",
-    "external_link": "Are you sure, you want to open an external link?",
+    "external_link": "Bi rastî jî tu dixwazî girêdanek derveyî vekî?",
     "not_existing_post": "Şandî tune ye! Ji kerema xwe nivîskar û girêdana mayînde kontrol bike.",
     "google_play_version": "Me ferq kir ku li amûra te, guhertoya kevn a Google Playê sazkirî ye. Ji kerema xwe xizmetên Google Playê hildemîne û dîsa biceribîne!"
   },
@@ -356,7 +356,7 @@
     "invalid_username": "Navê bikarhêner nederbasdar e, kontrol bike û dîsa biceribîne",
     "already_logged": "Jixwe tu têketî ye, ji kerema xwe tevlîkirina ajimêreke din biceribîne",
     "invalid_credentials": "Navê bikarhêner nederbasdar e, kontrol bike û dîsa biceribîne",
-    "unknow_error": "Unknown error, please write to support@esteem.app"
+    "unknow_error": "Çewtiya nenas, ji kerema xwe ji support@esteem.app re binivîse"
   },
   "payout": {
     "potential_payout": "Peredana Texmînî",
@@ -410,13 +410,13 @@
     "powerUp": "Bihêz Bike",
     "withdraw_to_saving": "Ji Berhevkirina Bikişîne (pere)",
     "steemconnect_title": "Transfera Steemconnectê",
-    "estimated_weekly": "Texmînkirina Heftane",
+    "estimated_weekly": "Texmîna Heftane",
     "destination_accounts": "Ajimêrên Armanc",
     "stop_information": "Bi rastî jî tu dixwazî rawestînî?",
     "percent": "Sede",
     "auto_vests": "Parastina Otomatîk",
     "save": "TOMAR BIKE",
-    "percent_information": "Agahiya rêjeyê",
+    "percent_information": "Agahiya sedeyê",
     "next": "PÊŞVE",
     "delegate": "Şande",
     "power_down": "Kêmhêz Bike",
@@ -435,7 +435,7 @@
     "button": "BIZÎVIRÎNE Û QEZENC BIKE",
     "get_spin": "5 ZÎVIR",
     "spin_right": "Bizîvirîne Çepê",
-    "timer_text": "Next free spin in"
+    "timer_text": "Ji zîvirandina pêş re, ma"
   },
   "promote": {
     "title": "Reklam",
@@ -465,8 +465,8 @@
   },
   "comments": {
     "title": "Şîrove",
-    "reveal_comment": "Reveal comment",
-    "read_more": "Read more comments",
-    "more_replies": "more replies"
+    "reveal_comment": "Şîroveyê eşkere bike",
+    "read_more": "Zêdetir şîroveyan bixwîne",
+    "more_replies": "bersivên zêdetir"
   }
 }
