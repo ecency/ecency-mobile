@@ -168,7 +168,7 @@
   "settings": {
     "settings": "Sazkarî",
     "general": "Giştî",
-    "currency": "Pere-Dirav",
+    "currency": "Dirav-Pere",
     "language": "Ziman",
     "server": "Server",
     "dark_theme": "Rûkara Tarî",
@@ -187,7 +187,7 @@
     "nsfw_content": "NSFW",
     "send_feedback": "Paşragihandin Bişîne",
     "send": "Bişîne",
-    "default_footer": "Default Footer",
+    "default_footer": "Jêragahiya Jixweberî",
     "nsfw": {
       "always_show": "Her tim nîşan bide",
       "always_hide": "Her tim veşêre",
