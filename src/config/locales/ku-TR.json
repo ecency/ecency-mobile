@@ -36,7 +36,7 @@
     "outgoing_transfer_description": "",
     "incoming_transfer_description": "",
     "post_desc": "Tu dikarî ji şandinên bi rêkûpêk puanan qezenc bike. Her şandinek 15 puanan qezencî te dike.",
-    "comment_desc": "Her şîroveya ku tu dike ji bo mezinkirina girseya bînerên te ji te re dibe alîkar û 5 puanan jî dide qezenckirin.",
+    "comment_desc": "Her şîroveyên ku tu dike, girseya bîner û hevalên te mezin dike, di heman demê de 5 puanan jî dide qezeckirin.",
     "checkin_desc": "Çavpêxistina bi rêkûpêk 0.25 puanan dide qezenckirin.",
     "vote_desc": "By voting you give reward to other creators and also earn back upto 0.01 x vote weight points.",
     "reblog_desc": "Share what post you like with your friends and earn points.",
@@ -68,12 +68,12 @@
     "delegate": "Şande",
     "power_down": "Kêmhêz Bike",
     "withdraw_steem": "Steemê Bikişîne (pere)",
-    "withdraw_sbd": "SBDê Vekişîne",
+    "withdraw_sbd": "SBD Bikişîne",
     "transfer_to_savings": "To Savings",
     "convert": "Veguherîne",
     "escrow_transfer": "Transfera Emanetî",
-    "escrow_dispute": "Gengeşeya Emanetiyê",
-    "escrow_release": "Belavkirina Emanetî",
+    "escrow_dispute": "Nerazîbûna Emanetê",
+    "escrow_release": "Belavkirina Emanetê",
     "escrow_approve": "Pejirandina Emanetê",
     "cancel_transfer_from_savings": "Cancel From Savings",
     "delegate_vesting_shares": "Şande",
@@ -92,10 +92,10 @@
     },
     "steem": {
       "title": "STEEM",
-      "buy": "STEEMê BISTÎNE"
+      "buy": "STEEM BISTÎNE"
     },
     "sbd": {
-      "title": "SBD",
+      "title": "Dolarê Steemê",
       "buy": "SBDê BISTÎNE"
     },
     "steem_power": {
