@@ -255,7 +255,7 @@
     "capture_photo": "Wêneyekî Bigire",
     "limited_tags": "Tenê destûra 10 etîketan heye, hineka ji wan rake",
     "limited_length": "Maximum length of each tag should be 24",
-    "limited_dash": "Use one dash in each tag",
+    "limited_dash": "Di her etîketê de bendikê (-) bi kar bîne",
     "limited_space": "Use space to separate tags",
     "limited_lowercase": "Only use lower letters in tag",
     "limited_characters": "Use only allowed characters in tag",
