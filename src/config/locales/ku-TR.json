@@ -53,7 +53,7 @@
     "amount_information": "Ji bo sazkirina mîqdarê, pêşekerê biherikîne",
     "amount": "Mîqdar",
     "memo": "Bîrname",
-    "information": "Tu ji transferkirina pereyan piştrast î?",
+    "information": "Bi rastî jî tu dixwazî pereyan transfer bikî?",
     "amount_desc": "Bermayî:",
     "memo_desc": "Ev bîrname gelemper e",
     "to_placeholder": "Navê bikarhêner",
@@ -67,7 +67,7 @@
     "next": "PÊŞVE",
     "delegate": "Şande",
     "power_down": "Kêmhêz Bike",
-    "withdraw_steem": "Withdraw Steem",
+    "withdraw_steem": "Steemê Bikişîne (pere)",
     "withdraw_sbd": "SBDê Vekişîne",
     "transfer_to_savings": "To Savings",
     "convert": "Veguherîne",
@@ -185,7 +185,7 @@
     "reset_pin": "Nûsazkirina Pîn Kodê",
     "reset": "Nûsaz bike",
     "nsfw_content": "NSFW",
-    "send_feedback": "Paşragihandin Bişîne",
+    "send_feedback": "Paşragihandin",
     "send": "Bişîne",
     "default_footer": "Jêragahiya Jixweberî",
     "nsfw": {
@@ -235,7 +235,7 @@
     "logout_text": "Bi rastî jî tu dixwazî jê derkevî?"
   },
   "header": {
-    "title": "Têkevê û herika xwe kesane bike",
+    "title": "Têkevê û herka xwe kesane bike",
     "search": "Lêgerîn..."
   },
   "basic_header": {
@@ -399,7 +399,7 @@
     "amount_information": "Ji bo sazkirina mîqdarê, pêşekerê biherikîne",
     "amount": "Mîqdar",
     "memo": "Bîrname",
-    "information": "Tu ji transferkirina pereyan piştrast î?",
+    "information": "Bi rastî jî tu dixwazî pereyan transfer bikî?",
     "amount_desc": "Bermayî:",
     "memo_desc": "Ev bîrname gelemper e",
     "to_placeholder": "Navê bikarhêner",
@@ -420,8 +420,8 @@
     "next": "PÊŞVE",
     "delegate": "Şande",
     "power_down": "Kêmhêz Bike",
-    "withdraw_steem": "Withdraw Steem",
-    "withdraw_sbd": "Withdraw Steem Dollar",
+    "withdraw_steem": "Steemê Bikişîne (pere)",
+    "withdraw_sbd": "Dolarên Steemê Bikişîne (pere)",
     "incoming_funds": "Fonên Tên",
     "stop": "Rawestîne"
   },
