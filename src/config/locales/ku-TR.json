@@ -253,7 +253,7 @@
     "reply": "Bibersivîne",
     "open_gallery": "Pêşangehê Veke",
     "capture_photo": "Wêneyekî Bigire",
-    "limited_tags": "Tenê destûra 10 etîketan heye, hineka rake",
+    "limited_tags": "Tenê destûra 10 etîketan heye, hineka ji wan rake",
     "limited_length": "Maximum length of each tag should be 24",
     "limited_dash": "Use one dash in each tag",
     "limited_space": "Use space to separate tags",
@@ -366,7 +366,7 @@
     "payout_date": "Peredan",
     "beneficiaries": "Xwedîmaf",
     "warn_zero_payout": "Ji bo peredayînê divê rêje bigihêje $0.02an",
-    "breakdown": "Hilweşînê"
+    "breakdown": "Hilweşîne"
   },
   "post_dropdown": {
     "copy": "kopî bike",
@@ -411,8 +411,8 @@
     "withdraw_to_saving": "Ji Berhevkirina Bikişîne (pere)",
     "steemconnect_title": "Transfera Steemconnectê",
     "estimated_weekly": "Texmînkirina Heftane",
-    "destination_accounts": "Hesabên Armanc",
-    "stop_information": "Tu dixwazî rawestînî?",
+    "destination_accounts": "Ajimêrên Armanc",
+    "stop_information": "Bi rastî jî tu dixwazî rawestînî?",
     "percent": "Sede",
     "auto_vests": "Parastina Otomatîk",
     "save": "TOMAR BIKE",
@@ -460,7 +460,7 @@
     "date_error": {
       "device_time": "Dema amûra te;",
       "current_time": "Dema niha;",
-      "information": "Me ferqkir ku dem û dîroka amûra te çewt e. Ji kerema xwe Dem û Dîrokê serrast bike an jî bi Sazkirina Otomatîkî dîsa biceribîne."
+      "information": "Me ferq kir ku dem û dîroka amûra te çewt e. Ji kerema xwe Dem û Dîrokê sererast bike an jî Sazkirina Otomatîkî dîsa biceribîne."
     }
   },
   "comments": {
