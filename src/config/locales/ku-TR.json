@@ -207,7 +207,7 @@
     "signin_title": "Tevahiya avantajên bikaranîna eSteemê bistîne",
     "username": "Navê bikarhêner",
     "password": "Pêborîn an WIF",
-    "description": "User credentials are kept locally on the device. Credentials are removed upon logout!",
+    "description": "Daneyên bikarhêner bi awayekî şîfrekirî li ser amûrê tên hilanîn, piştî derketinê hemû dane têne jêbirin!",
     "cancel": "Betal",
     "login": "TÊKEVÊ",
     "steemconnect_description": "Heke tu bixwazî agahiyên bikarhêner li ser amûra te bi awayekî şîfrekirî neyê hilanin, tu dikarî bi Steemconnect jî têkevî.",
