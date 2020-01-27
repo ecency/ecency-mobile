@@ -306,7 +306,7 @@
     "error": "Çewtî",
     "fetch_error": "Connection issue, please try again or write to support@esteem.app",
     "connection_fail": "Girêdan Biserneket!",
-    "connection_success": "Bi serkeftî hate girêdan!",
+    "connection_success": "Bi serkevtî hate girêdan!",
     "checking": "Tê kontrolkirin...",
     "external_link": "Are you sure, you want to open an external link?",
     "not_existing_post": "Şandî tine ye! Ji kerema xwe girêdan û nivîskar kontrol bike.",
@@ -326,12 +326,12 @@
   "drafts": {
     "title": "Reşnivîs",
     "load_error": "Reşnivîs bar nebûn",
-    "empty_list": "Li vir ti tişt tine ye",
+    "empty_list": "Li vir ti tişt tune ye",
     "deleted": "Reşnivîs hate jêbirin"
   },
   "schedules": {
     "title": "Demsazkirinên Te",
-    "empty_list": "Li vir ti tişt tine ye",
+    "empty_list": "Li vir ti tişt tune ye",
     "deleted": "Şandiya demsazkirî hate jêbirin",
     "move": "Veguhezîne reşnivîsan",
     "moved": "Veguhezî reşnivîsan bû"
@@ -339,16 +339,16 @@
   "bookmarks": {
     "title": "Cîhnîşan",
     "load_error": "Cîhnîşan nehatin barkirin",
-    "empty_list": "Li vir ti tişt tine ye",
+    "empty_list": "Li vir ti tişt tune ye",
     "deleted": "Cîhnîşan hate rakirin",
     "search": "Di cîhnîşanan de bigere",
     "added": "Tevlî cîhnîşanan bû",
     "add": "Tevlî cîhnîşanan bike"
   },
   "favorites": {
-    "title": "Bijardeyên min",
+    "title": "Bijardeyên Min",
     "load_error": "Bijarde bar nebûn",
-    "empty_list": "Li vir ti tişt tine ye",
+    "empty_list": "Li vir ti tişt tune ye",
     "search": "Di bijardeyan de bigere"
   },
   "auth": {
@@ -359,11 +359,11 @@
     "unknow_error": "Unknown error, please write to support@esteem.app"
   },
   "payout": {
-    "potential_payout": "Peredayîna Texmînî",
-    "promoted": "Peredayînên Sponsoriyê",
-    "author_payout": "Peredayîna Nivîskariyê",
-    "curation_payout": "Peredayîna Kuratorê",
-    "payout_date": "Peredayîn",
+    "potential_payout": "Peredana Texmînî",
+    "promoted": "Peredanên Sponsoriyê",
+    "author_payout": "Peredana Nivîskêr",
+    "curation_payout": "Peredana Kuratorê",
+    "payout_date": "Peredan",
     "beneficiaries": "Xwedîmaf",
     "warn_zero_payout": "Ji bo peredayînê divê rêje bigihêje $0.02an",
     "breakdown": "Hilweşînê"
