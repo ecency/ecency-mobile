@@ -229,7 +229,7 @@
     "schedules": "Karûbarên Te",
     "gallery": "Pêşangeh",
     "settings": "Sazkarî",
-    "add_account": "Hesab Tevlî Bike",
+    "add_account": "Ajimêr Tevlî Bike",
     "logout": "Derkeve",
     "cancel": "Betal",
     "logout_text": "Bi rastî jî tu dixwazî derkevî?"
@@ -354,7 +354,7 @@
   "auth": {
     "invalid_pin": "Koda PINê nederbasdar e, kontrol bike û dîsa biceribîne",
     "invalid_username": "Navê bikarhêner nederbasdar e, kontrol bike û dîsa biceribîne",
-    "already_logged": "Jixwe tu têketî ye, ji kerema xwe tevlîkirina hesabekî din biceribîne",
+    "already_logged": "Jixwe tu têketî ye, ji kerema xwe tevlîkirina ajimêreke din biceribîne",
     "invalid_credentials": "Navê bikarhêner nederbasdar e, kontrol bike û dîsa biceribîne",
     "unknow_error": "Unknown error, please write to support@esteem.app"
   },
