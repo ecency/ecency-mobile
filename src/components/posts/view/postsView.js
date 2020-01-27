@@ -64,6 +64,9 @@ const PostsView = ({
       fetchPromotePost();
       _loadPosts();
     }
+    return () => {
+      //unmounting
+    };
   }, [
     _getPromotePosts,
     _loadPosts,
