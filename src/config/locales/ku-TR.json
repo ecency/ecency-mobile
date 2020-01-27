@@ -54,7 +54,7 @@
     "amount": "Mîqdar",
     "memo": "Bîrname",
     "information": "Tu ji transferkirina pereyan piştrast î?",
-    "amount_desc": "Balance",
+    "amount_desc": "Bermayî:",
     "memo_desc": "Ev bîrname gelemper e",
     "to_placeholder": "Navê bikarhêner",
     "memo_placeholder": "Notên xwe li vir binivîse",
@@ -374,7 +374,7 @@
     "reply": "bibersivîne",
     "share": "parve bike",
     "bookmarks": "tevlî cîhnîşanan bike",
-    "promote": "reklam",
+    "promote": "reklama şandiyê bike",
     "boost": "zêde bike"
   },
   "deep_link": {
@@ -400,7 +400,7 @@
     "amount": "Mîqdar",
     "memo": "Bîrname",
     "information": "Tu ji transferkirina pereyan piştrast î?",
-    "amount_desc": "Balance",
+    "amount_desc": "Bermayî:",
     "memo_desc": "Ev bîrname gelemper e",
     "to_placeholder": "Navê bikarhêner",
     "memo_placeholder": "Notên xwe li vir binivîse",
