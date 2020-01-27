@@ -274,6 +274,8 @@ class EditorContainer extends Component {
           0,
         )
           .then(() => {
+            setDraftPost({ title: '', body: '', tags: '' }, currentAccount.name);
+
             dispatch(
               toastNotification(
                 intl.formatMessage({
@@ -283,8 +285,6 @@ class EditorContainer extends Component {
             );
 
             this.setState({ isPostSending: false });
-
-            setDraftPost({ title: '', body: '', tags: '' }, currentAccount.name);
 
             navigation.navigate({
               routeName: ROUTES.SCREENS.POST,
