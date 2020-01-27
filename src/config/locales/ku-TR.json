@@ -112,7 +112,7 @@
     "ignore": "te asteng kir",
     "reblog": "dîsa hate weşandin",
     "transfer": "hate transferkirin",
-    "notification": "Danezanên Sepanê",
+    "notification": "Danezanên Te",
     "leaderboard": "Tabloya lîderan",
     "epoint": "Puan",
     "leaderboard_title": "Bikarhênerên sereke",
@@ -176,9 +176,9 @@
     "notification": {
       "follow": "Şopandin",
       "vote": "Dengdan",
-      "comment": "Şîrove",
-      "mention": "Gotûbêj",
-      "reblog": "Dîs-biweşîne",
+      "comment": "Şîrovekirin",
+      "mention": "Behskirin",
+      "reblog": "Dîsweşandin",
       "transfers": "Transfer"
     },
     "pincode": "Koda PINê",
@@ -439,7 +439,7 @@
   },
   "promote": {
     "title": "Reklam",
-    "days": "roj",
+    "days": "roj bi",
     "user": "Bikarhêner",
     "permlink": "Şandî",
     "permlinkPlaceholder": "nivîskar/permlink",
