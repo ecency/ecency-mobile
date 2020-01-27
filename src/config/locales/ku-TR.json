@@ -7,7 +7,7 @@
     "transfer": "Transfer",
     "transfer_to_vesting": "Bo Wekaletê",
     "transfer_from_savings": "Ji Berhevkirinan",
-    "withdraw_vesting": "Kêmhêz Bike",
+    "withdraw_vesting": "KêmHêz Bike",
     "fill_order": "Fermana Transferê Bide",
     "post": "Şandî",
     "comment": "Şîrove",
@@ -79,7 +79,7 @@
     "delegate_vesting_shares": "Şande",
     "fill_convert_request": "Veguherîn Pêk Hat",
     "fill_transfer_from_savings": "Savings Executed",
-    "fill_vesting_withdraw": "PowerDown executed",
+    "fill_vesting_withdraw": "Qûtbûna hêzê pêk hat",
     "estm": {
       "title": "puanên eSteemê",
       "buy": "ESTMê BISTÎNE"
@@ -99,7 +99,7 @@
       "buy": "Dolarên Steemê Bistîne"
     },
     "steem_power": {
-      "title": "ŞIYANA STEEMê"
+      "title": "HÊZA STEEMê"
     }
   },
   "notification": {
