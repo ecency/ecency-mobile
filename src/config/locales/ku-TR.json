@@ -181,7 +181,7 @@
       "reblog": "Dîs-biweşîne",
       "transfers": "Transfer"
     },
-    "pincode": "Pincode",
+    "pincode": "Koda PINê",
     "reset_pin": "Pîn Koda Nûsazkirinê",
     "reset": "Nûsaz bike",
     "nsfw_content": "NSFW",
@@ -189,13 +189,13 @@
     "send": "Bişîne",
     "default_footer": "Jêragahiya Jixweberî",
     "nsfw": {
-      "always_show": "Her tim nîşan bide",
-      "always_hide": "Her tim veşêre",
-      "always_warn": "Her tim hişyar bike"
+      "always_show": "Hertim nîşan bide",
+      "always_hide": "Hertim veşêre",
+      "always_warn": "Hertim hişyar bike"
     },
     "feedback_success": "Epeyam bi serkeftî vebû",
     "feedback_fail": "Stînera epeyamê venebû",
-    "server_fail": "Server ne li berdest e"
+    "server_fail": "Rajekar ne li berdest e"
   },
   "voters": {
     "voters_info": "Agahiya Dengdêran",
@@ -266,7 +266,7 @@
     "enter_text": "Ji bo vekirinê PIN têxîne",
     "set_new": "PINa nû saz bike",
     "write_again": "Dîsa binivîse",
-    "forgot_text": "Wey, Min ji bîr kir..."
+    "forgot_text": "Wey, Min ji bîr kiriye..."
   },
   "alert": {
     "success": "Serketî!",
