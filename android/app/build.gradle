@@ -208,7 +208,7 @@ dependencies {
     implementation project(':react-native-code-push')
     implementation 'androidx.appcompat:appcompat:1.1.0-rc01'
     implementation 'androidx.swiperefreshlayout:swiperefreshlayout:1.1.0-alpha02'
-    implementation 'com.android.support:multidex:1.0.3'
+    implementation 'com.android.support:multidex:2.0.1'
     implementation project(':@react-native-community_viewpager')
 
     if (enableHermes) {

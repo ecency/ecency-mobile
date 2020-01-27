@@ -1,5 +1,5 @@
 /* eslint-disable react/jsx-wrap-multilines */
-import React, { useState, useEffect, useCallback } from 'react';
+import React, { useState, useEffect, useCallback, useRef } from 'react';
 import { FlatList, View, ActivityIndicator, RefreshControl } from 'react-native';
 import { useIntl } from 'react-intl';
 import { withNavigation } from 'react-navigation';
@@ -53,6 +53,7 @@ const PostsView = ({
     filterOptionsValue && filterOptionsValue[selectedFilterIndex],
   );
   const intl = useIntl();
+  const postsList = useRef(null);
 
   useEffect(() => {
     if (isConnected) {
@@ -64,6 +65,9 @@ const PostsView = ({
       fetchPromotePost();
       _loadPosts();
     }
+    return () => {
+      //unmounting
+    };
   }, [
     _getPromotePosts,
     _loadPosts,
@@ -111,14 +115,19 @@ const PostsView = ({
   ]);
 
   const _handleOnDropdownSelect = async index => {
-    if (filterOptions && filterOptions.length > 0) {
-      await setSelectedFilterValue(filterOptionsValue[index]);
+    if (index === selectedFilterIndex) {
+      _scrollTop();
+    } else {
+      if (filterOptions && filterOptions.length > 0) {
+        await setSelectedFilterValue(filterOptionsValue[index]);
+      }
+
+      setSelectedFilterIndex(index);
+      setPosts([]);
+      setStartPermlink('');
+      setStartAuthor('');
+      setIsNoPost(false);
     }
-    setSelectedFilterIndex(index);
-    setPosts([]);
-    setStartPermlink('');
-    setStartAuthor('');
-    setIsNoPost(false);
   };
 
   const _getPromotePosts = useCallback(async () => {
@@ -312,6 +321,10 @@ const PostsView = ({
     }
   };
 
+  const _scrollTop = () => {
+    postsList.current.scrollToOffset({ x: 0, y: 0, animated: true });
+  };
+
   return (
     <ThemeContainer>
       {({ isDarkTheme }) => (
@@ -332,6 +345,7 @@ const PostsView = ({
           )}
 
           <FlatList
+            ref={postsList}
             data={posts}
             showsVerticalScrollIndicator={false}
             renderItem={({ item, index }) => {
