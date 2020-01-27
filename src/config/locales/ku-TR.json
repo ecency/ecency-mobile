@@ -125,7 +125,7 @@
     "replies": "Bersiv",
     "mentions": "Behskirin",
     "reblogs": "Dîsweşandin",
-    "noactivity": "No recent activity"
+    "noactivity": "Çalakiya dawîn tune ye"
   },
   "leaderboard": {
     "daily": "ROJANE",
@@ -246,9 +246,9 @@
   },
   "editor": {
     "title": "Sernav",
-    "tags": "Tags (separate with space)",
-    "default_placeholder": "Tell us something...",
-    "reply_placeholder": "Add your reply...",
+    "tags": "Etîket (bi valahiyê ji hev veqetîne)",
+    "default_placeholder": "Ji me re hinek tişt bibêje...",
+    "reply_placeholder": "Bersiva xwe binivîse...",
     "publish": "Biweşîne",
     "reply": "Bibersivîne",
     "open_gallery": "Pêşangehê Veke",
@@ -283,8 +283,8 @@
     "key_warning": "Check private key permission!",
     "success_rebloged": "Reblog bû!",
     "already_rebloged": "Jixwe hatiye dîsweşandin!",
-    "success_favorite": "Favorite added!",
-    "success_unfavorite": "Favorite removed!",
+    "success_favorite": "Bijarde hate tevlîkirin!",
+    "success_unfavorite": "Bijarde hate rakirin!",
     "success_follow": "Follow success!",
     "success_mute": "Mute success!",
     "success_unmute": "Unmute success!",
