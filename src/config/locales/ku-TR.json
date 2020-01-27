@@ -7,7 +7,7 @@
     "transfer": "Transfer",
     "transfer_to_vesting": "Bo Wekaletê",
     "transfer_from_savings": "Ji Berhevkirinan",
-    "withdraw_vesting": "KêmHêz Bike",
+    "withdraw_vesting": "Ji Hêz Bixe",
     "fill_order": "Fermana Transferê Bide",
     "post": "Şandî",
     "comment": "Şîrove",
@@ -78,7 +78,7 @@
     "cancel_transfer_from_savings": "Ji Berhevkirinan Betal Bike",
     "delegate_vesting_shares": "Şande",
     "fill_convert_request": "Veguherîn Pêk Hat",
-    "fill_transfer_from_savings": "Savings Executed",
+    "fill_transfer_from_savings": "Berhevkirin Pek Hat",
     "fill_vesting_withdraw": "Ji hêz hate xistin",
     "estm": {
       "title": "puanên eSteemê",
