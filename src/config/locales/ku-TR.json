@@ -112,7 +112,7 @@
     "ignore": "te asteng kir",
     "reblog": "dîsa hate weşandin",
     "transfer": "hate transferkirin",
-    "notification": "Danezan",
+    "notification": "Danezan Sepanê",
     "leaderboard": "Tabloya lîderan",
     "epoint": "Puan",
     "leaderboard_title": "Bikarhênerên sereke",
@@ -172,7 +172,7 @@
     "language": "Ziman",
     "server": "Rajekar",
     "dark_theme": "Rûkara Tarî",
-    "push_notification": "Danezan",
+    "push_notification": "Danezanan Bistîne",
     "notification": {
       "follow": "Bişopîne",
       "vote": "Deng",
@@ -182,7 +182,7 @@
       "transfers": "Transfer"
     },
     "pincode": "Koda PINê",
-    "reset_pin": "Pîn Koda Nûsazkirinê",
+    "reset_pin": "Nûsazkirina Pîn Kodê",
     "reset": "Nûsaz bike",
     "nsfw_content": "NSFW",
     "send_feedback": "Paşragihandin Bişîne",
