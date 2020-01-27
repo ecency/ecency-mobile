@@ -88,7 +88,7 @@
       "title": "Berhevkirinên STEEMê"
     },
     "savingsbd": {
-      "title": "Berhevkirinên SBDê"
+      "title": "Berhevkirina Dolarên Steemê"
     },
     "steem": {
       "title": "STEEM",
@@ -96,7 +96,7 @@
     },
     "sbd": {
       "title": "Dolarê Steemê",
-      "buy": "SBDê BISTÎNE"
+      "buy": "Dolarên Steemê Bistîne"
     },
     "steem_power": {
       "title": "HÊZA STEEMê"
@@ -123,7 +123,7 @@
     "older_then": "Zêdetirî Berî Mehekê",
     "activities": "Hemû",
     "replies": "Bersiv",
-    "mentions": "Gotûbêj",
+    "mentions": "Behskirin",
     "reblogs": "Dîsweşandin",
     "noactivity": "No recent activity"
   },
@@ -184,7 +184,7 @@
     "pincode": "Pînkod",
     "reset_pin": "Nûsazkirina Pîn Kodê",
     "reset": "Nûsaz bike",
-    "nsfw_content": "NSFW",
+    "nsfw_content": "Naverokên Neguncav",
     "send_feedback": "Paşragihandin",
     "send": "Bişîne",
     "default_footer": "Jêragahiya Jixweberî",
@@ -309,8 +309,8 @@
     "connection_success": "Bi serkevtî hate girêdan!",
     "checking": "Tê kontrolkirin...",
     "external_link": "Are you sure, you want to open an external link?",
-    "not_existing_post": "Şandî tine ye! Ji kerema xwe girêdan û nivîskar kontrol bike.",
-    "google_play_version": "Me ferqkir ku li amûra te, guhertoya kevn a Google Playê sazkirî ye. Ji kerema xwe, xizmetên Google Playê hildemîne û dîsa biceribîne!"
+    "not_existing_post": "Şandî tune ye! Ji kerema xwe nivîskar û girêdana mayînde kontrol bike.",
+    "google_play_version": "Me ferq kir ku li amûra te, guhertoya kevn a Google Playê sazkirî ye. Ji kerema xwe xizmetên Google Playê hildemîne û dîsa biceribîne!"
   },
   "post": {
     "reblog_alert": "Bi rastî jî tu dixwazî dîsa biweşînî?",
@@ -319,7 +319,7 @@
     "reblogged": "dîsweşandin ji aliyê",
     "sponsored": "SPONSORKIRÎ",
     "open_thread": "Mijara Vekirî",
-    "save_to_local": "Li albumê tomar bike",
+    "save_to_local": "Li albûmê tomar bike",
     "image_saved": "Wêne li Pêşangeha Wêneyan Hate Tomarkirin",
     "image_saved_error": "Wêne tomar nebû"
   },
@@ -388,7 +388,7 @@
   "comment_filter": {
     "trending": "SEREKE",
     "reputation": "NAVDARÎ",
-    "votes": "DENG",
+    "votes": "DENGDAN",
     "age": "TEMEN",
     "top": "SEREKE",
     "time": "DEM"
