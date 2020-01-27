@@ -170,7 +170,7 @@
     "general": "Giştî",
     "currency": "Dirav-Pere",
     "language": "Ziman",
-    "server": "Server",
+    "server": "Rajekar",
     "dark_theme": "Rûkara Tarî",
     "push_notification": "Danezan",
     "notification": {
@@ -232,7 +232,7 @@
     "add_account": "Ajimêr Tevlî Bike",
     "logout": "Derkeve",
     "cancel": "Betal",
-    "logout_text": "Bi rastî jî tu dixwazî derkevî?"
+    "logout_text": "Bi rastî jî tu dixwazî jê derkevî?"
   },
   "header": {
     "title": "Têkevê û herika xwe kesane bike",
@@ -275,7 +275,7 @@
     "claim_reward_balance_ok": "Xelat hate stendin",
     "fail": "Biserneket!",
     "move": "Veguhezîne",
-    "move_question": "Bi rastî jî tu dixwazî reşnivîsan veguhezînî?",
+    "move_question": "Bi rastî jî tu dixwazî veguhezînî reşnivîsan?",
     "success_shared": "Şandiya te bi serkeftî hate parvekirin",
     "success_moved": "Veguhezî reşnivîsê bû",
     "permission_denied": "Destûr hate redkirin",
@@ -313,7 +313,7 @@
     "google_play_version": "Me ferqkir ku li amûra te, guhertoya kevn a Google Playê sazkirî ye. Ji kerema xwe, xizmetên Google Playê hildemîne û dîsa biceribîne!"
   },
   "post": {
-    "reblog_alert": "Bi rastî jî tu dixwazî dîs-biweşînî?",
+    "reblog_alert": "Bi rastî jî tu dixwazî dîsa biweşînî?",
     "removed_hint": "Şandî hate rakirin ji aliyê",
     "copy_link": "Girêdanê kopî bike",
     "reblogged": "dîs-weşandin ji aliyê",
