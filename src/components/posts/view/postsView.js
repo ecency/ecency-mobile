@@ -258,9 +258,13 @@ const PostsView = ({
     if (pageType !== 'profiles') {
       await _getPromotePosts();
     }
-
-    _loadPosts();
   };
+
+  useEffect(() => {
+    if (refreshing) {
+      _loadPosts();
+    }
+  }, [refreshing]);
 
   const _renderFooter = () => {
     if (isLoading) {
