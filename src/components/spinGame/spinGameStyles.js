@@ -12,7 +12,7 @@ export default EStyleSheet.create({
     alignItems: 'center',
   },
   count: {
-    fontSize: 50,
+    fontSize: 40,
     fontWeight: '700',
     color: '$primaryDarkGray',
     height: 60,
