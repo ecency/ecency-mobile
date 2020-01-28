@@ -41,21 +41,37 @@ class AccountListContainer extends Component {
   };
 
   _handleOnVotersDropdownSelect = (index, text, oldData) => {
-    const { data } = this.state;
+    const { data, filterIndex } = this.state;
     const _data = Object.assign([], oldData || data);
 
-    switch (index) {
-      case 0:
-        _data.sort((a, b) => Number(b.value) - Number(a.value));
-        break;
-      case 1:
-        _data.sort((a, b) => b.percent - a.percent);
-        break;
-      case 2:
-        _data.sort((a, b) => isBefore(a.time, b.time));
-        break;
-      default:
-        break;
+    if (filterIndex === index) {
+      switch (index) {
+        case 0:
+          _data.sort((a, b) => Number(a.value) - Number(b.value));
+          break;
+        case 1:
+          _data.sort((a, b) => a.percent - b.percent);
+          break;
+        case 2:
+          _data.sort((a, b) => isBefore(b.time, a.time));
+          break;
+        default:
+          break;
+      }
+    } else {
+      switch (index) {
+        case 0:
+          _data.sort((a, b) => Number(b.value) - Number(a.value));
+          break;
+        case 1:
+          _data.sort((a, b) => b.percent - a.percent);
+          break;
+        case 2:
+          _data.sort((a, b) => isBefore(a.time, b.time));
+          break;
+        default:
+          break;
+      }
     }
 
     this.setState({ filterResult: _data, filterIndex: index });
