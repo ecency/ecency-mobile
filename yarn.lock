@@ -7283,10 +7283,10 @@ react-native-config@luggit/react-native-config#master:
   version "0.12.0"
   resolved "https://codeload.github.com/luggit/react-native-config/tar.gz/cf8ab95350a227d1a932fec7a920df562b3e9ae5"
 
-react-native-dark-mode@^0.2.1:
-  version "0.2.1"
-  resolved "https://registry.yarnpkg.com/react-native-dark-mode/-/react-native-dark-mode-0.2.1.tgz#10e74ec213c896c7f0a74c37670214a6c24a6623"
-  integrity sha512-/S4xv7t9v8nfndAkmOzvqkACWGlnDv0GQjM9GkK7wt/N0Ecy3BTARuBJ0LOk62NX+MVg/Z6MiJGP2KcYOUIxHw==
+react-native-dark-mode@^0.2.2:
+  version "0.2.2"
+  resolved "https://registry.yarnpkg.com/react-native-dark-mode/-/react-native-dark-mode-0.2.2.tgz#4faa335e36330bfca832ba8b3d2bd84c7b880381"
+  integrity sha512-2vhWOOimU7DRKYjCU/pdv0+JpnGKURq5+c7bre093Jtzk57HtlJfd+ViibbC9Y8zh0viIOyKtfL5mYhVhZ6Crw==
   dependencies:
     "@types/events" "*"
     "@types/react" "*"
@@ -7379,6 +7379,11 @@ react-native-modal-dropdown@esteemapp/react-native-modal-dropdown:
   dependencies:
     deprecated-react-native-listview "0.0.5"
     prop-types "^15.6.0"
+
+react-native-modal-translucent@^5.0.0:
+  version "5.0.0"
+  resolved "https://registry.yarnpkg.com/react-native-modal-translucent/-/react-native-modal-translucent-5.0.0.tgz#8b35cfa4189dce776c77a925b00ad19d965bd0a2"
+  integrity sha512-xhJAlq4uCE7jPEIPxGS1WNiRIm5DCrZEO3SF88moTOm6b4/wfFEANf+lMsVkQf9b9dsQ6Em4nq4uAoejtbHb2A==
 
 react-native-navigation-bar-color@^0.1.0:
   version "0.1.0"

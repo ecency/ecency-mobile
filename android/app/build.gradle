@@ -198,10 +198,6 @@ android {
     }
 
     packagingOptions {
-        exclude '**/libjscexecutor.so'
-        exclude '**/libhermes-inspector.so'
-        exclude '**/libhermes-executor-debug.so'
-        
         pickFirst '**/armeabi-v7a/libc++_shared.so'
         pickFirst '**/x86/libc++_shared.so'
         pickFirst '**/arm64-v8a/libc++_shared.so'
