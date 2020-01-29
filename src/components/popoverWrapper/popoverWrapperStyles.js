@@ -18,9 +18,7 @@ export default EStyleSheet.create({
     justifyContent: 'space-between',
     alignItems: 'center',
   },
-  overlay: {
-    backgroundColor: '#403c4449',
-  },
+  overlay: {},
   popoverText: {
     color: '$primaryDarkText',
   },
