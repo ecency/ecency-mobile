@@ -54,7 +54,6 @@
     "react-native": "0.61.5",
     "react-native-actionsheet": "esteemapp/react-native-actionsheet",
     "react-native-autoheight-webview": "^1.4.1",
-    "react-native-code-push": "esteemapp/react-native-code-push",
     "react-native-config": "luggit/react-native-config#master",
     "react-native-dark-mode": "^0.2.1",
     "react-native-datepicker": "esteemapp/react-native-datepicker",

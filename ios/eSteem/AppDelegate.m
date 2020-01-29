@@ -11,7 +11,6 @@
 #import <AppCenterReactNativeAnalytics.h>
 #import <AppCenterReactNativeCrashes.h>
 #import <AppCenterReactNativePush.h>
-#import <CodePush/CodePush.h>
 #import <BugsnagReactNative/BugsnagReactNative.h>
 
 #import <React/RCTBridge.h>
@@ -52,11 +51,7 @@
 
 - (NSURL *)sourceURLForBridge:(RCTBridge *)bridge
 {
-#if DEBUG
   return [[RCTBundleURLProvider sharedSettings] jsBundleURLForBundleRoot:@"index" fallbackResource:nil];
-#else
-  return [CodePush bundleURL];
-#endif
 }
 
 @end
