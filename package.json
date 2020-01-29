@@ -67,7 +67,7 @@
     "react-native-linear-gradient": "^2.4.2",
     "react-native-modal-dropdown": "esteemapp/react-native-modal-dropdown",
     "react-native-modal-translucent": "^5.0.0",
-    "react-native-navigation-bar-color": "^0.1.0",
+    "react-native-navigation-bar-color": "^1.0.0",
     "react-native-reanimated": "^1.3.0",
     "react-native-scrollable-tab-view": "esteemapp/react-native-scrollable-tab-view",
     "react-native-snap-carousel": "^3.8.0",

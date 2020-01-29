@@ -7385,10 +7385,10 @@ react-native-modal-translucent@^5.0.0:
   resolved "https://registry.yarnpkg.com/react-native-modal-translucent/-/react-native-modal-translucent-5.0.0.tgz#8b35cfa4189dce776c77a925b00ad19d965bd0a2"
   integrity sha512-xhJAlq4uCE7jPEIPxGS1WNiRIm5DCrZEO3SF88moTOm6b4/wfFEANf+lMsVkQf9b9dsQ6Em4nq4uAoejtbHb2A==
 
-react-native-navigation-bar-color@^0.1.0:
-  version "0.1.0"
-  resolved "https://registry.yarnpkg.com/react-native-navigation-bar-color/-/react-native-navigation-bar-color-0.1.0.tgz#358be3eb8630dbaf5993ec9cf07b279590984f2e"
-  integrity sha512-Hymvfg40MH4vYgXZ5QgCk9i6BqcaD9inFiBGSj3Gobk0bq7O2G/uccs0+Dmlpe12RfC+R+XX6yvW7NTwOppQrQ==
+react-native-navigation-bar-color@^1.0.0:
+  version "1.0.0"
+  resolved "https://registry.yarnpkg.com/react-native-navigation-bar-color/-/react-native-navigation-bar-color-1.0.0.tgz#04ff752a58049af93ceea9ccf266b8d3fbc6514a"
+  integrity sha512-djBE0zSp+JT65VeUm4UpIpr9DA9SpE9YTLwDAcqkWfB9JI8l3djSx+SmrIYfc7dUs216Y6qo2dr0qR3+M5qbOQ==
 
 react-native-reanimated@^1.3.0:
   version "1.4.0"
