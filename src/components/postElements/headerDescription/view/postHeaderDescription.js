@@ -70,7 +70,7 @@ class PostHeaderDescription extends PureComponent {
               />
             )}
           </TouchableOpacity>
-          <View style={styles.details}>
+          <View style={styles.leftContainer}>
             <View style={styles.primaryDetails}>
               <TouchableOpacity
                 style={styles.avatarNameWrapper}
@@ -79,11 +79,6 @@ class PostHeaderDescription extends PureComponent {
                 <Text style={styles.name}>{name}</Text>
                 <Text style={styles.reputation}>{_reputationText}</Text>
               </TouchableOpacity>
-              {!!tag && (
-                <TouchableOpacity onPress={() => tagOnPress && tagOnPress()}>
-                  <Tag isPostCardTag={!isPromoted} isPin value={tag} />
-                </TouchableOpacity>
-              )}
               {isShowOwnerIndicator && (
                 <Icon style={styles.ownerIndicator} name="stars" iconType="MaterialIcons" />
               )}
@@ -93,6 +88,13 @@ class PostHeaderDescription extends PureComponent {
                 {isPromoted ? intl.formatMessage({ id: 'post.sponsored' }) : date}
               </Text>
             </View>
+          </View>
+          <View style={styles.rightContainer}>
+            {!!tag && (
+              <TouchableOpacity onPress={() => tagOnPress && tagOnPress()}>
+                <Tag isPostCardTag={!isPromoted} isPin value={tag} />
+              </TouchableOpacity>
+            )}
           </View>
         </View>
       </View>

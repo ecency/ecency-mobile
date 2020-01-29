@@ -96,7 +96,7 @@ export const makeJsonMetadataReply = tags => ({
   tags,
   app: `esteem/${VersionNumber.appVersion}-mobile`,
   format: 'markdown+html',
-  community: 'esteem.app',
+  community: 'hive-125125',
 });
 
 export const makeJsonMetadata = (meta, tags) =>
@@ -104,7 +104,7 @@ export const makeJsonMetadata = (meta, tags) =>
     tags,
     app: `esteem/${VersionNumber.appVersion}-mobile`,
     format: 'markdown+html',
-    community: 'esteem.app',
+    community: 'hive-125125',
   });
 
 export const makeJsonMetadataForUpdate = (oldJson, meta, tags) => {

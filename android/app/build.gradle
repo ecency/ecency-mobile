@@ -79,7 +79,7 @@ import com.android.build.OutputFile
 
 project.ext.react = [
     entryFile: "index.js",
-    enableHermes: false,  // clean and rebuild if changing
+    enableHermes: true,  // clean and rebuild if changing
 ]
 
 apply from: "../../node_modules/react-native/react.gradle"
@@ -148,8 +148,13 @@ android {
         multiDexEnabled true
         // react-native-image-crop-picker
         vectorDrawables.useSupportLibrary = true
+        ndk {
+            abiFilters "armeabi-v7a",'x86',"arm64-v8a",'x86_64'
+        }
     }
-    
+    dexOptions {
+        javaMaxHeapSize "4g"
+    }
     splits {
         abi {
             reset()
@@ -194,6 +199,10 @@ android {
     }
 
     packagingOptions {
+        exclude '**/libjscexecutor.so'
+        exclude '**/libhermes-inspector.so'
+        exclude '**/libhermes-executor-debug.so'
+        
         pickFirst '**/armeabi-v7a/libc++_shared.so'
         pickFirst '**/x86/libc++_shared.so'
         pickFirst '**/arm64-v8a/libc++_shared.so'

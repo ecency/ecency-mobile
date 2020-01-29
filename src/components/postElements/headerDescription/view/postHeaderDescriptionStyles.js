@@ -5,7 +5,7 @@ export default EStyleSheet.create({
     flexDirection: 'row',
     alignItems: 'center',
   },
-  details: {
+  leftContainer: {
     flexDirection: 'column',
   },
   primaryDetails: {
@@ -14,6 +14,11 @@ export default EStyleSheet.create({
   secondaryDetails: {
     flexDirection: 'row',
     marginHorizontal: 3,
+  },
+  rightContainer: {
+    flexDirection: 'column',
+    marginLeft: 'auto',
+    paddingLeft: 20,
   },
   avatar: {
     borderColor: '$borderColor',
