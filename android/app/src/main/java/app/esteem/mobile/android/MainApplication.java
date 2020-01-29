@@ -13,7 +13,6 @@ import androidx.multidex.MultiDexApplication;
 //See below, Webview debugging
 //import android.webkit.WebView; 
 
-import com.microsoft.codepush.react.CodePush;
 import com.reactnativecommunity.viewpager.RNCViewPagerPackage;
 
 import java.lang.reflect.InvocationTargetException;
@@ -34,7 +33,6 @@ public class MainApplication extends MultiDexApplication implements ReactApplica
       // Packages that cannot be autolinked yet can be added manually here, for
       // example:
       // packages.add(new MyReactNativePackage());
-      packages.add(new CodePush("hvFLmwFbA1yko829EQO_apTfdlCKSybps-jnWV", MainApplication.this, BuildConfig.DEBUG));
       packages.add(new RNCViewPagerPackage());
       return packages;
     }
