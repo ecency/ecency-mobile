@@ -308,24 +308,24 @@
     "connection_fail": "Falha na conexão!",
     "connection_success": "Conectado com sucesso!",
     "checking": "A verificar...",
-    "external_link": "Open in Browser",
+    "external_link": "Abrir no Navegador",
     "not_existing_post": "Este post não existe! Por favor, verifique o permlink e o autor.",
     "google_play_version": "Notamos que seu dispositivo tem versão antiga do Google Play. Por favor, atualize o Google Play Services e tente novamente!"
   },
   "post": {
     "reblog_alert": "Tem certeza de que deseja reblogar?",
     "removed_hint": "O post foi removido por",
-    "copy_link": "Copy link",
+    "copy_link": "Copiar link",
     "reblogged": "repostado por",
     "sponsored": "Promovido",
-    "open_thread": "Open thread",
-    "image": "Image",
-    "link": "Link",
-    "gallery_mode": "Gallery mode",
-    "save_to_local": "Download to device",
-    "image_saved": "Image saved to Photo Gallery",
+    "open_thread": "Tópico aberto",
+    "image": "Imagem",
+    "link": "Ligação",
+    "gallery_mode": "Modo galeria",
+    "save_to_local": "Baixar para o dispositivo",
+    "image_saved": "Imagem salva na Galeria de Fotos",
     "image_saved_error": "Error Saving Image",
-    "wrong_link": "Wrong link"
+    "wrong_link": "Link errado"
   },
   "drafts": {
     "title": "Rascunhos",
