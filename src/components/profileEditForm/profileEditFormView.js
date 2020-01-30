@@ -43,6 +43,7 @@ const ProfileEditFormView = ({
     <KeyboardAwareScrollView
       enableAutoAutomaticScroll={Platform.OS === 'ios'}
       contentContainerStyle={styles.contentContainer}
+      enableOnAndroid={true}
     >
       <TouchableOpacity style={styles.coverImgWrapper} onPress={showImageUploadActions}>
         <Image
