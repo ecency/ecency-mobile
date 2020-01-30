@@ -182,7 +182,7 @@
       "transfers": "Transfer"
     },
     "pincode": "Pînkod",
-    "reset_pin": "Nûsazkirina Pîn Kodê",
+    "reset_pin": "Nûsazkirina PînKodê",
     "reset": "Nûsaz bike",
     "nsfw_content": "Naverokên Neguncav",
     "send_feedback": "Paşragihandin",
@@ -263,8 +263,8 @@
     "limited_lastchar": "Divê etîket bi tîp an hejmarê bi dawî bibe"
   },
   "pincode": {
-    "enter_text": "Ji bo vekirinê PIN têxîne",
-    "set_new": "PINa nû saz bike",
+    "enter_text": "Ji bo vekirinê PINê bikevê",
+    "set_new": "PînKoda nû saz bike",
     "write_again": "Dîsa binivîse",
     "forgot_text": "Wey, Min ji bîr kiriye..."
   },
@@ -290,7 +290,7 @@
     "success_unmute": "Ji bêdengbûnê hate derxistin!",
     "success_unfollow": "Ji şopê hate derketin!",
     "warning": "Hişyarî",
-    "invalid_pincode": "Koda PINê nederbasdar e, kontrol bike û dîsa biceribîne.",
+    "invalid_pincode": "Pînkod nederbasdar e, kontrol bike û dîsa biceribîne.",
     "remove_alert": "Bi rastî jî tu dixwazî rake?",
     "clear_alert": "Bi rastî jî tu dixwazî paqij bikî?",
     "clear_user_alert": "Bi rastî jî tu dixwazî hemû daneyên bikarhêner paqij bikî?",
@@ -308,20 +308,24 @@
     "connection_fail": "Girêdan Biserneket!",
     "connection_success": "Bi serkevtî hate girêdan!",
     "checking": "Tê kontrolkirin...",
-    "external_link": "Bi rastî jî tu dixwazî girêdanek derveyî vekî?",
+    "external_link": "Open in Browser",
     "not_existing_post": "Şandî tune ye! Ji kerema xwe nivîskar û girêdana mayînde kontrol bike.",
     "google_play_version": "Me ferq kir ku li amûra te, guhertoya kevn a Google Playê sazkirî ye. Ji kerema xwe xizmetên Google Playê hildemîne û dîsa biceribîne!"
   },
   "post": {
     "reblog_alert": "Bi rastî jî tu dixwazî dîsa biweşînî?",
     "removed_hint": "Şandî hate rakirin ji aliyê",
-    "copy_link": "Girêdanê kopî bike",
+    "copy_link": "Copy link",
     "reblogged": "dîsweşandin ji aliyê",
     "sponsored": "SPONSORKIRÎ",
-    "open_thread": "Mijara Vekirî",
-    "save_to_local": "Li albûmê tomar bike",
-    "image_saved": "Wêne li Pêşangeha Wêneyan Hate Tomarkirin",
-    "image_saved_error": "Wêne tomar nebû"
+    "open_thread": "Open thread",
+    "image": "Image",
+    "link": "Link",
+    "gallery_mode": "Gallery mode",
+    "save_to_local": "Download to device",
+    "image_saved": "Image saved to Photo Gallery",
+    "image_saved_error": "Wêne tomar nebû",
+    "wrong_link": "Wrong link"
   },
   "drafts": {
     "title": "Reşnivîs",
@@ -352,7 +356,7 @@
     "search": "Di bijardeyan de bigere"
   },
   "auth": {
-    "invalid_pin": "Koda PINê nederbasdar e, kontrol bike û dîsa biceribîne",
+    "invalid_pin": "Pînkod nederbasdar e, kontrol bike û dîsa biceribîne",
     "invalid_username": "Navê bikarhêner nederbasdar e, kontrol bike û dîsa biceribîne",
     "already_logged": "Jixwe tu têketî ye, ji kerema xwe tevlîkirina ajimêreke din biceribîne",
     "invalid_credentials": "Navê bikarhêner nederbasdar e, kontrol bike û dîsa biceribîne",
