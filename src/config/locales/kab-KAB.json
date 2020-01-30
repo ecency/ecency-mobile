@@ -308,20 +308,24 @@
     "connection_fail": "Tuqqna tecceḍ!",
     "connection_success": "Teqqneḍ!",
     "checking": "Aselken...",
-    "external_link": "Are you sure, you want to open an external link?",
+    "external_link": "Open in Browser",
     "not_existing_post": "Ulac tasuffeɣt, ttxil-k senqed aseɣwen d umeskar.",
     "google_play_version": "Nger tamawt d akken ibenk-ik ɣur-s lqem aqdim n Google Play. Ttxil-k lqem imeẓla n Google Play tɛerḍeḍ tikelt-nniḍen!"
   },
   "post": {
     "reblog_alert": "Tebɣiḍ s tidet ad as-tɛawdeḍ asuffeɣ?",
     "removed_hint": "Tasuffeɣt-agi tettwakkes sɣur",
-    "copy_link": "Nɣel aseɣwen",
+    "copy_link": "Copy link",
     "reblogged": "tettwasuffeɣ-d tikelt-nniḍen sɣur",
     "sponsored": "TETTUNEFK-AS TEDRIMT",
-    "open_thread": "Open Thread",
-    "save_to_local": "Sekles deg walbum",
-    "image_saved": "Tugna tettwasekles deg usqif n tewlafin",
-    "image_saved_error": "Tuccḍa deg usekles n tugna"
+    "open_thread": "Open thread",
+    "image": "Image",
+    "link": "Link",
+    "gallery_mode": "Gallery mode",
+    "save_to_local": "Download to device",
+    "image_saved": "Image saved to Photo Gallery",
+    "image_saved_error": "Tuccḍa deg usekles n tugna",
+    "wrong_link": "Wrong link"
   },
   "drafts": {
     "title": "Tirwayin",
