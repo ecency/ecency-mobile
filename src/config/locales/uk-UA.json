@@ -308,20 +308,24 @@
     "connection_fail": "Помилка з’єднання!",
     "connection_success": "Успішне підключення!",
     "checking": "Перевірка...",
-    "external_link": "Ви впевнені, що хочете відкрити зовнішнє посилання?",
+    "external_link": "Open in Browser",
     "not_existing_post": "Допису не існує! Будь ласка, перевірте першоджерело та автора.",
     "google_play_version": "Ми помітили, що на вашому пристрої є стара версія Google Play. Оновіть служби Google Play і повторіть спробу!"
   },
   "post": {
     "reblog_alert": "Ви впевнені, що хочете рестімнути?",
     "removed_hint": "Допис видалено користувачем",
-    "copy_link": "Скопіювати посилання",
+    "copy_link": "Copy link",
     "reblogged": "рестімнуто",
     "sponsored": "СПОНСОРОВАНО",
-    "open_thread": "Відкрита тема",
-    "save_to_local": "Зберегти до альбому",
-    "image_saved": "Зображення збережено до Галереї",
-    "image_saved_error": "Не вдалося зберегти зображення"
+    "open_thread": "Open thread",
+    "image": "Image",
+    "link": "Link",
+    "gallery_mode": "Gallery mode",
+    "save_to_local": "Download to device",
+    "image_saved": "Image saved to Photo Gallery",
+    "image_saved_error": "Не вдалося зберегти зображення",
+    "wrong_link": "Wrong link"
   },
   "drafts": {
     "title": "Чернетки",
