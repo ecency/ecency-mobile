@@ -1,9 +1,11 @@
-import React, { Fragment, useState } from 'react';
-import { Dimensions, Linking, Alert, Modal, PermissionsAndroid, Platform } from 'react-native';
+import React, { Fragment, useState, useRef } from 'react';
+import { Dimensions, Linking, Modal, PermissionsAndroid, Platform } from 'react-native';
 import { useIntl } from 'react-intl';
 import CameraRoll from '@react-native-community/cameraroll';
 import RNFetchBlob from 'rn-fetch-blob';
 import ImageViewer from 'react-native-image-zoom-viewer';
+import ActionSheet from 'react-native-actionsheet';
+import { connect } from 'react-redux';
 
 import AutoHeightWebView from 'react-native-autoheight-webview';
 import EStyleSheet from 'react-native-extended-stylesheet';
@@ -21,6 +23,10 @@ import { TextButton } from '../../..';
 // Styles
 import styles from './postBodyStyles';
 
+// Services and Actions
+import { writeToClipboard } from '../../../../utils/clipboard';
+import { toastNotification } from '../../../../redux/actions/uiAction';
+
 const WIDTH = Dimensions.get('window').width;
 
 const CommentBody = ({
@@ -31,11 +37,17 @@ const CommentBody = ({
   created,
   commentDepth,
   reputation,
+  dispatch,
 }) => {
   const [isImageModalOpen, setIsImageModalOpen] = useState(false);
   const [postImages, setPostImages] = useState([]);
+  const [selectedImage, setSelectedImage] = useState(null);
+  const [selectedLink, setSelectedLink] = useState(null);
+
   const [revealComment, setRevealComment] = useState(reputation > 0);
   const intl = useIntl();
+  const actionImage = useRef(null);
+  const actionLink = useRef(null);
 
   const _showLowComment = () => {
     setRevealComment(true);
@@ -53,12 +65,24 @@ const CommentBody = ({
         data = {};
       }
 
-      const { type, href, images, author, category, permlink, tag, proposal, videoHref } = data;
+      const {
+        type,
+        href,
+        images,
+        image,
+        author,
+        category,
+        permlink,
+        tag,
+        proposal,
+        videoHref,
+      } = data;
 
       switch (type) {
         case '_external':
         case 'markdown-external-link':
-          __handleBrowserLink(href);
+          setSelectedLink(href);
+          actionLink.current.show();
           break;
         case 'markdown-author-link':
           if (!handleOnUserPress) {
@@ -85,13 +109,68 @@ const CommentBody = ({
           break;
         case 'image':
           setPostImages(images);
-          setIsImageModalOpen(true);
+          setSelectedImage(image);
+          actionImage.current.show();
           break;
 
         default:
           break;
       }
     } catch (error) {}
+  };
+
+  const handleImagePress = ind => {
+    if (ind === 1) {
+      //open gallery mode
+      setIsImageModalOpen(true);
+    }
+    if (ind === 0) {
+      //copy to clipboard
+      writeToClipboard(selectedImage).then(() => {
+        dispatch(
+          toastNotification(
+            intl.formatMessage({
+              id: 'alert.copied',
+            }),
+          ),
+        );
+      });
+    }
+    if (ind === 2) {
+      //save to local
+      _saveImage(selectedImage);
+    }
+  };
+
+  const handleLinkPress = ind => {
+    if (ind === 1) {
+      //open link
+      Linking.canOpenURL(selectedLink).then(supported => {
+        if (supported) {
+          Linking.openURL(selectedLink);
+        } else {
+          dispatch(
+            toastNotification(
+              intl.formatMessage({
+                id: 'alert.failed_to_open',
+              }),
+            ),
+          );
+        }
+      });
+    }
+    if (ind === 0) {
+      //copy to clipboard
+      writeToClipboard(selectedLink).then(() => {
+        dispatch(
+          toastNotification(
+            intl.formatMessage({
+              id: 'alert.copied',
+            }),
+          ),
+        );
+      });
+    }
   };
 
   const __handleTagPress = tag => {
@@ -102,34 +181,6 @@ const CommentBody = ({
           tag,
         },
       });
-    }
-  };
-
-  const __handleBrowserLink = async url => {
-    if (url) {
-      Alert.alert(
-        intl.formatMessage({ id: 'alert.warning' }),
-        intl.formatMessage({ id: 'alert.external_link' }),
-        [
-          {
-            text: 'Cancel',
-            onPress: () => {},
-            style: 'cancel',
-          },
-          {
-            text: 'OK',
-            onPress: () => {
-              Linking.canOpenURL(url).then(supported => {
-                if (supported) {
-                  Linking.openURL(url);
-                } else {
-                  Alert.alert(intl.formatMessage({ id: 'alert.failed_to_open' }));
-                }
-              });
-            },
-          },
-        ],
-      );
     }
   };
 
@@ -156,7 +207,13 @@ const CommentBody = ({
         key: username,
       });
     } else {
-      Alert.alert('Opss!', 'Wrong link.');
+      dispatch(
+        toastNotification(
+          intl.formatMessage({
+            id: 'post.wrong_link',
+          }),
+        ),
+      );
     }
   };
 
@@ -198,31 +255,30 @@ const CommentBody = ({
       }
       CameraRoll.saveToCameraRoll(uri)
         .then(res => {
-          Alert.alert(
-            intl.formatMessage({ id: 'alert.success' }),
-            intl.formatMessage({ id: 'post.image_saved' }),
-            [{ text: 'OK' }],
-            { cancelable: false },
+          dispatch(
+            toastNotification(
+              intl.formatMessage({
+                id: 'post.image_saved',
+              }),
+            ),
           );
         })
         .catch(error => {
-          Alert.alert(
-            intl.formatMessage({ id: 'post.image_saved_error' }),
-            error.message,
-            [{ text: 'OK' }],
-            {
-              cancelable: false,
-            },
+          dispatch(
+            toastNotification(
+              intl.formatMessage({
+                id: 'post.image_saved_error',
+              }),
+            ),
           );
         });
     } catch (error) {
-      Alert.alert(
-        intl.formatMessage({ id: 'post.image_saved_error' }),
-        error.message,
-        [{ text: 'OK' }],
-        {
-          cancelable: false,
-        },
+      dispatch(
+        toastNotification(
+          intl.formatMessage({
+            id: 'post.image_saved_error',
+          }),
+        ),
       );
     }
   };
@@ -365,13 +421,35 @@ const CommentBody = ({
           enableSwipeDown
           onCancel={() => setIsImageModalOpen(false)}
           onClick={() => setIsImageModalOpen(false)}
-          onSave={uri => _saveImage(uri)}
-          menuContext={{
-            saveToLocal: intl.formatMessage({ id: 'post.save_to_local' }),
-            cancel: intl.formatMessage({ id: 'alert.cancel' }),
-          }}
         />
       </Modal>
+      <ActionSheet
+        ref={actionImage}
+        options={[
+          intl.formatMessage({ id: 'post.copy_link' }),
+          intl.formatMessage({ id: 'post.gallery_mode' }),
+          intl.formatMessage({ id: 'post.save_to_local' }),
+          intl.formatMessage({ id: 'alert.cancel' }),
+        ]}
+        title={intl.formatMessage({ id: 'post.image' })}
+        cancelButtonIndex={3}
+        onPress={index => {
+          handleImagePress(index);
+        }}
+      />
+      <ActionSheet
+        ref={actionLink}
+        options={[
+          intl.formatMessage({ id: 'post.copy_link' }),
+          intl.formatMessage({ id: 'alert.external_link' }),
+          intl.formatMessage({ id: 'alert.cancel' }),
+        ]}
+        title={intl.formatMessage({ id: 'post.link' })}
+        cancelButtonIndex={2}
+        onPress={index => {
+          handleLinkPress(index);
+        }}
+      />
       {revealComment ? (
         <AutoHeightWebView
           key={`akey-${created.toString()}`}
@@ -402,4 +480,6 @@ const CommentBody = ({
 
 const areEqual = (prevProps, nextProps) => prevProps.body !== nextProps.body;
 
-export default React.memo(CommentBody, areEqual);
+const mapStateToProps = state => ({});
+
+export default connect(mapStateToProps)(React.memo(CommentBody, areEqual));

@@ -31,20 +31,6 @@ PODS:
     - React
   - BVLinearGradient (2.5.6):
     - React
-  - CodePush (1000.0.0):
-    - CodePush/Base64 (= 1000.0.0)
-    - CodePush/Core (= 1000.0.0)
-    - CodePush/JWT (= 1000.0.0)
-    - CodePush/SSZipArchive (= 1000.0.0)
-    - React
-  - CodePush/Base64 (1000.0.0):
-    - React
-  - CodePush/Core (1000.0.0):
-    - React
-  - CodePush/JWT (1000.0.0):
-    - React
-  - CodePush/SSZipArchive (1000.0.0):
-    - React
   - DoubleConversion (1.1.6)
   - FBLazyVector (0.61.5)
   - FBReactNativeSpec (0.61.5):
@@ -242,7 +228,7 @@ PODS:
     - React
     - SDWebImage/Core
     - SDWebImage/GIF
-  - react-native-netinfo (5.3.2):
+  - react-native-netinfo (5.3.3):
     - React
   - react-native-version-number (0.3.6):
     - React
@@ -318,7 +304,6 @@ DEPENDENCIES:
   - appcenter-push (from `../node_modules/appcenter-push/ios`)
   - BugsnagReactNative (from `../node_modules/bugsnag-react-native`)
   - BVLinearGradient (from `../node_modules/react-native-linear-gradient`)
-  - CodePush (from `../node_modules/react-native-code-push`)
   - DoubleConversion (from `../node_modules/react-native/third-party-podspecs/DoubleConversion.podspec`)
   - FBLazyVector (from `../node_modules/react-native/Libraries/FBLazyVector`)
   - FBReactNativeSpec (from `../node_modules/react-native/Libraries/FBReactNativeSpec`)
@@ -388,8 +373,6 @@ EXTERNAL SOURCES:
     :path: "../node_modules/bugsnag-react-native"
   BVLinearGradient:
     :path: "../node_modules/react-native-linear-gradient"
-  CodePush:
-    :path: "../node_modules/react-native-code-push"
   DoubleConversion:
     :podspec: "../node_modules/react-native/third-party-podspecs/DoubleConversion.podspec"
   FBLazyVector:
@@ -485,7 +468,6 @@ SPEC CHECKSUMS:
   boost-for-react-native: 39c7adb57c4e60d6c5479dd8623128eb5b3f0f2c
   BugsnagReactNative: bfa11ce45f7ee311962ecda93f190b6ea74329fe
   BVLinearGradient: e3aad03778a456d77928f594a649e96995f1c872
-  CodePush: a503ca0caee269e68d8faaafe4414990ec282520
   DoubleConversion: 5805e889d232975c086db112ece9ed034df7a0b2
   FBLazyVector: aaeaf388755e4f29cd74acbc9e3b8da6d807c37f
   FBReactNativeSpec: 118d0d177724c2d67f08a59136eb29ef5943ec75
@@ -507,7 +489,7 @@ SPEC CHECKSUMS:
   react-native-cameraroll: 463aff54e37cff27ea76eb792e6f1fa43b876320
   react-native-config: f2c2ae45625a068c35681a16b9bfb1ca58b0adc7
   react-native-fast-image: 6d50167ad4d68b59640ceead8c2bc4e58d91d8bd
-  react-native-netinfo: 817823a90f13ced48413875c0820df04c3aae28d
+  react-native-netinfo: 8884d510fe67349940b4399c01db3e3591c922aa
   react-native-version-number: b415bbec6a13f2df62bf978e85bc0d699462f37f
   react-native-webview: 3f5aa91c3cb083ea4762e006b9653291a96a777a
   React-RCTActionSheet: 600b4d10e3aea0913b5a92256d2719c0cdd26d76

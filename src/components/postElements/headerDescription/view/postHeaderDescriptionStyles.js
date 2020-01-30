@@ -18,7 +18,7 @@ export default EStyleSheet.create({
   rightContainer: {
     flexDirection: 'column',
     marginLeft: 'auto',
-    paddingLeft: 20,
+    paddingLeft: 10,
   },
   avatar: {
     borderColor: '$borderColor',

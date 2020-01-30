@@ -10,7 +10,8 @@ for (var k = 0; k < images.length; k++) {
 for (var i = 0; i < images.length; i++) {  
   var result = {
     type: 'image',
-    images: imageUrls
+    images: imageUrls,
+    image: images[i].getAttribute("src") || ''
   };
   var resultStr = JSON.stringify(JSON.stringify(result));
   var message = 'window.ReactNativeWebView.postMessage(' + resultStr + ')';
@@ -128,7 +129,8 @@ for (var k = 0; k < images.length; k++) {
 for (var i = 0; i < images.length; i++) {  
   var result = {
     type: 'image',
-    images: imageUrls
+    images: imageUrls,
+    image: images[i].getAttribute("src") || ''
   };
   var resultStr = JSON.stringify(JSON.stringify(result));
   var message = 'window.ReactNativeWebView.postMessage(' + resultStr + ')';
