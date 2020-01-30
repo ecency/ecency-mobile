@@ -308,20 +308,24 @@
     "connection_fail": "¡Error de conexión!",
     "connection_success": "¡Conectado con éxito!",
     "checking": "Comprobando...",
-    "external_link": "Are you sure, you want to open an external link?",
+    "external_link": "Open in Browser",
     "not_existing_post": "¡La publicación no existe! Por favor comprueba el permalink y el autor.",
     "google_play_version": "Notamos que tu dispositivo tiene una versión antigua de Google Play. ¡Por favor actualiza los servicios de Google Play e inténtalo de nuevo!"
   },
   "post": {
     "reblog_alert": "¿Estás seguro de querer rebloguear?",
     "removed_hint": "Esta publicación ha sido removida por",
-    "copy_link": "Copiar enlace",
+    "copy_link": "Copy link",
     "reblogged": "reblogueado por",
     "sponsored": "PATROCINADO",
-    "open_thread": "Hilo abierto",
-    "save_to_local": "Guardar en este álbum",
-    "image_saved": "Imagen salvada en la galería de fotos",
-    "image_saved_error": "Error salvando imagen"
+    "open_thread": "Open thread",
+    "image": "Image",
+    "link": "Link",
+    "gallery_mode": "Gallery mode",
+    "save_to_local": "Download to device",
+    "image_saved": "Image saved to Photo Gallery",
+    "image_saved_error": "Error salvando imagen",
+    "wrong_link": "Wrong link"
   },
   "drafts": {
     "title": "Borradores",

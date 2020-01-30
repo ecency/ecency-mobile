@@ -125,7 +125,7 @@
     "replies": "Balasan",
     "mentions": "Menyebutkan",
     "reblogs": "Menampilkan kembali",
-    "noactivity": "No recent activity"
+    "noactivity": "Tidak ada aktivitas terbaru"
   },
   "leaderboard": {
     "daily": "HARIAN",
@@ -246,9 +246,9 @@
   },
   "editor": {
     "title": "Judul",
-    "tags": "Tags (separate with space)",
-    "default_placeholder": "Tell us something...",
-    "reply_placeholder": "Add your reply...",
+    "tags": "Tag (terpisah dengan spasi)",
+    "default_placeholder": "Beri tahu kami sesuatu...",
+    "reply_placeholder": "Tambahkan balasan Anda...",
     "publish": "Terbitkan",
     "reply": "Balas",
     "open_gallery": "Buka Album",
@@ -280,7 +280,7 @@
     "success_moved": "Pindah ke konsep",
     "permission_denied": "Izin ditolak",
     "permission_text": "Silakan buka pengaturan telepon dan ubah izin untuk aplikasi eSteem.",
-    "key_warning": "Check private key permission!",
+    "key_warning": "Periksa izin kunci pribadi!",
     "success_rebloged": "Rebloged!",
     "already_rebloged": "Anda telah menampilkan kembali blog ini!",
     "success_favorite": "Favorit ditambahkan!",
@@ -304,24 +304,28 @@
     "same_user": "Pengguna ini sudah ditambahkan ke daftar",
     "unknow_error": "Terjadi kesalahan",
     "error": "Error",
-    "fetch_error": "Connection issue, please try again or write to support@esteem.app",
+    "fetch_error": "Masalah koneksi, silakan coba lagi atau tulis untuk dukungan@esteem.app",
     "connection_fail": "Koneksi gagal!",
     "connection_success": "Berhasil terhubung!",
     "checking": "Mememriksa...",
-    "external_link": "Are you sure, you want to open an external link?",
+    "external_link": "Open in Browser",
     "not_existing_post": "Pos tidak ada! Silakan periksa permlink dan penulis.",
     "google_play_version": "Kami perhatikan bahwa perangkat Anda memiliki Google Play versi lama. Harap perbarui layanan Google Play dan coba lagi!"
   },
   "post": {
     "reblog_alert": "Anda yakin, anda ingin me-reblog?",
     "removed_hint": "Pos dihapus oleh",
-    "copy_link": "Copy Link",
+    "copy_link": "Copy link",
     "reblogged": "direblog Oleh",
     "sponsored": "DISPONSORI",
-    "open_thread": "Buka Thread",
-    "save_to_local": "Simpan ke album",
-    "image_saved": "Gambar Disimpan ke Galeri Foto",
-    "image_saved_error": "Kesalahan menyimpan gambar"
+    "open_thread": "Open thread",
+    "image": "Image",
+    "link": "Link",
+    "gallery_mode": "Gallery mode",
+    "save_to_local": "Download to device",
+    "image_saved": "Image saved to Photo Gallery",
+    "image_saved_error": "Kesalahan menyimpan gambar",
+    "wrong_link": "Wrong link"
   },
   "drafts": {
     "title": "Konsep",
@@ -356,7 +360,7 @@
     "invalid_username": "Nama pengguna tidak valid, silakan periksa dan coba lagi",
     "already_logged": "Anda sudah masuk, coba tambahkan akun lain",
     "invalid_credentials": "Kredensial tidak valid, silakan periksa dan coba lagi",
-    "unknow_error": "Unknown error, please write to support@esteem.app"
+    "unknow_error": "Kesalahan tidak dikenal, silakan menulis ke support@esteem.app"
   },
   "payout": {
     "potential_payout": "Potensi pembayaran",
@@ -465,8 +469,8 @@
   },
   "comments": {
     "title": "Komentar",
-    "reveal_comment": "Reveal comment",
-    "read_more": "Read more comments",
-    "more_replies": "more replies"
+    "reveal_comment": "Ungkapkan komentar",
+    "read_more": "Baca lebih banyak komentar",
+    "more_replies": "lebih banyak balasan"
   }
 }
