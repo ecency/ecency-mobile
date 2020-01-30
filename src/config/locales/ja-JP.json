@@ -325,7 +325,7 @@
     "save_to_local": "デバイスにダウンロード",
     "image_saved": "画像をフォトギャラリーに保存しました",
     "image_saved_error": "画像の保存時にエラー",
-    "wrong_link": "Wrong link"
+    "wrong_link": "間違ったリンク"
   },
   "drafts": {
     "title": "下書き",
