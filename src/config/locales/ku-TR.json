@@ -308,24 +308,24 @@
     "connection_fail": "Girêdan Biserneket!",
     "connection_success": "Bi serkevtî hate girêdan!",
     "checking": "Tê kontrolkirin...",
-    "external_link": "Open in Browser",
+    "external_link": "Di Gerokê de veke",
     "not_existing_post": "Şandî tune ye! Ji kerema xwe nivîskar û girêdana mayînde kontrol bike.",
     "google_play_version": "Me ferq kir ku li amûra te, guhertoya kevn a Google Playê sazkirî ye. Ji kerema xwe xizmetên Google Playê hildemîne û dîsa biceribîne!"
   },
   "post": {
     "reblog_alert": "Bi rastî jî tu dixwazî dîsa biweşînî?",
     "removed_hint": "Şandî hate rakirin ji aliyê",
-    "copy_link": "Copy link",
+    "copy_link": "Girêdanê kopî bike",
     "reblogged": "dîsweşandin ji aliyê",
     "sponsored": "SPONSORKIRÎ",
-    "open_thread": "Open thread",
-    "image": "Image",
-    "link": "Link",
-    "gallery_mode": "Gallery mode",
-    "save_to_local": "Download to device",
-    "image_saved": "Image saved to Photo Gallery",
+    "open_thread": "Mijara vekirî",
+    "image": "Wêne",
+    "link": "Girêdan",
+    "gallery_mode": "Moda pêşangehê",
+    "save_to_local": "Daxîne amûrê",
+    "image_saved": "Wêne li Pêşangeha Wêneyan Hate Tomarkirin",
     "image_saved_error": "Wêne tomar nebû",
-    "wrong_link": "Wrong link"
+    "wrong_link": "Girêdana çewt"
   },
   "drafts": {
     "title": "Reşnivîs",
