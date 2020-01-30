@@ -23,7 +23,7 @@ export default EStyleSheet.create({
   },
   popoverDetails: {
     flexDirection: 'row',
-    height: 100,
+    height: 'auto',
     borderRadius: 20,
     paddingHorizontal: 26,
     backgroundColor: '$primaryBackgroundColor',
@@ -72,9 +72,7 @@ export default EStyleSheet.create({
   hideArrow: {
     borderTopColor: 'transparent',
   },
-  overlay: {
-    backgroundColor: '#403c4449',
-  },
+  overlay: {},
   payoutValue: {
     alignSelf: 'center',
     fontSize: 10,

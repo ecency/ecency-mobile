@@ -10,7 +10,8 @@ for (var k = 0; k < images.length; k++) {
 for (var i = 0; i < images.length; i++) {  
   var result = {
     type: 'image',
-    images: imageUrls
+    images: imageUrls,
+    image: images[i].getAttribute("src") || ''
   };
   var resultStr = JSON.stringify(JSON.stringify(result));
   var message = 'window.ReactNativeWebView.postMessage(' + resultStr + ')';
@@ -128,16 +129,16 @@ for (var k = 0; k < images.length; k++) {
 for (var i = 0; i < images.length; i++) {  
   var result = {
     type: 'image',
-    images: imageUrls
+    images: imageUrls,
+    image: images[i].getAttribute("src") || ''
   };
   var resultStr = JSON.stringify(JSON.stringify(result));
   var message = 'window.ReactNativeWebView.postMessage(' + resultStr + ')';
   if (!images[i].classList.contains("video-thumbnail") && !images[i].parentNode.classList.contains("markdown-external-link")) {
-    images[i].setAttribute("onTouchStart", message);
+    images[i].setAttribute("onClick", message);
   }
 }
-document.addEventListener('touchstart', function(event) {
-  event.preventDefault();
+document.addEventListener('click', function(event) {
   var el = event.target;
   while (el.tagName !== 'A') {
     if (!el.parentNode) {

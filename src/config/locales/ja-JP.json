@@ -308,20 +308,24 @@
     "connection_fail": "接続に失敗しました！",
     "connection_success": "接続に成功しました！",
     "checking": "確認中...",
-    "external_link": "この外部リンクを本当に表示しますか？",
+    "external_link": "Open in Browser",
     "not_existing_post": "投稿は存在しません！パーマリンクと投稿者を確認してください。",
     "google_play_version": "あなたのデバイスはGoogle Playのバージョンが古いようです。Google Playをアップデートして再度お試しください！"
   },
   "post": {
     "reblog_alert": "本当にリブログしますか？",
     "removed_hint": "投稿は削除されました",
-    "copy_link": "リンクをコピー",
+    "copy_link": "Copy link",
     "reblogged": "リブログしています",
     "sponsored": "PR",
-    "open_thread": "スレッドを開く",
-    "save_to_local": "アルバムに保存",
-    "image_saved": "画像をフォトギャラリーに保存しました",
-    "image_saved_error": "画像の保存時にエラー"
+    "open_thread": "Open thread",
+    "image": "Image",
+    "link": "Link",
+    "gallery_mode": "Gallery mode",
+    "save_to_local": "Download to device",
+    "image_saved": "Image saved to Photo Gallery",
+    "image_saved_error": "画像の保存時にエラー",
+    "wrong_link": "Wrong link"
   },
   "drafts": {
     "title": "下書き",
@@ -465,8 +469,8 @@
   },
   "comments": {
     "title": "コメント",
-    "reveal_comment": "Reveal comment",
-    "read_more": "Read more comments",
-    "more_replies": "more replies"
+    "reveal_comment": "コメントを表示",
+    "read_more": "もっとコメントを読む",
+    "more_replies": "返信をもっと表示"
   }
 }

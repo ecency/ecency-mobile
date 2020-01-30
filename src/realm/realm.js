@@ -118,9 +118,10 @@ export const setDraftPost = async (fields, username) => {
       body: fields.body,
     };
 
-    if (draft.some(e => e.username === username)) {
+    if (draft && draft.some(e => e.username === username)) {
       draft = draft.map(item => (item.username === username ? { ...item, ...data } : item));
     } else {
+      draft = [];
       draft.push(data);
     }
     await setItemToStorage(DRAFT_SCHEMA, draft);

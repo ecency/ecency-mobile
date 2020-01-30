@@ -234,7 +234,9 @@ class EditorContainer extends Component {
       this.setState({ isPostSending: true });
 
       const meta = extractMetadata(fields.body);
-      const jsonMeta = makeJsonMetadata(meta, fields.tags);
+      const _tags = fields.tags.filter(tag => tag && tag !== ' ');
+
+      const jsonMeta = makeJsonMetadata(meta, _tags);
       // TODO: check if permlink is available github: #314 https://github.com/esteemapp/esteem-mobile/pull/314
       let permlink = generatePermlink(fields.title);
 
@@ -251,7 +253,7 @@ class EditorContainer extends Component {
 
       const author = currentAccount.name;
       const options = makeOptions(author, permlink);
-      const parentPermlink = fields.tags[0] || 'hive-125125';
+      const parentPermlink = _tags[0] || 'hive-125125';
 
       if (scheduleDate) {
         await this._setScheduledPost({
@@ -274,6 +276,8 @@ class EditorContainer extends Component {
           0,
         )
           .then(() => {
+            setDraftPost({ title: '', body: '', tags: '' }, currentAccount.name);
+
             dispatch(
               toastNotification(
                 intl.formatMessage({
@@ -283,8 +287,6 @@ class EditorContainer extends Component {
             );
 
             this.setState({ isPostSending: false });
-
-            setDraftPost({ title: '', body: '', tags: '' }, currentAccount.name);
 
             navigation.navigate({
               routeName: ROUTES.SCREENS.POST,

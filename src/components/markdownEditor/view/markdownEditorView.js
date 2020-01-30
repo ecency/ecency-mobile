@@ -221,7 +221,7 @@ const MarkdownEditorView = ({
           {({ isDarkTheme }) => (
             <TextInput
               multiline
-              autoCorrect={false}
+              autoCorrect={true}
               onChangeText={_changeText}
               onSelectionChange={_handleOnSelectionChange}
               placeholder={intl.formatMessage({

@@ -308,20 +308,24 @@
     "connection_fail": "Échec de la connexion !",
     "connection_success": "Connexion réussie!",
     "checking": "Vérification...",
-    "external_link": "Are you sure, you want to open an external link?",
+    "external_link": "Open in Browser",
     "not_existing_post": "Le post n'existe pas ! Veuillez vérifier le lien et l'auteur.",
     "google_play_version": "Nous avons remarqué que votre appareil possède une ancienne version de Google Play. Veuillez mettre à jour les services Google Play et réessayez!"
   },
   "post": {
     "reblog_alert": "Êtes-vous sûr de vouloir rebloguer ?",
     "removed_hint": "Ce post à été supprimé par",
-    "copy_link": "Copier le Lien",
+    "copy_link": "Copy link",
     "reblogged": "reblogué par",
     "sponsored": "SPONSORISÉ",
-    "open_thread": "Open Thread",
-    "save_to_local": "Enregistrer dans l'album",
-    "image_saved": "Image sauvegardée dans la Galerie Photo",
-    "image_saved_error": "Erreur de sauvegarde de l'image"
+    "open_thread": "Open thread",
+    "image": "Image",
+    "link": "Link",
+    "gallery_mode": "Gallery mode",
+    "save_to_local": "Download to device",
+    "image_saved": "Image saved to Photo Gallery",
+    "image_saved_error": "Erreur de sauvegarde de l'image",
+    "wrong_link": "Wrong link"
   },
   "drafts": {
     "title": "Brouillons",
