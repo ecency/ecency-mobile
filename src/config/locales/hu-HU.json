@@ -125,7 +125,7 @@
     "replies": "Válaszok",
     "mentions": "Említések",
     "reblogs": "Megosztások",
-    "noactivity": "No recent activity"
+    "noactivity": "Nincs friss tevékenység"
   },
   "leaderboard": {
     "daily": "NAPI",
@@ -203,7 +203,7 @@
   },
   "login": {
     "signin": "Bejelentkezés",
-    "signup": "JOIN NOW",
+    "signup": "CSATLAKOZZ MOST",
     "signin_title": "Jelentkezz be ahhoz, hogy minden előnyben részesülj",
     "username": "Felhasználónév",
     "password": "Jelszó vagy a WIF",
@@ -253,7 +253,7 @@
     "reply": "Válasz",
     "open_gallery": "Galéria Megnyitása",
     "capture_photo": "Készíts egy fotót",
-    "limited_tags": "Only 10 tags allowed, remove some",
+    "limited_tags": "Csak 10 címke engedélyezett, törölj néhányat",
     "limited_length": "Maximum length of each tag should be 24",
     "limited_dash": "Use one dash in each tag",
     "limited_space": "Use space to separate tags",
@@ -285,8 +285,8 @@
     "already_rebloged": "Ezt már megosztottad!",
     "success_favorite": "Kedvencekhez hozzáadva!",
     "success_unfavorite": "Eltávolítva a kedvencektől!",
-    "success_follow": "Follow success!",
-    "success_mute": "Mute success!",
+    "success_follow": "Sikeres követés!",
+    "success_mute": "Sikeres némítás!",
     "success_unmute": "Unmute success!",
     "success_unfollow": "Unfollow success!",
     "warning": "Figyelmeztetés",
@@ -308,20 +308,24 @@
     "connection_fail": "Sikertelen kapcsolat!",
     "connection_success": "A kapcsolat sikerült!",
     "checking": "Ellenőrzés folyamatban...",
-    "external_link": "Are you sure, you want to open an external link?",
+    "external_link": "Open in Browser",
     "not_existing_post": "A bejegyzés nem létezik! Kérjük ellenőrizd a linket és a szerzőt.",
     "google_play_version": "Észrevettük, hogy a készülékeden a Google Play régi verziója található. Kérjük frissítsd a Google Play szolgáltatásait és próbáld újra!"
   },
   "post": {
     "reblog_alert": "Biztos, hogy megosztod?",
     "removed_hint": "A bejegyzést eltávolította",
-    "copy_link": "Link másolása",
+    "copy_link": "Copy link",
     "reblogged": "megosztva általa",
     "sponsored": "TÁMOGATOTT",
-    "open_thread": "Bejegyzés megnyitása",
-    "save_to_local": "Mentés ebbe a mappába",
-    "image_saved": "Kép a galériába mentve",
-    "image_saved_error": "Hiba a kép mentése közben"
+    "open_thread": "Open thread",
+    "image": "Image",
+    "link": "Link",
+    "gallery_mode": "Gallery mode",
+    "save_to_local": "Download to device",
+    "image_saved": "Image saved to Photo Gallery",
+    "image_saved_error": "Hiba a kép mentése közben",
+    "wrong_link": "Wrong link"
   },
   "drafts": {
     "title": "Piszkozatok",

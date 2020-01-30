@@ -308,20 +308,24 @@
     "connection_fail": "연결 실패!",
     "connection_success": "성공적으로 연결되었습니다",
     "checking": "확인 중...",
-    "external_link": "Are you sure, you want to open an external link?",
+    "external_link": "Open in Browser",
     "not_existing_post": "글이 존재하지 않습니다! permlink와 저자를 확인해주세요.",
     "google_play_version": "기기에 설치된 앱이 구 버전인 것 같습니다. 구글 플레이에서 업데이트된 앱을 다운로드받은 후 다시 시도해보세요!"
   },
   "post": {
     "reblog_alert": "리블로그 하시겠습니까?",
     "removed_hint": "포스팅이 삭제되었습니다",
-    "copy_link": "링크 복사",
+    "copy_link": "Copy link",
     "reblogged": "리블로그됨",
     "sponsored": "투표 후원받음",
-    "open_thread": "스레드 열기",
-    "save_to_local": "Save to the album",
-    "image_saved": "Image Saved to Photo Gallery",
-    "image_saved_error": "Error Saving Image"
+    "open_thread": "Open thread",
+    "image": "Image",
+    "link": "Link",
+    "gallery_mode": "Gallery mode",
+    "save_to_local": "Download to device",
+    "image_saved": "Image saved to Photo Gallery",
+    "image_saved_error": "Error Saving Image",
+    "wrong_link": "Wrong link"
   },
   "drafts": {
     "title": "임시 보관함",

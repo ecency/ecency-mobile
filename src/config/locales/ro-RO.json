@@ -308,20 +308,24 @@
     "connection_fail": "Connectare Eșuată!",
     "connection_success": "Conectat cu succes!",
     "checking": "Verificare în curs...",
-    "external_link": "Are you sure, you want to open an external link?",
+    "external_link": "Open in Browser",
     "not_existing_post": "Postarea nu există! Te rugăm să verifici permlink și autorul.",
     "google_play_version": "Am observat că dispozitivul tău are versiunea veche Google Play. Actualiză serviciile Google Play și încearcă din nou!"
   },
   "post": {
     "reblog_alert": "Ești sigur că vrei să redistribui?",
     "removed_hint": "Postarea a fost eliminată de către",
-    "copy_link": "Copiere link",
+    "copy_link": "Copy link",
     "reblogged": "redistribuit de",
     "sponsored": "SPONSORIZAT",
-    "open_thread": "Deschide Thread",
-    "save_to_local": "Salvare în acest album",
-    "image_saved": "Imagine salvată în Galerie Foto",
-    "image_saved_error": "Eroare la salvarea imaginii"
+    "open_thread": "Open thread",
+    "image": "Image",
+    "link": "Link",
+    "gallery_mode": "Gallery mode",
+    "save_to_local": "Download to device",
+    "image_saved": "Image saved to Photo Gallery",
+    "image_saved_error": "Eroare la salvarea imaginii",
+    "wrong_link": "Wrong link"
   },
   "drafts": {
     "title": "Schițe",
