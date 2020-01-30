@@ -308,20 +308,24 @@
     "connection_fail": "Koneksi gagal!",
     "connection_success": "Berhasil terhubung!",
     "checking": "Mememriksa...",
-    "external_link": "Anda yakin ingin membuka tautan eksternal?",
+    "external_link": "Open in Browser",
     "not_existing_post": "Pos tidak ada! Silakan periksa permlink dan penulis.",
     "google_play_version": "Kami perhatikan bahwa perangkat Anda memiliki Google Play versi lama. Harap perbarui layanan Google Play dan coba lagi!"
   },
   "post": {
     "reblog_alert": "Anda yakin, anda ingin me-reblog?",
     "removed_hint": "Pos dihapus oleh",
-    "copy_link": "Copy Link",
+    "copy_link": "Copy link",
     "reblogged": "direblog Oleh",
     "sponsored": "DISPONSORI",
-    "open_thread": "Buka Thread",
-    "save_to_local": "Simpan ke album",
-    "image_saved": "Gambar Disimpan ke Galeri Foto",
-    "image_saved_error": "Kesalahan menyimpan gambar"
+    "open_thread": "Open thread",
+    "image": "Image",
+    "link": "Link",
+    "gallery_mode": "Gallery mode",
+    "save_to_local": "Download to device",
+    "image_saved": "Image saved to Photo Gallery",
+    "image_saved_error": "Kesalahan menyimpan gambar",
+    "wrong_link": "Wrong link"
   },
   "drafts": {
     "title": "Konsep",
