@@ -139,7 +139,6 @@ for (var i = 0; i < images.length; i++) {
   }
 }
 document.addEventListener('click', function(event) {
-  event.preventDefault();
   var el = event.target;
   while (el.tagName !== 'A') {
     if (!el.parentNode) {
