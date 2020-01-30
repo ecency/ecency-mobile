@@ -82,7 +82,7 @@ export const setPreviousAppState = () => {
   const appStateTimeout = setTimeout(() => {
     previousAppState = AppState.currentState;
     clearTimeout(appStateTimeout);
-  }, 2000);
+  }, 500);
 };
 
 class ApplicationContainer extends Component {
@@ -138,7 +138,6 @@ class ApplicationContainer extends Component {
     if (!isIos) BackHandler.removeEventListener('hardwareBackPress', this._onBackPress);
 
     // NetInfo.isConnected.removeEventListener('connectionChange', this._handleConntectionChange);
-    //clearInterval(this.globalInterval);
 
     Linking.removeEventListener('url', this._handleOpenURL);
 
@@ -156,11 +155,9 @@ class ApplicationContainer extends Component {
       const { isConnected, dispatch } = this.props;
       if (state.isConnected !== isConnected) {
         dispatch(setConnectivityStatus(state.isConnected));
-        this._fetchApp();
-        /*if (!state.isConnected) {
-          clearInterval(this.globalInterval);
-        }*/
+        //this._fetchApp();
       }
+      this._fetchApp();
     });
   };
 
@@ -217,7 +214,6 @@ class ApplicationContainer extends Component {
   _handleAppStateChange = nextAppState => {
     const { appState } = this.state;
     const { isPinCodeOpen: _isPinCodeOpen } = this.props;
-
     getExistUser().then(isExistUser => {
       if (isExistUser) {
         if (appState.match(/active|forground/) && nextAppState === 'inactive') {
@@ -257,7 +253,6 @@ class ApplicationContainer extends Component {
     const { isConnected } = this.props;
     if (isConnected && userRealmObject) {
       await this._fetchUserDataFromDsteem(userRealmObject);
-      //this.globalInterval = setInterval(this._refreshGlobalProps, 180000);
     }
   };
 
@@ -617,7 +612,6 @@ class ApplicationContainer extends Component {
 
     if (isConnected !== null && isConnected !== nextProps.isConnected && nextProps.isConnected) {
       this._fetchApp();
-      //this.globalInterval = setInterval(this._refreshGlobalProps, 180000);
     }
   }
 

@@ -58,10 +58,10 @@ export const getTimeFromNow = (value, isWithoutUtc) => {
   }
 
   if (isWithoutUtc) {
-    return moment(value).fromNow(true);
+    return moment(value).fromNow();
   }
 
-  return moment.utc(value).fromNow(true);
+  return moment.utc(value).fromNow();
 };
 
 export const getFormatedCreatedDate = value => {

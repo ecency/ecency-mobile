@@ -69,20 +69,33 @@ class PostHeaderDescription extends PureComponent {
                 noAction
               />
             )}
-            <Text style={styles.name}>{name}</Text>
-            <Text style={styles.reputation}>{_reputationText}</Text>
           </TouchableOpacity>
-          {!!tag && (
-            <TouchableOpacity onPress={() => tagOnPress && tagOnPress()}>
-              <Tag isPostCardTag={!isPromoted} isPin value={tag} />
-            </TouchableOpacity>
-          )}
-          <Text style={styles.date}>
-            {isPromoted ? intl.formatMessage({ id: 'post.sponsored' }) : date}
-          </Text>
-          {isShowOwnerIndicator && (
-            <Icon style={styles.ownerIndicator} name="stars" iconType="MaterialIcons" />
-          )}
+          <View style={styles.leftContainer}>
+            <View style={styles.primaryDetails}>
+              <TouchableOpacity
+                style={styles.avatarNameWrapper}
+                onPress={() => this._handleOnUserPress(name)}
+              >
+                <Text style={styles.name}>{name}</Text>
+                <Text style={styles.reputation}>{_reputationText}</Text>
+              </TouchableOpacity>
+              {isShowOwnerIndicator && (
+                <Icon style={styles.ownerIndicator} name="stars" iconType="MaterialIcons" />
+              )}
+            </View>
+            <View style={styles.secondaryDetails}>
+              <Text style={styles.date}>
+                {isPromoted ? intl.formatMessage({ id: 'post.sponsored' }) : date}
+              </Text>
+            </View>
+          </View>
+          <View style={styles.rightContainer}>
+            {!!tag && (
+              <TouchableOpacity onPress={() => tagOnPress && tagOnPress()}>
+                <Tag isPostCardTag={!isPromoted} isPin value={tag} />
+              </TouchableOpacity>
+            )}
+          </View>
         </View>
       </View>
     );

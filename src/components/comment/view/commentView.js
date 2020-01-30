@@ -50,7 +50,7 @@ const CommentView = ({
   };
 
   return (
-    <TouchableWithoutFeedback onLongPress={handleOnLongPress}>
+    <TouchableWithoutFeedback onLongPress={handleOnLongPress} delayLongPress={2000}>
       <View style={styles.commentContainer}>
         <PostHeaderDescription
           key={comment.permlink}

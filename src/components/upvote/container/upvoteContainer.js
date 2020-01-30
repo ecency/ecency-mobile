@@ -76,7 +76,7 @@ class UpvoteContainer extends PureComponent {
     if (beneficiaries) {
       beneficiary.forEach(key => {
         beneficiaries.push(
-          get(key, 'account') + ': ' + (parseFloat(get(key, 'weight')) / 100).toFixed(2) + '%',
+          `\n  ${get(key, 'account')}: ${(parseFloat(get(key, 'weight')) / 100).toFixed(2)}%`,
         );
       });
     }

@@ -5,6 +5,21 @@ export default EStyleSheet.create({
     flexDirection: 'row',
     alignItems: 'center',
   },
+  leftContainer: {
+    flexDirection: 'column',
+  },
+  primaryDetails: {
+    flexDirection: 'row',
+  },
+  secondaryDetails: {
+    flexDirection: 'row',
+    marginHorizontal: 3,
+  },
+  rightContainer: {
+    flexDirection: 'column',
+    marginLeft: 'auto',
+    paddingLeft: 10,
+  },
   avatar: {
     borderColor: '$borderColor',
     borderWidth: 1,
@@ -12,14 +27,14 @@ export default EStyleSheet.create({
   },
   name: {
     marginHorizontal: 3,
-    fontSize: 11,
+    fontSize: 12,
     color: '$primaryBlack',
     fontFamily: '$primaryFont',
     fontWeight: 'bold',
     alignSelf: 'center',
   },
   reputation: {
-    fontSize: 11,
+    fontSize: 12,
     color: '$primaryDarkGray',
     marginRight: 8,
     alignSelf: 'center',
