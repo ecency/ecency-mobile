@@ -112,7 +112,7 @@ const stackNavigator = createStackNavigator(
       screen: Post,
       navigationOptions: {
         gesturesEnabled: true,
-        gestureResponseDistance: { horizontal: 100 },
+        gestureResponseDistance: { horizontal: 70 },
       },
     },
     [ROUTES.SCREENS.EDITOR]: { screen: Editor },
