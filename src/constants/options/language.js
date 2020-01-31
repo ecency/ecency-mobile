@@ -13,7 +13,7 @@ export default [
   'Español',
   'Français',
   'Magyar',
-  'Ukrayinska',
+  'Ukraïnska',
   'Lietuvių',
   'Português',
   'Fārsi',
