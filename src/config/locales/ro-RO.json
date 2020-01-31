@@ -75,9 +75,9 @@
     "escrow_dispute": "Dispută Escrow",
     "escrow_release": "Eliberare Escrow",
     "escrow_approve": "Aprobare Escrow",
-    "cancel_transfer_from_savings": "Cancel From Savings",
+    "cancel_transfer_from_savings": "Anulează transferul din economii",
     "delegate_vesting_shares": "Delegare",
-    "fill_convert_request": "Convert Executed",
+    "fill_convert_request": "Acceptă cererea de conversie",
     "fill_transfer_from_savings": "Savings Executed",
     "fill_vesting_withdraw": "PowerDown executed",
     "estm": {
@@ -125,7 +125,7 @@
     "replies": "Răspunsuri",
     "mentions": "Menționări",
     "reblogs": "Redistribuiri",
-    "noactivity": "No recent activity"
+    "noactivity": "Nicio activitate recentă"
   },
   "leaderboard": {
     "daily": "ZILNIC",
@@ -203,7 +203,7 @@
   },
   "login": {
     "signin": "Loghează-te",
-    "signup": "JOIN NOW",
+    "signup": "ALĂTURĂ-TE ACUM",
     "signin_title": "Pentru a beneficia de toate funcționalitățile eSteem",
     "username": "Nume utilizator",
     "password": "Parolă sau WIF",
@@ -246,17 +246,17 @@
   },
   "editor": {
     "title": "Titlu",
-    "tags": "Tags (separate with space)",
-    "default_placeholder": "Tell us something...",
-    "reply_placeholder": "Add your reply...",
+    "tags": "Etichete (separate cu spațiu)",
+    "default_placeholder": "Spune-ne ceva...",
+    "reply_placeholder": "Adaugă opinia ta...",
     "publish": "Publică",
     "reply": "Răspunde",
     "open_gallery": "Deschide Galeria",
     "capture_photo": "Captură foto",
-    "limited_tags": "Only 10 tags allowed, remove some",
-    "limited_length": "Maximum length of each tag should be 24",
+    "limited_tags": "Sunt admise maxim 10 etichete, șterge din ele",
+    "limited_length": "Eticheta poate avea maxim 24 de litere",
     "limited_dash": "Use one dash in each tag",
-    "limited_space": "Use space to separate tags",
+    "limited_space": "Foloseste spatii pentru a separa etichetele",
     "limited_lowercase": "Only use lower letters in tag",
     "limited_characters": "Use only allowed characters in tag",
     "limited_firstchar": "Tag must start with a letter",
