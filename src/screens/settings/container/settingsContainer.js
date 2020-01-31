@@ -84,7 +84,6 @@ class SettingsContainer extends Component {
             'https://rpc.steemviz.com',
             'https://api.steem.house',
             'https://steemd.pevo.science',
-            'https://steemd.minnowsupportproject.org',
           ],
         }),
       );
