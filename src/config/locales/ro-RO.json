@@ -3,10 +3,10 @@
     "curation_reward": "Recompensă de curare",
     "author_reward": "Recompensă Autor",
     "comment_benefactor_reward": "Benefactor Reward",
-    "claim_reward_balance": "Claim Reward ",
+    "claim_reward_balance": "Colectează recompensele ",
     "transfer": "Transfer",
-    "transfer_to_vesting": "To Vesting",
-    "transfer_from_savings": "From Savings",
+    "transfer_to_vesting": "În economii",
+    "transfer_from_savings": "De la economii",
     "withdraw_vesting": "Power Down",
     "fill_order": "Completează ordinul",
     "post": "Postare",
@@ -28,7 +28,7 @@
     "reblog_title": "Puncte pentru reblog",
     "login_title": "Puncte pentru autentificare",
     "checkin_title": "Puncte pentru prezență",
-    "referral": "Referral",
+    "referral": "Recomandare",
     "referral_title": "Recompensă pentru recomandare",
     "referral_desc": "Invită-ți prietenii și câștigă ESTM",
     "checkin_extra_title": "Bonus de utilizare",
@@ -78,8 +78,8 @@
     "cancel_transfer_from_savings": "Anulează transferul din economii",
     "delegate_vesting_shares": "Delegare",
     "fill_convert_request": "Acceptă cererea de conversie",
-    "fill_transfer_from_savings": "Savings Executed",
-    "fill_vesting_withdraw": "PowerDown executed",
+    "fill_transfer_from_savings": "Transfer de la economii efectuat",
+    "fill_vesting_withdraw": "Powed Down executat",
     "estm": {
       "title": "Puncte eSteem",
       "buy": "OBȚINE ESTM"
@@ -104,9 +104,9 @@
   },
   "notification": {
     "vote": "votat",
-    "unvote": "vot anulat",
-    "reply": "ți-a răspuns",
-    "mention": "te-a menționat în",
+    "unvote": "nevotat",
+    "reply": "a răspuns la",
+    "mention": "te-a menționat in",
     "follow": "te urmărește",
     "unfollow": "a anulat urmărirea",
     "ignore": "te-a ignorat",
@@ -121,7 +121,7 @@
     "this_week": "Săptămâna aceasta",
     "this_month": "Luna Aceasta",
     "older_then": "Mai vechi de o lună",
-    "activities": "Toate",
+    "activities": "Tot",
     "replies": "Răspunsuri",
     "mentions": "Menționări",
     "reblogs": "Redistribuiri",
@@ -162,7 +162,7 @@
       "display_name": "Numele afișat",
       "about": "Despre",
       "location": "Locație",
-      "website": "Website"
+      "website": "Site web"
     }
   },
   "settings": {
@@ -216,8 +216,8 @@
   "home": {
     "feed": "Flux",
     "popular": "Popular",
-    "top": "Top",
-    "hot": "Fierbinte",
+    "top": "Deasupra",
+    "hot": "În tendințe",
     "new": "Nou",
     "blog": "Blog"
   },
@@ -260,7 +260,7 @@
     "limited_lowercase": "Folosește litere mici în etichete",
     "limited_characters": "În etichetă folosește doar caracterele permise",
     "limited_firstchar": "Numele trebuie să înceapă cu o literă",
-    "limited_lastchar": "Tag must end with letter or number"
+    "limited_lastchar": "Eticheta trebuie să se termine cu o literă sau un număr"
   },
   "pincode": {
     "enter_text": "Enter pin to unlock",
@@ -319,7 +319,7 @@
     "reblogged": "redistribuit de",
     "sponsored": "SPONSORIZAT",
     "open_thread": "Deschidere fir",
-    "image": "Image",
+    "image": "Imagine",
     "link": "Legătură",
     "gallery_mode": "Mod galerie",
     "save_to_local": "Descarcă pe dispozitiv",
@@ -469,8 +469,8 @@
   },
   "comments": {
     "title": "Comentarii",
-    "reveal_comment": "Reveal comment",
-    "read_more": "Read more comments",
-    "more_replies": "more replies"
+    "reveal_comment": "Arată comentariul",
+    "read_more": "Vizualizați mai multe comentarii",
+    "more_replies": "vezi mai multe răspunsuri"
   }
 }
