@@ -45,17 +45,17 @@
     "dropdown_transfer": "赠品",
     "dropdown_promote": "Promote",
     "dropdown_boost": "推荐",
-    "from": "From",
-    "to": "To",
+    "from": "从",
+    "to": "至",
     "estimated_value_desc": "According to purchase value",
     "estimated_value": "Estimated value",
     "estimated_amount": "Vote value",
-    "amount_information": "Drag the slider to adjust the amount",
-    "amount": "Amount",
-    "memo": "Memo",
-    "information": "Are you sure to transfer funds?",
-    "amount_desc": "Balance",
-    "memo_desc": "This memo is public",
+    "amount_information": "拖动滑块来调整数量",
+    "amount": "数量",
+    "memo": "备注(Memo)",
+    "information": "您确定要转账资金吗？",
+    "amount_desc": "余额",
+    "memo_desc": "这个备注是公开的",
     "to_placeholder": "用户名",
     "memo_placeholder": "Enter your notes here",
     "transfer_token": "转账",
@@ -317,7 +317,7 @@
     "removed_hint": "文章已经被移除，移除者是",
     "copy_link": "Copy link",
     "reblogged": "已转发，转发者是",
-    "sponsored": "SPONSORED",
+    "sponsored": "赞助者列表",
     "open_thread": "Open thread",
     "image": "Image",
     "link": "Link",
@@ -334,11 +334,11 @@
     "deleted": "草稿已删除"
   },
   "schedules": {
-    "title": "Schedules",
+    "title": "定时发布",
     "empty_list": "此处无内容",
-    "deleted": "计划的帖子已删除",
-    "move": "移到草稿",
-    "moved": "已移到草稿"
+    "deleted": "定时发布的文章已删除",
+    "move": "存为草稿",
+    "moved": "已存为草稿"
   },
   "bookmarks": {
     "title": "书签",
@@ -346,8 +346,8 @@
     "empty_list": "此处无内容",
     "deleted": "书签已移除",
     "search": "搜索书签",
-    "added": "Added to bookmarks",
-    "add": "Add to bookmarks"
+    "added": "已添加到书签",
+    "add": "添加到书签"
   },
   "favorites": {
     "title": "收藏夹",
@@ -356,38 +356,38 @@
     "search": "搜索收藏夹"
   },
   "auth": {
-    "invalid_pin": "Invalid pin code, please check and try again",
+    "invalid_pin": "无效的 PIN 码，请检查并重试。",
     "invalid_username": "无效用户名，请检查后重试。",
     "already_logged": "您已登录，请尝试添加其他账户。",
     "invalid_credentials": "无效凭证，请检查后重试。",
     "unknow_error": "Unknown error, please write to support@esteem.app"
   },
   "payout": {
-    "potential_payout": "Potential Payout",
-    "promoted": "Promoted",
-    "author_payout": "Author Payout",
-    "curation_payout": "Curation Payout",
-    "payout_date": "Payout",
+    "potential_payout": "可能收益",
+    "promoted": "已推广",
+    "author_payout": "作者收益",
+    "curation_payout": "审查收益",
+    "payout_date": "收益",
     "beneficiaries": "Beneficiaries",
     "warn_zero_payout": "Amount must reach $0.02 for payout",
     "breakdown": "Breakdown"
   },
   "post_dropdown": {
-    "copy": "copy link",
-    "reblog": "reblog",
-    "reply": "reply",
-    "share": "share",
-    "bookmarks": "add to bookmarks",
-    "promote": "promote",
-    "boost": "boost"
+    "copy": "复制链接",
+    "reblog": "转发",
+    "reply": "回复",
+    "share": "分享",
+    "bookmarks": "添加到书签",
+    "promote": "推广",
+    "boost": "推荐"
   },
   "deep_link": {
-    "no_existing_user": "No existing user",
-    "no_existing_post": "No existing post"
+    "no_existing_user": "用户不存在",
+    "no_existing_post": "文章不存在"
   },
   "search": {
-    "posts": "Posts",
-    "comments": "Comments"
+    "posts": "文章",
+    "comments": "评论"
   },
   "comment_filter": {
     "trending": "TOP",
@@ -398,14 +398,14 @@
     "time": "TIME"
   },
   "transfer": {
-    "from": "From",
-    "to": "To",
-    "amount_information": "Drag the slider to adjust the amount",
-    "amount": "Amount",
-    "memo": "Memo",
-    "information": "Are you sure to transfer funds?",
-    "amount_desc": "Balance",
-    "memo_desc": "This memo is public",
+    "from": "从",
+    "to": "至",
+    "amount_information": "拖动滑块来调整数量",
+    "amount": "数量",
+    "memo": "备注(Memo)",
+    "information": "您确定要转账资金吗？",
+    "amount_desc": "余额",
+    "memo_desc": "这个备注是公开的",
     "to_placeholder": "Username",
     "memo_placeholder": "Enter your notes here",
     "transfer_token": "Transfer",
