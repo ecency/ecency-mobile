@@ -121,10 +121,10 @@
     "this_week": "На неделе",
     "this_month": "В этом месяце",
     "older_then": "Давно",
-    "activities": "All",
+    "activities": "Все",
     "replies": "Ответы",
-    "mentions": "Mentions",
-    "reblogs": "Reblogs",
+    "mentions": "Упоминания",
+    "reblogs": "Репосты",
     "noactivity": "No recent activity"
   },
   "leaderboard": {
@@ -430,9 +430,9 @@
     "stop": "Stop"
   },
   "boost": {
-    "title": "Get eSteem Points",
+    "title": "Получить eSteem баллы",
     "buy": "GET ESTM",
-    "next": "NEXT"
+    "next": "ДАЛЕЕ"
   },
   "free_estm": {
     "title": "Free ESTM",
@@ -446,7 +446,7 @@
     "days": "days",
     "user": "User",
     "permlink": "Post",
-    "permlinkPlaceholder": "author/permlink",
+    "permlinkPlaceholder": "автор/постоянная ссылка",
     "information": "Are you sure to promote?"
   },
   "boostPost": {
