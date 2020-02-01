@@ -439,7 +439,7 @@
     "button": "SPIN & WIN",
     "get_spin": "5 个SPINS",
     "spin_right": "SPIN 剩余",
-    "timer_text": "Next free spin in"
+    "timer_text": "下次免费溢出在"
   },
   "promote": {
     "title": "推广",
@@ -462,15 +462,15 @@
   },
   "dsteem": {
     "date_error": {
-      "device_time": "Your device time;",
-      "current_time": "Current time;",
-      "information": "We noticed that your device has incorrect date or time. Please fix Date & Time or Set Automatically and try again."
+      "device_time": "您的设备时间；",
+      "current_time": "当前时间",
+      "information": "我们注意到您的设备的日期或时间不正确。请修复日期和时间，或者设为自动，然后重试。"
     }
   },
   "comments": {
     "title": "评论",
-    "reveal_comment": "Reveal comment",
-    "read_more": "Read more comments",
-    "more_replies": "more replies"
+    "reveal_comment": "显示评论",
+    "read_more": "查看更多评论",
+    "more_replies": "更多回复"
   }
 }
