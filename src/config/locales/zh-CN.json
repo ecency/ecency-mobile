@@ -436,9 +436,9 @@
   },
   "free_estm": {
     "title": "免费的 ESTM",
-    "button": "SPIN & WIN",
-    "get_spin": "5 个SPINS",
-    "spin_right": "SPIN 剩余",
+    "button": "赢取转盘抽奖",
+    "get_spin": "5 个 转盘抽奖机会",
+    "spin_right": "转盘抽奖机会还剩",
     "timer_text": "下次免费溢出在"
   },
   "promote": {
