@@ -2,7 +2,7 @@
   "wallet": {
     "curation_reward": "Кураторская награда",
     "author_reward": "Авторская награда",
-    "comment_benefactor_reward": "Benefactor Reward",
+    "comment_benefactor_reward": "Награда бенефициару",
     "claim_reward_balance": "Claim Reward ",
     "transfer": "Перевод",
     "transfer_to_vesting": "В Силу Голоса",
@@ -29,10 +29,10 @@
     "login_title": "Баллы за логин",
     "checkin_title": "Баллы за регулярный вход",
     "referral": "Реферал",
-    "referral_title": "Referral rewards",
+    "referral_title": "Реферальные вознаграждения",
     "referral_desc": "Приглашайте друзей и зарабатывайте ESTM",
     "checkin_extra_title": "Бонус за использование",
-    "no_activity": "No recent activity",
+    "no_activity": "За последнее время активности нет",
     "outgoing_transfer_description": "",
     "incoming_transfer_description": "",
     "post_desc": "You can earn point by posting regularly. Posting gives you upto 15 points.",
@@ -103,10 +103,10 @@
     }
   },
   "notification": {
-    "vote": "voted",
-    "unvote": "unvoted",
-    "reply": "replied to",
-    "mention": "mentioned in",
+    "vote": "проголосовал",
+    "unvote": "отозвал голос",
+    "reply": "ответил",
+    "mention": "упомянул вас в",
     "follow": "подписан",
     "unfollow": "отписан",
     "ignore": "игнорирует",
@@ -125,7 +125,7 @@
     "replies": "Ответы",
     "mentions": "Упоминания",
     "reblogs": "Репосты",
-    "noactivity": "No recent activity"
+    "noactivity": "За последнее время активности нет"
   },
   "leaderboard": {
     "daily": "DAILY",
