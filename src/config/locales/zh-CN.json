@@ -323,9 +323,9 @@
     "link": "链接",
     "gallery_mode": "图库模式",
     "save_to_local": "下载到设备",
-    "image_saved": "Image saved to Photo Gallery",
-    "image_saved_error": "Error Saving Image",
-    "wrong_link": "Wrong link"
+    "image_saved": "图片已存到图库",
+    "image_saved_error": "保存图片出错",
+    "wrong_link": "链接错误"
   },
   "drafts": {
     "title": "草稿",
@@ -360,7 +360,7 @@
     "invalid_username": "无效用户名，请检查后重试。",
     "already_logged": "您已登录，请尝试添加其他账户。",
     "invalid_credentials": "无效凭证，请检查后重试。",
-    "unknow_error": "Unknown error, please write to support@esteem.app"
+    "unknow_error": "未知错误，请通过 support@esteem.app 与我们联系。"
   },
   "payout": {
     "potential_payout": "可能收益",
@@ -368,9 +368,9 @@
     "author_payout": "作者收益",
     "curation_payout": "审查收益",
     "payout_date": "收益",
-    "beneficiaries": "Beneficiaries",
-    "warn_zero_payout": "Amount must reach $0.02 for payout",
-    "breakdown": "Breakdown"
+    "beneficiaries": "受益人",
+    "warn_zero_payout": "收益数量必须达到$0.02，才会支付",
+    "breakdown": "明细"
   },
   "post_dropdown": {
     "copy": "复制链接",
@@ -391,9 +391,9 @@
   },
   "comment_filter": {
     "trending": "TOP",
-    "reputation": "REPUTATION",
-    "votes": "VOTE",
-    "age": "AGE",
+    "reputation": "声望",
+    "votes": "投票",
+    "age": "时间",
     "top": "TOP",
     "time": "时间"
   },
@@ -414,20 +414,20 @@
     "powerUp": "转为 Steem Power",
     "withdraw_to_saving": "提现到储蓄",
     "steemconnect_title": "SteemConnect 转账",
-    "estimated_weekly": "Estimated Weekly",
-    "destination_accounts": "Destination Accounts",
-    "stop_information": "Are you sure want to stop?",
-    "percent": "Percent",
-    "auto_vests": "Auto Vests",
-    "save": "SAVE",
-    "percent_information": "Percent info",
+    "estimated_weekly": "每周估计",
+    "destination_accounts": "目标帐户",
+    "stop_information": "您确定要停止吗？",
+    "percent": "百分比",
+    "auto_vests": "自动转 Steem Power(SP)",
+    "save": "储蓄",
+    "percent_information": "百分比信息",
     "next": "下一个",
     "delegate": "委托",
     "power_down": "释放 Steem Power",
     "withdraw_steem": "提取 Steem",
     "withdraw_sbd": "提取 Steem Dollar(SBD)",
-    "incoming_funds": "Incoming Funds",
-    "stop": "Stop"
+    "incoming_funds": "转入资金",
+    "stop": "停止"
   },
   "boost": {
     "title": "获取 ESTEEM 点数(ESTM)",
@@ -435,10 +435,10 @@
     "next": "下一个"
   },
   "free_estm": {
-    "title": "Free ESTM",
+    "title": "免费的 ESTM",
     "button": "SPIN & WIN",
-    "get_spin": "5 SPINS",
-    "spin_right": "Spin Left",
+    "get_spin": "5 个SPINS",
+    "spin_right": "SPIN 剩余",
     "timer_text": "Next free spin in"
   },
   "promote": {
