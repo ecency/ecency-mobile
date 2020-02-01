@@ -204,17 +204,17 @@
   "login": {
     "signin": "登录",
     "signup": "JOIN NOW",
-    "signin_title": "获取使用 eSteem 的全部好处",
+    "signin_title": "获取使用 eSteem 的全部收益",
     "username": "用户名",
-    "password": "密码或 WIF",
-    "description": "用户凭证保存在本地设备，注销后将被移除！",
+    "password": "密码 或 WIF",
+    "description": "用户凭据保持在本地设备上。退出时，凭据将被删除！",
     "cancel": "取消",
     "login": "登录",
-    "steemconnect_description": "如果您不想在设备上加密保存您的密码，可以使用 Steemconnect。",
-    "steemconnect_fee_description": "Steemconnect may charge some fees from your reward transactions"
+    "steemconnect_description": "如果您不想将您的密码，加密后保存在设备上，您可以使用 Steemconnect。",
+    "steemconnect_fee_description": "SteemConnect 可能会从您的奖励交易中收取一些费用"
   },
   "home": {
-    "feed": "Feed",
+    "feed": "朋友圈",
     "popular": "热门",
     "top": "Top",
     "hot": "Hot",
@@ -224,15 +224,15 @@
   "side_menu": {
     "profile": "个人资料",
     "bookmarks": "书签",
-    "favorites": "收藏夹",
+    "favorites": "收藏",
     "drafts": "草稿",
-    "schedules": "计划",
+    "schedules": "定时发布",
     "gallery": "图库",
     "settings": "设置",
     "add_account": "添加帐户",
-    "logout": "注销",
+    "logout": "退出",
     "cancel": "取消",
-    "logout_text": "您确定想要注销吗？"
+    "logout_text": "您确定想要退出吗？"
   },
   "header": {
     "title": "登录自定义您的 Feed",
