@@ -65,9 +65,9 @@
     "withdraw_to_saving": "Withdraw Saving",
     "steemconnect_title": "Перевод Steemconnect",
     "next": "ДАЛЕЕ",
-    "delegate": "Delegate",
+    "delegate": "Делегировать",
     "power_down": "Понижение силы",
-    "withdraw_steem": "Withdraw Steem",
+    "withdraw_steem": "Вывести Steem",
     "withdraw_sbd": "Withdraw SBD",
     "transfer_to_savings": "To Savings",
     "convert": "Convert",
@@ -182,7 +182,7 @@
       "transfers": "Переводы"
     },
     "pincode": "Пинкод",
-    "reset_pin": "Reset Pin Code",
+    "reset_pin": "Сбросить пин-код",
     "reset": "Сбросить",
     "nsfw_content": "NSFW",
     "send_feedback": "Отправить отзыв",
@@ -313,10 +313,10 @@
     "google_play_version": "We noticed that your device has old version of Google Play. Please update Google Play services and try again!"
   },
   "post": {
-    "reblog_alert": "Are you sure, you want to reblog?",
+    "reblog_alert": "Вы уверены, что хотите сделать репост?",
     "removed_hint": "Сообщение удалено",
     "copy_link": "Copy link",
-    "reblogged": "reblogged by",
+    "reblogged": "репостнуто",
     "sponsored": "SPONSORED",
     "open_thread": "Open thread",
     "image": "Image",
@@ -378,7 +378,7 @@
     "reply": "ответить",
     "share": "поделиться",
     "bookmarks": "добавить в закладки",
-    "promote": "promote",
+    "promote": "продвинуть",
     "boost": "boost"
   },
   "deep_link": {
@@ -395,7 +395,7 @@
     "votes": "VOTE",
     "age": "AGE",
     "top": "TOP",
-    "time": "TIME"
+    "time": "ВРЕМЯ"
   },
   "transfer": {
     "from": "От",
@@ -422,10 +422,10 @@
     "save": "SAVE",
     "percent_information": "Percent info",
     "next": "ДАЛЕЕ",
-    "delegate": "Delegate",
-    "power_down": "Power Down",
-    "withdraw_steem": "Withdraw Steem",
-    "withdraw_sbd": "Withdraw Steem Dollar",
+    "delegate": "Делегировать",
+    "power_down": "Понижение Силы",
+    "withdraw_steem": "Вывести Steem",
+    "withdraw_sbd": "Вывести Steem Dollar",
     "incoming_funds": "Incoming Funds",
     "stop": "Stop"
   },
@@ -444,8 +444,8 @@
   "promote": {
     "title": "Promote",
     "days": "days",
-    "user": "User",
-    "permlink": "Post",
+    "user": "Пользователь",
+    "permlink": "Пост",
     "permlinkPlaceholder": "автор/постоянная ссылка",
     "information": "Are you sure to promote?"
   },
@@ -453,9 +453,9 @@
     "title": "Boost"
   },
   "voters_dropdown": {
-    "rewards": "REWARDS",
+    "rewards": "ВОЗНАГРАЖДЕНИЕ",
     "percent": "PERCENT",
-    "time": "TIME"
+    "time": "ВРЕМЯ"
   },
   "reblog": {
     "title": "Reblog Info"
