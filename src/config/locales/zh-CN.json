@@ -79,39 +79,39 @@
     "delegate_vesting_shares": "委托",
     "fill_convert_request": "转换已执行",
     "fill_transfer_from_savings": "储蓄已执行",
-    "fill_vesting_withdraw": "PowerDown executed",
+    "fill_vesting_withdraw": "释放 Steem Power 已执行",
     "estm": {
       "title": "ESTEEM 点数",
       "buy": "获取 ESTM"
     },
     "savingsteem": {
-      "title": "STEEM Savings"
+      "title": "STEEM 储蓄"
     },
     "savingsbd": {
-      "title": "SBD Savings"
+      "title": "SBD 储蓄"
     },
     "steem": {
       "title": "STEEM",
-      "buy": "GET STEEM"
+      "buy": "获得 STEEM"
     },
     "sbd": {
       "title": "SBD",
-      "buy": "GET SBD"
+      "buy": "获得 SBD"
     },
     "steem_power": {
-      "title": "STEEM POWER"
+      "title": "STEEM POWER(SP)"
     }
   },
   "notification": {
-    "vote": "voted",
-    "unvote": "unvoted",
-    "reply": "replied to",
-    "mention": "mentioned in",
+    "vote": "已投票",
+    "unvote": "已取消投票",
+    "reply": "回复给",
+    "mention": "被提及，在",
     "follow": "关注了您",
     "unfollow": "取消对您的关注",
     "ignore": "屏蔽了您",
-    "reblog": "reblogged",
-    "transfer": "transferred",
+    "reblog": "已转发",
+    "transfer": "已转账",
     "notification": "通知",
     "leaderboard": "排行榜",
     "epoint": "点数",
@@ -121,16 +121,16 @@
     "this_week": "本周",
     "this_month": "本月",
     "older_then": "一个月前",
-    "activities": "All",
+    "activities": "全部",
     "replies": "回复",
-    "mentions": "Mentions",
-    "reblogs": "Reblogs",
-    "noactivity": "No recent activity"
+    "mentions": "提及",
+    "reblogs": "转发",
+    "noactivity": "近期无活动"
   },
   "leaderboard": {
-    "daily": "DAILY",
-    "weekly": "WEEKLY",
-    "monthly": "MONTHLY"
+    "daily": "日",
+    "weekly": "每周",
+    "monthly": "每月"
   },
   "messages": {
     "comingsoon": "消息功能即将推出！"
@@ -149,7 +149,7 @@
     "hours": "小时",
     "voting_power": "Voting Power(VP)",
     "login_to_see": "登录查看",
-    "follow_people": "Follow some people to fill your feed",
+    "follow_people": "关注一些人，加到您的朋友圈",
     "havent_commented": "还没有任何评论",
     "havent_posted": "还没有发布任何内容",
     "steem_power": "Steem Power(SP)",
@@ -159,10 +159,10 @@
     "steem_dollars": "Steem Dollars(SBD)",
     "savings": "储蓄",
     "edit": {
-      "display_name": "Display Name",
-      "about": "About",
-      "location": "Location",
-      "website": "Website"
+      "display_name": "显示名",
+      "about": "关于",
+      "location": "位置",
+      "website": "网站"
     }
   },
   "settings": {
@@ -184,7 +184,7 @@
     "pincode": "PIN 码",
     "reset_pin": "重置 PIN 码",
     "reset": "重置",
-    "nsfw_content": "NSFW",
+    "nsfw_content": "NSFW(工作不宜)",
     "send_feedback": "发送反馈",
     "send": "发送",
     "default_footer": "默认页脚",
@@ -203,7 +203,7 @@
   },
   "login": {
     "signin": "登录",
-    "signup": "JOIN NOW",
+    "signup": "立即加入",
     "signin_title": "获取使用 eSteem 的全部收益",
     "username": "用户名",
     "password": "密码 或 WIF",
@@ -216,10 +216,10 @@
   "home": {
     "feed": "朋友圈",
     "popular": "热门",
-    "top": "Top",
-    "hot": "Hot",
-    "new": "New",
-    "blog": "Blog"
+    "top": "顶部",
+    "hot": "热门",
+    "new": "最新",
+    "blog": "博客"
   },
   "side_menu": {
     "profile": "个人资料",
