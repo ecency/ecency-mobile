@@ -81,7 +81,7 @@
     "fill_transfer_from_savings": "Savings Executed",
     "fill_vesting_withdraw": "PowerDown executed",
     "estm": {
-      "title": "eSteem Points",
+      "title": "eSteem баллы",
       "buy": "GET ESTM"
     },
     "savingsteem": {
@@ -195,11 +195,11 @@
     },
     "feedback_success": "Письмо успешно отправлено",
     "feedback_fail": "Не удалось отправить письмо",
-    "server_fail": "Server not available"
+    "server_fail": "Сервер недоступен"
   },
   "voters": {
     "voters_info": "Детали голосов",
-    "no_user": "User is not found."
+    "no_user": "Пользователь не найден."
   },
   "login": {
     "signin": "Войти",
@@ -276,7 +276,7 @@
     "fail": "Не вышло!",
     "move": "Переместить",
     "move_question": "Вы уверены, что хотите переместить в черновики?",
-    "success_shared": "Your post successfully shared",
+    "success_shared": "Ваш пост успешно опубликован",
     "success_moved": "Перемещён в черновики",
     "permission_denied": "Не достаточно разрешений",
     "permission_text": "Пожалуйста перейдите в настройки телефона и выдайте разрешения для eSteem",
@@ -302,8 +302,8 @@
     "confirm": "Подтвердить",
     "removed": "Удалено",
     "same_user": "Этот пользователь уже добавлен в список",
-    "unknow_error": "An error occurred",
-    "error": "Error",
+    "unknow_error": "Произошла ошибка",
+    "error": "Ошибка",
     "fetch_error": "Connection issue, please try again or write to support@esteem.app",
     "connection_fail": "Connection Failed!",
     "connection_success": "Successfully connected!",
