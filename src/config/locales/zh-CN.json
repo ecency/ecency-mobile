@@ -42,9 +42,9 @@
     "reblog_desc": "Share what post you like with your friends and earn points.",
     "login_desc": "When you login into app first time you earn 100 points.",
     "checkin_extra_desc": "Consistent use of app gives you extra chances to earn more points, be more active and earn more.",
-    "dropdown_transfer": "Gift",
+    "dropdown_transfer": "赠品",
     "dropdown_promote": "Promote",
-    "dropdown_boost": "Boost",
+    "dropdown_boost": "推荐",
     "from": "From",
     "to": "To",
     "estimated_value_desc": "According to purchase value",
@@ -133,18 +133,18 @@
     "monthly": "MONTHLY"
   },
   "messages": {
-    "comingsoon": "即将推出消息功能！"
+    "comingsoon": "消息功能即将推出！"
   },
   "profile": {
-    "following": "关注中",
-    "follower": "关注者",
-    "post": "Post",
+    "following": "关注",
+    "follower": "粉丝",
+    "post": "文章",
     "details": "个人资料详情",
     "comments": "评论",
     "replies": "回复",
     "wallet": "钱包",
     "wallet_details": "钱包详情",
-    "unclaimed_rewards": "未领取奖励",
+    "unclaimed_rewards": "未领奖励",
     "full_in": "全部",
     "hours": "小时",
     "voting_power": "点赞能量",
