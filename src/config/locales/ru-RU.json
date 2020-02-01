@@ -70,7 +70,7 @@
     "withdraw_steem": "Вывести Steem",
     "withdraw_sbd": "Вывести SBD",
     "transfer_to_savings": "To Savings",
-    "convert": "Convert",
+    "convert": "Конвертировать",
     "escrow_transfer": "Escrow Transfer",
     "escrow_dispute": "Escrow Dispute",
     "escrow_release": "Escrow Release",
@@ -149,7 +149,7 @@
     "hours": "ч",
     "voting_power": "Сила голоса",
     "login_to_see": "Войдите, чтобы увидеть",
-    "follow_people": "Follow some people to fill your feed",
+    "follow_people": "Подпишитесь на нескольких людей, чтобы заполнить ленту",
     "havent_commented": "ещё ничего не комментировал",
     "havent_posted": "ещё ничего не написал",
     "steem_power": "Сила голоса",
@@ -160,9 +160,9 @@
     "savings": "Сейф",
     "edit": {
       "display_name": "Display Name",
-      "about": "About",
-      "location": "Location",
-      "website": "Website"
+      "about": "О себе",
+      "location": "Местоположение",
+      "website": "Веб-сайт"
     }
   },
   "settings": {
@@ -216,10 +216,10 @@
   "home": {
     "feed": "Лента",
     "popular": "Популярное",
-    "top": "Top",
-    "hot": "Hot",
-    "new": "New",
-    "blog": "Blog"
+    "top": "Топ",
+    "hot": "Актуальное",
+    "new": "Новое",
+    "blog": "Блог"
   },
   "side_menu": {
     "profile": "Профиль",
@@ -246,9 +246,9 @@
   },
   "editor": {
     "title": "Заголовок",
-    "tags": "Tags (separate with space)",
-    "default_placeholder": "Tell us something...",
-    "reply_placeholder": "Add your reply...",
+    "tags": "Теги (через пробел)",
+    "default_placeholder": "Расскажите нам что-нибудь...",
+    "reply_placeholder": "Добавьте свой ответ...",
     "publish": "Написать",
     "reply": "Ответить",
     "open_gallery": "Перейти в галерею",
