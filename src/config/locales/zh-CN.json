@@ -235,7 +235,7 @@
     "logout_text": "您确定想要退出吗？"
   },
   "header": {
-    "title": "登录自定义您的 Feed",
+    "title": "定制您的朋友圈，需要登录",
     "search": "搜索......"
   },
   "basic_header": {
@@ -251,8 +251,8 @@
     "reply_placeholder": "Add your reply...",
     "publish": "发布",
     "reply": "回复",
-    "open_gallery": "Open Gallery",
-    "capture_photo": "Capture a photo",
+    "open_gallery": "打开图库",
+    "capture_photo": "拍照",
     "limited_tags": "Only 10 tags allowed, remove some",
     "limited_length": "Maximum length of each tag should be 24",
     "limited_dash": "Use one dash in each tag",
@@ -263,23 +263,23 @@
     "limited_lastchar": "Tag must end with letter or number"
   },
   "pincode": {
-    "enter_text": "Enter pin to unlock",
-    "set_new": "Set new pin",
+    "enter_text": "输入 PIN 解锁",
+    "set_new": "设置新的 PIN",
     "write_again": "重写",
     "forgot_text": "哦，我忘记了......"
   },
   "alert": {
     "success": "成功!",
-    "successful": "Successful",
+    "successful": "成功",
     "allRead": "已将所有通知标为已读",
-    "claim_reward_balance_ok": "奖励余额已领取",
+    "claim_reward_balance_ok": "已领奖励余额",
     "fail": "失败！",
-    "move": "Move",
-    "move_question": "Are you sure to move to drafts?",
-    "success_shared": "Your post successfully shared",
-    "success_moved": "Moved to draft",
-    "permission_denied": "无权限",
-    "permission_text": "请前往手机设置更改 eSteem 应用程序权限。",
+    "move": "移动",
+    "move_question": "您确定要存为草稿吗？",
+    "success_shared": "已成功分享您的文章",
+    "success_moved": "存为草稿",
+    "permission_denied": "没有权限",
+    "permission_text": "请前往手机设置，更改 eSteem 应用程序授权。",
     "key_warning": "Check private key permission!",
     "success_rebloged": "Rebloged!",
     "already_rebloged": "您已经转发！",
