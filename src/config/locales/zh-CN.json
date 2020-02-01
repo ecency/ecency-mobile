@@ -182,24 +182,24 @@
       "transfers": "转账"
     },
     "pincode": "PIN 码",
-    "reset_pin": "Reset Pin Code",
+    "reset_pin": "重置 PIN 码",
     "reset": "重置",
     "nsfw_content": "NSFW",
-    "send_feedback": "Send Feedback",
-    "send": "Send",
-    "default_footer": "Default Footer",
+    "send_feedback": "发送反馈",
+    "send": "发送",
+    "default_footer": "默认页脚",
     "nsfw": {
-      "always_show": "Always show",
-      "always_hide": "Always hide",
-      "always_warn": "Always warn"
+      "always_show": "始终显示",
+      "always_hide": "始终隐藏",
+      "always_warn": "总是警告"
     },
-    "feedback_success": "Email successfully open",
-    "feedback_fail": "Email client could not open",
-    "server_fail": "Server not available"
+    "feedback_success": "成功打开电子邮件",
+    "feedback_fail": "无法打开电子邮件客户端",
+    "server_fail": "服务器不可用"
   },
   "voters": {
     "voters_info": "投票者信息",
-    "no_user": "User is not found."
+    "no_user": "找不到用户。"
   },
   "login": {
     "signin": "登录",
