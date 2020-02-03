@@ -279,6 +279,25 @@ const PostBody = ({
     color: ${EStyleSheet.value('$primaryBlack')};
     font-family: Roboto, sans-serif;
     max-width: 100%;
+    
+    -webkit-touch-callout: none;
+    -webkit-user-select: none;
+    -khtml-user-select: none;
+    -moz-user-select: none;
+    -ms-user-select: none;
+    user-select: none;
+
+    overflow-wrap: break-word;
+    word-wrap: break-word;
+
+    -ms-word-break: break-all;
+    word-break: break-all;
+    word-break: break-word;
+
+    -ms-hyphens: auto;
+    -moz-hyphens: auto;
+    -webkit-hyphens: auto;
+    hyphens: auto;
   }
   body {
     color: ${EStyleSheet.value('$primaryBlack')};
