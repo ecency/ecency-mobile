@@ -1,5 +1,5 @@
 import React, { PureComponent } from 'react';
-import { View, Alert } from 'react-native';
+import { View, Alert, SafeAreaView } from 'react-native';
 import { WebView } from 'react-native-webview';
 import { connect } from 'react-redux';
 import { injectIntl } from 'react-intl';
@@ -77,7 +77,7 @@ class SteemConnect extends PureComponent {
 
   render() {
     return (
-      <View style={{ flex: 1 }}>
+      <SafeAreaView style={{ flex: 1 }}>
         <WebView
           source={{
             uri: `${steemConnectOptions.base_url}oauth2/authorize?client_id=${
@@ -91,7 +91,7 @@ class SteemConnect extends PureComponent {
             this.webview = ref;
           }}
         />
-      </View>
+      </SafeAreaView>
     );
   }
 }
