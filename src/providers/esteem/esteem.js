@@ -1,3 +1,4 @@
+import axios from 'axios';
 import api from '../../config/api';
 import searchApi from '../../config/search';
 import imageApi from '../../config/imageApi';
@@ -382,3 +383,35 @@ export const getPostReblogs = data =>
     .get(`/post-reblogs/${data.author}/${data.permlink}`)
     .then(resp => resp.data)
     .catch(error => bugsnag.notify(error));
+
+const cache = {};
+
+export const getCommunity = tag =>
+  new Promise((resolve, reject) => {
+    if (!tag.startsWith('hive-')) {
+      resolve(tag);
+    }
+
+    if (cache[tag] !== undefined) {
+      resolve(cache[tag]);
+      return;
+    }
+
+    axios
+      .post('https://beta-api.steemit.com', {
+        jsonrpc: '2.0',
+        method: 'bridge.get_community',
+        params: { name: tag, observer: '' },
+        id: 1,
+      })
+      .then(resp => {
+        console.log(resp);
+        if (resp.data.result) {
+          const { title } = resp.data.result;
+          cache[tag] = title;
+          resolve(title);
+        }
+        return resp;
+      })
+      .catch(e => reject(e));
+  });

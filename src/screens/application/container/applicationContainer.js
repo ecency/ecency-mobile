@@ -410,6 +410,8 @@ class ApplicationContainer extends Component {
             removeUserData(accountData.username);
           } else {
             dispatch(addOtherAccount({ username: accountData.username }));
+            // TODO: check post v2.2.5+ or remove setexistuser from login
+            setExistUser(true);
           }
         });
       }
