@@ -43,7 +43,7 @@
     "login_desc": "When you login into app first time you earn 100 points.",
     "checkin_extra_desc": "Consistent use of app gives you extra chances to earn more points, be more active and earn more.",
     "dropdown_transfer": "贈品",
-    "dropdown_promote": "Promote",
+    "dropdown_promote": "推廣",
     "dropdown_boost": "推荐",
     "from": "從",
     "to": "至",
@@ -67,7 +67,7 @@
     "next": "下一个",
     "delegate": "委託",
     "power_down": "釋放 Steem Power",
-    "withdraw_steem": "Withdraw Steem",
+    "withdraw_steem": "選取 Steem",
     "withdraw_sbd": "Withdraw SBD",
     "transfer_to_savings": "To Savings",
     "convert": "Convert",
@@ -82,7 +82,7 @@
     "fill_vesting_withdraw": "PowerDown executed",
     "estm": {
       "title": "ESTEEM 点数",
-      "buy": "GET ESTM"
+      "buy": "獲取 ESTM"
     },
     "savingsteem": {
       "title": "STEEM Savings"
@@ -395,7 +395,7 @@
     "votes": "VOTE",
     "age": "AGE",
     "top": "TOP",
-    "time": "TIME"
+    "time": "時間"
   },
   "transfer": {
     "from": "從",
@@ -424,15 +424,15 @@
     "next": "下一个",
     "delegate": "委託",
     "power_down": "釋放Steem Power",
-    "withdraw_steem": "Withdraw Steem",
-    "withdraw_sbd": "Withdraw Steem Dollar",
+    "withdraw_steem": "選取 Steem",
+    "withdraw_sbd": "選取 Steem Dollar(SBD)",
     "incoming_funds": "Incoming Funds",
     "stop": "Stop"
   },
   "boost": {
-    "title": "Get eSteem Points",
-    "buy": "GET ESTM",
-    "next": "NEXT"
+    "title": "獲取ESTEEM點數（ESTM）",
+    "buy": "獲取 ESTM",
+    "next": "下一個"
   },
   "free_estm": {
     "title": "Free ESTM",
@@ -442,23 +442,23 @@
     "timer_text": "Next free spin in"
   },
   "promote": {
-    "title": "Promote",
-    "days": "days",
-    "user": "User",
-    "permlink": "Post",
+    "title": "推廣",
+    "days": "天",
+    "user": "用戶",
+    "permlink": "文章",
     "permlinkPlaceholder": "author/permlink",
-    "information": "Are you sure to promote?"
+    "information": "您確定要推廣嗎？"
   },
   "boostPost": {
-    "title": "Boost"
+    "title": "推薦"
   },
   "voters_dropdown": {
-    "rewards": "REWARDS",
-    "percent": "PERCENT",
-    "time": "TIME"
+    "rewards": "獎勵",
+    "percent": "百分比",
+    "time": "時間"
   },
   "reblog": {
-    "title": "Reblog Info"
+    "title": "轉發資訊"
   },
   "dsteem": {
     "date_error": {
