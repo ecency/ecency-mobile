@@ -104,14 +104,14 @@
   },
   "notification": {
     "vote": "已投票",
-    "unvote": "unvoted",
-    "reply": "replied to",
-    "mention": "mentioned in",
+    "unvote": "已取消投票",
+    "reply": "回復給",
+    "mention": "被提及，在",
     "follow": "關注了您",
     "unfollow": "取消對您的關注",
     "ignore": "遮罩了您",
-    "reblog": "reblogged",
-    "transfer": "transferred",
+    "reblog": "已轉發",
+    "transfer": "已轉帳",
     "notification": "通知",
     "leaderboard": "排行榜",
     "epoint": "點數",
@@ -121,16 +121,16 @@
     "this_week": "本週",
     "this_month": "本月",
     "older_then": "一個月前",
-    "activities": "All",
+    "activities": "全部",
     "replies": "回覆",
-    "mentions": "Mentions",
-    "reblogs": "Reblogs",
-    "noactivity": "No recent activity"
+    "mentions": "提及",
+    "reblogs": "轉發",
+    "noactivity": "近期無活動"
   },
   "leaderboard": {
-    "daily": "DAILY",
-    "weekly": "WEEKLY",
-    "monthly": "MONTHLY"
+    "daily": "日",
+    "weekly": "每週",
+    "monthly": "每月"
   },
   "messages": {
     "comingsoon": "消息功能即將推出"
@@ -149,7 +149,7 @@
     "hours": "小時",
     "voting_power": "Voting Power(VP)",
     "login_to_see": "登錄查看",
-    "follow_people": "Follow some people to fill your feed",
+    "follow_people": "關注一些人，加到您的朋友圈",
     "havent_commented": "還沒有任何評論",
     "havent_posted": "還沒發佈任何內容",
     "steem_power": "Steem Power(SP)",
@@ -159,10 +159,10 @@
     "steem_dollars": "Steem Dollars(SBD)",
     "savings": "儲蓄",
     "edit": {
-      "display_name": "Display Name",
-      "about": "About",
-      "location": "Location",
-      "website": "Website"
+      "display_name": "顯示名",
+      "about": "關於",
+      "location": "位置",
+      "website": "網站"
     }
   },
   "settings": {
@@ -184,7 +184,7 @@
     "pincode": "PIN 碼",
     "reset_pin": "重置PIN碼",
     "reset": "重置",
-    "nsfw_content": "NSFW",
+    "nsfw_content": "NSFW(工作不宜)",
     "send_feedback": "發送迴響",
     "send": "發送",
     "default_footer": "默認頁腳",
@@ -203,7 +203,7 @@
   },
   "login": {
     "signin": "登入",
-    "signup": "JOIN NOW",
+    "signup": "立即加入",
     "signin_title": "為了獲得使用 eSteem 的所有好處",
     "username": "使用者名稱",
     "password": "密碼或WIF",
@@ -216,10 +216,10 @@
   "home": {
     "feed": "朋友圈",
     "popular": "熱門",
-    "top": "Top",
-    "hot": "Hot",
-    "new": "New",
-    "blog": "Blog"
+    "top": "顶部",
+    "hot": "熱門",
+    "new": "最新",
+    "blog": "部落格"
   },
   "side_menu": {
     "profile": "個人檔案",
@@ -246,16 +246,16 @@
   },
   "editor": {
     "title": "標題",
-    "tags": "Tags (separate with space)",
-    "default_placeholder": "Tell us something...",
-    "reply_placeholder": "Add your reply...",
+    "tags": "標籤（用空格隔開）",
+    "default_placeholder": "告訴我們什麼…",
+    "reply_placeholder": "添加您的回復…",
     "publish": "發佈",
     "reply": "回覆",
     "open_gallery": "打開圖庫",
     "capture_photo": "拍照",
-    "limited_tags": "Only 10 tags allowed, remove some",
-    "limited_length": "Maximum length of each tag should be 24",
-    "limited_dash": "Use one dash in each tag",
+    "limited_tags": "僅允許10個標籤，移除一些",
+    "limited_length": "每個標籤的最大長度應為24",
+    "limited_dash": "在每個標籤中使用一個破折號",
     "limited_space": "Use space to separate tags",
     "limited_lowercase": "Only use lower letters in tag",
     "limited_characters": "Use only allowed characters in tag",
@@ -391,9 +391,9 @@
   },
   "comment_filter": {
     "trending": "TOP",
-    "reputation": "REPUTATION",
-    "votes": "VOTE",
-    "age": "AGE",
+    "reputation": "聲望",
+    "votes": "投票",
+    "age": "時間",
     "top": "TOP",
     "time": "時間"
   },
@@ -414,20 +414,20 @@
     "powerUp": "轉為Steem Power",
     "withdraw_to_saving": "提現到儲蓄",
     "steemconnect_title": "SteemConnect 轉帳",
-    "estimated_weekly": "Estimated Weekly",
-    "destination_accounts": "Destination Accounts",
-    "stop_information": "Are you sure want to stop?",
-    "percent": "Percent",
-    "auto_vests": "Auto Vests",
-    "save": "SAVE",
-    "percent_information": "Percent info",
+    "estimated_weekly": "每週估計",
+    "destination_accounts": "目標帳戶",
+    "stop_information": "您確定要停止嗎？",
+    "percent": "百分比",
+    "auto_vests": "自動轉 Steem Power(SP)",
+    "save": "儲蓄",
+    "percent_information": "百分比資訊",
     "next": "下一个",
     "delegate": "委託",
     "power_down": "釋放Steem Power",
     "withdraw_steem": "選取 Steem",
     "withdraw_sbd": "選取 Steem Dollar(SBD)",
-    "incoming_funds": "Incoming Funds",
-    "stop": "Stop"
+    "incoming_funds": "轉入資金",
+    "stop": "停止"
   },
   "boost": {
     "title": "獲取ESTEEM點數（ESTM）",
@@ -435,11 +435,11 @@
     "next": "下一個"
   },
   "free_estm": {
-    "title": "Free ESTM",
-    "button": "SPIN & WIN",
-    "get_spin": "5 SPINS",
-    "spin_right": "Spin Left",
-    "timer_text": "Next free spin in"
+    "title": "免費的 ESTM",
+    "button": "贏取轉盤抽獎",
+    "get_spin": "5個轉盤抽獎機會",
+    "spin_right": "轉盤抽獎機會還剩",
+    "timer_text": "下次轉盤抽獎機會出現在"
   },
   "promote": {
     "title": "推廣",
@@ -462,15 +462,15 @@
   },
   "dsteem": {
     "date_error": {
-      "device_time": "Your device time;",
-      "current_time": "Current time;",
-      "information": "We noticed that your device has incorrect date or time. Please fix Date & Time or Set Automatically and try again."
+      "device_time": "您的設備時間；",
+      "current_time": "當前時間",
+      "information": "我們注意到您的設備的日期或時間不正確。請修復日期和時間，或者設為自動，然後重試。"
     }
   },
   "comments": {
     "title": "評論",
-    "reveal_comment": "Reveal comment",
-    "read_more": "Read more comments",
-    "more_replies": "more replies"
+    "reveal_comment": "顯示評論",
+    "read_more": "查看更多評論",
+    "more_replies": "更多回復"
   }
 }
