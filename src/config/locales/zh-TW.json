@@ -10,10 +10,10 @@
     "withdraw_vesting": "釋放 Steem Power",
     "fill_order": "成交訂單",
     "post": "文章",
-    "comment": "Comment",
+    "comment": "評論",
     "checkin": "簽到",
-    "vote": "Vote",
-    "reblog": "Reblog",
+    "vote": "投票",
+    "reblog": "轉發",
     "login": "登入",
     "incoming_transfer_title": "轉入",
     "outgoing_transfer_title": "轉出",
@@ -174,32 +174,32 @@
     "dark_theme": "深色主題",
     "push_notification": "推送通知",
     "notification": {
-      "follow": "Follow",
-      "vote": "Vote",
-      "comment": "Comment",
-      "mention": "Mention",
-      "reblog": "Reblog",
-      "transfers": "Transfers"
+      "follow": "关注",
+      "vote": "投票",
+      "comment": "評論",
+      "mention": "提到",
+      "reblog": "轉發",
+      "transfers": "轉帳"
     },
     "pincode": "PIN 碼",
-    "reset_pin": "Reset Pin Code",
+    "reset_pin": "重置PIN碼",
     "reset": "重置",
     "nsfw_content": "NSFW",
-    "send_feedback": "Send Feedback",
-    "send": "Send",
-    "default_footer": "Default Footer",
+    "send_feedback": "發送迴響",
+    "send": "發送",
+    "default_footer": "默認頁腳",
     "nsfw": {
-      "always_show": "Always show",
-      "always_hide": "Always hide",
-      "always_warn": "Always warn"
+      "always_show": "始終顯示",
+      "always_hide": "始終隱藏",
+      "always_warn": "總是警告"
     },
-    "feedback_success": "Email successfully open",
-    "feedback_fail": "Email client could not open",
-    "server_fail": "Server not available"
+    "feedback_success": "成功打開電子郵件",
+    "feedback_fail": "無法打開電子郵件用戶端",
+    "server_fail": "服務器不可用"
   },
   "voters": {
     "voters_info": "投票者訊息",
-    "no_user": "User is not found."
+    "no_user": "找不到用戶。"
   },
   "login": {
     "signin": "登入",
