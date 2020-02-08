@@ -167,8 +167,8 @@
   },
   "settings": {
     "settings": "設定",
-    "general": "General",
-    "currency": "幣種",
+    "general": "通用",
+    "currency": "貨幣",
     "language": "語言",
     "server": "伺服器",
     "dark_theme": "深色主題",
