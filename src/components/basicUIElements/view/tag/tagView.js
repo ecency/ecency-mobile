@@ -2,7 +2,7 @@ import React from 'react';
 import { Text, View, TouchableOpacity } from 'react-native';
 import styles from './tagStyles';
 
-const Tag = ({ onPress, isPin, value, isPostCardTag, isFilter }) => (
+const Tag = ({ onPress, isPin, value, label, isPostCardTag, isFilter }) => (
   <TouchableOpacity onPress={() => onPress && onPress(value)}>
     <View
       style={[
@@ -19,7 +19,7 @@ const Tag = ({ onPress, isPin, value, isPostCardTag, isFilter }) => (
           isPin && isFilter && styles.isFilterTextPin,
         ]}
       >
-        {value}
+        {isPostCardTag ? label : value}
       </Text>
     </View>
   </TouchableOpacity>

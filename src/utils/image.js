@@ -88,10 +88,10 @@ export const getResizedImage = (url, size = 640) => {
   return `https://steemitimages.com/${size}x0/${url}`;
 };
 
-export const getResizedAvatar = (author, sizeString = 'medium') => {
+export const getResizedAvatar = (author, sizeString = 'large') => {
   if (!author) {
     return '';
   }
 
-  return `https://steemitimages.com/u/${author}/avatar/${sizeString}`;
+  return `https://avatars.esteem.app/u/${author}/avatar/${sizeString}`;
 };
