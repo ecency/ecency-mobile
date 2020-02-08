@@ -207,14 +207,14 @@
     "signin_title": "為了獲得使用 eSteem 的所有好處",
     "username": "使用者名稱",
     "password": "密碼或WIF",
-    "description": "帳號認證資訊只保存在行動裝置本體。登出後認證資訊將被移除。",
+    "description": "用戶憑據保持在本地設備上。退出時，憑據將被删除！",
     "cancel": "取消",
     "login": "登錄",
-    "steemconnect_description": "如果您不想將密碼加密並保存在您的設備上, 則可以使用 Steemconnect。",
-    "steemconnect_fee_description": "Steemconnect may charge some fees from your reward transactions"
+    "steemconnect_description": "如果您不想將您的密碼，加密後保存在設備上，您可以使用Steemconnect。",
+    "steemconnect_fee_description": "SteemConnect可能會從您的獎勵交易中收取一些費用"
   },
   "home": {
-    "feed": "動態消息",
+    "feed": "朋友圈",
     "popular": "熱門",
     "top": "Top",
     "hot": "Hot",
@@ -224,9 +224,9 @@
   "side_menu": {
     "profile": "個人檔案",
     "bookmarks": "書籤",
-    "favorites": "我的最愛",
+    "favorites": "收藏",
     "drafts": "草稿",
-    "schedules": "排程",
+    "schedules": "定時發佈",
     "gallery": "圖庫",
     "settings": "設定",
     "add_account": "添加帳號",
@@ -235,8 +235,8 @@
     "logout_text": "您確定要登出嗎？"
   },
   "header": {
-    "title": "登錄以自定義您的動態消息",
-    "search": "搜尋中…"
+    "title": "登入後定制您的朋友圈",
+    "search": "搜尋…"
   },
   "basic_header": {
     "publish": "發佈",
@@ -251,8 +251,8 @@
     "reply_placeholder": "Add your reply...",
     "publish": "發佈",
     "reply": "回覆",
-    "open_gallery": "Open Gallery",
-    "capture_photo": "Capture a photo",
+    "open_gallery": "打開圖庫",
+    "capture_photo": "拍照",
     "limited_tags": "Only 10 tags allowed, remove some",
     "limited_length": "Maximum length of each tag should be 24",
     "limited_dash": "Use one dash in each tag",
@@ -263,7 +263,7 @@
     "limited_lastchar": "Tag must end with letter or number"
   },
   "pincode": {
-    "enter_text": "輸入PIN碼即可解鎖",
+    "enter_text": "輸入PIN碼解鎖",
     "set_new": "設置新的PIN碼",
     "write_again": "重寫",
     "forgot_text": "哦，我忘記了......"
