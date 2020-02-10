@@ -16,7 +16,7 @@ for (var i = 0; i < images.length; i++) {
   var resultStr = JSON.stringify(JSON.stringify(result));
   var message = 'window.ReactNativeWebView.postMessage(' + resultStr + ')';
   if (!images[i].classList.contains("video-thumbnail") && !images[i].parentNode.classList.contains("markdown-external-link")) {
-    images[i].setAttribute("onClick", message);
+    images[i].setAttribute("onclick", message);
   }
 }
 document.addEventListener('click', function(event) {
@@ -135,7 +135,7 @@ for (var i = 0; i < images.length; i++) {
   var resultStr = JSON.stringify(JSON.stringify(result));
   var message = 'window.ReactNativeWebView.postMessage(' + resultStr + ')';
   if (!images[i].classList.contains("video-thumbnail") && !images[i].parentNode.classList.contains("markdown-external-link")) {
-    images[i].setAttribute("onClick", message);
+    images[i].setAttribute("onclick", message);
   }
 }
 document.addEventListener('click', function(event) {
