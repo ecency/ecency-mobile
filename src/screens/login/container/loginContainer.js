@@ -19,7 +19,7 @@ import {
   openPinCodeModal,
   setPinCode,
 } from '../../../redux/actions/applicationActions';
-import { setPushTokenSaved } from '../../../realm/realm';
+import { setPushTokenSaved, setExistUser } from '../../../realm/realm';
 import { setPushToken } from '../../../providers/esteem/esteem';
 import { encryptKey } from '../../../utils/crypto';
 
@@ -64,6 +64,7 @@ class LoginContainer extends PureComponent {
           dispatch(addOtherAccount({ username: result.name }));
           dispatch(loginAction(true));
           userActivity(result.name, 20);
+          setExistUser(true);
           this._setPushToken(result.name);
           if (isPinCodeOpen) {
             dispatch(openPinCodeModal({ navigateTo: ROUTES.DRAWER.MAIN }));

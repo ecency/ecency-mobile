@@ -89,8 +89,9 @@ class NotificationContainer extends Component {
         username: get(data, 'follower'),
       };
     } else if (type === 'transfer') {
-      routeName = ROUTES.TABBAR.PROFILE;
-      params = { activePage: 2 };
+      routeName = ROUTES.TABBAR.WALLET;
+    } else if (type === 'spin') {
+      routeName = ROUTES.SCREENS.BOOST;
     }
 
     if (routeName) {

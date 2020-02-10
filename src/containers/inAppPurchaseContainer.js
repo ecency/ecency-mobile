@@ -157,7 +157,7 @@ class InAppPurchaseContainer extends Component {
     return (
       children &&
       children({
-        productList: [...productList, FREE_ESTM],
+        productList: [...productList.filter(item => !item.productId.includes('spins')), FREE_ESTM],
         buyItem: this._buyItem,
         isLoading,
         isProcessing,

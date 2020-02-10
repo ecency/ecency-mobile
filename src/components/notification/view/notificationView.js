@@ -32,7 +32,7 @@ class NotificationView extends PureComponent {
         { key: 'activities', value: 'ALL' },
         { key: 'replies', value: 'REPLIES' },
         { key: 'mentions', value: 'MENTIONS' },
-        { key: 'reblogs', value: 'REBLOGS' },
+        //{ key: 'reblogs', value: 'REBLOGS' },
       ],
       selectedFilter: null,
       selectedIndex: 0,
