@@ -260,8 +260,8 @@
     "limited_length": "Maximum length of each tag should be 24",
     "limited_dash": "Use one dash in each tag",
     "limited_space": "Use space to separate tags",
-    "limited_lowercase": "Only use lower letters in tag",
-    "limited_characters": "Use only allowed characters in tag",
+    "limited_lowercase": "Csak kisbetüt használj a címkékhez",
+    "limited_characters": "A címkékhez csak megengedett karaktereket használj",
     "limited_firstchar": "A címkének betűvel kell kezdődnie",
     "limited_lastchar": "Tag must end with letter or number"
   },
@@ -318,10 +318,10 @@
   "post": {
     "reblog_alert": "Biztos, hogy megosztod?",
     "removed_hint": "A bejegyzést eltávolította",
-    "copy_link": "Copy link",
+    "copy_link": "Link másolása",
     "reblogged": "megosztva általa",
     "sponsored": "TÁMOGATOTT",
-    "open_thread": "Open thread",
+    "open_thread": "Üzenetsor megnyitása",
     "image": "Kép",
     "link": "Link",
     "gallery_mode": "Gallery mode",
