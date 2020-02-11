@@ -42,4 +42,6 @@ export const VALUE = [
   'fa-IR',
   'ro-RO',
   'vi-VN',
+  'zh-CN',
+  'zh-TW',
 ];

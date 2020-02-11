@@ -20,6 +20,8 @@ export default {
   'ms-MY': require('./ms-MY.json'),
   'ku-TR': require('./ku-TR.json'),
   'vi-VN': require('./vi-VN.json'),
+  'zh-CN': require('./zh-CN.json'),
+  'zh-TW': require('./zh-TW.json'),
 };
 
 export const locales = [
@@ -44,4 +46,6 @@ export const locales = [
   { id: 'ms-MY', name: 'Malay' },
   { id: 'ku-TR', name: 'Kurdish' },
   { id: 'vi-VN', name: 'Vietnamese' },
+  { id: 'zh-CN', name: '汉语' },
+  { id: 'zh-TW', name: '漢語' },
 ];
