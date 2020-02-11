@@ -1,5 +1,5 @@
 import React, { Fragment, useState, useRef } from 'react';
-import { View, TouchableWithoutFeedback } from 'react-native';
+import { View } from 'react-native';
 import ActionSheet from 'react-native-actionsheet';
 import { useIntl } from 'react-intl';
 import get from 'lodash/get';
@@ -50,7 +50,7 @@ const CommentView = ({
   };
 
   return (
-    <TouchableWithoutFeedback onLongPress={handleOnLongPress} delayLongPress={2000}>
+    <Fragment>
       <View style={styles.commentContainer}>
         <PostHeaderDescription
           key={comment.permlink}
@@ -67,6 +67,7 @@ const CommentView = ({
             commentDepth={comment.depth}
             reputation={comment.author_reputation}
             handleOnUserPress={handleOnUserPress}
+            handleOnLongPress={handleOnLongPress}
             body={comment.body}
             created={comment.created}
             key={`key-${comment.permlink}`}
@@ -176,7 +177,7 @@ const CommentView = ({
           )}
         </View>
       </View>
-    </TouchableWithoutFeedback>
+    </Fragment>
   );
 };
 
