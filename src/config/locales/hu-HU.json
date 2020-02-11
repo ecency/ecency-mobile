@@ -112,6 +112,9 @@
     "ignore": "mellőzött téged",
     "reblog": "megosztotta",
     "transfer": "átutalva",
+    "spin": "Time to earn more ESTM",
+    "inactive": "Be active! Write a post, continue earning",
+    "referral": "joined with your referral, welcome them",
     "notification": "Értesítések",
     "leaderboard": "Ranglista",
     "epoint": "Pontok",
@@ -257,9 +260,9 @@
     "limited_length": "Maximum length of each tag should be 24",
     "limited_dash": "Use one dash in each tag",
     "limited_space": "Use space to separate tags",
-    "limited_lowercase": "Only use lower letters in tag",
-    "limited_characters": "Use only allowed characters in tag",
-    "limited_firstchar": "Tag must start with a letter",
+    "limited_lowercase": "Csak kisbetüt használj a címkékhez",
+    "limited_characters": "A címkékhez csak megengedett karaktereket használj",
+    "limited_firstchar": "A címkének betűvel kell kezdődnie",
     "limited_lastchar": "Tag must end with letter or number"
   },
   "pincode": {
@@ -315,17 +318,17 @@
   "post": {
     "reblog_alert": "Biztos, hogy megosztod?",
     "removed_hint": "A bejegyzést eltávolította",
-    "copy_link": "Copy link",
+    "copy_link": "Link másolása",
     "reblogged": "megosztva általa",
     "sponsored": "TÁMOGATOTT",
-    "open_thread": "Open thread",
-    "image": "Image",
+    "open_thread": "Üzenetsor megnyitása",
+    "image": "Kép",
     "link": "Link",
     "gallery_mode": "Gallery mode",
     "save_to_local": "Download to device",
     "image_saved": "Image saved to Photo Gallery",
     "image_saved_error": "Hiba a kép mentése közben",
-    "wrong_link": "Wrong link"
+    "wrong_link": "Nem megfelelő link"
   },
   "drafts": {
     "title": "Piszkozatok",
@@ -360,7 +363,7 @@
     "invalid_username": "Érvénytelen felhasználónév, kérjük ellenőrizd és próbáld újra",
     "already_logged": "Már be vagy jelentkezve, kérjük próbálj meg hozzáadni egy másik fiókot",
     "invalid_credentials": "Érvénytelen hitelesítő adatok. Kérjük, ellenőrizd és próbáld újra",
-    "unknow_error": "Unknown error, please write to support@esteem.app"
+    "unknow_error": "Ismeretlen hiba, kérjük vedd fel velünk a kapcsolatot itt support@esteem.app"
   },
   "payout": {
     "potential_payout": "Lehetséges Kifizetés",
@@ -469,8 +472,8 @@
   },
   "comments": {
     "title": "Hozzászólások",
-    "reveal_comment": "Reveal comment",
+    "reveal_comment": "Hozzászólás megjelenítése",
     "read_more": "Read more comments",
-    "more_replies": "more replies"
+    "more_replies": "további hozzászólások betöltése"
   }
 }
