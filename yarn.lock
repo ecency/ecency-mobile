@@ -1113,10 +1113,10 @@
     exec-sh "^0.3.2"
     minimist "^1.2.0"
 
-"@esteemapp/esteem-render-helpers@^1.3.6":
-  version "1.3.6"
-  resolved "https://registry.yarnpkg.com/@esteemapp/esteem-render-helpers/-/esteem-render-helpers-1.3.6.tgz#320d39012fda19c88ada266e133cb8d2e25bc076"
-  integrity sha512-CHD5INnrEb5efL1OcSix84D2QFBYV3xivu0tfGo4wIhj8pCTgH0cR3sLsVks8oHwmBftzQ9uDGYkbzOp83XwsA==
+"@esteemapp/esteem-render-helpers@^1.3.7":
+  version "1.3.7"
+  resolved "https://registry.yarnpkg.com/@esteemapp/esteem-render-helpers/-/esteem-render-helpers-1.3.7.tgz#1d8c4b6c8f4bc909ea7a511a2689ee5c8288a96a"
+  integrity sha512-iF3zWL0IMnHBcz+tW61TNYWhhoT3v+daWmMygTupE02moJpxDOh05hYuGQX/ROHPFOVi9OYesckWjyLSFj7+yw==
   dependencies:
     he "^1.2.0"
     lru-cache "^5.1.1"
