@@ -34,6 +34,7 @@ const CommentBody = ({
   textSelectable = true,
   handleOnUserPress,
   handleOnPostPress,
+  handleOnLongPress,
   created,
   commentDepth,
   reputation,
@@ -83,6 +84,9 @@ const CommentBody = ({
         case 'markdown-external-link':
           setSelectedLink(href);
           actionLink.current.show();
+          break;
+        case 'longpress':
+          handleOnLongPress();
           break;
         case 'markdown-author-link':
           if (!handleOnUserPress) {
