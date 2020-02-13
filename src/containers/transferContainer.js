@@ -70,10 +70,16 @@ class TransferContainer extends Component {
     getAccount(username).then(async account => {
       let balance;
 
-      if (transferType === 'transfer_token' && fundType === 'STEEM') {
+      if (
+        (transferType === 'purchase_estm' || transferType === 'transfer_token') &&
+        fundType === 'STEEM'
+      ) {
         balance = account[0].balance.replace(fundType, '');
       }
-      if (transferType === 'transfer_token' && fundType === 'SBD') {
+      if (
+        (transferType === 'purchase_estm' || transferType === 'transfer_token') &&
+        fundType === 'SBD'
+      ) {
         balance = account[0].sbd_balance.replace(fundType, '');
       }
       if (transferType === 'points' && fundType === 'ESTM') {
@@ -130,6 +136,9 @@ class TransferContainer extends Component {
 
     switch (transferType) {
       case 'transfer_token':
+        func = transferToken;
+        break;
+      case 'purchase_estm':
         func = transferToken;
         break;
       case 'transfer_to_saving':
