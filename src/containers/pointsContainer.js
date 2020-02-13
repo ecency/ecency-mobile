@@ -52,6 +52,8 @@ const PointsContainer = ({
   const intl = useIntl();
   const dispatch = useDispatch();
 
+  const [counter, setCounter] = useState(0);
+
   useEffect(() => {
     if (isConnected) {
       _fetchUserPointActivities(username);
@@ -63,6 +65,16 @@ const PointsContainer = ({
       setNavigationParams(_navigationParams);
     }
   }, [_fetchUserPointActivities, isConnected, navigation, username]);
+
+  useEffect(() => {
+    const interval = setInterval(() => {
+      setCounter(_counter => Math.round((_counter + 0.001) * 1000) / 1000);
+    }, 3600);
+
+    return () => {
+      clearInterval(interval);
+    };
+  }, []);
 
   useEffect(() => {
     if (isConnected && activeBottomTab === ROUTES.TABBAR.WALLET && username) {
@@ -135,6 +147,7 @@ const PointsContainer = ({
         const _balance = Math.round(get(userPointsP, 'points') * 1000) / 1000;
         setUserPoints(userPointsP);
         setBalance(_balance);
+        setCounter(_balance);
         setEstimatedEstm(await getPointsEstimate(_balance, currency));
       })
       .catch(err => {
@@ -235,6 +248,7 @@ const PointsContainer = ({
       refreshing,
       userActivities,
       userPoints,
+      counter,
       estimatedEstm,
       redeemType: get(navigationParams, 'redeemType'),
       user,
