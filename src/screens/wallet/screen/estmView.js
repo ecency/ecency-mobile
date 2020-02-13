@@ -21,7 +21,6 @@ const EstmView = ({ handleOnSelected, index, currentIndex, refreshing: reload })
         userPoints,
         estimatedEstm,
         dropdownOptions,
-        counter,
       }) => (
         <WalletHeader
           componentDidUpdate={() => handleOnSelected(userActivities, isLoading, fetchUserActivity)}
@@ -39,7 +38,6 @@ const EstmView = ({ handleOnSelected, index, currentIndex, refreshing: reload })
           userBalance={[
             { balance: get(userPoints, 'points'), nameKey: 'estm', options: dropdownOptions },
           ]}
-          counter={counter}
           handleOnDropdownSelected={handleOnDropdownSelected}
           type="estm"
           currentIndex={currentIndex}
