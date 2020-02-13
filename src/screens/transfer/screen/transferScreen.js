@@ -36,10 +36,13 @@ class TransferView extends Component {
         props.transferType === 'withdraw_steem' ||
         props.transferType === 'withdraw_steem'
           ? props.currentAccountName
+          : props.transferType === 'purchase_estm'
+          ? 'esteem.app'
           : '',
       amount: '',
-      memo: '',
+      memo: props.transferType === 'purchase_estm' ? 'estm-purchase' : '',
       isUsernameValid: !!(
+        props.transferType === 'purchase_estm' ||
         props.transferType === 'powerUp' ||
         props.transferType === 'withdraw_steem' ||
         (props.transferType === 'withdraw_steem' && props.currentAccountName)
@@ -226,7 +229,9 @@ class TransferView extends Component {
                   </TouchableOpacity>
                 )}
               />
-              {(transferType === 'points' || transferType === 'transfer_token') && (
+              {(transferType === 'points' ||
+                transferType === 'transfer_token' ||
+                transferType === 'purchase_estm') && (
                 <TransferFormItem
                   label={intl.formatMessage({ id: 'transfer.memo' })}
                   rightComponent={() =>
@@ -239,7 +244,9 @@ class TransferView extends Component {
                   }
                 />
               )}
-              {(transferType === 'points' || transferType === 'transfer_token') && (
+              {(transferType === 'points' ||
+                transferType === 'transfer_token' ||
+                transferType === 'purchase_estm') && (
                 <TransferFormItem
                   rightComponent={() =>
                     this._renderDescription(intl.formatMessage({ id: 'transfer.memo_desc' }))

@@ -25,6 +25,7 @@ const Transfer = ({ navigation }) => (
     }) => {
       switch (transferType) {
         case 'transfer_token':
+        case 'purchase_estm':
         case 'transfer_to_saving':
         case 'powerUp':
         case 'points':

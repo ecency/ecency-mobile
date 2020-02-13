@@ -21,8 +21,8 @@ import { getEstimatedAmount } from '../utils/vote';
 // Constants
 import ROUTES from '../constants/routeNames';
 
-const STEEM_DROPDOWN = ['transfer_token', 'transfer_to_saving', 'powerUp'];
-const SBD_DROPDOWN = ['transfer_token', 'transfer_to_saving'];
+const STEEM_DROPDOWN = ['purchase_estm', 'transfer_token', 'transfer_to_saving', 'powerUp'];
+const SBD_DROPDOWN = ['purchase_estm', 'transfer_token', 'transfer_to_saving'];
 const SAVING_STEEM_DROPDOWN = ['withdraw_steem'];
 const SAVING_SBD_DROPDOWN = ['withdraw_sbd'];
 const STEEM_POWER_DROPDOWN = ['delegate', 'power_down'];
@@ -235,10 +235,16 @@ const WalletContainer = ({
   const _navigate = async (transferType, fundType) => {
     let balance;
 
-    if (transferType === 'transfer_token' && fundType === 'STEEM') {
+    if (
+      (transferType === 'transfer_token' || transferType === 'purchase_estm') &&
+      fundType === 'STEEM'
+    ) {
       balance = Math.round(walletData.balance * 1000) / 1000;
     }
-    if (transferType === 'transfer_token' && fundType === 'SBD') {
+    if (
+      (transferType === 'transfer_token' || transferType === 'purchase_estm') &&
+      fundType === 'SBD'
+    ) {
       balance = Math.round(walletData.sbdBalance * 1000) / 1000;
     }
     if (transferType === 'withdraw_steem' && fundType === 'STEEM') {
