@@ -22,7 +22,6 @@ const WalletHeaderView = ({
   navigation,
   unclaimedBalance,
   userBalance,
-  counter,
   type = '',
   componentDidUpdate,
   showIconList,
@@ -58,7 +57,7 @@ const WalletHeaderView = ({
   const _getBalanceItem = (balance, options, _key) =>
     balance !== undefined && (
       <View style={styles.balanceWrapper} key={balance + _key}>
-        <Text style={styles.balanceText}>{_key === 'estm' ? counter : balance}</Text>
+        <Text style={styles.balanceText}>{balance}</Text>
         <DropdownButton
           dropdownRowWrapper={styles.dropdownRowStyle}
           dropdownRef={dropdownRef}
