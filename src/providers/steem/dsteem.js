@@ -565,6 +565,41 @@ export const transferToken = (currentAccount, pin, data) => {
   return Promise.reject(new Error('Check private key permission!'));
 };
 
+export const convert = (currentAccount, pin, data) => {
+  const digitPinCode = getDigitPinCode(pin);
+  const key = getAnyPrivateKey({ activeKey: get(currentAccount, 'local.activeKey') }, digitPinCode);
+
+  if (key) {
+    const privateKey = PrivateKey.fromString(key);
+
+    const args = [
+      [
+        'convert',
+        {
+          owner: get(data, 'from'),
+          amount: get(data, 'amount'),
+          requestid: get(data, 'requestId'),
+        },
+      ],
+    ];
+
+    return new Promise((resolve, reject) => {
+      client.broadcast
+        .sendOperations(args, privateKey)
+        .then(result => {
+          if (result) {
+            resolve(result);
+          }
+        })
+        .catch(err => {
+          reject(err);
+        });
+    });
+  }
+
+  return Promise.reject(new Error('Check private key permission!'));
+};
+
 export const transferToSavings = (currentAccount, pin, data) => {
   const digitPinCode = getDigitPinCode(pin);
   const key = getAnyPrivateKey({ activeKey: get(currentAccount, 'local.activeKey') }, digitPinCode);

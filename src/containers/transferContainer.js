@@ -7,6 +7,7 @@ import get from 'lodash/get';
 import {
   lookupAccounts,
   transferToken,
+  convert,
   transferFromSavings,
   transferToSavings,
   transferToVesting,
@@ -77,7 +78,9 @@ class TransferContainer extends Component {
         balance = account[0].balance.replace(fundType, '');
       }
       if (
-        (transferType === 'purchase_estm' || transferType === 'transfer_token') &&
+        (transferType === 'purchase_estm' ||
+          transferType === 'convert' ||
+          transferType === 'transfer_token') &&
         fundType === 'SBD'
       ) {
         balance = account[0].sbd_balance.replace(fundType, '');
@@ -140,6 +143,10 @@ class TransferContainer extends Component {
         break;
       case 'purchase_estm':
         func = transferToken;
+        break;
+      case 'convert':
+        func = convert;
+        data.requestId = new Date().getTime() >>> 0;
         break;
       case 'transfer_to_saving':
         func = transferToSavings;
