@@ -12,7 +12,7 @@ import styles from './walletDetailsStyles';
 
 const WalletDetailsView = ({ walletData, intl, navigate, isShowDropdowns }) => {
   const steemDropdown = ['purchase_estm', 'transfer_token', 'transfer_to_saving', 'powerUp'];
-  const sbdDropdown = ['purchase_estm', 'transfer_token', 'transfer_to_saving'];
+  const sbdDropdown = ['purchase_estm', 'transfer_token', 'transfer_to_saving', 'convert'];
   const savingSteemDropdown = ['withdraw_steem'];
   const savingSbdDropdown = ['withdraw_sbd'];
   const steemPowerDropdown = ['delegate', 'power_down'];

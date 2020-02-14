@@ -38,11 +38,14 @@ class TransferView extends Component {
           ? props.currentAccountName
           : props.transferType === 'purchase_estm'
           ? 'esteem.app'
+          : props.transferType === 'convert'
+          ? props.currentAccountName
           : '',
       amount: '',
       memo: props.transferType === 'purchase_estm' ? 'estm-purchase' : '',
       isUsernameValid: !!(
         props.transferType === 'purchase_estm' ||
+        props.transferType === 'convert' ||
         props.transferType === 'powerUp' ||
         props.transferType === 'withdraw_steem' ||
         (props.transferType === 'withdraw_steem' && props.currentAccountName)
@@ -132,10 +135,13 @@ class TransferView extends Component {
   );
 
   _handleOnDropdownChange = value => {
-    const { fetchBalance } = this.props;
+    const { fetchBalance, transferType } = this.props;
 
     fetchBalance(value);
     this.setState({ from: value });
+    if (transferType === 'convert') {
+      this.setState({ destination: value });
+    }
   };
 
   _renderDescription = text => <Text style={styles.description}>{text}</Text>;
@@ -198,16 +204,18 @@ class TransferView extends Component {
                 label={intl.formatMessage({ id: 'transfer.from' })}
                 rightComponent={() => this._renderDropdown(accounts, currentAccountName)}
               />
-              <TransferFormItem
-                label={intl.formatMessage({ id: 'transfer.to' })}
-                rightComponent={() =>
-                  this._renderInput(
-                    intl.formatMessage({ id: 'transfer.to_placeholder' }),
-                    'destination',
-                    'default',
-                  )
-                }
-              />
+              {transferType !== 'convert' && (
+                <TransferFormItem
+                  label={intl.formatMessage({ id: 'transfer.to' })}
+                  rightComponent={() =>
+                    this._renderInput(
+                      intl.formatMessage({ id: 'transfer.to_placeholder' }),
+                      'destination',
+                      'default',
+                    )
+                  }
+                />
+              )}
               <TransferFormItem
                 label={intl.formatMessage({ id: 'transfer.amount' })}
                 rightComponent={() =>
@@ -229,9 +237,7 @@ class TransferView extends Component {
                   </TouchableOpacity>
                 )}
               />
-              {(transferType === 'points' ||
-                transferType === 'transfer_token' ||
-                transferType === 'purchase_estm') && (
+              {(transferType === 'points' || transferType === 'transfer_token') && (
                 <TransferFormItem
                   label={intl.formatMessage({ id: 'transfer.memo' })}
                   rightComponent={() =>
@@ -244,12 +250,17 @@ class TransferView extends Component {
                   }
                 />
               )}
-              {(transferType === 'points' ||
-                transferType === 'transfer_token' ||
-                transferType === 'purchase_estm') && (
+              {(transferType === 'points' || transferType === 'transfer_token') && (
                 <TransferFormItem
                   rightComponent={() =>
                     this._renderDescription(intl.formatMessage({ id: 'transfer.memo_desc' }))
+                  }
+                />
+              )}
+              {transferType === 'convert' && (
+                <TransferFormItem
+                  rightComponent={() =>
+                    this._renderDescription(intl.formatMessage({ id: 'transfer.convert_desc' }))
                   }
                 />
               )}

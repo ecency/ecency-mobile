@@ -22,7 +22,7 @@ import { getEstimatedAmount } from '../utils/vote';
 import ROUTES from '../constants/routeNames';
 
 const STEEM_DROPDOWN = ['purchase_estm', 'transfer_token', 'transfer_to_saving', 'powerUp'];
-const SBD_DROPDOWN = ['purchase_estm', 'transfer_token', 'transfer_to_saving'];
+const SBD_DROPDOWN = ['purchase_estm', 'transfer_token', 'transfer_to_saving', 'convert'];
 const SAVING_STEEM_DROPDOWN = ['withdraw_steem'];
 const SAVING_SBD_DROPDOWN = ['withdraw_sbd'];
 const STEEM_POWER_DROPDOWN = ['delegate', 'power_down'];
@@ -242,7 +242,9 @@ const WalletContainer = ({
       balance = Math.round(walletData.balance * 1000) / 1000;
     }
     if (
-      (transferType === 'transfer_token' || transferType === 'purchase_estm') &&
+      (transferType === 'transfer_token' ||
+        transferType === 'convert' ||
+        transferType === 'purchase_estm') &&
       fundType === 'SBD'
     ) {
       balance = Math.round(walletData.sbdBalance * 1000) / 1000;
