@@ -405,7 +405,6 @@ export const getCommunity = tag =>
         id: 1,
       })
       .then(resp => {
-        console.log(resp);
         if (resp.data.result) {
           const { title } = resp.data.result;
           cache[tag] = title;
