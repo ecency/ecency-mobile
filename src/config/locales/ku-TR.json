@@ -59,6 +59,7 @@
     "to_placeholder": "Navê bikarhêner",
     "memo_placeholder": "Notên xwe li vir binivîse",
     "transfer_token": "Transfer",
+    "purchase_estm": "ESTMê BISTÎNE",
     "points": "ESTMê diyariya hinekan bike",
     "transfer_to_saving": "Bo Berhevkirinan",
     "powerUp": "Bihêz Bike",
@@ -81,7 +82,7 @@
     "fill_transfer_from_savings": "Berhevkirin Pek Hat",
     "fill_vesting_withdraw": "Ji hêz hate xistin",
     "estm": {
-      "title": "puanên eSteemê",
+      "title": "ESTM",
       "buy": "ESTMê BISTÎNE"
     },
     "savingsteem": {
@@ -100,6 +101,11 @@
     },
     "steem_power": {
       "title": "HÊZA STEEMê"
+    },
+    "btc": {
+      "title": "BTC",
+      "buy": "GET BTC",
+      "address": "RECEIVE"
     }
   },
   "notification": {
@@ -409,9 +415,12 @@
     "information": "Bi rastî jî tu dixwazî pereyan transfer bikî?",
     "amount_desc": "Bermayî:",
     "memo_desc": "Ev bîrname gelemper e",
+    "convert_desc": "Convert takes 3.5 days and NOT recommended IF SBD price is higher than $1",
     "to_placeholder": "Navê bikarhêner",
     "memo_placeholder": "Notên xwe li vir binivîse",
     "transfer_token": "Transfer",
+    "purchase_estm": "Purchase ESTM",
+    "convert": "Convert SBD to STEEM",
     "points": "ESTMê diyariya hinekan bike",
     "transfer_to_saving": "Transfera Ji Berhevkirinan",
     "powerUp": "Bihêz Bike",
@@ -430,7 +439,8 @@
     "withdraw_steem": "Steemê Bikişîne (pere)",
     "withdraw_sbd": "Dolarên Steemê Bikişîne (pere)",
     "incoming_funds": "Fonên Tên",
-    "stop": "Rawestîne"
+    "stop": "Rawestîne",
+    "address_view": "View address"
   },
   "boost": {
     "title": "Puanên sSteemê Bistîne",
