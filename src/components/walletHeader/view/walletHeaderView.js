@@ -28,8 +28,10 @@ const WalletHeaderView = ({
   currentIndex,
   valueDescriptions,
   showBuyButton,
+  showAddressButton,
   index,
   fetchUserActivity,
+  getTokenAddress,
   reload,
   refreshing,
 }) => {
@@ -100,6 +102,25 @@ const WalletHeaderView = ({
               </Text>
               <View style={styles.mainIconWrapper}>
                 <Icon name="add" iconType="MaterialIcons" color="#357ce6" size={23} />
+              </View>
+            </View>
+          </MainButton>
+        )}
+
+        {showAddressButton && (
+          <MainButton
+            isLoading={isClaiming}
+            isDisable={isClaiming}
+            style={styles.mainButton}
+            height={50}
+            onPress={() => getTokenAddress()}
+          >
+            <View style={styles.mainButtonWrapper}>
+              <Text style={styles.unclaimedText}>
+                {intl.formatMessage({ id: `wallet.${type}.address` })}
+              </Text>
+              <View style={styles.mainIconWrapper}>
+                <Icon name="qrcode" iconType="MaterialCommunityIcons" color="#357ce6" size={23} />
               </View>
             </View>
           </MainButton>

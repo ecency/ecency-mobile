@@ -398,14 +398,13 @@ export const getCommunity = tag =>
     }
 
     axios
-      .post('https://beta-api.steemit.com', {
+      .post('https://api.steemit.com', {
         jsonrpc: '2.0',
         method: 'bridge.get_community',
         params: { name: tag, observer: '' },
         id: 1,
       })
       .then(resp => {
-        console.log(resp);
         if (resp.data.result) {
           const { title } = resp.data.result;
           cache[tag] = title;

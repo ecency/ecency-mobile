@@ -1,9 +1,11 @@
 /* eslint-disable camelcase */
+import '../../../shim';
+import * as bitcoin from 'bitcoinjs-lib';
+
 import { Client, PrivateKey } from 'dsteem';
 import steemconnect from 'steemconnect';
 import Config from 'react-native-config';
 import { get, has } from 'lodash';
-
 import { getServer } from '../../realm/realm';
 import { getUnreadActivityCount } from '../esteem/esteem';
 import { userActivity } from '../esteem/ePoint';
@@ -551,6 +553,41 @@ export const transferToken = (currentAccount, pin, data) => {
     return new Promise((resolve, reject) => {
       client.broadcast
         .transfer(args, privateKey)
+        .then(result => {
+          if (result) {
+            resolve(result);
+          }
+        })
+        .catch(err => {
+          reject(err);
+        });
+    });
+  }
+
+  return Promise.reject(new Error('Check private key permission!'));
+};
+
+export const convert = (currentAccount, pin, data) => {
+  const digitPinCode = getDigitPinCode(pin);
+  const key = getAnyPrivateKey({ activeKey: get(currentAccount, 'local.activeKey') }, digitPinCode);
+
+  if (key) {
+    const privateKey = PrivateKey.fromString(key);
+
+    const args = [
+      [
+        'convert',
+        {
+          owner: get(data, 'from'),
+          amount: get(data, 'amount'),
+          requestid: get(data, 'requestId'),
+        },
+      ],
+    ];
+
+    return new Promise((resolve, reject) => {
+      client.broadcast
+        .sendOperations(args, privateKey)
         .then(result => {
           if (result) {
             resolve(result);
@@ -1299,6 +1336,26 @@ export const profileUpdate = async (params, pin, currentAccount) => {
   }
 
   return Promise.reject(new Error('Check private key permission!'));
+};
+
+export const getBtcAddress = (pin, currentAccount) => {
+  const digitPinCode = getDigitPinCode(pin);
+  const key = getActiveKey(get(currentAccount, 'local'), digitPinCode);
+  console.log(pin, currentAccount, digitPinCode, key);
+  /*if (get(currentAccount, 'local.authType') === AUTH_TYPE.STEEM_CONNECT) {
+    return { address: '' };
+  }*/
+
+  if (key) {
+    console.log(key);
+    const keyPair = bitcoin.ECPair.fromWIF(key);
+    const { address } = bitcoin.payments.p2pkh({ pubkey: keyPair.publicKey });
+
+    console.log('btc address', address);
+    return { address: address };
+  }
+
+  return { address: '' };
 };
 
 // HELPERS

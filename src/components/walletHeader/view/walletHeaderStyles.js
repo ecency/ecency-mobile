@@ -31,7 +31,7 @@ export default EStyleSheet.create({
   },
   subText: {
     color: '$darkIconColor',
-    fontSize: 8,
+    fontSize: 18,
     justifyContent: 'center',
     alignSelf: 'center',
     marginTop: 5,

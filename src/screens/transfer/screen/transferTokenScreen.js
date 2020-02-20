@@ -26,30 +26,13 @@ import styles from './transferStyles';
  *   @prop { type }    name                - Description....
  */
 
-class TransferView extends Component {
+class TransferTokenView extends Component {
   constructor(props) {
     super(props);
     this.state = {
       from: props.currentAccountName,
-      destination:
-        props.transferType === 'powerUp' ||
-        props.transferType === 'withdraw_steem' ||
-        props.transferType === 'withdraw_steem'
-          ? props.currentAccountName
-          : props.transferType === 'purchase_estm'
-          ? 'esteem.app'
-          : props.transferType === 'convert'
-          ? props.currentAccountName
-          : '',
+      destination: '',
       amount: '',
-      memo: props.transferType === 'purchase_estm' ? 'estm-purchase' : '',
-      isUsernameValid: !!(
-        props.transferType === 'purchase_estm' ||
-        props.transferType === 'convert' ||
-        props.transferType === 'powerUp' ||
-        props.transferType === 'withdraw_steem' ||
-        (props.transferType === 'withdraw_steem' && props.currentAccountName)
-      ),
       steemConnectTransfer: false,
       isTransfering: false,
     };
@@ -306,4 +289,4 @@ class TransferView extends Component {
   }
 }
 
-export default injectIntl(TransferView);
+export default injectIntl(TransferTokenView);
