@@ -3,6 +3,7 @@ import React from 'react';
 import { TransferContainer } from '../../containers';
 
 import TransferView from './screen/transferScreen';
+import AddressView from './screen/addressScreen';
 import PowerDownView from './screen/powerDownScreen';
 import DelegateView from './screen/delegateScreen';
 
@@ -78,6 +79,17 @@ const Transfer = ({ navigation }) => (
               selectedAccount={selectedAccount}
               steemPerMVests={steemPerMVests}
               setWithdrawVestingRoute={setWithdrawVestingRoute}
+            />
+          );
+        case 'address_view':
+          return (
+            <AddressView
+              fundType={fundType}
+              transferType={transferType}
+              handleOnModalClose={handleOnModalClose}
+              accountType={accountType}
+              currentAccountName={currentAccountName}
+              selectedAccount={selectedAccount}
             />
           );
 
