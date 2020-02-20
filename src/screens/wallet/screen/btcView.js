@@ -17,10 +17,10 @@ const BtcView = ({ handleOnSelected, index, currentIndex, refreshing: reload }) 
             handleOnWalletRefresh,
             refreshing,
             transferHistory,
-            btcBalance,
+            tokenBalance,
             getTokenAddress,
             isLoading,
-            estimatedBtcValue,
+            estimatedTokenValue,
             btcDropdown,
             navigate,
           }) => (
@@ -35,7 +35,7 @@ const BtcView = ({ handleOnSelected, index, currentIndex, refreshing: reload }) 
               isLoading={isLoading}
               refreshing={refreshing}
               unclaimedBalance={0}
-              userBalance={[{ balance: btcBalance, nameKey: 'btc', options: btcDropdown }]}
+              userBalance={[{ balance: tokenBalance, nameKey: 'btc', options: btcDropdown }]}
               handleOnDropdownSelected={option => navigate(option, 'BTC')}
               type="btc"
               currentIndex={currentIndex}
@@ -44,7 +44,7 @@ const BtcView = ({ handleOnSelected, index, currentIndex, refreshing: reload }) 
               valueDescriptions={[
                 {
                   textKey: 'estimated_value',
-                  value: <FormattedCurrency isApproximate isToken value={estimatedBtcValue} />,
+                  value: <FormattedCurrency isApproximate isToken value={estimatedTokenValue} />,
                   subTextKey: 'estimated_value_desc',
                 },
               ]}
