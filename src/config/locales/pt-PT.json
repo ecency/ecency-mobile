@@ -59,6 +59,7 @@
     "to_placeholder": "Nome de Usuário",
     "memo_placeholder": "Insira aqui as suas notas",
     "transfer_token": "Transferir",
+    "purchase_estm": "OBTER ESTM",
     "points": "Presente ESTM para alguém",
     "transfer_to_saving": "Para poupança",
     "powerUp": "Carregar Poder",
@@ -81,7 +82,7 @@
     "fill_transfer_from_savings": "Poupanças executadas",
     "fill_vesting_withdraw": "PowerDown executado",
     "estm": {
-      "title": "eSteem Pontos",
+      "title": "ESTM",
       "buy": "OBTER ESTM"
     },
     "savingsteem": {
@@ -100,6 +101,11 @@
     },
     "steem_power": {
       "title": "PODER STEEM"
+    },
+    "btc": {
+      "title": "BTC",
+      "buy": "GET BTC",
+      "address": "RECEIVE"
     }
   },
   "notification": {
@@ -409,9 +415,12 @@
     "information": "Tem certeza que deseja transferir fundos?",
     "amount_desc": "Balanço",
     "memo_desc": "Este memo é público",
+    "convert_desc": "Convert takes 3.5 days and NOT recommended IF SBD price is higher than $1",
     "to_placeholder": "Utilizador",
     "memo_placeholder": "Insira aqui as suas notas",
     "transfer_token": "Transferir",
+    "purchase_estm": "Purchase ESTM",
+    "convert": "Convert SBD to STEEM",
     "points": "Presente ESTM para alguém",
     "transfer_to_saving": "Transferir para Poupanças",
     "powerUp": "Carregar Poder",
@@ -430,7 +439,8 @@
     "withdraw_steem": "Levantar Steem",
     "withdraw_sbd": "Levantar Steem Dólar",
     "incoming_funds": "Fundos Recebidos",
-    "stop": "Parar"
+    "stop": "Parar",
+    "address_view": "View address"
   },
   "boost": {
     "title": "Obter Pontos eSteem",
