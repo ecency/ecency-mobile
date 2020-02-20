@@ -59,6 +59,7 @@
     "to_placeholder": "Ім'я користувача",
     "memo_placeholder": "Введіть сюди свої примітки",
     "transfer_token": "Переказ",
+    "purchase_estm": "Отримати ESTM",
     "points": "Подарувати комусь ESTM",
     "transfer_to_saving": "В заощадження",
     "powerUp": "Збільшення Силу Голосу",
@@ -81,7 +82,7 @@
     "fill_transfer_from_savings": "Зняття заощаджень виконано",
     "fill_vesting_withdraw": "Зниження Сили виконано",
     "estm": {
-      "title": "eSteem Бали",
+      "title": "ESTM",
       "buy": "Отримати ESTM"
     },
     "savingsteem": {
@@ -100,6 +101,11 @@
     },
     "steem_power": {
       "title": "STEEM POWER"
+    },
+    "btc": {
+      "title": "BTC",
+      "buy": "GET BTC",
+      "address": "RECEIVE"
     }
   },
   "notification": {
@@ -409,9 +415,12 @@
     "information": "Ви впевнені, що хочете перерахувати кошти?",
     "amount_desc": "Баланс",
     "memo_desc": "Ця примітка є публічною",
+    "convert_desc": "Convert takes 3.5 days and NOT recommended IF SBD price is higher than $1",
     "to_placeholder": "Ім'я користувача",
     "memo_placeholder": "Введіть сюди свої примітки",
     "transfer_token": "Переказ",
+    "purchase_estm": "Purchase ESTM",
+    "convert": "Convert SBD to STEEM",
     "points": "Подарувати комусь ESTM",
     "transfer_to_saving": "Перевести до Заощаджень",
     "powerUp": "Збільшення Силу Голосу",
@@ -430,7 +439,8 @@
     "withdraw_steem": "Вивести Steem",
     "withdraw_sbd": "Вивести Стім долар",
     "incoming_funds": "Надходження коштів",
-    "stop": "Зупинити"
+    "stop": "Зупинити",
+    "address_view": "View address"
   },
   "boost": {
     "title": "Отримати eSteem бали",
