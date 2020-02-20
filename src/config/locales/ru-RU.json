@@ -59,6 +59,7 @@
     "to_placeholder": "Пользователь",
     "memo_placeholder": "Введите свою заметку",
     "transfer_token": "Перевод",
+    "purchase_estm": "GET ESTM",
     "points": "Подарить ESTM кому-нибудь",
     "transfer_to_saving": "To Saving",
     "powerUp": "Увеличение силы",
@@ -81,7 +82,7 @@
     "fill_transfer_from_savings": "Savings Executed",
     "fill_vesting_withdraw": "PowerDown executed",
     "estm": {
-      "title": "eSteem баллы",
+      "title": "ESTM",
       "buy": "GET ESTM"
     },
     "savingsteem": {
@@ -100,6 +101,11 @@
     },
     "steem_power": {
       "title": "STEEM POWER"
+    },
+    "btc": {
+      "title": "BTC",
+      "buy": "GET BTC",
+      "address": "RECEIVE"
     }
   },
   "notification": {
@@ -409,9 +415,12 @@
     "information": "Вы уверены, что хотите перевести средства?",
     "amount_desc": "Баланс",
     "memo_desc": "Эта заметка публична",
+    "convert_desc": "Convert takes 3.5 days and NOT recommended IF SBD price is higher than $1",
     "to_placeholder": "Пользователь",
     "memo_placeholder": "Введите свою заметку",
     "transfer_token": "Перевод",
+    "purchase_estm": "Purchase ESTM",
+    "convert": "Convert SBD to STEEM",
     "points": "Подарить ESTM кому-нибудь",
     "transfer_to_saving": "Перевести в сейф",
     "powerUp": "Увеличение силы",
@@ -430,7 +439,8 @@
     "withdraw_steem": "Вывести Steem",
     "withdraw_sbd": "Вывести Steem Dollar",
     "incoming_funds": "Incoming Funds",
-    "stop": "Stop"
+    "stop": "Stop",
+    "address_view": "View address"
   },
   "boost": {
     "title": "Получить eSteem баллы",
