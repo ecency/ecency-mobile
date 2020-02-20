@@ -165,7 +165,7 @@ export const groomingWalletData = async (user, globalProps, userCurrency) => {
   if (!user) {
     return walletData;
   }
-
+  console.log('groomingWalletData', user);
   const state = await getState(`/@${get(user, 'name')}/transfers`);
   const { accounts } = state;
   if (!accounts) {
@@ -265,4 +265,13 @@ export const getPointsEstimate = async (amount, userCurrency) => {
   const ppEstm = await getCurrencyTokenRate(userCurrency, 'estm');
 
   return ppEstm * amount;
+};
+
+export const getBtcEstimate = async (amount, userCurrency) => {
+  if (!amount) {
+    return 0;
+  }
+  const ppBtc = await getCurrencyTokenRate(userCurrency, 'btc');
+
+  return ppBtc * amount;
 };
