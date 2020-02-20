@@ -59,6 +59,7 @@
     "to_placeholder": "使用者名稱",
     "memo_placeholder": "在此輸入您的備註",
     "transfer_token": "轉賬",
+    "purchase_estm": "獲取 ESTM",
     "points": "向他人贈送ESTEEM點數（ESTM）",
     "transfer_to_saving": "轉為儲蓄",
     "powerUp": "轉為Steem Power",
@@ -81,7 +82,7 @@
     "fill_transfer_from_savings": "儲蓄已執行",
     "fill_vesting_withdraw": "釋放Steem Power已執行",
     "estm": {
-      "title": "ESTEEM 点数",
+      "title": "ESTM",
       "buy": "獲取 ESTM"
     },
     "savingsteem": {
@@ -100,6 +101,11 @@
     },
     "steem_power": {
       "title": "STEEM POWER(SP)"
+    },
+    "btc": {
+      "title": "BTC",
+      "buy": "GET BTC",
+      "address": "RECEIVE"
     }
   },
   "notification": {
@@ -409,9 +415,12 @@
     "information": "您確定要轉帳資金嗎？",
     "amount_desc": "餘額",
     "memo_desc": "這個備註是公開的",
+    "convert_desc": "Convert takes 3.5 days and NOT recommended IF SBD price is higher than $1",
     "to_placeholder": "用戶名",
     "memo_placeholder": "在此輸入您的備註",
     "transfer_token": "轉帳",
+    "purchase_estm": "Purchase ESTM",
+    "convert": "Convert SBD to STEEM",
     "points": "向他人贈送ESTEEM點數（ESTM）",
     "transfer_to_saving": "轉入儲蓄",
     "powerUp": "轉為Steem Power",
@@ -430,7 +439,8 @@
     "withdraw_steem": "選取 Steem",
     "withdraw_sbd": "選取 Steem Dollar(SBD)",
     "incoming_funds": "轉入資金",
-    "stop": "停止"
+    "stop": "停止",
+    "address_view": "View address"
   },
   "boost": {
     "title": "獲取ESTEEM點數（ESTM）",
