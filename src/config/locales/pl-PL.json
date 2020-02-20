@@ -59,6 +59,7 @@
     "to_placeholder": "Nazwa użytkownika",
     "memo_placeholder": "Wprowadź swoje notatki tutaj",
     "transfer_token": "Przelew",
+    "purchase_estm": "GET ESTM",
     "points": "Podaruj komuś ESTM",
     "transfer_to_saving": "To Saving",
     "powerUp": "Zwiększ moc",
@@ -81,7 +82,7 @@
     "fill_transfer_from_savings": "Savings Executed",
     "fill_vesting_withdraw": "PowerDown executed",
     "estm": {
-      "title": "Punkty eSteem",
+      "title": "ESTM",
       "buy": "GET ESTM"
     },
     "savingsteem": {
@@ -100,6 +101,11 @@
     },
     "steem_power": {
       "title": "STEEM POWER"
+    },
+    "btc": {
+      "title": "BTC",
+      "buy": "GET BTC",
+      "address": "RECEIVE"
     }
   },
   "notification": {
@@ -409,9 +415,12 @@
     "information": "Czy na pewno chcesz przelać środki?",
     "amount_desc": "Saldo",
     "memo_desc": "Ta notatka jest publiczna",
+    "convert_desc": "Convert takes 3.5 days and NOT recommended IF SBD price is higher than $1",
     "to_placeholder": "Nazwa użytkownika",
     "memo_placeholder": "Wprowadź swoje notatki tutaj",
     "transfer_token": "Przelew",
+    "purchase_estm": "Purchase ESTM",
+    "convert": "Convert SBD to STEEM",
     "points": "Podaruj komuś ESTM",
     "transfer_to_saving": "Przenieś do oszczędności",
     "powerUp": "Zwiększ moc",
@@ -430,7 +439,8 @@
     "withdraw_steem": "Wypłać Steem",
     "withdraw_sbd": "Wypłać Steem Dolar",
     "incoming_funds": "Fundusze przychodzące",
-    "stop": "Zatrzymaj"
+    "stop": "Zatrzymaj",
+    "address_view": "View address"
   },
   "boost": {
     "title": "Get eSteem Points",
