@@ -59,6 +59,7 @@
     "to_placeholder": "ユーザー名",
     "memo_placeholder": "ここに内容を入力してください",
     "transfer_token": "送金",
+    "purchase_estm": "ESTM を手に入れる",
     "points": "ESTMを贈る",
     "transfer_to_saving": "貯蓄口座への送金",
     "powerUp": "パワーアップ",
@@ -81,7 +82,7 @@
     "fill_transfer_from_savings": "貯蓄口座への送金が完了",
     "fill_vesting_withdraw": "パワーダウン完了",
     "estm": {
-      "title": "eSteem ポイント",
+      "title": "ESTM",
       "buy": "ESTM を手に入れる"
     },
     "savingsteem": {
@@ -100,6 +101,11 @@
     },
     "steem_power": {
       "title": "STEEMパワー"
+    },
+    "btc": {
+      "title": "BTC",
+      "buy": "GET BTC",
+      "address": "RECEIVE"
     }
   },
   "notification": {
@@ -409,9 +415,12 @@
     "information": "本当に送金しますか？",
     "amount_desc": "残高",
     "memo_desc": "このメモは公開されます",
+    "convert_desc": "Convert takes 3.5 days and NOT recommended IF SBD price is higher than $1",
     "to_placeholder": "ユーザー名",
     "memo_placeholder": "ここに内容を入力してください",
     "transfer_token": "送金",
+    "purchase_estm": "Purchase ESTM",
+    "convert": "Convert SBD to STEEM",
     "points": "ESTMを贈る",
     "transfer_to_saving": "貯蓄口座に送金",
     "powerUp": "パワーアップ",
@@ -430,7 +439,8 @@
     "withdraw_steem": "Steem を引き出す",
     "withdraw_sbd": "Steem Dollar を引き出す",
     "incoming_funds": "入ってくる資金",
-    "stop": "中止"
+    "stop": "中止",
+    "address_view": "View address"
   },
   "boost": {
     "title": "eSteem ポイントを手に入れる",
