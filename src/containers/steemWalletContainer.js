@@ -46,8 +46,8 @@ const WalletContainer = ({
   const [walletData, setWalletData] = useState(null);
   const [userActivities, setUserActivities] = useState([]);
   const [sbdBalance, setSbdBalance] = useState(0);
-  const [btcBalance, setBtcBalance] = useState(0);
-  const [btcAddress, setBtcAddress] = useState('');
+  const [tokenBalance, setTokenBalance] = useState(0);
+  const [tokenAddress, setTokenAddress] = useState('');
   const [steemBalance, setSteemBalance] = useState(0);
   const [spBalance, setSpBalance] = useState(0);
   const [steemSavingBalance, setSteemSavingBalance] = useState(0);
@@ -55,7 +55,7 @@ const WalletContainer = ({
   const [estimatedValue, setEstimatedValue] = useState(0);
   const [estimatedSteemValue, setEstimatedSteemValue] = useState(0);
   const [estimatedSbdValue, setEstimatedSbdValue] = useState(0);
-  const [estimatedBtcValue, setEstimatedBtcValue] = useState(0);
+  const [estimatedTokenValue, setEstimatedTokenValue] = useState(0);
   const [estimatedSpValue, setEstimatedSpValue] = useState(0);
   const [unclaimedBalance, setUnclaimedBalance] = useState('');
   const [estimatedAmount, setEstimatedAmount] = useState(0);
@@ -95,8 +95,8 @@ const WalletContainer = ({
 
     setTransferHistory(_transferHistory);
     setSbdBalance(Math.round(get(walletData, 'sbdBalance', 0) * 1000) / 1000);
-    setBtcBalance(Math.round(get(walletData, 'btcBalance', 0) * 1000) / 1000);
-    setBtcAddress(get(walletData, 'btcAddress', ''));
+    setTokenBalance(Math.round(get(walletData, 'tokenBalance', 0) * 1000) / 1000);
+    setTokenAddress(get(walletData, 'tokenAddress', ''));
     setSteemBalance(Math.round(get(walletData, 'balance', 0) * 1000) / 1000);
     setSteemSavingBalance(Math.round(get(walletData, 'savingBalance', 0) * 1000) / 1000);
     setSbdSavingBalance(Math.round(get(walletData, 'savingBalanceSbd', 0) * 1000) / 1000);
@@ -108,7 +108,7 @@ const WalletContainer = ({
     setEstimatedValue(get(walletData, 'estimatedValue', 0));
     setEstimatedSteemValue(get(walletData, 'estimatedSteemValue', 0));
     setEstimatedSbdValue(get(walletData, 'estimatedSbdValue', 0));
-    setEstimatedBtcValue(get(walletData, 'estimatedBtcValue', 0));
+    setEstimatedTokenValue(get(walletData, 'estimatedTokenValue', 0));
     setEstimatedSpValue(get(walletData, 'estimatedSpValue', 0));
     setDelegationsAmount(
       vestsToSp(
@@ -262,20 +262,18 @@ const WalletContainer = ({
     if (transferType === 'withdraw_sbd' && fundType === 'SBD') {
       balance = Math.round(walletData.savingBalanceSbd * 1000) / 1000;
     }
-    if (transferType === 'address_view' && fundType === 'BTC') {
-    }
 
     if (isPinCodeOpen) {
       dispatch(
         openPinCodeModal({
           navigateTo: ROUTES.SCREENS.TRANSFER,
-          navigateParams: { transferType, fundType, balance, btcAddress },
+          navigateParams: { transferType, fundType, balance, tokenAddress },
         }),
       );
     } else {
       navigate({
         routeName: ROUTES.SCREENS.TRANSFER,
-        params: { transferType, fundType, balance, btcAddress },
+        params: { transferType, fundType, balance, tokenAddress },
       });
     }
   };
@@ -303,14 +301,14 @@ const WalletContainer = ({
       steemBalance,
       spBalance,
       sbdBalance,
-      btcBalance,
+      tokenBalance,
       getTokenAddress,
       steemSavingBalance,
       sbdSavingBalance,
       estimatedValue,
       estimatedSteemValue,
       estimatedSbdValue,
-      estimatedBtcValue,
+      estimatedTokenValue,
       estimatedSpValue,
       delegationsAmount,
       navigate: _navigate,

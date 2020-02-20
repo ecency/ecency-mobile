@@ -11,16 +11,7 @@ import { steemConnectOptions } from '../../../constants/steemConnectOptions';
 import AUTH_TYPE from '../../../constants/authType';
 import { encryptKey, decryptKey } from '../../../utils/crypto';
 
-import {
-  BasicHeader,
-  TextInput,
-  TransferFormItem,
-  MainButton,
-  DropdownButton,
-  UserAvatar,
-  Icon,
-  Modal,
-} from '../../../components';
+import { BasicHeader, MainButton } from '../../../components';
 
 import styles from './transferStyles';
 

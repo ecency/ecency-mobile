@@ -12,7 +12,6 @@ import EstmView from './estmView';
 import SteemView from './steemView';
 import SpView from './spView';
 import SbdView from './sbdView';
-import BtcView from './btcView';
 
 // Styles
 import globalStyles from '../../../globalStyles';
@@ -62,26 +61,20 @@ const WalletScreen = () => {
                     refreshing={refreshing}
                     currentIndex={currentIndex}
                   />
-                  <BtcView
+                  <SteemView
                     index={1}
                     handleOnSelected={_handleSwipeItemChange}
                     refreshing={refreshing}
                     currentIndex={currentIndex}
                   />
-                  <SteemView
+                  <SbdView
                     index={2}
                     handleOnSelected={_handleSwipeItemChange}
                     refreshing={refreshing}
                     currentIndex={currentIndex}
                   />
-                  <SbdView
-                    index={3}
-                    handleOnSelected={_handleSwipeItemChange}
-                    refreshing={refreshing}
-                    currentIndex={currentIndex}
-                  />
                   <SpView
-                    index={4}
+                    index={3}
                     refreshing={refreshing}
                     handleOnSelected={_handleSwipeItemChange}
                     currentIndex={currentIndex}

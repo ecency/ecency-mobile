@@ -36,7 +36,7 @@ class TransferContainer extends Component {
     this.state = {
       fundType: props.navigation.getParam('fundType', ''),
       balance: props.navigation.getParam('balance', ''),
-      btcAddress: props.navigation.getParam('btcAddress', ''),
+      tokenAddress: props.navigation.getParam('tokenAddress', ''),
       transferType: props.navigation.getParam('transferType', ''),
       selectedAccount: props.currentAccount,
     };
@@ -67,7 +67,7 @@ class TransferContainer extends Component {
   };
 
   fetchBalance = username => {
-    const { fundType, transferType, btcAddress } = this.state;
+    const { fundType, transferType, tokenAddress } = this.state;
 
     getAccount(username).then(async account => {
       let balance;
@@ -99,7 +99,8 @@ class TransferContainer extends Component {
         balance = account[0].balance.replace(fundType, '');
       }
       if (transferType === 'address_view' && fundType === 'BTC') {
-        console.log('transcontaier, address_view', btcAddress);
+        //TOD implement transfer of custom tokens
+        console.log(tokenAddress);
       }
 
       const local = await getUserDataWithUsername(username);
@@ -220,7 +221,7 @@ class TransferContainer extends Component {
 
   render() {
     const { accounts, navigation, children, steemPerMVests, currentAccount } = this.props;
-    const { balance, fundType, selectedAccount, btcAddress } = this.state;
+    const { balance, fundType, selectedAccount, tokenAddress } = this.state;
 
     const transferType = navigation.getParam('transferType', '');
 
@@ -229,7 +230,7 @@ class TransferContainer extends Component {
       children({
         accounts,
         balance,
-        btcAddress,
+        tokenAddress,
         fundType,
         transferType,
         selectedAccount,
