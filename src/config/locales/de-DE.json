@@ -59,6 +59,7 @@
     "to_placeholder": "Benutzername",
     "memo_placeholder": "Hier dein Memo eingeben",
     "transfer_token": "Überweisen",
+    "purchase_estm": "ESTM kaufen",
     "points": "Verschenke ESTM zu jemanden",
     "transfer_to_saving": "To Saving",
     "powerUp": "Power Up",
@@ -81,7 +82,7 @@
     "fill_transfer_from_savings": "Savings Executed",
     "fill_vesting_withdraw": "PowerDown executed",
     "estm": {
-      "title": "eSteem Punkte",
+      "title": "ESTM",
       "buy": "ESTM kaufen"
     },
     "savingsteem": {
@@ -100,6 +101,11 @@
     },
     "steem_power": {
       "title": "STEEM POWER"
+    },
+    "btc": {
+      "title": "BTC",
+      "buy": "GET BTC",
+      "address": "RECEIVE"
     }
   },
   "notification": {
@@ -409,9 +415,12 @@
     "information": "Bist du sicher, dass du Geld überweisen willst?",
     "amount_desc": "Kontostand",
     "memo_desc": "Dieses Memo ist öffentlich",
+    "convert_desc": "Convert takes 3.5 days and NOT recommended IF SBD price is higher than $1",
     "to_placeholder": "Benutzername",
     "memo_placeholder": "Hier dein Memo eingeben",
     "transfer_token": "Überweisen",
+    "purchase_estm": "Purchase ESTM",
+    "convert": "Convert SBD to STEEM",
     "points": "Verschenke ESTM zu jemanden",
     "transfer_to_saving": "Zum Sparkonto überweisen",
     "powerUp": "Power Up",
@@ -430,7 +439,8 @@
     "withdraw_steem": "Steem auszahlen",
     "withdraw_sbd": "Steem-Dollar auszahlen",
     "incoming_funds": "Incoming Funds",
-    "stop": "Stop"
+    "stop": "Stop",
+    "address_view": "View address"
   },
   "boost": {
     "title": "Erhalte eSteem Punkte",
