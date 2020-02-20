@@ -104,8 +104,8 @@
     },
     "btc": {
       "title": "BTC",
-      "buy": "GET BTC",
-      "address": "RECEIVE"
+      "buy": "BTC購入",
+      "address": "受け取り"
     }
   },
   "notification": {
@@ -118,9 +118,9 @@
     "ignore": "あなたをミュートしました",
     "reblog": "リブログ済み",
     "transfer": "送金済み",
-    "spin": "Time to earn more ESTM",
-    "inactive": "Be active! Write a post, continue earning",
-    "referral": "joined with your referral, welcome them",
+    "spin": "ESTMを貰いましょう",
+    "inactive": "まめに投稿！ブログを書くと、もっと稼げる",
+    "referral": "あなたに紹介されて参加されました、歓迎しましょう",
     "notification": "通知",
     "leaderboard": "ランキング",
     "epoint": "ポイント",
@@ -415,12 +415,12 @@
     "information": "本当に送金しますか？",
     "amount_desc": "残高",
     "memo_desc": "このメモは公開されます",
-    "convert_desc": "Convert takes 3.5 days and NOT recommended IF SBD price is higher than $1",
+    "convert_desc": "変換には3.5にちかかり、SBDの値段が$1以上の場合にはお勧めしません",
     "to_placeholder": "ユーザー名",
     "memo_placeholder": "ここに内容を入力してください",
     "transfer_token": "送金",
-    "purchase_estm": "Purchase ESTM",
-    "convert": "Convert SBD to STEEM",
+    "purchase_estm": "ESTMを購入",
+    "convert": "SBCをSTEEMに変換",
     "points": "ESTMを贈る",
     "transfer_to_saving": "貯蓄口座に送金",
     "powerUp": "パワーアップ",
@@ -440,7 +440,7 @@
     "withdraw_sbd": "Steem Dollar を引き出す",
     "incoming_funds": "入ってくる資金",
     "stop": "中止",
-    "address_view": "View address"
+    "address_view": "アドレスを表示"
   },
   "boost": {
     "title": "eSteem ポイントを手に入れる",
