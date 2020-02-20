@@ -59,6 +59,7 @@
     "to_placeholder": "Nama Pengguna",
     "memo_placeholder": "Masukan catatan anda disini",
     "transfer_token": "Transfer",
+    "purchase_estm": "DAPATKAN ESTM",
     "points": "Hadiah ESTM kepada seseorang",
     "transfer_to_saving": "Untuk Menyimpan",
     "powerUp": "Power Up",
@@ -81,7 +82,7 @@
     "fill_transfer_from_savings": "Tabungan Dieksekusi",
     "fill_vesting_withdraw": "PowerDown dieksekusi",
     "estm": {
-      "title": "eSteem Poin",
+      "title": "ESTM",
       "buy": "DAPATKAN ESTM"
     },
     "savingsteem": {
@@ -100,6 +101,11 @@
     },
     "steem_power": {
       "title": "STEEM POWER"
+    },
+    "btc": {
+      "title": "BTC",
+      "buy": "GET BTC",
+      "address": "RECEIVE"
     }
   },
   "notification": {
@@ -409,9 +415,12 @@
     "information": "Anda yakin mentransfer dana?",
     "amount_desc": "Keseimbangan",
     "memo_desc": "Memo ini bersifat publik",
+    "convert_desc": "Convert takes 3.5 days and NOT recommended IF SBD price is higher than $1",
     "to_placeholder": "Nama Pengguna",
     "memo_placeholder": "Masukan catatan anda disini",
     "transfer_token": "Transfer",
+    "purchase_estm": "Purchase ESTM",
+    "convert": "Convert SBD to STEEM",
     "points": "Hadiah ESTM kepada seseorang",
     "transfer_to_saving": "Transfer untuk menyimpan",
     "powerUp": "Power Up",
@@ -430,7 +439,8 @@
     "withdraw_steem": "Withdraw Steem",
     "withdraw_sbd": "Tarik Steem Dollar",
     "incoming_funds": "Dana masuk",
-    "stop": "Berhenti"
+    "stop": "Berhenti",
+    "address_view": "View address"
   },
   "boost": {
     "title": "Dapatkan poin eSteem",
