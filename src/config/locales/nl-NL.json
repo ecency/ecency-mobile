@@ -59,6 +59,7 @@
     "to_placeholder": "Gebruikersnaam",
     "memo_placeholder": "Enter your notes here",
     "transfer_token": "Overschrijven",
+    "purchase_estm": "GET ESTM",
     "points": "Gift ESTM to someone",
     "transfer_to_saving": "To Saving",
     "powerUp": "Power Up",
@@ -81,7 +82,7 @@
     "fill_transfer_from_savings": "Savings Executed",
     "fill_vesting_withdraw": "PowerDown executed",
     "estm": {
-      "title": "eSteem Points",
+      "title": "ESTM",
       "buy": "GET ESTM"
     },
     "savingsteem": {
@@ -100,6 +101,11 @@
     },
     "steem_power": {
       "title": "STEEM POWER"
+    },
+    "btc": {
+      "title": "BTC",
+      "buy": "GET BTC",
+      "address": "RECEIVE"
     }
   },
   "notification": {
@@ -409,9 +415,12 @@
     "information": "Are you sure to transfer funds?",
     "amount_desc": "Balance",
     "memo_desc": "This memo is public",
+    "convert_desc": "Convert takes 3.5 days and NOT recommended IF SBD price is higher than $1",
     "to_placeholder": "Username",
     "memo_placeholder": "Enter your notes here",
     "transfer_token": "Transfer",
+    "purchase_estm": "Purchase ESTM",
+    "convert": "Convert SBD to STEEM",
     "points": "Gift ESTM to someone",
     "transfer_to_saving": "Transfer To Saving",
     "powerUp": "Power Up",
@@ -430,7 +439,8 @@
     "withdraw_steem": "Withdraw Steem",
     "withdraw_sbd": "Withdraw Steem Dollar",
     "incoming_funds": "Incoming Funds",
-    "stop": "Stop"
+    "stop": "Stop",
+    "address_view": "View address"
   },
   "boost": {
     "title": "Get eSteem Points",
