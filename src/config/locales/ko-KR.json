@@ -59,6 +59,7 @@
     "to_placeholder": "사용자 이름",
     "memo_placeholder": "메모 내용을 입력하세요",
     "transfer_token": "전송",
+    "purchase_estm": "ESTM 구매",
     "points": "ESTM 선물하기",
     "transfer_to_saving": "To Saving",
     "powerUp": "파워업",
@@ -81,7 +82,7 @@
     "fill_transfer_from_savings": "Savings Executed",
     "fill_vesting_withdraw": "PowerDown executed",
     "estm": {
-      "title": "eSteem 포인트",
+      "title": "ESTM",
       "buy": "ESTM 구매"
     },
     "savingsteem": {
@@ -100,6 +101,11 @@
     },
     "steem_power": {
       "title": "STEEM POWER"
+    },
+    "btc": {
+      "title": "BTC",
+      "buy": "GET BTC",
+      "address": "RECEIVE"
     }
   },
   "notification": {
@@ -409,9 +415,12 @@
     "information": "자금을 전송하시겠습니까?",
     "amount_desc": "잔액",
     "memo_desc": "이 메모는 누구나 볼 수 있습니다",
+    "convert_desc": "Convert takes 3.5 days and NOT recommended IF SBD price is higher than $1",
     "to_placeholder": "사용자 이름",
     "memo_placeholder": "메모 내용을 입력하세요",
     "transfer_token": "전송",
+    "purchase_estm": "Purchase ESTM",
+    "convert": "Convert SBD to STEEM",
     "points": "ESTM 선물하기",
     "transfer_to_saving": "안전 금고로 전송",
     "powerUp": "파워업",
@@ -430,7 +439,8 @@
     "withdraw_steem": "스팀 출금",
     "withdraw_sbd": "스팀 달러 출금",
     "incoming_funds": "Incoming Funds",
-    "stop": "Stop"
+    "stop": "Stop",
+    "address_view": "View address"
   },
   "boost": {
     "title": "eSteem 포인트 구매",
