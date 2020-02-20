@@ -59,6 +59,7 @@
     "to_placeholder": "Nume utilizator",
     "memo_placeholder": "Introdu comentariul tău aici",
     "transfer_token": "Transfer",
+    "purchase_estm": "OBȚINE ESTM",
     "points": "Dăruiește ESTM cuiva",
     "transfer_to_saving": "Transferă la economii",
     "powerUp": "Power Up",
@@ -81,7 +82,7 @@
     "fill_transfer_from_savings": "Transfer de la economii efectuat",
     "fill_vesting_withdraw": "Powed Down executat",
     "estm": {
-      "title": "Puncte eSteem",
+      "title": "ESTM",
       "buy": "OBȚINE ESTM"
     },
     "savingsteem": {
@@ -100,6 +101,11 @@
     },
     "steem_power": {
       "title": "STEEM POWER"
+    },
+    "btc": {
+      "title": "BTC",
+      "buy": "GET BTC",
+      "address": "RECEIVE"
     }
   },
   "notification": {
@@ -409,9 +415,12 @@
     "information": "Ești sigur că vrei să transferi fonduri?",
     "amount_desc": "Sold",
     "memo_desc": "Această notă este publică",
+    "convert_desc": "Convert takes 3.5 days and NOT recommended IF SBD price is higher than $1",
     "to_placeholder": "Nume de utilizator",
     "memo_placeholder": "Introdu comentariul tău aici",
     "transfer_token": "Transfer",
+    "purchase_estm": "Purchase ESTM",
+    "convert": "Convert SBD to STEEM",
     "points": "Dăruiește ESTM cuiva",
     "transfer_to_saving": "Tranferă la economii",
     "powerUp": "Power Up",
@@ -430,7 +439,8 @@
     "withdraw_steem": "Retrage Steem",
     "withdraw_sbd": "Retrage Steem Dolar",
     "incoming_funds": "Fonduri Primite",
-    "stop": "Oprește"
+    "stop": "Oprește",
+    "address_view": "View address"
   },
   "boost": {
     "title": "Câștigă puncte eSteem",
