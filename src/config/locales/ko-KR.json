@@ -256,13 +256,13 @@
   "editor": {
     "title": "제목",
     "tags": "태그 (공백에 따라 분리됩니다.)",
-    "default_placeholder": "Tell us something...",
-    "reply_placeholder": "Add your reply...",
+    "default_placeholder": "포스팅을 작성해보세요.",
+    "reply_placeholder": "댓글을 남겨보세요.",
     "publish": "게시하기",
     "reply": "댓글",
     "open_gallery": "갤러리 열기",
     "capture_photo": "사진 캡처하기",
-    "limited_tags": "Only 10 tags allowed, remove some",
+    "limited_tags": "태그는 10개 까지만 허용됩니다.",
     "limited_length": "각 태그의 최대 길이는 24 입니다.",
     "limited_dash": "각 태그에 대시를 최대 한 개까지 사용할 수 있습니다.",
     "limited_space": "태그를 구분하기 위해 공백을 사용하세요.",
@@ -289,7 +289,7 @@
     "success_moved": "임시 보관함으로 이동했습니다",
     "permission_denied": "권한이 없습니다",
     "permission_text": "휴대폰 설정으로 이동하여 eSteem 앱 알림 설정을 변경해주세요",
-    "key_warning": "Check private key permission!",
+    "key_warning": "프라이빗 키를 정확히 입력하였는 지 확인하세요.",
     "success_rebloged": "리블로그 완료!",
     "already_rebloged": "이미 리블로그했습니다!",
     "success_favorite": "Favorite added!",
@@ -450,9 +450,9 @@
   "free_estm": {
     "title": "Free ESTM",
     "button": "SPIN & WIN",
-    "get_spin": "5 SPINS",
-    "spin_right": "Spin Left",
-    "timer_text": "Next free spin in"
+    "get_spin": "스핀 5개",
+    "spin_right": "스핀 남음",
+    "timer_text": "후에 다음 무료 스핀 기회가 주어집니다."
   },
   "promote": {
     "title": "홍보",
@@ -475,15 +475,15 @@
   },
   "dsteem": {
     "date_error": {
-      "device_time": "Your device time;",
-      "current_time": "Current time;",
+      "device_time": "사용자 기기 시간",
+      "current_time": "현재 시간",
       "information": "We noticed that your device has incorrect date or time. Please fix Date & Time or Set Automatically and try again."
     }
   },
   "comments": {
     "title": "작성한 댓글",
-    "reveal_comment": "Reveal comment",
-    "read_more": "Read more comments",
-    "more_replies": "more replies"
+    "reveal_comment": "명성도가 낮은 사용자의 댓글 보기",
+    "read_more": "댓글 더 보기",
+    "more_replies": "개의 대댓글"
   }
 }
