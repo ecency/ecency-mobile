@@ -39,9 +39,9 @@
     "comment_desc": "댓글 작성을 통해 팔로워와의 소통뿐만 아니라,  팔로워가 늘어날 수도 있습니다. 또한, 최대 5 포인트를 획득할 수 있습니다.",
     "checkin_desc": "주기적으로 접속 시, 0.25 포인트를 얻을 수 있습니다.",
     "vote_desc": "보팅을 통해 다른 콘텐츠 크리에이터에게 보상을 줄 수 있으며, 보팅 가중치에 0.01을 곱한 포인트가 지급됩니다.",
-    "reblog_desc": "Share what post you like with your friends and earn points.",
-    "login_desc": "When you login into app first time you earn 100 points.",
-    "checkin_extra_desc": "Consistent use of app gives you extra chances to earn more points, be more active and earn more.",
+    "reblog_desc": "좋아하는 글을 친구에게 공유하고 포인트를 획득하세요.",
+    "login_desc": "앱에 처음 로그인 시, 100 포인트를 획득합니다.",
+    "checkin_extra_desc": "꾸준한 앱 사용을 통해 더 많은 포인트 얻을 수 있는 기회가 제공됩니다. ",
     "dropdown_transfer": "선물하기",
     "dropdown_promote": "홍보",
     "dropdown_boost": "후원",
@@ -93,25 +93,25 @@
     },
     "steem": {
       "title": "스팀",
-      "buy": "GET STEEM"
+      "buy": "스팀 구매하기"
     },
     "sbd": {
-      "title": "SBD",
-      "buy": "GET SBD"
+      "title": "스팀 달러",
+      "buy": "스팀 달러 구매하기"
     },
     "steem_power": {
-      "title": "STEEM POWER"
+      "title": "스팀 파워"
     },
     "btc": {
-      "title": "BTC",
-      "buy": "GET BTC",
+      "title": "비트코인",
+      "buy": "비트코인 구매하기",
       "address": "RECEIVE"
     }
   },
   "notification": {
-    "vote": "voted",
-    "unvote": "unvoted",
-    "reply": "replied to",
+    "vote": "님이 %@에 보팅하였습니다.",
+    "unvote": "님이 %@에 다운 보팅하였습니다.",
+    "reply": " 님이 %@에 댓글을 남겼습니다.",
     "mention": "mentioned in",
     "follow": "님이 팔로우를 시작했습니다",
     "unfollow": "님이 팔로우를 취소했습니다",
