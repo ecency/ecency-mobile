@@ -132,8 +132,8 @@
     "older_then": "1 달 이상",
     "activities": "All",
     "replies": "받은 댓글",
-    "mentions": "Mentions",
-    "reblogs": "Reblogs",
+    "mentions": "언급",
+    "reblogs": "리블로그",
     "noactivity": "최근 활동 내역이 없습니다."
   },
   "leaderboard": {
@@ -212,7 +212,7 @@
   },
   "login": {
     "signin": "로그인",
-    "signup": "JOIN NOW",
+    "signup": "지금 가입해보세요.",
     "signin_title": "로그인해서 eSteem에서 제공하는 모든 혜택을 누리세요",
     "username": "사용자 이름",
     "password": "비밀번호 또는 WIF",
@@ -292,12 +292,12 @@
     "key_warning": "프라이빗 키를 정확히 입력하였는 지 확인하세요.",
     "success_rebloged": "리블로그 완료!",
     "already_rebloged": "이미 리블로그했습니다!",
-    "success_favorite": "Favorite added!",
-    "success_unfavorite": "Favorite removed!",
-    "success_follow": "Follow success!",
-    "success_mute": "Mute success!",
-    "success_unmute": "Unmute success!",
-    "success_unfollow": "Unfollow success!",
+    "success_favorite": "즐겨찾기가 추가되었습니다.",
+    "success_unfavorite": "즐겨찾기가 제거되었습니다.",
+    "success_follow": "팔로우하였습니다.",
+    "success_mute": "차단하였습니다.",
+    "success_unmute": "차단을 해제하였습니다.",
+    "success_unfollow": "팔로우를 취소하였습니다.",
     "warning": "경고",
     "invalid_pincode": "올바르지 않은 PIN 코드입니다. 확인 후 다시 시도해주세요.",
     "remove_alert": "정말 삭제하시겠습니까?",
@@ -438,9 +438,9 @@
     "power_down": "파워 다운",
     "withdraw_steem": "스팀 출금",
     "withdraw_sbd": "스팀 달러 출금",
-    "incoming_funds": "Incoming Funds",
-    "stop": "Stop",
-    "address_view": "View address"
+    "incoming_funds": "입금 예정 자산",
+    "stop": "중단",
+    "address_view": "지갑 주소 보기"
   },
   "boost": {
     "title": "eSteem 포인트 구매",
