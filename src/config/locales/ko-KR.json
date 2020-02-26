@@ -2,11 +2,11 @@
   "wallet": {
     "curation_reward": "큐레이션 보상",
     "author_reward": "저자 보상",
-    "comment_benefactor_reward": "Benefactor Reward",
+    "comment_benefactor_reward": "베네피셔리 보상",
     "claim_reward_balance": "보상 청구하기",
     "transfer": "전송",
-    "transfer_to_vesting": "To Vesting",
-    "transfer_from_savings": "From Savings",
+    "transfer_to_vesting": "스팀 파워 업",
+    "transfer_from_savings": "출금",
     "withdraw_vesting": "파워 다운",
     "fill_order": "체결 주문",
     "post": "포스팅",
@@ -47,9 +47,9 @@
     "dropdown_boost": "후원",
     "from": "보낸 사람",
     "to": "받는 사람",
-    "estimated_value_desc": "According to purchase value",
-    "estimated_value": "Estimated value",
-    "estimated_amount": "Vote value",
+    "estimated_value_desc": "구매 가치에 따라",
+    "estimated_value": "추정 자산 가치",
+    "estimated_amount": "보팅 가치",
     "amount_information": "슬라이드를 드래그해서 수량을 설정할 수 있습니다",
     "amount": "수량",
     "memo": "메모",
@@ -61,18 +61,18 @@
     "transfer_token": "전송",
     "purchase_estm": "ESTM 구매",
     "points": "ESTM 선물하기",
-    "transfer_to_saving": "To Saving",
+    "transfer_to_saving": "금고로 송금하기",
     "powerUp": "파워업",
-    "withdraw_to_saving": "Withdraw Saving",
+    "withdraw_to_saving": "금고에서 스팀 출금하기",
     "steemconnect_title": "Steemconnect 전송",
     "next": "다음",
     "delegate": "임대",
     "power_down": "파워 다운",
     "withdraw_steem": "스팀 출금",
-    "withdraw_sbd": "Withdraw SBD",
-    "transfer_to_savings": "To Savings",
-    "convert": "Convert",
-    "escrow_transfer": "Escrow Transfer",
+    "withdraw_sbd": "금고에서 스팀달러 출금하기",
+    "transfer_to_savings": "금고로 송금하기",
+    "convert": "전환하기",
+    "escrow_transfer": "에스크로 송금",
     "escrow_dispute": "Escrow Dispute",
     "escrow_release": "Escrow Release",
     "escrow_approve": "Escrow Approve",
@@ -86,13 +86,13 @@
       "buy": "ESTM 구매"
     },
     "savingsteem": {
-      "title": "STEEM Savings"
+      "title": "금고에 보관 중인 스팀"
     },
     "savingsbd": {
-      "title": "SBD Savings"
+      "title": "금고에 보관 중인 스팀 달러"
     },
     "steem": {
-      "title": "STEEM",
+      "title": "스팀",
       "buy": "GET STEEM"
     },
     "sbd": {
