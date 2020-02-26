@@ -6,7 +6,7 @@
     "claim_reward_balance": "보상 청구하기",
     "transfer": "전송",
     "transfer_to_vesting": "스팀 파워 업",
-    "transfer_from_savings": "출금",
+    "transfer_from_savings": "안전 금고에서 출금하기",
     "withdraw_vesting": "파워 다운",
     "fill_order": "체결 주문",
     "post": "포스팅",
@@ -30,7 +30,7 @@
     "checkin_title": "체크인 포인트",
     "referral": "추천",
     "referral_title": "추천인 보상",
-    "referral_desc": "친구를 초대하고 ESTM을 받으세요!",
+    "referral_desc": "친구를 초대하고 ESTM을 획득하세요!",
     "checkin_extra_title": "체크인 보너스",
     "no_activity": "최근 활동 내역이 없습니다.",
     "outgoing_transfer_description": "",
@@ -70,26 +70,26 @@
     "power_down": "파워 다운",
     "withdraw_steem": "스팀 출금",
     "withdraw_sbd": "금고에서 스팀달러 출금하기",
-    "transfer_to_savings": "금고로 송금하기",
+    "transfer_to_savings": "안전 금고에 보관하기",
     "convert": "전환하기",
     "escrow_transfer": "에스크로 송금",
     "escrow_dispute": "에스크로 분쟁",
     "escrow_release": "에스크로 해제",
     "escrow_approve": "에스크로 승인",
-    "cancel_transfer_from_savings": "금고 보관 취소",
+    "cancel_transfer_from_savings": "안전 금고 보관 취소",
     "delegate_vesting_shares": "임대",
     "fill_convert_request": "전환을 하였습니다.",
-    "fill_transfer_from_savings": "금고 보관을 하였습니다.",
+    "fill_transfer_from_savings": "안전 금고에 보관하였습니다.",
     "fill_vesting_withdraw": "스팀 파워 다운을 하였습니다.",
     "estm": {
       "title": "ESTM",
       "buy": "ESTM 구매"
     },
     "savingsteem": {
-      "title": "금고에 보관 중인 스팀"
+      "title": "안전 금고에 보관 중인 스팀"
     },
     "savingsbd": {
-      "title": "금고에 보관 중인 스팀 달러"
+      "title": "안전 금고에 보관 중인 스팀달러"
     },
     "steem": {
       "title": "스팀",
@@ -427,12 +427,12 @@
     "withdraw_to_saving": "안전 금고로 출금",
     "steemconnect_title": "Steemconnect 전송",
     "estimated_weekly": "주간 추정",
-    "destination_accounts": "Destination Accounts",
+    "destination_accounts": "출금 계정",
     "stop_information": "중지하시겠습니까?",
-    "percent": "보팅 비율",
-    "auto_vests": "Auto Vests",
+    "percent": "비율",
+    "auto_vests": "오토 베스트",
     "save": "금고에 보관하기",
-    "percent_information": "Percent info",
+    "percent_information": "비율 정보",
     "next": "다음",
     "delegate": "임대",
     "power_down": "파워 다운",
