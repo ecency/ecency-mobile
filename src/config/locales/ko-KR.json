@@ -105,19 +105,19 @@
     "btc": {
       "title": "비트코인",
       "buy": "비트코인 구매하기",
-      "address": "RECEIVE"
+      "address": "입금 주소"
     }
   },
   "notification": {
     "vote": "님이 %@에 보팅하였습니다.",
     "unvote": "님이 %@에 다운 보팅하였습니다.",
     "reply": " 님이 %@에 댓글을 남겼습니다.",
-    "mention": "mentioned in",
+    "mention": "님이 %@에서 당신을 언급하였습니다.",
     "follow": "님이 팔로우를 시작했습니다",
     "unfollow": "님이 팔로우를 취소했습니다",
     "ignore": "님이 당신을 차단했습니다",
-    "reblog": "reblogged",
-    "transfer": "transferred",
+    "reblog": "리블로그 완료",
+    "transfer": "송금 완료",
     "spin": "Time to earn more ESTM",
     "inactive": "Be active! Write a post, continue earning",
     "referral": "joined with your referral, welcome them",
@@ -134,12 +134,12 @@
     "replies": "받은 댓글",
     "mentions": "Mentions",
     "reblogs": "Reblogs",
-    "noactivity": "No recent activity"
+    "noactivity": "최근 활동 내역이 없습니다."
   },
   "leaderboard": {
-    "daily": "DAILY",
-    "weekly": "WEEKLY",
-    "monthly": "MONTHLY"
+    "daily": "일간",
+    "weekly": "주간",
+    "monthly": "월간"
   },
   "messages": {
     "comingsoon": "메시지 기능은 곧 출시될 예정입니다!"
@@ -158,7 +158,7 @@
     "hours": "시간",
     "voting_power": "보팅 파워",
     "login_to_see": "로그인해서 확인하기",
-    "follow_people": "Follow some people to fill your feed",
+    "follow_people": "피드를 채우기 위해 팔로우해보세요.",
     "havent_commented": "아직 댓글을 작성한 적이 없습니다",
     "havent_posted": "아직 게시한 글이 없습니다",
     "steem_power": "스팀 파워",
@@ -193,7 +193,7 @@
     "pincode": "PIN 코드",
     "reset_pin": "핀코드 리셋",
     "reset": "초기화",
-    "nsfw_content": "NSFW",
+    "nsfw_content": "안전하지 않은 콘텐츠",
     "send_feedback": "피드백 보내기",
     "send": "보내기",
     "default_footer": "기본 꼬리말",
@@ -225,10 +225,10 @@
   "home": {
     "feed": "피드",
     "popular": "인기 순",
-    "top": "Top",
-    "hot": "Hot",
-    "new": "New",
-    "blog": "Blog"
+    "top": "트렌드",
+    "hot": "인기",
+    "new": "신규",
+    "blog": "블로그"
   },
   "side_menu": {
     "profile": "프로필",
@@ -255,7 +255,7 @@
   },
   "editor": {
     "title": "제목",
-    "tags": "Tags (separate with space)",
+    "tags": "태그 (공백에 따라 분리됩니다.)",
     "default_placeholder": "Tell us something...",
     "reply_placeholder": "Add your reply...",
     "publish": "게시하기",
@@ -266,10 +266,10 @@
     "limited_length": "Maximum length of each tag should be 24",
     "limited_dash": "Use one dash in each tag",
     "limited_space": "Use space to separate tags",
-    "limited_lowercase": "Only use lower letters in tag",
-    "limited_characters": "Use only allowed characters in tag",
-    "limited_firstchar": "Tag must start with a letter",
-    "limited_lastchar": "Tag must end with letter or number"
+    "limited_lowercase": "소문자만 태그에 사용할 수 있습니다.",
+    "limited_characters": "허용된 문자만 태그에 사용할 수 있습니다.",
+    "limited_firstchar": "태그는 문자로 시작해야 합니다.",
+    "limited_lastchar": "태그는 문자나 숫자로 끝나야 합니다."
   },
   "pincode": {
     "enter_text": "잠금을 해제하려면 PIN 코드를 입력해주세요",
