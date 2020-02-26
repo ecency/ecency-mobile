@@ -399,11 +399,11 @@
     "comments": "작성한 댓글"
   },
   "comment_filter": {
-    "trending": "TOP",
-    "reputation": "REPUTATION",
-    "votes": "VOTE",
-    "age": "AGE",
-    "top": "TOP",
+    "trending": "보팅 금액순",
+    "reputation": "명성도순",
+    "votes": "보팅 횟수순",
+    "age": "시간순",
+    "top": "보팅 금액순",
     "time": "시간"
   },
   "transfer": {
@@ -415,12 +415,12 @@
     "information": "자금을 전송하시겠습니까?",
     "amount_desc": "잔액",
     "memo_desc": "이 메모는 누구나 볼 수 있습니다",
-    "convert_desc": "Convert takes 3.5 days and NOT recommended IF SBD price is higher than $1",
+    "convert_desc": "전환은 3.5일이 소요되며, 스팀 달러가 1달러 이상인 경우에 권장하지 않습니다.",
     "to_placeholder": "사용자 이름",
     "memo_placeholder": "메모 내용을 입력하세요",
     "transfer_token": "전송",
-    "purchase_estm": "Purchase ESTM",
-    "convert": "Convert SBD to STEEM",
+    "purchase_estm": "ESTM 구매하기",
+    "convert": "스팀달러를 스팀으로 전환하기",
     "points": "ESTM 선물하기",
     "transfer_to_saving": "안전 금고로 전송",
     "powerUp": "파워업",
