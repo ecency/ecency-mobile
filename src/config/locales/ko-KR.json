@@ -225,9 +225,9 @@
   "home": {
     "feed": "피드",
     "popular": "인기 순",
-    "top": "트렌드",
-    "hot": "인기",
-    "new": "신규",
+    "top": "트렌드순",
+    "hot": "인기순",
+    "new": "신규순",
     "blog": "블로그"
   },
   "side_menu": {
@@ -255,7 +255,7 @@
   },
   "editor": {
     "title": "제목",
-    "tags": "태그 (공백에 따라 분리됩니다.)",
+    "tags": "태그 (공백을 기준으로 구분됩니다.)",
     "default_placeholder": "포스팅을 작성해보세요.",
     "reply_placeholder": "댓글을 남겨보세요.",
     "publish": "게시하기",
@@ -399,11 +399,11 @@
     "comments": "작성한 댓글"
   },
   "comment_filter": {
-    "trending": "보팅 금액순",
+    "trending": "트렌드순",
     "reputation": "명성도순",
-    "votes": "보팅 횟수순",
+    "votes": "보팅순",
     "age": "시간순",
-    "top": "보팅 금액순",
+    "top": "트렌드순",
     "time": "시간"
   },
   "transfer": {
@@ -428,7 +428,7 @@
     "steemconnect_title": "Steemconnect 전송",
     "estimated_weekly": "주간 추정",
     "destination_accounts": "출금 계정",
-    "stop_information": "중지하시겠습니까?",
+    "stop_information": "중단하시겠습니까?",
     "percent": "비율",
     "auto_vests": "오토 베스트",
     "save": "안전 금고에 보관하기",
