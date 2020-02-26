@@ -448,9 +448,9 @@
     "next": "다음"
   },
   "free_estm": {
-    "title": "Free ESTM",
-    "button": "SPIN & WIN",
-    "get_spin": "스핀 5개",
+    "title": "무료 ESTM",
+    "button": "스핀 & 윈",
+    "get_spin": "5 스핀",
     "spin_right": "스핀 남음",
     "timer_text": "후에 다음 무료 스핀 기회가 주어집니다."
   },
@@ -477,7 +477,7 @@
     "date_error": {
       "device_time": "사용자 기기 시간",
       "current_time": "현재 시간",
-      "information": "We noticed that your device has incorrect date or time. Please fix Date & Time or Set Automatically and try again."
+      "information": "사용자 기기의 날짜 또는 시간이 정확하지 않습니다. 날짜 및 시간을 수정하거나 자동으로 설정 후 다시 시도해보세요."
     }
   },
   "comments": {
