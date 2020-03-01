@@ -43,7 +43,7 @@
     "login_desc": "При первой авторизации в приложении вы получите 100 баллов.",
     "checkin_extra_desc": "Consistent use of app gives you extra chances to earn more points, be more active and earn more.",
     "dropdown_transfer": "Gift",
-    "dropdown_promote": "Promote",
+    "dropdown_promote": "Продвинуть",
     "dropdown_boost": "Boost",
     "from": "От",
     "to": "Кому",
@@ -326,7 +326,7 @@
     "removed_hint": "Сообщение удалено",
     "copy_link": "Copy link",
     "reblogged": "репостнуто",
-    "sponsored": "SPONSORED",
+    "sponsored": "СПОНСИРОВАНО",
     "open_thread": "Open thread",
     "image": "Image",
     "link": "Link",
@@ -455,12 +455,12 @@
     "timer_text": "Next free spin in"
   },
   "promote": {
-    "title": "Promote",
+    "title": "Продвинуть",
     "days": "дня(ей)",
     "user": "Пользователь",
     "permlink": "Пост",
     "permlinkPlaceholder": "автор/постоянная ссылка",
-    "information": "Are you sure to promote?"
+    "information": "Действительно хотите продвигать пост?"
   },
   "boostPost": {
     "title": "Boost"
