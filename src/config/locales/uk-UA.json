@@ -104,8 +104,8 @@
     },
     "btc": {
       "title": "BTC",
-      "buy": "GET BTC",
-      "address": "RECEIVE"
+      "buy": "Придбати BTC",
+      "address": "ОТРИМАТИ"
     }
   },
   "notification": {
@@ -415,12 +415,12 @@
     "information": "Ви впевнені, що хочете перерахувати кошти?",
     "amount_desc": "Баланс",
     "memo_desc": "Ця примітка є публічною",
-    "convert_desc": "Convert takes 3.5 days and NOT recommended IF SBD price is higher than $1",
+    "convert_desc": "Конвертація займає 3,5 дні та НЕ рекомендується при вартості SBD вище $1",
     "to_placeholder": "Ім'я користувача",
     "memo_placeholder": "Введіть сюди свої примітки",
     "transfer_token": "Переказ",
-    "purchase_estm": "Purchase ESTM",
-    "convert": "Convert SBD to STEEM",
+    "purchase_estm": "Придбати ESTM",
+    "convert": "Конвертувати SBD у STEEM",
     "points": "Подарувати комусь ESTM",
     "transfer_to_saving": "Перевести до Заощаджень",
     "powerUp": "Збільшення Силу Голосу",
@@ -440,7 +440,7 @@
     "withdraw_sbd": "Вивести Стім долар",
     "incoming_funds": "Надходження коштів",
     "stop": "Зупинити",
-    "address_view": "View address"
+    "address_view": "Переглянути адресу"
   },
   "boost": {
     "title": "Отримати eSteem бали",
