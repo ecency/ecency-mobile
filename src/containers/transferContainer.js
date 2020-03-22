@@ -74,7 +74,7 @@ class TransferContainer extends Component {
 
       if (
         (transferType === 'purchase_estm' || transferType === 'transfer_token') &&
-        fundType === 'STEEM'
+        fundType === 'HIVE'
       ) {
         balance = account[0].balance.replace(fundType, '');
       }
@@ -82,20 +82,20 @@ class TransferContainer extends Component {
         (transferType === 'purchase_estm' ||
           transferType === 'convert' ||
           transferType === 'transfer_token') &&
-        fundType === 'SBD'
+        fundType === 'HBD'
       ) {
         balance = account[0].sbd_balance.replace(fundType, '');
       }
       if (transferType === 'points' && fundType === 'ESTM') {
         this._getUserPointsBalance(username);
       }
-      if (transferType === 'transfer_to_saving' && fundType === 'STEEM') {
+      if (transferType === 'transfer_to_saving' && fundType === 'HIVE') {
         balance = account[0].balance.replace(fundType, '');
       }
-      if (transferType === 'transfer_to_saving' && fundType === 'SBD') {
+      if (transferType === 'transfer_to_saving' && fundType === 'HBD') {
         balance = account[0].sbd_balance.replace(fundType, '');
       }
-      if (transferType === 'powerUp' && fundType === 'STEEM') {
+      if (transferType === 'powerUp' && fundType === 'HIVE') {
         balance = account[0].balance.replace(fundType, '');
       }
       if (transferType === 'address_view' && fundType === 'BTC') {

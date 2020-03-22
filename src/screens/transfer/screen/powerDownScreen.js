@@ -148,7 +148,7 @@ class PowerDownView extends Component {
 
   _renderIncomingFunds = (poweringDownFund, poweringDownVests, nextPowerDown) => (
     <Fragment>
-      <Text style={styles.incomingFundSteem}>{`+ ${poweringDownFund} STEEM`}</Text>
+      <Text style={styles.incomingFundSteem}>{`+ ${poweringDownFund} HIVE`}</Text>
       <Text style={styles.incomingFundVests}>{`- ${poweringDownVests} VESTS`}</Text>
       <Text style={styles.nextPowerDown}>{nextPowerDown}</Text>
     </Fragment>
@@ -280,7 +280,7 @@ class PowerDownView extends Component {
                   <View style={styles.informationView}>
                     <InformationBox
                       style={styles.spInformation}
-                      text={`- ${spCalculated.toFixed(3)} SP`}
+                      text={`- ${spCalculated.toFixed(3)} HP`}
                     />
                     <InformationBox
                       style={styles.vestsInformation}
@@ -295,7 +295,7 @@ class PowerDownView extends Component {
                   />
                   <InformationBox
                     style={styles.steemInformation}
-                    text={`+ ${fundPerWeek.toFixed(3)} STEEM`}
+                    text={`+ ${fundPerWeek.toFixed(3)} HIVE`}
                   />
                   <Text style={styles.informationText}>
                     {intl.formatMessage({ id: 'transfer.estimated_weekly' })}

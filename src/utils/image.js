@@ -1,5 +1,5 @@
 import CryptoJS from 'crypto-js';
-import * as dsteem from 'dsteem';
+import * as dsteem from '@hivechain/dsteem';
 import { Buffer } from 'buffer';
 import { proxifyImageSrc } from '@esteemapp/esteem-render-helpers';
 
@@ -85,7 +85,7 @@ export const getResizedImage = (url, size = 640) => {
     return `${url.replace('img.esteem.app/', `img.esteem.app/${size}/`)}`;
   }
   */
-  return `https://steemitimages.com/${size}x0/${url}`;
+  return `https://avatars.esteem.app/${size}x0/${url}`;
 };
 
 export const getResizedAvatar = (author, sizeString = 'large') => {

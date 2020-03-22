@@ -2,8 +2,8 @@
 import '../../../shim';
 import * as bitcoin from 'bitcoinjs-lib';
 
-import { Client, PrivateKey } from 'dsteem';
-import steemconnect from 'steemconnect';
+import { Client, PrivateKey } from '@hivechain/dsteem';
+import hivesigner from 'hivesigner';
 import Config from 'react-native-config';
 import { get, has } from 'lodash';
 import { getServer } from '../../realm/realm';
@@ -23,7 +23,7 @@ import { getDsteemDateErrorMessage } from '../../utils/dsteemUtils';
 // Constant
 import AUTH_TYPE from '../../constants/authType';
 
-const DEFAULT_SERVER = 'https://api.steemit.com';
+const DEFAULT_SERVER = 'https://anyx.io';
 let client = new Client(DEFAULT_SERVER);
 
 export const checkClient = async () => {
@@ -247,7 +247,7 @@ export const ignoreUser = async (currentAccount, pin, data) => {
 
   if (currentAccount.local.authType === AUTH_TYPE.STEEM_CONNECT) {
     const token = decryptKey(currentAccount.local.accessToken, digitPinCode);
-    const api = new steemconnect.Client({
+    const api = new hivesigner.Client({
       accessToken: token,
     });
 
@@ -393,7 +393,7 @@ export const deleteComment = (currentAccount, pin, permlink) => {
 
   if (currentAccount.local.authType === AUTH_TYPE.STEEM_CONNECT) {
     const token = decryptKey(currentAccount.local.accessToken, digitPinCode);
-    const api = new steemconnect.Client({
+    const api = new hivesigner.Client({
       accessToken: token,
     });
 
@@ -473,7 +473,7 @@ const _vote = async (currentAccount, pin, author, permlink, weight) => {
 
   if (currentAccount.local.authType === AUTH_TYPE.STEEM_CONNECT) {
     const token = decryptKey(currentAccount.local.accessToken, digitPinCode);
-    const api = new steemconnect.Client({
+    const api = new hivesigner.Client({
       accessToken: token,
     });
 
@@ -807,7 +807,7 @@ export const followUser = async (currentAccount, pin, data) => {
 
   if (currentAccount.local.authType === AUTH_TYPE.STEEM_CONNECT) {
     const token = decryptKey(get(currentAccount, 'local.accessToken'), digitPinCode);
-    const api = new steemconnect.Client({
+    const api = new hivesigner.Client({
       accessToken: token,
     });
 
@@ -851,7 +851,7 @@ export const unfollowUser = async (currentAccount, pin, data) => {
 
   if (currentAccount.local.authType === AUTH_TYPE.STEEM_CONNECT) {
     const token = decryptKey(currentAccount.local.accessToken, digitPinCode);
-    const api = new steemconnect.Client({
+    const api = new hivesigner.Client({
       accessToken: token,
     });
 
@@ -963,7 +963,7 @@ const _postContent = async (
 
   if (account.local.authType === AUTH_TYPE.STEEM_CONNECT) {
     const token = decryptKey(account.local.accessToken, digitPinCode);
-    const api = new steemconnect.Client({
+    const api = new hivesigner.Client({
       accessToken: token,
     });
 
@@ -1068,7 +1068,7 @@ const _reblog = async (account, pinCode, author, permlink) => {
 
   if (account.local.authType === AUTH_TYPE.STEEM_CONNECT) {
     const token = decryptKey(account.local.accessToken, pin);
-    const api = new steemconnect.Client({
+    const api = new hivesigner.Client({
       accessToken: token,
     });
 
@@ -1107,7 +1107,7 @@ export const claimRewardBalance = (account, pinCode, rewardSteem, rewardSbd, rew
 
   if (account.local.authType === AUTH_TYPE.STEEM_CONNECT) {
     const token = decryptKey(get(account, 'local.accessToken'), pin);
-    const api = new steemconnect.Client({
+    const api = new hivesigner.Client({
       accessToken: token,
     });
 
@@ -1232,7 +1232,7 @@ export const grantPostingPermission = async (json, pin, currentAccount) => {
   newPosting.account_auths.sort();
   if (get(currentAccount, 'local.authType') === AUTH_TYPE.STEEM_CONNECT) {
     const token = decryptKey(get(currentAccount, 'local.accessToken'), digitPinCode);
-    const api = new steemconnect.Client({
+    const api = new hivesigner.Client({
       accessToken: token,
     });
     const _params = {
@@ -1288,7 +1288,7 @@ export const profileUpdate = async (params, pin, currentAccount) => {
 
   if (get(currentAccount, 'local.authType') === AUTH_TYPE.STEEM_CONNECT) {
     const token = decryptKey(get(currentAccount, 'local.accessToken'), digitPinCode);
-    const api = new steemconnect.Client({
+    const api = new hivesigner.Client({
       accessToken: token,
     });
 
