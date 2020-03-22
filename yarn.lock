@@ -9200,15 +9200,6 @@ steem-uri@^0.1.1:
   resolved "https://registry.yarnpkg.com/steem-uri/-/steem-uri-0.1.1.tgz#20da6f713809398b5f77d251def0eeed92cf966b"
   integrity sha512-pHe33AlDLlf2jC8hfrEthVj8Zq/DcFg490ID16KK0o7tr02mToeXTpEFGV5dnM2ASeAr3MAOxCJvEFDrCFuZbQ==
 
-steemconnect@^3.0.4:
-  version "3.0.4"
-  resolved "https://registry.yarnpkg.com/steemconnect/-/steemconnect-3.0.4.tgz#a5c33060cb10a1e525e47714158ad85d73d3dea9"
-  integrity sha512-m1aCOF80jc4mr0rn3PI+yVRdsdtHxksPbLznSAl0Cnp9hsjzICexeO5T4E6hBU91egG03JRQn3xnQj+c5qQGUA==
-  dependencies:
-    babel-runtime "^6.26.0"
-    cross-fetch "^3.0.1"
-    steem-uri "^0.1.1"
-
 stream-browserify@^1.0.0:
   version "1.0.0"
   resolved "https://registry.yarnpkg.com/stream-browserify/-/stream-browserify-1.0.0.tgz#bf9b4abfb42b274d751479e44e0ff2656b6f1193"
