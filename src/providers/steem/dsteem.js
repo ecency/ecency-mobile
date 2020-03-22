@@ -23,7 +23,7 @@ import { getDsteemDateErrorMessage } from '../../utils/dsteemUtils';
 // Constant
 import AUTH_TYPE from '../../constants/authType';
 
-const DEFAULT_SERVER = 'https://anyx.io';
+const DEFAULT_SERVER = 'https://rpc.esteem.app';
 let client = new Client(DEFAULT_SERVER);
 
 export const checkClient = async () => {
