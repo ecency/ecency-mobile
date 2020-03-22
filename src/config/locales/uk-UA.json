@@ -59,16 +59,17 @@
     "to_placeholder": "Ім'я користувача",
     "memo_placeholder": "Введіть сюди свої примітки",
     "transfer_token": "Переказ",
+    "purchase_estm": "Отримати ESTM",
     "points": "Подарувати комусь ESTM",
     "transfer_to_saving": "В заощадження",
     "powerUp": "Збільшення Силу Голосу",
     "withdraw_to_saving": "Вивести заощадження",
-    "steemconnect_title": "Передача Steemconnect",
+    "steemconnect_title": "Hivesigner Transfer",
     "next": "НАСТУПНА",
     "delegate": "Делегувати",
     "power_down": "Зменшення Сили Голосу",
-    "withdraw_steem": "Вивести Steem",
-    "withdraw_sbd": "Вивести SBD",
+    "withdraw_steem": "Withdraw HIVE",
+    "withdraw_sbd": "Withdraw HBD",
     "transfer_to_savings": "В заощадження",
     "convert": "Конвертувати",
     "escrow_transfer": "Передача Ескроу",
@@ -81,25 +82,30 @@
     "fill_transfer_from_savings": "Зняття заощаджень виконано",
     "fill_vesting_withdraw": "Зниження Сили виконано",
     "estm": {
-      "title": "eSteem Бали",
+      "title": "ESTM",
       "buy": "Отримати ESTM"
     },
     "savingsteem": {
-      "title": "STEEM заощадження"
+      "title": "HIVE Savings"
     },
     "savingsbd": {
-      "title": "SBD заощадження"
+      "title": "HBD Savings"
     },
     "steem": {
-      "title": "STEEM",
-      "buy": "ОТРИМАТИ STEEM"
+      "title": "HIVE",
+      "buy": "GET HIVE"
     },
     "sbd": {
-      "title": "SBD",
-      "buy": "Отримати SBD"
+      "title": "HBD",
+      "buy": "GET HBD"
     },
     "steem_power": {
-      "title": "STEEM POWER"
+      "title": "HIVE POWER"
+    },
+    "btc": {
+      "title": "BTC",
+      "buy": "Придбати BTC",
+      "address": "ОТРИМАТИ"
     }
   },
   "notification": {
@@ -155,11 +161,11 @@
     "follow_people": "Стежте за деякими людьми, щоб заповнити вашу стрічку",
     "havent_commented": "ще нічого не коментував",
     "havent_posted": "ще нічого не опублікував",
-    "steem_power": "Потужність акаунту",
+    "steem_power": "Hive Power",
     "next_power_text": "Наступне вимкнення живлення відбувається через",
     "days": "днів",
     "day": "день",
-    "steem_dollars": "Стім Долар",
+    "steem_dollars": "Hive Dollars",
     "savings": "Заощадження",
     "edit": {
       "display_name": "Відображуване ім'я",
@@ -207,14 +213,14 @@
   "login": {
     "signin": "Увійти",
     "signup": "ПРИЄДНУЙСЯ ЗАРАЗ",
-    "signin_title": "Щоб отримати всі переваги використовуйте eSteem",
+    "signin_title": "To get all the benefits of using Esteem",
     "username": "Ім'я користувача",
     "password": "Пароль або WIF (приватний ключ)",
     "description": "Дані користувача зберігаються локально на пристрої. Посвідчення видаляється після виходу з системи!",
     "cancel": "скасувати",
     "login": "ЛОГІН",
-    "steemconnect_description": "Якщо ви не хочете зберігати свій зашифрований пароль і зберігати на своєму пристрої, ви можете використовувати Steemconnect.",
-    "steemconnect_fee_description": "Примітка: Steemconnect може стягувати деяку плату з ваших транзакцій винагород"
+    "steemconnect_description": "If you don't want to keep your password encrypted and saved on your device, you can use Hivesigner.",
+    "steemconnect_fee_description": "info"
   },
   "home": {
     "feed": "Стрічка",
@@ -282,7 +288,7 @@
     "success_shared": "Ваш допис успішно поширили",
     "success_moved": "Переміщено до чернеток",
     "permission_denied": "У доступі відмовлено",
-    "permission_text": "Перейдіть у Налаштування телефону та змініть дозволи програми eSteem.",
+    "permission_text": "Please, go to phone Settings and change Esteem app permissions.",
     "key_warning": "Перевірте права доступу до закритого ключа!",
     "success_rebloged": "Rebloged!",
     "already_rebloged": "Ви вже повторно рестімнули!",
@@ -313,7 +319,8 @@
     "checking": "Перевірка...",
     "external_link": "Відкрити у браузері",
     "not_existing_post": "Допису не існує! Будь ласка, перевірте першоджерело та автора.",
-    "google_play_version": "Ми помітили, що на вашому пристрої є стара версія Google Play. Оновіть служби Google Play і повторіть спробу!"
+    "google_play_version": "Ми помітили, що на вашому пристрої є стара версія Google Play. Оновіть служби Google Play і повторіть спробу!",
+    "rc_down": "Not enough resource credits to perform an action! \n\nBoost your account to continue enjoy the experience. Do you want to boost your account, now?"
   },
   "post": {
     "reblog_alert": "Ви впевнені, що хочете рестімнути?",
@@ -409,14 +416,17 @@
     "information": "Ви впевнені, що хочете перерахувати кошти?",
     "amount_desc": "Баланс",
     "memo_desc": "Ця примітка є публічною",
+    "convert_desc": "Convert takes 3.5 days and NOT recommended IF HBD price is higher than $1",
     "to_placeholder": "Ім'я користувача",
     "memo_placeholder": "Введіть сюди свої примітки",
     "transfer_token": "Переказ",
+    "purchase_estm": "Придбати ESTM",
+    "convert": "Convert HBD to HIVE",
     "points": "Подарувати комусь ESTM",
     "transfer_to_saving": "Перевести до Заощаджень",
     "powerUp": "Збільшення Силу Голосу",
     "withdraw_to_saving": "Вивести на збереження",
-    "steemconnect_title": "Передача Steemconnect",
+    "steemconnect_title": "Hivesigner Transfer",
     "estimated_weekly": "Приблизно на Тиждень",
     "destination_accounts": "Рахунок-одержувач..",
     "stop_information": "Ви впевнені, що хочете зупинитися?",
@@ -427,13 +437,14 @@
     "next": "НАСТУПНА",
     "delegate": "Делегувати",
     "power_down": "Зменшення Сили голосу",
-    "withdraw_steem": "Вивести Steem",
-    "withdraw_sbd": "Вивести Стім долар",
+    "withdraw_steem": "Withdraw HIVE",
+    "withdraw_sbd": "Withdraw HIVE Dollar",
     "incoming_funds": "Надходження коштів",
-    "stop": "Зупинити"
+    "stop": "Зупинити",
+    "address_view": "Переглянути адресу"
   },
   "boost": {
-    "title": "Отримати eSteem бали",
+    "title": "Get Esteem Points",
     "buy": "Отримати ESTM",
     "next": "НАСТУПНА"
   },

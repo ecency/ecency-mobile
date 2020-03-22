@@ -59,16 +59,17 @@
     "to_placeholder": "Felhasználónév",
     "memo_placeholder": "Megjegyzés ide",
     "transfer_token": "Átutalás",
+    "purchase_estm": "Vásárolj ESTM-t",
     "points": "Ajándékozz ESTM-t valakinek",
     "transfer_to_saving": "A megtakarításokhoz",
     "powerUp": "Power Up",
     "withdraw_to_saving": "Withdraw Saving",
-    "steemconnect_title": "Steemconnect átutalás",
+    "steemconnect_title": "Hivesigner Transfer",
     "next": "KÖVETKEZŐ",
     "delegate": "Delegálás",
     "power_down": "Power Down",
-    "withdraw_steem": "Steem Visszavonás",
-    "withdraw_sbd": "SBD visszavonás",
+    "withdraw_steem": "Withdraw HIVE",
+    "withdraw_sbd": "Withdraw HBD",
     "transfer_to_savings": "A megtakarításokhoz",
     "convert": "Konvertálás",
     "escrow_transfer": "Letéti átutalás",
@@ -81,25 +82,30 @@
     "fill_transfer_from_savings": "Savings Executed",
     "fill_vesting_withdraw": "PowerDown executed",
     "estm": {
-      "title": "eSteem Pontok",
+      "title": "ESTM",
       "buy": "Vásárolj ESTM-t"
     },
     "savingsteem": {
-      "title": "STEEM Megtakarítások"
+      "title": "HIVE Savings"
     },
     "savingsbd": {
-      "title": "SBD Megtakarítás"
+      "title": "HBD Savings"
     },
     "steem": {
-      "title": "STEEM",
-      "buy": "STEEM VÁSÁRLÁS"
+      "title": "HIVE",
+      "buy": "GET HIVE"
     },
     "sbd": {
-      "title": "SBD",
-      "buy": "SBD VÁSÁRLÁS"
+      "title": "HBD",
+      "buy": "GET HBD"
     },
     "steem_power": {
-      "title": "STEEM POWER"
+      "title": "HIVE POWER"
+    },
+    "btc": {
+      "title": "BTC",
+      "buy": "GET BTC",
+      "address": "RECEIVE"
     }
   },
   "notification": {
@@ -155,11 +161,11 @@
     "follow_people": "Kövess néhány felhasználót, hogy töltsd meg a hírcsatornád",
     "havent_commented": "még nem szólt hozzá semmihez",
     "havent_posted": "még nem tett közzé semmit",
-    "steem_power": "Steem Power",
+    "steem_power": "Hive Power",
     "next_power_text": "A következő Power Down-ig még van",
     "days": "napok",
     "day": "nap",
-    "steem_dollars": "Steem Dollár",
+    "steem_dollars": "Hive Dollars",
     "savings": "Megtakarítások",
     "edit": {
       "display_name": "Megjelenítendő név",
@@ -207,14 +213,14 @@
   "login": {
     "signin": "Bejelentkezés",
     "signup": "CSATLAKOZZ MOST",
-    "signin_title": "Jelentkezz be ahhoz, hogy minden előnyben részesülj",
+    "signin_title": "To get all the benefits of using Esteem",
     "username": "Felhasználónév",
     "password": "Jelszó vagy a WIF",
     "description": "A felhasználó bejelentkezési adatai helyileg vannak tárolva a készüléken. Kijelentkezéskor a bejelentkezési adatok eltávolítódnak!",
     "cancel": "visszavonom",
     "login": "BEJELENTKEZÉS",
-    "steemconnect_description": "Ha nem szeretnéd a jelszavad a készülékeden elmentve tárolni, akkor használd a Steemconnect-et.",
-    "steemconnect_fee_description": "Megjegyzés: Steemconnect díjat számolhat fel néhány jutalom-tranzakcióért"
+    "steemconnect_description": "If you don't want to keep your password encrypted and saved on your device, you can use Hivesigner.",
+    "steemconnect_fee_description": "info"
   },
   "home": {
     "feed": "Hírfolyam",
@@ -282,7 +288,7 @@
     "success_shared": "A bejegyzésed sikeresen megosztva",
     "success_moved": "Áthelyezve a vázlatokhoz",
     "permission_denied": "Engedély megtagadva",
-    "permission_text": "Kérjük menj a telefon beállításokhoz és változtass az eSteem app engedélyezésein.",
+    "permission_text": "Please, go to phone Settings and change Esteem app permissions.",
     "key_warning": "Check private key permission!",
     "success_rebloged": "Megosztva!",
     "already_rebloged": "Ezt már megosztottad!",
@@ -313,7 +319,8 @@
     "checking": "Ellenőrzés folyamatban...",
     "external_link": "Open in Browser",
     "not_existing_post": "A bejegyzés nem létezik! Kérjük ellenőrizd a linket és a szerzőt.",
-    "google_play_version": "Észrevettük, hogy a készülékeden a Google Play régi verziója található. Kérjük frissítsd a Google Play szolgáltatásait és próbáld újra!"
+    "google_play_version": "Észrevettük, hogy a készülékeden a Google Play régi verziója található. Kérjük frissítsd a Google Play szolgáltatásait és próbáld újra!",
+    "rc_down": "Not enough resource credits to perform an action! \n\nBoost your account to continue enjoy the experience. Do you want to boost your account, now?"
   },
   "post": {
     "reblog_alert": "Biztos, hogy megosztod?",
@@ -409,14 +416,17 @@
     "information": "Bistoz átutalod?",
     "amount_desc": "Egyenleg",
     "memo_desc": "Ez az üzenet nyilvános",
+    "convert_desc": "Convert takes 3.5 days and NOT recommended IF HBD price is higher than $1",
     "to_placeholder": "Felhasználónév",
     "memo_placeholder": "Megjegyzés ide",
     "transfer_token": "Átutalás",
+    "purchase_estm": "Purchase ESTM",
+    "convert": "Convert HBD to HIVE",
     "points": "Ajándékozz ESTM-t valakinek",
     "transfer_to_saving": "Átutalás a megtakarításokhoz",
     "powerUp": "Power Up",
     "withdraw_to_saving": "Átutalás A Megtakarításokhoz",
-    "steemconnect_title": "Steemconnect átutalás",
+    "steemconnect_title": "Hivesigner Transfer",
     "estimated_weekly": "Heti becslés",
     "destination_accounts": "Cél Fiókok",
     "stop_information": "Bistos megállítod?",
@@ -427,13 +437,14 @@
     "next": "KÖVETKEZŐ",
     "delegate": "Delegálás",
     "power_down": "Power Down",
-    "withdraw_steem": "Steem Visszavonás",
-    "withdraw_sbd": "Steem Dollár Visszavonás",
+    "withdraw_steem": "Withdraw HIVE",
+    "withdraw_sbd": "Withdraw HIVE Dollar",
     "incoming_funds": "Bejövő tőke",
-    "stop": "Megállítás"
+    "stop": "Megállítás",
+    "address_view": "View address"
   },
   "boost": {
-    "title": "Szerezz eSteem pontokat",
+    "title": "Get Esteem Points",
     "buy": "Vásárolj ESTM-t",
     "next": "KÖVETKEZŐ"
   },
