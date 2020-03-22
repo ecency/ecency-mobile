@@ -64,12 +64,12 @@
     "transfer_to_saving": "안전 금고에 보관하기",
     "powerUp": "파워업",
     "withdraw_to_saving": "안전 금고에서 출금하기",
-    "steemconnect_title": "Steemconnect 전송",
+    "steemconnect_title": "Hivesigner Transfer",
     "next": "다음",
     "delegate": "임대",
     "power_down": "파워 다운",
-    "withdraw_steem": "스팀 출금",
-    "withdraw_sbd": "안전 금고에서 스팀달러 출금하기",
+    "withdraw_steem": "Withdraw HIVE",
+    "withdraw_sbd": "Withdraw HBD",
     "transfer_to_savings": "안전 금고에 보관하기",
     "convert": "전환하기",
     "escrow_transfer": "에스크로 송금",
@@ -86,21 +86,21 @@
       "buy": "ESTM 구매"
     },
     "savingsteem": {
-      "title": "안전 금고에 보관 중인 스팀"
+      "title": "HIVE Savings"
     },
     "savingsbd": {
-      "title": "안전 금고에 보관 중인 스팀달러"
+      "title": "HBD Savings"
     },
     "steem": {
-      "title": "스팀",
-      "buy": "스팀 구매하기"
+      "title": "HIVE",
+      "buy": "GET HIVE"
     },
     "sbd": {
-      "title": "스팀달러",
-      "buy": "스팀달러 구매하기"
+      "title": "HBD",
+      "buy": "GET HBD"
     },
     "steem_power": {
-      "title": "스팀 파워"
+      "title": "HIVE POWER"
     },
     "btc": {
       "title": "비트코인",
@@ -161,11 +161,11 @@
     "follow_people": "피드를 채우기 위해 팔로우해보세요.",
     "havent_commented": "아직 댓글을 작성한 적이 없습니다",
     "havent_posted": "아직 게시한 글이 없습니다",
-    "steem_power": "스팀 파워",
+    "steem_power": "Hive Power",
     "next_power_text": "다음 번 파워 다운까지 남은 기간",
     "days": "일",
     "day": "일",
-    "steem_dollars": "스팀 달러",
+    "steem_dollars": "Hive Dollars",
     "savings": "안전 금고",
     "edit": {
       "display_name": "이름",
@@ -213,14 +213,14 @@
   "login": {
     "signin": "로그인",
     "signup": "지금 가입해보세요.",
-    "signin_title": "로그인해서 eSteem에서 제공하는 모든 혜택을 누리세요",
+    "signin_title": "To get all the benefits of using Esteem",
     "username": "사용자 이름",
     "password": "비밀번호 또는 WIF",
     "description": "사용자의 비밀번호는 기기에만 저장됩니다. 로그아웃 시 저장된 비밀번호는 삭제됩니다!",
     "cancel": "취소",
     "login": "로그인",
-    "steemconnect_description": "암호화된 비밀번호를 기기에 저장하고 싶지 않다면, Steemconnect를 사용하시면 됩니다",
-    "steemconnect_fee_description": "Steemconnect는 당신의 보상 트랜잭션에 대해 일정 수수료를 부과할 수 있습니다"
+    "steemconnect_description": "If you don't want to keep your password encrypted and saved on your device, you can use Hivesigner.",
+    "steemconnect_fee_description": "info"
   },
   "home": {
     "feed": "피드",
@@ -288,7 +288,7 @@
     "success_shared": "글을 성공적으로 공유했습니다",
     "success_moved": "임시 보관함으로 이동했습니다",
     "permission_denied": "권한이 없습니다",
-    "permission_text": "휴대폰 설정으로 이동하여 eSteem 앱 알림 설정을 변경해주세요",
+    "permission_text": "Please, go to phone Settings and change Esteem app permissions.",
     "key_warning": "프라이빗 키를 정확히 입력하였는 지 확인하세요.",
     "success_rebloged": "리블로그 완료!",
     "already_rebloged": "이미 리블로그했습니다!",
@@ -319,7 +319,8 @@
     "checking": "확인 중...",
     "external_link": "브라우저에서 열기",
     "not_existing_post": "글이 존재하지 않습니다! permlink와 저자를 확인해주세요.",
-    "google_play_version": "기기에 설치된 앱이 구 버전인 것 같습니다. 구글 플레이에서 업데이트된 앱을 다운로드받은 후 다시 시도해보세요!"
+    "google_play_version": "기기에 설치된 앱이 구 버전인 것 같습니다. 구글 플레이에서 업데이트된 앱을 다운로드받은 후 다시 시도해보세요!",
+    "rc_down": "Not enough resource credits to perform an action! \n\nBoost your account to continue enjoy the experience. Do you want to boost your account, now?"
   },
   "post": {
     "reblog_alert": "리블로그 하시겠습니까?",
@@ -415,17 +416,17 @@
     "information": "자금을 전송하시겠습니까?",
     "amount_desc": "잔액",
     "memo_desc": "이 메모는 누구나 볼 수 있습니다",
-    "convert_desc": "전환은 3.5일이 소요되며, 스팀 달러가 1달러 이상인 경우에 권장하지 않습니다.",
+    "convert_desc": "Convert takes 3.5 days and NOT recommended IF HBD price is higher than $1",
     "to_placeholder": "사용자 이름",
     "memo_placeholder": "메모 내용을 입력하세요",
     "transfer_token": "전송",
     "purchase_estm": "ESTM 구매하기",
-    "convert": "스팀달러를 스팀으로 전환하기",
+    "convert": "Convert HBD to HIVE",
     "points": "ESTM 선물하기",
     "transfer_to_saving": "안전 금고로 전송",
     "powerUp": "파워업",
     "withdraw_to_saving": "안전 금고로 출금",
-    "steemconnect_title": "Steemconnect 전송",
+    "steemconnect_title": "Hivesigner Transfer",
     "estimated_weekly": "주간 추정",
     "destination_accounts": "출금 계정",
     "stop_information": "중단하시겠습니까?",
@@ -436,14 +437,14 @@
     "next": "다음",
     "delegate": "임대",
     "power_down": "파워 다운",
-    "withdraw_steem": "스팀 출금",
-    "withdraw_sbd": "스팀 달러 출금",
+    "withdraw_steem": "Withdraw HIVE",
+    "withdraw_sbd": "Withdraw HIVE Dollar",
     "incoming_funds": "입금 예정 자산",
     "stop": "중단",
     "address_view": "지갑 주소 보기"
   },
   "boost": {
-    "title": "eSteem 포인트 구매",
+    "title": "Get Esteem Points",
     "buy": "ESTM 구매",
     "next": "다음"
   },
