@@ -32,7 +32,7 @@
 			<key>CFBundleURLSchemes</key>
 			<array>
 				<string>esteem</string>
-				<string>steemit</string>
+				<string>hive</string>
 			</array>
 		</dict>
 	</array>
@@ -51,7 +51,7 @@
 				<key>NSExceptionAllowsInsecureHTTPLoads</key>
 				<true/>
 			</dict>
-			<key>steemconnect.com</key>
+			<key>hivesigner.com</key>
 			<dict>
 				<key>NSExceptionAllowsInsecureHTTPLoads</key>
 				<true/>
@@ -59,7 +59,7 @@
 		</dict>
 	</dict>
 	<key>NSCameraUsageDescription</key>
-	<string>To access your photos, eSteem needs your permission to help you share your photos.</string>
+	<string>To access your photos, Esteem needs your permission to help you share your photos.</string>
 	<key>NSLocationAlwaysUsageDescription</key>
 	<string>To get accurate location for sharing</string>
 	<key>NSLocationWhenInUseUsageDescription</key>

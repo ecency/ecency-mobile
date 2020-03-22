@@ -101,7 +101,6 @@
     "rn-placeholder": "^1.3.2",
     "speakingurl": "^14.0.1",
     "stacktrace-parser": "0.1.4",
-    "steemconnect": "^3.0.4",
     "stream-browserify": "^1.0.0",
     "vm-browserify": "0.0.4"
   },
