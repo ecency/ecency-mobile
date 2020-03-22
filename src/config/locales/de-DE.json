@@ -64,12 +64,12 @@
     "transfer_to_saving": "To Saving",
     "powerUp": "Power Up",
     "withdraw_to_saving": "Withdraw Saving",
-    "steemconnect_title": "Steemconnect Überweisung",
+    "steemconnect_title": "Hivesigner Transfer",
     "next": "WEITER",
     "delegate": "Delegieren",
     "power_down": "Power-Down",
-    "withdraw_steem": "Steem auszahlen",
-    "withdraw_sbd": "Withdraw SBD",
+    "withdraw_steem": "Withdraw HIVE",
+    "withdraw_sbd": "Withdraw HBD",
     "transfer_to_savings": "To Savings",
     "convert": "Convert",
     "escrow_transfer": "Escrow Transfer",
@@ -86,21 +86,21 @@
       "buy": "ESTM kaufen"
     },
     "savingsteem": {
-      "title": "STEEM Savings"
+      "title": "HIVE Savings"
     },
     "savingsbd": {
-      "title": "SBD Savings"
+      "title": "HBD Savings"
     },
     "steem": {
-      "title": "STEEM",
-      "buy": "GET STEEM"
+      "title": "HIVE",
+      "buy": "GET HIVE"
     },
     "sbd": {
-      "title": "SBD",
-      "buy": "GET SBD"
+      "title": "HBD",
+      "buy": "GET HBD"
     },
     "steem_power": {
-      "title": "STEEM POWER"
+      "title": "HIVE POWER"
     },
     "btc": {
       "title": "BTC",
@@ -161,11 +161,11 @@
     "follow_people": "Follow some people to fill your feed",
     "havent_commented": "hat bisher nichts kommentiert",
     "havent_posted": "hat bisher noch keine Beiträge veröffentlicht",
-    "steem_power": "Steem-Power",
+    "steem_power": "Hive Power",
     "next_power_text": "Nächster Power Down ist in",
     "days": "Tagen",
     "day": "Tag",
-    "steem_dollars": "Steem-Dollar",
+    "steem_dollars": "Hive Dollars",
     "savings": "Gesichert",
     "edit": {
       "display_name": "Anzeige Name",
@@ -213,14 +213,14 @@
   "login": {
     "signin": "Anmelden",
     "signup": "JOIN NOW",
-    "signin_title": "Um alle Vorteile der Verwendung von eSteem zu nutzen",
+    "signin_title": "To get all the benefits of using Esteem",
     "username": "Benutzername",
     "password": "Passwort oder WIF",
     "description": "Zugangsdaten werden lokal auf dem Gerät gespeichert. Diese werden nach dem Abmelden gelöscht!",
     "cancel": "Abbrechen",
     "login": "LOGIN",
-    "steemconnect_description": "Wenn du dein Passwort nicht verschlüsselt auf deinem Gerät gespeichert halten möchtest, kannst du Steemconnect verwenden.",
-    "steemconnect_fee_description": "Steemconnect kann einige Gebühren für Ihre Reward-Transaktionen berechnen"
+    "steemconnect_description": "If you don't want to keep your password encrypted and saved on your device, you can use Hivesigner.",
+    "steemconnect_fee_description": "info"
   },
   "home": {
     "feed": "Feed",
@@ -288,7 +288,7 @@
     "success_shared": "Dein Beitrag wurde erfolgreich geteilt",
     "success_moved": "Erfolgreich in Entwürfe verschoben",
     "permission_denied": "Berechtigung verweigert",
-    "permission_text": "Bitte gehe zu den Telefoneinstellungen und ändere die Berechtigungen der eSteem-App.",
+    "permission_text": "Please, go to phone Settings and change Esteem app permissions.",
     "key_warning": "Check private key permission!",
     "success_rebloged": "Geteilt!",
     "already_rebloged": "Du hast bereits geteilt!",
@@ -319,7 +319,8 @@
     "checking": "Wird überprüft...",
     "external_link": "Open in Browser",
     "not_existing_post": "Der Beitrag existiert nicht! Bitte überprüfe den Permalink und den Autor.",
-    "google_play_version": "Wir haben festgestellt, dass dein Gerät eine alte Version von Google Play hat. Bitte aktualisiere die Google Play-Dienste und versuche es erneut!"
+    "google_play_version": "Wir haben festgestellt, dass dein Gerät eine alte Version von Google Play hat. Bitte aktualisiere die Google Play-Dienste und versuche es erneut!",
+    "rc_down": "Not enough resource credits to perform an action! \n\nBoost your account to continue enjoy the experience. Do you want to boost your account, now?"
   },
   "post": {
     "reblog_alert": "Möchtest du diesen Beitrag wirklich teilen?",
@@ -415,17 +416,17 @@
     "information": "Bist du sicher, dass du Geld überweisen willst?",
     "amount_desc": "Kontostand",
     "memo_desc": "Dieses Memo ist öffentlich",
-    "convert_desc": "Convert takes 3.5 days and NOT recommended IF SBD price is higher than $1",
+    "convert_desc": "Convert takes 3.5 days and NOT recommended IF HBD price is higher than $1",
     "to_placeholder": "Benutzername",
     "memo_placeholder": "Hier dein Memo eingeben",
     "transfer_token": "Überweisen",
     "purchase_estm": "Purchase ESTM",
-    "convert": "Convert SBD to STEEM",
+    "convert": "Convert HBD to HIVE",
     "points": "Verschenke ESTM zu jemanden",
     "transfer_to_saving": "Zum Sparkonto überweisen",
     "powerUp": "Power Up",
     "withdraw_to_saving": "Auszahlung in den Tresor",
-    "steemconnect_title": "Steemconnect Überweisung",
+    "steemconnect_title": "Hivesigner Transfer",
     "estimated_weekly": "Estimated Weekly",
     "destination_accounts": "Destination Accounts",
     "stop_information": "Are you sure want to stop?",
@@ -436,14 +437,14 @@
     "next": "WEITER",
     "delegate": "Delegieren",
     "power_down": "Power-Down",
-    "withdraw_steem": "Steem auszahlen",
-    "withdraw_sbd": "Steem-Dollar auszahlen",
+    "withdraw_steem": "Withdraw HIVE",
+    "withdraw_sbd": "Withdraw HIVE Dollar",
     "incoming_funds": "Incoming Funds",
     "stop": "Stop",
     "address_view": "View address"
   },
   "boost": {
-    "title": "Erhalte eSteem Punkte",
+    "title": "Get Esteem Points",
     "buy": "ESTM kaufen",
     "next": "WEITER"
   },
