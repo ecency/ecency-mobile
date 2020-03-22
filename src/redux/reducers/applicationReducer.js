@@ -28,7 +28,7 @@ import {
 } from '../constants/constants';
 
 const initialState = {
-  api: 'anyx.io',
+  api: 'rpc.esteem.app',
   currency: {
     currency: 'usd',
     currencyRate: 1,
