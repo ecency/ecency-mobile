@@ -59,16 +59,17 @@
     "to_placeholder": "Isem n umseqdac",
     "memo_placeholder": "Enter your notes here",
     "transfer_token": "Ceyyeɛ",
+    "purchase_estm": "GET ESTM",
     "points": "Gift ESTM to someone",
     "transfer_to_saving": "To Saving",
     "powerUp": "Power Up",
     "withdraw_to_saving": "Withdraw Saving",
-    "steemconnect_title": "Steemconnect Transfer",
+    "steemconnect_title": "Hivesigner Transfer",
     "next": "NEXT",
     "delegate": "Delegate",
     "power_down": "Power Down",
-    "withdraw_steem": "Withdraw Steem",
-    "withdraw_sbd": "Withdraw SBD",
+    "withdraw_steem": "Withdraw HIVE",
+    "withdraw_sbd": "Withdraw HBD",
     "transfer_to_savings": "To Savings",
     "convert": "Beddel",
     "escrow_transfer": "Escrow Transfer",
@@ -81,25 +82,30 @@
     "fill_transfer_from_savings": "Savings Executed",
     "fill_vesting_withdraw": "PowerDown executed",
     "estm": {
-      "title": "tineqqiḍin n eSteem",
+      "title": "ESTM",
       "buy": "GET ESTM"
     },
     "savingsteem": {
-      "title": "STEEM Savings"
+      "title": "HIVE Savings"
     },
     "savingsbd": {
-      "title": "SBD Savings"
+      "title": "HBD Savings"
     },
     "steem": {
-      "title": "STEEM",
-      "buy": "GET STEEM"
+      "title": "HIVE",
+      "buy": "GET HIVE"
     },
     "sbd": {
-      "title": "SBD",
-      "buy": "GET SBD"
+      "title": "HBD",
+      "buy": "GET HBD"
     },
     "steem_power": {
-      "title": "STEEM POWER"
+      "title": "HIVE POWER"
+    },
+    "btc": {
+      "title": "BTC",
+      "buy": "GET BTC",
+      "address": "RECEIVE"
     }
   },
   "notification": {
@@ -155,11 +161,11 @@
     "follow_people": "Follow some people to fill your feed",
     "havent_commented": "ur twennteḍ kra ar tura",
     "havent_posted": "ur d-tsuffɣeḍ kra ar tura",
-    "steem_power": "Tazmert n steem",
+    "steem_power": "Hive Power",
     "next_power_text": "Next power down is in",
     "days": "ussan",
     "day": "ass",
-    "steem_dollars": "Steem idulaṛen",
+    "steem_dollars": "Hive Dollars",
     "savings": "Savings",
     "edit": {
       "display_name": "Isem ara d-yettwaseknen",
@@ -207,14 +213,14 @@
   "login": {
     "signin": "Qqen",
     "signup": "JOIN NOW",
-    "signin_title": "To get all the benefits of using eSteem",
+    "signin_title": "To get all the benefits of using Esteem",
     "username": "Isem n umseqdac",
     "password": "Awal uffir neɣ WIF",
     "description": "User credentials are kept locally on the device. Credentials are removed upon logout!",
     "cancel": "sefsex",
     "login": "TUQQNA",
-    "steemconnect_description": "Ma ur tebɣiḍ ara ad teǧǧeḍ awal-ik uffir yezwel yettwasekles deg yibenk-inek, tzemreḍ ad tesqedceḍ Steemconnect.",
-    "steemconnect_fee_description": "Steemconnect may charge some fees from your reward transactions"
+    "steemconnect_description": "If you don't want to keep your password encrypted and saved on your device, you can use Hivesigner.",
+    "steemconnect_fee_description": "info"
   },
   "home": {
     "feed": "Feed",
@@ -282,7 +288,7 @@
     "success_shared": "Tasuffeɣt-ik tattwabḍa",
     "success_moved": "Yettwarra ɣer trewayt",
     "permission_denied": "Permission denied",
-    "permission_text": "Ma ulac aɣilif, ruḥ ɣer yiɣewwaṛen n tilifun tbeddleḍ uragen i usnas eSteem.",
+    "permission_text": "Please, go to phone Settings and change Esteem app permissions.",
     "key_warning": "Check private key permission!",
     "success_rebloged": "Tettwasuffeɣ-d tikelt-nniḍen!",
     "already_rebloged": "Tɛawdeḍ-as asuffeɣ yakan!",
@@ -313,7 +319,8 @@
     "checking": "Aselken...",
     "external_link": "Open in Browser",
     "not_existing_post": "Ulac tasuffeɣt, ttxil-k senqed aseɣwen d umeskar.",
-    "google_play_version": "Nger tamawt d akken ibenk-ik ɣur-s lqem aqdim n Google Play. Ttxil-k lqem imeẓla n Google Play tɛerḍeḍ tikelt-nniḍen!"
+    "google_play_version": "Nger tamawt d akken ibenk-ik ɣur-s lqem aqdim n Google Play. Ttxil-k lqem imeẓla n Google Play tɛerḍeḍ tikelt-nniḍen!",
+    "rc_down": "Not enough resource credits to perform an action! \n\nBoost your account to continue enjoy the experience. Do you want to boost your account, now?"
   },
   "post": {
     "reblog_alert": "Tebɣiḍ s tidet ad as-tɛawdeḍ asuffeɣ?",
@@ -409,14 +416,17 @@
     "information": "Are you sure to transfer funds?",
     "amount_desc": "Balance",
     "memo_desc": "This memo is public",
+    "convert_desc": "Convert takes 3.5 days and NOT recommended IF HBD price is higher than $1",
     "to_placeholder": "Isem n umseqdac",
     "memo_placeholder": "Enter your notes here",
     "transfer_token": "Transfer",
+    "purchase_estm": "Purchase ESTM",
+    "convert": "Convert HBD to HIVE",
     "points": "Gift ESTM to someone",
     "transfer_to_saving": "Transfer To Saving",
     "powerUp": "Power Up",
     "withdraw_to_saving": "Withdraw To Saving",
-    "steemconnect_title": "Steemconnect Transfer",
+    "steemconnect_title": "Hivesigner Transfer",
     "estimated_weekly": "Estimated Weekly",
     "destination_accounts": "Destination Accounts",
     "stop_information": "Tebɣiḍ s tidet ad tḥebseḍ?",
@@ -427,13 +437,14 @@
     "next": "NEXT",
     "delegate": "Delegate",
     "power_down": "Power Down",
-    "withdraw_steem": "Withdraw Steem",
-    "withdraw_sbd": "Withdraw Steem Dollar",
+    "withdraw_steem": "Withdraw HIVE",
+    "withdraw_sbd": "Withdraw HIVE Dollar",
     "incoming_funds": "Incoming Funds",
-    "stop": "Stop"
+    "stop": "Stop",
+    "address_view": "View address"
   },
   "boost": {
-    "title": "Get eSteem Points",
+    "title": "Get Esteem Points",
     "buy": "GET ESTM",
     "next": "NEXT"
   },
