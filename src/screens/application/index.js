@@ -1,5 +1,5 @@
 import React, { Fragment, useEffect, useState } from 'react';
-
+import SplashScreen from 'react-native-splash-screen';
 import ApplicationScreen from './screen/applicationScreen';
 import ApplicationContainer from './container/applicationContainer';
 
@@ -11,6 +11,7 @@ const Application = () => {
   const [showAnimation, setShowAnimation] = useState(process.env.NODE_ENV !== 'development');
 
   useEffect(() => {
+    SplashScreen.hide();
     if (showAnimation) {
       setTimeout(() => {
         setShowAnimation(false);

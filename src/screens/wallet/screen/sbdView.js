@@ -39,7 +39,7 @@ const SbdView = ({ handleOnSelected, index, currentIndex, refreshing: reload }) 
                 { balance: sbdBalance, nameKey: 'sbd', options: sbdDropdown },
                 { balance: sbdSavingBalance, nameKey: 'savingsbd', options: savingSbdDropdown },
               ]}
-              handleOnDropdownSelected={option => navigate(option, 'SBD')}
+              handleOnDropdownSelected={option => navigate(option, 'HBD')}
               type="sbd"
               currentIndex={currentIndex}
               showIconList={false}

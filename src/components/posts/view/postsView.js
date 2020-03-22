@@ -167,7 +167,9 @@ const PostsView = ({
         setIsLoading(false);
         return;
       }
-      setIsLoading(true);
+      if (posts.length > 2) {
+        setIsLoading(true);
+      }
 
       const filter = type || selectedFilterValue;
       let options;

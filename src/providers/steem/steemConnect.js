@@ -81,7 +81,7 @@ export const prepareBeneficiaries = postObj => {
     permlink: postObj.permlink,
     allow_votes: true,
     allow_curation_rewards: true,
-    max_accepted_payout: '1000000.000 SBD',
+    max_accepted_payout: '1000000.000 HBD',
     percent_steem_dollars: '10000',
     extensions: [
       [

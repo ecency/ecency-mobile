@@ -3,7 +3,7 @@ import { Platform } from 'react-native';
 import { connect } from 'react-redux';
 import AppCenter from 'appcenter';
 import Push from 'appcenter-push';
-import { Client } from 'dsteem';
+import { Client } from '@hivechain/dsteem';
 import VersionNumber from 'react-native-version-number';
 import Config from 'react-native-config';
 import { injectIntl } from 'react-intl';
@@ -77,13 +77,9 @@ class SettingsContainer extends Component {
         this.setState({
           serverList: [
             'https://rpc.esteem.app',
-            'https://api.steemit.com',
-            'https://steemd.previx.io',
+            'https://api.hive.blog',
             'https://anyx.io',
-            'https://rpc.buildteam.io',
-            'https://rpc.steemviz.com',
-            'https://api.steem.house',
-            'https://steemd.pevo.science',
+            'https://api.hivekings.com',
           ],
         }),
       );

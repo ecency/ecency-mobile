@@ -1,15 +1,3 @@
-export default [
-  'api.steemit.com',
-  'rpc.esteem.app',
-  'rpc.steemviz.com',
-  'rpc.buildteam.io',
-  'api.steem.house',
-];
+export default ['rpc.esteem.app', 'api.hive.blog', 'anyx.io', 'api.hivekings.com'];
 
-export const VALUE = [
-  'api.steemit.com',
-  'rpc.esteem.app',
-  'rpc.steemviz.com',
-  'rpc.buildteam.io',
-  'api.steem.house',
-];
+export const VALUE = ['rpc.esteem.app', 'api.hive.blog', 'anyx.io', 'api.hivekings.com'];

@@ -98,11 +98,11 @@ class UpvoteContainer extends PureComponent {
 
     const breakdownPayout =
       pending_payout_printed_sbd.toFixed(3) +
-      ' SBD, ' +
+      ' HBD, ' +
       pending_payout_printed_steem.toFixed(3) +
-      ' STEEM, ' +
+      ' HIVE, ' +
       pending_payout_sp.toFixed(3) +
-      ' SP';
+      ' HP';
 
     return (
       <UpvoteView

@@ -1,5 +1,5 @@
 export const steemConnectOptions = {
-  base_url: 'https://app.steemconnect.com/',
+  base_url: 'https://hivesigner.com/',
   client_id: 'esteemapp',
   redirect_uri: 'http://127.0.0.1:3415/',
   scope:
