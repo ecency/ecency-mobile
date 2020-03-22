@@ -23,11 +23,11 @@ const WalletDetailsView = ({ walletData, intl, navigate, isShowDropdowns }) => {
         text="Steem"
         isBlackText
         iconName="ios-information-circle-outline"
-        rightText={`${Math.round(walletData.balance * 1000) / 1000} STEEM`}
+        rightText={`${Math.round(walletData.balance * 1000) / 1000} HIVE`}
         isBoldText
         isHasdropdown={isShowDropdowns}
         dropdownOptions={steemDropdown.map(item => intl.formatMessage({ id: `transfer.${item}` }))}
-        onDropdownSelect={index => navigate(steemDropdown[index], 'STEEM')}
+        onDropdownSelect={index => navigate(steemDropdown[index], 'HIVE')}
       />
       <GrayWrapper isGray>
         <WalletLineItem
@@ -44,7 +44,7 @@ const WalletDetailsView = ({ walletData, intl, navigate, isShowDropdowns }) => {
           dropdownOptions={steemPowerDropdown.map(item =>
             intl.formatMessage({ id: `transfer.${item}` }),
           )}
-          onDropdownSelect={a => navigate(steemPowerDropdown[a], 'STEEM_POWER')}
+          onDropdownSelect={a => navigate(steemPowerDropdown[a], 'HIVE_POWER')}
         />
 
         {walletData.vestingSharesDelegated > 0 && (
@@ -84,7 +84,7 @@ const WalletDetailsView = ({ walletData, intl, navigate, isShowDropdowns }) => {
         isBoldText
         isHasdropdown={isShowDropdowns}
         dropdownOptions={sbdDropdown.map(item => intl.formatMessage({ id: `transfer.${item}` }))}
-        onDropdownSelect={a => navigate(sbdDropdown[a], 'SBD')}
+        onDropdownSelect={a => navigate(sbdDropdown[a], 'HBD')}
       />
       <GrayWrapper isGray>
         <WalletLineItem
@@ -99,7 +99,7 @@ const WalletDetailsView = ({ walletData, intl, navigate, isShowDropdowns }) => {
           dropdownOptions={savingSteemDropdown.map(item =>
             intl.formatMessage({ id: `transfer.${item}` }),
           )}
-          onDropdownSelect={a => navigate(savingSteemDropdown[a], 'SAVING_STEEM')}
+          onDropdownSelect={a => navigate(savingSteemDropdown[a], 'SAVING_HIVE')}
         />
         <WalletLineItem
           rightText={`$${Math.round(walletData.savingBalanceSbd * 1000) / 1000}`}
@@ -108,7 +108,7 @@ const WalletDetailsView = ({ walletData, intl, navigate, isShowDropdowns }) => {
           dropdownOptions={savingSbdDropdown.map(item =>
             intl.formatMessage({ id: `transfer.${item}` }),
           )}
-          onDropdownSelect={a => navigate(savingSbdDropdown[a], 'SAVING_SBD')}
+          onDropdownSelect={a => navigate(savingSbdDropdown[a], 'SAVING_HBD')}
         />
       </GrayWrapper>
       {walletData.showPowerDown && (

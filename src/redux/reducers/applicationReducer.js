@@ -28,7 +28,7 @@ import {
 } from '../constants/constants';
 
 const initialState = {
-  api: 'api.steemit.com',
+  api: 'anyx.io',
   currency: {
     currency: 'usd',
     currencyRate: 1,

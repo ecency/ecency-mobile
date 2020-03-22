@@ -352,14 +352,11 @@ export const getNodes = () =>
     .get()
     .then(
       resp =>
-        resp.data.nodes || [
+        resp.data.hived || [
           'https://rpc.esteem.app',
-          'https://api.steemit.com',
-          'https://steemd.previx.io',
+          'https://api.hive.blog',
           'https://anyx.io',
-          'https://rpc.buildteam.io',
-          'https://rpc.steemviz.com',
-          'https://api.steem.house',
+          'https://api.hivekings.com',
         ],
     );
 
@@ -398,7 +395,7 @@ export const getCommunity = tag =>
     }
 
     axios
-      .post('https://api.steemit.com', {
+      .post('https://rpc.esteem.app', {
         jsonrpc: '2.0',
         method: 'bridge.get_community',
         params: { name: tag, observer: '' },
