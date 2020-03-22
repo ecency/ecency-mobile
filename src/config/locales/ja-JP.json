@@ -64,12 +64,12 @@
     "transfer_to_saving": "貯蓄口座への送金",
     "powerUp": "パワーアップ",
     "withdraw_to_saving": "貯蓄口座を引出す",
-    "steemconnect_title": "Steemconnect 送金",
+    "steemconnect_title": "Hivesigner Transfer",
     "next": "次へ",
     "delegate": "デリゲーション",
     "power_down": "パワーダウン",
-    "withdraw_steem": "Steem を引き出す",
-    "withdraw_sbd": "Steemドルを引き出す",
+    "withdraw_steem": "Withdraw HIVE",
+    "withdraw_sbd": "Withdraw HBD",
     "transfer_to_savings": "貯蓄口座への送金",
     "convert": "変換",
     "escrow_transfer": "エスクロー送金",
@@ -86,21 +86,21 @@
       "buy": "ESTM を手に入れる"
     },
     "savingsteem": {
-      "title": "STEEM 貯蓄口座"
+      "title": "HIVE Savings"
     },
     "savingsbd": {
-      "title": "SBD 貯蓄口座"
+      "title": "HBD Savings"
     },
     "steem": {
-      "title": "STEEM",
-      "buy": "STEEMを購入"
+      "title": "HIVE",
+      "buy": "GET HIVE"
     },
     "sbd": {
-      "title": "Steemドル",
-      "buy": "Steemドルを購入"
+      "title": "HBD",
+      "buy": "GET HBD"
     },
     "steem_power": {
-      "title": "STEEMパワー"
+      "title": "HIVE POWER"
     },
     "btc": {
       "title": "BTC",
@@ -161,11 +161,11 @@
     "follow_people": "他の人をフォローして自分のフィードに表示しよう",
     "havent_commented": "まだ何もコメントしていません",
     "havent_posted": "まだ何も投稿していません",
-    "steem_power": "Steem Power",
+    "steem_power": "Hive Power",
     "next_power_text": "次のパワーダウンまで",
     "days": "日",
     "day": "日",
-    "steem_dollars": "Steem Dollars",
+    "steem_dollars": "Hive Dollars",
     "savings": "貯蓄口座",
     "edit": {
       "display_name": "表示名",
@@ -213,14 +213,14 @@
   "login": {
     "signin": "ログイン",
     "signup": "今すぐ参加",
-    "signin_title": "eSteem の素晴らしさを満喫しよう",
+    "signin_title": "To get all the benefits of using Esteem",
     "username": "ユーザー名",
     "password": "パスワードまたは WIF",
     "description": "ユーザーのログイン情報は端末に保存され、ログアウトすると削除されます。",
     "cancel": "キャンセル",
     "login": "ログイン",
-    "steemconnect_description": "端末に暗号化したパスワードを保存したくない場合、Steemconnect を利用できます。",
-    "steemconnect_fee_description": "Steemconnect はあなたの報酬から一定の手数料を徴収するかもしれません"
+    "steemconnect_description": "If you don't want to keep your password encrypted and saved on your device, you can use Hivesigner.",
+    "steemconnect_fee_description": "info"
   },
   "home": {
     "feed": "フィード",
@@ -288,7 +288,7 @@
     "success_shared": "投稿の共有に成功しました",
     "success_moved": "下書きへ移動",
     "permission_denied": "アクセスが拒否されました",
-    "permission_text": "本体の設定から eSteem アプリの権限を変更してください。",
+    "permission_text": "Please, go to phone Settings and change Esteem app permissions.",
     "key_warning": "プライベートキーのパーミッションを確認してください！",
     "success_rebloged": "リブログしました！",
     "already_rebloged": "既にリブログしています！",
@@ -319,7 +319,8 @@
     "checking": "確認中...",
     "external_link": "ブラウザーで開く",
     "not_existing_post": "投稿は存在しません！パーマリンクと投稿者を確認してください。",
-    "google_play_version": "あなたのデバイスはGoogle Playのバージョンが古いようです。Google Playをアップデートして再度お試しください！"
+    "google_play_version": "あなたのデバイスはGoogle Playのバージョンが古いようです。Google Playをアップデートして再度お試しください！",
+    "rc_down": "Not enough resource credits to perform an action! \n\nBoost your account to continue enjoy the experience. Do you want to boost your account, now?"
   },
   "post": {
     "reblog_alert": "本当にリブログしますか？",
@@ -415,17 +416,17 @@
     "information": "本当に送金しますか？",
     "amount_desc": "残高",
     "memo_desc": "このメモは公開されます",
-    "convert_desc": "変換には3.5にちかかり、SBDの値段が$1以上の場合にはお勧めしません",
+    "convert_desc": "Convert takes 3.5 days and NOT recommended IF HBD price is higher than $1",
     "to_placeholder": "ユーザー名",
     "memo_placeholder": "ここに内容を入力してください",
     "transfer_token": "送金",
     "purchase_estm": "ESTMを購入",
-    "convert": "SBCをSTEEMに変換",
+    "convert": "Convert HBD to HIVE",
     "points": "ESTMを贈る",
     "transfer_to_saving": "貯蓄口座に送金",
     "powerUp": "パワーアップ",
     "withdraw_to_saving": "貯蓄口座に引き出す",
-    "steemconnect_title": "Steemconnect 送金",
+    "steemconnect_title": "Hivesigner Transfer",
     "estimated_weekly": "毎週推定される",
     "destination_accounts": "送金先口座",
     "stop_information": "本当に中止してよろしいですか？",
@@ -436,14 +437,14 @@
     "next": "次へ",
     "delegate": "デリゲーション",
     "power_down": "パワーダウン",
-    "withdraw_steem": "Steem を引き出す",
-    "withdraw_sbd": "Steem Dollar を引き出す",
+    "withdraw_steem": "Withdraw HIVE",
+    "withdraw_sbd": "Withdraw HIVE Dollar",
     "incoming_funds": "入ってくる資金",
     "stop": "中止",
     "address_view": "アドレスを表示"
   },
   "boost": {
-    "title": "eSteem ポイントを手に入れる",
+    "title": "Get Esteem Points",
     "buy": "ESTM を手に入れる",
     "next": "次へ"
   },
