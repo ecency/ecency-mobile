@@ -64,12 +64,12 @@
     "transfer_to_saving": "Transferă la economii",
     "powerUp": "Power Up",
     "withdraw_to_saving": "Retrage la economii",
-    "steemconnect_title": "Transfer Steemconnect",
+    "steemconnect_title": "Hivesigner Transfer",
     "next": "URMĂTORUL",
     "delegate": "Delegare",
     "power_down": "Power Down",
-    "withdraw_steem": "Retrage Steem",
-    "withdraw_sbd": "Retrage SBD",
+    "withdraw_steem": "Withdraw HIVE",
+    "withdraw_sbd": "Withdraw HBD",
     "transfer_to_savings": "Transferă la economii",
     "convert": "Converteşte",
     "escrow_transfer": "Transfer Escrow",
@@ -86,21 +86,21 @@
       "buy": "OBȚINE ESTM"
     },
     "savingsteem": {
-      "title": "STEEM Economii"
+      "title": "HIVE Savings"
     },
     "savingsbd": {
-      "title": "Economii SBD"
+      "title": "HBD Savings"
     },
     "steem": {
-      "title": "STEEM",
-      "buy": "OBȚINE STEEM"
+      "title": "HIVE",
+      "buy": "GET HIVE"
     },
     "sbd": {
-      "title": "SBD",
-      "buy": "OBȚINE SBD"
+      "title": "HBD",
+      "buy": "GET HBD"
     },
     "steem_power": {
-      "title": "STEEM POWER"
+      "title": "HIVE POWER"
     },
     "btc": {
       "title": "BTC",
@@ -161,11 +161,11 @@
     "follow_people": "Urmărește câțiva utilizatori pentru a completa feedul",
     "havent_commented": "încă nu a comentat",
     "havent_posted": "încă nu a postat nimic",
-    "steem_power": "Steem Power",
+    "steem_power": "Hive Power",
     "next_power_text": "Următoarul power down în",
     "days": "zile",
     "day": "zi",
-    "steem_dollars": "Steem Dolari",
+    "steem_dollars": "Hive Dollars",
     "savings": "Economii",
     "edit": {
       "display_name": "Numele afișat",
@@ -213,14 +213,14 @@
   "login": {
     "signin": "Loghează-te",
     "signup": "ALĂTURĂ-TE ACUM",
-    "signin_title": "Pentru a beneficia de toate funcționalitățile eSteem",
+    "signin_title": "To get all the benefits of using Esteem",
     "username": "Nume utilizator",
     "password": "Parolă sau WIF",
     "description": "Credentialele utilizatorului sunt salvate local pe dispozitiv. Credentialele sunt șterse după deconectare!",
     "cancel": "anulează",
     "login": "AUTENTIFICARE",
-    "steemconnect_description": "Dacă nu vrei să păstrezi parola criptată și salvată pe dispozitivul tău, poți folosi Steemconnect.",
-    "steemconnect_fee_description": "Steemconnect poate percepe anumite taxe la tranzacțiile tale de recompensă"
+    "steemconnect_description": "If you don't want to keep your password encrypted and saved on your device, you can use Hivesigner.",
+    "steemconnect_fee_description": "info"
   },
   "home": {
     "feed": "Flux",
@@ -288,7 +288,7 @@
     "success_shared": "Postarea ta a fost distribuită cu succes",
     "success_moved": "Mutat la schițe",
     "permission_denied": "Permisiune respinsă",
-    "permission_text": "Te rugăm să mergi în setările telefonului și să schimbi permisiunile aplicației eSteem.",
+    "permission_text": "Please, go to phone Settings and change Esteem app permissions.",
     "key_warning": "Verifică permisiunea oferită de cheia privată!",
     "success_rebloged": "Rebloged!",
     "already_rebloged": "Ai redistribuit postarea deja!",
@@ -319,7 +319,8 @@
     "checking": "Verificare în curs...",
     "external_link": "Deschidere în browser",
     "not_existing_post": "Postarea nu există! Te rugăm să verifici permlink și autorul.",
-    "google_play_version": "Am observat că dispozitivul tău are versiunea veche Google Play. Actualiză serviciile Google Play și încearcă din nou!"
+    "google_play_version": "Am observat că dispozitivul tău are versiunea veche Google Play. Actualiză serviciile Google Play și încearcă din nou!",
+    "rc_down": "Not enough resource credits to perform an action! \n\nBoost your account to continue enjoy the experience. Do you want to boost your account, now?"
   },
   "post": {
     "reblog_alert": "Ești sigur că vrei să redistribui?",
@@ -415,17 +416,17 @@
     "information": "Ești sigur că vrei să transferi fonduri?",
     "amount_desc": "Sold",
     "memo_desc": "Această notă este publică",
-    "convert_desc": "Convert takes 3.5 days and NOT recommended IF SBD price is higher than $1",
+    "convert_desc": "Convert takes 3.5 days and NOT recommended IF HBD price is higher than $1",
     "to_placeholder": "Nume de utilizator",
     "memo_placeholder": "Introdu comentariul tău aici",
     "transfer_token": "Transfer",
     "purchase_estm": "Purchase ESTM",
-    "convert": "Convert SBD to STEEM",
+    "convert": "Convert HBD to HIVE",
     "points": "Dăruiește ESTM cuiva",
     "transfer_to_saving": "Tranferă la economii",
     "powerUp": "Power Up",
     "withdraw_to_saving": "Retrage la economii",
-    "steemconnect_title": "Transfer Steemconnect",
+    "steemconnect_title": "Hivesigner Transfer",
     "estimated_weekly": "Estimare Săptămânală",
     "destination_accounts": "Conturi de destinație",
     "stop_information": "Ești sigur că vrei să te oprești?",
@@ -436,14 +437,14 @@
     "next": "URMĂTORUL",
     "delegate": "Delegare",
     "power_down": "Power Down",
-    "withdraw_steem": "Retrage Steem",
-    "withdraw_sbd": "Retrage Steem Dolar",
+    "withdraw_steem": "Withdraw HIVE",
+    "withdraw_sbd": "Withdraw HIVE Dollar",
     "incoming_funds": "Fonduri Primite",
     "stop": "Oprește",
     "address_view": "View address"
   },
   "boost": {
-    "title": "Câștigă puncte eSteem",
+    "title": "Get Esteem Points",
     "buy": "OBȚINE ESTM",
     "next": "URMĂTORUL"
   },
