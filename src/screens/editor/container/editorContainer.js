@@ -396,13 +396,36 @@ class EditorContainer extends Component {
 
   _handleSubmitFailure = error => {
     const { intl } = this.props;
+    console.log(error);
+    if (error && error.error_description.split(':')[1].includes('wait to transact')) {
+      //when RC is not enough, offer boosting account
+      Alert.alert(
+        intl.formatMessage({
+          id: 'alert.fail',
+        }),
+        intl.formatMessage({
+          id: 'alert.rc_down',
+        }),
+        [
+          {
+            text: 'Cancel',
+            onPress: () => console.log('Cancel Pressed'),
+            style: 'cancel',
+          },
+          { text: 'OK', onPress: () => console.log('OK Pressed') },
+        ],
+        { cancelable: false },
+      );
+    } else {
+      //when other errors
+      Alert.alert(
+        intl.formatMessage({
+          id: 'alert.fail',
+        }),
+        error.message || error.toString(),
+      );
+    }
 
-    Alert.alert(
-      intl.formatMessage({
-        id: 'alert.fail',
-      }),
-      error.message || error.toString(),
-    );
     this.stateTimer = setTimeout(() => {
       this.setState({ isPostSending: false });
       clearTimeout(this.stateTimer);

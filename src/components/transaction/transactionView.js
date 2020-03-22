@@ -16,7 +16,7 @@ import globalStyles from '../../globalStyles';
 
 const TransactionView = ({ transactions, type, refreshing, setRefreshing, isLoading }) => {
   const intl = useIntl();
-  const transaction_types = ['ESTM', 'STEEM', 'SBD', 'SP'];
+  const transaction_types = ['ESTM', 'HIVE', 'HBD', 'HP'];
 
   const _renderLoading = () => {
     if (isLoading) {

@@ -1,4 +1,4 @@
-import * as dsteem from 'dsteem';
+import * as dsteem from '@hivechain/dsteem';
 import sha256 from 'crypto-js/sha256';
 import Config from 'react-native-config';
 import get from 'lodash/get';

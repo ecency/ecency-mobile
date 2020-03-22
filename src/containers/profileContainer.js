@@ -177,16 +177,50 @@ class ProfileContainer extends Component {
 
   _profileActionDone = (error = null) => {
     const { username } = this.state;
+    const { intl } = this.props;
+
     this.setState({
       isProfileLoading: false,
     });
+    console.log(error);
     if (error) {
-      this.setState(
-        {
-          error,
-        },
-        () => Alert.alert(get(error, 'message') || error.toString()),
-      );
+      if (
+        error.error_description &&
+        error.error_description.split(':')[1].includes('wait to transact')
+      ) {
+        //when RC is not enough, offer boosting account
+        Alert.alert(
+          intl.formatMessage({
+            id: 'alert.fail',
+          }),
+          intl.formatMessage({
+            id: 'alert.rc_down',
+          }),
+          [
+            {
+              text: 'Cancel',
+              onPress: () => console.log('Cancel Pressed'),
+              style: 'cancel',
+            },
+            { text: 'OK', onPress: () => console.log('OK Pressed') },
+          ],
+          { cancelable: false },
+        );
+      } else {
+        //when other errors
+        this.setState(
+          {
+            error,
+          },
+          () =>
+            Alert.alert(
+              intl.formatMessage({
+                id: 'alert.fail',
+              }),
+              error.message || error.toString(),
+            ),
+        );
+      }
     } else {
       this._fetchProfile(username, true);
     }

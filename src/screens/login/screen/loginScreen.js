@@ -167,14 +167,7 @@ class LoginScreen extends PureComponent {
               />
             </View>
           </View>
-          <View tabLabel="SteemConnect" style={styles.tabbarItem}>
-            <InformationArea
-              description={intl.formatMessage({
-                id: 'login.steemconnect_fee_description',
-              })}
-              iconName="ios-information-circle-outline"
-              bold
-            />
+          <View tabLabel="Hivesigner" style={styles.tabbarItem}>
             <InformationArea
               description={intl.formatMessage({
                 id: 'login.steemconnect_description',
@@ -185,8 +178,8 @@ class LoginScreen extends PureComponent {
               wrapperStyle={styles.mainButtonWrapper}
               onPress={() => this._handleOnModalToggle()}
               source={STEEM_CONNECT_LOGO}
-              text="steem"
-              secondText="connect"
+              text="hive"
+              secondText="signer"
             />
           </View>
         </ScrollableTabView>

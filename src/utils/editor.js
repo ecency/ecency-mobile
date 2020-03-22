@@ -67,24 +67,24 @@ export const makeOptions = (author, permlink, operationType) => {
     allow_votes: true,
     author,
     permlink,
-    max_accepted_payout: '1000000.000 SBD',
+    max_accepted_payout: '1000000.000 HBD',
     percent_steem_dollars: 10000,
     extensions: [[0, { beneficiaries: [{ account: 'esteemapp', weight: 300 }] }]],
   };
 
   switch (operationType) {
     case 'sp':
-      a.max_accepted_payout = '1000000.000 SBD';
+      a.max_accepted_payout = '1000000.000 HBD';
       a.percent_steem_dollars = 0;
       break;
 
     case 'dp':
-      a.max_accepted_payout = '0.000 SBD';
+      a.max_accepted_payout = '0.000 HBD';
       a.percent_steem_dollars = 10000;
       break;
 
     default:
-      a.max_accepted_payout = '1000000.000 SBD';
+      a.max_accepted_payout = '1000000.000 HBD';
       a.percent_steem_dollars = 10000;
       break;
   }

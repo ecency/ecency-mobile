@@ -1,7 +1,7 @@
 import React, { PureComponent, Fragment } from 'react';
 import { connect } from 'react-redux';
 import { withNavigation } from 'react-navigation';
-import { Share } from 'react-native';
+import { Share, Alert } from 'react-native';
 import ActionSheet from 'react-native-actionsheet';
 import { injectIntl } from 'react-intl';
 import get from 'lodash/get';
@@ -154,7 +154,8 @@ class PostDropdownContainer extends PureComponent {
           );
         })
         .catch(error => {
-          if (String(get(error, 'jse_shortmsg', '')).indexOf('has already reblogged')) {
+          console.log(error);
+          if (String(get(error, 'jse_shortmsg', '')).indexOf('has already reblogged') > -1) {
             dispatch(
               toastNotification(
                 intl.formatMessage({
@@ -163,7 +164,29 @@ class PostDropdownContainer extends PureComponent {
               ),
             );
           } else {
-            dispatch(toastNotification(intl.formatMessage({ id: 'alert.fail' })));
+            if (error && error.error_description.split(':')[1].includes('wait to transact')) {
+              //when RC is not enough, offer boosting account
+              Alert.alert(
+                intl.formatMessage({
+                  id: 'alert.fail',
+                }),
+                intl.formatMessage({
+                  id: 'alert.rc_down',
+                }),
+                [
+                  {
+                    text: 'Cancel',
+                    onPress: () => console.log('Cancel Pressed'),
+                    style: 'cancel',
+                  },
+                  { text: 'OK', onPress: () => console.log('OK Pressed') },
+                ],
+                { cancelable: false },
+              );
+            } else {
+              //when other errors
+              dispatch(toastNotification(intl.formatMessage({ id: 'alert.fail' })));
+            }
           }
         });
     }

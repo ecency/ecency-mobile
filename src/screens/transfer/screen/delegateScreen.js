@@ -194,7 +194,7 @@ class DelegateScreen extends Component {
             />
 
             <TransferFormItem
-              rightComponent={() => this._renderInformationText(`${spCalculated.toFixed(3)} SP`)}
+              rightComponent={() => this._renderInformationText(`${spCalculated.toFixed(3)} HP`)}
             />
             <Slider
               style={styles.slider}

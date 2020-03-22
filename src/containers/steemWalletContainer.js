@@ -125,10 +125,10 @@ const WalletContainer = ({
       const getBalance = (val, cur) => (val ? Math.round(val * 1000) / 1000 + cur : '');
 
       setUnclaimedBalance(
-        `${getBalance(get(walletData, 'rewardSteemBalance', 0), ' STEEM')} ${getBalance(
+        `${getBalance(get(walletData, 'rewardSteemBalance', 0), ' HIVE')} ${getBalance(
           get(walletData, 'rewardSbdBalance', 0),
-          ' SBD',
-        )} ${getBalance(get(walletData, 'rewardVestingSteem', 0), ' SP')}`,
+          ' HBD',
+        )} ${getBalance(get(walletData, 'rewardVestingSteem', 0), ' HP')}`,
       );
     }
   }, [userActivities, walletData]);
@@ -149,10 +149,10 @@ const WalletContainer = ({
       setEstimatedWalletValue && setEstimatedWalletValue(_walletData.estimatedValue);
       const getBalance = (val, cur) => (val ? Math.round(val * 1000) / 1000 + cur : '');
       setUnclaimedBalance(
-        `${getBalance(get(_walletData, 'rewardSteemBalance', 0), ' STEEM')} ${getBalance(
+        `${getBalance(get(_walletData, 'rewardSteemBalance', 0), ' HIVE')} ${getBalance(
           get(_walletData, 'rewardSbdBalance', 0),
-          ' SBD',
-        )} ${getBalance(get(_walletData, 'rewardVestingSteem', 0), ' SP')}`,
+          ' HBD',
+        )} ${getBalance(get(_walletData, 'rewardVestingSteem', 0), ' HP')}`,
       );
     },
     [globalProps, setEstimatedWalletValue, steemPerMVests],
@@ -244,7 +244,7 @@ const WalletContainer = ({
 
     if (
       (transferType === 'transfer_token' || transferType === 'purchase_estm') &&
-      fundType === 'STEEM'
+      fundType === 'HIVE'
     ) {
       balance = Math.round(walletData.balance * 1000) / 1000;
     }
@@ -252,14 +252,14 @@ const WalletContainer = ({
       (transferType === 'transfer_token' ||
         transferType === 'convert' ||
         transferType === 'purchase_estm') &&
-      fundType === 'SBD'
+      fundType === 'HBD'
     ) {
       balance = Math.round(walletData.sbdBalance * 1000) / 1000;
     }
-    if (transferType === 'withdraw_steem' && fundType === 'STEEM') {
+    if (transferType === 'withdraw_steem' && fundType === 'HIVE') {
       balance = Math.round(walletData.savingBalance * 1000) / 1000;
     }
-    if (transferType === 'withdraw_sbd' && fundType === 'SBD') {
+    if (transferType === 'withdraw_sbd' && fundType === 'HBD') {
       balance = Math.round(walletData.savingBalanceSbd * 1000) / 1000;
     }
 
