@@ -1123,10 +1123,10 @@
     exec-sh "^0.3.2"
     minimist "^1.2.0"
 
-"@esteemapp/esteem-render-helpers@^1.3.7":
-  version "1.3.7"
-  resolved "https://registry.yarnpkg.com/@esteemapp/esteem-render-helpers/-/esteem-render-helpers-1.3.7.tgz#1d8c4b6c8f4bc909ea7a511a2689ee5c8288a96a"
-  integrity sha512-iF3zWL0IMnHBcz+tW61TNYWhhoT3v+daWmMygTupE02moJpxDOh05hYuGQX/ROHPFOVi9OYesckWjyLSFj7+yw==
+"@esteemapp/esteem-render-helpers@^1.3.8":
+  version "1.3.8"
+  resolved "https://registry.yarnpkg.com/@esteemapp/esteem-render-helpers/-/esteem-render-helpers-1.3.8.tgz#99db67ff4f673db4f3051744d6be7646987b6e07"
+  integrity sha512-UXFdIEoQQr2S0w0YWOiSAACY2y69exGnuL7TWSh3TwCZXdGo0/u5bJSeUuA8NitW4VHD/+1wVVQb443eYSSlBw==
   dependencies:
     he "^1.2.0"
     lru-cache "^5.1.1"
@@ -1238,10 +1238,10 @@
   dependencies:
     "@hapi/hoek" "^8.3.0"
 
-"@hivechain/dsteem@^0.12.13":
-  version "0.12.13"
-  resolved "https://registry.yarnpkg.com/@hivechain/dsteem/-/dsteem-0.12.13.tgz#4524ab94183d583d91b7f3e32dcd60bb4d994d6e"
-  integrity sha512-6jO2NR/v52d1uYgd9N2PfLp7pCdk1FeJXnT/ePFLcFDqD1T403ZG266tHWF0hK5fovzTTwhvmD+vf4jyP+addA==
+"@hivechain/dsteem@^0.12.14":
+  version "0.12.14"
+  resolved "https://registry.yarnpkg.com/@hivechain/dsteem/-/dsteem-0.12.14.tgz#2f9eda0e5aba0f93f160109e847518e758004bf1"
+  integrity sha512-VMjYWvuT9x84A+eJt1AmKQNBwtkzH+rj/CfYtkBKitJllbBc3zfrgfqIHbu1cKkw+gohsABhZlM1+/DW3Kw7gA==
   dependencies:
     bs58 "^4.0.1"
     bytebuffer "^5.0.1"
