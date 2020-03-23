@@ -463,6 +463,7 @@ export const getPostWithComments = async (user, permlink) => {
 
 export const vote = (account, pin, author, permlink, weight) =>
   _vote(account, pin, author, permlink, weight).then(resp => {
+    alert(resp.block_num);
     userActivity(account.username, 120, resp.block_num, resp.id);
     return resp;
   });
