@@ -1341,13 +1341,11 @@ export const profileUpdate = async (params, pin, currentAccount) => {
 export const getBtcAddress = (pin, currentAccount) => {
   const digitPinCode = getDigitPinCode(pin);
   const key = getActiveKey(get(currentAccount, 'local'), digitPinCode);
-  console.log(pin, currentAccount, digitPinCode, key);
   /*if (get(currentAccount, 'local.authType') === AUTH_TYPE.STEEM_CONNECT) {
     return { address: '' };
   }*/
 
   if (key) {
-    console.log(key);
     const keyPair = bitcoin.ECPair.fromWIF(key);
     const { address } = bitcoin.payments.p2pkh({ pubkey: keyPair.publicKey });
 
