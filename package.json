@@ -14,7 +14,6 @@
     "android": "react-native run-android",
     "ios": "react-native run-ios",
     "releasenotes": "./release-notes.sh > release-notes.txt; node -e 'console.log(JSON.stringify(require(\"fs\").readFileSync(\"release-notes.txt\", \"utf8\")));' > release-notes.json",
-    "postinstall": "rn-nodeify --install buffer,stream,assert,events,crypto,vm,process --hack",
     "test": "node node_modules/jest/bin/jest.js --watch",
     "lint": "eslint src/",
     "lint:fix": "eslint src/ --fix",
