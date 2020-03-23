@@ -1238,10 +1238,10 @@
   dependencies:
     "@hapi/hoek" "^8.3.0"
 
-"@hivechain/dsteem@^0.12.12":
-  version "0.12.12"
-  resolved "https://registry.yarnpkg.com/@hivechain/dsteem/-/dsteem-0.12.12.tgz#38fee5a8a253c69d9bbf6d5f6d51144729784130"
-  integrity sha512-rYwZs8UrLEFLnUSPuMU7VhqUyEdyDz0Ul/VuV7yyheufk1v9BU3PgW1AKqqmhoU+Fh9HajD4WSZmvxYtjtBsjA==
+"@hivechain/dsteem@^0.12.13":
+  version "0.12.13"
+  resolved "https://registry.yarnpkg.com/@hivechain/dsteem/-/dsteem-0.12.13.tgz#4524ab94183d583d91b7f3e32dcd60bb4d994d6e"
+  integrity sha512-6jO2NR/v52d1uYgd9N2PfLp7pCdk1FeJXnT/ePFLcFDqD1T403ZG266tHWF0hK5fovzTTwhvmD+vf4jyP+addA==
   dependencies:
     bs58 "^4.0.1"
     bytebuffer "^5.0.1"
@@ -1249,6 +1249,7 @@
     cross-fetch "^3.0.4"
     node-fetch "^2.6.0"
     secp256k1 "^3.8.0"
+    verror "^1.10.0"
     whatwg-fetch "^3.0.0"
 
 "@jest/console@^24.7.1", "@jest/console@^24.9.0":
@@ -9825,7 +9826,7 @@ vary@~1.1.2:
   resolved "https://registry.yarnpkg.com/vary/-/vary-1.1.2.tgz#2299f02c6ded30d4a5961b0b9f74524a18f634fc"
   integrity sha1-IpnwLG3tMNSllhsLn3RSShj2NPw=
 
-verror@1.10.0:
+verror@1.10.0, verror@^1.10.0:
   version "1.10.0"
   resolved "https://registry.yarnpkg.com/verror/-/verror-1.10.0.tgz#3a105ca17053af55d6e270c1f8288682e18da400"
   integrity sha1-OhBcoXBTr1XW4nDB+CiGguGNpAA=
