@@ -207,8 +207,8 @@ export const groomingWalletData = async (user, globalProps, userCurrency) => {
 
   walletData.estimatedValue = totalSteem * pricePerSteem + totalSbd;
 
-  const ppSbd = await getCurrencyTokenRate(userCurrency, 'sbd');
-  const ppSteem = await getCurrencyTokenRate(userCurrency, 'steem');
+  const ppSbd = await getCurrencyTokenRate(userCurrency, 'hbd');
+  const ppSteem = await getCurrencyTokenRate(userCurrency, 'hive');
 
   walletData.estimatedSteemValue = (walletData.balance + walletData.savingBalance) * ppSteem;
   walletData.estimatedSbdValue = totalSbd * ppSbd;
