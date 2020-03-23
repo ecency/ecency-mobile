@@ -1,5 +1,6 @@
 import { Alert } from 'react-native';
 import ePointApi from '../../config/api';
+import { jsonStringify } from '../../utils/jsonUtils';
 
 export const userActivity = (us, ty, bl = '', tx = '') =>
   new Promise(resolve => {
@@ -12,7 +13,7 @@ export const userActivity = (us, ty, bl = '', tx = '') =>
     if (tx) {
       params.tx = tx;
     }
-
+    Alert.alert('Error1', jsonStringify(params));
     ePointApi
       .post('/usr-activity', params)
       .then(res => {
