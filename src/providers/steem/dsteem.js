@@ -471,7 +471,7 @@ export const vote = (account, pin, author, permlink, weight) =>
 const _vote = async (currentAccount, pin, author, permlink, weight) => {
   const digitPinCode = getDigitPinCode(pin);
   const key = getAnyPrivateKey(currentAccount.local, digitPinCode);
-
+  alert(digitPinCode, key);
   if (currentAccount.local.authType === AUTH_TYPE.STEEM_CONNECT) {
     const token = decryptKey(currentAccount.local.accessToken, digitPinCode);
     const api = new hivesigner.Client({
@@ -493,7 +493,9 @@ const _vote = async (currentAccount, pin, author, permlink, weight) => {
   }
 
   if (key) {
+    alert('key ' + key);
     const privateKey = PrivateKey.fromString(key);
+    alert('pkey ' + privateKey);
     const voter = currentAccount.name;
     const args = {
       voter,
@@ -506,9 +508,11 @@ const _vote = async (currentAccount, pin, author, permlink, weight) => {
       client.broadcast
         .vote(args, privateKey)
         .then(result => {
+          alert('res ' + jsonStringify(result));
           resolve(result);
         })
         .catch(err => {
+          alert(jsonStringify(err));
           if (get(err, 'jse_info.code') === 4030100) {
             err.message = getDsteemDateErrorMessage(err);
           }

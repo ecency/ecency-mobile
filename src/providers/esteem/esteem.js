@@ -8,7 +8,7 @@ import bugsnag from '../../config/bugsnag';
 
 export const getCurrencyRate = currency =>
   api
-    .get(`/market-data/currency-rate/${currency}/sbd?fixed=1`)
+    .get(`/market-data/currency-rate/${currency}/hbd?fixed=1`)
     .then(resp => resp.data)
     .catch(err => {
       bugsnag.notify(err);
