@@ -165,7 +165,6 @@ export const groomingWalletData = async (user, globalProps, userCurrency) => {
   if (!user) {
     return walletData;
   }
-  console.log('groomingWalletData', user);
   const state = await getState(`/@${get(user, 'name')}/transfers`);
   const { accounts } = state;
   if (!accounts) {
