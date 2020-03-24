@@ -51,10 +51,10 @@ class PowerDownView extends Component {
 
   // Component Functions
 
-  _fetchRoutes = username => {
+  _fetchRoutes = (username) => {
     return getWithdrawRoutes(username)
-      .then(res => {
-        const accounts = res.map(item => ({
+      .then((res) => {
+        const accounts = res.map((item) => ({
           username: item.to_account,
           percent: item.percent,
           autoPowerUp: item.auto_vest,
@@ -64,7 +64,7 @@ class PowerDownView extends Component {
         });
         return res;
       })
-      .catch(e => {
+      .catch((e) => {
         alert(e.message || e.toString());
       });
   };
@@ -92,9 +92,9 @@ class PowerDownView extends Component {
       style={styles.dropdown}
       dropdownStyle={styles.dropdownStyle}
       textStyle={styles.dropdownText}
-      options={accounts.map(item => item.username)}
+      options={accounts.map((item) => item.username)}
       defaultText={currentAccountName}
-      selectedOptionIndex={accounts.findIndex(item => item.username === currentAccountName)}
+      selectedOptionIndex={accounts.findIndex((item) => item.username === currentAccountName)}
       onSelect={(index, value) => this._handleOnDropdownChange(value)}
     />
   );
@@ -107,7 +107,7 @@ class PowerDownView extends Component {
     }
     return (
       <Fragment>
-        {destinationAccounts.map(item => (
+        {destinationAccounts.map((item) => (
           <View style={styles.destinationAccountsLists} key={item.username}>
             <Text>{item.username}</Text>
             <IconButton
@@ -125,11 +125,11 @@ class PowerDownView extends Component {
     );
   };
 
-  _removeDestinationAccount = account => {
+  _removeDestinationAccount = (account) => {
     const { destinationAccounts } = this.state;
     const { setWithdrawVestingRoute, currentAccountName } = this.props;
 
-    const result = destinationAccounts.filter(item => item.username !== account.username);
+    const result = destinationAccounts.filter((item) => item.username !== account.username);
 
     setWithdrawVestingRoute(currentAccountName, account.username, 0, false);
     this.setState({ destinationAccounts: result });
@@ -144,7 +144,7 @@ class PowerDownView extends Component {
     />
   );
 
-  _renderInformationText = text => <Text style={styles.amountText}>{text}</Text>;
+  _renderInformationText = (text) => <Text style={styles.amountText}>{text}</Text>;
 
   _renderIncomingFunds = (poweringDownFund, poweringDownVests, nextPowerDown) => (
     <Fragment>
@@ -154,7 +154,7 @@ class PowerDownView extends Component {
     </Fragment>
   );
 
-  _handleOnDropdownChange = value => {
+  _handleOnDropdownChange = (value) => {
     const { fetchBalance } = this.props;
 
     fetchBalance(value);
@@ -162,13 +162,13 @@ class PowerDownView extends Component {
     this.setState({ from: value, amount: 0 });
   };
 
-  _renderDescription = text => <Text style={styles.description}>{text}</Text>;
+  _renderDescription = (text) => <Text style={styles.description}>{text}</Text>;
 
   _handleOnSubmit = (username, percent, autoPowerUp) => {
     const { destinationAccounts } = this.state;
     const { setWithdrawVestingRoute, currentAccountName, intl } = this.props;
 
-    if (!destinationAccounts.some(item => item.username === username)) {
+    if (!destinationAccounts.some((item) => item.username === username)) {
       destinationAccounts.push({ username, percent, autoPowerUp });
       setWithdrawVestingRoute(currentAccountName, username, percent, autoPowerUp);
       this.setState({
@@ -250,7 +250,7 @@ class PowerDownView extends Component {
                     thumbTintColor="#007ee5"
                     maximumValue={availableVestingShares}
                     value={amount}
-                    onValueChange={value => {
+                    onValueChange={(value) => {
                       this.setState({ amount: value });
                     }}
                   />
@@ -335,7 +335,7 @@ class PowerDownView extends Component {
           title={intl.formatMessage({ id: 'transfer.information' })}
           cancelButtonIndex={1}
           destructiveButtonIndex={0}
-          onPress={index => (index === 0 ? this._handleTransferAction() : null)}
+          onPress={(index) => (index === 0 ? this._handleTransferAction() : null)}
         />
         <ActionSheet
           ref={this.stopActionSheet}
@@ -346,7 +346,7 @@ class PowerDownView extends Component {
           title={intl.formatMessage({ id: 'transfer.stop_information' })}
           cancelButtonIndex={1}
           destructiveButtonIndex={0}
-          onPress={index =>
+          onPress={(index) =>
             index === 0 ? this.setState({ amount: 0 }, this._handleTransferAction()) : null
           }
         />

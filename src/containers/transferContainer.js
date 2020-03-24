@@ -53,23 +53,23 @@ class TransferContainer extends Component {
 
   // Component Functions
 
-  _getUserPointsBalance = async username => {
+  _getUserPointsBalance = async (username) => {
     await getUser(username)
-      .then(userPoints => {
+      .then((userPoints) => {
         const balance = Math.round(get(userPoints, 'points') * 1000) / 1000;
         this.setState({ balance });
       })
-      .catch(err => {
+      .catch((err) => {
         if (err) {
           alert(get(err, 'message') || err.toString());
         }
       });
   };
 
-  fetchBalance = username => {
+  fetchBalance = (username) => {
     const { fundType, transferType, tokenAddress } = this.state;
 
-    getAccount(username).then(async account => {
+    getAccount(username).then(async (account) => {
       let balance;
 
       if (
@@ -115,7 +115,7 @@ class TransferContainer extends Component {
     });
   };
 
-  _getAccountsWithUsername = async username => {
+  _getAccountsWithUsername = async (username) => {
     const validUsers = await lookupAccounts(username);
     return validUsers;
   };
@@ -193,7 +193,7 @@ class TransferContainer extends Component {
         dispatch(toastNotification(intl.formatMessage({ id: 'alert.successful' })));
         navigation.goBack();
       })
-      .catch(err => {
+      .catch((err) => {
         navigation.goBack();
         dispatch(toastNotification(err.message));
       });
@@ -209,7 +209,7 @@ class TransferContainer extends Component {
       autoVest,
     };
 
-    setWithdrawVestingRoute(currentAccount, pinCode, data).catch(err => {
+    setWithdrawVestingRoute(currentAccount, pinCode, data).catch((err) => {
       alert(err.message || err.toString());
     });
   };
@@ -247,7 +247,7 @@ class TransferContainer extends Component {
   }
 }
 
-const mapStateToProps = state => ({
+const mapStateToProps = (state) => ({
   accounts: state.account.otherAccounts,
   currentAccount: state.account.currentAccount,
   pinCode: state.application.pin,

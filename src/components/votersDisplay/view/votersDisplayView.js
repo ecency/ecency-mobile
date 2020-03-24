@@ -18,7 +18,7 @@ import styles from './votersDisplayStyles';
 const VotersDisplayView = ({ votes, navigation }) => {
   const intl = useIntl();
 
-  const _handleOnUserPress = username => {
+  const _handleOnUserPress = (username) => {
     navigation.navigate({
       routeName: ROUTES.SCREENS.PROFILE,
       params: {
@@ -52,7 +52,7 @@ const VotersDisplayView = ({ votes, navigation }) => {
       {votes && votes.length > 0 ? (
         <FlatList
           data={votes}
-          keyExtractor={item => item.voter}
+          keyExtractor={(item) => item.voter}
           removeClippedSubviews={false}
           renderItem={({ item, index }) => _renderItem(item, index)}
         />

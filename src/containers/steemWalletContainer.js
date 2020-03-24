@@ -74,7 +74,7 @@ const WalletContainer = ({
 
   useEffect(() => {
     const _transferHistory = userActivities.filter(
-      item =>
+      (item) =>
         get(item, 'textKey') === 'transfer' ||
         get(item, 'textKey') === 'transfer_to_vesting' ||
         get(item, 'textKey') === 'transfer_to_savings' ||
@@ -136,13 +136,13 @@ const WalletContainer = ({
   // Components functions
 
   const _getWalletData = useCallback(
-    async _selectedUser => {
+    async (_selectedUser) => {
       const _walletData = await groomingWalletData(_selectedUser, globalProps, currency);
 
       setWalletData(_walletData);
       setIsLoading(false);
       setUserActivities(
-        get(_walletData, 'transactions', []).map(item =>
+        get(_walletData, 'transactions', []).map((item) =>
           groomingTransactionData(item, steemPerMVests),
         ),
       );
@@ -158,7 +158,7 @@ const WalletContainer = ({
     [globalProps, setEstimatedWalletValue, steemPerMVests],
   );
 
-  const _isHasUnclaimedRewards = account => {
+  const _isHasUnclaimedRewards = (account) => {
     return (
       parseToken(get(account, 'reward_steem_balance')) > 0 ||
       parseToken(get(account, 'reward_sbd_balance')) > 0 ||
@@ -176,7 +176,7 @@ const WalletContainer = ({
     await setIsClaiming(true);
 
     getAccount(currentAccount.name)
-      .then(account => {
+      .then((account) => {
         isHasUnclaimedRewards = _isHasUnclaimedRewards(account[0]);
         if (isHasUnclaimedRewards) {
           const {
@@ -189,7 +189,7 @@ const WalletContainer = ({
         setIsClaiming(false);
       })
       .then(() => getAccount(currentAccount.name))
-      .then(account => {
+      .then((account) => {
         _getWalletData(selectedUser);
         if (isHasUnclaimedRewards) {
           dispatch(
@@ -201,7 +201,7 @@ const WalletContainer = ({
           );
         }
       })
-      .then(account => {
+      .then((account) => {
         _getWalletData(selectedUser);
         setIsClaiming(false);
       })
@@ -223,7 +223,7 @@ const WalletContainer = ({
     setRefreshing(true);
 
     getAccount(selectedUser.name)
-      .then(account => {
+      .then((account) => {
         _getWalletData(selectedUser);
         setRefreshing(false);
       })
@@ -278,7 +278,7 @@ const WalletContainer = ({
     }
   };
 
-  const getTokenAddress = tokenType => {
+  const getTokenAddress = (tokenType) => {
     if (tokenType === 'BTC') {
       console.log(getBtcAddress(pinCode, currentAccount));
     }
@@ -324,7 +324,7 @@ const WalletContainer = ({
   );
 };
 
-const mapStateToProps = state => ({
+const mapStateToProps = (state) => ({
   currentAccount: state.account.currentAccount,
   pinCode: state.application.pin,
   globalProps: state.account.globalProps,

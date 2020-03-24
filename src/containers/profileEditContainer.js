@@ -72,12 +72,12 @@ class ProfileEditContainer extends Component {
 
     this.setState({ isLoading: true });
     uploadImage(media)
-      .then(res => {
+      .then((res) => {
         if (res.data && res.data.url) {
           this.setState({ [action]: res.data.url, isLoading: false });
         }
       })
-      .catch(error => {
+      .catch((error) => {
         if (error) {
           Alert.alert(
             intl.formatMessage({
@@ -98,26 +98,26 @@ class ProfileEditContainer extends Component {
     }
   };
 
-  _handleOpenImagePicker = action => {
+  _handleOpenImagePicker = (action) => {
     ImagePicker.openPicker({
       includeBase64: true,
     })
-      .then(image => {
+      .then((image) => {
         this._handleMediaOnSelected(image, action);
       })
-      .catch(e => {
+      .catch((e) => {
         this._handleMediaOnSelectFailure(e);
       });
   };
 
-  _handleOpenCamera = action => {
+  _handleOpenCamera = (action) => {
     ImagePicker.openCamera({
       includeBase64: true,
     })
-      .then(image => {
+      .then((image) => {
         this._handleMediaOnSelected(image, action);
       })
-      .catch(e => {
+      .catch((e) => {
         this._handleMediaOnSelectFailure(e);
       });
   };
@@ -128,7 +128,7 @@ class ProfileEditContainer extends Component {
     });
   };
 
-  _handleMediaOnSelectFailure = error => {
+  _handleMediaOnSelectFailure = (error) => {
     const { intl } = this.props;
 
     if (get(error, 'code') === 'E_PERMISSION_MISSING') {
@@ -168,7 +168,7 @@ class ProfileEditContainer extends Component {
         navigation.state.params.fetchUser();
         navigation.goBack();
       })
-      .catch(error => {
+      .catch((error) => {
         Alert.alert(
           intl.formatMessage({
             id: 'alert.fail',
@@ -205,7 +205,7 @@ class ProfileEditContainer extends Component {
   }
 }
 
-const mapStateToProps = state => ({
+const mapStateToProps = (state) => ({
   currentAccount: state.account.currentAccount,
   isDarkTheme: state.application.isDarkTheme,
   pinCode: state.application.pin,

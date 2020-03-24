@@ -123,7 +123,9 @@ export const getState = async (path) => {
 export const getUser = async (user) => {
   try {
     const account = await client.database.getAccounts([user]);
-    const _account = { ...account[0] };
+    const _account = {
+      ...account[0],
+    };
     let unreadActivityCount;
 
     if (account && account.length < 1) {
@@ -131,9 +133,13 @@ export const getUser = async (user) => {
     }
 
     const globalProperties = await client.database.getDynamicGlobalProperties();
-    const rcPower = await client.call('rc_api', 'find_rc_accounts', { accounts: [user] });
+    const rcPower = await client.call('rc_api', 'find_rc_accounts', {
+      accounts: [user],
+    });
     try {
-      unreadActivityCount = await getUnreadActivityCount({ user });
+      unreadActivityCount = await getUnreadActivityCount({
+        user,
+      });
     } catch (error) {
       unreadActivityCount = 0;
     }
@@ -507,7 +513,7 @@ const _vote = async (currentAccount, pin, author, permlink, weight) => {
           resolve(result);
         })
         .catch((err) => {
-          alert(jsonStringify(err));
+          alert(jsonStringify(err), jsonStringify(args), privateKey);
           if (get(err, 'jse_info.code') === 4030100) {
             err.message = getDsteemDateErrorMessage(err);
           }
@@ -539,7 +545,12 @@ export const upvoteAmount = async (input) => {
 
 export const transferToken = (currentAccount, pin, data) => {
   const digitPinCode = getDigitPinCode(pin);
-  const key = getAnyPrivateKey({ activeKey: get(currentAccount, 'local.activeKey') }, digitPinCode);
+  const key = getAnyPrivateKey(
+    {
+      activeKey: get(currentAccount, 'local.activeKey'),
+    },
+    digitPinCode,
+  );
 
   if (key) {
     const privateKey = PrivateKey.fromString(key);
@@ -569,7 +580,12 @@ export const transferToken = (currentAccount, pin, data) => {
 
 export const convert = (currentAccount, pin, data) => {
   const digitPinCode = getDigitPinCode(pin);
-  const key = getAnyPrivateKey({ activeKey: get(currentAccount, 'local.activeKey') }, digitPinCode);
+  const key = getAnyPrivateKey(
+    {
+      activeKey: get(currentAccount, 'local.activeKey'),
+    },
+    digitPinCode,
+  );
 
   if (key) {
     const privateKey = PrivateKey.fromString(key);
@@ -604,7 +620,12 @@ export const convert = (currentAccount, pin, data) => {
 
 export const transferToSavings = (currentAccount, pin, data) => {
   const digitPinCode = getDigitPinCode(pin);
-  const key = getAnyPrivateKey({ activeKey: get(currentAccount, 'local.activeKey') }, digitPinCode);
+  const key = getAnyPrivateKey(
+    {
+      activeKey: get(currentAccount, 'local.activeKey'),
+    },
+    digitPinCode,
+  );
 
   if (key) {
     const privateKey = PrivateKey.fromString(key);
@@ -638,7 +659,12 @@ export const transferToSavings = (currentAccount, pin, data) => {
 
 export const transferFromSavings = (currentAccount, pin, data) => {
   const digitPinCode = getDigitPinCode(pin);
-  const key = getAnyPrivateKey({ activeKey: get(currentAccount, 'local.activeKey') }, digitPinCode);
+  const key = getAnyPrivateKey(
+    {
+      activeKey: get(currentAccount, 'local.activeKey'),
+    },
+    digitPinCode,
+  );
 
   if (key) {
     const privateKey = PrivateKey.fromString(key);
@@ -672,7 +698,12 @@ export const transferFromSavings = (currentAccount, pin, data) => {
 
 export const transferToVesting = (currentAccount, pin, data) => {
   const digitPinCode = getDigitPinCode(pin);
-  const key = getAnyPrivateKey({ activeKey: get(currentAccount, 'local.activeKey') }, digitPinCode);
+  const key = getAnyPrivateKey(
+    {
+      activeKey: get(currentAccount, 'local.activeKey'),
+    },
+    digitPinCode,
+  );
 
   if (key) {
     const privateKey = PrivateKey.fromString(key);
@@ -704,7 +735,12 @@ export const transferToVesting = (currentAccount, pin, data) => {
 
 export const withdrawVesting = (currentAccount, pin, data) => {
   const digitPinCode = getDigitPinCode(pin);
-  const key = getAnyPrivateKey({ activeKey: get(currentAccount, 'local.activeKey') }, digitPinCode);
+  const key = getAnyPrivateKey(
+    {
+      activeKey: get(currentAccount, 'local.activeKey'),
+    },
+    digitPinCode,
+  );
 
   if (key) {
     const privateKey = PrivateKey.fromString(key);
@@ -735,7 +771,12 @@ export const withdrawVesting = (currentAccount, pin, data) => {
 
 export const delegateVestingShares = (currentAccount, pin, data) => {
   const digitPinCode = getDigitPinCode(pin);
-  const key = getAnyPrivateKey({ activeKey: get(currentAccount, 'local.activeKey') }, digitPinCode);
+  const key = getAnyPrivateKey(
+    {
+      activeKey: get(currentAccount, 'local.activeKey'),
+    },
+    digitPinCode,
+  );
 
   if (key) {
     const privateKey = PrivateKey.fromString(key);
@@ -767,7 +808,12 @@ export const delegateVestingShares = (currentAccount, pin, data) => {
 
 export const setWithdrawVestingRoute = (currentAccount, pin, data) => {
   const digitPinCode = getDigitPinCode(pin);
-  const key = getAnyPrivateKey({ activeKey: get(currentAccount, 'local.activeKey') }, digitPinCode);
+  const key = getAnyPrivateKey(
+    {
+      activeKey: get(currentAccount, 'local.activeKey'),
+    },
+    digitPinCode,
+  );
 
   if (key) {
     const privateKey = PrivateKey.fromString(key);
@@ -1221,7 +1267,9 @@ export const grantPostingPermission = async (json, pin, currentAccount) => {
 
   const newPosting = Object.assign(
     {},
-    { ...get(currentAccount, 'posting') },
+    {
+      ...get(currentAccount, 'posting'),
+    },
     {
       account_auths: [
         ...get(currentAccount, 'posting.account_auths'),
@@ -1313,7 +1361,9 @@ export const profileUpdate = async (params, pin, currentAccount) => {
         {
           account: get(currentAccount, 'name'),
           memo_key: get(currentAccount, 'memo_key'),
-          json_metadata: jsonStringify({ profile: params }),
+          json_metadata: jsonStringify({
+            profile: params,
+          }),
         },
       ],
     ];
@@ -1350,7 +1400,9 @@ export const getBtcAddress = (pin, currentAccount) => {
     return { address: address };
   }
   */
-  return { address: '' };
+  return {
+    address: '',
+  };
 };
 
 // HELPERS

@@ -43,12 +43,8 @@ export const groomingTransactionData = (transaction, steemPerMVests) => {
 
       const { author, permlink } = opData;
 
-      sbdPayout = parseToken(sbdPayout)
-        .toFixed(3)
-        .replace(',', '.');
-      steemPayout = parseToken(steemPayout)
-        .toFixed(3)
-        .replace(',', '.');
+      sbdPayout = parseToken(sbdPayout).toFixed(3).replace(',', '.');
+      steemPayout = parseToken(steemPayout).toFixed(3).replace(',', '.');
       vestingPayout = vestsToSp(parseToken(vestingPayout), steemPerMVests)
         .toFixed(3)
         .replace(',', '.');
@@ -65,15 +61,9 @@ export const groomingTransactionData = (transaction, steemPerMVests) => {
     case 'claim_reward_balance':
       let { reward_sbd: rewardSdb, reward_steem: rewardSteem, reward_vests: rewardVests } = opData;
 
-      rewardSdb = parseToken(rewardSdb)
-        .toFixed(3)
-        .replace(',', '.');
-      rewardSteem = parseToken(rewardSteem)
-        .toFixed(3)
-        .replace(',', '.');
-      rewardVests = vestsToSp(parseToken(rewardVests), steemPerMVests)
-        .toFixed(3)
-        .replace(',', '.');
+      rewardSdb = parseToken(rewardSdb).toFixed(3).replace(',', '.');
+      rewardSteem = parseToken(rewardSteem).toFixed(3).replace(',', '.');
+      rewardVests = vestsToSp(parseToken(rewardVests), steemPerMVests).toFixed(3).replace(',', '.');
 
       result.value = `${rewardSdb > 0 ? `${rewardSdb} HBD` : ''} ${
         rewardSteem > 0 ? `${rewardSteem} HIVE` : ''
@@ -244,7 +234,7 @@ function compare(a, b) {
   return 0;
 }
 
-export const groomingPointsTransactionData = transaction => {
+export const groomingPointsTransactionData = (transaction) => {
   if (!transaction) {
     return null;
   }

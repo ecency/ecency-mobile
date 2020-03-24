@@ -19,7 +19,7 @@ const FormattedCurrency = ({
   );
 };
 
-const mapStateToProps = state => ({
+const mapStateToProps = (state) => ({
   currency: state.application.currency,
 });
 

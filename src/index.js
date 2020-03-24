@@ -17,7 +17,7 @@ const _renderApp = ({ locale }) => (
   </PersistGate>
 );
 
-const mapStateToProps = state => ({
+const mapStateToProps = (state) => ({
   locale: state.application.language,
 });
 

@@ -26,8 +26,10 @@ const WalletDetailsView = ({ walletData, intl, navigate, isShowDropdowns }) => {
         rightText={`${Math.round(walletData.balance * 1000) / 1000} HIVE`}
         isBoldText
         isHasdropdown={isShowDropdowns}
-        dropdownOptions={steemDropdown.map(item => intl.formatMessage({ id: `transfer.${item}` }))}
-        onDropdownSelect={index => navigate(steemDropdown[index], 'HIVE')}
+        dropdownOptions={steemDropdown.map((item) =>
+          intl.formatMessage({ id: `transfer.${item}` }),
+        )}
+        onDropdownSelect={(index) => navigate(steemDropdown[index], 'HIVE')}
       />
       <GrayWrapper isGray>
         <WalletLineItem
@@ -36,38 +38,44 @@ const WalletDetailsView = ({ walletData, intl, navigate, isShowDropdowns }) => {
           })}
           isBlackText
           iconName="ios-information-circle-outline"
-          rightText={`${Math.round(
-            vestsToSp(walletData.vestingShares, walletData.steemPerMVests) * 1000,
-          ) / 1000} SP`}
+          rightText={`${
+            Math.round(vestsToSp(walletData.vestingShares, walletData.steemPerMVests) * 1000) / 1000
+          } SP`}
           isBoldText
           isHasdropdown={isShowDropdowns}
-          dropdownOptions={steemPowerDropdown.map(item =>
+          dropdownOptions={steemPowerDropdown.map((item) =>
             intl.formatMessage({ id: `transfer.${item}` }),
           )}
-          onDropdownSelect={a => navigate(steemPowerDropdown[a], 'HIVE_POWER')}
+          onDropdownSelect={(a) => navigate(steemPowerDropdown[a], 'HIVE_POWER')}
         />
 
         {walletData.vestingSharesDelegated > 0 && (
           <WalletLineItem
-            rightText={`- ${Math.round(
-              vestsToSp(walletData.vestingSharesDelegated, walletData.steemPerMVests) * 1000,
-            ) / 1000} SP`}
+            rightText={`- ${
+              Math.round(
+                vestsToSp(walletData.vestingSharesDelegated, walletData.steemPerMVests) * 1000,
+              ) / 1000
+            } SP`}
             style={styles.walletLineDetail}
           />
         )}
         {walletData.vestingSharesReceived > 0 && (
           <WalletLineItem
-            rightText={`+ ${Math.round(
-              vestsToSp(walletData.vestingSharesReceived, walletData.steemPerMVests) * 1000,
-            ) / 1000} SP`}
+            rightText={`+ ${
+              Math.round(
+                vestsToSp(walletData.vestingSharesReceived, walletData.steemPerMVests) * 1000,
+              ) / 1000
+            } SP`}
             style={styles.walletLineDetail}
           />
         )}
         {(walletData.vestingSharesDelegated > 0 || walletData.vestingSharesReceived > 0) && (
           <WalletLineItem
-            rightText={`= ${Math.round(
-              vestsToSp(walletData.vestingSharesTotal, walletData.steemPerMVests) * 1000,
-            ) / 1000} SP`}
+            rightText={`= ${
+              Math.round(
+                vestsToSp(walletData.vestingSharesTotal, walletData.steemPerMVests) * 1000,
+              ) / 1000
+            } SP`}
             rightTextColor="#357ce6"
             style={styles.walletLineDetail}
           />
@@ -83,8 +91,8 @@ const WalletDetailsView = ({ walletData, intl, navigate, isShowDropdowns }) => {
         rightText={`$${Math.round(walletData.sbdBalance * 1000) / 1000}`}
         isBoldText
         isHasdropdown={isShowDropdowns}
-        dropdownOptions={sbdDropdown.map(item => intl.formatMessage({ id: `transfer.${item}` }))}
-        onDropdownSelect={a => navigate(sbdDropdown[a], 'HBD')}
+        dropdownOptions={sbdDropdown.map((item) => intl.formatMessage({ id: `transfer.${item}` }))}
+        onDropdownSelect={(a) => navigate(sbdDropdown[a], 'HBD')}
       />
       <GrayWrapper isGray>
         <WalletLineItem
@@ -96,19 +104,19 @@ const WalletDetailsView = ({ walletData, intl, navigate, isShowDropdowns }) => {
           rightText={`${Math.round(walletData.savingBalance * 1000) / 1000} STEEM`}
           isBoldText
           isHasdropdown={isShowDropdowns}
-          dropdownOptions={savingSteemDropdown.map(item =>
+          dropdownOptions={savingSteemDropdown.map((item) =>
             intl.formatMessage({ id: `transfer.${item}` }),
           )}
-          onDropdownSelect={a => navigate(savingSteemDropdown[a], 'SAVING_HIVE')}
+          onDropdownSelect={(a) => navigate(savingSteemDropdown[a], 'SAVING_HIVE')}
         />
         <WalletLineItem
           rightText={`$${Math.round(walletData.savingBalanceSbd * 1000) / 1000}`}
           style={styles.walletLineDetail}
           isHasdropdown={isShowDropdowns}
-          dropdownOptions={savingSbdDropdown.map(item =>
+          dropdownOptions={savingSbdDropdown.map((item) =>
             intl.formatMessage({ id: `transfer.${item}` }),
           )}
-          onDropdownSelect={a => navigate(savingSbdDropdown[a], 'SAVING_HBD')}
+          onDropdownSelect={(a) => navigate(savingSbdDropdown[a], 'SAVING_HBD')}
         />
       </GrayWrapper>
       {walletData.showPowerDown && (

@@ -28,14 +28,14 @@ class PinAnimatedInput extends Component {
       this.dots[index].setValue(0);
     });
     Animated.sequence([
-      ...this.dots.map(item =>
+      ...this.dots.map((item) =>
         Animated.timing(item, {
           toValue: 1,
           duration: 250,
           easing: Easing.linear,
         }),
       ),
-    ]).start(o => {
+    ]).start((o) => {
       if (o.finished) {
         this._startLoadingAnimation();
       }

@@ -127,7 +127,7 @@ class PulseAnimation extends Component {
       <View style={containerStyle}>
         {started && (
           <View style={pulseWrapperStyle}>
-            {pulses.map(pulse => (
+            {pulses.map((pulse) => (
               <View
                 key={pulse.pulseKey}
                 style={[

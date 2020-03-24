@@ -128,7 +128,7 @@ const CommentView = ({
                           title={intl.formatMessage({ id: 'alert.delete' })}
                           destructiveButtonIndex={0}
                           cancelButtonIndex={1}
-                          onPress={index => {
+                          onPress={(index) => {
                             index === 0 ? handleDeleteComment(comment.permlink) : null;
                           }}
                         />

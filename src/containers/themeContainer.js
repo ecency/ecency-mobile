@@ -11,7 +11,7 @@ const ThemeContainer = ({ children, isDarkTheme }) => {
   );
 };
 
-const mapStateToProps = state => ({
+const mapStateToProps = (state) => ({
   isDarkTheme: state.application.isDarkTheme,
 });
 

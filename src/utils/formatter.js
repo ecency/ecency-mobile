@@ -1,4 +1,4 @@
-export const makeCountFriendly = value => {
+export const makeCountFriendly = (value) => {
   if (!value) {
     return value;
   }
@@ -12,4 +12,4 @@ export const makeCountFriendly = value => {
   return intlFormat(value);
 };
 
-const intlFormat = num => Math.round(num * 10) / 10;
+const intlFormat = (num) => Math.round(num * 10) / 10;

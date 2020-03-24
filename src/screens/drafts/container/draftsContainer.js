@@ -39,7 +39,7 @@ const DraftsContainer = ({ currentAccount, intl, navigation, dispatch }) => {
     setIsLoading(true);
 
     getSchedules(currentAccount.name)
-      .then(data => {
+      .then((data) => {
         setSchedules(_sortDataS(data));
         setIsLoading(false);
       })
@@ -53,7 +53,7 @@ const DraftsContainer = ({ currentAccount, intl, navigation, dispatch }) => {
     setIsLoading(true);
 
     getDrafts(currentAccount.name)
-      .then(data => {
+      .then((data) => {
         setDrafts(_sortData(data));
         setIsLoading(false);
       })
@@ -63,10 +63,10 @@ const DraftsContainer = ({ currentAccount, intl, navigation, dispatch }) => {
       });
   };
 
-  const _removeDraft = id => {
+  const _removeDraft = (id) => {
     removeDraft(currentAccount.name, id)
       .then(() => {
-        const newDrafts = [...drafts].filter(draft => draft._id !== id);
+        const newDrafts = [...drafts].filter((draft) => draft._id !== id);
         setDrafts(_sortData(newDrafts));
       })
       .catch(() => {
@@ -74,10 +74,10 @@ const DraftsContainer = ({ currentAccount, intl, navigation, dispatch }) => {
       });
   };
 
-  const _removeSchedule = id => {
+  const _removeSchedule = (id) => {
     removeSchedule(currentAccount.name, id)
-      .then(res => {
-        const newSchedules = [...schedules].filter(schedule => schedule._id !== id);
+      .then((res) => {
+        const newSchedules = [...schedules].filter((schedule) => schedule._id !== id);
 
         setSchedules(_sortDataS(newSchedules));
       })
@@ -86,9 +86,9 @@ const DraftsContainer = ({ currentAccount, intl, navigation, dispatch }) => {
       });
   };
 
-  const _moveScheduleToDraft = id => {
+  const _moveScheduleToDraft = (id) => {
     moveSchedule(id, currentAccount.name)
-      .then(res => {
+      .then((res) => {
         dispatch(
           toastNotification(
             intl.formatMessage({
@@ -105,8 +105,8 @@ const DraftsContainer = ({ currentAccount, intl, navigation, dispatch }) => {
       });
   };
 
-  const _editDraft = id => {
-    const selectedDraft = drafts.find(draft => draft._id === id);
+  const _editDraft = (id) => {
+    const selectedDraft = drafts.find((draft) => draft._id === id);
 
     navigation.navigate({
       routeName: ROUTES.SCREENS.EDITOR,
@@ -117,7 +117,7 @@ const DraftsContainer = ({ currentAccount, intl, navigation, dispatch }) => {
     });
   };
 
-  const _sortData = data =>
+  const _sortData = (data) =>
     data.sort((a, b) => {
       const dateA = new Date(a.created).getTime();
       const dateB = new Date(b.created).getTime();
@@ -125,7 +125,7 @@ const DraftsContainer = ({ currentAccount, intl, navigation, dispatch }) => {
       return dateB > dateA ? 1 : -1;
     });
 
-  const _sortDataS = data =>
+  const _sortDataS = (data) =>
     data.sort((a, b) => {
       const dateA = new Date(a.schedule).getTime();
       const dateB = new Date(b.schedule).getTime();
@@ -147,7 +147,7 @@ const DraftsContainer = ({ currentAccount, intl, navigation, dispatch }) => {
   );
 };
 
-const mapStateToProps = state => ({
+const mapStateToProps = (state) => ({
   currentAccount: state.account.currentAccount,
 });
 

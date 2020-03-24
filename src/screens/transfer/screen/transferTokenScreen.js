@@ -47,7 +47,7 @@ class TransferTokenView extends Component {
     if (key) {
       switch (key) {
         case 'destination':
-          getAccountsWithUsername(value).then(res => {
+          getAccountsWithUsername(value).then((res) => {
             const isValid = res.includes(value);
 
             this.setState({ isUsernameValid: isValid });
@@ -92,7 +92,7 @@ class TransferTokenView extends Component {
   _renderInput = (placeholder, state, keyboardType, isTextArea) => (
     <TextInput
       style={[isTextArea ? styles.textarea : styles.input]}
-      onChangeText={amount => this._handleOnAmountChange(state, amount)}
+      onChangeText={(amount) => this._handleOnAmountChange(state, amount)}
       value={this.state[state]}
       placeholder={placeholder}
       placeholderTextColor="#c1c5c7"
@@ -110,14 +110,14 @@ class TransferTokenView extends Component {
       style={styles.dropdown}
       dropdownStyle={styles.dropdownStyle}
       textStyle={styles.dropdownText}
-      options={accounts.map(item => item.username)}
+      options={accounts.map((item) => item.username)}
       defaultText={currentAccountName}
-      selectedOptionIndex={accounts.findIndex(item => item.username === currentAccountName)}
+      selectedOptionIndex={accounts.findIndex((item) => item.username === currentAccountName)}
       onSelect={(index, value) => this._handleOnDropdownChange(value)}
     />
   );
 
-  _handleOnDropdownChange = value => {
+  _handleOnDropdownChange = (value) => {
     const { fetchBalance, transferType } = this.props;
 
     fetchBalance(value);
@@ -127,7 +127,7 @@ class TransferTokenView extends Component {
     }
   };
 
-  _renderDescription = text => <Text style={styles.description}>{text}</Text>;
+  _renderDescription = (text) => <Text style={styles.description}>{text}</Text>;
 
   render() {
     const {
@@ -261,7 +261,7 @@ class TransferTokenView extends Component {
           </ScrollView>
         </View>
         <ActionSheet
-          ref={o => (this.ActionSheet = o)}
+          ref={(o) => (this.ActionSheet = o)}
           options={[
             intl.formatMessage({ id: 'alert.confirm' }),
             intl.formatMessage({ id: 'alert.cancel' }),
@@ -269,7 +269,7 @@ class TransferTokenView extends Component {
           title={intl.formatMessage({ id: 'transfer.information' })}
           cancelButtonIndex={1}
           destructiveButtonIndex={0}
-          onPress={index => {
+          onPress={(index) => {
             index === 0 ? this._handleTransferAction() : null;
           }}
         />

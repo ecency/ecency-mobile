@@ -61,7 +61,7 @@ class ApplicationScreen extends Component {
         <Fragment>
           {!isConnected && <NoInternetConnection />}
           <Navigation
-            ref={navigatorRef => {
+            ref={(navigatorRef) => {
               setTopLevelNavigator(navigatorRef);
             }}
           />

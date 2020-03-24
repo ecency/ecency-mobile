@@ -48,7 +48,7 @@ class PromoteView extends PureComponent {
 
   // Component Functions
 
-  _handleOnPermlinkChange = async text => {
+  _handleOnPermlinkChange = async (text) => {
     this.setState({ permlink: text, isValid: false });
 
     if (this.timer) {
@@ -63,7 +63,7 @@ class PromoteView extends PureComponent {
     if (text && text.length > 0) {
       this.timer = setTimeout(
         () =>
-          searchPath(text).then(res => {
+          searchPath(text).then((res) => {
             this.setState({ permlinkSuggestions: res && res.length > 10 ? res.slice(0, 7) : res });
           }),
         500,
@@ -73,7 +73,7 @@ class PromoteView extends PureComponent {
     }
   };
 
-  _renderDescription = text => <Text style={styles.description}>{text}</Text>;
+  _renderDescription = (text) => <Text style={styles.description}>{text}</Text>;
 
   _renderDropdown = (accounts, currentAccountName) => (
     <DropdownButton
@@ -82,9 +82,9 @@ class PromoteView extends PureComponent {
       style={styles.dropdown}
       dropdownStyle={styles.dropdownStyle}
       textStyle={styles.dropdownText}
-      options={accounts.map(item => item.username)}
+      options={accounts.map((item) => item.username)}
       defaultText={currentAccountName}
-      selectedOptionIndex={accounts.findIndex(item => item.username === currentAccountName)}
+      selectedOptionIndex={accounts.findIndex((item) => item.username === currentAccountName)}
       onSelect={(index, value) => {
         this.setState({ selectedUser: value }, () => {
           this._getUserBalance(value);
@@ -93,13 +93,13 @@ class PromoteView extends PureComponent {
     />
   );
 
-  _getUserBalance = async username => {
+  _getUserBalance = async (username) => {
     await getUser(username)
-      .then(userPoints => {
+      .then((userPoints) => {
         const balance = Math.round(get(userPoints, 'points') * 1000) / 1000;
         this.setState({ balance });
       })
-      .catch(err => {
+      .catch((err) => {
         Alert.alert(err.message || err.toString());
       });
   };
@@ -155,11 +155,11 @@ class PromoteView extends PureComponent {
                     data={permlinkSuggestions}
                     listContainerStyle={styles.autocomplateListContainer}
                     listStyle={styles.autocomplateList}
-                    onChangeText={text => this._handleOnPermlinkChange(text)}
+                    onChangeText={(text) => this._handleOnPermlinkChange(text)}
                     renderTextInput={() => (
                       <TextInput
                         style={styles.input}
-                        onChangeText={text => this._handleOnPermlinkChange(text)}
+                        onChangeText={(text) => this._handleOnPermlinkChange(text)}
                         value={permlink || get(navigationParams, 'permlink', '')}
                         placeholder={intl.formatMessage({ id: 'promote.permlink' })}
                         placeholderTextColor="#c1c5c7"
@@ -199,7 +199,7 @@ class PromoteView extends PureComponent {
                 values={[1, 2, 3, 7, 14]}
                 LRpadding={50}
                 activeValue={day}
-                handleOnValueChange={_day => this.setState({ day: _day })}
+                handleOnValueChange={(_day) => this.setState({ day: _day })}
                 single
               />
             </View>
@@ -227,7 +227,7 @@ class PromoteView extends PureComponent {
           title={intl.formatMessage({ id: 'promote.information' })}
           cancelButtonIndex={1}
           destructiveButtonIndex={0}
-          onPress={index => {
+          onPress={(index) => {
             if (index === 0) {
               this._handleOnSubmit();
             }

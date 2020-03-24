@@ -43,7 +43,7 @@ const SteemView = ({ handleOnSelected, index, currentIndex, refreshing: reload }
                   options: savingSteemDropdown,
                 },
               ]}
-              handleOnDropdownSelected={option => navigate(option, 'HIVE')}
+              handleOnDropdownSelected={(option) => navigate(option, 'HIVE')}
               type="steem"
               currentIndex={currentIndex}
               showIconList={false}

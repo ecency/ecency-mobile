@@ -58,13 +58,13 @@ const PostDisplayView = ({
     fetchPost().then(() => setRefreshing(false));
   }, [refreshing]);
 
-  const _handleOnScroll = event => {
+  const _handleOnScroll = (event) => {
     const { y } = event.nativeEvent.contentOffset;
 
     setScrollHeight(HEIGHT + y);
   };
 
-  const _handleOnPostLayout = event => {
+  const _handleOnPostLayout = (event) => {
     const { height } = event.nativeEvent.layout;
 
     setPostHeight(height);
@@ -168,7 +168,7 @@ const PostDisplayView = ({
     <View style={styles.container}>
       <ScrollView
         style={styles.scroll}
-        onScroll={event => _handleOnScroll(event)}
+        onScroll={(event) => _handleOnScroll(event)}
         scrollEventThrottle={16}
         refreshControl={<RefreshControl refreshing={refreshing} onRefresh={onRefresh} />}
       >
@@ -178,7 +178,7 @@ const PostDisplayView = ({
           {!post ? (
             <PostPlaceHolder />
           ) : (
-            <View onLayout={event => _handleOnPostLayout(event)}>
+            <View onLayout={(event) => _handleOnPostLayout(event)}>
               {!!post.title && <Text style={styles.title}>{post.title}</Text>}
               <PostHeaderDescription
                 date={formatedTime}
@@ -221,7 +221,7 @@ const PostDisplayView = ({
         ]}
         title={intl.formatMessage({ id: 'alert.remove_alert' })}
         cancelButtonIndex={1}
-        onPress={index => (index === 0 ? handleOnRemovePress(get(post, 'permlink')) : null)}
+        onPress={(index) => (index === 0 ? handleOnRemovePress(get(post, 'permlink')) : null)}
       />
     </View>
   );

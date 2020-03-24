@@ -36,7 +36,7 @@ class ExampleContainer extends Component {
   }
 }
 
-const mapStateToProps = state => ({
+const mapStateToProps = (state) => ({
   user: state.user.user,
 });
 

@@ -26,7 +26,7 @@ class AccountListContainer extends Component {
   _handleSearch = (searchText, key) => {
     const { data, filterIndex } = this.state;
 
-    const newData = data.filter(item => {
+    const newData = data.filter((item) => {
       const itemName = item[key].toUpperCase();
       const _text = searchText.toUpperCase();
 
@@ -77,7 +77,7 @@ class AccountListContainer extends Component {
     this.setState({ filterResult: _data, filterIndex: index });
   };
 
-  _handleOnUserPress = username => {
+  _handleOnUserPress = (username) => {
     const { navigation } = this.props;
 
     navigation.navigate({

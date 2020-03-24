@@ -4,15 +4,15 @@ let _navigator;
 
 let navigationStack = [];
 
-const setTopLevelNavigator = navigatorRef => {
+const setTopLevelNavigator = (navigatorRef) => {
   _navigator = navigatorRef;
   if (navigationStack.length > 0) {
-    navigationStack.forEach(item => navigate(item));
+    navigationStack.forEach((item) => navigate(item));
     navigationStack = [];
   }
 };
 
-const navigate = navigationProps => {
+const navigate = (navigationProps) => {
   if (!_navigator) {
     navigationStack.push(navigationProps);
   } else {

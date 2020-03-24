@@ -29,7 +29,7 @@ const PostsContainer = ({
 }) => {
   const dispatch = useDispatch();
 
-  const _setFeedPosts = posts => {
+  const _setFeedPosts = (posts) => {
     dispatch(setFeedPosts(posts));
   };
 
@@ -67,7 +67,7 @@ const PostsContainer = ({
   );
 };
 
-const mapStateToProps = state => ({
+const mapStateToProps = (state) => ({
   nsfw: state.application.nsfw,
   feedPosts: state.posts.feedPosts,
   isConnected: state.application.isConnected,

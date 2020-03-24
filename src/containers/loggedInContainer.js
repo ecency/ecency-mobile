@@ -32,7 +32,7 @@ const LoggedInContainer = ({ isLoggedIn, isLoginDone, children }) => {
   );
 };
 
-const mapStateToProps = state => ({
+const mapStateToProps = (state) => ({
   isLoggedIn: state.application.isLoggedIn,
   isLoginDone: state.application.isLoginDone,
 });

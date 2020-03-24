@@ -20,7 +20,7 @@ const initialState = {
   isLogingOut: false,
 };
 
-export default function(state = initialState, action) {
+export default function (state = initialState, action) {
   switch (action.type) {
     case FETCHING_ACCOUNT:
       return {
@@ -60,7 +60,7 @@ export default function(state = initialState, action) {
     case REMOVE_OTHER_ACCOUNT:
       return {
         ...state,
-        otherAccounts: state.otherAccounts.filter(item => item.username !== action.payload),
+        otherAccounts: state.otherAccounts.filter((item) => item.username !== action.payload),
       };
 
     case UPDATE_CURRENT_ACCOUNT:

@@ -33,7 +33,7 @@ class TagContainer extends PureComponent {
 
     if (value.startsWith('hive-')) {
       getCommunity(value)
-        .then(r => {
+        .then((r) => {
           this.setState({ label: r });
           return r;
         })

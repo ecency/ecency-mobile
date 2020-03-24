@@ -45,13 +45,13 @@ class ProfileSummaryView extends PureComponent {
   // Component Life Cycles
 
   // Component Functions
-  _handleOnPressLink = url => {
+  _handleOnPressLink = (url) => {
     if (url) {
       Linking.openURL(url);
     }
   };
 
-  _handleOnDropdownSelect = index => {
+  _handleOnDropdownSelect = (index) => {
     const { isMuted, handleMuteUnmuteUser } = this.props;
 
     // This funciton should have switch case but now only has one option therefor
@@ -120,7 +120,7 @@ class ProfileSummaryView extends PureComponent {
     return (
       <Fragment>
         <View style={[isColumn ? styles.textWithIconWrapperColumn : styles.textWithIconWrapper]}>
-          {ABOUT_DATA.map(item =>
+          {ABOUT_DATA.map((item) =>
             get(item, 'text', null) ? (
               <TextWithIcon
                 isClickable={get(item, 'onPress')}

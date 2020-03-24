@@ -40,16 +40,16 @@ class LoginScreen extends PureComponent {
     };
   }
 
-  _handleOnPasswordChange = value => {
+  _handleOnPasswordChange = (value) => {
     this.setState({ password: value });
   };
 
-  _handleUsernameChange = username => {
+  _handleUsernameChange = (username) => {
     const { getAccountsWithUsername } = this.props;
 
     this.setState({ username });
 
-    getAccountsWithUsername(username).then(res => {
+    getAccountsWithUsername(username).then((res) => {
       const isValid = res.includes(username);
 
       this.setState({ isUsernameValid: isValid });
@@ -112,7 +112,7 @@ class LoginScreen extends PureComponent {
                 leftIconName="close"
                 iconType="MaterialCommunityIcons"
                 isValid={isUsernameValid}
-                onChange={value => this._handleUsernameChange(value)}
+                onChange={(value) => this._handleUsernameChange(value)}
                 placeholder={intl.formatMessage({
                   id: 'login.username',
                 })}
@@ -126,7 +126,7 @@ class LoginScreen extends PureComponent {
                 rightIconName="lock"
                 leftIconName="close"
                 isValid={isUsernameValid}
-                onChange={value => this._handleOnPasswordChange(value)}
+                onChange={(value) => this._handleOnPasswordChange(value)}
                 placeholder={intl.formatMessage({
                   id: 'login.password',
                 })}

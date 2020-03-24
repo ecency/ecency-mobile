@@ -65,10 +65,10 @@ const WalletHeaderView = ({
           dropdownRef={dropdownRef}
           isHasChildIcon
           iconName="arrow-drop-down"
-          options={options.map(itemKey => intl.formatMessage({ id: `wallet.${itemKey}` }))}
+          options={options.map((itemKey) => intl.formatMessage({ id: `wallet.${itemKey}` }))}
           noHighlight
           dropdownButtonStyle={styles.dropdownButtonStyle}
-          onSelect={selectedIndex => handleOnDropdownSelected(options[selectedIndex])}
+          onSelect={(selectedIndex) => handleOnDropdownSelected(options[selectedIndex])}
           rowTextStyle={styles.dropdownRowText}
           dropdownStyle={styles.dropdownStyle}
           iconStyle={styles.dropdownIconStyle}
@@ -80,7 +80,7 @@ const WalletHeaderView = ({
   return (
     <Fragment>
       <View style={styles.scrollContainer} contentContainerStyle={styles.scrollContentContainer}>
-        {userBalance.map(item =>
+        {userBalance.map((item) =>
           _getBalanceItem(
             get(item, 'balance', 0),
             get(item, 'options', []),

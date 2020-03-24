@@ -76,10 +76,12 @@ class DateTimePickerView extends PureComponent {
         cancelBtnText={intl.formatMessage({
           id: 'alert.cancel',
         })}
-        onDateChange={_datePickerValue => this._setValue(!date ? 'date' : 'time', _datePickerValue)}
+        onDateChange={(_datePickerValue) =>
+          this._setValue(!date ? 'date' : 'time', _datePickerValue)
+        }
         hideText
         is24Hour
-        ref={picker => {
+        ref={(picker) => {
           this.datePicker = picker;
         }}
         disabled={disabled}

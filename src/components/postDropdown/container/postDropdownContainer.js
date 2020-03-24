@@ -54,7 +54,7 @@ class PostDropdownContainer extends PureComponent {
   };
 
   // Component Functions
-  _handleOnDropdownSelect = async index => {
+  _handleOnDropdownSelect = async (index) => {
     const { content, dispatch, intl } = this.props;
 
     switch (OPTIONS[index]) {
@@ -153,7 +153,7 @@ class PostDropdownContainer extends PureComponent {
             ),
           );
         })
-        .catch(error => {
+        .catch((error) => {
           console.log(error);
           if (String(get(error, 'jse_shortmsg', '')).indexOf('has already reblogged') > -1) {
             dispatch(
@@ -245,18 +245,18 @@ class PostDropdownContainer extends PureComponent {
     return (
       <Fragment>
         <PostDropdownView
-          options={_OPTIONS.map(item =>
+          options={_OPTIONS.map((item) =>
             intl.formatMessage({ id: `post_dropdown.${item}` }).toUpperCase(),
           )}
           handleOnDropdownSelect={this._handleOnDropdownSelect}
           {...this.props}
         />
         <ActionSheet
-          ref={o => (this.ActionSheet = o)}
+          ref={(o) => (this.ActionSheet = o)}
           options={['Reblog', intl.formatMessage({ id: 'alert.cancel' })]}
           title={intl.formatMessage({ id: 'post.reblog_alert' })}
           cancelButtonIndex={1}
-          onPress={index => {
+          onPress={(index) => {
             index === 0 ? this._reblog() : null;
           }}
         />
@@ -265,7 +265,7 @@ class PostDropdownContainer extends PureComponent {
   }
 }
 
-const mapStateToProps = state => ({
+const mapStateToProps = (state) => ({
   isLoggedIn: state.application.isLoggedIn,
   currentAccount: state.account.currentAccount,
   pinCode: state.application.pin,

@@ -31,7 +31,7 @@ class UpvoteContainer extends PureComponent {
 
   // Component Functions
 
-  _setUpvotePercent = value => {
+  _setUpvotePercent = (value) => {
     const { dispatch } = this.props;
 
     if (value) {
@@ -74,7 +74,7 @@ class UpvoteContainer extends PureComponent {
     const beneficiaries = [];
     const beneficiary = get(content, 'beneficiaries');
     if (beneficiaries) {
-      beneficiary.forEach(key => {
+      beneficiary.forEach((key) => {
         beneficiaries.push(
           `\n  ${get(key, 'account')}: ${(parseFloat(get(key, 'weight')) / 100).toFixed(2)}%`,
         );
@@ -133,7 +133,7 @@ class UpvoteContainer extends PureComponent {
   }
 }
 
-const mapStateToProps = state => ({
+const mapStateToProps = (state) => ({
   isLoggedIn: state.application.isLoggedIn,
   upvotePercent: state.application.upvotePercent,
   pinCode: state.application.pin,

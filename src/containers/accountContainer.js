@@ -22,7 +22,7 @@ const AccountContainer = ({
   );
 };
 
-const mapStateToProps = state => ({
+const mapStateToProps = (state) => ({
   accounts: state.account.otherAccounts,
   currentAccount: state.account.currentAccount,
   isLoggedIn: state.application.isLoggedIn,

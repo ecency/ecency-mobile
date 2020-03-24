@@ -40,7 +40,7 @@ const ProductItemLineView = ({ disabled, handleOnButtonPress, product, title }) 
   );
 };
 
-const _renderDeal = item => {
+const _renderDeal = (item) => {
   if (DEALS[item.productId]) {
     return (
       <View style={styles.descriptionWrapper}>

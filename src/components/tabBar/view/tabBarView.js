@@ -83,7 +83,7 @@ class TabBar extends PureComponent {
       outputRange: [0, containerWidth / numberOfTabs],
     });
 
-    const scaleValue = defaultScale => {
+    const scaleValue = (defaultScale) => {
       const number = 4;
       const arr = new Array(number * 2);
 
@@ -127,7 +127,7 @@ class TabBar extends PureComponent {
   }
 }
 
-const ButtonAndroid = props => (
+const ButtonAndroid = (props) => (
   <TouchableNativeFeedback
     delayPressIn={0}
     background={TouchableNativeFeedback.SelectableBackground()}
@@ -137,9 +137,9 @@ const ButtonAndroid = props => (
   </TouchableNativeFeedback>
 );
 
-const ButtonIos = props => <TouchableOpacity {...props}>{props.children}</TouchableOpacity>;
+const ButtonIos = (props) => <TouchableOpacity {...props}>{props.children}</TouchableOpacity>;
 
-const mapStateToProps = state => ({
+const mapStateToProps = (state) => ({
   isDarkTheme: state.application.isDarkTheme,
 });
 

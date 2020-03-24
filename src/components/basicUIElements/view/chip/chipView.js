@@ -5,12 +5,12 @@ import { IconButton } from '../../../iconButton';
 
 import styles from './chipStyle';
 
-const Chip = props => (
+const Chip = (props) => (
   <View style={[styles.wrapper, props.isPin && styles.isPin]}>
     <TextInput
       style={[styles.textInput, props.removeButton && styles.textInputWithButton]}
       allowFontScaling
-      onChangeText={text => props.handleOnChange(text)}
+      onChangeText={(text) => props.handleOnChange(text)}
       onBlur={() => props.handleOnBlur()}
       {...props}
     />
