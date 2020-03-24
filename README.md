@@ -1,14 +1,18 @@
 ### eSteem Mobile
 
 iOS ![iOS](https://build.appcenter.ms/v0.1/apps/ef80aa2a-d4e1-4f43-a4f8-be12ea72ba9b/branches/master/badge)
-  Android ![Android](https://build.appcenter.ms/v0.1/apps/12aace32-b58a-49da-bf85-5477f89ae16e/branches/master/badge)
-
-![images](https://esteem.app/images/07.png)
+Android ![Android](https://build.appcenter.ms/v0.1/apps/12aace32-b58a-49da-bf85-5477f89ae16e/branches/master/badge)
 
 ## Open Beta 🔥
+
 [IOS](https://install.appcenter.ms/orgs/esteem.app/apps/esteem-1/distribution_groups/beta_testers)
 
 [ANDROID](https://install.appcenter.ms/orgs/esteem.app/apps/esteem/distribution_groups/beta_testers)
+
+## Download
+
+AppStore iOS: https://ios.esteem.app
+PlayStore Android: https://android.esteem.app
 
 ### I. How do I get set up? 🔧
 

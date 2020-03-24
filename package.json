@@ -120,8 +120,8 @@
     "jetifier": "^1.6.3",
     "lint-staged": "^7.2.0",
     "metro-react-native-babel-preset": "^0.56.0",
-    "prettier": "^1.17.0",
-    "prettier-eslint": "^8.8.2",
+    "prettier": "^2.0.2",
+    "prettier-eslint": "^9.0.1",
     "react-test-renderer": "16.9.0",
     "redux-devtools-extension": "^2.13.5",
     "redux-logger": "^3.0.6"
