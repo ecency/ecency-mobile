@@ -230,8 +230,6 @@ PODS:
     - SDWebImage/GIF
   - react-native-netinfo (5.3.3):
     - React
-  - react-native-randombytes (3.5.3):
-    - React
   - react-native-splash-screen (3.2.0):
     - React
   - react-native-version-number (0.3.6):
@@ -330,7 +328,6 @@ DEPENDENCIES:
   - react-native-config (from `../node_modules/react-native-config`)
   - react-native-fast-image (from `../node_modules/react-native-fast-image`)
   - "react-native-netinfo (from `../node_modules/@react-native-community/netinfo`)"
-  - react-native-randombytes (from `../node_modules/react-native-randombytes`)
   - react-native-splash-screen (from `../node_modules/react-native-splash-screen`)
   - react-native-version-number (from `../node_modules/react-native-version-number`)
   - react-native-webview (from `../node_modules/react-native-webview`)
@@ -419,8 +416,6 @@ EXTERNAL SOURCES:
     :path: "../node_modules/react-native-fast-image"
   react-native-netinfo:
     :path: "../node_modules/@react-native-community/netinfo"
-  react-native-randombytes:
-    :path: "../node_modules/react-native-randombytes"
   react-native-splash-screen:
     :path: "../node_modules/react-native-splash-screen"
   react-native-version-number:
@@ -500,7 +495,6 @@ SPEC CHECKSUMS:
   react-native-config: f2c2ae45625a068c35681a16b9bfb1ca58b0adc7
   react-native-fast-image: 6d50167ad4d68b59640ceead8c2bc4e58d91d8bd
   react-native-netinfo: 8884d510fe67349940b4399c01db3e3591c922aa
-  react-native-randombytes: 3638d24759d67c68f6ccba60c52a7a8a8faa6a23
   react-native-splash-screen: 200d11d188e2e78cea3ad319964f6142b6384865
   react-native-version-number: b415bbec6a13f2df62bf978e85bc0d699462f37f
   react-native-webview: 3f5aa91c3cb083ea4762e006b9653291a96a777a
