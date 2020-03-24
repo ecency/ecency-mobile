@@ -10,7 +10,9 @@ export const groomingTransactionData = (transaction, steemPerMVests) => {
     return [];
   }
 
-  const result = { iconType: 'MaterialIcons' };
+  const result = {
+    iconType: 'MaterialIcons',
+  };
 
   [result.textKey] = transaction[1].op;
   const opData = transaction[1].op[1];
@@ -28,7 +30,7 @@ export const groomingTransactionData = (transaction, steemPerMVests) => {
 
       result.value = `${vestsToSp(parseToken(reward), steemPerMVests)
         .toFixed(3)
-        .replace(',', '.')} SP`;
+        .replace(',', '.')} HP`;
       result.details = commentAuthor ? `@${commentAuthor}/${commentPermlink}` : null;
       break;
     case 'author_reward':
@@ -51,9 +53,9 @@ export const groomingTransactionData = (transaction, steemPerMVests) => {
         .toFixed(3)
         .replace(',', '.');
 
-      result.value = `${sbdPayout > 0 ? `${sbdPayout} SBD` : ''} ${
-        steemPayout > 0 ? `${steemPayout} STEEM` : ''
-      } ${vestingPayout > 0 ? `${vestingPayout} SP` : ''}`;
+      result.value = `${sbdPayout > 0 ? `${sbdPayout} HBD` : ''} ${
+        steemPayout > 0 ? `${steemPayout} HIVE` : ''
+      } ${vestingPayout > 0 ? `${vestingPayout} HP` : ''}`;
 
       result.details = author && permlink ? `@${author}/${permlink}` : null;
       if (result.textKey === 'comment_benefactor_reward') {
@@ -73,9 +75,9 @@ export const groomingTransactionData = (transaction, steemPerMVests) => {
         .toFixed(3)
         .replace(',', '.');
 
-      result.value = `${rewardSdb > 0 ? `${rewardSdb} SBD` : ''} ${
-        rewardSteem > 0 ? `${rewardSteem} STEEM` : ''
-      } ${rewardVests > 0 ? `${rewardVests} SP` : ''}`;
+      result.value = `${rewardSdb > 0 ? `${rewardSdb} HBD` : ''} ${
+        rewardSteem > 0 ? `${rewardSteem} HIVE` : ''
+      } ${rewardVests > 0 ? `${rewardVests} HP` : ''}`;
       break;
     case 'transfer':
     case 'transfer_to_savings':
@@ -95,7 +97,7 @@ export const groomingTransactionData = (transaction, steemPerMVests) => {
       opVestingShares = parseToken(opVestingShares);
       result.value = `${vestsToSp(opVestingShares, steemPerMVests)
         .toFixed(3)
-        .replace(',', '.')} SP`;
+        .replace(',', '.')} HP`;
       result.icon = 'attach-money';
       result.details = acc ? `@${acc}` : null;
       break;
@@ -246,7 +248,9 @@ export const groomingPointsTransactionData = transaction => {
   if (!transaction) {
     return null;
   }
-  const result = { ...transaction };
+  const result = {
+    ...transaction,
+  };
 
   result.details = get(transaction, 'sender')
     ? `from @${get(transaction, 'sender')}`
