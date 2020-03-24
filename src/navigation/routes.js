@@ -89,7 +89,7 @@ const bottomTabNavigator = createBottomTabNavigator(
     },
   },
   {
-    tabBarComponent: props => <BottomTabBar {...props} />,
+    tabBarComponent: (props) => <BottomTabBar {...props} />,
     tabBarOptions: {
       showLabel: false,
       activeTintColor: '#f6f6f6',

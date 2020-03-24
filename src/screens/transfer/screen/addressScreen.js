@@ -76,7 +76,7 @@ const AddressView = ({
   );
 };
 
-const mapStateToProps = state => ({
+const mapStateToProps = (state) => ({
   pinCode: state.application.pin,
   globalProps: state.account.globalProps,
   currency: state.application.currency.currency,

@@ -51,7 +51,7 @@ class InAppPurchaseContainer extends Component {
       fetchData,
     } = this.props;
 
-    this.purchaseUpdateSubscription = purchaseUpdatedListener(purchase => {
+    this.purchaseUpdateSubscription = purchaseUpdatedListener((purchase) => {
       const receipt = get(purchase, 'transactionReceipt');
       const token = get(purchase, 'purchaseToken');
 
@@ -76,8 +76,8 @@ class InAppPurchaseContainer extends Component {
               fetchData();
             }
           })
-          .catch(err =>
-            bugsnag.notify(err, report => {
+          .catch((err) =>
+            bugsnag.notify(err, (report) => {
               report.metadata = {
                 data,
               };
@@ -86,7 +86,7 @@ class InAppPurchaseContainer extends Component {
       }
     });
 
-    this.purchaseErrorSubscription = purchaseErrorListener(error => {
+    this.purchaseErrorSubscription = purchaseErrorListener((error) => {
       if (get(error, 'responseCode') === '3' && Platform.OS === 'android') {
         Alert.alert(
           intl.formatMessage({
@@ -127,7 +127,7 @@ class InAppPurchaseContainer extends Component {
     await this.setState({ isLoading: false });
   };
 
-  _buyItem = async sku => {
+  _buyItem = async (sku) => {
     const { navigation } = this.props;
 
     if (sku !== 'freePoints') {
@@ -136,7 +136,7 @@ class InAppPurchaseContainer extends Component {
       try {
         RNIap.requestPurchase(sku, false);
       } catch (err) {
-        bugsnag.notify(err, report => {
+        bugsnag.notify(err, (report) => {
           report.metadata = {
             sku,
           };
@@ -157,18 +157,21 @@ class InAppPurchaseContainer extends Component {
     return (
       children &&
       children({
-        productList: [...productList.filter(item => !item.productId.includes('spins')), FREE_ESTM],
+        productList: [
+          ...productList.filter((item) => !item.productId.includes('spins')),
+          FREE_ESTM,
+        ],
         buyItem: this._buyItem,
         isLoading,
         isProcessing,
         getItems: this._getItems,
-        spinProduct: productList.filter(item => item.productId.includes('spins')),
+        spinProduct: productList.filter((item) => item.productId.includes('spins')),
       })
     );
   }
 }
 
-const mapStateToProps = state => ({
+const mapStateToProps = (state) => ({
   currentAccount: state.account.currentAccount,
 });
 

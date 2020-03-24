@@ -54,7 +54,7 @@ const CommentBody = ({
     setRevealComment(true);
   };
   //new renderer functions
-  const __handleOnLinkPress = event => {
+  const __handleOnLinkPress = (event) => {
     if ((!event && !get(event, 'nativeEvent.data'), false)) {
       return;
     }
@@ -123,7 +123,7 @@ const CommentBody = ({
     } catch (error) {}
   };
 
-  const handleImagePress = ind => {
+  const handleImagePress = (ind) => {
     if (ind === 1) {
       //open gallery mode
       setIsImageModalOpen(true);
@@ -146,10 +146,10 @@ const CommentBody = ({
     }
   };
 
-  const handleLinkPress = ind => {
+  const handleLinkPress = (ind) => {
     if (ind === 1) {
       //open link
-      Linking.canOpenURL(selectedLink).then(supported => {
+      Linking.canOpenURL(selectedLink).then((supported) => {
         if (supported) {
           Linking.openURL(selectedLink);
         } else {
@@ -177,7 +177,7 @@ const CommentBody = ({
     }
   };
 
-  const __handleTagPress = tag => {
+  const __handleTagPress = (tag) => {
     if (tag) {
       navigate({
         routeName: ROUTES.SCREENS.SEARCH_RESULT,
@@ -201,7 +201,7 @@ const CommentBody = ({
     }
   };
 
-  const __handleOnUserPress = username => {
+  const __handleOnUserPress = (username) => {
     if (username) {
       navigate({
         routeName: ROUTES.SCREENS.PROFILE,
@@ -231,13 +231,13 @@ const CommentBody = ({
     }
   };
 
-  const _downloadImage = async uri => {
+  const _downloadImage = async (uri) => {
     return RNFetchBlob.config({
       fileCache: true,
       appendExt: 'jpg',
     })
       .fetch('GET', uri)
-      .then(res => {
+      .then((res) => {
         let status = res.info().status;
 
         if (status == 200) {
@@ -246,19 +246,19 @@ const CommentBody = ({
           Promise.reject();
         }
       })
-      .catch(errorMessage => {
+      .catch((errorMessage) => {
         Promise.reject(errorMessage);
       });
   };
 
-  const _saveImage = async uri => {
+  const _saveImage = async (uri) => {
     try {
       if (Platform.OS === 'android') {
         await checkAndroidPermission();
         uri = `file://${await _downloadImage(uri)}`;
       }
       CameraRoll.saveToCameraRoll(uri)
-        .then(res => {
+        .then((res) => {
           dispatch(
             toastNotification(
               intl.formatMessage({
@@ -267,7 +267,7 @@ const CommentBody = ({
             ),
           );
         })
-        .catch(error => {
+        .catch((error) => {
           dispatch(
             toastNotification(
               intl.formatMessage({
@@ -437,7 +437,7 @@ const CommentBody = ({
         ]}
         title={intl.formatMessage({ id: 'post.image' })}
         cancelButtonIndex={3}
-        onPress={index => {
+        onPress={(index) => {
           handleImagePress(index);
         }}
       />
@@ -450,7 +450,7 @@ const CommentBody = ({
         ]}
         title={intl.formatMessage({ id: 'post.link' })}
         cancelButtonIndex={2}
-        onPress={index => {
+        onPress={(index) => {
           handleLinkPress(index);
         }}
       />
@@ -484,6 +484,6 @@ const CommentBody = ({
 
 const areEqual = (prevProps, nextProps) => prevProps.body !== nextProps.body;
 
-const mapStateToProps = state => ({});
+const mapStateToProps = (state) => ({});
 
 export default connect(mapStateToProps)(React.memo(CommentBody, areEqual));

@@ -19,7 +19,7 @@ class PostHeaderDescription extends PureComponent {
   // Component Life Cycles
 
   // Component Functions
-  _handleOnUserPress = username => {
+  _handleOnUserPress = (username) => {
     const { navigation, profileOnPress, reputation, currentAccountUsername } = this.props;
 
     if (currentAccountUsername !== username) {

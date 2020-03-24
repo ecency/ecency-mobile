@@ -46,7 +46,7 @@ class BoostPostScreen extends PureComponent {
 
   // Component Functions
 
-  _handleOnPermlinkChange = async text => {
+  _handleOnPermlinkChange = async (text) => {
     this.setState({ permlink: text, isValid: false });
 
     if (this.timer) {
@@ -61,7 +61,7 @@ class BoostPostScreen extends PureComponent {
     if (text && text.length > 0) {
       this.timer = setTimeout(
         () =>
-          searchPath(text).then(res => {
+          searchPath(text).then((res) => {
             this.setState({ permlinkSuggestions: res && res.length > 10 ? res.slice(0, 7) : res });
           }),
         500,
@@ -71,7 +71,7 @@ class BoostPostScreen extends PureComponent {
     }
   };
 
-  _renderDescription = text => <Text style={styles.description}>{text}</Text>;
+  _renderDescription = (text) => <Text style={styles.description}>{text}</Text>;
 
   _renderDropdown = (accounts, currentAccountName) => (
     <DropdownButton
@@ -80,9 +80,9 @@ class BoostPostScreen extends PureComponent {
       style={styles.dropdown}
       dropdownStyle={styles.dropdownStyle}
       textStyle={styles.dropdownText}
-      options={accounts.map(item => item.username)}
+      options={accounts.map((item) => item.username)}
       defaultText={currentAccountName}
-      selectedOptionIndex={accounts.findIndex(item => item.username === currentAccountName)}
+      selectedOptionIndex={accounts.findIndex((item) => item.username === currentAccountName)}
       onSelect={(index, value) => {
         this.setState({ selectedUser: value }, () => {
           this._getUserBalance(value);
@@ -91,13 +91,13 @@ class BoostPostScreen extends PureComponent {
     />
   );
 
-  _getUserBalance = async username => {
+  _getUserBalance = async (username) => {
     await getUser(username)
-      .then(userPoints => {
+      .then((userPoints) => {
         const balance = Math.round(get(userPoints, 'points') * 1000) / 1000;
         this.setState({ balance });
       })
-      .catch(err => {
+      .catch((err) => {
         Alert.alert(err.message || err.toString());
       });
   };
@@ -161,7 +161,7 @@ class BoostPostScreen extends PureComponent {
                   renderTextInput={() => (
                     <TextInput
                       style={styles.input}
-                      onChangeText={text => this._handleOnPermlinkChange(text)}
+                      onChangeText={(text) => this._handleOnPermlinkChange(text)}
                       value={permlink || get(navigationParams, 'permlink', '')}
                       placeholder={intl.formatMessage({ id: 'promote.permlinkPlaceholder' })}
                       placeholderTextColor="#c1c5c7"
@@ -249,7 +249,7 @@ class BoostPostScreen extends PureComponent {
           title={intl.formatMessage({ id: 'promote.information' })}
           cancelButtonIndex={1}
           destructiveButtonIndex={0}
-          onPress={index => {
+          onPress={(index) => {
             if (index === 0) {
               if (index === 0) {
                 this._handleOnSubmit();

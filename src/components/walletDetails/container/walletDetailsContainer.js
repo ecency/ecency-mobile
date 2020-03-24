@@ -76,7 +76,7 @@ class WalletContainer extends PureComponent {
   }
 }
 
-const mapStateToProps = state => ({
+const mapStateToProps = (state) => ({
   isPinCodeOpen: state.application.isPinCodeOpen,
 });
 

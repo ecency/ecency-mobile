@@ -33,7 +33,7 @@ class CollapsibleCardView extends PureComponent {
   }
 
   // Component Functions
-  _initContentHeight = event => {
+  _initContentHeight = (event) => {
     if (this.anime.contentHeight > 0) {
       return;
     }
@@ -118,7 +118,7 @@ class CollapsibleCardView extends PureComponent {
 
         <Animated.View
           style={[styles.content, { height: this.anime.height, opacity: expanded ? 1 : 0 }]}
-          onLayout={e => this._initContentHeight(e)}
+          onLayout={(e) => this._initContentHeight(e)}
         >
           <View style={[!fitContent && !noContainer && styles.contentBody]}>{children}</View>
         </Animated.View>

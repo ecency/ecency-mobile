@@ -40,11 +40,11 @@ const ReblogScreen = ({ navigation }) => {
           <BasicHeader
             title={`${headerTitle} (${data && data.length})`}
             isHasSearch
-            handleOnSearch={text => handleSearch(text, 'account')}
+            handleOnSearch={(text) => handleSearch(text, 'account')}
           />
           <FlatList
             data={filterResult || data}
-            keyExtractor={item => item.account}
+            keyExtractor={(item) => item.account}
             removeClippedSubviews={false}
             renderItem={({ item, index }) => renderUserListItem(item, index, handleOnUserPress)}
           />

@@ -51,11 +51,11 @@ const BottomTabBarView = ({
             selectedIndex={index}
             circleBackgroundColor="#357ce6"
             backgroundColor={isDarkTheme ? '#2e3d51' : '#f6f6f6'}
-            onChange={i => _jumpTo(routes[i], index, routes, jumpTo)}
+            onChange={(i) => _jumpTo(routes[i], index, routes, jumpTo)}
             activeTintColor={activeTintColor}
             inactiveTintColor={inactiveTintColor}
           >
-            {routes.map(route => (
+            {routes.map((route) => (
               <TabBar.Item
                 icon={renderIcon({
                   route,

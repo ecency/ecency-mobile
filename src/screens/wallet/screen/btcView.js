@@ -36,7 +36,7 @@ const BtcView = ({ handleOnSelected, index, currentIndex, refreshing: reload }) 
               refreshing={refreshing}
               unclaimedBalance={0}
               userBalance={[{ balance: tokenBalance, nameKey: 'btc', options: btcDropdown }]}
-              handleOnDropdownSelected={option => navigate(option, 'BTC')}
+              handleOnDropdownSelected={(option) => navigate(option, 'BTC')}
               type="btc"
               currentIndex={currentIndex}
               showAddressButton

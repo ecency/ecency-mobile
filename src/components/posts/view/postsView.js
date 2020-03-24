@@ -114,7 +114,7 @@ const PostsView = ({
     startPermlink,
   ]);
 
-  const _handleOnDropdownSelect = async index => {
+  const _handleOnDropdownSelect = async (index) => {
     if (index === selectedFilterIndex) {
       _scrollTop();
     } else {
@@ -132,16 +132,16 @@ const PostsView = ({
 
   const _getPromotePosts = useCallback(async () => {
     await getPromotePosts()
-      .then(async res => {
+      .then(async (res) => {
         if (res && res.length) {
           const _promotedPosts = await Promise.all(
-            res.map(item =>
+            res.map((item) =>
               getPost(
                 get(item, 'author'),
                 get(item, 'permlink'),
                 currentAccountUsername,
                 true,
-              ).then(post => post),
+              ).then((post) => post),
             ),
           );
 
@@ -152,7 +152,7 @@ const PostsView = ({
   }, [currentAccountUsername]);
 
   const _loadPosts = useCallback(
-    type => {
+    (type) => {
       if (
         isLoading ||
         !isConnected ||
@@ -193,7 +193,7 @@ const PostsView = ({
       }
 
       getPostsSummary(filter, options, currentAccountUsername, nsfw)
-        .then(result => {
+        .then((result) => {
           if (result.length > 0) {
             let _posts = result;
 
@@ -338,7 +338,7 @@ const PostsView = ({
           {filterOptions && (
             <FilterBar
               dropdownIconName="arrow-drop-down"
-              options={filterOptions.map(item =>
+              options={filterOptions.map((item) =>
                 intl.formatMessage({ id: `home.${item.toLowerCase()}` }).toUpperCase(),
               )}
               selectedOptionIndex={selectedFilterIndex}
@@ -362,7 +362,7 @@ const PostsView = ({
                   const p = promotedPosts[ix];
                   if (
                     get(p, 'author', null) &&
-                    posts.filter(x => x.permlink === p.permlink).length <= 0
+                    posts.filter((x) => x.permlink === p.permlink).length <= 0
                   ) {
                     e.push(
                       <PostCard

@@ -92,7 +92,7 @@ const SettingsScreen = ({
             })}
             type="dropdown"
             actionType="api"
-            options={serverList.map(serverName => groomingServerName(serverName))}
+            options={serverList.map((serverName) => groomingServerName(serverName))}
             selectedOptionIndex={serverList.indexOf(selectedApi)}
             defaultText={
               groomingServerName(selectedApi) ||
@@ -108,7 +108,7 @@ const SettingsScreen = ({
             })}
             type="dropdown"
             actionType="nsfw"
-            options={NSFW.map(item =>
+            options={NSFW.map((item) =>
               intl.formatMessage({
                 id: item,
               }),

@@ -15,7 +15,7 @@ import { getResizedImage, getResizedAvatar } from './image';
 
 export const parsePosts = async (posts, currentUserName) => {
   if (posts) {
-    const promises = posts.map(post => parsePost(post, currentUserName));
+    const promises = posts.map((post) => parsePost(post, currentUserName));
     const formattedPosts = await Promise.all(promises);
     return formattedPosts;
   }
@@ -101,13 +101,13 @@ const postImage = (metaData, body) => {
 };
 
 export const parseComments = async (comments, currentUserName) => {
-  const pArray = comments.map(async comment => {
+  const pArray = comments.map(async (comment) => {
     const activeVotes = await getActiveVotes(get(comment, 'author'), get(comment, 'permlink'));
 
     if (comment.body.includes('Posted using [Partiko')) {
       comment.body = comment.body
         .split('\n')
-        .filter(item => item.includes('Posted using [Partiko') === false)
+        .filter((item) => item.includes('Posted using [Partiko') === false)
         .join('\n');
     }
     comment.pending_payout_value = parseFloat(get(comment, 'pending_payout_value', 0)).toFixed(3);
@@ -138,7 +138,7 @@ export const parseComments = async (comments, currentUserName) => {
 
 const isVoted = (activeVotes, currentUserName) => {
   const result = activeVotes.find(
-    element => get(element, 'voter') === currentUserName && get(element, 'percent', 0) > 0,
+    (element) => get(element, 'voter') === currentUserName && get(element, 'percent', 0) > 0,
   );
   if (result) {
     return result.percent;
@@ -148,7 +148,7 @@ const isVoted = (activeVotes, currentUserName) => {
 
 const isDownVoted = (activeVotes, currentUserName) => {
   const result = activeVotes.find(
-    element => get(element, 'voter') === currentUserName && get(element, 'percent') < 0,
+    (element) => get(element, 'voter') === currentUserName && get(element, 'percent') < 0,
   );
   if (result) {
     return result.percent;
@@ -168,7 +168,7 @@ const parseActiveVotes = (post, currentUserName) => {
   const ratio = totalPayout / voteRshares || 0;
 
   if (!isEmpty(post.active_votes)) {
-    forEach(post.active_votes, value => {
+    forEach(post.active_votes, (value) => {
       post.vote_percent = value.voter === currentUserName ? value.percent : null;
       value.value = (value.rshares * ratio).toFixed(3);
       value.reputation = getReputation(get(value, 'reputation'));

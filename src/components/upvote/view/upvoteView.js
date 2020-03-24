@@ -61,7 +61,7 @@ class UpvoteView extends Component {
     }
   };
 
-  _upvoteContent = closePopover => {
+  _upvoteContent = (closePopover) => {
     const {
       author,
       currentAccount,
@@ -100,7 +100,7 @@ class UpvoteView extends Component {
             },
           );
         })
-        .catch(err => {
+        .catch((err) => {
           console.log(err);
           if (
             err &&
@@ -156,7 +156,7 @@ class UpvoteView extends Component {
     }
   };
 
-  _downvoteContent = closePopover => {
+  _downvoteContent = (closePopover) => {
     const {
       author,
       currentAccount,
@@ -194,7 +194,7 @@ class UpvoteView extends Component {
             },
           );
         })
-        .catch(err => {
+        .catch((err) => {
           Alert.alert('Failed!', err.message);
           this.setState({
             isVoted: false,
@@ -410,7 +410,7 @@ class UpvoteView extends Component {
                       thumbStyle={styles.thumb}
                       thumbTintColor="#007ee5"
                       value={sliderValue}
-                      onValueChange={value => {
+                      onValueChange={(value) => {
                         this.setState({ sliderValue: value }, () => {
                           this._calculateEstimatedAmount();
                         });

@@ -30,7 +30,7 @@ const TransactionView = ({ transactions, type, refreshing, setRefreshing, isLoad
 
   const refreshControl = () => (
     <ThemeContainer>
-      {isDarkTheme => (
+      {(isDarkTheme) => (
         <RefreshControl
           refreshing={refreshing}
           onRefresh={() => setRefreshing(true)}

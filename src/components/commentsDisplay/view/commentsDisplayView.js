@@ -33,9 +33,9 @@ const CommentsDisplayView = ({
         <Fragment>
           <FilterBar
             dropdownIconName="arrow-drop-down"
-            options={VALUE.map(val => intl.formatMessage({ id: `comment_filter.${val}` }))}
+            options={VALUE.map((val) => intl.formatMessage({ id: `comment_filter.${val}` }))}
             defaultText={intl.formatMessage({ id: `comment_filter.${VALUE[0]}` })}
-            onDropdownSelect={selectedIndex =>
+            onDropdownSelect={(selectedIndex) =>
               _handleOnDropdownSelect(COMMENT_FILTER[selectedIndex], selectedIndex)
             }
             selectedOptionIndex={selectedOptionIndex}

@@ -18,7 +18,7 @@ class IconContainer extends PureComponent {
   }
 }
 
-const mapStateToProps = state => ({
+const mapStateToProps = (state) => ({
   unreadActivityCount: state.account.currentAccount.unread_activity_count || 0,
 });
 

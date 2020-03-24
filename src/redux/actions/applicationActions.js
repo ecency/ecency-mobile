@@ -29,7 +29,7 @@ import {
   IS_RENDER_REQUIRED,
 } from '../constants/constants';
 
-export const login = payload => ({
+export const login = (payload) => ({
   payload,
   type: LOGIN,
 });
@@ -46,7 +46,7 @@ export const isLoginDone = () => ({
   type: IS_LOGIN_DONE,
 });
 
-export const openPinCodeModal = payload => ({
+export const openPinCodeModal = (payload) => ({
   payload,
   type: OPEN_PIN_CODE_MODAL,
 });
@@ -60,27 +60,27 @@ export const activeApplication = () => ({
 });
 
 // Settings actions
-export const setLanguage = payload => ({
+export const setLanguage = (payload) => ({
   payload,
   type: SET_LANGUAGE,
 });
 
-export const setApi = payload => ({
+export const setApi = (payload) => ({
   payload,
   type: SET_API,
 });
 
-export const setUpvotePercent = payload => ({
+export const setUpvotePercent = (payload) => ({
   payload,
   type: SET_UPVOTE_PERCENT,
 });
 
-export const changeAllNotificationSettings = payload => ({
+export const changeAllNotificationSettings = (payload) => ({
   payload,
   type: CHANGE_ALL_NOTIFICATION_SETTINGS,
 });
 
-export const changeNotificationSettings = payload => {
+export const changeNotificationSettings = (payload) => {
   switch (payload.type) {
     case 'notification.follow':
       return {
@@ -129,27 +129,27 @@ export const changeNotificationSettings = payload => {
   }
 };
 
-export const isDarkTheme = payload => ({
+export const isDarkTheme = (payload) => ({
   payload,
   type: IS_DARK_THEME,
 });
 
-export const isPinCodeOpen = payload => ({
+export const isPinCodeOpen = (payload) => ({
   payload,
   type: IS_PIN_CODE_OPEN,
 });
 
-export const setConnectivityStatus = payload => ({
+export const setConnectivityStatus = (payload) => ({
   payload,
   type: IS_CONNECTED,
 });
 
-export const setNsfw = payload => ({
+export const setNsfw = (payload) => ({
   payload,
   type: SET_NSFW,
 });
 
-export const isDefaultFooter = payload => ({
+export const isDefaultFooter = (payload) => ({
   payload,
   type: IS_DEFAULT_FOOTER,
 });
@@ -157,10 +157,10 @@ export const isDefaultFooter = payload => ({
 /**
  * MW
  */
-export const setCurrency = currency => dispatch => {
+export const setCurrency = (currency) => (dispatch) => {
   const currencySymbol = getSymbolFromCurrency(currency);
 
-  getCurrencyRate(currency).then(currencyRate =>
+  getCurrencyRate(currency).then((currencyRate) =>
     dispatch({
       type: SET_CURRENCY,
       payload: { currency, currencyRate, currencySymbol },
@@ -168,12 +168,12 @@ export const setCurrency = currency => dispatch => {
   );
 };
 
-export const setPinCode = data => ({
+export const setPinCode = (data) => ({
   type: SET_PIN_CODE,
   payload: data,
 });
 
-export const isRenderRequired = payload => ({
+export const isRenderRequired = (payload) => ({
   payload,
   type: IS_RENDER_REQUIRED,
 });

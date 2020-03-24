@@ -52,7 +52,7 @@ class DelegateScreen extends Component {
     if (key) {
       switch (key) {
         case 'destination':
-          getAccountsWithUsername(value).then(res => {
+          getAccountsWithUsername(value).then((res) => {
             const isValid = res.includes(value);
 
             this.setState({ isUsernameValid: isValid });
@@ -94,7 +94,7 @@ class DelegateScreen extends Component {
     this._setState(state, _amount);
   };
 
-  _handleOnDropdownChange = value => {
+  _handleOnDropdownChange = (value) => {
     const { fetchBalance } = this.props;
 
     fetchBalance(value);
@@ -108,9 +108,9 @@ class DelegateScreen extends Component {
       style={styles.dropdown}
       dropdownStyle={styles.dropdownStyle}
       textStyle={styles.dropdownText}
-      options={accounts.map(item => item.username)}
+      options={accounts.map((item) => item.username)}
       defaultText={currentAccountName}
-      selectedOptionIndex={accounts.findIndex(item => item.username === currentAccountName)}
+      selectedOptionIndex={accounts.findIndex((item) => item.username === currentAccountName)}
       onSelect={(index, value) => this._handleOnDropdownChange(value)}
     />
   );
@@ -118,7 +118,7 @@ class DelegateScreen extends Component {
   _renderInput = (placeholder, state, keyboardType, isTextArea) => (
     <TextInput
       style={[isTextArea ? styles.textarea : styles.input]}
-      onChangeText={amount => this._handleOnAmountChange(state, amount)}
+      onChangeText={(amount) => this._handleOnAmountChange(state, amount)}
       value={this.state[state]}
       placeholder={placeholder}
       placeholderTextColor="#c1c5c7"
@@ -129,7 +129,7 @@ class DelegateScreen extends Component {
     />
   );
 
-  _renderInformationText = text => <Text style={styles.amountText}>{text}</Text>;
+  _renderInformationText = (text) => <Text style={styles.amountText}>{text}</Text>;
 
   render() {
     const {
@@ -204,7 +204,7 @@ class DelegateScreen extends Component {
               thumbTintColor="#007ee5"
               maximumValue={availableVestingShares}
               value={amount}
-              onValueChange={value => {
+              onValueChange={(value) => {
                 this.setState({ amount: value });
               }}
             />
@@ -231,7 +231,7 @@ class DelegateScreen extends Component {
           title={intl.formatMessage({ id: 'transfer.information' })}
           cancelButtonIndex={1}
           destructiveButtonIndex={0}
-          onPress={index => (index === 0 ? this._handleTransferAction() : null)}
+          onPress={(index) => (index === 0 ? this._handleTransferAction() : null)}
         />
         <Modal
           isOpen={steemConnectTransfer}

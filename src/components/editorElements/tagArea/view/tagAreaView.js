@@ -28,7 +28,7 @@ export default class TagAreaView extends Component {
   _handleOnChange = (text, i) => {
     if (text.indexOf(' ') > 0) {
       let ssp = [];
-      ssp = text.split(' ').filter(iii => iii);
+      ssp = text.split(' ').filter((iii) => iii);
       if (ssp.length > 1) {
         for (let ii = i; ii < i + ssp.length; ii++) {
           const element = ssp[ii - i];
@@ -50,7 +50,7 @@ export default class TagAreaView extends Component {
     }
   };
 
-  _handleOnBlur = i => {
+  _handleOnBlur = (i) => {
     this._handleTagAdded(i);
   };
 
@@ -79,7 +79,7 @@ export default class TagAreaView extends Component {
     this.setState({ currentText: '' });
   };
 
-  _handleTagRemove = i => {
+  _handleTagRemove = (i) => {
     const { chips } = this.state;
     const { handleTagChanged } = this.props;
 
@@ -126,7 +126,7 @@ export default class TagAreaView extends Component {
                 <Chip
                   // eslint-disable-next-line react/no-array-index-key
                   key={i}
-                  refs={input => {
+                  refs={(input) => {
                     this.inputs[i] = input;
                   }}
                   isPin={i === 0 && chips[1]}
@@ -138,7 +138,7 @@ export default class TagAreaView extends Component {
                   placeholder="tags"
                   autoFocus={i !== 0 && chips.length - 1 === i}
                   multiline={false}
-                  handleOnChange={text => this._handleOnChange(text, i)}
+                  handleOnChange={(text) => this._handleOnChange(text, i)}
                   handleOnBlur={() => this._handleOnBlur(i)}
                   blurOnSubmit
                   value={

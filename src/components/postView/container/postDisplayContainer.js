@@ -33,7 +33,7 @@ const PostDisplayContainer = ({
   author,
 }) => {
   // Component Functions
-  const _handleOnVotersPress = activeVotes => {
+  const _handleOnVotersPress = (activeVotes) => {
     navigation.navigate({
       routeName: ROUTES.SCREENS.VOTERS,
       params: {
@@ -44,7 +44,7 @@ const PostDisplayContainer = ({
     });
   };
 
-  const _handleOnReblogsPress = reblogs => {
+  const _handleOnReblogsPress = (reblogs) => {
     if (reblogs.length > 0) {
       navigation.navigate({
         routeName: ROUTES.SCREENS.REBLOGS,
@@ -83,7 +83,7 @@ const PostDisplayContainer = ({
     }
   };
 
-  const _handleDeleteComment = permlink => {
+  const _handleDeleteComment = (permlink) => {
     deleteComment(currentAccount, pinCode, permlink).then(() => {
       navigation.goBack();
       dispatch(
@@ -125,7 +125,7 @@ const PostDisplayContainer = ({
   );
 };
 
-const mapStateToProps = state => ({
+const mapStateToProps = (state) => ({
   currentAccount: state.account.currentAccount,
   pinCode: state.application.pin,
   isLoggedIn: state.application.isLoggedIn,

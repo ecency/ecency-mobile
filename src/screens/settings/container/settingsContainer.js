@@ -70,7 +70,7 @@ class SettingsContainer extends Component {
   // Component Life Cycle Functions
   componentDidMount() {
     getNodes()
-      .then(resp => {
+      .then((resp) => {
         this.setState({ serverList: resp });
       })
       .catch(() =>
@@ -113,7 +113,7 @@ class SettingsContainer extends Component {
     }
   };
 
-  _changeApi = async action => {
+  _changeApi = async (action) => {
     const { dispatch, selectedApi, intl } = this.props;
     const { serverList } = this.state;
     const server = serverList[action];
@@ -162,7 +162,7 @@ class SettingsContainer extends Component {
     dispatch(toastNotification(intl.formatMessage({ id: alertMessage })));
   };
 
-  _currencyChange = action => {
+  _currencyChange = (action) => {
     const { dispatch } = this.props;
 
     dispatch(setCurrency(CURRENCY_VALUE[action]));
@@ -231,7 +231,7 @@ class SettingsContainer extends Component {
     dispatch(changeNotificationSettings({ action, type: actionType }));
     setNotificationSettings({ action, type: actionType });
 
-    Object.keys(notificationDetails).map(item => {
+    Object.keys(notificationDetails).map((item) => {
       const notificationType = item.replace('Notification', '');
 
       if (notificationType === actionType.replace('notification.', '')) {
@@ -252,7 +252,7 @@ class SettingsContainer extends Component {
     }
   };
 
-  _handleButtonPress = actionType => {
+  _handleButtonPress = (actionType) => {
     const { dispatch } = this.props;
     switch (actionType) {
       case 'reset_pin':
@@ -282,15 +282,15 @@ class SettingsContainer extends Component {
     }
   };
 
-  _setPushToken = async notifyTypes => {
+  _setPushToken = async (notifyTypes) => {
     const { isLoggedIn, otherAccounts = [] } = this.props;
 
     if (isLoggedIn) {
       const token = await AppCenter.getInstallId();
 
-      getExistUser().then(isExistUser => {
+      getExistUser().then((isExistUser) => {
         if (isExistUser) {
-          otherAccounts.forEach(item => {
+          otherAccounts.forEach((item) => {
             const { isNotificationSettingsOpen } = this.props;
 
             const data = {
@@ -337,7 +337,7 @@ class SettingsContainer extends Component {
     }
   };
 
-  _setDefaultPinCode = action => {
+  _setDefaultPinCode = (action) => {
     const { dispatch, username, currentAccount, pinCode } = this.props;
 
     if (!action) {
@@ -347,7 +347,7 @@ class SettingsContainer extends Component {
         username,
         oldPinCode,
       };
-      updatePinCode(pinData).then(response => {
+      updatePinCode(pinData).then((response) => {
         const _currentAccount = currentAccount;
         _currentAccount.local = response;
 
@@ -381,7 +381,7 @@ class SettingsContainer extends Component {
   }
 }
 
-const mapStateToProps = state => ({
+const mapStateToProps = (state) => ({
   isDarkTheme: state.application.isDarkTheme,
   isPinCodeOpen: state.application.isPinCodeOpen,
   pinCode: state.application.pin,

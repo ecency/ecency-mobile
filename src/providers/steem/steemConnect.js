@@ -4,14 +4,14 @@ import steemConnect from './steemConnectAPI';
  * @method to upvote/unvote a content
  * @param {*} vote
  */
-export const vote = voteObj =>
+export const vote = (voteObj) =>
   new Promise((resolve, reject) => {
     steemConnect
       .vote(voteObj.voter, voteObj.author, voteObj.permlink, voteObj.weight)
-      .then(result => {
+      .then((result) => {
         resolve(result);
       })
-      .catch(error => {
+      .catch((error) => {
         reject(error);
       });
   });
@@ -20,7 +20,7 @@ export const vote = voteObj =>
  * @method to submit a comment/reply
  * @param {*} comment
  */
-export const comment = commentObj =>
+export const comment = (commentObj) =>
   new Promise((resolve, reject) => {
     steemConnect
       .comment(
@@ -32,15 +32,15 @@ export const comment = commentObj =>
         commentObj.body,
         commentObj.jsonMetadata,
       )
-      .then(result => {
+      .then((result) => {
         resolve(result);
       })
-      .catch(error => {
+      .catch((error) => {
         reject(error);
       });
   });
 
-export const post = postObj => {
+export const post = (postObj) => {
   // Create empty array for the operations
   const operations = [];
 
@@ -66,16 +66,16 @@ export const post = postObj => {
   return new Promise((resolve, reject) => {
     steemConnect
       .broadcast(operations)
-      .then(result => {
+      .then((result) => {
         resolve(result);
       })
-      .catch(error => {
+      .catch((error) => {
         reject(error);
       });
   });
 };
 
-export const prepareBeneficiaries = postObj => {
+export const prepareBeneficiaries = (postObj) => {
   const beneficiariesObject = {
     author: postObj.author,
     permlink: postObj.permlink,
@@ -101,26 +101,26 @@ export const prepareBeneficiaries = postObj => {
   return ['comment_options', beneficiariesObject];
 };
 
-export const follow = data =>
+export const follow = (data) =>
   new Promise((resolve, reject) => {
     steemConnect
       .follow(data.follower, data.following)
-      .then(result => {
+      .then((result) => {
         resolve(result);
       })
-      .catch(error => {
+      .catch((error) => {
         reject(error);
       });
   });
 
-export const unFollow = data =>
+export const unFollow = (data) =>
   new Promise((resolve, reject) => {
     steemConnect
       .unfollow(data.unfollower, data.unfollowing)
-      .then(result => {
+      .then((result) => {
         resolve(result);
       })
-      .catch(error => {
+      .catch((error) => {
         reject(error);
       });
   });
@@ -129,14 +129,14 @@ export const unFollow = data =>
  * @method to claim rewards
  * @param {*} data
  */
-export const claimRewards = data =>
+export const claimRewards = (data) =>
   new Promise((resolve, reject) => {
     steemConnect
       .claimRewardBalance(data.account, data.rewardSteem, data.rewardSBD, data.VESTS)
-      .then(result => {
+      .then((result) => {
         resolve(result);
       })
-      .catch(error => {
+      .catch((error) => {
         reject(error);
       });
   });
@@ -145,31 +145,31 @@ export const claimRewards = data =>
  * @method to mute/block an user
  * @param {*} data
  */
-export const muteUser = data =>
+export const muteUser = (data) =>
   new Promise((resolve, reject) => {
     steemConnect
       .ignore(data.follower, data.following)
-      .then(result => {
+      .then((result) => {
         resolve(result);
       })
-      .catch(error => {
+      .catch((error) => {
         reject(error);
       });
   });
 
-export const reblogPost = data =>
+export const reblogPost = (data) =>
   new Promise((resolve, reject) => {
     steemConnect
       .reblog(data.account, data.author, data.permlink)
-      .then(result => {
+      .then((result) => {
         resolve(result);
       })
-      .catch(error => {
+      .catch((error) => {
         reject(error);
       });
   });
 
-export const removeAccessToken = data =>
+export const removeAccessToken = (data) =>
   new Promise((resolve, reject) => {
     try {
       steemConnect.removeAccessToken();
@@ -196,14 +196,14 @@ export const revokeToken = () =>
  * @method to update user profile data
  * @param {*} data
  */
-export const updateUserMetadata = data =>
+export const updateUserMetadata = (data) =>
   new Promise((resolve, reject) => {
     steemConnect
       .updateUserMetadata(data)
-      .then(result => {
+      .then((result) => {
         resolve(result);
       })
-      .catch(error => {
+      .catch((error) => {
         reject(error);
       });
   });

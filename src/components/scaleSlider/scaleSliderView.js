@@ -17,7 +17,7 @@ export default class ScaleSliderView extends Component {
 
   _renderMarker = () => <View style={styles.marker} />;
 
-  _valueChange = _values => {
+  _valueChange = (_values) => {
     const { handleOnValueChange, values } = this.props;
     const index = _values[0] - 1;
 

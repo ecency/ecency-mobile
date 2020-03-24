@@ -28,11 +28,11 @@ const VotersScreen = ({ navigation }) => {
           <BasicHeader
             title={`${headerTitle} (${data && data.length})`}
             isHasSearch
-            handleOnSearch={text => handleSearch(text, 'voter')}
+            handleOnSearch={(text) => handleSearch(text, 'voter')}
           />
           <FilterBar
             dropdownIconName="arrow-drop-down"
-            options={filterOptions.map(item =>
+            options={filterOptions.map((item) =>
               intl.formatMessage({
                 id: `voters_dropdown.${item}`,
               }),

@@ -41,17 +41,17 @@ export const login = async (username, password, isPinCodeOpen) => {
 
   // Public keys of user
   const publicKeys = {
-    activeKey: get(account, 'active.key_auths', []).map(x => x[0])[0],
+    activeKey: get(account, 'active.key_auths', []).map((x) => x[0])[0],
     memoKey: get(account, 'memo_key', ''),
-    ownerKey: get(account, 'owner.key_auths', []).map(x => x[0])[0],
-    postingKey: get(account, 'posting.key_auths', []).map(x => x[0])[0],
+    ownerKey: get(account, 'owner.key_auths', []).map((x) => x[0])[0],
+    postingKey: get(account, 'posting.key_auths', []).map((x) => x[0])[0],
   };
 
   // // Set private keys of user
   const privateKeys = getPrivateKeys(username, password);
 
   // Check all keys
-  Object.keys(publicKeys).map(pubKey => {
+  Object.keys(publicKeys).map((pubKey) => {
     if (publicKeys[pubKey] === privateKeys[pubKey].createPublic().toString()) {
       loginFlag = true;
       if (privateKeys.isMasterKey) {
@@ -173,7 +173,7 @@ export const loginWithSC2 = async (code, isPinCodeOpen) => {
   });
 };
 
-export const setUserDataWithPinCode = async data => {
+export const setUserDataWithPinCode = async (data) => {
   try {
     const result = await getUserDataWithUsername(data.username);
     const userData = result[0];
@@ -201,14 +201,14 @@ export const setUserDataWithPinCode = async data => {
   }
 };
 
-export const updatePinCode = data =>
+export const updatePinCode = (data) =>
   new Promise((resolve, reject) => {
     let currentUser = null;
     try {
       setPinCode(get(data, 'pinCode'));
-      getUserData().then(async users => {
+      getUserData().then(async (users) => {
         if (users && users.length > 0) {
-          await users.forEach(userData => {
+          await users.forEach((userData) => {
             if (
               get(userData, 'authType', '') === AUTH_TYPE.MASTER_KEY ||
               get(userData, 'authType', '') === AUTH_TYPE.ACTIVE_KEY ||
@@ -242,7 +242,7 @@ export const updatePinCode = data =>
     }
   });
 
-export const verifyPinCode = async data => {
+export const verifyPinCode = async (data) => {
   const pinHash = await getPinCode();
 
   const result = await getUserDataWithUsername(data.username);
@@ -286,10 +286,10 @@ export const refreshSCToken = async (userData, pinCode) => {
   }
 };
 
-export const switchAccount = username =>
+export const switchAccount = (username) =>
   new Promise((resolve, reject) => {
     getUser(username)
-      .then(account => {
+      .then((account) => {
         updateCurrentUsername(username)
           .then(() => {
             resolve(account);
@@ -355,7 +355,7 @@ export const getUpdatedUserData = (userData, data) => {
   };
 };
 
-const isLoggedInUser = async username => {
+const isLoggedInUser = async (username) => {
   const result = await getUserDataWithUsername(username);
   if (result.length > 0) {
     return true;

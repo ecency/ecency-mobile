@@ -7,7 +7,7 @@ import LOGO from '../../assets/esteem_logo_transparent.png';
 import styles from './logoStyles';
 import globalStyles from '../../globalStyles';
 
-const Logo = props => (
+const Logo = (props) => (
   <View style={globalStyles.container}>
     <Image
       source={props.source ? props.source : LOGO}

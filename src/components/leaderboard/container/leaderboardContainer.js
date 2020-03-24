@@ -38,7 +38,7 @@ class LeaderboardContainer extends PureComponent {
     }
   }
 
-  _handleOnUserPress = username => {
+  _handleOnUserPress = (username) => {
     const { navigation } = this.props;
 
     navigation.navigate({
@@ -91,7 +91,7 @@ class LeaderboardContainer extends PureComponent {
   }
 }
 
-const mapStateToProps = state => ({
+const mapStateToProps = (state) => ({
   isConnected: state.application.isConnected,
 });
 

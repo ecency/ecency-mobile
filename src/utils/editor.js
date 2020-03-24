@@ -2,7 +2,7 @@ import getSlug from 'speakingurl';
 import { diff_match_patch as diffMatchPatch } from 'diff-match-patch';
 import VersionNumber from 'react-native-version-number';
 
-export const getWordsCount = text =>
+export const getWordsCount = (text) =>
   text && typeof text === 'string' ? text.replace(/^\s+|\s+$/g, '').split(/\s+/).length : 0;
 
 const permlinkRnd = () => (Math.random() + 1).toString(16).substring(2);
@@ -37,7 +37,7 @@ export const generatePermlink = (title, random = false) => {
   return perm;
 };
 
-export const generateReplyPermlink = toAuthor => {
+export const generateReplyPermlink = (toAuthor) => {
   if (!toAuthor) {
     return '';
   }
@@ -92,7 +92,7 @@ export const makeOptions = (author, permlink, operationType) => {
   return a;
 };
 
-export const makeJsonMetadataReply = tags => ({
+export const makeJsonMetadataReply = (tags) => ({
   tags,
   app: `esteem/${VersionNumber.appVersion}-mobile`,
   format: 'markdown+html',
@@ -114,7 +114,7 @@ export const makeJsonMetadataForUpdate = (oldJson, meta, tags) => {
   return Object.assign({}, oldJson, mergedMeta, { tags });
 };
 
-export const extractMetadata = body => {
+export const extractMetadata = (body) => {
   const urlReg = /(\b(https?|ftp):\/\/[A-Z0-9+&@#/%?=~_|!:,.;-]*[-A-Z0-9+&@#/%=~_|])/gim;
   const userReg = /(^|\s)(@[a-z][-.a-z\d]+[a-z\d])/gim;
   const imgReg = /(https?:\/\/.*\.(?:png|jpg|jpeg|gif))/gim;

@@ -30,29 +30,29 @@ class RedeemContainer extends Component {
     const { username } = this.props;
 
     await gameStatusCheck(username, 'spin')
-      .then(res => {
+      .then((res) => {
         this.setState({
           gameRight: get(res, 'remaining', 0),
           nextDate: get(res, 'next_date', null),
           isLoading: false,
         });
       })
-      .catch(err => {
+      .catch((err) => {
         if (err) {
           Alert.alert(get(err, 'message') || err.toString());
         }
       });
   };
 
-  _startGame = async type => {
+  _startGame = async (type) => {
     const { username } = this.props;
     let gameStatus;
 
     await gameStatusCheck(username, type)
-      .then(res => {
+      .then((res) => {
         gameStatus = res;
       })
-      .catch(err => {
+      .catch((err) => {
         if (err) {
           Alert.alert(get(err, 'message') || err.toString());
         }
@@ -60,7 +60,7 @@ class RedeemContainer extends Component {
 
     if (get(gameStatus, 'status') !== 18) {
       await gameClaim(username, type, get(gameStatus, 'key'))
-        .then(res => {
+        .then((res) => {
           this.setState(
             {
               gameRight: get(gameStatus, 'status') !== 3 ? 0 : 5,
@@ -69,7 +69,7 @@ class RedeemContainer extends Component {
             () => this._statusCheck(),
           );
         })
-        .catch(err => {
+        .catch((err) => {
           if (err) {
             Alert.alert(get(err, 'message') || err.toString());
           }
@@ -96,7 +96,7 @@ class RedeemContainer extends Component {
   }
 }
 
-const mapStateToProps = state => ({
+const mapStateToProps = (state) => ({
   username: state.account.currentAccount.name,
 });
 
