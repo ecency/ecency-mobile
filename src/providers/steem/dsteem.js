@@ -1,6 +1,6 @@
 /* eslint-disable camelcase */
-import '../../../shim';
-import * as bitcoin from 'bitcoinjs-lib';
+// import '../../../shim';
+// import * as bitcoin from 'bitcoinjs-lib';
 
 import { Client, PrivateKey } from '@hivechain/dsteem';
 import hivesigner from 'hivesigner';
@@ -1344,11 +1344,8 @@ export const profileUpdate = async (params, pin, currentAccount) => {
 };
 
 export const getBtcAddress = (pin, currentAccount) => {
-  const digitPinCode = getDigitPinCode(pin);
+  /*const digitPinCode = getDigitPinCode(pin);
   const key = getActiveKey(get(currentAccount, 'local'), digitPinCode);
-  /*if (get(currentAccount, 'local.authType') === AUTH_TYPE.STEEM_CONNECT) {
-    return { address: '' };
-  }*/
 
   if (key) {
     const keyPair = bitcoin.ECPair.fromWIF(key);
@@ -1357,7 +1354,7 @@ export const getBtcAddress = (pin, currentAccount) => {
     console.log('btc address', address);
     return { address: address };
   }
-
+  */
   return { address: '' };
 };
 
