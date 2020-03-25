@@ -1,4 +1,4 @@
-import * as dsteem from '@hivechain/dsteem';
+import * as dsteem from '@esteemapp/dsteem';
 import sha256 from 'crypto-js/sha256';
 import Config from 'react-native-config';
 import get from 'lodash/get';
@@ -105,7 +105,10 @@ export const login = async (username, password, isPinCodeOpen) => {
     // Save user data to Realm DB
     await setUserData(account.local);
     await updateCurrentUsername(account.name);
-    return { ...account, password };
+    return {
+      ...account,
+      password,
+    };
   }
   return Promise.reject(new Error('auth.invalid_credentials'));
 };
@@ -165,7 +168,10 @@ export const loginWithSC2 = async (code, isPinCodeOpen) => {
         };
         await setAuthStatus(authData);
         await setSCAccount(scTokens);
-        resolve({ ...account, accessToken: get(scTokens, 'access_token', '') });
+        resolve({
+          ...account,
+          accessToken: get(scTokens, 'access_token', ''),
+        });
       })
       .catch(() => {
         reject(new Error('auth.unknow_error'));
@@ -282,7 +288,10 @@ export const refreshSCToken = async (userData, pinCode) => {
     const newSCAccountData = await getSCAccessToken(scAccount.refreshToken);
     await setSCAccount(newSCAccountData);
     const accessToken = newSCAccountData.access_token;
-    await updateUserData({ ...userData, accessToken: encryptKey(accessToken, pinCode) });
+    await updateUserData({
+      ...userData,
+      accessToken: encryptKey(accessToken, pinCode),
+    });
   }
 };
 

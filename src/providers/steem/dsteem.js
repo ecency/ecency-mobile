@@ -2,7 +2,7 @@
 // import '../../../shim';
 // import * as bitcoin from 'bitcoinjs-lib';
 
-import { Client, PrivateKey } from '@hivechain/dsteem';
+import { Client, PrivateKey } from '@esteemapp/dsteem';
 import hivesigner from 'hivesigner';
 import Config from 'react-native-config';
 import { get, has } from 'lodash';
