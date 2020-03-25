@@ -164,7 +164,7 @@ class PostDropdownContainer extends PureComponent {
               ),
             );
           } else {
-            if (error && error.error_description.split(':')[1].includes('wait to transact')) {
+            if (error && error.jse_shortmsg.split(':')[1].includes('wait to transact')) {
               //when RC is not enough, offer boosting account
               Alert.alert(
                 intl.formatMessage({
