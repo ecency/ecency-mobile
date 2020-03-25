@@ -3,7 +3,7 @@ import { Platform } from 'react-native';
 import { connect } from 'react-redux';
 import AppCenter from 'appcenter';
 import Push from 'appcenter-push';
-import { Client } from '@hivechain/dsteem';
+import { Client } from '@esteemapp/dsteem';
 import VersionNumber from 'react-native-version-number';
 import Config from 'react-native-config';
 import { injectIntl } from 'react-intl';
@@ -71,7 +71,9 @@ class SettingsContainer extends Component {
   componentDidMount() {
     getNodes()
       .then((resp) => {
-        this.setState({ serverList: resp });
+        this.setState({
+          serverList: resp,
+        });
       })
       .catch(() =>
         this.setState({
@@ -120,10 +122,14 @@ class SettingsContainer extends Component {
     let serverResp;
     let isError = false;
     let alertMessage;
-    const client = new Client(server, { timeout: 3000 });
+    const client = new Client(server, {
+      timeout: 3000,
+    });
     dispatch(setApi(''));
 
-    this.setState({ isLoading: true });
+    this.setState({
+      isLoading: true,
+    });
 
     try {
       serverResp = await client.database.getDynamicGlobalProperties();
@@ -158,8 +164,16 @@ class SettingsContainer extends Component {
       checkClient();
     }
 
-    this.setState({ isLoading: false });
-    dispatch(toastNotification(intl.formatMessage({ id: alertMessage })));
+    this.setState({
+      isLoading: false,
+    });
+    dispatch(
+      toastNotification(
+        intl.formatMessage({
+          id: alertMessage,
+        }),
+      ),
+    );
   };
 
   _currencyChange = (action) => {
@@ -228,8 +242,16 @@ class SettingsContainer extends Component {
     };
     const notifyTypes = [];
 
-    dispatch(changeNotificationSettings({ action, type: actionType }));
-    setNotificationSettings({ action, type: actionType });
+    dispatch(
+      changeNotificationSettings({
+        action,
+        type: actionType,
+      }),
+    );
+    setNotificationSettings({
+      action,
+      type: actionType,
+    });
 
     Object.keys(notificationDetails).map((item) => {
       const notificationType = item.replace('Notification', '');
@@ -256,7 +278,11 @@ class SettingsContainer extends Component {
     const { dispatch } = this.props;
     switch (actionType) {
       case 'reset_pin':
-        dispatch(openPinCodeModal({ isReset: true }));
+        dispatch(
+          openPinCodeModal({
+            isReset: true,
+          }),
+        );
         break;
 
       case 'feedback':
@@ -351,7 +377,11 @@ class SettingsContainer extends Component {
         const _currentAccount = currentAccount;
         _currentAccount.local = response;
 
-        dispatch(updateCurrentAccount({ ..._currentAccount }));
+        dispatch(
+          updateCurrentAccount({
+            ..._currentAccount,
+          }),
+        );
 
         const encryptedPin = encryptKey(Config.DEFAULT_PIN, Config.PIN_KEY);
         dispatch(savePinCode(encryptedPin));

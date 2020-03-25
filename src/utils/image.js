@@ -1,5 +1,5 @@
 import CryptoJS from 'crypto-js';
-import * as dsteem from '@hivechain/dsteem';
+import * as dsteem from '@esteemapp/dsteem';
 import { Buffer } from 'buffer';
 import { proxifyImageSrc } from '@esteemapp/esteem-render-helpers';
 
