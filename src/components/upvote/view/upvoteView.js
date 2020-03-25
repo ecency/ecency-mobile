@@ -104,8 +104,8 @@ class UpvoteView extends Component {
           console.log(err);
           if (
             err &&
-            err.error_description.split(':')[1] &&
-            err.error_description.split(':')[1].includes('wait to transact')
+            err.jse_shortmsg.split(':')[1] &&
+            err.jse_shortmsg.split(':')[1].includes('wait to transact')
           ) {
             //when RC is not enough, offer boosting account
             Alert.alert(
@@ -131,19 +131,19 @@ class UpvoteView extends Component {
             });
           } else {
             //when voting with same percent or other errors
-            if (err.error_description.indexOf(':') > 0) {
+            if (err.jse_shortmsg.indexOf(':') > 0) {
               Alert.alert(
                 intl.formatMessage({
                   id: 'alert.fail',
                 }),
-                err.error_description.split(':')[1],
+                err.jse_shortmsg.split(':')[1],
               );
             } else {
               Alert.alert(
                 intl.formatMessage({
                   id: 'alert.fail',
                 }),
-                err.error_description,
+                err.jse_shortmsg,
               );
             }
             this.setState({

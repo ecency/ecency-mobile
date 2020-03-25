@@ -184,10 +184,7 @@ class ProfileContainer extends Component {
     });
     console.log(error);
     if (error) {
-      if (
-        error.error_description &&
-        error.error_description.split(':')[1].includes('wait to transact')
-      ) {
+      if (error.jse_shortmsg && error.jse_shortmsg.split(':')[1].includes('wait to transact')) {
         //when RC is not enough, offer boosting account
         Alert.alert(
           intl.formatMessage({
