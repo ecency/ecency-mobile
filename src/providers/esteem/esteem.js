@@ -161,7 +161,11 @@ export const removeFavorite = (currentUsername, targetUsername) =>
 
 export const getLeaderboard = (duration) =>
   api
-    .get('/leaderboard', { params: { duration } })
+    .get('/leaderboard', {
+      params: {
+        duration,
+      },
+    })
     .then((resp) => {
       return resp.data;
     })
@@ -229,7 +233,9 @@ export const getUnreadActivityCount = (data) =>
 export const markActivityAsRead = (user, id = null) =>
   new Promise((resolve, reject) => {
     api
-      .put(`/activities/${user}`, { id })
+      .put(`/activities/${user}`, {
+        id,
+      })
       .then((res) => {
         resolve(res.data);
       })
@@ -322,7 +328,11 @@ export const moveSchedule = (id, username) => api.put(`/schedules/${username}/${
 
 export const getImages = (username) => api.get(`api/images/${username}`).then((resp) => resp.data);
 
-export const addMyImage = (user, url) => api.post('/image', { username: user, image_url: url });
+export const addMyImage = (user, url) =>
+  api.post('/image', {
+    username: user,
+    image_url: url,
+  });
 
 export const uploadImage = (media) => {
   const file = {
@@ -367,8 +377,13 @@ export const getNodes = () =>
     );
 
 export const getSCAccessToken = (code) =>
-  new Promise((resolve) => {
-    api.post('/sc-token-refresh', { code }).then((resp) => resolve(resp.data));
+  new Promise((resolve, reject) => {
+    api
+      .post('/sc-token-refresh', {
+        code,
+      })
+      .then((resp) => resolve(resp.data))
+      .catch((e) => reject(e));
   });
 
 export const getPromotePosts = () => {
@@ -404,7 +419,10 @@ export const getCommunity = (tag) =>
       .post('https://rpc.esteem.app', {
         jsonrpc: '2.0',
         method: 'bridge.get_community',
-        params: { name: tag, observer: '' },
+        params: {
+          name: tag,
+          observer: '',
+        },
         id: 1,
       })
       .then((resp) => {
