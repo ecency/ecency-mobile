@@ -230,6 +230,8 @@ PODS:
     - SDWebImage/GIF
   - react-native-netinfo (5.3.3):
     - React
+  - react-native-splash-screen (3.2.0):
+    - React
   - react-native-version-number (0.3.6):
     - React
   - react-native-webview (8.0.4):
@@ -269,7 +271,7 @@ PODS:
     - React-cxxreact (= 0.61.5)
     - React-jsi (= 0.61.5)
     - ReactCommon/jscallinvoker (= 0.61.5)
-  - ReactNativeDarkMode (0.2.1):
+  - ReactNativeDarkMode (0.2.2):
     - React
   - rn-fetch-blob (0.12.0):
     - React-Core
@@ -326,6 +328,7 @@ DEPENDENCIES:
   - react-native-config (from `../node_modules/react-native-config`)
   - react-native-fast-image (from `../node_modules/react-native-fast-image`)
   - "react-native-netinfo (from `../node_modules/@react-native-community/netinfo`)"
+  - react-native-splash-screen (from `../node_modules/react-native-splash-screen`)
   - react-native-version-number (from `../node_modules/react-native-version-number`)
   - react-native-webview (from `../node_modules/react-native-webview`)
   - React-RCTActionSheet (from `../node_modules/react-native/Libraries/ActionSheetIOS`)
@@ -413,6 +416,8 @@ EXTERNAL SOURCES:
     :path: "../node_modules/react-native-fast-image"
   react-native-netinfo:
     :path: "../node_modules/@react-native-community/netinfo"
+  react-native-splash-screen:
+    :path: "../node_modules/react-native-splash-screen"
   react-native-version-number:
     :path: "../node_modules/react-native-version-number"
   react-native-webview:
@@ -490,6 +495,7 @@ SPEC CHECKSUMS:
   react-native-config: f2c2ae45625a068c35681a16b9bfb1ca58b0adc7
   react-native-fast-image: 6d50167ad4d68b59640ceead8c2bc4e58d91d8bd
   react-native-netinfo: 8884d510fe67349940b4399c01db3e3591c922aa
+  react-native-splash-screen: 200d11d188e2e78cea3ad319964f6142b6384865
   react-native-version-number: b415bbec6a13f2df62bf978e85bc0d699462f37f
   react-native-webview: 3f5aa91c3cb083ea4762e006b9653291a96a777a
   React-RCTActionSheet: 600b4d10e3aea0913b5a92256d2719c0cdd26d76
@@ -502,7 +508,7 @@ SPEC CHECKSUMS:
   React-RCTText: 9ccc88273e9a3aacff5094d2175a605efa854dbe
   React-RCTVibration: a49a1f42bf8f5acf1c3e297097517c6b3af377ad
   ReactCommon: 198c7c8d3591f975e5431bec1b0b3b581aa1c5dd
-  ReactNativeDarkMode: 0e6e7bdbd387eb949fa7ff238a48f6d6431a428d
+  ReactNativeDarkMode: 0178ffca3b10f6a7c9f49d6f9810232b328fa949
   rn-fetch-blob: f065bb7ab7fb48dd002629f8bdcb0336602d3cba
   RNCAsyncStorage: 44395cb9c7c1523104c2b499eb426ef7aff82bca
   RNGestureHandler: 946a7691e41df61e2c4b1884deab41a4cdc3afff

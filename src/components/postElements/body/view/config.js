@@ -16,7 +16,7 @@ for (var i = 0; i < images.length; i++) {
   var resultStr = JSON.stringify(JSON.stringify(result));
   var message = 'window.ReactNativeWebView.postMessage(' + resultStr + ')';
   if (!images[i].classList.contains("video-thumbnail") && !images[i].parentNode.classList.contains("markdown-external-link")) {
-    images[i].setAttribute("onClick", message);
+    images[i].setAttribute("onclick", message);
   }
 }
 document.addEventListener('click', function(event) {
@@ -118,6 +118,8 @@ true;
 `;
 
 const customCommentScript = `
+var longpress = 1500;
+var delay;
 var images = document.getElementsByTagName("IMG");
 var imageUrls = [];
 for (var k = 0; k < images.length; k++) {  
@@ -135,9 +137,25 @@ for (var i = 0; i < images.length; i++) {
   var resultStr = JSON.stringify(JSON.stringify(result));
   var message = 'window.ReactNativeWebView.postMessage(' + resultStr + ')';
   if (!images[i].classList.contains("video-thumbnail") && !images[i].parentNode.classList.contains("markdown-external-link")) {
-    images[i].setAttribute("onClick", message);
+    images[i].setAttribute("onclick", message);
   }
 }
+document.addEventListener('mousedown', function(event) {
+  delay = setTimeout(check, longpress);
+  function check() {
+    var result = {
+      type: 'longpress',
+    };
+    window.ReactNativeWebView.postMessage(JSON.stringify(result));
+    return true;
+  }
+}, true);
+document.addEventListener('mouseup', function (e) {
+  clearTimeout(delay);
+});
+document.addEventListener('mouseout', function (e) {
+  clearTimeout(delay);
+});
 document.addEventListener('click', function(event) {
   var el = event.target;
   while (el.tagName !== 'A') {

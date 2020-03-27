@@ -61,7 +61,7 @@ class UpvoteView extends Component {
     }
   };
 
-  _upvoteContent = closePopover => {
+  _upvoteContent = (closePopover) => {
     const {
       author,
       currentAccount,
@@ -69,6 +69,7 @@ class UpvoteView extends Component {
       handleSetUpvotePercent,
       permlink,
       pinCode,
+      intl,
     } = this.props;
     const { sliderValue, downvote } = this.state;
 
@@ -99,19 +100,63 @@ class UpvoteView extends Component {
             },
           );
         })
-        .catch(err => {
-          Alert.alert('Failed!', err.message);
-          this.setState({
-            isVoted: false,
-            isVoting: false,
-          });
+        .catch((err) => {
+          console.log(err);
+          if (
+            err &&
+            err.jse_shortmsg.split(':')[1] &&
+            err.jse_shortmsg.split(':')[1].includes('wait to transact')
+          ) {
+            //when RC is not enough, offer boosting account
+            Alert.alert(
+              intl.formatMessage({
+                id: 'alert.fail',
+              }),
+              intl.formatMessage({
+                id: 'alert.rc_down',
+              }),
+              [
+                {
+                  text: 'Cancel',
+                  onPress: () => console.log('Cancel Pressed'),
+                  style: 'cancel',
+                },
+                { text: 'OK', onPress: () => console.log('OK Pressed') },
+              ],
+              { cancelable: false },
+            );
+            this.setState({
+              isVoted: false,
+              isVoting: false,
+            });
+          } else {
+            //when voting with same percent or other errors
+            if (err.jse_shortmsg.indexOf(':') > 0) {
+              Alert.alert(
+                intl.formatMessage({
+                  id: 'alert.fail',
+                }),
+                err.jse_shortmsg.split(':')[1],
+              );
+            } else {
+              Alert.alert(
+                intl.formatMessage({
+                  id: 'alert.fail',
+                }),
+                err.jse_shortmsg,
+              );
+            }
+            this.setState({
+              isVoting: false,
+            });
+          }
         });
     } else {
       this.setState({ sliderValue: 1, downvote: false });
     }
   };
 
-  _downvoteContent = closePopover => {
+  _downvoteContent = (closePopover) => {
     const {
       author,
       currentAccount,
@@ -149,7 +194,7 @@ class UpvoteView extends Component {
             },
           );
         })
-        .catch(err => {
+        .catch((err) => {
           Alert.alert('Failed!', err.message);
           this.setState({
             isVoted: false,
@@ -365,7 +410,7 @@ class UpvoteView extends Component {
                       thumbStyle={styles.thumb}
                       thumbTintColor="#007ee5"
                       value={sliderValue}
-                      onValueChange={value => {
+                      onValueChange={(value) => {
                         this.setState({ sliderValue: value }, () => {
                           this._calculateEstimatedAmount();
                         });

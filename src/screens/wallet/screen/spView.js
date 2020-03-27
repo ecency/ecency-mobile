@@ -41,7 +41,7 @@ const SpView = ({ handleOnSelected, index, currentIndex, refreshing: reload }) =
               userBalance={[
                 { balance: spBalance, nameKey: 'steem_power', options: steemPowerDropdown },
               ]}
-              handleOnDropdownSelected={option => navigate(option, 'STEEM_POWER')}
+              handleOnDropdownSelected={(option) => navigate(option, 'HIVE_POWER')}
               type="steem_power"
               currentIndex={currentIndex}
               showIconList={false}
@@ -51,7 +51,7 @@ const SpView = ({ handleOnSelected, index, currentIndex, refreshing: reload }) =
                   value: (
                     <Text>
                       {delegationsAmount}
-                      {' SP'}
+                      {' HP'}
                     </Text>
                   ),
                 },

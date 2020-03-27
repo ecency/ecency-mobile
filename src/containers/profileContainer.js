@@ -78,7 +78,7 @@ class ProfileContainer extends Component {
     this._loadProfile(targetUsername);
   }
 
-  _getReplies = async query => {
+  _getReplies = async (query) => {
     const { isOwnProfile, comments } = this.state;
     let repliesAction;
 
@@ -92,7 +92,7 @@ class ProfileContainer extends Component {
         start_author: query.author,
         start_permlink: query.permlink,
         limit: 10,
-      }).then(result => {
+      }).then((result) => {
         let _comments = unionBy(comments, result, 'permlink');
         this.setState({
           comments: _comments,
@@ -101,7 +101,7 @@ class ProfileContainer extends Component {
     }
   };
 
-  _handleFollowUnfollowUser = async isFollowAction => {
+  _handleFollowUnfollowUser = async (isFollowAction) => {
     const { isFollowing, username } = this.state;
     const { currentAccount, pinCode, dispatch, intl } = this.props;
     const follower = get(currentAccount, 'name', '');
@@ -133,12 +133,12 @@ class ProfileContainer extends Component {
         );
         this._profileActionDone();
       })
-      .catch(err => {
+      .catch((err) => {
         this._profileActionDone(err);
       });
   };
 
-  _handleMuteUnmuteUser = async isMuteAction => {
+  _handleMuteUnmuteUser = async (isMuteAction) => {
     if (isMuteAction) {
       this._muteUser();
     } else {
@@ -170,23 +170,54 @@ class ProfileContainer extends Component {
         );
         this._profileActionDone();
       })
-      .catch(err => {
+      .catch((err) => {
         this._profileActionDone(err);
       });
   };
 
   _profileActionDone = (error = null) => {
     const { username } = this.state;
+    const { intl } = this.props;
+
     this.setState({
       isProfileLoading: false,
     });
+    console.log(error);
     if (error) {
-      this.setState(
-        {
-          error,
-        },
-        () => Alert.alert(get(error, 'message') || error.toString()),
-      );
+      if (error.jse_shortmsg && error.jse_shortmsg.split(':')[1].includes('wait to transact')) {
+        //when RC is not enough, offer boosting account
+        Alert.alert(
+          intl.formatMessage({
+            id: 'alert.fail',
+          }),
+          intl.formatMessage({
+            id: 'alert.rc_down',
+          }),
+          [
+            {
+              text: 'Cancel',
+              onPress: () => console.log('Cancel Pressed'),
+              style: 'cancel',
+            },
+            { text: 'OK', onPress: () => console.log('OK Pressed') },
+          ],
+          { cancelable: false },
+        );
+      } else {
+        //when other errors
+        this.setState(
+          {
+            error,
+          },
+          () =>
+            Alert.alert(
+              intl.formatMessage({
+                id: 'alert.fail',
+              }),
+              error.message || error.toString(),
+            ),
+        );
+      }
     } else {
       this._fetchProfile(username, true);
     }
@@ -207,7 +238,7 @@ class ProfileContainer extends Component {
 
         _isMuted = _isFollowing ? false : await getIsMuted(username, currentAccount.name);
 
-        getIsFavorite(username, currentAccount.name).then(isFav => {
+        getIsFavorite(username, currentAccount.name).then((isFav) => {
           isFavorite = isFav;
         });
       }
@@ -243,7 +274,7 @@ class ProfileContainer extends Component {
       this._profileActionDone(error);
     }
 
-    this.setState(prevState => ({
+    this.setState((prevState) => ({
       quickProfile: {
         ...prevState.quickProfile,
         display_name: get(user, 'display_name'),
@@ -256,7 +287,7 @@ class ProfileContainer extends Component {
     this._getReplies({ author: username, permlink: undefined });
   };
 
-  _handleFollowsPress = async isFollowingPress => {
+  _handleFollowsPress = async (isFollowingPress) => {
     const { navigation } = this.props;
     const { username, follows } = this.state;
     const count = get(follows, !isFollowingPress ? 'follower_count' : 'following_count');
@@ -308,7 +339,7 @@ class ProfileContainer extends Component {
     }
   };
 
-  _changeForceLoadPostState = value => {
+  _changeForceLoadPostState = (value) => {
     this.setState({ forceLoadPost: value });
   };
 
@@ -422,7 +453,7 @@ class ProfileContainer extends Component {
     );
   }
 }
-const mapStateToProps = state => ({
+const mapStateToProps = (state) => ({
   currency: state.application.currency,
   isConnected: state.application.isConnected,
   isDarkTheme: state.application.isDarkTheme,

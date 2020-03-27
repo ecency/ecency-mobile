@@ -1,3 +1,4 @@
+import axios from 'axios';
 import api from '../../config/api';
 import searchApi from '../../config/search';
 import imageApi from '../../config/imageApi';
@@ -5,11 +6,11 @@ import serverList from '../../config/serverListApi';
 import { jsonStringify } from '../../utils/jsonUtils';
 import bugsnag from '../../config/bugsnag';
 
-export const getCurrencyRate = currency =>
+export const getCurrencyRate = (currency) =>
   api
-    .get(`/market-data/currency-rate/${currency}/sbd?fixed=1`)
-    .then(resp => resp.data)
-    .catch(err => {
+    .get(`/market-data/currency-rate/${currency}/hbd?fixed=1`)
+    .then((resp) => resp.data)
+    .catch((err) => {
       bugsnag.notify(err);
       //TODO: save currency rate of offline values
       return 1;
@@ -18,15 +19,18 @@ export const getCurrencyRate = currency =>
 export const getCurrencyTokenRate = (currency, token) =>
   api
     .get(`/market-data/currency-rate/${currency}/${token}`)
-    .then(resp => resp.data)
-    .catch(err => {
+    .then((resp) => resp.data)
+    .catch((err) => {
       bugsnag.notify(err);
+      return token === 'hbd'
+        ? getCurrencyTokenRate(currency, 'sbd')
+        : getCurrencyTokenRate(currency, 'steem');
     });
 
 /**
  * @params username
  */
-export const getDrafts = username => api.get(`/drafts/${username}`).then(resp => resp.data);
+export const getDrafts = (username) => api.get(`/drafts/${username}`).then((resp) => resp.data);
 
 /*export const getDrafts = data =>
   new Promise((resolve, reject) => {
@@ -49,10 +53,10 @@ export const removeDraft = (username, id) =>
   new Promise((resolve, reject) => {
     api
       .delete(`/drafts/${username}/${id}`)
-      .then(res => {
+      .then((res) => {
         resolve(res.data);
       })
-      .catch(error => {
+      .catch((error) => {
         bugsnag.notify(error);
         reject(error);
       });
@@ -64,15 +68,15 @@ export const removeDraft = (username, id) =>
  * @params title
  * @params tags
  */
-export const addDraft = data =>
+export const addDraft = (data) =>
   new Promise((resolve, reject) => {
     api
       .post('/draft', data)
-      .then(res => {
+      .then((res) => {
         const { drafts } = res.data;
         resolve(drafts.pop());
       })
-      .catch(error => {
+      .catch((error) => {
         bugsnag.notify(error);
         reject(error);
       });
@@ -84,7 +88,7 @@ export const addDraft = data =>
  * @params title
  * @params tags
  */
-export const updateDraft = data =>
+export const updateDraft = (data) =>
   new Promise((resolve, reject) => {
     api
       .put(`/drafts/${data.username}/${data.draftId}`, {
@@ -92,10 +96,10 @@ export const updateDraft = data =>
         body: data.body,
         tags: data.tags,
       })
-      .then(res => {
+      .then((res) => {
         resolve(res.data);
       })
-      .catch(error => {
+      .catch((error) => {
         bugsnag.notify(error);
         reject(error);
       });
@@ -109,12 +113,13 @@ export const addBookmark = (username, author, permlink) =>
       permlink,
       chain: 'steem',
     })
-    .then(resp => resp.data);
+    .then((resp) => resp.data);
 
 /**
  * @params current username
  */
-export const getBookmarks = username => api.get(`/bookmarks/${username}`).then(resp => resp.data);
+export const getBookmarks = (username) =>
+  api.get(`/bookmarks/${username}`).then((resp) => resp.data);
 
 /**
  * @params id
@@ -125,14 +130,15 @@ export const removeBookmark = (username, id) => api.delete(`/bookmarks/${usernam
 /**
  * @params current username
  */
-export const getFavorites = username => api.get(`/favorites/${username}`).then(resp => resp.data);
+export const getFavorites = (username) =>
+  api.get(`/favorites/${username}`).then((resp) => resp.data);
 
 /**
  * @params current username
  * @params target username
  */
 export const getIsFavorite = (targetUsername, currentUsername) =>
-  api.get(`/isfavorite/${currentUsername}/${targetUsername}`).then(resp => resp.data);
+  api.get(`/isfavorite/${currentUsername}/${targetUsername}`).then((resp) => resp.data);
 
 /**
  * @params current username
@@ -144,7 +150,7 @@ export const addFavorite = (currentUsername, targetUsername) =>
       username: currentUsername,
       account: targetUsername,
     })
-    .then(resp => resp.data);
+    .then((resp) => resp.data);
 
 /**
  * @params current username
@@ -153,17 +159,21 @@ export const addFavorite = (currentUsername, targetUsername) =>
 export const removeFavorite = (currentUsername, targetUsername) =>
   api.delete(`/favoriteUser/${currentUsername}/${targetUsername}`);
 
-export const getLeaderboard = duration =>
+export const getLeaderboard = (duration) =>
   api
-    .get('/leaderboard', { params: { duration } })
-    .then(resp => {
+    .get('/leaderboard', {
+      params: {
+        duration,
+      },
+    })
+    .then((resp) => {
       return resp.data;
     })
-    .catch(error => {
+    .catch((error) => {
       bugsnag.notify(error);
     });
 
-export const getActivities = data =>
+export const getActivities = (data) =>
   new Promise((resolve, reject) => {
     let url = null;
     switch (data.type) {
@@ -198,23 +208,23 @@ export const getActivities = data =>
           since: data.since,
         },
       })
-      .then(res => {
+      .then((res) => {
         resolve(res.data);
       })
-      .catch(error => {
+      .catch((error) => {
         bugsnag.notify(error);
         reject(error);
       });
   });
 
-export const getUnreadActivityCount = data =>
+export const getUnreadActivityCount = (data) =>
   new Promise((resolve, reject) => {
     api
       .get(`/activities/${data.user}/unread-count`)
-      .then(res => {
+      .then((res) => {
         resolve(res.data ? res.data.count : 0);
       })
-      .catch(error => {
+      .catch((error) => {
         bugsnag.notify(error);
         reject(error);
       });
@@ -223,24 +233,26 @@ export const getUnreadActivityCount = data =>
 export const markActivityAsRead = (user, id = null) =>
   new Promise((resolve, reject) => {
     api
-      .put(`/activities/${user}`, { id })
-      .then(res => {
+      .put(`/activities/${user}`, {
+        id,
+      })
+      .then((res) => {
         resolve(res.data);
       })
-      .catch(error => {
+      .catch((error) => {
         bugsnag.notify(error);
         reject(error);
       });
   });
 
-export const setPushToken = data =>
+export const setPushToken = (data) =>
   new Promise((resolve, reject) => {
     api
       .post('/rgstrmbldvc/', data)
-      .then(res => {
+      .then((res) => {
         resolve(res.data);
       })
-      .catch(error => {
+      .catch((error) => {
         bugsnag.notify(error);
         reject(error);
       });
@@ -248,29 +260,29 @@ export const setPushToken = data =>
 
 // SEARCH API
 
-export const search = data =>
+export const search = (data) =>
   new Promise((resolve, reject) => {
     searchApi
       .post('/search', data)
-      .then(res => {
+      .then((res) => {
         resolve(res.data);
       })
-      .catch(error => {
+      .catch((error) => {
         bugsnag.notify(error);
         reject(error);
       });
   });
 
-export const searchPath = q =>
+export const searchPath = (q) =>
   new Promise((resolve, reject) => {
     searchApi
       .post('/search-path', {
         q,
       })
-      .then(res => {
+      .then((res) => {
         resolve(res.data);
       })
-      .catch(error => {
+      .catch((error) => {
         bugsnag.notify(error);
         reject(error);
       });
@@ -302,9 +314,10 @@ export const schedule = (
       schedule: scheduleDate,
       chain: 'steem',
     })
-    .then(resp => resp.data);
+    .then((resp) => resp.data);
 
-export const getSchedules = username => api.get(`/schedules/${username}`).then(resp => resp.data);
+export const getSchedules = (username) =>
+  api.get(`/schedules/${username}`).then((resp) => resp.data);
 
 export const removeSchedule = (username, id) => api.delete(`/schedules/${username}/${id}`);
 
@@ -313,11 +326,15 @@ export const moveSchedule = (id, username) => api.put(`/schedules/${username}/${
 // Old image service
 // Images
 
-export const getImages = username => api.get(`api/images/${username}`).then(resp => resp.data);
+export const getImages = (username) => api.get(`api/images/${username}`).then((resp) => resp.data);
 
-export const addMyImage = (user, url) => api.post('/image', { username: user, image_url: url });
+export const addMyImage = (user, url) =>
+  api.post('/image', {
+    username: user,
+    image_url: url,
+  });
 
-export const uploadImage = media => {
+export const uploadImage = (media) => {
   const file = {
     uri: media.path,
     type: media.mime,
@@ -350,35 +367,71 @@ export const getNodes = () =>
   serverList
     .get()
     .then(
-      resp =>
-        resp.data.nodes || [
+      (resp) =>
+        resp.data.hived || [
           'https://rpc.esteem.app',
-          'https://api.steemit.com',
-          'https://steemd.previx.io',
+          'https://api.hive.blog',
           'https://anyx.io',
-          'https://rpc.buildteam.io',
-          'https://rpc.steemviz.com',
-          'https://api.steem.house',
+          'https://api.hivekings.com',
         ],
     );
 
-export const getSCAccessToken = code =>
-  new Promise(resolve => {
-    api.post('/sc-token-refresh', { code }).then(resp => resolve(resp.data));
+export const getSCAccessToken = (code) =>
+  new Promise((resolve, reject) => {
+    api
+      .post('/sc-token-refresh', {
+        code,
+      })
+      .then((resp) => resolve(resp.data))
+      .catch((e) => reject(e));
   });
 
 export const getPromotePosts = () => {
   try {
-    return api.get('/promoted-posts?limit=50').then(resp => resp.data);
+    return api.get('/promoted-posts?limit=50').then((resp) => resp.data);
   } catch (error) {
     return error;
   }
 };
 
-export const purchaseOrder = data => api.post('/purchase-order', data).then(resp => resp.data);
+export const purchaseOrder = (data) => api.post('/purchase-order', data).then((resp) => resp.data);
 
-export const getPostReblogs = data =>
+export const getPostReblogs = (data) =>
   api
     .get(`/post-reblogs/${data.author}/${data.permlink}`)
-    .then(resp => resp.data)
-    .catch(error => bugsnag.notify(error));
+    .then((resp) => resp.data)
+    .catch((error) => bugsnag.notify(error));
+
+const cache = {};
+
+export const getCommunity = (tag) =>
+  new Promise((resolve, reject) => {
+    if (!tag.startsWith('hive-')) {
+      resolve(tag);
+    }
+
+    if (cache[tag] !== undefined) {
+      resolve(cache[tag]);
+      return;
+    }
+
+    axios
+      .post('https://rpc.esteem.app', {
+        jsonrpc: '2.0',
+        method: 'bridge.get_community',
+        params: {
+          name: tag,
+          observer: '',
+        },
+        id: 1,
+      })
+      .then((resp) => {
+        if (resp.data.result) {
+          const { title } = resp.data.result;
+          cache[tag] = title;
+          resolve(title);
+        }
+        return resp;
+      })
+      .catch((e) => reject(e));
+  });

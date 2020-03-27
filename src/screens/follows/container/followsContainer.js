@@ -62,12 +62,12 @@ class FollowsContainer extends Component {
     this.setState({ isLoading: true });
 
     if (!isFollowing) {
-      await getFollowers(name, startWith).then(result => {
+      await getFollowers(name, startWith).then((result) => {
         _users = result;
         _startWith = result && result[result.length - 1] && result[result.length - 1].follower;
       });
     } else {
-      await getFollowing(name, startWith).then(result => {
+      await getFollowing(name, startWith).then((result) => {
         _users = result;
         _startWith = result && result[result.length - 1] && result[result.length - 1].following;
       });
@@ -84,10 +84,10 @@ class FollowsContainer extends Component {
     });
   };
 
-  _handleSearch = async text => {
+  _handleSearch = async (text) => {
     const { users, username, isFollowingPress } = this.state;
 
-    const newData = users.filter(item => {
+    const newData = users.filter((item) => {
       const itemName = isFollowingPress
         ? get(item, 'following', '').toUpperCase()
         : get(item, 'follower', '').toUpperCase();
@@ -105,7 +105,7 @@ class FollowsContainer extends Component {
 
       this.timer = setTimeout(
         () =>
-          getFollowSearch(username, text).then(res => {
+          getFollowSearch(username, text).then((res) => {
             this.setState({
               filterResult: res || [],
               isLoading: false,

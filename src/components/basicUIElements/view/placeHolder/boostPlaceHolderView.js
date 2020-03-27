@@ -14,7 +14,7 @@ const BoostPlaceHolder = () => {
   const ratio = (HEIGHT - 300) / 50 / 1.3;
   const listElements = [];
 
-  times(parseInt(ratio), i => {
+  times(parseInt(ratio), (i) => {
     listElements.push(
       <ThemeContainer>
         {({ isDarkTheme }) => {

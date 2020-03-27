@@ -59,16 +59,17 @@
     "to_placeholder": "Nom d'utilisateur",
     "memo_placeholder": "Entrez vos notes ici",
     "transfer_token": "Transférer",
+    "purchase_estm": "GET ESTM",
     "points": "Gift ESTM to someone",
     "transfer_to_saving": "To Saving",
     "powerUp": "Power Up",
     "withdraw_to_saving": "Withdraw Saving",
-    "steemconnect_title": "Transfert Steemconnect",
+    "steemconnect_title": "Hivesigner Transfer",
     "next": "SUIVANT",
     "delegate": "Déléguer",
     "power_down": "Diminuer son influence",
-    "withdraw_steem": "Withdraw Steem",
-    "withdraw_sbd": "Withdraw SBD",
+    "withdraw_steem": "Withdraw HIVE",
+    "withdraw_sbd": "Withdraw HBD",
     "transfer_to_savings": "To Savings",
     "convert": "Convertir",
     "escrow_transfer": "Escrow Transfer",
@@ -81,25 +82,30 @@
     "fill_transfer_from_savings": "Savings Executed",
     "fill_vesting_withdraw": "PowerDown executed",
     "estm": {
-      "title": "points eSteem",
+      "title": "ESTM",
       "buy": "GET ESTM"
     },
     "savingsteem": {
-      "title": "STEEM Savings"
+      "title": "HIVE Savings"
     },
     "savingsbd": {
-      "title": "SBD Savings"
+      "title": "HBD Savings"
     },
     "steem": {
-      "title": "STEEM",
-      "buy": "OBTENIR DES STEEM"
+      "title": "HIVE",
+      "buy": "GET HIVE"
     },
     "sbd": {
-      "title": "SBD",
-      "buy": "OBETNIR DES SBD"
+      "title": "HBD",
+      "buy": "GET HBD"
     },
     "steem_power": {
-      "title": "STEEM POWER"
+      "title": "HIVE POWER"
+    },
+    "btc": {
+      "title": "BTC",
+      "buy": "GET BTC",
+      "address": "RECEIVE"
     }
   },
   "notification": {
@@ -112,6 +118,9 @@
     "ignore": "vous a ignoré",
     "reblog": "reblogged",
     "transfer": "transféré",
+    "spin": "Time to earn more ESTM",
+    "inactive": "Be active! Write a post, continue earning",
+    "referral": "joined with your referral, welcome them",
     "notification": "Notifications",
     "leaderboard": "Classement",
     "epoint": "Points",
@@ -152,11 +161,11 @@
     "follow_people": "Follow some people to fill your feed",
     "havent_commented": "n'a encore rien commenté",
     "havent_posted": "n'a encore rien posté",
-    "steem_power": "Steem Power",
+    "steem_power": "Hive Power",
     "next_power_text": "Prochaine diminution d'influence dans",
     "days": "jours",
     "day": "jour",
-    "steem_dollars": "Steem Dollars",
+    "steem_dollars": "Hive Dollars",
     "savings": "Économies",
     "edit": {
       "display_name": "Nom d'affichage",
@@ -204,14 +213,14 @@
   "login": {
     "signin": "Se connecter",
     "signup": "JOIN NOW",
-    "signin_title": "Pour obtenir tous les avantages de l’utilisation de eSteem",
+    "signin_title": "To get all the benefits of using Esteem",
     "username": "Nom d'utilisateur",
     "password": "Mot de passe ou WIF",
     "description": "Vos informations d'identification sont conservées localement sur votre appareil. Elles sont supprimées dès votre déconnexion !",
     "cancel": "annuler",
     "login": "CONNEXION",
-    "steemconnect_description": "Si vous ne voulez pas garder votre mot de passe chiffré et enregistré sur votre appareil, vous pouvez utiliser Steemconnect.",
-    "steemconnect_fee_description": "Steemconnect peut facturer des frais sur vos transactions de récompense"
+    "steemconnect_description": "If you don't want to keep your password encrypted and saved on your device, you can use Hivesigner.",
+    "steemconnect_fee_description": "info"
   },
   "home": {
     "feed": "Fil d'actualités",
@@ -279,7 +288,7 @@
     "success_shared": "Votre publication à été partagée avec succès",
     "success_moved": "Déplacé vers Brouillons",
     "permission_denied": "Autorisation refusée",
-    "permission_text": "S'il vous plaît, allez dans les Paramètres de votre téléphone et changez les permissions pour l’application eSteem.",
+    "permission_text": "Please, go to phone Settings and change Esteem app permissions.",
     "key_warning": "Check private key permission!",
     "success_rebloged": "Rebloged!",
     "already_rebloged": "Vous avez déjà reblogué !",
@@ -310,7 +319,8 @@
     "checking": "Vérification...",
     "external_link": "Open in Browser",
     "not_existing_post": "Le post n'existe pas ! Veuillez vérifier le lien et l'auteur.",
-    "google_play_version": "Nous avons remarqué que votre appareil possède une ancienne version de Google Play. Veuillez mettre à jour les services Google Play et réessayez!"
+    "google_play_version": "Nous avons remarqué que votre appareil possède une ancienne version de Google Play. Veuillez mettre à jour les services Google Play et réessayez!",
+    "rc_down": "Not enough resource credits to perform an action! \n\nBoost your account to continue enjoy the experience. Do you want to boost your account, now?"
   },
   "post": {
     "reblog_alert": "Êtes-vous sûr de vouloir rebloguer ?",
@@ -406,14 +416,17 @@
     "information": "Êtes-vous sûr de vouloir transférer les fonds ?",
     "amount_desc": "Solde",
     "memo_desc": "Ce mémo est public",
+    "convert_desc": "Convert takes 3.5 days and NOT recommended IF HBD price is higher than $1",
     "to_placeholder": "Nom d'utilisateur",
     "memo_placeholder": "Entrez vos notes ici",
     "transfer_token": "Transférer",
+    "purchase_estm": "Purchase ESTM",
+    "convert": "Convert HBD to HIVE",
     "points": "Gift ESTM to someone",
     "transfer_to_saving": "Transfer To Saving",
     "powerUp": "Power Up",
     "withdraw_to_saving": "Withdraw To Saving",
-    "steemconnect_title": "Transfert Steemconnect",
+    "steemconnect_title": "Hivesigner Transfer",
     "estimated_weekly": "Évalué chaque semaine",
     "destination_accounts": "Comptes destinataires",
     "stop_information": "Êtes-vous sûr de vouloir arrêter ?",
@@ -424,13 +437,14 @@
     "next": "SUIVANT",
     "delegate": "Déléguer",
     "power_down": "Power Down",
-    "withdraw_steem": "Withdraw Steem",
-    "withdraw_sbd": "Withdraw Steem Dollar",
+    "withdraw_steem": "Withdraw HIVE",
+    "withdraw_sbd": "Withdraw HIVE Dollar",
     "incoming_funds": "Incoming Funds",
-    "stop": "Arrêter"
+    "stop": "Arrêter",
+    "address_view": "View address"
   },
   "boost": {
-    "title": "Get eSteem Points",
+    "title": "Get Esteem Points",
     "buy": "GET ESTM",
     "next": "SUIVANT"
   },

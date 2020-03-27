@@ -28,8 +28,10 @@ const WalletHeaderView = ({
   currentIndex,
   valueDescriptions,
   showBuyButton,
+  showAddressButton,
   index,
   fetchUserActivity,
+  getTokenAddress,
   reload,
   refreshing,
 }) => {
@@ -63,10 +65,10 @@ const WalletHeaderView = ({
           dropdownRef={dropdownRef}
           isHasChildIcon
           iconName="arrow-drop-down"
-          options={options.map(itemKey => intl.formatMessage({ id: `wallet.${itemKey}` }))}
+          options={options.map((itemKey) => intl.formatMessage({ id: `wallet.${itemKey}` }))}
           noHighlight
           dropdownButtonStyle={styles.dropdownButtonStyle}
-          onSelect={selectedIndex => handleOnDropdownSelected(options[selectedIndex])}
+          onSelect={(selectedIndex) => handleOnDropdownSelected(options[selectedIndex])}
           rowTextStyle={styles.dropdownRowText}
           dropdownStyle={styles.dropdownStyle}
           iconStyle={styles.dropdownIconStyle}
@@ -78,7 +80,7 @@ const WalletHeaderView = ({
   return (
     <Fragment>
       <View style={styles.scrollContainer} contentContainerStyle={styles.scrollContentContainer}>
-        {userBalance.map(item =>
+        {userBalance.map((item) =>
           _getBalanceItem(
             get(item, 'balance', 0),
             get(item, 'options', []),
@@ -100,6 +102,25 @@ const WalletHeaderView = ({
               </Text>
               <View style={styles.mainIconWrapper}>
                 <Icon name="add" iconType="MaterialIcons" color="#357ce6" size={23} />
+              </View>
+            </View>
+          </MainButton>
+        )}
+
+        {showAddressButton && (
+          <MainButton
+            isLoading={isClaiming}
+            isDisable={isClaiming}
+            style={styles.mainButton}
+            height={50}
+            onPress={() => getTokenAddress()}
+          >
+            <View style={styles.mainButtonWrapper}>
+              <Text style={styles.unclaimedText}>
+                {intl.formatMessage({ id: `wallet.${type}.address` })}
+              </Text>
+              <View style={styles.mainIconWrapper}>
+                <Icon name="qrcode" iconType="MaterialCommunityIcons" color="#357ce6" size={23} />
               </View>
             </View>
           </MainButton>

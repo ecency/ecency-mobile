@@ -59,16 +59,17 @@
     "to_placeholder": "Felhasználónév",
     "memo_placeholder": "Megjegyzés ide",
     "transfer_token": "Átutalás",
+    "purchase_estm": "Vásárolj ESTM-t",
     "points": "Ajándékozz ESTM-t valakinek",
     "transfer_to_saving": "A megtakarításokhoz",
     "powerUp": "Power Up",
     "withdraw_to_saving": "Withdraw Saving",
-    "steemconnect_title": "Steemconnect átutalás",
+    "steemconnect_title": "Hivesigner Transfer",
     "next": "KÖVETKEZŐ",
     "delegate": "Delegálás",
     "power_down": "Power Down",
-    "withdraw_steem": "Steem Visszavonás",
-    "withdraw_sbd": "SBD visszavonás",
+    "withdraw_steem": "Withdraw HIVE",
+    "withdraw_sbd": "Withdraw HBD",
     "transfer_to_savings": "A megtakarításokhoz",
     "convert": "Konvertálás",
     "escrow_transfer": "Letéti átutalás",
@@ -81,25 +82,30 @@
     "fill_transfer_from_savings": "Savings Executed",
     "fill_vesting_withdraw": "PowerDown executed",
     "estm": {
-      "title": "eSteem Pontok",
+      "title": "ESTM",
       "buy": "Vásárolj ESTM-t"
     },
     "savingsteem": {
-      "title": "STEEM Megtakarítások"
+      "title": "HIVE Savings"
     },
     "savingsbd": {
-      "title": "SBD Megtakarítás"
+      "title": "HBD Savings"
     },
     "steem": {
-      "title": "STEEM",
-      "buy": "STEEM VÁSÁRLÁS"
+      "title": "HIVE",
+      "buy": "GET HIVE"
     },
     "sbd": {
-      "title": "SBD",
-      "buy": "SBD VÁSÁRLÁS"
+      "title": "HBD",
+      "buy": "GET HBD"
     },
     "steem_power": {
-      "title": "STEEM POWER"
+      "title": "HIVE POWER"
+    },
+    "btc": {
+      "title": "BTC",
+      "buy": "GET BTC",
+      "address": "RECEIVE"
     }
   },
   "notification": {
@@ -112,6 +118,9 @@
     "ignore": "mellőzött téged",
     "reblog": "megosztotta",
     "transfer": "átutalva",
+    "spin": "Time to earn more ESTM",
+    "inactive": "Be active! Write a post, continue earning",
+    "referral": "joined with your referral, welcome them",
     "notification": "Értesítések",
     "leaderboard": "Ranglista",
     "epoint": "Pontok",
@@ -152,11 +161,11 @@
     "follow_people": "Kövess néhány felhasználót, hogy töltsd meg a hírcsatornád",
     "havent_commented": "még nem szólt hozzá semmihez",
     "havent_posted": "még nem tett közzé semmit",
-    "steem_power": "Steem Power",
+    "steem_power": "Hive Power",
     "next_power_text": "A következő Power Down-ig még van",
     "days": "napok",
     "day": "nap",
-    "steem_dollars": "Steem Dollár",
+    "steem_dollars": "Hive Dollars",
     "savings": "Megtakarítások",
     "edit": {
       "display_name": "Megjelenítendő név",
@@ -204,14 +213,14 @@
   "login": {
     "signin": "Bejelentkezés",
     "signup": "CSATLAKOZZ MOST",
-    "signin_title": "Jelentkezz be ahhoz, hogy minden előnyben részesülj",
+    "signin_title": "To get all the benefits of using Esteem",
     "username": "Felhasználónév",
     "password": "Jelszó vagy a WIF",
     "description": "A felhasználó bejelentkezési adatai helyileg vannak tárolva a készüléken. Kijelentkezéskor a bejelentkezési adatok eltávolítódnak!",
     "cancel": "visszavonom",
     "login": "BEJELENTKEZÉS",
-    "steemconnect_description": "Ha nem szeretnéd a jelszavad a készülékeden elmentve tárolni, akkor használd a Steemconnect-et.",
-    "steemconnect_fee_description": "Megjegyzés: Steemconnect díjat számolhat fel néhány jutalom-tranzakcióért"
+    "steemconnect_description": "If you don't want to keep your password encrypted and saved on your device, you can use Hivesigner.",
+    "steemconnect_fee_description": "info"
   },
   "home": {
     "feed": "Hírfolyam",
@@ -257,9 +266,9 @@
     "limited_length": "Maximum length of each tag should be 24",
     "limited_dash": "Use one dash in each tag",
     "limited_space": "Use space to separate tags",
-    "limited_lowercase": "Only use lower letters in tag",
-    "limited_characters": "Use only allowed characters in tag",
-    "limited_firstchar": "Tag must start with a letter",
+    "limited_lowercase": "Csak kisbetüt használj a címkékhez",
+    "limited_characters": "A címkékhez csak megengedett karaktereket használj",
+    "limited_firstchar": "A címkének betűvel kell kezdődnie",
     "limited_lastchar": "Tag must end with letter or number"
   },
   "pincode": {
@@ -279,7 +288,7 @@
     "success_shared": "A bejegyzésed sikeresen megosztva",
     "success_moved": "Áthelyezve a vázlatokhoz",
     "permission_denied": "Engedély megtagadva",
-    "permission_text": "Kérjük menj a telefon beállításokhoz és változtass az eSteem app engedélyezésein.",
+    "permission_text": "Please, go to phone Settings and change Esteem app permissions.",
     "key_warning": "Check private key permission!",
     "success_rebloged": "Megosztva!",
     "already_rebloged": "Ezt már megosztottad!",
@@ -310,22 +319,23 @@
     "checking": "Ellenőrzés folyamatban...",
     "external_link": "Open in Browser",
     "not_existing_post": "A bejegyzés nem létezik! Kérjük ellenőrizd a linket és a szerzőt.",
-    "google_play_version": "Észrevettük, hogy a készülékeden a Google Play régi verziója található. Kérjük frissítsd a Google Play szolgáltatásait és próbáld újra!"
+    "google_play_version": "Észrevettük, hogy a készülékeden a Google Play régi verziója található. Kérjük frissítsd a Google Play szolgáltatásait és próbáld újra!",
+    "rc_down": "Not enough resource credits to perform an action! \n\nBoost your account to continue enjoy the experience. Do you want to boost your account, now?"
   },
   "post": {
     "reblog_alert": "Biztos, hogy megosztod?",
     "removed_hint": "A bejegyzést eltávolította",
-    "copy_link": "Copy link",
+    "copy_link": "Link másolása",
     "reblogged": "megosztva általa",
     "sponsored": "TÁMOGATOTT",
-    "open_thread": "Open thread",
-    "image": "Image",
+    "open_thread": "Üzenetsor megnyitása",
+    "image": "Kép",
     "link": "Link",
     "gallery_mode": "Gallery mode",
     "save_to_local": "Download to device",
     "image_saved": "Image saved to Photo Gallery",
     "image_saved_error": "Hiba a kép mentése közben",
-    "wrong_link": "Wrong link"
+    "wrong_link": "Nem megfelelő link"
   },
   "drafts": {
     "title": "Piszkozatok",
@@ -360,7 +370,7 @@
     "invalid_username": "Érvénytelen felhasználónév, kérjük ellenőrizd és próbáld újra",
     "already_logged": "Már be vagy jelentkezve, kérjük próbálj meg hozzáadni egy másik fiókot",
     "invalid_credentials": "Érvénytelen hitelesítő adatok. Kérjük, ellenőrizd és próbáld újra",
-    "unknow_error": "Unknown error, please write to support@esteem.app"
+    "unknow_error": "Ismeretlen hiba, kérjük vedd fel velünk a kapcsolatot itt support@esteem.app"
   },
   "payout": {
     "potential_payout": "Lehetséges Kifizetés",
@@ -406,14 +416,17 @@
     "information": "Bistoz átutalod?",
     "amount_desc": "Egyenleg",
     "memo_desc": "Ez az üzenet nyilvános",
+    "convert_desc": "Convert takes 3.5 days and NOT recommended IF HBD price is higher than $1",
     "to_placeholder": "Felhasználónév",
     "memo_placeholder": "Megjegyzés ide",
     "transfer_token": "Átutalás",
+    "purchase_estm": "Purchase ESTM",
+    "convert": "Convert HBD to HIVE",
     "points": "Ajándékozz ESTM-t valakinek",
     "transfer_to_saving": "Átutalás a megtakarításokhoz",
     "powerUp": "Power Up",
     "withdraw_to_saving": "Átutalás A Megtakarításokhoz",
-    "steemconnect_title": "Steemconnect átutalás",
+    "steemconnect_title": "Hivesigner Transfer",
     "estimated_weekly": "Heti becslés",
     "destination_accounts": "Cél Fiókok",
     "stop_information": "Bistos megállítod?",
@@ -424,13 +437,14 @@
     "next": "KÖVETKEZŐ",
     "delegate": "Delegálás",
     "power_down": "Power Down",
-    "withdraw_steem": "Steem Visszavonás",
-    "withdraw_sbd": "Steem Dollár Visszavonás",
+    "withdraw_steem": "Withdraw HIVE",
+    "withdraw_sbd": "Withdraw HIVE Dollar",
     "incoming_funds": "Bejövő tőke",
-    "stop": "Megállítás"
+    "stop": "Megállítás",
+    "address_view": "View address"
   },
   "boost": {
-    "title": "Szerezz eSteem pontokat",
+    "title": "Get Esteem Points",
     "buy": "Vásárolj ESTM-t",
     "next": "KÖVETKEZŐ"
   },
@@ -469,8 +483,8 @@
   },
   "comments": {
     "title": "Hozzászólások",
-    "reveal_comment": "Reveal comment",
+    "reveal_comment": "Hozzászólás megjelenítése",
     "read_more": "Read more comments",
-    "more_replies": "more replies"
+    "more_replies": "további hozzászólások betöltése"
   }
 }

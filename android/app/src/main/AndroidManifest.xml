@@ -14,7 +14,6 @@
       android:name=".MainApplication"
       android:label="@string/app_name"
       android:icon="@mipmap/ic_launcher"
-      android:roundIcon="@mipmap/ic_launcher_round"
       android:allowBackup="false"
       android:largeHeap="true"
       android:theme="@style/AppTheme">
@@ -29,35 +28,29 @@
             <action android:name="android.intent.action.MAIN" />
             <category android:name="android.intent.category.LAUNCHER" />
         </intent-filter>
-        <intent-filter android:label="eSteem">
+        <intent-filter android:label="Esteem">
             <action android:name="android.intent.action.VIEW" />
             <category android:name="android.intent.category.DEFAULT" />
             <category android:name="android.intent.category.BROWSABLE" />
             <data android:scheme="esteem" />
         </intent-filter>
-        <intent-filter android:label="eSteem">
+        <intent-filter android:label="Esteem">
             <action android:name="android.intent.action.VIEW" />
             <category android:name="android.intent.category.DEFAULT" />
             <category android:name="android.intent.category.BROWSABLE" />
             <data android:scheme="https" android:host="esteem.app" />
         </intent-filter>
-        <intent-filter android:label="eSteem">
+        <intent-filter android:label="Esteem">
             <action android:name="android.intent.action.VIEW" />
             <category android:name="android.intent.category.DEFAULT" />
             <category android:name="android.intent.category.BROWSABLE" />
-            <data android:scheme="https" android:host="steemit.com" />
+            <data android:scheme="https" android:host="hive.blog" />
         </intent-filter>
-        <intent-filter android:label="eSteem">
+        <intent-filter android:label="Esteem">
             <action android:name="android.intent.action.VIEW" />
             <category android:name="android.intent.category.DEFAULT" />
             <category android:name="android.intent.category.BROWSABLE" />
-            <data android:scheme="https" android:host="busy.org" />
-        </intent-filter>
-        <intent-filter android:label="eSteem">
-            <action android:name="android.intent.action.VIEW" />
-            <category android:name="android.intent.category.DEFAULT" />
-            <category android:name="android.intent.category.BROWSABLE" />
-            <data android:scheme="https" android:host="steempeak.com" />
+            <data android:scheme="https" android:host="peakd.com" />
         </intent-filter>
       </activity>
       <activity android:name="com.facebook.react.devsupport.DevSettingsActivity" />

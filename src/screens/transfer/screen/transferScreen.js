@@ -36,10 +36,16 @@ class TransferView extends Component {
         props.transferType === 'withdraw_steem' ||
         props.transferType === 'withdraw_steem'
           ? props.currentAccountName
+          : props.transferType === 'purchase_estm'
+          ? 'esteem.app'
+          : props.transferType === 'convert'
+          ? props.currentAccountName
           : '',
       amount: '',
-      memo: '',
+      memo: props.transferType === 'purchase_estm' ? 'estm-purchase' : '',
       isUsernameValid: !!(
+        props.transferType === 'purchase_estm' ||
+        props.transferType === 'convert' ||
         props.transferType === 'powerUp' ||
         props.transferType === 'withdraw_steem' ||
         (props.transferType === 'withdraw_steem' && props.currentAccountName)
@@ -58,7 +64,7 @@ class TransferView extends Component {
     if (key) {
       switch (key) {
         case 'destination':
-          getAccountsWithUsername(value).then(res => {
+          getAccountsWithUsername(value).then((res) => {
             const isValid = res.includes(value);
 
             this.setState({ isUsernameValid: isValid });
@@ -103,7 +109,7 @@ class TransferView extends Component {
   _renderInput = (placeholder, state, keyboardType, isTextArea) => (
     <TextInput
       style={[isTextArea ? styles.textarea : styles.input]}
-      onChangeText={amount => this._handleOnAmountChange(state, amount)}
+      onChangeText={(amount) => this._handleOnAmountChange(state, amount)}
       value={this.state[state]}
       placeholder={placeholder}
       placeholderTextColor="#c1c5c7"
@@ -121,21 +127,24 @@ class TransferView extends Component {
       style={styles.dropdown}
       dropdownStyle={styles.dropdownStyle}
       textStyle={styles.dropdownText}
-      options={accounts.map(item => item.username)}
+      options={accounts.map((item) => item.username)}
       defaultText={currentAccountName}
-      selectedOptionIndex={accounts.findIndex(item => item.username === currentAccountName)}
+      selectedOptionIndex={accounts.findIndex((item) => item.username === currentAccountName)}
       onSelect={(index, value) => this._handleOnDropdownChange(value)}
     />
   );
 
-  _handleOnDropdownChange = value => {
-    const { fetchBalance } = this.props;
+  _handleOnDropdownChange = (value) => {
+    const { fetchBalance, transferType } = this.props;
 
     fetchBalance(value);
     this.setState({ from: value });
+    if (transferType === 'convert') {
+      this.setState({ destination: value });
+    }
   };
 
-  _renderDescription = text => <Text style={styles.description}>{text}</Text>;
+  _renderDescription = (text) => <Text style={styles.description}>{text}</Text>;
 
   render() {
     const {
@@ -195,16 +204,18 @@ class TransferView extends Component {
                 label={intl.formatMessage({ id: 'transfer.from' })}
                 rightComponent={() => this._renderDropdown(accounts, currentAccountName)}
               />
-              <TransferFormItem
-                label={intl.formatMessage({ id: 'transfer.to' })}
-                rightComponent={() =>
-                  this._renderInput(
-                    intl.formatMessage({ id: 'transfer.to_placeholder' }),
-                    'destination',
-                    'default',
-                  )
-                }
-              />
+              {transferType !== 'convert' && (
+                <TransferFormItem
+                  label={intl.formatMessage({ id: 'transfer.to' })}
+                  rightComponent={() =>
+                    this._renderInput(
+                      intl.formatMessage({ id: 'transfer.to_placeholder' }),
+                      'destination',
+                      'default',
+                    )
+                  }
+                />
+              )}
               <TransferFormItem
                 label={intl.formatMessage({ id: 'transfer.amount' })}
                 rightComponent={() =>
@@ -246,6 +257,13 @@ class TransferView extends Component {
                   }
                 />
               )}
+              {transferType === 'convert' && (
+                <TransferFormItem
+                  rightComponent={() =>
+                    this._renderDescription(intl.formatMessage({ id: 'transfer.convert_desc' }))
+                  }
+                />
+              )}
             </View>
             <View style={styles.bottomContent}>
               <MainButton
@@ -260,7 +278,7 @@ class TransferView extends Component {
           </ScrollView>
         </View>
         <ActionSheet
-          ref={o => (this.ActionSheet = o)}
+          ref={(o) => (this.ActionSheet = o)}
           options={[
             intl.formatMessage({ id: 'alert.confirm' }),
             intl.formatMessage({ id: 'alert.cancel' }),
@@ -268,7 +286,7 @@ class TransferView extends Component {
           title={intl.formatMessage({ id: 'transfer.information' })}
           cancelButtonIndex={1}
           destructiveButtonIndex={0}
-          onPress={index => {
+          onPress={(index) => {
             index === 0 ? this._handleTransferAction() : null;
           }}
         />

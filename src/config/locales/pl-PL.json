@@ -59,16 +59,17 @@
     "to_placeholder": "Nazwa użytkownika",
     "memo_placeholder": "Wprowadź swoje notatki tutaj",
     "transfer_token": "Przelew",
+    "purchase_estm": "GET ESTM",
     "points": "Podaruj komuś ESTM",
     "transfer_to_saving": "To Saving",
     "powerUp": "Zwiększ moc",
     "withdraw_to_saving": "Withdraw Saving",
-    "steemconnect_title": "Pzelew Steemconnect",
+    "steemconnect_title": "Hivesigner Transfer",
     "next": "NASTĘPNY",
     "delegate": "Deleguj",
     "power_down": "Zmniejsz moc",
-    "withdraw_steem": "Wypłać Steem",
-    "withdraw_sbd": "Withdraw SBD",
+    "withdraw_steem": "Withdraw HIVE",
+    "withdraw_sbd": "Withdraw HBD",
     "transfer_to_savings": "To Savings",
     "convert": "Convert",
     "escrow_transfer": "Escrow Transfer",
@@ -81,25 +82,30 @@
     "fill_transfer_from_savings": "Savings Executed",
     "fill_vesting_withdraw": "PowerDown executed",
     "estm": {
-      "title": "Punkty eSteem",
+      "title": "ESTM",
       "buy": "GET ESTM"
     },
     "savingsteem": {
-      "title": "STEEM Savings"
+      "title": "HIVE Savings"
     },
     "savingsbd": {
-      "title": "SBD Savings"
+      "title": "HBD Savings"
     },
     "steem": {
-      "title": "STEEM",
-      "buy": "GET STEEM"
+      "title": "HIVE",
+      "buy": "GET HIVE"
     },
     "sbd": {
-      "title": "SBD",
-      "buy": "GET SBD"
+      "title": "HBD",
+      "buy": "GET HBD"
     },
     "steem_power": {
-      "title": "STEEM POWER"
+      "title": "HIVE POWER"
+    },
+    "btc": {
+      "title": "BTC",
+      "buy": "GET BTC",
+      "address": "RECEIVE"
     }
   },
   "notification": {
@@ -112,6 +118,9 @@
     "ignore": "ignoruje cię",
     "reblog": "reblogged",
     "transfer": "transferred",
+    "spin": "Time to earn more ESTM",
+    "inactive": "Be active! Write a post, continue earning",
+    "referral": "joined with your referral, welcome them",
     "notification": "Powiadomienia",
     "leaderboard": "Ranking",
     "epoint": "Punkty",
@@ -152,11 +161,11 @@
     "follow_people": "Follow some people to fill your feed",
     "havent_commented": "nie skomentował jeszcze niczego",
     "havent_posted": "nie skomentował jeszcze niczego",
-    "steem_power": "Steem Power",
+    "steem_power": "Hive Power",
     "next_power_text": "Następny spadek mocy jest za",
     "days": "dni",
     "day": "dzień",
-    "steem_dollars": "Dolary Steem",
+    "steem_dollars": "Hive Dollars",
     "savings": "Oszczędności",
     "edit": {
       "display_name": "Display Name",
@@ -204,14 +213,14 @@
   "login": {
     "signin": "Zaloguj się",
     "signup": "JOIN NOW",
-    "signin_title": "Aby uzyskać wszystkie korzyści z korzystania z eSteem",
+    "signin_title": "To get all the benefits of using Esteem",
     "username": "Nazwa użytkownika",
     "password": "Hasło lub WIF",
     "description": "Dane użytkownika są trzymane lokalnie na twoim urządzeniu. Po wylogowaniu dane zostają usunięte!",
     "cancel": "anuluj",
     "login": "ZALOGUJ SIĘ",
-    "steemconnect_description": "Jeśli nie chcesz zachować swojego hasła zaszyfrowanego i zapisanego na swoim urządzeniu, możesz użyć Steemconnect.",
-    "steemconnect_fee_description": "Steemconnect może pobierać opłaty od transakcji z nagród"
+    "steemconnect_description": "If you don't want to keep your password encrypted and saved on your device, you can use Hivesigner.",
+    "steemconnect_fee_description": "info"
   },
   "home": {
     "feed": "Strumień",
@@ -279,7 +288,7 @@
     "success_shared": "Your post successfully shared",
     "success_moved": "Moved to draft",
     "permission_denied": "Permission denied",
-    "permission_text": "Please, go to phone Settings and change eSteem app permissions.",
+    "permission_text": "Please, go to phone Settings and change Esteem app permissions.",
     "key_warning": "Check private key permission!",
     "success_rebloged": "Rebloged!",
     "already_rebloged": "You have already reblogged!",
@@ -310,7 +319,8 @@
     "checking": "Checking...",
     "external_link": "Open in Browser",
     "not_existing_post": "The post does not exist! Please check permlink and author.",
-    "google_play_version": "We noticed that your device has old version of Google Play. Please update Google Play services and try again!"
+    "google_play_version": "We noticed that your device has old version of Google Play. Please update Google Play services and try again!",
+    "rc_down": "Not enough resource credits to perform an action! \n\nBoost your account to continue enjoy the experience. Do you want to boost your account, now?"
   },
   "post": {
     "reblog_alert": "Are you sure, you want to reblog?",
@@ -406,14 +416,17 @@
     "information": "Czy na pewno chcesz przelać środki?",
     "amount_desc": "Saldo",
     "memo_desc": "Ta notatka jest publiczna",
+    "convert_desc": "Convert takes 3.5 days and NOT recommended IF HBD price is higher than $1",
     "to_placeholder": "Nazwa użytkownika",
     "memo_placeholder": "Wprowadź swoje notatki tutaj",
     "transfer_token": "Przelew",
+    "purchase_estm": "Purchase ESTM",
+    "convert": "Convert HBD to HIVE",
     "points": "Podaruj komuś ESTM",
     "transfer_to_saving": "Przenieś do oszczędności",
     "powerUp": "Zwiększ moc",
     "withdraw_to_saving": "Wypłać Do Oszczędności",
-    "steemconnect_title": "Pzelew Steemconnect",
+    "steemconnect_title": "Hivesigner Transfer",
     "estimated_weekly": "Szacowany tygodniowo",
     "destination_accounts": "Konto docelowe",
     "stop_information": "Czy na pewno chcesz zatrzymać?",
@@ -424,13 +437,14 @@
     "next": "NASTĘPNY",
     "delegate": "Deleguj",
     "power_down": "Zmniejsz moc",
-    "withdraw_steem": "Wypłać Steem",
-    "withdraw_sbd": "Wypłać Steem Dolar",
+    "withdraw_steem": "Withdraw HIVE",
+    "withdraw_sbd": "Withdraw HIVE Dollar",
     "incoming_funds": "Fundusze przychodzące",
-    "stop": "Zatrzymaj"
+    "stop": "Zatrzymaj",
+    "address_view": "View address"
   },
   "boost": {
-    "title": "Get eSteem Points",
+    "title": "Get Esteem Points",
     "buy": "GET ESTM",
     "next": "NEXT"
   },

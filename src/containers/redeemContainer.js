@@ -78,7 +78,7 @@ class RedeemContainer extends Component {
         navigation.goBack();
         dispatch(toastNotification(intl.formatMessage({ id: 'alert.successful' })));
       })
-      .catch(error => {
+      .catch((error) => {
         if (error) {
           dispatch(toastNotification(intl.formatMessage({ id: 'alert.key_warning' })));
         }
@@ -138,7 +138,7 @@ class RedeemContainer extends Component {
   }
 }
 
-const mapStateToProps = state => ({
+const mapStateToProps = (state) => ({
   username: state.account.currentAccount.name,
   activeBottomTab: state.ui.activeBottomTab,
   isConnected: state.application.isConnected,

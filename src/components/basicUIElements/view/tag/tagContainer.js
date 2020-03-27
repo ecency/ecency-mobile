@@ -2,7 +2,7 @@ import React, { PureComponent } from 'react';
 import { withNavigation } from 'react-navigation';
 
 // Services and Actions
-
+import { getCommunity } from '../../../../providers/esteem/esteem';
 // Middleware
 
 // Constants
@@ -20,8 +20,26 @@ import TagView from './tagView';
  */
 
 class TagContainer extends PureComponent {
-  // Component Life Cycle Functions
+  constructor(props) {
+    super(props);
 
+    this.state = {
+      label: props.value,
+    };
+  }
+  // Component Life Cycle Functions
+  componentDidMount() {
+    const { value } = this.props;
+
+    if (value.startsWith('hive-')) {
+      getCommunity(value)
+        .then((r) => {
+          this.setState({ label: r });
+          return r;
+        })
+        .catch(() => {});
+    }
+  }
   // Component Functions
   _handleOnTagPress = () => {
     const { navigation, onPress, value } = this.props;
@@ -40,11 +58,13 @@ class TagContainer extends PureComponent {
 
   render() {
     const { isPin, value, isPostCardTag, isFilter } = this.props;
+    const { label } = this.state;
 
     return (
       <TagView
         isPin={isPin}
         value={value}
+        label={label}
         isPostCardTag={isPostCardTag}
         onPress={this._handleOnTagPress}
         isFilter={isFilter}

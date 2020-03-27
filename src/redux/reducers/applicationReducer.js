@@ -28,7 +28,7 @@ import {
 } from '../constants/constants';
 
 const initialState = {
-  api: 'api.steemit.com',
+  api: 'rpc.esteem.app',
   currency: {
     currency: 'usd',
     currencyRate: 1,
@@ -61,7 +61,7 @@ const initialState = {
   isRenderRequired: false,
 };
 
-export default function(state = initialState, action) {
+export default function (state = initialState, action) {
   switch (action.type) {
     case LOGIN:
       return {

@@ -53,7 +53,7 @@ const WalletScreen = () => {
                   loop={false}
                   showsPagination={true}
                   index={0}
-                  onIndexChanged={index => setCurrentIndex(index)}
+                  onIndexChanged={(index) => setCurrentIndex(index)}
                 >
                   <EstmView
                     index={0}

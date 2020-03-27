@@ -19,7 +19,7 @@ import {
   openPinCodeModal,
   setPinCode,
 } from '../../../redux/actions/applicationActions';
-import { setPushTokenSaved } from '../../../realm/realm';
+import { setPushTokenSaved, setExistUser } from '../../../realm/realm';
 import { setPushToken } from '../../../providers/esteem/esteem';
 import { encryptKey } from '../../../utils/crypto';
 
@@ -58,12 +58,13 @@ class LoginContainer extends PureComponent {
     this.setState({ isLoading: true });
 
     login(username, password, isPinCodeOpen)
-      .then(result => {
+      .then((result) => {
         if (result) {
           dispatch(updateCurrentAccount({ ...result }));
           dispatch(addOtherAccount({ username: result.name }));
           dispatch(loginAction(true));
           userActivity(result.name, 20);
+          setExistUser(true);
           this._setPushToken(result.name);
           if (isPinCodeOpen) {
             dispatch(openPinCodeModal({ navigateTo: ROUTES.DRAWER.MAIN }));
@@ -76,7 +77,7 @@ class LoginContainer extends PureComponent {
           }
         }
       })
-      .catch(err => {
+      .catch((err) => {
         Alert.alert(
           'Error',
           intl.formatMessage({
@@ -88,7 +89,7 @@ class LoginContainer extends PureComponent {
       });
   };
 
-  _setPushToken = async username => {
+  _setPushToken = async (username) => {
     const { notificationSettings, notificationDetails } = this.props;
     const notifyTypesConst = {
       vote: 1,
@@ -101,7 +102,7 @@ class LoginContainer extends PureComponent {
     const notifyTypes = [];
     const token = await AppCenter.getInstallId();
 
-    Object.keys(notificationDetails).map(item => {
+    Object.keys(notificationDetails).map((item) => {
       const notificationType = item.replace('Notification', '');
 
       if (notificationDetails[item]) {
@@ -121,7 +122,7 @@ class LoginContainer extends PureComponent {
     });
   };
 
-  _getAccountsWithUsername = async username => {
+  _getAccountsWithUsername = async (username) => {
     const { intl, isConnected } = this.props;
 
     if (!isConnected) {
@@ -143,7 +144,7 @@ class LoginContainer extends PureComponent {
   _handleSignUp = () => {
     const { intl } = this.props;
 
-    Linking.openURL('https://esteem.app/signup').catch(err =>
+    Linking.openURL('https://esteem.app/signup').catch((err) =>
       Alert.alert(intl.formatMessage({ id: 'alert.error' }), err.message),
     );
   };
@@ -163,7 +164,7 @@ class LoginContainer extends PureComponent {
   }
 }
 
-const mapStateToProps = state => ({
+const mapStateToProps = (state) => ({
   account: state.accounts,
   notificationDetails: state.application.notificationDetails,
   notificationSettings: state.application.isNotificationOpen,

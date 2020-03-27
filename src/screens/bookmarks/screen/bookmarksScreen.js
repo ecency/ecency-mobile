@@ -78,12 +78,12 @@ const BookmarksScreen = ({
     return (
       <View style={styles.container}>
         <FlatList
-          data={data.map(item =>
+          data={data.map((item) =>
             item._id !== data[item._id] && isFavorites
               ? item.account !== data[item.account] && item
               : item,
           )}
-          keyExtractor={item => item._id}
+          keyExtractor={(item) => item._id}
           removeClippedSubviews={false}
           renderItem={({ item, index }) => _renderItem(item, index, type)}
           ListEmptyComponent={_renderEmptyContent()}
@@ -91,7 +91,7 @@ const BookmarksScreen = ({
       </View>
     );
   };
-  const _handleLongPress = _selectedItemId => {
+  const _handleLongPress = (_selectedItemId) => {
     setSelectedItemId(_selectedItemId);
   };
 
@@ -104,7 +104,7 @@ const BookmarksScreen = ({
       />
 
       <ScrollableTabView
-        onChangeTab={event => setActiveTab(event.i)}
+        onChangeTab={(event) => setActiveTab(event.i)}
         style={[globalStyles.tabView, { paddingBottom: 40 }]}
         renderTabBar={() => (
           <TabBar
@@ -141,7 +141,7 @@ const BookmarksScreen = ({
         title={intl.formatMessage({ id: 'alert.remove_alert' })}
         cancelButtonIndex={1}
         destructiveButtonIndex={0}
-        onPress={index => {
+        onPress={(index) => {
           if (index === 0) {
             activeTab === 0 ? removeBookmark(selectedItemId) : removeFavorite(selectedItemId);
           }

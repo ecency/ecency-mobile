@@ -103,7 +103,7 @@ class ApplicationContainer extends Component {
 
     Linking.addEventListener('url', this._handleOpenURL);
 
-    Linking.getInitialURL().then(url => {
+    Linking.getInitialURL().then((url) => {
       this._handleDeepLink(url);
     });
 
@@ -111,7 +111,7 @@ class ApplicationContainer extends Component {
     setPreviousAppState();
 
     if (nativeThemeEventEmitter) {
-      nativeThemeEventEmitter.on('currentModeChanged', newMode => {
+      nativeThemeEventEmitter.on('currentModeChanged', (newMode) => {
         const { dispatch } = this.props;
 
         dispatch(isDarkTheme(newMode === 'dark'));
@@ -151,7 +151,7 @@ class ApplicationContainer extends Component {
   }
 
   _setNetworkListener = () => {
-    this.netListener = NetInfo.addEventListener(state => {
+    this.netListener = NetInfo.addEventListener((state) => {
       const { isConnected, dispatch } = this.props;
       if (state.isConnected !== isConnected) {
         dispatch(setConnectivityStatus(state.isConnected));
@@ -161,11 +161,11 @@ class ApplicationContainer extends Component {
     });
   };
 
-  _handleOpenURL = event => {
+  _handleOpenURL = (event) => {
     this._handleDeepLink(event.url);
   };
 
-  _handleDeepLink = async url => {
+  _handleDeepLink = async (url) => {
     if (!url) return;
 
     let routeName;
@@ -211,10 +211,10 @@ class ApplicationContainer extends Component {
     );
   };
 
-  _handleAppStateChange = nextAppState => {
+  _handleAppStateChange = (nextAppState) => {
     const { appState } = this.state;
     const { isPinCodeOpen: _isPinCodeOpen } = this.props;
-    getExistUser().then(isExistUser => {
+    getExistUser().then((isExistUser) => {
       if (isExistUser) {
         if (appState.match(/active|forground/) && nextAppState === 'inactive') {
           this._startPinCodeTimer();
@@ -336,7 +336,7 @@ class ApplicationContainer extends Component {
               break;
           }
 
-          markActivityAsRead(username, activity_id).then(result => {
+          markActivityAsRead(username, activity_id).then((result) => {
             dispatch(updateUnreadActivityCount(result.unread));
           });
           if (!some(params, isEmpty)) {
@@ -351,7 +351,7 @@ class ApplicationContainer extends Component {
     });
   };
 
-  _handleConntectionChange = status => {
+  _handleConntectionChange = (status) => {
     const { dispatch, isConnected } = this.props;
 
     if (isConnected !== status) {
@@ -410,13 +410,15 @@ class ApplicationContainer extends Component {
             removeUserData(accountData.username);
           } else {
             dispatch(addOtherAccount({ username: accountData.username }));
+            // TODO: check post v2.2.5+ or remove setexistuser from login
+            setExistUser(true);
           }
         });
       }
     }
 
     if (realmData.length > 0) {
-      const realmObject = realmData.filter(data => data.username === currentUsername);
+      const realmObject = realmData.filter((data) => data.username === currentUsername);
 
       if (realmObject.length === 0) {
         realmObject[0] = realmData[realmData.length - 1];
@@ -448,18 +450,18 @@ class ApplicationContainer extends Component {
     return null;
   };
 
-  _fetchUserDataFromDsteem = async realmObject => {
+  _fetchUserDataFromDsteem = async (realmObject) => {
     const { dispatch, intl } = this.props;
 
     await getUser(realmObject.username)
-      .then(accountData => {
+      .then((accountData) => {
         accountData.local = realmObject;
 
         dispatch(updateCurrentAccount(accountData));
 
         this._connectNotificationServer(accountData.name);
       })
-      .catch(err => {
+      .catch((err) => {
         Alert.alert(
           `${intl.formatMessage({ id: 'alert.fetch_error' })} \n${err.message.substr(0, 20)}`,
         );
@@ -501,7 +503,7 @@ class ApplicationContainer extends Component {
     }
   };
 
-  _connectNotificationServer = username => {
+  _connectNotificationServer = (username) => {
     /* eslint no-undef: "warn" */
     const ws = new WebSocket(`${Config.ACTIVITY_WEBSOCKET_URL}?user=${username}`);
 
@@ -528,7 +530,7 @@ class ApplicationContainer extends Component {
 
     removeUserData(name)
       .then(async () => {
-        const _otherAccounts = otherAccounts.filter(user => user.username !== name);
+        const _otherAccounts = otherAccounts.filter((user) => user.username !== name);
 
         this._enableNotification(name, false);
 
@@ -550,7 +552,7 @@ class ApplicationContainer extends Component {
         dispatch(removeOtherAccount(name));
         dispatch(logoutDone());
       })
-      .catch(err => {
+      .catch((err) => {
         Alert.alert(
           `${intl.formatMessage({ id: 'alert.fetch_error' })} \n${err.message.substr(0, 20)}`,
         );
@@ -569,7 +571,7 @@ class ApplicationContainer extends Component {
     });
   };
 
-  _switchAccount = async targetAccountUsername => {
+  _switchAccount = async (targetAccountUsername) => {
     const { dispatch, isConnected } = this.props;
 
     if (!isConnected) return;
@@ -648,7 +650,7 @@ class ApplicationContainer extends Component {
 }
 
 export default connect(
-  state => ({
+  (state) => ({
     // Application
     isDarkTheme: state.application.isDarkTheme,
     selectedLanguage: state.application.language,
@@ -673,7 +675,7 @@ export default connect(
     toastNotification: state.ui.toastNotification,
     activeBottomTab: state.ui.activeBottomTab,
   }),
-  dispatch => ({
+  (dispatch) => ({
     dispatch,
     actions: {
       ...bindActionCreators({ fetchGlobalProperties }, dispatch),

@@ -30,11 +30,11 @@ class SideMenuContainer extends Component {
 
   // Component Life Cycle Functions
 
-  _createUserList = otherAccounts => {
+  _createUserList = (otherAccounts) => {
     const { currentAccount } = this.props;
 
     const accounts = [];
-    otherAccounts.forEach(element => {
+    otherAccounts.forEach((element) => {
       if (element.username !== currentAccount.name) {
         accounts.push({
           name: `@${element.username}`,
@@ -65,7 +65,7 @@ class SideMenuContainer extends Component {
     const { dispatch, currentAccount, navigation } = this.props;
 
     if (anchor !== currentAccount.name) {
-      switchAccount(anchor).then(async accountData => {
+      switchAccount(anchor).then(async (accountData) => {
         const realmData = await getUserDataWithUsername(anchor);
         const _currentAccount = accountData;
 
@@ -111,7 +111,7 @@ class SideMenuContainer extends Component {
   }
 }
 
-const mapStateToProps = state => ({
+const mapStateToProps = (state) => ({
   isLoggedIn: state.application.isLoggedIn,
   currentAccount: state.account.currentAccount,
   otherAccounts: state.account.otherAccounts,

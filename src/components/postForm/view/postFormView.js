@@ -28,11 +28,12 @@ class PostFormView extends PureComponent {
 
     return (
       <Fragment>
-        {React.Children.map(children, child => {
+        {React.Children.map(children, (child) => {
           if (child) {
             return React.cloneElement(child, {
-              onSubmitEditing: item => this._handleOnSubmitEditing(child.props.returnKeyType, item),
-              onChange: value => this._handleOnChange(child.props.componentID, value),
+              onSubmitEditing: (item) =>
+                this._handleOnSubmitEditing(child.props.returnKeyType, item),
+              onChange: (value) => this._handleOnChange(child.props.componentID, value),
               returnKeyType: isFormValid ? 'done' : 'next',
               isPreviewActive,
             });

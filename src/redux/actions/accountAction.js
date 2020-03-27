@@ -8,40 +8,40 @@ import {
   UPDATE_UNREAD_ACTIVITY_COUNT,
 } from '../constants/constants';
 
-export const fetchGlobalProperties = () => dispatch =>
-  fetchGlobalProps().then(res =>
+export const fetchGlobalProperties = () => (dispatch) =>
+  fetchGlobalProps().then((res) =>
     dispatch({
       type: SET_GLOBAL_PROPS,
       payload: { ...res },
     }),
   );
 
-export const updateCurrentAccount = data => ({
+export const updateCurrentAccount = (data) => ({
   type: UPDATE_CURRENT_ACCOUNT,
   payload: data,
 });
 
-export const addOtherAccount = data => ({
+export const addOtherAccount = (data) => ({
   type: ADD_OTHER_ACCOUNT,
   payload: data,
 });
 
-export const failedAccount = data => ({
+export const failedAccount = (data) => ({
   type: FETCH_ACCOUNT_FAIL,
   payload: data,
 });
 
-export const updateUnreadActivityCount = data => ({
+export const updateUnreadActivityCount = (data) => ({
   type: UPDATE_UNREAD_ACTIVITY_COUNT,
   payload: data,
 });
 
-export const removeOtherAccount = data => ({
+export const removeOtherAccount = (data) => ({
   type: REMOVE_OTHER_ACCOUNT,
   payload: data,
 });
 
-export const setGlobalProps = data => ({
+export const setGlobalProps = (data) => ({
   type: SET_GLOBAL_PROPS,
   payload: data,
 });

@@ -12,7 +12,7 @@ const MONTH = 60 * 60 * 24 * 30;
 const YEAR = 60 * 60 * 24 * 365;
 
 // TODO: once hermes has Intl support, enable native version
-export const getTimeFromNowNative = d => {
+export const getTimeFromNowNative = (d) => {
   if (!d) {
     return null;
   }
@@ -64,7 +64,7 @@ export const getTimeFromNow = (value, isWithoutUtc) => {
   return moment.utc(value).fromNow();
 };
 
-export const getFormatedCreatedDate = value => {
+export const getFormatedCreatedDate = (value) => {
   if (!value) {
     return null;
   }
@@ -74,7 +74,7 @@ export const getFormatedCreatedDate = value => {
 
 export const isBefore = (a, b) => new Date(b) - new Date(a);
 
-export const isToday = value => {
+export const isToday = (value) => {
   const day = new Date(value);
   return TODAY.getDate() === day.getDate() &&
     TODAY.getMonth() === day.getMonth() &&
@@ -83,22 +83,22 @@ export const isToday = value => {
     : 0;
 };
 
-export const isYesterday = value => {
+export const isYesterday = (value) => {
   const day = new Date(value).getTime();
   return day < TODAY.getTime() && day > ONE_DAY.getTime();
 };
 
-export const isThisWeek = value => {
+export const isThisWeek = (value) => {
   const day = new Date(value).getTime();
   return day < TODAY.getTime() && day > SEVEN_DAY.getTime();
 };
 
-export const isThisMonth = value => {
+export const isThisMonth = (value) => {
   const day = new Date(value);
   return TODAY.getMonth() === day.getMonth() && TODAY.getFullYear() === day.getFullYear() ? 1 : 0;
 };
 
-export const isEmptyContentDate = value => {
+export const isEmptyContentDate = (value) => {
   if (!value) {
     return false;
   }
@@ -106,4 +106,4 @@ export const isEmptyContentDate = value => {
   return parseInt(value.split('-')[0], 10) < 1980;
 };
 
-export const isEmptyDate = s => parseInt(s.split('-')[0], 10) < 1980;
+export const isEmptyDate = (s) => parseInt(s.split('-')[0], 10) < 1980;

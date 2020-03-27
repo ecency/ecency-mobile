@@ -40,7 +40,7 @@ const SideMenuView = ({
   // Component Life Cycles
   useEffect(() => {
     let _isMounted = false;
-    getStorageType().then(item => {
+    getStorageType().then((item) => {
       if (!_isMounted) {
         setStorageT(item);
       }
@@ -62,7 +62,7 @@ const SideMenuView = ({
     setIsAddAccountIconActive(!isAddAccountIconActive);
   };
 
-  const _handleOnMenuItemPress = item => {
+  const _handleOnMenuItemPress = (item) => {
     if (item.id === 'logout') {
       ActionSheetRef.current.show();
       return;
@@ -121,8 +121,8 @@ const SideMenuView = ({
       <View style={styles.contentView}>
         <FlatList
           data={menuItems}
-          keyExtractor={item => item.id}
-          renderItem={item => (
+          keyExtractor={(item) => item.id}
+          renderItem={(item) => (
             <TouchableOpacity
               style={styles.listItem}
               onPress={() => {
@@ -166,7 +166,7 @@ const SideMenuView = ({
         title={intl.formatMessage({ id: 'side_menu.logout_text' })}
         cancelButtonIndex={1}
         destructiveButtonIndex={0}
-        onPress={index => {
+        onPress={(index) => {
           index === 0 ? handleLogout() : null;
         }}
       />

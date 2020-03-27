@@ -9,7 +9,7 @@ import { IconButton, PopoverWrapper } from '..';
 
 const HorizontalIconList = ({ options, optionsKeys }) => {
   const intl = useIntl();
-  const _getTranslation = id => {
+  const _getTranslation = (id) => {
     let translation;
 
     try {
@@ -26,7 +26,7 @@ const HorizontalIconList = ({ options, optionsKeys }) => {
       <FlatList
         style={styles.iconsList}
         data={optionsKeys}
-        keyExtractor={item => get(item, 'type', Math.random()).toString()}
+        keyExtractor={(item) => get(item, 'type', Math.random()).toString()}
         horizontal
         renderItem={({ item }) => (
           <PopoverWrapper text={_getTranslation(get(options[get(item, 'type')], 'descriptionKey'))}>

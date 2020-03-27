@@ -43,10 +43,10 @@ class EditorScreen extends Component {
   }
 
   // Component Life Cycles
-  UNSAFE_componentWillReceiveProps = async nextProps => {
+  UNSAFE_componentWillReceiveProps = async (nextProps) => {
     const { draftPost, isUploading } = this.props;
     if (nextProps.draftPost && draftPost !== nextProps.draftPost) {
-      await this.setState(prevState => ({
+      await this.setState((prevState) => ({
         fields: {
           ...prevState.fields,
           ...nextProps.draftPost,
@@ -84,7 +84,7 @@ class EditorScreen extends Component {
     this.setState({ isPreviewActive: !isPreviewActive });
   };
 
-  _setWordsCount = content => {
+  _setWordsCount = (content) => {
     const _wordsCount = getWordsCount(content);
     const { wordsCount } = this.state;
 
@@ -100,7 +100,7 @@ class EditorScreen extends Component {
     saveDraftToDB(fields);
   };
 
-  _saveCurrentDraft = fields => {
+  _saveCurrentDraft = (fields) => {
     const { saveCurrentDraft } = this.props;
 
     if (this.changeTimer) {
@@ -121,7 +121,7 @@ class EditorScreen extends Component {
     }
   };
 
-  _handleIsFormValid = bodyText => {
+  _handleIsFormValid = (bodyText) => {
     const { fields } = this.state;
     const { isReply } = this.props;
     let isFormValid;
@@ -167,10 +167,10 @@ class EditorScreen extends Component {
     this._handleIsFormValid();
   };
 
-  _handleOnTagAdded = async tags => {
+  _handleOnTagAdded = async (tags) => {
     const { fields: _fields } = this.state;
     const _tags = tags; //.filter(tag => tag && tag !== ' ');
-    const __tags = _tags.map(t => t.toLowerCase());
+    const __tags = _tags.map((t) => t.toLowerCase());
     const __fields = { ..._fields, tags: [...__tags] };
     this.setState({ fields: __fields, isRemoveTag: false }, () => {
       this._handleFormUpdate('tag-area', __fields.tags);
@@ -201,7 +201,7 @@ class EditorScreen extends Component {
     return (
       <View style={globalStyles.defaultContainer}>
         <BasicHeader
-          handleDatePickerChange={date => handleDatePickerChange(date, fields)}
+          handleDatePickerChange={(date) => handleDatePickerChange(date, fields)}
           handleOnBackPress={handleOnBackPress}
           handleOnPressPreviewButton={this._handleOnPressPreviewButton}
           handleOnSaveButtonPress={this._handleOnSaveButtonPress}

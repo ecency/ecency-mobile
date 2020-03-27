@@ -10,11 +10,11 @@ import styles from './walletDetailsPlaceHolderStyles';
 
 const HEIGHT = Dimensions.get('window').height;
 
-const listPlaceHolderView = color => {
+const listPlaceHolderView = (color) => {
   const ratio = (HEIGHT - 300) / 50;
   const listElements = [];
 
-  times(parseInt(ratio), i => {
+  times(parseInt(ratio), (i) => {
     listElements.push(
       <View key={i} style={styles.textWrapper}>
         <Placeholder.Box animate="fade" height={30} width="100%" radius={5} color={color} />

@@ -59,16 +59,17 @@
     "to_placeholder": "प्रयोक्ता नाम",
     "memo_placeholder": "अपनी टिप्पणी यहाँ लिखें",
     "transfer_token": "स्थानांतरण",
+    "purchase_estm": "GET ESTM",
     "points": "Gift ESTM to someone",
     "transfer_to_saving": "To Saving",
     "powerUp": "स्टीम क्षमता बढ़ाएं",
     "withdraw_to_saving": "Withdraw Saving",
-    "steemconnect_title": "स्टीमकनेक्ट स्थान्तरण",
+    "steemconnect_title": "Hivesigner Transfer",
     "next": "NEXT",
     "delegate": "कार्यभार सौंपें",
     "power_down": "शक्तिक्षय करें",
-    "withdraw_steem": "स्टीम निकालें",
-    "withdraw_sbd": "Withdraw SBD",
+    "withdraw_steem": "Withdraw HIVE",
+    "withdraw_sbd": "Withdraw HBD",
     "transfer_to_savings": "To Savings",
     "convert": "Convert",
     "escrow_transfer": "Escrow Transfer",
@@ -81,25 +82,30 @@
     "fill_transfer_from_savings": "Savings Executed",
     "fill_vesting_withdraw": "PowerDown executed",
     "estm": {
-      "title": "eSteem अंक",
+      "title": "ESTM",
       "buy": "GET ESTM"
     },
     "savingsteem": {
-      "title": "STEEM Savings"
+      "title": "HIVE Savings"
     },
     "savingsbd": {
-      "title": "SBD Savings"
+      "title": "HBD Savings"
     },
     "steem": {
-      "title": "STEEM",
-      "buy": "GET STEEM"
+      "title": "HIVE",
+      "buy": "GET HIVE"
     },
     "sbd": {
-      "title": "SBD",
-      "buy": "GET SBD"
+      "title": "HBD",
+      "buy": "GET HBD"
     },
     "steem_power": {
-      "title": "STEEM POWER"
+      "title": "HIVE POWER"
+    },
+    "btc": {
+      "title": "BTC",
+      "buy": "GET BTC",
+      "address": "RECEIVE"
     }
   },
   "notification": {
@@ -112,6 +118,9 @@
     "ignore": "आपको अनदेखा किया",
     "reblog": "reblogged",
     "transfer": "transferred",
+    "spin": "Time to earn more ESTM",
+    "inactive": "Be active! Write a post, continue earning",
+    "referral": "joined with your referral, welcome them",
     "notification": "अधिसूचनाएं",
     "leaderboard": "अधिनायकपटल",
     "epoint": "अंक",
@@ -152,11 +161,11 @@
     "follow_people": "Follow some people to fill your feed",
     "havent_commented": "अभी तक कोई टिपण्णी नहीं की है",
     "havent_posted": "अभी तक कोई पोस्ट नहीं की है",
-    "steem_power": "स्टीम ताकत",
+    "steem_power": "Hive Power",
     "next_power_text": "अगला शक्तिक्षय में है",
     "days": "दिनों",
     "day": "दिन",
-    "steem_dollars": "स्टीम डॉलर्स",
+    "steem_dollars": "Hive Dollars",
     "savings": "बचत",
     "edit": {
       "display_name": "Display Name",
@@ -204,14 +213,14 @@
   "login": {
     "signin": "अंदर आएं",
     "signup": "JOIN NOW",
-    "signin_title": "इस्टीम की सभी लाभ लेने के लिए",
+    "signin_title": "To get all the benefits of using Esteem",
     "username": "प्रयोक्ता नाम",
     "password": "पासवर्ड या डब्लूएआईएफ",
     "description": "उपयोगकर्ता का प्रमाणिकता लोकल उपकरण में होता है, लॉगआउट होने से प्रमाणिकता हट जाते हैं!",
     "cancel": "रद्द करें",
     "login": "लॉगिन करें",
-    "steemconnect_description": "यदि आप नहीं चाहते की आपकी पासवर्ड एन्क्रिप्टेड रूप में आपके उपकरण में रक्षित रहे तो स्टीमकनेक्ट से लॉगिन करें|",
-    "steemconnect_fee_description": "स्टीमकनेक्ट कुछ फ़ीस ले सकता है आपके पुरुस्कार लेन-देन से"
+    "steemconnect_description": "If you don't want to keep your password encrypted and saved on your device, you can use Hivesigner.",
+    "steemconnect_fee_description": "info"
   },
   "home": {
     "feed": "संभरण",
@@ -279,7 +288,7 @@
     "success_shared": "आपकी पोस्ट सफलतापूर्वक साझा की गई",
     "success_moved": "ड्राफ्ट में ले जाया गया",
     "permission_denied": "अनुमोदन अस्वीकृत हुवा",
-    "permission_text": "कृपया, अपने फ़ोन समायोजन में जाएँ और इस्टीम एप्प की अनुमोदन बदलें|",
+    "permission_text": "Please, go to phone Settings and change Esteem app permissions.",
     "key_warning": "Check private key permission!",
     "success_rebloged": "Rebloged!",
     "already_rebloged": "पहले से ही पुनः प्रकाशित है!",
@@ -310,7 +319,8 @@
     "checking": "Checking...",
     "external_link": "Open in Browser",
     "not_existing_post": "The post does not exist! Please check permlink and author.",
-    "google_play_version": "We noticed that your device has old version of Google Play. Please update Google Play services and try again!"
+    "google_play_version": "We noticed that your device has old version of Google Play. Please update Google Play services and try again!",
+    "rc_down": "Not enough resource credits to perform an action! \n\nBoost your account to continue enjoy the experience. Do you want to boost your account, now?"
   },
   "post": {
     "reblog_alert": "क्या आप निश्चित हैं, आप इसे हटाना चाहते हैं?",
@@ -406,14 +416,17 @@
     "information": "क्या आप रकम स्थान्तरित करना चाहते हैं?",
     "amount_desc": "शेष रकम",
     "memo_desc": "यह ज्ञापन सार्वजनिक है",
+    "convert_desc": "Convert takes 3.5 days and NOT recommended IF HBD price is higher than $1",
     "to_placeholder": "प्रयोक्ता नाम",
     "memo_placeholder": "अपनी टिप्पणी यहाँ लिखें",
     "transfer_token": "स्थानांतरण",
+    "purchase_estm": "Purchase ESTM",
+    "convert": "Convert HBD to HIVE",
     "points": "Gift ESTM to someone",
     "transfer_to_saving": "बचत खाते में स्थान्तरण करें",
     "powerUp": "स्टीम क्षमता बढ़ाएं",
     "withdraw_to_saving": "Withdraw To Saving",
-    "steemconnect_title": "स्टीमकनेक्ट स्थान्तरण",
+    "steemconnect_title": "Hivesigner Transfer",
     "estimated_weekly": "Estimated Weekly",
     "destination_accounts": "Destination Accounts",
     "stop_information": "Are you sure want to stop?",
@@ -424,13 +437,14 @@
     "next": "NEXT",
     "delegate": "कार्यभार सौंपें",
     "power_down": "क्षमता कम करें",
-    "withdraw_steem": "स्टीम निकालें",
-    "withdraw_sbd": "स्टीम डॉलर निकालें",
+    "withdraw_steem": "Withdraw HIVE",
+    "withdraw_sbd": "Withdraw HIVE Dollar",
     "incoming_funds": "Incoming Funds",
-    "stop": "Stop"
+    "stop": "Stop",
+    "address_view": "View address"
   },
   "boost": {
-    "title": "Get eSteem Points",
+    "title": "Get Esteem Points",
     "buy": "GET ESTM",
     "next": "NEXT"
   },

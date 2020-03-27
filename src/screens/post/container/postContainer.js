@@ -46,7 +46,7 @@ const PostContainer = ({ navigation, currentAccount, isLoggedIn }) => {
     const _permlink = permlink || get(post, 'permlink');
 
     await getPost(_author, _permlink, isLoggedIn && get(currentAccount, 'username'))
-      .then(result => {
+      .then((result) => {
         if (get(result, 'id', 0) > 0) {
           if (isParentPost) {
             setParentPost(result);
@@ -57,7 +57,7 @@ const PostContainer = ({ navigation, currentAccount, isLoggedIn }) => {
           setIsPostUnavailable(true);
         }
       })
-      .catch(err => {
+      .catch((err) => {
         setError(err);
       });
   };
@@ -98,7 +98,7 @@ const PostContainer = ({ navigation, currentAccount, isLoggedIn }) => {
   );
 };
 
-const mapStateToProps = state => ({
+const mapStateToProps = (state) => ({
   currentAccount: state.account.currentAccount,
   isLoggedIn: state.application.isLoggedIn,
 });

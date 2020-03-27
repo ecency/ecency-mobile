@@ -39,7 +39,7 @@ const BookmarksContainer = ({ currentAccount, intl, navigation }) => {
     setIsLoading(true);
 
     getFavorites(currentAccount.name)
-      .then(data => {
+      .then((data) => {
         setFavorites(_sortData(data));
         setIsLoading(false);
       })
@@ -53,7 +53,7 @@ const BookmarksContainer = ({ currentAccount, intl, navigation }) => {
     setIsLoading(true);
 
     getBookmarks(currentAccount.name)
-      .then(data => {
+      .then((data) => {
         setBookmarks(_sortData(data));
         setIsLoading(false);
       })
@@ -63,10 +63,10 @@ const BookmarksContainer = ({ currentAccount, intl, navigation }) => {
       });
   };
 
-  const _removeFavorite = selectedUsername => {
+  const _removeFavorite = (selectedUsername) => {
     removeFavorite(currentAccount.name, selectedUsername)
       .then(() => {
-        const newFavorites = [...favorites].filter(fav => fav.account !== selectedUsername);
+        const newFavorites = [...favorites].filter((fav) => fav.account !== selectedUsername);
 
         setFavorites(_sortData(newFavorites));
       })
@@ -75,10 +75,10 @@ const BookmarksContainer = ({ currentAccount, intl, navigation }) => {
       });
   };
 
-  const _removeBoomark = id => {
+  const _removeBoomark = (id) => {
     removeBookmark(currentAccount.name, id)
       .then(() => {
-        const newBookmarks = [...bookmarks].filter(bookmark => bookmark._id !== id);
+        const newBookmarks = [...bookmarks].filter((bookmark) => bookmark._id !== id);
 
         setBookmarks(_sortData(newBookmarks));
       })
@@ -87,7 +87,7 @@ const BookmarksContainer = ({ currentAccount, intl, navigation }) => {
       });
   };
 
-  const _handleOnFavoritePress = username => {
+  const _handleOnFavoritePress = (username) => {
     navigation.navigate({
       routeName: ROUTES.SCREENS.PROFILE,
       params: {
@@ -109,7 +109,7 @@ const BookmarksContainer = ({ currentAccount, intl, navigation }) => {
     }
   };
 
-  const _sortData = data => {
+  const _sortData = (data) => {
     return data.sort((a, b) => {
       const dateA = a.timestamp;
       const dateB = b.timestamp;
@@ -132,7 +132,7 @@ const BookmarksContainer = ({ currentAccount, intl, navigation }) => {
   );
 };
 
-const mapStateToProps = state => ({
+const mapStateToProps = (state) => ({
   currentAccount: state.account.currentAccount,
 });
 

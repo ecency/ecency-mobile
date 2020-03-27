@@ -50,7 +50,7 @@ class SettingsItemView extends PureComponent {
             dropdownStyle={styles.dropdownStyle}
             textStyle={styles.dropdownText}
             options={options}
-            onSelect={e => handleOnChange(e, type, actionType)}
+            onSelect={(e) => handleOnChange(e, type, actionType)}
           />
         );
 
@@ -59,7 +59,7 @@ class SettingsItemView extends PureComponent {
           <ToggleSwitch
             size="large"
             isOn={isOn}
-            onToggle={e => handleOnChange(e, type, actionType)}
+            onToggle={(e) => handleOnChange(e, type, actionType)}
           />
         );
       case 'button':

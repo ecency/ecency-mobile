@@ -10,7 +10,9 @@ export const groomingTransactionData = (transaction, steemPerMVests) => {
     return [];
   }
 
-  const result = { iconType: 'MaterialIcons' };
+  const result = {
+    iconType: 'MaterialIcons',
+  };
 
   [result.textKey] = transaction[1].op;
   const opData = transaction[1].op[1];
@@ -28,7 +30,7 @@ export const groomingTransactionData = (transaction, steemPerMVests) => {
 
       result.value = `${vestsToSp(parseToken(reward), steemPerMVests)
         .toFixed(3)
-        .replace(',', '.')} SP`;
+        .replace(',', '.')} HP`;
       result.details = commentAuthor ? `@${commentAuthor}/${commentPermlink}` : null;
       break;
     case 'author_reward':
@@ -41,19 +43,15 @@ export const groomingTransactionData = (transaction, steemPerMVests) => {
 
       const { author, permlink } = opData;
 
-      sbdPayout = parseToken(sbdPayout)
-        .toFixed(3)
-        .replace(',', '.');
-      steemPayout = parseToken(steemPayout)
-        .toFixed(3)
-        .replace(',', '.');
+      sbdPayout = parseToken(sbdPayout).toFixed(3).replace(',', '.');
+      steemPayout = parseToken(steemPayout).toFixed(3).replace(',', '.');
       vestingPayout = vestsToSp(parseToken(vestingPayout), steemPerMVests)
         .toFixed(3)
         .replace(',', '.');
 
-      result.value = `${sbdPayout > 0 ? `${sbdPayout} SBD` : ''} ${
-        steemPayout > 0 ? `${steemPayout} STEEM` : ''
-      } ${vestingPayout > 0 ? `${vestingPayout} SP` : ''}`;
+      result.value = `${sbdPayout > 0 ? `${sbdPayout} HBD` : ''} ${
+        steemPayout > 0 ? `${steemPayout} HIVE` : ''
+      } ${vestingPayout > 0 ? `${vestingPayout} HP` : ''}`;
 
       result.details = author && permlink ? `@${author}/${permlink}` : null;
       if (result.textKey === 'comment_benefactor_reward') {
@@ -63,19 +61,13 @@ export const groomingTransactionData = (transaction, steemPerMVests) => {
     case 'claim_reward_balance':
       let { reward_sbd: rewardSdb, reward_steem: rewardSteem, reward_vests: rewardVests } = opData;
 
-      rewardSdb = parseToken(rewardSdb)
-        .toFixed(3)
-        .replace(',', '.');
-      rewardSteem = parseToken(rewardSteem)
-        .toFixed(3)
-        .replace(',', '.');
-      rewardVests = vestsToSp(parseToken(rewardVests), steemPerMVests)
-        .toFixed(3)
-        .replace(',', '.');
+      rewardSdb = parseToken(rewardSdb).toFixed(3).replace(',', '.');
+      rewardSteem = parseToken(rewardSteem).toFixed(3).replace(',', '.');
+      rewardVests = vestsToSp(parseToken(rewardVests), steemPerMVests).toFixed(3).replace(',', '.');
 
-      result.value = `${rewardSdb > 0 ? `${rewardSdb} SBD` : ''} ${
-        rewardSteem > 0 ? `${rewardSteem} STEEM` : ''
-      } ${rewardVests > 0 ? `${rewardVests} SP` : ''}`;
+      result.value = `${rewardSdb > 0 ? `${rewardSdb} HBD` : ''} ${
+        rewardSteem > 0 ? `${rewardSteem} HIVE` : ''
+      } ${rewardVests > 0 ? `${rewardVests} HP` : ''}`;
       break;
     case 'transfer':
     case 'transfer_to_savings':
@@ -95,7 +87,7 @@ export const groomingTransactionData = (transaction, steemPerMVests) => {
       opVestingShares = parseToken(opVestingShares);
       result.value = `${vestsToSp(opVestingShares, steemPerMVests)
         .toFixed(3)
-        .replace(',', '.')} SP`;
+        .replace(',', '.')} HP`;
       result.icon = 'attach-money';
       result.details = acc ? `@${acc}` : null;
       break;
@@ -165,7 +157,6 @@ export const groomingWalletData = async (user, globalProps, userCurrency) => {
   if (!user) {
     return walletData;
   }
-
   const state = await getState(`/@${get(user, 'name')}/transfers`);
   const { accounts } = state;
   if (!accounts) {
@@ -208,8 +199,8 @@ export const groomingWalletData = async (user, globalProps, userCurrency) => {
 
   walletData.estimatedValue = totalSteem * pricePerSteem + totalSbd;
 
-  const ppSbd = await getCurrencyTokenRate(userCurrency, 'sbd');
-  const ppSteem = await getCurrencyTokenRate(userCurrency, 'steem');
+  const ppSbd = await getCurrencyTokenRate(userCurrency, 'hbd');
+  const ppSteem = await getCurrencyTokenRate(userCurrency, 'hive');
 
   walletData.estimatedSteemValue = (walletData.balance + walletData.savingBalance) * ppSteem;
   walletData.estimatedSbdValue = totalSbd * ppSbd;
@@ -243,11 +234,13 @@ function compare(a, b) {
   return 0;
 }
 
-export const groomingPointsTransactionData = transaction => {
+export const groomingPointsTransactionData = (transaction) => {
   if (!transaction) {
     return null;
   }
-  const result = { ...transaction };
+  const result = {
+    ...transaction,
+  };
 
   result.details = get(transaction, 'sender')
     ? `from @${get(transaction, 'sender')}`
@@ -265,4 +258,13 @@ export const getPointsEstimate = async (amount, userCurrency) => {
   const ppEstm = await getCurrencyTokenRate(userCurrency, 'estm');
 
   return ppEstm * amount;
+};
+
+export const getBtcEstimate = async (amount, userCurrency) => {
+  if (!amount) {
+    return 0;
+  }
+  const ppBtc = await getCurrencyTokenRate(userCurrency, 'btc');
+
+  return ppBtc * amount;
 };

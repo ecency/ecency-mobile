@@ -3,6 +3,7 @@ import React, { useState, Fragment, useEffect } from 'react';
 import { Image, Text, View } from 'react-native';
 import moment from 'moment';
 import { useIntl } from 'react-intl';
+import get from 'lodash/get';
 
 // Components
 import { BoostIndicatorAnimation, MainButton, BasicHeader, ProductItemLine } from '..';
@@ -85,12 +86,13 @@ const SpinGameView = ({
                 />
               ) : (
                 <Fragment>
-                  {spinProduct.map(product => (
+                  {spinProduct.map((product) => (
                     <ProductItemLine
+                      key={`key-${get(product, 'productId').toString()}`}
                       product={product}
                       title={intl.formatMessage({ id: 'free_estm.get_spin' })}
                       disabled={isProcessing}
-                      handleOnButtonPress={id => buyItem(id)}
+                      handleOnButtonPress={(id) => buyItem(id)}
                     />
                   ))}
                   <Text style={styles.nextDate}>

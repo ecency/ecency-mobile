@@ -1,7 +1,7 @@
 import React, { PureComponent, Fragment } from 'react';
 import { connect } from 'react-redux';
 import { withNavigation } from 'react-navigation';
-import { Share } from 'react-native';
+import { Share, Alert } from 'react-native';
 import ActionSheet from 'react-native-actionsheet';
 import { injectIntl } from 'react-intl';
 import get from 'lodash/get';
@@ -54,7 +54,7 @@ class PostDropdownContainer extends PureComponent {
   };
 
   // Component Functions
-  _handleOnDropdownSelect = async index => {
+  _handleOnDropdownSelect = async (index) => {
     const { content, dispatch, intl } = this.props;
 
     switch (OPTIONS[index]) {
@@ -153,8 +153,9 @@ class PostDropdownContainer extends PureComponent {
             ),
           );
         })
-        .catch(error => {
-          if (String(get(error, 'jse_shortmsg', '')).indexOf('has already reblogged')) {
+        .catch((error) => {
+          console.log(error);
+          if (String(get(error, 'jse_shortmsg', '')).indexOf('has already reblogged') > -1) {
             dispatch(
               toastNotification(
                 intl.formatMessage({
@@ -163,7 +164,29 @@ class PostDropdownContainer extends PureComponent {
               ),
             );
           } else {
-            dispatch(toastNotification(intl.formatMessage({ id: 'alert.fail' })));
+            if (error && error.jse_shortmsg.split(':')[1].includes('wait to transact')) {
+              //when RC is not enough, offer boosting account
+              Alert.alert(
+                intl.formatMessage({
+                  id: 'alert.fail',
+                }),
+                intl.formatMessage({
+                  id: 'alert.rc_down',
+                }),
+                [
+                  {
+                    text: 'Cancel',
+                    onPress: () => console.log('Cancel Pressed'),
+                    style: 'cancel',
+                  },
+                  { text: 'OK', onPress: () => console.log('OK Pressed') },
+                ],
+                { cancelable: false },
+              );
+            } else {
+              //when other errors
+              dispatch(toastNotification(intl.formatMessage({ id: 'alert.fail' })));
+            }
           }
         });
     }
@@ -222,18 +245,18 @@ class PostDropdownContainer extends PureComponent {
     return (
       <Fragment>
         <PostDropdownView
-          options={_OPTIONS.map(item =>
+          options={_OPTIONS.map((item) =>
             intl.formatMessage({ id: `post_dropdown.${item}` }).toUpperCase(),
           )}
           handleOnDropdownSelect={this._handleOnDropdownSelect}
           {...this.props}
         />
         <ActionSheet
-          ref={o => (this.ActionSheet = o)}
+          ref={(o) => (this.ActionSheet = o)}
           options={['Reblog', intl.formatMessage({ id: 'alert.cancel' })]}
           title={intl.formatMessage({ id: 'post.reblog_alert' })}
           cancelButtonIndex={1}
-          onPress={index => {
+          onPress={(index) => {
             index === 0 ? this._reblog() : null;
           }}
         />
@@ -242,7 +265,7 @@ class PostDropdownContainer extends PureComponent {
   }
 }
 
-const mapStateToProps = state => ({
+const mapStateToProps = (state) => ({
   isLoggedIn: state.application.isLoggedIn,
   currentAccount: state.account.currentAccount,
   pinCode: state.application.pin,

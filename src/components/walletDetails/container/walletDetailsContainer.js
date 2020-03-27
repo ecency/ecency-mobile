@@ -31,16 +31,16 @@ class WalletContainer extends PureComponent {
     let balance;
 
     switch (fundType) {
-      case 'STEEM':
+      case 'HIVE':
         balance = Math.round(walletData.balance * 1000) / 1000;
         break;
-      case 'SBD':
+      case 'HBD':
         balance = Math.round(walletData.sbdBalance * 1000) / 1000;
         break;
-      case 'SAVING_STEEM':
+      case 'SAVING_HIVE':
         balance = Math.round(walletData.savingBalance * 1000) / 1000;
         break;
-      case 'SAVING_SBD':
+      case 'SAVING_HBD':
         balance = Math.round(walletData.savingBalanceSbd * 1000) / 1000;
         break;
       default:
@@ -76,7 +76,7 @@ class WalletContainer extends PureComponent {
   }
 }
 
-const mapStateToProps = state => ({
+const mapStateToProps = (state) => ({
   isPinCodeOpen: state.application.isPinCodeOpen,
 });
 

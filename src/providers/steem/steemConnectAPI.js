@@ -1,7 +1,7 @@
-import steemconnect from 'steemconnect';
+import hivesigner from 'hivesigner';
 
-const api = new steemconnect.Client({
-  app: 'esteem-app',
+const api = new hivesigner.Client({
+  app: 'esteemapp',
   callbackURL: 'http://127.0.0.1:3415',
 });
 

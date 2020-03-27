@@ -44,7 +44,7 @@ class NotificationContainer extends Component {
     if (!endOfNotification) {
       this.setState({ isNotificationRefreshing: true });
       getActivities({ user: user || username, type, since })
-        .then(res => {
+        .then((res) => {
           const lastId = res.length > 0 ? [...res].pop().id : null;
           if (lastId === lastNotificationId || res.length === 0) {
             this.setState({
@@ -63,7 +63,7 @@ class NotificationContainer extends Component {
     }
   };
 
-  _navigateToNotificationRoute = data => {
+  _navigateToNotificationRoute = (data) => {
     const { navigation, username, dispatch } = this.props;
     const type = get(data, 'type');
     const permlink = get(data, 'permlink');
@@ -71,7 +71,7 @@ class NotificationContainer extends Component {
     let routeName;
     let params;
     let key;
-    markActivityAsRead(username, data.id).then(result => {
+    markActivityAsRead(username, data.id).then((result) => {
       dispatch(updateUnreadActivityCount(result.unread));
     });
 
@@ -89,8 +89,9 @@ class NotificationContainer extends Component {
         username: get(data, 'follower'),
       };
     } else if (type === 'transfer') {
-      routeName = ROUTES.TABBAR.PROFILE;
-      params = { activePage: 2 };
+      routeName = ROUTES.TABBAR.WALLET;
+    } else if (type === 'spin') {
+      routeName = ROUTES.SCREENS.BOOST;
     }
 
     if (routeName) {
@@ -114,7 +115,7 @@ class NotificationContainer extends Component {
 
     markActivityAsRead(username)
       .then(() => {
-        const updatedNotifications = notifications.map(item => ({ ...item, read: 1 }));
+        const updatedNotifications = notifications.map((item) => ({ ...item, read: 1 }));
         dispatch(updateUnreadActivityCount(0));
         this.setState({ notifications: updatedNotifications, isNotificationRefreshing: false });
       })
@@ -170,7 +171,7 @@ class NotificationContainer extends Component {
   }
 }
 
-const mapStateToProps = state => ({
+const mapStateToProps = (state) => ({
   isLoggedIn: state.application.isLoggedIn,
   isConnected: state.application.isConnected,
 

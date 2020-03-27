@@ -1,5 +1,5 @@
 import CryptoJS from 'crypto-js';
-import * as dsteem from 'dsteem';
+import * as dsteem from '@esteemapp/dsteem';
 import { Buffer } from 'buffer';
 import { proxifyImageSrc } from '@esteemapp/esteem-render-helpers';
 
@@ -59,7 +59,7 @@ export const catchEntryImage = (entry, width = 0, height = 0) => {
   return null;
 };
 
-export const catchDraftImage = body => {
+export const catchDraftImage = (body) => {
   const imgRegex = /(https?:\/\/.*\.(?:tiff?|jpe?g|gif|png|svg|ico|PNG|GIF|JPG))/g;
 
   if (body && imgRegex.test(body)) {
@@ -85,13 +85,13 @@ export const getResizedImage = (url, size = 640) => {
     return `${url.replace('img.esteem.app/', `img.esteem.app/${size}/`)}`;
   }
   */
-  return `https://steemitimages.com/${size}x0/${url}`;
+  return `https://avatars.esteem.app/${size}x0/${url}`;
 };
 
-export const getResizedAvatar = (author, sizeString = 'medium') => {
+export const getResizedAvatar = (author, sizeString = 'large') => {
   if (!author) {
     return '';
   }
 
-  return `https://steemitimages.com/u/${author}/avatar/${sizeString}`;
+  return `https://avatars.esteem.app/u/${author}/avatar/${sizeString}`;
 };

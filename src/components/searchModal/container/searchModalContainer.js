@@ -37,7 +37,7 @@ const SearchModalContainer = ({
     navigation.goBack();
   };
 
-  const _handleOnChangeSearchInput = text => {
+  const _handleOnChangeSearchInput = (text) => {
     if (text && text.length < 2) {
       return;
     }
@@ -46,9 +46,9 @@ const SearchModalContainer = ({
     }
     if (text && text !== '@' && text !== '#') {
       if (text[0] === '@') {
-        lookupAccounts(text.substr(1).trim()).then(res => {
+        lookupAccounts(text.substr(1).trim()).then((res) => {
           const users = res
-            ? res.map(item => ({
+            ? res.map((item) => ({
                 image: getResizedAvatar(item),
                 text: item,
                 ...item,
@@ -57,9 +57,9 @@ const SearchModalContainer = ({
           setSearchResults({ type: 'user', data: users });
         });
       } else if (text[0] === '#') {
-        getTrendingTags(text.substr(1).trim()).then(res => {
+        getTrendingTags(text.substr(1).trim()).then((res) => {
           const tags = res
-            ? res.map(item => ({
+            ? res.map((item) => ({
                 text: `#${get(item, 'name', '')}`,
                 ...item,
               }))
@@ -75,7 +75,7 @@ const SearchModalContainer = ({
 
           if (author) {
             if (permlink) {
-              getPurePost(author, permlink).then(post => {
+              getPurePost(author, permlink).then((post) => {
                 if (post.id !== 0) {
                   const result = {};
                   let metadata = {};
@@ -98,8 +98,8 @@ const SearchModalContainer = ({
                 }
               });
             } else {
-              lookupAccounts(author).then(res => {
-                const users = res.map(item => ({
+              lookupAccounts(author).then((res) => {
+                const users = res.map((item) => ({
                   image: getResizedAvatar(item),
                   text: item,
                   ...item,
@@ -137,10 +137,10 @@ const SearchModalContainer = ({
           }
         }
       } else {
-        search({ q: text }).then(res => {
+        search({ q: text }).then((res) => {
           res.results = res.results
-            .filter(item => item.title !== '')
-            .map(item => ({
+            .filter((item) => item.title !== '')
+            .map((item) => ({
               image: item.img_url || getResizedAvatar(get(item, 'author')),
               text: item.title,
               ...item,
@@ -222,7 +222,7 @@ const SearchModalContainer = ({
   );
 };
 
-const mapStateToProps = state => ({
+const mapStateToProps = (state) => ({
   username: state.account.currentAccount.name,
   isConnected: state.application.isConnected,
 });

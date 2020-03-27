@@ -38,7 +38,7 @@ class PostCardContainer extends PureComponent {
     }
   };
 
-  _handleOnContentPress = content => {
+  _handleOnContentPress = (content) => {
     const { navigation } = this.props;
 
     if (content) {
@@ -52,7 +52,7 @@ class PostCardContainer extends PureComponent {
     }
   };
 
-  _handleOnVotersPress = activeVotes => {
+  _handleOnVotersPress = (activeVotes) => {
     const { navigation, content } = this.props;
 
     navigation.navigate({
@@ -64,7 +64,7 @@ class PostCardContainer extends PureComponent {
     });
   };
 
-  _handleOnReblogsPress = reblogs => {
+  _handleOnReblogsPress = (reblogs) => {
     const { navigation, content } = this.props;
 
     navigation.navigate({
@@ -80,7 +80,7 @@ class PostCardContainer extends PureComponent {
     const { currentAccount, content } = this.props;
 
     await getPost(get(content, 'author'), get(content, 'permlink'), get(currentAccount, 'username'))
-      .then(result => {
+      .then((result) => {
         if (result) {
           this.setState({ _content: result });
         }
@@ -115,7 +115,7 @@ class PostCardContainer extends PureComponent {
   }
 }
 
-const mapStateToProps = state => ({
+const mapStateToProps = (state) => ({
   currentAccount: state.account.currentAccount,
   nsfw: state.application.nsfw,
 });

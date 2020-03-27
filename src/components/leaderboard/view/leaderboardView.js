@@ -44,10 +44,10 @@ class LeaderboardView extends PureComponent {
       <Fragment>
         <FilterBar
           dropdownIconName="arrow-drop-down"
-          options={VALUE.map(val => intl.formatMessage({ id: `leaderboard.${val}` }))}
+          options={VALUE.map((val) => intl.formatMessage({ id: `leaderboard.${val}` }))}
           selectedOptionIndex={selectedIndex}
           defaultText={intl.formatMessage({ id: `leaderboard.${VALUE[0]}` })}
-          onDropdownSelect={selectedIndexM =>
+          onDropdownSelect={(selectedIndexM) =>
             fetchLeaderBoard(FILTER_OPTIONS[selectedIndexM], selectedIndexM)
           }
         />
@@ -66,7 +66,7 @@ class LeaderboardView extends PureComponent {
           <FlatList
             data={users}
             refreshing={refreshing}
-            keyExtractor={item => get(item, '_id', Math.random()).toString()}
+            keyExtractor={(item) => get(item, '_id', Math.random()).toString()}
             removeClippedSubviews={false}
             ListEmptyComponent={<ListPlaceHolder />}
             onRefresh={() => fetchLeaderBoard()}

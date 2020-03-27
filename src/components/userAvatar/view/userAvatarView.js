@@ -28,7 +28,7 @@ class UserAvatarView extends Component {
   }
 
   // Component Functions
-  _handleOnAvatarPress = username => {
+  _handleOnAvatarPress = (username) => {
     const {
       currentUsername: { name },
     } = this.props;
@@ -87,7 +87,7 @@ class UserAvatarView extends Component {
   }
 }
 
-const mapStateToProps = state => ({
+const mapStateToProps = (state) => ({
   currentUsername: state.account.currentAccount,
 });
 

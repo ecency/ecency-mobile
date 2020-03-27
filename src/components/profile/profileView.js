@@ -62,7 +62,7 @@ class ProfileView extends PureComponent {
     }
   };
 
-  _handleUIChange = height => {
+  _handleUIChange = (height) => {
     this.setState({ collapsibleMoreHeight: height });
   };
 
@@ -254,7 +254,7 @@ class ProfileView extends PureComponent {
               >
                 {selectedUser ? (
                   <Wallet
-                    setEstimatedWalletValue={value =>
+                    setEstimatedWalletValue={(value) =>
                       this.setState({ estimatedWalletValue: value })
                     }
                     selectedUser={selectedUser}

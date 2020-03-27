@@ -7,6 +7,7 @@ import get from 'lodash/get';
 import {
   lookupAccounts,
   transferToken,
+  convert,
   transferFromSavings,
   transferToSavings,
   transferToVesting,
@@ -35,6 +36,7 @@ class TransferContainer extends Component {
     this.state = {
       fundType: props.navigation.getParam('fundType', ''),
       balance: props.navigation.getParam('balance', ''),
+      tokenAddress: props.navigation.getParam('tokenAddress', ''),
       transferType: props.navigation.getParam('transferType', ''),
       selectedAccount: props.currentAccount,
     };
@@ -51,42 +53,54 @@ class TransferContainer extends Component {
 
   // Component Functions
 
-  _getUserPointsBalance = async username => {
+  _getUserPointsBalance = async (username) => {
     await getUser(username)
-      .then(userPoints => {
+      .then((userPoints) => {
         const balance = Math.round(get(userPoints, 'points') * 1000) / 1000;
         this.setState({ balance });
       })
-      .catch(err => {
+      .catch((err) => {
         if (err) {
           alert(get(err, 'message') || err.toString());
         }
       });
   };
 
-  fetchBalance = username => {
-    const { fundType, transferType } = this.state;
+  fetchBalance = (username) => {
+    const { fundType, transferType, tokenAddress } = this.state;
 
-    getAccount(username).then(async account => {
+    getAccount(username).then(async (account) => {
       let balance;
 
-      if (transferType === 'transfer_token' && fundType === 'STEEM') {
+      if (
+        (transferType === 'purchase_estm' || transferType === 'transfer_token') &&
+        fundType === 'HIVE'
+      ) {
         balance = account[0].balance.replace(fundType, '');
       }
-      if (transferType === 'transfer_token' && fundType === 'SBD') {
+      if (
+        (transferType === 'purchase_estm' ||
+          transferType === 'convert' ||
+          transferType === 'transfer_token') &&
+        fundType === 'HBD'
+      ) {
         balance = account[0].sbd_balance.replace(fundType, '');
       }
       if (transferType === 'points' && fundType === 'ESTM') {
         this._getUserPointsBalance(username);
       }
-      if (transferType === 'transfer_to_saving' && fundType === 'STEEM') {
+      if (transferType === 'transfer_to_saving' && fundType === 'HIVE') {
         balance = account[0].balance.replace(fundType, '');
       }
-      if (transferType === 'transfer_to_saving' && fundType === 'SBD') {
+      if (transferType === 'transfer_to_saving' && fundType === 'HBD') {
         balance = account[0].sbd_balance.replace(fundType, '');
       }
-      if (transferType === 'powerUp' && fundType === 'STEEM') {
+      if (transferType === 'powerUp' && fundType === 'HIVE') {
         balance = account[0].balance.replace(fundType, '');
+      }
+      if (transferType === 'address_view' && fundType === 'BTC') {
+        //TOD implement transfer of custom tokens
+        console.log(tokenAddress);
       }
 
       const local = await getUserDataWithUsername(username);
@@ -101,7 +115,7 @@ class TransferContainer extends Component {
     });
   };
 
-  _getAccountsWithUsername = async username => {
+  _getAccountsWithUsername = async (username) => {
     const validUsers = await lookupAccounts(username);
     return validUsers;
   };
@@ -131,6 +145,13 @@ class TransferContainer extends Component {
     switch (transferType) {
       case 'transfer_token':
         func = transferToken;
+        break;
+      case 'purchase_estm':
+        func = transferToken;
+        break;
+      case 'convert':
+        func = convert;
+        data.requestId = new Date().getTime() >>> 0;
         break;
       case 'transfer_to_saving':
         func = transferToSavings;
@@ -172,7 +193,7 @@ class TransferContainer extends Component {
         dispatch(toastNotification(intl.formatMessage({ id: 'alert.successful' })));
         navigation.goBack();
       })
-      .catch(err => {
+      .catch((err) => {
         navigation.goBack();
         dispatch(toastNotification(err.message));
       });
@@ -188,7 +209,7 @@ class TransferContainer extends Component {
       autoVest,
     };
 
-    setWithdrawVestingRoute(currentAccount, pinCode, data).catch(err => {
+    setWithdrawVestingRoute(currentAccount, pinCode, data).catch((err) => {
       alert(err.message || err.toString());
     });
   };
@@ -200,7 +221,7 @@ class TransferContainer extends Component {
 
   render() {
     const { accounts, navigation, children, steemPerMVests, currentAccount } = this.props;
-    const { balance, fundType, selectedAccount } = this.state;
+    const { balance, fundType, selectedAccount, tokenAddress } = this.state;
 
     const transferType = navigation.getParam('transferType', '');
 
@@ -209,6 +230,7 @@ class TransferContainer extends Component {
       children({
         accounts,
         balance,
+        tokenAddress,
         fundType,
         transferType,
         selectedAccount,
@@ -225,7 +247,7 @@ class TransferContainer extends Component {
   }
 }
 
-const mapStateToProps = state => ({
+const mapStateToProps = (state) => ({
   accounts: state.account.otherAccounts,
   currentAccount: state.account.currentAccount,
   pinCode: state.application.pin,

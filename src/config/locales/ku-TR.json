@@ -12,8 +12,8 @@
     "post": "Şandî",
     "comment": "Şîrove",
     "checkin": "Têketin",
-    "vote": "Deng",
-    "reblog": "Dîs-biweşîne",
+    "vote": "Dengdan",
+    "reblog": "Dîsweşandin",
     "login": "Têketin",
     "incoming_transfer_title": "Transfera tê",
     "outgoing_transfer_title": "Transfera derdiçe",
@@ -59,16 +59,17 @@
     "to_placeholder": "Navê bikarhêner",
     "memo_placeholder": "Notên xwe li vir binivîse",
     "transfer_token": "Transfer",
+    "purchase_estm": "ESTMê BISTÎNE",
     "points": "ESTMê diyariya hinekan bike",
     "transfer_to_saving": "Bo Berhevkirinan",
     "powerUp": "Bihêz Bike",
     "withdraw_to_saving": "Ji Berhevkirinan Bikişîne",
-    "steemconnect_title": "Transfera Steemconnectê",
+    "steemconnect_title": "Hivesigner Transfer",
     "next": "PÊŞVE",
     "delegate": "Şande",
     "power_down": "Ji Hêz Bixe",
-    "withdraw_steem": "Steemê Bikişîne (pere)",
-    "withdraw_sbd": "SBD Bikişîne",
+    "withdraw_steem": "Withdraw HIVE",
+    "withdraw_sbd": "Withdraw HBD",
     "transfer_to_savings": "Bo Berhevkirinan",
     "convert": "Veguherîne",
     "escrow_transfer": "Transfera Emanetî",
@@ -81,25 +82,30 @@
     "fill_transfer_from_savings": "Berhevkirin Pek Hat",
     "fill_vesting_withdraw": "Ji hêz hate xistin",
     "estm": {
-      "title": "puanên eSteemê",
+      "title": "ESTM",
       "buy": "ESTMê BISTÎNE"
     },
     "savingsteem": {
-      "title": "Berhevkirinên STEEMê"
+      "title": "HIVE Savings"
     },
     "savingsbd": {
-      "title": "Berhevkirina Dolarên Steemê"
+      "title": "HBD Savings"
     },
     "steem": {
-      "title": "STEEM",
-      "buy": "STEEM BISTÎNE"
+      "title": "HIVE",
+      "buy": "GET HIVE"
     },
     "sbd": {
-      "title": "Dolarê Steemê",
-      "buy": "Dolarên Steemê Bistîne"
+      "title": "HBD",
+      "buy": "GET HBD"
     },
     "steem_power": {
-      "title": "HÊZA STEEMê"
+      "title": "HIVE POWER"
+    },
+    "btc": {
+      "title": "BTC",
+      "buy": "GET BTC",
+      "address": "RECEIVE"
     }
   },
   "notification": {
@@ -112,6 +118,9 @@
     "ignore": "te asteng kir",
     "reblog": "dîsa hate weşandin",
     "transfer": "hate transferkirin",
+    "spin": "Time to earn more ESTM",
+    "inactive": "Be active! Write a post, continue earning",
+    "referral": "joined with your referral, welcome them",
     "notification": "Danezanên Te",
     "leaderboard": "Tabloya Lîderan",
     "epoint": "Puan",
@@ -152,11 +161,11 @@
     "follow_people": "Ji bo dagirtina herka xwe, hinek kesan bişopîne",
     "havent_commented": "heta niha şîrove nehatiye kirin",
     "havent_posted": "heta niha ti tişt parve nebûye",
-    "steem_power": "Hêza Steemê",
+    "steem_power": "Hive Power",
     "next_power_text": "Hêza pêşve kêm dibe",
     "days": "rojan",
     "day": "roj",
-    "steem_dollars": "Dolarên Steemê",
+    "steem_dollars": "Hive Dollars",
     "savings": "Berhev bike",
     "edit": {
       "display_name": "Navê Xuyangê",
@@ -204,14 +213,14 @@
   "login": {
     "signin": "Têketin",
     "signup": "BEŞDAR BIBE",
-    "signin_title": "Tevahiya avantajên bikaranîna eSteemê bistîne",
+    "signin_title": "To get all the benefits of using Esteem",
     "username": "Navê bikarhêner",
     "password": "Pêborîn an WIF",
     "description": "Daneyên bikarhêner bi awayekî şîfrekirî li ser amûrê tên hilanîn, piştî derketinê hemû dane têne jêbirin!",
     "cancel": "Betal",
     "login": "TÊKEVÊ",
-    "steemconnect_description": "Heke tu bixwazî agahiyên bikarhêner li ser amûra te bi awayekî şîfrekirî neyê hilanin, tu dikarî bi Steemconnect jî têkevî.",
-    "steemconnect_fee_description": "Dibe ku Steemconnect ji dayîna xelatan hinek pereyan bîstine"
+    "steemconnect_description": "If you don't want to keep your password encrypted and saved on your device, you can use Hivesigner.",
+    "steemconnect_fee_description": "info"
   },
   "home": {
     "feed": "Herk",
@@ -279,7 +288,7 @@
     "success_shared": "Şandiya te bi serkevtî hate parvekirin",
     "success_moved": "Veguhezî reşnivîsê bû",
     "permission_denied": "Destûr hate redkirin",
-    "permission_text": "Ji kerema xwe, biçe Sazkariyên telefonê û destûrên eSteemê veke.",
+    "permission_text": "Please, go to phone Settings and change Esteem app permissions.",
     "key_warning": "Destûra kilîda taybet kontrol bike!",
     "success_rebloged": "Reblog bû!",
     "already_rebloged": "Jixwe hatiye dîsweşandin!",
@@ -308,24 +317,25 @@
     "connection_fail": "Girêdan Biserneket!",
     "connection_success": "Bi serkevtî hate girêdan!",
     "checking": "Tê kontrolkirin...",
-    "external_link": "Open in Browser",
+    "external_link": "Di Gerokê de veke",
     "not_existing_post": "Şandî tune ye! Ji kerema xwe nivîskar û girêdana mayînde kontrol bike.",
-    "google_play_version": "Me ferq kir ku li amûra te, guhertoya kevn a Google Playê sazkirî ye. Ji kerema xwe xizmetên Google Playê hildemîne û dîsa biceribîne!"
+    "google_play_version": "Me ferq kir ku li amûra te, guhertoya kevn a Google Playê sazkirî ye. Ji kerema xwe xizmetên Google Playê hildemîne û dîsa biceribîne!",
+    "rc_down": "Not enough resource credits to perform an action! \n\nBoost your account to continue enjoy the experience. Do you want to boost your account, now?"
   },
   "post": {
     "reblog_alert": "Bi rastî jî tu dixwazî dîsa biweşînî?",
     "removed_hint": "Şandî hate rakirin ji aliyê",
-    "copy_link": "Copy link",
+    "copy_link": "Girêdanê kopî bike",
     "reblogged": "dîsweşandin ji aliyê",
     "sponsored": "SPONSORKIRÎ",
-    "open_thread": "Open thread",
-    "image": "Image",
-    "link": "Link",
-    "gallery_mode": "Gallery mode",
-    "save_to_local": "Download to device",
-    "image_saved": "Image saved to Photo Gallery",
+    "open_thread": "Mijara vekirî",
+    "image": "Wêne",
+    "link": "Girêdan",
+    "gallery_mode": "Moda pêşangehê",
+    "save_to_local": "Daxîne amûrê",
+    "image_saved": "Wêne li Pêşangeha Wêneyan Hate Tomarkirin",
     "image_saved_error": "Wêne tomar nebû",
-    "wrong_link": "Wrong link"
+    "wrong_link": "Girêdana çewt"
   },
   "drafts": {
     "title": "Reşnivîs",
@@ -406,14 +416,17 @@
     "information": "Bi rastî jî tu dixwazî pereyan transfer bikî?",
     "amount_desc": "Bermayî:",
     "memo_desc": "Ev bîrname gelemper e",
+    "convert_desc": "Convert takes 3.5 days and NOT recommended IF HBD price is higher than $1",
     "to_placeholder": "Navê bikarhêner",
     "memo_placeholder": "Notên xwe li vir binivîse",
     "transfer_token": "Transfer",
+    "purchase_estm": "Purchase ESTM",
+    "convert": "Convert HBD to HIVE",
     "points": "ESTMê diyariya hinekan bike",
     "transfer_to_saving": "Transfera Ji Berhevkirinan",
     "powerUp": "Bihêz Bike",
     "withdraw_to_saving": "Ji Berhevkirinan Bikişîne (pere)",
-    "steemconnect_title": "Transfera Steemconnectê",
+    "steemconnect_title": "Hivesigner Transfer",
     "estimated_weekly": "Texmîna Heftane",
     "destination_accounts": "Ajimêrên Armanc",
     "stop_information": "Bi rastî jî tu dixwazî rawestînî?",
@@ -424,13 +437,14 @@
     "next": "PÊŞVE",
     "delegate": "Şande",
     "power_down": "Ji Hêz Bixe",
-    "withdraw_steem": "Steemê Bikişîne (pere)",
-    "withdraw_sbd": "Dolarên Steemê Bikişîne (pere)",
+    "withdraw_steem": "Withdraw HIVE",
+    "withdraw_sbd": "Withdraw HIVE Dollar",
     "incoming_funds": "Fonên Tên",
-    "stop": "Rawestîne"
+    "stop": "Rawestîne",
+    "address_view": "View address"
   },
   "boost": {
-    "title": "Puanên sSteemê Bistîne",
+    "title": "Get Esteem Points",
     "buy": "ESTMê BISTÎNE",
     "next": "PÊŞVE"
   },

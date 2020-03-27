@@ -40,16 +40,16 @@ class LoginScreen extends PureComponent {
     };
   }
 
-  _handleOnPasswordChange = value => {
+  _handleOnPasswordChange = (value) => {
     this.setState({ password: value });
   };
 
-  _handleUsernameChange = username => {
+  _handleUsernameChange = (username) => {
     const { getAccountsWithUsername } = this.props;
 
     this.setState({ username });
 
-    getAccountsWithUsername(username).then(res => {
+    getAccountsWithUsername(username).then((res) => {
       const isValid = res.includes(username);
 
       this.setState({ isUsernameValid: isValid });
@@ -112,7 +112,7 @@ class LoginScreen extends PureComponent {
                 leftIconName="close"
                 iconType="MaterialCommunityIcons"
                 isValid={isUsernameValid}
-                onChange={value => this._handleUsernameChange(value)}
+                onChange={(value) => this._handleUsernameChange(value)}
                 placeholder={intl.formatMessage({
                   id: 'login.username',
                 })}
@@ -126,7 +126,7 @@ class LoginScreen extends PureComponent {
                 rightIconName="lock"
                 leftIconName="close"
                 isValid={isUsernameValid}
-                onChange={value => this._handleOnPasswordChange(value)}
+                onChange={(value) => this._handleOnPasswordChange(value)}
                 placeholder={intl.formatMessage({
                   id: 'login.password',
                 })}
@@ -167,14 +167,7 @@ class LoginScreen extends PureComponent {
               />
             </View>
           </View>
-          <View tabLabel="SteemConnect" style={styles.tabbarItem}>
-            <InformationArea
-              description={intl.formatMessage({
-                id: 'login.steemconnect_fee_description',
-              })}
-              iconName="ios-information-circle-outline"
-              bold
-            />
+          <View tabLabel="Hivesigner" style={styles.tabbarItem}>
             <InformationArea
               description={intl.formatMessage({
                 id: 'login.steemconnect_description',
@@ -185,8 +178,8 @@ class LoginScreen extends PureComponent {
               wrapperStyle={styles.mainButtonWrapper}
               onPress={() => this._handleOnModalToggle()}
               source={STEEM_CONNECT_LOGO}
-              text="steem"
-              secondText="connect"
+              text="hive"
+              secondText="signer"
             />
           </View>
         </ScrollableTabView>

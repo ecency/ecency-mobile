@@ -6,7 +6,7 @@ import get from 'lodash/get';
 import { toastNotification } from '../redux/actions/uiAction';
 
 // Dsteem
-import { getAccount, claimRewardBalance } from '../providers/steem/dsteem';
+import { getAccount, claimRewardBalance, getBtcAddress } from '../providers/steem/dsteem';
 
 // Actions
 import { openPinCodeModal } from '../redux/actions/applicationActions';
@@ -21,8 +21,9 @@ import { getEstimatedAmount } from '../utils/vote';
 // Constants
 import ROUTES from '../constants/routeNames';
 
-const STEEM_DROPDOWN = ['transfer_token', 'transfer_to_saving', 'powerUp'];
-const SBD_DROPDOWN = ['transfer_token', 'transfer_to_saving'];
+const STEEM_DROPDOWN = ['purchase_estm', 'transfer_token', 'transfer_to_saving', 'powerUp'];
+const BTC_DROPDOWN = ['transfer_token'];
+const SBD_DROPDOWN = ['purchase_estm', 'transfer_token', 'transfer_to_saving', 'convert'];
 const SAVING_STEEM_DROPDOWN = ['withdraw_steem'];
 const SAVING_SBD_DROPDOWN = ['withdraw_sbd'];
 const STEEM_POWER_DROPDOWN = ['delegate', 'power_down'];
@@ -45,6 +46,8 @@ const WalletContainer = ({
   const [walletData, setWalletData] = useState(null);
   const [userActivities, setUserActivities] = useState([]);
   const [sbdBalance, setSbdBalance] = useState(0);
+  const [tokenBalance, setTokenBalance] = useState(0);
+  const [tokenAddress, setTokenAddress] = useState('');
   const [steemBalance, setSteemBalance] = useState(0);
   const [spBalance, setSpBalance] = useState(0);
   const [steemSavingBalance, setSteemSavingBalance] = useState(0);
@@ -52,6 +55,7 @@ const WalletContainer = ({
   const [estimatedValue, setEstimatedValue] = useState(0);
   const [estimatedSteemValue, setEstimatedSteemValue] = useState(0);
   const [estimatedSbdValue, setEstimatedSbdValue] = useState(0);
+  const [estimatedTokenValue, setEstimatedTokenValue] = useState(0);
   const [estimatedSpValue, setEstimatedSpValue] = useState(0);
   const [unclaimedBalance, setUnclaimedBalance] = useState('');
   const [estimatedAmount, setEstimatedAmount] = useState(0);
@@ -70,7 +74,7 @@ const WalletContainer = ({
 
   useEffect(() => {
     const _transferHistory = userActivities.filter(
-      item =>
+      (item) =>
         get(item, 'textKey') === 'transfer' ||
         get(item, 'textKey') === 'transfer_to_vesting' ||
         get(item, 'textKey') === 'transfer_to_savings' ||
@@ -91,6 +95,8 @@ const WalletContainer = ({
 
     setTransferHistory(_transferHistory);
     setSbdBalance(Math.round(get(walletData, 'sbdBalance', 0) * 1000) / 1000);
+    setTokenBalance(Math.round(get(walletData, 'tokenBalance', 0) * 1000) / 1000);
+    setTokenAddress(get(walletData, 'tokenAddress', ''));
     setSteemBalance(Math.round(get(walletData, 'balance', 0) * 1000) / 1000);
     setSteemSavingBalance(Math.round(get(walletData, 'savingBalance', 0) * 1000) / 1000);
     setSbdSavingBalance(Math.round(get(walletData, 'savingBalanceSbd', 0) * 1000) / 1000);
@@ -102,6 +108,7 @@ const WalletContainer = ({
     setEstimatedValue(get(walletData, 'estimatedValue', 0));
     setEstimatedSteemValue(get(walletData, 'estimatedSteemValue', 0));
     setEstimatedSbdValue(get(walletData, 'estimatedSbdValue', 0));
+    setEstimatedTokenValue(get(walletData, 'estimatedTokenValue', 0));
     setEstimatedSpValue(get(walletData, 'estimatedSpValue', 0));
     setDelegationsAmount(
       vestsToSp(
@@ -118,10 +125,10 @@ const WalletContainer = ({
       const getBalance = (val, cur) => (val ? Math.round(val * 1000) / 1000 + cur : '');
 
       setUnclaimedBalance(
-        `${getBalance(get(walletData, 'rewardSteemBalance', 0), ' STEEM')} ${getBalance(
+        `${getBalance(get(walletData, 'rewardSteemBalance', 0), ' HIVE')} ${getBalance(
           get(walletData, 'rewardSbdBalance', 0),
-          ' SBD',
-        )} ${getBalance(get(walletData, 'rewardVestingSteem', 0), ' SP')}`,
+          ' HBD',
+        )} ${getBalance(get(walletData, 'rewardVestingSteem', 0), ' HP')}`,
       );
     }
   }, [userActivities, walletData]);
@@ -129,29 +136,29 @@ const WalletContainer = ({
   // Components functions
 
   const _getWalletData = useCallback(
-    async _selectedUser => {
+    async (_selectedUser) => {
       const _walletData = await groomingWalletData(_selectedUser, globalProps, currency);
 
       setWalletData(_walletData);
       setIsLoading(false);
       setUserActivities(
-        get(_walletData, 'transactions', []).map(item =>
+        get(_walletData, 'transactions', []).map((item) =>
           groomingTransactionData(item, steemPerMVests),
         ),
       );
       setEstimatedWalletValue && setEstimatedWalletValue(_walletData.estimatedValue);
       const getBalance = (val, cur) => (val ? Math.round(val * 1000) / 1000 + cur : '');
       setUnclaimedBalance(
-        `${getBalance(get(_walletData, 'rewardSteemBalance', 0), ' STEEM')} ${getBalance(
+        `${getBalance(get(_walletData, 'rewardSteemBalance', 0), ' HIVE')} ${getBalance(
           get(_walletData, 'rewardSbdBalance', 0),
-          ' SBD',
-        )} ${getBalance(get(_walletData, 'rewardVestingSteem', 0), ' SP')}`,
+          ' HBD',
+        )} ${getBalance(get(_walletData, 'rewardVestingSteem', 0), ' HP')}`,
       );
     },
     [globalProps, setEstimatedWalletValue, steemPerMVests],
   );
 
-  const _isHasUnclaimedRewards = account => {
+  const _isHasUnclaimedRewards = (account) => {
     return (
       parseToken(get(account, 'reward_steem_balance')) > 0 ||
       parseToken(get(account, 'reward_sbd_balance')) > 0 ||
@@ -169,7 +176,7 @@ const WalletContainer = ({
     await setIsClaiming(true);
 
     getAccount(currentAccount.name)
-      .then(account => {
+      .then((account) => {
         isHasUnclaimedRewards = _isHasUnclaimedRewards(account[0]);
         if (isHasUnclaimedRewards) {
           const {
@@ -182,7 +189,7 @@ const WalletContainer = ({
         setIsClaiming(false);
       })
       .then(() => getAccount(currentAccount.name))
-      .then(account => {
+      .then((account) => {
         _getWalletData(selectedUser);
         if (isHasUnclaimedRewards) {
           dispatch(
@@ -194,7 +201,7 @@ const WalletContainer = ({
           );
         }
       })
-      .then(account => {
+      .then((account) => {
         _getWalletData(selectedUser);
         setIsClaiming(false);
       })
@@ -216,7 +223,7 @@ const WalletContainer = ({
     setRefreshing(true);
 
     getAccount(selectedUser.name)
-      .then(account => {
+      .then((account) => {
         _getWalletData(selectedUser);
         setRefreshing(false);
       })
@@ -235,16 +242,24 @@ const WalletContainer = ({
   const _navigate = async (transferType, fundType) => {
     let balance;
 
-    if (transferType === 'transfer_token' && fundType === 'STEEM') {
+    if (
+      (transferType === 'transfer_token' || transferType === 'purchase_estm') &&
+      fundType === 'HIVE'
+    ) {
       balance = Math.round(walletData.balance * 1000) / 1000;
     }
-    if (transferType === 'transfer_token' && fundType === 'SBD') {
+    if (
+      (transferType === 'transfer_token' ||
+        transferType === 'convert' ||
+        transferType === 'purchase_estm') &&
+      fundType === 'HBD'
+    ) {
       balance = Math.round(walletData.sbdBalance * 1000) / 1000;
     }
-    if (transferType === 'withdraw_steem' && fundType === 'STEEM') {
+    if (transferType === 'withdraw_steem' && fundType === 'HIVE') {
       balance = Math.round(walletData.savingBalance * 1000) / 1000;
     }
-    if (transferType === 'withdraw_sbd' && fundType === 'SBD') {
+    if (transferType === 'withdraw_sbd' && fundType === 'HBD') {
       balance = Math.round(walletData.savingBalanceSbd * 1000) / 1000;
     }
 
@@ -252,14 +267,20 @@ const WalletContainer = ({
       dispatch(
         openPinCodeModal({
           navigateTo: ROUTES.SCREENS.TRANSFER,
-          navigateParams: { transferType, fundType, balance },
+          navigateParams: { transferType, fundType, balance, tokenAddress },
         }),
       );
     } else {
       navigate({
         routeName: ROUTES.SCREENS.TRANSFER,
-        params: { transferType, fundType, balance },
+        params: { transferType, fundType, balance, tokenAddress },
       });
+    }
+  };
+
+  const getTokenAddress = (tokenType) => {
+    if (tokenType === 'BTC') {
+      console.log(getBtcAddress(pinCode, currentAccount));
     }
   };
 
@@ -280,16 +301,20 @@ const WalletContainer = ({
       steemBalance,
       spBalance,
       sbdBalance,
+      tokenBalance,
+      getTokenAddress,
       steemSavingBalance,
       sbdSavingBalance,
       estimatedValue,
       estimatedSteemValue,
       estimatedSbdValue,
+      estimatedTokenValue,
       estimatedSpValue,
       delegationsAmount,
       navigate: _navigate,
       steemDropdown: STEEM_DROPDOWN,
       sbdDropdown: SBD_DROPDOWN,
+      btcDropdown: BTC_DROPDOWN,
       savingSteemDropdown: SAVING_STEEM_DROPDOWN,
       savingSbdDropdown: SAVING_SBD_DROPDOWN,
       steemPowerDropdown: STEEM_POWER_DROPDOWN,
@@ -299,7 +324,7 @@ const WalletContainer = ({
   );
 };
 
-const mapStateToProps = state => ({
+const mapStateToProps = (state) => ({
   currentAccount: state.account.currentAccount,
   pinCode: state.application.pin,
   globalProps: state.account.globalProps,

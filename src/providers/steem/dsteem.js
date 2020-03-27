@@ -1,9 +1,11 @@
 /* eslint-disable camelcase */
-import { Client, PrivateKey } from 'dsteem';
-import steemconnect from 'steemconnect';
+// import '../../../shim';
+// import * as bitcoin from 'bitcoinjs-lib';
+
+import { Client, PrivateKey } from '@esteemapp/dsteem';
+import hivesigner from 'hivesigner';
 import Config from 'react-native-config';
 import { get, has } from 'lodash';
-
 import { getServer } from '../../realm/realm';
 import { getUnreadActivityCount } from '../esteem/esteem';
 import { userActivity } from '../esteem/ePoint';
@@ -21,13 +23,13 @@ import { getDsteemDateErrorMessage } from '../../utils/dsteemUtils';
 // Constant
 import AUTH_TYPE from '../../constants/authType';
 
-const DEFAULT_SERVER = 'https://api.steemit.com';
+const DEFAULT_SERVER = 'https://rpc.esteem.app';
 let client = new Client(DEFAULT_SERVER);
 
 export const checkClient = async () => {
   let selectedServer = DEFAULT_SERVER;
 
-  await getServer().then(response => {
+  await getServer().then((response) => {
     if (response) {
       selectedServer = response;
     }
@@ -38,7 +40,7 @@ export const checkClient = async () => {
 
 checkClient();
 
-export const getDigitPinCode = pin => decryptKey(pin, Config.PIN_KEY);
+export const getDigitPinCode = (pin) => decryptKey(pin, Config.PIN_KEY);
 
 export const getDynamicGlobalProperties = () => client.database.getDynamicGlobalProperties();
 
@@ -91,7 +93,7 @@ export const fetchGlobalProps = async () => {
  * @method getAccount get account data
  * @param user username
  */
-export const getAccount = user =>
+export const getAccount = (user) =>
   new Promise((resolve, reject) => {
     try {
       const account = client.database.getAccounts([user]);
@@ -105,7 +107,7 @@ export const getAccount = user =>
  * @method getAccount get account data
  * @param user username
  */
-export const getState = async path => {
+export const getState = async (path) => {
   try {
     const state = await client.database.getState(path);
     return state;
@@ -118,10 +120,12 @@ export const getState = async path => {
  * @method getUser get account data
  * @param user username
  */
-export const getUser = async user => {
+export const getUser = async (user) => {
   try {
     const account = await client.database.getAccounts([user]);
-    const _account = { ...account[0] };
+    const _account = {
+      ...account[0],
+    };
     let unreadActivityCount;
 
     if (account && account.length < 1) {
@@ -129,9 +133,13 @@ export const getUser = async user => {
     }
 
     const globalProperties = await client.database.getDynamicGlobalProperties();
-    const rcPower = await client.call('rc_api', 'find_rc_accounts', { accounts: [user] });
+    const rcPower = await client.call('rc_api', 'find_rc_accounts', {
+      accounts: [user],
+    });
     try {
-      unreadActivityCount = await getUnreadActivityCount({ user });
+      unreadActivityCount = await getUnreadActivityCount({
+        user,
+      });
     } catch (error) {
       unreadActivityCount = 0;
     }
@@ -181,7 +189,7 @@ export const vestToSteem = async (vestingShares, totalVestingShares, totalVestin
     (parseFloat(vestingShares) / parseFloat(totalVestingShares))
   ).toFixed(0);
 
-export const getFollows = username => client.database.call('get_follow_count', [username]);
+export const getFollows = (username) => client.database.call('get_follow_count', [username]);
 
 export const getFollowing = (follower, startFollowing, followType = 'blog', limit = 100) =>
   client.database.call('get_following', [follower, startFollowing, followType, limit]);
@@ -193,14 +201,14 @@ export const getIsFollowing = (user, author) =>
   new Promise((resolve, reject) => {
     client.database
       .call('get_following', [author, user, 'blog', 1])
-      .then(result => {
+      .then((result) => {
         if (result[0] && result[0].follower === author && result[0].following === user) {
           resolve(true);
         } else {
           resolve(false);
         }
       })
-      .catch(err => {
+      .catch((err) => {
         reject(err);
       });
   });
@@ -209,14 +217,14 @@ export const getFollowSearch = (user, targetUser) =>
   new Promise((resolve, reject) => {
     client.database
       .call('get_following', [targetUser, user, 'blog', 1])
-      .then(result => {
+      .then((result) => {
         if (result[0] && result[0].follower === targetUser && result[0].following === user) {
           resolve(result);
         } else {
           resolve(null);
         }
       })
-      .catch(err => {
+      .catch((err) => {
         reject(err);
       });
   });
@@ -245,7 +253,7 @@ export const ignoreUser = async (currentAccount, pin, data) => {
 
   if (currentAccount.local.authType === AUTH_TYPE.STEEM_CONNECT) {
     const token = decryptKey(currentAccount.local.accessToken, digitPinCode);
-    const api = new steemconnect.Client({
+    const api = new hivesigner.Client({
       accessToken: token,
     });
 
@@ -272,10 +280,10 @@ export const ignoreUser = async (currentAccount, pin, data) => {
     return new Promise((resolve, reject) => {
       client.broadcast
         .json(json, privateKey)
-        .then(result => {
+        .then((result) => {
           resolve(result);
         })
-        .catch(err => {
+        .catch((err) => {
           reject(err);
         });
     });
@@ -306,10 +314,10 @@ export const getActiveVotes = (author, permlink) =>
   new Promise((resolve, reject) => {
     client.database
       .call('get_active_votes', [author, permlink])
-      .then(result => {
+      .then((result) => {
         resolve(result);
       })
-      .catch(err => {
+      .catch((err) => {
         reject(err);
       });
   });
@@ -332,7 +340,7 @@ export const getPostsSummary = async (by, query, currentUserName, filterNsfw) =>
   }
 };
 
-export const getUserComments = async query => {
+export const getUserComments = async (query) => {
   try {
     const comments = await client.database.getDiscussions('comments', query);
     const groomedComments = await parseComments(comments);
@@ -342,7 +350,7 @@ export const getUserComments = async query => {
   }
 };
 
-export const getRepliesByLastUpdate = async query => {
+export const getRepliesByLastUpdate = async (query) => {
   try {
     const replies = await client.database.call('get_replies_by_last_update', [
       query.start_author,
@@ -391,7 +399,7 @@ export const deleteComment = (currentAccount, pin, permlink) => {
 
   if (currentAccount.local.authType === AUTH_TYPE.STEEM_CONNECT) {
     const token = decryptKey(currentAccount.local.accessToken, digitPinCode);
-    const api = new steemconnect.Client({
+    const api = new hivesigner.Client({
       accessToken: token,
     });
 
@@ -402,7 +410,7 @@ export const deleteComment = (currentAccount, pin, permlink) => {
 
     const opArray = [['delete_comment', params]];
 
-    return api.broadcast(opArray).then(resp => resp.result);
+    return api.broadcast(opArray).then((resp) => resp.result);
   }
 
   if (key) {
@@ -443,10 +451,10 @@ export const getPostWithComments = async (user, permlink) => {
   let post;
   let comments;
 
-  await getPost(user, permlink).then(result => {
+  await getPost(user, permlink).then((result) => {
     post = result;
   });
-  await getComments(user, permlink).then(result => {
+  await getComments(user, permlink).then((result) => {
     comments = result;
   });
 
@@ -460,7 +468,7 @@ export const getPostWithComments = async (user, permlink) => {
  */
 
 export const vote = (account, pin, author, permlink, weight) =>
-  _vote(account, pin, author, permlink, weight).then(resp => {
+  _vote(account, pin, author, permlink, weight).then((resp) => {
     userActivity(account.username, 120, resp.block_num, resp.id);
     return resp;
   });
@@ -468,10 +476,9 @@ export const vote = (account, pin, author, permlink, weight) =>
 const _vote = async (currentAccount, pin, author, permlink, weight) => {
   const digitPinCode = getDigitPinCode(pin);
   const key = getAnyPrivateKey(currentAccount.local, digitPinCode);
-
   if (currentAccount.local.authType === AUTH_TYPE.STEEM_CONNECT) {
     const token = decryptKey(currentAccount.local.accessToken, digitPinCode);
-    const api = new steemconnect.Client({
+    const api = new hivesigner.Client({
       accessToken: token,
     });
 
@@ -480,10 +487,10 @@ const _vote = async (currentAccount, pin, author, permlink, weight) => {
     return new Promise((resolve, reject) => {
       api
         .vote(voter, author, permlink, weight)
-        .then(result => {
+        .then((result) => {
           resolve(result.result);
         })
-        .catch(err => {
+        .catch((err) => {
           reject(err);
         });
     });
@@ -502,10 +509,11 @@ const _vote = async (currentAccount, pin, author, permlink, weight) => {
     return new Promise((resolve, reject) => {
       client.broadcast
         .vote(args, privateKey)
-        .then(result => {
+        .then((result) => {
           resolve(result);
         })
-        .catch(err => {
+        .catch((err) => {
+          alert(jsonStringify(err) + jsonStringify(args) + privateKey);
           if (get(err, 'jse_info.code') === 4030100) {
             err.message = getDsteemDateErrorMessage(err);
           }
@@ -520,11 +528,11 @@ const _vote = async (currentAccount, pin, author, permlink, weight) => {
 /**
  * @method upvoteAmount estimate upvote amount
  */
-export const upvoteAmount = async input => {
+export const upvoteAmount = async (input) => {
   let medianPrice;
   const rewardFund = await getRewardFund();
 
-  await client.database.getCurrentMedianHistoryPrice().then(res => {
+  await client.database.getCurrentMedianHistoryPrice().then((res) => {
     medianPrice = res;
   });
 
@@ -537,7 +545,12 @@ export const upvoteAmount = async input => {
 
 export const transferToken = (currentAccount, pin, data) => {
   const digitPinCode = getDigitPinCode(pin);
-  const key = getAnyPrivateKey({ activeKey: get(currentAccount, 'local.activeKey') }, digitPinCode);
+  const key = getAnyPrivateKey(
+    {
+      activeKey: get(currentAccount, 'local.activeKey'),
+    },
+    digitPinCode,
+  );
 
   if (key) {
     const privateKey = PrivateKey.fromString(key);
@@ -551,12 +564,52 @@ export const transferToken = (currentAccount, pin, data) => {
     return new Promise((resolve, reject) => {
       client.broadcast
         .transfer(args, privateKey)
-        .then(result => {
+        .then((result) => {
           if (result) {
             resolve(result);
           }
         })
-        .catch(err => {
+        .catch((err) => {
+          reject(err);
+        });
+    });
+  }
+
+  return Promise.reject(new Error('Check private key permission!'));
+};
+
+export const convert = (currentAccount, pin, data) => {
+  const digitPinCode = getDigitPinCode(pin);
+  const key = getAnyPrivateKey(
+    {
+      activeKey: get(currentAccount, 'local.activeKey'),
+    },
+    digitPinCode,
+  );
+
+  if (key) {
+    const privateKey = PrivateKey.fromString(key);
+
+    const args = [
+      [
+        'convert',
+        {
+          owner: get(data, 'from'),
+          amount: get(data, 'amount'),
+          requestid: get(data, 'requestId'),
+        },
+      ],
+    ];
+
+    return new Promise((resolve, reject) => {
+      client.broadcast
+        .sendOperations(args, privateKey)
+        .then((result) => {
+          if (result) {
+            resolve(result);
+          }
+        })
+        .catch((err) => {
           reject(err);
         });
     });
@@ -567,7 +620,12 @@ export const transferToken = (currentAccount, pin, data) => {
 
 export const transferToSavings = (currentAccount, pin, data) => {
   const digitPinCode = getDigitPinCode(pin);
-  const key = getAnyPrivateKey({ activeKey: get(currentAccount, 'local.activeKey') }, digitPinCode);
+  const key = getAnyPrivateKey(
+    {
+      activeKey: get(currentAccount, 'local.activeKey'),
+    },
+    digitPinCode,
+  );
 
   if (key) {
     const privateKey = PrivateKey.fromString(key);
@@ -587,10 +645,10 @@ export const transferToSavings = (currentAccount, pin, data) => {
     return new Promise((resolve, reject) => {
       client.broadcast
         .sendOperations(args, privateKey)
-        .then(result => {
+        .then((result) => {
           resolve(result);
         })
-        .catch(err => {
+        .catch((err) => {
           reject(err);
         });
     });
@@ -601,7 +659,12 @@ export const transferToSavings = (currentAccount, pin, data) => {
 
 export const transferFromSavings = (currentAccount, pin, data) => {
   const digitPinCode = getDigitPinCode(pin);
-  const key = getAnyPrivateKey({ activeKey: get(currentAccount, 'local.activeKey') }, digitPinCode);
+  const key = getAnyPrivateKey(
+    {
+      activeKey: get(currentAccount, 'local.activeKey'),
+    },
+    digitPinCode,
+  );
 
   if (key) {
     const privateKey = PrivateKey.fromString(key);
@@ -621,10 +684,10 @@ export const transferFromSavings = (currentAccount, pin, data) => {
     return new Promise((resolve, reject) => {
       client.broadcast
         .sendOperations(args, privateKey)
-        .then(result => {
+        .then((result) => {
           resolve(result);
         })
-        .catch(err => {
+        .catch((err) => {
           reject(err);
         });
     });
@@ -635,7 +698,12 @@ export const transferFromSavings = (currentAccount, pin, data) => {
 
 export const transferToVesting = (currentAccount, pin, data) => {
   const digitPinCode = getDigitPinCode(pin);
-  const key = getAnyPrivateKey({ activeKey: get(currentAccount, 'local.activeKey') }, digitPinCode);
+  const key = getAnyPrivateKey(
+    {
+      activeKey: get(currentAccount, 'local.activeKey'),
+    },
+    digitPinCode,
+  );
 
   if (key) {
     const privateKey = PrivateKey.fromString(key);
@@ -653,10 +721,10 @@ export const transferToVesting = (currentAccount, pin, data) => {
     return new Promise((resolve, reject) => {
       client.broadcast
         .sendOperations(args, privateKey)
-        .then(result => {
+        .then((result) => {
           resolve(result);
         })
-        .catch(err => {
+        .catch((err) => {
           reject(err);
         });
     });
@@ -667,7 +735,12 @@ export const transferToVesting = (currentAccount, pin, data) => {
 
 export const withdrawVesting = (currentAccount, pin, data) => {
   const digitPinCode = getDigitPinCode(pin);
-  const key = getAnyPrivateKey({ activeKey: get(currentAccount, 'local.activeKey') }, digitPinCode);
+  const key = getAnyPrivateKey(
+    {
+      activeKey: get(currentAccount, 'local.activeKey'),
+    },
+    digitPinCode,
+  );
 
   if (key) {
     const privateKey = PrivateKey.fromString(key);
@@ -684,10 +757,10 @@ export const withdrawVesting = (currentAccount, pin, data) => {
     return new Promise((resolve, reject) => {
       client.broadcast
         .sendOperations(args, privateKey)
-        .then(result => {
+        .then((result) => {
           resolve(result);
         })
-        .catch(err => {
+        .catch((err) => {
           reject(err);
         });
     });
@@ -698,7 +771,12 @@ export const withdrawVesting = (currentAccount, pin, data) => {
 
 export const delegateVestingShares = (currentAccount, pin, data) => {
   const digitPinCode = getDigitPinCode(pin);
-  const key = getAnyPrivateKey({ activeKey: get(currentAccount, 'local.activeKey') }, digitPinCode);
+  const key = getAnyPrivateKey(
+    {
+      activeKey: get(currentAccount, 'local.activeKey'),
+    },
+    digitPinCode,
+  );
 
   if (key) {
     const privateKey = PrivateKey.fromString(key);
@@ -716,10 +794,10 @@ export const delegateVestingShares = (currentAccount, pin, data) => {
     return new Promise((resolve, reject) => {
       client.broadcast
         .sendOperations(args, privateKey)
-        .then(result => {
+        .then((result) => {
           resolve(result);
         })
-        .catch(err => {
+        .catch((err) => {
           reject(err);
         });
     });
@@ -730,7 +808,12 @@ export const delegateVestingShares = (currentAccount, pin, data) => {
 
 export const setWithdrawVestingRoute = (currentAccount, pin, data) => {
   const digitPinCode = getDigitPinCode(pin);
-  const key = getAnyPrivateKey({ activeKey: get(currentAccount, 'local.activeKey') }, digitPinCode);
+  const key = getAnyPrivateKey(
+    {
+      activeKey: get(currentAccount, 'local.activeKey'),
+    },
+    digitPinCode,
+  );
 
   if (key) {
     const privateKey = PrivateKey.fromString(key);
@@ -749,10 +832,10 @@ export const setWithdrawVestingRoute = (currentAccount, pin, data) => {
     return new Promise((resolve, reject) => {
       client.broadcast
         .sendOperations(args, privateKey)
-        .then(result => {
+        .then((result) => {
           resolve(result);
         })
-        .catch(err => {
+        .catch((err) => {
           reject(err);
         });
     });
@@ -761,7 +844,7 @@ export const setWithdrawVestingRoute = (currentAccount, pin, data) => {
   return Promise.reject(new Error('Check private key permission!'));
 };
 
-export const getWithdrawRoutes = account =>
+export const getWithdrawRoutes = (account) =>
   client.database.call('get_withdraw_routes', [account, 'outgoing']);
 
 export const followUser = async (currentAccount, pin, data) => {
@@ -770,7 +853,7 @@ export const followUser = async (currentAccount, pin, data) => {
 
   if (currentAccount.local.authType === AUTH_TYPE.STEEM_CONNECT) {
     const token = decryptKey(get(currentAccount, 'local.accessToken'), digitPinCode);
-    const api = new steemconnect.Client({
+    const api = new hivesigner.Client({
       accessToken: token,
     });
 
@@ -796,10 +879,10 @@ export const followUser = async (currentAccount, pin, data) => {
     return new Promise((resolve, reject) => {
       client.broadcast
         .json(json, privateKey)
-        .then(result => {
+        .then((result) => {
           resolve(result);
         })
-        .catch(err => {
+        .catch((err) => {
           reject(err);
         });
     });
@@ -814,7 +897,7 @@ export const unfollowUser = async (currentAccount, pin, data) => {
 
   if (currentAccount.local.authType === AUTH_TYPE.STEEM_CONNECT) {
     const token = decryptKey(currentAccount.local.accessToken, digitPinCode);
-    const api = new steemconnect.Client({
+    const api = new hivesigner.Client({
       accessToken: token,
     });
 
@@ -841,10 +924,10 @@ export const unfollowUser = async (currentAccount, pin, data) => {
     return new Promise((resolve, reject) => {
       client.broadcast
         .json(json, privateKey)
-        .then(result => {
+        .then((result) => {
           resolve(result);
         })
-        .catch(err => {
+        .catch((err) => {
           reject(err);
         });
     });
@@ -853,7 +936,7 @@ export const unfollowUser = async (currentAccount, pin, data) => {
   return Promise.reject(new Error('Check private key permission!'));
 };
 
-export const lookupAccounts = async username => {
+export const lookupAccounts = async (username) => {
   try {
     const users = await client.database.call('lookup_accounts', [username, 20]);
     return users;
@@ -862,7 +945,7 @@ export const lookupAccounts = async username => {
   }
 };
 
-export const getTrendingTags = async tag => {
+export const getTrendingTags = async (tag) => {
   try {
     const users = await client.database.call('get_trending_tags', [tag, 20]);
     return users;
@@ -894,7 +977,7 @@ export const postContent = (
     jsonMetadata,
     options,
     voteWeight,
-  ).then(resp => {
+  ).then((resp) => {
     if (options) {
       const t = title ? 100 : 110;
       const { block_num, id } = resp;
@@ -926,7 +1009,7 @@ const _postContent = async (
 
   if (account.local.authType === AUTH_TYPE.STEEM_CONNECT) {
     const token = decryptKey(account.local.accessToken, digitPinCode);
-    const api = new steemconnect.Client({
+    const api = new hivesigner.Client({
       accessToken: token,
     });
 
@@ -960,7 +1043,7 @@ const _postContent = async (
       opArray.push(e);
     }
 
-    return api.broadcast(opArray).then(resp => resp.result);
+    return api.broadcast(opArray).then((resp) => resp.result);
   }
 
   if (key) {
@@ -1002,10 +1085,10 @@ const _postContent = async (
     return new Promise((resolve, reject) => {
       client.broadcast
         .sendOperations(opArray, privateKey)
-        .then(result => {
+        .then((result) => {
           resolve(result);
         })
-        .catch(error => {
+        .catch((error) => {
           if (get(error, 'jse_info.code') === 4030100) {
             error.message = getDsteemDateErrorMessage(error);
           }
@@ -1020,7 +1103,7 @@ const _postContent = async (
 // Re-blog
 // TODO: remove pinCode
 export const reblog = (account, pinCode, author, permlink) =>
-  _reblog(account, pinCode, author, permlink).then(resp => {
+  _reblog(account, pinCode, author, permlink).then((resp) => {
     userActivity(account.name, 130, resp.block_num, resp.id);
     return resp;
   });
@@ -1031,13 +1114,13 @@ const _reblog = async (account, pinCode, author, permlink) => {
 
   if (account.local.authType === AUTH_TYPE.STEEM_CONNECT) {
     const token = decryptKey(account.local.accessToken, pin);
-    const api = new steemconnect.Client({
+    const api = new hivesigner.Client({
       accessToken: token,
     });
 
     const follower = account.name;
 
-    return api.reblog(follower, author, permlink).then(resp => resp.result);
+    return api.reblog(follower, author, permlink).then((resp) => resp.result);
   }
 
   if (key) {
@@ -1070,7 +1153,7 @@ export const claimRewardBalance = (account, pinCode, rewardSteem, rewardSbd, rew
 
   if (account.local.authType === AUTH_TYPE.STEEM_CONNECT) {
     const token = decryptKey(get(account, 'local.accessToken'), pin);
-    const api = new steemconnect.Client({
+    const api = new hivesigner.Client({
       accessToken: token,
     });
 
@@ -1184,7 +1267,9 @@ export const grantPostingPermission = async (json, pin, currentAccount) => {
 
   const newPosting = Object.assign(
     {},
-    { ...get(currentAccount, 'posting') },
+    {
+      ...get(currentAccount, 'posting'),
+    },
     {
       account_auths: [
         ...get(currentAccount, 'posting.account_auths'),
@@ -1195,7 +1280,7 @@ export const grantPostingPermission = async (json, pin, currentAccount) => {
   newPosting.account_auths.sort();
   if (get(currentAccount, 'local.authType') === AUTH_TYPE.STEEM_CONNECT) {
     const token = decryptKey(get(currentAccount, 'local.accessToken'), digitPinCode);
-    const api = new steemconnect.Client({
+    const api = new hivesigner.Client({
       accessToken: token,
     });
     const _params = {
@@ -1209,8 +1294,8 @@ export const grantPostingPermission = async (json, pin, currentAccount) => {
 
     return api
       .broadcast(opArray)
-      .then(resp => resp.result)
-      .catch(error => console.log(error));
+      .then((resp) => resp.result)
+      .catch((error) => console.log(error));
   }
 
   if (key) {
@@ -1230,10 +1315,10 @@ export const grantPostingPermission = async (json, pin, currentAccount) => {
     return new Promise((resolve, reject) => {
       client.broadcast
         .sendOperations(opArray, privateKey)
-        .then(result => {
+        .then((result) => {
           resolve(result);
         })
-        .catch(error => {
+        .catch((error) => {
           if (get(error, 'jse_info.code') === 4030100) {
             error.message = getDsteemDateErrorMessage(error);
           }
@@ -1251,7 +1336,7 @@ export const profileUpdate = async (params, pin, currentAccount) => {
 
   if (get(currentAccount, 'local.authType') === AUTH_TYPE.STEEM_CONNECT) {
     const token = decryptKey(get(currentAccount, 'local.accessToken'), digitPinCode);
-    const api = new steemconnect.Client({
+    const api = new hivesigner.Client({
       accessToken: token,
     });
 
@@ -1265,8 +1350,8 @@ export const profileUpdate = async (params, pin, currentAccount) => {
 
     return api
       .broadcast(opArray)
-      .then(resp => resp.result)
-      .catch(error => console.log(error));
+      .then((resp) => resp.result)
+      .catch((error) => console.log(error));
   }
 
   if (key) {
@@ -1276,7 +1361,9 @@ export const profileUpdate = async (params, pin, currentAccount) => {
         {
           account: get(currentAccount, 'name'),
           memo_key: get(currentAccount, 'memo_key'),
-          json_metadata: jsonStringify({ profile: params }),
+          json_metadata: jsonStringify({
+            profile: params,
+          }),
         },
       ],
     ];
@@ -1286,10 +1373,10 @@ export const profileUpdate = async (params, pin, currentAccount) => {
     return new Promise((resolve, reject) => {
       client.broadcast
         .sendOperations(opArray, privateKey)
-        .then(result => {
+        .then((result) => {
           resolve(result);
         })
-        .catch(error => {
+        .catch((error) => {
           if (get(error, 'jse_info.code') === 4030100) {
             error.message = getDsteemDateErrorMessage(error);
           }
@@ -1299,6 +1386,23 @@ export const profileUpdate = async (params, pin, currentAccount) => {
   }
 
   return Promise.reject(new Error('Check private key permission!'));
+};
+
+export const getBtcAddress = (pin, currentAccount) => {
+  /*const digitPinCode = getDigitPinCode(pin);
+  const key = getActiveKey(get(currentAccount, 'local'), digitPinCode);
+
+  if (key) {
+    const keyPair = bitcoin.ECPair.fromWIF(key);
+    const { address } = bitcoin.payments.p2pkh({ pubkey: keyPair.publicKey });
+
+    console.log('btc address', address);
+    return { address: address };
+  }
+  */
+  return {
+    address: '',
+  };
 };
 
 // HELPERS

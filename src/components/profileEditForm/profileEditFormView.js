@@ -62,7 +62,7 @@ const ProfileEditFormView = ({
         />
       </TouchableOpacity>
 
-      {formData.map(item => (
+      {formData.map((item) => (
         <View style={styles.formItem} key={item.valueKey}>
           <Text style={styles.label}>
             {intl.formatMessage({
@@ -73,7 +73,7 @@ const ProfileEditFormView = ({
             wrapperStyle={styles.formStyle}
             isValid
             height={40}
-            onChange={value => handleOnItemChange(value, item.valueKey)}
+            onChange={(value) => handleOnItemChange(value, item.valueKey)}
             placeholder={item.placeholder}
             isEditable
             type="none"

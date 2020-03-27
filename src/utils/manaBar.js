@@ -3,7 +3,7 @@ import parseToken from './parseToken';
 // 432000 sec = 5 days
 const PERIOD = 432000;
 
-export const getVotingPower = account => {
+export const getVotingPower = (account) => {
   const totalShares =
     parseToken(account.vesting_shares) +
     (parseToken(account.received_vesting_shares) -
@@ -25,7 +25,7 @@ export const getVotingPower = account => {
   return (currentMana * 100) / maxMana;
 };
 
-export const getRcPower = account => {
+export const getRcPower = (account) => {
   const totalShares =
     parseToken(account.vesting_shares) +
     (parseToken(account.received_vesting_shares) -

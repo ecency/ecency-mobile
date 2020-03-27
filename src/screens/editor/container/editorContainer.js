@@ -65,7 +65,7 @@ class EditorContainer extends Component {
         });
       }
     } else {
-      await getDraftPost(username).then(result => {
+      await getDraftPost(username).then((result) => {
         if (result) {
           this.setState({
             draftPost: {
@@ -79,7 +79,7 @@ class EditorContainer extends Component {
     }
   };
 
-  _handleRoutingAction = routingAction => {
+  _handleRoutingAction = (routingAction) => {
     if (routingAction === 'camera') {
       this._handleOpenCamera();
     } else if (routingAction === 'image') {
@@ -91,10 +91,10 @@ class EditorContainer extends Component {
     ImagePicker.openPicker({
       includeBase64: true,
     })
-      .then(image => {
+      .then((image) => {
         this._handleMediaOnSelected(image);
       })
-      .catch(e => {
+      .catch((e) => {
         this._handleMediaOnSelectFailure(e);
       });
   };
@@ -103,15 +103,15 @@ class EditorContainer extends Component {
     ImagePicker.openCamera({
       includeBase64: true,
     })
-      .then(image => {
+      .then((image) => {
         this._handleMediaOnSelected(image);
       })
-      .catch(e => {
+      .catch((e) => {
         this._handleMediaOnSelectFailure(e);
       });
   };
 
-  _handleMediaOnSelected = media => {
+  _handleMediaOnSelected = (media) => {
     this.setState({ isUploading: true }, () => {
       this._uploadImage(media);
     });
@@ -123,16 +123,16 @@ class EditorContainer extends Component {
     // const data = new Buffer(media.data, 'base64');
   };
 
-  _uploadImage = media => {
+  _uploadImage = (media) => {
     const { intl } = this.props;
 
     uploadImage(media)
-      .then(res => {
+      .then((res) => {
         if (res.data && res.data.url) {
           this.setState({ uploadedImage: res.data, isUploading: false });
         }
       })
-      .catch(error => {
+      .catch((error) => {
         if (error) {
           Alert.alert(
             intl.formatMessage({
@@ -145,7 +145,7 @@ class EditorContainer extends Component {
       });
   };
 
-  _handleMediaOnSelectFailure = error => {
+  _handleMediaOnSelectFailure = (error) => {
     const { intl } = this.props;
 
     if (get(error, 'code') === 'E_PERMISSION_MISSING') {
@@ -160,7 +160,7 @@ class EditorContainer extends Component {
     }
   };
 
-  _saveDraftToDB = fields => {
+  _saveDraftToDB = (fields) => {
     const { isDraftSaved, draftId } = this.state;
 
     if (!isDraftSaved) {
@@ -184,7 +184,7 @@ class EditorContainer extends Component {
           });
         });
       } else if (draftField) {
-        addDraft(draftField).then(response => {
+        addDraft(draftField).then((response) => {
           this.setState({
             isDraftSaved: true,
             draftId: response._id,
@@ -199,7 +199,7 @@ class EditorContainer extends Component {
     }
   };
 
-  _saveCurrentDraft = async fields => {
+  _saveCurrentDraft = async (fields) => {
     const { draftId, isReply, isEdit, isPostSending } = this.state;
 
     if (!draftId && !isEdit) {
@@ -234,7 +234,7 @@ class EditorContainer extends Component {
       this.setState({ isPostSending: true });
 
       const meta = extractMetadata(fields.body);
-      const _tags = fields.tags.filter(tag => tag && tag !== ' ');
+      const _tags = fields.tags.filter((tag) => tag && tag !== ' ');
 
       const jsonMeta = makeJsonMetadata(meta, _tags);
       // TODO: check if permlink is available github: #314 https://github.com/esteemapp/esteem-mobile/pull/314
@@ -298,14 +298,14 @@ class EditorContainer extends Component {
               key: permlink,
             });
           })
-          .catch(error => {
+          .catch((error) => {
             this._handleSubmitFailure(error);
           });
       }
     }
   };
 
-  _submitReply = async fields => {
+  _submitReply = async (fields) => {
     const { currentAccount, pinCode } = this.props;
 
     if (currentAccount) {
@@ -336,13 +336,13 @@ class EditorContainer extends Component {
           AsyncStorage.setItem('temp-reply', '');
           this._handleSubmitSuccess();
         })
-        .catch(error => {
+        .catch((error) => {
           this._handleSubmitFailure(error);
         });
     }
   };
 
-  _submitEdit = async fields => {
+  _submitEdit = async (fields) => {
     const { currentAccount, pinCode } = this.props;
     const { post } = this.state;
     if (currentAccount) {
@@ -388,21 +388,44 @@ class EditorContainer extends Component {
           AsyncStorage.setItem('temp-reply', '');
           this._handleSubmitSuccess();
         })
-        .catch(error => {
+        .catch((error) => {
           this._handleSubmitFailure(error);
         });
     }
   };
 
-  _handleSubmitFailure = error => {
+  _handleSubmitFailure = (error) => {
     const { intl } = this.props;
+    console.log(error);
+    if (error && error.jse_shortmsg.split(':')[1].includes('wait to transact')) {
+      //when RC is not enough, offer boosting account
+      Alert.alert(
+        intl.formatMessage({
+          id: 'alert.fail',
+        }),
+        intl.formatMessage({
+          id: 'alert.rc_down',
+        }),
+        [
+          {
+            text: 'Cancel',
+            onPress: () => console.log('Cancel Pressed'),
+            style: 'cancel',
+          },
+          { text: 'OK', onPress: () => console.log('OK Pressed') },
+        ],
+        { cancelable: false },
+      );
+    } else {
+      //when other errors
+      Alert.alert(
+        intl.formatMessage({
+          id: 'alert.fail',
+        }),
+        error.message || error.toString(),
+      );
+    }
 
-    Alert.alert(
-      intl.formatMessage({
-        id: 'alert.fail',
-      }),
-      error.message || error.toString(),
-    );
     this.stateTimer = setTimeout(() => {
       this.setState({ isPostSending: false });
       clearTimeout(this.stateTimer);
@@ -431,7 +454,7 @@ class EditorContainer extends Component {
     }
   };
 
-  _handleSubmit = form => {
+  _handleSubmit = (form) => {
     const { isReply, isEdit } = this.state;
 
     if (isReply && !isEdit) {
@@ -460,7 +483,7 @@ class EditorContainer extends Component {
 
     if (currentAccount && currentAccount.posting) {
       hasPostingPerm =
-        currentAccount.posting.account_auths.filter(x => x[0] === 'esteemapp').length > 0;
+        currentAccount.posting.account_auths.filter((x) => x[0] === 'esteemapp').length > 0;
     }
 
     if (hasPostingPerm) {
@@ -470,7 +493,7 @@ class EditorContainer extends Component {
         .then(() => {
           this._submitPost(fields, datePickerValue);
         })
-        .catch(error => {
+        .catch((error) => {
           Alert.alert(
             intl.formatMessage({
               id: 'alert.fail',
@@ -481,7 +504,7 @@ class EditorContainer extends Component {
     }
   };
 
-  _setScheduledPost = data => {
+  _setScheduledPost = (data) => {
     const { dispatch, intl, currentAccount, navigation } = this.props;
 
     schedule(
@@ -539,7 +562,7 @@ class EditorContainer extends Component {
     if (navigation.state && navigation.state.params) {
       const navigationParams = navigation.state.params;
 
-      if (navigationParams.draft) {
+      /*if (navigationParams.draft) {
         _draft = navigationParams.draft;
 
         this.setState({
@@ -551,7 +574,7 @@ class EditorContainer extends Component {
           draftId: _draft._id,
           isDraft: true,
         });
-      }
+      }*/
 
       if (navigationParams.post) {
         ({ post } = navigationParams);
@@ -631,7 +654,7 @@ class EditorContainer extends Component {
   }
 }
 
-const mapStateToProps = state => ({
+const mapStateToProps = (state) => ({
   currentAccount: state.account.currentAccount,
   isDefaultFooter: state.account.isDefaultFooter,
   isLoggedIn: state.application.isLoggedIn,

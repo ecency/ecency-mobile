@@ -41,7 +41,7 @@ const PostBody = ({
   const actionImage = useRef(null);
   const actionLink = useRef(null);
 
-  const _handleOnLinkPress = event => {
+  const _handleOnLinkPress = (event) => {
     if ((!event && !get(event, 'nativeEvent.data'), false)) {
       return;
     }
@@ -109,7 +109,7 @@ const PostBody = ({
     } catch (error) {}
   };
 
-  const handleImagePress = ind => {
+  const handleImagePress = (ind) => {
     if (ind === 1) {
       //open gallery mode
       setIsImageModalOpen(true);
@@ -132,10 +132,10 @@ const PostBody = ({
     }
   };
 
-  const handleLinkPress = ind => {
+  const handleLinkPress = (ind) => {
     if (ind === 1) {
       //open link
-      Linking.canOpenURL(selectedLink).then(supported => {
+      Linking.canOpenURL(selectedLink).then((supported) => {
         if (supported) {
           Linking.openURL(selectedLink);
         } else {
@@ -163,7 +163,7 @@ const PostBody = ({
     }
   };
 
-  const _handleTagPress = tag => {
+  const _handleTagPress = (tag) => {
     if (tag) {
       navigation.navigate({
         routeName: ROUTES.SCREENS.SEARCH_RESULT,
@@ -187,7 +187,7 @@ const PostBody = ({
     }
   };
 
-  const _handleOnUserPress = username => {
+  const _handleOnUserPress = (username) => {
     if (username) {
       navigation.navigate({
         routeName: ROUTES.SCREENS.PROFILE,
@@ -217,13 +217,13 @@ const PostBody = ({
     }
   };
 
-  const _downloadImage = async uri => {
+  const _downloadImage = async (uri) => {
     return RNFetchBlob.config({
       fileCache: true,
       appendExt: 'jpg',
     })
       .fetch('GET', uri)
-      .then(res => {
+      .then((res) => {
         let status = res.info().status;
 
         if (status == 200) {
@@ -232,19 +232,19 @@ const PostBody = ({
           Promise.reject();
         }
       })
-      .catch(errorMessage => {
+      .catch((errorMessage) => {
         Promise.reject(errorMessage);
       });
   };
 
-  const _saveImage = async uri => {
+  const _saveImage = async (uri) => {
     try {
       if (Platform.OS === 'android') {
         await checkAndroidPermission();
         uri = `file://${await _downloadImage(uri)}`;
       }
       CameraRoll.saveToCameraRoll(uri)
-        .then(res => {
+        .then((res) => {
           dispatch(
             toastNotification(
               intl.formatMessage({
@@ -253,7 +253,7 @@ const PostBody = ({
             ),
           );
         })
-        .catch(error => {
+        .catch((error) => {
           dispatch(
             toastNotification(
               intl.formatMessage({
@@ -279,6 +279,25 @@ const PostBody = ({
     color: ${EStyleSheet.value('$primaryBlack')};
     font-family: Roboto, sans-serif;
     max-width: 100%;
+    
+    -webkit-touch-callout: none;
+    -webkit-user-select: none;
+    -khtml-user-select: none;
+    -moz-user-select: none;
+    -ms-user-select: none;
+    user-select: none;
+
+    overflow-wrap: break-word;
+    word-wrap: break-word;
+
+    -ms-word-break: break-all;
+    word-break: break-all;
+    word-break: break-word;
+
+    -ms-hyphens: auto;
+    -moz-hyphens: auto;
+    -webkit-hyphens: auto;
+    hyphens: auto;
   }
   body {
     color: ${EStyleSheet.value('$primaryBlack')};
@@ -403,7 +422,7 @@ const PostBody = ({
         ]}
         title={intl.formatMessage({ id: 'post.image' })}
         cancelButtonIndex={3}
-        onPress={index => {
+        onPress={(index) => {
           handleImagePress(index);
         }}
       />
@@ -416,7 +435,7 @@ const PostBody = ({
         ]}
         title={intl.formatMessage({ id: 'post.link' })}
         cancelButtonIndex={2}
-        onPress={index => {
+        onPress={(index) => {
           handleLinkPress(index);
         }}
       />
@@ -445,6 +464,6 @@ const areEqual = (prevProps, nextProps) => {
   return false;
 };
 
-const mapStateToProps = state => ({});
+const mapStateToProps = (state) => ({});
 
 export default React.memo(injectIntl(withNavigation(connect(mapStateToProps)(PostBody))), areEqual);

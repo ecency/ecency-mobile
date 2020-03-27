@@ -59,16 +59,17 @@
     "to_placeholder": "إسم المستخدم",
     "memo_placeholder": "أدخل ملاحظاتك هنا",
     "transfer_token": "تحويل",
+    "purchase_estm": "GET ESTM",
     "points": "Gift ESTM to someone",
     "transfer_to_saving": "To Saving",
     "powerUp": "رفع الطاقة",
     "withdraw_to_saving": "Withdraw Saving",
-    "steemconnect_title": "نقل Steemconnect",
+    "steemconnect_title": "Hivesigner Transfer",
     "next": "التالي",
     "delegate": "Delegate",
     "power_down": "سحب الطاقة",
-    "withdraw_steem": "Withdraw Steem",
-    "withdraw_sbd": "Withdraw SBD",
+    "withdraw_steem": "Withdraw HIVE",
+    "withdraw_sbd": "Withdraw HBD",
     "transfer_to_savings": "To Savings",
     "convert": "Convert",
     "escrow_transfer": "Escrow Transfer",
@@ -81,25 +82,30 @@
     "fill_transfer_from_savings": "Savings Executed",
     "fill_vesting_withdraw": "PowerDown executed",
     "estm": {
-      "title": "eSteem Points",
+      "title": "ESTM",
       "buy": "GET ESTM"
     },
     "savingsteem": {
-      "title": "STEEM Savings"
+      "title": "HIVE Savings"
     },
     "savingsbd": {
-      "title": "SBD Savings"
+      "title": "HBD Savings"
     },
     "steem": {
-      "title": "STEEM",
-      "buy": "GET STEEM"
+      "title": "HIVE",
+      "buy": "GET HIVE"
     },
     "sbd": {
-      "title": "SBD",
-      "buy": "GET SBD"
+      "title": "HBD",
+      "buy": "GET HBD"
     },
     "steem_power": {
-      "title": "STEEM POWER"
+      "title": "HIVE POWER"
+    },
+    "btc": {
+      "title": "BTC",
+      "buy": "GET BTC",
+      "address": "RECEIVE"
     }
   },
   "notification": {
@@ -112,6 +118,9 @@
     "ignore": "قام بتجاهلك",
     "reblog": "reblogged",
     "transfer": "transferred",
+    "spin": "Time to earn more ESTM",
+    "inactive": "Be active! Write a post, continue earning",
+    "referral": "joined with your referral, welcome them",
     "notification": "الإشعارات",
     "leaderboard": "المتصدرين",
     "epoint": "نقاط",
@@ -152,11 +161,11 @@
     "follow_people": "Follow some people to fill your feed",
     "havent_commented": "لم تكن قد علقت أي شيء حتى الآن",
     "havent_posted": "لم تنشر أي شيء حتى الآن",
-    "steem_power": "قوة ستيم",
+    "steem_power": "Hive Power",
     "next_power_text": "خفض القوة القادم في",
     "days": "أيام",
     "day": "يوم",
-    "steem_dollars": "ستيم دولار",
+    "steem_dollars": "Hive Dollars",
     "savings": "مدخرات",
     "edit": {
       "display_name": "Display Name",
@@ -204,14 +213,14 @@
   "login": {
     "signin": "تسجيل الدخول",
     "signup": "JOIN NOW",
-    "signin_title": "للحصول على جميع فوائد إستخدم esteem",
+    "signin_title": "To get all the benefits of using Esteem",
     "username": "إسم المستخدم",
     "password": "أدخل دكلمة المرور أو WIF",
     "description": "يتم الاحتفاظ ببيانات اعتماد المستخدم محليًا على الجهاز. تتم إزالة بيانات الاعتماد عند تسجيل الخروج!",
     "cancel": "إلغاء",
     "login": "تسجيل الدخول",
-    "steemconnect_description": "إذا كنت لا ترغب في الاحتفاظ بكلمة المرور الخاصة بك مشفرة وحفظها على جهازك ، فيمكنك استخدام Steemconnect.",
-    "steemconnect_fee_description": "قد تفرض عليك Steemconnect بعض الرسوم من معاملات المكافآت الخاصة بك"
+    "steemconnect_description": "If you don't want to keep your password encrypted and saved on your device, you can use Hivesigner.",
+    "steemconnect_fee_description": "info"
   },
   "home": {
     "feed": "المستجدات",
@@ -279,7 +288,7 @@
     "success_shared": "Your post successfully shared",
     "success_moved": "تم النقل إلى المسودات",
     "permission_denied": "طلب الإذن مرفوض",
-    "permission_text": "يرجى الانتقال إلى إعدادات الهاتف وتغيير أذونات تطبيق eSteem.",
+    "permission_text": "Please, go to phone Settings and change Esteem app permissions.",
     "key_warning": "Check private key permission!",
     "success_rebloged": "أعيد تدوينه!",
     "already_rebloged": "لقد قمت بالفعل بإعادة نشره!",
@@ -310,7 +319,8 @@
     "checking": "Checking...",
     "external_link": "Open in Browser",
     "not_existing_post": "The post does not exist! Please check permlink and author.",
-    "google_play_version": "We noticed that your device has old version of Google Play. Please update Google Play services and try again!"
+    "google_play_version": "We noticed that your device has old version of Google Play. Please update Google Play services and try again!",
+    "rc_down": "Not enough resource credits to perform an action! \n\nBoost your account to continue enjoy the experience. Do you want to boost your account, now?"
   },
   "post": {
     "reblog_alert": "Are you sure, you want to reblog?",
@@ -406,14 +416,17 @@
     "information": "Are you sure to transfer funds?",
     "amount_desc": "الرصيد",
     "memo_desc": "هذه المذكرة عامة",
+    "convert_desc": "Convert takes 3.5 days and NOT recommended IF HBD price is higher than $1",
     "to_placeholder": "إسم المستخدم",
     "memo_placeholder": "أدخل ملاحظاتك هنا",
     "transfer_token": "Transfer",
+    "purchase_estm": "Purchase ESTM",
+    "convert": "Convert HBD to HIVE",
     "points": "Gift ESTM to someone",
     "transfer_to_saving": "Transfer To Saving",
     "powerUp": "رفع الطاقة",
     "withdraw_to_saving": "Withdraw To Saving",
-    "steemconnect_title": "نقل Steemconnect",
+    "steemconnect_title": "Hivesigner Transfer",
     "estimated_weekly": "Estimated Weekly",
     "destination_accounts": "Destination Accounts",
     "stop_information": "Are you sure want to stop?",
@@ -424,13 +437,14 @@
     "next": "التالي",
     "delegate": "Delegate",
     "power_down": "Power Down",
-    "withdraw_steem": "Withdraw Steem",
-    "withdraw_sbd": "Withdraw Steem Dollar",
+    "withdraw_steem": "Withdraw HIVE",
+    "withdraw_sbd": "Withdraw HIVE Dollar",
     "incoming_funds": "Incoming Funds",
-    "stop": "Stop"
+    "stop": "Stop",
+    "address_view": "View address"
   },
   "boost": {
-    "title": "Get eSteem Points",
+    "title": "Get Esteem Points",
     "buy": "GET ESTM",
     "next": "NEXT"
   },

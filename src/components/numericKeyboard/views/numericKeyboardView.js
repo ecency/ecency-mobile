@@ -9,7 +9,7 @@ import styles from './numericKeyboardStyles';
 const NumericKeyboard = ({ onPress }) => (
   <View style={styles.container}>
     <View style={styles.buttonGroup}>
-      {times(9, i => (
+      {times(9, (i) => (
         <CircularButton
           key={i}
           style={styles.button}
@@ -24,7 +24,7 @@ const NumericKeyboard = ({ onPress }) => (
         style={styles.button}
         text={0}
         value={0}
-        onPress={value => onPress && onPress(value)}
+        onPress={(value) => onPress && onPress(value)}
       />
       <IconButton
         onPress={() => onPress && onPress('clear')}

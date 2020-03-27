@@ -32,7 +32,7 @@ class NotificationView extends PureComponent {
         { key: 'activities', value: 'ALL' },
         { key: 'replies', value: 'REPLIES' },
         { key: 'mentions', value: 'MENTIONS' },
-        { key: 'reblogs', value: 'REBLOGS' },
+        //{ key: 'reblogs', value: 'REBLOGS' },
       ],
       selectedFilter: null,
       selectedIndex: 0,
@@ -43,7 +43,7 @@ class NotificationView extends PureComponent {
 
   // Component Functions
 
-  _handleOnDropdownSelect = async index => {
+  _handleOnDropdownSelect = async (index) => {
     const { getActivities, changeSelectedFilter } = this.props;
     const { filters } = this.state;
 
@@ -52,7 +52,7 @@ class NotificationView extends PureComponent {
     getActivities(null, filters[index].key, false);
   };
 
-  _renderList = data => {
+  _renderList = (data) => {
     const { navigateToNotificationRoute } = this.props;
 
     return (
@@ -60,7 +60,7 @@ class NotificationView extends PureComponent {
         data={data}
         initialNumToRender={data && data.length}
         maxToRenderPerBatch={data && data.length}
-        keyExtractor={item => item.id}
+        keyExtractor={(item) => item.id}
         renderItem={({ item }) => (
           <NotificationLine
             notification={item}
@@ -123,16 +123,16 @@ class NotificationView extends PureComponent {
       },
     ];
 
-    notifications.forEach(item => {
+    notifications.forEach((item) => {
       const listIndex = this._getTimeListIndex(item.timestamp);
 
       notificationArray[listIndex].notifications.push(item);
     });
 
-    return notificationArray.filter(item => item.notifications.length > 0);
+    return notificationArray.filter((item) => item.notifications.length > 0);
   };
 
-  _getTimeListIndex = timestamp => {
+  _getTimeListIndex = (timestamp) => {
     if (isToday(timestamp)) {
       return 0;
     }
@@ -167,7 +167,7 @@ class NotificationView extends PureComponent {
       <View style={styles.container}>
         <FilterBar
           dropdownIconName="arrow-drop-down"
-          options={filters.map(item =>
+          options={filters.map((item) =>
             intl.formatMessage({ id: `notification.${item.key}` }).toUpperCase(),
           )}
           defaultText="ALL"
@@ -184,7 +184,7 @@ class NotificationView extends PureComponent {
                 data={_notifications}
                 refreshing={isNotificationRefreshing}
                 onRefresh={() => getActivities()}
-                keyExtractor={item => item.title}
+                keyExtractor={(item) => item.title}
                 onEndReached={() => getActivities(null, selectedFilter, true)}
                 ListFooterComponent={this._renderFooterLoading}
                 ListEmptyComponent={<ListPlaceHolder />}
