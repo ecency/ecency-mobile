@@ -21,7 +21,7 @@ const AccountBoost = () => {
   const intl = useIntl();
 
   return (
-    <InAppPurchaseContainer skus={ITEM_SKUS}>
+    <InAppPurchaseContainer skus={ITEM_SKUS} isNoSpin>
       {({ buyItem, productList, isLoading, isProcessing }) => (
         <View style={globalStyles.container}>
           <BasicHeader

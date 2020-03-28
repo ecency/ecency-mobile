@@ -150,17 +150,17 @@ class InAppPurchaseContainer extends Component {
   };
 
   render() {
-    const { children } = this.props;
+    const { children, isNoSpin } = this.props;
     const { productList, isLoading, isProcessing } = this.state;
     const FREE_ESTM = { productId: 'freePoints', title: 'free estm' };
+    const _productList = isNoSpin
+      ? productList
+      : [...productList.filter((item) => !item.productId.includes('spins')), FREE_ESTM];
 
     return (
       children &&
       children({
-        productList: [
-          ...productList.filter((item) => !item.productId.includes('spins')),
-          FREE_ESTM,
-        ],
+        productList: _productList,
         buyItem: this._buyItem,
         isLoading,
         isProcessing,
