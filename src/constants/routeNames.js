@@ -25,6 +25,7 @@ export default {
     TRANSFER: `Transfer${SCREEN_SUFFIX}`,
     VOTERS: `Voters${SCREEN_SUFFIX}`,
     COMMENTS: `Comments${SCREEN_SUFFIX}`,
+    ACCOUNT_BOOST: `AccountBoost${SCREEN_SUFFIX}`,
   },
   DRAWER: {
     MAIN: `Main${DRAWER_SUFFIX}`,
