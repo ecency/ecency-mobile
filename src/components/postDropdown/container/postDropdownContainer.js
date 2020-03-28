@@ -57,6 +57,7 @@ class PostDropdownContainer extends PureComponent {
   _handleOnDropdownSelect = async (index) => {
     const { content, dispatch, intl } = this.props;
 
+    // JUST FOR TESTING
     dispatch(setRcOffer(true));
 
     switch (OPTIONS[index]) {
@@ -168,23 +169,7 @@ class PostDropdownContainer extends PureComponent {
           } else {
             if (error && error.jse_shortmsg.split(':')[1].includes('wait to transact')) {
               //when RC is not enough, offer boosting account
-              Alert.alert(
-                intl.formatMessage({
-                  id: 'alert.fail',
-                }),
-                intl.formatMessage({
-                  id: 'alert.rc_down',
-                }),
-                [
-                  {
-                    text: 'Cancel',
-                    onPress: () => console.log('Cancel Pressed'),
-                    style: 'cancel',
-                  },
-                  { text: 'OK', onPress: () => console.log('OK Pressed') },
-                ],
-                { cancelable: false },
-              );
+              dispatch(setRcOffer(true));
             } else {
               //when other errors
               dispatch(toastNotification(intl.formatMessage({ id: 'alert.fail' })));
