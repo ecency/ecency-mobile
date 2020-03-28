@@ -446,7 +446,10 @@
   "boost": {
     "title": "Get Esteem Points",
     "buy": "GET ESTM",
-    "next": "NEXT"
+    "next": "NEXT",
+    "account": {
+      "title": "Get Account Boost"
+    }
   },
   "free_estm": {
     "title": "Free ESTM",

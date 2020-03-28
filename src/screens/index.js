@@ -20,6 +20,7 @@ import Redeem from './redeem/screen/redeemScreen';
 import SteemConnect from './steem-connect/steemConnect';
 import Transfer from './transfer';
 import Voters from './voters';
+import AccountBoost from './accountBoost/screen/accountBoostScreen';
 
 export {
   Bookmarks,
@@ -35,6 +36,7 @@ export {
   Post,
   Profile,
   ProfileEdit,
+  AccountBoost,
   Reblogs,
   Redeem,
   SearchResult,

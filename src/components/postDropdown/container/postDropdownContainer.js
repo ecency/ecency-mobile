@@ -9,7 +9,7 @@ import get from 'lodash/get';
 // Services and Actions
 import { reblog } from '../../../providers/steem/dsteem';
 import { addBookmark } from '../../../providers/esteem/esteem';
-import { toastNotification } from '../../../redux/actions/uiAction';
+import { toastNotification, setRcOffer } from '../../../redux/actions/uiAction';
 import { openPinCodeModal } from '../../../redux/actions/applicationActions';
 
 // Constants
@@ -56,6 +56,8 @@ class PostDropdownContainer extends PureComponent {
   // Component Functions
   _handleOnDropdownSelect = async (index) => {
     const { content, dispatch, intl } = this.props;
+
+    dispatch(setRcOffer(true));
 
     switch (OPTIONS[index]) {
       case 'copy':
