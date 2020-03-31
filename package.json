@@ -44,7 +44,7 @@
     "crypto-js": "^3.1.9-1",
     "currency-symbol-map": "^4.0.4",
     "diff-match-patch": "^1.0.4",
-    "hivesigner": "^3.1.3",
+    "hivesigner": "^3.1.4",
     "intl": "^1.2.5",
     "jsc-android": "^241213.1.0",
     "lodash": "^4.17.13",
