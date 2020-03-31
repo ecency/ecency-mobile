@@ -448,7 +448,8 @@
     "buy": "GET ESTM",
     "next": "NEXT",
     "account": {
-      "title": "Get Account Boost"
+      "title": "Get Account Boost",
+      "desc": "30 days delegation will boost your votes and social activities and give you more actions with more Resource Credits."
     }
   },
   "free_estm": {
